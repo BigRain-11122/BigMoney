@@ -1455,40 +1455,25 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 46_401,    # law sec.4 W53 B: 46_401..46_600 (arithmetic continuation)
                             "shard_subdir": "n1_w53", "out_name": "n1_w53_results.json",
                             "engine_owner": "bm-c"},
-                       # FORTY-FOURTH ENGINE-OWNED WAVE (r559 bm-b freeze):
-                       # bm-b's SIXTEENTH owned claim (fifteen delivered;
-                       # W51/W53 same-band yields + W54 yield to the bm-a
-                       # published declaration = zero local ledger faces);
-                       # wave 55 = first FREE number after the registered
-                       # W53 row AND the bm-a declared W54 slot
-                       # (published=reserved r518-1, W48/W49 precedent).
-                       # A = scan past the declared W54 A band (W19-A
-                       # re-base family); B = scan past the declared W54 B
-                       # band AND the SEED_REGISTRY point
-                       # xlib_synth_null_b=47_000 (W51-B re-base family,
-                       # 46_000 -> 47_000 ladder); ADMIT receipt
-                       # results/_r559bmb_w55_band_gate.py. NOT a re-pick
-                       # (R250: W55 bands were never assigned).
-                       55: {"batch": "PERPETUAL-N1-W55",
-                            "prereg": ("research/PERPETUAL_N1_W55_PREREG.md (wave-level frozen "
+                       54: {"batch": "PERPETUAL-N1-W54",
+                            "prereg": ("research/PERPETUAL_N1_W54_PREREG.md (wave-level frozen "
                                        "pre-run; design = frozen v1 null calibration verbatim, "
-                                       "new seed bands only; FORTY-FOURTH ENGINE-OWNED WAVE, "
+                                       "new seed bands only; FORTY-THIRD ENGINE-OWNED WAVE, "
                                        "own-series continuation per O-20261001-2355 sec.2 "
-                                       "(first-free-number law over the registered W53 row "
-                                       "AND the bm-a published W54 declaration, r518-1 "
-                                       "published=reserved), engine_owner=bm-b, wave 55 "
-                                       "skips the declared W54 slot: A 153_004..155_003 "
-                                       "(declared-tail continuation), B 47_001..47_200 "
-                                       "(skip past SEED_REGISTRY xlib_synth_null_b=47_000); "
-                                       "upstream W53/W54 finalizes NOT landed at this freeze "
-                                       "= in-flight chain seats honest note, finalize merge "
-                                       "loop derives the wave set from registry keys at run "
-                                       "time and stays FAIL-CLOSED on any not-yet-finalized "
-                                       "upstream seat, r307 two-state law)"),
-                            "a_seed_base": 153_004,        # law sec.4 W55 A: 153_004..155_003 (declared-W54-tail continuation)
-                            "b_exit_seed_base": 47_001,    # law sec.4 W55 B: 47_001..47_200 (skip past 47_000)
-                            "shard_subdir": "n1_w55", "out_name": "n1_w55_results.json",
-                            "engine_owner": "bm-b"},
+                                       "(first-free-number law), engine_owner=bm-a, wave 54 = "
+                                       "next free number after the registered W53 row, BOTH "
+                                       "SIDES ARITHMETIC CONTINUATION no skip (A "
+                                       "151_004..153_003, B 46_601..46_800); W1..W52 finalizes "
+                                       "ALL LANDED at this freeze (ledger head 478,948), W53 "
+                                       "registered with finalize NOT landed = ONE in-flight "
+                                       "upstream seat, finalize merge loop derives the wave "
+                                       "set from registry keys at run time and stays "
+                                       "FAIL-CLOSED on any not-yet-finalized upstream seat, "
+                                       "r307 two-state law)"),
+                            "a_seed_base": 151_004,        # law sec.4 W54 A: 151_004..153_003 (arithmetic continuation)
+                            "b_exit_seed_base": 46_601,    # law sec.4 W54 B: 46_601..46_800 (arithmetic continuation)
+                            "shard_subdir": "n1_w54", "out_name": "n1_w54_results.json",
+                            "engine_owner": "bm-a"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -6673,88 +6658,78 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
-    # --- W55 materializer face (r559 bm-b freeze, own-series law
+    # --- W54 materializer face (r559 bm-a freeze, own-series law
     #     under CEO de-throttle order O-20261001-2355 sec.2):
-    #     bm-b's SIXTEENTH owned claim (fifteen delivered; W51/W53
-    #     same-band yields + the W54 yield to the bm-a PUBLISHED
-    #     declaration MSG-0615 addendum = zero local ledger faces);
-    #     wave 55 = first FREE number after the registered W53 row
-    #     AND the declared W54 slot (published=reserved r518-1,
-    #     W48/W49 precedent; W53/W54 finalizes = the in-flight
-    #     upstream seats at this freeze, finalize merge loop
-    #     FAIL-CLOSED at run time per r307 two-state law). A = scan
-    #     past the declared W54 A band (W19-A re-base family); B =
-    #     scan past the declared W54 B band AND the SEED_REGISTRY
-    #     point xlib_synth_null_b=47_000 (W51-B re-base family,
-    #     46_000 -> 47_000 ladder); ADMIT receipt
-    #     results/_r559bmb_w55_band_gate.py; not a re-pick -- R250:
-    #     W55 bands were never assigned) --
-    _set_wave(55)
+    #     bm-a's THIRTEENTH owned wave; wave 54 = next free number
+    #     after the registered W53 row (bm-a's previous wave W48
+    #     closed full-lifecycle at r558 -- seat-loss re-derive
+    #     finalize K=103,520; W53 bm-c registered with finalize
+    #     NOT landed at this freeze = ONE in-flight upstream seat,
+    #     finalize merge loop FAIL-CLOSED at run time per r307
+    #     two-state law). BOTH SIDES ARITHMETIC CONTINUATION from
+    #     the W53 tail no skip (A 151_004..153_003 / B
+    #     46_601..46_800, both CLEAN == the W53 row W54+ published
+    #     projection verbatim -- three-machine cross-validation
+    #     (bm-c r351 + bm-b r559 + this gate); ADMIT receipt
+    #     results/_r559bma_w54_band_gate.py; not a re-pick -- R250:
+    #     W54 bands were never assigned) --
+    _set_wave(54)
     try:
-        assert WAVE_CONFIGS[55]["a_seed_base"] == pf.N1_BANDS[55]["a"][0], \
-            "W55 A band drift vs law mirror"
-        assert WAVE_CONFIGS[55]["b_exit_seed_base"] == \
-            pf.N1_BANDS[55]["b_exit"][0], "W55 B band drift vs law mirror"
-        assert WAVE_CONFIGS[55].get("engine_owner") == \
-            pf.N1_BANDS[55].get("engine_owner") == "bm-b", \
-            "W55 engine_owner drift (law mirror parity)"
-        w55_a = {A_SEED_BASE + j for j in range(A_N)}
-        w55_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
-        assert not (w55_a & w55_b), "W55 A/B band overlap"
-        assert not (w55_a & reg_ints) and not (w55_b & reg_ints), \
-            "W55 hits SEED_REGISTRY"
-        for nm, band in (("A", w55_a), ("B", w55_b)):
-            assert not (band & v1_a) and not (band & v1_b), f"W55 {nm} hits v1"
-            assert not (band & w1_a) and not (band & w1_b), f"W55 {nm} hits W1"
-            assert not (band & probes), f"W55 {nm} hits probe seeds"
-        # bm-a PUBLISHED W54 declaration disjointness leg (r518-1
-        # published=reserved): the declared bands are pinned constants
-        # here because W54 is NOT registered at this freeze; if bm-a
-        # registers W54 later, the registered row must equal these.
-        w54_decl_a = set(range(151_004, 153_004))
-        w54_decl_b = set(range(46_601, 46_801))
-        assert not (w55_a & w54_decl_a) and not (w55_b & w54_decl_b), \
-            "W55 bands hit the bm-a declared W54 bands (published=reserved " \
-            "r518-1, MSG-0615 addendum)"
-        # prior-wave disjointness incl. W48..W53 (all registered; W53
-        # finalize in flight -- coexist by band disjointness per r531).
+        assert WAVE_CONFIGS[54]["a_seed_base"] == pf.N1_BANDS[54]["a"][0], \
+            "W54 A band drift vs law mirror"
+        assert WAVE_CONFIGS[54]["b_exit_seed_base"] == \
+            pf.N1_BANDS[54]["b_exit"][0], "W54 B band drift vs law mirror"
+        assert WAVE_CONFIGS[54].get("engine_owner") == \
+            pf.N1_BANDS[54].get("engine_owner") == "bm-a", \
+            "W54 engine_owner drift (law mirror parity)"
+        w54_a = {A_SEED_BASE + j for j in range(A_N)}
+        w54_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w54_a & w54_b), "W54 A/B band overlap"
+        assert not (w54_a & reg_ints) and not (w54_b & reg_ints), \
+            "W54 hits SEED_REGISTRY"
+        for nm, band in (("A", w54_a), ("B", w54_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W54 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W54 {nm} hits W1"
+            assert not (band & probes), f"W54 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W48/W49/W50/W51/W52/W53 (all
+        # registered; W53 finalize in flight -- coexist by band
+        # disjointness per r531).
         for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
                       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
                       31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
                       44, 45, 46, 47, 48, 49, 50, 51, 52, 53):
-            assert not (w55_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
-                                 for j in range(A_N)}), f"W55 A hits W{wprev}"
-            assert not (w55_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
-                                  for j in range(B_N)}), f"W55 B hits W{wprev}"
-        # N3-R1 used-seed band leg (MSG-183x mandatory) -- W55 clears it.
-        n3r1_used55 = set(range(70_000, 70_006))
-        assert not (w55_a & n3r1_used55) and not (w55_b & n3r1_used55), \
-            "W55 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+            assert not (w54_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W54 A hits W{wprev}"
+            assert not (w54_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W54 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory) -- W54 clears it.
+        n3r1_used54 = set(range(70_000, 70_006))
+        assert not (w54_a & n3r1_used54) and not (w54_b & n3r1_used54), \
+            "W54 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
         # actual-draw-range avoidance (leg-3e family)
-        assert not (w55_a & lfc_actual12) and not (w55_b & lfc_actual12), \
-            "W55 bands must clear the lfc actual draw range"
-        assert not (w55_a & options_actual12) and \
-            not (w55_b & options_actual12), \
-            "W55 bands must clear the options_wave2 actual draw range"
-        # band facts (law sec.4 W55 row, r559): skip faces machine-pinned --
-        # A starts at the bm-a declared W54 A end + 1 (published-tail
-        # continuation, W19-A re-base family); B starts at the
-        # SEED_REGISTRY point xlib_synth_null_b=47_000 + 1 (W51-B
-        # re-base family).
-        assert WAVE_CONFIGS[55]["a_seed_base"] == 153_004 == 153_003 + 1, \
-            "W55 A must start at the bm-a declared W54 A end + 1 " \
-            "(published=reserved r518-1 skip face, window " \
-            "153_004..155_003 first-clean machine-derived)"
-        assert WAVE_CONFIGS[55]["b_exit_seed_base"] == 47_001 == 47_000 + 1, \
-            "W55 B must start at the SEED_REGISTRY point " \
-            "xlib_synth_null_b=47_000 + 1 (window 47_001..47_200 " \
-            "first-clean machine-derived, W51-B re-base family)"
-        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W55-SHARD-0",
-                                          "n1w55-0of12"), "W55 entry identity"
-        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W55-SHARD-11",
-                                          "n1w55-11of12")
-        assert SHARD_DIR.endswith("n1_w55") and OUT.endswith(
-            "n1_w55_results.json"), "W55 path drift"
+        assert not (w54_a & lfc_actual12) and not (w54_b & lfc_actual12), \
+            "W54 bands must clear the lfc actual draw range"
+        assert not (w54_a & options_actual12) and \
+            not (w54_b & options_actual12), \
+            "W54 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W54 row, r559): BOTH SIDES
+        # ARITHMETIC CONTINUATION (A 151_004 = W53 A end 151_003 + 1;
+        # B 46_601 = W53 B end 46_600 + 1, both windows CLEAN -- no
+        # skip family).
+        assert WAVE_CONFIGS[54]["a_seed_base"] == 151_004 == 151_003 + 1, \
+            "W54 A must start at the registered W53 A end + 1 " \
+            "(arithmetic continuation window 151_004..153_003 CLEAN -- " \
+            "no skip family)"
+        assert WAVE_CONFIGS[54]["b_exit_seed_base"] == 46_601 == 46_600 + 1, \
+            "W54 B must start at the registered W53 B end + 1 " \
+            "(arithmetic continuation window 46_601..46_800 CLEAN -- " \
+            "no skip family)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W54-SHARD-0",
+                                          "n1w54-0of12"), "W54 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W54-SHARD-11",
+                                          "n1w54-11of12")
+        assert SHARD_DIR.endswith("n1_w54") and OUT.endswith(
+            "n1_w54_results.json"), "W54 path drift"
         for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
                       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
                       31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
@@ -6762,38 +6737,39 @@ def selftest() -> int:
             assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
                 PATHS.results_dir, "p2cal_ext",
                 WAVE_CONFIGS[wprev]["shard_subdir"])), \
-                f"W55 shard dir collides with W{wprev}"
+                f"W54 shard dir collides with W{wprev}"
         assert os.path.exists(os.path.join(
-            PATHS.root, "research", "PERPETUAL_N1_W55_PREREG.md")), \
-            "W55 per-wave prereg missing (materializer requirement)"
-        # W55 finalize cumulative deps: W17..W52 outputs ALL PRESENT
-        # (static landed seats incl. the bm-c r351 triple finalize
-        # W50/W51/W52, chain head 478,948); W53 = REGISTERED with
-        # finalize NOT landed (in-flight); W54 = DECLARED by bm-a
-        # (unregistered at this freeze -- its output CANNOT be pinned;
-        # the finalize merge loop derives the wave set from registry
-        # keys at run time and stays FAIL-CLOSED on any
-        # not-yet-finalized upstream seat, r307 two-state law).
+            PATHS.root, "research", "PERPETUAL_N1_W54_PREREG.md")), \
+            "W54 per-wave prereg missing (materializer requirement)"
+        # W54 finalize cumulative deps: W17..W52 outputs ALL PRESENT
+        # (static landed seats -- W48 landed r558 bm-a seat-loss
+        # re-derive, W49 landed bm-b r558, W50/W51/W52 landed bm-c
+        # r351 triple finalize); W53 = REGISTERED with finalize NOT
+        # landed at this freeze (ONE in-flight upstream seat -- the
+        # finalize merge loop derives the wave set from registry keys
+        # at run time and stays FAIL-CLOSED on any not-yet-finalized
+        # upstream seat, r307 two-state law).
         for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
                       30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
                       43, 44, 45, 46, 47, 48, 49, 50, 51, 52):
             assert os.path.exists(os.path.join(
                 OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
-                f"W55 finalize cumulative dep (W{_depw} output) missing"
+                f"W54 finalize cumulative dep (W{_depw} output) missing"
         # finalize wave-set derivation face (r511 derive law): prior-wave
-        # set derives from registry keys below 55 (no 15; incl. 48..53 --
-        # all registered; W54 declared-but-unregistered at this freeze,
-        # FAIL-CLOSED at run time when bm-a registers it).
-        assert sorted(w for w in WAVE_CONFIGS if w < 55) == \
+        # set derives from registry keys below 54 (no 15; incl.
+        # 48/49/50/51/52/53 -- all registered, W53 finalize in flight,
+        # FAIL-CLOSED at run time).
+        assert sorted(w for w in WAVE_CONFIGS if w < 54) == \
             [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
              20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
              35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
              50, 51, 52, 53], \
-            "W55 prior-wave set must derive from registry keys (no 15, " \
-            "incl. 48..53; W54 declared-unregistered honest note)"
+            "W54 prior-wave set must derive from registry keys (no 15, " \
+            "incl. 48/49/50/51/52/53)"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -7384,27 +7360,26 @@ def selftest() -> int:
           "receipt results/_r351bmc_w53_band_gate.py; not a free "
           "pick -- R250), N3-R1 used-seed leg, probe-seed cluster "
           "leg, law sec.4 W53 row, r351 bm-c] "
-          "+ W55 materializer face [same guard set + bm-a-declared-W54 "
-          "published=reserved disjointness leg (r518-1, MSG-0615 "
-          "addendum constants), dep=W17..W52 outputs ALL PRESENT "
-          "(chain head 478,948 post the bm-c r351 triple finalize); "
-          "W53 registered with finalize NOT landed + W54 "
-          "declared-unregistered at freeze window -- two in-flight "
-          "chain seats, finalize merge loop stays FAIL-CLOSED at run "
-          "time per r307 two-state law), FORTY-FOURTH ENGINE-OWNED "
-          "WAVE bm-b's sixteenth owned claim engine_owner=bm-b per "
-          "engine de-throttle law O-20261001-2355 sec.2 "
-          "own-continuous-series (wave 55 = first FREE number after "
-          "the registered W53 row AND the bm-a declared W54 slot; "
-          "W51/W53 same-band yields + W54 declared-slot yield = "
-          "zero local ledger faces), A=scan past the declared W54 A "
-          "band (W19-A re-base family, 153_004..155_003) + B=scan "
-          "past the declared W54 B band AND the SEED_REGISTRY point "
-          "xlib_synth_null_b=47_000 (W51-B re-base family 46_000 -> "
-          "47_000 ladder, 47_001..47_200; ADMIT receipt "
-          "results/_r559bmb_w55_band_gate.py; not a free pick -- "
-          "R250), N3-R1 used-seed leg, probe-seed cluster leg, "
-          "law sec.4 W55 row, r559 bm-b] "
+          "+ W54 materializer face [same guard set, dep=W17..W52 "
+          "outputs ALL PRESENT (W50/W51/W52 finalized bm-c r351 "
+          "triple, ledger head 478,948; W53 bm-c registered with "
+          "finalize NOT landed at this freeze = ONE in-flight "
+          "upstream seat, finalize merge loop FAIL-CLOSED at run "
+          "time per r307 two-state law), FORTY-THIRD "
+          "ENGINE-OWNED WAVE bm-a's thirteenth engine_owner=bm-a "
+          "per engine de-throttle law O-20261001-2355 sec.2 "
+          "own-continuous-series (wave 54 = next free number after "
+          "the registered W53 row, own-series continuation after "
+          "the W48 full-lifecycle closeout r558 seat-loss "
+          "re-derive; bm-a TICK architecture per r535 law), BOTH "
+          "SIDES ARITHMETIC CONTINUATION from the W53 tail no "
+          "skip (A 151_004..153_003 / B 46_601..46_800 both CLEAN "
+          "machine-derived per the W53 row W54+ WARNING -- "
+          "three-machine cross-validated (bm-c r351 + bm-b r559 + "
+          "this gate); ADMIT receipt "
+          "results/_r559bma_w54_band_gate.py; not a free "
+          "pick -- R250), N3-R1 used-seed leg, probe-seed cluster "
+          "leg, law sec.4 W54 row, r559 bm-a] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

@@ -1106,23 +1106,28 @@ N1_BANDS = {
     # never assigned).
     53: {"a": (149_004, 151_003), "b_exit": (46_401, 46_600),
          "engine_owner": "bm-c"},
-    # r559 bm-b freeze: wave 55 = first FREE number after the registered
-    # W53 row AND the bm-a PUBLISHED W54 declaration (MSG-20261002-0615
-    # addendum "bm-a next own target = W54, A 151_004..153_003 / B
-    # 46_601..46_800" -- published=reserved, r518-1 law, W48/W49
-    # precedent; bm-b's same-window W54 freeze yielded to it). A = scan
-    # past the declared W54 A band (W19-A re-base family); B = scan
-    # past the declared W54 B band AND the SEED_REGISTRY point
-    # xlib_synth_null_b=47_000 (W51-B re-base family: 46_000 -> 47_000
-    # ladder). ADMIT receipt at prereg time
-    # (results/_r559bmb_w55_band_gate.py vs the 51-row pre-W55 table
-    # + declared-W54 bands in the reserved universe + live
-    # SEED_REGISTRY values + probe cluster 95_000..95_003 r335
-    # discovery leg + N3-R1 used-seed band 70_000..70_005 MSG-183x
-    # r529 mandatory leg; origin slot vacancy machine-checked). NOT
-    # a re-pick (R250: W55 bands were never assigned).
-    55: {"a": (153_004, 155_003), "b_exit": (47_001, 47_200),
-         "engine_owner": "bm-b"},
+    # FORTY-THIRD ENGINE-OWNED WAVE (r559 bm-a freeze): bm-a's
+    # THIRTEENTH owned wave. Wave 54 = next free number after the
+    # registered W53 row (own-series continuation under the
+    # de-throttle law; bm-a's previous wave W48 closed
+    # full-lifecycle at r558 -- seat-loss re-derive finalize
+    # K=103,520; W53 bm-c registered with finalize in flight --
+    # coexist by band disjointness per r531 law).
+    # BOTH SIDES = ARITHMETIC CONTINUATION from the W53 row tail,
+    # no skip: A 151_004..153_003 (= W53 A end 151_003 + 1) and
+    # B 46_601..46_800 (= W53 B end 46_600 + 1) -- both windows
+    # CLEAN per the W53 row W54+ WARNING projections
+    # (three-machine cross-validation: bm-c r351 freeze gate +
+    # bm-b r559 yield-window gate + this freeze's machine
+    # re-derive, r535 law). Machine-verified at prereg time
+    # (results/_r559bma_w54_band_gate.py ADMIT receipt vs the
+    # 51-row pre-W54 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W54
+    # bands were never assigned).
+    54: {"a": (151_004, 153_003), "b_exit": (46_601, 46_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
