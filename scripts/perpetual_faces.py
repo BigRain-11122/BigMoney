@@ -798,6 +798,28 @@ N1_BANDS = {
     # NOT a re-pick (R250: W39 bands were never assigned).
     39: {"a": (121_004, 123_003), "b_exit": (43_001, 43_200),
          "engine_owner": "bm-c"},
+    # W40 (r531 bm-b, own-series continuation per CEO de-throttle
+    # order O-20261001-2355 sec.2 -- bm-b's THIRTEENTH owned wave after
+    # W10/W11/W13/W16/W19/W22/W25/W28/W31/W34/W36/W38; zero-gap relay
+    # after the W38 FULL CLOSEOUT (r530: finalize one-pass K=81,520,
+    # ledger head 446,140; W39 registered+burned by bm-c r342, finalize
+    # pending on the bm-c lane) -> wave number 40 = FIRST FREE NUMBER
+    # after bm-c's W39 landed claim. SIDES INDEPENDENTLY ADJUDICATED
+    # per the W39 row's W40+ WARNING: A tail ARITHMETIC continuation
+    # NO SKIP (123_004..125_003 == W39 A end + 1); B tail ARITHMETIC
+    # continuation NO SKIP (43_201..43_400 == W39 B end + 1) -- both
+    # sides projected CLEAN by the W39 row warning AND machine-derived
+    # at this freeze (results/_r531bmb_w40_band_gate.py ADMIT receipt
+    # vs the 37-row pre-W40 table incl. W35/W36/W37/W38/W39 + live
+    # SEED_REGISTRY values + probe-seed cluster 95_000..95_003 r335
+    # discovery leg + N3-R1 used-seed band 70_000..70_005 MSG-183x
+    # r529 mandatory leg; origin slot vacancy machine-checked).
+    # TWENTY-NINTH->THIRTIETH ENGINE-OWNED WAVE, engine_owner=bm-b
+    # (SATURATION_ENGINE_LAW sec.1/2 same contract as W10..W39, local
+    # queue, no pool entry). NOT a re-pick (R250: W40 bands were never
+    # assigned; the measurement face has no result to fish).
+    40: {"a": (123_004, 125_003), "b_exit": (43_201, 43_400),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
