@@ -7,16 +7,16 @@
  "cpu_pct": 6.0,
  "idle_ram_gb": 4.3,
  "gpu_free_vram_mib": 12368,
- "verify": "S1 smoke 47/47; S6 35 legs rc0 NON-GREEN=NONE (dualrun ZERO-DRIFT streak 3/3; WM red=runnable-work-idle-low-cpu 12:20 -- origin-truth recheck: 5 ready ALL STOCKFURN bm-b-lane (data-gated, bm-c takeable=0) + W8 12/12 done -> lane-blind stale signal, GM waiver O-1612, probe verdict insufficient_history n=2; monthly trio re-run idempotent: self_review P1 supply-gap v2.4 never-CLEAN 1 miss + P2 moneyflow source-blocked 106min both reported); D-19 753F99E8 CONSUMED (D-20261001-01..08 + C-01/02/03 all pre-wired via O-1058/prompt = zero new action rows; watermark key updated, raw-blob method); orders double-scan diff EMPTY; attrition CLEAN (4 healed); wild_route r312 conversion adoption-verified (real-path smoke 393-cell byte-identity ALL PASS)",
+ "verify": "S1 smoke 47/47; S6 35 legs rc0; D-19 753F99E8 CONSUMED; orders double-scan EMPTY; attrition CLEAN; wild_route adoption-verified 393-cell byte-identity; PUSH RACE x2 during close window (origin moved 16->+11->+6 within 8min, bm-b daemon push rate ~1/min): cycle1 integration LANDED (3305af3ca..6cdaadba9 incl W8 products 5/12), cycle2 round-commit b8881296b raced twice -> LEGAL FALLBACK branch machine/bm-c-r314 pushed (N=1 on main, work safe on fallback)",
  "did": "r314: triple-crash adoption (r311/r312/r313 dead sessions + HQ unpushed 936da95cb) + fleet git integration via CAS cherry-pick (0-behind deadlock window closed, pushed 3305af3ca..6cdaadba9, delivery-verified N=0) + W8 shard products 8-11 landed on origin (5/12) + monthly trio refreshed on fresh base + O-1058 union resolve (bm-b ack x HQ sec.6)",
  "current_task": "W8 finalize blocked on peer product hygiene (origin 5/12: bm-a owes 1-7, bm-b owes 6; 12/12 ls-tree assertion before finalize per r310 law) + T-134 s2 next-candidate evidence-order rescan of remaining banned runners",
- "next": "(a) W8 12/12 products on origin -> finalize --wave 8 + entry/shard dual flip (r489) + s7/s8 backfill + predictions 4-check; (b) T-134 s2: rescan remaining banned runners by evidence-order law, convert next candidate (wild_route done+verified, census 34); (c) r319 = HANDOVER 5x; (d) WM lane-blind red-flag improvement item = backlog candidate (per-lane takeable counting in py_watermark)",
- "heartbeat_epoch_utc": 1790829393,
- "clock_read": "2026-10-01T12:36:33+08:00",
+ "next": "(S0 FIRST) integrate machine/bm-c-r314 into main at round start (fetch before fleet wakes backlog; cherry-pick b8881296b via CAS net path r314 CODELY entry; conflict recipes: derive=take-origin, ledger=history-union, lane-state=restore-first); then (a) W8 12/12 products -> finalize --wave 8; (b) T-134 s2 next-candidate rescan; (c) WM lane-blind red-flag backlog candidate",
+ "heartbeat_epoch_utc": 1790829610,
+ "clock_read": "2026-10-01T12:40:10+08:00",
  "note": "r314 round-number rebuild note: state was rolled back to r310 close-face by the r312 rebase-recovery surgery (r313 disclosed); r312 (wild_route + W7 finalize + orders acks, committed/pushed pre-crash) + r313 (W7 s7/s8 backfill, adopted+committed this round) reconstructed via commit-log x round-report x heartbeat three-source cross-check per r471 adoption law; this session = r314",
- "last_ts": "2026-10-01T12:36:33+08:00",
+ "last_ts": "2026-10-01T12:40:10+08:00",
  "last_decisions_sha": "753f99e81a27db3e1b4f2c76cd991ca50d52b80aa7faa63d6412cc2da1f5fb01",
  "last_decisions_read_at": "2026-10-01T12:36:33+08:00",
  "last_decisions_sha_method": "python subprocess.check_output raw-blob bytes SHA-256 (PS-pipeline join method = transcoding false-drift, see CODELY r292 pit)",
- "last_round": "2026-10-01 r314 bm-c: triple-crash adoption + CAS cherry-pick integration + W8 products 5/12 on origin + monthly trio refresh + S6 35 legs rc0"
+ "last_round": "2026-10-01 r314 bm-c: triple-crash adoption + CAS integration cycle1 landed (W8 products 5/12 on origin) + round commit on machine/bm-c-r314 fallback after push race x2 + S6 35 legs rc0"
 }
