@@ -1,21 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 01:00:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 2.1,
-   "verdict": "launched",
-   "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
-   "shard": "lowamp-p1-cell-larep-deep-base-0of1",
-   "pid": 42284,
-   "runner_sha256": "5da5664a264a4a0e",
-   "fill_latency_min": 40.7,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 01:10:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.9,
@@ -1050,16 +1035,30 @@
    "target_met": false,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 13:16:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.1,
+   "verdict": "launched",
+   "entry": "LOWAMP-P2-SENS",
+   "shard": "lowamp-p2-sens-0of1",
+   "pid": 48620,
+   "runner_sha256": "178142441a291551",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 33.6,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 13:14:01",
+  "ts": "2026-10-01 13:18:01",
   "machine": "bm-b",
-  "py_cpu_pct": 0.0,
-  "verdict": "claim_lost_yield",
-  "entry": "LOWAMP-P2-CELL-LAEDGE-DEEP-X2",
-  "shard": "lowamp-p2-cell-laedge-deep-x2-0of1"
+  "py_cpu_pct": 67.9,
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T13:06:55+08:00"
+ "core_samples_seen": "2026-10-01T13:17:43+08:00"
 }
