@@ -973,7 +973,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 12:16:01",
@@ -1019,26 +1020,26 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 12:18:01",
+  "ts": "2026-10-01 12:20:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
+  "fuse_skipped": [
+   {
+    "entry": "STOCKFURN-LOWAMP-AKSHARE-SHARD-108",
+    "shard": "stockfurn-lowamp-108to144",
+    "sig": "scripts/stock_face_furnace.py|run,--family,lowamp,--cells,108:144,--workers,6",
+    "fuse_refusals": 1
+   }
+  ],
   "cooldown_skipped": {
-   "entry": "STOCKFURN-LOWAMP-AKSHARE-SHARD-108",
-   "shard": "stockfurn-lowamp-108to144",
+   "entry": "STOCKFURN-MOM-AKSHARE-SHARD-0",
+   "shard": "stockfurn-mom-0to4",
    "last_launch_min": 4.1
   },
-  "verdict": "launched",
-  "entry": "STOCKFURN-MOM-AKSHARE-SHARD-4",
-  "shard": "stockfurn-mom-4to8",
-  "pid": 56092,
-  "runner_sha256": "89a80afe23a7f6fb",
-  "core_verdict": "multiproc",
-  "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": null,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "claim_lost_yield",
+  "entry": "STOCKFURN-MOM-AKSHARE-SHARD-8",
+  "shard": "stockfurn-mom-8to12"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T12:16:19+08:00"
+ "core_samples_seen": "2026-10-01T12:18:19+08:00"
 }
