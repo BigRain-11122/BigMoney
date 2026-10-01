@@ -1187,6 +1187,27 @@ N1_BANDS = {
     # (R250: W57 bands were never assigned).
     57: {"a": (157_004, 159_003), "b_exit": (47_401, 47_600),
          "engine_owner": "bm-a"},
+    # FORTY-SEVENTH ENGINE-OWNED WAVE (r354 bm-c freeze): bm-c's
+    # EIGHTEENTH owned wave. Wave 58 = next free number after the
+    # registered W57 row (own-series continuation under the
+    # de-throttle law; chain FULLY CAUGHT UP W1..W57 at this freeze
+    # -- W57 bm-a r562 same-window full-lifecycle closeout, ledger
+    # head 489,948, K=123,320, ZERO in-flight upstream seats;
+    # MSG-20261002-0700 bm-a receipt confirms the W58 window fully
+    # clear). BOTH SIDES = ARITHMETIC CONTINUATION from the W57 row
+    # tail, no skip: A 159_004..161_003 (= W57 A end 159_003 + 1) and
+    # B 47_601..47_800 (= W57 B end 47_600 + 1) -- both windows
+    # CLEAN per the W57 row W58+ WARNING projections
+    # (bm-a r561 freeze gate projection leg + this freeze's
+    # machine re-derive, r535 law). Machine-verified at prereg
+    # time (results/_r354bmc_w58_band_gate.py ADMIT receipt vs
+    # the 54-row pre-W58 registered table + live SEED_REGISTRY values +
+    # probe cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked). NOT a re-pick
+    # (R250: W58 bands were never assigned).
+    58: {"a": (159_004, 161_003), "b_exit": (47_601, 47_800),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
