@@ -535,7 +535,36 @@ N1_BANDS = {
     # no result to fish). W29+ WARNING: A +2_000 tail 101_004..103_003
     # and B +200 tail 40_651..40_850 projection per the r523 gate
     # receipt -- verify at W29 prereg (rotation slot W29=bm-c).
-    # W30 (r541 bm-a, prereg-time extension per the W28 row's W29+
+    # W29 (r336 bm-c, prereg-time extension per the W28 row's W29+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20261001-01 slot W29=bm-c per the W28 row
+    # verbatim, bm-c's SIXTH owned wave after W14/W17/W20/W23/W26;
+    # no pointer gate pending: W26 registered + burned 12/12 +
+    # FINALIZED by bm-c r336 (K=55,120, ledger 421,748 chain head),
+    # W27 registered + burned 12/12 by bm-a r539 (finalize pending
+    # on the bm-a seat, chain-unblocked by the W26 finalize), W28
+    # registered by bm-b r523 (burn in progress on bm-b) --
+    # coexistence judged by band disjointness not commit order,
+    # r531 law): BOTH tails arithmetic-clean exactly as the W28
+    # row projected (A's +2_000 tail 101_004..103_003 == W28 A
+    # end + 1, B's +200 tail 40_651..40_850 == W28 B end + 1, no
+    # skip on either side, 40k-segment continuation of the W26 B
+    # re-base lineage). Machine-verified at prereg time
+    # (results/_r336bmc_w29_band_gate.py ADMIT receipt vs the 27-row
+    # pre-W29 table incl. W25/W26/W27/W28 + SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N2/N4
+    # probe points + N2-W15 draft probe points + lfc/options actual
+    # ranges + N3-R1 used-seed band 70_000..70_005, MSG-183x r529
+    # mandatory leg). EIGHTEENTH engine-owned wave. NOT a re-pick
+    # (R250: W29 bands were never assigned; the measurement face has
+    # no result to fish). W30+ WARNING: A +2_000 tail 103_004..105_003
+    # and B +200 tail 40_851..41_050 projection per the r336 gate
+    # receipt -- B tail EXPECTED REFUSAL (registry point 41_000
+    # inside the arithmetic window, first-since-W26 forced-skip
+    # candidate on the B side); verify at W30 prereg (rotation slot
+    # W30=bm-a).
+    29: {"a": (101_004, 103_003), "b_exit": (40_651, 40_850),
+         "engine_owner": "bm-c"},    # W30 (r541 bm-a, prereg-time extension per the W28 row's W29+
     # WARNING -- never-dry supply law standing step; sovereignty
     # rotation law F-20260901-01 slot W30=bm-a per the W27=bm-a real
     # anchor: finalize landed bm-a r540, K=57,320, ledger 423,948
