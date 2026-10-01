@@ -885,6 +885,40 @@ def cmd_selftest() -> int:
     print(f"S6 machine-linked-lines+seeds: {'PASS' if s6 else 'FAIL'}")
     ok &= s6
 
+    # S6b: R1 seed values vs the N1 law-mirror bands -- adjudicated
+    # two-state leg (r529 bm-a, canon sec.4 amendment row). The W13 A band
+    # (70_001..72_000, frozen bm-b r512) overlaps the R1 CI seeds
+    # 70_001..70_005: root cause = R1 registered only its base point
+    # 70_000 in SEED_REGISTRY while the runner consumes base+member-index
+    # values, and the W13 freeze-time scan face was registry-points-only
+    # (evidence results/_r529bma_n3r1_w13_overlap_scan.py). Ruling: no
+    # re-burn (different mechanisms -- bootstrap resample indices vs N1
+    # entry matrices; no ledger double-count; R250 frozen bands; holiday
+    # meaning gate). This leg pins the adjudicated overlap set exactly;
+    # any OTHER N1 band value landing inside the R1 seed set is a fresh
+    # violation and fails fail-closed.
+    s6b = True
+    try:
+        import perpetual_faces as pf
+        r1_seeds = {SEED_BASE + i for i in range(N_MEMBERS)}
+        hit = set()
+        for _w, cfg in pf.N1_BANDS.items():
+            a_lo, a_hi = cfg["a"]
+            b_lo, b_hi = cfg["b_exit"]
+            hit |= {v for v in r1_seeds if a_lo <= v <= a_hi}
+            hit |= {v for v in r1_seeds if b_lo <= v <= b_hi}
+        expected = {70_001, 70_002, 70_003, 70_004, 70_005}
+        s6b = hit == expected
+        if not s6b:
+            print(f"FAIL S6b: N1-band x R1-seed overlap {sorted(hit)} "
+                  f"!= adjudicated {sorted(expected)}")
+    except Exception as exc:  # fail-closed (law-mirror import/scan)
+        s6b = False
+        print(f"FAIL S6b: law-mirror scan error: {exc}")
+    print(f"S6b N1-band x R1-seed adjudicated-overlap pin: "
+          f"{'PASS' if s6b else 'FAIL'}")
+    ok &= s6b
+
     # S7: pool-entry single-source face (generator contract).
     s7 = bool(pool_entry_id("VOLATILITY-CE-01")
                == "PERPETUAL-N3-R1-VOLATILITY-CE-01")

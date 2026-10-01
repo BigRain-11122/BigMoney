@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 18:24:05",
+ "generated_at": "2026-10-01 18:21:27",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,19 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-01.md"
  },
  "rd": {
-  "commits_24h": 849,
-  "result_jsons_landed_24h": 121,
+  "commits_24h": 846,
+  "result_jsons_landed_24h": 120,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 44,
+  "prereg_md_touched_24h": 43,
   "compute_audit_latest": {
-   "ts": "2026-10-01 18:23:01",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-10-01 18:18:51",
+   "py_cpu_pct": 0.4,
    "flags": [
-    "idle_with_work",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:idle_with_work,pool_starvation,supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -641,74 +640,12 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-01 17:57:16",
-    "py_pct": 0.2,
+    "latest_ts": "2026-10-01 18:18:51",
+    "py_pct": 0.4,
     "cpu_pct": 34.0,
     "ready": 0,
-    "streak_min": 262.3,
+    "streak_min": 283.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
-    "py_series_tail": [
-     [
-      "15:23",
-      1.5
-     ],
-     [
-      "15:40",
-      0.0
-     ],
-     [
-      "15:43",
-      1.2
-     ],
-     [
-      "16:07",
-      0.1
-     ],
-     [
-      "16:12",
-      0.6
-     ],
-     [
-      "16:21",
-      0.0
-     ],
-     [
-      "16:34",
-      0.1
-     ],
-     [
-      "16:54",
-      0.8
-     ],
-     [
-      "16:56",
-      0.3
-     ],
-     [
-      "17:19",
-      4.8
-     ],
-     [
-      "17:39",
-      0.2
-     ],
-     [
-      "17:57",
-      0.2
-     ]
-    ],
-    "today_samples": 69,
-    "today_floor_ok": 31,
-    "today_sla_flags": 16,
-    "today_supply_gap_flags": 37
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-01 18:23:01",
-    "py_pct": 0.5,
-    "cpu_pct": 13.0,
-    "ready": 0,
-    "streak_min": 288.0,
-    "verdict": "FLAG:idle_with_work,pool_starvation,supply_floor",
     "py_series_tail": [
      [
       "15:43",
@@ -755,8 +692,8 @@
       0.9
      ],
      [
-      "18:23",
-      0.5
+      "18:18",
+      0.4
      ]
     ],
     "today_samples": 71,
@@ -764,18 +701,14 @@
     "today_sla_flags": 16,
     "today_supply_gap_flags": 37
    },
-   "bm-c": {
-    "latest_ts": "2026-10-01 18:05:28",
-    "py_pct": 0.1,
-    "cpu_pct": 9.0,
+   "bm-b": {
+    "latest_ts": "2026-10-01 18:04:47",
+    "py_pct": 0.9,
+    "cpu_pct": 10.0,
     "ready": 0,
-    "streak_min": 270.5,
+    "streak_min": 269.8,
     "verdict": "FLAG:idle_with_work,pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:23",
-      1.5
-     ],
      [
       "15:40",
       0.0
@@ -817,11 +750,77 @@
       0.2
      ],
      [
-      "18:05",
-      0.1
+      "17:57",
+      0.2
+     ],
+     [
+      "18:04",
+      0.9
      ]
     ],
-    "today_samples": 69,
+    "today_samples": 70,
+    "today_floor_ok": 31,
+    "today_sla_flags": 16,
+    "today_supply_gap_flags": 37
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-01 17:32:10",
+    "py_pct": 0.0,
+    "cpu_pct": 51.0,
+    "ready": 0,
+    "streak_min": 237.2,
+    "verdict": "FLAG:pool_starvation,supply_floor",
+    "py_series_tail": [
+     [
+      "15:18",
+      0.1
+     ],
+     [
+      "15:23",
+      1.5
+     ],
+     [
+      "15:40",
+      0.0
+     ],
+     [
+      "15:43",
+      1.2
+     ],
+     [
+      "16:07",
+      0.1
+     ],
+     [
+      "16:12",
+      0.6
+     ],
+     [
+      "16:21",
+      0.0
+     ],
+     [
+      "16:34",
+      0.1
+     ],
+     [
+      "16:54",
+      0.8
+     ],
+     [
+      "16:56",
+      0.3
+     ],
+     [
+      "17:19",
+      4.8
+     ],
+     [
+      "17:32",
+      0.0
+     ]
+    ],
+    "today_samples": 68,
     "today_floor_ok": 31,
     "today_sla_flags": 16,
     "today_supply_gap_flags": 37
@@ -845,24 +844,24 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-01 17:57:16"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-01 18:18:51"
     }
    },
    "bm-b": {
-    "batches_judged": 95,
-    "core_seconds": 15968.2,
-    "wall_seconds": 2439.6,
-    "effective_cores": 6.55,
+    "batches_judged": 91,
+    "core_seconds": 15347.2,
+    "wall_seconds": 2339.2,
+    "effective_cores": 6.56,
     "single_core_burn": 8,
-    "multicore_burn": 87,
+    "multicore_burn": 83,
     "too_short": 19,
-    "last_ts": "2026-10-01T18:23:29+08:00",
+    "last_ts": "2026-10-01T17:43:28+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 15,
-     "audit_ts": "2026-10-01 18:23:01"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-01 18:04:47"
     }
    },
    "bm-c": {
@@ -877,8 +876,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-01 18:05:28"
+     "audit_batches": 20,
+     "audit_ts": "2026-10-01 17:32:10"
     }
    }
   },
