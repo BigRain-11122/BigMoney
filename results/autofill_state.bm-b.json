@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-30 20:10:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "EXCLUSION-MARGINAL-P1-RUN",
-   "shard": "exclusion-0of1",
-   "pid": 47148,
-   "runner_sha256": "c7f4d8d08c5ad07c",
-   "fill_latency_min": 25.9,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-30 20:30:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -1026,26 +1013,59 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 12:38:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "single_core_red_flags": [
+    {
+     "ts": "2026-10-01T12:36:35+08:00",
+     "entry": "STOCKFURN-MOM-AKSHARE-SHARD-0",
+     "shard": "stockfurn-mom-0to4",
+     "pid": 49560,
+     "wall_s": 10.1,
+     "effective_cores": 0.86,
+     "law": "O-20260930-2355 sec.1 law-2"
+    }
+   ],
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "STOCKFURN-MOM-AKSHARE-SHARD-4",
+   "shard": "stockfurn-mom-4to8",
+   "pid": 37964,
+   "runner_sha256": "ffecba65f607f5e2",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": null,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 12:36:01",
+  "ts": "2026-10-01 12:40:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
+  "single_core_red_flags": [
+   {
+    "ts": "2026-10-01T12:38:37+08:00",
+    "entry": "STOCKFURN-MOM-AKSHARE-SHARD-4",
+    "shard": "stockfurn-mom-4to8",
+    "pid": 37964,
+    "wall_s": 10.1,
+    "effective_cores": 1.11,
+    "law": "O-20260930-2355 sec.1 law-2"
+   }
+  ],
   "harvest_flipped": 1,
-  "verdict": "launched",
-  "entry": "STOCKFURN-MOM-AKSHARE-SHARD-0",
-  "shard": "stockfurn-mom-0to4",
-  "pid": 49560,
-  "runner_sha256": "ffecba65f607f5e2",
-  "core_verdict": "multiproc",
-  "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": null,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "claim_lost_yield",
+  "entry": "STOCKFURN-MOM-AKSHARE-SHARD-8",
+  "shard": "stockfurn-mom-8to12"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T12:34:45+08:00"
+ "core_samples_seen": "2026-10-01T12:38:37+08:00"
 }
