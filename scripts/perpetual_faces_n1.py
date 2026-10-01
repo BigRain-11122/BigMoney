@@ -384,6 +384,30 @@ WAVE_CONFIGS = {
          "b_exit_seed_base": 38_500,     # law sec.4 W19 B: 38_500..38_699 (arithmetic, re-based past W18 projection)
          "shard_subdir": "n1_w19", "out_name": "n1_w19_results.json",
          "engine_owner": "bm-b"},
+    # W20 (r330 bm-c, never-dry supply law standing step: NINTH
+    # ENGINE-OWNED WAVE, bm-c's third, engine_owner=bm-c per
+    # sovereignty rotation law F-20261001-01 slot W20=bm-c per law
+    # sec.4 W19 row verbatim; freeze window opened only AFTER bm-b's
+    # W19 yield disposition landed on origin -- r329 pointer gate
+    # discharged). BOTH arithmetic tails land clean exactly as the
+    # W19 row projected (A 82_001 == W19 A end + 1, B 38_700 == W19
+    # B end + 1) -- no skip on either side (38k-segment continuation
+    # of the W17 B re-base lineage). Machine-verified at prereg time
+    # (results/_r330bmc_w20_band_gate.py ADMIT receipt vs the 17-row
+    # pre-W20 table incl. W18/W19 + SEED_REGISTRY + probes/actuals +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x mandatory leg).
+    # NOT a re-pick (R250).
+    20: {"batch": "PERPETUAL-N1-W20",
+         "prereg": ("research/PERPETUAL_N1_W20_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; NINTH ENGINE-OWNED WAVE, "
+                    "sovereignty rotation law W20=bm-c, engine_owner=bm-c, "
+                    "r329 pointer gate discharged: bm-b W19 v3 re-band "
+                    "landed on origin)"),
+         "a_seed_base": 82_001,          # law sec.4 W20 A: 82_001..84_000 (arithmetic)
+         "b_exit_seed_base": 38_700,    # law sec.4 W20 B: 38_700..38_899 (arithmetic)
+         "shard_subdir": "n1_w20", "out_name": "n1_w20_results.json",
+         "engine_owner": "bm-c"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -2216,6 +2240,93 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W20 materializer face (r330 bm-c freeze) ------------------------
+    _set_wave(20)
+    try:
+        assert WAVE_CONFIGS[20]["a_seed_base"] == pf.N1_BANDS[20]["a"][0], \
+            "W20 A band drift vs law mirror"
+        assert WAVE_CONFIGS[20]["b_exit_seed_base"] == \
+            pf.N1_BANDS[20]["b_exit"][0], "W20 B band drift vs law mirror"
+        assert WAVE_CONFIGS[20].get("engine_owner") == \
+            pf.N1_BANDS[20].get("engine_owner") == "bm-c", \
+            "W20 engine_owner drift (law mirror parity)"
+        w20_a = {A_SEED_BASE + j for j in range(A_N)}
+        w20_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w20_a & w20_b), "W20 A/B band overlap"
+        assert not (w20_a & reg_ints) and not (w20_b & reg_ints), \
+            "W20 hits SEED_REGISTRY"
+        for nm, band in (("A", w20_a), ("B", w20_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W20 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W20 {nm} hits W1"
+            assert not (band & probes), f"W20 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19):
+            assert not (w20_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W20 A hits W{wprev}"
+            assert not (w20_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W20 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W20 bands must clear it.
+        n3r1_used = set(range(70_000, 70_006))
+        assert not (w20_a & n3r1_used) and not (w20_b & n3r1_used), \
+            "W20 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w20_a & lfc_actual12) and not (w20_b & lfc_actual12), \
+            "W20 bands must clear the lfc actual draw range"
+        assert not (w20_a & options_actual12) and \
+            not (w20_b & options_actual12), \
+            "W20 bands must clear the options_wave2 actual draw range"
+        # arithmetic facts (law sec.4 W20 row, r330): BOTH tails continue
+        # from the W19 REGISTERED tail (registry-derived, not prose) and
+        # land CLEAN -- strides kept verbatim, NO skip (ADMIT receipt
+        # results/_r330bmc_w20_band_gate.py leg1/leg2).
+        arith_lo20 = pf.N1_BANDS[19]["a"][1] + 1     # W19 registered A end + 1
+        arith_hits20 = sorted(v for v in reg_ints
+                              if arith_lo20 <= v <= arith_lo20 + A_N - 1)
+        assert arith_hits20 == [], \
+            "W20 A arithmetic tail must be clean (ADMIT receipt leg1)"
+        assert WAVE_CONFIGS[20]["a_seed_base"] == arith_lo20, \
+            "W20 A stride drift (arithmetic continuation, NO skip)"
+        b_arith_lo20 = pf.N1_BANDS[19]["b_exit"][1] + 1  # W19 reg B end + 1
+        b_arith_hits20 = sorted(v for v in reg_ints
+                                if b_arith_lo20 <= v <= b_arith_lo20 + B_N - 1)
+        assert b_arith_hits20 == [], \
+            "W20 B arithmetic tail must be clean (ADMIT receipt leg1)"
+        assert WAVE_CONFIGS[20]["b_exit_seed_base"] == b_arith_lo20, \
+            "W20 B stride drift (arithmetic continuation, no skip)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W20-SHARD-0",
+                                          "n1w20-0of12"), "W20 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W20-SHARD-11",
+                                           "n1w20-11of12")
+        assert SHARD_DIR.endswith("n1_w20") and OUT.endswith(
+            "n1_w20_results.json"), "W20 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W20 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W20_PREREG.md")), \
+            "W20 per-wave prereg missing (materializer requirement)"
+        # W20 finalize cumulative deps: W17 output = PRESENT (bm-c r328
+        # finalize landed, K=35,320, ledger 401,948). W18/W19 finalize
+        # outputs are NOT landed at this freeze window (bm-a/bm-b engines
+        # burning) -- no static exists-assert pinned for them; the
+        # finalize merge loop stays FAIL-CLOSED on any missing prior-wave
+        # output at run time (r307 two-state law family).
+        assert os.path.exists(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[17]["out_name"])), \
+            "W20 finalize cumulative dep (W17 output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 20 (no 15; 18/19
+        # registered by the r531/r517 freezes).
+        assert sorted(w for w in WAVE_CONFIGS if w < 20) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19], \
+            "W20 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -2312,7 +2423,19 @@ def selftest() -> int:
           "results/_r517bmb_w19_band_gate.py incl. the MSG-183x "
           "N3-R1 used-seed band leg), old-band products discarded "
           "at yield (12/12 burned, finalize never ran, zero ledger "
-          "pollution), law sec.4 W19 row, r518 bm-b] + T-141 s2 "
+          "pollution), law sec.4 W19 row, r518 bm-b] "
+          "+ W20 materializer face "
+          "[same guard set, dep=W17 present (finalize landed r328 bm-c; "
+          "W18/W19 finalize outputs NOT pinned at freeze window -- "
+          "in-flight on bm-a/bm-b engines, finalize merge loop stays "
+          "FAIL-CLOSED at run time), NINTH ENGINE-OWNED WAVE bm-c's "
+          "third engine_owner=bm-c per sovereignty rotation law "
+          "F-20261001-01 slot W20=bm-c (r329 pointer gate discharged: "
+          "bm-b W19 v3 re-band landed on origin), BOTH tails "
+          "arithmetic-clean per ADMIT receipt "
+          "results/_r330bmc_w20_band_gate.py (registry-derived "
+          "continuation, no skip), N3-R1 used-seed leg, law sec.4 "
+          "W20 row, r330 bm-c] + T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
     return 0
