@@ -98,6 +98,13 @@ WAVE_CONFIGS = {
         "a_seed_base": 14_100,           # law sec.4 W3 A: 14_100..16_099
         "b_exit_seed_base": 21_300,      # law sec.4 W3 B: 21_300..21_499
         "shard_subdir": "n1_w3", "out_name": "n1_w3_results.json"},
+    4: {"batch": "PERPETUAL-N1-W4",
+        "prereg": ("research/PERPETUAL_N1_W4_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 16_100,           # law sec.4 W4 A: 16_100..18_099
+        "b_exit_seed_base": 21_500,      # law sec.4 W4 B: 21_500..21_699
+        "shard_subdir": "n1_w4", "out_name": "n1_w4_results.json"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -770,12 +777,58 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- wave-4 face (r507 bm-a: same guard set as W3, cumulative dep = W3) ---
+    _set_wave(4)
+    try:
+        assert WAVE_CONFIGS[4]["a_seed_base"] == pf.N1_BANDS[4]["a"][0], \
+            "W4 A band drift vs law mirror"
+        assert WAVE_CONFIGS[4]["b_exit_seed_base"] == \
+            pf.N1_BANDS[4]["b_exit"][0], "W4 B band drift vs law mirror"
+        w4_a = {A_SEED_BASE + j for j in range(A_N)}
+        w4_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w4_a & w4_b), "W4 A/B band overlap"
+        assert not (w4_a & reg_ints) and not (w4_b & reg_ints), \
+            "W4 hits SEED_REGISTRY"
+        for nm, band in (("A", w4_a), ("B", w4_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W4 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W4 {nm} hits W1"
+            assert not (band & probes), f"W4 {nm} hits probe seeds"
+        assert not (w4_a & {WAVE_CONFIGS[2]["a_seed_base"] + j
+                            for j in range(A_N)}), "W4 A hits W2 band"
+        assert not (w4_b & {WAVE_CONFIGS[2]["b_exit_seed_base"] + j
+                             for j in range(B_N)}), "W4 B hits W2 band"
+        assert not (w4_a & {WAVE_CONFIGS[3]["a_seed_base"] + j
+                            for j in range(A_N)}), "W4 A hits W3 band"
+        assert not (w4_b & {WAVE_CONFIGS[3]["b_exit_seed_base"] + j
+                             for j in range(B_N)}), "W4 B hits W3 band"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W4-SHARD-0",
+                                          "n1w4-0of12"), "W4 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W4-SHARD-11",
+                                           "n1w4-11of12")
+        assert SHARD_DIR.endswith("n1_w4") and OUT.endswith(
+            "n1_w4_results.json"), "W4 path drift"
+        assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+            PATHS.results_dir, "p2cal_ext", WAVE_CONFIGS[2]["shard_subdir"])), \
+            "W4 shard dir collides with W2"
+        assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+            PATHS.results_dir, "p2cal_ext", WAVE_CONFIGS[3]["shard_subdir"])), \
+            "W4 shard dir collides with W3"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W4_PREREG.md")), \
+            "W4 per-wave prereg missing (materializer requirement)"
+        assert os.path.exists(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[3]["out_name"])), \
+            "W4 finalize cumulative dep (W3 output) missing"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
-          "law W2/W4] + law band parity + p pattern + determinism + slice "
+          "law W2/W3] + law band parity + p pattern + determinism + slice "
           "math + canon intact + W1 dep complete + path safety + O-2355 "
           "multiprocess code-backed workers plan + r498 pool claim "
           "handshake identity/verify + W3 materializer face "
-          "[bands/identity/paths/prereg/cumulative-dep/spawn-carrier])")
+          "[bands/identity/paths/prereg/cumulative-dep/spawn-carrier] "
+          "+ W4 materializer face [same guard set, dep=W3])")
     return 0
 
 
