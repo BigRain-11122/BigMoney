@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-29 23:36:16",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "TRIAL-LABOR-W11-GENERATE",
-   "shard": "generate-0of1",
-   "pid": 13836,
-   "runner_sha256": "f70e23d009984930",
-   "fill_latency_min": 20.4,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-30 00:53:27",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -946,34 +933,52 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 11:32:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "fuse_skipped": [
+    {
+     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
+     "shard": "stockfurn-rev-0to31",
+     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
+     "fuse_refusals": 4
+    }
+   ],
+   "verdict": "launched",
+   "entry": "STOCKFURN-REV-AKSHARE-SHARD-91",
+   "shard": "stockfurn-rev-91to121",
+   "pid": 18692,
+   "runner_sha256": "cce0f51237e4094d",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": null,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 11:30:01",
+  "ts": "2026-10-01 12:04:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "harvest_flipped": 1,
   "fuse_skipped": [
    {
     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
     "shard": "stockfurn-rev-0to31",
     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
-    "fuse_refusals": 3
+    "fuse_refusals": 20
    }
   ],
-  "verdict": "launched",
-  "entry": "STOCKFURN-REV-AKSHARE-SHARD-62",
-  "shard": "stockfurn-rev-62to91",
-  "pid": 55680,
-  "runner_sha256": "cce0f51237e4094d",
-  "core_verdict": "multiproc",
-  "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": null,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "claim_lost_yield",
+  "entry": "STOCKFURN-LOWAMP-AKSHARE-SHARD-0",
+  "shard": "stockfurn-lowamp-0to36"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T11:28:31+08:00"
+ "core_samples_seen": "2026-10-01T11:32:36+08:00"
 }
