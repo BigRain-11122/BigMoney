@@ -61,8 +61,13 @@
 
 ## §7 跑后实证【finalize 窗回填】
 
--（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
+- 烧录实况：12/12 分片引擎烧录（本机 bm-b tick 架构实例·S4U 60s cadence 自燃·r535 免杀律适用）；r523 冻结 commit 后首 tick 自点火（shard-0 21:39 落盘·r535 pre-commit 律实证）；12/12 全部 origin 在场（r310 完备性门=finalize 前置 ls-tree 断言 12/12 双面过·r524bm-b 逐件 audit.machine=bm-b 归属三验+json.loads 全绿+总量 2,200=2,000A+200B 分片连续切片合计过）。
+- K 与链性对账：起草窗 §0 累计面 **55,120 为 floor**（起草时 W26/W27 finalize 未落账）；finalize 时序=W26（bm-c r336·421,748）→W27（bm-a r540·423,948·S5 4/4）→本波；**实际 K=59,520**（57,320+2,200），§0 滑移 +4,400=W26+W27 落账自动并入（r336「drafting-window slip」先例同律如实披露）。**账本=423,948（W27-on-origin derive·r538 首跑无重跑律）+2,200=426,148 链线性**；ledger 块持久化于产物件 science_gates.ledger（r509 幻影记账律·写 guard 前持久化合同满足）·voids_applied=['LOWAMP-P1'] 自动面。
+- §5 四项判定（锚=W25 实测·单波跨度）：**4/4 PASS**——①W28-only mu −0.0879 vs 锚 −0.09240 漂移 |Δ|=0.0045<0.02 ✓；②merged sigma 0.2449 vs 锚 0.24460 相对变化 +0.11%<±10% ✓；③A 族 p95 **0.3278** vs 锚 0.3262 Δ=+0.0016<0.05 ✓（仅机器断裂侦测·零注册利害）；④K-lift **+0.0007**（1.1543→1.155 @n_eff_held 423,948）≤0.02 ✓（正移如实报·加深收窄面）。
+- merged 池：mu −0.0915·sigma 0.2449·n=59,520；A p99=0.4493；mu_delta_w28_vs_w27ext=−0.0021（描述面）。
+- S5 姊妹验证：finalize 后缺省波 selftest PASS（r522 律·W28 materializer 腿含带闸 disjoint+探针种子簇+r529 N3-R1 腿）。
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
--（占位锚：finalize 同窗回填波收口复盘与 W29+ 尾律警示转交〔W29=bm-c 槽位·轮值律·A 101_004..103_003/B 40_651..40_850 投影双净空=r523 带闸回执 W29+ 投影腿·照例 W29 prereg 时机验〕。）
+- 波收口复盘：第十七枚引擎波·bm-b 第八枚自有波一窗闭环（r523 冻结+同窗点火 → r524 烧毕验证+finalize 一趟过·r538 首跑无重跑）；跨机链序依赖实证良好（W26 bm-c→W27 bm-a→W28 bm-b 注册序 FAIL-CLOSED 门工作正常·W27 finalize 落 origin 后本波 prev 自动前移·r518 撞链头零发生）；tick 架构产物交付零缺口（async appender 12/12 全上 origin·r310 完备性门过）。
+- W29+ 尾律警示转交：**W29=bm-c 槽位**（轮值律 F-20260901-01·r540 bm-a closeout handover 行同向）；投影带 **A 101_004..103_003 / B 40_651..40_850**（r523 带闸回执 W29+ 投影腿·双尾算术续带）——W29 prereg 时机验带闸（r535 带闸回执族全腿：SEED_REGISTRY 全值+N3-R1 带+探针种子簇 95_000..95_003+全部在用带穷尽扫描），照 r307/r335 律禁 prose 转抄投影。
