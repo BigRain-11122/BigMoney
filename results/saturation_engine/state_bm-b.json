@@ -6,14 +6,14 @@
   {
    "face": "N1",
    "wave": 28,
-   "shard": 2,
+   "shard": 1,
    "nshards": 12,
-   "key": "n1w28-2of12",
+   "key": "n1w28-1of12",
    "batch": "PERPETUAL-N1-W28",
-   "pid": 57472,
-   "started_at": "2026-10-01T21:41:04+08:00",
-   "started_epoch": 1790862064,
-   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W28-2.log",
+   "pid": 24532,
+   "started_at": "2026-10-01T21:43:04+08:00",
+   "started_epoch": 1790862184,
+   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W28-1.log",
    "cfg": {
     "batch": "PERPETUAL-N1-W28",
     "prereg": "research/PERPETUAL_N1_W28_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; SEVENTEENTH ENGINE-OWNED WAVE, sovereignty rotation law W28=bm-b, engine_owner=bm-b, W27 row slot assignment verbatim)",
@@ -39,27 +39,64 @@
    "done_at": "2026-10-01T21:41:04+08:00",
    "done_epoch": 1790862062,
    "elapsed_sec": 58.3
+  },
+  {
+   "machine_id": "bm-b",
+   "face": "N1",
+   "wave": 28,
+   "batch": "PERPETUAL-N1-W28",
+   "shard": 0,
+   "nshards": 12,
+   "key": "n1w28-0of12",
+   "pid": 56280,
+   "started_at": "2026-10-01T21:42:04+08:00",
+   "done_at": "2026-10-01T21:43:04+08:00",
+   "done_epoch": 1790862182,
+   "elapsed_sec": 58.3
   }
  ],
  "last_flush_at": "2026-10-01T21:40:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
-  "n1w11-5of12": 1
+  "n1w11-5of12": 1,
+  "n1w28-2of12": 1
  },
- "shards_done_total": 108,
- "last_shard_done_at": "2026-10-01T21:41:04+08:00",
+ "shards_done_total": 109,
+ "last_shard_done_at": "2026-10-01T21:43:04+08:00",
  "last_tick": {
-  "ts": "2026-10-01T21:41:04+08:00",
-  "epoch": 1790862062,
+  "ts": "2026-10-01T21:43:04+08:00",
+  "epoch": 1790862182,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 5.365520477294922,
-  "verdict": "ignited:n1w28-2of12 pid=57472",
+  "ram_free_gb": 4.834842681884766,
+  "verdict": "ignited:n1w28-1of12 pid=24532",
   "active_n": 1,
-  "queue_depth": 9,
+  "queue_depth": 10,
   "elapsed_sec": 2.1
  },
  "skips": [],
  "queue": [
+  {
+   "face": "N1",
+   "wave": 28,
+   "shard": 2,
+   "nshards": 12,
+   "key": "n1w28-2of12",
+   "batch": "PERPETUAL-N1-W28",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12",
+    "--wave",
+    "28",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
   {
    "face": "N1",
    "wave": 28,
