@@ -61,8 +61,17 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（占位·finalize 窗机械回填。）
+finalize one-pass 2026-10-02 01:5x（bm-c r343·`finalize --wave 39`·r538 一过律·prev=origin 活链头 derive·首跑未重跑）：
+
+- pre-W39 累计池 mu=-0.0916 sigma=0.2449（K=81,520·==W38 finalize 落账面）；W39-only mu=-0.0912 sigma=0.2394（K=2,200·A 族 n=2,000 **p95=0.2995** p99=0.4556 mu=-0.086227·B 族 n=200）；merged mu=-0.091610 sigma=0.244772（**K=83,720==§0 投影逐位**）。
+- skill_line_v2 @n_eff_held=446,140：1.1576 → 1.1569（**K-lift delta=-0.0007**·负向如实报）。
+- ledger：prev_total=446,140（W38 bm-b r530 落账活链头·r518 origin 时序面律）+ batch_trials=2,200 = **448,340**（链性·batch=PERPETUAL-N1-W39·voids_applied=[LOWAMP-P1, LOWAMP-P2]·evidence_cutoff=2026-09-22·file=results/perpetual_faces/n1_w39_results.json）。
+- **S5 4/4 PASS**（锚滚动律兑现：本波 finalize 窗前 W38 finalize 已落账→判定锚按 §5 注记滚动至 W38 实测〔merged mu −0.091622/sigma 0.244915/A p95 0.3119/K-lift −0.0001〕如实披露；对照冻结锚 W37 亦全过）：①W39-only mu 漂移 |−0.0912−(−0.091622)|=**0.0004**<0.02 ✓（冻结锚面 |Δ|=0.0002 同过）；②sigma 相对变化 (0.2394−0.244915)/0.244915=**−2.25%**<±10% ✓；③A 族 p95 Δ=0.2995−0.3119=**−0.0124**<0.05 ✓（机器断裂侦测面）；④K-lift **−0.0007**≤0.02 ✓（负向如实报·W3..W38 先例面内）。
+- runner 缺省波 selftest PASS（r522 律·含 W39 材料面腿+engine-lane claim exemption 腿）；shards_consumed 12/12 逐枚在案。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位·finalize 窗机械回填。）
+- **全生命周期同窗闭环实证**：r342（猝死窗）冻结 W39 → 常驻引擎 v0.4 免重启点火 01:25-01:27 12/12 烧毕（D-20261002-03 修法 live 验证面通过——per-tick 模块重读自动见 W39 行·零杀重启·点火证据=产物增长面）→ bm-b r530 同窗撞带让路（双机独立 derive 逐位同带=交叉验证·r511 commit 序·让路零烧录零账本污染）→ r343 finalize one-pass 链序收口。**W39=修法后首枚「免重启冻结→点火→finalize」全验波**。
+- 账本链性三波连续：443,940（W37/r342）→446,140（W38/bm-b r530）→448,340（W39/r343）；K 累计 83,720==§0 投影逐位；voids 面继承零漂移。
+- 纪律遵守：r538 一过律（首 finalize 后未重跑）；finalize 前 12/12 完备性核验（r310 律·S0 交付核验窗同面）；r522 缺省波 selftest；三铁律面由引擎车道合同（--lane engine·r523 律）承载；grammar 消耗登记=selftest engine-lane exemption 面。
+- 观察：W39-only mu −0.0912 较锚微升（三十六面稳定先例面内）；K-lift 连续第二波负向（W38 −0.0001/W39 −0.0007）=累计池加深收窄 se_mu 的微调面非质变，如实报。
