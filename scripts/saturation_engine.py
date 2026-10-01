@@ -279,6 +279,53 @@ def _reap_active(st, pid_alive, done_probe, now_epoch):
     return completed, crashed, still
 
 
+def _orphan_rows(wave_configs, done_probe, ledger_keys, active_keys,
+                 buffer_keys, machine_id, shard_path_fn, nshards=NSHARDS):
+    """sec.4 telemetry completeness: orphan-product reconciliation (r522
+    live case W25 shard-0). An igniting tick that dies before persisting
+    its burn record leaves a present product that done-detection can
+    never see (_reap_active scans st['active'] only) and the queue
+    silently skips -- the burn never gets a ledger row. Reconcile: done
+    product + key absent from ledger file/buffer/active => ONE
+    reconstructed row, orphan_reconciled=true, pid/started_at honestly
+    None (unrecoverable), elapsed/machine from the product audit, done_at
+    from product mtime. Pure function -- hermetic-testable."""
+    rows = []
+    for wave in sorted(wave_configs):
+        cfg = wave_configs[wave]
+        if cfg.get("engine_owner") != machine_id:
+            continue
+        for shard in range(nshards):
+            key = f"n1w{wave}-{shard}of{nshards}"
+            if key in active_keys or key in buffer_keys or key in ledger_keys:
+                continue
+            if not done_probe(wave, cfg, shard, nshards):
+                continue
+            row = {"machine_id": machine_id, "face": "N1", "wave": wave,
+                   "batch": cfg["batch"], "shard": shard, "nshards": nshards,
+                   "key": key, "pid": None, "started_at": None,
+                   "orphan_reconciled": True}
+            try:
+                p = shard_path_fn(cfg, shard, nshards)
+                with open(p, encoding="utf-8") as f:
+                    d = json.load(f)
+                au = d.get("audit") or {}
+                row["elapsed_sec"] = au.get("elapsed_sec")
+                row["audit_machine"] = au.get("machine")
+                mtime = os.path.getmtime(p)
+                row["done_epoch"] = int(mtime)
+                row["done_at"] = time.strftime(
+                    "%Y-%m-%dT%H:%M:%S", time.localtime(mtime)) \
+                    + time.strftime("%z")[:3] + ":" + time.strftime("%z")[3:]
+            except Exception:
+                row["elapsed_sec"] = None
+                row["audit_machine"] = None
+                row["done_at"] = None
+                row["done_epoch"] = None
+            rows.append(row)
+    return rows
+
+
 def _write_face(st, py_pct, ram_free, verdict):
     row = {"machine_id": MACHINE_ID, "engine": "saturation-engine",
            "version": VERSION, "law_ref": LAW_REF,
@@ -368,6 +415,32 @@ def tick(dry=False):
     active_keys = {b["key"] for b in st["active"]}
     st["queue"] = _queue_items(n1.WAVE_CONFIGS, done_probe, active_keys,
                                MACHINE_ID)
+
+    # sec.4 telemetry completeness: orphan-product reconciliation (r522
+    # live case W25 shard-0: igniting tick died pre-persist -> burn record
+    # lost -> done-detection never saw the burn, queue silently skipped
+    # the present product, ledger row lost). One reconstructed row per
+    # present-but-rowless owned shard; idempotent via ledger-file keys.
+    try:
+        ledger_keys = set()
+        if os.path.exists(LEDGER_PATH):
+            with open(LEDGER_PATH, encoding="utf-8") as f:
+                for ln in f:
+                    try:
+                        ledger_keys.add(json.loads(ln).get("key"))
+                    except Exception:
+                        pass
+        orphans = _orphan_rows(
+            n1.WAVE_CONFIGS, done_probe, ledger_keys, active_keys,
+            {r["key"] for r in st.get("ledger_buffer", [])},
+            MACHINE_ID, _shard_path)
+        for row in orphans:
+            st["ledger_buffer"].append(row)
+            st["shards_done_total"] = st.get("shards_done_total", 0) + 1
+            _log(f"orphan reconcile {row['key']} (product present, no ledger "
+                 f"row; igniting-tick-crash face r522) -> ledger buffer")
+    except Exception as ex:
+        _log(f"orphan reconcile fault (non-fatal): {ex}")
 
     # sec.3 + ignite (idle->ignite, zero claim round-trips)
     verdict = "idle"
@@ -528,6 +601,42 @@ def selftest():
     q = _queue_items(fake_cfgs, probe, set(), "bm-b", nshards=12)
     assert q == [], "fully burned wave = honest empty queue"
 
+    # 1b. sec.4 orphan-product reconciliation (r522 live case W25 shard-0:
+    # present product + no ledger row -> exactly one reconstructed row)
+    odir = os.path.join(tmp, "p2cal_ext", "n1_w10")
+    os.makedirs(odir, exist_ok=True)
+    def _fpath(cfg, s, n):
+        return os.path.join(tmp, "p2cal_ext", cfg["shard_subdir"],
+                            f"shard-{s}-of-{n}.json")
+    with open(_fpath(fake_cfgs[10], 0, 12), "w", encoding="utf-8") as f:
+        json.dump({"audit": {"elapsed_sec": 24.1, "machine": "bm-b"}}, f)
+    odone = set()
+    oprobe = lambda w, c, s, n: (w, s) in odone
+    odone.add((10, 0))
+    rows = _orphan_rows(fake_cfgs, oprobe, set(), set(), set(), "bm-b", _fpath)
+    assert len(rows) == 1 and rows[0]["key"] == "n1w10-0of12", \
+        "present product with no row = exactly one orphan row"
+    assert rows[0]["orphan_reconciled"] is True and rows[0]["pid"] is None \
+        and rows[0]["started_at"] is None, \
+        "reconstructed row must carry honest provenance (unrecoverables=None)"
+    assert rows[0]["elapsed_sec"] == 24.1 \
+        and rows[0]["audit_machine"] == "bm-b" and rows[0]["done_at"], \
+        "audit facts must flow from the product file (elapsed/machine/mtime)"
+    assert _orphan_rows(fake_cfgs, oprobe, {"n1w10-0of12"}, set(), set(),
+                        "bm-b", _fpath) == [], \
+        "ledger-file key present = no orphan row (idempotence across ticks)"
+    assert _orphan_rows(fake_cfgs, oprobe, set(), {"n1w10-0of12"}, set(),
+                        "bm-b", _fpath) == [], "active key = no orphan row"
+    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), {"n1w10-0of12"},
+                        "bm-b", _fpath) == [], "buffered key = no orphan row"
+    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), set(),
+                        "bm-a", _fpath) == [], \
+        "foreign-owner wave invisible (engine_owner filter)"
+    odone.clear()
+    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), set(),
+                        "bm-b", _fpath) == [], \
+        "product absent (done_probe false) = no orphan row"
+
     # 2. sec.3 PreIgnitionChecks fail-closed (r316)
     # (fixture owner must follow MACHINE_ID: this selftest runs on every
     # machine -- a hardcoded bm-b owner false-reds the admit cases on
@@ -642,12 +751,14 @@ def selftest():
     assert os.path.exists(os.path.join(PATHS.root, "firm",
                                        "SATURATION_ENGINE_LAW.md")), \
         "law file missing"
-    print("selftest: PASS (7 legs: queue generator owner/done/active "
-          "exclusions + PreIgnitionChecks fail-closed [prereg/panel/"
-          "presence/quarantine/owner] + real W10 ckpt validator face + "
-          "sec.2 batched flush gate + ignite headroom/RAM gates + sec.4 "
-          "artifact self-derivation [completed/crash] + law/prereg "
-          "presence)")
+    print("selftest: PASS (8 legs: queue generator owner/done/active "
+          "exclusions + orphan-product reconciliation [r522 telemetry "
+          "completeness: present product + no ledger row -> one "
+          "reconstructed row, idempotent] + PreIgnitionChecks fail-closed "
+          "[prereg/panel/presence/quarantine/owner] + real W10 ckpt "
+          "validator face + sec.2 batched flush gate + ignite headroom/"
+          "RAM gates + sec.4 artifact self-derivation [completed/crash] + "
+          "law/prereg presence)")
     return 0
 
 
