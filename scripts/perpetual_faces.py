@@ -253,6 +253,36 @@ N1_BANDS = {
     # (rotation slot W18=bm-a).
     17: {"a": (76_001, 78_000), "b_exit": (38_100, 38_299),
          "engine_owner": "bm-c"},
+    # W19 (r517 bm-b freeze + r518 SAME-WINDOW DOUBLE-FREEZE COLLISION
+    # YIELD + re-band -- r511 commit-order law: bm-c's W17 rows reached
+    # origin first (r328, ~18:23) while the r517 W19 freeze was drafted
+    # blind to it; both machines deterministic-same-verdict the W16
+    # table-tail continuation (A 76_001..78_000 + B skip-over
+    # 38_100..38_299) -- bm-b is the latercomer and YIELDS per
+    # MSG-20261001-184x. Old-band W19 shard products (12/12 burned,
+    # engine finished shards 9-11 at 18:30-18:32 before truncation
+    # could land; finalize NEVER ran -> zero science-ledger pollution)
+    # all discarded at yield. Re-band skips past BOTH W17's registered
+    # bands AND W18's PUBLISHED PROJECTION (A 78_001..80_000 / B
+    # 38_300..38_499, rotation slot W18=bm-a, published in the W17 row
+    # W18+ WARNING + bm-a r529 gate projection CLEAN -- taking them for
+    # W19 would manufacture a THIRD collision against bm-a's slot; r511
+    # exhaustive-reservation-scan lesson: published projections are
+    # reserved faces). W19 v3 bands = first clean arithmetic continuation
+    # past W18's projection: A 80_001..82_000 (== W18 projected A end
+    # + 1), B 38_500..38_699 (== W18 projected B end + 1), both tails
+    # arithmetic clean. Machine-verified at re-freeze time
+    # (results/_r517bmb_w19_band_gate.py v3 ADMIT receipt vs the 15-row
+    # union table incl. W17 + W18 published projection + N3-R1 used-seed
+    # band 70_000..70_005 (MSG-183x mandatory leg) + SEED_REGISTRY 158
+    # values + N2/N4 + N2-W15 draft probes + lfc/options actual ranges).
+    # NOT a re-pick (R250: the pre-yield W19 assignment is voided by
+    # the collision; the measurement face has zero results to fish --
+    # finalize never ran, ledger +0). W20+ WARNING: A +2_000 tail
+    # 82_001..84_000 and B +200 tail 38_700..38_899 project clean --
+    # verify at W20 prereg (rotation slot W20=bm-c).
+    19: {"a": (80_001, 82_000), "b_exit": (38_500, 38_699),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
