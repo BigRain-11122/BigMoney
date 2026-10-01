@@ -934,6 +934,34 @@ N1_BANDS = {
     # (R250: W46 bands were never assigned).
     46: {"a": (135_004, 137_003), "b_exit": (44_601, 44_800),
          "engine_owner": "bm-c"},
+    # W47 (r534 bm-b, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-b's FOURTEENTH owned wave after W10/W11/W13/W16/
+    # W19/W22/W25/W28/W31/W34/W36/W38/W40; the dead r533 session's
+    # W42/W44 same-number drafts YIELDED to bm-c r345 / bm-a r553
+    # canonical freezes -- identical bands, r530 deterministic law,
+    # r511 commit-order yield). Zero-gap relay after the W40 FULL
+    # CLOSEOUT (bm-b r532) + fleet chain catch-up: W45 (bm-a r554)
+    # and W46 (bm-c r348 same-window full-lifecycle K=99,120, ledger
+    # 465,748) BOTH FINALIZED before this freeze -- ZERO in-flight
+    # upstream faces at this freeze (first fully caught-up window).
+    # Wave 47 = first free number after W46's landed claim (slot 47
+    # vacant on origin, machine-checked at the gate leg3). A side =
+    # no-skip arithmetic continuation per the W46 row's W47+ WARNING
+    # projection (137_004..139_003, machine-derived at this freeze,
+    # r535 law); B side = FORCED SKIP past SEED_REGISTRY
+    # pc_l2_ic=45_000 (arithmetic window 44_801..45_000 REFUSED,
+    # refusal facts machine-verified -- W26-A/W39-B/W43-B skip
+    # family), scan-forward first clean window 45_001..45_200.
+    # Machine-verified at prereg time
+    # (results/_r534bmb_w47_band_gate.py ADMIT receipt vs the 44-row
+    # pre-W47 table + live SEED_REGISTRY values + probe-seed cluster
+    # 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). THIRTY-SEVENTH ENGINE-OWNED WAVE,
+    # engine_owner=bm-b (local queue, no pool entry). NOT a re-pick
+    # (R250: W47 bands were never assigned).
+    47: {"a": (137_004, 139_003), "b_exit": (45_001, 45_200),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
