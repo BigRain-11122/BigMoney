@@ -60,10 +60,20 @@
 - 引擎台账：bm-c Tools 常驻实例架构=engine ledger jsonl+state/face/history 件 git 交付（W43 实况范式·与 bm-a scripts tick 实例架构差异如实披露）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后回填【预留】
+## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（跑后回填：全起点分布+预测对账+损耗账——finalize 窗机械回填，禁改判据禁重跑。）
+- finalize one-pass 2026-10-02 04:1x（bm-c r348 同窗全生命周期收口：冻结 commit **ea9bc4336**〔外科双轨重播面=推送竞速窗两次拒收后按 r512/r532 律 temp-index 重构推送·payload 7 件逐位==本地 3cbb745d6·W46 号位到手如实披露〕→**同窗 12/12 免重启烧录**〔per-tick 重读自动见行·点火验证=产物增长面 04:11:30-04:14 12/12 落盘·r325 律〕→本窗 finalize one-pass；链序解锁=**W45 finalize 已落账**〔bm-a 31ffba882 04:12:44·n1_w45_results.json 上 origin·链头 463,548〕——冻结窗 in-flight 上游披露按 W7/W10/W12 先例 FAIL-CLOSED 停等面兑现（finalize 前置件在场后才点火）。
+- S5 判据 4/4 PASS（**锚滚动律兑现**：起草窗锚=W44 实测·finalize 窗前 W45 finalize 落账→锚按 §5 滚动条款滚至 **W45 finalize 实测**·单锚面如实披露）：
+  1. mu 漂移：W46-only **-0.085749** vs pre-W46 合并池锚（K=96,920）−0.091883【|Δ|=0.0061<0.02 PASS】（runner 机证 mu_delta_w46_vs_w45ext=**0.006644** vs W45-only −0.092393 同域）；merged（K=99,120）**-0.091747**。
+  2. sigma 相对变化：W46-only **0.240870** vs W45-only 锚 0.243636【**-1.14%**<±10% PASS】；merged **0.244694**。
+  3. A 族 full_sharpe_p95：**0.3214** vs W45 锚 0.3216【Δ=-0.0002<0.05 PASS】（门校准注记：结果知情校准面·测量面零注册利害）。
+  4. K-lift 线移动：**-0.0003**【1.1585→1.1582 @n_eff_held 463,548】≤0.02 PASS（W3..W45 先例族内【W43 −0.0002/W44 +0.0002/W45 −0.0001/本波 −0.0003】续负如实报——加深不必然抬线先例续）。
+- 账本：prev **463,548**【==bm-a W45 finalize 落账头·r518 origin-timing 律 derive 禁手抄自证】＋本波 2,200＝total **465,748**·voids_applied LOWAMP-P1/P2 继承面 ✓；K=**99,120**==§0 投影 99,120 逐位；se_mu 0.000786→**0.000777** 续收窄；skill_line_v2 消费 n_eff=463,548。
+- 链序注记：下一波（W47+）尚未冻结——法典 §4 表尾当前=W46 行·按 first-free 律另窗起草；**W47+ 警示承继**：A +2_000 算术位（137_004..139_003）CLEAN / B +200 算术位（44_801..45_000）**机证 REFUSED〔SEED_REGISTRY 点 45_000 命中——W39-B/W43-B 强制跳位族**（r348 带闸投影腿机证）——W47 冻结窗须 scan-forward 机闸 derive 首净窗（r307 尾律·r535 律禁 prose 转抄）。
 
-## §8 结论【预留】
+## §8 批后复盘【必填·s7-T】
 
-（跑后回填：verdict 数字面=测量读出·N/A 三态如实。）
+- 设计零偏差：frozen v1 设计逐字复用（run_one 引擎同源），W46-only mu/sigma 与先例族【W2..W45】逐面同域，零断裂信号；B 族 p_exit=0.05 配对律齐备（n=200·44_601..44_800 零跳位算术带）。
+- 波节奏面：W46=**单窗全生命周期波**【r348 同窗三段：冻结（band gate ADMIT+banned gate ADMIT+selftest PASS 三门·上游 W45 in-flight 按两态律豁免静态断言如实披露）→免重启点火 12/12（per-tick 重读自动见行·产物增长面验证 04:11:30-04:14）→finalize one-pass】——第四枚单窗波（W32 r339/W42 r345/W43 r346 先例后）；r538 一过定稿执行（finalize 一过·自产件在场净面自证）；r307 两态守卫律兑现（回填同窗+回填后缺省波 selftest 复跑绿）。
+- 测量面结论：累计 null 池 K=99,120【+W46 2,200 合并】，mu -0.0917 / sigma 0.2447 稳定，se_mu 随累计加深收窄（0.000786→0.000777）——null 基线置信面继续加深，无质变；canon flip 不在本波（治理提案面素材累计·K2200 同律）。
+- 下游接线：skill_line_v2 @n_eff 463,548 活链头 derive；下一波 finalize 消费本波 **465,748** 为 prev（r518 origin-timing 律）。
