@@ -962,6 +962,36 @@ N1_BANDS = {
     # (R250: W47 bands were never assigned).
     47: {"a": (137_004, 139_003), "b_exit": (45_001, 45_200),
          "engine_owner": "bm-b"},
+    # THIRTY-EIGHTH ENGINE-OWNED WAVE (r556 bm-b freeze): bm-b's
+    # FIFTEENTH owned wave after W10/W11/W13/W16/W19/W22/W25/W28/W31/
+    # W34/W36/W38/W40/W47. Wave 49 = next free number SKIPPING the
+    # W48 slot (bm-a declared W48 as their next own wave in the r555
+    # W47-yield receipt; published number intent honored per the
+    # W19/W18 precedent -- wave numbers need not be contiguous, r516
+    # derive law). BOTH SIDES = FORCED SKIP past the W48 PUBLISHED
+    # PROJECTION (r518 ① published=reserved law, W19-A/B re-base
+    # family): the W47 row's W48+ WARNING projects A 139_004..141_003
+    # / B 45_201..45_400 (machine-derived by the r534 gate's W48+
+    # projection legs, CLEAN vs points -- the reservation is the
+    # published face itself, not a point hit). bm-b's W49 A-side
+    # arithmetic position (139_004..141_003 = W47 A end + 1) and
+    # B-side arithmetic position (45_201..45_400 = W47 B end + 1)
+    # BOTH REFUSED by the published-projection reserved face ->
+    # scan-forward first clean windows 141_004..143_003 /
+    # 45_401..45_600. Skip is FORCED, not a free pick (R250: W49
+    # bands were never assigned). Machine-verified at prereg time
+    # (results/_r556bmb_w49_band_gate.py ADMIT receipt vs the 46-row
+    # pre-W49 table + live SEED_REGISTRY values + probe-seed cluster
+    # 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W47 finalized BEFORE this freeze
+    # (bm-b r556 same-window: K=101,320, ledger 467,948); W48 not
+    # registered at this freeze (unregistered-gap honest note per
+    # the W19/W18 precedent -- the finalize merge loop derives the
+    # wave set from registry keys at run time and stays FAIL-CLOSED
+    # on any not-yet-finalized upstream seat, r307 two-state law).
+    49: {"a": (141_004, 143_003), "b_exit": (45_401, 45_600),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

@@ -1223,6 +1223,44 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 45_001,    # law sec.4 W47 B: 45_001..45_200 (forced skip past 45_000)
                             "shard_subdir": "n1_w47", "out_name": "n1_w47_results.json",
                             "engine_owner": "bm-b"},
+                       # THIRTY-EIGHTH ENGINE-OWNED WAVE (r556 bm-b freeze):
+                       # bm-b's FIFTEENTH owned wave; wave 49 = next free
+                       # number SKIPPING the W48 slot (bm-a declared W48
+                       # as their next own wave in the r555 W47-yield
+                       # receipt; W19/W18 non-contiguity precedent). BOTH
+                       # SIDES = FORCED SKIP past the W48 PUBLISHED
+                       # PROJECTION (r518 ① published=reserved law, W19
+                       # re-base family): W47 row W48+ WARNING projects A
+                       # 139_004..141_003 / B 45_201..45_400 -- both
+                       # arithmetic positions REFUSED by the published
+                       # face -> scan-forward first clean windows
+                       # 141_004..143_003 / 45_401..45_600 (ADMIT receipt
+                       # results/_r556bmb_w49_band_gate.py). NOT a re-pick
+                       # (R250: W49 bands were never assigned).
+                       49: {"batch": "PERPETUAL-N1-W49",
+                            "prereg": ("research/PERPETUAL_N1_W49_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; THIRTY-EIGHTH ENGINE-OWNED WAVE, "
+                                       "own-series continuation per O-20261001-2355 sec.2 "
+                                       "(seat system terminated, first-free-number law), "
+                                       "engine_owner=bm-b, wave 49 = next free number "
+                                       "skipping the bm-a-declared W48 slot (W19/W18 "
+                                       "precedent), BOTH SIDES FORCED SKIP past the W48 "
+                                       "PUBLISHED PROJECTION A 139_004..141_003 / "
+                                       "B 45_201..45_400 per r518-① published=reserved law "
+                                       "(arithmetic positions REFUSED by the published face, "
+                                       "scan-forward first clean windows 141_004..143_003 / "
+                                       "45_401..45_600); upstream W47 finalize LANDED "
+                                       "before this freeze (bm-b r556 K=101,320 ledger "
+                                       "467,948); W48 unregistered at this freeze = "
+                                       "unregistered-gap honest note, finalize merge loop "
+                                       "derives the wave set from registry keys at run time "
+                                       "and stays FAIL-CLOSED on any not-yet-finalized "
+                                       "upstream seat, r307 two-state law)"),
+                            "a_seed_base": 141_004,        # law sec.4 W49 A: 141_004..143_003 (forced skip past W48 projection)
+                            "b_exit_seed_base": 45_401,    # law sec.4 W49 B: 45_401..45_600 (forced skip past W48 projection)
+                            "shard_subdir": "n1_w49", "out_name": "n1_w49_results.json",
+                            "engine_owner": "bm-b"},
                        }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -5700,6 +5738,138 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W49 materializer face (r556 bm-b freeze, own-series law
+    #     O-20261001-2355 sec.2): bm-b's FIFTEENTH owned wave; wave
+    #     49 = next free number SKIPPING the bm-a-declared W48 slot
+    #     (r555 W47-yield receipt "bm-a next own wave = W48";
+    #     W19/W18 non-contiguity precedent -- wave numbers need not
+    #     be contiguous, r516 derive law). BOTH SIDES = FORCED SKIP
+    #     past the W48 PUBLISHED PROJECTION (r518 ① published=
+    #     reserved law, W19-A/B re-base family): the W47 row's W48+
+    #     WARNING projects A 139_004..141_003 / B 45_201..45_400
+    #     (machine-derived by the r534 gate's W48+ projection legs);
+    #     both arithmetic positions from the W47 tail REFUSED by the
+    #     published-reserved face -> scan-forward first clean windows
+    #     141_004..143_003 / 45_401..45_600 (forced, not a free pick
+    #     -- R250: W49 bands were never assigned). W47 finalized
+    #     BEFORE this freeze (bm-b r556 same-window K=101,320 ledger
+    #     467,948); W48 NOT registered at this freeze (unregistered-
+    #     gap honest note -- the finalize merge loop derives the
+    #     wave set from registry keys at run time and stays
+    #     FAIL-CLOSED on any not-yet-finalized upstream seat,
+    #     r307 two-state law). bm-b engine = TICK architecture
+    #     (r535 law -- the next tick re-reads the live tree and sees
+    #     the new row; ignition evidence = product growth only,
+    #     r325) --
+    _set_wave(49)
+    try:
+        assert WAVE_CONFIGS[49]["a_seed_base"] == pf.N1_BANDS[49]["a"][0], \
+            "W49 A band drift vs law mirror"
+        assert WAVE_CONFIGS[49]["b_exit_seed_base"] == \
+            pf.N1_BANDS[49]["b_exit"][0], "W49 B band drift vs law mirror"
+        assert WAVE_CONFIGS[49].get("engine_owner") == \
+            pf.N1_BANDS[49].get("engine_owner") == "bm-b", \
+            "W49 engine_owner drift (law mirror parity)"
+        w49_a = {A_SEED_BASE + j for j in range(A_N)}
+        w49_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w49_a & w49_b), "W49 A/B band overlap"
+        assert not (w49_a & reg_ints) and not (w49_b & reg_ints), \
+            "W49 hits SEED_REGISTRY"
+        for nm, band in (("A", w49_a), ("B", w49_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W49 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W49 {nm} hits W1"
+            assert not (band & probes), f"W49 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W43/W44/W45/W46/W47 (all
+        # finalizes landed before this freeze; W48 unregistered).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45, 46, 47):
+            assert not (w49_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W49 A hits W{wprev}"
+            assert not (w49_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W49 B hits W{wprev}"
+        # W48 published-projection reserved face (r518 ① leg): W49
+        # bands must clear BOTH projection windows -- A 139_004..141_003
+        # and B 45_201..45_400 (the W47 row W48+ WARNING projection,
+        # bm-a declared W48 in the r555 yield receipt).
+        w48_proj_a = set(range(139_004, 141_003 + 1))
+        w48_proj_b = set(range(45_201, 45_400 + 1))
+        assert not (w49_a & w48_proj_a), \
+            "W49 A must clear the W48 published projection 139_004..141_003"
+        assert not (w49_b & w48_proj_b), \
+            "W49 B must clear the W48 published projection 45_201..45_400"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W49 bands must clear it.
+        n3r1_used49 = set(range(70_000, 70_006))
+        assert not (w49_a & n3r1_used49) and not (w49_b & n3r1_used49), \
+            "W49 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w49_a & lfc_actual12) and not (w49_b & lfc_actual12), \
+            "W49 bands must clear the lfc actual draw range"
+        assert not (w49_a & options_actual12) and \
+            not (w49_b & options_actual12), \
+            "W49 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W49 row, r556): A = FORCED SKIP past
+        # the W48 published projection (arithmetic position
+        # 139_004..141_003 = W47 A end + 1 REFUSED by the published
+        # face, scan-forward first clean window); B = FORCED SKIP past
+        # the W48 published projection (arithmetic position
+        # 45_201..45_400 = W47 B end + 1 REFUSED likewise) -- forced
+        # NOT a free pick (R250 discipline: W49 bands never assigned).
+        assert WAVE_CONFIGS[49]["a_seed_base"] == 141_004 == 141_003 + 1, \
+            "W49 A must start at the W48 published-projection A end + 1 " \
+            "(arithmetic window 139_004..141_003 REFUSED by the published " \
+            "reserved face -- scan-forward first clean window, " \
+            "W19-A re-base family)"
+        assert WAVE_CONFIGS[49]["b_exit_seed_base"] == 45_401 == 45_400 + 1, \
+            "W49 B must start at the W48 published-projection B end + 1 " \
+            "(arithmetic window 45_201..45_400 REFUSED by the published " \
+            "reserved face -- scan-forward first clean window, " \
+            "W19-B re-base family)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W49-SHARD-0",
+                                          "n1w49-0of12"), "W49 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W49-SHARD-11",
+                                          "n1w49-11of12")
+        assert SHARD_DIR.endswith("n1_w49") and OUT.endswith(
+            "n1_w49_results.json"), "W49 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45, 46, 47):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W49 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W49_PREREG.md")), \
+            "W49 per-wave prereg missing (materializer requirement)"
+        # W49 finalize cumulative deps: W17..W47 outputs ALL PRESENT
+        # (every registered upstream finalize landed BEFORE this
+        # freeze -- W46 bm-c r348 K=99,120 ledger 465,748; W47 bm-b
+        # r556 same-window K=101,320 ledger 467,948). W48 = UNREGISTERED
+        # at this freeze (unregistered-gap honest note per the W19/W18
+        # precedent): the finalize merge loop derives the wave set from
+        # registry keys at run time and stays FAIL-CLOSED on any
+        # not-yet-finalized upstream seat (r307 two-state law).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+                      43, 44, 45, 46, 47):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W49 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 49 (no 15, no 48 --
+        # W48 unregistered at this freeze).
+        assert sorted(w for w in WAVE_CONFIGS if w < 49) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+             35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], \
+            "W49 prior-wave set must derive from registry keys (no 15, " \
+            "no 48, incl. 47)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -6174,6 +6344,24 @@ def selftest() -> int:
           "claim; bm-b TICK architecture per r535 law -- no resident "
           "instance, ignition proof = product growth within 2 ticks), "
           "r534 bm-b] "
+          "+ W49 materializer face [same guard set, dep=W17..W47 ALL "
+          "present (W47 finalize bm-b r556 same-window K=101,320 "
+          "ledger 467,948 -- every registered upstream seat closed; "
+          "W48 UNREGISTERED at this freeze = unregistered-gap honest "
+          "note per the W19/W18 precedent, finalize merge loop "
+          "FAIL-CLOSED at run time per r307 two-state law), BOTH "
+          "SIDES FORCED SKIP past the W48 PUBLISHED PROJECTION A "
+          "139_004..141_003 / B 45_201..45_400 (bm-a declared W48 "
+          "in the r555 W47-yield receipt; r518-① published=reserved "
+          "law, W19-A/B re-base family; arithmetic positions "
+          "REFUSED by the published face, scan-forward first clean "
+          "windows 141_004..143_003 / 45_401..45_600 machine-derived, "
+          "ADMIT receipt results/_r556bmb_w49_band_gate.py; wave 49 = "
+          "next free number skipping the bm-a-declared W48 slot), "
+          "THIRTY-EIGHTH ENGINE-OWNED WAVE engine_owner=bm-b per "
+          "engine de-throttle law O-20261001-2355 sec.2 own-"
+          "continuous-series (bm-b's FIFTEENTH owned wave; zero-gap "
+          "relay after the W47 full closeout r556), r556 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

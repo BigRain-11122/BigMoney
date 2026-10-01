@@ -2,38 +2,31 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
- "ledger_buffer": [
+ "active": [
   {
-   "machine_id": "bm-b",
    "face": "N1",
-   "wave": 47,
-   "batch": "PERPETUAL-N1-W47",
-   "shard": 10,
+   "wave": 49,
+   "shard": 1,
    "nshards": 12,
-   "key": "n1w47-10of12",
-   "pid": 56296,
-   "started_at": "2026-10-02T04:40:03+08:00",
-   "done_at": "2026-10-02T04:41:03+08:00",
-   "done_epoch": 1790887261,
-   "elapsed_sec": 58.6
-  },
-  {
-   "machine_id": "bm-b",
-   "face": "N1",
-   "wave": 47,
-   "batch": "PERPETUAL-N1-W47",
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w47-11of12",
-   "pid": 53352,
-   "started_at": "2026-10-02T04:41:03+08:00",
-   "done_at": "2026-10-02T04:42:03+08:00",
-   "done_epoch": 1790887321,
-   "elapsed_sec": 58.7
+   "key": "n1w49-1of12",
+   "batch": "PERPETUAL-N1-W49",
+   "pid": 56000,
+   "started_at": "2026-10-02T04:55:03+08:00",
+   "started_epoch": 1790888103,
+   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W49-1.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W49",
+    "prereg": "research/PERPETUAL_N1_W49_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; THIRTY-EIGHTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (seat system terminated, first-free-number law), engine_owner=bm-b, wave 49 = next free number skipping the bm-a-declared W48 slot (W19/W18 precedent), BOTH SIDES FORCED SKIP past the W48 PUBLISHED PROJECTION A 139_004..141_003 / B 45_201..45_400 per r518-① published=reserved law (arithmetic positions REFUSED by the published face, scan-forward first clean windows 141_004..143_003 / 45_401..45_600); upstream W47 finalize LANDED before this freeze (bm-b r556 K=101,320 ledger 467,948); W48 unregistered at this freeze = unregistered-gap honest note, finalize merge loop derives the wave set from registry keys at run time and stays FAIL-CLOSED on any not-yet-finalized upstream seat, r307 two-state law)",
+    "a_seed_base": 141004,
+    "b_exit_seed_base": 45401,
+    "shard_subdir": "n1_w49",
+    "out_name": "n1_w49_results.json",
+    "engine_owner": "bm-b"
+   }
   }
  ],
- "last_flush_at": "2026-10-02T04:40:03+08:00",
+ "ledger_buffer": [],
+ "last_flush_at": "2026-10-02T04:55:03+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -41,18 +34,239 @@
   "n1w36-1of12": 1,
   "n1w42-5of12": 1
  },
- "shards_done_total": 204,
- "last_shard_done_at": "2026-10-02T04:42:03+08:00",
+ "shards_done_total": 205,
+ "last_shard_done_at": "2026-10-02T04:55:03+08:00",
  "last_tick": {
-  "ts": "2026-10-02T04:50:03+08:00",
-  "epoch": 1790887801,
-  "py_cpu_pct": 0.6,
-  "ram_free_gb": 5.826541900634766,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
+  "ts": "2026-10-02T04:55:03+08:00",
+  "epoch": 1790888101,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 5.3840179443359375,
+  "verdict": "ignited:n1w49-1of12 pid=56000 ledger_flush=3",
+  "active_n": 1,
+  "queue_depth": 10,
   "elapsed_sec": 2.2
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 2,
+   "nshards": 12,
+   "key": "n1w49-2of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 3,
+   "nshards": 12,
+   "key": "n1w49-3of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 4,
+   "nshards": 12,
+   "key": "n1w49-4of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 5,
+   "nshards": 12,
+   "key": "n1w49-5of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 6,
+   "nshards": 12,
+   "key": "n1w49-6of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 7,
+   "nshards": 12,
+   "key": "n1w49-7of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 8,
+   "nshards": 12,
+   "key": "n1w49-8of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w49-9of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w49-10of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 49,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w49-11of12",
+   "batch": "PERPETUAL-N1-W49",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "49",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
