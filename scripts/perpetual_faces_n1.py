@@ -146,6 +146,27 @@ WAVE_CONFIGS = {
         "a_seed_base": 26_100,           # law sec.4 W7 A: 26_100..28_099 (skip-over)
         "b_exit_seed_base": 28_100,      # law sec.4 W7 B: 28_100..28_299 (skip-over)
         "shard_subdir": "n1_w7", "out_name": "n1_w7_results.json"},
+    # W8 (r312 bm-c, forced-skip family -- the law sec.4 pinned W8+
+    # WARNING window itself is gate-refused): A's arithmetic +2_000
+    # tail (28_100..30_099) is documented-refused -- it hits the W7 B
+    # band (28_100..28_299) AND the SEED_REGISTRY lfc_p1_screen point
+    # 30_000 (actual draw range 30_000..30_099, N_RAND=50 x 2 exit
+    # regimes); the law-pinned first-free prediction (28_300..30_299)
+    # is refused by the same registry point + actual range -- so A
+    # packs at the first 2,000-window clear of every reserved band AND
+    # the lfc actual draw range (30_100..32_099); B's arithmetic +200
+    # tail (28_300..28_499) is clean this wave (the A jump cleared the
+    # predicted collision) and keeps the stride verbatim. NOT a re-pick
+    # (R250). N2/N4 yield note: this A band covers the 30_000+ domain;
+    # N2-W15 draft probe bands (31_000/31_500/32_000) must re-pick at
+    # their freeze per law sec.4 (MSG heads-up sent r312).
+    8: {"batch": "PERPETUAL-N1-W8",
+        "prereg": ("research/PERPETUAL_N1_W8_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 30_100,           # law sec.4 W8 A: 30_100..32_099 (skip-over)
+        "b_exit_seed_base": 28_300,      # law sec.4 W8 B: 28_300..28_499 (arithmetic)
+        "shard_subdir": "n1_w8", "out_name": "n1_w8_results.json"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1034,6 +1055,80 @@ def selftest() -> int:
                 assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
             finally:
                 _set_wave(2)
+            # --- wave-8 face (r312 bm-c: same guard set; A = documented
+            #     skip-over with a registry-point refusal -- the law
+            #     sec.4 pinned W8+ WARNING window itself is gate-refused;
+            #     B keeps the arithmetic stride verbatim, no skip) ---
+            _set_wave(8)
+            try:
+                assert WAVE_CONFIGS[8]["a_seed_base"] == pf.N1_BANDS[8]["a"][0], \
+                    "W8 A band drift vs law mirror"
+                assert WAVE_CONFIGS[8]["b_exit_seed_base"] == \
+                    pf.N1_BANDS[8]["b_exit"][0], "W8 B band drift vs law mirror"
+                w8_a = {A_SEED_BASE + j for j in range(A_N)}
+                w8_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+                assert not (w8_a & w8_b), "W8 A/B band overlap"
+                assert not (w8_a & reg_ints) and not (w8_b & reg_ints), \
+                    "W8 hits SEED_REGISTRY"
+                for nm, band in (("A", w8_a), ("B", w8_b)):
+                    assert not (band & v1_a) and not (band & v1_b), f"W8 {nm} hits v1"
+                    assert not (band & w1_a) and not (band & w1_b), f"W8 {nm} hits W1"
+                    assert not (band & probes), f"W8 {nm} hits probe seeds"
+                for wprev in (2, 3, 4, 5, 6, 7):
+                    assert not (w8_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                        for j in range(A_N)}), f"W8 A hits W{wprev}"
+                    assert not (w8_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                        for j in range(B_N)}), f"W8 B hits W{wprev}"
+                # skip-over refusal facts (law sec.4 W8 row): A's
+                # arithmetic +2_000 tail hits the W7 B band AND the
+                # lfc_p1_screen registry point 30_000; the law-pinned
+                # W8+ warning window (28_300..30_299) is refused by the
+                # same point -- double refusal, skip forced. B's
+                # arithmetic +200 tail is CLEAN this wave (the A jump
+                # cleared the predicted collision): stride kept verbatim.
+                arith_a8 = {WAVE_CONFIGS[7]["a_seed_base"] + 2000 + j
+                            for j in range(A_N)}
+                assert arith_a8 & {WAVE_CONFIGS[7]["b_exit_seed_base"] + j
+                                   for j in range(B_N)}, \
+                    "refused A arithmetic tail must hit W7 B (doc)"
+                assert 30_000 in arith_a8 and 30_000 in reg_ints, \
+                    "refused A arithmetic tail must hit lfc_p1_screen point (doc)"
+                warned_a8 = set(range(28_300, 30_300))
+                assert 30_000 in warned_a8, \
+                    "law-pinned W8 warning window must be refused (doc)"
+                assert WAVE_CONFIGS[8]["a_seed_base"] == 30_100 and \
+                    WAVE_CONFIGS[8]["a_seed_base"] > 30_099, \
+                    "W8 packing drift (A must clear the lfc actual range 30_000..30_099)"
+                arith_b8 = {WAVE_CONFIGS[7]["b_exit_seed_base"] + 200 + j
+                            for j in range(B_N)}
+                assert not (arith_b8 & w8_a), \
+                    "W8 B arithmetic tail must be clean (no skip this wave)"
+                assert WAVE_CONFIGS[8]["b_exit_seed_base"] == \
+                    WAVE_CONFIGS[7]["b_exit_seed_base"] + B_N, \
+                    "W8 B stride drift (must sit at W7 B end + 1)"
+                assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W8-SHARD-0",
+                                                  "n1w8-0of12"), "W8 entry identity"
+                assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W8-SHARD-11",
+                                                   "n1w8-11of12")
+                assert SHARD_DIR.endswith("n1_w8") and OUT.endswith(
+                    "n1_w8_results.json"), "W8 path drift"
+                for wprev in (2, 3, 4, 5, 6, 7):
+                    assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                        PATHS.results_dir, "p2cal_ext",
+                        WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                        f"W8 shard dir collides with W{wprev}"
+                assert os.path.exists(os.path.join(
+                    PATHS.root, "research", "PERPETUAL_N1_W8_PREREG.md")), \
+                    "W8 per-wave prereg missing (materializer requirement)"
+                # W8 finalize cumulative dep (W7 output) present on tree
+                # at drafting (r312 bm-c landed n1_w7_results.json in the
+                # same window) -- static exists-assert valid here.
+                assert os.path.exists(os.path.join(
+                    OUT_DIR, WAVE_CONFIGS[7]["out_name"])), \
+                    "W8 finalize cumulative dep (W7 output) missing"
+                assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+            finally:
+                _set_wave(2)
         finally:
             _set_wave(2)
     finally:
@@ -1050,7 +1145,10 @@ def selftest() -> int:
           "dep=W5, B=skip-over per law sec.4 W6+ WARNING row] "
           "+ W7 materializer face [same guard set, dep=W6 in-flight="
           "runtime FAIL-CLOSED guard, BOTH bands skip-over per law "
-          "sec.4 W7 row, r501 bm-b])")
+          "sec.4 W7 row, r501 bm-b] + W8 materializer face [same "
+          "guard set, dep=W7 present same-window, A=skip-over with "
+          "registry-point refusal (law-pinned warning window refused "
+          "too), B=stride verbatim, law sec.4 W8 row, r312 bm-c])")
     return 0
 
 

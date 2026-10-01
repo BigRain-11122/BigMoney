@@ -107,6 +107,23 @@ N1_BANDS = {
     # fish (R250). W8+ WARNING: A's arithmetic tail (28_100..30_099)
     # will land on the W7 B band -- W8 must re-base A the same way.
     7: {"a": (26_100, 28_099), "b_exit": (28_100, 28_299)},
+    # W8 (r312 bm-c, prereg-time extension -- the law sec.4 pinned W8+
+    # WARNING window itself is gate-refused): A's arithmetic +2_000
+    # tail (28_100..30_099) is documented-refused -- hits the W7 B band
+    # (28_100..28_299) AND the SEED_REGISTRY lfc_p1_screen point
+    # 30_000 (actual draw range 30_000..30_099, N_RAND=50 x 2 exit
+    # regimes); the law-pinned first-free prediction (28_300..30_299)
+    # is refused by the same point + actual range -- so A packs at the
+    # first 2,000-window clear of every reserved band AND the lfc
+    # actual draw range (30_100..32_099); B's arithmetic +200 tail
+    # (28_300..28_499) is clean this wave and keeps the stride
+    # verbatim. NOT a re-pick (R250). N2/N4 yield note: this A band
+    # covers the 30_000+ domain -- N2-W15 draft probe bands
+    # (31_000/31_500/32_000) must re-pick at their freeze per law
+    # sec.4 (MSG heads-up r312). W9+ WARNING: both arithmetic tails
+    # project clean next wave (A 32_100..34_099, B 28_500..28_699) --
+    # no forced skip expected; verify at prereg time as always.
+    8: {"a": (30_100, 32_099), "b_exit": (28_300, 28_499)},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -605,6 +622,43 @@ def cmd_selftest():
     w7_a = set(range(N1_BANDS[7]["a"][0], N1_BANDS[7]["a"][1] + 1))
     assert arith_b7 & w7_a, \
         "W7 B skip must be forced (arithmetic tail must hit the W7 A band)"
+    # 3e. W8 skip-over packing invariant (r312 bm-c, forced-skip family
+    # with a registry-point refusal): A's arithmetic +2_000 tail
+    # (28_100..30_099) is documented-refused -- it hits the W7 B band
+    # AND the SEED_REGISTRY lfc_p1_screen point 30_000 (actual draw
+    # range 30_000..30_099, N_RAND=50 x 2 exit regimes); the law
+    # sec.4 pinned W8+ WARNING window (28_300..30_299) is refused by
+    # the same point + actual range, so A packs at the first
+    # 2,000-window clear of every reserved band AND the lfc actual
+    # draw range (30_100..32_099); B's arithmetic +200 tail
+    # (28_300..28_499) is clean this wave (the A jump cleared the
+    # collision the warning predicted) and keeps the stride verbatim.
+    # Refusal facts machine-proven below.
+    assert N1_BANDS[8]["a"][1] - N1_BANDS[8]["a"][0] + 1 == 2000, "W8 A width"
+    assert N1_BANDS[8]["b_exit"][1] - N1_BANDS[8]["b_exit"][0] + 1 == 200, \
+        "W8 B width"
+    arith_a8 = set(range(N1_BANDS[7]["a"][1] + 1, N1_BANDS[7]["a"][1] + 2001))
+    w7_b = set(range(N1_BANDS[7]["b_exit"][0], N1_BANDS[7]["b_exit"][1] + 1))
+    assert arith_a8 & w7_b, \
+        "W8 A skip must be forced (arithmetic tail must hit the W7 B band)"
+    assert 30_000 in arith_a8 and 30_000 in sg.SEED_REGISTRY.values(), \
+        "W8 A skip must be forced (arithmetic tail must hit lfc_p1_screen registry point)"
+    warned_a8 = set(range(28_300, 30_300))
+    lfc_actual = set(range(30_000, 30_100))
+    assert 30_000 in warned_a8 and (warned_a8 & lfc_actual), \
+        "law-pinned W8 warning window must be refused (registry point + lfc actual range)"
+    w8_a = set(range(N1_BANDS[8]["a"][0], N1_BANDS[8]["a"][1] + 1))
+    assert not (w8_a & lfc_actual), "W8 A must clear the lfc actual draw range"
+    assert N1_BANDS[8]["a"][0] == 30_100, \
+        "W8 A packs at the first 2,000-window clear of the lfc actual range"
+    assert N1_BANDS[8]["a"][0] > max(N1_BANDS[7]["b_exit"][1], *lfc_actual), \
+        "W8 A must sit beyond every reserved band and the lfc range"
+    arith_b8 = set(range(N1_BANDS[7]["b_exit"][1] + 1,
+                         N1_BANDS[7]["b_exit"][1] + 201))
+    assert not (arith_b8 & w8_a), \
+        "W8 B arithmetic tail must be clean (no skip this wave)"
+    assert N1_BANDS[8]["b_exit"][0] == N1_BANDS[7]["b_exit"][1] + 1, \
+        "W8 B tail gap (stride kept verbatim)"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)
