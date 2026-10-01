@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T09:57:17+08:00",
+  "generated_at": "2026-10-01T11:41:25+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 78,
+  "universe_size": 80,
   "summary": {
-    "single_core": 35,
-    "multiprocess": 43
+    "single_core": 34,
+    "multiprocess": 46
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -44,8 +44,7 @@
       "scripts/sentiment_axes_derive.py",
       "scripts/sina_construct_ic.py",
       "scripts/t19_phantom_contribution.py",
-      "scripts/t33_router_validation.py",
-      "scripts/wild_route_lab.py"
+      "scripts/t33_router_validation.py"
     ],
     "non_multiprocess_with_live_pool_entries": []
   },
@@ -57,7 +56,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 4598,
+      "size_bytes": 4727,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -342,7 +341,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 77200,
+      "size_bytes": 78881,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -387,7 +386,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 76997,
+      "size_bytes": 78693,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -724,7 +723,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 59454,
+      "size_bytes": 58213,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -784,7 +783,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 67091,
+      "size_bytes": 65706,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -1048,16 +1047,16 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
-          "line": 298,
+          "line": 347,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 47928,
-      "pool_entry_count": 48,
+      "size_bytes": 64749,
+      "pool_entry_count": 84,
       "pool_statuses": {
-        "done": 36,
-        "ready": 12
+        "done": 83,
+        "ready": 1
       },
       "workers_plan_declared": [
         "8"
@@ -1143,6 +1142,34 @@
         "runner worker_cap() ProcessPool BelowNormal"
       ]
     },
+    "scripts/refine_bench_rev_census.py": {
+      "path": "scripts/refine_bench_rev_census.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 55,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2 face"
+        },
+        {
+          "line": 321,
+          "text": "res = run_cells_parallel(jobs, workers=workers,"
+        },
+        {
+          "line": 409,
+          "text": "res = run_cells_parallel(jobs, workers=1, desc=\"selftest-pool\","
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 19261,
+      "pool_entry_count": 6,
+      "pool_statuses": {
+        "done": 6
+      },
+      "workers_plan_declared": [
+        "6"
+      ]
+    },
     "scripts/rev_osc_stock_p1.py": {
       "path": "scripts/rev_osc_stock_p1.py",
       "exists": true,
@@ -1186,6 +1213,31 @@
       },
       "workers_plan_declared": [
         "1"
+      ]
+    },
+    "scripts/stock_face_furnace.py": {
+      "path": "scripts/stock_face_furnace.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 713,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 714,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 42710,
+      "pool_entry_count": 12,
+      "pool_statuses": {
+        "ready": 10,
+        "done": 2
+      },
+      "workers_plan_declared": [
+        "6"
       ]
     },
     "scripts/t18_deep_axis.py": {
@@ -1670,10 +1722,23 @@
     "scripts/wild_route_lab.py": {
       "path": "scripts/wild_route_lab.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 75,
+          "text": "from parallel_runner import run_cells_parallel  # O-2355 s2 pool face (T-134)"
+        },
+        {
+          "line": 838,
+          "text": "res = run_cells_parallel(jobs, workers=workers,"
+        },
+        {
+          "line": 927,
+          "text": "res = run_cells_parallel(jobs, workers=workers, desc=\"wild-nulls\","
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 62818,
+      "size_bytes": 74195,
       "pool_entry_count": 9,
       "pool_statuses": {
         "done": 9

@@ -30,8 +30,22 @@ wild_route_probe.json):
     null_pool = own 50 nulls); G2 via g2_registration_v2 + DSR (deflated_
     sharpe_ratio on primary returns) + family PBO (screening/pbo.cscv_pbo,
     8 blocks, 29-arm family matrix). NO hand-copied lines (O-2250).
-  accounting honesty: every rejected/untradeable/premium face counted in the
-    cell JSON; honest-negative rows expected and reported as-is (s4 verdicts).
+  accounting honesty: every rejected/untradeable/premium face counted in
+    the cell JSON; honest-negative rows expected and reported as-is (s4 verdicts).
+  multicore face (O-2026-09-30-2355 s2 conversion, T-134; grid_p1 r304
+    precedent): shard cells burn via scripts/parallel_runner.py ProcessPool
+    grouped by (arm, universe, regime) -- extract_trades is a pure function
+    of the engine + group key, so ONE call serves every (window, cost) cell
+    of the group (the serial loop recomputed it per cell). Workers build the
+    engine once each in the initializer (r511 law; production re-opens the
+    frozen cache via mmap); the pool-mode parent stays engine-free (cell
+    census needs only the dates index) and is the single writer for cell
+    JSONs + checkpoint rows (r497 pool contract), appending each row the
+    moment its group lands (r340 incremental law). Errors propagate
+    (serial law: a crashing cell killed the run; checkpoint keeps landed
+    rows, t22 resume). Worker plan = RAM-guarded (engine build peaks ~3GB
+    per worker): below 2 workers the serial path runs unchanged. Pool
+    output bit-identical to serial (selftest S-mp parity legs).
 
 Subcommands (idempotent, checkpoint per cell JSON + per-shard jsonl rows
 carrying their own cell key, r163 law):
@@ -58,6 +72,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import science_gates as SG                      # shared gate library (O-2250)
 from screening.pbo import cscv_pbo, align_returns  # family PBO CSCV 8-block
+from parallel_runner import run_cells_parallel  # O-2355 s2 pool face (T-134)
 
 CACHE = os.path.join(ROOT, "Money02", "data", "cache", "p1c_stock")
 BARS = os.path.join(ROOT, "Money02", "data", "bars")
@@ -84,6 +99,7 @@ NULL_BASE = SG.SEED_REGISTRY["wild_route_s1"]
 K_NULLS = 50
 MIN_BARS_OK = 250               # P-1c MIN_ROWS census caliber
 TRADING_DAYS_YEAR = 252
+_RAM_GUARD = True                # hermetic loader legs set False (F15)
 
 REGIME_ADV_LIM, REGIME_ADV_ZH, REGIME_ADV_H = 80, 0.10, 5
 REGIME_RET_LIM, REGIME_RET_ZH, REGIME_RET_H = 30, 0.25, 3
@@ -93,15 +109,18 @@ REGIME_RET_LIM, REGIME_RET_ZH, REGIME_RET_H = 30, 0.25, 3
 
 def build_panels_from_cache():
     # fleet discipline: heavy engine needs ~3-4GB free; below 4GB = honest
-    # abort (exit 3), no corruption (checkpoints safe, next tick retries)
-    try:
-        import psutil
-        avail_gb = psutil.virtual_memory().available / (1024 ** 3)
-        if avail_gb < 4.0:
-            print(f"engine abort: free RAM {avail_gb:.1f}GB < 4GB fleet line")
-            sys.exit(3)
-    except ImportError:
-        pass
+    # abort (exit 3), no corruption (checkpoints safe, next tick retries).
+    # _RAM_GUARD=False is the hermetic-selftest bypass ONLY (tiny fixture
+    # loads cannot OOM; the guard must not make loader legs env-dependent).
+    if _RAM_GUARD:
+        try:
+            import psutil
+            avail_gb = psutil.virtual_memory().available / (1024 ** 3)
+            if avail_gb < 4.0:
+                print(f"engine abort: free RAM {avail_gb:.1f}GB < 4GB fleet line")
+                sys.exit(3)
+        except ImportError:
+            pass
     syms = [os.path.basename(p)[:-8]
             for p in sorted(glob.glob(os.path.join(BARS, "*.parquet")))]
     meta = json.load(open(os.path.join(CACHE, "meta.json"), encoding="utf-8"))
@@ -674,14 +693,122 @@ def cell_stats(E, tr, wname, w0, w1, cost_side):
                 series=None)
 
 
+# -------------------------------------------------- multicore pool face (s2)
+# O-2026-09-30-2355 s2 conversion (bm-c r312, T-134; grid_p1 r304 precedent).
+_POOL_CTX = {}
+
+
+def _init_pool_ctx(P=None, elig=None, cache=None, bars=None,
+                   ram_guard=None):
+    """Worker initializer: build the engine ONCE per worker (r511 law --
+    never per task). Hermetic mode (fixture P + temp elig) builds straight
+    from P, mirroring the selftest's patched-ELIG build for the S-mp
+    parity legs. Production mode ships the parent's CURRENT module
+    constants (elig/cache/bars/ram-guard) through initargs -- a
+    spawn-fresh worker must never depend on its own import-time state;
+    in real burns the shipped values equal the worker's constants
+    verbatim (zero behavior change), and the synthetic-cache smoke
+    (r312) ships its temp paths through the same seam."""
+    global ELIG, CACHE, BARS, _RAM_GUARD
+    if P is not None:
+        saved = ELIG
+        ELIG = elig
+        try:
+            E = build_engine(P)
+        finally:
+            ELIG = saved
+    else:
+        if elig is not None:
+            ELIG = elig
+        if cache is not None:
+            CACHE = cache
+        if bars is not None:
+            BARS = bars
+        if ram_guard is not None:
+            _RAM_GUARD = ram_guard
+        E = build_engine(build_panels_from_cache())
+    _POOL_CTX.clear()
+    _POOL_CTX.update(E=E)
+
+
+def _wr_group_task(arm, universe, regime, cells):
+    """Pooled group burn: ONE extract_trades per (arm, universe, regime),
+    then cell_stats per (window, cost) cell. Exceptions propagate -- the
+    serial loop had no per-cell swallow (a crashing cell killed the shard
+    run; the pool must not launder it into a row)."""
+    E = _POOL_CTX["E"]
+    cfg = dict(ARMS)[arm]
+    tr = extract_trades(E, arm, cfg, universe, regime)
+    wmap = {w[0]: (w[1], w[2]) for w in windows(E)}
+    recs = []
+    for c in cells:
+        w0, w1 = wmap[c["window"]]
+        st = cell_stats(E, tr, c["window"], w0, w1, c["cost"])
+        recs.append(dict(cell_id=c["cell_id"], arm=c["arm"],
+                         universe=c["universe"], window=c["window"],
+                         cost=c["cost"], regime=c["regime"],
+                         n_events=tr["n_events"], n_untrade=tr["n_untrade"],
+                         n_limitopen=tr["n_limitopen"],
+                         evidence_cutoff=EVIDENCE_CUTOFF, stats=st,
+                         primary=(c["window"] == "W_full"
+                                  and c["universe"] == "full"
+                                  and c["cost"] == "x1"
+                                  and c["regime"] is None)))
+    return {"group": f"{arm}|{universe}|{regime}", "recs": recs}
+
+
+def _wr_null_task(k, i0):
+    """Pooled null burn (one k per task). The daily event-count profile is
+    a pure function of the engine (P06_h1_all signal, frozen null design),
+    computed lazily once per worker -- identical to the serial pre-loop
+    computation."""
+    E = _POOL_CTX["E"]
+    prof = _POOL_CTX.get("null_profile")
+    if prof is None:
+        S = signal_matrix(E, "P06_h1_all")
+        prof = S[i0:].sum(axis=1)
+        _POOL_CTX["null_profile"] = prof
+    trades, n_ev = _nulls_day_loop(E, E["P"], prof, i0, k)
+    tr = dict(trades=trades, n_events=n_ev, n_untrade=0, n_limitopen=0,
+              hold=1, stop=None)
+    st = cell_stats(E, tr, "W_full", W_FULL_FROM, E["idx"][-1], "x1")
+    return dict(k=k, sharpe=st["sharpe_full"] if st else None,
+                n_entries=st["n_entries"] if st else 0,
+                ann_ret=st["ann_ret"] if st else None)
+
+
+def _wr_worker_plan():
+    """RAM-guarded auto worker plan for THIS runner (the generic
+    worker_cap assumes ~0.5GB/worker; the wild-route engine build peaks
+    ~3GB per worker on the 8792x5222 production panel). Below the fleet
+    4GB line -> 1 (serial path, whose own build_panels_from_cache guard
+    then declines honestly with exit 3)."""
+    try:
+        import psutil
+        avail = psutil.virtual_memory().available / (1024 ** 3)
+    except ImportError:
+        return 1
+    if avail < 4.0:
+        return 1
+    return max(1, min(8, int(avail / 4.5)))
+
+
+def _wr_run_meta(shard, of, workers, engine):
+    """Per-run workers truth (O-1810 audit law: no workers face = not
+    ledgered). One small file per shard, overwritten per run."""
+    meta = dict(shard=shard, of=of, workers=workers, engine=engine,
+                ts=time.strftime("%Y-%m-%d %H:%M:%S"))
+    json.dump(meta, open(os.path.join(OUT_DIR, f"run_meta-{shard}of{of}.json"),
+                         "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+
 # ------------------------------------------------------------------ run/finalize
 
-def run_shard(shard, of):
+def run_shard(shard, of, workers=None):
     os.makedirs(CELL_DIR, exist_ok=True)
-    P = build_panels_from_cache()
-    E = build_engine(P)
-    cells = enumerate_cells(E)
-    mine = [c for i, c in enumerate(cells) if i % of == shard]
+    if workers is None:
+        workers = _wr_worker_plan()
+    use_pool = workers >= 2
     ck_path = os.path.join(OUT_DIR, f"checkpoint-{shard}of{of}.jsonl")
     done = set()
     if os.path.exists(ck_path):
@@ -693,6 +820,48 @@ def run_shard(shard, of):
                     done.add(rec["key"])      # rows carry own key (r163)
                 except ValueError:
                     pass
+    if use_pool:
+        # pool mode: parent stays engine-free -- the frozen census needs
+        # only the dates index; workers build the engine in the initializer
+        idx = pd.to_datetime(np.load(os.path.join(CACHE, "dates.npy")),
+                             unit="us")
+        cells = enumerate_cells({"idx": idx})
+        mine_all = [c for i, c in enumerate(cells) if i % of == shard]
+        mine = [c for c in mine_all if c["cell_id"] not in done]
+        groups = {}
+        for c in mine:
+            groups.setdefault((c["arm"], c["universe"], c["regime"]),
+                              []).append(c)
+        jobs = [(f"{a}|{u}|{r}", _wr_group_task, (a, u, r, cs))
+                for (a, u, r), cs in groups.items()]
+
+        def _on_group(key, payload):
+            # parent = single writer (r497 pool contract): cell JSONs +
+            # checkpoint rows land the moment the group resolves (r340)
+            for rec in payload["recs"]:
+                path = os.path.join(CELL_DIR,
+                                    rec["cell_id"].replace("|", "_") + ".json")
+                json.dump(rec, open(path, "w", encoding="utf-8"),
+                          ensure_ascii=False, indent=1)
+                ck.write(json.dumps({"key": rec["cell_id"], "done": True},
+                                    ensure_ascii=False) + "\n")
+            ck.flush()
+
+        with open(ck_path, "a", encoding="utf-8") as ck:
+            res = run_cells_parallel(jobs, workers=workers,
+                                     desc=f"wild-shard-{shard}of{of}",
+                                     initializer=_init_pool_ctx,
+                                     initargs=(None, ELIG, CACHE, BARS,
+                                               _RAM_GUARD),
+                                     on_result=_on_group)
+        _wr_run_meta(shard, of, res.get("__workers__", workers), "pool")
+        print(f"shard {shard}/{of}: {len(mine_all)} cells, done={len(done)} "
+              f"[pool workers={res.get('__workers__', workers)}]")
+        return 0
+    P = build_panels_from_cache()
+    E = build_engine(P)
+    cells = enumerate_cells(E)
+    mine = [c for i, c in enumerate(cells) if i % of == shard]
     wmap = {w[0]: (w[1], w[2]) for w in windows(E)}
     with open(ck_path, "a", encoding="utf-8") as ck:
         for c in mine:
@@ -715,6 +884,7 @@ def run_shard(shard, of):
             ck.write(json.dumps({"key": c["cell_id"], "done": True},
                                  ensure_ascii=False) + "\n")
             ck.flush()
+    _wr_run_meta(shard, of, 1, "serial")
     print(f"shard {shard}/{of}: {len(mine)} cells, done={len(done)}")
 
 
@@ -754,10 +924,34 @@ def _nulls_day_loop(E, P, profile, i0, k):
     return trades, n_ev
 
 
-def run_nulls():
+def run_nulls(workers=None):
     """K=50 same-mask random event-day nulls on (W_full, U_full, x1),
     hold-1 canonical shape. Daily event-count profile = the pooled mean of
     the P06_h1_all full-universe signal (frozen null design, prereg SS3)."""
+    if workers is None:
+        workers = _wr_worker_plan()
+    out = {"seed_base": NULL_BASE, "k": K_NULLS, "window": "W_full",
+           "universe": "full", "cost": "x1", "nulls": [], "evidence_cutoff": EVIDENCE_CUTOFF}
+    if workers >= 2:
+        # pool mode: workers build the engine + compute the frozen profile
+        # once each; tasks are the 50 independent k-seeded nulls
+        idx = pd.to_datetime(np.load(os.path.join(CACHE, "dates.npy")),
+                             unit="us")
+        i0 = int(np.argmax(idx >= W_FULL_FROM))
+        jobs = [(f"null{k}", _wr_null_task, (k, i0)) for k in range(K_NULLS)]
+        res = run_cells_parallel(jobs, workers=workers, desc="wild-nulls",
+                                 initializer=_init_pool_ctx,
+                                 initargs=(None, ELIG, CACHE, BARS,
+                                           _RAM_GUARD))
+        for k in range(K_NULLS):
+            rec = res[f"null{k}"]
+            out["nulls"].append(rec)
+            print(f"  null {rec['k']}: sharpe={rec['sharpe']} entries={rec['n_entries']}")
+        json.dump(out, open(NULLS_JSON, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=1)
+        print("nulls written:", NULLS_JSON,
+              f"[pool workers={res.get('__workers__', workers)}]")
+        return 0
     P = build_panels_from_cache()
     E = build_engine(P)
     S = signal_matrix(E, "P06_h1_all")
@@ -767,8 +961,6 @@ def run_nulls():
     listed = np.isfinite(np.asarray(P["close"]))
     profile = S[i0:].sum(axis=1)
     rng_master = np.random.default_rng(NULL_BASE)
-    out = {"seed_base": NULL_BASE, "k": K_NULLS, "window": "W_full",
-           "universe": "full", "cost": "x1", "nulls": [], "evidence_cutoff": EVIDENCE_CUTOFF}
     for k in range(K_NULLS):
         trades, n_ev = _nulls_day_loop(E, P, profile, i0, k)
         tr = dict(trades=trades, n_events=n_ev, n_untrade=0, n_limitopen=0,
@@ -1169,6 +1361,7 @@ def selftest():
         open(os.path.join(tmpb, s + ".parquet"), "wb").close()
     c_saved, b_saved = CACHE, BARS
     globals()["CACHE"], globals()["BARS"] = tmpc, tmpb
+    globals()["_RAM_GUARD"] = False      # 4x2 fixture load cannot OOM
     try:
         Pp = build_panels_from_cache()
         chk("F15 loader T!=N shape family", Pp["T"] == 4 and Pp["N"] == 2)
@@ -1182,6 +1375,7 @@ def selftest():
             chk("F15 drift gate trips on tampered meta", True)
     finally:
         globals()["CACHE"], globals()["BARS"] = c_saved, b_saved
+        globals()["_RAM_GUARD"] = True
         shutil.rmtree(tmpc, ignore_errors=True)
         shutil.rmtree(tmpb, ignore_errors=True)
     # F16 nulls loop-body hermetic leg (r198 next-pointer; r157/r162 family):
@@ -1276,6 +1470,51 @@ def selftest():
     chk("F19b g2 loop keys on pass_v2 (r204 ghost-key fix)",
         'g1v.get("pass_v2")' in inspect.getsource(finalize)
         and 'g1v.get("g1_pass")' not in inspect.getsource(finalize))
+    # -- S-mp legs (O-2026-09-30-2355 s2; grid_p1 r304 parity precedent):
+    #    pool identity on the hermetic fixture -- inline group task ==
+    #    spawn+pickle+initializer path (bit-identical records), regime-
+    #    extra group parity, double-run determinism, worker-count face,
+    #    serial-fallback wiring (path-live law).
+    g_cells = [dict(cell_id="P06_h2_all|full|W_full|x1", arm="P06_h2_all",
+                    universe="full", window="W_full", cost="x1",
+                    regime=None),
+               dict(cell_id="P06_h2_all|full|W_full|x2", arm="P06_h2_all",
+                    universe="full", window="W_full", cost="x2",
+                    regime=None)]
+    r_cells = [dict(cell_id="P03b_duanban_fanbao|full|W_full|x1|regime_adv",
+                    arm="P03b_duanban_fanbao", universe="full",
+                    window="W_full", cost="x1", regime="advance")]
+    _POOL_CTX.clear()
+    _POOL_CTX.update(E=E)
+    inline_g = _wr_group_task("P06_h2_all", "full", None, g_cells)
+    inline_r = _wr_group_task("P03b_duanban_fanbao", "full", "advance",
+                              r_cells)
+    res_p = run_cells_parallel(
+        [("g", _wr_group_task, ("P06_h2_all", "full", None, g_cells)),
+         ("r", _wr_group_task, ("P03b_duanban_fanbao", "full", "advance",
+                                r_cells))],
+        workers=2, desc="s-mp", initializer=_init_pool_ctx,
+        initargs=(P, elig))
+    chk("S-mp worker count face", res_p.pop("__workers__") == 2)
+
+    def _canon(p):
+        return json.dumps(p, sort_keys=True, default=float)
+
+    chk("S-mp group task pool==inline (records bit-identical)",
+        _canon(res_p["g"]) == _canon(inline_g)
+        and _canon(res_p["r"]) == _canon(inline_r))
+    again = run_cells_parallel(
+        [("g", _wr_group_task, ("P06_h2_all", "full", None, g_cells))],
+        workers=1, desc="s-mp2", initializer=_init_pool_ctx,
+        initargs=(P, elig))
+    chk("S-mp double-run determinism (re-pool == inline)",
+        _canon(again["g"]) == _canon(inline_g))
+    chk("S-mp serial fallback + pool wiring (path-live law)",
+        "use_pool" in inspect.getsource(run_shard)
+        and "_wr_worker_plan()" in inspect.getsource(run_shard)
+        and "run_cells_parallel(" in inspect.getsource(run_shard)
+        and "run_cells_parallel(" in inspect.getsource(run_nulls))
+    _POOL_CTX.clear()
     print(f"selftest: {ok[0]}/{ok[0]} PASS (all asserted)")
     return 0
 
@@ -1288,13 +1527,15 @@ def main():
                                     "finalize", "status"])
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--of", type=int, default=1)
+    ap.add_argument("--workers", type=int, default=None,
+                    help="override the RAM-guarded auto plan (1 = serial)")
     a = ap.parse_args()
     if a.cmd == "selftest":
         return selftest()
     if a.cmd == "run":
-        return run_shard(a.shard, a.of)
+        return run_shard(a.shard, a.of, a.workers)
     if a.cmd == "run-nulls":
-        return run_nulls()
+        return run_nulls(a.workers)
     if a.cmd == "finalize":
         return finalize()
     if a.cmd == "status":
