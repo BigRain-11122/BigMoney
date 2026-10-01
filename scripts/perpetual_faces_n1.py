@@ -1134,6 +1134,47 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 44_401,    # law sec.4 W45 B: 44_401..44_600 (arithmetic)
                             "shard_subdir": "n1_w45", "out_name": "n1_w45_results.json",
                             "engine_owner": "bm-a"},
+                       # W46 (r348 bm-c, own-series continuation per O-20261001-2355
+                       # sec.2 -- bm-c's FOURTEENTH owned wave after W14/W17/W20/W23/
+                       # W26/W29/W32/W37/W39/W41/W42/W43; W44 same-number draft
+                       # yielded to bm-a r553 canonical freeze, r530/r511 laws).
+                       # Zero-gap relay after the W43 FULL CLOSEOUT (bm-c r346:
+                       # freeze -> 12/12 no-restart burn -> finalize one-pass
+                       # K=92,520, ledger 457,140). UPSTREAM W45 (bm-a r554
+                       # freeze 03:59:59) IN FLIGHT at this freeze: burn on the
+                       # bm-a tick engine, finalize pending; W46 finalize
+                       # chain-order FAIL-CLOSED on the W45 output at run time
+                       # (W7/W10/W12 in-flight dep precedent, r307 two-state
+                       # law). Wave 46 = first free number after W45's landed
+                       # claim; origin slot vacancy machine-checked.
+                       # BOTH SIDES no-skip arithmetic continuations per the
+                       # W45 row W46+ WARNING projections, machine-derived at
+                       # this freeze (r535 law). Machine-verified at prereg
+                       # time (results/_r348bmc_w46_band_gate.py ADMIT receipt
+                       # vs the 43-row pre-W46 table + live SEED_REGISTRY
+                       # values + probe-seed cluster 95_000..95_003 r335
+                       # discovery leg + N3-R1 used-seed band 70_000..70_005
+                       # MSG-183x r529 mandatory leg). THIRTY-SIXTH
+                       # ENGINE-OWNED WAVE, engine_owner=bm-c (local queue,
+                       # no pool entry). NOT a re-pick (R250: W46 bands were
+                       # never assigned).
+                       46: {"batch": "PERPETUAL-N1-W46",
+                            "prereg": ("research/PERPETUAL_N1_W46_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; THIRTY-SIXTH ENGINE-OWNED WAVE, "
+                                       "own-series continuation per O-20261001-2355 sec.2 "
+                                       "(seat system terminated, first-free-number law), "
+                                       "engine_owner=bm-c, A tail arithmetic continuation "
+                                       "from the registered W45 row no skip, B tail "
+                                       "arithmetic continuation from the registered W45 "
+                                       "row no skip per the W45 row W46+ WARNING projection "
+                                       "(both sides CLEAN, machine-derived at this freeze; "
+                                       "upstream W45 finalize IN FLIGHT -- W46 finalize "
+                                       "FAIL-CLOSED on the W45 output at run time))"),
+                            "a_seed_base": 135_004,        # law sec.4 W46 A: 135_004..137_003 (arithmetic)
+                            "b_exit_seed_base": 44_601,    # law sec.4 W46 B: 44_601..44_800 (arithmetic)
+                            "shard_subdir": "n1_w46", "out_name": "n1_w46_results.json",
+                            "engine_owner": "bm-c"},
                        }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -5391,6 +5432,116 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W46 materializer face (r348 bm-c freeze, own-series law
+    #     O-20261001-2355 sec.2 -- bm-c's FOURTEENTH owned wave after
+    #     W14/W17/W20/W23/W26/W29/W32/W37/W39/W41/W42/W43; the W44
+    #     same-number draft YIELDED to bm-a's r553 canonical freeze,
+    #     identical bands, r530 deterministic law, r511 commit order);
+    #     zero-gap relay after the W43 FULL CLOSEOUT (bm-c r346
+    #     same-window: freeze b3411b7c9 -> 12/12 no-restart burn ->
+    #     finalize one-pass K=92,520, ledger 457,140). UPSTREAM W45
+    #     (bm-a r554 freeze 03:59:59) IN FLIGHT at this freeze: burn
+    #     on the bm-a tick engine, finalize NOT yet landed -- W46
+    #     finalize chain-order is FAIL-CLOSED on the W45 output at
+    #     run time (the real guard); no static exists-assert for the
+    #     W45 dep here (r307 two-state law: it would false-red now
+    #     and expire later). bm-c engine = RESIDENT instance with
+    #     per-tick canon re-read (W43 no-restart precedent r346) --
+    _set_wave(46)
+    try:
+        assert WAVE_CONFIGS[46]["a_seed_base"] == pf.N1_BANDS[46]["a"][0], \
+            "W46 A band drift vs law mirror"
+        assert WAVE_CONFIGS[46]["b_exit_seed_base"] == \
+            pf.N1_BANDS[46]["b_exit"][0], "W46 B band drift vs law mirror"
+        assert WAVE_CONFIGS[46].get("engine_owner") == \
+            pf.N1_BANDS[46].get("engine_owner") == "bm-c", \
+            "W46 engine_owner drift (law mirror parity)"
+        w46_a = {A_SEED_BASE + j for j in range(A_N)}
+        w46_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w46_a & w46_b), "W46 A/B band overlap"
+        assert not (w46_a & reg_ints) and not (w46_b & reg_ints), \
+            "W46 hits SEED_REGISTRY"
+        for nm, band in (("A", w46_a), ("B", w46_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W46 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W46 {nm} hits W1"
+            assert not (band & probes), f"W46 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W43/W44 (finalize landed) and
+        # W45 (bm-a r554 freeze landed on origin; finalize in flight --
+        # band registration is the disjointness face, finalize is not).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45):
+            assert not (w46_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W46 A hits W{wprev}"
+            assert not (w46_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W46 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W46 bands must clear it.
+        n3r1_used46 = set(range(70_000, 70_006))
+        assert not (w46_a & n3r1_used46) and not (w46_b & n3r1_used46), \
+            "W46 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w46_a & lfc_actual12) and not (w46_b & lfc_actual12), \
+            "W46 bands must clear the lfc actual draw range"
+        assert not (w46_a & options_actual12) and \
+            not (w46_b & options_actual12), \
+            "W46 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W46 row, r348): BOTH SIDES no-skip
+        # arithmetic continuations exactly as the W45 row's W46+ WARNING
+        # projected, machine-derived at this freeze (r535 law --
+        # results/_r348bmc_w46_band_gate.py leg1-A/leg1-B both CLEAN,
+        # zero hits vs registry points/probes/N3-R1/actuals; forced
+        # NOT a free pick -- R250 discipline: W46 bands never assigned).
+        assert WAVE_CONFIGS[46]["a_seed_base"] == 135_004 == 135_003 + 1, \
+            "W46 A must start at the W45 A end + 1 (arithmetic continuation)"
+        assert WAVE_CONFIGS[46]["b_exit_seed_base"] == 44_601 == 44_600 + 1, \
+            "W46 B must start at the W45 B end + 1 (arithmetic continuation, " \
+            "no skip -- the W45 row W46+ WARNING projected CLEAN and the " \
+            "r348 gate verified it machine-side)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W46-SHARD-0",
+                                          "n1w46-0of12"), "W46 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W46-SHARD-11",
+                                           "n1w46-11of12")
+        assert SHARD_DIR.endswith("n1_w46") and OUT.endswith(
+            "n1_w46_results.json"), "W46 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W46 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W46_PREREG.md")), \
+            "W46 per-wave prereg missing (materializer requirement)"
+        # W46 finalize cumulative deps: W17..W44 outputs ALL PRESENT
+        # (landed finalizes; net ledger head 461,348 post LOWAMP-P3
+        # bm-b r533 +2,008). W45 (bm-a) = IN FLIGHT at this freeze
+        # (r554 freeze 03:59:59, burn on the bm-a tick engine,
+        # finalize pending) -- NO static exists-assert for W45 here
+        # (r307 two-state lesson family: it would false-red now and
+        # expire later); the finalize merge loop is FAIL-CLOSED on
+        # any missing prior-wave output at run time, which is the
+        # real guard (W7/W10/W12 in-flight dep precedent).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+                      43, 44):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W46 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 46 (no 15; W45 registered
+        # by the bm-a r554 freeze -- finalize in flight, band registered).
+        assert sorted(w for w in WAVE_CONFIGS if w < 46) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+             35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45], \
+            "W46 prior-wave set must derive from registry keys (no 15, incl. 45)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -5826,6 +5977,24 @@ def selftest() -> int:
           "number after W44's claim; bm-a tick architecture per r535 "
           "law -- no resident instance, ignition proof = product growth "
           "within 2 ticks), r554 bm-a] "
+          "+ W46 materializer face [same guard set, dep=W45 IN FLIGHT = "
+          "runtime FAIL-CLOSED guard (r307 two-state law; W45 bm-a r554 "
+          "freeze 03:59:59, burn in flight at this freeze, no static "
+          "exists-assert for W45), W17..W44 static deps ALL present "
+          "(net ledger head 461,348 post LOWAMP-P3 bm-b r533 +2,008), "
+          "A=arithmetic continuation clean per law sec.4 W46 row "
+          "135_004..137_003 (W45 row W46+ WARNING projection verified "
+          "machine-side, zero skip), B=arithmetic continuation clean "
+          "per law sec.4 W46 row 44_601..44_800 (W45 row W46+ WARNING "
+          "projection verified machine-side, zero skip, ADMIT receipt "
+          "results/_r348bmc_w46_band_gate.py), THIRTY-SIXTH ENGINE-"
+          "OWNED WAVE engine_owner=bm-c per engine de-throttle law "
+          "O-20261001-2355 sec.2 own-continuous-series (zero-gap relay "
+          "after the W43 full closeout + W44 same-number draft yield "
+          "r530/r511; wave 46 = first free number after W45's landed "
+          "claim; bm-c RESIDENT instance per-tick canon re-read, "
+          "no-restart ignition, proof = product growth within 2 ticks "
+          "per r325 law), r348 bm-c] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

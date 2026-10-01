@@ -906,6 +906,34 @@ N1_BANDS = {
     # (R250: W45 bands never assigned).
     45: {"a": (133_004, 135_003), "b_exit": (44_401, 44_600),
          "engine_owner": "bm-a"},
+    # W46 (r348 bm-c, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-c's FOURTEENTH owned wave after W14/W17/W20/W23/W26/
+    # W29/W32/W37/W39/W41/W42/W43; the W44 same-number draft YIELDED
+    # to bm-a's r553 canonical freeze -- identical bands, r530
+    # deterministic law, r511 commit-order yield). Zero-gap relay
+    # after the W43 FULL CLOSEOUT (bm-c r346 same-window: freeze
+    # b3411b7c9 -> 12/12 no-restart burn -> finalize one-pass
+    # K=92,520, ledger 457,140). UPSTREAM W45 (bm-a r554 freeze
+    # 03:59:59) IN FLIGHT at this freeze: burn on the bm-a tick
+    # engine, finalize pending; W46 finalize chain-order is
+    # FAIL-CLOSED on the W45 output at run time (W7/W10/W12 in-flight
+    # dep precedent, r307 two-state law). Wave 46 = first free number
+    # after W45's landed claim (slot 46 vacant on origin,
+    # machine-checked at the gate leg3 + the vacancy tool). BOTH
+    # SIDES no-skip arithmetic continuations per the W45 row's W46+
+    # WARNING projections, machine-derived at this freeze (r535
+    # law: clean-projection claims must be machine-derived, never
+    # prose-copied): A = 135_004..137_003 == W45 A end + 1; B =
+    # 44_601..44_800 == W45 B end + 1. Machine-verified at prereg
+    # time (results/_r348bmc_w46_band_gate.py ADMIT receipt vs the
+    # 43-row pre-W46 table + live SEED_REGISTRY values + probe-seed
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). THIRTY-SIXTH ENGINE-OWNED WAVE,
+    # engine_owner=bm-c (local queue, no pool entry). NOT a re-pick
+    # (R250: W46 bands were never assigned).
+    46: {"a": (135_004, 137_003), "b_exit": (44_601, 44_800),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
