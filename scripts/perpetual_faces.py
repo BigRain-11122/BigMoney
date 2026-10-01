@@ -839,6 +839,24 @@ N1_BANDS = {
     # (R250: W41 bands never assigned).
     41: {"a": (125_004, 127_003), "b_exit": (43_401, 43_600),
          "engine_owner": "bm-c"},
+    # W42 (r345 bm-c, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-c's ELEVENTH owned wave; zero-gap relay after the W41
+    # FULL CLOSEOUT (freeze r344 -> 12/12 same-window burn -> finalize
+    # r345 K=88,120, ledger 452,740 chain head; W40 restore incident
+    # same-window healed 2fa252cc1). Wave 42 = first free number after
+    # W41's landed claim. SIDES INDEPENDENTLY ADJUDICATED per the W41
+    # row's W42+ WARNING: A tail arithmetic continuation no skip
+    # (127_004..129_003 == W41 A end + 1); B tail arithmetic
+    # continuation no skip (43_601..43_800 == W41 B end + 1).
+    # Machine-verified at prereg time (results/_r345bmc_w42_band_gate.py
+    # ADMIT receipt vs the 39-row pre-W42 table + live SEED_REGISTRY
+    # values + probe-seed cluster 95_000..95_003 r335 discovery leg +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked). THIRTY-SECOND ENGINE-OWNED
+    # WAVE, engine_owner=bm-c (local queue, no pool entry). NOT a
+    # re-pick (R250: W42 bands never assigned).
+    42: {"a": (127_004, 129_003), "b_exit": (43_601, 43_800),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
