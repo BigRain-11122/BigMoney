@@ -3,17 +3,17 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-10-01T14:18:24+08:00",
- "heartbeat_epoch_utc": 1790835504,
- "clock_read": "2026-10-01T14:18:24+08:00",
- "current_task": "r507: N1-W9 wave LIVE (12 shards materialized, daemon auto-claim resumes post-push); LOWAMP-P2 finalize gate unblocked (18/18 done shared face settled); CODELY >50KB hot-cold reorg in-window",
+ "last_seen": "2026-10-01T14:26:21+08:00",
+ "heartbeat_epoch_utc": 1790835981,
+ "clock_read": "2026-10-01T14:26:21+08:00",
+ "current_task": "r507 close: N1-W9 SHARD-0 burning (daemon pid 55796, 12-shard queue auto-fill); O-1410+O-1420 acked same-round; T-141 s1+s3 (bm-b engine instances) claimed, build starts r508",
  "cpu_cores": 16,
- "free_ram_gb": 6.0,
+ "free_ram_gb": 4.7,
  "gpu_free_vram_gb": 2.2,
  "total_ram_gb": 0.0,
- "cpu_util_pct": 2.6,
+ "cpu_util_pct": 3.0,
  "round_no": 507,
- "verdict": "r507 products: (1) pool shared-face settle (compute_audit sync_face) healed LOWAMP-P2-NULLS ghost-ready -> 18/18 done (bm-a burn claim provenance, finalize gate unblocked for bm-a lane); (2) N1-W9 supply FIRED per O-1332 sec.1.2 chain: 12 per-shard entries materialized (live==0 starve->ignite, compute_audit FLAG:supply_floor answered in-round); (3) S6 34 legs rc0 (reconcile DRIFT recorded pre-settle streak reset, audit settle, watermark insufficient_history n=1, clock ORANGE_COOL cap50, REPORT/LIVE 2026-10-01 regenerated, token delta=0); smoke 47/47; attrition CLEAN",
+ "verdict": "r507: (1) N1-W9 wave IGNITED AND BURNING (supply fired on settled pool, 12 shards materialized, daemon claim+launch 14:24:28 pid=55796 target_met=True -- O-1332 sec.1.2 chain closed); (2) pool shared-face settled via S6 compute_audit sync_face: LOWAMP-P2-NULLS ghost-ready healed 18/18 done -> bm-a finalize gate unblocked; (3) O-1410 saturation-engine order acked + T-141 s1/s3 claimed (bm-b instances), O-1420 acked (sec.3.3: bm-b no action required); (4) 16-UU peak-window cherry-pick batch canon-resolved zero-loss (docs/live snapshots take-new, lane-backed faces + pool via sync_face merged-view, crash_fuse take origin clear side); S6 34 legs rc0, smoke 47/47, attrition CLEAN",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -151,6 +151,8 @@
   "O-20260930-2054-bm-a.md",
   "O-20261001-1058-bm-c.md",
   "O-20261001-1108-bm-c.md",
-  "O-20261001-1332-bm-c.md"
+  "O-20261001-1332-bm-c.md",
+  "O-20261001-1410-bm-c.md",
+  "O-20261001-1420-bm-c.md"
  ]
 }
