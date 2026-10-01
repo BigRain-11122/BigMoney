@@ -59,10 +59,14 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-a.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 窗回填】
+## §7 跑后实证【finalize 窗·r540 bm-a】
 
--（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
+- 烧录实况：12/12 分片引擎烧录（bm-a tick 架构零重启自燃〔r535 实证〕·r539 冻结窗 21:27 shard-0 首片起→21:42 shard-11 收尾·每片 workers=8〔ProcessPoolExecutor·O-20260930-2355 多核律〕·audit.machine=bm-a 12/12·每片 elapsed 13.2–14.8s·本波 N=2,200 逐位吻合·shard 件 results/p2cal_ext/n1_w27/shard-0..11-of-12.json r539 同轮 12/12 全上 origin；finalize 排队至 bm-c W26 finalize 落账〔r336 21:51 chain gate released〕后本窗一趟过）。
+- K 与链性对账：K=**57,320**（pre-W27 累计 **55,120**〔canon 120＋W1..W26 波值 55,000〕＋本波 2,200=§0 预期逐位吻合〔§0 起草窗注记 W26 finalize 未落账·「cumulative K=55,120」指本波前池·W26 落账后自动并入·derive 禁手抄律自证〕）；merged mu **−0.09168**·sigma **0.24476**·se_mu **0.001022**（W26 0.001042→收紧）；W27-only mu **−0.08574**（波单波抽样波动如实·mu_delta vs W26ext −0.0052）。
+- §5 四项判定：**4/4 PASS**（①mu-drift **+0.00072**<0.02〔merged vs 冻结锚 W25 −0.09240·起草窗最新可得锚律〕②sigma 相对 **+0.11%**<±10%〔锚 W25 0.24449〕③A p95 **0.3208** vs 0.3262 Δ**−0.0054**<0.05 ④K-lift **+0.0005**≤0.02〔1.1536→1.1541·@n_eff_held 421,748·正向如实报·canon_flip NOT performed——治理提案面·K2200 同法〕）。
+- 账本对账：prev=**421,748**（W26 finalize r336 bm-c 活头 derive·禁手抄）→ **423,948** 链线性；voids_applied=['LOWAMP-P1'] 自动面；audit.finalize_only=bm-a；ledger 块在产物件 science_gates.ledger（r509 持久化律：guard 前入件·无幻影面）。
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
--（占位锚：finalize 同窗回填波收口复盘与 W28+ 尾律警示转交〔W28=bm-b 槽位·轮值律·A 99_004..101_003/B 40_451..40_650 投影双净空=r539 带闸回执 W28+ 投影腿·照例 W28 prereg 时机验〕。）
+- 波收口复盘：W27=bm-a 第 5 枚自有波（第十六枚引擎波）全链闭环：r539 冻结（A 97_004..99_003/B 40_251..40_450 双算术净空 ADMIT 回执在场）→tick 自燃 12/12（r539 同轮交付）→r540 finalize 一趟过（排队 bm-c W26 落账 21:51 门开·同窗收口·无重跑=r538 双计律守约）。**W26-restore 事故如实披露**：finalize 前置读链发现 bm-b r523 closeout（17aa3c4af·自称 disjoint overlay）外科整树面静默删 r336 产品 7 件（n1_w26_results.json+6 工具）＋W26 prereg §7 回填还原为占位（r519 族第 5 犯变体）——b526746ed 自持有 commit 96d1b5544 字节恢复＋audit.machine=bm-c 归属验＋json.loads/ledger 421,748 自证＋MSG 已发；finalize 三前置验（ls-tree 12/12·json·prev derive）全过后才跑。
+- W28+ 尾律警示转交：W28=bm-b 座位 r523 已冻结（A 99_004..101_003/B 40_451..40_650 双算术净空 ADMIT——与本机 r539 带闸投影双源同值）；烧录在途（r523 冻结时 2/12·tick 续烧中）。**W29=bm-c 座位**（模 3 续行 26+3=29·W28 行 verbatim 接力）——A 侧续行 101_004.. 起算·冻结窗机闸穷尽扫描必含探针种子簇腿＋N3-R1 腿＋全公示投影带（r335/r539 同法）；W28 finalize（bm-b 座）排本波后=prev **423,948** derive 禁手抄。
