@@ -3874,17 +3874,14 @@ def selftest() -> int:
         assert os.path.exists(os.path.join(
             PATHS.root, "research", "PERPETUAL_N1_W33_PREREG.md")), \
             "W33 per-wave prereg missing (materializer requirement)"
-        # W33 finalize cumulative deps: W17..W31 outputs ALL PRESENT
-        # (closed seats at this freeze -- W31 finalize landed, ledger
-        # 432,748 chain head). W32 finalize PENDING at the bm-c seat:
-        # dep pin excludes it per the r541 W30 precedent (pin to the
-        # closed set); auto-join +32 minimal amendment lands with the
-        # W32 finalize (r531-1 precedent). The finalize runtime itself
-        # stays FAIL-CLOSED: it composes pre-values from every registry
-        # key below 33, so W33 finalize cannot run before the W32
-        # output exists on disk.
+        # W33 finalize cumulative deps: W17..W32 outputs ALL PRESENT
+        # (W32 finalize landed bm-c same-window AFTER this freeze's
+        # commit -- K=68,320 chain-linear, ledger head 434,948; the
+        # dep pin auto-join +32 executed this window per the r531-1
+        # minimal-amendment precedent, exactly as bm-c r337 amended
+        # the W30 leg +29 when W29 landed).
         for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-                      30, 31):
+                      30, 31, 32):
             assert os.path.exists(os.path.join(
                 OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
                 f"W33 finalize cumulative dep (W{_depw} output) missing"
@@ -4157,12 +4154,12 @@ def selftest() -> int:
           "430,548 / W31 bm-b K=66,120 ledger 432,748 chain head), "
           "BOTH tails arithmetic continuation per law sec.4 W32 row "
           "107_004..109_003 / 41_401..41_600, zero skip, r339 bm-c] "
-          "+ W33 materializer face [same guard set, dep=W17..W31 "
-          "present (W32 finalize PENDING at the bm-c seat at this "
-          "freeze -- dep pin excludes it per r541 W30 precedent, "
-          "auto-join +32 minimal amendment lands with the W32 "
-          "finalize per r531-1; finalize runtime stays FAIL-CLOSED "
-          "composing every registry key below 33), BOTH tails "
+          "+ W33 materializer face [same guard set, dep=W17..W32 "
+          "ALL present (W32 finalize landed bm-c same-window after "
+          "this freeze -- K=68,320 chain-linear, dep-pin auto-join "
+          "+32 executed per r531-1 minimal-amendment precedent; at "
+          "freeze the pin was W17..W31 with the W32-pending honest "
+          "note per r541 W30 precedent), BOTH tails "
           "arithmetic continuation per law sec.4 W33 row "
           "109_004..111_003 / 41_601..41_800, zero skip, "
           "TWENTY-SECOND ENGINE-OWNED WAVE engine_owner=bm-a per "
