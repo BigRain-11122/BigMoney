@@ -869,10 +869,28 @@ def _harvest_done_flips(myid):
         hit["harvest_claim"] = os.path.basename(cpath)
         flips.append({"entry": entry_id, "shard": shard_key})
         touched_claims.append(cpath)
-    if not flips:
+    # r489 two-layer law (live: N1-W6 single-shard ghosts 2026-10-01):
+    # an entry whose shards are ALL done must land entry.status=done --
+    # a shard-only flip leaves ghost-ready entries that re-enter live
+    # counts forever (single-shard waves never self-heal). Idempotent
+    # sweep heals fresh flips AND pre-existing ghosts; waiting/parked
+    # entries are governance faces, never swept (r497 park_note law).
+    entry_flips = []
+    for e in pool.get("entries", []):
+        shards = e.get("shards") or []
+        if (e.get("status") == "ready" and shards
+                and all(s.get("status") == "done" for s in shards)):
+            e["status"] = "done"
+            e["done_by"] = myid
+            e["done_at"] = _now()
+            entry_flips.append(e.get("id"))
+    if not flips and not entry_flips:
         return 0
     _log(f"harvest flip x{len(flips)}: "
          + "; ".join(f"{f['entry']}/{f['shard']}" for f in flips[:4]))
+    if entry_flips:
+        _log(f"entry flip x{len(entry_flips)} (r489 two-layer sweep): "
+             + "; ".join(str(x) for x in entry_flips[:4]))
     try:
         if _POOL_LANE_PRIMARY:
             _write_lane_file_strict(POOL, pool)
@@ -893,11 +911,13 @@ def _harvest_done_flips(myid):
             return len(flips)
         dirt = [POOL, *_tick_owned_dirt(), *touched_claims]
         dirt = [p for p in dirt if os.path.exists(p)]
+        _hmsg = (f"autofill harvest flip {len(flips)} shard(s) done "
+                 f"(worker claim handshake, O-20260930-2355 window)")
+        if entry_flips:
+            _hmsg += f" + {len(entry_flips)} entry(ies) r489 sweep"
+        _hmsg += f" [via {myid}]"
         for args in (("add", *dirt),
-                     ("commit", "-m",
-                      f"autofill harvest flip {len(flips)} shard(s) done "
-                      f"(worker claim handshake, O-20260930-2355 window) "
-                      f"[via {myid}]"),
+                     ("commit", "-m", _hmsg),
                      ("push",)):
             rc, err = _git(args)
             if rc == 0:
@@ -2116,6 +2136,14 @@ def selftest():
         rc = tick(dry=True)
         ok("S11 done-shard skip (no re-fire)",
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+        # r489 sweep hygiene: the S11 ghost entry (all-done, status
+        # ready) legitimately flips in the LANE during the tick; later
+        # fixture legs plant fresh shared pools and must not see this
+        # stale lane copy in their merged views. (Inline removal --
+        # the _pool_lane_clear helper below is defined after S11.)
+        _lp11 = _lane_path_for(POOL)
+        if _lp11 and os.path.exists(_lp11):
+            os.remove(_lp11)
         # S12 mixed shards: done shard skipped, ready sibling picked
         ent6 = dict(entry, shards=[{"key": "s0", "status": "done",
                                     "owner": None},
@@ -3369,6 +3397,10 @@ def selftest():
            and sh22["harvested_by"] == "bm-a"
            and sh22["harvest_claim"] == "s0.bm-y.json"
            and sh22.get("claimed_since") == "2026-09-30 00:00:00")
+        ok("S22f2 r489 two-layer: all-done entry lands entry.status=done",
+           lane22["entries"][0]["status"] == "done"
+           and lane22["entries"][0].get("done_by") == "bm-a"
+           and bool(lane22["entries"][0].get("done_at")))
         # S22g merged view keeps the flip (r311 latest.ts stick) +
         # harvest is idempotent
         mv22 = _pool_merged_view()
@@ -3377,6 +3409,35 @@ def selftest():
                 for s in e["shards"])["status"] == "done")
         ok("S22h harvest idempotent on landed shard",
            _harvest_done_flips("bm-a") == 0)
+        # S22h2 r489 ghost sweep: pre-existing all-done ready entry with
+        # NO closed claim file heals entry-layer only (idempotent sweep
+        # face; live shape = N1-W6 single-shard ghosts 2026-10-01)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, id="E22-ghost",
+                shards=[{"key": "s0", "status": "done",
+                         "owner": "bm-z",
+                         "owner_since": "2026-10-01 00:00:00"}])]}, fh)
+        _pool_lane_clear()
+        _harvest_done_flips("bm-a")
+        ok("S22h2 r489 ghost sweep heals all-done ready entry",
+           json.load(open(_lane_path_for(POOL),
+                          encoding="utf-8"))["entries"][0]["status"]
+           == "done")
+        # S22h3 waiting/parked entry is NEVER swept (r497 park law)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, id="E22-park", status="waiting",
+                park_note="FB-004 berth hold",
+                shards=[{"key": "s0", "status": "done",
+                         "owner": "bm-z",
+                         "owner_since": "2026-10-01 00:00:00"}])]}, fh)
+        _pool_lane_clear()
+        _harvest_done_flips("bm-a")
+        ok("S22h3 waiting/parked entry never swept (r497 park law)",
+           json.load(open(POOL, encoding="utf-8"))["entries"][0]["status"]
+           == "waiting"
+           and not os.path.exists(_lane_path_for(POOL)))
         # S22i law-2 red-flag scan: own-machine single_core_burn ->
         # named flag + append-only red-flag face + watermark dedup
         st22i = _load_state()
