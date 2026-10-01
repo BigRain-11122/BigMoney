@@ -123,8 +123,18 @@
     "starts": 1254
   },
   "verdict_face_reconciliation": {
-    "reason": "finalize blocked on NULLS same-mask draws (466/2000 in-flight on bm-b at r551); re-run this leg in the finalize window before any verdict consumption",
-    "results_file_present": false,
-    "status": "DEFERRED"
+    "finalize_census_pass": true,
+    "headline_matches_legA_artifact": {
+      "max_dd": true,
+      "n_entries": true,
+      "n_trades": true,
+      "ret_full": true,
+      "sharpe_full": true
+    },
+    "note": "finalize-window re-run (r533 bm-b): nulls completed 2000/2000 + finalize landed (verdict judged-negative); headline face reconciled against E1 as-burned Leg A artifact to 1e-9",
+    "nulls_k": 2000,
+    "results_file_present": true,
+    "status": "RECONCILED",
+    "verdict": "judged-negative"
   }
 }

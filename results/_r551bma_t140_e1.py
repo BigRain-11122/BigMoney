@@ -256,15 +256,50 @@ def main():
         "b_vs_c_ref": "legC_independent.engine_vs_C_returns_max_abs_diff",
     }
 
-    # ---- verdict-face reconciliation: DEFERRED (finalize pending) ----
+    # ---- verdict-face reconciliation: finalize window (r533 bm-b) ----
+    # r551 ran this leg DEFERRED (nulls 466/2000 in-flight). Finalize has
+    # landed (r533): nulls 2000/2000 + results file on disk. Mechanically
+    # reconcile the E1 as-burned face against the finalize verdict face.
     res_path = os.path.join(L.OUT_DIR, "lowamp_p3_results.json")
-    out["verdict_face_reconciliation"] = {
-        "status": "DEFERRED",
-        "reason": "finalize blocked on NULLS same-mask draws "
-                  "(466/2000 in-flight on bm-b at r551); re-run this leg "
-                  "in the finalize window before any verdict consumption",
-        "results_file_present": os.path.exists(res_path),
-    }
+    if not os.path.exists(res_path):
+        out["verdict_face_reconciliation"] = {
+            "status": "DEFERRED",
+            "reason": "results file absent (finalize pending); re-run in "
+                      "the finalize window before any verdict consumption",
+            "results_file_present": False,
+        }
+    else:
+        res = json.load(open(res_path, encoding="utf-8"))
+        head = res["headline"]
+        art = out["legA_as_burned"]["artifact"]
+
+        def _close(a, b, tol=1e-9):
+            return abs(float(a) - float(b)) <= tol
+
+        recon_fields = {
+            "sharpe_full": _close(head["sharpe_full"], art["sharpe_full"]),
+            "ret_full": _close(head["ret_full"], art["ret_full"]),
+            "max_dd": _close(head["max_dd"], art["max_dd"]),
+            "n_trades": head["n_trades"] == art["n_trades"],
+            "n_entries": head["n_entries"] == art["n_entries"],
+        }
+        nulls_k = res["nulls"]["same_mask"]["k"]
+        census_ok = (res["gates"]["exit_census"]["default_share"]
+                     <= res["gates"]["exit_census"]["block_share"])
+        out["verdict_face_reconciliation"] = {
+            "status": "RECONCILED" if (all(recon_fields.values())
+                                      and nulls_k == 2000
+                                      and census_ok) else "MISMATCH",
+            "results_file_present": True,
+            "verdict": res.get("verdict"),
+            "headline_matches_legA_artifact": recon_fields,
+            "nulls_k": nulls_k,
+            "finalize_census_pass": census_ok,
+            "note": "finalize-window re-run (r533 bm-b): nulls completed "
+                    "2000/2000 + finalize landed (verdict "
+                    "judged-negative); headline face reconciled against "
+                    "E1 as-burned Leg A artifact to 1e-9",
+        }
 
     # B/C gate: letter pass OR the canonical at-boundary-residue case
     # (exactly one day over and that day is a trade-boundary fill day),

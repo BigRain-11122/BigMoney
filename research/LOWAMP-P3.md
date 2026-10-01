@@ -72,7 +72,20 @@
 - **族级 PASS（全合取）**：G1' ∧ G2 ∧ 双轴确认 ∧ x2 存活 ∧ M1 ∧ G-SEG 覆盖 ∧ 律 A 普查门 ≤20%；任一不合=**judged-negative**（诚实出 POTENTIAL_WATCHLIST 名单·O-2230 fast-track law 逐字）；hold-through+ExitPatch 修正面判负=族设计面真判负（出场轴已显式+双通道已修正·无 prereg 自相矛盾面可归咎·第三次同族缺陷已由律 A 双门封死）。
 - 下游：PASS → E1 四腿门 → s4 intake（LOWAMP-* 纸盘提案 fast-track + STRATEGY_LIBRARY 注册 + POTENTIAL_WATCHLIST 状态翻面）；judged-negative → E1 四腿门 → 如实出名单。
 
-## §5-§8 预留
+## §7 回填【跑后·2026-10-02 bm-b r533 finalize】{#s7-backfill}
 
-- §5 资源申报/§6 里程碑/§7 回填（全起点分布+预测对账+损耗账）/§8 结论：跑后回填，跑前留空。
-- **跑前冻结=本件 commit**（freeze hash 入轮报告与 pool 票）；冻结后禁改判据（回填限 §7/§8）。
+- **verdict=judged-negative（族设计面真判负）**：G1' line_ok=False（headline LA-REP legacy base 连续面夏普 **1.158** vs skill_line_v2 **1.9722**=μ_null 0.0533+σ_null 0.3757×√(2·ln N_eff)·N_eff=461,348 净额账本 head+2,008；CI_lo 0.3148>0 过）∧ x2 存活过（+1.119·成本拖累 −0.0386）∧ **M1 t=2.945<3.0 不过** ∧ **DSR 0.2695<0.95** ∧ **PBO 0.4857>0.25**（observe 带）∧ **双轴确认不过**（deep LA-REP 12m beat 642/1380=46.5%·CI_lo 0.4377<0.50）∧ G-SEG 覆盖过（两轴 bear/bull/chop 各 ≥50）∧ **律 A 普查过**（default_share **0.0**·7 笔全 signal_reversal·双通道持有到底实证生效=与前两批 96-97% 缺省栈踢出对照=r522 根因修正面闭环）。
+- **全起点分布（LA-REP legacy base 12m 完整窗 n=1,128）**：best +8.5% / p75 +4.65% / median +3.29% / p25 +2.10% / worst −1.48% / positive_share **86.35%**；滚动最差 3y +4.14% / 5y +15.04%；**零崩年**（≤−35% 年=无）；IS 年化 5.76% / OOS 年化 9.56%。
+- **null 对照三族**：same-mask nulls K=2,000（μ 0.0533·σ 0.3757·p95 0.5943）；block bootstrap B=2,000（p_ge_obs **0.5035**=headline 正落在 null 分布中心）；sign-flip P=2,000（p_two_sided 0.0035=日均显著为正）——解读=**原始收益为正且稳，但不过机队级多重检验线**（46.1 万累计试验的 max-statistic 期望 1.97 不可及）。
+- **sensitivity 描述面（500 抽·不计 N_eff 零判定）**：Sharpe p05 0.9709 / p50 1.1551 / p95 1.3086·maxDD 最差 −8.09%——W∈[77,104]×N∈{2,3}×sizing 全带内**无任何配置逼近 1.97 线**。
+- **账本**：append_ledger LOWAMP-P3 +2,008（prev 459,340→**461,348**·LOWAMP-P1/P2 两笔 −2,008 void 已净额·块已持久化进 results/lowamp_p3/lowamp_p3_results.json trials_ledger 块=r509 序律）；批报告 audit 段（machine=bm-b·finalize_runtime 13.5s）。
+- **数据完备性披露**：cells 16 格全完备（legacy 1,254×8+deep 1,506×8）；nulls 2,000/2,000（bm-b 完成·bm-c 同窗认领按进度领先让路 cfd09364a）；sens 500/500（bm-a 02:09 烧录·r550 救回 origin·本轮 r533 再恢复被 6765a3b93 daemon 全扫误删件）；**LA-EDGE legacy_base cells 件曾以 43 组冲突标记汤状态在册 origin**（bm-a r549 rebase 残留·本轮按 r498 键恒等断言重建 1,254/1,254·双方 2,169 行全等零差）。
+
+## §8 结论【跑后·2026-10-02 bm-b r533】
+
+- **LOWAMP-P3=低振幅横截面日再平衡族第三次考卷、首个真判负**：出场轴双通道修正面实证生效（律 A 普查 0% 缺省出场·引擎缺省栈零触发），判负**归族设计面**（prereg §4 逐字「hold-through+ExitPatch 修正面判负=族设计面真判负·无 prereg 自相矛盾面可归咎」）——族正面=收益温和为正（86% 正窗·零崩年·成本翻倍存活）但**跨不过机队级多重检验线**（skill_line 1.97/DSR 0.95/M1 3.0 三门皆欠·PBO 0.486 过拟合带·深轴 46.5% 不足 50% 多数）。
+- **E1 四腿门（消费前置）**：legA as-burned 逐 bp 复现恒等+legA2 普计 0% 缺省+legC 独立算术腿对账（max diff 5.05e-4 单日边界残留·两正典先例裁定面）=**PASS**；verdict-face reconciliation **RECONCILED**（headline 与 legA artifact 1e-9 恒等·nulls 2,000 完备·finalize census 过）——verdict 数字消费放行。
+- **下游消费面**：judged-negative → POTENTIAL_WATCHLIST 出名单（2026-10-02 bm-b r533·O-2230 律 judged 判负 出·无需 GM 署名）；族键 lowamp_daily_xs 入 CLOSED_FAMILIES（M3 终态·重开通道=new_evidence_new_prereg 新预注册声明新证据 delta）；W∈[77,104] 语法带存量维持禁重跑（本批为该带第二次合法消费·P1 批禁重跑不变）。
+- **本批纪律遗产**：律 A 烧后普查首载即实证价值（0% vs 前两批 96-97% 的对照=把「工具面缺陷」与「族设计面真判负」干净分离）；E1 消费前门在 nulls 完备窗的 DEFERRED→RECONCILED 两态机制=r307 两态律的 verdict-face 实例。
+
+- **跑前冻结=本件 commit**（freeze hash 入轮报告与 pool 票）；冻结后禁改判据（回填限 §7/§8）；§5 资源申报=§0 算力预算（池 16+2 分片·workers 12）·§6 里程碑=烧毕→finalize→E1→消费四段（实际走完 2026-10-02）。

@@ -1,0 +1,550 @@
+{
+  "audit": {
+    "deep_axis_amount": "volume x close proxy (t22 precedent, disclosed)",
+    "engine_face": "engine.run_backtest, per-symbol sub-account decomposition, entry_size_scale weight mapping (see runner docstring)",
+    "finalize_runtime_sec": 13.5,
+    "g_census_amendment": "2026-10-02 P3 lineage note: G-CENSUS anchor {legacy: 1254, deep: 1506} inherited verbatim from the LOWAMP-P2 zero-burn amendment (r251/r280 lineage) -- same binding 2026-09-22 cutoff truncation, same deterministic enumeration",
+    "law_a_census": {
+      "block_share": 0.2,
+      "lawful_reasons": [
+        "signal_reversal"
+      ],
+      "ref": "LOWAMP-P2 sec.9 / O-20261001-2355 sec.1"
+    },
+    "liquidity": {
+      "active_members_ever": 4,
+      "amt20_min_yuan": 50000000.0,
+      "elig_days_median": 45.0,
+      "elig_days_min": 0,
+      "selected_days": 1542
+    },
+    "machine": "bm-b",
+    "seed_disclosure": {
+      "note": "registry row lowamp_p3_starts=20336000 NOT consumed by this batch (T-22 full enumeration judged starts; full-panel continuous sensitivity); prereg sec.3 binds nulls to 20336500 and sens draws to 20335500 (verbatim; P3 new band per LOWAMP-P2 sec.9).",
+      "nulls": 20336500,
+      "registry_rows": {
+        "lowamp_p1_nulls": 20331000,
+        "lowamp_p1_params": 20330000,
+        "lowamp_p1_starts": 20330500,
+        "lowamp_p2_nulls": 20334500,
+        "lowamp_p2_params": 20333500,
+        "lowamp_p2_starts": 20334000,
+        "lowamp_p3_nulls": 20336500,
+        "lowamp_p3_params": 20335500,
+        "lowamp_p3_starts": 20336000
+      },
+      "sensitivity": 20335500
+    }
+  },
+  "batch": "LOWAMP-P3",
+  "cells": {
+    "LA-EDGE|deep|base": {
+      "axis": "deep",
+      "cell": "LA-EDGE",
+      "face": "base",
+      "key": "cont|LA-EDGE|deep|base",
+      "max_dd": -0.054658,
+      "n_days": 3230,
+      "n_entries": 69,
+      "n_trades": 67,
+      "nav_first": 1000000.0,
+      "nav_last": 1604282.63,
+      "ret_full": 0.604283,
+      "sharpe_full": 1.066348,
+      "trades_per_year": 5.23
+    },
+    "LA-EDGE|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-EDGE",
+      "face": "x2",
+      "key": "cont|LA-EDGE|deep|x2",
+      "max_dd": -0.05679,
+      "n_days": 3230,
+      "n_entries": 69,
+      "n_trades": 67,
+      "nav_first": 1000000.0,
+      "nav_last": 1554954.19,
+      "ret_full": 0.554954,
+      "sharpe_full": 0.979073,
+      "trades_per_year": 5.23
+    },
+    "LA-EDGE|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-EDGE",
+      "face": "base",
+      "key": "cont|LA-EDGE|legacy|base",
+      "max_dd": -0.025516,
+      "n_days": 1631,
+      "n_entries": 5,
+      "n_trades": 3,
+      "nav_first": 1000000.0,
+      "nav_last": 1172776.98,
+      "ret_full": 0.172777,
+      "sharpe_full": 1.285324,
+      "trades_per_year": 0.46
+    },
+    "LA-EDGE|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-EDGE",
+      "face": "x2",
+      "key": "cont|LA-EDGE|legacy|x2",
+      "max_dd": -0.025549,
+      "n_days": 1631,
+      "n_entries": 5,
+      "n_trades": 3,
+      "nav_first": 1000000.0,
+      "nav_last": 1169324.54,
+      "ret_full": 0.169325,
+      "sharpe_full": 1.258364,
+      "trades_per_year": 0.46
+    },
+    "LA-EQ|deep|base": {
+      "axis": "deep",
+      "cell": "LA-EQ",
+      "face": "base",
+      "key": "cont|LA-EQ|deep|base",
+      "max_dd": -0.050424,
+      "n_days": 3230,
+      "n_entries": 74,
+      "n_trades": 72,
+      "nav_first": 1000000.0,
+      "nav_last": 1625392.93,
+      "ret_full": 0.625393,
+      "sharpe_full": 1.115291,
+      "trades_per_year": 5.62
+    },
+    "LA-EQ|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-EQ",
+      "face": "x2",
+      "key": "cont|LA-EQ|deep|x2",
+      "max_dd": -0.0514,
+      "n_days": 3230,
+      "n_entries": 74,
+      "n_trades": 72,
+      "nav_first": 1000000.0,
+      "nav_last": 1573539.65,
+      "ret_full": 0.57354,
+      "sharpe_full": 1.020565,
+      "trades_per_year": 5.62
+    },
+    "LA-EQ|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-EQ",
+      "face": "base",
+      "key": "cont|LA-EQ|legacy|base",
+      "max_dd": -0.037083,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1158756.09,
+      "ret_full": 0.158756,
+      "sharpe_full": 1.158046,
+      "trades_per_year": 1.08
+    },
+    "LA-EQ|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-EQ",
+      "face": "x2",
+      "key": "cont|LA-EQ|legacy|x2",
+      "max_dd": -0.037131,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1153706.74,
+      "ret_full": 0.153707,
+      "sharpe_full": 1.119469,
+      "trades_per_year": 1.08
+    },
+    "LA-REP|deep|base": {
+      "axis": "deep",
+      "cell": "LA-REP",
+      "face": "base",
+      "key": "cont|LA-REP|deep|base",
+      "max_dd": -0.050424,
+      "n_days": 3230,
+      "n_entries": 74,
+      "n_trades": 72,
+      "nav_first": 1000000.0,
+      "nav_last": 1625392.93,
+      "ret_full": 0.625393,
+      "sharpe_full": 1.115291,
+      "trades_per_year": 5.62
+    },
+    "LA-REP|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-REP",
+      "face": "x2",
+      "key": "cont|LA-REP|deep|x2",
+      "max_dd": -0.0514,
+      "n_days": 3230,
+      "n_entries": 74,
+      "n_trades": 72,
+      "nav_first": 1000000.0,
+      "nav_last": 1573539.65,
+      "ret_full": 0.57354,
+      "sharpe_full": 1.020565,
+      "trades_per_year": 5.62
+    },
+    "LA-REP|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-REP",
+      "face": "base",
+      "key": "cont|LA-REP|legacy|base",
+      "max_dd": -0.037083,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1158756.09,
+      "ret_full": 0.158756,
+      "sharpe_full": 1.158046,
+      "trades_per_year": 1.08
+    },
+    "LA-REP|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-REP",
+      "face": "x2",
+      "key": "cont|LA-REP|legacy|x2",
+      "max_dd": -0.037131,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1153706.74,
+      "ret_full": 0.153707,
+      "sharpe_full": 1.119469,
+      "trades_per_year": 1.08
+    },
+    "LA-T3|deep|base": {
+      "axis": "deep",
+      "cell": "LA-T3",
+      "face": "base",
+      "key": "cont|LA-T3|deep|base",
+      "max_dd": -0.074262,
+      "n_days": 3230,
+      "n_entries": 192,
+      "n_trades": 189,
+      "nav_first": 1000000.0,
+      "nav_last": 1673282.11,
+      "ret_full": 0.673282,
+      "sharpe_full": 1.089856,
+      "trades_per_year": 14.75
+    },
+    "LA-T3|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-T3",
+      "face": "x2",
+      "key": "cont|LA-T3|deep|x2",
+      "max_dd": -0.079595,
+      "n_days": 3230,
+      "n_entries": 192,
+      "n_trades": 189,
+      "nav_first": 1000000.0,
+      "nav_last": 1600827.49,
+      "ret_full": 0.600827,
+      "sharpe_full": 0.975873,
+      "trades_per_year": 14.75
+    },
+    "LA-T3|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-T3",
+      "face": "base",
+      "key": "cont|LA-T3|legacy|base",
+      "max_dd": -0.042423,
+      "n_days": 1631,
+      "n_entries": 49,
+      "n_trades": 46,
+      "nav_first": 1000000.0,
+      "nav_last": 1209750.63,
+      "ret_full": 0.209751,
+      "sharpe_full": 1.270441,
+      "trades_per_year": 7.11
+    },
+    "LA-T3|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-T3",
+      "face": "x2",
+      "key": "cont|LA-T3|legacy|x2",
+      "max_dd": -0.043903,
+      "n_days": 1631,
+      "n_entries": 49,
+      "n_trades": 46,
+      "nav_first": 1000000.0,
+      "nav_last": 1197832.9,
+      "ret_full": 0.197833,
+      "sharpe_full": 1.196034,
+      "trades_per_year": 7.11
+    }
+  },
+  "d6": {
+    "max_abs_corr": 0.1868,
+    "max_member": "VOLATILITY-CE-01",
+    "pairs": [
+      {
+        "corr": 0.0512,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0016,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0699,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0191,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.0051,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1868,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7
+  },
+  "descriptive": {
+    "crash_years_lte_-35pct": {},
+    "is_ann_ret": 0.0576,
+    "oos_ann_ret": 0.0956,
+    "x2_cost_drag_sharpe": -0.0386
+  },
+  "evidence_cutoff": "2026-09-22",
+  "family_key": "lowamp_daily_xs",
+  "gates": {
+    "dsr": {
+      "T": 1630,
+      "dsr": 0.269516,
+      "kurtosis": 11.3066,
+      "n_trials": 2008,
+      "sigma_sr": 0.02574,
+      "skew": -0.899,
+      "sr_annualized": 1.158,
+      "sr_star": 0.088762
+    },
+    "dual_axis": {
+      "beat_k": 642,
+      "beat_n": 1380,
+      "ci_hi": 0.4913,
+      "ci_lo": 0.4377,
+      "pass": false
+    },
+    "exit_census": {
+      "axis": "legacy",
+      "block_share": 0.2,
+      "cell": "LA-REP",
+      "default_share": 0.0,
+      "default_stack_exits": 0,
+      "face": "base",
+      "pass": true,
+      "per_reason": {
+        "signal_reversal": 7
+      },
+      "per_sym": {
+        "159934": {
+          "n_trades": 3,
+          "reasons": {
+            "signal_reversal": 3
+          }
+        },
+        "511010": {
+          "n_trades": 1,
+          "reasons": {
+            "signal_reversal": 1
+          }
+        },
+        "511260": {
+          "n_trades": 0,
+          "reasons": {}
+        },
+        "518880": {
+          "n_trades": 3,
+          "reasons": {
+            "signal_reversal": 3
+          }
+        }
+      },
+      "total_exits": 7
+    },
+    "g1_prime": {
+      "bootstrap_ci": {
+        "block_days": 10.0,
+        "ci95_high": 1.9854,
+        "ci95_low": 0.3148,
+        "ci_lower_bound_positive": true,
+        "n_resamples": 1000,
+        "point": 1.158,
+        "seed": 20260923
+      },
+      "ci_lower_bound_positive": true,
+      "gate": "g1_prime_v2",
+      "line_ok": false,
+      "pass_v2": false,
+      "sharpe_full": 1.158,
+      "skill_line": {
+        "ledger_head": {
+          "file": "n1_w44_results.json",
+          "note": "perpetual N1 nulls-deepening wave 44 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+          "total": 459340,
+          "voided": [
+            {
+              "batch": "LOWAMP-P1",
+              "voided_trials": 2008
+            },
+            {
+              "batch": "LOWAMP-P2",
+              "voided_trials": 2008
+            }
+          ]
+        },
+        "line": 1.9722,
+        "mu_null": 0.0533,
+        "n_eff": 461348,
+        "null_pool_source": "LOWAMP-P3 same-mask nulls K=2000 rng([20336500,k])",
+        "null_term": 1.9722,
+        "passive_source": "pool:core48",
+        "passive_term": 0.4792,
+        "pool": "core48",
+        "sigma_null": 0.3757
+      },
+      "trade_gate": {
+        "dual_ok": false,
+        "entries_ok": false,
+        "min": 30,
+        "n_entries": 9,
+        "n_trades": 7,
+        "trades_ok": false
+      }
+    },
+    "g2": {
+      "dsr": 0.269516,
+      "dsr_gate": 0.95,
+      "dsr_ok": false,
+      "eligible_v2": false,
+      "family_pbo": 0.4857,
+      "g1_pass": false,
+      "gate": "g2_registration_v2",
+      "missing_inputs": [
+        "g1_prime_v2"
+      ],
+      "pbo_gate": 0.25,
+      "pbo_ok": false
+    },
+    "g_seg": {
+      "coverage": {
+        "deep": {
+          "bear": 746,
+          "bull": 540,
+          "chop": 94
+        },
+        "legacy": {
+          "bear": 696,
+          "bull": 345,
+          "chop": 87
+        }
+      },
+      "pass": true
+    },
+    "m1": {
+      "claim_class": "new_strategy",
+      "gate": "m1_t_value",
+      "hurdle": 3.0,
+      "missing_input": false,
+      "pass": false,
+      "t": 2.945231
+    },
+    "pbo": {
+      "band": "observe",
+      "pbo": 0.4857
+    },
+    "x2_survival": {
+      "pass": true,
+      "sharpe_full": 1.119469
+    }
+  },
+  "headline": {
+    "max_dd": -0.037083,
+    "n_entries": 9,
+    "n_trades": 7,
+    "ret_full": 0.158756,
+    "sharpe_full": 1.158046,
+    "trades_per_year": 1.08
+  },
+  "nulls": {
+    "block_bootstrap": {
+      "B": 2000,
+      "block_len": 21,
+      "obs_sharpe": 1.158046,
+      "p_ge_obs": 0.5035,
+      "seed": 20261001,
+      "sharpe_p05": 0.4921,
+      "sharpe_p50": 1.1636,
+      "sharpe_p95": 1.8708
+    },
+    "same_mask": {
+      "k": 2000,
+      "mu": 0.0533,
+      "p05": -0.5102,
+      "p50": 0.0762,
+      "p95": 0.5943,
+      "sigma": 0.3757
+    },
+    "sign_flip": {
+      "P": 2000,
+      "abs_mean_obs": 9.118e-05,
+      "abs_mean_p50": 2.071e-05,
+      "abs_mean_p95": 6.156e-05,
+      "p_two_sided": 0.0035,
+      "seed": 20261001
+    }
+  },
+  "probe_ref": "results/lowamp_p3/probe.json",
+  "rolling_worst": {
+    "10y": null,
+    "3y": 0.0414,
+    "5y": 0.1504
+  },
+  "sensitivity": {
+    "k": 500,
+    "maxdd_worst": -0.0809,
+    "sharpe_p05": 0.9709,
+    "sharpe_p50": 1.1551,
+    "sharpe_p95": 1.3086
+  },
+  "starts_12m_dist": {
+    "best": 0.085,
+    "median": 0.0329,
+    "n": 1128,
+    "p25": 0.021,
+    "p75": 0.0465,
+    "positive_share": 0.8635,
+    "worst": -0.0148
+  },
+  "ticket": "T-2026-10-01-140",
+  "trials_ledger": {
+    "batch": "LOWAMP-P3",
+    "batch_trials": 2008,
+    "evidence_cutoff": "2026-09-22",
+    "file": "results/lowamp_p3/lowamp_p3_results.json",
+    "prev_total": 459340,
+    "total": 461348,
+    "voids_applied": [
+      "LOWAMP-P1",
+      "LOWAMP-P2"
+    ]
+  },
+  "verdict": "judged-negative"
+}

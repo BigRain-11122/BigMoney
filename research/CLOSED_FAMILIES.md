@@ -14,6 +14,7 @@
 | 4 | `factor_blend` | 判负线 | R270 件⑥裁定④注记 | research/FACTOR_BLEND(_V2).md 判负线档案 | 新证据=新预注册 |
 | 5 | `t28_spm_first` | NOT-DEMONSTRATED（J4 pooled<0.70 唯一挂点） | research/T28_STABLE_PROFIT.md | T-28 首测台账 | 既排复跑窗 2026-10-31 |
 | 6 | `microcap_2024_crash` | 不可行域·照登不建模 | O-20260926-0926 | 集团令原文 | CEO 一句话 |
+| 7 | `lowamp_daily_xs` | judged-negative（P3 真判负·单批终局） | LOWAMP-P3 verdict+E1 四腿（r533 bm-b·2026-10-02） | results/lowamp_p3/lowamp_p3_results.json + research/LOWAMP-P3.md §7/§8（P1/P2=VOID 缺陷面·P3=出场轴双通道修正面·律 A 普查 0% 缺省出场·G1'/M1/DSR/PBO/双轴全不过·族正面温和为正但跨不过机队级多重检验线 1.9722） | 新证据=新预注册 |
 
 **启用面（前瞻生效）**：本表+M1 t 值门槛自 bm-a r482 起对**此后冻结的新预注册**生效；既有冻结批维持原判（档存重估=新程序非翻案律）。新 prereg 模板已加两必填项（`research/PREREG_TEMPLATE.md` §3/§4）：①闭合族对号+复活证据增量声明 ②新因子 t 面申报（Harvey/Liu/Zhu 门槛 3.0）。
 
