@@ -763,6 +763,30 @@ N1_BANDS = {
     # table tail + all published projections at that time).
     37: {"a": (117_004, 119_003), "b_exit": (42_401, 42_600),
          "engine_owner": "bm-c"},
+    # W38 (r529 bm-b, own-series continuation per CEO de-throttle
+    # order O-20261001-2355 sec.2 -- bm-b's TWELFTH owned wave after
+    # W10/W11/W13/W16/W19/W22/W25/W28/W31/W34/W36; follows the W36
+    # FULL CLOSEOUT this same window (r529: finalize one-pass
+    # 441,740, K=77,120 == sec.0 projection) -> zero-gap relay, wave
+    # number 38 = first free number after W37's landed claim (bm-c
+    # r341). BOTH tails arithmetic continuation from the registered
+    # W37 row, no skip either side (A 119_004..121_003 == W37 A end
+    # + 1; B 42_601..42_800 == W37 B end + 1). Machine-verified at
+    # prereg time (results/_r529bmb_w38_band_gate.py ADMIT receipt vs
+    # the 35-row pre-W38 table incl. W33/W34/W35/W36/W37 +
+    # SEED_REGISTRY values + probe-seed cluster 95_000..95_003 r335
+    # discovery leg + N3-R1 used-seed band 70_000..70_005 MSG-183x
+    # r529 mandatory leg). TWENTY-SEVENTH ENGINE-OWNED WAVE,
+    # engine_owner=bm-b (SATURATION_ENGINE_LAW sec.1/2 same contract
+    # as W10..W37, local queue, no pool entry). NOT a re-pick (R250:
+    # W38 bands were never assigned; the measurement face has no
+    # result to fish).
+    # W39+ WARNING: A +2_000 tail 121_004..123_003 and B +200 tail
+    # 42_801..43_000 projection per the r529 gate receipt -- verify at
+    # the next freeze's prereg (own-series: verify against the live
+    # table tail + all published projections at that time).
+    38: {"a": (119_004, 121_003), "b_exit": (42_601, 42_800),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

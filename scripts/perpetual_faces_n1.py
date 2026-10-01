@@ -889,11 +889,40 @@ WAVE_CONFIGS = {
                             "(seat system terminated, first-free-number law), "
                             "engine_owner=bm-c, both tails arithmetic continuation "
                             "from the registered W36 row, no skip)"),
-                 "a_seed_base": 117_004,        # law sec.4 W37 A: 117_004..119_003 (arithmetic)
-                 "b_exit_seed_base": 42_401,    # law sec.4 W37 B: 42_401..42_600 (arithmetic)
-                 "shard_subdir": "n1_w37", "out_name": "n1_w37_results.json",
-                 "engine_owner": "bm-c"},
-          }
+                        "a_seed_base": 117_004,        # law sec.4 W37 A: 117_004..119_003 (arithmetic)
+                        "b_exit_seed_base": 42_401,    # law sec.4 W37 B: 42_401..42_600 (arithmetic)
+                        "shard_subdir": "n1_w37", "out_name": "n1_w37_results.json",
+                        "engine_owner": "bm-c"},
+                  # W38 (r529 bm-b, own-series continuation per CEO
+                  # de-throttle order O-20261001-2355 sec.2 -- bm-b's TWELFTH
+                  # owned wave after W10/W11/W13/W16/W19/W22/W25/W28/W31/
+                  # W34/W36; follows the W36 FULL CLOSEOUT this same window
+                  # (r529: finalize one-pass 441,740, K=77,120 == sec.0
+                  # projection) -> zero-gap relay. Wave 38 = first free
+                  # number: W35 (bm-a), W36 (bm-b) and W37 (bm-c) all
+                  # registered; BOTH tails arithmetic continuation from the
+                  # registered W37 row, no skip. Machine-verified at prereg
+                  # time (results/_r529bmb_w38_band_gate.py ADMIT receipt
+                  # vs the 35-row pre-W38 table + SEED_REGISTRY + probes/
+                  # actuals + probe-seed cluster 95_000..95_003 r335
+                  # discovery leg + N3-R1 used-seed band 70_000..70_005
+                  # MSG-183x r529 mandatory leg). TWENTY-SEVENTH
+                  # ENGINE-OWNED WAVE, engine_owner=bm-b (local queue, no
+                  # pool entry). NOT a re-pick (R250: W38 bands were never
+                  # assigned).
+                  38: {"batch": "PERPETUAL-N1-W38",
+                       "prereg": ("research/PERPETUAL_N1_W38_PREREG.md (wave-level frozen "
+                                  "pre-run; design = frozen v1 null calibration verbatim, "
+                                  "new seed bands only; TWENTY-SEVENTH ENGINE-OWNED WAVE, "
+                                  "own-series continuation per O-20261001-2355 sec.2 "
+                                  "(seat system terminated, first-free-number law), "
+                                  "engine_owner=bm-b, both tails arithmetic continuation "
+                                  "from the registered W37 row, no skip)"),
+                       "a_seed_base": 119_004,        # law sec.4 W38 A: 119_004..121_003 (arithmetic)
+                       "b_exit_seed_base": 42_601,    # law sec.4 W38 B: 42_601..42_800 (arithmetic)
+                       "shard_subdir": "n1_w38", "out_name": "n1_w38_results.json",
+                       "engine_owner": "bm-b"},
+                 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -4374,6 +4403,100 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W38 materializer face (r529 bm-b freeze, own-series law
+    #     O-20261001-2355 sec.2 -- bm-b's TWELFTH owned wave after
+    #     W10/W11/W13/W16/W19/W22/W25/W28/W31/W34/W36; zero-gap relay
+    #     after the W36 FULL CLOSEOUT this same window) ---------------
+    _set_wave(38)
+    try:
+        assert WAVE_CONFIGS[38]["a_seed_base"] == pf.N1_BANDS[38]["a"][0], \
+            "W38 A band drift vs law mirror"
+        assert WAVE_CONFIGS[38]["b_exit_seed_base"] == \
+            pf.N1_BANDS[38]["b_exit"][0], "W38 B band drift vs law mirror"
+        assert WAVE_CONFIGS[38].get("engine_owner") == \
+            pf.N1_BANDS[38].get("engine_owner") == "bm-b", \
+            "W38 engine_owner drift (law mirror parity)"
+        w38_a = {A_SEED_BASE + j for j in range(A_N)}
+        w38_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w38_a & w38_b), "W38 A/B band overlap"
+        assert not (w38_a & reg_ints) and not (w38_b & reg_ints), \
+            "W38 hits SEED_REGISTRY"
+        for nm, band in (("A", w38_a), ("B", w38_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W38 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W38 {nm} hits W1"
+            assert not (band & probes), f"W38 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W36 (bm-b, closed FULL-LIFECYCLE
+        # this same window -- r529 finalize one-pass K=77,120, ledger
+        # 441,740 chain-linear) and W37 (bm-c, registered + burning at
+        # this freeze -- in-flight coexists by band disjointness per
+        # r531 law).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37):
+            assert not (w38_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W38 A hits W{wprev}"
+            assert not (w38_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W38 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W38 bands must clear it.
+        n3r1_used38 = set(range(70_000, 70_006))
+        assert not (w38_a & n3r1_used38) and not (w38_b & n3r1_used38), \
+            "W38 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w38_a & lfc_actual12) and not (w38_b & lfc_actual12), \
+            "W38 bands must clear the lfc actual draw range"
+        assert not (w38_a & options_actual12) and \
+            not (w38_b & options_actual12), \
+            "W38 bands must clear the options_wave2 actual draw range"
+        # arithmetic-continuation facts (law sec.4 W38 row, r529): BOTH
+        # tails land clean exactly as the W37 row's W38+ WARNING
+        # projected -- no skip either side (candidate start == W37 band
+        # end + 1 on both sides; the r341-published projection window IS
+        # the candidate, machine-verified by the r529 gate).
+        assert WAVE_CONFIGS[38]["a_seed_base"] == 119_004 == 119_003 + 1, \
+            "W38 A must start at the W37 A end + 1 (arithmetic continuation)"
+        assert WAVE_CONFIGS[38]["b_exit_seed_base"] == 42_601 == 42_600 + 1, \
+            "W38 B must start at the W37 B end + 1 (arithmetic continuation)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W38-SHARD-0",
+                                          "n1w38-0of12"), "W38 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W38-SHARD-11",
+                                           "n1w38-11of12")
+        assert SHARD_DIR.endswith("n1_w38") and OUT.endswith(
+            "n1_w38_results.json"), "W38 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W38 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W38_PREREG.md")), \
+            "W38 per-wave prereg missing (materializer requirement)"
+        # W38 finalize cumulative deps: W17..W36 outputs ALL PRESENT
+        # (W34 finalize r528 bm-b K=72,720; W35 finalize bm-a r546
+        # K=74,920; W36 finalize bm-b r529 this same window K=77,120 --
+        # net ledger head 441,740); W37 (bm-c, registered + burning at
+        # this freeze) -- the dep pin carries the two-state honest note
+        # per the r541 W30 precedent (finalize runtime composes every
+        # registry key below 38 = FAIL-CLOSED honest wait for the W37
+        # output once it lands).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33, 34, 35, 36):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W38 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 38 (no 15; W37
+        # in-flight = runtime FAIL-CLOSED guard).
+        assert sorted(w for w in WAVE_CONFIGS if w < 38) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+             35, 36, 37], \
+            "W38 prior-wave set must derive from registry keys (no 15, incl. 37)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -4690,6 +4813,18 @@ def selftest() -> int:
           "own-continuous-series (follows the r341 W36 yield to bm-b "
           "per r511 commit-order law, wave 37 = first free number "
           "after W36's claim), r341 bm-c] "
+          "+ W38 materializer face [same guard set, dep=W17..W36 ALL "
+          "present (W35 finalize bm-a r546 K=74,920 + W36 finalize "
+          "bm-b r529 K=77,120 chain-linear -- dep-pin auto-join +35+36 "
+          "executed same window; W37 bm-c registered-in-flight "
+          "two-state dep -- finalize runtime FAIL-CLOSED composes "
+          "every registry key below 38), BOTH tails arithmetic "
+          "continuation per law sec.4 W38 row 119_004..121_003 / "
+          "42_601..42_800, zero skip, TWENTY-SEVENTH ENGINE-OWNED "
+          "WAVE engine_owner=bm-b per engine de-throttle law "
+          "O-20261001-2355 sec.2 own-continuous-series (zero-gap "
+          "relay after the W36 full closeout this same window, wave "
+          "38 = first free number after W37's claim), r529 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
