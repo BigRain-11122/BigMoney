@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-01T20:58:57+0800",
- "current_task": "r538 closed: town.html org_chart v2 alignment (alloc building re-anchored); awaiting bm-c W23 finalize -> W24 finalize",
+ "last_seen": "2026-10-01T21:10:40+0800",
+ "current_task": "r538 closed: W24 finalize chain-linear 417,348 + town org_chart v2 alignment; CEO 2103/2106 acked (R1 research-wave tickets pending GM dispatch, claim-on-open next round)",
  "cpu_cores": 32,
  "cpu_pct": 0.0,
  "free_ram_gb": 53.4,
  "gpu_free_vram_gb": null,
- "verdict": "healthy: r538 town.html org_chart v2 alignment closure (gate 10/10 + Edge render-verified) + S6 28 legs rc0 holiday no-ops; engine alive queue0 idle-legal (W23 finalize=bm-c unblocked on W22 landed; W24 finalize=next once W23 on origin; W26=bm-c seat); board clean, pool drained (W14-GENERATE GM-park only), audit pool_starvation flag=GM-ruled supply gap disclosed",
+ "verdict": "healthy: r538 W24 finalize one-pass closed loop (ledger 415,148+2,200=417,348 chain-linear, K=50,720, S5 4/4, S7/S8 backfilled, selftest+attrition green) + town.html org_chart v2 alignment closure + rerun-doublecount pit caught/fixed (finalize rerun counts own uncommitted output into prev); CEO O-2103/O-2106 T1 research orders received-acked, execution starts on GM-dispatched tickets (claim same round); W26 frozen by bm-c (W27=bm-a seat waits); S6 28 legs rc0",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -146,10 +146,12 @@
   "O-20261001-1108-bm-c.md",
   "O-20261001-1332-bm-c.md",
   "O-20261001-1410-bm-c.md",
-  "O-20261001-1420-bm-c.md"
+  "O-20261001-1420-bm-c.md",
+  "O-20261001-2103-bm-a.md",
+  "O-20261001-2106-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790859537,
- "clock_read": "2026-10-01T20:58:57+0800",
+ "heartbeat_epoch_utc": 1790860240,
+ "clock_read": "2026-10-01T21:10:40+0800",
  "cores": 32,
  "gpu_free_vram_mb": 5619,
  "gpu_idle_vram_gb": 3.51,
