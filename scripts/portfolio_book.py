@@ -524,7 +524,12 @@ def _seg_faces(r_book, st):
 
 
 def _beat6m_book(eq_book, st):
-    """Rolling 6m book beats vs passive (drill caliber) + rel distribution."""
+    """Rolling 6m book beats vs passive (drill caliber) + rel distribution.
+    The book curve is WINDOW-space (N+1 values, base day at index 0) while
+    the drill's member curves are full-history (panel space) -- panel
+    position p maps to book index p - w0 + 1 (r506 real-burn crash fix;
+    same 6m windows/dates/passive face as the drill, only index space
+    translated)."""
     idx, w0, wend = st["idx"], st["w0"], st["wend"]
     k = tot = 0
     rels = []
@@ -534,7 +539,8 @@ def _beat6m_book(eq_book, st):
         syms = st["close"].columns[st["close"].loc[sdate].notna()]
         pret = float(passive_rel(st["close"], syms, sdate, edate).iloc[-1]
                      - 1.0)
-        cret = float(eq_book.iloc[p + W6 - 1] / eq_book.iloc[p] - 1.0)
+        b0 = p - w0 + 1                     # window-space book index
+        cret = float(eq_book.iloc[b0 + W6 - 1] / eq_book.iloc[b0] - 1.0)
         k += int(cret > pret)
         tot += 1
         rels.append(cret - pret)
@@ -1334,6 +1340,34 @@ def cmd_selftest() -> int:
                              initializer=_smp_stub_init)
     chk("S-mp x2-flag face (x2=False -> eq2 None)",
         out_x1["m2"]["eq2"] is None)
+    # (q) beat6m book-space mapping (r506 real-burn crash leg: book curve
+    #     is window-space N+1; panel p -> book p - w0 + 1; k-parity vs
+    #     independent inline recomputation, no IndexError)
+    global W6
+    W6_save = W6
+    W6 = 10
+    try:
+        idxq = list(pd.date_range("2026-01-05", periods=40, freq="B"))
+        close_q = pd.DataFrame({"S1": np.linspace(1.0, 1.2, 40)},
+                               index=idxq)
+        stq = {"idx": idxq, "w0": 5, "wend": 39, "wbase": 4,
+               "n_win_days": 35, "close": close_q}
+        eq_q = pd.Series(np.linspace(1.0, 1.3, 36))  # N+1 window-space
+        b6, dist6 = _beat6m_book(eq_q, stq)
+        exp_k = 0
+        for p in range(5, 31):                 # p + 9 <= 39
+            sdate, edate = idxq[p], idxq[p + 9]
+            syms = close_q.columns[close_q.loc[sdate].notna()]
+            pret = float(passive_rel(close_q, syms, sdate, edate).iloc[-1]
+                         - 1.0)
+            b0 = p - 5 + 1
+            cret = float(eq_q.iloc[b0 + 9] / eq_q.iloc[b0] - 1.0)
+            exp_k += int(cret > pret)
+        chk("beat6m book mapping (k parity + n=26, no IndexError)",
+            b6["k"] == exp_k and b6["n"] == 26
+            and dist6 is not None and dist6["n"] == 26)
+    finally:
+        W6 = W6_save
     n_fail = len(fails)
     print(f"selftest: {'ALL PASS' if not n_fail else f'{n_fail} FAIL'}")
     return 0 if not n_fail else 1
