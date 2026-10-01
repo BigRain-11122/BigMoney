@@ -148,6 +148,24 @@ N1_BANDS = {
     # 34_100..36_099 -- N2/N4 preregs must steer clear per law sec.4.
     10: {"a": (34_100, 36_099), "b_exit": (28_700, 28_899),
          "engine_owner": "bm-b"},
+    # W11 (r510 bm-b, prereg-time extension per the never-dry supply law --
+    # SECOND ENGINE-OWNED WAVE: engine_owner=bm-b, burned by the
+    # saturation engine local perpetual queue (SATURATION_ENGINE_LAW
+    # sec.1/sec.2), NEVER pool-materialized -- cmd_supply refuses
+    # engine-owned waves; arithmetic tails land clean exactly as the W10
+    # row projected): A 36_100 == W10 A end + 1, B 28_900 == W10 B end + 1;
+    # no skip this wave, both strides kept verbatim. Machine-verified at
+    # prereg time against the pre-W11 9-row state + 158 SEED_REGISTRY
+    # values + the lfc actual draw range (results/_r510bmb_w11_band_gate.py
+    # ADMIT receipt); the all-bands disjoint leg 2 covers W11 automatically
+    # once listed. NOT a re-pick (R250). N2/N4 yield note: this A band
+    # covers 36_100..38_099 -- N2/N4 preregs must steer clear per law
+    # sec.4. W12+ WARNING: A +2_000 arithmetic tail 38_100..40_099 contains
+    # the N2/N4 design-probe reserved points 40_000/40_001 -> W12 prereg
+    # must skip-position A (machine gate decides; B +200 = 29_100..29_299
+    # projects clean, still verified at that time).
+    11: {"a": (36_100, 38_099), "b_exit": (28_900, 29_099),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -733,8 +751,32 @@ def cmd_selftest():
         "W10 bands must clear the lfc actual draw range"
     assert N1_BANDS[10].get("engine_owner") == "bm-b", \
         "W10 engine_owner must be bm-b (T-141 s1 first engine wave)"
-    assert all(not N1_BANDS[w].get("engine_owner") for w in N1_BANDS if w != 10), \
+    assert all(not N1_BANDS[w].get("engine_owner")
+               for w in N1_BANDS if w not in (10, 11)), \
         "pool-era waves must stay pool-owned (engine_owner only on W10+ engine waves)"
+    # 3h. W11 arithmetic-continuation invariant (r510 bm-b, SECOND
+    # ENGINE-OWNED WAVE): the W10 row projected BOTH arithmetic tails
+    # clean and the machine gate at prereg time confirmed ADMIT (no
+    # forced skip) -- A == W10 A end + 1, B == W10 B end + 1, strides
+    # verbatim, both clear of every reserved band + SEED_REGISTRY + the
+    # lfc actual draw range (leg 2 all-bands disjoint covers W11 once
+    # listed here). engine_owner parity is asserted against the runner's
+    # WAVE_CONFIGS by the n1 selftest W11 materializer leg; here the
+    # structural face: only engine-owned waves carry engine_owner, and
+    # cmd_supply must refuse them.
+    assert N1_BANDS[11]["a"][1] - N1_BANDS[11]["a"][0] + 1 == 2000, "W11 A width"
+    assert N1_BANDS[11]["b_exit"][1] - N1_BANDS[11]["b_exit"][0] + 1 == 200, \
+        "W11 B width"
+    assert N1_BANDS[11]["a"][0] == N1_BANDS[10]["a"][1] + 1, \
+        "W11 A must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    assert N1_BANDS[11]["b_exit"][0] == N1_BANDS[10]["b_exit"][1] + 1, \
+        "W11 B must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    w11_a = set(range(N1_BANDS[11]["a"][0], N1_BANDS[11]["a"][1] + 1))
+    w11_b = set(range(N1_BANDS[11]["b_exit"][0], N1_BANDS[11]["b_exit"][1] + 1))
+    assert not (w11_a & lfc_actual) and not (w11_b & lfc_actual), \
+        "W11 bands must clear the lfc actual draw range"
+    assert N1_BANDS[11].get("engine_owner") == "bm-b", \
+        "W11 engine_owner must be bm-b (never-dry engine wave)"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)

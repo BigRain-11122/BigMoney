@@ -198,6 +198,25 @@ WAVE_CONFIGS = {
          "b_exit_seed_base": 28_700,     # law sec.4 W10 B: 28_700..28_899 (arithmetic)
          "shard_subdir": "n1_w10", "out_name": "n1_w10_results.json",
          "engine_owner": "bm-b"},
+    # W11 (r510 bm-b, never-dry supply law: SECOND ENGINE-OWNED WAVE,
+    # engine_owner=bm-b -> burned by scripts/saturation_engine.py local
+    # perpetual queue, NEVER materialized into the pool by cmd_supply
+    # (engine-owner skip gate, SATURATION_ENGINE_LAW sec.1/sec.2 -- zero
+    # cross-machine duplication). BOTH arithmetic tails land clean
+    # exactly as the W10 row projected (A 36_100 == W10 A end + 1,
+    # B 28_900 == W10 B end + 1) -- no forced skip this wave; machine-
+    # verified at prereg time (results/_r510bmb_w11_band_gate.py ADMIT
+    # receipt, pre-W11 9-row state + 158 registry values + lfc range).
+    # NOT a re-pick (R250).
+    11: {"batch": "PERPETUAL-N1-W11",
+         "prereg": ("research/PERPETUAL_N1_W11_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; SECOND ENGINE-OWNED WAVE, "
+                    "never-dry supply law, engine_owner=bm-b)"),
+         "a_seed_base": 36_100,          # law sec.4 W11 A: 36_100..38_099 (arithmetic)
+         "b_exit_seed_base": 28_900,     # law sec.4 W11 B: 28_900..29_099 (arithmetic)
+         "shard_subdir": "n1_w11", "out_name": "n1_w11_results.json",
+         "engine_owner": "bm-b"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1310,6 +1329,71 @@ def selftest() -> int:
             _set_wave(2)
     finally:
         _set_wave(2)
+    # --- wave-11 face (r510 bm-b, never-dry supply law: SECOND
+    #     ENGINE-OWNED WAVE, engine_owner=bm-b; arithmetic continuation
+    #     BOTH tails clean per the W10 row's projection + prereg-time ADMIT
+    #     receipt results/_r510bmb_w11_band_gate.py; standalone leg --
+    #     try/finally restores the W2 default face either way) ---
+    _set_wave(11)
+    try:
+        assert WAVE_CONFIGS[11]["a_seed_base"] == pf.N1_BANDS[11]["a"][0], \
+            "W11 A band drift vs law mirror"
+        assert WAVE_CONFIGS[11]["b_exit_seed_base"] == \
+            pf.N1_BANDS[11]["b_exit"][0], "W11 B band drift vs law mirror"
+        assert WAVE_CONFIGS[11].get("engine_owner") == \
+            pf.N1_BANDS[11].get("engine_owner") == "bm-b", \
+            "W11 engine_owner drift (law mirror parity)"
+        w11_a = {A_SEED_BASE + j for j in range(A_N)}
+        w11_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w11_a & w11_b), "W11 A/B band overlap"
+        assert not (w11_a & reg_ints) and not (w11_b & reg_ints), \
+            "W11 hits SEED_REGISTRY"
+        for nm, band in (("A", w11_a), ("B", w11_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W11 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W11 {nm} hits W1"
+            assert not (band & probes), f"W11 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10):
+            assert not (w11_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W11 A hits W{wprev}"
+            assert not (w11_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W11 B hits W{wprev}"
+        # arithmetic continuation facts (law sec.4 W11 row): both tails
+        # land clean (W10 row projection + prereg-time ADMIT receipt) --
+        # A sits at W10 A end + 1, B at W10 B end + 1, strides verbatim,
+        # no skip-over refusal facts this wave.
+        lfc_actual11 = set(range(30_000, 30_100))
+        assert not (w11_a & lfc_actual11) and not (w11_b & lfc_actual11), \
+            "W11 bands must clear the lfc actual draw range"
+        assert WAVE_CONFIGS[11]["a_seed_base"] == \
+            WAVE_CONFIGS[10]["a_seed_base"] + A_N, \
+            "W11 A stride drift (arithmetic continuation, no skip)"
+        assert WAVE_CONFIGS[11]["b_exit_seed_base"] == \
+            WAVE_CONFIGS[10]["b_exit_seed_base"] + B_N, \
+            "W11 B stride drift (arithmetic continuation, no skip)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W11-SHARD-0",
+                                          "n1w11-0of12"), "W11 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W11-SHARD-11",
+                                           "n1w11-11of12")
+        assert SHARD_DIR.endswith("n1_w11") and OUT.endswith(
+            "n1_w11_results.json"), "W11 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W11 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W11_PREREG.md")), \
+            "W11 per-wave prereg missing (materializer requirement)"
+        # W11 finalize cumulative dep (W10 output) = PRESENT at drafting
+        # time (W10 finalize landed r509 before this freeze) -- static
+        # exists-assert holds and never expires (r307 two-state law
+        # family; contrast the W10 leg's in-flight runtime guard).
+        assert os.path.exists(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[10]["out_name"])), \
+            "W11 finalize cumulative dep (W10 output) missing"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -1347,7 +1431,12 @@ def selftest() -> int:
           "(r307 two-state law), FIRST ENGINE-OWNED WAVE "
           "engine_owner=bm-b per T-2026-10-01-141 s1, arithmetic "
           "continuation both tails clean per ADMIT receipt, law sec.4 "
-          "W10 row, r508 bm-b] + T-141 s2 engine-lane claim "
+          "W10 row, r508 bm-b] + W11 materializer face [same guard "
+          "set, dep=W10 present (finalize landed r509), SECOND "
+          "ENGINE-OWNED WAVE engine_owner=bm-b per never-dry supply "
+          "law, arithmetic continuation both tails clean per ADMIT "
+          "receipt results/_r510bmb_w11_band_gate.py, law sec.4 W11 "
+          "row, r510 bm-b] + T-141 s2 engine-lane claim "
           "exemption [law sec.2 pre-claim exempt face])")
     return 0
 
