@@ -1,0 +1,498 @@
+{
+  "audit": {
+    "deep_axis_amount": "volume x close proxy (t22 precedent, disclosed)",
+    "engine_face": "engine.run_backtest, per-symbol sub-account decomposition, entry_size_scale weight mapping (see runner docstring)",
+    "finalize_runtime_sec": 8.3,
+    "g_census_amendment": "2026-10-01 pre-burn amendment note: legacy G-CENSUS re-anchored 1255->1254 under the binding 2026-09-22 cutoff truncation (r251/r280 zero-burn lineage)",
+    "liquidity": {
+      "active_members_ever": 4,
+      "amt20_min_yuan": 50000000.0,
+      "elig_days_median": 45.0,
+      "elig_days_min": 0,
+      "selected_days": 1542
+    },
+    "machine": "bm-a",
+    "seed_disclosure": {
+      "note": "registry row lowamp_p2_starts=20334000 NOT consumed by this batch (T-22 full enumeration judged starts; full-panel continuous sensitivity); prereg sec.3 binds nulls to 20334500 and sens draws to 20333500 (verbatim).",
+      "nulls": 20334500,
+      "registry_rows": {
+        "lowamp_p1_nulls": 20331000,
+        "lowamp_p1_params": 20330000,
+        "lowamp_p1_starts": 20330500,
+        "lowamp_p2_nulls": 20334500,
+        "lowamp_p2_params": 20333500,
+        "lowamp_p2_starts": 20334000
+      },
+      "sensitivity": 20333500
+    }
+  },
+  "batch": "LOWAMP-P2",
+  "cells": {
+    "LA-EDGE|deep|base": {
+      "axis": "deep",
+      "cell": "LA-EDGE",
+      "face": "base",
+      "key": "cont|LA-EDGE|deep|base",
+      "max_dd": -0.121485,
+      "n_days": 3230,
+      "n_entries": 402,
+      "n_trades": 400,
+      "nav_first": 1000000.0,
+      "nav_last": 1028722.43,
+      "ret_full": 0.028722,
+      "sharpe_full": 0.08313,
+      "trades_per_year": 31.21
+    },
+    "LA-EDGE|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-EDGE",
+      "face": "x2",
+      "key": "cont|LA-EDGE|deep|x2",
+      "max_dd": -0.499433,
+      "n_days": 3230,
+      "n_entries": 394,
+      "n_trades": 393,
+      "nav_first": 1000000.0,
+      "nav_last": 533792.17,
+      "ret_full": -0.466208,
+      "sharpe_full": -1.161684,
+      "trades_per_year": 30.66
+    },
+    "LA-EDGE|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-EDGE",
+      "face": "base",
+      "key": "cont|LA-EDGE|legacy|base",
+      "max_dd": -0.085008,
+      "n_days": 1631,
+      "n_entries": 173,
+      "n_trades": 171,
+      "nav_first": 1000000.0,
+      "nav_last": 918832.64,
+      "ret_full": -0.081167,
+      "sharpe_full": -0.666599,
+      "trades_per_year": 26.42
+    },
+    "LA-EDGE|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-EDGE",
+      "face": "x2",
+      "key": "cont|LA-EDGE|legacy|x2",
+      "max_dd": -0.304622,
+      "n_days": 1631,
+      "n_entries": 173,
+      "n_trades": 171,
+      "nav_first": 1000000.0,
+      "nav_last": 697390.22,
+      "ret_full": -0.30261,
+      "sharpe_full": -2.323665,
+      "trades_per_year": 26.42
+    },
+    "LA-EQ|deep|base": {
+      "axis": "deep",
+      "cell": "LA-EQ",
+      "face": "base",
+      "key": "cont|LA-EQ|deep|base",
+      "max_dd": -0.118399,
+      "n_days": 3230,
+      "n_entries": 404,
+      "n_trades": 402,
+      "nav_first": 1000000.0,
+      "nav_last": 1002189.3,
+      "ret_full": 0.002189,
+      "sharpe_full": 0.021764,
+      "trades_per_year": 31.36
+    },
+    "LA-EQ|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-EQ",
+      "face": "x2",
+      "key": "cont|LA-EQ|deep|x2",
+      "max_dd": -0.50559,
+      "n_days": 3230,
+      "n_entries": 394,
+      "n_trades": 393,
+      "nav_first": 1000000.0,
+      "nav_last": 511188.26,
+      "ret_full": -0.488812,
+      "sharpe_full": -1.22763,
+      "trades_per_year": 30.66
+    },
+    "LA-EQ|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-EQ",
+      "face": "base",
+      "key": "cont|LA-EQ|legacy|base",
+      "max_dd": -0.097454,
+      "n_days": 1631,
+      "n_entries": 183,
+      "n_trades": 181,
+      "nav_first": 1000000.0,
+      "nav_last": 906644.28,
+      "ret_full": -0.093356,
+      "sharpe_full": -0.7458,
+      "trades_per_year": 27.97
+    },
+    "LA-EQ|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-EQ",
+      "face": "x2",
+      "key": "cont|LA-EQ|legacy|x2",
+      "max_dd": -0.327607,
+      "n_days": 1631,
+      "n_entries": 183,
+      "n_trades": 181,
+      "nav_first": 1000000.0,
+      "nav_last": 674569.93,
+      "ret_full": -0.32543,
+      "sharpe_full": -2.414746,
+      "trades_per_year": 27.97
+    },
+    "LA-REP|deep|base": {
+      "axis": "deep",
+      "cell": "LA-REP",
+      "face": "base",
+      "key": "cont|LA-REP|deep|base",
+      "max_dd": -0.118399,
+      "n_days": 3230,
+      "n_entries": 404,
+      "n_trades": 402,
+      "nav_first": 1000000.0,
+      "nav_last": 1002189.3,
+      "ret_full": 0.002189,
+      "sharpe_full": 0.021764,
+      "trades_per_year": 31.36
+    },
+    "LA-REP|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-REP",
+      "face": "x2",
+      "key": "cont|LA-REP|deep|x2",
+      "max_dd": -0.50559,
+      "n_days": 3230,
+      "n_entries": 394,
+      "n_trades": 393,
+      "nav_first": 1000000.0,
+      "nav_last": 511188.26,
+      "ret_full": -0.488812,
+      "sharpe_full": -1.22763,
+      "trades_per_year": 30.66
+    },
+    "LA-REP|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-REP",
+      "face": "base",
+      "key": "cont|LA-REP|legacy|base",
+      "max_dd": -0.097454,
+      "n_days": 1631,
+      "n_entries": 183,
+      "n_trades": 181,
+      "nav_first": 1000000.0,
+      "nav_last": 906644.28,
+      "ret_full": -0.093356,
+      "sharpe_full": -0.7458,
+      "trades_per_year": 27.97
+    },
+    "LA-REP|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-REP",
+      "face": "x2",
+      "key": "cont|LA-REP|legacy|x2",
+      "max_dd": -0.327607,
+      "n_days": 1631,
+      "n_entries": 183,
+      "n_trades": 181,
+      "nav_first": 1000000.0,
+      "nav_last": 674569.93,
+      "ret_full": -0.32543,
+      "sharpe_full": -2.414746,
+      "trades_per_year": 27.97
+    },
+    "LA-T3|deep|base": {
+      "axis": "deep",
+      "cell": "LA-T3",
+      "face": "base",
+      "key": "cont|LA-T3|deep|base",
+      "max_dd": -0.097568,
+      "n_days": 3230,
+      "n_entries": 670,
+      "n_trades": 667,
+      "nav_first": 1000000.0,
+      "nav_last": 1109260.96,
+      "ret_full": 0.109261,
+      "sharpe_full": 0.230563,
+      "trades_per_year": 52.04
+    },
+    "LA-T3|deep|x2": {
+      "axis": "deep",
+      "cell": "LA-T3",
+      "face": "x2",
+      "key": "cont|LA-T3|deep|x2",
+      "max_dd": -0.447342,
+      "n_days": 3230,
+      "n_entries": 670,
+      "n_trades": 667,
+      "nav_first": 1000000.0,
+      "nav_last": 601907.98,
+      "ret_full": -0.398092,
+      "sharpe_full": -0.823523,
+      "trades_per_year": 52.04
+    },
+    "LA-T3|legacy|base": {
+      "axis": "legacy",
+      "cell": "LA-T3",
+      "face": "base",
+      "key": "cont|LA-T3|legacy|base",
+      "max_dd": -0.088318,
+      "n_days": 1631,
+      "n_entries": 300,
+      "n_trades": 297,
+      "nav_first": 1000000.0,
+      "nav_last": 951588.39,
+      "ret_full": -0.048412,
+      "sharpe_full": -0.328626,
+      "trades_per_year": 45.89
+    },
+    "LA-T3|legacy|x2": {
+      "axis": "legacy",
+      "cell": "LA-T3",
+      "face": "x2",
+      "key": "cont|LA-T3|legacy|x2",
+      "max_dd": -0.288301,
+      "n_days": 1631,
+      "n_entries": 300,
+      "n_trades": 297,
+      "nav_first": 1000000.0,
+      "nav_last": 714895.48,
+      "ret_full": -0.285105,
+      "sharpe_full": -1.895565,
+      "trades_per_year": 45.89
+    }
+  },
+  "d6": {
+    "max_abs_corr": 0.1738,
+    "max_member": "VOLATILITY-CE-01",
+    "pairs": [
+      {
+        "corr": 0.045,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0024,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0754,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0196,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.0111,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1738,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7
+  },
+  "descriptive": {
+    "crash_years_lte_-35pct": {},
+    "is_ann_ret": -0.0527,
+    "oos_ann_ret": -0.043,
+    "x2_cost_drag_sharpe": -1.6689
+  },
+  "evidence_cutoff": "2026-09-22",
+  "family_key": "lowamp_daily_xs",
+  "gates": {
+    "dsr": {
+      "T": 1630,
+      "dsr": 0.0,
+      "kurtosis": 10.1823,
+      "n_trials": 2008,
+      "sigma_sr": 0.024224,
+      "skew": -1.0464,
+      "sr_annualized": -0.7458,
+      "sr_star": 0.083534
+    },
+    "dual_axis": {
+      "beat_k": 582,
+      "beat_n": 1380,
+      "ci_hi": 0.4471,
+      "ci_lo": 0.3949,
+      "pass": false
+    },
+    "g1_prime": {
+      "bootstrap_ci": {
+        "block_days": 10.0,
+        "ci95_high": 0.0392,
+        "ci95_low": -1.5257,
+        "ci_lower_bound_positive": false,
+        "n_resamples": 1000,
+        "point": -0.7458,
+        "seed": 20260923
+      },
+      "ci_lower_bound_positive": false,
+      "gate": "g1_prime_v2",
+      "line_ok": false,
+      "pass_v2": false,
+      "sharpe_full": -0.7458,
+      "skill_line": {
+        "ledger_head": {
+          "file": "p2_results.json",
+          "note": null,
+          "total": 384259,
+          "voided": [
+            {
+              "batch": "LOWAMP-P1",
+              "voided_trials": 2008
+            }
+          ]
+        },
+        "line": 1.9656,
+        "mu_null": 0.0541,
+        "n_eff": 386267,
+        "null_pool_source": "LOWAMP-P2 same-mask nulls K=2000 rng([20334500,k])",
+        "null_term": 1.9656,
+        "passive_source": "pool:core48",
+        "passive_term": 0.4792,
+        "pool": "core48",
+        "sigma_null": 0.3768
+      },
+      "trade_gate": {
+        "dual_ok": true,
+        "entries_ok": true,
+        "min": 30,
+        "n_entries": 183,
+        "n_trades": 181,
+        "trades_ok": true
+      }
+    },
+    "g2": {
+      "dsr": 0.0,
+      "dsr_gate": 0.95,
+      "dsr_ok": false,
+      "eligible_v2": false,
+      "family_pbo": 0.0429,
+      "g1_pass": false,
+      "gate": "g2_registration_v2",
+      "missing_inputs": [
+        "g1_prime_v2"
+      ],
+      "pbo_gate": 0.25,
+      "pbo_ok": true
+    },
+    "g_seg": {
+      "coverage": {
+        "deep": {
+          "bear": 746,
+          "bull": 540,
+          "chop": 94
+        },
+        "legacy": {
+          "bear": 696,
+          "bull": 345,
+          "chop": 87
+        }
+      },
+      "pass": true
+    },
+    "m1": {
+      "claim_class": "new_strategy",
+      "gate": "m1_t_value",
+      "hurdle": 3.0,
+      "missing_input": false,
+      "pass": false,
+      "t": -1.896775
+    },
+    "pbo": {
+      "band": "register_eligible",
+      "pbo": 0.0429
+    },
+    "x2_survival": {
+      "pass": false,
+      "sharpe_full": -2.414746
+    }
+  },
+  "headline": {
+    "max_dd": -0.097454,
+    "n_entries": 183,
+    "n_trades": 181,
+    "ret_full": -0.093356,
+    "sharpe_full": -0.7458,
+    "trades_per_year": 27.97
+  },
+  "nulls": {
+    "block_bootstrap": {
+      "B": 2000,
+      "block_len": 21,
+      "obs_sharpe": -0.745799,
+      "p_ge_obs": 0.505,
+      "seed": 20261001,
+      "sharpe_p05": -1.4473,
+      "sharpe_p50": -0.7415,
+      "sharpe_p95": -0.0221
+    },
+    "same_mask": {
+      "k": 2000,
+      "mu": 0.0541,
+      "p05": -0.5304,
+      "p50": 0.0827,
+      "p95": 0.5908,
+      "sigma": 0.3768
+    },
+    "sign_flip": {
+      "P": 2000,
+      "abs_mean_obs": 5.933e-05,
+      "abs_mean_p50": 2.205e-05,
+      "abs_mean_p95": 6.207e-05,
+      "p_two_sided": 0.062,
+      "seed": 20261001
+    }
+  },
+  "probe_ref": "results/lowamp_p2/probe.json",
+  "rolling_worst": {
+    "10y": null,
+    "3y": -0.0625,
+    "5y": -0.0593
+  },
+  "sensitivity": {
+    "k": 500,
+    "maxdd_worst": -0.1279,
+    "sharpe_p05": -0.7672,
+    "sharpe_p50": -0.4567,
+    "sharpe_p95": 0.3495
+  },
+  "starts_12m_dist": {
+    "best": 0.0484,
+    "median": -0.0016,
+    "n": 1128,
+    "p25": -0.0163,
+    "p75": 0.0105,
+    "positive_share": 0.469,
+    "worst": -0.0559
+  },
+  "ticket": "T-2026-10-01-140",
+  "trials_ledger": {
+    "batch": "LOWAMP-P2",
+    "batch_trials": 2008,
+    "evidence_cutoff": "2026-09-22",
+    "file": "results/lowamp_p2/lowamp_p2_results.json",
+    "prev_total": 384259,
+    "total": 386267,
+    "voids_applied": [
+      "LOWAMP-P1"
+    ]
+  },
+  "verdict": "judged-negative"
+}
