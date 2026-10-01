@@ -63,3 +63,10 @@
 - 本文件 §7/§8 跑后回填一次定稿。
 
 —— bm-b 策略部+研究部 r502 冻结（T-139 akshare 面 · 跑前一次定稿）
+
+## §A1 修订·r503【数据面再锚·判据零改动】
+
+- 事由：r502 收尾 S6 update_fundamental 日快照（2026-10-01 12:13）轮换 data/fundamental/eligibility.csv 字节（np 列刷新），烧波中途 raw-sha 探针钉假阳性——LOWAMP-108/MOM-0/MOM-4 三分片 crash-fuse（12:14-12:18），MOM-8/12 认领面停摆，watermark 红（runnable-work-idle-low-cpu）。
+- 证据：旧（bd4da77b6·09-30 11:02）vs 新（3f6c8dde7·10-01 12:15）blob 逐行比对=行数 11635=11635、eligible=True 码集 7273=7273、增删空集；b_layer_mask.csv 零 diff。
+- 修法：runner r503 语义钉（elig_face_sha16=_universe 实际消费的 6 位 0/3/6 码集哈希；raw sha16 降为 provenance 字段；码集任何增删仍 fail-closed）；re-probe 2026-10-01 12:28:26 复核=universe_n 3514 / panel_rows 3242 / elig_median 1565.5 / mask_sha16 cf00cd8389b56c03 全部与 r502 冻结钉逐值恒等。
+- 面等价声明：已烧格（REV 121 格 + LOWAMP 0-108 共 108 格）在原钉下产出、续烧格（LOWAMP 108-144 共 36 格 + MOM 16 格）在再锚钉下产出——同码集、同 panel lockbox（cutoff 2026-09-30）、同判据；§4 判据零改动、勘探面零判决宣称不变。

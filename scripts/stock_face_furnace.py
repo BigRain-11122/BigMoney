@@ -137,6 +137,24 @@ def _sha16(path: str) -> str:
     return h.hexdigest()[:16]
 
 
+def _sha16_text(text: str) -> str:
+    import hashlib
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
+
+
+def _elig_code_face() -> list[str]:
+    # r503 semantic pin: the eligibility snapshot face actually consumed by
+    # _universe() is the 6-digit 0/3/6 code set, NOT the np columns -- the
+    # daily S6 fundamental refresh rotates np bytes with the consumed code
+    # set identical, so a raw-file sha pin false-positives mid-wave (live
+    # 2026-10-01 12:14-12:18: LOWAMP-108/MOM-0/MOM-4 fused on the cosmetic
+    # refresh, 7273-code eligible set byte-identical, mask unchanged).
+    import pandas as pd
+    elig = pd.read_csv(ELIG_CSV, dtype={"code": str})
+    return sorted({c for c in elig["code"].astype(str).tolist()
+                   if len(c) == 6 and c[0] in ("0", "3", "6")})
+
+
 # --------------------------------------------------------------------------
 # family enumerations (pure; selftest exercises these paths)
 # --------------------------------------------------------------------------
@@ -635,7 +653,9 @@ def cmd_probe(args) -> int:
              "gate_cover_from": VAL_WIN[0],
              "gate_warmup_head_days": gate_warmup_head,
              "gate_cover_min": 0.999,
-             "elig_sha16": _sha16(ELIG_CSV), "mask_sha16": _sha16(MASK_CSV),
+             "elig_sha16": _sha16(ELIG_CSV),
+             "elig_face_sha16": _sha16_text("\n".join(_elig_code_face())),
+             "mask_sha16": _sha16(MASK_CSV),
              "n_cells_total": N_CELLS_TOTAL,
              "rev_cells": len(rev_cells()), "lowamp_cells": len(lowamp_cells()),
              "mom_cells": len(mom_cells()),
@@ -671,7 +691,15 @@ def _assert_probe_fresh(P, facts, uni) -> None:
     assert len(uni) == facts["universe_n"], "universe drift vs probe"
     assert int(len(P["idx"])) == facts["panel_rows"], "panel rows drift vs probe"
     assert P["elig_median"] == facts["elig_median"], "elig median drift vs probe"
-    assert _sha16(ELIG_CSV) == facts["elig_sha16"], "eligibility snapshot drift"
+    if "elig_face_sha16" in facts:
+        # r503: pin the consumed face (code set); raw sha16 stays in facts
+        # as provenance only -- np-column refresh with identical code set
+        # passes, any code addition/removal still fails closed.
+        assert _sha16_text("\n".join(_elig_code_face())) \
+            == facts["elig_face_sha16"], "eligibility code-face drift"
+    else:
+        assert _sha16(ELIG_CSV) == facts["elig_sha16"], \
+            "eligibility snapshot drift (legacy pin -- re-probe to upgrade)"
     assert _sha16(MASK_CSV) == facts["mask_sha16"], "b_layer mask drift"
 
 

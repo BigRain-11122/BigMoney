@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 12:14:18",
+ "generated_at": "2026-10-01 12:31:37",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-01.md"
  },
  "rd": {
-  "commits_24h": 683,
+  "commits_24h": 693,
   "result_jsons_landed_24h": 139,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 45,
   "compute_audit_latest": {
-   "ts": "2026-10-01 12:09:51",
-   "py_cpu_pct": 0.2,
+   "ts": "2026-10-01 12:30:22",
+   "py_cpu_pct": 0.8,
    "flags": [
     "idle_with_work",
     "supply_gap"
    ],
    "verdict": "FLAG:idle_with_work,supply_gap"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -627,10 +627,10 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1051221,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-01 10:50:00",
+   "prev_generated": "2026-10-01 11:12:48",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 5,
-   "mandate_growth": 0
+   "report_tokens_growth": 0,
+   "mandate_growth": 148
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -702,17 +702,13 @@
     "today_supply_gap_flags": 25
    },
    "bm-b": {
-    "latest_ts": "2026-10-01 12:09:51",
-    "py_pct": 0.2,
-    "cpu_pct": 1.0,
-    "ready": 8,
-    "streak_min": 37.7,
+    "latest_ts": "2026-10-01 12:30:22",
+    "py_pct": 0.8,
+    "cpu_pct": 4.0,
+    "ready": 5,
+    "streak_min": 58.2,
     "verdict": "FLAG:idle_with_work,supply_gap",
     "py_series_tail": [
-     [
-      "09:23",
-      0.9
-     ],
      [
       "09:39",
       0.0
@@ -756,12 +752,16 @@
      [
       "12:09",
       0.2
+     ],
+     [
+      "12:30",
+      0.8
      ]
     ],
-    "today_samples": 43,
-    "today_floor_ok": 25,
+    "today_samples": 44,
+    "today_floor_ok": 26,
     "today_sla_flags": 13,
-    "today_supply_gap_flags": 27
+    "today_supply_gap_flags": 28
    },
    "bm-c": {
     "latest_ts": "2026-10-01 10:45:00",
@@ -855,13 +855,13 @@
     "effective_cores": 6.65,
     "single_core_burn": 4,
     "multicore_burn": 19,
-    "too_short": 14,
-    "last_ts": "2026-10-01T12:13:15+08:00",
+    "too_short": 17,
+    "last_ts": "2026-10-01T12:18:19+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 11,
-     "audit_ts": "2026-10-01 12:09:51"
+     "audit_batches": 6,
+     "audit_ts": "2026-10-01 12:30:22"
     }
    },
    "bm-c": {
