@@ -962,6 +962,34 @@ N1_BANDS = {
     # (R250: W47 bands were never assigned).
     47: {"a": (137_004, 139_003), "b_exit": (45_001, 45_200),
          "engine_owner": "bm-b"},
+    # W48 (r557 bm-a, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-a's ELEVENTH owned wave after W12/W18/W21/W24/W27/
+    # W30/W33/W35/W44/W45; the dead r555 session's W46/W47 same-number
+    # drafts YIELDED to bm-c r348 / bm-b r534 canonical freezes,
+    # r530/r511 laws). Zero-gap relay: W45 (bm-a r554 K=96,920 ledger
+    # 463,548), W46 (bm-c r348 same-window full-lifecycle K=99,120
+    # ledger 465,748) and W47 (bm-b r556 same-window finalize K=101,320
+    # ledger 467,948) ALL FINALIZED before this freeze lands -- the
+    # chain FULLY caught up, zero in-flight upstream faces (W47
+    # landed same-window at this freeze window; the pre-rebase draft
+    # noted it in-flight, updated here post-rebase per r518
+    # origin-timing law). Wave 48 = first free number per the r555
+    # yield receipt's published bm-a W48 claim (bm-b r556 honored it
+    # and skipped to W49 -- published=reserved r518-1 law); origin
+    # slot vacancy machine-checked. BOTH SIDES = no-skip arithmetic
+    # continuations per the W47 row's W48+ WARNING projections
+    # (A 139_004..141_003 / B 45_201..45_400), machine-derived at
+    # this freeze (r535 law: clean-projection claims must be
+    # machine-derived, never prose-copied). Machine-verified at
+    # prereg time (results/_r557bma_w48_band_gate.py ADMIT receipt
+    # vs the 46-row table incl. W49 + live SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked). THIRTY-EIGHTH
+    # ENGINE-OWNED WAVE, engine_owner=bm-a (local queue, no pool
+    # entry). NOT a re-pick (R250: W48 bands were never assigned).
+    48: {"a": (139_004, 141_003), "b_exit": (45_201, 45_400),
+         "engine_owner": "bm-a"},
     # THIRTY-EIGHTH ENGINE-OWNED WAVE (r556 bm-b freeze): bm-b's
     # FIFTEENTH owned wave after W10/W11/W13/W16/W19/W22/W25/W28/W31/
     # W34/W36/W38/W40/W47. Wave 49 = next free number SKIPPING the
@@ -990,6 +1018,12 @@ N1_BANDS = {
     # the W19/W18 precedent -- the finalize merge loop derives the
     # wave set from registry keys at run time and stays FAIL-CLOSED
     # on any not-yet-finalized upstream seat, r307 two-state law).
+    # [r557 bm-a rebase disclosure: W48 registered by this same
+    # merged commit -- W49 is thereby the THIRTY-NINTH engine wave
+    # in landed order; the r556 freeze-time prose above is the
+    # historical fact at its freeze window, kept verbatim per the
+    # r531 minimal-disclosure law; registry derives from keys, zero
+    # code impact.]
     49: {"a": (141_004, 143_003), "b_exit": (45_401, 45_600),
          "engine_owner": "bm-b"},
 }
