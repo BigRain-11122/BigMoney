@@ -12759,6 +12759,851 @@
     "prereg": "research/T28_STABLE_PROFIT.md"
    },
    "note": "RW-6 re-execution on fixed engine; ledger +0 (r259)"
+  },
+  {
+   "batch": "REFINE_BENCH_STOCK_REV_P2",
+   "ts": "2026-10-01 15:12:00",
+   "kind": "measurement",
+   "cells_ledger_delta": 2020,
+   "ledger_total_after": 384259,
+   "gates": {
+    "g1_pass": {
+     "D-15|raw|base|time|h20": false,
+     "Dtop10|raw|base|time|h20": false,
+     "D-25|raw|base|time|h20": false,
+     "D-15|yang|base|time|h20": false,
+     "D-25|yang|base|time|h20": false,
+     "Dtop10|yang|base|time|h20": false,
+     "D-15|raw|liq2|time|h20": false,
+     "D-25|raw|liq2|time|h20": false,
+     "Dtop10|raw|liq2|time|h20": false,
+     "D-15|yang|liq2|time|h20": false
+    },
+    "g2_eligible": {
+     "D-15|raw|base|time|h20": false,
+     "Dtop10|raw|base|time|h20": false,
+     "D-25|raw|base|time|h20": false,
+     "D-15|yang|base|time|h20": false,
+     "D-25|yang|base|time|h20": false,
+     "Dtop10|yang|base|time|h20": false,
+     "D-15|raw|liq2|time|h20": false,
+     "D-25|raw|liq2|time|h20": false,
+     "Dtop10|raw|liq2|time|h20": false,
+     "D-15|yang|liq2|time|h20": false
+    },
+    "d6_reject": {
+     "D-15|raw|base|time|h20": false,
+     "Dtop10|raw|base|time|h20": false,
+     "D-25|raw|base|time|h20": false,
+     "D-15|yang|base|time|h20": false,
+     "D-25|yang|base|time|h20": false,
+     "Dtop10|yang|base|time|h20": false,
+     "D-15|raw|liq2|time|h20": false,
+     "D-25|raw|liq2|time|h20": false,
+     "Dtop10|raw|liq2|time|h20": false,
+     "D-15|yang|liq2|time|h20": false
+    },
+    "family_pbo": {
+     "pbo": 0.0,
+     "verdict": "register_eligible",
+     "n_trials": 10,
+     "n_rows": 8792,
+     "n_combinations": 70,
+     "n_blocks": 8,
+     "block_bounds": [
+      0,
+      1099,
+      2198,
+      3297,
+      4396,
+      5495,
+      6594,
+      7693,
+      8792
+     ],
+     "omega_mean": 0.0333,
+     "omega_median": 0.0,
+     "omega_p05": 0.0,
+     "omega_p95": 0.1111,
+     "per_combination": [
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        3
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        4
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        4
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|yang|base|time|h20",
+       "oos_rank": 4.0,
+       "omega": 0.3333
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 5.0,
+       "omega": 0.4444
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 2.0,
+       "omega": 0.1111
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        4,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "D-15|raw|base|time|h20",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      }
+     ],
+     "bands_frozen": {
+      "register_eligible": "pbo <= 0.25",
+      "observe": "0.25 < pbo <= 0.5",
+      "fail": "pbo > 0.5"
+     }
+    }
+   }
   }
  ],
  "history": [
