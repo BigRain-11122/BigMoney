@@ -5,12 +5,16 @@
 # cadence, zero claim round-trips), py% CEO face row write, sec.2 batched
 # ledger flush. Engine burns NEVER touch runnable_pool.json (law sec.1).
 # PATH-AGNOSTIC + idempotent via -Force + pure ASCII.
-# PRINCIPAL LAW (bm-a live-fire 2026-10-01 15:3x): S4U principal requires
-# elevation on this lane (Register-ScheduledTask 0x80070005 access denied,
-# script then printed a false success) -> default principal per the proven
-# unelevated family (register_loop_task/pool_worker/dispatcher). Headless
-# window suppression is unaffected: InvisibleRunner.vbs + wscript //B owns
-# that face. -ErrorAction Stop gates the success line (no false-success).
+# PRINCIPAL LAW (bm-a live-fire 2026-10-01 15:3x, S4U-first fix bm-b r521):
+# S4U principal requires elevation on this lane (Register-ScheduledTask
+# 0x80070005 access denied from unelevated hosts). Design mirrors the
+# watchdog S4U precedent: elevated hosts register S4U (2026-09-29 user
+# order: all lane tasks S4U -- child consoles stay invisible, no desktop
+# flash; a 60s-cadence InteractiveToken task flashes python.exe consoles
+# on the interactive desktop every tick). Unelevated hosts fall back to
+# the default principal so the engine task is never left dead/missing
+# (engine-alive-first). -ErrorAction Stop gates both success lines (no
+# false success); a failed S4U attempt never touches the existing task.
 # Task name stays 'Bigmoney-SatEngine-bm-b' (fleet-shared local name; bm-b
 # runs it live -- renaming here would orphan bm-b's task = double-engine).
 $Project = Split-Path -Parent $PSScriptRoot
@@ -25,5 +29,11 @@ $start = Get-Date -Minute 0 -Second 0
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(1) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
-Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
-Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=default, cadence=60s), first fire $start"
+$p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
+try {
+    Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Principal $p -Force -ErrorAction Stop | Out-Null
+    Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=S4U, cadence=60s), first fire $start"
+} catch {
+    Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
+    Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=default (S4U denied: unelevated host), cadence=60s), first fire $start"
+}
