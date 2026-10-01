@@ -325,8 +325,30 @@ N1_BANDS = {
     # 84_001..86_000 and B +200 tail 38_900..39_099 projection
     # per the r330 gate receipt -- verify at W21 prereg (rotation
     # slot W21=bm-a).
+    # W21 (r533 bm-a, prereg-time extension per the W20 row's W21+ WARNING
+    # -- never-dry supply law standing step; sovereignty rotation law
+    # F-20261001-01 slot W21=bm-a per law sec.4 W20 row verbatim, bm-a's
+    # THIRD owned wave after W12/W18; no pointer gate pending: W20
+    # registered + burned 12/12 by bm-c r330, its finalize sequenced
+    # independently by the registry chain order): BOTH tails
+    # arithmetic-clean exactly as the W20 row projected -- A's +2_000
+    # tail (84_001..86_000 == W20 A end + 1) and B's +200 tail
+    # (38_900..39_099 == W20 B end + 1), no skip on either side (38k-
+    # segment continuation of the W17 B re-base lineage). Machine-
+    # verified at prereg time (results/_r533bma_w21_band_gate.py ADMIT
+    # receipt vs the 19-row pre-W21 table incl. W18/W19/W20 +
+    # SEED_REGISTRY values + N2/N4 probe points + N2-W15 draft probe
+    # points + lfc/options actual ranges + N3-R1 used-seed band
+    # 70_000..70_005, MSG-183x r529 mandatory leg). TENTH engine-owned
+    # wave. NOT a re-pick (R250: W21 bands were never assigned; the
+    # measurement face has no result to fish). W22+ WARNING: A +2_000
+    # tail 86_001..88_000 and B +200 tail 39_100..39_299 projection
+    # per the r533 gate receipt -- verify at W22 prereg (rotation
+    # slot W22=bm-b).
     20: {"a": (82_001, 84_000), "b_exit": (38_700, 38_899),
          "engine_owner": "bm-c"},
+    21: {"a": (84_001, 86_000), "b_exit": (38_900, 39_099),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
