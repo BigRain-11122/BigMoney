@@ -26,7 +26,14 @@ touched by any subcommand.
 
 Subcommands:
   --shard i --nshards N   burn this shard's contiguous slice of A-ext + B-ext,
-                          single deterministic pass, writes
+                          single deterministic pass via ProcessPool
+                          (scripts/parallel_runner, T-134 s2 conversion):
+                          every run's rng is seeded from its own j
+                          (A_SEED_BASE+j / B_EXIT_SEED_BASE+j), so pooled
+                          results keyed by (family, j) are bit-identical to
+                          the serial loop regardless of scheduling
+                          (selftest S-mp legs prove the identity on the
+                          exact task fns); writes
                           results/p2cal_ext/shard-<i>-of-<N>.json (overwrite-
                           idempotent; re-run reproduces byte-equal runs)
   finalize                merge all shard files (FAIL-CLOSED on missing
@@ -44,6 +51,8 @@ Subcommands:
                           results/_p2cal_ext_probe.json
   selftest                offline hermetic checks (constants, seed bands,
                           slice math, canon intact, no network, no panel)
+                          + S-mp pool-identity legs (spawn+pickle exercise
+                          on synthetic fixtures, ems S18 idiom)
 """
 import json
 import os
@@ -58,6 +67,7 @@ import pandas as pd
 
 from config import PATHS
 import science_gates as sg
+from parallel_runner import run_cells_parallel, worker_cap  # T-134 s2 face
 
 CUTOFF = "2026-09-22"          # v1/v2 canon window end -- frozen, same-window law
 A_EXT_N = 2000                 # pre-registered (prereg sec.3)
@@ -110,6 +120,63 @@ def _entry_matrix(rng, n_days, n_syms, idx, cols, p):
                          index=idx, columns=cols)
 
 
+# ------------------------------------------------- multicore pool face (s2)
+# T-134 s2 conversion #2 (O-2026-09-30-2355 law-1/law-2; grid_p1_screen r304
+# precedent). The 2,200-run grid is embarrassingly parallel: every run's rng
+# stream is seeded from its own j, so pooled results keyed by (family, j) are
+# bit-identical to the serial loop regardless of scheduling. Shared inputs
+# (48-symbol panel + index) ship ONCE per worker through the initializer
+# (w8/ems idiom -- never closures); task fns are top-level picklable. Error
+# semantics preserved from the serial loop: a raising run propagates and
+# kills the shard burn (no per-cell swallow -- the shard is one atomic
+# deterministic pass; a crashed shard is re-run whole, byte-equal).
+_POOL_CTX = {}
+
+
+def _init_pool_ctx(prices, idx, cols, n_days, n_syms):
+    _POOL_CTX.clear()
+    _POOL_CTX.update(prices=prices, idx=idx, cols=cols,
+                     n_days=n_days, n_syms=n_syms)
+
+
+def _ext_a_task(j):
+    """Pooled A-ext run: random entry rng=A_SEED_BASE+j, exits=engine rules
+    (v1 design verbatim)."""
+    import p2_null_calibration as v1
+    p = p_for(j)
+    rng = np.random.default_rng(A_SEED_BASE + j)
+    entry = _entry_matrix(rng, _POOL_CTX["n_days"], _POOL_CTX["n_syms"],
+                          _POOL_CTX["idx"], _POOL_CTX["cols"], p)
+    exit_ = pd.DataFrame(False, index=_POOL_CTX["idx"],
+                         columns=_POOL_CTX["cols"])
+    r = v1.run_one(_POOL_CTX["prices"], _POOL_CTX["idx"], entry, exit_, {},
+                   f"extA_p{p}_j{j}")
+    return {**r, "p": p, "seed_rng": A_SEED_BASE + j,
+            "note": f"ext random entry p={p} rng={A_SEED_BASE + j}; "
+                    f"exits=engine rules (v1 design verbatim)"}
+
+
+def _ext_b_task(j):
+    """Pooled B-ext run: SAME entry matrix as A-ext[j] (pairing semantics
+    preserved) + random exit rng=B_EXIT_SEED_BASE+j."""
+    import p2_null_calibration as v1
+    p = p_for(j)
+    rng = np.random.default_rng(A_SEED_BASE + j)      # SAME matrix as A-ext[j]
+    entry = _entry_matrix(rng, _POOL_CTX["n_days"], _POOL_CTX["n_syms"],
+                          _POOL_CTX["idx"], _POOL_CTX["cols"], p)
+    rng_x = np.random.default_rng(B_EXIT_SEED_BASE + j)
+    exit_ = pd.DataFrame((rng_x.random((_POOL_CTX["n_days"],
+                                        _POOL_CTX["n_syms"])) < v1.P_EXIT),
+                         index=_POOL_CTX["idx"], columns=_POOL_CTX["cols"])
+    r = v1.run_one(_POOL_CTX["prices"], _POOL_CTX["idx"], entry, exit_, {},
+                   f"extB_p{p}_j{j}")
+    return {**r, "p": p, "seed_rng_entry": A_SEED_BASE + j,
+            "seed_rng_exit": B_EXIT_SEED_BASE + j,
+            "note": f"ext random entry rng={A_SEED_BASE + j} "
+                    f"(paired with extA_j{j}) + random exit "
+                    f"rng={B_EXIT_SEED_BASE + j} p={v1.P_EXIT}"}
+
+
 def run_shard(shard: int, nshards: int) -> int:
     v1, prices, idx, closes, cost_rate = _assemble()
     n_days, n_syms = closes.shape
@@ -119,35 +186,23 @@ def run_shard(shard: int, nshards: int) -> int:
     a_lo, a_hi = shard * A_EXT_N // nshards, (shard + 1) * A_EXT_N // nshards
     b_lo, b_hi = shard * B_EXT_N // nshards, (shard + 1) * B_EXT_N // nshards
 
-    fam_a = []
-    for j in range(a_lo, a_hi):
-        p = p_for(j)
-        rng = np.random.default_rng(A_SEED_BASE + j)
-        entry = _entry_matrix(rng, n_days, n_syms, idx, cols, p)
-        exit_ = pd.DataFrame(False, index=idx, columns=cols)
-        r = v1.run_one(prices, idx, entry, exit_, {}, f"extA_p{p}_j{j}")
-        fam_a.append({**r, "p": p, "seed_rng": A_SEED_BASE + j,
-                      "note": f"ext random entry p={p} rng={A_SEED_BASE + j}; "
-                              f"exits=engine rules (v1 design verbatim)"})
-        print(f"  A[j{j}] full_s={r['full']['sharpe']:>7.3f} "
+    jobs = [(f"A|{j}", _ext_a_task, (j,)) for j in range(a_lo, a_hi)]
+    jobs += [(f"B|{j}", _ext_b_task, (j,)) for j in range(b_lo, b_hi)]
+
+    def _on_run(key, payload):
+        fam, j = key.split("|")
+        print(f"  {fam}[j{j}] full_s={payload['full']['sharpe']:>7.3f} "
               f"({time.time()-t0:.0f}s)", flush=True)
 
-    fam_b = []
-    for j in range(b_lo, b_hi):
-        p = p_for(j)
-        rng = np.random.default_rng(A_SEED_BASE + j)      # SAME matrix as A-ext[j]
-        entry = _entry_matrix(rng, n_days, n_syms, idx, cols, p)
-        rng_x = np.random.default_rng(B_EXIT_SEED_BASE + j)
-        exit_ = pd.DataFrame((rng_x.random((n_days, n_syms)) < v1.P_EXIT),
-                             index=idx, columns=cols)
-        r = v1.run_one(prices, idx, entry, exit_, {}, f"extB_p{p}_j{j}")
-        fam_b.append({**r, "p": p, "seed_rng_entry": A_SEED_BASE + j,
-                      "seed_rng_exit": B_EXIT_SEED_BASE + j,
-                      "note": f"ext random entry rng={A_SEED_BASE + j} "
-                              f"(paired with extA_j{j}) + random exit "
-                              f"rng={B_EXIT_SEED_BASE + j} p={v1.P_EXIT}"})
-        print(f"  B[j{j}] full_s={r['full']['sharpe']:>7.3f} "
-              f"({time.time()-t0:.0f}s)", flush=True)
+    res = run_cells_parallel(
+        jobs, workers=worker_cap(), desc=f"p2cal-ext s{shard}/{nshards}",
+        initializer=_init_pool_ctx,
+        initargs=(prices, idx, cols, n_days, n_syms),
+        on_result=_on_run)
+
+    # reassemble in j order -> families arrays byte-equal to the serial loop
+    fam_a = [res[f"A|{j}"] for j in range(a_lo, a_hi)]
+    fam_b = [res[f"B|{j}"] for j in range(b_lo, b_hi)]
 
     os.makedirs(SHARD_DIR, exist_ok=True)
     out = {
@@ -162,7 +217,10 @@ def run_shard(shard: int, nshards: int) -> int:
                      "B_random_entry_random_exit": {"n": len(fam_b), "runs": fam_b}},
         "audit": {"elapsed_sec": round(time.time() - t0, 1),
                   "n_backtests": len(fam_a) + len(fam_b),
-                  "workers": 1, "cpu_parallel": "serial (single-process)",
+                  "workers": res.get("__workers__", 1),
+                  "cpu_parallel": "ProcessPool via parallel_runner "
+                                  "(T-134 s2; seed-per-run determinism, "
+                                  "pool==serial bit-identical)",
                   "machine": json.loads(open(
                       os.path.join(PATHS.root, "fleet", "machine.json"),
                       encoding="utf-8").read()).get("machine_id", "unknown")},
@@ -398,8 +456,56 @@ def selftest() -> int:
         os.path.join(PATHS.results_dir, "p2_calibration_v2.json"))
     assert os.path.abspath(EXT_OUT) != os.path.abspath(
         os.path.join(PATHS.results_dir, "p2_calibration.json"))
+    # -- S-mp legs (T-134 s2; ems S18 idiom): pool identity on synthetic
+    #    fixtures -- inline task == spawn+pickle+initializer path
+    #    (bit-identical payloads), double-run determinism, worker-count face.
+    #    Real band seeds (A_SEED_BASE+0/+1) exercise the exact task fns;
+    #    still no network, no real panel.
+    rng = np.random.default_rng(4242)
+    n_day_s, n_sym_s = 240, 5
+    syms_s = [f"e{k}" for k in range(n_sym_s)]
+    sidx = pd.date_range("2023-01-02", periods=n_day_s, freq="B")
+    sprices = {}
+    for s in syms_s:
+        c = 5.0 * np.cumprod(1 + rng.normal(0, 0.01, n_day_s))
+        o = c * (1 + rng.normal(0, 0.003, n_day_s))
+        sprices[s] = pd.DataFrame(
+            {"open": o, "high": np.maximum(o, c) * 1.005,
+             "low": np.minimum(o, c) * 0.995, "close": c}, index=sidx)
+    _POOL_CTX.clear()
+    _POOL_CTX.update(prices=sprices, idx=sidx, cols=syms_s,
+                     n_days=n_day_s, n_syms=n_sym_s)
+    inline_a = _ext_a_task(0)
+    inline_b = _ext_b_task(1)
+
+    def _canon(p):
+        return json.dumps(p, sort_keys=True, default=str)
+
+    res_p = run_cells_parallel(
+        [("A|0", _ext_a_task, (0,)), ("B|1", _ext_b_task, (1,))],
+        workers=2, desc="s-mp", initializer=_init_pool_ctx,
+        initargs=(sprices, sidx, syms_s, n_day_s, n_sym_s))
+    assert res_p.pop("__workers__") == 2, "S-mp worker count face"
+    assert _canon(res_p["A|0"]) == _canon(inline_a), \
+        "S-mp A task pool==inline (engine-exit family)"
+    assert _canon(res_p["B|1"]) == _canon(inline_b), \
+        "S-mp B task pool==inline (paired random-exit family)"
+    again = run_cells_parallel(
+        [("A|0", _ext_a_task, (0,))], workers=1, desc="s-mp2",
+        initializer=_init_pool_ctx,
+        initargs=(sprices, sidx, syms_s, n_day_s, n_sym_s))
+    assert _canon(again["A|0"]) == _canon(inline_a), \
+        "S-mp double-run determinism (re-pool == inline)"
+    res_w4 = run_cells_parallel(
+        [("B|1", _ext_b_task, (1,))], workers=4, desc="s-mp3",
+        initializer=_init_pool_ctx,
+        initargs=(sprices, sidx, syms_s, n_day_s, n_sym_s))
+    assert _canon(res_w4["B|1"]) == _canon(inline_b), \
+        "S-mp worker-count invariance (pool@2 == pool@4 == inline)"
+    _POOL_CTX.clear()
     print("selftest: PASS (design constants + seed bands disjoint + p pattern "
-          "+ determinism + slice math + canon intact + path safety)")
+          "+ determinism + slice math + canon intact + path safety "
+          "+ S-mp pool identity 5 legs)")
     return 0
 
 
