@@ -61,9 +61,14 @@
 
 ## §7 跑后实证【finalize 窗回填】
 
-- （占位·finalize 窗回填）
+- 烧录=引擎自驱 12/12（60s cadence·pool telemetry `results/pool_core_samples.jsonl` n1w16 逐片 multicore_burn 行·effective_cores ~6.1/片·audit.machine=bm-b 12/12）；finalize=2026-10-01 17:5x bm-b（r516 窗·runner=derive 修正版〔波集自 WAVE_CONFIGS registry derive·r511 律·波号 15 由 N2 面持有→N1 链 2..14+16·r515 猝死半成品收编 compile+selftest 全绿后当窗采纳〕）。
+- **K=33,120**（canon 120＋W1 2,200＋W2..W14 13×2,200＋W16 2,200＝§0 预期逐位吻合）；pre-W16 实测 mu **−0.09223**/sigma **0.24440**（与 W14 finalize 落账值逐位恒等=链性对账 PASS）；W16-only mu **−0.08767**/sigma **0.24888**（n=2,200）；merged mu **−0.09193**/sigma **0.24470**·se_mu **0.001345**（W14 0.00139→收窄）。
+- **§5 四项预测 4/4 PASS**：①W16-only vs W14 锚 mu 漂移 |+0.00456|<0.02 ✓；②sigma 相对变化 +0.12%<±10% ✓；③A 族 p95 **0.3306** vs 锚 0.3126 Δ+0.0180<0.05 ✓；④K-lift **+0.0018** ≤0.02 ✓（正向如实记·十三波谱系 −0.0143..+0.0082 区间内）。
+- skill_line_v2 @n_eff **397,548**：1.1488→**1.1506**；账本 **397,548+2,200=399,748**（append_ledger dict 持久化于 `science_gates.ledger` 块=r509 零幻影律·voids_applied=LOWAMP-P1 自动面）；canon flip 未执行（K2200 同律·治理提案面）。
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
-- （占位·finalize 窗回填）
+- 波 16 收口=一次定稿：烧录全引擎自驱零人工代烧、finalize 一次通过、链性对账（pre=W14 落账值逐位恒等）与账本对账（+2,200）双 PASS；n_eff 跨波恒不重置律维持（canon+W1..W16 全链）。
+- 波号 15 空位注记：N1 面波集自本波起含间隙（…14,16…）——runner 波集 derive 修正（registry 键集非 range()）为结构性必要件，已随 finalize 实弹验证（selftest W16 materializer 腿＋本波 finalize 实跑双证）；后续波 runner 复用该 derive 面（r511 律的波号间隙变体）。
+- 引擎烧录 telemetry：单片 ~25s wall/~155s cpu（8 workers）——引擎 60s cadence 满窗占空比下 py CPU 面恒低=节律面非停工面（W10/W13 同律先例重证）。
 - **W17+ 尾律警示窗照法典 §4 W16 行**：W17 prereg 展行时 A +2_000 算术位（76_001..78_000）机验投影净空；B +200 算术位（29_900..30_099）**将撞 lfc 实际流 30_000..30_099**（带闸投影 REFUSED〔点 30_000 在 SEED_REGISTRY〕）→ W17 prereg 须同法跳位 B（首自由 200 窗机闸定·W5/W6/W8 跳位族先例），仍照例展行时机验（含引擎队列面与语法登记簿对账防重烧·**W17=bm-c 槽位**〔轮值律〕）。
