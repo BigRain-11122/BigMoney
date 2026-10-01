@@ -1,28 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 01:25:21",
-   "machine": "bm-a",
-   "py_cpu_pct": 37.5,
-   "cooldown_skipped": {
-    "entry": "PERPETUAL-N1-W2-SHARD-0",
-    "shard": "n1w2-0of12",
-    "last_launch_min": 6.8
-   },
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W2-SHARD-4",
-   "shard": "n1w2-4of12",
-   "pid": 71116,
-   "runner_sha256": "5667c984e14af8e5",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 59.6,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 8,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 01:26:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.1,
@@ -989,26 +967,34 @@
    "fill_latency_min": 14.1,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 4
+   "saturation_launches": 4,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 10:17:07",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W6-SHARD-11",
+   "shard": "n1w6-11of12",
+   "pid": 54928,
+   "runner_sha256": "0de392f7aea650c2",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 14.9,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 5,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 10:16:19",
+  "ts": "2026-10-01 10:24:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "harvest_flipped": 1,
-  "verdict": "launched",
-  "entry": "PERPETUAL-N1-W6-SHARD-10",
-  "shard": "n1w6-10of12",
-  "pid": 105436,
-  "runner_sha256": "0de392f7aea650c2",
-  "core_verdict": "multiproc",
-  "core_marker": "import multiprocessing",
-  "fill_latency_min": 14.1,
-  "fullburn_window": true,
-  "target_met": false,
-  "saturation_launches": 4
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T10:16:04+08:00"
+ "core_samples_seen": "2026-10-01T10:17:41+08:00"
 }

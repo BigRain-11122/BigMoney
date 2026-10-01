@@ -8306,7 +8306,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8328,7 +8328,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-1",
@@ -8347,7 +8349,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8369,7 +8371,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-2",
@@ -8388,7 +8392,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8410,7 +8414,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-3",
@@ -8429,7 +8435,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8451,7 +8457,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-4",
@@ -8470,7 +8478,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8492,7 +8500,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-5",
@@ -8511,25 +8521,31 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
 "shards": [
 {
 "key": "n1w6-5of12",
-"status": "ready",
+"status": "done",
 "checkpoint": "results/p2cal_ext/n1_w6/shard-5-of-12.json (presence=done; deterministic rerun byte-equal)",
 "note": "N1-W6 wave shard 5 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
 "owner": "bm-c",
-"owner_since": "2026-10-01 10:11:20"
+"owner_since": "2026-10-01 10:12:27",
+"claimed_since": "2026-10-01 10:11:20",
+"done_at": "2026-10-01 10:12:27",
+"harvested_by": "bm-c",
+"harvest_claim": "n1w6-5of12.bm-c.json"
 }
 ],
 "workers_plan": {
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:26:04"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-6",
@@ -8548,25 +8564,31 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
 "shards": [
 {
 "key": "n1w6-6of12",
-"status": "ready",
+"status": "done",
 "checkpoint": "results/p2cal_ext/n1_w6/shard-6-of-12.json (presence=done; deterministic rerun byte-equal)",
 "note": "N1-W6 wave shard 6 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
 "owner": "bm-b",
-"owner_since": "2026-10-01 10:12:06"
+"owner_since": "2026-10-01 10:14:04",
+"claimed_since": "2026-10-01 10:12:06",
+"done_at": "2026-10-01 10:14:04",
+"harvested_by": "bm-b",
+"harvest_claim": "n1w6-6of12.bm-b.json"
 }
 ],
 "workers_plan": {
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:26:04"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-7",
@@ -8585,7 +8607,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8607,7 +8629,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-8",
@@ -8626,7 +8650,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8648,7 +8672,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-9",
@@ -8667,7 +8693,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8689,7 +8715,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-10",
@@ -8708,7 +8736,7 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
@@ -8730,7 +8758,9 @@
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 },
 {
 "id": "PERPETUAL-N1-W6-SHARD-11",
@@ -8749,25 +8779,31 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 10:02:29",
 "worker_class": "self-contained",
 "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
 "shards": [
 {
 "key": "n1w6-11of12",
-"status": "ready",
+"status": "done",
 "checkpoint": "results/p2cal_ext/n1_w6/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
 "note": "N1-W6 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
 "owner": "bm-a",
-"owner_since": "2026-10-01 10:17:23"
+"owner_since": "2026-10-01 10:17:58",
+"claimed_since": "2026-10-01 10:17:23",
+"done_at": "2026-10-01 10:17:58",
+"harvested_by": "bm-a",
+"harvest_claim": "n1w6-11of12.bm-a.json"
 }
 ],
 "workers_plan": {
 "workers": 8,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 10:20:03"
 }
 ]
 }
