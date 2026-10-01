@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-01T20:44:49+08:00",
- "current_task": "r537 closed: maintenance; awaiting bm-c W23 finalize -> W24 finalize; W27 freeze waits W26 (bm-c)",
+ "last_seen": "2026-10-01T20:58:57+0800",
+ "current_task": "r538 closed: town.html org_chart v2 alignment (alloc building re-anchored); awaiting bm-c W23 finalize -> W24 finalize",
  "cpu_cores": 32,
- "cpu_pct": 7.4,
- "free_ram_gb": 54.1,
+ "cpu_pct": 0.0,
+ "free_ram_gb": 53.4,
  "gpu_free_vram_gb": null,
- "verdict": "healthy: r537 holiday maintenance closed (S6 37 legs rc0, faces regen); engine alive queue0 idle-legal (W25 burn=bm-b lane, W26 freeze=bm-c seat); W24 finalize gated on bm-c W23; board clean, pool drained (W14-GENERATE GM-park only)",
+ "verdict": "healthy: r538 town.html org_chart v2 alignment closure (gate 10/10 + Edge render-verified) + S6 28 legs rc0 holiday no-ops; engine alive queue0 idle-legal (W23 finalize=bm-c unblocked on W22 landed; W24 finalize=next once W23 on origin; W26=bm-c seat); board clean, pool drained (W14-GENERATE GM-park only), audit pool_starvation flag=GM-ruled supply gap disclosed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -148,12 +148,12 @@
   "O-20261001-1410-bm-c.md",
   "O-20261001-1420-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1790858689,
- "clock_read": "2026-10-01T20:44:49+08:00",
+ "heartbeat_epoch_utc": 1790859537,
+ "clock_read": "2026-10-01T20:58:57+0800",
  "cores": 32,
  "gpu_free_vram_mb": 5619,
  "gpu_idle_vram_gb": 3.51,
- "task": "r535 W24 THIRTEENTH engine wave frozen (A 90_001..92_000/B 39_500..39_699 ADMIT) + engine burning 7+/12 shards",
+ "task": "r538 town.html org_chart v2 alignment closure (alloc->组合与资金部挂靠, gate 10/10, render-verified)",
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
  "prod_lanes": [

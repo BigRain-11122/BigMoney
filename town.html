@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产配置研究组上盘（挂靠组合与资金部 O-2311 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -221,7 +221,7 @@ function drawPortfolio(b) {                   // 组合调度中心 (portfolio &
   rrect(x+33, y+40, 14, 8, '#161a22');        // door
   text('组合调度中心', x+8, y+62, '#7a8494');
 }
-function drawAlloc(b) {                       // 资产组合研究部 (v5 第八部门 · ALLOC-* 配置账户族)
+function drawAlloc(b) {                       // 资产配置研究组 (挂靠组合与资金部 O-2311 · ALLOC-* 配置账户族)
   const {x,y} = b, ap = (D.data && D.data.alloc_paper) || {};
   const accs = ap.accounts || [];
   rrect(x, y, 70, 34, '#262e3d'); rrect(x, y, 70, 4, '#5a9ab8');   // teal band = allocation line
@@ -231,7 +231,7 @@ function drawAlloc(b) {                       // 资产组合研究部 (v5 第�
     px(x+5+i*9, y+10, 7, 9, !a ? '#12151d' : (a.ret_pct >= 0 ? '#5fd38a' : '#e05a5a'));
   }
   rrect(x+28, y+22, 14, 12, '#161a22');       // door
-  text('资产组合研究部', x-4, y+46, '#7a8494');
+  text('资产配置研究组', x-4, y+46, '#7a8494');
 }
 function drawEtfOps(b) {                     // ETF操作链研究所 (ETF ops 直属组 · O-20260928-1524 部门级)
   const {x,y} = b, sv = (D.data && D.data.system_v1_paper) || {};
@@ -423,8 +423,8 @@ const BUILDS = [
           });
           return rows.join(''); })()
       + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
-  { id:'alloc', x:560, y:318, w:70, h:34, draw:drawAlloc, label:'资产组合研究部',
-    dept:'资产组合研究部 Asset Allocation Research', mandate:'百万级资产配置实测 · 买入持有+定期再平衡+防御倾斜 · 不做择时（org_chart v5 独立成行）',
+  { id:'alloc', x:560, y:318, w:70, h:34, draw:drawAlloc, label:'资产配置研究组',
+   dept:'组合与资金部 Portfolio & Capital', mandate:'百万级资产配置实测 · 买入持有+定期再平衡+防御倾斜 · 不做择时（资产配置研究组·挂靠组合与资金部 O-2311·org_chart v2 部门表对齐 r538）',
     info: () => { const ap = (D.data && D.data.alloc_paper) || {};
       if (!ap.present) return '<div class="row dim">ALLOC-* 配置账户待产出（python scripts/alloc_paper.py run · T-66 s2 已接线）</div>';
       const f2 = v => v==null ? '—' : (Number(v)*100).toFixed(2)+'%';
