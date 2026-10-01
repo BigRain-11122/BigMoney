@@ -55,6 +55,18 @@
 - 波账=`results/perpetual_faces_state.json` waves[] append（生成器 §3 契约）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 回填位·跑前留空】
+## §7 跑后实证【2026-10-01 10:3x finalize 回填·source=results/perpetual_faces/n1_w6_results.json】
 
-## §8 批后复盘【s7-T 回填位·跑前留空】
+- 12/12 分片合并（shards_consumed 12 件全在场·fail-closed 过；三机分烧：bm-a 7 片/bm-c 4 片/bm-b 1 片·r489 双层翻面修复同窗落地=entry 层 sweep 治愈）；W6-only **K=2,200 mu=−0.0874 sigma=0.2445**（mu_delta_w6_vs_w5merged=+0.0043）。
+- merged 累计池 **K=13,320 mu=−0.0910 sigma=0.2449**，se_mu@K13320=**0.002122**（六波加深收窄链持续：canon120→W1→W2→W3→W4→W5→W6）。
+- skill_line_v2 @n_eff=375,447：line_pre_w6 **1.1495 → merged 1.1498**（K-lift delta=**+0.0003**）。
+- A 队（n=2,000）：mu=−0.0827，**p95=0.3252**，p99=0.4523；B 队 200 run 逐件明细面在合并件。
+- 账本行回执：prev_total 375,447 ＋ batch 2,200 ＝ **total 377,647**（batch=PERPETUAL-N1-W6·file=n1_w6_results.json·evidence_cutoff 2026-09-22）；波账 waves[] append wave 6 已落（perpetual_faces_state.json）。
+
+## §8 批后复盘【s7-T·2026-10-01 10:3x 回填】
+
+- 预测对账 **4/4 全对**：①|Δmu| W6-only vs −0.0917 锚=0.0043＜0.02 ✓（merged 侧 0.0007 亦过）②sigma 相对变化 −0.2%＜±10% ✓（merged 侧 −0.04%）③A 队 p95 Δ=0.0114（0.3252−0.3138）＜0.05 ✓（且＜原 0.03 门=连续第二波门内：W5 0.0083/W6 0.0114）④K-lift +0.0003≤0.02 ✓（W3 +0.0082/W4 −0.0143/W5 −0.0018/W6 +0.0003 四波全带内·幅度序列收敛=加深边际递减实证·线稳 1.149x）。
+- 累计 null 池 13,320 态：mu −0.0910/sigma 0.2449/se_mu 0.002122——六波 26,400 值同设计同窗加深，mu/sigma 稳定先验再证；skill 线零质变（加深不抬线第四次复证）。
+- 波间事故如实记：shard-3/4 产品件一度滞后 origin（bm-c 本地未推窗）——确定性重跑字节恒等自愈面在场未启用（等待期间对侧推齐）；本机会话误探针（runner 无 --help·真跑语义）触发 shard-7 幂等 skip 握手=零烧录损失，claim 件已 restore 保真 burn 记录。
+- 回执入轮报告（r510 bm-a）；CODELY.md 流水面按记忆门①不追加（W4/W5 finalize 同先例·git/prereg/轮报告=永久回执）。
+- 供给线展望：W6 闭合后池供给面回落——**池已空（230 done/1 waiting/0 ready）**，N1 波7 起 A +2_000 算术尾（25_900..27_899）与 B +200 尾（26_099 顺延=26_100..26_299）先行 SEED_REGISTRY disjoint 机验；N2/N4 runner 未落地=faces_pending 诚实面（供给法饿判定以生成器 status 为准）。
