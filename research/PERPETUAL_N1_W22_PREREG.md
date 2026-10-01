@@ -58,10 +58,16 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-b.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 窗回填】
+## §7 跑后实证【finalize 窗·r519 bm-b】
 
--（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
+- 烧录实况：12/12 分片引擎烧录（19:52:27..19:5x·60s cadence·per-tick 物化·每片 workers=8·audit.machine=bm-b·shard 件 results/p2cal_ext/n1_w22/shard-0..11-of-12.json）。
+- K=**46,320**（canon 120＋W1 2,200＋W2..W14 13×2,200＋W16..W21 6×2,200＋本波 2,200=§0 预期逐位吻合）；merged mu **−0.09309**·sigma **0.24453**·se_mu **0.001136**（W21 0.001194→收紧）；W22-only mu −0.10216（低波单波抽样波动如实）。
+- §5 四项判定：**4/4 PASS**（①mu-drift |0.00099|<0.02〔锚 W20 −0.09210〕②sigma 相对 +0.040%<±10%③A p95 0.3132 vs 0.3224 Δ−0.0092<0.05④K-lift **−0.0002**≤0.02〔1.1504→1.1502·诚实负向·W3..W21 先例同报〕）。
+- 链性对账：prev=**410,748**（W21 finalize r534 bm-a 活头 derive·禁手抄）→ **412,948** 链线性；ledger_head 自证；合并池 K 随 in-pool 前波 W16..W21 自然扩＝法典 §5 derive 律实证。
+- 账本对账：`append_ledger` 返回块持久化入 family summary（r509 幻影记账律·guard 前持久化顺序·selftest 拒双 append 腿在场）；voids_applied=LOWAMP-P1 自动面。
+- 特殊注记：本波冻结窗同轮先完成 W20 finalize 误删恢复（d855bc650）——若无恢复，W21/W22 finalize 链 prev 面将断链；恢复后 W21 r534 与本波 finalize 均 prev 正确 derive=零孤儿分叉实证。
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
--（占位锚：finalize 同窗回填波收口复盘与 W23+ 尾律警示转交〔W23=bm-c 槽位·轮值律〕。）
+- 波收口复盘：冻结→点火→12/12 烧录→finalize 一趟过全闭环同轮完成（per-tick 引擎架构零重启手术=本机第四枚全闭环自有波〔W10/W16/W19/W22〕）；selftest 回填后重跑全绿（r307 两态守卫律）。
+- W23+ 尾律警示转交：**W23=bm-c 槽位**〔轮值律·W20 实锚 20+3=23〕——A +2_000 算术位 **88_001..90_000** 与 B +200 算术位 **39_300..39_499** 投影净空（r519 回执 W23+ projection CLEAN·prereg 时机验照例）；带闸扫描面强制含 N3-R1 已用种子带腿。
