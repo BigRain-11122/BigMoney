@@ -59,7 +59,7 @@
   "49": 12,
   "50": 12,
   "51": 12,
-  "52": 3
+  "52": 6
  },
  "wave_complete_flags": [
   2,
@@ -116,30 +116,6 @@
   {
    "face": "N1",
    "wave": 52,
-   "shard": 11,
-   "nshards": 12,
-   "primary": true,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 52,
-   "shard": 0,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 52,
-   "shard": 1,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 52,
    "shard": 3,
    "nshards": 12,
    "primary": false,
@@ -176,30 +152,17 @@
    "nshards": 12,
    "primary": false,
    "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 10,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
   }
  ],
  "ignitions": [
-  {
-   "wave": 17,
-   "shard": 0,
-   "pid": 492,
-   "epoch": 1790850300,
-   "primary": false
-  },
-  {
-   "wave": 17,
-   "shard": 1,
-   "pid": 12156,
-   "epoch": 1790850300,
-   "primary": false
-  },
-  {
-   "wave": 17,
-   "shard": 3,
-   "pid": 36696,
-   "epoch": 1790850351,
-   "primary": false
-  },
   {
    "wave": 17,
    "shard": 4,
@@ -1578,34 +1541,55 @@
    "pid": 32088,
    "epoch": 1790890570,
    "primary": false
+  },
+  {
+   "wave": 52,
+   "shard": 3,
+   "pid": 28968,
+   "epoch": 1790890623,
+   "primary": false
+  },
+  {
+   "wave": 52,
+   "shard": 4,
+   "pid": 41580,
+   "epoch": 1790890623,
+   "primary": false
+  },
+  {
+   "wave": 52,
+   "shard": 6,
+   "pid": 13360,
+   "epoch": 1790890623,
+   "primary": false
   }
  ],
  "burns_active": [
   {
    "wave": 52,
-   "shard": 11,
-   "pid": 34136,
+   "shard": 3,
+   "pid": 28968,
    "adopted": false
   },
   {
    "wave": 52,
-   "shard": 0,
-   "pid": 27176,
+   "shard": 4,
+   "pid": 41580,
    "adopted": false
   },
   {
    "wave": 52,
-   "shard": 1,
-   "pid": 32088,
+   "shard": 6,
+   "pid": 13360,
    "adopted": false
   }
  ],
- "cycle": 179,
- "heartbeat_epoch": 1790890605,
- "last_cycle_ts": "2026-10-02T05:36:45",
- "py_cpu_pct": 51.16,
- "machine_cpu_pct": 31.6,
- "done_count": 591,
+ "cycle": 180,
+ "heartbeat_epoch": 1790890623,
+ "last_cycle_ts": "2026-10-02T05:37:03",
+ "py_cpu_pct": 0.59,
+ "machine_cpu_pct": 16.8,
+ "done_count": 594,
  "quarantined": [
   [
    12,
@@ -1619,32 +1603,11 @@
   "42:8": 1
  },
  "sync": {
-  "last_epoch": 1790890605,
+  "last_epoch": 1790890623,
   "remote_done_count": 588,
   "err": null
  },
  "completed": [
-  {
-   "wave": 14,
-   "shard": 9,
-   "pid": 22504,
-   "ended_epoch": 1790846034,
-   "rc": null
-  },
-  {
-   "wave": 14,
-   "shard": 10,
-   "pid": 22576,
-   "ended_epoch": 1790846034,
-   "rc": null
-  },
-  {
-   "wave": 14,
-   "shard": 5,
-   "pid": 2200,
-   "ended_epoch": 1790846972,
-   "rc": null
-  },
   {
    "wave": 14,
    "shard": 2,
@@ -3023,6 +2986,27 @@
    "pid": 17112,
    "ended_epoch": 1790890570,
    "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 11,
+   "pid": 34136,
+   "ended_epoch": 1790890623,
+   "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 0,
+   "pid": 27176,
+   "ended_epoch": 1790890623,
+   "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 1,
+   "pid": 32088,
+   "ended_epoch": 1790890623,
+   "rc": null
   }
  ],
  "grammar_consumption": [
@@ -3872,23 +3856,14 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 3,
+    "local_done": 6,
     "remote_done": 0
    }
   }
  ],
- "append_pending": 3,
+ "append_pending": 6,
  "append_err": null,
  "ledger_appends": [
-  {
-   "epoch": 1790845963,
-   "n_paths": 6,
-   "mid": "bm-c",
-   "committed": "[main 7c38a3945] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
-   "push_rc": 1,
-   "outcome": "push_rejected_local_kept",
-   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected"
-  },
   {
    "epoch": 1790846034,
    "n_paths": 6,
@@ -4218,7 +4193,16 @@
    "committed": "[main a6fcc95f5] saturation engine ledger append (bm-c): 5 n1 product shard(s) [law sec.2 batched]",
    "push_rc": 0,
    "outcome": "pushed"
+  },
+  {
+   "epoch": 1790890623,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main 317f246bf] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 1,
+   "outcome": "push_rejected_local_kept",
+   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected"
   }
  ],
- "last_append_epoch": 1790889573
+ "last_append_epoch": 1790890623
 }
