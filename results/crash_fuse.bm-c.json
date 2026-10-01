@@ -421,6 +421,16 @@
    "shard": "faceb-0of1",
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:05"
+  },
+  "scripts/refine_bench_rev_p2.py|run,--nulls": {
+   "count": 1,
+   "refusals": 3,
+   "code_sha256": "f089f3293e081094",
+   "last_crash_ts": "2026-10-01 14:21:05",
+   "entry": "REFINE-BENCH-REV-P2-NULLS",
+   "shard": "rev-p2-nulls",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 14:40:12"
   }
  },
  "cleared": {
@@ -626,6 +636,20 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "178142441a291551"
+  },
+  "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2": {
+   "cleared_ts": "2026-10-01 14:30:16",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "f089f3293e081094"
+  },
+  "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2": {
+   "cleared_ts": "2026-10-01 14:32:06",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "f089f3293e081094"
   }
  },
  "lane_machine": "bm-c"
