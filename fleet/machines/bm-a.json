@@ -1,11 +1,11 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-01T11:3x",
+ "last_seen": "2026-10-01T11:59:11+08:00",
  "current_task": "T-140 LOWAMP-P1 VOID execution (claimed, in-flight)",
  "cpu_cores": 32,
- "cpu_pct": 20.0,
- "free_ram_gb": 54.0,
- "gpu_free_vram_gb": 5.56,
+ "cpu_pct": 0.9,
+ "free_ram_gb": 54.3,
+ "gpu_free_vram_gb": 5.49,
  "verdict": "healthy",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -145,12 +145,12 @@
   "O-20261001-1058-bm-c.md",
   "O-20261001-1108-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1790824927,
- "clock_read": "2026-10-01T11:10:10+08:00",
+ "heartbeat_epoch_utc": 1790827151,
+ "clock_read": "2026-10-01T11:59:11+08:00",
  "cores": 32,
- "gpu_free_vram_mb": 5698,
+ "gpu_free_vram_mb": 5619,
  "gpu_idle_vram_gb": 3.51,
- "task": "r511: CEO O-1035 acked+executed -- T-139 claimed, REV stock-face axis census (240 cells) landed: runner+selftest 4/4+prereg frozen pre-burn+6 pool shards (supply-gap cured); rebase conflict r294 union resolved 0 loss",
+ "task": "r512: backoff round (session T-140 in-flight, tree occupied) -- T-139 census ranking product (240-cell top-10 promotion list, all time-exit H20 corner, 3/3 anchors vs judged face) + orders/D-19 consumed + bookkeeping dual-track delivery",
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
  "prod_lanes": [
@@ -160,15 +160,15 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round_no": 511,
+ "round_no": 512,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 57.5,
- "cpu_util_pct": 3.7,
- "round": 511,
- "loop_round": 511,
- "gpu0_free_vram_gb": 5.1,
- "gpu_free_vram_mib": 5706,
- "notes": "r511: watermark red (runnable-work-idle-low-cpu @10:40) root=c pool fully drained 481done/2waiting 0 ready -> cured same round by 6 census shard registrations (audit 11:09 confirms ready=6 unclaimed=6 floor=3 breach=false); py_low_with_work_cands @11:09 = just-registered window before daemon tick, legal transitional; dualrun DRIFT entry241 claimed_since (missing left) = new-entry observation phase, next tick settle watch",
+ "idle_ram_gb": 54.3,
+ "cpu_util_pct": 0.9,
+ "round": 512,
+ "loop_round": 512,
+ "gpu0_free_vram_gb": 5.49,
+ "gpu_free_vram_mib": 5619,
+ "notes": "r512: WM=insufficient_history (n=1 resample window); census 6/6 burned + ranked (results/refine_bench_stock/rev_census/census_ranking.json); W7 finalize confirmed on origin 12/12; S6 product legs deferred (stale-base derive hazard under backoff, honest disclosure); Windows no-autoreboot reg-add pending elevation (physical part)",
  "gpu_idle_vram_mb": null,
- "ram_free_gb": 53.8
+ "ram_free_gb": 54.3
 }
