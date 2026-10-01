@@ -20,7 +20,9 @@
   "9": 12,
   "10": 12,
   "11": 12,
-  "12": 12
+  "12": 12,
+  "13": 12,
+  "14": 12
  },
  "wave_complete_flags": [
   2,
@@ -33,7 +35,9 @@
   9,
   10,
   11,
-  12
+  12,
+  13,
+  14
  ],
  "queue_next": [],
  "ignitions": [
@@ -148,15 +152,78 @@
    "pid": 43560,
    "epoch": 1790842659,
    "primary": true
+  },
+  {
+   "wave": 14,
+   "shard": 11,
+   "pid": 27296,
+   "epoch": 1790845922,
+   "primary": true
+  },
+  {
+   "wave": 14,
+   "shard": 0,
+   "pid": 25612,
+   "epoch": 1790845922,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 1,
+   "pid": 34140,
+   "epoch": 1790845922,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 3,
+   "pid": 23424,
+   "epoch": 1790845962,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 4,
+   "pid": 39608,
+   "epoch": 1790845962,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 6,
+   "pid": 34812,
+   "epoch": 1790845962,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 7,
+   "pid": 35816,
+   "epoch": 1790846001,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 9,
+   "pid": 22504,
+   "epoch": 1790846001,
+   "primary": false
+  },
+  {
+   "wave": 14,
+   "shard": 10,
+   "pid": 22576,
+   "epoch": 1790846001,
+   "primary": false
   }
  ],
  "burns_active": [],
- "cycle": 190,
- "heartbeat_epoch": 1790845662,
- "last_cycle_ts": "2026-10-01T17:07:42",
- "py_cpu_pct": 0.22,
- "machine_cpu_pct": 8.8,
- "done_count": 132,
+ "cycle": 18,
+ "heartbeat_epoch": 1790846221,
+ "last_cycle_ts": "2026-10-01T17:17:01",
+ "py_cpu_pct": 0.21,
+ "machine_cpu_pct": 3.0,
+ "done_count": 156,
  "quarantined": [
   [
    12,
@@ -167,8 +234,8 @@
   "12:11": 3
  },
  "sync": {
-  "last_epoch": 1790845662,
-  "remote_done_count": 132,
+  "last_epoch": 1790846221,
+  "remote_done_count": 144,
   "err": null
  },
  "completed": [
@@ -226,6 +293,69 @@
    "shard": 11,
    "pid": 17672,
    "ended_epoch": 1790842541,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 11,
+   "pid": 27296,
+   "ended_epoch": 1790845962,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 0,
+   "pid": 25612,
+   "ended_epoch": 1790845962,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 1,
+   "pid": 34140,
+   "ended_epoch": 1790845962,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 3,
+   "pid": 23424,
+   "ended_epoch": 1790846001,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 4,
+   "pid": 39608,
+   "ended_epoch": 1790846001,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 6,
+   "pid": 34812,
+   "ended_epoch": 1790846001,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 7,
+   "pid": 35816,
+   "ended_epoch": 1790846034,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 9,
+   "pid": 22504,
+   "ended_epoch": 1790846034,
+   "rc": null
+  },
+  {
+   "wave": 14,
+   "shard": 10,
+   "pid": 22576,
+   "ended_epoch": 1790846034,
    "rc": null
   }
  ],
@@ -404,8 +534,8 @@
    "face": "N1",
    "wave": 12,
    "a_band": [
-    63001,
-    65000
+    63050,
+    65049
    ],
    "b_exit_band": [
     29100,
@@ -416,8 +546,63 @@
     "local_done": 12,
     "remote_done": 12
    }
+  },
+  {
+   "face": "N1",
+   "wave": 13,
+   "a_band": [
+    70001,
+    72000
+   ],
+   "b_exit_band": [
+    29300,
+    29499
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 14,
+   "a_band": [
+    72001,
+    74000
+   ],
+   "b_exit_band": [
+    29500,
+    29699
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 0
+   }
   }
  ],
  "append_pending": 0,
- "append_err": null
+ "append_err": null,
+ "ledger_appends": [
+  {
+   "epoch": 1790845963,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main 7c38a3945] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 1,
+   "outcome": "push_rejected_local_kept",
+   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected"
+  },
+  {
+   "epoch": 1790846034,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main f989a5dce] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 1,
+   "outcome": "push_rejected_local_kept",
+   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (fetch first)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected beca"
+  }
+ ],
+ "last_append_epoch": 1790846034
 }
