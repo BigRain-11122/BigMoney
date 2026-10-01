@@ -4,7 +4,7 @@
 
 ## 资产线（3+）
 1. 【城线】砖集扩 96 件全族（程序化 autotile 16 变体×草/广场/人行道/路缘四族·本地零额度）——claimed@bm-c 生产泵@10-01 11:5x → done@10-02 00:05+MiniGame 1ffc9b510（五族×16=96 全族+cross 族顺带清 U266 斑马 punch·QC 8.3）
-2. 【城线】引擎 5×5 可行走 demo（Tilemap+CompositeCollider2D+A* 首步·Unity 工程）——可领（placemap.json 已产出可直接消费）
+2. 【城线】引擎 5×5 可行走 demo（Tilemap+CompositeCollider2D+A* 首步·Unity 工程）——claimed@bm-c@10-02 00:0x → done@10-02 00:2x+MiniGame 21c9c44bf（P09_CityWalkDemo·Tuanjie 2022.3.62t15·batchmode 15 项断言全 PASS·报告 verify-report.json）
 3. 【城线】消息雀 PIL mini-cycle（4-6 帧行走动画合成+demo 页行走层）——claimed@bm-c@10-01 23:5x → done@10-02 00:05+MiniGame 1ffc9b510（6 帧 hop 循环 sheet+GIF+demo 页·QC 8.0+相位数据实测分层）
 4. 【游戏线】G17 UnboxIt 待审件推进（审计 lane 72 存量待泄洪）——可领
 
