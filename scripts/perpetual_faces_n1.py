@@ -591,6 +591,32 @@ WAVE_CONFIGS = {
                  "b_exit_seed_base": 40_251,    # law sec.4 W27 B: 40_251..40_450 (arithmetic)
                  "shard_subdir": "n1_w27", "out_name": "n1_w27_results.json",
                  "engine_owner": "bm-a"},
+            # W28 (r523 bm-b, prereg-time extension per the W27 row's
+            # W28+ WARNING; never-dry supply law standing step;
+            # sovereignty rotation law F-20260901-01 slot W28=bm-b
+            # per the W27 row verbatim, bm-b's EIGHTH owned wave
+            # after W10/W11/W13/W16/W19/W22/W25): BOTH tails
+            # arithmetic-clean exactly as the W27 row projected
+            # (A 99_004..101_003 == W27 A end + 1, B 40_451..40_650
+            # == W27 B end + 1, no skip either side, 40k-segment
+            # continuation). Machine-verified at prereg time
+            # (results/_r523bmb_w28_band_gate.py ADMIT receipt vs
+            # the 26-row pre-W28 table incl. W24/W25/W26/W27 +
+            # SEED_REGISTRY + probes/actuals + probe-seed cluster
+            # 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+            # band 70_000..70_005 MSG-183x r529 mandatory leg).
+            # NOT a re-pick (R250: W28 bands were never assigned;
+            # the measurement face has no result to fish).
+            28: {"batch": "PERPETUAL-N1-W28",
+                 "prereg": ("research/PERPETUAL_N1_W28_PREREG.md (wave-level frozen "
+                            "pre-run; design = frozen v1 null calibration verbatim, "
+                            "new seed bands only; SEVENTEENTH ENGINE-OWNED WAVE, "
+                            "sovereignty rotation law W28=bm-b, engine_owner=bm-b, "
+                            "W27 row slot assignment verbatim)"),
+                 "a_seed_base": 99_004,          # law sec.4 W28 A: 99_004..101_003 (arithmetic)
+                 "b_exit_seed_base": 40_451,    # law sec.4 W28 B: 40_451..40_650 (arithmetic)
+                 "shard_subdir": "n1_w28", "out_name": "n1_w28_results.json",
+                 "engine_owner": "bm-b"},
          }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -3162,6 +3188,98 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W28 materializer face (r523 bm-b freeze) ------------------------
+    _set_wave(28)
+    try:
+        assert WAVE_CONFIGS[28]["a_seed_base"] == pf.N1_BANDS[28]["a"][0], \
+            "W28 A band drift vs law mirror"
+        assert WAVE_CONFIGS[28]["b_exit_seed_base"] == \
+            pf.N1_BANDS[28]["b_exit"][0], "W28 B band drift vs law mirror"
+        assert WAVE_CONFIGS[28].get("engine_owner") == \
+            pf.N1_BANDS[28].get("engine_owner") == "bm-b", \
+            "W28 engine_owner drift (law mirror parity)"
+        w28_a = {A_SEED_BASE + j for j in range(A_N)}
+        w28_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w28_a & w28_b), "W28 A/B band overlap"
+        assert not (w28_a & reg_ints) and not (w28_b & reg_ints), \
+            "W28 hits SEED_REGISTRY"
+        for nm, band in (("A", w28_a), ("B", w28_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W28 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W28 {nm} hits W1"
+            assert not (band & probes), f"W28 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27):
+            assert not (w28_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W28 A hits W{wprev}"
+            assert not (w28_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W28 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W28 bands must clear it.
+        n3r1_used28 = set(range(70_000, 70_006))
+        assert not (w28_a & n3r1_used28) and not (w28_b & n3r1_used28), \
+            "W28 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w28_a & lfc_actual12) and not (w28_b & lfc_actual12), \
+            "W28 bands must clear the lfc actual draw range"
+        assert not (w28_a & options_actual12) and \
+            not (w28_b & options_actual12), \
+            "W28 bands must clear the options_wave2 actual draw range"
+        # arithmetic facts (law sec.4 W28 row, r523): BOTH tails continue
+        # from the W27 REGISTERED tail (registry-derived, not prose) and
+        # land CLEAN -- strides kept verbatim, NO skip (ADMIT receipt
+        # results/_r523bmb_w28_band_gate.py leg1/leg2; W27 row W28+
+        # WARNING projection verified).
+        arith_lo28 = pf.N1_BANDS[27]["a"][1] + 1     # W27 registered A end + 1
+        a_arith_hits28 = sorted(v for v in reg_ints | probes
+                                if arith_lo28 <= v <= arith_lo28 + A_N - 1)
+        assert a_arith_hits28 == [], \
+            "W28 A arithmetic tail must be clean (ADMIT receipt leg1)"
+        assert WAVE_CONFIGS[28]["a_seed_base"] == arith_lo28, \
+            "W28 A stride drift (arithmetic continuation, NO skip)"
+        b_arith_lo28 = pf.N1_BANDS[27]["b_exit"][1] + 1  # W27 reg B end + 1
+        b_arith_hits28 = sorted(v for v in reg_ints | {40_001}
+                                if b_arith_lo28 <= v <= b_arith_lo28 + B_N - 1)
+        assert b_arith_hits28 == [], \
+            "W28 B arithmetic tail must be clean (ADMIT receipt leg1)"
+        assert WAVE_CONFIGS[28]["b_exit_seed_base"] == b_arith_lo28, \
+            "W28 B stride drift (arithmetic continuation, no skip)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W28-SHARD-0",
+                                          "n1w28-0of12"), "W28 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W28-SHARD-11",
+                                           "n1w28-11of12")
+        assert SHARD_DIR.endswith("n1_w28") and OUT.endswith(
+            "n1_w28_results.json"), "W28 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W28 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W28_PREREG.md")), \
+            "W28 per-wave prereg missing (materializer requirement)"
+        # W28 finalize cumulative deps: W17/W18/W19/W20/W21/W22/W23/W24/
+        # W25 outputs PRESENT (W25 finalize = bm-b r522, K=52,920,
+        # ledger 419,548 chain head). W26 output NOT landed at this
+        # freeze window (12/12 burned on bm-c r335, finalize pending on
+        # the bm-c seat); W27 output NOT landed (bm-a r539 burn in
+        # progress) -- no static exists-assert pinned for 26/27; the
+        # finalize merge loop stays FAIL-CLOSED on any missing prior
+        # output at run time (r307 two-state law family).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W28 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 28 (no 15; 26/27 registered
+        # by the r335 bm-c / r539 bm-a freezes).
+        assert sorted(w for w in WAVE_CONFIGS if w < 28) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27], \
+            "W28 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -3367,6 +3485,19 @@ def selftest() -> int:
           "(registry-derived continuation, no skip; W26 W27+ WARNING "
           "projection verified; probe-seed cluster + N3-R1 used-seed "
           "leg), law sec.4 W27 row, r539 bm-a] "
+          "+ W28 materializer face [same guard set, dep=W17..W25 "
+          "outputs present (finalizes landed r328-c/r532-a/r518-b/"
+          "r331-c/r534-a/r519-b/r335-c/r538-a/r522-b, ledger head "
+          "419,548; W26/W27 finalize outputs NOT pinned at freeze "
+          "window -- bm-c finalize pending / bm-a burning, finalize "
+          "merge loop stays FAIL-CLOSED at run time), SEVENTEENTH "
+          "ENGINE-OWNED WAVE bm-b's eighth engine_owner=bm-b per "
+          "sovereignty rotation law F-20260901-01 slot W28=bm-b (W27 "
+          "row slot assignment verbatim), BOTH tails arithmetic-clean "
+          "per ADMIT receipt results/_r523bmb_w28_band_gate.py "
+          "(registry-derived continuation, no skip; W27 W28+ WARNING "
+          "projection verified; probe-seed cluster + N3-R1 used-seed "
+          "leg), law sec.4 W28 row, r523 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

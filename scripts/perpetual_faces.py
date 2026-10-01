@@ -511,6 +511,32 @@ N1_BANDS = {
     # receipt -- verify at W28 prereg (rotation slot W28=bm-b).
     27: {"a": (97_004, 99_003), "b_exit": (40_251, 40_450),
          "engine_owner": "bm-a"},
+    # W28 (r523 bm-b, prereg-time extension per the W27 row's W28+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20260901-01 slot W28=bm-b per the W27 row
+    # verbatim, bm-b's EIGHTH owned wave after W10/W11/W13/W16/W19/
+    # W22/W25; no pointer gate pending: W25 registered + burned 12/12
+    # + FINALIZED by bm-b r522 (K=52,920, ledger 419,548 chain head),
+    # W26 registered + burned 12/12 by bm-c r335 (finalize pending on
+    # the bm-c seat), W27 registered by bm-a r539 (burn in progress on
+    # bm-a) -- coexistence judged by band disjointness not commit
+    # order, r531 law): BOTH tails arithmetic-clean exactly as the
+    # W27 row projected (A's +2_000 tail 99_004..101_003 == W27 A
+    # end + 1, B's +200 tail 40_451..40_650 == W27 B end + 1, no
+    # skip on either side, 40k-segment continuation of the W26 B
+    # re-base lineage). Machine-verified at prereg time
+    # (results/_r523bmb_w28_band_gate.py ADMIT receipt vs the 26-row
+    # pre-W28 table incl. W24/W25/W26/W27 + SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N2/N4
+    # probe points + N2-W15 draft probe points + lfc/options actual
+    # ranges + N3-R1 used-seed band 70_000..70_005, MSG-183x r529
+    # mandatory leg). SEVENTEENTH engine-owned wave. NOT a re-pick
+    # (R250: W28 bands were never assigned; the measurement face has
+    # no result to fish). W29+ WARNING: A +2_000 tail 101_004..103_003
+    # and B +200 tail 40_651..40_850 projection per the r523 gate
+    # receipt -- verify at W29 prereg (rotation slot W29=bm-c).
+    28: {"a": (99_004, 101_003), "b_exit": (40_451, 40_650),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
