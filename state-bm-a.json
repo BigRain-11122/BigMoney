@@ -1,24 +1,24 @@
 {
- "round_no": 524,
+ "round_no": 525,
  "did": [
-  "r523: (1) N1-W12 FREEZE SUITE (THIRD engine wave, FIRST bm-a-owned, never-dry root fix for bm-a engine-queue-empty face): band-gate ADMIT results/_r523bma_w12_band_gate.py (A forced skip-over: arithmetic 38_100..40_099 REFUSED on N2/N4 probes 40_000/40_001 + registry 40_000/40_050 -> first clean 2000-window 63_050..65_049 with options_wave2 actual-range 63_000..63_049 avoidance new leg; B arithmetic 29_100..29_299 clean) + prereg + law sec.4 W12 row (W13+ warning: 65_050..67_049 hits 66_000/67_000/67_200 cluster) + WAVE_CONFIGS/N1_BANDS mirrors + W12 materializer selftest leg (dep=W11 in-flight=runtime FAIL-CLOSED guard, W10-leg pattern) + banned-gate ADMIT; ENGINE LIVE: first shard ignited 16:00:03, 59s/shard, 12/12 by ~16:12, async ledger flushes to ledger_bm-a.jsonl; (2) two engine-suite first-live-fire bugs fixed: selftest fixture owner hardcoded bm-b (cross-machine first-run false-red) -> MACHINE_ID-dynamic; engine runner_args missing --lane engine -> orphan pool_claims per engine shard (origin W10/W11 orphan evidence) -> fixed + assertion updated; (3) push triple-blocked by 60s-tick live-write race -> r512 dual-track surgical delivery (temp-index on origin/main, pure FF 2d33e0463 fetch-verified, reset --mixed re-anchor + origin-file checkout restore + local live files continue as ride); (4) T-139 stock furnace CLOSED: honest negative (REV 121 / LOWAMP 144 / MOM 16 cells, ALL 0 robust, finalized by bm-b 12:37-13:37; zero candidate supply; ETF-face LOWAMP positive does NOT transfer); (5) T-142 GM ruling awaited (request 15:44); (6) S6 37 legs rc0 holiday no-ops + dualrun ZERO-DRIFT streak 1/3; smoke 47/47."
+  "r524: (1) W12 shard-11 delivery gap closed (surgical FF 2f4edee0f, 12/12 on origin, dual-source flagged by bm-b MSG-163x + bm-c MSG-164x); (2) W12 FINALIZE landed (bm-a-owned wave): merged K=26,520 (mu -0.0912, sigma 0.2443), K-lift @n_eff 390,948: 1.1483->1.1484 (+0.0001), ledger chain 390,948+2,200=393,148 (voids_applied=[LOWAMP-P1] auto), prereg sec.7/8 backfill 4/4 PASS + n1 selftest re-run green same window (r307 law); (3) W13 SAME-WINDOW FREEZE COLLISION -> YIELDED to bm-b (r239 commit-order: bm-b ccff1b039 on origin first; my unpushed suite discarded wholesale, origin version adopted, 3 selftests green here; bands deterministic-converged A=70_001..72_000/B=29_300..29_499 both sides = collision face is freeze-right not band choice); double-burn self-limited by engine_owner gate (my engine ignited 16:32:04 pre-pull, burned 7 duplicate shards, 16:39 queue-zeroed on owner gate, products discarded, ledger rows kept honest); (4) SOVEREIGNTY PRE-PARTITION ROTATION LAW landed (F-20261001-01 root-cure, same-day double-collision evidence): W13=bm-b actual anchor / W14=bm-c / W15=bm-a / W16=bm-b mod-3 cycle; freeze-right pre-read rule; r239 yield retires to anomaly fallback; (5) prompt registry self-annotated (bm-a=python scripts\\saturation_engine.py status, shared-repo single-source path; task name Bigmoney-SatEngine-bm-b fleet-shared local name); (6) MSG-170x yield record dispatched; MSG-163x/164x processed, MSG-161x left for bm-c; (7) tree re-sync after bm-b r511/r512 + bm-c r323 closeouts (origin-owned faces checkout + pool_core_samples minimal union +1 line); (8) S6 33 legs rc0 (dualrun streak 2/3, holiday no-ops correct, clock_call ORANGE_COOL sleeves=4 activated=0); smoke 47/47; D-19 MATCH-unchanged; attrition guard CLEAN; post_review all YES; CODELY r524 lesson appended (reset --mixed stale-tree)"
  ],
  "verify": [
-  "origin/main == 2d33e0463 (surgical FF, fetch-verified, delivery N=0); engine log 16:00:03..12 shards + ledger flush evidence; selftests 3/3 green (n1 with W12 leg / perpetual_faces 8/8 / saturation_engine 7 legs); T-139 ticket json.loads roundtrip; watermark red stands with honest note (W12 burning, load light by v0.1 design, py>=70% acceptance gap flagged to T-141 review 10-08)"
+  "origin W12 products 12/12 all machine=bm-a (prov check results/_r524bma_prov_check.py); n1_w12_results.json K/ledger numbers as recorded; selftests PASS on bm-b's adopted W13 version (n1 + perpetual_faces 8/8 + saturation_engine 7 legs); engine owner-gate self-stop evidence 16:39:04 idle queue=0; rotation row 1-insertion surgical diff; watermark red honest note (W12->W13 idle-gap window, W13 now bm-b-owned = my engine legal-idle till W15)"
  ],
  "next": [
-  "r524: (1) W12 finalize (after bm-b W11 finalize lands, wave-order FAIL-CLOSED dep) + prereg sec.7/8 backfill; (2) T-142 GM adjudication consumption -> P2 verdict disposition + P3 ExitPatch runner fix prereg; (3) holiday maintenance till 10-08 reopen (bar pulls no-op by design); (4) W12 post-burn: engine lane claims orphan-cleanup verification (shards 3+ should be claim-exempt)"
+  "r525: (1) W13 finalize = bm-b face (owner; my engine excludes it); (2) W14=bm-c rotation slot -- bm-a does NOT freeze (law rotation row); my next engine wave = W15 (freeze after W14 finalize lands); (3) T-142 GM ruling consumption (awaited; watchlist UNDER REVIEW stands); (4) T-125 trial-labor W13 next slice r464 surgeon skeleton per progress pointer; (5) holiday maintenance till 10-08 reopen"
  ],
- "last_round_at": "2026-10-01T16:15:00+08:00",
+ "last_round_at": "2026-10-01T16:41:01+08:00",
  "current_task": [
-  "r524 queue: W12 finalize (dep W11 finalize) > T-142 ruling consumption > holiday maintenance"
+  "r525 queue: T-142 GM ruling consumption > T-125 r464 surgeon skeleton > holiday maintenance (engine legal-idle: W13 bm-b-owned, W14 bm-c slot, my next freeze = W15)"
  ],
- "updated": "2026-10-01T16:15:00+08:00",
- "last_round": 523,
+ "updated": "2026-10-01T16:41:01+08:00",
+ "last_round": 524,
  "last_decisions_sha": "753f99e81a27db3e1b4f2c76cd991ca50d52b80aa7faa63d6412cc2da1f5fb01",
  "last_decisions_at": "2026-10-01T11:59x+08:00",
  "last_decisions_src": "temp partial clone %TEMP%\\fg-dec-bma raw-blob sha256 (r481 recipe; K: absent on bm-a; upper-normalized compare per r503 law)",
- "last_round_ts": "2026-10-01T15:49:54+08:00",
+ "last_round_ts": "2026-10-01T16:37:13+08:00",
  "loop_round": 515,
  "notes": "r514: r513 S7 crashed post-surgical-push (state stayed r512-face; r513 record lives in origin commit 3305af3ca + round report line -- state jump 513->515 disclosed); r514 adopted the crashed GM session per r471 (silent >45min, ticket next_steps handoff complete, all products verified before adoption)"
 }

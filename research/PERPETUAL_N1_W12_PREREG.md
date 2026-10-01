@@ -59,10 +59,10 @@
 
 ## §7 跑后实证【finalize 窗回填】
 
-- 【回填占位：12/12 分片合并完成＋W12-only mu/sigma/A 族 p95＋累计池 merged K/mu/sigma/se_mu＋K-lift 对照＋账本行回执（prev=活链头 derive·+2,200）】
+- 【回填（2026-10-01 r524 bm-a·finalize 实测=results/perpetual_faces/n1_w12_results.json）：12/12 分片合并完成（FAIL-CLOSED 校验全过）；W12-only n=2,200·mu=−0.0918·sigma=0.2447·A 族 p95=0.3048；累计池 merged K=**26,520**·mu=−0.0912·sigma=0.2443·se_mu@K=0.001500；K-lift 对照=skill_line_v2 @n_eff 390,948 pre 1.1483 → merged 1.1484（delta **+0.0001**）；账本行回执=prev 390,948（W11 finalize 落账 derive）+2,200=**393,148**（链性对账 PASS·ledger 块持久化于 science_gates.ledger 零幻影·voids_applied=[LOWAMP-P1] 活链头自动面）】
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
-- 【回填占位：§5 预测对账四项＋se_mu 收窄面＋波间协作如实记】
+- 【回填（2026-10-01 r524 bm-a·§5 四项全 PASS）：①mu 漂移=W12-only −0.0918 vs W10 锚 −0.0913→|Δ|=0.0005<0.02 PASS（双波跨度锚如实注记：W11 finalize 已先落账·merged −0.0912 同窗在侧同谳）；②sigma 相对变化=0.2447 vs 锚 0.24453（+0.06%）<±10% PASS（纯抽样波动）；③A 族 p95=0.3048 vs W10 锚 0.3325→Δ=−0.0277<0.05 PASS；④K-lift=+0.0001≤0.02 PASS（如实正·W3..W11 先例序列同族〔末项 W11 −0.0014〕）；se_mu 收窄面=0.001566→0.001500 收窄 PASS；波间协作如实记=第三枚引擎波·bm-a 首枚自有波全链自驱（物化 r523 冻结套件外科送达 2d33e0463→16:00:03 点火 n1w12-0→12 分片 60s cadence 自主排空 ~59s/片→16:12:03 shard-11 完成 12/12→台账批量 ledger_bm-a.jsonl 12 行→finalize 同窗），engine_owner 闸双向实证（本机引擎只见 W12·W10/W11 foreign 不可见=12 分片全 bm-a 产；bm-b 让票后其引擎对本波=foreign 队列 0·MSG-163x 回执）；同窗双冻结撞车如实记=bm-b r511 让票（r239 commit 时间序·其 A 带 63_001..65_000 与本机 63_050..65_049 重叠 1,951 值·其套件/已烧分片/claim 全量弃置·零科学账本双计）；交付缺口如实记=shard-11 漏随 r523 closeout 入 origin（bm-b r511 点名 r310 族）→r524 补交付 2f4edee0f 后 finalize（12/12 完备门先行）】
 - **W13+ 尾律警示窗照法典 §4 W12 行**：W13 prereg 展行时 A +2_000 算术位（65_050..67_049）**将撞 SEED_REGISTRY bond_carry_w3a=66_000/p1e_zoo_behavior=67_000/p1e_synth_null_b=67_200 簇**——W13 须同法跳位 A（首自由窗机闸定·W5/W8/W12 先例族·ADMIT/REFUSED 机证算术尾必撞=跳位被迫性非自由挑）；B +200 算术位（29_300..29_499）现登记面推演净空——仍照例展行时机验（含引擎队列面与语法登记簿对账防重烧）。
-- 引擎面运行注记（回填占位）：第三枚引擎波·bm-a 首枚自有波全链=物化→点火→台账批量→finalize 各时点。
+- 引擎面运行注记（回填 2026-10-01 r524）：第三枚引擎波·bm-a 首枚自有波全链=物化（r523 冻结套件外科送达 2d33e0463）→点火（16:00:03 tick 首片 n1w12-0）→12 分片 60s cadence 自驱烧录（~59s/片·16:12:03 shard-11 完成=12/12）→台账批量（ledger_bm-a.jsonl 12 行·16:12:03 flush）→finalize（r524 同窗·本文件 §7/§8 回填即其产物）；burn 全程零人工介入；engine lane 零 pool_claims 孤儿实证（claim 豁免面·r523 --lane engine 修后全 12 片）。
