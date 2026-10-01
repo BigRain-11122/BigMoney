@@ -55,6 +55,20 @@
 - 波账=`results/perpetual_faces_state.json` waves[] append（生成器 §3 契约）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 回填位·跑前留空】
+## §7 跑后实证【2026-10-01 13:0x r315 回填·source=results/perpetual_faces/n1_w8_results.json】
 
-## §8 批后复盘【s7-T 回填位·跑前留空】
+- **回填注记（与 W7 隔窗回填对照如实记）**：finalize 本体=r315 会话同窗落地（生成 13:00:41·audit={machine: bm-c, finalize_only: true}），§7/§8 回填同窗完成=零隔窗（W7 曾因 r312 猝死隔窗由 r313 补记·r307 两态守卫律后首例同窗回填）；回填后 r315 复跑 selftest 证实守卫腿两态合法。
+- 12/12 分片合并（shards_consumed 12 件全在场·fail-closed 过；池面 12 独立 entry〔PERPETUAL-N1-W8-SHARD-0..11 单分片-entry 结构〕entry+shard 双层全 done·r489 双层律；origin 产物 12/12 ls-tree 断言过=r310 收口律）。
+- W8-only **K=2,200 mu=−0.0973 sigma=0.2486**（mu_delta_w8_vs_w7ext=−0.0039·runner derive）。
+- merged 累计池 **K=17,720 mu=−0.0921 sigma=0.2457**，se_mu@K17720=**0.001846**（八波加深收窄链持续：canon120→W1→W2→W3→W4→W5→W6→W7→W8）。
+- skill_line_v2 @n_eff=377,839：line_pre_w8 **1.1518 → merged 1.1531**（K-lift delta=**+0.0013**）。
+- A 队（n=2,000）：mu=−0.0905，**p95=0.3179**，p99=0.4701；B 队 200 run 逐件明细面在合并件。
+- 账本行回执：prev_total **377,839**（=W7 落账 379,847 − LOWAMP-P1 void 2,008·bm-a r514 T-140 判例 VOID 裁定·finalize 时账本 derive 禁手抄 prev 律如约生效·voids_applied=["LOWAMP-P1"] 机证）＋ batch 2,200 ＝ **total 380,039**（batch=PERPETUAL-N1-W8·file=n1_w8_results.json·evidence_cutoff 2026-09-22）。
+
+## §8 批后复盘【s7-T·2026-10-01 13:0x r315 回填】
+
+- 预测对账 **4/4 全对**：①|Δmu| W8-only vs W7 merged 锚（−0.0914）=0.0059＜0.02 ✓（merged 侧 0.0007 亦过）②sigma 相对变化（merged 0.2457 vs 锚 0.2453）=+0.16%＜±10% ✓（W8-only 侧 +1.3% 亦过）③A 队 p95 Δ=−0.0101（0.3179−0.3280）＜0.05 ✓（且＜0.03 门=连续第四波门内：W5 0.0083/W6 0.0114/W7 0.0028/W8 0.0101）④K-lift +0.0013≤0.02 ✓（W3 +0.0082/W4 −0.0143/W5 −0.0018/W6 +0.0003/W7 +0.0017/W8 +0.0013 六波全带内·幅度序列=加深边际递减再证·线稳 1.15x）。
+- 累计 null 池 17,720 态：mu −0.0921/sigma 0.2457/se_mu 0.001846——八波同设计同窗加深，mu/sigma 稳定先验再证；skill 线零质变（加深不抬线第六次复证）；canon flip 不在本波（K2200 同律·治理提案面素材恒）。
+- 波间协作如实记：产物交付面=bm-a 1-7（bac656f92·shard-8 按 r481 信封裁定取 bm-c 侧）+bm-c 8-11（r314 cycle1）三机谱系；W8 烧录期曾现 r297 claim 不可见双烧面（shard-8 11:26/11:46 双烧 8s·r513 定谳）。
+- 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
+- 供给线展望：W9 带展行=法典 §4 尾律＋disjoint 机闸律优先（r307 W5 跳位先例·W8 双拒跳位已机证 refusal facts）；尾律算术位续进 lfc_p1_screen 流 30_000..30_099 邻域警示窗仍开，W9 prereg 起草须先跑全 registry 机验再落行。
