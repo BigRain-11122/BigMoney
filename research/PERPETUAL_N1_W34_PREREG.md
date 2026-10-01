@@ -61,8 +61,17 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（占位·finalize 窗机械回填。）
+（r528 finalize 窗机械回填·prev 面披露：起草窗账本链头 437,148 为**毛面**；LOWAMP-P1+P2 voids 净额（−2,008·bm-a W35 prereg 同窗披露「voids netting」）后活链头 **435,140=净面**＝本波 finalize prev（活链头 derive 禁手抄·voids_applied 自动面）。）
+
+1. **S5-1 mu 漂移 PASS**：W34-only mu −0.08898 vs 锚 −0.09160，|Δ|=**0.00262 < 0.02**（W2..W33 三十一面实测稳定先例延续）。
+2. **S5-2 sigma 相对变化 PASS**：merged sigma 0.2445 vs 锚 0.24473，**−0.09% < ±10%**（纯抽样波动）。
+3. **S5-3 A 族 p95 PASS**：W34 A p95 **0.3096** vs 锚 0.3271，|Δ|=**0.0175 < 0.05**（门校准面仅作机器断裂侦测，测量面零注册利害）；A p99=0.4475。
+4. **S5-4 K-lift PASS**：**−0.0009 ≤0.02**（1.1555→1.1546·@n_eff_held 435,140·如实报负号——加深不必然抬线，W29/W31 负向先例族）。
+
+批面机证：12/12 分片烧录（引擎 tick 架构·audit.machine=bm-b·00:04:29-00:16:2x）→ finalize **一次定稿零重跑**（r538 律）；账本 prev=435,140（净活链头 derive·voids_applied=[LOWAMP-P1, LOWAMP-P2]）+2,200=**437,340**；累计 null 池 **K=72,720**（==§0 投影 70,520+2,200 逐字）；evidence_cutoff=2026-09-22（顶层字段+cutoff_meta 双写在产品件）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位·finalize 窗机械回填。）
+- 带净空：A 111_004..113_003 / B 41_801..42_000 双带算术零跳位（带闸 ADMIT 回执 leg2 首净窗==候选机证）；W35+ 投影 A 113_004..115_003 / B 42_001..42_200 已机证 CLEAN——**bm-a W35（r545）同窗落位于该投影逐字**（first-free-number 律·published=reserved honored·带域不相交=异带共存 r531 律零让路）。
+- 同窗实况：W34 冻结（bm-b r527 起草·r528 收编落地）× W35 冻结（bm-a r545）同窗 constructive merge（N1_BANDS/WAVE_CONFIGS/materializer 双块共存·W35 dep-pin +34 auto-join 按 r531-1/r541 预声明先例执行）；r527 会话终局未 commit 冻结面→r528 ride 收编（r471/r523 律）。
+- 去节流令首个 bm-b 全周期：W33 收口（bm-a r544）→W34 同窗冻结→12/12 烧录（~13min）→同窗 finalize（r544 one-window closeout 先例）——零等待零核闲。
