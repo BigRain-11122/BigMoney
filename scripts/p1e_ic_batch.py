@@ -44,6 +44,22 @@ Subcommands (idempotent via checkpoints, safe to kill/restart):
                            (fail-closed: any missing/err part = exit 2,
                            zero artifacts, r217 law)
   status                  checkpoint census
+
+Multicore face (O-2026-09-30-2355 s2 conversion, T-134 eighth pick, bm-c
+r334): nulls legs parallelize across the K=50 seeds -- one pooled job per
+null; per-null seed streams are scheduling-independent, k-order
+reassembly keeps the class file byte-equal to the serial burn (r306 law;
+proven by the selftest S-mp legs on the exact task fns). Cells leg
+parallelizes across 4 coarse build jobs (3 singles + the monolithic #93
+family constructor -- the family stays one job, honest granularity).
+Shared panels ship once per worker through the initializer (w8/ems idiom,
+never closures); per-null incremental checkpoint rows
+(p1e_nulls_ck_<cls>.jsonl, r340 law) survive mid-kill and resume
+seed-wise. Worker count is RAM-guarded per runner (per-worker footprint
+~3GB nulls / ~4GB cells: pickled panels + fwd + per-job noise and IC rank
+transients) on top of the fleet worker_cap. Null-task errors propagate
+and kill the run exactly like the serial loop (shard atomic). Judgment
+path (masks / seeds / _ic_series_fast / gates / ledger) untouched.
 """
 import argparse
 import glob
@@ -54,6 +70,7 @@ import time
 
 import numpy as np
 import pandas as pd
+import psutil                                  # RAM guard (s2 face)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -65,6 +82,7 @@ from shortline_p1_ic import _ic_series_fast         # gated fast IC path
 import p1e_factors as F                             # frozen constructors
 from science_gates import (SEED_REGISTRY, append_ledger,  # r217 pure fn
                            ledger_head)  # r231 fix family: canonical head
+from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2
 
 CACHE_DIR = P1C.CACHE_DIR
 OUT_DIR = P1C.OUT_DIR                              # results/shortline
@@ -73,6 +91,7 @@ PARTIAL_DIR = os.path.join(OUT_DIR, "p1e_partial")
 RESULT_JSON = os.path.join(OUT_DIR, "p1e_zoo_behavior.json")
 RESULT_CSV = os.path.join(RES_DIR, "p1e_zoo_behavior_results.csv")
 EQUIV_JSON = os.path.join(OUT_DIR, "p1e_equiv.json")
+CELLS_POOL_META = os.path.join(OUT_DIR, "p1e_cells_pool_meta.json")
 
 HORIZONS = [5, 10, 20]
 H_GATE = 10                    # primary judgement horizon (prereg SS4)
@@ -212,6 +231,108 @@ def class_seed_band(cls):
     return SEED0 + i * N_NULLS, SEED0 + (i + 1) * N_NULLS   # [lo, hi)
 
 
+# ------------------------------------------------- multicore pool face (s2)
+# O-2026-09-30-2355 s2 conversion (T-134 eighth pick, bm-c r334): pooled
+# burn for nulls + cells; judgment path untouched -- pool is bit-identical
+# to serial by construction (per-seed streams, k-order reassembly).
+_POOL_CTX = {}
+
+
+def _init_pool_ctx(close, fwd, mask):
+    """Nulls initializer: ship shared frames once per worker (w8/ems
+    idiom, never closures). Pickle cost is bounded by the RAM-guarded
+    worker count."""
+    _POOL_CTX.clear()
+    _POOL_CTX.update(close=close, fwd=fwd, mask=mask)
+
+
+def _init_cells_ctx(close, open_, tr_frac, vwap, rets, fwd):
+    _POOL_CTX.clear()
+    _POOL_CTX.update(close=close, open_=open_, tr_frac=tr_frac,
+                     vwap=vwap, rets=rets, fwd=fwd)
+
+
+def _pool_workers(per_worker_gb):
+    """RAM-guarded cap: this runner's per-worker footprint (pickled
+    panels + fwd + per-job noise / IC rank transients) is ~3GB nulls /
+    ~4GB cells, far above the fleet 0.5GB/worker assumption -- honest
+    local guard on top of worker_cap (BACKTEST_PLAN s6)."""
+    avail_gb = psutil.virtual_memory().available / (1024 ** 3)
+    return max(1, min(worker_cap(), int(avail_gb / per_worker_gb)))
+
+
+def _null_task(seed):
+    """One white-noise null across all 3 horizons. Deterministic in the
+    seed alone; errors propagate (serial law: shard atomic, ck resumes)."""
+    close = _POOL_CTX["close"]
+    fwd = _POOL_CTX["fwd"]
+    mask = _POOL_CTX["mask"]
+    rng = np.random.default_rng(seed)
+    vals = pd.DataFrame(rng.standard_normal(close.shape),
+                        index=close.index, columns=close.columns)
+    vals = vals.where(mask)
+    rec = {}
+    for h in HORIZONS:
+        s = _ic_series_fast(vals, fwd[h])
+        blk = stats_block(s[s.index <= IS_END_TS])
+        if "ic_mean" in blk:
+            rec[f"h{h}"] = {"abs_ic": abs(blk["ic_mean"]),
+                            "abs_ir": abs(blk["ic_ir"])}
+    return rec
+
+
+def _cell_task_single(nm):
+    """One single-member build job -> [{"nm", "rec"}] payload."""
+    t_start = time.time()
+    ctx = _POOL_CTX
+    if nm == "zoo85_terrified":
+        fdf = F.build_zoo85_terrified(ctx["rets"])
+    elif nm == "zoo85_stv":
+        fdf = F.build_zoo85_stv(ctx["rets"], ctx["tr_frac"])
+    elif nm == "zoo92_coin_team":
+        fdf = F.build_zoo92_coin_team(ctx["close"], ctx["open_"],
+                                      ctx["tr_frac"])
+    else:
+        raise ValueError(f"not a pooled single cell: {nm}")
+    return [{"nm": nm, "rec": _cell_record(nm, fdf, ctx["fwd"], t_start)}]
+
+
+def _cell_task_family():
+    """#93 family constructor stays monolithic (returns all four at
+    once, frozen constructor semantics); one job -> 4 member payloads."""
+    t_start = time.time()
+    ctx = _POOL_CTX
+    fam, n_bad = F.build_zoo93_arc_family(ctx["tr_frac"], ctx["vwap"],
+                                          ctx["close"])
+    out = []
+    for nm in ("zoo93_arc", "zoo93_vrc", "zoo93_src", "zoo93_krc"):
+        rec = _cell_record(nm, fam[nm], ctx["fwd"], t_start)
+        rec["zoo93_nonfinite_arc_cells"] = n_bad
+        out.append({"nm": nm, "rec": rec})
+    return out
+
+
+def _load_ck(ck_path):
+    """Truncation-tolerant checkpoint rows (t22 law)."""
+    rows = {}
+    if not os.path.exists(ck_path):
+        return rows
+    with open(ck_path, encoding="utf-8") as fh:
+        for ln in fh.read().splitlines():
+            try:
+                r = json.loads(ln)
+                rows[int(r["k"])] = r["rec"]
+            except (ValueError, KeyError, TypeError):
+                continue
+    return rows
+
+
+def _append_ck(ck_path, k, seed, rec):
+    with open(ck_path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps({"k": int(k), "seed": int(seed),
+                             "rec": rec}) + "\n")
+
+
 def run_nulls(cls):
     lo, hi = class_seed_band(cls)
     out_path = os.path.join(OUT_DIR, f"p1e_nulls_{cls}.json")
@@ -234,26 +355,43 @@ def run_nulls(cls):
     masks = build_masks(panels)
     mask = masks[cls]
     n_cells = int(mask.sum().sum())
+    mask_size = float(mask.size)
+    tr_meta = panels.get("_tr_meta")
     print(f"class {cls}: mask cells={n_cells} "
-          f"({n_cells / float(mask.size):.4f} share), "
+          f"({n_cells / mask_size:.4f} share), "
           f"seed band [{lo}, {hi})", flush=True)
+    del panels, masks               # parent copies freed pre-spawn
+    # -- pooled burn (s2): one job per null seed; per-null ck rows land
+    #    incrementally (r340 law); resume seed-wise from ck.
+    ck_path = os.path.join(OUT_DIR, f"p1e_nulls_ck_{cls}.jsonl")
+    done = _load_ck(ck_path)
+    jobs = [(k, _null_task, (lo + k,)) for k in range(N_NULLS)
+            if k not in done]
+    workers_used = 0
+    if jobs:
+        def _on_null(k, rec):
+            _append_ck(ck_path, k, lo + int(k), rec)
+
+        res = run_cells_parallel(
+            jobs, workers=_pool_workers(3.0),
+            desc=f"p1e-nulls[{cls}]", initializer=_init_pool_ctx,
+            initargs=(close, fwd, mask), on_result=_on_null)
+        workers_used = int(res.get("__workers__", 1))
+    del close, fwd, mask
+    rows = _load_ck(ck_path)          # T-33 law: file, not memory
+    if any(k not in rows for k in range(N_NULLS)):
+        print(f"nulls ck incomplete for {cls} -- refusing to assemble",
+              flush=True)
+        sys.exit(2)
     abs_means = {h: [] for h in HORIZONS}
     abs_irs = {h: [] for h in HORIZONS}
-    for k in range(N_NULLS):
-        rng = np.random.default_rng(lo + k)
-        vals = pd.DataFrame(rng.standard_normal(close.shape),
-                            index=close.index, columns=close.columns)
-        vals = vals.where(mask)
+    for k in range(N_NULLS):          # k order (r306 byte-equal law)
+        rec = rows[k]
         for h in HORIZONS:
-            s = _ic_series_fast(vals, fwd[h])
-            blk = stats_block(s[s.index <= IS_END_TS])
-            if "ic_mean" in blk:
-                abs_means[h].append(abs(blk["ic_mean"]))
-                abs_irs[h].append(abs(blk["ic_ir"]))
-        del vals
-        if (k + 1) % 10 == 0:
-            print(f"  nulls[{cls}] {k + 1}/{N_NULLS} "
-                  f"({time.time() - t0:.0f}s)", flush=True)
+            key = f"h{h}"
+            if key in rec:
+                abs_means[h].append(rec[key]["abs_ic"])
+                abs_irs[h].append(rec[key]["abs_ir"])
     per_h = {f"h{h}": {
         "p95_abs_ic": round(float(np.quantile(abs_means[h], NULL_Q)), 4),
         "p50_abs_ic": round(float(np.median(abs_means[h])), 4),
@@ -264,7 +402,7 @@ def run_nulls(cls):
         "class": cls,
         "mask": CLASS_MASK_NOTE[cls],
         "mask_cells": n_cells,
-        "mask_cell_share": round(n_cells / float(mask.size), 4),
+        "mask_cell_share": round(n_cells / mask_size, 4),
         "n_nulls": N_NULLS,
         "seed_band": [lo, hi],
         "seed_base": SEED0,
@@ -272,8 +410,14 @@ def run_nulls(cls):
         "is_end": str(IS_END),
         "per_h": per_h,
         "meta": {"elapsed_s": round(time.time() - t0, 1),
+                 "workers": int(workers_used),
+                 "cpu_parallel": (
+                     "ProcessPool via parallel_runner (nulls legs, "
+                     "O-20260930-2355 s2; per-null ck resume)"
+                     if workers_used > 1 else
+                     "assemble-only resume / pool not spawned"),
                  "equivalence": ev,
-                 "turnover": panels.get("_tr_meta"),
+                 "turnover": tr_meta,
                  "evidence_cutoff": CUTOFF},
     }
     json.loads(json.dumps(out))          # verify-parse before write (r185)
@@ -322,38 +466,34 @@ def run_cells():
                   encoding="utf-8") as f:
             json.dump(rec, f, indent=2, ensure_ascii=False)
 
-    # -- #85 legs (one frame at a time; peak RAM discipline)
-    if "zoo85_terrified" in todo:
-        tc = time.time()
-        fdf = F.build_zoo85_terrified(rets)
-        _save("zoo85_terrified", _cell_record("zoo85_terrified", fdf, fwd, tc))
-        print("  zoo85_terrified done", flush=True)
-        del fdf
-    if "zoo85_stv" in todo:
-        tc = time.time()
-        fdf = F.build_zoo85_stv(rets, tr_frac)
-        _save("zoo85_stv", _cell_record("zoo85_stv", fdf, fwd, tc))
-        print("  zoo85_stv done", flush=True)
-        del fdf
-    if "zoo92_coin_team" in todo:
-        tc = time.time()
-        fdf = F.build_zoo92_coin_team(close, open_, tr_frac)
-        _save("zoo92_coin_team",
-              _cell_record("zoo92_coin_team", fdf, fwd, tc))
-        print("  zoo92_coin_team done", flush=True)
-        del fdf
-    # -- #93 family (constructor returns all four at once)
+    # -- pooled burn (s2): 3 single jobs + monolithic #93 family job;
+    #    per-member files land incrementally via on_result (r340 law).
+    #    Each worker holds one factor frame at a time (peak-RAM
+    #    discipline preserved per process).
+    singles = [nm for nm in ("zoo85_terrified", "zoo85_stv",
+                             "zoo92_coin_team") if nm in todo]
     fam_todo = [nm for nm in ("zoo93_arc", "zoo93_vrc", "zoo93_src",
                               "zoo93_krc") if nm in todo]
-    if fam_todo:
-        tc = time.time()
-        fam, n_bad = F.build_zoo93_arc_family(tr_frac, vwap, close)
-        for nm in fam_todo:
-            rec = _cell_record(nm, fam[nm], fwd, tc)
-            rec["zoo93_nonfinite_arc_cells"] = n_bad
-            _save(nm, rec)
-            print(f"  {nm} done", flush=True)
-        del fam
+    workers_used = 0
+    if singles or fam_todo:
+        jobs = [(nm, _cell_task_single, (nm,)) for nm in singles]
+        if fam_todo:
+            jobs.append(("__zoo93_family__", _cell_task_family, ()))
+
+        def _on_cell(_key, payload):
+            for item in payload:
+                _save(item["nm"], item["rec"])
+                print(f"  {item['nm']} done", flush=True)
+
+        res = run_cells_parallel(
+            jobs, workers=_pool_workers(4.0), desc="p1e-cells",
+            initializer=_init_cells_ctx,
+            initargs=(close, open_, tr_frac, vwap, rets, fwd),
+            on_result=_on_cell)
+        workers_used = int(res.get("__workers__", 1))
+    with open(CELLS_POOL_META, "w", encoding="utf-8") as f:
+        json.dump({"workers": int(workers_used),
+                   "ts": time.strftime("%Y-%m-%d %H:%M:%S")}, f)
     print(f"run-cells complete ({time.time() - t0:.0f}s, "
           f"equivalence max|d|={ev['max_abs_diff']:.2e})", flush=True)
     return 0
@@ -386,6 +526,23 @@ def _thresholds(nulls):
         out[cls] = {f"h{h}": {"p95_abs_ic": per_h[f"h{h}"]["p95_abs_ic"]}
                     for h in HORIZONS}
     return out
+
+
+def _audit_workers(nulls):
+    """Honest worker aggregation from leg artifacts (1 = legacy serial)."""
+    w = 1
+    for cls in CLASSES:
+        meta = (nulls.get(cls) or {}).get("meta") or {}
+        try:
+            w = max(w, int(meta.get("workers") or 0))
+        except (TypeError, ValueError):
+            pass
+    try:
+        with open(CELLS_POOL_META, encoding="utf-8") as f:
+            w = max(w, int(json.load(f).get("workers") or 0))
+    except (OSError, ValueError):
+        pass
+    return w
 
 
 def finalize():
@@ -506,8 +663,12 @@ def finalize():
         "rows": rows,
         "audit": {
             "elapsed_s": round(time.time() - t0, 1),
-            "workers": 1,
-            "cpu_cap_policy": "O-20260923-1738 single-proc vectorized",
+            "workers": _audit_workers(nulls),
+            "cpu_cap_policy": "O-20260923-1738 vectorized base + "
+                              "O-20260930-2355 s2 ProcessPool legs "
+                              "(bm-c r334); workers = max over leg metas "
+                              "(nulls files + cells sidecar), 1 = legacy "
+                              "serial burn",
             "constructor_source": "scripts/p1e_factors.py (frozen r219, "
                                   "selftest ARC brute-force 1.18e-15)",
             "turnover": "derived sidecar (bars turnover col all-NaN "
@@ -553,11 +714,11 @@ def selftest():
         ok_all &= bool(cond)
         print(f"  [{'PASS' if cond else 'FAIL'}] {name}", flush=True)
 
-    print("[1/9] constructor delegation (p1e_factors.selftest, frozen "
+    print("[1/10] constructor delegation (p1e_factors.selftest, frozen "
           "definitions):", flush=True)
     check("p1e_factors selftest rc==0", F.selftest() == 0)
 
-    print("[2/9] synthetic IC equivalence vs composite_ic.ic_series:",
+    print("[2/10] synthetic IC equivalence vs composite_ic.ic_series:",
           flush=True)
     rng = np.random.default_rng(11)
     T, N = 300, 40
@@ -577,7 +738,7 @@ def selftest():
     check(f"IC equivalence max|d|={worst:.1e} n_eq={len(ref) == len(fast)}",
           worst <= EQUIV_TOL and len(ref) == len(fast))
 
-    print("[3/9] seed-block mapping (frozen class order):", flush=True)
+    print("[3/10] seed-block mapping (frozen class order):", flush=True)
     check("SEED_REGISTRY base == 67000", SEED0 == 67000)
     bands = [class_seed_band(c) for c in CLASSES]
     flat = [s for lo, hi in bands for s in range(lo, hi)]
@@ -590,7 +751,7 @@ def selftest():
           and class_seed_band("M_close_tr")[0] == 67050
           and class_seed_band("M_arc")[0] == 67100)
 
-    print("[4/9] mask-class logic on synthetic panels:", flush=True)
+    print("[4/10] mask-class logic on synthetic panels:", flush=True)
     pn = {"close": close, "tr": fac, "vwap": fac * 0.5}
     pn["tr"].iloc[:5, 0] = np.nan              # tr hole in col 0
     pn["vwap"].iloc[10:15, 1] = np.nan          # vwap hole in col 1
@@ -612,7 +773,7 @@ def selftest():
           set(mk_prod.keys()) == {"M_close"}
           and bool((mk_prod["M_close"] == close.notna()).all().all()))
 
-    print("[5/9] V1/V2/V3 hand-computed legs (production gates_v123):",
+    print("[5/10] V1/V2/V3 hand-computed legs (production gates_v123):",
           flush=True)
     # fixture A: is 0.04 (thr 0.025 -> V1 T), ir 0.31 (V2 T), oos 0.018
     # (< 0.5*0.04 -> V3 F), n 600 -> A3 T; hand: pass=False
@@ -636,7 +797,7 @@ def selftest():
     check("fixture D null p95 binds over 0.02 floor -> V1 F",
           not gD["v1"] and not gD["pass"])
 
-    print("[6/9] nulls checkpoint idempotency + fail-closed finalize:",
+    print("[6/10] nulls checkpoint idempotency + fail-closed finalize:",
           flush=True)
     check("nulls guard: existing file -> skip path",
           os.path.exists(os.path.join(
@@ -659,7 +820,7 @@ def selftest():
     check("validate_inputs refuses error-status cell (r217)",
           any("zoo93_krc" in x for x in probs3))
 
-    print("[7/9] ledger embed leg (append_ledger pure fn, r217):", flush=True)
+    print("[7/10] ledger embed leg (append_ledger pure fn, r217):", flush=True)
     led = append_ledger("P-1e-selftest-fixture", 157, prev_total=100,
                         evidence_cutoff=CUTOFF)
     check("ledger returns dict, total=prev+157, cutoff embedded",
@@ -667,7 +828,7 @@ def selftest():
           and led["prev_total"] == 100
           and led.get("evidence_cutoff") == CUTOFF)
 
-    print("[8/9] fwd/turnover conventions:", flush=True)
+    print("[8/10] fwd/turnover conventions:", flush=True)
     c2 = pd.DataFrame({"A": [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0,
                              256.0, 512.0, 1024.0, 2048.0]})
     fw = P1C.fwd_rets({"close": c2})[10]      # P1C HORIZONS = [5,10,20]
@@ -681,24 +842,92 @@ def selftest():
     check("turnover unit probe: median>3 -> /100 (probe convention)",
           med > 3.0 and (tr_pct / 100.0).iloc[0, 0] == 0.05)
 
-    print("[9/9] frozen data-face census (existence/read, no batch):",
+    print("[9/10] frozen data-face census (existence/read, no batch):",
           flush=True)
-    try:
-        idx2, syms2, meta2 = P1C.load_universe()
-        check("universe meta loads",
-              meta2["shape"]["T"] == 8792 and meta2["shape"]["N"] == 5222)
-        side = os.path.join(CACHE_DIR, "turnover_derived.npy")
-        check("sidecar + all consumed fields present",
-              os.path.exists(side) and all(
-                  os.path.exists(os.path.join(CACHE_DIR, f + ".npy"))
-                  for f in ("close", "open", "vwap")))
-        head = np.load(os.path.join(CACHE_DIR, "close.npy"), mmap_mode="r")
-        check("close npy head readable shape match",
-              tuple(head.shape) == (8792, 5222))
-        del head
-    except Exception as ex:
-        check(f"data-face census ({type(ex).__name__}: {str(ex)[:80]})",
-              False)
+    if not os.path.exists(os.path.join(CACHE_DIR, "meta.json")):
+        # lane-honest two-state leg (r307 law): the p1c_stock cache is
+        # machine-local to the burn lane (bm-b, prereg SS9 r188
+        # lane-pin law); on non-lane machines the data face is absent
+        # by design and this leg skips honestly -- the S-mp identity
+        # legs above carry no real-data dependency.
+        check("lane cache absent on this machine -- honest skip "
+              "(machine-local p1c_stock face, bm-b lane-pin r188)",
+              True)
+    else:
+        try:
+            idx2, syms2, meta2 = P1C.load_universe()
+            check("universe meta loads",
+                  meta2["shape"]["T"] == 8792 and meta2["shape"]["N"] == 5222)
+            side = os.path.join(CACHE_DIR, "turnover_derived.npy")
+            check("sidecar + all consumed fields present",
+                  os.path.exists(side) and all(
+                      os.path.exists(os.path.join(CACHE_DIR, f + ".npy"))
+                      for f in ("close", "open", "vwap")))
+            head = np.load(os.path.join(CACHE_DIR, "close.npy"), mmap_mode="r")
+            check("close npy head readable shape match",
+                  tuple(head.shape) == (8792, 5222))
+            del head
+        except Exception as ex:
+            check(f"data-face census ({type(ex).__name__}: {str(ex)[:80]})",
+                  False)
+
+    print("[10/10] S-mp pool identity (O-20260930-2355 s2, T-134 eighth, "
+          "bm-c r334):", flush=True)
+
+    def _canon(p):
+        return json.dumps(p, sort_keys=True, default=float)
+
+    def _strip_ts(payload):
+        # compute_s is runtime audit metadata (legal drift, r499 family):
+        # strip it before the pool==inline identity comparison.
+        return _canon([{"nm": it["nm"],
+                        "rec": {k: v for k, v in it["rec"].items()
+                                if k != "compute_s"}}
+                       for it in payload])
+
+    rng2 = np.random.default_rng(77)
+    T2, N2 = 260, 30
+    sidx = pd.date_range("2024-01-02", periods=T2, freq="B")
+    scols = [f"S{j}" for j in range(N2)]
+    sclose = pd.DataFrame(
+        10 + np.cumsum(rng2.normal(0, .2, (T2, N2)), axis=0),
+        index=sidx, columns=scols)
+    sclose.iloc[10:15, 0] = np.nan           # holes: mask interplay
+    sfwd = P1C.fwd_rets({"close": sclose})
+    smask = sclose.notna()
+    _POOL_CTX.clear()
+    _POOL_CTX.update(close=sclose, fwd=sfwd, mask=smask)
+    inline_null = _null_task(67_000)
+    check("S-mp null task deterministic double-run",
+          _canon(inline_null) == _canon(_null_task(67_000)))
+    res_n = run_cells_parallel(
+        [("n0", _null_task, (67_000,))], workers=2, desc="s-mp",
+        initializer=_init_pool_ctx, initargs=(sclose, sfwd, smask))
+    check("S-mp worker count face", res_n.pop("__workers__") == 2)
+    check("S-mp null task pool==inline (3 horizons, masked)",
+          _canon(res_n["n0"]) == _canon(inline_null))
+
+    sopen = sclose * (1 + rng2.normal(0, .004, (T2, N2)))
+    str_frac = pd.DataFrame(rng2.random((T2, N2)), index=sidx,
+                            columns=scols)
+    svwap = sclose * (1 + rng2.normal(0, .002, (T2, N2)))
+    srets = sclose / sclose.shift(1) - 1.0
+    _POOL_CTX.clear()
+    _POOL_CTX.update(close=sclose, open_=sopen, tr_frac=str_frac,
+                     vwap=svwap, rets=srets, fwd=sfwd)
+    inline_cell = _cell_task_single("zoo85_terrified")
+    inline_fam = _cell_task_family()
+    res_c = run_cells_parallel(
+        [("c0", _cell_task_single, ("zoo85_terrified",)),
+         ("fam", _cell_task_family, ())], workers=2, desc="s-mp2",
+        initializer=_init_cells_ctx,
+        initargs=(sclose, sopen, str_frac, svwap, srets, sfwd))
+    res_c.pop("__workers__")
+    check("S-mp cell task pool==inline (zoo85_terrified)",
+          _strip_ts(res_c["c0"]) == _strip_ts(inline_cell))
+    check("S-mp family task pool==inline (4 members, monolithic)",
+          _strip_ts(res_c["fam"]) == _strip_ts(inline_fam))
+    _POOL_CTX.clear()
 
     print(f"SELFTEST {'PASS' if ok_all else 'FAIL'} "
           f"({time.time() - t0:.0f}s)", flush=True)

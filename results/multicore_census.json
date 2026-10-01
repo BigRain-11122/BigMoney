@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T18:04:16+08:00",
+  "generated_at": "2026-10-01T20:43:43+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
   "universe_size": 82,
   "summary": {
-    "single_core": 31,
-    "multiprocess": 51
+    "single_core": 30,
+    "multiprocess": 52
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -34,7 +34,6 @@
       "scripts/innovation_quota_w9.py",
       "scripts/mf_rot_backtest.py",
       "scripts/national_team_s3_review.py",
-      "scripts/p1e_ic_batch.py",
       "scripts/p1e_neighbor_corr.py",
       "scripts/p1e_synth.py",
       "scripts/rev_osc_stock_p1.py",
@@ -999,10 +998,23 @@
     "scripts/p1e_ic_batch.py": {
       "path": "scripts/p1e_ic_batch.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 85,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2"
+        },
+        {
+          "line": 375,
+          "text": "res = run_cells_parallel("
+        },
+        {
+          "line": 488,
+          "text": "res = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 33310,
+      "size_bytes": 43637,
       "pool_entry_count": 4,
       "pool_statuses": {
         "done": 4
@@ -1111,12 +1123,12 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
-          "line": 508,
+          "line": 728,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 111211,
+      "size_bytes": 189573,
       "pool_entry_count": 96,
       "pool_statuses": {
         "done": 96
@@ -1139,12 +1151,12 @@
           "text": "run_cells_parallel(specs, workers=min(worker_cap(), len(specs)),"
         },
         {
-          "line": 923,
+          "line": 957,
           "text": "res_p = run_cells_parallel("
         }
       ],
       "main_guard": true,
-      "size_bytes": 41280,
+      "size_bytes": 43023,
       "pool_entry_count": 6,
       "pool_statuses": {
         "done": 6
