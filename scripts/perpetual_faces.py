@@ -453,6 +453,38 @@ N1_BANDS = {
     # receipt -- verify at W26 prereg).
     25: {"a": (92_001, 94_000), "b_exit": (39_700, 39_899),
          "engine_owner": "bm-b"},
+    # W26 (r335 bm-c, prereg-time extension per the W25 row's W26+
+    # WARNING -- never-dry supply law standing step; sovereignty rotation
+    # law F-20261001-01 slot W26=bm-c per law sec.4 W25 row verbatim,
+    # bm-c's FIFTH owned wave after W14/W17/W20/W23; no pointer gate
+    # pending: W23 registered + burned + FINALIZED by bm-c r335 (K=48,520,
+    # ledger 415,148 chain head -- unblocks W24 finalize in chain order),
+    # W24 registered + burned 12/12 by bm-a r536, W25 registered + burned
+    # 12/12 by bm-b r521 -- coexistence judged by band disjointness not
+    # commit order, r531 law): BOTH tails FORCED SKIP -- A's +2_000 tail
+    # (94_001..96_000 == W25 A end + 1) REFUSED by the r335 DISCOVERY:
+    # it hits ALL FOUR runner design-probe seeds (ext 95_000/95_001 +
+    # n1 95_002/95_003, batch-band-reserved by the selftest disjoint
+    # law) -- the r520/r535 gate receipts' reserved universe omitted the
+    # probe cluster (the W25 row's "A projects clean" WARNING was a
+    # blind-spot miss, caught by the n1 materializer selftest leg; past
+    # waves W24/W25 clear the cluster -- zero retroactive harm) -> jump
+    # to the first clean 2,000-window: 95_004..97_003 (W12 A-skip
+    # precedent); B's +200 tail (39_900..40_099) FORCED SKIP
+    # exactly as the W25 row WARNING projected (hits N2/N4 design-probe
+    # retention points 40_000/40_001 AND SEED_REGISTRY value 40_050 --
+    # machine refusal facts in the gate receipt) -> jump to the first
+    # continuous 200-window clear of all reserved faces: 40_051..40_250
+    # (W5/W6/W8/W12/W17 jump-family precedent, machine-derived never a
+    # free pick R250/r518). Machine-verified at prereg time
+    # (results/_r335bmc_w26_band_gate.py ADMIT receipt vs the 24-row
+    # pre-W26 table incl. W21/W22/W23/W24/W25 + SEED_REGISTRY + probes/
+    # actuals + probe-seed cluster r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg). NOT a re-pick
+    # (R250: W26 bands were never assigned; the measurement face has no
+    # result to fish).
+    26: {"a": (95_004, 97_003), "b_exit": (40_051, 40_250),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

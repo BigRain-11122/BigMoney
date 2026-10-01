@@ -527,6 +527,45 @@ WAVE_CONFIGS = {
                  "b_exit_seed_base": 39_700,    # law sec.4 W25 B: 39_700..39_899 (arithmetic)
                  "shard_subdir": "n1_w25", "out_name": "n1_w25_results.json",
                  "engine_owner": "bm-b"},
+            # W26 (r335 bm-c, prereg-time extension per the W25 row's
+            # W26+ WARNING; never-dry supply law standing step;
+            # sovereignty rotation law F-20261001-01 slot W26=bm-c per
+            # the W25 row verbatim, bm-c's FIFTH owned wave after
+            # W14/W17/W20/W23): BOTH tails FORCED SKIP -- A's +2_000
+            # tail (94_001..96_000 == W25 A end + 1) REFUSED by the
+            # r335 DISCOVERY: it hits ALL FOUR runner design-probe
+            # seeds (ext 95_000/95_001 + n1 95_002/95_003, batch-band-
+            # reserved by the selftest disjoint law) -- the r520/r535
+            # gate receipts' reserved universe omitted the probe
+            # cluster (the W25 row's "A projects clean" WARNING was a
+            # blind-spot miss, caught by this runner's materializer
+            # selftest leg; past waves W24/W25 clear the cluster --
+            # zero retroactive harm) -> jump to the first clean
+            # 2,000-window: 95_004..97_003 (W12 A-skip precedent);
+            # B's +200 tail (39_900..40_099) FORCED SKIP exactly as
+            # the W25 row WARNING projected (hits N2/N4 design-probe
+            # retention points 40_000/40_001 AND SEED_REGISTRY value
+            # 40_050) -> jump to the first continuous 200-window
+            # clear of all reserved faces: 40_051..40_250
+            # (W5/W6/W8/W12/W17 jump-family precedent, machine-derived
+            # never a free pick R250/r518). Machine-verified at prereg
+            # time (results/_r335bmc_w26_band_gate.py ADMIT receipt vs
+            # the 24-row pre-W26 table incl. W21/W22/W23/W24/W25 +
+            # SEED_REGISTRY + probes/actuals + probe-seed cluster
+            # r335 discovery leg + N3-R1 used-seed band 70_000..70_005
+            # MSG-183x r529 mandatory leg). NOT a re-pick (R250: W26
+            # bands were never assigned; the measurement face has no
+            # result to fish).
+            26: {"batch": "PERPETUAL-N1-W26",
+                 "prereg": ("research/PERPETUAL_N1_W26_PREREG.md (wave-level frozen "
+                            "pre-run; design = frozen v1 null calibration verbatim, "
+                            "new seed bands only; FIFTEENTH ENGINE-OWNED WAVE, "
+                            "sovereignty rotation law W26=bm-c, engine_owner=bm-c, "
+                            "W25 row slot assignment verbatim)"),
+                 "a_seed_base": 95_004,          # law sec.4 W26 A: 95_004..97_003 (forced-skip jump, probe seeds)
+                 "b_exit_seed_base": 40_051,    # law sec.4 W26 B: 40_051..40_250 (forced-skip jump)
+                 "shard_subdir": "n1_w26", "out_name": "n1_w26_results.json",
+                 "engine_owner": "bm-c"},
          }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -2900,6 +2939,112 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W26 materializer face (r335 bm-c freeze) ------------------------
+    _set_wave(26)
+    try:
+        assert WAVE_CONFIGS[26]["a_seed_base"] == pf.N1_BANDS[26]["a"][0], \
+            "W26 A band drift vs law mirror"
+        assert WAVE_CONFIGS[26]["b_exit_seed_base"] == \
+            pf.N1_BANDS[26]["b_exit"][0], "W26 B band drift vs law mirror"
+        assert WAVE_CONFIGS[26].get("engine_owner") == \
+            pf.N1_BANDS[26].get("engine_owner") == "bm-c", \
+            "W26 engine_owner drift (law mirror parity)"
+        w26_a = {A_SEED_BASE + j for j in range(A_N)}
+        w26_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w26_a & w26_b), "W26 A/B band overlap"
+        assert not (w26_a & reg_ints) and not (w26_b & reg_ints), \
+            "W26 hits SEED_REGISTRY"
+        for nm, band in (("A", w26_a), ("B", w26_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W26 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W26 {nm} hits W1"
+            assert not (band & probes), f"W26 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25):
+            assert not (w26_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W26 A hits W{wprev}"
+            assert not (w26_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W26 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W26 bands must clear it.
+        n3r1_used26 = set(range(70_000, 70_006))
+        assert not (w26_a & n3r1_used26) and not (w26_b & n3r1_used26), \
+            "W26 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w26_a & lfc_actual12) and not (w26_b & lfc_actual12), \
+            "W26 bands must clear the lfc actual draw range"
+        assert not (w26_a & options_actual12) and \
+            not (w26_b & options_actual12), \
+            "W26 bands must clear the options_wave2 actual draw range"
+        # arithmetic facts (law sec.4 W26 row, r335): BOTH tails are FORCED
+        # SKIP. A: the +2_000 arithmetic window 94_001..96_000 hits ALL
+        # FOUR runner design-probe seeds (95_000..95_003 -- this leg is
+        # the DISCOVERY FACE: the r520/r535 gate receipts' reserved
+        # universe omitted the probe cluster; past waves W24/W25 clear
+        # it) -> jump to the first clean 2,000-window 95_004..97_003
+        # (W12 A-skip precedent). B: the +200 arithmetic window
+        # 39_900..40_099 hits the N2/N4 design-probe reserved points
+        # 40_000/40_001 AND SEED_REGISTRY values (new_signal_p1 40_000 /
+        # new_signal_p1_ce 40_050) -> jump to the first continuous clean
+        # 200-window: 40_051..40_250 (ADMIT receipt
+        # results/_r335bmc_w26_band_gate.py leg1/leg2).
+        arith_lo26 = pf.N1_BANDS[25]["a"][1] + 1     # W25 registered A end + 1
+        a_arith_hits26 = sorted(v for v in probes
+                                if arith_lo26 <= v <= arith_lo26 + A_N - 1)
+        assert a_arith_hits26 == [95_000, 95_001, 95_002, 95_003], \
+            "W26 A arithmetic tail must hit the probe-seed cluster " \
+            "(forced-skip refusal facts, r335 discovery)"
+        assert WAVE_CONFIGS[26]["a_seed_base"] > a_arith_hits26[-1], \
+            "W26 A jump target must clear the refusal points (95_003)"
+        assert WAVE_CONFIGS[26]["a_seed_base"] == 95_004, \
+            "W26 A jump target drift (first clean window, ADMIT leg2-A)"
+        b_arith_lo26 = pf.N1_BANDS[25]["b_exit"][1] + 1  # W25 reg B end + 1
+        b_arith_hits26 = sorted(v for v in reg_ints | {40_001}
+                                if b_arith_lo26 <= v <= b_arith_lo26 + B_N - 1)
+        assert b_arith_hits26, \
+            "W26 B arithmetic tail must be DIRTY (forced-skip refusal facts)"
+        assert b_arith_hits26 == [40_000, 40_001, 40_050], \
+            "W26 B refusal-facts drift vs the W25 row WARNING projection"
+        assert WAVE_CONFIGS[26]["b_exit_seed_base"] > b_arith_hits26[-1], \
+            "W26 B jump target must clear the refusal points (40_050)"
+        assert WAVE_CONFIGS[26]["b_exit_seed_base"] == 40_051, \
+            "W26 B jump target drift (first clean window, ADMIT leg2-B)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W26-SHARD-0",
+                                          "n1w26-0of12"), "W26 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W26-SHARD-11",
+                                           "n1w26-11of12")
+        assert SHARD_DIR.endswith("n1_w26") and OUT.endswith(
+            "n1_w26_results.json"), "W26 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W26 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W26_PREREG.md")), \
+            "W26 per-wave prereg missing (materializer requirement)"
+        # W26 finalize cumulative deps: W17/W18/W19/W20/W21/W22/W23 outputs
+        # PRESENT (W23 finalize = bm-c r335, K=48,520, ledger 415,148 chain
+        # head). W24 output NOT landed at this freeze window (bm-a 12/12
+        # burned, finalize chain-unblocked by W23 but pending on bm-a)
+        # and W25 output NOT landed (bm-b 12/12 burned, finalize queued
+        # behind W24) -- no static exists-assert pinned for 24/25; the
+        # finalize merge loop stays FAIL-CLOSED on any missing prior
+        # output at run time (r307 two-state law family).
+        for _depw in (17, 18, 19, 20, 21, 22, 23):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W26 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 26 (no 15; 24/25 registered
+        # by the r535 bm-a / r520 bm-b freezes).
+        assert sorted(w for w in WAVE_CONFIGS if w < 26) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25], \
+            "W26 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -3073,6 +3218,25 @@ def selftest() -> int:
           "continuation, no skip; W23/W24 in-flight coexist by band "
           "disjointness per r531 law), N3-R1 used-seed leg, law sec.4 "
           "W25 row, r520 bm-b] "
+          "+ W26 materializer face [same guard set, dep=W17/W18/W19/W20/"
+          "W21/W22/W23 outputs present (finalizes landed r328-c/r532-a/"
+          "r518-b/r331-c/r534-a/r519-b/r335-c, ledger head 415,148; "
+          "W24/W25 finalize outputs NOT pinned at freeze window -- "
+          "bm-a/bm-b finalize pending in chain order, finalize merge "
+          "loop stays FAIL-CLOSED at run time), FIFTEENTH ENGINE-OWNED "
+          "WAVE bm-c's fifth engine_owner=bm-c per sovereignty rotation "
+          "law F-20261001-01 slot W26=bm-c (W25 row slot assignment "
+          "verbatim), BOTH tails FORCED SKIP per ADMIT receipt "
+          "results/_r335bmc_w26_band_gate.py -- A arithmetic 94_001.."
+          "96_000 hits the probe-seed cluster 95_000..95_003 (r335 "
+          "discovery: gate receipts' reserved universe omitted probe "
+          "seeds; caught by this materializer leg) -> first clean "
+          "window 95_004..97_003 machine-derived (W12 A-skip family); "
+          "B arithmetic 39_900..40_099 hits 40_000/40_001/40_050 "
+          "refusal facts (W25 row WARNING) -> first clean window "
+          "40_051..40_250 machine-derived (W5/W6/W8/W12/W17 jump "
+          "family, R250/r518), N3-R1 used-seed leg, law sec.4 W26 "
+          "row, r335 bm-c] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
