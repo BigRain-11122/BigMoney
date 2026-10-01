@@ -9757,7 +9757,9 @@
      "key": "stockfurn-lowamp-0to36",
      "status": "ready",
      "checkpoint": "results/stock_face_furnace/cells/lowamp/cell-*.json (presence=done; deterministic rerun byte-equal)",
-     "note": "LOWAMP low-amplitude daily cross-section furnace cells 0..35"
+     "note": "LOWAMP low-amplitude daily cross-section furnace cells 0..35",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 12:06:05"
     }
    ]
   },
@@ -10016,25 +10018,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 11:12:21",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
     {
      "key": "n1w8-0of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w8/shard-0-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W8 wave shard 0 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
      "owner": "bm-c",
-     "owner_since": "2026-10-01 11:18:14"
+     "owner_since": "2026-10-01 11:19:21",
+     "claimed_since": "2026-10-01 11:18:14",
+     "done_at": "2026-10-01 11:19:21",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n1w8-0of12.bm-c.json"
     }
    ],
    "workers_plan": {
     "workers": 8,
     "priority": "BelowNormal",
     "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-   }
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 11:19:21"
   },
   {
    "id": "PERPETUAL-N1-W8-SHARD-1",
@@ -10354,25 +10362,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 11:12:21",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
     {
      "key": "n1w8-8of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w8/shard-8-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W8 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 11:25:54"
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 11:47:25",
+     "claimed_since": "2026-10-01 11:46:17",
+     "done_at": "2026-10-01 11:47:25",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n1w8-8of12.bm-c.json"
     }
    ],
    "workers_plan": {
     "workers": 8,
     "priority": "BelowNormal",
     "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-   }
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 11:47:25"
   },
   {
    "id": "PERPETUAL-N1-W8-SHARD-9",
@@ -10391,23 +10405,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 11:12:21",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
     {
      "key": "n1w8-9of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w8/shard-9-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W8 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+     "note": "N1-W8 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 11:34:04",
+     "claimed_since": "2026-10-01 11:33:02",
+     "done_at": "2026-10-01 11:34:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n1w8-9of12.bm-c.json"
     }
    ],
    "workers_plan": {
     "workers": 8,
     "priority": "BelowNormal",
     "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-   }
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 11:34:04"
   },
   {
    "id": "PERPETUAL-N1-W8-SHARD-10",
@@ -10426,23 +10448,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 11:12:21",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
     {
      "key": "n1w8-10of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w8/shard-10-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W8 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+     "note": "N1-W8 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 11:35:31",
+     "claimed_since": "2026-10-01 11:34:24",
+     "done_at": "2026-10-01 11:35:31",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n1w8-10of12.bm-c.json"
     }
    ],
    "workers_plan": {
     "workers": 8,
     "priority": "BelowNormal",
     "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-   }
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 11:35:31"
   },
   {
    "id": "PERPETUAL-N1-W8-SHARD-11",
@@ -10461,23 +10491,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 11:12:21",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
     {
      "key": "n1w8-11of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w8/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W8 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+     "note": "N1-W8 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 11:37:04",
+     "claimed_since": "2026-10-01 11:35:51",
+     "done_at": "2026-10-01 11:37:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n1w8-11of12.bm-c.json"
     }
    ],
    "workers_plan": {
     "workers": 8,
     "priority": "BelowNormal",
     "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
-   }
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 11:37:04"
   }
  ],
  "lane_machine": "bm-b"
