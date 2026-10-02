@@ -3,17 +3,17 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-10-02T10:17:50+08:00",
- "heartbeat_epoch_utc": 1790907470,
- "clock_read": "2026-10-02T10:17:50+08:00",
- "current_task": "W70 engine wave burn watch (shards 10/12, self-continuing) + S6 maintenance chain",
+ "last_seen": "2026-10-02T10:41:53+08:00",
+ "heartbeat_epoch_utc": 1790908913,
+ "clock_read": "2026-10-02T10:41:53+08:00",
+ "current_task": "W70 finalize landed (chain head 518,548) + W72 freeze+burn 12/12 (finalize waits bm-c W71) + pool_core_samples corruption repair; next bm-b wave W74 (bm-a W73 in flight)",
  "cpu_cores": 16,
  "free_ram_gb": 6.5,
  "gpu_free_vram_gb": 2.2,
  "total_ram_gb": 25.7,
  "cpu_util_pct": 4.3,
- "round_no": 568,
- "verdict": "healthy: W70 burn in flight (10/12), RAM gate cleared, board clear, watermark green",
+ "round_no": 570,
+ "verdict": "healthy: W70 finalize one-pass landed (head 518,548, K=151,920, S5 4/4), W72 full lifecycle frozen+burned 12/12 (finalize chain-pending W71 bm-c), pool_core_samples blob-corruption cured fleet-wide, S6 all-green after repair",
  "idle_ram_gb": 6.5,
  "gpu_idle_vram_gb": 2.2,
  "orders_ack": [
@@ -164,5 +164,5 @@
  "gpu_idle_vram_mb": 2254,
  "gpu_free_vram_mb": 2427,
  "ram_free_gb": 6.5,
- "round_no_label": "r567"
+ "round_no_label": "r570"
 }
