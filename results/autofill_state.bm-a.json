@@ -1014,25 +1014,34 @@
    "fill_latency_min": 27.8,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 03:30:01",
+  "ts": "2026-10-03 04:04:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.0,
-  "verdict": "launched",
-  "entry": "PERPETUAL-N3-R2-NEEDLE-DE-01",
-  "shard": "NEEDLE-DE-01",
-  "pid": 76220,
-  "runner_sha256": "669d6e534add319b",
-  "core_verdict": "multiproc",
-  "core_marker": "from parallel_runner import",
-  "fill_latency_min": 27.8,
-  "fullburn_window": true,
-  "target_met": false,
-  "saturation_launches": 1
+  "py_cpu_pct": 0.4,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-CELL-VALUEPB-X2",
+  "shard": "fund-value-p1-cell-valuepb-x2-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 37,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-CELL-VALUEPB-X2",
+    "shard": "fund-value-p1-cell-valuepb-x2-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x2",
+    "fuse_refusals": 37
+   },
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 37
+   }
+  ]
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-03T03:10:17+08:00"
+ "core_samples_seen": "2026-10-03T03:41:24+08:00"
 }

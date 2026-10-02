@@ -127,10 +127,26 @@ probe.json §ACF 表〕→ MBB 块长须跨越全视界 L≥10；带内候选 {2
     与三带全域 68_501..69_999（scrnull/unc=本波预留控制面域·B1 设计零消耗·未来 N4
     波按法典 §4 尾律另行展行时机验防撞）。
 
-## §6 跑后只许回填节（占位）
+## §6 跑后只许回填节（已回填 r605 bm-a·2026-10-03 03:4x·波 6/6 同轮烧毕+finalize 面）
 
-- §6.1 实跑数字（K/L/时长/行数）——跑后回填。
-- §6.2 置信面产物指针——跑后回填。
+- §6.1 实跑数字（K/L/时长/行数）：**K=200/员 × 6 员 = 1,200 宇宙行**（每员
+  universes-<ID>.jsonl 200 行·k-set 0..199 完备；六分片 receipt k_burned=200/200 全过
+  _shard_valid）；**L=10**（PINNED）；SatEngine 引擎车道六分片墙钟 **17.7-22.7s/片**
+  （pool 25 workers=worker_cap 钳后·parallel_runner O-2355·spawn 序贯 k 序 append=r340
+  增量律）；点火窗 03:35→03:47（tick 序贯 n4B1-0..5of6·每 tick 一片·~12min 全波）；
+  finalize 3.8s（六员真史交集轴 center 回放 + science_gates verbatim import）。
+- §6.2 置信面产物指针：**results/perpetual_faces/n4_b1_results.json**（§4 三产物齐：
+  每员 K 宇宙 Sharpe 分布面 median/p10/p90/CI95/正值占比 + bootstrap_ci_sharpe
+  （seed 69_000·block 10.0·n_resamples 1000）+ dsr_from_stats（sr=center 回放 Sharpe·
+  sigma=K 宇宙样本 std·n_trials=200））；分片 receipts=results/p2cal_ext/n4_b1/
+  shard-<i>-of-6.json × 6；宇宙行=results/perpetual_faces/n4_b1/universes-<ID>.jsonl × 6；
+  引擎账本行=results/saturation_engine/ledger_bm-a.jsonl（face=N4·key n4B1-<i>of6）。
+  **诚实读数**（测量加深面·§4 冻结=零 pass/fail 晋升线·判读归月界科学面）：
+  真史 center 回放 bootstrap CI95 下界>0 者=COMPOSITE-CE-01（+0.153）与
+  VOLATILITY-CE-01（+0.414）两员，其余四员跨零（CE-02 −0.108/DROUGHT −0.020/
+  ENGULF −1.161/NEEDLE −0.721）；K 宇宙分布 CI95 下界六员全负（−0.242..−1.028）
+  =平行宇宙脆弱性如实披露；DSR 六员 0.003-0.005（K=200 试验数+跨宇宙 σ≈0.6 下
+  深度紧缩面如实产出）。
 
 ## 附：席位分工账（防重复开发·跨窗接力）
 

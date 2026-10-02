@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+line = (
+    "2026-10-03 03:47 | dept:工程+研究 | watermark verdict=绿（red=false·"
+    "probe py_low_board_clear=引擎车道烧录窗间采样+假期板清白名单合法·"
+    "本机引擎队列 0=N4-B1 波已尽）| 本轮主产出=**T-151 N4-B1 首波端到端交付**："
+    "①SatEngine FAMILIES 适配器落地（perpetual_faces_n4.py 增 WAVE_CONFIGS(B1)/"
+    "_set_wave/_shard_valid k-set 完备性校验/--shard CLI 域（shard=成员）+serial/"
+    "pool 双驱动烧录核共用 run_cells_parallel 单源；saturation_engine.py N4 族行"
+    "注册 nshards=6/default_wave='B1'+per-family 宽度穿线 _queue_items/_orphan_rows"
+    "+validator finally 复位改 fam['default_wave'] 禁硬编码 2）；②**波 6/6 同轮烧毕**"
+    "（引擎 tick 序贯点火 n4B1-0..5of6 03:35→03:47 ~12min·单片 17.7-22.7s·pool 25 "
+    "workers·**1,200 宇宙行**（200/员×6）·六回单 k_burned=200/200 全过 _shard_valid·"
+    "引擎账本 6 行 face=N4）；③**finalize 面（prereg §4 三产物·science_gates "
+    "verbatim）同轮交付**：n4_b1_results.json 3.8s——每员 K 宇宙 Sharpe 分布面"
+    "（median/p10/p90/CI95/正值占比）+bootstrap_ci_sharpe（seed 69_000·block 10·"
+    "n=1000）+dsr_from_stats（n_trials=200）；诚实读数：真史 center 回放 bootstrap "
+    "CI95 下界>0 仅 CE-01（+0.153）/VOLATILITY-CE-01（+0.414）两员，K 宇宙 CI95 "
+    "下界六员全负（−0.242..−1.028）=平行宇宙脆弱性如实披露，DSR 0.003-0.005"
+    "（零晋升线·判读归月界）；④prereg §6.1/6.2 回填+METHODOLOGY_ASSETS E12 卡"
+    "（引擎族注册表 per-family 扩展律）+T-151 票链 (1)-(5) 全闭 | 验证证据: "
+    "smoke 47/47（编辑前后双跑）·n4 selftest 16/16（新 S11-S16 六腿）·engine "
+    "selftest 10 腿（含真实 N4 注册+per-face 单族等价断言）·S6 33 腿全 rc0"
+    "（dualrun 先行律·reconcile streak 52·周末数据腿合法 no-op）·attrition "
+    "CLEAN·回单六件 k=200/200 实读·账本 tail n4B1 行实读 | 当前活: 引擎队列空"
+    "（N4 波尽）·池尾 VALUEPB-X2+NULLS ready 无主=autofill 车道自续 | 最近实物: "
+    "results/perpetual_faces/n4_b1_results.json（03:45）+results/p2cal_ext/n4_b1/"
+    "shard-0..5-of-6.json×6+universes-*.jsonl×6（1,200 行）| 下个里程碑: N4-B2 "
+    "尾律展带（自家带推进+disjoint 重扫）与成员面加深=队列需求面开票；"
+    "FUND-VALUE-P1 池尾两分片 autofill 排空→6/6 finalize judged 判决面（窗 ≤48h）"
+    " | 本地未达 origin commit 数=0（push 后 fetch 自证） | 下轮指针: 队列需求面"
+    "开票裁（N4-B2/成员面加深）；S7 例行（loop 针位 :8 no-op·watchdog 03:48 首"
+    "烧·双爪字节装）"
+)
+with open('round_reports-bm-a.md', 'a', encoding='utf-8') as f:
+    f.write("\n" + line + "\n")
+print('round report appended, len', len(line))

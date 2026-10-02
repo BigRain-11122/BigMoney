@@ -67,6 +67,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config import PATHS                      # noqa: E402
 import perpetual_faces_n1 as n1              # noqa: E402
+import perpetual_faces_n4 as n4              # noqa: E402
 
 LAW_REF = ("firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, "
            "O-20261001-1410 CEO direct order)")
@@ -118,13 +119,24 @@ HISTORY_TAIL = 120             # face-history derive lane (1-min rows,
 #     in HERE when they land -- the engine head-note hook made concrete).
 #     Each family row carries: the module owning WAVE_CONFIGS + the
 #     checkpoint validator (_shard_valid/_set_wave contract), the runner
-#     script, the prereg filename format, and the ledger key format.
+#     script, the prereg filename format, the ledger key format, the
+#     family shard width (nshards; N4 = 6 members vs N1 = 12 slices) and
+#     the module's default wave for the validator reset (N1=2 legacy
+#     default; N4="B1" single-wave module).
 FAMILIES = {
     "N1": {
         "module": n1,                      # WAVE_CONFIGS + _shard_valid
         "runner": "scripts/perpetual_faces_n1.py",
         "prereg_fmt": "PERPETUAL_N1_W{wave}_PREREG.md",
         "key_fmt": "n1w{wave}-{shard}of{nshards}",
+        "nshards": 12, "default_wave": 2,
+    },
+    "N4": {
+        "module": n4,                      # T-151 deliverable (5); N4-B1
+        "runner": "scripts/perpetual_faces_n4.py",   # shard = member
+        "prereg_fmt": "PERPETUAL_N4_{wave}_PREREG.md",
+        "key_fmt": "n4{wave}-{shard}of{nshards}",
+        "nshards": 6, "default_wave": "B1",
     },
 }
 
@@ -190,16 +202,19 @@ def _shard_path(cfg, shard, nshards=NSHARDS):
 def _shard_done(wave, cfg, shard, nshards=NSHARDS, fam_name="N1"):
     """Checkpoint presence=done (r488 semantics) via the family module's
     single-source validator (_shard_valid), wave pinned (BATCH face).
-    fam_name selects the validator module (O-20261002-2155 registry)."""
+    fam_name selects the validator module (O-20261002-2155 registry);
+    the finally-reset re-pins the FAMILY's default wave (N1=2 legacy,
+    N4="B1" -- a hardcoded 2 would KeyError the single-wave N4 module)."""
     path = _shard_path(cfg, shard, nshards)
     if not os.path.exists(path):
         return False
-    mod = FAMILIES[fam_name]["module"]
+    fam = FAMILIES[fam_name]
+    mod = fam["module"]
     mod._set_wave(wave)
     try:
         return mod._shard_valid(path, shard, nshards)
     finally:
-        mod._set_wave(2)
+        mod._set_wave(fam["default_wave"])
 
 
 # --- sec.1 queue generator (pure; hermetic-testable) ------------------------
@@ -215,23 +230,24 @@ def _queue_items(families, done_probe, active_keys, machine_id,
     items = []
     for fam_name, fam in families.items():
         wave_configs = fam["module"].WAVE_CONFIGS
+        nsh = fam.get("nshards", nshards)   # per-family width (N4=6)
         for wave in sorted(wave_configs):
             cfg = wave_configs[wave]
             if cfg.get("engine_owner") != machine_id:
                 continue                  # pool-era / other-machine waves: invisible
-            for shard in range(nshards):
+            for shard in range(nsh):
                 key = fam["key_fmt"].format(wave=wave, shard=shard,
-                                            nshards=nshards)
+                                            nshards=nsh)
                 if key in active_keys:
                     continue
-                if done_probe(wave, cfg, shard, nshards, fam_name):
+                if done_probe(wave, cfg, shard, nsh, fam_name):
                     continue
                 items.append({"face": fam_name, "wave": wave, "shard": shard,
-                              "nshards": nshards, "key": key,
+                              "nshards": nsh, "key": key,
                               "batch": cfg["batch"],
                               "runner": fam["runner"],
                               "runner_args": ["run", "--shard", str(shard),
-                                              "--of", str(nshards),
+                                              "--of", str(nsh),
                                               "--wave", str(wave),
                                               "--workers", str(WORKERS),
                                               "--lane", "engine"]})
@@ -367,25 +383,26 @@ def _orphan_rows(families, done_probe, ledger_keys, active_keys,
     rows = []
     for fam_name, fam in families.items():
         wave_configs = fam["module"].WAVE_CONFIGS
+        nsh = fam.get("nshards", nshards)   # per-family width (N4=6)
         for wave in sorted(wave_configs):
             cfg = wave_configs[wave]
             if cfg.get("engine_owner") != machine_id:
                 continue
-            for shard in range(nshards):
+            for shard in range(nsh):
                 key = fam["key_fmt"].format(wave=wave, shard=shard,
-                                            nshards=nshards)
+                                            nshards=nsh)
                 if key in active_keys or key in buffer_keys or key in ledger_keys:
                     continue
-                if not done_probe(wave, cfg, shard, nshards, fam_name):
+                if not done_probe(wave, cfg, shard, nsh, fam_name):
                     continue
                 row = {"machine_id": machine_id, "face": fam_name,
                        "wave": wave,
                        "batch": cfg["batch"], "shard": shard,
-                       "nshards": nshards,
+                       "nshards": nsh,
                        "key": key, "pid": None, "started_at": None,
                        "orphan_reconciled": True}
                 try:
-                    p = shard_path_fn(cfg, shard, nshards)
+                    p = shard_path_fn(cfg, shard, nsh)
                     with open(p, encoding="utf-8") as f:
                         d = json.load(f)
                     au = d.get("audit") or {}
@@ -800,7 +817,7 @@ def selftest():
     try:
         assert n1._shard_valid(ck, 0, 12), "crafted valid W10 ckpt must pass"
     finally:
-        n1._set_wave(2)
+        n1._set_wave(FAMILIES["N1"]["default_wave"])
     bad = os.path.join(tmp, "shard-1-of-12.json")
     json.dump({"batch": "PERPETUAL-N1-W10", "shard": 1, "nshards": 12,
                "a_range": [a_hi, 2 * a_hi], "b_range": [b_hi, 2 * b_hi],
@@ -813,7 +830,7 @@ def selftest():
         assert not n1._shard_valid(bad, 1, 12), \
             "short-count ckpt must fail (presence=done is earned)"
     finally:
-        n1._set_wave(2)
+        n1._set_wave(FAMILIES["N1"]["default_wave"])
 
     # 4. sec.2 batched flush gate boundaries
     assert not _flush_due(0, 999), "empty buffer never flushes"
@@ -898,9 +915,11 @@ def selftest():
         STATE_PATH = real_state
 
     # 9. family registry (O-20261002-2155 bm-a seat (b)): N1 byte-identity
-    #    vs the pre-registry literals + multi-family dispatch proof
-    assert set(FAMILIES) == {"N1"}, \
-        "registry must hold exactly N1 today (N2/N3/N4 plug in on landing)"
+    #    vs the pre-registry literals + N4 real registration (T-151
+    #    deliverable (5): six-member shard space, B1 wave face) + multi-
+    #    family dispatch proof
+    assert set(FAMILIES) == {"N1", "N4"}, \
+        "registry must hold N1 + N4 (N2/N3 plug in on landing)"
     n1fam = FAMILIES["N1"]
     assert n1fam["module"] is n1, "N1 family module must be the n1 module"
     assert n1fam["runner"] == "scripts/perpetual_faces_n1.py", \
@@ -911,18 +930,52 @@ def selftest():
     assert n1fam["key_fmt"].format(wave=10, shard=0, nshards=12) \
         == "n1w10-0of12", \
         "N1 ledger key drift (byte-identity vs pre-registry literal)"
-    # real-tree N1 identity: registry-driven queue over real WAVE_CONFIGS
-    # equals single-family dispatch for every engine-owner machine
+    assert n1fam["nshards"] == 12 and n1fam["default_wave"] == 2, \
+        "N1 family width/default drift (12 slices, wave-2 legacy default)"
+    n4fam = FAMILIES["N4"]
+    assert n4fam["module"] is n4, "N4 family module must be the n4 module"
+    assert n4fam["runner"] == "scripts/perpetual_faces_n4.py", \
+        "N4 runner drift (T-151 adapter contract)"
+    assert n4fam["prereg_fmt"].format(wave="B1") \
+        == "PERPETUAL_N4_B1_PREREG.md", \
+        "N4 prereg path drift (frozen prereg face)"
+    assert n4fam["key_fmt"].format(wave="B1", shard=0, nshards=6) \
+        == "n4B1-0of6", "N4 ledger key drift (six-member shard space)"
+    assert n4fam["nshards"] == 6 and n4fam["default_wave"] == "B1", \
+        "N4 family width/default drift (6 members, B1 single-wave default)"
+    assert os.path.exists(os.path.join(
+        PATHS.root, "research", "PERPETUAL_N4_B1_PREREG.md")), \
+        "N4 prereg missing (engine queue would be a lie)"
+    # real-tree per-family identity: registry-driven queue over real
+    # WAVE_CONFIGS equals single-family dispatch per face, every owner
     for owner in ("bm-a", "bm-b"):
         reg_q = _queue_items(FAMILIES, lambda *a: False, set(), owner)
-        assert reg_q == _queue_items({"N1": n1fam}, lambda *a: False,
-                                     set(), owner), \
-            f"registry dispatch must equal single-family dispatch ({owner})"
-        assert all(i["face"] == "N1"
-                   and i["runner"].endswith("perpetual_faces_n1.py")
-                   for i in reg_q), f"face/runner drift ({owner})"
+        for fam_name, fam_row in (("N1", n1fam), ("N4", n4fam)):
+            fam_items = [i for i in reg_q if i["face"] == fam_name]
+            assert fam_items == _queue_items({fam_name: fam_row},
+                                             lambda *a: False, set(),
+                                             owner), \
+                f"registry dispatch must equal single-family dispatch " \
+                f"({fam_name}/{owner})"
+            assert all(i["runner"].endswith(
+                FAMILIES[fam_name]["runner"].split("/")[-1])
+                for i in fam_items), f"runner drift ({fam_name}/{owner})"
+    # N4 real-tree queue face: owner bm-a -> exactly 6 shards, engine
+    # runner_args carry --of 6 --wave B1 (per-family width law)
+    q_bma = _queue_items(FAMILIES, lambda *a: False, set(), "bm-a")
+    n4_items = [i for i in q_bma if i["face"] == "N4"]
+    assert len(n4_items) == 6 \
+        and all(i["nshards"] == 6 for i in n4_items), \
+        "N4 queue must hold the 6 member shards (bm-a owner)"
+    assert n4_items[0]["runner_args"] == \
+        ["run", "--shard", "0", "--of", "6", "--wave", "B1",
+         "--workers", str(WORKERS), "--lane", "engine"], \
+        "N4 runner args drift (shard=member shim contract)"
+    assert q_bma[0]["face"] == "N1" or q_bma[0]["face"] == "N4", \
+        "registry order face (N1 first then N4)"
     # multi-family dispatch: a fixture N4 family rides the same generators
     # with its own key space / runner / prereg face; N1 keeps registry order
+    # (fixture row carries NO nshards -> param fallback semantics proof)
     n4_cfgs = {1: {"batch": "PERPETUAL-N4-B1-W1", "prereg": "x",
                    "shard_subdir": "n4_b1_w1", "out_name": "x.json",
                    "engine_owner": "bm-b"}}
@@ -933,15 +986,15 @@ def selftest():
                    "key_fmt": "n4b1w{wave}-{shard}of{nshards}"}
     q = _queue_items(multi, lambda *a: False, set(), "bm-b", nshards=12)
     n1_items = [i for i in q if i["face"] == "N1"]
-    n4_items = [i for i in q if i["face"] == "N4"]
-    assert len(n1_items) == 12 and len(n4_items) == 12, \
-        "both families must materialize their owned wave (12+12)"
+    n4_fixture_items = [i for i in q if i["face"] == "N4"]
+    assert len(n1_items) == 12 and len(n4_fixture_items) == 12, \
+        "both families must materialize their owned wave (12+12 fallback)"
     assert q[0]["face"] == "N1" and q[12]["face"] == "N4", \
         "registry order: N1 items first, N4 second (insertion order)"
-    assert all(i["key"].startswith("n4b1w1-") for i in n4_items), \
+    assert all(i["key"].startswith("n4b1w1-") for i in n4_fixture_items), \
         "N4 keys must derive from the N4 family key_fmt"
     assert all(i["runner"] == "scripts/perpetual_faces_n4.py"
-               for i in n4_items), \
+               for i in n4_fixture_items), \
         "N4 runner must derive from the N4 family row"
     assert multi["N4"]["prereg_fmt"].format(wave=1) \
         == "PERPETUAL_N4_B1_W1_PREREG.md", "N4 prereg fmt derive"
@@ -960,9 +1013,11 @@ def selftest():
           "unchanged-disk lands / fresher-writer self-yields with bytes "
           "intact / absent-disk no false retreat] + family registry "
           "[O-20261002-2155 seat (b): N1 byte-identity vs pre-registry "
-          "literals + registry==single-family queue equality + multi-family "
-          "N4 fixture dispatch: keys/runner/prereg/face + orphan rows by "
-          "face] + law/prereg presence)")
+          "literals + REAL N4 registration (T-151: 6-member shard space, "
+          "B1 wave face, per-family nshards/default_wave) + per-face "
+          "single-family queue equality + multi-family N4 fixture "
+          "dispatch: keys/runner/prereg/face + orphan rows by face] + "
+          "law/prereg presence)")
     return 0
 
 
