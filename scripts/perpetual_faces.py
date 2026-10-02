@@ -2013,6 +2013,42 @@ N1_BANDS = {
     # NOT a re-pick (R250: W88 bands were never assigned).
     88: {"a": (219_004, 221_003), "b_exit": (55_701, 55_900),
          "engine_owner": "bm-c"},
+    # SEVENTY-NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r577 bm-b
+    # freeze): engine_owner rows 78 + candidate; bm-b's
+    # twenty-ninth owned per machine-derive (engine_owner==bm-b
+    # rows 28 + candidate). Wave 89 = first free number after the
+    # registered W86 row SKIPPING the two published-but-unregistered
+    # seats W87 (bm-a, MSG-20261002-1345-bma) and W88 (bm-c,
+    # MSG-20261002-1352-bmc -- bm-b's own W88 seat MSG yielded to
+    # bm-c per r511 commit-order law, yield receipt
+    # MSG-20261002-1358-bmb; zero burn zero freeze zero finalize =
+    # zero-cost same-bands dual-machine cross-validation).
+    # W87 registered (bm-a r577 freeze landed 36ddb5377, finalize
+    # pending); W88 seat-published, unregistered (bm-c freeze in
+    # flight) -- two in-flight upstream seats at this freeze,
+    # finalize merge loop stays FAIL-CLOSED r307 at run time.
+    # A-SIDE SKIP-PAST-PUBLISHED CHAIN (r518-1): W86 tail -> W87
+    # pub A 217_004..219_003 -> W88 pub A 219_004..221_003 -> first
+    # clean 221_004..223_003 (= W88 published A end + 1) CLEAN.
+    # B-SIDE PIN CHAIN: 55_401..55_600 doubly refused (W87-pub
+    # overlap + grid_p1=55_500 median) -> 55_501..55_700 == W87 pub
+    # -> 55_701..55_900 == W88 pub -> 55_901..56_100 REFUSED
+    # in-band at SEED_REGISTRY ths_agg_p1=56_000 (median position
+    # 99/199, non-endpoint) -> D-20261002-05 pin: PAST-HIT
+    # start-window hit+1 restart 56_001..56_200 CLEAN
+    # (window-step-chain reading 56_101..56_300 BANNED by the pin;
+    # W68-B positive anchor).
+    # Machine-verified at prereg time
+    # (results/_r577bmb_w89_band_gate.py ADMIT receipt vs the
+    # 84-row pre-W89 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W90+ projection: A 223_004..225_003
+    # CLEAN; B 56_201..56_400 CLEAN (next freezer must re-derive,
+    # never transcribe).
+    # NOT a re-pick (R250: W89 bands were never assigned).
+    89: {"a": (221_004, 223_003), "b_exit": (56_001, 56_200),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

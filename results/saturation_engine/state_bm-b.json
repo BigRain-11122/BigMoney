@@ -2,9 +2,46 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
- "ledger_buffer": [],
- "last_flush_at": "2026-10-02T13:44:04+08:00",
+ "active": [
+  {
+   "face": "N1",
+   "wave": 89,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w89-10of12",
+   "batch": "PERPETUAL-N1-W89",
+   "pid": 46364,
+   "started_at": "2026-10-02T14:07:04+08:00",
+   "started_epoch": 1790921224,
+   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W89-10.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W89",
+    "prereg": "research/PERPETUAL_N1_W89_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; SEVENTY-NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 78 + candidate; prose ordinal -1 drift disclosed since W80, r359 law), own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W86 row SKIPPING the two published-but-unregistered seats W87 bm-a MSG-20261002-1345-bma + W88 bm-c MSG-20261002-1352-bmc; bm-b's own W88 seat yielded to bm-c per r511 commit-order law, yield receipt MSG-20261002-1358-bmb, zero-cost same-bands cross-validation; seat published=reserved MSG-20261002-1358-bmb PUSHED to origin BEFORE this freeze per r565 early-visibility law), engine_owner=bm-b, wave 89: A-SIDE SKIP-PAST-PUBLISHED CHAIN (W86 tail -> W87 pub A -> W88 pub A -> first clean A 221_004..223_003 CLEAN) + B-SIDE PIN CHAIN (55_401..55_600 doubly refused [W87-pub overlap + grid_p1=55_500 median] -> 55_501..55_700 == W87 pub -> 55_701..55_900 == W88 pub -> 55_901..56_100 REFUSED in-band at SEED_REGISTRY ths_agg_p1=56_000 median position 99/199 non-endpoint -> D-20261002-05 pin: past-hit restart 56_001..56_200 CLEAN; window-step-chain reading 56_101..56_300 BANNED; W68-B positive anchor; ADMIT receipt results/_r577bmb_w89_band_gate.py; W90+ projection: A 223_004..225_003 CLEAN / B 56_201..56_400 CLEAN, disclosed for the next freezer); W1..W86 finalizes LANDED (net chain head 553,748 = W85 bm-b r577 + W86 bm-a r577 one-pass, K=187,120 merged pool) + TWO IN-FLIGHT UPSTREAM SEATS at this freeze (W87 bm-a registered finalize-pending + W88 bm-c seat-published-unregistered -- both unregistered-gap honest notes per the W19/W18/W49 precedent; finalize merge loop stays FAIL-CLOSED r307 at run time)",
+    "a_seed_base": 221004,
+    "b_exit_seed_base": 56001,
+    "shard_subdir": "n1_w89",
+    "out_name": "n1_w89_results.json",
+    "engine_owner": "bm-b"
+   }
+  }
+ ],
+ "ledger_buffer": [
+  {
+   "machine_id": "bm-b",
+   "face": "N1",
+   "wave": 89,
+   "batch": "PERPETUAL-N1-W89",
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w89-9of12",
+   "pid": 58000,
+   "started_at": "2026-10-02T14:06:04+08:00",
+   "done_at": "2026-10-02T14:07:04+08:00",
+   "done_epoch": 1790921222,
+   "elapsed_sec": 58.1
+  }
+ ],
+ "last_flush_at": "2026-10-02T14:06:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -15,18 +52,41 @@
   "n1w64-9of12": 1,
   "n1w70-11of12": 1
  },
- "shards_done_total": 393,
- "last_shard_done_at": "2026-10-02T13:30:03+08:00",
+ "shards_done_total": 403,
+ "last_shard_done_at": "2026-10-02T14:07:04+08:00",
  "last_tick": {
-  "ts": "2026-10-02T13:48:04+08:00",
-  "epoch": 1790920081,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 6.856937408447266,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
+  "ts": "2026-10-02T14:07:04+08:00",
+  "epoch": 1790921222,
+  "py_cpu_pct": 0.1,
+  "ram_free_gb": 6.1109161376953125,
+  "verdict": "ignited:n1w89-10of12 pid=46364",
+  "active_n": 1,
+  "queue_depth": 1,
   "elapsed_sec": 2.4
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 89,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w89-11of12",
+   "batch": "PERPETUAL-N1-W89",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "89",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
