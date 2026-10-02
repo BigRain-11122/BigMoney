@@ -1,0 +1,155 @@
+{
+  "batch": "FUND-VALUE-P1",
+  "checks": [
+    {
+      "detail": "verdict=ADMIT max|corr|=0.2014",
+      "name": "d6_admit",
+      "pass": true
+    },
+    {
+      "detail": "{'n_bars': 8792, 'n_syms': 5222, 'first': '1990-12-19', 'last': '2026-09-22'}",
+      "name": "leg1_price_panel",
+      "pass": true
+    },
+    {
+      "detail": "{'rows': 4133848, 'n_symbols': 5224, 'anchor_median': 693.5, 'date_min': '1991-03-18', 'date_max': '2026-10-01'}",
+      "name": "leg2_transfer_export",
+      "pass": true
+    },
+    {
+      "detail": "starts=401 want=401",
+      "name": "leg3_g_census_401",
+      "pass": true
+    },
+    {
+      "detail": "{'pos': 918, 'date': '1994-05-03'}",
+      "name": "leg3_t0_present",
+      "pass": true
+    },
+    {
+      "detail": "t0=1994-05-03 want=1994-05-03",
+      "name": "leg3_t0_frozen_reproduction",
+      "pass": true
+    },
+    {
+      "detail": "months>=918 below floor: []",
+      "name": "leg3_zero_below_floor_after_t0",
+      "pass": true
+    },
+    {
+      "detail": "label_days=3269",
+      "name": "regime_face_510300",
+      "pass": true
+    },
+    {
+      "detail": "COST_X1=0.0013041 spec=0.0013041 rt_bp=26.082",
+      "name": "cost_x1_single_source",
+      "pass": true
+    },
+    {
+      "detail": "{\"gate\": \"closed_family_check\", \"family\": \"fund_value_stock_xs\", \"status\": \"open\", \"in_registry\": false}",
+      "name": "m3_closed_family_open",
+      "pass": true
+    },
+    {
+      "detail": "{'fund_value_p1_nulls': 20500000, 'fund_value_p1_sens': 20500500}",
+      "name": "seed_registry_rows",
+      "pass": true
+    },
+    {
+      "detail": "seals_in_win=2 flagged=True",
+      "name": "st_helper_import_fixture",
+      "pass": true
+    }
+  ],
+  "d6": {
+    "batch": "FUND-VALUE-P1",
+    "gate": "d6_same_family",
+    "generated": "2026-10-03T01:42:23+08:00",
+    "headline_cont": {
+      "n_days": 7874,
+      "n_entries": 2103,
+      "n_trades": 2082,
+      "sharpe_full": 0.380859,
+      "t0": "1994-05-03"
+    },
+    "machine": "bm-b",
+    "max_abs_corr": 0.2014,
+    "max_member": "VOLATILITY-CE-01",
+    "pairs": [
+      {
+        "corr": 0.1213,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1201,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1414,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1975,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1561,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2014,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7,
+    "runtime_sec": 143.3,
+    "verdict": "ADMIT"
+  },
+  "generated": "2026-10-03T01:43:38+08:00",
+  "liquidity": {
+    "amt20_min_yuan": 10000000.0,
+    "n_firing_months": 383,
+    "t0_date": "1994-05-03",
+    "t0_n_active": 195,
+    "t0_n_base": 0,
+    "t0_n_pick": 0
+  },
+  "machine": "bm-b",
+  "panel": {
+    "first": "1990-12-19",
+    "last": "2026-09-22",
+    "n_bars": 8792,
+    "n_syms": 5222
+  },
+  "runtime_sec": 34.7,
+  "seed_disclosure": {
+    "note": "prereg sec.3 binds nulls to rng([20500000,k]) and sens to rng([20500500,k]); rows pre-registered (bm-a r599).",
+    "null_aux": 20261002,
+    "nulls": 20500000,
+    "registry_rows": {
+      "fund_value_p1_nulls": 20500000,
+      "fund_value_p1_sens": 20500500
+    },
+    "sensitivity": 20500500
+  },
+  "t0": {
+    "date": "1994-05-03",
+    "pos": 918
+  },
+  "ticket": "T-2026-10-02-150-P1",
+  "value_face": {
+    "anchor_median": 693.5,
+    "date_max": "2026-10-01",
+    "date_min": "1991-03-18",
+    "n_symbols": 5224,
+    "rows": 4133848
+  },
+  "verdict": "PASS"
+}
