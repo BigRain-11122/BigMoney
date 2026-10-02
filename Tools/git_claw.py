@@ -67,11 +67,20 @@ def machine_id(repo=None):
 
 def deleted_paths(old_sha, new_sha, repo):
     """Files present in old tree, absent from new tree (no-renames:
-    a rename is a deletion face here, per the r519 family)."""
+    a rename is a deletion face here, per the r519 family).
+    r369 fix (first live-fire 2026-10-02 14:1x): the pre-push hook hands
+    us the REMOTE tip sha, whose objects may not exist locally yet in a
+    racing window -> diff-tree rc=128 'bad object' -> false-FORBIDDEN on
+    an empty deletion set. Fetch-once-retry before failing closed; the
+    remote tip is always advertised, so a plain fetch brings the tree."""
     if not old_sha or old_sha == _ZERO or old_sha == new_sha:
         return []
-    r = _git(["diff-tree", "-r", "--no-renames", "--diff-filter=D",
-              "--name-only", old_sha, new_sha], repo)
+    args = ["diff-tree", "-r", "--no-renames", "--diff-filter=D",
+            "--name-only", old_sha, new_sha]
+    r = _git(args, repo)
+    if r.returncode != 0:
+        _git(["fetch", "origin"], repo)          # best-effort object bring-in
+        r = _git(args, repo)
     if r.returncode != 0:
         raise RuntimeError("diff-tree rc=%d %s" % (
             r.returncode, (r.stderr or b"")[:160].decode(errors="replace")))
