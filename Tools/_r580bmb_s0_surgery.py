@@ -93,10 +93,12 @@ for attempt in range(1, 7):
                  '100644,%s,%s' % (h, rel)], env=env)
             payload += 1
     tree = run(['git', 'write-tree'], env=env).stdout.strip()
-    msg = ('round 580 bm-b: S0 integration ride (W93 shards 4-10 + engine telemetry '
-           'landed; pool_core union origin-base + local dict rows per r570 law; '
-           'replayed onto %s, attempt %d) [via bm-b r580]'
-           % (origin_main[:10], attempt))
+    msg = sys.argv[1] if len(sys.argv) > 1 else (
+        'round 580 bm-b: S0 integration ride (W93 shards 4-10 + engine telemetry '
+        'landed; pool_core union origin-base + local dict rows per r570 law; '
+        'replayed onto %s, attempt %d) [via bm-b r580]'
+        % (origin_main[:10], attempt))
+    proof = sys.argv[2] if len(sys.argv) > 2 else 'results/p2cal_ext/n1_w93/shard-10-of-12.json'
     newc = run(['git', 'commit-tree', tree, '-p', origin_main, '-m', msg], env=env).stdout.strip()
     # r532 law assertions: deletion-set empty + payload count
     r = run(['git', 'diff', '--no-renames', '--name-status', origin_main, newc])
@@ -119,7 +121,6 @@ for attempt in range(1, 7):
                 os.remove(f)
                 print('removed (origin-deleted): %s' % f)
         # delivery proof (r532 ls-tree self-attest)
-        proof = 'results/p2cal_ext/n1_w93/shard-10-of-12.json'
         rb = subprocess.run(['git', 'ls-tree', 'origin/main', '--name-only', proof],
                             capture_output=True, text=True)
         assert proof in rb.stdout, 'DELIVERY PROOF FAIL: %s not on origin' % proof
