@@ -116,7 +116,17 @@ def _py_cpu_pct(window=SAMPLE_S):
     import psutil
     procs = [p for p in psutil.process_iter(["name"])
              if (p.info["name"] or "").lower().startswith("python")]
-    s1 = {p.pid: sum(p.cpu_times()[:2]) for p in procs}
+    # r566 bm-b live-fire fix: first sampling pass needs the same dead-pid
+    # guard as the second pass -- a short-lived python process dying between
+    # process_iter() and cpu_times() raised NoSuchProcess and killed the
+    # whole tick (masked rc=0 by the wscript wrapper; state froze at the
+    # last successful write). Same robustness family as r319.
+    s1 = {}
+    for p in procs:
+        try:
+            s1[p.pid] = sum(p.cpu_times()[:2])
+        except Exception:
+            pass
     time.sleep(window)
     delta = 0.0
     cores = psutil.cpu_count() or 1
