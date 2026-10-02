@@ -1405,6 +1405,27 @@ N1_BANDS = {
     # bands were never assigned).
     67: {"a": (177_004, 179_003), "b_exit": (50_201, 50_400),
          "engine_owner": "bm-b"},
+    # FIFTY-SEVENTH ENGINE-OWNED WAVE (r568 bm-a freeze): bm-a's
+    # sixteenth owned per machine-derive (engine_owner==bm-a
+    # rows 15 + candidate). Wave 68 = next free number after the
+    # registered W67 row (seat declared published=reserved
+    # MSG-20261002-1010-bma, r518-1 law). W1..W64 finalizes ALL
+    # LANDED (net head 505,348, K=138,720 -- W64 bm-a r568);
+    # W65 bm-b + W66 bm-c + W67 bm-b = THREE in-flight upstream
+    # seats at this freeze (finalize chain-pending
+    # FAIL-CLOSED r307). A = ARITHMETIC CONTINUATION from the
+    # W67 row tail, no skip: 179_004..181_003 (= W67 A end
+    # 179_003 + 1, CLEAN per the W67 row W68+ WARNING, machine
+    # re-derive r535 law). B = FORCED-SKIP past-hit restart:
+    # arithmetic 50_401..50_600 REFUSED by SEED_REGISTRY
+    # cta_p2_noau=50_500 (mid-band single-point machine-red,
+    # r307 W5 skip-is-forced precedent) -> first clean window
+    # 50_501..50_700 (== the W67 row W68+ published projection
+    # verbatim; W26 r335 precedent family). ADMIT receipt
+    # results/_r568bma_w68_band_gate.py; NOT a re-pick (R250:
+    # W68 bands were never assigned).
+    68: {"a": (179_004, 181_003), "b_exit": (50_501, 50_700),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
