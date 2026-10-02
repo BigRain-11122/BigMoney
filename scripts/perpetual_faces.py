@@ -1736,6 +1736,35 @@ N1_BANDS = {
     # were never assigned).
     80: {"a": (203_004, 205_003), "b_exit": (53_601, 53_800),
          "engine_owner": "bm-c"},
+    # SEVENTIETH ENGINE-OWNED WAVE (r574 bm-a freeze): bm-a's
+    # twentieth owned per machine-derive (engine_owner==bm-a
+    # rows 19 + candidate). Wave 81 = first free number after the
+    # registered W80 row (r511 tail-lock, fetch-checked vacancy;
+    # seat published=reserved MSG-20261002-1210-bma PUSHED to
+    # origin before this freeze per r565 early-visibility law,
+    # commit b38c8e64a).
+    # W1..W79 finalizes ALL LANDED (net head 538,348, K=171,720,
+    # W79 bm-b r574 this window; chain W1..W79 fully landed);
+    # W80 bm-c (burn in flight) = ONE in-flight upstream seat at
+    # this freeze (finalize chain-pending FAIL-CLOSED r307).
+    # A SIDE ARITHMETIC CONTINUATION from the W80 row tail, zero
+    # skip: A 205_004..207_003 (= W80 A end
+    # 205_003 + 1) CLEAN. B SIDE FORCED SKIP at the arithmetic
+    # position 53_801..54_000 which is REFUSED at SEED_REGISTRY
+    # t18_deep_axis=54_000 (band UPPER-EDGE endpoint) -> hit+1
+    # restart B 54_001..54_200; BOTH READINGS CONVERGE at the
+    # edge endpoint (W74-B 52_000 family; no fork face,
+    # F-20261002-03 not triggered).
+    # Machine-verified at prereg time
+    # (results/_r574bma_w81_band_gate.py ADMIT receipt vs the
+    # 78-row pre-W81 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). W82+ gate projection: A
+    # 207_004..209_003 CLEAN; B 54_201..54_400 CLEAN.
+    # NOT a re-pick (R250: W81 bands were never assigned).
+    81: {"a": (205_004, 207_003), "b_exit": (54_001, 54_200),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
