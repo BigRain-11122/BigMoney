@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-02",
- "generated_at": "2026-10-02 19:18:29",
+ "generated_at": "2026-10-02 19:32:45",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -300,19 +300,19 @@
   "commits_24h": 740,
   "result_jsons_landed_24h": 69,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 104,
+  "prereg_md_touched_24h": 103,
   "compute_audit_latest": {
-   "ts": "2026-10-02 19:17:00",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-10-02 19:30:52",
+   "py_cpu_pct": 2.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -611,11 +611,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1094489,
+  "total_report_tokens_est": 1094153,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-02 18:51:15",
+   "prev_generated": "2026-10-02 19:04:59",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 968,
+   "report_tokens_growth": -336,
    "mandate_growth": 0
   },
   "method": {
@@ -688,17 +688,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-02 19:17:00",
-    "py_pct": 0.3,
-    "cpu_pct": 52.0,
+    "latest_ts": "2026-10-02 19:30:52",
+    "py_pct": 2.1,
+    "cpu_pct": 10.0,
     "ready": 0,
-    "streak_min": 459.4,
+    "streak_min": 473.2,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:53",
-      0.0
-     ],
      [
       "16:09",
       0.0
@@ -742,9 +738,13 @@
      [
       "19:17",
       0.3
+     ],
+     [
+      "19:30",
+      2.1
      ]
     ],
-    "today_samples": 53,
+    "today_samples": 54,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -835,19 +835,19 @@
     }
    },
    "bm-b": {
-    "batches_judged": 366,
-    "core_seconds": 58621.0,
-    "wall_seconds": 9555.7,
-    "effective_cores": 6.13,
+    "batches_judged": 375,
+    "core_seconds": 60043.0,
+    "wall_seconds": 9786.6,
+    "effective_cores": 6.14,
     "single_core_burn": 0,
-    "multicore_burn": 366,
+    "multicore_burn": 375,
     "too_short": 0,
-    "last_ts": "2026-10-02T19:18:29+08:00",
+    "last_ts": "2026-10-02T19:29:29+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 27,
-     "audit_ts": "2026-10-02 19:17:00"
+     "audit_batches": 30,
+     "audit_ts": "2026-10-02 19:30:52"
     }
    },
    "bm-c": {
