@@ -70,11 +70,24 @@
 
 ## §7 跑后实证【跑前必须为空——写数字即造假】
 
-（占位——冻结后烧录+finalize 回填；一次定稿）
+- finalize 实况：2026-10-03 03:37 bm-c（r395 会话 `finalize --wave r2`·r396 恢复轮交付 commit）；6 员全 judged·engine_cells=150（6 center 复演+144 窗）·window_cells=144·evidence_cutoff=2026-09-22。
+- 中心复演锚门：**6/6 PASS**（R1 checkpoint 逐位恒等·确定性律）。
+- 起点红点条款（red=window_sharpe≤员判读线·pass=red×2≤24）：COMPOSITE-CE-01 0/24 ✓·COMPOSITE-CE-02 0/24 ✓·DROUGHT-CE-01 1/24 ✓·ENGULF-CE-01 **24/24 ✗**（唯一 red_point_pass=false·red×2=48>24）·NEEDLE-DE-01 8/24 ✓·VOLATILITY-CE-01 0/24 ✓——红点通过 5/6·全窗红点 33/144。
+- worst-start 应力读数（w_s@起点·窗日数·maxdd）：COMPOSITE-01 0.6497@2025Q4·235d·-0.0474｜COMPOSITE-02 0.8966@2021Q3·1269d·-0.1179｜DROUGHT 0.4313@2021Q1·1387d·-0.053｜ENGULF -1.1733@2025Q4·235d·-0.0498｜NEEDLE -0.2254@2025Q4·235d·-0.0278｜VOLATILITY 0.912@2025Q4·235d·-0.0113。
+- 2020Q1 极端窗（含 2020-03 熔断段）：maxdd=各员 24 窗最深（**6/6 rank=1/24 机证**·-0.1179..-0.0278）；2024Q4 窗（含 2025-01-19 极端溢价日·nd=479）maxdd 皆浅（-0.0113..-0.0735）——按分布界披露非裸 max 判门。
+- 账本：prev_total=615,348（w114 后链头·与本件 total−batch=615,492−144 自洽）+144=**615,492**（`science_gates.append_ledger` dict schema·VOID 既往 LOWAMP-P1/P2 照录）。重跑核验（r538 坑）：r394 首跑 03:03-03:09 写 6 员件后猝死·r395 03:37 重跑覆写同产物——prev derive 实测 615,348 未计自产件=**零双计**；确定性律下科学 payload 字节恒等（差异仅 generated ts）。
+- 产物：`results/perpetual_faces/n3_r2_results.json`（finalize 合并件）+`results/perpetual_faces/n3_r2/<ID>.json` 6 员 pack；池 6/6 done 翻面已由引擎 harvest 落 origin（本 finalize 免池手术）。
 
 ## §8 批后复盘【必填·s7-T·跑后回填】
 
-（占位——预测对账 5 条+全起点分布读数+回执入轮报告+CODELY.md 行级追加）
+预测对账（§5 五条·2026-10-03 r396 回填）：
+1. **中**——中心复演锚门 6/6 PASS（确定性律复现事实）。
+2. **中（逐位）**——VOLATILITY-CE-01 全起点分布 best 1.9888/worst 0.912@2025Q4/p25 1.2196/median 1.4391/p75 1.7174·红点 0/24，与冻结前 probe 披露逐位一致。
+3. **中**——低换手族多数起点过线（五员 red 0/0/1/8/0·red×2≤24 全过）；ENGULF 起点红点率显著高于他员（24/24 全红=唯一红点条款未过员）——双半全中。
+4. **部分中**——近段短窗类 4/6 命中（2025Q4@235d：COMPOSITE-01/ENGULF/NEEDLE/VOLATILITY）；熊市段类 1/6 命中（DROUGHT@2021Q1）；COMPOSITE-02@2021Q3=类外早段长窗（非 2021Q1/2022Q1 字面类）如实注记。
+5. **中（强）**——2020Q1 窗 maxdd=6/6 员全窗最深（rank 1/24）·疫情熔断段先验强成立；2024Q4 窗极端日按分布界披露（maxdd 皆浅）。
+
+复盘结论：5 预测=4 全中+1 部分中、零翻车；ENGULF-CE-01 起点面全红与 R1 邻域 1/2 红先验交叉印证（小样本脆弱成员双应力面一致）——窗读出零状态触碰（月界注册管线独占），测量加深面证据链闭合。全起点分布读数载 §7 与 results/perpetual_faces/n3_r2_results.json；回执=round_reports-bm-c.md r396 行+CODELY.md 行级追加（本 commit 同窗）。
 
 ## 冻结签名（FROZEN——五条件达成回填）
 

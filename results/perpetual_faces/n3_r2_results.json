@@ -1,0 +1,175 @@
+{
+ "batch": "PERPETUAL-N3-R2",
+ "ticket": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115; response to the bm-b MSG-2026-10-03-0016 seat invite)",
+ "prereg": "research/PERPETUAL_N3_R2_PREREG.md",
+ "generated": "2026-10-03T03:37:51+08:00",
+ "members": 6,
+ "complete": true,
+ "engine_cells": 150,
+ "window_cells": 144,
+ "packs": [
+  {
+   "member": "COMPOSITE-CE-01",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 0,
+   "red_point_pass": true,
+   "start_distribution": {
+    "best": 1.3831,
+    "worst": 0.6497,
+    "p25": 0.9785,
+    "median": 1.0366,
+    "p75": 1.2164,
+    "worst_start": "2025Q4"
+   },
+   "worst_start": {
+    "start": "2025Q4",
+    "start_date": "2025-10-09",
+    "window_sharpe": 0.6497,
+    "n_days": 235,
+    "max_dd": -0.0474
+   }
+  },
+  {
+   "member": "COMPOSITE-CE-02",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 0,
+   "red_point_pass": true,
+   "start_distribution": {
+    "best": 1.92,
+    "worst": 0.8966,
+    "p25": 0.9781,
+    "median": 1.4704,
+    "p75": 1.7367,
+    "worst_start": "2021Q3"
+   },
+   "worst_start": {
+    "start": "2021Q3",
+    "start_date": "2021-07-01",
+    "window_sharpe": 0.8966,
+    "n_days": 1269,
+    "max_dd": -0.1179
+   }
+  },
+  {
+   "member": "DROUGHT-CE-01",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 1,
+   "red_point_pass": true,
+   "start_distribution": {
+    "best": 1.2407,
+    "worst": 0.4313,
+    "p25": 0.825,
+    "median": 0.9336,
+    "p75": 0.9938,
+    "worst_start": "2021Q1"
+   },
+   "worst_start": {
+    "start": "2021Q1",
+    "start_date": "2021-01-04",
+    "window_sharpe": 0.4313,
+    "n_days": 1387,
+    "max_dd": -0.053
+   }
+  },
+  {
+   "member": "ENGULF-CE-01",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 24,
+   "red_point_pass": false,
+   "start_distribution": {
+    "best": 0.4431,
+    "worst": -1.1733,
+    "p25": 0.153,
+    "median": 0.2585,
+    "p75": 0.3133,
+    "worst_start": "2025Q4"
+   },
+   "worst_start": {
+    "start": "2025Q4",
+    "start_date": "2025-10-09",
+    "window_sharpe": -1.1733,
+    "n_days": 235,
+    "max_dd": -0.0498
+   }
+  },
+  {
+   "member": "NEEDLE-DE-01",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 8,
+   "red_point_pass": true,
+   "start_distribution": {
+    "best": 0.5467,
+    "worst": -0.2254,
+    "p25": 0.2411,
+    "median": 0.4167,
+    "p75": 0.4707,
+    "worst_start": "2025Q4"
+   },
+   "worst_start": {
+    "start": "2025Q4",
+    "start_date": "2025-10-09",
+    "window_sharpe": -0.2254,
+    "n_days": 235,
+    "max_dd": -0.0278
+   }
+  },
+  {
+   "member": "VOLATILITY-CE-01",
+   "status": "judged",
+   "anchor_pass": true,
+   "n_windows": 24,
+   "red_windows": 0,
+   "red_point_pass": true,
+   "start_distribution": {
+    "best": 1.9888,
+    "worst": 0.912,
+    "p25": 1.2196,
+    "median": 1.4391,
+    "p75": 1.7174,
+    "worst_start": "2025Q4"
+   },
+   "worst_start": {
+    "start": "2025Q4",
+    "start_date": "2025-10-09",
+    "window_sharpe": 0.912,
+    "n_days": 235,
+    "max_dd": -0.0113
+   }
+  }
+ ],
+ "subleg_counts": {
+  "anchor_pass": 6,
+  "red_point_pass": 5,
+  "windows_total": 144,
+  "windows_red": 33
+ },
+ "trials_ledger": {
+  "prev_total": 615348,
+  "batch_trials": 144,
+  "total": 615492,
+  "batch": "PERPETUAL-N3-R2",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "perpetual_faces/n3_r2_results.json",
+  "note": "N3-R2 time-start robustness grid on 6 registered members: 144 quarter-start window readouts all new evidence (pure-math strict-tail slices of the center equity curves; derived-face nature disclosed per prereg sec.0); 6 centers = R1 checkpoint replays (+0); zero new seed bands; measurement-deepening face, no registration claim",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "audit": {
+  "ledger_trials_added": 144,
+  "ledger_head_after": 615348,
+  "note": "N3 measurement-deepening wave-2 (time-interval start-point stress); three-state registration verdicts N/A per prereg sec.4; window readouts never change member status (month-boundary registration pipeline owns that face)"
+ },
+ "evidence_cutoff": "2026-09-22"
+}
