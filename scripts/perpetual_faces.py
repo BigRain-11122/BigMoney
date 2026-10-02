@@ -1709,6 +1709,33 @@ N1_BANDS = {
     # bands were never assigned).
     79: {"a": (201_004, 203_003), "b_exit": (53_401, 53_600),
          "engine_owner": "bm-b"},
+    # SIXTY-NINTH ENGINE-OWNED WAVE (r364 bm-c freeze): bm-c's
+    # twenty-fifth owned per machine-derive (engine_owner==bm-c
+    # rows 24 + candidate). Wave 80 = first free number after the
+    # registered W79 row (r511 tail-lock, fetch-checked vacancy;
+    # seat published=reserved MSG-20261002-1204-bmc PUSHED to
+    # origin before this freeze per r565 early-visibility law,
+    # commit 31db49798).
+    # W1..W78 finalizes ALL LANDED (net head 536,148, K=169,520,
+    # W78 bm-c r364 this window -- dead-r363 heritage closed);
+    # W79 bm-b (burn in flight) = ONE in-flight upstream seat at
+    # this freeze (finalize chain-pending FAIL-CLOSED r307).
+    # BOTH SIDES ARITHMETIC CONTINUATION from the W79 row tail,
+    # zero skip: A 203_004..205_003 (= W79 A end 203_003 + 1)
+    # CLEAN + B 53_601..53_800 (= W79 B end 53_600 + 1) CLEAN
+    # (single reading, no fork face, F-20261002-03 not triggered;
+    # j13v2_mill pair 53_000/53_100 BELOW the B window).
+    # Machine-verified at prereg time
+    # (results/_r364bmc_w80_band_gate.py ADMIT receipt vs the
+    # 77-row pre-W80 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). W81+ gate projection: A
+    # 205_004..207_003 CLEAN; B 53_801..54_000 REFUSED at
+    # SEED_REGISTRY 54_000. NOT a re-pick (R250: W80 bands
+    # were never assigned).
+    80: {"a": (203_004, 205_003), "b_exit": (53_601, 53_800),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
