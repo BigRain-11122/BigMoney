@@ -71,9 +71,11 @@
   "61": 12,
   "62": 12,
   "63": 12,
-  "64": 4,
-  "65": 9,
-  "66": 12
+  "64": 12,
+  "65": 12,
+  "66": 12,
+  "67": 10,
+  "68": 0
  },
  "wave_complete_flags": [
   2,
@@ -137,6 +139,8 @@
   61,
   62,
   63,
+  64,
+  65,
   66
  ],
  "queue_next": [],
@@ -1543,12 +1547,12 @@
   }
  ],
  "burns_active": [],
- "cycle": 103,
- "heartbeat_epoch": 1790904642,
- "last_cycle_ts": "2026-10-02T09:30:42",
- "py_cpu_pct": 0.17,
- "machine_cpu_pct": 1.2,
- "done_count": 757,
+ "cycle": 17,
+ "heartbeat_epoch": 1790905955,
+ "last_cycle_ts": "2026-10-02T09:52:35",
+ "py_cpu_pct": 0.41,
+ "machine_cpu_pct": 0.1,
+ "done_count": 778,
  "quarantined": [
   [
    12,
@@ -1574,8 +1578,8 @@
   "63:1": 2
  },
  "sync": {
-  "last_epoch": 1790904642,
-  "remote_done_count": 745,
+  "last_epoch": 1790905955,
+  "remote_done_count": 778,
   "err": null
  },
  "completed": [
@@ -4031,8 +4035,8 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 4,
-    "remote_done": 4
+    "local_done": 12,
+    "remote_done": 12
    }
   },
   {
@@ -4048,8 +4052,8 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 9,
-    "remote_done": 9
+    "local_done": 12,
+    "remote_done": 12
    }
   },
   {
@@ -4066,6 +4070,40 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 67,
+   "a_band": [
+    177004,
+    179003
+   ],
+   "b_exit_band": [
+    50201,
+    50400
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 10,
+    "remote_done": 10
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 68,
+   "a_band": [
+    179004,
+    181003
+   ],
+   "b_exit_band": [
+    50501,
+    50700
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 0,
     "remote_done": 0
    }
   }
