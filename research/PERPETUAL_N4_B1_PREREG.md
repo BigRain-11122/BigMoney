@@ -7,9 +7,12 @@
 > 面性质（法 §2 L24）：N4=**测量加深面**（对既有族重新测量）——产物=更深置信面非新注册件，
 > 不入候选漏斗，不占语法消耗登记簿行；D6 同族拒收门与去重门只约束候选判决面（N2），
 > N4 免 D6 准入（法内豁免行如实引用）。
-> runner：scripts/perpetual_faces_n4.py（**未落地**——B1=首件：resample 层新写 +
-> engine/run_backtest 同源回放，canon §2 N4 行；本 DRAFT=机制规格+种子带位先行，
-> runner 骨架=下一窗）。
+> runner：scripts/perpetual_faces_n4.py（**骨架已落地 r601 bm-a**：resample 层
+> （circular moving-block bootstrap·交集轴默认）+ 同源回放（live.paper
+> SIGNAL_BUILDERS/ExitPatch/build_panels+engine.run_backtest 零重实现）+ probe/status/
+> selftest/run 腿；selftest 10/10 PASS + probe 六员真引擎冒烟 1.34s 墙钟
+> （receipt results/perpetual_faces/n4_b1/probe.json）；cmd_run 带 DRAFT 标记机械拒烧
+> （R99/R250 冻结前零 burn）；冻结时 PINNED-L 写入本件 §1 由 runner fail-closed 读取）。
 
 ## 冻结门（条件，冻结 commit 前逐条机证）
 
@@ -38,8 +41,22 @@
 
 ## §2 数据与面板【跑前探针事实，非结果】
 
-- 面板：五员 ETF 日线（data/daily/sh*.csv，O-1555 冻结宇宙）+ core48——**OPEN：探针腿
-  下一窗落地**（T=bar 数/块长分布/重放时长实读，N2-W15 §2 同法钉死后回填此节）。
+- 面板：core48 在役面板（live.paper.load_core·RW-4 门内建）截断 evidence_cutoff
+  2026-09-22（前向不改史=构造性）。**探针腿已落地（r601 bm-a·receipt
+  results/perpetual_faces/n4_b1/probe.json·out-of-band 种子 95_006·零带位消耗）**：
+  - **轴策略（OPEN 钉点·冻结时按事实钉死）**：交集轴 T=**797** bars
+    （2023-06-13..2026-09-22·48 符号全上市共同纪元·零 NaN 面污染）vs 并集轴
+    T=1,630（全史·晚上市员前段缺行=NaN 掩码面复杂度+平段伪影）。探针按交集轴
+    实跑；冻结 commit 钉死轴选择入本节。
+  - 块长分布事实（等权日收益 ACF·白噪带 ±0.0709）：lag1=-0.036 / lag4=+0.102 /
+    lag5=-0.080 / lag9=+0.083——带内候选 L=2,3,6,7,8,10..14；**L 冻结值从本表
+    选定写死 §1**（探针默认 L=20 为事实采集面非冻结值）。
+  - 重放时长实读：六员单宇宙 0.137-0.266s/员（六员一遍墙钟 1.34s·真引擎
+    run_backtest·X1 费率咬合真=engine FeeSchedule 默认==cost_spec.X1_RATE）；
+    K=200 提案面单员全宇宙烧录预估 ~40-55s（冻结时按 K 终值复算预算）。
+  - 六员冒烟（L=20·seed 95_006·同一宇宙配对设计）：全六员真引擎回放产出真
+    trades（23-312 笔）与指标——交替宇宙面成立（负 Sharpe 宇宙照产=测量面
+    诚实性实证，如 DROUGHT-CE-01 该宇宙 Sharpe=-0.72）。
 - 成员范围：六员在册（COMPOSITE-CE-01/02、DROUGHT-CE-01、ENGULF-CE-01、NEEDLE-DE-01、
   VOLATILITY-CE-01）——冻结时以注册面实读为准（成员增删=月界面，本波钉六员）。
 
