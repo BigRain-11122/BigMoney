@@ -99,9 +99,36 @@
   展行+R250 one-step）或止波（测量加深面无限深烧禁令·O-20260930-1901 意义门：
   满耗收口即家族面完备，无余尾即无 B4 时点）。
 
-## §6 跑后只许回填节（保留原冻结文本只增不改）
+## §6 跑后只许回填节（已回填 r609 bm-a·2026-10-03 05:4x·波 6/6 烧毕〔05:36→05:40
+tick 序贯+调度任务并行〕+finalize 面；保留原冻结文本只增不改）
 
-- （跑毕 finalize 后回填）
+- §6.1 实跑数字（K/L/时长/行数）：**K=99/员 × 6 员 = 594 B3 自有宇宙行**（每员
+  universes-<ID>.jsonl 99 行·k-set 0..98 完备；六分片 receipt shard-<i>-of-6.json
+  全过 _shard_valid·k_burned=99/99）；**L=10**（PINNED·B1 冻结值继承）；SatEngine
+  引擎车道六分片墙钟 **15.6-57.8s/片**（账本行已 flush 四片：05:36:05→05:37:04 /
+  05:37:05→05:37:36 / 05:37:36→05:38:04 / 05:38:05→05:38:22·片 4-5 账本行随引擎
+  缓冲后续 flush；点火窗 05:36→05:40=调度任务 tick 与会话 tick 序贯接力）；
+  finalize 3.8s（六员真史交集轴 center 回放 + science_gates verbatim import；池化
+  宇宙行 2,994 = B1 1,200 + B2 1,200 + B3 594·distinct-seed 499/员完备门全过〔不等
+  K 池化 k_eff=99+200+200=499·S20 腿机证的逐波和算法〕）。
+- §6.2 置信面产物指针：**results/perpetual_faces/n4_b3_results.json**（§4 五产物齐：
+  池化 **K_eff=499** k_universe_sharpe 主面〔家族窗满耗收口面〕+ wave_local 99 波内
+  拆分 + pooled maxdd/ann/ntrades 加深轴 + bootstrap_ci_sharpe（seed 69_000·**与
+  B1/B2 逐字同值=确定性同值重发机证**）+ dsr_from_stats（sr=center 回放 Sharpe·
+  sigma=池化 499 宇宙样本 std·**n_trials=K_eff=499**））；分片 receipts=
+  results/p2cal_ext/n4_b3/shard-<i>-of-6.json × 6；宇宙行=results/perpetual_faces/
+  n4_b3/universes-<ID>.jsonl × 6；引擎账本行=results/saturation_engine/
+  ledger_bm-a.jsonl（face=N4·key n4B3-<i>of6）。
+  **诚实读数**（测量加深面·§4 冻结=零 pass/fail 晋升线·判读归月界科学面）：真史
+  center 回放 bootstrap CI95 下界>0 者=COMPOSITE-CE-01（+0.153）与 VOLATILITY-CE-01
+  （+0.414）两员（与 B1/B2 同两员·同值=seed 69_000 确定性重发）；其余四员跨零
+  （CE-02 −0.108 / DROUGHT −0.020 / ENGULF −1.161 / NEEDLE −0.721·四值与 B1/B2
+  逐字恒等）；池化 499 宇宙分布 CI95 下界六员全负（−0.363..−1.048·较 B2 面
+  −0.318..−1.071 微幅收紧·平行宇宙脆弱性如实披露）；正值占比 CE-02 0.9018 /
+  CE-01 0.8998 / VOLATILITY 0.8016 / NEEDLE 0.6172 / ENGULF 0.5932 / DROUGHT
+  0.523；DSR 六员 0.0012-0.0019（K_eff=499 试验数下较 B2 面 0.0015-0.0024 更深度
+  紧缩面如实产出）。**家族窗满耗收口披露**：gen 68_501..68_999 全 499 值已烧尽
+  （B1 200+B2 200+B3 99），N4 家族窗零余尾——后续深烧须新家族窗登记（§5 B4+ 行）。
 
 ## 冻结门（条件，冻结 commit 前逐条机证）——**五条件全过（r609 bm-a·2026-10-03 05:3x-05:4x）**
 

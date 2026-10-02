@@ -3,8 +3,37 @@
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
  "active": [],
- "ledger_buffer": [],
- "last_flush_at": "2026-10-03T04:51:04+08:00",
+ "ledger_buffer": [
+  {
+   "machine_id": "bm-a",
+   "face": "N4",
+   "wave": "B3",
+   "batch": "PERPETUAL-N4-B3",
+   "shard": 4,
+   "nshards": 6,
+   "key": "n4B3-4of6",
+   "pid": 85684,
+   "started_at": "2026-10-03T05:38:22+08:00",
+   "done_at": "2026-10-03T05:39:04+08:00",
+   "done_epoch": 1790977142,
+   "elapsed_sec": 40.7
+  },
+  {
+   "machine_id": "bm-a",
+   "face": "N4",
+   "wave": "B3",
+   "batch": "PERPETUAL-N4-B3",
+   "shard": 5,
+   "nshards": 6,
+   "key": "n4B3-5of6",
+   "pid": 20388,
+   "started_at": "2026-10-03T05:39:05+08:00",
+   "done_at": "2026-10-03T05:40:04+08:00",
+   "done_epoch": 1790977202,
+   "elapsed_sec": 57.8
+  }
+ ],
+ "last_flush_at": "2026-10-03T05:38:22+08:00",
  "crashes": {
   "n1w47-8of12": 1,
   "n1w77-1of12": 1,
@@ -13,17 +42,17 @@
   "n4B1-0of6": 1,
   "n4B2-0of6": 1
  },
- "shards_done_total": 456,
- "last_shard_done_at": "2026-10-03T04:51:04+08:00",
+ "shards_done_total": 462,
+ "last_shard_done_at": "2026-10-03T05:40:04+08:00",
  "last_tick": {
-  "ts": "2026-10-03T05:22:05+08:00",
-  "epoch": 1790976122,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 51.80647659301758,
+  "ts": "2026-10-03T05:41:05+08:00",
+  "epoch": 1790977262,
+  "py_cpu_pct": 2.7,
+  "ram_free_gb": 51.903350830078125,
   "verdict": "idle",
   "active_n": 0,
   "queue_depth": 0,
-  "elapsed_sec": 2.3
+  "elapsed_sec": 2.4
  },
  "skips": [],
  "queue": []
