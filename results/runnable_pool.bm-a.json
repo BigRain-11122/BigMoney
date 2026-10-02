@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool",
      "owner": "bm-b",
-     "owner_since": "2026-10-03 06:18:07"
+     "owner_since": "2026-10-03 06:44:08"
     }
    ],
    "workers_plan": {
@@ -13736,6 +13736,136 @@
    },
    "done_by": "bm-a",
    "done_at": "2026-10-03 03:10:39"
+  },
+  {
+   "id": "FUND-QUALITY-P1-CELL-QUALITYROE-X1",
+   "ticket_ref": "T-2026-10-03-153-P1 (O-20261002-2115 fundamental quality NEW FAMILY second piece, monthly cross-sectional Top-20 highest statutory-anchored roe_q; prereg FROZEN bm-b r606; ignition gates ALL GREEN r606: TRANSFER T-152 PASS 7/7 sha256 ef35c733..acf9735 + probe leg1-4 GREEN (amended dual gate median 52>=50 p10 26>=20, dup period_end 0) + D6 ADMIT max|corr|=0.2407 + banned_direction_gate ADMIT rc0 + selftest ALL PASS)",
+   "prereg_ref": "research/FUND-QUALITY-P1.md FROZEN (judged cells QUALITY-ROE x faces x1/x2 + nulls 2000 rng([20510000,k]) + sens 500 rng([20510500,k]); evidence_cutoff 2026-09-22 D2 lockbox; t0=2001-09-03 frozen; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds band-extent-checked vs furnace [20333000,20445400) r601 probe leg4)",
+   "runner": "scripts/fund_quality_p1.py",
+   "runner_args": [
+    "run",
+    "--cell",
+    "QUALITY-ROE",
+    "--face",
+    "x1"
+   ],
+   "shards": [
+    {
+     "key": "fund-quality-p1-cell-qualityroe-x1-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "401 census starts (G-CENSUS bit-exact) full-window judged cell, t0=2001-09-03 pre-t0 flat, hold-through exit axis, checkpoint done-key skip; cont face; x1 cost 13.041bp/edge",
+     "owner": "bm-b",
+     "owner_since": "2026-10-03 06:44:25"
+    }
+   ],
+   "workers_plan": {
+    "workers": 32,
+    "priority": "BelowNormal"
+   },
+   "status": "ready",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock",
+     "pattern": "*.npy"
+    }
+   ]
+  },
+  {
+   "id": "FUND-QUALITY-P1-CELL-QUALITYROE-X2",
+   "ticket_ref": "T-2026-10-03-153-P1 (O-20261002-2115 fundamental quality NEW FAMILY second piece, monthly cross-sectional Top-20 highest statutory-anchored roe_q; prereg FROZEN bm-b r606; ignition gates ALL GREEN r606: TRANSFER T-152 PASS 7/7 sha256 ef35c733..acf9735 + probe leg1-4 GREEN (amended dual gate median 52>=50 p10 26>=20, dup period_end 0) + D6 ADMIT max|corr|=0.2407 + banned_direction_gate ADMIT rc0 + selftest ALL PASS)",
+   "prereg_ref": "research/FUND-QUALITY-P1.md FROZEN (judged cells QUALITY-ROE x faces x1/x2 + nulls 2000 rng([20510000,k]) + sens 500 rng([20510500,k]); evidence_cutoff 2026-09-22 D2 lockbox; t0=2001-09-03 frozen; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds band-extent-checked vs furnace [20333000,20445400) r601 probe leg4)",
+   "runner": "scripts/fund_quality_p1.py",
+   "runner_args": [
+    "run",
+    "--cell",
+    "QUALITY-ROE",
+    "--face",
+    "x2"
+   ],
+   "shards": [
+    {
+     "key": "fund-quality-p1-cell-qualityroe-x2-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "401 census starts (G-CENSUS bit-exact) full-window judged cell, t0=2001-09-03 pre-t0 flat, hold-through exit axis, checkpoint done-key skip; cont face; x2 cost-stress 26.082bp/edge",
+     "owner": "bm-a",
+     "owner_since": "2026-10-03 06:50:07"
+    }
+   ],
+   "workers_plan": {
+    "workers": 32,
+    "priority": "BelowNormal"
+   },
+   "status": "ready",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock",
+     "pattern": "*.npy"
+    }
+   ]
+  },
+  {
+   "id": "FUND-QUALITY-P1-NULLS",
+   "ticket_ref": "T-2026-10-03-153-P1 (O-20261002-2115 fundamental quality NEW FAMILY second piece, monthly cross-sectional Top-20 highest statutory-anchored roe_q; prereg FROZEN bm-b r606; ignition gates ALL GREEN r606: TRANSFER T-152 PASS 7/7 sha256 ef35c733..acf9735 + probe leg1-4 GREEN (amended dual gate median 52>=50 p10 26>=20, dup period_end 0) + D6 ADMIT max|corr|=0.2407 + banned_direction_gate ADMIT rc0 + selftest ALL PASS)",
+   "prereg_ref": "research/FUND-QUALITY-P1.md FROZEN (judged cells QUALITY-ROE x faces x1/x2 + nulls 2000 rng([20510000,k]) + sens 500 rng([20510500,k]); evidence_cutoff 2026-09-22 D2 lockbox; t0=2001-09-03 frozen; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds band-extent-checked vs furnace [20333000,20445400) r601 probe leg4)",
+   "runner": "scripts/fund_quality_p1.py",
+   "runner_args": [
+    "run",
+    "--nulls"
+   ],
+   "shards": [
+    {
+     "key": "fund-quality-p1-nulls-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool"
+    }
+   ],
+   "workers_plan": {
+    "workers": 32,
+    "priority": "BelowNormal"
+   },
+   "status": "ready",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock",
+     "pattern": "*.npy"
+    }
+   ]
+  },
+  {
+   "id": "FUND-QUALITY-P1-SENS",
+   "ticket_ref": "T-2026-10-03-153-P1 (O-20261002-2115 fundamental quality NEW FAMILY second piece, monthly cross-sectional Top-20 highest statutory-anchored roe_q; prereg FROZEN bm-b r606; ignition gates ALL GREEN r606: TRANSFER T-152 PASS 7/7 sha256 ef35c733..acf9735 + probe leg1-4 GREEN (amended dual gate median 52>=50 p10 26>=20, dup period_end 0) + D6 ADMIT max|corr|=0.2407 + banned_direction_gate ADMIT rc0 + selftest ALL PASS)",
+   "prereg_ref": "research/FUND-QUALITY-P1.md FROZEN (judged cells QUALITY-ROE x faces x1/x2 + nulls 2000 rng([20510000,k]) + sens 500 rng([20510500,k]); evidence_cutoff 2026-09-22 D2 lockbox; t0=2001-09-03 frozen; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds band-extent-checked vs furnace [20333000,20445400) r601 probe leg4)",
+   "runner": "scripts/fund_quality_p1.py",
+   "runner_args": [
+    "run",
+    "--sensitivity"
+   ],
+   "shards": [
+    {
+     "key": "fund-quality-p1-sens-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "K=500 space-filling draws over N{10,15,20}/roe_cap{50,100} rule=roe fixed, rng([20510500,k]); descriptive face only, no verdict"
+    }
+   ],
+   "workers_plan": {
+    "workers": 32,
+    "priority": "BelowNormal"
+   },
+   "status": "ready",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock",
+     "pattern": "*.npy"
+    }
+   ]
   }
  ],
  "lane_machine": "bm-a"
