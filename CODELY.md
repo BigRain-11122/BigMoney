@@ -74,3 +74,4 @@
 
 
 - [2026-10-02 23:0x r387 bm-c] GM CAS 直投×tick 本地 commit 双落竞态坑（O-2150/2155/2158 三令同窗实弹·零损失治愈）：猝死 tick 把 GM 落盘的 CEO 令各自 commit 成本地未推 commit（4 个），同窗 GM 已 CAS 直投同内容上 origin（blob 恒等·T-147 未碰）→本地=陈旧孪生（其中一笔把 T-147 误改为大赛票+删除意图未 commit 滞留）；正法=轮首见 ahead>0 先 blob 恒等核 origin 再定性→r589 撤-FF-重落环弃孪生+T-147 checkout 还原 origin 正身。连带收编坑=猝死窗拆件半成品宣称「逐字节恒等零丢失」实为 27 逐字+1 空白变体+1 目标件截断（r509 缺 1,428B→回改 origin-verbatim）+1 丢行（r596 落 origin 晚于拆件快照→r595 律回插原锚位）——收编任何迁移/拆件半成品必跑行集双向差集探针勿信宣称账目（增注已落件内）。How to apply：轮首未推 commit 先核孪生再处置；半成品收编以探针 PASS 为准。
+- [2026-10-02 23:2x r387 bm-c] r595 复犯+pre-push 爪 inbox 白名单互作用坑（MSG-2230 误删实弹·当场复原）：reset --mixed 重锚后『origin 新增而本盘缺席』件呈 D 伪影——收口脚本 status 驱动 extras 盲收 D 行 restage 成删除提交，爪按 fleet/inbox/ 移动白名单放行（inbox 删除∈白名单域未配对验移动完整性）=他机消息被误删上 origin；发现面=T-148 让路核查时读 origin 实况。修法=c864b758e verbatim 复原回 inbox+extras 收集禁盲收 D 行（本机不属主 D=伪影必恢复·r595 律执行面）+爪建议：inbox 删除集须配对 processed/ 同名新增才放行。How to apply：重锚后 status 驱动 add 一律先验每条 D 行属主与 origin 在场性；收口后抽查 origin inbox 在场性。

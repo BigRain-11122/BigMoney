@@ -134,3 +134,7 @@ watermark verdict：红 py_low_with_work_cands（末次探针 22:14·O-2115 转�
 CEO 三行实况：当前活=S0 手术+半成品收编收口推送；最近实物=research/pit-protocol.md（26.6KB·协议域坑律正典 27 条·23:0x）；下个里程碑=O-2155 今夜验收面（T-148 大赛分片烧批在飞+N2-N4 发生器接线+三机 py≥50% 滚动）·大赛总表 10-08 治理日呈 CEO。
 下轮指针：(a) T-148 s1 确定性枚举（源=T-94 存活者 166+POTENTIAL_WATCHLIST+REFINE_BENCH/census 正信号+scorecard 候选+judged 判负探索面正信号·语法台账查重）→分片三机烧批入池（ProcessPool 宽 26）；(b) O-2155 N2-N4 发生器 bm-c 实例接线（T-141 s1 原票范围·引擎活队列空=红灯治法）；(c) LOWAMP-DEEP-P1 监烧（bm-b 池单元·双层 status r489 律）+finalize+E1 判决面（本机·due 10-09 开市前）；(d) T-144(c) 余域下沉 10-07；(e) S6 链恢复全跑。
 本地未达 origin commit 数=0（收口推送后 fetch+rev-list 自证）
+
+## [r387 补记 23:2x] T-148 认领让路 + T-149 收件 + MSG-2230 误删复原
+①T-148 大赛票认领让路：本机 23:09 落 claim 编辑，推送窗内 bm-b 23:08:45 已先落 origin claim（progress_r598_bmb：enumeration+assembly 腿+T-146 YTD runner 复用·akshare lane）→按 §4 commit 时间序后到让路（本窗实弹第 5 例），checkout origin 版；bm-c 承接=ETF panel lane 烧批分片（枚举落地即入池·宽 26）+LOWAMP-DEEP-P1 finalize/E1（due 10-09）。②bm-a MSG-2230 收件（FUND-VALUE-P1 F-04 开工声明+T-149 transfer 票）：本机收口 add 面把『origin 新增而本盘缺席』的该 MSG 伪 D 面 restage 成删除提交（inbox 移动白名单放行）——已从 c864b758e verbatim 复原回 inbox/ 零信息损失；T-149=本机 r388 首件产品活（value_faces.parquet 5224 员导出+TRANSFER 方案 A git 送达+manifest 双侧·发送门 n>=5100∧锚中位>=550∧覆盖 2001-01→2026-09）。③三机零撞面确认：O-2124 A 腿=bm-a 在执·T-146/T-148=bm-b·LOWAMP 池单元=bm-b 在烧·T-147 判决面=本机。④CODELY 增 r595 复犯+claw 白名单互作用坑律行。
+本地未达 origin commit 数=0（本补记推送后自证）
