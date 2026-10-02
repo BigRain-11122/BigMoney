@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-03 02:00:00",
+ "updated_at": "2026-10-03 03:02:13",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -13361,28 +13361,27 @@
    "shards": [
     {
      "key": "fund-value-p1-cell-valuepb-x1-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "401 census starts (G-CENSUS bit-exact) full-window judged cells, t0=1994-05-03 pre-t0 flat, hold-through exit axis, checkpoint done-key skip; cont face per cell-face",
      "owner": "bm-a",
-     "owner_since": "2026-10-03 03:02:03"
+     "owner_since": "2026-10-03 03:08:03",
+     "claimed_since": "2026-10-03 03:02:03",
+     "done_at": "2026-10-03 03:08:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "fund-value-p1-cell-valuepb-x1-0of1.bm-a.json"
     }
    ],
    "workers_plan": {
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready"
+   "status": "done",
+   "done_by": "bm-a",
+   "done_at": "2026-10-03 03:08:03"
   },
   {
    "id": "FUND-VALUE-P1-CELL-VALUEPB-X2",
-   "host_gates": [
-    {
-     "kind": "dir_nonempty",
-     "path": "Money02/data/cache/p1c_stock",
-     "pattern": "*.npy"
-    }
-   ],
    "ticket_ref": "T-2026-10-02-150-P1 (O-20261002-2115 sec.1 item-1 fundamental value NEW FAMILY first piece, monthly cross-sectional Top-20 at main-exam rank; prereg FROZEN bm-a r596; ignition gates ALL GREEN bm-b r598: TRANSFER r599 receipt + probe PASS 12 legs (t0=1994-05-03 frozen reproduction, zero below-floor after t0) + D6 ADMIT max|corr|=0.2014 + banned_direction_gate ADMIT rc0 r599 + selftest F1-F17)",
    "prereg_ref": "research/FUND-VALUE-P1.md FROZEN (judged cells VALUE-PE headline/VALUE-PB x faces x1/x2 + nulls 2000 rng([20500000,k]) + sens 500 rng([20500500,k]); evidence_cutoff 2026-09-22 D2 lockbox; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds disjoint vs stock_face_furnace band r596 lesson)",
    "runner": "scripts/fund_value_p1.py",
@@ -13405,17 +13404,17 @@
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready"
-  },
-  {
-   "id": "FUND-VALUE-P1-NULLS",
+   "status": "ready",
    "host_gates": [
     {
      "kind": "dir_nonempty",
      "path": "Money02/data/cache/p1c_stock",
      "pattern": "*.npy"
     }
-   ],
+   ]
+  },
+  {
+   "id": "FUND-VALUE-P1-NULLS",
    "ticket_ref": "T-2026-10-02-150-P1 (O-20261002-2115 sec.1 item-1 fundamental value NEW FAMILY first piece, monthly cross-sectional Top-20 at main-exam rank; prereg FROZEN bm-a r596; ignition gates ALL GREEN bm-b r598: TRANSFER r599 receipt + probe PASS 12 legs (t0=1994-05-03 frozen reproduction, zero below-floor after t0) + D6 ADMIT max|corr|=0.2014 + banned_direction_gate ADMIT rc0 r599 + selftest F1-F17)",
    "prereg_ref": "research/FUND-VALUE-P1.md FROZEN (judged cells VALUE-PE headline/VALUE-PB x faces x1/x2 + nulls 2000 rng([20500000,k]) + sens 500 rng([20500500,k]); evidence_cutoff 2026-09-22 D2 lockbox; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds disjoint vs stock_face_furnace band r596 lesson)",
    "runner": "scripts/fund_value_p1.py",
@@ -13435,17 +13434,17 @@
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready"
-  },
-  {
-   "id": "FUND-VALUE-P1-SENS",
+   "status": "ready",
    "host_gates": [
     {
      "kind": "dir_nonempty",
      "path": "Money02/data/cache/p1c_stock",
      "pattern": "*.npy"
     }
-   ],
+   ]
+  },
+  {
+   "id": "FUND-VALUE-P1-SENS",
    "ticket_ref": "T-2026-10-02-150-P1 (O-20261002-2115 sec.1 item-1 fundamental value NEW FAMILY first piece, monthly cross-sectional Top-20 at main-exam rank; prereg FROZEN bm-a r596; ignition gates ALL GREEN bm-b r598: TRANSFER r599 receipt + probe PASS 12 legs (t0=1994-05-03 frozen reproduction, zero below-floor after t0) + D6 ADMIT max|corr|=0.2014 + banned_direction_gate ADMIT rc0 r599 + selftest F1-F17)",
    "prereg_ref": "research/FUND-VALUE-P1.md FROZEN (judged cells VALUE-PE headline/VALUE-PB x faces x1/x2 + nulls 2000 rng([20500000,k]) + sens 500 rng([20500500,k]); evidence_cutoff 2026-09-22 D2 lockbox; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds disjoint vs stock_face_furnace band r596 lesson)",
    "runner": "scripts/fund_value_p1.py",
@@ -13467,7 +13466,248 @@
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready"
+   "status": "ready",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock",
+     "pattern": "*.npy"
+    }
+   ]
+  },
+  {
+   "id": "PERPETUAL-N3-R2-COMPOSITE-CE-01",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "COMPOSITE-CE-01",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "COMPOSITE-CE-01",
+     "status": "done",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-COMPOSITE-CE-01.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard COMPOSITE-CE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 03:05:03",
+     "claimed_since": "2026-10-03 03:03:40",
+     "done_at": "2026-10-03 03:05:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "COMPOSITE-CE-01.bm-c.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 03:05:03"
+  },
+  {
+   "id": "PERPETUAL-N3-R2-COMPOSITE-CE-02",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "COMPOSITE-CE-02",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "COMPOSITE-CE-02",
+     "status": "done",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-COMPOSITE-CE-02.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard COMPOSITE-CE-02: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 03:06:20",
+     "claimed_since": "2026-10-03 03:05:14",
+     "done_at": "2026-10-03 03:06:20",
+     "harvested_by": "bm-c",
+     "harvest_claim": "COMPOSITE-CE-02.bm-c.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 03:06:20"
+  },
+  {
+   "id": "PERPETUAL-N3-R2-DROUGHT-CE-01",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "DROUGHT-CE-01",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "DROUGHT-CE-01",
+     "status": "done",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-DROUGHT-CE-01.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard DROUGHT-CE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 03:08:03",
+     "claimed_since": "2026-10-03 03:06:29",
+     "done_at": "2026-10-03 03:08:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "DROUGHT-CE-01.bm-c.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 03:08:03"
+  },
+  {
+   "id": "PERPETUAL-N3-R2-ENGULF-CE-01",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "ENGULF-CE-01",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "ENGULF-CE-01",
+     "status": "done",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-ENGULF-CE-01.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard ENGULF-CE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 03:09:19",
+     "claimed_since": "2026-10-03 03:08:12",
+     "done_at": "2026-10-03 03:09:19",
+     "harvested_by": "bm-c",
+     "harvest_claim": "ENGULF-CE-01.bm-c.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   },
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 03:09:19"
+  },
+  {
+   "id": "PERPETUAL-N3-R2-NEEDLE-DE-01",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "NEEDLE-DE-01",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "NEEDLE-DE-01",
+     "status": "ready",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-NEEDLE-DE-01.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard NEEDLE-DE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 03:09:28"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   }
+  },
+  {
+   "id": "PERPETUAL-N3-R2-VOLATILITY-CE-01",
+   "ticket_ref": "O-20261002-2155 seat split (bm-c N3-R2 seat via MSG-2026-10-03-0115, response to the bm-b MSG-2026-10-03-0016 seat invite)",
+   "prereg_ref": "research/PERPETUAL_N3_R2_PREREG.md (FROZEN 2026-10-03 commit 69cebb3f7; five-condition freeze gate all green; zero new seed bands -- window readouts are calendar-deterministic)",
+   "consumer_plan": "N3 measurement-deepening wave-2: per-member packs (anchor re-verify vs R1 checkpoint + 24 quarter-start window readouts + start distribution + red-point clause + worst-start stress face) -> wave finalize results/perpetual_faces/n3_r2_results.json + ledger +144; no registration claim",
+   "runner": "scripts/perpetual_faces_n3.py",
+   "runner_args": [
+    "run",
+    "--member",
+    "VOLATILITY-CE-01",
+    "--wave",
+    "r2"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-03 03:02:13",
+   "worker_class": "self-contained",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
+   "shards": [
+    {
+     "key": "VOLATILITY-CE-01",
+     "status": "ready",
+     "checkpoint": "results/perpetual_faces/n3_r2/cells-VOLATILITY-CE-01.jsonl (presence=done; deterministic rerun byte-equal)",
+     "note": "N3-R2 member shard VOLATILITY-CE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
+     "owner": "bm-a",
+     "owner_since": "2026-10-03 03:10:03"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
+   }
   }
  ],
  "lane_machine": "bm-a"
