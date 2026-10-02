@@ -1,0 +1,4885 @@
+{
+ "schema": "contest_p1_entrants_v1",
+ "ticket": "T-2026-10-02-148 (O-20261002-2150 survivor-king contest)",
+ "slice": "admission enumeration (deterministic, zero burn)",
+ "dedup": "grammar fingerprint (signal_sha256 / face name / member name); duplicates dropped: 20",
+ "dedup_disclosure": "REV_P2_REFINE_POSITIVE rows are cost-x1/x2 refine re-measurements of the same REV faces already admitted via REV_CENSUS_POSITIVE (same grammar fingerprint) -- dedup collapses them into the census entrants by design; their refine evidence travels with the census rows' source artifacts",
+ "n_entrants": 219,
+ "n_by_source": {
+  "LOWAMP_DEEP_EXPLORATION": 2,
+  "MASS_TRIAL_W1_SURVIVORS": 166,
+  "REV_CENSUS_POSITIVE": 10,
+  "T146_LIVE_MEMBERS": 41
+ },
+ "burn_note": "YTD backtest leg runner + pool shards = next slice; live members carry T-146 measured YTD already",
+ "entrants": [
+  {
+   "contest_id": "MT-W1-W1-00001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "trend.donchian_breakout|W1-00001",
+   "grammar": {
+    "family": "trend.donchian_breakout",
+    "kind": "sym",
+    "params": {
+     "entry_n": 34,
+     "exit_n": 7
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "4bd4679ff34cea3b51f7f97b"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-00001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1903 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-01012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "trend.dual_ma_cross|W1-01012",
+   "grammar": {
+    "family": "trend.dual_ma_cross",
+    "kind": "sym",
+    "params": {
+     "fast": 5,
+     "slow": 36
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "d38dc83e16314028425523cc"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-01012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1662 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-03006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "trend.supertrend|W1-03006",
+   "grammar": {
+    "family": "trend.supertrend",
+    "kind": "sym",
+    "params": {
+     "mult": 5.184024,
+     "n": 17
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "950d5ef1b829976f3e4f745e"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-03006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0952 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-04009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "trend.triple_ma|W1-04009",
+   "grammar": {
+    "family": "trend.triple_ma",
+    "kind": "sym",
+    "params": {
+     "n1": 8,
+     "n2": 31,
+     "n3": 51
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "0515c5190ed2eb296b7c815d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-04009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3146 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-04010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "trend.triple_ma|W1-04010",
+   "grammar": {
+    "family": "trend.triple_ma",
+    "kind": "sym",
+    "params": {
+     "n1": 7,
+     "n2": 20,
+     "n3": 91
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "e87f19b0abfd7a0d5d4f0bd3"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-04010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1269 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-05001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.bollinger_breakout|W1-05001",
+   "grammar": {
+    "family": "mean_reversion.bollinger_breakout",
+    "kind": "sym",
+    "params": {
+     "k": 3.458488,
+     "n": 22
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "1c0b5667435d1199aa501eb3"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-05001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1321 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-06003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.pullback_bounce|W1-06003",
+   "grammar": {
+    "family": "mean_reversion.pullback_bounce",
+    "kind": "sym",
+    "params": {
+     "pullback_n": 5,
+     "trend_n": 105
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "f652c156967a7cd358a58947"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-06003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1104 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-07001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.rsi2|W1-07001",
+   "grammar": {
+    "family": "mean_reversion.rsi2",
+    "kind": "sym",
+    "params": {
+     "n": 3
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "ade84054b268bd11af5457df"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-07001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0459 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-07005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.rsi2|W1-07005",
+   "grammar": {
+    "family": "mean_reversion.rsi2",
+    "kind": "sym",
+    "params": {
+     "n": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "712c3ed5ae355e4c049cef43"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-07005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2439 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-07010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.rsi2|W1-07010",
+   "grammar": {
+    "family": "mean_reversion.rsi2",
+    "kind": "sym",
+    "params": {
+     "n": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "edc90ed2ea0a35a465e967f0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-07010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1247 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-08001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.rsi_revert|W1-08001",
+   "grammar": {
+    "family": "mean_reversion.rsi_revert",
+    "kind": "sym",
+    "params": {
+     "n": 15,
+     "overbought": 80,
+     "oversold": 23
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "bfbb4c4be8194cdbba9267c0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-08001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0430 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-08006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.rsi_revert|W1-08006",
+   "grammar": {
+    "family": "mean_reversion.rsi_revert",
+    "kind": "sym",
+    "params": {
+     "n": 16,
+     "overbought": 62,
+     "oversold": 17
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "2103d6d31a3fb17c4290df42"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-08006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.5479 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-09001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.zscore_revert|W1-09001",
+   "grammar": {
+    "family": "mean_reversion.zscore_revert",
+    "kind": "sym",
+    "params": {
+     "entry": -3.487376,
+     "n": 21
+    },
+    "axes": {
+     "R": "none",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "3f42304c03cf3dbfbdf1008a"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-09001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.5725 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-09007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.zscore_revert|W1-09007",
+   "grammar": {
+    "family": "mean_reversion.zscore_revert",
+    "kind": "sym",
+    "params": {
+     "entry": -1.057617,
+     "n": 21
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "5e5090aba3062b407491e5f7"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-09007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0319 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-09010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "mean_reversion.zscore_revert|W1-09010",
+   "grammar": {
+    "family": "mean_reversion.zscore_revert",
+    "kind": "sym",
+    "params": {
+     "entry": -3.057692,
+     "n": 37
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "0bceb89c617e26bdae1e0507"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-09010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3529 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-10005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "momentum.cross_sectional_momentum|W1-10005",
+   "grammar": {
+    "family": "momentum.cross_sectional_momentum",
+    "kind": "panel",
+    "params": {
+     "n": 123,
+     "skip": 38,
+     "top_k": 9
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "8fac43bd89377862b1b81983"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-10005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1953 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-11007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "momentum.dual_momentum|W1-11007",
+   "grammar": {
+    "family": "momentum.dual_momentum",
+    "kind": "panel",
+    "params": {
+     "n": 153,
+     "top_k": 3
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "4111476462f938b6b9b44fa7"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-11007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0522 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-13001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "momentum.relative_strength_rotation|W1-13001",
+   "grammar": {
+    "family": "momentum.relative_strength_rotation",
+    "kind": "panel",
+    "params": {
+     "n": 22,
+     "top_k": 6
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "db6580664ad21465bd7142be"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-13001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3671 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-13005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "momentum.relative_strength_rotation|W1-13005",
+   "grammar": {
+    "family": "momentum.relative_strength_rotation",
+    "kind": "panel",
+    "params": {
+     "n": 17,
+     "top_k": 4
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t7",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "b873d47fe7a1fbee747668bf"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-13005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1274 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-13006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "momentum.relative_strength_rotation|W1-13006",
+   "grammar": {
+    "family": "momentum.relative_strength_rotation",
+    "kind": "panel",
+    "params": {
+     "n": 19,
+     "top_k": 9
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "b0597ea54e77b266ebc131cf"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-13006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1062 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-15001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.low_vol_long|W1-15001",
+   "grammar": {
+    "family": "volatility.low_vol_long",
+    "kind": "panel",
+    "params": {
+     "n": 82,
+     "top_k": 9
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "ca065c672acd6aa03b7b54f5"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-15001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0728 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-15003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.low_vol_long|W1-15003",
+   "grammar": {
+    "family": "volatility.low_vol_long",
+    "kind": "panel",
+    "params": {
+     "n": 57,
+     "top_k": 8
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "bade5a9954eb4e53f06362a6"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-15003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0222 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-15006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.low_vol_long|W1-15006",
+   "grammar": {
+    "family": "volatility.low_vol_long",
+    "kind": "panel",
+    "params": {
+     "n": 92,
+     "top_k": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "a82233dfbce566872c0ffa8c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-15006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2789 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-16005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.vol_breakout|W1-16005",
+   "grammar": {
+    "family": "volatility.vol_breakout",
+    "kind": "sym",
+    "params": {
+     "n": 34
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "062e7bac47d92878844f9146"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-16005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.7189 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-16012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.vol_breakout|W1-16012",
+   "grammar": {
+    "family": "volatility.vol_breakout",
+    "kind": "sym",
+    "params": {
+     "n": 13
+    },
+    "axes": {
+     "R": "none",
+     "X": "t20",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "009e6b24fb4fb14d3a780126"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-16012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3126 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-17006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.vol_regime_switch|W1-17006",
+   "grammar": {
+    "family": "volatility.vol_regime_switch",
+    "kind": "sym",
+    "params": {
+     "ma_n": 305,
+     "n": 39
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "ca54d5e862007ab654d239dc"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-17006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0910 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-18005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "volatility.vol_target|W1-18005",
+   "grammar": {
+    "family": "volatility.vol_target",
+    "kind": "sym",
+    "params": {
+     "n": 23,
+     "target_vol": 0.288527
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "0286bc06448391714c2dad26"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-18005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1440 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-20012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.intraday_momentum|W1-20012",
+   "grammar": {
+    "family": "sentiment.intraday_momentum",
+    "kind": "panel",
+    "params": {
+     "n": 14
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "3f2f8211bde69233468be1cb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-20012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2227 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-22000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.price_volume_trend|W1-22000",
+   "grammar": {
+    "family": "sentiment.price_volume_trend",
+    "kind": "panel",
+    "params": {
+     "n": 18
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "8bf0eba4d68a95e6f2deedca"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-22000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1480 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-22002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.price_volume_trend|W1-22002",
+   "grammar": {
+    "family": "sentiment.price_volume_trend",
+    "kind": "panel",
+    "params": {
+     "n": 39
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "acd8c712f5806895d5ef4951"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-22002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0657 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-22012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.price_volume_trend|W1-22012",
+   "grammar": {
+    "family": "sentiment.price_volume_trend",
+    "kind": "panel",
+    "params": {
+     "n": 14
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "b62a09557433d99be9db05a9"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-22012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1078 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-23002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.turnover_surge|W1-23002",
+   "grammar": {
+    "family": "sentiment.turnover_surge",
+    "kind": "panel",
+    "params": {
+     "n": 25,
+     "threshold": 1.946733
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "ac5051d16cd584d4f6562baf"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-23002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0076 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-23009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.turnover_surge|W1-23009",
+   "grammar": {
+    "family": "sentiment.turnover_surge",
+    "kind": "panel",
+    "params": {
+     "n": 12,
+     "threshold": 3.703311
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "ea174703d06f8a3f4dc27d13"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-23009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.3432 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-23011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "sentiment.turnover_surge|W1-23011",
+   "grammar": {
+    "family": "sentiment.turnover_surge",
+    "kind": "panel",
+    "params": {
+     "n": 27,
+     "threshold": 2.886098
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "2772a3fd4a5b9365f2cc1daa"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-23011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.5869 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-24001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.holiday_effect|W1-24001",
+   "grammar": {
+    "family": "seasonal.holiday_effect",
+    "kind": "sym",
+    "params": {
+     "pre_days": 6
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "3fd8bd4a6fc32c3d39f11e8f"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-24001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0389 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-24002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.holiday_effect|W1-24002",
+   "grammar": {
+    "family": "seasonal.holiday_effect",
+    "kind": "sym",
+    "params": {
+     "pre_days": 5
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "b881cc84c0b1cad05ce55cbe"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-24002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0468 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-24004",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.holiday_effect|W1-24004",
+   "grammar": {
+    "family": "seasonal.holiday_effect",
+    "kind": "sym",
+    "params": {
+     "pre_days": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "403bca28271f575e20cfbb17"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-24004",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2734 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-24007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.holiday_effect|W1-24007",
+   "grammar": {
+    "family": "seasonal.holiday_effect",
+    "kind": "sym",
+    "params": {
+     "pre_days": 3
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "34e75d10e35b0f896e275bd7"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-24007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2487 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-25002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_end_effect|W1-25002",
+   "grammar": {
+    "family": "seasonal.month_end_effect",
+    "kind": "mask",
+    "params": {
+     "window": 2
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "3b29c08eb08b79ef57c875f2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-25002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1704 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-25006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_end_effect|W1-25006",
+   "grammar": {
+    "family": "seasonal.month_end_effect",
+    "kind": "mask",
+    "params": {
+     "window": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "1a0c375d0cf87745f33c1439"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-25006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0661 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-25013",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_end_effect|W1-25013",
+   "grammar": {
+    "family": "seasonal.month_end_effect",
+    "kind": "mask",
+    "params": {
+     "window": 2
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "82f72a433e77406fc86ba800"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-25013",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0034 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-26000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_seasonality|W1-26000",
+   "grammar": {
+    "family": "seasonal.month_seasonality",
+    "kind": "mask",
+    "params": {
+     "month": 9
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "1f5cfcbf442c1d4fa37ce476"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-26000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4037 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-26007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_seasonality|W1-26007",
+   "grammar": {
+    "family": "seasonal.month_seasonality",
+    "kind": "mask",
+    "params": {
+     "month": 7
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "a7ba651633dfea41267dd50f"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-26007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1094 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-26011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.month_seasonality|W1-26011",
+   "grammar": {
+    "family": "seasonal.month_seasonality",
+    "kind": "mask",
+    "params": {
+     "month": 12
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "83ce6fa516abd68506493c38"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-26011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0092 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27002",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 261,
+     "month": 11
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6c29ef268b3773e616ed45f5"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2662 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27003",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 226,
+     "month": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "5cfee6de21ce6a14be8c80cb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.6995 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27005",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 304,
+     "month": 5
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "69706f6a7026b83d816594fd"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1812 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27006",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 379,
+     "month": 7
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "c5ac415d48039f1e4049565a"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0323 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27008",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 135,
+     "month": 11
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "9c80df2bfcc77578131a08f1"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1965 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-27012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.trend_by_season|W1-27012",
+   "grammar": {
+    "family": "seasonal.trend_by_season",
+    "kind": "sym",
+    "params": {
+     "ma_n": 242,
+     "month": 7
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "8adbd165d5b12cdd88ec7ba7"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-27012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0314 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-28002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.weekday_effect|W1-28002",
+   "grammar": {
+    "family": "seasonal.weekday_effect",
+    "kind": "mask",
+    "params": {
+     "weekday": 1
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "0af4eb34d99f869968d4f092"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-28002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.3755 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-28009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "seasonal.weekday_effect|W1-28009",
+   "grammar": {
+    "family": "seasonal.weekday_effect",
+    "kind": "mask",
+    "params": {
+     "weekday": 2
+    },
+    "axes": {
+     "R": "none",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "57e9de1dab69455829370f6d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-28009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.5919 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-29002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.breakout_confirm|W1-29002",
+   "grammar": {
+    "family": "event.breakout_confirm",
+    "kind": "sym",
+    "params": {
+     "n": 20,
+     "vol_mult": 2.0113
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "a168a3e2344dfa1a58f41b9d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-29002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0068 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-29003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.breakout_confirm|W1-29003",
+   "grammar": {
+    "family": "event.breakout_confirm",
+    "kind": "sym",
+    "params": {
+     "n": 29,
+     "vol_mult": 1.863815
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "68762c4e62a08f0915b61434"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-29003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1475 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-29006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.breakout_confirm|W1-29006",
+   "grammar": {
+    "family": "event.breakout_confirm",
+    "kind": "sym",
+    "params": {
+     "n": 15,
+     "vol_mult": 2.91151
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "aa471d6b87e7a19ba80bb919"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-29006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.7836 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-29008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.breakout_confirm|W1-29008",
+   "grammar": {
+    "family": "event.breakout_confirm",
+    "kind": "sym",
+    "params": {
+     "n": 39,
+     "vol_mult": 2.101946
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "4ea2d2710fc2f0fc887d2736"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-29008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1473 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-31001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.gap_fill|W1-31001",
+   "grammar": {
+    "family": "event.gap_fill",
+    "kind": "sym",
+    "params": {
+     "n": 8
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "935578b0628a8994fec0d948"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-31001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0127 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-31004",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.gap_fill|W1-31004",
+   "grammar": {
+    "family": "event.gap_fill",
+    "kind": "sym",
+    "params": {
+     "n": 6
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6558e7c224a7f2ebd5dbff00"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-31004",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2140 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-31013",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "event.gap_fill|W1-31013",
+   "grammar": {
+    "family": "event.gap_fill",
+    "kind": "sym",
+    "params": {
+     "n": 9
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "3f1c9cc3338ab5a13a15576e"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-31013",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1949 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-33001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "macro.csi300_trend_filter|W1-33001",
+   "grammar": {
+    "family": "macro.csi300_trend_filter",
+    "kind": "macro",
+    "params": {
+     "ma_n": 130
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "51119246c6e92bce6955a956"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-33001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1197 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-33007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "macro.csi300_trend_filter|W1-33007",
+   "grammar": {
+    "family": "macro.csi300_trend_filter",
+    "kind": "macro",
+    "params": {
+     "ma_n": 342
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "c2d8342d7363976354b51eb5"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-33007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0818 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-33010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "macro.csi300_trend_filter|W1-33010",
+   "grammar": {
+    "family": "macro.csi300_trend_filter",
+    "kind": "macro",
+    "params": {
+     "ma_n": 211
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "f3ca2da2400f7664997300b6"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-33010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3770 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-33011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "macro.csi300_trend_filter|W1-33011",
+   "grammar": {
+    "family": "macro.csi300_trend_filter",
+    "kind": "macro",
+    "params": {
+     "ma_n": 288
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "d57ddf09fb70cabdc791a2e2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-33011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3528 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-35003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "macro.volatility_regime_filter|W1-35003",
+   "grammar": {
+    "family": "macro.volatility_regime_filter",
+    "kind": "macro",
+    "params": {
+     "n": 101
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "4304b5c24daf3040ef1b0d9d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-35003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2370 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36000",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 25,
+     "k": 2.508295,
+     "width_n": 64
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "71d52c3857aaa06173cbc06d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.6892 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36001",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 15,
+     "k": 2.420222,
+     "width_n": 81
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "0d3d7f626439e0c11cc68b21"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.8047 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36003",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 39,
+     "k": 1.514807,
+     "width_n": 110
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "6f238831f1f7551128eac0d2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0931 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36011",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 35,
+     "k": 2.235085,
+     "width_n": 56
+    },
+    "axes": {
+     "R": "bull",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "720ad8522266e4433c641f5d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4373 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36012",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 38,
+     "k": 3.203872,
+     "width_n": 34
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "0f5619bd885c07079d32e8cb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.3248 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-36013",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.bb_squeeze_breakout|W1-36013",
+   "grammar": {
+    "family": "ta.bb_squeeze_breakout",
+    "kind": "sym",
+    "params": {
+     "bb_n": 18,
+     "k": 1.815385,
+     "width_n": 119
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "4c8508d2ee79418f174e0925"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-36013",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4789 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-37002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.cci_revert|W1-37002",
+   "grammar": {
+    "family": "ta.cci_revert",
+    "kind": "sym",
+    "params": {
+     "cci_n": 22,
+     "entry_th": -157.077704,
+     "exit_th": 185.866796,
+     "trend_ma": 73
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "61baa343fee288d44c15f97b"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-37002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1754 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-37004",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.cci_revert|W1-37004",
+   "grammar": {
+    "family": "ta.cci_revert",
+    "kind": "sym",
+    "params": {
+     "cci_n": 34,
+     "entry_th": -128.585549,
+     "exit_th": 73.448912,
+     "trend_ma": 82
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t5",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "136b4fd3ea3f4557b8c40677"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-37004",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0134 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-37005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.cci_revert|W1-37005",
+   "grammar": {
+    "family": "ta.cci_revert",
+    "kind": "sym",
+    "params": {
+     "cci_n": 21,
+     "entry_th": -105.887932,
+     "exit_th": 156.002372,
+     "trend_ma": 54
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "55678f734c476817a2078895"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-37005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2325 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-37013",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.cci_revert|W1-37013",
+   "grammar": {
+    "family": "ta.cci_revert",
+    "kind": "sym",
+    "params": {
+     "cci_n": 23,
+     "entry_th": -83.336091,
+     "exit_th": 113.581736,
+     "trend_ma": 48
+    },
+    "axes": {
+     "R": "bull",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "4809a412cd27e3a795d6a6b6"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-37013",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2571 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38000",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.04771
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "4c290513cbb8c6b144623735"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3001 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38001",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.08516
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "2b823b0b9a0ecffe8c7a5d72"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1828 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38003",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.034108
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "08aa12cc7cb13ff1f29e91ad"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3868 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38006",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.093325
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "d73d5a589e447ea398b71d82"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.9687 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38007",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.056031
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "3aa2550121bc9d47e22631e9"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.9419 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38008",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.062411
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "11dcbf890a4c4c004685973a"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1444 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38010",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.075972
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "3a672c29a681c97f678ef77c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3586 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-38012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.engulf_reversal|W1-38012",
+   "grammar": {
+    "family": "ta.engulf_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.027727
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "9fe65873307086a19125a7ca"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-38012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2361 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-39001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.hammer_reversal|W1-39001",
+   "grammar": {
+    "family": "ta.hammer_reversal",
+    "kind": "sym",
+    "params": {
+     "body_max": 0.307988,
+     "drop_th": -0.029463,
+     "shadow_mult": 3.080602
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "eddca4c667cb289cb942905b"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-39001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0535 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-39002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.hammer_reversal|W1-39002",
+   "grammar": {
+    "family": "ta.hammer_reversal",
+    "kind": "sym",
+    "params": {
+     "body_max": 0.27642,
+     "drop_th": -0.08294,
+     "shadow_mult": 1.486158
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "866dfdadf96f5855f29b12a1"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-39002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2040 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-39009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.hammer_reversal|W1-39009",
+   "grammar": {
+    "family": "ta.hammer_reversal",
+    "kind": "sym",
+    "params": {
+     "body_max": 0.418943,
+     "drop_th": -0.046202,
+     "shadow_mult": 1.063254
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "f52158b29fe365874e3e2ddd"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-39009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2143 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-39012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.hammer_reversal|W1-39012",
+   "grammar": {
+    "family": "ta.hammer_reversal",
+    "kind": "sym",
+    "params": {
+     "body_max": 0.68912,
+     "drop_th": -0.07976,
+     "shadow_mult": 1.673026
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "ff2db302299fb5becc106968"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-39012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2832 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-40003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.kdj_reversal|W1-40003",
+   "grammar": {
+    "family": "ta.kdj_reversal",
+    "kind": "sym",
+    "params": {
+     "entry_j": 23,
+     "exit_j": 74,
+     "kdj_n": 18,
+     "trend_ma": 83
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "5a5868afbc49be2cc999145c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-40003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1910 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-42003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.nr7_breakout|W1-42003",
+   "grammar": {
+    "family": "ta.nr7_breakout",
+    "kind": "sym",
+    "params": {
+     "hold_n": 7,
+     "nr_n": 8
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "353dc6ee94488b94560828c4"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-42003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1408 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-42005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.nr7_breakout|W1-42005",
+   "grammar": {
+    "family": "ta.nr7_breakout",
+    "kind": "sym",
+    "params": {
+     "hold_n": 4,
+     "nr_n": 8
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "a659e018134b9a8a4bf21c84"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-42005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2909 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-43005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.rsi_divergence|W1-43005",
+   "grammar": {
+    "family": "ta.rsi_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 15,
+     "n": 16
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "cddbdc90f4c5016bf5a988bb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-43005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1319 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-45006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.streak_up|W1-45006",
+   "grammar": {
+    "family": "ta.streak_up",
+    "kind": "sym",
+    "params": {
+     "min_up": 0.0,
+     "streak_n": 5
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "a9a554c3bc7ade2e3bc10a07"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-45006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0929 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-45007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.streak_up|W1-45007",
+   "grammar": {
+    "family": "ta.streak_up",
+    "kind": "sym",
+    "params": {
+     "min_up": 0.0,
+     "streak_n": 3
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "de0f166a544be6971fdfad53"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-45007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2062 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-46001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.strong_close|W1-46001",
+   "grammar": {
+    "family": "ta.strong_close",
+    "kind": "sym",
+    "params": {
+     "pos_th": 0.900587,
+     "vol_len": 22,
+     "vol_mult": 1.685873
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "c7c84706a2926a0b11dd9921"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-46001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3120 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-46002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.strong_close|W1-46002",
+   "grammar": {
+    "family": "ta.strong_close",
+    "kind": "sym",
+    "params": {
+     "pos_th": 0.596638,
+     "vol_len": 33,
+     "vol_mult": 2.194225
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "76f5d9db086e210ef0080c42"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-46002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3663 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-46025",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.strong_close|W1-46025",
+   "grammar": {
+    "family": "ta.strong_close",
+    "kind": "sym",
+    "params": {
+     "pos_th": 0.92208,
+     "vol_len": 21,
+     "vol_mult": 2.688457
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "01e782ff1c93a9a2d7b9c7aa"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-46025",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.4482 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-46029",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.strong_close|W1-46029",
+   "grammar": {
+    "family": "ta.strong_close",
+    "kind": "sym",
+    "params": {
+     "pos_th": 0.646659,
+     "vol_len": 12,
+     "vol_mult": 1.514583
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "0f106c227592a787ce97bcf0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-46029",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1034 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-47001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.vol_breakout|W1-47001",
+   "grammar": {
+    "family": "ta.vol_breakout",
+    "kind": "sym",
+    "params": {
+     "brk_len": 19,
+     "exit_len": 9,
+     "vol_avg_len": 30,
+     "vol_mult": 1.392306
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "3a88854e8457c059fe713cf0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-47001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1327 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-47008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "ta.vol_breakout|W1-47008",
+   "grammar": {
+    "family": "ta.vol_breakout",
+    "kind": "sym",
+    "params": {
+     "brk_len": 40,
+     "exit_len": 14,
+     "vol_avg_len": 33,
+     "vol_mult": 2.674816
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "409f4ea1107861262bd39d86"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-47008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2081 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-49000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.big_yin_shakeout|W1-49000",
+   "grammar": {
+    "family": "patterns.big_yin_shakeout",
+    "kind": "sym",
+    "params": {
+     "big_yin": -0.040657
+    },
+    "axes": {
+     "R": "none",
+     "X": "t5",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "52ab6f8258c62950dfcd5c80"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-49000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1664 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-49007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.big_yin_shakeout|W1-49007",
+   "grammar": {
+    "family": "patterns.big_yin_shakeout",
+    "kind": "sym",
+    "params": {
+     "big_yin": -0.033253
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "b4d2bbbc7b21c2183f95f605"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-49007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0678 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-49011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.big_yin_shakeout|W1-49011",
+   "grammar": {
+    "family": "patterns.big_yin_shakeout",
+    "kind": "sym",
+    "params": {
+     "big_yin": -0.018274
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6d49f7d5ce87822641749c68"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-49011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1991 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-50002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.box_breakout|W1-50002",
+   "grammar": {
+    "family": "patterns.box_breakout",
+    "kind": "sym",
+    "params": {
+     "box_n": 11,
+     "box_th": 0.040927,
+     "vol_mult": 0.706328
+    },
+    "axes": {
+     "R": "bull",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "077f82c6ef512e6da82bd237"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-50002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0304 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-51003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.doji_at_low|W1-51003",
+   "grammar": {
+    "family": "patterns.doji_at_low",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.090231
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "e546cfc1e8413a856fc17b92"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-51003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.8579 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-51010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.doji_at_low|W1-51010",
+   "grammar": {
+    "family": "patterns.doji_at_low",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.056591
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "111962b37ba543ccfd76069c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-51010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3494 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-51011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.doji_at_low|W1-51011",
+   "grammar": {
+    "family": "patterns.doji_at_low",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.096857
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "2764a611136c8529085273d0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-51011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.8673 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-51012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.doji_at_low|W1-51012",
+   "grammar": {
+    "family": "patterns.doji_at_low",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.084303
+    },
+    "axes": {
+     "R": "none",
+     "X": "t20",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "41aa080745dcf521f6c42964"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-51012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.6909 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-52001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.duck_head|W1-52001",
+   "grammar": {
+    "family": "patterns.duck_head",
+    "kind": "sym",
+    "params": {
+     "neck": 15
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "378c1a12cb01f8ca78edab88"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-52001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2047 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-52002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.duck_head|W1-52002",
+   "grammar": {
+    "family": "patterns.duck_head",
+    "kind": "sym",
+    "params": {
+     "neck": 11
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "257aa46ce1b54dbdb2798fdd"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-52002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0126 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-52010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.duck_head|W1-52010",
+   "grammar": {
+    "family": "patterns.duck_head",
+    "kind": "sym",
+    "params": {
+     "neck": 13
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "e36a7eff7e4de5cc3871c014"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-52010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0934 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-52011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.duck_head|W1-52011",
+   "grammar": {
+    "family": "patterns.duck_head",
+    "kind": "sym",
+    "params": {
+     "neck": 4
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "0f8ddbd9e15ee1c9eef46dc0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-52011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4107 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-53002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.immortal_guide|W1-53002",
+   "grammar": {
+    "family": "patterns.immortal_guide",
+    "kind": "sym",
+    "params": {
+     "shadow_pct": 0.026096
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "c95b4243f5844a52b64468c0"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-53002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0360 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-54004",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.inside_bar_breakup|W1-54004",
+   "grammar": {
+    "family": "patterns.inside_bar_breakup",
+    "kind": "sym",
+    "params": {},
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "4bb2dffb9edb1d71acc2a362"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-54004",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2487 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-55002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.island_reversal|W1-55002",
+   "grammar": {
+    "family": "patterns.island_reversal",
+    "kind": "sym",
+    "params": {
+     "gap": 0.011996
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "0d5c3748cf0bc21d090abd20"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-55002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2627 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-55003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.island_reversal|W1-55003",
+   "grammar": {
+    "family": "patterns.island_reversal",
+    "kind": "sym",
+    "params": {
+     "gap": 0.013619
+    },
+    "axes": {
+     "R": "none",
+     "X": "t5",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "0f52ab4c849dcbdd82c8d281"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-55003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1901 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-55009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.island_reversal|W1-55009",
+   "grammar": {
+    "family": "patterns.island_reversal",
+    "kind": "sym",
+    "params": {
+     "gap": 0.005172
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6d384b7e25bc1131f33a7616"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-55009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1281 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-55010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.island_reversal|W1-55010",
+   "grammar": {
+    "family": "patterns.island_reversal",
+    "kind": "sym",
+    "params": {
+     "gap": 0.01029
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "671b4a6aba56a869798c252e"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-55010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0198 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-56002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.ma_converge_break|W1-56002",
+   "grammar": {
+    "family": "patterns.ma_converge_break",
+    "kind": "sym",
+    "params": {
+     "spread": 0.011655
+    },
+    "axes": {
+     "R": "bear",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "f6be86e55ce1d03915175695"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-56002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0712 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-56007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.ma_converge_break|W1-56007",
+   "grammar": {
+    "family": "patterns.ma_converge_break",
+    "kind": "sym",
+    "params": {
+     "spread": 0.020459
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "93fa9588430ffcee973e847f"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-56007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1208 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-58002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.morning_star|W1-58002",
+   "grammar": {
+    "family": "patterns.morning_star",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.03659,
+     "small_body": 0.015977
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6c288deb4fc409a381eb9019"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-58002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0423 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-58007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.morning_star|W1-58007",
+   "grammar": {
+    "family": "patterns.morning_star",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.044108,
+     "small_body": 0.005761
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "df9bee53d3072140bbdad782"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-58007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0697 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-58008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.morning_star|W1-58008",
+   "grammar": {
+    "family": "patterns.morning_star",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.046642,
+     "small_body": 0.014394
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "8bbc389e1493ae1460eef951"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-58008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0628 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-58009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.morning_star|W1-58009",
+   "grammar": {
+    "family": "patterns.morning_star",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.024064,
+     "small_body": 0.010238
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "1b60065d521e7dfa4fc79457"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-58009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1909 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-58010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.morning_star|W1-58010",
+   "grammar": {
+    "family": "patterns.morning_star",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.031798,
+     "small_body": 0.016469
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "fa5bb04d50344ce638c0f41a"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-58010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1816 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-59000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.n_shape|W1-59000",
+   "grammar": {
+    "family": "patterns.n_shape",
+    "kind": "sym",
+    "params": {
+     "leg_up": 0.053869
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t5",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "cd02bd48f8b3aceefadc471b"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-59000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0893 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-59002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.n_shape|W1-59002",
+   "grammar": {
+    "family": "patterns.n_shape",
+    "kind": "sym",
+    "params": {
+     "leg_up": 0.025543
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "902cc9cf6aab4b9fd373336b"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-59002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0545 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-59006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.n_shape|W1-59006",
+   "grammar": {
+    "family": "patterns.n_shape",
+    "kind": "sym",
+    "params": {
+     "leg_up": 0.048968
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "72b91e2d22b0ec7e0ed7e032"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-59006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.3221 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-59008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.n_shape|W1-59008",
+   "grammar": {
+    "family": "patterns.n_shape",
+    "kind": "sym",
+    "params": {
+     "leg_up": 0.064198
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "236b07da13376c1fa9805964"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-59008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1266 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-59012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.n_shape|W1-59012",
+   "grammar": {
+    "family": "patterns.n_shape",
+    "kind": "sym",
+    "params": {
+     "leg_up": 0.068909
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "d667237509c07d1d59f5b5bf"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-59012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0873 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-60006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.needle_probe|W1-60006",
+   "grammar": {
+    "family": "patterns.needle_probe",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.047306,
+     "shadow_pct": 0.03184
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "70fb28f0b5f940059ba31ec2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-60006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.5187 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-60008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.needle_probe|W1-60008",
+   "grammar": {
+    "family": "patterns.needle_probe",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.075481,
+     "shadow_pct": 0.036788
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "243a8c16aab248398a530bf5"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-60008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2851 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-60009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.needle_probe|W1-60009",
+   "grammar": {
+    "family": "patterns.needle_probe",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.052812,
+     "shadow_pct": 0.012075
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "2642689c6421a979e06592f2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-60009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4999 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-60010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.needle_probe|W1-60010",
+   "grammar": {
+    "family": "patterns.needle_probe",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.041963,
+     "shadow_pct": 0.026839
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "313316c02c21e39b2451fb56"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-60010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.7751 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-60011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.needle_probe|W1-60011",
+   "grammar": {
+    "family": "patterns.needle_probe",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.084555,
+     "shadow_pct": 0.024365
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "6c45c9d05a5ae5040a874d31"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-60011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2942 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-61001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.obv_divergence|W1-61001",
+   "grammar": {
+    "family": "patterns.obv_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 47
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "eceacc83c89b1824b188f9f6"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-61001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2573 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-61008",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.obv_divergence|W1-61008",
+   "grammar": {
+    "family": "patterns.obv_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 21
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "9de5754cbfdb2c139614424e"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-61008",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0740 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-61009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.obv_divergence|W1-61009",
+   "grammar": {
+    "family": "patterns.obv_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 42
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "30e60f302de3a31f3a3638dd"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-61009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1961 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-61010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.obv_divergence|W1-61010",
+   "grammar": {
+    "family": "patterns.obv_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 54
+    },
+    "axes": {
+     "R": "bull",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "ab0855bb5cc8628da0aca609"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-61010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1750 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-61011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.obv_divergence|W1-61011",
+   "grammar": {
+    "family": "patterns.obv_divergence",
+    "kind": "sym",
+    "params": {
+     "look": 33
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "6b51b832f34e095d79e0d4c8"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-61011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0250 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-62000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.piercing_line|W1-62000",
+   "grammar": {
+    "family": "patterns.piercing_line",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.032435
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "bb86b7f965131f1995c23786"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-62000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1375 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-62009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.piercing_line|W1-62009",
+   "grammar": {
+    "family": "patterns.piercing_line",
+    "kind": "sym",
+    "params": {
+     "big_red": -0.024212
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "fec6e1a6c178eb1dbb975440"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-62009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.1409 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-63001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.three_methods_up|W1-63001",
+   "grammar": {
+    "family": "patterns.three_methods_up",
+    "kind": "sym",
+    "params": {
+     "big_yang": 0.027228
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "4ed8d49066c063aa0b35f719"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-63001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0629 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65002",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.027565,
+     "vol_floor": 0.281924
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "90475b926fa49f3deabc9680"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4249 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65003",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.077392,
+     "vol_floor": 0.845383
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "126777ffad7b09883d70f518"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2921 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65006",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.054486,
+     "vol_floor": 0.534276
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "042053db73e1af5baa9b9e3d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4565 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65007",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65007",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.090241,
+     "vol_floor": 1.005492
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "d0a4723871522b86fa27cbeb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65007",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.7836 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65009",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.060433,
+     "vol_floor": 0.813969
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "a268ada46d577e67e89ea563"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3493 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-65010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "patterns.vol_drought_reversal|W1-65010",
+   "grammar": {
+    "family": "patterns.vol_drought_reversal",
+    "kind": "sym",
+    "params": {
+     "drop_th": -0.037573,
+     "vol_floor": 0.657174
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "c4ef3e7b6c27ce252dcdb541"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-65010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2168 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67000",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.009792
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t10",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "02d77abc7bb9e8c394fa3aed"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.2490 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67002",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.01696
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "5665c1d6ecfaff68f86c90d2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1288 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67003",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67003",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.010899
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "1ecb5140bb7adfc2ff5d8ea4"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67003",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4769 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67005",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.019238
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "927ae9bc696558c18fe8cedb"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0498 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67011",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67011",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.014977
+    },
+    "axes": {
+     "R": "none",
+     "X": "t5",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "ee133d8740884a4c4298e128"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67011",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0774 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-67012",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.ants_climb|W1-67012",
+   "grammar": {
+    "family": "folk.ants_climb",
+    "kind": "sym",
+    "params": {
+     "max_day": 0.012201
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "d93ecc34cd6446eca641c53a"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-67012",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4332 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-70002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.lian_yin_first_yang|W1-70002",
+   "grammar": {
+    "family": "folk.lian_yin_first_yang",
+    "kind": "sym",
+    "params": {
+     "n_down": 5
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "450375858301f3cdfceb6045"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-70002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1468 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-71000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.low_suction|W1-71000",
+   "grammar": {
+    "family": "folk.low_suction",
+    "kind": "sym",
+    "params": {
+     "shrink": 1.438586
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "8cbbedae10a329580f4a25ef"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-71000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1919 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-71002",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.low_suction|W1-71002",
+   "grammar": {
+    "family": "folk.low_suction",
+    "kind": "sym",
+    "params": {
+     "shrink": 0.831435
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t5",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "fe225de1ece67eee2fe4779c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-71002",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1788 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-72000",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.rsi_low_flat|W1-72000",
+   "grammar": {
+    "family": "folk.rsi_low_flat",
+    "kind": "sym",
+    "params": {
+     "low_th": 36,
+     "n": 27
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t10",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "5e3fa2de47d229a9354ec14f"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-72000",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0422 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-72005",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.rsi_low_flat|W1-72005",
+   "grammar": {
+    "family": "folk.rsi_low_flat",
+    "kind": "sym",
+    "params": {
+     "low_th": 17,
+     "n": 14
+    },
+    "axes": {
+     "R": "none",
+     "X": "own",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "b45ff78e35f6102dadb9f2d7"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-72005",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.4043 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-72006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.rsi_low_flat|W1-72006",
+   "grammar": {
+    "family": "folk.rsi_low_flat",
+    "kind": "sym",
+    "params": {
+     "low_th": 26,
+     "n": 23
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "55de614669dc7b0f57933f69"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-72006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.6910 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-72010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.rsi_low_flat|W1-72010",
+   "grammar": {
+    "family": "folk.rsi_low_flat",
+    "kind": "sym",
+    "params": {
+     "low_th": 14,
+     "n": 26
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "54f2ee3a0f9ef6aef584e4b2"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-72010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1420 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-73001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.second_wave|W1-73001",
+   "grammar": {
+    "family": "folk.second_wave",
+    "kind": "sym",
+    "params": {
+     "retest": 0.025303
+    },
+    "axes": {
+     "R": "none",
+     "X": "t7",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "e6aa32b9749b123001a67595"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-73001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.0139 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-74001",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.volume_mound|W1-74001",
+   "grammar": {
+    "family": "folk.volume_mound",
+    "kind": "sym",
+    "params": {
+     "mound": 1.744619
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "8506dac6c253de4f742caa73"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-74001",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3265 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-74004",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.volume_mound|W1-74004",
+   "grammar": {
+    "family": "folk.volume_mound",
+    "kind": "sym",
+    "params": {
+     "mound": 1.125972
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t20",
+     "S": "delever",
+     "T": "daily"
+    },
+    "signal_sha256": "7d7a8796587f2c078c9cfb6c"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-74004",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.1368 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-74006",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.volume_mound|W1-74006",
+   "grammar": {
+    "family": "folk.volume_mound",
+    "kind": "sym",
+    "params": {
+     "mound": 2.099963
+    },
+    "axes": {
+     "R": "none",
+     "X": "t10",
+     "S": "full",
+     "T": "daily"
+    },
+    "signal_sha256": "8a90f5e8c6c54f03ebff7f77"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-74006",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.0693 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-74009",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.volume_mound|W1-74009",
+   "grammar": {
+    "family": "folk.volume_mound",
+    "kind": "sym",
+    "params": {
+     "mound": 1.934767
+    },
+    "axes": {
+     "R": "bull",
+     "X": "t20",
+     "S": "delever",
+     "T": "weekly"
+    },
+    "signal_sha256": "3c9b4abcedbd569df021f2dd"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-74009",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full -0.2619 (D x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "MT-W1-W1-74010",
+   "source": "MASS_TRIAL_W1_SURVIVORS",
+   "face_name": "folk.volume_mound|W1-74010",
+   "grammar": {
+    "family": "folk.volume_mound",
+    "kind": "sym",
+    "params": {
+     "mound": 2.16023
+    },
+    "axes": {
+     "R": "bear",
+     "X": "t7",
+     "S": "full",
+     "T": "weekly"
+    },
+    "signal_sha256": "21572093aa19882385b9aa8d"
+   },
+   "grammar_ref": "results/mass_trial/w1_candidates.json#W1-74010",
+   "evidence": "stage-1 survivor (T-94 full 166 set); best judged sharpe_full +0.3007 (L x1)",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-15-raw-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-15|raw|base|time|h20",
+   "grammar": {
+    "depth": "-15",
+    "entry": "raw",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +1.1551, ann_ret +9.10%, entries 4457",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-15-raw-liq2-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-15|raw|liq2|time|h20",
+   "grammar": {
+    "depth": "-15",
+    "entry": "raw",
+    "liq": "liq2",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.6015, ann_ret +4.15%, entries 4363",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-15-yang-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-15|yang|base|time|h20",
+   "grammar": {
+    "depth": "-15",
+    "entry": "yang",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.7229, ann_ret +5.21%, entries 4401",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-15-yang-liq2-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-15|yang|liq2|time|h20",
+   "grammar": {
+    "depth": "-15",
+    "entry": "yang",
+    "liq": "liq2",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.2805, ann_ret +1.58%, entries 3956",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-25-raw-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-25|raw|base|time|h20",
+   "grammar": {
+    "depth": "-25",
+    "entry": "raw",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +1.1260, ann_ret +8.86%, entries 4463",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-25-raw-liq2-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-25|raw|liq2|time|h20",
+   "grammar": {
+    "depth": "-25",
+    "entry": "raw",
+    "liq": "liq2",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.5928, ann_ret +4.08%, entries 4381",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-D-25-yang-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "D-25|yang|base|time|h20",
+   "grammar": {
+    "depth": "-25",
+    "entry": "yang",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.6560, ann_ret +4.74%, entries 4406",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-Dtop10-raw-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "Dtop10|raw|base|time|h20",
+   "grammar": {
+    "depth": "top10",
+    "entry": "raw",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +1.1301, ann_ret +8.89%, entries 4464",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-Dtop10-raw-liq2-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "Dtop10|raw|liq2|time|h20",
+   "grammar": {
+    "depth": "top10",
+    "entry": "raw",
+    "liq": "liq2",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.5781, ann_ret +3.97%, entries 4384",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "RC-Dtop10-yang-base-time-h20",
+   "source": "REV_CENSUS_POSITIVE",
+   "face_name": "Dtop10|yang|base|time|h20",
+   "grammar": {
+    "depth": "top10",
+    "entry": "yang",
+    "liq": "base",
+    "exit": "time",
+    "H": 20
+   },
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "evidence": "census ranked independent: sharpe_full +0.6133, ann_ret +4.44%, entries 4417",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "LX-LA-EDGE-deep-base",
+   "source": "LOWAMP_DEEP_EXPLORATION",
+   "face_name": "LA-EDGE|deep|base",
+   "grammar": {
+    "face": "LA-EDGE|deep|base"
+   },
+   "grammar_ref": "results/lowamp_p3/s1_evidence_extract.json#deep_axis_faces",
+   "evidence": "O-2150 verbatim admission: judged-negative line, exploration-positive deep-axis +55~60% pair ({\"axis\": \"deep\", \"cell\": \"LA-EDGE\", \"face\": \"base\", \"key\": \"cont|LA-EDGE|deep|base\"})",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "LX-LA-EDGE-deep-x2",
+   "source": "LOWAMP_DEEP_EXPLORATION",
+   "face_name": "LA-EDGE|deep|x2",
+   "grammar": {
+    "face": "LA-EDGE|deep|x2"
+   },
+   "grammar_ref": "results/lowamp_p3/s1_evidence_extract.json#deep_axis_faces",
+   "evidence": "O-2150 verbatim admission: judged-negative line, exploration-positive deep-axis +55~60% pair ({\"axis\": \"deep\", \"cell\": \"LA-EDGE\", \"face\": \"x2\", \"key\": \"cont|LA-EDGE|deep|x2\"})",
+   "ytd_legs": [
+    "backtest"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-BARBELL",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-BARBELL",
+   "grammar": {
+    "member": "AGGR-BARBELL"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.16% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-CONC-TOP2",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-CONC-TOP2",
+   "grammar": {
+    "member": "AGGR-CONC-TOP2"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +3.99% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-FULLCE",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-FULLCE",
+   "grammar": {
+    "member": "AGGR-FULLCE"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.03% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-FULLCE-C80",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-FULLCE-C80",
+   "grammar": {
+    "member": "AGGR-FULLCE-C80"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.03% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-GREEN-MAX",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-GREEN-MAX",
+   "grammar": {
+    "member": "AGGR-GREEN-MAX"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.41% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-GREEN-TOP2",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-GREEN-TOP2",
+   "grammar": {
+    "member": "AGGR-GREEN-TOP2"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.07% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-MOM",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-MOM",
+   "grammar": {
+    "member": "AGGR-MOM"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.17% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-NOCASH",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-NOCASH",
+   "grammar": {
+    "member": "AGGR-NOCASH"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.02% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-OFFENSE",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-OFFENSE",
+   "grammar": {
+    "member": "AGGR-OFFENSE"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +3.00% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-OFFENSE-FULL",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-OFFENSE-FULL",
+   "grammar": {
+    "member": "AGGR-OFFENSE-FULL"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.13% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-REG3",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-REG3",
+   "grammar": {
+    "member": "AGGR-REG3"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.13% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-REGIME",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-REGIME",
+   "grammar": {
+    "member": "AGGR-REGIME"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +3.66% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-60",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-60",
+   "grammar": {
+    "member": "AGGR-TOP2-60"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.09% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-80",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-80",
+   "grammar": {
+    "member": "AGGR-TOP2-80"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.12% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-C80",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-C80",
+   "grammar": {
+    "member": "AGGR-TOP2-C80"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.06% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-C95",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-C95",
+   "grammar": {
+    "member": "AGGR-TOP2-C95"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.07% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-MON",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-MON",
+   "grammar": {
+    "member": "AGGR-TOP2-MON"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +0.17% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP2-WK",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP2-WK",
+   "grammar": {
+    "member": "AGGR-TOP2-WK"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.50% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP3",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP3",
+   "grammar": {
+    "member": "AGGR-TOP3"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.06% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-AGGR-TOP3-GRAD",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "AGGR-TOP3-GRAD",
+   "grammar": {
+    "member": "AGGR-TOP3-GRAD"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.08% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P1",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P1",
+   "grammar": {
+    "member": "ALLOC-P1"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -3.12% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P2",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P2",
+   "grammar": {
+    "member": "ALLOC-P2"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -2.73% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P3",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P3",
+   "grammar": {
+    "member": "ALLOC-P3"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -4.80% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P3B",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P3B",
+   "grammar": {
+    "member": "ALLOC-P3B"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -4.96% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P4",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P4",
+   "grammar": {
+    "member": "ALLOC-P4"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -1.22% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P5",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P5",
+   "grammar": {
+    "member": "ALLOC-P5"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +2.51% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ALLOC-P6",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ALLOC-P6",
+   "grammar": {
+    "member": "ALLOC-P6"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +3.33% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-B_MAXDIV",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "B_MAXDIV",
+   "grammar": {
+    "member": "B_MAXDIV"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +0.95% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-COMPOSITE-CE-01",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "COMPOSITE-CE-01",
+   "grammar": {
+    "member": "COMPOSITE-CE-01"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +5.83% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-COMPOSITE-CE-02",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "COMPOSITE-CE-02",
+   "grammar": {
+    "member": "COMPOSITE-CE-02"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +4.67% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-DROUGHT-CE-01",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "DROUGHT-CE-01",
+   "grammar": {
+    "member": "DROUGHT-CE-01"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +3.99% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-ENGULF-CE-01",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "ENGULF-CE-01",
+   "grammar": {
+    "member": "ENGULF-CE-01"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.87% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-GRID-159915",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "GRID-159915",
+   "grammar": {
+    "member": "GRID-159915"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -2.51% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-GRID-510300",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "GRID-510300",
+   "grammar": {
+    "member": "GRID-510300"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -2.08% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-GRID-511010",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "GRID-511010",
+   "grammar": {
+    "member": "GRID-511010"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +0.01% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-GRID-512880",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "GRID-512880",
+   "grammar": {
+    "member": "GRID-512880"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.51% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-GRID-518880",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "GRID-518880",
+   "grammar": {
+    "member": "GRID-518880"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.89% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-NEEDLE-DE-01",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "NEEDLE-DE-01",
+   "grammar": {
+    "member": "NEEDLE-DE-01"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +0.61% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-REV-OSC-STD",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "REV-OSC-STD",
+   "grammar": {
+    "member": "REV-OSC-STD"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.15% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-SYSTEM-V1",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "SYSTEM-V1",
+   "grammar": {
+    "member": "SYSTEM-V1"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD -0.08% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  },
+  {
+   "contest_id": "LIVE-VOLATILITY-CE-01",
+   "source": "T146_LIVE_MEMBERS",
+   "face_name": "VOLATILITY-CE-01",
+   "grammar": {
+    "member": "VOLATILITY-CE-01"
+   },
+   "grammar_ref": "results/ytd_track_record/ytd_summary.json",
+   "evidence": "already-live member; YTD +2.61% (T-146 measured, spliced backtest+paper legs)",
+   "ytd_legs": [
+    "backtest",
+    "paper"
+   ]
+  }
+ ]
+}
