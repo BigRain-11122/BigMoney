@@ -11,7 +11,8 @@ def run(args, **kw):
     r = subprocess.run(args, cwd=REPO, capture_output=True, creationflags=CREAT, **kw)
     return r
 
-MINE = 'e867471ed'
+MINE = sys.argv[1] if len(sys.argv) > 1 else 'e867471ed'
+MSGFILE = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, '.codely-cli', 'scratch', 'msg_r590_freeze.txt')
 run(['git', 'fetch', 'origin'])
 ORIGIN = run(['git', 'rev-parse', 'origin/main']).stdout.decode().strip()
 print('origin:', ORIGIN)
@@ -56,8 +57,7 @@ want = sorted(p for _, p in payload)
 assert got == want, f'tree-delta != payload: {set(got) ^ set(want)}'
 print(f'assert OK: tree-delta == payload ({len(want)} files), deletion-set EMPTY')
 
-sha = run(['git', 'commit-tree', tree, '-p', ORIGIN,
-           '-F', os.path.join(REPO, '.codely-cli', 'scratch', 'msg_r590_freeze.txt')],
+sha = run(['git', 'commit-tree', tree, '-p', ORIGIN, '-F', MSGFILE],
           env=env).stdout.decode().strip()
 print('surgical commit:', sha)
 r = run(['git', 'push', 'origin', f'{sha}:main'], env=env)
