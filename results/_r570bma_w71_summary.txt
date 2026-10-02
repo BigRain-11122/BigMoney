@@ -1,0 +1,63 @@
+R1 used-seed leg, probe-seed "
+          "cluster leg, law sec.4 W70 row, r568 bm-b] "
+          "+ W71 materializer face [same guard set, dep=W17..W67 "
+          "outputs ALL PRESENT (landed chain head 511,948, K=145,320, "
+          "bm-b r568), W68 bm-a + W69 bm-c + W70 bm-b = THREE in-flight "
+          "upstream seats (FAIL-CLOSED r307 at run time), SIXTIETH "
+          "ENGINE-OWNED WAVE bm-c's TWENTY-THIRD owned claim per "
+          "machine-derive (engine_owner==bm-c rows 22 + candidate), "
+          "engine_owner=bm-c per engine de-throttle law "
+          "O-20261001-2355 sec.2 own-continuous-series (wave 71 = "
+          "first FREE number after the registered W70 row; seat "
+          "published=reserved MSG-20261002-1017-bmc), BOTH SIDES "
+          "ARITHMETIC CONTINUATION from the W70 tail no skip (A "
+          "185_004..187_003 / B 51_201..51_400 both CLEAN "
+          "machine-derived; the W70 canon row carries no W71+ WARNING "
+          "prose -- derivation basis = registered W70 bands + bm-b "
+          "r568 commit-message projection cross-check per r302/r535 "
+          "law; ADMIT receipt results/_r361bmc_w71_band_gate.py; not a "
+          "free pick -- R250), N3-R1 used-seed leg, probe-seed "
+          "cluster leg, law sec.4 W71 row, r361 bm-c] "
+          "+ T-141 s2 "
+          "engine-lane claim exemption [law sec.2 pre-claim exempt "
+          "face])")
+    return 0
+
+
+def main():
+    argv = sys.argv[1:]
+    if "--wave" in argv:
+        w = int(argv[argv.index("--wave") + 1])
+        if w not in WAVE_CONFIGS:
+            print(f"unknown wave {w} (law sec.4 pre-assigned rows: "
+                  f"{sorted(WAVE_CONFIGS)}; W5+ bands extend per-wave at "
+                  f"prereg time, law sec.4 tail rows)")
+            return 2
+        _set_wave(w)
+    if "--lane" in argv:
+        lane = argv[argv.index("--lane") + 1]
+        if lane not in ("pool", "engine"):
+            print(f"unknown lane {lane!r} (pool|engine, law sec.2)")
+            return 2
+        _set_lane(lane)
+    if "selftest" in argv:
+        return selftest()
+    if "finalize" in argv:
+        return finalize()
+    if "probe" in argv:
+        return probe()
+    if "parity" in argv:
+        return parity()
+    if "status" in argv:
+        return status()
+    shard = nshards = None
+    if "--shard" in argv:
+        shard = int(argv[argv.index("--shard") + 1])
+    if "--of" in argv:
+        nshards = int(argv[argv.index("--of") + 1])
+    if "--nshards" in argv:
+        nshards = int(argv[argv.index("--nshards") + 1])
+    if shard is None or nshards is None:
+        print(__doc__)
+        print("usage: run --shard i --of N [--wave W] [--workers P] "
+            
