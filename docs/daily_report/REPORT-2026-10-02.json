@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-02",
- "generated_at": "2026-10-02 13:29:24",
+ "generated_at": "2026-10-02 13:50:05",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-02.md"
  },
  "rd": {
-  "commits_24h": 744,
-  "result_jsons_landed_24h": 80,
+  "commits_24h": 754,
+  "result_jsons_landed_24h": 521,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 85,
+  "prereg_md_touched_24h": 86,
   "compute_audit_latest": {
-   "ts": "2026-10-02 13:27:20",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-10-02 13:48:42",
+   "py_cpu_pct": 0.4,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -627,17 +627,17 @@
    "status": "claimed",
    "type": "group-decision-dispatch-consolidated-p1",
    "immediate": false,
-   "owner": "bm-c (OS iteration loop, round 365; (b) "
+   "owner": "bm-c (OS iteration loop, round 365 claim"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1087099,
+  "total_report_tokens_est": 1088509,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-02 13:03:36",
+   "prev_generated": "2026-10-02 13:23:28",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -336,
-   "mandate_growth": 0
+   "report_tokens_growth": 1410,
+   "mandate_growth": 122
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -647,37 +647,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-02 12:15:51",
-    "py_pct": 0.8,
-    "cpu_pct": 6.0,
+    "latest_ts": "2026-10-02 13:48:42",
+    "py_pct": 0.4,
+    "cpu_pct": 8.0,
     "ready": 0,
-    "streak_min": 38.2,
+    "streak_min": 131.1,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "07:58",
-      5.1
-     ],
-     [
-      "08:25",
-      39.1
-     ],
-     [
-      "08:54",
-      0.1
-     ],
-     [
-      "09:01",
-      0.0
-     ],
-     [
-      "09:45",
-      0.4
-     ],
-     [
-      "10:15",
-      76.8
-     ],
      [
       "10:40",
       0.0
@@ -701,29 +677,45 @@
      [
       "12:15",
       0.8
+     ],
+     [
+      "12:37",
+      0.0
+     ],
+     [
+      "13:02",
+      0.8
+     ],
+     [
+      "13:15",
+      1.4
+     ],
+     [
+      "13:27",
+      0.5
+     ],
+     [
+      "13:42",
+      0.6
+     ],
+     [
+      "13:48",
+      0.4
      ]
     ],
-    "today_samples": 29,
+    "today_samples": 35,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-02 13:15:37",
-    "py_pct": 1.4,
-    "cpu_pct": 16.0,
+    "latest_ts": "2026-10-02 13:42:32",
+    "py_pct": 0.6,
+    "cpu_pct": 7.0,
     "ready": 0,
-    "streak_min": 98.0,
+    "streak_min": 124.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "09:01",
-      0.0
-     ],
-     [
-      "09:45",
-      0.4
-     ],
      [
       "10:15",
       76.8
@@ -763,9 +755,17 @@
      [
       "13:15",
       1.4
+     ],
+     [
+      "13:27",
+      0.5
+     ],
+     [
+      "13:42",
+      0.6
      ]
     ],
-    "today_samples": 32,
+    "today_samples": 34,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -840,35 +840,35 @@
   "day": "2026-10-02",
   "machines": {
    "bm-a": {
-    "batches_judged": 209,
-    "core_seconds": 18999.5,
-    "wall_seconds": 3646.7,
-    "effective_cores": 5.21,
+    "batches_judged": 224,
+    "core_seconds": 20248.7,
+    "wall_seconds": 3898.2,
+    "effective_cores": 5.19,
     "single_core_burn": 0,
-    "multicore_burn": 209,
+    "multicore_burn": 224,
     "too_short": 0,
-    "last_ts": "2026-10-02T12:57:19+08:00",
+    "last_ts": "2026-10-02T13:49:19+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 50,
-     "audit_ts": "2026-10-02 12:15:51"
+     "audit_batches": 35,
+     "audit_ts": "2026-10-02 13:48:42"
     }
    },
    "bm-b": {
-    "batches_judged": 252,
-    "core_seconds": 40989.7,
-    "wall_seconds": 6689.3,
+    "batches_judged": 255,
+    "core_seconds": 41451.2,
+    "wall_seconds": 6764.6,
     "effective_cores": 6.13,
     "single_core_burn": 0,
-    "multicore_burn": 252,
+    "multicore_burn": 255,
     "too_short": 0,
-    "last_ts": "2026-10-02T13:26:29+08:00",
+    "last_ts": "2026-10-02T13:29:29+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 34,
-     "audit_ts": "2026-10-02 13:15:37"
+     "audit_batches": 36,
+     "audit_ts": "2026-10-02 13:42:32"
     }
    },
    "bm-c": {
