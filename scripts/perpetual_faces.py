@@ -2218,6 +2218,33 @@ N1_BANDS = {
     # NOT a re-pick (R250: W95 bands were never assigned).
     95: {"a": (233_004, 235_003), "b_exit": (57_501, 57_700),
          "engine_owner": "bm-b"},
+    # EIGHTY-SIXTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r581 bm-a
+    # freeze): engine_owner rows 85 + candidate; bm-a's
+    # twenty-sixth owned per machine-derive (engine_owner==bm-a
+    # rows 25 + candidate). Wave 96 = first free number after the
+    # registered W95 row (SINGLE STATE, zero seat gap; no
+    # published seat to skip). Seat published=reserved
+    # MSG-20261002-1531-bma pushed to origin 2819d0393 BEFORE
+    # this freeze per r565 early-visibility law.
+    # W91 finalize LANDED at this freeze (landed chain head
+    # 564,748 = W91 bm-b r579 one-pass; K=198,120). THREE
+    # in-flight upstream seats (W92 bm-c + W93 bm-b + W94 bm-a
+    # -- all registered, finalize pending) -- finalize merge
+    # loop stays FAIL-CLOSED r307 at run time.
+    # BOTH SIDES ARITHMETIC CONTINUATION from the registered W95
+    # tails, single state: A 235_004..237_003 CLEAN + B
+    # 57_701..57_900 CLEAN zero refusal points
+    # (machine-verified at prereg time, ADMIT receipt
+    # results/_r581bma_w96_band_gate.py rc0 hops 0/0; live
+    # SEED_REGISTRY + probe cluster 95_000..95_003 r335 leg +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 leg).
+    # W97+ projection: A 237_004..239_003 CLEAN; B 57_901..58_100
+    # REFUSED at SEED_REGISTRY 58_000 (in-band -> next freezer
+    # pins per D-20261002-05; next freezer must re-derive,
+    # never transcribe).
+    # NOT a re-pick (R250: W96 bands were never assigned).
+    96: {"a": (235_004, 237_003), "b_exit": (57_701, 57_900),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
