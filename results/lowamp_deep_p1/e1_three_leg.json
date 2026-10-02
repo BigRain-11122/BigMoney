@@ -1,0 +1,180 @@
+{
+  "active_n": 10,
+  "axis": "deep",
+  "batch": "LOWAMP-DEEP-P1",
+  "cell": "LAD-EDGE",
+  "cost_x1_rate": 0.0013041,
+  "e1_verdict": "PASS",
+  "evidence_cutoff": "2026-09-22",
+  "face": "base",
+  "legA2_exit_census": {
+    "block_share": 0.2,
+    "census_pass": true,
+    "default_share": 0.0,
+    "default_stack_fires": {},
+    "dual_channel_held": true,
+    "per_sym_reasons": {
+      "159915": {
+        "signal_reversal": 1
+      },
+      "159919": {
+        "signal_reversal": 16
+      },
+      "159920": {
+        "signal_reversal": 2
+      },
+      "159934": {
+        "signal_reversal": 7
+      },
+      "510050": {
+        "signal_reversal": 6
+      },
+      "510300": {
+        "signal_reversal": 4
+      },
+      "510330": {
+        "signal_reversal": 11
+      },
+      "511010": {
+        "signal_reversal": 7
+      },
+      "511260": {
+        "signal_reversal": 1
+      },
+      "518880": {
+        "signal_reversal": 12
+      }
+    },
+    "reason_totals": {
+      "signal_reversal": 67
+    },
+    "total_exits": 67
+  },
+  "legA_as_burned": {
+    "artifact": {
+      "max_dd": -0.054658,
+      "n_days": 3230,
+      "n_entries": 69,
+      "n_trades": 67,
+      "nav_first": 1000000.0,
+      "nav_last": 1604282.63,
+      "ret_full": 0.604283,
+      "sharpe_full": 1.066348,
+      "trades_per_year": 5.23
+    },
+    "replay": {
+      "max_dd": -0.054658,
+      "n_days": 3230,
+      "n_entries": 69,
+      "n_trades": 67,
+      "nav_first": 1000000.0,
+      "nav_last": 1604282.63,
+      "ret_full": 0.604283,
+      "sharpe_full": 1.066348,
+      "trades_per_year": 5.23
+    },
+    "returns_bp_match": true,
+    "returns_len_artifact": 3229,
+    "returns_len_replay": 3229,
+    "returns_max_abs_diff": 0.0,
+    "summary_fields_match": true
+  },
+  "legB_engine_note": {
+    "b_equals_a_by_construction": true,
+    "b_vs_c_ref": "legC_independent.engine_vs_C_returns_max_abs_diff",
+    "exit_patch_overrides": {
+      "global_hard_limit": 1000000000,
+      "loss_time_days": 1000000000
+    }
+  },
+  "legC_independent": {
+    "B_vs_C_within_5bp_per_day": true,
+    "days_over_5bp": 0,
+    "days_total": 3229,
+    "engine_vs_C_returns_max_abs_diff": 2.0000000000098064e-08,
+    "letter_within_5bp_per_day": true,
+    "over_day_is_trade_boundary": false,
+    "per_sym": {
+      "159915": {
+        "n_buys": 1,
+        "n_sells": 1,
+        "nav_last": 1027126.29
+      },
+      "159919": {
+        "n_buys": 16,
+        "n_sells": 16,
+        "nav_last": 975660.56
+      },
+      "159920": {
+        "n_buys": 2,
+        "n_sells": 2,
+        "nav_last": 1003659.94
+      },
+      "159934": {
+        "n_buys": 7,
+        "n_sells": 7,
+        "nav_last": 1024814.54
+      },
+      "510050": {
+        "n_buys": 6,
+        "n_sells": 6,
+        "nav_last": 983662.71
+      },
+      "510300": {
+        "n_buys": 4,
+        "n_sells": 4,
+        "nav_last": 1009748.21
+      },
+      "510330": {
+        "n_buys": 11,
+        "n_sells": 11,
+        "nav_last": 1001325.67
+      },
+      "511010": {
+        "n_buys": 8,
+        "n_sells": 7,
+        "nav_last": 1266305.0
+      },
+      "511260": {
+        "n_buys": 2,
+        "n_sells": 1,
+        "nav_last": 1103735.44
+      },
+      "518880": {
+        "n_buys": 12,
+        "n_sells": 12,
+        "nav_last": 1208244.27
+      }
+    },
+    "result": {
+      "max_dd": -0.054658,
+      "nav_last": 1604282.63,
+      "ret_full": 0.604283,
+      "sharpe_full": 1.066348
+    },
+    "second_largest_diff": 2e-08
+  },
+  "panel_facts": {
+    "anchor_rows_510300": 3230,
+    "axis": "deep",
+    "members": 48,
+    "panel_end": "2026-09-22",
+    "panel_start": "2013-06-17",
+    "starts": 1506
+  },
+  "verdict_face_reconciliation": {
+    "finalize_census_pass": true,
+    "headline_matches_legA_artifact": {
+      "max_dd": true,
+      "n_entries": true,
+      "n_trades": true,
+      "ret_full": true,
+      "sharpe_full": true
+    },
+    "note": "finalize-window reconciliation (r397 bm-c): headline face reconciled against E1 as-burned Leg A artifact to 1e-9; nulls k and finalize census carried",
+    "nulls_k": 2000,
+    "results_file_present": true,
+    "status": "RECONCILED",
+    "verdict": "judged-negative"
+  }
+}

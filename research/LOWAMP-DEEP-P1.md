@@ -89,8 +89,25 @@
 - 语法登记=TRIAL_GRAMMAR_LEDGER 家族专用判决批行（LOWAMP-DEEP-P1·deep 宇宙面首个 W 带消费声明）
 - 消费面：千人题库 deep 宇宙语法首批 + STRATEGY_LIBRARY 注册通道（PASS 面）+ POTENTIAL_WATCHLIST（judged-negative 面）+ 淬炼链第二炉（若存活→REFINE_BENCH_LAW §2 手段轴深轴淬炼）
 
-## §7 跑后实证【跑前为空——写数字即造假】
+## §7 跑后实证【r397 bm-c 一次定稿回填】
+
+- **verdict=judged-negative**（2026-10-03 finalize·audit.machine=bm-c）：headline LAD-EDGE|deep|base 全期 Sharpe **1.066348 < skill_line 1.512**（数据驱动线=max(deep 被动 0.4717, μ_null 0.0755+σ_null 0.2782×√(2·ln 617,500))——null 项主导）；**DSR 0.700448 < 0.95**（T=3,229·skew 1.7065·kurt 33.71）；G2 eligible_v2=false → 族级判负。
+- 过线门全绿面：M1 t=3.817093 PASS（≥3.0）·x2 存活 PASS（0.979073）·**律 A 普查 PASS（default_share=0.0·67 笔全 signal_reversal·双通道 held）**·G-SEG 覆盖 PASS（bear 746/bull 540/chop 94）·确定性重现 PASS（LAD-EDGE/LAD-REP base 逐字段==P3 deep 工件）·D6 max|corr|=0.1719<0.7（vs VOLATILITY-CE-01·新键 open 合法照跑）。
+- headline：ret_full +60.43%·n_trades 67·n_entries 69·maxDD −5.47%·trades_per_year 5.23（12m 主判窗）；passive face=deep 首员等权 B&H Sharpe 0.371677/ret 0.971229（t18 reval ew48 先证 0.3612 同量级）。
+- **真 eq 面深宇宙首测（§3 sizing 修正面兑现）**：LAD-EDGE-EQ Sharpe **0.454151**/maxDD **−27.78%**·LAD-REP-EQ **0.485123**/−26.15%——显著弱于 invvol 胞（1.066/1.115·maxDD −5.5%）且远出预测②「invvol ±15% 收益带」：**深轴族防御性由 invvol 低波权重轴承重**（eq 面不可复制）=对外叙事面重要负发现。
+- nulls 三族：same-mask K=2,000 μ=0.0755·σ=0.2782（p05 −0.3465/p50 0.1132/p95 0.4708·seed 带 20337500）；block bootstrap B=2,000（块长 21td）obs 1.0663 vs p05 0.6306/p50 1.0731/p95 1.5066·p_ge_obs 0.5085；sign-flip P=2,000 p_two_sided **0.0**（abs_mean_obs 1.4884e-4 vs null p95 7.58e-5——信号方向性真实非噪声）。
+- sens 描述面（K=500·不计 N_eff）：sharpe p05 0.4501/p50 0.5907/p95 1.1209·maxdd_worst −0.2905——预测⑦ legacy 迁移带 0.9-1.3 **证否**（宇宙切换降级面如实）。
+- starts_12m_dist（n=1,380 起点读数）：median 0.0325·p25 0.0184·p75 0.0455·positive_share **85.29%**·best 0.0845·worst −2.56%；rolling_worst 3y 0.027/5y 0.0724/10y 0.2748；descriptive is_ann_ret 0.4019/oos_ann_ret 0.1444/x2_cost_drag_sharpe −0.0873。
+- 政体分段：bear 746/bull 540/chop 94（12m 完整窗起点·G-SEG ≥50 三档全过）。
+- 账本：batch_trials **2,008**（judged 4×2 判面 + nulls 2,000·sens 描述面不计）·prev_total 615,492 → **total 617,500**（voids_applied LOWAMP-P1/P2·ledger_head 消费=n3_r2_results.json r509 序零手抄）·evidence_cutoff 2026-09-22。
+- **E1 四腿门=PASS**（消费前置律满足）：Leg A as-burned 引擎重放 Sharpe 1.066348 逐 bp 恒等+summary match；Leg A2 出场普查（=律 A 腿·0% 缺省）；Leg C 无引擎独立算术 **max diff 2e-8·days>5bp=0·letter within=True**——证据件 results/lowamp_deep_p1/e1_three_leg.json。
+- **判据输入偏差如实披露（verdict 双向稳健）**：gates.dsr.n_trials 实测记录=2,008（批内口径）而非 §4 文字面的「账本累计 617,500」——按累计口径 sr_star 只升（0.0583→~0.087）DSR 只降，判负面**不变**（偏差方向=反保守侧·两口径同谳 judged-negative）；§7 如实记录实测值，禁按 §4 文面改写机读产物。
+- 预测对账（§5 八条）：①全中（重现逐位+M1 3.817≈3.8）②**证否**（eq 带外）③方向中（σ_null 0.2782→线 1.512 判负·落「30-50% pass」诚实带宽的判负侧）④全中⑤全中（0% 缺省）⑥全中（maxDD −5.5% 带+被动面同量级）⑦**证否**（sens 带显著更低）⑧全中（DSR 判负照报）。
+- 下游（§4 judged-negative 支）：族键 `lowamp_deep_xs` 入 CLOSED_FAMILIES **#8**（science_gates 代码面+research/CLOSED_FAMILIES.md 镜像面双落·reopen=新证据新预注册）；无 POTENTIAL_WATCHLIST 翻面（判负面不进潜力名单）；千人题库 deep 宇宙语法消费面照旧（TRIAL_GRAMMAR_LEDGER 判决批行 r596 冻结时已登记）；淬炼链第二炉不开（存活面不存在）。
 
 ## §8 批后复盘【s7-T】
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与池票）；冻结后禁改判据（回填限 §7/§8）；§5 资源申报=§0 算力预算（池 10 条目·workers 12）·§6 里程碑=烧毕→finalize→E1→消费四段（窗=10-09 开市前·验收 10-08）。
+- **批后复盘（r397 bm-c·判负收口）**：全链如期走完（r596 冻结→池烧 10/10→finalize 41s→E1 四腿 PASS），**无工具面缺陷挂点**（出场轴双通道 0% 缺省+sizing 真分化四胞两两分化+重现门逐位恒等=机件面干净的机器证明）→判负为纯统计面真判负：机队级多重检验线 1.512（σ_null 0.2782×N_eff 617,500 驱动）对单族 Sharpe 1.07 的通过窗结构性收窄——与 §5 预测③「pass 概率 30-50%」诚实带宽一致，实测落判负侧，禁归咎工具面、禁翻案。
+- 负发现价值（照报不粉饰）：①**真 eq 面证否**——深轴族防御性由 invvol 权重轴承重（eq maxDD −27.8% vs invvol −5.5%），复现该族防御性必须复制权重面=对外叙事硬边界；②sign-flip p=0——方向性真实非噪声；③sens 带显著低于 legacy 迁移预期——宇宙切换降级面如实入档；④判据输入偏差（dsr n_trials 批内口径）双向稳健披露（见 §7）——未来批件 finalize 的 n_trials 口径宜在 §4 判据节写死取值调用式（本批文字面「账本累计」与 runner 实参「批内」的缝=规格书写层教训，机读产物以实测为准）。
+- E1 调试窗教训（工程面·04:26-04:38 四跑三改）：Leg C 独立算术对**一字断板日（high==low·零振幅）**的当日收益假设首版失配（ret_full nan→逐日差>5bp 1644 天）——正解=断板日收盘即成交价（引擎语义）+严格尾段切片对齐；终版 max diff 2e-8/days>5bp=0。教训已按捕获律评估入方法论资产卡（见本轮 METHODOLOGY_ASSETS 增补）。

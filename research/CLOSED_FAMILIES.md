@@ -15,6 +15,7 @@
 | 5 | `t28_spm_first` | NOT-DEMONSTRATED（J4 pooled<0.70 唯一挂点） | research/T28_STABLE_PROFIT.md | T-28 首测台账 | 既排复跑窗 2026-10-31 |
 | 6 | `microcap_2024_crash` | 不可行域·照登不建模 | O-20260926-0926 | 集团令原文 | CEO 一句话 |
 | 7 | `lowamp_daily_xs` | judged-negative（P3 真判负·单批终局） | LOWAMP-P3 verdict+E1 四腿（r533 bm-b·2026-10-02） | results/lowamp_p3/lowamp_p3_results.json + research/LOWAMP-P3.md §7/§8（P1/P2=VOID 缺陷面·P3=出场轴双通道修正面·律 A 普查 0% 缺省出场·G1'/M1/DSR/PBO/双轴全不过·族正面温和为正但跨不过机队级多重检验线 1.9722） | 新证据=新预注册 |
+| 8 | `lowamp_deep_xs` | judged-negative（DEEP-P1 深轴新家族真判负·单批终局） | LOWAMP-DEEP-P1 verdict+E1 四腿（r397 bm-c·2026-10-03） | results/lowamp_deep_p1/lowamp_deep_p1_results.json + research/LOWAMP-DEEP-P1.md §7/§8（headline LAD-EDGE deep Sharpe 1.0663 跨不过机队级多重检验线 1.512·DSR 0.7004<0.95·M1/x2/律 A 普查 0% 缺省出场/G-SEG/确定性重现门全过·真 eq 面 deep 首测显著弱于 invvol（0.45-0.49 vs 1.07-1.12·maxDD −27.8% vs −5.5%）·P1/P2 void 已套用·账本 615,492+2,008=617,500） | 新证据=新预注册 |
 
 **启用面（前瞻生效）**：本表+M1 t 值门槛自 bm-a r482 起对**此后冻结的新预注册**生效；既有冻结批维持原判（档存重估=新程序非翻案律）。新 prereg 模板已加两必填项（`research/PREREG_TEMPLATE.md` §3/§4）：①闭合族对号+复活证据增量声明 ②新因子 t 面申报（Harvey/Liu/Zhu 门槛 3.0）。
 

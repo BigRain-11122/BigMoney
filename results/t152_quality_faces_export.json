@@ -1,0 +1,73 @@
+{
+ "anchor_median": 52.0,
+ "anchor_p10": 26.0,
+ "audit_flagged_13_cross": {
+  "excluded_not_in_audit_flags": [],
+  "flagged_with_exclusions": [
+   "000757",
+   "000768",
+   "000892",
+   "000935",
+   "002039",
+   "600248",
+   "600249",
+   "600469",
+   "600480",
+   "600506",
+   "600547",
+   "600548",
+   "688357"
+  ],
+  "flagged_without_exclusions": []
+ },
+ "avail_global_max": "2026-08-31",
+ "avail_global_min": "2001-04-30",
+ "bytes": 0,
+ "date_format_counts": {
+  "cn": 0,
+  "iso": 306429,
+  "other": 0
+ },
+ "dup_period_end_syms": [],
+ "elapsed_sec": 65.6,
+ "empty_face_syms": 2,
+ "excluded_by_sym": {
+  "000757": 1,
+  "000768": 1,
+  "000892": 1,
+  "000935": 1,
+  "002039": 1,
+  "600248": 1,
+  "600249": 1,
+  "600469": 3,
+  "600480": 1,
+  "600506": 1,
+  "600547": 1,
+  "600548": 1,
+  "688357": 1
+ },
+ "excluded_nonperiod_rows": 15,
+ "excluded_syms_n": 13,
+ "excluded_unparsable_rows": 0,
+ "gates": {
+  "anchor_median_ok": false,
+  "coverage_ok": true,
+  "dup_period_end_ok": true,
+  "mono_avail_ok": true,
+  "n_symbols_ok": true,
+  "statutory_map_exact": true
+ },
+ "machine": "bm-c",
+ "missing_face_syms": 0,
+ "mono_violation_syms": [],
+ "n_dirs": 5225,
+ "n_roe_nonnull": 295238,
+ "n_roe_null": 11176,
+ "n_rows": 306414,
+ "n_symbols": 5223,
+ "note": "roe_q face, statutory avail_date baked in per PIT audit pit.financial_face_rule; honest exclusion of nonperiod rows disclosed above; FY & next-Q1 legally share avail 04-30 (non-decreasing mono per spec; probe leg2 dup axis note in flight to bm-b).",
+ "out": null,
+ "statutory_map_bad_rows": 0,
+ "ticket": "T-2026-10-03-152-P1",
+ "verdict": "FAIL"
+}
