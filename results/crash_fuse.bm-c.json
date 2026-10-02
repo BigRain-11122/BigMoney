@@ -462,25 +462,16 @@
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-02 03:40:14"
   },
-  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,base": {
+  "scripts/lowamp_deep_p1.py|run,--nulls": {
    "count": 1,
-   "refusals": 19,
+   "refusals": 2,
    "code_sha256": "45a87607fdcc6ee0",
-   "last_crash_ts": "2026-10-02 23:25:04",
-   "entry": "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-BASE",
-   "shard": "lowamp-deep-p1-cell-ladedge-deep-base-0of1",
+   "last_crash_ts": "2026-10-02 23:50:04",
+   "entry": "LOWAMP-DEEP-P1-NULLS",
+   "shard": "lowamp-deep-p1-nulls-0of1",
    "machine": "bm-c",
-   "last_refusal_ts": "2026-10-02 23:39:09"
-  },
-  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,x2": {
-   "count": 1,
-   "refusals": 18,
-   "code_sha256": "45a87607fdcc6ee0",
-   "last_crash_ts": "2026-10-02 23:25:47",
-   "entry": "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-X2",
-   "shard": "lowamp-deep-p1-cell-ladedge-deep-x2-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-02 23:39:09"
+   "last_refusal_ts": "2026-10-03 00:20:12",
+   "note": "keep blocked: bm-a in-flight per MSG-2346 (r489 yield); clear only after pool row lands done by bm-a harvest"
   }
  },
  "cleared": {
@@ -700,6 +691,27 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "f089f3293e081094"
+  },
+  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,base": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
+  },
+  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,x2": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
+  },
+  "scripts/lowamp_deep_p1.py|run,--sensitivity": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
   }
  },
  "lane_machine": "bm-c"
