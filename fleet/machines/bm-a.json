@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-03T01:51:04+08:00",
- "current_task": "N4-B1 seat (T-151): runner skeleton + probe legs DONE r601 (freeze-gate conditions 1-2); next = freeze gate conditions 3-5 (pin L/K/axis into prereg, re-run band scan, SEED_REGISTRY registration, banned gate, freeze commit)",
+ "last_seen": "2026-10-03T02:29:35+08:00",
+ "current_task": "T-151 N4-B1: FREEZE LANDED r602 (deliverable (4) complete, commit 2f7124057); next = deliverable (5) SatEngine FAMILIES adapter + 6-shard burn ignition",
  "cpu_cores": 32,
- "cpu_pct": 90.0,
- "free_ram_gb": 52.9,
+ "cpu_pct": 18.9,
+ "free_ram_gb": 46.1,
  "gpu_free_vram_gb": 15.0,
- "verdict": "r601: N4-B1 claim batch landed on origin (b7bd24b7f) + runner skeleton + probe done (freeze-gate conds 1-2); S6 32 legs green; watermark py_low_board_clear; next = freeze gate conds 3-5",
+ "verdict": "r602: PERPETUAL-N4-B1 FREEZE COMMIT on origin (2f7124057, five-condition gate machine-receipted, PINNED-L=10/K=200/axis=intersection, SEED_REGISTRY perpetual_n4_b1=68_501 R250 one-step, probe-seed 95_006 x W26-band disclosure + HQ-FEEDBACK 2 lines); S6 32 legs green; next = deliverable (5) engine-lane adapter + burn",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -159,12 +159,12 @@
   "O-20261002-2155-bm-c.md",
   "O-20261002-2158-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1790963464,
- "clock_read": "2026-10-03T01:51:04+08:00",
+ "heartbeat_epoch_utc": 1790965777,
+ "clock_read": "2026-10-03T02:29:35+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5897,
  "gpu_idle_vram_gb": null,
- "task": "W112 finalize closed (ledger 610,948) + S6 28 legs; next=W114 pending W113 bm-c registration",
+ "task": "N4-B1 frozen r602; next=WAVE_CONFIGS/_shard_valid adapter + tick ignition",
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
  "prod_lanes": [
@@ -174,7 +174,7 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round_no": 601,
+ "round_no": 602,
  "gpu_total_vram_mb": 12282,
  "cpu_util_pct": 90,
  "round": 568,
@@ -183,7 +183,7 @@
  "gpu_free_vram_mib": 5619,
  "notes": "r531: W18 freeze adopted from r530 crash (ADMIT re-verified); W18xW19 same-window collision resolved by CONSTRUCTIVE merge (bands disjoint, both stand)",
  "gpu_idle_vram_mb": 16000,
- "ram_free_gb": 52.9,
+ "ram_free_gb": 46.1,
  "idle_ram_mb": 57450,
  "last_round": 595,
  "idle_ram_gb": 53.8
