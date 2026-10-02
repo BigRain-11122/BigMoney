@@ -2092,6 +2092,30 @@ N1_BANDS = {
     # CLEAN; B 56_701..56_900 CLEAN (next freezer must re-derive).
     91: {"a": (225_004, 227_003), "b_exit": (56_501, 56_700),
          "engine_owner": "bm-b"},
+    # EIGHTY-SECOND ENGINE-OWNED WAVE BY MACHINE-DERIVE (r370 bm-c
+    # freeze): engine_owner rows 81 + candidate; bm-c's
+    # twenty-eighth owned per machine-derive (engine_owner==bm-c
+    # rows 27 + candidate). Wave 92 = first free number after the
+    # registered W91 row (bm-b r578 freeze 636dab137); SINGLE STATE
+    # zero seat gap: all rows W2..W91 registered (W89/W90/W91 =
+    # three in-flight upstream seats, finalize merge loop stays
+    # FAIL-CLOSED r307 at run time).
+    # BOTH SIDES ARITHMETIC CONTINUATION from the registered W91
+    # tails: A 227_004..229_003 (227_003 + 1, width 2_000) and
+    # B 56_701..56_900 (56_700 + 1, width 200), both CLEAN zero
+    # refusal points (honest forward walk, no pin chain needed).
+    # Machine-verified at prereg time
+    # (results/_r370bmc_w92_band_gate.py ADMIT receipt vs the
+    # 89-row pre-W92 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). Seat published=reserved
+    # MSG-20261002-1447-bmc pushed to origin (766daf77a) BEFORE
+    # this freeze per r565 law. W93+ projection: A 229_004..231_003
+    # CLEAN; B 56_901..57_100 REFUSED [57_000, 57_100] (next
+    # freezer must re-derive per the sec.4 pin law).
+    92: {"a": (227_004, 229_003), "b_exit": (56_701, 56_900),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
