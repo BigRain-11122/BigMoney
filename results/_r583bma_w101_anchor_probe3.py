@@ -1,0 +1,8 @@
+t = open('scripts/perpetual_faces_n1.py', 'rb').read().decode('utf-8')
+# find the SECOND occurrence of 'W99 materializer face' (the summary segment)
+first = t.find('W99 materializer face')
+second = t.find('W99 materializer face', first + 1)
+print('first at', first, 'second at', second)
+i = t.find('T-141 s2 ', second)
+print('--- summary tail around T-141 (repr) ---')
+print(repr(t[i-320:i+40]))

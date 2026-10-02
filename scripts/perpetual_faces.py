@@ -2333,6 +2333,36 @@ N1_BANDS = {
     # NOT a re-pick (R250: W99 bands were never assigned).
     99: {"a": (241_004, 243_003), "b_exit": (58_551, 58_750),
          "engine_owner": "bm-c"},
+    # NINETIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r583 bm-a
+    # freeze): engine_owner rows 89 + candidate; bm-a's
+    # twenty-eighth owned per machine-derive (engine_owner==bm-a
+    # rows 27 + candidate). Wave 101 = first free number after
+    # bm-b's PUBLISHED W100 seat (MSG-20261002-1615-bmb,
+    # published=reserved r518-1; W100 NOT yet registered at this
+    # freeze -- single state skip-past-published chain from the
+    # registered W99 tails). Seat published=reserved
+    # MSG-20261002-1625-bma pushed to origin 4e351f312 BEFORE
+    # this freeze per r565 early-visibility law.
+    # W96 finalize LANDED at this freeze (landed chain head
+    # 575,748 = W96 bm-a r583 one-pass; K=209,120). FOUR
+    # in-flight upstream seats (W97 bm-b burned-unfinalized +
+    # W98 bm-a burned-blocked-by-W97 + W99 bm-c burning +
+    # W100 bm-b seat-unfrozen) -- finalize merge loop stays
+    # FAIL-CLOSED r307 at run time.
+    # A = SKIP-PAST-PUBLISHED W100 then arithmetic continuation:
+    # 245_004..247_003 CLEAN hops=1. B = skip-past-published W100
+    # -> arithmetic 58_951..59_150 refused at SEED_REGISTRY 59_000
+    # in-window -> D-20261002-05 pinned past-hit restart
+    # 59_001..59_200 hops=2 (window-step chain reading BANNED,
+    # W68-B positive anchor). ADMIT receipt
+    # results/_r583bma_w101_band_gate.py rc0; live SEED_REGISTRY
+    # + probe cluster 95_000..95_003 r335 leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 leg.
+    # W102+ projection: A 247_004..249_003 CLEAN; B 59_201..59_400
+    # CLEAN (next freezer must re-derive, never transcribe).
+    # NOT a re-pick (R250: W101 bands were never assigned).
+    101: {"a": (245_004, 247_003), "b_exit": (59_001, 59_200),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
