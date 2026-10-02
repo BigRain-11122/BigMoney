@@ -2333,6 +2333,33 @@ N1_BANDS = {
     # NOT a re-pick (R250: W99 bands were never assigned).
     99: {"a": (241_004, 243_003), "b_exit": (58_551, 58_750),
          "engine_owner": "bm-c"},
+    # NINETIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r583 bm-b
+    # freeze): engine_owner rows 89 + candidate; bm-b's
+    # thirty-fourth owned per machine-derive (engine_owner==bm-b
+    # rows 33 + candidate). Wave 100 = first free number after the
+    # registered W99 row (zero seat gaps: W2..W99 all registered;
+    # single state, no skip-past-published chain).
+    # W1..W97 finalizes ALL LANDED (landed chain head 577,948 = W97
+    # bm-b r583 one-pass; K=211,320 merged pool). TWO in-flight
+    # upstream seats (W98 bm-a 12/12 burned finalize-pending + W99
+    # bm-c 12/12 burned finalize-pending, ALL REGISTERED) -- finalize
+    # merge loop stays FAIL-CLOSED r307 at run time.
+    # BOTH SIDES = ARITHMETIC CONTINUATION from the registered W99
+    # tails, CLEAN zero refusal points (honest forward walk, no
+    # pin chain, no skips -- W92 r370 precedent family).
+    # Machine-verified at prereg time
+    # (results/_r583bmb_w100_band_gate.py ADMIT receipt rc0 single
+    # state vs the 97-row pre-W100 table + live SEED_REGISTRY values
+    # + probe cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked; seat published=reserved
+    # MSG-20261002-1615-bmb pushed BEFORE this freeze per r565
+    # law). W101+ projection: A 245_004..247_003 CLEAN; B
+    # 58_951..59_150 REFUSED at [59_000] (D-20261002-05 pin for
+    # the next freezer; bm-a W101 seat published).
+    # NOT a re-pick (R250: W100 bands were never assigned).
+    100: {"a": (243_004, 245_003), "b_exit": (58_751, 58_950),
+         "engine_owner": "bm-b"},
     # NINETIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r583 bm-a
     # freeze): engine_owner rows 89 + candidate; bm-a's
     # twenty-eighth owned per machine-derive (engine_owner==bm-a

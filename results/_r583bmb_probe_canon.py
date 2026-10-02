@@ -1,0 +1,11 @@
+import re
+c = open('research/PERPETUAL_FACES.md', 'rb').read()
+m = c.find('- N1 波99'.encode('utf-8'))
+nxt1 = c.find(b'\n- ', m + 10)
+nxt2 = c.find(b'\n#', m + 10)
+nxt = min(x for x in (nxt1, nxt2) if x > 0)
+print('W99 bullet starts at', m, 'next section/bullet at', nxt)
+print('--- tail of W99 bullet (last 150 bytes):')
+print(c[nxt-150:nxt].decode('utf-8', 'replace'))
+print('--- 150 bytes after:')
+print(c[nxt:nxt+150].decode('utf-8', 'replace'))
