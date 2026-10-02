@@ -259,6 +259,52 @@ def _pool_origin_stale():
     return None
 
 
+_ORIGIN_POOL_BLOB = None   # selftest hook: origin pool blob bytes/str;
+                           # None -> real git read (fail-soft)
+
+
+def _origin_shard_state(entry_id, shard_key):
+    """MSG-2026-10-03-0535 (bm-b) done-absorption pre-read (r608 bm-a
+    live case: a 04:54 tick claimed a shard origin had flipped done
+    04:38 -- the post-reland pre-checkout DISK model was stale and
+    HEAD==origin left _pool_origin_stale content-blind; the claim push
+    reverted the healed pool rows). Reads the TARGET shard off the
+    origin ref as claim-time truth (r489/r598 claim-visibility law).
+    Returns (status, owner, owner_age_min) or ("missing", None, None);
+    None = unavailable -> prior gates govern (fail-soft)."""
+    try:
+        if _ORIGIN_POOL_BLOB is not None:
+            raw = _ORIGIN_POOL_BLOB
+            raw = raw.encode() if isinstance(raw, str) else raw
+        else:
+            rc_f, _ = _git(("fetch", "-q", "origin", "main"))
+            if rc_f != 0:
+                return None
+            try:
+                rel = os.path.relpath(POOL, ROOT)
+            except ValueError:
+                rel = os.path.basename(POOL)
+            r = subprocess.run(
+                ["git", "show", "origin/main:"
+                 + rel.replace(os.sep, "/")],
+                cwd=ROOT, capture_output=True, timeout=20)
+            if r.returncode != 0:
+                return None
+            raw = r.stdout
+        pool = json.loads(raw.decode("utf-8", errors="replace"))
+        for e in pool.get("entries", []):
+            if e.get("id") != entry_id:
+                continue
+            for s in e.get("shards", []):
+                if s.get("key") == shard_key:
+                    ow = s.get("owner")
+                    age = _owner_age_min(ow, s) if ow else None
+                    return (s.get("status"), ow, age)
+        return ("missing", None, None)
+    except Exception:
+        return None
+
+
 def _py_cpu_pct(window=SAMPLE_S):
     """Instantaneous python-process CPU load as % of machine capacity."""
     import psutil
@@ -1391,6 +1437,23 @@ def _claim_shard(sh, myid, entry_id):
                 _log(f"claim lost: {sh.get('key')} owner {ow} fresh "
                      f"({age:.0f}min)")
                 return False
+        # MSG-2026-10-03-0535 done-absorption pre-read: the merged DISK
+        # view can be a post-reland pre-checkout stale model while
+        # HEAD==origin (r608 live case 04:54) -- origin ref is the
+        # claim-visibility truth. Origin shows done shard or fresh
+        # rival -> yield (no write); unavailable -> prior gates govern.
+        oc = _origin_shard_state(entry_id, sh.get("key"))
+        if oc is not None and oc[0] == "done":
+            _log(f"claim yield: origin ref shows {sh.get('key')} done "
+                 f"(MSG-0535 done-absorption pre-read) -> stale disk "
+                 f"model refused")
+            return False
+        if (oc is not None and oc[1] and oc[1] != myid
+                and oc[2] is not None and oc[2] < STALE_MIN):
+            _log(f"claim yield: origin ref shows {sh.get('key')} owner "
+                 f"{oc[1]} fresh ({oc[2]:.0f}min, MSG-0535 pre-read) "
+                 f"-> stale disk model refused")
+            return False
         hit["owner"] = myid
         hit["owner_since"] = _now()
         if _POOL_LANE_PRIMARY:
@@ -3618,6 +3681,52 @@ def selftest():
         ok("S22j red-flag watermark dedups re-reads", not fl22b)
         _runner_core_verdict = \
             lambda r: ("multiproc", "fixture-passthrough")
+        # S22k MSG-2026-10-03-0535 done-absorption pre-read (r608 live
+        # case: stale post-reland DISK model must not claim what the
+        # origin ref shows done / freshly-owned; unavailable -> prior
+        # gates govern, fail-soft).
+        global _ORIGIN_POOL_BLOB
+        _now_s = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, id="E22-oa",
+                shards=[{"key": "s0", "status": "ready"}])]}, fh)
+        _pool_lane_clear()
+        _pb_before = open(POOL, encoding="utf-8").read()
+        try:
+            _ORIGIN_POOL_BLOB = json.dumps({"entries": [dict(
+                entry, id="E22-oa",
+                shards=[{"key": "s0", "status": "done", "owner": "bm-b",
+                         "owner_since": _now_s}])]}).encode("utf-8")
+            ok("S22k helper reads done shard off origin blob",
+               _origin_shard_state("E22-oa", "s0")[:2]
+               == ("done", "bm-b"))
+            ok("S22k2 claim yields on origin-done (stale disk refused)",
+               _claim_shard({"key": "s0", "status": "ready"}, "bm-a",
+                            "E22-oa") is False
+               and open(POOL, encoding="utf-8").read() == _pb_before)
+            _ORIGIN_POOL_BLOB = json.dumps({"entries": [dict(
+                entry, id="E22-oa",
+                shards=[{"key": "s0", "status": "ready",
+                         "owner": "bm-y",
+                         "owner_since": _now_s}])]}).encode("utf-8")
+            _t_rival = _origin_shard_state("E22-oa", "s0")
+            ok("S22k3 helper reads fresh rival owner off origin blob",
+               _t_rival[1] == "bm-y" and _t_rival[2] is not None
+               and _t_rival[2] < STALE_MIN)
+            ok("S22k4 claim yields on origin fresh-rival owner",
+               _claim_shard({"key": "s0", "status": "ready"}, "bm-a",
+                            "E22-oa") is False
+               and open(POOL, encoding="utf-8").read() == _pb_before)
+            _ORIGIN_POOL_BLOB = json.dumps(
+                {"entries": []}).encode("utf-8")
+            ok("S22k5 helper missing-entry -> missing tuple (no block)",
+               _origin_shard_state("E22-oa", "s0")
+               == ("missing", None, None))
+        finally:
+            _ORIGIN_POOL_BLOB = None
+        ok("S22k6 helper fail-soft with no origin (prior gates govern)",
+           _origin_shard_state("E22-oa", "s0") is None)
     # S21 O-20260930-1858 sec.1 holiday full-burn window: pure date face
     ok("S21 fullburn closed before 10-01",
        not _fullburn_active(datetime(2026, 9, 30, 23, 59, 59)))

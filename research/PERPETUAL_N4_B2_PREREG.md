@@ -89,9 +89,31 @@
   N1_BANDS 全表 + SEED_REGISTRY 全值 + 保留面 disjoint 机证）。
 - 未来 N4 波（B3+）按法典 §4 尾律另行展行时机验防撞。
 
-## §6 跑后只许回填节（冻结后烧毕 finalize 后回填）
+## §6 跑后只许回填节（已回填 r608 bm-a·2026-10-03 05:1x·波 6/6 烧毕〔04:28→04:51
+tick 序贯〕+finalize 面；保留原冻结文本只增不改）
 
-（空——回填时保留原冻结文本只增不改。）
+- §6.1 实跑数字（K/L/时长/行数）：**K=200/员 × 6 员 = 1,200 B2 自有宇宙行**（每员
+  universes-<ID>.jsonl 200 行·k-set 0..199 完备；六分片 receipt shard-<i>-of-6.json
+  全过 _shard_valid）；**L=10**（PINNED·B1 冻结值继承）；SatEngine 引擎车道六分片墙钟
+  **59-60s/片**（ledger 行 04:28:05→04:29:04 / 04:34:06→04:35:04 / 04:42:05→04:43:04
+  / 04:48:05→04:49:04 / 04:49:04→04:50:04 / 04:50:04→04:51:04；点火窗 04:28→04:51
+  tick 序贯 n4B2-0..5of6）；finalize 3.8s（六员真史交集轴 center 回放 + science_gates
+  verbatim import；池化宇宙行 2,400 = B1 1,200 + B2 1,200·distinct-seed 400/员完备门
+  全过）。
+- §6.2 置信面产物指针：**results/perpetual_faces/n4_b2_results.json**（§4 五产物齐：
+  池化 K_eff=400 k_universe_sharpe 主面 + wave_local 200 波内拆分 + pooled
+  maxdd/ann/ntrades 加深轴 + bootstrap_ci_sharpe（seed 69_000·**与 B1 逐字同值=确定性
+  同值重发机证**）+ dsr_from_stats（sr=center 回放 Sharpe·sigma=池化 400 宇宙样本 std·
+  **n_trials=K_eff=400**））；分片 receipts=results/p2cal_ext/n4_b2/shard-<i>-of-6.json
+  × 6；宇宙行=results/perpetual_faces/n4_b2/universes-<ID>.jsonl × 6；引擎账本行=
+  results/saturation_engine/ledger_bm-a.jsonl（face=N4·key n4B2-<i>of6）。
+  **诚实读数**（测量加深面·§4 冻结=零 pass/fail 晋升线·判读归月界科学面）：真史
+  center 回放 bootstrap CI95 下界>0 者=COMPOSITE-CE-01（+0.153）与 VOLATILITY-CE-01
+  （+0.414）两员（与 B1 同两员·同值）；其余四员跨零（CE-02 −0.108 / DROUGHT −0.020
+  / ENGULF −1.161 / NEEDLE −0.721·四值与 B1 逐字恒等）；池化 400 宇宙分布 CI95 下界
+  六员全负（−0.318..−1.071·平行宇宙脆弱性如实披露）；正值占比 CE-02 0.9225 / CE-01
+  0.910 / VOLATILITY 0.7975 / NEEDLE 0.605 / ENGULF 0.580 / DROUGHT 0.525；DSR 六员
+  0.0015-0.0024（K_eff=400 试验数下较 B1 波 0.003-0.005 更深度紧缩面如实产出）。
 
 ## 冻结门（条件，冻结 commit 前逐条机证）——**五条件全过（r606 bm-a·2026-10-03 04:1x-04:2x）**
 
