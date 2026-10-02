@@ -2049,6 +2049,33 @@ N1_BANDS = {
     # NOT a re-pick (R250: W89 bands were never assigned).
     89: {"a": (221_004, 223_003), "b_exit": (56_001, 56_200),
          "engine_owner": "bm-b"},
+    # EIGHTIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r578 bm-b
+    # freeze): engine_owner rows 79 + candidate; bm-b's
+    # thirtieth owned per machine-derive (engine_owner==bm-b
+    # rows 29 + candidate). Wave 91 = first free number after the
+    # registered W89 row SKIPPING the bm-a-declared W90 seat
+    # (MSG-20261002-1415-bma, published=reserved r518-1).
+    # W90 seat-published, unregistered at this freeze (bm-a freeze
+    # in flight) -- one in-flight upstream seat, finalize merge loop
+    # stays FAIL-CLOSED r307 at run time.
+    # A-SIDE SKIP-PAST-PUBLISHED CHAIN (r518-1): W89 tail 223_003 ->
+    # W90 pub A 223_004..225_003 -> first clean 225_004..227_003
+    # (= W90 published A end + 1) CLEAN.
+    # B-SIDE PIN CHAIN: 56_201..56_400 == W90 pub B -> skip ->
+    # 56_401..56_600 REFUSED in-band at SEED_REGISTRY
+    # p4_batch3_dca=56_500 (median position 99/199, non-endpoint) ->
+    # D-20261002-05 pin: PAST-HIT start-window hit+1 restart
+    # 56_501..56_700 CLEAN (window-step-chain reading 56_601..56_800
+    # BANNED by the pin; W68-B positive anchor).
+    # Machine-verified at prereg time
+    # (results/_r578bmb_w91_band_gate.py ADMIT receipt vs the
+    # 87-row pre-W91 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W92+ projection: A 227_004..229_003
+    # CLEAN; B 56_701..56_900 CLEAN (next freezer must re-derive).
+    91: {"a": (225_004, 227_003), "b_exit": (56_501, 56_700),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
