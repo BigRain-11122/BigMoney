@@ -999,36 +999,13 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 00:12:01",
+  "ts": "2026-10-03 00:12:52",
   "machine": "bm-a",
-  "py_cpu_pct": 41.3,
-  "single_core_red_flags": [
-   {
-    "ts": "2026-10-03T00:11:28+08:00",
-    "entry": "CONTEST-YTD-P1-SHARD-5OF8",
-    "shard": "contest-ytd-p1-shard-5of8",
-    "pid": 19148,
-    "wall_s": 60.3,
-    "effective_cores": 1.11,
-    "law": "O-20260930-2355 sec.1 law-2"
-   }
+  "py_cpu_pct": 43.0,
+  "keepalive": [
+   "contest-ytd-p1-shard-1of8"
   ],
-  "cooldown_skipped": {
-   "entry": "CONTEST-YTD-P1-SHARD-0OF8",
-   "shard": "contest-ytd-p1-shard-0of8",
-   "last_launch_min": 12.3
-  },
-  "verdict": "launched",
-  "entry": "CONTEST-YTD-P1-SHARD-6OF8",
-  "shard": "contest-ytd-p1-shard-6of8",
-  "pid": 23632,
-  "runner_sha256": "2bdd9580511b16a6",
-  "core_verdict": "multiproc",
-  "core_marker": "from parallel_runner import",
-  "fill_latency_min": 0.3,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T00:11:28+08:00"
