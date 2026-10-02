@@ -1211,12 +1211,13 @@ def cmd_status() -> int:
     for m in members:
         cells = r2_read_cells(m["id"])
         n_win = sum(1 for c in cells if c.get("kind") == "window")
+        has_center = any(c["id"] == f"{m['id']}::center" for c in cells)
         anchor = next((c.get("anchor", {}).get("pass")
                        for c in cells if c["id"] == f"{m['id']}::center"),
                       None)
-        print(f"R2 {m['id']}: 1 center + {n_win}/{R2_EXPECT_STARTS} "
-              f"windows (anchor={anchor})")
-        r2_done += 1 + n_win
+        print(f"R2 {m['id']}: {1 if has_center else 0} center + "
+              f"{n_win}/{R2_EXPECT_STARTS} windows (anchor={anchor})")
+        r2_done += (1 if has_center else 0) + n_win
     print(f"wave R2: {r2_done}/{len(members) * (1 + R2_EXPECT_STARTS)} "
           f"rows (centers + window readouts)")
     return 0
