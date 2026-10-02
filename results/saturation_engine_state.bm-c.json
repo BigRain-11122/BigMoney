@@ -78,7 +78,9 @@
   "68": 12,
   "69": 12,
   "70": 12,
-  "71": 12
+  "71": 12,
+  "72": 12,
+  "73": 0
  },
  "wave_complete_flags": [
   2,
@@ -149,7 +151,8 @@
   68,
   69,
   70,
-  71
+  71,
+  72
  ],
  "queue_next": [],
  "ignitions": [
@@ -1555,12 +1558,12 @@
   }
  ],
  "burns_active": [],
- "cycle": 181,
- "heartbeat_epoch": 1790908721,
- "last_cycle_ts": "2026-10-02T10:38:41",
- "py_cpu_pct": 0.65,
- "machine_cpu_pct": 1.6,
- "done_count": 828,
+ "cycle": 201,
+ "heartbeat_epoch": 1790909051,
+ "last_cycle_ts": "2026-10-02T10:44:11",
+ "py_cpu_pct": 0.2,
+ "machine_cpu_pct": 4.6,
+ "done_count": 840,
  "quarantined": [
   [
    12,
@@ -1586,7 +1589,7 @@
   "63:1": 2
  },
  "sync": {
-  "last_epoch": 1790908721,
+  "last_epoch": 1790909051,
   "remote_done_count": 828,
   "err": null
  },
@@ -4164,6 +4167,40 @@
    "dedup": {
     "local_done": 12,
     "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 72,
+   "a_band": [
+    187004,
+    189003
+   ],
+   "b_exit_band": [
+    51401,
+    51600
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 0
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 73,
+   "a_band": [
+    189004,
+    191003
+   ],
+   "b_exit_band": [
+    51601,
+    51800
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 0,
+    "remote_done": 0
    }
   }
  ],
