@@ -61,12 +61,18 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W87/W90/W94 实况范式）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r581 冻结占位·r583 finalize 收口机械回填】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-a 引擎烧毕（r581/r582 窗实况·产品 12/12 已交付 origin=r310 完备性门实核）；finalize one-pass（r538 律·首跑禁重跑·本地无自产波件前置核验·r583 运行）。
+- ledger：prev_total 573,548（W95 bm-b r582 16:13 落账解锁；链序 W92 566,948 bm-c→W93 569,148 bm-b→W94 571,348 bm-a→W95 573,548 bm-b）+ batch_trials 2,200 = **575,748**；voids_applied=LOWAMP-P1/P2。起草窗投影链头 564,748（W91）→运行时 derive 573,548=法内滚动面实况如实披露（r576 锚滚动律）。
+- w96-only：n=2,200·mu=−0.0930500·sigma=0.2476040；pre-pool：n=206,920·mu=−0.0928112·sigma=0.2448052；merged：n=209,120·mu=−0.0928137·sigma=0.2448342。
+- §5 门 4/4 PASS：① W-only vs merged mu 差 |0.00024|<0.02 ✓；② sigma 相对变化 1.13%<±10% ✓；③ A 桥 full_sharpe_p95 0.3183 vs 门标 0.3256 差 0.0073<0.05 ✓（结果知情报账面·非注册收益）；④ K-lift 线移 +0.0001≤0.02 ✓（正负交替如实报）。
+- skill_line_v2 @n_eff_held 573,548：1.1679→**1.168**（K-lift delta +0.0001）；se_mu @K209,120=0.000535（收窄链：W93 0.000544→W94 0.000541→W95 0.000538→W96 0.000535）；canon_flip 未执行（K2200 同例·治理提案面）。
 
-## §8 批后复盘。【必填·终 7-T】
+## §8 批后复盘。【必填·终 7-T·r583 机械回填】
 
-- （finalize 落账后机械回填）
+- 延误定性：r582 wrap 文本「W94 finalize landed (ledger 571,348 K=204,720)」仅辽 W94 单波实况（K 204,720=W92 200,320+W93 2,200+W94 2,200 逐位对账）；W96 finalize 在 r582 窗未跑（无双计无链断·序位空缺合法），r583 按链序补跑收口——对照 MSG-20261002-012x finalize-chain-priority（W93 bm-b→W94 bm-a→W95 bm-b→W96 bm-a）。
+- 本机引擎件面：W98（本机 r582 冻结·分片 12/12 已交付 origin）finalize 被 W97（bm-b 注册·烧毕未 finalize）占位阻塞（池扫描 FAIL-CLOSED 硬拒缺件）——链序依赖如实留痕，待 bm-b W97 落账后下轮收口；本轮禁跨席代跑（他机注册面禁碰）。
+- 双跑确定性律：同 seed 分片件字节恒等保障零双计；本波 one-pass 无重跑面（r538）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。

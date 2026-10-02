@@ -1,0 +1,10 @@
+src = open('scripts/perpetual_faces_n1.py', encoding='utf-8').read()
+i = src.find('def _wave_values')
+j = src.find('\ndef ', i + 10)
+print(src[i:j])
+print('=' * 70)
+i2 = src.find('def finalize')
+j2 = src.find('\ndef ', i2 + 10)
+seg = src[i2:j2]
+k = seg.find('pre_values')
+print(seg[max(0, k-1800):k+900])

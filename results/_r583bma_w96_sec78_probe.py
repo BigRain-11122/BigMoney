@@ -1,0 +1,5 @@
+b = open('research/PERPETUAL_N1_W96_PREREG.md', 'rb').read()
+print('CRLF count:', b.count(b'\r\n'), 'LF count:', b.count(b'\n'), 'bytes:', len(b))
+s = b.decode('utf-8')
+i = s.find('## \u00a77')
+print(repr(s[i:i+700]))
