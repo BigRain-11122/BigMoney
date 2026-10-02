@@ -1561,6 +1561,33 @@ N1_BANDS = {
     # W73 bands were never assigned).
     73: {"a": (189_004, 191_003), "b_exit": (51_601, 51_800),
          "engine_owner": "bm-a"},
+    # SIXTY-THIRD ENGINE-OWNED WAVE (r571 bm-b freeze): bm-b's
+    # TWENTY-FOURTH owned per machine-derive (engine_owner==bm-b
+    # rows 23 + candidate). Wave 74 = next free number after the
+    # registered W73 row (seat declared published=reserved
+    # MSG-20261002-1108-bmb, r518-1 law; never-dry standing step
+    # under CEO de-throttle order O-20261001-2355 sec.2).
+    # W1..W72 finalizes ALL LANDED (net head 522,948, K=156,320,
+    # bm-b r571); W73 bm-a (12/12 burned, finalize pending) =
+    # ONE in-flight upstream seat at this freeze (FAIL-CLOSED
+    # r307).
+    # A side: ARITHMETIC CONTINUATION from the W73 row tail, no
+    # skip: A 191_004..193_003 (= W73 A end 191_003 + 1) CLEAN.
+    # B side: FORCED SKIP -- arithmetic 51_801..52_000 refused
+    # at its upper-edge point SEED_REGISTRY xstock_synth_null_b
+    # = 52_000 (r307 W5 skip-precedent family); first clean
+    # window 52_001..52_200, BOTH READINGS COINCIDE (past-hit
+    # restart == window-step chain -- no fork face, unlike the
+    # W63 double-mid divergence; skip forced, R250).
+    # Machine-verified at prereg time
+    # (results/_r571bmb_w74_band_gate.py ADMIT receipt vs the
+    # 71-row pre-W74 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W74
+    # bands were never assigned).
+    74: {"a": (191_004, 193_003), "b_exit": (52_001, 52_200),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
