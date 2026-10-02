@@ -1856,6 +1856,41 @@ N1_BANDS = {
     # NOT a re-pick (R250: W84 bands were never assigned).
     84: {"a": (211_004, 213_003), "b_exit": (54_601, 54_800),
          "engine_owner": "bm-a"},
+    # SEVENTY-FIFTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r576 bm-b
+    # freeze): engine_owner rows 74 + candidate; bm-b's
+    # twenty-eighth owned per machine-derive (engine_owner==bm-b
+    # rows 27 + candidate). Wave 85 = first free number after the
+    # registered W84 row (r511 tail-lock, fetch-checked vacancy;
+    # seat published=reserved MSG-20261002-1258-bmb PUSHED to
+    # origin in the r575 window BEFORE this freeze per r565
+    # early-visibility law, seat commit ce51adf70). CROSS-ROUND
+    # freeze: r575 session died pre-freeze (state round_no stall
+    # + r575-labeled commits = r529 sudden-death diagnosis law);
+    # r576 adopts the half-product with anchors rolled W82->W83
+    # per anchor-roll law (W83 finalize landed, bm-c r366 window).
+    # W1..W83 finalizes ALL LANDED (net head 547,148, K=180,520,
+    # W83 bm-c r365/r366); ONE in-flight upstream seat at this
+    # freeze: W84 bm-a (11/12 burned on origin, finalize not
+    # landed) -- finalize chain-pending FAIL-CLOSED r307.
+    # A-side ARITHMETIC CONTINUATION from the W84 row tail, zero
+    # skip: A 213_004..215_003 (= W84 A end 213_003 + 1) CLEAN.
+    # B-side FORCED SKIP past-hit restart: arithmetic 54_801..55_000
+    # REFUSED at SEED_REGISTRY a158_truegap_ic=55_000 upper-edge
+    # endpoint -> hit+1 restart 55_001..55_200 per D-20261002-05
+    # pinned semantics (past-hit start-window), both readings
+    # converge = no fork face, F-20261002-03 not triggered
+    # (W74-B/W81 edge-endpoint family).
+    # Machine-verified at prereg time
+    # (results/_r575bmb_w85_band_gate.py ADMIT receipt, dual-state:
+    # r575 mode A + r576 mode B re-run rc0 vs the 82-row pre-W85
+    # table + live SEED_REGISTRY values + probe cluster
+    # 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W86+ gate projection: A
+    # 215_004..217_003 CLEAN; B 55_201..55_400 CLEAN.
+    # NOT a re-pick (R250: W85 bands were never assigned).
+    85: {"a": (213_004, 215_003), "b_exit": (55_001, 55_200),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
