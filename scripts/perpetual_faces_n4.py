@@ -108,11 +108,19 @@ MEMBERS = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
 # seat (b) family contract as landed for N1: the engine queue/orphan/
 # ignite generators consume WAVE_CONFIGS + _set_wave + _shard_valid from
 # the family module -- zero engine knowledge of the N4 face itself).
+# r606 multi-wave: per-wave faces (batch/prereg/rows/ckpt/seeds) live in
+# the cfg row; the accessors below resolve them off the ACTIVE WAVE pin
+# so the engine's per-item _set_wave dispatch stays byte-identical. B1
+# row carries its frozen r602 values verbatim (byte-identical behavior);
+# B2 = TRIAL_LABOR_LAW sec.4 tail-law K-extension wave: own gen seeds
+# 68_701..68_900 inside the family's registered 68_501..69_999 window
+# (zero new registry value; consumption widening disclosed in the B2
+# prereg sec.5), cumulative pooled finalize (pool_waves=("B1",)).
 NSHARDS = len(MEMBERS)                 # N4 shard space = members (6)
 WAVE_NAME = "B1"
 SHARD_CKPT_DIR = os.path.join(PATHS.results_dir, "p2cal_ext", "n4_b1")
 WAVE_CONFIGS = {
-    WAVE_NAME: {
+    "B1": {
         "batch": BATCH,
         "prereg": PREREG,
         "shard_subdir": "n4_b1",       # engine _shard_path layout
@@ -120,16 +128,77 @@ WAVE_CONFIGS = {
         "nshards": NSHARDS,
         "members": MEMBERS,
         "rows_dir": WAVE_DIR,
+        "batch_json": BATCH_JSON,
+        "shard_ckpt_dir": SHARD_CKPT_DIR,
+        "seed_gen_base": BAND_GEN[0],
+        "seed_scrnull_base": BAND_SCRNULL[0],
+        "pool_waves": (),              # standalone wave (no predecessors)
+    },
+    "B2": {
+        "batch": "PERPETUAL-N4-B2",
+        "prereg": os.path.join(PATHS.root, "research",
+                               "PERPETUAL_N4_B2_PREREG.md"),
+        "shard_subdir": "n4_b2",
+        "engine_owner": "bm-a",
+        "nshards": NSHARDS,
+        "members": MEMBERS,
+        "rows_dir": os.path.join(PATHS.results_dir, "perpetual_faces",
+                                 "n4_b2"),
+        "batch_json": os.path.join(PATHS.results_dir, "perpetual_faces",
+                                   "n4_b2_results.json"),
+        "shard_ckpt_dir": os.path.join(PATHS.results_dir, "p2cal_ext",
+                                        "n4_b2"),
+        "seed_gen_base": 68_701,       # family window unconsumed tail
+        "seed_scrnull_base": BAND_SCRNULL[0],
+        "pool_waves": ("B1",),         # cumulative pooled finalize face
     },
 }
 WAVE = WAVE_NAME                       # active wave face (_set_wave pin)
 
 
+def _cfg() -> dict:
+    """Active-wave config row (WAVE_CONFIGS[WAVE]; _set_wave pins WAVE)."""
+    return WAVE_CONFIGS[WAVE]
+
+
+def wave_batch() -> str:
+    return _cfg()["batch"]
+
+
+def wave_rows_dir() -> str:
+    return _cfg()["rows_dir"]
+
+
+def wave_prereg() -> str:
+    return _cfg()["prereg"]
+
+
+def wave_batch_json() -> str:
+    return _cfg()["batch_json"]
+
+
+def wave_shard_ckpt_dir() -> str:
+    return _cfg()["shard_ckpt_dir"]
+
+
+def wave_seed_gen_base() -> int:
+    return _cfg()["seed_gen_base"]
+
+
+def wave_seed_scrnull_base() -> int:
+    return _cfg()["seed_scrnull_base"]
+
+
+def wave_probe_json() -> str:
+    return os.path.join(wave_rows_dir(), "probe.json")
+
+
 def _set_wave(w) -> None:
-    """Engine family contract: pin the active wave (BATCH/PREREG are
-    module constants in this single-wave module; the pin exists so the
-    engine's probe/reset pattern stays one shape across families).
-    Foreign wave key = KeyError = honest fail, never a silent default."""
+    """Engine family contract: pin the active wave -- every per-wave face
+    (batch/prereg/rows/ckpt/seeds) resolves through the accessors off
+    this pin, so the engine's per-item dispatch keeps one shape across
+    families and waves (r606 multi-wave). Foreign wave key = KeyError =
+    honest fail, never a silent default."""
     global WAVE
     if w not in WAVE_CONFIGS:
         raise KeyError(f"unknown N4 wave: {w!r} "
@@ -163,7 +232,7 @@ def _shard_valid(path: str, shard: int, nshards: int) -> bool:
         k_exp, l_exp = _frozen_K(), _frozen_L()
     except RuntimeError:
         return False
-    if d.get("batch") != BATCH or d.get("shard") != shard \
+    if d.get("batch") != wave_batch() or d.get("shard") != shard \
             or d.get("nshards") != nshards or nshards != NSHARDS:
         return False
     if d.get("member") != MEMBERS[shard]:
@@ -316,7 +385,7 @@ def _fee_x1_ok() -> bool:
 # ------------------------------------------------------------- checkpoints
 
 def member_rows_path(mid: str) -> str:
-    return os.path.join(WAVE_DIR, f"universes-{mid}.jsonl")
+    return os.path.join(wave_rows_dir(), f"universes-{mid}.jsonl")
 
 
 def read_rows(mid: str) -> list:
@@ -338,14 +407,14 @@ def read_rows(mid: str) -> list:
 
 
 def _append_row(mid: str, rec: dict):
-    os.makedirs(WAVE_DIR, exist_ok=True)
+    os.makedirs(wave_rows_dir(), exist_ok=True)
     with open(member_rows_path(mid), "a", encoding="utf-8") as fh:
         fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
 def _prereg_frozen() -> bool:
     try:
-        with open(PREREG, encoding="utf-8") as fh:
+        with open(wave_prereg(), encoding="utf-8") as fh:
             head = fh.read(2000)
     except OSError:
         return False
@@ -372,7 +441,7 @@ def cmd_probe() -> int:
     band = 2.0 / (len(rets) ** 0.5)
     l_cands = [lag for lag in range(2, 41)
                if abs(acfs.get(f"lag{lag}", 0.0)) < band]
-    out = {"batch": BATCH, "evidence_cutoff": EVIDENCE_CUT,
+    out = {"batch": wave_batch(), "evidence_cutoff": EVIDENCE_CUT,
            "probe_seed": PROBE_SEED, "probe_L": PROBE_L_DEFAULT,
            "axis_policy": "intersection (prereg sec.2 OPEN pin -- freeze "
                           "commits the axis choice from these facts)",
@@ -400,12 +469,12 @@ def cmd_probe() -> int:
             "smoke_duration_sec": dur}
     out["six_member_smoke_wall_sec"] = round(time.time() - sm_start, 2)
     out["probe_wall_sec"] = round(time.time() - t0, 2)
-    os.makedirs(WAVE_DIR, exist_ok=True)
-    with open(PROBE_JSON, "w", encoding="utf-8") as fh:
+    os.makedirs(wave_rows_dir(), exist_ok=True)
+    with open(wave_probe_json(), "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     print(json.dumps({k: v for k, v in out.items() if k != "members"},
                      ensure_ascii=False, indent=1))
-    print("probe facts ->", PROBE_JSON)
+    print("probe facts ->", wave_probe_json())
     return 0
 
 
@@ -417,11 +486,16 @@ def _cap_blas_threads():
         os.environ.setdefault(var, "1")
 
 
-def _row(member_id: str, k: int, seed: int, L: int, r: dict) -> dict:
+def _row(member_id: str, k: int, seed: int, L: int, r: dict,
+         batch: str | None = None) -> dict:
     """Deterministic per-universe row (NO wall-clock fields -- rerun
-    byte-equal; serial/pool drivers produce identical rows)."""
+    byte-equal; serial/pool drivers produce identical rows). batch rides
+    the explicit arg in the POOL path (spawn workers re-import the module
+    with the default WAVE pin -- wave_batch() there would relabel B2 rows
+    as B1; the parent passes the resolved value through the ctx)."""
     return {"id": f"{member_id}::u{k:03d}", "member": member_id, "k": k,
-            "seed": seed, "L": L, "batch": BATCH,
+            "seed": seed, "L": L,
+            "batch": batch if batch is not None else wave_batch(),
             "evidence_cutoff": EVIDENCE_CUT,
             "sharpe": r["sharpe"], "annual_return": r["annual_return"],
             "max_drawdown": r["max_drawdown"],
@@ -432,18 +506,21 @@ _N4_CTX = None        # per-process burn context (spawn-safe global)
 _LAST_BURN = {}       # last cmd_run facts (workers_actual/n) -> receipt audit
 
 
-def _n4_worker_init(member_id: str, t: dict, prices: dict, L: int):
+def _n4_worker_init(member_id: str, t: dict, prices: dict, L: int,
+                    seed_base: int, batch: str):
     """Pool initializer (r511 law: parent assembles the fixture ONCE --
-    member json + source panel; workers re-attach, never rebuild)."""
+    member json + source panel; workers re-attach, never rebuild).
+    seed_base/batch ride the ctx so spawn re-import can never relabel a
+    wave (r606 multi-wave worker-safety)."""
     global _N4_CTX
-    _N4_CTX = (member_id, t, prices, L)
+    _N4_CTX = (member_id, t, prices, L, seed_base, batch)
 
 
 def _n4_run_universe(k: int) -> dict:
-    member_id, t, prices, L = _N4_CTX
-    seed = BAND_GEN[0] + k
+    member_id, t, prices, L, seed_base, batch = _N4_CTX
+    seed = seed_base + k
     r = replay_universe(t, resample_history(prices, L, seed))
-    return _row(member_id, k, seed, L, r)
+    return _row(member_id, k, seed, L, r, batch)
 
 
 def _burn_rows(member_id: str, t: dict, prices: dict, todo: list,
@@ -459,7 +536,7 @@ def _burn_rows(member_id: str, t: dict, prices: dict, todo: list,
     L = _frozen_L()
     if workers <= 1:
         for k in todo:
-            seed = BAND_GEN[0] + k
+            seed = wave_seed_gen_base() + k
             r = replay_universe(t, resample_history(prices, L, seed))
             _append_row(member_id, _row(member_id, k, seed, L, r))
             print(f"{member_id}::u{k:03d} seed={seed} "
@@ -472,7 +549,9 @@ def _burn_rows(member_id: str, t: dict, prices: dict, todo: list,
     run_cells_parallel(
         [(k, _n4_run_universe, (k,)) for k in todo],
         workers=w, desc=f"n4 {member_id}",
-        initializer=_n4_worker_init, initargs=(member_id, t, prices, L),
+        initializer=_n4_worker_init,
+        initargs=(member_id, t, prices, L, wave_seed_gen_base(),
+                  wave_batch()),
         on_result=lambda key, row: _append_row(member_id, row))
     return len(todo), w
 
@@ -493,9 +572,10 @@ def cmd_run(member_id: str, universes: int | None = None,
     t = load_member(member_id)
     prices = source_panel()
     k_max = universes or _frozen_K()
-    if k_max > (BAND_GEN[1] - BAND_GEN[0] + 1):
-        print(f"K={k_max} exceeds gen band width "
-              f"{BAND_GEN[1] - BAND_GEN[0] + 1}")
+    if wave_seed_gen_base() + k_max - 1 > BAND_GEN[1]:
+        print(f"K={k_max} runs past the family gen window: seed base "
+              f"{wave_seed_gen_base()} + K-1 must stay <= {BAND_GEN[1]} "
+              f"(registered family window {BAND_GEN[0]}..{BAND_GEN[1]})")
         return 2
     done = {r["k"] for r in read_rows(member_id)}
     todo = [k for k in range(k_max) if k not in done]
@@ -515,10 +595,10 @@ def cmd_run_shard(shard: int, nshards: int, workers: int = 1,
                   lane: str = "engine") -> int:
     """Engine-lane shim (SatEngine runner_args contract): shard i =
     member MEMBERS[i]; after the burn, the engine receipt lands at
-    results/p2cal_ext/n4_b1/shard-<i>-of-<nshards>.json (presence=done
-    via _shard_valid). Engine lane is claim-exempt (law sec.2) -- the
-    receipt + rows files are the record; no pool handshake exists for
-    the N4 face in any lane."""
+    results/p2cal_ext/<shard_subdir>/shard-<i>-of-<nshards>.json
+    (presence=done via _shard_valid). Engine lane is claim-exempt (law
+    sec.2) -- the receipt + rows files are the record; no pool handshake
+    exists for the N4 face in any lane."""
     if lane not in ("engine", "pool"):
         print(f"unknown lane {lane!r} (engine|pool)")
         return 2
@@ -541,16 +621,17 @@ def cmd_run_shard(shard: int, nshards: int, workers: int = 1,
         print(f"REFUSED receipt: {member_id} k-set incomplete "
               f"({len(ks)}/{k_exp}) -- no checkpoint written")
         return 2
-    os.makedirs(SHARD_CKPT_DIR, exist_ok=True)
-    ckpt = os.path.join(SHARD_CKPT_DIR, f"shard-{shard}-of-{nshards}.json")
+    os.makedirs(wave_shard_ckpt_dir(), exist_ok=True)
+    ckpt = os.path.join(wave_shard_ckpt_dir(),
+                        f"shard-{shard}-of-{nshards}.json")
     if w_actual is None:                       # idempotent skip (no burn)
         parallel_face = "no new burn (idempotent skip; rows already complete)"
     elif w_actual > 1:
         parallel_face = f"multiprocess (parallel_runner, {w_actual} workers, O-2355)"
     else:
         parallel_face = "serial (single-process)"
-    out = {"batch": BATCH, "face": "N4", "wave": WAVE_NAME,
-           "preregistered_doc": PREREG,
+    out = {"batch": wave_batch(), "face": "N4", "wave": WAVE,
+           "preregistered_doc": wave_prereg(),
            "shard": shard, "nshards": nshards, "member": member_id,
            "k_expected": k_exp, "k_burned": len(ks), "L": _frozen_L(),
            "evidence_cutoff": EVIDENCE_CUT,
@@ -571,9 +652,10 @@ def cmd_run_shard(shard: int, nshards: int, workers: int = 1,
 
 def _frozen_L() -> int:
     """L is pinned at the freeze commit into the prereg sec.1 verbatim;
-    this reads the pinned value from the prereg (fail-closed if absent)."""
+    this reads the pinned value from the ACTIVE WAVE's prereg
+    (fail-closed if absent)."""
     import re
-    with open(PREREG, encoding="utf-8") as fh:
+    with open(wave_prereg(), encoding="utf-8") as fh:
         src = fh.read()
     m = re.search(r"PINNED-L\s*=\s*(\d+)", src)
     if not m:
@@ -584,9 +666,10 @@ def _frozen_L() -> int:
 
 def _frozen_K() -> int:
     """K is pinned at the freeze commit into the prereg sec.3 verbatim
-    (PINNED-K = 200); fail-closed if absent (same law as _frozen_L)."""
+    (PINNED-K = 200); fail-closed if absent (same law as _frozen_L).
+    Reads the ACTIVE WAVE's prereg."""
     import re
-    with open(PREREG, encoding="utf-8") as fh:
+    with open(wave_prereg(), encoding="utf-8") as fh:
         src = fh.read()
     m = re.search(r"PINNED-K\s*=\s*(\d+)", src)
     if not m:
@@ -608,42 +691,109 @@ def _member_faces(rows: list, center_rets: list,
     """Per-member §4 product faces (prereg FROZEN wording, science_gates
     verbatim import -- thresholds never hand-copied): K-universe Sharpe
     distribution (pure math, zero engine re-run) + real-history center
-    stationary-bootstrap CI95 (seed=own scrnull band base 69_000, block
-    10.0, n_resamples 1000 = function defaults) + DSR from stored stats
-    (sr=center replay Sharpe, sigma=K-universe sample std ddof=1,
-    n_trials=K). Pure in (rows, center_rets, center_sharpe)."""
-    sharpes = sorted(float(r["sharpe"]) for r in rows)
-    n = len(sharpes)
+    stationary-bootstrap CI95 (seed=active wave's scrnull base 69_000,
+    block 10.0, n_resamples 1000 = function defaults) + DSR from stored
+    stats (sr=center replay Sharpe, sigma=K-universe sample std ddof=1,
+    n_trials=n rows passed in -- pooled waves hand the cumulative row
+    set, so n_trials=K_eff per the B2 prereg sec.4). Pure in (rows,
+    center_rets, center_sharpe)."""
     import statistics
-    sigma_sr = statistics.stdev(sharpes)          # sample std (ddof=1)
-    ci = sg.bootstrap_ci_sharpe(center_rets, seed=BAND_SCRNULL[0])
+    sharpes = [float(r["sharpe"]) for r in rows]
+    n = len(sharpes)
+    sigma_sr = statistics.stdev(sharpes)         # sample std (ddof=1)
+    ci = sg.bootstrap_ci_sharpe(center_rets, seed=wave_seed_scrnull_base())
     dsr = sg.dsr_from_stats(sr_annualized=center_sharpe,
                            sigma_sr=sigma_sr, n_trials=n)
     return {
-        "k_universe_sharpe": {
-            "n": n,
-            "median": round(_quantile(sharpes, 0.5), 6),
-            "p10": round(_quantile(sharpes, 0.10), 6),
-            "p90": round(_quantile(sharpes, 0.90), 6),
-            "ci95_low": round(_quantile(sharpes, 0.025), 6),
-            "ci95_high": round(_quantile(sharpes, 0.975), 6),
-            "positive_fraction": round(
-                sum(1 for s in sharpes if s > 0.0) / n, 4),
-            "sample_std": round(sigma_sr, 6)},
+        "k_universe_sharpe": _sharpe_dist(rows),
         "bootstrap_ci_sharpe": ci,
         "dsr_from_stats": dsr,
     }
 
 
+def _sharpe_dist(rows: list) -> dict:
+    """Sharpe distribution face over universe rows (nearest-rank
+    quantiles, sample std, positive fraction -- the frozen §4 shape)."""
+    import statistics
+    sharpes = sorted(float(r["sharpe"]) for r in rows)
+    n = len(sharpes)
+    sigma = statistics.stdev(sharpes) if n >= 2 else 0.0
+    return {
+        "n": n,
+        "median": round(_quantile(sharpes, 0.5), 6),
+        "p10": round(_quantile(sharpes, 0.10), 6),
+        "p90": round(_quantile(sharpes, 0.90), 6),
+        "ci95_low": round(_quantile(sharpes, 0.025), 6),
+        "ci95_high": round(_quantile(sharpes, 0.975), 6),
+        "positive_fraction": round(
+            sum(1 for s in sharpes if s > 0.0) / n, 4),
+        "sample_std": round(sigma, 6)}
+
+
+def _dist_face(vals: list) -> dict:
+    """Generic distribution face (median/p10/p90/CI95 + sample std) --
+    the B2 deepening axes (max_drawdown / annual_return / num_trades)."""
+    import statistics
+    s = sorted(float(v) for v in vals)
+    n = len(s)
+    sigma = statistics.stdev(s) if n >= 2 else 0.0
+    return {
+        "n": n,
+        "median": round(_quantile(s, 0.5), 6),
+        "p10": round(_quantile(s, 0.10), 6),
+        "p90": round(_quantile(s, 0.90), 6),
+        "ci95_low": round(_quantile(s, 0.025), 6),
+        "ci95_high": round(_quantile(s, 0.975), 6),
+        "sample_std": round(sigma, 6)}
+
+
+def _predecessor_rows(wname: str, mid: str) -> list:
+    """Read one member's rows from a predecessor wave's rows dir
+    (read-only; r570 double-gate law: parse gate + isinstance(dict) gate
+    on every append-only jsonl consumption)."""
+    fp = os.path.join(WAVE_CONFIGS[wname]["rows_dir"],
+                      f"universes-{mid}.jsonl")
+    rows = []
+    with open(fp, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(rec, dict):
+                rows.append(rec)
+    return rows
+
+
+def _pooled_seed_gate(pooled_rows: dict, k_eff: int) -> tuple:
+    """Cumulative completeness gate (B2 pool finalize): every member's
+    pooled rows must carry exactly k_eff DISTINCT seeds (own wave +
+    predecessors are disjoint gen windows by construction; fewer =
+    double-burn merge or truncation, more = contamination). Returns
+    (ok, first_offender)."""
+    for mid, rows in pooled_rows.items():
+        seeds = {r.get("seed") for r in rows}
+        if len(seeds) != k_eff or None in seeds:
+            return False, f"{mid} {len(seeds)}/{k_eff}"
+    return True, ""
+
+
 def cmd_finalize() -> int:
-    """Post-burn finalize merge (prereg §4 three-product face -> results/
-    perpetual_faces/n4_b1_results.json; §6 backfill pointer). FAIL-CLOSED
-    unless every member carries the complete k-set (presence=done law).
-    Zero registration, zero funnel, zero promotion lines (law sec.2 L24
-    measurement-deepening face); honest negatives (CI lower bound <= 0 /
-    DSR <= 0.5) are reported, never blocked."""
+    """Post-burn finalize merge (prereg §4 products -> the ACTIVE WAVE's
+    results/<batch_json>; §6 backfill pointer). FAIL-CLOSED unless every
+    member carries the complete own-wave k-set (presence=done law); for
+    pool-carrying waves (B2) the cumulative faces pool the predecessor
+    waves' rows with a distinct-seed completeness gate (TRIAL_LAW sec.4
+    cross-wave N_eff accumulation). Zero registration, zero funnel, zero
+    promotion lines (law sec.2 L24 measurement-deepening face); honest
+    negatives (CI lower bound <= 0 / DSR <= 0.5) are reported, never
+    blocked."""
     K = _frozen_K()
-    rows_by_member = {}
+    pool = tuple(_cfg().get("pool_waves", ()))
+    own_rows, pooled_rows = {}, {}
     for mid in MEMBERS:
         rows = read_rows(mid)
         ks = {r.get("k") for r in rows}
@@ -651,53 +801,91 @@ def cmd_finalize() -> int:
             print(f"FAIL-CLOSED: {mid} k-set incomplete "
                   f"({len(ks)}/{K}) -- finalize refuses on a partial wave")
             return 2
-        rows_by_member[mid] = rows
+        own_rows[mid] = rows
+        pooled_rows[mid] = list(rows)
+    for wname in pool:
+        try:
+            for mid in MEMBERS:
+                pooled_rows[mid].extend(_predecessor_rows(wname, mid))
+        except FileNotFoundError:
+            print(f"FAIL-CLOSED: predecessor wave {wname} rows missing -- "
+                  "cumulative finalize refuses without its burned rows")
+            return 2
+    k_eff = K * (1 + len(pool))
+    ok_gate, offender = _pooled_seed_gate(pooled_rows, k_eff)
+    if not ok_gate:
+        print(f"FAIL-CLOSED: pooled distinct-seed set {offender} -- "
+              "cumulative completeness gate "
+              "(double-burn or contamination refused)")
+        return 2
     prices = source_panel()
     cidx = _common_index(prices)
     prices_i = {s: df.loc[cidx] for s, df in prices.items()}
     t0 = time.time()
-    out = {"batch": BATCH, "face": "N4", "wave": WAVE_NAME,
-           "preregistered_doc": PREREG,
+    out = {"batch": wave_batch(), "face": "N4", "wave": WAVE,
+           "preregistered_doc": wave_prereg(),
            "evidence_cutoff": EVIDENCE_CUT,
            "pins": {"K": K, "L": _frozen_L(),
                     "axis": "intersection",
-                    "seed_gen_base": BAND_GEN[0],
-                    "seed_scrnull_base": BAND_SCRNULL[0]},
+                    "seed_gen_base": wave_seed_gen_base(),
+                    "seed_scrnull_base": wave_seed_scrnull_base()},
            "members": {}}
+    if pool:
+        out["pool_waves"] = list(pool)
+        out["k_eff"] = k_eff
     for mid in MEMBERS:
         t = load_member(mid)
         center = replay_universe(t, prices_i)
-        faces = _member_faces(rows_by_member[mid],
-                              center["daily_returns"], center["sharpe"])
-        out["members"][mid] = {
-            "center_replay": {k: center[k] for k in
-                              ("sharpe", "annual_return", "max_drawdown",
-                               "num_trades", "bars")},
-            **faces}
-        ku = faces["k_universe_sharpe"]
-        ci = faces["bootstrap_ci_sharpe"]
+        center_face = {k: center[k] for k in
+                       ("sharpe", "annual_return", "max_drawdown",
+                        "num_trades", "bars")}
+        if pool:
+            faces = _member_faces(pooled_rows[mid],
+                                   center["daily_returns"], center["sharpe"])
+            out["members"][mid] = {
+                "center_replay": center_face,
+                **faces,
+                "k_universe_sharpe_wave_local": _sharpe_dist(own_rows[mid]),
+                "pooled_max_drawdown": _dist_face(
+                    [r["max_drawdown"] for r in pooled_rows[mid]]),
+                "pooled_annual_return": _dist_face(
+                    [r["annual_return"] for r in pooled_rows[mid]]),
+                "pooled_num_trades": _dist_face(
+                    [r["num_trades"] for r in pooled_rows[mid]]),
+            }
+        else:
+            faces = _member_faces(own_rows[mid],
+                                  center["daily_returns"], center["sharpe"])
+            out["members"][mid] = {
+                "center_replay": center_face,
+                **faces}
+        ku = out["members"][mid]["k_universe_sharpe"]
+        ci = out["members"][mid]["bootstrap_ci_sharpe"]
         print(f"{mid}: universe median={ku['median']} "
               f"CI95=[{ku['ci95_low']},{ku['ci95_high']}] "
               f"pos={ku['positive_fraction']} | center Sharpe="
               f"{center['sharpe']} bootstrap CI95=[{ci['ci95_low']},"
-              f"{ci['ci95_high']}] | DSR={faces['dsr_from_stats']['dsr']}")
+              f"{ci['ci95_high']}] | DSR={out['members'][mid]['dsr_from_stats']['dsr']}")
+    n_rows_total = sum(len(v) for v in pooled_rows.values())
     out["audit"] = {"elapsed_sec": round(time.time() - t0, 1),
                     "machine": _machine_id(),
-                    "n_universe_rows": sum(len(v) for v in
-                                          rows_by_member.values())}
-    os.makedirs(os.path.dirname(BATCH_JSON), exist_ok=True)
-    with open(BATCH_JSON, "w", encoding="utf-8") as fh:
+                    "n_universe_rows": n_rows_total}
+    if pool:
+        out["audit"]["n_universe_rows_wave_local"] = sum(
+            len(v) for v in own_rows.values())
+    os.makedirs(os.path.dirname(wave_batch_json()), exist_ok=True)
+    with open(wave_batch_json(), "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
-    print(f"saved: {BATCH_JSON} ({out['audit']['elapsed_sec']}s, "
-          f"{out['audit']['n_universe_rows']} universe rows)")
+    print(f"saved: {wave_batch_json()} ({out['audit']['elapsed_sec']}s, "
+          f"{n_rows_total} universe rows)")
     return 0
 
 
 def cmd_status() -> int:
-    print(f"batch={BATCH} cutoff={EVIDENCE_CUT} "
+    print(f"wave={WAVE} batch={wave_batch()} cutoff={EVIDENCE_CUT} "
           f"bands gen{BAND_GEN}/scrnull{BAND_SCRNULL}/unc{BAND_UNC} "
           f"prereg_frozen={_prereg_frozen()}")
-    probe = ("probe.json present" if os.path.exists(PROBE_JSON)
+    probe = ("probe.json present" if os.path.exists(wave_probe_json())
              else "probe.json absent")
     print(f"probe: {probe}")
     for mid in MEMBERS:
@@ -739,7 +927,8 @@ def cmd_selftest() -> int:
         if not ok:
             fails.append(name)
 
-    print("PERPETUAL-N4-B1 runner selftest (offline legs; freeze-gate S8 two-state):")
+    print("PERPETUAL-N4 runner selftest (offline legs; freeze-gate S8 "
+          "two-state; S17-S19 multi-wave legs):")
     panel = _synth_panel(600, 20260924)
 
     # S1 resample determinism (same L+seed -> identical panel bytes)
@@ -841,8 +1030,19 @@ def cmd_selftest() -> int:
           and cfg["engine_owner"] == "bm-a" and cfg["nshards"] == 6
           and cfg["members"] == MEMBERS
           and cfg["shard_subdir"] == "n4_b1"
+          and cfg["seed_gen_base"] == BAND_GEN[0]
           and os.path.exists(cfg["prereg"]))
-    leg("S11 WAVE_CONFIGS contract (owner/nshards/members/prereg)", ok)
+    b2 = WAVE_CONFIGS.get("B2")
+    ok = ok and (b2 is not None and b2["batch"] == "PERPETUAL-N4-B2"
+                 and b2["engine_owner"] == "bm-a" and b2["nshards"] == 6
+                 and b2["members"] == MEMBERS
+                 and b2["shard_subdir"] == "n4_b2"
+                 and b2["seed_gen_base"] == 68_701
+                 and b2["pool_waves"] == ("B1",)
+                 and b2["seed_scrnull_base"] == BAND_SCRNULL[0]
+                 and BAND_GEN[0] <= 68_701
+                 and 68_701 + 200 - 1 <= BAND_GEN[1])
+    leg("S11 WAVE_CONFIGS contract (B1 row verbatim + B2 tail row)", ok)
 
     # S12 _set_wave two-state (pin ok; foreign wave = honest KeyError)
     try:
@@ -857,14 +1057,13 @@ def cmd_selftest() -> int:
         ok = False
     leg("S12 _set_wave pin + foreign-wave KeyError", ok)
 
-    # S13 _shard_valid crafted receipts (hermetic rows via WAVE_DIR patch;
-    #     zero shared-tree writes -- tmp rows file only)
-    global WAVE_DIR
-    real_dir = WAVE_DIR
+    # S13 _shard_valid crafted receipts (hermetic rows via cfg rows_dir
+    #     patch; zero shared-tree writes -- tmp rows file only)
+    real_dir = WAVE_CONFIGS[WAVE]["rows_dir"]
     try:
         mid = MEMBERS[0]
         k_exp, l_exp = _frozen_K(), _frozen_L()
-        WAVE_DIR = tmp
+        WAVE_CONFIGS[WAVE]["rows_dir"] = tmp
         with open(member_rows_path(mid), "w", encoding="utf-8") as fh:
             for k in range(k_exp):
                 fh.write(json.dumps({"k": k, "member": mid}) + "\n")
@@ -891,7 +1090,7 @@ def cmd_selftest() -> int:
         ok = ok and not _shard_valid(p2, 0, 6)
         ok = ok and not _shard_valid(good, 0, 12)
     finally:
-        WAVE_DIR = real_dir
+        WAVE_CONFIGS[WAVE]["rows_dir"] = real_dir
     leg("S13 _shard_valid receipts (complete k-set/wrong-face rejects)", ok)
 
     # S14 shard-member resolution (shard=member shim + range guards)
@@ -910,23 +1109,25 @@ def cmd_selftest() -> int:
 
     # S15 burn determinism: serial vs pool drivers produce identical
     #     rows (insertion-order result lane -> k-ascending appends in both;
-    #     hermetic tmp WAVE_DIR, zero shared-tree writes)
-    real_dir = WAVE_DIR
+    #     hermetic tmp cfg rows_dir, zero shared-tree writes)
+    real_dir = WAVE_CONFIGS[WAVE]["rows_dir"]
     try:
         t = load_member("COMPOSITE-CE-01")
-        WAVE_DIR = os.path.join(tmp, "serial")
+        WAVE_CONFIGS[WAVE]["rows_dir"] = os.path.join(tmp, "serial")
         _burn_rows("COMPOSITE-CE-01", t, panel, [0, 1, 2], workers=1)
         rows_a = read_rows("COMPOSITE-CE-01")
-        WAVE_DIR = os.path.join(tmp, "pool")
+        WAVE_CONFIGS[WAVE]["rows_dir"] = os.path.join(tmp, "pool")
         _burn_rows("COMPOSITE-CE-01", t, panel, [0, 1, 2], workers=2)
         rows_b = read_rows("COMPOSITE-CE-01")
         ok = (len(rows_a) == 3 and len(rows_b) == 3 and rows_a == rows_b
-              and [r["k"] for r in rows_a] == [0, 1, 2])
+              and [r["k"] for r in rows_a] == [0, 1, 2]
+              and rows_a[0]["batch"] == "PERPETUAL-N4-B1"
+              and rows_a[0]["seed"] == BAND_GEN[0])
     except Exception as exc:
         ok = False
         print(f"    (S15 fault: {exc})")
     finally:
-        WAVE_DIR = real_dir
+        WAVE_CONFIGS[WAVE]["rows_dir"] = real_dir
     leg("S15 serial vs pool burn determinism (rows equal, k-order)", ok)
 
     # S16 finalize math face (hermetic: crafted rows + synth returns;
@@ -950,15 +1151,112 @@ def cmd_selftest() -> int:
         print(f"    (S16 fault: {exc})")
     leg("S16 finalize math face (distribution/CI/DSR wiring)", ok)
 
-    n = 16 - len(fails)
-    print(f"selftest: {n}/16 PASS, {len(fails)} FAIL")
+    # S17 multi-wave accessor identity: the pin resolves every per-wave
+    #     face; B1 stays byte-identical to the frozen r602 values, B2
+    #     resolves its own rows/ckpt/prereg/seeds (r606 multi-wave)
+    try:
+        _set_wave("B1")
+        ok = (wave_batch() == "PERPETUAL-N4-B1"
+              and wave_rows_dir().endswith(os.path.join(
+                  "perpetual_faces", "n4_b1"))
+              and wave_shard_ckpt_dir().endswith(
+                  os.path.join("p2cal_ext", "n4_b1"))
+              and wave_seed_gen_base() == 68_501
+              and wave_batch_json().endswith("n4_b1_results.json")
+              and os.path.basename(wave_prereg())
+                  == "PERPETUAL_N4_B1_PREREG.md"
+              and _cfg().get("pool_waves") == ())
+        _set_wave("B2")
+        ok = ok and (wave_batch() == "PERPETUAL-N4-B2"
+                     and wave_rows_dir().endswith(os.path.join(
+                         "perpetual_faces", "n4_b2"))
+                     and wave_shard_ckpt_dir().endswith(
+                         os.path.join("p2cal_ext", "n4_b2"))
+                     and wave_seed_gen_base() == 68_701
+                     and wave_batch_json().endswith("n4_b2_results.json")
+                     and os.path.basename(wave_prereg())
+                         == "PERPETUAL_N4_B2_PREREG.md"
+                     and _cfg().get("pool_waves") == ("B1",))
+    except KeyError:
+        ok = False
+    finally:
+        _set_wave(WAVE_NAME)
+    leg("S17 multi-wave accessor identity (B1 verbatim + B2 tail)", ok)
+
+    # S18 B2-pin burn labeling: serial burn under the B2 pin writes
+    #     PERPETUAL-N4-B2 rows with seeds 68_701+k (worker-safety face:
+    #     labels resolve off the ACTIVE pin in the driving process)
+    real_dir = WAVE_CONFIGS["B2"]["rows_dir"]
+    try:
+        t = load_member("COMPOSITE-CE-01")
+        WAVE_CONFIGS["B2"]["rows_dir"] = os.path.join(tmp, "b2burn")
+        _set_wave("B2")
+        _burn_rows("COMPOSITE-CE-01", t, panel, [0, 1, 2], workers=1)
+        rows_b2 = read_rows("COMPOSITE-CE-01")
+        ok = (len(rows_b2) == 3
+              and all(r["batch"] == "PERPETUAL-N4-B2" for r in rows_b2)
+              and [r["seed"] for r in rows_b2]
+                  == [68_701, 68_702, 68_703]
+              and [r["k"] for r in rows_b2] == [0, 1, 2])
+    except Exception as exc:
+        ok = False
+        print(f"    (S18 fault: {exc})")
+    finally:
+        WAVE_CONFIGS["B2"]["rows_dir"] = real_dir
+        _set_wave(WAVE_NAME)
+    leg("S18 B2-pin burn labeling (batch/seeds resolve per pin)", ok)
+
+    # S19 pooled seed gate + predecessor double-gate (r570 law: parse
+    #     gate AND isinstance(dict) gate on append-only jsonl reads;
+    #     distinct-seed completeness = the cumulative finalize gate)
+    try:
+        pred_dir = os.path.join(tmp, "pred")
+        os.makedirs(pred_dir, exist_ok=True)
+        with open(os.path.join(pred_dir, "universes-M1.jsonl"), "w",
+                  encoding="utf-8") as fh:
+            fh.write(json.dumps({"k": 0, "seed": 68_501,
+                                "sharpe": 0.1}) + "\n")
+            fh.write(json.dumps({"k": 1, "seed": 68_502,
+                                "sharpe": 0.2}) + "\n")
+            fh.write("corrupt-tail\n")
+            fh.write(json.dumps([1, 2, 3]) + "\n")   # non-dict -> skipped
+        WAVE_CONFIGS["_S19PRED"] = {"rows_dir": pred_dir}
+        try:
+            prows = _predecessor_rows("_S19PRED", "M1")
+            ok = (len(prows) == 2
+                  and all(isinstance(r, dict) for r in prows))
+        finally:
+            del WAVE_CONFIGS["_S19PRED"]
+        own = {"M1": [{"seed": 68_701}, {"seed": 68_702}]}
+        pooled = {"M1": own["M1"] + prows}
+        ok = ok and _pooled_seed_gate(pooled, 4)[0]
+        # double-burn merge (duplicate seed) and truncation must refuse
+        bad_dup = {"M1": pooled["M1"] + [{"seed": 68_701}]}
+        ok = ok and not _pooled_seed_gate(bad_dup, 5)[0]
+        bad_short = {"M1": pooled["M1"][:3]}
+        ok = ok and not _pooled_seed_gate(bad_short, 4)[0]
+    except Exception as exc:
+        ok = False
+        print(f"    (S19 fault: {exc})")
+    leg("S19 pooled seed gate + predecessor rows double-gate", ok)
+
+    n = 19 - len(fails)
+    print(f"selftest: {n}/19 PASS, {len(fails)} FAIL")
     return 1 if fails else 0
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="PERPETUAL-N4-B1 runner")
+    ap = argparse.ArgumentParser(
+        description="PERPETUAL-N4 runner (waves: "
+                   + "/".join(WAVE_CONFIGS) + ")")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("probe")
+    probe = sub.add_parser("probe")
+    probe.add_argument("--wave", default=None)
+    statp = sub.add_parser("status")
+    statp.add_argument("--wave", default=None)
+    finp = sub.add_parser("finalize")
+    finp.add_argument("--wave", default=None)
+    sub.add_parser("selftest")
     runp = sub.add_parser("run")
     runp.add_argument("--member", default=None,
                        help="manual lane: burn one member by id")
@@ -966,13 +1264,19 @@ def main() -> int:
     runp.add_argument("--shard", type=int, default=None,
                       help="engine lane: shard i = MEMBERS[i]")
     runp.add_argument("--of", type=int, default=None)
-    runp.add_argument("--wave", default=None)
+    runp.add_argument("--wave", default=None,
+                      help="wave key (engine runner_args contract; "
+                           "default = module pin " + WAVE_NAME + ")")
     runp.add_argument("--workers", type=int, default=1)
     runp.add_argument("--lane", default="pool")
-    sub.add_parser("status")
-    sub.add_parser("finalize")
-    sub.add_parser("selftest")
     args = ap.parse_args()
+    req_wave = getattr(args, "wave", None)
+    if req_wave is not None and req_wave not in WAVE_CONFIGS:
+        print(f"REFUSED: unknown wave {req_wave!r} "
+              f"(registered: {tuple(WAVE_CONFIGS)})")
+        return 2
+    if req_wave is not None:
+        _set_wave(req_wave)
     if args.cmd == "probe":
         return cmd_probe()
     if args.cmd == "run":
@@ -980,15 +1284,12 @@ def main() -> int:
             if args.member is not None:
                 print("REFUSED: --shard and --member are exclusive")
                 return 2
-            if args.wave not in (None, WAVE_NAME):
-                print(f"REFUSED: unknown wave {args.wave!r} "
-                      f"(this module burns {WAVE_NAME} only)")
-                return 2
             nsh = args.of if args.of is not None else NSHARDS
             return cmd_run_shard(args.shard, nsh, args.workers, args.lane)
         if args.member is None:
             print("usage: run --member <ID> | run --shard i --of "
-                  f"{NSHARDS} [--wave {WAVE_NAME}] [--workers P]")
+                  f"{NSHARDS} [--wave {'|'.join(WAVE_CONFIGS)}] "
+                  "[--workers P]")
             return 2
         return cmd_run(args.member, args.universes, args.workers)
     if args.cmd == "status":

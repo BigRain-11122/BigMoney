@@ -264,6 +264,18 @@ def _pre_ignition_checks(item, cfg, prereg_path, daily_dir, done_probe,
     reasons = []
     if not os.path.exists(prereg_path):
         reasons.append(f"prereg missing: {prereg_path}")
+    else:
+        # r606 hardening: the law says the engine materializes
+        # ALREADY-FROZEN waves only -- a DRAFT-head prereg must never
+        # reach ignition (honest skip beats a refused runner burn +
+        # crash-backoff noise while the freeze commit is pending).
+        try:
+            with open(prereg_path, encoding="utf-8") as fh:
+                head = fh.read(2000)
+            if "DRAFT-NOT-FROZEN" in head:
+                reasons.append("prereg still DRAFT (freeze commit pending)")
+        except OSError:
+            reasons.append("prereg unreadable")
     if cfg.get("engine_owner") != MACHINE_ID:
         reasons.append("wave not engine-owned by this machine")
     try:
@@ -776,6 +788,11 @@ def selftest():
         item, own_cfg, prereg, daily, lambda *a: False, {})
     assert not ok and any("prereg missing" in r for r in reasons), \
         "missing prereg must fail-closed"
+    open(prereg, "w", encoding="utf-8").write("x DRAFT-NOT-FROZEN y")
+    ok, reasons = _pre_ignition_checks(
+        item, own_cfg, prereg, daily, lambda *a: False, {})
+    assert not ok and any("DRAFT" in r for r in reasons), \
+        "DRAFT prereg must fail-closed (never ignite pre-freeze, r606)"
     open(prereg, "w", encoding="utf-8").write("prereg")
     ok, reasons = _pre_ignition_checks(
         item, own_cfg, prereg, daily, lambda *a: False, {})
@@ -960,17 +977,23 @@ def selftest():
             assert all(i["runner"].endswith(
                 FAMILIES[fam_name]["runner"].split("/")[-1])
                 for i in fam_items), f"runner drift ({fam_name}/{owner})"
-    # N4 real-tree queue face: owner bm-a -> exactly 6 shards, engine
-    # runner_args carry --of 6 --wave B1 (per-family width law)
+    # N4 real-tree queue face: owner bm-a -> B1 + B2 waves x 6 member
+    # shards (r606 multi-wave; engine runner_args carry --of 6 and the
+    # per-item --wave -- per-family width law)
     q_bma = _queue_items(FAMILIES, lambda *a: False, set(), "bm-a")
     n4_items = [i for i in q_bma if i["face"] == "N4"]
-    assert len(n4_items) == 6 \
+    assert len(n4_items) == 12 \
         and all(i["nshards"] == 6 for i in n4_items), \
-        "N4 queue must hold the 6 member shards (bm-a owner)"
+        "N4 queue must hold 12 member shards (B1+B2 waves, bm-a owner)"
     assert n4_items[0]["runner_args"] == \
         ["run", "--shard", "0", "--of", "6", "--wave", "B1",
          "--workers", str(WORKERS), "--lane", "engine"], \
         "N4 runner args drift (shard=member shim contract)"
+    b2_args = [i for i in n4_items if i["wave"] == "B2"]
+    assert len(b2_args) == 6 and b2_args[0]["runner_args"] == \
+        ["run", "--shard", "0", "--of", "6", "--wave", "B2",
+         "--workers", str(WORKERS), "--lane", "engine"], \
+        "N4 B2 runner args drift (multi-wave dispatch contract)"
     assert q_bma[0]["face"] == "N1" or q_bma[0]["face"] == "N4", \
         "registry order face (N1 first then N4)"
     # multi-family dispatch: a fixture N4 family rides the same generators

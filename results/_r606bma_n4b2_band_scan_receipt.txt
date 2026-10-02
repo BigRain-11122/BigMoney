@@ -1,0 +1,8 @@
+N1_BANDS rows: 112 | SEED_REGISTRY int values: 165
+leg1 ADMIT: family window 68_501..69_999 (all three bands) clean vs current tables (N1_BANDS 112 rows + SEED_REGISTRY 165 ints)
+leg2 ADMIT: B2 gen 68701..68900 clean, disjoint from B1 burned 68501..68700, inside family band
+leg3 ADMIT: K=200 arithmetic exact (68_701 + 199 == 68_900)
+N4-B2 BAND SCAN: ADMIT (family re-proof + B2 window + arithmetic)
+
+
+[rc=0 captured 2026-10-03 r606 bm-a]
