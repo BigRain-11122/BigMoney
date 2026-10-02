@@ -1931,6 +1931,41 @@ N1_BANDS = {
     # NOT a re-pick (R250: W86 bands were never assigned).
     86: {"a": (215_004, 217_003), "b_exit": (55_201, 55_400),
          "engine_owner": "bm-a"},
+    # SEVENTY-SEVENTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r577 bm-a
+    # freeze): engine_owner rows 76 + candidate; bm-a's
+    # twenty-third owned per machine-derive (engine_owner==bm-a
+    # rows 22 + candidate). Wave 87 = first free number after the
+    # registered W86 row (single-state gate: W85+W86 both
+    # registered, zero published-but-unregistered seats, zero W87
+    # seat MSGs on origin per gate leg0b; r511 tail-lock
+    # fetch-checked vacancy; seat published=reserved
+    # MSG-20261002-1345-bma PUSHED to origin before this freeze
+    # per r565 early-visibility law).
+    # W1..W86 finalizes ALL LANDED at this freeze (net head
+    # 553,748 = W85 bm-b r577 551,548 + W86 bm-a r577 one-pass;
+    # K=187,120 merged pool; ZERO in-flight upstream seats --
+    # first fully-caught-up freeze window since W53; finalize
+    # merge loop stays FAIL-CLOSED r307 at run time).
+    # A-SIDE ARITHMETIC CONTINUATION from the registered W86 row
+    # tail, zero skip: A 217_004..217_003+2_000 = 217_004..219_003
+    # (= W86 A end 217_003 + 1) CLEAN. B-SIDE MEDIAN-HIT PIN CHAIN:
+    # arithmetic 55_401..55_600 REFUSED in-band at SEED_REGISTRY
+    # grid_p1=55_500 (median position 99/199, non-endpoint) ->
+    # D-20261002-05 pin: PAST-HIT start-window hit+1 restart
+    # 55_501..55_700 CLEAN (window-step-chain reading 55_601..55_800
+    # BANNED by the pin; W68-B positive anchor, pf.py selftest
+    # leg-9 pin leg).
+    # Machine-verified at prereg time
+    # (results/_r577bma_w87_band_gate.py ADMIT receipt vs the
+    # 84-row pre-W87 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W88+ projection: A 219_004..221_003
+    # CLEAN; B 55_701..55_900 CLEAN (next freezer must re-derive,
+    # never transcribe).
+    # NOT a re-pick (R250: W87 bands were never assigned).
+    87: {"a": (217_004, 219_003), "b_exit": (55_501, 55_700),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
