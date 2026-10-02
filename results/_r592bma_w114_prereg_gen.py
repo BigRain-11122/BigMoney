@@ -141,6 +141,12 @@ R("entry rng seed=**269_004+j**（法典 §4 W113 行 A=269_004..271_003·**算�
 R("exit rng=**62_001+j**（法典 §4 W113 行 B=62_001..62_200·**撞值跳位窗**==W112 行 B 尾 61_800+1 起算术窗 61_801..62_000 撞 SEED_REGISTRY `cta_wave1`=62_000〔窗尾端点命中=W74/W81 判例族〕→ D-20261002-05 越 hit 起窗·hops=1·ADMIT 回执在场）；p_exit=`P_EXIT=0.05`。",
   "exit rng=**62_201+j**（法典 §4 W114 行 B=62_201..62_400·**算术续带**==W113 行 B 尾 62_200+1 起·步长 200·CLEAN 零拒绝点·hops=0·ADMIT 回执在场）；p_exit=`P_EXIT=0.05`。")
 
+# r594 patch leg 1: B-档 entry rng token (r382 source kept A_SEED_BASE pairing
+# face; the r592 drafting window predated the r383 S7/S8 backfill so this rep
+# was missing from the adopted set -- leftover assert caught it live).
+R("entry rng=**269_004+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）",
+  "entry rng=**271_004+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）")
+
 R("本波设计=W2..W112 逐字复用，runner probe 非本窗真态 no-op；账本 +0）",
   "本波设计=W2..W113 逐字复用，runner probe 非本窗真态 no-op；账本 +0）")
 
@@ -186,10 +192,43 @@ R("- 交付：`results/p2cal_ext/n1_w113/shard-<k>-of-12.json`（append-only·�
 R("- 引擎台账：bm-c 常驻架构 v0.4=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-c 33 枚实况范式=机面 derive：W14/W17/W20/W23/W26/W29/W32/W37/W39/W41/W42/W43/W46/W50/W51/W52/W53/W58/W60/W63/W66/W69/W71/W78/W80/W83/W88/W92/W99/W102/W105/W108+本波 W113 候选〔32 行注册+候选·以 gate leg0 机证为准〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。",
   f"- 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 33 枚实况范式=机面 derive：{bma_list}+本波 W114 候选〔32 行注册+候选·以 gate leg0 机证为准〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。")
 
+# ---- r594 patch leg 2: §7/§8 tail reset to the r382-verbatim placeholder ----
+# The copy-adapt source (W113 prereg) now carries the r383 bm-c S7/S8
+# same-round mechanical backfill (r307 law) -- the drafting window of this
+# adopted toolset predated that landing, so the tail was placeholder-state
+# then and backfilled-state now. A per-token rep set can never chase the
+# backfill face (values are wave-specific); the correct freeze face is the
+# placeholder tail verbatim, backfilled only after THIS wave's finalize.
+i7 = t.find("## §7")
+assert i7 > 0 and t.count("## §7") == 1 and t.count("## §8") == 1, \
+    "sec7/8 tail anchor drift (single-sec anchor law)"
+_eol = "\r\n" if t.count("\r\n") * 2 > t.count("\n") else "\n"
+S78_PLACEHOLDER = _eol.join([
+    "## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】",
+    "",
+    "- （finalize 落账后机械回填；两态腿断言在场=r307 律）",
+    "",
+    "## §8 批后复盘。【必填·终 7-T】",
+    "",
+    "- （finalize 落账后机械回填）",
+    "",
+    "- **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。",
+    "",
+])
+t = t[:i7] + S78_PLACEHOLDER
+print("sec7/8 tail reset to r382-verbatim placeholder (source carried r383 backfill)")
+
 # ---- batch-identity leftovers: hard asserts --------------------------------------
-leftovers = [s for s in ("PERPETUAL-N1-W113", "269_004+j", "62_001+j", "n1_w113_results",
-                         "r382bmc", "baa0c3888", "MSG-20261002-1949-bmc", "bm-c 第三十三")
+leftovers = [s for s in ("PERPETUAL-N1-W113", "269_004+j", "62_001+j", "n1_w113_results", "r382bmc", "baa0c3888", "MSG-20261002-1949-bmc", "bm-c 第三十三")
              if s in t]
+# r594 patch leg 3: the ONLY legal 'n1_w113_results' in the W114 output is the
+# sec.5 prediction-anchor key reference (latest LANDED finalize = W113 results
+# file, r576 anchor-roll law) written by this generator's own sec.5 rep --
+# exempt it from the active-face leftover blacklist with count+context gates.
+if "n1_w113_results" in leftovers and t.count("n1_w113_results") == 1 and \
+        "本波 §5 预测键=**W113 finalize 实测值**〔results/perpetual_faces/n1_w113_results.json·N1 面最新已落账键〕" in t:
+    leftovers.remove("n1_w113_results")
+    print("sec.5 anchor-key exemption applied (n1_w113_results count=1, anchor context verified)")
 print("leftover tokens:", leftovers)
 assert not leftovers, "batch-identity leftovers must be zero (W113 active-face tokens all replaced)"
 hist_leftovers = [s for s in ("W113", "r382", "62_001", "269_004", "eeb062290") if s in t]

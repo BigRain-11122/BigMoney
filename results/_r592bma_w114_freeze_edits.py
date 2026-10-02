@@ -344,9 +344,13 @@ t2c, eol2c = load(FP2)
 if '+ W114 materializer face' in t2c:
     print('edit5 already landed (idempotent skip)')
 else:
-    A5 = ('"free pick -- R250), law sec.4 W113 row, r382 bm-c] "\n'
+    # r594 patch: A5 anchor corrected to the actual r382 bm-c SUMMARY face
+    # (the "free pick -- R250)," and "law sec.4 W113 row..." tail literals sit
+    # on TWO separate lines in the landed file; the r592 dead-session draft
+    # glued them into one -- never executed, caught live at edit5).
+    A5 = ('"law sec.4 W113 row, r382 bm-c] "\n'
           '          "+ T-141 s2 ')
-    SEG114 = ('"free pick -- R250), law sec.4 W113 row, r382 bm-c] "\n'
+    SEG114 = ('"law sec.4 W113 row, r382 bm-c] "\n'
               '          "+ W114 materializer face [same guard set, dep=W17..W113 "\n'
               '"outputs ALL PRESENT (landed chain head 613,148 = W113 "\n'
               '"bm-c r382 one-pass, K=246,520; ZERO in-flight upstream seats "\n'
