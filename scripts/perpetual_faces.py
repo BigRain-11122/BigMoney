@@ -2606,9 +2606,31 @@ def cmd_selftest():
             assert _pool_format_probe() == (2, True, False)
         finally:
             POOL_PATH = real_pool
-    print("perpetual_faces selftest: 8/8 PASS "
+    # 9. skip-semantics pin (D-20261002-05 group ruling, pinned
+    #    2026-10-02): MID-BAND HITS RESOLVE BY JUMP-PAST-HIT
+    #    start-window (window starts at hit+1, scanning forward clean) --
+    #    NOT by stepping whole windows (window-step chain). Frozen
+    #    historical case W68-B: arithmetic 50_401..50_600 hits
+    #    SEED_REGISTRY cta_p2_noau=50_500 mid-band -> registered band
+    #    50_501..50_700 (hit+1 restart, r568 bm-a first-land); the
+    #    chained reading 50_601..50_800 is NOT the registered face.
+    #    W63-B remains the HISTORICAL fork example (its registered band
+    #    is not re-derived -- r307 two-state law). Tail-point hits
+    #    (upper/lower edge) always converged under both readings (W74-B
+    #    52_000 / W81-B 54_000 families) -- pin not exercised there.
+    assert N1_BANDS[68]["b_exit"] == (50_501, 50_700), \
+        "D-20261002-05 pin: W68-B must be the jump-past-hit face 50_501..50_700"
+    assert N1_BANDS[68]["b_exit"] != (50_601, 50_800), \
+        "D-20261002-05 pin: the window-step chained reading is NOT the law"
+    assert 50_500 in sg.SEED_REGISTRY.values(), \
+        "W68-B refusal-fact identity (cta_p2_noau=50_500 must be registered)"
+    hit_restart = set(range(50_501, 50_701))
+    assert not (hit_restart & {50_500}), \
+        "hit+1 restart window must clear the hit point"
+    print("perpetual_faces selftest: 9/9 PASS "
           "(registry/seed-bands+3c-W6+3d-W7-packing/pool/state/py-face/"
-          "materializer-expansion/pool-format-probe+writer-roundtrip; "
+          "materializer-expansion/pool-format-probe+writer-roundtrip/"
+          "skip-semantics-pin-D-20261002-05; "
           "4b park_note + 4c ghost claimable legs)")
     return 0 if ok else 1
 
