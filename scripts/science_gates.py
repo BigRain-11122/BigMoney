@@ -1816,6 +1816,13 @@ SEED_REGISTRY = {
         # [20333000, 20445400) disjoint-checked vs all registered bases
         # 2026-10-01 r502 pre-freeze (prior head lowamp_p1_nulls 20331000
         # width 2000 ends 20332999)
+    "fund_quality_p1_nulls": 20_510_000,  # T-153 FUND-QUALITY-P1 stock same-mask nulls (rng([20510000, k]) K=2000)
+    "fund_quality_p1_sens": 20_510_500,   # T-153 FUND-QUALITY-P1 sensitivity draws (rng([20510500, k]) K=500)
+        # FUND-QUALITY-P1 band pick 2026-10-03 bm-b r606 freeze window:
+        # probe leg4 receipt (results/_fund_quality_p1_transfer_probe.json)
+        # -- exact-hit zero vs 166 registered bases, outside furnace band
+        # [20333000, 20445400), proximity >=2000 all-pass, gap 10000 to
+        # fund_value block 20500000/20500500 (sibling family, same panel).
 
     }
 

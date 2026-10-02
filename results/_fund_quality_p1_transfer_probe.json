@@ -1,6 +1,6 @@
 {
  "probe": "FUND-QUALITY-P1 ignition data-side probes",
- "generated": "2026-10-03T03:35:25+08:00",
+ "generated": "2026-10-03T06:27:17+08:00",
  "machine": "bm-b",
  "prereg": "research/FUND-QUALITY-P1.md (DRAFT-NOT-FROZEN)",
  "transfer_ticket": "T-2026-10-03-152-P1",
@@ -12,9 +12,72 @@
   "ok_universe": 5130
  },
  "quality_face": {
-  "absent": true,
-  "path": "data/fund_history_export/quality_faces.parquet",
-  "note": "T-152 TRANSFER not landed -- fail-closed by design (this receipt IS the transfer-necessity evidence)."
+  "rows": 306414,
+  "n_symbols": 5223,
+  "anchor_median": 52.0,
+  "anchor_p10": 26.0,
+  "avail_min": "2001-04-30",
+  "avail_max": "2026-08-31",
+  "dup_period_end_any": false,
+  "monotonic_avail_all": true,
+  "statutory_map_exact_all_rows": true,
+  "statutory_map_bad_rows": 0
+ },
+ "start_census": {
+  "months_in_window": 403,
+  "eligible_starts": 401,
+  "expected": 401
+ },
+ "coverage": {
+  "first_signal_date_t0": 20010903,
+  "months_evaluated": 401,
+  "months_below_floor_after_t0": [],
+  "n_below_after_t0": 0,
+  "cov_median": 0.9838,
+  "cov_min_after_t0": 0.9497,
+  "elig_ratio_median_after_t0": 0.8665,
+  "worst_five": [
+   {
+    "t": 19920901,
+    "n_active": 26,
+    "n_cov": 0,
+    "cov_ratio": 0.0,
+    "elig_ratio": 0.0
+   },
+   {
+    "t": 19921102,
+    "n_active": 31,
+    "n_cov": 0,
+    "cov_ratio": 0.0,
+    "elig_ratio": 0.0
+   },
+   {
+    "t": 19921201,
+    "n_active": 36,
+    "n_cov": 0,
+    "cov_ratio": 0.0,
+    "elig_ratio": 0.0
+   },
+   {
+    "t": 19930201,
+    "n_active": 44,
+    "n_cov": 0,
+    "cov_ratio": 0.0,
+    "elig_ratio": 0.0
+   },
+   {
+    "t": 19930301,
+    "n_active": 46,
+    "n_cov": 0,
+    "cov_ratio": 0.0,
+    "elig_ratio": 0.0
+   }
+  ]
+ },
+ "roe_raw_stats": {
+  "note": "unit sanity (percent vs fraction) -- freeze-time declaration input",
+  "median": 3.72,
+  "p90": 15.0
  },
  "seed_band_scan": {
   "candidates": {
@@ -37,9 +100,9 @@
  },
  "gates": {
   "leg1_price_panel": true,
-  "leg2_transfer_export": false,
-  "leg3_monthly_coverage": false,
+  "leg2_transfer_export": true,
+  "leg3_monthly_coverage": true,
   "leg4_seed_band": true
  },
- "verdict": "RED"
+ "verdict": "GREEN"
 }

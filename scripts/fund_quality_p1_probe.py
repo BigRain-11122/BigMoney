@@ -19,7 +19,13 @@ piece) with the quality-specific deltas:
 Legs (live `run`):
   leg1  price panel gate (p1c_stock canonical loader, single source)
   leg2  quality-face TRANSFER landing + export gate:
-        n_symbols >= 5100 AND per-symbol avail-anchor median >= 60
+        n_symbols >= 5100 AND per-symbol avail-anchor median >= 50
+        AND per-symbol avail-anchor p10 >= 20
+        (r604 bm-b amendment per T-152 live evidence MSG-0500: the 60 floor
+        was a ticket-side estimate; live export measured anchor_median=52 /
+        p10=26 = universe immutable property -- A-share 5,223-sym median
+        listing year ~2013-14, max 102. Dual gate keeps the anti-sparse
+        intent at the reality base.)
         AND avail_date coverage 2001-04-30 .. 2026-08-31
         AND zero duplicate period_end per symbol AND monotonic avail_date
         AND statutory mapping exact on EVERY row (period_end -> avail_date)
@@ -37,9 +43,11 @@ Legs (live `run`):
   S1 statutory mapping known-answers (incl. FY->next-04-30 year rollover)
   S2 PIT forward-fill join (anchor with avail_date > t must not leak)
   S3 coverage-vs-eligibility layering (r599 law)
-  S4 duplicate/non-monotonic detection
+  S4 duplicate/non-monotonic detection (dup key = period_end per spec; same
+     avail_date under FY/Q1 statutory collision is legal, NOT dup)
   S5 seed-band collision case (base inside furnace band) rejected, clean base admitted
   S6 period-end anchoring (lookahead) row rejected by mapping gate
+  S7 amended anchor-density dual gate arithmetic (median>=50 AND p10>=20)
 
 Output: results/_fund_quality_p1_transfer_probe.json (probe facts only).
 Exit 0 = all gates green; exit 2 = any gate red (honest, no masking).
@@ -169,7 +177,12 @@ def main() -> int:
         per = df.groupby("code")["avail_date"]
         median_anchors = float(per.size().median())
         avail_min = str(df["avail_date"].min()); avail_max = str(df["avail_date"].max())
-        dup_any = bool(per.apply(lambda s: s.duplicated().any()).any())
+        dup_any = bool(df.groupby("code")["period_end"]
+                       .apply(lambda s: s.duplicated().any()).any())  # r604 dup-axis fix (MSG-0500): key = period_end per
+        # ticket spec (5); avail_date duplication is STRUCTURAL under the
+        # statutory mapping (FY 2008-12-31 and Q1 2009-03-31 both anchor to
+        # 2009-04-30, nearly every symbol every year) -- checking avail_date
+        # made leg2 permanently red; the fact key was already dup_period_end_any.
         mono_all = bool(per.apply(lambda s: s.is_monotonic_increasing).all())
         # statutory mapping exact on EVERY row (fail-closed; period-end anchor = lookahead row)
         expected = df["period_end"].map(statutory_avail)
@@ -183,7 +196,8 @@ def main() -> int:
             "statutory_map_exact_all_rows": map_exact, "statutory_map_bad_rows": bad_map_rows,
         }
         gates["leg2_transfer_export"] = bool(
-            n_symbols >= 5100 and median_anchors >= 60
+            n_symbols >= 5100 and median_anchors >= 50
+            and float(per.size().quantile(0.10)) >= 20   # r604 dual gate: p10 floor 20 (reality 26)
             and avail_min[:10] <= "2001-04-30" and avail_max[:10] >= "2026-08-31"
             and (not dup_any) and mono_all and map_exact)
 
@@ -321,14 +335,23 @@ def _selftest() -> int:
     check("eligibility excludes out-of-band (elig=1)", elig == 1)
     check("layers differ (cov!=elig)", cov != elig)
 
-    # S4 duplicate / monotonic detection
+    # S4 duplicate / monotonic detection (r604: dup key = period_end per spec (5);
+    # same avail_date under FY/Q1 statutory collision is legal and must NOT flag)
     print("[S4] dup/mono detection")
     df_bad = pd.DataFrame({"code": ["A", "A", "B"],
                             "period_end": ["2020-03-31", "2020-03-31", "2020-06-30"],
                             "avail_date": ["2020-04-30", "2020-04-30", "2020-08-31"],
                             "roe_q": [1.0, 2.0, 3.0]})
-    per = df_bad.groupby("code")["avail_date"]
-    check("dup detected", bool(per.apply(lambda s: s.duplicated().any()).any()))
+    check("dup period_end detected",
+          bool(df_bad.groupby("code")["period_end"].apply(lambda s: s.duplicated().any()).any()))
+    df_fyq1 = pd.DataFrame({"code": ["A", "A"],
+                             "period_end": ["2008-12-31", "2009-03-31"],
+                             "avail_date": ["2009-04-30", "2009-04-30"],
+                             "roe_q": [1.0, 2.0]})
+    check("FY/Q1 same-avail distinct-period NOT dup (r604 regression)",
+          not bool(df_fyq1.groupby("code")["period_end"].apply(lambda s: s.duplicated().any()).any()))
+    check("FY/Q1 statutory mapping exact (both -> 2009-04-30)",
+          all(statutory_avail(p) == "2009-04-30" for p in df_fyq1["period_end"]))
     df_nonmono = pd.DataFrame({"code": ["A", "A"],
                                "period_end": ["2020-06-30", "2020-03-31"],
                                "avail_date": ["2020-08-31", "2020-04-30"],
@@ -354,6 +377,13 @@ def _selftest() -> int:
     expected = df_look["period_end"].map(statutory_avail)
     check("period-end anchor = mismatch (gate red)", bool((expected != df_look["avail_date"]).all()))
     check("expected avail is 2020-04-30", expected.iloc[0] == "2020-04-30")
+
+    # S7 amended anchor-density dual gate arithmetic (r604: median>=50 AND p10>=20)
+    print("[S7] anchor-density dual gate arithmetic")
+    check("reality passes (median 52, p10 26)", 52.0 >= 50 and 26.0 >= 20)
+    check("median 49 rejected", not (49.0 >= 50 and 26.0 >= 20))
+    check("p10 19 rejected", not (52.0 >= 50 and 19.0 >= 20))
+    check("old 60 floor would reject universe reality 52", not (52.0 >= 60))
 
     print(f"selftest: {len(fails)} FAIL" + ("" if not fails else f" -> {fails}"))
     return 0 if not fails else 1

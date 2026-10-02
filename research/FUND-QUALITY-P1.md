@@ -1,6 +1,7 @@
 # FUND-QUALITY-P1 预注册 · 基本面质量族（高 ROE）股票横截面月频再平衡**新家族**主考格判决批
 
-> **DRAFT-NOT-FROZEN v0.1（2026-10-03 bm-b r601）**：本件为草稿态——**冻结五条件门（fail-closed·全机证）**：①T-2026-10-03-152 TRANSFER 落位（quality_faces.parquet 送达+manifest）②probe 全绿（scripts/fund_quality_p1_probe.py leg1-4·leg2/leg3 现为 RED=数据缺席诚实态）③D6 同族相关性 probe（headline 日收益 vs 在册六员逐对 max|corr|<0.7）④种子带注册（SEED_REGISTRY 落 fund_quality_p1_nulls=20510000·fund_quality_p1_sens=20510500·R250 一步律）⑤banned_direction_gate 对冻结终稿 ADMIT（rc0）——五门全绿才许「FROZEN」改章+冻结 commit；冻结前禁烧任何格。
+> **FROZEN v1.0（2026-10-03 bm-b r606 冻结窗·五条件门全绿证链）**：①T-152 TRANSFER 落位——quality_faces.parquet 306,414 行/755,292 B/sha256 `ef35c7335ba967c3bb81a06f1cc75843c34937cfe5a0ad9d72c92219facf9735`（bm-c r399 commit 164737489·06:10 PASS 7/7·manifest T-2026-10-03-152-sender.json）②probe 全绿——leg1-4 true（results/_fund_quality_p1_transfer_probe.json r606 06:25：anchor_median 52.0≥50·anchor_p10 26.0≥20 双门〔r604 修正案〕·dup_period_end 0·法定映射全行恒等·G-CENSUS 401·种子带 disjoint 三门过）③D6 同族 probe——**ADMIT max|corr|=0.2407**（NEEDLE-DE-01·六员全对清单 results/fund_quality_p1/d6.json·价值族 headline 另列披露 corr=−0.044 正交主张实证）④种子带注册——`science_gates.SEED_REGISTRY` 落 fund_quality_p1_nulls=20510000·fund_quality_p1_sens=20510500（R250 一步律·r606）⑤banned_direction_gate 对冻结终稿 ADMIT rc0（回执见冻结 commit）。**t0 pin=2001-09-03**（probe first_signal_date_t0=20010903·runner T0_FROZEN 同窗钉定）；**roe_q 单位口径核验=百分比形态实证**（probe roe_raw_stats median 3.72/p90 15.0 → 资格带 (0,100] 百分比原设成立零换算）。冻结后禁改 §0-§6 判据面；跑后只回填 §7/§8。
+> **工程披露（r606）**：probe 修正版（r604 a8e082d16 双门+dup period_end 轴）曾被 bm-a r609 收口 (db66e6c45) reland 环按「他机属主面 origin-verbatim」取陈旧快照重放=**整件反向 revert**（−37/+7 镜像·修正面从 origin HEAD 消失~20min）——r606 从 a8e082d16 blob 字节级恢复（git checkout commit -- file·+37/−7 与 revert 精确镜像）+自检 0 FAIL+probe GREEN 复证；fleet 通报 MSG 已发 bm-a（reland 环 face 级恢复须执行时点 rev-parse 重取·r593 律的 face 级扩展提案）。
 >
 > 令链血统：**CEO 直令 O-20261002-2115 §一.1③**（新策略/新方向开发提速窗）→ T-2026-10-02-145 leg(c)「首批基本面族 prereg：价值/质量/红利低波」——本批=三族第二件（价值族 FUND-VALUE-P1 已冻结在烧）。数据基座=T-131（done·fund_history 5224/5129 完备·2026-10-02 15:40）＋T-145 leg(a) PIT 审计回执（**roe_q=报告期锚·法定日锚定门 MANDATORY：Q1→04-30/H1→08-31/Q3→10-31/FY→次年04-30·期末锚=前视=预注册拒收**）＋leg(b) H 行解锁（roe=roe_q·UNLOCK direct）。部门=dept:策略（族规格）+研究（judgment 面）；lane=烧批池宿主=全机（pool autofill 域）；质量面 TRANSFER 前置门=**T-2026-10-03-152**（bm-c→fleet·git 方案 A·value-faces 先例 5c3939640）。
 > 模板=research/PREREG_TEMPLATE.md＋FUND-VALUE-P1.md（族首件·结构逐节镜像）；判据节调 science_gates 共享库禁手抄判线；跑前 commit 冻结；跑后只回填 §7/§8；CEO 研究导向律（2026-09-28）合规声明：质量=国内基本面打法主流风格（高 ROE 白马/核心资产打法），本批=A 股原生打法形式化，非国外框架筛国内打法。
@@ -28,7 +29,7 @@
 
 ## §1 α 机制段【必填·D6】
 
-- 机制勾选：**风险溢价**（主：质量溢价=高盈利企业=更低融资成本/更低财务困境风险的补偿——持有低 ROE「垃圾」股承担盈利恶化与退市尾部风险，投资者要求补偿的反面=质量面折价之谜的补偿面）＋**行为偏差**（辅：彩票偏好/魅力股偏差——投资者系统性超配叙事性强的低盈利成长股、低配「无聊」的高盈利现金牛，代价支付者=追逐魅力股的行为对手盘）——**结构性**面注记：A 股散户主导市场彩票偏好更重（小市值/题材历史实证），机制主张以 burn 读数检验不以此段宣称为准。
+- 机制勾选：**风险溢价**（主：质量溢价=高盈利企业=更低融资成本/更低财务困境风险的补偿——持有低 ROE「垃圾」股承担盈利恶化与退市尾部风险，投资者要求补偿的反面=质量面折价之谜的补偿面）＋**行为偏差**（辅：彩票偏好/魅力股偏差——投资者系统性超配叙事性强的低盈利成长股、低配「无聊」的高盈利现金牛，代价支付者=追逐魅力股的行为对手盘）——**结构性**面注记：A 股散户主导市场彩票偏好更重（题材股历史实证；本批资格闸 amt20≥¥10M 反向排除微盘=与 BAN-07 方向零接触，机制叙述纯市场结构上下文非因子输入），机制主张以 burn 读数检验不以此段宣称为准。
 - **散户凭什么赢【§1.2】**：**制度/容量**——¥1,000,000 账户在 5100+ 股票池 Top-20 等权持有=容量无限、零杠杆需求、月频再平衡执行压力近零；不重跑任何机构结论（质量溢价=公开文献常识面引用，FF5 RMW 族）；例外三问=本账户独有约束（场内股票直接持有·真实成本·本市场 1992-2026 全史窗）成立。
 - **同族相关性准入检查【必填·D6】**：入池前 probe 步计算 headline（QUALITY-ROE）日收益序列 vs **在册六员全部成员**日收益序列逐对 max|corr|；**max|corr| ≥ 0.7 → 拒收 fail-closed 禁烧**（数值与逐对清单 probe 件落盘后方可点火；股票月频族 vs ETF 在册六员预期低相关，以 probe 实测为准；**与 FUND-VALUE-P1 headline 的相关性另列披露**——同面板同执行族，两族 headline 相关性由 D6 机制段各自申报、若价值族在册后进六员集则照测）。
 - M1 t 面【必填申报】：`science_gates.t_from_sharpe(sharpe_full, n_periods)` 派生面（headline cell）；判据=`science_gates.m1_t_value_gate`（Harvey/Liu/Zhu 门槛 **t≥3.0**）。
@@ -66,7 +67,7 @@
 
 ## §5 跑前预测【必填·写死于跑前，跑后对账】
 
-- (a) **方向**：headline QUALITY-ROE 12m 完整窗全期 Sharpe 预期为正但**低于在册 ETF 六员水平带**（与价值族同面预测：股票单名尾部风险>ETF 组合；预测带 Sharpe 0.3-0.8 区间·超带=数据问题先查接合法与法定锚）；beat 被动基线=**不确定方向**——A 股质量溢价历史含长失效段（2013-2015 小市值题材牛=高质量白马持续跑输·2017 白马结构牛=质量大年），多数起点不成立=诚实判负预期**真实存在**。
+- (a) **方向**：headline QUALITY-ROE 12m 完整窗全期 Sharpe 预期为正但**低于在册 ETF 六员水平带**（与价值族同面预测：股票单名尾部风险>ETF 组合；预测带 Sharpe 0.3-0.8 区间·超带=数据问题先查接合法与法定锚）；beat 被动基线=**不确定方向**——A 股质量溢价历史含长失效段（2013-2015 题材股牛市=高质量白马持续跑输·2017 白马结构牛=质量大年），多数起点不成立=诚实判负预期**真实存在**。
 - (b) **换手**：月频再平衡换手与价值族同阶（远低于日频族）；x2 成本面年化拖累预测 <2pp/年。
 - (c) **极端日先验（硬界三件套 (c)）**：面板窗内极端段=2015-06/07 千股跌停救市段、2016-01 熔断段、2024-02 微盘崩段（本族 amt20≥¥10M 闸+盈利序天然偏大盘白马=微盘暴露低）、2018 全年熊（白马消费质量段承压）、2021Q1-2024 白马估值消化段（质量族特色压力段·核心资产抱团瓦解）；以上极端段**不设豁免**（描述性披露非判据）。
 - (d) **nulls 面**：same-mask 随机 null μ 预期≈掩码内等权被动——headline 超被动+0.10 才可能过 skill line，预测**过线概率中等偏低**（质量溢价在 A 股月频面强度未知=本批要测的问题本身）。

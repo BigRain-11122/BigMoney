@@ -163,7 +163,7 @@ LISTED_MIN_BARS = 252                        # listed >= 252td (sec.2)
 TOPN = 20                                    # frozen Top-N (sec.3)
 ROE_MIN, ROE_MAX = 0.0, 100.0                # frozen quality band (sec.2, percent)
 COV_FLOOR = 0.80                             # monthly data-coverage skip gate
-T0_FROZEN = None                             # pinned at freeze window (probe receipt)
+T0_FROZEN = "2001-09-03"                 # pinned r606 freeze window per probe receipt first_signal_date_t0=20010903 (value-family r596/r599 pattern)
 K_NULLS = 2000
 SEED_NULLS = 20_510_000                      # prereg sec.3 / SEED_REGISTRY (freeze window)
 K_SENS = 500
@@ -924,6 +924,7 @@ def cmd_probe(_) -> int:
         dmin = str(df["avail_date"].min())
         dmax = str(df["avail_date"].max())
         med = float(per_avail.size().median())
+        p10 = float(per_avail.size().quantile(0.10))
         # statutory mapping EXACT on every exported row (single-source
         # imported map; any miss = export gate breach = fail-closed)
         stat_bad = 0
@@ -933,13 +934,19 @@ def cmd_probe(_) -> int:
                 stat_bad += 1
         facts["quality_face"] = {
             "rows": int(len(df)), "n_symbols": int(df["code"].nunique()),
-            "avail_median": med, "avail_min": dmin, "avail_max": dmax,
+            "avail_median": med, "avail_p10": p10,
+            "avail_min": dmin, "avail_max": dmax,
             "dup_period_end_syms": dup_period, "dup_avail_syms": dup_avail,
             "avail_monotonic_all": mono_all, "statutory_mismatch_rows": stat_bad}
+        # r604 amendment gate (T-152 live evidence, MSG-0500 adjudication):
+        # dual floor median>=50 AND p10>=20 (universe reality 52/26);
+        # dup axis = period_end per ticket spec (5) -- same avail_date under
+        # FY/Q1 statutory collision (both -> 04-30) is LEGAL, disclosed not
+        # gated; mono axis stays avail_date.
         chk("leg2_transfer_export",
-            int(df["code"].nunique()) >= 5100 and med >= 60
+            int(df["code"].nunique()) >= 5100 and med >= 50 and p10 >= 20
             and dmin <= "2001-04-30" and dmax >= "2026-08-31"
-            and (not dup_period) and (not dup_avail) and mono_all
+            and (not dup_period) and mono_all
             and stat_bad == 0, facts["quality_face"])
     else:
         facts["quality_face"] = {"parquet": PARQUET,

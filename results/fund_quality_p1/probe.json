@@ -2,9 +2,9 @@
   "batch": "FUND-QUALITY-P1",
   "checks": [
     {
-      "detail": "d6.json absent -- run `d6` first",
+      "detail": "verdict=ADMIT max|corr|=0.2407",
       "name": "d6_admit",
-      "pass": false
+      "pass": true
     },
     {
       "detail": "{'n_bars': 8792, 'n_syms': 5222, 'first': '1990-12-19', 'last': '2026-09-22'}",
@@ -12,9 +12,9 @@
       "pass": true
     },
     {
-      "detail": "quality_faces.parquet absent -- T-152 transfer-necessity RED (honest, fail-closed)",
+      "detail": "{'rows': 306414, 'n_symbols': 5223, 'avail_median': 52.0, 'avail_p10': 26.0, 'avail_min': '2001-04-30', 'avail_max': '2026-08-31', 'dup_period_end_syms': False, 'dup_avail_syms': True, 'avail_monotonic_all': True, 'statutory_mismatch_rows': 0}",
       "name": "leg2_transfer_export",
-      "pass": false
+      "pass": true
     },
     {
       "detail": "starts=401 want=401",
@@ -22,14 +22,24 @@
       "pass": true
     },
     {
-      "detail": "requires quality faces -- T-152 TRANSFER pending (fail-closed honest RED)",
+      "detail": "{'pos': 2714, 'date': '2001-09-03', 'pin': 'probe-frozen 2001-09-03'}",
       "name": "leg3_t0_present",
-      "pass": false
+      "pass": true
     },
     {
-      "detail": "label_days=0",
+      "detail": "t0=2001-09-03 want=2001-09-03",
+      "name": "leg3_t0_frozen_reproduction",
+      "pass": true
+    },
+    {
+      "detail": "months>=2714 below floor: []",
+      "name": "leg3_zero_below_floor_after_t0",
+      "pass": true
+    },
+    {
+      "detail": "label_days=3269",
       "name": "regime_face_510300",
-      "pass": false
+      "pass": true
     },
     {
       "detail": "COST_X1=0.0013041 spec=0.0013041 rt_bp=26.082",
@@ -42,9 +52,9 @@
       "pass": true
     },
     {
-      "detail": "{}",
+      "detail": "{'fund_quality_p1_nulls': 20510000, 'fund_quality_p1_sens': 20510500}",
       "name": "seed_registry_rows",
-      "pass": false
+      "pass": true
     },
     {
       "detail": "seals_in_win=2 flagged=True",
@@ -57,7 +67,71 @@
       "pass": true
     }
   ],
-  "generated": "2026-10-03T04:07:21+08:00",
+  "d6": {
+    "batch": "FUND-QUALITY-P1",
+    "gate": "d6_same_family",
+    "generated": "2026-10-03T06:29:51+08:00",
+    "headline_cont": {
+      "n_days": 6078,
+      "n_entries": 1415,
+      "n_trades": 1393,
+      "sharpe_full": -0.317674,
+      "t0": "2001-09-03"
+    },
+    "machine": "bm-b",
+    "max_abs_corr": 0.2407,
+    "max_member": "NEEDLE-DE-01",
+    "pairs": [
+      {
+        "corr": 0.1725,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.13,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2006,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.239,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2407,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1237,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7,
+    "runtime_sec": 130.5,
+    "value_family_headline_disclosure": {
+      "corr": -0.044,
+      "gate_face": "disclosure-only (prereg sec.1)",
+      "member": "FUND-VALUE-P1 headline (VALUE-PE x1 cont)",
+      "n_overlap": 6077
+    },
+    "verdict": "ADMIT"
+  },
+  "generated": "2026-10-03T06:34:15+08:00",
+  "liquidity": {
+    "amt20_min_yuan": 10000000.0,
+    "n_firing_months": 295,
+    "t0_date": "2001-09-03",
+    "t0_n_active": 906,
+    "t0_n_base": 18,
+    "t0_n_pick": 16
+  },
   "machine": "bm-b",
   "panel": {
     "first": "1990-12-19",
@@ -67,17 +141,33 @@
   },
   "prereg_state": "DRAFT-NOT-FROZEN (five-condition freeze gate)",
   "quality_face": {
-    "note": "T-152 TRANSFER pending (bm-c)",
-    "parquet": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\fund_history_export\\quality_faces.parquet"
+    "avail_max": "2026-08-31",
+    "avail_median": 52.0,
+    "avail_min": "2001-04-30",
+    "avail_monotonic_all": true,
+    "avail_p10": 26.0,
+    "dup_avail_syms": true,
+    "dup_period_end_syms": false,
+    "n_symbols": 5223,
+    "rows": 306414,
+    "statutory_mismatch_rows": 0
   },
-  "runtime_sec": 0.1,
+  "runtime_sec": 38.8,
   "seed_disclosure": {
     "note": "prereg sec.3 binds nulls to rng([20510000,k]) and sens to rng([20510500,k]); rows land at the freeze window (band-scan receipt probe leg4 GREEN r601).",
     "null_aux": 20261003,
     "nulls": 20510000,
-    "registry_rows": {},
+    "registry_rows": {
+      "fund_quality_p1_nulls": 20510000,
+      "fund_quality_p1_sens": 20510500
+    },
     "sensitivity": 20510500
   },
+  "t0": {
+    "date": "2001-09-03",
+    "pin": "probe-frozen 2001-09-03",
+    "pos": 2714
+  },
   "ticket": "T-2026-10-03-153-P1",
-  "verdict": "FAIL"
+  "verdict": "PASS"
 }

@@ -1,13 +1,56 @@
 {
   "batch": "FUND-QUALITY-P1",
-  "error": "quality_faces.parquet absent -- T-152 TRANSFER pending (fail-closed)",
   "gate": "d6_same_family",
-  "generated": "2026-10-03T04:07:34+08:00",
-  "machine": "bm-b",
-  "value_family_headline_disclosure": {
-    "corr": null,
-    "gate_face": "disclosure-only (prereg sec.1)",
-    "note": "sibling cont face absent: 'idx'"
+  "generated": "2026-10-03T06:29:51+08:00",
+  "headline_cont": {
+    "n_days": 6078,
+    "n_entries": 1415,
+    "n_trades": 1393,
+    "sharpe_full": -0.317674,
+    "t0": "2001-09-03"
   },
-  "verdict": "REJECT"
+  "machine": "bm-b",
+  "max_abs_corr": 0.2407,
+  "max_member": "NEEDLE-DE-01",
+  "pairs": [
+    {
+      "corr": 0.1725,
+      "member": "COMPOSITE-CE-01",
+      "n_overlap": 1630
+    },
+    {
+      "corr": 0.13,
+      "member": "COMPOSITE-CE-02",
+      "n_overlap": 1630
+    },
+    {
+      "corr": 0.2006,
+      "member": "DROUGHT-CE-01",
+      "n_overlap": 1630
+    },
+    {
+      "corr": 0.239,
+      "member": "ENGULF-CE-01",
+      "n_overlap": 1630
+    },
+    {
+      "corr": 0.2407,
+      "member": "NEEDLE-DE-01",
+      "n_overlap": 1630
+    },
+    {
+      "corr": 0.1237,
+      "member": "VOLATILITY-CE-01",
+      "n_overlap": 1630
+    }
+  ],
+  "reject_line": 0.7,
+  "runtime_sec": 130.5,
+  "value_family_headline_disclosure": {
+    "corr": -0.044,
+    "gate_face": "disclosure-only (prereg sec.1)",
+    "member": "FUND-VALUE-P1 headline (VALUE-PE x1 cont)",
+    "n_overlap": 6077
+  },
+  "verdict": "ADMIT"
 }
