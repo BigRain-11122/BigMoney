@@ -1318,6 +1318,35 @@ N1_BANDS = {
     # bands were never assigned).
     64: {"a": (171_004, 173_003), "b_exit": (49_401, 49_600),
          "engine_owner": "bm-a"},
+    # FIFTY-FOURTH ENGINE-OWNED WAVE (r566 bm-b freeze): bm-b's
+    # TWENTIETH owned per machine-derive (engine_owner==bm-b
+    # rows 19 + candidate). Wave 65 = next free number after the
+    # registered W64 row (seat declared published=reserved
+    # MSG-20261002-0919-bmb, r518-1 law; zero-gap relay after
+    # the W64 same-band double-freeze yield to bm-a per r511
+    # commit-order law -- the crashed r565 session's W64 freeze
+    # drafts (bands bit-identical to bm-a's, r530 same-band
+    # class) were never committed: fully discarded, 10 duplicate
+    # shard products attribution-verified (audit.machine=bm-b)
+    # and discarded, finalize never ran = zero ledger
+    # pollution). W1..W63 finalizes ALL LANDED (net head
+    # 503,148, K=136,520, bm-c r358); W64 bm-a = ONE
+    # in-flight upstream seat at this freeze (burn in flight,
+    # finalize chain-pending FAIL-CLOSED r307). BOTH SIDES
+    # ARITHMETIC CONTINUATION from the W64 row tail, no skip:
+    # A 173_004..175_003 (= W64 A end 173_003 + 1) and B
+    # 49_601..49_800 (= W64 B end 49_600 + 1) -- both windows
+    # CLEAN per the W64 row W65+ WARNING projections (bm-a
+    # r566 freeze gate projection leg + this freeze's machine
+    # re-derive, r535 law). Machine-verified at prereg time
+    # (results/_r566bmb_w65_band_gate.py ADMIT receipt vs the
+    # 63-row pre-W65 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W65
+    # bands were never assigned).
+    65: {"a": (173_004, 175_003), "b_exit": (49_601, 49_800),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

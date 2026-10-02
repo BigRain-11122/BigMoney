@@ -1701,6 +1701,25 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 49_401,    # law sec.4 W64 B: 49_401..49_600 (arithmetic continuation)
                             "shard_subdir": "n1_w64", "out_name": "n1_w64_results.json",
                             "engine_owner": "bm-a"},
+                       65: {"batch": "PERPETUAL-N1-W65",
+                            "prereg": ("research/PERPETUAL_N1_W65_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; FIFTY-FOURTH ENGINE-OWNED WAVE, "
+                                       "own-series continuation per O-20261001-2355 sec.2 "
+                                       "(first-free-number law over the registered W64 row; "
+                                       "seat declared published=reserved MSG-20261002-0919-bmb), "
+                                       "engine_owner=bm-b, wave 65 BOTH SIDES ARITHMETIC "
+                                       "CONTINUATION no skip (A 173_004..175_003 / B "
+                                       "49_601..49_800 machine-derived CLEAN == the W64 row "
+                                       "W65+ published projection verbatim); W1..W63 finalizes "
+                                       "ALL LANDED at this freeze (net chain head 503,148, "
+                                       "K=136,520, bm-c r358), W64 bm-a r566 = ONE in-flight "
+                                       "upstream seat (registered, finalize chain-pending "
+                                       "FAIL-CLOSED r307)"),
+                            "a_seed_base": 173_004,        # law sec.4 W65 A: 173_004..175_003 (arithmetic continuation)
+                            "b_exit_seed_base": 49_601,    # law sec.4 W65 B: 49_601..49_800 (arithmetic continuation)
+                            "shard_subdir": "n1_w65", "out_name": "n1_w65_results.json",
+                            "engine_owner": "bm-b"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -8241,6 +8260,137 @@ def selftest() -> int:
     finally:
         _set_wave(2)
 
+    # --- W65 materializer face (r566 bm-b freeze, own-series law
+    #     under CEO de-throttle order O-20261001-2355 sec.2):
+    #     bm-b's TWENTIETH owned per machine-derive (engine_owner==bm-b
+    #     rows 19 + candidate); wave 65 = next free number after the
+    #     registered W64 row (seat declared published=reserved
+    #     MSG-20261002-0919-bmb; zero-gap relay after the W64
+    #     same-band double-freeze yield to bm-a per r511 commit-order
+    #     law -- crashed r565 drafts fully discarded, 10 duplicate
+    #     shards attribution-verified discarded, zero ledger pollution).
+    #     W64 bm-a r566 = ONE in-flight upstream seat at this freeze
+    #     (registered, finalize chain-pending FAIL-CLOSED r307).
+    #     BOTH SIDES ARITHMETIC CONTINUATION from the W64 tail no
+    #     skip (A 173_004..175_003 / B 49_601..49_800 both CLEAN
+    #     machine-derived == the W64 row W65+ published projection
+    #     verbatim; ADMIT receipt results/_r566bmb_w65_band_gate.py;
+    #     not a re-pick -- R250: W65 bands were never assigned) --
+    _set_wave(65)
+    try:
+        assert WAVE_CONFIGS[65]["a_seed_base"] == pf.N1_BANDS[65]["a"][0], \
+            "W65 A band drift vs law mirror"
+        assert WAVE_CONFIGS[65]["b_exit_seed_base"] == \
+            pf.N1_BANDS[65]["b_exit"][0], "W65 B band drift vs law mirror"
+        assert WAVE_CONFIGS[65].get("engine_owner") == \
+            pf.N1_BANDS[65].get("engine_owner") == "bm-b", \
+            "W65 engine_owner drift (law mirror parity)"
+        w65_a = {A_SEED_BASE + j for j in range(A_N)}
+        w65_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w65_a & w65_b), "W65 A/B band overlap"
+        assert not (w65_a & reg_ints) and not (w65_b & reg_ints), \
+            "W65 hits SEED_REGISTRY"
+        for nm, band in (("A", w65_a), ("B", w65_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W65 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W65 {nm} hits W1"
+            assert not (band & probes), f"W65 {nm} hits probe seeds"
+        # registered declared-band parity (r307 two-state): W61/W62/W63/W64
+        # are REGISTERED rows now -- pinned constants must equal the
+        # registered rows exactly.
+        assert pf.N1_BANDS[61] == {"a": (165_004, 167_003),
+                                   "b_exit": (48_401, 48_600),
+                                   "engine_owner": "bm-b"}, \
+            "registered W61 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[62] == {"a": (167_004, 169_003),
+                                   "b_exit": (48_601, 48_800),
+                                   "engine_owner": "bm-a"}, \
+            "registered W62 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[63] == {"a": (169_004, 171_003),
+                                   "b_exit": (49_201, 49_400),
+                                   "engine_owner": "bm-c"}, \
+            "registered W63 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[64] == {"a": (171_004, 173_003),
+                                   "b_exit": (49_401, 49_600),
+                                   "engine_owner": "bm-a"}, \
+            "registered W64 row parity drift (r307 two-state)"
+        # prior-wave disjointness incl. W48..W64 (all registered; W64
+        # in flight -- coexist by band disjointness per r531).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56,
+                      57, 58, 59, 60, 61, 62, 63, 64):
+            assert not (w65_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W65 A hits W{wprev}"
+            assert not (w65_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W65 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory) -- W65 clears it.
+        n3r1_used65 = set(range(70_000, 70_006))
+        assert not (w65_a & n3r1_used65) and not (w65_b & n3r1_used65), \
+            "W65 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w65_a & lfc_actual12) and not (w65_b & lfc_actual12), \
+            "W65 bands must clear the lfc actual draw range"
+        assert not (w65_a & options_actual12) and \
+            not (w65_b & options_actual12), \
+            "W65 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W65 row, r566): BOTH SIDES ARITHMETIC
+        # CONTINUATION (A 173_004 = W64 A end 173_003 + 1; B 49_601 =
+        # W64 B end 49_600 + 1; both windows CLEAN -- no skip family).
+        assert WAVE_CONFIGS[65]["a_seed_base"] == 173_004 == 173_003 + 1, \
+            "W65 A must start at the registered W64 A end + 1 " \
+            "(arithmetic continuation window 173_004..175_003 CLEAN -- " \
+            "no skip family)"
+        assert WAVE_CONFIGS[65]["b_exit_seed_base"] == 49_601 == 49_600 + 1, \
+            "W65 B must start at the registered W64 B end + 1 " \
+            "(arithmetic continuation window 49_601..49_800 CLEAN -- " \
+            "no skip family)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W65-SHARD-0",
+                                          "n1w65-0of12"), "W65 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W65-SHARD-11",
+                                          "n1w65-11of12")
+        assert SHARD_DIR.endswith("n1_w65") and OUT.endswith(
+            "n1_w65_results.json"), "W65 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+                      44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56,
+                      57, 58, 59, 60, 61, 62, 63, 64):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W65 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W65_PREREG.md")), \
+            "W65 per-wave prereg missing (materializer requirement)"
+        # W65 finalize cumulative deps: W17..W63 outputs ALL PRESENT
+        # (static landed seats; chain head 503,148 = W63 bm-c r358
+        # K=136,520; W64 bm-a = ONE in-flight upstream seat -- the
+        # finalize merge loop derives the wave set from registry keys
+        # at run time and stays FAIL-CLOSED on the not-yet-finalized
+        # W64 seat, r307 two-state law).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+                      43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+                      56, 57, 58, 59, 60, 61, 62, 63):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W65 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 65 (no 15; incl.
+        # 48..64 -- all registered, W64 finalize in flight,
+        # FAIL-CLOSED at run time).
+        assert sorted(w for w in WAVE_CONFIGS if w < 65) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+             35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+             50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64], \
+            "W65 prior-wave set must derive from registry keys (no 15, " \
+            "incl. 48..64)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
+
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -9024,6 +9174,24 @@ def selftest() -> int:
           "receipt results/_r566bma_w64_band_gate.py; not a "
           "free pick -- R250), N3-R1 used-seed leg, probe-seed "
           "cluster leg, law sec.4 W64 row, r566 bm-a] "
+          "+ W65 materializer face [same guard set, dep=W17..W63 "
+          "outputs ALL PRESENT (landed chain head 503,148, K=136,520), "
+          "W64 bm-a = ONE in-flight upstream seat (FAIL-CLOSED "
+          "r307 at run time), FIFTY-FOURTH ENGINE-OWNED WAVE "
+          "bm-b's TWENTIETH owned claim per machine-derive "
+          "(engine_owner==bm-b rows 19 + candidate), "
+          "engine_owner=bm-b per engine de-throttle law "
+          "O-20261001-2355 sec.2 own-continuous-series (wave 65 = "
+          "first FREE number after the registered W64 row; seat "
+          "declared published=reserved MSG-20261002-0919-bmb; "
+          "zero-gap relay after the W64 same-band double-freeze "
+          "yield to bm-a per r511 commit-order law), BOTH SIDES "
+          "ARITHMETIC CONTINUATION from the W64 tail no skip (A "
+          "173_004..175_003 / B 49_601..49_800 both CLEAN "
+          "machine-derived per the W64 row W65+ WARNING; ADMIT "
+          "receipt results/_r566bmb_w65_band_gate.py; not a "
+          "free pick -- R250), N3-R1 used-seed leg, probe-seed "
+          "cluster leg, law sec.4 W65 row, r566 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

@@ -5,23 +5,34 @@ engine_owner=bm-b -- bm-b's TWENTIETH owned wave, machine-derived:
 19 engine_owner==bm-b rows + this candidate). FREEZE AUTHORITY =
 never-dry supply law standing step + CEO DE-THROTTLE ORDER
 O-20261001-2355 sec.2 own-continuous-series + SEAT DECLARED
-published=reserved (MSG-20261002-0905-bmb, r518-1 law; W63 seat
-declared by bm-a MSG-20261002-0843-bma, in-freeze same-window).
+published=reserved (MSG-20261002-0849-bmb, r518-1 law).
 
-ZERO-GAP RELAY HOLD: this gate REFUSES to ADMIT while the W63 row is
-not yet registered (bm-a same-window freeze in flight). Exit 3 =
-hold state (not REFUSED, not ADMIT) -- the W64 freeze may only land
-on a registered W63 tail so that no gap enters the registry key
-space and bm-a's in-flight W63 gate leg0 is never broken by an
-unexpected extra key (r511 tail-lock + zero-gap relay, W62 freeze
-message precedent "zero-gap relay").
+SEAT-COLLISION BAND AMENDMENT (honest disclosure): my seat MSG-0849
+declared B-ext 49_301..49_500 on the basis of bm-a's MSG-0843
+seat-declared W63 bands (B 49_101..49_300). The REGISTERED W63 row
+landed as bm-c's freeze a9185ef96 (same-window seat collision:
+bm-c's r357 engaged before seeing bm-a's declaration; r511
+commit-order law -- the registered freeze is authoritative and
+bm-a's in-flight W63 drafts yield pre-push). The registered W63
+B-forced-skip window is 49_201..49_400 (window-advance scan
+semantics, W26-A/W39-B/W43-B/W47-B/W51-B/W59-B skip family), so the
+W64 arithmetic B position RE-DERIVES to 49_401..49_600 == the W63
+row's published W64+ projection verbatim. My previously declared
+49_301..49_500 is VOID (it would overlap the registered W63 B band
+49_201..49_400) -- amendment carried by this freeze window's MSG
+and canon row.
 
-When W63 IS registered, its row must equal the bm-a seat-declared
-bands verbatim (A 169_004..171_003 / B 49_101..49_300, MSG-0843
-machine-gated ADMIT), and this gate re-derives BOTH SIDES from the
-live registry, never trusting the prose (r335 lesson + r535 law):
+ZERO-GAP RELAY HOLD: this gate REFUSES to ADMIT while the W63 row
+is not yet registered (exit 3 = hold state, not REFUSED) -- the W64
+freeze may only land on a registered W63 tail so that no gap enters
+the registry key space and no in-flight foreign gate leg0 is broken
+by an unexpected extra key (r511 tail-lock + zero-gap relay).
+
+With W63 registered (engine_owner=bm-c, bands A 169_004..171_003 /
+B 49_201..49_400), this gate re-derives BOTH SIDES from the live
+registry, never trusting the prose (r335 lesson + r535 law):
   A = 171_004..173_003 (W63 A end + 1, width 2_000, no skip)
-  B = 49_301..49_500   (W63 B end + 1, width 200, no skip)
+  B = 49_401..49_600   (W63 B end + 1, width 200, no skip)
 
 Machine-verified against: all registered N1 wave bands W2..W63,
 the N3-R1 USED-SEED BAND 70_000..70_005 (MSG-183x r529 mandatory
@@ -44,11 +55,11 @@ import science_gates
 
 # --- candidate (must equal the landed canon row -- cross-checked at leg3) ---
 W64_A = (171_004, 173_003)              # law sec.4 W64 row (arithmetic, no skip)
-W64_B = (49_301, 49_500)                # law sec.4 W64 row (arithmetic, no skip)
+W64_B = (49_401, 49_600)                # law sec.4 W64 row (arithmetic, no skip)
 
-# --- W63 seat-declared bands (MSG-20261002-0843-bma, machine-gated ADMIT) ---
-W63_DECLARED_A = (169_004, 171_003)
-W63_DECLARED_B = (49_101, 49_300)
+# --- registered W63 row (bm-c r357 freeze a9185ef96, seat-collision winner) --
+W63_REGISTERED_A = (169_004, 171_003)
+W63_REGISTERED_B = (49_201, 49_400)
 
 # --- N3-R1 used-seed band (MSG-183x r529 bm-a mandatory leg) -----------------
 N3R1_USED = (70_000, 70_005)
@@ -73,21 +84,20 @@ def overlaps(a, b):
 # --- leg 0-hold: zero-gap relay (W63 must be REGISTERED before ADMIT) --------
 if 63 not in N1_BANDS:
     print("HOLD: W63 row not yet registered in the live registry "
-          "(bm-a same-window freeze in flight, seat declared "
-          "MSG-20261002-0843-bma). W64 freeze is BLOCKED on the "
-          "zero-gap relay: registry key space must stay gapless and "
-          "bm-a's in-flight W63 gate leg0 must not see an unexpected "
-          "extra key. Exit 3 = hold state (not REFUSED). Seat "
-          "reservation for W64 stands (MSG-20261002-0905-bmb, "
+          "(seat declared MSG-20261002-0843-bma, freeze in flight). W64 "
+          "freeze is BLOCKED on the zero-gap relay: registry key space "
+          "must stay gapless and no in-flight foreign gate leg0 may see "
+          "an unexpected extra key. Exit 3 = hold state (not REFUSED). "
+          "Seat reservation for W64 stands (MSG-20261002-0849-bmb, "
           "published=reserved).")
     sys.exit(3)
 
-assert N1_BANDS[63]["a"] == W63_DECLARED_A and \
-    N1_BANDS[63]["b_exit"] == W63_DECLARED_B and \
-    N1_BANDS[63].get("engine_owner") == "bm-a", \
-    "leg0 failed: registered W63 row != seat-declared bands " \
-    "(MSG-0843 A 169_004..171_003 / B 49_101..49_300) -- derivation " \
-    "basis invalidated, RE-DERIVE the W64 candidates before landing"
+assert N1_BANDS[63]["a"] == W63_REGISTERED_A and \
+    N1_BANDS[63]["b_exit"] == W63_REGISTERED_B and \
+    N1_BANDS[63].get("engine_owner") == "bm-c", \
+    "leg0 failed: registered W63 row != expected registered bands " \
+    "(A 169_004..171_003 / B 49_201..49_400, bm-c a9185ef96) -- " \
+    "derivation basis invalidated, RE-DERIVE the W64 candidates"
 
 # --- reserved universe (W64 itself EXCLUDED -- it is the candidate) ----------
 points = {v for v in science_gates.SEED_REGISTRY.values() if isinstance(v, int)}
@@ -125,12 +135,12 @@ assert sorted(N1_BANDS) == pre_w64, \
 # --- leg 0b: W63 row's W64+ WARNING prose present in the canon law file -----
 canon = open(os.path.join(ROOT, "research", "PERPETUAL_FACES.md"),
              encoding="utf-8").read()
-assert "171_004..173_003" in canon and "49_301..49_500" in canon, \
+assert "171_004..173_003" in canon and "49_401..49_600" in canon, \
     "leg0b failed: W63 row W64+ WARNING (published projections) prose " \
     "not found in the canon file"
 print("leg0b W63 row W64+ WARNING prose present (published projection "
-      "basis; machine-derived per r535; W63 bm-a seat bands == "
-      "registered row verbatim, MSG-0843 ADMIT)")
+      "basis; machine-derived per r535; registered W63 bm-c row bands "
+      "cross-checked verbatim")
 
 # --- leg 1: arithmetic position DERIVED FROM THE REGISTRY (not prose) -------
 ARITH_A = (N1_BANDS[63]["a"][1] + 1, N1_BANDS[63]["a"][1] + WIDTH_A)
@@ -233,14 +243,16 @@ if conflicts:
     sys.exit(1)
 print(f"W64 ADMIT: A {W64_A[0]}..{W64_A[1]} + B {W64_B[0]}..{W64_B[1]} both "
       f"ARITHMETIC CONTINUATION from the registered W63 tail (zero skip, "
-      f"both CLEAN; W63 seat bands == registered row verbatim, MSG-0843 "
-      f"ADMIT cross-checked) clean vs 61 registered rows + N3-R1 used-seed "
-      f"band + probe-seed cluster + registry values + probes/actuals -- "
-      f"engine_owner=bm-b (first-free-number law under O-20261001-2355 "
-      f"de-throttle sec.2; seat declared published=reserved "
-      f"MSG-20261002-0905-bmb; W63 bm-a = ONE in-flight upstream seat "
-      f"for the W64 finalize chain, coexist per r531, finalize "
-      f"FAIL-CLOSED r307; origin slot vacancy machine-checked).")
+      f"both CLEAN == the W63 row W64+ published projection verbatim, "
+      f"bm-c r357 gate projection leg + this gate cross-validated) clean "
+      f"vs 61 registered rows + N3-R1 used-seed band + probe-seed "
+      f"cluster + registry values + probes/actuals -- engine_owner=bm-b "
+      f"(first-free-number law under O-20261001-2355 de-throttle sec.2; "
+      f"seat declared published=reserved MSG-20261002-0849-bmb with "
+      f"B-band amendment to the registered W63 basis; W63 bm-c = ONE "
+      f"in-flight upstream seat for the W64 finalize chain, coexist per "
+      f"r531, finalize FAIL-CLOSED r307; origin slot vacancy "
+      f"machine-checked).")
 
 # --- W65+ projection (warning text for the law table row) --------------------
 w65_a = (W64_A[1] + 1, W64_A[1] + WIDTH_A)
