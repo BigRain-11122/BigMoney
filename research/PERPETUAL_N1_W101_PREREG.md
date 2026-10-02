@@ -52,12 +52,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W87/W90/W94/W96/W98 实况范式）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r583 冻结占位·r587 bm-a finalize 收口机械回填】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-a 常驻引擎烧毕（r583 bm-a 冻结 ffd844431 后引擎自燃·产品 12/12 已交付 origin）；finalize one-pass（r538 律·首跑禁重跑·r587 首跑=唯一一跑）。
+- ledger：prev_total 584,548（W100 bm-b r585 落账解锁·链序 W98 580,148 bm-a→W99 582,348 bm-c→W100 584,548 bm-b）+ batch_trials 2,200 = **586,748**；voids_applied=LOWAMP-P1/P2。
+- w101-only：n=2,200·mu=−0.0950309·sigma=0.2408679；merged：K=220,120·mu=−0.0928742·sigma=0.2447945；mu_delta_w101_vs_w100ext=+0.000127。
+- skill_line_v2 @n_eff_held 584,548：1.1689→**1.1686**（K-lift delta −0.0003≤0.02 门内·正负交替如实报〔W98 +0.0000→W99 +0.0001→W100 +0.0001→W101 −0.0003〕）；se_mu @K220,120=0.000522（收窄链：W98 0.000530→W99 0.000527→W100 0.000525→W101 0.000522）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过（锢滚动律合法跨键·冻结锢=W96 merged −0.0928137）：|Δmu|=0.0022<0.02（W101-only −0.0950309·单波偏离面如实报·门内）；σ 变化 −0.02%<±10%（锢 0.2448342·本波 merged 0.2447945）；A 档 p95 差 0.0230<0.05（锢 0.3183·本波 0.2953）；K-lift −0.0003≤0.02。产物 results/perpetual_faces/n1_w101_results.json（顶层 evidence_cutoff=2026-09-22·audit.machine=bm-a·finalize_only=True·shards_consumed 12）。
 
 ## §8 批后复盘。【必填·终 7-T】
 
-- （finalize 落账后机械回填）
+- 全链产品流健康：W101 烧录（bm-a 引擎 12/12·r583 交付）→finalize（r587 首跑一过）→链头 586,748 落账·K=220,120；下游 W102 bm-c finalize 随即解封。
+- 诚实注记：§5 冻结锢=W96（起草窗最新已落账 finalize）·收口窗 W97..W100 四波已相继落账=锢滚动律合法跨键（r576）；四门在 W96 锢上全过。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
