@@ -2697,6 +2697,32 @@ N1_BANDS = {
     # NOT a re-pick (R250: W112 bands were never assigned).
     112: {"a": (267_004, 269_003), "b_exit": (61_601, 61_800),
          "engine_owner": "bm-a"},
+    # ONE HUNDRED-AND-THIRD ENGINE-OWNED WAVE BY MACHINE-DERIVE (r382 bm-c
+    # freeze): engine_owner rows 102 + candidate; bm-c's thirty-
+    # third owned per machine-derive (engine_owner==bm-c rows 32 +
+    # candidate). Wave 113 = first free number after the REGISTERED
+    # W112 row (bm-a r590 freeze 0c4d67910) -- SINGLE STATE zero seat
+    # gap (W2..W112 all registered). Seat published=reserved
+    # MSG-20261002-1949-bmc pushed to origin baa0c3888 BEFORE this
+    # freeze per r565 early-visibility law (clean single-file push,
+    # payload=1 seat MSG, deletion-set EMPTY; rev.A = only published
+    # face). W111 finalize LANDED (chain head 608,748, K=242,120 =
+    # bm-b r590 one-pass). ONE in-flight upstream seat (W112 bm-a
+    # registered, finalize NOT landed) -- finalize merge loop stays
+    # FAIL-CLOSED r307 at run time.
+    # A = arithmetic continuation from the registered W112 A tail:
+    # 269_004..271_003 CLEAN hops=0. B = jump-past-hit window: the
+    # arithmetic window 61_801..62_000 is refused at SEED_REGISTRY
+    # cta_wave1=62_000 (window-tail endpoint, W74/W81 family) ->
+    # pinned sec.4 skip semantics (D-20261002-05) land 62_001..62_200
+    # hops=1. ADMIT receipt results/_r382bmc_w113_band_gate.py rc0;
+    # live SEED_REGISTRY + probe cluster 95_000..95_003 r335 leg +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 leg.
+    # W114+ projection: A 271_004..273_003 CLEAN; B 62_201..62_400
+    # CLEAN (next freezer must re-derive, never transcribe).
+    # NOT a re-pick (R250: W113 bands were never assigned).
+    113: {"a": (269_004, 271_003), "b_exit": (62_001, 62_200),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
