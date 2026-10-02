@@ -73,7 +73,7 @@
   "63": 12,
   "64": 4,
   "65": 9,
-  "66": 10
+  "66": 12
  },
  "wave_complete_flags": [
   2,
@@ -136,26 +136,10 @@
   60,
   61,
   62,
-  63
+  63,
+  66
  ],
- "queue_next": [
-  {
-   "face": "N1",
-   "wave": 66,
-   "shard": 7,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 66,
-   "shard": 10,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  }
- ],
+ "queue_next": [],
  "ignitions": [
   {
    "wave": 42,
@@ -1558,26 +1542,13 @@
    "primary": false
   }
  ],
- "burns_active": [
-  {
-   "wave": 66,
-   "shard": 7,
-   "pid": 2988,
-   "adopted": false
-  },
-  {
-   "wave": 66,
-   "shard": 10,
-   "pid": 14416,
-   "adopted": false
-  }
- ],
- "cycle": 83,
- "heartbeat_epoch": 1790904305,
- "last_cycle_ts": "2026-10-02T09:25:05",
- "py_cpu_pct": 0.18,
- "machine_cpu_pct": 11.5,
- "done_count": 755,
+ "burns_active": [],
+ "cycle": 103,
+ "heartbeat_epoch": 1790904642,
+ "last_cycle_ts": "2026-10-02T09:30:42",
+ "py_cpu_pct": 0.17,
+ "machine_cpu_pct": 1.2,
+ "done_count": 757,
  "quarantined": [
   [
    12,
@@ -1603,25 +1574,11 @@
   "63:1": 2
  },
  "sync": {
-  "last_epoch": 1790904305,
+  "last_epoch": 1790904642,
   "remote_done_count": 745,
   "err": null
  },
  "completed": [
-  {
-   "wave": 39,
-   "shard": 0,
-   "pid": 11548,
-   "ended_epoch": 1790875570,
-   "rc": null
-  },
-  {
-   "wave": 39,
-   "shard": 1,
-   "pid": 42060,
-   "ended_epoch": 1790875592,
-   "rc": null
-  },
   {
    "wave": 39,
    "shard": 3,
@@ -3007,6 +2964,20 @@
    "pid": 44400,
    "ended_epoch": 1790904305,
    "rc": null
+  },
+  {
+   "wave": 66,
+   "shard": 7,
+   "pid": 2988,
+   "ended_epoch": 1790904328,
+   "rc": null
+  },
+  {
+   "wave": 66,
+   "shard": 10,
+   "pid": 14416,
+   "ended_epoch": 1790904328,
+   "rc": null
   }
  ],
  "grammar_consumption": [
@@ -4094,12 +4065,12 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 10,
+    "local_done": 12,
     "remote_done": 0
    }
   }
  ],
- "append_pending": 6,
+ "append_pending": 0,
  "append_err": null,
  "ledger_appends": [
   {
