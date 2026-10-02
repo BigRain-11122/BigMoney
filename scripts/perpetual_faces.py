@@ -2447,6 +2447,23 @@ N1_BANDS = {
     # NOT a re-pick (R250: W103 bands were never assigned).
     103: {"a": (249_004, 251_003), "b_exit": (59_401, 59_600),
          "engine_owner": "bm-b"},
+    # W104 (r586 bm-a freeze): A 251_004..253_003 + B 59_601..59_800,
+    # both sides arithmetic continuation from the registered W103 tails
+    # (A 251_003+1 / B 59_600+1, strides 2_000/200, CLEAN hops=0/0,
+    # single-state zero seat gap). ADMIT receipt
+    # results/_r586bma_w104_band_gate.py rc0; live SEED_REGISTRY 160 int
+    # values + probe cluster 95_000..95_003 r335 leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 leg. Seat prose ordinal drift
+    # disclosed (r359 law, W102 precedent): seat MSG hand-count said
+    # bm-a rows 30, machine count = bm-a rows 28 -> W104 = bm-a 29th
+    # owned wave, 94th engine wave (engine_owner rows 93 + candidate).
+    # W105+ projection: A 253_004..255_003 CLEAN; B 59_801..60_000
+    # REFUSED at 60_000 (SEED_REGISTRY in-book value) -> next freezer
+    # past-hit restart 60_001 per D-20261002-05 pin (re-derive, never
+    # transcribe).
+    # NOT a re-pick (R250: W104 bands were never assigned).
+    104: {"a": (251_004, 253_003), "b_exit": (59_601, 59_800),
+         "engine_owner": "bm-a"},
     # NINETY-FOURTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r376 bm-c
     # freeze): engine_owner rows 93 + candidate; bm-c's thirty-
     # first owned per machine-derive (engine_owner==bm-c rows 30 +
