@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-02T09:49:31+08:00",
+  "last_seen": "2026-10-02 10:17:14",
   "current_task": "W64 finalize landed + W68 freeze/ignition; W68 burn in flight 5/12",
   "cpu_cores": 32,
   "cpu_pct": 14.0,
   "free_ram_gb": 52.5,
   "gpu_free_vram_gb": 5.7,
-  "verdict": "loaded_ok: W68 engine burn active (5/12 shards, tick ~1/min); pool_starvation flag = engine-lane-active + holiday board-clear, legal idle per SATURATION_ENGINE_LAW sec.1/2",
+  "verdict": "r569: W68 finalize one-pass landed (chain head 514,148, K=147,520, S5 4/4) + W70 same-window double-freeze YIELDED to bm-b r568 first-land (r511 commit-order, bands bitwise-identical = deterministic cross-validation, zero ledger pollution, ignition killed + twin discarded post ownership gate) + W71 seat published (A 185_004..187_003 / B 51_201..51_400 CLEAN dual-verified) + yield receipt MSG-20261002-1015-bma + rebase surgery (untracked-twin detach collision + 2x pool union + CAS truncated-sha near-miss) + engine task disabled-for-surgery then re-enabled + tick verified idle/queue-0 (owner gate truncated foreign W70 rows)",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -152,8 +152,8 @@
     "O-20261001-2355-bm-c.md",
     "O-20261002-0040-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790905765,
-  "clock_read": "2026-10-02T09:49:25+08:00",
+  "heartbeat_epoch_utc": 1790907434,
+  "clock_read": "2026-10-02T10:17:14.848270+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5619,
   "gpu_idle_vram_gb": 8,
