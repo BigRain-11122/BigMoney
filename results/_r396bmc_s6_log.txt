@@ -1,0 +1,39 @@
+=== r396 bm-c S6 chain start 2026-10-03 04:02:20 legs=37 ===
+=== pool_dualrun_reconcile rc=0 0.2s | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 354 entries, streak 3/3, cutoff 2026-10-03 03:02:13)
+=== compute_audit rc=0 8.3s | {"ts": "2026-10-03 04:02:28", "audit_version": "v2.4.2", "cpu_total_pct": 65.0, "py_cpu_pct": 4.9, "cores": 32, "py_procs": 10, "result_stale_min": 0.4, "fleet_open_tasks": 0, "pool_ready_count": 3, "
+=== py_watermark rc=0 6.3s | {"ts": "2026-10-03 04:02:35", "epoch": 1790971349.0, "machine": "bm-c", "cpu_total_pct": 23.0, "cores": 32, "py_cpu_pct": 4.0, "py_procs": 10, "top_proc_cores": 1.08, "local_batch_running": true, "ref
+=== update_daily rc=0 2.9s | status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+=== market_regime rc=0 0.9s |   trigger: breadth 0.79>=65%
+=== strategy_scorecard rc=0 57.1s | strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\strategy_scorecard.json (56.8s)
+=== market_clock_call rc=0 14.7s | call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+=== update_lhb rc=0 0.8s | no-op: <30min since last fetch attempt (min-interval guard)
+=== update_heat rc=0 0.7s | no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+=== update_futures rc=0 0.3s | no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+=== update_repo rc=0 0.1s | no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+=== update_options rc=0 0.2s | no-op: options lane owned by bm-a, not this machine (bm-c)
+=== update_moneyflow rc=0 0.2s | no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+=== update_sina_mf rc=0 0.2s | no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+=== update_astock_daily rc=0 1.4s | no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+=== update_etf_daily rc=0 0.1s | no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+=== rev_osc_signal_export rc=0 0.7s | rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+=== update_minute_feed rc=0 0.1s | update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+=== update_ths_panel rc=0 0.5s | no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+=== ah_panel_puller rc=0 0.1s | no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+=== update_fund_premium rc=0 0.1s | no-op: weekend (NAV publishes on trading days only)
+=== update_fundamental rc=0 0.6s | snapshot fresh (15.4h < 24h) -> skip
+=== b_layer_filter rc=0 0.8s | verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+=== live_paper rc=0 10.5s | paper tracking: OK
+=== t35_open_fill_verify rc=0 0.2s | open_fill_verify day=2026-09-30: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\t35_open_fill_verify.json
+=== t24_prospect_paper rc=0 1.5s | prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-30
+=== t24_prospect_promotion rc=0 0.2s | promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22
+=== aggressive_lab_paper rc=0 13.8s | aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+=== alloc_paper rc=0 0.7s | no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+=== grid_paper rc=0 0.7s | grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+=== system_v1_paper rc=0 0.7s | system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+=== t35_paper_export rc=0 0.2s | -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper_export\export-2026-09-30.json + latest.json
+=== daily_scorecard rc=0 0.2s | scorecard written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+=== daily_report rc=0 2.2s | daily report written: REPORT-2026-10-03.md/.json faces=5 token=1
+=== ceo_live_usage rc=0 0.1s | ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-03.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intrad
+=== build_status rc=0 15.3s |   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+=== token_meter rc=0 0.1s | L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=869 across 60 sigs
+S6 SUMMARY: legs=37 rc0=37 nonzero=0 ALL-RC0
