@@ -1252,6 +1252,27 @@ N1_BANDS = {
     # assigned).
     61: {"a": (165_004, 167_003), "b_exit": (48_401, 48_600),
          "engine_owner": "bm-b"},
+    # FIFTY-FIRST ENGINE-OWNED WAVE (r565 bm-a freeze): bm-a's
+    # fourteenth owned per machine-derive (engine_owner==bm-a
+    # rows 13 + candidate). Wave 62 = next free number after the
+    # registered W61 row (seat declared published=reserved
+    # MSG-20261002-0818-bma, r518-1 law; W61 bm-b r564 = ONE
+    # in-flight upstream seat at this freeze, shards burning,
+    # finalize chain-pending FAIL-CLOSED r307). BOTH SIDES =
+    # ARITHMETIC CONTINUATION from the W61 row tail, no skip: A
+    # 167_004..169_003 (= W61 A end 167_003 + 1) and B
+    # 48_601..48_800 (= W61 B end 48_600 + 1) -- both windows
+    # CLEAN per the W61 row W62+ WARNING projections
+    # (bm-b r564 freeze gate projection leg + this freeze's
+    # machine re-derive, r535 law). Machine-verified at prereg
+    # time (results/_r565bma_w62_band_gate.py ADMIT receipt vs
+    # the 60-row pre-W62 table + live SEED_REGISTRY values +
+    # probe cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked). NOT a re-pick
+    # (R250: W62 bands were never assigned).
+    62: {"a": (167_004, 169_003), "b_exit": (48_601, 48_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
