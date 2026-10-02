@@ -1033,10 +1033,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 05:40:02",
+  "ts": "2026-10-03 05:50:02",
   "machine": "bm-a",
-  "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.4,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-NULLS",
+  "shard": "fund-value-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 49,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 49
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T05:39:20+08:00"
