@@ -481,6 +481,23 @@ function renderChains() {
       landed ? "ok" : (burning ? "warn" : "dim"),
       landed ? "判决面已落" : (burning ? "烧录在飞" : "排程/前置门")));
   }
+  const fv = D.data.family_verdicts;
+  if (fv && fv.present) {
+    const vtxt = (fv.verdicts || []).map(v => {
+      let s = esc(v.family);
+      if (v.verdict) s += `[${esc(v.verdict)}]`;
+      if (v.headline_sharpe != null) s += ` S ${fnum(v.headline_sharpe, 3)}`;
+      if (v.dsr != null) s += ` DSR ${fnum(v.dsr, 3)}`;
+      if (v.k_eff != null) s += ` K_eff ${n2(v.k_eff)}`;
+      if (v.members != null) s += ` ${n2(v.members)}员`;
+      if (v.ci95_lb_positive != null) s += ` CI95下界>0 ${n2(v.ci95_lb_positive)}/${n2(v.members || 0)}`;
+      if (v.window_cells != null) s += ` ${n2(v.window_cells)}窗`;
+      if (v.ledger_total != null) s += ` 账 ${n2(v.ledger_total)}`;
+      return s;
+    }).join(" · ");
+    rows.push(chainRow("家族判决图 · 深轴战役",
+      vtxt, "dim", "judged/closed"));
+  }
   const t = D.data.token;
   if (t && t.present) {
     rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));

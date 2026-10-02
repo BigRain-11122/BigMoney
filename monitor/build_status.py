@@ -725,6 +725,68 @@ def _fund_family_state() -> dict:
     return out
 
 
+
+
+def _family_verdict_state() -> dict:
+    """Deep-axis family verdict map (J10 lane, r611 bm-a): one-stop
+    read-only derive of the judged/closed family lines -- the
+    O-20261002-2115 speed-window verdict (LOWAMP-DEEP-P1) and the
+    perpetual family faces (N4 pooled window closed at terminal wave
+    B3, N3-R2 judged round). Single sources only:
+      - results/lowamp_deep_p1/lowamp_deep_p1_results.json
+      - results/perpetual_faces/n4_b3_results.json (terminal pooled wave)
+      - results/perpetual_faces/n3_r2_results.json
+    Missing sources degrade to honest None/empty, never fabricated."""
+    out = {"present": False, "verdicts": []}
+
+    def _add(name, **kw):
+        row = {"family": name}
+        for k, v in kw.items():
+            if v is not None:
+                row[k] = v
+        out["verdicts"].append(row)
+
+    p = os.path.join(PATHS.results_dir, "lowamp_deep_p1",
+                     "lowamp_deep_p1_results.json")
+    d = _read_json(p)
+    if d:
+        head = d.get("headline") or {}
+        dsr = (d.get("gates") or {}).get("dsr") or {}
+        led = d.get("trials_ledger") or {}
+        _add("LOWAMP-DEEP-P1", verdict=d.get("verdict"),
+             headline_sharpe=head.get("sharpe_full"),
+             headline_trades=head.get("n_trades"),
+             dsr=dsr.get("dsr"), n_trials=dsr.get("n_trials"),
+             ledger_total=led.get("total"),
+             evidence_cutoff=d.get("evidence_cutoff"))
+    p = os.path.join(PATHS.results_dir, "perpetual_faces",
+                     "n4_b3_results.json")
+    d = _read_json(p)
+    if d:
+        members = d.get("members") or {}
+        pos = 0
+        for v in members.values():
+            ci = ((v or {}).get("bootstrap_ci_sharpe") or {})
+            if ci.get("ci_lower_bound_positive"):
+                pos += 1
+        waves = "+".join([str(w) for w in (d.get("pool_waves") or [])]
+                         + [str(d.get("wave"))])
+        _add("N4 (%s pooled)" % waves, verdict="window-closed",
+             k_eff=d.get("k_eff"), members=len(members),
+             ci95_lb_positive=pos)
+    p = os.path.join(PATHS.results_dir, "perpetual_faces",
+                     "n3_r2_results.json")
+    d = _read_json(p)
+    if d:
+        packs = d.get("packs") or []
+        judged = sum(1 for x in packs if x.get("status") == "judged")
+        _add("N3-R2", verdict="judged",
+             members=len(packs), members_judged=judged,
+             window_cells=d.get("window_cells"),
+             ledger_total=(d.get("trials_ledger") or {}).get("total"))
+    out["present"] = bool(out["verdicts"])
+    return out
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -2132,6 +2194,7 @@ def build() -> dict:
     data["engine"] = _engine_face_state()
     data["engine_wave"] = _engine_wave_state()
     data["fund_family"] = _fund_family_state()
+    data["family_verdicts"] = _family_verdict_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()

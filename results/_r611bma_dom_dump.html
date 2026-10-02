@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta charset="UTF-8">
+<title>BIGMONEY // 机队分布式监控</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=VT323&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --panel: #121822;
+    --panel2: #1a2230;
+    --border: #2a3a4a;
+    --text: #cdd3e0;
+    --dim: #6a7a8a;
+    --green: #4a9d7a;
+    --red: #b85a5a;
+    --yellow: #b89a5a;
+    --blue: #5a7ab8;
+    --cyan: #5a9ab8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 18px;
+    line-height: 1.3;
+    overflow: hidden;
+  }
+  /* scanline overlay */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px,
+      transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 100;
+  }
+  .title-font { font-family: 'Press Start 2P', 'Courier New', monospace; }
+
+  #app {
+    display: grid;
+    grid-template-rows: 48px 1fr 150px;
+    grid-template-columns: 300px 1fr 330px;
+    grid-template-areas:
+      "header header header"
+      "nodes  main   side"
+      "log    log    side";
+    gap: 8px;
+    padding: 8px;
+    height: 100vh;
+  }
+  header {
+    grid-area: header;
+    background: var(--panel);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 { font-size: 13px; color: var(--cyan); letter-spacing: 2px; }
+  .hdr-right { display: flex; gap: 22px; align-items: center; }
+  .hdr-item { font-size: 16px; white-space: nowrap; }
+  .hdr-item .lbl { color: var(--dim); font-size: 12px; }
+  .hdr-item .val { color: var(--text); }
+  .dot {
+    display: inline-block; width: 10px; height: 10px;
+    background: var(--green); margin-right: 6px;
+    box-shadow: 0 0 8px var(--green);
+    animation: blink 2s infinite;
+  }
+  .dot.red { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  .dot.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+  .dot.gray { background: var(--dim); box-shadow: none; animation: none; }
+  @keyframes blink { 50% { opacity: 0.4; } }
+
+  .panel { background: var(--panel); padding: 10px; overflow: hidden;
+           display: flex; flex-direction: column; min-height: 0; }
+  .panel h2 {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px; color: var(--dim);
+    margin-bottom: 8px; padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 1px; flex: 0 0 auto;
+  }
+  .panel .body { overflow-y: auto; min-height: 0; }
+  .panel .body::-webkit-scrollbar { width: 6px; }
+  .panel .body::-webkit-scrollbar-thumb { background: var(--border); }
+
+  #nodes { grid-area: nodes; }
+  #main { grid-area: main; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  #side { grid-area: side; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+
+  .node {
+    background: var(--panel2);
+    padding: 8px; margin-bottom: 8px;
+    border-left: 4px solid var(--green);
+  }
+  .node.warn { border-left-color: var(--yellow); }
+  .node.bad { border-left-color: var(--red); opacity: 0.75; }
+  .node.unknown { border-left-color: var(--dim); }
+  .node .name {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px; color: var(--cyan);
+  }
+  .node .row { color: var(--dim); font-size: 15px; margin-top: 2px;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .node .row b { color: var(--text); font-weight: normal; }
+  .node .task { color: var(--yellow); font-size: 14px; margin-top: 4px;
+                display: -webkit-box; -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical; overflow: hidden; }
+
+  table.tickets { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.tickets th {
+    text-align: left; color: var(--dim); font-weight: normal; font-size: 13px;
+    border-bottom: 1px solid var(--border); padding: 2px 6px;
+  }
+  table.tickets td { padding: 3px 6px; border-bottom: 1px solid #1c2634;
+                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td.chip { width: 86px; }
+  .chip span {
+    padding: 0 6px; font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  .chip.done span { color: var(--green); border-color: var(--green); }
+  .chip.claimed span { color: var(--yellow); border-color: var(--yellow); }
+  .chip.open span { color: var(--red); border-color: var(--red); }
+  td.owner { color: var(--dim); max-width: 150px; }
+
+  .chain-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 3px 6px; margin: 2px 0;
+    background: var(--panel2); font-size: 15px;
+  }
+  .chain-row .nm { color: var(--dim); flex: 0 0 96px; }
+  .chain-row .val { flex: 1 1 auto; color: var(--text);
+                    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chain-row .st { flex: 0 0 auto; font-size: 13px; max-width: 118px;
+                   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .st.ok { color: var(--green); }
+  .st.warn { color: var(--yellow); }
+  .st.bad { color: var(--red); }
+  .st.dim { color: var(--dim); }
+
+  .kv { display: flex; justify-content: space-between; padding: 2px 0; font-size: 15px; }
+  .kv .k { color: var(--dim); }
+  .kv .v { color: var(--text); }
+
+  #log {
+    grid-area: log; background: var(--panel); padding: 8px;
+    overflow-y: auto; font-size: 15px;
+  }
+  #log .line { padding: 1px 0; }
+  #log .t { color: var(--dim); }
+  #log .info { color: var(--blue); }
+  #log .ok { color: var(--green); }
+  #log .warn { color: var(--yellow); }
+  #log .err { color: var(--red); }
+
+  .links { display: flex; flex-direction: column; gap: 6px; }
+  .links a {
+    display: block; background: var(--panel2); color: var(--cyan);
+    text-decoration: none; padding: 6px 10px; font-size: 15px;
+    border: 1px solid var(--border);
+  }
+  .links a:hover { border-color: var(--cyan); }
+  .empty { color: var(--dim); padding: 8px; font-size: 15px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>BIGMONEY // FLEET MONITOR</h1>
+    <div class="hdr-right">
+      <div class="hdr-item"><a href="results/daily_scorecard.html" target="_blank" style="text-decoration:none;color:#ffa657;font-weight:bold">量化战绩 ➚</a></div>
+      <div class="hdr-item"><span class="lbl">SMOKE</span> <span class="dot" id="smoke-dot"></span><span class="val" id="smoke-val">47/47</span></div>
+      <div class="hdr-item"><span class="lbl">N</span> <span class="val" id="hdr-n">617500</span></div>
+      <div class="hdr-item"><span class="lbl">TRADERS</span> <span class="val" id="hdr-traders">6</span></div>
+      <div class="hdr-item"><span class="lbl">NET</span> <span class="val" id="net-type">LAN</span></div>
+      <div class="hdr-item"><span class="lbl" id="clock">06:30:07</span></div>
+    </div>
+  </header>
+
+  <div class="panel" id="nodes">
+    <h2>NODES // 心跳 ≤10min 轮</h2>
+    <div class="body" id="node-list">
+    <div class="node ok">
+      <div class="name">bm-a <span class="dot "></span>R83</div>
+      <div class="row">心跳 <b>2026-10-03T06:09:59+08:00</b> · 龄 <b>18.9分</b></div>
+      <div class="row"><b>32</b>核 · 闲RAM <b>52</b>G · GPU闲 <b>16000</b>M</div>
+      <div class="task">J10 fund-family campaign panel landed (build_status derive + dashboard chain row, DOM-verified); E14 methodology card debt cleared; N4 family window closed (K_eff=499); awaiting bm-b NULLS for FUND-VALUE-P1 judged verdict</div>
+    </div>
+    <div class="node ok">
+      <div class="name">bm-b <span class="dot "></span>R350</div>
+      <div class="row">心跳 <b>2026-10-03T06:13:00+08:00</b> · 龄 <b>15.8分</b></div>
+      <div class="row"><b>16</b>核 · 闲RAM <b>4.12</b>G · GPU闲 <b>2292</b>M</div>
+      <div class="task">NULLS burn watch (daemon, 36/2000) + T-152 transfer watch + claim-regression incident follow-up (MSG-0612 proposals)</div>
+    </div>
+    <div class="node bad">
+      <div class="name">bm-c <span class="dot red"></span>R127</div>
+      <div class="row">心跳 <b>2026-10-03 04:07:46</b> · 龄 <b>141.1分</b></div>
+      <div class="row"><b>32</b>核 · 闲RAM <b>3.6</b>G · GPU闲 <b>886</b>M</div>
+      <div class="task">r396 close-out: bookkeeping four + final commit push + delivery self-verify</div>
+    </div></div>
+  </div>
+
+  <div id="main">
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>公司面 // 组合·监控·记分</h2>
+      <div class="body" id="company"><div class="chain-row"><span class="nm">EW6 组合</span>
+          <span class="val">Sharpe 1.1438 · 年化 3.7% · 回撤 -5.7% · ×2 0.7574 存活</span>
+          <span class="st ok">validated</span></div><div class="chain-row"><span class="nm">IV6 预算</span>
+          <span class="val">Sharpe 1.3702 · 益 +0.567 · DR 1.71 · ×2 0.8989 存活</span>
+          <span class="st ok">v2门过</span></div><div class="chain-row"><span class="nm">相关性监控</span>
+          <span class="val">VOID · W2 0 对 · 最高 — · 尾窗 —</span>
+          <span class="st warn">月更</span></div><div class="chain-row"><span class="nm">P-6 记分卡</span>
+          <span class="val">S2 A4 B0 C0 · 最优 VOLATILITY-CE-01 87.0</span>
+          <span class="st dim">月度重算</span></div><div class="chain-row"><span class="nm">×2 看护</span>
+          <span class="val">probation 2 员 · COMPOSITE-CE-02 ENGULF-CE-01</span>
+          <span class="st warn">随 bar 滚动</span></div><div class="chain-row"><span class="nm">因子研究线</span>
+          <span class="val">N=286551 · LHB 3/4 · GTJA 21/181 WQ 11/82完 · 槽 1/10 · gdhs 2/3 · L2 0/4 · XLIB K4判负</span>
+          <span class="st dim">双系列</span></div><div class="chain-row"><span class="nm">治理面</span>
+          <span class="val">审计 4/6 OK · findings 28 · 简报 2026-09</span>
+          <span class="st warn">待办</span></div><div class="chain-row"><span class="nm">队列排程</span>
+          <span class="val">下一 跨库合成（未试） · 正收益 组合构建 · 开放0 · P1门1</span>
+          <span class="st dim">UCB1 advisory</span></div></div>
+    </div>
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>任务票据 // 认领锁板</h2>
+      <div class="body" id="tickets">
+    <table class="tickets">
+      <tbody><tr><th>ID</th><th>TYPE</th><th>STATUS</th><th>OWNER</th></tr>
+      
+    <tr>
+      <td>T-2026-09-23-01</td>
+      <td>money02-archive-upload</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-02</td>
+      <td>backtest-science-v2-tooling</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-03</td>
+      <td>engine-gate-integrity-fixes</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (interactive session)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-04</td>
+      <td>pipeline-robustness-fixes</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-05</td>
+      <td>regime-guard-implementation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-06</td>
+      <td>portfolio-validation-batch</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 51)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-23-07</td>
+      <td>scorecard-delivery</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-08</td>
+      <td>data-redundancy-leg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 68)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-09</td>
+      <td>engine-feature-cash-leg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-10</td>
+      <td>regime-guard-v3-redesign</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 90)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-11</td>
+      <td>negative-event-consumption</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 98)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-12</td>
+      <td>self-review-mechanism</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-13</td>
+      <td>deep-history-regime-calibration</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 102)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-14</td>
+      <td>etf-rules-fidelity-batch</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 46)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-15</td>
+      <td>programmatic-trading-regulation-verification</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-16</td>
+      <td>fund-premium-data-probe</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 51)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-17</td>
+      <td>ah-hk-data-probe</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 57)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-18</td>
+      <td>deep-history-mainline-revalidation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 96)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-19</td>
+      <td>panel-consolidation-break-governance</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 48)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-20</td>
+      <td>paper-forward-guard-dual-rail</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 70)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-21</td>
+      <td>regime-guard-v3-enforce-wiring</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-22</td>
+      <td>virtual-timepoint-massive-revalidation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 104)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-23</td>
+      <td>external-strategy-research-wave</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 108)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-24</td>
+      <td>prospect-pool-activation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 83)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-25</td>
+      <td>compute-watermark-closed-loop</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 59) -&gt; TAKEOVER bm-b (OS iteration loop, round 156) per S3 stale-heartbeat rule</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-26</td>
+      <td>fleet-expansion-acceptance</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 110)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-27</td>
+      <td>blend-method-tournament</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 63)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-28</td>
+      <td>current-market-stable-profit-report</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 89)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-29</td>
+      <td>scorecard-direct-access</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 106; v0.2 slice takeover per S3 stale-heartbeat rule -- bm-c down since 2026-09-24 21:51:47 zero commits after, T-35 dependency landed R93/R94 unblocking O-2045 s3 face; bm-c may reclaim remaining slices on revival per yield protocol)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-30</td>
+      <td>external-mining-wave2</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">GM (quant 专管会话) bm-a direct-exec per CEO 开工令 2026-09-24 ~17:38 + O-1730 sec.1.3 (小快件亲执)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-31</td>
+      <td>external-mining-wave3</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 65)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-32</td>
+      <td>external-mining-wave4</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 123; wave-4 slice takeover per S3 stale-heartbeat rule -- bm-c down since 2026-09-24 21:51:47, zero commits after, stale &gt;7h; original r66 bm-c claim 19:56:28 preserved; bm-c may reclaim remaining slices on revival per T-29 yield precedent)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-33</td>
+      <td>style-corps-architecture</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 68)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-34</td>
+      <td>regime-early-signal-research</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-35</td>
+      <td>million-paper-capital-trading-hours</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 91)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-36</td>
+      <td>compute-dispatcher-mechanism</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 91)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-37</td>
+      <td>post-review-mechanism</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 92; bm-c r70 yielded canon to bm-a r92 per r106 union recipe; C9 watchdog leg stays bm-c)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-24-38</td>
+      <td>fulfillment-engine-interface-draft</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 122)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-39</td>
+      <td>data-pipeline-source-repair</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 109)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-40</td>
+      <td>strategy-a-layer-migration</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 136)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-41</td>
+      <td>data-pipeline-source-expansion</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 118)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-42</td>
+      <td>engine-implementation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 139)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-43</td>
+      <td>data-pipeline-source-expansion</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-44</td>
+      <td>batch-preregistration</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 140)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-45</td>
+      <td>external-mining-wave5</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 132; claim-at-open same round per CEO immediate-law spirit)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-46</td>
+      <td>batch-preregistration</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 159)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-47</td>
+      <td>external-mining-wave6</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 142; claim-at-open same round per T-45 precedent)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-48</td>
+      <td>factor-blend-composite-model</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-49</td>
+      <td>batch-preregistration-revival</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 167)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-50</td>
+      <td>external-mining-wave7</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 169; SLICE-3: seed face (c) guorn rendering-face retry via ALTERNATE CHANNEL = raw-HTML requests parse (href extraction) instead of markdown-conversion channel that dropped hrefs (R149 record); slice-1 face (b) delivered r168; face (a) delivered by bm-a r150 after bm-b same-window yield (progress_r169); faces (d)/(e)/(f) OPEN for parallel single-writer slices by any healthy machine per this ticket shard protocol; zero whole-ticket lock asserted)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-51</td>
+      <td>external-mining-wave8</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 153)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-52</td>
+      <td>spm-j4-attribution-and-judgment-bench</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-53</td>
+      <td>external-spm-stability-paradigm-deepdive</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 156)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-54</td>
+      <td>stability-first-admission-and-orthogonal-pool</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-55</td>
+      <td>pool-starvation-audit-flag-and-fill-protocol</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 156)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-56</td>
+      <td>aggressive-blend-lab</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 157; claim-at-open same round per CEO immediate-law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-57</td>
+      <td>wild-route-pattern-lab</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 174)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-58</td>
+      <td>broad-aggressive-combo-family</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 157; claim-at-open same round per CEO immediate-law; lane extension of T-56 AGGR machinery owner)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-59</td>
+      <td>asset-allocation-line-launch</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 175)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-60</td>
+      <td>multi-dim-matrix-and-gap-dimensions</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 175)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-61</td>
+      <td>transfer</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 165; sender leg delivered same round per CEO immediate-law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-62</td>
+      <td>batch-execution</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 179)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-63</td>
+      <td>evaluation-system-three-cards-implementation</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 180)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-64</td>
+      <td>external-mining-wave9</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 182; claim-at-open same round per T-51 R153 precedent; slice-1 = face (b) standing channels run-7/4/2, single-writer per digest file; faces (a)/(c)/(d) open to any healthy machine per note)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-65</td>
+      <td>full-instrument-census-and-revival-program</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 184; CEO immediate ticket per O-20260924-1730 same-round claim-and-start; s0 census this round)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-66</td>
+      <td>alloc-paper-wiring</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-67</td>
+      <td>options-revival-wave2</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 190; CEO immediate ticket per O-20260924-1730 same-round claim-and-start; gate feed verified same round = T-65 s3 audit PASS)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-68</td>
+      <td>wave3-bonds-hkconnect-revival</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 206; slice-declared claim per T-50/T-64 precedent: bm-b slice = WAVE-3A bonds lane, zero whole-ticket science lock)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-25-69</td>
+      <td>options-forward-collector</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 195; T-67 s2 owner chain continuation, claim-at-open same round per CEO immediate-law; slice = collector script + selftest + first live smoke)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-70</td>
+      <td>local-coding-pilot</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 195; CEO immediate ticket = claim-and-start same round; physical dependency RESOLVED 2026-09-26 r208: qwen3-coder:30b pull success + ollama show verified; ticket holds to 10-09 midterm verdict window)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-71</td>
+      <td>data-pipeline-source-probe</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-72</td>
+      <td>data-pipeline-collector-implementation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-73</td>
+      <td>cn-schools-research-and-native-combo-models</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 238; CEO immediate ticket per O-20260926-0926 + O-1730 claim-and-start same round; s1/s2 web-facing research started same round, s3 portfolio-design chain follows; C-arm batch supervision on this machine runs in parallel -- different resource faces (network+writing vs local inference), zero conflict)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-74</td>
+      <td>market-clock-combo-strategy</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 239; CEO immediate ticket per O-20260926-0932/0940/0947 -- claim-and-start same round per O-1730; C-arm T-70/T-73 batch runs in parallel on separate faces)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-75</td>
+      <td>daily-battle-report-mechanism</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 239; CEO immediate ticket per O-20260926-0932/0940/0947 -- claim-and-start same round per O-1730; C-arm T-70/T-73 batch runs in parallel on separate faces)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-76</td>
+      <td>external-mining-wave10</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 237; opener claim-at-open same round per T-51/T-64 precedent; slice-1 = face (b) GM-review memo delivered same round; faces (a)/(c)/(d)/(e) open to any healthy machine per note)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-77</td>
+      <td>local-first-v2-token-routing</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 238; CEO immediate ticket claim-and-start same round per O-20260924-1730 law; slices 1-3 = bm-b lanes (LOCAL_FIRST v2 doc / crash-fuse on autofill launcher r175-r198 evidence base / llm_assist J13 bm-b lineage), slice-4 GPU exec = bm-a-box 4070S physical dependency, pool-ready code face + local torch verify land this round)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-78</td>
+      <td>trade-management-unlock</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-79</td>
+      <td>retro-paper-2026-and-sim-approval-gate</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 252; claim-at-open same round per O-1730 CEO immediate-law, git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-80</td>
+      <td>full-sample-sweep</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 252; claim-at-open same round per O-1730 CEO immediate-law, git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-81</td>
+      <td>applicability-domain-judgment</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 252; claim-at-open same round per O-1730 CEO immediate-law, git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-82</td>
+      <td>transfer</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 257; sender leg same-round-as-claim per CEO immediate-law, T-61 sender precedent)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-83</td>
+      <td>full-governance-audit-and-optimization</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 267; slice-declared claim per T-50/T-64/T-76 precedent: bm-b slice = s1 nine-layer full inventory (research/AUDIT-20260926-FULL.md, measurement-first per O-1355 discipline 1) + s2 mechanical detection faces; s3 GM-signed seven deliverables RESERVED for GM session per ticket lane note; s4 quarterly wiring confirmation open to next rounds; zero whole-ticket science lock)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-84</td>
+      <td>v60-tri-system-convergence</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 273; CEO immediate ticket per O-20260926-2229: claim-and-start same round)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-85</td>
+      <td>fusion-tournament-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-86</td>
+      <td>factor-fusion-census-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-87</td>
+      <td>school-supply-batch-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-88</td>
+      <td>domain-unlock-batch-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-26-89</td>
+      <td>market-stage-segmented-stats-completion</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 309; CEO immediate ticket per O-20260927-0752 -- claim-and-start same round per O-1730; slice-1 = prereg draft+freeze this round, batch to pool per S3 discipline)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-90</td>
+      <td>decision-chain-end-to-end-backtest</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 310 same-round claim-and-start per O-20260924-1730 immediate-law; start deliverable = four-arm chain E2E prereg draft+freeze this round; runner -&gt; runnable_pool next per R99; zero new strategy search inside ticket)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-91</td>
+      <td>system-live-face-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop R307 S7 double-scan catch, claim-and-start same round per O-20260924-1730 immediate-law; F-04 MSG-20260927-0908 first; s1 live harness + s2 REV-OSC paper account start now; s3 auto-fires 2026-09-28 09:15)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-92</td>
+      <td>production-lane-charter-tts-audio-bmb</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (standing lane charter per CEO order -- lane assigned to bm-b by the order itself; claim = lane-ownership record, idle-window-gated execution)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-93</td>
+      <td>transfer</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop R314 S7 discovery; P1 transfer ticket = claim-and-start same round per collaboration law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-94</td>
+      <td>mass-candidate-trial-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 346 S7 double-scan catch; claim-and-start same round per O-20260924-1730 immediate-law; git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-27-95</td>
+      <td>decision-chain-v2-simplified</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 118; claim-at-open same round per O-20260924-1730 CEO immediate-law; git fetch immediately before claim per r239/r113 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-100</td>
+      <td>bonsai-fleet-trial</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-101</td>
+      <td>chain-tournament-v3-batch</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, r172; claim made 15:16:00 by in-flight round that crashed post-claim pre-push, salvaged by rebase replay this window; rebase conflict vs origin O-1518 acceptance-face note edit resolved as mechanical union per fleet/README.md sec.4 commit-time order -- origin note kept verbatim [later editor wins], claim fields preserved [no competing claim on origin], zero content loss)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-102</td>
+      <td>decision-chain-benchmark-wave</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop r398-cont; GM dispatch O-20260928-1625 sec.1 immediate -- bm-a revival priority object; claim-and-start same round per O-1730)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-103</td>
+      <td>etf-ops-chain-group-first-mandate</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 391; unclaimed CEO immediate ticket per O-20260928-1524 + O-1730 claim-and-start same round; git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-104</td>
+      <td>realtime-feed-and-grid-chain-revival</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 390; CEO immediate ticket per O-20260928-1531 + O-1730 claim-and-start same round; git fetch immediately before claim per r239 collision law -- origin status=open verified 15:37); r399 bm-b: s2 GRID_DUALFACE_P1 prereg FROZEN commit a03887474 (dead-session salvage, probe facts re-verified) + SEED_REGISTRY 20295500 same commit (R250) + runner scripts/grid_dualface_backtest.py built (T-22 lineage grid state machine, selftest hermetic PASS, real-data timing probe 1.5s/member) + pool entry T104-GRID-S3-DUALFACE-P1 flipped waiting-&gt;ready (4 gates receipted); next slice = pool burn via autofill -&gt; finalize + prereg s7 one-time backfill + judged closure (owner bm-b)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-105</td>
+      <td>ceo-live-usage-face-v1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 390; P0 CEO immediate ticket per O-20260928-1533 sec.4 + O-1730 claim-and-start same round; origin status=open verified at 16:00 fetch)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-106</td>
+      <td>national-team-face-info-and-review</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 172; CEO immediate ticket per O-20260928-1540 + O-1730 claim-and-start same round; git fetch immediately before claim per r239 collision law -- origin status=open verified 15:59)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-107</td>
+      <td>saturation-mechanism-engineering</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 174; git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-108</td>
+      <td>execution-layer-v2-saturation-engineering</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 174; git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-109</td>
+      <td>follow-national-team-ops-chain</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop r399; P0 CEO immediate ticket per O-20260928-1655 + O-1730 claim-and-start same round; git fetch before claim per r239 law -- origin status=open verified 17:10)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-110</td>
+      <td>toolstack-local-install-fleet-propagation</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-111</td>
+      <td>five-member-etf-daily-refresh-leg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 398)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-112</td>
+      <td>cash-leg-sleeve-intake</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-113</td>
+      <td>compute-sharing-provider-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 404; CEO immediate ticket per O-2026-09-28-2210 + O-1730 claim-and-start same round; git fetch before claim per r239 law -- origin status=open verified 23:21 push-window)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-96</td>
+      <td>trial-labor-wave2-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-97</td>
+      <td>trial-labor-wave3-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop R391; TRIAL_LABOR_LAW sec.1 standing-line routine supply step; claim-and-start same round per law text, start deliverable = research/TRIAL_LABOR_W3_PREREG.md freeze + SEED_REGISTRY 3-key registration same commit)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-98</td>
+      <td>trial-labor-wave4-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop R396; TRIAL_LABOR_LAW sec.1 standing-line routine supply step; claim-and-start same round per law text, start deliverable = research/TRIAL_LABOR_W4_PREREG.md freeze + SEED_REGISTRY 3-key registration same commit + external-scan digest + F-04 MSG-20260928-0930 declaration)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-28-99</td>
+      <td>bonsai-fleet-trial</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-114</td>
+      <td>trial-labor-wave5-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop r405; TRIAL_LABOR_LAW sec.1 standing-line routine supply step; claim-at-open same round per O-20260924-1730 immediate-law; git fetch immediately before claim per r239 collision law -- origin/main == local HEAD 935d0f4f verified 00:07)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-115-P1</td>
+      <td>trial-labor-wave5-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop r407; claim-and-start same round per O-20260924-1730 immediate-law; git fetch immediately before claim per r239 collision law -- origin/main==HEAD 3c4ad7da verified)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-116</td>
+      <td>pool-shared-view-retirement</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop r193; self-opened ticket, claim-at-open same round per O-1730; claim fields backfilled r197 -- r193 opening commit carried claim only in note/created_by, claimed_by field omitted by mistake, zero competing claim on origin verified at r197 04:0x fetch)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-117</td>
+      <td>trial-labor-wave6-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 198; healthy-machine freeze-step takeover per O-20260924-1730 -- draft author bm-a heartbeat stalled since 03:19:43 &gt;20min at claim; claim-at-open same round per O-1730 immediate-law; git fetch immediately before claim per r239 collision law -- origin/main 89668ed8 verified, board zero open, T-114 = bm-a claimed lane untouched)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-118</td>
+      <td>trial-labor-wave7-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 207; draft-author same-machine next-round freeze per r206 next-pointer, zero takeover; claim-at-open same round per O-1730 immediate-law; git fetch immediately before claim per r239 collision law -- origin/main b28b2de4 verified 09:2x, board zero open, T-114/T-117 predecessor lanes untouched)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-119</td>
+      <td>trial-labor-prereg-backfill-debt</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 417 drift-debt slice; opened+claimed+done same round per O-1730 immediate-law; board file materialized retroactively by successor r417-cont -- 417b commit message 'ticket done-flip' referenced the ticket before the board file was written; zero rival claims, T-119 slot was empty)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-120</td>
+      <td>trial-labor-wave8-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 424; draft-author same-machine next-round freeze per r423 next-pointer, zero takeover; wave ticket opened+claimed same freeze commit per O-1730 immediate-law lineage; git fetch immediately before claim per r239 collision law -- origin/main 357bd6798 consumed pre-claim, board zero open, T-118/T-119 predecessor lanes untouched)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-121</td>
+      <td>trial-labor-wave9-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 432; draft-author same-machine next-round freeze per r431 next-pointer, zero takeover; wave ticket opened+claimed same freeze commit per O-1730 immediate-law lineage; git fetch immediately before claim per r239 collision law -- origin/main 2740b34fd consumed pre-claim, board zero open)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-122</td>
+      <td>trial-labor-wave10-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 437; berth-open adoption per W10 candidate draft sec.9 clause + AMP-&gt;W9 precedent; D-02 leg1 declare commit a695058cb landed origin 18:18:07 zero rival per fetch-gate; wave ticket opened+claimed same freeze commit per O-1730 immediate-law lineage; git fetch immediately before claim -- origin/main 75943177a consumed pre-claim, board zero open)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-29-123</td>
+      <td>trial-labor-wave11-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-124</td>
+      <td>trial-labor-wave12-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-125</td>
+      <td>trial-labor-wave13-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-126</td>
+      <td>trial-labor-reeval18-drill</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-127</td>
+      <td>credibility-repair-rw1-7</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-128</td>
+      <td>trial-labor-wave14-prereg</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-129</td>
+      <td>retail-quant-track-adoption-d41</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 483; claim-and-start same round per O-20260924-1730; git fetch immediately before claim per r239 collision law -- origin/main == HEAD at 17:2x)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-130-P1</td>
+      <td>retail-quant-track-allocation-policy-scan-d41</td>
+      <td class="chip closed"><span>closed</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-131</td>
+      <td>fundamental-history-acquisition-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-132</td>
+      <td>lowamp-family-judged-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 494; CEO immediate ticket per O-2026-09-30-2230 claim-and-start same round per O-20260924-1730; git fetch immediately before claim per r239 collision law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-133</td>
+      <td>perpetual-saturation-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop round 494; O-20260930-2340 claim-and-start same round per CEO immediate law)</td>
+    </tr>
+    <tr>
+      <td>T-2026-09-30-134</td>
+      <td>multi-core-enforcement-sweep</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-135</td>
+      <td>bonsai-gpu-tier-reverify</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 497; claim-and-start same round per O-20260924-1730; GPU probe 01:3x: free=10770MiB&gt;=9000 trigger MET, night window genuine, three editors absent)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-136</td>
+      <td>verdict-integrity-audit-p0</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-137</td>
+      <td>pool-retirement-wave1-flip</td>
+      <td class="chip void"><span>void</span></td>
+      <td class="owner">bm-a (OS iteration loop r502; claim-at-open same round; git fetch immediately before claim per r239 collision law -- origin/main == HEAD at 05:05 fetch)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-138</td>
+      <td>portfolio-book-prereg</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 505; claim-and-start same round per O-20260924-1730)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-139</td>
+      <td>stock-face-furnaces-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-140</td>
+      <td>verdict-adjudication-execution</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-141</td>
+      <td>saturation-engine-build-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-142</td>
+      <td>verdict-adjudication-request</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-01-143</td>
+      <td>monthly-exam-prep-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 344; accounts face=bm-c primary per note; prep/aggregation only per spec NO-new-burns; assembly rounds Oct, deliverable 10-29)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-144</td>
+      <td>group-decision-dispatch-consolidated-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 365 claim; (b) done r365; (a) three legs DONE r367 commit 71e0e9b4d: Tools/git_claw.py + pre-push hook + installer + S7 self-heal line + engine/autofill/pool_worker in-code deletion-set legs, selftests 15/15+46/46+34/34+autofill rerun green, live-fire fixture 3-face + real-push fast-pass proof; result_ref=71e0e9b4d); (c) first-split piece + reconciliation line = in-window next rounds (due 10-04 12:00) | (c) second split DONE r373 bm-c: pool domain 16 entries verbatim -&gt; research/pit-pool.md (byte recon 97,224-&gt;83,878B split-state + md5 lines + zero-loss PASS + repo ref-grep clean; fleet-union at push with 4 concurrent bm-b CODELY lines preserved, LF-blob accounting 88,176B); (c) data-domain split DONE r380 bm-c: 5 entries verbatim -&gt; research/pit-data.md (byte recon 62,678-&gt;58,449B + md5 lines + zero-loss PASS + repo ref-grep clean); engine domain DONE bm-a r585 (pit-engine.md 33 entries per CODELY pointer); remaining = protocol domain + flow-sinking, due 10-07</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-145</td>
+      <td>fundamental-factor-family-line-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-146</td>
+      <td>ytd-track-record-assembly-p1</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-147</td>
+      <td></td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 385)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-148</td>
+      <td>survivor-king-contest-p1</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-149-P1</td>
+      <td>transfer</td>
+      <td class="chip done"><span>done</span></td>
+      <td class="owner">bm-c</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-02-150-P1</td>
+      <td>work</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 598; git fetch immediately before claim per r239 collision law -- origin/main == HEAD at 00:56; ticket number max+1 on origin verified by bm-a r599 note)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-03-151-P1</td>
+      <td>work</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-a (OS iteration loop, round 600; seat open per bm-b MSG-2026-10-03-0016 invite + bm-c MSG-0115 took N3-R2; git fetch immediately before claim -- origin/main 98fc8faca == HEAD at 01:3x)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-03-152-P1</td>
+      <td>transfer</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-c (OS iteration loop, round 397)</td>
+    </tr>
+    <tr>
+      <td>T-2026-10-03-153-P1</td>
+      <td>work</td>
+      <td class="chip claimed"><span>claimed</span></td>
+      <td class="owner">bm-b (OS iteration loop, round 601)</td>
+    </tr>
+    </tbody></table>
+    <div class="kv" style="margin-top:4px;">
+      <span class="k">合计</span>
+      <span class="v">done 104 · claimed 47 · open 2</span>
+    </div></div>
+    </div>
+    <div class="panel" style="flex: 1 1 auto;">
+      <h2>数据链与长链 // S6 维护面</h2>
+      <div class="body" id="chains"><div class="chain-row"><span class="nm">日线更新</span>
+          <span class="val">cutoff 2026-09-30 · 0 行 · 失败 0 · 48 符号</span>
+          <span class="st ok">更新链活 · 0 失败</span></div><div class="chain-row"><span class="nm">P-1d dzjy</span>
+          <span class="val">316436 行 · 门覆盖 99.9%（门 0.95）</span>
+          <span class="st ok">PASS</span></div><div class="chain-row"><span class="nm">P-1d gdhs</span>
+          <span class="val">183927 行 · 门覆盖 44/44（门 40）</span>
+          <span class="st ok">PASS</span></div><div class="chain-row"><span class="nm">P-1d margin</span>
+          <span class="val">6632890 行 · 门覆盖 99.1%（门 0.9）</span>
+          <span class="st ok">PASS</span></div><div class="chain-row"><span class="nm">P-1d 门时点</span>
+          <span class="val">gates 2026-10-03 06:16 · pull 2026-09-24 03:49:34</span>
+          <span class="st dim">信息</span></div><div class="chain-row"><span class="nm">LHB</span>
+          <span class="val">cutoff 2026-09-30 · 新 0 行</span>
+          <span class="st ok">no-op: &lt;30min since last</span></div><div class="chain-row"><span class="nm">期货日线</span>
+          <span class="val">9 品种 · 24k 行 · cutoff 2026-09-30</span>
+          <span class="st ok">期货链 9 品种在库</span></div><div class="chain-row"><span class="nm">主力资金流</span>
+          <span class="val">53/5222 只 · 前向采集</span>
+          <span class="st warn">资金流源阻断停发 · 30min 自愈 · 已采 53/5222</span></div><div class="chain-row"><span class="nm">热度链</span>
+          <span class="val">L1 8 份 · L2 97/100 件 · 拒 3</span>
+          <span class="st ok">热度链活 · L1 8份 · L2 97/100件</span></div><div class="chain-row"><span class="nm">行情防线</span>
+          <span class="val">橙·高危 · 在态 4 日 · shadow</span>
+          <span class="st warn">触发 hs300&lt;MA200 (#10</span></div><div class="chain-row"><span class="nm">算力水位</span>
+          <span class="val">py 90.1→0.1→0.4→0.7→0.0% · 近红 0 · 僵尸清 0 · next event-attention-factors</span>
+          <span class="st ok">claimed</span></div><div class="chain-row"><span class="nm">饱和引擎</span>
+          <span class="val">1/3 活 · bm-a 0.1% · bm-b 31.3% 💀 · bm-c 3.3% 💀</span>
+          <span class="st warn">bm-a 队列 0 · 累计 462 片；bm-b 队列 0 · 累计 513 片；bm-c 队列 0 · 累计 1344 片</span></div><div class="chain-row"><span class="nm">N1 波链 · 常供产线</span>
+          <span class="val">注册尾 W114 · 链头 615348 · K 248720 · mu -0.0929 σ 0.2449 · W112✓610948 · W113✓613148 · W114✓615348 · 前席 W115 bm-c · 下一可席 W116</span>
+          <span class="st ok">常供</span></div><div class="chain-row"><span class="nm">基本面族战役</span>
+          <span class="val">VALUE[frozen] 判格 4/4 SENS 500 {CELL-VALUEPB-X1:✔ CELL-VALUEPB-X2:✔ CELL-VALUEPE-X1:✔ CELL-VALUEPE-X2:✔ NULLS:ready@bm-b SENS:✔} · QUALITY[draft] 判格 0</span>
+          <span class="st warn">烧录在飞</span></div><div class="chain-row"><span class="nm">家族判决图 · 深轴战役</span>
+          <span class="val">LOWAMP-DEEP-P1[judged-negative] S 1.066 DSR 0.700 账 617500 · N4 (B1+B2+B3 pooled)[window-closed] K_eff 499 6员 CI95下界&gt;0 2/6 · N3-R2[judged] 6员 144窗 账 615492</span>
+          <span class="st dim">judged/closed</span></div><div class="chain-row"><span class="nm">TOKEN</span>
+          <span class="val">状态 2049 · 报告 1107430 · 增长 0</span>
+          <span class="st dim">粗估</span></div></div>
+    </div>
+  </div>
+
+  <div id="side">
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>算力审计 // 最近采样</h2>
+      <div class="body" id="audit">
+    <div class="kv"><span class="k">判定</span><span class="v">FLAG:supply_gap,supply_floor</span></div>
+    <div class="kv"><span class="k">时刻</span><span class="v">2026-10-03 06:06:34</span></div>
+    <div class="kv"><span class="k">CPU 总/我方</span><span class="v">6% / 0.1%</span></div>
+    <div class="kv"><span class="k">核 / py 进程</span><span class="v">32 / 33</span></div>
+    <div class="kv"><span class="k">GPU 利用/占用</span><span class="v">0% / 6295M</span></div>
+    <div class="kv"><span class="k">僵尸 / 越权</span><span class="v">0 / 0</span></div>
+    <div class="kv" style="color:var(--yellow)"><span class="k">旗</span><span class="v">supply_gap, supply_floor</span></div></div>
+    </div>
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>TOKEN 计量</h2>
+      <div class="body" id="token">
+    <div class="kv"><span class="k">状态载入</span><span class="v">2049</span></div>
+    <div class="kv"><span class="k">报告累计</span><span class="v">1107430</span></div>
+    <div class="kv"><span class="k">回合增长</span><span class="v">0</span></div>
+    <div class="kv"><span class="k">快照</span><span class="v">2026-10-03 06:07:55</span></div></div>
+    </div>
+    <div class="panel" style="flex: 1 1 auto;">
+      <h2>入口</h2>
+      <div class="body links">
+        <a href="docs/live_usage/LIVE-latest.md" target="_blank">CEO 实盘一页纸 · LIVE-latest</a>
+        <a href="bigmoney.html">总公司控 · bigmoney.html</a>
+        <a href="town.html">公司小镇 · town.html</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="log">
+    <div class="line"><span class="t">[06:19:24]</span>
+    <span class="info">自检 47项通过/0失败</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">交易员 COMPOSITE-CE-01/COMPOSITE-CE-02/DROUGHT-CE-01/ENGULF-CE-01/NEEDLE-DE-01/VOLATILITY-CE-01 过全 G2 门禁链持证上岗（INTERN）· paper 跟踪进行中，≥6 个月才可谈实盘</span></div>
+    <div class="line"><span class="t">[04:04:08]</span>
+    <span class="info">paper 跟踪进行中 · 6 员在册 · 累计 0 个月 · 窗口 0 笔（每日自动 accrue · 锚定门禁先行）</span></div>
+    <div class="line"><span class="t">[04:04:08]</span>
+    <span class="info">x2 看守 · 2 员薄垫看护（COMPOSITE-CE-02/ENGULF-CE-01）· margin&lt;0.05 或不存活即 probation（T-04 F3 升级链）</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">PROSPECT 观察池 22 员入场（T-24 首批，配置恒 0）· anchor-repro 22/22 通过 · 纸面跟踪道已接线（过 22/22·漂移 0·月账累积 0） · 晋升门评估 0/22 达标（腿：纸面 0/22·G2包 0/22·T-22 0/22）· 晋升 INTERN 须全 G2+T-22 0.70 门禁不放宽</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">门禁链定案（试验账本 N=617500）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）</span></div>
+    <div class="line"><span class="t">[06:06:41]</span>
+    <span class="info">数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-30</span></div>
+    <div class="line"><span class="t">[06:07:16]</span>
+    <span class="info">热度链 · L1 人气榜快照 8 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23</span></div>
+    <div class="line"><span class="t">[06:07:16]</span>
+    <span class="info">期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-30 · 刚跑</span></div>
+    <div class="line"><span class="t">[05:44:02]</span>
+    <span class="info">数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 53/5222（MF_COLLECTOR 前向 · bm-a R63）</span></div>
+    <div class="line"><span class="t">[06:07:55]</span>
+    <span class="info">本地化 · token 粗估 状态 2049 · 报告 1107430 · 回合固定载入 21264（byte/3.5 代理口径 · O-2325）</span></div>
+    <div class="line"><span class="t">[06:06:40]</span>
+    <span class="info">算力水位 · py 90.1→0.1→0.4→0.7→0.0% · 绿 · 近段红牌 0 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）</span></div>
+    <div class="line"><span class="t">[06:06:34]</span>
+    <span class="info">满载面 · 池 ready 1/2 · 本机 py 0.3→0.0→0.5→41.9→0.1→0.3→88.2→90.1→0.1→0.4→0.7→0.0% · 态 pool-supply-gap · 无旗 · 近百采样旗 65 次（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）</span></div>
+    <div class="line"><span class="t">[06:07:05]</span>
+    <span class="info">P-6 记分卡 · 记分卡 6 员评级 S×2 A×4 B×0 C×0 · 最优 VOLATILITY-CE-01 S 87.05 分（评价面 · hr 仍为唯一编制权）</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">研究线 · 因子账本 N=286551 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 11/82 · WQ 腿完成 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=617500 另计）</span></div>
+    <div class="line"><span class="t">[2026-09-30]</span>
+    <span class="info">行情防线 · 橙·高危 · 在态 4 日 · shadow 记录（触发：hs300&lt;MA200 (#10 collected)；breadth 0.79&gt;=65%）</span></div>
+    <div class="line"><span class="t">[00:54:38]</span>
+    <span class="info">组合层 · EW6 等权 6 员 · Sharpe 1.14 · 分散收益 +0.38 · ×2 成本 0.76 存活（T-06 报告制 · EW 载体） · IV6 风险预算 Sharpe 1.37 · DR 1.71（报告制 pass 2 · v2 门过 · 采纳=章程 §五 T1 待批）</span></div>
+    <div class="line"><span class="t">[09:02:24]</span>
+    <span class="info">相关性监控 · VOID · W2 IS2 越线 0 对 · IS2 最高对 — · 尾窗均值 — · ×2 垫最小 — · FL insufficient_data（组合部 §一.2 · 月更 · twin红）</span></div>
+    <div class="line"><span class="t">[05:09:38]</span>
+    <span class="info">治理面 · 科学审计 4/6 检 OK · findings 28 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）</span></div>
+    <div class="line"><span class="t">[08:59:30]</span>
+    <span class="info">队列排程 · UCB1 advisory · 下一 跨库合成（未试） · 正收益 组合构建 · 开放0 · P1门1 · 已试臂 4/10 · exploit 最优 组合构建（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）</span></div>
+    <div class="line"><span class="t">[06:09:59]</span>
+    <span class="info">机队 · 3 节点 2 活 · 票据 done 104/claimed 47/open 2 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">复合因子方案已立项：0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position</span></div>
+    <div class="line"><span class="t">[-]</span>
+    <span class="info">Money02 前代系统已并入资产库，旧自动化停用</span></div></div>
+</div>
+
+<script src="results/dashboard_status.js"></script>
+<script>
+// J10 distributed monitor -- real data only (window.DASH_DATA, JSONP convention
+// same as bigmoney.html/town.html; refreshed every loop tick by
+// python -m monitor.build_status). No mock values anywhere; missing data
+// degrades to explicit placeholders.
+
+const D = window.DASH_DATA || null;
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function n2(v, d) { return (v == null) ? "—" : v; }
+function fnum(v, digits) {
+  return (typeof v === "number") ? v.toFixed(digits) : "—";
+}
+function hhmm(s) {
+  const t = String(s == null ? "" : s);
+  return t.length >= 11 ? t.slice(11, 19) : t;
+}
+
+function renderHeader() {
+  const d = new Date();
+  document.getElementById("clock").textContent = d.toTimeString().slice(0, 8);
+  if (!D) return;
+  const sm = D.health.smoke;
+  const dot = document.getElementById("smoke-dot");
+  dot.className = "dot" + (sm.ok ? "" : " red");
+  document.getElementById("smoke-val").textContent = `${sm.pass}/${sm.pass + Math.max(0, sm.fail)}`;
+  document.getElementById("hdr-n").textContent = D.strategy.trials_total;
+  document.getElementById("hdr-traders").textContent = D.strategy.n_traders;
+  const net = D.health.network.net_type;
+  document.getElementById("net-type").textContent = net;
+}
+
+function renderNodes() {
+  const el = document.getElementById("node-list");
+  if (!D || !D.fleet || !D.fleet.present) {
+    el.innerHTML = '<div class="empty">机队心跳待产出（fleet/machines/）</div>';
+    return;
+  }
+  el.innerHTML = D.fleet.machines.map(m => {
+    const age = m.age_min == null ? "—" : m.age_min + "分";
+    return `
+    <div class="node ${m.health}">
+      <div class="name">${esc(m.id)} <span class="dot ${m.health === "ok" ? "" : (m.health === "warn" ? "yellow" : (m.health === "bad" ? "red" : "gray"))}"></span>R${n2(m.round_no)}</div>
+      <div class="row">心跳 <b>${esc(m.last_seen)}</b> · 龄 <b>${age}</b></div>
+      <div class="row"><b>${n2(m.cpu_cores)}</b>核 · 闲RAM <b>${n2(m.idle_ram_gb)}</b>G · GPU闲 <b>${n2(m.gpu_idle_vram_mb)}</b>M</div>
+      <div class="task">${esc(m.current_task || "—")}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderTickets() {
+  const el = document.getElementById("tickets");
+  if (!D || !D.fleet || !D.fleet.tickets.length) {
+    el.innerHTML = '<div class="empty">票据待产出（fleet/tasks/）</div>';
+    return;
+  }
+  const rows = D.fleet.tickets.map(t => `
+    <tr>
+      <td>${esc(t.id)}</td>
+      <td>${esc(t.type)}</td>
+      <td class="chip ${esc(t.status)}"><span>${esc(t.status)}</span></td>
+      <td class="owner">${esc(t.claimed_by || "—")}</td>
+    </tr>`).join("");
+  el.innerHTML = `
+    <table class="tickets">
+      <tr><th>ID</th><th>TYPE</th><th>STATUS</th><th>OWNER</th></tr>
+      ${rows}
+    </table>
+    <div class="kv" style="margin-top:4px;">
+      <span class="k">合计</span>
+      <span class="v">done ${D.fleet.n_done} · claimed ${D.fleet.n_claimed} · open ${D.fleet.n_open}</span>
+    </div>`;
+}
+
+function chainRow(name, val, st, stTxt) {
+  return `<div class="chain-row"><span class="nm">${esc(name)}</span>
+          <span class="val">${esc(val)}</span>
+          <span class="st ${st}">${esc(stTxt)}</span></div>`;
+}
+
+function pct(v, d) { return (typeof v === "number") ? (v * 100).toFixed(d) + "%" : "—"; }
+
+function renderCompany() {
+  const el = document.getElementById("company");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const p = (D.data && D.data.portfolio) || {};
+  if (p.present) {
+    rows.push(chainRow("EW6 组合",
+      `Sharpe ${fnum(p.ew_sharpe,4)} · 年化 ${pct(p.ew_annual,1)} · 回撤 ${pct(p.ew_dd,1)} · ×2 ${fnum(p.x2_sharpe,4)}${p.x2_survive ? " 存活" : ""}`,
+      p.ew_validated ? "ok" : "dim", p.ew_validated ? "validated" : "报告制"));
+    const iv = p.iv || {};
+    if (iv.present) {
+      rows.push(chainRow("IV6 预算",
+        `Sharpe ${fnum(iv.sharpe,4)} · 益 +${fnum(iv.benefit,3)} · DR ${fnum(iv.dr,2)} · ×2 ${fnum(iv.x2_sharpe,4)}${iv.x2_survive ? " 存活" : ""}`,
+        iv.v2_pass ? "ok" : "warn", iv.v2_pass ? "v2门过" : "T1待批"));
+    }
+  }
+  const cw = (D.data && D.data.corr_watch) || {};
+  if (cw.present) {
+    rows.push(chainRow("相关性监控",
+      `${n2(cw.verdict)} · W2 ${n2(cw.w2_hits)} 对 · 最高 ${fnum(cw.max_is2_pair,2)} · 尾窗 ${fnum(cw.rolling_avg_last,3)}`,
+      cw.verdict === "GREEN" ? "ok" : (cw.verdict === "RED" ? "bad" : "warn"),
+      (cw.w1_flag && cw.w1_flag !== "none") ? "W1旗" : "月更"));
+  }
+  const sc = (D.trading && D.trading.scorecard) || {};
+  if (sc.present) {
+    const g = sc.grade_counts || {};
+    const b = sc.best || {};
+    rows.push(chainRow("P-6 记分卡",
+      `S${n2(g.S)} A${n2(g.A)} B${n2(g.B)} C${n2(g.C)} · 最优 ${n2(b.id)} ${fnum(b.total,1)}`,
+      "dim", "月度重算"));
+  }
+  const pp = (D.trading && D.trading.paper) || {};
+  if (pp.x2_probation) {
+    rows.push(chainRow("×2 看护",
+      `probation ${n2(pp.x2_probation)} 员 · ${(pp.x2_probation_names || []).join(" ")}`,
+      "warn", "随 bar 滚动"));
+  }
+  const fr = (D.research && D.research.factor_line) || {};
+  if (fr.present) {
+    rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));
+  }
+  const gv = (D.data && D.data.governance) || {};
+  if (gv.present) {
+    const ga = gv.audit || {}, gb = gv.briefing || {};
+    rows.push(chainRow("治理面",
+      `审计 ${n2(ga.ok)}/${n2(ga.checks)} OK · findings ${n2(ga.findings)} · 简报 ${n2(gb.month)}`,
+      gv.status === "ok" ? "ok" : "warn", gv.status === "ok" ? "月度" : "待办"));
+  }
+  const qb = (D.data && D.data.queue_bandit) || {};
+  if (qb.present) {
+    rows.push(chainRow("队列排程", n2(qb.text), "dim", "UCB1 advisory"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
+}
+
+function renderChains() {
+  const el = document.getElementById("chains");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const u = D.data.update;
+  rows.push(chainRow("日线更新",
+    `cutoff ${n2(u.data_cutoff)} · ${n2(u.total_new_rows)} 行 · 失败 ${n2(u.failures)} · ${n2(u.symbols)} 符号`,
+    u.status === "bad" ? "bad" : (u.status === "warn" ? "warn" : (u.present ? "ok" : "dim")),
+    u.present ? u.text : "无件"));
+  const fl = D.fleet;
+  if (fl && fl.p1d) {
+    const g = fl.p1d.gates || {};
+    for (const [k, v] of Object.entries(fl.p1d.legs)) {
+      const gate = g[k] || {};
+      const cov = typeof gate.coverage === "number" ? (gate.coverage * 100).toFixed(1) + "%" : (gate.coverage || "—");
+      rows.push(chainRow("P-1d " + k,
+        `${n2(v.rows)} 行 · 门覆盖 ${cov}（门 ${n2(gate.gate)}）`,
+        gate.pass === true ? "ok" : (gate.pass === false ? "bad" : "dim"),
+        gate.pass === true ? "PASS" : (gate.pass === false ? "FAIL" : "—")));
+    }
+    rows.push(chainRow("P-1d 门时点", `gates ${n2(fl.p1d.gates_date)} · pull ${n2(fl.p1d.pull_updated)}`, "dim", "信息"));
+  }
+  if (fl && fl.lhb) {
+    const L = fl.lhb;
+    rows.push(chainRow("LHB", `cutoff ${n2(L.cutoff)} · 新 ${n2(L.new_rows)} 行`, L.verdict && String(L.verdict).startsWith("fail") ? "bad" : "ok", n2(L.verdict).slice(0, 24)));
+  }
+  const fq = D.data.futures;
+  if (fq && fq.present) {
+    rows.push(chainRow("期货日线",
+      `${n2(fq.varieties)} 品种 · ${n2(Math.round((fq.rows_total || 0) / 1000))}k 行 · cutoff ${n2(fq.cutoff)}`,
+      fq.status === "bad" ? "bad" : (fq.status === "warn" ? "warn" : "ok"), fq.text));
+  }
+  const mfw = D.data.moneyflow;
+  if (mfw && mfw.present) {
+    rows.push(chainRow("主力资金流",
+      `${n2(mfw.n_symbols)}/${n2(mfw.universe_n)} 只 · ${mfw.complete ? "cutoff " + n2(mfw.cutoff) : "前向采集"}`,
+      mfw.status === "bad" ? "bad" : (mfw.status === "warn" ? "warn" : "ok"), mfw.text));
+  }
+  const h = D.data.heat;
+  if (h && h.present) {
+    rows.push(chainRow("热度链",
+      `L1 ${n2(h.l1_snapshots)} 份 · L2 ${n2(h.l2_done)}/${n2(h.l2_target)} 件 · 拒 ${n2(h.l2_rejects)}`,
+      h.status === "bad" ? "bad" : (h.status === "warn" ? "warn" : "ok"), h.text));
+  }
+  const r = D.data.regime;
+  if (r && r.present) {
+    rows.push(chainRow("行情防线",
+      `${n2(r.state_cn)} · 在态 ${n2(r.days_in_state)} 日 · ${n2(r.mode)}`,
+      (r.state === "ORANGE" || r.state === "RED") ? "warn" : "ok",
+      (r.triggers || []).length ? "触发 " + r.triggers.join("；").slice(0, 16) : "无触发"));
+  }
+  const wm = D.data.watermark;
+  if (wm && wm.present) {
+    const py = (wm.py_tail || []).map(v => fnum(v, 1)).join("→");
+    const np = wm.next_pick;
+    rows.push(chainRow("算力水位",
+      `py ${py}% · 近红 ${n2(wm.red_flags_recent)} · 僵尸清 ${n2((wm.zombies_killed || []).length)}` +
+      (np ? ` · next ${esc(np.lane)}` : ""),
+      wm.red ? "bad" : "ok",
+      wm.red ? "🚩红牌" : (np ? n2(np.status) : "绿")));
+  }
+  const eng = D.data.engine;
+  if (eng && eng.present) {
+    const rowTxt = (eng.rows || []).map(r =>
+      `${esc(r.machine_id)} ${fnum(r.py_cpu_pct, 1)}%${r.engine_alive ? "" : " 💀"}`).join(" · ");
+    rows.push(chainRow("饱和引擎",
+      `${n2(eng.machines_alive)}/${n2(eng.machines_total)} 活 · ${rowTxt}`,
+      eng.machines_alive === eng.machines_total ? "ok" : "warn",
+      (eng.rows || []).map(r => `${esc(r.machine_id)} 队列 ${n2(r.queue_depth)} · 累计 ${n2(r.shards_done_total)} 片`).join("；")));
+  }
+  const ew = D.data.engine_wave;
+  if (ew && ew.present) {
+    const ws = ew.waves || [];
+    const wtxt = ws.map(w => {
+      if (w.finalize_landed) return `W${n2(w.wave)}✓${n2(w.ledger_total)}`;
+      const sd = (w.shards_done == null) ? "—"
+        : `${n2(w.shards_done)}/${n2(w.shards_total == null ? 12 : w.shards_total)}`;
+      return `W${n2(w.wave)} ${sd}片 账待落`;
+    }).join(" · ");
+    const seats = (ew.seats || []).map(s => `W${n2(s.wave)} ${esc(s.machine)}`).join(" · ");
+    const landed = ws.filter(w => w.finalize_landed);
+    const head = landed.length ? landed[landed.length - 1] : null;
+    const sciTxt = head ? ` · mu ${fnum(head.merged_mu, 4)} σ ${fnum(head.merged_sigma, 4)}` : "";
+    const inFlight = ws.some(w => !w.finalize_landed &&
+      (w.shards_done == null || w.shards_total == null || w.shards_done < w.shards_total));
+    const accPending = ws.some(w => !w.finalize_landed && w.shards_done != null &&
+      w.shards_total != null && w.shards_done >= w.shards_total);
+    rows.push(chainRow("N1 波链 · 常供产线",
+      `注册尾 W${n2(ew.last_registered)} · 链头 ${n2(ew.chain_head)} · K ${n2(ew.k)}${sciTxt} · ${wtxt}` +
+      (seats ? ` · 前席 ${seats}` : "") + ` · 下一可席 W${n2(ew.next_seatable)}`,
+      (inFlight || accPending) ? "warn" : "ok",
+      inFlight ? "烧录在飞" : (accPending ? "账待落" : "常供")));
+  }
+  const ff = D.data.fund_family;
+  if (ff && ff.present) {
+    const ftxt = (ff.families || []).map(f => {
+      const cellsDone = (f.cells || []).filter(c => (c.rows || 0) > 0).length;
+      const poolBits = (f.pool || []).map(e => {
+        const st = e.status === "done" ? "✔" : (esc(e.status) || "—");
+        const own = (e.status !== "done" && e.owner) ? "@" + esc(e.owner) : "";
+        return `${esc(e.id)}:${st}${own}`;
+      }).join(" ");
+      return `${esc(f.family)}[${n2(f.prereg_state)}] 判格 ${cellsDone}${(f.cells || []).length ? "/" + (f.cells || []).length : ""}` +
+        (f.nulls_rows ? ` NULLS ${n2(f.nulls_rows)}` : "") +
+        (f.sens_rows ? ` SENS ${n2(f.sens_rows)}` : "") +
+        (f.results_landed ? " 判决✔" : "") +
+        (poolBits ? ` {${poolBits}}` : "");
+    }).join(" · ");
+    const allFam = ff.families || [];
+    const landed = allFam.some(f => f.results_landed);
+    const burning = allFam.some(f => (f.pool || []).some(e => e.status && e.status !== "done"));
+    rows.push(chainRow("基本面族战役",
+      ftxt,
+      landed ? "ok" : (burning ? "warn" : "dim"),
+      landed ? "判决面已落" : (burning ? "烧录在飞" : "排程/前置门")));
+  }
+  const fv = D.data.family_verdicts;
+  if (fv && fv.present) {
+    const vtxt = (fv.verdicts || []).map(v => {
+      let s = esc(v.family);
+      if (v.verdict) s += `[${esc(v.verdict)}]`;
+      if (v.headline_sharpe != null) s += ` S ${fnum(v.headline_sharpe, 3)}`;
+      if (v.dsr != null) s += ` DSR ${fnum(v.dsr, 3)}`;
+      if (v.k_eff != null) s += ` K_eff ${n2(v.k_eff)}`;
+      if (v.members != null) s += ` ${n2(v.members)}员`;
+      if (v.ci95_lb_positive != null) s += ` CI95下界>0 ${n2(v.ci95_lb_positive)}/${n2(v.members || 0)}`;
+      if (v.window_cells != null) s += ` ${n2(v.window_cells)}窗`;
+      if (v.ledger_total != null) s += ` 账 ${n2(v.ledger_total)}`;
+      return s;
+    }).join(" · ");
+    rows.push(chainRow("家族判决图 · 深轴战役",
+      vtxt, "dim", "judged/closed"));
+  }
+  const t = D.data.token;
+  if (t && t.present) {
+    rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">链待产出</div>';
+}
+
+function renderAudit() {
+  const el = document.getElementById("audit");
+  if (!D || !D.fleet || !D.fleet.audit) {
+    el.innerHTML = '<div class="empty">审计待产出</div>'; return;
+  }
+  const a = D.fleet.audit;
+  const flags = (a.flags || []).join(", ");
+  el.innerHTML = `
+    <div class="kv"><span class="k">判定</span><span class="v">${esc(a.verdict)}</span></div>
+    <div class="kv"><span class="k">时刻</span><span class="v">${esc(a.ts)}</span></div>
+    <div class="kv"><span class="k">CPU 总/我方</span><span class="v">${fnum(a.cpu_total_pct, 0)}% / ${fnum(a.py_cpu_pct, 1)}%</span></div>
+    <div class="kv"><span class="k">核 / py 进程</span><span class="v">${n2(a.cores)} / ${n2(a.py_procs)}</span></div>
+    <div class="kv"><span class="k">GPU 利用/占用</span><span class="v">${fnum(a.gpu_util_pct, 0)}% / ${fnum(a.gpu_mem_used_mb, 0)}M</span></div>
+    <div class="kv"><span class="k">僵尸 / 越权</span><span class="v">${n2(a.zombies)} / ${(a.rogue_apps || []).length}</span></div>
+    ${flags ? `<div class="kv" style="color:var(--yellow)"><span class="k">旗</span><span class="v">${esc(flags)}</span></div>` : ""}`;
+}
+
+function renderToken() {
+  const el = document.getElementById("token");
+  if (!D || !D.data || !D.data.token || !D.data.token.present) {
+    el.innerHTML = '<div class="empty">计量待产出</div>'; return;
+  }
+  const t = D.data.token;
+  el.innerHTML = `
+    <div class="kv"><span class="k">状态载入</span><span class="v">${n2(t.state_est)}</span></div>
+    <div class="kv"><span class="k">报告累计</span><span class="v">${n2(t.report_est)}</span></div>
+    <div class="kv"><span class="k">回合增长</span><span class="v">${n2(t.delta_state)}</span></div>
+    <div class="kv"><span class="k">快照</span><span class="v">${esc(t.generated)}</span></div>`;
+}
+
+function renderLog() {
+  const el = document.getElementById("log");
+  if (!D || !D.events || !D.events.length) {
+    el.innerHTML = '<div class="line"><span class="t">[--]</span> <span class="info">事件待产出</span></div>';
+    return;
+  }
+  el.innerHTML = D.events.map(e => `
+    <div class="line"><span class="t">[${esc(hhmm(e.time))}]</span>
+    <span class="info">${esc(e.text)}</span></div>`).join("");
+}
+
+renderHeader(); renderNodes(); renderTickets(); renderCompany(); renderChains();
+renderAudit(); renderToken(); renderLog();
+setInterval(renderHeader, 1000);
+</script>
+
+
+</body></html>
