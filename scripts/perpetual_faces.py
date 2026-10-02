@@ -2304,6 +2304,35 @@ N1_BANDS = {
     # NOT a re-pick (R250: W98 bands were never assigned).
     98: {"a": (239_004, 241_003), "b_exit": (58_201, 58_400),
          "engine_owner": "bm-a"},
+    # EIGHTY-NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r374 bm-c
+    # freeze): engine_owner rows 88 + candidate; bm-c's
+    # twenty-ninth owned per machine-derive (engine_owner==bm-c
+    # rows 28 + candidate). Wave 99 = first free number after the
+    # registered W98 row (SINGLE STATE, zero seat gap; no
+    # published seat to skip). Seat published=reserved
+    # MSG-20261002-1625-bmc pushed to origin fed0b4054 BEFORE
+    # this freeze per r565 early-visibility law.
+    # W94 finalize LANDED at this freeze (landed chain head
+    # 571,348 = W94 bm-a r582 one-pass; K=204,720). FOUR
+    # in-flight upstream seats (W95 bm-b + W96 bm-a + W97 bm-b
+    # + W98 bm-a -- all registered, finalize pending) --
+    # finalize merge loop stays FAIL-CLOSED r307 at run time.
+    # A side ARITHMETIC CONTINUATION from the registered W98
+    # A tail: A 241_004..243_003 CLEAN zero refusal points
+    # (machine-verified at prereg time, ADMIT receipt
+    # results/_r374bmc_w99_band_gate.py rc0 hops 0; live
+    # SEED_REGISTRY + probe cluster 95_000..95_003 r335 leg +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 leg).
+    # B side D-20261002-05 PINNED-SKIP DERIVE: arithmetic window
+    # 58_401..58_600 refused at SEED_REGISTRY in-band values
+    # 58_500 (mf_ic_p1) + 58_550 (sina_construct_p1) -> past-hit
+    # restart per the D-20261002-05 pinned line; first clean
+    # window B 58_551..58_750 (hops=2; ADMIT receipt same).
+    # W100+ projection: A 243_004..245_003 CLEAN; B 58_751..58_950
+    # CLEAN (next freezer must re-derive, never transcribe).
+    # NOT a re-pick (R250: W99 bands were never assigned).
+    99: {"a": (241_004, 243_003), "b_exit": (58_551, 58_750),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
