@@ -2,9 +2,31 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
+ "active": [
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 0,
+   "nshards": 12,
+   "key": "n1w111-0of12",
+   "batch": "PERPETUAL-N1-W111",
+   "pid": 53880,
+   "started_at": "2026-10-02T19:16:04+08:00",
+   "started_epoch": 1790939764,
+   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W111-0.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W111",
+    "prereg": "research/PERPETUAL_N1_W111_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; HUNDRED-AND-FIRST ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 100 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W110 row bm-a r589 freeze ff0b1869b, SINGLE STATE zero seat gap W2..W110 all registered; seat published=reserved MSG-20261002-1911-bmb PUSHED to origin 8088582ba BEFORE this freeze per r565 early-visibility law; pre-seat probe and freeze-window band-gate runs derive identical, no fork face; seat re-landed twice after mid-window origin advances via r585 pure-FF window, first draft never visible), engine_owner=bm-b, wave 111: A = arithmetic continuation from the registered W110 A tail (265_004..267_003 CLEAN hops=0) + B = arithmetic continuation from the registered W110 B tail (61_401..61_600 CLEAN hops=0; ADMIT receipt results/_r589bmb_w111_band_gate.py; W112+ projection: A 267_004..269_003 CLEAN / B 61_601..61_800 CLEAN for the next freezer); W107 finalize LANDED mid-draft-window (chain head 599,948, K=233,320, bm-a r589 one-pass) + THREE in-flight upstream seats W108 bm-c + W109 bm-b + W110 bm-a registered-unfinalized -- finalize merge loop stays FAIL-CLOSED r307 at run time)",
+    "a_seed_base": 265004,
+    "b_exit_seed_base": 61401,
+    "shard_subdir": "n1_w111",
+    "out_name": "n1_w111_results.json",
+    "engine_owner": "bm-b"
+   }
+  }
+ ],
  "ledger_buffer": [],
- "last_flush_at": "2026-10-02T18:07:05+08:00",
+ "last_flush_at": "2026-10-02T18:50:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -15,18 +37,261 @@
   "n1w64-9of12": 1,
   "n1w70-11of12": 1
  },
- "shards_done_total": 489,
- "last_shard_done_at": "2026-10-02T17:53:04+08:00",
+ "shards_done_total": 501,
+ "last_shard_done_at": "2026-10-02T18:36:03+08:00",
  "last_tick": {
-  "ts": "2026-10-02T18:10:05+08:00",
-  "epoch": 1790935802,
-  "py_cpu_pct": 0.2,
-  "ram_free_gb": 4.9428253173828125,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
+  "ts": "2026-10-02T19:16:04+08:00",
+  "epoch": 1790939762,
+  "py_cpu_pct": 0.1,
+  "ram_free_gb": 5.2404937744140625,
+  "verdict": "ignited:n1w111-0of12 pid=53880",
+  "active_n": 1,
+  "queue_depth": 11,
   "elapsed_sec": 2.5
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 1,
+   "nshards": 12,
+   "key": "n1w111-1of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 2,
+   "nshards": 12,
+   "key": "n1w111-2of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 3,
+   "nshards": 12,
+   "key": "n1w111-3of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 4,
+   "nshards": 12,
+   "key": "n1w111-4of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 5,
+   "nshards": 12,
+   "key": "n1w111-5of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 6,
+   "nshards": 12,
+   "key": "n1w111-6of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 7,
+   "nshards": 12,
+   "key": "n1w111-7of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 8,
+   "nshards": 12,
+   "key": "n1w111-8of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w111-9of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w111-10of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 111,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w111-11of12",
+   "batch": "PERPETUAL-N1-W111",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "111",
+    "--workers",
+    "8",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
