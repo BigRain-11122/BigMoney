@@ -236,7 +236,7 @@ assert "81: {\"a\": (205_004" not in out, \
     "leg3 failed: a W81 row ALREADY exists on origin (slot not vacant -- " \
     "r511 tail-lock violation OR seat-declaration collision, abort before push)"
 assert "80: {\"a\": (203_004" in out, \
-    "leg3 failed: the registered W80 row not found on origin blob "
+    "leg3 failed: the registered W80 row not found on origin blob " \
     "(fetch freshness -- re-run after git fetch)"
 
 print("N1_BANDS rows:", len(N1_BANDS), "| SEED_REGISTRY values:",
