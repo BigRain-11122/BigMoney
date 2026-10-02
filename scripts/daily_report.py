@@ -14,6 +14,11 @@ Faces (aggregation ONLY, zero new metrics/judgments invented; missing faces get 
       latest (results/compute_audit.json).
   (c) DECISION: tail of firm/DECISIONS.md (canon T-75).
   (d) TOMORROW: fleet/tasks tickets status open|claimed with owner line.
+  (e) ENGINE-WAVE (r594 bm-b, J10 line): perpetual N1 candidate-production
+      chain face -- chain head / merged-pool K / recent waves / seat state,
+      SINGLE-SOURCE reuse of monitor.build_status._engine_wave_state()
+      (r593 law: N1_BANDS registry + shard products + finalize ledger +
+      seat MSGs; honest degrade, never fabricated, zero re-derivation).
   token line (T-77 slice-d): results/token_usage.json local/api estimates.
 
 Output: docs/daily_report/REPORT-YYYYMMDD.md + REPORT-YYYYMMDD.json (today by wall clock;
@@ -307,6 +312,23 @@ def _core_spread_face(day):
                      "compute_audit parallel_efficiency window merge (r503)"}
 
 
+# ------------------------------------------------ engine-wave face (r594 bm-b)
+def _engine_wave_face():
+    """Perpetual N1 engine-wave chain face (J10 line, r594 bm-b): the main
+    candidate production line wired into the CEO daily report.  SINGLE
+    SOURCE reuse -- monitor.build_status._engine_wave_state() (r593): the
+    derivation reads only N1_BANDS registry + shard products + finalize
+    ledger + seat MSGs.  Missing sources degrade to honest labels."""
+    try:
+        from monitor.build_status import _engine_wave_state
+        st = _engine_wave_state()
+    except Exception:
+        return {"present": False,
+                "note": "常青波链面派生不可用（monitor.build_status 导入失败）"
+                        "——如实标注，禁编数"}
+    return st
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -319,11 +341,13 @@ def build_report(now):
         "token_line": _token_face(),
         "utilization": _utilization_face(now),
         "core_spread": _core_spread_face(now.strftime("%Y-%m-%d")),
+        "engine_wave": _engine_wave_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
                        "O-20260928-1614 sec.6 utilization face (T-107)",
-                       "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)"],
+                       "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)",
+                       "perpetual N1 engine-wave chain face (J10 r593/r594, monitor/build_status._engine_wave_state)"],
     }
 
 
@@ -366,6 +390,24 @@ def render_md(rep):
              f"调研 digest {r.get('digests_landed_24h')} · 预注册/正典触碰 {r.get('prereg_md_touched_24h')}")
     L.append(f"- 在飞批：{'是' if r.get('batch_in_flight') else '否'} · 水位判定 `{r.get('watermark_verdict')}` · "
              f"算力审计 `{json.dumps(r.get('compute_audit_latest'), ensure_ascii=False)[:160]}`")
+    ew = rep.get("engine_wave") or {}
+    if ew.get("present"):
+        waves = " | ".join(
+            "W{w} {o} {d}/{t} {fin}".format(
+                w=w.get("wave"), o=w.get("owner") or "?",
+                d=w.get("shards_done") if w.get("shards_done") is not None else "?",
+                t=w.get("shards_total") if w.get("shards_total") is not None else "?",
+                fin="账落" if w.get("finalize_landed") else "账待落")
+            for w in (ew.get("waves") or [])) or "（零注册波，如实标注）"
+        seats = "、".join("W{s}（{m}）".format(s=s.get("wave"), m=s.get("machine"))
+                         for s in (ew.get("seats") or [])) or "无"
+        L.append(f"- **候选产线 · 常青 N1 波链**：链头 {ew.get('chain_head')} runs · "
+                 f"合并池 K {ew.get('k')} · 注册尾 W{ew.get('last_registered')}"
+                 f"（{ew.get('last_owner')}）· 下一注册 W{ew.get('next_registration')}")
+        L.append(f"  - 近波：{waves}")
+        L.append(f"  - 席位：已占席 {seats} · 下一可席 W{ew.get('next_seatable')}")
+    else:
+        L.append(f"- 候选产线 · 常青 N1 波链：{ew.get('note') or '面未产出——如实标注'}")
     L.append("")
     L.append("## 四、决策面（今日 GM 自主决策日志尾）")
     for ln in rep.get("decisions_tail", []):
@@ -435,7 +477,7 @@ def run():
 def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
-    global _utilization_face, _live_face, _core_spread_face
+    global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -487,6 +529,22 @@ def selftest():
                                                "audit_batches": 0,
                                                "audit_ts": None}}},
         "canon": "T-134 s4"}
+    _engine_wave_face = lambda: {
+        "present": True, "last_registered": 113, "last_owner": "bm-c",
+        "next_registration": 114, "next_seatable": 115,
+        "chain_head": 610948, "k": 244320,
+        "waves": [{"wave": 111, "owner": "bm-b", "a": None, "b_exit": None,
+                   "shards_done": 12, "shards_total": 12,
+                   "finalize_landed": True, "ledger_total": 610348,
+                   "merged_mu": -0.0927, "merged_sigma": 0.2448, "k": 244200},
+                  {"wave": 112, "owner": "bm-a", "a": None, "b_exit": None,
+                   "shards_done": 12, "shards_total": 12,
+                   "finalize_landed": True, "ledger_total": 610948,
+                   "merged_mu": -0.0928, "merged_sigma": 0.2449, "k": 244320},
+                  {"wave": 113, "owner": "bm-c", "a": None, "b_exit": None,
+                   "shards_done": 12, "shards_total": 12,
+                   "finalize_landed": False}],
+        "seats": [{"wave": 114, "machine": "bm-a"}]}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -495,7 +553,11 @@ def selftest():
                    "实盘一页纸直达", "核分布/并行效率三机对照（T-134 s4",
                    "有效核 5.5", "单核红牌 1", "有效核 N/A",
                    "当日零发射·采样器健康（近60min窗 0 批）",
-                   "采样器读出不可用（compute_audit 面如实标注）"):
+                   "采样器读出不可用（compute_audit 面如实标注）",
+                   "候选产线 · 常青 N1 波链", "链头 610948 runs",
+                   "合并池 K 244320", "注册尾 W113（bm-c）",
+                   "W111 bm-b 12/12 账落", "W113 bm-c 12/12 账待落",
+                   "已占席 W114（bm-a）", "下一可席 W115"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"

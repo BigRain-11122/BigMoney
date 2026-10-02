@@ -1,0 +1,44 @@
+100 lines, 43 kept
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 324 entries, streak 38/3, cutoff 2026-10-01 14:14:14)
+LEG pool_dualrun_reconcile rc=0
+{"ts": "2026-10-02 20:47:42", "audit_version": "v2.4.2", "cpu_total_pct": 26.0, "py_cpu_pct": 1.1, "cores": 16, "py_procs": 19, "result_stale_min": 0.5, "fleet_open_tasks
+LEG compute_audit rc=0
+{"ts": "2026-10-02 20:47:48", "epoch": 1790945263.0, "machine": "bm-b", "cpu_total_pct": 16.0, "cores": 16, "py_cpu_pct": 0.4, "py_procs": 19, "top_proc_cores": 0.04, "lo
+LEG py_watermark rc=0
+LEG update_daily rc=0
+LEG market_regime rc=0
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 51min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+LEG strategy_scorecard rc=0
+LEG market_clock_call rc=0
+LEG update_lhb rc=0
+no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+LEG update_heat rc=0
+LEG update_futures rc=0
+LEG update_repo rc=0
+LEG update_options rc=0
+LEG update_moneyflow rc=0
+LEG update_sina_mf rc=0
+LEG update_astock_daily rc=0
+LEG update_etf_daily rc=0
+LEG rev_osc_signal_export rc=0
+LEG update_minute_feed rc=0
+LEG update_ths_panel rc=0
+LEG ah_panel_puller rc=0
+LEG update_fund_premium rc=0
+snapshot fresh (8.3h < 24h) -> skip
+LEG update_fundamental rc=0
+verdict -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+LEG b_layer_filter rc=0
+LEG aggressive_lab rc=0
+LEG alloc_paper rc=0
+LEG grid_paper rc=0
+LEG system_v1_paper rc=0
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 52min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+LEG t35_paper_export rc=0
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 52min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+LEG daily_scorecard rc=0
+LEG daily_report rc=0
+LEG ceo_live_usage rc=0
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 52min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+LEG build_status rc=0
+LEG token_meter rc=0
