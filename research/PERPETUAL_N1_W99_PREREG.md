@@ -61,12 +61,19 @@
 - 引擎台账：bm-c 常驻架构=engine ledger jsonl+state/face/history 从 git 交付（W14/W17/W20/W23/W26/W29/W32/W37/W39/W41/W42/W43/W46/W50/W51/W52/W53/W58/W60/W63/W66/W69/W71/W78/W80/W83/W88/W92 实况范式）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r374 冻结占位·r376 finalize 收口机械回填】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-c 常驻引擎烧毕（r374 冻结 commit 后 mtime-reload v0.4 自燃·r330 登记三动作律·产品 12/12 r375 已交付 origin=r310 完备性门实核）；finalize one-pass（r538 律·首跑禁重跑·r376 首跑=唯一一跑·n1 selftest 缺省波调用 PASS=r522 律）。
+- ledger：prev_total 580,148（W98 bm-a r584 落账解锁·链序 W94 571,348→W95 573,548→W96 575,748→W97 577,948 bm-b→W98 580,148 bm-a）+ batch_trials 2,200 = **582,348**；voids_applied=LOWAMP-P1/P2。
+- w99-only：n=2,200·mu=−0.0814357·sigma=0.2440506；merged：n=215,720·mu=−0.0928289·sigma=0.2449232（§0「215,720 投影」逐位吻合·机械算 204,720+11,000）；mu_delta_w99_vs_w98ext=+0.023258。
+- skill_line_v2 @n_eff_held 580,148：1.1689→**1.169**（K-lift delta +0.0001≤0.02 门内·正负交替如实报〔W95 +0.0000→W96 +0.0001→W97 +0.0003→W98 +0.0000→W99 +0.0001〕）；se_mu @K215,720=0.000527（收窄链：W95 0.000538→W97 0.000533→W98 0.000530→W99 0.000527）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过：|Δmu|=0.0113<0.02（冻结锚=W94 merged −0.0927586·W99-only −0.0814357——单波偏离面如实报·门内）；σ 变化 +0.05%<±10%（键 0.2447998·本波 merged 0.2449232）；A 档 p95 差 0.0114<0.05（锚 0.3148·本波 0.3262）；K-lift +0.0001≥−0.02。产物 results/perpetual_faces/n1_w99_results.json（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit.machine=bm-c·shards_consumed 12）。
 
-## §8 批后复盘。【必填·终 7-T】
+## §8 批后复盘。【r376 补全】
 
-- （finalize 落账后机械回填）
+- 测量加深面闭环：第 89 枚引擎波（机面计数）·bm-c 第 29 枚自有引擎波·N1 累计池 K 215,720（canon 120+W1..W99 全落账）；零注册宣称·零候选池污染·账本链性 580,148→582,348 无跳号。
+- 链序实况：冻结窗（r374）四在飞上游席（W95/W96/W97/W98）——finalize 收口窗（r376）实况=四席全落账（W95 bm-b r582→W96 bm-a r583→W97 bm-b r583→W98 bm-a r584）→本波 W99 one-pass 落账=五连收口；r307 两态律跑时复核通过（pre-W99 K=213,520 与 W98 merged 逐位吻合=链连续性实证）·零改判据。
+- 供给面：本波 finalize 解锁 W100 bm-b finalize 链序（12/12 烧毕 finalize-pending）；同窗在飞=W101 bm-a（烧毕候链序）+W102 bm-c（本机·12/12 烧毕候 W100/W101）+W103 bm-b（r584 冻结·bm-b 引擎自燃中）照录。
+- 出场轴=template_default 按设计测③（测量判等 null 基线腿·非判决面非宣称面）；DATA_GAP 不涉；evidence_cutoff=2026-09-22 同窗律全程未漂。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
