@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 11:21:32",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W8-SHARD-3",
-   "shard": "n1w8-3of12",
-   "pid": 4308,
-   "runner_sha256": "92281777984b98f7",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": 9.4,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 3,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 11:22:20",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -893,7 +875,8 @@
    "fill_latency_min": 0.2,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 2
+   "saturation_launches": 2,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-02 23:23:30",
@@ -911,25 +894,42 @@
    "fullburn_window": true,
    "target_met": true,
    "saturation_launches": 3
+  },
+  {
+   "ts": "2026-10-02 23:24:21",
+   "machine": "bm-a",
+   "py_cpu_pct": 37.7,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "LOWAMP-DEEP-P1-CELL-LADREP-DEEP-X2",
+   "shard": "lowamp-deep-p1-cell-ladrep-deep-x2-0of1",
+   "pid": 67236,
+   "runner_sha256": "45a87607fdcc6ee0",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 0.3,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 4
   }
  ],
  "last_tick": {
-  "ts": "2026-10-02 23:23:30",
+  "ts": "2026-10-02 23:24:21",
   "machine": "bm-a",
-  "py_cpu_pct": 38.0,
+  "py_cpu_pct": 37.7,
   "harvest_flipped": 1,
   "verdict": "launched",
-  "entry": "LOWAMP-DEEP-P1-CELL-LADREP-DEEP-BASE",
-  "shard": "lowamp-deep-p1-cell-ladrep-deep-base-0of1",
-  "pid": 70208,
+  "entry": "LOWAMP-DEEP-P1-CELL-LADREP-DEEP-X2",
+  "shard": "lowamp-deep-p1-cell-ladrep-deep-x2-0of1",
+  "pid": 67236,
   "runner_sha256": "45a87607fdcc6ee0",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
   "fill_latency_min": 0.3,
   "fullburn_window": true,
   "target_met": true,
-  "saturation_launches": 3
+  "saturation_launches": 4
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-02T23:22:54+08:00"
+ "core_samples_seen": "2026-10-02T23:23:40+08:00"
 }
