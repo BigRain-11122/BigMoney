@@ -7,7 +7,7 @@
 
 - 批名/批号：**FUND-VALUE-P1**。**N_eff=2,004**＝judged cells 4（2 排序规则 × 2 成本面 x1/x2）＋same-mask 随机 null 2,000；sensitivity Sobol 腿=描述面**不计 N_eff**（§3）。扩容即买单。
 - 认领（F-04 先行）：fleet/inbox/ **MSG-2026-10-02-2230-bma-ALL-fund-value-p1.md**（本批开工声明＋价值面 TRANSFER 请求数据车道件）＋本票 T-2026-10-02-145 leg(c) 引用＋TRANSFER 票 **T-2026-10-02-149**（bm-c→bm-a·type=transfer）。
-- 算力预算：**长活入池**（>5min 一律 runnable_pool·O-20260924-2100 s2）——池单元=4 cell-face（VALUE-PE-x1/x2·VALUE-PB-x1/x2，每单元=401 起点全窗）＋NULLS（2,000 draws·checkpoint）＋SENS（500 draws）共 **6 池条目**；workers_plan={"workers": 12, "priority": "BelowNormal"}（CEO 10% CPU 余量令）；checkpoint 逐单元 JSONL done-key skip；**点火前置门（fail-closed 全链）**：①价值面 TRANSFER 落位（§2）②D6 同族相关性 probe ③数据完备 probe——三门全绿才入池点火；批报告必带 audit 段。
+- 算力预算：**长活入池**（>5min 一律 runnable_pool·O-20260924-2100 s2）——池单元=4 cell-face（VALUE-PE-x1/x2·VALUE-PB-x1/x2，每单元=401 起点全窗）＋NULLS（2,000 draws·checkpoint）＋SENS（500 draws）共 **6 池条目**；workers_plan={"workers": 32, "priority": "BelowNormal"}（CEO 10% CPU 余量令=优先级面；worker 数=本机核数 bm-a 32 per O-20261002-2158 宽度律【2026-10-02 r597 bm-a 修正窗：12→32 升格对齐，未点火零格已烧，冻结件对齐核查律 T-90 同法】）；checkpoint 逐单元 JSONL done-key skip；**点火前置门（fail-closed 全链）**：①价值面 TRANSFER 落位（§2）②D6 同族相关性 probe ③数据完备 probe——三门全绿才入池点火；批报告必带 audit 段。
 - 账本面：finalize 步 `science_gates.append_ledger(batch_name="FUND-VALUE-P1", batch_trials=2004, file_name="results/fund_value_p1/fund_value_p1_results.json", evidence_cutoff="2026-09-22")`（dict schema 唯一禁手抄 prev·r509 序律：块持久化进产物件后才写 guard）。
 
 ## §0.5 禁开方向硬闸【必填·跑前·D-20260930-41 §1.2】

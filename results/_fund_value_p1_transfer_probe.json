@@ -1,0 +1,81 @@
+{
+ "probe": "FUND-VALUE-P1 ignition data-side probes",
+ "generated": "2026-10-02T23:51:57+08:00",
+ "machine": "bm-a",
+ "panel": {
+  "n_bars": 8792,
+  "n_syms_panel": 5222,
+  "first": "1990-12-19",
+  "last": "2026-09-22",
+  "ok_universe": 5130
+ },
+ "value_face": {
+  "rows": 4133848,
+  "n_symbols": 5224,
+  "n_symbols_in_panel_universe": 5222,
+  "anchor_median": 693.5,
+  "anchor_p10": 605.0,
+  "date_min": "1991-03-18",
+  "date_max": "2026-10-01",
+  "dup_dates_any": false,
+  "monotonic_all": true
+ },
+ "start_census": {
+  "months_in_window": 403,
+  "eligible_starts": 401,
+  "expected": 401
+ },
+ "coverage": {
+  "first_signal_date_t0": 19940503,
+  "months_evaluated": 401,
+  "months_below_floor_after_t0": [],
+  "n_below_after_t0": 0,
+  "cov_median": 0.9851,
+  "cov_min": 0.4565,
+  "cov_min_after_t0": 0.8125,
+  "elig_ratio_median_after_t0": 0.808,
+  "worst_five": [
+   {
+    "t": 19930301,
+    "n_active": 46,
+    "n_cov": 21,
+    "cov_ratio": 0.4565,
+    "elig_ratio": 0.3043
+   },
+   {
+    "t": 19930201,
+    "n_active": 44,
+    "n_cov": 21,
+    "cov_ratio": 0.4773,
+    "elig_ratio": 0.3182
+   },
+   {
+    "t": 19921201,
+    "n_active": 36,
+    "n_cov": 18,
+    "cov_ratio": 0.5,
+    "elig_ratio": 0.4722
+   },
+   {
+    "t": 19930401,
+    "n_active": 53,
+    "n_cov": 27,
+    "cov_ratio": 0.5094,
+    "elig_ratio": 0.4151
+   },
+   {
+    "t": 19921102,
+    "n_active": 31,
+    "n_cov": 18,
+    "cov_ratio": 0.5806,
+    "elig_ratio": 0.4839
+   }
+  ]
+ },
+ "gates": {
+  "leg1_price_panel": true,
+  "leg2_transfer_export": true,
+  "leg3_monthly_coverage": true
+ },
+ "verdict": "GREEN"
+}
