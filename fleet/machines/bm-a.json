@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-02T08:56:59+08:00",
-  "current_task": "W64 frozen+ignited, W62 finalize landed (bm-c closeout), W63 yielded",
+  "last_seen": "2026-10-02T09:49:31+08:00",
+  "current_task": "W64 finalize landed + W68 freeze/ignition; W68 burn in flight 5/12",
   "cpu_cores": 32,
-  "cpu_pct": 0.0,
-  "free_ram_gb": 52.4,
+  "cpu_pct": 14.0,
+  "free_ram_gb": 52.5,
   "gpu_free_vram_gb": 5.7,
-  "verdict": "r565: W61 same-band yield (pure, FIX-A pre-edit catch) + W62 freeze+burn in flight + S6 green; engine saturated (own-series W62 queue)",
+  "verdict": "loaded_ok: W68 engine burn active (5/12 shards, tick ~1/min); pool_starvation flag = engine-lane-active + holiday board-clear, legal idle per SATURATION_ENGINE_LAW sec.1/2",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -152,12 +152,12 @@
     "O-20261001-2355-bm-c.md",
     "O-20261002-0040-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790902619,
-  "clock_read": "2026-10-02T08:56:59+08:00",
+  "heartbeat_epoch_utc": 1790905765,
+  "clock_read": "2026-10-02T09:49:25+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5619,
   "gpu_idle_vram_gb": 8,
-  "task": "r559 W54 freeze+burn (43rd engine wave, bm-a 13th owned; A 151_004..153_003 / B 46_601..46_800 both arithmetic continuation, ADMIT, three-machine cross-validated)",
+  "task": "W64 finalize landed + W68 freeze/ignition; W68 burn in flight 5/12",
   "total_ram_gb": 93.6,
   "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
   "prod_lanes": [
@@ -167,17 +167,17 @@
     "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
   ],
   "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
-  "round_no": 565,
+  "round_no": 568,
   "gpu_total_vram_mb": 12282,
-  "cpu_util_pct": 0.0,
-  "round": 537,
-  "loop_round": 516,
+  "cpu_util_pct": 14.0,
+  "round": 568,
+  "loop_round": 568,
   "gpu0_free_vram_gb": 5.49,
   "gpu_free_vram_mib": 5619,
   "notes": "r531: W18 freeze adopted from r530 crash (ADMIT re-verified); W18xW19 same-window collision resolved by CONSTRUCTIVE merge (bands disjoint, both stand)",
   "gpu_idle_vram_mb": 5430,
-  "ram_free_gb": 52.4,
+  "ram_free_gb": 52.5,
   "idle_ram_mb": 57450,
-  "last_round": 537,
-  "idle_ram_gb": 22
+  "last_round": 568,
+  "idle_ram_gb": 52.5
 }
