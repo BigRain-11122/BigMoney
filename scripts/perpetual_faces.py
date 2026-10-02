@@ -1426,6 +1426,35 @@ N1_BANDS = {
     # W68 bands were never assigned).
     68: {"a": (179_004, 181_003), "b_exit": (50_501, 50_700),
          "engine_owner": "bm-a"},
+    # FIFTY-EIGHTH ENGINE-OWNED WAVE (r360 bm-c freeze): bm-c's
+    # TWENTY-SECOND owned per machine-derive (engine_owner==bm-c
+    # rows 21 + candidate). Wave 69 = first free number after the
+    # registered W68 row (seat published=reserved
+    # MSG-20261002-1015-bmc, r518-1 law; same-window re-occupation
+    # after the W68 yield to bm-a r568 938d8bb54 first-land per
+    # r511 commit-order law -- my unpushed freeze 6e8a454b2 fully
+    # discarded, alien-seed B-band replicas (9 shards,
+    # audit.machine=bm-c verified) all discarded, finalize never
+    # ran = zero ledger pollution, r565 re-occupation law).
+    # W1..W66 finalizes ALL LANDED (net head 509,748, K=143,120,
+    # bm-c r360 same window); W67 bm-b (burn in flight) + W68 bm-a
+    # (burn in flight) = TWO in-flight upstream seats at this
+    # freeze (finalize chain-pending FAIL-CLOSED r307). BOTH
+    # SIDES ARITHMETIC CONTINUATION from the W68 row tail, no
+    # skip: A 181_004..183_003 (= W68 A end 181_003 + 1) and B
+    # 50_701..50_900 (= W68 B end 50_700 + 1) -- both windows
+    # CLEAN per the W68 row W69+ WARNING projections (bm-a r568
+    # probe + this freeze's machine re-derive, r535 law).
+    # Machine-verified at prereg time
+    # (results/_r360bmc_w69_probe.py draft derive +
+    # results/_r360bmc_w69_band_gate.py ADMIT receipt vs the
+    # 67-row pre-W69 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W69
+    # bands were never assigned).
+    69: {"a": (181_004, 183_003), "b_exit": (50_701, 50_900),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
