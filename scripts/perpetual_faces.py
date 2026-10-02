@@ -1608,6 +1608,29 @@ N1_BANDS = {
     # W75 bands were never assigned).
     75: {"a": (193_004, 195_003), "b_exit": (52_201, 52_400),
          "engine_owner": "bm-a"},
+    # SIXTY-FIFTH ENGINE-OWNED WAVE (r572 bm-b freeze): bm-b's
+    # TWENTY-FIFTH owned per machine-derive (engine_owner==bm-b
+    # rows 24 + candidate). Wave 76 = next free number after the
+    # registered W75 row (seat declared published=reserved
+    # MSG-20261002-1130-bmb, r518-1 law; never-dry standing step
+    # under CEO de-throttle order O-20261001-2355 sec.2).
+    # W1..W74 finalizes ALL LANDED (net head 527,348, K=160,720,
+    # bm-b r572); W75 bm-a (burn in flight, finalize pending) =
+    # ONE in-flight upstream seat at this freeze (FAIL-CLOSED
+    # r307).
+    # BOTH SIDES ARITHMETIC CONTINUATION from the W75 row tail,
+    # zero skip: A 195_004..197_003 (= W75 A end 195_003 + 1),
+    # B 52_401..52_600 (= W75 B end 52_400 + 1); single reading,
+    # no fork face (F-20261002-03 not triggered).
+    # Machine-verified at prereg time
+    # (results/_r572bmb_w76_band_gate.py ADMIT receipt vs the
+    # 73-row pre-W76 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W76
+    # bands were never assigned).
+    76: {"a": (195_004, 197_003), "b_exit": (52_401, 52_600),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
