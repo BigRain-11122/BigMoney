@@ -6,14 +6,14 @@
   {
    "face": "N1",
    "wave": 73,
-   "shard": 10,
+   "shard": 11,
    "nshards": 12,
-   "key": "n1w73-10of12",
+   "key": "n1w73-11of12",
    "batch": "PERPETUAL-N1-W73",
-   "pid": 25512,
-   "started_at": "2026-10-02T10:48:04+08:00",
-   "started_epoch": 1790909284,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W73-10.log",
+   "pid": 67988,
+   "started_at": "2026-10-02T10:49:04+08:00",
+   "started_epoch": 1790909344,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W73-11.log",
    "cfg": {
     "batch": "PERPETUAL-N1-W73",
     "prereg": "research/PERPETUAL_N1_W73_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; SIXTY-SECOND ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W72 row; seat published=reserved MSG-20261002-1036-bma; r565 yield-then-reoccupy after the W72 same-window collision yielded to bm-b c7babddec first-land per r511 commit-order -- zero ignition zero push, bitwise-identical ADMIT receipt = r530 family 9th deterministic cross-validation), engine_owner=bm-a, wave 73 BOTH SIDES ARITHMETIC CONTINUATION no skip (A 189_004..191_003 / B 51_601..51_800 machine-derived CLEAN == the W72 row W73+ WARNING projection verbatim, dual-machine cross-check per r302/r535 law; single reading no divergence face); W1..W70 finalizes ALL LANDED at this freeze (net chain head 518,548, K=151,920, bm-b r570), W71 bm-c + W72 bm-b = TWO in-flight upstream seats (finalize chain-pending FAIL-CLOSED r307)",
@@ -25,46 +25,38 @@
    }
   }
  ],
- "ledger_buffer": [],
+ "ledger_buffer": [
+  {
+   "machine_id": "bm-a",
+   "face": "N1",
+   "wave": 73,
+   "batch": "PERPETUAL-N1-W73",
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w73-10of12",
+   "pid": 25512,
+   "started_at": "2026-10-02T10:48:04+08:00",
+   "done_at": "2026-10-02T10:49:04+08:00",
+   "done_epoch": 1790909342,
+   "elapsed_sec": 58.5
+  }
+ ],
  "last_flush_at": "2026-10-02T10:48:04+08:00",
  "crashes": {
   "n1w47-8of12": 1
  },
- "shards_done_total": 240,
- "last_shard_done_at": "2026-10-02T10:48:04+08:00",
+ "shards_done_total": 241,
+ "last_shard_done_at": "2026-10-02T10:49:04+08:00",
  "last_tick": {
-  "ts": "2026-10-02T10:48:04+08:00",
-  "epoch": 1790909282,
-  "py_cpu_pct": 1.1,
-  "ram_free_gb": 59.48170852661133,
-  "verdict": "ignited:n1w73-10of12 pid=25512 ledger_flush=3",
+  "ts": "2026-10-02T10:49:04+08:00",
+  "epoch": 1790909342,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 58.936649322509766,
+  "verdict": "ignited:n1w73-11of12 pid=67988",
   "active_n": 1,
-  "queue_depth": 1,
+  "queue_depth": 0,
   "elapsed_sec": 2.2
  },
  "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 73,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w73-11of12",
-   "batch": "PERPETUAL-N1-W73",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "73",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  }
- ]
+ "queue": []
 }
