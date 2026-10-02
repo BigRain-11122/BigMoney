@@ -26,6 +26,18 @@ POLICY (fail-closed): deletions = files present in the OLD tree
     VIOLATION = push forbidden. Escape hatch: git push --no-verify
     (state the reason in the round report).
 
+POOL GATE (MSG-2026-10-03-0612 proposal-2, bm-b fleet proposal; live
+fire = bm-a r609 db66e6c45 reland ring replayed a pre-ring S6 settle
+snapshot of results/runnable_pool.json over a fresher base, rolling
+shard owner_since 05:48:07 -> 05:28:07 and opening a 7.6min
+takeover-eval window): the second leg refuses any push whose shared
+pool shard owner_since goes BACKWARD between the remote tip and the
+tip being pushed. Forward moves, new shards, shard removals, and a
+pool face absent from either tree all pass; an unparseable pool blob
+on a tree that carries it fails closed (same philosophy as the
+deletion leg). Single source here; pre-push hook and daemon belts
+inherit via check-push/check_push.
+
 Exit codes: 0 normal, 1 violations (check-push), 2 mechanism fault.
 Hermetic selftest: `python Tools/git_claw.py selftest` (temp repos,
 real git binary, zero company-repo/network surface, r117 law).
@@ -40,6 +52,9 @@ import tempfile
 # r516 law: inbox -> processed archive moves are the only no-owner
 # deletion pattern with standing fleet precedent (r366 fixup face).
 ALLOW_PREFIXES = ("fleet/inbox/",)
+
+# Shared pool face gated by the MSG-2026-10-03-0612 proposal-2 leg.
+POOL_PATH = "results/runnable_pool.json"
 
 _ZERO = "0" * 40
 _NO_WINDOW = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW
@@ -155,13 +170,97 @@ def staged_paths(repo):
             for l in (r.stdout or b"").splitlines() if l.strip()]
 
 
+def _norm_ts(ts):
+    """owner_since face normalization: ' ' and 'T' separators both in
+    the wild (lane faces vs shared face writers) -> unify before the
+    lexicographic compare so equal stamps compare equal."""
+    return str(ts).strip().replace(" ", "T")
+
+
+def _pool_owner_since_map(sha, repo):
+    """{entry_id|shard_key: owner_since} for one tree sha.
+    None = pool face absent from that tree (nothing to gate).
+    r369 racing-window law: fetch-once-retry before judging rc!=0;
+    after the retry, 'does not exist' -> absent, anything else ->
+    unreadable = raise (fail-closed)."""
+    r = _git(["show", "%s:%s" % (sha, POOL_PATH)], repo)
+    if r.returncode != 0:
+        _git(["fetch", "origin"], repo)          # best-effort bring-in
+        r = _git(["show", "%s:%s" % (sha, POOL_PATH)], repo)
+    if r.returncode != 0:
+        err = (r.stderr or b"").decode("utf-8", errors="replace")
+        # two Windows git faces for the same fact (path absent from the
+        # tree): "path 'X' does not exist in 'sha'" (file also absent on
+        # disk) vs "path 'X' exists on disk, but not in 'sha'" (file on
+        # disk, absent from tree) -- both mean ABSENT, not unreadable.
+        if "does not exist" in err or "but not in" in err:
+            return None
+        raise RuntimeError("pool blob unreadable rc=%d %s" % (
+            r.returncode, err[:120]))
+    try:
+        d = json.loads((r.stdout or b"").decode("utf-8", errors="replace"))
+    except Exception:
+        raise RuntimeError("pool blob unparseable (fail-closed)")
+    ents = d.get("entries") if isinstance(d, dict) else d
+    if not isinstance(ents, list):
+        raise RuntimeError("pool blob shape unexpected (fail-closed)")
+    out = {}
+    for e in ents:
+        if not isinstance(e, dict):
+            raise RuntimeError("pool entry non-dict (fail-closed)")
+        eid = str(e.get("id"))
+        shards = e.get("shards")
+        if shards is None:
+            continue
+        if not isinstance(shards, list):
+            raise RuntimeError("pool shards non-list (fail-closed)")
+        for s in shards:
+            if not isinstance(s, dict):
+                raise RuntimeError("pool shard non-dict (fail-closed)")
+            if s.get("owner_since"):
+                out[eid + "|" + str(s.get("key"))] = str(s["owner_since"])
+    return out
+
+
+def pool_claim_regressions(old_sha, new_sha, repo):
+    """MSG-2026-10-03-0612 proposal-2: shared-pool shard owner_since
+    monotonicity. Any shard present in both trees whose owner_since
+    moves BACKWARD between remote tip and pushed tip = violation
+    (reland-ring whole-file replay family). Forward/new/removed
+    shards pass; pool absent from either tree passes."""
+    try:
+        old_map = _pool_owner_since_map(old_sha, repo)
+        new_map = _pool_owner_since_map(new_sha, repo)
+    except Exception as exc:
+        return [{"shard": "<pool-blob>",
+                 "reason": "unreadable: %r" % (exc,)}]
+    if not old_map or not new_map:
+        return []
+    out = []
+    for k, new_ts in new_map.items():
+        old_ts = old_map.get(k)
+        if old_ts and _norm_ts(new_ts) < _norm_ts(old_ts):
+            out.append({"shard": k, "reason":
+                        "owner_since %s -> %s (backward, ring-replay "
+                        "family, MSG-0612)" % (old_ts, new_ts)})
+    return out
+
+
 def check_push(old_sha, new_sha, repo=None):
-    viol = deletion_violations(old_sha, new_sha, repo or os.getcwd())
-    if viol:
+    repo = repo or os.getcwd()
+    viol = deletion_violations(old_sha, new_sha, repo)
+    pool_viol = pool_claim_regressions(old_sha, new_sha, repo)
+    if viol or pool_viol:
         print("PRE-PUSH CLAW: deletion set carries non-self-owned files "
               "(D-20261002-04, r519 family). Push FORBIDDEN.")
         for v in viol[:10]:
             print("  D %s -- %s" % (v["path"], v["reason"]))
+        if pool_viol:
+            print("PRE-PUSH CLAW: shared-pool shard owner_since went "
+                  "BACKWARD (MSG-2026-10-03-0612 proposal-2, ring-replay "
+                  "family). Push FORBIDDEN.")
+            for v in pool_viol[:10]:
+                print("  POOL %s -- %s" % (v["shard"], v["reason"]))
         print("Escape hatch: git push --no-verify (state the reason in "
               "the round report).")
         return 1
@@ -254,6 +353,62 @@ def selftest():
         # new-branch face (old = zeros) = nothing to compare -> pass
         leg("new-branch zero-base pass",
             deletion_violations(_ZERO, "HEAD", repo, mid="bm-z") == [])
+
+        # ---- MSG-0612 proposal-2: pool claim monotonicity legs ----
+        def _tip():
+            return _git(["rev-parse", "HEAD"], repo).stdout.decode().strip()
+
+        def _commit_pool(text, msg):
+            fp = os.path.join(repo, *POOL_PATH.split("/"))
+            os.makedirs(os.path.dirname(fp), exist_ok=True)
+            with open(fp, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            _git(["add", POOL_PATH], repo)
+            _git(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", msg], repo)
+
+        def _pool_json(s1, extra=None):
+            e = {"id": "E1", "shards": [
+                {"key": "S1", "owner": "bm-z", "owner_since": s1,
+                 "status": "claimed"}]}
+            if extra:
+                e["shards"].append(extra)
+            return json.dumps({"version": "test", "entries": [e]})
+
+        pre_pool_tip = _tip()
+        _commit_pool(_pool_json("2026-10-03 10:00:00"), "pool1")
+        p1 = _tip()
+        leg("pool absent from old tree passes",
+            pool_claim_regressions(pre_pool_tip, p1, repo) == [])
+        _commit_pool(_pool_json("2026-10-03 10:20:00",
+                                {"key": "S2", "owner": "bm-z",
+                                 "owner_since": "2026-10-03 10:00:00",
+                                 "status": "claimed"}), "pool2")
+        p2 = _tip()
+        leg("forward move + new shard passes",
+            pool_claim_regressions(p1, p2, repo) == [])
+        _commit_pool(_pool_json("2026-10-03 10:05:00"), "pool3")
+        p3 = _tip()
+        rv = pool_claim_regressions(p2, p3, repo)
+        leg("backward owner_since blocked",
+            len(rv) == 1 and rv[0]["shard"] == "E1|S1"
+            and "backward" in rv[0]["reason"])
+        _commit_pool("{ not json", "pool4")
+        p4 = _tip()
+        leg("unparseable pool blob fails closed",
+            len(pool_claim_regressions(p3, p4, repo)) == 1)
+        _commit_pool(_pool_json("2026-10-03 10:20:00"), "pool5")
+        p5 = _tip()
+        leg("pool restored forward passes",
+            pool_claim_regressions(p3, p5, repo) == [])
+        _commit_pool(_pool_json("2026-10-03T10:20:00"), "pool6")
+        p6 = _tip()
+        leg("mixed-separator equal stamps pass (norm)",
+            pool_claim_regressions(p5, p6, repo) == [])
+        leg("CLI check-push pool regression blocks (rc 1)",
+            check_push(p2, p3, repo) == 1)
+        leg("CLI check-push pool forward passes (rc 0)",
+            check_push(p1, p2, repo) == 0)
 
     # machine.json reader on the real tree (read-only environment fact)
     mid = machine_id(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
