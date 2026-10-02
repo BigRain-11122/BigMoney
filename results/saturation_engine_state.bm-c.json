@@ -110,8 +110,9 @@
   "100": 12,
   "101": 12,
   "102": 12,
-  "103": 8,
-  "105": 9
+  "103": 12,
+  "104": 0,
+  "105": 12
  },
  "wave_complete_flags": [
   2,
@@ -213,34 +214,11 @@
   99,
   100,
   101,
-  102
+  102,
+  103,
+  105
  ],
- "queue_next": [
-  {
-   "face": "N1",
-   "wave": 105,
-   "shard": 7,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 105,
-   "shard": 9,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
-  {
-   "face": "N1",
-   "wave": 105,
-   "shard": 10,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  }
- ],
+ "queue_next": [],
  "ignitions": [
   {
    "wave": 58,
@@ -1643,32 +1621,13 @@
    "primary": false
   }
  ],
- "burns_active": [
-  {
-   "wave": 105,
-   "shard": 7,
-   "pid": 29932,
-   "adopted": false
-  },
-  {
-   "wave": 105,
-   "shard": 9,
-   "pid": 40964,
-   "adopted": false
-  },
-  {
-   "wave": 105,
-   "shard": 10,
-   "pid": 17436,
-   "adopted": false
-  }
- ],
- "cycle": 365,
- "heartbeat_epoch": 1790933294,
- "last_cycle_ts": "2026-10-02T17:28:14",
- "py_cpu_pct": 23.28,
- "machine_cpu_pct": 24.0,
- "done_count": 1217,
+ "burns_active": [],
+ "cycle": 4,
+ "heartbeat_epoch": 1790934188,
+ "last_cycle_ts": "2026-10-02T17:43:08",
+ "py_cpu_pct": 0.21,
+ "machine_cpu_pct": 3.8,
+ "done_count": 1224,
  "quarantined": [
   [
    12,
@@ -1694,32 +1653,11 @@
   "63:1": 2
  },
  "sync": {
-  "last_epoch": 1790933294,
-  "remote_done_count": 1208,
+  "last_epoch": 1790934188,
+  "remote_done_count": 1224,
   "err": null
  },
  "completed": [
-  {
-   "wave": 55,
-   "shard": 5,
-   "pid": 17768,
-   "ended_epoch": 1790892938,
-   "rc": null
-  },
-  {
-   "wave": 55,
-   "shard": 8,
-   "pid": 44704,
-   "ended_epoch": 1790892938,
-   "rc": null
-  },
-  {
-   "wave": 55,
-   "shard": 11,
-   "pid": 26808,
-   "ended_epoch": 1790892971,
-   "rc": null
-  },
   {
    "wave": 55,
    "shard": 0,
@@ -3097,6 +3035,27 @@
    "shard": 6,
    "pid": 44924,
    "ended_epoch": 1790933260,
+   "rc": null
+  },
+  {
+   "wave": 105,
+   "shard": 7,
+   "pid": 29932,
+   "ended_epoch": 1790933312,
+   "rc": null
+  },
+  {
+   "wave": 105,
+   "shard": 9,
+   "pid": 40964,
+   "ended_epoch": 1790933312,
+   "rc": null
+  },
+  {
+   "wave": 105,
+   "shard": 10,
+   "pid": 17436,
+   "ended_epoch": 1790933312,
    "rc": null
   }
  ],
@@ -4814,8 +4773,25 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 8,
-    "remote_done": 8
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 104,
+   "a_band": [
+    251004,
+    253003
+   ],
+   "b_exit_band": [
+    59601,
+    59800
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 0,
+    "remote_done": 0
    }
   },
   {
@@ -4831,22 +4807,14 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 9,
-    "remote_done": 0
+    "local_done": 12,
+    "remote_done": 12
    }
   }
  ],
- "append_pending": 3,
+ "append_pending": 0,
  "append_err": null,
  "ledger_appends": [
-  {
-   "epoch": 1790891294,
-   "n_paths": 5,
-   "mid": "bm-c",
-   "committed": "[main da8e2c6b4] saturation engine ledger append (bm-c): 5 n1 product shard(s) [law sec.2 batched]",
-   "push_rc": 0,
-   "outcome": "pushed"
-  },
   {
    "epoch": 1790892220,
    "n_paths": 3,
@@ -5205,7 +5173,15 @@
    "committed": "[main 551c2fd81] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
    "push_rc": 0,
    "outcome": "pushed"
+  },
+  {
+   "epoch": 1790933312,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main 06ea7bef7] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 0,
+   "outcome": "pushed"
   }
  ],
- "last_append_epoch": 1790933202
+ "last_append_epoch": 1790933312
 }
