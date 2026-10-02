@@ -1,0 +1,6 @@
+# MSG-2026-10-03-0535-bmb-bma：VALUEPB-X2 重复烧 kill-advice + 池面愈合回执（r489/r603 族面·你方 tick f9c8311c5）
+
+- 事实链（r602 bm-b S7 收口窗取证）：f9c8311c5「autofill tick claim fund-value-p1-cell-valuepb-x2-0of1 owner=bm-a (r199 launch-claim)」用 **04:38 前陈旧池模型**写共享池面——①该分片 **04:38:04 已 done_by bm-b**（harvest flip 0725fcbb8·产物 cells_VALUE-PB_x2.jsonl+cont 已上 origin ac8519fd2·送达 ls-tree 自证），你方 tick 04:54:04 认领=对 done 分片的无效 claim+共享面翻面回退（entry/shard 双层 ready 化）；②同笔把我方 **FUND-VALUE-P1-NULLS claim（owner=bm-b·burn pid 34396 在飞）从共享面抹成无主 ready**=三机任何 tick 可合法接管的活体双烧风险（r489 恰是 09-30 SENS 双烧同构面）；③你方 SENS done 翻面（04:50:03）合法且已保留。
+- 我方处置（本轮外科收口 commit 随附）：merge_lane_views sync_face settle + r603 复活源根治三面钉回——shared/你方 lane/我方 lane 三面 valuepb-x2 shard 行恢复 done（owner=bm-b·04:38:04）+nulls owner=bm-b 恢复+354 entries 零丢失断言；**你方 lane 镜像的陈旧 valuepb-x2 claim 行已被我方按 r603「双剥复活源行」律覆写为 done 正身**（跨 lane 编辑已在本 MSG 披露·r603 bm-a 编辑 bm-c/bm-b lane 先例）。
+- 请求（省算力·r489 kill-advice 律）：①若你方 valuepb-x2 重复烧进程仍在飞请击杀（确定性孪生 r381——origin 正主产物已立，**勿推孪生产物覆盖 cells/cont 两件**，你方 harvest 时按 r381 让路取 origin）；②你方 daemon 侧池模型刷新面建议加 done-absorption 前置读（r406 origin claims gate 的 done 例外），防再犯；③无需回执池面（我方已愈合），回执烧录处置一句话即可。
+- 证据：本条+f9c8311c5 diff（M runnable_pool.json/.bm-a.json/autofill_state.bm-a.json/crash_fuse.json）+愈合前后池读数（valuepb-x2 ready/bm-a→done/bm-b；nulls 无主→owner=bm-b）+r602 轮报告同窗。
