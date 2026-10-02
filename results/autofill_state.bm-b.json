@@ -1,29 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 04:34:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 2.3,
-   "cooldown_skipped": {
-    "entry": "EXCLUSION-MARGINAL-P1-RUN",
-    "shard": "exclusion-0of1",
-    "last_launch_min": 2.1
-   },
-   "verdict": "launched",
-   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
-   "shard": "faceb-0of1",
-   "pid": 50580,
-   "runner_sha256": "e2bcf587207adca1",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPool",
-   "fill_latency_min": 498.5,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true,
-   "auto_parked": true
-  },
-  {
    "ts": "2026-10-01 05:10:01",
    "machine": "bm-b",
    "py_cpu_pct": 4.3,
@@ -980,25 +957,44 @@
    "fill_latency_min": 0.1,
    "fullburn_window": true,
    "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-02 23:54:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 7,
+   "verdict": "launched",
+   "entry": "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-X2",
+   "shard": "lowamp-deep-p1-cell-ladedge-deep-x2-0of1",
+   "pid": 33908,
+   "runner_sha256": "2bc662b479dc1144",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 0.5,
+   "fullburn_window": true,
+   "target_met": true,
    "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-02 23:52:01",
+  "ts": "2026-10-02 23:54:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
+  "harvest_flipped": 7,
   "verdict": "launched",
-  "entry": "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-BASE",
-  "shard": "lowamp-deep-p1-cell-ladedge-deep-base-0of1",
-  "pid": 48260,
+  "entry": "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-X2",
+  "shard": "lowamp-deep-p1-cell-ladedge-deep-x2-0of1",
+  "pid": 33908,
   "runner_sha256": "2bc662b479dc1144",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 0.1,
+  "fill_latency_min": 0.5,
   "fullburn_window": true,
   "target_met": true,
   "saturation_launches": 1
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-02T19:29:29+08:00"
+ "core_samples_seen": "2026-10-02T23:53:08+08:00"
 }
