@@ -152,6 +152,30 @@ WAVE_CONFIGS = {
         "seed_scrnull_base": BAND_SCRNULL[0],
         "pool_waves": ("B1",),         # cumulative pooled finalize face
     },
+    # B3 = TRIAL_LABOR_LAW sec.4 tail-law closure wave: the family gen
+    # window's LAST unconsumed tail 68_901..68_999 (K=99/member) -- full
+    # consumption closes the registered window (B3 prereg sec.5),
+    # cumulative pooled finalize pools BOTH predecessors. First
+    # UNEQUAL-K pool wave: k_eff = 99+200+200 = 499 via _pooled_k_eff
+    # (per-wave frozen-K sum), NOT K*(1+len(pool)) which would demand 297.
+    "B3": {
+        "batch": "PERPETUAL-N4-B3",
+        "prereg": os.path.join(PATHS.root, "research",
+                               "PERPETUAL_N4_B3_PREREG.md"),
+        "shard_subdir": "n4_b3",
+        "engine_owner": "bm-a",
+        "nshards": NSHARDS,
+        "members": MEMBERS,
+        "rows_dir": os.path.join(PATHS.results_dir, "perpetual_faces",
+                                 "n4_b3"),
+        "batch_json": os.path.join(PATHS.results_dir, "perpetual_faces",
+                                   "n4_b3_results.json"),
+        "shard_ckpt_dir": os.path.join(PATHS.results_dir, "p2cal_ext",
+                                       "n4_b3"),
+        "seed_gen_base": 68_901,       # family window final tail
+        "seed_scrnull_base": BAND_SCRNULL[0],
+        "pool_waves": ("B1", "B2"),    # cumulative pooled finalize face
+    },
 }
 WAVE = WAVE_NAME                       # active wave face (_set_wave pin)
 
@@ -678,6 +702,28 @@ def _frozen_K() -> int:
     return int(m.group(1))
 
 
+def _wave_K(wname: str) -> int:
+    """Frozen K of a POOLED predecessor wave, parsed from that wave's own
+    frozen prereg (PINNED-K canon lives per-wave). Unequal-K pooling --
+    B3 tail closure K=99 vs B1/B2 K=200 -- must SUM per-wave Ks, never
+    multiply (K*(1+len(pool)) assumed equal Ks and would demand 297)."""
+    import re
+    fp = WAVE_CONFIGS[wname]["prereg"]
+    with open(fp, encoding="utf-8") as fh:
+        src = fh.read()
+    m = re.search(r"PINNED-K\s*=\s*(\d+)", src)
+    if not m:
+        raise RuntimeError(f"PINNED-K not found in {wname} prereg")
+    return int(m.group(1))
+
+
+def _pooled_k_eff(own_k: int, pool: tuple) -> int:
+    """Cumulative K_eff = own wave K + per-predecessor frozen K (pure;
+    TRIAL_LAW sec.4 cross-wave N_eff accumulation). B2 face reproduces
+    the frozen 400 (200+200); B3 closure = 99+200+200 = 499."""
+    return own_k + sum(_wave_K(w) for w in pool)
+
+
 def _quantile(sorted_vals: list, q: float) -> float:
     """Nearest-rank quantile on an ascending list -- the science_gates
     bootstrap_ci_sharpe indexing convention (int(q*(n-1))), one shape
@@ -811,7 +857,7 @@ def cmd_finalize() -> int:
             print(f"FAIL-CLOSED: predecessor wave {wname} rows missing -- "
                   "cumulative finalize refuses without its burned rows")
             return 2
-    k_eff = K * (1 + len(pool))
+    k_eff = _pooled_k_eff(K, pool)
     ok_gate, offender = _pooled_seed_gate(pooled_rows, k_eff)
     if not ok_gate:
         print(f"FAIL-CLOSED: pooled distinct-seed set {offender} -- "
@@ -928,7 +974,7 @@ def cmd_selftest() -> int:
             fails.append(name)
 
     print("PERPETUAL-N4 runner selftest (offline legs; freeze-gate S8 "
-          "two-state; S17-S19 multi-wave legs):")
+          "two-state; S17-S20 multi-wave legs):")
     panel = _synth_panel(600, 20260924)
 
     # S1 resample determinism (same L+seed -> identical panel bytes)
@@ -1042,7 +1088,17 @@ def cmd_selftest() -> int:
                  and b2["seed_scrnull_base"] == BAND_SCRNULL[0]
                  and BAND_GEN[0] <= 68_701
                  and 68_701 + 200 - 1 <= BAND_GEN[1])
-    leg("S11 WAVE_CONFIGS contract (B1 row verbatim + B2 tail row)", ok)
+    b3 = WAVE_CONFIGS.get("B3")
+    ok = ok and (b3 is not None and b3["batch"] == "PERPETUAL-N4-B3"
+                 and b3["engine_owner"] == "bm-a" and b3["nshards"] == 6
+                 and b3["members"] == MEMBERS
+                 and b3["shard_subdir"] == "n4_b3"
+                 and b3["seed_gen_base"] == 68_901
+                 and b3["pool_waves"] == ("B1", "B2")
+                 and b3["seed_scrnull_base"] == BAND_SCRNULL[0]
+                 and BAND_GEN[0] <= 68_901
+                 and 68_901 + 99 - 1 == BAND_GEN[1])
+    leg("S11 WAVE_CONFIGS contract (B1 verbatim + B2/B3 tail rows)", ok)
 
     # S12 _set_wave two-state (pin ok; foreign wave = honest KeyError)
     try:
@@ -1177,11 +1233,22 @@ def cmd_selftest() -> int:
                      and os.path.basename(wave_prereg())
                          == "PERPETUAL_N4_B2_PREREG.md"
                      and _cfg().get("pool_waves") == ("B1",))
+        _set_wave("B3")
+        ok = ok and (wave_batch() == "PERPETUAL-N4-B3"
+                     and wave_rows_dir().endswith(os.path.join(
+                         "perpetual_faces", "n4_b3"))
+                     and wave_shard_ckpt_dir().endswith(
+                         os.path.join("p2cal_ext", "n4_b3"))
+                     and wave_seed_gen_base() == 68_901
+                     and wave_batch_json().endswith("n4_b3_results.json")
+                     and os.path.basename(wave_prereg())
+                         == "PERPETUAL_N4_B3_PREREG.md"
+                     and _cfg().get("pool_waves") == ("B1", "B2"))
     except KeyError:
         ok = False
     finally:
         _set_wave(WAVE_NAME)
-    leg("S17 multi-wave accessor identity (B1 verbatim + B2 tail)", ok)
+    leg("S17 multi-wave accessor identity (B1 verbatim + B2/B3 tails)", ok)
 
     # S18 B2-pin burn labeling: serial burn under the B2 pin writes
     #     PERPETUAL-N4-B2 rows with seeds 68_701+k (worker-safety face:
@@ -1240,8 +1307,26 @@ def cmd_selftest() -> int:
         print(f"    (S19 fault: {exc})")
     leg("S19 pooled seed gate + predecessor rows double-gate", ok)
 
-    n = 19 - len(fails)
-    print(f"selftest: {n}/19 PASS, {len(fails)} FAIL")
+    # S20 unequal-K pooled k_eff arithmetic (r609 B3 tail closure): own
+    #     K + per-predecessor FROZEN K sum; the equal-K product formula
+    #     K*(1+len(pool)) broke at the first unequal-K wave (99*3=297
+    #     != 499). B2's frozen 400 must reproduce byte-identically.
+    try:
+        _set_wave("B3")
+        ok = (_frozen_K() == 99
+              and _wave_K("B1") == 200 and _wave_K("B2") == 200
+              and _pooled_k_eff(_frozen_K(), ("B1", "B2")) == 499)
+        ok = ok and _pooled_k_eff(200, ("B1",)) == 400
+        ok = ok and _pooled_k_eff(200, ()) == 200
+    except Exception as exc:
+        ok = False
+        print(f"    (S20 fault: {exc})")
+    finally:
+        _set_wave(WAVE_NAME)
+    leg("S20 unequal-K pooled k_eff (B3 99+200+200=499; B2 400 repr)", ok)
+
+    n = 20 - len(fails)
+    print(f"selftest: {n}/20 PASS, {len(fails)} FAIL")
     return 1 if fails else 0
 
 
