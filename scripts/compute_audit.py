@@ -416,6 +416,8 @@ def parallel_efficiency_row(now_epoch, samples_path=None):
             r = json.loads(ln)
         except Exception:
             continue
+        if not isinstance(r, dict):
+            continue   # junk/non-dict line (r570 blob-face): never fatal
         if str(r.get("ts", ""))[:16] < cut:   # ISO prefix compare, minute precision
             continue
         v = r.get("verdict")

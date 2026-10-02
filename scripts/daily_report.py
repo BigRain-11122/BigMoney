@@ -267,6 +267,8 @@ def _core_spread_face(day):
             r = json.loads(ln)
         except Exception:
             continue
+        if not isinstance(r, dict):
+            continue   # junk/non-dict line (r570 blob-face): never fatal
         if not str(r.get("ts", "")).startswith(day):
             continue
         mid = r.get("machine_id")
