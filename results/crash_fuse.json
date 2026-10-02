@@ -575,17 +575,6 @@
    "last_refusal_ts": "2026-10-03 03:00:04",
    "note": "keep blocked on bm-c: data-root crash -- Money02/data/cache/p1c_stock absent on bm-c (bars parquet not on this machine; cache build needs bars per p1c_stock_ic.py SS5); all 5 claims released r393 -- re-claim freely on cache-bearing machine (bm-a/bm-b) and clear this sig with reason='data present on this machine'; bm-c re-entry only after p1c_stock cache lands via TRANSFER (fleet decision)"
   },
-  "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x2": {
-   "count": 1,
-   "refusals": 44,
-   "code_sha256": "d163222d957c29e4",
-   "last_crash_ts": "2026-10-03 02:20:04",
-   "entry": "FUND-VALUE-P1-CELL-VALUEPB-X2",
-   "shard": "fund-value-p1-cell-valuepb-x2-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-03 04:18:04",
-   "note": "keep blocked on bm-c: data-root crash -- Money02/data/cache/p1c_stock absent on bm-c (bars parquet not on this machine; cache build needs bars per p1c_stock_ic.py SS5); all 5 claims released r393 -- re-claim freely on cache-bearing machine (bm-a/bm-b) and clear this sig with reason='data present on this machine'; bm-c re-entry only after p1c_stock cache lands via TRANSFER (fleet decision)"
-  },
   "scripts/fund_value_p1.py|run,--nulls": {
    "count": 1,
    "refusals": 44,
@@ -596,6 +585,15 @@
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-03 04:18:04",
    "note": "keep blocked on bm-c: data-root crash -- Money02/data/cache/p1c_stock absent on bm-c (bars parquet not on this machine; cache build needs bars per p1c_stock_ic.py SS5); all 5 claims released r393 -- re-claim freely on cache-bearing machine (bm-a/bm-b) and clear this sig with reason='data present on this machine'; bm-c re-entry only after p1c_stock cache lands via TRANSFER (fleet decision)"
+  },
+  "scripts/fund_value_p1.py|run,--sensitivity": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "848d4f2b3ff8a2bd",
+   "last_crash_ts": "2026-10-03 04:26:06",
+   "entry": "FUND-VALUE-P1-SENS",
+   "shard": "fund-value-p1-sens-0of1",
+   "machine": "bm-b"
   }
  },
  "cleared": {
@@ -869,12 +867,11 @@
    "bm_c_note": null
   },
   "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x2": {
-   "cleared_ts": "2026-10-03 02:44:54",
-   "cleared_by": "bm-a",
-   "reason": "data_fixed: data present on this machine (p1c_stock cache verified 15 npy); bm-c data-root crash per MSG-2026-10-03-0230",
+   "cleared_ts": "2026-10-03 04:26:10",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
    "crashes": 1,
-   "old_code_sha256": "d163222d957c29e4",
-   "bm_c_note": null
+   "old_code_sha256": "d163222d957c29e4"
   },
   "scripts/fund_value_p1.py|run,--nulls": {
    "cleared_ts": "2026-10-03 02:44:54",
