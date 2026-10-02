@@ -257,12 +257,32 @@ def _load_state():
             "last_shard_done_at": None, "last_tick": None, "skips": []}
 
 
-def _save_state(st):
+def _disk_tick_ts():
+    """On-disk last_tick.ts, or None (missing/unreadable = no CAS base)."""
+    try:
+        with open(STATE_PATH, encoding="utf-8") as f:
+            d = json.load(f)
+        return ((d.get("last_tick") or {}).get("ts")) or None
+    except Exception:
+        return None
+
+
+def _save_state(st, base_tick_ts=None):
+    """D-20261002-03 leg-2 write-side CAS gate: if a fresher writer landed
+    on disk between our load and this save (dual-instance tick overlap),
+    the second instance self-yields -- state stays with the fresher
+    writer. Lossless by sec.4 self-derivation (both instances derive
+    from the same artifacts; the r522 orphan leg reconstructs residuals).
+    Returns True when the write landed, False on CAS retreat."""
+    disk_ts = _disk_tick_ts()
+    if disk_ts is not None and (base_tick_ts is None or disk_ts > base_tick_ts):
+        return False
     os.makedirs(ENGINE_DIR, exist_ok=True)
     tmp = STATE_PATH + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(st, f, ensure_ascii=False, indent=1)
     os.replace(tmp, STATE_PATH)
+    return True
 
 
 def _reap_active(st, pid_alive, done_probe, now_epoch):
@@ -392,6 +412,7 @@ def tick(dry=False):
     py = _py_cpu_pct()
     ram = _ram_free_gb()
     st = _load_state()
+    base_tick_ts = (st.get("last_tick") or {}).get("ts")
 
     def done_probe(wave, cfg, shard, nshards):
         return _shard_done(wave, cfg, shard, nshards)
@@ -532,7 +553,17 @@ def tick(dry=False):
                        "active_n": len(st["active"]),
                        "queue_depth": len(st.get("queue", [])),
                        "elapsed_sec": round(time.time() - t0, 1)}
-    _save_state(st)
+    if not _save_state(st, base_tick_ts):
+        # CAS retreat: fresher writer owns state+face (both skipped here);
+        # sec.4 self-derivation makes this lossless across instances.
+        _log("state CAS retreat: fresher writer on disk (sec.4 self-yield)")
+        print(json.dumps({"tick": st["last_tick"],
+                          "face_epoch": None,
+                          "state_write": "cas_skip",
+                          "shards_done_total": st["shards_done_total"],
+                          "ledger_buffer_n": len(st["ledger_buffer"])},
+                         ensure_ascii=False))
+        return 0
     face = _write_face(st, py, ram, verdict)
     print(json.dumps({"tick": st["last_tick"],
                       "face_epoch": face["epoch"],
@@ -761,13 +792,52 @@ def selftest():
     assert os.path.exists(os.path.join(PATHS.root, "firm",
                                        "SATURATION_ENGINE_LAW.md")), \
         "law file missing"
-    print("selftest: PASS (8 legs: queue generator owner/done/active "
+
+    # 8. D-20261002-03 leg-2 state-write CAS gate (dual-instance overlap)
+    global STATE_PATH
+    real_state = STATE_PATH
+    cas_path = os.path.join(tmp, "state_cas.json")
+    STATE_PATH = cas_path
+    try:
+        # case A: fresh engine (no disk file) -> write lands
+        assert _disk_tick_ts() is None, "no file = no CAS base"
+        assert _save_state({"version": VERSION, "last_tick":
+                            {"ts": "2026-10-02T13:00:00"}}, None) is True, \
+            "fresh-engine save must land (base None + disk empty)"
+        # case B: no interference -- base == disk ts -> write lands
+        assert _save_state({"version": VERSION, "last_tick":
+                            {"ts": "2026-10-02T13:00:01"}},
+                           "2026-10-02T13:00:00") is True, \
+            "unchanged-disk save must land (base == disk ts)"
+        # case C: fresher writer raced us (instance B saved after our
+        # load) -> second instance must self-yield, B's bytes intact
+        with open(cas_path, encoding="utf-8") as f:
+            disk_before = f.read()
+        assert _save_state({"version": VERSION, "last_tick":
+                            {"ts": "2026-10-02T13:00:02"}},
+                           "2026-10-02T13:00:00") is False, \
+            "fresher on-disk writer must force CAS retreat"
+        with open(cas_path, encoding="utf-8") as f:
+            assert f.read() == disk_before, \
+            "CAS retreat must leave the fresher writer's bytes untouched"
+        # case D: corrupt/absent disk under a stale base -> no false retreat
+        os.remove(cas_path)
+        assert _save_state({"version": VERSION, "last_tick":
+                            {"ts": "2026-10-02T13:00:03"}},
+                           "2026-10-02T13:00:00") is True, \
+            "unreadable/absent disk = no CAS base = write proceeds"
+    finally:
+        STATE_PATH = real_state
+    print("selftest: PASS (9 legs: queue generator owner/done/active "
           "exclusions + orphan-product reconciliation [r522 telemetry "
           "completeness: present product + no ledger row -> one "
           "reconstructed row, idempotent] + PreIgnitionChecks fail-closed "
           "[prereg/panel/presence/quarantine/owner] + real W10 ckpt "
           "validator face + sec.2 batched flush gate + ignite headroom/"
           "RAM gates + sec.4 artifact self-derivation [completed/crash] + "
+          "state-write CAS gate [D-20261002-03 leg-2: fresh-engine lands / "
+          "unchanged-disk lands / fresher-writer self-yields with bytes "
+          "intact / absent-disk no false retreat] + "
           "law/prereg presence)")
     return 0
 
