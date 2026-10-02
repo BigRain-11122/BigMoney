@@ -4,26 +4,94 @@
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
  "active": [],
  "ledger_buffer": [],
- "last_flush_at": "2026-10-03T03:56:04+08:00",
+ "last_flush_at": "2026-10-03T04:45:05+08:00",
  "crashes": {
   "n1w47-8of12": 1,
   "n1w77-1of12": 1,
   "n1w90-0of12": 1,
   "n1w104-5of12": 1,
-  "n4B1-0of6": 1
+  "n4B1-0of6": 1,
+  "n4B2-0of6": 1
  },
- "shards_done_total": 450,
- "last_shard_done_at": "2026-10-03T03:42:03+08:00",
+ "shards_done_total": 453,
+ "last_shard_done_at": "2026-10-03T04:43:04+08:00",
  "last_tick": {
-  "ts": "2026-10-03T04:04:04+08:00",
-  "epoch": 1790971442,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 52.31831359863281,
-  "verdict": "idle",
+  "ts": "2026-10-03T04:46:05+08:00",
+  "epoch": 1790973962,
+  "py_cpu_pct": 77.6,
+  "ram_free_gb": 47.691505432128906,
+  "verdict": "gate:py 77.6% >= 75.0% (headroom gate)",
   "active_n": 0,
-  "queue_depth": 0,
-  "elapsed_sec": 2.3
+  "queue_depth": 3,
+  "elapsed_sec": 2.6
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N4",
+   "wave": "B2",
+   "shard": 3,
+   "nshards": 6,
+   "key": "n4B2-3of6",
+   "batch": "PERPETUAL-N4-B2",
+   "runner": "scripts/perpetual_faces_n4.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "6",
+    "--wave",
+    "B2",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N4",
+   "wave": "B2",
+   "shard": 4,
+   "nshards": 6,
+   "key": "n4B2-4of6",
+   "batch": "PERPETUAL-N4-B2",
+   "runner": "scripts/perpetual_faces_n4.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "6",
+    "--wave",
+    "B2",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N4",
+   "wave": "B2",
+   "shard": 5,
+   "nshards": 6,
+   "key": "n4B2-5of6",
+   "batch": "PERPETUAL-N4-B2",
+   "runner": "scripts/perpetual_faces_n4.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "6",
+    "--wave",
+    "B2",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
