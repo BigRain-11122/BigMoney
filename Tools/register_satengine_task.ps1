@@ -5,18 +5,25 @@
 # cadence, zero claim round-trips), py% CEO face row write, sec.2 batched
 # ledger flush. Engine burns NEVER touch runnable_pool.json (law sec.1).
 # PATH-AGNOSTIC + idempotent via -Force + pure ASCII.
-# PRINCIPAL LAW (bm-a live-fire 2026-10-01 15:3x, S4U-first fix bm-b r521):
-# S4U principal requires elevation on this lane (Register-ScheduledTask
-# 0x80070005 access denied from unelevated hosts). Design mirrors the
-# watchdog S4U precedent: elevated hosts register S4U (2026-09-29 user
-# order: all lane tasks S4U -- child consoles stay invisible, no desktop
-# flash; a 60s-cadence InteractiveToken task flashes python.exe consoles
-# on the interactive desktop every tick). Unelevated hosts fall back to
-# the default principal so the engine task is never left dead/missing
-# (engine-alive-first). -ErrorAction Stop gates both success lines (no
-# false success); a failed S4U attempt never touches the existing task.
+# PRINCIPAL SINGLE-SOURCE (D-20261002-02 group adjudication, r576 bm-b):
+# ALL lane task registration scripts use the DEFAULT principal as the
+# single source. S4U proven uninstallable in this environment (bm-a
+# live-fire 0x80070005 from unelevated hosts) -- the S4U-first +
+# fallback two-path (bm-b r521) is retired: a single default-principal
+# path means unelevated heal contexts never leave the engine task DEAD.
+# Survives-logoff explicitly abandoned: 1-min fire + watchdog mutual
+# coverage replace it. Deviation from the 2026-09-29 user S4U order is
+# reported to CEO for re-adjudication via the D-20261002-02 row; an
+# elevated window can switch back to S4U (option (a)).
 # Task name stays 'Bigmoney-SatEngine-bm-b' (fleet-shared local name; bm-b
 # runs it live -- renaming here would orphan bm-b's task = double-engine).
+# NOTE (r576): the LIVE task on bm-b remains S4U-registered (healthy,
+# registered from an elevated window, zero console flash). Conversion to
+# default principal happens at the next natural heal cycle (task-missing
+# repair path) -- no proactive re-registration this round: converting a
+# healthy 60s-cadence task to InteractiveToken would reintroduce the
+# desktop console-flash the 2026-09-29 user order forbids, pending the
+# CEO re-adjudication the D-20261002-02 row itself carries.
 $Project = Split-Path -Parent $PSScriptRoot
 $eng = Join-Path $Project 'scripts\saturation_engine.py'
 $vbs = Join-Path $Project 'Tools\InvisibleRunner.vbs'
@@ -29,11 +36,5 @@ $start = Get-Date -Minute 0 -Second 0
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(1) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
-$p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
-try {
-    Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Principal $p -Force -ErrorAction Stop | Out-Null
-    Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=S4U, cadence=60s), first fire $start"
-} catch {
-    Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
-    Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=default (S4U denied: unelevated host), cadence=60s), first fire $start"
-}
+Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
+Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=default per D-20261002-02, cadence=60s), first fire $start"
