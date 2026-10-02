@@ -61,12 +61,18 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W87/W90 实况范式）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r582 bm-a finalize 收口面回填】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-a 引擎烧毕（r581 窗 tick 自燃·12/12 烧毕后 shard 产品 4..11 补推 origin=r582 窗 r310 完备性门先行实核 12/12）；finalize one-pass（r538 律·本地无未 commit 自产波件前置核验——n1_w94_results.json 为本 finalize 首产非预存·r582）。
+- ledger：prev_total 569,148（链序 W91 564,748 bm-b→W92 566,948 bm-c r372→W93 569,148 bm-b r581 均已落账解锁）+ batch_trials 2,200 = **571,348**；voids_applied=LOWAMP-P1/P2。
+- w94-only：n=2,200·mu=−0.0953521·sigma=0.2458374；merged：n=204,720·mu=−0.0927586·sigma=0.2447998（§0「累计 null 池投影 204,720」逐位吻合）；mu_delta_w94_vs_w93ext=+0.001593（合并后 mu 漂 −0.000028·门内）。
+- skill_line_v2 @n_eff_held 569,148：1.1675→**1.1675**（K-lift delta +0.0000≤0.02 门内）；se_mu @K204,720=0.000541（收窄链 W90 0.000553→W91 0.000550→W92 0.000547→W94 0.000541）。
+- §5 四判全过：①W94-only vs W91 键 merged mu |Δ|=0.0026<0.02 ✓；②sigma 相对变化 +0.02%<±10% ✓；③A 档 p95 0.3148 vs W91 锚 0.3275 差 0.0127<0.05 ✓；④K-lift +0.0000≥−0.02 ✓。
 
 ## §8 批后复盘。【必填·终 7-T】
 
-- （finalize 落账后机械回填）
+- 测量加深面闭环：第 25 枚 bm-a 自有引擎波·N1 累计池 K 204,720（canon 120+W1..W94 全落账）；零注册宣称·零候选池污染·账本链性 564,748→571,348 无跳号。
+- 本波为 W92/W93 双空档在飞窗冻结的第一波（FAIL-CLOSED r307 跑时复核恒在·finalize 实跑时 W92/W93 已落账=链序自动解锁实证）；canon flip 不在本波（K2200 同例·治理提案面）。
+- 出场轴=template_default 按设计测③（测量判等 null 基线腿）；DATA_GAP 不涉；evidence_cutoff=2026-09-22 同窗律全程未漂。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
