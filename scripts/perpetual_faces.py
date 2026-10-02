@@ -1825,6 +1825,37 @@ N1_BANDS = {
     # CLEAN. NOT a re-pick (R250: W83 bands were never assigned).
     83: {"a": (209_004, 211_003), "b_exit": (54_401, 54_600),
          "engine_owner": "bm-c"},
+    # SEVENTY-FOURTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r575 bm-a
+    # freeze): engine_owner rows 73 + candidate; bm-a's
+    # twenty-first owned per machine-derive (engine_owner==bm-a
+    # rows 20 + candidate). Wave 84 = first free number after the
+    # registered W83 row (r511 tail-lock, fetch-checked vacancy;
+    # seat published=reserved MSG-20261002-1245-bma PUSHED to
+    # origin before this freeze per r565 early-visibility law,
+    # commit ad5df156c).
+    # W1..W81 finalizes ALL LANDED (net head 542,748, K=176,120,
+    # W81 bm-a r574; chain W1..W81 fully landed); TWO in-flight
+    # upstream seats at this freeze: W82 bm-b (12/12 burned,
+    # adopted by bm-b r575 S0 recovery, finalize pending) + W83
+    # bm-c (registered, burn in flight) -- finalize chain-pending
+    # FAIL-CLOSED r307.
+    # BOTH SIDES ARITHMETIC CONTINUATION from the W83 row tails,
+    # zero skip: A 211_004..213_003 (= W83 A end 211_003 + 1)
+    # CLEAN. B 54_601..54_800 (= W83 B end 54_600 + 1) CLEAN.
+    # Single reading, no refusal points, no fork face,
+    # F-20261002-03 not triggered.
+    # Machine-verified at prereg time
+    # (results/_r575bma_w84_band_gate.py ADMIT receipt vs the
+    # 81-row pre-W84 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). W85+ gate projection: A
+    # 213_004..215_003 CLEAN; B 54_801..55_000 REFUSED at
+    # SEED_REGISTRY a158_truegap_ic=55_000 upper-edge endpoint
+    # -> hit+1 restart 55_001..55_200 (W74-B/W81 edge family).
+    # NOT a re-pick (R250: W84 bands were never assigned).
+    84: {"a": (211_004, 213_003), "b_exit": (54_601, 54_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

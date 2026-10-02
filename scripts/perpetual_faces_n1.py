@@ -2130,6 +2130,35 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 54_401,   # law sec.4 W83 B: 54_401..54_600 (arithmetic continuation)
                             "shard_subdir": "n1_w83", "out_name": "n1_w83_results.json",
                             "engine_owner": "bm-c"},
+                       84: {"batch": "PERPETUAL-N1-W84",
+                            "prereg": ("research/PERPETUAL_N1_W84_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; SEVENTY-FOURTH ENGINE-OWNED WAVE BY "
+                                       "MACHINE-DERIVE (engine_owner rows 73 + candidate; prose "
+                                       "ordinal -1 drift disclosed since W80, r359 law), "
+                                       "own-series continuation per O-20261001-2355 sec.2 "
+                                       "(first-free-number law over the registered W83 row; "
+                                       "seat published=reserved MSG-20261002-1245-bma "
+                                       "PUSHED to origin BEFORE this freeze per r565 "
+                                       "early-visibility law, commit ad5df156c), "
+                                       "engine_owner=bm-a, wave 84 BOTH SIDES ARITHMETIC "
+                                       "CONTINUATION zero skip (A 211_004..213_003 CLEAN + "
+                                       "B 54_601..54_800 CLEAN, single reading, no fork face, "
+                                       "F-20261002-03 not triggered; W85+ projection: A "
+                                       "213_004..215_003 CLEAN / B 54_801..55_000 REFUSED at "
+                                       "SEED_REGISTRY a158_truegap_ic=55_000 upper-edge "
+                                       "endpoint -> hit+1 restart 55_001..55_200, W74-B/W81 "
+                                       "edge family, disclosed for the next freezer); "
+                                       "W1..W81 finalizes ALL LANDED at this freeze (net "
+                                       "chain head 542,748, K=176,120, W81 bm-a r574); TWO "
+                                       "in-flight upstream seats: W82 bm-b (12/12 burned, "
+                                       "adopted by bm-b r575 S0 recovery, finalize pending) "
+                                       "+ W83 bm-c (burn in flight) -- finalize chain-pending "
+                                       "FAIL-CLOSED r307"),
+                            "a_seed_base": 211_004,        # law sec.4 W84 A: 211_004..213_003 (arithmetic continuation)
+                            "b_exit_seed_base": 54_601,   # law sec.4 W84 B: 54_601..54_800 (arithmetic continuation)
+                            "shard_subdir": "n1_w84", "out_name": "n1_w84_results.json",
+                            "engine_owner": "bm-a"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -11442,6 +11471,160 @@ def selftest() -> int:
     finally:
         _set_wave(2)
 
+    # --- W84 materializer face (r575 bm-a freeze, own-series law
+    #     under CEO de-throttle order O-20261001-2355 sec.2): bm-a's
+    #     twenty-first owned per machine-derive (engine_owner==bm-a
+    #     rows 20 + candidate); wave 84 = first free number after the
+    #     registered W83 row (bm-c r365). SEVENTY-FOURTH engine wave
+    #     BY MACHINE-DERIVE (engine_owner rows 73 + candidate; prose
+    #     ordinal -1 drift disclosed since W80, r359 law). Seat
+    #     published=reserved MSG-20261002-1245-bma pushed to origin
+    #     BEFORE this freeze (commit ad5df156c, r565 early-visibility
+    #     law). TWO in-flight upstream seats at this freeze: W82 bm-b
+    #     (12/12 burned, adopted by bm-b r575 S0 recovery, finalize
+    #     pending) + W83 bm-c (burn in flight) -- finalize
+    #     chain-pending FAIL-CLOSED r307 at run time. W1..W81
+    #     finalizes ALL LANDED (net head 542,748, K=176,120, W81 bm-a
+    #     r574). ADMIT receipt results/_r575bma_w84_band_gate.py;
+    #     not a re-pick -- R250: W84 bands were never assigned --
+    _set_wave(84)
+    try:
+        assert WAVE_CONFIGS[84]["a_seed_base"] == pf.N1_BANDS[84]["a"][0], \
+            "W84 A band drift vs law mirror"
+        assert WAVE_CONFIGS[84]["b_exit_seed_base"] == \
+            pf.N1_BANDS[84]["b_exit"][0], "W84 B band drift vs law mirror"
+        assert WAVE_CONFIGS[84].get("engine_owner") == \
+            pf.N1_BANDS[84].get("engine_owner") == "bm-a", \
+            "W84 engine_owner drift (law mirror parity)"
+        w84_a = {A_SEED_BASE + j for j in range(A_N)}
+        w84_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w84_a & w84_b), "W84 A/B band overlap"
+        assert not (w84_a & reg_ints) and not (w84_b & reg_ints), \
+            "W84 hits SEED_REGISTRY"
+        for nm, band in (("A", w84_a), ("B", w84_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W84 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W84 {nm} hits W1"
+            assert not (band & probes), f"W84 {nm} hits probe seeds"
+        # registered declared-band parity (r307 two-state): W73..W83 are
+        # REGISTERED rows now -- pinned constants must equal the
+        # registered rows exactly (W80 bm-c r364; W81 bm-a r574;
+        # W82 bm-b r574, in-file blocks byte-healed by bm-c r365;
+        # W83 bm-c r365).
+        assert pf.N1_BANDS[73] == {"a": (189_004, 191_003),
+                                   "b_exit": (51_601, 51_800),
+                                   "engine_owner": "bm-a"}, \
+            "registered W73 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[74] == {"a": (191_004, 193_003),
+                                   "b_exit": (52_001, 52_200),
+                                   "engine_owner": "bm-b"}, \
+            "registered W74 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[75] == {"a": (193_004, 195_003),
+                                   "b_exit": (52_201, 52_400),
+                                   "engine_owner": "bm-a"}, \
+            "registered W75 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[76] == {"a": (195_004, 197_003),
+                                   "b_exit": (52_401, 52_600),
+                                   "engine_owner": "bm-b"}, \
+            "registered W76 row parity drift (r307 two-state)"
+        assert pf.N1_BANDS[77] == {"a": (197_004, 199_003),
+                                   "b_exit": (52_601, 52_800),
+                                   "engine_owner": "bm-a"}, \
+            "registered W77 row parity drift (r307 two-state; bm-a r572)"
+        assert pf.N1_BANDS[78] == {"a": (199_004, 201_003),
+                                   "b_exit": (53_201, 53_400),
+                                   "engine_owner": "bm-c"}, \
+            "registered W78 row parity drift (r307 two-state; bm-c r363)"
+        assert pf.N1_BANDS[79] == {"a": (201_004, 203_003),
+                                   "b_exit": (53_401, 53_600),
+                                   "engine_owner": "bm-b"}, \
+            "registered W79 row parity drift (r307 two-state; bm-b r573)"
+        assert pf.N1_BANDS[80] == {"a": (203_004, 205_003),
+                                   "b_exit": (53_601, 53_800),
+                                   "engine_owner": "bm-c"}, \
+            "registered W80 row parity drift (r307 two-state; bm-c r364)"
+        assert pf.N1_BANDS[81] == {"a": (205_004, 207_003),
+                                   "b_exit": (54_001, 54_200),
+                                   "engine_owner": "bm-a"}, \
+            "registered W81 row parity drift (r307 two-state; bm-a r574)"
+        assert pf.N1_BANDS[82] == {"a": (207_004, 209_003),
+                                   "b_exit": (54_201, 54_400),
+                                   "engine_owner": "bm-b"}, \
+            "registered W82 row parity drift (r307 two-state; bm-b r574)"
+        assert pf.N1_BANDS[83] == {"a": (209_004, 211_003),
+                                   "b_exit": (54_401, 54_600),
+                                   "engine_owner": "bm-c"}, \
+            "registered W83 row parity drift (r307 two-state; bm-c r365)"
+        # prior-wave disjointness incl. W48..W83 (all registered; the
+        # W83 row is the direct arithmetic upstream of W84's bands).
+        for wprev in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + [w for w in range(16, 84)]:
+            assert not (w84_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W84 A hits W{wprev}"
+            assert not (w84_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W84 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory) -- W84 clears it.
+        n3r1_used84 = set(range(70_000, 70_006))
+        assert not (w84_a & n3r1_used84) and not (w84_b & n3r1_used84), \
+            "W84 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w84_a & lfc_actual12) and not (w84_b & lfc_actual12), \
+            "W84 bands must clear the lfc actual draw range"
+        assert not (w84_a & options_actual12) and \
+            not (w84_b & options_actual12), \
+            "W84 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W84 row, r575): BOTH SIDES ARITHMETIC
+        # CONTINUATION from the registered W83 tails, zero skip -- the
+        # arithmetic windows must be CLEAN (no registry points inside;
+        # the skip-free face is forced by the ADMIT receipt, refusal
+        # facts empty).
+        assert WAVE_CONFIGS[84]["a_seed_base"] == 211_004 == \
+            pf.N1_BANDS[83]["a"][1] + 1, \
+            "W84 A must start at the registered W83 A end + 1 " \
+            "(arithmetic continuation window 211_004..213_003 CLEAN)"
+        assert WAVE_CONFIGS[84]["b_exit_seed_base"] == 54_601 == \
+            pf.N1_BANDS[83]["b_exit"][1] + 1, \
+            "W84 B must start at the registered W83 B end + 1 " \
+            "(arithmetic continuation window 54_601..54_800 CLEAN)"
+        arith_a84 = set(range(211_004, 213_004))
+        arith_b84 = set(range(54_601, 54_801))
+        assert not (arith_a84 & reg_ints) and not (arith_b84 & reg_ints), \
+            "W84 arithmetic windows must be CLEAN (zero-skip ADMIT face)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W84-SHARD-0",
+                                          "n1w84-0of12"), "W84 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W84-SHARD-11",
+                                          "n1w84-11of12")
+        assert SHARD_DIR.endswith("n1_w84") and OUT.endswith(
+            "n1_w84_results.json"), "W84 path drift"
+        for wprev in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + [w for w in range(16, 84)]:
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W84 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W84_PREREG.md")), \
+            "W84 per-wave prereg missing (materializer requirement)"
+        # W84 finalize cumulative deps: W17..W81 outputs ALL PRESENT
+        # (landed chain head 542,748, K=176,120, W81 bm-a r574; W82
+        # bm-b + W83 bm-c = TWO in-flight upstream seats -- the
+        # finalize merge loop derives the wave set from registry keys
+        # at run time and stays FAIL-CLOSED on the not-yet-finalized
+        # seats, r307 two-state law).
+        for _depw in range(17, 82):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W84 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law):
+        # prior-wave set derives from registry keys below 84 (no 15,
+        # incl. 48..83 -- all registered, W82/W83 in-flight,
+        # FAIL-CLOSED at run time).
+        assert sorted(w for w in WAVE_CONFIGS if w < 84) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \
+            [w for w in range(16, 84)], \
+            "W84 prior-wave set must derive from registry keys (no 15; " \
+            "incl. 48..83 -- W82/W83 registered, in-flight, FAIL-CLOSED)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
+
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -12621,6 +12804,34 @@ def selftest() -> int:
           "free pick -- R250), N3-R1 used-seed leg, "
           "probe-seed cluster leg, law sec.4 W83 row, "
           "r365 bm-c] "
+          "+ W84 materializer face [same guard set, dep=W17..W81 "
+          "outputs ALL PRESENT (landed chain head 542,748, "
+          "K=176,120, W81 bm-a r574), TWO in-flight upstream "
+          "seats W82 bm-b (12/12 burned, adopted by bm-b r575 "
+          "S0 recovery, finalize pending) + W83 bm-c (burn in "
+          "flight, FAIL-CLOSED r307 at run time), "
+          "SEVENTY-FOURTH ENGINE-OWNED WAVE BY MACHINE-DERIVE "
+          "(engine_owner rows 73 + candidate; prose ordinal -1 "
+          "drift disclosed since W80, r359 law) bm-a's "
+          "twenty-first owned claim per machine-derive "
+          "(engine_owner==bm-a rows 20 + candidate), "
+          "engine_owner=bm-a per engine de-throttle law "
+          "O-20261001-2355 sec.2 own-continuous-series "
+          "(wave 84 = first FREE number after the registered "
+          "W83 row; seat published=reserved "
+          "MSG-20261002-1245-bma pushed to origin BEFORE "
+          "this freeze, commit ad5df156c, r565 law), BOTH "
+          "SIDES ARITHMETIC CONTINUATION zero skip (A "
+          "211_004..213_003 CLEAN + B 54_601..54_800 CLEAN, "
+          "single reading, no fork face; W85+ projection "
+          "A 213_004..215_003 CLEAN / B 54_801..55_000 REFUSED "
+          "at SEED_REGISTRY a158_truegap_ic=55_000 upper-edge "
+          "endpoint -> hit+1 restart 55_001..55_200, W74-B/W81 "
+          "edge family, disclosed for the next freezer; ADMIT "
+          "receipt results/_r575bma_w84_band_gate.py; not a "
+          "free pick -- R250), N3-R1 used-seed leg, "
+          "probe-seed cluster leg, law sec.4 W84 row, "
+          "r575 bm-a] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
