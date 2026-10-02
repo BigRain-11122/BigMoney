@@ -1293,6 +1293,31 @@ N1_BANDS = {
     # W63 bands were never assigned).
     63: {"a": (169_004, 171_003), "b_exit": (49_201, 49_400),
          "engine_owner": "bm-c"},
+    # FIFTY-THIRD ENGINE-OWNED WAVE (r566 bm-a freeze): bm-a's
+    # fifteenth owned per machine-derive (engine_owner==bm-a
+    # rows 14 + candidate). Wave 64 = next free number after the
+    # registered W63 row (seat declared published=reserved
+    # MSG-20261002-0851-bma, r518-1 law; zero-gap relay after
+    # the W63 same-band yield to bm-c per r511 commit-order law
+    # -- my W63 freeze unpushed, divergent-B-seed replicas
+    # discarded, zero ledger pollution). W1..W62 finalizes ALL
+    # LANDED (net head 500,948, K=134,320); W63 bm-c = ONE
+    # in-flight upstream seat at this freeze (finalize
+    # chain-pending FAIL-CLOSED r307). BOTH SIDES ARITHMETIC
+    # CONTINUATION from the W63 row tail, no skip: A
+    # 171_004..173_003 (= W63 A end 171_003 + 1) and B
+    # 49_401..49_600 (= W63 B end 49_400 + 1) -- both windows
+    # CLEAN per the W63 row W64+ WARNING projections (bm-c
+    # r357 freeze gate projection leg + this freeze's machine
+    # re-derive, r535 law). Machine-verified at prereg time
+    # (results/_r566bma_w64_band_gate.py ADMIT receipt vs the
+    # 61-row pre-W64 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W64
+    # bands were never assigned).
+    64: {"a": (171_004, 173_003), "b_exit": (49_401, 49_600),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
