@@ -242,6 +242,303 @@ def cmd_run(shard, shards):
     return 0
 
 
+# --------------------------------------------------------------- assemble
+T146_DIR = os.path.join(ROOT, "results", "ytd_track_record")
+TABLE_JSON = os.path.join(OUT_DIR, "contest_table.json")
+TABLE_CSV = os.path.join(OUT_DIR, "contest_table.csv")
+TABLE_MD = os.path.join(OUT_DIR, "CONTEST-TABLE.md")
+PANEL_END = "2026-09-30"            # contest window natural end (bars+marks)
+
+
+def _dense_rank_desc(values):
+    """dense rank, higher value = rank 1 (data decides)."""
+    order = sorted(set(values), reverse=True)
+    return {v: i + 1 for i, v in enumerate(order)}
+
+
+def _rank_rows(rows):
+    """O-2150 sec.1 composite rank: rank_ret (ytd_ret desc) + rank_dd
+    (max_dd desc -- closer to 0 = smaller drawdown = better) + rank_sharpe
+    (desc); composite = mean of the three; final order composite asc,
+    tie-break contest_id asc. Only _rankable rows (full YTD window) enter;
+    returns ranked list, input rows not mutated (copies returned)."""
+    ranked = [r for r in rows if r.get("_rankable")]
+    r_ret = _dense_rank_desc([r["ytd_ret"] for r in ranked])
+    r_dd = _dense_rank_desc([r["max_dd"] for r in ranked])
+    r_sh = _dense_rank_desc([r["sharpe_ytd"] for r in ranked])
+    out = []
+    for r in ranked:
+        rr, rd, rs = (r_ret[r["ytd_ret"]], r_dd[r["max_dd"]],
+                      r_sh[r["sharpe_ytd"]])
+        out.append(dict(r, rank_ret=rr, rank_dd=rd, rank_sharpe=rs,
+                        composite=round((rr + rd + rs) / 3.0, 4)))
+    out.sort(key=lambda r: (r["composite"], r["contest_id"]))
+    for i, r in enumerate(out):
+        r["rank"] = i + 1
+    return out
+
+
+def _mt_face(r):
+    p = ",".join("%s=%s" % (k, r["params"][k]) for k in sorted(r["params"]))
+    a = ",".join("%s=%s" % (k, r["axes"][k]) for k in sorted(r["axes"]))
+    return "%s(%s;%s)" % (r["family"], p, a)
+
+
+def _burn_rows():
+    """load + integrity-check the 8 shard products (idempotent read)."""
+    burn = {}
+    for k in range(N_SHARDS_DEFAULT):
+        p = os.path.join(OUT_DIR, "burn_shard_%dof%d.jsonl"
+                         % (k, N_SHARDS_DEFAULT))
+        if not os.path.exists(p):
+            raise IOError("missing shard product %s" % p)
+        for line in io.open(p, encoding="utf-8"):
+            line = line.strip()
+            if line:
+                r = json.loads(line)
+                if r["contest_id"] in burn:
+                    raise IOError("duplicate contest_id %s" % r["contest_id"])
+                if r["window"]["start"] != YTD_START:
+                    raise IOError("non-uniform window start %s"
+                                  % r["contest_id"])
+                burn[r["contest_id"]] = r
+    return burn
+
+
+def cmd_assemble():
+    ents = json.load(io.open(ENTRANTS, encoding="utf-8"))["entrants"]
+    by_src = {}
+    for e in ents:
+        by_src.setdefault(e["source"], []).append(e)
+    # A1: burn rows == MASS_TRIAL admission set
+    try:
+        burn = _burn_rows()
+    except IOError as ex:
+        print("A1 FAIL: %s" % ex)
+        return 2
+    mt_ids = {e["contest_id"] for e in by_src.get("MASS_TRIAL_W1_SURVIVORS",
+                                                  [])}
+    if set(burn) != mt_ids:
+        print("A1 FAIL: burned %d != admitted %d" % (len(burn), len(mt_ids)))
+        return 2
+    # A2: live members from the T-146 measured face (+ curve-derived sharpe)
+    summ = json.load(io.open(os.path.join(T146_DIR, "ytd_summary.json"),
+                             encoding="utf-8"))
+    curves = json.load(io.open(os.path.join(T146_DIR, "ytd_curves.json"),
+                              encoding="utf-8"))
+    mem = {m["member"]: m for m in summ["members"]}
+    b300 = float(summ["baselines"]["BENCH-510300"])
+    bew = float(summ["baselines"]["BENCH-48EW"])
+    rows = []
+    for e in by_src.get("T146_LIVE_MEMBERS", []):
+        name = e["grammar"]["member"]
+        if name not in mem:
+            print("A2 FAIL: live member missing from T-146 face: %s" % name)
+            return 2
+        m = mem[name]
+        c = curves.get(name)
+        if not c or len(c.get("nav", [])) < 2:
+            print("A2 FAIL: live member curve missing/short: %s" % name)
+            return 2
+        nav = pd.Series(c["nav"])
+        sh = float(sharpe(nav))
+        # curve-vs-published max_dd cross-check: full-window members only
+        # (curves file carries 8dp-rounded nav -> ~2e-8 drift vs the
+        # unrounded published face; paper-only members use the T-146
+        # entry-capital-anchored published convention -> not comparable)
+        if not m.get("paper_only") \
+                and abs(float(max_drawdown(nav)) - float(m["max_dd"])) > 1e-6:
+            print("A2 FAIL: max_dd curve/published drift: %s" % name)
+            return 2
+        if m.get("paper_only"):
+            seg = "paper-only marks (live start %s)" % m["first_date"]
+        elif m["last_date"] >= PANEL_END:
+            seg = "backtest+paper spliced (T-146)"
+        else:
+            seg = "backtest-leg only (no separate paper ledger)"
+        rows.append({
+            "contest_id": e["contest_id"],
+            "face": e.get("face_name", name),
+            "source": e["source"],
+            "segment": seg,
+            "ytd_ret": round(float(m["ytd_ret"]), 8),
+            "max_dd": round(float(m["max_dd"]), 8),
+            "sharpe_ytd": round(sh, 6),
+            "n_trades": None, "n_entries": None,
+            "beat_510300_pp": round(float(m["beat_510300_pp"]), 4),
+            "beat_48ew_pp": round(float(m["beat_48ew_pp"]), 4),
+            "window": {"start": m["first_date"], "end": m["last_date"],
+                       "n_days": m["n_points"]},
+            "grammar_ref": e["grammar_ref"],
+            "sharpe_source": "curve-derived (engine.metrics.sharpe)",
+            "_rankable": (m["first_date"] == YTD_START),
+        })
+    for cid, r in sorted(burn.items()):
+        rows.append({
+            "contest_id": cid,
+            "face": _mt_face(r),
+            "source": r["source"],
+            "segment": "backtest (today-engine, panel natural end)",
+            "ytd_ret": r["ytd_ret"], "max_dd": r["max_dd"],
+            "sharpe_ytd": r["sharpe_ytd"],
+            "n_trades": r["n_trades"], "n_entries": r["n_entries"],
+            "beat_510300_pp": r["beat_510300_pp"],
+            "beat_48ew_pp": r["beat_48ew_pp"],
+            "window": r["window"],
+            "grammar_ref": r["grammar_ref"],
+            "signal_fp": r["signal_fp"],
+            "frozen_sha_status": r["frozen_sha_status"],
+            "_rankable": True,
+        })
+    # A3: dual-baseline arithmetic spot check (uniform, all measured rows)
+    for r in rows:
+        for col, base in (("beat_510300_pp", b300), ("beat_48ew_pp", bew)):
+            if abs((r["ytd_ret"] - base) * 100.0 - r[col]) > 0.01:
+                print("A3 FAIL: %s %s arithmetic drift" % (r["contest_id"],
+                                                           col))
+                return 2
+    # A4: composite rank (full-YTD-window entrants only; paper-only listed)
+    ranked = _rank_rows(rows)
+    table = ranked + sorted((r for r in rows if not r.get("_rankable")),
+                            key=lambda r: r["contest_id"])
+    for r in table:
+        r.pop("_rankable", None)
+    # A5: pending legs disclosure (not yet burned)
+    pending = [{"contest_id": e["contest_id"], "face": e.get("face_name"),
+                "source": e["source"], "grammar_ref": e["grammar_ref"],
+                "ytd_legs": e.get("ytd_legs"),
+                "status": "pending_burn (assembly rerun auto-includes)"}
+               for s in ("REV_CENSUS_POSITIVE", "LOWAMP_DEEP_EXPLORATION")
+               for e in by_src.get(s, [])]
+    n_ranked = len(ranked)
+    n_listed = len(table) - n_ranked
+    doc = {
+        "schema": "contest_ytd_p1/contest_table v1",
+        "ticket": "T-2026-10-02-148 (O-20261002-2150 survivor-king contest; "
+                  "interim assembly -- 12 pending-burn legs rerun-include)",
+        "evidence_cutoff": PANEL_END,
+        "window": {"start": YTD_START, "end": PANEL_END,
+                   "convention": summ["splice_convention"]},
+        "baselines": summ["baselines"],
+        "caliber": "uniform today-engine (RW-1/RW-3 corrected 09-30); "
+                   "template_default exit stack; cost x1 default; live "
+                   "members = T-146 spliced/leg faces; contest selection is "
+                   "NOT scientific proof (O-2150 sec.1)",
+        "ranking_formula": "composite = mean(rank_ret + rank_dd + "
+                           "rank_sharpe); dense ranks desc (max_dd desc = "
+                           "closer-to-0 first); tie-break contest_id asc; "
+                           "ranked set = full-YTD-window entrants only",
+        "census": {"admitted": len(ents), "measured": len(table),
+                   "ranked": n_ranked, "listed_unranked": n_listed,
+                   "pending_burn": len(pending)},
+        "table": table,
+        "pending_legs": pending,
+        "curves_ref": {"MASS_TRIAL_W1_SURVIVORS": "results/contest_p1/"
+                       "burn_shard_<k>of8.jsonl rows (curve_dates/curve_nav)",
+                       "T146_LIVE_MEMBERS": "results/ytd_track_record/"
+                       "ytd_curves.json"},
+        "honesty": [
+            "contest selection != scientific proof; winners promoted with "
+            "'contest-selected' label (O-2150 sec.1)",
+            "paper-only live members (rank N/A): marks windows 3-4 days "
+            "(live starts 09-24/09-28) are NOT comparable to the 181-day "
+            "YTD ladder -- listed, not ranked",
+            "B_MAXDIV window ends 09-23 (backtest-leg only member, no "
+            "separate paper ledger) -- ranked with 177d window disclosed",
+            "frozen signal_sha256 reproduces bit-for-bit only on X=own "
+            "(34/166); X=t* 132/166 format-divergent by construction "
+            "(object-dtype pointer hash at generation; value semantics "
+            "covered by selftest S4/S7)",
+        ],
+        "audit": {"machine": "bm-b", "runner": "scripts/contest_ytd_p1.py "
+                  "assemble", "deterministic": "byte-identical on rerun "
+                  "(no wall-clock fields)"},
+    }
+    with io.open(TABLE_JSON, "w", encoding="utf-8", newline="") as f:
+        f.write(json.dumps(doc, ensure_ascii=False, indent=1) + "\n")
+    # CSV (machine face)
+    cols = ["rank", "composite", "contest_id", "face", "source", "segment",
+            "ytd_ret_pct", "max_dd_pct", "sharpe_ytd", "beat_510300_pp",
+            "beat_48ew_pp", "n_trades", "n_entries", "window_start",
+            "window_end", "window_days"]
+    with io.open(TABLE_CSV, "w", encoding="utf-8", newline="\n") as f:
+        f.write(",".join(cols) + "\n")
+        for r in table:
+            f.write(",".join([
+                "" if r.get("rank") is None else str(r["rank"]),
+                "" if r.get("composite") is None else str(r["composite"]),
+                r["contest_id"],
+                '"%s"' % r["face"].replace('"', "'"),
+                r["source"], '"%s"' % r["segment"],
+                "%.2f" % (r["ytd_ret"] * 100.0),
+                "%.2f" % (r["max_dd"] * 100.0),
+                "%.4f" % r["sharpe_ytd"],
+                "%.2f" % r["beat_510300_pp"], "%.2f" % r["beat_48ew_pp"],
+                "" if r["n_trades"] is None else str(r["n_trades"]),
+                "" if r["n_entries"] is None else str(r["n_entries"]),
+                r["window"]["start"], r["window"]["end"],
+                str(r["window"]["n_days"]),
+            ]) + "\n")
+    # MD (CEO face)
+    md = []
+    md.append("# Survivor-King Contest YTD Table (T-148 interim assembly)\n")
+    md.append("Window %s -> %s | baselines: 510300 %.2f%% / 48EW %.2f%% | "
+              "admitted %d = measured %d (ranked %d, listed %d) + "
+              "pending-burn %d\n" % (
+                  YTD_START, PANEL_END, b300 * 100.0, bew * 100.0,
+                  len(ents), len(table), n_ranked, n_listed, len(pending)))
+    md.append("Ranking: composite = mean(rank on YTD return + rank on "
+              "max drawdown + rank on Sharpe), data decides; tie-break "
+              "id asc. Caliber: uniform today-engine, cost x1; live "
+              "members = T-146 spliced legs.\n")
+    md.append("\n## Ranked table (%d)\n" % n_ranked)
+    md.append("| rank | composite | id | face | src | seg | ytd% | maxDD% "
+              "| sharpe | beat300pp | beatEWpp | trades |\n")
+    md.append("|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+    for r in ranked:
+        src = {"MASS_TRIAL_W1_SURVIVORS": "MT",
+               "T146_LIVE_MEMBERS": "LIVE"}.get(r["source"], r["source"])
+        seg = {"backtest (today-engine, panel natural end)": "bt",
+               "backtest+paper spliced (T-146)": "bt+paper",
+               "backtest-leg only (no separate paper ledger)": "bt-leg"}.get(
+                   r["segment"], r["segment"])
+        md.append("| %d | %.2f | %s | %s | %s | %s | %+.2f | %.2f | %.3f | "
+                  "%+.2f | %+.2f | %s |\n" % (
+                      r["rank"], r["composite"], r["contest_id"], r["face"],
+                      src, seg, r["ytd_ret"] * 100.0, r["max_dd"] * 100.0,
+                      r["sharpe_ytd"], r["beat_510300_pp"],
+                      r["beat_48ew_pp"],
+                      "-" if r["n_trades"] is None else r["n_trades"]))
+    listed = [r for r in table if r.get("rank") is None]
+    if listed:
+        md.append("\n## Paper-only live members (%d, short marks window -- "
+                  "listed, rank N/A)\n" % len(listed))
+        md.append("| id | src | seg | ytd% | maxDD% | sharpe | beat300pp | "
+                  "window |\n|---|---|---|---|---|---|---|---|\n")
+        for r in listed:
+            md.append("| %s | LIVE | paper | %+.3f | %.2f | %.3f | %+.2f | "
+                      "%s..%s (%dd) |\n" % (
+                          r["contest_id"], r["ytd_ret"] * 100.0,
+                          r["max_dd"] * 100.0, r["sharpe_ytd"],
+                          r["beat_510300_pp"], r["window"]["start"],
+                          r["window"]["end"], r["window"]["n_days"]))
+    md.append("\n## Pending burn legs (%d, due before 10-08)\n" % len(pending))
+    for p in pending:
+        md.append("- %s -- %s (%s)\n" % (p["contest_id"], p["face"],
+                                         p["source"]))
+    md.append("\n## Honesty\n")
+    for h in doc["honesty"]:
+        md.append("- %s\n" % h)
+    with io.open(TABLE_MD, "w", encoding="utf-8", newline="\n") as f:
+        f.writelines(md)
+    print("assemble: %d measured (%d ranked + %d listed), %d pending; "
+          "top3: %s" % (
+              len(table), n_ranked, n_listed, len(pending),
+              "; ".join("#%d %s ytd %+.2f%%" % (r["rank"], r["contest_id"],
+                       r["ytd_ret"] * 100.0) for r in ranked[:3])))
+    return 0
+
+
 # ------------------------------------------------------------ register
 def _pool_append(entries):
     doc = json.load(io.open(POOL, encoding="utf-8"))
@@ -393,6 +690,48 @@ def cmd_selftest():
             m_t += (not hit)
     leg("S7 fingerprint-format law (X=own 3/3 match; X=t* 5/5 divergent)",
         m_own == 3 and m_t == 5)
+    # S8: composite rank math (synthetic, O-2150 sec.1 formula)
+    syn = [{"contest_id": "B", "ytd_ret": 0.20, "max_dd": -0.10,
+            "sharpe_ytd": 1.0, "_rankable": True},
+           {"contest_id": "A", "ytd_ret": 0.10, "max_dd": -0.05,
+            "sharpe_ytd": 1.5, "_rankable": True},
+           {"contest_id": "C", "ytd_ret": 0.10, "max_dd": -0.05,
+            "sharpe_ytd": 1.5, "_rankable": True}]
+    rk = _rank_rows(syn)
+    leg("S8 composite rank math (dense ties + tie-break id asc)",
+        [r["contest_id"] for r in rk] == ["A", "C", "B"]
+        and rk[0]["rank_ret"] == 2 and rk[0]["rank_dd"] == 1
+        and rk[2]["composite"] == round((1 + 2 + 2) / 3.0, 4)
+        and [r["rank"] for r in rk] == [1, 2, 3]
+        and all(rk[i]["composite"] <= rk[i + 1]["composite"]
+                for i in range(2)))
+    # S9: assembly face (products present: census + determinism; products
+    # absent: honest SKIP -- shard burns live on other machines pre-push)
+    if os.path.exists(os.path.join(OUT_DIR, "burn_shard_0of8.jsonl")) \
+            and os.path.exists(os.path.join(T146_DIR, "ytd_curves.json")):
+        ents_all = json.load(io.open(ENTRANTS, encoding="utf-8"))["entrants"]
+        burn = _burn_rows()
+        live_ok = all(e["grammar"]["member"] in
+                      {m["member"] for m in json.load(io.open(
+                          os.path.join(T146_DIR, "ytd_summary.json"),
+                          encoding="utf-8"))["members"]}
+                      for e in ents_all
+                      if e["source"] == "T146_LIVE_MEMBERS")
+        ranked_once = _rank_rows([
+            {"contest_id": cid, "ytd_ret": r["ytd_ret"],
+             "max_dd": r["max_dd"], "sharpe_ytd": r["sharpe_ytd"],
+             "_rankable": True} for cid, r in burn.items()])
+        ranked_twice = _rank_rows([
+            {"contest_id": cid, "ytd_ret": r["ytd_ret"],
+             "max_dd": r["max_dd"], "sharpe_ytd": r["sharpe_ytd"],
+             "_rankable": True} for cid, r in burn.items()])
+        leg("S9 assembly census+determinism (166 burned; live join ok; "
+            "rank byte-stable)",
+            len(burn) == 166 and live_ok and
+            json.dumps(ranked_once, sort_keys=True)
+            == json.dumps(ranked_twice, sort_keys=True))
+    else:
+        print("[SKIP] S9 assembly face (shard products not present)")
     print("selftest: %s" % ("ALL PASS" if ok[0] == 0
                            else str(ok[0]) + " FAIL"))
     return 0 if ok[0] == 0 else 2
@@ -407,11 +746,14 @@ def main():
     g = sub.add_parser("register")
     g.add_argument("--shards", type=int, default=N_SHARDS_DEFAULT)
     sub.add_parser("selftest")
+    sub.add_parser("assemble")
     a = ap.parse_args()
     if a.cmd == "run":
         return cmd_run(a.shard, a.shards)
     if a.cmd == "register":
         return cmd_register(a.shards)
+    if a.cmd == "assemble":
+        return cmd_assemble()
     return cmd_selftest()
 
 
