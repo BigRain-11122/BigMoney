@@ -1,0 +1,45 @@
+{
+ "probe": "FUND-QUALITY-P1 ignition data-side probes",
+ "generated": "2026-10-03T03:35:25+08:00",
+ "machine": "bm-b",
+ "prereg": "research/FUND-QUALITY-P1.md (DRAFT-NOT-FROZEN)",
+ "transfer_ticket": "T-2026-10-03-152-P1",
+ "panel": {
+  "n_bars": 8792,
+  "n_syms_panel": 5222,
+  "first": "1990-12-19",
+  "last": "2026-09-22",
+  "ok_universe": 5130
+ },
+ "quality_face": {
+  "absent": true,
+  "path": "data/fund_history_export/quality_faces.parquet",
+  "note": "T-152 TRANSFER not landed -- fail-closed by design (this receipt IS the transfer-necessity evidence)."
+ },
+ "seed_band_scan": {
+  "candidates": {
+   "fund_quality_p1_nulls": 20510000,
+   "fund_quality_p1_sens": 20510500
+  },
+  "n_registry_bases": 165,
+  "exact_hits": {},
+  "furnace_band": [
+   20333000,
+   20445400
+  ],
+  "in_furnace_band": {},
+  "proximity_violations": {},
+  "k_stretch_disclosure": {
+   "nulls": "rng([20510000, k]) k=0..1999 (pair-seed sub-stream law)",
+   "sens": "rng([20510500, k]) k=0..499 (pair-seed sub-stream law)"
+  },
+  "gap_to_fund_value_block": 10000
+ },
+ "gates": {
+  "leg1_price_panel": true,
+  "leg2_transfer_export": false,
+  "leg3_monthly_coverage": false,
+  "leg4_seed_band": true
+ },
+ "verdict": "RED"
+}
