@@ -61,10 +61,14 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位·finalize 后机械回填）
+- finalize one-pass（r357 bm-c·2026-10-02 08:5x）：K=**134,320** ==§0 投影逐位（132,120+2,200）；账本 prev=**498,748**（活链头 derive·零手抄）+2,200=**500,948 净链头**（voids_applied=LOWAMP-P1/P2 自动面）；results/perpetual_faces/n1_w62_results.json（audit.machine=bm-c·finalize_only=true·evidence_cutoff=2026-09-22·shards 12/12）。
+- **S5 四项全过**：①W62-only mu **−0.100936** vs 锚 −0.092367｜Δ=**0.0086<0.02**✓；②W62-only sigma **0.239601** vs 锚 0.248885＝**−3.73%<±10%**✓；③A 族 p95 **0.3037** vs 锚 0.3099｜Δ=**−0.0062<0.05**✓；④K-lift **−0.0006**≤0.02✓（1.1623→1.1617 @n_eff_held 498,748——正负交替先例延续：W61 +0.0003 后本波转负）。
+- se_mu **0.000674→0.000668**（se_mu_at_k134320=0.000668·累计池加深收窄）；mu_delta_w62_vs_w61ext=**−0.00613**；canon flip 未执行（治理提案面·K2200 同律）。
+- 烧录实况：**bm-a tick 架构引擎自燃 12/12**（engine_owner=bm-a 自有波·r565 closeout 8/12 在飞→r566 ride 补送 shard-11 完成 12/12·attribution bm-a 逐片已验 796cee730）；**finalize 链序前置履行**：W61 席位（r357 bm-c 同窗先行落账 2eb556a8f·498,748）先落→本波 finalize 零在飞上游席窗（r307 FAIL-CLOSED 未触发·全链 W1..W61 先落本波后到）；finalize 由 bm-c r357 代跑（bm-a 波位跨机收口·W61 收口同机同窗续作业实况注记）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （占位·finalize 后机械回填）
+- **三机接力全生命周期首例完整闭环**：W61 同带让路（bm-a 让 bm-b·MSG-0818-bma 纯让零烧）→W62 席位公示 published=reserved→冻结 381d85208（bm-a r565）→tick 引擎自燃 12/12（bm-a·产物增长律验证）→finalize 落账（bm-c r357）——单波三机接力=去节流令 §二自有系列+车道合同的联合实证；带位=W61 行 W62+ 投影逐字（bm-b r564 gate×bm-a r565 gate 双机互证·r530 确定性律第 9 例续）。
+- W63+ 投影（本波带闸投影腿机证）：A 169_004..171_003 **CLEAN**／B 48_801..49_000 **REFUSED**〔SEED_REGISTRY p4_ext_tilt_q=49_000＋p4_ext_tilt_d20=49_100 两点→B 侧算术位含 49_000 拒收·49_001..49_200 含 49_100 连锁拒收〕→W63 B 侧强制跳位（首净窗机闸 derive·r307 尾律·W39-B/W43-B/W47-B/W51-B/W59-B 跳位族）；下波 W63 prereg 照例带闸复核（r335 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
