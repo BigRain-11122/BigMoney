@@ -19,6 +19,8 @@
 
 - [2026-10-02 16:3x r374 bm-c] pre-push 爪删除集×分叉基座假阳性面（W99 收口双拦实弹）：本地待推时 origin 已前进（他机新 commit 纯增件）→爪按「origin tree − 本地 HEAD tree」差集算删除集=把他机新增件全判成本机删除→双拦（第一波=bm-a r581 工具件 10 件、第二波=bm-a r583 工具件+W96 finalize 件 10 件）；两波皆分叉伪影非真删除，正解=先集成（rebase 或外科 commit-tree 直投 r523 律）禁 --no-verify 绕爪；外科路天然免疫（payload=本机增量、删除集断言+席位 MSG 移动白名单）。连带同窗三犯：git 2.55 rebase --continue 假拒绝零 unmerged 仍拒=r305/r501 净路①commit -C 手工落 pick（多 pick 余项按 r543 超集律处置）；diff --name-status 改名折叠 R 行解析须 --no-renames+split 制表符（r366 列位坑族）；外科 reset --mixed 后非 payload 陈旧面须逐件 checkout 同步（W96 prereg 本地前回填版残留=r366 族）。How to apply：轮中 push 被「删除集非本机件」拦且列件=他机工具/产物件时，先 fetch 比分叉态——分叉伪影走外科路，真删除才人工裁定。
 - [2026-10-02 16:5x r375 bm-c] PS 超长命令串解析层静默吞=整段零执行坑（W102 冻结 push 窗实弹）：~2.9KB 单行命令（add+status+长内联 commit -m+push 四连）返回**空输出 rc=1 且无条件字符串字面量未打印=整段从未执行的诊断签名**（非 git 失败——git 面零输出零状态变化·冻结件仍 unstaged 幸 status 复核抓回）；误判风险=按「add/commit 已发生」继续推进。修法=长 commit 消息一律落文件走 commit -F 通道（..\.codely-cli\scratch\<msg>.txt·免引号/长度/转义三面）+多步 git 拆步或经包装器单步。How to apply：含长内联消息的 commit 从会话壳发起必走 -F 文件；遇「空输出+rc!=0+无条件 literal 缺席」先判整段零执行勿疑 git。
+- [2026-10-02 17:1x r585 bm-a] D-19 消费回执与水位键更新必须同轮原子落地（r584 尾窗实弹）：r584 轮报告已完整 ack 集团 10-02 12:00 批（D-20261002-02~06 逐项）但 last_decisions_sha 键停留旧值 3C28AFC1→r585 首扫假 CHANGED 937A373D，须回读 r584 报告核对内容面后才敢只更键零重扫。How to apply：水位类消费步的「ack 回执+键更新」=同一动作两半，轮中断在两半之间=下轮必先对内容消费面核对再定性（禁直接重消费=重复 ack 面·也禁直接信键=漏消费面）。
+
 ### Reference
 - 冷层指针（r276 合并·r444 范式）：r476 bm-a RW-4 数据门禁三腿定谳+RW-1~4 全绿里程碑条目（正典面=knowledge/panel_gate.py+T-127 票·RW-5 解冻条件满足〔10-03 外审复核〕+RW-6 复算重发下一片）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r276 bm-c 窗批』节。
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批及历史批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
