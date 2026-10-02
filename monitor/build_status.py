@@ -650,6 +650,81 @@ def _engine_wave_state() -> dict:
     return out
 
 
+def _jsonl_row_count(path):
+    """Cheap non-empty line count on a binary face (encoding-agnostic)."""
+    try:
+        with open(path, "rb") as f:
+            data = f.read()
+        return sum(1 for ln in data.split(b"\n") if ln.strip())
+    except Exception:
+        return None
+
+
+def _fund_family_state() -> dict:
+    """Fundamental stock family campaign panel (J10 lane, r610 bm-a):
+    live read-only derive of the fund-family judged campaigns
+    (FUND-VALUE-P1 in burn / FUND-QUALITY-P1 draft pending TRANSFER,
+    O-20261002-2115 CEO speed-window line). Single sources only:
+      - research/FUND-*-P1.md head banners (DRAFT-NOT-FROZEN vs frozen)
+      - results/fund_<family>_p1/ burn products (cells_*.jsonl judged
+        rows, sens.jsonl / nulls.jsonl draw counts, <dir>_results.json
+        finalize landing)
+      - runnable_pool FUND-* entries (merged lane view; entry status +
+        lane owner/owner_since = claim visibility face)
+    Missing sources degrade to honest None/empty, never fabricated."""
+    out = {"present": False, "families": []}
+    fams = [("VALUE", "FUND-VALUE-P1.md", "fund_value_p1"),
+            ("QUALITY", "FUND-QUALITY-P1.md", "fund_quality_p1")]
+    pool = _lane_view("runnable_pool") or {}
+    pool_map = {}
+    for e in (pool.get("entries") or []):
+        eid = str(e.get("id") or "")
+        if eid.startswith("FUND-"):
+            pool_map[eid] = e
+    for label, prereg_name, res_dir in fams:
+        fam = {"family": label, "prereg_state": None, "cells": [],
+                "sens_rows": None, "nulls_rows": None,
+                "results_landed": False, "pool": []}
+        ppath = os.path.join(PATHS.root, "research", prereg_name)
+        if os.path.exists(ppath):
+            try:
+                with open(ppath, encoding="utf-8") as f:
+                    head = f.read(600)
+                fam["prereg_state"] = ("draft" if "DRAFT-NOT-FROZEN" in head
+                                       else "frozen")
+            except Exception:
+                pass
+        rdir = os.path.join(PATHS.results_dir, res_dir)
+        if os.path.isdir(rdir):
+            for fn in sorted(os.listdir(rdir)):
+                fp = os.path.join(rdir, fn)
+                if fn.startswith("cells_") and fn.endswith(".jsonl"):
+                    fam["cells"].append({"name": fn[len("cells_"):-len(".jsonl")],
+                                         "rows": _jsonl_row_count(fp)})
+                elif fn == "sens.jsonl":
+                    fam["sens_rows"] = _jsonl_row_count(fp)
+                elif fn == "nulls.jsonl":
+                    fam["nulls_rows"] = _jsonl_row_count(fp)
+            fam["results_landed"] = os.path.exists(
+                os.path.join(rdir, res_dir + "_results.json"))
+        prefix = "FUND-%s-P1-" % label
+        for eid in sorted(pool_map):
+            if not eid.startswith(prefix):
+                continue
+            e = pool_map[eid]
+            sh = (e.get("shards") or [{}])[0] or {}
+            fam["pool"].append({
+                "id": eid[len(prefix):], "status": e.get("status"),
+                "owner": e.get("lane_owner") or sh.get("owner"),
+                "owner_since": sh.get("owner_since") or e.get("updated_at"),
+            })
+        if (fam["prereg_state"] or fam["cells"] or fam["sens_rows"]
+                or fam["nulls_rows"] or fam["pool"]):
+            out["families"].append(fam)
+    out["present"] = bool(out["families"])
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -2056,6 +2131,7 @@ def build() -> dict:
     data["saturation"] = _saturation_state()
     data["engine"] = _engine_face_state()
     data["engine_wave"] = _engine_wave_state()
+    data["fund_family"] = _fund_family_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()

@@ -458,6 +458,29 @@ function renderChains() {
       (inFlight || accPending) ? "warn" : "ok",
       inFlight ? "烧录在飞" : (accPending ? "账待落" : "常供")));
   }
+  const ff = D.data.fund_family;
+  if (ff && ff.present) {
+    const ftxt = (ff.families || []).map(f => {
+      const cellsDone = (f.cells || []).filter(c => (c.rows || 0) > 0).length;
+      const poolBits = (f.pool || []).map(e => {
+        const st = e.status === "done" ? "✔" : (esc(e.status) || "—");
+        const own = (e.status !== "done" && e.owner) ? "@" + esc(e.owner) : "";
+        return `${esc(e.id)}:${st}${own}`;
+      }).join(" ");
+      return `${esc(f.family)}[${n2(f.prereg_state)}] 判格 ${cellsDone}${(f.cells || []).length ? "/" + (f.cells || []).length : ""}` +
+        (f.nulls_rows ? ` NULLS ${n2(f.nulls_rows)}` : "") +
+        (f.sens_rows ? ` SENS ${n2(f.sens_rows)}` : "") +
+        (f.results_landed ? " 判决✔" : "") +
+        (poolBits ? ` {${poolBits}}` : "");
+    }).join(" · ");
+    const allFam = ff.families || [];
+    const landed = allFam.some(f => f.results_landed);
+    const burning = allFam.some(f => (f.pool || []).some(e => e.status && e.status !== "done"));
+    rows.push(chainRow("基本面族战役",
+      ftxt,
+      landed ? "ok" : (burning ? "warn" : "dim"),
+      landed ? "判决面已落" : (burning ? "烧录在飞" : "排程/前置门")));
+  }
   const t = D.data.token;
   if (t && t.present) {
     rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
