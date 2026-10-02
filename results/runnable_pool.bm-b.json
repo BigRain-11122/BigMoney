@@ -13459,7 +13459,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "N=500 space-filling draws over N{10,15,20}/pe_cap{100,200}/rule{pe,pb}, rng([20500500,k]); descriptive face only, no verdict",
      "owner": "bm-b",
-     "owner_since": "2026-10-03 03:26:08"
+     "owner_since": "2026-10-03 03:56:08"
     }
    ],
    "workers_plan": {
@@ -13654,25 +13654,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-03 03:02:13",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
    "shards": [
     {
      "key": "NEEDLE-DE-01",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/perpetual_faces/n3_r2/cells-NEEDLE-DE-01.jsonl (presence=done; deterministic rerun byte-equal)",
      "note": "N3-R2 member shard NEEDLE-DE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
-     "owner": "bm-c",
-     "owner_since": "2026-10-03 03:09:28"
+     "owner": "bm-a",
+     "owner_since": "2026-10-03 03:30:39",
+     "claimed_since": "2026-10-03 03:30:03",
+     "done_at": "2026-10-03 03:30:39",
+     "harvested_by": "bm-a",
+     "harvest_claim": "NEEDLE-DE-01.bm-a.json"
     }
    ],
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
     "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
-   }
+   },
+   "done_by": "bm-a",
+   "done_at": "2026-10-03 03:30:39"
   },
   {
    "id": "PERPETUAL-N3-R2-VOLATILITY-CE-01",
