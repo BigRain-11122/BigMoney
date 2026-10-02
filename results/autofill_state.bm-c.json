@@ -1,28 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-30 21:31:32",
-   "machine": "bm-c",
-   "py_cpu_pct": 0.0,
-   "fuse_skipped": [
-    {
-     "entry": "P2NULL-KLIFT-K2200-S0",
-     "shard": "p2null-klift-s0-0of1",
-     "sig": "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4",
-     "fuse_refusals": 1
-    }
-   ],
-   "verdict": "launched",
-   "entry": "P2NULL-KLIFT-K2200-S2",
-   "shard": "p2null-klift-s2-0of1",
-   "pid": 26224,
-   "runner_sha256": "1098a0ebc1c3dd2c",
-   "fill_latency_min": 22.7,
-   "fullburn_window": false,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-30 21:50:01",
    "machine": "bm-c",
    "py_cpu_pct": 0.0,
@@ -1028,43 +1006,84 @@
    "fill_latency_min": 0.2,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-03 01:08:53",
+   "machine": "bm-c",
+   "py_cpu_pct": 0.0,
+   "fuse_skipped": [
+    {
+     "entry": "LOWAMP-DEEP-P1-NULLS",
+     "shard": "lowamp-deep-p1-nulls-0of1",
+     "sig": "scripts/lowamp_deep_p1.py|run,--nulls",
+     "fuse_refusals": 44
+    },
+    {
+     "entry": "CONTEST-YTD-P1-SHARD-0OF8",
+     "shard": "contest-ytd-p1-shard-0of8",
+     "sig": "scripts/contest_ytd_p1.py|run,--shard,0,--shards,8",
+     "fuse_refusals": 34
+    }
+   ],
+   "cooldown_skipped": {
+    "entry": "CONTEST-YTD-P1-SHARD-1OF8",
+    "shard": "contest-ytd-p1-shard-1of8",
+    "last_launch_min": 2.3
+   },
+   "verdict": "launched",
+   "entry": "CONTEST-YTD-P1-SHARD-2OF8",
+   "shard": "contest-ytd-p1-shard-2of8",
+   "pid": 16100,
+   "runner_sha256": "2bdd9580511b16a6",
+   "core_verdict": "multiproc",
+   "core_marker": "from parallel_runner import",
+   "fill_latency_min": 0.2,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 01:08:01",
+  "ts": "2026-10-03 02:05:02",
   "machine": "bm-c",
-  "py_cpu_pct": 2.5,
-  "single_core_red_flags": [
+  "py_cpu_pct": 0.0,
+  "verdict": "multicore_gate_refused",
+  "multicore_refused": [
    {
-    "ts": "2026-10-03T01:08:02+08:00",
-    "entry": "CONTEST-YTD-P1-SHARD-1OF8",
-    "shard": "contest-ytd-p1-shard-1of8",
-    "pid": 6792,
-    "wall_s": 60.1,
-    "effective_cores": 0.94,
-    "law": "O-20260930-2355 sec.1 law-2"
-   }
-  ],
-  "keepalive": [
-   "contest-ytd-p1-shard-0of8",
-   "contest-ytd-p1-shard-3of8",
-   "contest-ytd-p1-shard-4of8"
-  ],
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "LOWAMP-DEEP-P1-NULLS",
-  "shard": "lowamp-deep-p1-nulls-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 43,
-  "fuse_skipped": [
+    "entry": "FUND-VALUE-P1-CELL-VALUEPE-X2",
+    "shard": "fund-value-p1-cell-valuepe-x2-0of1",
+    "runner": "scripts/fund_value_p1.py",
+    "core_verdict": "unreadable"
+   },
    {
-    "entry": "LOWAMP-DEEP-P1-NULLS",
-    "shard": "lowamp-deep-p1-nulls-0of1",
-    "sig": "scripts/lowamp_deep_p1.py|run,--nulls",
-    "fuse_refusals": 43
+    "entry": "FUND-VALUE-P1-CELL-VALUEPB-X1",
+    "shard": "fund-value-p1-cell-valuepb-x1-0of1",
+    "runner": "scripts/fund_value_p1.py",
+    "core_verdict": "unreadable"
+   },
+   {
+    "entry": "FUND-VALUE-P1-CELL-VALUEPB-X2",
+    "shard": "fund-value-p1-cell-valuepb-x2-0of1",
+    "runner": "scripts/fund_value_p1.py",
+    "core_verdict": "unreadable"
+   },
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "runner": "scripts/fund_value_p1.py",
+    "core_verdict": "unreadable"
+   },
+   {
+    "entry": "FUND-VALUE-P1-SENS",
+    "shard": "fund-value-p1-sens-0of1",
+    "runner": "scripts/fund_value_p1.py",
+    "core_verdict": "unreadable"
    }
   ]
  },
  "lane_machine": "bm-c",
- "core_samples_seen": "2026-10-03T01:08:02+08:00"
+ "core_samples_seen": "2026-10-03T01:10:16+08:00"
 }
