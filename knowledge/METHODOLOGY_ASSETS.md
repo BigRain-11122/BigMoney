@@ -43,3 +43,6 @@
 - v0.1 @ 2026-10-02 20:5x：建库+首批 16 卡入库（M01-M09/E01-E06/N01-N02），全部本周期实弹验证。
 - 2026-10-02 21:2x（bm-a r594）：捕获律接线四腿（iteration_prompt.txt 判决批 finalize/审计/治理案/工程净路）+首例 append E07（W114 冻结窗实弹·O-20261002-2100 自证）。
 - 2026-10-02 21:5x（bm-b r595）：工程净路收口步 append E08（撤-FF-重落环+D 面清零门·r594 爪拦实弹·捕获律第二次 live 实证）。
+- **E09 声明轴死信·幽灵孪生三探法**（proven）：judged 批的声明参数轴（sizing/方向/过滤面）必须在跑前即有「真分化」证据——单参不分化=整轴死信=声明格与孪生格逐位恒等。探测法=①工件面：两声明不同的胞全指标 6 位小数恒等（含 full returns 序列）=死信签名（真分化下浮点恒等概率≈0）②修法=参数管路化（build_signal sizing 参数）③三层守卫=hermetic F3b 回归腿（eq≠invvol 权重差日>0）+probe 活面 guard（真实面板上分化天数）+finalize 确定性重现断言（升格胞逐字段==勘探工件·漂移即 abort）。证据：LOWAMP-P3 sizing 轴全批死信（LA-EQ==LA-REP 幽灵孪生两轴 8 胞面·headline 裁决面无恙=声明 invvol 跑的即 invvol）2026-10-02 bm-b r596 实弹发现·LOWAMP-DEEP-P1 runner 首载修复（r596 freeze commit·selftest 22 腿含 F3b）。
+
+- 2026-10-02 22:3x：bm-b r596（LOWAMP-DEEP-P1 冻结窗）工程净路收口步 append E09 声明轴死信·幽灵孪生三探法（P3 sizing 死信实弹→DEEP-P1 runner F3b/probe-guard/重现断言三层守卫）；O-20261002-2100 捕获律第三机 live 实证。

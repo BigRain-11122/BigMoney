@@ -1787,6 +1787,8 @@ SEED_REGISTRY = {
     "lowamp_p3_params": 20_335_500,  # T-140 LOWAMP-P3 sensitivity draws (rng([20335500, k]))
     "lowamp_p3_starts": 20_336_000,  # T-140 LOWAMP-P3 start-point draw stream (disclosed NOT consumed)
     "lowamp_p3_nulls": 20_336_500,   # T-140 LOWAMP-P3 same-mask nulls (rng([20336500, k]))
+    "lowamp_deep_p1_params": 20_337_000,  # T-146 LOWAMP-DEEP-P1 sensitivity draws (rng([20337000, k]))
+    "lowamp_deep_p1_nulls": 20_337_500,    # T-146 LOWAMP-DEEP-P1 deep-universe same-mask nulls (rng([20337500, k]))
         # STOCK_FACE_FURNACE_P1 (T-139 akshare face, bm-b r502): per-cell
         # dual nulls sign-flip 2000 + block bootstrap 2000, rng(base +
         # cell_idx*4000 + k), cell_idx in [0,281) k in [0,4000); band
