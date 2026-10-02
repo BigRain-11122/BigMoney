@@ -2,60 +2,38 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
-  {
-   "face": "N1",
-   "wave": 67,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w67-9of12",
-   "batch": "PERPETUAL-N1-W67",
-   "pid": 51500,
-   "started_at": "2026-10-02T09:45:04+08:00",
-   "started_epoch": 1790905504,
-   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W67-9.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W67",
-    "prereg": "research/PERPETUAL_N1_W67_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; FIFTY-SIXTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W66 row; seat declared published=reserved MSG-20261002-0945-bmb after the W66 zero-cost draft yield to bm-c r359 first-land per r511 commit-order law), engine_owner=bm-b, wave 67 BOTH SIDES ARITHMETIC CONTINUATION no skip (A 177_004..179_003 / B 50_201..50_400 machine-derived CLEAN == the W66 row W67+ published projection verbatim); W1..W63 finalizes ALL LANDED at this freeze (net chain head 503,148, K=136,520, bm-c r358), W64 bm-a + W65 bm-b + W66 bm-c = THREE in-flight upstream seats (finalize chain-pending FAIL-CLOSED r307)",
-    "a_seed_base": 177004,
-    "b_exit_seed_base": 50201,
-    "shard_subdir": "n1_w67",
-    "out_name": "n1_w67_results.json",
-    "engine_owner": "bm-b"
-   }
-  }
- ],
+ "active": [],
  "ledger_buffer": [
   {
    "machine_id": "bm-b",
    "face": "N1",
    "wave": 67,
    "batch": "PERPETUAL-N1-W67",
-   "shard": 7,
+   "shard": 10,
    "nshards": 12,
-   "key": "n1w67-7of12",
-   "pid": 57900,
-   "started_at": "2026-10-02T09:42:04+08:00",
-   "done_at": "2026-10-02T09:43:03+08:00",
-   "done_epoch": 1790905381,
-   "elapsed_sec": 57.8
+   "key": "n1w67-10of12",
+   "pid": 55140,
+   "started_at": "2026-10-02T09:46:04+08:00",
+   "done_at": "2026-10-02T09:47:03+08:00",
+   "done_epoch": 1790905621,
+   "elapsed_sec": 57.9
   },
   {
    "machine_id": "bm-b",
    "face": "N1",
    "wave": 67,
    "batch": "PERPETUAL-N1-W67",
-   "shard": 8,
+   "shard": 11,
    "nshards": 12,
-   "key": "n1w67-8of12",
-   "pid": 54944,
-   "started_at": "2026-10-02T09:43:04+08:00",
-   "done_at": "2026-10-02T09:44:03+08:00",
-   "done_epoch": 1790905441,
+   "key": "n1w67-11of12",
+   "pid": 56008,
+   "started_at": "2026-10-02T09:47:04+08:00",
+   "done_at": "2026-10-02T09:48:03+08:00",
+   "done_epoch": 1790905681,
    "elapsed_sec": 57.9
   }
  ],
- "last_flush_at": "2026-10-02T09:42:04+08:00",
+ "last_flush_at": "2026-10-02T09:46:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -65,63 +43,18 @@
   "n1w58-2of12": 1,
   "n1w64-9of12": 1
  },
- "shards_done_total": 306,
- "last_shard_done_at": "2026-10-02T09:44:03+08:00",
+ "shards_done_total": 309,
+ "last_shard_done_at": "2026-10-02T09:48:03+08:00",
  "last_tick": {
-  "ts": "2026-10-02T09:45:04+08:00",
-  "epoch": 1790905501,
-  "py_cpu_pct": 3.5,
-  "ram_free_gb": 5.212734222412109,
-  "verdict": "ignited:n1w67-9of12 pid=51500",
-  "active_n": 1,
-  "queue_depth": 2,
-  "elapsed_sec": 2.5
+  "ts": "2026-10-02T09:54:04+08:00",
+  "epoch": 1790906042,
+  "py_cpu_pct": 0.6,
+  "ram_free_gb": 4.967548370361328,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
+  "elapsed_sec": 2.3
  },
  "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 67,
-   "shard": 10,
-   "nshards": 12,
-   "key": "n1w67-10of12",
-   "batch": "PERPETUAL-N1-W67",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "67",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 67,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w67-11of12",
-   "batch": "PERPETUAL-N1-W67",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "67",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  }
- ]
+ "queue": []
 }
