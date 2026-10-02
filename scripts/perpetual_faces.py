@@ -1374,6 +1374,37 @@ N1_BANDS = {
     # bands were never assigned).
     66: {"a": (175_004, 177_003), "b_exit": (50_001, 50_200),
          "engine_owner": "bm-c"},
+    # FIFTY-SIXTH ENGINE-OWNED WAVE (r567 bm-b freeze): bm-b's
+    # TWENTY-FIRST owned per machine-derive (engine_owner==bm-b
+    # rows 20 + candidate). Wave 67 = next free number after the
+    # registered W66 row (seat declared published=reserved
+    # MSG-20261002-0945-bmb, r518-1 law; never-dry standing step:
+    # the same-window W66 draft yielded ZERO-COST to bm-c r359
+    # b35b0ee35 first-land per r511 commit-order law -- FIX-A
+    # origin-blob freshness abort caught it BEFORE any local
+    # edit ran: zero burns, zero ledger touches, unpublished
+    # seat; bands had been bit-identical = r530 deterministic
+    # same-band cross-validation 12th instance; same-window
+    # next-seat re-occupation per r565 bm-a law).
+    # W1..W63 finalizes ALL LANDED (net head 503,148, K=136,520,
+    # bm-c r358); W64 bm-a (burn in flight) + W65 bm-b (burned
+    # 12/12, finalize chain-pending) + W66 bm-c (burned 12/12,
+    # finalize chain-pending) = THREE in-flight upstream seats
+    # at this freeze (FAIL-CLOSED r307). BOTH SIDES ARITHMETIC
+    # CONTINUATION from the W66 row tail, no skip: A
+    # 177_004..179_003 (= W66 A end 177_003 + 1) and B
+    # 50_201..50_400 (= W66 B end 50_200 + 1) -- both windows
+    # CLEAN per the W66 row W67+ WARNING projections (bm-c
+    # r359 probe + this freeze's machine re-derive, r535 law).
+    # Machine-verified at prereg time
+    # (results/_r567bmb_w67_band_gate.py ADMIT receipt vs the
+    # 65-row pre-W67 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W67
+    # bands were never assigned).
+    67: {"a": (177_004, 179_003), "b_exit": (50_201, 50_400),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
