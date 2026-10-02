@@ -77,8 +77,8 @@
   "67": 12,
   "68": 12,
   "69": 12,
-  "70": 5,
-  "71": 9
+  "70": 8,
+  "71": 10
  },
  "wave_complete_flags": [
   2,
@@ -150,14 +150,6 @@
   69
  ],
  "queue_next": [
-  {
-   "face": "N1",
-   "wave": 71,
-   "shard": 7,
-   "nshards": 12,
-   "primary": false,
-   "authorization": "pre-claim-exempt (law sec.2)"
-  },
   {
    "face": "N1",
    "wave": 71,
@@ -1580,12 +1572,6 @@
  "burns_active": [
   {
    "wave": 71,
-   "shard": 7,
-   "pid": 42084,
-   "adopted": false
-  },
-  {
-   "wave": 71,
    "shard": 9,
    "pid": 36704,
    "adopted": false
@@ -1597,12 +1583,12 @@
    "adopted": false
   }
  ],
- "cycle": 120,
- "heartbeat_epoch": 1790907699,
- "last_cycle_ts": "2026-10-02T10:21:39",
- "py_cpu_pct": 0.54,
- "machine_cpu_pct": 31.5,
- "done_count": 818,
+ "cycle": 121,
+ "heartbeat_epoch": 1790907721,
+ "last_cycle_ts": "2026-10-02T10:22:01",
+ "py_cpu_pct": 0.77,
+ "machine_cpu_pct": 55.4,
+ "done_count": 822,
  "quarantined": [
   [
    12,
@@ -1628,18 +1614,11 @@
   "63:1": 2
  },
  "sync": {
-  "last_epoch": 1790907699,
+  "last_epoch": 1790907721,
   "remote_done_count": 804,
   "err": null
  },
  "completed": [
-  {
-   "wave": 42,
-   "shard": 11,
-   "pid": 4904,
-   "ended_epoch": 1790880694,
-   "rc": null
-  },
   {
    "wave": 42,
    "shard": 0,
@@ -3032,6 +3011,13 @@
    "pid": 43132,
    "ended_epoch": 1790907699,
    "rc": null
+  },
+  {
+   "wave": 71,
+   "shard": 7,
+   "pid": 42084,
+   "ended_epoch": 1790907721,
+   "rc": null
   }
  ],
  "grammar_consumption": [
@@ -4187,7 +4173,7 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 5,
+    "local_done": 8,
     "remote_done": 0
    }
   },
@@ -4204,12 +4190,12 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 9,
+    "local_done": 10,
     "remote_done": 0
    }
   }
  ],
- "append_pending": 5,
+ "append_pending": 1,
  "append_err": null,
  "ledger_appends": [
   {
