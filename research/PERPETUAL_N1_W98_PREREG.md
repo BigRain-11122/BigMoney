@@ -61,12 +61,19 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W87/W90/W94/W96 实况范式）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r583 bm-a finalize 产出·r584 收养核验回填（猝死会话收养 r471/r529 律）】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-a 引擎烧毕（r582 窗 tick 自燃·分片产品 12/12 已推 origin）；finalize one-pass=死会话 r583 窗 16:31 产出（r538 律·n1_w98_results.json 为该 finalize 首产非预存·r584 收养三证核验：prev=577,948==W97 活头逐位吹合+pf 9/9+n1 缺省波 selftest PASS+attrition guard CLEAN 后落地）。
+- ledger：prev_total 577,948（链序 W94 571,348 bm-a→W95 573,548 bm-b→W96 575,748 bm-a→W97 577,948 bm-b 均已落账解锁）+ batch_trials 2,200 = **580,148**；voids_applied=LOWAMP-P1/P2。
+- w98-only：n=2,200·mu=−0.1046935·sigma=0.2480436；merged：n=213,520·mu=−0.0929463·sigma=0.2449300（§0「累计 null 池投影 211,320+2,200=213,520」逐位吹合）；mu_delta_w98_vs_w97ext=−0.010889（合并后 mu 漂 −0.000122·门内）。
+- skill_line_v2 @n_eff_held 577,948：1.1687→**1.1687**（K-lift delta +0.0000≤0.02 门内）；se_mu @K213,520=0.000530（收窄链 W92 0.000547→W93 0.000544→W94 0.000541→W95 0.000538→W96 0.000535→W97 0.000533→W98 0.000530）。
+- §5 四判全过：①W98-only vs W92 键 merged mu |Δ|=0.0120<0.02 ✓；②sigma 相对变化 +0.05%<±10% ✓；③A 档 full_sharpe_p95 0.3131 vs W92 锤 0.3256 差 0.0125<0.05 ✓；④K-lift +0.0000≥−0.02 ✓。
 
 ## §8 批后复盘。【必填·终 7-T】
 
-- （finalize 落账后机械回填）
+- 测量加深面闭环：第 88 枚引擎波（机面计数）·bm-a 第 27 枚自有引擎波·N1 累计池 K 213,520（canon 120+W1..W98 全落账）；零注册宣称·零候选池污染·账本链性 577,948→580,148 无跳号。
+- 本波为 W93/W94/W95/W96 四空档在飞窗冻结的第一波（FAIL-CLOSED r307 跑时复核恒在·finalize 实跑时 W93..W97 已全部落账=链序自动解锁实证）；canon flip 不在本波（K2200 同例·治理提案面）。
+- 出场轴=template_default 按设计测③（测量判等 null 基线腿）；DATA_GAP 不涉；evidence_cutoff=2026-09-22 同窗律全程未漂。
+- 猝死收养注记：finalize 由 r583 会话产出后猝死于 commit 前（state 停 582+git 自标 r583 双证=r529 诊断律）·r584 收养核验落地（r471 律·产物三证：prev 头对账+selftest+attrition guard）——零重跑零重 derive（r538 禁盲重跑律·产物原样收养）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
