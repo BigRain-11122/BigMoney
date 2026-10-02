@@ -1,0 +1,174 @@
+{
+ "generated": "2026-10-02 21:21:57",
+ "n_symbols": 5225,
+ "status_done_symbols": 5224,
+ "quarantined": [
+  "001235",
+  "001381",
+  "301569",
+  "301660",
+  "301718"
+ ],
+ "faces": {
+  "pe_ttm": {
+   "n_missing": 0,
+   "n_empty": 0,
+   "n_parse_error": 0,
+   "n": 5225,
+   "n_unsorted": 0,
+   "n_nulls": 1,
+   "n_nonfinite": 0,
+   "d0_global": "",
+   "d1_global": "2026-10-01"
+  },
+  "pe_static": {
+   "n_missing": 0,
+   "n_empty": 1,
+   "n_parse_error": 0,
+   "n": 5224,
+   "n_unsorted": 0,
+   "n_nulls": 0,
+   "n_nonfinite": 0,
+   "d0_global": "1991-03-18",
+   "d1_global": "2026-10-01"
+  },
+  "pb": {
+   "n_missing": 0,
+   "n_empty": 1,
+   "n_parse_error": 0,
+   "n": 5224,
+   "n_unsorted": 0,
+   "n_nulls": 0,
+   "n_nonfinite": 0,
+   "d0_global": "1991-03-18",
+   "d1_global": "2026-10-01"
+  },
+  "total_mv": {
+   "n_missing": 0,
+   "n_empty": 1,
+   "n_parse_error": 0,
+   "n": 5224,
+   "n_unsorted": 0,
+   "n_nulls": 0,
+   "n_nonfinite": 0,
+   "d0_global": "1991-01-12",
+   "d1_global": "2026-10-01"
+  },
+  "roe_q": {
+   "n_missing": 0,
+   "n_empty": 2,
+   "n_parse_error": 0,
+   "n": 5223,
+   "n_unsorted": 0,
+   "n_nulls": 0,
+   "n_nonfinite": 0,
+   "d0_global": "2001-03-31",
+   "d1_global": "2026-06-30"
+  },
+  "div_events": {
+   "n_missing": 0,
+   "n_empty": 36,
+   "n_parse_error": 0,
+   "n": 5189,
+   "n_unsorted": 0,
+   "n_nulls": 0,
+   "n_nonfinite": 0
+  }
+ },
+ "flags_n": 13,
+ "flagged_symbols": [
+  {
+   "code": "000757",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "000768",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "000892",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "000935",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "002039",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600248",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600249",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600469",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600480",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600506",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600547",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "600548",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  },
+  {
+   "code": "688357",
+   "flags": [
+    "roe_q:nonperiod_keys"
+   ]
+  }
+ ],
+ "pit": {
+  "financial_face_rule": "roe_q rows are keyed by REPORT PERIOD END. Anchoring at period end = lookahead of Q1 30d / H1 62d / Q3 31d / FY 120d. MANDATORY prereg gate: any fundamental factor using financial faces MUST anchor at the statutory availability date (Q1->04-30, H1->08-31, Q3->10-31, FY->next-04-30) or later; period-end anchoring = prereg rejection (M02 exit-axis-style dual gate precedent).",
+  "statutory_lag_days": {
+   "min_of_medians": 46,
+   "median_of_medians": 62,
+   "max_of_medians": 120
+  }
+ },
+ "leg_d_pe_ratio": {
+  "n": 5224,
+  "median": 0.9386,
+  "lo": -11.569,
+  "hi": 4.2323
+ },
+ "leg_b_limitation": "single one-shot acquisition (2026-10-02): future-rewrite probe requires quarterly re-pull diff -- scheduled as follow-up slice note"
+}
