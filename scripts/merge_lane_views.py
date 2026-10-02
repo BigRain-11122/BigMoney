@@ -814,9 +814,32 @@ def sync_face(face, results_dir=None, machine=None):
         payload["lane_machine"] = mid
         tmp = lane + ".sync.tmp"
         try:
-            with open(tmp, "w", encoding="utf-8") as fh:
-                json.dump(payload, fh, ensure_ascii=False, indent=2,
-                          default=str)
+            # r289 format law, LANE leg (r600 bm-a live-fire 2026-10-03:
+            # hardcoded indent2 churned the whole indent1 lane file --
+            # 13.2k-line whole-file diff on the first session-side
+            # settle while the shared leg had already been probe-fixed;
+            # the daemon's _write_lane_file_strict is the incumbent
+            # indent1 producer) -- probe the incumbent lane's
+            # indent/EOL/trailing and mirror it, same as shared above.
+            l_ind, l_crlf, l_trail = 2, True, False
+            try:
+                with open(lane, "rb") as fh:
+                    lraw = fh.read()
+                if lraw:
+                    l_crlf = lraw.count(b"\r\n") > 0
+                    l_trail = lraw.endswith(b"\n")
+                    l_ind = _probe_key_indent(lraw)
+            except OSError:
+                pass
+            l_out = json.dumps(payload, ensure_ascii=False,
+                               indent=l_ind, default=str)
+            if l_crlf:
+                l_out = l_out.replace("\n", "\r\n")
+            if l_trail and not l_out.endswith(
+                    "\r\n" if l_crlf else "\n"):
+                l_out += "\r\n" if l_crlf else "\n"
+            with open(tmp, "w", encoding="utf-8", newline="") as fh:
+                fh.write(l_out)
             os.replace(tmp, lane)
             res["wrote_lane"] = True
             res["status"] = "settled"
