@@ -513,7 +513,12 @@ def tick(dry=False):
                 [sys.executable, os.path.join(PATHS.root, "Tools",
                                               "core_sampler.py"),
                  str(p.pid), item["batch"], item["key"]],
-                cwd=PATHS.root, creationflags=DETACHED, close_fds=True)
+                cwd=PATHS.root, creationflags=DETACHED, close_fds=True,
+                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL)  # r581: never hold the tick's
+            #                           console/handles -- a hung sampler
+            #                           must not stall the 1-min lane (r317
+            #                           std-redirect law, live-fired 15:18).
         except Exception as ex:
             _log(f"core-sampler spawn fault (non-fatal): {ex}")
         st["active"].append({"face": "N1", "wave": item["wave"],

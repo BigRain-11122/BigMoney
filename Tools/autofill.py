@@ -1883,7 +1883,12 @@ def tick(dry=False, _saturate_depth=0):
         subprocess.Popen([sys.executable, sampler, str(p.pid),
                           str(e["id"]), str(sh.get("key"))],
                          cwd=ROOT, creationflags=DETACHED,
-                         close_fds=True)
+                         close_fds=True,
+                         stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL)  # r581: std-redirect law
+        #                                            (r317) -- a hung sampler
+        #                                            must not stall the
+        #                                            autofill lane either.
     except Exception as ex:
         _log(f"core-sampler spawn fault (non-fatal): {ex}")
     rec.update({"verdict": "launched", "entry": e["id"],
