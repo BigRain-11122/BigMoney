@@ -96,11 +96,10 @@ MODE = ("B92" if REG92 else "A92") + " (" + \
 owner_rows = [w for w, c in N1_BANDS.items() if c.get("engine_owner")]
 bmb_rows = [w for w, c in N1_BANDS.items() if c.get("engine_owner") == "bm-b"]
 print(f"leg0: {len(N1_BANDS)} registered rows, tail=W{keys[-1]}, mode={MODE}")
-print(f"leg0: engine_owner rows={len(owner_rows)} (+W92 seat in flight) "
-      f"+ candidate; bm-b rows={len(bmb_rows)} -> W93 = bm-b "
+print(f"leg0: engine_owner rows={len(owner_rows)} + candidate; bm-b "
+      f"rows={len(bmb_rows)} -> W93 = bm-b "
       f"{len(bmb_rows) + 1}th owned; W93 ordinal = "
-      f"{len(owner_rows) + 2}th engine wave by machine-derive (+1 for the "
-      f"in-flight W92 seat)")
+      f"{len(owner_rows) + 1}th engine wave by machine-derive")
 
 # --- leg 0b: bm-c W92 seat MSG on origin + W93 vacancy ------------------------
 def _seat_on_origin(path, musts):
@@ -121,10 +120,15 @@ _r = subprocess.run(
      "fleet/inbox/", "fleet/inbox/processed/"], capture_output=True)
 w93_seats = [ln for ln in _r.stdout.decode("utf-8").splitlines()
              if "w93" in ln.lower() and "seat" in ln.lower()]
-assert not w93_seats, f"leg0b failed: W93 seat already declared {w93_seats}"
+OWN_SEAT = "fleet/inbox/MSG-20261002-1510-bmb-w92-yield-w93-seat.md"
+assert w93_seats == [OWN_SEAT], \
+    f"leg0b failed: W93 seat set must be exactly this machine's own " \
+    f"published seat, got {w93_seats}"
+_seat_on_origin(OWN_SEAT, ["229_004..231_003", "57_101..57_300", "bm-b"])
 print("leg0b: bm-c W92 seat MSG verified on origin (published=reserved "
-      "r518-1; yield receipt per r565 law); W93 seat vacancy "
-      "machine-checked (zero W93 seat MSGs)")
+      "r518-1; yield receipt per r565 law); W93 seat = this machine's OWN "
+      "published declaration (r565 yield-then-reoccupy, verified on origin "
+      "with the frozen bands; zero foreign W93 seat MSGs)")
 
 # --- leg 1: skip-past chain (mode-aware) --------------------------------------
 tail = N1_BANDS[91]

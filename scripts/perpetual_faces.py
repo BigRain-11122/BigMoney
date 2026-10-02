@@ -2116,46 +2116,41 @@ N1_BANDS = {
     # freezer must re-derive per the sec.4 pin law).
     92: {"a": (227_004, 229_003), "b_exit": (56_701, 56_900),
          "engine_owner": "bm-c"},
-    # EIGHTY-FOURTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r580 bm-a
-    # freeze): engine_owner rows 82 + in-flight W93 seat (bm-b) +
-    # candidate; bm-a's twenty-fifth owned per machine-derive
-    # (engine_owner==bm-a rows 24 + candidate). Wave 94 = first
-    # free number after the registered W92 row SKIPPING the bm-b
-    # published W93 seat (MSG-20261002-1510-bmb; published=
-    # reserved r518-1; prior seat yield: W93 zero-cost yield to
-    # bm-b per r511 commit-order, bands bitwise identical =
-    # deterministic cross-validation; yield receipt + W94 seat
-    # = MSG-20261002-1514-bma PUSHED to origin before this freeze
-    # per r565 early-visibility law).
-    # W1..W91 finalizes ALL LANDED at this freeze (landed chain
-    # head 564,748 = W91 bm-b r579 one-pass; K=198,120 merged
-    # pool). TWO in-flight upstream seats (W92 bm-c burning +
-    # W93 bm-b freeze in flight) -- finalize merge loop stays
-    # FAIL-CLOSED r307 at run time).
-    # BOTH SIDES SKIP-PAST-PUBLISHED CHAIN, DUAL-STATE CONVERGENT
-    # (W90 r579 precedent): state A = W93 seat-published-
-    # unregistered (skip-past-published from the W92 tails over
-    # the W93 published bands); state B = W93 registered
-    # (arithmetic continuation from the W93 tails) -- both
-    # states derive the same bands bitwise.
-    # A-SIDE: first clean window 231_004..233_003 (W92 A end
-    # 229_003 + 1 -> W93 published band 229_004..231_003 refused
-    # -> 231_004..233_003) CLEAN zero refusal points.
-    # B-SIDE: first clean window 57_301..57_500 (W92 B end
-    # 56_900 + 1 -> W93 published band 57_101..57_300 refused
-    # -> 57_301..57_500) CLEAN zero refusal points.
+    # EIGHTY-THIRD ENGINE-OWNED WAVE BY MACHINE-DERIVE (r579 bm-b
+    # freeze): engine_owner rows 82 + candidate; bm-b's
+    # thirty-first owned per machine-derive (engine_owner==bm-b
+    # rows 30 + candidate). Wave 93 = first free number after the
+    # registered W91 row SKIPPING the bm-c-declared W92 seat
+    # (MSG-20261002-1447-bmc, published=reserved r518-1; this
+    # machine's W92 derive was bitwise-identical -> ZERO-COST YIELD
+    # per r511 origin-first; yield receipt + W93 seat published
+    # same-window MSG-20261002-1510-bmb per r565 law).
+    # W92 registered mid-window by bm-c r370 (08bc6507b), burn in
+    # flight at this freeze -- ONE in-flight upstream seat, finalize
+    # merge loop stays FAIL-CLOSED r307 at run time.
+    # A-SIDE SKIP-PAST-PUBLISHED CHAIN (r518-1): W91 tail 227_003 ->
+    # W92 seat A 227_004..229_003 -> first clean 229_004..231_003
+    # (= W92 seat A end + 1) CLEAN.
+    # B-SIDE DOUBLE-HIT PIN CHAIN: 56_701..56_900 == W92 seat B ->
+    # skip -> 56_901..57_100 REFUSED in-band at SEED_REGISTRY
+    # xstock_tilt_h20=57_000 (median position 99/199, non-edge) AND
+    # xstock_tilt_h10=57_100 (upper-edge endpoint 199/199) ->
+    # D-20261002-05 pin: PAST-HIT restart 57_001..57_200 REFUSED
+    # again at 57_100 (median 99/199) -> restart 57_101..57_300
+    # CLEAN. Window-step-chain reading from the refused arithmetic
+    # window (57_101..57_300) CONVERGES -- 57_100 sits at the
+    # refused window upper endpoint, both restart readings coincide,
+    # no fork face (W63 double-hit family, zero divergence).
     # Machine-verified at prereg time
-    # (results/_r580bma_w94_band_gate.py ADMIT receipt rc0 state A
-    # vs the 90-row pre-W94 table + W93 published seat + live
-    # SEED_REGISTRY values + probe cluster 95_000..95_003 r335
-    # discovery leg + N3-R1 used-seed band 70_000..70_005
-    # MSG-183x r529 mandatory leg; origin slot vacancy machine-
-    # checked). W95+ projection: A 233_004..235_003 CLEAN; B
-    # 57_501..57_700 CLEAN (next freezer must re-derive, never
-    # transcribe).
-    # NOT a re-pick (R250: W94 bands were never assigned).
-    94: {"a": (231_004, 233_003), "b_exit": (57_301, 57_500),
-         "engine_owner": "bm-a"},
+    # (results/_r579bmb_w93_band_gate.py ADMIT receipt, dual-state
+    # rc0 [A92 seat-published window / B92 registered window] vs the
+    # 90-row pre-W93 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). W94+ projection: A 231_004..233_003
+    # CLEAN; B 57_301..57_500 CLEAN (next freezer must re-derive).
+    93: {"a": (229_004, 231_003), "b_exit": (57_101, 57_300),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

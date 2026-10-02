@@ -14,7 +14,8 @@ def run(cmd, env=None, check=True):
         sys.exit(1)
     return r
 
-base = '0ea213e8b786'
+base = run(['git', 'merge-base', 'main', 'origin/main']).stdout.strip()
+print('base(merge-base)=%s' % base[:12])
 old_main = run(['git', 'rev-parse', 'main']).stdout.strip()
 
 r = run(['git', 'diff', '--name-status', base, 'main'])
@@ -65,8 +66,16 @@ for attempt in range(1, 7):
     env = dict(os.environ, GIT_INDEX_FILE=tmp_index)
     run(['git', 'read-tree', origin_main], env=env)
     for f in my_files + keep:
-        h = run(['git', 'hash-object', '-w', f], env=env).stdout.strip()
-        run(['git', 'update-index', '--add', '--cacheinfo', '100644,%s,%s' % (h, f)], env=env)
+        import glob as _g
+        targets = sorted(_g.glob(f + '/**/*', recursive=True)) \
+            if os.path.isdir(f) else [f]
+        for t in targets:
+            if os.path.isdir(t):
+                continue
+            h = run(['git', 'hash-object', '-w', t], env=env).stdout.strip()
+            rel = os.path.relpath(t, REPO).replace('\\', '/')
+            run(['git', 'update-index', '--add', '--cacheinfo',
+                 '100644,%s,%s' % (h, rel)], env=env)
     tree = run(['git', 'write-tree'], env=env).stdout.strip()
     msg = ('round 579 bm-b: W92 zero-cost yield receipt + W93 seat published '
            '(replayed onto %s, attempt %d; S6 lane faces ridden) '
