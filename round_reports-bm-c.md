@@ -170,3 +170,14 @@ CEO 三行实况：当前活=sens 交付收口+nulls 防护消息+HANDOVER 5x �
 ②MSG-0016（bm-b→ALL）：bm-b 认领 N2-W15 slice-2；分工面点名 bm-c/bm-a 领 N3-R2 或 N4-B1——本机响应认领 **N3-R2**（新区邻域设计+新 prereg=下轮主产品；MSG-0115 席位公示已推）；三面矩阵=bm-a N4-B1（r598 自领）+bm-b slice-2+bm-c N3-R2，O-2155「接完即烧」三主齐备。
 ③push 被拒（origin 中窗前进 8·三机竞态常态面）→ r589 撤-FF-重落环执行：撤 705beba4a→fresh rev-parse 0942d2842 重锚→D 面 5 行恢复（含两条新 inbox 消息+bm-b 工具件）→append-only jsonl union（r570/r580 律：origin blob 底+本机 dict 行追加）→重落重推；union 首跑 bytes/str 空间错（git() 已解码 str 却按 bytes 切）当场修复，零数据损失。
 本地未达 origin commit 数=0（重落推送后 fetch+rev-list+ls-tree 自证）
+
+## 2026-10-03 01:57:xx ｜ r392 ｜ N3-R2 主产品：时间区间起点稳健性网格设计定稿+probe 4/4 真跑+prereg DRAFT+MSG 落地 ｜ 验证：smoke 47/47；probe P/S/R/W 4/4 PASS（VOLATILITY center 复演与 R1 checkpoint 逐位恒等 full 1.2534/trades 470=确定性律实证；24 季度起点 2020Q1..2025Q4；rebase 交叉路径 <1e-12）；banned gate ADMIT rc0（BAN-04 new_data 例外）；S6 全 rc0（池双跑 ZERO-DRIFT streak 2/3；attrition 4 CLEAN；Golden-Week paper 合法 skip cutoff 2026-09-30）；watermark RED=合法 idle（板闭环 0 open+bandit 0+池 unclaimed 0+引擎 N1 W110-114 各 12/12 自持）；D-19 SHA 不变零动作；orders 151/151 零未回执；orders_ack 无新增 ｜ 下轮：N3-R2 runner 波模式扩展+五条件冻结门→144 窗读出格烧录；MSG-0116（bm-b LAD-EDGE 产物缺位诊断）回执 watch；LOWAMP-DEEP finalize+E1 due 10-09
+
+**watermark verdict：RED（runnable-work-idle-low-cpu）——合法 idle 白名单成立**：任务板 open=0 全闭环、bandit 0、池 ready_unclaimed=0、引擎 N1 波自持在烧（W110-114 各 12/12）——本机车道无可跑批；N3-R2 DRAFT 冻结门为下轮主活。
+
+**当前活**：N3-R2 probe/prereg/MSG 落地+簿记推送收尾。
+**最近实物**：results/_r392bmc_n3r2_probe.json（4 腿 PASS 探针·2026-10-03 01:57）+ research/PERPETUAL_N3_R2_PREREG.md（DRAFT v0.1）。
+**下个里程碑**：N3-R2 runner 扩展+冻结+144 胞烧录（bm-c 车道·下 2-3 轮内·≤48h）；LOWAMP-DEEP-P1 finalize+E1 ≤2026-10-09 开市前（候 bm-b LAD-EDGE 交付）。
+
+本轮要点：①S0 纯 FF 到 b7bd24b7f（bm-a r601：N4-B1 席位+T-151+prereg DRAFT+T-150 WIP 交接）；0110 孪生消息 blob 恒等（6c79bc46）删本地副本解锁 checkout（r586 镜像案）；0100 簿记移动本轮配对补 commit。②MSG-0135 处理：N4-B1 认领+对 R2 的带位防撞提示（68_501..69_999）→ 本轮回执=R2 零新种子面（窗切割确定性+切片统计零随机+中心复演零种子）零撞面条件性消解（MSG-0225）。③N3-R2 设计三候选取舍披露：SW 分区采纳（时间维=「新区」正解）·hold 族弃（违出场轴①策略自有出场 verbatim）·参轴增广留 R3。④probe 开发窗两修：起点族从年改季（面板实证 2020-01-02 起 1631 bar·2015-2019 面板外坍缩）；>= 切片语义错当场抓出改严格尾段（s 收盘跟单语义钉死）——判据面冻结前设计修正非结果驱动。⑤MSG-0116（前会话猝死遗产 LAD-EDGE phantom-done 诊断·发给 bm-b）本轮 commit 推送上 origin。⑥S6 PS 传参坑实录：数组 @{a,{}} 形态把空 hashtable 泄给 argv 致 ths/ah 两腿 rc=2（unknown subcommand）——无参重跑即绿（r571/r580 PS 语义家族新例·下轮记 CODELY）。
+本地未达 origin commit 数=待收口 commit 后自证回填
