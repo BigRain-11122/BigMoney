@@ -1,0 +1,22 @@
+﻿N1_BANDS rows: 112 | SEED_REGISTRY int values: 164
+leg1 naive 40_500/41_000/41_500 REFUSED (forced-skip facts):
+  - N1_BANDS W29.b_exit 40651..40850 x N4-gen
+  - N1_BANDS W28.b_exit 40451..40650 x N4-gen
+  - N1_BANDS W30.b_exit 41001..41200 x N4-scrnull
+  - N1_BANDS W31.b_exit 41201..41400 x N4-scrnull
+  - N1_BANDS W32.b_exit 41401..41600 x N4-scrnull
+  - N1_BANDS W32.b_exit 41401..41600 x N4-unc
+  - N1_BANDS W33.b_exit 41601..41800 x N4-unc
+  - N1_BANDS W34.b_exit 41801..42000 x N4-unc
+  - SEED_REGISTRY[p4_batch1]=41000 inside N4-scrnull
+leg1b naive 50_500/51_000/51_500 REFUSED (projected-rung facts):
+  - N1_BANDS W68.b_exit 50501..50700 x N4-gen
+  - N1_BANDS W69.b_exit 50701..50900 x N4-gen
+  - N1_BANDS W70.b_exit 51001..51200 x N4-scrnull
+  - N1_BANDS W71.b_exit 51201..51400 x N4-scrnull
+  - N1_BANDS W72.b_exit 51401..51600 x N4-scrnull
+  - N1_BANDS W72.b_exit 51401..51600 x N4-unc
+  - N1_BANDS W73.b_exit 51601..51800 x N4-unc
+  - SEED_REGISTRY[cta_p2_noau]=50500 inside N4-gen
+  - SEED_REGISTRY[xstock_synth_null_a]=51000 inside N4-scrnull
+leg2 ADMIT: gen 68_501..68_999 + scrnull 69_000..69_499 + unc 69_500..69_999 all clean vs N1_BANDS(112 rows, both ladders incl. projections) + SEED_REGISTRY(164) + new_signal actual + N2-W15 + N3(70_000+) + probes + lfc; first contiguous 1,499 clean window above the 40_000 N4 domain floor per gap-finder (draft evidence only -- freeze gate re-runs this scan at freeze time per R99/R250).

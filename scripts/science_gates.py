@@ -1780,6 +1780,20 @@ SEED_REGISTRY = {
         # waves ladder +500 (70_500+). registry+rg scanned free 2026-10-01
         # 09:2x before prereg freeze (r509 bm-a; 500-wide clearance from
         # every registered base)
+        "perpetual_n4_b1": 68_501,
+        # PERPETUAL-N4-B1 (T-151 N4 face wave-1, frozen 2026-10-03 r602
+        # bm-a in the prereg-freeze commit, R250 one-step): moving-block
+        # bootstrap alternate-history replays on the six registered
+        # members; universe k rng(68_501+k), k=0..199 per PINNED-K=200 ->
+        # ACTUAL DRAW RANGE 68_501..68_700 (gen band; lfc actual-range
+        # comment convention). Reserved band trio 68_501..69_999 (gen
+        # 68_501..68_999 / scrnull 69_000..69_499 / unc 69_500..69_999):
+        # scrnull base 69_000 doubles as the frozen bootstrap_ci_sharpe
+        # judgment-face seed (prereg sec.4), unc unconsumed in B1; future
+        # N4 waves re-band-gate at their own prereg freeze per law sec.4.
+        # Freeze-time band-scan rerun receipt:
+        # results/_r602bma_n4b1_band_scan_freeze.txt (N1_BANDS 112 rows
+        # incl W110-W114 + full-registry disjoint ADMIT rc0)
         "stock_face_furnace_nulls": 20_333_000,
     "lowamp_p2_params": 20_333_500,  # T-140 LOWAMP-P2 sensitivity draws (rng([20333500, k]))
     "lowamp_p2_starts": 20_334_000,  # T-140 LOWAMP-P2 start-point draw stream

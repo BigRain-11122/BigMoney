@@ -12,10 +12,12 @@ exit stack never rewritten). Measurement-deepening face: products are
 deeper confidence faces only -- zero registration, zero funnel, zero
 promotion lines (law sec.2 L24).
 
-PRE-REGISTERED: research/PERPETUAL_N4_B1_PREREG.md -- DRAFT-NOT-FROZEN
-at skeleton landing. R99/R250: any wave burn happens only AFTER the
-freeze commit; cmd_run mechanically refuses while the prereg head still
-carries the DRAFT marker (honest exit 2, zero burn).
+PRE-REGISTERED: research/PERPETUAL_N4_B1_PREREG.md -- FROZEN 2026-10-03
+r602 bm-a (five-condition freeze gate, receipts in the prereg head; band-
+scan freeze rerun + banned-gate ADMIT + SEED_REGISTRY perpetual_n4_b1
+base landed in the same commit, R250 one-step). Pre-freeze the runner
+mechanically refused burns (R99/R250); post-freeze cmd_run unlocks and
+reads PINNED-L / PINNED-K from the prereg fail-closed.
 
 Seed bands (prereg sec.5 draft receipt results/_r600bma_n4b1_band_scan.py,
 re-run at freeze per R99/R250): gen 68_501..68_999 / scrnull 69_000..
@@ -343,7 +345,7 @@ def cmd_run(member_id: str, universes: int | None = None) -> int:
         return 2
     t = load_member(member_id)
     prices = source_panel()
-    k_max = universes or K_DEFAULT
+    k_max = universes or _frozen_K()
     if k_max > (BAND_GEN[1] - BAND_GEN[0] + 1):
         print(f"K={k_max} exceeds gen band width "
               f"{BAND_GEN[1] - BAND_GEN[0] + 1}")
@@ -381,6 +383,19 @@ def _frozen_L() -> int:
     if not m:
         raise RuntimeError("PINNED-L not found in prereg -- freeze must "
                            "write the probe-fact-selected L (sec.1)")
+    return int(m.group(1))
+
+
+def _frozen_K() -> int:
+    """K is pinned at the freeze commit into the prereg sec.3 verbatim
+    (PINNED-K = 200); fail-closed if absent (same law as _frozen_L)."""
+    import re
+    with open(PREREG, encoding="utf-8") as fh:
+        src = fh.read()
+    m = re.search(r"PINNED-K\s*=\s*(\d+)", src)
+    if not m:
+        raise RuntimeError("PINNED-K not found in prereg -- freeze must "
+                           "write the universe count (sec.3)")
     return int(m.group(1))
 
 
@@ -430,7 +445,7 @@ def cmd_selftest() -> int:
         if not ok:
             fails.append(name)
 
-    print("PERPETUAL-N4-B1 runner selftest (skeleton, pre-freeze):")
+    print("PERPETUAL-N4-B1 runner selftest (offline legs; freeze-gate S8 two-state):")
     panel = _synth_panel(600, 20260924)
 
     # S1 resample determinism (same L+seed -> identical panel bytes)
@@ -477,20 +492,36 @@ def cmd_selftest() -> int:
     leg("S7 SIGNAL_BUILDERS coverage (six members)", not missing,
         ",".join(missing))
 
-    # S8 freeze-gate guard (DRAFT marker -> cmd_run must refuse)
-    leg("S8 prereg freeze-gate state", not _prereg_frozen(),
-        "DRAFT marker present -> burn refuses (R99/R250)" if not _prereg_frozen()
-        else "PREREG READ AS FROZEN -- unexpected before freeze commit")
+    # S8 freeze-gate guard (two-state, r307 law: pre-freeze the DRAFT
+    # marker must hold cmd_run closed; post-freeze the pins must parse)
+    if _prereg_frozen():
+        try:
+            ok = _frozen_L() >= 2 and _frozen_K() >= 2
+            note = (f"frozen: PINNED-L={_frozen_L()} PINNED-K={_frozen_K()} "
+                    "parse fail-closed; cmd_run unlocked")
+        except RuntimeError as exc:
+            ok = False
+            note = f"pins missing: {exc}"
+        leg("S8 prereg freeze-gate state (post-freeze)", ok, note)
+    else:
+        leg("S8 prereg freeze-gate state (pre-freeze)", True,
+            "DRAFT marker present -> burn refuses (R99/R250)")
 
-    # S9 seed-band disjointness (three bands vs SEED_REGISTRY ints)
+    # S9 seed-band disjointness (three bands vs SEED_REGISTRY ints; the
+    # face's OWN registered base perpetual_n4_b1 == BAND_GEN[0] is the
+    # R250 one-step landing, not a collision -- post-freeze it is the
+    # only allowed in-band hit; pre-freeze zero hits expected)
+    own = SEED_REGISTRY.get("perpetual_n4_b1")
     hit = []
     for name, (lo, hi) in (("gen", BAND_GEN), ("scrnull", BAND_SCRNULL),
                            ("unc", BAND_UNC)):
         for k, v in SEED_REGISTRY.items():
-            if isinstance(v, int) and lo <= v <= hi:
+            if isinstance(v, int) and lo <= v <= hi and v != own:
                 hit.append(f"{k}={v} x {name}")
-    leg("S9 seed bands disjoint vs SEED_REGISTRY ints", not hit,
-        "; ".join(hit[:3]))
+    ok = (not hit) and (own is None or own == BAND_GEN[0])
+    leg("S9 seed bands disjoint vs SEED_REGISTRY (own base exempt)", ok,
+        "; ".join(hit[:3]) or (f"own base={own}" if own is not None
+                               else "no own key yet (pre-freeze state)"))
 
     # S10 block-length guard (L<2 or 2L>T refuse)
     ok = False
