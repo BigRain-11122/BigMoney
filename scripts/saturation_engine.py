@@ -44,7 +44,10 @@ Generators: N1 waves are frozen per-wave (law sec.4 band ledger +
 per-wave prereg). The engine NEVER creates waves -- it materializes
 unburned shards of already-frozen engine-owned waves (first engine wave
 = W10, engine_owner=bm-b, prereg research/PERPETUAL_N1_W10_PREREG.md).
-N2/N3/N4 generator hooks land with their faces (FACES registry order).
+N2/N3/N4 generator faces plug into the FAMILIES registry
+(O-20261002-2155 seat (b)) -- each row carries its module, runner,
+prereg format and key format; queue/reap/orphan/ignite dispatch by
+family, N1 behavior byte-identical (selftest leg-9).
 
 Products land in the exact layout the finalize face consumes
 (results/p2cal_ext/n1_w<wave>/shard-<i>-of-12.json via the verbatim
@@ -67,7 +70,7 @@ import perpetual_faces_n1 as n1              # noqa: E402
 
 LAW_REF = ("firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, "
            "O-20261001-1410 CEO direct order)")
-VERSION = "0.1"
+VERSION = "0.2"
 ENGINE_DIR = os.path.join(PATHS.results_dir, "saturation_engine")
 LOG_DIR = os.path.join(PATHS.root, "logs", "saturation_engine")
 MACHINE_ID = json.load(open(os.path.join(
@@ -102,6 +105,22 @@ CRASH_QUARANTINE = 3         # sec.4 crash backoff ceiling per shard
 HEARTBEAT_STALE_S = 300      # status: alive if a tick landed < 5 min ago
 HISTORY_TAIL = 120             # face-history derive lane (1-min rows,
                               # ~2h trend window; keeps git churn bounded)
+
+# --- family registry (O-20261002-2155 bm-a seat (b): queue/reap/orphan/
+#     prereg-path/runner dispatch BY FAMILY; N1 behavior byte-identical
+#     (selftest leg-9 identity assertions); N2/N3/N4 generator faces plug
+#     in HERE when they land -- the engine head-note hook made concrete).
+#     Each family row carries: the module owning WAVE_CONFIGS + the
+#     checkpoint validator (_shard_valid/_set_wave contract), the runner
+#     script, the prereg filename format, and the ledger key format.
+FAMILIES = {
+    "N1": {
+        "module": n1,                      # WAVE_CONFIGS + _shard_valid
+        "runner": "scripts/perpetual_faces_n1.py",
+        "prereg_fmt": "PERPETUAL_N1_W{wave}_PREREG.md",
+        "key_fmt": "n1w{wave}-{shard}of{nshards}",
+    },
+}
 
 
 def _now_iso():
@@ -162,46 +181,54 @@ def _shard_path(cfg, shard, nshards=NSHARDS):
                         f"shard-{shard}-of-{nshards}.json")
 
 
-def _shard_done(wave, cfg, shard, nshards=NSHARDS):
-    """Checkpoint presence=done (r488 semantics) via the runner's single-
-    source validator (_shard_valid), wave pinned (BATCH face)."""
+def _shard_done(wave, cfg, shard, nshards=NSHARDS, fam_name="N1"):
+    """Checkpoint presence=done (r488 semantics) via the family module's
+    single-source validator (_shard_valid), wave pinned (BATCH face).
+    fam_name selects the validator module (O-20261002-2155 registry)."""
     path = _shard_path(cfg, shard, nshards)
     if not os.path.exists(path):
         return False
-    n1._set_wave(wave)
+    mod = FAMILIES[fam_name]["module"]
+    mod._set_wave(wave)
     try:
-        return n1._shard_valid(path, shard, nshards)
+        return mod._shard_valid(path, shard, nshards)
     finally:
-        n1._set_wave(2)
+        mod._set_wave(2)
 
 
 # --- sec.1 queue generator (pure; hermetic-testable) ------------------------
 
-def _queue_items(wave_configs, done_probe, active_keys, machine_id,
+def _queue_items(families, done_probe, active_keys, machine_id,
                  nshards=NSHARDS):
     """Local perpetual queue: every unburned shard of every engine-owned
-    wave, lowest wave first, lowest shard first. Pure function -- the
-    tick wires real configs/probes; the selftest wires fixtures."""
+    wave of every REGISTERED family, registry order (N1 first), lowest
+    wave first, lowest shard first. Family dispatch per O-20261002-2155
+    seat (b): face/key/runner/prereg all derive from the family row.
+    Pure function -- the tick wires real registries/probes; the selftest
+    wires fixtures."""
     items = []
-    for wave in sorted(wave_configs):
-        cfg = wave_configs[wave]
-        if cfg.get("engine_owner") != machine_id:
-            continue                      # pool-era / other-machine waves: invisible
-        for shard in range(nshards):
-            key = f"n1w{wave}-{shard}of{nshards}"
-            if key in active_keys:
-                continue
-            if done_probe(wave, cfg, shard, nshards):
-                continue
-            items.append({"face": "N1", "wave": wave, "shard": shard,
-                         "nshards": nshards, "key": key,
-                         "batch": cfg["batch"],
-                         "runner": "scripts/perpetual_faces_n1.py",
-                         "runner_args": ["run", "--shard", str(shard),
-                                         "--of", str(nshards),
-                                         "--wave", str(wave),
-                                         "--workers", str(WORKERS),
-                                         "--lane", "engine"]})
+    for fam_name, fam in families.items():
+        wave_configs = fam["module"].WAVE_CONFIGS
+        for wave in sorted(wave_configs):
+            cfg = wave_configs[wave]
+            if cfg.get("engine_owner") != machine_id:
+                continue                  # pool-era / other-machine waves: invisible
+            for shard in range(nshards):
+                key = fam["key_fmt"].format(wave=wave, shard=shard,
+                                            nshards=nshards)
+                if key in active_keys:
+                    continue
+                if done_probe(wave, cfg, shard, nshards, fam_name):
+                    continue
+                items.append({"face": fam_name, "wave": wave, "shard": shard,
+                              "nshards": nshards, "key": key,
+                              "batch": cfg["batch"],
+                              "runner": fam["runner"],
+                              "runner_args": ["run", "--shard", str(shard),
+                                              "--of", str(nshards),
+                                              "--wave", str(wave),
+                                              "--workers", str(WORKERS),
+                                              "--lane", "engine"]})
     return items
 
 
@@ -224,7 +251,8 @@ def _pre_ignition_checks(item, cfg, prereg_path, daily_dir, done_probe,
         csvs = []
     if len(csvs) < 48:
         reasons.append(f"core48 panel face short: {len(csvs)} csv files")
-    if done_probe(item["wave"], cfg, item["shard"], item["nshards"]):
+    if done_probe(item["wave"], cfg, item["shard"], item["nshards"],
+                  item.get("face", "N1")):
         reasons.append("checkpoint already valid (presence=done)")
     if crash_counts.get(item["key"], 0) >= CRASH_QUARANTINE:
         reasons.append(f"crash quarantine (>={CRASH_QUARANTINE} crashes)")
@@ -300,9 +328,10 @@ def _reap_active(st, pid_alive, done_probe, now_epoch):
     by a later tick); live pid + no checkpoint = still burning."""
     completed, crashed, still = [], [], []
     for b in st.get("active", []):
+        fam = b.get("face", "N1")     # family dispatch (O-20261002-2155)
         alive = pid_alive(b.get("pid"))
-        if done_probe(b["wave"], b["cfg"], b["shard"], b["nshards"]):
-            row = {"machine_id": MACHINE_ID, "face": "N1",
+        if done_probe(b["wave"], b["cfg"], b["shard"], b["nshards"], fam):
+            row = {"machine_id": MACHINE_ID, "face": fam,
                    "wave": b["wave"], "batch": b["batch"], "shard": b["shard"],
                    "nshards": b["nshards"], "key": b["key"],
                    "pid": b.get("pid"), "started_at": b.get("started_at"),
@@ -317,7 +346,7 @@ def _reap_active(st, pid_alive, done_probe, now_epoch):
     return completed, crashed, still
 
 
-def _orphan_rows(wave_configs, done_probe, ledger_keys, active_keys,
+def _orphan_rows(families, done_probe, ledger_keys, active_keys,
                  buffer_keys, machine_id, shard_path_fn, nshards=NSHARDS):
     """sec.4 telemetry completeness: orphan-product reconciliation (r522
     live case W25 shard-0). An igniting tick that dies before persisting
@@ -327,40 +356,46 @@ def _orphan_rows(wave_configs, done_probe, ledger_keys, active_keys,
     product + key absent from ledger file/buffer/active => ONE
     reconstructed row, orphan_reconciled=true, pid/started_at honestly
     None (unrecoverable), elapsed/machine from the product audit, done_at
-    from product mtime. Pure function -- hermetic-testable."""
+    from product mtime. Family-dispatched per O-20261002-2155 seat (b).
+    Pure function -- hermetic-testable."""
     rows = []
-    for wave in sorted(wave_configs):
-        cfg = wave_configs[wave]
-        if cfg.get("engine_owner") != machine_id:
-            continue
-        for shard in range(nshards):
-            key = f"n1w{wave}-{shard}of{nshards}"
-            if key in active_keys or key in buffer_keys or key in ledger_keys:
+    for fam_name, fam in families.items():
+        wave_configs = fam["module"].WAVE_CONFIGS
+        for wave in sorted(wave_configs):
+            cfg = wave_configs[wave]
+            if cfg.get("engine_owner") != machine_id:
                 continue
-            if not done_probe(wave, cfg, shard, nshards):
-                continue
-            row = {"machine_id": machine_id, "face": "N1", "wave": wave,
-                   "batch": cfg["batch"], "shard": shard, "nshards": nshards,
-                   "key": key, "pid": None, "started_at": None,
-                   "orphan_reconciled": True}
-            try:
-                p = shard_path_fn(cfg, shard, nshards)
-                with open(p, encoding="utf-8") as f:
-                    d = json.load(f)
-                au = d.get("audit") or {}
-                row["elapsed_sec"] = au.get("elapsed_sec")
-                row["audit_machine"] = au.get("machine")
-                mtime = os.path.getmtime(p)
-                row["done_epoch"] = int(mtime)
-                row["done_at"] = time.strftime(
-                    "%Y-%m-%dT%H:%M:%S", time.localtime(mtime)) \
-                    + time.strftime("%z")[:3] + ":" + time.strftime("%z")[3:]
-            except Exception:
-                row["elapsed_sec"] = None
-                row["audit_machine"] = None
-                row["done_at"] = None
-                row["done_epoch"] = None
-            rows.append(row)
+            for shard in range(nshards):
+                key = fam["key_fmt"].format(wave=wave, shard=shard,
+                                            nshards=nshards)
+                if key in active_keys or key in buffer_keys or key in ledger_keys:
+                    continue
+                if not done_probe(wave, cfg, shard, nshards, fam_name):
+                    continue
+                row = {"machine_id": machine_id, "face": fam_name,
+                       "wave": wave,
+                       "batch": cfg["batch"], "shard": shard,
+                       "nshards": nshards,
+                       "key": key, "pid": None, "started_at": None,
+                       "orphan_reconciled": True}
+                try:
+                    p = shard_path_fn(cfg, shard, nshards)
+                    with open(p, encoding="utf-8") as f:
+                        d = json.load(f)
+                    au = d.get("audit") or {}
+                    row["elapsed_sec"] = au.get("elapsed_sec")
+                    row["audit_machine"] = au.get("machine")
+                    mtime = os.path.getmtime(p)
+                    row["done_epoch"] = int(mtime)
+                    row["done_at"] = time.strftime(
+                        "%Y-%m-%dT%H:%M:%S", time.localtime(mtime)) \
+                        + time.strftime("%z")[:3] + ":" + time.strftime("%z")[3:]
+                except Exception:
+                    row["elapsed_sec"] = None
+                    row["audit_machine"] = None
+                    row["done_at"] = None
+                    row["done_epoch"] = None
+                rows.append(row)
     return rows
 
 
@@ -375,6 +410,9 @@ def _write_face(st, py_pct, ram_free, verdict):
                              "started_at": b.get("started_at")}
                             for b in st.get("active", [])],
            "queue_depth": len(st.get("queue", [])),
+           "families": {fam: sum(1 for i in st.get("queue", [])
+                                 if i.get("face", "N1") == fam)
+                        for fam in FAMILIES},
            "shards_done_total": st.get("shards_done_total", 0),
            "last_shard_done_at": st.get("last_shard_done_at"),
            "last_flush_at": st.get("last_flush_at"),
@@ -422,8 +460,8 @@ def tick(dry=False):
     st = _load_state()
     base_tick_ts = (st.get("last_tick") or {}).get("ts")
 
-    def done_probe(wave, cfg, shard, nshards):
-        return _shard_done(wave, cfg, shard, nshards)
+    def done_probe(wave, cfg, shard, nshards, fam_name="N1"):
+        return _shard_done(wave, cfg, shard, nshards, fam_name)
 
     def pid_alive(pid):
         if not pid:
@@ -450,9 +488,10 @@ def tick(dry=False):
              f"(crashes={st['crashes'][b['key']]}, self-restart next tick)")
     st["active"] = still
 
-    # sec.1 local queue materialization (frozen engine-owned waves only)
+    # sec.1 local queue materialization (frozen engine-owned waves of all
+    # registered families, registry order N1-first -- O-20261002-2155 (b))
     active_keys = {b["key"] for b in st["active"]}
-    st["queue"] = _queue_items(n1.WAVE_CONFIGS, done_probe, active_keys,
+    st["queue"] = _queue_items(FAMILIES, done_probe, active_keys,
                                MACHINE_ID)
 
     # sec.4 telemetry completeness: orphan-product reconciliation (r522
@@ -470,7 +509,7 @@ def tick(dry=False):
                     except Exception:
                         pass
         orphans = _orphan_rows(
-            n1.WAVE_CONFIGS, done_probe, ledger_keys, active_keys,
+            FAMILIES, done_probe, ledger_keys, active_keys,
             {r["key"] for r in st.get("ledger_buffer", [])},
             MACHINE_ID, _shard_path)
         for row in orphans:
@@ -486,10 +525,11 @@ def tick(dry=False):
     skips = []
     while st["queue"] and len(st["active"]) < MAX_ACTIVE_BURNS:
         item = st["queue"][0]
+        fam = FAMILIES[item["face"]]
         ok, reasons = _pre_ignition_checks(
-            item, n1.WAVE_CONFIGS[item["wave"]],
+            item, fam["module"].WAVE_CONFIGS[item["wave"]],
             os.path.join(PATHS.root, "research",
-                         f"PERPETUAL_N1_W{item['wave']}_PREREG.md"),
+                         fam["prereg_fmt"].format(wave=item["wave"])),
             PATHS.daily_dir, done_probe, st.get("crashes", {}))
         if not ok:
             st["queue"].pop(0)
@@ -529,13 +569,13 @@ def tick(dry=False):
             #                           std-redirect law, live-fired 15:18).
         except Exception as ex:
             _log(f"core-sampler spawn fault (non-fatal): {ex}")
-        st["active"].append({"face": "N1", "wave": item["wave"],
+        st["active"].append({"face": item["face"], "wave": item["wave"],
                              "shard": item["shard"], "nshards": item["nshards"],
                              "key": item["key"], "batch": item["batch"],
                              "pid": p.pid, "started_at": _now_iso(),
                              "started_epoch": int(time.time()),
                              "log": logf,
-                             "cfg": n1.WAVE_CONFIGS[item["wave"]]})
+                             "cfg": fam["module"].WAVE_CONFIGS[item["wave"]]})
         st["queue"].pop(0)
         verdict = f"ignited:{item['key']} pid={p.pid}"
         _log(f"IGNITE {item['batch']}/{item['key']} pid={p.pid} "
@@ -621,6 +661,7 @@ def status():
 
 def selftest():
     import tempfile
+    import types
     tmp = tempfile.mkdtemp(prefix="_satengine_st_")
 
     # 1. sec.1 queue generator: owner filter + done/active exclusions
@@ -635,9 +676,16 @@ def selftest():
                       "a_seed_base": 1, "b_exit_seed_base": 1,
                       "shard_subdir": "n1_w11", "out_name": "x.json",
                       "engine_owner": "bm-a"}}
+    # family-registry form of the same fixtures (O-20261002-2155 seat (b):
+    # queue/orphan generators take a REGISTRY, not a bare config dict)
+    fake_fams = {"N1": {
+        "module": types.SimpleNamespace(WAVE_CONFIGS=fake_cfgs),
+        "runner": "scripts/perpetual_faces_n1.py",
+        "prereg_fmt": "PERPETUAL_N1_W{wave}_PREREG.md",
+        "key_fmt": "n1w{wave}-{shard}of{nshards}"}}
     done = set()
-    probe = lambda w, c, s, n: (w, s) in done
-    q = _queue_items(fake_cfgs, probe, set(), "bm-b", nshards=12)
+    probe = lambda w, c, s, n, f="N1": (w, s) in done
+    q = _queue_items(fake_fams, probe, set(), "bm-b", nshards=12)
     assert len(q) == 12, "queue must hold the 12 shards of the owned wave"
     assert all(i["wave"] == 10 for i in q), "pool-era/other-owner waves invisible"
     assert q[0]["runner_args"] == ["run", "--shard", "0", "--of", "12",
@@ -647,12 +695,12 @@ def selftest():
         " pool-default lane wrote orphan claim files -- W10 burns on" \
         " origin carry them, live-fire evidence r523 bm-a)"
     done.add((10, 0)); done.add((10, 5))
-    q = _queue_items(fake_cfgs, probe, {"n1w10-3of12"}, "bm-b", nshards=12)
+    q = _queue_items(fake_fams, probe, {"n1w10-3of12"}, "bm-b", nshards=12)
     assert len(q) == 9, "done + active shards must be excluded (12-2-1)"
     assert "n1w10-0of12" not in [i["key"] for i in q] \
         and "n1w10-3of12" not in [i["key"] for i in q], "exclusion drift"
     done.update((10, s) for s in range(12))
-    q = _queue_items(fake_cfgs, probe, set(), "bm-b", nshards=12)
+    q = _queue_items(fake_fams, probe, set(), "bm-b", nshards=12)
     assert q == [], "fully burned wave = honest empty queue"
 
     # 1b. sec.4 orphan-product reconciliation (r522 live case W25 shard-0:
@@ -665,9 +713,9 @@ def selftest():
     with open(_fpath(fake_cfgs[10], 0, 12), "w", encoding="utf-8") as f:
         json.dump({"audit": {"elapsed_sec": 24.1, "machine": "bm-b"}}, f)
     odone = set()
-    oprobe = lambda w, c, s, n: (w, s) in odone
+    oprobe = lambda w, c, s, n, f="N1": (w, s) in odone
     odone.add((10, 0))
-    rows = _orphan_rows(fake_cfgs, oprobe, set(), set(), set(), "bm-b", _fpath)
+    rows = _orphan_rows(fake_fams, oprobe, set(), set(), set(), "bm-b", _fpath)
     assert len(rows) == 1 and rows[0]["key"] == "n1w10-0of12", \
         "present product with no row = exactly one orphan row"
     assert rows[0]["orphan_reconciled"] is True and rows[0]["pid"] is None \
@@ -676,18 +724,18 @@ def selftest():
     assert rows[0]["elapsed_sec"] == 24.1 \
         and rows[0]["audit_machine"] == "bm-b" and rows[0]["done_at"], \
         "audit facts must flow from the product file (elapsed/machine/mtime)"
-    assert _orphan_rows(fake_cfgs, oprobe, {"n1w10-0of12"}, set(), set(),
+    assert _orphan_rows(fake_fams, oprobe, {"n1w10-0of12"}, set(), set(),
                         "bm-b", _fpath) == [], \
         "ledger-file key present = no orphan row (idempotence across ticks)"
-    assert _orphan_rows(fake_cfgs, oprobe, set(), {"n1w10-0of12"}, set(),
+    assert _orphan_rows(fake_fams, oprobe, set(), {"n1w10-0of12"}, set(),
                         "bm-b", _fpath) == [], "active key = no orphan row"
-    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), {"n1w10-0of12"},
+    assert _orphan_rows(fake_fams, oprobe, set(), set(), {"n1w10-0of12"},
                         "bm-b", _fpath) == [], "buffered key = no orphan row"
-    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), set(),
+    assert _orphan_rows(fake_fams, oprobe, set(), set(), set(),
                         "bm-a", _fpath) == [], \
         "foreign-owner wave invisible (engine_owner filter)"
     odone.clear()
-    assert _orphan_rows(fake_cfgs, oprobe, set(), set(), set(),
+    assert _orphan_rows(fake_fams, oprobe, set(), set(), set(),
                         "bm-b", _fpath) == [], \
         "product absent (done_probe false) = no orphan row"
 
@@ -787,7 +835,7 @@ def selftest():
                       "started_epoch": 100, "cfg": n1.WAVE_CONFIGS[10]}],
           "crashes": {}}
     done2 = {"n1w10-0of12"}
-    probe2 = lambda w, c, s, n: f"n1w{w}-{s}of{n}" in done2
+    probe2 = lambda w, c, s, n, f="N1": f"n1w{w}-{s}of{n}" in done2
     completed, crashed, still = _reap_active(
         st, lambda pid: False, probe2, 200)
     assert len(completed) == 1 and completed[0]["key"] == "n1w10-0of12", \
@@ -842,7 +890,60 @@ def selftest():
             "unreadable/absent disk = no CAS base = write proceeds"
     finally:
         STATE_PATH = real_state
-    print("selftest: PASS (9 legs: queue generator owner/done/active "
+
+    # 9. family registry (O-20261002-2155 bm-a seat (b)): N1 byte-identity
+    #    vs the pre-registry literals + multi-family dispatch proof
+    assert set(FAMILIES) == {"N1"}, \
+        "registry must hold exactly N1 today (N2/N3/N4 plug in on landing)"
+    n1fam = FAMILIES["N1"]
+    assert n1fam["module"] is n1, "N1 family module must be the n1 module"
+    assert n1fam["runner"] == "scripts/perpetual_faces_n1.py", \
+        "N1 runner drift (byte-identity vs pre-registry literal)"
+    assert n1fam["prereg_fmt"].format(wave=10) \
+        == "PERPETUAL_N1_W10_PREREG.md", \
+        "N1 prereg path drift (byte-identity vs pre-registry literal)"
+    assert n1fam["key_fmt"].format(wave=10, shard=0, nshards=12) \
+        == "n1w10-0of12", \
+        "N1 ledger key drift (byte-identity vs pre-registry literal)"
+    # real-tree N1 identity: registry-driven queue over real WAVE_CONFIGS
+    # equals single-family dispatch for every engine-owner machine
+    for owner in ("bm-a", "bm-b"):
+        reg_q = _queue_items(FAMILIES, lambda *a: False, set(), owner)
+        assert reg_q == _queue_items({"N1": n1fam}, lambda *a: False,
+                                     set(), owner), \
+            f"registry dispatch must equal single-family dispatch ({owner})"
+        assert all(i["face"] == "N1"
+                   and i["runner"].endswith("perpetual_faces_n1.py")
+                   for i in reg_q), f"face/runner drift ({owner})"
+    # multi-family dispatch: a fixture N4 family rides the same generators
+    # with its own key space / runner / prereg face; N1 keeps registry order
+    n4_cfgs = {1: {"batch": "PERPETUAL-N4-B1-W1", "prereg": "x",
+                   "shard_subdir": "n4_b1_w1", "out_name": "x.json",
+                   "engine_owner": "bm-b"}}
+    multi = dict(fake_fams)
+    multi["N4"] = {"module": types.SimpleNamespace(WAVE_CONFIGS=n4_cfgs),
+                   "runner": "scripts/perpetual_faces_n4.py",
+                   "prereg_fmt": "PERPETUAL_N4_B1_W{wave}_PREREG.md",
+                   "key_fmt": "n4b1w{wave}-{shard}of{nshards}"}
+    q = _queue_items(multi, lambda *a: False, set(), "bm-b", nshards=12)
+    n1_items = [i for i in q if i["face"] == "N1"]
+    n4_items = [i for i in q if i["face"] == "N4"]
+    assert len(n1_items) == 12 and len(n4_items) == 12, \
+        "both families must materialize their owned wave (12+12)"
+    assert q[0]["face"] == "N1" and q[12]["face"] == "N4", \
+        "registry order: N1 items first, N4 second (insertion order)"
+    assert all(i["key"].startswith("n4b1w1-") for i in n4_items), \
+        "N4 keys must derive from the N4 family key_fmt"
+    assert all(i["runner"] == "scripts/perpetual_faces_n4.py"
+               for i in n4_items), \
+        "N4 runner must derive from the N4 family row"
+    assert multi["N4"]["prereg_fmt"].format(wave=1) \
+        == "PERPETUAL_N4_B1_W1_PREREG.md", "N4 prereg fmt derive"
+    orow = _orphan_rows(multi, lambda w, c, s, n, f="N4": f == "N4",
+                        set(), set(), set(), "bm-b", _fpath)
+    assert len(orow) == 12 and all(r["face"] == "N4" for r in orow), \
+        "orphan reconciliation must dispatch by family face (12 N4 rows)"
+    print("selftest: PASS (10 legs: queue generator owner/done/active "
           "exclusions + orphan-product reconciliation [r522 telemetry "
           "completeness: present product + no ledger row -> one "
           "reconstructed row, idempotent] + PreIgnitionChecks fail-closed "
@@ -851,8 +952,11 @@ def selftest():
           "RAM gates + sec.4 artifact self-derivation [completed/crash] + "
           "state-write CAS gate [D-20261002-03 leg-2: fresh-engine lands / "
           "unchanged-disk lands / fresher-writer self-yields with bytes "
-          "intact / absent-disk no false retreat] + "
-          "law/prereg presence)")
+          "intact / absent-disk no false retreat] + family registry "
+          "[O-20261002-2155 seat (b): N1 byte-identity vs pre-registry "
+          "literals + registry==single-family queue equality + multi-family "
+          "N4 fixture dispatch: keys/runner/prereg/face + orphan rows by "
+          "face] + law/prereg presence)")
     return 0
 
 
