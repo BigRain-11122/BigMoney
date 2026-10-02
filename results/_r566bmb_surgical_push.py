@@ -11,8 +11,8 @@ def run(*a, check=True):
         sys.exit(f'FAIL {a[:3]}: rc={r.returncode} {r.stderr[:400]}')
     return r
 
-# 1. clean merge tree (base 4de45c3e0, zero file intersection pre-verified)
-mt = run('git', 'merge-tree', '--write-tree', '--merge-base=4de45c3e0',
+# 1. clean merge tree (base dcae6d6f0 = merge-base; intersection file content-equal verified)
+mt = run('git', 'merge-tree', '--write-tree', '--merge-base=dcae6d6f0',
          'origin/main', 'HEAD')
 if mt.returncode != 0:
     sys.exit(f'merge-tree CONFLICT rc={mt.returncode}: {mt.stdout[:600]}')
@@ -25,21 +25,19 @@ dels = [l for l in d.stdout.splitlines() if l.strip()]
 assert dels == [], f'DELETION-SET VIOLATION (r525/r516 law): {dels}'
 print('deletion-set assert: EMPTY (zero deletions vs origin/main)')
 
-# 3. payload count assert: diff origin/main..tree == my 19 payload files
+# 3. payload count assert: diff origin/main..tree == my 45 payload files
 p = run('git', 'diff', '--name-only', 'origin/main', tree)
 payload = sorted(l for l in p.stdout.splitlines() if l.strip())
-expected = 19
+expected = 44  # 45 staged minus fund_history_status (content-equal to origin -> legal already-delivered state, r343 law)
 assert len(payload) == expected, f'payload count {len(payload)} != {expected}'
-print('payload count assert:', len(payload), 'files == expected 19')
+print('payload count assert:', len(payload), 'files == expected 45')
 
 # 4. commit-tree on origin/main + push
-msg = ('round 566 surgical (merge-tree of 8fdb0c3d6+ad7d84a08 onto origin '
-       'f1993725c, zero-intersection clean): W64 same-band double-freeze '
-       'YIELD to bm-a (crashed r565 heritage discarded, 10 shards '
-       'attribution-verified, zero ledger pollution) + W65 FREEZE (bm-b '
-       'TWENTIETH owned, seat MSG-20261002-0919-bmb, ADMIT 64-keys, prereg '
-       'W63-anchored head 503,148, W64 in-flight FAIL-CLOSED r307, selftest '
-       'W2..W65 PASS) [via bm-b r566]')
+msg = ('round 566 closeout v2 surgical (0531fbb60 onto 50f0b413d): S6 30 legs '
+       'green + state r566 (skips dead 564/565) + heartbeat int-epoch + round '
+       'report + CODELY r566 psutil dead-pid-guard lesson + W65 shards 4-7 '
+       'ride + v1 bad-sweep reset disclosure (push-rejection caught r519 '
+       'family near-miss) [via bm-b r566]')
 ci = run('git', 'commit-tree', tree, '-p', 'origin/main', '-m', msg)
 new_sha = ci.stdout.strip()
 print('new commit:', new_sha)
