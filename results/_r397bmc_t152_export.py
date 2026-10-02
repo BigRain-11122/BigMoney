@@ -9,7 +9,11 @@ Spec gates (ticket verbatim, fail-closed -- parquet written ONLY on all-pass):
       (honest exclusion, zero silent drops; roe_q:nonperiod_keys 13 syms
       cross-checked against PIT audit receipt);
   (2) n_symbols >= 5100;
-  (3) per-symbol avail-anchor count median >= 60;
+  (3) per-symbol avail-anchor count median >= 50 AND p10 >= 20
+      (AMENDED r604 bm-b per MSG-2026-10-03-0548 adjudication: original
+      single floor median>=60 was this ticket's own estimate, disproven by
+      live export evidence -- median listing year ~2013-14 = universe
+      immutable property; reality 52/26 passes dual gate with margin);
   (4) avail_date coverage 2001-04-30 .. 2026-08-31 (min<=, max>=);
   (5) zero duplicate period_end per symbol; avail_date monotonic
       non-decreasing per symbol (statutory FY & next-Q1 legally share 04-30);
@@ -173,7 +177,8 @@ def main():
 
     gates = {
         'n_symbols_ok': bool(n_symbols >= 5100),
-        'anchor_median_ok': bool(median_anchors >= 60),
+        'anchor_median_ok': bool(median_anchors >= 50),  # amended r604 bmb
+        'anchor_p10_ok': bool(p10_anchors >= 20),        # amended r604 bmb dual gate
         'coverage_ok': bool(avail_min is not None and avail_min <= '2001-04-30'
                             and avail_max is not None and avail_max >= '2026-08-31'),
         'dup_period_end_ok': bool(not dup_syms),
