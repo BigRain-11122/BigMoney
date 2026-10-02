@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-02T12:02:30+08:00",
-  "current_task": "W77 finalize delivered (chain head 533,948 K=167,320); next: W80 freeze after bm-b W79 registration",
+  "last_seen": "2026-10-02 12:19:57",
+  "current_task": "W81 burn 7/12 in flight (engine lane)",
   "cpu_cores": 32,
   "cpu_pct": 13.8,
   "free_ram_gb": 52.5,
-  "gpu_free_vram_gb": 5.7,
-  "verdict": "W77 full-lifecycle closed (burn 12/12 + finalize one-pass + s7/s8 backfill); engine alive; pool 0 ready (engine lane saturated by W78/W79 pipeline)",
+  "gpu_free_vram_gb": 15.0,
+  "verdict": "alive: W81 freeze landed + burn in flight, S6 green, board clear",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -152,8 +152,8 @@
     "O-20261001-2355-bm-c.md",
     "O-20261002-0040-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790913561,
-  "clock_read": "2026-10-02T11:59:21+08:00",
+  "heartbeat_epoch_utc": 1790914797,
+  "clock_read": "2026-10-02T12:19:57+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5619,
   "gpu_idle_vram_gb": 8,
@@ -176,7 +176,7 @@
   "gpu_free_vram_mib": 5619,
   "notes": "r531: W18 freeze adopted from r530 crash (ADMIT re-verified); W18xW19 same-window collision resolved by CONSTRUCTIVE merge (bands disjoint, both stand)",
   "gpu_idle_vram_mb": 5430,
-  "ram_free_gb": 52.5,
+  "ram_free_gb": 55.0,
   "idle_ram_mb": 57450,
   "last_round": 568,
   "idle_ram_gb": 60.5
