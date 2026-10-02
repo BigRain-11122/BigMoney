@@ -16,20 +16,31 @@ load_sources fixed-order + merge_runnable_pool recipes) -- ZERO
 reimplementation; the row records merged-view == shared-blob at the
 sample instant.  Drift during the observation phase is DATA, not a
 fault (mid-tick lane-ahead windows are lawful and self-heal at settle;
-the flip gate reads the consecutive-green counter, which drift
-resets).
+the streak counter a drift resets is observation evidence, not a gate).
+
+POST-FLIP STATE (bm-c r402, 2026-10-03): the wave-1 flip LANDED at
+commit 298c4796b (bm-c r203, 2026-09-29) -- receipt
+research/POOL_RETIREMENT_S3_WAVE1_FLIP_RECEIPT.md; s4 disposition
+CLOSED option (a) (derived-view-only shared face retained, bm-c r204).
+This instrument is therefore retained as the OBSERVATION-PHASE
+equivalence sampler (receipt sec.IV: three-machine chain legs keep
+sampling every round; any drift row = observation data, honestly
+recorded).  `status` prints a landed-aware readout and must NEVER be
+read as a pending-action gate: the old perpetual "flip gate: READY"
+line already misled one session into proposing an already-done flip
+(bm-c r401 next-pointer near-miss, caught r402 pre-execution).
 
 Output: results/pool_dualrun.<machine>.jsonl (per-machine lane
 pattern, D-03(2) anti-UU-treadmill; each machine appends ONLY its own
 file).  Tail-capped at TAIL_KEEP rows -- this is a bounded
 migration-window instrument, not a permanent ledger; the s4
-disposition retires it with the shared face itself.  Rows carry
-evidence_cutoff (= shared face updated_at) per the results-JSON
-cutoff law.
+disposition retains it as the ongoing shared-face equivalence
+sampler (option a).  Rows carry evidence_cutoff (= shared face
+updated_at) per the results-JSON cutoff law.
 
 Usage:
   python scripts/pool_dualrun_reconcile.py run       # sample + append row
-  python scripts/pool_dualrun_reconcile.py status   # flip-gate read-only
+  python scripts/pool_dualrun_reconcile.py status   # observation readout (landed-aware)
   python scripts/pool_dualrun_reconcile.py selftest # hermetic fixtures
 
 Exit codes: 0 = evidence row appended (green or drift, both honest);
@@ -51,7 +62,15 @@ from config.lane_io import machine_id as _own_id  # noqa: E402
 
 FACE = "runnable_pool"
 TAIL_KEEP = 50          # bounded migration-window instrument
-GATE_GREEN_MIN = 3       # s3 spec: 3 consecutive ticks zero-drift
+GATE_GREEN_MIN = 3       # s3 pre-flip gate threshold (historical: flip
+                         # landed -- see FLIP_LANDED_COMMIT; kept for
+                         # receipt/docstring provenance only)
+# Wave-1 flip LANDED 2026-09-29 (bm-c r203, commit 298c4796b); s4
+# CLOSED option (a) derived-view-only (bm-c r204).  Landed-aware
+# constants below exist so no session ever re-reads this instrument's
+# readout as a pending flip (r401 near-miss law).
+FLIP_LANDED_COMMIT = "298c4796b"
+FLIP_RECEIPT_REL = "research/POOL_RETIREMENT_S3_WAVE1_FLIP_RECEIPT.md"
 
 
 def _now():
@@ -81,7 +100,7 @@ def _load_rows(path):
 
 def _first_divergence(a, b, path="$"):
     """First differing path (bounded probe for the drift detail field;
-    not a full diff -- the flip gate only needs drift bool + a pointer)."""
+    not a full diff -- the readout only needs drift bool + a pointer)."""
     if type(a) is not type(b):
         return f"{path} (type {type(a).__name__} vs {type(b).__name__})"
     if isinstance(a, dict):
@@ -160,29 +179,33 @@ def cmd_run(results_dir):
     row = _append_row(row, results_dir)
     if row["drift"]:
         print(f"[pool_dualrun] DRIFT: {row['drift_detail']} -- recorded "
-              f"as observation-phase data (flip-gate streak reset), "
+              f"as observation-phase data (drift-free streak reset), "
               f"entries {row['n_entries_shared']} vs "
               f"{row['n_entries_merged']}, cutoff "
               f"{row['evidence_cutoff']}")
     else:
         print(f"[pool_dualrun] ZERO-DRIFT (merged view == shared blob, "
-              f"{row['n_entries_merged']} entries, streak "
-              f"{row['consecutive_green']}/{GATE_GREEN_MIN}, cutoff "
+              f"{row['n_entries_merged']} entries, drift-free streak "
+              f"{row['consecutive_green']}, cutoff "
               f"{row['evidence_cutoff']})")
     return 0
 
 
 def cmd_status(results_dir):
-    """Read-only flip-gate verdict over ALL machine jsonl lanes visible
-    in this tree (each machine records its own; a missing file means
-    that machine has not adopted the leg yet -- reported honestly)."""
+    """Read-only observation-phase verdict over ALL machine jsonl lanes
+    visible in this tree (each machine records its own; a missing file
+    means that machine has not adopted the leg yet -- reported
+    honestly).  Wave-1 flip LANDED (FLIP_LANDED_COMMIT): this readout
+    is drift-maintenance evidence, NOT a pending-action gate -- a
+    landed instrument must say so (r401 near-miss law)."""
     import merge_lane_views as mlv
-    ok, detail = True, []
+    green = True
+    detail = []
     for machine in mlv.MACHINES:
         path = os.path.join(results_dir, f"pool_dualrun.{machine}.jsonl")
         rows = _load_rows(path)
         if not rows:
-            ok = False
+            green = False
             detail.append(f"{machine}: NO EVIDENCE (leg not yet adopted "
                           "or no rows)")
             continue
@@ -192,17 +215,19 @@ def cmd_status(results_dir):
                 break
             streak += 1
         last = rows[-1]
-        met = streak >= GATE_GREEN_MIN
-        ok = ok and met
+        last_green = not bool(last.get("drift"))
+        green = green and last_green
         detail.append(
-            f"{machine}: streak {streak} (gate {GATE_GREEN_MIN}) "
-            f"{'MET' if met else 'NOT-MET'}, last drift="
+            f"{machine}: streak {streak} drift-free, last drift="
             f"{str(last.get('drift')).lower()}, ts={last.get('ts')}, "
             f"cutoff={last.get('evidence_cutoff')}")
     for line in detail:
         print(f"[pool_dualrun/status] {line}")
-    print(f"[pool_dualrun/status] wave-1 flip gate: "
-          f"{'READY (all lanes >=%d consecutive green)' % GATE_GREEN_MIN if ok else 'NOT READY'}")
+    print(f"[pool_dualrun/status] wave-1 flip: LANDED (commit "
+          f"{FLIP_LANDED_COMMIT}, receipt {FLIP_RECEIPT_REL}); "
+          f"observation phase: {'ALL GREEN' if green else 'DRIFT ATTENTION (data, self-heals at settle; see per-machine lines)'}; "
+          "no pending flip action -- never re-propose without a new "
+          "receipt amending the flip state")
     return 0
 
 
@@ -308,6 +333,44 @@ def _selftest():
             h._append_row(r, tmpd)
         check("D1 tail capped at keep-window",
               len(_load_rows(p)) == TAIL_KEEP)
+
+        # fixture E: landed-aware status readout (r402 law -- a landed
+        # instrument must never read as a pending gate; r401 near-miss)
+        import io
+        import contextlib
+        for m in mlv.MACHINES:
+            pth = os.path.join(tmpd, f"pool_dualrun.{m}.jsonl")
+            if not os.path.exists(pth):
+                with open(pth, "w", encoding="utf-8") as fh:
+                    fh.write(json.dumps({"ts": "2026-09-29 05:00:00",
+                                         "machine": m, "drift": False,
+                                         "evidence_cutoff":
+                                         "2026-09-29 04:30:00"}) + "\n")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            h.cmd_status(tmpd)
+        out_e = buf.getvalue()
+        check("E1 landed summary names commit+receipt",
+              FLIP_LANDED_COMMIT in out_e and FLIP_RECEIPT_REL in out_e
+              and "LANDED" in out_e)
+        check("E2 zero pending-gate language post-flip",
+              "flip gate: READY" not in out_e
+              and "NOT READY" not in out_e
+              and "ALL GREEN" in out_e)
+        # fixture E3: one lane's last row drift -> DRIFT ATTENTION
+        with open(os.path.join(tmpd, "pool_dualrun.bm-b.jsonl"), "a",
+                  encoding="utf-8") as fh:
+            fh.write(json.dumps({"ts": "2026-09-29 06:00:00",
+                                 "machine": "bm-b", "drift": True,
+                                 "evidence_cutoff":
+                                 "2026-09-29 05:30:00"}) + "\n")
+        buf2 = io.StringIO()
+        with contextlib.redirect_stdout(buf2):
+            h.cmd_status(tmpd)
+        out_e3 = buf2.getvalue()
+        check("E3 drift last-row -> DRIFT ATTENTION verdict",
+              "DRIFT ATTENTION" in out_e3
+              and "ALL GREEN" not in out_e3)
     finally:
         globals()["_own_id"] = saved_own_id
         h = sys.modules.get("pool_dualrun_reconcile")
