@@ -84,7 +84,13 @@ LOG_PATH = os.path.join(PATHS.root, "logs", "saturation_engine.log")
 DETACHED = (0x00000008 | 0x00000200)   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
 
 NSHARDS = 12                 # law sec.4 wave face: 12 shards per N1 wave
-WORKERS = (os.cpu_count() or 8)  # O-20261002-2158 burn-width mandate: default
+# O-20261002-2158 burn-width mandate: pool width = machine cores,
+# per-machine capped by CORE_CAP. bm-c = 26/32 (CEO foreground-reserve
+# law, ~10% headroom); bm-a/bm-b uncapped (cap table single-source here
+# because all three ticks run this shared script). RAM floor gate stays
+# the only lowering authority -- never an excuse.
+CORE_CAP = {"bm-c": 26}
+WORKERS = min(os.cpu_count() or 8, CORE_CAP.get(MACHINE_ID, 1 << 30))
                              # pool width = machine cores (bm-a 32 / bm-b 16;
                              # bm-c 26 set in its Tools/ instance per CEO
                              # foreground-reserve). RAM floor gate stays the
