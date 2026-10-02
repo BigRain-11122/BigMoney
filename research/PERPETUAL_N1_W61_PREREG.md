@@ -61,10 +61,15 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位——finalize 后回填）
+- finalize one-pass（r357 bm-c·2026-10-02 08:4x）：K=**132,120** ==§0 投影逐位（129,920+2,200）；账本 prev=**496,548**（活链头 derive·零手抄）+2,200=**498,748 净链头**（voids_applied=LOWAMP-P1/P2 自动面）；results/perpetual_faces/n1_w61_results.json（audit.machine=bm-c·finalize_only=true·evidence_cutoff=2026-09-22·shards 12/12）。
+- **S5 四项全过**：①W61-only mu **−0.094806** vs 锚 −0.092367｜Δ=**0.0024<0.02**✓（W61-only 实测 −0.09480573·锚=W60 merged 实测）；②W61-only sigma **0.248458** vs 锚 0.248885＝**−0.17%<±10%**✓；③A 族 p95 **0.3163** vs 锚 0.3099｜Δ=**+0.0064<0.05**✓；④K-lift **+0.0003**≤0.02✓（1.1618→1.1621 @n_eff_held 496,548——正负交替先例延续：W59 −0.0001/W60 +0.0004 后本波续正）。
+- se_mu **0.000679→0.000674**（se_mu_at_k132120=0.000674·累计池加深收窄）；mu_delta_w61_vs_w60ext=**−0.005523**；canon flip 未执行（治理提案面·K2200 同律）。
+- 烧录实况：本波烧录主体=**bm-c 常驻引擎**（非冻结机 bm-b·engine_owner=bm-b 波在 bm-c 实例烧录=车道合同下跨机烧录首例如实注记）——常驻实例 per-tick 自燃 12/12（08:0x→08:25·v0.4 per-tick 重读实证）；末 2 片 appender 提交 ba9c9d77c 未推即 r356 会话猝死→**引擎 appender 自愈重发 92671123d**（08:31:33 FF 达 origin·12/12 完备性 r310 门由此过）；finalize 由收养机 bm-c r357 一步定稿（r538 一过律·预核零未 commit 自产件）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （占位——批后回填）
+- **同号三机撞窗完整收口**：W61 冻结窗三机各自机闸 derive 同带逐位（bm-b r564 先达 origin=b688cc1df 08:11:27 正主·bm-c r356 同窗交付同内容五面 2b72e33fd·bm-a r565 让路 MSG-20261002-0818-bma 纯让零烧）——r511 commit 时序律三机变体·带位三源互证（W60 行投影×bm-b 机闸×bm-a 机闸逐字同·r530 确定性律第 8 例）。
+- r356→r357 交接链：r356 会话 commit 后猝死于 push 前（ba9c9d77c 滞留本地=唯一未达件）——r471 收养律+引擎 appender 自愈双面收口零科学损失；finalize 产物由 r357 会话外科 CAS 推送（活写 lane 件在树禁 rebase·r532 律）。
+- W62+ 投影（带闸投影腿机证·已由 bm-a r565 冻结占用 381d85208）：A 167_004..169_003 CLEAN／B 48_601..48_800 CLEAN——W62 prereg 照例带闸复核（r335 律）；W63 B 侧算术位 48_801..49_000 REFUSED（SEED_REGISTRY p4_ext_tilt_q=49_000+p4_ext_tilt_d20=49_100）→B 侧强制跳位警示在 W62 行。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
