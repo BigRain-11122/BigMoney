@@ -58,3 +58,17 @@
 
 - runner=`scripts/perpetual_faces_n1.py`（selftest/status/run --shard k --of 12 --wave 92/finalize --wave 92；probe/parity=W2 设计验证面·本波赝实 no-op）；点火面 `Tools/saturation_engine.py`（本机 bm-c 实例·**常驻 v0.4 per-tick 重读**·本地队列→PreIgnitionChecks→分离子进程点火→完成探测→台账批处理·runner_args --lane engine 车道合同〔r523 律〕·**点火验证=2 tick 内产物增长面（n1_w92/ 分片计数·唯一点火证据·r325 律）**）。
 - 交付：`results/p2cal_ext/n1_w92/shard-<k>-of-12.json`（append-only·确定性）；`results/perpetual_faces/n1_w92_results.json`（finalize 合并件·顶层 evidence_cutoff·cutoff_meta·audit 段·K-lift 对照；finalize 链序前置=**起草窗三在飞上游席**——跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态律恒在）。
+
+## §7 跑后实证。【r370 冻结件缺占位段·r372 finalize 收口面补全（缺口如实披露）】
+
+- 12/12 分片 bm-c 引擎烧毕（r370 冻结 commit 后常驻 v0.4 per-tick 自燃免重启·r371 窗 12/12 烧毕·origin ls-tree 产物在场 12/12=r310 完备性门先行实核）；finalize one-pass（r538 律·本地无未 commit 自产波件前置核验·r372）。
+- ledger：prev_total 564,748（W91 bm-b r579 落账解锁·链序 W88 558,148 bm-c→W89 560,348 bm-b→W90 562,548 bm-a→W91 564,748 bm-b）+ batch_trials 2,200 = **566,948**；voids_applied=LOWAMP-P1/P2。
+- w92-only：n=2,200·mu=−0.0900126·sigma=0.2505498；merged：n=200,320·mu=−0.0926841·sigma=0.2448105（§0「全链落齐后 K=200,320」投影逐位吻合）；mu_delta_w92_vs_w91ext=−0.004175（本波批较 W91 批更深·仍浅于存量池——合并后 mu 漂 +0.000030·门内）。
+- skill_line_v2 @n_eff_held 564,748：1.1669→**1.1673**（K-lift delta +0.0004≤0.02 门内）；se_mu @K200,320=0.000547（收窄链延续：W87 0.000563→W89 0.000556→W91 0.000550→W92 0.000547）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过：|Δmu|=0.0025<0.02（锚=W88 merged −0.0925512）；σ 变化 +4.49%<±10%（锚 0.2397923）；A 桶 p95 差 0.0084<0.05（锚 0.3172·本波 0.3256）；K-lift +0.0004≤0.02。finalize stdout 留档=results/_r372bmc_w92_finalize_stdout.txt+读出面 results/_r372bmc_w92_readout.py；产物 `results/perpetual_faces/n1_w92_results.json`（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit.machine=bm-c·shards_consumed 12）。
+
+## §8 批后复盘。【r372 补全】
+
+- 链序实况：冻结窗三在飞上游席（W89 bm-b/W90 bm-a/W91 bm-b）已全部落账（W89 r579·W90 r580·W91 r579）——本波 finalize one-pass 收口，r307 两态律跑时复核通过（pre-W92 K=198,120/mu/sigma 与 W91 merged 逐位吻合=链连续性实证）、零改判据。
+- 供给面：本波 finalize 解锁 W93 bm-b finalize 链序；同窗 W94 bm-a 烧录在飞+W95 bm-b 已冻结（r580）+W96 席位 bm-a 已公示（r581）——供给线连续；bm-c 下一自由号=W97·席位公示顺延至 W96 注册落账后（未注册表尾上叠席位=表尾锁插入序险·r560 族预防面·如实注记非等待令）。
+- 判据面：mu 漂/K-lift/se_mu 全门内（§7 数字）；投影-实况零漂移（W91 行 W92+ 投影 A 227_004..229_003／B 56_701..56_900 与冻结带逐位一致）；W93 实冻 B 带 57_101..57_300=本波 §5 投影拒绝点 [57_000, 57_100] 后按法典 §4 钉死行（D-20261002-05 越 hit 起窗读法）跳位——投影-实况律一致。
