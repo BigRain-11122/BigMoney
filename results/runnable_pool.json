@@ -13689,25 +13689,31 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-03 03:02:13",
    "worker_class": "self-contained",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + start table==24 frozen family + center replay anchor vs R1 checkpoint (8 fields bitwise) + standing rebase cross-path assertion per window + determinism byte-equal rerun (JSONL checkpoint presence=done)",
    "shards": [
     {
      "key": "VOLATILITY-CE-01",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/perpetual_faces/n3_r2/cells-VOLATILITY-CE-01.jsonl (presence=done; deterministic rerun byte-equal)",
      "note": "N3-R2 member shard VOLATILITY-CE-01: 1 center replay (~5-10s engine) + 24 window readout cells (pure-math slices); ~40-60s single-core light burn",
      "owner": "bm-a",
-     "owner_since": "2026-10-03 03:10:03"
+     "owner_since": "2026-10-03 03:10:39",
+     "claimed_since": "2026-10-03 03:10:03",
+     "done_at": "2026-10-03 03:10:39",
+     "harvested_by": "bm-a",
+     "harvest_claim": "VOLATILITY-CE-01.bm-a.json"
     }
    ],
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
     "workers_law": "light batch honest single-core (one engine replay + vector slicing; no multicore shell for a <5min shard; R1 same face)"
-   }
+   },
+   "done_by": "bm-a",
+   "done_at": "2026-10-03 03:10:39"
   }
  ]
 }
