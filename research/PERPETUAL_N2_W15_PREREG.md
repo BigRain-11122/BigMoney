@@ -114,7 +114,7 @@
 
 - **slice-1（r510 bm-a 本窗·已落地）**：runner 骨架+subspace 绘制层+probe 真跑+
   selftest 8 腿+本草案；产物 results/perpetual_faces/_n2_w15_probe.json。
-- **slice-2（下窗）**：generate/screen/screen_finalize/run 分片/池握手/finalize 腿
-  +selftest 扩腿（真跑冒烟=r494 律）。
+- **slice-2（下窗·已认领 bm-b r597 @ 2026-10-03T00:16+08:00·席位公示=fleet/inbox/MSG-2026-10-03-0016-bmb）**：generate/screen/screen_finalize/run 分片/池握手/finalize 腿
+  +selftest 扩腿（真跑冒烟=r494 律）；拷贝适配源=tl14 cmd_generate/screen_prep/screen/screen_finalize 四面（W13 同裂先例）。
 - **slice-3（freeze 窗）**：三带登记+banned_gate+冻结 commit→生成器 N2 supply 物化
   →daemon 烧批→finalize→§7/§8 回填。

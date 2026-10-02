@@ -380,6 +380,39 @@ def _ext_claim_age_min(entry_id, shard_key):
     return best
 
 
+def _live_python_cmds():
+    """One process scan -> normalized live python cmdline strings
+    (lowercase, backslash-normalized). r598 perf fix: the keepalive leg
+    used to re-scan every process per pool entry (O(entries x scan) =
+    334 x 2.1s ~ 12min/tick on a 306-process box), structurally
+    blowing the O-2100 10-min fill SLA and wedging every tick after
+    22:52. Hoisting to one scan per tick keeps identical semantics
+    (needle-in-cmdline per entry)."""
+    import psutil
+    cmds = []
+    for p in psutil.process_iter(["name", "cmdline"]):
+        try:
+            if (p.info["name"] or "").lower().startswith("python"):
+                cmd = " ".join(p.info["cmdline"] or []).lower()
+                cmds.append(cmd.replace("/", "\\"))
+        except Exception:
+            continue
+    return cmds
+
+
+def _any_runner_alive(runner_rel, live_cmds):
+    """Needle match of a runner path against a pre-scanned cmdline set
+    (from _live_python_cmds). Null/empty runner -> False (r288 null
+    guard, same as _runner_alive)."""
+    if not runner_rel:
+        return False
+    needle = runner_rel.replace("/", "\\").lower()
+    for cmd in live_cmds:
+        if needle in cmd:
+            return True
+    return False
+
+
 def _runner_alive(runner_rel):
     """True if a python process is already running this entry's runner.
     Null/empty runner -> False (live 2026-09-27: T34-PRESIGNAL-HALFSTEP
@@ -387,19 +420,7 @@ def _runner_alive(runner_rel):
     never fires on null -- so the keepalive scan crashed on
     .replace() every tick 02:40-07:10, leaving the r288 claim-refresh
     line dead while a local burn runs)."""
-    if not runner_rel:
-        return False
-    import psutil
-    needle = runner_rel.replace("/", "\\").lower()
-    for p in psutil.process_iter(["name", "cmdline"]):
-        try:
-            if (p.info["name"] or "").lower().startswith("python"):
-                cmd = " ".join(p.info["cmdline"] or []).lower()
-                if needle in cmd.replace("/", "\\"):
-                    return True
-        except Exception:
-            continue
-    return False
+    return _any_runner_alive(runner_rel, _live_python_cmds())
 
 
 class _CorruptState(Exception):
@@ -1499,8 +1520,17 @@ def _keepalive_claims(pool, myid):
         with open(POOL, encoding="utf-8") as fh:
             prev = fh.read()
         prev_lane = _read_pool_lane_bytes()
+        # r598 perf hoist: ONE process scan per tick (was one scan per
+        # pool entry = 334 x 2.1s ~ 12min -- every tick after 22:52
+        # wedged here, blowing the O-2100 10-min fill SLA)
+        live_cmds = None
         for e in pool.get("entries", []):
-            if not _runner_alive(e.get("runner", "")):
+            r = e.get("runner", "")
+            if not r:
+                continue
+            if live_cmds is None:
+                live_cmds = _live_python_cmds()
+            if not _any_runner_alive(r, live_cmds):
                 continue
             for sh in e.get("shards", []):
                 if sh.get("status") == "done" or sh.get("owner") != myid:
@@ -2763,7 +2793,12 @@ def selftest():
         # a live owner as stale (live-fire: CN-TREND 30min burn +
         # fallback-stranded heartbeat -> bm-a takeover + double launch).
         _ka_runner = _runner_alive
+        global _any_runner_alive   # r598 probe: shadow+restore via global
+        _ka_probe = _any_runner_alive
         _runner_alive = lambda r: True
+        # r598 hoist: keepalive matches via _any_runner_alive(r, cmds)
+        # -- patch the probe too so S17 legs keep controlling liveness
+        _any_runner_alive = lambda r, cmds=None: True
         # S17a alive runner + stale own claim -> refreshed, git 3-step
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
                     "owner_since": "2026-09-24 18:00:00"})
@@ -2790,6 +2825,7 @@ def selftest():
         ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
                                "bm-b")
         _runner_alive = lambda r: False
+        _any_runner_alive = lambda r, cmds=None: False
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
                     "owner_since": "2026-09-24 18:00:00"})
         ka2 = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
@@ -2800,6 +2836,7 @@ def selftest():
            and p17c.get("owner_since") == "2026-09-24 18:00:00")
         # S17d push fault post-commit -> refreshed bytes kept on disk
         _runner_alive = lambda r: True
+        _any_runner_alive = lambda r, cmds=None: True
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
                     "owner_since": "2026-09-24 18:00:00"})
         fail_at["stage"] = "push"
@@ -2919,6 +2956,7 @@ def selftest():
            == "2026-09-24 18:00:00")
         _GIT_DIR = _gd_orig
         _runner_alive = _ka_runner
+        _any_runner_alive = _ka_probe
         # S18 null-runner entries (live 2026-09-27 02:40-07:10: keepalive
         # scan AttributeError'd on an explicit runner=null pool entry --
         # null guard + regression legs; S18c replays the exact live shape
