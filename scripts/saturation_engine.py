@@ -81,11 +81,19 @@ LOG_PATH = os.path.join(PATHS.root, "logs", "saturation_engine.log")
 DETACHED = (0x00000008 | 0x00000200)   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
 
 NSHARDS = 12                 # law sec.4 wave face: 12 shards per N1 wave
-WORKERS = 8                  # O-20260930-2355 multicore law per shard
+WORKERS = (os.cpu_count() or 8)  # O-20261002-2158 burn-width mandate: default
+                             # pool width = machine cores (bm-a 32 / bm-b 16;
+                             # bm-c 26 set in its Tools/ instance per CEO
+                             # foreground-reserve). RAM floor gate stays the
+                             # only lowering authority -- never an excuse.
 SAMPLE_S = 2.0               # instantaneous py-CPU sample window (autofill face)
-MAX_ACTIVE_BURNS = 1         # v0.1: one shard burn at a time; the pool
-                             # daemon stays the multi-launch saturator for
-                             # pool faces -- the engine is the never-dry floor
+MAX_ACTIVE_BURNS = 2         # O-20261002-2158 leg-2: single burn below 70% core
+                             # face = the engine MUST ignite a second burn
+                             # ("留白即点火" literal duty); PY_IGNITE_CEIL +
+                             # RAM_FLOOR_GB stay the authority gates. One
+                             # ignite per tick cycle (bounded by 60s cadence);
+                             # the pool daemon remains the multi-launch
+                             # saturator for pool faces.
 PY_IGNITE_CEIL = 75.0        # ignite only with headroom (pool/judged first)
 RAM_FLOOR_GB = 4.0           # bm-b shared-machine discipline (heartbeat law)
 LEDGER_FLUSH_MIN = 15.0      # sec.2 async batch window (10-20min band)
@@ -633,7 +641,7 @@ def selftest():
     assert len(q) == 12, "queue must hold the 12 shards of the owned wave"
     assert all(i["wave"] == 10 for i in q), "pool-era/other-owner waves invisible"
     assert q[0]["runner_args"] == ["run", "--shard", "0", "--of", "12",
-                                   "--wave", "10", "--workers", "8",
+                                   "--wave", "10", "--workers", str(WORKERS),
                                    "--lane", "engine"], \
         "runner args face drift (engine lane = sec.2 pre-claim exempt;" \
         " pool-default lane wrote orphan claim files -- W10 burns on" \
@@ -763,7 +771,8 @@ def selftest():
     # 5. ignite gate boundaries (headroom + RAM floor)
     assert _ignite_ok(10.0, 0, 8.0)[0], "idle machine must ignite"
     assert not _ignite_ok(80.0, 0, 8.0)[0], "py above ceiling must hold"
-    assert not _ignite_ok(10.0, 1, 8.0)[0], "active cap must hold"
+    assert not _ignite_ok(10.0, MAX_ACTIVE_BURNS, 8.0)[0], \
+        "active cap must hold (O-2158 width law: cap = MAX_ACTIVE_BURNS)"
     assert not _ignite_ok(10.0, 0, 2.0)[0], "RAM floor must hold"
     assert _ignite_ok(None, 0, None)[0], "unknown probes = honest ignite"
 
