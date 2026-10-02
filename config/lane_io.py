@@ -260,18 +260,10 @@ C_SINGLE_WRITER_HOSTS = {
 C_HOST_STALE_MIN = 20.0   # O-2100 s2.4 / autofill STALE_MIN precedent
 
 
-def _host_heartbeat_age_min(host):
-    """Age in minutes of the host's latest heartbeat signal
+def _hb_age_min(hb):
+    """Heartbeat age in minutes from a parsed heartbeat dict
     (heartbeat_epoch_utc int preferred per smoke-F7, else last_seen
-    ISO).  Returns None when the heartbeat file is missing/unreadable
-    or carries no parseable signal -- callers treat None as
-    dead-host (takeover face)."""
-    path = os.path.join(_REPO_ROOT, "fleet", "machines", f"{host}.json")
-    try:
-        with open(path, encoding="utf-8") as fh:
-            hb = json.load(fh)
-    except Exception:
-        return None
+    ISO). None when no parseable signal (dead-host face)."""
     epoch = hb.get("heartbeat_epoch_utc")
     if isinstance(epoch, int) and not isinstance(epoch, bool):
         return max(0.0, (time.time() - epoch) / 60.0)
@@ -285,6 +277,43 @@ def _host_heartbeat_age_min(host):
         except ValueError:
             return None
     return None
+
+
+def _host_heartbeat_age_min(host):
+    """Age in minutes of the host's latest heartbeat signal as read from
+    the LOCAL work tree.  Returns None when the heartbeat file is
+    missing/unreadable or carries no parseable signal -- callers treat
+    None as dead-host (takeover face)."""
+    path = os.path.join(_REPO_ROOT, "fleet", "machines", f"{host}.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            hb = json.load(fh)
+    except Exception:
+        return None
+    return _hb_age_min(hb)
+
+
+def _host_heartbeat_age_min_origin(host):
+    """Origin-ref heartbeat age (r366 fix candidate, landed r371): the
+    non-host machine's WORK-TREE copy of the host's heartbeat is only as
+    fresh as its last pull/rebase -- a behind-origin tree or a surgical
+    reset window can present a stale heartbeat while the host is actively
+    pushing (live-fire 2026-10-02 12:5x: local read 34min-stale vs origin
+    fresh -> guard released a stale-takeover derive over a live host).
+    Reads the host heartbeat straight from the origin/main raw blob;
+    any failure (no git, detached, timeout, bad json) -> None and callers
+    fall back to local-tree judgment."""
+    import subprocess
+    try:
+        r = subprocess.run(
+            ["git", "show", f"origin/main:fleet/machines/{host}.json"],
+            capture_output=True, cwd=_REPO_ROOT, timeout=10,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        if r.returncode != 0:
+            return None
+        return _hb_age_min(json.loads(r.stdout.decode("utf-8", "replace")))
+    except Exception:
+        return None
 
 
 def shared_derive_write_allowed(face_rel, verbose=True):
@@ -309,6 +338,19 @@ def shared_derive_write_allowed(face_rel, verbose=True):
                   f"heartbeat fresh ({age:.0f}min) -> skip derive this "
                   f"cycle (D-20260928-03 batch-3 C-family)")
         return False
+    # local view says stale/unreadable -> cross-check origin before any
+    # takeover (r366/r371): a behind-origin or reset-window local tree can
+    # present a stale host heartbeat while the host is actively pushing.
+    age_o = _host_heartbeat_age_min_origin(host)
+    if age_o is not None and age_o < C_HOST_STALE_MIN:
+        if verbose:
+            local_face = f"{age:.0f}min stale view" if age is not None \
+                else "unreadable view"
+            print(f"lane_io single-writer guard: {face_rel} host={host} "
+                  f"origin heartbeat fresh ({age_o:.0f}min, local "
+                  f"{local_face}) -> skip derive this cycle "
+                  f"(r366 stale-view veto)")
+        return False
     if verbose:
         basis = (f"heartbeat stale {age:.0f}min" if age is not None
                  else "heartbeat unreadable")
@@ -322,17 +364,25 @@ def _selftest():
     """Offline hermetic legs for the batch-3 single-writer guard
     (zero fleet reads via monkeypatch, zero disk writes)."""
     import config.lane_io as li
-    saved_mid, saved_age = li.machine_id, li._host_heartbeat_age_min
+    saved_mid = li.machine_id
+    saved_age = li._host_heartbeat_age_min
+    saved_age_o = li._host_heartbeat_age_min_origin
     faces = dict(li.C_SINGLE_WRITER_HOSTS)
     face = "results/__selftest_face.json"
     try:
         li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
         state = {"age": None}
+        state_o = {"age": None, "calls": 0}
 
         def age(host):
             return state["age"]
 
+        def age_o(host):
+            state_o["calls"] += 1
+            return state_o["age"]
+
         li._host_heartbeat_age_min = age
+        li._host_heartbeat_age_min_origin = age_o
         legs = []
 
         # L1 host machine -> always allowed (even with stale heartbeat)
@@ -386,6 +436,40 @@ def _selftest():
                      li.shared_derive_write_allowed(
                          "results/__fam/*", verbose=False) is False))
         li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
+
+        # --- r366/r371 origin-ref veto legs (stale-view false-takeover)
+        li.machine_id = lambda: "bm-x"
+        # L10 local stale + origin fresh -> veto (host alive per origin)
+        state["age"] = 25.0
+        state_o["age"] = 3.0
+        legs.append(("origin-fresh-veto",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False))
+        # L11 local stale + origin also stale -> takeover stands
+        state_o["age"] = 30.0
+        legs.append(("origin-also-stale-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        # L12 local unreadable + origin fresh -> veto (dead local view)
+        state["age"] = None
+        state_o["age"] = 3.0
+        legs.append(("origin-fresh-veto-dead-local",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False))
+        # L13 local fresh -> skip WITHOUT consulting origin (fast path)
+        state["age"] = 3.0
+        calls0 = state_o["calls"]
+        legs.append(("local-fresh-fastpath-no-origin-read",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False
+                     and state_o["calls"] == calls0))
+        # L14 origin unreadable -> fall back to local judgment (takeover)
+        state["age"] = 25.0
+        state_o["age"] = None
+        legs.append(("origin-unreadable-fallback-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        state_o["age"] = None
 
         # --- r452 union-mirror legs (clobber #4 root fix, hermetic tmp disk)
         import shutil
@@ -463,6 +547,7 @@ def _selftest():
     finally:
         li.machine_id = saved_mid
         li._host_heartbeat_age_min = saved_age
+        li._host_heartbeat_age_min_origin = saved_age_o
         li.C_SINGLE_WRITER_HOSTS = faces
 
 

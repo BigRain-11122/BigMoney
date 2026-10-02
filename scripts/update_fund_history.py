@@ -31,7 +31,10 @@ Semantics (update_astock_daily r280 family):
 - attempts[code] >= 3 -> quarantined (excluded from todo, disclosed in status)
 - empty result rows = LEGITIMATE (ok face, e.g. no-dividend stock) -- never a failure
 - gate: lane guard bm-c only (R31/R65: other machines stdout-only, zero writes);
-  complete -> no-op; lock alive -> in-progress; 30-min spawn throttle; else spawn
+  complete -> no-op; lock alive -> in-progress; lock+log both older than
+  COLLECTOR_STALL_MIN -> verified-pid kill + checkpoint respawn (r340 law,
+  live-fire #2 2026-10-02: pid-reuse + socket hang); 30-min spawn throttle;
+  else spawn
 Exit codes (gate): 0 = ok/no-op/spawned/in-progress; 2 = machinery failure.
 refresh: 0 = universe complete; 2 = stopped (fuse/source-block) -- checkpoint kept.
 """
@@ -61,6 +64,7 @@ FUSE_CONN = 3
 QUARANTINE_AT = 3
 SPAWN_THROTTLE_S = 30 * 60
 CHECKPOINT_EVERY = 20
+COLLECTOR_STALL_MIN = 15.0  # r340 law: pid alive + lock/log double-stall = socket-level hang
 
 FACES = [
     ("pe_ttm", "baidu", "市盈率(TTM)"),
@@ -167,6 +171,52 @@ def clear_lock():
         pass
 
 
+def _pid_matches_collector(pid):
+    """True only when pid's command line carries this script's path.
+    Live-fire 2026-10-02 r371: killed collector pid 23868 was reused within
+    14s by an unrelated transient process -> bare OpenProcess verdict let
+    the gate read 'in progress' while the data line was dead (pid-reuse
+    family, psutil self-match law). psutil unavailable -> legacy verdict."""
+    try:
+        import psutil
+    except ImportError:
+        return True
+    try:
+        cl = " ".join(psutil.Process(int(pid)).cmdline() or [])
+        return "update_fund_history" in cl
+    except Exception:
+        return False
+
+
+def _age_sec(path):
+    try:
+        return max(0.0, time.time() - os.path.getmtime(path))
+    except OSError:
+        return None
+
+
+def _kill_lock_pid():
+    """Kill the lock's collector pid -- ONLY after cmdline verification
+    (never a pid reused by an unrelated process). Returns (killed,
+    verified); lock always cleared after."""
+    lk = read_json(LOCK, {}) or {}
+    pid = lk.get("pid")
+    killed = verified = False
+    try:
+        import psutil
+        p = psutil.Process(int(pid))
+        if "update_fund_history" in " ".join(p.cmdline() or []):
+            p.kill()
+            p.wait(timeout=5)
+            killed = verified = True
+    except ImportError:
+        pass  # no psutil -> refuse to blind-kill a possibly-reused pid
+    except Exception:
+        pass
+    clear_lock()
+    return killed, verified
+
+
 def lock_alive():
     lk = read_json(LOCK)
     if not lk or "pid" not in lk:
@@ -179,10 +229,10 @@ def lock_alive():
             h = k32.OpenProcess(SYNCHRONIZE, False, int(lk["pid"]))
             if h:
                 k32.CloseHandle(h)
-                return True
+                return _pid_matches_collector(lk["pid"])
             return False
         os.kill(int(lk["pid"]), 0)
-        return True
+        return _pid_matches_collector(lk["pid"])
     except Exception:
         return False
 
@@ -369,6 +419,30 @@ def selftest():
     clear_lock()
     leg("lock cleared", not os.path.exists(LOCK))
 
+    leg("pid-match own process", _pid_matches_collector(os.getpid()))
+    try:
+        import psutil
+        foreign = None
+        for pr in psutil.process_iter(["pid", "cmdline"]):
+            cl = " ".join(pr.info["cmdline"] or [])
+            if cl and "update_fund_history" not in cl:
+                foreign = pr.info["pid"]
+                break
+        if foreign:
+            atomic_write(LOCK, json.dumps({"pid": foreign, "ts": now_iso()}))
+            leg("pid-reuse rejected (foreign live pid)", not lock_alive())
+            clear_lock()
+        else:
+            leg("pid-reuse rejected (foreign live pid)", True, "SKIP no foreign pid")
+    except ImportError:
+        leg("pid-reuse rejected (foreign live pid)", True, "SKIP no psutil")
+    tmp_age = os.path.join(DATA_DIR, "_selftest_age")
+    atomic_write(tmp_age, "x")
+    a1 = _age_sec(tmp_age)
+    leg("age-sec contract", a1 is not None and a1 < 60
+        and _age_sec(tmp_age + "_missing") is None)
+    os.remove(tmp_age)
+
     st = build_status()
     json.dumps(st)
     leg("status build serializes", st["universe_n"] > 5000 and "faces_total" in st)
@@ -394,6 +468,24 @@ def gate():
         print(f"fund_history gate: complete ({st['done_symbols']}/{st['universe_n']}) -> no-op")
         return 0
     if lock_alive():
+        lock_age = _age_sec(LOCK)
+        log_age = _age_sec(LOG)
+        if (lock_age is not None and log_age is not None
+                and lock_age > COLLECTOR_STALL_MIN * 60
+                and log_age > COLLECTOR_STALL_MIN * 60):
+            # r340 law live-fire #2 (2026-10-02, 36min stall at 5076/5229):
+            # pid alive + log/artifact double-stall = socket-level hang.
+            # Verified-pid kill + checkpoint respawn; throttle bypassed
+            # because the previous spawn is dead by our own hand.
+            killed, verified = _kill_lock_pid()
+            print(f"fund_history gate: collector double-stall "
+                  f"lock={lock_age/60:.0f}min log={log_age/60:.0f}min -> "
+                  f"killed={killed} verified={verified}; respawn (r340 law)")
+            st["last_spawn_ts"] = now_iso()
+            write_status(st)
+            spawn_detached("refresh")
+            print(f"fund_history gate: spawned detached refresh (todo={st['todo_symbols']})")
+            return 0
         write_status(st)
         print("fund_history gate: refresh in progress -> no-op (resumable)")
         return 0
