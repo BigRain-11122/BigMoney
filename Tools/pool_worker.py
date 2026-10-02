@@ -445,7 +445,34 @@ def _push_claims_and_ledger(myid, note):
     mid = _mid_git_op()
     if mid:
         _log(f"push deferred: mid-git-op ({mid}) -- local files stand, "
-             "next pass re-pushes (zero loss)")
+             f"next pass re-pushes (zero loss)")
+        return False
+    # D-20261002-04 leg-2/leg-3 (T-144): the commit below is a
+    # WHOLE-INDEX commit (no pathspec) -- the staged set must be
+    # exactly this worker's own adds and carry ZERO deletions, or a
+    # concurrent session's leftover index face rides the commit
+    # (6765a3b93 live face, r519 family 6th offender). Policy single
+    # source = Tools/git_claw.py; fail-closed on unreadable probes.
+    try:
+        import git_claw
+        dels = git_claw.staged_deletions(ROOT)
+        staged = git_claw.staged_paths(ROOT)
+    except Exception as exc:
+        _log(f"push deferred: staged-set probe fault ({exc}) -- "
+             f"fail-closed, D-20261002-04")
+        return False
+    if dels:
+        _log(f"push deferred: staged deletion set x{len(dels)} "
+             f"({'; '.join(dels[:3])}) -- worker commits never carry "
+             f"deletions (D-20261002-04)")
+        return False
+    foreign = [p for p in staged
+               if not p.replace(os.sep, "/").startswith("results/pool_claims/")
+               and p.replace(os.sep, "/") != "results/pool_worker_ledger.jsonl"]
+    if foreign:
+        _log(f"push deferred: foreign staged set x{len(foreign)} "
+             f"({'; '.join(sorted(foreign)[:3])}) -- session owns the "
+             f"index (F-20261002-02 family)")
         return False
     _git(["add", "results/pool_claims", "results/pool_worker_ledger.jsonl"])
     rc, err = _git(["commit", "-m",
@@ -592,6 +619,14 @@ def selftest():
         return cond
 
     try:
+        # S0z D-20261002-04 leg-2 import face: the staged-deletion /
+        # staged-ownership policy single source is Tools/git_claw.py
+        # (its own hermetic selftest covers the real-git faces; this
+        # leg keeps pool_worker's zero-git charter intact).
+        import git_claw
+        ok("S0z git_claw import + policy constants (D-20261002-04)",
+           git_claw.ALLOW_PREFIXES == ("fleet/inbox/",)
+           and hasattr(git_claw, "staged_deletions"))
         # S1 ts roundtrip + age
         ts = _now_iso()
         ok("S1 now_iso parses + age>=0", (_age_min(ts) or -1) >= 0)

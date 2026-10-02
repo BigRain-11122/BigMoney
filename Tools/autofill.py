@@ -712,7 +712,24 @@ def _staged_foreign_block(dirt):
     Before any tick commit: verify the staged set is exactly the
     tick's own dirt; any foreign staged path = a session owns the
     index -> defer the tick commit (next tick retries). Fail-closed
-    on unreadable diff (no commit)."""
+    on unreadable diff (no commit).
+
+    D-20261002-04 leg-2 (T-144): staged DELETIONS defer unconditionally
+    -- tick commits never carry deletions (the 6765a3b93 live face WAS
+    a staged deletion riding a whole-index commit; policy single
+    source = Tools/git_claw.py)."""
+    rc_d, out_d = _git(("diff", "--cached", "--no-renames",
+                        "--diff-filter=D", "--name-only"))
+    if rc_d != 0:
+        _log("tick commit deferred: staged deletion-set diff unreadable "
+             "(fail-closed, D-20261002-04 leg-2)")
+        return True
+    dels = [l.strip() for l in (out_d or "").splitlines() if l.strip()]
+    if dels:
+        _log(f"tick commit deferred: staged deletion set x{len(dels)} "
+             f"({'; '.join(dels[:3])}) -- tick commits never carry "
+             f"deletions (D-20261002-04 leg-2)")
+        return True
     rc, out = _git(("diff", "--cached", "--name-only"))
     if rc != 0:
         _log("tick commit deferred: staged-set diff unreadable "
@@ -2314,6 +2331,8 @@ def selftest():
         #                                  HEAD (probe returns "stale")
         staged_sim = {"foreign": ()}  # F-20261002-02 leg: non-empty ->
         #                                the staged-ownership claw trips
+        staged_sim["deletions"] = ()  # D-20261002-04 leg-2: staged
+        #                                deletion set -> claw trips
 
         def _fake_git(args):
             if args[0] in ("add", "commit", "push", "pull", "rebase"):
@@ -2322,6 +2341,9 @@ def selftest():
                 #                            the sequence assertions
             if args[0] == "diff" and behind_sim["on"]:
                 return 1, ""               # r351 pool-behind-origin face
+            if (args[0] == "diff" and "--diff-filter=D" in args
+                    and staged_sim["deletions"]):
+                return 0, "\n".join(staged_sim["deletions"]) + "\n"
             if (args[0] == "diff" and "--cached" in args
                     and staged_sim["foreign"]):
                 return 0, "\n".join(staged_sim["foreign"]) + "\n"
@@ -2396,6 +2418,19 @@ def selftest():
            rz is False and pz.get("owner") is None
            and git_seq == ["add"])
         staged_sim["foreign"] = ()
+        # S15y D-20261002-04 leg-2 staged-deletion gate: tick commits
+        # NEVER carry deletions -- a staged D face (concurrent session's
+        # surgical leftover / mid-move index) defers the tick commit
+        # (policy single source Tools/git_claw.py, r519 family face).
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        staged_sim["deletions"] = ("results/gone_forever.json",)
+        git_seq.clear()
+        ry = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        py = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15y staged deletion set -> claim deferred, no commit, pool rolled back",
+           ry is False and py.get("owner") is None
+           and git_seq == ["add"])
+        staged_sim["deletions"] = ()
         # S15c rival STALE claim -> takeover, owner rewritten
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
                     "owner_since": "2026-09-24 18:00:00"})

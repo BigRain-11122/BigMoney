@@ -83,6 +83,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)                      # config / science_gates
 sys.path.insert(0, os.path.join(ROOT, "scripts"))  # perpetual_faces, compute_audit
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # Tools (git_claw)
 
 try:
     import psutil
@@ -475,6 +476,20 @@ def ledger_append_batch(pending, mid, repo=None, dry=False):
         rec["committed"] = ((r.stdout or "").strip().splitlines() or [""])[0]
         if dry:
             rec["outcome"] = "committed_dry"
+            return rec
+        # D-20261002-04 leg-2: deletion-set self-proof before ANY engine
+        # push (r519 family). The shared pre-push hook covers this too;
+        # this in-code leg is the daemon-side proof, hook-independent
+        # (r303 single source: policy lives in Tools/git_claw.py).
+        try:
+            import git_claw
+            viol = git_claw.deletion_violations("origin/main", "HEAD",
+                                                repo=repo, mid=mid)
+        except Exception as exc:
+            viol = [{"path": "<claw>", "reason": repr(exc)[:120]}]
+        if viol:
+            rec.update({"outcome": "push_refused_deletion_set",
+                        "deletions": viol[:5]})
             return rec
         r = _git(["push", "origin", "HEAD:refs/heads/main"],
                  cwd=repo, timeout=APPEND_TIMEOUT_S)
@@ -966,6 +981,26 @@ def selftest():
         rec2 = ledger_append_batch(pend2, "selftest", repo=repo)
         leg("hermetic busy defer", rec2.get("outcome") == "deferred"
             and "CHERRY_PICK_HEAD" in rec2.get("reason", ""))
+        # D-20261002-04 leg-2: deletion-set refusal face (r519 family).
+        # A foreign-owned file lands on origin, is then deleted by a
+        # local commit: the append flow must REFUSE the push (local
+        # commit stands, origin product preserved -- fail-closed).
+        os.rmdir(os.path.join(repo, ".git", "CHERRY_PICK_HEAD"))
+        fdel = os.path.join(repo, "results", "foreign_face.json")
+        open(fdel, "w").write('{"audit": {"machine": "bm-a"}}')
+        ok &= _g(["add", "results/foreign_face.json"], repo).returncode == 0
+        ok &= _g(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", "foreign face"], repo).returncode == 0
+        ok &= _g(["push", "-q", "origin", "main"], repo).returncode == 0
+        ok &= _g(["rm", "-q", "results/foreign_face.json"],
+                 repo).returncode == 0
+        ok &= _g(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", "rm foreign"], repo).returncode == 0
+        rec3 = ledger_append_batch(pend2, "selftest", repo=repo)
+        leg("hermetic deletion-set push refusal",
+            ok and rec3.get("outcome") == "push_refused_deletion_set"
+            and any("foreign_face.json" in v.get("path", "")
+                    for v in rec3.get("deletions", [])))
 
     # 11. s3 CEO face (law sec.5): reader-contract keys + verdict logic
     face = derive_face("selftest", 1790000000.0, {"queue_next": []},

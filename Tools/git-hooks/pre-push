@@ -1,0 +1,28 @@
+#!/bin/sh
+# BigMoney pre-push ownership claw: BLOCK pushes whose deletion set
+# contains files NOT owned by this machine. D-20261002-04 item-1 leg-1
+# (T-144), the mechanical enforcement of the r519-family standing law
+# ("pre-push deletion-set self-proof, missing leg = push forbidden",
+# F-20261001-03 lineage; six-plus live offenders r513/r525/r531/r540/
+# r560/r574 deleted peer products from origin).
+# Single source of policy: Tools/git_claw.py (the daemon faces call the
+# same module in-code -- r303 single-source law, belt under this hook).
+# Scope: refs/heads/main only. New-branch pushes pass (zero base).
+# Remote-ref deletions (pushing :main) BLOCK outright.
+# Escape hatch: git push --no-verify (state the reason in the round
+# report).
+# Install/refresh: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_prepush_claw.ps1
+anew="0000000000000000000000000000000000000000"
+while read local_ref local_sha remote_ref remote_sha; do
+    if [ "$remote_ref" = "refs/heads/main" ]; then
+        if [ "$local_sha" = "$anew" ]; then
+            echo "PRE-PUSH CLAW: remote ref deletion push refused (D-20261002-04)."
+            exit 1
+        fi
+        if [ "$remote_sha" = "$anew" ]; then
+            continue
+        fi
+        python Tools/git_claw.py check-push "$remote_sha" "$local_sha" || exit 1
+    fi
+done
+exit 0
