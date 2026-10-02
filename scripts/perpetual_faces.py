@@ -1765,35 +1765,6 @@ N1_BANDS = {
     # NOT a re-pick (R250: W81 bands were never assigned).
     81: {"a": (205_004, 207_003), "b_exit": (54_001, 54_200),
          "engine_owner": "bm-a"},
-    # SEVENTY-SECOND ENGINE-OWNED WAVE (r574 bm-b freeze): bm-b's
-    # TWENTY-SEVENTH owned per machine-derive (engine_owner==bm-b
-    # rows 26 + candidate). Wave 82 = first free number after the
-    # registered W81 row; same-window DOUBLE YIELD this round
-    # (W80 -> bm-c 7fbeadb2e, W81 -> bm-a b38c8e64a seat-first +
-    # freeze first-land, both per r511 commit-order law, both
-    # zero-cost) + next-seat re-occupation per r565 law. Seat
-    # declared published=reserved MSG-20261002-1245-bmb PUSHED to
-    # origin before this freeze per r565 early-visibility law;
-    # never-dry standing step under CEO de-throttle order
-    # O-20261001-2355 sec.2.
-    # W1..W79 finalizes ALL LANDED (net chain head 538,348,
-    # K=171,720, bm-b r574 this window); W80 bm-c (burned 12/12,
-    # finalize pending) + W81 bm-a (registered r574, burn in
-    # flight) = TWO in-flight upstream seats at this freeze
-    # (FAIL-CLOSED r307).
-    # BOTH SIDES ARITHMETIC CONTINUATION from the W81 row tail,
-    # zero skip: A 207_004..209_003 (= W81 A end 207_003 + 1),
-    # B 54_201..54_400 (= W81 B end 54_200 + 1); single reading,
-    # no fork face (F-20261002-03 not triggered).
-    # Machine-verified at prereg time
-    # (results/_r574bmb_w82_band_gate.py ADMIT receipt vs the
-    # 79-row pre-W82 table + live SEED_REGISTRY values + probe
-    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
-    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
-    # slot vacancy machine-checked). NOT a re-pick (R250: W82
-    # bands were never assigned).
-    82: {"a": (207_004, 209_003), "b_exit": (54_201, 54_400),
-         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
