@@ -63,10 +63,17 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位·finalize 后机械回填）
+- 12/12 分片 bm-c 引擎烧毕（2026-10-02 13:57 kill-restart 点火·appender 三批 5+4+3 台账化·audit.machine=bm-c）；finalize one-pass（r538 律·r310 完备性门 origin ls-tree 12/12 先行）。
+- ledger：prev_total 555,948（W87 bm-a r578 同窗落账解锁）+ batch_trials 2,200 = **558,148**；voids_applied=LOWAMP-P1/P2。
+- w88-only：n=2,200·mu=−0.0897867·sigma=0.2397923；merged：n=191,520·mu=−0.0925512·sigma=0.2447313；mu_delta_w88_vs_pre=+0.006989（w88 批较浅于存量——合并后 mu 漂 +0.000032·门内）。
+- skill_line_v2 @n_eff_held 555,948：1.1665→**1.1663**（K-lift delta −0.0002≤0.02 门内）；se_mu @K191,520=0.000559（收窄链延续：W83 0.000576→本波 0.000559）；canon_flip 未执行（治理提案面·K2200 同法）。
+- finalize stdout 留档=轮报告；产物 `results/perpetual_faces/n1_w88_results.json`（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit 段齐）。
 
 ## §8 批后复盘。【必填·结 7-T】
 
-- （占位·finalize 后机械回填）
+- 确定性双烧交叉验证：bm-b r577 W88 同带独立机闸 derive 逐位恒等后让路（r511 commit-order·yield receipt 3aa3c72c4）＝零仲裁成本面；本机带闸双态回执 results/_r368bmc_w88_band_gate.py（state A skip-past-published 链 + state B 算术续带）双 rc0。
+- 链序实况：冻结窗单在飞上游席 W87 bm-a（FAIL-CLOSED r307 跑时复核）→W87 finalize 于本窗中途落账 origin（bm-a r578·555,948）→本波 finalize 同轮解锁 one-pass 收口——r307 两态律实弹：跑时复核通过、零改判据。
+- 引擎面：常驻 v0.4 per-tick 自燃（r359 面）——冻结 commit 后 13:57 kill-restart、2 tick 内分片增长点火证据成立；appender 产品三批台账化（5+4+3·law sec.2 batched）；W88 全周期=冻结（r368）→烧录→finalize（r369）跨两轮收口，r529 猝死诊断律承接（r368 会话死于 S7 前·estate 零损）。
+- 判据面：mu 漂/K-lift/se_mu 全门内（§7 数字）；W89+ 投影（A 221_004..223_003 CLEAN/B 55_901..56_100 拒于 ths_agg_p1=56_000 中位→D-05 钉 56_001..56_200）已由 bm-b r577 席位 MSG 与 W89 冻结消费——投影-实况零漂移。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
