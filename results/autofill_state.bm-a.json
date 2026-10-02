@@ -1022,46 +1022,12 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 02:30:01",
+  "ts": "2026-10-03 02:50:01",
   "machine": "bm-a",
-  "py_cpu_pct": 2.6,
-  "verdict": "fuse_refused_crash_loop",
+  "py_cpu_pct": 0.0,
+  "verdict": "claim_lost_yield",
   "entry": "FUND-VALUE-P1-CELL-VALUEPE-X2",
-  "shard": "fund-value-p1-cell-valuepe-x2-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 3,
-  "fuse_skipped": [
-   {
-    "entry": "FUND-VALUE-P1-CELL-VALUEPE-X2",
-    "shard": "fund-value-p1-cell-valuepe-x2-0of1",
-    "sig": "scripts/fund_value_p1.py|run,--cell,VALUE-PE,--face,x2",
-    "fuse_refusals": 3
-   },
-   {
-    "entry": "FUND-VALUE-P1-CELL-VALUEPB-X1",
-    "shard": "fund-value-p1-cell-valuepb-x1-0of1",
-    "sig": "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x1",
-    "fuse_refusals": 2
-   },
-   {
-    "entry": "FUND-VALUE-P1-CELL-VALUEPB-X2",
-    "shard": "fund-value-p1-cell-valuepb-x2-0of1",
-    "sig": "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x2",
-    "fuse_refusals": 1
-   },
-   {
-    "entry": "FUND-VALUE-P1-NULLS",
-    "shard": "fund-value-p1-nulls-0of1",
-    "sig": "scripts/fund_value_p1.py|run,--nulls",
-    "fuse_refusals": 1
-   },
-   {
-    "entry": "FUND-VALUE-P1-SENS",
-    "shard": "fund-value-p1-sens-0of1",
-    "sig": "scripts/fund_value_p1.py|run,--sensitivity",
-    "fuse_refusals": 4
-   }
-  ]
+  "shard": "fund-value-p1-cell-valuepe-x2-0of1"
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T00:15:29+08:00"
