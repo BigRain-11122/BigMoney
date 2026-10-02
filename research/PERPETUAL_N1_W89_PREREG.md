@@ -63,10 +63,16 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位·finalize 后机械回填）
+- 12/12 分片 bm-b 引擎烧毕（r577 猝死会话 tick 自燃·r578 estate 收编核验后落地 27a8d9712；audit.machine=bm-b）；finalize one-pass（r538 律·r310 完备性门 origin ls-tree 12/12 先行·bm-b r579）。
+- ledger：prev_total 558,148（W88 bm-c r369 同窗落账解锁）+ batch_trials 2,200 = **560,348**；voids_applied=LOWAMP-P1/P2。
+- w89-only：n=2,200·mu=−0.1023676·sigma=0.2396247；merged：n=193,720·mu=−0.0926627·sigma=0.2446755；mu_delta_w89_vs_w88ext=−0.012581（w89 批较深于存量——合并后 mu 漂 −0.000111·门内）。
+- skill_line_v2 @n_eff_held 558,148：1.1664→**1.1660**（K-lift delta −0.0004≤0.02 门内）；se_mu @K193,720=0.000556（收窄链延续：W88 0.000559→本波 0.000556）；canon_flip 未执行（治理提案面·K2200 同法）。
+- finalize stdout 留档=轮报告；产物 `results/perpetual_faces/n1_w89_results.json`（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit 段齐）。
 
 ## §8 批后复盘。【必填·结 7-T】
 
-- （占位·finalize 后机械回填）
+- 遗产链：r577 会话猝死（S7 前夜·r529 猝死诊断律三面：state 停轮+git 自标轮+进程扫描零活会话）→r578 构造式预合并收编（r531 律·内容锚定+W89 print 片段按 W50 +48 先例补全）→本轮 r579 finalize one-pass——W88 bm-c r369 落 origin（558,148）后同轮解锁，r307 两态律跑时复核通过、零改判据。
+- 链序实况：起草窗双在飞上游席（W87 bm-a·W88 bm-c）均已落账；本窗后续=W90 bm-a 在飞（W91 的上游席·_wave_values FAIL-CLOSED）、W91 本机 12/12 烧毕产物本轮 S0 外科送达 origin（37079d9b7）——W91 finalize 待 W90 落账解锁。
+- 判据面：mu 漂/K-lift/se_mu 全门内（§7 数字）；投影-实况零漂移（W88 §8 预投 A 221_004..223_003/B 56_001..56_200 与冻结带逐位一致）。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
