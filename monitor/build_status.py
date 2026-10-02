@@ -541,6 +541,115 @@ def _engine_face_state() -> dict:
     return out
 
 
+def _engine_wave_state() -> dict:
+    """Perpetual N1 engine-wave chain panel (J10 line, r593 bm-b): the
+    always-on candidate production line (PERPETUAL_FACES v1.0 saturation
+    lane). Read-only derive, single sources only:
+      - scripts/perpetual_faces.py N1_BANDS registry (R250 single source)
+      - results/p2cal_ext/n1_w<NNN>/shard-K-of-N.json burn products
+      - results/perpetual_faces/n1_w<NNN>_results.json finalize products
+        (science_gates.ledger.total = chain head; null_pool_cumulative.
+        merged.n_values = K merged-pool face)
+      - fleet/inbox/ + processed/ seat MSGs (published=reserved seats
+        ahead of the registry tail, r565 early-visibility law)
+    Missing sources degrade to honest None/False, never fabricated."""
+    out = {"present": False, "last_registered": None, "last_owner": None,
+           "next_registration": None, "next_seatable": None,
+           "chain_head": None, "k": None,
+           "waves": [], "seats": []}
+    try:
+        import perpetual_faces as pf
+        bands = getattr(pf, "N1_BANDS", None)
+    except Exception:
+        return out
+    if not isinstance(bands, dict) or not bands:
+        return out
+    try:
+        keys = sorted(int(k) for k in bands.keys())
+    except Exception:
+        return out
+    if not keys:
+        return out
+    last = keys[-1]
+    out["present"] = True
+    out["last_registered"] = last
+    out["last_owner"] = (bands.get(last) or {}).get("engine_owner")
+    out["next_registration"] = last + 1
+    for wno in keys[-3:]:
+        info = bands.get(wno) or {}
+        done = total = None
+        sdir = os.path.join(PATHS.results_dir, "p2cal_ext", "n1_w%d" % wno)
+        if os.path.isdir(sdir):
+            idxs, tots = set(), set()
+            for fn in os.listdir(sdir):
+                # shard-<k>-of-<n>.json -- str-parse (file keeps no re dep)
+                if not (fn.startswith("shard-") and fn.endswith(".json")):
+                    continue
+                parts = fn[:-5].split("-")
+                if len(parts) != 4 or parts[2] != "of":
+                    continue
+                try:
+                    idxs.add(int(parts[1]))
+                    tots.add(int(parts[3]))
+                except ValueError:
+                    continue
+            if idxs:
+                done = len(idxs)
+                total = max(tots)
+        fin_path = os.path.join(PATHS.results_dir, "perpetual_faces",
+                                "n1_w%d_results.json" % wno)
+        fin = _read_json(fin_path) if os.path.exists(fin_path) else None
+        row = {"wave": wno, "owner": info.get("engine_owner"),
+               "a": info.get("a"), "b_exit": info.get("b_exit"),
+               "shards_done": done, "shards_total": total,
+               "finalize_landed": bool(fin)}
+        if fin:
+            sg = (fin.get("science_gates") or {}).get("ledger") or {}
+            merged = (fin.get("null_pool_cumulative") or {}).get("merged") or {}
+            row["ledger_total"] = sg.get("total")
+            row["merged_mu"] = merged.get("mu")
+            row["merged_sigma"] = merged.get("sigma")
+            row["k"] = merged.get("n_values")
+            if isinstance(row["ledger_total"], int):
+                out["chain_head"] = max(out["chain_head"] or 0,
+                                        row["ledger_total"])
+            if isinstance(row["k"], int):
+                out["k"] = max(out["k"] or 0, row["k"])
+        out["waves"].append(row)
+    # ahead seats: published=reserved MSGs beyond the registry tail
+    # (naming: MSG-YYYYMMDD-HHMM-bm<x>-w<NNN>-seat.md)
+    for sub in ("", "processed"):
+        idir = os.path.join(PATHS.root, "fleet", "inbox", sub)
+        if not os.path.isdir(idir):
+            continue
+        for fn in os.listdir(idir):
+            if not fn.endswith(".md"):
+                continue
+            parts = fn[:-3].split("-")
+            if len(parts) != 6 or parts[0] != "MSG" or parts[5] != "seat":
+                continue
+            mach = parts[3]
+            if not (mach.startswith("bm") and len(mach) == 3):
+                continue
+            if not parts[4].startswith("w"):
+                continue
+            try:
+                wno = int(parts[4][1:])
+            except ValueError:
+                continue
+            if wno <= last:
+                continue
+            if not any(s["wave"] == wno for s in out["seats"]):
+                out["seats"].append({"wave": wno,
+                                     "machine": "bm-" + mach[2]})
+    out["seats"].sort(key=lambda s: s["wave"])
+    # next seatable wave = beyond every published seat claim (a seated-
+    # but-unregistered wave is taken; r565 seat law, single-state chain)
+    seat_max = max([s["wave"] for s in out["seats"]], default=None)
+    out["next_seatable"] = max(last, seat_max or 0) + 1
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -1946,6 +2055,7 @@ def build() -> dict:
     data["autofill"] = _autofill_state()
     data["saturation"] = _saturation_state()
     data["engine"] = _engine_face_state()
+    data["engine_wave"] = _engine_wave_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()

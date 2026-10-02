@@ -435,6 +435,29 @@ function renderChains() {
       eng.machines_alive === eng.machines_total ? "ok" : "warn",
       (eng.rows || []).map(r => `${esc(r.machine_id)} 队列 ${n2(r.queue_depth)} · 累计 ${n2(r.shards_done_total)} 片`).join("；")));
   }
+  const ew = D.data.engine_wave;
+  if (ew && ew.present) {
+    const ws = ew.waves || [];
+    const wtxt = ws.map(w => {
+      if (w.finalize_landed) return `W${n2(w.wave)}✓${n2(w.ledger_total)}`;
+      const sd = (w.shards_done == null) ? "—"
+        : `${n2(w.shards_done)}/${n2(w.shards_total == null ? 12 : w.shards_total)}`;
+      return `W${n2(w.wave)} ${sd}片 账待落`;
+    }).join(" · ");
+    const seats = (ew.seats || []).map(s => `W${n2(s.wave)} ${esc(s.machine)}`).join(" · ");
+    const landed = ws.filter(w => w.finalize_landed);
+    const head = landed.length ? landed[landed.length - 1] : null;
+    const sciTxt = head ? ` · mu ${fnum(head.merged_mu, 4)} σ ${fnum(head.merged_sigma, 4)}` : "";
+    const inFlight = ws.some(w => !w.finalize_landed &&
+      (w.shards_done == null || w.shards_total == null || w.shards_done < w.shards_total));
+    const accPending = ws.some(w => !w.finalize_landed && w.shards_done != null &&
+      w.shards_total != null && w.shards_done >= w.shards_total);
+    rows.push(chainRow("N1 波链 · 常供产线",
+      `注册尾 W${n2(ew.last_registered)} · 链头 ${n2(ew.chain_head)} · K ${n2(ew.k)}${sciTxt} · ${wtxt}` +
+      (seats ? ` · 前席 ${seats}` : "") + ` · 下一可席 W${n2(ew.next_seatable)}`,
+      (inFlight || accPending) ? "warn" : "ok",
+      inFlight ? "烧录在飞" : (accPending ? "账待落" : "常供")));
+  }
   const t = D.data.token;
   if (t && t.present) {
     rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
