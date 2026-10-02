@@ -1,0 +1,347 @@
+{
+ "ticket": "T-2026-10-02-147",
+ "slice": "s1",
+ "machine": "bm-c",
+ "round": 386,
+ "source_batch": "LOWAMP-P3",
+ "evidence_cutoff": "2026-09-22",
+ "sizing_dead_letter": {
+  "diagnosis": "LA-REP(invvol) and LA-EQ(eq) judged cells are per-start identical on both axes -> spec['sizing'] is never consumed by _cell_task/_cont_task (build_signal has no sizing arg and always returns invvol weights); all 4 judged cells effectively ran invvol. Eq sizing was never truly burned in judged cells. Legacy-family of r522 (declared-key dead letter) + r494 (selftest green != production path).",
+  "per_axis_identity": {
+   "deep": {
+    "n_starts": 1506,
+    "identical_starts": 1506,
+    "identity": true,
+    "max_abs_diff": 0.0,
+    "alignment": "pos-aligned (file row order differs across cells shard-completion order; naive zip gives false 571/480)"
+   },
+   "legacy": {
+    "n_starts": 1254,
+    "identical_starts": 1254,
+    "identity": true,
+    "max_abs_diff": 0.0,
+    "alignment": "pos-aligned (file row order differs across cells shard-completion order; naive zip gives false 571/480)"
+   }
+  },
+  "headline_unaffected": "LA-REP (declared invvol) ran invvol as declared -> P3 judged-negative verdict on the legacy headline stands; family PBO was computed over 3 distinct configs + 1 duplicate (fails 0.25 gate regardless).",
+  "e1_verdict_face": "?",
+  "fix_route": "frozen P3 runner NOT modified (closed judged batch, as-burned replay integrity); new-family runner (s2/s3) must consume sizing explicitly + add a production-path selftest leg that runs build_signal through the cell executor and asserts eq != invvol."
+ },
+ "deep_axis_faces": {
+  "LA-REP|deep|base": {
+   "axis": "deep",
+   "cell": "LA-REP",
+   "face": "base",
+   "key": "cont|LA-REP|deep|base",
+   "max_dd": -0.050424,
+   "n_days": 3230,
+   "n_entries": 74,
+   "n_trades": 72,
+   "nav_first": 1000000.0,
+   "nav_last": 1625392.93,
+   "ret_full": 0.625393,
+   "sharpe_full": 1.115291,
+   "trades_per_year": 5.62
+  },
+  "LA-REP|deep|x2": {
+   "axis": "deep",
+   "cell": "LA-REP",
+   "face": "x2",
+   "key": "cont|LA-REP|deep|x2",
+   "max_dd": -0.0514,
+   "n_days": 3230,
+   "n_entries": 74,
+   "n_trades": 72,
+   "nav_first": 1000000.0,
+   "nav_last": 1573539.65,
+   "ret_full": 0.57354,
+   "sharpe_full": 1.020565,
+   "trades_per_year": 5.62
+  },
+  "LA-EQ|deep|base": {
+   "axis": "deep",
+   "cell": "LA-EQ",
+   "face": "base",
+   "key": "cont|LA-EQ|deep|base",
+   "max_dd": -0.050424,
+   "n_days": 3230,
+   "n_entries": 74,
+   "n_trades": 72,
+   "nav_first": 1000000.0,
+   "nav_last": 1625392.93,
+   "ret_full": 0.625393,
+   "sharpe_full": 1.115291,
+   "trades_per_year": 5.62
+  },
+  "LA-EQ|deep|x2": {
+   "axis": "deep",
+   "cell": "LA-EQ",
+   "face": "x2",
+   "key": "cont|LA-EQ|deep|x2",
+   "max_dd": -0.0514,
+   "n_days": 3230,
+   "n_entries": 74,
+   "n_trades": 72,
+   "nav_first": 1000000.0,
+   "nav_last": 1573539.65,
+   "ret_full": 0.57354,
+   "sharpe_full": 1.020565,
+   "trades_per_year": 5.62
+  },
+  "LA-T3|deep|base": {
+   "axis": "deep",
+   "cell": "LA-T3",
+   "face": "base",
+   "key": "cont|LA-T3|deep|base",
+   "max_dd": -0.074262,
+   "n_days": 3230,
+   "n_entries": 192,
+   "n_trades": 189,
+   "nav_first": 1000000.0,
+   "nav_last": 1673282.11,
+   "ret_full": 0.673282,
+   "sharpe_full": 1.089856,
+   "trades_per_year": 14.75
+  },
+  "LA-T3|deep|x2": {
+   "axis": "deep",
+   "cell": "LA-T3",
+   "face": "x2",
+   "key": "cont|LA-T3|deep|x2",
+   "max_dd": -0.079595,
+   "n_days": 3230,
+   "n_entries": 192,
+   "n_trades": 189,
+   "nav_first": 1000000.0,
+   "nav_last": 1600827.49,
+   "ret_full": 0.600827,
+   "sharpe_full": 0.975873,
+   "trades_per_year": 14.75
+  },
+  "LA-EDGE|deep|base": {
+   "axis": "deep",
+   "cell": "LA-EDGE",
+   "face": "base",
+   "key": "cont|LA-EDGE|deep|base",
+   "max_dd": -0.054658,
+   "n_days": 3230,
+   "n_entries": 69,
+   "n_trades": 67,
+   "nav_first": 1000000.0,
+   "nav_last": 1604282.63,
+   "ret_full": 0.604283,
+   "sharpe_full": 1.066348,
+   "trades_per_year": 5.23
+  },
+  "LA-EDGE|deep|x2": {
+   "axis": "deep",
+   "cell": "LA-EDGE",
+   "face": "x2",
+   "key": "cont|LA-EDGE|deep|x2",
+   "max_dd": -0.05679,
+   "n_days": 3230,
+   "n_entries": 69,
+   "n_trades": 67,
+   "nav_first": 1000000.0,
+   "nav_last": 1554954.19,
+   "ret_full": 0.554954,
+   "sharpe_full": 0.979073,
+   "trades_per_year": 5.23
+  }
+ },
+ "deep_axis_start_dists_12m": {
+  "LA-REP": {
+   "n_full": 1380,
+   "median": 0.0319825,
+   "p25": 0.01820475,
+   "p75": 0.04502375,
+   "best": 0.084983,
+   "worst": -0.025448,
+   "positive_share": 0.8514492753623188,
+   "beat_share": 0.4652173913043478,
+   "beat_n": 642
+  },
+  "LA-EQ": {
+   "n_full": 1380,
+   "median": 0.0319825,
+   "p25": 0.01820475,
+   "p75": 0.04502375,
+   "best": 0.084983,
+   "worst": -0.025448,
+   "positive_share": 0.8514492753623188,
+   "beat_share": 0.4652173913043478,
+   "beat_n": 642
+  },
+  "LA-T3": {
+   "n_full": 1380,
+   "median": 0.0374365,
+   "p25": 0.02739125,
+   "p75": 0.0486295,
+   "best": 0.104662,
+   "worst": -0.038716,
+   "positive_share": 0.8492753623188406,
+   "beat_share": 0.47681159420289854,
+   "beat_n": 658
+  },
+  "LA-EDGE": {
+   "n_full": 1380,
+   "median": 0.032533000000000006,
+   "p25": 0.018373999999999998,
+   "p75": 0.0454785,
+   "best": 0.084489,
+   "worst": -0.025557,
+   "positive_share": 0.8528985507246377,
+   "beat_share": 0.4652173913043478,
+   "beat_n": 642
+  }
+ },
+ "deep_axis_start_dists_24m": {
+  "LA-REP": {
+   "n_full": 1380,
+   "median": 0.065137,
+   "p25": 0.03912375,
+   "p75": 0.07996500000000001,
+   "best": 0.121658,
+   "worst": -0.011764,
+   "positive_share": 0.8818840579710145,
+   "beat_share": 0.4920289855072464,
+   "beat_n": 679
+  },
+  "LA-EQ": {
+   "n_full": 1380,
+   "median": 0.065137,
+   "p25": 0.03912375,
+   "p75": 0.07996500000000001,
+   "best": 0.121658,
+   "worst": -0.011764,
+   "positive_share": 0.8818840579710145,
+   "beat_share": 0.4920289855072464,
+   "beat_n": 679
+  },
+  "LA-T3": {
+   "n_full": 1380,
+   "median": 0.076017,
+   "p25": 0.033061,
+   "p75": 0.101193,
+   "best": 0.160151,
+   "worst": -0.03006,
+   "positive_share": 0.8579710144927536,
+   "beat_share": 0.5072463768115942,
+   "beat_n": 700
+  },
+  "LA-EDGE": {
+   "n_full": 1380,
+   "median": 0.0662845,
+   "p25": 0.039558499999999996,
+   "p75": 0.07992874999999999,
+   "best": 0.121763,
+   "worst": -0.011886,
+   "positive_share": 0.8818840579710145,
+   "beat_share": 0.49130434782608695,
+   "beat_n": 678
+  }
+ },
+ "deep_lead_nulls_support": {
+  "face": "LA-EDGE|deep|base (the +60.4% / 67-trade named face)",
+  "obs_sharpe_full": 1.066348,
+  "obs_ann_mean": 0.03750870548157324,
+  "block_bootstrap": {
+   "B": 2000,
+   "block_len": 21,
+   "p_ge_obs": 0.5735,
+   "sharpe_p05": 0.9773454162827847,
+   "sharpe_p50": 1.0773838282151198,
+   "sharpe_p95": 1.17374171758112
+  },
+  "sign_flip": {
+   "P": 2000,
+   "mu_obs": 0.00014884406937132238,
+   "p_two_sided": 0.0
+  },
+  "same_mask_null_pool_reference": {
+   "note": "P3 same-mask nulls (K=2000) were drawn on LEGACY-axis masks; cross-axis reference only, not a valid deep-axis null. New-family prereg MUST burn its own deep-axis same-mask nulls.",
+   "mu": 0.0533,
+   "sigma": 0.3757,
+   "deep_obs_sharpe_vs_legacy_null_p95": null
+  },
+  "verdict": "double-nulls support: block bootstrap p_ge_obs=0.5735, sign-flip p=0.0000"
+ },
+ "sizing_axis_real_evidence_sens": {
+  "note": "sens draws (legacy full-panel, 500 draws, sizing consumed correctly at runner L516-534) are the ONLY true eq-vs-invvol comparison in the P3 estate",
+  "by_sizing": {
+   "invvol": {
+    "n": 243,
+    "sharpe_p05": 1.018848,
+    "sharpe_p50": 1.213527,
+    "sharpe_p95": 1.3541115999999997
+   },
+   "eq": {
+    "n": 257,
+    "sharpe_p05": 0.939397,
+    "sharpe_p50": 1.119198,
+    "sharpe_p95": 1.243918
+   }
+  }
+ },
+ "ranked_variant_table": [
+  {
+   "axis": "入场过滤",
+   "rank": 1,
+   "variant": "W=104 amp window (LA-EDGE band edge)",
+   "evidence": "deep 67-trade face +60.4% full / Sharpe 1.066 / maxDD -5.47%; sens band [77,104] p05 0.9709 -> W choice robust; prereg keeps W grid {89,104} judged"
+  },
+  {
+   "axis": "入场过滤",
+   "rank": 2,
+   "variant": "N=2 concentration (vs N=3)",
+   "evidence": "N=3 (LA-T3 deep) trades 189 -> churn 14.75/yr, ret +67.3% but maxDD -7.43% worse; N=2 = the named 67-trade face; prereg judged N=2 with N=3 secondary"
+  },
+  {
+   "axis": "入场过滤",
+   "rank": 3,
+   "variant": "liquidity floor amt20>=50M (frozen)",
+   "evidence": "P3 audit: elig_days_median 45, active_members_ever 4 on legacy, deep proxy disclosed; keep frozen floor, no variant"
+  },
+  {
+   "axis": "出场",
+   "rank": 1,
+   "variant": "hold-through (selection-rotation exit only)",
+   "evidence": "O-2115 exit-axis double gate built-in; P3 law-A census 0.0% default-stack exits (7/7 signal_reversal) = the only evidenced exit; price exits UNEVIDENCED -> excluded"
+  },
+  {
+   "axis": "仓位",
+   "rank": 1,
+   "variant": "invvol sizing",
+   "evidence": "ALL judged cells effectively invvol (sizing dead-letter finding); invvol = the evidenced sizing; sens eq-vs-invvol spread is the honest gap-filler (see block)"
+  },
+  {
+   "axis": "仓位",
+   "rank": 2,
+   "variant": "eq sizing",
+   "evidence": "never truly burned in judged cells (mislabeled LA-EQ = invvol twin); fix in new runner + production-path selftest; eq eligible only as secondary judged cell after fix"
+  },
+  {
+   "axis": "时机",
+   "rank": 1,
+   "variant": "daily rebalance + T+1 open execution",
+   "evidence": "engine canonical, x2 cost face survives (+55.5% deep x2 vs +60.4% base = -4.9pp drag); no variant"
+  },
+  {
+   "axis": "数据面",
+   "rank": 1,
+   "variant": "deep axis T-18 panel 2013-06-17 start (13.2y)",
+   "evidence": "the new-evidence delta vs closed lowamp_daily_xs (legacy 2020 window only 7 trades = underpowered); deep axis = 1506 starts, 67-189 trades = powered face"
+  }
+ ],
+ "family_candidate_face": {
+  "name": "lowamp_daily_xs_deep (working name LOWAMP-D1)",
+  "new_evidence_delta_vs_closed_family": "deep T-18 panel 2013-06-17 start (13.2-year window, 1506 enumerated starts, 67-189 trades) vs legacy-only 2020 window (1631d, 3-7 trades, underpowered); M3 reopen channel = new_evidence_new_prereg per P3 sec.8",
+  "main_judge_face": "deep-axis LA-EDGE-style cell (W grid {89,104}, N=2, invvol) 67-trade full-panel continuous face (O-2115: 67-笔面为主判)",
+  "honest_limits": [
+   "12m beat vs EW passive = 46.5% (CI_lo 0.4377 < 0.50) -> the family is NOT a passive-beater on most 12m windows; product profile = defensive sleeve (Sharpe ~1.07, maxDD ~-5%, 86%+ positive windows, x2-cost survival)",
+   "deep-axis same-mask nulls NOT yet burned -> s2 prereg must include them",
+   "eq sizing evidence gap (dead-letter finding) -> new runner must fix"
+  ],
+  "born_main_exam": "per O-2115 line-2: prereg declares main-exam gates at birth (g1_prime_v2 skill line vs N_eff ledger head, DSR, M1 t>=3.0, PBO<=0.25, dual-axis, x2, G-SEG, law-A census) + exit-axis explicit sec.0.6 double-channel"
+ }
+}
