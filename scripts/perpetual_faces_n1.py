@@ -3346,6 +3346,22 @@ def _wave_values(w: int) -> list:
 
 
 def finalize() -> int:
+    # pit-95 orphan-finalize guard (r206/r509 family; live fire r383 bm-c:
+    # a mid-window wave-complete materialization landed this batch's ledger
+    # block between two finalize passes and the unguarded append
+    # double-counted the wave into the chain head). A landed block in this
+    # wave's product file = refuse re-append; the only lawful re-run channel
+    # is a fresh prereg under a fresh batch name. Crash-recovery
+    # re-finalize stays lawful (file absent/corrupt/block-less -> None).
+    landed = sg.finalize_already_landed(
+        BATCH, f"perpetual_faces/n1_w{WAVE}_results.json")
+    if landed is not None:
+        print(f"finalize: FAIL-CLOSED pit-95 -- batch {BATCH} already "
+              f"landed in n1_w{WAVE}_results.json (prev_total="
+              f"{landed.get('prev_total')} total={landed.get('total')}); "
+              f"refusing re-append (fresh prereg + new batch name is the "
+              f"only lawful re-run channel)")
+        return 2
     shard_files = sorted(glob.glob(os.path.join(
         SHARD_DIR, "shard-*-of-*.json")))
     if not shard_files:

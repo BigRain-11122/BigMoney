@@ -61,12 +61,20 @@
 - 引擎台账：bm-c 常驻架构 v0.4=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-c 33 枚实况范式=机面 derive：W14/W17/W20/W23/W26/W29/W32/W37/W39/W41/W42/W43/W46/W50/W51/W52/W53/W58/W60/W63/W66/W69/W71/W78/W80/W83/W88/W92/W99/W102/W105/W108+本波 W113 候选〔32 行注册+候选·以 gate leg0 机证为准〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r382 冻结占位·r383 bm-c finalize 收口机械回填】
 
-- （finalize 落账后机械回填；两态腿断言在场=r307 律）
+- 12/12 分片 bm-c 引擎烧毕（r382 冻结 eeb062290 窗后引擎 tick 自燃 12/12 完备 ~8min·appender 76401aee7 三尾片落账·finalize 前 12/12 完备 r310 律）；finalize one-pass（r538 律·首跑禁重跑——本波实弹：中窗 wave-complete 物化趟先落一账（prev 610,948→613,148）后手跑 finalize 无守卫再追加（613,148→615,348 双计）·草稿未 commit 未推零外污染=r576 可刷面·strip 后 one-pass 对真链头 610,948 重 derive；pit-95 orphan-finalize 守卫 +16 行同窗入 runner finalize() 首位〔r206/r509/r538 族根治〕）。
+- ledger：prev_total 610,948（W112 bm-a r591 落账解锁·链序 W110 606,548 bm-b 代 bm-a→W111 608,748 bm-b→W112 610,948 bm-a）+ batch_trials 2,200 = **613,148**；voids_applied=LOWAMP-P1/P2。
+
+- w113-only：n=2,200·mu=-0.09551918181818182·sigma=0.24458834712642208；merged：K=246,520·mu=-0.09281202133701119·sigma=0.24487954532791925。
+- skill_line_v2 @n_eff_held 610,948：1.1713→**1.1712**（K-lift delta -0.0001 ≥ −0.02 门内·正负交替如实报〔W110 +0.0000→W111 +0.0000→W112 −0.0001→W113 -0.0001〕）；se_mu @K246,520=0.000493（收窄链持续 W110 0.0005→W111 0.000498→W112 0.000495→W113 0.000493）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过（冻结锚=W111 finalize 实测键）：|Δmu|=0.002755598471081172<0.02（W113-only -0.09551918 · 单波偏离面如实报·门内）；σ 变化 -0.0079%<±10%（锚 0.24489883563788295·本波 merged 0.24487954532791925）；A 档 p95 差 -0.0086<0.05（锚 0.3191·本波 0.3105）；K-lift -0.0001≥−0.02。
+- W114+ 链面披露：本波 finalize 时点上游 finalize 链=零在飞（W112 已落账 bm-a r591·链 W1..W113 全闭合；W114 bm-a 已公示席位未冻结——席位在飞不阻 finalize·r307 FAIL-CLOSED 判据=上游 finalize 链）；W115+ 投影=下波冻结方必本机 gate 机派复核非转抄（r587 律·§5.5 W114 投影已被 bm-a r592 席位实占核验一致）。
 
 ## §8 批后复盘。【必填·终 7-T】
 
-- （finalize 落账后机械回填）
+- 首跑唯一一跑律执行面·本波双计险情实录（r538 族）：finalize 产物 n1_w113_results.json 未 commit 前遭遇中窗 wave-complete 物化×手跑 finalize 两趟=草稿双计（prev 613,148/total 615,348）·未推零外污染·strip 后 one-pass 重 derive（ledger 块在件内实测 prev 610,948/batch 2,200/total 613,148）；守卫落地=finalize_already_landed FAIL-CLOSED 腿入 runner（+16 行纯插入·sg 单源·live-fire 重跑拒绝 rc=2 断言过）。
+- 两态腿断言验证：n1 selftest（默认 --wave 调用 r522 律）finalize 后重跑 PASS（W113 materializer 腿 dep 断言跑后态合法·r307 同轮回填律）；pf 9/9。
+- 预注册纪律：§1-§6 判据面零触碰（冻结后禁改判据），本腿只机械回填 §7/§8（r307 同轮回填律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
