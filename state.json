@@ -1,14 +1,14 @@
 {
  "machine_id": "bm-b",
- "round_no": 605,
- "note": "r605: (1) CLAIM-REGRESSION INCIDENT (fleet-facing, core closure): bm-a r609 db66e6c45 reland replayed stale pool face -> FUND-VALUE-P1-NULLS shard owner_since 05:48:07->05:28:07 (22min age breaks 20min takeover gate); takeover EVALUATION actually fired (crash_fuse refusal 48->49 @05:50:04, blocked by bm-c data-root fuse = accidental firebreak); bmb daemon keepalive ca588cee7 05:58:11 self-healed, window 7.6min, ZERO double-burn (origin zero takeover commits, nulls.jsonl single-writer). MSG-0612-bmb-all sent (evidence + two fix proposals: reland max-merge law / pre-push claw monotonicity leg to bm-c T-144); CODELY r605 pit x2. (2) pool_core_samples.jsonl local stale-corruption healed per r570/r600 (origin verbatim 1155 LF + 1 local NULLS dict row = 1156, +1/-0 diff assert): local was CRLF-flipped + 15 bm-a rows missing since 04:39:26 r601-era text-mode write; origin stayed healthy (bm-a r607/r608 bytes-space heals); my r602-r604 directed-adds carried it dirty unprobed = probe-law lesson. (3) S6 33/34 rc0 (update_daily rc=2 transient in-chain source blip -> standalone rerun rc=0 clean no-op 0 new rows golden week, honest); dualrun ZERO-DRIFT streak 10/3; audit CLEAN; attrition CLEAN; S7 self-heal 4/4 (watchdog re-registered, both claws byte-installed, loop pin=2 no-op). (4) orders 150/150 double-scan zero unacked; D-19 honest skip (K: absent S4U lane, watermark 937A373D unchanged r597); inbox MSG-0548 addressed to bm-c left in place. (5) NULLS burn healthy 36/2000 @06:2x (~0.37k/min, ETA ~10-07, inside 10-09 CEO window); T-153 FUND-QUALITY-P1 still blocked on T-152 quality_faces transfer (bm-c revived r398, awaiting rerun+manifest per MSG-0548 ack). (6) HANDOVER 5x consolidated window row r506-605 filed (19 overdue stamps disclosed per 坑-79 precedent). Next: NULLS progress watch (daemon-managed), T-152 arrival watch -> probe rerun -> T-153 freeze window, finalize on burn completion (<=48h to 10-06 evening per bm-a r609 caliber).",
- "last_round_at": 605,
- "last_round_ts": "2026-10-03T06:13:00+08:00",
- "ts": "2026-10-03T06:13:00+08:00",
- "updated": "2026-10-03T06:13:00+08:00",
- "updated_at": "2026-10-03T06:13:00+08:00",
+ "round_no": 607,
+ "note": "r607: (1) MAIN PRODUCT: FUND-QUALITY-P1 judged cell QUALITY-ROE x1 DELIVERED to origin (cells_QUALITY-ROE_x1.jsonl 401 census rows G-CENSUS bit-exact + cont face, commit bb0c81b87; done-flip was already origin-visible from daemon tick). (2) X2 stale-claim takeover from bm-a executed: bm-a claim 06:50:07 (0605a1a22) aged 26min>20min STALE_MIN + bm-a heartbeat dark since 06:36:51 + zero bm-a commits after claim -> legit per r489/r601 (dual condition, NOT r603 wedge); my claim 07:16:25 commit 7c568ee0a pushed; burn pid 56540; kill-advice MSG-2026-10-03-0725-bmb-bma for bm-a revival (r489 step3). (3) VALUE NULLS burn healthy 68/2000 pid 34396 (~32 rows/h, ETA ~10-05, inside 10-09 CEO window); QUALITY NULLS 2000 + SENS 500 queued behind x2. (4) S0 surgical pure-FF: 14 stale local derive faces discarded to origin-fresh (bm-c r401 fresher), CODELY r606 pit line preserved byte-exact via temp-file union (+1/-0 numstat assert). S6 34/34 rc0; smoke 47/47; attrition CLEAN; dualrun streak 12; claws 4/4 + loop pin=2 + watchdog alive; orders 150/150 double-scan zero unacked; D-19 K: absent honest skip (S4U, watermark 937A373D unchanged r597). Next: x2 delivery verify (~07:45) -> NULLS/SENS ignition watch -> batch finalize on completion (<=48h).",
+ "last_round_at": 607,
+ "last_round_ts": "2026-10-03T07:28:18+08:00",
+ "ts": "2026-10-03T07:28:18+08:00",
+ "updated": "2026-10-03T07:28:18+08:00",
+ "updated_at": "2026-10-03T07:28:18+08:00",
  "last_decisions_sha": "937A373DA4339EDC70E95D2EC3E2AC5B1B62E298C834AC84B5FD2955EC5FD4E1",
  "last_decisions_at": "2026-10-02T17:43:44+08:00",
- "last_seen": "2026-10-03T06:13:00+08:00",
- "round_no_label": "round 605 (bm-b)"
+ "last_seen": "2026-10-03T07:28:18+08:00",
+ "round_no_label": "round 607 (bm-b)"
 }

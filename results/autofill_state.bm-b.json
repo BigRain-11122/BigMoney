@@ -1,29 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 06:40:02",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "cooldown_skipped": {
-    "entry": "EXCLUSION-MARGINAL-P1-RUN",
-    "shard": "exclusion-0of1",
-    "last_launch_min": 2.1
-   },
-   "verdict": "launched",
-   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
-   "shard": "faceb-0of1",
-   "pid": 56860,
-   "runner_sha256": "e2bcf587207adca1",
-   "core_verdict": "multiproc",
-   "core_marker": "from scripts.parallel_runner import",
-   "fill_latency_min": 624.5,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true,
-   "auto_parked": true
-  },
-  {
    "ts": "2026-10-01 07:06:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -956,15 +933,36 @@
    "fill_latency_min": 0.3,
    "fullburn_window": true,
    "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-03 07:26:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 25.8,
+   "harvest_flipped": 1,
+   "keepalive": [
+    "fund-value-p1-nulls-0of1"
+   ],
+   "verdict": "launched",
+   "entry": "FUND-QUALITY-P1-NULLS",
+   "shard": "fund-quality-p1-nulls-0of1",
+   "pid": 57116,
+   "runner_sha256": "c01b74e7d99985a7",
+   "core_verdict": "multiproc",
+   "core_marker": "from parallel_runner import",
+   "fill_latency_min": 0.5,
+   "fullburn_window": true,
+   "target_met": true,
    "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 07:24:01",
+  "ts": "2026-10-03 07:28:01",
   "machine": "bm-b",
-  "py_cpu_pct": 38.3,
+  "py_cpu_pct": 44.6,
   "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-03T07:17:34+08:00"
+ "core_samples_seen": "2026-10-03T07:27:43+08:00"
 }
