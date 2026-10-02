@@ -422,25 +422,92 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:05"
   },
+  "scripts/refine_bench_rev_p2.py|run,--nulls": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "f089f3293e081094",
+   "last_crash_ts": "2026-10-01 14:42:12",
+   "entry": "REFINE-BENCH-REV-P2-NULLS",
+   "shard": "rev-p2-nulls",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 14:42:18"
+  },
   "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2": {
    "count": 1,
-   "refusals": 6,
-   "code_sha256": "131e76b424146404",
-   "last_crash_ts": "2026-10-01 14:36:04",
+   "refusals": 3,
+   "code_sha256": "f089f3293e081094",
+   "last_crash_ts": "2026-10-01 14:58:04",
    "entry": "REFINE-BENCH-REV-P2-SHARD-0",
    "shard": "rev-p2-0of2",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 14:46:12"
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 15:20:08"
   },
   "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2": {
    "count": 1,
-   "refusals": 5,
-   "code_sha256": "131e76b424146404",
-   "last_crash_ts": "2026-10-01 14:38:04",
+   "refusals": 4,
+   "code_sha256": "f089f3293e081094",
+   "last_crash_ts": "2026-10-01 14:59:03",
    "entry": "REFINE-BENCH-REV-P2-SHARD-1",
    "shard": "rev-p2-1of2",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 14:46:12"
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 15:20:08"
+  },
+  "scripts/lowamp_p3.py|run,--nulls": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "624f81f8ca828643",
+   "last_crash_ts": "2026-10-02 03:40:04",
+   "entry": "LOWAMP-P3-NULLS",
+   "shard": "lowamp-p3-nulls-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-02 03:40:14"
+  },
+  "scripts/lowamp_deep_p1.py|run,--nulls": {
+   "count": 1,
+   "refusals": 7,
+   "code_sha256": "45a87607fdcc6ee0",
+   "last_crash_ts": "2026-10-02 23:50:04",
+   "entry": "LOWAMP-DEEP-P1-NULLS",
+   "shard": "lowamp-deep-p1-nulls-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-03 00:40:09",
+   "note": "keep blocked: bm-a in-flight per MSG-2346 (r489 yield); clear only after pool row lands done by bm-a harvest"
+  },
+  "scripts/contest_ytd_p1.py|run,--shard,3,--shards,8": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "2bdd9580511b16a6",
+   "last_crash_ts": "2026-10-03 00:40:04",
+   "entry": "CONTEST-YTD-P1-SHARD-3OF8",
+   "shard": "contest-ytd-p1-shard-3of8",
+   "machine": "bm-c"
+  },
+  "scripts/contest_ytd_p1.py|run,--shard,4,--shards,8": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "2bdd9580511b16a6",
+   "last_crash_ts": "2026-10-03 00:40:04",
+   "entry": "CONTEST-YTD-P1-SHARD-4OF8",
+   "shard": "contest-ytd-p1-shard-4of8",
+   "machine": "bm-c"
+  },
+  "scripts/contest_ytd_p1.py|run,--shard,1,--shards,8": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "bec0e3a579a12523",
+   "last_crash_ts": "2026-10-03 01:04:08",
+   "entry": "CONTEST-YTD-P1-SHARD-1OF8",
+   "shard": "contest-ytd-p1-shard-1of8",
+   "machine": "bm-b"
+  },
+  "scripts/contest_ytd_p1.py|run,--shard,2,--shards,8": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "bec0e3a579a12523",
+   "last_crash_ts": "2026-10-03 01:04:10",
+   "entry": "CONTEST-YTD-P1-SHARD-2OF8",
+   "shard": "contest-ytd-p1-shard-2of8",
+   "machine": "bm-b"
   }
  },
  "cleared": {
@@ -660,6 +727,27 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "f089f3293e081094"
+  },
+  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,base": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
+  },
+  "scripts/lowamp_deep_p1.py|run,--cell,LAD-EDGE,--axis,deep,--face,x2": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
+  },
+  "scripts/lowamp_deep_p1.py|run,--sensitivity": {
+   "cleared_ts": "2026-10-02 23:58:05",
+   "cleared_by": "bm-c",
+   "reason": "data_fixed: T-18 deep panel cache rebuilt locally (t18_deep_axis.py build, 48 members/114142 rows, manifest-sha gated) -- root cause of all 4 local lowamp_deep_p1.py crashes was the absent Money02/data/cache/t18_deep_panel; nulls sig deliberately kept (see note)",
+   "crashes": 1,
+   "old_code_sha256": "45a87607fdcc6ee0"
   }
  },
  "lane_machine": "bm-b"
