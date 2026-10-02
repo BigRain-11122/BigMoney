@@ -1,0 +1,395 @@
+# -*- coding: utf-8 -*-
+"""r582 bm-a W98 freeze edits -- MSG-0640 INSERT-NOT-REPLACE hardening.
+
+FIX-A (origin-blob freshness): zero deleted lines vs origin/main pre-edit.
+FIX-B (anchor survival): anchors = the LAST REGISTERED rows (W97 bm-b r581);
+  every registered row signature survives exactly; exactly one new W98
+  signature per face.
+FIX-C (pure-insertion delta): zero deleted lines vs origin/main post-edit.
+AST gate (r580/r581 lesson): post-edit ast.parse on both py faces.
+
+W98 = EIGHTY-EIGHTH engine wave by MACHINE-DERIVE (engine_owner rows 87 +
+candidate), bm-a's TWENTY-SEVENTH owned (engine_owner==bm-a rows 26 +
+candidate). First free number after the registered W97 row (SINGLE STATE,
+zero seat gap -- W97 registered by bm-b r581, landed origin 15885fc29).
+Seat published=reserved MSG-20261002-1603-bma pushed to origin c3e1df538
+BEFORE this freeze (r565 early-visibility law).
+Bands (single-state arithmetic continuation from the registered W97 tails):
+  A 239_004..241_003 (W97 A tail 239_003 + 1, stride 2_000) CLEAN hops=0.
+  B 58_201..58_400   (W97 B tail 58_200 + 1, stride 200)    CLEAN hops=0.
+  ADMIT receipt results/_r582bma_w98_band_gate.py rc0; banned gate ADMIT 0.
+W92 finalize LANDED at this freeze (chain head 566,948 = W92 bm-c r372
+one-pass; K=200,320). FOUR in-flight upstream seats (W93 bm-b + W94 bm-a +
+W95 bm-b + W96 bm-a -- all registered, finalize pending) -- finalize merge
+loop stays FAIL-CLOSED r307 at run time. W99+ projection: A 241_004..243_003
+CLEAN / B 58_401..58_600 REFUSED [58_500, 58_550] (SEED_REGISTRY in-band
+-> next freezer pins per D-20261002-05; next freezer must re-derive).
+"""
+import subprocess, sys, os, ast
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def git(*a):
+    r = subprocess.run(['git', '-C', REPO] + list(a), capture_output=True)
+    if r.returncode != 0:
+        sys.exit('GIT FAIL %s -> %s' % (a[:3], r.stderr.decode('utf-8', 'replace')))
+    return r.stdout
+
+def load(fp):
+    b = open(fp, 'rb').read()
+    t = b.decode('utf-8')
+    eol = '\r\n' if t.count('\r\n') * 2 > t.count('\n') else '\n'
+    return t, eol
+
+def save(fp, t):
+    open(fp, 'wb').write(t.encode('utf-8'))
+
+def rep(t, old, new, eol, tag):
+    oldX = old.replace('\n', eol)
+    newX = new.replace('\n', eol)
+    assert t.count(oldX) == 1, f"{tag}: anchor not unique ({t.count(oldX)})"
+    return t.replace(oldX, newX)
+
+# ---------------- FIX-A: origin-blob freshness (pre-edit) --------------------
+git('fetch', 'origin')
+TARGETS = ['scripts/perpetual_faces.py', 'scripts/perpetual_faces_n1.py',
+           'research/PERPETUAL_FACES.md']
+for p in TARGETS:
+    r = subprocess.run(['git', '-C', REPO, 'diff', 'origin/main', '--numstat', '--', p],
+                       capture_output=True)
+    for line in r.stdout.decode('utf-8', 'replace').strip().splitlines():
+        add, dele, path = line.split('\t')
+        if int(dele) > 0:
+            sys.exit(f'STALE BASE (FIX-A abort): {p} shows {dele} deleted lines vs '
+                     f'origin/main (another machine landed edits -- re-derive first)')
+print('FIX-A: all 3 tracked edit targets fresh vs origin/main (zero deletions)')
+
+# ---------------- survival baseline (FIX-B) -----------------------------------
+REG_WAVES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + list(range(16, 98))
+pf0 = load(os.path.join(REPO, 'scripts/perpetual_faces.py'))[0]
+n1_0 = load(os.path.join(REPO, 'scripts/perpetual_faces_n1.py'))[0]
+canon0 = load(os.path.join(REPO, 'research/PERPETUAL_FACES.md'))[0]
+BASE_SIGS = (
+    {w: pf0.count(f'    {w}: {{"a":') for w in REG_WAVES}
+    | {f'w{w}leg': n1_0.count(f'W{w} materializer face') for w in range(58, 98)}
+    | {w: canon0.count(f'- N1 \u6ce2{w}\uff08') for w in range(48, 98)}
+)
+assert all(v == 1 for w, v in BASE_SIGS.items() if isinstance(w, int)), \
+    f'BASELINE FAIL (pf/canon rows): {BASE_SIGS}'
+assert all(v == 2 for k, v in BASE_SIGS.items() if isinstance(k, str)), \
+    f'BASELINE FAIL (legs must be leg+summary == 2): {BASE_SIGS}'
+
+# ---------------- edit 1: perpetual_faces.py N1_BANDS[98] ---------------------
+FP1 = os.path.join(REPO, 'scripts/perpetual_faces.py')
+t1, eol1 = load(FP1)
+if '98: {"a": (239_004' in t1:
+    print('edit1 already landed (idempotent skip)')
+else:
+    A1 = ('    97: {"a": (237_004, 239_003), "b_exit": (58_001, 58_200),\n'
+          '         "engine_owner": "bm-b"},\n'
+          '}\n')
+    NEW = ('    97: {"a": (237_004, 239_003), "b_exit": (58_001, 58_200),\n'
+           '         "engine_owner": "bm-b"},\n'
+           '    # EIGHTY-EIGHTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r582 bm-a\n'
+           '    # freeze): engine_owner rows 87 + candidate; bm-a\'s\n'
+           '    # twenty-seventh owned per machine-derive (engine_owner==bm-a\n'
+           '    # rows 26 + candidate). Wave 98 = first free number after the\n'
+           '    # registered W97 row (SINGLE STATE, zero seat gap; no\n'
+           '    # published seat to skip). Seat published=reserved\n'
+           '    # MSG-20261002-1603-bma pushed to origin c3e1df538 BEFORE\n'
+           '    # this freeze per r565 early-visibility law.\n'
+           '    # W92 finalize LANDED at this freeze (landed chain head\n'
+           '    # 566,948 = W92 bm-c r372 one-pass; K=200,320). FOUR\n'
+           '    # in-flight upstream seats (W93 bm-b + W94 bm-a + W95 bm-b\n'
+           '    # + W96 bm-a -- all registered, finalize pending) --\n'
+           '    # finalize merge loop stays FAIL-CLOSED r307 at run time.\n'
+           '    # BOTH SIDES ARITHMETIC CONTINUATION from the registered W97\n'
+           '    # tails, single state: A 239_004..241_003 CLEAN + B\n'
+           '    # 58_201..58_400 CLEAN zero refusal points\n'
+           '    # (machine-verified at prereg time, ADMIT receipt\n'
+           '    # results/_r582bma_w98_band_gate.py rc0 hops 0/0; live\n'
+           '    # SEED_REGISTRY + probe cluster 95_000..95_003 r335 leg +\n'
+           '    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 leg).\n'
+           '    # W99+ projection: A 241_004..243_003 CLEAN; B 58_401..58_600\n'
+           '    # REFUSED at SEED_REGISTRY [58_500, 58_550] (in-band -> next\n'
+           '    # freezer pins per D-20261002-05; next freezer must\n'
+           '    # re-derive, never transcribe).\n'
+           '    # NOT a re-pick (R250: W98 bands were never assigned).\n'
+           '    98: {"a": (239_004, 241_003), "b_exit": (58_201, 58_400),\n'
+           '         "engine_owner": "bm-a"},\n'
+           '}\n')
+    t1 = rep(t1, A1, NEW, eol1, 'pf-bands')
+    save(FP1, t1)
+    print('edit1 perpetual_faces.py N1_BANDS[98] landed (anchor=W97 row + closing brace)')
+
+# ---------------- edit 2: perpetual_faces_n1.py WAVE_CONFIGS[98] --------------
+FP2 = os.path.join(REPO, 'scripts/perpetual_faces_n1.py')
+t2, eol2 = load(FP2)
+if '98: {"batch": "PERPETUAL-N1-W98"' in t2:
+    print('edit2 already landed (idempotent skip)')
+else:
+    A2 = ('                            "shard_subdir": "n1_w97", "out_name": "n1_w97_results.json",\n'
+          '                            "engine_owner": "bm-b"},\n')
+    NEW2 = A2 + (
+        '                       98: {"batch": "PERPETUAL-N1-W98",\n'
+        '                            "prereg": ("research/PERPETUAL_N1_W98_PREREG.md (wave-level frozen "\n'
+        '                                       "pre-run; design = frozen v1 null calibration verbatim, "\n'
+        '                                       "new seed bands only; EIGHTY-EIGHTH ENGINE-OWNED WAVE BY "\n'
+        '                                       "MACHINE-DERIVE (engine_owner rows 87 + candidate; prose "\n'
+        '                                       "ordinal drift disclosed per r359 law), own-series "\n'
+        '                                       "continuation per O-20261001-2355 sec.2 (first-free-number "\n'
+        '                                       "law over the registered W97 row, SINGLE STATE zero seat "\n'
+        '                                       "gap; seat published=reserved MSG-20261002-1603-bma "\n'
+        '                                       "PUSHED to origin BEFORE this freeze per r565 early-"\n'
+        '                                       "visibility law), engine_owner=bm-a, wave 98: BOTH SIDES "\n'
+        '                                       "ARITHMETIC CONTINUATION from the registered W97 tails, "\n'
+        '                                       "single state CLEAN zero refusal points (A 239_004..241_003 "\n'
+        '                                       "+ B 58_201..58_400; ADMIT receipt results/_r582bma_w98_band_"\n'
+        '                                       "gate.py hops 0/0; W99+ projection: A 241_004..243_003 CLEAN "\n'
+        '                                       "/ B 58_401..58_600 REFUSED at SEED_REGISTRY points "\n'
+        '                                       "[58_500, 58_550] in-band -> D-20261002-05 pin for the "\n'
+        '                                       "next freezer); W92 finalize LANDED at this freeze (chain "\n'
+        '                                       "head 566,948, K=200,320) + FOUR in-flight upstream seats "\n'
+        '                                       "W93 bm-b + W94 bm-a + W95 bm-b + W96 bm-a all registered "\n'
+        '                                       "finalize-pending -- finalize merge loop stays FAIL-CLOSED "\n'
+        '                                       "r307 at run time)"),\n'
+        '                            "a_seed_base": 239_004,        # law sec.4 W98 A: 239_004..241_003 (arithmetic continuation from the registered W97 tail)\n'
+        '                            "b_exit_seed_base": 58_201,   # law sec.4 W98 B: 58_201..58_400 (arithmetic continuation from the registered W97 tail)\n'
+        '                            "shard_subdir": "n1_w98", "out_name": "n1_w98_results.json",\n'
+        '                            "engine_owner": "bm-a"},\n')
+    t2 = rep(t2, A2, NEW2, eol2, 'n1-configs')
+    save(FP2, t2)
+    print('edit2 WAVE_CONFIGS[98] landed (anchor=W97 entry tail, insert after)')
+
+print('EDITS_1_2_OK')
+
+# ---------------- edit 3: perpetual_faces_n1.py selftest W98 leg --------------
+LEG98 = '''
+    # --- W98 materializer face (r582 bm-a freeze, own-series law
+    #     under CEO de-throttle order O-20261001-2355 sec.2): bm-a's
+    #     twenty-seventh owned per machine-derive (engine_owner==bm-a
+    #     rows 26 + candidate); wave 98 = first free number after the
+    #     registered W97 row (SINGLE STATE, zero seat gap). Seat
+    #     published=reserved MSG-20261002-1603-bma pushed to origin
+    #     c3e1df538 BEFORE this freeze, r565 law. EIGHTY-EIGHTH engine
+    #     wave BY MACHINE-DERIVE (engine_owner rows 87 + candidate;
+    #     prose ordinal drift disclosed per r359 law). W92 finalize
+    #     LANDED (chain head 566,948, K=200,320) + FOUR in-flight
+    #     upstream seats W93 bm-b + W94 bm-a + W95 bm-b + W96 bm-a
+    #     (all registered, finalize pending) -- FAIL-CLOSED r307 at
+    #     run time. ADMIT receipt results/_r582bma_w98_band_gate.py;
+    #     not a re-pick (R250: W98 bands were never assigned).
+    _set_wave(98)
+    try:
+        assert WAVE_CONFIGS[98]["a_seed_base"] == pf.N1_BANDS[98]["a"][0], \\
+            "W98 A band drift vs law mirror"
+        assert WAVE_CONFIGS[98]["b_exit_seed_base"] == \\
+            pf.N1_BANDS[98]["b_exit"][0], "W98 B band drift vs law mirror"
+        assert WAVE_CONFIGS[98].get("engine_owner") == \\
+            pf.N1_BANDS[98].get("engine_owner") == "bm-a", \\
+            "W98 engine_owner drift (law mirror parity)"
+        w98_a = {A_SEED_BASE + j for j in range(A_N)}
+        w98_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w98_a & w98_b), "W98 A/B band overlap"
+        assert not (w98_a & reg_ints) and not (w98_b & reg_ints), \\
+            "W98 hits SEED_REGISTRY"
+        for nm, band in (("A", w98_a), ("B", w98_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W98 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W98 {nm} hits W1"
+            assert not (band & probes), f"W98 {nm} hits probe seeds"
+        # registered row parity (r307 pinned constants, recent estate)
+        assert pf.N1_BANDS[94] == {"a": (231_004, 233_003),
+                                   "b_exit": (57_301, 57_500),
+                                   "engine_owner": "bm-a"}, \\
+            "registered W94 row parity drift (r307; bm-a r580, heal 4e6a5e7d0)"
+        assert pf.N1_BANDS[95] == {"a": (233_004, 235_003),
+                                   "b_exit": (57_501, 57_700),
+                                   "engine_owner": "bm-b"}, \\
+            "registered W95 row parity drift (r307; bm-b r580)"
+        assert pf.N1_BANDS[96] == {"a": (235_004, 237_003),
+                                   "b_exit": (57_701, 57_900),
+                                   "engine_owner": "bm-a"}, \\
+            "registered W96 row parity drift (r307; bm-a r581)"
+        assert pf.N1_BANDS[97] == {"a": (237_004, 239_003),
+                                   "b_exit": (58_001, 58_200),
+                                   "engine_owner": "bm-b"}, \\
+            "registered W97 row parity drift (r307; bm-b r581)"
+        # prior-wave disjointness W2..W97 (ALL registered at this
+        # freeze; single state, no in-flight registration gap below 98)
+        for wprev in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \\
+                [w for w in range(16, 98)]:
+            assert not (w98_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W98 A hits W{wprev}"
+            assert not (w98_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W98 B hits W{wprev}"
+        assert not (w98_a & set(range(237_004, 239_004))) and \\
+            not (w98_b & set(range(58_001, 58_201))), (
+            "W98 bands must clear the W97 registered bands (prior-wave "
+            "loop belt-and-braces)")
+        n3r1_used98 = set(range(70_000, 70_006))
+        assert not (w98_a & n3r1_used98) and not (w98_b & n3r1_used98), \\
+            "W98 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        assert not (w98_a & lfc_actual12) and not (w98_b & lfc_actual12), \\
+            "W98 bands must clear the lfc actual draw range"
+        assert not (w98_a & options_actual12) and \\
+            not (w98_b & options_actual12), \\
+            "W98 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W98 row, r582): single-state arithmetic
+        # continuation from the registered W97 tails, zero refusal points.
+        assert WAVE_CONFIGS[98]["a_seed_base"] == 239_004 == 239_003 + 1, (
+            "W98 A must be the arithmetic continuation from the "
+            "registered W97 A tail")
+        arith_a98 = set(range(239_004, 241_004))
+        assert not (arith_a98 & reg_ints), \\
+            "W98 A window must be CLEAN (arithmetic continuation ADMIT face)"
+        assert WAVE_CONFIGS[98]["b_exit_seed_base"] == 58_201 == 58_200 + 1, (
+            "W98 B must be the arithmetic continuation from the "
+            "registered W97 B tail (D-20261002-05 pin-landing band "
+            "58_001..58_200 in-register)")
+        arith_b98 = set(range(58_201, 58_401))
+        assert not (arith_b98 & reg_ints), \\
+            "W98 B window must be CLEAN (arithmetic continuation ADMIT face)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W98-SHARD-0",
+                                          "n1w98-0of12"), "W98 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W98-SHARD-11",
+                                           "n1w98-11of12")
+        assert SHARD_DIR.endswith("n1_w98") and OUT.endswith(
+            "n1_w98_results.json"), "W98 path drift"
+        for wprev in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \\
+                [w for w in range(16, 98)]:
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \\
+                f"W98 shard dir collides with W{wprev}"
+        # W98 finalize cumulative deps: W17..W92 outputs ALL PRESENT
+        # (landed chain head 566,948 = W92; W93/W94/W95/W96 registered
+        # with finalizes NOT landed -- in-flight upstream seats, honest
+        # note; the finalize merge loop derives the wave set from
+        # registry keys at run time and stays FAIL-CLOSED, r307 law).
+        for _depw in range(17, 93):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \\
+                f"W98 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): all
+        # waves below 98 registered at this freeze (single state, zero
+        # seat gap; wave 15 excluded by design).
+        assert sorted(w for w in WAVE_CONFIGS if w < 98) == \\
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \\
+            [w for w in range(16, 98)], \\
+            "W98 prior-wave set must derive from registry keys (no 15; " \\
+            "W2..W97 ALL registered at this freeze)"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W98_PREREG.md")), \\
+            "W98 per-wave prereg missing (materializer requirement)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
+'''
+t2b, eol2b = load(FP2)
+if 'W98 materializer face' in t2b:
+    print('edit3 already landed (idempotent skip)')
+else:
+    # r580/r581 anchor law: FULL-LINE anchor, replacement = anchor head
+    # + blank + new leg + anchor tail-head line (no full-anchor backfill
+    # duplication of the body between; anchor bytes probed repr-exact).
+    A3 = ('        _set_wave(2)\n'
+          '    # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim\n')
+    A3X = A3.replace('\n', eol2b)
+    assert t2b.count(A3X) == 1, f'selftest anchor not unique: {t2b.count(A3X)}'
+    NEW3 = ('        _set_wave(2)\n'
+            '\n'
+            + LEG98
+            + '    # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim\n')
+    t2b = rep(t2b, A3, NEW3, eol2b, 'n1-leg98')
+    save(FP2, t2b)
+    print('edit3 selftest W98 leg landed (insert before T-141 selftest lane face)')
+
+# ---------------- edit 5: n1.py selftest SUMMARY segment ----------------------
+t2c, eol2c = load(FP2)
+if '+ W98 materializer face' in t2c:
+    print('edit5 already landed (idempotent skip)')
+else:
+    A5 = ('          "law sec.4 W97 row, r581 bm-b] "\n'
+          '          "+ T-141 s2 ')
+    SEG98 = ('          "law sec.4 W97 row, r581 bm-b] "\n'
+             '          "+ W98 materializer face [same guard set, dep=W17..W92 "\n'
+             '          "outputs ALL PRESENT (landed chain head 566,948 = W92 "\n'
+             '          "bm-c r372 one-pass, K=200,320; FOUR in-flight upstream "\n'
+             '          "seats W93 bm-b + W94 bm-a + W95 bm-b + W96 bm-a all "\n'
+             '          "registered finalize-pending -- FAIL-CLOSED r307 at run "\n'
+             '          "time), EIGHTY-EIGHTH ENGINE-OWNED WAVE BY MACHINE-DERIVE "\n'
+             '          "(engine_owner rows 87 + candidate; prose ordinal drift "\n'
+             '          "disclosed per r359 law) bm-a\'s twenty-seventh owned "\n'
+             '          "claim per machine-derive (engine_owner==bm-a rows 26 "\n'
+             '          "+ candidate), engine_owner=bm-a per engine de-throttle "\n'
+             '          "law O-20261001-2355 sec.2 own-continuous-series (wave 98 "\n'
+             '          "= first FREE number after the registered W97 row, SINGLE "\n'
+             '          "STATE zero seat gap; seat published=reserved "\n'
+             '          "MSG-20261002-1603-bma pushed to origin BEFORE this "\n'
+             '          "freeze, r565 law), BOTH SIDES ARITHMETIC CONTINUATION "\n'
+             '          "from the registered W97 tails single-state (A "\n'
+             '          "239_004..241_003 CLEAN + B 58_201..58_400 CLEAN zero "\n'
+             '          "refusal points; ADMIT receipt results/_r582bma_w98_band_"\n'
+             '          "gate.py hops 0/0; W99+ projection A 241_004..243_003 "\n'
+             '          "CLEAN / B 58_401..58_600 REFUSED at [58_500, 58_550] "\n'
+             '          "disclosed for the next freezer; not a free pick -- R250), "\n'
+             '          "N3-R1 used-seed leg, probe-seed cluster leg, law sec.4 "\n'
+             '          "W98 row, r582 bm-a] "\n'
+             '          "+ T-141 s2 ')
+    t2c = rep(t2c, A5, SEG98, eol2c, 'n1-summary')
+    save(FP2, t2c)
+    print('edit5 selftest SUMMARY W98 segment landed (insert after W97 segment)')
+
+# ---------------- edit 4: PERPETUAL_FACES.md canon W98 row ---------------------
+ROW98 = """
+- N1 波98（r582 bm-a 冻·prereg 时展行）：**第八十八枚引擎波·bm-a 第二十七枚自有波〔机面 derive：engine_owner 行 87+本候选／engine_owner==bm-a 行 26+本候选〕**·engine_owner=bm-a·SATURATION_ENGINE_LAW §1/§2 同 W10-W97 合同·不入池·免预注册税·cmd_supply 跳过门·**引擎去节流令 O-20261001-2355 §二自有连续系列**·【本机 bm-a 实例=tick 架构 r535 律——冻结 commit 后下一 tick 新进程重读活树自见新行=免杀重启免做·W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W87/W90/W94/W96 同窗实证·点火验证唯一证据=产物增长面 r325 律】·【never-dry 供给律常设步·**波号 98=注册表 W97 行后首个自由号·单态零席位空档**（W97 bm-b r581 已注册=表尾实况·无 skip-past-published 链面）·**席位公示=MSG-20261002-1603-bma**〔published=reserved r518-① 律·先于冻结 commit 推 origin c3e1df538=r565 早可见性律〕】·本窗实况=**W92 finalize 已落账（净链头 566,948·K=200,320 合并池）+四在飞上游席（W93 bm-b 12/12 烧毕 finalize 待+W94 bm-a 12/12 烧毕 finalize 待+W95 bm-b 12/12 烧毕 finalize 待+W96 bm-a 12/12 烧毕 finalize 待）=本波 finalize 链序前置在飞（跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态律恒在）**·**带位（r582 机闸 derive 律·活注册表机证·单态收敛门·ADMIT 回执=results/_r582bma_w98_band_gate.py rc0 实跑·hops 0/0）**：**A-ext seed=239_004..241_003**（==W97 行 A 尾 239_003+1 起·步长 2_000·**CLEAN 零拒绝点**·纯算术续带）；**B-ext exit seed=58_201..58_400**（==W97 行 B 尾 58_200+1 起·步长 200·**CLEAN 零拒绝点**·纯算术续带——W97 行 B 为 D-20261002-05 钉死行在册〔58_001..58_200〕·本波为在册带纯续带零跳位面）。R250：W98 带从未指派·测量面零结果可钓·banned gate ADMIT 0 matched（W98 prereg §0.5）·per-wave prereg=research/PERPETUAL_N1_W98_PREREG.md（冻结件·锚=W92 finalize 实测值〔锚滚动律·单波跨锚自 W76 滚动至 W92〕）·**W99+ 投影（gate 机证·下波冻结方必复核非转抄）**：A 241_004..243_003 **CLEAN**；B 58_401..58_600 **REFUSED [58_500, 58_550]**（算术位撞 SEED_REGISTRY 值·带内命中——下波按法典 §4 钉死行/pin 链 derive 首净窗）。
+"""
+FP4 = os.path.join(REPO, 'research/PERPETUAL_FACES.md')
+t4, eol4 = load(FP4)
+if '- N1 \u6ce298\uff08' in t4:
+    print('edit4 already landed (idempotent skip)')
+else:
+    A4 = '\n- \u6bcf\u6ce2 finalize \u540e\uff1a`science_gates.append_ledger` \u843d\u884c'
+    A4X = A4.replace('\n', eol4)
+    assert t4.count(A4X) == 1, f'canon anchor not unique: {t4.count(A4X)}'
+    t4 = t4.replace(A4X, ROW98.replace('\n', eol4) + A4X)
+    save(FP4, t4)
+    print('edit4 canon W98 row landed (insert before sec.5 line)')
+
+# ---------------- FIX-B: survival signature re-scan ---------------------------
+pf1 = load(FP1)[0]
+n11 = load(FP2)[0]
+canon1 = load(FP4)[0]
+for w in REG_WAVES:
+    c = pf1.count(f'    {w}: {{"a":')
+    assert c == 1, f'FIX-B FAIL: pf.py row W{w} count={c} (must survive exactly once)'
+assert pf1.count('    98: {"a": (239_004') == 1, 'FIX-B FAIL: W98 row not landed exactly once'
+for w in REG_WAVES:
+    assert n11.count(f'"batch": "PERPETUAL-N1-W{w}"') == 1, f'FIX-B FAIL: n1.py config W{w} count drift'
+assert n11.count('"batch": "PERPETUAL-N1-W98"') == 1, 'FIX-B FAIL: W98 config not exactly once'
+for w in range(58, 98):
+    leg = f'W{w} materializer face'
+    assert n11.count(leg) == BASE_SIGS[f'w{w}leg'], f'FIX-B FAIL: {leg} lost'
+assert n11.count('W98 materializer face') == 2, \
+    'FIX-B FAIL: W98 leg+summary must be exactly 2'
+for w in range(48, 98):
+    assert canon1.count(f'- N1 \u6ce2{w}\uff08') == 1, f'FIX-B FAIL: canon row W{w} lost'
+assert canon1.count('- N1 \u6ce298\uff08') == 1, 'FIX-B FAIL: canon W98 row not exactly once'
+print('FIX-B: all registered row signatures survive; exactly one W98 added per face')
+
+# ---------------- AST gate (r580/r581 lesson: mandatory post-edit) -------------
+for fp in (FP1, FP2):
+    ast.parse(open(fp, 'rb').read().decode('utf-8'))
+print('AST gate: both py faces parse clean')
+
+# ---------------- FIX-C: pure-insertion delta vs origin ------------------------
+for p in TARGETS:
+    out = git('diff', 'origin/main', '--numstat', '--', p).decode('utf-8').strip()
+    if not out:
+        sys.exit(f'FIX-C FAIL: no diff shown for {p} (edits missing?)')
+    for line in out.splitlines():
+        add, dele, path = line.split('\t')
+        assert int(dele) == 0, f'FIX-C FAIL: {p} shows {dele} deleted lines ' \
+                               f'(pure insertion violated -- r519 content-variant abort)'
+        print(f'FIX-C: {p} +{add} -0 (pure insertion)')
+print('FREEZE_EDITS_OK 98')
