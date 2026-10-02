@@ -2,60 +2,9 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
-  {
-   "face": "N1",
-   "wave": 70,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w70-11of12",
-   "batch": "PERPETUAL-N1-W70",
-   "pid": 24812,
-   "started_at": "2026-10-02T10:18:03+08:00",
-   "started_epoch": 1790907483,
-   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W70-11.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W70",
-    "prereg": "research/PERPETUAL_N1_W70_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; FIFTY-NINTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W69 row; seat declared published=reserved MSG-20261002-1040-bmb), engine_owner=bm-b, wave 70 A-side ARITHMETIC CONTINUATION no skip (183_004..185_003) + B-side PAST-HIT RESTART fork face #3 (arithmetic 50_901..51_100 REFUSED mid-band by SEED_REGISTRY xstock_synth_null_a=51_000 -> 51_001..51_200 taken per single-mid-hit precedent family W26-A/W68-B, window-step chain 51_101..51_300 disclosed NOT taken; pin pending HQ-FEEDBACK F-20261002-03); W1..W67 finalizes ALL LANDED at this freeze (net chain head 511,948, K=145,320, bm-b r568), W68 bm-a + W69 bm-c = TWO in-flight upstream seats (finalize chain-pending FAIL-CLOSED r307)",
-    "a_seed_base": 183004,
-    "b_exit_seed_base": 51001,
-    "shard_subdir": "n1_w70",
-    "out_name": "n1_w70_results.json",
-    "engine_owner": "bm-b"
-   }
-  }
- ],
- "ledger_buffer": [
-  {
-   "machine_id": "bm-b",
-   "face": "N1",
-   "wave": 70,
-   "batch": "PERPETUAL-N1-W70",
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w70-9of12",
-   "pid": 48864,
-   "started_at": "2026-10-02T10:16:04+08:00",
-   "done_at": "2026-10-02T10:17:04+08:00",
-   "done_epoch": 1790907422,
-   "elapsed_sec": 58.2
-  },
-  {
-   "machine_id": "bm-b",
-   "face": "N1",
-   "wave": 70,
-   "batch": "PERPETUAL-N1-W70",
-   "shard": 10,
-   "nshards": 12,
-   "key": "n1w70-10of12",
-   "pid": 56384,
-   "started_at": "2026-10-02T10:17:04+08:00",
-   "done_at": "2026-10-02T10:18:03+08:00",
-   "done_epoch": 1790907481,
-   "elapsed_sec": 57.2
-  }
- ],
- "last_flush_at": "2026-10-02T10:16:04+08:00",
+ "active": [],
+ "ledger_buffer": [],
+ "last_flush_at": "2026-10-02T10:21:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -63,17 +12,18 @@
   "n1w36-1of12": 1,
   "n1w42-5of12": 1,
   "n1w58-2of12": 1,
-  "n1w64-9of12": 1
+  "n1w64-9of12": 1,
+  "n1w70-11of12": 1
  },
- "shards_done_total": 320,
- "last_shard_done_at": "2026-10-02T10:18:03+08:00",
+ "shards_done_total": 321,
+ "last_shard_done_at": "2026-10-02T10:21:04+08:00",
  "last_tick": {
-  "ts": "2026-10-02T10:18:03+08:00",
-  "epoch": 1790907481,
+  "ts": "2026-10-02T10:21:04+08:00",
+  "epoch": 1790907662,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 5.942302703857422,
-  "verdict": "ignited:n1w70-11of12 pid=24812",
-  "active_n": 1,
+  "ram_free_gb": 5.206050872802734,
+  "verdict": "idle ledger_flush=3",
+  "active_n": 0,
   "queue_depth": 0,
   "elapsed_sec": 2.3
  },
