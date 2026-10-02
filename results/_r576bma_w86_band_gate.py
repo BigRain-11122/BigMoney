@@ -98,9 +98,17 @@ print(f"leg0: engine_owner rows={len(owner_rows)} (+bm-b W85 seat in flight in "
       f"state A) + candidate; bm-a rows={len(bma_rows)} -> W86 = bm-a 22nd owned")
 
 # --- leg 0b: bm-b W85 seat MSG on origin (published=reserved face) ------------
-seat = subprocess.check_output(
-    ["git", "show", "origin/main:fleet/inbox/MSG-20261002-1258-bmb-w85-seat.md"],
-    encoding="utf-8")
+# r575/r576 closeout move: seat MSG may be archived to inbox/processed/ --
+# accept either live or processed location (bm-b r576 gate leg0b patch law).
+seat = None
+for _p in ("fleet/inbox/MSG-20261002-1258-bmb-w85-seat.md",
+           "fleet/inbox/processed/MSG-20261002-1258-bmb-w85-seat.md"):
+    _r = subprocess.run(["git", "show", f"origin/main:{_p}"],
+                        capture_output=True, creationflags=CREAT)
+    if _r.returncode == 0:
+        seat = _r.stdout.decode("utf-8")
+        break
+assert seat is not None, "leg0b failed: bm-b W85 seat MSG not on origin (either path)"
 assert "A-ext seed=213_004..215_003" in seat and \
     "B-ext exit seed=55_001..55_200" in seat, \
     "leg0b failed: bm-b W85 seat MSG bands not found on origin (r518-1 face)"

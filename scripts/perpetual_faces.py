@@ -1891,6 +1891,46 @@ N1_BANDS = {
     # NOT a re-pick (R250: W85 bands were never assigned).
     85: {"a": (213_004, 215_003), "b_exit": (55_001, 55_200),
          "engine_owner": "bm-b"},
+    # SEVENTY-SIXTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r576 bm-a
+    # freeze): engine_owner rows 75 + candidate; bm-a's
+    # twenty-second owned per machine-derive (engine_owner==bm-a
+    # rows 21 + candidate). Wave 86 = first free number after the
+    # registered W85 row (bm-b r576 five-face freeze landed
+    # mid-window; dual-state gate re-run mode B converged on the
+    # same bands as mode A; r511 tail-lock fetch-checked vacancy;
+    # seat published=reserved MSG-20261002-1305-bma PUSHED to
+    # origin before this freeze per r565 early-visibility law,
+    # commit a2388eb5b).
+    # W1..W84 finalizes ALL LANDED (net head 549,348, K=182,720;
+    # W83+W84 both landed bm-a r576 window; W83 block restored to
+    # bm-c canonical bytes per r518 origin-first-landed
+    # adjudication, fixup 3b3a7fe19). ONE in-flight upstream
+    # seat at this freeze: W85 bm-b (registered, burn in flight,
+    # finalize pending) -- finalize chain-pending FAIL-CLOSED
+    # r307 at run time.
+    # BOTH SIDES ARITHMETIC CONTINUATION from the registered W85
+    # row tails, zero skip: A 215_004..217_003 (= W85 A end
+    # 215_003 + 1) CLEAN. B 55_201..55_400 (= W85 B end 55_200 +
+    # 1) CLEAN. Dual-state gate mode A chain machine-verified:
+    # arithmetic 54_801..55_000 REFUSED at SEED_REGISTRY
+    # a158_truegap_ic=55_000 upper-edge endpoint -> hit+1 restart
+    # 55_001..55_200 == W85 published band -> skip-past-published
+    # (D-20261002-05 pin: past-hit start-window; edge-endpoint
+    # family W74-B/W81, both readings converge, no fork face).
+    # Machine-verified at prereg time
+    # (results/_r576bma_w86_band_gate.py dual-state ADMIT receipt
+    # vs the 83-row pre-W86 table + live SEED_REGISTRY values +
+    # probe cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg;
+    # origin slot vacancy machine-checked). W87+ projection: A
+    # 217_004..219_003 CLEAN; B 55_401..55_600 REFUSED in-band at
+    # SEED_REGISTRY grid_p1=55_500 median hit -> D-20261002-05
+    # pin: hit+1 restart 55_501..55_700 (window-step-chain reading
+    # 55_601..55_800 is BANNED by the pin; next freezer must
+    # re-derive, never transcribe).
+    # NOT a re-pick (R250: W86 bands were never assigned).
+    86: {"a": (215_004, 217_003), "b_exit": (55_201, 55_400),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
