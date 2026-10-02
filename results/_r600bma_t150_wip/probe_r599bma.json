@@ -1,0 +1,88 @@
+{
+  "batch": "FUND-VALUE-P1",
+  "checks": [
+    {
+      "detail": "COST_X1=0.0013041 (13.041bp/side, roundtrip 26.082bp)",
+      "name": "cost_x1_single_source",
+      "pass": true
+    },
+    {
+      "detail": "{\"gate\": \"closed_family_check\", \"family\": \"fund_value_stock_xs\", \"status\": \"open\", \"in_registry\": false}",
+      "name": "closed_family_open",
+      "pass": true
+    },
+    {
+      "detail": "2026-09-22",
+      "name": "panel_end_2026_09_22",
+      "pass": true
+    },
+    {
+      "detail": "T=8792 N=5222",
+      "name": "panel_census",
+      "pass": true
+    },
+    {
+      "detail": "starts=401 want=401",
+      "name": "g_census_401",
+      "pass": true
+    },
+    {
+      "detail": "min mask members per sig row=0",
+      "name": "mask_nonempty",
+      "pass": false
+    },
+    {
+      "detail": "picked rows: min=0 max=20",
+      "name": "headline_top20_all_rows",
+      "pass": false
+    },
+    {
+      "detail": "w min=0.050000 max=1.000000",
+      "name": "eq_weights_identity",
+      "pass": false
+    },
+    {
+      "detail": "d6.json receipt absent -- run `probe --d6` (heavy engine leg, separate step per r324 timeout law)",
+      "name": "d6_admission",
+      "pass": false
+    },
+    {
+      "detail": "labelled bars=3488 (2012-05 onward honest)",
+      "name": "regime_510300_face",
+      "pass": true
+    }
+  ],
+  "mask": {
+    "amt20_min_yuan": 10000000.0,
+    "first_sig": "1994-05-03",
+    "last_sig": "2026-03-02",
+    "listed_min_td": 252,
+    "mask_members_median": 732.0,
+    "mask_members_min": 0,
+    "pb_band": [
+      0.0,
+      20.0
+    ],
+    "pe_band": [
+      0.0,
+      200.0
+    ],
+    "sig_rows": 383,
+    "st_seal5_min": 2,
+    "st_win": 250,
+    "stale_td": 250
+  },
+  "runtime_sec": 11.0,
+  "seed_disclosure": {
+    "note": "prereg sec.3 binds nulls to rng([20500000,k]) and sens to rng([20500500,k]) verbatim; band 20500000/20500500 disjoint-verified r599 (stock_face_furnace band avoided).",
+    "nulls": 20500000,
+    "registry_echo": {
+      "fund_value_p1_nulls": 20500000,
+      "fund_value_p1_sens": 20500500
+    },
+    "sensitivity": 20500500
+  },
+  "ticket": "T-2026-10-02-150-P1",
+  "ts": "2026-10-03 00:32:18",
+  "verdict": "FAIL"
+}
