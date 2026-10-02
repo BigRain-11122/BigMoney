@@ -22,10 +22,12 @@ Pool handshake (r497 law): worker-side claim file closed at burn
 completion and at idempotent no-op reruns; selftest never writes.
 
 Usage (detached BelowNormal per O-1612 full-load pool):
-  python scripts/perpetual_faces_n3.py run --member <ID>   # one shard
+  python scripts/perpetual_faces_n3.py run --member <ID>            # R1 shard
+  python scripts/perpetual_faces_n3.py run --member <ID> --wave r2 # R2 shard
   python scripts/perpetual_faces_n3.py status
   python scripts/perpetual_faces_n3.py probe               # read-only anchor
-  python scripts/perpetual_faces_n3.py finalize
+  python scripts/perpetual_faces_n3.py probe --wave r2     # R2 4-leg probe
+  python scripts/perpetual_faces_n3.py finalize [--wave r1|r2]
   python scripts/perpetual_faces_n3.py selftest
 """
 import argparse
@@ -59,6 +61,25 @@ SEED_BASE = 70_000                   # SEED_REGISTRY perpetual_n3_r1
 WAVE_DIR = os.path.join(PATHS.results_dir, "perpetual_faces", "n3_r1")
 BATCH_JSON = os.path.join(PATHS.results_dir, "perpetual_faces",
                           "n3_r1_results.json")
+
+# --------------------------- R2 wave (time-start robustness grid) ---------
+# prereg: research/PERPETUAL_N3_R2_PREREG.md (frozen before any pool burn;
+# five-condition freeze gate in the prereg head). Stress axis = the
+# time-interval START POINT (investor joins at a quarter close, holds to
+# cutoff) -- orthogonal to R1's frozen-parameter neighborhood. Engine face
+# = 6 center replays anchor-gated against the R1 checkpoint cells; the
+# 144 window readouts are pure-math strict-tail slices of the center
+# equity curves (zero extra engine runs). Ledger +144 (windows only;
+# centers are replays +0). Zero new seed bands: slicing is
+# calendar-deterministic and window-level bootstrap CI is deliberately
+# not run (short-window CI face; full-history CI is R1's, prereg sec.3).
+R2_BATCH = "PERPETUAL-N3-R2"
+R2_CELLS_NEW = 144                 # 24 start-window readouts x 6 members
+R2_WAVE_DIR = os.path.join(PATHS.results_dir, "perpetual_faces", "n3_r2")
+R2_BATCH_JSON = os.path.join(PATHS.results_dir, "perpetual_faces",
+                             "n3_r2_results.json")
+R2_EXPECT_STARTS = 24              # frozen: 2020Q1..2025Q4 quarter-first bars
+R2_REBASE_TOL = 1e-12             # standing rebase cross-path tolerance
 
 RL = recorded_lines()
 I_LINE = {"default": RL["i_line"], "ce": RL["ce_null_p4_batch1"]}
@@ -436,10 +457,11 @@ def _log_cell(mid: str, rec: dict):
 
 
 # ------------------------------------------------------- pool handshake (r497)
-def _pool_claim(mid: str, detail: str, write: bool = True) -> None:
+def _pool_claim(mid: str, detail: str, write: bool = True,
+                wave: str = "r1") -> None:
     if not write:
         return
-    entry_id = pool_entry_id(mid)
+    entry_id = pool_entry_id(mid, wave=wave)
     d = os.path.join(PATHS.results_dir, "pool_claims",
                      entry_id.replace("/", "_"))
     os.makedirs(d, exist_ok=True)
@@ -453,13 +475,18 @@ def _pool_claim(mid: str, detail: str, write: bool = True) -> None:
     print(f"pool claim closed: {os.path.basename(fp)}", flush=True)
 
 
-def pool_entry_id(mid: str) -> str:
+def pool_entry_id(mid: str, wave: str = "r1") -> str:
     """Single-source entry-id face: the generator imports this so the
-    pool entries and the runner handshake can never drift apart."""
-    return f"{BATCH}-{mid}"
+    pool entries and the runner handshake can never drift apart. The
+    wave param keeps the R1 face byte-stable for existing callers."""
+    batch = BATCH if wave == "r1" else R2_BATCH
+    return f"{batch}-{mid}"
 
 
-def cmd_run(member_id: str, use_pool: bool = True) -> int:
+def cmd_run(member_id: str, use_pool: bool = True,
+            wave: str = "r1") -> int:
+    if wave == "r2":
+        return cmd_run_r2(member_id)
     try:
         import psutil
         pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
@@ -491,11 +518,13 @@ def cmd_run(member_id: str, use_pool: bool = True) -> int:
     return cmd_finalize_one(member_id)
 
 
-def cmd_probe() -> int:
-    """Read-only CENTER-ONLY anchor probe (prereg sec.2 evidence face;
-    zero checkpoint writes, zero ledger). Reproduces the r509 pre-freeze
-    probe facts and doubles as the real-data smoke of the assembly/config
-    segment (r506 law: selftest green != burnable)."""
+def cmd_probe(wave: str = "r1") -> int:
+    """Read-only anchor probe. wave=r1: CENTER-ONLY anchor probe (prereg
+    sec.2 evidence face; zero checkpoint writes, zero ledger) reproducing
+    the r509 pre-freeze probe facts. wave=r2: the standing R2 4-leg
+    probe (r392 receipt absorbed per prereg sec.6)."""
+    if wave == "r2":
+        return cmd_probe_r2()
     prices, P = _panel()
     if prices is None:
         return 2
@@ -524,6 +553,467 @@ def cmd_probe() -> int:
                    "rows": out_rows, "all_pass": ok}, fh, indent=1)
     print(f"probe: {'ALL PASS' if ok else 'FAIL'} ({len(out_rows)})")
     return 0 if ok else 1
+
+
+# ==================== R2 wave: time-start robustness grid =================
+# prereg research/PERPETUAL_N3_R2_PREREG.md (frozen before any pool burn;
+# DRAFT state refuses burns -- materialization law sec.1). R2 stress axis
+# = the time-interval START POINT; the 144 window readouts are pure-math
+# slices of the center equity curves, so the wave has zero new seed bands.
+
+
+def r2_derive_starts(idx: pd.DatetimeIndex) -> dict:
+    """Frozen start family (prereg sec.2): first trading bar of every
+    quarter, panel-first-year .. year before the evidence cutoff. Panel
+    head mid-quarter duplicates keep the first claiming key (probe leg S
+    law). The 2020-01-02..2026-09-22 panel face -> 2020Q1..2025Q4 = 24."""
+    first_year = int(idx[0].year)
+    last_year = int(EVIDENCE_CUT[:4]) - 1
+    starts, used = {}, set()
+    for y in range(first_year, last_year + 1):
+        for m in (1, 4, 7, 10):
+            hits = idx[idx >= pd.Timestamp(f"{y}-{m:02d}-01")]
+            if not len(hits):
+                continue
+            d = str(hits[0].date())
+            if d in used:
+                continue
+            starts[f"{y}Q{(m - 1) // 3 + 1}"] = d
+            used.add(d)
+    return starts
+
+
+def r2_window_rows(eq: pd.Series, starts: dict, mid: str,
+                   line: float) -> list:
+    """Join-at-start-close semantics (prereg sec.2): the window series is
+    the STRICT tail slice (index > s) of the full-history daily returns
+    -- the s-1 -> s move belongs to the previous day's investor, not the
+    joiner. The rebase cross-path identity (slice path vs rebased path,
+    r392 probe leg X) is a standing per-window assertion, not a one-off:
+    a slice-math drift fails the shard closed."""
+    full_rets = eq.pct_change().dropna()
+    rows = []
+    for k in sorted(starts):
+        s = pd.Timestamp(starts[k])
+        rets_sub = full_rets[full_rets.index > s]
+        n_days = int(len(rets_sub))
+        if n_days < 2:
+            raise ValueError(f"window {k} degenerate (n_days={n_days})")
+        std = float(rets_sub.std())
+        w_s = float(rets_sub.mean() / std * (252 ** 0.5)) if std > 0 else 0.0
+        cum = (1.0 + rets_sub).cumprod()
+        maxdd = float((cum / cum.cummax() - 1).min())
+        rebased = eq[eq.index >= s]
+        alt = (rebased / rebased.iloc[0]).pct_change().dropna()
+        if not (len(alt) == n_days
+                and float(abs(alt.values - rets_sub.values).max())
+                < R2_REBASE_TOL):
+            raise AssertionError(f"slice-math identity broken at start {k}")
+        rows.append({
+            "id": f"{mid}::w::{k}", "kind": "window", "member": mid,
+            "start": k, "start_date": starts[k], "n_days": n_days,
+            "window_sharpe": round(w_s, 4),
+            "annual_return": round(float(
+                cum.iloc[-1] ** (252 / n_days) - 1), 4),
+            "max_dd": round(maxdd, 4),
+            "red": bool(w_s <= line),
+        })
+    return rows
+
+
+def r2_cells_path(mid: str) -> str:
+    return os.path.join(R2_WAVE_DIR, f"cells-{mid}.jsonl")
+
+
+def r2_read_cells(mid: str) -> list:
+    cells = []
+    fp = r2_cells_path(mid)
+    if os.path.exists(fp):
+        with open(fp, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    cells.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue      # corrupt tail tolerated (t22 convention)
+    return cells
+
+
+def r2_append_cell(mid: str, rec: dict):
+    os.makedirs(R2_WAVE_DIR, exist_ok=True)
+    with open(r2_cells_path(mid), "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
+_R2_ANCHOR_FIELDS = ("full_sharpe", "in_sharpe", "oos_sharpe",
+                     "n_trades", "n_in", "n_oos", "max_dd",
+                     "annual_return")
+
+
+def _r2_center_read(r: dict) -> dict:
+    return {"full_sharpe": round(_sharpe(r["eq"]), 4),
+            "in_sharpe": round(float(r["in_s"]), 4),
+            "oos_sharpe": round(float(r["oos_s"]), 4),
+            "n_trades": r["n_trades"], "n_in": r["n_in"],
+            "n_oos": r["n_oos"],
+            "max_dd": round(float(r["full"]["max_drawdown"]), 4),
+            "annual_return": round(float(r["full"]["annual_return"]), 4)}
+
+
+def _r1_center_cell(mid: str) -> dict:
+    """R1 checkpoint center cell = the anchor oracle (R2 replays must be
+    bitwise-identical on the frozen anchor fields; prereg sec.3)."""
+    fp = os.path.join(WAVE_DIR, f"cells-{mid}.jsonl")
+    if not os.path.exists(fp):
+        raise FileNotFoundError(f"R1 checkpoint absent for {mid}")
+    with open(fp, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            c = json.loads(line)
+            if c.get("kind") == "center":
+                return c
+    raise KeyError(f"R1 center cell not found for {mid}")
+
+
+def _r2_anchor(read: dict, r1c: dict) -> dict:
+    ok = all(read[k] == r1c[k] for k in _R2_ANCHOR_FIELDS)
+    return {"pass": bool(ok), "fields": list(_R2_ANCHOR_FIELDS),
+            "r1_checkpoint": {k: r1c[k] for k in _R2_ANCHOR_FIELDS}}
+
+
+def cmd_run_r2(member_id: str) -> int:
+    try:
+        import psutil
+        pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
+        if pri is not None:
+            psutil.Process().nice(pri)   # O-1612 full-load low-priority pool
+    except Exception:
+        pass
+    members = {m["id"]: m for m in load_members()}
+    if member_id not in members:
+        print(f"HONEST ABORT: unknown member {member_id}")
+        return 2
+    m = members[member_id]
+    mid = m["id"]
+    cells = r2_read_cells(mid)
+    done = _cells_done(cells)
+    have_center = f"{mid}::center" in done
+    n_win = sum(1 for c in cells if c.get("kind") == "window")
+    if have_center and n_win >= R2_EXPECT_STARTS:
+        anchor_ok = next(c for c in cells
+                         if c["id"] == f"{mid}::center").get(
+                             "anchor", {}).get("pass")
+        _pool_claim(mid, f"cells={len(cells)} anchor={anchor_ok} "
+                    "idempotent-no-op", wave="r2")
+        return cmd_finalize_one(mid, wave="r2")
+    prices, P = _panel()
+    if prices is None:
+        return 2
+    starts = r2_derive_starts(P["close"].index)
+    if len(starts) != R2_EXPECT_STARTS:
+        print(f"HONEST ABORT: start table {len(starts)} != "
+              f"{R2_EXPECT_STARTS} (frozen family 2020Q1..2025Q4)")
+        return 2
+    spec = FAMILIES[mid]
+    state = spec["build"](P, dict(spec["center"]))
+    r = _run_cell(prices, P, state, m, {})
+    read = _r2_center_read(r)
+    try:
+        r1c = _r1_center_cell(mid)
+    except (FileNotFoundError, KeyError) as exc:
+        print(f"HONEST ABORT: anchor oracle unavailable: {exc}")
+        return 2
+    anchor = _r2_anchor(read, r1c)
+    if have_center:
+        prev = next(c for c in cells if c["id"] == f"{mid}::center")
+        if any(prev.get(k) != read[k] for k in read):
+            print("HONEST ABORT: stored center row != fresh deterministic "
+                  "replay (determinism law)")
+            return 2
+    else:
+        r2_append_cell(mid, {"id": f"{mid}::center", "kind": "center",
+                             "member": mid, **read, "anchor": anchor,
+                             "starts": starts})
+        print(f"[{mid}] center replay anchor="
+              f"{'OK' if anchor['pass'] else 'FAIL'}", flush=True)
+    n_new = 0
+    if anchor["pass"]:
+        rows = r2_window_rows(r["eq"], starts, mid,
+                              I_LINE[member_regime(m)])
+        for row in rows:
+            if row["id"] in done:
+                prev = next(c for c in cells if c["id"] == row["id"])
+                if any(prev.get(k) != row[k] for k in
+                       ("start", "start_date", "n_days", "window_sharpe",
+                        "annual_return", "max_dd", "red")):
+                    print(f"HONEST ABORT: stored window {row['id']} != "
+                          "fresh deterministic row")
+                    return 2
+                continue
+            r2_append_cell(mid, row)
+            n_new += 1
+            print(f"[{mid}] {row['id']}: w_s={row['window_sharpe']} "
+                  f"red={row['red']}", flush=True)
+    else:
+        print(f"[{mid}] ANCHOR FAIL -- all {R2_EXPECT_STARTS} windows "
+              "refused (prereg sec.3)", flush=True)
+    cells = r2_read_cells(mid)
+    _pool_claim(mid, f"cells={len(cells)} anchor={anchor['pass']} "
+                + ("burn-complete" if (n_new or not have_center)
+                   else "idempotent-no-op"), wave="r2")
+    return cmd_finalize_one(mid, wave="r2")
+
+
+def cmd_probe_r2() -> int:
+    """Standing R2 probe (prereg sec.6: the r392 pre-freeze probe receipt
+    absorbed as the permanent wave-r2 probe). Legs: P panel face /
+    S start table / R center-replay bit-identity / W window readouts with
+    the standing rebase cross-path identity. Read-only: zero checkpoint
+    writes, zero ledger."""
+    rec = {"probe": "PERPETUAL-N3-R2", "machine": _machine_id(),
+           "evidence_cutoff": EVIDENCE_CUT,
+           "start_family": "quarter-first-bar 2020Q1..2025Q4", "legs": {}}
+    prices, P = _panel()
+    if P is None:
+        rec["legs"]["P"] = {"ok": False, "err": "panel drift (FAIL-CLOSED)"}
+        rec["verdict"] = "FAIL"
+        fp = os.path.join(PATHS.results_dir, "_n3r2_probe_latest.json")
+        with open(fp, "w", encoding="utf-8") as fh:
+            json.dump(rec, fh, ensure_ascii=False, indent=1)
+        return 1
+    idx = P["close"].index
+    rec["legs"]["P"] = {
+        "ok": True,
+        "quadruple": {
+            "data_face": "data/daily/sh*.csv (core48 bare codes via "
+                        "load_core)",
+            "loader": "live.paper.load_core -> build_panels",
+            "window_start": str(idx[0].date()),
+            "warmup": "vol20/med500 min_periods 20/500 (in-panel)",
+        },
+        "n_members_panel": int(len(P["close"].columns)),
+        "tail": str(idx[-1].date()),
+        "n_bars": int(len(idx)),
+    }
+    starts = r2_derive_starts(idx)
+    rec["legs"]["S"] = {"ok": len(starts) == R2_EXPECT_STARTS,
+                        "n_starts": len(starts), "starts": starts}
+    members = {m["id"]: m for m in load_members()}
+    mid = "VOLATILITY-CE-01"
+    m = members[mid]
+    spec = FAMILIES[mid]
+    state = spec["build"](P, dict(spec["center"]))
+    r = _run_cell(prices, P, state, m, {})
+    read = _r2_center_read(r)
+    r1c = _r1_center_cell(mid)
+    replay_ok = all(read[k] == r1c[k] for k in _R2_ANCHOR_FIELDS)
+    rec["legs"]["R"] = {"ok": bool(replay_ok), "replay": read,
+                        "r1_checkpoint": {k: r1c[k]
+                                          for k in _R2_ANCHOR_FIELDS}}
+    line = I_LINE[member_regime(m)]
+    try:
+        rows = r2_window_rows(r["eq"], starts, mid, line)
+        w_err = None
+    except (ValueError, AssertionError) as exc:
+        rows, w_err = [], str(exc)
+    w_ok = len(rows) == R2_EXPECT_STARTS and w_err is None
+    leg_w = {"ok": bool(w_ok), "member": mid, "line": line, "windows": rows,
+             "slice_math_identity": "standing assertion in r2_window_rows"}
+    if w_err is not None:
+        leg_w["err"] = w_err
+    if rows:
+        sharpes = [w["window_sharpe"] for w in rows]
+        q = pd.Series(sharpes).quantile([0.25, 0.5, 0.75])
+        leg_w["start_distribution"] = {
+            "best": max(sharpes), "worst": min(sharpes),
+            "p25": round(float(q[0.25]), 4),
+            "median": round(float(q[0.5]), 4),
+            "p75": round(float(q[0.75]), 4),
+            "worst_start": rows[sharpes.index(min(sharpes))]["start"],
+        }
+        leg_w["red_rate"] = round(
+            sum(w["red"] for w in rows) / len(rows), 4)
+    rec["legs"]["W"] = leg_w
+    all_ok = all(rec["legs"][k].get("ok") for k in ("P", "S", "R", "W"))
+    rec["verdict"] = "PASS" if all_ok else "FAIL"
+    fp = os.path.join(PATHS.results_dir, "_n3r2_probe_latest.json")
+    with open(fp, "w", encoding="utf-8") as fh:
+        json.dump(rec, fh, ensure_ascii=False, indent=1)
+    print(f"N3-R2 PROBE {rec['verdict']}: P={rec['legs']['P']['ok']} "
+          f"S={rec['legs']['S']['ok']} R={rec['legs']['R']['ok']} "
+          f"W={rec['legs']['W']['ok']}")
+    if all_ok:
+        d = rec["legs"]["W"]["start_distribution"]
+        print(f"  starts={rec['legs']['S']['n_starts']} "
+              f"red_rate={rec['legs']['W']['red_rate']} "
+              f"worst={d['worst']}@{d['worst_start']}")
+    return 0 if all_ok else 1
+
+
+def _r2_member_pack(m: dict, cells: list) -> dict:
+    mid = m["id"]
+    regime = member_regime(m)
+    mc = {c["id"]: c for c in cells}
+    center = mc.get(f"{mid}::center")
+    pack = {
+        "member": mid, "regime": regime,
+        "entry": m["params"]["entry"],
+        "gate": "perpetual-n3-r2 (prereg research/PERPETUAL_N3_R2_PREREG.md)",
+        "lines": {"window_line": I_LINE[regime],
+                  "source": "science_gates.recorded_lines() live read"},
+        "red_point_pass": False,
+    }
+    if center is None:
+        pack["status"] = "incomplete"
+        return pack
+    pack["anchor_reverify"] = center.get("anchor")
+    if not center.get("anchor", {}).get("pass"):
+        pack["status"] = "anchor_broken"
+        pack["windows_refused"] = ("anchor_broken -- all 24 windows "
+                                   "refused (prereg sec.3)")
+        pack["windows"] = []
+        return pack
+    wins = sorted((c for c in mc.values() if c.get("kind") == "window"),
+                  key=lambda c: c["start"])
+    pack["windows"] = wins
+    pack["n_windows"] = len(wins)
+    if wins:
+        sharpes = [w["window_sharpe"] for w in wins]
+        n_red = sum(1 for w in wins if w["red"])
+        worst = min(wins, key=lambda w: w["window_sharpe"])
+        q = pd.Series(sharpes).quantile([0.25, 0.5, 0.75])
+        pack["start_distribution"] = {
+            "best": max(sharpes), "worst": min(sharpes),
+            "p25": round(float(q[0.25]), 4),
+            "median": round(float(q[0.5]), 4),
+            "p75": round(float(q[0.75]), 4),
+            "worst_start": worst["start"],
+        }
+        pack["red_point"] = {
+            "windows": len(wins), "red": n_red,
+            "clause": "red*2 <= 24 (prereg sec.4 verbatim)",
+            "pass": bool(n_red * 2 <= len(wins)),
+        }
+        pack["red_point_pass"] = pack["red_point"]["pass"]
+        pack["worst_start"] = {
+            "start": worst["start"], "start_date": worst["start_date"],
+            "window_sharpe": worst["window_sharpe"],
+            "n_days": worst["n_days"], "max_dd": worst["max_dd"],
+        }
+    pack["status"] = ("judged" if len(wins) == R2_EXPECT_STARTS
+                      else "incomplete")
+    return pack
+
+
+def cmd_finalize_r2(member_id: str | None = None) -> int:
+    members = load_members()
+    if member_id is not None:
+        members = [m for m in members if m["id"] == member_id]
+    packs, n_rows, complete = [], 0, True
+    for m in members:
+        mid = m["id"]
+        cells = r2_read_cells(mid)
+        n_rows += len(cells)
+        pack = _r2_member_pack(m, cells)
+        packs.append(pack)
+        done = _cells_done(cells)
+        center = next((c for c in cells if c["id"] == f"{mid}::center"),
+                      None)
+        if center is None:
+            complete = False
+        elif center.get("anchor", {}).get("pass"):
+            want = {f"{mid}::w::{k}" for k in center.get("starts", {})}
+            complete &= want <= done
+        # anchor-broken member: center present = complete face (all 24
+        # windows refused per prereg sec.3 -- nothing further to wait for)
+        os.makedirs(R2_WAVE_DIR, exist_ok=True)
+        with open(os.path.join(R2_WAVE_DIR, f"{mid}.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({**pack, **cutoff_meta(EVIDENCE_CUT),
+                       "generated": _now_iso()}, fh, ensure_ascii=False,
+                      indent=1)
+    if member_id is not None:
+        print(f"single-member finalize: {member_id} "
+              "(R2 wave finalize deferred)")
+        return 0
+    if not complete:
+        print("HONEST REFUSAL: R2 wave incomplete -- finalize deferred")
+        return 2
+    batch_ledger = None
+    if os.path.exists(R2_BATCH_JSON):
+        try:
+            with open(R2_BATCH_JSON, encoding="utf-8") as fh:
+                prev = json.load(fh)
+            if prev.get("complete"):
+                batch_ledger = prev.get("trials_ledger")   # idempotent
+        except (OSError, ValueError):
+            batch_ledger = None
+    if batch_ledger is None:
+        batch_ledger = append_ledger(
+            R2_BATCH, R2_CELLS_NEW,
+            file_name="perpetual_faces/n3_r2_results.json",
+            note=("N3-R2 time-start robustness grid on 6 registered "
+                  "members: 144 quarter-start window readouts all new "
+                  "evidence (pure-math strict-tail slices of the center "
+                  "equity curves; derived-face nature disclosed per "
+                  "prereg sec.0); 6 centers = R1 checkpoint replays "
+                  "(+0); zero new seed bands; measurement-deepening "
+                  "face, no registration claim"),
+            evidence_cutoff=EVIDENCE_CUT)
+    n_red_total = sum(p.get("red_point", {}).get("red", 0) for p in packs
+                     if p.get("status") != "anchor_broken")
+    out = {
+        "batch": R2_BATCH,
+        "ticket": ("O-20261002-2155 seat split (bm-c N3-R2 seat via "
+                   "MSG-2026-10-03-0115; response to the bm-b "
+                   "MSG-2026-10-03-0016 seat invite)"),
+        "prereg": "research/PERPETUAL_N3_R2_PREREG.md",
+        "generated": _now_iso(),
+        "members": len(members),
+        "complete": True,
+        "engine_cells": n_rows,
+        "window_cells": R2_CELLS_NEW,
+        "packs": [{"member": p["member"], "status": p.get("status"),
+                   "anchor_pass": bool(p.get("anchor_reverify", {})
+                                      .get("pass")),
+                   "n_windows": p.get("n_windows"),
+                   "red_windows": p.get("red_point", {}).get("red"),
+                   "red_point_pass": p["red_point_pass"],
+                   "start_distribution": p.get("start_distribution"),
+                   "worst_start": p.get("worst_start")}
+                  for p in packs],
+        "subleg_counts": {
+            "anchor_pass": sum(1 for p in packs
+                               if p.get("anchor_reverify", {}).get("pass")),
+            "red_point_pass": sum(1 for p in packs if p["red_point_pass"]),
+            "windows_total": sum(p.get("n_windows", 0) for p in packs),
+            "windows_red": n_red_total,
+        },
+        "trials_ledger": batch_ledger,
+        "audit": {
+            "ledger_trials_added": batch_ledger["batch_trials"],
+            "ledger_head_after": ledger_head()["total"],
+            "note": ("N3 measurement-deepening wave-2 (time-interval "
+                     "start-point stress); three-state registration "
+                     "verdicts N/A per prereg sec.4; window readouts "
+                     "never change member status (month-boundary "
+                     "registration pipeline owns that face)"),
+        },
+    }
+    out.update(cutoff_meta(EVIDENCE_CUT))
+    os.makedirs(os.path.dirname(R2_BATCH_JSON), exist_ok=True)
+    with open(R2_BATCH_JSON, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1)
+    print(f"packs={len(packs)} engine_rows={n_rows} "
+          f"sublegs={out['subleg_counts']} "
+          f"ledger+{batch_ledger['batch_trials']} "
+          f"head={ledger_head()['total']}")
+    print(f"saved: {R2_BATCH_JSON} + {R2_WAVE_DIR} packs")
+    return 0
 
 
 def _member_pack(m: dict, cells: list, line_info: dict) -> dict:
@@ -601,7 +1091,10 @@ def _member_pack(m: dict, cells: list, line_info: dict) -> dict:
     return pack
 
 
-def cmd_finalize_one(member_id: str | None = None) -> int:
+def cmd_finalize_one(member_id: str | None = None,
+                    wave: str = "r1") -> int:
+    if wave == "r2":
+        return cmd_finalize_r2(member_id)
     members = load_members()
     if member_id is not None:
         members = [m for m in members if m["id"] == member_id]
@@ -713,7 +1206,19 @@ def cmd_status() -> int:
         total_plan += n_plan
         print(f"{m['id']}: {len(done)}/{n_plan} cells "
               f"(anchor_fail={len(_anchor_fail_ids(cells))})")
-    print(f"wave: {total_done}/{total_plan} cells")
+    print(f"wave R1: {total_done}/{total_plan} cells")
+    r2_done = 0
+    for m in members:
+        cells = r2_read_cells(m["id"])
+        n_win = sum(1 for c in cells if c.get("kind") == "window")
+        anchor = next((c.get("anchor", {}).get("pass")
+                       for c in cells if c["id"] == f"{m['id']}::center"),
+                      None)
+        print(f"R2 {m['id']}: 1 center + {n_win}/{R2_EXPECT_STARTS} "
+              f"windows (anchor={anchor})")
+        r2_done += 1 + n_win
+    print(f"wave R2: {r2_done}/{len(members) * (1 + R2_EXPECT_STARTS)} "
+          f"rows (centers + window readouts)")
     return 0
 
 
@@ -983,6 +1488,129 @@ def cmd_selftest() -> int:
     print(f"S8 s-mp-parity: {'PASS' if s8 else 'FAIL'}")
     ok &= s8
 
+    # S9: R2 wave machinery (synthetic fixtures; zero real-data burns,
+    # zero writes outside the tmp-dir fixture).
+    s9 = True
+    try:
+        # S9a: frozen start family -- 24 quarter-first bars, label order,
+        # and the panel-head mid-quarter dedup face.
+        idx = pd.date_range("2020-01-03", "2025-12-30", freq="B")
+        starts = r2_derive_starts(idx)
+        keys = list(starts)
+        if not (len(starts) == R2_EXPECT_STARTS
+                and keys[0] == "2020Q1" and keys[-1] == "2025Q4"
+                and keys == sorted(keys)):
+            print(f"FAIL S9a: start family {len(starts)} {keys[:3]}...")
+            s9 = False
+        head_mid = pd.date_range("2020-02-17", "2025-12-30", freq="B")
+        s2m = r2_derive_starts(head_mid)
+        if not (len(s2m) == R2_EXPECT_STARTS
+                and len(set(s2m.values())) == R2_EXPECT_STARTS
+                and s2m["2020Q1"] == "2020-02-17"):
+            print("FAIL S9a: mid-quarter head dedup")
+            s9 = False
+
+        # S9b: join-at-start-close semantics + window readout math. eq
+        # jumps +100% INTO the start bar; the joiner must NOT earn it.
+        dts = pd.date_range("2020-01-02", periods=6, freq="D")
+        eq = pd.Series([100.0, 200.0, 200.0, 210.0, 220.0, 198.0],
+                       index=dts)
+        st = {"T0": str(dts[1].date())}      # join at bar-1 close
+        rows = r2_window_rows(eq, st, "TEST-01", line=1.0)
+        full_rets = eq.pct_change().dropna()
+        tail = full_rets[full_rets.index > dts[1]]
+        if not (len(rows) == 1 and rows[0]["n_days"] == 4
+                and rows[0]["start_date"] == str(dts[1].date())
+                and abs(rows[0]["window_sharpe"]
+                        - float(tail.mean() / tail.std()
+                                * (252 ** 0.5))) < 5e-5):
+            print(f"FAIL S9b: window row {rows}")
+            s9 = False
+        cum = (1.0 + tail).cumprod()
+        if not (abs(rows[0]["annual_return"]
+                    - float(cum.iloc[-1] ** (252 / 4) - 1)) < 5e-5
+                and abs(rows[0]["max_dd"]
+                        - float((cum / cum.cummax() - 1).min())) < 5e-5):
+            print("FAIL S9b: annual/maxdd arithmetic")
+            s9 = False
+        if not (float(tail.iloc[0]) == 0.0
+                and float(abs(tail.values).max()) < 1.0):
+            print("FAIL S9b: strict-tail slice leaked the join-day move")
+            s9 = False
+
+        # S9c: red clause arithmetic (frozen clause red*2 <= 24) + the
+        # window red flag vs the member line.
+        if not (bool(12 * 2 <= 24) and not bool(13 * 2 <= 24)):
+            print("FAIL S9c: red-point clause boundary")
+            s9 = False
+        red_hi = r2_window_rows(eq, st, "TEST-01", line=100.0)[0]["red"]
+        red_lo = r2_window_rows(eq, st, "TEST-01", line=-100.0)[0]["red"]
+        if not (red_hi is True and red_lo is False):
+            print("FAIL S9c: window red flag vs line")
+            s9 = False
+
+        # S9d: zero-new-seed-band pin (prereg sec.3: R2 has NO random
+        # face; SEED_REGISTRY must not carry a perpetual_n3_r2 key).
+        if "perpetual_n3_r2" in SEED_REGISTRY:
+            print("FAIL S9d: SEED_REGISTRY carries an R2 key "
+                  "(zero-new-seeds law)")
+            s9 = False
+
+        # S9e: wave-scoped pool entry ids (single-source face; the R1
+        # form must stay byte-stable for the generator import).
+        if not (pool_entry_id("VOLATILITY-CE-01")
+                == "PERPETUAL-N3-R1-VOLATILITY-CE-01"
+                and pool_entry_id("VOLATILITY-CE-01", wave="r2")
+                == "PERPETUAL-N3-R2-VOLATILITY-CE-01"):
+            print("FAIL S9e: wave-scoped pool entry id")
+            s9 = False
+
+        # S9f: R2 checkpoint idempotence on a fixture JSONL (tmp dir);
+        # the center row carries the start table so finalize needs no
+        # panel reload.
+        import tempfile
+        global R2_WAVE_DIR
+        with tempfile.TemporaryDirectory() as td:
+            old_r2 = R2_WAVE_DIR
+            try:
+                R2_WAVE_DIR = td
+                mid0 = members[0]["id"]
+                r2_append_cell(mid0, {"id": f"{mid0}::center",
+                                       "kind": "center", "member": mid0,
+                                       "anchor": {"pass": True},
+                                       "starts": {"2020Q1": "2020-01-03",
+                                                  "2020Q2": "2020-04-01"}})
+                r2_append_cell(mid0, {"id": f"{mid0}::w::2020Q1",
+                                      "kind": "window", "member": mid0,
+                                      "start": "2020Q1"})
+                cells_fx = r2_read_cells(mid0)
+                if not (len(cells_fx) == 2
+                        and sum(1 for c in cells_fx
+                                if c.get("kind") == "window") == 1):
+                    print("FAIL S9f: R2 fixture readback")
+                    s9 = False
+                done_fx = _cells_done(cells_fx)
+                missing = {f"{mid0}::w::{k}"
+                           for k in ("2020Q1", "2020Q2")} - done_fx
+                if missing != {f"{mid0}::w::2020Q2"}:
+                    print(f"FAIL S9f: idempotence missing={missing}")
+                    s9 = False
+            finally:
+                R2_WAVE_DIR = old_r2
+
+        # S9g: anchor gate on synthetic dicts (bitwise field compare).
+        base = dict.fromkeys(_R2_ANCHOR_FIELDS, 1)
+        if not (_r2_anchor(base, base)["pass"]
+                and not _r2_anchor(base,
+                                   {**base, "max_dd": 0.999})["pass"]):
+            print("FAIL S9g: anchor gate arithmetic")
+            s9 = False
+    except Exception as ex:
+        print(f"FAIL S9: exception {type(ex).__name__}: {ex}")
+        s9 = False
+    print(f"S9 r2-machinery: {'PASS' if s9 else 'FAIL'}")
+    ok &= s9
+
     print(f"selftest: {'ALL PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
@@ -992,23 +1620,27 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
     r.add_argument("--member", required=True)
+    r.add_argument("--wave", choices=("r1", "r2"), default="r1")
     r.add_argument("--serial", action="store_true",
                    help="serial driver (parity/hermetic leg; pool entries "
                         "are served by the pooled driver per law-1)")
     sub.add_parser("status")
-    sub.add_parser("probe")
+    p = sub.add_parser("probe")
+    p.add_argument("--wave", choices=("r1", "r2"), default="r1")
     f = sub.add_parser("finalize")
     f.add_argument("--member", default=None)
+    f.add_argument("--wave", choices=("r1", "r2"), default="r1")
     sub.add_parser("selftest")
     args = ap.parse_args()
     if args.cmd == "run":
-        return cmd_run(args.member, use_pool=not args.serial)
+        return cmd_run(args.member, use_pool=not args.serial,
+                       wave=args.wave)
     if args.cmd == "status":
         return cmd_status()
     if args.cmd == "probe":
-        return cmd_probe()
+        return cmd_probe(wave=args.wave)
     if args.cmd == "finalize":
-        return cmd_finalize_one(args.member)
+        return cmd_finalize_one(args.member, wave=args.wave)
     return cmd_selftest()
 
 

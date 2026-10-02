@@ -1,9 +1,9 @@
-# PERPETUAL-N3-R2 预注册 · N3 neighborhood robustness grid 波 2（时间区间起点稳健性网格）· **DRAFT-NOT-FROZEN v0.1**
+# PERPETUAL-N3-R2 预注册 · N3 neighborhood robustness grid 波 2（时间区间起点稳健性网格）· **FROZEN v1.0**
 
 > 令源：O-20261002-2155 P0 引擎发生器补全（三面单执行体闭合：bm-a=N4-B1 · bm-b=N2-W15 slice-2 · **bm-c=N3-R2**〔MSG-2026-10-03-0115 认领〕）；面级法典=research/PERPETUAL_FACES.md v1.0 §2 N3 行；本件=N3 面**波级 prereg 草案**（R99 纪律·从 PREREG_TEMPLATE.md 起草）。
 > 性质=**测量加深面**（法典 §2 同 R1：对在册成员重测、产物=更深置信面非新注册件、不入候选漏斗、不占语法消耗登记簿行、零除名效应——本波判读不触发成员状态变化；D6 同族相关性约束=N2 专属，本面豁免如实注记）。
 > 复用基=verbatim import 禁重写：`scripts/perpetual_faces_n3.py`（R1 runner：_panel/load_members/FAMILIES/_run_cell/池握手全套——R2=同 runner 的 R2 波模式扩展）；`science_gates`（recorded_lines/append_ledger——判线机器链接零手抄）；`live/paper` 注册面正典 run 约定（R1 §2 同源逐字）。
-> **状态=DRAFT-NOT-FROZEN**：五条件冻结门（下轮）=①runner R2 模式落地+selftest 全绿 ②probe 复验 PASS ③banned_direction_gate 过闸回执 ④S6 链自检 ⑤commit 冻结（签名节回填）。冻结前零烧录零池物化（法典 §1 物化前置=prereg 在场，DRAFT 不满足）。
+> **状态=FROZEN（2026-10-03 03:0x bm-c r394）**：五条件冻结门全过=①runner R2 模式落地（`run/finalize/probe/status --wave r2`·selftest S1-S9 ALL PASS·02:5x）②probe 复验 PASS（常设化 `probe --wave r2`·4 腿 P/S/R/W 全绿·worst 0.912@2025Q4 与 §0 冻结前披露逐位复现·回执 results/_n3r2_probe_latest.json）③banned_direction_gate ADMIT rc0（BAN-04 字面命中+§0.5 例外三件套完整·02:5x）④S6 链自检 rc0 全绿（本窗 36 腿·reconcile ZERO-DRIFT streak 1/3·详见 r394 轮报告）⑤冻结 commit（签名节回填）。冻结前零烧录零池物化已守（法典 §1）；冻结后按 §0 算力预算入池。
 
 ## §0 批件身份【必填·跑前】
 
@@ -76,8 +76,13 @@
 
 （占位——预测对账 5 条+全起点分布读数+回执入轮报告+CODELY.md 行级追加）
 
-## 冻结签名（DRAFT 节——冻结门五条件达成后回填）
+## 冻结签名（FROZEN——五条件达成回填）
 
-- 冻结时刻：____（条件①-⑤全过+commit 哈希回填）
-- 冻结前 probe：results/_r392bmc_n3r2_probe.json（4 腿 PASS·2026-10-03 r392 bm-c·VOLATILITY 单员冒烟·判据零改动）
-- 起草：2026-10-03 ~02:2x bm-c r392 会话（MSG-0115 认领兑现·主产品线首件）
+- 冻结时刻：2026-10-03 03:0x bm-c r394 会话（条件①-⑤全过；冻结 commit=本件所在 commit·哈希见 git log --grep "freeze PERPETUAL-N3-R2"）
+- 条件①：runner R2 波模式落地+`selftest` S1-S9 ALL PASS（S9=R2 机件腿七件：起点族 24+标签序+面板头季中旬去重/严格尾切片语义（进场日移动不归跟单者）/窗读出算术/红点条款边界/零新种子钉（SEED_REGISTRY 无 perpetual_n3_r2 键）/波面池 id 双态/R2 JSONL 幂等 fixture/锚门逐位算术·2026-10-03 02:5x）
+- 条件②：`probe --wave r2` 4 腿 PASS（P 面板四元组 48 员·1631 bar·尾 2026-09-22 / S 起点表 24 / R center 复演与 R1 checkpoint 逐位恒等 / W 24 窗读出+rebase 交叉路径恒等·red_rate 0.0·worst 0.912@2025Q4 与 §0 冻结前披露逐位一致）·回执 results/_n3r2_probe_latest.json
+- 条件③：banned_direction_gate ADMIT rc0（BAN-04 网格字面命中·§0.5 例外三件套完整·new_data·2026-10-03 02:5x）
+- 条件④：S6 链自检 rc0 全绿（本窗 36 腿·reconcile ZERO-DRIFT·compute_audit supply_gap 旗如实照录=r393 p1c_stock 数据根因封锁的机队面观察非本机违令·py_watermark py_low_with_work_cands 的点名整改=本冻结+同窗入池物化即供给）
+- 条件⑤：本 commit（冻结与 runner/探针回执同窗落账；池物化随后续 commit）
+- 冻结前 probe：results/_r392bmc_n3r2_probe.py + results/_r392bmc_n3r2_probe.json（4 腿 PASS·2026-10-03 r392 bm-c·VOLATILITY 单员冒烟·判据零改动）
+- 起草：2026-10-03 ~02:2x bm-c r392 会话（MSG-0115 认领兑现·主产品线首件）；冻结：2026-10-03 03:0x bm-c r394 会话
