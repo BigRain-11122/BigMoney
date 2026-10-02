@@ -1011,44 +1011,32 @@
    "fill_latency_min": 0.1,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 00:40:02",
+  "ts": "2026-10-03 01:06:01",
   "machine": "bm-c",
   "py_cpu_pct": 0.0,
-  "single_core_red_flags": [
-   {
-    "ts": "2026-10-03T00:31:26+08:00",
-    "entry": "CONTEST-YTD-P1-SHARD-4OF8",
-    "shard": "contest-ytd-p1-shard-4of8",
-    "pid": 8680,
-    "wall_s": 60.1,
-    "effective_cores": 1.14,
-    "law": "O-20260930-2355 sec.1 law-2"
-   }
-  ],
   "fuse_skipped": [
    {
     "entry": "LOWAMP-DEEP-P1-NULLS",
     "shard": "lowamp-deep-p1-nulls-0of1",
     "sig": "scripts/lowamp_deep_p1.py|run,--nulls",
-    "fuse_refusals": 7
+    "fuse_refusals": 41
+   },
+   {
+    "entry": "CONTEST-YTD-P1-SHARD-0OF8",
+    "shard": "contest-ytd-p1-shard-0of8",
+    "sig": "scripts/contest_ytd_p1.py|run,--shard,0,--shards,8",
+    "fuse_refusals": 32
    }
   ],
-  "verdict": "launched",
-  "entry": "CONTEST-YTD-P1-SHARD-0OF8",
-  "shard": "contest-ytd-p1-shard-0of8",
-  "pid": 4676,
-  "runner_sha256": "2bdd9580511b16a6",
-  "core_verdict": "multiproc",
-  "core_marker": "from parallel_runner import",
-  "fill_latency_min": 0.1,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "claim_lost_yield",
+  "entry": "CONTEST-YTD-P1-SHARD-1OF8",
+  "shard": "contest-ytd-p1-shard-1of8"
  },
  "lane_machine": "bm-c",
- "core_samples_seen": "2026-10-03T00:31:26+08:00"
+ "core_samples_seen": "2026-10-03T00:41:19+08:00"
 }
