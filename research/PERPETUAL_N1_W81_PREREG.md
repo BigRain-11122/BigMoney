@@ -61,10 +61,17 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位·finalize 后机械回填）
+- **finalize 实烧=one-pass r574 bm-a**（r538 一过例·2026-10-02 12:2x·12 分片 shards_consumed 12/12·audit.machine=bm-a 12/12 验属·W81 results 件跑前缺位核验过=一过窗安全）：N=2,200（A 2,000＋B 200）。
+- **S5 四门全过（§5 预测 4/4）**：① W81-only mu **−0.094103** 与 merged mu **−0.092374**（K=176,120）漂移 |Δ|=**0.001729**<0.02（对锚 W79 merged −0.092397 漂 0.000023）✓；② sigma 相对变化 **−0.084%**<±10%（W81-only **0.246713** vs 锚 0.246921=W79-only 实测）✓；③ A 族 full_sharpe_p95 **0.3079** vs 锚 0.3000 |Δ|=**0.0079**<0.05 ✓；④ K-lift **+0.0001**≤0.02 @n_eff_held 540,548〔1.1655→**1.1656**〕✓。
+- **账本落账**：prev=**540,548**（W80 bm-c r364 addendum 活链头 derive·origin 时序面 r518 律）＋2,200=**542,748 净链头**·K=**176,120**·ledger dict 唯一 schema·voids_applied=[LOWAMP-P1, LOWAMP-P2]·evidence_cutoff=2026-09-22。
+- mu_delta_w81_vs_w80ext=**−0.005241**（单波跨度如实·W80-only A 族 mu −0.084346 实测）；se_mu=**0.000583** @K=176,120（收窄链延续：W79 0.000591→W80 0.000587→W81 0.000583）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （占位·finalize 后机械回填）
+- **全生命周期三窗闭环**：冻结 r574（席位 MSG-20261002-1210-bma·published=reserved r518-① 律·先推 origin b38c8e64a=r565 早可见性律；bm-b 同窗双公示撞面 → r511 commit 时序 bm-a 冻结 b770b41df 先落=正主·bm-b 让路 MSG-1220·带位逐位同=r530 族交叉验证）→烧录 12/12（tick 引擎冻结编辑落工作树后自燃 12:13 起烧·r535 律·12:24 收尾 12/12 落盘·产物增长面 r325 律验证）→finalize r574 one-pass（W80 bm-c addendum 落账 540,548 解锁后一过）。
+- **链序面**：W79 bm-b r574 落账（538,348）→W80 bm-c r364 addendum 落账（540,548）→本波 W81 落账（**542,748**）→链序下一波=W82（bm-b 已同窗冻结·45e05a67c）。
+- **带位面**：A-ext seed **205_004..207_003**＋B-ext exit seed **54_001..54_200**（gate ADMIT 回执=results/_r574bma_w81_band_gate.py·A 算术顺延零跳位+B 越 hit 强制跳位〔t18_deep_axis=54_000 上缘端点·两读法恒同解·W74-B 先例族〕）。
+- **本窗运维披露**：①W81 冻结推送窗外科 commit b770b41df message 层错载 ride 文（commit-tree -F 从 HEAD 取文缺陷·内容 9 件全量正确·ls-tree 五面逐件验证·MSG-1253 双披露）；②W81 烧毕收编 commit e3215a98e add -A 吞 phantom-D 删除面 17 件他机件（bm-b W82 冻结包+bm-c W80 finalize 件+W80 分片 4 件）→hotfix 5ff066442 字节级恢复+audit.machine 验属三面核+零科学损失（删除从未被下游消费：W82/W81 finalize 均在本恢复后跑）；③CODELY 127.6KB 超线注记（100% 在役坑律正典·r504 注记勿为字节数归档·阈值重锚=GM 裁定面）。
+- 无 void·无重跑（r538 一过例）·无判据触碰（回填限 §7/§8）·selftest 回填后两态全绿（r307·缺省波调用 r522 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
