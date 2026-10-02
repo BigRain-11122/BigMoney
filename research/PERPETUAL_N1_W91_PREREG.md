@@ -58,3 +58,17 @@
 
 - runner=`scripts/perpetual_faces_n1.py`（selftest/status/run --shard k --of 12 --wave 91/finalize --wave 91；probe/parity=W2 设计验证面·本波赝实 no-op）；点火面 `scripts/saturation_engine.py`（本机 bm-b 实例·**tick 架构 r535 律**·本地队列→PreIgnitionChecks→分离子进程点火→完成探测→台账批处理·runner_args --lane engine 车道合同〔r523 律〕·**点火验证=2 tick 内产物增长面（n1_w91/ 分片计数·唯一点火证据·r325 律）**）。
 - 交付：`results/p2cal_ext/n1_w91/shard-<k>-of-12.json`（append-only·确定性）；`results/perpetual_faces/n1_w91_results.json`（finalize 合并件·顶层 evidence_cutoff·cutoff_meta·audit 段·K-lift 对照；finalize 链序前置=**起草窗三在飞上游席**——跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态律恒在）。
+
+## §7 跑后实证。【r578 冻结件缺占位段·r579 finalize 收口面补全（缺口如实披露）】
+
+- 12/12 分片 bm-b 引擎烧毕（r578 冻结 commit 后 tick 自燃·shard-0 1 tick 内点火实证·12/12 于 r579 窗前烧毕·产物 S0 外科送达 origin 37079d9b7；audit.machine=bm-b）；finalize one-pass（r538 律·r310 完备性门 origin ls-tree 12/12 先行·bm-b r579）。
+- ledger：prev_total 562,548（W90 bm-a r580 落账解锁·链序 W88 558,148 bm-c→W89 560,348 bm-b→W90 562,548 bm-a）+ batch_trials 2,200 = **564,748**；voids_applied=LOWAMP-P1/P2。
+- w91-only：n=2,200·mu=−0.0858373·sigma=0.2485487；merged：n=198,120·mu=−0.0927138·sigma=0.2447465；mu_delta_w91_vs_w90ext=+0.018252（w91 批较浅于存量——合并后 mu 漂 +0.000077·门内）。
+- skill_line_v2 @n_eff_held 562,548：1.1664→**1.1667**（K-lift delta +0.0003≤0.02 门内）；se_mu @K198,120=0.000550（收窄链延续：W87 0.000563→W89 0.000556→W91 0.000550）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过：|Δmu|=0.0067<0.02（锚 W87 −0.0925833）；σ 变化 +1.07%<±10%（锚 0.2459280）；A 桶 p95 差 0.028<0.05（锚 0.2995·本波 0.3275）；K-lift +0.0003≤0.02。finalize stdout 留档=轮报告；产物 `results/perpetual_faces/n1_w91_results.json`（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit 段齐）。
+
+## §8 批后复盘。【r579 补全】
+
+- 链序实况：冻结窗三在飞上游席（W88 bm-c/W89 本机/W90 bm-a）全部于 r579-r580 窗内落账（W88 bm-c r369·W89 bm-b r579 one-pass·W90 bm-a r580 one-pass）——本波 finalize 同窗解锁 one-pass 收口，r307 两态律跑时复核通过、零改判据。
+- 供给面：W91 烧毕后引擎空窗→compute_audit supply_floor 旗→r579 同窗 W92 席位撞面（bm-c MSG-20261002-1447-bmc 先达 origin 14:47）→**zero-cost 让路**（本机 W92 机闸 derive 逐位同带=r530 确定性交叉验证零仲裁成本）→同窗 W93 席公示（r565 yield-then-reoccupy 律·MSG-20261002-1510-bmb）→W93 冻结随窗落地=供给线连续。
+- 判据面：mu 漂/K-lift/se_mu 全门内（§7 数字）；投影-实况零漂移（W90 行 W91+ 投影 A 225_004..227_003/B pin 56_501..56_700 与冻结带逐位一致）。
