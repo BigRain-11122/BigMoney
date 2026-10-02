@@ -3,23 +3,8 @@
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
  "active": [],
- "ledger_buffer": [
-  {
-   "machine_id": "bm-b",
-   "face": "N1",
-   "wave": 97,
-   "batch": "PERPETUAL-N1-W97",
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w97-9of12",
-   "pid": 36040,
-   "started_at": "2026-10-02T15:53:04+08:00",
-   "done_at": "2026-10-02T15:54:04+08:00",
-   "done_epoch": 1790927642,
-   "elapsed_sec": 58.5
-  }
- ],
- "last_flush_at": "2026-10-02T15:53:04+08:00",
+ "ledger_buffer": [],
+ "last_flush_at": "2026-10-02T15:58:04+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -30,63 +15,18 @@
   "n1w64-9of12": 1,
   "n1w70-11of12": 1
  },
- "shards_done_total": 451,
- "last_shard_done_at": "2026-10-02T15:54:04+08:00",
+ "shards_done_total": 453,
+ "last_shard_done_at": "2026-10-02T15:58:04+08:00",
  "last_tick": {
-  "ts": "2026-10-02T15:54:04+08:00",
-  "epoch": 1790927642,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 3.6644058227539062,
-  "verdict": "gate:free RAM 3.7GB < 4.0GB floor",
+  "ts": "2026-10-02T16:12:04+08:00",
+  "epoch": 1790928722,
+  "py_cpu_pct": 0.4,
+  "ram_free_gb": 3.936176300048828,
+  "verdict": "idle",
   "active_n": 0,
-  "queue_depth": 2,
-  "elapsed_sec": 2.5
+  "queue_depth": 0,
+  "elapsed_sec": 2.4
  },
  "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 97,
-   "shard": 10,
-   "nshards": 12,
-   "key": "n1w97-10of12",
-   "batch": "PERPETUAL-N1-W97",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "97",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 97,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w97-11of12",
-   "batch": "PERPETUAL-N1-W97",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "97",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  }
- ]
+ "queue": []
 }

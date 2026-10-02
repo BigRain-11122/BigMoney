@@ -1,0 +1,4 @@
+'utocrlf 双空间对账坑（CODELY union 首跑即崩实弹·r530/r500 族的 blob 面补全）：repo blob=LF·工作树=CRLF（autocrlf=true）——union/对账脚本拿 git show origin blob 按 \\r\\n 切=整文件单元素 Index 崩；正解=对账一律在 blob 空间（LF）算字节与 md5、落盘按工作树 EOL（CRLF）写、git add 清滤自动归一回 blob 面（split("\\n")+replace(b"\\n",b"\\r\\n") 落盘·union 后 len 断言=origin−moved+pointer）。How to apply：一切「对 origin blob 做字节对账/union」的脚本先探 blob 行尾（count \\r\\n vs \\n）再选切分面；md5 记账面=blob 空间非工作树空间。\n'
+@@@
+### Project
+- 域指针·D-20261002-06 首拆件（2026-10-02 r369 bm-c·T-2026-10-02-144(c)）：git 域坑律 49 条（rebase/push 撞拒净路族·外科 CAS 直投族·让路/closeout 树卫与删除集自证族·staged 吞件族·silent-git/Invoke-SilentExe 包装器族·git 输出固定列解析族·D-19 水位 git show 字节律）已整域 verbatim 迁出→**research/pit-git.md**（件内字节对账

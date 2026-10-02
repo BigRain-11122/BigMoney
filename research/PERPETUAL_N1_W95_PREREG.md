@@ -61,12 +61,18 @@
 - 引擎台账：bm-b tick 架构=engine ledger jsonl+state/face/history 件 git 交付（W44/W45/W48/W54/W57/W62/W64/W68/W73/W75/W77/W81/W84/W86/W91/W93 实况范式；r522 孤儿对账腿在役）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【r580 冻结占位·r582 finalize 收口机械回填】
 
-- （占位·finalize 后机械回填）
+- 12/12 分片 bm-b 引擎烧毕（r580 冻结 commit 后 tick 架构自燃免重启·r535 律·r581 窗 12/12 烧毕·产品 12/12 r581 已交付 origin=r310 完备性门实核）；finalize one-pass（r538 律·首跑禁重跑·本地无未 commit 自产波件前置核验·r582）。
+- ledger：prev_total 571,348（W94 bm-a r582 落账解锁·链序 W89 560,348 bm-b→W90 562,548 bm-a→W91 564,748 bm-b→W92 566,948 bm-c→W93 569,148 bm-b→W94 571,348 bm-a）+ batch_trials 2,200 = **573,548**；voids_applied=LOWAMP-P1/P2。
+- w95-only：n=2,200·mu=−0.0977067·sigma=0.2453123；merged：n=206,920·mu=−0.0928112·sigma=0.2448052（§0 投影「W94 落账后 K=204,720+本波 2,200」逐位吻合）；mu_delta_w95_vs_w94ext=−0.002355（本波批较 W94 批更深·仍浅于存量池——合并后 mu 漂 −0.0000526·门内）。
+- skill_line_v2 @n_eff_held 571,348：1.1677→**1.1677**（K-lift delta +0.0000≤0.02 门内·正负交替如实报〔W93 −0.0002→W94 +0.0000→W95 +0.0000〕）；se_mu @K206,920=0.000538（收窄链延续：W91 0.000550→W93 0.000544→W94 0.000541→W95 0.000538）；canon_flip 未执行（治理提案面·K2200 同法）。
+- §5 预测四门全过：|Δmu|=0.0050<0.02（§5 冻结锚=W91 merged −0.0927138·起草窗滚动锚）；σ 变化 −1.30%<±10%（锚 W91-only 0.2485487·本波 0.2453123）；A 桶 p95 差 0.0184<0.05（锚 0.3275·本波 0.3091）；K-lift +0.0000≤0.02。产物 `results/perpetual_faces/n1_w95_results.json`（顶层 evidence_cutoff=2026-09-22·cutoff_meta·audit.machine=bm-b·shards_consumed 12）。
 
-## §8 批后复盘。【必填·结 7-T】
+## §8 批后复盘。【r582 补全】
 
-- （占位·finalize 后机械回填）
+- 链序实况：冻结窗（r580）在飞上游席已全部落账（W92 bm-c r372→W93 bm-b r581→W94 bm-a r582）——本波 finalize one-pass 收口，r307 两态律跑时复核通过（pre-W95 K=204,720·mu=−0.0927586·sigma=0.2447998 与 W94 merged 逐位吻合=链连续性实证）、零改判据。
+- 供给面：本波 finalize 解锁 W96 bm-a finalize 链序（12/12 产品已在 origin）；同窗 W97 bm-b 12/12 烧毕 finalize-pending（链序候 W96·产品 12/12 本地待 ride 交付）+W98 bm-a r582 冻结在案——供给线连续；bm-b 下一 finalize=W97（候 W96 落账+本机产品交付 origin 后）。
+- §5 W96+ 投影复核：A 235_004..237_003 CLEAN/B 57_701..57_900 CLEAN——下波冻结方 bm-a r581 机验逐位吻合（ADMIT 回执 results/_r581bma_w96_band_gate.py hops 0/0·r302 投影三查先例）。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
