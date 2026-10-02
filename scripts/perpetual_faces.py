@@ -2049,6 +2049,22 @@ N1_BANDS = {
     # NOT a re-pick (R250: W89 bands were never assigned).
     89: {"a": (221_004, 223_003), "b_exit": (56_001, 56_200),
          "engine_owner": "bm-b"},
+    # W90 (r579 bm-a): BOTH SIDES ARITHMETIC CONTINUATION from the
+    # registered W89 tails (bm-b r578 estate-adoption registration),
+    # zero skip, zero refusal points. Dual-state convergent ADMIT
+    # receipt results/_r579bma_w90_band_gate.py (state A: W89
+    # seat-published chain -- W88-tail arithmetic == W89 published
+    # A band -> skip-past-published; B 55_901..56_100 REFUSED
+    # in-band at SEED_REGISTRY ths_agg_p1=56_000 median 99/199 ->
+    # D-20261002-05 pin restart 56_001..56_200 == W89 published ->
+    # skip-past-published; state B: registered-tail arithmetic) --
+    # both states rc0 on the same bands. W91+ projection: A
+    # 225_004..227_003 CLEAN / B 56_401..56_600 REFUSED at
+    # p4_batch3_dca=56_500 in-window MEDIAN (99/199) -> pin
+    # 56_501..56_700 for the next freezer (never transcribe).
+    # NOT a re-pick (R250: W90 bands were never assigned).
+    90: {"a": (223_004, 225_003), "b_exit": (56_201, 56_400),
+         "engine_owner": "bm-a"},
     # EIGHTIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r578 bm-b
     # freeze): engine_owner rows 79 + candidate; bm-b's
     # thirtieth owned per machine-derive (engine_owner==bm-b
