@@ -2,60 +2,38 @@
  "version": "0.1",
  "machine_id": "bm-b",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
-  {
-   "face": "N1",
-   "wave": 65,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w65-9of12",
-   "batch": "PERPETUAL-N1-W65",
-   "pid": 51308,
-   "started_at": "2026-10-02T09:21:03+08:00",
-   "started_epoch": 1790904063,
-   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W65-9.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W65",
-    "prereg": "research/PERPETUAL_N1_W65_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; FIFTY-FOURTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W64 row; seat declared published=reserved MSG-20261002-0919-bmb), engine_owner=bm-b, wave 65 BOTH SIDES ARITHMETIC CONTINUATION no skip (A 173_004..175_003 / B 49_601..49_800 machine-derived CLEAN == the W64 row W65+ published projection verbatim); W1..W63 finalizes ALL LANDED at this freeze (net chain head 503,148, K=136,520, bm-c r358), W64 bm-a r566 = ONE in-flight upstream seat (registered, finalize chain-pending FAIL-CLOSED r307)",
-    "a_seed_base": 173004,
-    "b_exit_seed_base": 49601,
-    "shard_subdir": "n1_w65",
-    "out_name": "n1_w65_results.json",
-    "engine_owner": "bm-b"
-   }
-  }
- ],
+ "active": [],
  "ledger_buffer": [
   {
    "machine_id": "bm-b",
    "face": "N1",
    "wave": 65,
    "batch": "PERPETUAL-N1-W65",
-   "shard": 7,
+   "shard": 10,
    "nshards": 12,
-   "key": "n1w65-7of12",
-   "pid": 49500,
-   "started_at": "2026-10-02T09:19:03+08:00",
-   "done_at": "2026-10-02T09:20:04+08:00",
-   "done_epoch": 1790904002,
-   "elapsed_sec": 59.1
+   "key": "n1w65-10of12",
+   "pid": 30620,
+   "started_at": "2026-10-02T09:22:03+08:00",
+   "done_at": "2026-10-02T09:23:03+08:00",
+   "done_epoch": 1790904181,
+   "elapsed_sec": 58.6
   },
   {
    "machine_id": "bm-b",
    "face": "N1",
    "wave": 65,
    "batch": "PERPETUAL-N1-W65",
-   "shard": 8,
+   "shard": 11,
    "nshards": 12,
-   "key": "n1w65-8of12",
-   "pid": 53672,
-   "started_at": "2026-10-02T09:20:04+08:00",
-   "done_at": "2026-10-02T09:21:03+08:00",
-   "done_epoch": 1790904061,
-   "elapsed_sec": 57.7
+   "key": "n1w65-11of12",
+   "pid": 38264,
+   "started_at": "2026-10-02T09:23:03+08:00",
+   "done_at": "2026-10-02T09:24:03+08:00",
+   "done_epoch": 1790904241,
+   "elapsed_sec": 58.7
   }
  ],
- "last_flush_at": "2026-10-02T09:19:03+08:00",
+ "last_flush_at": "2026-10-02T09:22:03+08:00",
  "crashes": {
   "n1w10-6of12": 1,
   "n1w11-5of12": 1,
@@ -65,63 +43,18 @@
   "n1w58-2of12": 1,
   "n1w64-9of12": 1
  },
- "shards_done_total": 294,
- "last_shard_done_at": "2026-10-02T09:21:03+08:00",
+ "shards_done_total": 297,
+ "last_shard_done_at": "2026-10-02T09:24:03+08:00",
  "last_tick": {
-  "ts": "2026-10-02T09:21:03+08:00",
-  "epoch": 1790904061,
+  "ts": "2026-10-02T09:29:04+08:00",
+  "epoch": 1790904541,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 5.178550720214844,
-  "verdict": "ignited:n1w65-9of12 pid=51308",
-  "active_n": 1,
-  "queue_depth": 2,
+  "ram_free_gb": 5.086872100830078,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
   "elapsed_sec": 2.3
  },
  "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 65,
-   "shard": 10,
-   "nshards": 12,
-   "key": "n1w65-10of12",
-   "batch": "PERPETUAL-N1-W65",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "65",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 65,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w65-11of12",
-   "batch": "PERPETUAL-N1-W65",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "65",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  }
- ]
+ "queue": []
 }
