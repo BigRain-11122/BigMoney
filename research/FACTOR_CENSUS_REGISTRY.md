@@ -53,16 +53,16 @@ factor_registry.py 内 bench 登记行（T-48 r162 同源·对照组非候选）
 | academic_corr_rewire | 事件窗 vs 平静基线相关行 \|Δρ\| 均值（纯滚动因果版） | 否 | kin 豁免面（token 撞 vol_price_corr 但构造异质·普查豁免表白名单） |
 | academic_high52w | close/ts_max(close,252)（George-Hwang 2004） | 否 | mom 族机制近亲（名字零撞号如实） |
 | academic_mkt_rf | 21 日收益截面 z 分（MKT_RF 代理） | 否 | **ETF 截面域全员同值风险注记**：core48 截面无区分度概率高，SLOT 轮如实判 |
-| academic_cma | FF5 投资因子（Conservative Minus Aggressive） | **是（基本面缺位·D-41 §五 DATA_GAP）** | 数据不采集=不开烧 |
-| academic_hml | FF5 价值因子（B/M） | 是 | 同上 |
-| academic_rmw | FF5 盈利因子 | 是 | 同上 |
-| academic_smb | FF5 规模因子 | 是 | 同上 |
-| fund_asset_growth | 资产增长（fundamental 目录） | 是 | 同上 |
-| fund_earnings_yield | 盈利收益率（E/P） | 是 | 同上 |
-| fund_gross_profitability | 毛利润率（Novy-Marx） | 是 | 同上 |
-| fund_roe | ROE | 是 | 同上 |
+| academic_cma | FF5 投资因子（Conservative Minus Aggressive） | 否（T-131 解锁 2026-10-02·PIT 审计 PASS） | **解锁**：BE growth=(mv/pb)_t/(mv/pb)_{t−12m}−1 **proxy 披露**（权益增长代理资产增长·非原教旨 CMA）；原锁=基本面缺位 D-41 §五 DATA_GAP→T-131 数据落地后释放；法定日锚定门继承；eval=results/fund_h_unlock_eval.json |
+| academic_hml | FF5 价值因子（B/M） | 否（T-131 解锁 2026-10-02） | **解锁**：bm=1/pb 直接可算；法定日锚定门继承；eval=results/fund_h_unlock_eval.json |
+| academic_rmw | FF5 盈利因子 | 否（T-131 解锁 2026-10-02） | **解锁**：roe_q 代理（**proxy 披露**：A 股适配·非原教旨 FF5 RMW op-profitability）；法定日锚定门继承；eval=results/fund_h_unlock_eval.json |
+| academic_smb | FF5 规模因子 | 否（T-131 解锁 2026-10-02） | **解锁**：size=ln(total_mv) 直接可算；eval=results/fund_h_unlock_eval.json |
+| fund_asset_growth | 资产增长（fundamental 目录） | 否（T-131 解锁 2026-10-02） | **解锁**：BE growth 代理（同 academic_cma **proxy 披露**）；法定日锚定门继承；eval=results/fund_h_unlock_eval.json |
+| fund_earnings_yield | 盈利收益率（E/P） | 否（T-131 解锁 2026-10-02） | **解锁**：ep=1/pe_ttm 直接可算；eval=results/fund_h_unlock_eval.json |
+| fund_gross_profitability | 毛利润率（Novy-Marx） | 是（续锁·T-131 解锁评估 2026-10-02） | 利润表毛利面缺位（GP/A 不可从估值面推导）→下一基本面数据片候选；eval=results/fund_h_unlock_eval.json |
+| fund_roe | ROE | 否（T-131 解锁 2026-10-02） | **解锁**：roe_q 直接可算（锚定法定披露日 Q1→04-30/H1→08-31/Q3→10-31/FY→次年 04-30·period-end 锚定=prereg 拒绝）；eval=results/fund_h_unlock_eval.json |
 
-- 消费契约：OHLCV-ready 4 面（bab/corr_rewire/high52w/mkt_rf）=SLOT 泊位候选（逐族三验+预注册后烧·G2 spec §四.1；mkt_rf 带区分度存疑注记照登）；DATA_GATE 8 面=数据缺口显式锁定（基本面采集管线立项前禁入任何烧批——D-41 §一.2/§五 DATA_GAP 纪律）；DUP-FAMILY-DRIFT 19 面（WQ101 15 书写变体+ACADEMIC 4 名字近亲）+M3 16 面=构造验证留 SLOT 轮（名字级/书写级近亲非语义等价·不引用族 verdict 亦不判负）。
+- 消费契约：OHLCV-ready 4 面（bab/corr_rewire/high52w/mkt_rf）=SLOT 泊位候选（逐族三验+预注册后烧·G2 spec §四.1；mkt_rf 带区分度存疑注记照登）；DATA_GATE 8 面=数据缺口显式锁定（基本面采集管线立项前禁入任何烧批——D-41 §一.2/§五 DATA_GAP 纪律）；**2026-10-02 T-145 leg(b) 解锁评估：7/8 翻面**（4 直接+3 proxy 披露·全部继承法定日锚定 prereg 门——T-131 数据 complete 2026-10-02 15:40+PIT 审计 PASS bm-c 21:21·eval=results/fund_h_unlock_eval.json）·fund_gross_profitability 续锁（利润表毛利面缺位）；DUP-FAMILY-DRIFT 19 面（WQ101 15 书写变体+ACADEMIC 4 名字近亲）+M3 16 面=构造验证留 SLOT 轮（名字级/书写级近亲非语义等价·不引用族 verdict 亦不判负）。
 - 供料池 ready 面账：3→**7 级**（+4 OHLCV-ready；G2 spec §四.1 目标 30+ 级的 23%——M1 三主矿=在库三族第三方重实现为主价值=431 面防重烧；扩面缺口如实披露归 M4(initial-d 213)/M5(JunQHuang 120) 后续普查片）。
 
 ## 记账

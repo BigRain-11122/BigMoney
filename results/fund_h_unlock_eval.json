@@ -1,0 +1,97 @@
+{
+ "generated": "2026-10-02",
+ "ticket_ref": "T-2026-10-02-145-P1",
+ "leg": "b (census H-row unlock evaluation)",
+ "evidence": {
+  "pit_audit": "results/fund_pit_audit/audit_results.json (bm-c 2026-10-02 21:21, structure PASS, machine=bm-c leg per audit_results)",
+  "dataset_status": "results/fund_history_status.json (T-131 complete=true 2026-10-02 15:40, universe 5229, done 5224, quarantined 5)",
+  "data_locality": "data/fund_history/ = bm-c machine-local (R31/R65 lane); bm-a holds no raw copy -- burns/preregs must plan lane or TRANSFER per fleet/TRANSFER.md"
+ },
+ "statutory_gate": "roe_q rows are keyed by REPORT PERIOD END. Anchoring at period end = lookahead of Q1 30d / H1 62d / Q3 31d / FY 120d. MANDATORY prereg gate: any fundamental factor using financial faces MUST anchor at the statutory availability date (Q1->04-30, H1->08-31, Q3->10-31, FY->next-04-30) or later; period-end anchoring = prereg rejection (M02 exit-axis-style dual gate precedent).",
+ "gate_inheritance": "ALL UNLOCK faces: preregs MUST inherit the statutory-anchoring gate (period-end anchoring = prereg rejection)",
+ "faces": [
+  {
+   "face": "academic_hml",
+   "needs": "FF5 value B/M",
+   "formula": "bm = 1.0 / pb",
+   "source_faces": [
+    "pb"
+   ],
+   "kind": "direct",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "fund_earnings_yield",
+   "needs": "E/P",
+   "formula": "ep = 1.0 / pe_ttm",
+   "source_faces": [
+    "pe_ttm"
+   ],
+   "kind": "direct",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "fund_roe",
+   "needs": "ROE",
+   "formula": "roe_q (quarterly; anchor at statutory availability date)",
+   "source_faces": [
+    "roe_q"
+   ],
+   "kind": "direct",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "academic_smb",
+   "needs": "size",
+   "formula": "size = ln(total_mv)",
+   "source_faces": [
+    "total_mv"
+   ],
+   "kind": "direct",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "academic_rmw",
+   "needs": "FF5 operating profitability",
+   "formula": "PROXY: roe_q substitutes op-profitability (A-share adaptation; NOT canonical FF5 RMW)",
+   "source_faces": [
+    "roe_q"
+   ],
+   "kind": "proxy",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "academic_cma",
+   "needs": "FF5 investment (asset growth)",
+   "formula": "PROXY: book-equity growth = (total_mv/pb)_t / (total_mv/pb)_{t-12m} - 1",
+   "source_faces": [
+    "total_mv",
+    "pb"
+   ],
+   "kind": "proxy",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "fund_asset_growth",
+   "needs": "asset growth",
+   "formula": "PROXY: book-equity growth (equity-growth proxy for asset growth)",
+   "source_faces": [
+    "total_mv",
+    "pb"
+   ],
+   "kind": "proxy",
+   "verdict": "UNLOCK"
+  },
+  {
+   "face": "fund_gross_profitability",
+   "needs": "gross profit / assets (Novy-Marx GP/A)",
+   "formula": "NOT derivable: gross-profit (income-statement) face absent from T-131 dataset",
+   "source_faces": [],
+   "kind": "gap",
+   "verdict": "STAY-LOCKED"
+  }
+ ],
+ "n_unlock": 7,
+ "n_stay_locked": 1,
+ "conclusion": "4 direct + 3 proxy-declared UNLOCK (7/8); 1 STAY-LOCKED (fund_gross_profitability: income-statement gap -> next data slice candidate); all unlocks gated on statutory anchoring."
+}
