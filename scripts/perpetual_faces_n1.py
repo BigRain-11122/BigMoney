@@ -11625,6 +11625,28 @@ def selftest() -> int:
     finally:
         _set_wave(2)
 
+    # --- D-20261002-05 mid-hit pin leg (group ruling 10-02 12:00): the
+    #     mid-band-hit family (arithmetic window hit at a NON-edge point,
+    #     where the two readings -- past-hit restart vs window-step
+    #     chain -- DIVERGE) is pinned to PAST-HIT RESTART. Positive:
+    #     the past-hit reading reproduces the registered W68-B band
+    #     (in-table primary face, zero disturbance); negative: the
+    #     window-step-chain reading must NOT equal the registered band.
+    mid_hit = 50_500                      # SEED_REGISTRY cta_p2_noau (W68-B history)
+    arith_lo, arith_hi = 50_401, 50_600   # W67-B tail + 1 arithmetic window
+    assert arith_lo <= mid_hit <= arith_hi, \
+        "pin fixture drift: the mid hit must fall inside the arithmetic window"
+    past_hit = (mid_hit + 1, mid_hit + 1 + 199)        # positive reading
+    win_step = (arith_hi + 1, arith_hi + 1 + 199)       # negative reading
+    assert past_hit == (50_501, 50_700) == \
+        pf.N1_BANDS[68]["b_exit"], \
+        "D-20261002-05 pin (positive): past-hit restart must equal the " \
+        "registered W68-B band 50_501..50_700 (in-table primary face)"
+    assert win_step != pf.N1_BANDS[68]["b_exit"], \
+        "D-20261002-05 pin (negative): the window-step-chain reading " \
+        "50_601..50_800 must NOT equal the registered band (divergent " \
+        "reading rejected per the 3:1 precedent density W26/W67/W68)"
+
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
