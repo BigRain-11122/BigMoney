@@ -1,0 +1,10 @@
+{
+ "id": "T-2026-10-02-149-P1",
+ "priority": "P1",
+ "type": "transfer",
+ "spec": "TRANSFER.md sec.0 task ticket. Direction: bm-c -> bm-a. Dataset: baidu valuation faces consolidated export from bm-c machine-local data/fund_history/<code>/<face>.json (T-131 done 5224 syms, R31/R65 lane). Deliverable: data/fund_history_export/value_faces.parquet, one row per (code, anchor_date), columns: code (6-digit str), anchor_date (ISO date), pe_ttm (float, baidu as-published semi-monthly anchors 2001-2026 ~612/sym), pb (float). Include ALL done symbols (bm-a joins by p1c_stock panel codes). Sender gates (fail-closed, from prereg sec.2): n_symbols >= 5100 AND per-symbol anchor-count median >= 550 AND anchor dates cover 2001-01..2026-09. Channel: plan A git (est 40-80MB < 95MB hard limit; if actual >95MB sender splits by code-halves or auto-switches B2 croc per TRANSFER.md sec.1 order). Receiver: bm-a lands at data/fund_history_export/value_faces.parquet + manifest double-side via Tools/transfer_manifest.ps1 (fleet/transfers/T-2026-10-02-149-sender.json / -receiver.json). Consumer: FUND-VALUE-P1 ignition gate (research/FUND-VALUE-P1.md sec.2 data-completeness gate) -- burn lane host bm-a (p1c_stock panel local). Origin ticket = bm-a per T-145 leg(c)+(d) lane plan.",
+ "status": "open",
+ "created_by": "bm-a (OS iteration loop, round 596; T-2026-10-02-145 leg(c)/(d) dependency)",
+ "created_at": "2026-10-02T23:02:00+08:00",
+ "note": "RENUMBERED 148->149 at 23:0x: same-window number collision with bm-c O-2150 contest ticket T-2026-10-02-148 (landed origin 5140e634e while my 148 was local-only/unpushed; per fleet README sec.4 + GM collision law later-arriver yields, zero external visibility of my 148). Number 149 = max+1 re-verified against origin (T-148 contest latest). Sender = bm-c (fund_history lane owner). This ticket = data gate only, zero burns."
+}

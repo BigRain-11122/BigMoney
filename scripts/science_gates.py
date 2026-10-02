@@ -1789,6 +1789,13 @@ SEED_REGISTRY = {
     "lowamp_p3_nulls": 20_336_500,   # T-140 LOWAMP-P3 same-mask nulls (rng([20336500, k]))
     "lowamp_deep_p1_params": 20_337_000,  # T-146 LOWAMP-DEEP-P1 sensitivity draws (rng([20337000, k]))
     "lowamp_deep_p1_nulls": 20_337_500,    # T-146 LOWAMP-DEEP-P1 deep-universe same-mask nulls (rng([20337500, k]))
+    "fund_value_p1_nulls": 20_500_000,   # T-145 FUND-VALUE-P1 stock same-mask nulls (rng([20500000, k]))
+    "fund_value_p1_sens": 20_500_500,    # T-145 FUND-VALUE-P1 sensitivity draws (rng([20500500, k]))
+        # FUND-VALUE-P1 band pick 2026-10-02 r596 bm-a: 20500000/20500500 chosen
+        # OUTSIDE the stock_face_furnace nulls band extent [20333000, 20445400)
+        # (base-level checks alone are insufficient -- furnace band spans
+        # cell_idx*4000+k up to 20445400; 20500000 clear by >546k of every
+        # registered base AND every band extent; first band-extent-aware pick)
         # STOCK_FACE_FURNACE_P1 (T-139 akshare face, bm-b r502): per-cell
         # dual nulls sign-flip 2000 + block bootstrap 2000, rng(base +
         # cell_idx*4000 + k), cell_idx in [0,281) k in [0,4000); band

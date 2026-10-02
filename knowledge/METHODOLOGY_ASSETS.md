@@ -47,3 +47,5 @@
 
 - 2026-10-02 22:3x：bm-b r596（LOWAMP-DEEP-P1 冻结窗）工程净路收口步 append E09 声明轴死信·幽灵孪生三探法（P3 sizing 死信实弹→DEEP-P1 runner F3b/probe-guard/重现断言三层守卫）；O-20261002-2100 捕获律第三机 live 实证。
 - 2026-10-02 22:3x（bm-c r386）：sizing 死信=双机同窗独立发现（bm-b r596 先落 E09 三探法·bm-c r386 s1 证据件独立坐实 2760/2760 pos 对齐零差·results/lowamp_p3/s1_evidence_extract.json）——E09 卡 dup-collapse 取 bm-b canonical 版；bm-c 独特增量（naive-zip 行序坑+porcelain helper 整 strip 复犯）入 CODELY r386 条。
+
+- **E10 种子带域级 disjoint 检查律**（proven）：新批种子带选位必须做**带域级**（band extent）排查，禁只做基点级距离检查——存量种子族可占**宽达百万级**的连续带域（stock_face_furnace_nulls：base 20333000 但 cell_idx*4000+k 拉伸到 [20333000, 20445400)），基点距离>500 检查全绿仍可能整带落在他族带域内（本例 20339000 首选撞带域当场抓回）。正法=①读 registry 内注释的**带域公式与宽度**（cell_idx 范围×stride+k 范围）②选位后断言「不在任何已登记带域开区间内」+对基点距离双门③registry 注释写明本族带域公式供后批排查。证据：FUND-VALUE-P1 种子选位 2026-10-02 bm-a r596 实弹（首选 20339000/20339500 基点级全绿但落 furnace 带域内→改 20500000/20500500·science_gates.py 注释钉带域公式·prereg §3 同步）。
