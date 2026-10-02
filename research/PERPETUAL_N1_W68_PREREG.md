@@ -62,10 +62,10 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （占位·finalize 后机械回填）
+- W68 finalize one-pass landed 2026-10-02 10:1x (bm-a r569, runner-derived): prev=511,948 (live-head derive, W67 head) + 2,200 = **514,148 NET CHAIN HEAD**; K=147,520 == prereg projection bitwise; S5 4/4 PASS——① mu_delta_w68_vs_w67ext=0.003343<0.02（机器派生键）② sigma W68-only 0.249272 vs 锚 0.244019 = +2.15%<±10% ③ A 族 p95 0.3153 vs W64 锚 0.3034 = +0.0119<0.05 ④ K-lift +0.0005<=0.02 @n_eff_held 511,948（skill_line_v2 1.1626->1.1631）; se_mu 0.000642->0.000637 收窄延续; voids_applied LOWAMP-P1/P2 自动面; 科学 payload=重烧确定性重建（rebase checkout 删 8-11 后引擎 presence 面 tick 确定性重烧补位 r326 律·audit elapsed 漂移合法·12/12 分片 origin 送达核验）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （占位·finalize 后机械回填）
+- 复盘三件：①finalize 链序健康——W64/W65/W66/W67 四波连落后本波 one-pass 直落（prev 活头 derive 511,948 与 W67 finalize 落账逐位吻合·r518 origin 时序面零撞）；②本窗插曲=rebase 换基 checkout 静默删 tracked 8-11 分片（r323-① 镜像面）→引擎 tick presence 面确定性重烧补位（科学 payload 恒等 r326 律）→superset 收编推送（r523 律），零科学损失零账本双计（finalize 按产物计数 2,200 逐位吻合）；③B 带跳位语义分叉（W63 连锁 vs W26 越 hit 起窗）已由 bm-c r360+bm-a MSG-1010 双披露升级 HQ-FEEDBACK——法典 §4 语义钉死行待集团裁，W68 带位按本机 gate 独立 derive ADMIT 冻结在案。
 
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与法典 §4 行）；冻结后禁改判据（回填限 §7/§8）。
