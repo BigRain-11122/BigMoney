@@ -2390,6 +2390,36 @@ N1_BANDS = {
     # NOT a re-pick (R250: W101 bands were never assigned).
     101: {"a": (245_004, 247_003), "b_exit": (59_001, 59_200),
          "engine_owner": "bm-a"},
+    # NINETY-SECOND ENGINE-OWNED WAVE BY MACHINE-DERIVE (r375 bm-c
+    # freeze): engine_owner rows 91 + candidate; bm-c's thirtieth
+    # owned per machine-derive (engine_owner==bm-c rows 29 +
+    # candidate). Wave 102 = first free number after the REGISTERED
+    # W101 row (bm-a r583, landed ffd844431) -- SINGLE STATE zero
+    # seat gap (no skip-past-published chain; W100 bm-b r583 +
+    # W101 bm-a r583 both landed before this freeze). Seat
+    # published=reserved MSG-20261002-1642-bmc pushed to origin
+    # a369ae045 BEFORE this freeze per r565 early-visibility law
+    # (seat prose ordinal "91st/rows 90" hand-calc drift disclosed
+    # per r359 law; gate machine face governs; zero science impact).
+    # W97 finalize LANDED at this freeze (landed chain head
+    # 577,948 = W97 bm-b r583 one-pass; K=211,320). FOUR
+    # in-flight upstream seats (W98 bm-a burned-unfinalized +
+    # W99 bm-c burned-unfinalized + W100 bm-b burning + W101 bm-a
+    # burning) -- finalize merge loop stays FAIL-CLOSED r307
+    # at run time.
+    # A = arithmetic continuation from the registered W101 A tail:
+    # 247_004..249_003 CLEAN hops=0. B = arithmetic continuation
+    # from the registered W101 B tail: 59_201..59_400 CLEAN hops=0
+    # (both sides arithmetic continuation, W92 r370 / W100 r583
+    # precedent family). ADMIT receipt
+    # results/_r375bmc_w102_band_gate.py rc0; live SEED_REGISTRY
+    # + probe cluster 95_000..95_003 r335 leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 leg.
+    # W103+ projection: A 249_004..251_003 CLEAN; B 59_401..59_600
+    # CLEAN (next freezer must re-derive, never transcribe).
+    # NOT a re-pick (R250: W102 bands were never assigned).
+    102: {"a": (247_004, 249_003), "b_exit": (59_201, 59_400),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
