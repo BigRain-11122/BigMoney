@@ -1347,6 +1347,33 @@ N1_BANDS = {
     # bands were never assigned).
     65: {"a": (173_004, 175_003), "b_exit": (49_601, 49_800),
          "engine_owner": "bm-b"},
+    # FIFTY-FIFTH ENGINE-OWNED WAVE (r359 bm-c freeze): bm-c's
+    # TWENTY-FIRST owned per machine-derive (engine_owner==bm-c
+    # rows 20 + candidate). Wave 66 = first free number after the
+    # registered W65 row (seat = the freeze commit itself per
+    # r511 table-tail lock -- engine waves have no claim face;
+    # same-window MSG cross-notice). W1..W63 finalizes ALL
+    # LANDED (net head 503,148, K=136,520, bm-c r358); W64 bm-a
+    # + W65 bm-b = TWO in-flight upstream seats at this freeze
+    # (registered, burn in flight, finalize chain-pending
+    # FAIL-CLOSED r307). A-side ARITHMETIC CONTINUATION
+    # from the W65 row tail, no skip: A 175_004..177_003
+    # (== W65 A end 175_003 + 1). B-side FORCED-SKIP family:
+    # the arithmetic window 49_801..50_000 is REFUSED by
+    # SEED_REGISTRY cta_p1=50_000 (window-TAIL hit; refusal
+    # machine-proved at leg1-B -- the skip is forced, not a
+    # free pick, r307 W26 precedent) -> first clean window
+    # 50_001..50_200 (hit+1 restart == window-step chain at a
+    # tail hit; r566 W63 fork semantics do not diverge).
+    # Machine-verified at prereg time
+    # (results/_r359bmc_w66_band_gate.py ADMIT receipt vs the
+    # 63-row pre-W66 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin
+    # slot vacancy machine-checked). NOT a re-pick (R250: W66
+    # bands were never assigned).
+    66: {"a": (175_004, 177_003), "b_exit": (50_001, 50_200),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
