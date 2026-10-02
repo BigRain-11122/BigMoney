@@ -1631,6 +1631,26 @@ N1_BANDS = {
     # bands were never assigned).
     76: {"a": (195_004, 197_003), "b_exit": (52_401, 52_600),
          "engine_owner": "bm-b"},
+    # SIXTY-SIXTH ENGINE-OWNED WAVE (r572 bm-a freeze): bm-a's
+    # nineteenth owned per machine-derive (engine_owner==bm-a
+    # rows 18 + candidate). Wave 77 = next free number after the
+    # registered W76 row (seat declared published=reserved
+    # MSG-20261002-1131-bma, r518-1 law; never-dry standing step
+    # under CEO de-throttle order O-20261001-2355 sec.2
+    # own-continuous-series). W1..W75 finalizes ALL LANDED (net
+    # head 529,548, K=162,920 -- W75 bm-a r572 this window);
+    # W76 bm-b = ONE in-flight upstream seat at this freeze
+    # (finalize chain-pending FAIL-CLOSED r307). BOTH SIDES
+    # ARITHMETIC CONTINUATION, zero skip: A 197_004..199_003 ==
+    # W76 A end 197_003 + 1 (CLEAN per the W76 row W77+ WARNING
+    # projection, machine re-derive r335 law -- dual-machine
+    # cross-check). B 52_601..52_800 == W76 B end 52_600 + 1
+    # (CLEAN, single reading -- zero refusal points in either
+    # arithmetic window, no divergence face). ADMIT receipt
+    # results/_r572bma_w77_band_gate.py; NOT a re-pick (R250:
+    # W77 bands were never assigned).
+    77: {"a": (197_004, 199_003), "b_exit": (52_601, 52_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
