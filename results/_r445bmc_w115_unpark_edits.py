@@ -1,5 +1,26 @@
 # -*- coding: utf-8 -*-
-"""r384 bm-c W115 freeze edits -- MSG-0640 INSERT-NOT-REPLACE hardening.
+"""r445 bm-c W115 UN-PARK freeze edits -- the r384 prepared toolset re-run
+verbatim (anchors/bands/asserts/FIX gates unchanged) at the un-park
+landing window; MSG-0640 INSERT-NOT-REPLACE hardening.
+
+UN-PARK STORY: prepared r384 bm-c (band gate ADMIT + pre-seat probe
+rc0) -> PARKED r385 bm-c per O-20261002-2115 sec.2 supply-priority
+(N1 deprioritized; parked.diff 22,244B + parked prereg archived to
+origin with banner) -> UN-PARKED r445 bm-c per the park MSG recovery
+condition (fleet/inbox/processed/MSG-2026-10-02-2200-bmc-ALL-w115-
+park.md): new-direction family line MASS_TRIAL_W2 (805 cells, CEO
+order wave-2) LANDED r444 + r444 pre-registered ruling "W2 landing
+unblocks N1 supply reopen" + bm-c engine idle-starved zero-ignition
+(supply-chain watch fired: queue_depth=0, burns_active=[], py 0.12%)
++ zero new-face batches claimable for the bm-c engine (fund-trio
+NULLS = bm-b lane in flight, owner_since 2026-10-04 04:20:12).
+Gate re-run: results/_r445bmc_w115_unpark_gate.py rc0 (leg0/0b/1/2
++ new anchor-roll leg3: latest landed finalize still W114, K=248,720,
+chain head 615,348 -- parked prereg anchor CURRENT, zero roll
+displacement; parked prereg body verified byte-identical on un-park
+surgery, sha16 1d0ef3d3fa8bab6b).
+
+Original r384 header retained below (content provenance):
 
 FIX-A (origin-blob freshness): zero deleted lines vs origin/main pre-edit.
 FIX-B (anchor survival): anchors = the LAST REGISTERED rows (W110 bm-a +
@@ -376,7 +397,7 @@ else:
 
 # ---------------- edit 4: PERPETUAL_FACES.md canon W115 row ---------------------
 ROW115 = f"""
-- N1 波115（r384 bm-c 冻·prereg 时展行）：**第一百零五枚引擎波·bm-c 第三十四枚自有波〔机面 derive：engine_owner 行 104+本候选／engine_owner==bm-c 行 33+本候选·r359 律计数面以 gate 机输出为准〕**·engine_owner=bm-c·SATURATION_ENGINE_LAW §1/§2 同 W10-W114 合同·不入池·免预注册税·cmd_supply 跳过门·**引擎去节流令 O-20261001-2355 §二自有连续系列**·【本机 bm-c 实例=**常驻架构 v0.4 mtime-reload**——冻结编辑落工作树后 LIVE 引擎下一 tick 重读活树自见 W115 行并点火〔D-20261002-03 修法·r325/r330 kill-restart 序免做〕·点火验证唯一证据=产物增长面 r325 律·2 tick 窗】·【never-dry 供给律常设步·**波号 115=注册表 W114 行后首个自由号·单态零席位空档**（W110=bm-a r589 freeze ff0b1869b+W111=bm-b r589 freeze e0a103ec1+W112=bm-a r590 freeze 0c4d67910+W113=bm-c r382 freeze eeb062290+W114=bm-a r594 freeze ddacf2616 均已注册·表尾=W114 行）·**席位公示=MSG-20261002-2130-bmc-w115-seat**〔published=reserved r518-① 律·先于冻结 commit 推 origin ac241dd32=r565 早可见性律·payload=席位 MSG+pre-seat probe 双件 deletion-set 空·rev.A=唯一发布面〕】·本窗实况=**W114 finalize 已落账（净链头 615,348·K=248,720 合并池·bm-a r594 W114 one-pass）+零在飞上游席（W2..W114 全落账=本波 finalize 链序前置零空档·跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态律恒在）**·**带位（r535 机闸 derive 律·活注册表机证·单态收敛门·ADMIT 回执=results/_r384bmc_w115_band_gate.py rc0 实跑·pre-seat probe _r383bmc_w115_probe.py 先跑·双窗 derive 恒等·hops A=0/B=1）**：**A-ext seed=273_004..275_003**（==W114 行 A 尾 273_003+1 起算术续带·步长 2_000·**CLEAN 零拒绝点**）；**B-ext exit seed=62_501..62_700**（==W114 行 B 尾 62_400+1 起算术窗 62_401..62_600 撞 SEED_REGISTRY `grid_sleeve_p1`=62_500〔中位命中 100/200 非边缘〕→ 法典 §4 D-20261002-05 越 hit 起窗·**撞值跳位**·步长 200·先例族=W5/W26/W63/W68/W87/W109）。R250：W115 带从未指派·测量面零结果可钓·banned gate ADMIT 0 matched（W115 prereg §0.5）·per-wave prereg=research/PERPETUAL_N1_W115_PREREG.md（冻结件·锚=W114 finalize 实测值〔merged mu {_w114_mu}·K=248,720·K-lift {_w114_klift}·A-p95 {_w114_p95}·se_mu {_w114_se_mu}〕）·**W116+ 投影（gate 机证·下波冻结方必复核非转抄）**：A 275_004..277_003 **CLEAN**（hops=0）；B 62_701..62_900 **CLEAN**（hops=0）（r384 冻结窗 gate 回执尾行·与本席位 MSG 投影披露交叉验证一致）。
+- N1 波115（r384 bm-c 冻结预备·r385 park〔O-20261002-2115 §二〕·r445 解停落地）：**第一百零五枚引擎波·bm-c 第三十四枚自有波〔机面 derive：engine_owner 行 104+本候选／engine_owner==bm-c 行 33+本候选·r359 律计数面以 gate 机输出为准〕**·engine_owner=bm-c·SATURATION_ENGINE_LAW §1/§2 同 W10-W114 合同·不入池·免预注册税·cmd_supply 跳过门·**引擎去节流令 O-20261001-2355 §二自有连续系列**·【本机 bm-c 实例=**常驻架构 v0.4 mtime-reload**——冻结编辑落工作树后 LIVE 引擎下一 tick 重读活树自见 W115 行并点火〔D-20261002-03 修法·r325/r330 kill-restart 序免做〕·点火验证唯一证据=产物增长面 r325 律·2 tick 窗】·【never-dry 供给律常设步·**波号 115=注册表 W114 行后首个自由号·单态零席位空档**（W110=bm-a r589 freeze ff0b1869b+W111=bm-b r589 freeze e0a103ec1+W112=bm-a r590 freeze 0c4d67910+W113=bm-c r382 freeze eeb062290+W114=bm-a r594 freeze ddacf2616 均已注册·表尾=W114 行）·**席位公示=MSG-20261002-2130-bmc-w115-seat**〔published=reserved r518-① 律·先于冻结 commit 推 origin ac241dd32=r565 早可见性律·payload=席位 MSG+pre-seat probe 双件 deletion-set 空·rev.A=唯一发布面〕】·本窗实况=**W114 finalize 已落账（净链头 615,348·K=248,720 合并池·bm-a r594 W114 one-pass）+零在飞上游席（W2..W114 全落账=本波 finalize 链序前置零空档·跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态律恒在）**·**带位（r535 机闸 derive 律·活注册表机证·单态收敛门·ADMIT 回执=results/_r384bmc_w115_band_gate.py rc0 实跑·pre-seat probe _r383bmc_w115_probe.py 先跑·双窗 derive 恒等·hops A=0/B=1·解停重验门=results/_r445bmc_w115_unpark_gate.py rc0）**：**A-ext seed=273_004..275_003**（==W114 行 A 尾 273_003+1 起算术续带·步长 2_000·**CLEAN 零拒绝点**）；**B-ext exit seed=62_501..62_700**（==W114 行 B 尾 62_400+1 起算术窗 62_401..62_600 撞 SEED_REGISTRY `grid_sleeve_p1`=62_500〔中位命中 100/200 非边缘〕→ 法典 §4 D-20261002-05 越 hit 起窗·**撞值跳位**·步长 200·先例族=W5/W26/W63/W68/W87/W109）。R250：W115 带从未指派·测量面零结果可钓·banned gate ADMIT 0 matched（W115 prereg §0.5）·per-wave prereg=research/PERPETUAL_N1_W115_PREREG.md（冻结件·锚=W114 finalize 实测值〔merged mu {_w114_mu}·K=248,720·K-lift {_w114_klift}·A-p95 {_w114_p95}·se_mu {_w114_se_mu}〕）·**W116+ 投影（gate 机证·下波冻结方必复核非转抄）**：A 275_004..277_003 **CLEAN**（hops=0）；B 62_701..62_900 **CLEAN**（hops=0）（r384 冻结窗 gate 回执尾行·与本席位 MSG 投影披露交叉验证一致）。
 """
 FP4 = os.path.join(REPO, 'research/PERPETUAL_FACES.md')
 t4, eol4 = load(FP4)
