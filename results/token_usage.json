@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03 14:31:49",
+  "generated": "2026-10-03 14:47:41",
   "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
   "method": {
     "bpe_proxy": 3.5,
@@ -7,21 +7,21 @@
   },
   "per_round_context": {
     "mandate_read_tokens_est": 12157,
-    "codely_read_tokens_est": 7131,
+    "codely_read_tokens_est": 6322,
     "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
   },
   "machines": {
     "-bm-a": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 1376478,
-      "report_tokens_est": 393279
+      "report_bytes": 1375703,
+      "report_tokens_est": 393058
     },
     "-bm-c": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 883196,
-      "report_tokens_est": 252341
+      "report_bytes": 882793,
+      "report_tokens_est": 252226
     },
     "bm-a": {
       "state_bytes": 3646,
@@ -38,31 +38,32 @@
     "default": {
       "state_bytes": 1570,
       "state_tokens_est": 448,
-      "report_bytes": 1653389,
-      "report_tokens_est": 472396
+      "report_bytes": 1656530,
+      "report_tokens_est": 473294
     }
   },
   "l2_local_llm": {
-    "legs_total": 2,
-    "legs_today": 0,
-    "tokens_est_total": 12585,
-    "tokens_est_today": 0,
+    "legs_total": 3,
+    "legs_today": 1,
+    "tokens_est_total": 12609,
+    "tokens_est_today": 24,
     "by_cmd": {
-      "retro": 2
+      "retro": 2,
+      "selftest": 1
     },
     "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
     "crash_fuse": {
       "sigs": 64,
-      "refusals": 1093,
+      "refusals": 1038,
       "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
     }
   },
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1118016,
+  "total_report_tokens_est": 1118578,
   "delta_vs_prev": {
-    "prev_generated": "2026-10-03 14:05:01",
+    "prev_generated": "2026-10-03 14:26:00",
     "state_tokens_growth": 0,
-    "report_tokens_growth": 0,
+    "report_tokens_growth": 562,
     "mandate_growth": 0
   }
 }
