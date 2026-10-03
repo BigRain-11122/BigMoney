@@ -577,13 +577,13 @@
   },
   "scripts/fund_value_p1.py|run,--nulls": {
    "count": 1,
-   "refusals": 54,
+   "refusals": 69,
    "code_sha256": "d163222d957c29e4",
    "last_crash_ts": "2026-10-03 02:20:04",
    "entry": "FUND-VALUE-P1-NULLS",
    "shard": "fund-value-p1-nulls-0of1",
    "machine": "bm-c",
-   "last_refusal_ts": "2026-10-03 06:48:03",
+   "last_refusal_ts": "2026-10-03 08:48:04",
    "note": "keep blocked on bm-c: data-root crash -- Money02/data/cache/p1c_stock absent on bm-c (bars parquet not on this machine; cache build needs bars per p1c_stock_ic.py SS5); all 5 claims released r393 -- re-claim freely on cache-bearing machine (bm-a/bm-b) and clear this sig with reason='data present on this machine'; bm-c re-entry only after p1c_stock cache lands via TRANSFER (fleet decision)"
   },
   "scripts/fund_value_p1.py|run,--sensitivity": {
@@ -602,8 +602,7 @@
    "last_crash_ts": "2026-10-03 08:20:03",
    "entry": "FUND-QUALITY-P1-SENS",
    "shard": "fund-quality-p1-sens-0of1",
-   "machine": "bm-a",
-   "note": "keep blocked on bm-a until p1c_stock cache caliber fixed via TRANSFER from bm-b/c (off-caliber: 688/689 vol/amt at raw 100x, local build 2026-09-23 18:12:59 predates volume_688_fix; probe evidence results/_r615bma_688_probe.json; MSG-2026-10-03-0827); killed per MSG-2026-10-03-0830; clear with reason='cache caliber transferred+verified (vwap_688_check GREEN + n_base spot)'"
+   "machine": "bm-a"
   }
  },
  "cleared": {
