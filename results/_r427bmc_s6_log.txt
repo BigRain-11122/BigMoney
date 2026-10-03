@@ -1,0 +1,35 @@
+scripts/pool_dualrun_reconcile.py run      rc=0 [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 366 entries, drift-free streak 26, cutoff 2026-10-03 08
+scripts/compute_audit.py                   rc=0 {"ts": "2026-10-03 20:19:00", "audit_version": "v2.4.2", "cpu_total_pct": 49.0, "py_cpu_pct": 4.0, "cores": 32
+scripts/py_watermark.py probe              rc=0 {"ts": "2026-10-03 20:19:07", "epoch": 1791029941.0, "machine": "bm-c", "cpu_total_pct": 74.0, "cores": 32, "p
+scripts/update_daily.py                    rc=0 status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+scripts/market_regime.py                   rc=0   trigger: breadth 0.79>=65%
+scripts/strategy_scorecard.py              rc=0 lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (19min) -> skip derive 
+scripts/market_clock_call.py run           rc=0 call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL s
+scripts/update_lhb.py                      rc=0 no-op: <30min since last fetch attempt (min-interval guard)
+scripts/update_heat.py                     rc=0 no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+scripts/update_futures.py                  rc=0 no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+scripts/update_repo.py                     rc=0 no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+scripts/update_options.py                  rc=0 no-op: options lane owned by bm-a, not this machine (bm-c)
+scripts/update_moneyflow.py                rc=0 no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+scripts/update_sina_mf.py                  rc=0 no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+scripts/update_astock_daily.py             rc=0 no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+scripts/update_etf_daily.py                rc=0 no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+scripts/rev_osc_signal_export.py run       rc=0 rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+scripts/update_minute_feed.py              rc=0 update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+scripts/update_ths_panel.py                rc=0 no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+scripts/ah_panel_puller.py                 rc=0 no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+scripts/update_fundamental.py              rc=0 snapshot fresh (6.4h < 24h) -> skip
+-m firm.risk.b_layer_filter                rc=0 verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+scripts/t24_prospect_promotion.py run      rc=0 lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (19min) -> skip derive thi
+scripts/aggressive_lab.py paper            rc=0 aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+scripts/alloc_paper.py run                 rc=0 no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+scripts/grid_paper.py run                  rc=0 grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+scripts/system_v1_paper.py run             rc=0 system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+scripts/t35_paper_export.py run            rc=0 lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (19min) -> skip derive this cycl
+scripts/daily_scorecard.py                 rc=0 lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (19min) -> skip derive thi
+scripts/daily_report.py run                rc=0 daily report written: REPORT-2026-10-03.md/.json faces=5 token=1
+scripts/ceo_live_usage.py                  rc=0 ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-03.md (+ .json twin + LIVE-
+-m monitor.build_status                    rc=0 lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (19min) -> skip derive th
+scripts/token_meter.py                     rc=0 L2 local-LLM legs: 3 today / 5 total (~369 tokens today, by_cmd={'retro': 2, 'selftest': 2, 'ask': 1}); crash-
+
+=== ALL LEGS rc=0 ===
