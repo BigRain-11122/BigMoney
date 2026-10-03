@@ -1,0 +1,91 @@
+{
+ "round": "r433 bm-c",
+ "pick": "2/4 S6-faces absorb",
+ "faces": [
+  {
+   "path": "docs/daily_report/REPORT-2026-10-03.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 23435
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-03.md",
+   "side": "ours",
+   "why": "same-day doc face, r432 take-ours precedent",
+   "bytes": 10306
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-03.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 10316
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-03.md",
+   "side": "ours",
+   "why": "same-day doc face, r432 take-ours precedent",
+   "bytes": 7664
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 10316
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "side": "ours",
+   "why": "same-day doc face, r432 take-ours precedent",
+   "bytes": 7664
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 1889
+  },
+  {
+   "path": "results/compute_audit.json",
+   "side": "ours",
+   "why": "origin ts newer-or-equal (r432 absorb)",
+   "bytes": 300442
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 1704
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 3198
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 211
+  },
+  {
+   "path": "results/regime_state.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 1856
+  },
+  {
+   "path": "results/token_usage.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 2035
+  },
+  {
+   "path": "results/update_status.json",
+   "side": "theirs",
+   "why": "mine ts newer",
+   "bytes": 7842
+  }
+ ],
+ "law": "r432 take-ours absorb + newer-ts-wins + JSON/marker gates"
+}
