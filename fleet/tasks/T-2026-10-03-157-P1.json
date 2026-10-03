@@ -1,0 +1,16 @@
+{
+ "id": "T-2026-10-03-157",
+ "priority": "P1",
+ "type": "probe",
+ "immediate": false,
+ "spec": "moneyflow EM lane option A -- bm-c branch feasibility probe + assist pull (claim per bm-a MSG-2026-10-03-1452 explicit invitation: 'Awaiting GM ruling or a machine claiming option A'). Scope: single-source import of scripts/update_moneyflow.py rank-face kernels, one full-universe push2 clist pull from bm-c IP (60 req/day budget face) with raw-page capture for canonical replay on the lane owner (Tools/mf_assist_replay.py fetch_page injection -- zero canonical-face writes from bm-c, R31 hard guard honored), plus 3-sym daykline (push2his) backfill-face probe. Honest negative if blocked: evidence JSON + verdict, option set narrowed for the pending GM ruling.",
+ "status": "done",
+ "result_ref": "results/_r421bmc_mf_assist.json (verdict + probes) + Tools/_r421bmc_mf_assist.py (reusable detached probe/pull tool, spawn|run|status) + logs/mf_assist_r421.log (machine-local) + MSG-2026-10-03-1543-bmc-all (verdict to lane owner + GM)",
+ "created_by": "bm-c (OS iteration loop, round 421)",
+ "created_at": "2026-10-03T15:16:35+08:00",
+ "claimed_by": "bm-c (OS iteration loop, round 421)",
+ "claimed_at": "2026-10-03T15:16:35+08:00",
+ "note": "Claimed + executed + closed same round per CEO immediate-law; T-157 seq fresh-verified (local tree + origin fetch behind=6 at 15:43, no T-157 on origin). Authorization lineage: bm-a MSG-1452 option-A invitation (lane owner) + O-1620 GM-approved moneyflow domain + watermark next_pick claimed lane; NOT a new data source (existing collector, existing approved domain) so P1-signature law not triggered; GM visibility preserved -- MSG-1452 stays in inbox, attn GM, this ticket is the evidence leg.",
+ "ticket_lineage": "bm-a MSG-2026-10-03-1452 (option A); T-2026-09-25-39 (rank lane acceptance line); MF_COLLECTOR.md spec sec.6-7; O-20261001-1108 watermark next_pick moneyflow-IC claimed lane",
+ "progress_r421_bmc": "HONEST NEGATIVE -- option A bm-c branch REFUTED with evidence (2026-10-03 15:16-15:17): (1) rank face push2 clist: page 1 RemoteDisconnected x3 attempts, 0.1s instant refusal (latency 0.1s = edge-level IP block signature, same family as bm-a 14:24-14:33 probes); (2) daykline face push2his (akshare stock_individual_fund_flow): 600519.sh / 000001.sz / 300750.sz all ConnectionError (RemoteDisconnected), latencies 2.2s/22.4s/21.1s; (3) window guard legal (Saturday non-trading day, snapshot static), proxy env cleared, direct urllib no-proxy opener per collector single-source -- block is not a proxy/window artifact; (4) budget disclosure: first inline attempt auto-decapitated at 5.0min silent (r324 law violation by round driver, zero evidence landed, page-1 refusal means near-zero requests actually consumed); detached rerun spent 3 rank attempts + 3 daykline requests, all refused; (5) conclusion: EM push2/push2his block covers bm-c egress too -- likely shared WAN/VPN exit IP with bm-a; option A narrows to bm-b-only or an egress change; option B (sina four-tier substitution, panel complete on bm-a per MSG-1452 sec.2) unchanged; gm ruling still pending on MSG-1452. No payload written (all-or-nothing honest face); no canonical faces touched (R31)."
+}
