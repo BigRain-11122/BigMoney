@@ -14,6 +14,7 @@ import csv
 import glob
 import json
 import os
+import re
 import sys
 import time
 import statistics
@@ -660,6 +661,51 @@ def _jsonl_row_count(path):
         return None
 
 
+def _fund_finalize_gate() -> dict | None:
+    """Fund-trio finalize readiness face (r635 bm-a, J10 lane): surfaces the
+    rehearsal-sourced blockers standing between NULLS completion and the
+    fund-family finalize window (delivery = MSG-2026-10-03-1720):
+      - G-SEG transplant blocker: identical x3 coverage readout
+        {na:246, chop:14, bull:65, bear:70} -> per frozen finalize order
+        every family lands insufficient-sample before any gate; ruling
+        face = GM (machine fleet holds, frozen lines stay frozen).
+      - VALUE passive-window crash: cmd_finalize AttributeError before any
+        verdict; engineering fix face = bm-b (runner owner).
+    Single source = results/_r633bma_finalize_rehearsal_summary.json
+    (rehearsal:true / NOT_A_VERDICT banner; rerun the rehearsal tool to
+    refresh this face). Read-only derive, zero judgment-line action.
+    Missing/malformed source degrades to honest None, never fabricated."""
+    p = os.path.join(PATHS.results_dir, "_r633bma_finalize_rehearsal_summary.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception:
+        return None
+    fams = d.get("families") or {}
+    if not isinstance(fams, dict) or not fams:
+        return None
+    gate = {"rehearsal_ts": d.get("ts"),
+            "not_a_verdict": bool(d.get("NOT_A_VERDICT")),
+            "families": {}}
+    for fname, rec in fams.items():
+        if not isinstance(rec, dict):
+            continue
+        gseg = rec.get("g_seg") or {}
+        failed = [str(x) for x in (rec.get("failed_legs") or [])]
+        passive_crash = "passive_face" in failed
+        gate["families"][fname] = {
+            "g_seg_pass": gseg.get("pass"),
+            "g_seg_coverage": gseg.get("coverage"),
+            "g_seg_ruling_face": "GM" if gseg.get("pass") is False else None,
+            "passive_crash": passive_crash,
+            "passive_fix_face": "bm-b" if passive_crash else None,
+            "all_legs_ok": rec.get("all_legs_ok"),
+        }
+    return gate
+
+
 def _fund_family_state() -> dict:
     """Fundamental stock family campaign panel (J10 lane, r610 bm-a):
     live read-only derive of the fund-family judged campaigns
@@ -698,9 +744,17 @@ def _fund_family_state() -> dict:
         eid = str(e.get("id") or "")
         if eid.startswith("FUND-"):
             pool_map[eid] = e
+    nulls_target = {}
+    for eid, e in sorted(pool_map.items()):
+        if not eid.endswith("-NULLS"):
+            continue
+        m = re.search(r"nulls\s+(\d+)", str(e.get("prereg_ref") or ""))
+        if m:
+            nulls_target[eid[len("FUND-"):-len("-P1-NULLS")]] = int(m.group(1))
     for label, prereg_name, res_dir in fams:
         fam = {"family": label, "prereg_state": None, "cells": [],
                 "sens_rows": None, "nulls_rows": None,
+                "nulls_target": nulls_target.get(label),
                 "results_landed": False, "pool": []}
         ppath = os.path.join(PATHS.root, "research", prereg_name)
         if os.path.exists(ppath):
@@ -739,6 +793,7 @@ def _fund_family_state() -> dict:
                 or fam["nulls_rows"] or fam["pool"]):
             out["families"].append(fam)
     out["present"] = bool(out["families"])
+    out["finalize_gate"] = _fund_finalize_gate()
     return out
 
 

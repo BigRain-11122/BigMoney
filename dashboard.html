@@ -468,7 +468,7 @@ function renderChains() {
         return `${esc(e.id)}:${st}${own}`;
       }).join(" ");
       return `${esc(f.family)}[${n2(f.prereg_state)}] 判格 ${cellsDone}${(f.cells || []).length ? "/" + (f.cells || []).length : ""}` +
-        (f.nulls_rows ? ` NULLS ${n2(f.nulls_rows)}` : "") +
+        (f.nulls_rows ? ` NULLS ${n2(f.nulls_rows)}${f.nulls_target ? "/" + n2(f.nulls_target) : ""}` : "") +
         (f.sens_rows ? ` SENS ${n2(f.sens_rows)}` : "") +
         (f.results_landed ? " 判决✔" : "") +
         (poolBits ? ` {${poolBits}}` : "");
@@ -480,6 +480,22 @@ function renderChains() {
       ftxt,
       landed ? "ok" : (burning ? "warn" : "dim"),
       landed ? "判决面已落" : (burning ? "烧录在飞" : "排程/前置门")));
+    const fg = ff.finalize_gate;
+    const gateBits = fg ? Object.entries(fg.families || {}).map(([name, g]) => {
+      let s = esc(name.replace(/^fund_/, "").replace(/_p1$/, "").toUpperCase());
+      if (g.g_seg_pass === false) {
+        const chop = (g.g_seg_coverage && g.g_seg_coverage.chop != null) ? n2(g.g_seg_coverage.chop) : "?";
+        s += ` G-SEG chop${chop}<50 待${esc(g.g_seg_ruling_face || "GM")}裁`;
+      }
+      if (g.passive_crash) s += ` passive崩 待${esc(g.passive_fix_face || "bm-b")}修`;
+      return s;
+    }).join(" · ") : "";
+    const gated = !!(fg && Object.values(fg.families || {}).some(
+      g => g.g_seg_pass === false || g.passive_crash));
+    if (gateBits) {
+      rows.push(chainRow("基本面族 · finalize 前置门", gateBits,
+        gated ? "warn" : "ok", gated ? "待裁/待修" : "前置门净"));
+    }
   }
   const fv = D.data.family_verdicts;
   if (fv && fv.present) {

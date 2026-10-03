@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-03T17:48:59+08:00",
- "current_task": "r634 done: stopped-rebase heal (ring-1/2/3/4 converged, pushed 971d58f22) + compute_audit one-row r614 backfill + reconcile 6 faces ZERO-DRIFT; NULLS bm-b in-flight (V296/Q193/D90 of 2000)",
+ "last_seen": "2026-10-03T18:09:51+08:00",
+ "current_task": "r635 done: J10 fund-trio finalize-readiness face (nulls_target + finalize_gate + dashboard render, 25+6 acceptance ALL PASS) + HANDOVER 5x check r631-635; NULLS trio bm-b in-flight (V304/Q198/D95 of 2000 @18:0x)",
  "cpu_cores": 32,
- "cpu_pct": 6.1,
- "free_ram_gb": 61.3,
+ "cpu_pct": 1.8,
+ "free_ram_gb": 65.4,
  "gpu_free_vram_gb": 3.7,
- "verdict": "idle-healthy (rehearsal 230s done; NULLS trio bm-b in flight, yield lane)",
+ "verdict": "idle-healthy (product face landed; NULLS trio bm-b in flight, yield lane; finalize window <=10-09 with two pending rulings surfaced on CEO dashboard)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -160,8 +160,8 @@
   "O-20261002-2158-bm-c.md",
   "O-20261003-1210-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1791020939,
- "clock_read": "2026-10-03T17:48:59+08:00",
+ "heartbeat_epoch_utc": 1791022191,
+ "clock_read": "2026-10-03T18:09:51+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 3800,
  "gpu_idle_vram_gb": 7.15,
@@ -175,7 +175,7 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round_no": 629,
+ "round_no": 635,
  "gpu_total_vram_mb": 12282,
  "cpu_util_pct": 90,
  "round": "r629",
