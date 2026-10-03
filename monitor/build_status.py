@@ -2252,6 +2252,143 @@ def _trial_labor_state() -> dict:
     return out
 
 
+def _repo_state() -> dict:
+    """Repo reverse-repo term-ladder daily rates (T-88 s3 update_repo.py,
+    bm-a lane; SPM cash-leg rate-series supply) from
+    results/repo_update_status.json. Quarantined rows = warn, per-term
+    errors = bad, honest degrade otherwise."""
+    st = _read_json(os.path.join(PATHS.results_dir,
+                                 "repo_update_status.json")) or {}
+    pt = st.get("per_term") or []
+    out = {"present": bool(st), "terms": len(pt),
+           "planned": len(st.get("terms_planned") or []),
+           "errors": 0, "quarantined": 0, "rows_total": 0, "cutoff": None,
+           "mode": st.get("mode"), "last_attempt": st.get("ts") or st.get("last_attempt"),
+           "age_min": None, "status": "none", "text": "逆回购梯待产出"}
+    if not out["present"]:
+        return out
+    for t in pt:
+        if t.get("error"):
+            out["errors"] += 1
+        fs = t.get("face_stats") or {}
+        out["quarantined"] += len(fs.get("quarantined") or {})
+        out["rows_total"] += t.get("rows_local") or 0
+        last = str(t.get("last") or "")
+        if last and (out["cutoff"] is None or last > out["cutoff"]):
+            out["cutoff"] = last
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["errors"]:
+        out["status"], out["text"] = "bad", f"逆回购梯 {out['errors']} 员失败"
+    elif out["quarantined"]:
+        out["status"], out["text"] = "warn", f"逆回购梯 {out['quarantined']} 行隔离"
+    else:
+        out["status"], out["text"] = "ok", f"逆回购梯 {out['terms']}/{out['planned']} 员"
+    return out
+
+
+def _options_state() -> dict:
+    """Options forward daily collector gate (T-69 wave-2b update_options.py,
+    bm-a lane) from results/options_update_status.json. Panel completeness
+    is the ok face; mismatch rows = bad; in-flight = warn."""
+    st = _read_json(os.path.join(PATHS.results_dir,
+                                 "options_update_status.json")) or {}
+    pn = st.get("panel") or {}
+    out = {"present": bool(st), "mode": st.get("mode"),
+           "complete": bool(pn.get("complete")),
+           "universe": pn.get("universe"), "attempted": pn.get("attempted"),
+           "appended": pn.get("appended"),
+           "pass_date": pn.get("last_pass_date"),
+           "mismatches": len(st.get("mismatch") or {}),
+           "enum_fails": len(st.get("enum_fails") or []),
+           "last_attempt": st.get("ts") or st.get("last_spawn_attempt"),
+           "age_min": None, "status": "none", "text": "期权采集待产出"}
+    if not out["present"]:
+        return out
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["mismatches"]:
+        out["status"], out["text"] = "bad", f"期权 {out['mismatches']} 合约失配"
+    elif not out["complete"]:
+        out["status"], out["text"] = "warn", "期权面板未完备"
+    else:
+        out["status"], out["text"] = "ok", f"期权 pass {out['pass_date']}"
+    return out
+
+
+def _premium_state() -> dict:
+    """Fund NAV/discount-premium face (T-16 ARB-1 update_fund_premium.py,
+    bm-c lane) from results/fund_premium_status.json. NAV coverage is the
+    gate; snapshot fetch error = bad."""
+    st = _read_json(os.path.join(PATHS.results_dir,
+                                 "fund_premium_status.json")) or {}
+    sn = st.get("snapshot") or {}
+    nv = st.get("nav") or {}
+    out = {"present": bool(st), "lane_owner": st.get("lane_owner"),
+           "mode": st.get("mode"), "nav_date": sn.get("latest_nav_date"),
+           "rows": sn.get("rows"), "last_error": sn.get("last_error"),
+           "nav_done": nv.get("done"), "nav_total": nv.get("total"),
+           "coverage": nv.get("coverage"),
+           "last_attempt": st.get("ts"), "age_min": None,
+           "status": "none", "text": "基金NAV待产出"}
+    if not out["present"]:
+        return out
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["last_error"]:
+        out["status"], out["text"] = "bad", "NAV 快照失败"
+    elif out["nav_total"] and (out["nav_done"] or 0) < out["nav_total"]:
+        out["status"], out["text"] = "warn", f"NAV 回填 {out['nav_done']}/{out['nav_total']}"
+    else:
+        cov = out["coverage"]
+        cov_txt = (f"{cov*100:.0f}%" if isinstance(cov, (int, float)) else "—")
+        out["status"], out["text"] = "ok", f"NAV 覆盖 {cov_txt}"
+    return out
+
+
+def _ah_state() -> dict:
+    """AH premium panel gate (T-17 ARB-2 deliverable-2 ah_panel_puller.py,
+    bm-a lane) from results/ah_panel_status.json. Mapping source failure =
+    bad (EM-domain conn fuse self-heals on its own); incomplete refresh =
+    warn."""
+    st = _read_json(os.path.join(PATHS.results_dir,
+                                 "ah_panel_status.json")) or {}
+    out = {"present": bool(st), "mode": st.get("mode"),
+           "complete": bool(st.get("complete")), "cutoff": st.get("cutoff"),
+           "mapped_pairs": st.get("mapped_pairs"),
+           "fresh_pairs": st.get("fresh_pairs"),
+           "pulled_rows": st.get("pulled_rows"),
+           "quarantined": len(st.get("quarantined") or {}),
+           "mapping_error": st.get("mapping_error"),
+           "last_attempt": st.get("ts") or st.get("last_spawn_attempt"),
+           "age_min": None, "status": "none", "text": "AH面板待产出"}
+    if not out["present"]:
+        return out
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["mapping_error"]:
+        out["status"], out["text"] = "bad", "AH 映射源失败"
+    elif not out["complete"]:
+        out["status"], out["text"] = "warn", "AH 刷新未完备"
+    elif out["quarantined"]:
+        out["status"], out["text"] = "warn", f"AH {out['quarantined']} 对隔离"
+    else:
+        out["status"], out["text"] = "ok", f"AH cutoff {out['cutoff']}"
+    return out
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -2259,6 +2396,10 @@ def build() -> dict:
     data["heat"] = _heat_state()
     data["futures"] = _futures_state()
     data["moneyflow"] = _moneyflow_state()
+    data["repo"] = _repo_state()
+    data["options"] = _options_state()
+    data["fund_premium"] = _premium_state()
+    data["ah_panel"] = _ah_state()
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()
