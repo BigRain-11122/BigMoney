@@ -1,6 +1,8 @@
 # CEO 实盘使用一页纸 · 2026-10-03
 
-> 自动生成 2026-10-03T12:55:59 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)## ① 市场判定
+> 自动生成 2026-10-03T13:19:45 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+
+## ① 市场判定
 
 - **当前政体态：ORANGE**（shadow 探测·已连续 4 日）· asof 2026-09-30
 - 依据：hs300<MA200 (#10 collected); breadth 0.79>=65%

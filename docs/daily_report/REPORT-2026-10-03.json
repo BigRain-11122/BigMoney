@@ -1,6 +1,8 @@
 {
  "report_date": "2026-10-03",
- "generated_at": "2026-10-03 12:55:58", "combat": {  "paper_summary": {
+ "generated_at": "2026-10-03 13:19:44",
+ "combat": {
+  "paper_summary": {
    "traders": 6,
    "total_equity_cny": 5998495.76,
    "total_positions": 18,
@@ -295,16 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-03.md"
  },
  "rd": {
-  "commits_24h": 536,
+  "commits_24h": 535,
   "result_jsons_landed_24h": 88,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 53,
+  "prereg_md_touched_24h": 51,
   "compute_audit_latest": {
-   "ts": "2026-10-03 12:51:46",
-   "py_cpu_pct": 4.8,   "flags": [],
+   "ts": "2026-10-03 13:17:47",
+   "py_cpu_pct": 0.4,
+   "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_with_work_cands",  "pool_keys_n": 6,
+  "watermark_verdict": "py_low_board_clear",
+  "pool_keys_n": 6,
   "batch_in_flight": false
  },
  "decisions_tail": [
@@ -639,11 +643,13 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1116758,
+  "total_report_tokens_est": 1118016,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-03 11:46:31",
+   "prev_generated": "2026-10-03 12:26:08",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 829,   "mandate_growth": 0  },
+   "report_tokens_growth": 1258,
+   "mandate_growth": 0
+  },
   "method": {
    "bpe_proxy": 3.5,
    "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
@@ -652,71 +658,79 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-03 11:26:40",
-    "py_pct": 100.0,
-    "cpu_pct": 97.0,
-    "ready": 6,    "streak_min": null,
-    "verdict": "FLAG:cap_violation",
+    "latest_ts": "2026-10-03 13:17:47",
+    "py_pct": 0.4,
+    "cpu_pct": 2.0,
+    "ready": 5,
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
      [
-      "09:02",
-      4.7
+      "11:06",
+      4.9
      ],
      [
-      "09:10",
-      4.7
+      "11:16",
+      85.8
      ],
      [
-      "09:11",
-      5.6
-     ],
-     [
-      "09:18",
-      5.7
-     ],
-     [
-      "09:28",
-      100.0
-     ],
-     [
-      "09:30",
-      4.7
-     ],
-     [
-      "09:41",
-      86.3
-     ],
-     [      "09:59",
-      1.8
-     ],
-     [
-      "10:04",
-      97.4
-     ],
-     [
-      "10:21",
-      0.1
-     ],
-     [
-      "10:42",
-      5.0
+      "11:21",
+      4.8
      ],
      [
       "11:26",
       100.0
+     ],
+     [
+      "11:39",
+      4.8
+     ],
+     [
+      "11:43",
+      100.0
+     ],
+     [
+      "12:03",
+      4.8
+     ],
+     [
+      "12:31",
+      5.7
+     ],
+     [
+      "22:59",
+      2.5
+     ],
+     [
+      "12:23",
+      100.0
+     ],
+     [
+      "12:51",
+      4.8
+     ],
+     [
+      "13:17",
+      0.4
      ]
     ],
-    "today_samples": 34,
-    "today_floor_ok": 26,    "today_sla_flags": 0,
+    "today_samples": 45,
+    "today_floor_ok": 37,
+    "today_sla_flags": 0,
     "today_supply_gap_flags": 17
    },
    "bm-b": {
     "latest_ts": "2026-10-03 12:23:23",
     "py_pct": 100.0,
-    "cpu_pct": 65.0,    "ready": 5,
+    "cpu_pct": 65.0,
+    "ready": 5,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "09:59",
+      1.8
+     ],
      [
       "10:04",
       97.4
@@ -759,10 +773,11 @@
      ],
      [
       "12:23",
-      100.0     ]
+      100.0
+     ]
     ],
-    "today_samples": 42,
-    "today_floor_ok": 34,
+    "today_samples": 41,
+    "today_floor_ok": 33,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 17
    },
@@ -770,12 +785,10 @@
     "latest_ts": "2026-10-03 12:51:46",
     "py_pct": 4.8,
     "cpu_pct": 2.0,
-    "ready": 5,    "streak_min": null,
+    "ready": 5,
+    "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "10:44",
-      87.4     ],
      [
       "10:44",
       87.4
@@ -826,7 +839,8 @@
      ]
     ],
     "today_samples": 44,
-    "today_floor_ok": 36,    "today_sla_flags": 0,
+    "today_floor_ok": 36,
+    "today_sla_flags": 0,
     "today_supply_gap_flags": 17
    }
   },
@@ -848,8 +862,9 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-03 11:26:40"    }
+     "audit_batches": 0,
+     "audit_ts": "2026-10-03 13:17:47"
+    }
    },
    "bm-b": {
     "batches_judged": 13,
@@ -859,7 +874,8 @@
     "single_core_burn": 3,
     "multicore_burn": 10,
     "too_short": 4,
-    "last_ts": "2026-10-03T11:55:42+08:00",    "audit_window": {
+    "last_ts": "2026-10-03T11:55:42+08:00",
+    "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 3,
@@ -879,7 +895,8 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-03 12:51:46"    }
+     "audit_ts": "2026-10-03 12:51:46"
+    }
    }
   },
   "canon": "T-134 s4 (O-2026-09-30-2355) -- law-2 sampler rows results/pool_core_samples.jsonl + per-machine compute_audit parallel_efficiency window merge (r503)"
