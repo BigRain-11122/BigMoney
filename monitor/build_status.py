@@ -664,7 +664,10 @@ def _fund_family_state() -> dict:
     """Fundamental stock family campaign panel (J10 lane, r610 bm-a):
     live read-only derive of the fund-family judged campaigns
     (FUND-VALUE-P1 in burn / FUND-QUALITY-P1 draft pending TRANSFER,
-    O-20261002-2115 CEO speed-window line). Single sources only:
+    O-20261002-2115 CEO speed-window line). Families are auto-discovered
+    (r622 bm-b): research/FUND-*-P1.md preregs plus any results/fund_*_p1
+    burn dir, so later campaigns (e.g. FUND-DIVLOWVOL-P1) surface with
+    zero code edits. Single sources only:
       - research/FUND-*-P1.md head banners (DRAFT-NOT-FROZEN vs frozen)
       - results/fund_<family>_p1/ burn products (cells_*.jsonl judged
         rows, sens.jsonl / nulls.jsonl draw counts, <dir>_results.json
@@ -673,8 +676,22 @@ def _fund_family_state() -> dict:
         lane owner/owner_since = claim visibility face)
     Missing sources degrade to honest None/empty, never fabricated."""
     out = {"present": False, "families": []}
-    fams = [("VALUE", "FUND-VALUE-P1.md", "fund_value_p1"),
-            ("QUALITY", "FUND-QUALITY-P1.md", "fund_quality_p1")]
+    fams = []
+    seen = set()
+    for p in sorted(glob.glob(os.path.join(PATHS.root, "research",
+                                           "FUND-*-P1.md"))):
+        base = os.path.basename(p)                    # FUND-VALUE-P1.md
+        label = base[len("FUND-"):-len("-P1.md")]     # VALUE
+        fams.append((label, base, "fund_%s_p1" % label.lower()))
+        seen.add(label.lower())
+    if os.path.isdir(PATHS.results_dir):
+        for d in sorted(os.listdir(PATHS.results_dir)):
+            if (d.startswith("fund_") and d.endswith("_p1")
+                    and os.path.isdir(os.path.join(PATHS.results_dir, d))):
+                label = d[len("fund_"):-len("_p1")].upper()
+                if label.lower() not in seen:
+                    fams.append((label, "FUND-%s-P1.md" % label, d))
+                    seen.add(label.lower())
     pool = _lane_view("runnable_pool") or {}
     pool_map = {}
     for e in (pool.get("entries") or []):
