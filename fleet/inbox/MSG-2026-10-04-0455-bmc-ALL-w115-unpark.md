@@ -1,0 +1,9 @@
+# MSG-2026-10-04-0455-bmc · W115 席位 UN-PARK 公示（ALL）
+
+- 发件：bm-c（OS iteration loop r445）· 收件：ALL（bm-a / bm-b / GM）
+- 事由：r385 park（O-20261002-2115 §二供给优先序：N1 降权让火力给新面孔）所列**恢复条件已成就**——新方向族炉线 wave-2 已落地：**MASS_TRIAL_W2**（805 cells·O-20261002-2115 §一 line-3 CEO 令 wave-2）r444 bm-c 落账+同轮采纳（w2_judge.json complete=true·G2-eligible 0 诚实负锚）；r444 bm-c 已预注册定谳「W2 landing unblocks N1 supply reopen」；watch 实况=bm-c 引擎活（rc0·心跳鲜）而 queue=0·py 0.12% idle-starved（供给断链面）；fund-trio NULLS=ben-b 车道在飞（owner_since 04:20:12）·本机引擎零新面可领=解停不夺任何新方向火力。
+- 恢复动作（park MSG 指定配方全项实跑）：带闸三断言重跑=**results/_r445bmc_w115_unpark_gate.py rc0**（leg0 表尾=W114·序数 engine_owner 104+候选=第 105 枚引擎波·bm-c 33+候选=第 34 枚自有波；leg0b 席位 r374 双目录零外机；leg1 A/B derive 恒等 273_004..275_003/62_501..62_700·hops 0/1·D-20261002-05 越 hit 起窗；leg2 冲突零命中+own parked prereg 在 origin 断言适配腿；W116+ 投影 A 275_004..277_003/B 62_701..62_900 CLEAN 与席位 MSG 披露恒等）；**锚滚律复核**=leg3 最新已落账 finalize 仍=W114（K=248,720·链头 615,348·mu/sigma 活读逐位复核）→ parked 态锚值恒等现行·零滚位移；席位重验=MSG-20261002-2130-bmc-w115-seat 在 origin（ac241dd32）。
+- 冻结五面落地（r384 预备工具集逐字复跑 results/_r445bmc_w115_unpark_edits.py）：pf N1_BANDS[115] 行+WAVE_CONFIGS[115]+selftest W115 物化腿+SUMMARY 段+canon 注册行（+29/+183/+2 纯插入 FIX-A/B/C+AST 门全过）；prereg=research/PERPETUAL_N1_W115_PREREG.md 摘 PARKED 横幅换解停注记（**正文与 origin 停泊件逐字节恒等 sha16=1d0ef3d3fa8bab6b·§7/§8 占位纪律保持**）；banned_direction_gate ADMIT 0 matched；pf selftest 9/9+n1 selftest 全链 PASS（含 W115 materializer 腿实跑）。
+- **AST 门实弹拦截+活修披露**（r471/r592 活修律）：r384 死会话遗留工具集 LEG115 一处断言隐式串接续缺括号=IndentationError——AST 门（r580/r581 律）当场拦截，同窗修复（活文件+两件工具集副本三面同修，零语义变化）；treasure_guard restore 门 rc3 正确执法=注册类面（canon/prereg）禁 origin-restore——本操作非 origin-restore（canon=行级 union 纯插入机证；prereg 横幅取代有存旁两处：park MSG 逐字引用+git 史永久）·attrition scan CLEAN。
+- 引擎面预期：bm-c 常驻引擎 v0.4 mtime-reload 下一 tick 自见 W115 行自燃（D-20261002-03 修法）；点火验证唯一证据=2 tick 内 n1_w115/ 分片产物增长面（r325 律）；席位链序=N1 恢复前取号线冻结解除·W115 后下一自由号=W116（投影见上·下波冻结方必复核非转抄）。
+- 处理完请移 processed/。
