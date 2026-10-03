@@ -1,0 +1,165 @@
+{
+ "probe": "FUND-DIVLOWVOL-P1 ignition data-side probes",
+ "generated": "2026-10-03T08:37:41+08:00",
+ "machine": "bm-b",
+ "prereg": "research/FUND-DIVLOWVOL-P1.md (DRAFT-NOT-FROZEN)",
+ "transfer_ticket": "T-2026-10-03-154-P1",
+ "frozen_design": {
+  "n_top": 20,
+  "universe_floor": 60,
+  "ttm_days": 365,
+  "vol_win": 252,
+  "vol_min_bars": 126,
+  "amt20_floor": 10000000.0
+ },
+ "panel": {
+  "n_bars": 8792,
+  "n_syms_panel": 5222,
+  "first": "1990-12-19",
+  "last": "2026-09-22",
+  "ok_universe": 5130
+ },
+ "parquet_schema": {
+  "code": "large_string",
+  "ex_date": "date32[day]",
+  "cash_div_per_10": "double",
+  "record_date": "date32[day]"
+ },
+ "div_face": {
+  "rows": 54494,
+  "n_symbols_nonempty": 5124,
+  "per_symbol_event_median": 9.0,
+  "ex_date_span": [
+   "1991-04-03",
+   "2026-10-23"
+  ],
+  "null_cash_rows": 0,
+  "unsorted_rows": 0,
+  "dtypes": {
+   "code": "str",
+   "ex_date": "object",
+   "cash_div_per_10": "float64",
+   "record_date": "object"
+  },
+  "columns": [
+   "code",
+   "ex_date",
+   "cash_div_per_10",
+   "record_date"
+  ],
+  "quarantined_present": [],
+  "sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+  "manifest_sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+  "manifest_bytes_ok": true
+ },
+ "sidecar_census": {
+  "n_div_symbols_in_panel": 5124,
+  "n_sidecar_loaded": 5124,
+  "n_panel_div_missing_sidecar": 0,
+  "missing_sample": []
+ },
+ "recovery_known_answer": {
+  "formula": "P_raw(t) = close_qfq(t) * f(t), f stepwise at latest sidecar d <= t",
+  "n_events_tested": 36399,
+  "n_excluded_mixed_or_absent": 1009,
+  "median_rel_dev": 2.942919241633035e-10,
+  "frac_exact_lt_1e-6": 0.7283991318442814,
+  "p90_rel_dev": 0.23076923080543846,
+  "wrong_direction_median_rel_dev": 0.0024073060962843673,
+  "tolerance": 0.02,
+  "p90_note": "p90 tail = mixed cash+share events leaking the pure-cash filter (share component in the same factor date, div face carries cash only) -- disclosed, median is the machine answer"
+ },
+ "start_census": {
+  "months_in_window": 403,
+  "eligible_starts": 401,
+  "expected": 401
+ },
+ "yield_census": {
+  "months_evaluated": 401,
+  "n_months_meeting_floor": 253,
+  "first_signal_date_t0": 20060206,
+  "months_below_floor_after_t0": [],
+  "rank_universe_median_after_t0": 779.5,
+  "rank_universe_min_after_t0": 51,
+  "yield_median_of_medians_after_t0": 0.009719975249695353,
+  "worst_five": [
+   {
+    "t": 19920901,
+    "n_base_mask": 0,
+    "n_yield_pos": 0,
+    "n_yield_pos_screenable": 0,
+    "n_rank_universe": 0,
+    "yield_median": null,
+    "yield_p90": null,
+    "floor_met": false
+   },
+   {
+    "t": 19921102,
+    "n_base_mask": 0,
+    "n_yield_pos": 0,
+    "n_yield_pos_screenable": 0,
+    "n_rank_universe": 0,
+    "yield_median": null,
+    "yield_p90": null,
+    "floor_met": false
+   },
+   {
+    "t": 19921201,
+    "n_base_mask": 0,
+    "n_yield_pos": 0,
+    "n_yield_pos_screenable": 0,
+    "n_rank_universe": 0,
+    "yield_median": null,
+    "yield_p90": null,
+    "floor_met": false
+   },
+   {
+    "t": 19930201,
+    "n_base_mask": 1,
+    "n_yield_pos": 0,
+    "n_yield_pos_screenable": 0,
+    "n_rank_universe": 0,
+    "yield_median": null,
+    "yield_p90": null,
+    "floor_met": false
+   },
+   {
+    "t": 19930401,
+    "n_base_mask": 1,
+    "n_yield_pos": 0,
+    "n_yield_pos_screenable": 0,
+    "n_rank_universe": 0,
+    "yield_median": null,
+    "yield_p90": null,
+    "floor_met": false
+   }
+  ]
+ },
+ "seed_band_scan": {
+  "candidates": {
+   "fund_divlowvol_p1_nulls": 20520000,
+   "fund_divlowvol_p1_sens": 20520500
+  },
+  "n_registry_bases": 167,
+  "exact_hits": {},
+  "furnace_band": [
+   20333000,
+   20445400
+  ],
+  "in_furnace_band": {},
+  "proximity_violations": {},
+  "k_stretch_disclosure": {
+   "nulls": "rng([20520000, k]) k=0..1999 (pair-seed sub-stream law)",
+   "sens": "rng([20520500, k]) k=0..499 (pair-seed sub-stream law)"
+  },
+  "gap_to_fund_quality_block": 10000
+ },
+ "gates": {
+  "leg1_price_panel": true,
+  "leg2_transfer_export": true,
+  "leg3_sidecar_recovery": true,
+  "leg4_yield_census": true,
+  "leg5_seed_band": true
+ },
+ "verdict": "GREEN"
+}

@@ -1823,7 +1823,13 @@ SEED_REGISTRY = {
         # -- exact-hit zero vs 166 registered bases, outside furnace band
         # [20333000, 20445400), proximity >=2000 all-pass, gap 10000 to
         # fund_value block 20500000/20500500 (sibling family, same panel).
-
+    "fund_divlowvol_p1_nulls": 20_520_000,  # T-155 FUND-DIVLOWVOL-P1 stock same-mask nulls (rng([20520000, k]) K=2000)
+    "fund_divlowvol_p1_sens": 20_520_500,   # T-155 FUND-DIVLOWVOL-P1 sensitivity draws (rng([20520500, k]) K=500)
+        # FUND-DIVLOWVOL-P1 band pick 2026-10-03 bm-b r610 freeze window:
+        # probe leg5 receipt (results/_fund_divlowvol_p1_transfer_probe.json)
+        # -- exact-hit zero vs 167 registered bases, outside furnace band
+        # [20333000, 20445400), proximity >=2000 all-pass, gap 20000 to
+        # fund_value block and 8000 to fund_quality block (sibling families).
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

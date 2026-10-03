@@ -1,0 +1,61 @@
+{
+ "batch": "FUND-DIVLOWVOL-P1",
+ "gate": "d6_same_family",
+ "reject_line": 0.7,
+ "sim_basis": "probe-level lightweight: eq Top-20 monthly rotation on qfq close ratios, no engine, no cost (correlation gate input; levels non-judgmental, disclosed)",
+ "headline_cont": {
+  "t0": "2006-02-06",
+  "n_days": 5017,
+  "n_signal_months": 242
+ },
+ "generated": "2026-10-03T08:40:26+08:00",
+ "machine": "bm-b",
+ "pairs": [
+  {
+   "member": "COMPOSITE-CE-01",
+   "corr": 0.1332,
+   "n_overlap": 1630
+  },
+  {
+   "member": "COMPOSITE-CE-02",
+   "corr": 0.1566,
+   "n_overlap": 1630
+  },
+  {
+   "member": "DROUGHT-CE-01",
+   "corr": 0.1517,
+   "n_overlap": 1630
+  },
+  {
+   "member": "ENGULF-CE-01",
+   "corr": 0.2555,
+   "n_overlap": 1630
+  },
+  {
+   "member": "NEEDLE-DE-01",
+   "corr": 0.2076,
+   "n_overlap": 1630
+  },
+  {
+   "member": "VOLATILITY-CE-01",
+   "corr": 0.2213,
+   "n_overlap": 1630
+  }
+ ],
+ "max_abs_corr": 0.2555,
+ "max_member": "ENGULF-CE-01",
+ "verdict": "ADMIT",
+ "sibling_family_disclosure": {
+  "FUND-VALUE-P1 headline (VALUE-PE x1 cont)": {
+   "corr": 0.8039,
+   "n_overlap": 5017,
+   "gate_face": "disclosure-only (prereg sec.1)"
+  },
+  "FUND-QUALITY-P1 headline (QUALITY-ROE x1 cont)": {
+   "corr": 0.5796,
+   "n_overlap": 5017,
+   "gate_face": "disclosure-only (prereg sec.1)"
+  }
+ },
+ "runtime_sec": 28.0
+}
