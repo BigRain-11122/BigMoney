@@ -1,0 +1,48 @@
+{
+ "round": "r431 bm-c",
+ "ticket": "T-2026-10-02-144(c)",
+ "batch": "D-06 post-split increment sweep + flow-sink",
+ "pits": {
+  "research/pit-spawn.md": {
+   "pre_bytes_disk": 9461,
+   "post_bytes_disk": 12890,
+   "entries": 2,
+   "lf_core_added": 3025,
+   "core_md5": "ff4937c8e9c15ad2e6c9b65d5bca756a",
+   "lf_blob_md5": "57b1ecdb9ae55c23e3263dd792d07407",
+   "codely_removed_disk": 3027
+  },
+  "research/pit-git.md": {
+   "pre_bytes_disk": 107161,
+   "post_bytes_disk": 108913,
+   "entries": 1,
+   "lf_core_added": 1380,
+   "core_md5": "3c30566fb7d7b0172aa90243adfc14ce",
+   "lf_blob_md5": "be3d0351fe2c914e8fd989f13b18cd4b",
+   "codely_removed_disk": 1381
+  },
+  "research/pit-tooling.md": {
+   "pre_bytes_disk": 7194,
+   "post_bytes_disk": 8463,
+   "entries": 1,
+   "lf_core_added": 899,
+   "core_md5": "8bd4f224557791f493b0ffc3786ef4c9",
+   "lf_blob_md5": "c12a69e0f0421f67176c0b1e43d69089",
+   "codely_removed_disk": 900
+  }
+ },
+ "flow_sink": {
+  "target": "research/memory-archive/202610.md",
+  "entry": "r628 bm-b §4 receipt",
+  "added_bytes_disk": 839,
+  "cold_ptr_line": "- 冷层指针（r431 整编·T-144(c) 流水下沉腿·r444 范式）：r628 bm-b §4 跳位语义钉死行 ..."
+ },
+ "codely": {
+  "pre_bytes": 30442,
+  "post_bytes": 25418,
+  "removed_line_bytes_disk": 5793,
+  "ptr_ext_added_bytes": 503,
+  "cold_ptr_added_bytes": 266
+ },
+ "law": "verbatim line migration, machine-move, all assertions PASS before write"
+}
