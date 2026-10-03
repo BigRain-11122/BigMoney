@@ -222,7 +222,8 @@ def report_pass(sha: str) -> int:
         "S6 %d/%d rc%s（_r415bmc_s6.py·%.0fs）；S7 4/4+attrition CLEAN；HANDOVER r415 5x 行落账（增量窗 r411-415）；"
         "bm-a 心跳停 10:26 起续观察（<3h 线·13:26 阈值过线=下轮呈 GM 改派裁定） | 下轮：D-06 批3 spawn/tooling 族+git/protocol "
         "增量+pre-split 存留条+pit-data CRLF 裁定+流水下沉（due 10-07）·bm-a 心跳阈值查·T-156 观察席 | 本地未达 origin commit 数："
-        "0（closeout push %s 一发即达→fetch 后 HEAD..origin/main=0·tip==origin 送达自证）"
+        "0（push 首拒〔bm-b daemon keepalive 38ec77650 抢道〕→pull --rebase 重放 2 commits 干净零冲突→push %s 达→fetch 后 "
+        "HEAD..origin/main=0·tip==origin 送达自证）"
     ) % (ts, n_legs - len(bad), n_legs, rc_face, total, sha)
     with open(REPORT, "a", encoding="utf-8", newline="") as fh:
         fh.write(line + "\n")
