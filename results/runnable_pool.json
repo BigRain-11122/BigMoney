@@ -14062,7 +14062,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-03 18:38:00",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -14073,14 +14073,19 @@
    "shards": [
     {
      "key": "w2-judge-0of4",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/mass_trial/w2_judge_shard_0of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%4==0 of sorted 805 collapsed survivors (202 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 2 after all 4 shards done + 805-cell completeness probe)",
-     "owner": "bm-c",
-     "owner_since": "2026-10-03 18:58:14"
+     "owner_since": "2026-10-03 19:03:29",
+     "done_at": "2026-10-03 19:03:29",
+     "harvested_by": "bm-c",
+     "harvest_claim": "w2-judge-0of4.bm-c.json",
+     "owner": "bm-c"
     }
    ],
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 19:03:29"
   },
   {
    "id": "MASS-TRIAL-W2-JUDGE-SHARD-1",
