@@ -72,6 +72,18 @@
 - 与 w1 §9/§9.1 同构：T-22 caliber 逐虚拟起点 × {6m,12m,24m} × x2 成本 × bear/bull/chop 分段 × 双 nulls≥2000；波级多重校正强制（**N_eff 跨波累计不重置**：链头实读——w1 SCREEN 975+w1 JUDGE 166+本波 SCREEN N_w2 全计入）；判据调 science_gates.g1_prime_v2/g2_registration_v2 共享库禁手抄；出场轴门同 §3 声明；新 judge 种子带届时按 R250 一步律注册。
 - **排产锚**：本段冻结+池面判决烧录在飞 ≤2026-10-06（O-2115 验收「千人 wave-2 判决面在飞」10-08 治理日前置）。
 
+### §9.1 s3 全量判决面段冻结【2026-10-03 18:0x bm-c r423 起草·本 commit 后才许烧·append-only·占位节留档】
+
+- **触发与身份**：本节=§9 占位的具体化（跑前 commit 冻结·R99 纪律）；对应批件=**MASS_TRIAL_W2_JUDGE**（第二段判决批·judged cells 入账本）；排产锚=冻结+池面烧录在飞 ≤2026-10-06（O-2115 验收 10-08 治理日「千人 wave-2 判决面在飞」）。
+- **判决对象与入场去重门（§1 承诺门）**：**806** stage-1 存活者（冻结清单=`results/mass_trial/w2_screen_summary.json` survivor_ids·candidates sha16 锚=**1a8751ed16a9c641** 实读禁手抄）→ 入场前**逐对 |corr|≥0.999 leg-L base-face 日收益序列塌缩**（代表=确定性最低 candidate_id·坍缩/保留清单如实披露·audit 段全量保留原始变体）→ **N_judge=塌缩后格数**（跑前零宣称）。
+- **判决网格（全 import 禁重实现禁手抄·与 w1 §9.1 逐字同构）**：虚拟起点=`scripts/p5c_virtual_timepoint.py` `FROZEN_CENSUS` 双腿全网格（L 6m/12m/24m=1253/1127/875·D=3104/2978/2726·`EVIDENCE_CUTOFF_GRID`=2026-09-22 与本批 binding 同栅）× 窗 {126,252,504} × 成本 {x1=13bp 引擎默认·x2=CostPatch(2.0)（t22 Erratum-1 multiplier 律·禁直引常数）} × 政体分段 bear/bull/chop+na（T-22 §3 冻结 3-way proxy 逐字）× 双 nulls：block bootstrap **B=2000**（block=20 交易日循环块·拼样截回 n 长）+ sign-flip 置换 **P=2000**（逐日符号独立·双侧）。
+- **候选重放口径**：每格=存活者冻结配置（family fn+params+axes·`w2_candidates.json` sha16 1a8751ed16a9c641 实读禁手抄）经判决机械全网格重放；被动基准=起点日已上市成员 EW buy&hold 零再平衡（p5c `passive_rel` 机械·w1 §9.1 同款）；引擎面=T+1 开盘保守代理（O-1132）·退出优先级冻结禁改；出场轴=§3 声明（③ template_default 按设计测·修正栈与 w2 screen 同栈零迁移）。
+- **种子**：`mass_trial_w2_judge`=**20285200**（band 20285200..20285499·派生 `default_rng([20285200, cell_idx])`·rng 流仅限双 nulls 重采样面禁挪用·w1 judge 用途钉死先例；rg --type py 全仓扫描+SEED_REGISTRY 撞带扫描 2026-10-03 r423 零命中；**本 commit 同步登记 SEED_REGISTRY**·R250 一步律）。
+- **波级多重校正（TRIAL_LABOR_LAW §4 强制·§9 承诺面）**：①N_eff **跨波累计不重置=链头实读**（sg.ledger_head() 活链头 total——w1 SCREEN 975+w1 JUDGE 166+本波 SCREEN 4836 及链上一切在批全计入 DSR 折减底数·禁手抄常数）；②**E[FP]=0.05×N_judge**（名义 α=5% 口径）如实披露——DSR≥0.95 门即按累计 N 折减后的校正门·通过者=校正后存活非名义面；③波级 PBO 聚合读数另列（跨族·CSCV 8 blocks·family=11 策略模块·<8 cells 诚实 n/a）；④跨波 N_eff 合并呈报面（w1a/w1b/w2 各自 prereg 下分立追踪+链头累计折减单源）。
+- **执行面**：runner=`scripts/mass_trial_w1.py` judge 三子命令 `--wave 2`（judge-prep/judge/judge-finalize·**本冻结 commit 同窗扩展**·w1 路径字节不变·ckpt 前缀 `w2_judge_shard_*` 与 w1 shard 文件零混淆·selftest 强制 hermetic·byte-stable 复跑·import-face 复用 p5c/T-22 机械禁重写）；池批 id=**MASS-TRIAL-W2-JUDGE**·shards=4（~N_judge/4 格/片·多机分片合法）·workers ≤floor(核×0.8) BelowNormal·lane_owner=null；judge-prep（塌缩+passive 预计算·短批）冻结 commit 后即可跑·judge 烧录一律池面（长活禁轮内内联·O-20260924-2100）。
+- **账本**：`science_gates.append_ledger("MASS_TRIAL_W2_JUDGE", N_judge, "mass_trial/w2_judge.json", evidence_cutoff="2026-09-22")`（prev=活链头实读禁手抄·单发守卫=complete 产物永不重计·refinalize env=MASS_TRIAL_W2_JUDGE_REFINALIZE）。
+- **消费面声明**：judged 存活者 → STRATEGY_LIBRARY 注册 + TRIAL-* 纸盘上岗=**月界呈报**非本批自动面（§10 消费链不变）；本批零注册效应直至 §10 链走完。
+
 ## §10 消费面
 
 存活者 → s3 全量判决（§9 冻结后）→ 终存活者 → STRATEGY_LIBRARY 注册 + TRIAL-* 纸盘上岗 → 月界呈报；**消费方指名（O-2115）**：千人题库供给+锦标赛臂+月考面。语法供给（TRIAL_LABOR_LAW §5）：T-86 census W2A/W2B 存活腿正式落地后并入 wave-3 面（本波开波时点未落地=按 §10「到位后并入」顺延，非阻塞）。
