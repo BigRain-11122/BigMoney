@@ -461,6 +461,14 @@ def _resicnt_faces_raw(prices: dict):
                  (round(float((open_r & dec_r).sum() / dec_r.sum()), 4)
                   if int(dec_r.sum()) else None),
                  "na_window_bars": 120}
+    # leg-L panel face needs the same slope-sign split disclosure the
+    # screen-prep print consumes (r619 KeyError fix: only _resi_state_full
+    # carried it; identical construction caliber -- open & decidable &
+    # beta20-notna days split by sign)
+    m_open = open_r & dec_r & beta20.notna()
+    resi_meta["slope_sign_split"] = {
+        "up_slope_days": int((m_open & (beta20 > 0)).sum()),
+        "down_slope_days": int((m_open & (beta20 <= 0)).sum())}
     cnt_meta = {"n_bars": int(n),
                 "cntd5_first_decidable_bar_idx": _first_true(dec_d),
                 "cntd5_decidable_days": int(dec_d.sum()),

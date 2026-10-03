@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-03T10:04:19+08:00",
-  "current_task": "r618: r617 stranded-legacy close-out (orphan pool sweep 25 workers killed + stale-rebase abort + 2-round reland r617-full to origin tip) + S6 39 legs rc0; T-156 p1c croc receiver camping (bm-b not yet re-sent); QUALITY-SENS re-claim queued behind transfer swap; 90-row nulls re-burn waits bm-b 2000-draw",
+  "last_seen": "2026-10-03T10:26:12+08:00",
+  "current_task": "r619: W14 inadvertent screen-prep touch self-caught+remediated same round (zero-consumption N=0 held, berth not created, entry not flipped, prep_state.json deleted, MSG-1035 disclosure; runner print-leg KeyError fix kept inert); T-156 receiver camping at default relay (TCP established evidence sent, deadlock cause bm-b-side; code expires ~11:07 -> kill+hold for fresh code); SENS/nulls re-claims queued behind transfer swap; S6 28 legs rc0",
   "cpu_cores": 32,
-  "cpu_pct": 9.0,
+  "cpu_pct": 1.8,
   "free_ram_gb": 51.4,
   "gpu_free_vram_gb": null,
-  "verdict": "alive",
+  "verdict": "py_low_board_clear (legal idle: SENS=transfer-gated fuse keep-block, NULLSx2=bm-b in-flight, next_pick moneyflow source-blocked self-heal)",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -159,8 +159,8 @@
     "O-20261002-2155-bm-c.md",
     "O-20261002-2158-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790993059,
-  "clock_read": "2026-10-03T10:04:19+08:00",
+  "heartbeat_epoch_utc": 1790994372,
+  "clock_read": "2026-10-03T10:26:12+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 10770,
   "gpu_idle_vram_gb": null,
@@ -186,6 +186,6 @@
   "ram_free_gb": 46.1,
   "idle_ram_mb": 57450,
   "last_round": 595,
-  "idle_ram_gb": 52,
+  "idle_ram_gb": 54.9,
   "idle_gpu_vram_gb": null
 }
