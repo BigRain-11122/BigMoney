@@ -1,0 +1,81 @@
+{
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-22"
+ },
+ "evidence_cutoff": "2026-09-22",
+ "legs": {
+  "L1_shortlist_integrity": {
+   "expected": [
+    "old_032",
+    "best_016"
+   ],
+   "nominated_union": [
+    "best_016",
+    "old_032"
+   ],
+   "pass": true
+  },
+  "L2_vendor_roster": {
+   "in_registry": {
+    "best_016": true,
+    "old_032": true
+   },
+   "in_roster_freeze": {
+    "best_016": true,
+    "old_032": true
+   },
+   "pass": true,
+   "roster_freeze_sha16": "7ce1e81d019eba3d",
+   "roster_sha16_expected": "7ce1e81d019eba3d"
+  },
+  "L3_seed_band_free": {
+   "band": [
+    20570000,
+    20570060
+   ],
+   "k": 60,
+   "nearest_neighbors": [
+    20550000,
+    20560000
+   ],
+   "pass": true,
+   "seed": 20570000
+  },
+  "L4_panel": {
+   "covering_cutoff": 48,
+   "cutoff_truncation_line": "2026-09-22",
+   "missing_or_short": [],
+   "n_members": 48,
+   "note": "panel advanced past parent cutoff; P2 truncates at 2026-09-22 (parent same-window lineage, D2 no-backflow guaranteed by truncation)",
+   "pass": true,
+   "union_last_bar": "2026-09-30",
+   "whitelist_sha16": "abf3d43b9ca13ea5"
+  },
+  "L5_parent_ic_anchors": {
+   "anchors": {
+    "best_016": {
+     "ic5_mean": 0.017731,
+     "nominated": 1,
+     "x2_ann": 0.0847,
+     "x2_beat_rate": 0.6667
+    },
+    "old_032": {
+     "ic5_mean": 0.027954,
+     "nominated": 1,
+     "x2_ann": 0.1329,
+     "x2_beat_rate": 0.7667
+    }
+   },
+   "pass": true
+  },
+  "L6_class_carry": {
+   "classes": {
+    "best_016": "volume_price",
+    "old_032": "volume_price"
+   },
+   "pass": true
+  }
+ },
+ "pass": true,
+ "probe": "G2_SLOT_MON_P2 pre-freeze"
+}
