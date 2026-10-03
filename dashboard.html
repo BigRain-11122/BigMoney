@@ -403,6 +403,30 @@ function renderChains() {
       `${n2(mfw.n_symbols)}/${n2(mfw.universe_n)} 只 · ${mfw.complete ? "cutoff " + n2(mfw.cutoff) : "前向采集"}`,
       mfw.status === "bad" ? "bad" : (mfw.status === "warn" ? "warn" : "ok"), mfw.text));
   }
+  const rp = D.data.repo;
+  if (rp && rp.present) {
+    rows.push(chainRow("逆回购梯",
+      `${n2(rp.terms)}/${n2(rp.planned)} 员 · ${n2(Math.round((rp.rows_total || 0) / 1000))}k 行 · cutoff ${n2(rp.cutoff)}`,
+      rp.status === "bad" ? "bad" : (rp.status === "warn" ? "warn" : "ok"), rp.text));
+  }
+  const op = D.data.options;
+  if (op && op.present) {
+    rows.push(chainRow("期权采集",
+      `宇宙 ${n2(op.universe)} · 补 ${n2(op.appended)} · pass ${n2(op.pass_date)}`,
+      op.status === "bad" ? "bad" : (op.status === "warn" ? "warn" : "ok"), op.text));
+  }
+  const fp = D.data.fund_premium;
+  if (fp && fp.present) {
+    rows.push(chainRow("基金NAV",
+      `NAV 日 ${n2(fp.nav_date)} · ${n2(fp.rows)} 行 · 覆盖 ${n2(fp.nav_done)}/${n2(fp.nav_total)}`,
+      fp.status === "bad" ? "bad" : (fp.status === "warn" ? "warn" : "ok"), fp.text));
+  }
+  const ah = D.data.ah_panel;
+  if (ah && ah.present) {
+    rows.push(chainRow("AH溢价",
+      `${n2(ah.mapped_pairs)} 对 · 新鲜 ${n2(ah.fresh_pairs)} · 隔离 ${n2(ah.quarantined)}`,
+      ah.status === "bad" ? "bad" : (ah.status === "warn" ? "warn" : "ok"), ah.text));
+  }
   const h = D.data.heat;
   if (h && h.present) {
     rows.push(chainRow("热度链",
