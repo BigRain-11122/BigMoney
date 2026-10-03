@@ -928,6 +928,26 @@
    "shard": "judge-0of1",
    "machine": "bm-b",
    "last_refusal_ts": "2026-09-29 17:50:03"
+  },
+  "scripts/fund_value_p1.py|run,--nulls": {
+   "count": 0,
+   "refusals": 0,
+   "code_sha256": "014fe069e80cfa06",
+   "entry": "FUND-VALUE-P1-NULLS",
+   "shard": "fund-value-p1-nulls-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-03 17:56:04",
+   "note": "keep-blocked bm-b r626d: runner edited this round (MSG-2026-10-03-1720 Finding B finalize passive-guard fix + divlowvol Y10M->CNY10M audit text) -- in-flight canonical burner pid 34396 since 04:38 alive (r617-r620 division); nulls resume is done-key checkpointed so a second process would race the same missing k rows (r616 double-burn family). Relaunch refused until 2000/2000 complete; clear ONLY if bm-b burn dies AND bm-b yields the lane."
+  },
+  "scripts/fund_divlowvol_p1.py|run,--nulls": {
+   "count": 0,
+   "refusals": 0,
+   "code_sha256": "7392ea8cd2f00469",
+   "entry": "FUND-DIVLOWVOL-P1-NULLS",
+   "shard": "fund-divlowvol-p1-nulls-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-03 17:56:04",
+   "note": "keep-blocked bm-b r626d: runner edited this round (MSG-2026-10-03-1720 Finding B finalize passive-guard fix + divlowvol Y10M->CNY10M audit text) -- in-flight canonical burner pid 30208 since 11:54 alive (r617-r620 division); nulls resume is done-key checkpointed so a second process would race the same missing k rows (r616 double-burn family). Relaunch refused until 2000/2000 complete; clear ONLY if bm-b burn dies AND bm-b yields the lane."
   }
  },
  "lane_machine": "bm-b"
