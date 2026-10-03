@@ -85,9 +85,9 @@
 ## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）
 
 - 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：
-  - FUND-QUALITY-P1：438/2000（dup_k=0）
-  - FUND-VALUE-P1：583/2000（dup_k=0）
-  - FUND-DIVLOWVOL-P1：305/2000（dup_k=0）
+  - FUND-QUALITY-P1：450/2000（dup_k=0）
+  - FUND-VALUE-P1：599/2000（dup_k=0）
+  - FUND-DIVLOWVOL-P1：316/2000（dup_k=0）
 
 ## ⑥ 诚实免责
 
