@@ -21,9 +21,18 @@ Exit codes: 0 = captured ok; 2 = mechanism fault / capture-window gate
 (closed window, missing artifact, parse error, crosscheck mismatch) --
 reported honestly, never masked.
 
+  s3 criteria (face 5) -- exam criteria freeze: promotion/demotion thresholds
+     single-source from firm/hr.py (import + source fingerprint, never
+     hand-copied) + g2_registration_v2 gate defaults via inspect (identity
+     anchor for the already-registered roster) + benchmark double-line from
+     the roster baseline + honesty anchors. Pure aggregation: zero network,
+     zero engine, zero new judgment, zero bar-data dependency (criteria face
+     carries no month-open gate -- values are frozen law, not state).
+
 CLI:
   python scripts/monthly_exam_prep.py baseline [--month 2026-10]
   python scripts/monthly_exam_prep.py roster   [--month 2026-10]
+  python scripts/monthly_exam_prep.py criteria [--month 2026-10]
   python scripts/monthly_exam_prep.py selftest
 """
 import argparse
@@ -497,10 +506,200 @@ def cmd_roster(month):
     ]
     with io.open(mpath, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(lines) + "\n")
-    sys.stdout.write(
-        "roster: %d traders pinned @ %s -> %s\n" % (len(rows), MONTH_OPEN_BAR, jpath))
-    sys.stdout.write("  B_MAXDIV crosscheck: %s\n" % (
-        "MATCH" if payload["b_maxdiv_crosscheck"] and payload["b_maxdiv_crosscheck"]["match"] else "MISMATCH"))
+        sys.stdout.write("roster: %d traders pinned @ %s -> %s\n" % (len(rows), MONTH_OPEN_BAR, jpath))
+        sys.stdout.write("  B_MAXDIV crosscheck: %s\n" % (
+            "MATCH" if payload["b_maxdiv_crosscheck"] and payload["b_maxdiv_crosscheck"]["match"] else "MISMATCH"))
+        return 0
+
+
+    # -------------------------------------------------- T-143 face 5 criteria
+HONESTY_ANCHORS = (
+    "window_metrics status=insufficient_data (bars<20 suppression per D-20260930-27 Q3) "
+    "is carried in the JSON face and must never be quoted as annualized stats",
+    "x2_watch probation status is reported as-is (roster baseline carries it); "
+    "probation is disclosed, never hidden behind aggregate rows",
+    "negative results reported as-is, no makeup (T-143 spec verbatim)",
+    "PROSPECT accounts are observation-lane (O-2045 constructive exclusion from "
+    "the CEO face) -- never scored in exam tables",
+    "anchor IS/OOS block = hire-time registration anchor, not exam evidence",
+)
+
+
+def _ensure_import_paths():
+    sys.path.insert(0, ROOT)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+
+def collect_criteria(month):
+    """Criteria freeze face: single-source law anchors, zero hand-copying."""
+    import hashlib
+    import inspect
+    _ensure_import_paths()
+    faults = []
+    try:
+        import firm.hr as hr
+    except Exception as exc:
+        return None, ["import firm.hr failed: %s" % exc]
+    try:
+        import science_gates
+    except Exception as exc:
+        return None, ["import science_gates failed: %s" % exc]
+
+    # hr.py source fingerprint: version anchor, not a content copy. Any hr.py
+    # edit moves the fingerprint -> criteria file must be versioned, not edited.
+    hr_src = inspect.getsource(hr)
+    hr_sha16 = hashlib.sha256(hr_src.encode("utf-8")).hexdigest()[:16]
+    hr_anchor = {
+        "module": "firm/hr.py",
+        "source_sha256_16": hr_sha16,
+        "promotions": hr.THRESHOLDS,
+        "fire_reasons": hr.FIRE_REASONS,
+        "allocation": hr.ALLOCATION,
+        "prospect_promotion_gate": hr.PROSPECT_PROMOTION_GATE,
+        "g25_precondition": "promotion requires g25_verdict==pass (BACKTEST_SCIENCE.md s8); "
+                            "missing/fail/pending/invalid all HOLD",
+    }
+
+    # fire-line constants live inline in hr._evaluate_level -- verify via
+    # source text so the freeze cannot drift from the enforced code paths.
+    level_src = inspect.getsource(hr._evaluate_level)
+    for token, label in (("-0.20", "TRAINEE paper dd fire line"), ("-0.08", "TRADER monthly loss fire line")):
+        if token not in level_src:
+            faults.append("fire-line constant %s (%s) not found in hr._evaluate_level source" % (token, label))
+    fire_lines = {
+        "trainee_paper_dd_fire_line": -0.20,
+        "trader_monthly_loss_fire_line": -0.08,
+        "source": "firm/hr.py _evaluate_level inline constants (inspect-verified)",
+    }
+
+    # g2_registration_v2 gate defaults via inspect (identity anchor for the
+    # already-registered six members; the exam does not reopen this gate).
+    sig = inspect.signature(science_gates.g2_registration_v2)
+    defaults = {k: v.default for k, v in sig.parameters.items()
+                if v.default is not inspect.Parameter.empty}
+    if defaults.get("dsr_gate") is None or defaults.get("pbo_gate") is None:
+        faults.append("g2_registration_v2 signature defaults missing dsr_gate/pbo_gate")
+    g2_anchor = {
+        "gate": "g2_registration_v2",
+        "dsr_gate": defaults.get("dsr_gate"),
+        "pbo_gate": defaults.get("pbo_gate"),
+        "source": "scripts/science_gates.py signature defaults (inspect-verified)",
+        "note": "six-member roster is already registered (hire 2026-09-23 passed "
+                "the registration gate); this row is the identity anchor, the "
+                "exam does not reopen it",
+    }
+    reform_anchor = {
+        "reform_q_level": science_gates.REFORM_Q_LEVEL,
+        "source": "scripts/science_gates.py REFORM_Q_LEVEL (single-source import)",
+        "scope": "batch-internal BH FDR q<=10% (O-20260930-1058); W14+ verdict "
+                 "face standing standard -- additive only",
+    }
+
+    # benchmark double-line carried from the roster baseline (r406 capture)
+    bench = {}
+    roster_path = os.path.join(ROOT, "docs", "monthly_exam", month,
+                               "roster_monthopen_baseline.json")
+    if not os.path.isfile(roster_path):
+        faults.append("roster baseline missing (run `roster` first): %s" % roster_path)
+    else:
+        with io.open(roster_path, "r", encoding="utf-8") as fh:
+            rb = json.load(fh)
+        rb_bench = rb.get("benchmarks") or {}
+        bench = {
+            "bench_510300_month_open_close": rb_bench.get("bench_510300_month_open_close"),
+            "bench_510300_source": rb_bench.get("bench_510300_source"),
+            "bench_48ew_note": rb_bench.get("bench_48ew_note"),
+            "ytd_baselines": rb_bench.get("ytd_baselines"),
+            "carried_from": "docs/monthly_exam/%s/roster_monthopen_baseline.json (r406 capture, no recompute)" % month,
+        }
+    return (hr_anchor, fire_lines, g2_anchor, reform_anchor, bench), faults
+
+
+def _criteria_payload(parts, month):
+    hr_anchor, fire_lines, g2_anchor, reform_anchor, bench = parts
+    return {
+        "schema": "monthly-exam-criteria-freeze/1.0",
+        "ticket": "T-2026-10-01-143 (face 5 criteria freeze; O-20261001-2355 sec.3 board lining)",
+        "exam_month": month,
+        "freeze_note": (
+            "frozen law values, single-source imported (hr.py/science_gates), "
+            "zero hand-copying; source fingerprints pin the version -- any "
+            "upstream law edit after this freeze = version a new file, never "
+            "edit this one in place; criteria face has no bar-data dependency "
+            "(no month-open capture gate)"
+        ),
+        "hr_source_anchor": hr_anchor,
+        "fire_line_constants": fire_lines,
+        "g2_registration_anchor": g2_anchor,
+        "reform_anchor": reform_anchor,
+        "benchmarks": bench,
+        "honesty_anchors": list(HONESTY_ANCHORS),
+        "faults": [],
+    }
+
+
+def cmd_criteria(month):
+    parts, faults = collect_criteria(month)
+    if parts is None or faults:
+        for f in (faults or ["collect_criteria failed"]):
+            sys.stderr.write("FAULT: %s\n" % f)
+        return 2
+    payload = _criteria_payload(parts, month)
+    out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
+    os.makedirs(out_dir, exist_ok=True)
+    jpath = os.path.join(out_dir, "criteria_freeze.json")
+    mpath = os.path.join(out_dir, "criteria_freeze.md")
+    with io.open(jpath, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1, sort_keys=True)
+        fh.write("\n")
+    hr_a = payload["hr_source_anchor"]
+    lines = [
+        "# Monthly exam %s -- criteria face: exam criteria freeze" % month,
+        "",
+        "- ticket: T-2026-10-01-143 face 5 (O-20261001-2355 sec.3)",
+        "- freeze: single-source import (firm/hr.py @ sha16 %s, science_gates signature defaults via inspect); zero hand-copying" % hr_a["source_sha256_16"],
+        "- identity anchor: g2_registration_v2 dsr_gate=%s pbo_gate=%s (already-registered roster; exam does not reopen)" % (
+            payload["g2_registration_anchor"]["dsr_gate"], payload["g2_registration_anchor"]["pbo_gate"]),
+        "- reform standing standard: batch-internal BH FDR q=%s (W14+ verdict face, additive only)" % payload["reform_anchor"]["reform_q_level"],
+        "",
+        "## Promotion thresholds (firm/hr.py THRESHOLDS, single-source)",
+        "",
+        "| ladder | thresholds |",
+        "|---|---|",
+    ]
+    for ladder in sorted(hr_a["promotions"]):
+        th = hr_a["promotions"][ladder]
+        cells = ", ".join("%s=%s" % (k, th[k]) for k in sorted(th))
+        lines.append("| %s | %s |" % (ladder, cells))
+    lines += [
+        "",
+        "## Fire rules",
+        "",
+        "| rule | line | source |",
+        "|---|---|---|",
+    ]
+    for k, v in sorted(hr_a["fire_reasons"].items()):
+        lines.append("| %s | %s | firm/hr.py FIRE_REASONS |" % (k, v))
+    fl = payload["fire_line_constants"]
+    lines.append("| paper_dd | %s (TRAINEE current_dd) | hr._evaluate_level inline (inspect-verified) |" % fl["trainee_paper_dd_fire_line"])
+    lines.append("| monthly_loss | %s (TRADER last month) | hr._evaluate_level inline (inspect-verified) |" % fl["trader_monthly_loss_fire_line"])
+    lines += [
+        "",
+        "## Honesty anchors",
+        "",
+    ]
+    for a in payload["honesty_anchors"]:
+        lines.append("- %s" % a)
+    if payload["benchmarks"]:
+        lines += [
+            "",
+            "## Benchmark double-line (carried from roster baseline, no recompute)",
+            "",
+            "- 510300 month-open close: %s" % payload["benchmarks"].get("bench_510300_month_open_close"),
+        ]
+    with io.open(mpath, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines) + "\n")
+    sys.stdout.write("criteria: frozen (hr sha16=%s) -> %s\n" % (hr_a["source_sha256_16"], jpath))
     return 0
 
 
@@ -604,6 +803,51 @@ def _selftest():
                                     {}, {"match": True}, "2026-10"), sort_keys=True).encode("utf-8")
     leg("roster payload determinism", b1 == b2 and len(b1) > 500)
 
+    # ---- criteria face (face 5) legs: single-source import anchors
+    import hashlib as _hl
+    import inspect as _insp
+    _ensure_import_paths()
+    import firm.hr as _hr
+    import science_gates as _sg
+    # leg16: THRESHOLDS structure + frozen anchor values (import, not hand-copy)
+    th = _hr.THRESHOLDS
+    leg("criteria THRESHOLDS single-source anchors",
+        sorted(th) == ["INTERN_TO_TRAINEE", "SENIOR_TO_PRINCIPAL", "TRADER_TO_SENIOR", "TRAINEE_TO_TRADER"]
+        and th["INTERN_TO_TRAINEE"]["os_sharpe_min"] == 0.8
+        and th["INTERN_TO_TRAINEE"]["trades_min"] == 30
+        and th["INTERN_TO_TRAINEE"]["max_dd_max"] == 0.25
+        and th["TRAINEE_TO_TRADER"]["months_min"] == 3
+        and th["SENIOR_TO_PRINCIPAL"]["sharpe_min"] == 1.5
+        and _hr.ALLOCATION["PROSPECT"] == 0)
+    # leg17: g2_registration_v2 signature defaults via inspect (identity anchor)
+    _defaults = {k: v.default for k, v in _insp.signature(_sg.g2_registration_v2).parameters.items()
+                 if v.default is not _insp.Parameter.empty}
+    leg("criteria g2 gate defaults inspect",
+        _defaults.get("dsr_gate") == 0.95 and _defaults.get("pbo_gate") == 0.25)
+    # leg18: fire-line constants present in hr._evaluate_level source text
+    _lsrc = _insp.getsource(_hr._evaluate_level)
+    leg("criteria fire-line constants in source",
+        "-0.20" in _lsrc and "-0.08" in _lsrc)
+    # leg19: hr source fingerprint stability (two runs identical)
+    _sha_a = _hl.sha256(_insp.getsource(_hr).encode("utf-8")).hexdigest()[:16]
+    _sha_b = _hl.sha256(_insp.getsource(_hr).encode("utf-8")).hexdigest()[:16]
+    leg("criteria hr fingerprint stable", _sha_a == _sha_b and len(_sha_a) == 16)
+    # leg20: criteria payload determinism (byte-identity)
+    _parts = collect_criteria("2026-10")
+    if _parts[0] is not None:
+        _p1 = json.dumps(_criteria_payload(_parts[0], "2026-10"), sort_keys=True).encode("utf-8")
+        _p2 = json.dumps(_criteria_payload(_parts[0], "2026-10"), sort_keys=True).encode("utf-8")
+        leg("criteria payload determinism", _p1 == _p2 and len(_p1) > 500)
+    else:
+        leg("criteria payload determinism", False)
+    # leg21: reform standing standard single-source
+    leg("criteria REFORM_Q_LEVEL single-source", _sg.REFORM_Q_LEVEL == 0.10)
+    # leg22: honesty anchors carried verbatim (O-2045 + no-makeup + suppression)
+    _ha = " | ".join(HONESTY_ANCHORS)
+    leg("criteria honesty anchors carried",
+        "O-2045" in _ha and "no makeup" in _ha and "insufficient_data" in _ha
+        and "D-20260930-27" in _ha)
+
     sys.stdout.write("selftest: %d PASS, %d FAIL\n" % (ok[0], bad[0]))
     return 0 if bad[0] == 0 else 1
 
@@ -615,6 +859,8 @@ def main(argv):
     bp.add_argument("--month", default="2026-10")
     rp = sub.add_parser("roster", help="capture six-member roster month-open baseline (face 1)")
     rp.add_argument("--month", default="2026-10")
+    cp = sub.add_parser("criteria", help="freeze exam criteria: hr thresholds + gate anchors (face 5)")
+    cp.add_argument("--month", default="2026-10")
     sub.add_parser("selftest", help="offline self-check")
     args = ap.parse_args(argv)
     if args.cmd == "selftest":
@@ -623,6 +869,8 @@ def main(argv):
         return cmd_baseline(args.month)
     if args.cmd == "roster":
         return cmd_roster(args.month)
+    if args.cmd == "criteria":
+        return cmd_criteria(args.month)
     ap.print_help()
     return 2
 

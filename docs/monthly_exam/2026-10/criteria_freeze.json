@@ -1,0 +1,87 @@
+{
+ "benchmarks": {
+  "bench_48ew_note": "48ETF equal-weight daily-rebalanced (o1600_market_fit.py single-source); exam-window assembly starts at first in-window bar (2026-10-09); YTD reference values carried below",
+  "bench_510300_month_open_close": 4.432,
+  "bench_510300_source": "data/daily/510300.csv unadjusted close (ytd_track_record BENCH-510300 caliber, buy&hold)",
+  "carried_from": "docs/monthly_exam/2026-10/roster_monthopen_baseline.json (r406 capture, no recompute)",
+  "ytd_baselines": {
+   "BENCH-48EW": -0.0679020391086167,
+   "BENCH-510300": -0.08505367464905034
+  }
+ },
+ "exam_month": "2026-10",
+ "faults": [],
+ "fire_line_constants": {
+  "source": "firm/hr.py _evaluate_level inline constants (inspect-verified)",
+  "trader_monthly_loss_fire_line": -0.08,
+  "trainee_paper_dd_fire_line": -0.2
+ },
+ "freeze_note": "frozen law values, single-source imported (hr.py/science_gates), zero hand-copying; source fingerprints pin the version -- any upstream law edit after this freeze = version a new file, never edit this one in place; criteria face has no bar-data dependency (no month-open capture gate)",
+ "g2_registration_anchor": {
+  "dsr_gate": 0.95,
+  "gate": "g2_registration_v2",
+  "note": "six-member roster is already registered (hire 2026-09-23 passed the registration gate); this row is the identity anchor, the exam does not reopen it",
+  "pbo_gate": 0.25,
+  "source": "scripts/science_gates.py signature defaults (inspect-verified)"
+ },
+ "honesty_anchors": [
+  "window_metrics status=insufficient_data (bars<20 suppression per D-20260930-27 Q3) is carried in the JSON face and must never be quoted as annualized stats",
+  "x2_watch probation status is reported as-is (roster baseline carries it); probation is disclosed, never hidden behind aggregate rows",
+  "negative results reported as-is, no makeup (T-143 spec verbatim)",
+  "PROSPECT accounts are observation-lane (O-2045 constructive exclusion from the CEO face) -- never scored in exam tables",
+  "anchor IS/OOS block = hire-time registration anchor, not exam evidence"
+ ],
+ "hr_source_anchor": {
+  "allocation": {
+   "FIRED": 0,
+   "INTERN": 0,
+   "PRINCIPAL": 30,
+   "PROSPECT": 0,
+   "SENIOR": 15,
+   "TRADER": 5,
+   "TRAINEE": 0
+  },
+  "fire_reasons": {
+   "ic_decay": "IC衰减>50%",
+   "live_monthly_loss": "实盘单月亏>8%",
+   "paper_dd": "模拟盘回撤>20%",
+   "risk_violation": "违反风控"
+  },
+  "g25_precondition": "promotion requires g25_verdict==pass (BACKTEST_SCIENCE.md s8); missing/fail/pending/invalid all HOLD",
+  "module": "firm/hr.py",
+  "promotions": {
+   "INTERN_TO_TRAINEE": {
+    "max_dd_max": 0.25,
+    "os_sharpe_min": 0.8,
+    "paper_months_min": 1,
+    "trades_min": 30
+   },
+   "SENIOR_TO_PRINCIPAL": {
+    "max_dd_max": 0.15,
+    "months_min": 12,
+    "sharpe_min": 1.5
+   },
+   "TRADER_TO_SENIOR": {
+    "months_min": 6,
+    "sharpe_min": 1.0
+   },
+   "TRAINEE_TO_TRADER": {
+    "max_dd_max": 0.15,
+    "months_min": 3,
+    "win_rate_min": 0.55
+   }
+  },
+  "prospect_promotion_gate": {
+   "g2_full": "G2 neighborhood + cost x2/x3 + per-year (frozen, no relaxation)",
+   "t22_beat_passive": "T-22 virtual-timepoint mass batch beat_rate_6m >= 0.70 (O-20260924-1532, P-5/P-5B frozen caliber)"
+  },
+  "source_sha256_16": "d7bb7eca9cd59abf"
+ },
+ "reform_anchor": {
+  "reform_q_level": 0.1,
+  "scope": "batch-internal BH FDR q<=10% (O-20260930-1058); W14+ verdict face standing standard -- additive only",
+  "source": "scripts/science_gates.py REFORM_Q_LEVEL (single-source import)"
+ },
+ "schema": "monthly-exam-criteria-freeze/1.0",
+ "ticket": "T-2026-10-01-143 (face 5 criteria freeze; O-20261001-2355 sec.3 board lining)"
+}
