@@ -24,6 +24,9 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+MACHINE = json.load(open(os.path.join(ROOT, "fleet", "machine.json"),
+                         encoding="utf-8"))["machine_id"]
+
 FAMS = [
     ("fund_quality_p1", "scripts/fund_quality_p1.py"),
     ("fund_value_p1", "scripts/fund_value_p1.py"),
@@ -110,16 +113,42 @@ def rehearse(key, path):
 
     # -- 3. passive face (mirror cmd_finalize) ------------------------------
     def _passive():
+        # r629 bm-b mirror patch (MSG-2026-10-03-1838): replicate the r626d
+        # runner guard at the cmd_finalize CALL SITE -- _passive_window
+        # itself still returns None on an empty t0 base mask, so a bare
+        # t0 call is the pre-r626d crash face. Scan month_pos forward
+        # from t0 to the first non-empty base month, shift the passive
+        # span there, disclose via span_note (runner convention).
         lo = m._G["_t0_pos"]
         hi = len(m._G["idx"]) - 1
         rel = m._passive_window(lo, hi)
+        plo = lo
+        note = None
+        if rel is None:
+            plo = next((p for p in m._G["month_pos"]
+                        if p >= lo
+                        and len(m._month_universe(p)["base_j"]) > 0),
+                       None)
+            if plo is None:
+                raise SystemExit(
+                    "rehearsal mirror: no non-empty base month from t0 "
+                    "forward -- passive face undefined")
+            rel = m._passive_window(plo, hi)
+            note = ("t0_base_empty: passive span shifted from t0 "
+                    f"{m._G['idx'][lo].date()} to first non-empty base "
+                    f"month {m._G['idx'][plo].date()} "
+                    "(r626d guard mirror, r629 bm-b patch per "
+                    "MSG-2026-10-03-1838)")
         pc = rel.pct_change().dropna()
         sh = float((pc.mean() / pc.std(ddof=1)) * np.sqrt(252))
-        return {"n_members_t0": int(rel.count()) if hasattr(rel, "count") else None,
+        return {"n_members_t0": len(m._month_universe(plo)["base_j"]),
+                "n_members_window": int(rel.count())
+                if hasattr(rel, "count") else None,
                 "sharpe_full": round(sh, 6),
                 "ret_full": round(float(rel.iloc[-1] - 1), 6),
-                "span": [str(m._G["idx"][lo].date()),
-                         str(m._G["idx"][hi].date())]}
+                "span": [str(m._G["idx"][plo].date()),
+                         str(m._G["idx"][hi].date())],
+                "span_note": note}
     passive = leg("passive_face", _passive)
 
     # -- 4. headline legs: bootstrap / sign-flip ----------------------------
@@ -267,7 +296,7 @@ def rehearse(key, path):
                 "finalize code path/mechanics only"),
         "batch": m.BATCH_NAME,
         "ticket": getattr(m, "TICKET", None),
-        "machine": "bm-a",
+        "machine": MACHINE,
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S+08:00"),
         "legs": {k: {"ok": v["ok"], "elapsed_sec": v["elapsed_sec"],
                      "value": slim(v.get("value")),
@@ -304,7 +333,7 @@ def main():
               flush=True)
     sp = os.path.join(ROOT, "results", "_r633bma_finalize_rehearsal_summary.json")
     with open(sp, "w", encoding="utf-8") as f:
-        json.dump({"machine": "bm-a",
+        json.dump({"machine": MACHINE,
                    "ts": time.strftime("%Y-%m-%dT%H:%M:%S+08:00"),
                    "rehearsal": True, "NOT_A_VERDICT": True,
                    "families": summary}, f, ensure_ascii=False, indent=1)

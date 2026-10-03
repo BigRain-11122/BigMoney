@@ -1,8 +1,10 @@
 {
- "machine": "bm-a",
- "ts": "2026-10-03T18:31:56+08:00",
+ "machine": "bm-b",
+ "ts": "2026-10-03T18:58:59+08:00",
  "rehearsal": true,
  "NOT_A_VERDICT": true,
+ "summary_rebuilt_by": "results/_r629bmb_summary_fix.py (r629 bm-b: --fam single-family rerun had clobbered the trio summary with a one-family face; this rebuilds it from the three committed per-family reports, zero hand edit)",
+ "provenance_note": "quality/divlowvol reports = r628 bm-b rerun, written by the pre-patch tool whose machine field was hardcoded 'bm-a' (fixed r629 to read fleet/machine.json); value report = r629 bm-b patched rerun (mirror leg-3 fix, MSG-2026-10-03-1838). Per-family 'report_machine_field' below carries each file's raw field for honest provenance.",
  "families": {
   "fund_quality_p1": {
    "all_legs_ok": true,
@@ -10,17 +12,28 @@
    "failed_legs": []
   },
   "fund_value_p1": {
-   "all_legs_ok": false,
-   "elapsed_total_sec": 192.5,
-   "failed_legs": [
-    "passive_face",
-    "gate_mechanics_partial_nulls"
-   ]
+   "all_legs_ok": true,
+   "elapsed_total_sec": 323.3,
+   "failed_legs": []
   },
   "fund_divlowvol_p1": {
    "all_legs_ok": true,
    "elapsed_total_sec": 176.6,
    "failed_legs": []
+  }
+ },
+ "per_family_provenance": {
+  "fund_quality_p1": {
+   "report_machine_field": "bm-a",
+   "report_ts": "2026-10-03T18:25:47+08:00"
+  },
+  "fund_value_p1": {
+   "report_machine_field": "bm-b",
+   "report_ts": "2026-10-03T18:56:18+08:00"
+  },
+  "fund_divlowvol_p1": {
+   "report_machine_field": "bm-a",
+   "report_ts": "2026-10-03T18:31:56+08:00"
   }
  }
 }
