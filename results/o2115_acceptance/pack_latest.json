@@ -1,0 +1,220 @@
+{
+ "generated": "2026-10-04 05:44:52",
+ "asof_date": "2026-10-04",
+ "order_ref": "O-20261002-2115-bm-c sec.3 (10-08 governance-day acceptance)",
+ "acceptance_date": "2026-10-08",
+ "machine_view": "bm-c (shared-artifact aggregation, machine-agnostic rerun)",
+ "items": [
+  {
+   "item": 1,
+   "title": "T-145 PIT审计+解锁评估+首批基本面族prereg冻结",
+   "status": "met",
+   "evidence": [
+    {
+     "face": "pit_audit",
+     "present": true,
+     "ref": "results/fund_pit_audit/audit_results.json (bm-c 2026-10-02 21:21, structure PASS)"
+    },
+    {
+     "face": "unlock_eval",
+     "present": true,
+     "n_unlock": 7,
+     "n_stay_locked": 1,
+     "ref": "results/fund_h_unlock_eval.json (T-145 leg b)"
+    },
+    {
+     "face": "dataset_complete",
+     "present": true,
+     "done_symbols": 5224,
+     "ref": "results/fund_history_status.json (T-131)"
+    }
+   ],
+   "frozen_families": [
+    {
+     "family": "FUND-VALUE-P1",
+     "prereg_frozen": true,
+     "freeze_evidence": "pool prereg_ref FROZEN + template freeze clause",
+     "pool": {
+      "n_entries": 6,
+      "by_status": {
+       "done": 5,
+       "ready": 1
+      },
+      "done_share": 0.8333333333333334,
+      "ids": [
+       "FUND-VALUE-P1-CELL-VALUEPB-X1",
+       "FUND-VALUE-P1-CELL-VALUEPB-X2",
+       "FUND-VALUE-P1-CELL-VALUEPE-X1",
+       "FUND-VALUE-P1-CELL-VALUEPE-X2",
+       "FUND-VALUE-P1-NULLS",
+       "FUND-VALUE-P1-SENS"
+      ]
+     }
+    },
+    {
+     "family": "FUND-QUALITY-P1",
+     "prereg_frozen": true,
+     "freeze_evidence": "pool prereg_ref FROZEN + template freeze clause",
+     "pool": {
+      "n_entries": 4,
+      "by_status": {
+       "done": 3,
+       "ready": 1
+      },
+      "done_share": 0.75,
+      "ids": [
+       "FUND-QUALITY-P1-CELL-QUALITYROE-X1",
+       "FUND-QUALITY-P1-CELL-QUALITYROE-X2",
+       "FUND-QUALITY-P1-NULLS",
+       "FUND-QUALITY-P1-SENS"
+      ]
+     }
+    },
+    {
+     "family": "FUND-DIVLOWVOL-P1",
+     "prereg_frozen": true,
+     "freeze_evidence": "pool prereg_ref FROZEN + template freeze clause",
+     "pool": {
+      "n_entries": 4,
+      "by_status": {
+       "done": 3,
+       "ready": 1
+      },
+      "done_share": 0.75,
+      "ids": [
+       "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
+       "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X2",
+       "FUND-DIVLOWVOL-P1-NULLS",
+       "FUND-DIVLOWVOL-P1-SENS"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "item": 2,
+   "title": "深轴低振幅新家族prereg在池",
+   "status": "met",
+   "evidence": [
+    {
+     "face": "prereg_frozen",
+     "present": true,
+     "freeze_evidence": "pool prereg_ref FROZEN + template freeze clause",
+     "ref": "research/LOWAMP-DEEP-P1.md"
+    },
+    {
+     "face": "pool_state",
+     "present": true,
+     "n_entries": 10,
+     "by_status": {
+      "done": 10
+     },
+     "done_share": 1.0,
+     "ids": [
+      "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-BASE",
+      "LOWAMP-DEEP-P1-CELL-LADEDGE-DEEP-X2",
+      "LOWAMP-DEEP-P1-CELL-LADEDGEEQ-DEEP-BASE",
+      "LOWAMP-DEEP-P1-CELL-LADEDGEEQ-DEEP-X2",
+      "LOWAMP-DEEP-P1-CELL-LADREP-DEEP-BASE",
+      "LOWAMP-DEEP-P1-CELL-LADREP-DEEP-X2",
+      "LOWAMP-DEEP-P1-CELL-LADREPEQ-DEEP-BASE",
+      "LOWAMP-DEEP-P1-CELL-LADREPEQ-DEEP-X2",
+      "LOWAMP-DEEP-P1-NULLS",
+      "LOWAMP-DEEP-P1-SENS"
+     ]
+    }
+   ]
+  },
+  {
+   "item": 3,
+   "title": "千人wave-2判决面",
+   "status": "met",
+   "verdict_note": "judged LANDED r444 -- honest NEGATIVE: eligible_g2=0 (E[FP]=40.25 @ nominal 5%), funnel does not survive G2 at thousand-scale",
+   "evidence": [
+    {
+     "face": "w2_judge",
+     "present": true,
+     "n_judge_cells": 805,
+     "n_eligible_g2": 0,
+     "n_stage1_survivors": 806,
+     "evidence_cutoff": "2026-09-22",
+     "ref": "results/mass_trial/w2_judge.json + T-158 r444"
+    }
+   ]
+  },
+  {
+   "window_start": "2026-10-02 21:15",
+   "per_machine": {
+    "bm-a": {
+     "missing": false,
+     "launches": 37,
+     "classes": {
+      "o2115_new": 27,
+      "other_lines": 8,
+      "perpetual_continuation": 2
+     }
+    },
+    "bm-b": {
+     "missing": false,
+     "launches": 21,
+     "classes": {
+      "o2115_new": 18,
+      "other_lines": 3
+     }
+    },
+    "bm-c": {
+     "missing": false,
+     "launches": 23,
+     "classes": {
+      "o2115_new": 13,
+      "other_lines": 5,
+      "perpetual_continuation": 5
+     }
+    }
+   },
+   "total_launches": 81,
+   "class_totals": {
+    "o2115_new": 58,
+    "other_lines": 16,
+    "perpetual_continuation": 7
+   },
+   "o2115_new_share": 0.7160493827160493,
+   "title": "引擎火力分布新面孔占比",
+   "item": 4,
+   "status": "met"
+  }
+ ],
+ "risk_flags": [
+  {
+   "flag": "fund_trio_nulls_pool_state",
+   "state": {
+    "FUND-VALUE-P1-NULLS": "ready",
+    "FUND-QUALITY-P1-NULLS": "ready",
+    "FUND-DIVLOWVOL-P1-NULLS": "ready"
+   },
+   "note": "rightful burner = bm-b per MSG-1132/MSG-1155 division (r617-r620); off-caliber-era burns killed+discarded (r622/r629); finalize window 10-05..10-09"
+  },
+  {
+   "flag": "pre_ruling_G_SEG",
+   "note": "G-SEG structural: monthly-freq chop=14<50 -> verdict=insufficient-sample before all gates; GM ruling pending (bm-a zero unilateral action, r633 MSG-2026-10-03-1720)"
+  },
+  {
+   "flag": "pre_ruling_VALUE_passive",
+   "note": "FUND-VALUE cmd_finalize passive-window crash (t0=1994-05-03 -> base_j=0); owner-fix = bm-b (r633 MSG-2026-10-03-1720)"
+  },
+  {
+   "flag": "n1_supply",
+   "note": "W116+ N1 supply assessment: O-2115 sec-2 supply priority = new-direction furnaces > perpetual N1 deep-dig (113 waves diminishing); fund-trio in flight -> N1 stays closed this window"
+  }
+ ],
+ "summary": {
+  "n_met": 4,
+  "statuses": [
+   "met",
+   "met",
+   "met",
+   "met"
+  ],
+  "pack_verdict": "ALL_MET"
+ }
+}
