@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 04:18:05",
+ "generated_at": "2026-10-04 04:33:02",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 576,
+  "commits_24h": 583,
   "result_jsons_landed_24h": 150,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 31,
+  "prereg_md_touched_24h": 29,
   "compute_audit_latest": {
-   "ts": "2026-10-04 04:16:30",
-   "py_cpu_pct": 85.3,
+   "ts": "2026-10-04 04:31:02",
+   "py_cpu_pct": 0.1,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -639,22 +639,15 @@
    "type": "trial-labor-standing-wave",
    "immediate": false,
    "owner": "bm-c (OS iteration loop, round 422)"
-  },
-  {
-   "id": "T-2026-10-04-165",
-   "status": "claimed",
-   "type": "theme-ring-research-r3",
-   "immediate": true,
-   "owner": "bm-a"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1135733,
+  "total_report_tokens_est": 1136472,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-04 03:35:47",
+   "prev_generated": "2026-10-04 04:02:25",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 763,
+   "report_tokens_growth": 739,
    "mandate_growth": 0
   },
   "method": {
@@ -665,33 +658,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 03:09:00",
+    "latest_ts": "2026-10-04 04:31:02",
     "py_pct": 0.1,
-    "cpu_pct": 1.0,
+    "cpu_pct": 7.0,
     "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "00:08",
-      84.8
-     ],
-     [
-      "00:20",
-      0.4
-     ],
-     [
-      "00:43",
-      0.3
-     ],
-     [
-      "01:06",
-      96.9
-     ],
-     [
-      "01:25",
-      4.7
-     ],
      [
       "01:50",
       4.7
@@ -719,12 +692,32 @@
      [
       "03:09",
       0.1
+     ],
+     [
+      "03:32",
+      85.6
+     ],
+     [
+      "03:32",
+      4.7
+     ],
+     [
+      "03:59",
+      86.7
+     ],
+     [
+      "04:16",
+      85.3
+     ],
+     [
+      "04:31",
+      0.1
      ]
     ],
-    "today_samples": 12,
-    "today_floor_ok": 12,
+    "today_samples": 17,
+    "today_floor_ok": 17,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 4
+    "today_supply_gap_flags": 5
    },
    "bm-b": {
     "latest_ts": "2026-10-04 04:16:30",
@@ -789,17 +782,13 @@
     "today_supply_gap_flags": 5
    },
    "bm-c": {
-    "latest_ts": "2026-10-04 03:53:44",
-    "py_pct": 5.2,
-    "cpu_pct": 2.0,
+    "latest_ts": "2026-10-04 04:09:13",
+    "py_pct": 5.5,
+    "cpu_pct": 3.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "01:06",
-      96.9
-     ],
      [
       "01:25",
       4.7
@@ -843,12 +832,16 @@
      [
       "03:53",
       5.2
+     ],
+     [
+      "04:09",
+      5.5
      ]
     ],
-    "today_samples": 15,
-    "today_floor_ok": 15,
+    "today_samples": 16,
+    "today_floor_ok": 16,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 5
+    "today_supply_gap_flags": 6
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -870,7 +863,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 03:09:00"
+     "audit_ts": "2026-10-04 04:31:02"
     }
    },
    "bm-b": {
@@ -902,7 +895,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 03:53:44"
+     "audit_ts": "2026-10-04 04:09:13"
     }
    }
   },
