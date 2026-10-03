@@ -1,0 +1,58 @@
+{
+ "ts": "2026-10-03 19:33:28",
+ "round": "r638 bm-a",
+ "law": "archive-not-delete R1 family + r270 S2-ADJUDICATION pointer-fix precedent",
+ "root_cause": "r624 CEO-order-2 script-archive completion (1065 one-off _r* scripts moved to .codely-cli/scripts-archive)",
+ "repointed": [
+  {
+   "row_id": "T-73-CN-REV-TILT-P1",
+   "from": "results/_r248bma_cnrev_harvest.py",
+   "to": ".codely-cli/scripts-archive/_r248bma_cnrev_harvest.py"
+  },
+  {
+   "row_id": "T-73-CN-DIV-LOWVOL-ROT-P1",
+   "from": "results/_r252bma_rot_harvest.py",
+   "to": ".codely-cli/scripts-archive/_r252bma_rot_harvest.py"
+  },
+  {
+   "row_id": "R252-BMA-LEDGER-CHAIN-REPAIR",
+   "from": "results/_r252bma_ledger_census.py",
+   "to": ".codely-cli/scripts-archive/_r252bma_ledger_census.py"
+  },
+  {
+   "row_id": "R252-BMA-LEDGER-CHAIN-REPAIR",
+   "from": "results/_r252bma_ledger_chain_repair.py",
+   "to": ".codely-cli/scripts-archive/_r252bma_ledger_chain_repair.py"
+  },
+  {
+   "row_id": "T-73-CN-REGIME-POLICY-P1",
+   "from": "results/_r256bma_rp_harvest.py",
+   "to": ".codely-cli/scripts-archive/_r256bma_rp_harvest.py"
+  },
+  {
+   "row_id": "T-83-S3-GM-SLICE2",
+   "from": "results/_r270bma_orders_index_md.py",
+   "to": ".codely-cli/scripts-archive/_r270bma_orders_index_md.py"
+  },
+  {
+   "row_id": "T-83-S3-GM-SLICE2",
+   "from": "results/_r270bma_pointer_fixes.py",
+   "to": ".codely-cli/scripts-archive/_r270bma_pointer_fixes.py"
+  },
+  {
+   "row_id": "T-87-REV-OSC-P1",
+   "from": "results/_r282bma_revosc_harvest.py",
+   "to": ".codely-cli/scripts-archive/_r282bma_revosc_harvest.py"
+  },
+  {
+   "row_id": "T-86-S2-CENSUS-FUS-W1",
+   "from": "results/_r290bma_censusfus_harvest.py",
+   "to": ".codely-cli/scripts-archive/_r290bma_censusfus_harvest.py"
+  }
+ ],
+ "n_repointed": 9,
+ "g1_roundtrip_byte_equal": true,
+ "g2_all_anchors_resolve": true,
+ "g3_idempotent_second_pass_zero_candidates": true,
+ "verdicts": "re-derived by Tools/post_review.py run in same round; ledger rows appended by reviewer, never hand-flipped"
+}
