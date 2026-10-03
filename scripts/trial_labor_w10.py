@@ -2475,6 +2475,11 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
     return 0
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
     landed = tl6.finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
@@ -3260,6 +3265,11 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
     return 0
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
     landed = tl6.finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)

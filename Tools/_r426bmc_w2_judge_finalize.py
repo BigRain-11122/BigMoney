@@ -25,6 +25,11 @@ ARTIFACTS = ["w2_judge.json"]
 OUT_DIR = os.path.join(ROOT, "results", "mass_trial")
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def spawn():
     flags = (subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
              | subprocess.CREATE_NO_WINDOW)

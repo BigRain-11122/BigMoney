@@ -1140,6 +1140,11 @@ def _load_screen_rows():
     return rows
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
     landed = finalize_already_landed(f"{WAVE}_SCREEN",
@@ -1430,6 +1435,11 @@ def cmd_judge_prep() -> int:
     return 0
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
     landed = finalize_already_landed(f"{WAVE}_JUDGE",

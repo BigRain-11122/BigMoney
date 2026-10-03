@@ -787,6 +787,11 @@ def _screen_one_wrap(ctx, row):
                 "error": f"{type(ex).__name__}: {ex}"[:200]}
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_finalize(args):
     """Aggregate checkpoint -> stage-1 survivors + honest funnel accounting.
     Ledger entry embedded under trials_ledger (r252 law); one-chain
@@ -1220,6 +1225,11 @@ def cmd_judge(args):
     return 0
 
 
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
 def cmd_judge_finalize(args):
     """Aggregate shards -> G1'v2 + DSR + family PBO + G2 + E[FP] + verdicts
     + ledger append (single-shot guard: a complete product is never
