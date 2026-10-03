@@ -1,0 +1,117 @@
+{
+ "asof_date": "2026-10-03",
+ "capture_close": "2026-10-09",
+ "exam_date": "2026-10-31",
+ "exam_day_sequence": [
+  "regenerate this runbook (python scripts/monthly_exam_prep.py runbook --month 2026-10); phase must read exam_day",
+  "verify frozen fingerprints: roster/accounts/criteria sha256-16 values must equal the values recorded here; drift = gate red, version a new file, never edit in place",
+  "six-face assembly: roster + accounts + criteria frozen (no re-capture); SYSTEM-V1 + REV-OSC readouts come from their owner lanes",
+  "promotion/demotion evaluation: firm/hr.py THRESHOLDS + FIRE rules exactly as frozen in the criteria face (single-source, zero hand-tuning on exam day)",
+  "honest reporting: negative results as-is; PROS observation-lane excluded from the CEO face; insufficient_data stats never quoted as annualized",
+  "output: exam one-pager under docs/monthly_exam/2026-10/ (T-105 one-pager precedent) + freeze receipt committed"
+ ],
+ "exam_month": "2026-10",
+ "faces": [
+  {
+   "artifact": "roster_monthopen_baseline.json",
+   "command": "python scripts/monthly_exam_prep.py roster --month 2026-10",
+   "face": 1,
+   "kind": "frozen",
+   "name": "roster",
+   "owner_lane": "bm-c (T-143 owner)",
+   "sha256_16": "c5e1e273e9e1ed93",
+   "status": "FROZEN sha16=c5e1e273e9e1ed93"
+  },
+  {
+   "artifact": null,
+   "command": "bm-a lane: system_v1_paper month readout (assembly command lands with the face)",
+   "face": 2,
+   "kind": "pending",
+   "name": "SYSTEM-V1",
+   "owner_lane": "bm-a primary (SYSTEM_V1_PREREG author precedent)",
+   "sha256_16": null,
+   "status": "PENDING (assembly window)"
+  },
+  {
+   "artifact": null,
+   "command": "family-owner lane: rev_osc state assembly (assembly command lands with the face)",
+   "face": 3,
+   "kind": "pending",
+   "name": "REV-OSC",
+   "owner_lane": "family-owner lane (ETF oversold-rebound family)",
+   "sha256_16": null,
+   "status": "PENDING (assembly window)"
+  },
+  {
+   "artifact": "accounts_monthopen_baseline.json",
+   "command": "python scripts/monthly_exam_prep.py baseline --month 2026-10",
+   "face": 4,
+   "kind": "frozen",
+   "name": "accounts",
+   "owner_lane": "bm-c (T-143 owner)",
+   "sha256_16": "9cddb73e51a5fd91",
+   "status": "FROZEN sha16=9cddb73e51a5fd91"
+  },
+  {
+   "artifact": "criteria_freeze.json",
+   "command": "python scripts/monthly_exam_prep.py criteria --month 2026-10",
+   "face": 5,
+   "kind": "frozen",
+   "name": "criteria",
+   "owner_lane": "bm-c (T-143 owner)",
+   "sha256_16": "9a7b925a0b93e954",
+   "status": "FROZEN sha16=9a7b925a0b93e954"
+  },
+  {
+   "artifact": "runbook.json",
+   "command": "python scripts/monthly_exam_prep.py runbook --month 2026-10",
+   "face": 6,
+   "kind": "active",
+   "name": "runbook",
+   "owner_lane": "bm-c (this generator, T-143 owner)",
+   "sha256_16": null,
+   "status": "ACTIVE (this generator; self-excluded from fingerprints)"
+  }
+ ],
+ "faults": [],
+ "gates": [
+  "zero new judgment on exam day (pure aggregation, T-143 spec face 6 verbatim)",
+  "no new burns on exam day (T-143 spec: prep/aggregation only; any judged work rides its own prereg per TRIAL_LABOR_LAW)",
+  "baselines do-not-overwrite after 2026-10-09; capture gates rc2 after that date = verify-only signal, never worked around",
+  "PROSPECT accounts are observation-lane (O-2045) -- never scored in exam tables",
+  "window_metrics insufficient_data suppression (D-20260930-27 Q3) carried, never quoted as annualized stats",
+  "negative results reported as-is, no makeup"
+ ],
+ "phase": "capture_window_open",
+ "phase_schedule": [
+  {
+   "action": "month-open baselines captured during golden week (DONE r405-r407); do-not-overwrite",
+   "phase": "capture_window_open",
+   "window": "until 2026-10-08"
+  },
+  {
+   "action": "capture gates close 10-09 (rc2 = verify-only signal, correct); faces 2/3 assembly on owner lanes; T-2 deliverable 10-29",
+   "phase": "assembly_window",
+   "window": "2026-10-09 .. 2026-10-29"
+  },
+  {
+   "action": "verify-only: selftest + runbook regeneration, all six faces PRESENT, no new artifacts",
+   "phase": "freeze_eve",
+   "window": "2026-10-30"
+  },
+  {
+   "action": "EXAM: pure aggregation, zero new judgment, no new burns (T-143 spec face 6 verbatim)",
+   "phase": "exam_day",
+   "window": "2026-10-31"
+  },
+  {
+   "action": "results readout; any change to frozen faces = version a new file, never edit in place",
+   "phase": "post_exam",
+   "window": "2026-11-01 .."
+  }
+ ],
+ "regeneration_note": "date-driven by spec: asof_date + phase inside; byte-stable within a day; this face is the living ops doc, NOT a frozen baseline -- regeneration is expected and is the exam-day verify mechanism",
+ "schema": "monthly-exam-runbook/1.0",
+ "t2_deliverable": "2026-10-29",
+ "ticket": "T-2026-10-01-143 (face 6 exam-day runbook; O-20261001-2355 sec.3 board lining)"
+}

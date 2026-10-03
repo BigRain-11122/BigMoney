@@ -29,10 +29,18 @@ reported honestly, never masked.
      zero engine, zero new judgment, zero bar-data dependency (criteria face
      carries no month-open gate -- values are frozen law, not state).
 
+  s4 runbook (face 6) -- date-driven exam-day runbook: six-face status with
+     sha256-16 fingerprints of the frozen artifacts (zero hand-copying),
+     phase schedule derived from the calendar, exam-day sequence under the
+     zero-new-judgment law (pure aggregation per T-105 one-pager precedent).
+     Regenerable BY DESIGN (asof_date inside, byte-stable within a day) --
+     the runbook is the living ops face, not a frozen baseline.
+
 CLI:
   python scripts/monthly_exam_prep.py baseline [--month 2026-10]
   python scripts/monthly_exam_prep.py roster   [--month 2026-10]
   python scripts/monthly_exam_prep.py criteria [--month 2026-10]
+  python scripts/monthly_exam_prep.py runbook  [--month 2026-10]
   python scripts/monthly_exam_prep.py selftest
 """
 import argparse
@@ -43,6 +51,9 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MONTH_OPEN_BAR = "2026-09-30"  # last bar before 2026-10-01 boundary (golden week)
+EXAM_DATE = "2026-10-31"       # month-boundary first exam (T-143 spec, frozen)
+EXAM_T2_DELIVERABLE = "2026-10-29"  # T-2 days deliverable deadline (T-143 spec)
+CAPTURE_CLOSE = "2026-10-09"   # bars resume; month-open capture gates close
 GOLDEN_WEEK_NOTE = (
     "pinned during 2026-10 golden-week holiday window: no bars between "
     "2026-09-30 and 2026-10-09, so this capture == month-open state; "
@@ -703,6 +714,203 @@ def cmd_criteria(month):
     return 0
 
 
+# -------------------------------------------------- T-143 face 6 runbook
+RUNBOOK_FACES = [
+    # (face_no, name, owner_lane, command, artifact, kind)
+    # kind: frozen = month-open capture (do-not-overwrite after 10-09);
+    #       pending = assembly-window face (owner lane, lands with its own
+    #       assembly command); active = this generator (regenerable).
+    (1, "roster", "bm-c (T-143 owner)",
+     "python scripts/monthly_exam_prep.py roster --month 2026-10",
+     "roster_monthopen_baseline.json", "frozen"),
+    (2, "SYSTEM-V1", "bm-a primary (SYSTEM_V1_PREREG author precedent)",
+     "bm-a lane: system_v1_paper month readout (assembly command lands with the face)",
+     None, "pending"),
+    (3, "REV-OSC", "family-owner lane (ETF oversold-rebound family)",
+     "family-owner lane: rev_osc state assembly (assembly command lands with the face)",
+     None, "pending"),
+    (4, "accounts", "bm-c (T-143 owner)",
+     "python scripts/monthly_exam_prep.py baseline --month 2026-10",
+     "accounts_monthopen_baseline.json", "frozen"),
+    (5, "criteria", "bm-c (T-143 owner)",
+     "python scripts/monthly_exam_prep.py criteria --month 2026-10",
+     "criteria_freeze.json", "frozen"),
+    (6, "runbook", "bm-c (this generator, T-143 owner)",
+     "python scripts/monthly_exam_prep.py runbook --month 2026-10",
+     "runbook.json", "active"),
+]
+
+RUNBOOK_PHASES = [
+    ("capture_window_open", "until 2026-10-08",
+     "month-open baselines captured during golden week (DONE r405-r407); do-not-overwrite"),
+    ("assembly_window", "2026-10-09 .. 2026-10-29",
+     "capture gates close 10-09 (rc2 = verify-only signal, correct); faces 2/3 assembly on owner lanes; T-2 deliverable 10-29"),
+    ("freeze_eve", "2026-10-30",
+     "verify-only: selftest + runbook regeneration, all six faces PRESENT, no new artifacts"),
+    ("exam_day", "2026-10-31",
+     "EXAM: pure aggregation, zero new judgment, no new burns (T-143 spec face 6 verbatim)"),
+    ("post_exam", "2026-11-01 ..",
+     "results readout; any change to frozen faces = version a new file, never edit in place"),
+]
+
+RUNBOOK_GATES = (
+    "zero new judgment on exam day (pure aggregation, T-143 spec face 6 verbatim)",
+    "no new burns on exam day (T-143 spec: prep/aggregation only; any judged work rides its own prereg per TRIAL_LABOR_LAW)",
+    "baselines do-not-overwrite after %s; capture gates rc2 after that date = verify-only signal, never worked around" % CAPTURE_CLOSE,
+    "PROSPECT accounts are observation-lane (O-2045) -- never scored in exam tables",
+    "window_metrics insufficient_data suppression (D-20260930-27 Q3) carried, never quoted as annualized stats",
+    "negative results reported as-is, no makeup",
+)
+
+EXAM_DAY_SEQUENCE = (
+    "regenerate this runbook (python scripts/monthly_exam_prep.py runbook --month 2026-10); phase must read exam_day",
+    "verify frozen fingerprints: roster/accounts/criteria sha256-16 values must equal the values recorded here; drift = gate red, version a new file, never edit in place",
+    "six-face assembly: roster + accounts + criteria frozen (no re-capture); SYSTEM-V1 + REV-OSC readouts come from their owner lanes",
+    "promotion/demotion evaluation: firm/hr.py THRESHOLDS + FIRE rules exactly as frozen in the criteria face (single-source, zero hand-tuning on exam day)",
+    "honest reporting: negative results as-is; PROS observation-lane excluded from the CEO face; insufficient_data stats never quoted as annualized",
+    "output: exam one-pager under docs/monthly_exam/2026-10/ (T-105 one-pager precedent) + freeze receipt committed",
+)
+
+
+def _sha16_file(path):
+    import hashlib
+    try:
+        with io.open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()[:16]
+    except OSError:
+        return None
+
+
+def _exam_phase(today):
+    import datetime as _dt
+    d = today if isinstance(today, _dt.date) else _dt.date.fromisoformat(str(today))
+    if d > _dt.date.fromisoformat(EXAM_DATE):
+        return "post_exam"
+    if d == _dt.date.fromisoformat(EXAM_DATE):
+        return "exam_day"
+    if d == _dt.date.fromisoformat("2026-10-30"):
+        return "freeze_eve"
+    if d >= _dt.date.fromisoformat(CAPTURE_CLOSE):
+        return "assembly_window"
+    return "capture_window_open"
+
+
+def _collect_runbook_faces(month):
+    out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
+    rows = []
+    for face_no, name, owner, command, artifact, kind in RUNBOOK_FACES:
+        row = {
+            "face": face_no, "name": name, "owner_lane": owner,
+            "command": command, "artifact": artifact, "kind": kind,
+        }
+        if kind == "pending":
+            row["status"] = "PENDING (assembly window)"
+            row["sha256_16"] = None
+        elif kind == "active":
+            # self-referential hash churn: a file cannot stably fingerprint
+            # itself (each regeneration would embed the previous hash) --
+            # the active generator face is self-excluded by construction.
+            row["sha256_16"] = None
+            row["status"] = "ACTIVE (this generator; self-excluded from fingerprints)"
+        else:
+            sha = _sha16_file(os.path.join(out_dir, artifact)) if artifact else None
+            row["sha256_16"] = sha
+            row["status"] = ("FROZEN sha16=%s" % sha) if sha else "MISSING"
+        rows.append(row)
+    return rows
+
+
+def _runbook_payload(month, today):
+    import datetime as _dt
+    d = today if isinstance(today, _dt.date) else _dt.date.fromisoformat(str(today))
+    faces = _collect_runbook_faces(month)
+    return {
+        "schema": "monthly-exam-runbook/1.0",
+        "ticket": "T-2026-10-01-143 (face 6 exam-day runbook; O-20261001-2355 sec.3 board lining)",
+        "exam_month": month,
+        "exam_date": EXAM_DATE,
+        "t2_deliverable": EXAM_T2_DELIVERABLE,
+        "capture_close": CAPTURE_CLOSE,
+        "phase": _exam_phase(d),
+        "asof_date": d.isoformat(),
+        "regeneration_note": (
+            "date-driven by spec: asof_date + phase inside; byte-stable within a "
+            "day; this face is the living ops doc, NOT a frozen baseline -- "
+            "regeneration is expected and is the exam-day verify mechanism"
+        ),
+        "phase_schedule": [
+            {"phase": p, "window": w, "action": a} for p, w, a in RUNBOOK_PHASES
+        ],
+        "faces": faces,
+        "exam_day_sequence": list(EXAM_DAY_SEQUENCE),
+        "gates": list(RUNBOOK_GATES),
+        "faults": [],
+    }
+
+
+def cmd_runbook(month):
+    import datetime as _dt
+    payload = _runbook_payload(month, _dt.date.today())
+    missing = [r["name"] for r in payload["faces"] if r["status"] == "MISSING"]
+    if missing:
+        for m in missing:
+            sys.stderr.write("FAULT: frozen/active artifact missing: %s\n" % m)
+        return 2
+    out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
+    os.makedirs(out_dir, exist_ok=True)
+    jpath = os.path.join(out_dir, "runbook.json")
+    mpath = os.path.join(out_dir, "runbook.md")
+    with io.open(jpath, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1, sort_keys=True)
+        fh.write("\n")
+    lines = [
+        "# Monthly exam %s -- runbook face: date-driven exam-day assembly" % month,
+        "",
+        "- ticket: T-2026-10-01-143 face 6 (O-20261001-2355 sec.3)",
+        "- exam date: %s (month-boundary first exam); T-2 deliverable: %s" % (EXAM_DATE, EXAM_T2_DELIVERABLE),
+        "- phase TODAY (%s): %s" % (payload["asof_date"], payload["phase"]),
+        "- law: exam day = pure aggregation, zero new judgment (T-105 one-pager precedent); this file regenerates (asof_date inside), NOT a frozen baseline",
+        "",
+        "## Phase schedule",
+        "",
+        "| phase | window | action |",
+        "|---|---|---|",
+    ]
+    for p, w, a in RUNBOOK_PHASES:
+        lines.append("| %s | %s | %s |" % (p, w, a))
+    lines += [
+        "",
+        "## Six-face status (sha256-16 fingerprints regenerated at write time)",
+        "",
+        "| # | face | owner lane | status | assembly command |",
+        "|---|---|---|---|---|",
+    ]
+    for r in payload["faces"]:
+        lines.append("| %d | %s | %s | %s | %s |" % (
+            r["face"], r["name"], r["owner_lane"], r["status"], r["command"]))
+    lines += [
+        "",
+        "## Exam-day sequence (zero new judgment)",
+        "",
+    ]
+    for i, step in enumerate(payload["exam_day_sequence"], 1):
+        lines.append("%d. %s" % (i, step))
+    lines += [
+        "",
+        "## Gates (verbatim law echoes)",
+        "",
+    ]
+    for g in payload["gates"]:
+        lines.append("- %s" % g)
+    with io.open(mpath, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines) + "\n")
+    n_frozen = len([r for r in payload["faces"] if r["status"].startswith("FROZEN")])
+    n_pending = len([r for r in payload["faces"] if r["status"].startswith("PENDING")])
+    sys.stdout.write("runbook: phase=%s asof=%s frozen=%d pending=%d -> %s\n" % (
+        payload["phase"], payload["asof_date"], n_frozen, n_pending, jpath))
+    return 0
+
+
 def _selftest():
     ok = [0]
     bad = [0]
@@ -848,6 +1056,32 @@ def _selftest():
         "O-2045" in _ha and "no makeup" in _ha and "insufficient_data" in _ha
         and "D-20260930-27" in _ha)
 
+    # ---- runbook face (face 6) legs: date-driven assembly
+    import datetime as _dt2
+    # leg23: phase derivation pure on injected date (no wallclock dependence in test)
+    leg("runbook phase derivation",
+        _exam_phase(_dt2.date(2026, 10, 5)) == "capture_window_open"
+        and _exam_phase(_dt2.date(2026, 10, 9)) == "assembly_window"
+        and _exam_phase(_dt2.date(2026, 10, 15)) == "assembly_window"
+        and _exam_phase(_dt2.date(2026, 10, 29)) == "assembly_window"
+        and _exam_phase(_dt2.date(2026, 10, 30)) == "freeze_eve"
+        and _exam_phase(_dt2.date(2026, 10, 31)) == "exam_day"
+        and _exam_phase(_dt2.date(2026, 11, 2)) == "post_exam")
+    # leg24: face-table statuses on real repo state (frozen present, pending honest)
+    _rfmap = {r["face"]: r for r in _collect_runbook_faces("2026-10")}
+    leg("runbook face statuses real-state",
+        _rfmap[1]["status"].startswith("FROZEN")
+        and _rfmap[4]["status"].startswith("FROZEN")
+        and _rfmap[5]["status"].startswith("FROZEN")
+        and _rfmap[2]["status"].startswith("PENDING")
+        and _rfmap[3]["status"].startswith("PENDING")
+        and _rfmap[6]["status"].startswith("ACTIVE"))
+    # leg25: payload same-day determinism (asof_date inside, byte-stable within a day)
+    _today = _dt2.date.today()
+    _rb1 = json.dumps(_runbook_payload("2026-10", _today), sort_keys=True).encode("utf-8")
+    _rb2 = json.dumps(_runbook_payload("2026-10", _today), sort_keys=True).encode("utf-8")
+    leg("runbook payload same-day determinism", _rb1 == _rb2 and len(_rb1) > 500)
+
     sys.stdout.write("selftest: %d PASS, %d FAIL\n" % (ok[0], bad[0]))
     return 0 if bad[0] == 0 else 1
 
@@ -861,6 +1095,8 @@ def main(argv):
     rp.add_argument("--month", default="2026-10")
     cp = sub.add_parser("criteria", help="freeze exam criteria: hr thresholds + gate anchors (face 5)")
     cp.add_argument("--month", default="2026-10")
+    rbp = sub.add_parser("runbook", help="date-driven exam-day runbook (face 6): six-face status + sequence, zero new judgment")
+    rbp.add_argument("--month", default="2026-10")
     sub.add_parser("selftest", help="offline self-check")
     args = ap.parse_args(argv)
     if args.cmd == "selftest":
@@ -871,6 +1107,8 @@ def main(argv):
         return cmd_roster(args.month)
     if args.cmd == "criteria":
         return cmd_criteria(args.month)
+    if args.cmd == "runbook":
+        return cmd_runbook(args.month)
     ap.print_help()
     return 2
 
