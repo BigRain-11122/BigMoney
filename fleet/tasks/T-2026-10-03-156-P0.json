@@ -1,0 +1,15 @@
+{
+ "id": "T-2026-10-03-156",
+ "priority": "P0",
+ "type": "transfer",
+ "immediate": true,
+ "spec": "P0 cache-caliber containment transfer (bm-a MSG-0827 sec.5 request; r105 no-regenerate law): bm-b -> bm-a, dataset = Money02/data/cache/p1c_stock/ CORE 13 files (9 exchange-field npy: amount/close/high/low/open/pct_chg/turnover/volume/vwap + turnover_derived.npy + dates.npy + meta.json + turnover_derived.meta.json; 1,836,548,747 bytes total, sender manifest full_hash fleet/transfers/T-2026-10-03-156-sender.json). This is the correct-caliber copy: cache built AFTER volume_688_fix (meta vwap_688_check gate present; certified cross-machine via bm-c MSG-0842 forensics: PB_x2 burned from this copy ac8519fd2 = correct; PE_x1 4e916d599 same lineage). Channel = B2 croc relay per fleet/TRANSFER.md sec.3 (1.84GB > git single-file 95MB cap x 10 files; both machines online). Sender leg: croc send --code bm-p1cstock-q7v3 running detached since ~09:07 local, code valid 2h (expires ~11:07; if expired bm-b re-issues new code via inbox). Receiver SOP (bm-a): (1) croc --yes receive --code bm-p1cstock-q7v3 --output Money02\\data\\cache\\p1c_stock.incoming (lands as p1c_stock.incoming\\p1c_stock\\*); (2) generate receiver manifest + -Verify vs sender json on the landed dir; (3) swap: rename existing Money02\\data\\cache\\p1c_stock -> p1c_stock.off-caliber-quarantine-20261003, rename p1c_stock.incoming\\p1c_stock -> p1c_stock; (4) run MSG-0827 sec.5 four-point verify on final path: (a) meta vwap_688_check gate=true, (b) content hashes == sender manifest, (c) 688 magnitude spot-check (688001 amount/close median ~1.84e6 shares NOT 1.84e8), (d) divergent-start n_base spot-check (2020-12 cohort) matches bm-b n_base column; (5) then clear crash-fuse sig scripts/fund_quality_p1.py|run,--sensitivity + re-claim FUND-QUALITY-P1-SENS per division (MSG-0857 sec.2). Quarantine dir deletion = bm-a call after first clean burn. mktcap_raw.npy + mktcap_raw.meta.json NOT included (bm-a local-only T-73 s2 SIZE-face sidecar, built from raw_close x osh — UNAFFECTED by the 688 volume/amount 100x bug; fund family runners do not consume it per grep; keep your local copy, no mixing hazard — disclosed in MSG-0909).",
+ "status": "in_progress",
+ "result_ref": "sender leg: fleet/transfers/T-2026-10-03-156-sender.json (13 files / 1,836,548,747 bytes / full_hash=True); receiver manifest pending bm-a",
+ "created_by": "bm-b (OS iteration loop, round 611)",
+ "created_at": "2026-10-03 09:09:30",
+ "claimed_by": "bm-b (sender leg delivered same round per CEO immediate-law; receiver leg = bm-a)",
+ "claimed_at": "2026-10-03 09:09:30",
+ "note": "Data plane live: croc relay code bm-p1cstock-q7v3 (sent 09:07 local, 2h validity). Verify throughput per TRANSFER.md sec.3: if <500KB/s sustained 30min, escalate per protocol. Do NOT git the npy files (gitignore + 95MB cap law).",
+ "ticket_lineage": "bm-a r615 MSG-0827 sec.5; bm-c r404 MSG-0842 forensics; bm-b r611 MSG-0857 kill-advice chain"
+}
