@@ -1,0 +1,1235 @@
+{
+ "batch": "G2_SLOT_STOCK_P1",
+ "ticket": "T-2026-10-03-160-P1",
+ "prereg": "research/G2_SLOT_STOCK_P1.md",
+ "stage": "stage-1 enrichment census (exploration; zero registration claims)",
+ "evidence_cutoff": "2026-09-22",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "panel": {
+  "members_sha16": "abf3d43b9ca13ea5",
+  "n_members": 48,
+  "n_days": 1631,
+  "window": "2020-01-02..2026-09-22",
+  "mask_fraction": 0.970187,
+  "min_valid_per_member": 797,
+  "grid": {
+   "n_signal_days": 345,
+   "first_signal": "2020-01-02"
+  },
+  "ew48_definition": "fixed 1/48 weights, NaN->0 accrual, costless B&H (disclosed)",
+  "cost_faces_bp_per_side": {
+   "x1": 13.041,
+   "x2": 26.082
+  },
+  "vendor_head": "a770825f841504e41581f057b4d94160e6a50c2e"
+ },
+ "ban_rule": "sec.0.5: pure-price faces with price-change ranking content -> BAN-01/02 in-ledger verdict cited, never nominated; volume-price interaction faces judged by this census",
+ "audit": {
+  "network": "zero",
+  "deterministic": true,
+  "device": "cpu (torch)",
+  "engine": "none (census face)",
+  "budget_cap_s": 300,
+  "exit_axis": "hold-to-end weekly rank rotation (sec.0.6 census approximation, no price-type exit)"
+ },
+ "roster": {
+  "faces": [
+   "stock_001",
+   "stock_002",
+   "stock_003",
+   "stock_005",
+   "stock_006",
+   "stock_007",
+   "stock_010",
+   "stock_013",
+   "stock_014",
+   "stock_017",
+   "stock_019",
+   "stock_020",
+   "stock_021",
+   "stock_022"
+  ],
+  "n_faces": 14,
+  "downgraded_fundamental_lane": [],
+  "excluded_disclosure": "stock_009 DUP-FORMULA-VERIFIED (gtja191#46 in-ledger verdict cited, not re-burned) + 7 UNVERIFIABLE prose faces (stock_004/008/011/012/015/016/018, census frozen sec.4 state-4)",
+  "failed_faces": []
+ },
+ "nulls": {
+  "k": 20,
+  "seed": 20540000,
+  "substream": "rng([seed, k])",
+  "abs_mean_ic": [
+   0.000211,
+   0.000381,
+   0.001026,
+   0.001179,
+   0.001329,
+   0.001374,
+   0.001647,
+   0.0018,
+   0.002213,
+   0.002475,
+   0.002505,
+   0.003048,
+   0.004954,
+   0.005716,
+   0.007045,
+   0.007608,
+   0.00797,
+   0.008458,
+   0.009432,
+   0.013774
+  ],
+  "p95_abs_mean_ic": 0.009649,
+  "beat_rate_x2": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0333,
+   0.1,
+   0.1
+  ],
+  "beat_rate_x2_mean": 0.0117,
+  "indicator_ic_note": "null factor = weekly random selection indicator (1/0 within frozen base mask, held constant within week); mean daily rank-IC vs fwd-5d; se inflated by weekly persistence (honest)"
+ },
+ "faces": {
+  "stock_001": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "open",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": 0.002054,
+    "ic5_std": 0.210303,
+    "ic5_ir": 0.0098,
+    "ic5_n": 1623,
+    "ic1_mean": -0.005663,
+    "vendor_beyond_base_ct": 41
+   },
+   "x1": {
+    "ann": 0.0278,
+    "vol": 0.1992,
+    "sharpe": 0.1397,
+    "maxdd": -0.4467,
+    "total_ret": 0.0535,
+    "n_days": 1623,
+    "beat_rate": 0.2833,
+    "turnover_total": 434.0,
+    "n_rebal": 343
+   },
+   "x2": {
+    "ann": -0.0601,
+    "vol": 0.1999,
+    "sharpe": -0.3004,
+    "maxdd": -0.5905,
+    "total_ret": -0.4024,
+    "n_days": 1623,
+    "beat_rate": 0.1333,
+    "n_windows": 60,
+    "turnover_total": 434.0,
+    "n_rebal": 343
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.431289,
+   "d6_max_abs_corr": 0.3065,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.2297,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.3653,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6781,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 211,
+     "sleeve_cum": 0.1058,
+     "ew48_cum": 0.2077,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_002": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "open",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": -0.004154,
+    "ic5_std": 0.221528,
+    "ic5_ir": -0.0188,
+    "ic5_n": 1621,
+    "ic1_mean": -0.007601,
+    "vendor_beyond_base_ct": 53
+   },
+   "x1": {
+    "ann": 0.0453,
+    "vol": 0.2017,
+    "sharpe": 0.2244,
+    "maxdd": -0.411,
+    "total_ret": 0.1749,
+    "n_days": 1623,
+    "beat_rate": 0.3667,
+    "turnover_total": 389.75,
+    "n_rebal": 343
+   },
+   "x2": {
+    "ann": -0.0336,
+    "vol": 0.2023,
+    "sharpe": -0.1663,
+    "maxdd": -0.5442,
+    "total_ret": -0.2939,
+    "n_days": 1623,
+    "beat_rate": 0.1833,
+    "n_windows": 60,
+    "turnover_total": 389.75,
+    "n_rebal": 343
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.431289,
+   "d6_max_abs_corr": 0.2948,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.3517,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.3169,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6416,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 211,
+     "sleeve_cum": 0.1069,
+     "ew48_cum": 0.2077,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_003": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "vwap"
+   ],
+   "ic": {
+    "ic5_mean": -0.001811,
+    "ic5_std": 0.269961,
+    "ic5_ir": -0.0067,
+    "ic5_n": 1612,
+    "ic1_mean": -0.003057,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": 0.016,
+    "vol": 0.1602,
+    "sharpe": 0.0999,
+    "maxdd": -0.3572,
+    "total_ret": 0.0208,
+    "n_days": 1614,
+    "beat_rate": 0.3333,
+    "turnover_total": 344.75,
+    "n_rebal": 341
+   },
+   "x2": {
+    "ann": -0.0542,
+    "vol": 0.1611,
+    "sharpe": -0.3364,
+    "maxdd": -0.4864,
+    "total_ret": -0.3495,
+    "n_days": 1614,
+    "beat_rate": 0.05,
+    "n_windows": 60,
+    "turnover_total": 344.75,
+    "n_rebal": 341
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.535029,
+   "d6_max_abs_corr": 0.2828,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.0658,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.1997,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.5546,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 202,
+     "sleeve_cum": 0.1421,
+     "ew48_cum": 0.2953,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_005": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": 0.009633,
+    "ic5_std": 0.307549,
+    "ic5_ir": 0.0313,
+    "ic5_n": 1620,
+    "ic1_mean": -0.00728,
+    "vendor_beyond_base_ct": 57
+   },
+   "x1": {
+    "ann": -0.0006,
+    "vol": 0.2043,
+    "sharpe": -0.0027,
+    "maxdd": -0.4891,
+    "total_ret": -0.1288,
+    "n_days": 1623,
+    "beat_rate": 0.1667,
+    "turnover_total": 372.75,
+    "n_rebal": 343
+   },
+   "x2": {
+    "ann": -0.076,
+    "vol": 0.2049,
+    "sharpe": -0.371,
+    "maxdd": -0.5978,
+    "total_ret": -0.4647,
+    "n_days": 1623,
+    "beat_rate": 0.05,
+    "n_windows": 60,
+    "turnover_total": 372.75,
+    "n_rebal": 343
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.431289,
+   "d6_max_abs_corr": 0.2793,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.4919,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.1437,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6847,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 211,
+     "sleeve_cum": -0.0052,
+     "ew48_cum": 0.2077,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_006": {
+   "class": "price_other",
+   "inputs": [
+    "close"
+   ],
+   "ic": {
+    "ic5_mean": 0.012079,
+    "ic5_std": 0.335332,
+    "ic5_ir": 0.036,
+    "ic5_n": 1615,
+    "ic1_mean": 0.003064,
+    "vendor_beyond_base_ct": 59
+   },
+   "x1": {
+    "ann": 0.0337,
+    "vol": 0.205,
+    "sharpe": 0.1643,
+    "maxdd": -0.3776,
+    "total_ret": 0.0847,
+    "n_days": 1618,
+    "beat_rate": 0.4667,
+    "turnover_total": 316.125,
+    "n_rebal": 342
+   },
+   "x2": {
+    "ann": -0.0305,
+    "vol": 0.2056,
+    "sharpe": -0.1485,
+    "maxdd": -0.4973,
+    "total_ret": -0.2823,
+    "n_days": 1618,
+    "beat_rate": 0.1167,
+    "n_windows": 60,
+    "turnover_total": 316.125,
+    "n_rebal": 342
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.426631,
+   "d6_max_abs_corr": 0.2998,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.5511,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.0526,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.5938,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 206,
+     "sleeve_cum": 0.0821,
+     "ew48_cum": 0.2038,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": true,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_007": {
+   "class": "volume_price",
+   "inputs": [
+    "low",
+    "ret",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": -0.008553,
+    "ic5_std": 0.291303,
+    "ic5_ir": -0.0294,
+    "ic5_n": 1566,
+    "ic1_mean": -0.00591,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": -0.0069,
+    "vol": 0.195,
+    "sharpe": -0.0352,
+    "maxdd": -0.549,
+    "total_ret": -0.1484,
+    "n_days": 1569,
+    "beat_rate": 0.1,
+    "turnover_total": 377.0,
+    "n_rebal": 332
+   },
+   "x2": {
+    "ann": -0.0858,
+    "vol": 0.1958,
+    "sharpe": -0.4384,
+    "maxdd": -0.6423,
+    "total_ret": -0.4797,
+    "n_days": 1569,
+    "beat_rate": 0.1,
+    "n_windows": 60,
+    "turnover_total": 377.0,
+    "n_rebal": 332
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.487896,
+   "d6_max_abs_corr": 0.388,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.0302,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.4242,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6906,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 157,
+     "sleeve_cum": 0.146,
+     "ew48_cum": 0.2555,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_010": {
+   "class": "volume_price",
+   "inputs": [
+    "amount"
+   ],
+   "ic": {
+    "ic5_mean": 0.016357,
+    "ic5_std": 0.205804,
+    "ic5_ir": 0.0795,
+    "ic5_n": 1621,
+    "ic1_mean": 0.003822,
+    "vendor_beyond_base_ct": 57
+   },
+   "x1": {
+    "ann": 0.0402,
+    "vol": 0.1735,
+    "sharpe": 0.2318,
+    "maxdd": -0.3516,
+    "total_ret": 0.1759,
+    "n_days": 1623,
+    "beat_rate": 0.3,
+    "turnover_total": 329.25,
+    "n_rebal": 343
+   },
+   "x2": {
+    "ann": -0.0265,
+    "vol": 0.1741,
+    "sharpe": -0.152,
+    "maxdd": -0.4788,
+    "total_ret": -0.2352,
+    "n_days": 1623,
+    "beat_rate": 0.0167,
+    "n_windows": 60,
+    "turnover_total": 329.25,
+    "n_rebal": 343
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.431289,
+   "d6_max_abs_corr": 0.3313,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.2938,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.1412,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.5461,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 211,
+     "sleeve_cum": 0.1414,
+     "ew48_cum": 0.2077,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": true,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_013": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "vwap"
+   ],
+   "ic": {
+    "ic5_mean": 0.006683,
+    "ic5_std": 0.276239,
+    "ic5_ir": 0.0242,
+    "ic5_n": 1625,
+    "ic1_mean": 0.007953,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": 0.0601,
+    "vol": 0.1937,
+    "sharpe": 0.3102,
+    "maxdd": -0.4581,
+    "total_ret": 0.3075,
+    "n_days": 1628,
+    "beat_rate": 0.3667,
+    "turnover_total": 442.5,
+    "n_rebal": 344
+   },
+   "x2": {
+    "ann": -0.0293,
+    "vol": 0.1947,
+    "sharpe": -0.1502,
+    "maxdd": -0.6008,
+    "total_ret": -0.2668,
+    "n_days": 1628,
+    "beat_rate": 0.15,
+    "n_windows": 60,
+    "turnover_total": 442.5,
+    "n_rebal": 344
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.456252,
+   "d6_max_abs_corr": 0.3305,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.2938,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.4964,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6516,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 216,
+     "sleeve_cum": 0.0872,
+     "ew48_cum": 0.2288,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_014": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": 0.005227,
+    "ic5_std": 0.316485,
+    "ic5_ir": 0.0165,
+    "ic5_n": 1614,
+    "ic1_mean": 0.00615,
+    "vendor_beyond_base_ct": 59
+   },
+   "x1": {
+    "ann": 0.0264,
+    "vol": 0.1995,
+    "sharpe": 0.1322,
+    "maxdd": -0.4055,
+    "total_ret": 0.0422,
+    "n_days": 1618,
+    "beat_rate": 0.3833,
+    "turnover_total": 267.25,
+    "n_rebal": 342
+   },
+   "x2": {
+    "ann": -0.0279,
+    "vol": 0.1998,
+    "sharpe": -0.1397,
+    "maxdd": -0.4944,
+    "total_ret": -0.2649,
+    "n_days": 1618,
+    "beat_rate": 0.2333,
+    "n_windows": 60,
+    "turnover_total": 267.25,
+    "n_rebal": 342
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.426631,
+   "d6_max_abs_corr": 0.329,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.6451,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.1552,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.627,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 206,
+     "sleeve_cum": 0.0372,
+     "ew48_cum": 0.2038,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_017": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "high",
+    "ret",
+    "volume",
+    "vwap"
+   ],
+   "ic": {
+    "ic5_mean": -0.003444,
+    "ic5_std": 0.27802,
+    "ic5_ir": -0.0124,
+    "ic5_n": 1607,
+    "ic1_mean": 0.010383,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": 0.004,
+    "vol": 0.2014,
+    "sharpe": 0.0198,
+    "maxdd": -0.473,
+    "total_ret": -0.0982,
+    "n_days": 1609,
+    "beat_rate": 0.2,
+    "turnover_total": 420.375,
+    "n_rebal": 340
+   },
+   "x2": {
+    "ann": -0.0819,
+    "vol": 0.2019,
+    "sharpe": -0.4056,
+    "maxdd": -0.6077,
+    "total_ret": -0.4792,
+    "n_days": 1609,
+    "beat_rate": 0.05,
+    "n_windows": 60,
+    "turnover_total": 420.375,
+    "n_rebal": 340
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.454829,
+   "d6_max_abs_corr": 0.3763,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": -0.0138,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.4053,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6658,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 197,
+     "sleeve_cum": 0.1244,
+     "ew48_cum": 0.2276,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_019": {
+   "class": "price_other",
+   "inputs": [
+    "close",
+    "high",
+    "low",
+    "open"
+   ],
+   "ic": {
+    "ic5_mean": -0.000128,
+    "ic5_std": 0.260163,
+    "ic5_ir": -0.0005,
+    "ic5_n": 1626,
+    "ic1_mean": 0.011795,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": 0.0019,
+    "vol": 0.189,
+    "sharpe": 0.0103,
+    "maxdd": -0.4192,
+    "total_ret": -0.0972,
+    "n_days": 1630,
+    "beat_rate": 0.3167,
+    "turnover_total": 428.875,
+    "n_rebal": 345
+   },
+   "x2": {
+    "ann": -0.0845,
+    "vol": 0.1897,
+    "sharpe": -0.4455,
+    "maxdd": -0.5903,
+    "total_ret": -0.4846,
+    "n_days": 1630,
+    "beat_rate": 0.0,
+    "n_windows": 60,
+    "turnover_total": 428.875,
+    "n_rebal": 345
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.460566,
+   "d6_max_abs_corr": 0.3801,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.009,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.2366,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6306,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 218,
+     "sleeve_cum": 0.1182,
+     "ew48_cum": 0.2324,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_020": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": -0.00059,
+    "ic5_std": 0.305569,
+    "ic5_ir": -0.0019,
+    "ic5_n": 1625,
+    "ic1_mean": -0.020709,
+    "vendor_beyond_base_ct": 42
+   },
+   "x1": {
+    "ann": -0.0328,
+    "vol": 0.2004,
+    "sharpe": -0.1637,
+    "maxdd": -0.586,
+    "total_ret": -0.2897,
+    "n_days": 1628,
+    "beat_rate": 0.2,
+    "turnover_total": 418.5,
+    "n_rebal": 344
+   },
+   "x2": {
+    "ann": -0.1173,
+    "vol": 0.2011,
+    "sharpe": -0.5831,
+    "maxdd": -0.6953,
+    "total_ret": -0.589,
+    "n_days": 1628,
+    "beat_rate": 0.0,
+    "n_windows": 60,
+    "turnover_total": 418.5,
+    "n_rebal": 344
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.456252,
+   "d6_max_abs_corr": 0.2854,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.3948,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.0647,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.7271,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 216,
+     "sleeve_cum": 0.0144,
+     "ew48_cum": 0.2288,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_021": {
+   "class": "price_other",
+   "inputs": [
+    "high",
+    "low"
+   ],
+   "ic": {
+    "ic5_mean": 0.002126,
+    "ic5_std": 0.244975,
+    "ic5_ir": 0.0087,
+    "ic5_n": 1626,
+    "ic1_mean": -0.014201,
+    "vendor_beyond_base_ct": 0
+   },
+   "x1": {
+    "ann": -0.0089,
+    "vol": 0.1946,
+    "sharpe": -0.0457,
+    "maxdd": -0.4755,
+    "total_ret": -0.1649,
+    "n_days": 1630,
+    "beat_rate": 0.1667,
+    "turnover_total": 448.75,
+    "n_rebal": 345
+   },
+   "x2": {
+    "ann": -0.0994,
+    "vol": 0.1954,
+    "sharpe": -0.5085,
+    "maxdd": -0.6204,
+    "total_ret": -0.5355,
+    "n_days": 1630,
+    "beat_rate": 0.0,
+    "n_windows": 60,
+    "turnover_total": 448.75,
+    "n_rebal": 345
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.460566,
+   "d6_max_abs_corr": 0.3412,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.0681,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.1787,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.6673,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 218,
+     "sleeve_cum": 0.1093,
+     "ew48_cum": 0.2324,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  },
+  "stock_022": {
+   "class": "volume_price",
+   "inputs": [
+    "close",
+    "high",
+    "low",
+    "volume"
+   ],
+   "ic": {
+    "ic5_mean": 0.003901,
+    "ic5_std": 0.214563,
+    "ic5_ir": 0.0182,
+    "ic5_n": 1606,
+    "ic1_mean": 0.002635,
+    "vendor_beyond_base_ct": 59
+   },
+   "x1": {
+    "ann": 0.0139,
+    "vol": 0.1941,
+    "sharpe": 0.0719,
+    "maxdd": -0.5504,
+    "total_ret": -0.0307,
+    "n_days": 1609,
+    "beat_rate": 0.1667,
+    "turnover_total": 435.75,
+    "n_rebal": 340
+   },
+   "x2": {
+    "ann": -0.0751,
+    "vol": 0.1948,
+    "sharpe": -0.3852,
+    "maxdd": -0.6704,
+    "total_ret": -0.4515,
+    "n_days": 1609,
+    "beat_rate": 0.05,
+    "n_windows": 60,
+    "turnover_total": 435.75,
+    "n_rebal": 340
+   },
+   "x2_beats_ew48_full": false,
+   "ew48_total_ret": 0.454829,
+   "d6_max_abs_corr": 0.3196,
+   "d6_reject": false,
+   "regime_segments": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.347,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.2625,
+     "ew48_cum": 0.3095,
+     "beat": false
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.7173,
+     "ew48_cum": -0.4649,
+     "beat": false
+    },
+    "na": {
+     "n_days": 197,
+     "sleeve_cum": 0.1407,
+     "ew48_cum": 0.2276,
+     "beat": false
+    }
+   },
+   "nomination": {
+    "cond1_ic_gt_null_p95": false,
+    "cond2_x2_beats_ew48": false,
+    "cond3_beat_rate_ge_060": false,
+    "ban_blocked": false,
+    "d6_blocked": false,
+    "nominated_stage2": false,
+    "claim": "exploration only; NO registration, NO paper eligibility (stage-1 census)"
+   }
+  }
+ },
+ "d6": {
+  "reject_line": 0.7,
+  "max_abs_corr_by_face": {
+   "stock_001": 0.3065,
+   "stock_002": 0.2948,
+   "stock_003": 0.2828,
+   "stock_005": 0.2793,
+   "stock_006": 0.2998,
+   "stock_007": 0.388,
+   "stock_010": 0.3313,
+   "stock_013": 0.3305,
+   "stock_014": 0.329,
+   "stock_017": 0.3763,
+   "stock_019": 0.3801,
+   "stock_020": 0.2854,
+   "stock_021": 0.3412,
+   "stock_022": 0.3196
+  },
+  "inbatch_pairs_ge_0p7_count": 84,
+  "note": "full numeric face in results/g2_slot_stock_p1/d6_numeric.json (same write)"
+ },
+ "trials_ledger": {
+  "prev_total": 622397,
+  "batch_trials": 34,
+  "total": 622431,
+  "batch": "G2_SLOT_STOCK_P1",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/g2_slot_stock_p1/g2_slot_stock_p1_census.json",
+  "note": "14 vendor stock-family faces + 20 same-mask random nulls (roster probe 3a782f8780d8c558; SLOT berth census P2 sec.8)",
+  "evidence_cutoff": "2026-09-22"
+ }
+}
