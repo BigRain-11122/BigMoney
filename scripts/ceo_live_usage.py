@@ -44,6 +44,15 @@ v1.4 (r412 bm-b, intraday refresh slice per T-105 spec "intraday refresh
     (positions stay last-close-caliber; the intraday block is a parallel
     readout, not a re-valuation).
 
+v1.5 (r642 bm-b, in-flight judgment-batch visibility slice -- CEO anchor
+  "process must be visible"): section 5 = live burn counters for the FUND
+  trio NULLS judgment batches (fund_{quality,value,divlowvol}_p1), read
+  as pure append-only line counts of results/fund_*_p1/nulls.jsonl
+  (have-of-2000 + dup_k integrity + last-append age in the JSON twin).
+  ZERO new judgments, zero gates, zero verdicts -- counters only; the
+  finalize hard gate (have == 2000) is the frozen prereg face, not a new
+  line.  Disclaimers renumbered to section 6.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -65,6 +74,7 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -80,6 +90,16 @@ NT_S3_REVIEW = os.path.join(ROOT, "results", "national_team",
                             "s3_event_review.json")
 OUT_DIR = os.path.join(ROOT, "docs", "live_usage")
 MINUTE_FEED_DIR = os.path.join(ROOT, "data", "minute_feed")   # T-104 (v1.4)
+# In-flight NULLS judgment batches (v1.5) -- pure counter faces:
+FUND_NULLS_TARGET = 2000
+FUND_NULLS_FACES = (
+    ("FUND-QUALITY-P1", os.path.join(ROOT, "results", "fund_quality_p1",
+                                     "nulls.jsonl")),
+    ("FUND-VALUE-P1", os.path.join(ROOT, "results", "fund_value_p1",
+                                   "nulls.jsonl")),
+    ("FUND-DIVLOWVOL-P1", os.path.join(ROOT, "results",
+                                       "fund_divlowvol_p1", "nulls.jsonl")),
+)
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -279,6 +299,49 @@ def _intraday_face(held_symbols, today: str) -> dict:
     }
 
 
+def _judgment_burn_face() -> dict:
+    """v1.5: live burn counters for the in-flight NULLS judgment batches.
+
+    Pure readout of append-only nulls.jsonl faces (zero new judgment,
+    zero gates): have = parsed line count (a half-written daemon tail line
+    is skipped, never double-counted), dup_k = duplicate-k integrity,
+    last_append_age_min = wall-clock freshness (JSON twin only -- kept
+    out of the md render so the double-run determinism check stays
+    meaningful)."""
+    families = []
+    for fam, path in FUND_NULLS_FACES:
+        have = dup = 0
+        age_min = None
+        if os.path.exists(path):
+            ks = []
+            with open(path, "rb") as fh:
+                for raw in fh:
+                    raw = raw.strip()
+                    if not raw:
+                        continue
+                    try:
+                        ks.append(json.loads(raw).get("k"))
+                    except ValueError:          # daemon mid-append tail
+                        continue
+            have = len(ks)
+            dup = have - len({k for k in ks if k is not None})
+            age_min = round((time.time() - os.path.getmtime(path)) / 60, 1)
+        families.append({
+            "family": fam,
+            "present": os.path.exists(path),
+            "have": have,
+            "target": FUND_NULLS_TARGET,
+            "dup_k": dup,
+            "last_append_age_min": age_min,
+        })
+    return {
+        "feed": "results/fund_*_p1/nulls.jsonl append-only counters",
+        "target": FUND_NULLS_TARGET,
+        "finalize_gate": "have == 2000（预注册冻结硬门）",
+        "families": families,
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -326,7 +389,7 @@ def build_payload(day: str) -> dict:
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_4",
+        "schema": "ceo_live_usage_v1_5",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -364,6 +427,7 @@ def build_payload(day: str) -> dict:
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
         "intraday": _intraday_face(held, day),
+        "judgment_burns": _judgment_burn_face(),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -483,7 +547,18 @@ def render_md(p: dict) -> str:
     L.append("- v1 诚实锚：链输（J-TARGET 0/12 未过）；v2 简化链=池序首位"
              "在烧；v3 锦标赛=预注册冻结排队；赢家=只入册候选，上线走月界。")
     L.append("")
-    L.append("## ⑤ 诚实免责")
+    L.append("## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）")
+    L.append("")
+    jb = p["judgment_burns"]
+    L.append(f"- 判定批 = {jb['target']} nulls/族（预注册冻结面）·finalize "
+             f"硬门 {jb['finalize_gate']}；下表为追加面纯计数读出"
+             "（零新判据·裁定与窗口实况见轮报告/台账）：")
+    for r in jb["families"]:
+        L.append(f"  - {r['family']}：{r['have']}/{r['target']}"
+                 f"（dup_k={r['dup_k']}）"
+                 + ("" if r["present"] else "（nulls 面未落=0 诚实）"))
+    L.append("")
+    L.append("## ⑥ 诚实免责")
     L.append("")
     for d in p["disclaimers"]:
         L.append(f"- {d}")
@@ -562,7 +637,18 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.4", p1["schema"] == "ceo_live_usage_v1_4")
+    check("schema v1.5", p1["schema"] == "ceo_live_usage_v1_5")
+    jb = p1["judgment_burns"]
+    check("judgment-burn face present (v1.5)",
+          jb["feed"].startswith("results/fund_*_p1/nulls.jsonl")
+          and jb["finalize_gate"].endswith("（预注册冻结硬门）")
+          and jb["target"] == 2000
+          and [r["family"] for r in jb["families"]]
+          == [f for f, _ in FUND_NULLS_FACES])
+    check("judgment-burn counters honest-shaped (v1.5)",
+          all(0 <= r["have"] <= r["target"] and r["dup_k"] == 0
+              and r["dup_k"] <= r["have"]
+              for r in jb["families"]))
     intr = p1["intraday"]
     check("intraday face present (v1.4)",
           intr["feed"].startswith("T-104 minute_feed")
@@ -634,10 +720,13 @@ def selftest() -> int:
     static2 = md2.split("自动生成")[0] + md2[md2.index("## ①"):]
     check("render deterministic (wall-clock stripped)",
           static1 == static2)
-    check("all five blocks in md",
+    check("all six blocks in md",
           all(k in md1 for k in ("① 市场判定", "② 仓位指令",
                                  "③ 六员分配", "④ 决策链版本横幅",
-                                 "⑤ 诚实免责")))
+                                 "⑤ 在飞判决批", "⑥ 诚实免责")))
+    check("judgment-burn block rendered in md (v1.5)",
+          "在飞判决批（NULLS 烧录进度·纯计数）" in md1
+          and "FUND-QUALITY-P1" in md1 and "dup_k=0" in md1)
     check("national-team row rendered in md",
           "国家队状态" in md1 and "T-106" in md1
           and "宇宙面注记" in md1 and "跟队信号面" in md1)
