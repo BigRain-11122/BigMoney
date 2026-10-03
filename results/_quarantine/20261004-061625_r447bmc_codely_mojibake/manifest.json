@@ -1,0 +1,39 @@
+{
+ "action": "CODELY.md mojibake-tail heal (r447 bm-c, D-06 early window)",
+ "source_file": "CODELY.md",
+ "sha256_before_full_file": "b53226ea7fe930b2472f59e8ebb99814d643a3b25c6c64045fd5e260e23929ca",
+ "deleted_duplicate_lines_1based": [
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  76,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  87
+ ],
+ "deleted_bytes": 42873,
+ "reinstated_r657_lines_1based": [
+  85,
+  86
+ ],
+ "reinstated_from_commit": "2c0c6dcf5 (bm-a r657 closeout, bm-a's own readable bytes)",
+ "mojibake_block_md5": "8141405b9434d7d9b6fe6a0a7212cb45",
+ "merged_line_split": {
+  "line_1based": 64,
+  "dup_twin_line_1based": 63,
+  "dup_prefix_bytes": 746
+ },
+ "recovery": "Windows CP936 reverse map (euro 0x80 + PUA Z1-Z4) + utf-8 errors=replace; literal '?' in mojibake = single lost byte from .NET '?'-fallback",
+ "reason": "Lossy GBK mojibake duplicate snapshot; 17 lines proven duplicated in-file (entry-key twins + 4-gram >= 0.97); 2 r657 lines re-instated verbatim from git history (no in-file twin; bm-b r646 'genuinely new' note + bm-a r660 heal-candidate adjudicated at D-06 window); git history preserves all bytes.",
+ "observation_window_days": 7
+}
