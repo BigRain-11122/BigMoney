@@ -1,0 +1,292 @@
+{
+ "artifact": "_r639bma_g2_slot_family_probe",
+ "audit": {
+  "burn_authorization": "NONE -- probe is measurement/advisory; prereg freeze is a separate round face per O-1901",
+  "deterministic": true,
+  "network": "zero"
+ },
+ "cutoff_meta": {
+  "cutoff": "2026-09-30"
+ },
+ "evidence_cutoff": "2026-09-30",
+ "families": [
+  {
+   "faces": [
+    "old_027",
+    "old_028",
+    "old_029",
+    "old_030",
+    "old_031",
+    "old_032",
+    "old_033",
+    "old_034",
+    "old_035",
+    "old_036",
+    "old_037",
+    "old_038",
+    "old_039",
+    "old_040",
+    "old_043",
+    "old_044",
+    "old_045",
+    "old_046",
+    "old_047",
+    "old_048",
+    "old_050",
+    "old_052",
+    "old_053",
+    "old_054",
+    "old_055",
+    "old_057",
+    "old_058",
+    "old_060",
+    "old_061",
+    "old_062",
+    "old_063",
+    "old_064",
+    "old_065",
+    "old_066",
+    "old_067",
+    "old_068",
+    "old_069",
+    "old_070",
+    "old_071",
+    "old_072",
+    "old_073",
+    "old_074",
+    "old_076"
+   ],
+   "family": "old",
+   "n_faces": 43,
+   "non_derivable": 2,
+   "panel_derivable": 41
+  },
+  {
+   "faces": [
+    "add_001",
+    "add_002",
+    "add_003",
+    "add_004",
+    "add_005",
+    "add_006",
+    "add_007",
+    "add_008",
+    "add_009",
+    "add_011",
+    "add_012",
+    "add_015",
+    "add_016",
+    "add_017",
+    "add_018",
+    "add_021",
+    "add_023",
+    "add_024",
+    "add_025",
+    "add_026",
+    "add_027",
+    "add_028",
+    "add_029",
+    "add_030"
+   ],
+   "family": "add",
+   "n_faces": 24,
+   "non_derivable": 3,
+   "panel_derivable": 21
+  },
+  {
+   "faces": [
+    "better_001",
+    "better_002",
+    "better_003",
+    "better_005",
+    "better_006",
+    "better_007",
+    "better_008",
+    "better_013",
+    "better_014",
+    "better_015",
+    "better_016",
+    "better_017",
+    "better_018",
+    "better_021",
+    "better_022",
+    "better_023",
+    "better_024",
+    "better_025",
+    "better_026"
+   ],
+   "family": "better",
+   "n_faces": 19,
+   "non_derivable": 7,
+   "panel_derivable": 12
+  },
+  {
+   "faces": [
+    "stock_001",
+    "stock_002",
+    "stock_003",
+    "stock_005",
+    "stock_006",
+    "stock_007",
+    "stock_010",
+    "stock_013",
+    "stock_014",
+    "stock_017",
+    "stock_019",
+    "stock_020",
+    "stock_021",
+    "stock_022"
+   ],
+   "family": "stock",
+   "n_faces": 14,
+   "non_derivable": 0,
+   "panel_derivable": 14
+  },
+  {
+   "faces": [
+    "best_004",
+    "best_005",
+    "best_008",
+    "best_009",
+    "best_010",
+    "best_011",
+    "best_012",
+    "best_013",
+    "best_015",
+    "best_016",
+    "best_018",
+    "best_019",
+    "best_021"
+   ],
+   "family": "best",
+   "n_faces": 13,
+   "non_derivable": 4,
+   "panel_derivable": 9
+  },
+  {
+   "faces": [
+    "extra_001",
+    "extra_002",
+    "extra_003",
+    "extra_005",
+    "extra_008",
+    "extra_012",
+    "extra_013"
+   ],
+   "family": "extra",
+   "n_faces": 7,
+   "non_derivable": 1,
+   "panel_derivable": 6
+  },
+  {
+   "faces": [
+    "original_021",
+    "original_022",
+    "original_023",
+    "original_024"
+   ],
+   "family": "original",
+   "n_faces": 4,
+   "non_derivable": 0,
+   "panel_derivable": 4
+  },
+  {
+   "faces": [
+    "change_004",
+    "change_005"
+   ],
+   "family": "change",
+   "n_faces": 2,
+   "non_derivable": 0,
+   "panel_derivable": 2
+  }
+ ],
+ "first_family_recommendation": {
+  "family": "old",
+  "n_faces": 43,
+  "panel_derivable": 41,
+  "sample_formulas": [
+   {
+    "doc_formula": "rank(volume) * rank(vwap - close)",
+    "face": "old_027"
+   },
+   {
+    "doc_formula": "corr(rank(open), rank(volume), 10)",
+    "face": "old_028"
+   },
+   {
+    "doc_formula": "ts_min(rank(corr(close, volume, 5)), 12)",
+    "face": "old_029"
+   }
+  ],
+  "status": "advisory-only: selection facts for next-round prereg draft"
+ },
+ "inputs": {
+  "new_face_n": 126,
+  "src": "results/g2_overlap_census_p2.json"
+ },
+ "law_refs": [
+  "research/G2_OVERLAP_CENSUS_P2.md sec.8 next-slice (per-family SLOT prereg)",
+  "O-20260930-1901 (a)-(1): census-first, per-family burns, batch-all forbidden"
+ ],
+ "next_round_s1_checklist": [
+  "draft from research/PREREG_TEMPLATE.md with alpha mechanism section (D6 four-choice) -- volume-price divergence/momentum family reading from old_* formula patterns",
+  "D6 same-family corr gate: enumerate registered same-mechanism families via science_gates registered face before freeze",
+  "exit-axis explicit gate (TRIAL_LABOR_LAW sec.4 three-choice) mandatory",
+  "judged criteria from science_gates.g1_prime_v2/g2_registration_v2 shared library -- no hand-copied thresholds",
+  "meaningfulness three-verifications: falsifiable hypothesis + named consumer face + negative-verdict disposal plan",
+  "seeds registration in SEED_REGISTRY at freeze commit (three-step law)",
+  "consumer face: candidate-supply pool berth -> trial-labor wave grammar family (per RETAIL_QUANT_TRACK budget attribution)"
+ ],
+ "priority_table": [
+  {
+   "family": "old",
+   "mainline": true,
+   "n_faces": 43,
+   "rank": 1
+  },
+  {
+   "family": "stock",
+   "mainline": true,
+   "n_faces": 14,
+   "rank": 2
+  },
+  {
+   "family": "add",
+   "mainline": false,
+   "n_faces": 24,
+   "rank": 3
+  },
+  {
+   "family": "better",
+   "mainline": false,
+   "n_faces": 19,
+   "rank": 4
+  },
+  {
+   "family": "best",
+   "mainline": false,
+   "n_faces": 13,
+   "rank": 5
+  },
+  {
+   "family": "extra",
+   "mainline": false,
+   "n_faces": 7,
+   "rank": 6
+  },
+  {
+   "family": "original",
+   "mainline": false,
+   "n_faces": 4,
+   "rank": 7
+  },
+  {
+   "family": "change",
+   "mainline": false,
+   "n_faces": 2,
+   "rank": 8
+  }
+ ],
+ "round": "r639 bm-a"
+}

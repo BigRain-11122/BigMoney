@@ -1,0 +1,39 @@
+r639 bm-a S6 chain evidence (2026-10-03 19:48-20:0x, golden-week no-new-bar window, latest bar 2026-09-30)
+rc=0 pool_dualrun_reconcile run :: ZERO-DRIFT (366 entries, streak 17, cutoff 2026-10-03 08:29:00)
+rc=0 compute_audit :: v2.4.2 py 0.4% flags=[supply_gap] verdict=FLAG:supply_gap (pool ready 3 = NULLS trio bm-b canonical burns, bm-a yield per r617/r622/r629; observation-phase data, exit 0)
+rc=0 py_watermark probe :: verdict=py_low_board_clear (legal idle: bm-a lanes closed, NULLS=bm-b, w2-finalize=bm-c; series_kept 49)
+rc=0 update_daily :: new rows 0, failures 0, cutoff 2026-09-30 (holiday no-op)
+rc=0 market_regime :: ORANGE triggers live (hs300<MA200 #10, breadth 0.79>=65%)
+rc=0 strategy_scorecard :: 6 strategy / 28 trader / 7 portfolio cards (28.5s)
+rc=0 market_clock_call run :: CALL-2026-09-30 cell=ORANGE_COOL sleeves=4 activated=0
+rc=0 update_lhb :: no-op (disclosure window, cutoff covered)
+rc=0 update_heat :: no-op: weekend
+rc=0 update_futures :: no-op: cutoff 2026-09-30 covers expected bar
+rc=0 update_repo :: no-op: cutoff 2026-09-30 covers expected bar
+rc=0 update_options gate :: no-op: cutoff covered
+rc=0 update_moneyflow (S3 rerun + chain) :: spawn attempt 19:54 = rank page1 RemoteDisconnected (EM source-block persists since 09-25, conn-fuse honest); chain rerun = 30min throttle no-op
+rc=0 update_sina_mf gate :: no-op: panel cutoff 2026-09-24 within 20td
+rc=0 update_astock_daily gate :: no-op: lane bm-b
+rc=0 update_etf_daily :: no-op: lane bm-b
+rc=0 rev_osc_signal_export run :: no-op: lane bm-b
+rc=0 update_minute_feed :: no-op: lane bm-b
+rc=0 update_ths_panel gate :: no-op: daily 2026-09-30 collected
+rc=0 ah_panel_puller (gate default) :: spawned detached refresh (panel not complete)
+rc=0 update_fund_premium snapshot :: no-op: lane bm-c
+rc=0 update_fundamental :: snapshot fresh 6.0h skip
+rc=0 firm.risk.b_layer_filter :: verdict written
+rc=0 t35_open_fill_verify :: day=2026-09-30 PASS (zero-pending 6)
+rc=0 t24_prospect_paper run :: pass=22/22 drift=0 cutoff 2026-09-30
+rc=0 t24_prospect_promotion run :: eligible=0/22 (paper_months 0 -- young accounts, honest)
+rc=0 aggressive_lab paper :: no-op idempotent (marks at cutoff)
+rc=0 alloc_paper run :: no-op: lane bm-b
+rc=0 grid_paper run :: no-op idempotent
+rc=0 system_v1_paper run :: no-op idempotent
+rc=0 t35_paper_export run :: export-2026-09-30.json + latest.json
+rc=0 daily_scorecard :: written (traders 6, o1600 rows 6)
+rc=0 daily_report run :: REPORT-2026-10-03.md/.json faces=5 token=1
+rc=0 ceo_live_usage :: LIVE-2026-10-03 written (state=ORANGE cap 50% heat COOL 4 version rows)
+rc=0 monitor.build_status :: regen (factors=10 backtest=432combos/0pass traders=6 milestones=5/7)
+rc=0 token_meter :: L2 legs 3 today/5 total (~369 tokens today); crash-fuse refusals 1123/63 sigs
+skip live.paper :: honest skip -- no new bar (golden week, cutoff 2026-09-30, r610 precedent)
+NOTE: two mid-chain rc=2 were invocation-form errors (missing 'gate'/'run' subcommand in batch runner), re-run clean same round -- chain integrity unaffected.
