@@ -86,3 +86,19 @@
 - [2026-10-04 04:0x r657 bm-a] git merge 鍐茬獊鏍囪 EOL 褰㈡€佸疄鎺㈠緥锛圱REASURE_REGISTRY union 鎵嬫湳涓よ繛鍧戝疄寮癸級锛歮erge 钀藉伐浣滄爲鐨勫啿绐佹爣璁伴殢 autocrlf 鍛?CRLF 褰㈡€佲€斺€斿瓧鑺傛墜鏈?needle 纭紪鐮?LF=assert count 0 褰撳満鐐革紙鑹€э級锛屼絾 ; 閾惧悗缁?add 鐓ц窇=鎶婁粛甯?marker 鐨勫啿绐侀潰 staged锛坧re-commit 閽虫纭嫤鎴浂 origin 浼ゅ锛夈€傛娉?鈶犳墜鏈墠瀹炴帰 <<<<<<< 閭诲煙瀛楄妭瀹?EOL 鍐嶅畾 needle锛坈ount==1 鏂█锛夆憽鎵嬫湳姝ュけ璐ュ悗绂佸甫閿欑画 add锛堝垎姝ユ彁浜ゅ嬁 ; 閾惧埌搴曪級鈶㈤挸鎷﹀悗淇鈫掗噸 add鈫掑啀 commit銆備笌 r630 marker 鎵嬫湳寰?r644 --check 寰嬪苟鐢ㄣ€侶ow to apply锛氫竴鍒囧啿绐侀潰瀛楄妭鎵嬫湳鍏堟帰 EOL锛沘dd 鍓嶇疆姝ュ繀椤诲彲鍒ゆ垚璐ャ€?
 - [2026-10-04 04:0x r645 bm-b] state.json 灏鹃€楀彿宕╁緥锛氫笂杞?S7 鎵嬪伐鍐欏洖鐣欏熬閫楀彿 鈫?strict json.loads 宕╋紙D-19 姘翠綅璇昏吙褰撳満鐐嘎穎inalize 鎺㈤拡瀹归敊璇诲垢瀛橀浂浼わ級鈥斺€斿緥=state.json 鍐欏洖涓€寰?json.dump/绛変环绋嬪簭鍖栧啓+鍐欏悗 json.loads 鑷瘉锛堜笌蹇冭烦 epoch 鑷瘉鍚屽緥锛夋墠璁告敹杞紱鍚岀獥 D-19 鍋?CHANGED 澶嶉獙=PS > 閲嶅畾鍚?UTF-16 杞爜闈紙pit-ps 鍦ㄥ唽寰嬄锋瑙?subprocess capture_output 鍘熷瓧鑺傦級锛屽亣璀﹀厛澶嶇幇璇佷吉鍕夸笂鎶ワ紙r641 寰嬪厬鐜帮級銆?
 - [2026-10-04 05:4x r660 bm-a] D-19 内容寻址基座律第三犯当场自愈（前例 r651 工作树基错键 1f7c1438 / r659 raw 基重锚 eb14b510）：Windows 下 sparse-checkout/工作树落盘副本经 autocrlf 翻译后 != git blob 原字节——本轮对 sparse clone 落盘文件直接 sha256 产假 CHANGED（decisions/orders 双假警），改 git show origin/main:<path> subprocess 原字节复算=双 MATCH 零动作收口。律：D-19/水位类内容寻址一律 git show 原字节再哈希，禁对任何落盘副本文件哈希（sparse clone 亦然）；误用即产假 CHANGED/假回退警（r641 律警报先字节 diff 定谳的源头族）。另：CODELY.md L82-87 实录=GBK mojibake 落盘尾巴（bm-c r438/bm-b r643-645/bm-a r657 追管线污染·pit-encoding 域），治愈候选留痕下窗裁定（跨机面勿单方手术）。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [2026-10-04 05:1x r445 bm-c] 停泊预备件复用双坑（W115 解停窗实弹·①AST 门救命实录②陈旧熔断零点火暗坑）：①r384 死会话预备工具集（parked.diff+freeze_edits 复跑）内藏 LEG115 隐式串接续缺括号语法 bug——强制后置 ast.parse（r580/r581 律）当场拦截（编辑五面已落+FIX-B 文本签名全过但 py 面不可导入），按 r471/r592 活修律同窗修复（活 runner+两工具集副本三面同修零语义变化）——考证=同一 bug 曾在 r384 窗杀死全部 12 个 W115 烧批（runner 不可导入→烧批秒崩→crash-fuse 3 连崩全片 quarantine）使 r385 只能 park；②解停后引擎活视图见 W115（grammar_consumption 在场·dedup 0/0）但 queue 空且零点火——根因=引擎态 quarantined/crash_counts 残留 r384 熔断陈迹（derive_n1_queue 跳过 quarantined 键）；正法=击杀常驻引擎（无写者竞态窗）→状态手术清 [115,0..11] quarantine+115:* crash_counts（[12,11] 老例保留·audit 字段留痕）→schtasks 1 分钟自愈重启（law sec.4 self-restart）→2 tick 内分片产物增长面=唯一点火证据（r325 律）。How to apply：一切 parked/死会话预备件复用必复跑全套守卫（AST 门+双 selftest）勿信「曾跑过」；解停/恢复链后引擎零点火时先查 quarantine 台账再查队列面。
