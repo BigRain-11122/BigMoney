@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 05:08:23",
+ "generated_at": "2026-10-04 05:14:52",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 591,
-  "result_jsons_landed_24h": 151,
+  "commits_24h": 589,
+  "result_jsons_landed_24h": 150,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 30,
+  "prereg_md_touched_24h": 29,
   "compute_audit_latest": {
-   "ts": "2026-10-04 05:06:08",
-   "py_cpu_pct": 100.0,
+   "ts": "2026-10-04 05:12:43",
+   "py_cpu_pct": 84.9,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -720,13 +720,83 @@
     "today_supply_gap_flags": 5
    },
    "bm-b": {
-    "latest_ts": "2026-10-04 04:52:51",
-    "py_pct": 85.8,
-    "cpu_pct": 42.0,
+    "latest_ts": "2026-10-04 05:12:43",
+    "py_pct": 84.9,
+    "cpu_pct": 59.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "02:29",
+      96.7
+     ],
+     [
+      "02:36",
+      0.1
+     ],
+     [
+      "02:48",
+      4.7
+     ],
+     [
+      "03:09",
+      0.1
+     ],
+     [
+      "03:32",
+      85.6
+     ],
+     [
+      "03:32",
+      4.7
+     ],
+     [
+      "03:59",
+      86.7
+     ],
+     [
+      "04:16",
+      85.3
+     ],
+     [
+      "04:31",
+      0.1
+     ],
+     [
+      "04:35",
+      0.2
+     ],
+     [
+      "04:52",
+      85.8
+     ],
+     [
+      "05:12",
+      84.9
+     ]
+    ],
+    "today_samples": 20,
+    "today_floor_ok": 20,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 5
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-04 04:35:23",
+    "py_pct": 0.2,
+    "cpu_pct": 1.0,
+    "ready": 3,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "01:50",
+      4.7
+     ],
+     [
+      "01:59",
+      0.8
+     ],
      [
       "02:21",
       0.4
@@ -764,82 +834,12 @@
       85.3
      ],
      [
-      "04:31",
-      0.1
-     ],
-     [
       "04:35",
       0.2
-     ],
-     [
-      "04:52",
-      85.8
      ]
     ],
-    "today_samples": 19,
-    "today_floor_ok": 19,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 5
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-04 05:06:08",
-    "py_pct": 100.0,
-    "cpu_pct": 82.0,
-    "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
-    "py_series_tail": [
-     [
-      "02:29",
-      96.7
-     ],
-     [
-      "02:36",
-      0.1
-     ],
-     [
-      "02:48",
-      4.7
-     ],
-     [
-      "03:09",
-      0.1
-     ],
-     [
-      "03:32",
-      85.6
-     ],
-     [
-      "03:32",
-      4.7
-     ],
-     [
-      "03:59",
-      86.7
-     ],
-     [
-      "04:16",
-      85.3
-     ],
-     [
-      "04:31",
-      0.1
-     ],
-     [
-      "04:35",
-      0.2
-     ],
-     [
-      "04:52",
-      85.8
-     ],
-     [
-      "05:06",
-      100.0
-     ]
-    ],
-    "today_samples": 20,
-    "today_floor_ok": 20,
+    "today_samples": 17,
+    "today_floor_ok": 17,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 5
    }
@@ -879,7 +879,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 04:52:51"
+     "audit_ts": "2026-10-04 05:12:43"
     }
    },
    "bm-c": {
@@ -895,7 +895,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 05:06:08"
+     "audit_ts": "2026-10-04 04:35:23"
     }
    }
   },
@@ -903,13 +903,32 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 115,
-  "last_owner": "bm-c",
-  "next_registration": 116,
+  "last_registered": 114,
+  "last_owner": "bm-a",
+  "next_registration": 115,
   "next_seatable": 116,
   "chain_head": 615348,
   "k": 248720,
   "waves": [
+   {
+    "wave": 112,
+    "owner": "bm-a",
+    "a": [
+     267004,
+     269003
+    ],
+    "b_exit": [
+     61601,
+     61800
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 610948,
+    "merged_mu": -0.09278764448264572,
+    "merged_sigma": 0.24488252987833029,
+    "k": 244320
+   },
    {
     "wave": 113,
     "owner": "bm-c",
@@ -947,24 +966,14 @@
     "merged_mu": -0.09291186715985847,
     "merged_sigma": 0.24488503216820995,
     "k": 248720
-   },
-   {
-    "wave": 115,
-    "owner": "bm-c",
-    "a": [
-     273004,
-     275003
-    ],
-    "b_exit": [
-     62501,
-     62700
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": false
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 115,
+    "machine": "bm-c"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
