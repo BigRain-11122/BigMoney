@@ -35,3 +35,13 @@
   next correct-caliber burn (same r615 "bad rows discarded" handling).
 
 - Addendum r625 close-out: the killed SENS burn (13:38-13:47) had appended 10 off-caliber rows to sens.jsonl (7->17); excised pre-push via HEAD~1 restore (7 rows, zero-origin-harm window, r615 precedent).
+
+## Addendum (r632 bm-a, 2026-10-03 16:5x): X1/X2 caliber verdict -- canonical paths CLEAN, "until re-burned" disposition SUPERSEDED
+
+- The x1/x2 canonical paths now carry **bm-b correct-caliber products** (bm-b burn done 11:36:04; restored at r622 claw fixup a5c2b5108; x2 verdict 401/401 delivered bm-b r617 a4b1d8029). Live files == origin blobs (67fc9ff0 / de6d95b5, verified r632).
+- The r625 "DO NOT consume x1/x2 until re-burned" line applied to MY off-caliber leftovers -- those live only in `quarantine_offcaliber_20261003/` (retained as evidence per MSG-1155). **No re-burn needed; pool X1/X2 entries `done` == correct state.** Canonical cells/sens ARE consumable for prereg §7/§8 finalize.
+- Nulls face: MY off-caliber partial (2370B) was **never committed/pushed** (file history 15 commits, 0 via bm-a) -- shared nulls.jsonl rows are 100% bm-b correct-caliber. The "bad rows discarded" step has nothing to discard on origin; **no bm-b receipt required before family finalize** (contrast: VALUE nulls r615 case, where bad rows did reach origin).
+- Sens face: 500/500 ALL PASS (r630, `sens_acceptance.json`).
+- Caliber contrast evidence (quarantine vs canonical, x1): identical 401-key window sets; 335 rows identical; **66 rows diverge in 24m-tail metrics only** (ret_24m/sharpe_24m/dd_24m) -- quarantine copy confirmed genuine off-caliber; universe-membership stats identical (contamination surface = late-window 24m segment, not gate universe in this face).
+- Evidence probe: `results/_r632bma_divlowvol_cells_caliber_verdict.json`.
+- Family finalize (window >=10-09 pre-open) now waits only on the NULLS 2000-draw completion (bm-b in-flight, ETA 10-06/10-08).

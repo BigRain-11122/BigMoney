@@ -1,0 +1,40 @@
+{
+ "probe": "r632 bm-a divlowvol cells caliber verdict",
+ "ts": "2026-10-03 16:5x",
+ "machine": "bm-a",
+ "context": "OFF_CALIBER_NOTE.md (r625) left 'DO NOT consume x1/x2 until re-burned' disposition; this probe adjudicates the caliber face of the canonical products currently at the original paths and the nulls contamination face.",
+ "verdict": {
+  "cells_x1_x2": "CANONICAL CLEAN -- bm-b correct-caliber products; consumable for prereg S7/S8 finalize; NO re-burn needed",
+  "nulls_face": "CLEAN -- bm-a off-caliber partial (2370B) never reached origin (file history 15 commits, 0 via bm-a); shared nulls.jsonl rows are 100% bm-b correct-caliber; nothing to discard on origin; no MSG-0827-style receipt required before family finalize (contrast: VALUE nulls r615 case where bad rows were pushed)",
+  "sens_face": "CLEAN -- 500/500 ALL PASS (r630, sens_acceptance.json)"
+ },
+ "evidence": {
+  "live_vs_origin_git_blob_sha1": {
+   "results/fund_divlowvol_p1/cells_DIVLOWVOL-YIELDVOL_x1.jsonl": {"local": "67fc9ff015fdd55200ca7a5479150fea9bd2a443", "origin_main": "67fc9ff015fdd55200ca7a5479150fea9bd2a443", "match": true},
+   "results/fund_divlowvol_p1/cells_DIVLOWVOL-YIELDVOL_x2.jsonl": {"local": "de6d95b5de12db65fb3f5108818cf9b9b1a461ba", "origin_main": "de6d95b5de12db65fb3f5108818cf9b9b1a461ba", "match": true},
+   "results/fund_divlowvol_p1/sens.jsonl": {"local": "84fd700a5c8c472f81bc42ee237a834660eda0ca", "origin_main": "84fd700a5c8c472f81bc42ee237a834660eda0ca", "match": true}
+  },
+  "canonical_provenance_commits": {
+   "x1_restore": "a5c2b5108 (bm-a r622 claw fixup 11:53) -- restore bm-b canonical x1 products at original paths from origin blob; my off-caliber copies moved to quarantine_offcaliber_20261003/ per MSG-1155",
+   "x2_verdict_delivery": "a4b1d8029 (bm-b round 617, 12:38) -- DIVLOWVOL-YIELDVOL x2 cell verdict 401/401 cont face",
+   "x1_bm_b_burn_done_ts": "2026-10-03 11:36:04 (bm-b canonical, pool claim 11:40:22)"
+  },
+  "nulls_file_history": {
+   "commits_touching_results/fund_divlowvol_p1/nulls.jsonl_on_origin": 15,
+   "via_bm_a_commits": 0,
+   "conclusion": "bm-a off-caliber nulls partial never committed/pushed; current 74-row local (k0..73 continuous) == bm-b correct-caliber burn rows"
+  },
+  "caliber_contrast_quarantine_vs_canonical_x1": {
+   "rows": {"canonical": 401, "quarantine_offcaliber": 401},
+   "window_keys": "identical sets (401/401 overlap, range |1005..|982)",
+   "identical_rows": 335,
+   "diverging_rows": 66,
+   "diverging_fields": ["ret_24m", "sharpe_24m", "dd_24m"],
+   "sample": {"DIVLOWVOL-YIELDVOL|x1|7240": {"ret_24m_canonical": 0.447974, "ret_24m_offcaliber": 0.449632, "sharpe_24m_canonical": 1.2768, "sharpe_24m_offcaliber": 1.2817}},
+   "universe_stats": {"n_base_range": [0, 5072], "n_active_universe_range": [26, 5122], "n_active_universe_mean": 1971.2, "note": "identical between canonical and quarantine -- contamination surface = late-window 24m-tail segment metrics, not eligibility-gate universe membership in this cell face"}
+  }
+ },
+ "pool_state": "FUND-DIVLOWVOL-P1-CELL-* X1/X2 entries status=done == CORRECT state (bm-b canonical); no flip, no re-arm",
+ "family_finalize_dependency": "waits only on FUND-DIVLOWVOL-P1-NULLS 2000-draw completion (bm-b in-flight, ETA 10-06/10-08); finalize window >=10-09 pre-open per family plan",
+ "law_refs": ["research/pit-pool.md (pool read discipline)", "O-20261003-1210-bm-c item3 heritage", "r615/r625 containment family"]
+}

@@ -44,3 +44,4 @@
 
 
 - [2026-10-03 16:3x r631 bm-a] L1 路由共享默认翻面×他机模型名分叉坑（r618 bm-b 翻共享默认 qwen3.8:4b 后 bm-a 无同名模型=L1 静默断路）：共享单源 scripts/llm_assist.py 默认模型按 CEO 令翻新代后，他机本地档名不同（bm-a=qwen3-8b-ud:q4_k_xl）→ask/retro 走错模型名→L2 不可用回退云端=本地分流面静默失效。How to apply：共享默认翻面机=改动同窗发 inbox 通告；他机=用户级 env 覆写（setx BIGMONEY_LLM_MODEL 本机档名·持久生效）+ollama keep_alive=-1 常驻重立+selftest 实证（本窗 setx+warm 7.41GB expires=None+selftest PASS+ask 1.0s 端到端全绿）。
+- [2026-10-03 16:4x r632 bm-a] containment 注记处置行无收口语义坑（DIVLOWVOL cells 定谳窗当场抓回零浪费）：r625 off-caliber 隔离注记的「DO NOT consume until re-burned」处置行在 canonical 已恢复（r622 origin-verbatim）后仍站立——finalize 执行者按字面读=拒 canonical 数据或触发无谓全量重烧（X1/X2 ~2x70min x32w 纯浪费）；正法=收口窗必带口径定谳步（E20 三证：origin blob 恒等+落者 commit 史+隔离件行级 diff），处置行随定谳 supersede 勿留站立禁令。How to apply：未来一切 containment/quarantine 注记落盘即写明「supersede 条件」（canonical 落地+provenance 定谳即解除）；finalize 前读注记见禁消费行先跑定谳探针勿按字面执行。
