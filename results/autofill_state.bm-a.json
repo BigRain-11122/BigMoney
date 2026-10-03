@@ -1133,14 +1133,31 @@
    "fill_latency_min": 0.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 18:36:02",
+  "ts": "2026-10-03 18:45:01",
   "machine": "bm-a",
-  "py_cpu_pct": 78.9,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 0.9,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 18
+   },
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 208
+   }
+  ],
+  "verdict": "claim_lost_yield",
+  "entry": "FUND-DIVLOWVOL-P1-NULLS",
+  "shard": "fund-divlowvol-p1-nulls-0of1"
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T18:17:20+08:00"
