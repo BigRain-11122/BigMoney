@@ -1,0 +1,51 @@
+S6 chain r441 bm-c start 03:32:46
+01_dualrun rc=0 | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 366 entries, drift-free streak 43, cutoff 2026-10-03 08:29:00)
+02_compute_audit rc=0 | compute_audit: runnable_pool merged-sync settled {"wrote_shared": true, "wrote_lane": true}
+03_watermark rc=0 | {"ts": "2026-10-04 03:33:00", "epoch": 1791055974.0, "machine": "bm-c", "cpu_total_pct": 14.0, "cores": 32, "py_cpu_pct": 3.4, "py_procs": 7, "top_proc_cores": 1.07, "local_batch_running": true, "refr
+04_update_daily rc=0 | === Bigmoney daily update 2026-10-04 03:33:01 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30
+status -> K:\Fluxgroup
+05_regime rc=0 | regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-09-30 state=ORANGE (橙·高危) raw=ORANGE days_in_state=2 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+ 
+06_scorecard rc=0 | lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 20min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+scorecard: 6 traders -> K:\Fluxgroup\FluxGrou
+07_clock_call rc=0 | call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+08_lhb rc=0 | cutoff=2026-09-30 quarter=2026Q3 today=2026-10-04
+no-op: <30min since last fetch attempt (min-interval guard)
+09_heat rc=0 | no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+10_futures rc=0 | no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+11_repo rc=0 | no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+12_options rc=0 | no-op: options lane owned by bm-a, not this machine (bm-c)
+13_moneyflow rc=0 | no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+14_sina_mf rc=0 | no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+15_astock rc=0 | no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+16_etf_daily rc=0 | no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+17_rev_osc rc=0 | rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+18_minute_feed rc=0 | update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+19_ths_panel rc=0 | no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+20_ah_panel rc=0 | no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+21_fund_premium rc=0 | no-op: weekend (NAV publishes on trading days only)
+22_fundamental rc=0 | snapshot fresh (13.6h < 24h) -> skip
+23_b_layer rc=0 | mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_
+paper-family SKIPPED: no new bar (Golden Week, last=2026-09-30) -- live.paper/t35_open_fill_verify/t24 paper legs legal no-op
+28_aggr_lab rc=0 | aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+29_alloc_paper rc=0 | no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+30_grid_paper rc=0 | grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+31_system_v1 rc=0 | system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+32_t35_export rc=0 | lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 22min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+export 2026-09-30: traders=6 positions=18 equity=59984
+33_daily_score rc=0 | lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 22min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+scorecard written: K:\Fluxgroup\FluxGroup\quant\
+34_daily_report rc=0 | daily report written: REPORT-2026-10-04.md/.json faces=5 token=1
+35_ceo_usage rc=0 | ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-04.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intrad
+36_build_status rc=0 | lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 22min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+dashboard status -> K:\Fluxgroup\FluxGroup\quan
+37_token_meter rc=0 | saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 12587 + 10276 tokens (rough); ledger cumulative ~ 2049 state + 1134591 report tokens; delta=0
+L2 local
+S6 chain done 03:34:52 FAILS=[]

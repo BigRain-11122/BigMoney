@@ -1001,3 +1001,12 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 验证证据: readiness 探针 selftest PASS x2（确定性双跑）；实测面 results/finalize_trio_readiness.json（G1=F G2=T G3=T G4=PENDING·eta 实读）；S6 各腿 rc0 行；attrition scan CLEAN；double_scan orders=152/152 inbox=0
 下轮指针: r644 = 每轮跑 python scripts\finalize_trio_readiness.py run 至 mechanical_ready 翻绿（历史面跨轮速率收敛）+ 三族烧监护续（烧完即 finalize 开窗动作）+ LIVE v1.5 面随烧录自动刷新验收
 本地未达 origin commit 数=0（push 后 ls-remote 自证）
+2026-10-04T03:40:17+08:00 | round 644 (bm-b, dept:工程/数据+研究): watermark verdict=GREEN (red=false; audit CLEAN burning-healthy; WM probe py_low_with_work_cands=合法〔local_batch_running=true 三守护烧批内在速率非违令〕; dualrun ZERO-DRIFT streak 36)
+当前活: FUND 三族 NULLS 烧录在飞 Q396/V535/D268 of 2000（三守护进程 CIM 实证 pid 34396/57116/30208·append mtime<6min·dup_k=0；ETA V~10-06/Q~10-07/D~10-08，DIVLOWVOL 贴窗尾持续盯）+ finalize 窗 10-05..10-09（G-SEG 裁定待 GM·r638 insufficient-sample fallback 在位）
+最近实物: S0 收口 merge 34eb31b08 DELIVERED（31 UU 三分类=r440 两分法完整实弹：29 S6 可再生面 origin-newer-wins+x2_watch union 双块保留+token_usage ours）+ 就绪探针刷新 results/finalize_trio_readiness.json 03:3x（G1=F G2=T G3=T G4=PENDING·双采样速率/ETA）
+下个里程碑: 三族 NULLS 烧满 2000 → finalize+E1 判决落窗 10-05..10-09（探针 mechanical_ready 即执行；G-SEG 无裁定走 r638 单读判决）。窗 ≤48h 首查=烧录完成度
+做了什么: S0 daemon treadmill 吸收 ccd3cbd46+merge origin 波（bm-a r656/bm-c r441）31 UU r440 配方+push DELIVERED；S0.5 令牌 152/152 首扫+收尾双扫零差+D-19 sparse-clone fallback MATCH EB14B510 零消费；S1 47/47；S2 板 165 票 0 open·job_list 空；S3 门全绿（WM red=false·engine alive rc0·常设线由在飞三族烧批满足·W14-GENERATE RAM 3.72GiB<4GB 闸正确排队）；post_review 两 NO 行核毕=00:00:04 瞬态已被 01:04/01:29 复审翻绿零欠账；S6 ~30 腿 rc0（周日黄金周诚实 no-op 族+车道护栏十腿；strategy_scorecard stale-takeover 合法〔bm-a hb 22min>20min 阈·本地+origin 双视图〕）；S7 四件幂等+attrition CLEAN+针位 2 no-op
+验证证据: push_verify DELIVERED ahead=0 behind=0 tip 34eb31b08；smoke 47/47；三守护进程 CIM 实证活；nulls Q396/V535/D268 零 dup_k；dualrun streak 36；attrition scan CLEAN；double_scan orders=152/152 inbox=0
+下轮指针: r645 = 烧录进位复跑 readiness 探针；mechanical_ready=true 且窗开即执行三族 finalize+E1（G-SEG 无裁定=r638 fallback）；DIVLOWVOL ETA 若劣化贴 10-09→评估合规提速面（禁池面整文件重放陷阱 r630 律）
+本地未达 origin commit 数=0（push_verify DELIVERED·remote tip 恒等 34eb31b08）
+2026-10-04T03:47:00+08:00 | round 644 addendum (bm-b): 收尾补推——bm-a r657 波 merge 零 UU（THEME_PERSIST_P1 R4 冻结 457c37ac0 + MSG-0335 认领声明零反对已 processed 移档；题材线=bm-a T-165 票零撞）+ 收尾 churn absorb 4 面；最终 tip DELIVERED；本地未达 origin commit 数=0
