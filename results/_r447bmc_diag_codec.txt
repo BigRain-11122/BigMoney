@@ -1,0 +1,12 @@
+candidate mojibake lines (1-based): [69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87]
+line 69 len=6268
+codec cp936 per-char encode failures: 211 [(29, '0x20ac'), (34, '0xe1bc'), (35, '0xe17a'), (37, '0x20ac'), (66, '0xe1ee'), (127, '0xe191'), (139, '0x20ac'), (142, '0xe5c6'), (159, '0xe511'), (186, '0xe191'), (192, '0x20ac'), (199, '0xe224')]
+codec cp936 full-line encode FAIL at char 29 (U+20AC): 'gbk' codec can't encode character '\u20ac' in position 29: illegal multibyte sequence
+codec gbk per-char encode failures: 211 [(29, '0x20ac'), (34, '0xe1bc'), (35, '0xe17a'), (37, '0x20ac'), (66, '0xe1ee'), (127, '0xe191'), (139, '0x20ac'), (142, '0xe5c6'), (159, '0xe511'), (186, '0xe191'), (192, '0x20ac'), (199, '0xe224')]
+codec gbk full-line encode FAIL at char 29 (U+20AC): 'gbk' codec can't encode character '\u20ac' in position 29: illegal multibyte sequence
+codec gb18030 per-char encode failures: 0 []
+codec gb18030 full-line encode OK bytes=9358
+codec gb18030 roundtrip utf-8 decode FAIL at byte 31: 'utf-8' codec can't decode byte 0xe3 in position 31: invalid continuation byte
+first 60 codepoints: 002D 0020 005B 0032 0030 0032 0036 002D 0030 0039 002D 0032 0034 0020 0031 0036 003A 0030 0037 003A 0033 0032 005D 0020 0043 0045 004F 0020 93C8 20AC 6942 6A3A 57BD 93B9 E1BC E17A 7477 20AC 9286 5C7D 7584 93B4 6A3A 56AD 942A 71BA 7161 9286 5D8F 7D19 0032 0030 0032 0036 002D 0030 0039 002D 0032 0034
+codec cp936 lenient roundtrip cjk_ratio=0.255 head='- [2026-09-24 16:07:32] CEO �?高判�??�?「实战出真知」（2026-09-24 原话「�'
+codec gb18030 lenient roundtrip cjk_ratio=0.305 head='- [2026-09-24 16:07:32] CEO 朢�高判据宣訢�「实战出真知」（2026-09-24 原话「对，'

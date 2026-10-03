@@ -1,0 +1,116 @@
+{
+ "status": "OK",
+ "file": "CODELY.md",
+ "sha256_before": "b53226ea7fe930b2472f59e8ebb99814d643a3b25c6c64045fd5e260e23929ca",
+ "sha256_after": "6de89ffe46cf89d70910004287999f0ab24f6c9c96882a638350e34db112b47d",
+ "bytes_before": 86416,
+ "bytes_after": 42401,
+ "deleted_bytes": 42873,
+ "dup_prefix_bytes_removed": 746,
+ "r657_reinstated_from": "2c0c6dcf5",
+ "r657_identity_coverage": [
+  0.9247,
+  0.9273
+ ],
+ "ops": [
+  "OP1 split merged L64 -> r641 standalone (dup twin L63)",
+  "OP2 delete 17 duplicate mojibake lines (L69-L87 minus r657 pair)",
+  "OP3 re-instate 2 r657 bm-a readable lines verbatim from git 2c0c6dcf5"
+ ],
+ "gram_coverage": {
+  "69": {
+   "grams": 3058,
+   "gram_coverage": 0.9101,
+   "segments_fail": 0
+  },
+  "70": {
+   "grams": 865,
+   "gram_coverage": 0.9052,
+   "segments_fail": 0
+  },
+  "71": {
+   "grams": 3092,
+   "gram_coverage": 0.8913,
+   "segments_fail": 0
+  },
+  "72": {
+   "grams": 420,
+   "gram_coverage": 0.9238,
+   "segments_fail": 0
+  },
+  "73": {
+   "grams": 336,
+   "gram_coverage": 0.9226,
+   "segments_fail": 0
+  },
+  "74": {
+   "grams": 370,
+   "gram_coverage": 0.9297,
+   "segments_fail": 0
+  },
+  "75": {
+   "grams": 630,
+   "gram_coverage": 0.9286,
+   "segments_fail": 0
+  },
+  "76": {
+   "grams": 628,
+   "gram_coverage": 0.8869,
+   "segments_fail": 0
+  },
+  "77": {
+   "grams": 464,
+   "gram_coverage": 0.9116,
+   "segments_fail": 0
+  },
+  "78": {
+   "grams": 377,
+   "gram_coverage": 0.8992,
+   "segments_fail": 0
+  },
+  "79": {
+   "grams": 378,
+   "gram_coverage": 0.9206,
+   "segments_fail": 0
+  },
+  "80": {
+   "grams": 467,
+   "gram_coverage": 0.8758,
+   "segments_fail": 0
+  },
+  "81": {
+   "grams": 454,
+   "gram_coverage": 0.9405,
+   "segments_fail": 0
+  },
+  "82": {
+   "grams": 312,
+   "gram_coverage": 0.9038,
+   "segments_fail": 0
+  },
+  "83": {
+   "grams": 412,
+   "gram_coverage": 0.8859,
+   "segments_fail": 0
+  },
+  "84": {
+   "grams": 272,
+   "gram_coverage": 0.9265,
+   "segments_fail": 0
+  },
+  "87": {
+   "grams": 237,
+   "gram_coverage": 0.903,
+   "segments_fail": 0
+  }
+ },
+ "verify": {
+  "still_mojibake_lines": [],
+  "r641_standalone": true,
+  "r438_copies": 1,
+  "r657_readable_lines": 2,
+  "r657_verbatim_in_file": true,
+  "all_green": true
+ },
+ "quarantine_dir": "results\\_quarantine\\20261004-061625_r447bmc_codely_mojibake"
+}
