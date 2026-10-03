@@ -1,0 +1,59 @@
+{
+ "ts": "2026-10-04 01:04:30",
+ "round": "r437 bm-c",
+ "law": "O-20260924-2115 re-derive-to-green (ledger untouched) + r638 repoint receipt precedent + r624 archive-not-delete R1 intent preserved via git-history form",
+ "root_cause": "r638 bm-a repointed shared criteria to machine-local .codely-cli/scripts-archive/ (gitignored) -> file_exists:ABSENT on all non-bm-a machines (bm-b MSG-20261004-0030 P0)",
+ "repointed": [
+  {
+   "row_id": "T-73-CN-REV-TILT-P1",
+   "from": "file_exists:.codely-cli/scripts-archive/_r248bma_cnrev_harvest.py",
+   "to": "git_log_file:results/_r248bma_cnrev_harvest.py [*,100]"
+  },
+  {
+   "row_id": "T-73-CN-DIV-LOWVOL-ROT-P1",
+   "from": "file_exists:.codely-cli/scripts-archive/_r252bma_rot_harvest.py",
+   "to": "git_log_file:results/_r252bma_rot_harvest.py [*,100]"
+  },
+  {
+   "row_id": "R252-BMA-LEDGER-CHAIN-REPAIR",
+   "from": "file_exists:.codely-cli/scripts-archive/_r252bma_ledger_census.py",
+   "to": "git_log_file:results/_r252bma_ledger_census.py [*,100]"
+  },
+  {
+   "row_id": "R252-BMA-LEDGER-CHAIN-REPAIR",
+   "from": "file_exists:.codely-cli/scripts-archive/_r252bma_ledger_chain_repair.py",
+   "to": "git_log_file:results/_r252bma_ledger_chain_repair.py [*,100]"
+  },
+  {
+   "row_id": "T-73-CN-REGIME-POLICY-P1",
+   "from": "file_exists:.codely-cli/scripts-archive/_r256bma_rp_harvest.py",
+   "to": "git_log_file:results/_r256bma_rp_harvest.py [*,100]"
+  },
+  {
+   "row_id": "T-83-S3-GM-SLICE2",
+   "from": "file_exists:.codely-cli/scripts-archive/_r270bma_orders_index_md.py",
+   "to": "git_log_file:results/_r270bma_orders_index_md.py [*,100]"
+  },
+  {
+   "row_id": "T-83-S3-GM-SLICE2",
+   "from": "file_exists:.codely-cli/scripts-archive/_r270bma_pointer_fixes.py",
+   "to": "git_log_file:results/_r270bma_pointer_fixes.py [*,100]"
+  },
+  {
+   "row_id": "T-87-REV-OSC-P1",
+   "from": "file_exists:.codely-cli/scripts-archive/_r282bma_revosc_harvest.py",
+   "to": "git_log_file:results/_r282bma_revosc_harvest.py [*,100]"
+  },
+  {
+   "row_id": "T-86-S2-CENSUS-FUS-W1",
+   "from": "file_exists:.codely-cli/scripts-archive/_r290bma_censusfus_harvest.py",
+   "to": "git_log_file:results/_r290bma_censusfus_harvest.py [*,100]"
+  }
+ ],
+ "n_repointed": 9,
+ "g0_roundtrip_formatting_byte_equal": true,
+ "g1_only_9_checks_changed": true,
+ "g2_git_history_present_all_9": true,
+ "g3_idempotent_second_pass_zero": true,
+ "verdicts": "re-derived by Tools/post_review.py run in same round; ledger rows appended by reviewer only"
+}
