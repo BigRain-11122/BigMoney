@@ -1,8 +1,8 @@
 {
- "schema": "ceo_live_usage_v1_4",
+ "schema": "ceo_live_usage_v1_5",
  "ticket": "T-202609-28-105",
  "day": "2026-10-04",
- "generated": "2026-10-04T02:23:32",
+ "generated": "2026-10-04T02:32:37",
  "market": {
   "state": "ORANGE",
   "asof": "2026-09-30",
@@ -317,6 +317,37 @@
     "symbol": "513500",
     "status": "NO_FEED",
     "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
+   }
+  ]
+ },
+ "judgment_burns": {
+  "feed": "results/fund_*_p1/nulls.jsonl append-only counters",
+  "target": 2000,
+  "finalize_gate": "have == 2000（预注册冻结硬门）",
+  "families": [
+   {
+    "family": "FUND-QUALITY-P1",
+    "present": true,
+    "have": 376,
+    "target": 2000,
+    "dup_k": 0,
+    "last_append_age_min": 2.6
+   },
+   {
+    "family": "FUND-VALUE-P1",
+    "present": true,
+    "have": 511,
+    "target": 2000,
+    "dup_k": 0,
+    "last_append_age_min": 3.6
+   },
+   {
+    "family": "FUND-DIVLOWVOL-P1",
+    "present": true,
+    "have": 252,
+    "target": 2000,
+    "dup_k": 0,
+    "last_append_age_min": 1.2
    }
   ]
  },

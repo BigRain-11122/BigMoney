@@ -1,0 +1,58 @@
+{
+ "face": "A股原生战法实测汇报·首批 (R1)",
+ "order_ref": "O-20261001-2106 (定向实测汇报令) + O-20261001-2103 (题材战法方法论研究令)",
+ "ticket_ref": "T-2026-10-04-165",
+ "generated": "2026-10-04T02:34:38+08:00",
+ "report_date": "2026-10-04",
+ "law": "实测律：每行带在册实测数字或判负证据；未实测的不入汇报面",
+ "n_rows": 5,
+ "n_evidence_missing": 0,
+ "rows": [
+  {
+   "id": "THEME",
+   "name": "题材炒作持续性（历史事件库）",
+   "mechanism": "概念点火后，看点火后20天内是否冲顶（冲顶即断崖=短命），长命主题早期段温和不死；退潮段看断崖深度。",
+   "evidence": "results/theme_ring/theme_events_v01.json (v0.1, evidence_cutoff 2026-09-30)",
+   "numbers": "16个历史题材事件：长命14、中等1、一日游1；退潮断崖深度区间 -86% ~ -14%",
+   "verdict": "存活（普查进行中，未到判决门）",
+   "go": "R3第二刀波段切分（16→20+事件，窗≤10-06）→ R4持续性判别门预注册（小n诚实律）"
+  },
+  {
+   "id": "GRID",
+   "name": "网格交易（区间低买高卖）",
+   "mechanism": "在设定区间内跌买涨卖，赚波动的钱；关键看扣成本后还赢不赢基准。",
+   "evidence": "results/grid_sleeve_p1.json (evidence_cutoff 2026-09-24)",
+   "numbers": "冻结科学面袖：0/5格过科学存活门（survivors_science=空），晋升候选0；5个观察账户（GRID-*纸盘）照CEO令继续跑",
+   "verdict": "科学面判负（0存活）；观察面在跑（CEO一句话网格账户已开）",
+   "go": "观察账户前向跟踪；无晋升候选，不进注册管线"
+  },
+  {
+   "id": "REV-OSC",
+   "name": "超跌反弹（大跌后买入）",
+   "mechanism": "跌得越狠越买，赚情绪修复的钱；用T+1开盘保守口径+双倍成本列测，防回测美化。",
+   "evidence": "results/rev_osc/p1_results.json (evidence_cutoff 2026-09-22, 判词：judged per prereg s4: G1'v2 x1 primary faces; judged-negative = slot closed + new-evidence reopen note (O-2325 s5))",
+   "numbers": "judged批G1'v2双成本列：7个标准化面全史夏普区间 -0.28~0.38，过硬门 0/7——最高面BASE也只有 0.3831",
+   "verdict": "标准化面judged-negative（0/7过硬门，判负关线留痕）；淬炼条件版（熊市闸+首阳+止盈三件套）=新证据重开线；纸面观察道（T-91 REV-OSC-STD）继续在册",
+   "go": "观察纸盘前向跟踪至10-31月界大考；重开须新证据（O-2325 s5）；股票面判负不外推（M05/N01）"
+  },
+  {
+   "id": "LOWAMP",
+   "name": "低振幅（买最不折腾的）",
+   "mechanism": "长期持有波动最小的那批ETF，吃低风险溢价；A股散户高波动换手环境里安静的钱更稳。",
+   "evidence": "results/lowamp_deepscan_p1/stats.json + knowledge/METHODOLOGY_ASSETS.md M05/N01卡",
+   "numbers": "深扫2450格，邻域带121/121全稳健、全部超验证窗基准30个百分点以上（disc12m=0.0726, val2020_25=0.5868）；方法卡：ETF面正、股票面判负",
+   "verdict": "ETF面存活（家族judged确认）；股票面判负（不外推律M05）",
+   "go": "基金低振幅NULLS烧批在飞（bm-b，ETA 10-05..09）→finalize判决→10-31月界大考",
+   "card_quote": "- **M05 跨面不外推律**（proven）：ETF 面结论禁外推股票面；新面必独立重烧。证据：LOWAMP ETF 正/股票负；MOM 双面灭（T-139）。"
+  },
+  {
+   "id": "MOM",
+   "name": "动量（追涨杀跌）",
+   "mechanism": "买过去一段时间涨得最猛的，赌强者恒强。",
+   "evidence": "knowledge/METHODOLOGY_ASSETS.md N02卡（T-86普查/T-139）",
+   "numbers": "- **N02 MOM 双面灭**（proven）：动量族 ETF 面 4920 格 0 显著+股票面判负——A 股动量方向两面证伪。证据：T-86 普查/T-139。",
+   "verdict": "双面判负关线（ETF面+股票面都证伪）",
+   "go": "已关线留痕；只有新证据才可重开（省下的钱=负方法资产）"
+  }
+ ]
+}
