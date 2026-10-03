@@ -1,0 +1,53 @@
+{
+  "round": "r417 bm-c",
+  "ticket": "T-2026-10-02-144(c)",
+  "bullet_fixed_before_migration": {
+    "count": 2,
+    "bytes": 4
+  },
+  "domains": {
+    "git": {
+      "entries": [
+        "[2026-10-02 13:1x r366 bm-c]",
+        "[2026-10-03 11:2x r614 bm-b]"
+      ],
+      "block_lf_bytes": 1525,
+      "block_lf_md5": "6ec1ff0ca71bf1d20721f99d7a5783d9",
+      "pit_bytes_before": 91039,
+      "pit_bytes_after": 92994,
+      "tail_lf_to_crlf_fix_bytes": 1
+    },
+    "protocol": {
+      "entries": [
+        "[2026-10-02 13:2x r366 bm-c]",
+        "[2026-10-02 15:3x r371 bm-c]",
+        "[2026-10-03 13:0x r415 bm-c]"
+      ],
+      "block_lf_bytes": 2651,
+      "block_lf_md5": "9c0db0af4de6d7d8b5fa9ec33aa49c85",
+      "pit_bytes_before": 34233,
+      "pit_bytes_after": 37349,
+      "tail_lf_to_crlf_fix_bytes": 0
+    }
+  },
+  "codely": {
+    "bytes_before": 31432,
+    "bytes_after": 27667,
+    "removed_entries_bytes_wt": 4176,
+    "removed_count": 5,
+    "bullet_fixed_bytes": 4,
+    "ptr_rows_edited": 2,
+    "ptr_note_bytes_wt": 413,
+    "expected_numstat": "7 2",
+    "disk_bytes_actual": 27667,
+    "discrepancy_note": "reported bytes_after=27672 vs disk 27667 (5B reporting-arithmetic delta); authoritative verdict chain: git numstat 2/7 CODELY (5 entry rows deleted + 2 ptr rows rewritten) + independent verbatim count==1 each + zero residue + survivor anchors + zero lone-CR/LF in CODELY/pit-git. pit-protocol keeps 2 pre-existing lone-LF (positions 1585/6107, before insertion point 2581 / in r585 stock entry area; proven pre-existing by 7-insertions-0-deletions numstat = zero stock-line modification)."
+  },
+  "pit_protocol_lone_lf": {
+    "count": 2,
+    "positions": [
+      1585,
+      6107
+    ],
+    "verdict": "pre-existing, not introduced this round"
+  }
+}
