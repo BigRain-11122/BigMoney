@@ -2752,6 +2752,35 @@ N1_BANDS = {
     # NOT a re-pick (R250: W114 bands were never assigned).
     114: {"a": (271_004, 273_003), "b_exit": (62_201, 62_400),
          "engine_owner": "bm-a"},
+    # ONE HUNDRED-AND-FIFTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r384 bm-c
+    # freeze): engine_owner rows 104 + candidate; bm-c's thirty-
+    # fourth owned per machine-derive (engine_owner==bm-c rows 33 +
+    # candidate). Wave 115 = first free number after the REGISTERED
+    # W114 row (bm-a r594 freeze ddacf2616) -- SINGLE STATE zero seat
+    # gap (W2..W114 all registered). Seat published=reserved
+    # MSG-20261002-2130-bmc-w115-seat pushed to origin ac241dd32
+    # BEFORE this freeze per r565 early-visibility law (payload = seat
+    # MSG + pre-seat probe, deletion-set EMPTY; rev.A = only published
+    # face).
+    # W114 finalize LANDED (chain head 615,348, K=248,720 = bm-a r594
+    # one-pass). ZERO in-flight upstream seats (W2..W114 all landed) --
+    # finalize merge loop still derives the wave set from registry
+    # keys at run time, FAIL-CLOSED r307 two-state law always on.
+    # A = arithmetic continuation from the registered W114 A tail:
+    # 273_004..275_003 CLEAN hops=0. B = pinned D-20261002-05 past-hit
+    # restart: arithmetic 62_401..62_600 refused in-band at
+    # SEED_REGISTRY grid_sleeve_p1=62_500 (mid-window hit) ->
+    # restart 62_501..62_700 CLEAN hops=1 (window-step-chain reading
+    # 62_601..62_800 BANNED per W68-B negative anchor; ADMIT receipt
+    # results/_r384bmc_w115_band_gate.py rc0; live SEED_REGISTRY +
+    # probe cluster 95_000..95_003 r335 leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 leg.
+    # W116+ projection (gate-derived r384): A 275_004..277_003 CLEAN
+    # hops=0; B 62_701..62_900 CLEAN hops=0 (next freezer must
+    # re-derive, never transcribe; r587 law).
+    # NOT a re-pick (R250: W115 bands were never assigned).
+    115: {"a": (273_004, 275_003), "b_exit": (62_501, 62_700),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
