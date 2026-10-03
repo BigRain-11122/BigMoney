@@ -1128,14 +1128,45 @@
    "fill_latency_min": 0.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 15:00:02",
+  "ts": "2026-10-03 15:16:02",
   "machine": "bm-a",
-  "py_cpu_pct": 78.8,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 3.9,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-NULLS",
+  "shard": "fund-value-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 98,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 98
+   },
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 115
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-NULLS",
+    "shard": "fund-divlowvol-p1-nulls-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
+    "fuse_refusals": 28
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-SENS",
+    "shard": "fund-divlowvol-p1-sens-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--sensitivity",
+    "fuse_refusals": 28
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T14:55:16+08:00"
