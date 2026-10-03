@@ -750,20 +750,76 @@ def _append_rows(path: str, rows: list):
                                 ensure_ascii=False) + "\n")
 
 
+def _replace_rows(path: str, rows: list, extra: dict = None):
+    """r611 redo face: AA in-place replacement -- rewrite the checkpoint
+    with `rows` replacing existing entries at the same keys (key set
+    unchanged -> attrition r448 monotone law holds; zero duplicate-key
+    appends).  Atomic tmp+replace: a mid-redo crash leaves the pre-redo
+    file untouched (redo simply did not land; re-run to retry)."""
+    by_key, order = {}, []
+    if os.path.exists(path):
+        for ln in open(path, encoding="utf-8").read().splitlines():
+            if not ln.strip():
+                continue
+            try:
+                k = json.loads(ln)["key"]
+            except (json.JSONDecodeError, KeyError):
+                continue        # truncated crash tail: drop honestly
+            if k not in by_key:
+                order.append(k)
+            by_key[k] = ln
+    for r in rows:
+        row = dict(r)
+        if extra:
+            row.update(extra)
+        k = row["key"]
+        if k not in by_key:
+            order.append(k)     # honest: redo key absent pre-run
+        by_key[k] = json.dumps(row, default=bool, sort_keys=True,
+                               ensure_ascii=False)
+    tmp = path + ".redo_tmp"
+    with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        for k in order:
+            fh.write(by_key[k] + "\n")
+    os.replace(tmp, path)
+
+
+def _cache_digest() -> str:
+    """Content digest of the drift-affected cache faces (bm-a MSG-0827
+    sec.7 spirit: machine-local frozen-cache meta-identity is
+    insufficient -- pin volume+amount CONTENT).  16-hex short digest
+    for row-level provenance annotation."""
+    import hashlib
+    h = hashlib.sha256()
+    for name in ("volume.npy", "amount.npy"):
+        fp = os.path.join(P1C.CACHE_DIR, name)
+        with open(fp, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 22), b""):
+                h.update(chunk)
+    return h.hexdigest()[:16]
+
+
 def _mk(kind, **kw):
     return {"_fn": {"cell": _cell_task, "cont": _cont_task,
                     "null": _null_task, "sens": _sens_task}[kind], **kw}
 
 
-def _run_parallel_tasks(tasks, keyfn, path, log_name, heavy=False):
+def _run_parallel_tasks(tasks, keyfn, path, log_name, heavy=False,
+                        redo=False, redo_extra=None):
     """ProcessPool burn with checkpoint done-key skip; worker count =
     min(width plan, worker_cap, memory guard) -- heavy arms (nulls/sens)
-    budget MEM_GB_PER_NULL_WORKER per worker (stock-universe draws)."""
+    budget MEM_GB_PER_NULL_WORKER per worker (stock-universe draws).
+    redo=True (r611): bypass the skip, collect completed rows and
+    AA-replace them at the same keys via _replace_rows (attrition-safe)."""
     from concurrent.futures import ProcessPoolExecutor, as_completed
     import psutil
-    done = _done_keys(path)
-    todo = [p for p in tasks if keyfn(p) not in done]
-    _log(log_name, f"todo={len(todo)} resume-skipped={len(tasks) - len(todo)}")
+    if redo:
+        todo = list(tasks)
+        _log(log_name, f"REDO mode: re-burning {len(todo)} (skip bypassed)")
+    else:
+        done = _done_keys(path)
+        todo = [p for p in tasks if keyfn(p) not in done]
+        _log(log_name, f"todo={len(todo)} resume-skipped={len(tasks) - len(todo)}")
     if not todo:
         return 0
     cap = worker_cap()
@@ -774,16 +830,24 @@ def _run_parallel_tasks(tasks, keyfn, path, log_name, heavy=False):
     else:
         workers = int(min(12, cap))
     t0, t_last, n = time.time(), time.time(), 0
+    collected = []
     with ProcessPoolExecutor(max_workers=workers,
                              initializer=_init_worker) as pool:
         futs = {pool.submit(p["_fn"], p): p for p in todo}
         for fut in as_completed(futs):
             row = fut.result()
-            _append_rows(path, [row])
+            if redo:
+                collected.append(row)
+            else:
+                _append_rows(path, [row])
             n += 1
             if time.time() - t_last > 30:
                 _log(log_name, f"progress {n}/{len(todo)}")
                 t_last = time.time()
+    if redo:
+        _replace_rows(path, collected, redo_extra)
+        _log(log_name, f"REDO replaced {n} rows in "
+                       f"{os.path.basename(path)}")
     _log(log_name, f"DONE {n}/{len(todo)} in {round(time.time() - t0, 1)}s "
                    f"workers={workers}")
     return n
@@ -1088,18 +1152,46 @@ def cmd_run(args) -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
     if not _require_probe():
         return 3
+    redo = bool(getattr(args, "redo", False))
+    redo_extra = None
+    if redo:
+        redo_extra = {"burn_machine": _machine_id(),
+                      "redo_reason": "off-caliber-reburn-2026-10-03",
+                      "cache_digest": _cache_digest(),
+                      "redo_ts": _now_iso()}
+        _log("redo", f"redo provenance pinned: machine="
+                     f"{redo_extra['burn_machine']} digest="
+                     f"{redo_extra['cache_digest']}")
     if args.nulls:
         path = _shard_files(kind="nulls")
         tasks = [_mk("null", k=k) for k in range(K_NULLS)]
+        if redo:
+            lo = max(0, int(getattr(args, "redo_k_lo", 0) or 0))
+            hi = int(getattr(args, "redo_k_hi", -1))
+            if hi < 0 or hi >= K_NULLS:
+                hi = K_NULLS - 1
+            tasks = [p for p in tasks if lo <= p["k"] <= hi]
+            _log("nulls", f"redo k-range [{lo},{hi}] -> "
+                          f"{len(tasks)} draws")
         _run_parallel_tasks(tasks, lambda p: f"null|{p['k']}", path,
-                            "nulls", heavy=True)
+                            "nulls", heavy=True, redo=redo,
+                            redo_extra=redo_extra)
         _pool_claim(*_entry_of(args), f"nulls N={K_NULLS} -> {path}")
         return 0
     if args.sensitivity:
         path = _shard_files(kind="sens")
         tasks = [_mk("sens", k=k) for k in range(K_SENS)]
+        if redo:
+            lo = max(0, int(getattr(args, "redo_k_lo", 0) or 0))
+            hi = int(getattr(args, "redo_k_hi", -1))
+            if hi < 0 or hi >= K_SENS:
+                hi = K_SENS - 1
+            tasks = [p for p in tasks if lo <= p["k"] <= hi]
+            _log("sens", f"redo k-range [{lo},{hi}] -> "
+                         f"{len(tasks)} draws")
         _run_parallel_tasks(tasks, lambda p: f"sens|{p['k']}", path,
-                            "sens", heavy=True)
+                            "sens", heavy=True, redo=redo,
+                            redo_extra=redo_extra)
         _pool_claim(*_entry_of(args), f"sens N={K_SENS} -> {path}")
         return 0
     if not (args.cell in CELLS and args.face in FACES):
@@ -1112,13 +1204,16 @@ def cmd_run(args) -> int:
     tasks = [_mk("cell", cell=cell, pos=pos, face=face) for pos in starts]
     path = _shard_files(cell=cell, face=face)
     _run_parallel_tasks(tasks, lambda p: f"{cell}|{face}|{p['pos']}", path,
-                        log)
+                        log, redo=redo, redo_extra=redo_extra)
     # continuous face (G1'/M1/DSR/x2/PBO supply)
     cpath = os.path.join(OUT_DIR, f"cont_{cell}_{face}.json")
-    if not os.path.exists(cpath):
+    if redo or not os.path.exists(cpath):
         row = _cont_task(_mk("cont", cell=cell, face=face))
+        if redo and redo_extra:
+            row.update(redo_extra)
         _dump(row, cpath)
-        _log(log, f"cont face written: {cpath}")
+        _log(log, f"cont face {'re-derived (redo)' if redo else 'written'}: "
+                  f"{cpath}")
     _log(log, f"shard complete: {len(starts)} starts + cont face")
     _pool_claim(*_entry_of(args),
                 f"cells {len(starts)} -> {path} + {os.path.basename(cpath)}")
@@ -1696,6 +1791,43 @@ def cmd_selftest(_) -> int:
         ENUM_LO, ENUM_HI = old_win
     check("F19_g_census_logic", census_ok,
           f"starts={n_starts2} exp={n_exp2}")
+    # F20a: redo AA-replace face -- same keys, new content + provenance,
+    # untouched rows verbatim, order preserved (r611 containment leg)
+    tmp = tempfile.mkdtemp()
+    p20 = os.path.join(tmp, "redo.jsonl")
+    _append_rows(p20, [{"key": "A|1", "v": "old-a"},
+                       {"key": "B|1", "v": "keep-b"}])
+    pre_b = open(p20, encoding="utf-8").read().splitlines()[1]
+    _replace_rows(p20, [{"key": "A|1", "v": "new-a"}],
+                  {"burn_machine": "bm-x", "cache_digest": "deadbeefcafe1234"})
+    ln20 = open(p20, encoding="utf-8").read().splitlines()
+    r20a = (len(ln20) == 2
+            and json.loads(ln20[0])["v"] == "new-a"
+            and json.loads(ln20[0])["burn_machine"] == "bm-x"
+            and json.loads(ln20[0])["cache_digest"] == "deadbeefcafe1234"
+            and ln20[1] == pre_b
+            and _done_keys(p20) == {"A|1", "B|1"})
+    check("F20a_redo_aa_replace", r20a,
+          f"lines={len(ln20)} keys={sorted(_done_keys(p20))}")
+    # F20b: redo new-key honesty -- absent pre-run key lands, not dropped
+    _replace_rows(p20, [{"key": "C|9", "v": "new-c"}])
+    ln20b = open(p20, encoding="utf-8").read().splitlines()
+    check("F20b_redo_new_key_lands",
+          len(ln20b) == 3 and json.loads(ln20b[2])["key"] == "C|9",
+          f"lines={len(ln20b)}")
+    shutil.rmtree(tmp, ignore_errors=True)
+    # F20c: redo arg wiring (no compute)
+    ap20 = argparse.ArgumentParser()
+    ap20.add_argument("--redo", action="store_true")
+    ap20.add_argument("--redo-k-lo", type=int, default=0)
+    ap20.add_argument("--redo-k-hi", type=int, default=-1)
+    a20 = ap20.parse_args(["--redo", "--redo-k-lo", "0",
+                           "--redo-k-hi", "8"])
+    a20b = ap20.parse_args([])
+    check("F20c_redo_arg_wiring",
+          a20.redo and a20.redo_k_lo == 0 and a20.redo_k_hi == 8
+          and not a20b.redo and a20b.redo_k_hi == -1,
+          f"redo={a20.redo} hi={a20.redo_k_hi} default={a20b.redo}")
     print(f"selftest: {len(fails)} FAIL" if fails else "selftest: ALL PASS")
     return 1 if fails else 0
 
@@ -1716,6 +1848,17 @@ def main(argv=None) -> int:
     r.add_argument("--face", default="x1")
     r.add_argument("--nulls", action="store_true")
     r.add_argument("--sensitivity", action="store_true")
+    r.add_argument("--redo", action="store_true",
+                   help="r611 off-caliber containment: re-burn and "
+                        "AA-replace rows at the same keys (key set "
+                        "unchanged, attrition-safe) with burn-machine + "
+                        "cache-content provenance")
+    r.add_argument("--redo-k-lo", type=int, default=0,
+                   help="with --redo on nulls/sens: inclusive k lower "
+                        "bound (contamination-ledger selective re-burn)")
+    r.add_argument("--redo-k-hi", type=int, default=-1,
+                   help="with --redo on nulls/sens: inclusive k upper "
+                        "bound (-1 = full range)")
     sub.add_parser("status")
     sub.add_parser("finalize")
     sub.add_parser("selftest")
