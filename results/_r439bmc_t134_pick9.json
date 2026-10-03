@@ -1,0 +1,68 @@
+{
+ "round": "r439 bm-c",
+ "ticket": "T-2026-09-30-134-P1",
+ "rescan": "pick-9 evidence-order (r333 pattern)",
+ "census_summary": {
+  "single_core": 30,
+  "multiprocess": 52
+ },
+ "single_core_remaining": 30,
+ "burn_history_top": [
+  {
+   "runner": "bond_panel_puller.py",
+   "entries": 6,
+   "done": 6,
+   "last": "2026-09-25 22:37:11"
+  },
+  {
+   "runner": "decision_chain_v2.py",
+   "entries": 2,
+   "done": 2,
+   "last": "2026-09-28 00:41:57"
+  },
+  {
+   "runner": "alloc_backtest.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-25 12:32:26"
+  },
+  {
+   "runner": "cn_core_ddctl_p1.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-26 18:18:13"
+  },
+  {
+   "runner": "cn_core_sat_p1.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-26 17:48:11"
+  },
+  {
+   "runner": "cn_div_lowvol_rot_p1.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-26 14:39:04"
+  },
+  {
+   "runner": "cn_kline_pattern_p1.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-27 04:19:37"
+  },
+  {
+   "runner": "cn_mkneutral_p1.py",
+   "entries": 1,
+   "done": 1,
+   "last": "2026-09-27 08:21:13"
+  }
+ ],
+ "adjudications": {
+  "bond_panel_puller.py": "EXEMPT (network-serial 2.5s/member; ProcessPool harmful: parallel source pressure vs r175 fuse/cooldown + prereg sec.6 throttle; S6 updater-gate pattern is the correct future refresh route per census out_of_scope doctrine)",
+  "decision_chain_v2.py": "DEPRIORITIZED (v3_tournament supersession; converted r307 is the live lineage)",
+  "rev_osc_stock_p1.py": "conversion BLOCKED on bm-c (p1c_stock panel on bm-a host; D-20261004-02(1) data-locality gate refuses local verification burn) -- lands on a panel-host round",
+  "cn_kline_pattern_p1.py": "same data-locality constraint as rev_osc_stock_p1 (T-87 s2 queue #3)"
+ },
+ "verdict": "no 9th conversion this round; queue-forward lines all multiprocess (p1e r334 + trial_labor_w1-14 + mass_trial_w1)",
+ "verdict_honest": "waiting-state: no convertible candidate with local-verifiable data in evidence order"
+}
