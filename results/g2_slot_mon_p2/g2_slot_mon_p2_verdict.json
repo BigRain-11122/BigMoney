@@ -1,0 +1,3142 @@
+{
+ "batch": "G2_SLOT_MON_P2",
+ "ticket": "T-2026-10-03-164-P1",
+ "prereg": "research/G2_SLOT_MON_P2.md",
+ "stage": "stage-2 registration-caliber verdict (independent sec.9 freeze; judge-only: zero registration execution, zero paper claims)",
+ "evidence_cutoff": "2026-09-22",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "verdict_scope": "face-level three-state (eligible-for-registration | judged-negative | consumption-blocked); data gates fail-closed abort pre-finalize (no verdict emitted on data-gate failure)",
+ "panel": {
+  "members_sha16": "abf3d43b9ca13ea5",
+  "n_members": 48,
+  "n_days": 1631,
+  "window": "2020-01-02..2026-09-22",
+  "mask_fraction": 0.970187,
+  "min_valid_per_member": 797,
+  "grid": {
+   "caliber": "monthly (first trading day of each calendar month)",
+   "n_signal_days": 81,
+   "first_signal": "2020-01-02"
+  },
+  "ew48_definition": "fixed 1/48 weights, NaN->0 accrual, costless B&H (disclosed; g1 passive_override = same-window EW48 Sharpe)",
+  "cost_faces_bp_per_side": {
+   "x1": 13.041,
+   "x2": 26.082
+  },
+  "vendor_head": "a770825f841504e41581f057b4d94160e6a50c2e"
+ },
+ "shortlist": {
+  "faces": [
+   "best_016",
+   "old_032"
+  ],
+  "family_by_face": {
+   "best_016": "tail",
+   "old_032": "old"
+  },
+  "parent_ic_anchors": {
+   "best_016": 0.017731,
+   "old_032": 0.027954
+  },
+  "lineage": "r647 MON_P1 census 2/47 stage-2 nominations; probe results/_r648bma_p2_probe.json PASS 6/6"
+ },
+ "faces": {
+  "best_016": {
+   "ic": {
+    "ic5_mean": 0.017731,
+    "ic5_std": 0.201075,
+    "ic5_ir": 0.0882,
+    "ic5_n": 1626,
+    "ic1_mean": 0.003428
+   },
+   "x1": {
+    "ann": 0.0933,
+    "vol": 0.2061,
+    "sharpe": 0.4527,
+    "maxdd": -0.2805,
+    "total_ret": 0.5939,
+    "n_days": 1630,
+    "beat_rate": 0.6833,
+    "n_windows": 60,
+    "turnover_total": 42.5,
+    "n_rebal": 81,
+    "n_skip": 0,
+    "n_buys_total": 348,
+    "n_exits_total": 332
+   },
+   "x2": {
+    "ann": 0.0847,
+    "vol": 0.2062,
+    "sharpe": 0.4108,
+    "maxdd": -0.2976,
+    "total_ret": 0.5077,
+    "n_days": 1630,
+    "beat_rate": 0.6667,
+    "n_windows": 60,
+    "turnover_total": 42.5,
+    "n_rebal": 81,
+    "n_skip": 0,
+    "n_buys_total": 348,
+    "n_exits_total": 332
+   },
+   "ew48_total_ret_x2_window": 0.460566,
+   "first_exec": "2020-01-03",
+   "extreme_days_x2": [
+    {
+     "date": "2024-08-12",
+     "r": 0.1045
+    },
+    {
+     "date": "2025-04-07",
+     "r": -0.0903
+    },
+    {
+     "date": "2024-09-30",
+     "r": 0.0892
+    }
+   ],
+   "regime_segments_x2": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.5728,
+     "ew48_cum": 0.6913,
+     "beat": false
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.3723,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.4553,
+     "ew48_cum": -0.4649,
+     "beat": true
+    },
+    "na": {
+     "n_days": 218,
+     "sleeve_cum": 0.2823,
+     "ew48_cum": 0.2324,
+     "beat": true
+    },
+    "note": "descriptive disclosure only (monthly-density family: segment counts below any >=50 gate; r633 G-SEG lesson, prereg sec.3 leg ii)"
+   }
+  },
+  "old_032": {
+   "ic": {
+    "ic5_mean": 0.027954,
+    "ic5_std": 0.260222,
+    "ic5_ir": 0.1074,
+    "ic5_n": 1607,
+    "ic1_mean": 0.009152
+   },
+   "x1": {
+    "ann": 0.1549,
+    "vol": 0.2039,
+    "sharpe": 0.76,
+    "maxdd": -0.2523,
+    "total_ret": 1.3381,
+    "n_days": 1594,
+    "beat_rate": 0.8167,
+    "n_windows": 60,
+    "turnover_total": 106.75,
+    "n_rebal": 79,
+    "n_skip": 2,
+    "n_buys_total": 862,
+    "n_exits_total": 846
+   },
+   "x2": {
+    "ann": 0.1329,
+    "vol": 0.2045,
+    "sharpe": 0.6499,
+    "maxdd": -0.2865,
+    "total_ret": 1.0326,
+    "n_days": 1594,
+    "beat_rate": 0.7667,
+    "n_windows": 60,
+    "turnover_total": 106.75,
+    "n_rebal": 79,
+    "n_skip": 2,
+    "n_buys_total": 862,
+    "n_exits_total": 846
+   },
+   "ew48_total_ret_x2_window": 0.408806,
+   "first_exec": "2020-03-03",
+   "extreme_days_x2": [
+    {
+     "date": "2024-09-30",
+     "r": 0.1243
+    },
+    {
+     "date": "2024-10-08",
+     "r": 0.112
+    },
+    {
+     "date": "2024-09-27",
+     "r": 0.0794
+    }
+   ],
+   "regime_segments_x2": {
+    "bull": {
+     "n_days": 577,
+     "sleeve_cum": 0.9959,
+     "ew48_cum": 0.6913,
+     "beat": true
+    },
+    "chop": {
+     "n_days": 87,
+     "sleeve_cum": 0.4825,
+     "ew48_cum": 0.3095,
+     "beat": true
+    },
+    "bear": {
+     "n_days": 748,
+     "sleeve_cum": -0.4048,
+     "ew48_cum": -0.4649,
+     "beat": true
+    },
+    "na": {
+     "n_days": 182,
+     "sleeve_cum": 0.1541,
+     "ew48_cum": 0.1888,
+     "beat": false
+    },
+    "note": "descriptive disclosure only (monthly-density family: segment counts below any >=50 gate; r633 G-SEG lesson, prereg sec.3 leg ii)"
+   }
+  }
+ },
+ "exit_census": {
+  "best_016": {
+   "law": "rank-rotation-only (sec.0.6 hold-through monthly rank rotation; constructive census carrier)",
+   "n_rebal": 81,
+   "n_exits_total": 332,
+   "n_exits_rank_rotation": 332,
+   "n_exits_other": 0,
+   "other_share": 0.0,
+   "block_share": 0.2,
+   "blocked": false,
+   "exit_log": [
+    {
+     "n_exits": 0,
+     "n_buys": 16
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 2,
+     "n_buys": 2
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 2,
+     "n_buys": 2
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 2,
+     "n_buys": 2
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 2,
+     "n_buys": 2
+    },
+    {
+     "n_exits": 2,
+     "n_buys": 2
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 1,
+     "n_buys": 1
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 5,
+     "n_buys": 5
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    },
+    {
+     "n_exits": 3,
+     "n_buys": 3
+    },
+    {
+     "n_exits": 4,
+     "n_buys": 4
+    }
+   ],
+   "note": "selection schedule identical across cost faces (x1/x2 differ only by the cost term); log rows = per-rebalance {n_exits, n_buys}"
+  },
+  "old_032": {
+   "law": "rank-rotation-only (sec.0.6 hold-through monthly rank rotation; constructive census carrier)",
+   "n_rebal": 79,
+   "n_exits_total": 846,
+   "n_exits_rank_rotation": 846,
+   "n_exits_other": 0,
+   "other_share": 0.0,
+   "block_share": 0.2,
+   "blocked": false,
+   "exit_log": [
+    {
+     "n_exits": 0,
+     "n_buys": 16
+    },
+    {
+     "n_exits": 6,
+     "n_buys": 6
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 16,
+     "n_buys": 16
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 8,
+     "n_buys": 8
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 15,
+     "n_buys": 15
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 7,
+     "n_buys": 7
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 11,
+     "n_buys": 11
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 10,
+     "n_buys": 10
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 8,
+     "n_buys": 8
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 9,
+     "n_buys": 9
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 14,
+     "n_buys": 14
+    },
+    {
+     "n_exits": 8,
+     "n_buys": 8
+    },
+    {
+     "n_exits": 12,
+     "n_buys": 12
+    },
+    {
+     "n_exits": 13,
+     "n_buys": 13
+    }
+   ],
+   "note": "selection schedule identical across cost faces (x1/x2 differ only by the cost term); log rows = per-rebalance {n_exits, n_buys}"
+  }
+ },
+ "nulls": {
+  "k": 60,
+  "seed": 20570000,
+  "substream": "rng([seed, k])",
+  "band": [
+   20570000,
+   20570060
+  ],
+  "abs_mean_ic": [
+   0.000256,
+   0.000759,
+   0.000886,
+   0.001034,
+   0.001555,
+   0.001641,
+   0.001831,
+   0.001892,
+   0.00191,
+   0.002081,
+   0.002417,
+   0.002504,
+   0.002673,
+   0.002966,
+   0.003042,
+   0.003108,
+   0.003297,
+   0.003372,
+   0.003626,
+   0.003766,
+   0.003838,
+   0.004374,
+   0.004408,
+   0.004722,
+   0.004801,
+   0.005252,
+   0.005375,
+   0.005503,
+   0.00559,
+   0.005751,
+   0.005758,
+   0.006001,
+   0.006342,
+   0.006611,
+   0.006787,
+   0.007218,
+   0.007344,
+   0.007528,
+   0.0076,
+   0.007828,
+   0.007844,
+   0.008193,
+   0.008375,
+   0.008398,
+   0.00844,
+   0.009388,
+   0.009724,
+   0.010572,
+   0.011066,
+   0.012203,
+   0.012516,
+   0.012528,
+   0.012723,
+   0.013296,
+   0.013438,
+   0.013486,
+   0.014713,
+   0.014756,
+   0.015348,
+   0.015633
+  ],
+  "p95_abs_mean_ic": 0.014715,
+  "beat_rate_x2": [
+   0.0333,
+   0.0667,
+   0.0833,
+   0.1167,
+   0.1333,
+   0.15,
+   0.15,
+   0.15,
+   0.15,
+   0.1667,
+   0.1667,
+   0.1667,
+   0.1667,
+   0.1667,
+   0.1667,
+   0.1833,
+   0.1833,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2167,
+   0.2167,
+   0.2167,
+   0.2167,
+   0.2167,
+   0.2333,
+   0.2333,
+   0.25,
+   0.25,
+   0.25,
+   0.2667,
+   0.2833,
+   0.2833,
+   0.2833,
+   0.2833,
+   0.3,
+   0.3167,
+   0.3167,
+   0.3167,
+   0.3167,
+   0.3333,
+   0.3333,
+   0.3333,
+   0.3333,
+   0.3333,
+   0.35,
+   0.35,
+   0.3667,
+   0.3667,
+   0.3667,
+   0.4,
+   0.4,
+   0.4,
+   0.4,
+   0.4167,
+   0.4167,
+   0.4167,
+   0.4333
+  ],
+  "beat_rate_x2_mean": 0.2569,
+  "excess_x2_vs_ew48_full": [
+   -0.575329,
+   -0.522597,
+   -0.511744,
+   -0.511061,
+   -0.510235,
+   -0.50988,
+   -0.505263,
+   -0.502579,
+   -0.492881,
+   -0.48513,
+   -0.479558,
+   -0.470525,
+   -0.459983,
+   -0.450524,
+   -0.439324,
+   -0.433955,
+   -0.427212,
+   -0.409529,
+   -0.395453,
+   -0.393643,
+   -0.388959,
+   -0.375708,
+   -0.361221,
+   -0.359247,
+   -0.353232,
+   -0.341273,
+   -0.339078,
+   -0.337216,
+   -0.333414,
+   -0.331072,
+   -0.325265,
+   -0.320757,
+   -0.315527,
+   -0.310733,
+   -0.304906,
+   -0.292318,
+   -0.288823,
+   -0.284859,
+   -0.282575,
+   -0.277407,
+   -0.266568,
+   -0.250994,
+   -0.249922,
+   -0.243159,
+   -0.234786,
+   -0.233221,
+   -0.207639,
+   -0.201951,
+   -0.194682,
+   -0.1833,
+   -0.168074,
+   -0.142508,
+   -0.131476,
+   -0.118688,
+   -0.105349,
+   -0.077753,
+   -0.068674,
+   -0.067958,
+   -0.042233,
+   -0.028612
+  ],
+  "null_pool_sharpe_x1": {
+   "values": [
+    0.3686,
+    0.2966,
+    0.3793,
+    0.3408,
+    0.1813,
+    0.2925,
+    0.2606,
+    0.4768,
+    0.3886,
+    0.329,
+    0.3116,
+    0.4864,
+    0.4746,
+    0.2653,
+    0.209,
+    0.4246,
+    0.1088,
+    0.2766,
+    0.1778,
+    0.3236,
+    0.3176,
+    0.3341,
+    0.2263,
+    0.2165,
+    0.4016,
+    0.4483,
+    0.1734,
+    0.1645,
+    0.1679,
+    0.1932,
+    0.2853,
+    0.3228,
+    0.4114,
+    0.4312,
+    0.3729,
+    0.474,
+    0.3641,
+    0.2367,
+    0.1894,
+    0.3431,
+    0.4962,
+    0.2457,
+    0.3015,
+    0.3939,
+    0.3503,
+    0.3021,
+    0.3054,
+    0.1998,
+    0.2305,
+    0.1665,
+    0.2662,
+    0.3021,
+    0.3346,
+    0.344,
+    0.4357,
+    0.1643,
+    0.4458,
+    0.3097,
+    0.3707,
+    0.1533
+   ],
+   "coverage": {
+    "mu": 0.3094,
+    "sigma": 0.099,
+    "n_values": 60,
+    "schemas_parsed": [
+     "g2_slot_mon_p2:nulls x1 sleeve full-period Sharpe (K=60 in-batch, band [20570000,20570060))"
+    ],
+    "known_unparsed": []
+   },
+   "source": "g2_slot_mon_p2 in-batch nulls (monthly random selection sleeves; x1 caliber matches g1 headline face)"
+  }
+ },
+ "family_matrices": {
+  "old": {
+   "faces": [
+    "old_027",
+    "old_028",
+    "old_029",
+    "old_032",
+    "old_035",
+    "old_038",
+    "old_039",
+    "old_040",
+    "old_044",
+    "old_046",
+    "old_053",
+    "old_054",
+    "old_057",
+    "old_060",
+    "old_061",
+    "old_064",
+    "old_072",
+    "old_074"
+   ],
+   "n_rows": 1551,
+   "first_date": "2020-05-07",
+   "pbo_cscv": {
+    "pbo": 0.1857,
+    "verdict": "register_eligible",
+    "n_trials": 18,
+    "n_rows": 1551,
+    "n_combinations": 70,
+    "n_blocks": 8,
+    "block_bounds": [
+     0,
+     193,
+     387,
+     581,
+     775,
+     969,
+     1163,
+     1357,
+     1551
+    ],
+    "omega_mean": 0.1832,
+    "omega_median": 0.0588,
+    "omega_p05": 0.0,
+    "omega_p95": 0.6471,
+    "per_combination": [
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 7.0,
+      "omega": 0.3529
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       4
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       7
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 10.0,
+      "omega": 0.5294
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       4
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       5
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 7.0,
+      "omega": 0.3529
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 11.0,
+      "omega": 0.5882
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       5,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 9.0,
+      "omega": 0.4706
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       4
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 7.0,
+      "omega": 0.3529
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       5
+      ],
+      "is_best_trial": "old_044",
+      "oos_rank": 14.0,
+      "omega": 0.7647
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       6
+      ],
+      "is_best_trial": "old_044",
+      "oos_rank": 8.0,
+      "omega": 0.4118
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       7
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 12.0,
+      "omega": 0.6471
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       5
+      ],
+      "is_best_trial": "old_044",
+      "oos_rank": 12.0,
+      "omega": 0.6471
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       6
+      ],
+      "is_best_trial": "old_054",
+      "oos_rank": 6.0,
+      "omega": 0.2941
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       7
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 10.0,
+      "omega": 0.5294
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       5,
+       6
+      ],
+      "is_best_trial": "old_044",
+      "oos_rank": 11.0,
+      "omega": 0.5882
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "old_054",
+      "oos_rank": 5.0,
+      "omega": 0.2353
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 12.0,
+      "omega": 0.6471
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 12.0,
+      "omega": 0.6471
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 4.0,
+      "omega": 0.1765
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "old_054",
+      "oos_rank": 10.0,
+      "omega": 0.5294
+     },
+     {
+      "is_blocks": [
+       0,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 9.0,
+      "omega": 0.4706
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 11.0,
+      "omega": 0.5882
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "old_046",
+      "oos_rank": 14.0,
+      "omega": 0.7647
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       1,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 4.0,
+      "omega": 0.1765
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "old_035",
+      "oos_rank": 13.0,
+      "omega": 0.7059
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 2.0,
+      "omega": 0.0588
+     },
+     {
+      "is_blocks": [
+       2,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       3,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "old_032",
+      "oos_rank": 3.0,
+      "omega": 0.1176
+     }
+    ],
+    "bands_frozen": {
+     "register_eligible": "pbo <= 0.25",
+     "observe": "0.25 < pbo <= 0.5",
+     "fail": "pbo > 0.5"
+    }
+   },
+   "parent_crosscheck": {
+    "n_faces_checked": 18,
+    "n_drift": 0,
+    "drift": [],
+    "compare_caliber": "parent stores 4dp-rounded leg ii faces; identity asserted on rounded values at 1e-9 (same machinery + same window recompute)"
+   }
+  },
+  "tail": {
+   "faces": [
+    "add_002",
+    "add_005",
+    "add_008",
+    "add_011",
+    "add_015",
+    "add_017",
+    "add_021",
+    "add_024",
+    "add_025",
+    "add_028",
+    "add_029",
+    "add_030",
+    "best_011",
+    "best_012",
+    "best_013",
+    "best_015",
+    "best_016",
+    "best_018",
+    "best_019",
+    "better_001",
+    "better_006",
+    "better_008",
+    "better_013",
+    "better_026",
+    "extra_003",
+    "old_047",
+    "old_067"
+   ],
+   "n_rows": 1594,
+   "first_date": "2020-03-03",
+   "pbo_cscv": {
+    "pbo": 0.1286,
+    "verdict": "register_eligible",
+    "n_trials": 27,
+    "n_rows": 1594,
+    "n_combinations": 70,
+    "n_blocks": 8,
+    "block_bounds": [
+     0,
+     199,
+     398,
+     597,
+     797,
+     996,
+     1195,
+     1394,
+     1594
+    ],
+    "omega_mean": 0.1879,
+    "omega_median": 0.0769,
+    "omega_p05": 0.0,
+    "omega_p95": 0.7,
+    "per_combination": [
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       4
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       6
+      ],
+      "is_best_trial": "better_013",
+      "oos_rank": 14.0,
+      "omega": 0.5
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       2,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       4
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       3,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 4.0,
+      "omega": 0.1154
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 5.0,
+      "omega": 0.1538
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       4,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 9.0,
+      "omega": 0.3077
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 4.0,
+      "omega": 0.1154
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 8.0,
+      "omega": 0.2692
+     },
+     {
+      "is_blocks": [
+       0,
+       1,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       4
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       3,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 9.0,
+      "omega": 0.3077
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       4,
+       7
+      ],
+      "is_best_trial": "add_028",
+      "oos_rank": 27.0,
+      "omega": 1.0
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 15.0,
+      "omega": 0.5385
+     },
+     {
+      "is_blocks": [
+       0,
+       2,
+       6,
+       7
+      ],
+      "is_best_trial": "best_013",
+      "oos_rank": 10.0,
+      "omega": 0.3462
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 13.0,
+      "omega": 0.4615
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 17.0,
+      "omega": 0.6154
+     },
+     {
+      "is_blocks": [
+       0,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 5.0,
+      "omega": 0.1538
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 17.0,
+      "omega": 0.6154
+     },
+     {
+      "is_blocks": [
+       0,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 7.0,
+      "omega": 0.2308
+     },
+     {
+      "is_blocks": [
+       0,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 5.0,
+      "omega": 0.1538
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 4.0,
+      "omega": 0.1154
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       3,
+       7
+      ],
+      "is_best_trial": "best_015",
+      "oos_rank": 9.0,
+      "omega": 0.3077
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       4,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 5.0,
+      "omega": 0.1538
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       5,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       2,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 7.0,
+      "omega": 0.2308
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 4.0,
+      "omega": 0.1154
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 7.0,
+      "omega": 0.2308
+     },
+     {
+      "is_blocks": [
+       1,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 11.0,
+      "omega": 0.3846
+     },
+     {
+      "is_blocks": [
+       1,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       1,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       5
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 2.0,
+      "omega": 0.0385
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       4,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 11.0,
+      "omega": 0.3846
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 15.0,
+      "omega": 0.5385
+     },
+     {
+      "is_blocks": [
+       2,
+       3,
+       6,
+       7
+      ],
+      "is_best_trial": "add_015",
+      "oos_rank": 24.0,
+      "omega": 0.8846
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 3.0,
+      "omega": 0.0769
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 16.0,
+      "omega": 0.5769
+     },
+     {
+      "is_blocks": [
+       2,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "add_028",
+      "oos_rank": 21.0,
+      "omega": 0.7692
+     },
+     {
+      "is_blocks": [
+       2,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       5,
+       6
+      ],
+      "is_best_trial": "better_026",
+      "oos_rank": 1.0,
+      "omega": 0.0
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       5,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 21.0,
+      "omega": 0.7692
+     },
+     {
+      "is_blocks": [
+       3,
+       4,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 8.0,
+      "omega": 0.2692
+     },
+     {
+      "is_blocks": [
+       3,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 8.0,
+      "omega": 0.2692
+     },
+     {
+      "is_blocks": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "is_best_trial": "add_002",
+      "oos_rank": 8.0,
+      "omega": 0.2692
+     }
+    ],
+    "bands_frozen": {
+     "register_eligible": "pbo <= 0.25",
+     "observe": "0.25 < pbo <= 0.5",
+     "fail": "pbo > 0.5"
+    }
+   },
+   "parent_crosscheck": {
+    "n_faces_checked": 27,
+    "n_drift": 0,
+    "drift": [],
+    "compare_caliber": "parent stores 4dp-rounded leg ii faces; identity asserted on rounded values at 1e-9 (same machinery + same window recompute)"
+   }
+  }
+ },
+ "gates": {
+  "best_016": {
+   "family": "tail",
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.4527,
+    "skill_line": {
+     "n_eff": 622651,
+     "line": 0.8208,
+     "passive_term": 0.5245,
+     "null_term": 0.8208,
+     "mu_null": 0.3094,
+     "sigma_null": 0.099,
+     "pool": "core48",
+     "null_pool_source": "g2_slot_mon_p2 in-batch nulls (monthly random selection sleeves; x1 caliber matches g1 headline face)",
+     "passive_source": "batch_own_per_cell",
+     "ledger_head": {
+      "total": 622589,
+      "file": "g2_slot_mon_p1_census.json",
+      "note": "47 enriched-roster faces (18 old + 2 stock + 27 tail cond1 passers; probe roster sha16 7ce1e81d019eba3d) + 20 same-mask monthly random nulls (monthly-translation cost-vs-horizon decomposition census variant; parent weekly verdicts unaffected)",
+      "voided": [
+       {
+        "batch": "LOWAMP-P1",
+        "voided_trials": 2008
+       },
+       {
+        "batch": "LOWAMP-P2",
+        "voided_trials": 2008
+       }
+      ]
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.334,
+     "ci95_high": 1.2271,
+     "point": 0.4527,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 332,
+     "n_entries": 348,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "passive_override_ew48_sharpe": 0.4245,
+   "x2_survival": {
+    "x2_sharpe": 0.4108,
+    "pass": true
+   },
+   "m1": {
+    "gate": "m1_t_value",
+    "claim_class": "new_strategy",
+    "hurdle": 3.0,
+    "t": 1.151341,
+    "pass": false,
+    "missing_input": false
+   },
+   "dsr": {
+    "dsr": 0.000147,
+    "sr_annualized": 0.4527,
+    "sr_star": 0.118044,
+    "sigma_sr": 0.02473,
+    "n_trials": 622651,
+    "T": 1630,
+    "skew": 0.1962,
+    "kurtosis": 10.0161
+   },
+   "family_pbo": {
+    "family": "tail",
+    "pbo": 0.1286,
+    "verdict": "register_eligible",
+    "matrix_faces": 27,
+    "matrix_rows": 1594
+   },
+   "g2_registration_v2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 0.000147,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.1286,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  },
+  "old_032": {
+   "family": "old",
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.76,
+    "skill_line": {
+     "n_eff": 622651,
+     "line": 0.8208,
+     "passive_term": 0.5006,
+     "null_term": 0.8208,
+     "mu_null": 0.3094,
+     "sigma_null": 0.099,
+     "pool": "core48",
+     "null_pool_source": "g2_slot_mon_p2 in-batch nulls (monthly random selection sleeves; x1 caliber matches g1 headline face)",
+     "passive_source": "batch_own_per_cell",
+     "ledger_head": {
+      "total": 622589,
+      "file": "g2_slot_mon_p1_census.json",
+      "note": "47 enriched-roster faces (18 old + 2 stock + 27 tail cond1 passers; probe roster sha16 7ce1e81d019eba3d) + 20 same-mask monthly random nulls (monthly-translation cost-vs-horizon decomposition census variant; parent weekly verdicts unaffected)",
+      "voided": [
+       {
+        "batch": "LOWAMP-P1",
+        "voided_trials": 2008
+       },
+       {
+        "batch": "LOWAMP-P2",
+        "voided_trials": 2008
+       }
+      ]
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.0551,
+     "ci95_high": 1.4578,
+     "point": 0.76,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 846,
+     "n_entries": 862,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "passive_override_ew48_sharpe": 0.4006,
+   "x2_survival": {
+    "x2_sharpe": 0.6499,
+    "pass": true
+   },
+   "m1": {
+    "gate": "m1_t_value",
+    "claim_class": "new_strategy",
+    "hurdle": 3.0,
+    "t": 1.911426,
+    "pass": false,
+    "missing_input": false
+   },
+   "dsr": {
+    "dsr": 0.002393,
+    "sr_annualized": 0.76,
+    "sr_star": 0.117057,
+    "sigma_sr": 0.024523,
+    "n_trials": 622651,
+    "T": 1594,
+    "skew": 1.0482,
+    "kurtosis": 15.2697
+   },
+   "family_pbo": {
+    "family": "old",
+    "pbo": 0.1857,
+    "verdict": "register_eligible",
+    "matrix_faces": 18,
+    "matrix_rows": 1551
+   },
+   "g2_registration_v2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 0.002393,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.1857,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  }
+ },
+ "face_verdicts": {
+  "best_016": {
+   "verdict": "judged-negative",
+   "failed_lines": [
+    "g1_prime_v2",
+    "m1_t_value",
+    "dsr"
+   ],
+   "budget_line": "in-budget at finalize (cap enforced pre-finalize; over-budget = legal stop, never a verdict)",
+   "note": "registration execution = hr.py promotion pipeline (monthly face); this batch only judges"
+  },
+  "old_032": {
+   "verdict": "judged-negative",
+   "failed_lines": [
+    "g1_prime_v2",
+    "m1_t_value",
+    "dsr"
+   ],
+   "budget_line": "in-budget at finalize (cap enforced pre-finalize; over-budget = legal stop, never a verdict)",
+   "note": "registration execution = hr.py promotion pipeline (monthly face); this batch only judges"
+  }
+ },
+ "predictions_vs_actual": {
+  "note": "pre-registered sec.5 predictions reconciled against run readings; no line was moved",
+  "a_old_032": {
+   "prediction": "G1'/M1/DSR borderline; x2 survival pass; PBO 0.30-0.60 expected hardest line",
+   "actual": {
+    "g1_pass": false,
+    "g1_line": 0.8208,
+    "x1_sharpe_vs_line": [
+     0.76,
+     0.8208
+    ],
+    "m1_t": {
+     "gate": "m1_t_value",
+     "claim_class": "new_strategy",
+     "hurdle": 3.0,
+     "t": 1.911426,
+     "pass": false,
+     "missing_input": false
+    },
+    "dsr": 0.002393,
+    "pbo": 0.1857,
+    "x2_survival": true
+   }
+  },
+  "b_best_016": {
+   "prediction": "judged-negative expected (marginal nomination; t>=3.0 likely fail; PBO 0.35-0.65 same-cluster)",
+   "actual_verdict": "judged-negative",
+   "failed_lines": [
+    "g1_prime_v2",
+    "m1_t_value",
+    "dsr"
+   ]
+  },
+  "d_null_band": {
+   "prediction": "null x2 beat-rate mean 0.00-0.30",
+   "actual_mean": 0.2569
+  },
+  "e_inter_face": {
+   "prediction": "|corr| >= 0.7 (same-engine lineage, disclosure not gate)",
+   "actual": {
+    "x1": 0.8849,
+    "x2": 0.8845
+   }
+  },
+  "f_family_matrix_identity": {
+   "prediction": "45-face recompute identical to parent leg ii (1e-9 on rounded)",
+   "actual": {
+    "old": {
+     "n_checked": 18,
+     "n_drift": 0
+    },
+    "tail": {
+     "n_checked": 27,
+     "n_drift": 0
+    }
+   }
+  }
+ },
+ "d6": {
+  "reject_line": 0.7,
+  "max_abs_corr_by_face": {
+   "best_016": 0.3497,
+   "old_032": 0.3537
+  },
+  "inter_face_pairs": {
+   "x1": {
+    "pair": "old_032|best_016",
+    "corr": 0.8849,
+    "overlap_days": 1594
+   },
+   "x2": {
+    "pair": "old_032|best_016",
+    "corr": 0.8845,
+    "overlap_days": 1594
+   }
+  },
+  "note": "full numeric face in results/g2_slot_mon_p2/d6_numeric.json (same write)"
+ },
+ "audit": {
+  "network": "zero",
+  "deterministic": true,
+  "device": "cpu (torch)",
+  "engine": "none in the judged carrier (blend approximation; asserted pre-D6); D6 member leg loads the read-only ew6 canon graph (live.paper transitive engine import = rev_osc_stock_p1 r281 finalized precedent, disclosed)",
+  "budget_cap_s": 300,
+  "exit_axis": "hold-through monthly rank rotation (sec.0.6; falling out of monthly Top-16 = only exit)",
+  "ic_anchor_drift": [],
+  "zero_engine_asserted_before_d6": true
+ },
+ "trials_ledger": {
+  "prev_total": 622589,
+  "batch_trials": 124,
+  "total": 622713,
+  "batch": "G2_SLOT_MON_P2",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+  "note": "stage-2 registration-caliber verdict: 2 shortlist cell-faces + 60 in-batch nulls (62 cells) + 60 null IC faces + 2 family-matrix legs = 124 trials (frozen sec.3); monthly-translation lineage r647 MON_P1; judge-only, zero registration execution",
+  "evidence_cutoff": "2026-09-22"
+ }
+}

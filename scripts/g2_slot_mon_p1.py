@@ -310,6 +310,9 @@ def blend_sleeve(score_fn, grid_pairs, rets, cost_side):
     turnover_total = 0.0
     n_rebal = 0
     n_skip = 0
+    n_buys_total = 0        # additive r649 (P2 trade-census face, no P1 consumer)
+    n_exits_total = 0       # additive r649: rank-rotation exits (constructive only)
+    exit_log = []           # additive r649: per-rebalance {n_exits, n_buys} census rows
     for j, (g, e) in enumerate(pairs):
         row = score_fn(g)
         target = None
@@ -335,6 +338,10 @@ def blend_sleeve(score_fn, grid_pairs, rets, cost_side):
             cost = dw * cost_side
             turnover_total += dw
             n_rebal += 1
+            n_buys_total += len(buys)
+            n_ex_rot = sum(1 for s in prev if s not in tset)
+            n_exits_total += n_ex_rot
+            exit_log.append({"n_exits": n_ex_rot, "n_buys": len(buys)})
             if first_exec is None:
                 first_exec = e
             daily[e] = r_old - cost
@@ -349,7 +356,9 @@ def blend_sleeve(score_fn, grid_pairs, rets, cost_side):
         return None
     series = daily[first_exec:]
     return {"series": series, "first_exec": first_exec,
-            "turnover_total": turnover_total, "n_rebal": n_rebal, "n_skip": n_skip}
+            "turnover_total": turnover_total, "n_rebal": n_rebal, "n_skip": n_skip,
+            "n_buys_total": n_buys_total, "n_exits_total": n_exits_total,
+            "exit_log": exit_log}
 
 
 def sleeve_metrics(series, idx, first_exec):
@@ -404,14 +413,17 @@ def ic_block(Fmat, panel):
             "daily": (s5, s1)}
 
 
-def null_sleeves(panel, grid_pairs, k_nulls=K_NULLS):
+def null_sleeves(panel, grid_pairs, k_nulls=K_NULLS, seed=None):
     """K same-mask monthly random sleeves (rng([seed, k]) substream law) +
-    indicator factor matrices for the null |mean IC| band (monthly caliber)."""
+    indicator factor matrices for the null |mean IC| band (monthly caliber).
+    seed=None = module SEED_NULLS (P1 callers byte-stable); additive r649
+    param lets P2 run its own frozen band [20570000, 20570060)."""
+    s = SEED_NULLS if seed is None else int(seed)
     base = panel["base"]
     T, N = base.shape
     out = {}
     for k in range(k_nulls):
-        rng = np.random.default_rng([SEED_NULLS, k])
+        rng = np.random.default_rng([s, k])
         picks = {}
         for g, e in grid_pairs:
             elig = np.flatnonzero(base[g])
