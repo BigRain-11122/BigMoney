@@ -10,6 +10,13 @@
 - **在线判定**：心跳 `fleet/machines/<id>.json` 的 `last_seen` ≤20 分钟=在线；>1 小时=离线/挂死——其他机器只读避让其写域，其 claimed 任务适用 §2.2 超时释放。
 - **加速通道**：用户在场交互的会话可即时 fetch/push 不等轮次；B1（Tailscale）装机后可 SSH 直达对端提前触发（升级项·装机须用户授权）。
 
+### 1.1 集团决策台账消费步（D-19 实径 fallback·D-20261004-02③ 落地）
+
+- **正典**（D-20261001-03）：每轮决策审核步读集团树一律 `git fetch` + `git show origin/main:docs/decisions.md`（**禁 working-tree pull/rebase/checkout 集团树**）；水位键=state-<id>.json `last_decisions_sha`（SHA-256 内容寻址，D-20260930-18 律）比对：hash 不变=零动作；hash 变=消费「派工通告板」涉本司行+新增决策行+docs/orders.md CEO 物理件区涉本司行。
+- **S4U/无 K: 盘窗 fallback**：①实径可达优先 `git -C <实径> fetch origin` + `git -C <实径> show origin/main:docs/decisions.md`；②实径无 .git/不可达（r631 bm-b 律实证 C:\Fluxgroup\FluxGroup 无 .git）＝ `%TEMP%` 稀疏克隆同律：`git clone --depth 1 --filter=blob:none --sparse <group-repo> %TEMP%\<dir>` → `sparse-checkout set --skip-checks docs/decisions.md` → `show origin/main:docs/decisions.md` 取 origin blob 原始字节——零树触碰零常驻零 K: 依赖。
+- **sha256 一律 raw-bytes**（python subprocess bytes；**禁 PowerShell `>` 重定向读 git 对象**＝UTF-16 伪影坑 r209 律——首证窗实弹：PS 管道面 sha 15ff3903 vs raw-bytes 真 sha eb14b510，按前者入水位键=永久假红）。
+- **首证**：bm-a r650（2026-10-04 00:4x）raw-bytes sha `eb14b510d304a1d0a30175447cf9360d6bab6dc20972ceebce35d47ef8935bfa` vs 水位键 75a05528 变化→消费新派工行 D-20261004-02①②③（本行即其③交付）；docs/orders.md CEO 物理件区 BigMoney 行=券商模拟盘+报备（CEO 物理依赖·常设行零新动作）。
+
 ## 2. 机器生命周期
 
 ### 2.1 加入（随时）
@@ -57,3 +64,4 @@
 ## 6. 变更记录
 
 - v1.0（2026-09-23）：bm-a 建立（用户令四件套：通信 SLA / 生命周期 / 用户令牌 / 云备份模型）。bm-b 循环 prompt 需增「处理 fleet/orders/ 新令」步骤（经 inbox 通知）。
+- v1.1（2026-10-04）：bm-a 增 §1.1 集团决策台账消费步（D-20261004-02③ 集团派工行落地：S4U 窗 D-19 实径 fallback + raw-bytes sha256 律 + bm-a r650 首证）。

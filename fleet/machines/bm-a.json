@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-03T23:55:26+08:00",
- "current_task": "r648 closed: G2_SLOT_MON_P2 sec.9 freeze window (prereg FROZEN + seed 20570000 + probe 6/6 PASS + gate ADMIT + T-2026-10-03-164-P1 claimed); next slice = runner build + burn + verdict finalize",
+ "last_seen": "2026-10-04T00:47:49+08:00",
+ "current_task": "r650 wrap: D-20261004-02(1)(2) queued (due 10-06); fund trio NULLS bm-b in-flight ETA 10-05..09",
  "cpu_cores": 32,
  "cpu_pct": 6.6,
  "free_ram_gb": 60.4,
  "gpu_free_vram_gb": 5.6,
- "verdict": "green: golden-week legal idle (board clear, pool 3 ready lane-pinned, engine alive rc0)",
+ "verdict": "r650: dead r649 adoption pushed (G2_SLOT_MON_P2 verdict closed negative, G2 lineage done) + D-20261004-02(3) FLEET-OPS landed + S6 full chain rc0 + S7 green; py_low_board_clear legal golden-week idle",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -161,8 +161,8 @@
   "O-20261003-1210-bm-c.md",
   "O-20261003-2030-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1791042926,
- "clock_read": "2026-10-03T23:55:26+08:00",
+ "heartbeat_epoch_utc": 1791046069,
+ "clock_read": "2026-10-04T00:47:49+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5674,
  "gpu_idle_vram_gb": 8,
@@ -188,7 +188,7 @@
  "ram_free_gb": 46.1,
  "idle_ram_mb": 57450,
  "last_round": 595,
- "idle_ram_gb": 64.8,
+ "idle_ram_gb": 64.0,
  "idle_gpu_vram_gb": null,
  "current": "T-156 kill-advice sent (receiver camping pid 67588); S6 29 legs rc0; engine idle root-cause diagnosed (generator starve false-negative)"
 }
