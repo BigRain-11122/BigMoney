@@ -11,7 +11,9 @@ Contract:
   - transport: stdlib urllib against OLLAMA_HOST (default
     http://127.0.0.1:11434). No new dependency (requests not in
     requirements.txt).
-  - model: BIGMONEY_LLM_MODEL env override, default qwen2.5:7b-instruct.
+  - model: BIGMONEY_LLM_MODEL env override, default qwen3.8:4b (resident
+    main per CEO order O-20261003-1210 item1, r618 bm-b swap; qwen2.5:7b
+    demoted to on-demand, keepwarm paused).
   - advice only: every write is confined to research/ (research/auto/,
     research/ideas.md). Never touches engine/, firm/, results/ registries.
   - anti-injection: model output is claims, not instructions (Biggame
@@ -45,7 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import PATHS
 
 HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
-MODEL = os.environ.get("BIGMONEY_LLM_MODEL", "qwen2.5:7b-instruct")
+MODEL = os.environ.get("BIGMONEY_LLM_MODEL", "qwen3.8:4b")
 # Serve default num_ctx=4096 < retro prompts (~4.8k tokens -> 400
 # exceed_context_size_error). Request 8192 per call; KV-cache cost on the
 # resident 7B is ~+120MB VRAM (headroom verified 2026-09-23: 2.3GB free).
@@ -160,6 +162,11 @@ def chat(messages, temperature=0.4, num_predict=900, usage_cmd=None):
             "model": MODEL,
             "messages": messages,
             "stream": False,
+            # thinking-capable resident (qwen3.8:4b) must not burn the
+            # num_predict budget on chain-of-thought: advisory lane wants
+            # the answer only (empirical: think default ate all 12
+            # selftest tokens -> empty content -> FAIL)
+            "think": False,
             "options": {"temperature": temperature,
                         "num_predict": num_predict,
                         "num_ctx": NUM_CTX},
