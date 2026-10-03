@@ -1,0 +1,538 @@
+{
+ "batch": "R404-BMC-688-CROSSCHECK",
+ "machine": "bm-c",
+ "evidence_source": "origin-only committed products (worktree==origin after r404 S0 ff to 432ca2001) + git historical blob",
+ "local_cache_fact": "bm-c has NO local p1c_stock cache (r393 structural, MSG-2026-10-03-0230): requested spot-check on 'my copy' not executable - no copy exists",
+ "provenance": {
+  "VALUE-PE_x1": {
+   "commit": "4e916d599",
+   "subject": "round 598 (bm-b): FUND-VALUE-P1 batch LANDED fleet-visible (T-150 ignition gates ALL GREEN; dead r598-session work adopted per r511 after independent re-verify this round) -- runne"
+  },
+  "VALUE-PE_x2": {
+   "commit": "9876fda0f",
+   "subject": "round 603 (bm-a) closeout: FUND-VALUE-P1 X2 SHARD DELIVERED -- cells_VALUE-PE_x2.jsonl 401/401 full-window judged cells + cont_VALUE-PE_x2.json + claim contract closed ok (closed_a"
+  },
+  "VALUE-PB_x1": {
+   "commit": "bfe07f253",
+   "subject": "round 604 (bm-a) closeout: FUND-VALUE-P1 PB-X1 SHARD DELIVERED + N3-R2 VOLATILITY-CE-01 PRODUCTS DELIVERED -- cells_VALUE-PB_x1.jsonl 401/401 full-window judged cells (all-dict ver"
+  },
+  "VALUE-PB_x2": {
+   "commit": "ac8519fd2",
+   "subject": "round 602 (bm-b): FUND-VALUE-P1 VALUE-PB x2 judged-cell PRODUCTS delivered to origin (r586/r598 pool-done-but-products-stranded heal): cells_VALUE-PB_x2.jsonl (401 virtual-start ce"
+  },
+  "QUALITY-ROE_x1": {
+   "commit": "bb0c81b87",
+   "subject": "round 607 (bm-b) product drop: FUND-QUALITY-P1 judged cell QUALITY-ROE x1 delivered (401 census rows + cont face, G-CENSUS bit-exact, done-flip already on origin) + X2 stale-claim "
+  },
+  "QUALITY-ROE_x2": {
+   "commit": "93fb399ed",
+   "subject": "round 608 (bm-b) product drop: FUND-QUALITY-P1 judged cell QUALITY-ROE x2 delivered (401 census rows + cont face, pos-grid census bit-exact vs x1, runner status 401/401 cont=Y, poo"
+  }
+ },
+ "n_base_comparisons": [
+  {
+   "pair": "VALUE-PE_x1[bm-b] vs VALUE-PE_x2[bm-a]",
+   "note": "cross-machine VALUE drift expectation: bm-a copy 100x -> +n_base",
+   "n_starts_compared": 401,
+   "n_divergent_n_base": 59,
+   "delta_min": 1,
+   "delta_max": 140,
+   "delta_hist": {
+    "1": 3,
+    "3": 2,
+    "6": 2,
+    "13": 2,
+    "17": 1,
+    "14": 2,
+    "7": 2,
+    "10": 2,
+    "8": 2,
+    "42": 1,
+    "22": 1,
+    "23": 2,
+    "18": 1,
+    "34": 1,
+    "49": 1,
+    "75": 2,
+    "80": 1,
+    "43": 2,
+    "54": 1,
+    "30": 1,
+    "56": 1,
+    "31": 3,
+    "72": 1,
+    "66": 1,
+    "24": 1,
+    "27": 1,
+    "21": 1,
+    "39": 1,
+    "35": 1,
+    "36": 1,
+    "26": 1,
+    "28": 1,
+    "29": 1,
+    "33": 1,
+    "46": 1,
+    "58": 1,
+    "57": 1,
+    "108": 1,
+    "140": 1,
+    "115": 1,
+    "5": 2,
+    "11": 1,
+    "4": 1,
+    "12": 1
+   },
+   "first_divergent_start": "2020-12-01",
+   "last_divergent_start": "2026-01-05",
+   "divergent_by_year": {
+    "2020": 1,
+    "2021": 12,
+    "2022": 12,
+    "2023": 12,
+    "2024": 12,
+    "2025": 9,
+    "2026": 1
+   },
+   "delta_median_max_by_year": {
+    "2020": {
+     "n": 1,
+     "median": 1,
+     "max": 1
+    },
+    "2021": {
+     "n": 12,
+     "median": 13,
+     "max": 42
+    },
+    "2022": {
+     "n": 12,
+     "median": 49,
+     "max": 80
+    },
+    "2023": {
+     "n": 12,
+     "median": 31,
+     "max": 72
+    },
+    "2024": {
+     "n": 12,
+     "median": 46,
+     "max": 140
+    },
+    "2025": {
+     "n": 9,
+     "median": 7,
+     "max": 43
+    },
+    "2026": {
+     "n": 1,
+     "median": 5,
+     "max": 5
+    }
+   },
+   "n_active_universe_diffs": 0
+  },
+  {
+   "pair": "VALUE-PE_x1[bm-b] vs VALUE-PB_x1[bm-a]",
+   "note": "cross-machine VALUE drift expectation (second bm-a face)",
+   "n_starts_compared": 401,
+   "n_divergent_n_base": 59,
+   "delta_min": 1,
+   "delta_max": 140,
+   "delta_hist": {
+    "1": 3,
+    "3": 2,
+    "6": 2,
+    "13": 2,
+    "17": 1,
+    "14": 2,
+    "7": 2,
+    "10": 2,
+    "8": 2,
+    "42": 1,
+    "22": 1,
+    "23": 2,
+    "18": 1,
+    "34": 1,
+    "49": 1,
+    "75": 2,
+    "80": 1,
+    "43": 2,
+    "54": 1,
+    "30": 1,
+    "56": 1,
+    "31": 3,
+    "72": 1,
+    "66": 1,
+    "24": 1,
+    "27": 1,
+    "21": 1,
+    "39": 1,
+    "35": 1,
+    "36": 1,
+    "26": 1,
+    "28": 1,
+    "29": 1,
+    "33": 1,
+    "46": 1,
+    "58": 1,
+    "57": 1,
+    "108": 1,
+    "140": 1,
+    "115": 1,
+    "5": 2,
+    "11": 1,
+    "4": 1,
+    "12": 1
+   },
+   "first_divergent_start": "2020-12-01",
+   "last_divergent_start": "2026-01-05",
+   "divergent_by_year": {
+    "2020": 1,
+    "2021": 12,
+    "2022": 12,
+    "2023": 12,
+    "2024": 12,
+    "2025": 9,
+    "2026": 1
+   },
+   "delta_median_max_by_year": {
+    "2020": {
+     "n": 1,
+     "median": 1,
+     "max": 1
+    },
+    "2021": {
+     "n": 12,
+     "median": 13,
+     "max": 42
+    },
+    "2022": {
+     "n": 12,
+     "median": 49,
+     "max": 80
+    },
+    "2023": {
+     "n": 12,
+     "median": 31,
+     "max": 72
+    },
+    "2024": {
+     "n": 12,
+     "median": 46,
+     "max": 140
+    },
+    "2025": {
+     "n": 9,
+     "median": 7,
+     "max": 43
+    },
+    "2026": {
+     "n": 1,
+     "median": 5,
+     "max": 5
+    }
+   },
+   "n_active_universe_diffs": 0
+  },
+  {
+   "pair": "VALUE-PE_x1[bm-b] vs VALUE-PB_x2[bm-b]",
+   "note": "same-machine sanity anchor: expect 0 divergent (both bm-b panel)",
+   "n_starts_compared": 401,
+   "n_divergent_n_base": 0,
+   "delta_min": 0,
+   "delta_max": 0,
+   "delta_hist": {},
+   "first_divergent_start": null,
+   "last_divergent_start": null,
+   "divergent_by_year": {},
+   "delta_median_max_by_year": {},
+   "n_active_universe_diffs": 0
+  },
+  {
+   "pair": "QUALITY-ROE_x1[bm-b] vs QUALITY-ROE_x2[bm-b]",
+   "note": "same-machine sanity anchor: expect 0 divergent (both bm-b panel)",
+   "n_starts_compared": 401,
+   "n_divergent_n_base": 0,
+   "delta_min": 0,
+   "delta_max": 0,
+   "delta_hist": {},
+   "first_divergent_start": null,
+   "last_divergent_start": null,
+   "divergent_by_year": {},
+   "delta_median_max_by_year": {},
+   "n_active_universe_diffs": 0
+  },
+  {
+   "pair": "QUALITY-ROE_x2[origin=bm-b-restore] vs QUALITY-ROE_x2[bm-a@78fcec946]",
+   "note": "bm-b r609b finding reproduction: 59/401 +1..+42 expected",
+   "n_starts_compared": 401,
+   "n_divergent_n_base": 59,
+   "delta_min": 1,
+   "delta_max": 140,
+   "delta_hist": {
+    "1": 3,
+    "3": 2,
+    "6": 2,
+    "13": 2,
+    "17": 1,
+    "14": 2,
+    "7": 2,
+    "10": 2,
+    "8": 2,
+    "42": 1,
+    "22": 1,
+    "23": 2,
+    "18": 1,
+    "34": 1,
+    "49": 1,
+    "75": 2,
+    "80": 1,
+    "43": 2,
+    "54": 1,
+    "30": 1,
+    "56": 1,
+    "31": 3,
+    "72": 1,
+    "66": 1,
+    "24": 1,
+    "27": 1,
+    "21": 1,
+    "39": 1,
+    "35": 1,
+    "36": 1,
+    "26": 1,
+    "28": 1,
+    "29": 1,
+    "33": 1,
+    "46": 1,
+    "58": 1,
+    "57": 1,
+    "108": 1,
+    "140": 1,
+    "115": 1,
+    "5": 2,
+    "11": 1,
+    "4": 1,
+    "12": 1
+   },
+   "first_divergent_start": "2020-12-01",
+   "last_divergent_start": "2026-01-05",
+   "divergent_by_year": {
+    "2020": 1,
+    "2021": 12,
+    "2022": 12,
+    "2023": 12,
+    "2024": 12,
+    "2025": 9,
+    "2026": 1
+   },
+   "delta_median_max_by_year": {
+    "2020": {
+     "n": 1,
+     "median": 1,
+     "max": 1
+    },
+    "2021": {
+     "n": 12,
+     "median": 13,
+     "max": 42
+    },
+    "2022": {
+     "n": 12,
+     "median": 49,
+     "max": 80
+    },
+    "2023": {
+     "n": 12,
+     "median": 31,
+     "max": 72
+    },
+    "2024": {
+     "n": 12,
+     "median": 46,
+     "max": 140
+    },
+    "2025": {
+     "n": 9,
+     "median": 7,
+     "max": 43
+    },
+    "2026": {
+     "n": 1,
+     "median": 5,
+     "max": 5
+    }
+   },
+   "n_active_universe_diffs": 0
+  }
+ ],
+ "nulls_contamination_boundary": [
+  {
+   "face": "VALUE-nulls",
+   "claim_note": "bm-a r615 ledger: 81 off-caliber rows (k=0..80), bm-b in-flight resume from k=81",
+   "n_rows": 91,
+   "bad_rows": 0,
+   "k_min": 0,
+   "k_max": 90,
+   "k_missing_in_range": [],
+   "k_contiguous": true,
+   "n_engine_syms_series_k_sorted": [
+    2499,
+    2483,
+    2465,
+    2507,
+    2466,
+    2494,
+    2466,
+    2531,
+    2483,
+    2479,
+    2475,
+    2470,
+    2478,
+    2495,
+    2477,
+    2446,
+    2522,
+    2483,
+    2497,
+    2529,
+    2500,
+    2500,
+    2514,
+    2494,
+    2514,
+    2505,
+    2461,
+    2512,
+    2498,
+    2494,
+    2492,
+    2481,
+    2494,
+    2518,
+    2489,
+    2472,
+    2464,
+    2484,
+    2457,
+    2478,
+    2509,
+    2474,
+    2490,
+    2510,
+    2490,
+    2483,
+    2552,
+    2439,
+    2521,
+    2525,
+    2485,
+    2476,
+    2485,
+    2511,
+    2505,
+    2455,
+    2534,
+    2474,
+    2479,
+    2480,
+    2496,
+    2450,
+    2480,
+    2462,
+    2487,
+    2476,
+    2514,
+    2482,
+    2488,
+    2477,
+    2530,
+    2488,
+    2523,
+    2473,
+    2468,
+    2511,
+    2467,
+    2485,
+    2487,
+    2484,
+    2499,
+    2491,
+    2497,
+    2523,
+    2462,
+    2488,
+    2458,
+    2479,
+    2474,
+    2493,
+    2478
+   ],
+   "claimed_boundary": {
+    "bm_a_rows_expected": 81,
+    "bm_b_rows_on_origin": 10,
+    "median_k_below": 2487,
+    "median_k_ge_claim": 2488,
+    "discriminable": false,
+    "why_not": "per-draw nes noise >> inflation effect"
+   },
+   "best_median_split_any_boundary": {
+    "k_cut": 0,
+    "median_left": 2499,
+    "median_right": 2487
+   }
+  },
+  {
+   "face": "QUALITY-nulls",
+   "claim_note": "bm-a r615 ledger: 9 off-caliber rows (k=0..8), bm-b in-flight resume from k=9",
+   "n_rows": 15,
+   "bad_rows": 0,
+   "k_min": 0,
+   "k_max": 14,
+   "k_missing_in_range": [],
+   "k_contiguous": true,
+   "n_engine_syms_series_k_sorted": [
+    2454,
+    2470,
+    2488,
+    2466,
+    2453,
+    2482,
+    2464,
+    2439,
+    2473,
+    2518,
+    2465,
+    2516,
+    2454,
+    2500,
+    2488
+   ],
+   "claimed_boundary": {
+    "bm_a_rows_expected": 9,
+    "bm_b_rows_on_origin": 6,
+    "median_k_below": 2466,
+    "median_k_ge_claim": 2500,
+    "discriminable": false,
+    "why_not": "per-draw nes noise >> inflation effect"
+   },
+   "best_median_split_any_boundary": {
+    "k_cut": 8,
+    "median_left": 2466,
+    "median_right": 2500
+   }
+  }
+ ],
+ "bad_parse_rows": {
+  "VALUE-PE_x1": 0,
+  "VALUE-PE_x2": 0,
+  "VALUE-PB_x1": 0,
+  "VALUE-PB_x2": 0,
+  "QUALITY-ROE_x1": 0,
+  "QUALITY-ROE_x2": 0
+ },
+ "history_blob_bad_rows": 0
+}
