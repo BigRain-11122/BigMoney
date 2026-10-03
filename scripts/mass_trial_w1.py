@@ -118,6 +118,14 @@ AX_T = ["daily", "weekly"]           # daily eval | first-trading-day-of-week on
 OUT_DIR = os.path.join("results", "mass_trial")
 JUDGE_STATE = os.path.join(OUT_DIR, "judge_state.json")
 JUDGE_OUT = os.path.join(OUT_DIR, "w1_judge.json")
+# ---- wave-2 continuation face (prereg research/MASS_TRIAL_W2_PREREG.md,
+# T-2026-10-03-158; w1 prereg sec.3/sec.10 pre-registered semantics: SAME
+# registered seed-base sequences, draw window [512,1024) = new candidates,
+# not re-evaluation; cross-wave dedup vs all 975 w1 enrollees; 5000 cap)
+W2_BATCH = "MASS_TRIAL_W2"
+W2_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
+W2_SKIP = N_DRAWS                   # continuation window offset (512)
+W2_NULL_SEED_OFF = 120               # nulls: base+120..+139 (w1: +100..+119)
 
 
 # --------------------------------------------------------------- panel loading
@@ -258,25 +266,29 @@ def build_roster():
 
 # ---------------------------------------------------------------- sampling
 
-def sample_draws(fam, n=N_DRAWS):
+def sample_draws(fam, n=N_DRAWS, skip=0):
     """Per-family deterministic 500-draw frame: Sobol over the normalized
     param box (seed = SEED_BASE + family idx, RLSL sec.2 space filling) +
     axis draws from a seeded RNG stream. Yields (draw_idx, params, axes).
-    held_none params are NOT sampled (stay at function-internal default)."""
+    held_none params are NOT sampled (stay at function-internal default).
+    skip>0 = W2 continuation window (prereg MASS_TRIAL_W2 sec.3): draw the
+    first skip+n points of the SAME sequence and keep [skip:] -- prefix
+    identity with the w1 frame holds (selftest), window points are new."""
     from scipy.stats import qmc
     names = sorted(nm for nm in fam["ranges"]
                    if not fam["ranges"][nm].get("held_none"))
+    k = skip + n
     if names:
         sob = qmc.Sobol(len(names), scramble=True,
                         seed=SEED_BASE + fam["idx"])
-        box = sob.random(n)
+        box = sob.random(k)[skip:]
     else:
         box = np.zeros((n, 0))
     rng = np.random.default_rng([SEED_BASE + fam["idx"], 7919])
-    axes = list(zip(rng.integers(0, len(AX_R), n),
-                    rng.integers(0, len(AX_X), n),
-                    rng.integers(0, len(AX_S), n),
-                    rng.integers(0, len(AX_T), n)))
+    axes = list(zip(rng.integers(0, len(AX_R), k)[skip:],
+                    rng.integers(0, len(AX_X), k)[skip:],
+                    rng.integers(0, len(AX_S), k)[skip:],
+                    rng.integers(0, len(AX_T), k)[skip:]))
     for i in range(n):
         params = {}
         for j, nm in enumerate(names):
@@ -431,7 +443,116 @@ def signal_hash(e: pd.DataFrame, x: pd.DataFrame) -> str:
 
 # --------------------------------------------------------------- generate
 
+def _w1_enrolled_hashes(roster):
+    """Cross-wave dedup sets (prereg W2 sec.1): recompute param hashes and
+    reuse stored signal hashes of ALL 975 w1 enrolled candidates."""
+    path = os.path.join(OUT_DIR, "w1_candidates.json")
+    cands = json.load(open(path, encoding="utf-8"))["candidates"]
+    by_family = {f["family"]: f for f in roster}
+    ph, sh = set(), set()
+    for c in cands:
+        ph.add(param_hash(by_family[c["family"]], c["params"], c["axes"]))
+        sh.add(c["signal_sha256"])
+    return ph, sh
+
+
+def cmd_generate_w2(args):
+    """W2 continuation face (prereg MASS_TRIAL_W2 sec.3): same generators,
+    draw window [512,1024), quota 66/family, cross-wave dedup vs w1."""
+    os.makedirs(OUT_DIR, exist_ok=True)
+    ctx = Ctx()
+    roster, excluded = ctx.roster, ctx.excluded
+    w1_phash, w1_shash = _w1_enrolled_hashes(roster)
+    seen_phash, seen_shash = set(w1_phash), set(w1_shash)
+    candidates, stats = [], {"rejections": 0, "param_dupes": 0,
+                            "signal_dupes": 0, "dead_signal": 0,
+                            "cross_wave_param_dupes": 0,
+                            "cross_wave_signal_dupes": 0}
+    for fam in roster:
+        got, tries = 0, 0
+        for d_idx, params, axes in sample_draws(fam, N_DRAWS, skip=W2_SKIP):
+            if got >= W2_QUOTA_PER_FAMILY or tries >= N_DRAWS:
+                break
+            tries += 1
+            if not draw_valid(fam, params):
+                stats["rejections"] += 1
+                continue
+            ph = param_hash(fam, params, axes)
+            if ph in w1_phash:
+                stats["cross_wave_param_dupes"] += 1
+                continue
+            if ph in seen_phash:
+                stats["param_dupes"] += 1
+                continue
+            try:
+                e, x, _scale = ctx.build_signals(fam, params, axes)
+            except Exception:
+                stats["dead_signal"] += 1
+                continue
+            if not bool(e.any().any()):
+                stats["dead_signal"] += 1
+                continue
+            sh = signal_hash(e, x)
+            if sh in w1_shash:
+                stats["cross_wave_signal_dupes"] += 1
+                continue
+            if sh in seen_shash:
+                stats["signal_dupes"] += 1
+                continue
+            seen_phash.add(ph)
+            seen_shash.add(sh)
+            candidates.append({"id": f"W2-{fam['idx']:02d}{d_idx:03d}",
+                              "family": fam["family"], "kind": fam["kind"],
+                              "params": params, "axes": axes,
+                              "signal_sha256": sh})
+            got += 1
+        if got < W2_QUOTA_PER_FAMILY:
+            stats.setdefault("quota_short", {})[fam["family"]] = got
+        print(f"  w2gen fam {fam['idx']:02d} {fam['family']}: "
+              f"enrolled {got}/{W2_QUOTA_PER_FAMILY}", flush=True)
+    roster_path = os.path.join(OUT_DIR, "w2_roster.json")
+    cand_path = os.path.join(OUT_DIR, "w2_candidates.json")
+    with open(roster_path, "w", encoding="utf-8") as f:
+        json.dump({"batch": W2_BATCH, "roster": roster, "excluded": excluded,
+                   "cutoff": CUTOFF, "seed_base": SEED_BASE,
+                   "draw_window": [W2_SKIP, W2_SKIP + N_DRAWS],
+                   "quota_per_family": W2_QUOTA_PER_FAMILY,
+                   "n_draws": N_DRAWS,
+                   "axes": {"R": AX_R, "X": AX_X, "S": AX_S, "T": AX_T}},
+                  f, indent=1, ensure_ascii=False)
+    with open(cand_path, "w", encoding="utf-8") as f:
+        json.dump({"batch": W2_BATCH, "n": len(candidates),
+                   "evidence_cutoff": CUTOFF, "candidates": candidates},
+                  f, indent=1, ensure_ascii=False)
+    stats.update({"enrolled": len(candidates), "families": len(roster),
+                  "excluded_families": len(excluded),
+                  "cross_wave_set_sizes": {"param": len(w1_phash),
+                                            "signal": len(w1_shash)}})
+    with open(os.path.join(OUT_DIR, "w2_generate_summary.json"), "w",
+              encoding="utf-8") as f:
+        json.dump({"batch": W2_BATCH, **stats, "evidence_cutoff": CUTOFF}, f,
+                  indent=1, ensure_ascii=False)
+    with open(os.path.join(OUT_DIR, "grammar_registry.jsonl"), "a",
+              encoding="utf-8") as f:
+        f.write(json.dumps({
+            "wave": "w2", "batch": W2_BATCH, "seed_base": SEED_BASE,
+            "draw_window": [W2_SKIP, W2_SKIP + N_DRAWS],
+            "roster_sha256_16": hashlib.sha256(
+                open(roster_path, "rb").read()).hexdigest()[:16],
+            "candidates_sha256_16": hashlib.sha256(
+                open(cand_path, "rb").read()).hexdigest()[:16],
+            "families": len(roster), "draw_frame": N_DRAWS,
+            "enrolled": len(candidates), "cross_dedup_vs": "w1(975)",
+            "consumed_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")},
+            ensure_ascii=False) + "\n")
+    print(f"generate w2: {len(candidates)} candidates / {len(roster)} "
+          f"families; stats={json.dumps(stats)}; excluded={len(excluded)}")
+    return 0
+
+
 def cmd_generate(args):
+    if getattr(args, "wave", 1) == 2:
+        return cmd_generate_w2(args)
     os.makedirs(OUT_DIR, exist_ok=True)
     ctx = Ctx()
     roster, excluded = ctx.roster, ctx.excluded
@@ -509,8 +630,10 @@ def cmd_generate(args):
 
 # --------------------------------------------------------------- screen
 
-def _combined_rows(ctx):
-    rows = json.load(open(os.path.join(OUT_DIR, "w1_candidates.json"),
+def _combined_rows(ctx, wave=1):
+    cand_file = "w1_candidates.json" if wave == 1 else "w2_candidates.json"
+    null_off = NULL_SEED_OFF if wave == 1 else W2_NULL_SEED_OFF
+    rows = json.load(open(os.path.join(OUT_DIR, cand_file),
                          encoding="utf-8"))["candidates"]
     for r in rows:
         r["row_type"] = "candidate"
@@ -521,7 +644,7 @@ def _combined_rows(ctx):
     for i in range(20):                          # random-entry nulls (RLSL iron rule)
         rows.append({"id": f"NULL-{i:02d}", "family": "random_entry",
                      "kind": "null", "params": {"p": [0.02, 0.05][i % 2],
-                                                "seed": SEED_BASE + NULL_SEED_OFF + i},
+                                                "seed": SEED_BASE + null_off + i},
                      "axes": None, "row_type": "null"})
     return rows
 
@@ -583,9 +706,12 @@ def _worker_run(row):
 
 def cmd_screen(args):
     os.makedirs(OUT_DIR, exist_ok=True)
+    wave = getattr(args, "wave", 1)
     ctx = Ctx()                      # roster needed for controls in all modes
-    rows = _combined_rows(ctx)
-    ckpt = os.path.join(OUT_DIR, "screen_checkpoint.jsonl")
+    rows = _combined_rows(ctx, wave)
+    ckpt = os.path.join(OUT_DIR,
+                        "screen_checkpoint.jsonl" if wave == 1
+                        else "w2_screen_checkpoint.jsonl")
     done = set()
     if os.path.exists(ckpt):
         with open(ckpt, encoding="utf-8") as f:
@@ -633,7 +759,13 @@ def cmd_finalize(args):
     Ledger entry embedded under trials_ledger (r252 law); one-chain
     idempotency: an existing complete summary's ledger entry is never
     recomputed (re-run would double-count the chain)."""
-    ckpt = os.path.join(OUT_DIR, "screen_checkpoint.jsonl")
+    wave = getattr(args, "wave", 1)
+    batch = BATCH if wave == 1 else W2_BATCH
+    cand_file = "w1_candidates.json" if wave == 1 else "w2_candidates.json"
+    sum_file = "w1_screen_summary.json" if wave == 1 else "w2_screen_summary.json"
+    ckpt = os.path.join(OUT_DIR,
+                        "screen_checkpoint.jsonl" if wave == 1
+                        else "w2_screen_checkpoint.jsonl")
     rows = [json.loads(line) for line in open(ckpt, encoding="utf-8")]
     cand = [r for r in rows if r.get("row_type") == "candidate"]
     ctrl = [r for r in rows if r.get("row_type") == "control"]
@@ -641,9 +773,9 @@ def cmd_finalize(args):
     err = [r for r in rows if r.get("status") == "signal_error"]
     surv = [r for r in cand if r.get("screen_pass")]
     null_br = sorted(r.get("beat_rate_6m", 0.0) for r in null if "beat_rate_6m" in r)
-    n_expected = json.load(open(os.path.join(OUT_DIR, "w1_candidates.json"),
+    n_expected = json.load(open(os.path.join(OUT_DIR, cand_file),
                                 encoding="utf-8"))["n"]
-    out_path = os.path.join(OUT_DIR, "w1_screen_summary.json")
+    out_path = os.path.join(OUT_DIR, sum_file)
     prev = None
     if os.path.exists(out_path):
         prev = json.load(open(out_path, encoding="utf-8"))
@@ -651,18 +783,20 @@ def cmd_finalize(args):
             ledger = prev["trials_ledger"]     # chain linearity: keep as-is
         else:
             ledger = sg.append_ledger(
-                BATCH, len(cand), file_name="mass_trial/w1_screen_summary.json",
+                batch, len(cand), file_name=f"mass_trial/{sum_file}",
                 evidence_cutoff=CUTOFF,
-                note=f"T-94 wave-1 stage-1 screen: {len(cand)} candidate cells, "
+                note=f"T-{'94' if wave == 1 else '158'} wave-{wave} "
+                     f"stage-1 screen: {len(cand)} candidate cells, "
                      f"{len(surv)} survivors")
     else:
         ledger = sg.append_ledger(
-            BATCH, len(cand), file_name="mass_trial/w1_screen_summary.json",
+            batch, len(cand), file_name=f"mass_trial/{sum_file}",
             evidence_cutoff=CUTOFF,
-            note=f"T-94 wave-1 stage-1 screen: {len(cand)} candidate cells, "
+            note=f"T-{'94' if wave == 1 else '158'} wave-{wave} "
+                 f"stage-1 screen: {len(cand)} candidate cells, "
                  f"{len(surv)} survivors")
     summary = {
-        "batch": BATCH, "evidence_cutoff": CUTOFF,
+        "batch": batch, "evidence_cutoff": CUTOFF,
         **sg.cutoff_meta(CUTOFF),
         "trials_ledger": ledger,
         "n_candidates_checkpointed": len(cand), "n_controls": len(ctrl),
@@ -1340,6 +1474,31 @@ def cmd_selftest(args):
     check("sample sufficiency honest on tiny synthetic",
           row1["sample_sufficient"] is False
           and row1["n_eff_start_windows"] == 4)   # 3 leg-L + 1 leg-D starts
+    # ---- wave-2 continuation face (prereg MASS_TRIAL_W2 sec.3) ----
+    d_first8 = list(sample_draws(fam, 8))
+    d_first16 = list(sample_draws(fam, 16))
+    d_win8 = list(sample_draws(fam, 8, skip=8))
+    check("w2 continuation: skip window == tail of 2n frame (content)",
+          [t[1:] for t in d_first16[8:]] == [t[1:] for t in d_win8])
+    check("w2 continuation: Sobol param prefix identity (w1 frame intact)",
+          [t[1] for t in d_first16[:8]] == [t[1] for t in d_first8])
+    h8 = {param_hash(fam, p, a) for _, p, a in d_first8}
+    hw = {param_hash(fam, p, a) for _, p, a in d_win8}
+    check("w2 continuation window disjoint (skip=8 probe)", not (h8 & hw))
+    h_w1_full = {param_hash(fam, p, a)
+                 for _, p, a in sample_draws(fam, N_DRAWS)}
+    h_w2_real = {param_hash(fam, p, a)
+                 for _, p, a in sample_draws(fam, 64, skip=W2_SKIP)}
+    check("w2 real window [512,1024) disjoint from w1 frame (fam0)",
+          not (h_w1_full & h_w2_real))
+    check("w2 quota math 75x66=4950 <= 5000 cap",
+          75 * W2_QUOTA_PER_FAMILY == 4950 and 4950 <= 5000)
+    w1_ns = set(range(SEED_BASE + NULL_SEED_OFF,
+                      SEED_BASE + NULL_SEED_OFF + 20))
+    w2_ns = set(range(SEED_BASE + W2_NULL_SEED_OFF,
+                      SEED_BASE + W2_NULL_SEED_OFF + 20))
+    check("w2 null seeds disjoint from w1 null band",
+          not (w1_ns & w2_ns) and min(w2_ns) == 20283120)
     print(f"selftest: {ok}/{n_checks} PASS")
     return 0 if ok == n_checks else 1
 
@@ -1348,13 +1507,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("generate")
+    g.add_argument("--wave", type=int, default=1, choices=[1, 2])
     g.set_defaults(func=cmd_generate)
     s = sub.add_parser("screen")
+    s.add_argument("--wave", type=int, default=1, choices=[1, 2])
     s.add_argument("--pos-from", type=int, default=0)
     s.add_argument("--pos-to", type=int, default=10 ** 9)
     s.add_argument("--workers", type=int, default=0)
     s.set_defaults(func=cmd_screen)
     f = sub.add_parser("finalize")
+    f.add_argument("--wave", type=int, default=1, choices=[1, 2])
     f.set_defaults(func=cmd_finalize)
     jp = sub.add_parser("judge-prep")
     jp.set_defaults(func=cmd_judge_prep)
