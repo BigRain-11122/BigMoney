@@ -1,0 +1,74 @@
+{
+ "ts": "2026-10-03 15:05:36",
+ "machine": "bm-b",
+ "purpose": "MSG-2026-10-03-1452 option-A readiness evidence (read-only probe)",
+ "rank_face": [
+  {
+   "pn": 1,
+   "ok": true,
+   "http": 200,
+   "bytes": 18699,
+   "latency_s": 2.92
+  },
+  {
+   "pn": 2,
+   "ok": true,
+   "http": 200,
+   "bytes": 18440,
+   "latency_s": 4.14
+  },
+  {
+   "pn": 3,
+   "ok": true,
+   "http": 200,
+   "bytes": 18306,
+   "latency_s": 1.91
+  },
+  {
+   "pn": 4,
+   "ok": true,
+   "http": 200,
+   "bytes": 18234,
+   "latency_s": 2.92
+  },
+  {
+   "pn": 5,
+   "ok": true,
+   "http": 200,
+   "bytes": 18090,
+   "latency_s": 2.86
+  },
+  {
+   "pn": 6,
+   "ok": false,
+   "error": "HTTPError",
+   "http": 502,
+   "latency_s": 3.23
+  }
+ ],
+ "daykline_control_face": [
+  {
+   "attempt": 1,
+   "ok": true,
+   "http": 200,
+   "bytes": 15083,
+   "latency_s": 1.58
+  },
+  {
+   "attempt": 2,
+   "ok": true,
+   "http": 200,
+   "bytes": 15083,
+   "latency_s": 2.48
+  }
+ ],
+ "rank_summary": {
+  "pages_ok": 5,
+  "pages_total": 6,
+  "sustained_viable_80page_daily_pull": false
+ },
+ "daykline_summary": {
+  "attempts_ok": 2,
+  "note": "dead face per DIGEST-20260925 control only"
+ }
+}
