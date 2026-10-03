@@ -1142,30 +1142,31 @@
    "fill_latency_min": 0.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 16:02:31",
+  "ts": "2026-10-03 16:10:01",
   "machine": "bm-a",
-  "py_cpu_pct": 12.4,
+  "py_cpu_pct": 42.0,
   "verdict": "fuse_refused_crash_loop",
   "entry": "FUND-VALUE-P1-NULLS",
   "shard": "fund-value-p1-nulls-0of1",
   "fuse_crashes": 1,
-  "fuse_refusals": 120,
+  "fuse_refusals": 125,
   "fuse_skipped": [
    {
     "entry": "FUND-VALUE-P1-NULLS",
     "shard": "fund-value-p1-nulls-0of1",
     "sig": "scripts/fund_value_p1.py|run,--nulls",
-    "fuse_refusals": 120
+    "fuse_refusals": 125
    },
    {
     "entry": "FUND-QUALITY-P1-NULLS",
     "shard": "fund-quality-p1-nulls-0of1",
     "sig": "scripts/fund_quality_p1.py|run,--nulls",
-    "fuse_refusals": 137
+    "fuse_refusals": 142
    }
   ]
  },
