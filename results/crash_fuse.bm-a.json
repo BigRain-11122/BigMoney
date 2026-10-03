@@ -130,7 +130,16 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:04"
   },
-  "scripts/fund_quality_p1.py|run,--nulls": {
+    "scripts/fund_divlowvol_p1.py|run,--nulls": {
+  "count": 0,
+  "refusals": 0,
+  "code_sha256": "6d49f8ec7b5a2118",
+  "entry": "FUND-DIVLOWVOL-P1-NULLS",
+  "shard": "fund-divlowvol-p1-nulls-0of1",
+  "machine": "bm-a",
+  "note": "keep blocked on bm-a r636: double-burn containment pin -- rightful burner bm-b 2000-draw in flight (r617-r620/r622/r629 division, MSG-1132/1155); 5th double-burn incident 18:38 claim auto-cleared this pin via code_changed (r626d runner edit made sha stale, r617 boundary); clear ONLY if bm-b burn dies AND bm-b lane yields"
+  },
+"scripts/fund_quality_p1.py|run,--nulls": {
    "count": 3,
    "refusals": 208,
    "code_sha256": "8f62ed1711cd27f6",
