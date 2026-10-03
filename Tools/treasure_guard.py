@@ -12,6 +12,7 @@ CLI (call from repo root):
   python Tools/treasure_guard.py prescan <path> [<path> ...]
   python Tools/treasure_guard.py quarantine <path> [...] --reason "why"
   python Tools/treasure_guard.py assert --manifest <manifest.json>
+  python Tools/treasure_guard.py restore <path> [...]   (S0-restore-class gate, s2.4)
   python Tools/treasure_guard.py selftest          (hermetic, tempdir only)
 
 Exit codes: 0 clean/ok, 3 registry HIT (hard reject), 2 mechanism failure.
@@ -115,6 +116,48 @@ def hits_of(paths, families, exacts, globs):
     return [p for p in paths if is_protected(p, families, exacts, globs)]
 
 
+# LAW s2.4 restore-classification (r433 bm-c weld, O-2030 remainder item 2):
+# memory/ledger/round-report/ticket/registry faces are NEVER origin-restorable --
+# restore would silently revert other machines' newer append-only rows (r98
+# state-file misread lineage, r384 literalization). Reproducible artifacts
+# (probes, daemon live-wins state faces, regenerable products, code faces)
+# are restorable. Registry hits are forbidden twice over (deletion-protection
+# list applies to restore as well).
+RESTORE_FORBIDDEN = [
+    ("memory", re.compile(r"(?:^|/)CODELY\.md$")),
+    ("memory", re.compile(r"(?:^|/)\.codely-cli/memory/")),
+    ("state-ledger", re.compile(r"(?:^|/)state(-[^/]*)?\.json$")),
+    ("round-report", re.compile(r"(?:^|/)round_reports[^/]*\.md$")),
+    ("append-only-ledger", re.compile(r"(?:^|/)gate_attrition[^/]*\.json$")),
+    ("append-only-ledger", re.compile(r"(?:^|/)pool_dualrun\.[^/]*\.jsonl$")),
+    ("append-only-ledger", re.compile(r"(?:^|/)token_usage[^/]*\.json$")),
+    ("append-only-ledger", re.compile(r"(?:^|/)watermark\.jsonl$")),
+    ("ticket-face", re.compile(r"(?:^|/)fleet/(orders|tasks|machines|inbox)/")),
+]
+
+
+def classify_restore(paths, families, exacts, globs):
+    """S0-restore-class gate core (LAW s2.4).
+
+    Returns (allowed, forbidden); forbidden = [(path, class)] with registry
+    hits classed 'registry'. Patterns are anchored so daemon live-wins faces
+    (results/saturation_engine_state.bm-c.json -- 'state' preceded by '_')
+    stay restorable while root state ledgers never are.
+    """
+    allowed, forbidden = [], []
+    for p in paths:
+        q = p.replace("\\", "/")
+        if is_protected(q, families, exacts, globs):
+            forbidden.append((q, "registry"))
+            continue
+        cls = next((c for c, rx in RESTORE_FORBIDDEN if rx.search(q)), None)
+        if cls:
+            forbidden.append((q, cls))
+        else:
+            allowed.append(q)
+    return allowed, forbidden
+
+
 def sha256_file(p):
     h = hashlib.sha256()
     with open(p, "rb") as f:
@@ -132,6 +175,27 @@ def cmd_prescan(args):
             print("  HIT:", h)
         return 3
     print("treasure_guard prescan: zero hits over", len(args), "path(s)")
+    return 0
+
+
+def cmd_restore(args):
+    if not args:
+        print("treasure_guard restore: no paths given")
+        return 2
+    fam, ex, gl = load_registry()
+    allowed, forbidden = classify_restore(args, fam, ex, gl)
+    for p, cls in forbidden:
+        print("  FORBIDDEN:", p, "(class=%s)" % cls)
+    for p in allowed:
+        print("  restorable:", p, "(reproducible-artifact class)")
+    if forbidden:
+        print("TREASURE_GUARD RESTORE HARD REJECT: %d forbidden face(s) -- "
+              "registry/memory/ledger/round-report/ticket class never "
+              "origin-restored; line-level union or extract-aside only "
+              "(TREASURE_PROTECTION_LAW s2.4)" % len(forbidden))
+        return 3
+    print("treasure_guard restore-class: %d path(s) all reproducible-artifact "
+          "class -- origin-verbatim restore allowed" % len(allowed))
     return 0
 
 
@@ -254,6 +318,40 @@ def selftest():
         expect("protected: " + p, is_protected(p, fam, ex, gl))
     for p in prot_no:
         expect("not-protected: " + p, not is_protected(p, fam, ex, gl))
+    # S0-restore-classification gate (LAW s2.4, r433 weld) -- hermetic legs
+    rf_yes = [
+        ("CODELY.md", "memory"),
+        ("state-bm-c.json", "state-ledger"),
+        ("state.json", "state-ledger"),
+        ("round_reports-bm-a.md", "round-report"),
+        ("fleet/machines/bm-b.json", "ticket-face"),
+        ("fleet/inbox/MSG-1.md", "ticket-face"),
+        ("fleet/tasks/T-1.json", "ticket-face"),
+        ("results/gate_attrition.bm-c.json", "append-only-ledger"),
+        ("results/pool_dualrun.bm-c.jsonl", "append-only-ledger"),
+        ("results/token_usage.bm-c.json", "append-only-ledger"),
+        ("results/watermark.jsonl", "append-only-ledger"),
+        ("firm/RULES.md", "registry"),
+        ("fleet/orders/O-1.md", "registry"),
+        ("research/memory-archive/202610.md", "registry"),
+    ]
+    rf_no = [
+        "results/saturation_engine/face_bm-c.json",
+        "results/saturation_engine_state.bm-c.json",
+        "results/_r999bmc_probe.py",
+        "scripts/mass_trial_w1.py",
+    ]
+    for p, cls in rf_yes:
+        a, f = classify_restore([p], fam, ex, gl)
+        expect("restore-class: %s -> forbidden (%s)" % (p, cls),
+               not a and len(f) == 1 and f[0][1] == cls)
+    for p in rf_no:
+        a, f = classify_restore([p], fam, ex, gl)
+        expect("restore-class: %s -> restorable" % p,
+               a == [p] and not f)
+    a, f = classify_restore(["CODELY.md", "scripts/foo.py"], fam, ex, gl)
+    expect("restore-class: mixed set split (allowed kept, forbidden flagged)",
+           a == ["scripts/foo.py"] and len(f) == 1 and f[0][1] == "memory")
     # quarantine roundtrip in tempdir (module functions are root-relative; emulate)
     with tempfile.TemporaryDirectory() as td:
         src = os.path.join(td, "victim.txt")
@@ -280,6 +378,8 @@ def main(argv):
     cmd, args = argv[1], argv[2:]
     if cmd == "prescan":
         return cmd_prescan(args)
+    if cmd == "restore":
+        return cmd_restore(args)
     if cmd == "quarantine":
         return cmd_quarantine(args)
     if cmd == "assert":

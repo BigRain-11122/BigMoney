@@ -1,0 +1,36 @@
+{
+ "round": "r433 bm-c",
+ "ticket": "T-2026-10-03-162-P1 (O-20261003-2030 weld remainder item 2)",
+ "product": "Tools/treasure_guard.py restore mode -- S0-restore-class guard gate (TREASURE_PROTECTION_LAW s2.4)",
+ "law_ref": "firm/TREASURE_PROTECTION_LAW.md s2.4: dirty-intersect-delta reproducible artifacts restorable; memory/ledger/round-report/ticket/registry class NEVER origin-restored (line-level union or extract-aside only)",
+ "selftest": {
+  "legs_total": 40,
+  "legs_new": 19,
+  "verdict": "PASS rc0",
+  "new_legs": "14 forbidden-class (memory/state-ledger/round-report/ticket-face x3/append-only-ledger x4/registry x3) + 4 restorable (daemon live-wins faces incl. saturation_engine_state.bm-c.json negative-discriminator, probe, code) + 1 mixed-set split"
+ },
+ "live_fire": {
+  "demo1_mixed_set": {
+   "cmd": "python Tools/treasure_guard.py restore CODELY.md state-bm-c.json fleet/machines/bm-c.json results/saturation_engine/face_bm-c.json results/_r426bmc_w2_judge_finalize_log.txt",
+   "expect": "rc3 hard reject",
+   "rc": 3,
+   "verdict": "PASS",
+   "forbidden": [
+    {"path": "CODELY.md", "class": "memory"},
+    {"path": "state-bm-c.json", "class": "state-ledger"},
+    {"path": "fleet/machines/bm-c.json", "class": "ticket-face"}
+   ],
+   "restorable_listed": ["results/saturation_engine/face_bm-c.json", "results/_r426bmc_w2_judge_finalize_log.txt"]
+  },
+  "demo2_clean_set": {
+   "cmd": "python Tools/treasure_guard.py restore results/saturation_engine/face_bm-c.json results/saturation_engine_state.bm-c.json results/_r426bmc_w2_judge_finalize_log.txt",
+   "expect": "rc0 all restorable",
+   "rc": 0,
+   "verdict": "PASS",
+   "note": "saturation_engine_state.bm-c.json (daemon live-wins face) stays restorable -- anchored pattern does not over-catch"
+  }
+ },
+ "read_only": true,
+ "weld_remainder_status": "item2 S0-restore-class guard mode DELIVERED; remaining: item1 canon sweep driver (hot-cold) + item3 per-runner finalize capture comments; acceptance window 10-08",
+ "evidence_cutoff": "2026-09-22"
+}
