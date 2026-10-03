@@ -126,6 +126,39 @@ W2_BATCH = "MASS_TRIAL_W2"
 W2_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
 W2_SKIP = N_DRAWS                   # continuation window offset (512)
 W2_NULL_SEED_OFF = 120               # nulls: base+120..+139 (w1: +100..+119)
+# ---- s3 judge face, wave-2 (prereg MASS_TRIAL_W2 sec.9.1 FROZEN before any
+# judge run per R99; seed mass_trial_w2_judge=20285200 band 20285200..20285499
+# registered in science_gates SEED_REGISTRY at the same freeze commit,
+# R250 one-step law; grid = w1 sec.9.1 isomorphic: p5c FROZEN_CENSUS legs
+# L/D x windows {126,252,504} x cost {x1,x2} x regime 3-way segments +
+# dual nulls B=2000 block=20 circular + P=2000 sign-flip, rng=[20285200,
+# cell_idx], resample faces only)
+W2_JUDGE_BATCH = "MASS_TRIAL_W2_JUDGE"
+W2_JUDGE_SEED = sg.SEED_REGISTRY["mass_trial_w2_judge"]    # 20285200
+W2_CANDIDATES_SHA_FROZEN = "1a8751ed16a9c641"             # w2_candidates.json
+
+
+def _judge_faces(wave):
+    """Wave-routed judge face descriptor (single source for prep/burn/
+    finalize; w1 paths byte-identical to the pre-wave-2 code face)."""
+    if wave == 1:
+        return {"wave": 1, "batch": JUDGE_BATCH, "seed": JUDGE_SEED,
+                "state": JUDGE_STATE, "out": JUDGE_OUT,
+                "ck_prefix": "judge_shard",
+                "cand_file": "w1_candidates.json",
+                "sum_file": "w1_screen_summary.json",
+                "sha_frozen": CANDIDATES_SHA_FROZEN,
+                "refinalize_env": "MASS_TRIAL_W1_JUDGE_REFINALIZE",
+                "ticket": "T-94"}
+    return {"wave": 2, "batch": W2_JUDGE_BATCH, "seed": W2_JUDGE_SEED,
+            "state": os.path.join(OUT_DIR, "w2_judge_state.json"),
+            "out": os.path.join(OUT_DIR, "w2_judge.json"),
+            "ck_prefix": "w2_judge_shard",
+            "cand_file": "w2_candidates.json",
+            "sum_file": "w2_screen_summary.json",
+            "sha_frozen": W2_CANDIDATES_SHA_FROZEN,
+            "refinalize_env": "MASS_TRIAL_W2_JUDGE_REFINALIZE",
+            "ticket": "T-158"}
 
 
 # --------------------------------------------------------------- panel loading
@@ -872,12 +905,14 @@ def _yearly_returns(eq: pd.Series) -> dict:
     return out
 
 
-def _dual_nulls(returns, cell_idx):
+def _dual_nulls(returns, cell_idx, seed=None):
     """Block bootstrap B=2000 (block=20 circular) + sign-flip P=2000 on the
     cell's mean daily return, two-sided (RANDOM_LARGE_SAMPLE_LAW sec.3;
-    wave-1b reference formula). rng=[JUDGE_SEED, i] -- stream pinned to the
-    two resample faces only (census sec.9.1 usage-pinning precedent)."""
-    rng = np.random.default_rng([JUDGE_SEED, cell_idx])
+    wave-1b reference formula). rng=[seed, i] -- stream pinned to the
+    two resample faces only (census sec.9.1 usage-pinning precedent); seed
+    is wave-routed (w1=20285000, w2=20285200) via _judge_faces."""
+    rng = np.random.default_rng([JUDGE_SEED if seed is None else seed,
+                                 cell_idx])
     r = np.asarray(returns, dtype=float)
     n = len(r)
     mu = float(r.mean())
@@ -899,11 +934,14 @@ def _dual_nulls(returns, cell_idx):
 
 def cmd_judge_prep(args):
     """sec.9.1 prep: frozen-product gates + dual-leg census gates + manifest
-    gate + corr-dedup (leg-L base daily returns) + passive precompute."""
+    gate + corr-dedup (leg-L base daily returns) + passive precompute.
+    Wave-routed: --wave 1 = MASS_TRIAL_W1_JUDGE (byte-identical face),
+    --wave 2 = MASS_TRIAL_W2_JUDGE (prereg MASS_TRIAL_W2 sec.9.1)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
     os.makedirs(OUT_DIR, exist_ok=True)
     t0 = time.time()
-    spath = os.path.join(OUT_DIR, "w1_screen_summary.json")
-    cpath = os.path.join(OUT_DIR, "w1_candidates.json")
+    spath = os.path.join(OUT_DIR, fc["sum_file"])
+    cpath = os.path.join(OUT_DIR, fc["cand_file"])
     for p in (spath, cpath):
         if not os.path.exists(p):
             print(f"JUDGE-PREP-GATE FAIL: {p} absent")
@@ -913,9 +951,9 @@ def cmd_judge_prep(args):
         print("JUDGE-PREP-GATE FAIL: screen summary not complete")
         return 1
     sha = hashlib.sha256(open(cpath, "rb").read()).hexdigest()[:16]
-    if sha != CANDIDATES_SHA_FROZEN:
+    if sha != fc["sha_frozen"]:
         print(f"JUDGE-PREP-GATE FAIL: candidates sha drift {sha} != "
-              f"{CANDIDATES_SHA_FROZEN} (frozen anchor)")
+              f"{fc['sha_frozen']} (frozen anchor)")
         return 1
     survivors = list(summary["survivor_ids"])
     if not survivors:
@@ -985,7 +1023,7 @@ def cmd_judge_prep(args):
     kept, clusters, eliminated = _collapse_survivors(
         pd.DataFrame({c: rets[c] for c in sorted(rets)}))
     state = {
-        "batch": JUDGE_BATCH, "evidence_cutoff": CUTOFF,
+        "batch": fc["batch"], "evidence_cutoff": CUTOFF,
         **sg.cutoff_meta(CUTOFF),
         "g_manifest": {"verdict": man.get("verdict"),
                        "members": len(man.get("members", {}))},
@@ -999,9 +1037,10 @@ def cmd_judge_prep(args):
                              "this audit block (sec.9.1)"},
         "starts": starts, "passive": passive,
         "legs": legs_meta, "bench_coverage": bench_cov,
-        "seed_judge": JUDGE_SEED,
+        "seed_judge": fc["seed"],
+        "wave": fc["wave"],
     }
-    with open(JUDGE_STATE, "w", encoding="utf-8") as f:
+    with open(fc["state"], "w", encoding="utf-8") as f:
         json.dump(state, f, indent=1, ensure_ascii=False)
     print(f"judge-prep PASS: survivors {len(survivors)} -> N_judge "
           f"{len(kept)} (collapsed {len(eliminated)}); census L/D == frozen; "
@@ -1117,7 +1156,8 @@ def _judge_cell(cell):
     }
     out["crisis_days_gt8pct"] = int(
         (np.abs(legL_daily) > 0.08).sum())
-    out["dual_nulls"] = _dual_nulls(daily, cell["i"])
+    out["dual_nulls"] = _dual_nulls(daily, cell["i"],
+                                    seed=st.get("seed_judge"))
     n_eff = sum(legs[lg]["regime_start_windows"][s]
                 for lg in legs for s in ("bear", "bull", "chop"))
     out["n_eff_start_windows"] = n_eff
@@ -1130,13 +1170,14 @@ def _judge_cell(cell):
 
 def cmd_judge(args):
     """Sharded judged-cell burn (checkpoint jsonl per cell, cross-kill
-    resume = skip recorded cell_ids)."""
+    resume = skip recorded cell_ids). Wave-routed via --wave (1/2)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
     os.makedirs(OUT_DIR, exist_ok=True)
-    if not os.path.exists(JUDGE_STATE):
-        print(f"JUDGE-GATE: judge-prep required first ({JUDGE_STATE} absent)")
+    if not os.path.exists(fc["state"]):
+        print(f"JUDGE-GATE: judge-prep required first ({fc['state']} absent)")
         return 2
-    state = json.load(open(JUDGE_STATE, encoding="utf-8"))
-    cpath = os.path.join(OUT_DIR, "w1_candidates.json")
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    cpath = os.path.join(OUT_DIR, fc["cand_file"])
     cands = {c["id"]: c for c in json.load(
         open(cpath, encoding="utf-8"))["candidates"]}
     kept = sorted(state["collapse"]["kept"])
@@ -1149,8 +1190,9 @@ def cmd_judge(args):
     st = {"ctx_L": ctx_L, "ctx_D": ctx_D, "idx_L": idx_L, "idx_D": idx_D,
           "roster_by_family": {f["family"]: f for f in ctx_L.roster},
           "starts": state["starts"], "passive": state["passive"],
-          "states": v3_state_series()}
-    ck = os.path.join(OUT_DIR, f"judge_shard_{args.shard}of{args.shards}.jsonl")
+          "states": v3_state_series(), "seed_judge": state["seed_judge"]}
+    ck = os.path.join(
+        OUT_DIR, f"{fc['ck_prefix']}_{args.shard}of{args.shards}.jsonl")
     done = set()
     if os.path.exists(ck):
         with open(ck, encoding="utf-8") as fh:
@@ -1182,29 +1224,31 @@ def cmd_judge_finalize(args):
     """Aggregate shards -> G1'v2 + DSR + family PBO + G2 + E[FP] + verdicts
     + ledger append (single-shot guard: a complete product is never
     re-appended; MASS_TRIAL_W1_JUDGE_REFINALIZE=1 = only redo, byte-stable
-    via own-chain-position overrides per r259 prev-echo guard)."""
-    if not os.path.exists(JUDGE_STATE):
-        print(f"FINALIZE-GATE: {JUDGE_STATE} absent (judge-prep first)")
+    via own-chain-position overrides per r259 prev-echo guard).
+    Wave-routed via --wave (1/2; w2 env MASS_TRIAL_W2_JUDGE_REFINALIZE)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
+    if not os.path.exists(fc["state"]):
+        print(f"FINALIZE-GATE: {fc['state']} absent (judge-prep first)")
         return 2
     n_eff_override = None
     redo_dsr_trials = None
-    if os.path.exists(JUDGE_OUT):
-        prev = json.load(open(JUDGE_OUT, encoding="utf-8"))
+    if os.path.exists(fc["out"]):
+        prev = json.load(open(fc["out"], encoding="utf-8"))
         if prev.get("complete") and "trials_ledger" in prev:
-            if not os.environ.get("MASS_TRIAL_W1_JUDGE_REFINALIZE"):
+            if not os.environ.get(fc["refinalize_env"]):
                 print("judge-finalize: complete product exists (idempotent "
-                      "no-op; MASS_TRIAL_W1_JUDGE_REFINALIZE=1 to redo)")
+                      "no-op; set %s=1 to redo)" % fc["refinalize_env"])
                 return 0
             n_eff_override = (int(prev["trials_ledger"]["prev_total"])
                               + int(prev["trials_ledger"]["batch_trials"]))
             redo_dsr_trials = int(prev["trials_ledger"]["prev_total"])
-    state = json.load(open(JUDGE_STATE, encoding="utf-8"))
-    screen = json.load(open(os.path.join(OUT_DIR, "w1_screen_summary.json"),
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    screen = json.load(open(os.path.join(OUT_DIR, fc["sum_file"]),
                             encoding="utf-8"))
     kept = sorted(state["collapse"]["kept"])
     rows = []
     for f in sorted(os.listdir(OUT_DIR)):
-        if f.startswith("judge_shard_") and f.endswith(".jsonl"):
+        if f.startswith(fc["ck_prefix"] + "_") and f.endswith(".jsonl"):
             with open(os.path.join(OUT_DIR, f), encoding="utf-8") as fh:
                 for ln in fh:
                     if ln.strip():
@@ -1258,17 +1302,19 @@ def cmd_judge_finalize(args):
     eligible = [r["candidate_id"] for r in judged
                 if r["g2_registration_v2"]["eligible_v2"]]
     e_fp = round(0.05 * n_judge, 2)
-    ledger = sg.append_ledger(JUDGE_BATCH, n_judge,
-                              file_name="mass_trial/w1_judge.json",
+    out_rel = "mass_trial/" + os.path.basename(fc["out"])
+    ledger = sg.append_ledger(fc["batch"], n_judge,
+                              file_name=out_rel,
                               evidence_cutoff=CUTOFF,
-                              note=f"T-94 s3 judge: {n_judge} collapsed cells "
+                              note=f"{fc['ticket']} s3 judge: {n_judge} "
+                                   f"collapsed cells "
                                    f"from {state['n_stage1_survivors']} "
                                    "stage-1 survivors")
     desc_agg = {cl: sum(1 for r in judged if r["descriptive"][cl])
                 for cl in ("ann_pos", "oos_dual_pos", "dd_ok",
                            "no_crash_year", "x2_yearly_stable")}
     summary = {
-        "batch": JUDGE_BATCH, "evidence_cutoff": CUTOFF,
+        "batch": fc["batch"], "evidence_cutoff": CUTOFF,
         **sg.cutoff_meta(CUTOFF),
         "trials_ledger": ledger,
         "n_judge_cells": n_judge,
@@ -1280,9 +1326,11 @@ def cmd_judge_finalize(args):
             "screen_cells": int(screen["trials_ledger"]["batch_trials"]),
             "judged_cells": n_judge, "E_FP_nominal_5pct": e_fp,
             "note": "DSR>=0.95 gate IS the multiple-testing correction "
-                    "(cumulative N deflation); E[FP] disclosed at nominal "
-                    "5% caliber; sibling wave-1b (trial_labor_w1) tracked "
-                    "under its own prereg/ticket"},
+                    "(cumulative N deflation via live ledger-head "
+                    "n_trials -- cross-wave N_eff never reset, prereg "
+                    "MASS_TRIAL_W2 sec.9); E[FP] disclosed at nominal "
+                    "5% caliber; sibling faces (wave-1a/1b, trial_labor "
+                    "waves) tracked under their own prereg/ticket"},
         "n_trials_head_at_finalize": n_trials,
         "family_pbo": pbos,
         "descriptive_counts": desc_agg,
@@ -1297,16 +1345,17 @@ def cmd_judge_finalize(args):
                            "wave-1b sec.9.3 same-source) + regime segments "
                            "(T-22 sec.3 3-way proxy) + dual nulls (B=2000 "
                            "block=20 circular + P=2000 sign-flip, rng="
-                           "[20285000, i]); Sharpe gates on leg-L x1; x2 = "
-                           "cost-stability descriptive; bench single-source "
-                           "csi300.csv (leg-D coverage 2020+ disclosed)",
-            "seed_judge": JUDGE_SEED,
+                           f"[{fc['seed']}, i]); Sharpe gates on leg-L x1; "
+                           "x2 = cost-stability descriptive; bench "
+                           "single-source csi300.csv (leg-D coverage 2020+ "
+                           "disclosed)",
+            "seed_judge": fc["seed"],
             "g_manifest": state["g_manifest"],
             "legs": state["legs"], "bench_coverage": state["bench_coverage"],
         },
         "complete": True,
     }
-    with open(JUDGE_OUT, "w", encoding="utf-8") as f:
+    with open(fc["out"], "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=1, ensure_ascii=False)
     print(f"judge-finalize: {n_judge} judged cells, E[FP]={e_fp}, "
           f"G2 eligible {len(eligible)} -> {eligible[:10]}")
@@ -1365,6 +1414,22 @@ def cmd_selftest(args):
     # ---- s3 judge face (hermetic: synthetic fixtures, zero repo data) ----
     check("judge seed band registered + value",
           sg.SEED_REGISTRY.get("mass_trial_w1_judge") == 20285000)
+    check("w2 judge seed band registered + value (sec.9.1 freeze, R250)",
+          sg.SEED_REGISTRY.get("mass_trial_w2_judge") == 20285200)
+    f1, f2 = _judge_faces(1), _judge_faces(2)
+    check("judge faces wave-routed (w1 byte-face intact, w2 new files)",
+          f1["batch"] == "MASS_TRIAL_W1_JUDGE" and f1["seed"] == 20285000
+          and f1["state"] == JUDGE_STATE and f1["out"] == JUDGE_OUT
+          and f1["cand_file"] == "w1_candidates.json"
+          and f1["sha_frozen"] == "907e44d56999b0ab"
+          and f1["ck_prefix"] == "judge_shard"
+          and f2["batch"] == "MASS_TRIAL_W2_JUDGE" and f2["seed"] == 20285200
+          and f2["cand_file"] == "w2_candidates.json"
+          and f2["sum_file"] == "w2_screen_summary.json"
+          and f2["sha_frozen"] == W2_CANDIDATES_SHA_FROZEN
+          and f2["ck_prefix"] == "w2_judge_shard"
+          and f2["out"].endswith("w2_judge.json")
+          and f2["refinalize_env"] == "MASS_TRIAL_W2_JUDGE_REFINALIZE")
     check("frozen census import intact (p5c wholesale, sec.9.3 binding)",
           FROZEN_CENSUS == {"L": {"6m": 1253, "12m": 1127, "24m": 875},
                             "D": {"6m": 3104, "12m": 2978, "24m": 2726}}
@@ -1400,6 +1465,9 @@ def cmd_selftest(args):
     check("dual nulls deterministic + spec fields",
           dn1 == dn2 and dn1["B"] == 2000 and dn1["P"] == 2000
           and dn1["block"] == 20 and dn1["ci_lower_positive"])
+    check("dual nulls seed routing (w1 default identity, w2 stream differs)",
+          dn1 == _dual_nulls(r_pos, 0, seed=20285000)
+          and _dual_nulls(r_pos, 0, seed=20285200) != dn1)
     # CostPatch x2 single-source + restore (p5c selftest #7 mirror)
     eb = sys.modules["engine.backtester"]
     orig_cls = eb.FeeSchedule
@@ -1519,13 +1587,16 @@ def main():
     f.add_argument("--wave", type=int, default=1, choices=[1, 2])
     f.set_defaults(func=cmd_finalize)
     jp = sub.add_parser("judge-prep")
+    jp.add_argument("--wave", type=int, default=1, choices=[1, 2])
     jp.set_defaults(func=cmd_judge_prep)
     js_ = sub.add_parser("judge")
+    js_.add_argument("--wave", type=int, default=1, choices=[1, 2])
     js_.add_argument("--shard", type=int, default=0)
     js_.add_argument("--shards", type=int, default=1)
     js_.add_argument("--workers", type=int, default=0)
     js_.set_defaults(func=cmd_judge)
     jf = sub.add_parser("judge-finalize")
+    jf.add_argument("--wave", type=int, default=1, choices=[1, 2])
     jf.set_defaults(func=cmd_judge_finalize)
     t = sub.add_parser("selftest")
     t.set_defaults(func=cmd_selftest)
