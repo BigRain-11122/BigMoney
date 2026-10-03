@@ -1,0 +1,444 @@
+{
+ "rehearsal": true,
+ "NOT_A_VERDICT": true,
+ "why": "nulls partial (78/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
+ "batch": "FUND-DIVLOWVOL-P1",
+ "ticket": "T-2026-10-03-155-P1",
+ "machine": "bm-a",
+ "ts": "2026-10-03T17:06:50+08:00",
+ "legs": {
+  "inputs_parse": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "probe_keys": [
+     "batch",
+     "checks",
+     "d6",
+     "div_face",
+     "generated",
+     "machine",
+     "panel",
+     "pre_t0_disclosure",
+     "prereg_state",
+     "runtime_sec"
+    ],
+    "d6_keys": {
+     "__len__": 13,
+     "head": [
+      "batch",
+      "gate",
+      "generated"
+     ]
+    },
+    "cont_keys": {
+     "DIVLOWVOL-YIELDVOL|x1": {
+      "__len__": 14,
+      "head": [
+       "cell",
+       "face",
+       "key"
+      ]
+     },
+     "DIVLOWVOL-YIELDVOL|x2": {
+      "__len__": 14,
+      "head": [
+       "cell",
+       "face",
+       "key"
+      ]
+     }
+    },
+    "n_sens": 500,
+    "n_nulls": 78,
+    "cell_shard_rows": {
+     "DIVLOWVOL-YIELDVOL|x1": 401,
+     "DIVLOWVOL-YIELDVOL|x2": 401
+    }
+   }
+  },
+  "worker_init": {
+   "ok": true,
+   "elapsed_sec": 1.6,
+   "value": true
+  },
+  "firing_months": {
+   "ok": true,
+   "elapsed_sec": 25.0,
+   "value": true
+  },
+  "passive_face": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "n_members_t0": 5018,
+    "sharpe_full": 0.448455,
+    "ret_full": 4.300572,
+    "span": [
+     "2006-02-06",
+     "2026-09-22"
+    ]
+   }
+  },
+  "block_bootstrap": {
+   "ok": true,
+   "elapsed_sec": 0.1,
+   "value": {
+    "B": 2000,
+    "block_len": 21,
+    "seed": 20261003,
+    "sharpe_p05": 0.5054,
+    "sharpe_p50": 0.8884,
+    "sharpe_p95": 1.2673,
+    "obs_sharpe": 0.894092,
+    "p_ge_obs": 0.489
+   }
+  },
+  "sign_flip": {
+   "ok": true,
+   "elapsed_sec": 0.1,
+   "value": {
+    "P": 2000,
+    "seed": 20261003,
+    "abs_mean_p50": 6.013e-05,
+    "abs_mean_p95": 0.00017895,
+    "abs_mean_obs": 0.00035798,
+    "p_two_sided": 0.0
+   }
+  },
+  "nulls_partial_stats": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "k": 78,
+    "want": 2000,
+    "mu": 0.7295,
+    "sigma": 0.0579
+   }
+  },
+  "gate_mechanics_partial_nulls": {
+   "ok": true,
+   "elapsed_sec": 22.4,
+   "value": {
+    "g1_prime_mechanics": {
+     "gate": "g1_prime_v2",
+     "sharpe_full": 0.8941,
+     "skill_line": {
+      "n_eff": 619502,
+      "line": 1.0285,
+      "passive_term": 0.5485,
+      "null_term": 1.0285,
+      "mu_null": 0.7295,
+      "sigma_null": 0.0579,
+      "pool": "core48",
+      "null_pool_source": "REHEARSAL partial 78/2000",
+      "passive_source": "batch_own_per_cell",
+      "ledger_head": {
+       "total": 617500,
+       "file": "lowamp_deep_p1_results.json",
+       "note": null,
+       "voided": [
+        {
+         "batch": "LOWAMP-P1",
+         "voided_trials": 2008
+        },
+        {
+         "batch": "LOWAMP-P2",
+         "voided_trials": 2008
+        }
+       ]
+      }
+     },
+     "line_ok": false,
+     "bootstrap_ci": {
+      "ci95_low": 0.4635,
+      "ci95_high": 1.3285,
+      "point": 0.8941,
+      "ci_lower_bound_positive": true,
+      "n_resamples": 1000,
+      "block_days": 10.0,
+      "seed": 20260923
+     },
+     "ci_lower_bound_positive": true,
+     "pass_v2": false,
+     "trade_gate": {
+      "n_trades": 1401,
+      "n_entries": 1421,
+      "min": 30,
+      "trades_ok": true,
+      "entries_ok": true,
+      "dual_ok": true
+     }
+    },
+    "x2_survival": {
+     "sharpe_full": 0.868297,
+     "pass": true
+    },
+    "m1": {
+     "gate": "m1_t_value",
+     "claim_class": "new_strategy",
+     "hurdle": 3.0,
+     "t": 3.989367,
+     "pass": true,
+     "missing_input": false
+    },
+    "dsr": {
+     "dsr": 0.675103,
+     "sr_annualized": 0.8941,
+     "sr_star": 0.049768,
+     "sigma_sr": 0.014436,
+     "n_trials": 2002,
+     "T": 5017,
+     "skew": -0.4771,
+     "kurtosis": 24.2054
+    },
+    "pbo": {
+     "pbo": 0.0,
+     "band": "register_eligible",
+     "cscv_n": 5017
+    },
+    "g2_mechanics": {
+     "gate": "g2_registration_v2",
+     "g1_pass": false,
+     "dsr": 0.675103,
+     "dsr_gate": 0.95,
+     "dsr_ok": false,
+     "family_pbo": 0.0,
+     "pbo_gate": 0.25,
+     "pbo_ok": true,
+     "missing_inputs": [
+      "g1_prime_v2"
+     ],
+     "eligible_v2": false
+    }
+   }
+  },
+  "g_seg": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "n_full_starts": 395,
+    "coverage": {
+     "na": 246,
+     "chop": 14,
+     "bull": 65,
+     "bear": 70
+    },
+    "pass": false
+   }
+  },
+  "starts_12m_dist_and_rolling": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "n": 395,
+    "best": 2.0436,
+    "worst": -0.7747,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.1603,
+    "positive_share": 0.481,
+    "rolling_worst": {
+     "3y": -0.0377,
+     "5y": -0.002,
+     "10y": 0.1257
+    },
+    "crash_years_lte_-35pct": {}
+   }
+  },
+  "sensitivity_aggregation": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "k": 500,
+    "sharpe_p05": 0.8429,
+    "sharpe_p50": 0.8726,
+    "sharpe_p95": 0.9024,
+    "maxdd_worst": -0.3337
+   }
+  },
+  "exit_census": {
+   "ok": true,
+   "elapsed_sec": 32.5,
+   "value": {
+    "total_exits": 1401,
+    "per_reason": {
+     "signal_reversal": 1401
+    },
+    "default_stack_exits": 0,
+    "default_share": 0.0,
+    "block_share": 0.2,
+    "pass": true,
+    "per_sym": {
+     "000002": {
+      "signal_reversal": 1
+     },
+     "000012": {
+      "signal_reversal": 1
+     },
+     "000021": {
+      "signal_reversal": 2
+     },
+     "000027": {
+      "signal_reversal": 8
+     },
+     "000032": {
+      "signal_reversal": 1
+     },
+     "000036": {
+      "signal_reversal": 3
+     },
+     "000039": {
+      "signal_reversal": 9
+     },
+     "000048": {
+      "signal_reversal": 2
+     },
+     "000055": {
+      "signal_reversal": 1
+     },
+     "000059": {
+      "signal_reversal": 1
+     },
+     "000066": {
+      "signal_reversal": 2
+     },
+     "000069": {
+      "signal_reversal": 1
+     },
+     "000088": {
+      "signal_reversal": 8
+     },
+     "000089": {
+      "signal_reversal": 3
+     },
+     "000090": {
+      "signal_reversal": 1
+     },
+     "000155": {
+      "signal_reversal": 1
+     },
+     "000156": {
+      "signal_reversal": 2
+     },
+     "000157": {
+      "signal_reversal": 2
+     },
+     "000333": {
+      "signal_reversal": 1
+     },
+     "000338": {
+      "signal_reversal": 2
+     },
+     "000401": {
+      "signal_reversal": 1
+     },
+     "000402": {
+      "signal_reversal": 4
+     },
+     "000408": {
+      "signal_reversal": 1
+     },
+     "000417": {
+      "signal_reversal": 1
+     },
+     "000422": {
+      "signal_reversal": 1
+     },
+     "000423": {
+      "signal_reversal": 1
+     },
+     "000429": {
+      "signal_reversal": 6
+     },
+     "000488": {
+      "signal_reversal": 6
+     },
+     "000517": {
+      "signal_reversal": 2
+     },
+     "000530": {
+      "signal_reversal": 1
+     },
+     "000531": {
+      "signal_reversal": 1
+     },
+     "000536": {
+      "signal_reversal": 1
+     },
+     "000538": {
+      "signal_reversal": 1
+     },
+     "000539": {
+      "signal_reversal": 3
+     },
+     "000541": {
+      "signal_reversal": 8
+     },
+     "000543": {
+      "signal_reversal": 1
+     },
+     "000550": {
+      "signal_reversal": 6
+     },
+     "000551": {
+      "signal_reversal": 1
+     },
+     "000552": {
+      "signal_reversal": 1
+     },
+     "000554": {
+      "signal_reversal": 2
+     },
+     "000559": {
+      "signal_reversal": 1
+     },
+     "000568": {
+      "signal_reversal": 5
+     },
+     "000581": {
+      "signal_reversal": 6
+     },
+     "000600": {
+      "signal_reversal": 2
+     },
+     "000603": {
+      "signal_reversal": 2
+     },
+     "000625": {
+      "signal_reversal": 1
+     },
+     "000629": {
+      "signal_reversal": 2
+     },
+     "000630": {
+      "signal_reversal": 1
+     },
+     "000631": {
+      "signal_reversal": 4
+     },
+     "000635": {
+      "signal_reversal": 1
+     }
+    }
+   }
+  },
+  "append_ledger_signature": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
+    "params_superset_ok": true
+   }
+  },
+  "cutoff_meta": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "evidence_cutoff": "2026-09-22"
+   }
+  }
+ },
+ "all_legs_ok": true,
+ "elapsed_total_sec": 82.3
+}
