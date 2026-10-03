@@ -1849,6 +1849,7 @@ SEED_REGISTRY = {
     "g2_slot_tail_p1_nulls": 20_550_000,  # T-161 G2-SLOT-TAIL-P1 core48 merged-tail census nulls (rng([20550000, k]) K=20; 2026-10-03 bm-a r644 freeze-window registration, band [20550000,20550020) disjoint, net gap 10000 above stock-family base 20540000, collision scan zero hit)
     "g2_slot_mon_p1_nulls": 20_560_000,  # T-163 G2-SLOT-MON-P1 core48 monthly-translation enriched-roster census nulls (rng([20560000, k]) K=20; 2026-10-03 bm-a r647 freeze-window registration, band [20560000,20560020) disjoint, net gap 10000 above tail-family base 20550000, collision scan zero hit)
     "g2_slot_mon_p2_nulls": 20_570_000,  # T-2026-10-03-164 G2-SLOT-MON-P2 stage-2 registration-caliber 2-face shortlist verdict nulls (rng([20570000, k]) K=60; 2026-10-03 bm-a r648 freeze-window registration, band [20570000,20570060) disjoint, net gap 10000 above mon-p1 base 20560000, collision scan zero hit -- probe L3 results/_r648bma_p2_probe.json)
+    "theme_persist_p1_nulls": 20_580_000,  # T-2026-10-04-165 THEME-PERSIST-P1 R4 persistence-gate permutation (K=2000) + mechanical wave-ride random-ignition nulls (K=200) (rng([20580000, k]) substream law; 2026-10-04 bm-a r657 freeze-window registration, band [20580000,20582200) disjoint, net gap 10000 above mon-p2 base 20570000, collision scan zero hit)
         # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
