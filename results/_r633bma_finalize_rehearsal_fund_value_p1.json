@@ -1,0 +1,375 @@
+{
+ "rehearsal": true,
+ "NOT_A_VERDICT": true,
+ "why": "nulls partial (280/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
+ "batch": "FUND-VALUE-P1",
+ "ticket": "T-2026-10-02-150-P1",
+ "machine": "bm-a",
+ "ts": "2026-10-03T17:12:18+08:00",
+ "legs": {
+  "inputs_parse": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "probe_keys": [
+     "batch",
+     "checks",
+     "d6",
+     "generated",
+     "liquidity",
+     "machine",
+     "panel",
+     "runtime_sec",
+     "seed_disclosure",
+     "t0"
+    ],
+    "d6_keys": [
+     "batch",
+     "gate",
+     "generated",
+     "headline_cont",
+     "machine",
+     "max_abs_corr",
+     "max_member",
+     "pairs",
+     "reject_line",
+     "runtime_sec",
+     "verdict"
+    ],
+    "cont_keys": {
+     "VALUE-PE|x1": {
+      "__len__": 14,
+      "head": [
+       "cell",
+       "face",
+       "key"
+      ]
+     },
+     "VALUE-PE|x2": {
+      "__len__": 18,
+      "head": [
+       "burn_machine",
+       "cache_digest",
+       "cell"
+      ]
+     },
+     "VALUE-PB|x1": {
+      "__len__": 18,
+      "head": [
+       "burn_machine",
+       "cache_digest",
+       "cell"
+      ]
+     },
+     "VALUE-PB|x2": {
+      "__len__": 14,
+      "head": [
+       "cell",
+       "face",
+       "key"
+      ]
+     }
+    },
+    "n_sens": 500,
+    "n_nulls": 280,
+    "cell_shard_rows": {
+     "VALUE-PE|x1": 401,
+     "VALUE-PE|x2": 401,
+     "VALUE-PB|x1": 401,
+     "VALUE-PB|x2": 401
+    }
+   }
+  },
+  "worker_init": {
+   "ok": true,
+   "elapsed_sec": 1.3,
+   "value": true
+  },
+  "firing_months": {
+   "ok": true,
+   "elapsed_sec": 19.2,
+   "value": true
+  },
+  "passive_face": {
+   "ok": false,
+   "elapsed_sec": 0.0,
+   "value": null,
+   "error": "AttributeError: 'NoneType' object has no attribute 'pct_change'",
+   "tb_tail": [
+    "    pc = rel.pct_change().dropna()",
+    "         ^^^^^^^^^^^^^^",
+    "AttributeError: 'NoneType' object has no attribute 'pct_change'"
+   ]
+  },
+  "block_bootstrap": {
+   "ok": true,
+   "elapsed_sec": 0.2,
+   "value": {
+    "B": 2000,
+    "block_len": 21,
+    "seed": 20261002,
+    "sharpe_p05": 0.0399,
+    "sharpe_p50": 0.377,
+    "sharpe_p95": 0.7151,
+    "obs_sharpe": 0.38086,
+    "p_ge_obs": 0.493
+   }
+  },
+  "sign_flip": {
+   "ok": true,
+   "elapsed_sec": 0.1,
+   "value": {
+    "P": 2000,
+    "seed": 20261002,
+    "abs_mean_p50": 8.112e-05,
+    "abs_mean_p95": 0.000239,
+    "abs_mean_obs": 0.00026682,
+    "p_two_sided": 0.03
+   }
+  },
+  "nulls_partial_stats": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "k": 280,
+    "want": 2000,
+    "mu": 0.3269,
+    "sigma": 0.0239
+   }
+  },
+  "gate_mechanics_partial_nulls": {
+   "ok": false,
+   "elapsed_sec": 0.0,
+   "value": null,
+   "error": "prerequisites missing: {\"headline\": true, \"h_rets\": true, \"passive\": false, \"nstats\": true, \"nulls_lt_want\": true}",
+   "tb_tail": null
+  },
+  "g_seg": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "n_full_starts": 395,
+    "coverage": {
+     "na": 246,
+     "chop": 14,
+     "bull": 65,
+     "bear": 70
+    },
+    "pass": false
+   }
+  },
+  "starts_12m_dist_and_rolling": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "n": 395,
+    "best": 2.3892,
+    "worst": -0.8324,
+    "p25": -0.1294,
+    "median": 0.0169,
+    "p75": 0.2112,
+    "positive_share": 0.5392,
+    "rolling_worst": {
+     "3y": -0.5703,
+     "5y": -0.6779,
+     "10y": -0.1603
+    },
+    "crash_years_lte_-35pct": {}
+   }
+  },
+  "sensitivity_aggregation": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "k": 500,
+    "sharpe_p05": 0.3333,
+    "sharpe_p50": 0.378,
+    "sharpe_p95": 0.4099,
+    "maxdd_worst": -0.7874
+   }
+  },
+  "exit_census": {
+   "ok": true,
+   "elapsed_sec": 52.0,
+   "value": {
+    "total_exits": 2082,
+    "per_reason": {
+     "signal_reversal": 2082
+    },
+    "default_stack_exits": 0,
+    "default_share": 0.0,
+    "block_share": 0.2,
+    "pass": true,
+    "per_sym": {
+     "000001": {
+      "signal_reversal": 8
+     },
+     "000002": {
+      "signal_reversal": 6
+     },
+     "000006": {
+      "signal_reversal": 3
+     },
+     "000007": {
+      "signal_reversal": 1
+     },
+     "000009": {
+      "signal_reversal": 1
+     },
+     "000014": {
+      "signal_reversal": 1
+     },
+     "000016": {
+      "signal_reversal": 3
+     },
+     "000017": {
+      "signal_reversal": 2
+     },
+     "000020": {
+      "signal_reversal": 1
+     },
+     "000021": {
+      "signal_reversal": 6
+     },
+     "000026": {
+      "signal_reversal": 2
+     },
+     "000027": {
+      "signal_reversal": 10
+     },
+     "000028": {
+      "signal_reversal": 1
+     },
+     "000029": {
+      "signal_reversal": 2
+     },
+     "000030": {
+      "signal_reversal": 1
+     },
+     "000031": {
+      "signal_reversal": 1
+     },
+     "000032": {
+      "signal_reversal": 1
+     },
+     "000034": {
+      "signal_reversal": 5
+     },
+     "000036": {
+      "signal_reversal": 1
+     },
+     "000037": {
+      "signal_reversal": 5
+     },
+     "000039": {
+      "signal_reversal": 6
+     },
+     "000042": {
+      "signal_reversal": 6
+     },
+     "000048": {
+      "signal_reversal": 3
+     },
+     "000055": {
+      "signal_reversal": 3
+     },
+     "000056": {
+      "signal_reversal": 4
+     },
+     "000059": {
+      "signal_reversal": 1
+     },
+     "000060": {
+      "signal_reversal": 3
+     },
+     "000062": {
+      "signal_reversal": 1
+     },
+     "000063": {
+      "signal_reversal": 1
+     },
+     "000066": {
+      "signal_reversal": 3
+     },
+     "000068": {
+      "signal_reversal": 11
+     },
+     "000069": {
+      "signal_reversal": 6
+     },
+     "000088": {
+      "signal_reversal": 1
+     },
+     "000089": {
+      "signal_reversal": 1
+     },
+     "000090": {
+      "signal_reversal": 1
+     },
+     "000151": {
+      "signal_reversal": 3
+     },
+     "000155": {
+      "signal_reversal": 3
+     },
+     "000157": {
+      "signal_reversal": 1
+     },
+     "000159": {
+      "signal_reversal": 3
+     },
+     "000301": {
+      "signal_reversal": 1
+     },
+     "000338": {
+      "signal_reversal": 2
+     },
+     "000400": {
+      "signal_reversal": 2
+     },
+     "000401": {
+      "signal_reversal": 2
+     },
+     "000402": {
+      "signal_reversal": 1
+     },
+     "000409": {
+      "signal_reversal": 2
+     },
+     "000410": {
+      "signal_reversal": 2
+     },
+     "000420": {
+      "signal_reversal": 1
+     },
+     "000421": {
+      "signal_reversal": 3
+     },
+     "000422": {
+      "signal_reversal": 1
+     },
+     "000425": {
+      "signal_reversal": 1
+     }
+    }
+   }
+  },
+  "append_ledger_signature": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
+    "params_superset_ok": true
+   }
+  },
+  "cutoff_meta": {
+   "ok": true,
+   "elapsed_sec": 0.0,
+   "value": {
+    "evidence_cutoff": "2026-09-22"
+   }
+  }
+ },
+ "all_legs_ok": false,
+ "elapsed_total_sec": 73.5
+}
