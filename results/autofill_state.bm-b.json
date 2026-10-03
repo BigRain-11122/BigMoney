@@ -1002,40 +1002,12 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 10:42:01",
+  "ts": "2026-10-03 11:20:01",
   "machine": "bm-b",
-  "py_cpu_pct": 57.1,
-  "verdict": "fuse_refused_crash_loop",
+  "py_cpu_pct": 57.8,
+  "verdict": "claim_lost_yield",
   "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
-  "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 11,
-  "fuse_skipped": [
-   {
-    "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
-    "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
-    "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x1",
-    "fuse_refusals": 11
-   },
-   {
-    "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X2",
-    "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x2-0of1",
-    "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x2",
-    "fuse_refusals": 10
-   },
-   {
-    "entry": "FUND-DIVLOWVOL-P1-NULLS",
-    "shard": "fund-divlowvol-p1-nulls-0of1",
-    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
-    "fuse_refusals": 6
-   },
-   {
-    "entry": "FUND-DIVLOWVOL-P1-SENS",
-    "shard": "fund-divlowvol-p1-sens-0of1",
-    "sig": "scripts/fund_divlowvol_p1.py|run,--sensitivity",
-    "fuse_refusals": 5
-   }
-  ]
+  "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1"
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-03T10:27:06+08:00"
