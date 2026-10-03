@@ -690,6 +690,61 @@ def face_view(face, results_dir=None):
     return merged
 
 
+def _git(*args, cwd=None):
+    """Zero-window git probe (subprocess raw-bytes capture only -- PS5
+    redirect faces are banned per the r617 encoding law)."""
+    try:
+        p = subprocess.run(["git", *args], capture_output=True,
+                            timeout=30, cwd=cwd)
+    except (OSError, subprocess.TimeoutExpired) as ex:
+        return None, f"{type(ex).__name__}: {ex}"
+    if p.returncode != 0:
+        return None, p.stderr.decode("utf-8", "replace").strip()
+    return p.stdout, None
+
+
+def _origin_shared_blob(face, results_dir=None):
+    """r628 origin-tip identity probe for the settle write path (r627
+    stale-settle P0 fix).  Reads the shared face's blob as of the LOCAL
+    origin/main remote-tracking ref -- ZERO network: daemon pushes on
+    this machine advance the ref even while a session reland window
+    (reset/checkout sequences) has rolled the WORKTREE copy back (r627
+    live instance: the 14:54:12 settle wrote the 14:41:08 pre-launch
+    base over the daemon-pushed 14:54:07 claim, healed 218d194a5).
+    Returns (status, data):
+      ("ok", parsed_dict)  -- ref + blob read + parsed;
+      ("no-origin", None)  -- hermetic selftest results_dir / no
+                              remote ref / face never pushed: assertion
+                              unavailable, settle proceeds legacy path;
+      ("fault", message)   -- ref exists but read failed unexpectedly:
+                              caller fails closed (neither side)."""
+    if results_dir is not None:
+        return "no-origin", None  # hermetic selftest fixtures: no git
+    shared = _shared_path(face, results_dir)
+    repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    rel = os.path.relpath(shared, repo).replace(os.sep, "/")
+    if rel.startswith("..") or os.path.isabs(rel):
+        return "no-origin", None  # face lives outside this repo: no ref
+    out, _err = _git("rev-parse", "--verify", "origin/main", cwd=repo)
+    if out is None:
+        return "no-origin", None  # no remote ref yet: nothing to assert
+    out, err = _git("show", f"origin/main:{rel}", cwd=repo)
+    if out is None:
+        low = (err or "").lower()
+        if ("exists on disk, but not in" in low
+                or "does not exist" in low
+                or "ambiguous argument" in low):
+            return "no-origin", None  # face never pushed: legacy path
+        return "fault", err or "git show origin blob failed"
+    try:
+        return "ok", json.loads(out.decode("utf-8"))
+    except Exception as ex:
+        return "fault", f"origin blob unparseable: {ex}"
+
+
+_ORIGIN_PROBE = _origin_shared_blob  # selftest seam (monkeypatch point)
+
+
 def sync_face(face, results_dir=None, machine=None):
     """Debt-③ (r381 audit) slice-5: merger-recipe TWO-WAY settle for the
     pool face (runnable_pool) -- the ONE shared-coordination face with
@@ -734,14 +789,39 @@ def sync_face(face, results_dir=None, machine=None):
     if not sources:
         return {"status": "no_sources", "wrote_shared": False,
                 "wrote_lane": False, "notes": []}
+    # r628 origin-tip identity assertion (r627 stale-settle P0 fix):
+    # probe the shared face's blob at the local origin/main ref BEFORE
+    # any settle write.  Identity holds -> legacy behavior unchanged;
+    # mismatch (reland-rolled worktree vs daemon-pushed origin truth)
+    # -> the origin blob joins the union as a leading base source so
+    # newer-wins timestamps (r311) and the marker laws keep the daemon
+    # claim instead of regressing it; probe fault on a live ref ->
+    # fail-closed (neither side written), same law as corrupt sources.
+    probe_st, origin_data = _ORIGIN_PROBE(face, results_dir)
+    pre_notes = []
+    if probe_st == "fault":
+        return {"status": "unreadable", "wrote_shared": False,
+                "wrote_lane": False,
+                "notes": [f"origin-tip probe fault: {origin_data} -- "
+                          "neither side written (r627 stale-settle "
+                          "fail-closed)"]}
+    if probe_st == "ok":
+        wt_shared = next((d for lb, d in sources if lb == "legacy"),
+                         None)
+        if origin_data != wt_shared:
+            sources = [("legacy", origin_data)] + sources
+            pre_notes.append("origin-tip identity mismatch -> origin "
+                             "blob unioned as leading base source "
+                             "(r627 stale-settle law, r628 fix)")
     try:
         merged, notes = merge_face(face, sources)
     except (Exception, SystemExit) as ex:
         return {"status": "unreadable", "wrote_shared": False,
                 "wrote_lane": False,
-                "notes": [f"merge fault: {ex} -- neither side written"]}
+                "notes": pre_notes
+                + [f"merge fault: {ex} -- neither side written"]}
     res = {"status": "unchanged", "wrote_shared": False,
-           "wrote_lane": False, "notes": list(notes)}
+           "wrote_lane": False, "notes": pre_notes + list(notes)}
     shared = _shared_path(face, results_dir)
     try:
         with open(shared, encoding="utf-8") as fh:
@@ -1775,7 +1855,87 @@ def _selftest():
               r5["status"] == "unreadable" and not r5["wrote_shared"]
               and not r5["wrote_lane"]
               and open(os.path.join(td, "runnable_pool.json"),
-                      "rb").read() == shared_bytes)
+                       "rb").read() == shared_bytes)
+
+        # --- r628 origin-tip identity assertion legs (r627 stale-settle
+        # P0 fix): fresh fixtures (the r5 leg leaves an r98-contradiction
+        # residue on the bm-a lane); the probe seam is monkeypatched per
+        # leg and restored in finally.
+        global _ORIGIN_PROBE
+        real_probe = _ORIGIN_PROBE
+        _base_entry = {"id": "FQ-SENS", "status": "running",
+                       "shards": [{"key": "s1", "owner": "bm-a",
+                                   "owner_since":
+                                   "2026-10-03 14:41:08"}]}
+        _stale = {"updated_at": "2026-10-03 14:41:08",
+                  "entries": [dict(_base_entry)]}
+        with open(os.path.join(td, "runnable_pool.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(_stale, fh)
+        with open(os.path.join(td, "runnable_pool.bm-a.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(dict(_stale, lane_machine="bm-a"), fh)
+        try:  # earlier defer legs leave a bm-b lane residue: clear it
+            os.remove(os.path.join(td, "runnable_pool.bm-b.json"))
+        except OSError:
+            pass
+        try:
+            # (a) hermetic default: the real probe on a selftest
+            # results_dir returns "no-origin" -> settle proceeds the
+            # legacy path (both sides equal here -> unchanged).
+            r6 = sync_face("runnable_pool", results_dir=td,
+                           machine="bm-a")
+            check("sync:r628-hermetic-default-no-origin",
+                  r6["status"] == "unchanged" and not r6["wrote_shared"]
+                  and not r6["wrote_lane"])
+            # (b) identity holds: origin == worktree shared -> plain
+            # legacy settle, no origin-tip note.
+            _ORIGIN_PROBE = lambda f, rd=None: ("ok", _stale)
+            r7 = sync_face("runnable_pool", results_dir=td,
+                           machine="bm-a")
+            check("sync:r628-identity-equal-legacy-path",
+                  r7["status"] == "unchanged"
+                  and not any("origin-tip" in n for n in r7["notes"]))
+            # (c) r627 live shape: origin carries the daemon-pushed
+            # fresh claim (14:54:07) while the worktree is rolled back
+            # to the pre-launch base (14:41:08) -- the settle must keep
+            # the ORIGIN truth (newer-wins r311), never regress it.
+            _fresh = {"updated_at": "2026-10-03 14:54:07",
+                      "entries": [{"id": "FQ-SENS", "status": "running",
+                                   "shards": [{"key": "s1",
+                                               "owner": "bm-a",
+                                               "owner_since":
+                                               "2026-10-03 14:54:07"}]}]}
+            _ORIGIN_PROBE = lambda f, rd=None: ("ok", _fresh)
+            r8 = sync_face("runnable_pool", results_dir=td,
+                           machine="bm-a")
+            shared8 = json.load(open(os.path.join(
+                td, "runnable_pool.json"), encoding="utf-8"))
+            lane8 = json.load(open(os.path.join(
+                td, "runnable_pool.bm-a.json"), encoding="utf-8"))
+            check("sync:r628-stale-worktree-keeps-origin-claim",
+                  r8["status"] == "settled" and r8["wrote_shared"]
+                  and r8["wrote_lane"]
+                  and any("origin-tip" in n for n in r8["notes"])
+                  and shared8["entries"][0]["shards"][0]["owner_since"]
+                  == "2026-10-03 14:54:07"
+                  and lane8["entries"][0]["shards"][0]["owner_since"]
+                  == "2026-10-03 14:54:07")
+            # (d) probe fault on a live ref -> fail-closed: neither
+            # side written, shared bytes untouched.
+            shared_bytes8 = open(os.path.join(td, "runnable_pool.json"),
+                                 "rb").read()
+            _ORIGIN_PROBE = lambda f, rd=None: (
+                "fault", "simulated git fault")
+            r9 = sync_face("runnable_pool", results_dir=td,
+                           machine="bm-a")
+            check("sync:r628-probe-fault-fail-closed",
+                  r9["status"] == "unreadable" and not r9["wrote_shared"]
+                  and not r9["wrote_lane"]
+                  and open(os.path.join(td, "runnable_pool.json"),
+                           "rb").read() == shared_bytes8)
+        finally:
+            _ORIGIN_PROBE = real_probe
     finally:
         import shutil
         shutil.rmtree(td, ignore_errors=True)
