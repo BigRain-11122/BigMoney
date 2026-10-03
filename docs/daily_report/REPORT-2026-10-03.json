@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-03",
- "generated_at": "2026-10-03 10:43:24",
+ "generated_at": "2026-10-03 11:31:31",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    }
   ],
@@ -297,15 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-03.md"
  },
  "rd": {
-  "commits_24h": 568,
+  "commits_24h": 555,
   "result_jsons_landed_24h": 85,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 64,
+  "prereg_md_touched_24h": 60,
   "compute_audit_latest": {
-   "ts": "2026-10-03 10:42:29",
-   "py_cpu_pct": 5.0,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-03 11:26:40",
+   "py_cpu_pct": 100.0,
+   "flags": [
+    "cap_violation"
+   ],
+   "verdict": "FLAG:cap_violation"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -643,11 +645,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1113554,
+  "total_report_tokens_est": 1114280,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-03 10:02:49",
+   "prev_generated": "2026-10-03 10:22:35",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 726,
    "mandate_growth": 0
   },
   "method": {
@@ -658,25 +660,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-03 10:21:38",
-    "py_pct": 0.1,
-    "cpu_pct": 6.0,
-    "ready": 3,
+    "latest_ts": "2026-10-03 11:26:40",
+    "py_pct": 100.0,
+    "cpu_pct": 97.0,
+    "ready": 6,
     "streak_min": null,
-    "verdict": "CLEAN",
+    "verdict": "FLAG:cap_violation",
     "py_series_tail": [
-     [
-      "07:26",
-      5.7
-     ],
-     [
-      "08:06",
-      100.0
-     ],
-     [
-      "08:35",
-      0.1
-     ],
      [
       "09:02",
       4.7
@@ -710,12 +700,24 @@
       1.8
      ],
      [
+      "10:04",
+      97.4
+     ],
+     [
       "10:21",
       0.1
+     ],
+     [
+      "10:42",
+      5.0
+     ],
+     [
+      "11:26",
+      100.0
      ]
     ],
-    "today_samples": 31,
-    "today_floor_ok": 23,
+    "today_samples": 34,
+    "today_floor_ok": 26,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 15
    },
@@ -851,19 +853,19 @@
   "day": "2026-10-03",
   "machines": {
    "bm-a": {
-    "batches_judged": 34,
-    "core_seconds": 9428.8,
-    "wall_seconds": 1372.9,
-    "effective_cores": 6.87,
-    "single_core_burn": 8,
-    "multicore_burn": 26,
-    "too_short": 4,
-    "last_ts": "2026-10-03T09:11:26+08:00",
+    "batches_judged": 37,
+    "core_seconds": 11106.1,
+    "wall_seconds": 1519.0,
+    "effective_cores": 7.31,
+    "single_core_burn": 9,
+    "multicore_burn": 28,
+    "too_short": 5,
+    "last_ts": "2026-10-03T10:46:01+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-03 10:21:38"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-03 11:26:40"
     }
    },
    "bm-b": {

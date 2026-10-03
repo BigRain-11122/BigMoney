@@ -1727,6 +1727,21 @@ def tick(dry=False, _saturate_depth=0):
             rec["single_core_red_flags"] = _flags
     except Exception as ex:
         _log(f"core-sample scan fault (non-fatal): {ex}")
+    # T-134 s3 harvest leg: land closed+ok worker claims as done BEFORE
+    # the load gate (r621 live: a continuously-loaded machine -- py>=70%
+    # for the whole nulls burn window -- never reached the post-gate leg,
+    # so a completed X1 shard stuck ready 20min+ = r488 ghost-ready
+    # re-claim window). Harvest closes already-done work, it is not new
+    # load -- it must run on every tick. Also stays ahead of the
+    # crash-confirter (r496 live family: completed burns without flips
+    # fed the fuse -- refusals froze the campaign and the relaunch churn
+    # re-burned landed shards).
+    try:
+        flipped = _harvest_done_flips(rec["machine"])
+        if flipped:
+            rec["harvest_flipped"] = flipped
+    except (Exception, SystemExit) as ex:
+        _log(f"harvest leg fault (non-fatal, next tick retries): {ex}")
     if py >= LOW_PY_LINE:
         rec["verdict"] = "py_loaded"
         state["last_tick"] = rec
@@ -1754,17 +1769,8 @@ def tick(dry=False, _saturate_depth=0):
         _log(f"tick ABORT corrupt crash_fuse (refuse wipe, r201 law): {ex}")
         print(f"ABORT corrupt crash_fuse.json: {ex}")
         return 2
-    # T-134 s3 harvest leg: land closed+ok worker claims as done BEFORE
-    # the crash-confirmer reads the pool (r496 live family: completed
-    # burns without flips fed the fuse -- refusals froze the campaign
-    # and the relaunch churn re-burned landed shards).
-    try:
-        flipped = _harvest_done_flips(rec["machine"])
-        if flipped:
-            pool = _pool_merged_view()
-            rec["harvest_flipped"] = flipped
-    except (Exception, SystemExit) as ex:
-        _log(f"harvest leg fault (non-fatal, next tick retries): {ex}")
+    # (harvest already ran before the load gate -- this pool read is
+    # post-flip for the crash-confirter, r496/r488 families)
     if _confirm_crashes(state, pool, rec["machine"], fuse):
         _save_fuse(fuse)
     if not dry:
@@ -3578,8 +3584,15 @@ def selftest():
             json.dump({"entries": [dict(entry, id="E22-stock",
                                        runner=st_src)]}, fh)
         _pool_lane_clear()
+        # S22e hermetic py (r621 fix): the S17 legs restored the REAL
+        # sampler, so on a loaded machine this tick took the py_loaded
+        # gate and the leg went environment-dependent FAIL -- mock low
+        # like every other tick leg (r117 hermetic law).
+        _py22e = _py_cpu_pct
+        _py_cpu_pct = lambda w=SAMPLE_S: 5.0
         rc = tick(dry=True)
         st22 = _load_state()["last_tick"]
+        _py_cpu_pct = _py22e
         ok("S22e launch gate refuses single-core stock entry",
            rc == 0 and st22["verdict"] == "multicore_gate_refused"
            and st22["multicore_refused"][0]["core_verdict"]
