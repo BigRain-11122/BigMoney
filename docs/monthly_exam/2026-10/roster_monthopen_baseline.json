@@ -1,0 +1,371 @@
+{
+ "b_maxdiv_crosscheck": {
+  "accounts_baseline_b_maxdiv_cny": 5998495.76,
+  "match": true,
+  "roster_derived_sum_cny": 5998495.76
+ },
+ "benchmarks": {
+  "bench_48ew_note": "48ETF equal-weight daily-rebalanced (o1600_market_fit.py single-source); exam-window assembly starts at first in-window bar (2026-10-09); YTD reference values carried below",
+  "bench_510300_month_open_close": 4.432,
+  "bench_510300_source": "data/daily/510300.csv unadjusted close (ytd_track_record BENCH-510300 caliber, buy&hold)",
+  "panel_tail_date": "2026-09-30",
+  "ytd_baselines": {
+   "BENCH-48EW": -0.0679020391086167,
+   "BENCH-510300": -0.08505367464905034
+  },
+  "ytd_evidence_cutoff": "2026-09-30"
+ },
+ "capture_note": "pinned during 2026-10 golden-week holiday window: no bars between 2026-09-30 and 2026-10-09, so this capture == month-open state; do not overwrite after 2026-10-09 (version a new file instead)",
+ "exam_month": "2026-10",
+ "faults": [],
+ "month_open_bar": "2026-09-30",
+ "month_open_boundary": "2026-10-01",
+ "roster_freeze": [
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/COMPOSITE-CE-01_paper.json",
+   "trader": "COMPOSITE-CE-01"
+  },
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/COMPOSITE-CE-02_paper.json",
+   "trader": "COMPOSITE-CE-02"
+  },
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/DROUGHT-CE-01_paper.json",
+   "trader": "DROUGHT-CE-01"
+  },
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/ENGULF-CE-01_paper.json",
+   "trader": "ENGULF-CE-01"
+  },
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/NEEDLE-DE-01_paper.json",
+   "trader": "NEEDLE-DE-01"
+  },
+  {
+   "hire_day": "2026-09-23",
+   "paper_file": "results/paper/VOLATILITY-CE-01_paper.json",
+   "trader": "VOLATILITY-CE-01"
+  }
+ ],
+ "schema": "monthly-exam-roster-monthopen-baseline/1.0",
+ "ticket": "T-2026-10-01-143 (face 1 six-member roster; O-20261001-2355 sec.3 board lining)",
+ "traders": [
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0559,
+     "max_drawdown": -0.0901,
+     "sharpe": 1.1244,
+     "trades": 309
+    },
+    "out_sample": {
+     "annual_return": 0.0745,
+     "max_drawdown": -0.0735,
+     "sharpe": 0.862,
+     "trades": 164
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 48761.13,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": -0.0029,
+   "equity_cny": 1001009.96,
+   "hire_month_returns": {
+    "2026-09": 0.001
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 5,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 952248.83,
+   "trader": "COMPOSITE-CE-01",
+   "unrealized_pnl_cny": 2248.84,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.1238,
+    "probation": false,
+    "status": "ok"
+   }
+  },
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0591,
+     "max_drawdown": -0.1179,
+     "sharpe": 0.7841,
+     "trades": 513
+    },
+    "out_sample": {
+     "annual_return": 0.1024,
+     "max_drawdown": -0.0381,
+     "sharpe": 1.5605,
+     "trades": 257
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 49161.46,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": -0.0047,
+   "equity_cny": 1000665.47,
+   "hire_month_returns": {
+    "2026-09": 0.0007
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 8,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 951504.01,
+   "trader": "COMPOSITE-CE-02",
+   "unrealized_pnl_cny": 1903.83,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.0491,
+    "probation": true,
+    "status": "probation"
+   }
+  },
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0141,
+     "max_drawdown": -0.053,
+     "sharpe": 0.461,
+     "trades": 72
+    },
+    "out_sample": {
+     "annual_return": 0.0431,
+     "max_drawdown": -0.022,
+     "sharpe": 1.2407,
+     "trades": 41
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 1000000.0,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": 0.0,
+   "equity_cny": 1000000.0,
+   "hire_month_returns": {
+    "2026-09": 0.0
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 0,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 0,
+   "trader": "DROUGHT-CE-01",
+   "unrealized_pnl_cny": 0,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.1896,
+    "probation": false,
+    "status": "ok"
+   }
+  },
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0174,
+     "max_drawdown": -0.0496,
+     "sharpe": 0.5337,
+     "trades": 97
+    },
+    "out_sample": {
+     "annual_return": 0.0049,
+     "max_drawdown": -0.0498,
+     "sharpe": 0.1686,
+     "trades": 43
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 1000000.0,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": 0.0,
+   "equity_cny": 1000000.0,
+   "hire_month_returns": {
+    "2026-09": 0.0
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 0,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 0,
+   "trader": "ENGULF-CE-01",
+   "unrealized_pnl_cny": 0,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.0143,
+    "probation": true,
+    "status": "probation"
+   }
+  },
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0166,
+     "max_drawdown": -0.0261,
+     "sharpe": 0.6862,
+     "trades": 49
+    },
+    "out_sample": {
+     "annual_return": 0.0049,
+     "max_drawdown": -0.0278,
+     "sharpe": 0.1927,
+     "trades": 19
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 1000000.0,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": 0.0,
+   "equity_cny": 1000000.0,
+   "hire_month_returns": {
+    "2026-09": 0.0
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 0,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 0,
+   "trader": "NEEDLE-DE-01",
+   "unrealized_pnl_cny": 0,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.1736,
+    "probation": false,
+    "status": "ok"
+   }
+  },
+  {
+   "anchor": {
+    "checks": {
+     "in_sample": true,
+     "out_sample": true
+    },
+    "cutoff": "2026-09-22",
+    "in_sample": {
+     "annual_return": 0.0267,
+     "max_drawdown": -0.0335,
+     "sharpe": 1.103,
+     "trades": 339
+    },
+    "out_sample": {
+     "annual_return": 0.0355,
+     "max_drawdown": -0.0113,
+     "sharpe": 1.7166,
+     "trades": 131
+    }
+   },
+   "asof": "2026-09-30",
+   "bars_since_hire": 5,
+   "cash_cny": 499347.38,
+   "cost_x2_check_status": "insufficient_data",
+   "current_dd": -0.0037,
+   "equity_cny": 996820.33,
+   "hire_month_returns": {
+    "2026-09": -0.0032
+   },
+   "initial_cash_cny": 1000000.0,
+   "num_trades": 0,
+   "open_positions_n": 5,
+   "paper_start": "2026-09-23",
+   "positions_value_cny": 497472.95,
+   "trader": "VOLATILITY-CE-01",
+   "unrealized_pnl_cny": -2527.62,
+   "win_rate_full": 0.0,
+   "window_metrics_status": "insufficient_data",
+   "x2_watch": {
+    "margin": 0.1334,
+    "probation": false,
+    "status": "ok"
+   }
+  }
+ ],
+ "window_bars_note": "2026-10 exam window has zero bars at capture (golden week; resumes 2026-10-09) -- this file == month-open state; exam-day assembly is date-driven per T-143 face-6 runbook, zero new judgment",
+ "ytd_crosscheck": {
+  "rows": {
+   "COMPOSITE-CE-01": {
+    "beat_48ew_pp": 12.625106083946847,
+    "beat_510300_pp": 14.340269637990211,
+    "last_date": "2026-09-30",
+    "max_dd": -0.03623163021897979,
+    "ytd_ret": 0.05834902173085177
+   },
+   "COMPOSITE-CE-02": {
+    "beat_48ew_pp": 11.456528980058023,
+    "beat_510300_pp": 13.171692534101387,
+    "last_date": "2026-09-30",
+    "max_dd": -0.05197610390073437,
+    "ytd_ret": 0.04666325069196353
+   },
+   "DROUGHT-CE-01": {
+    "beat_48ew_pp": 10.78389991086166,
+    "beat_510300_pp": 12.499063464905024,
+    "last_date": "2026-09-30",
+    "max_dd": -0.026519929558851185,
+    "ytd_ret": 0.03993695999999991
+   },
+   "ENGULF-CE-01": {
+    "beat_48ew_pp": 5.9189249108616675,
+    "beat_510300_pp": 7.634088464905031,
+    "last_date": "2026-09-30",
+    "max_dd": -0.04233803260476965,
+    "ytd_ret": -0.008712790000000026
+   },
+   "NEEDLE-DE-01": {
+    "beat_48ew_pp": 7.4008299108616615,
+    "beat_510300_pp": 9.115993464905026,
+    "last_date": "2026-09-30",
+    "max_dd": -0.031208949999999902,
+    "ytd_ret": 0.006106259999999919
+   },
+   "VOLATILITY-CE-01": {
+    "beat_48ew_pp": 9.398794707427726,
+    "beat_510300_pp": 11.11395826147109,
+    "last_date": "2026-09-30",
+    "max_dd": -0.009429272725219096,
+    "ytd_ret": 0.02608590796566057
+   }
+  },
+  "source": "results/ytd_track_record/ytd_summary.json (T-146, no recompute)"
+ }
+}

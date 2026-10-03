@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-03",
- "generated_at": "2026-10-03 09:05:17",
+ "generated_at": "2026-10-03 09:19:27",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,15 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-03.md"
  },
  "rd": {
-  "commits_24h": 580,
-  "result_jsons_landed_24h": 83,
+  "commits_24h": 591,
+  "result_jsons_landed_24h": 84,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 70,
+  "prereg_md_touched_24h": 71,
   "compute_audit_latest": {
-   "ts": "2026-10-03 09:02:57",
-   "py_cpu_pct": 4.7,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-03 09:18:49",
+   "py_cpu_pct": 5.7,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -620,27 +622,34 @@
    "owner": "bm-b (OS iteration loop, round 598; git "
   },
   {
-   "id": "T-2026-10-03-151-P1",
-   "status": "claimed",
-   "type": "work",
-   "immediate": false,
-   "owner": "bm-a (OS iteration loop, round 600; seat"
-  },
-  {
    "id": "T-2026-10-03-153-P1",
    "status": "claimed",
    "type": "work",
    "immediate": true,
    "owner": "bm-b (OS iteration loop, round 601)"
+  },
+  {
+   "id": "T-2026-10-03-155-P1",
+   "status": "claimed",
+   "type": "prereg-burn-family-p1",
+   "immediate": true,
+   "owner": "bm-b (OS iteration loop, round 610)"
+  },
+  {
+   "id": "T-2026-10-03-156",
+   "status": "in_progress",
+   "type": "transfer",
+   "immediate": true,
+   "owner": "bm-b (sender leg delivered same round pe"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1109753,
+  "total_report_tokens_est": 1110844,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-03 08:10:13",
+   "prev_generated": "2026-10-03 08:36:51",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 1091,
    "mandate_growth": 0
   },
   "method": {
@@ -651,17 +660,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-03 08:35:47",
-    "py_pct": 0.1,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-03 08:56:46",
+    "py_pct": 100.0,
+    "cpu_pct": 91.0,
     "ready": 3,
     "streak_min": null,
-    "verdict": "CLEAN",
+    "verdict": "FLAG:cap_violation",
     "py_series_tail": [
-     [
-      "04:39",
-      100.0
-     ],
      [
       "05:07",
       0.1
@@ -705,25 +710,25 @@
      [
       "08:35",
       0.1
+     ],
+     [
+      "08:56",
+      100.0
      ]
     ],
-    "today_samples": 22,
-    "today_floor_ok": 14,
+    "today_samples": 23,
+    "today_floor_ok": 15,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 11
    },
    "bm-b": {
-    "latest_ts": "2026-10-03 08:10:33",
-    "py_pct": 65.8,
-    "cpu_pct": 29.0,
+    "latest_ts": "2026-10-03 08:43:26",
+    "py_pct": 67.1,
+    "cpu_pct": 34.0,
     "ready": 3,
-    "streak_min": 182.9,
+    "streak_min": 215.8,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "03:39",
-      0.0
-     ],
      [
       "04:21",
       100.0
@@ -767,33 +772,25 @@
      [
       "08:10",
       65.8
+     ],
+     [
+      "08:43",
+      67.1
      ]
     ],
-    "today_samples": 20,
-    "today_floor_ok": 12,
+    "today_samples": 21,
+    "today_floor_ok": 13,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 12
+    "today_supply_gap_flags": 13
    },
    "bm-c": {
-    "latest_ts": "2026-10-03 09:02:57",
-    "py_pct": 4.7,
-    "cpu_pct": 9.0,
+    "latest_ts": "2026-10-03 09:18:49",
+    "py_pct": 5.7,
+    "cpu_pct": 21.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "streak_min": 7.9,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "05:07",
-      0.1
-     ],
-     [
-      "05:08",
-      1.2
-     ],
-     [
-      "05:42",
-      1.2
-     ],
      [
       "06:06",
       0.1
@@ -829,12 +826,24 @@
      [
       "09:02",
       4.7
+     ],
+     [
+      "09:10",
+      4.7
+     ],
+     [
+      "09:11",
+      5.6
+     ],
+     [
+      "09:18",
+      5.7
      ]
     ],
-    "today_samples": 23,
-    "today_floor_ok": 15,
+    "today_samples": 26,
+    "today_floor_ok": 18,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 11
+    "today_supply_gap_flags": 14
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -844,19 +853,19 @@
   "day": "2026-10-03",
   "machines": {
    "bm-a": {
-    "batches_judged": 32,
-    "core_seconds": 6779.9,
-    "wall_seconds": 1251.1,
-    "effective_cores": 5.42,
+    "batches_judged": 33,
+    "core_seconds": 8062.5,
+    "wall_seconds": 1312.0,
+    "effective_cores": 6.15,
     "single_core_burn": 8,
-    "multicore_burn": 24,
+    "multicore_burn": 25,
     "too_short": 4,
-    "last_ts": "2026-10-03T08:03:17+08:00",
+    "last_ts": "2026-10-03T08:53:17+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 1,
-     "audit_ts": "2026-10-03 08:35:47"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-03 08:56:46"
     }
    },
    "bm-b": {
@@ -871,8 +880,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-03 08:10:33"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-03 08:43:26"
     }
    },
    "bm-c": {
@@ -888,7 +897,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-03 09:02:57"
+     "audit_ts": "2026-10-03 09:18:49"
     }
    }
   },
