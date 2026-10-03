@@ -1146,10 +1146,28 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 16:01:01",
+  "ts": "2026-10-03 16:02:31",
   "machine": "bm-a",
-  "py_cpu_pct": 78.5,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 12.4,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-NULLS",
+  "shard": "fund-value-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 120,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 120
+   },
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 137
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-03T15:42:57+08:00"
