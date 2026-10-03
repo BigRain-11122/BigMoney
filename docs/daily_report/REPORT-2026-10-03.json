@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-03",
- "generated_at": "2026-10-03 13:46:52",
+ "generated_at": "2026-10-03 14:04:06",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-03.md"
  },
  "rd": {
-  "commits_24h": 522,
-  "result_jsons_landed_24h": 89,
+  "commits_24h": 526,
+  "result_jsons_landed_24h": 95,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 51,
   "compute_audit_latest": {
-   "ts": "2026-10-03 13:39:13",
-   "py_cpu_pct": 100.0,
-   "flags": [
-    "cap_violation"
-   ],
-   "verdict": "FLAG:cap_violation"
+   "ts": "2026-10-03 14:03:03",
+   "py_cpu_pct": 4.9,
+   "flags": [],
+   "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -647,7 +645,7 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1118016,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-03 12:56:17",
+   "prev_generated": "2026-10-03 13:47:04",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -722,71 +720,9 @@
     "today_supply_gap_flags": 17
    },
    "bm-b": {
-    "latest_ts": "2026-10-03 12:23:23",
+    "latest_ts": "2026-10-03 13:14:21",
     "py_pct": 100.0,
-    "cpu_pct": 65.0,
-    "ready": 5,
-    "streak_min": null,
-    "verdict": "CLEAN",
-    "py_series_tail": [
-     [
-      "09:59",
-      1.8
-     ],
-     [
-      "10:04",
-      97.4
-     ],
-     [
-      "10:21",
-      0.1
-     ],
-     [
-      "10:42",
-      5.0
-     ],
-     [
-      "10:44",
-      87.4
-     ],
-     [
-      "11:06",
-      4.9
-     ],
-     [
-      "11:16",
-      85.8
-     ],
-     [
-      "11:21",
-      4.8
-     ],
-     [
-      "11:26",
-      100.0
-     ],
-     [
-      "11:39",
-      4.8
-     ],
-     [
-      "11:43",
-      100.0
-     ],
-     [
-      "12:23",
-      100.0
-     ]
-    ],
-    "today_samples": 41,
-    "today_floor_ok": 33,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 17
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-03 13:09:41",
-    "py_pct": 4.9,
-    "cpu_pct": 22.0,
+    "cpu_pct": 82.0,
     "ready": 5,
     "streak_min": null,
     "verdict": "CLEAN",
@@ -836,12 +772,74 @@
       4.8
      ],
      [
-      "13:09",
-      4.9
+      "13:14",
+      100.0
      ]
     ],
     "today_samples": 45,
     "today_floor_ok": 37,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 17
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-03 14:03:03",
+    "py_pct": 4.9,
+    "cpu_pct": 17.0,
+    "ready": 5,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "11:21",
+      4.8
+     ],
+     [
+      "11:26",
+      100.0
+     ],
+     [
+      "11:39",
+      4.8
+     ],
+     [
+      "11:43",
+      100.0
+     ],
+     [
+      "12:03",
+      4.8
+     ],
+     [
+      "12:23",
+      100.0
+     ],
+     [
+      "12:31",
+      5.7
+     ],
+     [
+      "12:51",
+      4.8
+     ],
+     [
+      "13:14",
+      100.0
+     ],
+     [
+      "13:17",
+      0.4
+     ],
+     [
+      "13:39",
+      100.0
+     ],
+     [
+      "14:03",
+      4.9
+     ]
+    ],
+    "today_samples": 48,
+    "today_floor_ok": 40,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 17
    }
@@ -880,8 +878,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-03 12:23:23"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-03 13:14:21"
     }
    },
    "bm-c": {
@@ -896,8 +894,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-03 13:09:41"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-03 14:03:03"
     }
    }
   },
