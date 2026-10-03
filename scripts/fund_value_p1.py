@@ -1297,15 +1297,37 @@ def cmd_finalize(_) -> int:
     lo = _G["_t0_pos"]
     hi = len(_G["idx"]) - 1
     rel = _passive_window(lo, hi)
+    plo = lo
+    passive_note = None
+    if rel is None:
+        # MSG-2026-10-03-1720 Finding B owner fix: t0's own base mask is
+        # empty (amt20 liquidity gate wipes the 1994 universe) and the
+        # frozen spec is silent on a zero-member passive -- start the
+        # EW B&H at the first non-empty base month from t0 forward (the
+        # same month the strategy itself can first fire) and disclose
+        # the span shift in the audit face. `lo` stays pinned to t0 for
+        # the headline calendar alignment below.
+        plo = next((p for p in _G["month_pos"]
+                    if p >= lo and len(_month_universe(p)["base_j"]) > 0),
+                   None)
+        if plo is None:
+            raise SystemExit("finalize: no non-empty base month from t0 "
+                             "forward -- passive face undefined (MSG-1720 "
+                             "Finding B)")
+        rel = _passive_window(plo, hi)
+        passive_note = ("t0_base_empty: passive span shifted from t0 "
+                        f"{_G['idx'][lo].date()} to first non-empty base "
+                        f"month {_G['idx'][plo].date()} (MSG-2026-10-03-"
+                        "1720 Finding B owner fix)")
     passive_sharpe = float((rel.pct_change().dropna().mean()
                             / rel.pct_change().dropna().std(ddof=1))
                            * np.sqrt(252))
-    passive_face = {"n_members_t0": int(rel.count()) if hasattr(rel, "count")
-                    else None,
+    passive_face = {"n_members_t0": int(len(_month_universe(plo)["base_j"])),
                     "sharpe_full": round(passive_sharpe, 6),
                     "ret_full": round(float(rel.iloc[-1] - 1), 6),
-                    "span": [str(_G["idx"][lo].date()),
-                             str(_G["idx"][hi].date())]}
+                    "span": [str(_G["idx"][plo].date()),
+                             str(_G["idx"][hi].date())],
+                    "span_note": passive_note}
     # G1' (headline x1 continuous)
     h = cont[(HEADLINE, "x1")]
     h_rets = pd.Series(h["returns"])

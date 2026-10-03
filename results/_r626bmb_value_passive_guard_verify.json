@@ -1,0 +1,34 @@
+{
+ "ts": "2026-10-03T17:54:37",
+ "machine": "bm-b",
+ "family": "fund_value_p1",
+ "fix_ref": "MSG-2026-10-03-1720 Finding B owner fix (r626d)",
+ "rehearsal": true,
+ "NOT_A_VERDICT": true,
+ "t0": {
+  "pos": 918,
+  "date": "1994-05-03"
+ },
+ "repro_passive_at_t0_is_none": true,
+ "guard_first_nonempty_base_month": {
+  "pos": 1005,
+  "date": "1994-09-01",
+  "n_base": 10
+ },
+ "shifted_passive": {
+  "n_members": 7787,
+  "sharpe_full": 0.299119,
+  "ret_full": 2.983484,
+  "span": [
+   "1994-09-01",
+   "2026-09-22"
+  ],
+  "note": "t0_base_empty: passive span shifted from t0 1994-05-03 to first non-empty base month 1994-09-01 (MSG-2026-10-03-1720 Finding B owner fix)"
+ },
+ "source_anchors": {
+  "month_pos_scan": true,
+  "span_note_key": true,
+  "systemexit_guard": true,
+  "t0_kept_for_calendar": true
+ }
+}

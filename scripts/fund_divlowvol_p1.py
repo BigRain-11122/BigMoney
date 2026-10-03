@@ -37,7 +37,7 @@ Family (prereg sec.2/3, FROZEN):
   (sleeve persists; pre-t0 flat); t0 pin = 2006-02-06 (first
   clean-tail month, probe leg4 frozen read; the 148 pre-t0 months
   are ALL below-floor -- A-share cash-dividend culture 2006 + the
-  Y10M liquidity gate -- a frozen prereg claim the runner probe
+  ¥10M liquidity gate -- a frozen prereg claim the runner probe
   machine-verifies).
 
 Execution semantics (prereg sec.0.6, engine/ untouched -- VERBATIM
@@ -1582,7 +1582,7 @@ def cmd_finalize(_) -> int:
                            "frames with seed-ffill OHLC marks (P4 "
                            "stale_ffill convention; F15 equivalence leg)",
             "eligibility_face": "base=close/vol/amt>0 + amt20-median>="
-                                "Y10M + listed>=252 + as-of ST proxy "
+                                "¥10M + listed>=252 + as-of ST proxy "
                                 "(p4_ext_tilt._st_regime verbatim, "
                                 "trailing-250 slice); dividend gate="
                                 "yield_ttm>0; low-vol screen=sigma_252 "
