@@ -1304,6 +1304,32 @@ def _host_gate_reason(e):
     return None
 
 
+def _data_deps_missing(e):
+    """D-20261004-02(1) data-locality gate (F-20261003-01 live case:
+    probe.json travels with git but the deep panel it points at does
+    not -- all four shards claimed by data-less hosts burned their
+    claim+launch+commit cycle into a deterministic GATE exit, then fed
+    the crash fuse a stale-owner lockout; bm-b re-burned the same
+    shards clean = pure data locality, not a batch defect).
+    entry.data_deps lists files/dirs the runner reads that are NOT
+    git-tracked (repo-relative or absolute). Returns the absent paths
+    (empty list = claimable); no field = no assertion (schema
+    additive, legacy entries unchanged); malformed = fail-closed
+    (host_gates law)."""
+    deps = e.get("data_deps")
+    if deps is None:
+        return []
+    if not isinstance(deps, list) or not all(
+            isinstance(d, str) and d.strip() for d in deps):
+        return ["<malformed data_deps>"]
+    miss = []
+    for d in deps:
+        p = d if os.path.isabs(d) else os.path.join(ROOT, d)
+        if not os.path.exists(p):
+            miss.append(d)
+    return miss
+
+
 def _pick(pool, myid, skip=None):
     """Highest-priority ready, lane-legal, not-running entry + shard.
     skip (set of entry ids): candidates already refused by the caller
@@ -1791,11 +1817,27 @@ def tick(dry=False, _saturate_depth=0):
     skip, fuse_skipped, refused_head = set(), [], None
     cooldown_head = None
     mc_refused = []
+    dn_refused = []
     e = sh = cur = sig = reg = None
     while True:
         cand_e, cand_sh = _pick(pool, rec["machine"], skip=skip)
         if not cand_e:
             break
+        miss = _data_deps_missing(cand_e)
+        if miss:
+            # D-20261004-02(1): data the runner needs that does NOT
+            # travel with git -- a claim on a data-less host is a
+            # guaranteed GATE-exit burn (probe-JSON-travels lesson);
+            # skip BEFORE any claim/pool write, the shard belongs to a
+            # host that actually holds the data (fleet README §4).
+            _log(f"data-not-local SKIP {cand_e['id']}/"
+                 f"{cand_sh.get('key')}: missing {miss} "
+                 f"(D-20261004-02 data_deps gate)")
+            dn_refused.append({"entry": cand_e["id"],
+                               "shard": cand_sh.get("key"),
+                               "data_missing": miss})
+            skip.add(cand_e["id"])
+            continue
         cur = _sha16(os.path.join(ROOT, cand_e["runner"]))
         sig = _sig(cand_e)
         # O-20260930-2355 law-1 (T-134 s3): single-thread runners are
@@ -1901,7 +1943,20 @@ def tick(dry=False, _saturate_depth=0):
             _save_state(state)
             _log(f"tick py={py}% every takeable entry refused by "
                  f"multicore gate x{len(mc_refused)} (conversion "
-                 f"backlog, O-20260930-2355 sec.2)")
+                 "backlog, O-20260930-2355 sec.2)")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
+        if dn_refused:
+            # D-20261004-02(1): every takeable candidate lacked its
+            # declared data locally -- named verdict so the audit face
+            # can tell a data-locality refusal from an empty pool.
+            rec["verdict"] = "data_not_local"
+            rec["data_not_local"] = dn_refused
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% every takeable entry refused by "
+                 f"data-locality gate x{len(dn_refused)} "
+                 "(D-20261004-02, data must be on the burn host)")
             print(json.dumps(rec, ensure_ascii=False))
             return 0
         rec["verdict"] = "pool_empty_or_busy"
@@ -1921,6 +1976,11 @@ def tick(dry=False, _saturate_depth=0):
         # same: head banned by the multicore gate while a later (code-
         # verified multiproc) entry launches
         rec["multicore_refused"] = mc_refused
+    if dn_refused:
+        # same: head skipped for missing local data while a later
+        # (data-local) entry launches (anti-starvation law keeps the
+        # loop moving to a claimable entry)
+        rec["data_not_local"] = dn_refused
     if reg:
         # D-03(2) cleared-tombstone: record the clear so the lane-union
         # cannot resurrect this sig from another machine's stale lane
@@ -2119,6 +2179,26 @@ def submit(a):
                   "{kind: dir_nonempty, path} objects")
             _log(f"submit REFUSED {a_id}: host-gates shape fault")
             return 2
+    # D-20261004-02(1) data_deps: STRUCTURE-only validation here (the
+    # submitter may differ from the burn host) -- presence is asserted
+    # by the tick claim gate on each claiming machine (fail-closed).
+    dd = (getattr(a, "data_deps", None) or "").strip()
+    deps = None
+    if dd:
+        try:
+            deps = json.loads(dd)
+        except ValueError as ex:
+            print(f"REFUSED: --data-deps not valid JSON ({ex})")
+            _log(f"submit REFUSED {a_id}: data-deps JSON fault")
+            return 2
+        if (not isinstance(deps, list) or not deps
+                or any(not isinstance(d, str) or not d.strip()
+                       for d in deps)):
+            print("REFUSED: --data-deps = JSON list of path strings "
+                  "(files/dirs the runner reads that are NOT "
+                  "git-tracked)")
+            _log(f"submit REFUSED {a_id}: data-deps shape fault")
+            return 2
     # D-20260929-02 ②: fresh inbox re-read BEFORE the pool write -- a
     # stale tree is structurally blind to an unfetched declaration
     # (r404 live-fire: bm-c 08:39 MSG landed 08:47, bm-a last fetched
@@ -2159,6 +2239,10 @@ def submit(a):
     }
     if gates is not None:
         entry["host_gates"] = gates
+    if deps is not None:
+        # D-20261004-02(1): runner-data locality contract -- claiming
+        # machines assert presence before any claim write.
+        entry["data_deps"] = deps
     pool.setdefault("entries", []).append(entry)
     pool["updated_at"] = _now()
     tmp = POOL + ".tmp"
@@ -2252,6 +2336,49 @@ def selftest():
         ok("S4 no double-run (runner alive -> skip)",
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
         _runner_alive = _runner_alive_orig
+        # S4b data-locality gate (D-20261004-02(1)): declared data_deps
+        # absent on this host -> skip BEFORE any claim write, named
+        # verdict; present -> claimable as before; malformed -> refuse
+        # (fail-closed, host_gates law); anti-starvation: a later
+        # data-local entry launches past a data-less head.
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, id="E1d",
+                data_deps=["no_such_dir_anywhere/"])]}, fh)
+        rc = tick(dry=True)
+        st4b = _load_state()["last_tick"]
+        ok("S4b absent data_deps -> data_not_local skip",
+           rc == 0 and st4b["verdict"] == "data_not_local"
+           and st4b["data_not_local"][0]["entry"] == "E1d")
+        ok("S4b-b helper unit faces",
+           _data_deps_missing({}) == []
+           and _data_deps_missing(
+               {"data_deps": ["no_such_dir_anywhere/"]})
+           == ["no_such_dir_anywhere/"]
+           and _data_deps_missing(
+               {"data_deps": "not-a-list"})
+           == ["<malformed data_deps>"])
+        present_dep = os.path.join(tmp, "dep_dir")
+        os.makedirs(present_dep, exist_ok=True)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, data_deps=[present_dep])]}, fh)
+        rc = tick(dry=True)
+        ok("S4b-c present data_deps -> claimable (dry launch)",
+           rc == 0 and _load_state()["last_tick"]["verdict"]
+           == "dry_launch")
+        e_local = dict(entry, id="E1e", priority=2,
+                       data_deps=[os.path.join(tmp, "dep_dir")])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [
+                dict(entry, id="E1f", priority=1,
+                     data_deps=["no_such_dir_anywhere/"]), e_local]}, fh)
+        rc = tick(dry=True)
+        st4d = _load_state()["last_tick"]
+        ok("S4b-d data-less head skipped, later local entry launches",
+           rc == 0 and st4d["verdict"] == "dry_launch"
+           and st4d["entry"] == "E1e"
+           and st4d["data_not_local"][0]["entry"] == "E1f")
         # S5 stale takeover: owner hb stale -> dry launch with latency
         # (r163: production ISO format pairing -- fixtures must write
         # what production writes, R117 hermetic-production law)
@@ -3155,14 +3282,19 @@ def selftest():
            and st16p["launches"][0]["crash_counted"]
            and not st16p["launches"][0].get("auto_parked")
            and pool16p["entries"][0]["shards"][0]["status"] == "ready")
-        with open(_lpf, "a", encoding="utf-8") as fh:
-            fh.write("AUTOFILL-PARK: " + st16p["launches"][0]["ts"]
-                     + " data-wait gate (panel incomplete)\n")
+        # r640 fix: the fresh marker must carry THIS leg's own launch
+        # ts -- the previous leg wrote the earlier S16p record's ts,
+        # and the _runner_alive process scan between the two now()
+        # calls pushes them across a second boundary on a loaded host
+        # (5/5 deterministic FAIL), turning the "fresh" marker stale.
         st16p2 = {"launches": [
             {"ts": (datetime.now() - timedelta(minutes=6)).strftime(
                 "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
              "verdict": "launched", "entry": "E1", "shard": "s0",
              "runner_sha256": "abc123"}]}
+        with open(_lpf, "a", encoding="utf-8") as fh:
+            fh.write("AUTOFILL-PARK: " + st16p2["launches"][0]["ts"]
+                     + " data-wait gate (panel incomplete)\n")
         pool16p2 = {"entries": [dict(entry, shards=[
             {"key": "s0", "status": "ready", "owner": None,
              "checkpoint": "results/fake_ns_ckpt/judge.jsonl (row "
@@ -3352,6 +3484,7 @@ def selftest():
                      runner_args="run", priority=1, lane_owner=None,
                      workers=4, wp_priority="BelowNormal", wp_note=None,
                      ticket_ref=None, prereg_ref=None, data_gates=None,
+                     data_deps=None,
                      shard_checkpoint=None, shard_note=None,
                      consumer_plan="S17 selftest consumer: tick "
                                     "dry-launch smoke face")
@@ -3402,6 +3535,19 @@ def selftest():
                and lane17.get("lane_machine") == _machine_id())
         finally:
             _py_cpu_pct = _py17
+        # S17dd data_deps submit face (D-20261004-02(1)): JSON list
+        # lands on the entry; malformed shapes refused (structure-only
+        # here -- presence is the claiming tick's gate, S4b legs).
+        rc = submit(_sa(id="E17h",
+                        data_deps='["data/deep_panel/"]'))
+        p17h = json.load(open(POOL, encoding="utf-8"))["entries"]
+        ok("S17dd --data-deps JSON list lands on entry",
+           rc == 0 and len(p17h) == 2
+           and p17h[1].get("data_deps") == ["data/deep_panel/"])
+        rc = submit(_sa(id="E17hx", data_deps='["ok", 42]'))
+        ok("S17dd-b malformed data_deps -> refuse",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 2)
         _git = _git_real
         _py_cpu_pct = orig
         # S19 O-2325(1) churn-kill relaunch cooldown (r191 bm-c): a
@@ -3775,6 +3921,13 @@ def main():
     ap.add_argument("--ticket-ref", dest="ticket_ref")
     ap.add_argument("--prereg-ref", dest="prereg_ref")
     ap.add_argument("--data-gates", dest="data_gates")
+    ap.add_argument("--data-deps", dest="data_deps",
+                    help="D-20261004-02(1) data locality: JSON list of "
+                         "path strings (files/dirs the runner reads "
+                         'that are NOT git-tracked, e.g. '
+                         '["data/deep_panel/"]) -- each claiming '
+                         "machine asserts local presence before any "
+                         "claim, absent = skip (data_not_local)")
     ap.add_argument("--host-gates", dest="host_gates",
                     help='MSG-1142 host gate: JSON list of '
                          '{"kind": "dir_nonempty", "path": ..., '
