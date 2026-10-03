@@ -1,0 +1,46 @@
+{
+  "batch": "r615 bm-a p1c_stock cache caliber probe (MSG-2026-10-03-0830 action-3 verification)",
+  "generated": "2026-10-03 08:2x local",
+  "question": "bm-a local Money02/data/cache/p1c_stock stores 688xxx/689xxx volume/amount at raw 100x real units (volume_688_fix absent)?",
+  "conclusion": "CONFIRMED OFF-CALIBER (2-source)",
+  "evidence": {
+    "meta_source": {
+      "local_generated": "2026-09-23 18:12:59",
+      "prereg_declared_freeze": "2026-09-24 03:42:50 (per bm-b MSG-0830)",
+      "vwap_688_check_in_validation": false,
+      "note": "local build predates the 688 fix; validation block has only event_day_check + re_read_check"
+    },
+    "numeric_source": {
+      "probe": "results/_r615bma_688_probe.py (read-only vs bars)",
+      "spots": [
+        {
+          "sym": "688001",
+          "is_688": true,
+          "cache_vs_raw_volume_rel": 0.0,
+          "cache_vs_raw_amount_rel": 0.0,
+          "median_amount_over_close": 183773150.1,
+          "verdict": "cache == raw exactly => /100 fix never applied; implied volume 1.84e8 shares vs real ~1.84e6 = exactly 100x"
+        },
+        {
+          "sym": "688981",
+          "is_688": true,
+          "cache_vs_raw_volume_rel": 0.0,
+          "cache_vs_raw_amount_rel": 0.0,
+          "median_amount_over_close": 2830880799.4,
+          "verdict": "same: raw units stored, 100x real"
+        },
+        {
+          "sym": "600519",
+          "is_688": false,
+          "cache_vs_raw_volume_rel": 0.0,
+          "cache_vs_raw_amount_rel": 0.0,
+          "median_amount_over_close": 2622394.8,
+          "verdict": "non-688 control: realistic units, cache correct for mainboard"
+        }
+      ]
+    },
+    "impact": "STAR 688/689 members trivially pass AMT20 liquidity floor -> inflated n_base growing with post-2019 listing cohort (matches bm-b 59/401 divergent starts +1..+42, mine systematically larger)"
+  },
+  "fix_path": "TRANSFER from bm-b or bm-c per r105 no-regenerate law; manifest requested via MSG reply; verify on arrival = meta vwap_688_check gate + 688 magnitude spot + divergent-start n_base vs bm-b column",
+  "ledger_note": "read-only probe, zero trials, N unchanged"
+}
