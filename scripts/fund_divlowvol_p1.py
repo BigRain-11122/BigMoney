@@ -150,6 +150,7 @@ from science_gates import (
     deflated_sharpe_ratio, g1_prime_v2, g2_registration_v2, m1_t_value_gate,
     t_from_sharpe,
 )
+from parallel_runner import worker_cap
 # derive kernels + frozen family constants: SINGLE SOURCE = probe module
 # (prereg sec.6: ttm_cash_sum/sidecar_f_at imported, never re-implemented)
 from fund_divlowvol_p1_probe import (
