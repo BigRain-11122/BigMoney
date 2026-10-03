@@ -1009,3 +1009,4 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 验证证据: push_verify DELIVERED ahead=0 behind=0 tip 34eb31b08；smoke 47/47；三守护进程 CIM 实证活；nulls Q396/V535/D268 零 dup_k；dualrun streak 36；attrition scan CLEAN；double_scan orders=152/152 inbox=0
 下轮指针: r645 = 烧录进位复跑 readiness 探针；mechanical_ready=true 且窗开即执行三族 finalize+E1（G-SEG 无裁定=r638 fallback）；DIVLOWVOL ETA 若劣化贴 10-09→评估合规提速面（禁池面整文件重放陷阱 r630 律）
 本地未达 origin commit 数=0（push_verify DELIVERED·remote tip 恒等 34eb31b08）
+2026-10-04T03:47:00+08:00 | round 644 addendum (bm-b): 收尾补推——bm-a r657 波 merge 零 UU（THEME_PERSIST_P1 R4 冻结 457c37ac0 + MSG-0335 认领声明零反对已 processed 移档；题材线=bm-a T-165 票零撞）+ 收尾 churn absorb 4 面；最终 tip DELIVERED；本地未达 origin commit 数=0
