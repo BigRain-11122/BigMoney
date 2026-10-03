@@ -978,3 +978,5 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 验证证据: smoke 47/47；push 7a941986f..758fd3eed（ls-remote 复核）；dualrun ZERO-DRIFT streak 30（366 entries）；attrition scan CLEAN（4 ledgers）；wtsync2 报告 98/0；town_align_report PASS；S6 各腿 rc0 行
 下轮指针: r640 = G-SEG/VALUE finalize 前置追踪（r633 双阻塞已呈）+ post_review ✗ 属主追办确认 + town.html 小活收尾（楼名/详情 org_chart v2 全表对齐验收）
 本地未达 origin commit 数=0（push 后 ls-remote 自证）
+
+2026-10-04T00:15:27+08:00 | round 639 addendum (bm-b): inbox 2 件已处理（MSG-20261003-2330 bma→all G2_SLOT_MON_P1 T-163 开工声明 + MSG-20261004-0005 bma→all G2_SLOT_MON_P2 T-164 认领冻结声明）——bm-b 零重叠零动作，移入 processed/
