@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）· v4 SPM KPI 刷新面对齐（研究/策略/风控/组合/数据/工程/舰队/总经办八面 · r637）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -351,7 +351,7 @@ const BUILDS = [
       return '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
       + flRows
       + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('')
-      + '<div class="row dim">KPI：新知识入库量 · idea 过闸率 · 外调轮执行率 · 正交成员供给数（相关性帽）· 五线供给覆盖（交易/配置/激进/CN/野路子）（org_chart v6）</div>' } },
+      + '<div class="row dim">KPI：正交成员供给数（相关性帽）· 外源范式采纳数 · 五线供给覆盖（交易/配置/激进/CN/野路子）· 新知识入库量 · idea 过闸率 · 外调轮执行率（org_chart v4/v6 刷新对齐）</div>' } },
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
     dept:'策略部 Strategy Factory', mandate:'策略工厂（实况计数指针=research/STRATEGY_LIBRARY.md §一·O-2250）· 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
@@ -361,9 +361,9 @@ const BUILDS = [
         const wrows = (tl.waves||[]).map(w => '<div class="row">'+w.wave+' 初筛'+(w.screen_done?'<span class="green">✔</span>':'…')+' · 候选 '+(w.candidates??'—')+(w.n_distinct!=null?'（去重 '+w.n_distinct+'+null '+w.k_nulls+'）':'')+' · 幸存 <span class="gold">'+(w.survivors_stage1??'—')+'</span>'+(w.null_p95!=null?' · 零假设p95线 '+Number(w.null_p95).toFixed(4):'')+(w.judge_prep?' · 判决格 '+(w.judge_prep.n_judge_cells??'—'):'')+(w.judge?' · <span class="green">判决✔</span> '+(w.judge.n_judged??'—')+'格 → 过闸 <span class="gold">'+(w.judge.n_eligible_g2??'—')+'</span>'+(w.judge.e_fp!=null?'（E[FP]标称 '+w.judge.e_fp+'）':'')+(w.judge.intake_n!=null?' · 上岗 '+w.judge.intake_n:''):'')+'</div>').join('');
         const pe = (tl.pool_entries||[]).map(e => e.id+':'+e.status).join(' · ');
         return wrows + (pe?'<div class="row dim">池面：'+pe+'</div>':'') + '<div class="row dim">常设律（'+tl.law+'）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>'; })()
-    + '<div class="row dim">KPI：在册交易员质量 · 门禁通过率（org_chart v2 部门表）</div>' },
+    + '<div class="row dim">KPI：成员稳定准入率（多窗口）· 在册交易员质量 · 门禁通过率（org_chart v2/v4 刷新对齐）</div>' },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
-    dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
+    dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计 · SPM 判据冻结审计（org_chart v4）',
     info: () => { const rg = (D.data && D.data.regime) || {};
       const rgRows = rg.present
         ? '<div class="row">行情防线 REGIME_GUARD：<span class="'+(rg.state==='GREEN'?'green':rg.state==='RED'?'red':'gold')+'">'+(rg.state_cn||rg.state)+'</span> · '+rg.mode+' · 在态 '+rg.days_in_state+' 日（asof '+rg.asof+'）</div>'
@@ -408,11 +408,12 @@ const BUILDS = [
         + ivRows
         + cwRows
         + '<div class="row dim">团队：组合构建 · 现金腿与资金运营 · 相关性监控</div>'
+        + '<div class="row dim">KPI：SPM 全维判决面（J1-J5）· 月界 SPM 报告（org_chart v4）</div>'
         + '<div class="row dim">IV 采纳=章程 §五 T1 呈报待批 · EW 仍为验证载体（择优禁令）</div>'
         + '<div class="row dim">读数政体折价（P-5B 6/6 FAIL 0.70 线）· 分配=章程 §五 T1 呈报</div>';
     } },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
-    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库 · 数据纪元/校验 · 新鲜度 · 零污染',
+    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库 · 数据纪元/校验 · 新鲜度 · 深史面新鲜度（v4）· 零污染',
     info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div>'
       + (() => { const rows = [];
           [['heat','热度链'],['futures','期货链'],['moneyflow','资金流']].forEach(([k,name]) => {
@@ -448,7 +449,7 @@ const BUILDS = [
         + '<div class="row dim">KPI：交易级胜率（主判）· 止盈纪律执行率 · 盈亏比/回合期望/beat-passive（诚实双列披露）</div>'
         + '<div class="row dim">红线变更=T0 · 组并入既有部门=总经理一句话（org_chart v2 部门表）</div>'; } },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
-    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同 · 传输 · 心跳 · 备份 · 周期任务轮值 · SLA 10min 单跳',
+    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同（bm-a/bm-b=研究/数据认领制 · bm-c=显示/工程维护车道·O-0100）· 传输 · 心跳 · 备份 · 周期任务轮值（5x/月度件轮值·O-1045）· SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
       : '<div class="row dim">本机无集团心跳源</div>') },
@@ -485,10 +486,11 @@ const BUILDS = [
           if (v1.id) row+='<div class="row dim">L1 '+(l1.state||'—')+'（asof '+(l1.asof||'—')+'）· 路由 rev_osc '+(rr.rev_osc!=null?rr.rev_osc:'—')+' 承重 · trend/lowvol 存根 0 · cap '+(rr.cap!=null?rr.cap:'—')+' · 判据=SPM J1-J4 月界口径（首检 2026-10-31 · 三线三判律）</div>';
           return row; })()
       + '<div class="row">J13 LLM 助理 <span class="green">v0.1 已交付</span>：ask/review/retro/ideas/selftest · Ollama qwen2.5:7b 本地常驻</div>'
+      + '<div class="row dim">KPI：月报按期 · 记分卡首页挂 SPM 版本态 · 每日战报按期 · 自审包按期（org_chart v6）</div>'
       + '<div class="row dim">总经理=quant 专管 AI 会话 · CEO 只见决策项（RULES §4）</div>'
       + '<div class="row dim">LLM 产物=主张非指令 · 未经人工审计不采信</div>' },
   { id:'bunker', x:30, y:258, w:92, h:32, draw:drawBunker, label:'工程部·地下机房',
-    dept:'工程部 Engineering', mandate:'OS 循环 · 自动化开发 · 质量闸门 · 基础设施',
+    dept:'工程部 Engineering', mandate:'OS 循环 · 自动化开发 · 质量闸门 · 判决台自动化（v4）· 基础设施',
     info: () => '<div class="row">安全网 smoke：<span class="'+(D.health.smoke.fail===0?'green':'red')+'">'+D.health.smoke.pass+' PASS / '+D.health.smoke.fail+' FAIL</span></div>'
       + '<div class="row">10min 自迭代循环：Bigmoney-IterationLoop（OS 任务 · 关窗不死）</div>'
       + '<div class="row dim">KPI：轮健康度 · 修红时延 · 交付吞吐</div>'
