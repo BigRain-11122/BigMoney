@@ -369,7 +369,8 @@ const BUILDS = [
         ? '<div class="row">行情防线 REGIME_GUARD：<span class="'+(rg.state==='GREEN'?'green':rg.state==='RED'?'red':'gold')+'">'+(rg.state_cn||rg.state)+'</span> · '+rg.mode+' · 在态 '+rg.days_in_state+' 日（asof '+rg.asof+'）</div>'
           + '<div class="row dim">触发：'+((rg.triggers||[]).join('；')||'无')+' · shadow 只记录不干预 · enforce=GM/CEO 重审后（T-05 校准 FAIL 证据包在案）</div>'
         : '<div class="row dim">行情防线待产出（python scripts/market_regime.py）</div>';
-      return D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' + rgRows; } },
+      return D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' + rgRows
+      + '<div class="row dim">KPI：红线零违例（org_chart v2 部门表）</div>'; } },
   { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
     dept:'交易部 Trading Desk', mandate:'交易员实战（在册名单指针=research/STRATEGY_LIBRARY.md §二·O-2250）· 模拟盘战绩=唯一计分板',
     info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
@@ -378,7 +379,8 @@ const BUILDS = [
       + ((D.trading.paper||{}).first_check ? '<div class="row">模拟盘首月：进度 <span class="green">'+Math.round(100*(D.trading.paper.month_progress??0))+'%</span> · 晋升检查日 '+D.trading.paper.first_check+' · 已计 '+D.trading.paper.months_tracked+' 月</div>' : '')
       + ((D.trading.paper||{}).x2_probation ? '<div class="row">×2 看护：<span class="gold">'+D.trading.paper.x2_probation+' 员在护</span> · '+(D.trading.paper.x2_probation_names||[]).join(' ')+' · 剃刀线随新bar滚动</div>' : '')
       + ((D.trading.scorecard||{}).present ? '<div class="row">P-6 记分卡：最优 <span class="gold">'+D.trading.scorecard.best.id+' '+D.trading.scorecard.best.grade+' '+Number(D.trading.scorecard.best.total).toFixed(2)+'</span> · S×'+((D.trading.scorecard.grade_counts||{}).S||0)+' A×'+((D.trading.scorecard.grade_counts||{}).A||0)+' B×'+((D.trading.scorecard.grade_counts||{}).B||0)+' C×'+((D.trading.scorecard.grade_counts||{}).C||0)+'</div>' : '<div class="row dim">P-6 记分卡待产出（python scripts/scorecard.py）</div>')
-      + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
+      + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>'
+      + '<div class="row dim">KPI：模拟盘战绩（唯一计分板）（org_chart v2 部门表）</div>' },
   { id:'pf', x:176, y:236, w:80, h:48, draw:drawPortfolio, label:'组合调度中心',
     dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿 · hr.py 资金阶梯执行面',
     info: () => {
@@ -423,7 +425,8 @@ const BUILDS = [
               : '<div class="row"><span class="'+(b.status==='ok'?'green':(b.status==='bad'?'red':''))+'">'+(b.text || '-')+'</span></div>');
           });
           return rows.join(''); })()
-      + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
+      + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>'
+      + '<div class="row dim">KPI：新鲜度 · 零污染（org_chart v2 部门表）</div>' },
   { id:'alloc', x:560, y:318, w:70, h:34, draw:drawAlloc, label:'资产组合研究部',
     dept:'资产组合研究部 Asset Allocation Research', mandate:'百万级资产配置实测 · 买入持有+定期再平衡+防御倾斜 · 不做择时（org_chart v5 独立成行）',
     info: () => { const ap = (D.data && D.data.alloc_paper) || {};
@@ -432,7 +435,8 @@ const BUILDS = [
       return '<div class="row">账户族 ALLOC-* ×'+ap.n_accounts+' · 初始 ¥'+(ap.capital_initial_cny/10000).toFixed(0)+'万 · inception '+ap.inception_date+' · 冻结 cutoff '+ap.cutoff_frozen+' · asof '+ap.latest_asof+'</div>'
         + ap.accounts.map(a => '<div class="row">'+a.id+' <span class="'+((a.ret_pct??0)>=0?'green':'red')+'">'+f2(a.ret_pct)+'</span> · NAV ¥'+Math.round(a.latest_nav_cny).toLocaleString()+' · '+a.n_bars+' bars · '+a.n_trades+' 笔 · 费 ¥'+Math.round(a.total_cost_cny)+' · '+a.mode+(a.stale_leg_max?(' · stale腿 '+a.stale_leg_max+'日'):'')+'</div>').join('')
         + '<div class="row dim">三线三判：配置面读数不挪用交易 J 线/激进面判据 · marks 观察账本不入 CEO 面</div>'
-        + '<div class="row dim">镜像冻结 s2 cells 1:1（engine import 零重实现）· P5 stale-leg 日披露（refresh 决策延至 s3 首月评审 2026-10）</div>'; } },
+        + '<div class="row dim">镜像冻结 s2 cells 1:1（engine import 零重实现）· P5 stale-leg 日披露（refresh 决策延至 s3 首月评审 2026-10）</div>'
+        + '<div class="row dim">KPI：配置面四指标（年化/最大回撤/Calmar/月度正收益率）· 百万资金现实可执行性实证（费后/门槛/流动性·费后仍成立）（org_chart v5）</div>'; } },
   { id:'etfops', x:592, y:156, w:44, h:46, draw:drawEtfOps, label:'ETF操作链研究所',
     dept:'ETF 操作链条研究组（直属组·部门级 O-20260928-1524）', mandate:'各类 ETF 操作链专研：分类图谱→每类一条操作链（入场→持有→止盈→止损·全数值化零酌情·「该买就买·该止盈就止盈」）→历史回测→入链三出口（锦标赛臂/军团席位/现金腿升级）',
     info: () => { const sv = (D.data && D.data.system_v1_paper) || {};
@@ -449,10 +453,11 @@ const BUILDS = [
         + '<div class="row dim">KPI：交易级胜率（主判）· 止盈纪律执行率 · 盈亏比/回合期望/beat-passive（诚实双列披露）</div>'
         + '<div class="row dim">红线变更=T0 · 组并入既有部门=总经理一句话（org_chart v2 部门表）</div>'; } },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
-    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同（bm-a/bm-b=研究/数据认领制 · bm-c=显示/工程维护车道·O-0100）· 传输 · 心跳 · 备份 · 周期任务轮值（5x/月度件轮值·O-1045）· SLA 10min 单跳',
+    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同（bm-a/bm-b=研究/数据认领制 · bm-c=显示/工程维护车道·O-0100）· 传输 · 心跳 · 备份 · 周期任务轮值（5x/月度件轮值·O-1045）· SLA 达标（10min 单跳 · 20min 心跳）',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
-      : '<div class="row dim">本机无集团心跳源</div>') },
+      : '<div class="row dim">本机无集团心跳源</div>')
+      + '<div class="row dim">KPI：SLA 达标（10min 单跳 · 20min 心跳）（org_chart v2 部门表）</div>' },
   { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
     dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · 每日战报 · J13 L2 本地助理 · 月度自审包聚合 · 集团委员会第3席·财务资源席（成本收益/资源代价/资金视角 · cph4/council.md v1.0 · org_chart v7）',
     info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
