@@ -71,10 +71,19 @@
 - results：`results/g2_slot_old_p1/g2_slot_old_p1_census.json`（顶层 evidence_cutoff+science_gates.cutoff_meta+gates 块）＋d6_numeric.json＋IC 逐面 CSV；
 - 本文件 §7/§8 回填；轮报告回执。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】（2026-10-03 r641 bm-a 一次定稿回填）
 
-（一次定稿；工程修复重跑须双跑留痕如实记账）
+- **执行实况**：selftest 6/6 PASS（roster sha 恒等/cutoff 截断/mask 门/种子带 disjoint/COST_X1 单源+vendor HEAD 锚/双跑字节恒等+F1 计数）→ gates 10/10 PASS → 正烧 **rc0·21.1s**（预算 300s 帽用量 7%·单进程 CPU）；41 面全计算零失败零缺信号周；grid=345 信号周（首信号 2020-01-02）；ledger 链 622336→**622397**（+61 行=41 面+20 null）；gate_attrition 行已追加（cells_ledger_delta=61·nominated=0）。
+- **§5 对账**：(a) ✓ 提名 0/41 ≤3 预测线内；(b) ✓ 双面挤压实证落地——IC 层弱富集存在（18/41 面 |mean ic5| > null p95 0.01153·最大 |ic5|=0.0336〔old_064·负向〕）但 blend 翻译层全灭（x2 全窗 0/41 胜 EW48〔同窗 EW48=+46.45%〕·x2 beat-rate 0/41 过 0.60 线·最佳 0.40〔old_032〕）；(c) 政体分段披露面在件（census 无门）；(d) **两预测被证伪如实记**——null p95|meanIC|=0.01153 低于预测带 0.02-05（indicator-null 有效样本≈周频 ~345 周→se≈0.008→p95≈0.015 同阶，预测带定高；<0.10 机制异常线未触）；null beat-rate 均值 **0.0025** vs 预测 0.35-55 **证伪**——随机周频重选袖周换手 ~2/3 仓位→x2 成本拖累 ~13-17%/年 vs 零成本 EW48 B&H（+46%）→随机袖恒输非半输（预测漏了成本不对称面）；(e) ✓ vs 在册六员 max|corr|=0.432（old_046）全对 <0.7 零 D6 拒；批内 ≥0.7 对 **626/820=76%**（预测 ≥10 对大幅超额确认=同源端口族强聚类，阶段二若开族去重必消费本清单）。
+- **并族分类面**：量价交互面 31（新机制主张按本批判读）/纯价格非变化内容 6/落入 BAN-01/02 并族 4 面（无论富集一律不提名·引用在库 verdict 不重烧）。
+- **负向 IC 结构**：41 面中 20 面 mean ic5<0；|IC| 前 6 名负向占 4（old_064 −0.0336/old_038 −0.0300/old_027 −0.0259 等）——族级方向结构以反向（低量价配合面跌后反指）为主；冻结 §3 blend 腿按因子值最高 16 员 as-is 持多（无符号翻转声明）→负向面机械买入最差成员=全窗负收益如实测量（as-is 方向判决=本批冻结语义）。
+- **本批判决面读数**：**0/41 提名 stage-2**（cond1 过 18/41·cond2 0/41·cond3 0/41·BAN 4·D6 拒 0）——老族量价面在 48 员 ETF 面有边际信息但冻结语法翻译不出正收益，负结果照报不粉饰；x1 披露面最佳 beat=0.6333（old_052·x1 非提名判面）供族谱档案。
+- 产物：results/g2_slot_old_p1/{g2_slot_old_p1_census.json, d6_numeric.json, ic_by_face.csv, ic_daily.csv}（顶层 evidence_cutoff+science_gates.cutoff_meta+trials_ledger 块齐备）。
 
-## §8 批后复盘【必填·s7-T】
+## §8 批后复盘【必填·s7-T】（r641 同窗回填）
 
-（gate_attrition 追加一行 entries 列表面 r248 律＋post_review 注册＋判线 v2 当批读数回执）
+- gate_attrition 行已追加（entries 列表面·r248 律）：batch=G2_SLOT_OLD_P1·kind=measurement·delta=61·total=622397·gates 块含提名线/分类/null 面。
+- post_review 行已注册（results/post_review.jsonl append·id=G2-SLOT-OLD-P1-CENSUS·status=open·7 检全过：selftest 6/6+gates 10/10+四产物在位+ledger 块+attrition 行+cutoff 双字段+refuse-if-exists 守卫在位）。
+- 判线 v2 当批读数回执：**不适用声明**——本批 census 探索面零注册零判决宣称（§4 冻结），无 g1_prime_v2/g2_registration_v2 消费面；stage-2 若立项须独立 §9 冻结+出场轴 FUND 族双通道逐键补全+science_gates 共享库判线（判线禁手抄）。
+- 方法论资产卡：无新方法（机制 import 复用 census 先例族；indicator-null 构造为既有 sleeve-tag 先例的本批实例化非新方法论）——knowledge/METHODOLOGY_ASSETS.md 零追加（捕获律收口步如实）。
+- 工程复盘：runner 新建 scripts/g2_slot_old_p1.py（约 870 行·vendor 单源 import 零重写·flat-cost 袖=census blend accrual 镜像+冻结成本面）；selftest 四犯修复（SEED_REGISTRY 字符串值 int 容错/REG6 NEEDLE-DE-01 笔误/k_nulls 未透传 null_sleeves/vendor sys.path 序）零 origin 伤害全在烧前窗内收敛。

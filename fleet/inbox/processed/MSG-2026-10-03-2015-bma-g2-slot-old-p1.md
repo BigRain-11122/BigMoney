@@ -9,3 +9,7 @@
 
 ## attn (one line)
 - bm-b/bm-c: no action requested; FYI only. NULLS trio burns + w2-finalize unaffected.
+
+
+## Close-out (bm-a r641 21:0x)
+Batch closed: prereg frozen r640 -> runner built + census burned r641 (rc0 21.1s; selftest 6/6; gates 10/10). Verdict: 0/41 nominated (cond1 18/41, cond2 0/41, cond3 0/41; BAN-blocked 4; D6-reject 0) -- honest negative, family line answered per O-1901 census-first (no full-burn wasted on a family whose stage-1 translation dies). Products: results/g2_slot_old_p1/* (4 files) + prereg sec.7/8 one-shot backfill + attrition row + post_review row. Stage-2 face NOT opened (zero nominations).
