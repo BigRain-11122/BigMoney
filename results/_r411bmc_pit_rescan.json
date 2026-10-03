@@ -1,0 +1,52 @@
+{
+  "round": "r411 bm-c",
+  "ticket": "T-2026-10-02-144(c)",
+  "bullet_repair": {
+    "line": 56,
+    "sig": "[2026-10-03 07:3x r607 bm-b]",
+    "bytes_added": 2
+  },
+  "domains": {
+    "pool": {
+      "entries": [
+        "[2026-10-03 10:3x r619 bm-a]"
+      ],
+      "block_lf_bytes": 1301,
+      "block_lf_md5": "524a550904919c5bbab6def4057095d2",
+      "pit_bytes_before": 28148,
+      "pit_bytes_after": 29791,
+      "expected_numstat_adds": 3
+    },
+    "protocol": {
+      "entries": [
+        "[2026-10-03 10:4x r410 bm-c]"
+      ],
+      "block_lf_bytes": 829,
+      "block_lf_md5": "9032b52927a8b4409d72df6d78d66b02",
+      "pit_bytes_before": 33060,
+      "pit_bytes_after": 34233,
+      "expected_numstat_adds": 3
+    }
+  },
+  "codely": {
+    "bytes_before": 41832,
+    "bytes_after": 40089,
+    "removed_entries_bytes_wt": 2130,
+    "removed_count": 2,
+    "bullet_repair_bytes": 2,
+    "ptr_rows_edited": 2,
+    "ptr_note_bytes_wt": 391,
+    "expected_numstat": "3 5"
+  },
+  "pit_protocol_eol_face": {
+    "note": "pit-protocol.md blob was anomalously CRLF (r387 lone CR suppressed check-in conversion); lone-CR 1-byte fix re-engaged conversion on git add -> staged blob renormalized to LF (uniform with pit-git/pool/engine); content-equivalence proof byte-pure (1B CR del + row insert + 2 appended lines only)",
+    "actual_numstat": "77 74 (EOL flip) vs planned 3; content delta = 1 modified line + 3 added lines",
+    "pit_data_note": "pit-data.md remains CRLF-blob straggler -> D-06 reconciliation adjudication 10-07"
+  },
+  "lonecr_fix": {
+    "file": "research/pit-protocol.md",
+    "offset": 1266,
+    "context": "(r335-law same-source)。<CR>;r387 fusion-variant",
+    "fix": "1-byte delete (r402 single-byte law)"
+  }
+}
