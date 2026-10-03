@@ -13990,9 +13990,9 @@
      "key": "fund-divlowvol-p1-nulls-0of1",
      "status": "ready",
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
-     "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r636 18:50: 6th double-burn claim released (18:48:09 daemon re-claim racing my 18:48:03 pin commit; burn killed 18:49:50 zero rows, file mtime 18:45:21 pre-launch; bm-b canonical burn in flight; fuse division pins on origin both faces)",
-     "owner": null,
-     "owner_since": null
+     "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a",
+     "owner": "bm-a",
+     "owner_since": "2026-10-03 18:48:08"
     }
    ],
    "workers_plan": {
@@ -14148,7 +14148,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-03 18:38:00",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -14159,14 +14159,19 @@
    "shards": [
     {
      "key": "w2-judge-2of4",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/mass_trial/w2_judge_shard_2of4.jsonl (row-level cell_id done-set resume)",
-     "note": "cells i%4==2 of sorted 805 collapsed survivors (201 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 2 after all 4 shards done + 805-cell completeness probe) | rel-bm-a-r636 18:50: yield -- bm-a daemon 18:47:49 claim was 41s later than bm-c 18:47:08 first claim; bm-a burn killed 18:49:50 zero-pollution; bm-c rightful owner",
-     "owner": "bm-c",
-     "owner_since": "2026-10-03 18:52:14"
+     "note": "cells i%4==2 of sorted 805 collapsed survivors (201 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 2 after all 4 shards done + 805-cell completeness probe)",
+     "owner_since": "2026-10-03 18:54:03",
+     "done_at": "2026-10-03 18:54:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "w2-judge-2of4.bm-c.json",
+     "owner": "bm-c"
     }
    ],
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-03 18:54:03"
   },
   {
    "id": "MASS-TRIAL-W2-JUDGE-SHARD-3",
@@ -14204,7 +14209,9 @@
      "key": "w2-judge-3of4",
      "status": "ready",
      "checkpoint": "results/mass_trial/w2_judge_shard_3of4.jsonl (row-level cell_id done-set resume)",
-     "note": "cells i%4==3 of sorted 805 collapsed survivors (201 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 2 after all 4 shards done + 805-cell completeness probe)"
+     "note": "cells i%4==3 of sorted 805 collapsed survivors (201 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 2 after all 4 shards done + 805-cell completeness probe)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-03 18:57:08"
     }
    ],
    "worker_class": "self-contained"
