@@ -1,6 +1,10 @@
 # CEO 实盘使用一页纸 · 2026-10-03
 
+<<<<<<< HEAD
 > 自动生成 2026-10-03T17:18:26 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+=======
+> 自动生成 2026-10-03T17:29:26 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+>>>>>>> eb91d9a46 (round 626: FUND trio NULLS burn watch (V296/Q193/D90 of 2000, cells+SENS done = holiday first-screen met); T-156 cache transfer closed (bm-a verify PASS); D-19 zero-action (group-tree path relocated + hash-method drift pit, last-touch proof); S6 37 legs rc0 golden-week; dualrun streak 16)
 
 ## ① 市场判定
 
