@@ -1,0 +1,47 @@
+{
+ "ticket": "T-2026-10-03-154",
+ "ticket_version": "origin-first bm-b r609 spec, executed by bm-c r403",
+ "face": "div_events",
+ "deliverable": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\fund_history_export\\div_events_faces.parquet",
+ "columns": [
+  "code",
+  "ex_date",
+  "cash_div_per_10",
+  "record_date"
+ ],
+ "dtype_contract": {
+  "code": "str",
+  "ex_date": "date",
+  "cash_div_per_10": "float64",
+  "record_date": "date"
+ },
+ "n_symbols_nonempty": 5124,
+ "n_rows": 54494,
+ "ex_date_span": [
+  "1991-04-03",
+  "2026-10-23"
+ ],
+ "per_symbol_event_median": 9.0,
+ "excluded": {
+  "non_implemented": 0,
+  "null_or_unparseable_ex_date": 19498,
+  "null_or_missing_cash": 0,
+  "source_file_parse_errors": 0,
+  "exact_duplicates_dropped": 0,
+  "record_date_missing_nat": 2
+ },
+ "quarantined_absent": [
+  "001235",
+  "001381",
+  "301569",
+  "301660",
+  "301718"
+ ],
+ "multi_component_note": "same-ex-date multi-component events preserved as separate rows (3 measured: 600519/000402/000501); exact-dup key (code,ex_date,cash,record_date) never collapses them (cash differs); TTM consumer sums cash over window",
+ "v1_exploration_superseded": "results/_r403bmc_t154_export.py + dividend_events.parquet (7-col, per_share baked, aggregated) kept as working papers only; deliverable = this v2 per ticket spec",
+ "elapsed_sec": 1.7,
+ "verdict": "PASS",
+ "gates_passed": "10/10 (G1-G9 + G10 readback)",
+ "parquet_bytes": 357002,
+ "parquet_sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40"
+}

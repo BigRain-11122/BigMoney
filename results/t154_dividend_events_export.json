@@ -1,0 +1,44 @@
+{
+ "ticket": "T-2026-10-03-154",
+ "face": "dividend_events",
+ "direction": "bm-c -> fleet (git \u65b9\u6848 A, direct self-delivering parquet)",
+ "consumer": "FUND-DIVLOWVOL-P1 prereg seat (T-145 leg(c) third family, seat OPEN)",
+ "data_cutoff": "T-131 fetch 2026-10-02 15:40 (div_events face, sina source)",
+ "pit_anchor": "ex_date (\u9664\u6743\u9664\u606f\u65e5); TTM window by ex_date is lookahead-free; financial-face statutory gate N/A for corporate actions (disclosed)",
+ "n_symbol_dirs_scanned": 5227,
+ "n_symbols_exported": 5124,
+ "n_rows_exported": 54491,
+ "aggregated_multicomponent_events": 3,
+ "excluded_null_ex_date": 19498,
+ "excluded_nonimpl_with_ex": 0,
+ "parse_errors": 0,
+ "announce_sentinel_1900_to_null": 0,
+ "announce_missing_null": 0,
+ "events_ex_2026": 4152,
+ "ex_date_min": "1991-04-03",
+ "ex_date_max": "2026-10-23",
+ "per_symbol_stats": {
+  "per_sym_events_median": 9.0,
+  "per_sym_events_p10": 3,
+  "per_sym_events_max": 50
+ },
+ "gates": {
+  "n_symbols_min": 5100,
+  "n_rows_min": 54000,
+  "events_2026_min": 3000,
+  "ex_min_ceiling": "1991-12-31",
+  "ex_max_floor": "2026-09-01",
+  "cash_per_share_max": 50.0
+ },
+ "known_answers": [
+  "600519 2006-05-19",
+  "000402 2006-04-05",
+  "000501 1996-08-14"
+ ],
+ "elapsed_sec": 1.6,
+ "verdict": "PASS",
+ "parquet": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\fund_history_export\\dividend_events.parquet",
+ "parquet_bytes": 411731,
+ "parquet_sha256": "bc2239ca3604842aa3fedc5fe126c1e4542b183bf49f6ec2586d798379060fdc",
+ "gates_passed": "10/10 (G1-G9 + G10 readback)"
+}

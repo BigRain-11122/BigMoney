@@ -1,0 +1,54 @@
+=== r403 bm-c T-154 dividend events face export start 2026-10-03 08:02:59 ===
+scanned 5227 symbol dirs; exported syms=5124 rows(aggregated)=54491 agg_events=3 excl_null_ex=19498 excl_nonimpl_ex=0 parse_errors=0 ann_sentinel=0 ann_missing=0
+gate G1_n_symbols                 PASS n=5124 floor=5100
+gate G2_n_rows                    PASS n=54491 floor=54000
+gate G3_events_2026               PASS n=4152 floor=3000
+gate G4_coverage                  PASS min=1991-04-03 max=2026-10-23
+gate G5_no_dup_keys               PASS unique=54491 rows=54491
+gate G6_sum_preserve_cash         PASS in=117263.827130 out=117263.827130
+gate G6b_sum_preserve_send        PASS in=7283.096337 out=7283.096337
+gate G6c_sum_preserve_conv        PASS in=54613.867747 out=54613.867747
+gate G7_cash_band                 PASS violations=0 band=[0, 50.0]
+gate G8_ex_mono_ascending         PASS 
+known-answer 600519 2006-05-19: cash=0.3 send=0.0 conv=10.0 PASS
+known-answer 000402 2006-04-05: cash=0.2 send=0.0 conv=4.0 PASS
+known-answer 000501 1996-08-14: cash=0.05 send=1.5 conv=0.0 PASS
+gate G9_known_answers             PASS legs=3 fail=0
+gates: 9/9 PASS, fails=none
+VERDICT PASS 10/10 -- parquet 411731 bytes sha256=bc2239ca3604842aa3fedc5fe126c1e4542b183bf49f6ec2586d798379060fdc (1.7s)
+=== r403 bm-c T-154 v2 div_events_faces export start 2026-10-03 08:16:07 ===
+scanned 5227 dirs; exported syms=5124 rows=54494 excl(nonimpl=0 nullex=19498 nullcash=0 parse=0) exact_dups=0 rec_missing=2 span 1991-04-03..2026-10-23
+gate G1_n_symbols             PASS n=5124
+gate G2_median_events         PASS median=9.0
+gate G3_d1_recent             PASS d1=2026-10-23
+gate G4_zero_null_cash        PASS 
+gate G5_sorted                RED 
+gate G6_dtype_contract        RED 
+gate G7_columns               PASS 
+gate G8_quarantine_absent     PASS 
+gate G9_component_preserved   PASS rows=2 cash_sum=3.0 (10转10派3 two-component case)
+VERDICT RED fails=['G5_sorted', 'G6_dtype_contract'] -- parquet NOT written (fail-closed)
+=== r403 bm-c T-154 v2 div_events_faces export start 2026-10-03 08:16:44 ===
+scanned 5227 dirs; exported syms=5124 rows=54494 excl(nonimpl=0 nullex=19498 nullcash=0 parse=0) exact_dups=0 rec_missing=2 span 1991-04-03..2026-10-23
+gate G1_n_symbols             PASS n=5124
+gate G2_median_events         PASS median=9.0
+gate G3_d1_recent             PASS d1=2026-10-23
+gate G4_zero_null_cash        PASS 
+gate G5_sorted                PASS spec: sorted by code then ex_date ascending (per-code reset)
+gate G6_dtype_contract        RED 
+gate G7_columns               PASS 
+gate G8_quarantine_absent     PASS 
+gate G9_component_preserved   PASS rows=2 cash_sum=3.0 (10转10派3 two-component case)
+VERDICT RED fails=['G6_dtype_contract'] -- parquet NOT written (fail-closed)
+=== r403 bm-c T-154 v2 div_events_faces export start 2026-10-03 08:17:09 ===
+scanned 5227 dirs; exported syms=5124 rows=54494 excl(nonimpl=0 nullex=19498 nullcash=0 parse=0) exact_dups=0 rec_missing=2 span 1991-04-03..2026-10-23
+gate G1_n_symbols             PASS n=5124
+gate G2_median_events         PASS median=9.0
+gate G3_d1_recent             PASS d1=2026-10-23
+gate G4_zero_null_cash        PASS 
+gate G5_sorted                PASS spec: sorted by code then ex_date ascending (per-code reset)
+gate G6_dtype_contract        PASS 
+gate G7_columns               PASS 
+gate G8_quarantine_absent     PASS 
+gate G9_component_preserved   PASS rows=2 cash_sum=3.0 (10转10派3 two-component case)
+VERDICT PASS 10/10 -- 357002 bytes sha256=66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40 (1.8s)

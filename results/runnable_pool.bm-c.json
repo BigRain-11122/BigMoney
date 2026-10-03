@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool",
      "owner": "bm-b",
-     "owner_since": "2026-10-03 06:44:08"
+     "owner_since": "2026-10-03 07:54:10"
     }
    ],
    "workers_plan": {
@@ -13752,25 +13752,31 @@
    "shards": [
     {
      "key": "fund-quality-p1-cell-qualityroe-x1-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "401 census starts (G-CENSUS bit-exact) full-window judged cell, t0=2001-09-03 pre-t0 flat, hold-through exit axis, checkpoint done-key skip; cont face; x1 cost 13.041bp/edge",
      "owner": "bm-b",
-     "owner_since": "2026-10-03 06:44:25"
+     "owner_since": "2026-10-03 06:56:03",
+     "claimed_since": "2026-10-03 06:44:25",
+     "done_at": "2026-10-03 06:56:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "fund-quality-p1-cell-qualityroe-x1-0of1.bm-b.json"
     }
    ],
    "workers_plan": {
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready",
+   "status": "done",
    "host_gates": [
     {
      "kind": "dir_nonempty",
      "path": "Money02/data/cache/p1c_stock",
      "pattern": "*.npy"
     }
-   ]
+   ],
+   "done_by": "bm-b",
+   "done_at": "2026-10-03 06:56:03"
   },
   {
    "id": "FUND-QUALITY-P1-CELL-QUALITYROE-X2",
@@ -13787,25 +13793,31 @@
    "shards": [
     {
      "key": "fund-quality-p1-cell-qualityroe-x2-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "401 census starts (G-CENSUS bit-exact) full-window judged cell, t0=2001-09-03 pre-t0 flat, hold-through exit axis, checkpoint done-key skip; cont face; x2 cost-stress 26.082bp/edge",
-     "owner": "bm-a",
-     "owner_since": "2026-10-03 06:50:07"
+     "owner": "bm-b",
+     "owner_since": "2026-10-03 07:26:03",
+     "claimed_since": "2026-10-03 07:16:25",
+     "done_at": "2026-10-03 07:26:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "fund-quality-p1-cell-qualityroe-x2-0of1.bm-b.json"
     }
    ],
    "workers_plan": {
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "ready",
+   "status": "done",
    "host_gates": [
     {
      "kind": "dir_nonempty",
      "path": "Money02/data/cache/p1c_stock",
      "pattern": "*.npy"
     }
-   ]
+   ],
+   "done_by": "bm-b",
+   "done_at": "2026-10-03 07:26:04"
   },
   {
    "id": "FUND-QUALITY-P1-NULLS",
@@ -13821,7 +13833,9 @@
      "key": "fund-quality-p1-nulls-0of1",
      "status": "ready",
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
-     "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool"
+     "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool",
+     "owner": "bm-b",
+     "owner_since": "2026-10-03 07:54:10"
     }
    ],
    "workers_plan": {
