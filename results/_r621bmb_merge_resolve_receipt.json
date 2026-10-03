@@ -1,0 +1,92 @@
+{
+ "round": 621,
+ "machine": "bm-b",
+ "merge_head": "ab35cd73a",
+ "files": {
+  "CODELY.md": {
+   "recipe": "memory-union/hunk-theirs (r420 archive wave)",
+   "hunks": 3,
+   "ours_lines_dropped": 6,
+   "hot_entries_verified_in_pit_files": 3,
+   "bytes": 21657
+  },
+  "docs/daily_report/REPORT-2026-10-03.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 23281
+  },
+  "docs/daily_report/REPORT-2026-10-03.md": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 10320
+  },
+  "docs/live_usage/LIVE-2026-10-03.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 10316
+  },
+  "docs/live_usage/LIVE-2026-10-03.md": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 7664
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 10316
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 7664
+  },
+  "results/_attrition_guard_scan.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 1888
+  },
+  "results/dashboard_status.js": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 86573
+  },
+  "results/dashboard_status.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 117522
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 1704
+  },
+  "results/futures_update_status.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 3198
+  },
+  "results/scorecard_v1.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 27705
+  },
+  "results/strategy_scorecard.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 238116
+  },
+  "results/token_usage.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 2018
+  },
+  "results/update_status.json": {
+   "recipe": "snapshot take-new(ours)",
+   "bytes": 7842
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "snapshot key-wise merge (ours ts-newer + theirs-only keys)",
+   "theirs_only_keys_added": [
+    "overlap"
+   ]
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling-ledger union history + latest take-new(ours)",
+   "history_ours": 201,
+   "history_theirs": 201,
+   "history_union": 205
+  },
+  "results/regime_state.json": {
+   "recipe": "rolling-ledger union history/transitions + state take-new(ours)",
+   "history": 2,
+   "transitions": 0,
+   "updated": "2026-10-03 15:10:07"
+  }
+ }
+}

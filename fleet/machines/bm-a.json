@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-03T14:06:28+08:00",
- "current_task": "r625: DIVLOWVOL off-caliber containment complete (4-sig fuse gate, x1/x2 quarantined, MSG-1351 to bm-b); T-156 recv camping pid 67588 waiting-for-sender; 6 chain tasks revived",
+ "last_seen": "2026-10-03T14:58:09+08:00",
+ "current_task": "r627: adopted dead r627 session -- T-156 complete (1.84GB correct-caliber cache LIVE + quarantine + fuse cleared + pool re-claim in flight); moneyflow EM IP-block diagnosed, GM ruling requested (3 options); full fleet integration pushed 554abaa6f",
  "cpu_cores": 32,
  "cpu_pct": 0.6,
  "free_ram_gb": 69.1,
  "gpu_free_vram_gb": null,
- "verdict": "py_low_board_clear (legal idle: FUND-* furnace legs transfer-gated on T-156 p1c swap; divlowvol fuse keep-blocks live; kill-advice MSG-1410 sent awaiting bm-b re-fire; W14 parked GM ruling)",
+ "verdict": "loaded_ok: T-156 closed (correct-caliber cache LIVE), QUALITY-SENS re-claim in flight from new cache, engine wave harvest running (py 79.4%); moneyflow EM IP-block diagnosed -> GM ruling pending (MSG-1452, 3 options); gate_attrition drift observation",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -160,10 +160,10 @@
   "O-20261002-2158-bm-c.md",
   "O-20261003-1210-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1791007588,
- "clock_read": "2026-10-03T14:06:28+08:00",
+ "heartbeat_epoch_utc": 1791010708,
+ "clock_read": "2026-10-03T14:58:09+08:00",
  "cores": 32,
- "gpu_free_vram_mb": 10770,
+ "gpu_free_vram_mb": 5271,
  "gpu_idle_vram_gb": null,
  "task": "N4-B1 frozen r602; next=WAVE_CONFIGS/_shard_valid adapter + tick ignition",
  "total_ram_gb": 93.6,
@@ -187,7 +187,7 @@
  "ram_free_gb": 46.1,
  "idle_ram_mb": 57450,
  "last_round": 595,
- "idle_ram_gb": 54.9,
+ "idle_ram_gb": 51.0,
  "idle_gpu_vram_gb": null,
  "current": "T-156 kill-advice sent (receiver camping pid 67588); S6 29 legs rc0; engine idle root-cause diagnosed (generator starve false-negative)"
 }
