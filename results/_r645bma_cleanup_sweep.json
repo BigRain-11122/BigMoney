@@ -1,0 +1,50 @@
+{
+ "round": 645,
+ "machine": "bm-a",
+ "ts": "2026-10-03T22:26:26+08:00",
+ "order_ref": "CEO 2026-10-03 ~11:5x fleet Qwen3-resident + cleanup-round dual order (group repo docs/orders.md L276); model-freshness law L277 (CPH4-owned, noted)",
+ "faces": {
+  "stale_model_removal": [
+   {
+    "model": "qwen2.5:14b",
+    "bytes": 9000000000,
+    "reason": "superseded generation; consumer line BigLife-OSLoop Disabled per D-20261003-02; T-70 optional secondary eval GM-choice never started; re-pullable on demand"
+   },
+   {
+    "model": "qwen2.5:7b-instruct-q8_0",
+    "bytes": 8100000000,
+    "reason": "orphaned q8 comparison variant from closed bonsai trial (T-99/T-100, verdict=observe D-20261001-02); zero code references repo-wide"
+   }
+  ],
+  "kept_models": [
+   {
+    "model": "qwen3-8b-ud:q4_k_xl",
+    "reason": "bm-a L1 active route (r631 env override + selftest PASS); CEO-order latest-Qwen3 leg satisfied"
+   },
+   {
+    "model": "qwen2.5:7b-instruct",
+    "reason": "ACTIVE MiniGameOllamaKeepWarm target (schtasks Ready, warmed in VRAM at sweep time) -- cross-company active asset, NOT deletable from BigMoney mandate"
+   },
+   {
+    "model": "bge-m3:latest",
+    "reason": "current-gen embedding model, registered BigLife J13 supply, no supersession"
+   }
+  ],
+  "pycache": {
+   "dirs_removed": 16,
+   "bytes": 14314769
+  },
+  "temp_debris": {
+   "bytes": 19231200,
+   "note": "D-19 sparse clones + extraction leftovers r588/r618/r630 + current-round probe files; locked git-pack clone dirs remain (WinError 5 on .git pack idx), auto age-out via group DiskSentinel win-temp>7d Class-A cleaner"
+  }
+ },
+ "total_freed_bytes_est": 17133545969,
+ "total_freed_human": "~17.1 GB (models) + 33.5 MB (caches+temp)",
+ "treasure_guard": {
+  "tool": "Tools/treasure_guard.py (O-20261003-2030; selftest re-verified PASS this round)",
+  "prescan_assertion": "REGISTRY ZERO-HIT: sweep deletion set contains ZERO repo-tracked files (ollama store / gitignored __pycache__ / %TEMP% outside repo) -- knowledge/TREASURE_REGISTRY.md zero hits by construction + prescan rc0 spot-verified",
+  "repo_files_deleted": 0
+ },
+ "vram_note": "qwen3-8b-ud currently on-demand (not resident): MiniGameOllamaKeepWarm holds qwen2.5:7b-instruct resident per 10-min cycle; coexistence 7.41+5.1>12GB cannot co-reside; flip suggestion routed to HQ-FEEDBACK group channel (MiniGame tree active-session collision law, no foreign-tree edit)"
+}
