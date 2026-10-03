@@ -1,0 +1,38 @@
+{
+ "round": "r432 bm-c",
+ "order": "O-20261003-2030",
+ "law": "firm/TREASURE_PROTECTION_LAW.md v1.0",
+ "ts": "2026-10-03T22:14:48+08:00",
+ "demos": [
+  {
+   "demo": "engine_selftest",
+   "rc": 0,
+   "pass_count": 21,
+   "tail": "SELFTEST PASS"
+  },
+  {
+   "demo": "hard_reject_law_face",
+   "rc": 3,
+   "hit": true
+  },
+  {
+   "demo": "clean_face_zero_hit",
+   "rc": 0
+  },
+  {
+   "demo": "quarantine_manifest",
+   "rc": 0,
+   "manifest": "results\\_quarantine\\20261003-221448\\manifest.json"
+  },
+  {
+   "demo": "post_assert_identity",
+   "rc": 0,
+   "manifest": "results\\_quarantine\\20261003-221448\\manifest.json"
+  },
+  {
+   "demo": "sweep_class_mixed_hard_reject",
+   "rc": 3,
+   "hit_path": true
+  }
+ ]
+}

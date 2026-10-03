@@ -63,6 +63,7 @@
 - **watchdog C9 腿**：每日一扫（24h 已闭件窗），复用 C7 tick 骨架；轮 mandate：S6 末位消费
   `results/post_review.jsonl`——**任一 fail 行=下一轮 P0 修复单**；
 - **战报/战绩页复审列**（T-29 消费面）：每行「宣称→复验 ✓/✗/🟡＋证据指针」，CEO 面板直见；
+- **宝藏保护断言**（O-20261003-2030 §2.3 接线·2026-10-03 r432 bm-c）：清扫/归档/保留/回收/恢复类收口的 verdict 行必含双断言判据——「登记簿零命中」（`rc:python Tools/treasure_guard.py prescan <targets>=0`）+「隔离区 manifest 与消失件集恒等」（`rc:python Tools/treasure_guard.py assert --manifest <m>=0`）；清扫宣称无断言对=flag `masked-partial` 同族（未复验即宣称）；
 - **GM 自缚**：GM 向 CEO 汇报一律三态标注——**立法**（git 可验）／**生效**（判据通过）／
   **验收**（复审 ✓）——禁三态混报；GM 的令与战报同受复审器扫描。
 

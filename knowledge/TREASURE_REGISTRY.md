@@ -40,3 +40,5 @@
 
 - 2026-10-03 20:3x：v1.0 建册（GM 署名·首批三十九路径族入册）。
 - 2026-10-03 22:1x：登记册自保护行入册（bm-b r635 · O-20261003-2030 首 ack 机接线第一片 · 引擎常量 SELF_PROTECTED 双保险）。
+- 2026-10-03 22:4x：里程碑锚首例——tag `treasure/g2-slot-tail-p1-20261003` → 1d9ec9202（考面冻结类·G2_SLOT_TAIL_P1 merged-tail 71-face census 泊位 prereg FROZEN·bm-a r644·TREASURE_PROTECTION_LAW §4 首例）〔bm-c r432〕。
+- 2026-10-03 22:4x：O-2030 焊面 r432 首片——守门引擎本机复验 selftest 21/21+硬拒实弹 rc3 复演+隔离区 manifest 落位 demo+identity assert+协议焊点三行（五类收口步捕获/清扫硬门/轮报零命中断言）+POST_REVIEW §五断言接线〔bm-c r432·验收窗 10-08〕。
