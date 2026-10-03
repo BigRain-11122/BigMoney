@@ -1010,3 +1010,10 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 下轮指针: r645 = 烧录进位复跑 readiness 探针；mechanical_ready=true 且窗开即执行三族 finalize+E1（G-SEG 无裁定=r638 fallback）；DIVLOWVOL ETA 若劣化贴 10-09→评估合规提速面（禁池面整文件重放陷阱 r630 律）
 本地未达 origin commit 数=0（push_verify DELIVERED·remote tip 恒等 34eb31b08）
 2026-10-04T03:47:00+08:00 | round 644 addendum (bm-b): 收尾补推——bm-a r657 波 merge 零 UU（THEME_PERSIST_P1 R4 冻结 457c37ac0 + MSG-0335 认领声明零反对已 processed 移档；题材线=bm-a T-165 票零撞）+ 收尾 churn absorb 4 面；最终 tip DELIVERED；本地未达 origin commit 数=0
+2026-10-04T04:05:30+08:00 | round 645 (bm-b): watermark verdict=GREEN (red=false, py CPU 高位=三族烧批主占用, lane healthy)
+当前活: 三族 FUND NULLS 烧批监护（Q405/V546/D276 of 2000 推进, dup_k=0）+ finalize 收口机位 readiness 探针（窗 10-05..10-09）
+最近实物: state.json 尾逗号 P0 治愈（strict JSON 读恢复·写回自证入律）+ finalize_trio_readiness 探针数据面刷新（G1/G2/G3/G4 四门实况 04:0x）
+做了什么: S0 ff merge origin 4-commit 波 97dcbc285（脏面交集空=r437 净路·daemon faces 不动）; D-19 水位 subprocess 原字节比对 MATCH EB14B510 零消费（PS > 重定向 UTF-16 伪 CHANGED 先复现证伪勿上报·pit-ps 在册律兑现）; orders 152/152 双扫零差集; S1 47/47; 板 165 票 0 open; engine alive rc0 idle; readiness 探针 mechanical_ready=false（G1 烧录中/G2 G3 绿/G4 PENDING·r638 fallback 在位）; post_review 7 瞬态 NO 全 YES 复核确认无 P0; S6 34 腿 rc0（黄金周周日诚实 no-op 族+车道护栏）; S7 四爪幂等 rc0 + attrition CLEAN + RAM 3.97GiB<4GB W14-GENERATE 继续正确排队
+验证证据: smoke 47/47; finalize_trio_readiness VERDICT mechanical_ready=False (G1=False G2=True G3=True) G4=PENDING; attrition scan CLEAN; 心跳/state json.loads 双自证 epoch=1791057862 int; 三族 nulls 行数计数 405/546/276 实测推进
+下轮指针: r646 = 烧录监护续跑 readiness 探针; mechanical_ready=true 且窗开（10-05 起）即执行三族 finalize+E1（G-SEG 无裁定=r638 fallback·VALUE MSG-1720 守卫已在位）; V 烧 ETA 10-06 首达标候选; DIVLOWVOL ETA 10-08 观察
+本地未达 origin commit 数=0（本轮 push_verify 自证）
