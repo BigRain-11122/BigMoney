@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-03 03:02:13",
+ "updated_at": "2026-10-03 08:29:00",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -13865,9 +13865,7 @@
      "key": "fund-quality-p1-sens-0of1",
      "status": "ready",
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
-     "note": "K=500 space-filling draws over N{10,15,20}/roe_cap{50,100} rule=roe fixed, rng([20510500,k]); descriptive face only, no verdict",
-     "owner": "bm-a",
-     "owner_since": "2026-10-03 08:02:07"
+     "note": "K=500 space-filling draws over N{10,15,20}/roe_cap{50,100} rule=roe fixed, rng([20510500,k]); descriptive face only, no verdict | claim RELEASED r615 bm-a 08:2x: burn killed off-caliber per MSG-2026-10-03-0830 (local p1c_stock cache 688/689 vol/amt at raw 100x, fix absent in 09-23 18:12:59 build; evidence results/_r615bma_688_probe.json + MSG-0827); re-claim ONLY after cache TRANSFER+verify (vwap_688_check GREEN + n_base spot)"
     }
    ],
    "workers_plan": {

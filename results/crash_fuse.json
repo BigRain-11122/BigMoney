@@ -594,6 +594,16 @@
    "entry": "FUND-VALUE-P1-SENS",
    "shard": "fund-value-p1-sens-0of1",
    "machine": "bm-b"
+  },
+  "scripts/fund_quality_p1.py|run,--sensitivity": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "d73f36a3acbcc870",
+   "last_crash_ts": "2026-10-03 08:20:03",
+   "entry": "FUND-QUALITY-P1-SENS",
+   "shard": "fund-quality-p1-sens-0of1",
+   "machine": "bm-a",
+   "note": "keep blocked on bm-a until p1c_stock cache caliber fixed via TRANSFER from bm-b/c (off-caliber: 688/689 vol/amt at raw 100x, local build 2026-09-23 18:12:59 predates volume_688_fix; probe evidence results/_r615bma_688_probe.json; MSG-2026-10-03-0827); killed per MSG-2026-10-03-0830; clear with reason='cache caliber transferred+verified (vwap_688_check GREEN + n_base spot)'"
   }
  },
  "cleared": {
