@@ -1,0 +1,85 @@
+{
+ "probe": "fund_cfo_gap_probe",
+ "machine": "bm-a",
+ "lane": "FUND supply piece-4/5 scouting",
+ "eligibility": {
+  "columns": [
+   "code",
+   "name",
+   "np_annual",
+   "np_interim",
+   "np_interim_prev",
+   "np_ttm",
+   "ttm_ok",
+   "r1_loss",
+   "r1_reason",
+   "r2_st",
+   "r2_source",
+   "eligible"
+  ],
+  "n_rows": 11636
+ },
+ "eligibility_has_np": {
+  "np_annual": true,
+  "np_interim": true,
+  "np_ttm": true
+ },
+ "eligibility_cfo_absent": true,
+ "b_layer_mask_columns": [
+  "code",
+  "board",
+  "first",
+  "last",
+  "ok_static",
+  "exclude_reason"
+ ],
+ "quality_faces": {
+  "exists": true,
+  "size": 755292,
+  "columns": [
+   "code",
+   "period_end",
+   "avail_date",
+   "roe_q"
+  ],
+  "n_rows": 306414,
+  "n_codes": 5223,
+  "col_roe_q_nonnull": 295238
+ },
+ "fund_history_status_error": "FileNotFoundError(2, 'No such file or directory')",
+ "p1c_stock_cache": [
+  "amount.npy",
+  "close.npy",
+  "dates.npy",
+  "high.npy",
+  "low.npy",
+  "mktcap_raw.npy",
+  "open.npy",
+  "pct_chg.npy",
+  "turnover.npy",
+  "turnover_derived.npy",
+  "volume.npy",
+  "vwap.npy"
+ ],
+ "ffscore_dep_matrix": {
+  "items_total": 9,
+  "in_repo_full": 0,
+  "partial": 1,
+  "detail": {
+   "ROA_pos": "net profit + total assets -- assets face absent",
+   "CFO_pos": "cash flow from operations -- CFO face absent",
+   "dROA": "np_annual/np_interim present, total assets absent -- partial",
+   "accrual": "CFO vs NI -- CFO absent",
+   "d_leverage": "total liabilities/assets history -- absent",
+   "d_liquidity": "current assets/liabilities history -- absent",
+   "no_equity_issuance": "share-count or issuance events history -- absent",
+   "d_gross_margin": "revenue + cogs history -- absent",
+   "d_asset_turnover": "revenue + total assets history -- absent"
+  }
+ },
+ "cashflow_rule_dep": {
+  "needs_CFO": "absent",
+  "needs_market_cap": "eligibility face absent mkt cap; baidu probe r292 verified source (PE/PB/total mkt cap) -- collector leg not built",
+  "needs_NI": "np_ttm present in eligibility face (point snapshot; PIT history for np absent in-repo except quality_faces axes)"
+ }
+}
