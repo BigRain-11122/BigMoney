@@ -1,23 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 07:08:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 49.9,
-   "verdict": "launched",
-   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
-   "shard": "faceb-0of1",
-   "pid": 48088,
-   "runner_sha256": "e2bcf587207adca1",
-   "core_verdict": "multiproc",
-   "core_marker": "from scripts.parallel_runner import",
-   "fill_latency_min": 652.5,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 08:00:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -956,28 +939,54 @@
    "fill_latency_min": 0.4,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-03 10:16:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 55.2,
+   "cooldown_skipped": {
+    "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
+    "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
+    "last_launch_min": 2.3
+   },
+   "verdict": "launched",
+   "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X2",
+   "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x2-0of1",
+   "pid": 49836,
+   "runner_sha256": "06bd2bb2bd306363",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 0.5,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-03 10:14:01",
+  "ts": "2026-10-03 10:22:01",
   "machine": "bm-b",
-  "py_cpu_pct": 54.1,
-  "keepalive": [
-   "fund-value-p1-nulls-0of1"
+  "py_cpu_pct": 54.2,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
+    "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x1",
+    "fuse_refusals": 2
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X2",
+    "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x2-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x2",
+    "fuse_refusals": 1
+   }
   ],
-  "verdict": "launched",
-  "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
-  "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
-  "pid": 58728,
-  "runner_sha256": "06bd2bb2bd306363",
-  "core_verdict": "multiproc",
-  "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 0.4,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "claim_lost_yield",
+  "entry": "FUND-DIVLOWVOL-P1-NULLS",
+  "shard": "fund-divlowvol-p1-nulls-0of1"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-03T07:27:43+08:00"
+ "core_samples_seen": "2026-10-03T10:16:50+08:00"
 }
