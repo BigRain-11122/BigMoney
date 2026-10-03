@@ -12,6 +12,7 @@
 | research/TRIAL_GRAMMAR_LEDGER.md | 语法登记簿（append-only 正典） |
 | knowledge/METHODOLOGY_ASSETS.md | 方法论资产库 |
 | knowledge/market_rules*.md + panel_gate.py | 市场规则与面板门 |
+| knowledge/TREASURE_REGISTRY.md | 宝藏登记簿本体（自保护·删除保护清单不得自删） |
 
 ## 成果面（做出的一切）
 
@@ -38,3 +39,4 @@
 ## 出入记录（append-only）
 
 - 2026-10-03 20:3x：v1.0 建册（GM 署名·首批三十九路径族入册）。
+- 2026-10-03 22:1x：登记册自保护行入册（bm-b r635 · O-20261003-2030 首 ack 机接线第一片 · 引擎常量 SELF_PROTECTED 双保险）。
