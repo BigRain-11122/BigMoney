@@ -1,0 +1,215 @@
+{
+  "batch": "FUND-DIVLOWVOL-P1",
+  "checks": [
+    {
+      "detail": "{'leg1_price_panel': True, 'leg2_transfer_export': True, 'leg3_sidecar_recovery': True, 'leg4_yield_census': True, 'leg5_seed_band': True}",
+      "name": "door1_transfer_probe_green",
+      "pass": true
+    },
+    {
+      "detail": "verdict=ADMIT max|corr|=0.2555",
+      "name": "door2_d6_admit",
+      "pass": true
+    },
+    {
+      "detail": "{'n_bars': 8792, 'n_syms': 5222, 'first': '1990-12-19', 'last': '2026-09-22'}",
+      "name": "leg1_price_panel",
+      "pass": true
+    },
+    {
+      "detail": "{'rows': 54494, 'n_symbols': 5124, 'sha256': '66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40', 'manifest_sha256': '66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40', 'sha_match': True, 'quarantined_present': []}",
+      "name": "leg2_transfer_parquet",
+      "pass": true
+    },
+    {
+      "detail": "starts=401 want=401",
+      "name": "leg3_g_census_401",
+      "pass": true
+    },
+    {
+      "detail": "{'pos': 3774, 'date': '2006-02-06', 'pin': '2006-02-06', 'n_census_months': 401, 'n_firing_months': 242}",
+      "name": "leg4_t0_present",
+      "pass": true
+    },
+    {
+      "detail": "t0=2006-02-06 want=2006-02-06",
+      "name": "leg4_t0_frozen_reproduction",
+      "pass": true
+    },
+    {
+      "detail": "below_after=[]",
+      "name": "leg4_zero_below_floor_after_t0",
+      "pass": true
+    },
+    {
+      "detail": "t0_i=159 n_census=401 n_firing=242",
+      "name": "leg4_firing_equals_clean_tail",
+      "pass": true
+    },
+    {
+      "detail": "label_days=3269",
+      "name": "regime_face_510300",
+      "pass": true
+    },
+    {
+      "detail": "COST_X1=0.0013041 spec=0.0013041 rt_bp=26.082",
+      "name": "cost_x1_single_source",
+      "pass": true
+    },
+    {
+      "detail": "{\"gate\": \"closed_family_check\", \"family\": \"fund_divlowvol_stock_xs\", \"status\": \"open\", \"in_registry\": false}",
+      "name": "m3_closed_family_open",
+      "pass": true
+    },
+    {
+      "detail": "{'fund_divlowvol_p1_nulls': 20520000, 'fund_divlowvol_p1_sens': 20520500}",
+      "name": "seed_registry_rows",
+      "pass": true
+    },
+    {
+      "detail": "seals_in_win=2 flagged=True",
+      "name": "st_helper_import_fixture",
+      "pass": true
+    },
+    {
+      "detail": "ttm (t-365, t] boundary + sidecar latest-d<=t stepwise (probe selftest S1/S2 verbatim)",
+      "name": "kernel_import_known_answers",
+      "pass": true
+    },
+    {
+      "detail": "n_sidecar=5124 missing=[]",
+      "name": "sidecar_coverage_zero_missing",
+      "pass": true
+    }
+  ],
+  "d6": {
+    "batch": "FUND-DIVLOWVOL-P1",
+    "gate": "d6_same_family",
+    "generated": "2026-10-03T08:40:26+08:00",
+    "headline_cont": {
+      "n_days": 5017,
+      "n_signal_months": 242,
+      "t0": "2006-02-06"
+    },
+    "machine": "bm-b",
+    "max_abs_corr": 0.2555,
+    "max_member": "ENGULF-CE-01",
+    "pairs": [
+      {
+        "corr": 0.1332,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1566,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1517,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2555,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2076,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2213,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7,
+    "runtime_sec": 28.0,
+    "sibling_family_disclosure": {
+      "FUND-QUALITY-P1 headline (QUALITY-ROE x1 cont)": {
+        "corr": 0.5796,
+        "gate_face": "disclosure-only (prereg sec.1)",
+        "n_overlap": 5017
+      },
+      "FUND-VALUE-P1 headline (VALUE-PE x1 cont)": {
+        "corr": 0.8039,
+        "gate_face": "disclosure-only (prereg sec.1)",
+        "n_overlap": 5017
+      }
+    },
+    "sim_basis": "probe-level lightweight: eq Top-20 monthly rotation on qfq close ratios, no engine, no cost (correlation gate input; levels non-judgmental, disclosed)",
+    "verdict": "ADMIT"
+  },
+  "div_face": {
+    "manifest_sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+    "n_symbols": 5124,
+    "quarantined_present": [],
+    "rows": 54494,
+    "sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+    "sha_match": true
+  },
+  "generated": "2026-10-03T10:08:18+08:00",
+  "machine": "bm-b",
+  "panel": {
+    "first": "1990-12-19",
+    "last": "2026-09-22",
+    "n_bars": 8792,
+    "n_syms": 5222
+  },
+  "pre_t0_disclosure": {
+    "n_pre_t0_floor_passing": 8,
+    "n_pre_t0_months": 159,
+    "note": "pre-t0 months never fire (frozen t0 pin 2006-02-06); prereg sec.2 '148 pre-t0 = below-floor' prose is a descriptive slip vs its own probe facts (n_meeting 253 > clean-tail count); judgment faces (t0 date pin / floor 60 / zero-below-after) all machine-reproduced unchanged",
+    "pre_t0_floor_passing_positions": [
+      2191,
+      3110,
+      3286,
+      3306,
+      3329,
+      3351,
+      3676,
+      3698
+    ]
+  },
+  "prereg_state": "FROZEN v1.0 (2026-10-03 bm-b r610 five-condition freeze window)",
+  "runtime_sec": 47.6,
+  "seed_disclosure": {
+    "note": "prereg sec.3 binds nulls to rng([20520000,k]) and sens to rng([20520500,k]); rows landed at the r610 freeze window (band-scan receipt probe leg5 GREEN).",
+    "null_aux": 20261003,
+    "nulls": 20520000,
+    "registry_rows": {
+      "fund_divlowvol_p1_nulls": 20520000,
+      "fund_divlowvol_p1_sens": 20520500
+    },
+    "sensitivity": 20520500
+  },
+  "t0": {
+    "date": "2006-02-06",
+    "n_census_months": 401,
+    "n_firing_months": 242,
+    "pin": "2006-02-06",
+    "pos": 3774
+  },
+  "ticket": "T-2026-10-03-155-P1",
+  "transfer_probe_gates": {
+    "leg1_price_panel": true,
+    "leg2_transfer_export": true,
+    "leg3_sidecar_recovery": true,
+    "leg4_yield_census": true,
+    "leg5_seed_band": true
+  },
+  "universe": {
+    "amt20_min_yuan": 10000000.0,
+    "n_firing_months": 242,
+    "t0_date": "2006-02-06",
+    "t0_n_active": 1021,
+    "t0_n_base": 134,
+    "t0_n_cand": 105,
+    "t0_n_rank": 53,
+    "universe_floor": 60
+  },
+  "verdict": "PASS"
+}
