@@ -32,6 +32,7 @@
 
 
 - 冷层指针（r401 增量扫合并·r444 范式）：r396 bm-c N3-R2 finalize 交付收口流水行——全文 verbatim=archive 202610.md『热冷整编 2026-10-03 r401 bm-c 窗批』节；同窗域增量回扫 21 条分域入件（engine 7/pool 5/protocol 6/data 2/git 1·各件对账行为准），PS 语义面/spawn·编码/tooling 族与 pre-split 存留条=D-06 收口对账窗（10-07）再裁定。
+- [2026-10-03 18:2x r627 bm-b] r626d 收养收口窗两律：①fuse keepblock 时序律——runner 盖戳（17:43）后再编辑（17:46 value 终版）→sig 漂移=autofill 门 code_changed 自清=r616 双烧面复活；律=每笔 runner 编辑收轮前必重跑 keepblock（幂等·results/_r626bmb_fuse_keepblock.py 范式），且 sig==当前文件 sha16 实证后才算护盾在位（收养死会话 WIP 时编辑面与盖戳面时序必核）。②他机本地 containment 钉律——quality NULLS fuse sig 8f62ed17≠origin 文件 hash（88c06450）非漂移 bug=bm-a 本地 off-caliber containment 钉（r615·钉在 bm-a 本地 runner 版本上·refusals 在 bm-a 门递增实证）；他机禁按「sig 应==本地文件」直觉重戳该 pin——resolver 断言按「双侧恒等」勿按「==本地文件」；同族一切跨机 fuse sig 面先读 pin note 判属主再动戳。
 
 
 
