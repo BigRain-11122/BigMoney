@@ -1844,6 +1844,11 @@ SEED_REGISTRY = {
         # -- exact-hit zero vs 167 registered bases, outside furnace band
         # [20333000, 20445400), proximity >=2000 all-pass, gap 20000 to
         # fund_value block and 8000 to fund_quality block (sibling families).
+    "g2_slot_old_p1_nulls": 20_530_000,  # T-159 G2-SLOT-OLD-P1 core48 census nulls (rng([20530000, k]) K=20)
+        # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
+        # collision scan vs all registered bases (top=20520500, gap 9500)
+        # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
+        # prereg research/G2_SLOT_OLD_P1.md sec.3 leg-(iii).
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
