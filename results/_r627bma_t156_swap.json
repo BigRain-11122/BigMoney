@@ -1,0 +1,112 @@
+{
+ "ts": "2026-10-03T14:39:35",
+ "machine": "bm-a",
+ "stage1_staging_verify": {
+  "n": 13,
+  "total_bytes": 1836548747,
+  "pass": true,
+  "rows": [
+   {
+    "file": "amount.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "close.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "dates.npy",
+    "bytes": 70464,
+    "pass": true
+   },
+   {
+    "file": "high.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "low.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "meta.json",
+    "bytes": 2714,
+    "pass": true
+   },
+   {
+    "file": "open.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "pct_chg.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "turnover.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "turnover_derived.meta.json",
+    "bytes": 1329,
+    "pass": true
+   },
+   {
+    "file": "turnover_derived.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "volume.npy",
+    "bytes": 183647424,
+    "pass": true
+   },
+   {
+    "file": "vwap.npy",
+    "bytes": 183647424,
+    "pass": true
+   }
+  ]
+ },
+ "stage2_swap": {
+  "quarantine": "Money02\\data\\cache\\p1c_stock.off-caliber-quarantine-20261003",
+  "new_live": "Money02\\data\\cache\\p1c_stock",
+  "sidecars_copied": [
+   "mktcap_raw.npy",
+   "mktcap_raw.meta.json"
+  ],
+  "new_file_count": 15,
+  "pass": true
+ },
+ "stage3_fuse_clear": {
+  "key": "scripts/fund_quality_p1.py|run,--sensitivity",
+  "pass": true,
+  "kept_blocked": [
+   "scripts/fund_divlowvol_p1.py|run,--nulls",
+   "scripts/fund_divlowvol_p1.py|run,--sensitivity",
+   "scripts/fund_quality_p1.py|run,--nulls",
+   "scripts/fund_value_p1.py|run,--cell,VALUE-PB,--face,x1",
+   "scripts/fund_value_p1.py|run,--cell,VALUE-PE,--face,x2",
+   "scripts/fund_value_p1.py|run,--nulls",
+   "scripts/fund_value_p1.py|run,--sensitivity"
+  ]
+ },
+ "stage4_pool": {
+  "id": "FUND-QUALITY-P1-SENS",
+  "status": "ready",
+  "host_gates": [
+   {
+    "kind": "dir_nonempty",
+    "path": "Money02/data/cache/p1c_stock",
+    "pattern": "*.npy"
+   }
+  ],
+  "pass": true
+ },
+ "pass": true
+}

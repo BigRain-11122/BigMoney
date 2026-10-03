@@ -1,0 +1,50 @@
+{
+ "ts": "2026-10-03T14:24:32",
+ "probes": [
+  {
+   "name": "fflow_kline_plain_ua",
+   "rc": 0,
+   "http": 200,
+   "elapsed_s": 0.12,
+   "body_head": "{\"rc\":0,\"rt\":21,\"svr\":177617622,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"\u5e73\u5b89\u94f6\u884c\",\"tradePeriods\":{\"pre\":{\"b\":202609300915,\"e\":202609300930},\"after\":{\"b\":20"
+  },
+  {
+   "name": "fflow_kline_browser_hdr",
+   "rc": 0,
+   "http": 200,
+   "elapsed_s": 0.04,
+   "body_head": "{\"rc\":0,\"rt\":21,\"svr\":177617613,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"\u5e73\u5b89\u94f6\u884c\",\"tradePeriods\":{\"pre\":{\"b\":202609300915,\"e\":202609300930},\"after\":{\"b\":20"
+  },
+  {
+   "name": "clist_rank_plain_ua",
+   "rc": 1,
+   "elapsed_s": 0.05,
+   "err": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "name": "clist_rank_browser_hdr",
+   "rc": 1,
+   "elapsed_s": 0.04,
+   "err": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "name": "quote_home",
+   "rc": 0,
+   "http": 200,
+   "elapsed_s": 0.42,
+   "body_head": "<!DOCTYPE html><html><head><meta name=\"sinfo\" data-bz=\"STime: 2026-10-03 14:24:17 SNum: 191\"/><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/><meta http-e"
+  },
+  {
+   "name": "fflow_kline_retry1",
+   "rc": 1,
+   "elapsed_s": 0.03,
+   "err": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "name": "fflow_kline_retry2",
+   "rc": 1,
+   "elapsed_s": 0.02,
+   "err": "RemoteDisconnected: Remote end closed connection without response"
+  }
+ ]
+}
