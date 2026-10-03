@@ -1,0 +1,22 @@
+{
+ "id": "T-2026-10-03-161",
+ "priority": "P1",
+ "type": "g2-slot-tail-merged-census",
+ "immediate": false,
+ "spec": "G2 mine supply line, tail-merged SLOT slice = r643 next-round berth DECISION executed (per-family add berth vs merged-tail design, self-decidable per O-1620). Decision: MERGED-TAIL -- two consecutive mainline family negatives (old 0/41 r641 + stock 0/14 r643) died at the identical x2 translation layer, so per-family berths for the 6 remaining non-mainline families would re-ask the structurally-answered translation question 6 times; merged-tail asks each family's IC-enrichment question exactly once in one cheap batch, per-family verdicts still independently derivable (family_verdicts block, family-answered rule applied per family). Meaning-gate refs: O-20260930-1901 census-first + budget cap 300s. Deliverables: (1) merged-tail roster+vendor smoke probe results/_r644bma_slot_tail_roster_probe.py/.json DONE PASS this round: vendor registry 126 tail faces, 69 NEW-FACE cross-check 69/69, VENDOR-GROUND-TRUTH derivability adjudication 69/69 panel-only (r639 token-rule 54/69 corrected: 15 false downgrades = eps-epsilon/log2-op/cs_rank-op/derived-intermediates/EWMA-kwarg/time-notation; _r644bma_vendor_adjudication.py per-face panel-attr scan + synthetic 8-field panel fail-closed smoke), vendor HEAD==a770825 pinned anchor, 6 family module sha256s frozen, core48 48-member 1631-td panel facts, 126/126 synthetic smoke green, roster_freeze sha16 4e4d5317750a2880; (2) old-family roster-correction leg: old_047/old_067 (r640 eps false-positive family, doc_formula '+eps'=clamp_min(1e-9) numeric epsilon, vendor implementations panel-only, FIRST MEASUREMENT not re-burn, old 0/41 verdict untouched on its measured set) -> census P2 126 NEW-FACE berth reaches FULL COVERAGE 41+2+14+69=126; (3) prereg research/G2_SLOT_TAIL_P1.md FROZEN per R99 freeze-precedes-runner law -- stage-1 enrichment census face, 71 faces + 20 same-mask nulls N_rows=91, alpha mechanism D6 four-choice + retail-why-win, seed band g2_slot_tail_p1_nulls=20550000 registered same freeze commit (disjoint, collision scan zero hit), banned_direction_gate ADMIT rc0, exit-axis hold-through declared, D6 vs registered members + in-batch 2485 pairs, BAN per-face mechanical pre-read 38 volume_price/32 price_other/1 price_banned(best_011 measured-not-nominatable), budget cap 300s in-round single-process; (4) NEXT per R99: runner scripts/g2_slot_tail_p1.py build (mirror g2_slot_stock_p1.py with tail+correction roster source, seed 20550000, output dir, face-count gate 71, family-aggregation leg-v, classify_ban prefix widening) + selftest + census burn + sec.7/8 one-shot backfill.",
+ "status": "claimed",
+ "claimed_by": "bm-a (OS iteration loop, round 644; claim-at-open same round per O-1730 immediate-law lineage; git fetch immediately before claim per r239 collision law -- origin max ticket = T-160 verified 21:52)",
+ "claimed_at": "2026-10-03T21:55:00+08:00",
+ "opened_by": "bm-a",
+ "result_ref": null,
+ "dept": "research/engineering",
+ "law_refs": [
+  "O-20260930-1132",
+  "O-20260930-2054",
+  "O-20260930-1901",
+  "GITHUB_MINING_SUPPLY_G2 sec.4",
+  "G2_OVERLAP_CENSUS_P2 sec.8",
+  "R99 freeze-precedes-runner",
+  "D-20260930-41"
+ ]
+}
