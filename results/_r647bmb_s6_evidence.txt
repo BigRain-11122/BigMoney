@@ -1,0 +1,36 @@
+S6 chain r647 bm-b start 2026-10-04 04:52:44
+04:52:44 dualrun rc=0 tail=[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 366 entries, drift-free streak 39, cutoff 2026-10-03 08:29:00)
+04:52:44 compute_audit rc=0 tail={"ts": "2026-10-04 04:52:51", "audit_version": "v2.4.2", "cpu_total_pct": 42.0, "py_cpu_pct": 85.8, "cores": 16, "py_pro
+04:52:52 wm_probe rc=0 tail={"ts": "2026-10-04 04:52:58", "epoch": 1791060772.0, "machine": "bm-b", "cpu_total_pct": 62.0, "cores": 16, "py_cpu_pct"
+04:52:58 update_daily rc=0 tail=status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+04:53:00 market_regime rc=0 tail=trigger: breadth 0.79>=65%
+04:53:01 scorecard rc=0 tail=lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (18min) -> skip derive this cycle
+04:53:01 clock_call rc=0 tail=call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 a
+04:53:08 lhb rc=0 tail=no-op: <30min since last fetch attempt (min-interval guard)
+04:53:09 heat rc=0 tail=no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+04:53:09 futures rc=0 tail=no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+04:53:09 repo rc=0 tail=no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+04:53:09 options rc=0 tail=no-op: options lane owned by bm-a, not this machine (bm-b)
+04:53:10 moneyflow rc=0 tail=no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+04:53:10 sina_mf rc=0 tail=no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+04:53:10 astock_daily rc=0 tail=no-op: panel fresh (cutoff 2026-09-30 >= expected 2026-09-30) -> zero network
+04:53:11 etf_daily rc=0 tail=no-op: panel cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+04:53:11 rev_osc rc=0 tail=rev_osc_signal_export: SIG/BARS already at cutoff 2026-09-30 & panel bytes unchanged -- no-op (idempotent)
+04:53:12 minute_feed rc=0 tail=update_minute_feed: non-workday -- no-op
+04:53:12 ths_panel rc=0 tail=no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+04:53:12 ah_panel rc=0 tail=no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+04:53:12 fund_premium rc=0 tail=no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+04:53:12 fundamental rc=0 tail=snapshot fresh (15.1h < 24h) -> skip
+04:53:13 b_layer rc=0 tail=verdict -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+04:53:14 aggr_lab rc=0 tail=aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+04:53:30 alloc_paper rc=0 tail=alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-30
+04:53:30 grid_paper rc=0 tail=grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+04:53:31 sys_v1 rc=0 tail=system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+04:53:31 t35_export rc=0 tail=lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260
+04:53:31 daily_scorecard rc=0 tail=lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D
+04:53:31 daily_report rc=0 tail=daily report written: REPORT-2026-10-04.md/.json faces=5 token=1
+04:53:32 ceo_live rc=0 tail=ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-04.md (+ .json twin + LIVE-latest poi
+04:53:32 build_status rc=0 tail=lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (19min) -> skip derive this cycle (
+04:53:33 token_meter rc=0 tail=L2 local-LLM legs: 0 today / 5 total (~0 tokens today, by_cmd={'retro': 2, 'selftest': 2, 'ask': 1}); crash-fuse refusal
+S6 chain r647 bm-b end 2026-10-04 04:53:33
+S6_ALL_GREEN count=33
