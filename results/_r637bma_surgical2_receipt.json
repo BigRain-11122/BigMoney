@@ -1,0 +1,25 @@
+{
+ "ts": "2026-10-03 19:09:12",
+ "files": {
+  "fleet/inbox/MSG-2026-10-03-1909-bma-all-nulls-ghost-strip-w2judge-receipts.md": "3b270ceab20e6c01",
+  "results/runnable_pool.bm-a.json": "3de8ca4ec8a96b44",
+  "results/runnable_pool.bm-b.json": "b97e4dc12b96c3d6",
+  "results/runnable_pool.bm-c.json": "9ab3de0b653672e7",
+  "results/runnable_pool.json": "c97c5bbe4ec6e388"
+ },
+ "variants": [
+  "shared: val ghost->bm-b",
+  "shared: dlv ghost->bm-b",
+  "lane-bm-a EOL=LF (crlf=0 lfo=14215)",
+  "lane-bm-a: val ghost->bm-b",
+  "lane-bm-a: dlv ghost->bm-b",
+  "lane-bm-b EOL=CRLF (crlf=14209 lfo=0)",
+  "lane-bm-b: val ghost->bm-b",
+  "lane-bm-b: dlv ownerless->bm-b",
+  "lane-bm-c EOL=LF (crlf=0 lfo=14230)",
+  "lane-bm-c: val ghost->bm-b",
+  "lane-bm-c: dlv ghost->bm-b"
+ ],
+ "asserts": "4-face PASS: val+dlv owner=bm-b; 3of4 done/bm-c untouched",
+ "commit": "0b845bb11a27a911b665f640251b5f57a9016d67"
+}
