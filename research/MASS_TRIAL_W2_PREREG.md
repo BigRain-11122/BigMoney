@@ -50,9 +50,22 @@
 - `results/mass_trial/w2_roster.json`（75 族再锚·batch=MASS_TRIAL_W2）+ `w2_candidates.json` + `w2_generate_summary.json`（含跨波去重损耗账）+ `grammar_registry.jsonl` 追加 w2 行。
 - `w2_screen_checkpoint.jsonl`（逐行 checkpoint 续跑）+ `w2_screen_summary.json`（顶层 evidence_cutoff+trials_ledger·§7 回填面）。
 
-## §7 跑后实证（占位·跑后一次定稿回填）
+## §7 跑后实证（2026-10-03 16:5x-17:2x bm-c·一次定稿·freeze ec9a49711 后三执行体接力烧毕·r422 四代收口）
 
-## §8 批后复盘（占位·预测对账+损耗账）
+- **4836 候选全筛 → 806 存活（16.67%）**；75 对照 + 20 nulls + 2 signal_error（DEF-26/27=month 必填位缺陷行·与 w1 逐字同缺陷冻结携带·候选面零误差）；账本 617500→622336（+4836·LOWAMP-P1/P2 voids 随链带入）。
+- **null 面**：p50=0.4667·p95=0.5333·max=0.55——全数 < 0.60 初筛线 ✓，裕量 0.05 与 w1（0.047）同薄如实披露；随机入场靠熊窗现金态刷近线的结构性友好不变，stage-1 只当漏斗非判决。
+- **R 轴效应**：bear 573/1650=34.7% vs none 142/1644=8.6% vs bull 91/1542=5.9%——bear/none≈**4.03×**（w1 36.7% vs 9.0%≈4.1× 复现）；S=delever 21.2% vs full 12.1%、T=weekly 20.1% vs daily 13.1%（方向与 w1 全同）。
+- **存活族谱**：seasonal 33% / event 22% / folk 20% / patterns 19% / ta 17% / sentiment 14% / mean_reversion 12% / volatility 11% / macro 11% / momentum 10% / trend 9%——反转/形态/日历/民间支配、趋势/动量弱，w1 判决面富集方向全复现。
+- **对照面 5/75 过线**：low_vol_long 0.6167 · island_reversal 0.60 · morning_star 0.60 · vol_drought_reversal 0.6333 · ants_climb 0.60。
+- **对照面 w1→w2 漂移注记（诚实披露·归因实证）**：67/75 默认行 beat 值位移（非一致方向）——同 evidence_cutoff 2026-09-22 同默认参数下不同值=评估栈窗内变更所致，非数据面污染：**RW-1 出场前视修复**（出场由 close 时点改 T+1 开盘成交·eaed0a1d7 r472 bm-a 09-30）+ **D-38 一字板买拒/卖延**（58ff49bf1 r479）+ **RW-3 引擎缺省翻面 full-pnl & strict_open_fills**。w2=修正引擎上首个 mass 面；w1 对照读数=旧前视引擎历史面按冻结纪律不回改；注册员底座族 ENGULF/NEEDLE 的 OOS Sharpe 在 RW-1 修复披露表内已示大降（0.3835→0.1686 / 0.4089→0.1927），与本波两族默认行跌线（0.5833 vs 线 0.60·差 1 窗）同因一致。
+- top 读数仅披露不采信：最高 beat 0.6667 两席（W2-13005 momentum.relative_strength_rotation bull/t7/full/weekly·Sharpe 0.26；W2-51025 patterns.doji_at_low bear/t7/full/weekly·Sharpe 0.63）。
+
+## §8 批后复盘（r422 四代执行体收口·16:0x-17:2x）
+
+- **预测对账（§5 六条）**：①存活率 10-18%→实测 16.67% **对**（w1 17.0% 同带）；②bear/none 2-4×→实测 4.03× **上缘擦边过**；③族谱方向→**对**；④null p50∈[0.30,0.50]→0.4667 **对**、p95<0.60→0.5333 **对**；⑤默认对照 5-12 带内→5=**带下缘对**，但「四底座默认再过线」**部分错**（low_vol/drought 过、engulf/needle 差 1 窗跌出=RW-1 修复后估值降格的自然后果·非筛面杀已证族）；⑥跨波去重坍缩预期 0-5→实测 206+73=**279·错 55×**（机制如预测=枚举/小整数参数空间离散碰撞，但规模严重低估——Sobol 延拓窗与首帧同参数范围重抽·大枚举族面碰撞规模化发生；按 prereg 预设披露路径如实上报）。
+- **损耗账**：gate_attrition.json 追加行（delta 4836·eliminated 4030·ledger_total_after 622336）；生成端=拒收 8 · 波内 param_dupes 370 · signal_dupes 1071 · dead_signal 221 · 跨波 param 206/signal 73 · quota_short 3 族（holiday_effect 28 / gap_fill 29 / inside_bar_breakup 27）→ enrolled 4836 ≤ 4950 ceiling；判线三条款（0.60/30/−0.35）全批恒定未调。
+- **复跑纪律**：w2_screen_checkpoint.jsonl 4931 行逐行留存（候选 4836+对照 75+null 20）；finalize 幂等复跑确认（prev complete 含 ledger→链线性保持零重计）；§9 s3 段冻结前禁烧存活者。
+- **跨波可比性注记**：w1 screen=旧出场前视引擎面（09-27）、w2 screen=RW-1 修正引擎面（10-03）——两波筛面读数**非同栈可比**（对照漂移 67/75 行为实证）；s3 判决面（≤10-06/10-08 锚）将在修正栈上烧，w2 存活者与修正栈同栈零迁移成本；w1 存活者判决面历史结果（0/166）按当时冻结口径收档不重开。
 
 ## §9 s3 全量判决面段冻结位（占位——具体判线/种子/分片在 s3 跑前以追加节 commit 冻结后才许烧）
 
