@@ -198,7 +198,10 @@ def report_pass(sha: str) -> int:
         "lane_io L3 合法〔bm-a 心跳>20min·r371 origin-ref 带〕）；S7 4/4+attrition CLEAN；"
         "bm-a 心跳停 10:26 起续观察（~2h50m·3h 阈值 13:26 过线=下轮呈 GM 改派裁定） | 下轮：D-06 git/protocol 增量"
         "+pre-split 存留条+pit-data CRLF 裁定+流水下沉（due 10-07）·bm-a 心跳裁定查·T-156 观察席·T-143 预备 | "
-        "本地未达 origin commit 数：0（push %s 达→fetch 后 HEAD..origin/main=0·tip==origin 送达自证）"
+        "本地未达 origin commit 数：0（push 拒〔origin 前移=bm-a r623/624 批：死会话遗产收编+1065 脚本档案清理〕→"
+        "CAS 对象空间直投 O-1410⑤ 一发即达 %s：23 自有面 blob 直迁+x2 行级 union+6〔r570 域律〕+30 共享派生面 "
+        "take-origin〔r505·本机 13:09 stale-takeover derive 被 bm-a 12:52 活产品取代〕+零删除集自证+reset --hard 本地同步"
+        "→fetch 后 HEAD==origin/main·tip==origin 送达自证）"
     ) % (ts, n_legs - len(bad), n_legs, rc_face, total, sha)
     with open(REPORT, "a", encoding="utf-8", newline="") as fh:
         fh.write(line + "\n")
