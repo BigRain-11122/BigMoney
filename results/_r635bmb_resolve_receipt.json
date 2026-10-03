@@ -1,0 +1,109 @@
+{
+ "union": [
+  {
+   "path": "results/compute_audit.json",
+   "recipe": "history union + latest take-new",
+   "A_rows": 201,
+   "B_rows": 204,
+   "union_rows": 206,
+   "latest_side": "origin",
+   "ts_A": "2026-10-03 21:01:59",
+   "ts_B": "2026-10-03 20:45:51"
+  },
+  {
+   "path": "results/regime_state.json",
+   "recipe": "scalar take-new + triggers/transitions/history union",
+   "ts_A": "2026-10-03 21:02:09",
+   "ts_B": "2026-10-03 20:46:01",
+   "scalar_side": "origin"
+  }
+ ],
+ "snapshot": [
+  {
+   "path": "docs/daily_report/REPORT-2026-10-03.json",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:40",
+   "ts_B": "2026-10-03 20:48:26",
+   "evidence": "A:key=generated_at@d0 B:key=generated_at@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-03.md",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:40",
+   "ts_B": "2026-10-03 20:48:26",
+   "evidence": "A:md-header B:md-header -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-03.json",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:02:41",
+   "ts_B": "2026-10-03T20:48:27",
+   "evidence": "A:key=generated@d0 B:key=generated@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-03.md",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:02:41",
+   "ts_B": "2026-10-03T20:48:27",
+   "evidence": "A:md-header B:md-header -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:02:41",
+   "ts_B": "2026-10-03T20:48:27",
+   "evidence": "A:key=generated@d0 B:key=generated@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:02:41",
+   "ts_B": "2026-10-03T20:48:27",
+   "evidence": "A:md-header B:md-header -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:00:21+08:00",
+   "ts_B": "2026-10-03T20:52:08+08:00",
+   "evidence": "A:key=ts@d0 B:key=ts@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:22",
+   "ts_B": "2026-10-03 20:47:57",
+   "evidence": "A:key=updated@d0 B:key=updated@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "side": "origin",
+   "ts_A": "2026-10-03T21:02:17",
+   "ts_B": "2026-10-03T20:47:52",
+   "evidence": "A:key=ts@d0 B:key=ts@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:16",
+   "ts_B": "2026-10-03 20:47:51",
+   "evidence": "A:key=updated@d0 B:key=updated@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/token_usage.json",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:42",
+   "ts_B": "2026-10-03 20:48:43",
+   "evidence": "A:key=generated@d0 B:key=generated@d0 -> A newer or tie->HEAD(r140)"
+  },
+  {
+   "path": "results/update_status.json",
+   "side": "origin",
+   "ts_A": "2026-10-03 21:02:08",
+   "ts_B": "2026-10-03 20:46:00",
+   "evidence": "A:key=updated@d0 B:key=updated@d0 -> A newer or tie->HEAD(r140)"
+  }
+ ],
+ "skipped": [],
+ "notes": []
+}
