@@ -1845,6 +1845,7 @@ SEED_REGISTRY = {
         # [20333000, 20445400), proximity >=2000 all-pass, gap 20000 to
         # fund_value block and 8000 to fund_quality block (sibling families).
     "g2_slot_old_p1_nulls": 20_530_000,  # T-159 G2-SLOT-OLD-P1 core48 census nulls (rng([20530000, k]) K=20)
+    "g2_slot_stock_p1_nulls": 20_540_000,  # T-160 G2-SLOT-STOCK-P1 core48 census nulls (rng([20540000, k]) K=20; 2026-10-03 bm-a r642 freeze-window registration, band [20540000,20540020) disjoint, net gap 10000 above old-family base 20530000, collision scan zero hit)
         # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,

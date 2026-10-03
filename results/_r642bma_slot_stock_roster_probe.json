@@ -1,0 +1,119 @@
+{
+ "artifact": "_r642bma_slot_stock_roster_probe",
+ "audit": {
+  "network": "zero",
+  "deterministic": true,
+  "judgment": "none (facts probe)"
+ },
+ "legs": {
+  "vendor_registry": {
+   "n_stock_faces": 22,
+   "faces": [
+    "stock_001",
+    "stock_002",
+    "stock_003",
+    "stock_004",
+    "stock_005",
+    "stock_006",
+    "stock_007",
+    "stock_008",
+    "stock_009",
+    "stock_010",
+    "stock_011",
+    "stock_012",
+    "stock_013",
+    "stock_014",
+    "stock_015",
+    "stock_016",
+    "stock_017",
+    "stock_018",
+    "stock_019",
+    "stock_020",
+    "stock_021",
+    "stock_022"
+   ]
+  },
+  "roster_crosscheck": {
+   "probe_family_n": 14,
+   "probe_in_vendor": 14,
+   "probe_in_census_newface": 14,
+   "excluded_from_family": {
+    "stock_004": "UNVERIFIABLE",
+    "stock_008": "UNVERIFIABLE",
+    "stock_009": "DUP-FORMULA-VERIFIED",
+    "stock_011": "UNVERIFIABLE",
+    "stock_012": "UNVERIFIABLE",
+    "stock_015": "UNVERIFIABLE",
+    "stock_016": "UNVERIFIABLE",
+    "stock_018": "UNVERIFIABLE"
+   }
+  },
+  "derivability": {
+   "panel_derivable": [
+    "stock_001",
+    "stock_002",
+    "stock_003",
+    "stock_005",
+    "stock_006",
+    "stock_007",
+    "stock_010",
+    "stock_013",
+    "stock_014",
+    "stock_017",
+    "stock_019",
+    "stock_020",
+    "stock_021",
+    "stock_022"
+   ],
+   "non_derivable": {},
+   "n_derivable": 14
+  },
+  "vendor_anchors": {
+   "vendor_head": "a770825f841504e41581f057b4d94160e6a50c2e",
+   "head_matches_install_anchor": true,
+   "sha256__factors_stock.py": "e8efb25a5abc552d23fdc5fd099c462cd7555f5b7a9224453fb117923efd9f55",
+   "sha256_legacy_factors.py": "1c85b1dd315c7cafffe8dcd6850caffe822379ee953376e9da9b94f4941a2423",
+   "sha256_tensor_factors.py": "db17d908cdcecd079eec6b01ff28633b414ca500304b1280fee974ceb0032356"
+  },
+  "core48_panel": {
+   "n_members": 48,
+   "inservice_sha16": "abf3d43b9ca13ea5",
+   "union_trading_days": 1631,
+   "common_window_start": "2023-06-13",
+   "union_last": "2026-09-22",
+   "min_rows_per_member": 797,
+   "bad_columns_members": [],
+   "vwap_ok_fraction_worst": 0.991217,
+   "cutoff": "2026-09-22"
+  },
+  "synthetic_smoke": {
+   "n_faces": 22,
+   "n_fail": 0,
+   "fail_faces": [],
+   "probe_family_fail": [],
+   "device": "cpu"
+  }
+ },
+ "verdict": "PASS",
+ "fails": [],
+ "roster_freeze": {
+  "burn_faces": [
+   "stock_001",
+   "stock_002",
+   "stock_003",
+   "stock_005",
+   "stock_006",
+   "stock_007",
+   "stock_010",
+   "stock_013",
+   "stock_014",
+   "stock_017",
+   "stock_019",
+   "stock_020",
+   "stock_021",
+   "stock_022"
+  ],
+  "downgraded_fundamental_lane": [],
+  "n_burn": 14
+ }
+}
