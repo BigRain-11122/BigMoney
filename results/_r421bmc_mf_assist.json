@@ -1,0 +1,54 @@
+{
+ "ts": "2026-10-03T15:16:35",
+ "machine": "bm-c",
+ "round": "r421",
+ "action": "MSG-2026-10-03-1452 option A claim (rank-face assist pull)",
+ "ticket": "T-2026-10-03-157",
+ "budget_disclosure": "first inline attempt auto-decapitated at 5.0min silent (r324 law violation by the round driver; zero evidence landed) -- this detached rerun re-spends the ~60-req rank face budget",
+ "verdict": "RANK PULL FAILED from bm-c (option A feasibility evidence; see rank_fetch.err + daykline_probe)",
+ "updated": "2026-10-03T15:17:38",
+ "window_guard": {
+  "allowed": true,
+  "reason": "2026-10-03 not a trading day (snapshot static)"
+ },
+ "expected_stamp": "2026-09-30",
+ "rank_fetch": {
+  "total": null,
+  "pages_walked": 1,
+  "n_items": 0,
+  "err": "page 1: RemoteDisconnected: Remote end closed connection without response",
+  "elapsed_s": 10.2,
+  "latency_first3": [],
+  "latency_last": null,
+  "complete": false,
+  "pages_captured": 0
+ },
+ "daykline_probe": [
+  {
+   "code": "600519",
+   "market": "sh",
+   "ok": false,
+   "exc": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "latency_s": 2.16
+  },
+  {
+   "code": "000001",
+   "market": "sz",
+   "ok": false,
+   "exc": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "latency_s": 22.37
+  },
+  {
+   "code": "300750",
+   "market": "sz",
+   "ok": false,
+   "exc": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "latency_s": 21.1
+  }
+ ],
+ "daykline_probe_verdict": "blocked",
+ "universe_preview": {
+  "eligibility_n": 11636
+ },
+ "elapsed_total_s": 63.5
+}

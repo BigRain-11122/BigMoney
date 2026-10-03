@@ -1,0 +1,85 @@
+{
+ "round": 621,
+ "machine": "bm-b",
+ "merge2_head": "61a5b34afc",
+ "files": {
+  "docs/daily_report/REPORT-2026-10-03.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 23487
+  },
+  "docs/daily_report/REPORT-2026-10-03.md": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 10351
+  },
+  "docs/live_usage/LIVE-2026-10-03.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 10316
+  },
+  "docs/live_usage/LIVE-2026-10-03.md": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 7664
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 10316
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 7664
+  },
+  "results/_attrition_guard_scan.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 1888
+  },
+  "results/dashboard_status.js": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 86337
+  },
+  "results/dashboard_status.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 113824
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 1661
+  },
+  "results/futures_update_status.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 3198
+  },
+  "results/scorecard_v1.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 26900
+  },
+  "results/strategy_scorecard.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 229777
+  },
+  "results/token_usage.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 1951
+  },
+  "results/update_status.json": {
+   "recipe": "snapshot take-new(theirs)",
+   "bytes": 7483
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "snapshot key-wise merge (theirs ts-newer + ours-only keys)",
+   "ours_only_keys_kept": [
+    "overlap"
+   ]
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling-ledger union history + latest take-new(theirs)",
+   "history_ours": 205,
+   "history_theirs": 201,
+   "history_union": 206
+  },
+  "results/regime_state.json": {
+   "recipe": "rolling-ledger union history/transitions + state take-new(theirs)",
+   "history": 2,
+   "transitions": 0,
+   "updated": "2026-10-03 15:16:57"
+  }
+ }
+}
