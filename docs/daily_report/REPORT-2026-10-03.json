@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-03",
- "generated_at": "2026-10-03 09:04:48",
+ "generated_at": "2026-10-03 09:05:17",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -298,18 +298,16 @@
  },
  "rd": {
   "commits_24h": 580,
-  "result_jsons_landed_24h": 82,
+  "result_jsons_landed_24h": 83,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 71,
+  "prereg_md_touched_24h": 70,
   "compute_audit_latest": {
-   "ts": "2026-10-03 08:56:46",
-   "py_cpu_pct": 100.0,
-   "flags": [
-    "cap_violation"
-   ],
-   "verdict": "FLAG:cap_violation"
+   "ts": "2026-10-03 09:02:57",
+   "py_cpu_pct": 4.7,
+   "flags": [],
+   "verdict": "CLEAN"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -622,6 +620,13 @@
    "owner": "bm-b (OS iteration loop, round 598; git "
   },
   {
+   "id": "T-2026-10-03-151-P1",
+   "status": "claimed",
+   "type": "work",
+   "immediate": false,
+   "owner": "bm-a (OS iteration loop, round 600; seat"
+  },
+  {
    "id": "T-2026-10-03-153-P1",
    "status": "claimed",
    "type": "work",
@@ -646,13 +651,17 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-03 08:56:46",
-    "py_pct": 100.0,
-    "cpu_pct": 91.0,
+    "latest_ts": "2026-10-03 08:35:47",
+    "py_pct": 0.1,
+    "cpu_pct": 4.0,
     "ready": 3,
     "streak_min": null,
-    "verdict": "FLAG:cap_violation",
+    "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "04:39",
+      100.0
+     ],
      [
       "05:07",
       0.1
@@ -696,14 +705,10 @@
      [
       "08:35",
       0.1
-     ],
-     [
-      "08:56",
-      100.0
      ]
     ],
-    "today_samples": 23,
-    "today_floor_ok": 15,
+    "today_samples": 22,
+    "today_floor_ok": 14,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 11
    },
@@ -770,17 +775,13 @@
     "today_supply_gap_flags": 12
    },
    "bm-c": {
-    "latest_ts": "2026-10-03 08:49:20",
-    "py_pct": 5.7,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-03 09:02:57",
+    "py_pct": 4.7,
+    "cpu_pct": 9.0,
     "ready": 3,
-    "streak_min": 221.7,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "04:39",
-      100.0
-     ],
      [
       "05:07",
       0.1
@@ -806,30 +807,34 @@
       4.8
      ],
      [
+      "06:53",
+      5.1
+     ],
+     [
+      "07:23",
+      100.0
+     ],
+     [
       "07:26",
       5.7
      ],
      [
-      "08:00",
-      67.0
+      "08:06",
+      100.0
      ],
      [
-      "08:10",
-      65.8
+      "08:35",
+      0.1
      ],
      [
-      "08:42",
+      "09:02",
       4.7
-     ],
-     [
-      "08:49",
-      5.7
      ]
     ],
-    "today_samples": 22,
-    "today_floor_ok": 14,
+    "today_samples": 23,
+    "today_floor_ok": 15,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 14
+    "today_supply_gap_flags": 11
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -839,19 +844,19 @@
   "day": "2026-10-03",
   "machines": {
    "bm-a": {
-    "batches_judged": 33,
-    "core_seconds": 8062.5,
-    "wall_seconds": 1312.0,
-    "effective_cores": 6.15,
+    "batches_judged": 32,
+    "core_seconds": 6779.9,
+    "wall_seconds": 1251.1,
+    "effective_cores": 5.42,
     "single_core_burn": 8,
-    "multicore_burn": 25,
+    "multicore_burn": 24,
     "too_short": 4,
-    "last_ts": "2026-10-03T08:53:17+08:00",
+    "last_ts": "2026-10-03T08:03:17+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-03 08:56:46"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-03 08:35:47"
     }
    },
    "bm-b": {
@@ -882,8 +887,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-03 08:49:20"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-03 09:02:57"
     }
    }
   },
