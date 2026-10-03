@@ -1,0 +1,81 @@
+# G2_SLOT_MON_P1 预注册【G2 矿供线·IC 崭集 47 面清单×月频翻译层分解判决面（core48 消费面·第二段判）】
+
+> **FROZEN v1.0（2026-10-03 bm-a r647 冻结窗）**：本件 commit 冻结先于任何 census run（R99 律）；冻结证链=①r644 §8 链级遗产条款原文「任何未来『低成本翻译层变体』（如低换手翻译口径）=新翻译口径新预注册（非本链翻案·判负线不受影响·须独立 D6/门禁全链走）」＝本批的立法授权面；②r647 roster/可行性探针 **PASS**（results/_r647bma_slot_mon_roster_probe.json·legs 8/8：47 面 roster 派生 18/2/27 恒等+roster_freeze sha16 `7ce1e81d019eba3d`+vendor HEAD==a770825 恒等+core48 面板 48 员 union_last==cutoff+种子带 20560000 空闲 disjoint+COST_X1 单源恒等+BAN 类继承分布 24/20/3）；③种子带 `g2_slot_mon_p1_nulls=20560000` 同冻结窗先注册（science_gates.SEED_REGISTRY·带 [20560000,20560020)·与三族基座 20530000/20540000/20550000 净距 10000·撞带扫描零命中）。冻结后禁改 §0-§6 判据面；跑后只回填 §7/§8。
+>
+> 令链血统：O-20260930-1132（G2 矿供规范化第二批）→ G2_OVERLAP_CENSUS_P2（126 NEW-FACE 泊位§8 下片）→ old 族泊位收口（G2_SLOT_OLD_P1 r641·0/41）→ stock 族泊位收口（G2_SLOT_STOCK_P1 r643·0/14）→ 尾段合并普查收口（G2_SLOT_TAIL_P1 r644·0/71·**全链 0/126 提名·三批同构判负于周频 x2 翻译层**）→ **本件=IC 富集面 47/126 清单的月频低换手翻译口径判决**（O-20260930-1901 意义门自答：本批一次问完「成本-视界分解」——周频判负=换手成本杀死（则月频省 ~4× 成本事件应见存活）还是 5 日视界信号不可延展至 21 日持有（则月频信号密度 ~5/21 应同灭）；两读法都出真信息·负结果照报·判负真关线）。周频三批判负线不受本批影响（新翻译口径·非翻案）。
+> 部门 dept:研究（G2 矿源线·judgment 面·阶段二变体）+dept:工程（vendor 接线继承）；lane=单机短批 in-round 合法（O-2100 先例）。
+> 认领（O-04 先例）：开工声明双机在制窗口互不可见防撞车——fleet/inbox/ **MSG-2026-10-03-2330**；任务票 **T-2026-10-03-163-P1**（bm-a 开票同轮认领·O-1730 即时律·fresh 核 origin max=T-162 @23:2x fetch）。
+
+## §0 批件身份【必填·跑前】
+
+- 批名/批号：**G2_SLOT_MON_P1**。类别**IC 富集清单月频翻译分解面（stage-1 census 变体·r644 §8 遗产条款面）**——**零判决宣称、零注册资格、零纸盘资格**，exploration 标注一切输出；本批答完=月频口径问题已答（族级 verdict 可独立导出；存活者的全量判面=独立 §9 冻结后才烧）。
+- 批内行数：**N_rows=67**（47 富集面〔roster=三批 cond1 过线者 18/2/27·provenance=三批冻结 census 产物·roster_freeze sha16 `7ce1e81d019eba3d`〕＋20 same-mask 月频随机 null 对照）；ledger 记账行 67（见 §3 账本）。RETAIL_QUANT_TRACK 预算归因：70 日线试验增量=67 行（<100 单批免归因线·<500 窗·如实用报）。
+- 算力预算：实测预估 **20-120s 单进程**（47+20 面 × [T≈1631,N=48] torch CPU 张量算力·结构同三先例=old 61 行 21.1s·stock 34 行 18.3s·tail 91 行 22.8s·月频再平衡时点数 ~81≈周频 345 的 23%·线性外推 67 行 ≈10-40s）；**预算上限 300s（O-1901 ①）**，超限合法停如实披露；批报告必带 audit 段。
+
+## §0.5 禁开方向硬闸【必填·跑前·D-20260930-41 §1.2】
+
+- 跑前过闸（冻结窗）：`python Tools/banned_direction_gate.py --prereg research/G2_SLOT_MON_P1.md` → 退出 0=放行（fail-closed·冻结 commit 内回执）。
+- 人工预读结论：**本批 roster=三批已测面的富集子集**（vendor 引擎量价交互+价格结构混合族·类分布 24 量价交互/20 price_other/3 price_banned〔冻结继承·r644 E22 vendor 实现级裁定正典·禁重判定〕）；机制段不写已判负方向的词面（机器问为单·r642 词面清洗律）。
+- **BAN 类冻结继承规则**：price_banned 3 面（best_011·old_047·old_067 侧——按探针 leg8 实数为准）**测量照跑、提名禁入**（与三先例同文·census「重叠族→引用在册 verdict 不重烧」例的批内载体）；volume_price/price_other 类按本批判读如实记账。
+- 未补例外=判不合理；已烧格数计入浪费台账。
+
+## §0.6 出场轴显式声明【O-20261001-1108 立法·TRIAL_LABOR_LAW §4·M02 双件门】
+
+- 本批=stage-1 census 变体面（blend 腿月频排序轮换近似·census 先例正典），**非 engine 判决路径**；出场轴声明：**②持有到底**——blend 腿成员只因**跌出月频 Top-16 排序**离场（排序轮换离场=唯一出场；当月无完整排序=不换仓继续持有），**无价格类出场**（无止盈/无止损/无衰减出场/无持有上限；null 腿同构）。runner 显式禁用引擎缺省出场栈（census 近似腿如实披露；x2 成本面按设计测）。
+- stage-2 判面（若本批产出存活者）届时按 FUND 族双通道逐键申报表全判据走（引擎缺省出场栈显式禁用双通道断言+微 A 烧后出场原因普查 20% 门）；本节为 census 近似腿如实降级披露。
+
+## §1 α 机制段【必填·D6·四选一】
+
+- 机制勾选：**[x] 行为偏差（主） [x] 微观结构（辅）**——与三批先例同文继承（vendor 量价引擎横截面族：成交结构/拥挤度低位载体+知情资金趋向的可分信息；本批不改机制主张，**本批要测的是翻译口径问题本身**：同一信号面在月频低换手翻译下的成本-视界分解——机制主张以 burn 读数检验不以此段宣称为准）。
+- **数学化陈述【§1.2·D-20260930-41 必填】**：容量/刻度面——¥1,000,000 级账户在 48 员 ETF 面月频 Top-16 等权=容量无限、零挤占；数据面零独有；强优胜主张无法先验成立，本批正是要测的问题（机制主张以 burn 读数检验）；机制已验结论不重跑（47 面全部为三批已测集富集子集·非重复面）。
+- **同源相关性准入检查【§1·必填】**：census 输出件计算每面 **x1 成本面 blend 腿日收益序列** vs **在册六员全部成员日收益序列（marks/paper 账本口径·sleeve-tag 先例）** 逐对 |corr|，批内 67×66/2 逐对——① i) vs 在册成员 **max|corr| ≥ 0.7 → 该面 stage-2 不提名**（并族留痕）；② ii) 批内 ≥0.7=同源聚类披露（同源端口族预期高聚·census 阶段不处置=阶段二判面族去重时消费本清单单）；数值与逐对清单全部落盘 results/g2_slot_mon_p1/d6_numeric.json 后 §7 才许回填。
+
+## §2 数据与面板【必填·跑前探针事实，非结果】
+
+- 宇宙/面板：**core48 在册白名单 48 员**（knowledge/panel_gate.INSERVICE_WHITELIST·sha16 `abf3d43b9ca13ea5`·RW-4 冻结面）；锚定四元组：`data/daily/<code>.csv`·raw `pd.read_csv` 直读截断；**2020-01-02 起算·evidence_cutoff=2026-09-22**（P 族系同窗·cutoff 后新 bar 锁定不得回填本批）；探针事实（r647 已跑）：48 员全在位·零缺列·union 尾 bar==cutoff 当日。
+- **vendor 引擎锚**（G-ANCHOR 同例）：`toolstack/repos/ml-quant-trading`·HEAD==`a770825f841504e41581f057b4d94160e6a50c2e`（r644/r647 探针恒等实证）；LEGACY_REGISTRY import 面·torch 2.11.0+cu128 **CPU 路**（GPU 不用）。
+- **roster 冻结**：**47 烧面**（=三批 cond1 过线者并集 18〔old〕+2〔stock〕+27〔tail〕·确定性派生自三批冻结 census 产物·类与族标签自父批原样继承·BAN 类继承不重判定）；**roster_freeze sha16 `7ce1e81d019eba3d`**（探针件 canon·runner selftest 断言恒等）。
+- **mask 定义**：六字段（open/high/low/close/volume/amount）全 notna 且 volume>0 且 amount>0（+上市前行 mask）；vwap=amount/volume。
+- 数据完备门（不过门禁跳越·fail-closed）：①48 员 csv 全在位零缺列（探针已证）②union 尾 bar==2026-09-22 ③vendor HEAD==装基 ④roster sha 恒等 ⑤种子带 disjoint。
+
+## §3 方法学【必填·冻结·与 G2_SLOT_TAIL_P1 §3 同构】
+
+- **面计算（冻结）**：每面 `LEGACY_REGISTRY[f](panel)` → [T,N] masked 因子张量（torch CPU·float32；vendor 算子语义零重写零重实现——vendor 单源 import 禁改 vendor 件）。
+- **腿 (i) fwd-5d rank-IC**：逐日横截面 Spearman（masked 员内）因子值 vs 5 交易日前瞻收益；输出=全窗逐日 IC 序列与其 mean/std/IR；**本批复测=自含性镜像腿**（同窗同引擎同面板→读数应与三批父件逐面恒等=runner 确定性交叉核验腿·漂移=机制故障 fail-closed）；fwd-1d IC 前截披露列。
+- **腿 (ii) 月频 Top-16 blend 袖**：信号每月**首个交易日**收盘（g 位·masked 内取值）；持有该日因子值最高 16 员等权（Top-16=48 员 top tercile·三先例同文）；执行日=次一交易日（月频 T+1 镜像·census blend 腿先例·非 engine T+1 正典=stage-2 判面事）；**月频时点 g=每月首个交易日·e=g+1**；成本模型与三先例恒等=每次换仓 `sum|dw| × cost_side`（`rev_osc_stock_p1.COST_X1` 单源 import 禁手抄·runner 断言恒等·CN-C7 律 26.082bp 申报）；**x1=13.041bp/边主测量面·x2=26.082bp/边提名判面**；被动基线=同窗 48 员等权 B&H（EW48）；统计=全窗收益/maxDD/滚动 126 td 窗 beat-rate（步长 21·T-22 caliber 镜像）。
+- **腿 (iii) null 对照（BACKTEST_PLAN 三铁律）**：**20 same-mask 月频随机袖**——同 mask 同月频时点面同 Top-16 等权合成袖面，唯一差异=每月从当日合格宇宙内均匀随机抽 16 员（`rng([20560000, k])` 子流律·K=20）；**null 带=月频口径双基准**：月频随机选基的 ①|mean IC| p95（cond1 同口径分位基准——月频持续 se 更胖·~81 有效月 vs 周频 ~345 周·p95 预期宽于父批）+ ②月频袖 x2 beat-rate/EW48 超额分布（cond2/cond3 随机分位基准）。种子带先登记再跑：`science_gates.SEED_REGISTRY["g2_slot_mon_p1_nulls"]=20560000`（本冻结窗落锄·撞带扫描零命中·带 [20560000,20560020) disjoint）。
+- **腿 (iv) D6 数值面**：清单逐对落盘（§1 执行载体）。
+- **腿 (v) 族级聚合**：每面按探针 roster `family` 块归族标（old/stock/tail·富集子池归属）；族级 verdict=富集子池内月频提名计数（0 提名=该族月频口径问题已答判负；≥1 提名=该族 stage-2 短名单面）；**父批周频判负线不受影响**（新翻译口径·非翻案·族级计数独立落盘）；本批不稀释不覆盖父批复审。
+- **账本（冻结）**：finalize 步 `science_gates.append_ledger(batch_name="G2_SLOT_MON_P1", batch_trials=67, file_name="results/g2_slot_mon_p1/g2_slot_mon_p1_census.json", evidence_cutoff="2026-09-22")`（dict schema 唯一·禁手抄 prev）。
+- **政体分段**：逐面 blend 腿按 510300 t22 3-way proxy 政体标签分段统计（描述披露·census 无门）。
+
+## §4 判据【必填·跑前写死，禁看结果调线】
+
+- **本批=census 变体面：零注册/零判决判据**（exploration 标注一切输出；无 paper 资格、无入册宣称）。
+- **提命名线（stage-2 短名单规则·冻结·与三先例同文·月频口径版）**：面被提名 stage-2 当且仅当**全部三条**——①`|mean fwd-5d IC| > null 20 袖 |mean IC| 的 p95`（**月频口径 cond1**：月频随机选基的 p95 分位·与父批周频 p95 不同基准·同口径对照）；②**x2 成本面**月频 blend 全窗收益 > 同窗 EW48 被动；③x2 面 rolling-126td beat-rate ≥ 0.60；且不触 §0.5 BAN 继承规则（price_banned 面测量照跑提名禁入）、不触 §1 D6 vs 在册成员 ≥0.7 并族面。提命名≠注册≠纸盘资格——stage-2 判面须独立 §9 冻结后按 `science_gates.g1_prime_v2/g2_registration_v2` 共享库全判据走（判线禁手抄·缺输入=诚实拒收）。
+- **族级裁定线（§3 腿 v 载体）**：富集子池 0 提名=该族月频翻译口径问题已答（O-1901 family-answered rule）·**不构成父批周频判负线的翻案**（两口径独立裁定）；≥1 提名=该族月频口径存活·提名面进 stage-2 短名单待独立冻结。三族全 0 提名=**G2 矿供线翻译层收口终判**（周频三批+月频富集复核双向判负=「成本-视界」两读法全灭·vendor 引擎横截面面在 core48 ETF 消费面的 x2 成本翻译层结构性判负=链级闭环证据）。
+- **硬界设计三件套【D-20260925-01①】**：本批无数据腐坏检测类判线（census 测量面）·max 硬界 N/A；极端日先验入 §5(c)。
+
+## §5 跑前预测【必填·写死于跑前，跑后对账】
+
+- (a) **存活稀疏**：提命名面 ≤2/47（先验=三批周频同构判负 0/126·富集面即周频批内 IC 层最强者仍全灭于 x2 翻译层；月频两向皆不利读法：若成本主杀→月频省 ~4× 成本事件应见存活·若视界主杀→月频信号密度 ~5/21 应同灭；**两读法都预 0-2 面存活**=富集子池在月频口径下 p95 更宽〔~81 有效月〕弱 IC 面连 cond1 也难过的复合挤压；若 ≥6 面过线=先查未来函数〔vendor 算子 delay/shift 语义与 cutoff 截断面〕再信富集）。
+- (b) **类间结构差**：量价交互类富集面（24 面）机制新颖性强于 price_other 类（20 面·价格结构族基底已证伪面）——若本批有任何存活者，预期出自量价交互类；price_banned 3 面测量照跑提名禁入（冻结继承）。
+- (c) **极端日先验**：2024-09-30/10-08 级单日 ±8-10%（涨停簇日·mask 无涨跌停价列=不 mask 涨停日·如实披露）＋2020-02-03 疫情首日；月频 blend 腿簇日暴露低于周频腿（换仓次数 ~81 vs ~345·描述披露非判据）。
+- (d) **null 带（月频口径带）**：|mean IC| p95 预期 **0.010-0.035**（月频持续 se 更胖·有效月 ~81 vs 周频 ~345 周·父批三带 0.01153/0.009649/0.010833 为周频口径下界参照）；月频 null x2 beat-rate 均值预期 **0.00-0.20**（月频随机袖年换手成本 ≈26bp×2/3×12≈2.1%/yr 远低于周频 ~13-17%/yr→null 袖对 EW48 的「恒输」挤压弱于周频口径·均值带相应放宽·honest wide）；若 p95 ≥0.10 或 beat 均值 ≥0.40=随机机制异常先查袖构造与时点面。
+- (e) **批内聚类**：47 富集面袖收益逐对 |corr|≥0.7 预期 ≥600/1081 对（同源端口族强聚先验=父批 76%/92%/52.5%·富集子池同引擎血缘）；vs 在册六员预期全对 <0.7（以实测为准）。
+- (f) **换手结构（月频腿机械预测）**：月频再平衡时点 ~81 vs 父批周频 ~345（=23%）→ 逐面月频 turnover_total 预期 ≈ 父批周频值的 15-30%（换手成本主减项·本批核心机械差异面·跑后逐面对账父批 provenance 锚）。
+
+## §6 产物
+
+- runner=`scripts/g2_slot_mon_p1.py`（**待建·冻结后**；结构=scripts/g2_slot_tail_p1.py 同构适配：monthly_grid 月频时点构造函数〔g=每月首个交易日〕+roster 源=探针件 47 面〔sha16 断言〕+父批 IC 恒等交叉核验腿+种子带 20560000+月频 null 袖+类继承（父批 census 产物原样载入·禁重判定）+族级聚合腿 v〔old/stock/tail 富集子池〕+selftest 子命令=roster sha 恒等+cutoff 截断+mask 门+种子 disjoint+成本单源+确定性双跑字节恒等+面计数门 47+月频时点计数断言〔月数 81±2 容差〕+族级聚合断言）；
+- probe=`results/_r647bma_slot_mon_roster_probe.py`（已建已跑·**PASS**·事实件·r647 冻结窗）；
+- results：`results/g2_slot_mon_p1/g2_slot_mon_p1_census.json`（顶层 evidence_cutoff+science_gates.cutoff_meta+gates 块+family_verdicts 块+月频时点/换手结构块）＋d6_numeric.json＋IC 逐面 CSV；
+- 本文件 §7/§8 回填；轮报告回执。
+
+## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+
+> （占位·跑后回填）
+
+## §8 批后复盘【必填·s7-T】【跑前必须为空】
+
+> （占位·跑后回填）

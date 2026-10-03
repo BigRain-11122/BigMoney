@@ -1847,6 +1847,7 @@ SEED_REGISTRY = {
     "g2_slot_old_p1_nulls": 20_530_000,  # T-159 G2-SLOT-OLD-P1 core48 census nulls (rng([20530000, k]) K=20)
     "g2_slot_stock_p1_nulls": 20_540_000,  # T-160 G2-SLOT-STOCK-P1 core48 census nulls (rng([20540000, k]) K=20; 2026-10-03 bm-a r642 freeze-window registration, band [20540000,20540020) disjoint, net gap 10000 above old-family base 20530000, collision scan zero hit)
     "g2_slot_tail_p1_nulls": 20_550_000,  # T-161 G2-SLOT-TAIL-P1 core48 merged-tail census nulls (rng([20550000, k]) K=20; 2026-10-03 bm-a r644 freeze-window registration, band [20550000,20550020) disjoint, net gap 10000 above stock-family base 20540000, collision scan zero hit)
+    "g2_slot_mon_p1_nulls": 20_560_000,  # T-163 G2-SLOT-MON-P1 core48 monthly-translation enriched-roster census nulls (rng([20560000, k]) K=20; 2026-10-03 bm-a r647 freeze-window registration, band [20560000,20560020) disjoint, net gap 10000 above tail-family base 20550000, collision scan zero hit)
         # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
