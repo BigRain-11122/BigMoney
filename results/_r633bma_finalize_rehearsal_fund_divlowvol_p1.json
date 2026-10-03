@@ -1,11 +1,11 @@
 {
  "rehearsal": true,
  "NOT_A_VERDICT": true,
- "why": "nulls partial (226/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
+ "why": "nulls partial (236/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
  "batch": "FUND-DIVLOWVOL-P1",
  "ticket": "T-2026-10-03-155-P1",
- "machine": "bm-a",
- "ts": "2026-10-04T01:34:35+08:00",
+ "machine": "bm-b",
+ "ts": "2026-10-04T01:43:47+08:00",
  "legs": {
   "inputs_parse": {
    "ok": true,
@@ -50,7 +50,7 @@
      }
     },
     "n_sens": 500,
-    "n_nulls": 226,
+    "n_nulls": 236,
     "cell_shard_rows": {
      "DIVLOWVOL-YIELDVOL|x1": 401,
      "DIVLOWVOL-YIELDVOL|x2": 401
@@ -59,12 +59,12 @@
   },
   "worker_init": {
    "ok": true,
-   "elapsed_sec": 1.8,
+   "elapsed_sec": 2.6,
    "value": true
   },
   "firing_months": {
    "ok": true,
-   "elapsed_sec": 21.3,
+   "elapsed_sec": 47.6,
    "value": true
   },
   "passive_face": {
@@ -84,7 +84,7 @@
   },
   "block_bootstrap": {
    "ok": true,
-   "elapsed_sec": 0.1,
+   "elapsed_sec": 0.2,
    "value": {
     "B": 2000,
     "block_len": 21,
@@ -98,7 +98,7 @@
   },
   "sign_flip": {
    "ok": true,
-   "elapsed_sec": 0.1,
+   "elapsed_sec": 0.2,
    "value": {
     "P": 2000,
     "seed": 20261003,
@@ -112,28 +112,28 @@
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "k": 226,
+    "k": 236,
     "want": 2000,
-    "mu": 0.7171,
-    "sigma": 0.0559
+    "mu": 0.7172,
+    "sigma": 0.0561
    }
   },
   "gate_mechanics_partial_nulls": {
    "ok": true,
-   "elapsed_sec": 18.1,
+   "elapsed_sec": 38.6,
    "value": {
     "g1_prime_mechanics": {
      "gate": "g1_prime_v2",
      "sharpe_full": 0.8941,
      "skill_line": {
       "n_eff": 624715,
-      "line": 1.0059,
+      "line": 1.007,
       "passive_term": 0.5485,
-      "null_term": 1.0059,
-      "mu_null": 0.7171,
-      "sigma_null": 0.0559,
+      "null_term": 1.007,
+      "mu_null": 0.7172,
+      "sigma_null": 0.0561,
       "pool": "core48",
-      "null_pool_source": "REHEARSAL partial 226/2000",
+      "null_pool_source": "REHEARSAL partial 236/2000",
       "passive_source": "batch_own_per_cell",
       "ledger_head": {
        "total": 622713,
@@ -231,7 +231,7 @@
   },
   "starts_12m_dist_and_rolling": {
    "ok": true,
-   "elapsed_sec": 0.0,
+   "elapsed_sec": 0.1,
    "value": {
     "n": 395,
     "best": 2.0436,
@@ -261,7 +261,7 @@
   },
   "exit_census": {
    "ok": true,
-   "elapsed_sec": 33.3,
+   "elapsed_sec": 88.7,
    "value": {
     "total_exits": 1401,
     "per_reason": {
@@ -429,7 +429,7 @@
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
+    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
     "params_superset_ok": true
    }
   },
@@ -442,5 +442,5 @@
   }
  },
  "all_legs_ok": true,
- "elapsed_total_sec": 74.8
+ "elapsed_total_sec": 178.8
 }
