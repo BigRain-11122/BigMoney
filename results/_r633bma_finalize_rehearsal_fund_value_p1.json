@@ -1,11 +1,11 @@
 {
  "rehearsal": true,
  "NOT_A_VERDICT": true,
- "why": "nulls partial (280/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
+ "why": "nulls partial (321/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
  "batch": "FUND-VALUE-P1",
  "ticket": "T-2026-10-02-150-P1",
  "machine": "bm-a",
- "ts": "2026-10-03T17:12:18+08:00",
+ "ts": "2026-10-03T18:29:00+08:00",
  "legs": {
   "inputs_parse": {
    "ok": true,
@@ -71,7 +71,7 @@
      }
     },
     "n_sens": 500,
-    "n_nulls": 280,
+    "n_nulls": 321,
     "cell_shard_rows": {
      "VALUE-PE|x1": 401,
      "VALUE-PE|x2": 401,
@@ -82,12 +82,12 @@
   },
   "worker_init": {
    "ok": true,
-   "elapsed_sec": 1.3,
+   "elapsed_sec": 3.8,
    "value": true
   },
   "firing_months": {
    "ok": true,
-   "elapsed_sec": 19.2,
+   "elapsed_sec": 38.9,
    "value": true
   },
   "passive_face": {
@@ -103,7 +103,7 @@
   },
   "block_bootstrap": {
    "ok": true,
-   "elapsed_sec": 0.2,
+   "elapsed_sec": 0.3,
    "value": {
     "B": 2000,
     "block_len": 21,
@@ -117,7 +117,7 @@
   },
   "sign_flip": {
    "ok": true,
-   "elapsed_sec": 0.1,
+   "elapsed_sec": 0.2,
    "value": {
     "P": 2000,
     "seed": 20261002,
@@ -131,10 +131,10 @@
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "k": 280,
+    "k": 321,
     "want": 2000,
-    "mu": 0.3269,
-    "sigma": 0.0239
+    "mu": 0.3266,
+    "sigma": 0.0236
    }
   },
   "gate_mechanics_partial_nulls": {
@@ -160,7 +160,7 @@
   },
   "starts_12m_dist_and_rolling": {
    "ok": true,
-   "elapsed_sec": 0.0,
+   "elapsed_sec": 0.1,
    "value": {
     "n": 395,
     "best": 2.3892,
@@ -183,14 +183,14 @@
    "value": {
     "k": 500,
     "sharpe_p05": 0.3333,
-    "sharpe_p50": 0.378,
+    "sharpe_p50": 0.3781,
     "sharpe_p95": 0.4099,
     "maxdd_worst": -0.7874
    }
   },
   "exit_census": {
    "ok": true,
-   "elapsed_sec": 52.0,
+   "elapsed_sec": 149.1,
    "value": {
     "total_exits": 2082,
     "per_reason": {
@@ -358,7 +358,7 @@
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
+    "signature": "(batch_name: 'str', batch_trials: 'int', file_name: 'str | None' = None, note: 'str | None' = None, results_dir: 'str' = 'C:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results', evidence_cutoff: 'str | None' = None, prev_total: 'int | None' = None) -> 'dict'",
     "params_superset_ok": true
    }
   },
@@ -371,5 +371,5 @@
   }
  },
  "all_legs_ok": false,
- "elapsed_total_sec": 73.5
+ "elapsed_total_sec": 192.5
 }

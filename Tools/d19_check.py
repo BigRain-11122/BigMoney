@@ -27,8 +27,28 @@ import sys
 
 CREATE_NO_WINDOW = 0x08000000
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GROUP = os.path.normpath(os.path.join(ROOT, "..", ".."))  # bigmoney -> quant -> FluxGroup
+GROUP_CANDIDATES = [
+    os.path.normpath(os.path.join(ROOT, "..", "..")),   # bigmoney -> quant -> FluxGroup (bm-a/bm-c layout)
+    r"C:\Users\Administrator\FluxGroup",                 # bm-b group-tree location (r626 note)
+    r"K:\Fluxgroup\FluxGroup",                           # legacy mapped drive probe (r579 lineage)
+]
 RE_KEYWORD = re.compile(r"BigMoney|bigmoney|quant|bm-[abc]", re.IGNORECASE)
+
+
+def _is_worktree(path):
+    r = subprocess.run(["git", "-C", path, "rev-parse", "--is-inside-work-tree"],
+                       capture_output=True, creationflags=CREATE_NO_WINDOW)
+    return r.returncode == 0 and r.stdout.strip() == b"true"
+
+
+def _find_group():
+    for cand in GROUP_CANDIDATES:
+        if os.path.isdir(cand) and _is_worktree(cand):
+            return cand
+    return None
+
+
+GROUP = _find_group()
 
 
 def _git(group_args, cwd):
@@ -46,6 +66,10 @@ def machine_id():
 
 
 def state_path(mid):
+    # bm-b uses the shared-repo legacy state.json filename (fleet README S5 law);
+    # every other machine uses state-<id>.json.
+    if mid == "bm-b":
+        return os.path.join(ROOT, "state.json")
     return os.path.join(ROOT, "state-%s.json" % mid)
 
 
@@ -60,6 +84,10 @@ def main():
         st = json.load(fh)
     prev = (st.get("last_decisions_sha") or "").upper()
 
+    if GROUP is None:
+        print("D-19 HONEST SKIP: no group worktree found in candidates %s"
+              % [c for c in GROUP_CANDIDATES])
+        return 0
     _git(["fetch", "origin"], GROUP)
     blob = _git(["show", "origin/main:docs/decisions.md"], GROUP)
     sha = hashlib.sha256(blob).hexdigest().upper()
@@ -89,7 +117,11 @@ def main():
         print("(orders.md not found on origin -- skip)")
     if args.update:
         st["last_decisions_sha"] = sha
-        st["last_decisions_read_at"] = st.get("clock_read") or ""
+        # machines disagree on the timestamp field name (bm-a/bm-b _at vs
+        # bm-c _read_at) -- write both so every consumer stays satisfied.
+        now = st.get("clock_read") or ""
+        st["last_decisions_at"] = now
+        st["last_decisions_read_at"] = now
         with open(sp, "w", encoding="utf-8", newline="") as fh:
             json.dump(st, fh, ensure_ascii=False, indent=1)
         print("state last_decisions_sha updated")
