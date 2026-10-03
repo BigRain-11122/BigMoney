@@ -2331,6 +2331,12 @@ CLOSED_FAMILIES = {
         "evidence": "results/lowamp_deep_p1/lowamp_deep_p1_results.json + research/LOWAMP-DEEP-P1.md sec.7/8 (deep-axis new-family full judgment: headline LAD-EDGE deep Sharpe 1.0663 < skill_line 1.512, DSR 0.7004 < 0.95; M1/x2/law-A census/G-SEG/reproduction all PASS; true-eq faces first-measured on deep universe far weaker; P1/P2 voids applied, ledger 615492+2008=617500)",
         "reopen": "new_evidence_new_prereg",
     },
+    "g2_slot_mon_p2_xs": {
+        "verdict": "judged_negative_registration_caliber_both_faces",
+        "closed_by": "G2_SLOT_MON_P2 stage-2 verdict (r649 bm-a exec / r650 adoption delivered, 2026-10-04; T-2026-10-03-164-P1)",
+        "evidence": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json + research/G2_SLOT_MON_P2.md sec.7/8 (stage-2 shortlist old_032/best_016 both judged-negative at registered caliber: g2_registration_v2 eligible_v2=False on both faces; G2 monthly-translation line closed per r644 sec.8 legacy clause -- future low-cost translation variants require a new translation caliber + independent prereg with full D6/gate chain)",
+        "reopen": "new_evidence_new_prereg",
+    },
 }
 
 
@@ -2863,9 +2869,9 @@ def selftest() -> int:
            reopen_evidence="IC computation face fixed + new regime gate "
                            "(delta vs archived negative declared)"
        )["status"] == "reopen_channel_declared")
-    ok("M3 CLOSED_FAMILIES registry integrity: 8 entries mirror "
+    ok("M3 CLOSED_FAMILIES registry integrity: 9 entries mirror "
        "STRATEGY_LIBRARY §〇 dead inventory; fields complete; reopen enum known",
-       len(CLOSED_FAMILIES) == 8
+       len(CLOSED_FAMILIES) == 9
        and all(set(v) >= {"verdict", "closed_by", "evidence", "reopen"}
                and all(str(v[k]).strip() for k in v)
                for v in CLOSED_FAMILIES.values())

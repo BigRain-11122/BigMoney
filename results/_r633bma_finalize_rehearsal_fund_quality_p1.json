@@ -1,11 +1,11 @@
 {
  "rehearsal": true,
  "NOT_A_VERDICT": true,
- "why": "nulls partial (207/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
+ "why": "nulls partial (348/2000) -> every nulls-dependent readout (skill line, g1/g2 pass flags) is INVALID by construction; this report proves the finalize code path/mechanics only",
  "batch": "FUND-QUALITY-P1",
  "ticket": "T-2026-10-03-153-P1",
  "machine": "bm-a",
- "ts": "2026-10-03T18:16:11+08:00",
+ "ts": "2026-10-04T01:31:46+08:00",
  "legs": {
   "inputs_parse": {
    "ok": true,
@@ -56,7 +56,7 @@
      }
     },
     "n_sens": 500,
-    "n_nulls": 207,
+    "n_nulls": 348,
     "cell_shard_rows": {
      "QUALITY-ROE|x1": 401,
      "QUALITY-ROE|x2": 401
@@ -65,25 +65,27 @@
   },
   "worker_init": {
    "ok": true,
-   "elapsed_sec": 0.8,
+   "elapsed_sec": 0.7,
    "value": true
   },
   "firing_months": {
    "ok": true,
-   "elapsed_sec": 17.4,
+   "elapsed_sec": 17.0,
    "value": true
   },
   "passive_face": {
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "n_members_t0": 6078,
+    "n_members_t0": 18,
+    "n_members_window": 6078,
     "sharpe_full": 0.219901,
     "ret_full": 0.696535,
     "span": [
      "2001-09-03",
      "2026-09-22"
-    ]
+    ],
+    "span_note": null
    }
   },
   "block_bootstrap": {
@@ -116,33 +118,33 @@
    "ok": true,
    "elapsed_sec": 0.0,
    "value": {
-    "k": 207,
+    "k": 348,
     "want": 2000,
-    "mu": 0.0025,
-    "sigma": 0.2073
+    "mu": 0.005,
+    "sigma": 0.2107
    }
   },
   "gate_mechanics_partial_nulls": {
    "ok": true,
-   "elapsed_sec": 18.1,
+   "elapsed_sec": 20.8,
    "value": {
     "g1_prime_mechanics": {
      "gate": "g1_prime_v2",
      "sharpe_full": -0.3177,
      "skill_line": {
-      "n_eff": 624338,
-      "line": 1.0734,
+      "n_eff": 624715,
+      "line": 1.0935,
       "passive_term": 0.3199,
-      "null_term": 1.0734,
-      "mu_null": 0.0025,
-      "sigma_null": 0.2073,
+      "null_term": 1.0935,
+      "mu_null": 0.005,
+      "sigma_null": 0.2107,
       "pool": "core48",
-      "null_pool_source": "REHEARSAL partial 207/2000",
+      "null_pool_source": "REHEARSAL partial 348/2000",
       "passive_source": "batch_own_per_cell",
       "ledger_head": {
-       "total": 622336,
-       "file": "w2_screen_summary.json",
-       "note": "T-158 wave-2 stage-1 screen: 4836 candidate cells, 806 survivors",
+       "total": 622713,
+       "file": "g2_slot_mon_p2_verdict.json",
+       "note": "stage-2 registration-caliber verdict: 2 shortlist cell-faces + 60 in-batch nulls (62 cells) + 60 null IC faces + 2 family-matrix legs = 124 trials (frozen sec.3); monthly-translation lineage r647 MON_P1; judge-only, zero registration execution",
        "voided": [
         {
          "batch": "LOWAMP-P1",
@@ -270,7 +272,7 @@
   },
   "exit_census": {
    "ok": true,
-   "elapsed_sec": 35.1,
+   "elapsed_sec": 35.4,
    "value": {
     "total_exits": 1393,
     "per_reason": {
@@ -451,5 +453,5 @@
   }
  },
  "all_legs_ok": true,
- "elapsed_total_sec": 72.3
+ "elapsed_total_sec": 74.9
 }
