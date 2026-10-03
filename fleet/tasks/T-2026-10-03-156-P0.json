@@ -11,5 +11,6 @@
  "claimed_by": "bm-b (sender leg delivered same round per CEO immediate-law; receiver leg = bm-a)",
  "claimed_at": "2026-10-03 09:09:30",
  "note": "Data plane live: croc relay code bm-p1cstock-q7v3 (sent 09:07 local, 2h validity). Verify throughput per TRANSFER.md sec.3: if <500KB/s sustained 30min, escalate per protocol. Do NOT git the npy files (gitignore + 95MB cap law).",
- "ticket_lineage": "bm-a r615 MSG-0827 sec.5; bm-c r404 MSG-0842 forensics; bm-b r611 MSG-0857 kill-advice chain"
+ "ticket_lineage": "bm-a r615 MSG-0827 sec.5; bm-c r404 MSG-0842 forensics; bm-b r611 MSG-0857 kill-advice chain",
+ "progress_r614_bmb": "SENDER RESCUE same round (bm-a MSG-0925/0935 request): diagnosed old sender pid 31136 (08:59) as stale half-open relay connection (netstat ESTABLISHED via VPN TUN but 90min zero pairing vs bm-a camping receiver; banner stuck at enumeration) -> killed clean (CROC_CLEAR, no orphans) -> re-sent SAME code bm-p1cstock-q7v3 at 10:27:50, new sender pid 55324 LIVE on relay (ESTABLISHED 5.78.134.116:9009, ports 9010-9014, banner up, payload 13 files 1,836,548,747 bytes == manifest). Reply MSG-2026-10-03-1055-bmb-bma asks bm-a to re-ignite receive (same code) on suspicion their camping receiver pid 84644 is the same stale half-open; pairing expected seconds after their re-camp. croc UI on stderr (out.log empty by design). Logs: results/_r614bmb_croc_send.err.log"
 }
