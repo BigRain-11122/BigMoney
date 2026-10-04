@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r696bmb_merge_resolve.py", line 264, in <module>
+    main()
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r696bmb_merge_resolve.py", line 243, in main
+    table.append(verify_pool_double_change())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r696bmb_merge_resolve.py", line 216, in verify_pool_double_change
+    assert s3.get("status") == "done", f"bm-a SHARD-3 done-flip lost: {s3.get('status')}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: bm-a SHARD-3 done-flip lost: ready
