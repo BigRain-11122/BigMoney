@@ -1,0 +1,30 @@
+POOL entries=390
+SCREEN entries=12
+  id: PERPETUAL-N2-W15-SHARD-0
+  ticket_ref: T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)
+  prereg_ref: research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math s
+  runner: scripts/perpetual_faces_n2.py
+  runner_args: ['run', '--shard', '0', '--shards', '12']
+  lane_owner: None
+  priority: 1
+  status: ready
+  entered_at: 2026-10-04T21:18:07+08:00
+  workers_plan: {'workers': 8, 'priority': 'BelowNormal', 'note': 'per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~97 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; t
+  data_gates: in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + 
+  data_deps: ['data/daily/', 'data/fundamental/b_layer_mask.csv', 'results/n2_w15/n2_w15_candidates.json', 'results/n2_w15/n2_w15_prep_state.json']
+  shard: {"key": "n2w15-0of12", "status": "ready", "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_0of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)", "note": "bounds: cells i%12==0 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified don
+  entered_by: bm-c r497
+  worker_class: self-contained
+
+  PERPETUAL-N2-W15-SHARD-0     owner=bm-c   status=ready
+  PERPETUAL-N2-W15-SHARD-1     owner=bm-a   status=done
+  PERPETUAL-N2-W15-SHARD-2     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-3     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-4     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-5     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-6     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-7     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-8     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-9     owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-10    owner=None   status=ready
+  PERPETUAL-N2-W15-SHARD-11    owner=None   status=ready

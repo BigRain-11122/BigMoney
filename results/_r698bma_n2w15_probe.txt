@@ -1,0 +1,19 @@
+=== ENTRY PERPETUAL-N2-W15-GENERATE status= done ===
+  id: PERPETUAL-N2-W15-GENERATE
+  ticket_ref: T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); seat = MSG-2026-10-04-1940-bmb-ALL F-04 first-declaration per MSG-2026-10-04-1955 bm-c downstream open face; review PASS receipt results/_r690bmb_n2_review.json
+  prereg_ref: research/PERPETUAL_N2_W15_PREREG.md (FROZEN 2026-10-04 r492 bm-c slice-3 freeze commit; bands 541_500/542_000/542_500 width 499 forced-skip disclosed; runner slice-2 bm-a r692 da8171889; FREEZE-GATE registered=True live)
+  consumer_plan: N2-W15 supply chain: generate -> n2_w15_candidates.json (one-shot product) -> screen-prep -> 12-shard screen burn (EW48 passive beat6m cheap screen, tl2._finalize_math null p95 survival line) -> screen-finalize (ledger append PERPETUAL-N2-W15-SCREEN) -> survivors -> judge batch (separately-frozen mass_trial precedent face) -> trial-labor topic bank / registered-member supplement line -> prereg sec.7/sec.8 backfill
+  runner: scripts/perpetual_faces_n2.py
+  runner_args: ['generate']
+  lane_owner: None
+  priority: 1
+  status: done
+  done_at: 2026-10-04 20:54:57
+  entered_at: 2026-10-04 19:41:44
+  data_gates: in-runner fail-closed exit 2: (a) FREEZE-GATE: SEED_REGISTRY trio == 541500/542000/542500 else refuse; (b) one-shot: results/n2_w15/n2_w15_candidates.json exists -> refuse (same-grammar rerun ban TRIAL_LABOR_LAW sec.4); (c) free RAM three-sample < 4GB after 40s bounded wait -> honest refuse (r354 law). deps all in-repo: core48 panel data/daily/ + b_layer_mask data/fundamental/ + hermetic grammar tl14.build_grammar_w14 sha-pinned FROZEN_GRAMMAR_SHA16
+  shard: {"key": "n2-w15-generate-0of1", "status": "done", "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard active)", "note": "subspace draw: k_active~U{1..14} + uniform subset + base-4-axis full domain + active-gate non-none domain pinning; grammar sha16 a231bf10940e7878 import-face; W15 new-syntax cells legal non-exclusion face (selftest L9); evidence_cutoff=2026-09-22 same-window law", "owner": "bm-b", "owner_since": "2026-10-04 20:5
+  shard: {"key": "generate-0of1", "status": "done", "done_at": "2026-10-04 20:54:57", "harvested_by": "bm-c", "harvest_ref": "results/n2_w15/n2_w15_candidates.json sha256-16=440db8656e3b0b2e", "harvest_note": "first-land canonical per r486 (seeded deterministic r189 byte-parity family); refuse-if-exists arms fleet-wide; canonical sibling resolves at bm-b closeout (r626d-2 untouched)", "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard)", 
+  workers_plan: {'workers': 1, 'priority': 'BelowNormal', 'note': 'generate leg = single-process draw census (raw 5,000 Sobol draws A500/B4500 + scrnull face + T-84s3 fp dedup + tl14 28-source exclusion real-read, r494 smoke 2.6s/6 -> est 30-60min); runner-internal RAM gate 4GB floor (r354 three-sample, honest refuse + pool retry); one-shot refuse-if-exists guard on candidates file'}
+  data_deps: ['data/daily']
+  entered_by: bm-a r694
+  worker_class: self-contained
