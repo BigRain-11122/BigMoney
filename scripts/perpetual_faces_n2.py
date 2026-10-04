@@ -898,6 +898,10 @@ def cmd_screen_prep() -> int:
     else:
         gen_pending = False
     grammar = load_grammar()
+    # tl1.GRAMMAR must be pinned before the G-ANCHOR replay loop:
+    # tl14.run_candidate_curve_w14 reads tl1's global (probe/generate/
+    # run legs all pin it; first real-data prep run crashed without).
+    tl1.GRAMMAR = grammar
 
     prices_full = tl1.load_core()
     cut = pd.Timestamp(CUTOFF)
