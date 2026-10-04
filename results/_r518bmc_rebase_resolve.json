@@ -1,0 +1,50 @@
+{
+ "round": "r518",
+ "files": {
+  "results/compute_audit.json": {
+   "strategy": "history-union-zero-loss",
+   "s1_rows": 212,
+   "s2_rows": 201,
+   "merged_rows": 213
+  },
+  "results/token_usage.json": {
+   "strategy": "per-key-union"
+  },
+  "results/_attrition_guard_scan.json": {
+   "strategy": "regen-take-newer",
+   "side": "s2",
+   "basis": "top-clock",
+   "blocks": 1
+  },
+  "results/regime_state.json": {
+   "strategy": "regen-take-newer",
+   "side": "s2",
+   "basis": "top-clock",
+   "blocks": 1
+  }
+ },
+ "errors": [],
+ "phases": {
+  "pull": "conflicts",
+  "continue": "ok (windows=1)",
+  "push_verify": "DELIVERED"
+ },
+ "uu_count": 4,
+ "resolved": [
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json",
+  "results/regime_state.json",
+  "results/token_usage.json"
+ ],
+ "pick_windows": [
+  [
+   "results/_attrition_guard_scan.json",
+   "results/compute_audit.json",
+   "results/regime_state.json",
+   "results/token_usage.json"
+  ]
+ ],
+ "head": "7e1bc479ecc1e836512ace49de73493e737e4efd",
+ "behind": "0",
+ "ahead": "0"
+}
