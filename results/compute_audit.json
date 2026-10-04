@@ -1,38 +1,37 @@
 {
   "latest": {
-    "ts": "2026-10-04 19:44:19",
+    "ts": "2026-10-04 19:48:25",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 79.0,
-    "py_cpu_pct": 96.2,
-    "cores": 16,
-    "py_procs": 37,
-    "result_stale_min": 0.0,
+    "cpu_total_pct": 10.0,
+    "py_cpu_pct": 4.8,
+    "cores": 32,
+    "py_procs": 9,
+    "result_stale_min": 0.1,
     "fleet_open_tasks": 0,
     "pool_ready_count": 5,
-    "pool_ready_unclaimed": 1,
-    "load_state": "burning-healthy",
+    "pool_ready_unclaimed": 0,
+    "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
-      "reason": "burning-healthy"
+      "reason": "pool-supply-gap"
     },
-    "supply_gap_candidate": false,
+    "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "reason": "burning-healthy"
+      "run_samples": 6,
+      "span_min": 80.6
     },
     "supply_floor": {
       "ready": 5,
       "floor": 3,
       "breach": false
     },
-    "ignition_sla_breach_ids": [
-      "PERPETUAL-N2-W15-GENERATE"
-    ],
-    "supply_family_streak_min": 34.5,
+    "ignition_sla_breach_ids": [],
+    "supply_family_streak_min": 38.6,
     "gpu": {
       "present": true,
-      "util_pct": 2.0,
-      "mem_used_mb": 4729.0,
-      "compute_apps_count": 24,
+      "util_pct": 0.0,
+      "mem_used_mb": 15506.0,
+      "compute_apps_count": 16,
       "rogue_apps": []
     },
     "zombies": [],
@@ -50,9 +49,9 @@
       "readable": true
     },
     "flags": [
-      "ignition_sla"
+      "supply_gap"
     ],
-    "verdict": "FLAG:ignition_sla"
+    "verdict": "FLAG:supply_gap"
   },
   "history": [
     {
@@ -10529,39 +10528,38 @@
       "verdict": "FLAG:supply_gap"
     },
     {
-      "ts": "2026-10-04 19:44:19",
+      "ts": "2026-10-04 19:48:25",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 79.0,
-      "py_cpu_pct": 96.2,
-      "cores": 16,
-      "py_procs": 37,
-      "result_stale_min": 0.0,
+      "cpu_total_pct": 10.0,
+      "py_cpu_pct": 4.8,
+      "cores": 32,
+      "py_procs": 9,
+      "result_stale_min": 0.1,
       "fleet_open_tasks": 0,
       "pool_ready_count": 5,
-      "pool_ready_unclaimed": 1,
-      "load_state": "burning-healthy",
+      "pool_ready_unclaimed": 0,
+      "load_state": "pool-supply-gap",
       "pool_starvation_candidate": false,
       "pool_starvation_detail": {
-        "reason": "burning-healthy"
+        "reason": "pool-supply-gap"
       },
-      "supply_gap_candidate": false,
+      "supply_gap_candidate": true,
       "supply_gap_detail": {
-        "reason": "burning-healthy"
+        "run_samples": 6,
+        "span_min": 80.6
       },
       "supply_floor": {
         "ready": 5,
         "floor": 3,
         "breach": false
       },
-      "ignition_sla_breach_ids": [
-        "PERPETUAL-N2-W15-GENERATE"
-      ],
-      "supply_family_streak_min": 34.5,
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 38.6,
       "gpu": {
         "present": true,
-        "util_pct": 2.0,
-        "mem_used_mb": 4729.0,
-        "compute_apps_count": 24,
+        "util_pct": 0.0,
+        "mem_used_mb": 15506.0,
+        "compute_apps_count": 16,
         "rogue_apps": []
       },
       "zombies": [],
@@ -10579,9 +10577,9 @@
         "readable": true
       },
       "flags": [
-        "ignition_sla"
+        "supply_gap"
       ],
-      "verdict": "FLAG:ignition_sla"
+      "verdict": "FLAG:supply_gap"
     }
   ]
 }
