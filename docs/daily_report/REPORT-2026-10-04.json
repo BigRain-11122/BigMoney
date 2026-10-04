@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 09:01:45",
+ "generated_at": "2026-10-04 09:24:25",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,15 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 666,
-  "result_jsons_landed_24h": 159,
+  "commits_24h": 661,
+  "result_jsons_landed_24h": 161,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 27,
   "compute_audit_latest": {
-   "ts": "2026-10-04 09:01:27",
-   "py_cpu_pct": 0.5,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-04 09:22:03",
+   "py_cpu_pct": 0.6,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -650,11 +652,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1148280,
+  "total_report_tokens_est": 1148989,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-04 08:39:36",
+   "prev_generated": "2026-10-04 08:51:01",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 188,
+   "report_tokens_growth": 709,
    "mandate_growth": 0
   },
   "method": {
@@ -665,17 +667,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 09:01:27",
-    "py_pct": 0.5,
-    "cpu_pct": 22.0,
+    "latest_ts": "2026-10-04 09:22:03",
+    "py_pct": 0.6,
+    "cpu_pct": 24.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "07:39",
-      86.1
-     ],
      [
       "07:39",
       0.2
@@ -719,12 +717,16 @@
      [
       "09:01",
       0.5
+     ],
+     [
+      "09:22",
+      0.6
      ]
     ],
-    "today_samples": 49,
-    "today_floor_ok": 49,
+    "today_samples": 50,
+    "today_floor_ok": 50,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 12
+    "today_supply_gap_flags": 13
    },
    "bm-b": {
     "latest_ts": "2026-10-04 08:45:54",
@@ -870,7 +872,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 09:01:27"
+     "audit_ts": "2026-10-04 09:22:03"
     }
    },
    "bm-b": {
