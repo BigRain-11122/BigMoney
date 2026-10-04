@@ -185,7 +185,7 @@
  "round_no": 493,
  "total_ram_gb": 23.9,
  "updated_at": "2026-10-04T19:51:43+08:00",
- "verdict": "r493 bm-c: W3-judge custody maintenance round (waiting state, rule-2 one-line no-rescan) -- S0 FF ecd0e25fd 8-commit integration (bm-b r690 N2-W15 review PASS = zero findings on bm-c r492 slice-3; supply seat claimed by bm-b; intersection zero per r437 treadmill law) + S0.5 dual-scan dual MATCH + 0 unacked + S1 48/48 + satengine rc0 alive + post_review 45/0/5 zero active red + W3 verify IN_FLIGHT (pid alive, cpu 7,318s, pool 4/4 done, ckpt 777/0dup) + S6 38/38 rc0 + quartet 4/4 (watchdog idempotent re-register) + attrition CLEAN",
+ "verdict": "r493 bm-c: W3-judge custody maintenance round (waiting state, rule-2 one-line no-rescan) -- S0 FF ecd0e25fd 8-commit integration (bm-b r690 N2-W15 review PASS = zero findings on bm-c r492 slice-3; supply seat claimed by bm-b; intersection zero per r437 treadmill law) + S0.5 dual-scan dual MATCH + 0 unacked + S1 48/48 + satengine rc0 alive + post_review 45/0/5 zero active red + W3 verify IN_FLIGHT (pid alive, cpu 7,318s, pool 4/4 done, ckpt 777/0dup) + S6 38/38 rc0 + quartet 4/4 (watchdog idempotent re-register) + attrition CLEAN; push-race 3-wave window closed: push#1 rejected non-FF (bm-b r690 closeout in flight) -> merge ed33aa069 14-UU resolve -> push#2 rejected non-FF (bm-a r694 close + autofill claim in flight) -> merge wave-2 68deb1c9e 22-UU resolve -> push#3 push_verify DELIVERED tip 68deb1c9e ahead=0 behind=0",
  "round_no_label": "r493",
  "ts": "2026-10-04 19:51:43",
  "updated": "2026-10-04T19:51:43+08:00",
