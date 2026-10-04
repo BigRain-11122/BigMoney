@@ -1,0 +1,154 @@
+{
+ "batch": "PERPETUAL-N2-W15",
+ "stage": "screen-finalize-rehearsal",
+ "machine": "bm-a",
+ "round": "r700",
+ "ts": "2026-10-04T22:55:19+08:00",
+ "disclosure": "finalize-window dup probe re-runs post-merge (r685 law); this rehearsal de-risks only",
+ "import_faces": {
+  "n_checked": 15,
+  "missing": []
+ },
+ "freeze_gate_rc": 0,
+ "finalize_already_landed": false,
+ "cells": {
+  "n_total": 1154,
+  "n_nulls": 200,
+  "k_nulls_const": 200,
+  "shard_stride": "i % 12 == shard (r670 tiling law)",
+  "per_shard_counts": {
+   "0": 97,
+   "1": 97,
+   "2": 96,
+   "3": 96,
+   "4": 96,
+   "5": 96,
+   "6": 96,
+   "7": 96,
+   "8": 96,
+   "9": 96,
+   "10": 96,
+   "11": 96
+  }
+ },
+ "per_shard": {
+  "0": {
+   "exists": true,
+   "rows": 97,
+   "nonempty_ok": 97,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 97
+  },
+  "1": {
+   "exists": true,
+   "rows": 97,
+   "nonempty_ok": 97,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 97
+  },
+  "2": {
+   "exists": false,
+   "rows": 0,
+   "nonempty_ok": 0,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 0
+  },
+  "3": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "4": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "5": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "6": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "7": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "8": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "9": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "10": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  },
+  "11": {
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
+   "poison_empty": 0,
+   "outside_stride": [],
+   "dup_in_shard": [],
+   "done_ids": 96
+  }
+ },
+ "coverage": {
+  "landed_union": 1058,
+  "expected_total": 1154,
+  "missing_total": 96,
+  "missing_are_exactly_shard2_block": true,
+  "missing_outside_shard2": 0,
+  "shard2_block_size": 96
+ },
+ "verdict": "GREEN_WAIT_SHARD2",
+ "problems": []
+}
