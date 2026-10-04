@@ -130,6 +130,16 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:04"
   },
+  "scripts/fund_divlowvol_p1.py|run,--nulls": {
+   "count": 1,
+   "refusals": 109,
+   "code_sha256": "6d49f8ec7b5a2118",
+   "last_crash_ts": "2026-10-03 18:53:16",
+   "entry": "FUND-DIVLOWVOL-P1-NULLS",
+   "shard": "fund-divlowvol-p1-nulls-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-04 08:38:04"
+  },
   "scripts/fund_quality_p1.py|run,--nulls": {
    "count": 3,
    "refusals": 581,
@@ -162,6 +172,17 @@
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-03 03:00:04",
    "note": "keep blocked on bm-c: data-root crash -- Money02/data/cache/p1c_stock absent on bm-c (bars parquet not on this machine; cache build needs bars per p1c_stock_ic.py SS5); all 5 claims released r393 -- re-claim freely on cache-bearing machine (bm-a/bm-b) and clear this sig with reason='data present on this machine'; bm-c re-entry only after p1c_stock cache lands via TRANSFER (fleet decision)"
+  },
+  "scripts/fund_value_p1.py|run,--nulls": {
+   "count": 1,
+   "refusals": 130,
+   "code_sha256": "8a5fa7514c79e3cc",
+   "last_crash_ts": "2026-10-03 18:38:04",
+   "entry": "FUND-VALUE-P1-NULLS",
+   "shard": "fund-value-p1-nulls-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-04 08:38:03",
+   "note": "keep blocked on bm-a r636: double-burn containment pin (re-armed post 5th incident 18:16-18:38: autofill claim after code_changed auto-clear of stale-sha pin, burn killed 18:52 tree-sweep r618, 50 rows discarded, file restored origin-verbatim); rightful burner bm-b in flight per MSG-1132/1155; clear ONLY if bm-b burn dies AND bm-b lane yields"
   },
   "scripts/fund_value_p1.py|run,--sensitivity": {
    "count": 1,
@@ -298,6 +319,15 @@
    "shard": "lowamp-p3-nulls-0of1",
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-02 03:40:14"
+  },
+  "scripts/mass_trial_w1.py|judge,--wave,2,--shard,2,--shards,4": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "a9fc340844287808",
+   "last_crash_ts": "2026-10-03 18:58:03",
+   "entry": "MASS-TRIAL-W2-JUDGE-SHARD-2",
+   "shard": "w2-judge-2of4",
+   "machine": "bm-a"
   },
   "scripts/national_team_s3_review.py|run": {
    "count": 1,
@@ -478,6 +508,16 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-09-28 19:43:31"
   },
+  "scripts/theme_judge_p1.py|run": {
+   "count": 1,
+   "refusals": 4,
+   "code_sha256": "32d811ac5f8c9ce2",
+   "last_crash_ts": "2026-10-04 10:51:04",
+   "entry": "THEME-JUDGE-P1",
+   "shard": "theme-judge-p1-burn-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-04 11:10:04"
+  },
   "scripts/trial_labor_w10.py|judge,--shard,0,--shards,1": {
    "count": 1,
    "refusals": 0,
@@ -594,46 +634,6 @@
    "shard": "judge-0of1",
    "machine": "bm-b",
    "last_refusal_ts": "2026-09-29 17:50:03"
-  },
-  "scripts/fund_value_p1.py|run,--nulls": {
-   "count": 1,
-   "refusals": 130,
-   "code_sha256": "8a5fa7514c79e3cc",
-   "last_crash_ts": "2026-10-03 18:38:04",
-   "entry": "FUND-VALUE-P1-NULLS",
-   "shard": "fund-value-p1-nulls-0of1",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-04 08:38:03",
-   "note": "keep blocked on bm-a r636: double-burn containment pin (re-armed post 5th incident 18:16-18:38: autofill claim after code_changed auto-clear of stale-sha pin, burn killed 18:52 tree-sweep r618, 50 rows discarded, file restored origin-verbatim); rightful burner bm-b in flight per MSG-1132/1155; clear ONLY if bm-b burn dies AND bm-b lane yields"
-  },
-  "scripts/fund_divlowvol_p1.py|run,--nulls": {
-   "count": 1,
-   "refusals": 109,
-   "code_sha256": "6d49f8ec7b5a2118",
-   "last_crash_ts": "2026-10-03 18:53:16",
-   "entry": "FUND-DIVLOWVOL-P1-NULLS",
-   "shard": "fund-divlowvol-p1-nulls-0of1",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-04 08:38:04"
-  },
-  "scripts/mass_trial_w1.py|judge,--wave,2,--shard,2,--shards,4": {
-   "count": 1,
-   "refusals": 0,
-   "code_sha256": "a9fc340844287808",
-   "last_crash_ts": "2026-10-03 18:58:03",
-   "entry": "MASS-TRIAL-W2-JUDGE-SHARD-2",
-   "shard": "w2-judge-2of4",
-   "machine": "bm-a"
-  },
-  "scripts/theme_judge_p1.py|run": {
-   "count": 1,
-   "refusals": 4,
-   "code_sha256": "32d811ac5f8c9ce2",
-   "last_crash_ts": "2026-10-04 10:51:04",
-   "entry": "THEME-JUDGE-P1",
-   "shard": "theme-judge-p1-burn-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-04 11:10:04"
   }
  },
  "cleared": {
