@@ -1,0 +1,35 @@
+=== OH-20261005-bigmoney.md @ origin/main ===
+# OH-20261005-bigmoney — 开源收获轮·BigMoney 切片（D-20261005-05① 回执窗）
+
+- **窗**：D-20261005-05① 派工回执窗（窗 10-06 00:00·点名→回执制首例·本司 10-05 00:4x 落片=窗内首片）。本实体业务面=量化子公司（策略工厂/判决台/纸盘/数据采集链/算力池）；本切片=上窗指针债清偿（OH-20260929-bigmoney 下窗指针三候选=polars 许可验/vectorbt 许可原文逐字验/pandas-ta 许可验后可用）。
+- **反重复门基线（先查后采·三面·本窗实跑）**：①cph4/README.md 注册表 grep polars/vectorbt/pandas-ta/pandas-ta-classic=四零命中（开源采用 5 例在册无撞）；②仓内面：requirements.txt/PLAN.md/README.md 三件零命中·git grep 语料命中仅=O-20260928-1716 工具栈验证集（vectorbt/pandas-ta 为 verified real 成员非采用）+短线研究语料（research/shortline/requirements-research.txt·SHORTLINE_PLAYBOOK.md·BACKTEST_READINESS.md 提及面非依赖面）；③姊妹 OH 十四件 grep 本窗候选词=仅自窗上件 OH-20260929-bigmoney.md 指针行（无他司双建）。
+- **实搜面（6 处 API 读取·5 成 1 死·采时 2026-10-05 00:3x-00:4x·零登录墙）**：①api.github.com/repos/pola-rs/polars=39,913★·3,152 forks·pushed 2026-10-04·非归档·open_issues 2,930·license=MIT（API 判定）；②api.github.com/repos/pola-rs/polars/license=LICENSE 原文 base64 逐字解码=标准 MIT（Copyright (c) 2025 Ritchie Vink+部分 (c) 2024 NVIDIA CORPORATION & AFFILIATES·许可门原文证据）；③api.github.com/repos/polakowo/vectorbt=9,275★·1,184 forks·pushed 2026-09-26·非归档·license spdx=NOASSERTION（非标=必须原文验）；④api.github.com/repos/polakowo/vectorbt/license=LICENSE.md 12,321B 原文解码=**Apache 2.0 + Commons Clause v1.0**（「License does not grant… the right to Sell the Software」·Sell=以收费向第三方提供价值全部/主要源自本软件功能的产品或服务·Copyright 2026 Oleg Polakow）；⑤api.github.com/repos/twopirllc/pandas-ta=**404 Not Found**（上窗指针正主仓上游死亡·诚实负发现·借力三律工程版实证=外源工具清单半真半假）；⑥api.github.com/search/repositories?q=pandas-ta=1,943 结果中继任正主=xgboosted/pandas-ta-classic（449★·104 forks·pushed 2026-10-02·非归档·license=MIT·250+ 指标+蜡烛图形态·2025-06-17 建=pandas-ta 社区续作）。
+- **候选（3 件逐件五门：2 清偿 1 重定向·零新采用）**：polars（MIT·DataFrame 引擎=L1 因子普查批提速面）；vectorbt（Apache2+CommonsClause·回测框架=bm-b 已装 O-1716 verified real·许可原文验闭口）；pandas-ta→pandas-ta-classic（原仓 404 死·继任 MIT·短线研究语料消费面指针重定向）。
+- **采用→落点**：**零新装（O-1750 needs-based 律·无消费线触发不装）**。本切片产出=三面许可门清偿+指针重定向：①polars 许可门 PASS=普查提速消费线（pandas 成瓶颈的真实普查烧批触发时）即可装（O-1716 隔离 venv 范式）；②vectorbt 许可原文闭口=内部研究用合法（Commons Clause 只禁售卖软件本身·我方自用回测零触线）·依赖面维持 parked（平台与自有 engine/science_gates 重叠·OH-20260929 parked 理由不变）；③pandas-ta 原仓死亡→**短线研究语料消费面（requirements-research.txt/SHORTLINE_PLAYBOOK）未来引用一律重定向 pandas-ta-classic**（MIT·活跃·250+ 指标超集）。
+- **parked+理由**：polars=许可已清待消费线触发（needs-based 非囤积）；vectorbt=平台重叠 parked 维持+许可闭口；pandas-ta 原仓=上游死亡不可采（404）·继任 pandas-ta-classic 记档待触发。
+- **下窗指针**：短线族若需 TA 指标实现参照→pandas-ta-classic（MIT）源码学实现（借力律正形=学实现不搬件）；N2 判决面统计工具链（多重比较校正族）候选苗=statsmodels Multipletests 方法学原文（许可验证待做）；风格轮动 drafting（10-06+）外源面=国内券商金工研报风格因子口径对照（经 sources 登记面）。
+- **回执**：本件=D-20261005-05① 派工回执（P-51 送达=本司 commit 含 D-20261005-05① 行）；实搜面 ≥2 满足（6 处）；本司反馈面回执行=bigmoney HQ-FEEDBACK.md 2026-10-05 行。
+
+## 结论应用表（research-protocol §结论应用律强制·无表=未交付）
+
+| 候选 | 五门判定 | 落点（改了什么） | 消费面（谁吃产出） | 状态 |
+|---|---|---|---|---|
+| polars (pola-rs/polars) | 契合✓（L1 普查批提速面）/反重复✓（三面零撞）/许可✓（MIT 原文逐字验·含 NVIDIA 部分版权标注）/健康✓（39,913★·pushed 10-04·非归档）/成本✓（Rust 核+Python API·wheel 面·本地零 token） | 许可门清偿登记（零装·needs-based 待触发） | L1 因子普查批提速（pandas 瓶颈触发时·O-1716 venv 范式装） | **cleared-for-adoption** |
+| vectorbt (polakowo/vectorbt) | 契合✓/反重复✓（O-1716 verified real 已在册）/许可✓（Apache2+CommonsClause 原文验=内部用合法·禁售条款不触）/健康✓（9,275★·pushed 09-26）/成本△（平台重叠） | 许可原文验闭口（OH-20260929 指针债清偿）·依赖维持 parked | bm-b 已装面·知识面（其组合回测实现学理） | **parked（许可闭口）** |
+| pandas-ta → pandas-ta-classic (xgboosted) | 契合✓（TA 指标语料）/反重复✓/许可✓（继任 MIT·API spdx 验）/健康✓（449★·pushed 10-02·活跃）/成本✓（纯 Python） | **指针重定向**：原仓 twopirllc/pandas-ta=404 死亡实证·继任记档 | 短线研究语料（requirements-research.txt/SHORTLINE_PLAYBOOK 未来引用改 pandas-ta-classic） | **retargeted** |
+
+
+=== git log for path ===
+5761978|junsheng.sun|junsheng.sun@unity.cn|2026-10-05 00:28:55 +0800|OSS harvest slice OH-20261005-bigmoney (D-20261005-05(1) receipt window) -- bigmoney license-gate debt closure: polars MIT verified (39.9k stars, pushed 10-04) cleared-for-adoption; vectorbt Apache-2.0+Commons-Clause original-text verified (internal-use legal, no-sell clause not touched, dep stays parked); pandas-ta upstream 404-dead honest negative -> successor xgboosted/pandas-ta-classic MIT retarget for shortline research corpus. Anti-dup 3-face zero-hit. Real-search face 6 API reads. Zero new adoption (O-1750 needs-based). Receipt: D-20261005-05(1) [via bm-a r703]
+
+
+=== reference: OH-20261004-cph4.md (latest sibling format) ===
+# OH-20261004-cph4 — 开源收获轮·HQ/CPH4 切片 1（当前窗 10-02→10-05·风向雷达恢复窗+CEO 呈递面立法批）
+
+- **窗与令源**：CEO 令 2026-10-04 ~23:0x「我记得要实验室去牵头去梳理 GitHub 上那些高星级的呀，好评多的，各种有意思的、有趣的分享之类的。你实验室又做出什么东西了吗？你打算什么时候去弄？」——P-2026-09-29-06 风向雷达令的**产物面催办+呈递面补立法**：简报=CEO 可读呈递件（有趣发现优先呈现）；同时=09-30→10-03 断窗的补扫恢复窗（诚实面在简报内承认）。
+- **实搜面（2026-10-04 23:0x）**：①search API 新窗 `created:>2026-09-27 stars:>400` = total 40 件 Top30 全录（radar-week-1004.json 落盘）；②VoiceStudio 许可补直验=**AGPL-3.0**（52,953★·pushed 当日——09-29 切片「待直验」项收口：红线注记=本地工具面可用（Blender 同律）·禁服务化 §13·禁入对外算力包）；③两窗合计 106 件判读。
+- **风向大主题四条**（详情=R-20261004-radar-digest-01.md）：Jev/System1 决策模型生态爆发（≥12 件同族·0.8B 毫秒决策）；游戏×AI 模组时代（universal-modder 2,887★+卡普空 REDox 开源）；AI 内容管线全自动化（AIHOT 5 天 1,400→5,694★ 超级爆发）；官方 MCP 插件化（openai/mcp-extensions）。
+- **采用→落点**：接线单三新派+两维持（universal-modder→@Biggame AI 模组工坊评估·jeff 0.8B→@BigCompute 与 Bonsai 并轨·AIHOT→@BigStream 优先级升·VoiceStudio/Strata 维持带 AGPL/部署注记）；hypoarena→@BigMoney 学实现参照；REDox/lipflow 等有趣面入简报呈 CEO；三项 null 许可疑似 SEO 垃圾仓判负留痕（star ≠ 质量注记）。
+- **结论应用表**：| 发现 | 判定 | 落点 | 后续 |——VoiceStudio AGPL 直验|红线注记后接线|@BigLife/@BigStream 接线单|认领回写|；universal-modder|契合|@Biggame|评估回执|；jeff/AIHOT|契合|@BigCompute/@BigStream|并轨实测|；断窗 4 天|如实承认|本切片=恢复点|下窗起 72h 节律复守|。
+- **验证声明**：两窗 search API 结构化数据（total/star/lang/license spdx 逐件）；VoiceStudio api 直验全文在案；trending 页失败面维持 09-29 切片实录；断窗 4 天（09-30→10-03 无 CPH4 切片）如实承认不粉饰。
+- **下窗指针**：①接线单五件认领回写；②下周简报 #2（10-11 周轮·含 hermes-agent/unreal-agent/company-brain 学实现 R- 件收口）；③trending 全量面换源再试。
