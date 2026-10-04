@@ -1,0 +1,486 @@
+{
+ "audit": {
+  "basis": "stage-A' re-anchor (MSG-2026-10-04-2110 adjudication case B, owner bm-b r694)",
+  "mask": "data/fundamental/b_layer_mask.stageA_prime_pin.csv",
+  "mask_sha256": "cf00cd8389b56c038f46592f521839d886e29a659513817f1cb9ec0ad8d15bbe",
+  "machine": "bm-a",
+  "workers": 6,
+  "elapsed_sec": 27.1,
+  "ts": "2026-10-04T22:12:51+08:00",
+  "evidence_cutoff": "2026-09-22",
+  "scope": "RC contest cells only; the full 240-cell census stage-A stays canonical for the REFINE_BENCH P2 verdict",
+  "delta_disclosure": "per-row stageA_original block = published stage-A values; basis switch disclosed (contest = today-engine caliber per T-148)"
+ },
+ "rows": [
+  {
+   "name": "D-15|raw|base|time|h20",
+   "depth": "-15",
+   "entry": "raw",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-15-raw-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 1.1622,
+   "ann_ret": 0.092307,
+   "max_dd": -0.793237,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.033808,
+   "hit_rate": 0.4891,
+   "entries": 4457,
+   "unfillable": 25,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 335,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4447,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 1.1551,
+    "ann_ret": 0.091023,
+    "max_dd": -0.793237,
+    "entries": 4457,
+    "unfillable": 25,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 335,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4447,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-15|raw|liq2|time|h20",
+   "depth": "-15",
+   "entry": "raw",
+   "liq": "liq2",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-15-raw-liq2-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.476,
+   "ann_ret": 0.031515,
+   "max_dd": -0.791604,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.03515,
+   "hit_rate": 0.4735,
+   "entries": 4363,
+   "unfillable": 17,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 344,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4353,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.6015,
+    "ann_ret": 0.041457,
+    "max_dd": -0.791604,
+    "entries": 4363,
+    "unfillable": 17,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 344,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4353,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-15|yang|base|time|h20",
+   "depth": "-15",
+   "entry": "yang",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-15-yang-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.7178,
+   "ann_ret": 0.051673,
+   "max_dd": -0.850335,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.031496,
+   "hit_rate": 0.4788,
+   "entries": 4401,
+   "unfillable": 19,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 343,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4391,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.7229,
+    "ann_ret": 0.052134,
+    "max_dd": -0.850335,
+    "entries": 4401,
+    "unfillable": 19,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 343,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4391,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-15|yang|liq2|time|h20",
+   "depth": "-15",
+   "entry": "yang",
+   "liq": "liq2",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-15-yang-liq2-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.173,
+   "ann_ret": 0.00882,
+   "max_dd": -0.736708,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.029925,
+   "hit_rate": 0.4714,
+   "entries": 3956,
+   "unfillable": 16,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 374,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 3946,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.2805,
+    "ann_ret": 0.015788,
+    "max_dd": -0.736708,
+    "entries": 3956,
+    "unfillable": 16,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 374,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 3946,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-25|raw|base|time|h20",
+   "depth": "-25",
+   "entry": "raw",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-25-raw-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 1.1333,
+   "ann_ret": 0.089845,
+   "max_dd": -0.793237,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.033808,
+   "hit_rate": 0.4885,
+   "entries": 4463,
+   "unfillable": 26,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 334,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4453,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 1.126,
+    "ann_ret": 0.088564,
+    "max_dd": -0.793237,
+    "entries": 4463,
+    "unfillable": 26,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 334,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4453,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-25|raw|liq2|time|h20",
+   "depth": "-25",
+   "entry": "raw",
+   "liq": "liq2",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-25-raw-liq2-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.467,
+   "ann_ret": 0.030846,
+   "max_dd": -0.791435,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.03515,
+   "hit_rate": 0.4723,
+   "entries": 4381,
+   "unfillable": 18,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 344,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4371,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.5928,
+    "ann_ret": 0.040782,
+    "max_dd": -0.791435,
+    "entries": 4381,
+    "unfillable": 18,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 344,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4371,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "D-25|yang|base|time|h20",
+   "depth": "-25",
+   "entry": "yang",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-D-25-yang-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.6509,
+   "ann_ret": 0.04696,
+   "max_dd": -0.872044,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.031496,
+   "hit_rate": 0.4782,
+   "entries": 4406,
+   "unfillable": 19,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 342,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4396,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.656,
+    "ann_ret": 0.047419,
+    "max_dd": -0.872044,
+    "entries": 4406,
+    "unfillable": 19,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 342,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4396,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "Dtop10|raw|base|time|h20",
+   "depth": "top10",
+   "entry": "raw",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-Dtop10-raw-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 1.1373,
+   "ann_ret": 0.090194,
+   "max_dd": -0.793237,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.033808,
+   "hit_rate": 0.4886,
+   "entries": 4464,
+   "unfillable": 26,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 334,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4454,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 1.1301,
+    "ann_ret": 0.088913,
+    "max_dd": -0.793237,
+    "entries": 4464,
+    "unfillable": 26,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 334,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4454,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "Dtop10|raw|liq2|time|h20",
+   "depth": "top10",
+   "entry": "raw",
+   "liq": "liq2",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-Dtop10-raw-liq2-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.4584,
+   "ann_ret": 0.030249,
+   "max_dd": -0.794033,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.03515,
+   "hit_rate": 0.4719,
+   "entries": 4384,
+   "unfillable": 18,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 344,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4374,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.5781,
+    "ann_ret": 0.0397,
+    "max_dd": -0.794033,
+    "entries": 4384,
+    "unfillable": 18,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 344,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4374,
+     "tail": 10
+    }
+   }
+  },
+  {
+   "name": "Dtop10|yang|base|time|h20",
+   "depth": "top10",
+   "entry": "yang",
+   "liq": "base",
+   "exit": "time",
+   "H": 20,
+   "anchor_judged": false,
+   "contest_id": "RC-Dtop10-yang-base-time-h20",
+   "grammar_ref": "results/refine_bench_stock/rev_census/census_ranking.json#top10_independent",
+   "sharpe_full": 0.6082,
+   "ann_ret": 0.043945,
+   "max_dd": -0.884291,
+   "n_days": 8792,
+   "median_abs_r": 0.0,
+   "p999_abs_r": 0.031496,
+   "hit_rate": 0.4772,
+   "entries": 4417,
+   "unfillable": 19,
+   "skips": {
+    "gate_closed": 929,
+    "gate_undefined": 28,
+    "thin_market": 341,
+    "empty_fill": 0
+   },
+   "exits": {
+    "time": 4407,
+    "tail": 10
+   },
+   "stageA_original": {
+    "sharpe_full": 0.6133,
+    "ann_ret": 0.044403,
+    "max_dd": -0.884291,
+    "entries": 4417,
+    "unfillable": 19,
+    "skips": {
+     "gate_closed": 929,
+     "gate_undefined": 28,
+     "thin_market": 341,
+     "empty_fill": 0
+    },
+    "exits": {
+     "time": 4407,
+     "tail": 10
+    }
+   }
+  }
+ ]
+}

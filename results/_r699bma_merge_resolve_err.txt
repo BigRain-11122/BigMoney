@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\_r699bma_merge_resolve.py", line 261, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\_r699bma_merge_resolve.py", line 241, in main
+    table.append(verify_pool_semantics())
+                 ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\_r699bma_merge_resolve.py", line 221, in verify_pool_semantics
+    assert st and st[0] == "done", f"my shard flip lost: {k} -> {st}"
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: my shard flip lost: n2w15-7of12 -> ('ready', 'bm-a')
