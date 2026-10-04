@@ -1,0 +1,209 @@
+ORG SECTIONS:
+部门职责
+研究部 (Research)
+交易部 (Trading Desk)
+风控部 (Risk)
+技术部 (Tech)
+交易员等级
+晋升/淘汰规则
+部门表（mandate / 域 / KPI / 自动化钩子 / 升级线）
+AI 赋能原则
+部门级扩建（两行已并入上表 v2）
+团队表（11 团队·全挂既有 Phase 0/1 交付）
+团队律
+
+TOWN KEY NAMES:
+研究楼
+策略厂
+风控塔
+交易大厅
+组合调度中心
+数据塔
+资产组合研究部
+ETF操作链研究所
+机队码头
+总经理办公室
+工程部·地下机房
+
+TOWN CJK LITERALS (first 100):
+>
+<title>BIGMONEY · 公司小镇</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1115; color: #c8d0dc; font-family: 
+><div>NO DATA<br><br>先运行：python -m monitor.build_status</div></div>
+
+<header>
+  <div class=
+>BIGMONEY 公司小镇<small id=
+>像素小镇 · 每栋楼都是真实数据 · <span class=
+>点击建筑查看详情</span></div>
+  <div class=
+>自检 <b id=
+>数据 <b id=
+>↩ 总控 v1</button>
+  </div>
+</header>
+
+<div class=
+>—</b><span>公司资金</span></div>
+  <div class=
+>—</b><span>净值</span></div>
+  <div class=
+>—</b><span>在册交易员</span></div>
+  <div class=
+>—</b><span>里程碑</span></div>
+  <div class=
+>—</b><span>试验账本 N</span></div>
+  <div class=
+>—</b><span>行情数据至</span></div>
+</div>
+
+<div id=
+>[关闭]</span>
+    <h4 id=
+></div></div>
+</div>
+
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）· v4 SPM KPI 刷新面对齐（研究/策略/风控/组合/数据/工程/舰队/总经办八面 · r637）· 楼名全表对齐收口（org_chart §5 正典 11/11 · 办公楼名归正总经理办公室 · r650）</footer>
+
+<script src=
+;
+  cx.fillText(str, x*S, y*S);
+}
+function rrect(x, y, w, h, c) { px(x, y, w, h, c); }
+
+/* ---------- buildings: each = rect zones + windows lit by real data ---------- */
+function drawLab(b) {                        // 研究楼 (research)
+  const {x,y} = b; rrect(x, y, 70, 55, 
+研究楼
+);
+}
+function drawFactory(b) {                     // 策略厂 (strategy/gates)
+  const {x,y} = b, gc = D.strategy.gate_chain;
+  rrect(x, y, 96, 66, 
+策略厂
+, 7);
+}
+function drawTower(b) {                      // 风控塔 (risk)
+  const {x,y} = b, n = D.risk.length, rg = (D.data && D.data.regime) || {};
+  const RG_C = { GREEN:
+风控塔 0违规
+);
+}
+function drawHall(b) {                       // 交易大厅 (trading)
+  const {x,y} = b, trs = D.trading.traders;
+  rrect(x, y, 100, 56, 
+首月检查 
+交易大厅
+);
+}
+function drawData(b) {                       // 数据塔 (data freshness)
+  const {x,y} = b, f = D.data.fresh;
+  rrect(x, y, 34, 110, 
+数据塔
+);
+}
+function drawDock(b) {                       // 机队码头 (fleet/group)
+  const {x,y} = b, sib = (D.group && D.group.siblings) ? D.group.siblings : [];
+  // water
+  for (let i=0; i<5; i++) rrect(x-4, y+26+i*12, 150, 6, i%2 ? 
+机队码头
+);
+}
+function drawOffice(b) {                     // 总经办 (GM office · J13 LLM 研究助理)
+  const {x,y} = b;
+  rrect(x, y, 64, 40, 
+总经理办公室
+);
+}
+function drawBunker(b) {                      // 工程部 (engineering · 地下机房)
+  const {x,y} = b, ok = D.health.smoke.fail === 0, t = Date.now();
+  rrect(x, y, 92, 32, 
+工程部·地下机房
+);
+}
+function drawPortfolio(b) {                   // 组合调度中心 (portfolio & capital · EW6 载体 + IV6 报告制 pass 2)
+  const {x,y} = b, p = (D.data && D.data.portfolio) || {};
+  const nm = p.members || 0, ok = !!p.ew_validated, iv = p.iv || {};
+  const cw = (D.data && D.data.corr_watch) || {};
+  rrect(x, y, 80, 48, 
+EW6 报告制
+EW6 待产
+组合调度中心
+);
+}
+function drawAlloc(b) {                       // 资产组合研究部 (v5 第八部门 · ALLOC-* 配置账户族)
+  const {x,y} = b, ap = (D.data && D.data.alloc_paper) || {};
+  const accs = ap.accounts || [];
+  rrect(x, y, 70, 34, 
+资产组合研究部
+);
+}
+function drawEtfOps(b) {                     // ETF操作链研究所 (ETF ops 直属组 · O-20260928-1524 部门级)
+  const {x,y} = b, sv = (D.data && D.data.system_v1_paper) || {};
+  const live = !!sv.present;
+  rrect(x, y, 44, 46, 
+);          // flat roof
+  for (let i=0; i<6; i++)                    // 6 windows = 分类图谱六类（宽基/行业主题/跨境/债券/商品/货币）
+    px(x+4+i*7, y+8, 5, 6, live ? [
+);        // ops-chain strip: 入场→持有→止盈→止损 (all-numeric law)
+  for (let i=0; i<4; i++) px(x+5+i*9, y+22, 7, 5, live ? (i<2?
+ETF操作链研究所
+里程碑 
+成就墙
+复
+波
+一号
+生成于 
+研究楼
+研究部 Research
+因子/信号挖掘 · IC/回测研究 · idea→候选池 · 可学清单采纳评估 · 外部调研 · BigMoney·调研部席位（集团建制 2026-09-27）
+>研究线批次 · 因子账本 N=
+>研究线批次待产出（results/shortline）</div>
+>复合因子方案</div><div class=
+>KPI：正交成员供给数（相关性帽）· 外源范式采纳数 · 五线供给覆盖（交易/配置/激进/CN/野路子）· 新知识入库量 · idea 过闸率 · 外调轮执行率（org_chart v4/v6 刷新对齐）</div>
+策略厂
+策略部 Strategy Factory
+策略工厂（实况计数指针=research/STRATEGY_LIBRARY.md §一·O-2250）· 门禁链 G1\
+>试验账本 N=
+ · 432基线 
+ 过线</div>
+>试用劳动力常设线待产出（TRIAL_LABOR_LAW · 千人试用期首波 T-94 在飞）</div>
+ 初筛
+ · 候选 
+（去重 
+ · 幸存 <span class=
+ · 零假设p95线 
+ · 判决格 
+>判决✔</span> 
+格 → 过闸 <span class=
+（E[FP]标称 
+ · 上岗 
+>池面：
+>常设律（
+）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>
+>KPI：成员稳定准入率（多窗口）· 在册交易员质量 · 门禁通过率（org_chart v2/v4 刷新对齐）</div>
+风控塔
+风控部 Risk & Audit
+铁律执行 · 熔断 · 零假设校准 · 防作弊审计 · SPM 判据冻结审计（org_chart v4）
+>行情防线 REGIME_GUARD：<span class=
+ · 在态 
+ 日（asof 
+>触发：
+无
+ · shadow 只记录不干预 · enforce=GM/CEO 重审后（T-05 校准 FAIL 证据包在案）</div>
+>行情防线待产出（python scripts/market_regime.py）</div>
+>0 违规</div>
+>KPI：红线零违例（org_chart v2 部门表）</div>
+交易大厅
+交易部 Trading Desk
+交易员实战（在册名单指针=research/STRATEGY_LIBRARY.md §二·O-2250）· 模拟盘战绩=唯一计分板
+笔 · ×2成本
+存活
+阵亡
+月</span></div>
+>暂无在册交易员</div>
+>模拟盘首月：进度 <span class=
+%</span> · 晋升检查日 
+ · 已计 
