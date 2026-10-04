@@ -1,4 +1,4 @@
-entries=378
+entries=390
 {
  "id": "TRIAL-LABOR-W3-GENERATE",
  "ticket_ref": "T-2026-09-28-97 WAVE-3 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r391 commit 28fcb7b2 + seeds R250; runner slice-1+generate built bm-a r392 selftest 51/51 hermetic + double-run stdout byte-identical; grammar face frozen r392 sha16=cc59eab79db53436; bm-c r146 addendum route = bma next-round priority)",
@@ -399,7 +399,67 @@ entries=378
  "ticket_ref": "T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); seat = MSG-2026-10-04-1940-bmb-ALL F-04 first-declaration per MSG-2026-10-04-1955 bm-c downstream open face; review PASS receipt results/_r690bmb_n2_review.json",
  "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md (FROZEN 2026-10-04 r492 bm-c slice-3 freeze commit; bands 541_500/542_000/542_500 width 499 forced-skip disclosed; runner slice-2 bm-a r692 da8171889; FREEZE-GATE registered=True live)",
  "consumer_plan": "N2-W15 supply chain: generate -> n2_w15_candidates.json (one-shot product) -> screen-prep -> 12-shard screen burn (EW48 passive beat6m cheap screen, tl2._finalize_math null p95 survival line) -> screen-finalize (ledger append PERPETUAL-N2-W15-SCREEN) -> survivors -> judge batch (separately
-  SHARD {"key": "n2-w15-generate-0of1", "status": "ready", "owner": "bm-b", "owner_since": "2026-10-04 20:54:14"}
+  SHARD {"key": "n2-w15-generate-0of1", "status": "done", "owner": "bm-b", "owner_since": "2026-10-04 20:54:14", "done_at": "2026-10-04T21:11:31+08:00"}
   SHARD {"key": "generate-0of1", "status": "done", "owner": "bm-c", "owner_since": "2026-10-04 20:35:13", "done_at": "2026-10-04 20:54:57"}
-shard status counts: {"done": 371, "ready": 5}
-ready shards: [["FUND-VALUE-P1-NULLS", "fund-value-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["FUND-QUALITY-P1-NULLS", "fund-quality-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["FUND-DIVLOWVOL-P1-NULLS", "fund-divlowvol-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["CONTEST-YTD-P1-RC-0OF1", "contest-ytd-p1-rc-0of1", "bm-b", "2026-10-04 20:30:50"], ["PERPETUAL-N2-W15-GENERATE", "n2-w15-generate-0of1", "bm-b", "2026-10-04 20:54:14"]]
+{
+ "id": "PERPETUAL-N2-W15-SHARD-0",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-0of12", "status": "ready", "owner": "bm-c", "owner_since": "2026-10-04 21:18:39"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-1",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-1of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-2",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-2of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-3",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-3of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-4",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-4of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-5",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-5of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-6",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-6of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-7",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-7of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-8",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-8of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-9",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+  SHARD {"key": "n2w15-9of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-10",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)"
+  SHARD {"key": "n2w15-10of12", "status": "ready"}
+{
+ "id": "PERPETUAL-N2-W15-SHARD-11",
+ "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)"
+  SHARD {"key": "n2w15-11of12", "status": "ready"}
+shard status counts: {"done": 372, "ready": 16}
+ready shards: [["FUND-VALUE-P1-NULLS", "fund-value-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["FUND-QUALITY-P1-NULLS", "fund-quality-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["FUND-DIVLOWVOL-P1-NULLS", "fund-divlowvol-p1-nulls-0of1", "bm-b", "2026-10-04 20:54:14"], ["CONTEST-YTD-P1-RC-0OF1", "contest-ytd-p1-rc-0of1", "bm-b", "2026-10-04 21:00:27"], ["PERPETUAL-N2-W15-SHARD-0", "n2w15-0of12", "bm-c", "2026-10-04 21:18:39"], ["PERPETUAL-N2-W15-SHARD-1", "n2w15-1of12", null, null], ["PERPETUAL-N2-W15-SHARD-2", "n2w15-2of12", null, null], ["PERPETUAL-N2-W15-SHARD-3", "n2w15-3of12", null, null], ["PERPETUAL-N2-W15-SHARD-4", "n2w15-4of12", null, null], ["PERPETUAL-N2-W15-SHARD-5", "n2w15-5of12", null, null], ["PERPETUAL-N2-W15-SHARD-6", "n2w15-6of12", null, null], ["PERPETUAL-N2-W15-SHARD-7", "n2w15-7of12", null, null], ["PERPETUAL-N2-W15-SHARD-8", "n2w15-8of12", null, null], ["PERPETUAL-N2-W15-SHARD-9", "n2w15-9of12", null, null], ["PERPETUAL-N2-W15-SHARD-10", "n2w15-10of12", null, null], ["PERPETUAL-N2-W15-SHARD-11", "n2w15-11of12", null, null]]

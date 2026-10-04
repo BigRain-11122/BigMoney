@@ -48,13 +48,32 @@ EXPECT = {
 def face_liveness():
     try:
         import psutil
-        p = psutil.Process(FINALIZE_PID)
-        c = p.cpu_times()
-        return {"pid": FINALIZE_PID, "alive": True,
-                "cpu_s": round(c.user + c.system, 1),
-                "age_min": round((__import__("time").time()
-                                  - p.create_time()) / 60, 1)}
-    except Exception as e:  # psutil.NoSuchProcess / AccessDenied
+        try:
+            p = psutil.Process(FINALIZE_PID)
+            c = p.cpu_times()
+            return {"pid": FINALIZE_PID, "alive": True,
+                    "cpu_s": round(c.user + c.system, 1),
+                    "age_min": round((__import__("time").time()
+                                      - p.create_time()) / 60, 1)}
+        except Exception:
+            # r497 fix: hardcoded pid dies with each respawn era -- scan
+            # by cmdline so custody survives respawns (wrapper canon face)
+            for q in psutil.process_iter(["pid", "cmdline"]):
+                cl = " ".join(q.info["cmdline"] or [])
+                if ("mass_trial_w1.py" in cl and "judge-finalize" in cl
+                        and "--wave" in cl):
+                    p = psutil.Process(q.info["pid"])
+                    c = p.cpu_times()
+                    return {"pid": q.info["pid"], "alive": True,
+                            "cpu_s": round(c.user + c.system, 1),
+                            "age_min": round(
+                                (__import__("time").time()
+                                 - p.create_time()) / 60, 1),
+                            "via": "cmdline-scan"}
+            return {"pid": FINALIZE_PID, "alive": False,
+                    "err": "process PID not found (pid=%s); no live "
+                           "judge-finalize cmdline" % FINALIZE_PID}
+    except Exception as e:  # psutil missing entirely
         return {"pid": FINALIZE_PID, "alive": False, "err": str(e)[:120]}
 
 
@@ -123,11 +142,22 @@ def main():
     rec["checkpoint"] = face_checkpoint()
 
     if not os.path.exists(PRODUCT):
-        rec["verdict"] = "IN_FLIGHT"
-        rec["eta_note"] = ("w2 calibration: 805 cells 4h44m "
-                           "(spawn 23:34:14 -> product 04:18:26); this "
-                           "spawn 17:44:04 -> projected ~22:1x; adoption "
-                           "next round when artifact lands")
+        if rec["liveness"].get("alive"):
+            rec["verdict"] = "IN_FLIGHT"
+            rec["eta_note"] = ("w2 calibration: 805 cells 4h44m "
+                               "(spawn 23:34:14 -> product 04:18:26); "
+                               "live spawn -> project +4h30m from "
+                               "liveness age; adoption when artifact "
+                               "lands")
+        else:
+            # r497 fix: dead executor + absent product must NOT read as
+            # IN_FLIGHT (original r486 judge died silently at ~75% with
+            # this probe still saying IN_FLIGHT -- custody blind spot)
+            rec["verdict"] = "DEAD_NO_PRODUCT"
+            rec["eta_note"] = ("judge-finalize executor DEAD, product "
+                               "absent, checkpoints complete -> r426 "
+                               "lineage: mid-flight death writes "
+                               "nothing, rerun clean; RESPAWN REQUIRED")
     else:
         d = json.load(open(PRODUCT, encoding="utf-8"))
         tl = d.get("trials_ledger", {})

@@ -1,5 +1,5 @@
 {
- "ts_probe": "2026-10-04T21:06:38",
+ "ts_probe": "2026-10-04T21:25:32",
  "round": "r487 bm-c",
  "expect": {
   "batch": "MASS_TRIAL_W3_JUDGE",
@@ -10,9 +10,11 @@
   "e_fp": 38.85
  },
  "liveness": {
-  "pid": 33768,
-  "alive": false,
-  "err": "process PID not found (pid=33768)"
+  "pid": 26052,
+  "alive": true,
+  "cpu_s": 3.8,
+  "age_min": 0.1,
+  "via": "cmdline-scan"
  },
  "pool": {
   "MASS-TRIAL-W3-JUDGE-SHARD-0": {
@@ -48,5 +50,5 @@
   "sample_ok": true
  },
  "verdict": "IN_FLIGHT",
- "eta_note": "w2 calibration: 805 cells 4h44m (spawn 23:34:14 -> product 04:18:26); this spawn 17:44:04 -> projected ~22:1x; adoption next round when artifact lands"
+ "eta_note": "w2 calibration: 805 cells 4h44m (spawn 23:34:14 -> product 04:18:26); live spawn -> project +4h30m from liveness age; adoption when artifact lands"
 }
