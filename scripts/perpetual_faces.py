@@ -2812,6 +2812,38 @@ N1_BANDS = {
     # NOT a re-pick (R250: W116 bands were never assigned).
     116: {"a": (275_004, 277_003), "b_exit": (62_701, 62_900),
          "engine_owner": "bm-b"},
+    # W117 (r683 bm-a freeze, own-series law under CEO de-throttle
+    # order O-20261001-2355 sec.2): bm-a's thirty-fourth owned per
+    # machine-derive (engine_owner==bm-a rows 33 + candidate); wave
+    # 117 = first free number after the REGISTERED W116 row (bm-b
+    # r677 freeze bc1e82773) -- SINGLE STATE zero seat gap
+    # (W2..W116 all registered). Seat published=reserved
+    # MSG-2026-10-04-1535-bma-w117-seat pushed to origin 380167da7
+    # BEFORE this freeze, r565 law (payload = seat MSG + pre-seat
+    # probe + D-19 receipts; deletion-set EMPTY; rev.A = only
+    # published face). ONE HUNDRED-AND-SEVENTH engine wave BY
+    # MACHINE-DERIVE (engine_owner rows 106 + candidate; gate leg0
+    # machine output governs per r359 law). W1..W115 finalize LANDED
+    # (net chain head 617,548, K=250,920, bm-c r445 one-pass) + ONE
+    # in-flight upstream seat W116 bm-b (registered, burn pending,
+    # finalize NOT landed) -- finalize merge loop still derives the
+    # wave set from registry keys at run time, FAIL-CLOSED r307
+    # always on. ADMIT receipt
+    # results/_r683bma_w117_band_gate.py; banned gate ADMIT 0;
+    # not a re-pick (R250: W117 bands were never assigned).
+    # A = arithmetic continuation from the registered W116 A tail:
+    # 277_004..279_003 CLEAN hops=0. B = pinned D-20261002-05
+    # past-hit restart: arithmetic 62_901..63:100 refused in-band
+    # at options_wave2 actual 63_000..63_049 + registered W12 A
+    # band 63_050..65_049 (mid-window hit) -> restart 65_050..65_249
+    # CLEAN hops=1 (live SEED_REGISTRY + probe cluster 95_000..95_003
+    # r335 leg + cross-face probe points 95_004/95_006 r602 leg +
+    # N3-R1 used-seed band 70_000..70_005 MSG-183x r529 leg).
+    # W118+ projection (gate-derived r683): A 279_004..281_003 CLEAN
+    # hops=0; B first-clean 65_250..65_449 CLEAN hops=0; next
+    # freezer must re-derive, never transcribe (r587 law).
+    117: {"a": (277_004, 279_003), "b_exit": (65_050, 65_249),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
