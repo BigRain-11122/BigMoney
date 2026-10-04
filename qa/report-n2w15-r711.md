@@ -1,0 +1,54 @@
+# QA evidence · CEO-REPORT-N2W15-20261005 (r711 bm-a)
+
+- source products: results/n2_w15/n2_w15_screen.json + n2_w15_judge.json + _r710bma_n2_judge_verify.json + research/PERPETUAL_N2_W15_PREREG.md
+- verifier: results/_r711bma_n2w15_report_qa.py (deterministic re-derivation, zero hand-copy)
+- verdict: **48/48 PASS** @ 2026-10-05T06:35:59
+
+- [PASS] raw_5000_prereg | prereg sec.3 draw volume
+- [PASS] distinct_954 | 954
+- [PASS] nulls_200 | 200
+- [PASS] enrolled_1154 | 1154
+- [PASS] survivors_281 | 281
+- [PASS] surv_rate_29p5 | 0.2945
+- [PASS] surv_rate_raw_5p62 | 0.0562
+- [PASS] predict_line_3pct_prereg | prereg sec.4 frozen prediction
+- [PASS] enrichment_clause | prereg sec.7 enrichment reconciliation
+- [PASS] judge_cells_281 | 281
+- [PASS] stage1_281 | 281
+- [PASS] collapse_elim_0 | eliminated empty
+- [PASS] verdict_pass_0 | 0
+- [PASS] verdict_fail_281 | 281
+- [PASS] e_fp_14p05 | 14.05
+- [PASS] e_fp_math | 281*0.05
+- [PASS] pbo_A | pbo=0.6857 n=35
+- [PASS] pbo_B | pbo=0.4571 n=246
+- [PASS] dd_ok_281 | 281
+- [PASS] no_crash_year_281 | 281
+- [PASS] x2_stable_281 | 281
+- [PASS] eligible_0 | 0
+- [PASS] complete_true | True
+- [PASS] k1_25p1 | {"n_cells": 295, "n_survivors": 74, "survival_rate": 0.250847}
+- [PASS] k4_35p9 | {"n_cells": 131, "n_survivors": 47, "survival_rate": 0.358779}
+- [PASS] k7_peak_44p4 | {"n_cells": 9, "n_survivors": 4, "survival_rate": 0.444444}
+- [PASS] screen_ledger | 646799+1154=647953
+- [PASS] judge_ledger | 648730+281=649011
+- [PASS] single_block | head==prev 648730
+- [PASS] adopt_verdict_pass | ADOPT_PASS
+- [PASS] adopt_pool_12of12 | pool done=True prep=True
+- [PASS] adopt_ledger_head_live | 649011
+- [PASS] adopt_19_checks | 19
+- [PASS] adopt_all_checks_ok | 19/19 ok
+- [PASS] seed_545500 | seed face in receipts
+- [PASS] judge_ts | 2026-10-05T05:38:14+08:00
+- [PASS] screen_ts | 2026-10-05T00:02:27+08:00
+- [PASS] report_has:5.62% | 5.62%
+- [PASS] report_has:29.5% | 29.5%
+- [PASS] report_has:14.05 | 14.05
+- [PASS] report_has:0.69 | 0.69
+- [PASS] report_has:0.46 | 0.46
+- [PASS] report_has:649,011 | 649,011
+- [PASS] report_has:ADOPT_PASS 19/19 | ADOPT_PASS 19/19
+- [PASS] report_has:281/281 | 281/281
+- [PASS] report_has:44.4% | 44.4%
+- [PASS] report_has:25.1% | 25.1%
+- [PASS] report_has:2026-10-07 05:38 | 2026-10-07 05:38

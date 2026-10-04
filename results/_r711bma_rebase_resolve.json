@@ -1,0 +1,182 @@
+{
+ "ts": "2026-10-05T06:42:54",
+ "mode": "rebase-merge-backend",
+ "receipts": [
+  {
+   "path": "docs/daily_report/REPORT-2026-10-05.json",
+   "decision": "twin-group REPORT side=2 (ours-newer 2026-10-05 06:38:38>2026-10-05 06:31:42)",
+   "n_blocks": 7,
+   "verify": "ok"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-05.md",
+   "decision": "twin-group REPORT side=2 (ours-newer 2026-10-05 06:38:38>2026-10-05 06:31:42)",
+   "n_blocks": 3,
+   "verify": "ok"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-05.json",
+   "decision": "twin-group LIVE side=2 (ours-newer 2026-10-05T06:38:39>2026-10-05T06:31:43)",
+   "n_blocks": 4,
+   "verify": "ok"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-05.md",
+   "decision": "twin-group LIVE side=2 (ours-newer 2026-10-05T06:38:39>2026-10-05T06:31:43)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "decision": "twin-group LIVE side=2 (ours-newer 2026-10-05T06:38:39>2026-10-05T06:31:43)",
+   "n_blocks": 4,
+   "verify": "ok"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "decision": "twin-group LIVE side=2 (ours-newer 2026-10-05T06:38:39>2026-10-05T06:31:43)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05T06:39:51>2026-10-05T06:31:54)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/compute_audit.json",
+   "decision": "history-parse-fail->ours-whole-face",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05 06:38:15>2026-10-05 06:31:28)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05T06:37:49>2026-10-05T06:31:24)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05 06:37:48>2026-10-05 06:31:23)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/regime_state.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05 06:36:47>2026-10-05 06:31:13)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/token_usage.json",
+   "decision": "perkey-parse-fail->ours-whole-face: Extra data: line 1 column 13 (char 12)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/update_status.json",
+   "decision": "ts-newer-wins side=2 (ours-newer 2026-10-05 06:36:46>2026-10-05 06:31:12)",
+   "n_blocks": 1,
+   "verify": "ok"
+  },
+  {
+   "path": "results/x2_watch_log.jsonl",
+   "decision": "union zero-loss s1=18 s2=6 -> 24 lines",
+   "n_blocks": 1,
+   "verify": "ok"
+  }
+ ],
+ "pick2_window_064636": {
+  "ts": "2026-10-05T06:46:36",
+  "n_uu": 16,
+  "receipts": [
+   {
+    "path": "results/compute_audit.json",
+    "decision": "stage-union history",
+    "verify": "ok superset=True rows 215+214->215"
+   },
+   {
+    "path": "results/token_usage.json",
+    "decision": "stage-union perkey",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/daily_report/REPORT-2026-10-05.json",
+    "decision": "twin REPORT side-a(origin) (a-newer 2026-10-05T06:19:35>2026-10-05T04:27:40)",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/daily_report/REPORT-2026-10-05.md",
+    "decision": "twin REPORT side-a(origin) (a-newer 2026-10-05T06:19:35>2026-10-05T04:27:40)",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/live_usage/LIVE-2026-10-05.json",
+    "decision": "twin LIVE side-b(ours) (b-newer 2026-10-05T06:38:39>=2026-10-05T06:37:33)",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/live_usage/LIVE-2026-10-05.md",
+    "decision": "twin LIVE side-b(ours) (b-newer 2026-10-05T06:38:39>=2026-10-05T06:37:33)",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/live_usage/LIVE-latest.json",
+    "decision": "twin LIVE side-b(ours) (b-newer 2026-10-05T06:38:39>=2026-10-05T06:37:33)",
+    "verify": "ok"
+   },
+   {
+    "path": "docs/live_usage/LIVE-latest.md",
+    "decision": "twin LIVE side-b(ours) (b-newer 2026-10-05T06:38:39>=2026-10-05T06:37:33)",
+    "verify": "ok"
+   },
+   {
+    "path": "results/dashboard_status.json",
+    "decision": "twin DASHBOARD side-b(ours) (b-newer 2026-10-05T06:38:48>=2026-10-05T06:37:49)",
+    "verify": "ok"
+   },
+   {
+    "path": "results/dashboard_status.js",
+    "decision": "twin DASHBOARD side-b(ours) (b-newer 2026-10-05T06:38:48>=2026-10-05T06:37:49)",
+    "verify": "ok"
+   },
+   {
+    "path": "results/_attrition_guard_scan.json",
+    "decision": "ts-newer a-newer 2026-10-05T06:40:14>2026-10-05T06:39:51",
+    "verify": "ok"
+   },
+   {
+    "path": "results/fundamental_b_layer_filter.json",
+    "decision": "ts-newer b-newer 2026-10-05 06:38:15>=2026-10-05 06:37:13",
+    "verify": "ok"
+   },
+   {
+    "path": "results/futures_update_status.json",
+    "decision": "ts-newer b-newer 2026-10-05T06:37:49>=2026-10-05T06:37:09",
+    "verify": "ok"
+   },
+   {
+    "path": "results/lhb_update_status.json",
+    "decision": "ts-newer b-newer 2026-10-05 06:37:48>=2026-10-05 06:37:08",
+    "verify": "ok"
+   },
+   {
+    "path": "results/regime_state.json",
+    "decision": "ts-newer b-newer 2026-10-05 06:36:47>=2026-10-05 06:34:22",
+    "verify": "ok"
+   },
+   {
+    "path": "results/update_status.json",
+    "decision": "ts-newer b-newer 2026-10-05 06:36:46>=2026-10-05 06:34:21",
+    "verify": "ok"
+   }
+  ]
+ }
+}
