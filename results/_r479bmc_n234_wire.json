@@ -1,0 +1,84 @@
+{
+ "probe": "r479bmc_n234_wire",
+ "machine": "bm-c",
+ "N2_selftest": {
+  "rc": 0,
+  "tail": [
+   "  [PASS] L3 subspace shape law (cardinality/subset/pinning/domains) | sample k=[8, 9, 3, 10, 12, 9, 13, 1]",
+   "  [PASS] L4 seed-band disjoint machine check (30_000+ law \ufffd\ufffd\ufffd\ufffd\u02f3\ufffd\ufffd) | hits=none probe_hit=none registry_n=178",
+   "  [PASS] L5 pool handshake parity (r496 canon) | claim(entry_id: str, shard_key: str, detail: str) -> None shard(shard: int, nshards: int) -> tuple",
+   "  [PASS] L6 frozen constants (cutoff same-window, wave, out-of-band probe)",
+   "  [PASS] L7 overlay axis import-face parity (module-sourced)",
+   "ALL PASS"
+  ],
+  "err_tail": []
+ },
+ "N3_selftest": {
+  "rc": 0,
+  "tail": [
+   "S6 machine-linked-lines+seeds: PASS",
+   "S6b N1-band x R1-seed adjudicated-overlap pin: PASS",
+   "S7 pool-entry-id: PASS",
+   "S8 s-mp-parity: PASS",
+   "S9 r2-machinery: PASS",
+   "selftest: ALL PASS"
+  ],
+  "err_tail": []
+ },
+ "N4_selftest": {
+  "rc": 0,
+  "tail": [
+   "COMPOSITE-CE-01::u001 seed=68702 sharpe=0.0 trades=0",
+   "COMPOSITE-CE-01::u002 seed=68703 sharpe=0.0 trades=0",
+   "  [PASS] S18 B2-pin burn labeling (batch/seeds resolve per pin)",
+   "  [PASS] S19 pooled seed gate + predecessor rows double-gate",
+   "  [PASS] S20 unequal-K pooled k_eff (B3 99+200+200=499; B2 400 repr)",
+   "selftest: 20/20 PASS, 0 FAIL"
+  ],
+  "err_tail": []
+ },
+ "generator_status": {
+  "rc": 0,
+  "tail": [
+   "pool live entries: 3 (starving=False)",
+   "lane py_cpu face: 4.6 (py_ok=True)",
+   "faces runner-landed: ['N1', 'N3']",
+   "faces pending (honest, never materialized): ['N2', 'N4']",
+   "materialized waves to date: 9",
+   "VERDICT: pool has live supply; no action"
+  ],
+  "err_tail": []
+ },
+ "pool_waiting": [
+  {
+   "id": "TRIAL-LABOR-W14-GENERATE",
+   "status": "waiting",
+   "lane_owner": null,
+   "priority": 1,
+   "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md (FROZEN 2026-09-30 16:5x bm-b r471 adoption freeze window per berth-first-to-hold + open-adoption clause, W13 timeline mirror; NOT the candidate DRAFT files)",
+   "runner": "scripts/trial_labor_w14.py"
+  }
+ ],
+ "n3_r1_products": [
+  "n3_r1",
+  "n3_r1_results.json",
+  "n3_r2",
+  "n3_r2_results.json"
+ ],
+ "n2_products": [
+  "_n2_w15_probe.json"
+ ],
+ "n4_products": [
+  "n4_b1",
+  "n4_b1_results.json",
+  "n4_b2",
+  "n4_b2_results.json",
+  "n4_b3",
+  "n4_b3_results.json"
+ ],
+ "prereg_files": {
+  "n2_w15": true,
+  "n3_r1": true,
+  "n4_b1": true
+ }
+}
