@@ -1,0 +1,87 @@
+{
+ "audit": {
+  "deterministic": true,
+  "engine_touched": false,
+  "marks_ledger_delta": 0,
+  "network": false
+ },
+ "episode_census": {
+  "dur_to_peak_td_median": 228.0,
+  "episodes_per_code_max": 8,
+  "episodes_per_code_median": 2.0,
+  "ignition_date_max": "2026-09-08",
+  "ignition_date_min": "2006-12-20",
+  "n_censored_no_exit": 330,
+  "n_episodes": 1919,
+  "n_famous16": 52,
+  "n_rest": 1867,
+  "n_unique_codes": 837,
+  "n_with_minus20_exit": 1589,
+  "ret_ign_to_peak_p50": 0.369565,
+  "ret_ign_to_peak_p90": 1.300319
+ },
+ "machinery": {
+  "cost_x1": 0.0013041,
+  "cost_x1_expect": 0.0013041,
+  "cost_x1_match": true,
+  "persist_K_NULLS": 200,
+  "persist_MINUS20_LINE": 0.8,
+  "persist_rng_substream": "rng([20580000, k])",
+  "persist_simulate_callable": true,
+  "seed_band_expect": 20580000,
+  "seed_band_match": true,
+  "seed_registry_theme_persist_p1_nulls": 20580000
+ },
+ "panel_support": {
+  "missing_sample": [],
+  "n_codes_missing_panel": 0,
+  "n_daily_files": 1724,
+  "n_episode_codes": 837,
+  "n_unknown_prefix": 0,
+  "tail_date_sample": {
+   "159901": "2026-09-22",
+   "159915": "2026-09-22",
+   "159919": "2026-09-22",
+   "159920": "2026-09-22",
+   "159928": "2026-09-22"
+  }
+ },
+ "probe": "r666 bm-a THEME-JUDGE-P1 pre-freeze probe",
+ "r665_face_probe": {
+  "exists": true,
+  "sha16": "e3a7e9917a20335f"
+ },
+ "v03_constants": {
+  "ANCHOR_MATCH_TD": 30,
+  "DEBOUNCE_TD": 60,
+  "IGN_RET": 0.2,
+  "IGN_VOL_X": 3.0,
+  "IGN_WIN": 20,
+  "MINUS20_LINE": 0.8,
+  "MIN_BARS": 500,
+  "PEAK_SEARCH_TD": 750,
+  "VOL_WIN": 60,
+  "wave_rule": "segment_waves() v0.2 single-source import (0.80/1.25/250)"
+ },
+ "v03_evidence_cutoff": "2026-09-30",
+ "v03_kind": "descriptive_census",
+ "v03_sha16": "51b1b8226afc74b1",
+ "v03_summary_by_bucket": {
+  "famous14_proxy": {
+   "mean_ret_ign_to_peak": 0.789403,
+   "median_dur_to_peak_td": 203.0,
+   "median_ret_ign_to_peak": 0.533611,
+   "n_episodes": 52,
+   "n_unique_etfs": 14,
+   "share_long_class": 0.653846
+  },
+  "rest_of_panel": {
+   "mean_ret_ign_to_peak": 0.552124,
+   "median_dur_to_peak_td": 228.0,
+   "median_ret_ign_to_peak": 0.367599,
+   "n_episodes": 1867,
+   "n_unique_etfs": 823,
+   "share_long_class": 0.72255
+  }
+ }
+}
