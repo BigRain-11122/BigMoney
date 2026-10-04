@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 16:56:12"
+     "owner_since": "2026-10-04 17:12:12"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 16:56:12"
+     "owner_since": "2026-10-04 17:12:12"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 16:56:12"
+     "owner_since": "2026-10-04 17:12:12"
     }
    ],
    "workers_plan": {
@@ -14512,7 +14512,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-04T17:00:27+08:00",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (prereg sec.9.1 workers <= floor(cores*0.8) + O-1136 CPU 10%% reserve law; 32-core box)",
@@ -14529,15 +14529,20 @@
    "shards": [
     {
      "key": "w3-judge-0of4",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/mass_trial/w3_judge_shard_0of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%4==0 of sorted 777 collapsed survivors (195 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)",
-     "owner": "bm-c",
-     "owner_since": "2026-10-04 17:04:51"
+     "owner_since": "2026-10-04 17:11:50",
+     "done_at": "2026-10-04 17:11:50",
+     "harvested_by": "bm-c",
+     "harvest_claim": "w3-judge-0of4.bm-c.json",
+     "owner": "bm-c"
     }
    ],
    "entered_by": "bm-c r485",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-04 17:11:50"
   },
   {
    "id": "MASS-TRIAL-W3-JUDGE-SHARD-1",
@@ -14581,7 +14586,9 @@
      "key": "w3-judge-1of4",
      "status": "ready",
      "checkpoint": "results/mass_trial/w3_judge_shard_1of4.jsonl (row-level cell_id done-set resume)",
-     "note": "cells i%4==1 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)"
+     "note": "cells i%4==1 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-04 17:12:31"
     }
    ],
    "entered_by": "bm-c r485",
@@ -14629,7 +14636,9 @@
      "key": "w3-judge-2of4",
      "status": "ready",
      "checkpoint": "results/mass_trial/w3_judge_shard_2of4.jsonl (row-level cell_id done-set resume)",
-     "note": "cells i%4==2 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)"
+     "note": "cells i%4==2 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 17:15:08"
     }
    ],
    "entered_by": "bm-c r485",
@@ -14677,7 +14686,9 @@
      "key": "w3-judge-3of4",
      "status": "ready",
      "checkpoint": "results/mass_trial/w3_judge_shard_3of4.jsonl (row-level cell_id done-set resume)",
-     "note": "cells i%4==3 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)"
+     "note": "cells i%4==3 of sorted 777 collapsed survivors (194 cells); multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level finalize = separate round work (judge-finalize --wave 3 after all 4 shards done + 777-cell completeness probe)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-04 17:17:41"
     }
    ],
    "entered_by": "bm-c r485",
