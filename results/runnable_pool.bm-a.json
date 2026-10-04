@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-03 08:29:00",
+ "updated_at": "2026-10-04T12:54:24+08:00",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 12:26:12"
+     "owner_since": "2026-10-04 12:56:12"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 12:26:12"
+     "owner_since": "2026-10-04 12:56:12"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 12:26:12"
+     "owner_since": "2026-10-04 12:56:12"
     }
    ],
    "workers_plan": {
@@ -14262,6 +14262,38 @@
      "owner": "bm-b",
      "owner_since": "2026-10-04 11:36:28",
      "checkpoint": "results/theme_judge_p1/nulls_frags/ per-chunk fragments (digest-bound done-key skip) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row)"
+    }
+   ]
+  },
+  {
+   "id": "THEME-JUDGE-P2",
+   "ticket_ref": "T-2026-10-04-169-P1 s3 (claimed bm-a r676; s1 prereg FROZEN r676 + s2 runner r677 selftest 23/23 incl mirror-fidelity vs P1 worker; E24-ii deep-break redirect face, order-chain reserved bl=0.75)",
+   "prereg_ref": "research/THEME_JUDGE_P2.md FROZEN v1.0 r676 (banned_direction_gate ADMIT rc0; D6 probe ADMIT max|corr|=0.3682; seed band theme_judge_p2_nulls=20589000 [20589000,20591000) net gap 2000 receipt; closed_family_check zero-hit)",
+   "runner": "scripts/theme_judge_p2.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T12:54:24+08:00",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed sec.2 six gates (census sha16 51b1b8226afc74b1 identity + dedup 1822/97 + drop gates 0 + seed band extent-aware disjoint + COST_X1 0.0013041 single-source + twin 48/48 price identity) + checkpoint digest binding (stale-digest frags ignored; empty-ks frags never count as done r670 guard) + exit-reason census gate at finalize (P2 gate at 0 illegal per sec.0.6); evidence_cutoff 2026-09-22 lockbox; POST-FINALIZE POOL FLIP REQUIRED SAME WINDOW (r668 autofill re-burn loop law)",
+   "data_deps": [
+    "results/theme_ring/theme_events_v03_algorithmic.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "theme-judge-p2-burn-0of1",
+     "status": "ready",
+     "checkpoint": "results/theme_judge_p2/nulls_frags/ per-chunk fragments (digest-bound done-key skip, non-empty-ks guard) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row + pool flip r668)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 13:07:47"
     }
    ]
   }
