@@ -14243,7 +14243,10 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
+   "done_at": "2026-10-04T11:57:30+08:00",
+   "done_by": "bm-b",
+   "done_note": "VERDICT judged_negative (family-level honest closure per prereg s7/s8 backfilled): TJ-SOLO-x1 pooled sharpe 0.2735 < null-calibrated skill_line 1.3172, g1/g2 false x4 faces, DSR 0.0, PBO 0.4286; no registration (no paper/live/signal-builder wiring triggers). Burn+finalize arc: first burn 10:00:31 died on runner ci-semantics dual-track bug (38/40 empty chunks, fuse 10:05:36), bm-a r670 fix+coverage-tiling guard -> relaunch 10:19:01 87s all-green -> finalize bm-a 10:26 (results JSON + attrition row + ledger 625977->633981 + prereg s7/s8 + T-167 r670 receipt). | DUPLICATE RE-BURN DISCLOSURE (r189 CTA-WAVE1 redundant-deterministic-reburn precedent): bm-b autofill tick 11:36:28 re-claimed this still-ready shard (never flipped post-finalize) and re-burned 447.8s to 11:44:06 (40/40 frags non-empty, burn_state fresh) -- deterministic engine = same content, zero harm, ~448s CPU waste disclosed; this flip stops the re-fire loop at source.",
    "entered_at": "2026-10-04 09:51:19",
    "worker_class": "self-contained",
    "workers_plan": {
@@ -14254,7 +14257,8 @@
    "shards": [
     {
      "key": "theme-judge-p1-burn-0of1",
-     "status": "ready",
+     "status": "done",
+     "done_at": "2026-10-04T11:44:06+08:00",
      "owner": "bm-b",
      "owner_since": "2026-10-04 11:36:28",
      "checkpoint": "results/theme_judge_p1/nulls_frags/ per-chunk fragments (digest-bound done-key skip) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row)"

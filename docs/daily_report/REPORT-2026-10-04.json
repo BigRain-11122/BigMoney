@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 11:32:56",
+ "generated_at": "2026-10-04 11:48:23",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 728,
-  "result_jsons_landed_24h": 210,
+  "commits_24h": 736,
+  "result_jsons_landed_24h": 217,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 27,
   "compute_audit_latest": {
-   "ts": "2026-10-04 11:31:13",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-04 11:47:42",
+   "py_cpu_pct": 85.4,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "loaded_ok",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -636,11 +636,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1154353,
+  "total_report_tokens_est": 1155200,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-04 11:01:51",
+   "prev_generated": "2026-10-04 11:09:21",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 847,
    "mandate_growth": 0
   },
   "method": {
@@ -651,29 +651,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 11:04:29",
-    "py_pct": 0.3,
-    "cpu_pct": 9.0,
+    "latest_ts": "2026-10-04 11:24:51",
+    "py_pct": 0.1,
+    "cpu_pct": 4.0,
     "ready": 4,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "09:48",
-      0.4
-     ],
-     [
-      "09:51",
-      0.1
-     ],
-     [
-      "09:56",
-      87.3
-     ],
-     [
-      "09:56",
-      0.7
-     ],
      [
       "09:58",
       0.0
@@ -701,53 +685,41 @@
      [
       "10:46",
       0.4
+     ],
+     [
+      "11:00",
+      0.0
      ],
      [
       "11:04",
       0.3
+     ],
+     [
+      "11:07",
+      84.5
+     ],
+     [
+      "11:08",
+      0.0
+     ],
+     [
+      "11:24",
+      0.1
      ]
     ],
-    "today_samples": 67,
-    "today_floor_ok": 67,
+    "today_samples": 71,
+    "today_floor_ok": 71,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 18
+    "today_supply_gap_flags": 19
    },
    "bm-b": {
-    "latest_ts": "2026-10-04 11:07:19",
-    "py_pct": 84.5,
-    "cpu_pct": 54.0,
-    "ready": 4,
+    "latest_ts": "2026-10-04 11:47:42",
+    "py_pct": 85.4,
+    "cpu_pct": 34.0,
+    "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "09:48",
-      0.4
-     ],
-     [
-      "09:51",
-      0.1
-     ],
-     [
-      "09:56",
-      87.3
-     ],
-     [
-      "09:56",
-      0.7
-     ],
-     [
-      "09:58",
-      0.0
-     ],
-     [
-      "10:15",
-      0.3
-     ],
-     [
-      "10:16",
-      0.0
-     ],
      [
       "10:34",
       86.3
@@ -765,14 +737,42 @@
       0.4
      ],
      [
+      "11:00",
+      0.0
+     ],
+     [
+      "11:04",
+      0.3
+     ],
+     [
       "11:07",
       84.5
+     ],
+     [
+      "11:08",
+      0.0
+     ],
+     [
+      "11:31",
+      0.0
+     ],
+     [
+      "11:24",
+      0.1
+     ],
+     [
+      "11:25",
+      92.1
+     ],
+     [
+      "11:47",
+      85.4
      ]
     ],
-    "today_samples": 67,
-    "today_floor_ok": 67,
+    "today_samples": 74,
+    "today_floor_ok": 74,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 18
+    "today_supply_gap_flags": 19
    },
    "bm-c": {
     "latest_ts": "2026-10-04 11:31:13",
@@ -855,24 +855,24 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 1,
-     "audit_ts": "2026-10-04 11:04:29"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-04 11:24:51"
     }
    },
    "bm-b": {
-    "batches_judged": 0,
-    "core_seconds": 0.0,
-    "wall_seconds": 0.0,
-    "effective_cores": null,
+    "batches_judged": 1,
+    "core_seconds": 338.6,
+    "wall_seconds": 60.6,
+    "effective_cores": 5.59,
     "single_core_burn": 0,
-    "multicore_burn": 0,
+    "multicore_burn": 1,
     "too_short": 0,
-    "last_ts": null,
+    "last_ts": "2026-10-04T11:37:38+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-04 11:07:19"
+     "audit_ts": "2026-10-04 11:47:42"
     }
    },
    "bm-c": {
