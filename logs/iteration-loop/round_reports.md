@@ -1137,3 +1137,12 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - smoke 48/48 PASS; attrition guard CLEAN (healed historical note); claws reinstalled idempotent; loop task pin=2 ok; watchdog registered; heartbeat epoch int+clock T self-verified.
 - 本地未达 origin commit 数=0 (S0 absorb+merge+push DELIVERED ahead=0 behind=0 at round start; closeout push below).
 - 下轮指针: watch trio burn to completion + finalize-window readiness; verify keepalive continues listing all three shards; if QUALITY k stalls >20min -> CIM full-sweep probe then proper release per MSG-0915 item 2.
+
+### r661 supplement (09:44): push-race merge window + r439-glue self-heal
+
+- S7 push #1 blocked (claw footer + non-FF behind-6: bm-c r458 x3 + bm-a r662 x2 landed 09:35-09:39 during my S6) -> r437 netpath: absorb post-commit daemon faces (7cebe389a) -> merge origin/main -> **15 UU resolved standalone** (results/_r661bmb_merge_resolve.py): CODELY.md suffix-union+dedup (r453, markers==1) / same-day regen faces take-newer ours 09:36-09:39 vs theirs 09:32 (daily_report+live_usage twins consistent) / compute_audit hist-union 207 rows / token_usage per-key 0-pick -> whole-face ours (per-machine inner-ts superset proof, r456 zero-pick explicit-fallback law) -> reparse ALL PASS -> push #2 **DELIVERED 758a7be5a** (ahead=0 behind=0). No --no-verify used.
+- r439-family line-glue self-healed in-merge: my CODELY append script's conditional sep (b"" when file not ending in 
+) glued the r661 entry onto the r660 line tail; caught by resolver marker-at-line-start assertion; 1-byte "
+" insert repair, needle-count==1 gate; pushed version clean. Lesson restated (r439 law already covers): line-entry appends ALWAYS prepend 
+, never conditional-sep.
+- Post-merge trio: V682/Q521/D378 k-counters, burners alive, keepalive dba59ee9c + pool owner_since 09:26:12 stable; next-round watch per main report pointer.
