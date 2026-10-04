@@ -1,4 +1,31 @@
 {
+ "delta_vs_prev": {
+  "prev_generated": "2026-10-04 23:28:50",
+  "state_tokens_growth": 0,
+  "report_tokens_growth": 1275,
+  "mandate_growth": 0
+ },
+ "total_state_tokens_est": 2049,
+ "total_report_tokens_est": 1182660,
+ "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
+ "l2_local_llm": {
+  "legs_total": 7,
+  "legs_today": 2,
+  "tokens_est_total": 18846,
+  "tokens_est_today": 5892,
+  "by_cmd": {
+   "retro": 3,
+   "selftest": 3,
+   "ask": 1
+  },
+  "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
+  "crash_fuse": {
+   "sigs": 66,
+   "refusals": 1846,
+   "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
+  }
+ },
+ "generated": "2026-10-04 23:58:08",
  "machines": {
   "-bm-a": {
    "state_bytes": 0,
@@ -31,40 +58,13 @@
    "report_tokens_est": 537040
   }
  },
- "method": {
-  "bpe_proxy": 3.5,
-  "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
- },
- "l2_local_llm": {
-  "legs_total": 7,
-  "legs_today": 2,
-  "tokens_est_total": 18846,
-  "tokens_est_today": 5892,
-  "by_cmd": {
-   "retro": 3,
-   "selftest": 3,
-   "ask": 1
-  },
-  "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
-  "crash_fuse": {
-   "sigs": 66,
-   "refusals": 1846,
-   "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
-  }
- },
- "generated": "2026-10-04 23:58:08",
- "total_state_tokens_est": 2049,
- "total_report_tokens_est": 1182660,
- "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
- "delta_vs_prev": {
-  "prev_generated": "2026-10-04 23:28:50",
-  "state_tokens_growth": 0,
-  "report_tokens_growth": 1275,
-  "mandate_growth": 0
- },
  "per_round_context": {
   "mandate_read_tokens_est": 12944,
   "codely_read_tokens_est": 6842,
   "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
+ },
+ "method": {
+  "bpe_proxy": 3.5,
+  "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
  }
 }
