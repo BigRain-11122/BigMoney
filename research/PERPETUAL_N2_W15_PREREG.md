@@ -114,7 +114,14 @@
 
 - **slice-1（r510 bm-a 本窗·已落地）**：runner 骨架+subspace 绘制层+probe 真跑+
   selftest 8 腿+本草案；产物 results/perpetual_faces/_n2_w15_probe.json。
-- **slice-2（下窗·已认领 bm-b r597 @ 2026-10-03T00:16+08:00·席位公示=fleet/inbox/MSG-2026-10-03-0016-bmb）**：generate/screen/screen_finalize/run 分片/池握手/finalize 腿
-  +selftest 扩腿（真跑冒烟=r494 律）；拷贝适配源=tl14 cmd_generate/screen_prep/screen/screen_finalize 四面（W13 同裂先例）。
+- **slice-2（已落地·2026-10-04 r692 bm-a）**：generate/screen-prep/run 分片+池
+  握手/screen-finalize/finalize 五腿+selftest 扩腿（8→17 腿 ALL PASS）落地；
+  席位=MSG-2026-10-04-1830 席位 ping→bm-b MSG-2026-10-04-1845 方案 A 即时让渡
+  （bm-b 保留评审权·零重复开发红线·开工前 fetch 实核照走）；拷贝适配源=tl14
+  cmd_generate/screen_prep/screen/screen_finalize 四面（W13 同裂先例）；全部烧录腿
+  FREEZE-GATED（R99/R250：SEED_REGISTRY 三带未登记即 rc=2 诚实拒烧·冻结门 1 的
+  机证面）；r494 真跑律=排除面真读 7,896 行/30 源+真引擎 smoke cell
+  （_r692bma_n2_gen_smoke.json·零账本零登记零批产品）。评审=bm-b 下两轮内独立
+  selftest 复跑+合同面抽查（MSG-1845 让渡条款 2）。
 - **slice-3（freeze 窗）**：三带登记+banned_gate+冻结 commit→生成器 N2 supply 物化
   →daemon 烧批→finalize→§7/§8 回填。
