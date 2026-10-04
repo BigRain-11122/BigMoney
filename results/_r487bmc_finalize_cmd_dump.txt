@@ -1,0 +1,72 @@
+cmd at 65779
+def cmd_judge_finalize(args):
+    """Aggregate shards -> G1'v2 + DSR + family PBO + G2 + E[FP] + verdicts
+    + ledger append (single-shot guard: a complete product is never
+    re-appended; MASS_TRIAL_W1_JUDGE_REFINALIZE=1 = only redo, byte-stable
+    via own-chain-position overrides per r259 prev-echo guard).
+    Wave-routed via --wave (1/2; w2 env MASS_TRIAL_W2_JUDGE_REFINALIZE)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
+    if not os.path.exists(fc["state"]):
+        print(f"FINALIZE-GATE: {fc['state']} absent (judge-prep first)")
+        return 2
+    n_eff_override = None
+    redo_dsr_trials = None
+    if os.path.exists(fc["out"]):
+        prev = json.load(open(fc["out"], encoding="utf-8"))
+        if prev.get("complete") and "trials_ledger" in prev:
+            if not os.environ.get(fc["refinalize_env"]):
+                print("judge-finalize: complete product exists (idempotent "
+                      "no-op; set %s=1 to redo)" % fc["refinalize_env"])
+                return 0
+            n_eff_override = (int(prev["trials_ledger"]["prev_total"])
+                              + int(prev["trials_ledger"]["batch_trials"]))
+            redo_dsr_trials = int(prev["trials_ledger"]["prev_total"])
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    screen = json.load(open(os.path.join(OUT_DIR, fc["sum_file"]),
+                            encoding="utf-8"))
+    kept = sorted(state["collapse"]["kept"])
+    rows = []
+    for f in sorted(os.listdir(OUT_DIR)):
+        if f.startswith(fc["ck_prefix"] + "_") and f.endswith(".jsonl"):
+            with open(os.path.join(OUT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    if ln.strip():
+                        rows.append(json.loads(ln))
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [f"JUDGE|{cid}" for cid in kept if f"JUDGE|{cid}" not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} judged cells incomplete; "
+              "refused (checkpoints retained)")
+        return 2
+    judged = [by_id[f"JUDGE|{cid}"] for cid in kept]
+    n_judge = len(judged)
+    n_trials = redo_dsr_trials if redo_dsr_trials is not None \
+        else sg.ledger_head()["total"]
+    for r in judged:
+        rets = r["legL_daily_returns"]
+        g1 = sg.g1_prime_v2(r["legs"]["L"]["x1"]["sharpe_full"], rets,
+                            n_judge, pool="core48",
+                            n_trades=r["legs"]["L"]["x1"]["n_trades"],
+                            n_entries=r["legs"]["L"]["x1"]["n_entries"],
+                            n_eff_override=n_eff_override)
+        dsr = sg.deflated_sharpe_ratio(rets, n_trials=n_trials)
+        r["g1_prime_v2"] = g1
+        r["dsr"] = dsr
+        r["g1_pass"] = g1["pass_v2"]
+        r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
+                        else "insufficient-sample"
+                        if not r["sample_sufficient"] else "fail")
+    # family PBO (CSCV 8 blocks; family = strategy module; <8 cells -> n/a)
+    fam_map = {}
+    for r in judged:
+        fam_map.setdefault(r["family"].split(".")[0], []).append(r)
+    pbos = {}
+    for fam, rs in fam_map.items():
+        if len(rs) < 8:
+            pbos[fam] = {"pbo": None, "n_cells": len(rs),
+                         "note": "insufficient (<8) -- G2 cannot pass"}
+            for r in rs:
+                r["family_pbo"] = None
+            continue
+        series = {r["candidate_id"]: pd.Series(r["legL_daily_returns"])
+  

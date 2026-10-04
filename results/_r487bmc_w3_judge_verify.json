@@ -1,0 +1,53 @@
+{
+ "ts_probe": "2026-10-04T18:12:55",
+ "round": "r487 bm-c",
+ "expect": {
+  "batch": "MASS_TRIAL_W3_JUDGE",
+  "n_judge_cells": 777,
+  "seed_judge": 20285600,
+  "prev_total": 646799,
+  "new_total": 647576,
+  "e_fp": 38.85
+ },
+ "liveness": {
+  "pid": 33768,
+  "alive": true,
+  "cpu_s": 1717.1,
+  "age_min": 28.9
+ },
+ "pool": {
+  "MASS-TRIAL-W3-JUDGE-SHARD-0": {
+   "entry": "done",
+   "shards": {
+    "w3-judge-0of4": "done"
+   }
+  },
+  "MASS-TRIAL-W3-JUDGE-SHARD-1": {
+   "entry": "done",
+   "shards": {
+    "w3-judge-1of4": "done"
+   }
+  },
+  "MASS-TRIAL-W3-JUDGE-SHARD-2": {
+   "entry": "done",
+   "shards": {
+    "w3-judge-2of4": "done"
+   }
+  },
+  "MASS-TRIAL-W3-JUDGE-SHARD-3": {
+   "entry": "done",
+   "shards": {
+    "w3-judge-3of4": "done"
+   }
+  }
+ },
+ "pool_4of4_done": true,
+ "checkpoint": {
+  "files": 4,
+  "union_unique": 777,
+  "id_dup": 0,
+  "sample_ok": true
+ },
+ "verdict": "IN_FLIGHT",
+ "eta_note": "w2 calibration: 805 cells 4h44m (spawn 23:34:14 -> product 04:18:26); this spawn 17:44:04 -> projected ~22:1x; adoption next round when artifact lands"
+}
