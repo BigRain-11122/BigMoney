@@ -2844,6 +2844,47 @@ N1_BANDS = {
     # freezer must re-derive, never transcribe (r587 law).
     117: {"a": (277_004, 279_003), "b_exit": (65_050, 65_249),
          "engine_owner": "bm-a"},
+    # W118 (r678 bm-b freeze, own-series law under CEO de-throttle
+    # order O-20261001-2355 sec.2): bm-b's fortieth owned per
+    # machine-derive (engine_owner==bm-b rows 39 + candidate); wave
+    # 118 = first free number after the REGISTERED W117 row (bm-a
+    # r683 freeze c36a087ea) -- SINGLE STATE zero seat gap
+    # (W2..W117 all registered). Seat published=reserved
+    # MSG-2026-10-04-1532-bmb-w118-seat pushed to origin 24960f5e1
+    # BEFORE this freeze, r565 law (payload = seat MSG + pre-seat
+    # probe + W117 yield record + D-19 receipts; deletion-set EMPTY;
+    # rev.A = only published face). ONE HUNDRED-AND-EIGHTH engine
+    # wave BY MACHINE-DERIVE (engine_owner rows 107 + candidate;
+    # gate leg0 machine output governs per r359 law). W1..W115
+    # finalize LANDED (net chain head 617,548, K=250,920, bm-c r445
+    # one-pass) + TWO in-flight upstream seats: W116 bm-b
+    # (registered bc1e82773, queue 12/12 materialized, ignition
+    # held by engine RAM floor gate, finalize pending) + W117 bm-a
+    # (registered c36a087ea, burn pending) -- finalize merge loop
+    # still derives the wave set from registry keys at run time,
+    # FAIL-CLOSED r307 two-state law always on.
+    # Same-window yield record: W117 pre-seat probe caught bm-a's
+    # published W117 seat (origin-first) -> bm-b yielded W117 per
+    # r518-1 published=reserved + fleet sec.4 commit-time ordering;
+    # cross-machine derive convergence (A 277_004..279_003 /
+    # B 65_050..65_249 identical) recorded
+    # results/_r678bmb_w117_probe_receipt.txt.
+    # A = arithmetic continuation from the registered W117 A tail:
+    # 279_004..281_003 CLEAN hops=0. B = arithmetic continuation
+    # from the registered W117 B tail: 65_250..65_449 CLEAN hops=0
+    # (zero-jump two-reading-identical face; cross-machine
+    # convergence with the bm-a r683 W117 seat W118+ projection
+    # re-derived here, not transcribed; ADMIT receipt
+    # results/_r678bmb_w118_band_gate.py; live SEED_REGISTRY +
+    # probe cluster 95_000..95_003 r335 leg + cross-face probe points
+    # 95_004/95_006 r602 leg + N3-R1 used-seed band 70_000..70_005
+    # MSG-183x r529 leg.
+    # W119+ projection (gate-derived r678): A 281_004..283_003
+    # CLEAN hops=0; B first-clean 65_450..65_649 CLEAN hops=0;
+    # next freezer must re-derive, never transcribe (r587 law).
+    # NOT a re-pick (R250: W118 bands were never assigned).
+    118: {"a": (279_004, 281_003), "b_exit": (65_250, 65_449),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
