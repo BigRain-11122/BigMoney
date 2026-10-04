@@ -55,7 +55,7 @@ with open(REPORT, "ab") as f:
     f.write(supp_line.encode("utf-8"))
 with open(REPORT, "rb") as f:
     lines = [ln for ln in f.read().split(b"\n") if ln.strip()]
-assert b"r477-补" in lines[-1], "supplement line append failed"
+assert "r477-补".encode("utf-8") in lines[-1], "supplement line append failed"
 print("REPORT_OK supplement appended")
 
 with open(STATE, encoding="utf-8-sig") as f:
