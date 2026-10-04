@@ -1004,10 +1004,33 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 16:54:02",
+  "ts": "2026-10-04 17:08:02",
   "machine": "bm-b",
-  "py_cpu_pct": 55.2,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 68.1,
+  "verdict": "data_not_local",
+  "data_not_local": [
+   {
+    "entry": "MASS-TRIAL-W3-JUDGE-SHARD-1",
+    "shard": "w3-judge-1of4",
+    "data_missing": [
+     "results/mass_trial/w3_judge_state.json"
+    ]
+   },
+   {
+    "entry": "MASS-TRIAL-W3-JUDGE-SHARD-2",
+    "shard": "w3-judge-2of4",
+    "data_missing": [
+     "results/mass_trial/w3_judge_state.json"
+    ]
+   },
+   {
+    "entry": "MASS-TRIAL-W3-JUDGE-SHARD-3",
+    "shard": "w3-judge-3of4",
+    "data_missing": [
+     "results/mass_trial/w3_judge_state.json"
+    ]
+   }
+  ]
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-04T16:09:34+08:00"
