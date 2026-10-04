@@ -21,6 +21,17 @@ def sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
+def sha1(b: bytes) -> str:
+    return hashlib.sha1(b).hexdigest()
+
+
+def method_for(wm: str) -> str:
+    """Per-key method self-evidence (r458/r672): watermark length picks the
+    hash family -- 40-hex = SHA-1 (orders key), 64-hex = SHA-256 (decisions)."""
+    w = (wm or "").strip()
+    return "sha1" if len(w) == 40 else "sha256"
+
+
 def git_show(tree: str, path: str):
     r = subprocess.run(["git", "-C", tree, "show", "origin/main:%s" % path],
                        capture_output=True)
@@ -84,13 +95,17 @@ def main() -> int:
             blob_d = git_show(tw, "docs/decisions.md")
             blob_o = git_show(tw, "docs/orders.md")
             out["trees_tried"].append("sparse-clone")
-        out["decisions_sha"] = sha256(blob_d) if blob_d else None
-        out["orders_sha"] = sha256(blob_o) if blob_o else None
+        m_d = method_for(out["wm_decisions"])
+        m_o = method_for(out["wm_orders"])
+        out["decisions_method"] = m_d
+        out["orders_method"] = m_o
+        out["decisions_sha"] = (sha256(blob_d) if m_d == "sha256" else sha1(blob_d)) if blob_d else None
+        out["orders_sha"] = (sha256(blob_o) if m_o == "sha256" else sha1(blob_o)) if blob_o else None
         out["decisions_changed"] = (
-            out["decisions_sha"].lower()
+            (out["decisions_sha"] or "").lower()
             != (out["wm_decisions"] or "").lower())
         out["orders_changed"] = (
-            out["orders_sha"].lower() != (out["wm_orders"] or "").lower())
+            (out["orders_sha"] or "").lower() != (out["wm_orders"] or "").lower())
         if blob_d is not None:
             # dump full decision text for consumption if changed
             if out["decisions_changed"]:
@@ -109,7 +124,9 @@ def main() -> int:
                         encoding="utf-8"), ensure_ascii=True, indent=1)
     print(json.dumps({k: out[k] for k in
                       ("decisions_changed", "orders_changed",
-                       "decisions_sha", "wm_decisions")}))
+                       "decisions_sha", "wm_decisions",
+                       "orders_sha", "wm_orders",
+                       "decisions_method", "orders_method")}))
     return 0
 
 
