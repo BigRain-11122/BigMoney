@@ -1,0 +1,40 @@
+{
+ "probe": "r667bmb_trio_health",
+ "ts": "2026-10-04T11:24:37+08:00",
+ "burner_count": 3,
+ "burners": [
+  {
+   "pid": 34396,
+   "created": "/Date(1790973505943)/",
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_value_p1.py run --nulls"
+  },
+  {
+   "pid": 57116,
+   "created": "/Date(1790983603392)/",
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_quality_p1.py run --nulls"
+  },
+  {
+   "pid": 30208,
+   "created": "/Date(1790999682064)/",
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_divlowvol_p1.py run --nulls"
+  }
+ ],
+ "nulls_faces": {
+  "fund_value_p1": {
+   "rows": 725,
+   "unique_k": 725,
+   "dup_k": 0
+  },
+  "fund_quality_p1": {
+   "rows": 558,
+   "unique_k": 558,
+   "dup_k": 0
+  },
+  "fund_divlowvol_p1": {
+   "rows": 410,
+   "unique_k": 410,
+   "dup_k": 0
+  }
+ },
+ "verdict": "healthy"
+}
