@@ -141,12 +141,22 @@ W2_CANDIDATES_SHA_FROZEN = "1a8751ed16a9c641"             # w2_candidates.json
 # supply pre-position; w1 prereg sec.3 pre-registered semantics: SAME
 # registered seed-base sequences, draw window [1024,1536) = new candidates,
 # not re-evaluation; cross-wave dedup vs w1 975 + w2 4836 enrollees;
-# 5000 cap. Judge subcommands stay --wave {1,2} until the w3 sec.9
-# separate freeze lands (R99).)
+# 5000 cap. Judge subcommands --wave 3 unlocked by the w3 sec.9.1
+# separate-segment freeze (R99, owner bm-a r686).)
 W3_BATCH = "MASS_TRIAL_W3"
 W3_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
 W3_SKIP = 2 * N_DRAWS              # continuation window offset (1024)
 W3_NULL_SEED_OFF = 140              # nulls: base+140..+159 (w2: +120..+139)
+# ---- s3 judge face, wave-3 (prereg MASS_TRIAL_W3 sec.9.1 FROZEN before any
+# judge run per R99; seed mass_trial_w3_judge=20287000 band 20287000..20287499
+# registered in science_gates SEED_REGISTRY at the same freeze commit,
+# R250 one-step law; grid = w1/w2 sec.9.1 isomorphic: p5c FROZEN_CENSUS legs
+# L/D x windows {126,252,504} x cost {x1,x2} x regime 3-way segments +
+# dual nulls B=2000 block=20 circular + P=2000 sign-flip, rng=[20287000,
+# cell_idx], resample faces only)
+W3_JUDGE_BATCH = "MASS_TRIAL_W3_JUDGE"
+W3_JUDGE_SEED = sg.SEED_REGISTRY["mass_trial_w3_judge"]    # 20287000
+W3_CANDIDATES_SHA_FROZEN = "d0fc84b31113d572"             # w3_candidates.json
 
 
 def _judge_faces(wave):
@@ -161,14 +171,24 @@ def _judge_faces(wave):
                 "sha_frozen": CANDIDATES_SHA_FROZEN,
                 "refinalize_env": "MASS_TRIAL_W1_JUDGE_REFINALIZE",
                 "ticket": "T-94"}
-    return {"wave": 2, "batch": W2_JUDGE_BATCH, "seed": W2_JUDGE_SEED,
-            "state": os.path.join(OUT_DIR, "w2_judge_state.json"),
-            "out": os.path.join(OUT_DIR, "w2_judge.json"),
-            "ck_prefix": "w2_judge_shard",
-            "cand_file": "w2_candidates.json",
-            "sum_file": "w2_screen_summary.json",
-            "sha_frozen": W2_CANDIDATES_SHA_FROZEN,
-            "refinalize_env": "MASS_TRIAL_W2_JUDGE_REFINALIZE",
+    if wave == 2:
+        return {"wave": 2, "batch": W2_JUDGE_BATCH, "seed": W2_JUDGE_SEED,
+                "state": os.path.join(OUT_DIR, "w2_judge_state.json"),
+                "out": os.path.join(OUT_DIR, "w2_judge.json"),
+                "ck_prefix": "w2_judge_shard",
+                "cand_file": "w2_candidates.json",
+                "sum_file": "w2_screen_summary.json",
+                "sha_frozen": W2_CANDIDATES_SHA_FROZEN,
+                "refinalize_env": "MASS_TRIAL_W2_JUDGE_REFINALIZE",
+                "ticket": "T-158"}
+    return {"wave": 3, "batch": W3_JUDGE_BATCH, "seed": W3_JUDGE_SEED,
+            "state": os.path.join(OUT_DIR, "w3_judge_state.json"),
+            "out": os.path.join(OUT_DIR, "w3_judge.json"),
+            "ck_prefix": "w3_judge_shard",
+            "cand_file": "w3_candidates.json",
+            "sum_file": "w3_screen_summary.json",
+            "sha_frozen": W3_CANDIDATES_SHA_FROZEN,
+            "refinalize_env": "MASS_TRIAL_W3_JUDGE_REFINALIZE",
             "ticket": "T-158"}
 
 
@@ -1074,7 +1094,8 @@ def cmd_judge_prep(args):
     """sec.9.1 prep: frozen-product gates + dual-leg census gates + manifest
     gate + corr-dedup (leg-L base daily returns) + passive precompute.
     Wave-routed: --wave 1 = MASS_TRIAL_W1_JUDGE (byte-identical face),
-    --wave 2 = MASS_TRIAL_W2_JUDGE (prereg MASS_TRIAL_W2 sec.9.1)."""
+    --wave 2 = MASS_TRIAL_W2_JUDGE (prereg MASS_TRIAL_W2 sec.9.1),
+    --wave 3 = MASS_TRIAL_W3_JUDGE (prereg MASS_TRIAL_W3 sec.9.1)."""
     fc = _judge_faces(getattr(args, "wave", 1))
     os.makedirs(OUT_DIR, exist_ok=True)
     t0 = time.time()
@@ -1308,7 +1329,7 @@ def _judge_cell(cell):
 
 def cmd_judge(args):
     """Sharded judged-cell burn (checkpoint jsonl per cell, cross-kill
-    resume = skip recorded cell_ids). Wave-routed via --wave (1/2)."""
+    resume = skip recorded cell_ids). Wave-routed via --wave (1/2/3)."""
     fc = _judge_faces(getattr(args, "wave", 1))
     os.makedirs(OUT_DIR, exist_ok=True)
     if not os.path.exists(fc["state"]):
@@ -1368,7 +1389,8 @@ def cmd_judge_finalize(args):
     + ledger append (single-shot guard: a complete product is never
     re-appended; MASS_TRIAL_W1_JUDGE_REFINALIZE=1 = only redo, byte-stable
     via own-chain-position overrides per r259 prev-echo guard).
-    Wave-routed via --wave (1/2; w2 env MASS_TRIAL_W2_JUDGE_REFINALIZE)."""
+    Wave-routed via --wave (1/2/3; w2 env MASS_TRIAL_W2_JUDGE_REFINALIZE,
+    w3 env MASS_TRIAL_W3_JUDGE_REFINALIZE)."""
     fc = _judge_faces(getattr(args, "wave", 1))
     if not os.path.exists(fc["state"]):
         print(f"FINALIZE-GATE: {fc['state']} absent (judge-prep first)")
@@ -1559,7 +1581,9 @@ def cmd_selftest(args):
           sg.SEED_REGISTRY.get("mass_trial_w1_judge") == 20285000)
     check("w2 judge seed band registered + value (sec.9.1 freeze, R250)",
           sg.SEED_REGISTRY.get("mass_trial_w2_judge") == 20285200)
-    f1, f2 = _judge_faces(1), _judge_faces(2)
+    check("w3 judge seed band registered + value (sec.9.1 freeze, R250)",
+          sg.SEED_REGISTRY.get("mass_trial_w3_judge") == 20287000)
+    f1, f2, f3 = _judge_faces(1), _judge_faces(2), _judge_faces(3)
     check("judge faces wave-routed (w1 byte-face intact, w2 new files)",
           f1["batch"] == "MASS_TRIAL_W1_JUDGE" and f1["seed"] == 20285000
           and f1["state"] == JUDGE_STATE and f1["out"] == JUDGE_OUT
@@ -1573,6 +1597,17 @@ def cmd_selftest(args):
           and f2["ck_prefix"] == "w2_judge_shard"
           and f2["out"].endswith("w2_judge.json")
           and f2["refinalize_env"] == "MASS_TRIAL_W2_JUDGE_REFINALIZE")
+    check("w3 judge face wave-routed (sec.9.1 freeze, new files)",
+          f3["batch"] == "MASS_TRIAL_W3_JUDGE" and f3["seed"] == 20287000
+          and f3["cand_file"] == "w3_candidates.json"
+          and f3["sum_file"] == "w3_screen_summary.json"
+          and f3["sha_frozen"] == W3_CANDIDATES_SHA_FROZEN
+          and f3["sha_frozen"] == "d0fc84b31113d572"
+          and f3["ck_prefix"] == "w3_judge_shard"
+          and f3["state"].endswith("w3_judge_state.json")
+          and f3["out"].endswith("w3_judge.json")
+          and f3["refinalize_env"] == "MASS_TRIAL_W3_JUDGE_REFINALIZE"
+          and f3["ticket"] == "T-158")
     check("frozen census import intact (p5c wholesale, sec.9.3 binding)",
           FROZEN_CENSUS == {"L": {"6m": 1253, "12m": 1127, "24m": 875},
                             "D": {"6m": 3104, "12m": 2978, "24m": 2726}}
@@ -1757,16 +1792,16 @@ def main():
     f.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     f.set_defaults(func=cmd_finalize)
     jp = sub.add_parser("judge-prep")
-    jp.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    jp.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     jp.set_defaults(func=cmd_judge_prep)
     js_ = sub.add_parser("judge")
-    js_.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    js_.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     js_.add_argument("--shard", type=int, default=0)
     js_.add_argument("--shards", type=int, default=1)
     js_.add_argument("--workers", type=int, default=0)
     js_.set_defaults(func=cmd_judge)
     jf = sub.add_parser("judge-finalize")
-    jf.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    jf.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     jf.set_defaults(func=cmd_judge_finalize)
     t = sub.add_parser("selftest")
     t.set_defaults(func=cmd_selftest)

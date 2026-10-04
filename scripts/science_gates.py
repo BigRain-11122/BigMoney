@@ -1180,6 +1180,20 @@ SEED_REGISTRY = {
     # rg --type py full-repo scan + registry band scan 2026-10-03 r423
     # zero hits; registered same commit as the sec.9.1 freeze (one-step
     # R250 law)
+    "mass_trial_w3_judge": 20287000,  # MASS_TRIAL_W3_JUDGE dual-nulls
+    # resampling face per survivor cell (T-2026-10-03-158 s3 wave-3 judgment
+    # freeze = research/MASS_TRIAL_W3_PREREG.md sec.9.1, owner bm-a r686):
+    # grid isomorphic to w1/w2 sec.9.1 (p5c FROZEN_CENSUS legs L/D x windows
+    # {126,252,504} x cost {x1,x2} x regime 3-way segments) with dual nulls
+    # block bootstrap B=2000 (block=20td circular) + sign-flip permutation
+    # P=2000 (two-sided) per RANDOM_LARGE_SAMPLE_LAW sec.3; derivation =
+    # default_rng([20287000, cell_idx]) with rng stream pinned to the two
+    # resampling faces only (w1/w2 judge purpose-pinning precedent); declared
+    # band 20287000..20287499 sits with clean gap above trial_labor_w2_unc
+    # (20286500..20286519) and below trial_labor_w3_gen (20287500..20287599);
+    # registry band scan + git grep full-repo scan 2026-10-04 r686 zero hits
+    # (Money02/Money0923 data-csv volume digits excluded per precedent);
+    # registered same commit as the sec.9.1 freeze (one-step R250 law)
     "trial_labor_w2_gen": 20285500,  # TRIAL_LABOR_W2 candidate generation
     # (T-20260928-96 wave-2 prereg freeze = research/TRIAL_LABOR_W2_PREREG.md,
     # owner bm-b r357). Sobol low-discrepancy sampling (wave-2 declared
