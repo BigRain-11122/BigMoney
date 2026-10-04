@@ -136,6 +136,17 @@ W2_NULL_SEED_OFF = 120               # nulls: base+120..+139 (w1: +100..+119)
 W2_JUDGE_BATCH = "MASS_TRIAL_W2_JUDGE"
 W2_JUDGE_SEED = sg.SEED_REGISTRY["mass_trial_w2_judge"]    # 20285200
 W2_CANDIDATES_SHA_FROZEN = "1a8751ed16a9c641"             # w2_candidates.json
+# ---- wave-3 continuation face (prereg research/MASS_TRIAL_W3_PREREG.md,
+# T-2026-10-03-158 post-judge consumption face + O-20261004-1440 sec.3
+# supply pre-position; w1 prereg sec.3 pre-registered semantics: SAME
+# registered seed-base sequences, draw window [1024,1536) = new candidates,
+# not re-evaluation; cross-wave dedup vs w1 975 + w2 4836 enrollees;
+# 5000 cap. Judge subcommands stay --wave {1,2} until the w3 sec.9
+# separate freeze lands (R99).)
+W3_BATCH = "MASS_TRIAL_W3"
+W3_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
+W3_SKIP = 2 * N_DRAWS              # continuation window offset (1024)
+W3_NULL_SEED_OFF = 140              # nulls: base+140..+159 (w2: +120..+139)
 
 
 def _judge_faces(wave):
@@ -489,6 +500,21 @@ def _w1_enrolled_hashes(roster):
     return ph, sh
 
 
+def _enrolled_hashes(cand_file, roster):
+    """Cross-wave dedup sets (prereg W3 sec.1): recompute param hashes and
+    reuse stored signal hashes of all enrollees in a prior wave's
+    candidate file (generic face of _w1_enrolled_hashes; w1/w2 bodies
+    byte-preserved per the wave freeze contract)."""
+    path = os.path.join(OUT_DIR, cand_file)
+    cands = json.load(open(path, encoding="utf-8"))["candidates"]
+    by_family = {f["family"]: f for f in roster}
+    ph, sh = set(), set()
+    for c in cands:
+        ph.add(param_hash(by_family[c["family"]], c["params"], c["axes"]))
+        sh.add(c["signal_sha256"])
+    return ph, sh
+
+
 def cmd_generate_w2(args):
     """W2 continuation face (prereg MASS_TRIAL_W2 sec.3): same generators,
     draw window [512,1024), quota 66/family, cross-wave dedup vs w1."""
@@ -583,9 +609,110 @@ def cmd_generate_w2(args):
     return 0
 
 
+def cmd_generate_w3(args):
+    """W3 continuation face (prereg MASS_TRIAL_W3 sec.3): same generators,
+    draw window [1024,1536), quota 66/family, cross-wave dedup vs
+    w1(975) + w2(4836) enrollees."""
+    os.makedirs(OUT_DIR, exist_ok=True)
+    ctx = Ctx()
+    roster, excluded = ctx.roster, ctx.excluded
+    w1_p, w1_s = _enrolled_hashes("w1_candidates.json", roster)
+    w2_p, w2_s = _enrolled_hashes("w2_candidates.json", roster)
+    prior_p, prior_s = w1_p | w2_p, w1_s | w2_s
+    seen_phash, seen_shash = set(prior_p), set(prior_s)
+    candidates, stats = [], {"rejections": 0, "param_dupes": 0,
+                            "signal_dupes": 0, "dead_signal": 0,
+                            "cross_wave_param_dupes": 0,
+                            "cross_wave_signal_dupes": 0}
+    for fam in roster:
+        got, tries = 0, 0
+        for d_idx, params, axes in sample_draws(fam, N_DRAWS, skip=W3_SKIP):
+            if got >= W3_QUOTA_PER_FAMILY or tries >= N_DRAWS:
+                break
+            tries += 1
+            if not draw_valid(fam, params):
+                stats["rejections"] += 1
+                continue
+            ph = param_hash(fam, params, axes)
+            if ph in prior_p:
+                stats["cross_wave_param_dupes"] += 1
+                continue
+            if ph in seen_phash:
+                stats["param_dupes"] += 1
+                continue
+            try:
+                e, x, _scale = ctx.build_signals(fam, params, axes)
+            except Exception:
+                stats["dead_signal"] += 1
+                continue
+            if not bool(e.any().any()):
+                stats["dead_signal"] += 1
+                continue
+            sh = signal_hash(e, x)
+            if sh in prior_s:
+                stats["cross_wave_signal_dupes"] += 1
+                continue
+            if sh in seen_shash:
+                stats["signal_dupes"] += 1
+                continue
+            seen_phash.add(ph)
+            seen_shash.add(sh)
+            candidates.append({"id": f"W3-{fam['idx']:02d}{d_idx:03d}",
+                              "family": fam["family"], "kind": fam["kind"],
+                              "params": params, "axes": axes,
+                              "signal_sha256": sh})
+            got += 1
+        if got < W3_QUOTA_PER_FAMILY:
+            stats.setdefault("quota_short", {})[fam["family"]] = got
+        print(f"  w3gen fam {fam['idx']:02d} {fam['family']}: "
+              f"enrolled {got}/{W3_QUOTA_PER_FAMILY}", flush=True)
+    roster_path = os.path.join(OUT_DIR, "w3_roster.json")
+    cand_path = os.path.join(OUT_DIR, "w3_candidates.json")
+    with open(roster_path, "w", encoding="utf-8") as f:
+        json.dump({"batch": W3_BATCH, "roster": roster, "excluded": excluded,
+                   "cutoff": CUTOFF, "seed_base": SEED_BASE,
+                   "draw_window": [W3_SKIP, W3_SKIP + N_DRAWS],
+                   "quota_per_family": W3_QUOTA_PER_FAMILY,
+                   "n_draws": N_DRAWS,
+                   "axes": {"R": AX_R, "X": AX_X, "S": AX_S, "T": AX_T}},
+                  f, indent=1, ensure_ascii=False)
+    with open(cand_path, "w", encoding="utf-8") as f:
+        json.dump({"batch": W3_BATCH, "n": len(candidates),
+                   "evidence_cutoff": CUTOFF, "candidates": candidates},
+                  f, indent=1, ensure_ascii=False)
+    stats.update({"enrolled": len(candidates), "families": len(roster),
+                  "excluded_families": len(excluded),
+                  "cross_wave_set_sizes": {"param": len(prior_p),
+                                          "signal": len(prior_s)}})
+    with open(os.path.join(OUT_DIR, "w3_generate_summary.json"), "w",
+              encoding="utf-8") as f:
+        json.dump({"batch": W3_BATCH, **stats, "evidence_cutoff": CUTOFF}, f,
+                  indent=1, ensure_ascii=False)
+    with open(os.path.join(OUT_DIR, "grammar_registry.jsonl"), "a",
+              encoding="utf-8") as f:
+        f.write(json.dumps({
+            "wave": "w3", "batch": W3_BATCH, "seed_base": SEED_BASE,
+            "draw_window": [W3_SKIP, W3_SKIP + N_DRAWS],
+            "roster_sha256_16": hashlib.sha256(
+                open(roster_path, "rb").read()).hexdigest()[:16],
+            "candidates_sha256_16": hashlib.sha256(
+                open(cand_path, "rb").read()).hexdigest()[:16],
+            "families": len(roster), "draw_frame": N_DRAWS,
+            "enrolled": len(candidates),
+            "cross_dedup_vs": "w1(975)+w2(4836)",
+            "consumed_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")},
+            ensure_ascii=False) + "\n")
+    print(f"generate w3: {len(candidates)} candidates / {len(roster)} "
+          f"families; stats={json.dumps(stats)}; excluded={len(excluded)}")
+    return 0
+
+
 def cmd_generate(args):
-    if getattr(args, "wave", 1) == 2:
+    wave = getattr(args, "wave", 1)
+    if wave == 2:
         return cmd_generate_w2(args)
+    if wave == 3:
+        return cmd_generate_w3(args)
     os.makedirs(OUT_DIR, exist_ok=True)
     ctx = Ctx()
     roster, excluded = ctx.roster, ctx.excluded
@@ -664,8 +791,10 @@ def cmd_generate(args):
 # --------------------------------------------------------------- screen
 
 def _combined_rows(ctx, wave=1):
-    cand_file = "w1_candidates.json" if wave == 1 else "w2_candidates.json"
-    null_off = NULL_SEED_OFF if wave == 1 else W2_NULL_SEED_OFF
+    cand_file = {1: "w1_candidates.json", 2: "w2_candidates.json",
+                 3: "w3_candidates.json"}[wave]
+    null_off = {1: NULL_SEED_OFF, 2: W2_NULL_SEED_OFF,
+                3: W3_NULL_SEED_OFF}[wave]
     rows = json.load(open(os.path.join(OUT_DIR, cand_file),
                          encoding="utf-8"))["candidates"]
     for r in rows:
@@ -744,7 +873,8 @@ def cmd_screen(args):
     rows = _combined_rows(ctx, wave)
     ckpt = os.path.join(OUT_DIR,
                         "screen_checkpoint.jsonl" if wave == 1
-                        else "w2_screen_checkpoint.jsonl")
+                        else "w2_screen_checkpoint.jsonl" if wave == 2
+                        else "w3_screen_checkpoint.jsonl")
     done = set()
     if os.path.exists(ckpt):
         with open(ckpt, encoding="utf-8") as f:
@@ -798,12 +928,15 @@ def cmd_finalize(args):
     idempotency: an existing complete summary's ledger entry is never
     recomputed (re-run would double-count the chain)."""
     wave = getattr(args, "wave", 1)
-    batch = BATCH if wave == 1 else W2_BATCH
-    cand_file = "w1_candidates.json" if wave == 1 else "w2_candidates.json"
-    sum_file = "w1_screen_summary.json" if wave == 1 else "w2_screen_summary.json"
+    batch = {1: BATCH, 2: W2_BATCH, 3: W3_BATCH}[wave]
+    cand_file = {1: "w1_candidates.json", 2: "w2_candidates.json",
+                 3: "w3_candidates.json"}[wave]
+    sum_file = {1: "w1_screen_summary.json", 2: "w2_screen_summary.json",
+                3: "w3_screen_summary.json"}[wave]
     ckpt = os.path.join(OUT_DIR,
                         "screen_checkpoint.jsonl" if wave == 1
-                        else "w2_screen_checkpoint.jsonl")
+                        else "w2_screen_checkpoint.jsonl" if wave == 2
+                        else "w3_screen_checkpoint.jsonl")
     rows = [json.loads(line) for line in open(ckpt, encoding="utf-8")]
     cand = [r for r in rows if r.get("row_type") == "candidate"]
     ctrl = [r for r in rows if r.get("row_type") == "control"]
@@ -1577,6 +1710,33 @@ def cmd_selftest(args):
                       SEED_BASE + W2_NULL_SEED_OFF + 20))
     check("w2 null seeds disjoint from w1 null band",
           not (w1_ns & w2_ns) and min(w2_ns) == 20283120)
+    # ---- wave-3 continuation face (prereg MASS_TRIAL_W3 sec.3) ----
+    check("w3 skip identity == 2x draw frame (1024)",
+          W3_SKIP == 2 * N_DRAWS == 1024)
+    d_first32 = list(sample_draws(fam, 32))
+    d_win24 = list(sample_draws(fam, 8, skip=24))
+    check("w3 continuation: skip window == tail of 4n frame (content)",
+          [t[1:] for t in d_first32[24:]] == [t[1:] for t in d_win24])
+    h_w2_frame = {param_hash(fam, p, a)
+                  for _, p, a in sample_draws(fam, 64, skip=W2_SKIP)}
+    h_w3_real = {param_hash(fam, p, a)
+                 for _, p, a in sample_draws(fam, 64, skip=W3_SKIP)}
+    # Positional novelty is proven by the tail-identity legs above; at the
+    # MAPPED-param level discrete families (fam0: 31x16=496 int combos)
+    # legitimately repeat across windows -- the w2 sec.8 enum-collision
+    # mechanism, counted+removed by the cross-wave dedup faces. The bound
+    # guards against catastrophic space exhaustion (all-64 collide).
+    check("w3 window: enum-collision repeats stay a bounded minority "
+          "(fam0, dedup-handled per w2 sec.8)",
+          len(h_w1_full & h_w3_real) <= 8
+          and len(h_w2_frame & h_w3_real) <= 8)
+    check("w3 quota math 75x66=4950 <= 5000 cap",
+          75 * W3_QUOTA_PER_FAMILY == 4950 and 4950 <= 5000)
+    w3_ns = set(range(SEED_BASE + W3_NULL_SEED_OFF,
+                      SEED_BASE + W3_NULL_SEED_OFF + 20))
+    check("w3 null seeds disjoint from w1+w2 null bands",
+          not (w1_ns & w3_ns) and not (w2_ns & w3_ns)
+          and min(w3_ns) == 20283140)
     print(f"selftest: {ok}/{n_checks} PASS")
     return 0 if ok == n_checks else 1
 
@@ -1585,16 +1745,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("generate")
-    g.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    g.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     g.set_defaults(func=cmd_generate)
     s = sub.add_parser("screen")
-    s.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    s.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     s.add_argument("--pos-from", type=int, default=0)
     s.add_argument("--pos-to", type=int, default=10 ** 9)
     s.add_argument("--workers", type=int, default=0)
     s.set_defaults(func=cmd_screen)
     f = sub.add_parser("finalize")
-    f.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    f.add_argument("--wave", type=int, default=1, choices=[1, 2, 3])
     f.set_defaults(func=cmd_finalize)
     jp = sub.add_parser("judge-prep")
     jp.add_argument("--wave", type=int, default=1, choices=[1, 2])
