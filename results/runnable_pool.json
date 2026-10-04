@@ -15502,7 +15502,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15519,15 +15519,21 @@
    "shards": [
     {
      "key": "n2w15judge-2of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_2of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==2 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-2/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-05 02:43:18"
+     "owner_since": "2026-10-05 03:42:03",
+     "claimed_since": "2026-10-05 02:43:18",
+     "done_at": "2026-10-05 03:42:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-2of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-3",
@@ -15590,7 +15596,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15607,15 +15613,21 @@
    "shards": [
     {
      "key": "n2w15judge-4of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_4of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==4 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-4/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 03:48:14"
+     "owner_since": "2026-10-05 03:53:33",
+     "claimed_since": "2026-10-05 03:32:22",
+     "done_at": "2026-10-05 03:53:33",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-4of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-5",
@@ -15631,7 +15643,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15648,15 +15660,21 @@
    "shards": [
     {
      "key": "n2w15judge-5of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_5of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==5 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-5/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-05 03:42:08"
+     "owner_since": "2026-10-05 03:53:33",
+     "claimed_since": "2026-10-05 03:14:07",
+     "done_at": "2026-10-05 03:53:33",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-5of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-6",
@@ -15693,11 +15711,11 @@
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_6of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==6 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-6/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-a",
-     "owner_since": "2026-10-05 03:32:44",
+     "owner_since": "2026-10-05 03:42:03",
      "claimed_since": "2026-10-05 03:10:44",
-     "done_at": "2026-10-05 03:32:44",
-     "harvested_by": "bm-c",
-     "harvest_claim": "n2w15judge-6of12.bm-c.json"
+     "done_at": "2026-10-05 03:42:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-6of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
@@ -15719,7 +15737,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15736,15 +15754,21 @@
    "shards": [
     {
      "key": "n2w15judge-7of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_7of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==7 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-7/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-05 03:42:49"
+     "owner_since": "2026-10-05 03:53:33",
+     "claimed_since": "2026-10-05 03:12:33",
+     "done_at": "2026-10-05 03:53:33",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-7of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-8",
@@ -15760,7 +15784,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15777,15 +15801,21 @@
    "shards": [
     {
      "key": "n2w15judge-8of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_8of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==8 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-8/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-05 03:43:30"
+     "owner_since": "2026-10-05 03:53:34",
+     "claimed_since": "2026-10-05 03:14:33",
+     "done_at": "2026-10-05 03:53:34",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-8of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-9",
@@ -15801,7 +15831,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15818,15 +15848,21 @@
    "shards": [
     {
      "key": "n2w15judge-9of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_9of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==9 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-9/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-05 03:44:11"
+     "owner_since": "2026-10-05 03:53:34",
+     "claimed_since": "2026-10-05 03:06:08",
+     "done_at": "2026-10-05 03:53:34",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-9of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-10",
@@ -15842,7 +15878,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15859,15 +15895,21 @@
    "shards": [
     {
      "key": "n2w15judge-10of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_10of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==10 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-10/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-a",
-     "owner_since": "2026-10-05 03:08:08"
+     "owner_since": "2026-10-05 03:42:03",
+     "claimed_since": "2026-10-05 03:08:08",
+     "done_at": "2026-10-05 03:42:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-10of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   },
   {
    "id": "PERPETUAL-N2-W15-JUDGE-SHARD-11",
@@ -15883,7 +15925,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-05T01:13:21+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15900,15 +15942,21 @@
    "shards": [
     {
      "key": "n2w15judge-11of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_11of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
      "note": "bounds: kept cells i%12==11 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-11/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-a",
-     "owner_since": "2026-10-05 03:10:08"
+     "owner_since": "2026-10-05 03:42:03",
+     "claimed_since": "2026-10-05 03:10:08",
+     "done_at": "2026-10-05 03:42:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "n2w15judge-11of12.bm-a.json"
     }
    ],
    "entered_by": "bm-a r705",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 03:42:03"
   }
  ]
 }
