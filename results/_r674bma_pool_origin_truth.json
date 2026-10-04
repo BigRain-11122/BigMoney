@@ -1,0 +1,209 @@
+{
+ "origin_tip_pool_nulls_entries": {
+  "P1E-NULLS-MARC": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "p1e-nulls-marc",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-26 05:00:05",
+     "checkpoint": "results/shortline/p1e_nulls_M_arc.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+     "note": "K=50 nulls, mask class M_arc (close & tr & vwap finite, #93 family inputs), seeds 67100..67149; est ~6-7min (loads close+tr+vwap)",
+     "done_flip": {
+      "ts": "2026-09-26 05:35",
+      "by": "bm-b r225",
+      "evidence": "artifact p1e_nulls_M_arc.json landed ~05:32 (pid27452 launched 05:00:09; n_nulls=50, per_h 3-col, equivalence PASS, mask_cells 16638518 == r225 production-form mask probe bit-match (close+tr+vwap load, share 0.3624), seed_band 67100-67150 per prereg continuous ledger)"
+     }
+    }
+   ]
+  },
+  "P1E-NULLS-MCLOSE": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "p1e-nulls-mclose",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-26 04:10:05",
+     "checkpoint": "results/shortline/p1e_nulls_M_close.json (n_nulls==50, per-h p95/p50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+     "note": "K=50 white-noise nulls, mask class M_close (close finite, terrified inputs), seeds 67000..67049; est ~6-7min (150 IC @ ~1.9s + panel load close-only)",
+     "done_flip": {
+      "ts": "2026-09-26 04:15",
+      "by": "bm-b r222",
+      "evidence": "artifact p1e_nulls_M_close.json landed 04:02:05 (n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 17117855 == r221 mask_probe bit-match, seed_band 67000-67050 per prereg continuous ledger)"
+     }
+    }
+   ]
+  },
+  "P1E-NULLS-MCLOSETR": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "p1e-nulls-mclosetr",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-26 04:20:05",
+     "checkpoint": "results/shortline/p1e_nulls_M_close_tr.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+     "note": "K=50 nulls, mask class M_close_tr (close & tr finite, stv+coin_team inputs), seeds 67050..67099; est ~6-7min (loads close+tr sidecar)",
+     "done_flip": {
+      "ts": "2026-09-26 04:57",
+      "by": "bm-b r224",
+      "evidence": "artifact p1e_nulls_M_close_tr.json landed ~04:52 (pid24824 exited; n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 16638518 == r224 production-form mask probe bit-match (close+tr load, share 0.3624), seed_band 67050-67100 per prereg continuous ledger; elapsed 1902.8s ~= 32min/shard est)"
+     }
+    }
+   ]
+  },
+  "T18-DEEP-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "nulls-0of1",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-24 21:46:37",
+     "checkpoint": "results/shortline/t18_deep_nulls_runs.jsonl (manifest-sha keyed resume; 50 runs seed-deterministic)",
+     "note": "50 nulls + 2 passives, single-writer shard; r116 pre-flight 2.5s/run -> ETA ~2-5min on 12 workers; takeover = owner hb stale >20min, checkpoint resume"
+    }
+   ]
+  },
+  "WILD-S1-NULLS": {
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-09-25 18:48:28",
+   "shards": [
+    {
+     "key": "wr-nulls",
+     "status": "done",
+     "owner": "bm-b",
+     "note": "K=50 same-mask nulls, est 1-4min total; MUST complete before finalize",
+     "owner_since": "2026-09-25 18:53:01"
+    }
+   ]
+  },
+  "LOWAMP-P1-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "lowamp-p1-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20330500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:48:04",
+     "claimed_since": "2026-10-01 01:50:10",
+     "done_at": "2026-10-01 02:48:04",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p1-nulls-0of1.bm-a.json"
+    }
+   ]
+  },
+  "LOWAMP-P2-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "lowamp-p2-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_p2/ JSONL per-start append, done-key skip",
+     "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20334500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool; N_eff face: net ledger head + 2008",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 13:58:03",
+     "claimed_since": "2026-10-01 13:30:14",
+     "done_at": "2026-10-01 13:58:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p2-nulls-0of1.bm-a.json"
+    }
+   ]
+  },
+  "REFINE-BENCH-REV-P2-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "rev-p2-nulls",
+     "status": "done",
+     "checkpoint": "results/refine_bench_stock/rev_p2/ per-unit checkpoint presence=done",
+     "note": "K=2000 same-mask random event nulls H=20 time-exit x1 cost rng(20263300+k), 20 chunks x 100 via ProcessPool; phase-2 52-cohort synthetic annual Sharpe -> nulls_pool.json; est 15-35min; feeds skill_line_v2 null_pool",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 14:52:03",
+     "claimed_since": "2026-10-01 14:36:41",
+     "done_at": "2026-10-01 14:52:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "rev-p2-nulls.bm-a.json"
+    }
+   ]
+  },
+  "LOWAMP-P3-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "lowamp-p3-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_p3/ nulls JSONL checkpoint",
+     "owner": "bm-c",
+     "owner_since": "2026-10-02 03:32:04",
+     "claimed_since": "2026-10-02 03:20:18",
+     "done_at": "2026-10-02 03:32:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "lowamp-p3-nulls-0of1.bm-b.json"
+    }
+   ]
+  },
+  "LOWAMP-DEEP-P1-NULLS": {
+   "status": "done",
+   "shards": [
+    {
+     "key": "lowamp-deep-p1-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_deep_p1/ JSONL checkpoint resume (t22 pattern, done-key skip)",
+     "note": "K=2000 deep-universe same-mask hold-through nulls (headline W=104 mask, eq weights), rng([20337500,k]); first deep-universe null pool fleetwide; feeds skill_line_v2 null_pool",
+     "owner": "bm-b",
+     "owner_since": "2026-10-03 01:12:04",
+     "claimed_since": "2026-10-03 00:52:08",
+     "done_at": "2026-10-03 01:12:04",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-deep-p1-nulls-0of1.bm-a.json",
+     "harvest_note": "r600 session re-flip (fresh stamp r311 newest-wins vs stale-view rival claims r297): engine burn complete, products on origin"
+    }
+   ]
+  },
+  "FUND-VALUE-P1-NULLS": {
+   "status": "ready",
+   "shards": [
+    {
+     "key": "fund-value-p1-nulls-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
+     "owner": "bm-b",
+     "owner_since": "2026-10-04 11:36:12"
+    }
+   ]
+  },
+  "FUND-QUALITY-P1-NULLS": {
+   "status": "ready",
+   "shards": [
+    {
+     "key": "fund-quality-p1-nulls-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
+     "owner": "bm-b",
+     "owner_since": "2026-10-04 11:36:12"
+    }
+   ]
+  },
+  "FUND-DIVLOWVOL-P1-NULLS": {
+   "status": "ready",
+   "shards": [
+    {
+     "key": "fund-divlowvol-p1-nulls-0of1",
+     "status": "ready",
+     "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
+     "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
+     "owner": "bm-b",
+     "owner_since": "2026-10-04 11:36:12"
+    }
+   ]
+  }
+ }
+}
