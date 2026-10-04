@@ -1,179 +1,179 @@
 {
-  "trader": "COMPOSITE-CE-01",
-  "anchor_ok": true,
-  "anchor": {
-    "ok": true,
-    "cutoff": "2026-09-22",
-    "got": {
-      "in_sample": {
-        "sharpe": 1.1244,
-        "annual_return": 0.0559,
-        "max_drawdown": -0.0901,
-        "trades": 309
-      },
-      "out_sample": {
-        "sharpe": 0.862,
-        "annual_return": 0.0745,
-        "max_drawdown": -0.0735,
-        "trades": 164
-      }
-    },
-    "checks": {
-      "in_sample": true,
-      "out_sample": true
-    }
+ "trader": "COMPOSITE-CE-01",
+ "anchor_ok": true,
+ "anchor": {
+  "ok": true,
+  "cutoff": "2026-09-22",
+  "got": {
+   "in_sample": {
+    "sharpe": 1.1244,
+    "annual_return": 0.0559,
+    "max_drawdown": -0.0901,
+    "trades": 309
+   },
+   "out_sample": {
+    "sharpe": 0.862,
+    "annual_return": 0.0745,
+    "max_drawdown": -0.0735,
+    "trades": 164
+   }
   },
-  "paper_start": "2026-09-23",
+  "checks": {
+   "in_sample": true,
+   "out_sample": true
+  }
+ },
+ "paper_start": "2026-09-23",
+ "bars": 5,
+ "months_tracked": 0,
+ "monthly_returns": [],
+ "current_dd": -0.0029,
+ "months_detail": [
+  {
+   "month": "2026-09",
+   "return": 0.001,
+   "bars": 5,
+   "month_ended": false,
+   "full_from_hire": false,
+   "counted": false
+  }
+ ],
+ "window_metrics": {
+  "win_rate": 0.0,
+  "num_trades": 0,
+  "avg_hold_days": 0.0,
+  "win_rate_full": 0.0,
+  "profit_factor_full": 0.0,
+  "avg_pnl_full": 0.0,
+  "fill_guard_buy_dropped": 0,
+  "fill_guard_sell_deferred_events": 0,
+  "fill_guard_deferred_days_total": 0,
+  "fill_guard_first_deferred_date": null,
+  "cn_one_word": {
+   "buy_dropped": 0,
+   "sell_deferred": 0,
+   "violations": 0
+  },
+  "status": "insufficient_data",
   "bars": 5,
-  "months_tracked": 0,
-  "monthly_returns": [],
-  "current_dd": -0.0029,
-  "months_detail": [
-    {
-      "month": "2026-09",
-      "return": 0.001,
-      "bars": 5,
-      "month_ended": false,
-      "full_from_hire": false,
-      "counted": false
-    }
-  ],
-  "window_metrics": {
-    "win_rate": 0.0,
-    "num_trades": 0,
-    "avg_hold_days": 0.0,
-    "win_rate_full": 0.0,
-    "profit_factor_full": 0.0,
-    "avg_pnl_full": 0.0,
-    "fill_guard_buy_dropped": 0,
-    "fill_guard_sell_deferred_events": 0,
-    "fill_guard_deferred_days_total": 0,
-    "fill_guard_first_deferred_date": null,
-    "cn_one_word": {
-      "buy_dropped": 0,
-      "sell_deferred": 0,
-      "violations": 0
-    },
-    "status": "insufficient_data",
-    "bars": 5,
-    "floor": 20,
-    "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
+  "floor": 20,
+  "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
+ },
+ "cost_x2_check": {
+  "status": "insufficient_data",
+  "bars": 5,
+  "min_bars": 20
+ },
+ "x2_watch": {
+  "status": "ok",
+  "probation": false,
+  "margin": 0.1238,
+  "survive": true,
+  "source": "registration_x2_seed"
+ },
+ "cutoff": "2026-09-30",
+ "updated": "2026-10-05 01:35:19",
+ "risk_regime": {
+  "is_major_bear": false,
+  "position_cap": 0.8,
+  "as_of": "2026-09-30"
+ },
+ "regime_guard": {
+  "mode": "enforce",
+  "approved": true,
+  "active_from": "2026-10-01",
+  "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
+  "active": false,
+  "enforced": {
+   "active_from": "2026-10-01",
+   "days_enforced": 0,
+   "entries_blocked": 0,
+   "entries_halved": 0
   },
-  "cost_x2_check": {
-    "status": "insufficient_data",
-    "bars": 5,
-    "min_bars": 20
+  "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
+ },
+ "forward_guard": {
+  "enabled": true,
+  "guard_source": "t14_rules_fidelity.build_guard",
+  "buy_rejected_n": 0,
+  "sell_deferred_events_n": 0,
+  "deferred_days_total": 0,
+  "first_deferred_date": null,
+  "window_semantics": "guarded",
+  "as_of": "2026-10-05 01:35:19",
+  "consolidation": {
+   "enabled": true,
+   "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
+   "events_total": 21,
+   "events_in_universe_n": 1,
+   "crossing_rows_n": 0,
+   "crossing_rows": [],
+   "open_position_hits": 0,
+   "closed_trade_hits": 0,
+   "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
+   "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
+   "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
+  }
+ },
+ "open_positions": [
+  {
+   "symbol": "159980",
+   "quantity": 87436.72,
+   "cost_price": 2.173,
+   "high_watermark": 2.173,
+   "hold_days": 4,
+   "last_close": 2.157,
+   "market_value_cny": 188601.01,
+   "unrealized_pnl_cny": -1398.99
   },
-  "x2_watch": {
-    "status": "ok",
-    "probation": false,
-    "margin": 0.1238,
-    "survive": true,
-    "source": "registration_x2_seed"
+  {
+   "symbol": "511010",
+   "quantity": 1350.55,
+   "cost_price": 140.683,
+   "high_watermark": 140.747,
+   "hold_days": 4,
+   "last_close": 140.735,
+   "market_value_cny": 190069.65,
+   "unrealized_pnl_cny": 70.23
   },
-  "cutoff": "2026-09-30",
-  "updated": "2026-10-05 01:35:19",
-  "risk_regime": {
-    "is_major_bear": false,
-    "position_cap": 0.8,
-    "as_of": "2026-09-30"
+  {
+   "symbol": "511090",
+   "quantity": 1581.53,
+   "cost_price": 120.137,
+   "high_watermark": 120.609,
+   "hold_days": 4,
+   "last_close": 120.14,
+   "market_value_cny": 190005.01,
+   "unrealized_pnl_cny": 4.74
   },
-  "regime_guard": {
-    "mode": "enforce",
-    "approved": true,
-    "active_from": "2026-10-01",
-    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
-    "active": false,
-    "enforced": {
-      "active_from": "2026-10-01",
-      "days_enforced": 0,
-      "entries_blocked": 0,
-      "entries_halved": 0
-    },
-    "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
+  {
+   "symbol": "511260",
+   "quantity": 1409.09,
+   "cost_price": 134.839,
+   "high_watermark": 134.9,
+   "hold_days": 4,
+   "last_close": 134.804,
+   "market_value_cny": 189950.97,
+   "unrealized_pnl_cny": -49.32
   },
-  "forward_guard": {
-    "enabled": true,
-    "guard_source": "t14_rules_fidelity.build_guard",
-    "buy_rejected_n": 0,
-    "sell_deferred_events_n": 0,
-    "deferred_days_total": 0,
-    "first_deferred_date": null,
-    "window_semantics": "guarded",
-    "as_of": "2026-10-05 01:35:19",
-    "consolidation": {
-      "enabled": true,
-      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
-      "events_total": 21,
-      "events_in_universe_n": 1,
-      "crossing_rows_n": 0,
-      "crossing_rows": [],
-      "open_position_hits": 0,
-      "closed_trade_hits": 0,
-      "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
-      "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
-      "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
-    }
-  },
-  "open_positions": [
-    {
-      "symbol": "159980",
-      "quantity": 87436.72,
-      "cost_price": 2.173,
-      "high_watermark": 2.173,
-      "hold_days": 4,
-      "last_close": 2.157,
-      "market_value_cny": 188601.01,
-      "unrealized_pnl_cny": -1398.99
-    },
-    {
-      "symbol": "511010",
-      "quantity": 1350.55,
-      "cost_price": 140.683,
-      "high_watermark": 140.747,
-      "hold_days": 4,
-      "last_close": 140.735,
-      "market_value_cny": 190069.65,
-      "unrealized_pnl_cny": 70.23
-    },
-    {
-      "symbol": "511090",
-      "quantity": 1581.53,
-      "cost_price": 120.137,
-      "high_watermark": 120.609,
-      "hold_days": 4,
-      "last_close": 120.14,
-      "market_value_cny": 190005.01,
-      "unrealized_pnl_cny": 4.74
-    },
-    {
-      "symbol": "511260",
-      "quantity": 1409.09,
-      "cost_price": 134.839,
-      "high_watermark": 134.9,
-      "hold_days": 4,
-      "last_close": 134.804,
-      "market_value_cny": 189950.97,
-      "unrealized_pnl_cny": -49.32
-    },
-    {
-      "symbol": "513100",
-      "quantity": 82322.36,
-      "cost_price": 2.308,
-      "high_watermark": 2.352,
-      "hold_days": 4,
-      "last_close": 2.352,
-      "market_value_cny": 193622.19,
-      "unrealized_pnl_cny": 3622.18
-    }
-  ],
-  "capital": {
-    "initial_cash_cny": 1000000.0,
-    "equity_cny": 1001009.96,
-    "positions_value_cny": 952248.83,
-    "cash_cny": 48761.13,
-    "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
-    "denomination": "CNY"
-  },
-  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+  {
+   "symbol": "513100",
+   "quantity": 82322.36,
+   "cost_price": 2.308,
+   "high_watermark": 2.352,
+   "hold_days": 4,
+   "last_close": 2.352,
+   "market_value_cny": 193622.19,
+   "unrealized_pnl_cny": 3622.18
+  }
+ ],
+ "capital": {
+  "initial_cash_cny": 1000000.0,
+  "equity_cny": 1001009.96,
+  "positions_value_cny": 952248.83,
+  "cash_cny": 48761.13,
+  "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+  "denomination": "CNY"
+ },
+ "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
 }

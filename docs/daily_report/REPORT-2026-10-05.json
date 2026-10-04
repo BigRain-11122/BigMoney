@@ -309,9 +309,9 @@
    ],
    "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -642,7 +642,7 @@
   "delta_vs_prev": {
    "prev_generated": "2026-10-05 00:51:00",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 836,
    "mandate_growth": 0
   },
   "method": {
@@ -779,23 +779,11 @@
    "bm-c": {
     "latest_ts": "2026-10-05 00:39:50",
     "py_pct": 5.8,
-    "cpu_pct": 4.0,
-    "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "cpu_pct": 5.0,
+    "ready": 4,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "21:06",
-      0.5
-     ],
-     [
-      "21:26",
-      0.2
-     ],
-     [
-      "21:41",
-      9.8
-     ],
      [
       "22:05",
       86.7
@@ -829,14 +817,26 @@
       85.6
      ],
      [
+      "00:30",
+      0.3
+     ],
+     [
       "00:39",
+      5.8
+     ],
+     [
+      "00:48",
+      0.3
+     ],
+     [
+      "01:16",
       5.8
      ]
     ],
-    "today_samples": 1,
-    "today_floor_ok": 1,
+    "today_samples": 4,
+    "today_floor_ok": 4,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 0
+    "today_supply_gap_flags": 1
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -889,8 +889,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 19,
-     "audit_ts": "2026-10-05 00:39:50"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-05 01:16:41"
     }
    }
   },
