@@ -1,0 +1,40 @@
+{
+ "probe": "r702 W120 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 117,
+   "tail": "W119",
+   "owner_rows": 109,
+   "bma_rows": 35,
+   "ordinal": 110,
+   "bma_ordinal": 36
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "8792adc72 (pre-freeze, r565)"
+  },
+  "leg1": {
+   "A": "283_004..285_003",
+   "hops_A": 0,
+   "B": "65_650..65_849",
+   "hops_B": 0,
+   "B_semantics": "arithmetic continuation (both faces CLEAN, zero-jump two-reading-identical; cross-machine convergence with the W119 gate-tail projection)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-04-2349-bma-w120-seat.md",
+   "push": "8792adc72 (pre-freeze, r565)"
+  },
+  "leg3": {
+   "W121p_A": "285004..287003",
+   "hops_A": 0,
+   "W121p_B": "66001..66200",
+   "hops_B": 1,
+   "B_refusal_fact": "SEED_REGISTRY bond_carry_w3a=66000 mid-band hit in the arithmetic 65_850..66_049 window -> past-hit restart (pinned D-20261002-05)"
+  }
+ },
+ "verdict": "ADMIT"
+}
