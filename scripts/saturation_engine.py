@@ -141,6 +141,53 @@ FAMILIES = {
 }
 
 
+# --- D-20261002-03 fix ① (scripts-face port, T-2026-10-04-168-P1):
+#     per-tick module-view re-read. A resident instance's sys.modules
+#     cache is frozen at process start (r325 "new wave invisible to the
+#     live engine" root cause) -- FAMILIES binds the imported n1/n4
+#     module objects once, so wave rows registered after engine start
+#     were invisible to the LIVE instance. Watch each family module
+#     file's mtime and reload+rebind on change, so a freshly frozen
+#     wave row is visible on the next tick without any restart.
+#     (Tools-face reference implementation: same-law pattern L162-197.)
+_MOD_WATCH = {
+    "N1": {"path": os.path.abspath(n1.__file__), "mtime": None},
+    "N4": {"path": os.path.abspath(n4.__file__), "mtime": None},
+}
+
+
+def _mtime_stale(path, recorded):
+    """(stale, mtime): stale = on-disk module changed since the recorded
+    load -> the resident instance must re-read the module view."""
+    try:
+        m = os.path.getmtime(path)
+    except OSError:
+        return False, recorded
+    return recorded is not None and m != recorded, m
+
+
+def _refresh_family_modules():
+    """Per-tick module-view re-read (D-20261002-03 fix ①). Returns the
+    family ids reloaded this cycle. Mid-surgery file (rebase checkout
+    window): keep the loaded view, retry next cycle."""
+    import importlib
+    changed = []
+    for fam_id, w in _MOD_WATCH.items():
+        stale, m = _mtime_stale(w["path"], w["mtime"])
+        if stale:
+            try:
+                fam = FAMILIES.get(fam_id)
+                if fam is not None:
+                    fam["module"] = importlib.reload(fam["module"])
+                w["mtime"] = m
+                changed.append(fam_id)
+            except Exception:
+                pass          # mid-surgery window: retry next cycle
+        else:
+            w["mtime"] = m
+    return changed
+
+
 def _now_iso():
     return time.strftime("%Y-%m-%dT%H:%M:%S") + time.strftime("%z")[:3] \
         + ":" + time.strftime("%z")[3:]
@@ -489,6 +536,7 @@ def _flush_ledger(st, now_epoch):
 
 def tick(dry=False):
     t0 = time.time()
+    _refresh_family_modules()   # D-20261002-03 fix ①: live module view
     now_epoch = time.time()
     py = _py_cpu_pct()
     ram = _ram_free_gb()
@@ -977,14 +1025,15 @@ def selftest():
             assert all(i["runner"].endswith(
                 FAMILIES[fam_name]["runner"].split("/")[-1])
                 for i in fam_items), f"runner drift ({fam_name}/{owner})"
-    # N4 real-tree queue face: owner bm-a -> B1 + B2 waves x 6 member
-    # shards (r606 multi-wave; engine runner_args carry --of 6 and the
-    # per-item --wave -- per-family width law)
+    # N4 real-tree queue face: owner bm-a -> B1 + B2 + B3 waves x 6 member
+    # shards (r606 multi-wave; B3 tail row registered per n4 module S11
+    # contract leg; engine runner_args carry --of 6 and the per-item
+    # --wave -- per-family width law)
     q_bma = _queue_items(FAMILIES, lambda *a: False, set(), "bm-a")
     n4_items = [i for i in q_bma if i["face"] == "N4"]
-    assert len(n4_items) == 12 \
+    assert len(n4_items) == 18 \
         and all(i["nshards"] == 6 for i in n4_items), \
-        "N4 queue must hold 12 member shards (B1+B2 waves, bm-a owner)"
+        "N4 queue must hold 18 member shards (B1+B2+B3 waves, bm-a owner)"
     assert n4_items[0]["runner_args"] == \
         ["run", "--shard", "0", "--of", "6", "--wave", "B1",
          "--workers", str(WORKERS), "--lane", "engine"], \
@@ -1025,7 +1074,60 @@ def selftest():
                         set(), set(), set(), "bm-b", _fpath)
     assert len(orow) == 12 and all(r["face"] == "N4" for r in orow), \
         "orphan reconciliation must dispatch by family face (12 N4 rows)"
-    print("selftest: PASS (10 legs: queue generator owner/done/active "
+    # 9. D-20261002-03 fix ① (scripts face, T-2026-10-04-168-P1):
+    #    module-view mtime watch + reload rebinds FAMILIES so newly
+    #    frozen wave rows are visible to a resident instance. Hermetic:
+    #    temp module registered as a TEST family row; real N1/N4 watch
+    #    state saved/restored so the live face is untouched. reload()
+    #    re-finds the spec by module NAME through sys.path, so the
+    #    fixture file name must equal the module name and tmp must sit
+    #    on sys.path (real n1/n4 live in scripts/, already on sys.path).
+    _fam_modname = "fakefam_mod_%d" % os.getpid()
+    mpath = os.path.join(tmp, _fam_modname + ".py")
+    with open(mpath, "w", encoding="utf-8") as f:
+        f.write("WAVE_CONFIGS = {10: 'a'}\n")
+    sys.path.insert(0, tmp)
+    import importlib.util as _ilu
+    _spec = _ilu.spec_from_file_location(_fam_modname, mpath)
+    fmod = _ilu.module_from_spec(_spec)
+    _spec.loader.exec_module(fmod)
+    sys.modules[_fam_modname] = fmod   # reload() requires sys.modules presence
+    _saved_watch = {k: dict(v) for k, v in _MOD_WATCH.items()}
+    _saved_fam = FAMILIES.get("TEST")
+    FAMILIES["TEST"] = {"module": fmod}
+    _MOD_WATCH["TEST"] = {"path": mpath, "mtime": None}
+    try:
+        stale1, m1 = _mtime_stale(mpath, None)
+        assert stale1 is False and m1 is not None, "first load records mtime"
+        stale2, _ = _mtime_stale(mpath, m1)
+        assert stale2 is False, "unchanged module not stale"
+        _refresh_family_modules()
+        assert FAMILIES["TEST"]["module"] is fmod, \
+            "no change -> no reload (loaded view kept)"
+        assert _MOD_WATCH["TEST"]["mtime"] is not None, "watch recorded"
+        with open(mpath, "w", encoding="utf-8") as f:
+            f.write("WAVE_CONFIGS = {10: 'b'}\n")
+        os.utime(mpath, (time.time() + 5, time.time() + 5))
+        stale3, m3 = _mtime_stale(mpath, _MOD_WATCH["TEST"]["mtime"])
+        assert stale3 is True and m3 != _MOD_WATCH["TEST"]["mtime"], \
+            "changed module stale"
+        ch = _refresh_family_modules()
+        assert ch == ["TEST"], "changed family reported in reload set"
+        assert FAMILIES["TEST"]["module"].WAVE_CONFIGS[10] == "b", \
+            "reload must expose the NEW wave row (FAMILIES rebind)"
+        stale4, _ = _mtime_stale(os.path.join(tmp, "gone_mod.py"), m1)
+        assert stale4 is False, "missing module file safe (keep view)"
+    finally:
+        if _saved_fam is None:
+            FAMILIES.pop("TEST", None)
+        else:
+            FAMILIES["TEST"] = _saved_fam
+        _MOD_WATCH.clear()
+        _MOD_WATCH.update(_saved_watch)
+        sys.modules.pop(_fam_modname, None)
+        sys.path.remove(tmp)
+
+    print("selftest: PASS (11 legs: queue generator owner/done/active "
           "exclusions + orphan-product reconciliation [r522 telemetry "
           "completeness: present product + no ledger row -> one "
           "reconstructed row, idempotent] + PreIgnitionChecks fail-closed "
@@ -1040,7 +1142,10 @@ def selftest():
           "B1 wave face, per-family nshards/default_wave) + per-face "
           "single-family queue equality + multi-family N4 fixture "
           "dispatch: keys/runner/prereg/face + orphan rows by face] + "
-          "law/prereg presence)")
+          "module-view re-read watch [D-20261002-03 leg-1 scripts-face "
+          "port: first-load records / unchanged not stale / changed "
+          "stale / missing-file safe + reload rebinds FAMILIES with "
+          "new WAVE_CONFIGS visible] + law/prereg presence)")
     return 0
 
 
