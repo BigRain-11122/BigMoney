@@ -1149,10 +1149,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 10:58:02",
+  "ts": "2026-10-04 11:08:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.6,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "THEME-JUDGE-P1",
+  "shard": "theme-judge-p1-burn-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 3,
+  "fuse_skipped": [
+   {
+    "entry": "THEME-JUDGE-P1",
+    "shard": "theme-judge-p1-burn-0of1",
+    "sig": "scripts/theme_judge_p1.py|run",
+    "fuse_refusals": 3
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-04T10:20:01+08:00"
