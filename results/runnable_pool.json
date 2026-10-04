@@ -14719,17 +14719,21 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-04 17:55:45",
    "data_gates": "",
    "shards": [
     {
      "key": "contest-ytd-p1-rc-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/contest_p1/burn_pending_revcensus.jsonl JSONL resume (done-key skip, idempotent)",
      "note": "10 RC faces x YTD backtest (frozen p1c panel, natural end 09-22, disclosed); census-stats parity vs stage-A' pinned-basis anchors abort on drift (anchor phase burns census-original rows on the pinned mask first; basis switch disclosed)",
      "owner": "bm-a",
-     "owner_since": "2026-10-04 22:12:07"
+     "owner_since": "2026-10-04 22:32:33",
+     "claimed_since": "2026-10-04 22:12:07",
+     "done_at": "2026-10-04 22:32:33",
+     "harvested_by": "bm-c",
+     "harvest_claim": "contest-ytd-p1-rc-0of1.bm-a.json"
     }
    ],
    "workers_plan": {
@@ -14748,7 +14752,9 @@
     "Money02/data/bars",
     "Money02/data/index/sse.parquet",
     "data/fundamental/b_layer_mask.stageA_prime_pin.csv"
-   ]
+   ],
+   "done_by": "bm-c",
+   "done_at": "2026-10-04 22:32:34"
   },
   {
    "id": "PERPETUAL-N2-W15-GENERATE",
