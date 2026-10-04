@@ -1,24 +1,23 @@
 {
   "latest": {
-    "ts": "2026-10-04 20:50:31",
+    "ts": "2026-10-04 21:02:21",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 7.0,
-    "py_cpu_pct": 0.2,
-    "cores": 32,
-    "py_procs": 26,
-    "result_stale_min": 0.3,
+    "cpu_total_pct": 37.0,
+    "py_cpu_pct": 85.7,
+    "cores": 16,
+    "py_procs": 29,
+    "result_stale_min": 0.4,
     "fleet_open_tasks": 0,
     "pool_ready_count": 5,
     "pool_ready_unclaimed": 0,
-    "load_state": "pool-supply-gap",
+    "load_state": "burning-healthy",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
-      "reason": "pool-supply-gap"
+      "reason": "burning-healthy"
     },
-    "supply_gap_candidate": true,
+    "supply_gap_candidate": false,
     "supply_gap_detail": {
-      "run_samples": 9,
-      "span_min": 142.7
+      "reason": "burning-healthy"
     },
     "supply_floor": {
       "ready": 5,
@@ -26,12 +25,12 @@
       "breach": false
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 100.7,
+    "supply_family_streak_min": null,
     "gpu": {
       "present": true,
-      "util_pct": 1.0,
-      "mem_used_mb": 6831.0,
-      "compute_apps_count": 38,
+      "util_pct": 2.0,
+      "mem_used_mb": 4725.0,
+      "compute_apps_count": 24,
       "rogue_apps": []
     },
     "zombies": [],
@@ -39,19 +38,17 @@
     "single_core_hog_detail": null,
     "parallel_efficiency": {
       "window_min": 60.0,
-      "batches_judged": 4,
-      "core_seconds": 137.47,
-      "wall_seconds": 200.8,
-      "effective_cores": 0.68,
+      "batches_judged": 3,
+      "core_seconds": 80.61,
+      "wall_seconds": 140.5,
+      "effective_cores": 0.57,
       "multicore_burn": 0,
-      "single_core_burn": 4,
+      "single_core_burn": 3,
       "too_short_to_sample": 0,
       "readable": true
     },
-    "flags": [
-      "supply_gap"
-    ],
-    "verdict": "FLAG:supply_gap"
+    "flags": [],
+    "verdict": "CLEAN"
   },
   "history": [
     {
@@ -10526,25 +10523,24 @@
       "verdict": "FLAG:supply_gap"
     },
     {
-      "ts": "2026-10-04 20:50:31",
+      "ts": "2026-10-04 21:02:21",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 7.0,
-      "py_cpu_pct": 0.2,
-      "cores": 32,
-      "py_procs": 26,
-      "result_stale_min": 0.3,
+      "cpu_total_pct": 37.0,
+      "py_cpu_pct": 85.7,
+      "cores": 16,
+      "py_procs": 29,
+      "result_stale_min": 0.4,
       "fleet_open_tasks": 0,
       "pool_ready_count": 5,
       "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
+      "load_state": "burning-healthy",
       "pool_starvation_candidate": false,
       "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
+        "reason": "burning-healthy"
       },
-      "supply_gap_candidate": true,
+      "supply_gap_candidate": false,
       "supply_gap_detail": {
-        "run_samples": 9,
-        "span_min": 142.7
+        "reason": "burning-healthy"
       },
       "supply_floor": {
         "ready": 5,
@@ -10552,12 +10548,12 @@
         "breach": false
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 100.7,
+      "supply_family_streak_min": null,
       "gpu": {
         "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 6831.0,
-        "compute_apps_count": 38,
+        "util_pct": 2.0,
+        "mem_used_mb": 4725.0,
+        "compute_apps_count": 24,
         "rogue_apps": []
       },
       "zombies": [],
@@ -10565,19 +10561,17 @@
       "single_core_hog_detail": null,
       "parallel_efficiency": {
         "window_min": 60.0,
-        "batches_judged": 4,
-        "core_seconds": 137.47,
-        "wall_seconds": 200.8,
-        "effective_cores": 0.68,
+        "batches_judged": 3,
+        "core_seconds": 80.61,
+        "wall_seconds": 140.5,
+        "effective_cores": 0.57,
         "multicore_burn": 0,
-        "single_core_burn": 4,
+        "single_core_burn": 3,
         "too_short_to_sample": 0,
         "readable": true
       },
-      "flags": [
-        "supply_gap"
-      ],
-      "verdict": "FLAG:supply_gap"
+      "flags": [],
+      "verdict": "CLEAN"
     }
   ]
 }
