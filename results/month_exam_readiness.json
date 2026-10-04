@@ -1,0 +1,146 @@
+{
+  "batch": "MONTH_EXAM_READINESS",
+  "machine": "bm-a",
+  "generated": "2026-10-05T07:38:28",
+  "generated_date": "2026-10-05",
+  "exam_date": "2026-10-31",
+  "days_to_exam": 26,
+  "expected_marks_floor": "2026-09-30",
+  "exam_time_floor_requirement": "2026-10-30",
+  "verdict": "AMBER",
+  "summary_plain": "1 面黄（在飞/待窗，无阻断），0 面红；黄面按 gap 行收口。",
+  "faces": {
+    "SPM J1-J5 判决台": {
+      "status": "GREEN",
+      "facts": {
+        "register_has_b_maxdiv": true,
+        "register_has_rerun_window": true,
+        "last_artifact_verdict": "NOT-DEMONSTRATED (honest negative, all faces disclosed)",
+        "last_artifact_cutoff": "2026-09-23",
+        "last_artifact_reparse": true
+      },
+      "gap": "10-31=正式验收复跑窗（O-1712 冻结判据·新成员/装配入列后复跑）；机械就绪待窗"
+    },
+    "六员在册": {
+      "status": "GREEN",
+      "facts": {
+        "n_traders": 6,
+        "export_date": "2026-09-30"
+      },
+      "gap": "六员在册月度判定面（导出日须=面板最后完整 bar 日）"
+    },
+    "纸盘/实验账户": {
+      "status": "GREEN",
+      "facts": {
+        "families": {
+          "AGGR": {
+            "files": 20,
+            "marks_ok": 20
+          },
+          "ALLOC": {
+            "files": 7,
+            "marks_ok": 7
+          },
+          "GRID": {
+            "files": 5,
+            "marks_ok": 5
+          },
+          "SYSV1": {
+            "files": 2,
+            "marks_ok": 2
+          }
+        },
+        "total": 34,
+        "min_marks_last": "2026-09-30",
+        "unparseable": [],
+        "expected_floor": "2026-09-30"
+      },
+      "gap": "实验/纸盘账户 marks 追平面板地板=2026-09-30（假日无新 bar 合法停滞·10-08 复市续跑；考时地板须=2026-10-30）"
+    },
+    "PROSPECT 晋升门": {
+      "status": "GREEN",
+      "facts": {
+        "runner": true,
+        "g2_packs": 22
+      },
+      "gap": "晋升三腿=纸盘月≥1+G2 证据包×22+beat_rate_6m≥0.70；逐员 NOT-ELIGIBLE=合法判读"
+    },
+    "千人首波成绩单": {
+      "status": "GREEN",
+      "facts": {
+        "enrolled": 10625,
+        "judged_cells": 1748,
+        "screen_survivors": 1757,
+        "g1_pass": 4,
+        "g2_eligible": 0,
+        "evidence_cutoff": "2026-09-22"
+      },
+      "gap": "千人首波成绩单已交付（诚实零录用）；10-31 面=月度再生成"
+    },
+    "fund 三族 G2 依赖": {
+      "status": "AMBER",
+      "facts": {
+        "trio": {
+          "FUND-VALUE-P1-NULLS": {
+            "entry": "ready",
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          },
+          "FUND-QUALITY-P1-NULLS": {
+            "entry": "ready",
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          },
+          "FUND-DIVLOWVOL-P1-NULLS": {
+            "entry": "ready",
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          }
+        },
+        "judged_dirs": [
+          "fund_value_p1",
+          "fund_quality_p1",
+          "fund_divlowvol_p1"
+        ]
+      },
+      "gap": "fund 三族 G2 判决依赖=nulls 池分片（bm-b canonical 在烧）+judged cells 落地后 skill_line_v2 null_pool 消费；考窗前须 done"
+    },
+    "决策链 v3 锦标赛": {
+      "status": "GREEN",
+      "facts": {
+        "evidence_cutoff": "2026-09-22",
+        "has_prereg_sha": true,
+        "has_verdict": true
+      },
+      "gap": "链版本横幅月界面：v3 锦标赛判决已冻结入档；赢家入册走月界"
+    },
+    "月度四件套": {
+      "status": "GREEN",
+      "facts": {
+        "scripts_missing": [],
+        "brief_202609": true,
+        "selfreview_202609": true,
+        "science_audit_hist": true
+      },
+      "gap": "月度四件套机械在位；11 月首轮=202610 实况首跑（BRIEF-202610/SELF-REVIEW-202610）"
+    },
+    "考窗锚": {
+      "status": "GREEN",
+      "facts": {
+        "PLAN.md": {
+          "has_1031": true,
+          "has_promotion_check": true
+        },
+        "SPM charter": {
+          "has_1031": true,
+          "has_promotion_check": true
+        }
+      },
+      "gap": "考窗锚=2026-10-31（PLAN L220+SPM L24）；锚文件在册"
+    }
+  },
+  "honesty": "read-only L1 aggregation; +0 trials +0 marks +0 registration faces"
+}
