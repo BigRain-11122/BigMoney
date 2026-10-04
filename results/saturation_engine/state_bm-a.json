@@ -2,9 +2,31 @@
  "version": "0.1",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
+ "active": [
+  {
+   "face": "N1",
+   "wave": 119,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w119-10of12",
+   "batch": "PERPETUAL-N1-W119",
+   "pid": 17512,
+   "started_at": "2026-10-04T23:39:04+08:00",
+   "started_epoch": 1791128344,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W119-10.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W119",
+    "prereg": "research/PERPETUAL_N1_W119_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 108 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W118 row bm-b r678 freeze 565e5b0b4, SINGLE STATE zero seat gap W2..W118 all registered; seat published=reserved MSG-2026-10-04-2323-bma-w119-seat PUSHED to origin 432a1eaca BEFORE this freeze per r565 early-visibility law; pre-seat probe and freeze-window band-gate runs derive identical, no fork face; payload = seat MSG only, deletion-set EMPTY, rev.A = only published face), engine_owner=bm-a, wave 119: A = arithmetic continuation from the registered W118 A tail (281_004..283_003 CLEAN hops=0) + B = arithmetic continuation from the registered W118 B tail (65_450..65_649 CLEAN hops=0, zero-jump two-reading-identical face, cross-machine convergence with the bm-b r678 W118 gate-tail W119+ projection re-derived; ADMIT receipt results/_r701bma_w119_band_gate.py; W120+ projection per this window gate: A 283_004..285_003 CLEAN / B first-clean 65_650..65_849 CLEAN (hops=0) for the next freezer); W115 finalize LANDED (net chain head 617,548, K=250,920, bm-c r445 one-pass) + THREE in-flight upstream seats W116 bm-b (registered bc1e82773, 6/12 shards burned, engine RAM floor gate self-paced, finalize pending) + W117 bm-a (registered c36a087ea, 12/12 shards burned, finalize rehearsal PASS r684 and ARMED on W116 landing) + W118 bm-b (registered 565e5b0b4, 0/12 burned, queued behind W116 on the bm-b engine) -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
+    "a_seed_base": 281004,
+    "b_exit_seed_base": 65450,
+    "shard_subdir": "n1_w119",
+    "out_name": "n1_w119_results.json",
+    "engine_owner": "bm-a"
+   }
+  }
+ ],
  "ledger_buffer": [],
- "last_flush_at": "2026-10-04T15:52:04+08:00",
+ "last_flush_at": "2026-10-04T23:39:04+08:00",
  "crashes": {
   "n1w47-8of12": 1,
   "n1w77-1of12": 1,
@@ -13,18 +35,41 @@
   "n4B1-0of6": 1,
   "n4B2-0of6": 1
  },
- "shards_done_total": 474,
- "last_shard_done_at": "2026-10-04T15:38:05+08:00",
+ "shards_done_total": 484,
+ "last_shard_done_at": "2026-10-04T23:39:04+08:00",
  "last_tick": {
-  "ts": "2026-10-04T23:01:05+08:00",
-  "epoch": 1791126062,
+  "ts": "2026-10-04T23:39:04+08:00",
+  "epoch": 1791128342,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 54.400917053222656,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
-  "elapsed_sec": 2.4
+  "ram_free_gb": 44.68784713745117,
+  "verdict": "ignited:n1w119-10of12 pid=17512 ledger_flush=3",
+  "active_n": 1,
+  "queue_depth": 1,
+  "elapsed_sec": 2.7
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 119,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w119-11of12",
+   "batch": "PERPETUAL-N1-W119",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "119",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }

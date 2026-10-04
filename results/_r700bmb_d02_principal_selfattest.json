@@ -1,0 +1,21 @@
+{
+ "probe": "r700bmb_d02_principal_selfattest",
+ "decision_ref": "D-20261002-02 (default principal full-line; S4U 0x80070005 uninstallable in r329 live-fire env)",
+ "receipt_for": "D-20261004-05 leg-1 (D-20261002-02 司域自证回执补呈, 顺延窗 10-05 00:00)",
+ "method": "三源定谳律 (r676 bm-b): ①schtasks /query /xml 直取 <LogonType> ②注册脚本 PRINCIPAL 头注 ③任务族归属对照; 禁按任一令字面盲重注册",
+ "xml_direct_read": {
+  "Bigmoney-IterationLoop": {"logon_type": "S4U", "note": "09-29 S4U mass re-registration survivor, healthy, kept per r576 lineage note"},
+  "Bigmoney-LoopWatchdog": {"logon_type": "InteractiveToken", "note": "r676 判定=裁定后正典面 (default principal) 零动作"},
+  "Bigmoney-SatEngine-bm-b": {"logon_type": "S4U", "note": "r576 note: live task on bm-b remains S4U-registered (healthy, kept)"},
+  "Bigmoney-Autofill": {"logon_type": "S4U", "note": "same 09-29 S4U survivor family"},
+  "Bigmoney-IntradayMarks": {"logon_type": "S4U", "note": "Disabled=交易休市态 (D-20261002-02 era known state)"}
+ },
+ "register_scripts_principal_source": {
+  "Tools/register_loop_task.ps1": "no S4U/Principal params at all -> default principal on any rebuild (search verified zero hits)",
+  "Tools/register_watchdog_task.ps1": "L22 PRINCIPAL SINGLE-SOURCE (D-20261002-02, r576 bm-b) header in place",
+  "Tools/register_satengine_task.ps1": "L8 PRINCIPAL SINGLE-SOURCE (D-20261002-02, r576 bm-b) header in place; L20 r576 note: live S4U task kept healthy"
+ },
+ "adjudication": "零单方动作: bm-b 实况=S4U 可装可用 (09-29 20 任务 S4U 整体重注册实证·零黑窗根治令的落地机), D-20261002-02 的 0x80070005 不可装实证来自 r329 bm-a live-fire 面=环境差实证; r576 判例=活 S4U 任务保留健康零动、新注册脚本一律 default principal 单源; 偏差面 (4 S4U vs 全线 default) 已由 D-20261002-02 行自带条款呈报 CEO 复裁 (给提权窗即可切 (a) S4U 全量), 本司不自行翻面不自行重注册",
+ "encoding_lesson": "python subprocess capture of schtasks /xml decodes wrong (utf-16 assumption -> empty LogonType 假读数); authoritative read = PS `schtasks /query /xml` direct (r676 ① 律复现面)",
+ "verdict": "PASS (三源齐证·零违令动作·偏差在 CEO 复裁面)"
+}
