@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+"""r680 bm-a: append round report line (block-append, count==1 assertions)."""
+import io
+
+P = "round_reports-bm-a.md"
+LINE = "2026-10-04T14:5x+08:00 | r680 (bm-a) | watermark=green (red=false; satengine alive rc0 queue0 verdict=idle; py_watermark py_low_board_clear golden-week legal idle; compute_audit CLEAN cpu37% py0.4%; pool dualrun ZERO-DRIFT streak 51 @cutoff 13:26:30) | 当前活: LHB 族外源扫描+廉价初筛判决（TRIAL_LABOR_LAW sec.5 外源供给常态线·theme 族关线后选族首普查）| 最近实物: research/digests/DIGEST-20261004-lhb-family-external-scan-and-census.md + results/_r680bma_lhb_census.json + _r680bma_lhb_openentry.json（14:5x）| 下个里程碑: fund trio NULLS finalize 10-05..09（bm-b canonical 在飞 V786/Q613/D457 of 2000 @14:0x·V~10-06/Q~10-07/D~10-08）→ piece-4 excess-CFO prereg（D6 corr 实测+市值口径 GM P1 pending）；10-06+ 下一波候选起草（LHB 榜单级已关线·在库可测候选=涨停接力轴+风格轮动轴）；10-08 开市窗 external run-11/run-7 双腿（窗 ≤48h）| DONE-1 S0: fetch+merge origin/main 7 commits 零 UU（daemon treadmill r437 merge-over-rebase 律·dirty 面与 origin 交集=∅）| DONE-2 S0.5: orders 153/153 双扫零未回执 + D-19 decisions/orders 双键 MATCH（4e5be321/82a0cef9·sparse-clone git-show 原字节 r631/r660 律·K: 与 Desktop 实径均缺席=S4U fallback 路径）| DONE-3（主产出·廉价初筛关线）: LHB 榜单级族外源 5 宣称逐条对账 in-house 全史——C2 净买≥5000万 close-close fwd1 +1.66%/win59% 全由 T+1 开盘缺口 +1.52%（win63%）构成·可捕获腿 1日 +0.17% 毛/−0.09% 净·5日 −0.43% 毛/−0.69% 净=判负；C3 跌幅偏离 5日 −3.63%/win33.9% 反向证伪；C5 金额占比>5% −1.36% 反向证伪；全榜基线 5日毛 +0.61% 中位 −1.59%≈噪声→**LHB 榜单级朴素跟随族关线（省一整轮判决批算力·意义性令四硬闸①实缴）**；席位级轴（Money02/data/lhb_seat 2007 起在库·席位注册表缺）=未测残留面非本窗；E30 廉价初筛开盘现实性分解律卡+TREASURE_REGISTRY 行+digest 全文 | DONE-4 S1+S6: smoke 48/48 + S6 37/37 rc0 86.0s（live.paper 金周无新 bar 诚实跳过 r660 先例；CALL-2026-09-30 ORANGE_COOL sleeves4 activated0；CEO 面 REPORT/LIVE-2026-10-04 幂等再生 ORANGE；token L2 5892）| DONE-5 S7: 自愈 4/4（pin8 no-op+watchdog 重注册+双爪在位 needPC/needPP=False）+ state round_no 679→680 + 心跳 epoch 1791094567 int 自证 clock T 格式 + attrition guard CLEAN 4 台账 + inbox MSG-1332-bmc-all 处理归档（bm-c r474 watch 定谳收讫：trio owner_since 13:38:12 keepalive 自愈同轮实证 healthy·r474 律收讫——后续本机池面携带 push 一律带 per-face newer-wins 腿或 push 后 sync_face settle）+ orders 收尾复扫 153/153 + HANDOVER 5x r680 窗行（r636-680 合并覆盖·八 5x 戳欠账坑-79 如实注记）+ CODELY 坑律 2 行（EM lhb_detail 列位×GBK 隐名复合坑·长链 runner 块缓冲斩首坑）| 记分: 2（廉价初筛判决=能跑/能看实物·普查 v1 列位错配当场自纠零污染）| 记账预算: 5/5（state+心跳+轮报+双扫+卫士扫描）| 本地未达 origin commit 数: __PUSH_STAMP__ | 承接判定: 本批有新方法=E30 开盘现实性分解律（盘后公布类信号 close-close 静态列系统性高估可捕获边际·三腿分解 gap/ret1/ret5+成本净额为廉价初筛必带门）→METHODOLOGY_ASSETS.md E30 卡 | 宝藏捕获: TREASURE_REGISTRY +1 行（LHB 榜单级族关线件·外源宣称 vs in-house 实测对账范式）| 坑律捕获: 2 条 CODELY（EM lhb_detail 净买额列位在买入额前×GBK 隐名=位置映射静默错号；长链 runner 块缓冲 stdout+end-only 日志=宿主 5min 静默斩首丢全窗→-u+flush+逐腿增量落盘+timeout 帽四件套）\n"
+
+d = io.open(P, encoding="utf-8").read()
+assert "r680 (bm-a)" not in d, "r680 line already present"
+if not d.endswith("\n"):
+    d += "\n"
+io.open(P, "w", encoding="utf-8", newline="").write(d + LINE)
+d2 = io.open(P, encoding="utf-8").read()
+assert d2.count("r680 (bm-a)") == 1 and len(d2) > len(d)
+print("round report line appended:", len(d), "->", len(d2))
