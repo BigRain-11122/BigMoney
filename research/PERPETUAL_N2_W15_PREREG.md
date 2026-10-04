@@ -1,7 +1,10 @@
-# PERPETUAL-N2-W15 预注册（波级）——**DRAFT · 未冻结**
+# PERPETUAL-N2-W15 预注册（波级）——**FROZEN · 已冻结**
 
-> **状态：DRAFT-NOT-FROZEN（2026-10-01 r510 bm-a slice-1 窗）。冻结门=下述五条件全过才
-> 允许烧批；冻结前零 burn 零 supply 零登记（R99 跑前冻结律 / R250 one-step 律）。**
+> **状态：FROZEN（2026-10-04 r492 bm-c slice-3 冻结窗·席位=MSG-2026-10-04-1918 先到
+> 先得公示·按 MSG-2026-10-04-1930 bm-a 开放邀请条款承接）。冻结门五条件逐条机证见
+> 「冻结门机证记录」节；冻结 commit=三带登记 science_gates.SEED_REGISTRY
+> （perpetual_n2_w15_gen=541_500 / scrnull=542_000 / unc=542_500·带宽 499·§5 冻结窗
+> 强制跳位披露）+本状态翻面（R99 跑前冻结律 / R250 one-step 律）。**
 > 法：research/PERPETUAL_FACES.md v1.0 §2 N2 行 + §4 起草序（N1-W2 ✅ → N3-R1 ✅ →
 > **N2-W15（本件）** → N4-B1）。
 > runner：scripts/perpetual_faces_n2.py（slice-1 已落地：subspace draw + probe +
@@ -19,6 +22,34 @@
 4. D6 同族相关准入检查面在判据节显式（judge 阶段执行·§4）。
 5. 意义门三问过（§0 三行作答）+ CEO 令面核对（O-2026-09-30-2340 常供面令=本 face
    授权面，无需新署名）。
+
+## 冻结门机证记录（slice-3 冻结窗·2026-10-04 r492 bm-c·席位 MSG-2026-10-04-1918）
+
+1. runner slice-2 五腿落地 ✅——bm-a r692（da8171889）交付；本窗复核=selftest 17/17
+   ALL PASS（直跑形态·L1-L17 逐腿 PASS）+ FREEZE-GATE 拒烧实跑 rc=2（generate·
+   「bands NOT registered -- perpetual_n2_w15_gen=None!=31000; scrnull=None!=31500;
+   unc=None!=32000」诚实拒·冻结门在位机证）。
+2. 三步种子法登记 ✅——本冻结 commit 落 science_gates.SEED_REGISTRY 三键
+   （541_500/542_000/542_500·带宽 499·§5 带面·**冻结窗强制跳位**：原选
+   31_000/31_500/32_000 被 N1 W8/W9 A 带撞带否决→r682 horizon 门再derive·ADMIT
+   回执 _r492bmc_n2_band_gate.txt·详见 §5 披露块）；banned_direction_gate --prereg
+   退出 0（matched=[]·「no banned direction claimed」）。
+3. 判据节共享库 ✅——§4 判线全部引用共享库（初筛存活线=tl2._finalize_math 同面口径
+   ·selftest L15 真跑机证；judge 批 g1_prime_v2/g2_registration_v2/dsr_from_stats
+   另段冻结时调）。
+4. D6 同族相关准入 ✅——§1 显式（judge 阶段逐存活员 max|corr|≥0.7 拒收·判据节写死）。
+5. 意义门三问+CEO 令面 ✅——§0 三行作答在案；授权面=O-2026-09-30-2340 常供面令
+   （T-133 s2 常供面票·无需新署名）。
+
+写前复核（r687 律·冻结 commit 写 registry 前 fetch+origin 单点）：receipt=
+results/_r492bmc_n2_seat_v5.txt——origin tip b8f0c405·三键缺席·带域扫描零占用·
+本地注册面 179==origin 179·SEED_REGISTRY 同键零双带碰撞·prereg 仍 DRAFT（无他机
+冻结）·inbox 无他机 slice-3 席位认领。verdict=ADMIT-PROCEED-WRITE（该 receipt 针对
+首次登记尝试的原 31_000 三带带域）；首次尝试落 registry 后被 N1 侧 selftest 红腿
+当场否决（W8/W9 A 带撞带·未 commit 未 push 零污染）→按 §5 跳位块强制跳位→新三带
+541_500/542_000/542_500 以 band-gate ADMIT 回执（_r492bmc_n2_band_gate.txt·含
+N1_BANDS 116 行全活导出扫描面）落同一冻结 commit；冻结 commit 前置 fetch 复核照
+r687 律同窗重跑（origin tip 见 commit message 披露）。
 
 ## §0 批件身份【跑前填·冻结时核】
 
@@ -98,10 +129,21 @@
 
 ## §5 种子（三步法·冻结 commit 登记 SEED_REGISTRY，R250 禁冻结后再挑）
 
-- perpetual_n2_w15_gen=**31_000**（Sobol 盒+轴流）／scrnull=**31_500**／
-  unc=**32_000**；带宽 499；30_000+ 域外顺延（法典 §4 N2/N4 行）——lfc_p1_screen
-  @30_000 外首个净空窗，selftest L4 机闸零命中（152 登记值+N1 全在用带+N3 70_000+
-  域全 disjoint 实证）。
+- perpetual_n2_w15_gen=**541_500**（Sobol 盒+轴流）／scrnull=**542_000**／
+  unc=**542_500**；带宽 499（三带 541_500..542_999）。**冻结窗强制跳位披露
+  （slice-3 冻结窗 2026-10-04 r492 bm-c·W12/W13/W109 先例·非重挑——R250：原带位从未
+  指派·零格烧录）**：本节 slice-1 原选 31_000/31_500/32_000（「30_000+ 域外顺延·
+  lfc_p1_screen @30_000 外首个净空窗·L4 机闸零命中」宣称）在冻结窗首次登记尝试时被
+  N1 侧 selftest 红腿当场否决——三带全部落入 **N1 W8 A 带 30_100..32_099**（unc 带
+  32_000..32_499 更跨踩 **W9 A 带 32_100..34_099**）；根因=runner L4 腿内 N1 在用带
+  清单为 slice-1 时点 **W2..W7 陈旧快照**（漏 W8+ 已注册行）——「L4 机闸零命中」为
+  陈旧快照下的局部真。跳位照 r682 梯子 horizon 门再derive（窗下限≥A 头 281_003+130
+  波×2,000→X=541_500）+法典 §4 N2/N4 行防撞律；ADMIT 回执=results/
+  _r492bmc_n2_band_gate.txt（旧三带 4 拒绝实锤+保留集 421 区间+新三带全 CLEAN+扫描面
+  =N1_BANDS 全 116 行活导出+registry 179 值±2000 halo+显式实际流〔lfc/t18/xstock×2/
+  N4 保留三带 68_501..69_999/N3 域 70_000..70_999/探针簇 95_000..95_004/设计探针
+  40_000/40_001〕+A 梯 horizon+B 梯投影）。**L4 腿同窗根治**=N1 在用带改 perpetual_faces
+  N1_BANDS 活导出（import-face·禁手抄快照）。
 - probe 种子 95_004=出带设计探针（N1 95_002/95_003 先例；永不登记、永不入批账本、
   ledger +0——本窗 probe 实证已按此律落盘）。
 
@@ -123,5 +165,16 @@
   机证面）；r494 真跑律=排除面真读 7,896 行/30 源+真引擎 smoke cell
   （_r692bma_n2_gen_smoke.json·零账本零登记零批产品）。评审=bm-b 下两轮内独立
   selftest 复跑+合同面抽查（MSG-1845 让渡条款 2）。
-- **slice-3（freeze 窗）**：三带登记+banned_gate+冻结 commit→生成器 N2 supply 物化
-  →daemon 烧批→finalize→§7/§8 回填。
+- **slice-3（freeze 窗·已落地 2026-10-04 r492 bm-c）**：席位=按 MSG-2026-10-04-1930
+  bm-a 开放邀请条款承接（先到先得公示 MSG-2026-10-04-1918·commit c112fb6fd 19:18:02
+  ·F-04 先行律）。交付=冻结前自证五件（selftest 17/17 直跑复跑+generate rc=2
+  FREEZE-GATE 拒烧在位复跑+banned gate exit 0 matched=[]+§5 三带值 vs runner 常量恒等
+  〔FREEZE-GATE 报文三键实名〕+r687 写前 origin 单点复核 _r492bmc_n2_seat_v5.txt
+  ADMIT）+**冻结窗撞带否决与强制跳位**（原 31_000 三带首登尝试被 N1 pf selftest W8
+  红腿当场抓回→W12/W13/W109 跳位先例+r682 horizon 门再derive→band-gate ADMIT
+  _r492bmc_n2_band_gate.txt→三带落位 541_500/542_000/542_500；runner L4 腿同窗根治
+  =N1_BANDS 活导出替换陈旧快照；L8 腿 unregister 模拟修为显式 pop〔r675 姿态律·
+  bm-b 评审面明示〕）+冻结 commit（SEED_REGISTRY 三带登记+状态翻面+「冻结门机证
+  记录」节+§5 跳位披露块+本行执行记录）。下游=生成器 N2 supply 物化（generate+
+  screen-prep·长活走池面纪律·generate 一次性门=candidates 文件在位即禁重跑）→daemon
+  烧批→finalize→§7/§8 回填——后续窗任一健康机承接（承接机开工前 fetch 实核）。
