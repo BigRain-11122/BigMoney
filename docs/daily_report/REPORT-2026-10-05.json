@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 03:41:08",
+ "generated_at": "2026-10-05 04:02:25",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -302,8 +302,8 @@
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 35,
   "compute_audit_latest": {
-   "ts": "2026-10-05 03:38:57",
-   "py_cpu_pct": 86.0,
+   "ts": "2026-10-05 04:00:21",
+   "py_cpu_pct": 84.4,
    "flags": [],
    "verdict": "CLEAN"
   },
@@ -636,11 +636,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1186792,
+  "total_report_tokens_est": 1187525,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 03:05:25",
+   "prev_generated": "2026-10-05 03:21:38",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -336,
+   "report_tokens_growth": 733,
    "mandate_growth": 0
   },
   "method": {
@@ -713,17 +713,13 @@
     "today_supply_gap_flags": 6
    },
    "bm-b": {
-    "latest_ts": "2026-10-05 03:38:57",
-    "py_pct": 86.0,
-    "cpu_pct": 39.0,
-    "ready": 12,
+    "latest_ts": "2026-10-05 04:00:21",
+    "py_pct": 84.4,
+    "cpu_pct": 38.0,
+    "ready": 11,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "01:17",
-      85.0
-     ],
      [
       "01:19",
       0.3
@@ -767,29 +763,25 @@
      [
       "03:38",
       86.0
+     ],
+     [
+      "04:00",
+      84.4
      ]
     ],
-    "today_samples": 18,
-    "today_floor_ok": 18,
+    "today_samples": 19,
+    "today_floor_ok": 19,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 6
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 03:12:42",
-    "py_pct": 0.0,
-    "cpu_pct": 4.0,
-    "ready": 13,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "latest_ts": "2026-10-05 03:31:45",
+    "py_pct": 1.0,
+    "cpu_pct": 11.0,
+    "ready": 12,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "00:54",
-      86.2
-     ],
-     [
-      "01:08",
-      5.1
-     ],
      [
       "01:16",
       5.8
@@ -827,14 +819,22 @@
       23.9
      ],
      [
+      "03:03",
+      24.5
+     ],
+     [
       "03:12",
       0.0
+     ],
+     [
+      "03:31",
+      1.0
      ]
     ],
-    "today_samples": 15,
-    "today_floor_ok": 15,
+    "today_samples": 17,
+    "today_floor_ok": 17,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 6
+    "today_supply_gap_flags": 7
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -871,8 +871,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 10,
-     "audit_ts": "2026-10-05 03:38:57"
+     "audit_batches": 5,
+     "audit_ts": "2026-10-05 04:00:21"
     }
    },
    "bm-c": {
@@ -887,8 +887,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-05 03:12:42"
+     "audit_batches": 8,
+     "audit_ts": "2026-10-05 03:31:45"
     }
    }
   },

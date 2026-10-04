@@ -1,0 +1,20 @@
+| 6 | T-27 | 五法组合锦标赛 winner=B_MAXDIV 提案（7 天否决窗） | bm-c | file_exists:results/portfolio_blend_tournament.json；json_field:#winner==B_MAXDIV；json_field:#veto_window_until 存在 | results/portfolio_blend_tournament.json |
+| 7 | T-28 | 稳定盈利批 J1-J4 判定（J4 fail 诚实负） | bm-a(R90) | file_exists:results/current_market_stable_profit.json；json_field:#verdict 存在 | results/current_market_stable_profit.json |
+| 8 | T-29 | 每日战绩直达面 v0.1 | bm-c(r61) | file_exists:scripts/daily_scorecard.py；file_exists:results/daily_scorecard* | scripts/daily_scorecard.py |
+| 9 | O-2012/T-33 d1 | 军团名册 v1 交付（28 员，诚实负注册 0 进攻员） | bm-c(r68) | file_exists:results/corps_roster.json；json_field:results/corps_roster.json#summary.assigned_total==6 | results/corps_roster.json |
+| 10 | O-2012/T-33 d2 | 进攻招募波 G1' v2 0/20 诚实零 | bm-c(r69) | file_exists:results/t33_attack_wave.json；json_field:#summary.g1_prime_v2_pass==0；json_field:#ledger.total==58110 | results/t33_attack_wave.json |
+| 11 | O-2030/T-34 | 早信号研究批已认领（prereg 冻结在 r114 途中） | bm-b | json_field:fleet/tasks/T-2026-09-24-34-P1.json#status==claimed | 票面（prereg 落地后补 row） |
+| 12 | O-2045/T-35 | 百万纸盘 d1 勘察（构造性满足=零迁移） | bm-a(R91) | json_field:fleet/tasks/T-2026-09-24-35-P1.json#status==claimed；硬断言件=pending | live/paper.py L72（断言件落地后转 pass 行） |
+| 13 | O-2100/T-36 | 算力调度机制批已认领（池/autofill/C8 未落地=pending） | bm-a(R91) | json_field:fleet/tasks/T-2026-09-24-36-P1.json#status==claimed；file_exists:results/runnable_pool.json（**未落地→预期 pending**） | 票面 |
+| 14 | O-2115/T-37 | 复审机制立法（本件=立法态；生效=post_review.py 首波跑通；验收=首波报告） | bm-c(r69) | file_exists:firm/POST_REVIEW.md；Tools/post_review.py（pending）；results/post_review.jsonl（pending） | 本件 |
+
+- 首波预期：多行 `pending`（11-13 项在制/依赖未落地）+ ≥1 行 pass/fail 诚实标注——
+  **反全绿条款**：首波全绿=复核不严嫌疑，复审器自动 flag。
+- 本表判据冻结于 post_review.py 首跑之前（本 commit 即冻结）；跑后禁改判据（J18 同律）。
+
+## 七、验收（含反全绿条款）
+
+首份复审报告必含 ≥1 处 🟡/✗ 诚实标注；注入虚报样本（无证据指针的动作词宣称）必被捕为 flag 行；
+smoke 23/23 零回归；静默律合规。
+
+（v1.0 完 · 正典修订走判据前置+GM 署名）
