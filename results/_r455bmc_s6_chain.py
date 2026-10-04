@@ -1,16 +1,17 @@
-"""r433 bm-c S6 chain driver: standing-leg canon (38 legs since r455 -- update_
-fund_statements added per T-2026-10-04-166-P1 prompt wiring; 37 legs r428-r454),
-full log to results/_r433bmc_s6_log.txt, compact per-leg rc summary to stdout.
-Pattern credit: Tools/_r428bmc_s6.py (canonical always-run-with-honest-
-no-op form; r427 deviation corrected lineage). PYTHONUTF8=1 persisted
-(r425 leg-8 GBK console crash fix)."""
+"""r455 bm-c S6 chain driver: 37 standing legs (canon Tools/_r433bmc_s6.py
+byte-equivalent leg list, parity-checked at start), full log to
+results/_r455bmc_s6_log.txt. Per-round file form (r442-r454 lineage): canon
+Tools driver untouched, zero adapt->restore surgery needed. env identical to
+r450 live run (enforce flag + PYTHONUTF8=1 r425 fix). Golden-week no-new-bar
+face (last bar 2026-09-30): new-bar legs no-op/veto honestly per r448 caliber."""
 import datetime
+import importlib.util
 import os
 import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOG = os.path.join(ROOT, "results", "_r433bmc_s6_log.txt")
+LOG = os.path.join(ROOT, "results", "_r455bmc_s6_log.txt")
 PY = sys.executable
 
 LEGS = [
@@ -55,14 +56,26 @@ LEGS = [
 ]
 
 
+def parity_check():
+    spec = importlib.util.spec_from_file_location(
+        "canon_s6", os.path.join(ROOT, "Tools", "_r433bmc_s6.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    canon = [(n, a[1:]) for n, a in mod.LEGS]  # strip canon PY placeholder
+    mine = [(n, a[1:]) for n, a in LEGS]
+    assert canon == mine, "PARITY FAIL vs canon Tools/_r433bmc_s6.py"
+    return len(LEGS)
+
+
 def main():
+    n = parity_check()
+    print(f"PARITY PASS {n} legs == canon", flush=True)
     env = dict(os.environ)
-    env["BIGMONEY_REGIME_GUARD"] = "enforce"   # 10-01 date gate open -> v3 live request
-    env["PYTHONIOENCODING"] = "utf-8"
+    env["BIGMONEY_REGIME_GUARD"] = "enforce"   # r450 live-proven env face
     env["PYTHONUTF8"] = "1"   # r425 leg-8 GBK console crash fix, persisted
     bad = []
     with open(LOG, "w", encoding="utf-8") as log:
-        log.write(f"S6 chain r433 bm-c start {datetime.datetime.now().isoformat()}\n")
+        log.write(f"S6 chain r455 bm-c start {datetime.datetime.now().isoformat()}\n")
         log.flush()
         for name, args in LEGS:
             t0 = datetime.datetime.now()
