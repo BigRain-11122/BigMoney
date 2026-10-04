@@ -14232,6 +14232,34 @@
    "worker_class": "self-contained",
    "done_by": "bm-c",
    "done_at": "2026-10-03 19:04:39"
+  },
+  {
+   "id": "THEME-JUDGE-P1",
+   "ticket_ref": "T-2026-10-04-167-P1 s3 (claimed bm-a r666; s1 probe r666 + s2 prereg FROZEN r667; queue-never-empty standing line after moneyflow-IC blocked + G2 stage-2 closure)",
+   "prereg_ref": "research/THEME_JUDGE_P1.md FROZEN v1.0 r667 (banned_direction_gate ADMIT rc0; D6 probe ADMIT max|corr|=0.3682; seed band theme_judge_p1_nulls=20585000 disjoint; panel probe r668 all-green digest 663f1f11)",
+   "runner": "scripts/theme_judge_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04 09:51:19",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed sec.2 six gates (census sha16 51b1b8226afc74b1 identity + dedup 1822/97 + drop gates 0 + seed band disjoint + COST_X1 0.0013041 single-source + twin 48/48 price identity) + checkpoint digest binding (stale-digest rows ignored) + exit-reason census gate at finalize; evidence_cutoff 2026-09-22 lockbox (wide-panel real tail, two-caliber disclosure)",
+   "shards": [
+    {
+     "key": "theme-judge-p1-burn-0of1",
+     "status": "ready",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 10:00:37",
+     "checkpoint": "results/theme_judge_p1/nulls_frags/ per-chunk fragments (digest-bound done-key skip) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row)"
+    }
+   ]
   }
  ]
 }

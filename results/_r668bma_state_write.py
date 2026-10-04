@@ -1,0 +1,71 @@
+"""r668 bm-a S7 bookkeeping: state-bm-a.json round advance + strict json proof."""
+import json
+
+P = "state-bm-a.json"
+d = json.load(open(P, encoding="utf-8"))
+d["round_no"] = 669
+d["last_round"] = "r668"
+d["last_round_at"] = "2026-10-04 09:55:00"
+d["last_round_ts"] = "2026-10-04T09:55:00+08:00"
+d["did"] = ("r668: T-167 s3 THEME-JUDGE-P1 runner built + pool-entered + "
+            "DAEMON-CLAIMED SAME MINUTE: scripts/theme_judge_p1.py (run/"
+            "finalize/selftest; single-source imports = theme_persist_p1 "
+            "simulate/bh_series/_pool/COST_X1 + r667 s2 probe kernels + "
+            "science_gates g1_prime_v2/g2_registration_v2 (pbo float "
+            "contract)/m1/dsr/append_ledger + screening.pbo cscv-8; zero "
+            "engine import graph selftest-asserted; nulls 4fam x K2000 "
+            "rng([20585000,k]) paired x1/x2 per-chunk digest-bound "
+            "checkpoint; ProcessPool 26-cap BelowNormal; budget 600s "
+            "honest-stop). Selftest 15/15 (2 self-referential needle "
+            "false-positives caught+fixed in-window = r420 family). "
+            "Real-data pre-pool probe ALL-GREEN 2.1s: dedup 1919->1822/97, "
+            "strata 1171/651 (34 cluster days), twins 48/48, drops 0/0, "
+            "flips=1 (159901@2024-09-30 = prereg sec.0.6 exact match), "
+            "famous52, digest 663f1f11. Pool entry THEME-JUDGE-P1 "
+            "ready/prio1/workers26 -> autofill claimed 09:51:37 (18s after "
+            "entry) -> burn in flight at wrap. S0: r437 netpath (daemon "
+            "faces absorb -> merge origin/main 15 commits zero-UU -> "
+            "push_verify DELIVERED; commit-msg slip: absorb commit "
+            "misnumbered 662-vs-668, content correct, noted honestly). "
+            "S0.5: orders 153/153 x2 zero-unacked; D-19 decisions MATCH "
+            "eb14b510 + group orders MATCH 82a0cef9 (sparse-clone raw-bytes "
+            "fallback per D-20261004-02(3), K: absent). S6 37/37 rc0 "
+            "116.2s (dualrun ZERO-DRIFT streak44 incl new pool entry; "
+            "compute_audit CLEAN; CALL ORANGE_COOL sleeves4 activated0; "
+            "LIVE-20261004+REPORT-20261004+scorecard+dashboard refreshed; "
+            "t35 PASS 0 pending; t24 22/22 + promotion 0/22 legal "
+            "NOT-ELIGIBLE; golden-week no-op family; live.paper skipped "
+            "r660 precedent; fund-statement gate spawned refresh (panel "
+            "258 face-periods missing -> staging promotion pending T-166). "
+            "S7: claws 2x reinstalled MATCH; attrition CLEAN 4 ledgers; "
+            "QUALITY shard watch: bm-c r457 owner-restore surgery -> bm-b "
+            "self-adopt live (owner_since 09:36:12 > surgery 09:11:39) = "
+            "r457 hazard closed, no bm-a action needed; MSG-0915 = "
+            "bm-c->bm-b not addressed to this machine, r667 MSG-0940 "
+            "already receipted it.")
+d["current_task"] = ("THEME-JUDGE-P1 burn in flight (daemon-claimed "
+                     "09:51:37, burn_state.json = completion marker); next "
+                     "round = burn done -> finalize (gates+verdict+ledger "
+                     "8004+attrition+prereg sec.7/8 backfill); fund trio "
+                     "NULLS bm-b in-flight keepalive; T-166 fund-statement "
+                     "backfill panel promotion pending")
+d["next"] = ("r669: check burn_state.json -> if present run "
+             "scripts/theme_judge_p1.py finalize (g1/g2/m1/pbo per cell, "
+             "ledger 8004, attrition r248 entries row, verdict per "
+             "prereg sec.4, sec.7/8 backfill + grammar-ledger consumption "
+             "row); 10-05 V-NULLS burn-done -> fund trio judged finalize "
+             "(rehearsal ALL-GREEN x3); 10-06..07 T-166 panel complete -> "
+             "done-flip; 10-08 market-open run-11/run-7 dual-jump + "
+             "governance day; G-SEG ruling window 10-06..09")
+d["verify"] = ("S1 smoke 48/48; runner selftest 15/15 + AST gate; panel "
+               "probe all-green digest 663f1f112514e70b; S6 37/37 rc0 "
+               "116.2s (_r668bma_s6_log.txt; dualrun streak44); S7 "
+               "loop pin8 no-op + watchdog re-registered + dual claws "
+               "MATCH; attrition CLEAN; state strict json.loads proof + "
+               "heartbeat epoch int/T-sep proof")
+d["updated"] = "2026-10-04 09:55:00"
+with open(P, "w", encoding="utf-8", newline="\n") as fh:
+    json.dump(d, fh, ensure_ascii=False, indent=1)
+chk = json.load(open(P, encoding="utf-8"))
+assert chk["round_no"] == 669 and isinstance(chk["round_no"], int)
+print("state r669 written, strict-parse PASS")
