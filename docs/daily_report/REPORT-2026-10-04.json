@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 18:27:59",
+ "generated_at": "2026-10-04 18:28:28",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 920,
-  "result_jsons_landed_24h": 311,
+  "commits_24h": 922,
+  "result_jsons_landed_24h": 313,
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 30,
   "compute_audit_latest": {
-   "ts": "2026-10-04 18:26:26",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-10-04 18:27:51",
+   "py_cpu_pct": 5.7,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -636,12 +636,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1167300,
+  "total_report_tokens_est": 1166964,
   "delta_vs_prev": {
-   "mandate_growth": 0,
    "prev_generated": "2026-10-04 17:58:11",
-   "report_tokens_growth": 890,
-   "state_tokens_growth": 0
+   "state_tokens_growth": 0,
+   "report_tokens_growth": 554,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -651,9 +651,133 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 18:26:26",
-    "py_pct": 0.5,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-04 17:53:19",
+    "py_pct": 5.4,
+    "cpu_pct": 2.0,
+    "ready": 3,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
+     [
+      "15:52",
+      91.9
+     ],
+     [
+      "00:27",
+      0.1
+     ],
+     [
+      "15:44",
+      0.3
+     ],
+     [
+      "16:22",
+      97.0
+     ],
+     [
+      "16:17",
+      0.7
+     ],
+     [
+      "16:45",
+      86.0
+     ],
+     [
+      "02:54",
+      58.9
+     ],
+     [
+      "16:35",
+      5.0
+     ],
+     [
+      "17:06",
+      87.2
+     ],
+     [
+      "17:10",
+      1.5
+     ],
+     [
+      "17:37",
+      5.5
+     ],
+     [
+      "17:53",
+      5.4
+     ]
+    ],
+    "today_samples": 110,
+    "today_floor_ok": 110,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 28
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-04 18:16:37",
+    "py_pct": 86.2,
+    "cpu_pct": 43.0,
+    "ready": 4,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "15:52",
+      91.9
+     ],
+     [
+      "15:56",
+      85.4
+     ],
+     [
+      "16:17",
+      0.7
+     ],
+     [
+      "16:22",
+      97.0
+     ],
+     [
+      "16:35",
+      5.0
+     ],
+     [
+      "16:45",
+      86.0
+     ],
+     [
+      "17:06",
+      87.2
+     ],
+     [
+      "17:10",
+      1.5
+     ],
+     [
+      "17:28",
+      86.0
+     ],
+     [
+      "17:37",
+      5.5
+     ],
+     [
+      "17:57",
+      86.7
+     ],
+     [
+      "18:16",
+      86.2
+     ]
+    ],
+    "today_samples": 112,
+    "today_floor_ok": 112,
+    "today_sla_flags": 1,
+    "today_supply_gap_flags": 27
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-04 18:27:51",
+    "py_pct": 5.7,
+    "cpu_pct": 3.0,
     "ready": 4,
     "streak_min": null,
     "verdict": "CLEAN",
@@ -699,141 +823,17 @@
       86.7
      ],
      [
-      "18:07",
-      4.7
+      "18:16",
+      86.2
      ],
      [
-      "18:26",
-      0.5
+      "18:27",
+      5.7
      ]
     ],
     "today_samples": 113,
     "today_floor_ok": 113,
-    "today_sla_flags": 2,
-    "today_supply_gap_flags": 27
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-04 17:57:27",
-    "py_pct": 86.7,
-    "cpu_pct": 40.0,
-    "ready": 4,
-    "streak_min": 0.0,
-    "verdict": "FLAG:ignition_sla",
-    "py_series_tail": [
-     [
-      "15:52",
-      91.9
-     ],
-     [
-      "00:27",
-      0.1
-     ],
-     [
-      "15:44",
-      0.3
-     ],
-     [
-      "16:22",
-      97.0
-     ],
-     [
-      "16:17",
-      0.7
-     ],
-     [
-      "16:45",
-      86.0
-     ],
-     [
-      "02:54",
-      58.9
-     ],
-     [
-      "16:35",
-      5.0
-     ],
-     [
-      "17:06",
-      87.2
-     ],
-     [
-      "17:10",
-      1.5
-     ],
-     [
-      "17:28",
-      86.0
-     ],
-     [
-      "17:57",
-      86.7
-     ]
-    ],
-    "today_samples": 110,
-    "today_floor_ok": 110,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 27
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-04 18:07:37",
-    "py_pct": 4.7,
-    "cpu_pct": 1.0,
-    "ready": 4,
-    "streak_min": 10.2,
-    "verdict": "FLAG:ignition_sla",
-    "py_series_tail": [
-     [
-      "15:52",
-      91.9
-     ],
-     [
-      "15:56",
-      85.4
-     ],
-     [
-      "16:17",
-      0.7
-     ],
-     [
-      "16:22",
-      97.0
-     ],
-     [
-      "16:35",
-      5.0
-     ],
-     [
-      "16:45",
-      86.0
-     ],
-     [
-      "17:06",
-      87.2
-     ],
-     [
-      "17:10",
-      1.5
-     ],
-     [
-      "17:28",
-      86.0
-     ],
-     [
-      "17:37",
-      5.5
-     ],
-     [
-      "17:57",
-      86.7
-     ],
-     [
-      "18:07",
-      4.7
-     ]
-    ],
-    "today_samples": 112,
-    "today_floor_ok": 112,
-    "today_sla_flags": 2,
     "today_supply_gap_flags": 27
    }
   },
@@ -855,24 +855,24 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-04 18:26:26"
+     "audit_batches": 4,
+     "audit_ts": "2026-10-04 17:53:19"
     }
    },
    "bm-b": {
-    "batches_judged": 9,
-    "core_seconds": 1970.5,
-    "wall_seconds": 379.0,
-    "effective_cores": 5.2,
+    "batches_judged": 11,
+    "core_seconds": 2389.0,
+    "wall_seconds": 439.5,
+    "effective_cores": 5.44,
     "single_core_burn": 1,
-    "multicore_burn": 8,
+    "multicore_burn": 10,
     "too_short": 0,
-    "last_ts": "2026-10-04T18:12:35+08:00",
+    "last_ts": "2026-10-04T18:18:35+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-04 17:57:27"
+     "audit_batches": 6,
+     "audit_ts": "2026-10-04 18:16:37"
     }
    },
    "bm-c": {
@@ -887,8 +887,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 3,
-     "audit_ts": "2026-10-04 18:07:37"
+     "audit_batches": 5,
+     "audit_ts": "2026-10-04 18:27:51"
     }
    }
   },
@@ -914,7 +914,7 @@
      62701,
      62900
     ],
-    "shards_done": 4,
+    "shards_done": 6,
     "shards_total": 12,
     "finalize_landed": false
    },
