@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04T12:54:24+08:00",
+ "updated_at": "2026-10-04T13:26:30+08:00",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -14275,7 +14275,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-04T12:54:24+08:00",
    "worker_class": "self-contained",
    "workers_plan": {
@@ -14290,7 +14290,8 @@
    "shards": [
     {
      "key": "theme-judge-p2-burn-0of1",
-     "status": "ready",
+     "status": "done",
+     "done_at": "2026-10-04T13:14:13+08:00",
      "checkpoint": "results/theme_judge_p2/nulls_frags/ per-chunk fragments (digest-bound done-key skip, non-empty-ks guard) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row + pool flip r668)",
      "owner": "bm-a",
      "owner_since": "2026-10-04 13:07:47"
