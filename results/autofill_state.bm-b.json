@@ -1,32 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 11:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "fuse_skipped": [
-    {
-     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
-     "shard": "stockfurn-rev-0to31",
-     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
-     "fuse_refusals": 3
-    }
-   ],
-   "verdict": "launched",
-   "entry": "STOCKFURN-REV-AKSHARE-SHARD-62",
-   "shard": "stockfurn-rev-62to91",
-   "pid": 55680,
-   "runner_sha256": "cce0f51237e4094d",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": null,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 11:32:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -998,14 +972,48 @@
    "target_met": true,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-04 18:06:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 57.0,
+   "keepalive": [
+    "fund-value-p1-nulls-0of1",
+    "fund-quality-p1-nulls-0of1",
+    "fund-divlowvol-p1-nulls-0of1"
+   ],
+   "verdict": "launched",
+   "entry": "CONTEST-YTD-P1-RC-0OF1",
+   "shard": "contest-ytd-p1-rc-0of1",
+   "pid": 58468,
+   "runner_sha256": "246e6ec4299d3dc5",
+   "core_verdict": "multiproc",
+   "core_marker": "from parallel_runner import",
+   "fill_latency_min": 10.7,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 17:34:02",
+  "ts": "2026-10-04 18:14:01",
   "machine": "bm-b",
-  "py_cpu_pct": 60.4,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 58.2,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "CONTEST-YTD-P1-RC-0OF1",
+  "shard": "contest-ytd-p1-rc-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 2,
+  "fuse_skipped": [
+   {
+    "entry": "CONTEST-YTD-P1-RC-0OF1",
+    "shard": "contest-ytd-p1-rc-0of1",
+    "sig": "scripts/contest_ytd_legs.py|revcensus",
+    "fuse_refusals": 2
+   }
+  ]
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-04T17:13:41+08:00"
+ "core_samples_seen": "2026-10-04T18:13:34+08:00"
 }
