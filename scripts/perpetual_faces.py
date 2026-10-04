@@ -2923,6 +2923,48 @@ N1_BANDS = {
     # NOT a re-pick (R250: W119 bands were never assigned).
     119: {"a": (281_004, 283_003), "b_exit": (65_450, 65_649),
          "engine_owner": "bm-a"},
+    # W120 (r702 bm-a freeze, own-series law under CEO de-throttle
+    # order O-20261001-2355 sec.2): bm-a's thirty-sixth owned per
+    # machine-derive (engine_owner==bm-a rows 35 + candidate); wave
+    # 120 = first free number after the REGISTERED W119 row (bm-a
+    # r701 freeze 907e1e187) -- SINGLE STATE zero seat gap
+    # (W2..W119 all registered). Seat published=reserved
+    # MSG-2026-10-04-2349-bma-w120-seat pushed to origin 8792adc72
+    # BEFORE this freeze, r565 law (payload = seat MSG only,
+    # deletion-set EMPTY, rev.A = only published face). ONE
+    # HUNDRED-AND-TENTH engine wave BY MACHINE-DERIVE (engine_owner
+    # rows 109 + candidate; gate leg0 machine output governs per
+    # r359 law). W1..W115 finalize LANDED (net chain head 617,548,
+    # K=250,920) + FOUR in-flight upstream seats: W116 bm-b
+    # (registered bc1e82773, 6/12 shards burned, engine RAM floor
+    # gate self-paced, finalize pending) + W117 bm-a (registered
+    # c36a087ea, 12/12 shards burned, finalize rehearsal PASS r684,
+    # ARMED on W116 landing) + W118 bm-b (registered 565e5b0b4,
+    # 0/12 burned, queued behind W116 on the bm-b engine) +
+    # W119 bm-a (registered 907e1e187, 12/12 shards burned this
+    # window, finalize attempt r702 FAIL-CLOSED on missing W116
+    # upstream output -- clean fail, zero ledger append, zero
+    # double-count) -- finalize merge loop still derives the wave
+    # set from registry keys at run time, FAIL-CLOSED r307 two-state
+    # law always on. Zero seat conflict this window (first pre-seat
+    # probe of the window found the slot vacant; cross-window
+    # convergence with the r701 W119 gate-tail W120+ projection
+    # re-derived here, not transcribed). A = arithmetic continuation
+    # from the registered W119 A tail: 283_004..285_003 CLEAN hops=0.
+    # B = arithmetic continuation from the registered W119 B tail:
+    # 65_650..65_849 CLEAN hops=0 (zero-jump two-reading-identical
+    # face; ADMIT receipt results/_r702bma_w120_band_gate.py; live
+    # SEED_REGISTRY + probe cluster 95_000..95_003 r335 leg +
+    # cross-face probe points 95_004/95_006 r602 leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 leg.
+    # W121+ projection (gate-derived r702): A 285_004..287_003
+    # CLEAN hops=0; B first-clean 66_001..66_200 hops=1 (arithmetic
+    # 65_850..66_049 REFUSED by SEED_REGISTRY bond_carry_w3a=66_000
+    # mid-band hit -> past-hit restart, pinned D-20261002-05);
+    # next freezer must re-derive, never transcribe (r587 law).
+    # NOT a re-pick (R250: W120 bands were never assigned).
+    120: {"a": (283_004, 285_003), "b_exit": (65_650, 65_849),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
