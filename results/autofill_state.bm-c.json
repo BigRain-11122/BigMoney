@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 09:26:02",
-   "machine": "bm-c",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W5-SHARD-2",
-   "shard": "n1w5-2of12",
-   "pid": 40904,
-   "runner_sha256": "93db4fc509670d43",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": 3.7,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 09:27:23",
    "machine": "bm-c",
    "py_cpu_pct": 0.0,
@@ -1021,14 +1003,33 @@
    "target_met": false,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-04 10:39:02",
+   "machine": "bm-c",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "THEME-JUDGE-P1",
+   "shard": "theme-judge-p1-burn-0of1",
+   "pid": 21116,
+   "runner_sha256": "05b8d7f84781acb0",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 47.8,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 10:34:32",
+  "ts": "2026-10-04 10:43:02",
   "machine": "bm-c",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "relaunch_cooldown",
+  "entry": "THEME-JUDGE-P1",
+  "shard": "theme-judge-p1-burn-0of1",
+  "last_launch_min": 4.0
  },
  "lane_machine": "bm-c",
- "core_samples_seen": "2026-10-03T19:06:22+08:00"
+ "core_samples_seen": "2026-10-04T10:39:22+08:00"
 }
