@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 20:26:57",
+ "generated_at": "2026-10-04 20:22:38",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 941,
-  "result_jsons_landed_24h": 330,
+  "commits_24h": 945,
+  "result_jsons_landed_24h": 337,
   "digests_landed_24h": 4,
-  "prereg_md_touched_24h": 31,
+  "prereg_md_touched_24h": 30,
   "compute_audit_latest": {
-   "ts": "2026-10-04 20:25:15",
-   "py_cpu_pct": 0.4,
-   "flags": [
-    "supply_gap"
-   ],
-   "verdict": "FLAG:supply_gap"
+   "ts": "2026-10-04 20:20:02",
+   "py_cpu_pct": 85.3,
+   "flags": [],
+   "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -653,12 +651,74 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 20:25:15",
+    "latest_ts": "2026-10-04 19:44:23",
     "py_pct": 0.4,
-    "cpu_pct": 46.0,
+    "cpu_pct": 2.0,
     "ready": 5,
-    "streak_min": 75.5,
+    "streak_min": 34.6,
     "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
+     [
+      "17:06",
+      87.2
+     ],
+     [
+      "17:10",
+      1.5
+     ],
+     [
+      "17:28",
+      86.0
+     ],
+     [
+      "17:37",
+      5.5
+     ],
+     [
+      "17:57",
+      86.7
+     ],
+     [
+      "18:16",
+      86.2
+     ],
+     [
+      "18:27",
+      5.7
+     ],
+     [
+      "18:43",
+      0.2
+     ],
+     [
+      "19:09",
+      0.0
+     ],
+     [
+      "19:24",
+      0.1
+     ],
+     [
+      "19:30",
+      4.8
+     ],
+     [
+      "19:44",
+      0.4
+     ]
+    ],
+    "today_samples": 118,
+    "today_floor_ok": 118,
+    "today_sla_flags": 1,
+    "today_supply_gap_flags": 31
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-04 20:20:02",
+    "py_pct": 85.3,
+    "cpu_pct": 65.0,
+    "ready": 5,
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
      [
       "17:10",
@@ -705,76 +765,14 @@
       4.8
      ],
      [
-      "20:25",
-      0.4
+      "20:20",
+      85.3
      ]
     ],
     "today_samples": 119,
     "today_floor_ok": 119,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 32
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-04 19:56:29",
-    "py_pct": 87.1,
-    "cpu_pct": 48.0,
-    "ready": 5,
-    "streak_min": null,
-    "verdict": "CLEAN",
-    "py_series_tail": [
-     [
-      "17:10",
-      1.5
-     ],
-     [
-      "17:28",
-      86.0
-     ],
-     [
-      "17:37",
-      5.5
-     ],
-     [
-      "17:57",
-      86.7
-     ],
-     [
-      "18:16",
-      86.2
-     ],
-     [
-      "18:27",
-      5.7
-     ],
-     [
-      "18:43",
-      0.2
-     ],
-     [
-      "19:09",
-      0.0
-     ],
-     [
-      "19:24",
-      0.1
-     ],
-     [
-      "19:30",
-      4.8
-     ],
-     [
-      "19:44",
-      96.2
-     ],
-     [
-      "19:56",
-      87.1
-     ]
-    ],
-    "today_samples": 119,
-    "today_floor_ok": 119,
-    "today_sla_flags": 2,
-    "today_supply_gap_flags": 30
+    "today_supply_gap_flags": 31
    },
    "bm-c": {
     "latest_ts": "2026-10-04 19:48:25",
@@ -846,19 +844,19 @@
   "day": "2026-10-04",
   "machines": {
    "bm-a": {
-    "batches_judged": 33,
-    "core_seconds": 10032.1,
-    "wall_seconds": 901.0,
-    "effective_cores": 11.13,
-    "single_core_burn": 2,
+    "batches_judged": 32,
+    "core_seconds": 9975.3,
+    "wall_seconds": 840.8,
+    "effective_cores": 11.86,
+    "single_core_burn": 1,
     "multicore_burn": 31,
     "too_short": 0,
-    "last_ts": "2026-10-04T20:10:47+08:00",
+    "last_ts": "2026-10-04T19:55:16+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-04 20:25:15"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-04 19:44:23"
     }
    },
    "bm-b": {
@@ -873,8 +871,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 1,
-     "audit_ts": "2026-10-04 19:56:29"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-04 20:20:02"
     }
    },
    "bm-c": {
