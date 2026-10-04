@@ -147,10 +147,26 @@ r687 律同窗重跑（origin tip 见 commit message 披露）。
 - probe 种子 95_004=出带设计探针（N1 95_002/95_003 先例；永不登记、永不入批账本、
   ledger +0——本窗 probe 实证已按此律落盘）。
 
-## §6 跑后只许回填节（占位）
+## §6 跑后只许回填节
 
-- [ ] §7 跑后实证（回填 source=）
-- [ ] §8 判决与账本行（回填 prev_total→total）
+- [x] §7 跑后实证（回填 source=results/n2_w15/n2_w15_screen.json + results/n2_w15/n2_w15_judge.json + results/_r710bma_n2_judge_verify.json）
+
+### §7 跑后实证【2026-10-05 r710 bm-a 回填】
+
+- **初筛段实况**（source=n2_w15_screen.json·generated 2026-10-05T00:02:27+08:00）：raw 5,000 绘制 → T-84s3 指纹去重 keep-first 后 **954 distinct** + 200 nulls = **1,154 enrolled**；存活线=beat6m_rate > null 族 p95（§4 冻结·程序自适应）；**survivors=281/954=29.5%**；dup 探针 n_dup_ids=0（r482 律）；账本 PERPETUAL-N2-W15-SCREEN prev=646,799+1,154=**647,953**。
+- **k_active 分段读数**（screen audit 段）：存活率随活跃门数上行——k=1:74/295=25.1%｜k=2:65/217=30.0%｜k=3:62/180=34.4%｜k=4:47/131=35.9%｜k=5:20/78=25.6%｜k=6:9/37=24.3%｜**k=7:4/9=44.4% 峰值**｜k=8/9:0/7（小样本诚实）。
+- **§4 预测对账**：冻结预测=「raw 5,000 存活者 ≤3%」——实际 281/5,000 raw=**5.62%（≥3%→富集条款触发=机制面新信息）**；组合空间初筛存活显著高于逐波单门先验。
+- **判决段实况**（source=n2_w15_judge.json·generated 2026-10-05T05:38:14+08:00·leg A PID 103532 04:03:49 spawn 自然落地）：281 stage-1 survivors → 入场塌缩 |corr|≥0.999 **eliminated=0**（全对相关 <0.999·audit 段全量保留）→ N_judge=**281**；seed_judge=545,500（§9.1 冻结带实烧=断言过）；双 nulls B=2,000 block=20 循环块+P=2,000 sign-flip（rng=[545_500, cell_idx] 冻结流）；E[FP]=**14.05**（名义 α=5%·281×0.05）。
+- **判决读数**：verdicts pass=**0**／fail=**281**／insufficient-sample=0（281/281 全败）；家族 PBO（CSCV 8 blocks）：A 族=0.6857（35 cells）／B 族=0.4571（246 cells）；descriptive：ann_pos=225｜oos_dual_pos=147｜dd_ok=281｜no_crash_year=281｜x2_yearly_stable=281（成本压测与回撤面无淘汰=败因集中在 Sharpe/DSR 判线本身）。
+- **收养核验**（r710 本窗）：`results/_r710bma_n2_judge_verify.py` **ADOPT_PASS 19/19**——complete/281 cells/单链块/活链头 649,011==total/ckpt union 281 dup 0/池 12 分片全 done+PREP done/seed 545,500==冻结值/E[FP] 口径/塌缩零消除；回执 results/_r710bma_n2_judge_verify.json。
+- [x] §8 判决与账本行（回填 prev_total→total）
+
+### §8 判决与账本行【2026-10-05 r710 bm-a 回填】
+
+- **判决=全批判负（诚实负结果）**：281/281 fail——G1'（leg-L x1 Sharpe·共享库）与 DSR（n_trials=活链头 648,730 累计折减·≥0.95 门）全拒；**0 G2-eligible**（g2_registration_v2 与 D6 双门到达前即已全灭·D6 拒收面零触发=零存活员）；**零晋升**——试用期题库/在册员增补线零入册（judged 存活者入册本就 walk 月界·本批零自动注册效应）。
+- **账本行**：screen 段 prev=646,799 → +1,154 = **647,953**（PERPETUAL-N2-W15-SCREEN）；judge 段 prev=**648,730**（screen 后链头 647,953+同窗 W3-JUDGE 777=648,730·与 W3 判决批同链自洽）→ +281 = **649,011**（PERPETUAL-N2-W15-JUDGE·单块·n_trials_head_at_finalize==prev_total=零同窗外插）。
+- **研究问题定谳（§0）**：组合空间初筛面确有富集（5.62%>3% 冻结预测线·k_active 单调上行至 7 门 44.4% 峰=多门叠加交互的初筛级真实信号）——但**全量判决校准下零存活**（三窗×双成本×政体分段×双 nulls×累计 N 折减后无一过线）：组合门面不藏逐波单门探不到的可注册候选，初筛富集=浅层门槛效应非真机制面。家族 PBO 双族 0.69/0.46（>0.25 线）与 descriptive 全过对照=判线败因诊断完整。
+- **family_key=perpetual_faces_n2（open）保持 open**（U3 律：判负真关线须新证据增量声明——本批不关线；组合采样法本身可复用于后续波）。
 
 ## 附：slice 分工账（防重复开发·跨窗接力）
 

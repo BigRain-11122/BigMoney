@@ -1,0 +1,165 @@
+{
+ "ts_probe": "2026-10-05T06:01:26",
+ "round": "r710 bm-a",
+ "expect": {
+  "batch": "PERPETUAL-N2-W15-JUDGE",
+  "n_judge_cells": 281,
+  "seed_judge": 545500,
+  "prev_total": 648730,
+  "new_total": 649011,
+  "e_fp": 14.05
+ },
+ "liveness": {
+  "pid": 103532,
+  "alive": false,
+  "note": "leg A landed 05:38:14 then exited; active-process probe done at round start (r708 law), no respawn"
+ },
+ "pool": {
+  "PERPETUAL-N2-W15-JUDGE-PREP": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-prep-0of1": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-0": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-0of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-1": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-1of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-2": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-2of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-3": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-3of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-4": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-4of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-5": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-5of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-6": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-6of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-7": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-7of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-8": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-8of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-9": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-9of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-10": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-10of12": "done"
+   }
+  },
+  "PERPETUAL-N2-W15-JUDGE-SHARD-11": {
+   "entry": "done",
+   "shards": {
+    "n2w15judge-11of12": "done"
+   }
+  }
+ },
+ "pool_12of12_done": true,
+ "pool_prep_done": true,
+ "checkpoint": {
+  "files": 12,
+  "union_unique": 281,
+  "id_dup": 0,
+  "sample_ok": true
+ },
+ "product": {
+  "complete": true,
+  "n_judge_cells": 281,
+  "batch": "PERPETUAL-N2-W15-JUDGE",
+  "prev_total": 648730,
+  "batch_trials": 281,
+  "total": 649011,
+  "n_trials_head_at_finalize": 648730,
+  "seed_judge": 545500,
+  "evidence_cutoff": "2026-09-22",
+  "verdicts": {
+   "pass": 0,
+   "fail": 281,
+   "insufficient-sample": 0
+  },
+  "n_eligible_g2_d6": 0,
+  "e_fp": 14.05,
+  "family_pbo": {
+   "A": {
+    "pbo": 0.6857,
+    "n_cells": 35
+   },
+   "B": {
+    "pbo": 0.4571,
+    "n_cells": 246
+   }
+  },
+  "collapse_eliminated": 0
+ },
+ "chain_blocks": [
+  {
+   "file": "results\\n2_w15\\n2_w15_judge.json",
+   "prev_total": 648730,
+   "batch_trials": 281,
+   "total": 649011
+  }
+ ],
+ "ledger_head_live": 649011,
+ "checks": {
+  "complete": true,
+  "n_cells": true,
+  "batch": true,
+  "prev_total_true_head": true,
+  "batch_trials": true,
+  "total_arith": true,
+  "head_at_finalize": true,
+  "no_same_window_insert": true,
+  "seed": true,
+  "evidence_cutoff": true,
+  "verdicts_sum": true,
+  "single_chain_block": true,
+  "chain_block_matches": true,
+  "ledger_head_live_advance": true,
+  "ckpt_no_dup": true,
+  "pool_12of12_done": true,
+  "pool_prep_done": true,
+  "collapse_zero_elim": true,
+  "e_fp_caliber": true
+ },
+ "verdict": "ADOPT_PASS"
+}
