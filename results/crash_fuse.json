@@ -656,16 +656,6 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-04 22:40:16"
   },
-  "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12": {
-   "count": 1,
-   "refusals": 14,
-   "code_sha256": "93923141b7ed995d",
-   "last_crash_ts": "2026-10-05 01:30:04",
-   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
-   "shard": "n2w15judge-2of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-05 01:58:04"
-  },
   "scripts/perpetual_faces_n2.py|judge,--shard,3,--shards,12": {
    "count": 1,
    "refusals": 13,
@@ -1115,6 +1105,13 @@
   },
   "scripts/perpetual_faces_n2.py|judge,--shard,1,--shards,12": {
    "cleared_ts": "2026-10-05 02:05:27",
+   "cleared_by": "bm-a",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "93923141b7ed995d"
+  },
+  "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12": {
+   "cleared_ts": "2026-10-05 02:08:03",
    "cleared_by": "bm-a",
    "reason": "code_changed",
    "crashes": 1,
