@@ -1,0 +1,25 @@
+def _judge_faces(wave):
+    """Wave-routed judge face descriptor (single source for prep/burn/
+    finalize; w1 paths byte-identical to the pre-wave-2 code face)."""
+    if wave == 1:
+        return {"wave": 1, "batch": JUDGE_BATCH, "seed": JUDGE_SEED,
+                "state": JUDGE_STATE, "out": JUDGE_OUT,
+                "ck_prefix": "judge_shard",
+                "cand_file": "w1_candidates.json",
+                "sum_file": "w1_screen_summary.json",
+                "sha_frozen": CANDIDATES_SHA_FROZEN,
+                "refinalize_env": "MASS_TRIAL_W1_JUDGE_REFINALIZE",
+                "ticket": "T-94"}
+    return {"wave": 2, "batch": W2_JUDGE_BATCH, "seed": W2_JUDGE_SEED,
+            "state": os.path.join(OUT_DIR, "w2_judge_state.json"),
+            "out": os.path.join(OUT_DIR, "w2_judge.json"),
+            "ck_prefix": "w2_judge_shard",
+            "cand_file": "w2_candidates.json",
+            "sum_file": "w2_screen_summary.json",
+            "sha_frozen": W2_CANDIDATES_SHA_FROZEN,
+            "refinalize_env": "MASS_TRIAL_W2_JUDGE_REFINALIZE",
+            "ticket": "T-158"}
+
+
+# --------------------------------------------------------------- panel loading
+
