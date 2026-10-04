@@ -1249,3 +1249,4 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - S7: 自愈 4/4 (loop pin=2 no-op + watchdog 重注册 + pre-commit/pre-push 双爪重装 LF-normalized); attrition CLEAN 4 ledgers; inbox 零未读
 - 下轮指针: trio NULLS 烧录看护 (finalize 候选窗) + lhb 自愈复跑观察 (rc2 复发=源阻断升级披露面) + W14/moneyflow-EM 挂账观察
 - 本地未达 origin commit 数=0 (commit+push 后 push_verify 三证复核)
+- 追记 2026-10-04T12:3x (S7 收口窗 push-race 实弹): bm-c r467 同窗并行轮先推 -> 首推 non-FF 拒 -> merge origin/main 14 UU 全=同窗双跑再生面 -> 13 面 ts-freshness take-side ours (双形复核 lhb 12:09:01>11:58:45 + LIVE 12:09:27>11:59:19 实证) + token_usage per-key union (side_pick=2, r456 律) -> reparse/marker/复核实测全过 -> merge commit de59287e2 push_verify DELIVERED (ahead=0/behind=0); 本地未达 origin commit 数=0
