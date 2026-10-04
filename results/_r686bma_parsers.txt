@@ -1,0 +1,88 @@
+w1_judge=20285000 registered at the same freeze window):
+
+  judge-prep        dual-leg census gates (p5c FROZEN_CENSUS wholesale import,
+                    sec.9.3 caliber) + candidates-sha anchor gate + t18
+                    manifest gate + |corr|>=0.999 leg-L daily
+
+=====
+  inputs + descriptive clauses; jsonl checkpoint per cell
+  judge-finalize    family PBO (CSCV 8 blocks, family = 11 strategy modules,
+                    <8 cells -> honest n/a) + G2 via science_gates shared lib
+                    + E[FP]=0.05*N_judge + ledger append MASS
+
+=====
+unts only; the JUDGE batch
+appends its own N_judge cells at judge-finalize (chain-linear, live head read,
+never hand-copied).
+
+Cross-round discipline: detached/pool burn, JSONL checkpoint per candidate
+(append-only, resume = skip recorded ids), shard by --pos-from/--pos-to 
+
+=====
+on.dump(state, f, indent=1, ensure_ascii=False)
+    print(f"judge-prep PASS: survivors {len(survivors)} -> N_judge "
+          f"{len(kept)} (collapsed {len(eliminated)}); census L/D == frozen; "
+          f"manifest {man.get('verdict')} ({time.time()-t0:.0f}s)")
+    re
+
+=====
+ot os.path.exists(fc["state"]):
+        print(f"JUDGE-GATE: judge-prep required first ({fc['state']} absent)")
+        return 2
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    cpath = os.path.join(OUT_DIR, fc["cand_file"])
+    cands = {c["id"]: c for c in
+
+=====
+te"]):
+        print(f"FINALIZE-GATE: {fc['state']} absent (judge-prep first)")
+        return 2
+    n_eff_override = None
+    redo_dsr_trials = None
+    if os.path.exists(fc["out"]):
+        prev = json.load(open(fc["out"], encoding="utf-8"))
+        if prev.get("compl
+
+=====
+s.environ.get(fc["refinalize_env"]):
+                print("judge-finalize: complete product exists (idempotent "
+                      "no-op; set %s=1 to redo)" % fc["refinalize_env"])
+                return 0
+            n_eff_override = (int(prev["trials_ledger"]["prev_
+
+=====
+.dump(summary, f, indent=1, ensure_ascii=False)
+    print(f"judge-finalize: {n_judge} judged cells, E[FP]={e_fp}, "
+          f"G2 eligible {len(eligible)} -> {eligible[:10]}")
+    return 0
+
+
+# --------------------------------------------------------------- selftest
+
+def cm
+
+=====
+ f.set_defaults(func=cmd_finalize)
+    jp = sub.add_parser("judge-prep")
+    jp.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    jp.set_defaults(func=cmd_judge_prep)
+    js_ = sub.add_parser("judge")
+    js_.add_argument("--wave", type=int, default=1, cho
+
+=====
+ 2])
+    jp.set_defaults(func=cmd_judge_prep)
+    js_ = sub.add_parser("judge")
+    js_.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    js_.add_argument("--shard", type=int, default=0)
+    js_.add_argument("--shards", type=int, default=1)
+    js_.add_argument("--
+
+=====
+  js_.set_defaults(func=cmd_judge)
+    jf = sub.add_parser("judge-finalize")
+    jf.add_argument("--wave", type=int, default=1, choices=[1, 2])
+    jf.set_defaults(func=cmd_judge_finalize)
+    t = sub.add_parser("selftest")
+    t.set_defaults(func=cmd_selftest)
+    args = a

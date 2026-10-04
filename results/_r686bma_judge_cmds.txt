@@ -1,0 +1,330 @@
+def cmd_judge_prep(args):
+    """sec.9.1 prep: frozen-product gates + dual-leg census gates + manifest
+    gate + corr-dedup (leg-L base daily returns) + passive precompute.
+    Wave-routed: --wave 1 = MASS_TRIAL_W1_JUDGE (byte-identical face),
+    --wave 2 = MASS_TRIAL_W2_JUDGE (prereg MASS_TRIAL_W2 sec.9.1)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
+    os.makedirs(OUT_DIR, exist_ok=True)
+    t0 = time.time()
+    spath = os.path.join(OUT_DIR, fc["sum_file"])
+    cpath = os.path.join(OUT_DIR, fc["cand_file"])
+    for p in (spath, cpath):
+        if not os.path.exists(p):
+            print(f"JUDGE-PREP-GATE FAIL: {p} absent")
+            return 1
+    summary = json.load(open(spath, encoding="utf-8"))
+    if not summary.get("complete"):
+        print("JUDGE-PREP-GATE FAIL: screen summary not complete")
+        return 1
+    sha = hashlib.sha256(open(cpath, "rb").read()).hexdigest()[:16]
+    if sha != fc["sha_frozen"]:
+        print(f"JUDGE-PREP-GATE FAIL: candidates sha drift {sha} != "
+              f"{fc['sha_frozen']} (frozen anchor)")
+        return 1
+    survivors = list(summary["survivor_ids"])
+    if not survivors:
+        print("JUDGE-PREP-GATE FAIL: zero stage-1 survivors")
+        return 1
+    cands = {c["id"]: c for c in json.load(
+        open(cpath, encoding="utf-8"))["candidates"]}
+    missing = [s for s in survivors if s not in cands]
+    if missing:
+        print(f"JUDGE-PREP-GATE FAIL: {len(missing)} survivors absent from "
+              "frozen candidates file")
+        return 1
+    man = json.load(open(T18_MANIFEST, encoding="utf-8"))
+    if man.get("verdict") != "PASS":
+        print("JUDGE-PREP-GATE FAIL: t18 deep-panel manifest != PASS")
+        return 1
+    bench = _load_bench()
+    bench_cov = {"from": str(bench.index.min().date()),
+                 "to": str(bench.index.max().date()),
+                 "note": "single-source csi300.csv (screen face verbatim); "
+                         "leg-D R-axis/macro/bench-arg signals honestly "
+                         "dead pre-2020, disclosed per sec.9.1"}
+    ctxs, starts, passive, legs_meta = {}, {}, {}, {}
+    for leg in ("L", "D"):
+        ctx, P, idx, listed, cen = _leg_ctx(leg, bench)
+        if cen != FROZEN_CENSUS[leg]:
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} census drift {cen} != "
+                  f"{FROZEN_CENSUS[leg]}")
+            return 1
+        ctxs[leg] = ctx
+        close = P["close"]
+        n = len(idx)
+        starts[leg], passive[leg] = {}, {}
+        for wname, w in WINDOWS.items():
+            st = [p for p in range(n)
+                  if idx[p] >= (LEG_L_FLOOR if leg == "L" else LEG_D_FLOOR)
+                  and p >= WARMUP_TD and p <= n - 1 - w
+                  and (listed.iloc[p] >= MIN_LISTED if leg == "L" else True)]
+            if len(st) != FROZEN_CENSUS[leg][wname]:
+                print(f"JUDGE-PREP-GATE FAIL: leg-{leg} {wname} starts "
+                      f"{len(st)} != {FROZEN_CENSUS[leg][wname]}")
+                return 1
+            starts[leg][wname] = st
+            passive[leg][wname] = {}
+            for p in st:
+                sdate, edate = idx[p], idx[p + w - 1]
+                syms = close.columns[close.loc[sdate].notna()]
+                rel = passive_rel(close, syms, sdate, edate)
+                passive[leg][wname][str(p)] = round(
+                    float(rel.iloc[-1] - 1.0), 6)
+        legs_meta[leg] = {"census": cen, "n_days": n,
+                          "first": str(idx[0].date()),
+                          "last": str(idx[-1].date()),
+                          "members": len(close.columns)}
+    # ---- corr-dedup on leg-L base-face daily returns (entry gate)
+    roster_by_family = {f["family"]: f for f in ctxs["L"].roster}
+    rets = {}
+    for cid in sorted(survivors):
+        c = cands[cid]
+        fam = roster_by_family[c["family"]]
+        e, x, scale = ctxs["L"].build_signals(fam, c["params"], c["axes"])
+        res = run_backtest(ctxs["L"].prices, {}, entry_signal=e,
+                           exit_signal=x, entry_size_scale=scale)
+        eq = pd.Series(res["equity_curve"],
+                       index=ctxs["L"].idx[:len(res["equity_curve"])])
+        rets[cid] = eq.pct_change().fillna(0.0)
+    kept, clusters, eliminated = _collapse_survivors(
+        pd.DataFrame({c: rets[c] for c in sorted(rets)}))
+    state = {
+        "batch": fc["batch"], "evidence_cutoff": CUTOFF,
+        **sg.cutoff_meta(CUTOFF),
+        "g_manifest": {"verdict": man.get("verdict"),
+                       "members": len(man.get("members", {}))},
+        "candidates_sha256_16": sha,
+        "n_stage1_survivors": len(survivors),
+        "n_judge_cells": len(kept),
+        "collapse": {"line": 0.999, "kept": kept, "clusters": clusters,
+                     "eliminated": eliminated,
+                     "note": "representative = deterministic lowest "
+                             "candidate_id; original variants retained in "
+                             "this audit block (sec.9.1)"},
+        "starts": starts, "passive": passive,
+        "legs": legs_meta, "bench_coverage": bench_cov,
+        "seed_judge": fc["seed"],
+        "wave": fc["wave"],
+    }
+    with open(fc["state"], "w", encoding="utf-8") as f:
+        json.dump(state, f, indent=1, ensure_ascii=False)
+    print(f"judge-prep PASS: survivors {len(survivors)} -> N_judge "
+          f"{len(kept)} (collapsed {len(eliminated)}); census L/D == frozen; "
+          f"manifest {man.get('verdict')} ({time.time()-t0:.0f}s)")
+    return 0
+
+
+_JST = None
+
+
+def _judge_init(state):
+    global _JST
+    _JST = state
+
+
+def _j(o):
+    """JSON-safe scrub (numpy scalars -> python primitives)."""
+    if isinstance(o, dict):
+        return {k: _j(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_j(v) for v in o]
+    if isinstance(o, (bool, np.bool_)):
+        return bool(o)
+    if isinstance(o, (int, np.integer)):
+        return int(o)
+    if isinstance(o, (float, np.floating)):
+        return float(o)
+    return o
+
+
+def _judge_cell(cell):
+    """One collapsed-survivor judged cell (pool worker; sec.9.1 grid:
+    legs L/D x cost x1/x2 x windows {126,252,504} sliced from full curves +
+    regime segments + dual nulls + G1'/DSR inputs + descriptive clauses)."""
+    st = _JST
+    cand = cell["cand"]
+    fam = st["roster_by_family"][cand["family"]]
+    out = {"cell_id": cell["cell_id"], "candidate_id": cand["id"],
+           "family": cand["family"], "i": cell["i"]}
+    legs = {}
+    legL_daily = None
+    for leg in ("L", "D"):
+        ctx = st["ctx_" + leg]
+        idx = st["idx_" + leg]
+        e, x, scale = ctx.build_signals(fam, cand["params"], cand["axes"])
+        faces = {}
+        for face in ("x1", "x2"):
+            params = {"report_num_entries": True}
+            if face == "x2":
+                cmgr = sg.CostPatch(2.0)
+                cmgr.__enter__()
+            try:
+                res = run_backtest(ctx.prices, params, entry_signal=e,
+                                   exit_signal=x, entry_size_scale=scale)
+            finally:
+                if face == "x2":
+                    cmgr.__exit__(None, None, None)
+            eq = pd.Series(res["equity_curve"],
+                           index=idx[:len(res["equity_curve"])])
+            m = res["metrics"]
+            beat = {}
+            for wname, w in WINDOWS.items():
+                k = tot = 0
+                for p in st["starts"][leg][wname]:
+                    if p + w - 1 >= len(eq):
+                        continue
+                    tot += 1
+                    cret = float(eq.iloc[p + w - 1] / eq.iloc[p] - 1.0)
+                    if cret > st["passive"][leg][wname][str(p)]:
+                        k += 1
+                beat[wname] = {"k": k, "n": tot,
+                               "rate": round(k / tot, 6) if tot else 0.0}
+            faces[face] = {
+                "sharpe_full": round(float(sharpe(eq)), 4),
+                "n_trades": int(m.get("num_trades", 0)),
+                "n_entries": int(m.get("num_entries", 0)),
+                "max_dd": round(float(max_drawdown(eq)), 4),
+                "yearly": _yearly_returns(eq), "beat": beat,
+            }
+            if leg == "L" and face == "x1":
+                legL_daily = eq.pct_change().fillna(0.0)
+        # regime segments at window starts (T-22 sec.3 frozen 3-way proxy)
+        s_series = st["states"].reindex(idx)
+        segs = {"bear": 0, "bull": 0, "chop": 0, "na": 0}
+        for wname in WINDOWS:
+            for p in st["starts"][leg][wname]:
+                d = s_series.iloc[p] if p < len(s_series) else None
+                st_ = REGIME_MAP.get(d, "na") if d == d else "na"
+                segs[st_] += 1
+        legs[leg] = {"x1": faces["x1"], "x2": faces["x2"],
+                     "regime_start_windows": segs}
+    out["legs"] = legs
+    daily = [round(float(v), 8) for v in legL_daily.values]
+    out["legL_daily_returns"] = daily
+    eq_l = (1.0 + legL_daily).cumprod()           # reconstruct for OOS split
+    oos = eq_l[eq_l.index >= OOS_START_TS]
+    oos_sharpe = float(sharpe(oos)) if len(oos) > 2 else 0.0
+    oos_ret = float(oos.iloc[-1] / oos.iloc[0] - 1.0) if len(oos) > 1 else 0.0
+    n_days = max(len(eq_l), 1)
+    ann = float(eq_l.iloc[-1] / eq_l.iloc[0]) ** (252.0 / n_days) - 1.0
+    yearly = legs["L"]["x1"]["yearly"]
+    x2_yearly = legs["L"]["x2"]["yearly"]
+    worst_year = min(yearly.values()) if yearly else 0.0
+    x2_worst = min(x2_yearly.values()) if x2_yearly else 0.0
+    out["legL_oos"] = {"oos_sharpe": round(oos_sharpe, 4),
+                       "oos_ret": round(oos_ret, 6)}
+    out["descriptive"] = {
+        "ann_pos": bool(ann > 0),
+        "oos_dual_pos": bool(oos_sharpe > 0 and oos_ret > 0),
+        "dd_ok": bool(legs["L"]["x1"]["max_dd"] >= -0.35),
+        "no_crash_year": bool(worst_year > CRASH_YEAR),
+        "x2_yearly_stable": bool(x2_worst > CRASH_YEAR),
+    }
+    out["crisis_days_gt8pct"] = int(
+        (np.abs(legL_daily) > 0.08).sum())
+    out["dual_nulls"] = _dual_nulls(daily, cell["i"],
+                                    seed=st.get("seed_judge"))
+    n_eff = sum(legs[lg]["regime_start_windows"][s]
+                for lg in legs for s in ("bear", "bull", "chop"))
+    out["n_eff_start_windows"] = n_eff
+    out["sample_sufficient"] = bool(
+        n_eff >= 500 and all(legs[lg]["regime_start_windows"][s] >= 100
+                             for lg in legs
+                             for s in ("bear", "bull", "chop")))
+    return out
+
+
+
+
+@@@JUDGE@@@
+
+def cmd_judge(args):
+    """Sharded judged-cell burn (checkpoint jsonl per cell, cross-kill
+    resume = skip recorded cell_ids). Wave-routed via --wave (1/2)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
+    os.makedirs(OUT_DIR, exist_ok=True)
+    if not os.path.exists(fc["state"]):
+        print(f"JUDGE-GATE: judge-prep required first ({fc['state']} absent)")
+        return 2
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    cpath = os.path.join(OUT_DIR, fc["cand_file"])
+    cands = {c["id"]: c for c in json.load(
+        open(cpath, encoding="utf-8"))["candidates"]}
+    kept = sorted(state["collapse"]["kept"])
+    cells = [{"cell_id": f"JUDGE|{cid}", "candidate_id": cid, "i": i,
+              "cand": cands[cid]} for i, cid in enumerate(kept)]
+    mine = [c for i, c in enumerate(cells) if i % args.shards == args.shard]
+    bench = _load_bench()
+    ctx_L, P_L, idx_L, listed_L, cen_L = _leg_ctx("L", bench)
+    ctx_D, P_D, idx_D, listed_D, cen_D = _leg_ctx("D", bench)
+    st = {"ctx_L": ctx_L, "ctx_D": ctx_D, "idx_L": idx_L, "idx_D": idx_D,
+          "roster_by_family": {f["family"]: f for f in ctx_L.roster},
+          "starts": state["starts"], "passive": state["passive"],
+          "states": v3_state_series(), "seed_judge": state["seed_judge"]}
+    ck = os.path.join(
+        OUT_DIR, f"{fc['ck_prefix']}_{args.shard}of{args.shards}.jsonl")
+    done = set()
+    if os.path.exists(ck):
+        with open(ck, encoding="utf-8") as fh:
+            for ln in fh:
+                try:
+                    done.add(json.loads(ln)["cell_id"])
+                except Exception:
+                    pass
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"judge: shard {args.shard}of{args.shards} cells {len(mine)}, "
+          f"done {len(done)}, todo {len(todo)}")
+    t0 = time.time()
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(_j(payload), ensure_ascii=False) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _judge_cell, (c,)) for c in todo]
+        run_cells_parallel(jobs, workers=args.workers or worker_cap(),
+                           desc="judge cells", initializer=_judge_init,
+                           initargs=(st,), on_result=on_result)
+    print(f"judge: shard {args.shard}of{args.shards} complete "
+          f"({time.time()-t0:.0f}s) -> {ck}")
+    return 0
+
+
+# TREASURE-CAPTURE (O-20261003-2030 s2.2 five-collection-point weld, r434 bm-c):
+# at this finalize's closeout ask "any new treasure in this batch?" -- yes ->
+# append one row to knowledge/TREASURE_REGISTRY.md; new methodology ->
+# METHODOLOGY_ASSETS.md card (O-2100 same-window step). Registry is
+# append-only; deleting a listed face = redline P0 (TREASURE_PROTECTION_LAW s5).
+
+
+@@@FINALIZE_HEAD@@@
+
+def cmd_judge_finalize(args):
+    """Aggregate shards -> G1'v2 + DSR + family PBO + G2 + E[FP] + verdicts
+    + ledger append (single-shot guard: a complete product is never
+    re-appended; MASS_TRIAL_W1_JUDGE_REFINALIZE=1 = only redo, byte-stable
+    via own-chain-position overrides per r259 prev-echo guard).
+    Wave-routed via --wave (1/2; w2 env MASS_TRIAL_W2_JUDGE_REFINALIZE)."""
+    fc = _judge_faces(getattr(args, "wave", 1))
+    if not os.path.exists(fc["state"]):
+        print(f"FINALIZE-GATE: {fc['state']} absent (judge-prep first)")
+        return 2
+    n_eff_override = None
+    redo_dsr_trials = None
+    if os.path.exists(fc["out"]):
+        prev = json.load(open(fc["out"], encoding="utf-8"))
+        if prev.get("complete") and "trials_ledger" in prev:
+            if not os.environ.get(fc["refinalize_env"]):
+                print("judge-finalize: complete product exists (idempotent "
+                      "no-op; set %s=1 to redo)" % fc["refinalize_env"])
+                return 0
+            n_eff_override = (int(prev["trials_ledger"]["prev_total"])
+                              + int(prev["trials_ledger"]["batch_trials"]))
+            redo_dsr_trials = int(prev["trials_ledger"]["prev_total"])
+    state = json.load(open(fc["state"], encoding="utf-8"))
+    screen = json.load(open(os.path.join(OUT_DIR, fc["sum_file"]),
+                            encoding="utf-8"))
+    kept = sorted(state["collapse"]["kept"])
+    rows = []
+    for f in sorted(os.listdir(OUT_DIR)):
+ 

@@ -1,0 +1,19 @@
+W3_BATCH = "MASS_TRIAL_W3"
+W3_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
+W3_SKIP = 2 * N_DRAWS              # continuation window offset (1024)
+W3_NULL_SEED_OFF = 140              # nulls: base+140..+159 (w2: +120..+139)
+
+
+def _judge_faces(wave):
+    """Wave-routed judge face descriptor (single source for prep/burn/
+    finalize; w1 paths byte-identical to the pre-wave-2 code face)."""
+    if wave == 1:
+        return {"wave": 1, "batch": JUDGE_BATCH, "seed": JUDGE_SEED,
+                "state": JUDGE_STATE, "out": JUDGE_OUT,
+                "ck_prefix": "judge_shard",
+                "cand_file": "w1_candidates.json",
+                "sum_file": "w1_screen_summary.json",
+                "sha_frozen": CANDIDATES_SHA_FROZEN,
+                "refinalize_env": "MASS_TRIAL_W1_JUDGE_REFINALIZE",
+                "ticket": "T-94"}
+    return {"wave": 2, "batch": W2_J
