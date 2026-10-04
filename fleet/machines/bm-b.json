@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-05T06:41:27+08:00",
- "heartbeat_epoch_utc": 1791153687,
- "clock_read": "2026-10-05T06:41:27+08:00",
+ "last_seen": "2026-10-05T07:01:57+08:00",
+ "heartbeat_epoch_utc": 1791154917,
+ "clock_read": "2026-10-05T07:01:57+08:00",
  "cpu_cores": 16,
- "free_ram_gb": 3.54,
+ "free_ram_gb": 3.39,
  "gpu_free_vram_gb": 3.6,
- "verdict": "healthy-burning (trio NULLS 3 lanes + RAM floor self-hold; r714 integration+S6 closeout delivered)",
- "current_task": "trio NULLS keepalive lanes V/Q/D @1191/958/759 of 2000 + satengine W118 queue 1 RAM-gated",
+ "verdict": "GREEN (py_low_with_work_cands legal: local batch running + RAM floor 3.78GB<4GB engine self-hold)",
+ "current_task": "r715 watch+S6 full chain 38-leg rc0; trio NULLS V1199/Q965/D766 of 2000 in-burn; N1-W118 11/12 RAM-gated",
  "orders_ack_count": 154,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -164,5 +164,6 @@
   "O-20261003-2030-bm-c.md",
   "O-20261004-0808-bm-a.md",
   "O-20261004-1440-bm-c.md"
- ]
+ ],
+ "gpu_free_vram_mb": 3292
 }
