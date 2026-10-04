@@ -1,0 +1,121 @@
+{
+ "round": "r712 bm-b",
+ "merge_head": "bbcbb33313c8929132a8015d7d03290eb8817f65",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:42:02>2026-10-05T05:26:19"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:42:03>2026-10-05T05:26:20"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:42:03>2026-10-05T05:26:20"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:43:48+08:00>2026-10-05T05:26:55+08:00"
+  },
+  "results/dashboard_status.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:42:18>2026-10-05T05:26:32"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:41:30>2026-10-05T05:25:55"
+  },
+  "results/futures_update_status.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:41:25>2026-10-05T05:25:30"
+  },
+  "results/lhb_update_status.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:41:25>2026-10-05T05:25:18"
+  },
+  "results/scorecard_v1.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:40:21>2026-10-05T05:24:25"
+  },
+  "results/strategy_scorecard.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:40:36>2026-10-05T05:24:33"
+  },
+  "results/update_status.json": {
+   "action": "ours",
+   "why": "ts 2026-10-05T05:39:38>2026-10-05T05:23:52"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "ours_keys": [
+    "-bm-a",
+    "-bm-c",
+    "bm-a",
+    "bm-c",
+    "default"
+   ],
+   "theirs_keys": [
+    "-bm-a",
+    "-bm-c",
+    "bm-a",
+    "bm-c",
+    "default"
+   ],
+   "picked_theirs": 2
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "ours",
+   "why": "md-twin of docs/daily_report/REPORT-2026-10-05.json (ts 2026-10-05T05:42:02>2026-10-05T05:26:19)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-2026-10-05.json (ts 2026-10-05T05:42:03>2026-10-05T05:26:20)"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-latest.json (ts 2026-10-05T05:42:03>2026-10-05T05:26:20)"
+  },
+  "results/dashboard_status.js": {
+   "action": "ours",
+   "why": "js-twin of results/dashboard_status.json (ts 2026-10-05T05:42:18>2026-10-05T05:26:32)"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "ours_len": 201,
+   "theirs_len": 205,
+   "union_len": 206
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  }
+ },
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-05.json": "ours | ts 2026-10-05T05:42:02>2026-10-05T05:26:19",
+  "docs/live_usage/LIVE-2026-10-05.json": "ours | ts 2026-10-05T05:42:03>2026-10-05T05:26:20",
+  "docs/live_usage/LIVE-latest.json": "ours | ts 2026-10-05T05:42:03>2026-10-05T05:26:20",
+  "results/_attrition_guard_scan.json": "ours | ts 2026-10-05T05:43:48+08:00>2026-10-05T05:26:55+08:00",
+  "results/dashboard_status.json": "ours | ts 2026-10-05T05:42:18>2026-10-05T05:26:32",
+  "results/fundamental_b_layer_filter.json": "ours | ts 2026-10-05T05:41:30>2026-10-05T05:25:55",
+  "results/futures_update_status.json": "ours | ts 2026-10-05T05:41:25>2026-10-05T05:25:30",
+  "results/lhb_update_status.json": "ours | ts 2026-10-05T05:41:25>2026-10-05T05:25:18",
+  "results/scorecard_v1.json": "ours | ts 2026-10-05T05:40:21>2026-10-05T05:24:25",
+  "results/strategy_scorecard.json": "ours | ts 2026-10-05T05:40:36>2026-10-05T05:24:33",
+  "results/update_status.json": "ours | ts 2026-10-05T05:39:38>2026-10-05T05:23:52",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=2 top-side ours=2026-10-05T05:42:21 theirs=2026-10-05T05:26:32",
+  "docs/daily_report/REPORT-2026-10-05.md": "ours | md-twin of docs/daily_report/REPORT-2026-10-05.json (ts 2026-10-05T05:42:02>2026-10-05T05:26:19)",
+  "docs/live_usage/LIVE-2026-10-05.md": "ours | md-twin of docs/live_usage/LIVE-2026-10-05.json (ts 2026-10-05T05:42:03>2026-10-05T05:26:20)",
+  "docs/live_usage/LIVE-latest.md": "ours | md-twin of docs/live_usage/LIVE-latest.json (ts 2026-10-05T05:42:03>2026-10-05T05:26:20)",
+  "results/dashboard_status.js": "ours | js-twin of results/dashboard_status.json (ts 2026-10-05T05:42:18>2026-10-05T05:26:32)",
+  "results/compute_audit.json": "union | rolling-ledger union, ours latest/state",
+  "results/regime_state.json": "union | rolling-ledger union, ours latest/state"
+ },
+ "twin_checks": {
+  "dashboard_json_ts": "2026-10-05T05:42:18",
+  "dashboard_js_contains_same_ts": true
+ },
+ "resolved_n": 18
+}
