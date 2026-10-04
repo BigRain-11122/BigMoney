@@ -1563,28 +1563,34 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-05 03:12:01",
+  "ts": "2026-10-05 03:13:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.4,
+  "py_cpu_pct": 13.2,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-NULLS",
+  "shard": "fund-value-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 217,
   "fuse_skipped": [
    {
-    "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
-    "shard": "n2w15judge-2of12",
-    "sig": "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12",
-    "fuse_refusals": 52
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 217
+   },
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 668
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-NULLS",
+    "shard": "fund-divlowvol-p1-nulls-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
+    "fuse_refusals": 196
    }
-  ],
-  "verdict": "launched",
-  "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-4",
-  "shard": "n2w15judge-4of12",
-  "pid": 70972,
-  "runner_sha256": "bb1d65e84288b76a",
-  "core_verdict": "multiproc",
-  "core_marker": "run_cells_parallel(",
-  "fill_latency_min": null,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-05T03:11:17+08:00"
