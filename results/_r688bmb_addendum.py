@@ -3,8 +3,11 @@
 r679 marker-count==0 gate; ASCII-safe stdout)."""
 from datetime import datetime, timedelta, timezone
 
-ROOT = __import__("os").path.dirname(__import__("os").path.dirname(__import__("os").path.abspath(__file__))
-RR = __import__("os").path.join(ROOT, "logs", "iteration-loop", "round_reports.md")
+import os
+from datetime import datetime, timedelta, timezone
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RR = os.path.join(ROOT, "logs", "iteration-loop", "round_reports.md")
 
 CST = timezone(timedelta(hours=8))
 ts = datetime.now(CST).isoformat(timespec="seconds")
