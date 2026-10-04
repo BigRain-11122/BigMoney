@@ -1236,3 +1236,17 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - S7: attrition guard CLEAN (4 ledger files); tasks/claws 4/4 (loop pin=2 no-op + watchdog + pre-commit + pre-push 钳在位); inbox 零未读 (r655 双 Format-Table 空表错读本窗重犯+当场自纠零升级)
 - 下轮指针: trio NULLS 烧录看护 (完成面 finalize 腿候选) + W14-GENERATE waiting 池面挂账观察 + moneyflow IC 批等面板完成
 - 本地未达 origin commit 数=0 (S7 收口 push_verify DELIVERED tip 2ada19d3276d2536cd822fe1bc14ea9dc490fa91 ahead=0 behind=0; merge 17 UU r667 范式 resolver 全解: 快照 9 面 take-ours 本机再生更新侧 + CODELY exact-line dedup union + compute_audit/regime history union 零丢失 + token_usage per-key union side_pick>0)
+## 2026-10-04T12:2x:xx+08:00 | round 669 | bm-b | watch round: trio burn care + S6 37/38 (lhb honest rc2) + ls-tree pit capture
+- watermark: GREEN (red=false lane=healthy; bandit next_pick=moneyflow-IC claimed 终态面: sina-construct 判负已收线 r338 + EM 面 parked 源阻断自愈在飞)
+- 当前活: trio NULLS 三烧录机健康烧录 (V739/Q571/D422 of 2000, owner=bm-b, claim-refresh 11:56:12, ~6-8 rows/hr/family)
+- 最近实物: research/pit-git.md 增量条 (ls-tree pathspec 前缀面坑 +865B md5pre 8d26ec35 LF 53->54) + CODELY.md 指针行增量 (+221B) + S6 当日五面再生 (docs/daily_report/REPORT-2026-10-04 + docs/live_usage/LIVE-2026-10-04 ORANGE @ 12:1x)
+- 下个里程碑: trio NULLS 全 2000 完成后 finalize 腿 (VALUE 差 1261 @ 现速 ≈5-7 天窗; 预演 06:32 三族 all_legs_ok 全绿 + G-SEG GM 已裁 insufficient-sample = finalize 无阻塞候选)
+- S0: up-to-date 0/0 零动作 (HEAD==origin/main, fetch 双向零差)
+- S0.5: D-19 双 MATCH (decisions SHA-256 EB14B510 + group orders SHA-1 68947C17; K: 缺席 -> temp sparse-clone 原字节探针 r631 配方 + r458 per-key 口径 + r660 subprocess 律); fleet orders 153/153 零未回执 (轮首+收口双扫, disk 非空自检 = r669 新律当场执法)
+- S1: smoke 48/48 PASS
+- S3: 板零 open (job_list 0 + fleet tasks open 0); satengine alive (queue 0 idle); trio 判决批在飞=试用劳动力线不触发新波; moneyflow-IC 终态核面 (sina-construct r338 全判负收线 5 constructs REJECT + EM 面 parked 诚实维持); W14 GM-parked 观察; 开发队列全闭线核验 (J12 town r650 ACCEPT / J13 retro r655 / J10 bm-a 线 / J18b / Optuna r425 / town 对齐 全交付)
+- S6: 37/38 rc0 + 1 诚实红腿 update_lhb rc2 (EM datacenter SSLError fetch_fail 12:08, cutoff 2026-09-30 落后可披露日 2026-10-02; IWR 系统路径探针 HTTP 200 @ 12:12 = python 直连路径 SSL 瞬态/TUN 面疑, 30min 自愈武装 ~12:38, bm-a 车道冗余在; 原样上报勿掩盖=如实执行); dualrun ZERO-DRIFT streak 续; daily_report 5 faces + LIVE-2026-10-04 (ORANGE cap=50%) 再生; build_status stale-takeover derive by bm-b (bm-a 心跳 21min 陈旧, O-2100 s2.4 合法)
+- S7: 自愈 4/4 (loop pin=2 no-op + watchdog 重注册 + pre-commit/pre-push 双爪重装 LF-normalized); attrition CLEAN 4 ledgers; inbox 零未读
+- 下轮指针: trio NULLS 烧录看护 (finalize 候选窗) + lhb 自愈复跑观察 (rc2 复发=源阻断升级披露面) + W14/moneyflow-EM 挂账观察
+- 本地未达 origin commit 数=0 (commit+push 后 push_verify 三证复核)
+- 追记 2026-10-04T12:3x (S7 收口窗 push-race 实弹): bm-c r467 同窗并行轮先推 -> 首推 non-FF 拒 -> merge origin/main 14 UU 全=同窗双跑再生面 -> 13 面 ts-freshness take-side ours (双形复核 lhb 12:09:01>11:58:45 + LIVE 12:09:27>11:59:19 实证) + token_usage per-key union (side_pick=2, r456 律) -> reparse/marker/复核实测全过 -> merge commit de59287e2 push_verify DELIVERED (ahead=0/behind=0); 本地未达 origin commit 数=0
