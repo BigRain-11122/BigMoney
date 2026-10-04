@@ -47,6 +47,14 @@ def active_voids(results_dir: str = RESULTS_DIR) -> list:
     voids = []
     for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
                                  recursive=True)):
+        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
+        # are withdrawn evidence, never chain/void faces -- live instance:
+        # quarantined W3 summary re-entered ledger_head as head (648,026
+        # bogus block double-counting the wave). Path-segment match so a
+        # legit file merely named "*quarantine*" is not excluded.
+        # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
+        if os.sep + "_quarantine" + os.sep in path:
+            continue
         try:
             with open(path, encoding="utf-8") as fh:
                 d = json.load(fh)
@@ -85,6 +93,14 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
     # double-count root cause). Recursive glob unifies the visible face.
     for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
                                  recursive=True)):
+        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
+        # are withdrawn evidence, never chain/void faces -- live instance:
+        # quarantined W3 summary re-entered ledger_head as head (648,026
+        # bogus block double-counting the wave). Path-segment match so a
+        # legit file merely named "*quarantine*" is not excluded.
+        # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
+        if os.sep + "_quarantine" + os.sep in path:
+            continue
         try:
             with open(path, encoding="utf-8") as fh:
                 d = json.load(fh)
@@ -2893,8 +2909,23 @@ def selftest() -> int:
        and all(set(v) >= {"verdict", "closed_by", "evidence", "reopen"}
                and all(str(v[k]).strip() for k in v)
                for v in CLOSED_FAMILIES.values())
-       and {v["reopen"] for v in CLOSED_FAMILIES.values()}
-       <= set(CLOSED_FAMILIES_REOPEN_RULES))
+           and {v["reopen"] for v in CLOSED_FAMILIES.values()}
+           <= set(CLOSED_FAMILIES_REOPEN_RULES))
+
+    # r685 bm-a: quarantine-window aside-copies must not enter the chain scan
+    # (TREASURE_PROTECTION_LAW s2 vs recursive glob; live instance: quarantined
+    # W3 summary re-entered ledger_head as the head block and double-counted).
+    # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        qd = os.path.join(td, "_quarantine", "aside")
+        os.makedirs(qd, exist_ok=True)
+        json.dump({"trials_ledger": {"total": 999_999_999}},
+                  open(os.path.join(qd, "bogus.json"), "w", encoding="utf-8"))
+        json.dump({"trials_ledger": {"total": 100}},
+                  open(os.path.join(td, "real.json"), "w", encoding="utf-8"))
+        ok("ledger_head ignores _quarantine aside-copies (r685)",
+           ledger_head(td)["total"] == 100)
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
