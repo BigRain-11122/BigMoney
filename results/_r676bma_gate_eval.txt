@@ -1,0 +1,103 @@
+def evaluate(prereg_path, registry_path=DEFAULT_REGISTRY):
+    """Full gate evaluation. Returns (exit_code, verdict_dict)."""
+    registry, reason = _load_registry(registry_path)
+    if registry is None:
+        return 1, {"decision": "REJECT", "fail_closed": reason,
+                   "prereg": prereg_path, "registry": registry_path}
+    try:
+        with io.open(prereg_path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError as exc:
+        return 1, {"decision": "REJECT", "fail_closed": f"prereg unreadable: {exc}",
+                   "prereg": prereg_path, "registry": registry_path}
+    except UnicodeDecodeError as exc:
+        return 1, {"decision": "REJECT", "fail_closed": f"prereg not UTF-8: {exc}",
+                   "prereg": prereg_path, "registry": registry_path}
+    body, s05 = _split_s05(text)
+    hits = _find_hits(registry, body)
+    verdict = {"decision": "ADMIT", "prereg": prereg_path,
+               "registry_version": registry.get("version"),
+               "matched": hits, "exception": None, "reason": ""}
+    if not hits:
+        verdict["reason"] = "no banned direction claimed"
+        return 0, verdict
+    exc_state = _exception_state(s05)
+    verdict["exception"] = exc_state
+    matched_ids = sorted({int(h["id"].split("-")[1]) for h in hits})
+    uncited = [i for i in matched_ids if i not in exc_state["cited_ids"]]
+    if uncited:
+        exc_state["missing_fields"].append(
+            "citation for matched ids: " + ", ".join(f"BAN-{i:02d}" for i in uncited))
+    if not s05.strip():
+        verdict["reason"] = (
+            "banned directions claimed but prereg has no section-0.5 exception block")
+        verdict["decision"] = "REJECT"
+    elif exc_state["missing_fields"]:
+        verdict["reason"] = ("section-0.5 exception incomplete: "
+                             + "; ".join(exc_state["missing_fields"]))
+        verdict["decision"] = "REJECT"
+    else:
+        verdict["reason"] = (
+            "banned directions claimed WITH complete section-0.5 exception "
+            f"({exc_state['exception_type']}); scientific validity of the "
+            "exception remains with science_gates / human review")
+    return (0 if verdict["decision"] == "ADMIT" else 1), verdict
+
+
+def _selftest():
+    """Hermetic fixtures. Writes results/ evidence; returns 0 iff all PASS."""
+    grid_ban = "\u7f51\u683c"  # 网格 (BAN-04 pattern)
+    s05_decl = (
+        f"## {S05_HEADER} \u7981\u5f00\u65b9\u5411\u786c\u95f8\n"
+        "- \u547d\u4e2d\u7f16\u53f7\uff1aBAN-04\n"
+        "- \u4f8b\u5916\u7c7b\u578b\uff1a`new_data`\n"
+        f"- **\u539f\u5426\u8bc1{CANNOT_SEE_KEY}\u7684\u4e1c\u897f**\uff1a"
+        "2016\u5e74\u524d\u9ec4\u91d1ETF\u5206\u7ea7\u57fa\u91d1\u65e5\u7ebf"
+        "\uff0c\u539f\u6279\u5f53\u65f6\u65e0\u6cd5\u83b7\u53d6\n\n## \u00a71 "
+        "\u03b1 \u673a\u5236\u6bb5\n- placeholder\n")
+    fixtures = [
+        # (name, prereg_text, registry_override, expect_exit)
+        ("S1_clean_admit", "## \u00a71 \u03b1\n- low-vol carry across bond ETFs\n",
+         None, 0),
+        ("S2_banned_no_s05_reject",
+         f"## \u00a71 \u03b1\n- strategy: {grid_ban}\u4ea4\u6613 518880\n", None, 1),
+        ("S3_banned_full_exception_admit",
+         s05_decl + f"## \u00a72\n- {grid_ban} on gold ETF with new data\n", None, 0),
+        ("S4_placeholder_statement_reject",
+         s05_decl.replace(
+             "\uff1a2016\u5e74\u524d\u9ec4\u91d1ETF\u5206\u7ea7\u57fa\u91d1\u65e5\u7ebf"
+             "\uff0c\u539f\u6279\u5f53\u65f6\u65e0\u6cd5\u83b7\u53d6",
+             "\uff1a____________")
+         + f"## \u00a72\n- {grid_ban} on gold ETF with new data\n", None, 1),
+        ("S5_missing_registry_failclosed", "anything", "Z:/nope.json", 1),
+        ("S6_missing_prereg_failclosed", "FILE_ABSENT", None, 1),
+        ("S7_wrong_id_citation_reject",
+         s05_decl.replace("BAN-04", "BAN-07")
+         + f"## \u00a72\n- {grid_ban} on gold ETF\n", None, 1),
+        ("S8_s05_mention_only_admit", s05_decl + "## \u00a72\n- clean body\n", None, 0),
+    ]
+    results, all_pass = [], True
+    with tempfile.TemporaryDirectory() as td:
+        for name, txt, reg, expect in fixtures:
+            ppath = os.path.join(td, name + ".md")
+            if txt != "FILE_ABSENT":
+                with io.open(ppath, "w", encoding="utf-8") as fh:
+                    fh.write(txt)
+            code, v = evaluate(ppath, reg or DEFAULT_REGISTRY)
+            ok = code == expect
+            all_pass &= ok
+            results.append({"leg": name, "expect": expect, "exit": code,
+                            "ok": ok, "decision": v.get("decision"),
+                            "reason": (v.get("reason") or v.get("fail_closed", ""))[:110]})
+    evidence = {"tool": "Tools/banned_direction_gate.py selftest",
+                "round": "r491 bm-a (T-129 D-41 gate landing, r471 adoption)",
+                "legs": results, "all_pass": all_pass}
+    with io.open(SELFTEST_EVIDENCE, "w", encoding="utf-8") as fh:
+        json.dump(evidence, fh, ensure_ascii=False, indent=1)
+    for r in results:
+        print(f"[{'PASS' if r['ok'] else 'FAIL'}] {r['leg']}: "
+              f"exit={r['exit']} ({r['decision']}) {r['reason']}")
+    print(f"selftest: {'ALL PASS' if all_pass else 'FAILURES'} -> {SELFTEST_EVIDENCE}")
+    return 0 if all_pass else 1
+
+

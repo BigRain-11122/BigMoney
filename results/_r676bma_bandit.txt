@@ -1,0 +1,12 @@
+schema = "bandit-queue v1"
+generated = "2026-09-25 08:59:30"
+source_ledger = "results/gate_attrition.json"
+algorithm = {"name": "UCB1", "c": 1.4142135623730951, "n_total_pulls": 7}
+arms = {"portfolio-construction": {"n_pulls": 2, "mean_reward": 1.0, "ucb1_score": 2.3949588341794583, "status": "exploit", "last_batch": "IV6-portfolio-riskbudget", "last_ts": "2026-09-24 03:03:01", "pulls": [{"batch": "EW6-portfolio-validation", "ts": "2026-09-24 00:54:38", "reward": 1.0, "reason": "tier
+exploit_ranking = ["portfolio-construction", "stock-pool-tilt", "pairs-cointegration", "futures-cta"]
+ucb1_policy_order = ["synthesis-crosslib", "patterns-confirmation", "event-attention-factors", "trend-timeseries", "low-freq-asset", "regime-defense", "portfolio-construction", "stock-pool-tilt", "pairs-cointegration", "futures-cta"]
+unmapped_batches = ["j13v2_mill_ic1", "j13v2_mill_ic2", "etf-rules-fidelity-t14", "regime-guard-validation-v3", "regime-guard-validation-v3-cf", "PA1_PREMIUM_IC", "T27-blend-tournament", "T27-blend-tournament-v2", "PA1E_PREMIUM_EVENT", "OG1_OVERNIGHT_IC", "P5C_VIRTUAL_TIMEPOINT-LEG-L", "T28_STABLE_PROFIT", "XSTOCK_SYN
+engineering_candidates = [{"name": "J13 v2 mill line (qualification 0.90 via v2a R65; prereg J13_V2_MINILOOP R66; IC1+IC2 novel 0/24, n_distinct 13/11; CLOSED r98 per O-20260924-1721 CEO borrow-strength law: endogenous novelty exhausted, external-digest lane supersedes s9 cadence)", "status": "closed"}, {"name": "Optuna bay
+advisory_note = "advisory only: scheduler never initiates batches; every batch needs prereg+claim; P1-gated and GM/CEO-review items stay gated"
+audit = {"ledger_trials_added": 0, "kind": "decision-support"}
+evidence_cutoff = "2026-09-23"
