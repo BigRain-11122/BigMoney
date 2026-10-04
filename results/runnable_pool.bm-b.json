@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04T19:43:58+08:00",
- "_stamp_note": "r694 bm-a N2-W15 GENERATE enrollment: +1 entry PERPETUAL-N2-W15-GENERATE (supply materialization step 1; prereg FROZEN 1ff613cbe; bands 541500/542000/542500; one-shot generate, autofill burn + next-round harvest)",
+ "updated_at": "2026-10-04T21:18:07+08:00",
+ "_stamp_note": "r497 bm-c N2-W15 SCREEN enrollment: +12 entries PERPETUAL-N2-W15-SHARD-0..11 (supply step 2; prereg FROZEN 1ff613cbe; bounds from actual 1,154 rows r670 tiling 97/97/96x10; runner three-call claim; seat MSG-2115 window honored)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 21:14:12"
+     "owner_since": "2026-10-04 21:24:12"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 21:14:12"
+     "owner_since": "2026-10-04 21:24:12"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 21:14:12"
+     "owner_since": "2026-10-04 21:24:12"
     }
    ],
    "workers_plan": {
@@ -14799,6 +14799,478 @@
     "data/daily"
    ],
    "entered_by": "bm-a r694",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-0",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~97 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-0of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_0of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==0 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-0/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-c",
+     "owner_since": "2026-10-04 21:18:39"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-1",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~97 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-1of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_1of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==1 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-1/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 21:22:08"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-2",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-2of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_2of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==2 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-2/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-3",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-3of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_3of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==3 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-3/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-4",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-4of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_4of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==4 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-4/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-5",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-5of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_5of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==5 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-5/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-6",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-6of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_6of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==6 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-6/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-7",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-7of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_7of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==7 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-7/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-8",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-8of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_8of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==8 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-8/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-9",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-9of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_9of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==9 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-9/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-10",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-10of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_10of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==10 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-10/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-SHARD-11",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face; seat = MSG-2026-10-04-2100 sec.3.3 declared + MSG-2026-10-04-2115 declaration window honored; bm-b review right per MSG-1845 clause 2)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md FROZEN r492 commit 1ff613cbe (sec.3 screen stage: bounds from ACTUAL rows n=1,154 = 954 candidates + 200 scrnull nulls, r670 tiling i%12==shard sizes 97/97/96x10 union-exactly-once machine-checked; survival line = beat6m_rate > null-family p95 tl2._finalize_math same-face + n_entries>=1 honest leg; single-axis 6m base full leg-L backtest, EW48 passive beat-rate, V1 13.041bp cost always on; evidence_cutoff 2026-09-22 sec.2; scrnull band 542_000; screen-finalize = ledger PERPETUAL-N2-W15-SCREEN, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T21:18:07+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell single-axis 6m full-history backtest (W14 same engine face ~2.25s/cell probe-caliber); ~96 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 (honest refuse rc2 -> pool retry when RAM frees; trio-locked machines refuse honestly by design); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY trio == 541500/542000/542500; (b) RUN-GATE prep state + candidates file present; (c) RAM gate r354; (d) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + frozen grammar sha16 a231bf10940e7878",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_prep_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15-11of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_11of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
+     "note": "bounds: cells i%12==11 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-11/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law"
+    }
+   ],
+   "entered_by": "bm-c r497",
    "worker_class": "self-contained"
   }
  ],
