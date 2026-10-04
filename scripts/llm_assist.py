@@ -217,7 +217,10 @@ def _gather_retro_context():
         for key in ("trading", "research", "events"):
             if key in d:
                 s = json.dumps(d[key], ensure_ascii=False)
-                chunks.append(f"[dashboard_status.{key}]\n{s[:3000]}")
+                # 1800 (was 3000): ledgers grew past NUM_CTX=8192 -> the
+                # retro leg went red with exceed_context_size_error; keep
+                # prompt+gen <= ctx (r655 bm-b fix, dashboards+3x2500 tails)
+                chunks.append(f"[dashboard_status.{key}]\n{s[:1800]}")
     for ledger in sorted(glob.glob(
             os.path.join(PATHS.logs_dir, "iteration-loop", "round_reports*.md"))):
         with open(ledger, encoding="utf-8", errors="replace") as f:
