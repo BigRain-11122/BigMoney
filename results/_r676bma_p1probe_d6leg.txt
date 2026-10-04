@@ -1,0 +1,21 @@
+def d6_members(pooled_dates, pooled):
+    import theme_persist_p1 as T
+    import ew6_portfolio as E
+    from live.paper import load_core
+    if E.PRICES_FULL is None:
+        E.PRICES_FULL = load_core()
+    ps = pd.Series(pooled, index=[pd.Timestamp(d) for d in pooled_dates])
+    rows = []
+    for tid in T.REG6:
+        r = E.member_run(tid)
+        sr = pd.Series(r["eq"], index=pd.to_datetime(r["dates"])).pct_change().dropna()
+        j = pd.concat([ps, sr], axis=1, keys=["sys", "mem"]).dropna()
+        if len(j) < 30:
+            rows.append(dict(member=tid, n_common=len(j), corr=None))
+            continue
+        c = float(np.corrcoef(j["sys"].values, j["mem"].values)[0, 1])
+        rows.append(dict(member=tid, n_common=len(j), corr=round(c, 4)))
+    vals = [abs(r["corr"]) for r in rows if r["corr"] is not None]
+    return rows, (max(vals) if vals else None)
+
+

@@ -1,0 +1,82 @@
+th("#"):
+            in_s05 = True
+            s05.append(ln)
+            continue
+        if in_s05 and ln.startswith("## "):
+            in_s05 = False
+        (s05 if in_s05 else body).append(ln)
+    return "\n".join(body), "\n".join(s05)
+
+
+def _find_hits(registry, body):
+    """Scan body for every direction pattern. Returns list of
+    {id, name, evidence: [{line, snippet}]}."""
+    hits = []
+    body_lines = body.splitlines()
+    for d in registry["directions"]:
+        ev = []
+        for pat in d["patterns"]:
+            rx = re.compile(pat, re.IGNORECASE)
+            for no, ln in enumerate(body_lines, 1):
+                m = rx.search(ln)
+                if m:
+                    s = max(0, m.start() - 12)
+                    ev.append({"line": no, "snippet": ln[s:m.end() + 12].strip()})
+                    break  # one evidence line per pattern is enough
+        if ev:
+            hits.append({"id": d["id"], "name": d.get("name", ""), "evidence": ev[:4]})
+    return hits
+
+
+def _exception_state(s05):
+    """Inspect the section-0.5 block for the three required fields."""
+    cited = sorted({int(x) for x in re.findall(r"BAN-(\d{1,2})", s05)})
+    typ = next((t for t in EXCEPTION_TYPES if t in s05), None)
+    # statement: value after the key on the same line, else next non-empty line
+    statement_ok, statement_raw = False, ""
+    idx = s05.find(CANNOT_SEE_KEY)
+    if idx >= 0:
+        tail = s05[idx + len(CANNOT_SEE_KEY):]
+        colon = tail.find("\uff1a")  # ：
+        if colon < 0:
+            colon = tail.find(":")
+        same_line, rest = "", ""
+        if colon >= 0:
+            after = tail[colon + 1:]
+            same_line = after.split("\n", 1)[0].strip()
+            rest = after.split("\n", 1)[1] if "\n" in after else ""
+        nxt = ""
+        for ln in (rest or "").splitlines():
+            if ln.strip():
+                nxt = ln.strip()
+                break
+        for cand in (same_line, nxt):
+            cleaned = cand.strip(" *_\u3000-")
+            if cleaned and not set(cleaned) <= set("_\uff3f"):
+                statement_ok, statement_raw = True, cleaned[:80]
+                break
+    missing = []
+    if typ is None:
+        missing.append("exception type (new_data|new_mechanism)")
+    if not statement_ok:
+        missing.append("what-the-original-falsification-could-not-see statement")
+    return {"cited_ids": cited, "exception_type": typ,
+            "statement_ok": statement_ok, "statement_raw": statement_raw,
+            "missing_fields": missing}
+
+
+def evaluate(prereg_path, registry_path=DEFAULT_REGISTRY):
+    """Full gate evaluation. Returns (exit_code, verdict_dict)."""
+    registry, reason = _load_registry(registry_path)
+    if registry is None:
+        return 1, {"decision": "REJECT", "fail_closed": reason,
+                   "prereg": prereg_path, "registry": registry_path}
+    try:
+        with io.open(prereg_path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError as exc:
+        return 1, {"decision": "REJECT", "fail_closed": f"prereg unreadable: {exc}",
+                   "prereg": prereg_path, "registry": registry_path}
+    except UnicodeDecodeError as exc:
+        return 1, {"decision": "REJECT", "fail_closed": f"prereg not UTF-8: {exc}",
+                   "prereg": prereg
