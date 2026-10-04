@@ -1,0 +1,103 @@
+{
+ "batch": "MASS_TRIAL_W3",
+ "stage": "screen-finalize",
+ "by": "bm-c r483",
+ "evidence_cutoff": "2026-09-22",
+ "1_survival": {
+  "actual": 0.1631,
+  "pred_band": "10-18%",
+  "verdict": "in-band",
+  "w1_w2_anchor": "w1 17.0% / w2 16.67%",
+  "n_survivors": 785,
+  "n_candidates": 4814
+ },
+ "2_null_face": {
+  "p50": 0.45,
+  "p95": 0.5333,
+  "pred": "p50 in [0.30,0.50], p95 < 0.60",
+  "verdict": "in-band",
+  "note": "margin to line 0.067 -- third wave same thin margin as w1 0.533 / w2 0.5333"
+ },
+ "3_r_axis": {
+  "rates": {
+   "bear": 0.3633,
+   "bull": 0.049,
+   "none": 0.0861
+  },
+  "survivors": {
+   "bear": 565,
+   "none": 140,
+   "bull": 80
+  },
+  "totals": {
+   "bear": 1555,
+   "bull": 1633,
+   "none": 1626
+  },
+  "bear_vs_none_x": 4.22,
+  "pred_band": "2-4x",
+  "verdict": "marginally-above-band (4.22x; w1 4.1x w2 4.03x -- third wave ~4x stable, disclosed)"
+ },
+ "4_family_spectrum": {
+  "rates": {
+   "trend": 0.0667,
+   "mean_reversion": 0.1545,
+   "momentum": 0.0727,
+   "volatility": 0.1364,
+   "sentiment": 0.1485,
+   "seasonal": 0.2812,
+   "event": 0.2308,
+   "macro": 0.1098,
+   "ta": 0.162,
+   "patterns": 0.1998,
+   "folk": 0.1723
+  },
+  "survivors": {
+   "trend": 22,
+   "mean_reversion": 51,
+   "momentum": 24,
+   "volatility": 36,
+   "sentiment": 49,
+   "seasonal": 81,
+   "event": 36,
+   "macro": 29,
+   "ta": 139,
+   "patterns": 227,
+   "folk": 91
+  },
+  "pred": "seasonal/patterns/ta/folk/event dominate, trend/momentum weak",
+  "verdict": "HIT (3rd consecutive wave)"
+ },
+ "5_control_face": {
+  "n_pass": 5,
+  "passed": [
+   "volatility.low_vol_long",
+   "patterns.island_reversal",
+   "patterns.morning_star",
+   "folk.ants_climb",
+   "patterns.vol_drought_reversal"
+  ],
+  "n_signal_error": 2,
+  "pred": "8/75 magnitude, w2 actual 5 (band 5-12)",
+  "verdict": "in-band (5, same list as w2)"
+ },
+ "6_cross_wave_dedup": {
+  "param": 916,
+  "signal": 358,
+  "total": 1274,
+  "pred_band": "150-600 (center ~300)",
+  "verdict": "OUT 2.1x above band -> mechanism review disclosed (rate 21.9% vs w2 28.6% on base 5811 = base-growth-consistent sublinear; generate-time disclosure r480)",
+  "quota_short": {
+   "seasonal.holiday_effect": 24,
+   "event.gap_fill": 24,
+   "patterns.inside_bar_breakup": 14
+  }
+ },
+ "sources": [
+  "results/mass_trial/w3_screen_summary.json",
+  "results/mass_trial/w3_screen_checkpoint.jsonl",
+  "results/mass_trial/w3_generate_summary.json",
+  "results/_r483bmc_ckpt_dedup.json",
+  "results/gate_attrition.json (MASS_TRIAL_W3 row)"
+ ]
+}

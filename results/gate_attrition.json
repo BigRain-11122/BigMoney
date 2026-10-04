@@ -17541,6 +17541,57 @@
     }
    ]
   },
+  {
+   "batch": "MASS_TRIAL_W3",
+   "ts": "2026-10-04 16:13:57",
+   "kind": "measurement",
+   "cells_ledger_delta": 4814,
+   "ledger_total_after": 646799,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 4814,
+     "n_survivors": 785,
+     "line": "beat_rate_6m>=0.60 AND trades>=30 AND dd>=-0.35"
+    },
+    "null_face": {
+     "p50": 0.45,
+     "p95": 0.5333,
+     "n": 20,
+     "note": "null p95 0.5333 < 0.60 line, margin thin (0.067); third wave same thin margin as w1 0.533/w2 0.5333 disclosed"
+    },
+    "dedup_face": {
+     "param_dupes": 417,
+     "signal_dupes": 734,
+     "rejections": 9,
+     "dead_signal": 227,
+     "cross_wave_param_dupes": 916,
+     "cross_wave_signal_dupes": 358,
+     "cross_wave_note": "1274 cross-wave collapses vs prereg band 150-600 (center ~300): enum/discrete collision scaling with dedup base 5811 (rate 21.9% vs w2 28.6% base-growth-consistent); >600 -> mechanism review disclosed at generate r480 + prereg sec.8 this batch; finalize-time keep-first id dedup 1227 rows elapsed_s-only-diff per r482 law (evidence results/_r483bmc_ckpt_dedup.json)"
+    },
+    "control_face": {
+     "n_defaults": 75,
+     "n_pass": 5,
+     "n_signal_error": 2,
+     "passed": [
+      "volatility.low_vol_long",
+      "patterns.island_reversal",
+      "patterns.morning_star",
+      "folk.ants_climb",
+      "patterns.vol_drought_reversal"
+     ],
+     "note": "same 5/75 pass set as w2 (identical list); 2 errors = month-required-arg defaults rows (w1/w2 same)"
+    }
+   },
+   "refs": {
+    "prereg": "research/MASS_TRIAL_W3_PREREG.md (FROZEN r480 c2141d6c1)",
+    "summary": "results/mass_trial/w3_screen_summary.json (complete=true, ledger 646799)",
+    "checkpoint": "results/mass_trial/w3_screen_checkpoint.jsonl (4909 unique rows post r482-law dedup)",
+    "dedup_evidence": "results/_r483bmc_ckpt_dedup.json",
+    "generate": "results/mass_trial/w3_generate_summary.json"
+   },
+   "note": "T-158 wave-3 stage-1 screen finalize r483 bm-c: survival 16.31% (w1 17.0% w2 16.67%); R-bear 36.3% vs none 8.6% = 4.22x (band 2-4x, ~4x stable third wave, marginally above band disclosed); family direction HIT 3rd consecutive wave (seasonal 28.1% event 23.1% patterns 20.0% vs trend 6.7% momentum 7.3%); pool flip final state = bm-a r685 burner-side rightful (16:04:54 pushed; bm-c same-window r668 supplement-flip 16:12:57 superseded at push-prep, local redundant face discarded per r474 SAME-change, burn verified 4814/4814 zero-dup)",
+   "eliminated": 4029
+  },
  {
   "batch": "MASS_TRIAL_W3",
   "ts": "2026-10-04 16:17:21",
@@ -17587,8 +17638,9 @@
    "prereg": "research/MASS_TRIAL_W3_PREREG.md",
    "ticket": "T-2026-10-03-158"
   },
-  "note": "T-158 wave-3 stage-1 screen close: 4814 cells, 785 survivors (16.3%), four-shard relay bm-c 0-2 + bm-a 3 (r482/r685); ledger 641985->646799; shard-3 burner-side session closeout r685 (1228/1228 exact, 0 dup); mid-flight 1227 re-burn dup lines id-deduped keep-first per r482 bm-c law, zero info loss (elapsed_s-only variance, asserted)",
-  "eliminated": 4029
+  "note": "[SUPERSEDED duplicate run -- r483 bm-c origin row ts 16:13:57 = canonical single-source; parallel same-window deterministic finalize, identical numbers 4814/785/646799; retained per r448 monotone-key law] T-158 wave-3 stage-1 screen close: 4814 cells, 785 survivors (16.3%), four-shard relay bm-c 0-2 + bm-a 3 (r482/r685); ledger 641985->646799; shard-3 burner-side session closeout r685 (1228/1228 exact, 0 dup); mid-flight 1227 re-burn dup lines id-deduped keep-first per r482 bm-c law, zero info loss (elapsed_s-only variance, asserted)",
+  "eliminated": 4029,
+  "adjudicated": "duplicate-run superseded by r483 bm-c origin row"
  }
  ],
  "history": [
