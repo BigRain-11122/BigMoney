@@ -21,6 +21,8 @@
 
 - [2026-10-05 06:4x r714 bm-b] **死会话尾部三账脱钩坑（r713 bm-b 实弹·r708 bm-a 双死会话族姊妹面）**：会话死在 S7 前（r713 已完成 S4 记忆 append+两轮 merge push，但 state round_no 停 711/轮账本缺行/S6 regen 尾巴+receipts 未提交）→下轮接手面=轮号不连续（commits 已用 r712/r713 而 state=711）+账本断档+工作树脏面误判风险。正法=①轮号诚实跳号（state 直接对齐本会话实际轮号非机械 +1，gap 注记）②r712/r713 账本行从 git commit message 回填（POST-MORTEM BACKFILL 标记）③尾部产物 churn-absorb 一并收编（r620 律）④CODELY 断条目经 merge block-union 自动找回（r706 律实证：shared_diff=0 appended=1）。How to apply：见 state round_no 落后于 commit message 轮号=死会话尾部征，先 git log --grep 轮号对齐真值再补账，禁机械 +1 造成撞号。
 
+- [2026-10-05 07:4x r521 bm-c] **Invoke-SilentExe 收 python CJK 输出的管道编码错配坑（wrapper 化批跑收据 U+FFFD 永久乱码）**：bm-c 会话壳内 python 管道缺省编码=gbk（zh-CN locale·sys.stdout.encoding 实测），而 Invoke-SilentExe StreamReader 按 UTF-8 解码 → GBK 字节经 UTF-8 lenient decode 产 U+FFFD，PS 字符串层信息已毁=不可逆（实弹=_r521bmc_s6_log.txt L14「橙·高危」乱码·字节面 efbfbd 实证·gbk/big5 反解全败）；r520 前血统直跑 `python 2>&1` 的 PS 原生解码与管道编码匹配无此面——零窗律 wrapper 化后才暴露。正法=wrapper 化 python 批点火前设 `$env:PYTHONIOENCODING='utf-8'`（探针实证干净回环·已修 _r521bmc_s6_chain.ps1 血统）；已落盘乱码=如实披露注记勿字节手术（原字节已毁）。How to apply：凡经 Invoke-SilentExe 收 CJK 输出的批跑器先设 PYTHONIOENCODING=utf-8；见收据 CJK 乱码先查 efbfbd 判不可逆再披露。
+
 ### Reference
 - 冷层指针（r387 合并·r444 范式）：r595 bm-a O-20261002-2124 A腿执行记录（City3D 居民批 R1）+C腿 Tuanjie 批脚本 API 名坑——两条全文 verbatim=archive 202610.md『热冷整编 2026-10-02 r387 bm-c 窗批』节。
 - 冷层指针（r276 合并·r444 范式）：r476 bm-a RW-4 数据门禁三腿定谳+RW-1~4 全绿里程碑条目（正典面=knowledge/panel_gate.py+T-127 票·RW-5 解冻条件满足〔10-03 外审复核〕+RW-6 复算重发下一片）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r276 bm-c 窗批』节。
