@@ -1,0 +1,9 @@
+[probe rc=0]
+leg0: 114 registered rows, tail=W116, mode=B117 (registered W116, bm-b r677 bc1e82773)
+leg0: engine_owner rows=106 + candidate; bm-a rows=33 -> W117 = bm-a 34th owned; W117 ordinal = 107th engine wave by machine-derive
+leg1: A arithmetic 277004..279003 CLEAN -> first-clean 277004..279003 hops=0
+leg1: B arithmetic 62901..63100 REFUSED [(63000, 'options_wave2'), ((63050, 65049), 'registered band/actual'), ((63000, 63049), 'registered band/actual')] -> first-clean 65050..65249 hops=1
+N1_BANDS rows: 114 | SEED_REGISTRY int values: 178
+W117 ADMIT-derive: A 277004..279003 hops=0 + B 65050..65249 hops=1 (mode=B117 (registered W116, bm-b r677 bc1e82773); A = arithmetic continuation from the registered W116 A tail; B refusal facts machine-disclosed) -- clean vs all registered rows + registry + probes/actuals -- publish seat MSG with these bands, then full gate with leg0b seat-on-origin check.
+W118+ projection: A first-clean 279004..281003 hops=0 -> CLEAN (verify at W118 prereg); B first-clean 65250..65449 hops=0 -> CLEAN (verify at W118 prereg)
+[heads] global trials ledger head = {'total': 641985, 'file': 'theme_judge_p2_results.json', 'note': 'theme deep-break redirect judgment batch: 4 judged cells (bl=0.75 headline; E28 strata x costs) + 4x2000 same-mask random-ignition nulls (band 20589000); T-2026-10-04-169-P1 s3', 'voided': [{'batch': 'LOWAMP-P1', 'voided_trials': 2008}, {'batch': 'LOWAMP-P2', 'voided_trials': 2008}]}
