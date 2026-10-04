@@ -1,20 +1,19 @@
 {
- "ts_probe": "2026-10-05T02:07:56",
+ "ts_probe": "2026-10-05T02:32:02",
  "round": "r487 bm-c",
  "expect": {
   "batch": "MASS_TRIAL_W3_JUDGE",
   "n_judge_cells": 777,
   "seed_judge": 20285600,
-  "prev_total": 646799,
-  "new_total": 647576,
+  "prev_total": 647953,
+  "spawn_head": 646799,
+  "new_total": 648730,
   "e_fp": 38.85
  },
  "liveness": {
-  "pid": 26052,
-  "alive": true,
-  "cpu_s": 16827.6,
-  "age_min": 282.5,
-  "via": "cmdline-scan"
+  "pid": 33768,
+  "alive": false,
+  "err": "process PID not found (pid=33768); no live judge-finalize cmdline"
  },
  "pool": {
   "MASS-TRIAL-W3-JUDGE-SHARD-0": {
@@ -49,6 +48,96 @@
   "id_dup": 0,
   "sample_ok": true
  },
- "verdict": "IN_FLIGHT",
- "eta_note": "w2 calibration: 805 cells 4h44m (spawn 23:34:14 -> product 04:18:26); live spawn -> project +4h30m from liveness age; adoption when artifact lands"
+ "product": {
+  "complete": true,
+  "n_judge_cells": 777,
+  "batch": "MASS_TRIAL_W3_JUDGE",
+  "prev_total": 647953,
+  "batch_trials": 777,
+  "total": 648730,
+  "n_trials_head_at_finalize": 646799,
+  "seed_judge": 20285600,
+  "evidence_cutoff": "2026-09-22",
+  "verdicts": {
+   "pass": 3,
+   "fail": 774,
+   "insufficient-sample": 0
+  },
+  "n_eligible_g2": 0,
+  "eligible_g2": [],
+  "e_fp": 38.85,
+  "family_pbo": {
+   "trend": {
+    "pbo": 0.9571,
+    "n_cells": 22
+   },
+   "mean_reversion": {
+    "pbo": 0.3143,
+    "n_cells": 51
+   },
+   "momentum": {
+    "pbo": 0.5286,
+    "n_cells": 24
+   },
+   "volatility": {
+    "pbo": 0.4571,
+    "n_cells": 31
+   },
+   "sentiment": {
+    "pbo": 0.1857,
+    "n_cells": 49
+   },
+   "seasonal": {
+    "pbo": 0.2714,
+    "n_cells": 81
+   },
+   "event": {
+    "pbo": 0.5,
+    "n_cells": 36
+   },
+   "macro": {
+    "pbo": 0.3429,
+    "n_cells": 28
+   },
+   "ta": {
+    "pbo": 0.3714,
+    "n_cells": 139
+   },
+   "patterns": {
+    "pbo": 0.5286,
+    "n_cells": 226
+   },
+   "folk": {
+    "pbo": 0.4,
+    "n_cells": 90
+   }
+  }
+ },
+ "chain_blocks": [
+  {
+   "file": "results\\mass_trial\\w3_judge.json",
+   "prev_total": 647953,
+   "batch_trials": 777,
+   "total": 648730
+  }
+ ],
+ "ledger_head_live": 648730,
+ "checks": {
+  "complete": true,
+  "n_cells": true,
+  "batch": true,
+  "prev_total_true_head": true,
+  "batch_trials": true,
+  "total_arith": true,
+  "head_at_finalize": true,
+  "seed": true,
+  "evidence_cutoff_present": true,
+  "verdicts_sum": true,
+  "single_chain_block": true,
+  "chain_block_matches": true,
+  "ledger_head_live_advance": true,
+  "ckpt_no_dup": true,
+  "pool_4of4_done": true
+ },
+ "verdict": "ADOPT_PASS"
 }
