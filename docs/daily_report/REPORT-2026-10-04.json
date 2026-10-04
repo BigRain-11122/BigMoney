@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 18:28:28",
+ "generated_at": "2026-10-04 18:40:45",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 922,
-  "result_jsons_landed_24h": 313,
+  "commits_24h": 926,
+  "result_jsons_landed_24h": 314,
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 30,
   "compute_audit_latest": {
-   "ts": "2026-10-04 18:27:51",
-   "py_cpu_pct": 5.7,
+   "ts": "2026-10-04 18:40:03",
+   "py_cpu_pct": 86.3,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "loaded_ok",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -636,11 +636,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1166964,
+  "total_report_tokens_est": 1167826,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-04 17:58:11",
+   "prev_generated": "2026-10-04 18:17:48",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 554,
+   "report_tokens_growth": 862,
    "mandate_growth": 0
   },
   "method": {
@@ -651,79 +651,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 17:53:19",
-    "py_pct": 5.4,
-    "cpu_pct": 2.0,
-    "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
-    "py_series_tail": [
-     [
-      "15:52",
-      91.9
-     ],
-     [
-      "00:27",
-      0.1
-     ],
-     [
-      "15:44",
-      0.3
-     ],
-     [
-      "16:22",
-      97.0
-     ],
-     [
-      "16:17",
-      0.7
-     ],
-     [
-      "16:45",
-      86.0
-     ],
-     [
-      "02:54",
-      58.9
-     ],
-     [
-      "16:35",
-      5.0
-     ],
-     [
-      "17:06",
-      87.2
-     ],
-     [
-      "17:10",
-      1.5
-     ],
-     [
-      "17:37",
-      5.5
-     ],
-     [
-      "17:53",
-      5.4
-     ]
-    ],
-    "today_samples": 110,
-    "today_floor_ok": 110,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 28
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-04 18:16:37",
-    "py_pct": 86.2,
-    "cpu_pct": 43.0,
+    "latest_ts": "2026-10-04 18:26:26",
+    "py_pct": 0.5,
+    "cpu_pct": 11.0,
     "ready": 4,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "15:52",
-      91.9
-     ],
      [
       "15:56",
       85.4
@@ -765,12 +699,78 @@
       86.7
      ],
      [
-      "18:16",
-      86.2
+      "18:07",
+      4.7
+     ],
+     [
+      "18:26",
+      0.5
      ]
     ],
-    "today_samples": 112,
-    "today_floor_ok": 112,
+    "today_samples": 113,
+    "today_floor_ok": 113,
+    "today_sla_flags": 2,
+    "today_supply_gap_flags": 27
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-04 18:40:03",
+    "py_pct": 86.3,
+    "cpu_pct": 64.0,
+    "ready": 4,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "16:17",
+      0.7
+     ],
+     [
+      "16:22",
+      97.0
+     ],
+     [
+      "16:35",
+      5.0
+     ],
+     [
+      "16:45",
+      86.0
+     ],
+     [
+      "17:06",
+      87.2
+     ],
+     [
+      "17:10",
+      1.5
+     ],
+     [
+      "17:28",
+      86.0
+     ],
+     [
+      "17:37",
+      5.5
+     ],
+     [
+      "17:57",
+      86.7
+     ],
+     [
+      "18:16",
+      86.2
+     ],
+     [
+      "18:27",
+      5.7
+     ],
+     [
+      "18:40",
+      86.3
+     ]
+    ],
+    "today_samples": 114,
+    "today_floor_ok": 114,
     "today_sla_flags": 1,
     "today_supply_gap_flags": 27
    },
@@ -855,8 +855,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-04 17:53:19"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-04 18:26:26"
     }
    },
    "bm-b": {
@@ -871,8 +871,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-04 18:16:37"
+     "audit_batches": 5,
+     "audit_ts": "2026-10-04 18:40:03"
     }
    },
    "bm-c": {
