@@ -1,0 +1,34 @@
+=== STAGE 0: entry checks ===
+clean
+=== STAGE 1: add -A ===
+add rc=0
+unstaged-after-add=0
+=== STAGE 2: soft-squash to merge-base (r509 reset --soft law) ===
+reset rc=128
+HEAD now: 920484b96 pool_worker bm-c: close PERPETUAL-N2-W15-JUDGE-SHARD-10/n2w15judge-10of12 outcome=ok [claim-by-file O-2210]
+=== STAGE 3: consolidated round commit (msgfile -F) ===
+commit rc=0
+HEAD after commit: 9010dfe66826721f885d44450726bc02869b9bca
+dirty-after-commit=0 (expect 0)
+=== STAGE 4: lock wait + pull --rebase (single pick) ===
+pull rc=1
+Auto-merging results/crash_fuse.json
+Auto-merging results/runnable_pool.json
+CONFLICT (content): Merge conflict in results/runnable_pool.json
+From github.com:BigRain-11122/BigMoney
+   3d509bff6..d084301c7  main       -> origin/main
+Rebasing (1/9)error: could not apply 83c9829d1... autofill tick claim n2w15judge-10of12 owner=bm-c (r199 launch-claim + r290 self-commit) [via bm-c]
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Could not apply 83c9829d1... # autofill tick claim n2w15judge-10of12 owner=bm-c (r199 launch-claim + r290 self-commit) [via bm-c]
+=== STAGE 5: UU assessment ===
+UU_COUNT=1
+UU: results/runnable_pool.json
+rebase-merge=True rebase-apply=False
+=== STAGE 5b: resolver ===
+RES: python: can't open file 'K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\_r511bmc_rebase_resolve.py': [Errno 2] No such file or directory
+RESOLVER_RC=2
+ABORT: resolver failed
