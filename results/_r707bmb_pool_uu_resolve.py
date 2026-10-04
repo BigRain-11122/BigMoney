@@ -18,7 +18,7 @@ import json
 import subprocess
 import sys
 
-FILES = ["results/pool_core_samples.jsonl", "results/pool_red_flags.jsonl"]
+FILES = ["results/pool_core_samples.jsonl"]  # r3 window: red_flags auto-merged
 MARKERS = (b"<<<<<<<", b"=======", b">>>>>>>")
 
 
