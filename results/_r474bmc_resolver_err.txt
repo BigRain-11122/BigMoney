@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r474bmc_merge_resolve.py", line 256, in <module>
+    main()
+    ~~~~^^
+  File "K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r474bmc_merge_resolve.py", line 217, in main
+    resolve_codely(ev["faces"])
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r474bmc_merge_resolve.py", line 64, in resolve_codely
+    out = base + added[0].encode("utf-8") + eol
+                 ^^^^^^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'encode'. Did you mean: 'decode'?
