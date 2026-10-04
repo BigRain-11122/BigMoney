@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-02 01:25:11",
-   "machine": "bm-a",
-   "py_cpu_pct": 37.7,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "LOWAMP-P3-CELL-LAT3-DEEP-BASE",
-   "shard": "lowamp-p3-cell-lat3-deep-base-0of1",
-   "pid": 60328,
-   "runner_sha256": "624f81f8ca828643",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": null,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 5,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-02 01:28:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -1151,26 +1133,57 @@
    "target_met": false,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-04 20:09:32",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "fuse_skipped": [
+    {
+     "entry": "CONTEST-YTD-P1-RC-0OF1",
+     "shard": "contest-ytd-p1-rc-0of1",
+     "sig": "scripts/contest_ytd_legs.py|revcensus",
+     "fuse_refusals": 16
+    }
+   ],
+   "verdict": "launched",
+   "entry": "PERPETUAL-N2-W15-GENERATE",
+   "shard": "generate-0of1",
+   "pid": 104740,
+   "runner_sha256": "4531afc0785f6e64",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": 27.8,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 20:08:01",
+  "ts": "2026-10-04 20:30:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.7,
+  "py_cpu_pct": 1.1,
   "verdict": "fuse_refused_crash_loop",
   "entry": "CONTEST-YTD-P1-RC-0OF1",
   "shard": "contest-ytd-p1-rc-0of1",
   "fuse_crashes": 1,
-  "fuse_refusals": 15,
+  "fuse_refusals": 30,
   "fuse_skipped": [
    {
     "entry": "CONTEST-YTD-P1-RC-0OF1",
     "shard": "contest-ytd-p1-rc-0of1",
     "sig": "scripts/contest_ytd_legs.py|revcensus",
-    "fuse_refusals": 15
+    "fuse_refusals": 30
+   },
+   {
+    "entry": "PERPETUAL-N2-W15-GENERATE",
+    "shard": "generate-0of1",
+    "sig": "scripts/perpetual_faces_n2.py|generate",
+    "fuse_refusals": 1
    }
   ]
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-04T19:55:16+08:00"
+ "core_samples_seen": "2026-10-04T20:10:47+08:00"
 }
