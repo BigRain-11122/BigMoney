@@ -1,0 +1,65 @@
+{
+ "ts": "2026-10-05T05:33+08:00",
+ "round": "r709",
+ "resolver": "_r709bma_rebase_resolve.py",
+ "mode": "rebase (stage2=origin base, stage3=replayed commit)",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/_attrition_guard_scan.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/futures_update_status.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/lhb_update_status.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/regime_state.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/update_status.json": {
+   "decision": "take-mine (:3:)",
+   "evidence": "ts-newer 05:23-05:27 run vs origin 05:10 wave"
+  },
+  "results/compute_audit.json": {
+   "decision": "history-union + latest-newer",
+   "evidence": "origin hist=204 mine hist=201 -> union=205; latest ts=2026-10-05 05:23:44 (origin 2026-10-05 05:10:09 / mine 2026-10-05 05:23:44)"
+  },
+  "results/token_usage.json": {
+   "decision": "machines per-key max-union",
+   "evidence": "origin machines=5 mine machines=5 -> union=5 keys"
+  }
+ },
+ "post_verify": "all 14 faces marker-free, 12 json re-parse OK"
+}
