@@ -825,7 +825,11 @@ def cmd_finalize(_):
         "panels_digest": st["panels_digest"], "facts": st["facts"],
         "gates": gates, "pbo_family": pbo_out,
         "m1_t_face": {"face": MAIN_FACE, "t_from_sharpe": t_val, "gate": m1},
-        "cells": cells, "sensitivity": st["sensitivity"], "nulls": st["nulls"],
+        # r670: sens rows live under burn_state["cells"]["sensitivity"]
+        # (cmd_run appends them into the cells dict) -- st["sensitivity"]
+        # was a never-exercised path bug caught at first finalize.
+        "cells": cells, "sensitivity": st["cells"]["sensitivity"],
+        "nulls": st["nulls"],
         "census": census, "loo": st["loo"], "terciles": st["terciles"],
         "regime_segments": st["regime_segments"], "famous16": st["famous16"],
         "d6_real": st["d6_real"],
@@ -860,7 +864,10 @@ def cmd_finalize(_):
                                   "practical_disclosure")}
                         for f in FACES],
         })
-        with open(ATTR_JSON, "w", encoding="utf-8-sig", newline="\n") as fh:
+        # r670: write-side MUST be plain utf-8 -- utf-8-sig WRITES a BOM and
+        # the attrition guard reads strict utf-8 (mechanism error on BOM).
+        # utf-8-sig stays on the READ side (tolerant of legacy BOMs).
+        with open(ATTR_JSON, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(att, fh, ensure_ascii=False, indent=1)
     print(json.dumps({"verdict": verdict, "main_g1": main_g1,
                       "main_g2": main_g2, "pbo": pbo_out.get("pbo"),
