@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 07:41:40",
+ "generated_at": "2026-10-04 07:42:57",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 636,
-  "result_jsons_landed_24h": 153,
+  "commits_24h": 638,
+  "result_jsons_landed_24h": 155,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 27,
   "compute_audit_latest": {
-   "ts": "2026-10-04 07:39:30",
-   "py_cpu_pct": 86.1,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-04 07:41:38",
+   "py_cpu_pct": 0.2,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -636,11 +638,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1144644,
+  "total_report_tokens_est": 1145469,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-04 06:54:12",
+   "prev_generated": "2026-10-04 07:30:23",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 969,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -713,71 +715,9 @@
     "today_supply_gap_flags": 6
    },
    "bm-b": {
-    "latest_ts": "2026-10-04 07:39:30",
-    "py_pct": 86.1,
+    "latest_ts": "2026-10-04 07:06:31",
+    "py_pct": 85.3,
     "cpu_pct": 40.0,
-    "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
-    "py_series_tail": [
-     [
-      "05:47",
-      0.0
-     ],
-     [
-      "05:50",
-      92.7
-     ],
-     [
-      "05:51",
-      0.1
-     ],
-     [
-      "06:08",
-      85.8
-     ],
-     [
-      "06:16",
-      0.1
-     ],
-     [
-      "06:26",
-      85.2
-     ],
-     [
-      "06:35",
-      0.0
-     ],
-     [
-      "06:51",
-      87.1
-     ],
-     [
-      "06:52",
-      0.4
-     ],
-     [
-      "07:06",
-      85.3
-     ],
-     [
-      "07:09",
-      0.0
-     ],
-     [
-      "07:39",
-      86.1
-     ]
-    ],
-    "today_samples": 36,
-    "today_floor_ok": 36,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 7
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-04 07:09:40",
-    "py_pct": 0.0,
-    "cpu_pct": 5.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
@@ -827,14 +767,76 @@
       0.4
      ],
      [
-      "07:09",
-      0.0
+      "07:06",
+      85.3
      ]
     ],
     "today_samples": 34,
     "today_floor_ok": 34,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 7
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-04 07:41:38",
+    "py_pct": 0.2,
+    "cpu_pct": 40.0,
+    "ready": 3,
+    "streak_min": 1.9,
+    "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
+     [
+      "05:51",
+      0.1
+     ],
+     [
+      "06:08",
+      85.8
+     ],
+     [
+      "06:16",
+      0.1
+     ],
+     [
+      "06:26",
+      85.2
+     ],
+     [
+      "06:35",
+      0.0
+     ],
+     [
+      "06:51",
+      87.1
+     ],
+     [
+      "06:52",
+      0.4
+     ],
+     [
+      "07:06",
+      85.3
+     ],
+     [
+      "07:09",
+      0.0
+     ],
+     [
+      "07:28",
+      0.0
+     ],
+     [
+      "07:39",
+      0.2
+     ],
+     [
+      "07:41",
+      0.2
+     ]
+    ],
+    "today_samples": 38,
+    "today_floor_ok": 38,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 9
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -872,7 +874,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 07:39:30"
+     "audit_ts": "2026-10-04 07:06:31"
     }
    },
    "bm-c": {
@@ -888,7 +890,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-04 07:09:40"
+     "audit_ts": "2026-10-04 07:41:38"
     }
    }
   },
