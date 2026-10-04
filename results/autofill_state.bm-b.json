@@ -1010,10 +1010,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 22:24:01",
+  "ts": "2026-10-04 22:38:01",
   "machine": "bm-b",
-  "py_cpu_pct": 54.1,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 55.3,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "CONTEST-YTD-P1-RC-0OF1",
+  "shard": "contest-ytd-p1-rc-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 25,
+  "fuse_skipped": [
+   {
+    "entry": "CONTEST-YTD-P1-RC-0OF1",
+    "shard": "contest-ytd-p1-rc-0of1",
+    "sig": "scripts/contest_ytd_legs.py|revcensus",
+    "fuse_refusals": 25
+   }
+  ]
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-04T21:27:40+08:00"
