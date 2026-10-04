@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-05
 
-> 自动生成 2026-10-05T01:52:41 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-10-05T02:00:58 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
@@ -85,9 +85,9 @@
 ## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）
 
 - 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：
-  - FUND-QUALITY-P1：855/2000（dup_k=0）
-  - FUND-VALUE-P1：1072/2000（dup_k=0）
-  - FUND-DIVLOWVOL-P1：671/2000（dup_k=0）
+  - FUND-QUALITY-P1：844/2000（dup_k=0）
+  - FUND-VALUE-P1：1060/2000（dup_k=0）
+  - FUND-DIVLOWVOL-P1：661/2000（dup_k=0）
 
 ## ⑥ 诚实免责
 
