@@ -1,32 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 11:32:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "fuse_skipped": [
-    {
-     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
-     "shard": "stockfurn-rev-0to31",
-     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
-     "fuse_refusals": 4
-    }
-   ],
-   "verdict": "launched",
-   "entry": "STOCKFURN-REV-AKSHARE-SHARD-91",
-   "shard": "stockfurn-rev-91to121",
-   "pid": 18692,
-   "runner_sha256": "cce0f51237e4094d",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": null,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 12:06:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -994,26 +968,30 @@
    "target_met": false,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-04 19:44:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 47.9,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N2-W15-GENERATE",
+   "shard": "n2-w15-generate-0of1",
+   "pid": 54492,
+   "runner_sha256": "33e404cb32863055",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": 2.5,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 19:34:01",
+  "ts": "2026-10-04 19:48:01",
   "machine": "bm-b",
-  "py_cpu_pct": 54.3,
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "CONTEST-YTD-P1-RC-0OF1",
-  "shard": "contest-ytd-p1-rc-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 37,
-  "fuse_skipped": [
-   {
-    "entry": "CONTEST-YTD-P1-RC-0OF1",
-    "shard": "contest-ytd-p1-rc-0of1",
-    "sig": "scripts/contest_ytd_legs.py|revcensus",
-    "fuse_refusals": 37
-   }
-  ]
+  "py_cpu_pct": 62.8,
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-04T18:18:35+08:00"
+ "core_samples_seen": "2026-10-04T19:45:32+08:00"
 }
