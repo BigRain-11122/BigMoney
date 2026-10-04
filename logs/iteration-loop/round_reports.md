@@ -1250,3 +1250,17 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - 下轮指针: trio NULLS 烧录看护 (finalize 候选窗) + lhb 自愈复跑观察 (rc2 复发=源阻断升级披露面) + W14/moneyflow-EM 挂账观察
 - 本地未达 origin commit 数=0 (commit+push 后 push_verify 三证复核)
 - 追记 2026-10-04T12:3x (S7 收口窗 push-race 实弹): bm-c r467 同窗并行轮先推 -> 首推 non-FF 拒 -> merge origin/main 14 UU 全=同窗双跑再生面 -> 13 面 ts-freshness take-side ours (双形复核 lhb 12:09:01>11:58:45 + LIVE 12:09:27>11:59:19 实证) + token_usage per-key union (side_pick=2, r456 律) -> reparse/marker/复核实测全过 -> merge commit de59287e2 push_verify DELIVERED (ahead=0/behind=0); 本地未达 origin commit 数=0
+
+## 2026-10-04T12:5x+08:00 | round 670 | bm-b | D-20261004-02①②③ receipt closeout (F-20261004-02) + D-19 fallback live consumption (watermark 4E5BE321) + S6 34 legs rc0 + 5x HANDOVER
+- watermark: GREEN (red=false @12:24; py_watermark py_low_with_work_cands=合法在飞面非违令: 池 3 ready 全=bm-b trio NULLS 在飞零未认领、board 0 open、bandit_open 0、local_batch_running=true 算力在烧佐证 py 61.5%)
+- 当前活: FUND trio NULLS canonical burns in flight V753/Q582/D432 of 2000 (owner=bm-b, keepalive claim-refresh 12:16:12, 金周窗 ~9-12/hr/族)
+- 最近实物: HQ-FEEDBACK.md F-20261004-02 回执行 (D-20261004-02①②③ 三件收口呈证 1,599B·12:4x) + results/_r670bmb_autofill_selftest.txt (SELFTEST ALL PASS 含 S4b×4+S17dd×2 data_deps 门腿本机活体复验) + results/_r670bmb_d19_check.py/.json (sparse-clone fallback 首枚活体消费: decisions CHANGED 检出+四新行全消费·orders MATCH)
+- 下个里程碑: trio NULLS 全 2000 完成后 finalize 腿 (V 余 1247 / Q 余 1418 / D 余 1568 @~9-12/hr/族 ≈ 10-06..10-09 窗内); D-20261002-06 全线收口窗 10-07 (对账行/md5 已由 F-20261004-01 呈证·主线维持)
+- S0: pull --rebase 撞 daemon 8 脏面 (bm-b lane) -> HEAD-vs-origin 改动集交集=零实证 -> 定向 absorb (5e9e4a5c7) + merge origin/main 净 0 UU (r437 预对齐净路·集成 bm-c r466-r468 + bm-a r671-r675 八 commit) + push_verify DELIVERED 660fe8ae0
+- S0.5: fleet orders 153/153 轮首扫零 unacked (同口径集合比对 r646 律); D-19 decisions **CHANGED** (EB14B510→4E5BE321; K: 集团树缺席→r631 sparse-clone 原字节探针 + r458 双键口径 + r660 subprocess 律) -> 12:00 常务轮批消费: D-20261004-03/04/05/06 四行全读——涉本司=D-20261004-05 到窗核销注记收悉 (D-20261002-05→executed 核销·02/03 补呈窗顺延 10-05 义务已由 bm-c F-20261004-01 承接·06 收口窗 10-07 维持) + D-20261004-02①②③ 派工行 (回执窗 10-06) → 本轮主产出承接; group orders MATCH (68947C17) 零动作; 水位键随本收口更新
+- S1: smoke 48/48 PASS
+- S3: 板零 open (job_list 0 + fleet tasks open 0); 饱和引擎 alive rc0 (scripts 面 mtime-reload 新代码 merge 后首跑=活体验证·queue 0 idle); 产品面=D-20261004-02①②③ 回执闭环: 反重复双扫发现三件已由本机 r640 死会话收养窗全量落地 (commit 9c38bd8ac: autofill data_deps 门 L1307/L1826/L1953 + PREREG_TEMPLATE L48 种子选位律 + fleet README L37 + S4U fallback 行) → 唯一缺口=F- 回执未呈 → F-20261004-02 补呈 (三件在树证据+活体复验) + 坑律固化 (集团派工行自领前先查既有实现律→CODELY r670 行); 试用劳动力常设线=trio 在飞判决批不触发
+- S6: 34 腿全 rc0 (dualrun ZERO-DRIFT streak 51; compute_audit CLEAN burning-healthy py 85.6% pool_ready_unclaimed=0; 金周无新 bar→live.paper/t35_open_fill/t24 条件腿诚实跳过 pre=2026-09-30 post=2026-09-30; update_lhb rc0 no-op <30min 守卫=r669 rc2 后自愈窗·bm-a 车道冗余在; daily_report 5 faces + LIVE-2026-10-04 ORANGE 再生; token_meter 计量)
+- S7: 自愈 4/4 (loop pin=2 no-op + watchdog 本窗重建治愈 + pre-commit/pre-push 双爪重装 LF-normalized); attrition CLEAN (4 ledgers·历史 healed 注记照录); inbox 零未读; 5x HANDOVER 窗行落地 (r655/660/665 缺章如实披露·r670 重锚)
+- 下轮指针: trio NULLS 烧录看护 (finalize 候选窗) + D-20261002-06 对账行回执随下轮 (10-07 窗) + W14-GENERATE waiting 池面挂账观察
+- 本地未达 origin commit 数=0 (commit+push 后 push_verify 三证复核)
