@@ -293,7 +293,12 @@ def _null_chunk(payload):
     rides = _G["rides_by"][st]
     closes2d, cal2d, lens = _G["closes"], _G["cal"], _G["lens"]
     n_cal = _G["n_cal"]
-    ks = list(range(ci * CHUNK, min((ci + 1) * CHUNK, K_NULLS)))
+    # ci = k-start offset (task gen: range(0, K_NULLS, CHUNK)) -- NOT a
+    # chunk index. r670 live-strike fix: the ci*CHUNK reading produced
+    # empty ks for every ci>0 and starved the null families (38/40 empty
+    # frags -> assembly assert). rng([SEED_NULLS, k]) per-k substream law
+    # untouched: k coverage 0..K_NULLS-1 exactly once.
+    ks = list(range(ci, min(ci + CHUNK, K_NULLS)))
     s1, s2 = [], []
     for k in ks:
         rng = np.random.default_rng([SEED_NULLS, k])
@@ -504,12 +509,16 @@ def cmd_run(_):
     # ---- null chunks + sensitivity via ProcessPool ----------------------
     os.makedirs(FRAG_DIR, exist_ok=True)
     done = set()
+    # r670: match the actual frag names (<STRATUM>_chunk_*.json -- the old
+    # startswith("chunk_") filter never matched, so resume never skipped)
+    # and require non-empty ks so a poisoned empty frag can never count as
+    # done (the exact state the ci-bug left on disk).
     for f in os.listdir(FRAG_DIR):
-        if f.startswith("chunk_") and f.endswith(".json"):
+        if f.endswith(".json"):
             try:
                 row = json.load(open(os.path.join(FRAG_DIR, f),
                                      encoding="utf-8"))
-                if row.get("digest") == digest:
+                if row.get("digest") == digest and row.get("ks"):
                     done.add((row["stratum"], row["ci"]))
             except Exception:
                 pass
@@ -1016,6 +1025,10 @@ def selftest(_=None):
             outs.append(json.dumps({"frags": frags, "sens": sens},
                                    sort_keys=True))
         chk("mini-pipeline double-run byte identity", outs[0] == outs[1])
+        ks_union = sorted({k for fr in frags for k in fr["ks"]})
+        chk("mini-pipeline ks coverage == 0..K_NULLS-1 (r670 ci-semantics "
+            "guard: chunk ks must tile the null index space exactly once)",
+            ks_union == list(range(4)))
     finally:
         for attr, val in (("K_NULLS", 2000), ("CHUNK", 100)):
             setattr(mod, attr, val)
