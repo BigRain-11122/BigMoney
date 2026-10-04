@@ -1,0 +1,128 @@
+{
+ "round": "r508",
+ "strategies": {
+  "results/crash_fuse.json": "ts-newer-wins origin",
+  "results/lhb_update_status.json": "ts-newer-wins mine",
+  "results/regime_state.json": "skip-clean",
+  "results/scorecard_v1.json": "ts-newer-wins mine",
+  "results/strategy_scorecard.json": "ts-newer-wins mine",
+  "results/update_status.json": "ts-newer-wins mine",
+  "results/compute_audit.json": "history-union zero-loss",
+  "results/pool_core_samples.jsonl": "append-only line-union zero-loss"
+ },
+ "sides": {
+  "results/crash_fuse.json": {
+   "origin_ts": "2026-10-05 03:04:04",
+   "mine_ts": "2026-10-05 03:04:04",
+   "take": "origin"
+  },
+  "results/lhb_update_status.json": {
+   "origin_ts": "2026-10-05 02:38:21",
+   "mine_ts": "2026-10-05 02:50:13",
+   "take": "mine"
+  },
+  "results/regime_state.json": "NO-MARKER (clean, untouched)",
+  "results/scorecard_v1.json": {
+   "origin_ts": "2026-10-05T02:37:07",
+   "mine_ts": "2026-10-05T02:49:35",
+   "take": "mine"
+  },
+  "results/strategy_scorecard.json": {
+   "origin_ts": "2026-10-05T02:37:21",
+   "mine_ts": "2026-10-05T02:49:45",
+   "take": "mine"
+  },
+  "results/update_status.json": {
+   "origin_ts": "2026-10-05 02:36:15",
+   "mine_ts": "2026-10-05 02:48:55",
+   "take": "mine"
+  },
+  "results/compute_audit.json": {
+   "union": "history-union",
+   "origin_rows": 204,
+   "mine_rows": 202,
+   "merged_rows": 205
+  },
+  "results/pool_core_samples.jsonl": {
+   "union": "line-union",
+   "origin_lines": 1286,
+   "mine_lines": 1285,
+   "merged_lines": 1288,
+   "mine_only_added": 2
+  }
+ },
+ "gates": {
+  "results/crash_fuse.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/lhb_update_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/regime_state.json": {
+   "blocks": 0,
+   "diff3_counts": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "results/scorecard_v1.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/strategy_scorecard.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/update_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/compute_audit.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/pool_core_samples.jsonl": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ }
+}

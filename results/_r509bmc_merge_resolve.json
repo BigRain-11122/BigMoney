@@ -1,0 +1,277 @@
+{
+ "round": "r509",
+ "strategies": {
+  "docs/daily_report/REPORT-2026-10-05.json": "ts-newer-wins origin",
+  "docs/live_usage/LIVE-2026-10-05.json": "ts-newer-wins mine",
+  "docs/live_usage/LIVE-latest.json": "ts-newer-wins mine",
+  "results/_attrition_guard_scan.json": "ts-newer-wins mine",
+  "results/crash_fuse.json": "ts-newer-wins origin",
+  "results/fundamental_b_layer_filter.json": "ts-newer-wins mine",
+  "results/futures_update_status.json": "ts-newer-wins mine",
+  "results/lhb_update_status.json": "ts-newer-wins mine",
+  "results/regime_state.json": "ts-newer-wins mine",
+  "results/scorecard_v1.json": "ts-newer-wins origin",
+  "results/strategy_scorecard.json": "ts-newer-wins origin",
+  "results/update_status.json": "ts-newer-wins mine",
+  "docs/daily_report/REPORT-2026-10-05.md": "twin-locked-to-json origin",
+  "docs/live_usage/LIVE-2026-10-05.md": "twin-locked-to-json mine",
+  "docs/live_usage/LIVE-latest.md": "twin-locked-to-json mine",
+  "results/compute_audit.json": "history-union zero-loss",
+  "results/token_usage.json": "per-key-union",
+  "results/pool_core_samples.jsonl": "append-only line-union zero-loss"
+ },
+ "sides": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "origin_ts": "2026-10-05T03:03:16",
+   "mine_ts": "2026-10-05T02:51:26",
+   "take": "origin"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "origin_ts": "2026-10-05T03:05:13",
+   "mine_ts": "2026-10-05T03:13:17",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "origin_ts": "2026-10-05T03:05:13",
+   "mine_ts": "2026-10-05T03:13:17",
+   "take": "mine"
+  },
+  "results/_attrition_guard_scan.json": {
+   "origin_ts": "2026-10-05T03:05:59",
+   "mine_ts": "2026-10-05T03:14:20",
+   "take": "mine"
+  },
+  "results/crash_fuse.json": {
+   "origin_ts": "2026-10-05 03:14:44",
+   "mine_ts": "2026-10-05 03:14:44",
+   "take": "origin"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "origin_ts": "2026-10-05 03:04:44",
+   "mine_ts": "2026-10-05 03:13:02",
+   "take": "mine"
+  },
+  "results/futures_update_status.json": {
+   "origin_ts": "2026-10-05T03:04:18",
+   "mine_ts": "2026-10-05T03:12:58",
+   "take": "mine"
+  },
+  "results/lhb_update_status.json": {
+   "origin_ts": "2026-10-05 03:04:18",
+   "mine_ts": "2026-10-05 03:12:57",
+   "take": "mine"
+  },
+  "results/regime_state.json": {
+   "origin_ts": "2026-10-05 03:03:37",
+   "mine_ts": "2026-10-05 03:12:51",
+   "take": "mine"
+  },
+  "results/scorecard_v1.json": {
+   "origin_ts": "2026-10-05T03:04:02",
+   "mine_ts": "2026-10-05T02:49:35",
+   "take": "origin"
+  },
+  "results/strategy_scorecard.json": {
+   "origin_ts": "2026-10-05T03:04:08",
+   "mine_ts": "2026-10-05T02:49:45",
+   "take": "origin"
+  },
+  "results/update_status.json": {
+   "origin_ts": "2026-10-05 03:03:36",
+   "mine_ts": "2026-10-05 03:12:50",
+   "take": "mine"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "twin_of": "docs/daily_report/REPORT-2026-10-05.json",
+   "take": "origin"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "twin_of": "docs/live_usage/LIVE-2026-10-05.json",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "twin_of": "docs/live_usage/LIVE-latest.json",
+   "take": "mine"
+  },
+  "results/compute_audit.json": {
+   "union": "history-union",
+   "origin_rows": 201,
+   "mine_rows": 201,
+   "merged_rows": 203
+  },
+  "results/token_usage.json": {
+   "union": "per-key-union"
+  },
+  "results/pool_core_samples.jsonl": {
+   "union": "line-union",
+   "origin_lines": 1290,
+   "mine_lines": 1288,
+   "merged_lines": 1292,
+   "mine_only_added": 2
+  }
+ },
+ "gates": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "blocks": 11,
+   "diff3_counts": [
+    11,
+    11,
+    11,
+    11
+   ]
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "blocks": 4,
+   "diff3_counts": [
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "blocks": 4,
+   "diff3_counts": [
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  "results/_attrition_guard_scan.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/crash_fuse.json": {
+   "blocks": 2,
+   "diff3_counts": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/futures_update_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/lhb_update_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/regime_state.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/scorecard_v1.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/strategy_scorecard.json": {
+   "blocks": 2,
+   "diff3_counts": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "results/update_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "blocks": 4,
+   "diff3_counts": [
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/compute_audit.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/token_usage.json": {
+   "blocks": 2,
+   "diff3_counts": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "results/pool_core_samples.jsonl": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ }
+}
