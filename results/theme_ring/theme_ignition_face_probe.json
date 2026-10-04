@@ -1,0 +1,734 @@
+{
+ "generated": "2026-10-04T08:33:41",
+ "version": "v0.6-r6-startface-probe",
+ "order_ref": "O-20261001-2103 (T1 line R6 slice, post-v0.3 lagged-confirmer finding)",
+ "ticket_ref": "T-2026-10-04-165-P1 continuation slice",
+ "kind": "descriptive_probe",
+ "claims_note": "NO registration/paper claims; faces are mechanism-quality candidates, not truth; any judgment use requires a NEW frozen prereg; no ledger rows (measurement face)",
+ "constants": {
+  "WIN_PRE": 60,
+  "WIN_POST": 40,
+  "PM10_TD": 10,
+  "PM30_CAL": 30,
+  "NEARLIMIT": 0.07,
+  "VOL_X": 2.0,
+  "VOL_RET": 0.03,
+  "BREAK_WIN": 60,
+  "FAST_WIN": 10,
+  "FAST_RET": 0.1,
+  "MIN_PRIOR": 20
+ },
+ "events": [
+  {
+   "id": "CYB2013",
+   "theme": "创业板/互联网+第一波",
+   "proxy": "sz159915",
+   "ceo_anchor": "2013-02-18",
+   "series_found": true,
+   "n_bars": 3591,
+   "anchor_date_used": "2013-02-18",
+   "anchor_face": "exact",
+   "series_start": "2011-12-09",
+   "window": [
+    "2012-11-14",
+    "2013-04-17"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2012-12-05",
+    "delta_td": -45,
+    "delta_cal": -75,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2013-01-08",
+    "delta_td": -24,
+    "delta_cal": -41,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2012-12-26",
+    "delta_td": -30,
+    "delta_cal": -54,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   }
+  },
+  {
+   "id": "BELTROAD2014",
+   "theme": "一带一路",
+   "proxy": "sh510500",
+   "ceo_anchor": "2014-11-21",
+   "series_found": true,
+   "n_bars": 3291,
+   "anchor_date_used": "2014-11-21",
+   "anchor_face": "exact",
+   "series_start": "2013-03-15",
+   "window": [
+    "2014-08-21",
+    "2015-01-20"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": "2014-08-22",
+    "delta_td": -59,
+    "delta_cal": -91,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   }
+  },
+  {
+   "id": "SOE2015",
+   "theme": "国企改革2015",
+   "proxy": "sh510880",
+   "ceo_anchor": "2015-01-05",
+   "series_found": true,
+   "n_bars": 4784,
+   "anchor_date_used": "2015-01-05",
+   "anchor_face": "exact",
+   "series_start": "2007-01-18",
+   "window": [
+    "2014-10-09",
+    "2015-03-09"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2014-12-02",
+    "delta_td": -22,
+    "delta_cal": -34,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2014-10-09",
+    "delta_td": -60,
+    "delta_cal": -88,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2014-11-10",
+    "delta_td": -38,
+    "delta_cal": -56,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   }
+  },
+  {
+   "id": "TECH5G2019",
+   "theme": "5G/科技2019",
+   "proxy": "sz159915",
+   "ceo_anchor": "2019-02-01",
+   "series_found": true,
+   "n_bars": 3591,
+   "anchor_date_used": "2019-02-01",
+   "anchor_face": "exact",
+   "series_start": "2011-12-09",
+   "window": [
+    "2018-11-07",
+    "2019-04-08"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2019-03-04",
+    "delta_td": 16,
+    "delta_cal": 31,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2019-02-18",
+    "delta_td": 6,
+    "delta_cal": 17,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "fast10": {
+    "fire_date": "2018-11-13",
+    "delta_td": -56,
+    "delta_cal": -80,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   }
+  },
+  {
+   "id": "BROKER2020",
+   "theme": "券商脉冲2020-07",
+   "proxy": "sh512880",
+   "ceo_anchor": "2020-07-02",
+   "series_found": true,
+   "n_bars": 2460,
+   "anchor_date_used": "2020-07-02",
+   "anchor_face": "exact",
+   "series_start": "2016-08-08",
+   "window": [
+    "2020-04-01",
+    "2020-08-27"
+   ],
+   "nearlimit7": {
+    "fire_date": "2020-07-02",
+    "delta_td": 0,
+    "delta_cal": 0,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "volstart": {
+    "fire_date": "2020-06-01",
+    "delta_td": -21,
+    "delta_cal": -31,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2020-06-19",
+    "delta_td": -7,
+    "delta_cal": -13,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "fast10": {
+    "fire_date": "2020-07-01",
+    "delta_td": -1,
+    "delta_cal": -1,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "EV2020",
+   "theme": "新能源车2020-22",
+   "proxy": "sh515030",
+   "ceo_anchor": "2020-04-02",
+   "series_found": true,
+   "n_bars": 1593,
+   "anchor_date_used": "2020-04-02",
+   "anchor_face": "exact",
+   "series_start": "2020-03-04",
+   "window": [
+    "2020-03-04",
+    "2020-06-03"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "fast10": {
+    "fire_date": "2020-04-07",
+    "delta_td": 2,
+    "delta_cal": 5,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "PV2021",
+   "theme": "光伏2021",
+   "proxy": "sh515790",
+   "ceo_anchor": "2021-01-04",
+   "series_found": true,
+   "n_bars": 1398,
+   "anchor_date_used": "2021-01-04",
+   "anchor_face": "exact",
+   "series_start": "2020-12-18",
+   "window": [
+    "2020-12-18",
+    "2021-03-08"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": "2021-01-22",
+    "delta_td": 14,
+    "delta_cal": 18,
+    "match_pm10td": false,
+    "match_pm30cal": true
+   },
+   "fast10": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   }
+  },
+  {
+   "id": "PHARMA2020",
+   "theme": "医药/CXO 2020-21",
+   "proxy": "sh512010",
+   "ceo_anchor": "2020-02-03",
+   "series_found": true,
+   "n_bars": 2705,
+   "anchor_date_used": "2020-02-03",
+   "anchor_face": "exact",
+   "series_start": "2015-08-04",
+   "window": [
+    "2019-10-31",
+    "2020-03-30"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2020-02-04",
+    "delta_td": 1,
+    "delta_cal": 1,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "break60": {
+    "fire_date": "2019-10-31",
+    "delta_td": -60,
+    "delta_cal": -95,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2020-02-17",
+    "delta_td": 10,
+    "delta_cal": 14,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "LIQUOR2020",
+   "theme": "白酒/消费2020-21",
+   "proxy": "sh512690",
+   "ceo_anchor": "2020-03-23",
+   "series_found": true,
+   "n_bars": 1795,
+   "anchor_date_used": "2020-03-23",
+   "anchor_face": "exact",
+   "series_start": "2019-05-06",
+   "window": [
+    "2019-12-19",
+    "2020-05-22"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2019-12-30",
+    "delta_td": -53,
+    "delta_cal": -84,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2019-12-30",
+    "delta_td": -53,
+    "delta_cal": -84,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2020-04-02",
+    "delta_td": 8,
+    "delta_cal": 10,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "MIL2020",
+   "theme": "军工2020H2",
+   "proxy": "sh512660",
+   "ceo_anchor": "2020-07-01",
+   "series_found": true,
+   "n_bars": 2460,
+   "anchor_date_used": "2020-07-01",
+   "anchor_face": "exact",
+   "series_start": "2016-08-08",
+   "window": [
+    "2020-03-31",
+    "2020-08-26"
+   ],
+   "nearlimit7": {
+    "fire_date": "2020-07-08",
+    "delta_td": 5,
+    "delta_cal": 7,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "volstart": {
+    "fire_date": "2020-07-06",
+    "delta_td": 3,
+    "delta_cal": 5,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "break60": {
+    "fire_date": "2020-07-06",
+    "delta_td": 3,
+    "delta_cal": 5,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "fast10": {
+    "fire_date": "2020-07-06",
+    "delta_td": 3,
+    "delta_cal": 5,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "ZHONGTEIGU2023",
+   "theme": "中特估2023",
+   "proxy": "sh510880",
+   "ceo_anchor": "2023-01-03",
+   "series_found": true,
+   "n_bars": 4784,
+   "anchor_date_used": "2023-01-03",
+   "anchor_face": "exact",
+   "series_start": "2007-01-18",
+   "window": [
+    "2022-10-10",
+    "2023-03-07"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "fast10": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   }
+  },
+  {
+   "id": "AI2023",
+   "theme": "AI 2023",
+   "proxy": "sh515000",
+   "ceo_anchor": "2023-02-01",
+   "series_found": true,
+   "n_bars": 1723,
+   "anchor_date_used": "2023-02-01",
+   "anchor_face": "exact",
+   "series_start": "2019-08-16",
+   "window": [
+    "2022-11-01",
+    "2023-03-29"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2023-03-23",
+    "delta_td": 36,
+    "delta_cal": 50,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2023-01-17",
+    "delta_td": -6,
+    "delta_cal": -15,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "fast10": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   }
+  },
+  {
+   "id": "AICOMPUTE2024",
+   "theme": "算力/AI二波2024-25",
+   "proxy": "sh512480",
+   "ceo_anchor": "2024-02-05",
+   "series_found": true,
+   "n_bars": 1769,
+   "anchor_date_used": "2024-02-05",
+   "anchor_face": "exact",
+   "series_start": "2019-06-12",
+   "window": [
+    "2023-11-10",
+    "2024-04-11"
+   ],
+   "nearlimit7": {
+    "fire_date": "2024-02-06",
+    "delta_td": 1,
+    "delta_cal": 1,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "fast10": {
+    "fire_date": "2024-02-22",
+    "delta_td": 7,
+    "delta_cal": 17,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "LOWALT2024",
+   "theme": "低空经济2024",
+   "proxy": "sh512710",
+   "ceo_anchor": "2024-03-01",
+   "series_found": true,
+   "n_bars": 1716,
+   "anchor_date_used": "2024-03-01",
+   "anchor_face": "exact",
+   "series_start": "2019-08-26",
+   "window": [
+    "2023-11-29",
+    "2024-04-30"
+   ],
+   "nearlimit7": {
+    "fire_date": "2024-02-06",
+    "delta_td": -12,
+    "delta_cal": -24,
+    "match_pm10td": false,
+    "match_pm30cal": true
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "fast10": {
+    "fire_date": "2024-02-26",
+    "delta_td": -4,
+    "delta_cal": -4,
+    "match_pm10td": true,
+    "match_pm30cal": true
+   }
+  },
+  {
+   "id": "DEEPSEEK2025",
+   "theme": "DeepSeek/AI应用2025",
+   "proxy": "sz159995",
+   "ceo_anchor": "2025-02-05",
+   "series_found": true,
+   "n_bars": 1610,
+   "anchor_date_used": "2025-02-05",
+   "anchor_face": "exact",
+   "series_start": "2020-02-10",
+   "window": [
+    "2024-11-04",
+    "2025-04-02"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": "2024-11-05",
+    "delta_td": -59,
+    "delta_cal": -92,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "break60": {
+    "fire_date": "2024-11-05",
+    "delta_td": -59,
+    "delta_cal": -92,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2024-11-11",
+    "delta_td": -55,
+    "delta_cal": -86,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   }
+  },
+  {
+   "id": "GOLD2024",
+   "theme": "黄金2024-25(国外主导对照)",
+   "proxy": "sh518880",
+   "ceo_anchor": "2024-03-01",
+   "series_found": true,
+   "n_bars": 3200,
+   "anchor_date_used": "2024-03-01",
+   "anchor_face": "exact",
+   "series_start": "2013-07-29",
+   "window": [
+    "2023-11-29",
+    "2024-04-30"
+   ],
+   "nearlimit7": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "volstart": {
+    "fire_date": null,
+    "delta_td": null,
+    "delta_cal": null,
+    "status": "no_fire_in_window"
+   },
+   "break60": {
+    "fire_date": "2023-12-04",
+    "delta_td": -57,
+    "delta_cal": -88,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   },
+   "fast10": {
+    "fire_date": "2024-04-12",
+    "delta_td": 28,
+    "delta_cal": 42,
+    "match_pm10td": false,
+    "match_pm30cal": false
+   }
+  }
+ ],
+ "summary_by_face": {
+  "nearlimit7": {
+   "n_fire_in_window": 4,
+   "n_match_pm10td": 3,
+   "n_match_pm30cal": 4,
+   "median_delta_td": 1.0,
+   "median_abs_delta_td": 5.0,
+   "n_face_not_evaluable": 0
+  },
+  "volstart": {
+   "n_fire_in_window": 9,
+   "n_match_pm10td": 2,
+   "n_match_pm30cal": 2,
+   "median_delta_td": -21.0,
+   "median_abs_delta_td": 22.0,
+   "n_face_not_evaluable": 0
+  },
+  "break60": {
+   "n_fire_in_window": 12,
+   "n_match_pm10td": 4,
+   "n_match_pm30cal": 5,
+   "median_delta_td": -24.0,
+   "median_abs_delta_td": 53.0,
+   "n_face_not_evaluable": 0
+  },
+  "fast10": {
+   "n_fire_in_window": 12,
+   "n_match_pm10td": 7,
+   "n_match_pm30cal": 7,
+   "median_delta_td": 2.0,
+   "median_abs_delta_td": 10.0,
+   "n_face_not_evaluable": 0
+  },
+  "B0_v03_burst_rule": {
+   "n_events_pm30cal": 2,
+   "of": 16,
+   "source": "theme_events_v03_algorithmic.json ceo_anchor_matches (cited)"
+  }
+ },
+ "honest_limits": [
+  "faces are conventional daily-OHLC readings, never tuned on outcomes; a null result (no face beats 2/16) is REPORTED as the finding",
+  "anchor->first-bar mapping disclosed per event; proxies listed after the anchor carry head-truncated windows",
+  "single fire per face per window (first fire); multiple candidate days inside one window are not ranked here",
+  "start-detector quality on 16 CEO anchors is a MECHANISM face; it does not imply tradability (entry cost/exit rules need their own prereg)"
+ ],
+ "audit": {
+  "elapsed_sec": 0.1238,
+  "budget_cap_sec": 60.0,
+  "deterministic": "no rng anywhere; rerun byte-stable except generated ts"
+ }
+}
