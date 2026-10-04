@@ -1146,3 +1146,15 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 " insert repair, needle-count==1 gate; pushed version clean. Lesson restated (r439 law already covers): line-entry appends ALWAYS prepend 
 , never conditional-sep.
 - Post-merge trio: V682/Q521/D378 k-counters, burners alive, keepalive dba59ee9c + pool owner_since 09:26:12 stable; next-round watch per main report pointer.
+
+## 2026-10-04T10:02:03+08:00 | round 662 | bm-b | golden-week watch (S0 push-race x2 r437 netpath + S6 38/38 + trio dual-form health)
+- 当前活: FUND trio NULLS canonical burns in flight V693/Q532/D387 of 2000 (dual-form alive: 3 runner pids CIM full-scan verified + mtimes <3min; +8/+8/+7 per ~10min window)
+- 最近实物: docs/live_usage/LIVE-2026-10-04.md (ORANGE/COOL/cap50%/6员) + docs/daily_report/REPORT-2026-10-04.md 5 faces + results/dashboard_status.json 3-machine fresh refresh (10:02)
+- 下个里程碑: trio NULLS 完成窗 V ~10-05/06, Q ~10-06/07, D ~10-08/09 -> per-family finalize + verdict per prereg sec.4 (G1' v2 + G2 v2 + exit-census; 窗口内最早 V 10-05 下午)
+- watermark verdict: GREEN (red=false lane healthy; py_low_with_work_cands = 合法态点名面: trio burn 30 py procs 在飞即 work candidate, pool_ready_unclaimed=0, bandit_open=0, board 0 open = legal idle whitelist)
+- S0: push-race 两连 (origin 三度前移 05f15c0c0) -> r437 净路 absorb(650d070cd)+merge x2 -> push DELIVERED tip bd02f75e9 ahead=0; orders 差集 0 (轮首+S7 双扫 153/153 同口径 ls-tree); D-19 decisions MATCH (EB14B510D304A1D0, sparse-clone+subprocess 原字节律 r660)
+- S1 smoke 48/48 PASS; S6 38/38 rc0: golden-week 休市面全 no-op 合法 (panels cutoff 2026-09-30 全覆盖); market_clock CALL-2026-09-30 ORANGE_COOL; trio health probe results/_r661bmb_trio_health.json
+- 披露: strategy_scorecard/daily_scorecard/build_status 三面 r378 host=bm-a 守卫未触发实跑 (脚本内无 host guard; 与 bm-c r459 同窗实践一致; L1 幂等 fresh-value 再derive; 若后续确认需守卫则待 GM 裁定, 本轮如实记)
+- S7: attrition guard CLEAN 4 files; IterationLoop/LoopWatchdog 双任务在册; pre-commit/pre-push 钳 match True/True; inbox 零未读
+- 本地未达 origin commit 数=0 (push DELIVERED push_verify 自证)
+- 下轮指针: trio 烧录监控 (keepalive/claim face) + NULLS 完成即 finalize 链 (V 族最先); 观察项=scorecard 三面守卫机队实践与 prompt 文本分歧 (若 churn 可承受即维持现状)
