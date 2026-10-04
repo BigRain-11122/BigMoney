@@ -1,20 +1,15 @@
 {
  "FUND-VALUE-P1-NULLS": {
   "family": "fund_value_p1",
-  "k_current": 762,
-  "rows_current": 758,
+  "k_current": 770,
+  "rows_current": 766,
   "K": 2000,
-  "pct": 38.15,
-  "rate_per_h": 24.49,
-  "window_hours": 1.76,
-  "eta_hours": 50.5,
+  "pct": 38.55,
+  "rate_per_h": 24.55,
+  "window_hours": 1.95,
+  "eta_hours": 50.1,
   "eta_date": "2026-10-06T15",
   "samples": [
-   {
-    "t": "2026-10-04T11:02:56",
-    "rows": 715,
-    "k": 719
-   },
    {
     "t": "2026-10-04T11:11:14",
     "rows": 718,
@@ -51,28 +46,28 @@
     "k": 757
    },
    {
-    "t": "now",
+    "t": "2026-10-04T12:52:00",
     "rows": 758,
     "k": 762
+   },
+   {
+    "t": "now",
+    "rows": 766,
+    "k": 770
    }
   ]
  },
  "FUND-QUALITY-P1-NULLS": {
   "family": "fund_quality_p1",
-  "k_current": 590,
-  "rows_current": 586,
+  "k_current": 598,
+  "rows_current": 594,
   "K": 2000,
-  "pct": 29.55,
-  "rate_per_h": 19.93,
-  "window_hours": 1.76,
-  "eta_hours": 70.7,
-  "eta_date": "2026-10-07T11",
+  "pct": 29.95,
+  "rate_per_h": 20.97,
+  "window_hours": 1.95,
+  "eta_hours": 66.8,
+  "eta_date": "2026-10-07T07",
   "samples": [
-   {
-    "t": "2026-10-04T11:02:56",
-    "rows": 551,
-    "k": 555
-   },
    {
     "t": "2026-10-04T11:11:14",
     "rows": 553,
@@ -109,28 +104,28 @@
     "k": 586
    },
    {
+    "t": "2026-10-04T12:52:00",
+    "rows": 588,
+    "k": 592
+   },
+   {
     "t": "now",
-    "rows": 586,
-    "k": 590
+    "rows": 594,
+    "k": 598
    }
   ]
  },
  "FUND-DIVLOWVOL-P1-NULLS": {
   "family": "fund_divlowvol_p1",
-  "k_current": 438,
-  "rows_current": 435,
+  "k_current": 444,
+  "rows_current": 441,
   "K": 2000,
-  "pct": 21.95,
-  "rate_per_h": 17.61,
-  "window_hours": 1.99,
-  "eta_hours": 88.7,
+  "pct": 22.25,
+  "rate_per_h": 17.67,
+  "window_hours": 2.09,
+  "eta_hours": 88.0,
   "eta_date": "2026-10-08T05",
   "samples": [
-   {
-    "t": "2026-10-04T10:49:02",
-    "rows": 400,
-    "k": 403
-   },
    {
     "t": "2026-10-04T11:02:56",
     "rows": 404,
@@ -167,17 +162,22 @@
     "k": 435
    },
    {
+    "t": "2026-10-04T12:52:00",
+    "rows": 436,
+    "k": 439
+   },
+   {
     "t": "now",
-    "rows": 435,
-    "k": 438
+    "rows": 441,
+    "k": 444
    }
   ]
  },
  "_meta": {
-  "ts": "2026-10-04T12:48:17",
+  "ts": "2026-10-04T13:08:31",
   "machine": "bm-b",
-  "round": "r671",
+  "round": "r672",
   "method": "git-history autofill-tick commits (r288 claim-refresh cadence ~40min) + working-tree now sample; k=max index from last row; ETA linear projection",
-  "purpose": "trio NULLS finalize candidate window watch (r670 pointer)"
+  "purpose": "trio NULLS finalize candidate window watch (r670/r671 pointer continuation)"
  }
 }
