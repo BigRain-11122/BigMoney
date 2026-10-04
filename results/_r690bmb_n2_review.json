@@ -1,0 +1,49 @@
+{
+ "review": "N2-W15 independent review (slice-2 build + slice-3 freeze) by bm-b r690",
+ "review_owner": "bm-b (per MSG-2026-10-04-1845 clause 2, invitation MSG-2026-10-04-1930 bm-a, window within two rounds)",
+ "scope": "MSG-1930 review entry points + MSG-1955 surgical disclosure faces",
+ "verdict": "PASS",
+ "findings": [],
+ "legs": {
+  "selftest_17_17_direct_run": {
+   "cmd": "python scripts\\perpetual_faces_n2.py selftest",
+   "result": "ALL PASS (L1-L17; L8 live posture disclosed honestly: registered=True FROZEN)",
+   "r675_posture_law": "post-freeze replayable selftest achieved"
+  },
+  "contract_face_band_equality": {
+   "prereg_sec5": "gen=541_500 scrnull=542_000 unc=542_500 width=499",
+   "runner_constants": "BAND_GEN=541_500 BAND_SCRNULL=542_000 BAND_UNC=542_500 BAND_WIDTH=499 (perpetual_faces_n2.py L122-125)",
+   "registry_live": "science_gates.py SEED_REGISTRY keys perpetual_n2_w15_gen/scrnull/unc = 541_500/542_000/542_500 (L1890/L1908/L1913)",
+   "verdict": "three-face byte-identical"
+  },
+  "L4_surgical_live_derive": {
+   "claim": "N1 in-use band list = perpetual_faces N1_BANDS live export (import-face, no hand-copy snapshot)",
+   "source_evidence": "perpetual_faces_n2.py L1525/L1527 iterate _n1mod.N1_BANDS.values()",
+   "verdict": "verified in source"
+  },
+  "L8_surgical_explicit_pop": {
+   "claim": "unregister sim = explicit SEED_REGISTRY.pop(k, None) (r675 posture law)",
+   "source_evidence": "perpetual_faces_n2.py L1571-1583",
+   "verdict": "verified in source"
+  },
+  "band_gate_receipt": {
+   "file": "results/_r492bmc_n2_band_gate.txt",
+   "facts": "N1_BANDS rows=116; OLD trio 4 refusals (W8 A 30100..32099 x3 + W9 A 32100..34099 cross-hit); reserved reg_n=179 halo=2000 n_intervals=421; derived X=541500; NEW trio 541_500..542_999 all CLEAN; verdict ADMIT",
+   "r250_one_step_law": "original bands never assigned / zero cells burned (first registration attempt refused pre-commit by N1 selftest red leg, zero pollution) - forced skip legal per W12/W13/W109 precedent",
+   "verdict": "compliant"
+  },
+  "generate_double_gate": {
+   "one_shot": "CANDIDATES_FILE exists -> rc=2 rerun FORBIDDEN (L719-722)",
+   "ram_gate": "tl2._ram_gate_gb(wait_min=40) 4GB floor three-sample r354 law, honest refuse + pool retries",
+   "verdict": "verified in source"
+  },
+  "multicore_gate_face": {
+   "law": "O-20261002-2355 law-1 (workers_plan is CODE)",
+   "source_evidence": "perpetual_faces_n2.py L1177 tl1.run_cells_parallel (library-indirect face, r300 census law)",
+   "verdict": "runner is multiproc-eligible for pool"
+  }
+ },
+ "conclusion": "slice-2 deliverable (bm-a r692) and slice-3 freeze (bm-c r492) both match their disclosures (r682 claim-vs-actual law honored per-face); zero fixes required; review closed with this receipt.",
+ "supply_claim": "bm-b claims N2 supply materialization seat (MSG-2026-10-04-1940-bmb-ALL, F-04 first-declaration, commit-time order); pool entry PERPETUAL-N2-W15-GENERATE submitted same window",
+ "ts": "2026-10-04T19:41:00+08:00"
+}

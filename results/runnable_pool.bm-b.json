@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04 17:55:45",
+ "updated_at": "2026-10-04 19:41:44",
  "_stamp_note": "r485 bm-c W3 judge enrollment: +4 entries MASS-TRIAL-W3-JUDGE-SHARD-0..3 (N_judge 777 = 785 survivors - 8 collapsed via 6 clusters |corr|>=0.999; cells/shard 195/194/194/194 i%4 routing; seed 20285600; prereg sec.9.1 frozen 2b41a3958; prep artifact adopted 150f36fb4)",
  "entries": [
   {
@@ -14748,6 +14748,38 @@
     "Money02/data/bars",
     "Money02/data/index/sse.parquet",
     "data/fundamental/b_layer_mask.csv"
+   ]
+  },
+  {
+   "id": "PERPETUAL-N2-W15-GENERATE",
+   "ticket_ref": "T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); seat = MSG-2026-10-04-1940-bmb-ALL F-04 first-declaration per MSG-2026-10-04-1955 bm-c downstream open face; review PASS receipt results/_r690bmb_n2_review.json",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md (FROZEN 2026-10-04 r492 bm-c slice-3 freeze commit; bands 541_500/542_000/542_500 width 499 forced-skip disclosed; runner slice-2 bm-a r692 da8171889; FREEZE-GATE registered=True live)",
+   "consumer_plan": "N2-W15 supply chain: generate -> n2_w15_candidates.json (one-shot product) -> screen-prep -> 12-shard screen burn (EW48 passive beat6m cheap screen, tl2._finalize_math null p95 survival line) -> screen-finalize (ledger append PERPETUAL-N2-W15-SCREEN) -> survivors -> judge batch (separately-frozen mass_trial precedent face) -> trial-labor topic bank / registered-member supplement line -> prereg sec.7/sec.8 backfill",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04 19:41:44",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "n2-w15-generate-0of1",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard active)",
+     "note": "subspace draw: k_active~U{1..14} + uniform subset + base-4-axis full domain + active-gate non-none domain pinning; grammar sha16 a231bf10940e7878 import-face; W15 new-syntax cells legal non-exclusion face (selftest L9); evidence_cutoff=2026-09-22 same-window law",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "generate leg = single-process draw census (raw 5,000 Sobol draws A500/B4500 + scrnull face + T-84s3 fp dedup + tl14 28-source exclusion real-read, r494 smoke 2.6s/6 -> est 30-60min); runner-internal RAM gate 4GB floor (r354 three-sample, honest refuse + pool retry); one-shot refuse-if-exists guard on candidates file"
+   },
+   "data_deps": [
+    "data/daily"
    ]
   }
  ],
