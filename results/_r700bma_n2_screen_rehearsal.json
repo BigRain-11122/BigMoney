@@ -3,7 +3,7 @@
  "stage": "screen-finalize-rehearsal",
  "machine": "bm-a",
  "round": "r700",
- "ts": "2026-10-04T22:55:19+08:00",
+ "ts": "2026-10-05T00:00:36+08:00",
  "disclosure": "finalize-window dup probe re-runs post-merge (r685 law); this rehearsal de-risks only",
  "import_faces": {
   "n_checked": 15,
@@ -51,13 +51,13 @@
    "done_ids": 97
   },
   "2": {
-   "exists": false,
-   "rows": 0,
-   "nonempty_ok": 0,
+   "exists": true,
+   "rows": 96,
+   "nonempty_ok": 96,
    "poison_empty": 0,
    "outside_stride": [],
    "dup_in_shard": [],
-   "done_ids": 0
+   "done_ids": 96
   },
   "3": {
    "exists": true,
@@ -142,13 +142,15 @@
   }
  },
  "coverage": {
-  "landed_union": 1058,
+  "landed_union": 1154,
   "expected_total": 1154,
-  "missing_total": 96,
-  "missing_are_exactly_shard2_block": true,
+  "missing_total": 0,
+  "missing_are_exactly_shard2_block": false,
   "missing_outside_shard2": 0,
   "shard2_block_size": 96
  },
- "verdict": "GREEN_WAIT_SHARD2",
- "problems": []
+ "verdict": "RED",
+ "problems": [
+  "missing set != exactly SHARD-2 block"
+ ]
 }
