@@ -1,0 +1,30 @@
+{
+ "round": "r509 bm-c",
+ "ts": "2026-10-05T03:5x+08:00",
+ "predecessor_crash_recovery": {
+  "prior_session": "r508 bm-c (crashed mid-S6 leg~7/38 at ~02:55; S6 log tail results/_r508bmc_s6_log.txt)",
+  "prior_session_pushed_work_on_origin": "64a1f0c67 'round 508: W3-JUDGE verdict adopted ADOPT_PASS 15/15' (verify receipt + E34 custody dual-anchor card + chain census _r508bmc_chain_probe.json 148 blocks zero double-count + prereg sec.9.2 backfill + treasure/methodology questions answered)",
+  "this_round_zero_redo": "verified predecessor products intact on origin-main before acting; adoption chain NOT re-executed (double-append prevention); this round = completion round r509"
+ },
+ "s0_surgery": {
+  "rebase_conflict_rounds": 2,
+  "uu_faces_resolved": ["compute_audit.json", "crash_fuse.json", "lhb_update_status.json", "pool_core_samples.jsonl", "regime_state.json", "scorecard_v1.json", "strategy_scorecard.json", "update_status.json"],
+  "resolver": "Tools/_r508bmc_merge_resolve.py (diff3 four-piece gate, ts-newer-wins x5 mine 02:48+ vs origin 02:4x, crash_fuse origin-newer, compute_audit history-union 202 rows zero-loss, pool_core_samples line-union zero-loss)",
+  "rebase_continue_editor_refusal_pit": "git commit needs editor in no-TTY shell; refuse msg mimics 'must edit all merge conflicts'; correct path = commit --no-edit -> rebase --quit -> symbolic-ref self-check -> branch -f main HEAD -> checkout main (r624 heal); multi-pick consolidated via reset --soft merge-base -> single rebase round",
+  "main_final": "b8aec7462 consolidated churn-absorb on origin tip 3f24fb973"
+ },
+ "w3_verdict_product": {
+  "judged": 777, "pass": 3, "fail": 774, "g2_eligible": 0,
+  "pass_cells": ["W3-23027 sentiment.turnover_surge", "W3-27009 seasonal.trend_by_season", "W3-46133 ta.strong_close"],
+  "ledger_total": 648730, "e_fp_nominal": 38.85,
+  "three_wave_cumulative": {"judged": 1748, "technical_pass": 4, "registered": 0},
+  "ceo_report": "docs/trial_labor/CEO-REPORT-MASSW3-20261005.md (48h clock due 2026-10-07 02:16, discharged ~46h early)"
+ },
+ "pool_flip_recheck": {"w3_judge_pool": "4of4 done, 0 residual entries in runnable_pool (verify receipt pool_4of4_done=true)"},
+ "n2_w15_judge_progress": {"shards_burned": 5, "of": 12, "burned_ids": [0,1,2,3,4], "dual_claim_dedup_faces": ["1of12 bm-a+bm-c", "2of12 bm-a+bm-c"]},
+ "s3_green": {"watermark_red": false, "boards_open": 0, "post_review_today": {"YES": 213, "red": 0}, "satengine": "alive heartbeat_age 10s", "pool_ready": 0},
+ "s6": "37 legs rc0 (full idempotent re-run after predecessor crash at leg 7)",
+ "quartet": "4/4 (loop pin=5 no-op, watchdog re-registered 03:16, pre-commit+pre-push claws in place)",
+ "attrition": "CLEAN (4 ledgers, healed history rows noted)",
+ "orders_d19": {"orders": "154/154 acked dual-scan", "d19_decisions": "MATCH 755428F8"}
+}

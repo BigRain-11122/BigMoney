@@ -1,0 +1,15 @@
+S6 chain r508 bm-c start 02:48:38
+01_dualrun rc=0 | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 403 entries, drift-free streak 8, cutoff 2026-10-05T01:13:21+08:00)
+02_compute_audit rc=0 | {"ts": "2026-10-05 02:48:47", "audit_version": "v2.4.2", "cpu_total_pct": 30.0, "py_cpu_pct": 23.9, "cores": 32, "py_procs": 15, "result_stale_min": 0.8, "fleet_open_tasks": 0, "pool_ready_count": 14,
+03_watermark rc=0 | {"ts": "2026-10-05 02:48:53", "epoch": 1791139727.0, "machine": "bm-c", "cpu_total_pct": 2.0, "cores": 32, "py_cpu_pct": 12.8, "py_procs": 15, "top_proc_cores": 1.09, "local_batch_running": true, "ref
+04_update_daily rc=0 | === Bigmoney daily update 2026-10-05 02:48:54 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30
+status -> K:\Fluxgroup
+05_regime rc=0 | regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-09-30 state=ORANGE (橙·高危) raw=ORANGE days_in_state=2 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+ 
+06_scorecard rc=0 | lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 71min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+scorecard: 6 traders -> K:\Fluxgroup\FluxGrou
+07_clock_call rc=0 | call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
