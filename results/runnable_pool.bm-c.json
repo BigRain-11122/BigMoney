@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04T21:18:07+08:00",
- "_stamp_note": "r497 bm-c N2-W15 SCREEN enrollment: +12 entries PERPETUAL-N2-W15-SHARD-0..11 (supply step 2; prereg FROZEN 1ff613cbe; bounds from actual 1,154 rows r670 tiling 97/97/96x10; runner three-call claim; seat MSG-2115 window honored)",
+ "updated_at": "2026-10-05T01:13:21+08:00",
+ "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 01:06:12"
+     "owner_since": "2026-10-05 02:32:14"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 01:06:12"
+     "owner_since": "2026-10-05 02:32:14"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 01:06:12"
+     "owner_since": "2026-10-05 02:32:14"
     }
    ],
    "workers_plan": {
@@ -15376,18 +15376,527 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
+   "done_by": "bm-a",
+   "done_at": "2026-10-05 01:13:21",
+   "result_ref": "results/n2_w15/n2_w15_judge_state.json (judge-prep PASS 2026-10-05 01:10:23 by bm-a r705 detached spawn 188s: survivors 281 -> N_judge 281, collapse eliminated 0; census L/D == frozen; dual-leg starts/passive precomputed; seed_judge 545_500; one-shot state-file gate armed)",
    "entered_at": "2026-10-05 01:0x",
    "data_gates": "in-runner: sec.9.1 FREEZE-GATE (judge berth registered) + screen product trials_ledger gate + survivors-present gate + dual-leg census gates (FROZEN_CENSUS L/D) + one-shot state-file gate + RAM gate 4GB r354/r691 (honest rc2 refuse while the trio NULLS occupy RAM until ~10-06T17; re-claim when the window opens)",
    "shards": [
     {
      "key": "n2w15judge-prep-0of1",
-     "status": "ready",
+     "status": "done",
+     "done_at": "2026-10-05 01:13:21",
+     "harvested_by": "bm-a",
      "owner": "bm-a",
      "owner_since": "2026-10-05 01:06:53",
      "checkpoint": "results/n2_w15/n2_w15_judge_state.json"
     }
    ]
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-0",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~24 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-0of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_0of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==0 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-0/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-b",
+     "owner_since": "2026-10-05 02:38:13"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-1",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "1",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~24 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-1of12",
+     "status": "done",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_1of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==1 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-1/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-b",
+     "owner_since": "2026-10-05 02:43:03",
+     "claimed_since": "2026-10-05 02:05:31",
+     "done_at": "2026-10-05 02:43:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n2w15judge-1of12.bm-c.json"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-05 02:40:03"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "2",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~24 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-2of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_2of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==2 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-2/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-c",
+     "owner_since": "2026-10-05 02:43:18"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-3",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "3",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~24 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-3of12",
+     "status": "done",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_3of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==3 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-3/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:50:03",
+     "claimed_since": "2026-10-05 02:06:07",
+     "done_at": "2026-10-05 02:50:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n2w15judge-3of12.bm-c.json"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-05 02:50:03"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-4",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "4",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~24 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-4of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_4of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==4 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-4/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-c",
+     "owner_since": "2026-10-05 02:50:17"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-5",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "5",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-5of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_5of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==5 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-5/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-6",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "6",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-6of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_6of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==6 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-6/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-7",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "7",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-7of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_7of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==7 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-7/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-8",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "8",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-8of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_8of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==8 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-8/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-9",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "9",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-9of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_9of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==9 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-9/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-10",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "10",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-10of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_10of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==10 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-10/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-SHARD-11",
+   "ticket_ref": "T-2026-09-30-133 s2 perpetual-supply N2 line (O-2026-09-30-2340 CEO standing-supply order, prereg sec.0 authorization face); judge stage per sec.9.1 FROZEN r702 bm-b freeze commit (berth 545_500 ADMIT + banned gate exit 0 + runner slice-4 judge legs same commit); downstream division = MSG-2026-10-05-0100-bmb-ALL (any healthy machine); N_judge fixed by judge-prep r705 bm-a",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 FROZEN 2026-10-05 r702 bm-b (judge stage: judged cells = judge-prep kept 281 of screen survivors 281, collapse |corr|>=0.999 eliminated 0 (r705 bm-a live product read); face = FROZEN_CENSUS dual-leg full grid L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1 V1 13.041bp, x2 CostPatch(2.0)} x regime 3-way bear/bull/chop+na + dual nulls B=2000 block=20 + P=2000 sign-flip; exit axis (3) template_default per design; D6 REG6 ew6 canon >=0.7 reject disclosed at finalize; G1'v2/G2/DSR shared lib no hand-copy; evidence_cutoff 2026-09-22; seed band 545_500..545_999 rng default_rng([545_500, cell_idx]) dual-nulls face only; r670 tiling i%12==shard sizes 24x5/23x7 union-exactly-once machine-checked; judge-finalize = ledger PERPETUAL-N2-W15-JUDGE, separate owner after all 12 done)",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "11",
+    "--shards",
+    "12"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05T01:13:21+08:00",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "per-cell judged burn = dual-leg {L,D} x windows {126,252,504} x cost {x1,x2} full-grid replay + dual nulls B=2000/P=2000 (seed 545_500 cell-anchored) -- heaviest per-cell weight in N2 lineage (~4-6x screen cell per W13 judge precedent); ~23 cells this shard; ProcessPool state-shared initializer; in-runner RAM gate three-sample >=4GB r354 with r379/r691 bounded in-place wait cap 2880min (trio-locked machines wait honestly); CEO 10% CPU reserve law = BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE SEED_REGISTRY judge berth == 545500 (sec.9.1); (b) RUN-GATE judge_state (N_judge 281 fixed r705) + candidates file present; (c) RAM gate r354 + bounded wait r379/r691; (d) census drift fail-closed both legs (data moved under batch = refuse); (e) post-burn missing-cells = honest refuse NO pool claim (checkpoint retained for resume). deps all in-repo: core48 panel + b_layer_mask + judge_state + candidates",
+   "data_deps": [
+    "data/daily/",
+    "data/fundamental/b_layer_mask.csv",
+    "results/n2_w15/n2_w15_candidates.json",
+    "results/n2_w15/n2_w15_judge_state.json"
+   ],
+   "shards": [
+    {
+     "key": "n2w15judge-11of12",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/checkpoint/n2_w15_judge_shard_11of12.jsonl (append-per-cell kill-safe resume, full judged payload done-set law = _judge_scan_done cell_id+legs+legL_daily_returns non-empty payload)",
+     "note": "bounds: kept cells i%12==11 over 281 (24x5/23x7 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-JUDGE-SHARD-11/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 02:06:07"
+    }
+   ],
+   "entered_by": "bm-a r705",
+   "worker_class": "self-contained"
   }
  ],
  "lane_machine": "bm-c"

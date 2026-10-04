@@ -39,8 +39,20 @@ EXPECT = {
     "batch": "MASS_TRIAL_W3_JUDGE",
     "n_judge_cells": 777,
     "seed_judge": 20285600,
-    "prev_total": 646799,   # true head (quarantine fix in tree at spawn)
-    "new_total": 647576,
+    # r508 update: W3 finalize burned 17:44->02:16 (8.5h); during that
+    # window PERPETUAL-N2-W15-SCREEN (bm-a lane) legally landed +1154
+    # (646799 -> 647953, 00:27:40). W3 correctly chained onto 647953
+    # (prev_total_at_landing), NOT the spawn-time head 646799. r508 chain
+    # census (results/_r508bmc_chain_probe.json) verified: link
+    # 647953->648730 ok, single chain block, live head == 648730, zero
+    # double-count. Stale spawn-time expect produced a false ADOPT_FAIL.
+    # r508: separate spawn-time head anchor from landing-time chain head.
+    # n_trials_head_at_finalize in the product is the head snapshot at
+    # finalize START (646799); the landing chain prev_total (647953) is
+    # that plus same-window foreign inserts (N2-W15-SCREEN +1154).
+    "prev_total": 647953,   # true head at landing (post N2-W15 insert)
+    "spawn_head": 646799,   # head snapshot at finalize start (burn anchor)
+    "new_total": 648730,
     "e_fp": 38.85,
 }
 
@@ -189,7 +201,7 @@ def main():
             "batch_trials": v["batch_trials"] == EXPECT["n_judge_cells"],
             "total_arith": v["total"] == EXPECT["new_total"],
             "head_at_finalize": v["n_trials_head_at_finalize"]
-            == EXPECT["prev_total"],
+            == EXPECT["spawn_head"],
             "seed": v["seed_judge"] == EXPECT["seed_judge"],
             "evidence_cutoff_present":
                 isinstance(v["evidence_cutoff"], str),
