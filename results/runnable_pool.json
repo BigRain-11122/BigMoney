@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-03 08:29:00",
+ "updated_at": "2026-10-04T13:26:30+08:00",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -14262,6 +14262,39 @@
      "owner": "bm-b",
      "owner_since": "2026-10-04 11:36:28",
      "checkpoint": "results/theme_judge_p1/nulls_frags/ per-chunk fragments (digest-bound done-key skip) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row)"
+    }
+   ]
+  },
+  {
+   "id": "THEME-JUDGE-P2",
+   "ticket_ref": "T-2026-10-04-169-P1 s3 (claimed bm-a r676; s1 prereg FROZEN r676 + s2 runner r677 selftest 23/23 incl mirror-fidelity vs P1 worker; E24-ii deep-break redirect face, order-chain reserved bl=0.75)",
+   "prereg_ref": "research/THEME_JUDGE_P2.md FROZEN v1.0 r676 (banned_direction_gate ADMIT rc0; D6 probe ADMIT max|corr|=0.3682; seed band theme_judge_p2_nulls=20589000 [20589000,20591000) net gap 2000 receipt; closed_family_check zero-hit)",
+   "runner": "scripts/theme_judge_p2.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-04T12:54:24+08:00",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_gates": "in-runner fail-closed sec.2 six gates (census sha16 51b1b8226afc74b1 identity + dedup 1822/97 + drop gates 0 + seed band extent-aware disjoint + COST_X1 0.0013041 single-source + twin 48/48 price identity) + checkpoint digest binding (stale-digest frags ignored; empty-ks frags never count as done r670 guard) + exit-reason census gate at finalize (P2 gate at 0 illegal per sec.0.6); evidence_cutoff 2026-09-22 lockbox; POST-FINALIZE POOL FLIP REQUIRED SAME WINDOW (r668 autofill re-burn loop law)",
+   "data_deps": [
+    "results/theme_ring/theme_events_v03_algorithmic.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "theme-judge-p2-burn-0of1",
+     "status": "done",
+     "done_at": "2026-10-04T13:14:13+08:00",
+     "checkpoint": "results/theme_judge_p2/nulls_frags/ per-chunk fragments (digest-bound done-key skip, non-empty-ks guard) + burn_state.json completion marker; finalize = owner-side separate step after burn done (gates + ledger + attrition row + pool flip r668)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 13:07:47"
     }
    ]
   }

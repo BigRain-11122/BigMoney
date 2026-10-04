@@ -1,0 +1,52 @@
+sens_type=list
+  SENS item: {"break_line": 0.7, "kind": "sens", "pooled_sys_net_x1": 0.447435, "rebirth": 1.25, "stratum": "TJ2-FULL"}
+  SENS item: {"break_line": 0.8, "kind": "sens", "pooled_sys_net_x1": 0.108618, "rebirth": 1.25, "stratum": "TJ2-FULL"}
+  SENS item: {"break_line": 0.75, "kind": "sens", "pooled_sys_net_x1": 0.057442, "rebirth": 1.2, "stratum": "TJ2-FULL"}
+  SENS item: {"break_line": 0.75, "kind": "sens", "pooled_sys_net_x1": 0.419395, "rebirth": 1.3, "stratum": "TJ2-FULL"}
+  SENS item: {"break_line": 0.7, "kind": "sens", "pooled_sys_net_x1": 1.075473, "rebirth": 1.25, "stratum": "TJ2-SOLO"}
+  SENS item: {"break_line": 0.8, "kind": "sens", "pooled_sys_net_x1": 0.833841, "rebirth": 1.25, "stratum": "TJ2-SOLO"}
+  SENS item: {"break_line": 0.75, "kind": "sens", "pooled_sys_net_x1": 0.520652, "rebirth": 1.2, "stratum": "TJ2-SOLO"}
+  SENS item: {"break_line": 0.75, "kind": "sens", "pooled_sys_net_x1": 1.304369, "rebirth": 1.3, "stratum": "TJ2-SOLO"}
+STRATUM TJ2-FULL: n=1171 best=194.1% worst=-62.1% p25=-7.9% med=0.0% p75=3.2% edge_mean=-0.78pp pos=31.8%
+STRATUM TJ2-SOLO: n=651 best=298.1% worst=-96.0% p25=-15.9% med=-1.9% p75=4.8% edge_mean=-2.85pp pos=34.4%
+YR TJ2-FULL 2014: n=11 mean=-22.54pp
+YR TJ2-FULL 2019: n=43 mean=0.18pp
+YR TJ2-FULL 2020: n=104 mean=-1.79pp
+YR TJ2-FULL 2024: n=677 mean=-2.75pp
+YR TJ2-FULL 2025: n=247 mean=3.90pp
+YR TJ2-FULL 2026: n=89 mean=4.68pp
+YR TJ2-SOLO 2006: n=1 mean=298.08pp
+YR TJ2-SOLO 2007: n=9 mean=50.68pp
+YR TJ2-SOLO 2008: n=2 mean=8.43pp
+YR TJ2-SOLO 2009: n=3 mean=-5.01pp
+YR TJ2-SOLO 2010: n=3 mean=3.59pp
+YR TJ2-SOLO 2012: n=5 mean=-26.94pp
+YR TJ2-SOLO 2013: n=5 mean=-38.73pp
+YR TJ2-SOLO 2014: n=23 mean=-24.42pp
+YR TJ2-SOLO 2015: n=53 mean=-11.59pp
+YR TJ2-SOLO 2016: n=1 mean=-38.33pp
+YR TJ2-SOLO 2017: n=4 mean=-12.91pp
+YR TJ2-SOLO 2018: n=7 mean=-17.17pp
+YR TJ2-SOLO 2019: n=28 mean=-5.57pp
+YR TJ2-SOLO 2020: n=38 mean=6.94pp
+YR TJ2-SOLO 2021: n=42 mean=8.65pp
+YR TJ2-SOLO 2022: n=60 mean=-12.36pp
+YR TJ2-SOLO 2023: n=31 mean=-13.35pp
+YR TJ2-SOLO 2024: n=82 mean=-7.90pp
+YR TJ2-SOLO 2025: n=117 mean=-0.78pp
+YR TJ2-SOLO 2026: n=137 mean=3.78pp
+NEG_YEARS TJ2-FULL (3): 2024,2020,2014
+POS_YEARS TJ2-FULL (3): 2025,2026,2019
+NEG_YEARS TJ2-SOLO (13): 2025,2024,2022,2023,2009,2014,2015,2019,2018,2013,2012,2017,2016
+POS_YEARS TJ2-SOLO (7): 2026,2021,2006,2007,2008,2010,2020
+=== PREREG SEC5 ===
+## §5 跑前预测【必填·写死于跑前·跑后对账】
+
+- (a) **SOLO-x1 方向（主面·本批真问题）**：pooled Sharpe 预测带 **0.5-1.5**（sens 读数 1.0203=带内锚——**该锚是同窗 in-sample 读数非独立证据**·判线将随新 null 族上移）；过线概率**低中 0.15-0.35**——先验张力=正面（sens 读数三常数一致高于 headline）vs 负面（μ_null 同出场线下移效应=深线 null 同样多吃 drift 段·判线水涨船高；sens 读数本身=16 变体披露面中的被选者=选择偏差朝上）；最可能结局=**Sharpe 显著高于 P1 headline 但仍不过重算后判线**（若 μ_null 上移幅度大于系统面增益即如此）。
+- (b) **FULL-x1 方向**：集群面 1,171 rides 集中 34 日（2024-09-30 单日 413）——预测低于 SOLO 面（同日等权≈单日 beta 杠仓·whipsaw 大）且同窗被动同高（beta 双升）——过线概率低；两面差值=E28 分层价值二读数。
+- (c) **null 带**：μ_null 预测 **0.35-0.65**（深线出场持有更久=随机窗同样多吃 drift→**较 P1 的 0.3734 上移**·上移幅度=本批判读的关键新读数）；σ_null 预测 **0.12-0.30**（更少出场=更平滑曲线→较 P1 的 0.1827 收窄带）；若 μ_null≥0.9 或 σ_null≥1.0=null 构造异常先查抽样面。
+- (d) **极端日先验（三件套 (c)）**：同 P1 段（2015 救市/2016 熔断/2024-09-30 簇/2020-02-03）；**深线特有加注**：bl0.75 比 bl0.80 多扛 −20%~-25% 区间=崩盘段骑乘暴露**更高**（2015 连续一字跌停段按收盘成交的乐观偏差·x2 面部分缓解非根治——P1 §5(d) 同披露加深度注记）。
+- (e) **出场普查**：censored 占比预测 **33-45%**（P1 实测 31.34% 基线+深线更少出场=**上移**）；break_line sells=100% of sells·rebirth buys=100% of non-initial buys·**非法 reason 0 容忍**（§0.6 门）。
+- (f) **换手**：每 ride 成交次数预测 **1.5-4**（P1 实测 ~4/ride·深线更少出场再入=**下移**）；x2 成本拖累 pooled <2pp。
+- (g) **邻域敏感腿**：4 变体×2 分层读数预测——bl0.80 邻腿≈P1 headline 族读数带（0.1-0.4·回接 P1 冻结面）；bl0.70 邻腿=未测新面（预测接近或低于 bl0.75·更深扛崩盘尾部）；rb 邻腿（1.20/1.30）预测沿 P1 sens 方向（rb1.30>rb1.20）；**判线不因变体读数重设**（E24-②）；若主面判负但邻域某变体过线=照实披露+另立预注册（递归条款·禁本批内翻案）。
+
