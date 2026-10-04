@@ -1480,6 +1480,18 @@ def _claim_shard(sh, myid, entry_id):
                  f"{oc[1]} fresh ({oc[2]:.0f}min, MSG-0535 pre-read) "
                  f"-> stale disk model refused")
             return False
+        # r694-i one-tick claim gate (bm-a 20:09:38 live case, MSG-2025
+        # request leg-3): origin ref fetched fine but shows NO such
+        # shard/entry -> the local merged view resurrected it via lane
+        # union (post-cleanup orphan回流) or the enrollment push has
+        # not landed yet. Both defer: an unpushed enrollment waits one
+        # tick (fleet sees it on origin first, r694-i), an origin-
+        # retired orphan NEVER re-claims (kills the resurrect-claim
+        # churn loop). Probe unavailable (None) stays fail-soft.
+        if oc is not None and oc[0] == "missing":
+            _log(f"claim defer: {sh.get('key')} absent on origin pool "
+                 f"(r694-i one-tick claim gate) -> yield this tick")
+            return False
         hit["owner"] = myid
         hit["owner_since"] = _now()
         if _POOL_LANE_PRIMARY:
@@ -2764,6 +2776,32 @@ def selftest():
         ok("S15k2 probe fault -> fail-open, legacy claim proceeds",
            r15k2 is True and p15k2.get("owner") == "bm-b"
            and git_seq == ["add", "commit", "push"])
+        # S15r r694-i one-tick claim gate (bm-a 20:09:38 live case):
+        # origin fetched fine but has NO such shard -> the local merged
+        # view resurrected a retired orphan (lane-union回流) or carries
+        # an unpushed enrollment. Claim defers with ZERO git writes;
+        # origin-present-and-ready control claims normally (no
+        # over-block). _ORIGIN_POOL_BLOB hook = E22 hermetic family.
+        global _ORIGIN_POOL_BLOB
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        _ORIGIN_POOL_BLOB = json.dumps({"entries": [
+            dict(entry, shards=[{"key": "other", "status": "ready"}])]})
+        git_seq.clear()
+        r15r = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        p15r = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15r origin-absent shard -> one-tick defer, zero git writes",
+           r15r is False and p15r.get("owner") is None
+           and git_seq == [])
+        _ORIGIN_POOL_BLOB = json.dumps({"entries": [
+            dict(entry, shards=[{"key": "s0", "status": "ready",
+                                 "owner": None}])]})
+        git_seq.clear()
+        r15r2 = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        p15r2 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        _ORIGIN_POOL_BLOB = None
+        ok("S15r2 origin-present ready -> claim proceeds (no over-block)",
+           r15r2 is True and p15r2.get("owner") == "bm-b"
+           and git_seq == ["add", "commit", "push"])
         # S15g3 OUR pull started a rebase and it conflicted -> abort
         # OURS (marker cleared), yield keeps claim
         _pool_with({"key": "s0", "status": "ready", "owner": None})
@@ -3844,7 +3882,9 @@ def selftest():
         # case: stale post-reland DISK model must not claim what the
         # origin ref shows done / freshly-owned; unavailable -> prior
         # gates govern, fail-soft).
-        global _ORIGIN_POOL_BLOB
+        # S22 origin pre-read family (MSG-0535): hermetic blob hook --
+        # global _ORIGIN_POOL_BLOB is declared once at S15r above
+        # (single declaration must precede all uses in this function).
         _now_s = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump({"entries": [dict(

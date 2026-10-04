@@ -1,0 +1,52 @@
+fetch_rc=0
+=== entry id=PERPETUAL-N2-W15-GENERATE
+{
+ "id": "PERPETUAL-N2-W15-GENERATE",
+ "ticket_ref": "T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); seat = MSG-2026-10-04-1940-bmb-ALL F-04 first-declaration per MSG-2026-10-04-1955 bm-c downstream open face; review PASS receipt results/_r690bmb_n2_review.json",
+ "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md (FROZEN 2026-10-04 r492 bm-c slice-3 freeze commit; bands 541_500/542_000/542_500 width 499 forced-skip disclosed; runner slice-2 bm-a r692 da8171889; FREEZE-GATE registered=True live)",
+ "consumer_plan": "N2-W15 supply chain: generate -> n2_w15_candidates.json (one-shot product) -> screen-prep -> 12-shard screen burn (EW48 passive beat6m cheap screen, tl2._finalize_math null p95 survival line) -> screen-finalize (ledger append PERPETUAL-N2-W15-SCREEN) -> survivors -> judge batch (separately-frozen mass_trial precedent face) -> trial-labor topic bank / registered-member supplement line -> prereg sec.7/sec.8 backfill",
+ "runner": "scripts/perpetual_faces_n2.py",
+ "runner_args": [
+  "generate"
+ ],
+ "lane_owner": null,
+ "priority": 1,
+ "status": "ready",
+ "entered_at": "2026-10-04 19:41:44",
+ "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE: SEED_REGISTRY trio == 541500/542000/542500 else refuse; (b) one-shot: results/n2_w15/n2_w15_candidates.json exists -> refuse (same-grammar rerun ban TRIAL_LABOR_LAW sec.4); (c) free RAM three-sample < 4GB after 40s bounded wait -> honest refuse (r354 law). deps all in-repo: core48 panel data/daily/ + b_layer_mask data/fundamental/ + hermetic grammar tl14.build_grammar_w14 sha-pinned FROZEN_GRAMMAR_SHA16",
+ "shards": [
+  {
+   "key": "n2-w15-generate-0of1",
+   "status": "ready",
+   "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard active)",
+   "note": "subspace draw: k_active~U{1..14} + uniform subset + base-4-axis full domain + active-gate non-none domain pinning; grammar sha16 a231bf10940e7878 import-face; W15 new-syntax cells legal non-exclusion face (selftest L9); evidence_cutoff=2026-09-22 same-window law",
+   "owner": "bm-b",
+   "owner_since": "2026-10-04 20:14:14"
+  },
+  {
+   "key": "generate-0of1",
+   "status": "ready",
+   "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+   "note": "one-shot generate, zero engine cells; done-flip duty = burner-side session next round per r244 landed-marker law (W2 r138 harvest precedent); downstream after harvest = screen-prep in-round + 12-shard SCREEN enrollment (bounds from actual candidates rows, r670 tiling + r481 recipe)",
+   "owner": "bm-a",
+   "owner_since": "2026-10-04 20:09:38"
+  }
+ ],
+ "workers_plan": {
+  "workers": 1,
+  "priority": "BelowNormal",
+  "note": "generate leg = single-process draw census (raw 5,000 Sobol draws A500/B4500 + scrnull face + T-84s3 fp dedup + tl14 28-source exclusion real-read, r494 smoke 2.6s/6 -> est 30-60min); runner-internal RAM gate 4GB floor (r354 three-sample, honest refuse + pool retry); one-shot refuse-if-exists guard on candidates file"
+ },
+ "data_deps": [
+  "data/daily"
+ ],
+ "entered_by": "bm-a r694",
+ "worker_class": "self-contained"
+}
+LOCAL==ORIGIN: True
+--- recent pool-file commits on origin/main ---
+745ab7092 2026-10-04 20:14:19 +0800 Bigmoney-AI autofill tick keepalive fund-value-p1-nulls-0of1 fund-quality-p1-nulls-0of1 fund-divlowvol-p1-nulls-0of1 n2-w15-generate-0of1 owner=bm-b (r288 claim-refresh + r290 self-commit) [via bm-b]
+df05e40eb 2026-10-04 20:09:42 +0800 junsheng.sun autofill tick claim generate-0of1 owner=bm-a (r199 launch-claim + r290 self-commit) [via bm-a]
+c851bae01 2026-10-04 20:02:18 +0800 Bigmoney-AI autofill tick keepalive fund-value-p1-nulls-0of1 fund-quality-p1-nulls-0of1 fund-divlowvol-p1-nulls-0of1 n2-w15-generate-0of1 owner=bm-b (r288 claim-refresh + r290 self-commit) [via bm-b]
+348683c23 2026-10-04 19:58:41 +0800 junsheng.sun round 694 addendum: N2 seat YIELD closeout -- duplicate orphan burn killed (pid 50372 later-claimer, end-only zero-disk, dual-form dead) + pool orphan-shard surgical removal both faces (needle-collision fail-cold save: W2 historical same-key generate-0of1 whole-file hit caught by per-entry count assert; N2-anchored re-do clean) + sync_face settle + yield MSG-2010 + CODELY 2nd pit line (seat fetch-race window + shard-key batch-prefix law)
+N2DIR missing
