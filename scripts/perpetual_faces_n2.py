@@ -1789,6 +1789,7 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
     st = {"legs": {}, "starts": state["starts"],
           "passive": state["passive"],
           "seed_judge": state["seed_judge"],
+          "grammar": tl1.GRAMMAR,
           "oos_start": pd.Timestamp(tl1.OOS_START)}
     for leg in ("L", "D"):
         prices, P, idx, listed, cen = tl1._load_leg(leg)
