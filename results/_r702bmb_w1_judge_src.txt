@@ -1,0 +1,19 @@
+---- line 164 ----
+164: def _judge_faces(wave):
+165:     """Wave-routed judge face descriptor (single source for prep/burn/
+166:     finalize; w1 paths byte-identical to the pre-wave-2 code face)."""
+167:     if wave == 1:
+168:         return {"wave": 1, "batch": JUDGE_BATCH, "seed": JUDGE_SEED,
+169:                 "state": JUDGE_STATE, "out": JUDGE_OUT,
+170:                 "ck_prefix": "judge_shard",
+171:                 "cand_file": "w1_candidates.json",
+---- line 1095 ----
+1095: def cmd_judge_prep(args):
+---- line 1214 ----
+1214: def _judge_init(state):
+---- line 1234 ----
+1234: def _judge_cell(cell):
+---- line 1331 ----
+1331: def cmd_judge(args):
+---- line 1388 ----
+1388: def cmd_judge_finalize(args):
