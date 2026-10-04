@@ -1,0 +1,106 @@
+{
+ "probe": "fund_piece4_cfo_panel_completeness",
+ "machine": "bm-a",
+ "round": 679,
+ "lane": "FUND piece-4 (excess_cashflow_rule) prereq closure -- DIGEST-20261004 sec.5 pointer",
+ "consumers": "piece-4 prereg drafting + GM routing decision (market-cap leg P1 signature)",
+ "determinism": "zero-network, zero-engine, read-only; facts byte-stable on rerun",
+ "faces": {
+  "cashflow": {
+   "n_rows": 292537,
+   "n_codes": 5257,
+   "n_periods": 86,
+   "period_min": "2005-03-31",
+   "period_max": "2026-06-30",
+   "avail_date_nonnull_rate": 0.9989
+  },
+  "balance": {
+   "n_rows": 283955,
+   "n_codes": 5257,
+   "n_periods": 86,
+   "period_min": "2005-03-31",
+   "period_max": "2026-06-30",
+   "avail_date_nonnull_rate": 0.9985
+  },
+  "income": {
+   "n_rows": 461679,
+   "n_codes": 11757,
+   "n_periods": 86,
+   "period_min": "2005-03-31",
+   "period_max": "2026-06-30",
+   "avail_date_nonnull_rate": 0.9999
+  }
+ },
+ "cashflow": {
+  "cfo_nonnull_rows": 292532,
+  "cfo_nonnull_rate": 1.0,
+  "cfo_by_year_bucket": {
+   "2005-2010": {
+    "n_rows": 40724,
+    "cfo_nonnull_rate": 0.9999
+   },
+   "2011-2015": {
+    "n_rows": 56440,
+    "cfo_nonnull_rate": 1.0
+   },
+   "2016-2020": {
+    "n_rows": 82253,
+    "cfo_nonnull_rate": 1.0
+   },
+   "2021-2026": {
+    "n_rows": 113120,
+    "cfo_nonnull_rate": 1.0
+   }
+  },
+  "annual_periods_rows": 81684,
+  "annual_cfo_nonnull_rate": 1.0,
+  "n_annual_periods": 21,
+  "avail_date_null_rows_honest": 330
+ },
+ "cross_face": {
+  "cashflow_join_income_pairs": 291283,
+  "cfo_and_ni_both_nonnull": 291211,
+  "triple_join_pairs": 282362,
+  "cfo_ni_ta_all_nonnull": 282289,
+  "cfo_ni_eq_all_nonnull": 281111,
+  "accrual_wedge_stats": {
+   "wedge_positive_rate_cfo_gt_ni": 0.4629,
+   "n_wedge_rows": 282291
+  }
+ },
+ "income": {
+  "ni_nonnull_rate": 0.9997,
+  "eps_cf_col_present_nonnull_rate": 0.964
+ },
+ "balance": {
+  "ta_nonnull_rate": 1.0,
+  "equity_nonnull_rate": 0.9956
+ },
+ "market_cap_leg": {
+  "eligibility_columns": [
+   "code",
+   "name",
+   "np_annual",
+   "np_interim",
+   "np_interim_prev",
+   "np_ttm",
+   "ttm_ok",
+   "r1_loss",
+   "r1_reason",
+   "r2_st",
+   "r2_source",
+   "eligible"
+  ],
+  "market_cap_like_columns": [],
+  "verdict": "GAP_CONFIRMED",
+  "note": "piece-4 needs CFO/mktcap (or CFO/invested-capital variant); invested-capital variant (CFO/total-assets, CFO/equity) IS buildable from balance face today; mktcap caliber needs P1 signed collector leg (unsigned ticket domain)"
+ },
+ "verdict": {
+  "cfo_leg": "PASS",
+  "invested_capital_variant_buildable": true,
+  "mktcap_variant": "BLOCKED_P1_SIGNATURE",
+  "d6_corr_vs_value_family": "PENDING_TRIO_FINALIZE (ETA 10-05..09 bm-b)",
+  "prereg_draftable_now": false,
+  "next_action": "wait trio finalize -> D6 corr measured -> piece-4 prereg (excess CFO invested-capital caliber first draft candidate); mktcap leg = GM P1 signature decision with this facts file as evidence"
+ }
+}
