@@ -1,0 +1,39 @@
+{
+ "round": 684,
+ "machine": "bm-a",
+ "wave": 117,
+ "pattern": "r633 finalize rehearsal (one-shot protection)",
+ "L1_w116_on_origin": false,
+ "L1_w116_local": false,
+ "L1_verdict": "GATE_ARMED (W116 absent -> chain-pending)",
+ "L3_prior_waves": {
+  "registry_keys_below_117": 114,
+  "present": 113,
+  "missing": [
+   116
+  ]
+ },
+ "L2_ledger_path_guess": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\science_gates_ledger.json",
+ "L2_out_absent": true,
+ "L2_ledger_total_before": "ERR TypeError(\"ledger_total() missing 1 required positional argument: 'entry'\")",
+ "post": {
+  "round": 684,
+  "machine": "bm-a",
+  "wave": 117,
+  "stage": "post",
+  "P1_out_absent": true,
+  "P2_ledger_head": {
+   "total": 641985,
+   "file": "theme_judge_p2_results.json"
+  },
+  "P2_unchanged": true,
+  "P3_shard_count": 12,
+  "P3_shard_names_ok": false,
+  "P4_replay_rc": 1,
+  "P4_replay_stdout": "",
+  "P4_replay_stderr_tail": "op\\FluxGroup\\quant\\bigmoney\\scripts\\perpetual_faces_n1.py\", line 19386, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\scripts\\perpetual_faces_n1.py\", line 19358, in main\n    return finalize()\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\scripts\\perpetual_faces_n1.py\", line 3532, in finalize\n    pre_values += _wave_values(w)\n                  ~~~~~~~~~~~~^^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\scripts\\perpetual_faces_n1.py\", line 3460, in _wave_values\n    d = json.load(open(fp, encoding=\"utf-8\"))\n                  ~~~~^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\perpetual_faces\\\\n1_w116_results.json'\n",
+  "P4_replay_hit": true,
+  "P1_out_absent_after_replay": true
+ },
+ "verdict": "REHEARSAL PASS: guards green (pit-95/shards/A_N/B_N/dups), chain gate FAIL-CLOSED at W116 dep (FileNotFoundError pre-ledger pre-OUT, zero writes x2 runs); finalize READY-TO-FIRE the moment W116 finalize lands (bm-b lane)"
+}

@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04T13:26:30+08:00",
- "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
+ "updated_at": "2026-10-04T15:41:03+08:00",
+ "_stamp_note": "r481 bm-c W3 screen enrollment: +4 entries MASS-TRIAL-W3-SCREEN-SHARD-0..3 (n_rows 4909 = 4814 cand + 75 ctrl + 20 null; bounds [0,1227); [1227,2454); [2454,3681); [3681,4909); prereg sec.6 frozen c2141d6c1; cross-wave dedup 1274 >600 band disclosed per sec.5.6)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 15:22:12"
+     "owner_since": "2026-10-04 15:32:12"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 15:22:12"
+     "owner_since": "2026-10-04 15:32:12"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-04 15:22:12"
+     "owner_since": "2026-10-04 15:32:12"
     }
    ],
    "workers_plan": {
@@ -14297,6 +14297,168 @@
      "owner_since": "2026-10-04 13:07:47"
     }
    ]
+  },
+  {
+   "id": "MASS-TRIAL-W3-SCREEN-SHARD-0",
+   "ticket_ref": "T-2026-10-03-158 W3 stage-1 screen slice (O-2026-09-27-2250 trial-labor standing law + O-20261004-1440 sec.3 supply pre-position CEO order; prereg FROZEN r480 commit c2141d6c1 R99 freeze-before-burn; generate LANDED r480 detached pid 3484 15:18:49->15:38:03: enrolled 4814/75 families, cross-wave dedup base w1(975)+w2(4836)=5811, cross-wave elim 916 param + 358 signal = 1274 (sec.5.6 >600 band -> mechanism review disclosed; rate 21.9% vs w2 28.6% = base-growth-consistent), quota_short 3 families honest ceiling-not-quota)",
+   "prereg_ref": "research/MASS_TRIAL_W3_PREREG.md sec.6 screen pool face FROZEN r480 commit c2141d6c1 (4 shards, pos bounds from actual n=4909 combined rows = 4814 candidates + 75 controls + 20 nulls; screen_pass = beat_rate_6m >= 0.60 AND n_trades >= 30 AND max_drawdown >= -0.35 per sec.4; w2-stack engine face RW-1/RW-3; evidence_cutoff 2026-09-22 D2 lockbox; screen finalize = separate round work after 4/4 shards done)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "screen",
+    "--wave",
+    "3",
+    "--pos-from",
+    "0",
+    "--pos-to",
+    "1227"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T15:41:03+08:00",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (O-1136 CPU 10% reserve law; machine-derived cap)",
+    "priority": "BelowNormal",
+    "note": "rows [0:1227) of 4909 = 1227 rows x ~6.4s/row w2-measured single-core -> ~2.2h serial, ~6-11min wall at worker_cap() workers; per-row jsonl checkpoint w3_screen_checkpoint.jsonl append-only single-file multi-writer (w2 three-executor relay proven safe, finalize dedups by id); done-flip duty = burner-side session adopts per r488/r489 two-layer law"
+   },
+   "data_gates": "in-runner fail-closed exit 2: w3_candidates.json + w3_roster.json required (committed r481 SAME commit as this enrollment = deps green on all machines post-merge), core48 panel in-repo, evidence_cutoff 2026-09-22 D2 lockbox (engine face identical to w2 screen stack RW-1/RW-3)",
+   "data_deps": [
+    "results/mass_trial/w3_candidates.json",
+    "results/mass_trial/w3_roster.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "w3-screen-0of4",
+     "status": "ready",
+     "checkpoint": "results/mass_trial/w3_screen_checkpoint.jsonl (append-per-row; multi-writer safe w2 relay-proven; finalize gate refuses missing ids)",
+     "note": "rows [0:1227) of 4909 combined rows; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level screen finalize = separate round work (--wave 3 finalize after 4/4 + completeness probe)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-04 15:41:38"
+    }
+   ],
+   "entered_by": "bm-c r481",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "MASS-TRIAL-W3-SCREEN-SHARD-1",
+   "ticket_ref": "T-2026-10-03-158 W3 stage-1 screen slice (O-2026-09-27-2250 trial-labor standing law + O-20261004-1440 sec.3 supply pre-position CEO order; prereg FROZEN r480 commit c2141d6c1 R99 freeze-before-burn; generate LANDED r480 detached pid 3484 15:18:49->15:38:03: enrolled 4814/75 families, cross-wave dedup base w1(975)+w2(4836)=5811, cross-wave elim 916 param + 358 signal = 1274 (sec.5.6 >600 band -> mechanism review disclosed; rate 21.9% vs w2 28.6% = base-growth-consistent), quota_short 3 families honest ceiling-not-quota)",
+   "prereg_ref": "research/MASS_TRIAL_W3_PREREG.md sec.6 screen pool face FROZEN r480 commit c2141d6c1 (4 shards, pos bounds from actual n=4909 combined rows = 4814 candidates + 75 controls + 20 nulls; screen_pass = beat_rate_6m >= 0.60 AND n_trades >= 30 AND max_drawdown >= -0.35 per sec.4; w2-stack engine face RW-1/RW-3; evidence_cutoff 2026-09-22 D2 lockbox; screen finalize = separate round work after 4/4 shards done)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "screen",
+    "--wave",
+    "3",
+    "--pos-from",
+    "1227",
+    "--pos-to",
+    "2454"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T15:41:03+08:00",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (O-1136 CPU 10% reserve law; machine-derived cap)",
+    "priority": "BelowNormal",
+    "note": "rows [1227:2454) of 4909 = 1227 rows x ~6.4s/row w2-measured single-core -> ~2.2h serial, ~6-11min wall at worker_cap() workers; per-row jsonl checkpoint w3_screen_checkpoint.jsonl append-only single-file multi-writer (w2 three-executor relay proven safe, finalize dedups by id); done-flip duty = burner-side session adopts per r488/r489 two-layer law"
+   },
+   "data_gates": "in-runner fail-closed exit 2: w3_candidates.json + w3_roster.json required (committed r481 SAME commit as this enrollment = deps green on all machines post-merge), core48 panel in-repo, evidence_cutoff 2026-09-22 D2 lockbox (engine face identical to w2 screen stack RW-1/RW-3)",
+   "data_deps": [
+    "results/mass_trial/w3_candidates.json",
+    "results/mass_trial/w3_roster.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "w3-screen-1of4",
+     "status": "ready",
+     "checkpoint": "results/mass_trial/w3_screen_checkpoint.jsonl (append-per-row; multi-writer safe w2 relay-proven; finalize gate refuses missing ids)",
+     "note": "rows [1227:2454) of 4909 combined rows; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level screen finalize = separate round work (--wave 3 finalize after 4/4 + completeness probe)"
+    }
+   ],
+   "entered_by": "bm-c r481",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "MASS-TRIAL-W3-SCREEN-SHARD-2",
+   "ticket_ref": "T-2026-10-03-158 W3 stage-1 screen slice (O-2026-09-27-2250 trial-labor standing law + O-20261004-1440 sec.3 supply pre-position CEO order; prereg FROZEN r480 commit c2141d6c1 R99 freeze-before-burn; generate LANDED r480 detached pid 3484 15:18:49->15:38:03: enrolled 4814/75 families, cross-wave dedup base w1(975)+w2(4836)=5811, cross-wave elim 916 param + 358 signal = 1274 (sec.5.6 >600 band -> mechanism review disclosed; rate 21.9% vs w2 28.6% = base-growth-consistent), quota_short 3 families honest ceiling-not-quota)",
+   "prereg_ref": "research/MASS_TRIAL_W3_PREREG.md sec.6 screen pool face FROZEN r480 commit c2141d6c1 (4 shards, pos bounds from actual n=4909 combined rows = 4814 candidates + 75 controls + 20 nulls; screen_pass = beat_rate_6m >= 0.60 AND n_trades >= 30 AND max_drawdown >= -0.35 per sec.4; w2-stack engine face RW-1/RW-3; evidence_cutoff 2026-09-22 D2 lockbox; screen finalize = separate round work after 4/4 shards done)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "screen",
+    "--wave",
+    "3",
+    "--pos-from",
+    "2454",
+    "--pos-to",
+    "3681"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T15:41:03+08:00",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (O-1136 CPU 10% reserve law; machine-derived cap)",
+    "priority": "BelowNormal",
+    "note": "rows [2454:3681) of 4909 = 1227 rows x ~6.4s/row w2-measured single-core -> ~2.2h serial, ~6-11min wall at worker_cap() workers; per-row jsonl checkpoint w3_screen_checkpoint.jsonl append-only single-file multi-writer (w2 three-executor relay proven safe, finalize dedups by id); done-flip duty = burner-side session adopts per r488/r489 two-layer law"
+   },
+   "data_gates": "in-runner fail-closed exit 2: w3_candidates.json + w3_roster.json required (committed r481 SAME commit as this enrollment = deps green on all machines post-merge), core48 panel in-repo, evidence_cutoff 2026-09-22 D2 lockbox (engine face identical to w2 screen stack RW-1/RW-3)",
+   "data_deps": [
+    "results/mass_trial/w3_candidates.json",
+    "results/mass_trial/w3_roster.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "w3-screen-2of4",
+     "status": "ready",
+     "checkpoint": "results/mass_trial/w3_screen_checkpoint.jsonl (append-per-row; multi-writer safe w2 relay-proven; finalize gate refuses missing ids)",
+     "note": "rows [2454:3681) of 4909 combined rows; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level screen finalize = separate round work (--wave 3 finalize after 4/4 + completeness probe)"
+    }
+   ],
+   "entered_by": "bm-c r481",
+   "worker_class": "self-contained"
+  },
+  {
+   "id": "MASS-TRIAL-W3-SCREEN-SHARD-3",
+   "ticket_ref": "T-2026-10-03-158 W3 stage-1 screen slice (O-2026-09-27-2250 trial-labor standing law + O-20261004-1440 sec.3 supply pre-position CEO order; prereg FROZEN r480 commit c2141d6c1 R99 freeze-before-burn; generate LANDED r480 detached pid 3484 15:18:49->15:38:03: enrolled 4814/75 families, cross-wave dedup base w1(975)+w2(4836)=5811, cross-wave elim 916 param + 358 signal = 1274 (sec.5.6 >600 band -> mechanism review disclosed; rate 21.9% vs w2 28.6% = base-growth-consistent), quota_short 3 families honest ceiling-not-quota)",
+   "prereg_ref": "research/MASS_TRIAL_W3_PREREG.md sec.6 screen pool face FROZEN r480 commit c2141d6c1 (4 shards, pos bounds from actual n=4909 combined rows = 4814 candidates + 75 controls + 20 nulls; screen_pass = beat_rate_6m >= 0.60 AND n_trades >= 30 AND max_drawdown >= -0.35 per sec.4; w2-stack engine face RW-1/RW-3; evidence_cutoff 2026-09-22 D2 lockbox; screen finalize = separate round work after 4/4 shards done)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "screen",
+    "--wave",
+    "3",
+    "--pos-from",
+    "3681",
+    "--pos-to",
+    "4909"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04T15:41:03+08:00",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (O-1136 CPU 10% reserve law; machine-derived cap)",
+    "priority": "BelowNormal",
+    "note": "rows [3681:4909) of 4909 = 1228 rows x ~6.4s/row w2-measured single-core -> ~2.2h serial, ~6-11min wall at worker_cap() workers; per-row jsonl checkpoint w3_screen_checkpoint.jsonl append-only single-file multi-writer (w2 three-executor relay proven safe, finalize dedups by id); done-flip duty = burner-side session adopts per r488/r489 two-layer law"
+   },
+   "data_gates": "in-runner fail-closed exit 2: w3_candidates.json + w3_roster.json required (committed r481 SAME commit as this enrollment = deps green on all machines post-merge), core48 panel in-repo, evidence_cutoff 2026-09-22 D2 lockbox (engine face identical to w2 screen stack RW-1/RW-3)",
+   "data_deps": [
+    "results/mass_trial/w3_candidates.json",
+    "results/mass_trial/w3_roster.json",
+    "data/daily/"
+   ],
+   "shards": [
+    {
+     "key": "w3-screen-3of4",
+     "status": "ready",
+     "checkpoint": "results/mass_trial/w3_screen_checkpoint.jsonl (append-per-row; multi-writer safe w2 relay-proven; finalize gate refuses missing ids)",
+     "note": "rows [3681:4909) of 4909 combined rows; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; wave-level screen finalize = separate round work (--wave 3 finalize after 4/4 + completeness probe)"
+    }
+   ],
+   "entered_by": "bm-c r481",
+   "worker_class": "self-contained"
   }
  ],
  "lane_machine": "bm-a"
