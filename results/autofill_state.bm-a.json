@@ -1161,10 +1161,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 20:54:02",
+  "ts": "2026-10-04 20:56:02",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "PERPETUAL-N2-W15-GENERATE",
+  "shard": "generate-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 10,
+  "fuse_skipped": [
+   {
+    "entry": "PERPETUAL-N2-W15-GENERATE",
+    "shard": "generate-0of1",
+    "sig": "scripts/perpetual_faces_n2.py|generate",
+    "fuse_refusals": 10
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-04T20:10:47+08:00"
