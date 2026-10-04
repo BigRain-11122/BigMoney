@@ -1,0 +1,78 @@
+def cmd_finalize(_):
+    if not os.path.exists(BURN_STATE):
+        print("burn_state.json absent -- run the burn first (exit 2)")
+        return 2
+    st = json.load(open(BURN_STATE, encoding="utf-8"))
+    redo = os.path.exists(RESULTS_JSON)
+    prev = json.load(open(RESULTS_JSON, encoding="utf-8")) if redo else {}
+    prev_led = prev.get("trials_ledger") or {}
+    prev_neff = (((prev.get("gates") or {}).get(MAIN_FACE) or {})
+                 .get("g1", {}).get("skill_line", {}).get("n_eff"))
+    cells = st["cells"]
+    census = st["census"]
+    # P2 census gate taken at 0 illegal (prereg sec.0.6: L1 path has no
+    # default stack -- any nonempty illegal set is an implementation bug,
+    # NOT a cap value).
+    census_blocked = census["illegal"] > 0
+
+    # family PBO: aligned 4-cell pooled returns, CSCV 8 blocks
+    import pandas as pd
+    from screening import pbo as PBO
+    frames = {f: pd.Series(cells[f]["returns"],
+                           index=[pd.Timestamp(d)
+                                  for d in cells[f]["dates"]])
+              for f in FACES}
+    aligned = pd.concat(frames.values(), axis=1, keys=FACES).dropna()
+    pbo_out = PBO.cscv_pbo(aligned, n_blocks=8)
+
+    gates = {}
+    for face in FACES:
+        vals = np.asarray(st["nulls"][face], dtype=float)
+        null_pool = {"values": [float(x) for x in vals],
+                     "coverage": {"n_values": len(vals),
+                                  "mu": float(np.mean(vals)),
+                                  "sigma": float(np.std(vals, ddof=1)),
+                                  "schemas_parsed": [f"{BATCH}:{face}"],
+                                  "known_unparsed": []},
+                     "source": f"{BATCH} same-mask random-ignition null family"}
+        g1 = sg.g1_prime_v2(
+            sharpe_full=cells[face]["sharpe_full"],
+            returns=cells[face]["returns"], batch_cells=4, pool="core48",
+            n_trades=cells[face]["n_trades"],
+            n_entries=cells[face]["n_entries"],
+            null_pool=null_pool,
+            passive_override=cells[face]["passive_sharpe"],
+            n_eff_override=(int(prev_neff) if redo and prev_neff else None))
+        n_eff = g1["skill_line"]["n_eff"]
+        dsr = sg.deflated_sharpe_ratio(
+            cells[face]["returns"], n_trials=n_eff,
+            var_null_sr=float(np.var(vals, ddof=1)))
+        g2 = sg.g2_registration_v2(g1["pass_v2"], dsr,
+                                   float(pbo_out["pbo"]))
+        gates[face] = {"g1": g1, "g2": g2, "dsr": dsr,
+                       "null_mu": round(float(np.mean(vals)), 6),
+                       "null_sigma": round(float(np.std(vals, ddof=1)), 6)}
+
+    t_val = float(sg.t_from_sharpe(cells[MAIN_FACE]["sharpe_full"],
+                                   len(cells[MAIN_FACE]["returns"])))
+    m1 = sg.m1_t_value_gate(t_val)
+
+    main_g1 = gates[MAIN_FACE]["g1"]["pass_v2"]
+    main_g2 = gates[MAIN_FACE]["g2"]["eligible_v2"]
+    if census_blocked:
+        verdict = ("consumption-blocked (exit-reason census illegal>0 -- "
+                   "P2 gate at 0 per prereg sec.0.6, not a cap value)")
+    elif main_g1 and main_g2:
+        verdict = ("judged_positive: deep-break (bl=0.75) redirect family "
+                   "passes the v2 gate on the SOLO claim face -- promotion "
+                   "candidate stands (registration is a separate frozen "
+                   "step; this batch judges only) | TJ2-SOLO-x2 cost-stress "
+                   f"g1 pass={gates['TJ2-SOLO-x2']['g1']['pass_v2']} "
+                   "(descriptive) | TJ2-FULL faces = practical disclosure "
+                   "regardless of reading (E28)")
+    else:
+        verdict = ("judged_negative: theme mechanical-translation family "
+                   "honest closure INCLUDING the order-chain-reserved "
+                   "0.75 deep-break face (redirect candidates exhausted; "
+                   "no third constant-face retry -- E24-ii recursion; "
+                   "neighborhood variant readings d

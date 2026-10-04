@@ -1,0 +1,74 @@
+isclosed in the "
+                   "sensitivity legs; line NOT reset by variants)")
+
+    led = sg.append_ledger(
+        batch_name=BATCH, batch_trials=8004,
+        file_name="results/theme_judge_p2/theme_judge_p2_results.json",
+        evidence_cutoff=CUTOFF,
+        note=("theme deep-break redirect judgment batch: 4 judged cells "
+              "(bl=0.75 headline; E28 strata x costs) + 4x2000 same-mask "
+              "random-ignition nulls (band 20589000); "
+              "T-2026-10-04-169-P1 s3"),
+        prev_total=(int(prev_led["prev_total"]) if prev_led else None))
+    if prev_led:
+        led = dict(prev_led)  # r259 prev-echo guard: redo keeps row stable
+
+    payload = {
+        "batch": BATCH, "prereg": PREREG, "verdict": verdict,
+        "evidence_cutoff": CUTOFF,
+        "science_gates": {"cutoff_meta": sg.cutoff_meta(CUTOFF)},
+        "panels_digest": st["panels_digest"], "facts": st["facts"],
+        "gates": gates, "pbo_family": pbo_out,
+        "m1_t_face": {"face": MAIN_FACE, "t_from_sharpe": t_val, "gate": m1},
+        "cells": cells, "sensitivity": st["cells"]["sensitivity"],
+        "nulls": st["nulls"],
+        "census": census, "loo": st["loo"], "terciles": st["terciles"],
+        "regime_segments": st["regime_segments"], "famous16": st["famous16"],
+        "d6_real": st["d6_real"],
+        "exit_axis": ("1-own-exit: break 0.75 (frozen P2 headline constant) "
+                      "+ rebirth 1.25/250td canon; engine default stack NOT "
+                      "APPLICABLE (zero engine import; selftest-asserted)"),
+        "banned_direction_gate": ("ADMIT rc0 at freeze window "
+                                  "(prereg sec.0.5)"),
+        "trials_ledger": led,
+    }
+    with open(RESULTS_JSON, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1, sort_keys=True)
+
+    if not redo:   # gate_attrition append (r248 law: entries list)
+        att = json.load(open(ATTR_JSON, encoding="utf-8-sig"))
+        att["entries"].append({
+            "batch": BATCH, "ts": _now(), "kind": "judgment",
+            "cells_ledger_delta": 8004,
+            "ledger_total_after": led.get("total"),
+            "gates": {"verdict": verdict, "main_face": MAIN_FACE,
+                      "g1_pass": {f: gates[f]["g1"]["pass_v2"]
+                                  for f in FACES},
+                      "g2_eligible": {f: gates[f]["g2"]["eligible_v2"]
+                                      for f in FACES},
+                      "skill_lines": {f: gates[f]["g1"]["skill_line"]["line"]
+                                      for f in FACES},
+                      "null_mu": {f: gates[f]["null_mu"] for f in FACES}},
+            "entries": [{"face": f, "g1": gates[f]["g1"]["pass_v2"],
+                         "g2": gates[f]["g2"]["eligible_v2"],
+                         "sharpe": cells[f]["sharpe_full"],
+                         "role": ("claim" if f == MAIN_FACE else
+                                  "cost_stress" if f == "TJ2-SOLO-x2" else
+                                  "practical_disclosure")}
+                        for f in FACES],
+        })
+        # r670: write-side MUST be plain utf-8 -- utf-8-sig WRITES a BOM and
+        # the attrition guard reads strict utf-8 (mechanism error on BOM).
+        with open(ATTR_JSON, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(att, fh, ensure_ascii=False, indent=1)
+    print(json.dumps({"verdict": verdict, "main_g1": main_g1,
+                      "main_g2": main_g2, "pbo": pbo_out.get("pbo"),
+                      "t_value": round(t_val, 4),
+                      "ledger_total": led.get("total"),
+                      "NOTE": "r668 law: pool shard THEME-JUDGE-P2 must be "
+                              "flipped to done in THIS window"}, ensure_ascii=False))
+    return 0
+
+
+# ---------------------------------------------------------------- selftest
+
