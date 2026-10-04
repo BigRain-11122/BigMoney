@@ -1,0 +1,59 @@
+FILE research/pit-engine.md bytes=63226 lines=92 CRLF_pairs=0 bare_LF=91
+
+E01 L11-L11 674B | - [2026-10-02 13:3x r576 bm-b] 收养猝死会话 prereg 半成品冻结前必按锚滚动律刷锚（W85 实弹）：r575 稿锚=W82（其起草窗最新已落账）→冻结窗 W83 已落账（bm-c r366 12:59）→r576 收编时刷锚
+E02 L12-L12 910B | - [2026-10-02 16:1x r374 bm-c] 带闸 leg0c 上游席位 MSG 检查归档窗口坑（W99 冻结实弹·r576 leg0b 归档位的 leg0c 变体）：bm-a W98 gate 模板 leg0c「上游席位 MSG 在 orig
+E03 L13-L13 789B | - [2026-10-01 14:3x r319 bm-c] psutil process_iter 首读 0.0 过载误判坑（T-141 s1 饱和引擎首窗实弹）：process_iter(["cpu_percent"]) 对每进程首次调用恒返 0.0（无既
+E04 L14-L14 1039B | - [2026-10-01 15:3x r321 bm-c] 未实弹验证的解析分支=潜伏 bug 律（饱和引擎 s1 sync_window 实弹抓获·s2 交付窗）：ls-tree 输出面=全路径（results/p2cal_ext/n1_w9/shard-
+E05 L15-L15 1111B | - [2026-10-01 16:1x r523 bm-a] 饱和引擎 bm-a 首实弹三课（W12 冻结+首烧窗当场抓回）：①跨机 selftest fixture owner 硬编码=saturation_engine selftest leg2 准入用例
+E06 L16-L16 1580B | - [2026-10-01 16:2x r511 bm-b] 引擎波跨机双冻结撞车+让票律（W12 实弹·r239/r483 承用·r297 认领可见性族新变体）：never-dry 常设步对引擎波无跨机认领可见面（不入池=零 claim 心跳）→ bm-a 
+E07 L17-L17 1076B | - [2026-10-01 17:1x r325 bm-c] 常驻引擎双实例并存×模块视图冻结坑（W14 首烧窗实弹·「3/12 停摆」假象诊断）：计划任务 1-min fire 可在旧实例存活时再起第二常驻实例（16:15 旧+17:12 新并存·Ignor
+E08 L18-L18 1311B | - [2026-10-01 18:2x r529 bm-a] 带使用≠点登记坑（N3-R1×W13 种子域 5 值撞面机证定谳·零重烧裁定）：SEED_REGISTRY 只登记带基点单值（perpetual_n3_r1=70_000）而 runner 消费基点
+E09 L19-L19 955B | - [2026-10-01 19:2x r330 bm-c] 引擎波登记三动作律（W20 冻结窗实弹·r325 冻结视图的执行面闭环）：①常驻引擎 `n1_bands()` 内 `import perpetual_faces` 走 sys.modules 缓存
+E10 L20-L20 911B | - [2026-10-01 19:3x r518 bm-b] 同窗双 finalize 撞链头坑（W18×W19 实弹·r297/r513 stale-view 族新面）：两机同窗互盲各自 finalize 同一 W17 头 401,948 为 prev→W1
+E11 L21-L21 863B | - [2026-10-01 20:0x r534 bm-a] finalize 型 CLI 无 --help 护栏坑（W2 误触实弹·1 行元数据重写当场治愈零提交）：perpetual_faces_n1.py argv 解析对未知 flag 不 fail-f
+E12 L22-L22 766B | - [2026-10-01 20:2x r535 bm-a] bm-a 引擎=tick 架构零重启自燃实证（W24 冻结窗实弹）：bm-a 无常驻引擎进程（W24 工作树登记后零杀实例零重启·~2 分钟内自物化自点火 shard-0 20:14 落盘·逐片 ~
+E13 L23-L23 1079B | - [2026-10-01 20:5x r521 bm-b] 注册脚本内嵌回退走私 S4U 违律坑（SatEngine-bm-b 实弹·6h 后 S7 普查抓回）：register_satengine_task.ps1 头注把 bm-a 未提权窗的 0x800
+E14 L24-L24 950B | - [2026-10-01 21:1x r538 bm-a] finalize 型 runner 重跑双计坑（W24 finalize 实弹·当场抓回零 origin 污染）：perpetual_faces_n1.py finalize 的 ledger pr
+E15 L25-L25 1470B | - [2026-10-01 21:4x r335 bm-c] 带闸回执族 reserved universe 漏扫 runner 探针种子簇坑（W26 A 带位发现实弹·n1 materializer selftest 腿当场抓红）：N1 带闸回执族（r520
+E16 L26-L26 1211B | - [2026-10-01 21:5x r522 bm-b] 引擎点火 tick 崩溃丢 burn 记录=孤儿产物台账行永失坑（W25 shard-0 实弹·W10/W13 三处历史孤儿同窗回补）：saturation_engine 点火序=Popen 分离子
+E17 L27-L27 593B | - [2026-10-01 21:5x r522 bm-b] perpetual_faces_n1.py selftest 必须 --wave 缺省调用坑（W25 收口窗首犯·近误定性冻结面漂移）：runner selftest 腿「law band pari
+E18 L28-L28 1066B | - [2026-10-02 01:5x r530 bm-b] 确定性带位设计下双机同窗同带双冻=W39 撞车定性新例（r511 撞车律补面）：never-dry 常设步双机同窗抢同号波时，因 A 算术顺延唯一+B 首净窗 derive 唯一，双机独立机闸产出*
+E19 L29-L29 1046B | - [2026-10-02 05:3x r558 bm-b] never-dry 表尾锁撞面第三例（W12 三冻/W39 双冻/W51 双冻）+单点拒绝唯一解根因定谳：W51 双机同窗独立机闸 derive 带位逐位同（A 145_004..147_003 算
+E20 L30-L30 1135B | - [2026-10-02 06:4x r560 bm-b] 定点锚插入=同锚注册行 1:1 顶替（r519 族第 6 犯·首次打在已注册行）：bm-a r559 W54 冻结批 bdc36af9e 的 freeze_edits「W53 行后插入」锚位上坐着的
+E21 L31-L32 2449B | - [2026-10-02 08:3x r565 bm-a] 同窗撞面零成本让路+席位公示同窗再占位模式（W61 让路实弹·r530 族第 7 例）：never-dry 确定性设计下三机同窗同带撞面=结构性（W12/W39/W51/W58/W59/W60/W6
+E22 L33-L33 881B | - [2026-10-02 09:1x r566 bm-b] psutil 双相采样器一采面死 pid 守卫缺位=引擎 tick 整崩族 + wscript //B 掩 rc 双面实弹（W65 冻结窗）：saturation_engine._py_cpu_pc
+E23 L34-L34 831B | - [2026-10-02 09:2x r359 bm-c] 波冻结窗 appender 先于冻结 commit push 落产品面（W66 冻结实弹·顺序面新披露）：常驻 v0.4 per-tick 引擎在冻结编辑落工作树后下一 tick 即自燃（不等冻结 
+E24 L35-L35 704B | - [2026-10-02 09:2x r359 bm-c] canon/prereg 计数 prose 必须从 gate 机输出抄勿手算（W66 冻结实弹·当场抓回）：注册行/键数类计数（「N 注册行+候选」「六十四键」）起草时手算连错两处（64/65 vs
+E25 L36-L36 1375B | - [2026-10-02 14:5x r578 bm-b] 猝死会话冻结遗产收养判例（W89 实弹·r529+r471 族执行序钉死）：引擎 tick 架构下未 commit 的冻结五面=活供（引擎已从工作树自燃烧录）——收养六步序=①r529 三面诊断（s
+E26 L37-L37 1078B | - [2026-10-02 15:0x r370 bm-c] freeze 编辑器跨机 EOL 适配坑（W92 冻结首跑实弹·r530/r500 族「锚定插入工具」面新变体）：bm-b r578 编辑器块/锚全按 LF 写死，本机 fresh checkout
+E27 L38-L38 846B | - [2026-10-02 14:5x r580 bm-a] 冻结工具插入模板锚尾复制坑（W94 edit3 实弹·AST 抓回零 origin 污染）：freeze-edits 插入腿用 `t.replace(A3X, prefix+LEG+A3X)` 当锚
+E28 L39-L39 1442B | - [2026-10-02 15:1x r581 bm-a] 注册表键被 stale-replay 顶替的下游症状=引擎 tick KeyError 崩溃签名（r540 族引擎面新例·W94 clobber 18-min 停摆实弹）：bm-b r579 rep
+E29 L40-L42 2860B | - [2026-10-02 15:3x r581 bm-a] 冻结生成器「锚=前腿 _set_wave(2)+空行+T-141 注释」的替换串尾锚回填=列 0 孤儿 _set_wave(2) 实弹（W96 edit3·r580 锚尾复制坑第 2 例·首例 AS
+E30 L43-L44 1400B | - [2026-10-02 16:1x r581 bm-b] 冻结 PASS 片段锚=拼接短语不可假设连续＋手术 my_files∩their_mod 整文件面=CODELY 顶替复发面（W97 冻结+S0 双外科实弹）：①freeze 生成器第 5 面（PA
+E31 L45-L46 1099B | - [2026-10-02 18:4x r587 bm-b] 席位 MSG 投影面自机验律（W109 席位首稿实弹·r374 爪幸运拦）：席位公示首稿投影直接转抄上波 seat 的「W109+ 投影披露」即写即推——本窗实弹=首稿 B 60_801..61_0
+E32 L47-L48 1052B | - [2026-10-02 19:4x r590 bm-a] 冻结窗多波 finalize 中窗连落=锚滚链面（W112 双滚实弹·r576 律多滚变体）：bm-b r590 三波积压清空（W108 代 bm-c+W109 自有+W110 代 bm-a）在 W
+E33 L49-L50 1109B | - [2026-10-02 19:5x r381 bm-c] 引擎波 12/12 交付后 finalize 跨轮拖延窗=他机 stall-drain 合法接管面（W108 实弹·r518 commit-time 仲裁的归属新面）：W108 12/12 交付 1
+E34 L51-L52 828B | - [2026-10-02 22:5x r596 bm-a] 坑律：种子带选位基点级检查不足（FUND-VALUE-P1 选带实弹·首选 20339000 基点距离全绿但整带落 stock_face_furnace 零带域 [20333000, 2044540
+E35 L53-L54 713B | - [2026-10-03 02:5x r602 bm-a] 新面设计探针种子顺爬 95_000+ 族=结构性撞 N1 A 阶梯冻结带（W26 起连续占用 95_004..273_003·+2_000/波）——r335 带闸探针簇腿只护合同簇 95_000..
+E36 L55-L58 1804B | - [2026-10-03 04:2x r397 bm-c] pythonw 宿主 spawn 'python' 解析序坑（LOWAMP-DEEP-P1 finalize 首跑 ModuleNotFoundError: pandas 实弹）：从 pythonw
+E37 L59-L60 1426B | - [2026-10-03 10:3x r613 bm-b] 家族 runner 镜像两面坑（DIVLOWVOL runner 建窗实弹·selftest 31/31+probe 16/16 后收口）：(1)镜像 selftest 分支覆盖洞——quality
+E38 L61-L62 1238B | - [2026-10-03 09:2x r611 bm-b] autofill no-double-run 门针=runner 路径非 entry：任一该 runner 进程存活期，同 runner 的全部池面（含不同 entry/face）整机禁发——长烧占
+E39 L63-L63 1191B | - [2026-10-01 09:3x r307 bm-c] 常供面波带尾律算术撞值跳位处置先例（N1-W5 实弹）：法典 §4「+2_000/+200 顺延」尾律在 W5 踩到自家 disjoint 硬律——A 带算术位 18_100..20_099 撞 v
+E40 L64-L64 1072B | - [2026-10-01 05:5x r494 bm-b] 波次 runner 复制粘贴键漂移坑（W14-GENERATE 首跳即崩实弹·commit e6cb30924）：wave runner 从上波复制时 grammar face 键随波演进（W13 
+E41 L65-L66 1046B | - [2026-10-04 12:3x r468 bm-c] importlib.reload 按模块名经 sys.path 重找 spec 坑（T-168 移植 selftest 夹具实弹·debug 探针定谳）：reload(module) 内部 _fin
+E42 L67-L68 1186B | - [2026-10-03 17:2x r633 bm-a] fund 三族 finalize 前置预演两枚阻塞发现（E21 卡·判线零触碰·证据先于 NULLS 烧完 3-6 天）：①G-SEG 结构性——三族 12m 完整窗覆盖恒 {na:246, cho
+E43 L69-L70 1371B | - [2026-10-04 05:1x r445 bm-c] 停泊预备件复用双坑（W115 解停窗实弹·①AST 门救命实录②陈旧熔断零点火暗坑）：①r384 死会话预备工具集（parked.diff+freeze_edits 复跑）内藏 LEG115 隐式串
+E44 L71-L72 1130B | - [2026-10-04 15:3x r480 bm-c] w3 延拓波 selftest 断言语义层错配坑（MASS_TRIAL_W3 首烧实弹·当场诊断修正零机制伤害）：「延拓窗不相交」承诺必须钉死语义层级——Sobol **序列位置**不相交（真·前缀
+E45 L73-L74 1344B | - [2026-10-04 10:2x r670 bm-a] runner 任务参数语义双轨坑+checkpoint 扫描器配对坑（T-167 THEME-JUDGE-P1 首烧实弹·判决批 runner 族通用）：①任务生成端与 worker 端对同一整型参
+E46 L75-L76 923B | - [2026-10-04 12:0x r467 bm-c] bm-c 饱和引擎 status 双副本状态路径陷阱（S3 活检查实弹·当窗抓回零误修）：仓内两份 saturation_engine.py 状态面路径不同——scripts\ 副本（bm-b/bm
+E47 L77-L78 1156B | - [2026-10-04 12:1x r675 bm-a] 后冻结批 registry 增量击穿先冻结批钝守卫假阳性族（THEME_PERSIST_P1 复现性双红实弹·判负批审计面）：先冻结批（r657）runner 守卫按当窗 registry 写死钝判
+E48 L79-L80 1166B | - [2026-10-04 15:5x r682 bm-a] N4 新家族窗 gap-finder 活跃梯子地雷（B4 踏勘实证·零烧零注册）：「family window 之上首个 ≥1,497 净窗」裸 gap-finder 产出 275_004..276
+E49 L81-L82 704B | - [2026-10-04 16:0x r482 bm-c] mass_trial screen 双烧×finalize id 去重缺失坑（池注宣称「finalize 按 id 去重幂等」但 cmd_finalize 实为行计数 complete 面 len(
+E50 L83-L84 993B | - [2026-10-04 16:4x r484 bm-c] 判决面 §9.1 类追加节冻结必复跑禁向闸+BAN-04 裸词碰撞正法（本窗实弹：对 W3 PREREG 复跑 Tools/banned_direction_gate.py --prereg 当场 
+E51 L85-L86 813B | - [2026-10-04 16:3x r685 bm-a] trials 链扫描器×quarantine 退证面回流坑（science_gates.ledger_head/active_voids 递归 glob 不排除 results/_quarantin
+E52 L87-L88 786B | - [2026-10-04 16:3x r685 bm-a] dup 探针时点×fleet push-race 回流坑（r482 bm-c「finalize 前 id 零重探针」的时点盲区：分片收口窗探针绿后 3min 内 git auto-merge 回流他
+E53 L89-L90 853B | - [2026-10-04 17:1x r687 bm-a] 并行冻结窗双登记×防撞双扫陈旧 fetch 盲区（W3 judge 双冻结实弹·r474 pusher 侧 claw 盲区同构）：他机 freeze 已在 origin（16:34）而本机席位双扫跑
+E54 L91-L92 1408B | - [2026-10-04 19:3x r492 bm-c] 冻结窗守卫腿陈旧快照×撞带当场抓回三律（N2-W15 slice-3 冻结实弹·零 commit 零污染·N1 侧 selftest 跨面抓回=守卫网互补实证）：①共享台账守卫腿禁手抄快照——对 N
+
+PREFACE L1-L10 2360B
+ENTRIES_TOTAL_BYTES=60812
