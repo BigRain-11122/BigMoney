@@ -15275,7 +15275,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-04T21:18:07+08:00",
    "workers_plan": {
     "workers": 8,
@@ -15292,15 +15292,21 @@
    "shards": [
     {
      "key": "n2w15-10of12",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/n2_w15/checkpoint/n2_screen_shard_10of12.jsonl (append-per-cell kill-safe resume, r670 scanner pairing non-empty payload law)",
      "note": "bounds: cells i%12==10 over 1,154 (97/97/96x10 tiling); runner r496 three-call claim on verified done (claim file results/pool_claims/PERPETUAL-N2-W15-SHARD-10/); done-flip duty = burner-side settle per r244 landed-marker law + r668 post-finalize pool recheck law",
      "owner": "bm-c",
-     "owner_since": "2026-10-04 22:07:18"
+     "owner_since": "2026-10-04 22:17:33",
+     "claimed_since": "2026-10-04 22:07:18",
+     "done_at": "2026-10-04 22:17:33",
+     "harvested_by": "bm-c",
+     "harvest_claim": "n2w15-10of12.bm-c.json"
     }
    ],
    "entered_by": "bm-c r497",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_by": "bm-c",
+   "done_at": "2026-10-04 22:17:33"
   },
   {
    "id": "PERPETUAL-N2-W15-SHARD-11",
