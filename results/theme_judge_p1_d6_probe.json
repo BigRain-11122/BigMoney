@@ -1,0 +1,143 @@
+{
+ "probe": "r667 bm-a THEME_JUDGE_P1 s2 pre-freeze probe",
+ "cutoff": "2026-09-22",
+ "v03_sha16": "51b1b8226afc74b1",
+ "dedup": {
+  "n_rows": 1919,
+  "n_kept": 1822,
+  "n_dropped": 97,
+  "identity": "(norm6(code), ignition_date), keep-first sort=(norm6,ign,raw)",
+  "n_unique_norm_codes": 796
+ },
+ "strata": {
+  "unit": "same-day ignition count on DEDUPED set (E28 >=10 law)",
+  "n_cluster_face": 1171,
+  "n_solo_face": 651,
+  "n_cluster_days_ge10": 34,
+  "top_days": [
+   {
+    "date": "2024-09-30",
+    "n": 413
+   },
+   {
+    "date": "2024-09-27",
+    "n": 94
+   },
+   {
+    "date": "2024-10-08",
+    "n": 78
+   },
+   {
+    "date": "2024-10-09",
+    "n": 54
+   },
+   {
+    "date": "2025-08-22",
+    "n": 42
+   },
+   {
+    "date": "2025-08-28",
+    "n": 36
+   }
+  ]
+ },
+ "panel": {
+  "tails_after_truncation_by_code": {
+   "2026-09-22": 836,
+   "2026-09-04": 1
+  },
+  "n_files_missing": 0,
+  "waves_break_after_cutoff": 1,
+  "episode_drop_gates": {
+   "no_ignition_bar": 0,
+   "window_lt2": 0
+  },
+  "n_rides_in_pool": 1822
+ },
+ "twin_identity": {
+  "n_twin_pairs": 48,
+  "all_identical": true,
+  "pairs": [
+   {
+    "norm": "159901",
+    "n_overlap": 1630,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159915",
+    "n_overlap": 1630,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159919",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159920",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159928",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159934",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159949",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   },
+   {
+    "norm": "159980",
+    "n_overlap": 1631,
+    "max_abs_close_diff": 0.0
+   }
+  ]
+ },
+ "d6_proxy": {
+  "face": "pooled same-window B&H probe sleeve (fund-family probe precedent)",
+  "n_pooled_days": 4800,
+  "first_day": "2006-12-22",
+  "last_day": "2026-09-22",
+  "vs_members": [
+   {
+    "member": "COMPOSITE-CE-01",
+    "n_common": 1630,
+    "corr": 0.2608
+   },
+   {
+    "member": "COMPOSITE-CE-02",
+    "n_common": 1630,
+    "corr": 0.2329
+   },
+   {
+    "member": "DROUGHT-CE-01",
+    "n_common": 1630,
+    "corr": 0.2707
+   },
+   {
+    "member": "ENGULF-CE-01",
+    "n_common": 1630,
+    "corr": 0.3682
+   },
+   {
+    "member": "NEEDLE-DE-01",
+    "n_common": 1630,
+    "corr": 0.2989
+   },
+   {
+    "member": "VOLATILITY-CE-01",
+    "n_common": 1630,
+    "corr": 0.2217
+   }
+  ],
+  "max_abs_corr": 0.3682,
+  "admit_0p7": true
+ }
+}
