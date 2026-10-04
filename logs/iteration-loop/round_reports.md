@@ -1170,3 +1170,15 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - S7: attrition guard CLEAN 4 files; IterationLoop pin=2 在册 (first fire 10:32) + LoopWatchdog 重注册在册; pre-commit/pre-push 钳 LF-normalized 在位; inbox 零未读
 - 本地未达 origin commit 数=0 (收口 push + push_verify 自证)
 - 下轮指针: trio 烧录监控 (增速面复watch: V 族 8/hr 是否回 24/hr 区) + NULLS 完成即 finalize 链 (V 族最先) + update_daily sina 瞬态自愈确认
+
+## 2026-10-04T10:40:09+08:00 | round 664 | bm-b | golden-week watch (S0 zero-diff netpath + S6 38/38 all-green + trio health)
+- 当前活: FUND trio NULLS canonical burns in flight V706/Q542/D396 of 2000 (4 runner procs CIM full-scan verified + mtimes <4min fresh + dup_k 0 x3; 本窗 ~13min 增速 +8/+8/+6 = 37/37/28 hr 级, V 族自 r663 放缓面回升复watch 确认)
+- 最近实物: results/_r664bmb_trio_health.json (trio 三面健康证据) + docs/live_usage/LIVE-2026-10-04.md ORANGE_COOL 刷新 + docs/daily_report/REPORT-2026-10-04.md 5 faces + results/dashboard_status.json 三机面刷新 (10:40)
+- 下个里程碑: trio NULLS 完成窗 10-06..10-09 (V 37hr 级最先, Q 37hr 级, D 28hr 级长杆) -> per-family finalize + verdict per prereg sec.4 (G1' v2 + G2 v2 + exit-census)
+- watermark verdict: GREEN (red=false lane healthy; py 61-86% loaded trio burn 在飞即 work candidate; board 0 open; next_pick moneyflow IC claimed 非本机不碰)
+- S0: fetch 后 HEAD==origin/main 零差集 (树脏面=本机 daemon 活写面 treadmill, r437 交集判定零交集=无 checkout-merge 需要, S7 定向 absorb); D-19 decisions MATCH (EB14B510) + group orders.md MATCH (68947C17) 双水位零变化零消费 (sparse-clone subprocess 原字节律; 中途一次 temp 目录残留锁 clone rc128, 清理重跑即愈, 零副作用); fleet orders 153/153 轮首+S7 双扫零 unacked
+- S1 smoke 48/48 PASS; S6 38/38 rc0 全绿: update_daily rc0 (r663 sina 510300 SSL EOF 瞬态如预测自愈, 零数据影响 cutoff 2026-09-30); golden-week 休市面全 no-op 合法; market_clock CALL-2026-09-30 ORANGE_COOL sleeves=4 activated=0; 4 条 bm-a 属主共享面 (t35_open_fill_verify/paper_export/daily_scorecard/dashboard_status) 因 bm-a 心跳 stale 41-42min 由 bm-b stale-takeover derive (O-2100 s2.4 STALE_MIN law, 法定路径)
+- S3: 无 open 票 (fleet/tasks 0 open + job_list 空); 饱和引擎 rc0 alive idle queue=0; 试用期常设线=trio 在飞判决批不触发新起草
+- S7: attrition guard CLEAN (1 healed 历史注记照录); IterationLoop pin=2 no-op 在册 + LoopWatchdog 重注册 + pre-commit/pre-push 钳 LF-normalized 在位; inbox 零未读
+- 本地未达 origin commit 数=0 (收口 push + push_verify 自证)
+- 下轮指针: trio 烧录监控 (V 回升 37/hr 确认, D 长杆 28/hr) + NULLS 完成即 finalize 链 + bm-a 心跳 stale 面持续观察 (若 bm-a 恢复则 stale-takeover 面自动归还)
