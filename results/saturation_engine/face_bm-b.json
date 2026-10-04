@@ -3,19 +3,26 @@
  "engine": "saturation-engine",
  "version": "0.2",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "ts": "2026-10-05T02:08:04+08:00",
- "epoch": 1791137284,
- "py_cpu_pct": 56.2,
+ "ts": "2026-10-05T02:20:04+08:00",
+ "epoch": 1791138004,
+ "py_cpu_pct": 56.3,
  "engine_alive": true,
- "ram_free_gb": 3.4,
- "active_burns": [],
- "queue_depth": 13,
+ "ram_free_gb": 4.0,
+ "active_burns": [
+  {
+   "batch": "PERPETUAL-N1-W116",
+   "shard": 11,
+   "pid": 57492,
+   "started_at": "2026-10-05T02:20:04+08:00"
+  }
+ ],
+ "queue_depth": 12,
  "families": {
-  "N1": 13,
+  "N1": 12,
   "N4": 0
  },
  "shards_done_total": 11,
  "last_shard_done_at": "2026-10-05T01:44:04+08:00",
  "last_flush_at": "2026-10-05T01:44:05+08:00",
- "verdict": "gate:free RAM 3.4GB < 4.0GB floor"
+ "verdict": "ignited:n1w116-11of12 pid=57492"
 }
