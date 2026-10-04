@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04T17:00:27+08:00",
+ "updated_at": "2026-10-04 17:55:45",
  "_stamp_note": "r485 bm-c W3 judge enrollment: +4 entries MASS-TRIAL-W3-JUDGE-SHARD-0..3 (N_judge 777 = 785 survivors - 8 collapsed via 6 clusters |corr|>=0.999; cells/shard 195/194/194/194 i%4 routing; seed 20285600; prereg sec.9.1 frozen 2b41a3958; prep artifact adopted 150f36fb4)",
  "entries": [
   {
@@ -14707,6 +14707,47 @@
    "worker_class": "self-contained",
    "done_by": "bm-c",
    "done_at": "2026-10-04 17:29:13"
+  },
+  {
+   "id": "CONTEST-YTD-P1-RC-0OF1",
+   "ticket_ref": "T-2026-10-02-148 slice-3 pending-legs (O-20261002-2150 CEO survivor-king contest; O-2155 contest-fuel; 10 REV_CENSUS_POSITIVE entrants YTD legs; due before 10-08 governance day)",
+   "prereg_ref": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner header (today-engine, x1, YTD window, census-parity anchors vs published shard rows); RAM floor = refine_bench_rev_census census law",
+   "consumer_plan": "contest_table.json assembly A1.5 auto-include (assembly rerun; CEO winner-selection face by 10-08; live-entry consideration queue; 10-31 monthly exam scoring face)",
+   "runner": "scripts/contest_ytd_legs.py",
+   "runner_args": [
+    "revcensus"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-04 17:55:45",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "contest-ytd-p1-rc-0of1",
+     "status": "ready",
+     "checkpoint": "results/contest_p1/burn_pending_revcensus.jsonl JSONL resume (done-key skip, idempotent)",
+     "note": "10 RC faces x YTD backtest (frozen p1c panel, natural end 09-22, disclosed); census-stats parity anchors abort on drift",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "census law RAM floor 16GB internal (exit 3 while trio NULLS burns hold RAM); ~8GB/worker stock-panel sizing; 10 cells single shard"
+   },
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "Money02/data/cache/p1c_stock"
+    }
+   ],
+   "data_deps": [
+    "Money02/data/cache/p1c_stock",
+    "Money02/data/bars",
+    "Money02/data/index/sse.parquet",
+    "data/fundamental/b_layer_mask.csv"
+   ]
   }
  ],
  "lane_machine": "bm-b"

@@ -390,6 +390,51 @@ def cmd_assemble():
             "frozen_sha_status": r["frozen_sha_status"],
             "_rankable": True,
         })
+    # A1.5: pending-leg burn rows (contest_ytd_legs.py lowamp/revcensus
+    # legs) -- consume what has landed, census recounts itself, the rest
+    # stay pending. Landed rows carry their own disclosed segment/window
+    # (frozen-panel natural end 2026-09-22 vs the 181d contest baselines).
+    pend_src = {}
+    for s in ("REV_CENSUS_POSITIVE", "LOWAMP_DEEP_EXPLORATION"):
+        for e in by_src.get(s, []):
+            pend_src[e["contest_id"]] = e
+    pend_rows = {}
+    for fn in ("burn_pending_lowamp.jsonl", "burn_pending_revcensus.jsonl"):
+        fp = os.path.join(OUT_DIR, fn)
+        if not os.path.exists(fp):
+            continue
+        with io.open(fp, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                r = json.loads(line)
+                cid = r["contest_id"]
+                if cid not in pend_src:
+                    print("A1.5 FAIL: unknown pending-burn row %s" % cid)
+                    return 2
+                if cid in pend_rows:
+                    print("A1.5 FAIL: duplicate pending-burn row %s" % cid)
+                    return 2
+                pend_rows[cid] = r
+    for cid, r in sorted(pend_rows.items()):
+        rows.append({
+            "contest_id": cid,
+            "face": r.get("face") or pend_src[cid].get("face_name"),
+            "source": r["source"],
+            "segment": r["segment"],
+            "ytd_ret": r["ytd_ret"], "max_dd": r["max_dd"],
+            "sharpe_ytd": r["sharpe_ytd"],
+            "n_trades": r["n_trades"], "n_entries": r["n_entries"],
+            "beat_510300_pp": r["beat_510300_pp"],
+            "beat_48ew_pp": r["beat_48ew_pp"],
+            "window": r["window"],
+            "grammar_ref": r["grammar_ref"],
+            "signal_fp": r.get("signal_fp"),
+            "frozen_sha_status": r.get("frozen_sha_status"),
+            "anchor_parity": r.get("anchor_parity"),
+            "_rankable": r["window"]["start"] == YTD_START,
+        })
     # A3: dual-baseline arithmetic spot check (uniform, all measured rows)
     for r in rows:
         for col, base in (("beat_510300_pp", b300), ("beat_48ew_pp", bew)):
@@ -403,19 +448,21 @@ def cmd_assemble():
                             key=lambda r: r["contest_id"])
     for r in table:
         r.pop("_rankable", None)
-    # A5: pending legs disclosure (not yet burned)
+    # A5: pending legs disclosure (burned legs auto-leave the pending face)
     pending = [{"contest_id": e["contest_id"], "face": e.get("face_name"),
                 "source": e["source"], "grammar_ref": e["grammar_ref"],
                 "ytd_legs": e.get("ytd_legs"),
                 "status": "pending_burn (assembly rerun auto-includes)"}
                for s in ("REV_CENSUS_POSITIVE", "LOWAMP_DEEP_EXPLORATION")
-               for e in by_src.get(s, [])]
+               for e in by_src.get(s, [])
+               if e["contest_id"] not in pend_rows]
     n_ranked = len(ranked)
     n_listed = len(table) - n_ranked
     doc = {
         "schema": "contest_ytd_p1/contest_table v1",
         "ticket": "T-2026-10-02-148 (O-20261002-2150 survivor-king contest; "
-                  "interim assembly -- 12 pending-burn legs rerun-include)",
+                  "assembly -- 12 pending-burn legs rerun-include, landed "
+                  "legs auto-merge via A1.5)",
         "evidence_cutoff": PANEL_END,
         "window": {"start": YTD_START, "end": PANEL_END,
                    "convention": summ["splice_convention"]},
@@ -436,7 +483,11 @@ def cmd_assemble():
         "curves_ref": {"MASS_TRIAL_W1_SURVIVORS": "results/contest_p1/"
                        "burn_shard_<k>of8.jsonl rows (curve_dates/curve_nav)",
                        "T146_LIVE_MEMBERS": "results/ytd_track_record/"
-                       "ytd_curves.json"},
+                       "ytd_curves.json",
+                       "PENDING_LEGS": "results/contest_p1/"
+                       "burn_pending_{lowamp,revcensus}.jsonl rows "
+                       "(contest_ytd_legs.py; window ends at each frozen "
+                       "panel's natural end, disclosed)"},
         "honesty": [
             "contest selection != scientific proof; winners promoted with "
             "'contest-selected' label (O-2150 sec.1)",
@@ -449,6 +500,13 @@ def cmd_assemble():
             "(34/166); X=t* 132/166 format-divergent by construction "
             "(object-dtype pointer hash at generation; value semantics "
             "covered by selftest S4/S7)",
+            "pending-leg faces (rev-census / lowamp deep) burn on their "
+            "frozen panels whose natural end is 2026-09-22 (T-94 / lowamp "
+            "D2 lockbox): their YTD windows are ~176d vs the 181d contest "
+            "baselines -- ranked with window end disclosed (B_MAXDIV 177d "
+            "precedent); beat columns are arithmetic-honest, comparability "
+            "limited by the window mismatch; each row carries its "
+            "reuse-parity anchor (published batch stats reproduced)",
         ],
         "audit": {"machine": "bm-b", "runner": "scripts/contest_ytd_p1.py "
                   "assemble", "deterministic": "byte-identical on rerun "
@@ -497,11 +555,18 @@ def cmd_assemble():
     md.append("|---|---|---|---|---|---|---|---|---|---|---|---|\n")
     for r in ranked:
         src = {"MASS_TRIAL_W1_SURVIVORS": "MT",
-               "T146_LIVE_MEMBERS": "LIVE"}.get(r["source"], r["source"])
+               "T146_LIVE_MEMBERS": "LIVE",
+               "REV_CENSUS_POSITIVE": "RC",
+               "LOWAMP_DEEP_EXPLORATION": "LA"}.get(r["source"], r["source"])
         seg = {"backtest (today-engine, panel natural end)": "bt",
                "backtest+paper spliced (T-146)": "bt+paper",
-               "backtest-leg only (no separate paper ledger)": "bt-leg"}.get(
-                   r["segment"], r["segment"])
+               "backtest-leg only (no separate paper ledger)": "bt-leg",
+               "backtest (lowamp deep axis, D2 lockbox truncation "
+               "2026-09-22; window end disclosed vs 181d baselines)":
+                   "bt-la-deep (end 09-22)",
+               "backtest (frozen p1c_stock panel, natural end 2026-09-22 "
+               "T-94 lockbox; window end disclosed vs 181d baselines)":
+                   "bt-rc (end 09-22)"}.get(r["segment"], r["segment"])
         md.append("| %d | %.2f | %s | %s | %s | %s | %+.2f | %.2f | %.3f | "
                   "%+.2f | %+.2f | %s |\n" % (
                       r["rank"], r["composite"], r["contest_id"], r["face"],
@@ -732,6 +797,27 @@ def cmd_selftest():
             == json.dumps(ranked_twice, sort_keys=True))
     else:
         print("[SKIP] S9 assembly face (shard products not present)")
+    # S10: A1.5 pending-rows merge face (landed rows leave pending; census
+    # recounts; unknown/duplicate rows abort). Real lowamp file if present +
+    # synthetic merge probe on the same code path shape.
+    if os.path.exists(os.path.join(OUT_DIR, "burn_pending_lowamp.jsonl")):
+        la_rows = [json.loads(l) for l in
+                   io.open(os.path.join(OUT_DIR, "burn_pending_lowamp.jsonl"),
+                           encoding="utf-8") if l.strip()]
+        ents_all = json.load(io.open(ENTRANTS, encoding="utf-8"))["entrants"]
+        pend_ids = {e["contest_id"] for e in ents_all
+                    if e["source"] in ("REV_CENSUS_POSITIVE",
+                                       "LOWAMP_DEEP_EXPLORATION")}
+        landed = {r["contest_id"] for r in la_rows}
+        still_pending = pend_ids - landed
+        beat_ok = all(abs((r["ytd_ret"] - b300) * 100.0
+                          - r["beat_510300_pp"]) <= 0.01 for r in la_rows)
+        leg("S10 A1.5 pending-merge (lowamp %d landed, %d remain pending, "
+            "beat arithmetic ok)" % (len(landed), len(still_pending)),
+            landed <= pend_ids and len(still_pending) == 10 and beat_ok
+            and all(r["window"]["start"] == YTD_START for r in la_rows))
+    else:
+        print("[SKIP] S10 A1.5 pending-merge (lowamp file not present)")
     print("selftest: %s" % ("ALL PASS" if ok[0] == 0
                            else str(ok[0]) + " FAIL"))
     return 0 if ok[0] == 0 else 2
