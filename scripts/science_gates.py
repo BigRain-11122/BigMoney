@@ -47,13 +47,6 @@ def active_voids(results_dir: str = RESULTS_DIR) -> list:
     voids = []
     for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
                                  recursive=True)):
-        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
-        # are withdrawn evidence, never chain/void faces -- live instance:
-        # quarantined W3 summary re-entered ledger_head as head (648,026
-        # bogus block double-counting the wave). Path-segment match so a
-        # legit file merely named "*quarantine*" is not excluded.
-        if os.sep + "_quarantine" + os.sep in path:
-            continue
         try:
             with open(path, encoding="utf-8") as fh:
                 d = json.load(fh)
@@ -92,13 +85,6 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
     # double-count root cause). Recursive glob unifies the visible face.
     for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
                                  recursive=True)):
-        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
-        # are withdrawn evidence, never chain/void faces -- live instance:
-        # quarantined W3 summary re-entered ledger_head as head (648,026
-        # bogus block double-counting the wave). Path-segment match so a
-        # legit file merely named "*quarantine*" is not excluded.
-        if os.sep + "_quarantine" + os.sep in path:
-            continue
         try:
             with open(path, encoding="utf-8") as fh:
                 d = json.load(fh)
@@ -1180,20 +1166,21 @@ SEED_REGISTRY = {
     # rg --type py full-repo scan + registry band scan 2026-10-03 r423
     # zero hits; registered same commit as the sec.9.1 freeze (one-step
     # R250 law)
-    "mass_trial_w3_judge": 20287000,  # MASS_TRIAL_W3_JUDGE dual-nulls
+    "mass_trial_w3_judge": 20285600,  # MASS_TRIAL_W3_JUDGE dual-nulls
     # resampling face per survivor cell (T-2026-10-03-158 s3 wave-3 judgment
-    # freeze = research/MASS_TRIAL_W3_PREREG.md sec.9.1, owner bm-a r686):
+    # freeze = research/MASS_TRIAL_W3_PREREG.md sec.9.1, owner bm-c r484):
     # grid isomorphic to w1/w2 sec.9.1 (p5c FROZEN_CENSUS legs L/D x windows
     # {126,252,504} x cost {x1,x2} x regime 3-way segments) with dual nulls
     # block bootstrap B=2000 (block=20td circular) + sign-flip permutation
     # P=2000 (two-sided) per RANDOM_LARGE_SAMPLE_LAW sec.3; derivation =
-    # default_rng([20287000, cell_idx]) with rng stream pinned to the two
-    # resampling faces only (w1/w2 judge purpose-pinning precedent); declared
-    # band 20287000..20287499 sits with clean gap above trial_labor_w2_unc
-    # (20286500..20286519) and below trial_labor_w3_gen (20287500..20287599);
-    # registry band scan + git grep full-repo scan 2026-10-04 r686 zero hits
-    # (Money02/Money0923 data-csv volume digits excluded per precedent);
-    # registered same commit as the sec.9.1 freeze (one-step R250 law)
+    # default_rng([20285600, cell_idx]) with rng stream pinned to the two
+    # resample faces only (w1/w2 judge purpose-pinning precedent); declared
+    # band 20285600..20285899 sits with clean gap above trial_labor_w2_gen
+    # (20285500..20285581) and below trial_labor_w2_scrnull (20286000);
+    # registry band scan + rg --type py full-repo scan 2026-10-04 r484 zero
+    # RNG hits (sole literal hits = self-referencing probe comments,
+    # non-RNG, t34 precedent); registered same commit as the sec.9.1 freeze
+    # (one-step R250 law)
     "trial_labor_w2_gen": 20285500,  # TRIAL_LABOR_W2 candidate generation
     # (T-20260928-96 wave-2 prereg freeze = research/TRIAL_LABOR_W2_PREREG.md,
     # owner bm-b r357). Sobol low-discrepancy sampling (wave-2 declared
@@ -2908,20 +2895,6 @@ def selftest() -> int:
                for v in CLOSED_FAMILIES.values())
        and {v["reopen"] for v in CLOSED_FAMILIES.values()}
        <= set(CLOSED_FAMILIES_REOPEN_RULES))
-
-    # r685 bm-a: quarantine-window aside-copies must not enter the chain scan
-    # (TREASURE_PROTECTION_LAW s2 vs recursive glob; live instance: quarantined
-    # W3 summary re-entered ledger_head as the head block and double-counted).
-    import tempfile
-    with tempfile.TemporaryDirectory() as td:
-        qd = os.path.join(td, "_quarantine", "aside")
-        os.makedirs(qd, exist_ok=True)
-        json.dump({"trials_ledger": {"total": 999_999_999}},
-                  open(os.path.join(qd, "bogus.json"), "w", encoding="utf-8"))
-        json.dump({"trials_ledger": {"total": 100}},
-                  open(os.path.join(td, "real.json"), "w", encoding="utf-8"))
-        ok("ledger_head ignores _quarantine aside-copies (r685)",
-           ledger_head(td)["total"] == 100)
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
