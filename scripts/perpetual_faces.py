@@ -2781,6 +2781,37 @@ N1_BANDS = {
     # NOT a re-pick (R250: W115 bands were never assigned).
     115: {"a": (273_004, 275_003), "b_exit": (62_501, 62_700),
          "engine_owner": "bm-c"},
+    # ONE HUNDRED-AND-SIXTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (r677 bm-b
+    # freeze): engine_owner rows 105 + candidate; bm-b's thirty-
+    # ninth owned per machine-derive (engine_owner==bm-b rows 38 +
+    # candidate). Wave 116 = first free number after the REGISTERED
+    # W115 row (bm-c r445 unpark-freeze f6b521153) -- SINGLE STATE
+    # zero seat gap (W2..W115 all registered). Seat published=reserved
+    # MSG-20261004-1515-bmb-w116-seat pushed to origin 4b0409196
+    # BEFORE this freeze per r565 early-visibility law (payload = seat
+    # MSG + pre-seat probe + D-19 receipts, deletion-set EMPTY; rev.A
+    # = only published face).
+    # W115 finalize LANDED (net chain head 617,548, K=250,920 = bm-c
+    # r445 one-pass). ZERO in-flight upstream seats (W2..W115 all
+    # landed) -- finalize merge loop still derives the wave set from
+    # registry keys at run time, FAIL-CLOSED r307 two-state law
+    # always on.
+    # A = arithmetic continuation from the registered W115 A tail:
+    # 275_004..277_003 CLEAN hops=0. B = arithmetic continuation
+    # from the registered W115 B tail: 62_701..62_900 CLEAN hops=0
+    # (zero-jump two-reading-identical face; ADMIT receipt
+    # results/_r677bmb_w116_band_gate.py; live SEED_REGISTRY +
+    # probe cluster 95_000..95_003 r335 leg + cross-face probe points
+    # 95_004/95_006 r602 leg + N3-R1 used-seed band 70_000..70_005
+    # MSG-183x r529 leg.
+    # W117+ projection (gate-derived r677): A 277_004..279_003 CLEAN
+    # hops=0; B first-clean 65_050..65_249 hops=1 (arith window
+    # 62_901..63:100 refused at options_wave2 actual 63_000..63_049 +
+    # registered A-band overlap; next freezer must re-derive, never
+    # transcribe; r587 law).
+    # NOT a re-pick (R250: W116 bands were never assigned).
+    116: {"a": (275_004, 277_003), "b_exit": (62_701, 62_900),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
