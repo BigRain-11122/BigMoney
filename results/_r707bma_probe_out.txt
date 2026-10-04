@@ -1,0 +1,86 @@
+=== def cmd_judge
+'             for s in ("bear", "bull", "chop")))\r\n    return out\r\n\r\n\r\ndef cmd_judge_prep() -> int:\r\n    """sec.9.1 prep: screen-product gates + survivors anchor + census\r\n    gates (both legs) + |corr'
+---
+'          f"{os.path.basename(JUDGE_STATE_FILE)}")\r\n    return 0\r\n\r\n\r\ndef cmd_judge(shard: int, shards: int, workers) -> int:\r\n    """Sharded judged-cell burn (checkpoint jsonl per cell, cross-kill\r\n '
+---
+'          f"{D6_MIN_OVERLAP} days",\r\n            "cells": cells}\r\n\r\n\r\ndef cmd_judge_finalize() -> int:\r\n    """Aggregate judge shards -> G1\'v2 + DSR + family PBO (CSCV 8\r\n    blocks, family = A/B gram'
+---
+=== log
+'slot subspace streams in global round-robin\r\n    candidates, excluded_log = [], []\r\n    excl_hits = {"A": 0, "B": 0}\r\n    for family, n_draws in (("A", N_A), ("B", N_B)):\r\n        slots = grammar["fam'
+---
+'it:\r\n                excl_hits[family] += 1\r\n                excluded_log.append(\r\n                    {"candidate_id": cand["candidate_id"],\r\n                     "module": cand["module"], "fn": cand'
+---
+'clusion": {"hits": excl_hits,\r\n                             "excluded_log": excluded_log,\r\n                             "sources": excl_disc,\r\n                             "note": "tl14 28-source excl'
+---
+'s": excl_hits,\r\n                             "excluded_log": excluded_log,\r\n                             "sources": excl_disc,\r\n                             "note": "tl14 28-source exclusion face "\r\n '
+---
+=== [Rr][Aa][Mm]
+'2 row): random-SUBSPACE combination\r\nsampling over the W1-W14 frozen grammar full library.  The W14 trial\r\nlabor draw samples each of the 14 overlay axes INDEPENDENTLY from its\r\nfull domain (none-or-a'
+---
+'lues from their\r\nNON-NONE domains + base R/X/S/T + per-family Sobol param box\r\n(mass_trial_w1 paradigm, tl14 consumption order verbatim).\r\n\r\nImport-face reuse law (prereg sec.6; W13/W14 chain preceden'
+---
+'\n\r\nImport-face reuse law (prereg sec.6; W13/W14 chain precedent):\r\n  grammar/axes = trial_labor_w14.build_grammar_w14 (frozen 18-tuple\r\n                library, sha16 a231bf10940e7878; chain tl1..tl14'
+---
+'6; W13/W14 chain precedent):\r\n  grammar/axes = trial_labor_w14.build_grammar_w14 (frozen 18-tuple\r\n                library, sha16 a231bf10940e7878; chain tl1..tl14)\r\n  engine face = trial_labor_w14.ru'
+---
+' 95_002/95_003 probe precedent)\r\n  status       read-only inventory (grammar, family slots, subspace\r\n               size, shard/product presence)\r\n  generate     slice-2: per-slot subspace streams ro'
+---
+'_REGISTRY, R99/\r\n               R250; candidates file present = same-grammar rerun\r\n               FORBIDDEN)\r\n  screen-prep  slice-2: G-PANEL + G-VOL..G-CNT raw-full-history gates +\r\n               G'
+---
+'as tl8  # noqa: E402\r\nimport trial_labor_w14 as tl14  # noqa: E402  (grammar + engine face)\r\nimport mass_trial_w1 as mtw1    # noqa: E402  (judge grid import-face:\r\n                                # _'
+---
+'WIDTH = 499                          # 541_500..541_999 etc.\r\nFROZEN_GRAMMAR_SHA16 = "a231bf10940e7878"  # tl14 build, pinned\r\n\r\nOUT_DIR = os.path.join(tl1.PATHS.results_dir, "perpetual_faces")\r\nPROBE'
+---
+'\n\r\n\r\n# ------------------------------------------------------------- grammar face\r\ndef load_grammar() -> dict:\r\n    """Frozen 18-tuple library via tl14 build (pure compute, hermetic;\r\n    sha pinned).'
+---
+'--------------------------------------------- grammar face\r\ndef load_grammar() -> dict:\r\n    """Frozen 18-tuple library via tl14 build (pure compute, hermetic;\r\n    sha pinned)."""\r\n    g = tl14.build'
+---
+'ld (pure compute, hermetic;\r\n    sha pinned)."""\r\n    g = tl14.build_grammar_w14()\r\n    sha16 = str(g.get("grammar_sha256", ""))[:16]\r\n    assert sha16 == FROZEN_GRAMMAR_SHA16, \\\r\n        f"grammar sh'
+---
+'inned)."""\r\n    g = tl14.build_grammar_w14()\r\n    sha16 = str(g.get("grammar_sha256", ""))[:16]\r\n    assert sha16 == FROZEN_GRAMMAR_SHA16, \\\r\n        f"grammar sha drift {sha16} != pinned {FROZEN_GRAM'
+---
+' = str(g.get("grammar_sha256", ""))[:16]\r\n    assert sha16 == FROZEN_GRAMMAR_SHA16, \\\r\n        f"grammar sha drift {sha16} != pinned {FROZEN_GRAMMAR_SHA16}"\r\n    return g\r\n\r\n\r\n# ----------------------'
+---
+'", ""))[:16]\r\n    assert sha16 == FROZEN_GRAMMAR_SHA16, \\\r\n        f"grammar sha drift {sha16} != pinned {FROZEN_GRAMMAR_SHA16}"\r\n    return g\r\n\r\n\r\n# --------------------------------------------------'
+---
+'MMAR_SHA16, \\\r\n        f"grammar sha drift {sha16} != pinned {FROZEN_GRAMMAR_SHA16}"\r\n    return g\r\n\r\n\r\n# ---------------------------------------------------- subspace draw layer\r\ndef draw_candidate_s'
+---
+'--------------- subspace draw layer\r\ndef draw_candidate_subspace_w15(grammar, family, slot, n_draws, seed):\r\n    """Yield (draw_idx, cand) with the W15 random-subspace overlay\r\n    (prereg sec.3 draft'
+---
+'ve axes pinned\r\n                                       "none")\r\n    Params: per-family Sobol box (scrambled, seed=seed+fam_idx) mapped\r\n    over the family\'s multi-valued domains (tl14 mapping verbati'
+---
+'                         "none")\r\n    Params: per-family Sobol box (scrambled, seed=seed+fam_idx) mapped\r\n    over the family\'s multi-valued domains (tl14 mapping verbatim).\r\n    Deterministic, zero b'
+---
+'ot if family == "A" else 6 + slot   # A 0-5, B 6+ (tl14)\r\n    spec = grammar["families"][family][slot]\r\n    mk = f"{spec[\'module\']}.{spec[\'fn\']}"\r\n    dom = grammar["value_domains"][mk]\r\n    names = s'
+---
+'[family][slot]\r\n    mk = f"{spec[\'module\']}.{spec[\'fn\']}"\r\n    dom = grammar["value_domains"][mk]\r\n    names = sorted(nm for nm, vs in dom.items() if len(vs) > 1)\r\n    sob = qmc.Sobol(max(1, len(names'
+---
+'om.items() if len(vs) > 1)\r\n    sob = qmc.Sobol(max(1, len(names)), scramble=True,\r\n                    seed=seed + fam_idx)\r\n    box = sob.random(n_draws)\r\n    rng = np.random.default_rng([seed + fam'
+---
+'_rng([seed + fam_idx, 7919])\r\n    for i in range(n_draws):\r\n        params = {}\r\n        j = 0\r\n        for nm in sorted(dom):\r\n            values = dom[nm]\r\n            if len(values) <= 1:\r\n        '
+---
+'values = dom[nm]\r\n            if len(values) <= 1:\r\n                params[nm] = values[0] if values else None\r\n                continue\r\n            params[nm] = values[min(int(box[i, j] * len(values'
+---
+'alues[0] if values else None\r\n                continue\r\n            params[nm] = values[min(int(box[i, j] * len(values)),\r\n                                    len(values) - 1)]\r\n            j += 1\r\n  '
+---
+'"module": spec["module"], "fn": spec["fn"],\r\n                  "sig_params": params, "axis": axis,\r\n                  "family": family, "slot": slot,\r\n                  "subspace_active": active_set,\r'
+---
+' spec["module"], "fn": spec["fn"],\r\n                  "sig_params": params, "axis": axis,\r\n                  "family": family, "slot": slot,\r\n                  "subspace_active": active_set,\r\n        '
+---
+'BE_SEED}, "\r\n          f"ledger +0) ===")\r\n    t0 = time.time()\r\n    grammar = load_grammar()\r\n    draws = []\r\n    for family, slot in (("A", 0), ("B", 0)):\r\n        got = list(draw_candidate_subspace'
+---
+'        f"ledger +0) ===")\r\n    t0 = time.time()\r\n    grammar = load_grammar()\r\n    draws = []\r\n    for family, slot in (("A", 0), ("B", 0)):\r\n        got = list(draw_candidate_subspace_w15(\r\n        '
+---
+', 0)):\r\n        got = list(draw_candidate_subspace_w15(\r\n            grammar, family, slot, 1, PROBE_SEED))\r\n        assert len(got) == 1\r\n        _, cand = got[0]\r\n        cand["candidate_id"] = f"W1'
+---
+'anel + shared states (screen-shard caliber, built ONCE) ---\r\n    tl1.GRAMMAR = grammar\r\n    prices, P, idx, listed, cen = tl1._load_leg("L")\r\n    states = tl1.v3_state_series()\r\n    try:\r\n        impo'
+---
+'red states (screen-shard caliber, built ONCE) ---\r\n    tl1.GRAMMAR = grammar\r\n    prices, P, idx, listed, cen = tl1._load_leg("L")\r\n    states = tl1.v3_state_series()\r\n    try:\r\n        import pandas '
+---
+'erlap:\r\n        import pandas as pd\r\n        fundamental_ok = pd.DataFrame(False, index=P["close"].index,\r\n                                      columns=P["close"].columns)\r\n        for s in overlap:\r'
+---
+'d": PROBE_SEED,\r\n               "ledger_effect": 0,\r\n               "grammar_sha256": grammar["grammar_sha256"],\r\n               "frozen_grammar_sha16": FROZEN_GRAMMAR_SHA16,\r\n               "design_n'
+---
+'               "ledger_effect": 0,\r\n               "grammar_sha256": grammar["grammar_sha256"],\r\n               "frozen_grammar_sha16": FROZEN_GRAMMAR_SHA16,\r\n               "design_note": ("out-of-ba'
+---
+'      "ledger_effect": 0,\r\n               "grammar_sha256": grammar["grammar_sha256"],\r\n 
