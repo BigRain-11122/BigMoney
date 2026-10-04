@@ -85,6 +85,17 @@
 - **账本**：`science_gates.append_ledger("MASS_TRIAL_W3_JUDGE", N_judge, "mass_trial/w3_judge.json", evidence_cutoff="2026-09-22")`（prev=活链头实读禁手抄·单发守卫=complete 产物永不重计·refinalize env=MASS_TRIAL_W3_JUDGE_REFINALIZE）。
 - **消费面声明**：judged 存活者 → STRATEGY_LIBRARY 注册 + TRIAL-* 纸盘上岗=**月界呈报**非本批自动面（§10 消费链不变）；本批零注册效应直至 §10 链走完。
 
+### §9.2 s3 判决面跑后回填【2026-10-05 03:0x bm-c r508·source=results/mass_trial/w3_judge.json 实读+results/_r487bmc_w3_judge_verify.json ADOPT_PASS 15/15+results/_r508bmc_chain_probe.json 链普查】
+
+- [x] **判决落地**：2026-10-05 02:16:41（spawn 2026-10-04 17:44:04·墙钟 ~8.5h 单线程末段）；N_judge=**777**（§9.1 承诺面：785 存活者→|corr|≥0.999 leg-L 塌缩 8 员=777）；seed_judge=20285600 ✓；evidence_cutoff=2026-09-22 ✓。
+- [x] **verdicts**：pass=**3**／fail=**774**／insufficient-sample=0（总和 777 ✓）。三 pass cells（全部 g1_prime_v2 过线·skill_line 1.1339 底）：`JUDGE|W3-23027` sentiment.turnover_surge（sharpe_full 1.218·oos_sharpe 1.4377·beat_6m 0.5339/beat_24m 0.6766·DSR 0.490·family_pbo 0.1857 过 PBO 门）／`JUDGE|W3-27009` seasonal.trend_by_season（sharpe_full 1.2843·oos_sharpe 2.2952·DSR 0.243·family_pbo 0.2714）／`JUDGE|W3-46133` ta.strong_close（sharpe_full 1.1829·oos_sharpe 1.2692·DSR 0.494·family_pbo 0.3714）。
+- [x] **G2 注册门（g2_registration_v2）**：**0/3 eligible_v2**——DSR 门 3/3 拒（0.490/0.243/0.494 vs gate 0.95·DSR 底数=finalize 时点链头 646,799 trial 累计），PBO 门 2/3 拒（0.2714/0.3714 vs gate 0.25）；missing_inputs=∅。**本批零注册（§10 消费链零启动）**。
+- [x] **E[FP]=38.85**（=0.05×777 名义 α 口径如实披露）——零 pass 存活过校正门与 E[FP] 读数一致（校正后存活=0<38.85 名义期望面无矛盾）。
+- [x] **账本链与同窗竞态定性**：prev_total=647,953（非 spawn 时点 head 646,799）——**finalize 8.5h 烧录窗内 PERPETUAL-N2-W15-SCREEN（bm-a 车道）合法落链 +1154（646,799→647,953 @00:27:40）**；W3 块正确衔接 647,953 → +777 → **648,730=live head**。r508 链普查（148 块·tail 链全衔接·W3 prev==N2 块 total·单链块·零双计）；custody 假 ADOPT_FAIL=spawn-head 与 landing-head 两锚错位（r508 修正=EXPECT 双锚分离 spawn_head/prev_total 后 15/15 ADOPT_PASS）。
+- [x] **波级 PBO 聚合读数（CSCV 8 blocks·11 模块面）**：sentiment **0.1857**（最低·49 cells）＜seasonal 0.2714（81）＜mean_reversion 0.3143（51）＜macro 0.3429（28）＜ta 0.3714（139）＜folk 0.4000（90）＜volatility 0.4571（31）＜event 0.5000（36）＜momentum 0.5286=patterns 0.5286（24/226）＜trend **0.9571**（22·最高）。
+- [x] **族线第三连负（§0 意义门③ 负发现照报）**：w1 判决 0→w2 判决 0→w3 判决 0（G2 eligible 三波全零）——**mass trial 语法序列延拓帧 [0,1536) 全帧耗尽（三波 5,811 呙 dedup 后 4814+166+805+975 judged/screened）在累计 65 万 trial DSR 校正门下零存活**。族线关线裁定：下一波若续开=**禁再走 Sobol 序列延拓帧**（须附新证据增量声明·U3 律——新语法/新机制面/新判线改革三选一才有增量；序列延拓第四帧 [1536,2048) 预期坍缩率 20-30%×基扩+DSR 底数续涨=先验产出更低）。
+- [x] **48h CEO 呈报面**：判决落地 2026-10-05 02:16:41 起计·到期 **2026-10-07 02:16**（白话律三行：777 员大考全判完→3 员过技术线但全被「防运气门」拦下（65 万次试验的防碰运气门槛下 3 员成绩不够硬）→千人题库 W3 供给=零新人·语法延拓三连负族线待 CEO 裁下一步方向）。
+
 ## §10 消费面
 
 存活者 → s3 全量判决（§9 冻结后）→ 终存活者 → STRATEGY_LIBRARY 注册 + TRIAL-* 纸盘上岗 → 月界呈报；**消费方指名（O-2115）**：千人题库供给+锦标赛臂+月考面。语法供给（TRIAL_LABOR_LAW §5）：T-86 census W2A/W2B 存活腿正式落地后并入下一波面（本波开波时点仍未落地=按 W2 §10「到位后并入」顺延，非阻塞）。
