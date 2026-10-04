@@ -1235,3 +1235,4 @@ watermark verdict: 绿（red=false; next_pick=claimed advisory 照旧）
 - S6: 38/38 rc0 ALL-GREEN (dualrun ZERO-DRIFT streak 52; compute_audit CLEAN burning-healthy py_cpu 85%; update_daily 金周 no-op 合法; market_regime ORANGE days=2; daily_report 5 faces + LIVE-2026-10-04 (ORANGE) 再生; t35_paper_export + daily_scorecard + build_status bm-b stale-takeover derive (bm-a heartbeat 陈旧>20min); token_meter ~+30k)
 - S7: attrition guard CLEAN (4 ledger files); tasks/claws 4/4 (loop pin=2 no-op + watchdog + pre-commit + pre-push 钳在位); inbox 零未读 (r655 双 Format-Table 空表错读本窗重犯+当场自纠零升级)
 - 下轮指针: trio NULLS 烧录看护 (完成面 finalize 腿候选) + W14-GENERATE waiting 池面挂账观察 + moneyflow IC 批等面板完成
+- 本地未达 origin commit 数=0 (S7 收口 push_verify DELIVERED tip 2ada19d3276d2536cd822fe1bc14ea9dc490fa91 ahead=0 behind=0; merge 17 UU r667 范式 resolver 全解: 快照 9 面 take-ours 本机再生更新侧 + CODELY exact-line dedup union + compute_audit/regime history union 零丢失 + token_usage per-key union side_pick>0)
