@@ -1,0 +1,95 @@
+=== docs/live_usage/LIVE-2026-10-04.json diff_lines=14
+  - "generated": "2026-10-04T14:37:16",
+  + "generated": "2026-10-04T14:40:28",
+  -    "have": 619,
+  +    "have": 624,
+  -    "last_append_age_min": 8.2
+  +    "last_append_age_min": 4.3
+  -    "have": 796,
+  +    "have": 802,
+  -    "last_append_age_min": 8.2
+  +    "last_append_age_min": 2.3
+  -    "have": 464,
+  +    "have": 469,
+  -    "last_append_age_min": 8.2
+  +    "last_append_age_min": 1.5
+  ...truncated
+=== docs/live_usage/LIVE-2026-10-04.md diff_lines=8
+  -> 自动生成 2026-10-04T14:37:16 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+  +> 自动生成 2026-10-04T14:40:28 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+  -  - FUND-QUALITY-P1：619/2000（dup_k=0）
+  -  - FUND-VALUE-P1：796/2000（dup_k=0）
+  -  - FUND-DIVLOWVOL-P1：464/2000（dup_k=0）
+  +  - FUND-QUALITY-P1：624/2000（dup_k=0）
+  +  - FUND-VALUE-P1：802/2000（dup_k=0）
+  +  - FUND-DIVLOWVOL-P1：469/2000（dup_k=0）
+=== results/compute_audit.json diff_lines=86
+  -    "ts": "2026-10-04 14:35:37",
+  +    "ts": "2026-10-04 14:36:41",
+  -    "cpu_total_pct": 17.0,
+  -    "py_cpu_pct": 0.2,
+  -    "cores": 32,
+  -    "py_procs": 30,
+  -    "result_stale_min": 0.6,
+  +    "cpu_total_pct": 50.0,
+  +    "py_cpu_pct": 86.8,
+  +    "cores": 16,
+  +    "py_procs": 26,
+  +    "result_stale_min": 0.4,
+  -    "load_state": "pool-supply-gap",
+  +    "load_state": "burning-healthy",
+  ...truncated
+=== results/dashboard_status.json diff_lines=180
+  -    "generated_at": "2026-10-04T14:37:25"
+  +    "generated_at": "2026-10-04T14:40:44"
+  -      "at": "2026-10-04T14:29:48",
+  +      "at": "2026-10-04T14:35:25",
+  -      "detected_at": "2026-10-04T06:37:25+00:00"
+  +      "detected_at": "2026-10-04T06:20:10+00:00"
+  -      "last_run": "2026-10-04 14:35:45",
+  -      "age_min": 1,
+  +      "last_run": "2026-10-04 14:37:08",
+  +      "age_min": 3,
+  -      "l1_updated": "2026-10-04 14:36:32",
+  +      "l1_updated": "2026-10-04 14:14:37",
+  -      "last_attempt": "2026-10-04T14:36:32",
+  -      "age_min": 0,
+  ...truncated
+=== results/scorecard_v1.json diff_lines=4
+  - "generated": "2026-10-04T14:36:10",
+  + "generated": "2026-10-04T14:37:50",
+  -   "total": 77.61,
+  +   "total": 77.62,
+=== results/strategy_scorecard.json diff_lines=8
+  - "generated": "2026-10-04T14:36:15",
+  + "generated": "2026-10-04T14:38:05",
+  -    "total": 77.61,
+  +    "total": 77.62,
+  -    "total": 77.61,
+  +    "total": 77.62,
+  -  "elapsed_sec": 29.1,
+  +  "elapsed_sec": 55.4,
+=== results/regime_state.json diff_lines=2
+  -  "updated": "2026-10-04 14:35:46",
+  +  "updated": "2026-10-04 14:37:09",
+=== results/update_status.json diff_lines=4
+  -  "updated": "2026-10-04 14:35:45",
+  -  "now": "2026-10-04 14:35:44.499315",
+  +  "updated": "2026-10-04 14:37:08",
+  +  "now": "2026-10-04 14:37:06.671715",
+=== results/token_usage.json diff_lines=126
+  - "machines": {
+  -  "bm-a": {
+  -   "state_bytes": 3646,
+  -   "state_tokens_est": 1041,
+  -   "report_bytes": 0,
+  -   "report_tokens_est": 0
+  +  "generated": "2026-10-04 14:40:46",
+  +  "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
+  +  "method": {
+  +    "bpe_proxy": 3.5,
+  +    "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+  -  "default": {
+  -   "state_bytes": 1570,
+  -   "state_tokens_est": 448,
+  ...truncated
