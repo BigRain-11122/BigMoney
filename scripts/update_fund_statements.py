@@ -380,7 +380,13 @@ def panel_coverage():
             continue
         try:
             df = pd.read_parquet(path, columns=["period_end"])
-            cov[iface] = set(df["period_end"].astype(str))
+            # gate coverage must match expected_period_set compact form:
+            # assembled faces store EM-native dashed period_end (F6), while
+            # expected enumeration is 'YYYYMMDD' -- normalize here or every
+            # gate call misreads a complete panel as 100% missing (r671 live
+            # catch: 258/258 face-periods phantom-missing -> wasteful spawn).
+            cov[iface] = set(df["period_end"].astype(str)
+                             .str.replace("-", "", regex=False))
             rows_total += len(df)
         except Exception:
             cov[iface] = set()
@@ -814,7 +820,12 @@ def _selftest():
             assert list(df["经营性现金流-现金流量净额"]) == [10.0, 12.0]    # dedupe kept first
             # panel coverage derived from bytes
             cov, rows_total = panel_coverage()
-            assert cov["cashflow"] == {"2025-06-30", "2025-09-30"}
+            # r671 regression leg: assembled faces store EM-native dashed
+            # period_end, but gate expected set is compact 'YYYYMMDD' --
+            # panel_coverage must normalize, else a complete panel reads as
+            # 100% missing and every gate call spawns a phantom re-fetch.
+            assert cov["cashflow"] == {"20250630", "20250930"}
+            assert cov["cashflow"] & {"20250630"} == {"20250630"}
             assert cov["balance"] == set() and rows_total == 2
             assert panel_cutoff(cov) is None          # balance face empty -> no common cutoff
         finally:
