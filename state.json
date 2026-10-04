@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "round_no": 690,
- "note": "r690: N2-W15 independent review PASS (slice-2+slice-3, receipt _r690bmb_n2_review.json) + supply seat claimed (MSG-1940 + pool entry PERPETUAL-N2-W15-GENERATE) + S6 38/38 rc0 + smoke 48/48",
- "last_round_at": "2026-10-04T19:48:24+08:00",
- "ts": "2026-10-04T19:48:24+08:00",
- "updated": "2026-10-04T19:48:24+08:00",
- "last_seen": "2026-10-04T19:48:24+08:00",
+ "round_no": 691,
+ "note": "r691: N2-W15 generate RAM-gate wait-loop diagnosed+fixed (wait_min 40->2880 x2 + flush, selftest 17/17) + bm-a r694 yield/cleanup wave consumed (MSG-1943/2010, receipt MSG-2005, pool single-shard verified) + S6 38/38 rc0 + smoke 48/48",
+ "last_round_at": "2026-10-04T20:07:25+08:00",
+ "ts": "2026-10-04T20:07:25+08:00",
+ "updated": "2026-10-04T20:07:25+08:00",
+ "last_seen": "2026-10-04T20:07:25+08:00",
  "last_decisions_sha": "4E5BE321F9B7A15D7F58BAB3771ECF329534EED8D30B090CDAC4E9F151D911DC",
  "last_decisions_at": "2026-10-04T18:38:49+08:00",
- "round_no_label": "round 690 (bm-b)",
- "clock_read": "2026-10-04T19:48:24+08:00",
+ "round_no_label": "round 691 (bm-b)",
+ "clock_read": "2026-10-04T20:07:25+08:00",
  "last_decisions_read_at": "2026-10-04T18:38:49+08:00",
  "last_orders_sha": "68947C178D21814FBB5B20C3497F1DC28D42D50C",
  "last_decisions_sha_method": "SHA-256 hex upper of git show origin/main:docs/decisions.md raw bytes (sparse-clone, r631 recipe, D-20261004-02(3))",
- "next": "(a) N2 generate RAM-window daemon pickup -> candidates landed -> 12-shard screen entries relay (window <= 10-08); (b) trio V close 10-06T17 -> FUND nulls finalize face; (c) W3 judge bm-c ~22:1x watch; (d) RC-10 bm-a burning watch; (e) market open 10-09; (f) CODELY 96.5KB threshold re-anchor = GM ruling face"
+ "next": "(a) old-code 40min-cap exit -> daemon relaunch with new code (new-process log RAM-GATE flush lines = public self-proof); (b) generate lands at RAM window (VALUE trio close ~10-06T17) -> same-window done-flip; (c) screen-prep + 12-shard SCREEN relay (<=10-08); (d) W3 judge bm-c ~22:1x watch; (e) 10-09 market-open data-chain check"
 }
