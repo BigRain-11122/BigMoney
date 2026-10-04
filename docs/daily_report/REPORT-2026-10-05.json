@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 07:00:22",
+ "generated_at": "2026-10-05 07:11:21",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 1086,
-  "result_jsons_landed_24h": 390,
+  "commits_24h": 1083,
+  "result_jsons_landed_24h": 386,
   "digests_landed_24h": 3,
   "prereg_md_touched_24h": 32,
   "compute_audit_latest": {
-   "ts": "2026-10-05 06:59:41",
-   "py_cpu_pct": 84.7,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-05 07:08:38",
+   "py_cpu_pct": 0.2,
+   "flags": [
+    "gpu_unauthorized"
+   ],
+   "verdict": "FLAG:gpu_unauthorized"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -651,74 +653,12 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 06:36:38",
-    "py_pct": 0.1,
-    "cpu_pct": 2.0,
-    "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:gpu_unauthorized,supply_gap",
-    "py_series_tail": [
-     [
-      "04:38",
-      0.1
-     ],
-     [
-      "04:59",
-      0.1
-     ],
-     [
-      "05:01",
-      93.6
-     ],
-     [
-      "05:10",
-      0.1
-     ],
-     [
-      "05:23",
-      5.1
-     ],
-     [
-      "05:34",
-      0.1
-     ],
-     [
-      "05:35",
-      0.1
-     ],
-     [
-      "05:39",
-      85.6
-     ],
-     [
-      "05:59",
-      0.0
-     ],
-     [
-      "06:06",
-      0.3
-     ],
-     [
-      "06:09",
-      69.1
-     ],
-     [
-      "06:36",
-      0.1
-     ]
-    ],
-    "today_samples": 37,
-    "today_floor_ok": 37,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 13
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-05 06:59:41",
-    "py_pct": 84.7,
-    "cpu_pct": 31.0,
+    "latest_ts": "2026-10-05 07:08:38",
+    "py_pct": 0.2,
+    "cpu_pct": 9.0,
     "ready": 3,
     "streak_min": null,
-    "verdict": "CLEAN",
+    "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
      [
       "05:23",
@@ -765,14 +705,76 @@
       0.1
      ],
      [
-      "06:59",
-      84.7
+      "07:08",
+      0.2
      ]
     ],
     "today_samples": 41,
     "today_floor_ok": 41,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 14
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-05 06:34:11",
+    "py_pct": 95.9,
+    "cpu_pct": 52.0,
+    "ready": 3,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "04:59",
+      0.1
+     ],
+     [
+      "05:01",
+      93.6
+     ],
+     [
+      "05:10",
+      0.1
+     ],
+     [
+      "05:23",
+      5.1
+     ],
+     [
+      "05:34",
+      0.1
+     ],
+     [
+      "05:35",
+      0.1
+     ],
+     [
+      "05:39",
+      85.6
+     ],
+     [
+      "05:59",
+      0.0
+     ],
+     [
+      "06:06",
+      0.3
+     ],
+     [
+      "06:07",
+      84.9
+     ],
+     [
+      "06:09",
+      69.1
+     ],
+     [
+      "06:34",
+      95.9
+     ]
+    ],
+    "today_samples": 38,
+    "today_floor_ok": 38,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 12
    },
    "bm-c": {
     "latest_ts": "2026-10-05 06:31:05",
@@ -855,24 +857,24 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-05 06:36:38"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-05 07:08:38"
     }
    },
    "bm-b": {
-    "batches_judged": 20,
-    "core_seconds": 3585.6,
-    "wall_seconds": 730.8,
-    "effective_cores": 4.91,
+    "batches_judged": 19,
+    "core_seconds": 3367.9,
+    "wall_seconds": 700.5,
+    "effective_cores": 4.81,
     "single_core_burn": 3,
-    "multicore_burn": 17,
+    "multicore_burn": 16,
     "too_short": 0,
-    "last_ts": "2026-10-05T06:59:35+08:00",
+    "last_ts": "2026-10-05T06:19:35+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-05 06:59:41"
+     "audit_batches": 9,
+     "audit_ts": "2026-10-05 06:34:11"
     }
    },
    "bm-c": {
@@ -914,7 +916,7 @@
      65250,
      65449
     ],
-    "shards_done": 12,
+    "shards_done": 11,
     "shards_total": 12,
     "finalize_landed": false
    },

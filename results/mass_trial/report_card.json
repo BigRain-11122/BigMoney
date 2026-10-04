@@ -1,0 +1,157 @@
+{
+ "batch": "MASS_TRIAL_REPORT_CARD",
+ "evidence_cutoff": "2026-09-22",
+ "gates": {
+  "g2_dsr_gate": 0.95,
+  "g2_pbo_gate": 0.25
+ },
+ "generated": "2026-10-05 07:07:49",
+ "honesty": "Report-only aggregation of frozen wave judge files; no new judgments, no thresholds touched. Near-miss dossier kept verbatim for the next supply wave; family recurrence (sentiment.turnover_surge x2) is the direction clue, not a promotion.",
+ "passers": [
+  {
+   "bootstrap_ci_lower": 1.538e-05,
+   "candidate_id": "W2-23057",
+   "dsr": 0.5288,
+   "family": "sentiment.turnover_surge",
+   "family_pbo": 0.2286,
+   "family_zh": "情绪·放量汹涌",
+   "g1_margin": 0.0213,
+   "g1_sharpe_full": 1.1535,
+   "g1_skill_line": 1.1322,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": true,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.034019,
+   "oos_sharpe_legL": 1.9327,
+   "signflip_p": 0.001
+  },
+  {
+   "bootstrap_ci_lower": 2.235e-05,
+   "candidate_id": "W3-23027",
+   "dsr": 0.4903,
+   "family": "sentiment.turnover_surge",
+   "family_pbo": 0.1857,
+   "family_zh": "情绪·放量汹涌",
+   "g1_margin": 0.0841,
+   "g1_sharpe_full": 1.218,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": true,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.022776,
+   "oos_sharpe_legL": 1.4377,
+   "signflip_p": 0.0
+  },
+  {
+   "bootstrap_ci_lower": 1.203e-05,
+   "candidate_id": "W3-27009",
+   "dsr": 0.2429,
+   "family": "seasonal.trend_by_season",
+   "family_pbo": 0.2714,
+   "family_zh": "季节·按季趋势",
+   "g1_margin": 0.1504,
+   "g1_sharpe_full": 1.2843,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": false,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.078627,
+   "oos_sharpe_legL": 2.2952,
+   "signflip_p": 0.0
+  },
+  {
+   "bootstrap_ci_lower": 7.52e-06,
+   "candidate_id": "W3-46133",
+   "dsr": 0.4945,
+   "family": "ta.strong_close",
+   "family_pbo": 0.3714,
+   "family_zh": "技术形态·强收盘",
+   "g1_margin": 0.049,
+   "g1_sharpe_full": 1.1829,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": false,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.009026,
+   "oos_sharpe_legL": 1.2692,
+   "signflip_p": 0.0015
+  }
+ ],
+ "ticket_ref": "T-2026-09-27-94 consumer face (product-first law P-2026-09-29-07)",
+ "totals": {
+  "enrolled": 10625,
+  "g1_pass": 4,
+  "g2_eligible": 0,
+  "judged_cells": 1748,
+  "n_waves": 3,
+  "screen_survivors": 1757,
+  "trials_ledger_total_at_last_finalize": 648730
+ },
+ "verdict_line": "4/1748 passed G1 skill-line; 0/1748 cleared the G2 anti-luck registration gate",
+ "waves": [
+  {
+   "collapsed_dupes": 0,
+   "dedup_rejections": 49,
+   "e_fp_nominal_5pct": 8.3,
+   "enrolled": 975,
+   "evidence_cutoff": "2026-09-22",
+   "families": 75,
+   "g1_fail": 166,
+   "g1_pass": 0,
+   "g2_eligible": 0,
+   "judged_cells": 166,
+   "screen_line_beat": {
+    "beat_rate_6m": 0.6,
+    "max_dd": -0.35,
+    "trades": 30
+   },
+   "screen_survivors": 166,
+   "trials_ledger_total_at_finalize": 312042,
+   "wave": "w1"
+  },
+  {
+   "collapsed_dupes": 1,
+   "dedup_rejections": 1670,
+   "e_fp_nominal_5pct": 40.25,
+   "enrolled": 4836,
+   "evidence_cutoff": "2026-09-22",
+   "families": 75,
+   "g1_fail": 804,
+   "g1_pass": 1,
+   "g2_eligible": 0,
+   "judged_cells": 805,
+   "screen_line_beat": {
+    "beat_rate_6m": 0.6,
+    "max_dd": -0.35,
+    "trades": 30
+   },
+   "screen_survivors": 806,
+   "trials_ledger_total_at_finalize": 623777,
+   "wave": "w2"
+  },
+  {
+   "collapsed_dupes": 8,
+   "dedup_rejections": 1387,
+   "e_fp_nominal_5pct": 38.85,
+   "enrolled": 4814,
+   "evidence_cutoff": "2026-09-22",
+   "families": 75,
+   "g1_fail": 774,
+   "g1_pass": 3,
+   "g2_eligible": 0,
+   "judged_cells": 777,
+   "screen_line_beat": {
+    "beat_rate_6m": 0.6,
+    "max_dd": -0.35,
+    "trades": 30
+   },
+   "screen_survivors": 785,
+   "trials_ledger_total_at_finalize": 648730,
+   "wave": "w3"
+  }
+ ]
+}
