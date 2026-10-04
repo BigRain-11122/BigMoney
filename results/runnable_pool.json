@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-04 19:41:44",
- "_stamp_note": "r485 bm-c W3 judge enrollment: +4 entries MASS-TRIAL-W3-JUDGE-SHARD-0..3 (N_judge 777 = 785 survivors - 8 collapsed via 6 clusters |corr|>=0.999; cells/shard 195/194/194/194 i%4 routing; seed 20285600; prereg sec.9.1 frozen 2b41a3958; prep artifact adopted 150f36fb4)",
+ "updated_at": "2026-10-04T19:43:58+08:00",
+ "_stamp_note": "r694 bm-a N2-W15 GENERATE enrollment: +1 entry PERPETUAL-N2-W15-GENERATE (supply materialization step 1; prereg FROZEN 1ff613cbe; bands 541500/542000/542500; one-shot generate, autofill burn + next-round harvest)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -14763,7 +14763,7 @@
    "priority": 1,
    "status": "ready",
    "entered_at": "2026-10-04 19:41:44",
-   "data_gates": "",
+   "data_gates": "in-runner fail-closed exit 2: (a) FREEZE-GATE: SEED_REGISTRY trio == 541500/542000/542500 else refuse; (b) one-shot: results/n2_w15/n2_w15_candidates.json exists -> refuse (same-grammar rerun ban TRIAL_LABOR_LAW sec.4); (c) free RAM three-sample < 4GB after 40s bounded wait -> honest refuse (r354 law). deps all in-repo: core48 panel data/daily/ + b_layer_mask data/fundamental/ + hermetic grammar tl14.build_grammar_w14 sha-pinned FROZEN_GRAMMAR_SHA16",
    "shards": [
     {
      "key": "n2-w15-generate-0of1",
@@ -14772,6 +14772,14 @@
      "note": "subspace draw: k_active~U{1..14} + uniform subset + base-4-axis full domain + active-gate non-none domain pinning; grammar sha16 a231bf10940e7878 import-face; W15 new-syntax cells legal non-exclusion face (selftest L9); evidence_cutoff=2026-09-22 same-window law",
      "owner": "bm-b",
      "owner_since": "2026-10-04 19:44:22"
+    },
+    {
+     "key": "generate-0of1",
+     "status": "ready",
+     "checkpoint": "results/n2_w15/n2_w15_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+     "note": "one-shot generate, zero engine cells; done-flip duty = burner-side session next round per r244 landed-marker law (W2 r138 harvest precedent); downstream after harvest = screen-prep in-round + 12-shard SCREEN enrollment (bounds from actual candidates rows, r670 tiling + r481 recipe)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-04 19:54:08"
     }
    ],
    "workers_plan": {
@@ -14781,7 +14789,9 @@
    },
    "data_deps": [
     "data/daily"
-   ]
+   ],
+   "entered_by": "bm-a r694",
+   "worker_class": "self-contained"
   }
  ]
 }
