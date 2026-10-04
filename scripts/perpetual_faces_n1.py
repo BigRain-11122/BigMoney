@@ -3231,6 +3231,42 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 65_250,   # law sec.4 W118 B: 65_250..65_449 (arithmetic continuation from the registered W117 B tail)
                             "shard_subdir": "n1_w118", "out_name": "n1_w118_results.json",
                             "engine_owner": "bm-b"},
+                       119: {"batch": "PERPETUAL-N1-W119",
+                            "prereg": ("research/PERPETUAL_N1_W119_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; ONE HUNDRED-AND-NINTH ENGINE-OWNED WAVE BY "
+                                       "MACHINE-DERIVE (engine_owner rows 108 + candidate), own-series "
+                                       "continuation per O-20261001-2355 sec.2 (first-free-number "
+                                       "law after the REGISTERED W118 row bm-b r678 freeze 565e5b0b4, "
+                                       "SINGLE STATE zero seat gap W2..W118 all registered; seat "
+                                       "published=reserved MSG-2026-10-04-2323-bma-w119-seat PUSHED to "
+                                       "origin 432a1eaca BEFORE this freeze per r565 early-visibility "
+                                       "law; pre-seat probe and freeze-window band-gate runs derive "
+                                       "identical, no fork face; payload = seat MSG only, deletion-set "
+                                       "EMPTY, rev.A = only published face), "
+                                       "engine_owner=bm-a, wave 119: "
+                                       "A = arithmetic continuation from the registered W118 A tail "
+                                       "(281_004..283_003 CLEAN hops=0) + B = arithmetic continuation "
+                                       "from the registered W118 B tail (65_450..65_649 CLEAN hops=0, "
+                                       "zero-jump two-reading-identical face, cross-machine convergence "
+                                       "with the bm-b r678 W118 gate-tail W119+ projection re-derived; "
+                                       "ADMIT receipt results/_r701bma_w119_band_gate.py; W120+ "
+                                       "projection per this window gate: A 283_004..285_003 CLEAN / "
+                                       "B first-clean 65_650..65_849 CLEAN (hops=0) for the next "
+                                       "freezer); "
+                                       "W115 finalize LANDED (net chain head 617,548, K=250,920, bm-c "
+                                       "r445 one-pass) + THREE in-flight upstream seats W116 bm-b "
+                                       "(registered bc1e82773, 6/12 shards burned, engine RAM floor "
+                                       "gate self-paced, finalize pending) + W117 bm-a (registered "
+                                       "c36a087ea, 12/12 shards burned, finalize rehearsal PASS r684 "
+                                       "and ARMED on W116 landing) + W118 bm-b (registered 565e5b0b4, "
+                                       "0/12 burned, queued behind W116 on the bm-b engine) -- "
+                                       "finalize merge loop still derives the wave set from registry "
+                                       "keys at run time, FAIL-CLOSED r307 always on)"),
+                            "a_seed_base": 281_004,        # law sec.4 W119 A: 281_004..283_003 (arithmetic continuation from the registered W118 A tail)
+                            "b_exit_seed_base": 65_450,   # law sec.4 W119 B: 65_450..65_649 (arithmetic continuation from the registered W118 B tail)
+                            "shard_subdir": "n1_w119", "out_name": "n1_w119_results.json",
+                            "engine_owner": "bm-a"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -17423,6 +17459,137 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+
+
+    # --- W119 materializer face (r701 bm-a freeze, own-series law
+    #     under CEO de-throttle order O-20261001-2355 sec.2): bm-a's
+    #     thirty-fifth owned per machine-derive (engine_owner==bm-a
+    #     rows 34 + candidate); wave 119 = first free number after
+    #     the REGISTERED W118 row (bm-b r678 freeze 565e5b0b4) --
+    #     SINGLE STATE zero seat gap (W2..W118 all registered).
+    #     Seat published=reserved MSG-2026-10-04-2323-bma-w119-seat
+    #     pushed to origin 432a1eaca BEFORE this freeze, r565 law
+    #     (payload = seat MSG only; deletion-set EMPTY; rev.A = only
+    #     published face). ONE HUNDRED-AND-NINTH engine wave BY
+    #     MACHINE-DERIVE (engine_owner rows 108 + candidate; gate
+    #     leg0 machine output governs per r359 law). W1..W115
+    #     finalize LANDED (net chain head 617,548, K=250,920, bm-c
+    #     r445 one-pass) + THREE in-flight upstream seats W116 bm-b
+    #     (registered bc1e82773, 6/12 shards burned, engine RAM
+    #     floor gate self-paced, finalize pending) + W117 bm-a
+    #     (registered c36a087ea, 12/12 shards burned, finalize
+    #     rehearsal PASS r684, ARMED on W116 landing) + W118 bm-b
+    #     (registered 565e5b0b4, 0/12 burned, queued behind W116 on
+    #     the bm-b engine) -- finalize merge loop still derives the
+    #     wave set from registry keys at run time, FAIL-CLOSED r307
+    #     always on. ADMIT receipt results/_r701bma_w119_band_gate.py;
+    #     banned gate ADMIT 0; not a re-pick (R250: W119 bands were
+    #     never assigned).
+    _set_wave(119)
+    try:
+        assert WAVE_CONFIGS[119]["a_seed_base"] == pf.N1_BANDS[119]["a"][0], \
+            "W119 A band drift vs law mirror"
+        assert WAVE_CONFIGS[119]["b_exit_seed_base"] == \
+            pf.N1_BANDS[119]["b_exit"][0], "W119 B band drift vs law mirror"
+        assert WAVE_CONFIGS[119].get("engine_owner") == \
+            pf.N1_BANDS[119].get("engine_owner") == "bm-a", \
+            "W119 engine_owner drift (law mirror parity)"
+        w119_a = {A_SEED_BASE + j for j in range(A_N)}
+        w119_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w119_a & w119_b), "W119 A/B band overlap"
+        assert not (w119_a & reg_ints) and not (w119_b & reg_ints), \
+            "W119 hits SEED_REGISTRY"
+        for nm, band in (("A", w119_a), ("B", w119_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W119 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W119 {nm} hits W1"
+            assert not (band & probes), f"W119 {nm} hits probe seeds"
+        # registered row parity (r307 pinned constants, recent estate)
+        assert pf.N1_BANDS[114] == {"a": (271_004, 273_003),
+                                    "b_exit": (62_201, 62_400),
+                                    "engine_owner": "bm-a"}, \
+            "registered W114 row parity drift (r307; bm-a r594)"
+        assert pf.N1_BANDS[115] == {"a": (273_004, 275_003),
+                                    "b_exit": (62_501, 62_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W115 row parity drift (r307; bm-c r445)"
+        assert pf.N1_BANDS[116] == {"a": (275_004, 277_003),
+                                    "b_exit": (62_701, 62_900),
+                                    "engine_owner": "bm-b"}, \
+            "registered W116 row parity drift (r307; bm-b r677)"
+        assert pf.N1_BANDS[117] == {"a": (277_004, 279_003),
+                                    "b_exit": (65_050, 65_249),
+                                    "engine_owner": "bm-a"}, \
+            "registered W117 row parity drift (r307; bm-a r683)"
+        assert pf.N1_BANDS[118] == {"a": (279_004, 281_003),
+                                    "b_exit": (65_250, 65_449),
+                                    "engine_owner": "bm-b"}, \
+            "registered W118 row parity drift (r307; bm-b r678)"
+        # prior-wave disjointness W2..W118 (single state: all
+        # registered, dynamic registry derive, r511 law)
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 119):
+            assert not (w119_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W119 A hits W{wprev}"
+            assert not (w119_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W119 B hits W{wprev}"
+        n3r1_used119 = set(range(70_000, 70_006))
+        assert not (w119_a & n3r1_used119) and not (w119_b & n3r1_used119), \
+            "W119 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        assert not (w119_a & lfc_actual12) and not (w119_b & lfc_actual12), \
+            "W119 bands must clear the lfc actual draw range"
+        assert not (w119_a & options_actual12) and \
+            not (w119_b & options_actual12), \
+            "W119 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W119 row, r701): A and B are both
+        # arithmetic continuations from the registered W118 tails,
+        # zero skips on both faces (CLEAN windows, hops=0).
+        assert WAVE_CONFIGS[119]["a_seed_base"] == 281_004 == 281_003 + 1, (
+            "W119 A must be the arithmetic continuation past the W118 "
+            "registered A band tail")
+        arith_a119 = set(range(281_004, 283_004))
+        assert not (arith_a119 & reg_ints), \
+            "W119 A window must be CLEAN (arithmetic ADMIT face)"
+        assert WAVE_CONFIGS[119]["b_exit_seed_base"] == 65_450 == 65_449 + 1, (
+            "W119 B must be the arithmetic continuation past the W118 "
+            "registered B band tail")
+        arith_b119 = set(range(65_450, 65_650))
+        assert not (arith_b119 & reg_ints), \
+            "W119 B window must be CLEAN (arithmetic ADMIT face, hops=0)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W119-SHARD-0",
+                                          "n1w119-0of12"), "W119 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W119-SHARD-11",
+                                           "n1w119-11of12")
+        assert SHARD_DIR.endswith("n1_w119") and OUT.endswith(
+            "n1_w119_results.json"), "W119 path drift"
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 119):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W119 shard dir collides with W{wprev}"
+        # W119 finalize cumulative deps: W17..W115 outputs ALL PRESENT
+        # (landed net chain head 617,548 = W115 bm-c r445 one-pass;
+        # W116 bm-b + W117 bm-a + W118 bm-b registered with finalize NOT
+        # landed = THREE in-flight upstream seats, honest note; the
+        # finalize merge loop derives the wave set from registry keys at
+        # run time and stays FAIL-CLOSED, r307 two-state law).
+        for _depw in range(17, 116):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W119 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): every
+        # registered wave below 119 composes; wave 15 excluded by
+        # design; SINGLE STATE (W2..W118 all registered -- no
+        # two-state seat disclosure needed at this freeze).
+        assert sorted(w for w in WAVE_CONFIGS if w < 119) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \
+            [w for w in range(16, 119)], \
+            "W119 prior-wave set must derive from registry keys (no 15; " \
+            "W2..W118 registered single state)"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W119_PREREG.md")), \
+            "W119 per-wave prereg missing (materializer requirement)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -19524,6 +19691,36 @@ def selftest() -> int:
 "65_450..65_649 CLEAN (hops=0) disclosed for the next freezer; "
 "not a free pick -- R250), "
 "law sec.4 W118 row, r678 bm-b] "
+          "+ W119 materializer face [same guard set, dep=W17..W115 "
+"outputs ALL PRESENT (landed net chain head 617,548 = W115 "
+"bm-c r445 one-pass, K=250,920; THREE in-flight upstream seats "
+"W116 bm-b registered bc1e82773 6-of-12 shards burned RAM-floor-"
+"gated + W117 bm-a registered c36a087ea 12/12 burned finalize-"
+"rehearsal-ARMED + W118 bm-b registered 565e5b0b4 0/12 queued "
+"-- finalize merge loop still derives the wave set from registry "
+"keys at run time, FAIL-CLOSED r307 always on), ONE HUNDRED-AND-"
+"NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 108 "
+"+ candidate) bm-a's thirty-fifth owned claim per machine-derive "
+"(engine_owner==bm-a rows 34 + candidate), engine_owner=bm-a "
+"per engine de-throttle law O-20261001-2355 sec.2 own-continuous-"
+"series (wave 119 = first FREE number after the REGISTERED W118 "
+"row bm-b r678 freeze 565e5b0b4, SINGLE STATE zero seat gap "
+"W2..W118 all registered; zero seat conflict this window, "
+"cross-machine derive convergence with the bm-b r678 W118 "
+"gate-tail W119+ projection re-derived; seat published=reserved "
+"MSG-2026-10-04-2323-bma-w119-seat pushed to origin 432a1eaca "
+"BEFORE this freeze, r565 law; payload = seat MSG only "
+"deletion-set EMPTY, rev.A = only published face), "
+"A=arithmetic continuation from the registered W118 A tail "
+"(281_004..283_003 CLEAN hops=0) + B=arithmetic continuation "
+"from the registered W118 B tail (65_450..65_649 CLEAN hops=0, "
+"zero-jump two-reading-identical face, cross-machine convergence "
+"with the bm-b r678 W118 gate-tail W119+ projection re-derived; "
+"ADMIT receipt results/_r701bma_w119_band_gate.py; W120+ projection "
+"per this window gate: A 283_004..285_003 CLEAN / B first-clean "
+"65_650..65_849 CLEAN (hops=0) disclosed for the next freezer; "
+"not a free pick -- R250), "
+"law sec.4 W119 row, r701 bm-a] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
