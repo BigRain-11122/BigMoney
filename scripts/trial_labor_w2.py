@@ -352,14 +352,18 @@ def _ram_gate_gb(threshold=4.0, wait_min=40):
             if attempt:
                 print(f"RAM-GATE: window opened (min sample "
                       f"{round(min(vals), 2)}GB) after {attempt} "
-                      f"wait cycle(s)")
+                      f"wait cycle(s)", flush=True)
             return round(min(vals), 2), True
         attempt += 1
         if time.time() >= deadline:
             return round(min(vals), 2), False
+        # r691 bm-b: flush per r680 four-piece law -- a detached
+        # block-buffered wait loop is indistinguishable from a hung
+        # runner from the burn log (zero bytes while healthy-waiting).
         print(f"RAM-GATE: min free RAM {round(min(vals), 2)}GB < "
               f"{threshold}GB -- in-place wait for RAM window "
-              f"(cycle {attempt}, cap {wait_min}min, r379 wait-law)")
+              f"(cycle {attempt}, cap {wait_min}min, r379 wait-law)",
+              flush=True)
         time.sleep(60.0)
 
 
