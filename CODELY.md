@@ -97,4 +97,42 @@
 - [2026-10-04 09:2x r659 bm-b] tasklist /FI 单pid滤嘴假死坑（trio NULLS 值守探针实弹）：python subprocess ['tasklist','/FI','PID eq 34396'] 返回空表头而进程实活（CIM Win32_Process 与 tasklist /FO CSV 全量拉第2列整数字比对均证活）——liveness 探针按此判死=假死读数，误判重启 runner=池面双烧入口（pit-pool 幽灵 claim 族前置面）；正法=CSV 全量拉+列位比对（results/_r659bmb_trio_health.py 范式）或 CIM 直查。How to apply：一切 pid 活性判定（尤其 kill/respawn 决策前）禁单靠 tasklist /FI 单 pid 滤嘴。
 - [2026-10-04 09:1x r457 bm-c] 池 claim 自锁坑=r288 keepalive owner==myid 门×活烧无主窗（FUND-QUALITY-P1-NULLS 实弹）：r637 四面手术只修了其触碰的 2/3 分片（VALUE/DIVLOWVOL），漏网 QUALITY 自 off-caliber 释放后 ownerless 近 24h——烧录机 daemon 因 owner!=myid 永不续戳（自锁环：claim 缺失→keepalive 跳过→claim 恒缺），他机 daemon 每 tick 试领（bm-a 09:02 fuse_refused 571 次实录·仅 crash fuse 拦=r617 版本键边界一破即第 5 次双烧）。正法=第三方外科恢复 owner 行（r637 rightful-owner 先例+r400 action-time+shard note 溯源）→r288 门即过→烧录机 daemon 下 tick 自领养自续戳=自愈闭环；手术门序=treasure_guard rc0+local==origin 恒等+needle count==1+reparse+trio pre/post delta+numstat 外科断言。连带：r629 加字段镜像坑=原末字段后插新字段必须补尾逗号（首试 reparse 门当场拦零伤害）；多分片手术必枚举全部受影响 entry 禁只修亲手触碰面。How to apply：池面观测见「活烧+owner=None」先按 r489 origin 真值复核，确认即走本条恢复路；他机 daemon keepalive 消息列单缺某在飞分片=自锁环指征。
 - [2026-10-04 09:3x r660 bm-b] 探针假警双面当场抓回（零误报上报·r641 复现证伪律两连兑现）：①**D-19 哈希取数 PS 管道转码损坏**——`git show origin/main:<path> | python -c sha256` 经 PS 管道=git 原字节被 console 编码（GBK）解码再编码→假新 sha（本窗 8019f543 假 CHANGED vs 水位 EB14B510 双 MATCH）；r660 bm-a「git show 原字节律」的正确执行形=python subprocess capture_output 直调 git（零 PS 管道零落盘中转），sparse-clone 落盘文件直哈希虽本窗偶合水位（blob 本 CRLF 未翻译）仍是禁路——三路中唯 subprocess 合法。②**post_review P0 门=官方 REPORT 面非 raw ledger 计数**——ledger verdict='NO' 38 行为历史+rerun 批（append-only 史照录），复审纪律的「✗ 行=下一轮 P0」消费面=results/post_review/REPORT-<date>.md 判定分布行（本窗 ✓45/✗0/🟡5 零活红）；附带探针坑=`str(r.get('k','')).upper().startswith('NO')` 对显式 null 键值产 'NONE' 前缀命中=missing-key 与 null 值两态必分判。How to apply：D-19/水位哈希一律 subprocess 原字节；post_review 红线判定读 REPORT 面；探针 filter 对 None 值先归一 ('' if v is None else str(v))。
+- [2026-10-04 09:4x r661 bm-b] 探针单形假死读数×决策前双形交叉律（r659 姊妹面·QUALITY 收养核验实弹）：liveness 探针首读 pid 57116 "NOT FOUND"（CIM -Filter 单 pid 形）而全量扫 Where-Object 形证活——r641 复现律先跑再立法：四形对照复现证伪「CIM -Filter 假死坑」假说，真根=探针自身格式串 bug（`-Filter 'ProcessId=%d'` 占位符未 `% pid` 格式化=字面 %d 当 WQL→恒空结果→假死读数）；正法=①探针命令串内一切 % 占位符落盘后必实格式化（探针文件 review 首查项）②活性读数若驱动 claim-release/kill/respawn 类池面决策，必以独立第二形（全量扫+匹配）交叉证活才许动手——单形读数禁直接消费（本窗若无全量扫交叉，将误走 MSG-0915 item 2 的 release→re-light 路=烧毁在飞 QUALITY 判决批）。How to apply：写 pid 探针先自查占位符；「进程死了」读数与池面动作间必隔双形证据。
+
+## Codely Structured Memories
+### User
+### Feedback
+### Project
+### Reference
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [2026-10-04 09:4x r458 bm-c] 水位探针键口径错配=恒假 CHANGED 坑（r452 _r452bmc_d19_check.py 实弹·r660 同窗姊妹面）：orders 腿 state 键 last_orders_sha=SHA-1 40-hex（state 内 last_orders_sha_method 明载）而探针统一算 SHA-256=两键永不相等→每跑必假 GROUP_ORDERS_CHANGED（r458 首跑即中）；连带变更区 CJK console 打印→GBK UnicodeEncodeError 崩（pit-encoding 会话壳探针域）。修=results/_r458bmc_group_orders_check.py：per-key 口径（orders=SHA-1·decisions=SHA-256 双 MATCH 复核）+全部输出落 UTF-8 文件零 console 打印。How to apply：水位/内容寻址探针必逐键读 state 的 *_sha_method 对齐口径（禁套用同文件另一键的哈希族）；变更区提取一律写文件再读（r446 探针落文件律的水位面）。
