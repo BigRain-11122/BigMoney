@@ -1,0 +1,29 @@
+=== T1: reconcile evidence (r376 same-window law) ===
+RC: [compute_audit] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[regime_state] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[autofill_state] RETIRED-SHARED (lane-primary r381): frozen base last_tick/ts='2026-09-28 05:00:02'; merged view last_tick/ts='2026-10-05 04:02:31'; sources=['legacy', 'bm-a', 'bm-b', 'bm-c'] -- equality instrument retired with the shared write (strict lane write + C8 watchdog carry liveness)
+[runnable_pool] DRIFT DETECTED vs shared file -- full diff required before any switch (D-03 batch gate)
+[gate_attrition] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[post_review_criteria] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[update_status] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[heat_update_status] ZERO-DRIFT (merged view == shared file, 2 source(s))
+[lhb_update_status] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[futures_update_status] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[fundamental_status] DRIFT DETECTED vs shared file -- full diff required before any switch (D-03 batch gate)
+[token_usage] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[crash_fuse] ZERO-DRIFT (merged view == shared file, 4 source(s))
+[market_clock/call_latest] ZERO-DRIFT (merged view == shared file, 4 source(s))
+reconcile: 2 face(s) with drift: ['runnable_pool', 'fundamental_status']
+RECONCILE_RC=1
+=== T2: bookkeeping (heartbeat wave-complete + CODELY pit + close line) ===
+TB: TAILBOOK OK ts=2026-10-05T04:05:46+08:00 epoch=1791144346
+TAILBOOK_RC=0
+=== T3: tail commit + push ===
+tail commit rc=0
+HEAD: ddb19aeed r511 bm-c S7-close tail: CODELY pit law (integration-window x4: \ auto-var / scratch-external resolver / UU-list python-source / r420 heal gate) + round report close line (push_verify 0 undelivered, tip 3e4418c9b)
+push rc=0
+To github.com:BigRain-11122/BigMoney.git
+   3e4418c9b..ddb19aeed  main -> main
+VERIFY POS: [0	0]
+origin tip: ddb19aeed 2026-10-05 04:05:46 +0800 r511 bm-c S7-close tail: CODELY pit law (integration-window x4: \ auto-var / scratch-external resolver / UU-list python-source / r420 heal gate) + round report close line (push_verify 0 undelivered, tip 3e4418c9b)
+dirty-at-end=0
