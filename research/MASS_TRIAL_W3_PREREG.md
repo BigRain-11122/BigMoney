@@ -56,15 +56,16 @@
 - `w3_screen_checkpoint.jsonl`（逐行 checkpoint 续跑）+ `w3_screen_summary.json`（顶层 evidence_cutoff+trials_ledger·§7 回填面）。
 - **screen 池件**：MASS-TRIAL-W3-SCREEN-SHARD-{0..3}（4 分片·每片 ~1,261 行·pos 边界按 generate 实际 n 计算后写入 runner_args·workers=worker_cap() BelowNormal·O-1136+CPU 10% 余量令·每片 ~5-6min 墙钟@25 workers）；分片 checkpoint 追加=append-only 单文件多写者（w2 三执行体接力实证安全·finalize 按 id 去重幂等）。
 
-## §7 跑后实证（占位·回填 source=）
+## §7 跑后实证（回填 2026-10-04 r483 bm-c·source=results/_r483bmc_w3_recon.json）
 
-- [ ] 存活率/null 面/R 轴效应/族谱/对照面/跨波去重坍缩六对账
-- [ ] 损耗账行（gate_attrition.json append·delta=enrolled·eliminated=dupes+dead+rejections）
+- [x] 六对账（4814 候选全瓦面·finalize complete=true·账本 646,799）：①存活率 **16.31%**（785/4814·带内 10-18%·w1 17.0%/w2 16.67% 三波稳态）②null 面 p50 0.45∈[0.30,0.50]·p95 **0.5333**<0.60（距线 0.067=第三波同薄裕量如实）③R 轴 bear 36.33% vs none 8.61%=**4.22×**（带 2-4× 上缘外 0.22×·w1 4.1×/w2 4.03× 三波 ~4× 稳态·披露非红线）④族谱方向 HIT 第三连（seasonal 28.1%/event 23.1%/patterns 20.0% vs trend 6.7%/momentum 7.3%）⑤对照面 5/75 过线=与 w2 逐字同清单（带 5-12 内·2 例月参数缺省 signal_error 与 w1/w2 同）⑥跨波去重坍缩 **1274**（916 param+358 signal）vs 带 150-600=**超上界 2.1×**→机制复核披露（见 §8）。
+- [x] 损耗账行：results/gate_attrition.json entries 追加 MASS_TRIAL_W3 行（delta=enrolled **4814**·ledger_total_after 646,799·eliminated=screen 面 4029；generate 面损耗全量入 dedup_face：within-wave param 417+signal 734+rejections 9+dead 227·cross-wave 1274）。
+- 附注（r482 律执行）：finalize 前 checkpoint keep-first id 去重 1227 双烧行（bm-a r685 union 面·elapsed_s-only 差异=零信息损失断言过）6136→4909 行，证据 results/_r483bmc_ckpt_dedup.json；6136 行原面 git 史保全（1990102fa）。
 
-## §8 批后复盘（占位）
+## §8 批后复盘（回填 2026-10-04 r483 bm-c）
 
-- [ ] §5 六条预测对账+复跑纪律（checkpoint 逐行留存+finalize 幂等复跑确认）
-- [ ] 跨波可比性注记（w2/w3 同栈=修正引擎面·两波读数同栈可比——w1 旧栈史不同栈如实注记）
+- [x] §5 六条预测对账：**4/6 带内**（存活率/null/对照/族谱方向）；**2/6 出带均披露**——③R 轴 4.22× 超 2-4× 带 0.22×（三波 ~4× 稳态=带标定过窄的锚，非机制异常）；⑥跨波坍缩 1274 超 600 上界 2.1×（机制=枚举/小整数离散碰撞·随去重基 5811 扩张·坍缩率 21.9% vs w2 28.6%=基增长一致的次线性扩张·w2 曾错 55×→本波预测带已收窄但仍偏低·下一波带标定按「坍缩率 20-30%×基规模」重标）；quota_short 3 族（ceiling-not-quota 如实）。复跑纪律：checkpoint 逐行留存（4909 唯一行）+finalize 幂等=构造保证（complete+trials_ledger 在位即不重算账·r252 链线性律）。
+- [x] 跨波可比性注记：w2/w3 同栈（修正引擎面 RW-1/RW-3）两波读数同栈可比（存活率 16.67%→16.31%·null p95 0.5333→0.5333·R 轴 4.03×→4.22×·对照 5/75 同清单=四指标同栈复现）；w1 旧栈史不同栈如实注记不并入同栈横比。
 
 ## §9 s3 全量判决面段冻结位（占位——具体判线/种子/分片在 s3 跑前以追加节 commit 冻结后才许烧）
 
