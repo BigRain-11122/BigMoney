@@ -1,23 +1,24 @@
 {
   "latest": {
-    "ts": "2026-10-04 18:40:03",
+    "ts": "2026-10-04 18:39:52",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 64.0,
-    "py_cpu_pct": 86.3,
-    "cores": 16,
-    "py_procs": 27,
-    "result_stale_min": 0.9,
+    "cpu_total_pct": 2.0,
+    "py_cpu_pct": 4.9,
+    "cores": 32,
+    "py_procs": 9,
+    "result_stale_min": 0.7,
     "fleet_open_tasks": 0,
     "pool_ready_count": 4,
     "pool_ready_unclaimed": 0,
-    "load_state": "burning-healthy",
+    "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
-      "reason": "burning-healthy"
+      "reason": "pool-supply-gap"
     },
-    "supply_gap_candidate": false,
+    "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "reason": "burning-healthy"
+      "run_samples": 2,
+      "span_min": null
     },
     "supply_floor": {
       "ready": 4,
@@ -28,9 +29,9 @@
     "supply_family_streak_min": null,
     "gpu": {
       "present": true,
-      "util_pct": 3.0,
-      "mem_used_mb": 4729.0,
-      "compute_apps_count": 24,
+      "util_pct": 0.0,
+      "mem_used_mb": 15512.0,
+      "compute_apps_count": 16,
       "rogue_apps": []
     },
     "zombies": [],
@@ -10529,24 +10530,25 @@
       "verdict": "CLEAN"
     },
     {
-      "ts": "2026-10-04 18:40:03",
+      "ts": "2026-10-04 18:39:52",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 64.0,
-      "py_cpu_pct": 86.3,
-      "cores": 16,
-      "py_procs": 27,
-      "result_stale_min": 0.9,
+      "cpu_total_pct": 2.0,
+      "py_cpu_pct": 4.9,
+      "cores": 32,
+      "py_procs": 9,
+      "result_stale_min": 0.7,
       "fleet_open_tasks": 0,
       "pool_ready_count": 4,
       "pool_ready_unclaimed": 0,
-      "load_state": "burning-healthy",
+      "load_state": "pool-supply-gap",
       "pool_starvation_candidate": false,
       "pool_starvation_detail": {
-        "reason": "burning-healthy"
+        "reason": "pool-supply-gap"
       },
-      "supply_gap_candidate": false,
+      "supply_gap_candidate": true,
       "supply_gap_detail": {
-        "reason": "burning-healthy"
+        "run_samples": 2,
+        "span_min": null
       },
       "supply_floor": {
         "ready": 4,
@@ -10557,9 +10559,9 @@
       "supply_family_streak_min": null,
       "gpu": {
         "present": true,
-        "util_pct": 3.0,
-        "mem_used_mb": 4729.0,
-        "compute_apps_count": 24,
+        "util_pct": 0.0,
+        "mem_used_mb": 15512.0,
+        "compute_apps_count": 16,
         "rogue_apps": []
       },
       "zombies": [],
