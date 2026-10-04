@@ -1915,6 +1915,21 @@ SEED_REGISTRY = {
     # sec.3; consumption face = judge batch, separately frozen per prereg
     # sec.3 two-stage law); band 542_500..542_999; same forced-skip freeze
     # commit (R250 one-step law)
+    "perpetual_n2_w15_judge": 545_500,  # PERPETUAL-N2-W15-JUDGE dual-nulls seed
+    # (sec.9.1 freeze window 2026-10-05 bm-b r702; rng=[545_500, cell_idx]
+    # pinned to the two resample faces only, mtw1._dual_nulls import face).
+    # Fresh live-export derive at the freeze window per sec.9.1
+    # precondition 3 -- the r698 rehearsal X=545_000 was legitimately
+    # displaced by the N1 W116/W119 band landings (A-head 281_003 ->
+    # 285_003; r682 ladder-horizon law = new N1 waves raise the horizon,
+    # mechanism drift not a re-pick; R250: berth never assigned, zero
+    # cells burned); ADMIT receipt results/_r702bmb_n2_judge_band_gate.json
+    # (N1_BANDS live export + registry 182 values +-2000 halo + explicit
+    # actual-flow ranges + A/B ladder horizons, band 545_500..545_999
+    # CLEAN); banned gate exit 0 matched=[]
+    # results/_r702bmb_n2_judge_banned_gate.json; registered in the
+    # sec.9.1 freeze commit (R250 one-step law, same commit as the
+    # prereg sec.9.1 append + runner slice-4 judge legs)
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

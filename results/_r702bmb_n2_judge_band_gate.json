@@ -1,0 +1,59 @@
+{
+ "tag": "_r702bmb_n2_judge_band_gate",
+ "legs": {
+  "P1_precondition_1": {
+   "screen_product_present": true,
+   "trials_ledger_present": true,
+   "n_survivors": 281,
+   "survivors_nonempty": true,
+   "trials_total": 647953
+  },
+  "A_import_faces": {
+   "science_gates": true,
+   "p5c_cutoff_binding": true,
+   "p5c_census_shape": true,
+   "mtw1_judge_legs": true,
+   "tl14_replay_face": true,
+   "tl14_cutoff_binding": true,
+   "n1_bands_live_export": true
+  },
+  "C_judge_band_derive": {
+   "n1_bands_rows": 118,
+   "n1_max_wave": 120,
+   "a_head_end": 285003,
+   "b_head_end": 65849,
+   "horizon": [
+    285004,
+    545003
+   ],
+   "registry_n": 182,
+   "halo": 2000,
+   "own_key_excluded": [
+    "perpetual_n2_w15_judge"
+   ],
+   "derived_x_judge": 545500,
+   "scan_steps_past_x_min": 0,
+   "band": [
+    545500,
+    545999
+   ],
+   "band_clean": true,
+   "n2_screen_trio_in_registry": {
+    "perpetual_n2_w15_gen": 541500,
+    "perpetual_n2_w15_scrnull": 542000,
+    "perpetual_n2_w15_unc": 542500
+   },
+   "verdict": "ADMIT",
+   "note": "sec.9.1 freeze-window derive (fresh live exports); registration lands at the sec.9.1 freeze commit (R250 one-step law, same commit)"
+  },
+  "D_ledger_head": {
+   "ledger_head": {
+    "total": 647953,
+    "file": "n2_w15_screen.json",
+    "note": null
+   },
+   "note": "N_eff accumulation base snapshot (read-only); finalize-time re-read is binding"
+  }
+ },
+ "err": null
+}

@@ -15364,6 +15364,30 @@
    "worker_class": "self-contained",
    "done_by": "bm-a",
    "done_at": "2026-10-04 22:12:34"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-PREP",
+   "ticket_ref": "T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); sec.9.1 freeze window 2026-10-05 r702 bm-b (slice-4 judge legs + sec.9.1 append + berth registration same freeze commit)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 (FROZEN 2026-10-05 r702 bm-b freeze commit; judge berth perpetual_n2_w15_judge=545_500 band 545_500..545_999 ADMIT receipt _r702bmb_n2_judge_band_gate.json; banned gate exit 0 _r702bmb_n2_judge_banned_gate.json)",
+   "consumer_plan": "N2-W15 judge chain step 1: judge-prep (collapse 0.999 leg-L daily returns -> N_judge + dual-leg starts/passive precompute) -> n2_w15_judge_state.json one-shot -> 12-shard judge burn submissions (separate pool entries once N_judge is fixed) -> judge-finalize (ledger append PERPETUAL-N2-W15-JUDGE) -> prereg sec.7/sec.8 backfill",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge-prep"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05 01:0x",
+   "data_gates": "in-runner: sec.9.1 FREEZE-GATE (judge berth registered) + screen product trials_ledger gate + survivors-present gate + dual-leg census gates (FROZEN_CENSUS L/D) + one-shot state-file gate + RAM gate 4GB r354/r691 (honest rc2 refuse while the trio NULLS occupy RAM until ~10-06T17; re-claim when the window opens)",
+   "shards": [
+    {
+     "key": "n2w15judge-prep-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/n2_w15/n2_w15_judge_state.json"
+    }
+   ]
   }
  ],
  "lane_machine": "bm-b"

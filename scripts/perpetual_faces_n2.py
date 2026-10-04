@@ -75,6 +75,7 @@ registered band; lfc_p1_screen=30_000 in use -> first free window):
 """
 import argparse
 import csv
+import hashlib
 import json
 import math
 import os
@@ -96,6 +97,9 @@ import trial_labor_w6 as tl6  # noqa: E402
 import trial_labor_w7 as tl7  # noqa: E402
 import trial_labor_w8 as tl8  # noqa: E402
 import trial_labor_w14 as tl14  # noqa: E402  (grammar + engine face)
+import mass_trial_w1 as mtw1    # noqa: E402  (judge grid import-face:
+                                # _collapse_survivors/_dual_nulls/
+                                # _yearly_returns -- sec.9 zero-rewrite)
 import science_gates as sg  # noqa: E402
 
 WAVE = 15
@@ -145,6 +149,25 @@ SEED_GEN = BAND_GEN            # 541_500 (registered at freeze commit)
 SEED_NULL = BAND_SCRNULL       # 542_000
 SEED_UNC = BAND_UNC            # 542_500
 W6M = tl2.W6M                  # 126 td, frozen 6m window (tl2 face)
+
+# --- s3 judge face (prereg sec.9/sec.9.1; berth perpetual_n2_w15_judge
+#     registered at the sec.9.1 freeze commit per R250 one-step law;
+#     grid isomorphic to mass_trial_w1 sec.9.1: p5c FROZEN_CENSUS legs
+#     L/D x windows {6m,12m,24m} x cost {x1 engine default, x2
+#     CostPatch(2.0) t22 Erratum-1 multiplier law} x regime 3-way
+#     segments + dual nulls B=2000 block=20 circular + P=2000
+#     sign-flip, rng=[seed, cell_idx], resample faces only) ---
+JUDGE_BATCH = "PERPETUAL-N2-W15-JUDGE"
+JUDGE_BER = "perpetual_n2_w15_judge"     # SEED_REGISTRY key
+JUDGE_STATE_FILE = os.path.join(RES_DIR, "n2_w15_judge_state.json")
+JUDGE_OUT_FILE = os.path.join(RES_DIR, "n2_w15_judge.json")
+JUDGE_REFINALIZE_ENV = "PERPETUAL_N2_W15_JUDGE_REFINALIZE"
+JUDGE_COLLAPSE_LINE = 0.999              # sec.9 entry dedup line
+JUDGE_SHARDS_DEFAULT = 12                # sec.9.1 freeze: pool shards
+D6_REJECT_LINE = 0.7                     # sec.1/sec.9 D6 vs REG6
+REG6 = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
+        "ENGULF-CE-01", "NEEDLE-DE-01", "VOLATILITY-CE-01")
+D6_MIN_OVERLAP = 60                      # honest-alignment floor
 
 # --- the 14 overlay axes of the frozen 18-tuple (indices 4..17),
 #     module-sourced verbatim (import-face; never hand-copied).  Each
@@ -1405,6 +1428,634 @@ def cmd_finalize() -> int:
     return 0
 
 
+# ========================= s3 judge face (slice-4, prereg sec.9.1) ====
+
+def _judge_band_registered() -> bool:
+    return JUDGE_BER in sg.SEED_REGISTRY
+
+
+def _judge_freeze_gate(stage: str) -> int:
+    """Judge-leg gate head: base trio bands (slice-2 face) + the judge
+    berth registered at the sec.9.1 freeze commit (R99 zero-burn-
+    before-freeze / R250 one-step; rc 2 = honest refuse, zero
+    products)."""
+    rc = _freeze_gate(stage)
+    if rc:
+        return rc
+    if not _judge_band_registered():
+        print(f"FREEZE-GATE [{stage}]: judge berth {JUDGE_BER} NOT "
+              "registered -- sec.9.1 freeze commit pending (R99/R250; "
+              "honest refuse, zero products)")
+        return 2
+    return 0
+
+
+def _judge_ckpt_path(shard: int, shards: int) -> str:
+    return os.path.join(
+        CKPT_DIR, f"n2_w15_judge_shard_{shard}of{shards}.jsonl")
+
+
+def _judge_scan_done(ck: str) -> set:
+    """Done set from a judge shard checkpoint; a row counts as done
+    ONLY with a full judged payload (cell_id + legs +
+    legL_daily_returns) -- r670 non-empty-payload law."""
+    done = set()
+    if not os.path.exists(ck):
+        return done
+    with open(ck, encoding="utf-8") as fh:
+        for ln in fh:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                r = json.loads(ln)
+                if (r.get("cell_id") and "legs" in r
+                        and r.get("legL_daily_returns")):
+                    done.add(r["cell_id"])
+            except Exception:
+                pass
+    return done
+
+
+def _b_layer_fundamental_ok(P) -> object:
+    """fundamental_ok mask for a leg panel (screen cmd_run face
+    verbatim; B_LAYER_MASK ok_static codes)."""
+    try:
+        bl = pd.read_csv(tl1.B_LAYER_MASK)
+        ok_codes = set(bl.loc[bl["ok_static"] == True, "code"].astype(str))
+        overlap = sorted(s for s in P["close"].columns if s in ok_codes)
+    except Exception:
+        return None
+    if not overlap:
+        return None
+    fundamental_ok = pd.DataFrame(False, index=P["close"].index,
+                                  columns=P["close"].columns)
+    for s in overlap:
+        fundamental_ok[s] = True
+    return fundamental_ok
+
+
+def _judge_leg_state(prices, P, fundamental_ok, grammar) -> dict:
+    """Per-leg shared overlay state on the SAME screen face
+    (_leg_state_shared reuse; dummy prep keys for the two screen-only
+    fields the judge state carries itself -- zero re-implementation of
+    the 14 series)."""
+    return _leg_state_shared(prices, P, fundamental_ok, grammar,
+                             {"starts": [], "passive_6m_ret": {}})
+
+
+def _judge_replay(st_leg: dict, cand, template, face: str):
+    """One (leg, cost-face) replay through the SAME tl14 stack as the
+    screen (sec.9: screen/judge zero-migration); x2 = sg.CostPatch(2.0)
+    context (t22 Erratum-1 multiplier law, engine single source)."""
+    cmgr = None
+    if face == "x2":
+        cmgr = sg.CostPatch(2.0)
+        cmgr.__enter__()
+    try:
+        out = tl14.run_candidate_curve_w14(
+            cand, template, st_leg["prices"], st_leg["P"],
+            st_leg["states"], st_leg["atr20"],
+            fundamental_ok=st_leg["fundamental_ok"],
+            gate_state=st_leg.get("gate_state"),
+            vol_state=st_leg.get("vol_state"),
+            yang_state=st_leg.get("yang_state"),
+            vconf_state=st_leg.get("vconf_state"),
+            streak_state=st_leg.get("streak_state"),
+            tstate_state=st_leg.get("tstate_state"),
+            amp_state=st_leg.get("amp_state"),
+            mom_state=st_leg.get("mom_state"),
+            std_state=st_leg.get("std_state"),
+            rsqr_state=st_leg.get("rsqr_state"),
+            sumn_state=st_leg.get("sumn_state"),
+            resi_state=st_leg.get("resi_state"),
+            cnt_state=st_leg.get("cnt_state"))
+    finally:
+        if cmgr is not None:
+            cmgr.__exit__(None, None, None)
+    return out
+
+
+def _judge_cell_w15(cell: dict) -> dict:
+    """One collapsed-survivor judged cell (pool worker; sec.9.1 grid
+    isomorphic to mass_trial_w1 _judge_cell: legs L/D x cost x1/x2 x
+    windows {6m,12m,24m} sliced from full curves + regime segments
+    (T-22 sec.3 frozen 3-way proxy) + dual nulls + G1'/DSR inputs +
+    descriptive clauses; replay via the tl14 screen stack)."""
+    st = tl1._ST
+    cand, template = cell["cand"], cell.get("template")
+    out = {"cell_id": cell["cell_id"],
+           "candidate_id": cand["candidate_id"],
+           "family": cand["family"], "i": cell["i"],
+           "k_active": cand.get("subspace_k"),
+           "active_axes": (list(cand["subspace_active"])
+                           if cand.get("subspace_active") is not None
+                           else None)}
+    legs, legL_daily = {}, None
+    for leg in ("L", "D"):
+        st_leg = st["legs"][leg]
+        idx = st_leg["idx"]
+        faces = {}
+        for face in ("x1", "x2"):
+            o = _judge_replay(st_leg, cand, template, face)
+            eq, metrics = o[0], o[2]
+            beat = {}
+            for wname, w in tl1.WINDOWS.items():
+                k = tot = 0
+                for p in st["starts"][leg][wname]:
+                    if p + w - 1 >= len(eq):
+                        continue
+                    tot += 1
+                    cret = float(eq.iloc[p + w - 1] / eq.iloc[p] - 1.0)
+                    if cret > st["passive"][leg][wname][str(p)]:
+                        k += 1
+                beat[wname] = {"k": k, "n": tot,
+                               "rate": round(k / tot, 6) if tot else 0.0}
+            faces[face] = {
+                "sharpe_full": round(float(tl1.sharpe(eq)), 4),
+                "n_trades": int(metrics.get("num_trades", 0)),
+                "n_entries": int(metrics.get("num_entries", 0)),
+                "max_dd": round(float(tl1.max_drawdown(eq)), 4),
+                "yearly": mtw1._yearly_returns(eq), "beat": beat,
+            }
+            if leg == "L" and face == "x1":
+                legL_daily = eq.pct_change().fillna(0.0)
+        # regime segments at window starts (T-22 sec.3 3-way proxy;
+        # the v3 series is the same face the replay consumed)
+        s_series = st_leg["states"].reindex(idx)
+        segs = {"bear": 0, "bull": 0, "chop": 0, "na": 0}
+        for wname in tl1.WINDOWS:
+            for p in st["starts"][leg][wname]:
+                d = s_series.iloc[p] if p < len(s_series) else None
+                st_ = tl1.REGIME_MAP.get(d, "na") if d == d else "na"
+                segs[st_] += 1
+        legs[leg] = {"x1": faces["x1"], "x2": faces["x2"],
+                     "regime_start_windows": segs}
+    out["legs"] = legs
+    daily = [round(float(v), 8) for v in legL_daily.values]
+    out["legL_daily_returns"] = daily
+    eq_l = (1.0 + legL_daily).cumprod()     # reconstruct for OOS split
+    oos = eq_l[eq_l.index >= st["oos_start"]]
+    oos_sharpe = float(tl1.sharpe(oos)) if len(oos) > 2 else 0.0
+    oos_ret = (float(oos.iloc[-1] / oos.iloc[0] - 1.0)
+               if len(oos) > 1 else 0.0)
+    n_days = max(len(eq_l), 1)
+    ann = float(eq_l.iloc[-1] / eq_l.iloc[0]) ** (252.0 / n_days) - 1.0
+    yearly = legs["L"]["x1"]["yearly"]
+    x2_yearly = legs["L"]["x2"]["yearly"]
+    worst_year = min(yearly.values()) if yearly else 0.0
+    x2_worst = min(x2_yearly.values()) if x2_yearly else 0.0
+    out["legL_oos"] = {"oos_sharpe": round(oos_sharpe, 4),
+                       "oos_ret": round(oos_ret, 6)}
+    out["descriptive"] = {
+        "ann_pos": bool(ann > 0),
+        "oos_dual_pos": bool(oos_sharpe > 0 and oos_ret > 0),
+        "dd_ok": bool(legs["L"]["x1"]["max_dd"] >= -0.35),
+        "no_crash_year": bool(worst_year > -0.30),
+        "x2_yearly_stable": bool(x2_worst > -0.30),
+    }
+    out["dual_nulls"] = mtw1._dual_nulls(daily, cell["i"],
+                                         seed=st["seed_judge"])
+    n_eff = sum(legs[lg]["regime_start_windows"][s]
+                for lg in legs for s in ("bear", "bull", "chop"))
+    out["n_eff_start_windows"] = n_eff
+    out["sample_sufficient"] = bool(
+        n_eff >= 500 and all(legs[lg]["regime_start_windows"][s] >= 100
+                            for lg in legs
+                            for s in ("bear", "bull", "chop")))
+    return out
+
+
+def cmd_judge_prep() -> int:
+    """sec.9.1 prep: screen-product gates + survivors anchor + census
+    gates (both legs) + |corr|>=0.999 leg-L base-face daily-returns
+    collapse (mass_trial_w1 import face) + starts/passive precompute
+    (legs L/D x {6m,12m,24m}) -> n2_w15_judge_state.json.  Serial
+    short batch (sec.9), RAM-gated honest refuse."""
+    rc = _judge_freeze_gate("judge-prep")
+    if rc:
+        return rc
+    print(f"=== {JUDGE_BATCH} judge-prep (sec.9.1) ===")
+    for p in (SCREEN_FILE, CANDIDATES_FILE):
+        if not os.path.exists(p):
+            print(f"JUDGE-PREP-GATE FAIL: {os.path.basename(p)} absent")
+            return 1
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    if not screen.get("trials_ledger"):
+        print("JUDGE-PREP-GATE FAIL: screen product not finalized "
+              "(trials_ledger absent)")
+        return 1
+    survivors = list(screen.get("survivors") or [])
+    if not survivors:
+        print("JUDGE-PREP-GATE FAIL: zero screen survivors")
+        return 1
+    sha = hashlib.sha256(
+        open(CANDIDATES_FILE, "rb").read()).hexdigest()[:16]
+    cands_all = json.load(open(CANDIDATES_FILE,
+                               encoding="utf-8"))["candidates"]
+    by_id = {c["candidate_id"]: c for c in cands_all}
+    missing = [s for s in survivors if s not in by_id]
+    if missing:
+        print(f"JUDGE-PREP-GATE FAIL: {len(missing)} survivors absent "
+              "from candidates file; first: "
+              f"{missing[:3]}")
+        return 1
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=0)
+    if not ram_ok:
+        print(f"JUDGE-PREP-GATE: free RAM {ram_min}GB < 4GB (r354 "
+              "three-sample law; r691 cap window) -- honest refuse, "
+              "pool retries when the RAM window opens")
+        return 2
+    tl1.GRAMMAR = load_grammar()
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    # ---- leg-L base-face daily returns for every survivor (serial)
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    if cen != tl1.FROZEN_CENSUS["L"]:
+        print(f"JUDGE-PREP-GATE FAIL: leg-L census drift {cen} != "
+              f"{tl1.FROZEN_CENSUS['L']}")
+        return 1
+    st_legL = _judge_leg_state(prices, P, _b_layer_fundamental_ok(P),
+                               tl1.GRAMMAR)
+    st_legL["idx"] = idx
+    t0 = time.time()
+    rets = {}
+    for cid in sorted(survivors):
+        c = by_id[cid]
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        eq = _judge_replay(st_legL, c, template, "x1")[0]
+        rets[cid] = (eq.pct_change().fillna(0.0)
+                     if len(eq) >= 2 and float(eq.iloc[0]) > 0
+                     else pd.Series(0.0, index=idx[:max(len(eq), 1)]))
+    kept, clusters, eliminated = mtw1._collapse_survivors(
+        pd.DataFrame({c: rets[c] for c in sorted(rets)}))
+    # ---- dual-leg census + starts/passive precompute (w1 prep face)
+    starts, passive, legs_meta = {}, {}, {}
+    for leg in ("L", "D"):
+        if leg == "L":
+            pl, Pl, idxl, listedl, cenl = prices, P, idx, listed, cen
+        else:
+            pl, Pl, idxl, listedl, cenl = tl1._load_leg("D")
+        if cenl != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} census drift "
+                  f"{cenl} != {tl1.FROZEN_CENSUS[leg]}")
+            return 1
+        n = len(idxl)
+        close = Pl["close"]
+        starts[leg], passive[leg] = {}, {}
+        for wname, w in tl1.WINDOWS.items():
+            floor = tl1.LEG_L_FLOOR if leg == "L" else tl1.LEG_D_FLOOR
+            st_ = [p for p in range(n)
+                   if idxl[p] >= floor and p >= tl1.WARMUP_TD
+                   and p <= n - 1 - w
+                   and (listedl.iloc[p] >= tl1.MIN_LISTED
+                        if leg == "L" else True)]
+            if len(st_) != tl1.FROZEN_CENSUS[leg][wname]:
+                print(f"JUDGE-PREP-GATE FAIL: leg-{leg} {wname} "
+                      f"starts {len(st_)} != "
+                      f"{tl1.FROZEN_CENSUS[leg][wname]}")
+                return 1
+            starts[leg][wname] = st_
+            passive[leg][wname] = {}
+            for p in st_:
+                sdate, edate = idxl[p], idxl[p + w - 1]
+                syms = close.columns[close.loc[sdate].notna()]
+                rel = tl1.passive_rel(close, syms, sdate, edate)
+                passive[leg][wname][str(p)] = round(
+                    float(rel.iloc[-1] - 1.0), 6)
+        legs_meta[leg] = {"census": cenl, "n_days": n,
+                          "first": str(idxl[0].date()),
+                          "last": str(idxl[-1].date()),
+                          "members": len(close.columns)}
+    state = {"batch": JUDGE_BATCH, "evidence_cutoff": CUTOFF,
+             **tl1.cutoff_meta(CUTOFF),
+             "candidates_sha256_16": sha,
+             "screen_ref": os.path.relpath(SCREEN_FILE, tl1.PATHS.root),
+             "n_stage1_survivors": len(survivors),
+             "n_judge_cells": len(kept),
+             "collapse": {"line": JUDGE_COLLAPSE_LINE, "kept": kept,
+                          "clusters": clusters,
+                          "eliminated": eliminated,
+                          "note": "representative = deterministic "
+                                  "lowest candidate_id; original "
+                                  "variants retained in this audit "
+                                  "block (sec.9.1, mass_trial_w1 face)"},
+             "starts": starts, "passive": passive, "legs": legs_meta,
+             "seed_judge": sg.SEED_REGISTRY[JUDGE_BER],
+             "wave": WAVE,
+             "generated": _now_iso(), "machine": _machine_id()}
+    os.makedirs(RES_DIR, exist_ok=True)
+    tl1._dump(JUDGE_STATE_FILE, state)
+    print(f"judge-prep PASS: survivors {len(survivors)} -> N_judge "
+          f"{len(kept)} (collapsed {len(eliminated)}); census L/D == "
+          f"frozen; passive precomputed ({time.time()-t0:.0f}s) -> "
+          f"{os.path.basename(JUDGE_STATE_FILE)}")
+    return 0
+
+
+def cmd_judge(shard: int, shards: int, workers) -> int:
+    """Sharded judged-cell burn (checkpoint jsonl per cell, cross-kill
+    resume = skip recorded cell_ids; pool shard executor face = the
+    screen cmd_run face, r670 tiling + r496 three-call claim)."""
+    rc = _judge_freeze_gate("judge")
+    if rc:
+        return rc
+    print(f"=== {JUDGE_BATCH} shard {shard}of{shards} ===")
+    if not os.path.exists(JUDGE_STATE_FILE):
+        print(f"JUDGE-GATE: judge-prep required first "
+              f"({os.path.basename(JUDGE_STATE_FILE)} absent)")
+        return 2
+    state = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
+    cands_all = json.load(open(CANDIDATES_FILE,
+                               encoding="utf-8"))["candidates"]
+    by_id = {c["candidate_id"]: c for c in cands_all}
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    kept = sorted(state["collapse"]["kept"])
+    cells = []
+    for i, cid in enumerate(kept):
+        c = by_id[cid]
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        cells.append({"cell_id": f"JUDGE|{cid}", "candidate_id": cid,
+                      "i": i, "cand": c, "template": template})
+    mine = [c for i, c in enumerate(cells) if i % shards == shard]
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=2880)
+    if not ram_ok:
+        print(f"JUDGE-GATE: free RAM {ram_min}GB < 4GB after bounded "
+              "wait (r354 three-sample law; r691 cap window) -- honest "
+              "refuse, pool retries when RAM frees")
+        return 2
+    tl1.GRAMMAR = load_grammar()
+    st = {"legs": {}, "starts": state["starts"],
+          "passive": state["passive"],
+          "seed_judge": state["seed_judge"],
+          "oos_start": pd.Timestamp(tl1.OOS_START)}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        if cen != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-GATE FAIL: leg-{leg} census drift {cen} != "
+                  f"{tl1.FROZEN_CENSUS[leg]} (data moved under the "
+                  "batch)")
+            return 1
+        ls = _judge_leg_state(prices, P, _b_layer_fundamental_ok(P),
+                              tl1.GRAMMAR)
+        ls["idx"] = idx
+        st["legs"][leg] = ls
+    ck = _judge_ckpt_path(shard, shards)
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    done = _judge_scan_done(ck)
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"shard cells {len(mine)}, done {len(done)}, todo {len(todo)}")
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
+                                default=float) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _judge_cell_w15, (c,)) for c in todo]
+        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+                               desc=f"n2w15 judge s{shard}",
+                               initializer=tl1._init_worker,
+                               initargs=(st,), on_result=on_result)
+    done_after = _judge_scan_done(ck)
+    missing_mine = [c["cell_id"] for c in mine
+                    if c["cell_id"] not in done_after]
+    if missing_mine:
+        print(f"JUDGE-INCOMPLETE: {len(missing_mine)}/{len(mine)} shard "
+              f"cells absent post-burn (checkpoint retained, honest "
+              "refuse, NO pool claim); first missing: "
+              f"{missing_mine[:3]}")
+        return 2
+    _pool_claim(JUDGE_BATCH, f"n2w15judge-{shard}of{shards}",
+                f"{len(mine)} judged cells done, ckpt "
+                f"{os.path.basename(ck)}")
+    print(f"shard {shard}of{shards} complete -> {ck} ({len(mine)} "
+          "cells, pool claim closed)")
+    return 0
+
+
+def _d6_corr_cell(s: pd.Series, member_rets: dict) -> dict:
+    """Pure D6 correlation face for one candidate daily-return series
+    vs a dict of registered-member daily-return series (inner-date
+    alignment only; overlap < D6_MIN_OVERLAP = honest
+    insufficient-overlap, never a positional correlation)."""
+    best, arg, min_ov = 0.0, None, None
+    for tid, mr in member_rets.items():
+        a, b = s.align(mr, join="inner")
+        if len(a) < D6_MIN_OVERLAP:
+            continue
+        cc = abs(float(a.corr(b)))
+        if not np.isfinite(cc):
+            continue
+        ov = len(a)
+        if min_ov is None or ov < min_ov:
+            min_ov = ov
+        if cc > best:
+            best, arg = cc, tid
+    if arg is None:
+        return {"max_corr_vs_registered": None, "argmax": None,
+                "min_overlap_days": min_ov,
+                "note": f"no member with >= {D6_MIN_OVERLAP} overlap "
+                        "days -- insufficient-overlap disclosure"}
+    return {"max_corr_vs_registered": round(best, 4), "argmax": arg,
+            "min_overlap_days": min_ov}
+
+
+def _d6_registered_face(judged: list) -> dict:
+    """D6 (sec.9 operative face): per judged cell max|corr| vs the
+    registered six members' daily returns -- ew6 canon member_run face
+    (cn_rev_tilt_p1 load_member_rets precedent, r280 law; IDENTICAL
+    code path to the live.paper anchor gate); leg-L dates rebuilt from
+    the panel for honest date alignment."""
+    import ew6_portfolio as E
+    from live.paper import load_core
+    if E.PRICES_FULL is None:
+        E.PRICES_FULL = load_core()
+    member_rets, cutoffs = {}, {}
+    for tid in REG6:
+        r = E.member_run(tid)
+        eq = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
+        member_rets[tid] = eq.pct_change().dropna()
+        cutoffs[tid] = r.get("cutoff")
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    cells = {}
+    for r in judged:
+        daily = r["legL_daily_returns"]
+        if len(daily) != len(idx):
+            cells[r["candidate_id"]] = {
+                "max_corr_vs_registered": None, "argmax": None,
+                "note": f"curve length {len(daily)} != leg-L panel "
+                        f"{len(idx)} -- length drift, no positional "
+                        "correlation (honest disclosure)"}
+            continue
+        s = pd.Series(daily, index=idx)
+        cells[r["candidate_id"]] = _d6_corr_cell(s, member_rets)
+    return {"reject_line": D6_REJECT_LINE,
+            "members": list(REG6), "member_cutoffs": cutoffs,
+            "caliber": "ew6 canon member_run daily returns (registered "
+                       "6 members); same-batch same-family face "
+                       "already enforced at entry by the 0.999 "
+                       "collapse; overlap floor "
+                       f"{D6_MIN_OVERLAP} days",
+            "cells": cells}
+
+
+def cmd_judge_finalize() -> int:
+    """Aggregate judge shards -> G1'v2 + DSR + family PBO (CSCV 8
+    blocks, family = A/B grammar family) + G2 + D6 (vs REG6, ew6
+    canon) + E[FP] + verdicts + ledger append PERPETUAL-N2-W15-JUDGE
+    (single-shot guard pit-95; refinalize env = only redo)."""
+    rc = _judge_freeze_gate("judge-finalize")
+    if rc:
+        return rc
+    print(f"=== {JUDGE_BATCH} judge-finalize ===")
+    if not os.path.exists(JUDGE_STATE_FILE):
+        print(f"FINALIZE-GATE: {os.path.basename(JUDGE_STATE_FILE)} "
+              "absent (judge-prep first)")
+        return 2
+    n_eff_override = None
+    redo_dsr_trials = None
+    if os.path.exists(JUDGE_OUT_FILE):
+        prev = json.load(open(JUDGE_OUT_FILE, encoding="utf-8"))
+        if prev.get("complete") and "trials_ledger" in prev:
+            if not os.environ.get(JUDGE_REFINALIZE_ENV):
+                print(f"judge-finalize: complete product exists "
+                      f"(idempotent no-op; set {JUDGE_REFINALIZE_ENV}=1 "
+                      "to redo)")
+                return 0
+            n_eff_override = (int(prev["trials_ledger"]["prev_total"])
+                              + int(prev["trials_ledger"]["batch_trials"]))
+            redo_dsr_trials = int(prev["trials_ledger"]["prev_total"])
+    state = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
+    kept = sorted(state["collapse"]["kept"])
+    rows = []
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if (f.startswith("n2_w15_judge_shard_")
+                and f.endswith(".jsonl")):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    if ln.strip():
+                        rows.append(json.loads(ln))
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [f"JUDGE|{cid}" for cid in kept
+               if f"JUDGE|{cid}" not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} judged cells incomplete; "
+              "refused (checkpoints retained)")
+        return 2
+    judged = [by_id[f"JUDGE|{cid}"] for cid in kept]
+    n_judge = len(judged)
+    n_trials = (redo_dsr_trials if redo_dsr_trials is not None
+                else sg.ledger_head()["total"])
+    for r in judged:
+        rets = r["legL_daily_returns"]
+        g1 = sg.g1_prime_v2(r["legs"]["L"]["x1"]["sharpe_full"], rets,
+                            n_judge, pool="core48",
+                            n_trades=r["legs"]["L"]["x1"]["n_trades"],
+                            n_entries=r["legs"]["L"]["x1"]["n_entries"],
+                            n_eff_override=n_eff_override)
+        dsr = sg.deflated_sharpe_ratio(rets, n_trials=n_trials)
+        r["g1_prime_v2"] = g1
+        r["dsr"] = dsr
+        r["g1_pass"] = g1["pass_v2"]
+        r["verdict"] = ("pass" if (g1["pass_v2"]
+                                   and r["sample_sufficient"])
+                        else "insufficient-sample"
+                        if not r["sample_sufficient"] else "fail")
+    # family PBO (CSCV 8 blocks; family = grammar family A/B)
+    fam_map = {}
+    for r in judged:
+        fam_map.setdefault(r["family"], []).append(r)
+    pbos = {}
+    for fam, rs in fam_map.items():
+        if len(rs) < 8:
+            pbos[fam] = {"pbo": None, "n_cells": len(rs),
+                         "note": "insufficient (<8) -- G2 cannot pass"}
+            for r in rs:
+                r["family_pbo"] = None
+            continue
+        series = {r["candidate_id"]: pd.Series(r["legL_daily_returns"])
+                  for r in rs}
+        pbo = tl1.cscv_pbo(tl1.align_returns(series))
+        pbo_val = pbo["pbo"] if isinstance(pbo, dict) else pbo
+        pbos[fam] = {"pbo": round(float(pbo_val), 4),
+                     "n_cells": len(rs)}
+        for r in rs:
+            r["family_pbo"] = pbos[fam]["pbo"]
+    # D6 vs REG6 registered members (sec.9 operative face)
+    d6 = _d6_registered_face(judged)
+    for r in judged:
+        r["g2_registration_v2"] = sg.g2_registration_v2(
+            r["g1_pass"], r["dsr"], r.get("family_pbo"))
+        r["d6"] = d6["cells"][r["candidate_id"]]
+        r["d6_ok"] = bool(
+            r["d6"].get("max_corr_vs_registered") is not None
+            and r["d6"]["max_corr_vs_registered"] < D6_REJECT_LINE)
+    eligible = [r["candidate_id"] for r in judged
+                if r["g2_registration_v2"]["eligible_v2"] and r["d6_ok"]]
+    e_fp = round(0.05 * n_judge, 2)
+    out_rel = "n2_w15/" + os.path.basename(JUDGE_OUT_FILE)
+    ledger = tl1.append_ledger(JUDGE_BATCH, n_judge, file_name=out_rel,
+                               evidence_cutoff=CUTOFF,
+                               note=f"T-133 s2 N2-W15 judge: {n_judge} "
+                                    f"collapsed cells from "
+                                    f"{state['n_stage1_survivors']} "
+                                    "stage-1 survivors")
+    desc_agg = {cl: sum(1 for r in judged if r["descriptive"][cl])
+                for cl in ("ann_pos", "oos_dual_pos", "dd_ok",
+                           "no_crash_year", "x2_yearly_stable")}
+    summary = {
+        "batch": JUDGE_BATCH, "evidence_cutoff": CUTOFF,
+        **tl1.cutoff_meta(CUTOFF),
+        "trials_ledger": ledger,
+        "n_judge_cells": n_judge,
+        "n_stage1_survivors": state["n_stage1_survivors"],
+        "candidates_sha256_16": state["candidates_sha256_16"],
+        "screen_ref": state["screen_ref"],
+        "collapse_audit": {"line": JUDGE_COLLAPSE_LINE,
+                           "eliminated": state["collapse"]["eliminated"],
+                           "clusters": state["collapse"]["clusters"]},
+        "n_wave_disclosure": {
+            "screen_cells": 1154,
+            "judged_cells": n_judge, "E_FP_nominal_5pct": e_fp,
+            "note": "DSR>=0.95 gate IS the multiple-testing correction "
+                    "(cumulative N deflation via live ledger-head "
+                    "n_trials -- cross-wave N_eff never reset, prereg "
+                    "sec.9); E[FP] disclosed at nominal 5% caliber"},
+        "n_trials_head_at_finalize": n_trials,
+        "family_pbo": pbos,
+        "d6": d6,
+        "descriptive_counts": desc_agg,
+        "eligible_g2_d6": eligible, "n_eligible_g2_d6": len(eligible),
+        "verdicts": {v: sum(1 for r in judged if r["verdict"] == v)
+                     for v in ("pass", "fail", "insufficient-sample")},
+        "cells": [{k: v for k, v in r.items()
+                   if k != "legL_daily_returns"} for r in judged],
+        "audit": {
+            "judged_face": "legs L/D x cost x1/x2 x windows "
+                           "{126,252,504} sliced from full curves "
+                           "(p5c FROZEN_CENSUS caliber) + regime "
+                           "segments (T-22 sec.3 3-way proxy) + dual "
+                           "nulls (B=2000 block=20 circular + P=2000 "
+                           "sign-flip, rng=["
+                           f"{state['seed_judge']}, i]); replay via "
+                           "tl14.run_candidate_curve_w14 screen stack "
+                           "zero-migration; Sharpe gates on leg-L x1; "
+                           "x2 = cost-stability descriptive; D6 vs "
+                           "REG6 ew6 canon daily returns",
+            "seed_judge": state["seed_judge"],
+            "legs": state["legs"],
+        },
+        "complete": True,
+        "generated": _now_iso(), "machine": _machine_id(),
+    }
+    tl1._dump(JUDGE_OUT_FILE, summary)
+    print(f"judge-finalize: {n_judge} judged cells, E[FP]={e_fp}, "
+          f"G2+D6 eligible {len(eligible)} -> {eligible[:10]}")
+    return 0
+
+
 # ------------------------------------------------------------- status face
 def cmd_status() -> int:
     """Read-only inventory (no engine, no network beyond repo files)."""
@@ -1441,7 +2092,11 @@ def cmd_status() -> int:
     print("runner legs: slice-1 (probe/status/selftest) + slice-2 "
           "(generate/screen-prep/run/screen-finalize/finalize) landed "
           "@ r692 bm-a (Plan A adoption per MSG-2026-10-04-1845); "
-          "burns freeze-gated on the slice-3 freeze commit")
+          "slice-4 judge legs (judge-prep/judge/judge-finalize, sec.9.1) "
+          "landed @ r702 bm-b -- burns freeze-gated on the base trio + "
+          f"judge berth {JUDGE_BER} (sec.9.1 freeze commit)")
+    jok = _judge_band_registered()
+    print(f"judge freeze gate: berth registered={jok}")
     return 0
 
 
@@ -1733,6 +2388,110 @@ def cmd_selftest() -> int:
                and WAVE_RESULTS.endswith("n2_w15_wave_results.json"),
                f"ckpt={os.path.basename(_ckpt_path(0, NSHARDS))} "
                f"batch={BATCH_SCREEN}")
+    # L18 judge freeze-gate face (R99/R250): base trio + judge berth
+    # registered -> open; berth missing -> refuse (in-memory sim, zero
+    # file writes; live posture disclosed not asserted)
+    live_j = _judge_band_registered()
+    saved_j = sg.SEED_REGISTRY.get(JUDGE_BER)
+    try:
+        sg.SEED_REGISTRY.pop(JUDGE_BER, None)
+        sim_refuse = _judge_freeze_gate("selftest-judge")
+        sg.SEED_REGISTRY[JUDGE_BER] = 545_000
+        sim_open = _judge_freeze_gate("selftest-judge")
+    finally:
+        if saved_j is None:
+            sg.SEED_REGISTRY.pop(JUDGE_BER, None)
+        else:
+            sg.SEED_REGISTRY[JUDGE_BER] = saved_j
+    ok &= _leg("L18 judge freeze-gate face (berth registration)",
+               sim_refuse == 2 and sim_open == 0,
+               f"live registered={live_j} (posture disclosed "
+               "honestly); unregistered->rc2, registered->rc0 both "
+               "verified in-memory")
+    # L19 judge checkpoint scanner pairing (r670 non-empty law):
+    # scanner reads the EXACT filename cmd_judge writes; full judged
+    # rows count, screen-shaped rows never count
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        jck = os.path.join(td, "n2_w15_judge_shard_5of12.jsonl")
+        with open(jck, "w", encoding="utf-8", newline="") as fh:
+            fh.write(json.dumps({"cell_id": "JUDGE|X-1", "legs":
+                                 {"L": {}},
+                                 "legL_daily_returns": [0.01]}) + "\n")
+            fh.write('{"cell_id": "JUDGE|X-2", "legs": {"L": {}}}\n')
+            fh.write('{"cell_id": "JUDGE|X-3"}\n')
+            fh.write("garbage\n")
+        jdone = _judge_scan_done(jck)
+        scan_j_ok = (jdone == {"JUDGE|X-1"}
+                     and os.path.basename(_judge_ckpt_path(5, 12))
+                     == "n2_w15_judge_shard_5of12.jsonl")
+    ok &= _leg("L19 judge ckpt scanner pairing (r670 non-empty law)",
+               scan_j_ok,
+               f"done={sorted(jdone)}; partial/poison rows skipped")
+    # L20 collapse import face (mass_trial_w1._collapse_survivors real
+    # run): corr>=0.999 twins + anti-correlated twins collapse
+    # keep-lowest-id; distinct survive
+    base = np.array([0.02, -0.01, 0.03, -0.02, 0.01, 0.015])
+    rets_df = pd.DataFrame({
+        "C-00": base, "C-01": base * 1.0000001, "C-02": -base,
+        "C-03": np.array([0.5, 0.2, -0.1, 0.3, 0.4, -0.2])})
+    kept_j, clusters_j, elim_j = mtw1._collapse_survivors(
+        rets_df, line=JUDGE_COLLAPSE_LINE)
+    ok &= _leg("L20 collapse import face (mtw1 real run, 0.999)",
+                kept_j == ["C-00", "C-03"]
+                and sorted(clusters_j.get("C-00", [])) == ["C-01",
+                                                           "C-02"],
+                f"kept={kept_j} clusters={clusters_j}")
+    # L21 dual-nulls import face (mtw1 real run): seed pin ->
+    # identical output; B/P/block frozen shape
+    dn1 = mtw1._dual_nulls(list(base), 7, seed=545_000)
+    dn2 = mtw1._dual_nulls(list(base), 7, seed=545_000)
+    dn3 = mtw1._dual_nulls(list(base), 8, seed=545_000)
+    ok &= _leg("L21 dual-nulls import face (mtw1 seed pin)",
+                dn1 == dn2 and dn1 != dn3 and dn1["B"] == 2000
+                and dn1["P"] == 2000 and dn1["block"] == 20,
+                f"B={dn1['B']} P={dn1['P']} block={dn1['block']} "
+                f"deterministic+cell-sensitive")
+    # L22 judge product-path wiring: judge products under
+    # results/n2_w15/, ckpt prefix distinct from screen shards, batch
+    # name frozen, D6 constants frozen
+    ok &= _leg("L22 judge path/batch/D6 wiring",
+                os.path.dirname(JUDGE_STATE_FILE)
+                .endswith(os.path.join("results", "n2_w15"))
+                and os.path.basename(_judge_ckpt_path(0,
+                                                     JUDGE_SHARDS_DEFAULT))
+                .startswith("n2_w15_judge_shard_")
+                and not os.path.basename(
+                    _judge_ckpt_path(0, JUDGE_SHARDS_DEFAULT)
+                ).startswith("n2_screen_shard_")
+                and JUDGE_BATCH == "PERPETUAL-N2-W15-JUDGE"
+                and JUDGE_BER == "perpetual_n2_w15_judge"
+                and D6_REJECT_LINE == 0.7 and len(REG6) == 6
+                and JUDGE_COLLAPSE_LINE == 0.999,
+                f"batch={JUDGE_BATCH} ber={JUDGE_BER} "
+                f"d6_line={D6_REJECT_LINE}")
+    # L23 D6 pure corr face (hermetic): identical series -> 1.0 reject
+    # face; orthogonal -> pass face; short overlap -> honest None
+    idxs = pd.date_range("2026-01-01", periods=200, freq="D")
+    s_twin = pd.Series(list(np.resize(base, 200)), index=idxs)
+    s_orth = pd.Series(
+        (np.cos(np.arange(200) * 2.0)).tolist(), index=idxs)
+    members = {"MEMBER-A": s_twin.copy(),
+               "MEMBER-B": pd.Series(0.0, index=idxs[:10])}
+    d6_twin = _d6_corr_cell(s_twin, members)
+    d6_orth = _d6_corr_cell(s_orth, members)
+    d6_none = _d6_corr_cell(s_twin, {"MEMBER-B":
+                                      pd.Series(0.0,
+                                                index=idxs[:10])})
+    ok &= _leg("L23 D6 pure corr face (twin reject/orth pass/"
+               "overlap-honest)",
+                d6_twin["max_corr_vs_registered"] == 1.0
+                and d6_twin["argmax"] == "MEMBER-A"
+                and d6_orth["max_corr_vs_registered"] < 0.7
+                and d6_none["max_corr_vs_registered"] is None,
+                f"twin={d6_twin['max_corr_vs_registered']} "
+                f"orth={d6_orth['max_corr_vs_registered']} "
+                f"short={d6_none['max_corr_vs_registered']}")
     print("ALL PASS" if ok else "FAIL PRESENT")
     return 0 if ok else 1
 
@@ -1751,6 +2510,12 @@ def main(argv=None) -> int:
     r.add_argument("--workers", type=int, default=None)
     sub.add_parser("screen-finalize")
     sub.add_parser("finalize")
+    sub.add_parser("judge-prep")
+    jr = sub.add_parser("judge")
+    jr.add_argument("--shard", type=int, required=True)
+    jr.add_argument("--shards", type=int, default=JUDGE_SHARDS_DEFAULT)
+    jr.add_argument("--workers", type=int, default=None)
+    sub.add_parser("judge-finalize")
     a = p.parse_args(argv)
     if a.cmd == "probe":
         return cmd_probe()
@@ -1768,6 +2533,12 @@ def main(argv=None) -> int:
         return cmd_screen_finalize()
     if a.cmd == "finalize":
         return cmd_finalize()
+    if a.cmd == "judge-prep":
+        return cmd_judge_prep()
+    if a.cmd == "judge":
+        return cmd_judge(a.shard, a.shards, a.workers)
+    if a.cmd == "judge-finalize":
+        return cmd_judge_finalize()
     return 2
 
 

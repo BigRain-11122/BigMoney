@@ -229,5 +229,18 @@ r687 律同窗重跑（origin tip 见 commit message 披露）。
   ADMIT；④三窗/出场轴/判据节全文写死于 §9.1 追加节（跑前 commit 冻结·R99 纪律）。
 - **消费面**：judged 存活者→试用期题库/在册员增补线（§0 ②）+月界呈报；D6 拒收者如实
   披露。judged 存活者入册走月界（与 W3 §10 链同律·本批零自动注册效应）。
-- **排产锚**：screen 收口（SHARD-2/SHARD-10 候 RAM 窗·窗 10-06 晚~10-07 预计）→§9.1
-  冻结窗（≤10-08 治理日前）→池面烧录在飞 ≤2026-10-12（O-2115 常设供给线同窗）。
+- **排产锚**：screen 收口（SHARD-2/SHARD-10 候 RAM 窗·窗 10-06 晚~10-07 预计）→§9.1 冻结窗（≤10-08 治理日前）→池面烧录在飞 ≤2026-10-12（O-2115 常设供给线同窗）。
+
+### §9.1 s3 全量判决面段冻结【2026-10-05 r702 bm-b 起草·本 commit 后才许烧·append-only·占位节留档】
+
+- **触发与身份**：本节=§9 占位的具体化（跑前 commit 冻结·R99 纪律）；对应批件=**PERPETUAL-N2-W15-JUDGE**（第二段判决批·judged cells 入账本）。四前置逐条机证：①screen 12/12 done+screen-finalize 落地 ✅（产品 n2_w15_screen.json 2026-10-05T00:02:27+08:00·trials_ledger total=647953·survivors 非空——机证=band-gate 回执 P1 腿）；②banned_direction_gate --prereg 复跑退出 0 ✅（回执 results/_r702bmb_n2_judge_banned_gate.json·冻结窗实跑）；③judge 带位 derive 冻结窗重跑 **ADMIT** ✅（回执 results/_r702bmb_n2_judge_band_gate.json——**带位漂移披露**：r698 预演 X=545_000 已被 N1 W116/W119 带落地推移 A 头 281_003→285_003（r682 梯子律=新 N1 波次抬 horizon·机制正动非重挑）→冻结窗活导出重 derive X=**545_500**；registry 182 值±2000 halo+N1_BANDS 全活导出+显式实际流全域+A/B 梯 horizon 全 CLEAN）；④本节全文写死（本 commit）。
+- **种子（R250 一步律·本冻结 commit 同窗登记）**：`perpetual_n2_w15_judge` = **545_500**（带宽 499=545_500..545_999）；rng 流=`default_rng([545_500, cell_idx])` 仅限双 nulls 重采样面禁挪用（mtw1._dual_nulls import-face·B=2000 block=20 循环块+P=2000 sign-flip·双侧）。
+- **判决对象与入场去重门**：screen 存活者清单=screen-finalize 产品实读（candidates 文件 sha16 锚=写死时点哈希入 judge_state）→入场前**逐对 |corr|≥0.999 leg-L base-face 日收益序列塌缩**（mtw1._collapse_survivors import-face·代表=确定性最低 candidate_id·坍缩/保留清单如实披露·audit 段全量保留原始变体）→ **N_judge=塌缩后格数（跑前零宣称·judge-prep 产物定格）**。
+- **判决格面（全 import 禁重实现）**：虚拟起点=p5c `FROZEN_CENSUS` 双腿全格面（L 6m/12m/24m=1253/1127/875·D=3104/2978/2726·EVIDENCE_CUTOFF_GRID=2026-09-22 binding）× 窗 {126,252,504} × 成本 {x1=引擎默认 V1 13.041bp·x2=sg.CostPatch(2.0)（t22 Erratum-1 multiplier 律）} × 政体分段 bear/bull/chop+na（T-22 §3 冻结 3-way proxy·v3_state_series reindex）× 双 nulls（上列种子流）——重放经 tl14 `run_candidate_curve_w14` **screen 同栈零迁移**（本 commit runner slice-4 落地：judge-prep/judge/judge-finalize 三腿+FREEZE-GATED=judge 带未登记即 rc2 拒烧+selftest 23/23 ALL PASS 含 L18-L23 六新腿）。
+- **出场轴显式门（O-20261001-1108 三选一·勾选③承 §9）**：③ template_default 按设计测——N2 候选即模板族（18-tuple 自带 STOP face 出场配置），判决重放按模板设计出场执行、引擎缺省出场栈与 screen 同栈零迁移。
+- **D6 同族相关准入（§1/§4 写死·judge 段执行·本节 operative 面具体化）**：逐存活员 max|corr| vs **在册六员（REG6=COMPOSITE-CE-01/02、DROUGHT-CE-01、ENGULF-CE-01、NEEDLE-DE-01、VOLATILITY-CE-01）日收益序列**——ew6 canon member_run 面（cn_rev_tilt_p1 `load_member_rets` 同面先例·r280 律·与 live.paper 锚门同一代码路径）·内积日期对齐（leg-L 面板日历重建）·重叠 <60 交易日=诚实 insufficient-overlap 披露（零位置相关）；**≥0.7 拒收**（拒收者如实披露不静默·G2 eligible 双门=g2_registration_v2 AND d6_ok）；同批同族面已由入场 0.999 塌缩门覆盖（§9 塌缩节）。sleeve 全员注记：marks 面无独立 sleeve 日收益正典件（在册面=ew6 成员 equity 即「全部成分员」日收益正典）——本节以此 operative 面冻结，如后续 sleeve 正典件落位须新证据另开预注册窗。
+- **判据**：调 `science_gates.g1_prime_v2`（leg-L x1 Sharpe·pool=core48·F6 双交易门） / `deflated_sharpe_ratio`（n_trials=**活链头实读** `sg.ledger_head()["total"]`·跨波累计不重置）/ `g2_registration_v2`（DSR≥0.95 门即累计 N 折减校正·PBO≤0.25）共享库禁手抄判线（T-02 6/7 律）·波级 PBO=CSCV 8 blocks（family=A/B 语法族·<8 cells 诚实 n/a）·E[FP]=0.05×N_judge 名义 α=5% 如实披露。
+- **执行面**：runner slice-4=perpetual_faces_n2.py judge 三腿（本 commit 落地）——judge-prep（塌缩+passive 双腿三窗预计算=分离 spawn 短批·串行·RAM 门 4GB r354/r691 律诚实拒烧）→ judge 烧录=池面长活分片（**shards=12**·r670 tiling·ckpt 前缀 n2_w15_judge_shard_* 与 screen shard 零混淆·r496 三调用点池握手·RAM 门 wait 2880）→ judge-finalize=收口轮（G1'/DSR/PBO/G2/D6+账本 append `PERPETUAL-N2-W15-JUDGE`·pit-95 单发守卫·refinalize env 键=PERPETUAL_N2_W15_JUDGE_REFINALIZE）。
+- **账本**：`science_gates.append_ledger("PERPETUAL-N2-W15-JUDGE", N_judge, file_name="n2_w15/n2_w15_judge.json", evidence_cutoff="2026-09-22")`（prev=活链头实读·单发守卫=complete 产物永不重计）。
+- **消费面**：judged 存活者→试用期题库/在册员增补线（§0 ②）+月界呈报；D6 拒收者如实披露。judged 存活者入册走月界（与 W3 §10 链同律·本批零自动注册效应）。
+- **排产锚**：§9.1 冻结（本 commit）→ judge-prep（RAM 窗开后·池条目已提交）→ 12 shard 池面烧录 ≤2026-10-12（O-2115 常设供给线同窗）→ judge-finalize+§7/§8 回填。
