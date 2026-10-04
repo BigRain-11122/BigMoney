@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-02 23:26:07",
-   "machine": "bm-a",
-   "py_cpu_pct": 37.6,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "LOWAMP-DEEP-P1-CELL-LADREPEQ-DEEP-X2",
-   "shard": "lowamp-deep-p1-cell-ladrepeq-deep-x2-0of1",
-   "pid": 70472,
-   "runner_sha256": "45a87607fdcc6ee0",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 0.3,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 6,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-02 23:26:59",
    "machine": "bm-a",
    "py_cpu_pct": 37.7,
@@ -1168,14 +1150,46 @@
    "fullburn_window": true,
    "target_met": true,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-05 01:24:02",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.3,
+   "single_core_red_flags": [
+    {
+     "ts": "2026-10-05T01:23:22+08:00",
+     "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-1",
+     "shard": "n2w15judge-1of12",
+     "pid": 69476,
+     "wall_s": 60.3,
+     "effective_cores": 0.76,
+     "law": "O-20260930-2355 sec.1 law-2"
+    }
+   ],
+   "cooldown_skipped": {
+    "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-0",
+    "shard": "n2w15judge-0of12",
+    "last_launch_min": 4.6
+   },
+   "verdict": "launched",
+   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
+   "shard": "n2w15judge-2of12",
+   "pid": 95788,
+   "runner_sha256": "93923141b7ed995d",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": null,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-05 01:22:46",
+  "ts": "2026-10-05 01:24:42",
   "machine": "bm-a",
-  "py_cpu_pct": 0.1,
+  "py_cpu_pct": 3.2,
   "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-05T01:20:52+08:00"
+ "core_samples_seen": "2026-10-05T01:23:22+08:00"
 }
