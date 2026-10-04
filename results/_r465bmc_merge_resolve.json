@@ -1,0 +1,71 @@
+{
+ "ts": "2026-10-04T11:38:40",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-04.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:25)",
+  "docs/daily_report/REPORT-2026-10-04.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:25)",
+  "docs/live_usage/LIVE-2026-10-04.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-2026-10-04.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-latest.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-latest.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "results/_attrition_guard_scan.json": "take-ours (ours 2026-10-04 11:34:59 vs theirs 2026-10-04 11:27:29)",
+  "results/compute_audit.json": "hist ts-identity union",
+  "results/crash_fuse.json": "per-key 3-way max-merge",
+  "results/fundamental_b_layer_filter.json": "take-ours (ours 2026-10-04 11:32:42 vs theirs 2026-10-04 11:26:06)",
+  "results/futures_update_status.json": "take-ours (ours 2026-10-04 11:32:38 vs theirs 2026-10-04 11:25:59)",
+  "results/lhb_update_status.json": "take-ours (ours 2026-10-04 11:32:06 vs theirs 2026-10-04 11:25:25)",
+  "results/regime_state.json": "take-ours (ours 2026-10-04 11:31:22 vs theirs 2026-10-04 11:25:16)",
+  "results/scorecard_v1.json": "take-ours (ours 2026-10-04 11:31:51 vs theirs 2026-10-04 11:25:24)",
+  "results/strategy_scorecard.json": "take-ours (ours 2026-10-04 11:32:00 vs theirs 2026-10-04 11:25:29)",
+  "results/token_usage.json": "machines per-key max-union",
+  "results/update_status.json": "take-ours (ours 2026-10-04 11:31:21 vs theirs 2026-10-04 11:25:15)"
+ },
+ "twins": {
+  "docs/daily_report/REPORT-2026-10-04.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:25)",
+  "docs/daily_report/REPORT-2026-10-04.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:25)",
+  "docs/live_usage/LIVE-2026-10-04.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-2026-10-04.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-latest.json": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "docs/live_usage/LIVE-latest.md": "take-ours (ours 2026-10-04 11:32:56 vs theirs 2026-10-04 11:26:26)",
+  "results/_attrition_guard_scan.json": "take-ours (ours 2026-10-04 11:34:59 vs theirs 2026-10-04 11:27:29)",
+  "results/fundamental_b_layer_filter.json": "take-ours (ours 2026-10-04 11:32:42 vs theirs 2026-10-04 11:26:06)",
+  "results/futures_update_status.json": "take-ours (ours 2026-10-04 11:32:38 vs theirs 2026-10-04 11:25:59)",
+  "results/lhb_update_status.json": "take-ours (ours 2026-10-04 11:32:06 vs theirs 2026-10-04 11:25:25)",
+  "results/regime_state.json": "take-ours (ours 2026-10-04 11:31:22 vs theirs 2026-10-04 11:25:16)",
+  "results/scorecard_v1.json": "take-ours (ours 2026-10-04 11:31:51 vs theirs 2026-10-04 11:25:24)",
+  "results/strategy_scorecard.json": "take-ours (ours 2026-10-04 11:32:00 vs theirs 2026-10-04 11:25:29)",
+  "results/update_status.json": "take-ours (ours 2026-10-04 11:31:21 vs theirs 2026-10-04 11:25:15)"
+ },
+ "compute_audit": {
+  "hist_key": "history",
+  "ours": 201,
+  "theirs": 202,
+  "union": 203,
+  "theirs_only_added": 2
+ },
+ "crash_fuse": {
+  "faces": 2,
+  "sigs_ours_newer": [],
+  "sigs_theirs_newer": [],
+  "sigs_wt_newer": [],
+  "counts": {
+   "sigs": 64,
+   "cleared": 47,
+   "sources": [
+    "ours",
+    "theirs"
+   ]
+  }
+ },
+ "token_usage": {
+  "machines": 5,
+  "picks": {
+   "ours_only": 0,
+   "theirs_only": 0,
+   "newer_ours": 2,
+   "newer_theirs": 0
+  }
+ },
+ "merge_commit": "[main d103d9dda] Merge remote-tracking branch 'origin/main'",
+ "push_verify_rc": 0,
+ "push_verify_tail": "{\"repo\": \".\", \"remote\": \"origin\", \"branch\": \"main\", \"push_rc\": 0, \"push_clean\": true, \"push_why\": \"\", \"tip\": \"d103d9ddab4d1b80f1d9d59b418d31247b9c627c\", \"remote_tip\": \"d103d9ddab4d1b80f1d9d59b418d31247b9c627c\", \"ahead\": 0, \"behind\": 0, \"delivered\": true, \"verdict\": \"DELIVERED\", \"reason\": \"\"}"
+}

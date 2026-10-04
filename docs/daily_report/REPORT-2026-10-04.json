@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-04",
- "generated_at": "2026-10-04 11:26:25",
+ "generated_at": "2026-10-04 11:32:56",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-04.md"
  },
  "rd": {
-  "commits_24h": 725,
-  "result_jsons_landed_24h": 204,
+  "commits_24h": 728,
+  "result_jsons_landed_24h": 210,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 27,
   "compute_audit_latest": {
-   "ts": "2026-10-04 11:24:51",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-10-04 11:31:13",
+   "py_cpu_pct": 0.0,
    "flags": [],
    "verdict": "CLEAN"
   },
@@ -651,13 +651,29 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-04 11:24:51",
-    "py_pct": 0.1,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-04 11:04:29",
+    "py_pct": 0.3,
+    "cpu_pct": 9.0,
     "ready": 4,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "09:48",
+      0.4
+     ],
+     [
+      "09:51",
+      0.1
+     ],
+     [
+      "09:56",
+      87.3
+     ],
+     [
+      "09:56",
+      0.7
+     ],
      [
       "09:58",
       0.0
@@ -687,30 +703,14 @@
       0.4
      ],
      [
-      "11:00",
-      0.0
-     ],
-     [
       "11:04",
       0.3
-     ],
-     [
-      "11:07",
-      84.5
-     ],
-     [
-      "11:08",
-      0.0
-     ],
-     [
-      "11:24",
-      0.1
      ]
     ],
-    "today_samples": 71,
-    "today_floor_ok": 71,
+    "today_samples": 67,
+    "today_floor_ok": 67,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 19
+    "today_supply_gap_flags": 18
    },
    "bm-b": {
     "latest_ts": "2026-10-04 11:07:19",
@@ -775,25 +775,13 @@
     "today_supply_gap_flags": 18
    },
    "bm-c": {
-    "latest_ts": "2026-10-04 11:08:47",
+    "latest_ts": "2026-10-04 11:31:13",
     "py_pct": 0.0,
-    "cpu_pct": 2.0,
+    "cpu_pct": 22.0,
     "ready": 4,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "09:51",
-      0.1
-     ],
-     [
-      "09:56",
-      87.3
-     ],
-     [
-      "09:56",
-      0.7
-     ],
      [
       "09:58",
       0.0
@@ -827,12 +815,24 @@
       0.0
      ],
      [
+      "11:04",
+      0.3
+     ],
+     [
+      "11:07",
+      84.5
+     ],
+     [
       "11:08",
+      0.0
+     ],
+     [
+      "11:31",
       0.0
      ]
     ],
-    "today_samples": 68,
-    "today_floor_ok": 68,
+    "today_samples": 71,
+    "today_floor_ok": 71,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 19
    }
@@ -855,8 +855,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-04 11:24:51"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-04 11:04:29"
     }
    },
    "bm-b": {
@@ -887,8 +887,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 1,
-     "audit_ts": "2026-10-04 11:08:47"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-04 11:31:13"
     }
    }
   },
