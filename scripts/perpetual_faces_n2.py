@@ -67,9 +67,9 @@ Subcommands (slice-1 + slice-2 legs; burns gated on the freeze commit):
 Seed bands (law sec.4 N2/N4 row: N2 packs from 30_000+ outside every
 registered band; lfc_p1_screen=30_000 in use -> first free window):
   PROPOSED (registered only at the freeze commit):
-    perpetual_n2_w15_gen     = 31_000   (Sobol + axis stream)
-    perpetual_n2_w15_scrnull = 31_500   (screen null family)
-    perpetual_n2_w15_unc     = 32_000   (uncertainty resample)
+    perpetual_n2_w15_gen     = 541_500   (Sobol + axis stream)
+    perpetual_n2_w15_scrnull = 542_000   (screen null family)
+    perpetual_n2_w15_unc     = 542_500   (uncertainty resample)
   Probe seeds 95_004/95_005 = out-of-band design probes (N1 95_002/
   95_003 precedent; never registered, never in any batch ledger).
 """
@@ -106,12 +106,23 @@ PREREG = ("research/PERPETUAL_N2_W15_PREREG.md (wave-level; DRAFT "
           "until runner legs land + freeze commit; R99/R250)")
 CUTOFF = tl14.CUTOFF                      # 2026-09-22 same-window law
 PROBE_SEED = 95_004                       # out-of-band (N1 95_002 law)
-# --- PROPOSED bands (freeze-time registration; disjoint leg machine-
-#     checks these against SEED_REGISTRY + N1 declared bands) ---
-BAND_GEN = 31_000
-BAND_SCRNULL = 31_500
-BAND_UNC = 32_000
-BAND_WIDTH = 499                          # 31_000..31_499 etc.
+# --- bands (freeze-time registration; disjoint leg machine-checks
+#     these against SEED_REGISTRY + live N1_BANDS + N3 berth) ---
+# r492 bm-c slice-3 freeze window: the prereg sec.5 original pick
+# 31_000/31_500/32_000 was REFUSED by the band gate -- all three bands
+# fall inside N1 W8 A 30_100..32_099 (unc also straddles W9 A
+# 32_100..34_099); the slice-1 L4 N1 snapshot was a stale W2..W7 hand
+# list that hid W8+. Forced skip per band-law sec.4 (W12/W13/W109
+# precedent; NOT a re-pick -- R250: these berths were never assigned,
+# zero cells burned). Re-derived placement = r682 ladder-horizon law
+# (lower bound >= A_head_end + 130 waves x 2,000; A head 281,003 at
+# scan time) -> X=541,500; ADMIT receipt
+# results/_r492bmc_n2_band_gate.txt (4 refusal facts + 421 reserved
+# intervals + trio CLEAN).
+BAND_GEN = 541_500
+BAND_SCRNULL = 542_000
+BAND_UNC = 542_500
+BAND_WIDTH = 499                          # 541_500..541_999 etc.
 FROZEN_GRAMMAR_SHA16 = "a231bf10940e7878"  # tl14 build, pinned
 
 OUT_DIR = os.path.join(tl1.PATHS.results_dir, "perpetual_faces")
@@ -130,9 +141,9 @@ N_A = 500                     # raw draws family A (W13 same split)
 N_B = 4500                    # raw draws family B (raw 5,000 total)
 K_NULLS = 200                 # screen-null family K (prereg sec.3)
 NSHARDS = 12                  # prereg sec.0 compute budget: 12 shards
-SEED_GEN = BAND_GEN            # 31_000 (registered at freeze commit)
-SEED_NULL = BAND_SCRNULL       # 31_500
-SEED_UNC = BAND_UNC            # 32_000
+SEED_GEN = BAND_GEN            # 541_500 (registered at freeze commit)
+SEED_NULL = BAND_SCRNULL       # 542_000
+SEED_UNC = BAND_UNC            # 542_500
 W6M = tl2.W6M                  # 126 td, frozen 6m window (tl2 face)
 
 # --- the 14 overlay axes of the frozen 18-tuple (indices 4..17),
@@ -421,7 +432,7 @@ def _freeze_gate(stage: str) -> int:
 # ------------------------------------------------- null draw (scrnull band)
 def _null_axis_draw_w15(i: int):
     """Deterministic screen-null draw per prereg sec.3: rng=[SEED_NULL,
-    i] at the N2 scrnull berth 31_500 (zero stream overlap with any
+    i] at the N2 scrnull berth 542_000 (zero stream overlap with any
     registered band by construction, selftest L4); consumption order =
     tl14 `_null_axis_draw` same-face caliber verbatim = p_on regime ->
     EIGHTEEN-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/
@@ -846,8 +857,8 @@ def cmd_generate() -> int:
                            "(canon sec.2 N2 row); inactive axes pinned "
                            "none = engine identity members"},
                "audit": {"ram_gate_gb": ram_min,
-                         "seed_berth_note": "berths 31_000/31_500/"
-                         "32_000 registered at the freeze commit "
+                         "seed_berth_note": "berths 541_500/542_000/"
+                         "542_500 registered at the freeze commit "
                          "(R250 one-step; slice-3); generate consumed "
                          "post-registration only (R99)"}}
     os.makedirs(RES_DIR, exist_ok=True)
@@ -1272,7 +1283,7 @@ def cmd_screen_finalize() -> int:
                                          "MOM/STD/RSQR/SUMN/RESI/CNT -> "
                                          "signal matrix (tl14 same-face "
                                          "caliber at the N2 scrnull "
-                                         "berth 31_500)"},
+                                         "berth 542_000)"},
            "survival_rule": "beat6m_rate > null_p95 (prereg sec.4, "
                             "frozen)",
            "survivors": survivors, "n_survivors": len(survivors),
@@ -1490,18 +1501,30 @@ def cmd_selftest() -> int:
            if isinstance(v, (int, float))}
     bands = [("gen", BAND_GEN), ("scrnull", BAND_SCRNULL),
              ("unc", BAND_UNC)]
+    own = {"perpetual_n2_w15_gen", "perpetual_n2_w15_scrnull",
+           "perpetual_n2_w15_unc"}   # post-freeze own berths are not
+    # collisions; value exactness is separately enforced by
+    # _bands_registered at every burn leg (r675 posture-aware guard law:
+    # same-batch variant -- guards written at DRAFT must survive the
+    # freeze posture flip)
     hits = []
     for nm, base in bands:
         lo, hi = base, base + BAND_WIDTH
         for k, v in reg.items():
+            if k in own:
+                continue
             if lo <= float(v) <= hi:
                 hits.append(f"{nm}~{k}@{int(v)}")
-    # N1 in-use bands (law sec.4 ledger: 12_100..14_099 W2 ...
-    # 28_100..28_299 W7) + N3 70_000+ + probe seeds out-of-band check
-    n1_ranges = [(12_100, 14_099), (14_100, 16_099), (16_100, 18_099),
-                 (21_100, 21_299), (21_300, 21_499), (21_500, 21_699),
-                 (21_700, 21_899), (21_900, 23_899), (23_900, 25_899),
-                 (25_900, 26_099), (26_100, 28_099), (28_100, 28_299)]
+    # N1 in-use bands: LIVE derive from the N1 runner ledger (r492
+    # freeze-window root-cause fix -- the slice-1 hand-copied list was a
+    # W2..W7 stale snapshot which hid W8 A 30_100..32_099 and let the
+    # original 31_000/31_500/32_000 pick through; import-face derive,
+    # never hand-copy) + N3 70_000..70_999 berth
+    import perpetual_faces as _n1mod
+    n1_ranges = [(b["a"][0], b["a"][1])
+                 for b in _n1mod.N1_BANDS.values()]
+    n1_ranges += [(b["b_exit"][0], b["b_exit"][1])
+                  for b in _n1mod.N1_BANDS.values()]
     n3_range = (70_000, 70_999)
     for nm, base in bands:
         lo, hi = base, base + BAND_WIDTH
@@ -1545,8 +1568,11 @@ def cmd_selftest() -> int:
              ("perpetual_n2_w15_gen", "perpetual_n2_w15_scrnull",
               "perpetual_n2_w15_unc")}
     try:
-        sg.SEED_REGISTRY.update(saved)          # missing -> None keys
-        sim_bad = _bands_registered()
+        for k in saved:        # explicit unregister sim: pop keys
+            sg.SEED_REGISTRY.pop(k, None)   # (DRAFT-era update(saved) was
+        sim_bad = _bands_registered()       # a None-write; post-freeze
+        # live keys would survive it and the refuse direction went
+        # unverified -- r675 posture-aware law)
         sg.SEED_REGISTRY["perpetual_n2_w15_gen"] = BAND_GEN
         sg.SEED_REGISTRY["perpetual_n2_w15_scrnull"] = BAND_SCRNULL
         sg.SEED_REGISTRY["perpetual_n2_w15_unc"] = BAND_UNC
@@ -1559,9 +1585,10 @@ def cmd_selftest() -> int:
                 sg.SEED_REGISTRY[k] = v
     ok &= _leg("L8 freeze-gate face (R99/R250 band registration)",
                (not sim_bad[0]) and sim_ok[0],
-               f"live registered={live_ok} (slice-3 pending is the "
-               f"honest DRAFT posture); unregistered->refuse, "
-               f"registered->open both verified in-memory")
+               f"live registered={live_ok} (live posture disclosed "
+               f"honestly: pre-freeze=False DRAFT, post-freeze=True "
+               f"FROZEN); unregistered->refuse, registered->open "
+               f"both verified in-memory")
     # L9 exclusion import-face real-read: 28-source rows load non-
     # empty and a W15 subspace draw (new-syntax face) passes clean
     excl_rows, _disc = tl14._load_exclusion_rows_w14(g1)
@@ -1634,7 +1661,7 @@ def cmd_selftest() -> int:
     null_ok = (p1 == p2 and ax1 == ax2 and p1 in tl1.NULL_P_REGIMES
                and len(ax1) == 4 + N_OVERLAY
                and (p1 != p3 or ax1 != ax3))
-    ok &= _leg("L13 null draw face (scrnull berth 31_500, tl14 "
+    ok &= _leg("L13 null draw face (scrnull berth 542_000, tl14 "
                "same-face order)", null_ok,
                f"p_on={p1} axis_len={len(ax1)} "
                f"deterministic+seed-sensitive")

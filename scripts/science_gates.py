@@ -1887,6 +1887,34 @@ SEED_REGISTRY = {
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
         # prereg research/G2_SLOT_OLD_P1.md sec.3 leg-(iii).
+    "perpetual_n2_w15_gen": 541_500,  # PERPETUAL-N2-W15 subspace generation
+    # (T-133 s2 N2 face wave-1; slice-3 freeze window 2026-10-04 bm-c r492
+    # per MSG-2026-10-04-1930 open invitation, seat claim
+    # MSG-2026-10-04-1918; prereg research/PERPETUAL_N2_W15_PREREG.md -- gen
+    # face per sec.5 (Sobol box + axis flow), raw 5,000 = A 500 / B 4,500
+    # per sec.3). FORCED SKIP at the freeze window: the prereg's original
+    # 31_000/31_500/32_000 pick was REFUSED by the band gate -- all three
+    # bands fall inside N1 W8 A 30_100..32_099 (unc also straddles W9 A
+    # 32_100..34_099); root cause = slice-1 stale W2..W7 N1 snapshot in
+    # the runner's L4 leg (fixed same window: live N1_BANDS derive).
+    # Skip per band-law sec.4, NOT a re-pick (R250: berths never assigned,
+    # zero cells burned; W12/W13/W109 freeze-window skip precedent);
+    # re-derived per r682 ladder-horizon law (lower bound >= A_head_end
+    # 281_003 + 130 waves x 2,000 -> X=541_500); ADMIT receipt
+    # results/_r492bmc_n2_band_gate.txt (4 refusal facts, 421 reserved
+    # intervals, trio CLEAN); pre-write origin recheck receipt
+    # results/_r492bmc_n2_seat_v5.txt; registered in the slice-3 freeze
+    # commit (R250 one-step law)
+    "perpetual_n2_w15_scrnull": 542_000,  # PERPETUAL-N2-W15-SCREEN null family
+    # (K=200 same-structure random subspace nulls, tl14 _null_axis_draw
+    # same-face draw order per prereg sec.3; scrnull berth machine-proofed
+    # by selftest L13); band 542_000..542_499; same forced-skip freeze
+    # commit (see perpetual_n2_w15_gen provenance above)
+    "perpetual_n2_w15_unc": 542_500,  # PERPETUAL-N2-W15 judge dual-nulls
+    # (block bootstrap B=2000 + sign-flip P=2000 per RANDOM_LARGE_SAMPLE_LAW
+    # sec.3; consumption face = judge batch, separately frozen per prereg
+    # sec.3 two-stage law); band 542_500..542_999; same forced-skip freeze
+    # commit (R250 one-step law)
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
