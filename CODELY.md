@@ -30,21 +30,10 @@
 - 冷层指针（r504 合并·r444 范式）：r305 bm-c rebase --continue 假拒绝坑（净路已全文吸收于 r501 变体①③+r507 中段泛化，双条引用）——全文 verbatim=archive 202610.md『热冷整编 2026-10-01 r504 bm-b 窗批』节；水位注记：流水/回执面已由 r514 窗批掏净，残余 ≈50KB=在役坑律正典（结构性·单条 superseded 迁毕后仍近线），阈值重锚或立法合并窗=集团/GM 裁定面，各机勿为字节数归档在役律。
 - 冷层指针（r561 整编）：O-20261001-2355-bm-c 执行记录全文 verbatim=research/memory-archive/202610.md『热冷整编 2026-10-02 r561 bm-b 窗批』节。
 
-
 - 冷层指针（r401 增量扫合并·r444 范式）：r396 bm-c N3-R2 finalize 交付收口流水行——全文 verbatim=archive 202610.md『热冷整编 2026-10-03 r401 bm-c 窗批』节；同窗域增量回扫 21 条分域入件（engine 7/pool 5/protocol 6/data 2/git 1·各件对账行为准），PS 语义面/spawn·编码/tooling 族与 pre-split 存留条=D-06 收口对账窗（10-07）再裁定。
 - 冷层指针（r431 整编·T-144(c) 流水下沉腿·r444 范式）：r628 bm-b §4 跳位语义钉死行 bm-b 面回执（selftest 9/9 实跑流水行）——全文 verbatim=research/memory-archive/202610.md『热冷整编 2026-10-03 r431 bm-c 窗批』节。
 - 冷层指针（r447 bm-c 合并·指针合并归档 r444 范式）：r635 bm-b O-20261003-2030 宝藏保护令执行回执+r644 bm-a O-20261003-2030 宝藏保护令回执——两条全文 verbatim=archive 202610.md『热冷整编 2026-10-04 r447 bm-c 窗批』节；正典=令件 fleet/orders/O-20261003-2030*.md+守门引擎 Tools/treasure_guard.py。
 - [2026-10-03 18:2x r627 bm-b] r626d 收养收口窗两律：①fuse keepblock 时序律——runner 盖戳（17:43）后再编辑（17:46 value 终版）→sig 漂移=autofill 门 code_changed 自清=r616 双烧面复活；律=每笔 runner 编辑收轮前必重跑 keepblock（幂等·results/_r626bmb_fuse_keepblock.py 范式），且 sig==当前文件 sha16 实证后才算护盾在位（收养死会话 WIP 时编辑面与盖戳面时序必核）。②他机本地 containment 钉律——quality NULLS fuse sig 8f62ed17≠origin 文件 hash（88c06450）非漂移 bug=bm-a 本地 off-caliber containment 钉（r615·钉在 bm-a 本地 runner 版本上·refusals 在 bm-a 门递增实证）；他机禁按「sig 应==本地文件」直觉重戳该 pin——resolver 断言按「双侧恒等」勿按「==本地文件」；同族一切跨机 fuse sig 面先读 pin note 判属主再动戳。
-
-
-
-
-
-
-
-
-
-
 
 - [2026-10-03 16:3x r631 bm-a] L1 路由共享默认翻面×他机模型名分叉坑（r618 bm-b 翻共享默认 qwen3.8:4b 后 bm-a 无同名模型=L1 静默断路）：共享单源 scripts/llm_assist.py 默认模型按 CEO 令翻新代后，他机本地档名不同（bm-a=qwen3-8b-ud:q4_k_xl）→ask/retro 走错模型名→L2 不可用回退云端=本地分流面静默失效。How to apply：共享默认翻面机=改动同窗发 inbox 通告；他机=用户级 env 覆写（setx BIGMONEY_LLM_MODEL 本机档名·持久生效）+ollama keep_alive=-1 常驻重立+selftest 实证（本窗 setx+warm 7.41GB expires=None+selftest PASS+ask 1.0s 端到端全绿）。
 - [2026-10-03 16:4x r632 bm-a] containment 注记处置行无收口语义坑（DIVLOWVOL cells 定谳窗当场抓回零浪费）：r625 off-caliber 隔离注记的「DO NOT consume until re-burned」处置行在 canonical 已恢复（r622 origin-verbatim）后仍站立——finalize 执行者按字面读=拒 canonical 数据或触发无谓全量重烧（X1/X2 ~2x70min x32w 纯浪费）；正法=收口窗必带口径定谳步（E20 三证：origin blob 恒等+落者 commit 史+隔离件行级 diff），处置行随定谳 supersede 勿留站立禁令。How to apply：未来一切 containment/quarantine 注记落盘即写明「supersede 条件」（canonical 落地+provenance 定谳即解除）；finalize 前读注记见禁消费行先跑定谳探针勿按字面执行。
@@ -68,23 +57,9 @@
 - [2026-10-04 04:0x r657 bm-a] git merge 冲突标记 EOL 形态实探律（TREASURE_REGISTRY union 手术两连坑实弹）：merge 落工作树的冲突标记随 autocrlf 呈 CRLF 形态——字节手术 needle 硬编码 LF=assert count 0 当场炸（良性），但 ; 链后续 add 照跑=把仍带 marker 的冲突面 staged（pre-commit 钳正确拦截零 origin 伤害）。正法=①手术前实探 <<<<<<< 邻域字节定 EOL 再定 needle（count==1 断言）②手术步失败后禁带错续 add（分步提交勿 ; 链到底）③钳拦后修复→重 add→再 commit。与 r630 marker 手术律/r644 --check 律并用。How to apply：一切冲突面字节手术先探 EOL；add 前置步必须可判成败。
 - [2026-10-04 05:4x r660 bm-a] D-19 内容寻址基座律第三犯当场自愈（前例 r651 工作树基错键 1f7c1438 / r659 raw 基重锚 eb14b510）：Windows 下 sparse-checkout/工作树落盘副本经 autocrlf 翻译后 != git blob 原字节——本轮对 sparse clone 落盘文件直接 sha256 产假 CHANGED（decisions/orders 双假警），改 git show origin/main:<path> subprocess 原字节复算=双 MATCH 零动作收口。律：D-19/水位类内容寻址一律 git show 原字节再哈希，禁对任何落盘副本文件哈希（sparse clone 亦然）；误用即产假 CHANGED/假回退警（r641 律警报先字节 diff 定谳的源头族）。另：CODELY.md L82-87 实录=GBK mojibake 落盘尾巴（bm-c r438/bm-b r643-645/bm-a r657 追管线污染·pit-encoding 域），治愈候选留痕下窗裁定（跨机面勿单方手术）。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - [2026-10-04 05:1x r445 bm-c] 停泊预备件复用双坑（W115 解停窗实弹·①AST 门救命实录②陈旧熔断零点火暗坑）：①r384 死会话预备工具集（parked.diff+freeze_edits 复跑）内藏 LEG115 隐式串接续缺括号语法 bug——强制后置 ast.parse（r580/r581 律）当场拦截（编辑五面已落+FIX-B 文本签名全过但 py 面不可导入），按 r471/r592 活修律同窗修复（活 runner+两工具集副本三面同修零语义变化）——考证=同一 bug 曾在 r384 窗杀死全部 12 个 W115 烧批（runner 不可导入→烧批秒崩→crash-fuse 3 连崩全片 quarantine）使 r385 只能 park；②解停后引擎活视图见 W115（grammar_consumption 在场·dedup 0/0）但 queue 空且零点火——根因=引擎态 quarantined/crash_counts 残留 r384 熔断陈迹（derive_n1_queue 跳过 quarantined 键）；正法=击杀常驻引擎（无写者竞态窗）→状态手术清 [115,0..11] quarantine+115:* crash_counts（[12,11] 老例保留·audit 字段留痕）→schtasks 1 分钟自愈重启（law sec.4 self-restart）→2 tick 内分片产物增长面=唯一点火证据（r325 律）。How to apply：一切 parked/死会话预备件复用必复跑全套守卫（AST 门+双 selftest）勿信「曾跑过」；解停/恢复链后引擎零点火时先查 quarantine 台账再查队列面。
 - [2026-10-04 05:5x r446 bm-c] 探针一律落文件律（r446 双犯实录·r436/r438 ArgString 族第三形态）：python -c 多行代码经 Invoke-SilentExe/silent-git 类包装器 -ArgString 传递时，代码内**单引号**（r'...'/'==' 等 python 字符串定界）会提前终止 PS 单引号外包裹串→残段被 PS 逐段解析成位置参数报错（「找不到接受自变量的…」报文族·本窗两次实弹）——r438 的内层双引号直书法只保护 git -m 场景，python -c 代码同时含单双引号=两法皆死。正法=探针代码一律 write_file 落 results/_r<N><机>_*.py 再 `& 包装器 -Exe python -ArgString '相对路径'` 调用（零引号嵌套零转义）；PS 单引号串内禁出现任何裸单引号。How to apply：包装器调用见「找不到接受自变量的」报文即弃内联组合转文件法重写，勿连发同错。
-- [2026-10-04 06:4x r447 bm-c] D-06 全线收口（T-144(c) final-sweep 提前窗·原定 10-07）：①pit-data CRLF 面=r420 已零动作收口（pit-data 收口行为准）②拆件断言层 r402/r419/r420 final-sweep 裁定=三条留驻 pit-git（收口行在件）③流水下沉=r635 bm-b+r644 bm-a O-2030 回执两条 verbatim→archive 202610.md『热冷整编 2026-10-04 r447 bm-c 窗批』节（冷层指针行在本件）④CODELY.md GBK mojibake 尾巴治愈（r660 bm-a 治愈候选·D-06 窗裁定执行：Windows CP936 逆映射+分段 containment 零丢失证明 17/17·r657 两条按 git 史 2c0c6dcf5 原文复位·r438 重复/r641 合并拆分·mojibake 块 42,873B 入隔离区 manifest·receipt=results/_r447bmc_d06_codely_heal.json）；T-144 全票面收口。
+- 冷层指针（r500 整编·r444 范式）：r447 bm-c D-06 全线收口记录（T-144 全票收口+CODELY mojibake 尾巴治愈处置·receipt=results/_r447bmc_d06_codely_heal.json）+r479 bm-c O-20261004-1440 闲置复发点火令执行回执——两条全文 verbatim=research/memory-archive/202610.md『热冷整编 2026-10-04 r500 bm-c 窗批（CODELY.md 水位律·流水/回执迁移+结构治愈）』节。
 
 - [2026-10-04 07:4x r655 bm-b] J13 retro 腿休眠根因=ctx 超限（P2 自动复盘点火复线实弹）：llm_assist.py retro 自 09-27 dormant 不是「没跑」而是静默红腿——dashboard 3×3000+三机 ledger tail 3×2500 chars 随账本增长撑爆 NUM_CTX=8192（实测 8715 tok exceed_context_size_error→exit 1 诚实 FAIL 但无人消费报文=产品线静默死亡面）；单行修=dashboard chunk 3000→1800（prompt≈6.8k tok+gen 900<8192），retro GREEN research/auto/retro-20261004.md 当窗落盘。How to apply：常设 L1 产品腿「长期 dormant」先实跑一次定位（selftest 只测 serve/model/write-guard 不测各腿 prompt 尺寸——selftest 绿≠腿绿）；共享单源 llm_assist 改 ctx 相关常量按 prompt+gen≤NUM_CTX 算预算勿只看 prompt 面。
 - [2026-10-04 07:3x r655 bm-b] PS 双 Format-Table 合并输出错读坑（r643 三证律立功·假并发警报当场闭案）：单调用 `cmdA | Format-Table; cmdB | Format-Table` 当 cmdA 结果集为空时其 Format-Table 零输出→屏幕只见 cmdB 的行——本窗把 processed/ 最新 5 行错读成 inbox 未读 5 件→误报「收件箱两次列出之间被并发会话清空」→r643 三证检查定谳无并发（git reflog 无他会话时间戳+进程数=1+.out 转录与本人叙事逐字自匹配=本人即 07:22 tick·首表本就空）。How to apply：合并管道多表判读前给每表显式标题（Write-Host 分隔）或拆分调用；「文件闪变」类警报先核自身命令输出形态再立并发叙事。
@@ -99,42 +74,6 @@
 - [2026-10-04 09:3x r660 bm-b] 探针假警双面当场抓回（零误报上报·r641 复现证伪律两连兑现）：①**D-19 哈希取数 PS 管道转码损坏**——`git show origin/main:<path> | python -c sha256` 经 PS 管道=git 原字节被 console 编码（GBK）解码再编码→假新 sha（本窗 8019f543 假 CHANGED vs 水位 EB14B510 双 MATCH）；r660 bm-a「git show 原字节律」的正确执行形=python subprocess capture_output 直调 git（零 PS 管道零落盘中转），sparse-clone 落盘文件直哈希虽本窗偶合水位（blob 本 CRLF 未翻译）仍是禁路——三路中唯 subprocess 合法。②**post_review P0 门=官方 REPORT 面非 raw ledger 计数**——ledger verdict='NO' 38 行为历史+rerun 批（append-only 史照录），复审纪律的「✗ 行=下一轮 P0」消费面=results/post_review/REPORT-<date>.md 判定分布行（本窗 ✓45/✗0/🟡5 零活红）；附带探针坑=`str(r.get('k','')).upper().startswith('NO')` 对显式 null 键值产 'NONE' 前缀命中=missing-key 与 null 值两态必分判。How to apply：D-19/水位哈希一律 subprocess 原字节；post_review 红线判定读 REPORT 面；探针 filter 对 None 值先归一 ('' if v is None else str(v))。
 - [2026-10-04 09:4x r661 bm-b] 探针单形假死读数×决策前双形交叉律（r659 姊妹面·QUALITY 收养核验实弹）：liveness 探针首读 pid 57116 "NOT FOUND"（CIM -Filter 单 pid 形）而全量扫 Where-Object 形证活——r641 复现律先跑再立法：四形对照复现证伪「CIM -Filter 假死坑」假说，真根=探针自身格式串 bug（`-Filter 'ProcessId=%d'` 占位符未 `% pid` 格式化=字面 %d 当 WQL→恒空结果→假死读数）；正法=①探针命令串内一切 % 占位符落盘后必实格式化（探针文件 review 首查项）②活性读数若驱动 claim-release/kill/respawn 类池面决策，必以独立第二形（全量扫+匹配）交叉证活才许动手——单形读数禁直接消费（本窗若无全量扫交叉，将误走 MSG-0915 item 2 的 release→re-light 路=烧毁在飞 QUALITY 判决批）。How to apply：写 pid 探针先自查占位符；「进程死了」读数与池面动作间必隔双形证据。
 - [2026-10-04 15:3x r480 bm-c] w3 延拓波 selftest 断言语义层错配坑（MASS_TRIAL_W3 首烧实弹·当场诊断修正零机制伤害）：「延拓窗不相交」承诺必须钉死语义层级——Sobol **序列位置**不相交（真·前缀/尾窗恒等腿可证）≠**映射参数元组**不相交（离散/小整数族数学上必假：fam0 donchian_breakout 空间 31×16=496 格·w3 窗 64 抽实测撞 w1 帧 1 员=w2 §8 已披露枚举碰撞机制·恰是跨波去重计数器存在的原因）；selftest 腿把「点集不相交」写成参数哈希全不相交=红腿假警报。正法=①断言腿红先复现诊断（r641 律·results/_r480bmc_w3_collide_probe.py 范式：碰撞员全字段 dump+各维 distinct 计数）②腿改语义=「位置新颖性由尾窗恒等腿证·参数级复现=有界少数（≤8/64）且由去重面计数除名」——禁对离散族写全不相交断言。How to apply：一切「space/窗/带 不相交」类预注册措辞必须写明层级（序列位置 vs 映射值域）；对应 selftest 断言用有界性+机制计数面，勿写数学必假的恒等式。
-
-## Codely Structured Memories
-### User
-### Feedback
-### Project
-### Reference
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - [2026-10-04 09:4x r458 bm-c] 水位探针键口径错配=恒假 CHANGED 坑（r452 _r452bmc_d19_check.py 实弹·r660 同窗姊妹面）：orders 腿 state 键 last_orders_sha=SHA-1 40-hex（state 内 last_orders_sha_method 明载）而探针统一算 SHA-256=两键永不相等→每跑必假 GROUP_ORDERS_CHANGED（r458 首跑即中）；连带变更区 CJK console 打印→GBK UnicodeEncodeError 崩（pit-encoding 会话壳探针域）。修=results/_r458bmc_group_orders_check.py：per-key 口径（orders=SHA-1·decisions=SHA-256 双 MATCH 复核）+全部输出落 UTF-8 文件零 console 打印。How to apply：水位/内容寻址探针必逐键读 state 的 *_sha_method 对齐口径（禁套用同文件另一键的哈希族）；变更区提取一律写文件再读（r446 探针落文件律的水位面）。- [2026-10-04 10:1x r460 bm-c] PS 管道 Select-Object -First N 截断杀上游活进程坑（r657 ①「管道尾窗误读」族的进程杀死新变体·r460 实弹自犯自愈）：给活长跑原生命令（python S6 链等）追加 `| Select-Object -First N` ——PS 在消费满 N 个对象后对上游发 StopProcessing=原生命令被中途终止（非只是少显示几行）：实弹=python Tools\_r433bmc_s6.py --help | Select-Object -First 20 把 38 腿链杀死在第 21 腿（log 截于 update_fund_premium·进程消失·console 恰止于 ~20 行）·当时误以为链已跑完；正法=驱动件类长跑命令一律裸跑（其自写 log 文件为证据面），要压缩输出先让进程跑完再对文件做截取（Get-Content -Tail 于已完成产物=安全）。How to apply：任何「跑命令+想少看输出」组合禁在命令运行中接截取管道；已中坑时先核驱动件自写 log 的尾部完成戳（S6 链有 `S6 chain end` 行=完成判据）与进程活性（CIM 全量拉），勿按 console 截断误判批完成。
 
@@ -152,7 +91,6 @@
 
 - [2026-10-04 11:5x r466 bm-c] 律后于脚本血统落册未回流坑（token_usage UU 面 r456 断言实弹·fail-closed 零部分提交零伤）：r456 律（per-key union 零命中必显式转整面新鲜度键判·禁静默整面走侧）09:02 落册，而 merge-resolver 脚本复制链（r462→r465 血统）仍只带裸 assert——r466 实弹撞上（token_usage machines 双侧逐键恒等〔per-round fixed-context 值 delta=0 族·差异仅在顶层 ts〕→side_pick=0→断言炸·前 12 面已写工作树但零 add 零 commit=fail-closed 如设计）。修=resolver 副本补 r456 律定回退腿（side_pick=0→整面 ts 新鲜度判·本例 ours 11:47:59>theirs 11:47:19 取 ours·results/_r466bmc_merge_resolve.py resolve_token 已内建）。教训=复制链脚本不自动继承落册在后的律——复制 canon 脚本前必扫「该域在脚本血统起点之后落册的律」核脚本是否已含律定分支；三机 resolver 血统（bm-a/bm-b 各系）大概率同带裸 assert，撞 token/machines 恒等面会同炸——各机下次 resolver 复制时按 r466 形补回退腿。
 - [2026-10-04 12:0x r467 bm-c] bm-c 饱和引擎 status 双副本状态路径陷阱（S3 活检查实弹·当窗抓回零误修）：仓内两份 saturation_engine.py 状态面路径不同——scripts\ 副本（bm-b/bm-a 注册面）读 results/saturation_engine/state_{mid}.json；Tools\ 副本（bm-c 注册任务 Bigmoney-SaturationEngine 实跑面·XML 实证 run 走 Tools\saturation_engine.py）读写 results/saturation_engine_state.{mid}.json。bm-c 误跑 scripts\ 副本 status=恒 exit 1「engine never ticked」（找错路径的合理化报文非引擎死证据）——照 S3 协议会误触发 P0 修复环（重注册+tick）对健康引擎动刀。How to apply：各机 S3 引擎活检查/修复链命令以注册任务 XML 的 Arguments 为唯一锚勿按目录惯例猜（bm-b/bm-a=scripts\·bm-c=Tools\）；见 exit 1 never-ticked 报文先核所用副本与注册面是否同源再判引擎死活。
-- 域指针·D-20261002-06 首拆件（2026-10-02 r369 bm-c·T-2026-10-02-144(c)）：git 域坑律 49 条（rebase/push 撞拒净路族·外科 CAS 直投族·让路/closeout 树卫与删除集自证族·staged 吞件族·silent-git/Invoke-SilentExe 包装器族·git 输出固定列解析族·D-19 水位 git show 字节律）已整域 verbatim 迁出→**research/pit-git.md**（件内字节对账+md5 行·零丢失断言）——S0 集成/push 撞拒/让路手术/closeout/外科推送/staged 提交前/解析 git 输出/零窗 git 调用必先读该件；r399 bm-c 增量回扫 23 条（10-02 01:3x~10-03 05:0x 热层批）已入件·件内对账行为准；r400 bm-c direct-write 1 条（git-show 缺失 path 双形态 stderr 判据·MSG-0612 爪扩腿实弹）；引擎/数据/池/协议域+流水下沉=后续拆件（D-06 全线收口窗 10-07）；r401 bm-c 增量回扫 1 条（r605 定向 add×脏共享 append-only）已入件（件内对账行为准）；r402 bm-c direct-write 1 条（字节手术行界终结符双计×孤 CR 抑制清滤=整文件 staged diff·当场自愈零 origin 伤害）已入件（件内对账行为准）；r410 bm-c 增量回扫 3 条（10-03 06:4x r606~09:4x r612 批）已入件（件内对账行为准）；r417 bm-c 增量回扫 2 条（r366 ls-tree 列位切错〔变体⑤ bullet-less 形迁移前 2B 归正·r411 前例同源〕+r614 rebase-截断活写）已入件（件内对账行为准）；r417 bm-c direct-write 1 条（diff3 残留断言行首匹配律·r312 姊妹面）；r418 bm-c pre-split survivors 批次一 2 条（r294 union 去重域坑/r294 amend 撞劫坑）已入件（件内对账行+receipt 为准）已入件（件内对账行为准）；r419 bm-c direct-write 1 条（拆件脚本断言层假阳性两连坑·CRLF 三计数恒等律×索引基座同表锚定律）已入件（件内对账行为准）；r420 bm-c 增量回扫 1 条（r624 rebase --quit 后游离 HEAD 提交面坑——symbolic-ref 自检+branch -f 治愈律）已入件（件内对账行为准）；r420 bm-c direct-write 1 条（断言层第三连假阳性——acc 行嵌 anchor 引用×count==1 判据·needle 避 furniture 律）已入件（件内对账行为准）；r625 bm-b 增量回扫 4 条（r619 断头 rebase quit 门行归属探针律/r620 churn-absorb 轮号前置读律/r621 多环陈旧 tip 合并收敛律/r624 rebase pick 重放覆盖坑）已入件（件内对账行为准）；r431 bm-c 增量回扫 1 条（10-03 18:0x r423 merge 窗三连坑——origin 残留 marker 全仓扫+porcelain UU 全量扫+push 前三 fetch 复核）已入件（件内对账行为准）；r439 bm-c sub-split batch-1（外科族 40 条 verbatim→research/pit-git-surgery.md·41,652B·85 verify checks·pit-git.md 115,198→75,666B〔-34%〕·receipt _r439bmc_pit_git_surgery_split.json）已入件（件内对账行为准）；余=rebase 净路族+解析/包装器族+staged 族 sub-split batch-2（D-06 收口窗 10-07）；r440 bm-c direct-write 1 条（预对齐窗内再staging 吞 checkout 净面坑——absorb 后逐面 blob 恒等断言判别律+UU 两分法〔S6 可再生面 origin-newer-wins/己方车道 daemon 面 ours-live-wins〕）已入件（件内对账行为准）；r441 bm-c sub-split batch-2 DONE（rebase/merge/FF 集成净路族 36 行→pit-git-netpath.md·解析/包装器/对账探针族 20 条→pit-git-parse.md·staged 吞件与 commit 入场门族 3 条→pit-git-staged.md·139 verify checks PASS·pit-git.md 77,412→20,804B·r315 行内熔合 r505 随行 netpath·receipt _r441bmc_pit_git_b2_split.json·宝藏迁移仪式=prescan rc3 留痕+登记册出入记录预登记行+零丢失断言）已入件（件内对账行为准）；余=pit-data CRLF 裁定+拆件断言层 increment（r402/r419/r420）final-sweep 裁定+流水下沉（D-06 收口窗 10-07）。
 - [2026-10-04 12:1x r675 bm-a] 后冻结批 registry 增量击穿先冻结批钝守卫假阳性族（THEME_PERSIST_P1 复现性双红实弹·判负批审计面）：先冻结批（r657）runner 守卫按当窗 registry 写死钝判据（种子带钝基距≥10000/语法去重整文件 substring），后冻结批（r667 judge 带 20585000 入 registry+本批自烧录 ledger 行）使钝守卫在批后 selftest 永久红——破坏已闭批可复跑性（审计面）。正法=守卫一律建模增量面：①种子带 disjoint 检查=extent-aware 带隙法（本带 extent 从模块 substream map derive+他带保守 3000+带隙≥2000，judge 侧 _seed_band_check 同法正典）②语法去重=gen= 行三元组定向扫描（消费声明行=申报例外）+own-burn 防双烧守卫移 run 意图位（selftest 永绿·run 面实证拒）。How to apply：新预注册冻结窗的守卫禁用「对共享 registry 全量钝距离/整串 substring」类判据——一切跨批共享面（SEED_REGISTRY/TRIAL_GRAMMAR_LEDGER）守卫按「本批语义 extent+增量行定向」写；批闭后 selftest 必须可复跑（exploration 批审计律）。
 - [2026-10-04 12:2x r675 bm-a] CODELY/append-only 记忆面 union 行级 dedup 坍缩坑（rebase 解面实弹·r453 dedup 律的错读面·当场自愈零 origin 伤害）：r453「exact-line dedup keep-first」正解=仅对【追加的新条目块】去重（块级 union=origin 全文+我侧新增行），禁对【整文件】行级去重——markdown 记忆件的空行/表分隔行是结构性重复行，153+153 行双侧全量 dedup 后只剩 81 行=结构坍缩（本窗 UU 解探针首版实弹·断言层 mine_entry_present 恒真但文件已残）；自愈律=双侧 git show 原字节直取→origin 全文保序+我侧【origin 缺失行】按序追加→origin 前缀恒等断言+新增行在场断言+r675 条目 count==1 断言。How to apply：一切 CODELY/台账类 append-only 面 merge/rebase 解=块级追加配方（_r675bma_codely_heal.py 范式）；行级 dedup 只许作用于增量块且必须带【origin 侧结构行数不减少】断言。
 - [2026-10-04 12:4x r670 bm-b] 集团派工行自领前先查既有实现律（D-20261004-02①②③ 反重复实弹）：集团通告板派工行涉本司时，开工前必先双扫——①git log --all --grep <派工号> ②仓内 grep <派工号>（含 tools 脚本注释面）——确认零实现才开工。本窗 D-20261004-02①②③（池 data_deps 门+PREREG 种子选位律+S4U D-19 fallback）已由本机 r640 死会话收养窗全量落地（commit 9c38bd8ac·autofill/PREREG_TEMPLATE/README/iteration_prompt 四面），本窗差点按派工行字面重做三件——幸 grep 命中 Tools/_r439bmc_closeout_writes.py L75 指称+commit 搜索当场消融；正解=只补缺口面（F- 回执未呈=唯一缺口→F-20261004-02 补呈+autofill selftest 活体复验 ALL PASS 含 S4b×4/S17dd×2）。How to apply：撞通告板派工行先双扫；已有实现=只做回执呈证+活体复验增量，禁按行面重做。
@@ -164,7 +102,6 @@
 - [2026-10-04 14:4x r680 bm-a] 长链 runner 块缓冲 stdout×end-only 落盘=宿主静默斩首丢全窗坑（S6 链 r680 首跑实弹·harness 5min 零输出窗杀）：`python chain.py | Select-Object` 管道下 print 块缓冲=逐腿输出全滞缓冲区，宿主看「零输出」判死杀进程，而日志只在链尾写=进度全丢；r679 同款跑法侥幸（104s<5min 窗）未暴露。正法=①长链 runner 一律 `python -u` 起跑②每腿 print(..., flush=True)③日志改逐腿增量落盘（crash-safe）④每腿 subprocess 加 timeout 帽（240s）防单腿吊死全链。How to apply：一切 >2min 的驱动器/链 runner 四件套缺一不可；被宿主杀后先查「日志是否只在尾部写」再重跑，勿盲重发同命令。
 - [2026-10-04T14:23 r675 bm-b] trio watch 探针结构键位坑+窄窗速率饿死修（r674 探针 pool 腿读不存在的顶层 shards 键=三族全 NOT-FOUND 假读数，池 shards 实嵌于 entries[].shards[]；速率估读 git log -3 相邻对在 daemon 自提交密集窗 dt<0.1h 门饿死 rate=None→ETA 面瞬时空值）。How to apply：共享 JSON 态面探针写路径断言前先实探结构键位（读源 schema 亦可）；烧速率估读一律宽窗 git log -12 新旧端对距。修=results/_r675bmb_trio_watch.py（三证健康判定 k 增长+mtime+keepalive）。
 - [2026-10-04 14:5x r676 bm-b] schtasks LogonType 违令警报三源定谳律（S4U 假警当场闭案零动手）：schtasks /query /fo LIST 中文面 GBK mojibake 判读不可靠 + LogonType 见 InteractiveToken 形先按 09-29 S4U 令字面定性=假警——正法三源定谳：①schtasks /query /xml 直取 <LogonType>（无歧义判读）②读注册脚本头注 PRINCIPAL 段（D-20261002-02 集团裁定：S4U 本环境 0x80070005 不可装·default principal=单源自 r576 bm-b·偏差已呈 CEO 复裁）③对照任务族归属再定性。本窗 LoopWatchdog InteractiveToken=裁定后正典面零动作（按 09-29 令字面重注册=回退裁定前状态=错动作）。How to apply：车道任务 LogonType 检查见偏离形态先查注册脚本头注+XML 直取双证，禁按旧令字面直接重注册。
-- [2026-10-04 14:53:34 r479 bm-c] O-20261004-1440 闲置复发点火令执行回执（CEO 直令 14:3x·ack 同轮·违例追责面如实）：①池面 ready=3 全 owner=bm-b 活烧（keepalive 21min fresh×3·audit v2.4.2 pool_ready_unclaimed=0=令面「无人认领」审计已过时·r626d-② 禁触碰）；②八票 157-164 全有主有处置=零无理由挂账；③N2-N4 接线态证据=results/_r479bmc_n234_wire.json（selftest 3/3 ALL PASS+生成器 runner-landed[N1,N3]/pending[N2,N4]+N3-R1/R2+N4-B1-B3 已烧）——CEO 审计「O-2155 两夜零命中」=查询面错判；真缺口=N2-W15 冻结窗腿未落地（红牌行入轮报首行·r480 首件 declare·同窗让路 bm-b s2 正主按 r511 提交时序）；④供料预置=pool live=3 物化不触发（法典 §1）+T-148 12 腿 bm-b 10-08+千人 W3=新 prereg 面。How to apply：查 N 面供给态先跑 selftest×3+perpetual_faces.py status（勿按 audit 查询面判「零执行」）；引擎断供根因=N1 面按 O-0808 停泊+O-2155 价值递减定谳，解堵面=N2 冻结窗非新 N1 波。
 - [2026-10-04 14:58 r479 bm-c] CODELY/append-only union 被取代变体子串遏制律（r675 块级 union 律新面·r676 同令并发 race 实弹）：双侧同条目异形时（本例=我侧 r675 bm-b 条目 bullet-less 变体〔r417/r669 2B 缺陷族〕vs origin 侧同条目已 2B 归正带 bullet）——exact-line diff 会把缺陷变体误判为「我侧新增行」，裸 union=同条目双录（r453 dedup 违例）；且 union.count(ln) 计的是子串非行（缺陷行=origin 固定行的子串→count==2 断言当场拦）。正法=missing 行集先过字节遏制滤（ln in theirs_blob 即弃=origin 已携同条目归正式·追加双录禁），真新增行（非子串）才按序追加；配 origin 前缀恒等+真新增行恰一次断言。探针=results/_r479bmc_codely_debug.py（missing 清单先行再手术）；执法件=results/_r479bmc_merge_resolve.py resolve_codely。How to apply：未来三机同窗 race 的 CODELY union 一律先跑 missing 清单探针，见「我侧行是 origin 行子串」即按本律弃录勿双录。
 - [2026-10-04 15:5x r682 bm-a] N4 新家族窗 gap-finder 活跃梯子地雷（B4 踏勘实证·零烧零注册）：「family window 之上首个 ≥1,497 净窗」裸 gap-finder 产出 275_004..276_500=恰为 N1 A 阶梯活跃续带路径（注册 A 墙止于表尾 W115=275_003·W116 即取 275_004..277_003·bm-b 在飞）——N1 波带表只含已注册行，never-dry 泵梯子无表内终点（A-ladder 2,000/波·B-ladder 200/波皆无终点），任何「表尾后首个净窗」都坐在活跃梯子路径上。正法=种子域新窗分配必带梯子 horizon 门：窗下限≥当前 A 头+130 波×2,000（B1 自家「~130+ 波」先例）且扫描面并 B-ladder 跳位投影+SEED_REGISTRY 活值+实际流全域；N4-B4 另有 B3 §5 冻结句「无余尾即无 B4 时点」（O-20260930-1901 意义门·满耗收口即家族面完备）=新窗唯一合法开窗条件=月界成员变更。证据=results/_r682bma_n4b4_band_scan.py+fleet/inbox/MSG-2026-10-04-1600-bma-ALL.md。How to apply：未来任何种子域窗口分配（N4 新家族窗/N2 后续波带/N3 域扩展）先过梯子 horizon 门勿信「表内无冲突」；表尾≠梯子尾。
 - [2026-10-04 15:3x r677 bm-b] D-19 sparse-clone 通道 SSL 瞬态律：https github clone 实弹撞 schannel SSL 握手失败（schannel: failed to receive handshake）而同窗 SSH 通道实证活（同轮 git push 经 ssh.github.com:443 成功）——正解=clone 双 URL 跑 ssh 先（git@github.com:BigRain-11122/FluxGroup.git 先试·https 兜底）；连带=部分 clone 失败残留目录被锁时 shutil.rmtree(ignore_errors=True) 静默不删→重试撞「destination path already exists」——tempfile.mkdtemp 每次 唯一目录即愈（_r677bmb_d19_check.py 范式）。How to apply：D-19/水位类 sparse-clone 探针一律 ssh 先双 URL+mkdtemp 唯一目录；https SSL 失败先证伪通道勿立机制故障叙事（r641 复现律族）。
