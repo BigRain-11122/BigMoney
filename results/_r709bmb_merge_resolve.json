@@ -1,0 +1,99 @@
+{
+ "round": "r709 bm-b",
+ "merge_head": "594b83e57",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "take-ours",
+   "bytes": 22825
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "take-ours",
+   "bytes": 10306
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "take-ours",
+   "bytes": 10952
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "take-ours",
+   "bytes": 8066
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "take-ours",
+   "bytes": 10952
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "take-ours",
+   "bytes": 8066
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "take-ours",
+   "bytes": 2146
+  },
+  "results/daily_scorecard.json": {
+   "action": "take-ours",
+   "bytes": 84463
+  },
+  "results/dashboard_status.json": {
+   "action": "take-ours",
+   "bytes": 125167
+  },
+  "results/dashboard_status.js": {
+   "action": "take-ours",
+   "bytes": 91520
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "take-ours",
+   "bytes": 1704
+  },
+  "results/futures_update_status.json": {
+   "action": "take-ours",
+   "bytes": 3198
+  },
+  "results/lhb_update_status.json": {
+   "action": "take-ours",
+   "bytes": 326
+  },
+  "results/scorecard_v1.json": {
+   "action": "take-ours",
+   "bytes": 27743
+  },
+  "results/strategy_scorecard.json": {
+   "action": "take-ours",
+   "bytes": 238109
+  },
+  "results/token_usage.json": {
+   "action": "take-ours",
+   "bytes": 2036
+  },
+  "results/update_status.json": {
+   "action": "take-ours",
+   "bytes": 7842
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "ours_len": 201,
+   "theirs_len": 207,
+   "union_len": 208
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  },
+  "results/runnable_pool.json": {
+   "action": "per-entry newer-wins",
+   "diff_ids": {
+    "PERPETUAL-N2-W15-JUDGE-SHARD-2": "theirs(owner_since 2026-10-05 03:47:49>2026-10-05 03:42:03; ours done-state multi-anchored in git history: ckpt files + close/harvest/F-04 commits + our merge parent)",
+    "PERPETUAL-N2-W15-JUDGE-SHARD-10": "theirs(owner_since 2026-10-05 03:47:08>2026-10-05 03:42:03; ours done-state multi-anchored in git history: ckpt files + close/harvest/F-04 commits + our merge parent)"
+   },
+   "entry_count": 403
+  }
+ },
+ "twin_checks": {
+  "dashboard_js_json_same_side": true,
+  "report_md_json_same_side": true
+ },
+ "resolved_n": 20
+}

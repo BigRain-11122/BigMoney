@@ -1828,7 +1828,12 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
               "refuse, NO pool claim); first missing: "
               f"{missing_mine[:3]}")
         return 2
-    _pool_claim(JUDGE_BATCH, f"n2w15judge-{shard}of{shards}",
+    # r708 claim-dir canon fix: the worker claim must land in the
+    # per-shard entry dir (harvest scan matches claims/<entry_id>/ ==
+    # pool entry id, r496/r201 contract); JUDGE_BATCH here left 10
+    # closed claims invisible to the harvest flip (ghost-ready family).
+    _pool_claim(f"PERPETUAL-N2-W15-JUDGE-SHARD-{shard}",
+                f"n2w15judge-{shard}of{shards}",
                 f"{len(mine)} judged cells done, ckpt "
                 f"{os.path.basename(ck)}")
     print(f"shard {shard}of{shards} complete -> {ck} ({len(mine)} "

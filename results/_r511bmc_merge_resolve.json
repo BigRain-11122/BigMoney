@@ -1,0 +1,315 @@
+{
+ "round": "r511-merge",
+ "mode": "merge",
+ "strategies": {
+  "results/compute_audit.json": "canonical merge_lane_views resolve",
+  "results/crash_fuse.json": "canonical merge_lane_views resolve",
+  "results/futures_update_status.json": "canonical merge_lane_views resolve",
+  "results/lhb_update_status.json": "canonical merge_lane_views resolve",
+  "results/regime_state.json": "canonical merge_lane_views resolve",
+  "results/runnable_pool.json": "canonical merge_lane_views resolve",
+  "results/token_usage.json": "canonical merge_lane_views resolve",
+  "results/update_status.json": "canonical merge_lane_views resolve",
+  "docs/daily_report/REPORT-2026-10-05.json": "ts-newer-wins mine",
+  "docs/live_usage/LIVE-2026-10-05.json": "ts-newer-wins mine",
+  "docs/live_usage/LIVE-latest.json": "ts-newer-wins mine",
+  "results/_attrition_guard_scan.json": "ts-newer-wins mine",
+  "results/dashboard_status.json": "ts-newer-wins mine",
+  "results/fundamental_b_layer_filter.json": "ts-newer-wins mine",
+  "results/scorecard_v1.json": "ts-newer-wins mine",
+  "results/strategy_scorecard.json": "ts-newer-wins mine",
+  "docs/daily_report/REPORT-2026-10-05.md": "twin-locked-to-json mine",
+  "docs/live_usage/LIVE-2026-10-05.md": "twin-locked-to-json mine",
+  "docs/live_usage/LIVE-latest.md": "twin-locked-to-json mine",
+  "results/dashboard_status.js": "twin-locked-to-json mine",
+  "results/pool_core_samples.jsonl": "append-only line-union tolerant zero-loss",
+  "results/pool_red_flags.jsonl": "append-only line-union tolerant zero-loss"
+ },
+ "sides": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "mine_ts": "2026-10-05T03:44:40",
+   "origin_ts": "2026-10-05T03:44:40",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "mine_ts": "2026-10-05T03:49:20",
+   "origin_ts": "2026-10-05T03:41:09",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "mine_ts": "2026-10-05T03:49:20",
+   "origin_ts": "2026-10-05T03:41:09",
+   "take": "mine"
+  },
+  "results/_attrition_guard_scan.json": {
+   "mine_ts": "2026-10-05T03:50:12",
+   "origin_ts": "2026-10-05T03:41:49",
+   "take": "mine"
+  },
+  "results/dashboard_status.json": {
+   "mine_ts": "2026-10-05T03:49:32",
+   "origin_ts": "2026-10-05T03:41:26",
+   "take": "mine"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "mine_ts": "2026-10-05 03:48:51",
+   "origin_ts": "2026-10-05 03:40:43",
+   "take": "mine"
+  },
+  "results/scorecard_v1.json": {
+   "mine_ts": "2026-10-05T03:48:25",
+   "origin_ts": "2026-10-05T03:40:00",
+   "take": "mine"
+  },
+  "results/strategy_scorecard.json": {
+   "mine_ts": "2026-10-05T03:48:39",
+   "origin_ts": "2026-10-05T03:40:14",
+   "take": "mine"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "twin_of": "docs/daily_report/REPORT-2026-10-05.json",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "twin_of": "docs/live_usage/LIVE-2026-10-05.json",
+   "take": "mine"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "twin_of": "docs/live_usage/LIVE-latest.json",
+   "take": "mine"
+  },
+  "results/dashboard_status.js": {
+   "twin_of": "results/dashboard_status.json",
+   "take": "mine"
+  },
+  "results/pool_core_samples.jsonl": {
+   "union": "line-union-tolerant",
+   "origin_lines": 1298,
+   "mine_lines": 1297,
+   "merged_lines": 1302,
+   "extra_added": 4,
+   "source_residual_lines": 0,
+   "terminal_residual_lines": 0
+  },
+  "results/pool_red_flags.jsonl": {
+   "union": "line-union-tolerant",
+   "origin_lines": 64,
+   "mine_lines": 67,
+   "merged_lines": 68,
+   "extra_added": 4,
+   "source_residual_lines": 1,
+   "terminal_residual_lines": 1
+  }
+ },
+ "gates": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "blocks": 12,
+   "diff3_counts": [
+    12,
+    12,
+    12,
+    12
+   ]
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "blocks": 7,
+   "diff3_counts": [
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "blocks": 7,
+   "diff3_counts": [
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  "results/_attrition_guard_scan.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/dashboard_status.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/scorecard_v1.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/strategy_scorecard.json": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "blocks": 5,
+   "diff3_counts": [
+    5,
+    5,
+    5,
+    5
+   ]
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "blocks": 2,
+   "diff3_counts": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "blocks": 2,
+   "diff3_counts": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "results/dashboard_status.js": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/pool_core_samples.jsonl": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "results/pool_red_flags.jsonl": {
+   "blocks": 1,
+   "diff3_counts": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "canonical": {
+  "results/compute_audit.json": {
+   "rc": 0,
+   "tail": "e blobs present=['base', 'base_side', 'replay_side']\r\n  - history ts-key union -> 207 rows; state fields from :2: base-side (latest.ts probe)\r\n[resolve:compute_audit] wrote results/compute_audit.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <compute_audit> (same-window law r376)"
+  },
+  "results/crash_fuse.json": {
+   "rc": 0,
+   "tail": "s,12': newer event from :3: replay-side\r\n  - sigs key-union -> 77 runner sig(s), same-key newer-event-wins (+61 tombstone(s)), flat from :2: base-side\r\n[resolve:crash_fuse] wrote results/crash_fuse.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <crash_fuse> (same-window law r376)"
+  },
+  "results/futures_update_status.json": {
+   "rc": 0,
+   "tail": "tage blobs present=['base', 'base_side', 'replay_side']\r\n  - max-cutoff take by 'ts' from :2: base-side (3 source(s))\r\n[resolve:futures_update_status] wrote results/futures_update_status.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <futures_update_status> (same-window law r376)"
+  },
+  "results/lhb_update_status.json": {
+   "rc": 0,
+   "tail": "atus] stage blobs present=['base', 'base_side', 'replay_side']\r\n  - max-cutoff take by 'updated' from :2: base-side (3 source(s))\r\n[resolve:lhb_update_status] wrote results/lhb_update_status.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <lhb_update_status> (same-window law r376)"
+  },
+  "results/regime_state.json": {
+   "rc": 0,
+   "tail": "ole-row union -> 2\r\n  - transitions: whole-row union -> 0\r\n  - history: whole-row union -> 2\r\n  - flat fields from :2: base-side (updated probe)\r\n[resolve:regime_state] wrote results/regime_state.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <regime_state> (same-window law r376)"
+  },
+  "results/runnable_pool.json": {
+   "rc": 0,
+   "tail": "rb shards key-union -> 1 (r489 two-layer)\r\n  - entries id-union -> 403 (done-absorption + governance non-null-first); meta from :2: base-side\r\n[resolve:runnable_pool] wrote results/runnable_pool.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <runnable_pool> (same-window law r376)"
+  },
+  "results/token_usage.json": {
+   "rc": 0,
+   "tail": "[resolve:token_usage] stage blobs present=['base', 'base_side', 'replay_side']\r\n  - max-cutoff take by 'generated' from :2: base-side (3 source(s))\r\n[resolve:token_usage] wrote results/token_usage.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <token_usage> (same-window law r376)"
+  },
+  "results/update_status.json": {
+   "rc": 0,
+   "tail": "ve:update_status] stage blobs present=['base', 'base_side', 'replay_side']\r\n  - max-cutoff take by 'updated' from :2: base-side (3 source(s))\r\n[resolve:update_status] wrote results/update_status.json (parse-verified)\r\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <update_status> (same-window law r376)"
+  }
+ },
+ "unexpected": [],
+ "resolved": [
+  "results/runnable_pool.json",
+  "results/crash_fuse.json",
+  "results/compute_audit.json",
+  "results/regime_state.json",
+  "results/update_status.json",
+  "results/lhb_update_status.json",
+  "results/futures_update_status.json",
+  "results/token_usage.json",
+  "docs/daily_report/REPORT-2026-10-05.json",
+  "docs/live_usage/LIVE-2026-10-05.json",
+  "docs/live_usage/LIVE-latest.json",
+  "results/_attrition_guard_scan.json",
+  "results/dashboard_status.json",
+  "results/strategy_scorecard.json",
+  "results/scorecard_v1.json",
+  "results/fundamental_b_layer_filter.json",
+  "docs/daily_report/REPORT-2026-10-05.md",
+  "docs/live_usage/LIVE-2026-10-05.md",
+  "docs/live_usage/LIVE-latest.md",
+  "results/dashboard_status.js",
+  "results/pool_core_samples.jsonl",
+  "results/pool_red_flags.jsonl"
+ ],
+ "uu_faces": [
+  "docs/daily_report/REPORT-2026-10-05.json",
+  "docs/daily_report/REPORT-2026-10-05.md",
+  "docs/live_usage/LIVE-2026-10-05.json",
+  "docs/live_usage/LIVE-2026-10-05.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json",
+  "results/crash_fuse.json",
+  "results/dashboard_status.js",
+  "results/dashboard_status.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "results/pool_core_samples.jsonl",
+  "results/pool_red_flags.jsonl",
+  "results/regime_state.json",
+  "results/runnable_pool.json",
+  "results/scorecard_v1.json",
+  "results/strategy_scorecard.json",
+  "results/token_usage.json",
+  "results/update_status.json"
+ ]
+}

@@ -1,0 +1,64 @@
+=== STAGE A: entry state ===
+symbolic-ref: refs/heads/main
+HEAD: 9010dfe66
+=== STAGE B: merge origin/main ===
+merge rc=2
+warning: in the working copy of 'results/saturation_engine/face_bm-c.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/saturation_engine_state.bm-c.json', LF will be replaced by CRLF the next time Git touches it
+error: Your local changes to the following files would be overwritten by merge:
+	results/crash_fuse.json
+Please commit your changes or stash them before you merge.
+Aborting
+Merge with strategy ort failed.
+UNMERGED_COUNT=0
+merge completed clean (no conflicts)
+=== STAGE F: identity + position ===
+symbolic-ref: refs/heads/main
+TIP: 9010dfe66826721f885d44450726bc02869b9bca
+log -3: 9010dfe66 2026-10-05 03:58:10 +0800 round 511: watch round - S6 38/38 CEO-face regen (REPORT/LIVE-2026-10-05), orders/D-19 dual-scan clean, smoke 48/48, N2-W15 judge fleet burn watch [consolidated: daemon claim/close wave x8 + round products]
+920484b96 2026-10-05 03:49:16 +0800 pool_worker bm-c: close PERPETUAL-N2-W15-JUDGE-SHARD-10/n2w15judge-10of12 outcome=ok [claim-by-file O-2210]
+48604e849 2026-10-05 03:47:53 +0800 autofill tick keepalive n2w15judge-2of12 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]
+MERGE_HEAD present: False
+POS: [10	9]
+=== STAGE G: push ===
+push rc=1
+To github.com:BigRain-11122/BigMoney.git
+ ! [rejected]            main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PUSH_VERDICT=REJECTED
+=== STAGE H: delivery verify ===
+VERIFY POS (behind ahead): [10	9]
+still ahead -- pull --no-rebase (merge) round 2
+error: Your local changes to the following files would be overwritten by merge:
+	results/crash_fuse.json
+Please commit your changes or stash them before you merge.
+Aborting
+Merge with strategy ort failed.
+UU_R2=0
+push2 rc=1
+To github.com:BigRain-11122/BigMoney.git
+ ! [rejected]            main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+VERIFY POS2: [10	9]
+origin tip: d084301c7 2026-10-05 03:57:50 +0800 F-04 seat: bm-a declares N2-W15 judge-finalize (12/12 shards done, 281 cells) [via bm-a]
+ls-tree round_reports: 100644 blob 00705c0a5a4e1982ff45f41681487521fdf8d58c	round_reports-bm-c.md
+ls-tree state-bm-c: 100644 blob 43dfa8a5d7e33b647f6ddb8842ffc9b00d60a996	state-bm-c.json
+dirty-at-end=10
+D:  M results/autofill_state.bm-c.json
+D:  M results/crash_fuse.bm-c.json
+D:  M results/crash_fuse.json
+D:  M results/dispatcher_state.bm-c.json
+D:  M results/saturation_engine/face_bm-c.json
+D:  M results/saturation_engine_state.bm-c.json
+D: ?? results/_r511bmc_rebase_resolve.json
+D: ?? results/_r511bmc_s7h_probe.txt
+D: ?? results/_r511bmc_s7i_probe.txt
+D: ?? results/_r511bmc_s7j_probe.txt
