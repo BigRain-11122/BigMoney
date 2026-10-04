@@ -722,7 +722,12 @@ def cmd_generate() -> int:
               "face); refusing")
         return 2
     grammar = load_grammar()
-    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=2880)
+    # r691 bm-b: cap calibrated to the trio-occupation horizon (FUND
+    # NULLS burns hold RAM<4GB until 10-06..08 ETAs). A 40min cap on a
+    # multi-day-blocked host only chains exit-2 refusals into crash-
+    # fuse same-hash freezes (r379 family); 48h lets the shard land
+    # in-place when VALUE completes.
     if not ram_ok:
         print(f"GENERATE-GATE: free RAM {ram_min}GB < 4GB after bounded "
               "wait (three-sample r354 law) -- honest refuse, pool "
@@ -1136,7 +1141,7 @@ def cmd_run(shard: int, shards: int, workers) -> int:
             return 2
     prep = json.load(open(PREP_FILE, encoding="utf-8"))
     cells = _cell_list_n2()
-    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=2880)
     if not ram_ok:
         print(f"RUN-GATE: free RAM {ram_min}GB < 4GB after bounded "
               "wait (three-sample r354 law) -- honest refuse, pool "
