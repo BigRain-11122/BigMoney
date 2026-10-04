@@ -13437,7 +13437,7 @@
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 00:46:12"
+     "owner_since": "2026-10-05 01:06:12"
     }
    ],
    "workers_plan": {
@@ -13835,7 +13835,7 @@
      "checkpoint": "results/fund_quality_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline QUALITY-ROE mask, eq weights, N=20), rng([20510000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-c-r457 2026-10-04 09:11:39: owner row restored on shared face (r637 four-face surgery healed VALUE+DIVLOWVOL owner rows but missed 3rd shard QUALITY -- ownerless since off-caliber-era releases while canonical burn stayed alive; evidence: burner pid 57116 alive per MSG-0857/0925/2005 + nulls row growth 504->510 between 08:47-09:00 bm-b pushes; bm-b daemon keepalive self-adopts per r288 owner==myid gate; bm-c host_gates fail = bm-c cannot claim this shard, surgery is observation-heal not self-claim); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 00:46:12"
+     "owner_since": "2026-10-05 01:06:12"
     }
    ],
    "workers_plan": {
@@ -13994,7 +13994,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-05 00:46:12"
+     "owner_since": "2026-10-05 01:06:12"
     }
    ],
    "workers_plan": {
@@ -15364,6 +15364,30 @@
    "worker_class": "self-contained",
    "done_by": "bm-a",
    "done_at": "2026-10-04 22:12:34"
+  },
+  {
+   "id": "PERPETUAL-N2-W15-JUDGE-PREP",
+   "ticket_ref": "T-133 s2 standing supply ticket (O-2026-09-30-2340 CEO standing-face order, prereg sec.0 authorization face, no new signature needed); sec.9.1 freeze window 2026-10-05 r702 bm-b (slice-4 judge legs + sec.9.1 append + berth registration same freeze commit)",
+   "prereg_ref": "research/PERPETUAL_N2_W15_PREREG.md sec.9.1 (FROZEN 2026-10-05 r702 bm-b freeze commit; judge berth perpetual_n2_w15_judge=545_500 band 545_500..545_999 ADMIT receipt _r702bmb_n2_judge_band_gate.json; banned gate exit 0 _r702bmb_n2_judge_banned_gate.json)",
+   "consumer_plan": "N2-W15 judge chain step 1: judge-prep (collapse 0.999 leg-L daily returns -> N_judge + dual-leg starts/passive precompute) -> n2_w15_judge_state.json one-shot -> 12-shard judge burn submissions (separate pool entries once N_judge is fixed) -> judge-finalize (ledger append PERPETUAL-N2-W15-JUDGE) -> prereg sec.7/sec.8 backfill",
+   "runner": "scripts/perpetual_faces_n2.py",
+   "runner_args": [
+    "judge-prep"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-05 01:0x",
+   "data_gates": "in-runner: sec.9.1 FREEZE-GATE (judge berth registered) + screen product trials_ledger gate + survivors-present gate + dual-leg census gates (FROZEN_CENSUS L/D) + one-shot state-file gate + RAM gate 4GB r354/r691 (honest rc2 refuse while the trio NULLS occupy RAM until ~10-06T17; re-claim when the window opens)",
+   "shards": [
+    {
+     "key": "n2w15judge-prep-0of1",
+     "status": "ready",
+     "owner": "bm-a",
+     "owner_since": "2026-10-05 01:06:53",
+     "checkpoint": "results/n2_w15/n2_w15_judge_state.json"
+    }
+   ]
   }
  ],
  "lane_machine": "bm-a"
