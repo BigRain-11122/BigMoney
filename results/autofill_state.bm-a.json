@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-03 09:10:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.8,
-   "harvest_flipped": 3,
-   "verdict": "launched",
-   "entry": "FUND-QUALITY-P1-NULLS",
-   "shard": "fund-quality-p1-nulls-0of1",
-   "pid": 48696,
-   "runner_sha256": "8f62ed1711cd27f6",
-   "core_verdict": "multiproc",
-   "core_marker": "from parallel_runner import",
-   "fill_latency_min": 0.2,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-03 10:36:02",
    "machine": "bm-a",
    "py_cpu_pct": 0.3,
@@ -1554,14 +1536,56 @@
    "fullburn_window": true,
    "target_met": true,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-05 03:12:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.4,
+   "fuse_skipped": [
+    {
+     "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
+     "shard": "n2w15judge-2of12",
+     "sig": "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12",
+     "fuse_refusals": 52
+    }
+   ],
+   "verdict": "launched",
+   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-4",
+   "shard": "n2w15judge-4of12",
+   "pid": 70972,
+   "runner_sha256": "bb1d65e84288b76a",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": null,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-05 03:11:01",
+  "ts": "2026-10-05 03:12:01",
   "machine": "bm-a",
-  "py_cpu_pct": 13.1,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.4,
+  "fuse_skipped": [
+   {
+    "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
+    "shard": "n2w15judge-2of12",
+    "sig": "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12",
+    "fuse_refusals": 52
+   }
+  ],
+  "verdict": "launched",
+  "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-4",
+  "shard": "n2w15judge-4of12",
+  "pid": 70972,
+  "runner_sha256": "bb1d65e84288b76a",
+  "core_verdict": "multiproc",
+  "core_marker": "run_cells_parallel(",
+  "fill_latency_min": null,
+  "fullburn_window": true,
+  "target_met": true,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-05T03:09:17+08:00"
+ "core_samples_seen": "2026-10-05T03:11:17+08:00"
 }
