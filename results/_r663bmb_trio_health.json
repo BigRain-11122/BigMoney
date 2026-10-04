@@ -1,0 +1,41 @@
+{
+ "probe": "r663bmb_trio_health",
+ "machine": "bm-b",
+ "FUND-VALUE-P1-NULLS": {
+  "lines": 698,
+  "keys": 698,
+  "dup_k": 0,
+  "mtime": "2026-10-04T10:16:39"
+ },
+ "FUND-QUALITY-P1-NULLS": {
+  "lines": 534,
+  "keys": 534,
+  "dup_k": 0,
+  "mtime": "2026-10-04T10:12:05"
+ },
+ "FUND-DIVLOWVOL-P1-NULLS": {
+  "lines": 390,
+  "keys": 390,
+  "dup_k": 0,
+  "mtime": "2026-10-04T10:13:24"
+ },
+ "burners": [
+  {
+   "pid": 34396,
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_value_p1.py run --nulls"
+  },
+  {
+   "pid": 57116,
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_quality_p1.py run --nulls"
+  },
+  {
+   "pid": 30208,
+   "cmd": "\"C:\\Program Files\\Python311\\python.exe\" C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_divlowvol_p1.py run --nulls"
+  },
+  {
+   "pid": 57884,
+   "cmd": "\"C:\\Users\\Administrator\\AppData\\Local\\Programs\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe\" -y -p \"无人值守执行 Bigmoney 量化公司 "
+  }
+ ],
+ "burner_n": 4
+}
