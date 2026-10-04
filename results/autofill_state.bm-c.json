@@ -1017,17 +1017,27 @@
    "fill_latency_min": 54.8,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-04 10:47:15",
+  "ts": "2026-10-04 10:51:02",
   "machine": "bm-c",
   "py_cpu_pct": 0.0,
-  "verdict": "relaunch_cooldown",
+  "verdict": "fuse_refused_crash_loop",
   "entry": "THEME-JUDGE-P1",
   "shard": "theme-judge-p1-burn-0of1",
-  "last_launch_min": 1.3
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "THEME-JUDGE-P1",
+    "shard": "theme-judge-p1-burn-0of1",
+    "sig": "scripts/theme_judge_p1.py|run",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-c",
  "core_samples_seen": "2026-10-04T10:46:23+08:00"
