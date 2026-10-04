@@ -1,0 +1,101 @@
+=== STAGE A: entry ===
+HEAD: 9010dfe66 round 511: watch round - S6 38/38 CEO-face regen (REPORT/LIVE-2026-10-05), orders/D-19 dual-scan clean, smoke 48/48, N2-W15 judge fleet burn watch [consolidated: daemon claim/close wave x8 + round products]
+=== STAGE B: churn-absorb engine faces (r620 law) ===
+churn-absorb commit rc=0
+HEAD: 71deb84d8 churn-absorb bm-c daemon faces + r511 probe artifacts (r620 law, merge-gate live-fire: crash_fuse would-be-overwritten block)
+dirty-after-absorb=0 (expect 0)
+=== STAGE C: merge origin/main ===
+merge rc=1
+MG: Auto-merging docs/daily_report/REPORT-2026-10-05.json
+MG: CONFLICT (content): Merge conflict in docs/daily_report/REPORT-2026-10-05.json
+MG: Auto-merging docs/daily_report/REPORT-2026-10-05.md
+MG: CONFLICT (content): Merge conflict in docs/daily_report/REPORT-2026-10-05.md
+MG: Auto-merging docs/live_usage/LIVE-2026-10-05.json
+MG: CONFLICT (content): Merge conflict in docs/live_usage/LIVE-2026-10-05.json
+MG: Auto-merging docs/live_usage/LIVE-2026-10-05.md
+MG: CONFLICT (content): Merge conflict in docs/live_usage/LIVE-2026-10-05.md
+MG: Auto-merging docs/live_usage/LIVE-latest.json
+MG: CONFLICT (content): Merge conflict in docs/live_usage/LIVE-latest.json
+MG: Auto-merging docs/live_usage/LIVE-latest.md
+MG: CONFLICT (content): Merge conflict in docs/live_usage/LIVE-latest.md
+MG: Auto-merging results/_attrition_guard_scan.json
+MG: CONFLICT (content): Merge conflict in results/_attrition_guard_scan.json
+MG: Auto-merging results/compute_audit.json
+MG: CONFLICT (content): Merge conflict in results/compute_audit.json
+MG: Auto-merging results/crash_fuse.json
+MG: CONFLICT (content): Merge conflict in results/crash_fuse.json
+MG: Auto-merging results/dashboard_status.js
+MG: CONFLICT (content): Merge conflict in results/dashboard_status.js
+UNMERGED_COUNT=22
+UU: docs/daily_report/REPORT-2026-10-05.json
+UU: docs/daily_report/REPORT-2026-10-05.md
+UU: docs/live_usage/LIVE-2026-10-05.json
+UU: docs/live_usage/LIVE-2026-10-05.md
+UU: docs/live_usage/LIVE-latest.json
+UU: docs/live_usage/LIVE-latest.md
+UU: results/_attrition_guard_scan.json
+UU: results/compute_audit.json
+UU: results/crash_fuse.json
+UU: results/dashboard_status.js
+UU: results/dashboard_status.json
+UU: results/fundamental_b_layer_filter.json
+UU: results/futures_update_status.json
+UU: results/lhb_update_status.json
+UU: results/pool_core_samples.jsonl
+UU: results/pool_red_flags.jsonl
+UU: results/regime_state.json
+UU: results/runnable_pool.json
+UU: results/scorecard_v1.json
+UU: results/strategy_scorecard.json
+UU: results/token_usage.json
+UU: results/update_status.json
+=== STAGE D: merge resolver ===
+RES: RESOLVED 22 of 22 UU faces; receipt K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r511bmc_merge_resolve.json
+  results/compute_audit.json -> canonical merge_lane_views resolve
+  results/crash_fuse.json -> canonical merge_lane_views resolve
+  results/futures_update_status.json -> canonical merge_lane_views resolve
+  results/lhb_update_status.json -> canonical merge_lane_views resolve
+  results/regime_state.json -> canonical merge_lane_views resolve
+  results/runnable_pool.json -> canonical merge_lane_views resolve
+  results/token_usage.json -> canonical merge_lane_views resolve
+  results/update_status.json -> canonical merge_lane_views resolve
+  docs/daily_report/REPORT-2026-10-05.json -> ts-newer-wins mine
+  docs/live_usage/LIVE-2026-10-05.json -> ts-newer-wins mine
+  docs/live_usage/LIVE-latest.json -> ts-newer-wins mine
+  results/_attrition_guard_scan.json -> ts-newer-wins mine
+  results/dashboard_status.json -> ts-newer-wins mine
+  results/fundamental_b_layer_filter.json -> ts-newer-wins mine
+  results/scorecard_v1.json -> ts-newer-wins mine
+  results/strategy_scorecard.json -> ts-newer-wins mine
+  docs/daily_report/REPORT-2026-10-05.md -> twin-locked-to-json mine
+  docs/live_usage/LIVE-2026-10-05.md -> twin-locked-to-json mine
+  docs/live_usage/LIVE-latest.md -> twin-locked-to-json mine
+  results/dashboard_status.js -> twin-locked-to-json mine
+  results/pool_core_samples.jsonl -> append-only line-union tolerant zero-loss
+  results/pool_red_flags.jsonl -> append-only line-union tolerant zero-loss
+RES: K:\Fluxgroup\FluxGroup\quant\.codely-cli\scratch\_r511bmc_mergeresolver.py:20: SyntaxWarning: invalid escape sequence '\_'
+  Writes resolved path list -> scratch\_r511bmc_resolved_list.txt (clean list,
+RESOLVER_RC=0
+=== STAGE E: stage resolved (clean list) ===
+UNMERGED_AFTER_ADD=0
+=== STAGE F: merge commit --no-edit ===
+commit rc=0
+CM: [main 3e4418c9b] Merge remote-tracking branch 'origin/main'
+=== STAGE G: identity + push ===
+symbolic-ref: refs/heads/main
+MERGE_HEAD present: False
+TIP: 3e4418c9bc6388215b557ff260bcb523068b6ab3
+log -3: 3e4418c9b 2026-10-05 04:04:39 +0800 Merge remote-tracking branch 'origin/main'
+71deb84d8 2026-10-05 04:04:34 +0800 churn-absorb bm-c daemon faces + r511 probe artifacts (r620 law, merge-gate live-fire: crash_fuse would-be-overwritten block)
+9010dfe66 2026-10-05 03:58:10 +0800 round 511: watch round - S6 38/38 CEO-face regen (REPORT/LIVE-2026-10-05), orders/D-19 dual-scan clean, smoke 48/48, N2-W15 judge fleet burn watch [consolidated: daemon claim/close wave x8 + round products]
+push rc=0
+To github.com:BigRain-11122/BigMoney.git
+   d084301c7..3e4418c9b  main -> main
+PUSH_VERDICT=OK
+=== STAGE H: delivery verify ===
+VERIFY POS: [0	0]
+origin tip: 3e4418c9b 2026-10-05 04:04:39 +0800 Merge remote-tracking branch 'origin/main'
+ls-tree round_reports: 100644 blob 5282069243ac186a71fea36b7cc9a9e11a8476c3	round_reports-bm-c.md
+ls-tree state-bm-c: 100644 blob cd82f9791042fd337b771b6c40fc194a19539fff	state-bm-c.json
+dirty-at-end=1
+D: ?? results/_r511bmc_merge_resolve.json
