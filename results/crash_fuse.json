@@ -656,16 +656,6 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-04 22:40:16"
   },
-  "scripts/perpetual_faces_n2.py|judge,--shard,0,--shards,12": {
-   "count": 1,
-   "refusals": 12,
-   "code_sha256": "93923141b7ed995d",
-   "last_crash_ts": "2026-10-05 01:26:04",
-   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-0",
-   "shard": "n2w15judge-0of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-05 01:48:04"
-  },
   "scripts/perpetual_faces_n2.py|judge,--shard,1,--shards,12": {
    "count": 1,
    "refusals": 11,
@@ -673,16 +663,6 @@
    "last_crash_ts": "2026-10-05 01:28:04",
    "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-1",
    "shard": "n2w15judge-1of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-05 01:48:04"
-  },
-  "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12": {
-   "count": 1,
-   "refusals": 10,
-   "code_sha256": "93923141b7ed995d",
-   "last_crash_ts": "2026-10-05 01:30:04",
-   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
-   "shard": "n2w15judge-2of12",
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-05 01:48:04"
   },
@@ -1125,6 +1105,20 @@
    "cleared_by": "bm-b",
    "old_code_sha256": "22105dcfb4dab968",
    "crashes": 1
+  },
+  "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12": {
+   "cleared_ts": "2026-10-05 01:58:17",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "93923141b7ed995d"
+  },
+  "scripts/perpetual_faces_n2.py|judge,--shard,0,--shards,12": {
+   "cleared_ts": "2026-10-05 02:02:18",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "93923141b7ed995d"
   }
  }
 }
