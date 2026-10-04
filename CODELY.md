@@ -19,6 +19,8 @@
 - [2026-10-05 03:1x r706 bm-b] 共享台账机械解析块界前导空格 bullet 变体坑（r706 拆件实弹·r410 行内融合律新变体）：fleet/CODELY 类 append-only 台账存在前导空格 bullet 形（实弹=「 - [2026-10-01 r294 bm-c]」行首带空格即逃过 startswith('- [') 块界判定·该条目被吞入前一 entry blob）；r706 融合探针（blob 内 count('[2026-')>1）当场抓回 E38/E46 双宿主（E38=r294 前导空格形·E46=r460 无换行内联形·receipt results/_r706bmb_pit_protocol_split_receipt.json）。How to apply：一切台账机械切块/回扫器块界判定=lstrip 后 startswith 双腿+融合探针兜底；融合乘客与宿主同族=整 blob verbatim 迁移零信息损失。
 
 
+- [2026-10-05 06:4x r714 bm-b] **死会话尾部三账脱钩坑（r713 bm-b 实弹·r708 bm-a 双死会话族姊妹面）**：会话死在 S7 前（r713 已完成 S4 记忆 append+两轮 merge push，但 state round_no 停 711/轮账本缺行/S6 regen 尾巴+receipts 未提交）→下轮接手面=轮号不连续（commits 已用 r712/r713 而 state=711）+账本断档+工作树脏面误判风险。正法=①轮号诚实跳号（state 直接对齐本会话实际轮号非机械 +1，gap 注记）②r712/r713 账本行从 git commit message 回填（POST-MORTEM BACKFILL 标记）③尾部产物 churn-absorb 一并收编（r620 律）④CODELY 断条目经 merge block-union 自动找回（r706 律实证：shared_diff=0 appended=1）。How to apply：见 state round_no 落后于 commit message 轮号=死会话尾部征，先 git log --grep 轮号对齐真值再补账，禁机械 +1 造成撞号。
+
 ### Reference
 - 冷层指针（r387 合并·r444 范式）：r595 bm-a O-20261002-2124 A腿执行记录（City3D 居民批 R1）+C腿 Tuanjie 批脚本 API 名坑——两条全文 verbatim=archive 202610.md『热冷整编 2026-10-02 r387 bm-c 窗批』节。
 - 冷层指针（r276 合并·r444 范式）：r476 bm-a RW-4 数据门禁三腿定谳+RW-1~4 全绿里程碑条目（正典面=knowledge/panel_gate.py+T-127 票·RW-5 解冻条件满足〔10-03 外审复核〕+RW-6 复算重发下一片）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r276 bm-c 窗批』节。
