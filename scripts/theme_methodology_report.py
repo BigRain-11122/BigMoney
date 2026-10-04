@@ -22,6 +22,7 @@ CST = timezone(timedelta(hours=8))
 R4_JSON = "results/theme_persist_p1/theme_persist_p1.json"
 V01_JSON = "results/theme_ring/theme_events_v01.json"
 V02_JSON = "results/theme_ring/theme_events_v02_waves.json"
+JUDGE_JSON = "results/theme_judge_p1/theme_judge_p1_results.json"
 
 
 def load(rel):
@@ -67,6 +68,46 @@ def build_sentence_faceA(r4):
         "stat": s.get("stat"),
         "p_perm": s.get("p_perm"),
         "p_cluster": s.get("p_cluster"),
+    }, None
+
+
+def build_sentence_judge(judge):
+    """S5: algorithmic-ignition full-set family verdict (T-167-P1 frozen
+    products; judged_negative family-level honest closure, closed by bm-b
+    2026-10-04T11:50:30). Pure assembly of already-judged numbers."""
+    if not judge:
+        return None, "%s missing/bad" % JUDGE_JSON
+    g = (judge.get("gates") or {}).get("TJ-SOLO-x1") or {}
+    g1 = g.get("g1") or {}
+    sl = g1.get("skill_line") or {}
+    line, sr = sl.get("line"), g1.get("sharpe_full")
+    mu, sig, neff = sl.get("mu_null"), sl.get("sigma_null"), sl.get("n_eff")
+    ci_lo = (g1.get("bootstrap_ci") or {}).get("ci95_low")
+    pbo = (g.get("g2") or {}).get("family_pbo")
+    t1 = ((judge.get("m1_t_face") or {}).get("gate") or {}).get("t")
+    if None in (line, sr, mu, sig):
+        return None, "judge TJ-SOLO-x1 skill-line block missing"
+    n_false = sum(1 for v in (judge.get("gates") or {}).values()
+                  if (v.get("g1") or {}).get("pass_v2") is False)
+    parts = [
+        "TJ-SOLO-x1 pooled sharpe %.4f < null 校准技能线 %.4f" % (sr, line),
+        "（null μ %.4f/σ %.4f·n_eff %s·core48 池）" % (mu, sig, neff),
+    ]
+    if ci_lo is not None:
+        parts.append("四面 g1/g2 全 false（bootstrap CI 下界最低 %.2f 非正）" % ci_lo)
+    else:
+        parts.append("四面 g1/g2 全 false")
+    if t1 is not None:
+        parts.append("M1 t=%.2f<3.0" % t1)
+    if pbo is not None:
+        parts.append("family PBO %.3f（观察带）" % pbo)
+    return {
+        "claim": "算法谷点火全集判负：在算法谷点火的题材波全集上，破线+复活系统过不了 null 校准技能线（与著名集 S1/S2 互补的另一半判决面）。",
+        "numbers": "；".join(parts) + ("；四面判负计数=%d/4" % n_false if n_false else ""),
+        "verdict": "judged_negative 族级诚实关线（T-2026-10-04-167-P1·E28 集群分层首判）",
+        "caveat": "FULL 面=实用披露口径不读法；0.75 深破线变体读数已在敏感性腿如实披露·判线不因变体重设（E24-ii）",
+        "sharpe_solo_x1": sr,
+        "skill_line": line,
     }, None
 
 
@@ -154,9 +195,16 @@ def assemble(date_str):
     r4 = load(R4_JSON)
     v01 = load(V01_JSON)
     v02 = load(V02_JSON)
+    judge = load(JUDGE_JSON)
     if r4 is None:
         return None, ["%s missing/bad" % R4_JSON], None
     sentences, missing, lineage = build_sentences(r4, v01, v02)
+    j_row, j_err = build_sentence_judge(judge)
+    if j_row:
+        j_row["id"] = "S5"
+        sentences.append(j_row)
+    else:
+        missing.append(j_err or "judge face")
     if v01 is None:
         missing.append("%s missing/bad" % V01_JSON)
     if v02 is None:
@@ -164,8 +212,8 @@ def assemble(date_str):
     out = {
         "face": "题材战法方法论·R1（R5 收口章）",
         "order_ref": "O-20261001-2103 (题材战法方法论研究令) + O-20261001-2106 (实测律)",
-        "ticket_ref": "T-2026-10-04-165",
-        "chain": "R3 v0.1 事件库(16) -> R3 v0.2 波段切分(43波) -> R4 THEME_PERSIST_P1 判决 -> R5 本章",
+        "ticket_ref": "T-2026-10-04-165 (+T-2026-10-04-167-P1 S5)",
+        "chain": "R3 v0.1 事件库(16) -> R3 v0.2 波段切分(43波) -> R4 THEME_PERSIST_P1 判决 -> R4 THEME_JUDGE_P1 判决(T-167) -> R5 本章",
         "generated": datetime.now(CST).strftime("%Y-%m-%dT%H:%M:%S+08:00"),
         "report_date": date_str,
         "evidence_cutoff": r4.get("evidence_cutoff"),
@@ -176,7 +224,7 @@ def assemble(date_str):
         "sentences": sentences,
         "lineage": lineage,
         "e25_card": e25_card(),
-        "evidence_files": [R4_JSON, V01_JSON, V02_JSON],
+        "evidence_files": [R4_JSON, V01_JSON, V02_JSON, JUDGE_JSON],
     }
     return out, missing, r4
 
@@ -185,10 +233,10 @@ def render_md(out, missing):
     lines = [
         "# 题材战法方法论·R1（%s）" % out["report_date"],
         "",
-        "CEO 令 O-20261001-2103（题材战法方法论研究令）收口章。整条研究链：16 个历史题材事件库 → 43 道波段切分 → R4 判决批实测（exploration 标注·零注册宣称）→ 本章三句方法论。",
+        "CEO 令 O-20261001-2103（题材战法方法论研究令）收口章。整条研究链：16 个历史题材事件库 → 43 道波段切分 → R4 双判决批实测（THEME_PERSIST_P1 著名集 + THEME_JUDGE_P1 算法谷全集·exploration 标注·零注册宣称）→ 本章方法论句集。",
         "全部数字来自仓内已判决产物，本章只做收录，不做新判断。",
         "",
-        "## 三句方法论（白话）",
+        "## 方法论句集（白话）",
         "",
     ]
     for s in out["sentences"]:
@@ -205,6 +253,7 @@ def render_md(out, missing):
         lines.append("- 事件库 v0.1：**%s 个历史题材事件**（evidence_cutoff %s）" % (lin.get("n_events", "?"), lin.get("v01_cutoff", "?")))
         lines.append("- 波段切分 v0.2：**%s 道波段**（evidence_cutoff %s）" % (lin.get("n_waves", "?"), lin.get("v02_cutoff", "?")))
         lines.append("- 判决批 R4：259 行（43 波＋16 主题系统＋200 随机点火 null）·单窗 23.2s·预注册冻结 commit 457c37ac0")
+        lines.append("- 判决批 R4b（THEME_JUDGE_P1·T-167-P1 算法谷点火全集）：8,004 行入账·四面 SOLO/FULL×x1/x2 全判负·judged_negative 族级关线（null 池 n_eff 625,981）")
         lines.append("")
     if out.get("e25_card"):
         lines.append("## 方法论副产物（E25 卡·verbatim）")
@@ -219,7 +268,7 @@ def render_md(out, missing):
         "- folk「看 20 天热度判断题材命」判负：12/15 检验全灭，该特征表已归档为参考件。",
         "- 常数敏感性 4 倍摆幅：任何单点常数的判读（正反两向）都禁采纳，深破线族须独立冻结再判。",
         "",
-        "证据件指针：results/theme_persist_p1/theme_persist_p1.json（判决全表）+ results/theme_ring/（事件库/波段切分）+ research/THEME_PERSIST_P1.md §7/§8（判词正典）。",
+        "证据件指针：results/theme_persist_p1/theme_persist_p1.json（著名集判决全表）+ results/theme_judge_p1/theme_judge_p1_results.json（算法谷全集判决全表）+ results/theme_ring/（事件库/波段切分）+ research/THEME_PERSIST_P1.md §7/§8 + research/THEME_JUDGE_P1.md（判词正典）。",
         "",
     ]
     if missing:
@@ -257,6 +306,23 @@ def selftest():
     check("S3 quotes swing domain", "+237" not in sents[2]["numbers"] and "倍摆幅" in sents[2]["numbers"])
     check("S4 cluster-weak label", "簇弱" in [s for s in sents if s["id"] == "S4"][0]["verdict"])
     check("lineage counts", lin.get("n_events") == 16 and lin.get("n_waves") == 43)
+    # S5 judge face: synthetic frozen-shape judge results
+    judge_syn = {"gates": {
+        "TJ-SOLO-x1": {"g1": {"sharpe_full": 0.2735, "pass_v2": False,
+                              "bootstrap_ci": {"ci95_low": -0.169},
+                              "skill_line": {"line": 1.3172, "mu_null": 0.3734,
+                                             "sigma_null": 0.1827, "n_eff": 625981}},
+                       "g2": {"family_pbo": 0.4286}},
+        "TJ-FULL-x1": {"g1": {"pass_v2": False}},
+        "TJ-FULL-x2": {"g1": {"pass_v2": False}},
+        "TJ-SOLO-x2": {"g1": {"pass_v2": False}},
+    }, "m1_t_face": {"gate": {"t": 1.19}}}
+    j_row, j_err = build_sentence_judge(judge_syn)
+    check("S5 judge sentence built", j_row is not None and "技能线" in j_row["numbers"])
+    check("S5 quotes skill line + sharpe", "0.2735" in j_row["numbers"] and "1.3172" in j_row["numbers"])
+    check("S5 four-face negative count", "4/4" in j_row["numbers"])
+    j_row2, j_err2 = build_sentence_judge(None)
+    check("S5 fail-closed on missing judge", j_row2 is None and "missing" in j_err2)
     # fail-closed: missing faceB -> sentences shrink, missing recorded
     sents2, miss2, _ = build_sentences({"faceB": {}, "faceA": {}}, None, None)
     check("fail-closed records missing", len(miss2) >= 3 and not sents2)

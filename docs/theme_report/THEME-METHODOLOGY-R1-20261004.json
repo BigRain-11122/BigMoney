@@ -1,14 +1,14 @@
 {
  "face": "题材战法方法论·R1（R5 收口章）",
  "order_ref": "O-20261001-2103 (题材战法方法论研究令) + O-20261001-2106 (实测律)",
- "ticket_ref": "T-2026-10-04-165",
- "chain": "R3 v0.1 事件库(16) -> R3 v0.2 波段切分(43波) -> R4 THEME_PERSIST_P1 判决 -> R5 本章",
- "generated": "2026-10-04T04:28:51+08:00",
+ "ticket_ref": "T-2026-10-04-165 (+T-2026-10-04-167-P1 S5)",
+ "chain": "R3 v0.1 事件库(16) -> R3 v0.2 波段切分(43波) -> R4 THEME_PERSIST_P1 判决 -> R4 THEME_JUDGE_P1 判决(T-167) -> R5 本章",
+ "generated": "2026-10-04T12:08:29+08:00",
  "report_date": "2026-10-04",
  "evidence_cutoff": "2026-09-30",
  "exploration_labeled": true,
  "zero_registration_claims": true,
- "n_sentences": 4,
+ "n_sentences": 5,
  "n_evidence_missing": 0,
  "sentences": [
   {
@@ -39,6 +39,15 @@
    "numbers": "AUC 0.7325（波级置换 raw p=0.0020，Bonferroni n=5 过线；主题簇重抽参考 p=0.496=簇弱）",
    "verdict": "结构描述级采纳（簇弱·禁升格独立样本预测门）",
    "caveat": "「看前20天热度判断题材命」在波段级判负（12/15 检验全灭·folk 特征表归档参考件）"
+  },
+  {
+   "claim": "算法谷点火全集判负：在算法谷点火的题材波全集上，破线+复活系统过不了 null 校准技能线（与著名集 S1/S2 互补的另一半判决面）。",
+   "numbers": "TJ-SOLO-x1 pooled sharpe 0.2735 < null 校准技能线 1.3172；（null μ 0.3734/σ 0.1827·n_eff 625981·core48 池）；四面 g1/g2 全 false（bootstrap CI 下界最低 -0.17 非正）；M1 t=1.19<3.0；family PBO 0.429（观察带）；四面判负计数=4/4",
+   "verdict": "judged_negative 族级诚实关线（T-2026-10-04-167-P1·E28 集群分层首判）",
+   "caveat": "FULL 面=实用披露口径不读法；0.75 深破线变体读数已在敏感性腿如实披露·判线不因变体重设（E24-ii）",
+   "sharpe_solo_x1": 0.2735,
+   "skill_line": 1.3172,
+   "id": "S5"
   }
  ],
  "lineage": {
@@ -51,6 +60,7 @@
  "evidence_files": [
   "results/theme_persist_p1/theme_persist_p1.json",
   "results/theme_ring/theme_events_v01.json",
-  "results/theme_ring/theme_events_v02_waves.json"
+  "results/theme_ring/theme_events_v02_waves.json",
+  "results/theme_judge_p1/theme_judge_p1_results.json"
  ]
 }
