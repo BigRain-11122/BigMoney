@@ -1,0 +1,64 @@
+ = roster[0]
+    d1 = list(sample_draws(fam, 8))
+    d2 = list(sample_draws(fam, 8))
+    check("per-family draw frame reproducible", d1 == d2)
+    check("draws distinct", len({param_hash(fam, p, a) for _, p, a in d1}) == len(d1))
+    # axis machinery on synthetic data
+    idx = pd.bdate_range("2024-01-02", periods=300)
+    e = pd.DataFrame(np.zeros((300, 2), dtype=bool), index=idx,
+                    columns=["a", "b"])
+    e.iloc[10, 0] = True
+    edges = e & ~e.shift(1).fillna(False)
+    x = edges.shift(5).fillna(False)
+    check("rising-edge time-exit lands at t+5", bool(x.iloc[15, 0]) and
+          not bool(x.iloc[14, 0]) and not bool(x.iloc[16, 0]))
+    wk = pd.Series(np.r_[True, np.diff(idx.dayofweek) < 0], index=idx)
+    n_iso_weeks = len(set(zip(idx.isocalendar().year, idx.isocalendar().week)))
+    check("weekly mask = first trading day of week",
+          int(wk.sum()) == n_iso_weeks and bool(wk.iloc[0]) and not bool(wk.iloc[1]))
+    bench = pd.Series(np.linspace(2.0, 1.0, 300), index=idx)   # falling -> bear
+    ma200 = bench.rolling(200).mean()
+    check("bear mask fires only after MA200 warmup",
+          bool((bench < ma200).iloc[250:].any()) and
+          bool(pd.isna(ma200.iloc[198])) and not bool(pd.isna(ma200.iloc[199])))
+    check("window enumeration count (500-bar synthetic)",
+          len(list(range(WARMUP, 500 - W6M + 1, STRIDE))) == 6)
+    check("seed band registered", "mass_trial_w1" in sg.SEED_REGISTRY)
+
+    # ---- s3 judge face (hermetic: synthetic fixtures, zero repo data) ----
+    check("judge seed band registered + value",
+          sg.SEED_REGISTRY.get("mass_trial_w1_judge") == 20285000)
+    check("w2 judge seed band registered + value (sec.9.1 freeze, R250)",
+          sg.SEED_REGISTRY.get("mass_trial_w2_judge") == 20285200)
+    f1, f2 = _judge_faces(1), _judge_faces(2)
+    check("judge faces wave-routed (w1 byte-face intact, w2 new files)",
+          f1["batch"] == "MASS_TRIAL_W1_JUDGE" and f1["seed"] == 20285000
+          and f1["state"] == JUDGE_STATE and f1["out"] == JUDGE_OUT
+          and f1["cand_file"] == "w1_candidates.json"
+          and f1["sha_frozen"] == "907e44d56999b0ab"
+          and f1["ck_prefix"] == "judge_shard"
+          and f2["batch"] == "MASS_TRIAL_W2_JUDGE" and f2["seed"] == 20285200
+          and f2["cand_file"] == "w2_candidates.json"
+          and f2["sum_file"] == "w2_screen_summary.json"
+          and f2["sha_frozen"] == W2_CANDIDATES_SHA_FROZEN
+          and f2["ck_prefix"] == "w2_judge_shard"
+          and f2["out"].endswith("w2_judge.json")
+          and f2["refinalize_env"] == "MASS_TRIAL_W2_JUDGE_REFINALIZE")
+    check("frozen census import intact (p5c wholesale, sec.9.3 binding)",
+          FROZEN_CENSUS == {"L": {"6m": 1253, "12m": 1127, "24m": 875},
+                            "D": {"6m": 3104, "12m": 2978, "24m": 2726}}
+          and EVIDENCE_CUTOFF_GRID == CUTOFF == "2026-09-22")
+    check("regime 3-way proxy map intact (T-22 sec.3)",
+          REGIME_MAP == {"GREEN": "bull", "YELLOW": "chop",
+                         "ORANGE": "bear", "RED": "bear"})
+    # synthetic panel + bench -> Ctx.from_raw mask machinery
+    n_syn, rng = 700, np.random.default_rng(20285001)
+    idx_syn = pd.bdate_range("2022-01-03", periods=n_syn)
+    raw_syn = {}
+    for s in ("a", "b"):
+        px = 10.0 * np.cumprod(1.0 + rng.normal(0.0005, 0.012, n_syn))
+        raw_syn[s] = pd.DataFrame({
+            "open": px, "high": px * 1.01, "low": px * 0.99,
+            "close": px, "volume": np.full(n_syn, 1e6),
+            "amount": np.full(n_syn, 1e7)}, index=idx_syn)
+    bench_syn = pd.Serie

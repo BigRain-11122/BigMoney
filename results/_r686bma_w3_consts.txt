@@ -1,0 +1,25 @@
+ng-day-of-week only
+OUT_DIR = os.path.join("results", "mass_trial")
+JUDGE_STATE = os.path.join(OUT_DIR, "judge_state.json")
+JUDGE_OUT = os.path.join(OUT_DIR, "w1_judge.json")
+# ---- wave-2 continuation face (prereg research/MASS_TRIAL_W2_PREREG.md,
+# T-2026-10-03-158; w1 prereg sec.3/sec.10 pre-registered semantics: SAME
+# registered seed-base sequences, draw window [512,1024) = new candidates,
+# not re-evaluation; cross-wave dedup vs all 975 w1 enrollees; 5000 cap)
+W2_BATCH = "MASS_TRIAL_W2"
+W2_QUOTA_PER_FAMILY = 66            # 75 x 66 = 4950 <= 5000 cap (sec.10)
+W2_SKIP = N_DRAWS                   # continuation window offset (512)
+W2_NULL_SEED_OFF = 120               # nulls: base+120..+139 (w1: +100..+119)
+# ---- s3 judge face, wave-2 (prereg MASS_TRIAL_W2 sec.9.1 FROZEN before any
+# judge run per R99; seed mass_trial_w2_judge=20285200 band 20285200..20285499
+# registered in science_gates SEED_REGISTRY at the same freeze commit,
+# R250 one-step law; grid = w1 sec.9.1 isomorphic: p5c FROZEN_CENSUS legs
+# L/D x windows {126,252,504} x cost {x1,x2} x regime 3-way segments +
+# dual nulls B=2000 block=20 circular + P=2000 sign-flip, rng=[20285200,
+# cell_idx], resample faces only)
+W2_JUDGE_BATCH = "MASS_TRIAL_W2_JUDGE"
+W2_JUDGE_SEED = sg.SEED_REGISTRY["mass_trial_w2_judge"]    # 20285200
+W2_CANDIDATES_SHA_FROZEN = "1a8751ed16a9c641"             # w2_candidates.json
+# ---- wave-3 continuation face (prereg research/MASS_TRIAL_W3_PREREG.md,
+# T-2026-10-03-158 post-judge consumption face + O-20261004-1440 sec.3
+# supply pre-position; w1 prereg sec.3 pre-registered semantics: SA
