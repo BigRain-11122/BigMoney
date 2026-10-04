@@ -1,0 +1,25 @@
+file: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\n2_w15\n2_w15_candidates.json
+size_bytes: 782306
+sha256: 440db8656e3b0b2ea71cbbd3fee6a8c2392e8722570bc34cc900ba9900b7a3b0
+parse: OK
+top_keys: ['audit', 'batch', 'candidates', 'dedup', 'draws', 'evidence_cutoff', 'exclusion', 'frozen_grammar_sha16', 'generated', 'grammar_sha256', 'machine', 'n', 'prereg', 'stage', 'subspace_disclosure', 'wave']
+  batch: 'PERPETUAL-N2-W15'
+  stage: 'generate'
+  wave: 15
+  prereg: 'research/PERPETUAL_N2_W15_PREREG.md (wave-level; DRAFT until runner legs land + freeze commit; R99/R250)'
+  evidence_cutoff: '2026-09-22'
+  grammar_sha256: 'a231bf10940e7878'
+  frozen_grammar_sha16: 'a231bf10940e7878'
+  machine: 'bm-c'
+  generated: '2026-10-04T20:45:29+08:00'
+  n: 954
+  candidates: list len=954
+    row_keys: ['axis', 'candidate_id', 'family', 'fn', 'module', 'provenance', 'sig_params', 'slot', 'subspace_active', 'subspace_k', 'template_trader']
+  draws: dict keys=['A', 'B', 'raw', 'seed_gen']
+  exclusion: dict keys=['excluded_log', 'hits', 'note', 'sources']
+  dedup: dict keys=['corr_collapses', 'distinct', 'fingerprint_collapse_groups', 'note', 'raw']
+  subspace_disclosure: dict keys=['active_axis_counts', 'k_active_histogram', 'note']
+  audit: dict keys=['ram_gate_gb', 'seed_berth_note']
+evidence_cutoff_top_level: True
+rows[candidates]: n=954
+rows[candidates].row0 full: {"module": "volatility", "fn": "low_vol_long", "sig_params": {"n": 60, "rebal_days": 10, "top_k": 8}, "axis": ["amplitude", "profit_ladder", "regime_delever", "daily_signal", "p12", "none", "calm", "none", "none", "none", "none", "none", "none", "std20_hi", "rsqr20_hi", "sumn10_lo", "none", "cntn20_lo"], "family": "A", "slot": 0, "subspace_active": ["stop", "vol", "std", "rsqr", "sumn", "cnt"], "subspace_k": 6, "candidate_id": "W15-A-0000", "provenance": {"seed": 541500, "family_idx": 0, "stream_draw_idx": 0, "global_draw_idx": 0}, "template_trader": "VOLATILITY-CE-01"}
