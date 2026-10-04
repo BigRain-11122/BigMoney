@@ -1367,7 +1367,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:02:01",
@@ -1388,7 +1389,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:04:01",
@@ -1417,7 +1419,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:06:01",
@@ -1446,7 +1449,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:08:01",
@@ -1475,7 +1479,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:10:01",
@@ -1504,7 +1509,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:12:01",
@@ -1528,7 +1534,8 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-05 03:14:01",
@@ -1557,38 +1564,16 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-05 03:14:01",
+  "ts": "2026-10-05 03:48:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.4,
-  "fuse_skipped": [
-   {
-    "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-2",
-    "shard": "n2w15judge-2of12",
-    "sig": "scripts/perpetual_faces_n2.py|judge,--shard,2,--shards,12",
-    "fuse_refusals": 53
-   }
-  ],
-  "cooldown_skipped": {
-   "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-4",
-   "shard": "n2w15judge-4of12",
-   "last_launch_min": 2.1
-  },
-  "verdict": "launched",
-  "entry": "PERPETUAL-N2-W15-JUDGE-SHARD-5",
-  "shard": "n2w15judge-5of12",
-  "pid": 49712,
-  "runner_sha256": "bb1d65e84288b76a",
-  "core_verdict": "multiproc",
-  "core_marker": "run_cells_parallel(",
-  "fill_latency_min": null,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "py_cpu_pct": 0.6,
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-05T03:13:16+08:00"
+ "core_samples_seen": "2026-10-05T03:15:16+08:00"
 }

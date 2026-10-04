@@ -112,7 +112,7 @@ def run(params: dict) -> dict:
 
 ### P2 · AI 进化大脑（2 周）
 
-- [ ] **参数进化**：贝叶斯优化（Optuna）替代网格搜索，每轮 50 组
+- [x] **参数进化**：贝叶斯优化（Optuna）替代网格搜索——骨架已交付（bm-a r425：scripts/optuna_refine_skeleton.py·selftest 12/12，见 §7 交付注记）
 - [ ] **策略生成**：LLM 根据研究笔记自动写新策略骨架，人工 review
 - [ ] **自动复盘**：每日收盘后 LLM 读交易记录，写改进建议到 `research/auto/`
 - [ ] **因子挖掘**：遗传算法变异因子表达式（如 `mom_20 - vol_60*2`），自动测 IC
