@@ -1,0 +1,27 @@
+{
+ "probe": "r667bmb_merge_resolve",
+ "faces": {
+  "results/_attrition_guard_scan.json": "take-theirs",
+  "results/fundamental_b_layer_filter.json": "take-theirs",
+  "results/futures_update_status.json": "take-ours",
+  "results/lhb_update_status.json": "take-ours",
+  "results/update_status.json": "take-ours",
+  "docs/daily_report/REPORT-2026-10-04.json": "take-theirs",
+  "docs/daily_report/REPORT-2026-10-04.md": "take-theirs",
+  "docs/live_usage/LIVE-2026-10-04.json": "take-theirs",
+  "docs/live_usage/LIVE-2026-10-04.md": "take-theirs",
+  "docs/live_usage/LIVE-latest.json": "take-theirs",
+  "docs/live_usage/LIVE-latest.md": "take-theirs",
+  "results/compute_audit.json": "union history 201+201->202 lost=0, latest from ours",
+  "results/regime_state.json": "history union 2 lost=0, scalars from ours (updated 2026-10-04 11:25:16)",
+  "results/token_usage.json": "per-key union side_pick={'ours': 5, 'theirs': 0}, scalars from theirs (gen 2026-10-04 11:26:35)"
+ },
+ "verify": {
+  "reparse": "PASS 11 json faces",
+  "markers": "none",
+  "results/fund_value_p1/nulls.jsonl": "wt=730 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "results/fund_quality_p1/nulls.jsonl": "wt=562 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "results/fund_divlowvol_p1/nulls.jsonl": "wt=414 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "state-heartbeat-rr": "PASS (round 667, epoch int, rr count 1)"
+ }
+}

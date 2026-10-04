@@ -1,0 +1,35 @@
+{
+ "acceptance": "FUND-VALUE-P1-SENS burn acceptance (r673 bm-a)",
+ "ts": "2026-10-04T11:24:15",
+ "machine": "bm-a",
+ "legs": {
+  "A_rows_500_unique_contiguous": true,
+  "A_row_schema_ret_numeric": true,
+  "A2_rows_all_burn_machine_bm_b": true,
+  "A2_rows_all_redo_reason_offcaliber": true,
+  "A2_cache_digest_single_valued": true,
+  "B_superseded_first_burn": "bm-a 2026-10-03T04:18:14+08:00 -> 2026-10-03T04:48:55+08:00 exit=0 (OFF-CALIBER first burn, rows discarded per containment r615/r617)",
+  "B_final_redo_burn": "bm-b redo 2026-10-03T09:35:02+08:00 -> 2026-10-03T17:04:18+08:00 exit=0 outcome=ok",
+  "C_entry_status": "done",
+  "C_shard_status": "done",
+  "C_shard_owner": "bm-b",
+  "C_shard_owner_since": "2026-10-03 09:20:03",
+  "C_shard_done_at": "2026-10-03 09:20:03",
+  "C_harvest_claim": "fund-value-p1-sens-0of1.bm-a.json",
+  "D_origin_blob_present": true,
+  "D_eol_normalized_byte_equal": true,
+  "D_lf_canon_sha256": "bcb38ef8b23ffa1be02928aeeeb6b5d4eb94fd3f8b6d59d269acf3fb724ca270",
+  "E_t156_fourpoint_keys": [
+   "machine",
+   "pass",
+   "points",
+   "ts"
+  ],
+  "E_pass": true,
+  "E_fourpoint_ts": "2026-10-03T14:40:28",
+  "F_local_verified_cache_digest": "6c586d0872ca81e3",
+  "F_row_digest_byte_identity": true
+ },
+ "all_pass": true,
+ "note": "Re-burn face (r611 AA-replace): first bm-a burn 04:18-04:48 on off-caliber local cache discarded per containment r615/r617; final rows all burn_machine=bm-b redo_reason=off-caliber-reburn with row-level cache_digest 6c586d0872ca81e3 == local T-156 four-point-verified cache content digest (byte-identity caliber proof, computed live this receipt). Descriptive face no verdict; prereg research/FUND-VALUE-P1.md FROZEN (sens 500 rng([20500500,k])). G-SEG governance adjudicated O-20261004-0808 item-2: insufficient-sample frozen path, window 10-06..09 closed by that ruling; finalize waits bm-b nulls 2000-draw (ETA 10-06/07 per rate 0.39/min)."
+}
