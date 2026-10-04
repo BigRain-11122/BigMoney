@@ -1,0 +1,31 @@
+{
+ "probe": "r668bmb_merge_resolve",
+ "faces": {
+  "CODELY.md": "exact-line dedup union: HEAD 151 + theirs-new 1 lines",
+  "results/_attrition_guard_scan.json": "take-ours (ts: ours 2026-10-04 11:49:51 vs theirs 2026-10-04 11:48:23)",
+  "results/fundamental_b_layer_filter.json": "take-ours (updated: ours 2026-10-04 11:48:04 vs theirs 2026-10-04 11:47:45)",
+  "results/futures_update_status.json": "take-ours (ts: ours 2026-10-04 11:48:00 vs theirs 2026-10-04 11:47:40)",
+  "results/lhb_update_status.json": "take-ours (updated: ours 2026-10-04 11:48:00 vs theirs 2026-10-04 11:47:40)",
+  "results/update_status.json": "take-ours (updated: ours 2026-10-04 11:47:51 vs theirs 2026-10-04 11:47:33)",
+  "docs/daily_report/REPORT-2026-10-04.json": "take-ours (generated_at: ours 2026-10-04 11:48:23 vs theirs 2026-10-04 11:47:58)",
+  "docs/live_usage/LIVE-2026-10-04.json": "take-ours (generated: ours 2026-10-04 11:48:24 vs theirs 2026-10-04 11:47:59)",
+  "docs/live_usage/LIVE-latest.json": "take-ours (generated: ours 2026-10-04 11:48:24 vs theirs 2026-10-04 11:47:59)",
+  "results/dashboard_status.json": "take-ours (None: ours  vs theirs )",
+  "docs/daily_report/REPORT-2026-10-04.md": "twin take-ours (follows json)",
+  "docs/live_usage/LIVE-2026-10-04.md": "twin take-ours (follows json)",
+  "docs/live_usage/LIVE-latest.md": "twin take-ours (follows json)",
+  "results/dashboard_status.js": "twin take-ours (follows json)",
+  "results/compute_audit.json": "union history 201+202->203 lost=0, latest from ours",
+  "results/regime_state.json": "history union 2 lost=0, scalars from ours (updated 2026-10-04 11:47:52)",
+  "results/token_usage.json": "per-key union side_pick={'ours': 5, 'theirs': 0} keyset=5, scalars from ours (gen 2026-10-04 11:48:41)"
+ },
+ "verify": {
+  "reparse": "PASS 12 json faces",
+  "markers": "none",
+  "results/fund_value_p1/nulls.jsonl": "wt=734 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "results/fund_quality_p1/nulls.jsonl": "wt=567 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "results/fund_divlowvol_p1/nulls.jsonl": "wt=418 HEAD-lost=0 MERGE_HEAD-lost=0",
+  "state-heartbeat-rr": "PASS (round 668, epoch int, rr count 1)",
+  "pool-flip": "THEME-JUDGE-P1 entry+shard done survived"
+ }
+}
