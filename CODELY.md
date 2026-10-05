@@ -1,11 +1,14 @@
 ## Codely Structured Memories
 
 
+
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
 
+
 ### Feedback
+
 
 
 ### Project
@@ -29,6 +32,7 @@
 - [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
 
 - [2026-10-05 08:4x r523 bm-c] **S0 churn-absorb add 撞 daemon index.lock × daemon 陈旧 FETCH_HEAD 中途搬 main 坑（add rc128=竞态勿重试环·终点态核验后照常下序）**：S0 轮首脏=4 个 bm-c 车道 daemon 面，churn-absorb 定向 `git add` 撞同窗 daemon 持 index.lock（rc128 静默败→后续 commit rc1 零 staged）；同窗 daemon tick 以其早先 fetch 的陈旧 FETCH_HEAD 把 main FF 至 mid-tip（ff4b2031e≠真 tip 7f6bc285e）——会话侧表现=HEAD 在两次探测间「自行移动」。正法=①add rc128=daemon 竞态非阻塞故障，勿当场重试环，churn 留树 close 吸收（r620 收口范式）②集成目标恒 `git merge origin/main`（本轮 fetch 后真 tip），禁信 mid-state HEAD/FETCH_HEAD；FF 后 rev-list 双向计数+status 终点态核验（本窗 0/0+预期脏集=收敛）再照常下序。How to apply：S0 窗见 add rc128+HEAD 异动=daemon×集成窗常态面（r690/r696 族的 branch-move 新面），终点态定谳后继续轮务勿按中间态重做手术。
+
 
 
 ### Reference
@@ -115,3 +119,4 @@
 
 - [2026-10-05 17:4x r559 bm-c] **S6 链血统文件三连窗内自灭坑（r555 存留律违例发现·legdiff 收据引用幻影化）**：r556/r557/r558 三轮链 runner 文件皆未在 scratch 存留（同窗 bm-a/bm-b 链脚本均在 results\ 留存=对照实证；S6 执行本体真实：38 腿日志字节+产物时间线双证非虚跑），但其 legdiff 收据声称「OLD/NEW=scratch\_rNNbmc_s6_chain.ps1+G1 38 腿字节恒等」——收据引用对象当下不可复核=r555「ephemeral 引用」律违例。正法=①链血统文件必须落盘存留、轮内禁删（r555 律·r559 链已落 scratch 永存）②OLD 缺席窗legdiff 重锚法=G1' 锚最近存留真身（r554）+G4 上一轮执行日志腿名交叉（日志=真实可复核对象）+缺席如实披露腿（禁静默跳门）③G3 家具门须剥离 docstring 后再 diff（r549 律实例：docstring 换行重组=断言层假红·实质门 G1'/G4 双绿时先定性再修门）。How to apply：复制链血统先核 OLD 文件存在性；见 legdiff 收据引用路径空缺=红旗勿信收据；同窗对照面（他机链文件在位）=违例快速定性证据。
 - [2026-10-05 17:1x r735 bm-a] **registry insert 血统针串替换代码生成两连坑（W130 冻结窗实弹·当场外科治愈零 origin 伤害）**：①needle-replace 生成代码块时新文本 assert 消息串跨行无括号=隐式字符串拼接非法→IndentationError（face 落地后 n1 selftest parse 红当场抓回·外科修复 n1 件+insert 脚本双面同步·selftest 复绿全链 PASS）；②rep() 序列针计数必须按「前序替换后的文本」计——w129_b 源 face 原始计数 9 含 `_r734bma_w129_band_gate.py` 内子串（'w129_band' 含 'w129_b'），receipt 针（substring-order 律先跑）消费第 9 处后→后续 w129_b 针 expect=8 非原始计数。How to apply：W131+ 冻结窗复制 _r735bma_w130_registry_insert.py 血统时——新代码块内 assert 消息一律单行或括号包裹；rep 序列 expect 计数先在前序替换后实测勿按源 face 原始计数。
+- [2026-10-05 17:2x r737 bm-b] **外层 shell 工具 5min 静默取消×全量重定向=S6 链驱动器中途孤儿杀坑（r733 死会话族的会话环境新根因面·r737 实弹·split-run 断点续跑治愈零产品伤）**：车道会话经 shell 工具直跑 `powershell -File chain.ps1 *> log`（全输出重定向=调用面零 stdout）时，工具 5 分钟无输出即自动取消外层进程，链驱动器子进程被孤儿杀于任意腿中段（本窗腿 32 of 39，腿 01-31 已 rc0 在案）——r733「S6 链死在腿中段」因果链新增非崩溃根因：不是会话死，是工具超时。正法=①长链（>4min）一律 Start-Process -WindowStyle Hidden 分离点火+RedirectStandardOutput 落日志+轮询日志终点标记（本窗 resume 腿 32-39 分离点火 ~80s 收尾实证）；②断点续跑=已完成腿 RC 行日志在案即可续（链各腿幂等面），续跑驱动器头行标 RESUME+轮号诚实披露；③进程活性探针必带 -File/脚本路径精确 pattern 且知探针自匹配（r734 律三连复发实录：pid 每查必变=探针自身新 pid，非链还活着）。How to apply：一切 >=4min 的链/批跑器经 shell 工具点火前先转 Start-Process 分离；见「全量重定向+5min 静默取消」即预期孤儿杀，直接断点续跑勿重跑全链。
