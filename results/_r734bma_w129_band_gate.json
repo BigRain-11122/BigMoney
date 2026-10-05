@@ -1,0 +1,40 @@
+{
+ "probe": "r734 W129 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 126,
+   "tail": "W128",
+   "owner_rows": 118,
+   "bma_rows": 44,
+   "ordinal": 119,
+   "bma_ordinal": 45
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "3575842b2 (delivery merge 735eaa0ac, pre-freeze, r565)"
+  },
+  "leg1": {
+   "A": "301_004..303_003",
+   "hops_A": 0,
+   "B": "68_201..68_400",
+   "hops_B": 0,
+   "B_semantics": "arithmetic continuation from the registered W128 B tail 68_200+1 window 68_201..68_400 CLEAN (B side already past the cny_window_p1=68_000 refusal point of the W128 window family); dual-window derive parity with the pre-seat probe, cross-window convergence with the W128 gate-tail projection (r733)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-1627-bma-w129-seat.md",
+   "push": "3575842b2 (pre-freeze, r565)"
+  },
+  "leg3": {
+   "W130p_A": "303004..305003",
+   "hops_A": 0,
+   "W130p_B": "68502..68701",
+   "hops_B": 1,
+   "B_refusal_fact": "B arithmetic window 68_401..68_600 carries a refusal point (hops=1 past-hit restart to the clean tail window; refusal identity machine-disclosed at the W130 freeze window)"
+  }
+ },
+ "verdict": "ADMIT"
+}
