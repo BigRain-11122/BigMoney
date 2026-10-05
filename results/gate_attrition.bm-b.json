@@ -17641,6 +17641,59 @@
    "note": "[SUPERSEDED duplicate run -- r483 bm-c origin row ts 16:13:57 = canonical single-source; parallel same-window deterministic finalize, identical numbers 4814/785/646799; retained per r448 monotone-key law] T-158 wave-3 stage-1 screen close: 4814 cells, 785 survivors (16.3%), four-shard relay bm-c 0-2 + bm-a 3 (r482/r685); ledger 641985->646799; shard-3 burner-side session closeout r685 (1228/1228 exact, 0 dup); mid-flight 1227 re-burn dup lines id-deduped keep-first per r482 bm-c law, zero info loss (elapsed_s-only variance, asserted)",
    "eliminated": 4029,
    "adjudicated": "duplicate-run superseded by r483 bm-c origin row"
+  },
+  {
+   "batch": "SINA_MF_IC_P1",
+   "ts": "2026-10-05 10:05:26",
+   "kind": "measurement",
+   "cells_ledger_delta": 10,
+   "ledger_total_after": 653421,
+   "gates": {
+    "v1_line": {
+     "thr": 0.02,
+     "raw_null_p95_abs_ic": {
+      "h10": 0.0021,
+      "h20": 0.0022
+     },
+     "floor_binds": true,
+     "losses": [
+      "small_share_d1@h10 (|IS IC| 0.0092)",
+      "small_share_d1@h20 (0.0114)",
+      "small_share_d5@h10 (0.0186 marginal < 0.02)"
+     ]
+    },
+    "v2_ir_min": {
+     "line": 0.3,
+     "losses": [
+      "small_share_d1@h10 (0.168)",
+      "small_share_d1@h20 (0.192)"
+     ]
+    },
+    "v3_retain": {
+     "line": 0.5,
+     "losses": []
+    },
+    "period_gate": {
+     "losses": []
+    },
+    "verdict": "7/10 pass (retail-absorption face survives T+1 tradable caliber; all passing cells retain+strengthen in OOS 2026-05-18..09-22)",
+    "m1_hlz": {
+     "hurdle": 3.0,
+     "n_pass": 8,
+     "note": "naive-t overlap-inflation caveat (prereg sec.4); persistent-factor white-noise-null looseness disclosed in prereg sec.7.2 (P-1a sec.7.4 kin)"
+    },
+    "d6": {
+     "lhb_count_20": "ok (max|corr| 0.2287-0.2733, 232-237 days)",
+     "ths_pairs": "weak_check_insufficient_coverage (0 overlap days)",
+     "em_cross_source": "out_of_scope_declared"
+    },
+    "discount_labels": [
+     "T+1 caliber",
+     "~250td short window",
+     "size-proximity untested"
+    ],
+    "disposition": "7 cells -> factor-library material pool; strategy consumption = fresh prereg (explicit exit axis + CN-C7 stock costs + persistent-null calibration)"
+   }
   }
  ],
  "history": [
