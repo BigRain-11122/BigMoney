@@ -1927,9 +1927,20 @@ SEED_REGISTRY = {
     # (N1_BANDS live export + registry 182 values +-2000 halo + explicit
     # actual-flow ranges + A/B ladder horizons, band 545_500..545_999
     # CLEAN); banned gate exit 0 matched=[]
-    # results/_r702bmb_n2_judge_banned_gate.json; registered in the
-    # sec.9.1 freeze commit (R250 one-step law, same commit as the
-    # prereg sec.9.1 append + runner slice-4 judge legs)
+        # results/_r702bmb_n2_judge_banned_gate.json; registered in the
+        # sec.9.1 freeze commit (R250 one-step law, same commit as the
+        # prereg sec.9.1 append + runner slice-4 judge legs)
+        "sina_mf_ic_p1": 58_700,            # SINA_MF_IC_P1 K=200x2 same-mask
+        # white-noise nulls (h10 rng(58_700+k) / h20 rng(58_800+k), k<200;
+        # band 58_700..58_999, next free band above sina_construct_p1
+        # 58_550..58_649 with mf_rot_s1 59_000 band top untouched; rg
+        # full-repo scan 2026-10-05 09:5x zero RNG hits in band (sole hits =
+        # futures T.csv volume 58700 / repo_daily volume digits / ETF code
+        # 588000 substrings, non-RNG data-file coincidences, t34/wild_route
+        # precedent); registered at prereg freeze BEFORE any burn, one-step
+        # R250 law; lane = T-2026-10-05-171-P1 (watermark next_pick claimed
+        # r717 moneyflow IC reference batch, census CENSUS_ENRICHED r718),
+        # prereg research/shortline/SINA_MF_IC_P1.md sec.3
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
