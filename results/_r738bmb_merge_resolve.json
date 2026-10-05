@@ -1,0 +1,71 @@
+{
+ "round": "r738 bm-b merge window",
+ "merge_head": "d09d5fe6a71e451224e44f182d8c755d0e0366e7",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T17:09:52 theirs=2026-10-05T17:21:09 -> newer/origin"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T17:10:35+08:00 theirs=2026-10-05T17:22:10+08:00 -> newer/origin"
+  },
+  "results/dashboard_status.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T17:10:12 theirs=2026-10-05T17:21:22 -> newer/origin"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 0
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "theirs",
+   "why": "md-twin of docs/daily_report/REPORT-2026-10-05.json (probe_ts ours=2026-10-05T17:09:52 theirs=2026-10-05T17:21:09 -> newer/origin)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "theirs",
+   "why": "md-twin of docs/live_usage/LIVE-2026-10-05.json (probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin)"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "theirs",
+   "why": "md-twin of docs/live_usage/LIVE-latest.json (probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin)"
+  },
+  "results/dashboard_status.js": {
+   "action": "theirs",
+   "why": "twin of results/dashboard_status.json (probe_ts ours=2026-10-05T17:10:12 theirs=2026-10-05T17:21:22 -> newer/origin)"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "theirs",
+   "ours_len": 203,
+   "theirs_len": 201,
+   "union_len": 204
+  }
+ },
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-05.json": "theirs | probe_ts ours=2026-10-05T17:09:52 theirs=2026-10-05T17:21:09 -> newer/origin",
+  "docs/live_usage/LIVE-2026-10-05.json": "theirs | probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin",
+  "docs/live_usage/LIVE-latest.json": "theirs | probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin",
+  "results/_attrition_guard_scan.json": "theirs | probe_ts ours=2026-10-05T17:10:35+08:00 theirs=2026-10-05T17:22:10+08:00 -> newer/origin",
+  "results/dashboard_status.json": "theirs | probe_ts ours=2026-10-05T17:10:12 theirs=2026-10-05T17:21:22 -> newer/origin",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=0 top ours=2026-10-05T17:10:15 theirs=2026-10-05T17:21:23",
+  "docs/daily_report/REPORT-2026-10-05.md": "theirs | md-twin of docs/daily_report/REPORT-2026-10-05.json (probe_ts ours=2026-10-05T17:09:52 theirs=2026-10-05T17:21:09 -> newer/origin)",
+  "docs/live_usage/LIVE-2026-10-05.md": "theirs | md-twin of docs/live_usage/LIVE-2026-10-05.json (probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin)",
+  "docs/live_usage/LIVE-latest.md": "theirs | md-twin of docs/live_usage/LIVE-latest.json (probe_ts ours=2026-10-05T17:09:53 theirs=2026-10-05T17:21:10 -> newer/origin)",
+  "results/dashboard_status.js": "theirs | twin of results/dashboard_status.json (probe_ts ours=2026-10-05T17:10:12 theirs=2026-10-05T17:21:22 -> newer/origin)",
+  "results/compute_audit.json": "union | rolling-ledger union, base=theirs (ours=2026-10-05T17:05:41 theirs=2026-10-05T17:19:44)"
+ },
+ "twin_checks": {
+  "dashboard_json_ts": "2026-10-05T17:21:22",
+  "dashboard_js_contains_same_ts": true
+ },
+ "resolved_n": 11
+}
