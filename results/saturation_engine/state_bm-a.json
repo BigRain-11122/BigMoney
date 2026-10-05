@@ -2,89 +2,22 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
-  {
-   "face": "N1",
-   "wave": 133,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w133-9of12",
-   "batch": "PERPETUAL-N1-W133",
-   "pid": 28208,
-   "started_at": "2026-10-05T18:37:04+08:00",
-   "started_epoch": 1791196624,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W133-9.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W133",
-    "prereg": "research/PERPETUAL_N1_W133_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-TWENTY-THIRD ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 122 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W132 row bm-a r737 freeze 37c3925ad, SINGLE STATE zero seat gap W2..W132 all registered; W132 finalize landed same-window r738, ledger head 686,411, merged pool K=288,320; seat published=reserved MSG-2026-10-05-1824-bma-w133-seat PUSHED to origin 2d717cc03 BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe + probe receipt; deletion-set EMPTY; first push raced origin forward 8 commits = r524 behind-signal (bm-c r563 same-window wave), merge-mode zero-UU canonical closeout, delivery 1ea4ff938); pre-seat probe and freeze-window band-gate runs derive identical, no fork face), engine_owner=bm-a, wave 133: A = arithmetic continuation from the registered W132 A tail (309_004..311_003 CLEAN hops=0) + B = arithmetic continuation from the registered W132 B tail (69_102..69_301 CLEAN hops=0 double-CLEAN window; cross-window convergence with the r737 W132 seat MSG-1755 W133+ projection re-derived; ADMIT receipt results/_r738bma_w133_band_gate.py; W134+ projection per this window gate: A 311_004..313_003 CLEAN / B 69_302..69_501 CLEAN both hops=0; W1..W132 finalize ALL LANDED (W132 finalize one-pass bm-a r738, §7 backfill same commit; net chain head 686,411, merged pool K=288,320) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
-    "a_seed_base": 309004,
-    "b_exit_seed_base": 69102,
-    "shard_subdir": "n1_w133",
-    "out_name": "n1_w133_results.json",
-    "engine_owner": "bm-a"
-   }
-  }
- ],
+ "active": [],
  "ledger_buffer": [],
- "last_flush_at": "2026-10-05T18:37:04+08:00",
+ "last_flush_at": "2026-10-05T18:40:04+08:00",
  "crashes": {},
- "shards_done_total": 153,
- "last_shard_done_at": "2026-10-05T18:37:04+08:00",
+ "shards_done_total": 156,
+ "last_shard_done_at": "2026-10-05T18:40:04+08:00",
  "last_tick": {
-  "ts": "2026-10-05T18:37:04+08:00",
-  "epoch": 1791196622,
+  "ts": "2026-10-05T18:40:04+08:00",
+  "epoch": 1791196802,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 45.97882843017578,
-  "verdict": "ignited:n1w133-9of12 pid=28208 ledger_flush=3",
-  "active_n": 1,
-  "queue_depth": 2,
+  "ram_free_gb": 46.883949279785156,
+  "verdict": "idle ledger_flush=3",
+  "active_n": 0,
+  "queue_depth": 0,
   "elapsed_sec": 2.5
  },
  "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 133,
-   "shard": 10,
-   "nshards": 12,
-   "key": "n1w133-10of12",
-   "batch": "PERPETUAL-N1-W133",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "133",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 133,
-   "shard": 11,
-   "nshards": 12,
-   "key": "n1w133-11of12",
-   "batch": "PERPETUAL-N1-W133",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "133",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  }
- ]
+ "queue": []
 }
