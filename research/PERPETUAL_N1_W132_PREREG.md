@@ -61,8 +61,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 47 行注册+本候选〔以 gate leg0 机证为准·含 W129/W130/W131 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r738 2026-10-05 18:2x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free）；上游链 derive 复核 PASS（W1..W131 落账已在位·W131 total 684,211 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场（回执 results/_r738bma_w132_preflight.json）：文件完备 12/12+finalize 输出缺位 + 活进程探针 v2 零同窗（python.exe N1 runner 全扫零命中·并行批自撞 status 腿串行复核归零·r734 律滤除）+ 席位 MSG-2026-10-05-1755-bma-w132-seat 在 git 史（published=reserved r565 律·9c7e85e7f 预推）=GREEN_FINALIZE_READY 先行。
+- w132_only mu **−0.097454** sigma 0.241749（K=2,200）；pre-W132 池 mu −0.092821 sigma 0.245003（K=286,120）；merged mu **−0.092857** sigma **0.244978**（K=**288,320**=286,120+2,200 算术检）。
+- skill_line_v2 @n_eff 684,211：1.1772 → **1.1771**（K-lift **−0.0001**·正负交替如实报负号）；se_mu 收窄链 W129 0.000461 → W130 0.000460 → W131 0.000458 → **0.000456**（@K288,320）。
+- A 档 full_sharpe_p95 **0.2914** / p99 0.4253（A mu −0.094567）；账本 append 单发：prev 684,211 + 2,200 = **686,411**（单记·voids LOWAMP-P1/P2）。
+- §5 断言对账：①|w132_only−merged|=0.004597<0.02 **PASS**；②sigma 相对变化 −0.0102%<±10% **PASS**；③A p95 vs W131 键 0.3234 差 −0.0320<0.05 **PASS**；④K-lift −0.0001≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r738
+- 零异常零补获：freeze r737（W132 FREEZE 链 37c3925ad·席位 MSG-2026-10-05-1755 r565 律先推 9c7e85e7f·引擎自燃 shard-0 @18:00:17）→分片连续烧全落地（12/12 @18:11:15·shard-0 随冻结链 0511f56f7·shards 1-5 r737 close 41ff4508d·shards 6-9 r737 merge 收口 cc7d1e508·shards 10-11 r738 S0 churn-absorb 5f58d8c0b）→finalize 本窗 r738 one-pass（18:2x·跨轮生命周期：r737 冻结+点火→r738 收口·W130/W131 同构）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W133=表尾后下个自由号——**A 309_004..311_003 CLEAN / B first-clean 69_102..69_301 CLEAN 双 hops=0**（见本件 §5.5 投影·r737 gate 回执尾行·下波冻结方必复核非镜像 r587 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。

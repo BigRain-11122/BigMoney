@@ -1,0 +1,21 @@
+{
+ "receipt": "r738 W132 finalize pre-flight (r708 3-leg law, v2 python.exe filter per r734)",
+ "wave": 132,
+ "ts": "2026-10-05T18:2x+08:00",
+ "leg1_file_dup": {
+  "shards_present": "12/12 [0..11]",
+  "finalize_output_exists_pre": false,
+  "note": "status --wave 132 read; reparse+dup gate enforced inside FAIL-CLOSED finalize (2200/2200 arithmetic)"
+ },
+ "leg2_live_process": {
+  "probe": "Get-CimInstance Win32_Process Name==python.exe AND CommandLine match perpetual_faces_n1",
+  "hits": 0,
+  "incident": "parallel-batch self-collision: probe caught own same-window status leg (pid 78420 'st...'), serial re-probe after completion = 0 hits; r734 self-match law applied"
+ },
+ "leg3_seat": {
+  "seat_file": "fleet/inbox/processed/MSG-2026-10-05-1755-bma-w132-seat.md",
+  "in_git": true,
+  "law": "published=reserved r565 law; pre-pushed 9c7e85e7f (r737)"
+ },
+ "verdict": "GREEN_FINALIZE_READY"
+}
