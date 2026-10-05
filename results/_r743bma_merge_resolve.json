@@ -1,0 +1,108 @@
+{
+ "ts": "2026-10-05T21:3x+08:00",
+ "ours": "HEAD r743 close (bm-a)",
+ "theirs": "origin/main (bm-c r572 same-window wave)",
+ "faces": {
+  "results/_attrition_guard_scan.json": {
+   "rule": "ts-newer-wins",
+   "key": "ts",
+   "ours": "2026-10-05 21:06:21+08:00",
+   "theirs": "2026-10-05 21:01:33+08:00",
+   "side": "ours"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "rule": "ts-newer-wins",
+   "key": "updated",
+   "ours": "2026-10-05 21:05:39",
+   "theirs": "2026-10-05 21:00:02",
+   "side": "ours"
+  },
+  "results/regime_state.json": {
+   "rule": "ts-newer-wins",
+   "key": "updated",
+   "ours": "2026-10-05 21:04:21",
+   "theirs": "2026-10-05 20:59:27",
+   "side": "ours"
+  },
+  "results/futures_update_status.json": {
+   "rule": "ts-newer-wins",
+   "key": "ts",
+   "ours": "2026-10-05 21:05:16",
+   "theirs": "2026-10-05 20:59:57",
+   "side": "ours"
+  },
+  "results/lhb_update_status.json": {
+   "rule": "ts-newer-wins",
+   "key": "updated",
+   "ours": "2026-10-05 21:05:14",
+   "theirs": "2026-10-05 20:59:56",
+   "side": "ours"
+  },
+  "results/update_status.json": {
+   "rule": "ts-newer-wins",
+   "key": "updated",
+   "ours": "2026-10-05 21:04:20",
+   "theirs": "2026-10-05 20:59:25",
+   "side": "ours"
+  },
+  "results/dashboard_status.json": {
+   "rule": "ts-newer-wins",
+   "key": "meta.generated_at",
+   "ours": "2026-10-05 21:05:52",
+   "theirs": "2026-10-05 21:00:40",
+   "side": "ours"
+  },
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "rule": "ts-newer-wins",
+   "key": "generated_at",
+   "ours": "2026-10-05 21:05:40",
+   "theirs": "2026-10-05 21:00:26",
+   "side": "ours"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "rule": "ts-newer-wins",
+   "key": "generated",
+   "ours": "2026-10-05 21:05:41",
+   "theirs": "2026-10-05 21:00:27",
+   "side": "ours"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "rule": "ts-newer-wins",
+   "key": "generated",
+   "ours": "2026-10-05 21:05:41",
+   "theirs": "2026-10-05 21:00:27",
+   "side": "ours"
+  },
+  "results/dashboard_status.js": {
+   "rule": "twin-bytes-follow",
+   "follows": "results/dashboard_status.json",
+   "side": "ours"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "rule": "twin-bytes-follow",
+   "follows": "docs/daily_report/REPORT-2026-10-05.json",
+   "side": "ours"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "rule": "twin-bytes-follow",
+   "follows": "docs/live_usage/LIVE-2026-10-05.json",
+   "side": "ours"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "rule": "twin-bytes-follow",
+   "follows": "docs/live_usage/LIVE-latest.json",
+   "side": "ours"
+  },
+  "results/compute_audit.json": {
+   "rule": "rolling-union",
+   "ours": 201,
+   "theirs": 201,
+   "union": 202,
+   "latest_ts": "2026-10-05 21:03:59"
+  },
+  "results/token_usage.json": {
+   "rule": "per-key max-union",
+   "base_generated": "2026-10-05 21:05:52"
+  }
+ }
+}
