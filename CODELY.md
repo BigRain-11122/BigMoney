@@ -6,6 +6,14 @@
 
 
 ### User
+## Codely Structured Memories
+
+
+
+
+
+
+### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
 
@@ -143,4 +151,7 @@
 
 - [2026-10-05 19:5x r567 bm-c] **血统复用跨落位 ROOT 派生面坑（r511-② 外置硬编码律新变体·r531 复制链全串 diff 律姊妹面·当场 fail-fast 零伤）**：verbatim 复用 bm-b r742 merge resolver（源件居 results/ 仓内位、ROOT=dirname(dirname(__file__)) 位置自适应）到本机 scratch 落位时，只 count-assert 了轮号 4 处编辑、漏改 ROOT 行——scratch 位 dirname 降层解析到 .codely-cli → 首面写入即 FileNotFoundError 崩（零文件落盘、merge 态完好零污染），按 r511-② 律补 ROOT 硬编码重建后 18/18 面全解。Why：count-assert 只验「编辑意图已发生」不验「编辑集完备」；仓内位与 scratch 位两种合法落位互换时，位置派生行（ROOT/abspath/__file__/相对路径）= 必改面。How to apply：复用他机 resolver/工具血统先通读找位置派生行逐行定夺（保留或硬编码），scratch 落位一律 ROOT 硬编码；下台机器复用 r742 血统（同 18 面族竞态窗必复发）时先核 ROOT 行。
 - [2026-10-05 19:2x r740 bm-a] **0a 平移与 parity 块断言标签交互坑（r735 代码生成律新面·W135 冻结窗实弹·rep 断言 fail-closed 当场治愈零 origin 伤害）**：registry insert 血统的 0a 全量 W 序号平移（W134→W135/W133→W134/W132→W133）同样作用于提取 face 内 parity 块的**断言消息标签**（'W132 row parity drift'→'W133'、'W133'→'W134'）——old_parity 针若按原始 dump 标签（W130/W131/W132/W133）取形则 count==0 恒炸；正法=old_parity 针按 **0a 平移后标签形态**取形（本例 W130/W131/W133/W134——W130/W131 不在平移键集故原样），new_parity 写干净标签（W131..W134）；测量面（extract pass）跑在 0a 模拟后文本上故计数恒真。附：多段 insert 脚本（part1 face 变换+part2 n1 插入）必须严格串行——part2 在 part1 fail 后跑会把 WAVE_CONFIGS 插入只落内存（脚本尾部统一写盘=死在中间即零盘污），幂等重跑可收敛但时序上先 part1 后 part2 勿并行。
+- [2026-10-05 20:0x r741 bm-a] **注册面 insert 血统 dep 行针 W 号连带推进坑（r735 代码生成族新面·n1 selftest 输出全文目检当场抓回·三处同步修复零 origin 伤害）**：face 变换针 “= W(N-1) bm-a r(M-1) one-pass” → 新波 face dep 行正解 = “= W(N-1) bm-a rM one-pass”（dep 描述前一波 finalize·post-0a W 号保持·只推进 r 号）——按 0a 直觉把 W 号一并推进成 “= W(N) bm-a rM” = 事实错（W(N) 尚未 finalize·链头数字与波号对不上）。实弹：W136 insert 把 “=W135 bm-a r740” 针写成 “=W136 bm-a r741”（n1 face 注释+prose face+scratch 三处），selftest 全绿不拦（dep 断言只验 outputs presence 不验散文 W 号）——靠 selftest 输出全文目检抓回，三处+insert 脚本针四处同步修复后 dual selftest 复绿、诚实披露进冻结 commit。Why：该针 old 面的 W 号已由 0a 平移到位，specific 针只管 r 号推进——0a 与 specific 各管一面（r735 律）的边界案例。How to apply：W137+ 冻结窗复制 insert 血统时 dep 行针 new 值=保持 post-0a W 号只推进 r 号；自检腿=跑完 n1 selftest 后 grep 新 face 的 “chain head <数字> = W<号>” 波号-链头归属一致性核对。
+
 - [2026-10-05 20:0x r569 bm-c] **S0 churn-absorb 后 pull --rebase 改写 sha×收据引用漂移坑（当场外科治愈零伤害）**：轮首 churn-absorb commit 落盘后 pull --rebase 把该 commit 重放到新 tip（0761b9ee4→b180394b9）——若簿记 did/verify/RR 行引用 pre-rebase sha 即成 git 史中不存在的幻影引用=收据不可复核面（r555 收据可复核律违例族）。正法=①轮簿记引用轮内 commit sha 一律在 pull --rebase 完成后取 post-rebase 真身（git log --oneline 定位消息面）②已落盘收据=外科替换+计数断言（state did+last_round 同串双拷贝→计数 3 非 2）+reparse 门③替换行补 rebase 溯源注记（pre→post 双记）。How to apply：S0 序含 churn-absorb+pull --rebase 的轮，簿记书写前必 git log 核对 churn commit 现身真身；见收据引用 rebase 前旧 sha=红旗勿信。| dept:工程 | r569 收口窗（S6 38/38 首过第 29 连·QA 42 连恒等面·close push-race 11-UU merge 窗 r742 血统正典解）
+- [2026-10-05 20:2x r570 bm-c] **链血统复制 needle 跨物理换行静默未中×锚行自引用坑（r554 族新面·当场 diff 目检治愈零 origin 伤害）**：复制 S6 链血统时把 docstring 锚声明「r570+ legdiff OLD anchor = _r569bmc_s6_chain.py」整串作 needle——该串在源文件跨物理换行（「…anchor =」行尾+「_r569…」行首），regex '.' 不匹配换行→规则静默未中；后续 r569→r570 全局替换把行首文件名改成 _r570→副本自称「r570+ 的 OLD 锚=_r570」=自引用收据（r555 可复核律违例面）。正法=①血统替换针一律行内完整短串（跨行声明拆两条行内针）②替换毕必 diff 全清单目检轮号引用方向（OLD 锚声明须指上一轮真身·self-reference=红旗）③治愈后双镜像重 MD5 再落收据。How to apply：未来一切链/工具血统轮次复制，needle 选取前先核目标串是否跨行；见副本锚行含本轮号自指=红旗勿信。| dept:工程 | r570 收口窗（S6 38/38 首过第 30 连·QA 43 连恒等面·HANDOVER 5x·legdiff v7 G3 正则前瞻扩带）
