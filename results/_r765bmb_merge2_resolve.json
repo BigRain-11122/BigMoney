@@ -1,0 +1,97 @@
+{
+ "round": 765,
+ "machine": "bm-b",
+ "window": "merge loop-2 absorb origin (behind-5: bm-c r600/r601 + bm-a r760)",
+ "recipes_source": "bm-c r600 receipt family (_r600bmc_merge_resolve.json) + canonical CLI merge_lane_views resolve",
+ "ours_ref": "b884d4d16",
+ "theirs_ref": "a30bbe0d0",
+ "faces": {
+  "results/_attrition_guard_scan.json": {
+   "recipe": "regen twin ts-newer-wins (r756 normalized)",
+   "side_picked": "theirs",
+   "bytes": 2076,
+   "chosen_ts": "2026-10-06T06:14:42+08:00"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "regen twin ts-newer-wins (r756 normalized)",
+   "side_picked": "theirs",
+   "bytes": 1661,
+   "chosen_ts": "2026-10-06T06:12:55"
+  },
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "recipe": "regen twin ts-newer-wins (r756 normalized)",
+   "side_picked": "theirs",
+   "bytes": 23343,
+   "chosen_ts": "2026-10-06T06:13:25"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "recipe": "md same-side bound",
+   "side_picked": "theirs",
+   "bytes": 10457
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "recipe": "regen twin ts-newer-wins (r756 normalized)",
+   "side_picked": "theirs",
+   "bytes": 10957,
+   "chosen_ts": "2026-10-06T06:13:26"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "recipe": "md same-side bound",
+   "side_picked": "theirs",
+   "bytes": 8068
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "regen twin ts-newer-wins (r756 normalized)",
+   "side_picked": "theirs",
+   "bytes": 10957,
+   "chosen_ts": "2026-10-06T06:13:26"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "md same-side bound",
+   "side_picked": "theirs",
+   "bytes": 8068
+  },
+  "results/compute_audit.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "merged-union/other",
+   "bytes": 259467
+  },
+  "results/regime_state.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "merged-union/other",
+   "bytes": 1630
+  },
+  "results/update_status.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "merged-union/other",
+   "bytes": 7844
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "merged-union/other",
+   "bytes": 213
+  },
+  "results/futures_update_status.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "merged-union/other",
+   "bytes": 3199
+  },
+  "results/token_usage.json": {
+   "recipe": "canonical CLI merge_lane_views resolve (single-source)",
+   "side_picked": "theirs",
+   "bytes": 1816
+  }
+ },
+ "asserts": [
+  {
+   "marker_scan_14faces": [],
+   "clean": true
+  },
+  {
+   "uu_after_all_adds": [],
+   "uu_clean": true
+  }
+ ],
+ "face_count": 14,
+ "verify_all_clean": true
+}
