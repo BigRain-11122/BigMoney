@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 06:13:25",
+ "generated_at": "2026-10-06 06:37:45",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,17 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 907,
-  "result_jsons_landed_24h": 326,
+  "commits_24h": 905,
+  "result_jsons_landed_24h": 327,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 50,
+  "prereg_md_touched_24h": 49,
   "compute_audit_latest": {
-   "ts": "2026-10-06 06:11:41",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-06 06:33:53",
+   "py_cpu_pct": 0.1,
    "flags": [
+    "gpu_unauthorized",
     "supply_gap"
    ],
-   "verdict": "FLAG:supply_gap"
+   "verdict": "FLAG:gpu_unauthorized,supply_gap"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -647,7 +648,7 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1233052,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-06 05:45:49",
+   "prev_generated": "2026-10-06 05:53:42",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -660,12 +661,74 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-06 05:43:53",
-    "py_pct": 0.3,
-    "cpu_pct": 1.0,
+    "latest_ts": "2026-10-06 06:33:53",
+    "py_pct": 0.1,
+    "cpu_pct": 2.0,
     "ready": 3,
-    "streak_min": 61.0,
+    "streak_min": 27.4,
     "verdict": "FLAG:gpu_unauthorized,supply_gap",
+    "py_series_tail": [
+     [
+      "04:31",
+      99.3
+     ],
+     [
+      "04:42",
+      0.0
+     ],
+     [
+      "04:59",
+      0.6
+     ],
+     [
+      "05:12",
+      1.2
+     ],
+     [
+      "05:33",
+      0.0
+     ],
+     [
+      "05:40",
+      85.2
+     ],
+     [
+      "05:43",
+      0.3
+     ],
+     [
+      "05:52",
+      0.9
+     ],
+     [
+      "06:02",
+      86.4
+     ],
+     [
+      "06:06",
+      0.6
+     ],
+     [
+      "06:11",
+      0.0
+     ],
+     [
+      "06:33",
+      0.1
+     ]
+    ],
+    "today_samples": 41,
+    "today_floor_ok": 41,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 20
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-06 06:02:58",
+    "py_pct": 86.4,
+    "cpu_pct": 45.0,
+    "ready": 3,
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
      [
       "03:31",
@@ -708,80 +771,18 @@
       1.2
      ],
      [
-      "05:33",
-      0.0
+      "05:40",
+      85.2
      ],
      [
-      "05:43",
-      0.3
+      "06:02",
+      86.4
      ]
     ],
     "today_samples": 35,
     "today_floor_ok": 35,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 16
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-06 04:31:18",
-    "py_pct": 99.3,
-    "cpu_pct": 51.0,
-    "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
-    "py_series_tail": [
-     [
-      "02:01",
-      86.0
-     ],
-     [
-      "02:05",
-      0.4
-     ],
-     [
-      "02:21",
-      1.3
-     ],
-     [
-      "02:36",
-      84.9
-     ],
-     [
-      "02:43",
-      0.3
-     ],
-     [
-      "03:02",
-      0.1
-     ],
-     [
-      "03:04",
-      0.3
-     ],
-     [
-      "03:07",
-      85.2
-     ],
-     [
-      "03:20",
-      0.0
-     ],
-     [
-      "03:31",
-      85.5
-     ],
-     [
-      "04:03",
-      85.9
-     ],
-     [
-      "04:31",
-      99.3
-     ]
-    ],
-    "today_samples": 26,
-    "today_floor_ok": 26,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 10
+    "today_supply_gap_flags": 14
    },
    "bm-c": {
     "latest_ts": "2026-10-06 06:11:41",
@@ -853,19 +854,19 @@
   "day": "2026-10-06",
   "machines": {
    "bm-a": {
-    "batches_judged": 72,
-    "core_seconds": 14315.6,
-    "wall_seconds": 1108.0,
-    "effective_cores": 12.92,
+    "batches_judged": 79,
+    "core_seconds": 15725.9,
+    "wall_seconds": 1214.6,
+    "effective_cores": 12.95,
     "single_core_burn": 0,
-    "multicore_burn": 72,
-    "too_short": 0,
-    "last_ts": "2026-10-06T05:50:20+08:00",
+    "multicore_burn": 79,
+    "too_short": 1,
+    "last_ts": "2026-10-06T06:37:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 17,
-     "audit_ts": "2026-10-06 05:43:53"
+     "audit_batches": 15,
+     "audit_ts": "2026-10-06 06:33:53"
     }
    },
    "bm-b": {
@@ -880,8 +881,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-06 04:31:18"
+     "audit_batches": 5,
+     "audit_ts": "2026-10-06 06:02:58"
     }
    },
    "bm-c": {
@@ -905,32 +906,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 148,
+  "last_registered": 149,
   "last_owner": "bm-a",
-  "next_registration": 149,
-  "next_seatable": 149,
+  "next_registration": 150,
+  "next_seatable": 150,
   "chain_head": 721611,
   "k": 323520,
   "waves": [
-   {
-    "wave": 146,
-    "owner": "bm-a",
-    "a": [
-     336004,
-     338003
-    ],
-    "b_exit": [
-     338004,
-     338203
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 717211,
-    "merged_mu": -0.0928288311606919,
-    "merged_sigma": 0.24494732680305434,
-    "k": 319120
-   },
    {
     "wave": 147,
     "owner": "bm-a",
@@ -968,6 +950,21 @@
     "merged_mu": -0.09278299085064293,
     "merged_sigma": 0.24492035302114598,
     "k": 323520
+   },
+   {
+    "wave": 149,
+    "owner": "bm-a",
+    "a": [
+     342604,
+     344603
+    ],
+    "b_exit": [
+     344604,
+     344803
+    ],
+    "shards_done": 7,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
