@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 20:19:37",
+ "generated_at": "2026-10-05 20:36:31",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 982,
-  "result_jsons_landed_24h": 310,
+  "commits_24h": 980,
+  "result_jsons_landed_24h": 305,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 43,
+  "prereg_md_touched_24h": 44,
   "compute_audit_latest": {
-   "ts": "2026-10-05 20:18:17",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-10-05 20:35:12",
+   "py_cpu_pct": 47.4,
    "flags": [
+    "cap_violation",
+    "gpu_unauthorized",
     "supply_gap"
    ],
-   "verdict": "FLAG:supply_gap"
+   "verdict": "FLAG:cap_violation,gpu_unauthorized,supply_gap"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -645,11 +647,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1217687,
+  "total_report_tokens_est": 1218193,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 19:49:48",
+   "prev_generated": "2026-10-05 20:03:46",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 722,
+   "report_tokens_growth": 506,
    "mandate_growth": 0
   },
   "method": {
@@ -660,25 +662,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 20:01:50",
-    "py_pct": 0.5,
-    "cpu_pct": 31.0,
+    "latest_ts": "2026-10-05 20:35:12",
+    "py_pct": 47.4,
+    "cpu_pct": 100.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "FLAG:gpu_unauthorized",
+    "streak_min": 16.9,
+    "verdict": "FLAG:cap_violation,gpu_unauthorized,supply_gap",
     "py_series_tail": [
-     [
-      "18:30",
-      0.0
-     ],
-     [
-      "18:30",
-      0.4
-     ],
-     [
-      "18:46",
-      85.9
-     ],
      [
       "18:50",
       0.2
@@ -712,14 +702,26 @@
       0.2
      ],
      [
+      "19:58",
+      0.8
+     ],
+     [
       "20:01",
       0.5
+     ],
+     [
+      "20:18",
+      0.5
+     ],
+     [
+      "20:35",
+      47.4
      ]
     ],
-    "today_samples": 142,
-    "today_floor_ok": 142,
+    "today_samples": 145,
+    "today_floor_ok": 145,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 71
+    "today_supply_gap_flags": 74
    },
    "bm-b": {
     "latest_ts": "2026-10-05 19:47:53",
@@ -853,19 +855,19 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 217,
-    "core_seconds": 39798.6,
-    "wall_seconds": 4280.4,
-    "effective_cores": 9.3,
+    "batches_judged": 224,
+    "core_seconds": 41194.8,
+    "wall_seconds": 4386.3,
+    "effective_cores": 9.39,
     "single_core_burn": 13,
-    "multicore_burn": 204,
+    "multicore_burn": 211,
     "too_short": 0,
-    "last_ts": "2026-10-05T20:07:17+08:00",
+    "last_ts": "2026-10-05T20:36:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 27,
-     "audit_ts": "2026-10-05 20:01:50"
+     "audit_batches": 22,
+     "audit_ts": "2026-10-05 20:35:12"
     }
    },
    "bm-b": {
@@ -905,32 +907,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 136,
+  "last_registered": 137,
   "last_owner": "bm-a",
-  "next_registration": 137,
-  "next_seatable": 137,
-  "chain_head": 693011,
-  "k": 294920,
+  "next_registration": 138,
+  "next_seatable": 138,
+  "chain_head": 695211,
+  "k": 297120,
   "waves": [
-   {
-    "wave": 134,
-    "owner": "bm-a",
-    "a": [
-     311004,
-     313003
-    ],
-    "b_exit": [
-     69302,
-     69501
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 690811,
-    "merged_mu": -0.09288339129543591,
-    "merged_sigma": 0.24498859540846166,
-    "k": 292720
-   },
    {
     "wave": 135,
     "owner": "bm-a",
@@ -961,7 +944,26 @@
      69702,
      69901
     ],
-    "shards_done": 9,
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 695211,
+    "merged_mu": -0.09280120826602047,
+    "merged_sigma": 0.24496023401275782,
+    "k": 297120
+   },
+   {
+    "wave": 137,
+    "owner": "bm-a",
+    "a": [
+     317004,
+     319003
+    ],
+    "b_exit": [
+     94001,
+     94200
+    ],
+    "shards_done": 4,
     "shards_total": 12,
     "finalize_landed": false
    }
