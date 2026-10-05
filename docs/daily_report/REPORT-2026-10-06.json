@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 03:33:41",
+ "generated_at": "2026-10-06 04:03:03",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 924,
-  "result_jsons_landed_24h": 309,
+  "commits_24h": 912,
+  "result_jsons_landed_24h": 317,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 32,
+  "prereg_md_touched_24h": 48,
   "compute_audit_latest": {
-   "ts": "2026-10-06 03:31:52",
-   "py_cpu_pct": 85.5,
+   "ts": "2026-10-06 04:01:00",
+   "py_cpu_pct": 0.9,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -643,11 +643,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1227780,
+  "total_report_tokens_est": 1229103,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-06 02:45:08",
+   "prev_generated": "2026-10-06 03:11:20",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -336,
+   "report_tokens_growth": 1323,
    "mandate_growth": 0
   },
   "method": {
@@ -782,37 +782,13 @@
     "today_supply_gap_flags": 9
    },
    "bm-c": {
-    "latest_ts": "2026-10-06 03:02:01",
-    "py_pct": 0.1,
-    "cpu_pct": 41.0,
+    "latest_ts": "2026-10-06 04:01:00",
+    "py_pct": 0.9,
+    "cpu_pct": 5.0,
     "ready": 3,
-    "streak_min": 40.2,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "00:58",
-      0.1
-     ],
-     [
-      "01:01",
-      0.0
-     ],
-     [
-      "01:09",
-      85.4
-     ],
-     [
-      "01:24",
-      1.1
-     ],
-     [
-      "01:37",
-      85.9
-     ],
-     [
-      "01:40",
-      0.8
-     ],
      [
       "02:00",
       0.0
@@ -830,18 +806,42 @@
       1.3
      ],
      [
+      "02:36",
+      84.9
+     ],
+     [
       "02:43",
       0.3
      ],
      [
       "03:02",
       0.1
+     ],
+     [
+      "03:04",
+      0.3
+     ],
+     [
+      "03:07",
+      85.2
+     ],
+     [
+      "03:20",
+      0.0
+     ],
+     [
+      "03:31",
+      85.5
+     ],
+     [
+      "04:01",
+      0.9
      ]
     ],
-    "today_samples": 19,
-    "today_floor_ok": 19,
+    "today_samples": 25,
+    "today_floor_ok": 25,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 9
+    "today_supply_gap_flags": 10
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -894,8 +894,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-06 03:02:01"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-06 04:01:00"
     }
    }
   },
@@ -903,32 +903,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 145,
+  "last_registered": 146,
   "last_owner": "bm-a",
-  "next_registration": 146,
-  "next_seatable": 146,
-  "chain_head": 712811,
-  "k": 314720,
+  "next_registration": 147,
+  "next_seatable": 147,
+  "chain_head": 715011,
+  "k": 316920,
   "waves": [
-   {
-    "wave": 143,
-    "owner": "bm-a",
-    "a": [
-     329404,
-     331403
-    ],
-    "b_exit": [
-     331404,
-     331603
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 710611,
-    "merged_mu": -0.09278295885063355,
-    "merged_sigma": 0.24496044688374483,
-    "k": 312520
-   },
    {
     "wave": 144,
     "owner": "bm-a",
@@ -961,6 +942,25 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 715011,
+    "merged_mu": -0.0928565559131642,
+    "merged_sigma": 0.24495679674438614,
+    "k": 316920
+   },
+   {
+    "wave": 146,
+    "owner": "bm-a",
+    "a": [
+     336004,
+     338003
+    ],
+    "b_exit": [
+     338004,
+     338203
+    ],
+    "shards_done": null,
+    "shards_total": null,
     "finalize_landed": false
    }
   ],
