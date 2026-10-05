@@ -23,6 +23,8 @@
 
 - [2026-10-05 07:4x r521 bm-c] **Invoke-SilentExe 收 python CJK 输出的管道编码错配坑（wrapper 化批跑收据 U+FFFD 永久乱码）**：bm-c 会话壳内 python 管道缺省编码=gbk（zh-CN locale·sys.stdout.encoding 实测），而 Invoke-SilentExe StreamReader 按 UTF-8 解码 → GBK 字节经 UTF-8 lenient decode 产 U+FFFD，PS 字符串层信息已毁=不可逆（实弹=_r521bmc_s6_log.txt L14「橙·高危」乱码·字节面 efbfbd 实证·gbk/big5 反解全败）；r520 前血统直跑 `python 2>&1` 的 PS 原生解码与管道编码匹配无此面——零窗律 wrapper 化后才暴露。正法=wrapper 化 python 批点火前设 `$env:PYTHONIOENCODING='utf-8'`（探针实证干净回环·已修 _r521bmc_s6_chain.ps1 血统）；已落盘乱码=如实披露注记勿字节手术（原字节已毁）。How to apply：凡经 Invoke-SilentExe 收 CJK 输出的批跑器先设 PYTHONIOENCODING=utf-8；见收据 CJK 乱码先查 efbfbd 判不可逆再披露。
 
+- [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
+
 ### Reference
 - 冷层指针（r387 合并·r444 范式）：r595 bm-a O-20261002-2124 A腿执行记录（City3D 居民批 R1）+C腿 Tuanjie 批脚本 API 名坑——两条全文 verbatim=archive 202610.md『热冷整编 2026-10-02 r387 bm-c 窗批』节。
 - 冷层指针（r276 合并·r444 范式）：r476 bm-a RW-4 数据门禁三腿定谳+RW-1~4 全绿里程碑条目（正典面=knowledge/panel_gate.py+T-127 票·RW-5 解冻条件满足〔10-03 外审复核〕+RW-6 复算重发下一片）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r276 bm-c 窗批』节。
