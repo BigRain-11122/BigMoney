@@ -1,0 +1,173 @@
+{
+ "probe": "r742 W137 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 134,
+   "tail": "W136",
+   "owner_rows": 126,
+   "bma_rows": 52,
+   "ordinal": 127,
+   "bma_ordinal": 53
+  },
+  "leg1": {
+   "A": "317_004..319_003",
+   "hops_A": 0,
+   "A_clean_at_arithmetic": true,
+   "B": "94_001..94_200",
+   "hops_B": 12,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      69902,
+      70101
+     ],
+     "refusers": [
+      "70000(perpetual_n3_r1)",
+      "70001(probe/actual-point)",
+      "70002(probe/actual-point)",
+      "70003(probe/actual-point)",
+      "70004(probe/actual-point)",
+      "70005(probe/actual-point)",
+      "band70001..72000"
+     ],
+     "jump_to": 72001
+    },
+    {
+     "hop": 2,
+     "window": [
+      72001,
+      72200
+     ],
+     "refusers": [
+      "band72001..74000"
+     ],
+     "jump_to": 74001
+    },
+    {
+     "hop": 3,
+     "window": [
+      74001,
+      74200
+     ],
+     "refusers": [
+      "band74001..76000"
+     ],
+     "jump_to": 76001
+    },
+    {
+     "hop": 4,
+     "window": [
+      76001,
+      76200
+     ],
+     "refusers": [
+      "band76001..78000"
+     ],
+     "jump_to": 78001
+    },
+    {
+     "hop": 5,
+     "window": [
+      78001,
+      78200
+     ],
+     "refusers": [
+      "band78001..80000"
+     ],
+     "jump_to": 80001
+    },
+    {
+     "hop": 6,
+     "window": [
+      80001,
+      80200
+     ],
+     "refusers": [
+      "band80001..82000"
+     ],
+     "jump_to": 82001
+    },
+    {
+     "hop": 7,
+     "window": [
+      82001,
+      82200
+     ],
+     "refusers": [
+      "band82001..84000"
+     ],
+     "jump_to": 84001
+    },
+    {
+     "hop": 8,
+     "window": [
+      84001,
+      84200
+     ],
+     "refusers": [
+      "band84001..86000"
+     ],
+     "jump_to": 86001
+    },
+    {
+     "hop": 9,
+     "window": [
+      86001,
+      86200
+     ],
+     "refusers": [
+      "band86001..88000"
+     ],
+     "jump_to": 88001
+    },
+    {
+     "hop": 10,
+     "window": [
+      88001,
+      88200
+     ],
+     "refusers": [
+      "band88001..90000"
+     ],
+     "jump_to": 90001
+    },
+    {
+     "hop": 11,
+     "window": [
+      90001,
+      90200
+     ],
+     "refusers": [
+      "band90001..92000"
+     ],
+     "jump_to": 92001
+    },
+    {
+     "hop": 12,
+     "window": [
+      92001,
+      92200
+     ],
+     "refusers": [
+      "band92001..94000"
+     ],
+     "jump_to": 94001
+    }
+   ],
+   "B_semantics": "first B window 69_902..70_101 refused by N3-R1 used-seed band 70_000..70_005 (MSG-183x r529 leg) + the contiguous registered 2_000-wide band 70_001..72_000; 12 strict forward hops over the contiguous registered bands 70_001..94_000 land at 94_001..94_200 -- honest forward walk, non-rotational (r587): every hop jumps strictly past the refusing band, forward-monotone assert enforced in-walk",
+   "derive_parity_with_gate_tail_projection": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W138p_A": "319004..321003",
+   "hops_A": 0,
+   "W138p_B": "94201..94400",
+   "hops_B": 0
+  }
+ },
+ "verdict": "ADMIT"
+}
