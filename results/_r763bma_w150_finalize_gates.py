@@ -43,8 +43,8 @@ for f in files:
     fams = d["families"]
     a_runs = fams["A_random_engine_exit"]["runs"]
     b_runs = fams["B_random_entry_random_exit"]["runs"]
-    a_all += [r["name"] for r in a_runs]
-    b_all += [r["name"] for r in b_runs]
+    a_all += [r["seed_rng"] for r in a_runs]
+    b_all += [r["seed_rng_exit"] for r in b_runs]
     workers.add(d["audit"]["workers"])
 
 # gate-2: shard count identity (Sigma exact + duplicate-name zero)
@@ -66,9 +66,9 @@ assert b_ints == list(range(B_BASE, B_END + 1)), \
 prev_tail = None
 for f in files:
     d = json.load(open(f, encoding="utf-8"))
-    a_seeds = sorted(int(r["name"]) for r in
+    a_seeds = sorted(int(r["seed_rng"]) for r in
                      d["families"]["A_random_engine_exit"]["runs"])
-    b_seeds = sorted(int(r["name"]) for r in
+    b_seeds = sorted(int(r["seed_rng_exit"]) for r in
                      d["families"]["B_random_entry_random_exit"]["runs"])
     assert a_seeds == list(range(a_seeds[0], a_seeds[0] + len(a_seeds))), \
         f"{f}: A slice not contiguous ascending"
