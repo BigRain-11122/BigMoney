@@ -1,0 +1,12 @@
+{
+  "id": "T-2026-10-05-170",
+  "priority": "P1",
+  "type": "m1-funding-season-gate4-real-trading-calendar",
+  "immediate": true,
+  "status": "done",
+  "claimed_by": "bm-a",
+  "claimed_at": "2026-10-05T08:3x+08:00",
+  "spec": "Group prereg D-20260930-30 (frozen at group level docs/audits/D-M1_FUNDING_SEASON_P1_PREREG.md) gate-4 pure-data piece: real exchange trading-day calendar artifact (sec.2 'zhen jiaoyi rili' hard gate, sec.8-4). Mechanism slate D-20260930-29 M1 funding-season (CEO order 2026-09-30), prereg says implementation+ticket by BigMoney research dept self-claim. Deliverable: canonical trading calendar derived from in-repo bar/rate sources only (zero network, deterministic, byte-idempotent), weekend hard-corruption gate, per-source corroboration flags, month/quarter/year-end trading-day flags, verification JSON with source agreement disclosure.",
+  "progress": "r715 bm-a: piece LANDED same round -- scripts/build_trading_calendar.py (run/selftest; hermetic selftest 25/25 PASS rc0; fail-closed exit 2) + data/trading_calendar.csv (5,253 days 2005-02-23..2026-09-30, 14 cols, csv_sha256 9d4cc61076f7b3ec, 199,771B) + results/trading_calendar_verify.json (backbone sh510050 agreement: etf300/etf588000/repo001/repo007 all 0-missing/0-extra across full overlap incl. repo rate panel 2011-05-> 3,740 days exact == exchange fabric; source gaps disclosed not dropped: etf500 2d, sz159915 1d+stale-tail, etf512100 1d) + qa/trading-calendar-r715.md (QA charter checklist 7/7). M1 gate accounting post-piece: sec.8 1/3/4 green, remaining gate 2 = D-17 v1.2 validation set = BigCompute lane (group-tracked). Zero-engine zero-backtest zero-ledger pure data piece. NEXT: M1 runner+burn implementation ticket opens when gate-2 lands group-side (12y window data face verified: calendar 2005-> + repo rates 2011-05-> + deep ETF legs 2012-> all in-repo).",
+  "result_ref": "qa/trading-calendar-r715.md"
+}
