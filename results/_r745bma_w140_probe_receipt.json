@@ -1,0 +1,35 @@
+{
+ "probe": "r745 W140 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 137,
+   "tail": "W139",
+   "owner_rows": 129,
+   "bma_rows": 55,
+   "ordinal": 130,
+   "bma_ordinal": 56
+  },
+  "leg1": {
+   "A": "323_004..325_003",
+   "hops_A": 0,
+   "A_clean_at_arithmetic": true,
+   "B": "94_601..94_800",
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "A_semantics": "A arithmetic continuation from the registered W139 A tail 323_003 + 1 -> 323_004..325_003 CLEAN at the arithmetic window, zero hops, non-rotational (r587) forward-monotone assert enforced in-walk",
+   "B_semantics": "B arithmetic continuation from the registered W139 B tail 94_600 + 1 -> 94_601..94_800 first window CLEAN (double-CLEAN continuation window; the W139 zero-hop double-CLEAN continuation already landed past the contiguous registered band mass 70_001..94_600, so the arithmetic continuation is clean by construction; zero hops, non-rotational (r587) forward-monotone assert enforced in-walk",
+   "derive_parity_with_gate_tail_projection": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W141p_A": "325004..327003",
+   "hops_A": 0,
+   "W141p_B": "323004..323203",
+   "hops_B": 115
+  }
+ },
+ "verdict": "ADMIT"
+}
