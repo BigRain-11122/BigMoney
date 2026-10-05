@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-06T03:38:33+08:00",
- "heartbeat_epoch_utc": 1791229113,
- "clock_read": "2026-10-06T03:38:33+08:00",
+ "last_seen": "2026-10-06T04:15:02+08:00",
+ "heartbeat_epoch_utc": 1791231302,
+ "clock_read": "2026-10-06T04:15:02+08:00",
  "cpu_cores": 16,
- "free_ram_gb": 3.42,
+ "free_ram_gb": 3.0,
  "gpu_free_vram_gb": 3.21,
- "verdict": "healthy: r759 steady-state guard complete (merge behind-11 19-UU canonical + S6 35 rc0 + QA 5/5); trio burns in flight V1698/Q1391/D1140 of 2000; RAM borderline <4GB heavy gate = zero new burn drafting legal",
- "current_task": "r759 golden-week steady-state guard: S0 merge window landed + S6 chain 35 rc0; trio NULLS burns advance",
+ "verdict": "healthy: r760 steady-state guard complete (S0 merge + S6 35 rc0 + QA 5/5 + orders watermark heal); trio burns in flight V1710/Q1400/D1148 of 2000; RAM <4GB heavy gate = zero new burn drafting legal",
+ "current_task": "r760 golden-week steady-state guard: S6 chain landed + trio NULLS burns advance",
  "orders_ack_count": 154,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -166,14 +166,14 @@
   "O-20261004-1440-bm-c.md"
  ],
  "gpu_free_vram_mb": 3288,
- "last_round_at": "2026-10-06T03:38:33+08:00",
- "round_no": 759,
- "round": 759,
- "last_action": "r759 closed: churn-absorb 02870a618 (r758 dead-tail 44 faces) + merge e4ca35968 behind-11 19-UU canon (receipt _r759bmb_merge_resolve.json) + S6 35 rc0 + QA r759 5/5",
- "now_active": "FUND trio NULLS judgment burns V1698/Q1391/D1140 of 2000 (autofill+workers alive; V eta 13.7h ~10-06 evening, Q eta 24.5h rate recovered, D eta 51.9h rate-drop disclosed)",
- "latest_artifact": "qa/smoke-r759.md + qa/equity-curve-r759.png (QA charter pack 5/5, real backtest 93 trades determinism=True) + results/_r759bmb_s6_chain.log (35 legs all rc0 03:30-03:35)",
- "next_milestone": "trio finalize V ~10-06 evening / Q ~10-07 / D ~10-08+ (leg39 probe every round); D-06 group closeout 10-07 12:00; market reopen 10-08 (REGIME_GUARD v3 first new bar)",
+ "last_round_at": "2026-10-06T04:15:02+08:00",
+ "round_no": 760,
+ "round": 760,
+ "last_action": "r760 closed: churn-absorb 9d708f560 + merge behind-3 clean + S6 35 rc0 + QA r760 5/5 + group-orders watermark heal 2E73244B (lost-write recovery) + D-06 23-pit <=30KB re-verify",
+ "now_active": "FUND trio NULLS judgment burns V1710/Q1400/D1148 of 2000 @04:01 (autofill+workers alive; V eta ~10.5h ~10-06 afternoon, Q eta ~28h, D eta ~46h ~10-08)",
+ "latest_artifact": "qa/smoke-r760.md + qa/equity-curve-r760.png (QA pack 5/5, real backtest 93 trades determinism=True) + results/_r760bmb_s6_chain.log (35 legs all rc0 04:03-04:07)",
+ "next_milestone": "trio V finalize ~10-06 afternoon-evening (same-window dual-flip per r668); D-06 group closeout 10-07 12:00 (23 pit files <=30KB re-verified); market reopen 10-08 (REGIME_GUARD v3 first new bar)",
  "task": "FUND trio NULLS judgment batch lane (per-family finalize windows)",
- "ts": "2026-10-06T03:38:33+08:00",
- "updated": "2026-10-06T03:38:33+08:00"
+ "ts": "2026-10-06T04:15:02+08:00",
+ "updated": "2026-10-06T04:15:02+08:00"
 }
