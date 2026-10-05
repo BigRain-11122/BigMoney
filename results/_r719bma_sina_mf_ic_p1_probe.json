@@ -1,0 +1,119 @@
+{
+ "probe": "SINA_MF_IC_P1 pre-freeze coverage probe (no IC faces)",
+ "p1c_cache": {
+  "path": "Money02/data/cache/p1c_stock (dates.npy us-epoch + close.npy memmap)",
+  "load_fn": "np.load dates/close + bars parquet roster (census lineage)",
+  "T": 8792,
+  "N_bars": 5222,
+  "close_shape": [
+   8792,
+   5222
+  ],
+  "first": "1990-12-19",
+  "last": "2026-09-22",
+  "dates_npy_unit": "microseconds since epoch (r717 pinned law)",
+  "cutoff": "2026-09-22"
+ },
+ "sina_panel": {
+  "files": 5228,
+  "sina_only_structural_exclusions": 6,
+  "panel_rows_read": 1294199,
+  "read_errors": 0,
+  "earliest_opendate": "2025-09-15",
+  "rows_after_p1c_cutoff_unconsumable": 10444,
+  "selfcheck_rows_within_1e-3": 1294199,
+  "selfcheck_rows_total": 1294199
+ },
+ "cells_coverage": {
+  "small_share_d1": {
+   "min_periods": 1,
+   "window": 1,
+   "width_min": 0,
+   "width_median": 5112.0,
+   "width_p25": 5107.0,
+   "width_p75": 5116.0,
+   "first_decidable": "2025-09-16",
+   "eligible_days_gte300": 237,
+   "eligible_days_gte500": 237,
+   "eligible_days_gte1000": 237
+  },
+  "small_share_d5": {
+   "min_periods": 3,
+   "window": 5,
+   "width_min": 0,
+   "width_median": 5111.0,
+   "width_p25": 5105.0,
+   "width_p75": 5115.0,
+   "first_decidable": "2025-09-18",
+   "eligible_days_gte300": 235,
+   "eligible_days_gte500": 235,
+   "eligible_days_gte1000": 235
+  },
+  "small_share_d10": {
+   "min_periods": 6,
+   "window": 10,
+   "width_min": 0,
+   "width_median": 5108.0,
+   "width_p25": 5103.0,
+   "width_p75": 5114.0,
+   "first_decidable": "2025-09-23",
+   "eligible_days_gte300": 232,
+   "eligible_days_gte500": 232,
+   "eligible_days_gte1000": 232
+  },
+  "small_share_d20": {
+   "min_periods": 12,
+   "window": 20,
+   "width_min": 0,
+   "width_median": 5109.0,
+   "width_p25": 5102.0,
+   "width_p75": 5113.0,
+   "first_decidable": "2025-10-09",
+   "eligible_days_gte300": 226,
+   "eligible_days_gte500": 226,
+   "eligible_days_gte1000": 226
+  },
+  "retail_group_d5": {
+   "min_periods": 3,
+   "window": 5,
+   "width_min": 0,
+   "width_median": 5111.0,
+   "width_p25": 5105.0,
+   "width_p75": 5115.0,
+   "first_decidable": "2025-09-18",
+   "eligible_days_gte300": 235,
+   "eligible_days_gte500": 235,
+   "eligible_days_gte1000": 235
+  }
+ },
+ "split_gate300": {
+  "eligible_days": 235,
+  "is_days": 156,
+  "oos_days": 79,
+  "period_gates_is100_oos30": true
+ },
+ "split_gate500": {
+  "eligible_days": 235,
+  "is_days": 156,
+  "oos_days": 79,
+  "period_gates_is100_oos30": true
+ },
+ "split_gate1000": {
+  "eligible_days": 235,
+  "is_days": 156,
+  "oos_days": 79,
+  "period_gates_is100_oos30": true
+ },
+ "d6_material": {
+  "ths_files": 4,
+  "ths_first": "2026-09-24",
+  "ths_last": "2026-09-30",
+  "ths_days_in_eval_window": 0,
+  "ths_weak_check_expected": true,
+  "lhb_parquet_exists": true,
+  "lhb_events_in_window": 20759,
+  "lhb_first": "2007-01-04",
+  "lhb_last": "2026-09-30"
+ },
+ "generated": "2026-10-05T09:54:59"
+}
