@@ -1,0 +1,40 @@
+{
+ "probe": "r728 W123 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 120,
+   "tail": "W122",
+   "owner_rows": 112,
+   "bma_rows": 38,
+   "ordinal": 113,
+   "bma_ordinal": 39
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "4ca3cdd4a (pre-freeze, r565)"
+  },
+  "leg1": {
+   "A": "289_004..291_003",
+   "hops_A": 0,
+   "B": "66_401..66_600",
+   "hops_B": 0,
+   "B_semantics": "arithmetic window 66_401..66_600 from the registered W122 B tail CLEAN at both windows; dual-window derive parity with the pre-seat probe, cross-window convergence with the W122 gate-tail projection (r727)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-1414-bma-w123-seat.md",
+   "push": "4ca3cdd4a (pre-freeze, r565)"
+  },
+  "leg3": {
+   "W124p_A": "291004..293003",
+   "hops_A": 0,
+   "W124p_B": "66601..66800",
+   "hops_B": 0,
+   "B_refusal_fact": "none in the 66_601..66_800 window (both faces CLEAN at gate time; next freezer re-derives)"
+  }
+ },
+ "verdict": "ADMIT"
+}
