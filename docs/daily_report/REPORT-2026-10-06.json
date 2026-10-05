@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 01:41:59",
+ "generated_at": "2026-10-06 02:01:49",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,15 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 971,
-  "result_jsons_landed_24h": 314,
+  "commits_24h": 956,
+  "result_jsons_landed_24h": 309,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 42,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-06 01:40:25",
-   "py_cpu_pct": 0.8,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-06 02:00:20",
+   "py_cpu_pct": 0.0,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -645,7 +647,7 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1225484,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-06 01:02:30",
+   "prev_generated": "2026-10-06 01:25:07",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -782,17 +784,13 @@
     "today_supply_gap_flags": 4
    },
    "bm-c": {
-    "latest_ts": "2026-10-06 01:40:25",
-    "py_pct": 0.8,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-06 02:00:20",
+    "py_pct": 0.0,
+    "cpu_pct": 1.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "00:01",
-      0.1
-     ],
      [
       "00:01",
       85.1
@@ -836,12 +834,16 @@
      [
       "01:40",
       0.8
+     ],
+     [
+      "02:00",
+      0.0
      ]
     ],
-    "today_samples": 12,
-    "today_floor_ok": 12,
+    "today_samples": 13,
+    "today_floor_ok": 13,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 5
+    "today_supply_gap_flags": 6
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -894,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-06 01:40:25"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-06 02:00:20"
     }
    }
   },
