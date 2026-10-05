@@ -5,8 +5,10 @@
 
 
 
+
 ### User
 ## Codely Structured Memories
+
 
 
 
@@ -21,7 +23,9 @@
 
 
 
+
 ### Feedback
+
 
 
 
@@ -49,6 +53,7 @@
 - [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
 
 - [2026-10-05 08:4x r523 bm-c] **S0 churn-absorb add 撞 daemon index.lock × daemon 陈旧 FETCH_HEAD 中途搬 main 坑（add rc128=竞态勿重试环·终点态核验后照常下序）**：S0 轮首脏=4 个 bm-c 车道 daemon 面，churn-absorb 定向 `git add` 撞同窗 daemon 持 index.lock（rc128 静默败→后续 commit rc1 零 staged）；同窗 daemon tick 以其早先 fetch 的陈旧 FETCH_HEAD 把 main FF 至 mid-tip（ff4b2031e≠真 tip 7f6bc285e）——会话侧表现=HEAD 在两次探测间「自行移动」。正法=①add rc128=daemon 竞态非阻塞故障，勿当场重试环，churn 留树 close 吸收（r620 收口范式）②集成目标恒 `git merge origin/main`（本轮 fetch 后真 tip），禁信 mid-state HEAD/FETCH_HEAD；FF 后 rev-list 双向计数+status 终点态核验（本窗 0/0+预期脏集=收敛）再照常下序。How to apply：S0 窗见 add rc128+HEAD 异动=daemon×集成窗常态面（r690/r696 族的 branch-move 新面），终点态定谳后继续轮务勿按中间态重做手术。
+
 
 
 
@@ -165,5 +170,7 @@
 - [2026-10-06 00:5x r583 bm-c] **bookkeeping 硬编码水位字面量手抄眼跳坑（r537 假 CHANGED 族新变体·r582 尾巴·r583 S0.5 当场治愈零误消费）**：r582 bookkeeping 把 group orders 水位 sha 以字面量手抄进脚本（st['last_orders_sha'] = '9918…'）——转录眼跳中段丢 2 字符（真值 40hex …946**48**C61… → state 落 38hex …946C61…）→ r583 S0.5 探针 MATCH=False 假 CHANGED（首 8 位同串掩盖）。三源定性：①r582 自己的 facts JSON 实存正确 40hex ②orders.md 最后变更 10-04 23:44 早于 r582 读取窗 ③新鲜 blob sha==facts 值 → 假 CHANGED 定谳（r583 程序化治愈+method note 更新+探针装 PREV 形态门）。正法=①水位值写入一律程序化从探针 facts JSON 拷贝（禁手抄字面量进簿记脚本）+写前 40/64hex 形态断言②探针读 prev 先过形态门（len∉{40,64}→SHAPE_WARN）③MATCH=False 而 prev 首段同串先查形态长度再定性（r537 律：双源对算+git log 实核）。How to apply：复制 bookkeeping 血统先核水位写入面=facts 驱动；s05 探针血统自带形态门（r583 起在位）。
 - [2026-10-06 01:2x r584 bm-c] **resolver add 清单 exists 守卫吞 move-pair 删除侧 staging 坑（13-UU 收口窗实弹·tail-2 当场治愈零 origin 伤害）**：merge resolver 的 add 清单把 `os.path.exists` 守卫统一套在全部面上——inbox move-pair 源文件已被 Move-Item 挪走（磁盘缺席）即被 ADD_SKIP 跳过，而 `git add <已删除的被跟踪路径>` 恰恰就是 staging 删除侧的正法（tracked deletion 可 stage）→processed 副本送达、源删除未 stage=TREE_TAIL `D` 半 move-pair（幸 delivery 自证后 TREE_TAIL 非空目检抓回，tail-2 定向补 stage 删除+2 daemon 面+push 0/0 治愈）。正法=①resolver add 清单守卫按 tracked-deletion 语义分腿：被跟踪路径禁用磁盘存在性守卫（git add 直接 stage 删除），仅对 receipts 等新产出件保留存在性断言②move-pair 消费后必查 `git status --porcelain` 该源路径 `D ` 行=未 staged 删除红旗③close 尾 TREE_TAIL 非空即逐面定性（D=move-pair 缺腿/M=daemon 活面），禁收轮留 D。How to apply：未来 merge 窗带 inbox move-pair 的 resolver 血统复制先核 add 守卫语义；见 TREE_TAIL `D` 行=半 move-pair 当场补 stage 勿留次轮。
 - [2026-10-06 1:4x r586 bm-c] **S0 pull --rebase FETCH_HEAD 多分支竞态 rc128 坑（daemon 活窗瞬时面·当场两步治愈零伤害）**：churn-absorb 落盘后 `git pull --rebase origin main` rc=128 fatal: Cannot rebase onto multiple branches——pull 的 fetch 步写单条目 FETCH_HEAD 后、rebase 步读 FETCH_HEAD 前，同窗 daemon（satengine tick）的全量 fetch 已把多分支条目覆写进去=竞态瞬时失败非冲突（实弹窗：churn commit 已安全落盘 07c6687e5·fetch 后 behind=0·rebase up-to-date 收敛·零 abort 零强推零伤害）。正法=①S0 集成一律显式两步 `git fetch origin` + `git rebase origin/main`（rebase 锚 ref 不受 FETCH_HEAD 多条目污染）②见 rc128+多分支字样先按竞态定性，复跑两步法收敛即收，勿当冲突勿 abort 勿强推③churn 血统的 pull --rebase 腿后续轮次一律替换为两步法。How to apply：复制 churn/pull 血统先核集成腿=fetch+rebase 两步；见 Cannot rebase onto multiple branches 先复跑两步再定性（r523 竞态族同面：竞态非阻塞故障勿重试环）。
+
 - [2026-10-06 02:0x r752 bm-a] **死尾冻结窗烧录产物收编三恒等门（r713 死尾族新面：烧录完成而冻结 commit 未落）**：死会话死在「insert+selftest+点火之后、freeze commit 之前」时，产物=已烧 12/12 分片+未提交注册面——科学有效性判定=三恒等门：①双 selftest（n1+pf 9/9）过=注册面正确；②分片总数恒等门（ΣA/ΣB==prereg N 档位精确值，本例 A=2,000+B=200=2,200）；③跨分片种子连续性门（全带无缝 sweep：min/max/unique==注册带端点、分片边界 +1 恒等）——三门全绿=烧录消费的注册态==待提交态，收编合法+轮报告诚实披露「freeze-commit-landed-post-ignition」偏离。附：n1 mtime 落在烧录中段≠污染红旗（文档/receipt 追加可致），连续性门才是判据。How to apply：未来死尾带烧录产物的吸收窗一律先跑三恒等门再 commit；finalize 仍按 E36 阶梯律下窗落。
 - [2026-10-06 02:3x r587 bm-c] **S0.5 facts 收据 scratch→results/ 拷贝腿缺位坑（tail-defer 终探针拦截实弹·零伤害）**：close 终探针 proof 清单含 results/_rNNNbmc_s05_facts.json 但 s05 探针脚本本体写入 .codely-cli\scratch\（machine-local gitignored）——bookkeeping/close 血统不带拷贝腿即 ls-tree 终探针 MISS（r587 实弹：merge#2 推送 0/0 后 9/10 proof、tail-defer 门拒写 close 行，补 results/ 拷贝 commit 后 10/10 过门零伤害）。正法=①bookkeeping/close 血统内置 shutil.copyfile(scratch facts→results/)+字节恒等断言+reparse 门（r586 已做此步但散在会话手作未入血统）②proof 清单 MISS 于 _s05_facts 面即补拷贝，勿手改 proof 清单。How to apply：r588+ 复制 bookkeeping/close 血统先核 facts-receipt 拷贝腿在位；.codely-cli 一律 gitignored=收据类产物必须落 results/ 才可送达。| dept:工程 | r587 收口窗（push-race 双 merge 窗 3+18 UU 正典解零 --no-verify·QA 60 连证·S6 47 连首过）
+- [2026-10-06 02:1x r756 bm-b] **merge 窗新面 research/HANDOVER.md line-union 配方（r755 血统 18 面族外第 19 面：双侧各在顶部插本机 5x 核对行·余 415 行恒同）**：正法=按 ours 行序遍历、遇 ours-only 行后即插 theirs-only 行（顶部插入区约定）+尾部兜底追加+双侧全行集合零丢失断言+行数恒等加法断言（len(res)==len(ours)+n_theirs_only）；实弹 ours_only=1 theirs_only=1 shared=415 零丢失过全断言；收据 results/_r756bmb_merge_resolve.json。How to apply：未来 5x 窗 merge 撞 HANDOVER UU 直接复用 _r756bmb_merge_resolve.py 血统该腿（r755→r756 copy-first 律同源）。附：r755 死尾=push 达 origin 后 state/心跳未写形态，r714-3 churn-absorb 收编路径吸收（零新律如实注记）。
