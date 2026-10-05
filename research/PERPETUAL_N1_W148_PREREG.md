@@ -54,10 +54,16 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 63 行注册 + 本候选——以 gate leg0 机证为准·同 W144/W145/W146/W147 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·占位——跑前为空】
-- （占位：12/12 分片落地后 finalize one-pass 机械回填·回填限本节与 §8·judged 断言照 W147 例。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r760·one-pass rc0·12/12 分片消费；§7/§8 回填窗注记：r760 finalize one-pass 压缩收口窗未及回填·r761 W149 冻结窗 cite-fix 腿补呈——回填内容=n1_w148_results.json 冻结实测键·零改判据】
+- **合并池**：pre-W148 K=321,320（mu=−0.092824·sigma=0.244935）→ W148-only K=2,200（mu=−0.086769·sigma=0.242785）→ **merged K=323,520（mu=−0.0928·sigma=0.2449）**；账本 719,411+2,200=**721,611**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w148_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 719,411）：1.1792 → **1.1792**（Δ=**+0.0000**）；se_mu 收窄链 W147 0.000432 → **0.000431**（0.244920/√323,520）。
+- **A 档 full_sharpe_p95=0.3136**（2,000 runs·W147 锚 0.3246）。
+- **§5 四预测键全过（机证）**：①|W148-only mu − merged mu|=0.0060<0.02 ✓ ②sigma 相对变化 -0.0059%<±10% ✓ ③A p95 差 -0.0110<0.05 ✓ ④K-lift +0.0000≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果件如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w148_vs_w147ext=+0.005378。
 
-## §8 批后复盘。【finalize 同窗回填·占位】
-- （占位：设计复用面+宝藏捕获问+W149+ 投影承接三行照 W147 例回填。）
+## §8 批后复盘。【finalize 同窗回填·bm-a r760（cite-fix 补呈窗 r761）】
+- 设计=v1 冻结逐字复用·纯种子带深化——零新机制零新方法；**宝藏捕获问（O-20261003-2030 §1 判决 finalize 收口步）：本批无新宝藏**（A-hops-prior-B 阶梯第七例+同窗互斥 leg2 面已于冻结窗 r759 确认·E36 卡既有·finalize 无新增面）；方法论资产卡无 append 面。
+- W149+ 投影承接（§5 键 5 冻结窗已披露）：A naive 342_404..344_403 将被本波 B 带 342_404..342_603 拒（阶梯 A-hops-prior-B 继承）→ W149 A 重 derive 同强制（越过 W148 B 带）；B naive 342_604..342_803 落重 derive 后 A 窗内=**同窗互斥 leg2 律**——**W149 冻结方必在 post-W148 注册宇宙重 derive 且 derive B 时预留本波 A 窗**（E36 卡·W141/W143/W145/W147 先例链）；verify at W149 prereg，hop 链逐跳在 probe 回执。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
