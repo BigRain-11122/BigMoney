@@ -3,8 +3,8 @@
 dual-writer race pattern; face list adapted to this window's 2 UU set,
 tag + receipt path only changed per r531-family lineage law).
 
-Window: 2 UU faces, S6-regen dual-writer race (our r552 S6 15:2x vs
-bm-b r732/r733 close wave S6 pushed mid-window).
+Window: 14 UU faces, S6-regen dual-writer race (our r552 S6 15:2x vs
+bm-a r731/r733 close-wave S6 pushed mid-window; second-hop merge face).
 
 Laws applied:
   r706-A/r515: merge-mode complete side source = index stages :2:/:3: via
@@ -119,9 +119,29 @@ def main():
     try:
         chosen = {}
         # 1. take-side faces by directed normalized ts probe
-        for rel in ("results/regime_state.json",):
+        for rel in ("results/regime_state.json",
+                    "results/update_status.json",
+                    "results/fundamental_b_layer_filter.json",
+                    "results/futures_update_status.json",
+                    "results/lhb_update_status.json",
+                    "results/_attrition_guard_scan.json",
+                    "docs/daily_report/REPORT-2026-10-05.json",
+                    "docs/live_usage/LIVE-2026-10-05.json",
+                    "docs/live_usage/LIVE-latest.json"):
             chosen[rel] = take_side_by_stages(rel)
-        # 2. compute_audit history union from stage sides (r515 law)
+        # 2. twins locked to their json verdict (r708 same-side law)
+        twin_map = {
+            "docs/daily_report/REPORT-2026-10-05.md":
+                "docs/daily_report/REPORT-2026-10-05.json",
+            "docs/live_usage/LIVE-2026-10-05.md":
+                "docs/live_usage/LIVE-2026-10-05.json",
+            "docs/live_usage/LIVE-latest.md":
+                "docs/live_usage/LIVE-latest.json",
+        }
+        for rel, jrel in twin_map.items():
+            n = chosen[jrel]
+            write_stage(rel, n, "twin-locked-to-json %s side=%d" % (jrel, n))
+        # 3. compute_audit history union from stage sides (r515 law)
         rel = "results/compute_audit.json"
         o = json.loads(stage(rel, 2).decode("utf-8"))
         t = json.loads(stage(rel, 3).decode("utf-8"))
@@ -142,12 +162,35 @@ def main():
                                  "ours_rows": len(ho), "theirs_rows": len(ht),
                                  "merged_rows": len(base["history"])}
         residual_check(rel)
-        # 3. residual screen across all faces + count assertion
+        # 4. token per-key recursive union from stage sides (r515 law,
+        #    r522 values-direction verified: union takes VALUES not keys)
+        rel = "results/token_usage.json"
+        o = json.loads(stage(rel, 2).decode("utf-8"))
+        t = json.loads(stage(rel, 3).decode("utf-8"))
+
+        def merge(a, b):
+            if isinstance(a, dict) and isinstance(b, dict):
+                out = dict(a)
+                for k, v in b.items():
+                    out[k] = merge(out[k], v) if k in out else v
+                return out
+            if isinstance(a, list) and isinstance(b, list):
+                return a + [x for x in b if x not in a]
+            return b if max_ts_text(str(b)) > max_ts_text(str(a)) else a
+
+        m = merge(o, t)
+        blob = (json.dumps(m, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
+        with open(os.path.join(ROOT, rel), "wb") as f:
+            f.write(blob)
+        assert crn(open(os.path.join(ROOT, rel), "rb").read()) == crn(blob)
+        receipt["faces"][rel] = {"action": "per-key-union stage-sides"}
+        residual_check(rel)
+        # 5. residual screen across all 14 faces + count assertion
         allf = sorted(set(list(receipt["faces"].keys())))
-        assert len(allf) == 2, "face count %d != 2" % len(allf)
+        assert len(allf) == 14, "face count %d != 14" % len(allf)
         for rel in allf:
             residual_check(rel)
-        receipt["gates"]["residual_screen"] = "PASS 2/2"
+        receipt["gates"]["residual_screen"] = "PASS 14/14"
         receipt["gates"]["readback"] = "PASS (every face write back-asserted)"
         sides = {k: v.get("take", v.get("action")) for k, v in receipt["faces"].items()}
         receipt["gates"]["side_summary"] = sides
@@ -161,7 +204,7 @@ def main():
     with open(os.path.join(ROOT, "results", "_r552bmc_merge_resolve.json"),
               "wb") as f:
         f.write(json.dumps(receipt, ensure_ascii=False, indent=1).encode("utf-8"))
-    print("RESOLVED 2/2")
+    print("RESOLVED 14/14")
     for k, v in sorted(receipt["faces"].items()):
         print(" ", k, "->", v.get("action"), "ours=", v.get("ours_ts", ""),
               "theirs=", v.get("theirs_ts", ""), v.get("why", ""))
