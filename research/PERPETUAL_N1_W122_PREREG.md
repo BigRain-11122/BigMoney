@@ -61,8 +61,21 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 37 行注册+本候选〔以 gate leg0 机证为准·含 W119/W120/W121 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r728 2026-10-05 14:0x】
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+- finalize 一次通过 rc=0（12/12 分片 2,200/2,200 位取；上游链 derive 复核 PASS：W1..W121 落账件在场=W121 total 662,211 为 prev 链头〔零在飞上游=链前置净空波·链序合法〕；r708 预检双腿在场：文件完备 12/12 reparse+run 名 dup 探针 2,200/2,200 零重 + 活进程探针零同族=GREEN_FINALIZE_READY 先行）。
+- w122_only mu **−0.088661** sigma 0.244281（K=2,200）；pre-W122 池 mu −0.092940 sigma 0.244846（K=264,120）；merged mu **−0.092904** sigma **0.244841**（K=**266,320**=canon 120+261,920+2,200 算术续）。
+- skill_line_v2 @n_eff 662,211：1.1748 → **1.1748**（K-lift **+0.0000**）；se_mu 收窄链 …→W121 0.000476 → 本波 **0.000474**@K266,320。
+- A 档 full_sharpe_p95 **0.3177** / p99 0.4576；账本 append 单发：prev 662,211 + 2,200 = **664,411**（r509 guard 前持久化块在场·单计）。
+- §5 断言对账：①|w122_only−merged|=0.0042<0.02 **PASS**；②sigma 相对变化 −0.002%<±10% **PASS**；③A p95 vs W121 锚 0.3085 差 **+0.0092**<0.05 **PASS**；④K-lift +0.0000≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
+
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r728
+
+- 零异常零干预：freeze r727（commit 269466f13·13:4x）→tick 自燃 12/12（r535 律·13:45..13:56 产物增长面全落地·~58s/片 r325 律）→finalize 本窗 r728 one-pass（14:03·跨轮生命周期：r727 冻结+烧录→r728 收口·W121 同窗对照如实披露）；账本链 662,211→664,411 线性单计。
+- 本窗意外收获：无（全链一次通过；r727 窗 pf selftest W99 adjudication 镜像红修已先行=本窗 finalize 前置净空）。
+- 方法论捕获：无新方法（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W123=表尾后下个自由号（A 289_004..291_003 CLEAN / B 66_401..66_600 CLEAN 投影见 §5.5——下波冻结方必复核非转抄 r587 律）。
+
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
