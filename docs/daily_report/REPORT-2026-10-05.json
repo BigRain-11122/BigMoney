@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 19:49:40",
+ "generated_at": "2026-10-05 19:59:47",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 979,
-  "result_jsons_landed_24h": 310,
+  "commits_24h": 976,
+  "result_jsons_landed_24h": 306,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 42,
   "compute_audit_latest": {
-   "ts": "2026-10-05 19:49:04",
-   "py_cpu_pct": 0.2,
+   "ts": "2026-10-05 19:58:20",
+   "py_cpu_pct": 0.8,
    "flags": [
     "supply_gap"
    ],
@@ -645,11 +645,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1216584,
+  "total_report_tokens_est": 1217301,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 19:11:37",
+   "prev_generated": "2026-10-05 19:34:31",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 231,
+   "report_tokens_growth": 717,
    "mandate_growth": 0
   },
   "method": {
@@ -784,17 +784,13 @@
     "today_supply_gap_flags": 68
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 19:49:04",
-    "py_pct": 0.2,
-    "cpu_pct": 0.0,
+    "latest_ts": "2026-10-05 19:58:20",
+    "py_pct": 0.8,
+    "cpu_pct": 6.0,
     "ready": 3,
-    "streak_min": 18.9,
+    "streak_min": 28.2,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "18:18",
-      0.0
-     ],
      [
       "18:27",
       87.2
@@ -838,12 +834,16 @@
      [
       "19:49",
       0.2
+     ],
+     [
+      "19:58",
+      0.8
      ]
     ],
-    "today_samples": 140,
-    "today_floor_ok": 140,
+    "today_samples": 141,
+    "today_floor_ok": 141,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 71
+    "today_supply_gap_flags": 72
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -853,14 +853,14 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 204,
-    "core_seconds": 37206.0,
-    "wall_seconds": 4083.9,
-    "effective_cores": 9.11,
+    "batches_judged": 208,
+    "core_seconds": 38003.0,
+    "wall_seconds": 4144.3,
+    "effective_cores": 9.17,
     "single_core_burn": 13,
-    "multicore_burn": 191,
+    "multicore_burn": 195,
     "too_short": 0,
-    "last_ts": "2026-10-05T19:38:20+08:00",
+    "last_ts": "2026-10-05T19:42:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -896,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 20,
-     "audit_ts": "2026-10-05 19:49:04"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 19:58:20"
     }
    }
   },
@@ -961,7 +961,7 @@
      69502,
      69701
     ],
-    "shards_done": 8,
+    "shards_done": 12,
     "shards_total": 12,
     "finalize_landed": false
    }
