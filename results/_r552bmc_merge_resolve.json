@@ -1,0 +1,23 @@
+{
+ "round": "r552",
+ "faces": {
+  "results/regime_state.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:20:09 theirs=2026-10-05 15:09:09)"
+  },
+  "results/compute_audit.json": {
+   "action": "history-union stage-sides",
+   "ours_rows": 201,
+   "theirs_rows": 206,
+   "merged_rows": 207
+  }
+ },
+ "gates": {
+  "residual_screen": "PASS 2/2",
+  "readback": "PASS (every face write back-asserted)",
+  "side_summary": {
+   "results/regime_state.json": "write-stage-2",
+   "results/compute_audit.json": "history-union stage-sides"
+  }
+ }
+}
