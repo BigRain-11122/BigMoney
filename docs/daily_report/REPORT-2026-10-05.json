@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 15:52:17",
+ "generated_at": "2026-10-05 16:15:31",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 971,
-  "result_jsons_landed_24h": 304,
+  "commits_24h": 964,
+  "result_jsons_landed_24h": 299,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 34,
   "compute_audit_latest": {
-   "ts": "2026-10-05 15:50:41",
-   "py_cpu_pct": 5.9,
+   "ts": "2026-10-05 16:12:39",
+   "py_cpu_pct": 86.0,
    "flags": [],
    "verdict": "CLEAN"
   },
@@ -645,104 +645,26 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1204348,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 15:22:33",
+   "mandate_growth": 0,
+   "report_tokens_growth": 936,
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1272,
-   "mandate_growth": 0
+   "prev_generated": "2026-10-05 15:39:09"
   },
   "method": {
-   "bpe_proxy": 3.5,
-   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API",
+   "bpe_proxy": 3.5
   }
  },
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 15:20:32",
+    "latest_ts": "2026-10-05 15:48:27",
     "py_pct": 0.1,
-    "cpu_pct": 5.0,
-    "ready": 3,
-    "streak_min": 69.6,
-    "verdict": "FLAG:gpu_unauthorized,supply_gap",
-    "py_series_tail": [
-     [
-      "13:48",
-      53.1
-     ],
-     [
-      "13:58",
-      0.0
-     ],
-     [
-      "14:09",
-      85.2
-     ],
-     [
-      "14:10",
-      1.0
-     ],
-     [
-      "14:11",
-      0.1
-     ],
-     [
-      "14:28",
-      0.3
-     ],
-     [
-      "14:39",
-      0.9
-     ],
-     [
-      "14:41",
-      0.3
-     ],
-     [
-      "14:59",
-      0.8
-     ],
-     [
-      "15:00",
-      0.3
-     ],
-     [
-      "15:09",
-      0.0
-     ],
-     [
-      "15:20",
-      0.1
-     ]
-    ],
-    "today_samples": 104,
-    "today_floor_ok": 104,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 56
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-05 15:27:00",
-    "py_pct": 85.9,
-    "cpu_pct": 58.0,
+    "cpu_pct": 4.0,
     "ready": 3,
     "streak_min": null,
-    "verdict": "CLEAN",
+    "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
-     [
-      "13:58",
-      0.0
-     ],
-     [
-      "14:09",
-      85.2
-     ],
-     [
-      "14:10",
-      1.0
-     ],
-     [
-      "14:11",
-      0.1
-     ],
      [
       "14:28",
       0.3
@@ -772,14 +694,92 @@
       0.0
      ],
      [
+      "15:20",
+      0.0
+     ],
+     [
+      "15:20",
+      0.1
+     ],
+     [
       "15:27",
       85.9
+     ],
+     [
+      "15:38",
+      0.0
+     ],
+     [
+      "15:48",
+      0.1
      ]
     ],
-    "today_samples": 105,
-    "today_floor_ok": 105,
+    "today_samples": 109,
+    "today_floor_ok": 109,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 55
+    "today_supply_gap_flags": 57
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-05 16:12:39",
+    "py_pct": 86.0,
+    "cpu_pct": 34.0,
+    "ready": 3,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "14:42",
+      86.0
+     ],
+     [
+      "14:59",
+      0.8
+     ],
+     [
+      "15:00",
+      0.3
+     ],
+     [
+      "15:09",
+      0.0
+     ],
+     [
+      "15:20",
+      0.0
+     ],
+     [
+      "15:20",
+      0.1
+     ],
+     [
+      "15:27",
+      85.9
+     ],
+     [
+      "15:38",
+      0.0
+     ],
+     [
+      "15:41",
+      85.9
+     ],
+     [
+      "15:48",
+      0.1
+     ],
+     [
+      "15:50",
+      5.9
+     ],
+     [
+      "16:12",
+      86.0
+     ]
+    ],
+    "today_samples": 112,
+    "today_floor_ok": 112,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 57
    },
    "bm-c": {
     "latest_ts": "2026-10-05 15:50:41",
@@ -851,19 +851,19 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 100,
-    "core_seconds": 16862.7,
-    "wall_seconds": 2505.8,
-    "effective_cores": 6.73,
+    "batches_judged": 112,
+    "core_seconds": 19251.0,
+    "wall_seconds": 2687.1,
+    "effective_cores": 7.16,
     "single_core_burn": 13,
-    "multicore_burn": 87,
+    "multicore_burn": 99,
     "too_short": 0,
-    "last_ts": "2026-10-05T15:30:20+08:00",
+    "last_ts": "2026-10-05T15:57:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 27,
-     "audit_ts": "2026-10-05 15:20:32"
+     "audit_batches": 29,
+     "audit_ts": "2026-10-05 15:48:27"
     }
    },
    "bm-b": {
@@ -878,8 +878,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 20,
-     "audit_ts": "2026-10-05 15:27:00"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 16:12:39"
     }
    },
    "bm-c": {
@@ -959,8 +959,8 @@
      67601,
      67800
     ],
-    "shards_done": null,
-    "shards_total": null,
+    "shards_done": 12,
+    "shards_total": 12,
     "finalize_landed": false
    }
   ],
