@@ -1,0 +1,125 @@
+{
+  "batch": "OPEN_MARKET_READINESS",
+  "machine": "bm-a",
+  "generated": "2026-10-05T07:54:44",
+  "generated_date": "2026-10-05",
+  "market_date": "2026-10-08",
+  "days_to_market": 3,
+  "holiday_floor": "2026-09-30",
+  "verdict": "AMBER",
+  "summary_plain": "2 面黄（在途/等窗，无阻断），0 面红；黄面按行收口。",
+  "faces": {
+    "ETF 日线主时钟": {
+      "status": "GREEN",
+      "facts": {
+        "tail_bar": "2026-09-30",
+        "five_members_missing": [],
+        "expected_first_bar": "2026-10-08"
+      },
+      "gap": "主时钟停假期地板；10-08 首个完整 bar 日=gates 复活触发器"
+    },
+    "S6 数据 gates 复活组": {
+      "status": "GREEN",
+      "facts": {
+        "n_gate_scripts": 14,
+        "scripts_missing": [],
+        "n_local_panels": 10,
+        "panels_missing": [],
+        "other_lane_present": {
+          "fund_premium": false
+        }
+      },
+      "gap": "14 数据 gate+10 本机面板机械全在位（fund_premium=bm-c 车道本地面·本机缺席合法）；10-08 有新 bar 各腿从 no-op 转活"
+    },
+    "moneyflow 面板": {
+      "status": "AMBER",
+      "facts": {
+        "complete": false,
+        "n_symbols": 53,
+        "universe_n": 5222,
+        "rank_mode": "fetch_failed: page 1: RemoteDisconnected: Remote end closed "
+      },
+      "gap": "面板 53/5222 完备（EM 源断流·30min 节流自愈中）；IC prereg=确面板门（10-08 复市源恢复首推）"
+    },
+    "纸盘 marks 续跑面": {
+      "status": "GREEN",
+      "facts": {
+        "families": {
+          "AGGR": {
+            "files": 20,
+            "marks_ok": 20
+          },
+          "ALLOC": {
+            "files": 7,
+            "marks_ok": 7
+          },
+          "GRID": {
+            "files": 5,
+            "marks_ok": 5
+          },
+          "SYSV1": {
+            "files": 2,
+            "marks_ok": 2
+          }
+        },
+        "total": 34,
+        "min_marks_last": "2026-09-30",
+        "unparseable": []
+      },
+      "gap": "纸盘 marks 停假期地板=2026-09-30（合法停滞）；10-08 首 bar 各腿自动续跑（t35/prospect/aggr/alloc/grid/system_v1 同窗）"
+    },
+    "REGIME_GUARD v3": {
+      "status": "GREEN",
+      "facts": {
+        "enforce_active_from": "2026-10-01",
+        "approval_file": true,
+        "date_gate_open": true
+      },
+      "gap": "v3 三重门已开两门（批准件+日期门）；10-08 有新 bar 轮先设 BIGMONEY_REGIME_GUARD=enforce 再跑 live.paper（S6 链协议内建）"
+    },
+    "外源双腿 run-11/run-7": {
+      "status": "GREEN",
+      "facts": {
+        "jisilu_run_collector": true,
+        "hibor_radar": true
+      },
+      "gap": "run-11=集思录 feed 采集器已固化直用；run-7=hibor 金工日报 261008 入窗判别（r182 开放指针·休市无日报假说判别窗）"
+    },
+    "判决/供给线": {
+      "status": "AMBER",
+      "facts": {
+        "trio": {
+          "FUND-VALUE-P1-NULLS": {
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          },
+          "FUND-QUALITY-P1-NULLS": {
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          },
+          "FUND-DIVLOWVOL-P1-NULLS": {
+            "shard": "ready",
+            "owner": "bm-b",
+            "owner_since": "2026-10-05 07:16:12"
+          }
+        },
+        "pool_entries": 403,
+        "w117": "GATED on bm-b W116 landing (RAM gate, rehearsal r684 armed)",
+        "style_rotation": "drafting waits on bm-b astock_daily panel (10-08 revive)"
+      },
+      "gap": "trio finalize 窗 10-05..09（bm-b canonical 禁碰）；W117 GATED on W116；风格轮动 drafting 等 10-08 面板推进"
+    },
+    "饱和引擎守护": {
+      "status": "GREEN",
+      "facts": {
+        "engine_alive": true,
+        "active_burns": 0,
+        "heartbeat_fresh": true
+      },
+      "gap": "引擎活+队列由 tick 自管；复市窗烧批续供由 daemon 认领（本探针零 spawn）"
+    }
+  },
+  "honesty": "read-only L1 aggregation; +0 trials +0 marks +0 registration faces; zero spawn"
+}
