@@ -354,6 +354,64 @@ def _host_gate_reason(entry):
     return None
 
 
+def _data_deps_gate(entry):
+    """D-20261005-07 data-locality assertion (autofill parity, zero new
+    mechanism -- reuses autofill._data_deps_missing verbatim, r670 law
+    face): entry.data_deps files must exist locally BEFORE this machine
+    claims a shard. A cache-less host burning a data-dependent ticket
+    fast-fails (JUDGE-SHARD-6: judge state file in an un-merged origin
+    wave, runner 13.3s rc=2, F-20261005-02). None = claimable here;
+    reason string = skip (later entries still scanned, anti-starvation)."""
+    try:
+        from autofill import _data_deps_missing
+    except Exception as ex:
+        return f"data_deps gate import fault ({ex})"
+    try:
+        miss = _data_deps_missing(entry)
+    except Exception as ex:
+        return f"data_deps gate fault ({ex})"
+    if miss:
+        return "data_deps not local: " + ", ".join(miss[:3])
+    return None
+
+
+def _sync_classify(head, otip, ancestor_rc):
+    """D-20261005-07 pure classification leg (hermetic selftest face).
+    head/otip are post-fetch HEAD / origin-main tips; ancestor_rc is the
+    exit code of `git merge-base --is-ancestor origin/main HEAD`
+    (0 = local tree has every origin wave = safe to claim)."""
+    if not head or not otip:
+        return False, "origin-sync probe fault (rev-parse)"
+    if head == otip:
+        return True, "in-sync"
+    if ancestor_rc == 0:
+        # pure-ahead tree: local carries all origin waves (plus local
+        # commits) -- dependencies present, claim safe.
+        return True, f"in-sync (local ahead of origin {otip[:8]})"
+    return False, f"not_in_sync (HEAD {head[:8]} vs origin {otip[:8]})"
+
+
+def _origin_sync_ok():
+    """D-20261005-07 origin-sync assertion: claiming on a fetch-stale tree
+    burns tickets whose wave dependencies (state files, runners, panels)
+    live in origin waves the local tree does not have yet -- declared
+    data_deps cannot cover undeclared wave files (JUDGE-SHARD-6 body).
+    Post-fetch origin/main must be an ancestor of HEAD to claim."""
+    def _rev(ref):
+        r = subprocess.run(["git", "rev-parse", ref], cwd=ROOT,
+                           capture_output=True)
+        return (r.returncode,
+                r.stdout.decode(errors="replace").strip())
+    rc_h, head = _rev("HEAD")
+    rc_o, otip = _rev("origin/main")
+    if rc_h != 0 or rc_o != 0:
+        return _sync_classify(None, None, 1)
+    anc = subprocess.run(["git", "merge-base", "--is-ancestor",
+                          "origin/main", "HEAD"], cwd=ROOT,
+                         capture_output=True)
+    return _sync_classify(head, otip, anc.returncode)
+
+
 def _eligible(entry, myid):
     """O-2210 worker_class data-locality eligibility + R31/R65 lane guard."""
     lo = entry.get("lane_owner")
@@ -368,6 +426,12 @@ def _eligible(entry, myid):
         # MSG-1142 pre-check: never claim a shard this host physically
         # cannot burn (P5C-GATE instant-exit face).
         _log(f"entry {entry['id']}: host gate fail ({gr}) -> skip")
+        return False
+    dr = _data_deps_gate(entry)
+    if dr is not None:
+        # D-20261005-07: a data-less host must not burn a data-dependent
+        # ticket (autofill tick parity, F-20261005-02 live case).
+        _log(f"entry {entry['id']}: {dr} -> skip")
         return False
     wc = entry.get("worker_class", "self-contained")
     if wc == "self-contained":
@@ -532,6 +596,19 @@ def run_pass(dry=False):
         _push_claims_and_ledger(myid, "pass no-op sweep")  # retry pending pushes
         return 0
     entry_id, shard_key = e["id"], sh["key"]
+    # D-20261005-07 origin-sync assertion: the local tree must carry
+    # every origin wave (origin/main ancestor of HEAD) before a claim
+    # burns a ticket -- a fetch-stale tree fast-fails runners whose
+    # state files live in un-merged waves (JUDGE-SHARD-6). Not in sync
+    # -> skip pass entirely, record not_in_sync, no claim burned; the
+    # fleet round S0 integration ff-syncs the tree, next pass rechecks.
+    sync_ok, sync_detail = _origin_sync_ok()
+    if not sync_ok:
+        _log(f"origin-sync: {sync_detail} -> skip pass "
+             f"(D-20261005-07, not_in_sync recorded, zero burn)")
+        return 0
+    if sync_detail != "in-sync":
+        _log(f"origin-sync: {sync_detail} (claim allowed)")
     # D-20260929-02 ② slice-start declaration freeze: the pass already
     # fetched origin above, so the guard reads the post-fetch origin
     # inbox face fresh (fetch=False) -- a rival machine's pending MSG
@@ -824,6 +901,36 @@ def selftest():
                                             root=crepo, ref="HEAD")
             ok("S20f absent claims dir -> free (not a fault)",
                v == "free" and "no rival" in det)
+        # S21 D-20261005-07 origin-sync classification (pure leg)
+        ok("S21a sync equal tips -> in-sync",
+           _sync_classify("abc123", "abc123", 1) ==
+           (True, "in-sync"))
+        ok("S21b sync pure-ahead (origin ancestor) -> claim allowed",
+           _sync_classify("abc123", "fff999", 0)[0] is True)
+        ok("S21c sync diverged/behind -> not_in_sync block",
+           _sync_classify("abc123", "fff999", 1) ==
+           (False, "not_in_sync (HEAD abc123 vs origin fff999)"))
+        ok("S21d sync probe fault -> fail-closed block",
+           _sync_classify("", "fff999", 0)[0] is False)
+        # S22 D-20261005-07 data_deps local-presence gate (hermetic:
+        # absolute tmp paths; reuses autofill._data_deps_missing)
+        present = os.path.join(tmp, "present.bin")
+        with open(present, "wb") as fh:
+            fh.write(b"x")
+        ok("S22a no data_deps field -> claimable (schema additive)",
+           _data_deps_gate({"id": "X"}) is None)
+        ok("S22b declared dep present locally -> claimable",
+           _data_deps_gate({"id": "X",
+                            "data_deps": [present]}) is None)
+        miss_r = _data_deps_gate({"id": "X",
+                                  "data_deps": [present,
+                                                os.path.join(tmp, "nope")]})
+        ok("S22c declared dep absent -> skip reason",
+           miss_r is not None and "data_deps not local" in miss_r
+           and "nope" in miss_r)
+        mal_r = _data_deps_gate({"id": "X", "data_deps": "not-a-list"})
+        ok("S22d malformed data_deps -> fail-closed skip",
+           mal_r is not None and "malformed" in mal_r)
         CLAIMS = real_claims
         LEDGER = real_ledger
         allp = failc[0] == 0

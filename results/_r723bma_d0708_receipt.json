@@ -1,0 +1,48 @@
+{
+  "round": "r723 bm-a",
+  "ts": "2026-10-05T12:20:00+08:00",
+  "decision_receipts": {
+    "D-20261005-07_pool_worker_claim_gates": {
+      "ruling": "3+1合流: origin-sync assertion before claim + data_deps local-presence assertion (reuse autofill._data_deps_missing) + ② retrofit cost self-assessment one line + JUDGE-SHARD-6 re-claim lane decision",
+      "landed": [
+        "Tools/pool_worker.py _sync_classify (pure hermetic leg) + _origin_sync_ok (post-fetch origin/main must be ancestor of HEAD; behind/diverged -> skip pass, not_in_sync recorded, zero burn)",
+        "Tools/pool_worker.py _data_deps_gate (lazy import autofill._data_deps_missing verbatim, zero new mechanism; missing/malformed -> fail-closed skip)",
+        "run_pass wiring: sync gate between scan-success and inbox_guard freeze; data_deps gate in _eligible after host gate (anti-starvation: later entries still scanned)",
+        "selftest S21a-d (sync classify 4 legs) + S22a-d (data_deps 4 legs); full selftest 42/42 PASS"
+      ],
+      "live_probes": {
+        "origin_sync": "in-sync (True)",
+        "data_deps_W15_JUDGE_SHARD_6": "None (all deps local now; entry done)",
+        "data_deps_FUND_VALUE_P1_NULLS": "None (data_deps undeclared -> schema-additive no-assertion, runner-side p1c_stock hard gate self-protects)"
+      },
+      "self_assessment_2_retrofit_cost": "低（~3 行编辑·机制零改造）: 现役未声明面=3 条 ready 条目 FUND-VALUE/QUALITY/DIVLOWVOL-P1-NULLS（runner 读 Money02/data/cache/p1c_stock 面·现靠 runner 侧缺席硬闸自保）; data_deps schema + submit --data-deps 通道 r640 已在树·逐条目 append data_deps:[\"Money02/data/cache/p1c_stock\"] 即成; 存量 done 条目 51+ 条零声明需求（runner 已闭·声明无消费面）",
+      "judge_shard_6_disposition": "无需重领: pool 实况 PERPETUAL-N2-W15-JUDGE-SHARD-6 status=done (n2w15judge-6of12 done) -- 数据本地机已在事后烧完; 全 12 judge 分片 done; 车道自决=零动作",
+      "criterion": "下窗起 pool_worker ledger 零 dep-missing/not_in_sync 型快败复发 (guard 在认领前拦·快败行不再产生)"
+    },
+    "D-20261005-08_wrapper_stdout_default_flip": {
+      "ruling": "Step1 grep wrapper 调用点清点 rc=0 时消费 stderr 面 -> Step2 零命中即默认翻 stdout-only (stderr 仅 rc!=0 时附出) + 合流消费面改走显式开关迁移 (非破坏式)",
+      "step1_inventory_one_line": "活跃调用点 3 处 (register_loop/register_dispatcher/register_saturation_engine·全部默认 stdout-only 消费 stdout 行·零 -IncludeStderr·零 rc=0 时消费 stderr 面) = 0 hits; 其余 Invoke-SilentExe 引用全部位于 results/_r* 历史回执件 (immutable evidence) 与文档件 (非活跃机制)",
+      "step2_landed": [
+        "Tools/Invoke-SilentExe.ps1 默认翻: stdout 恒出 + stderr 仅 rc!=0 时附出 (rc=0 porcelain/计数/哈希消费面永不被 warning 行污染=四犯族 r511/r513/r706/r534 根杀; rc!=0 失败诊断不再静默丢弃=旧契约裸 rc1 无回显坑 r330 一并闭)",
+        "新 -StdoutOnly 开关: 任意 rc 纯 stdout (存在性检查 empty-output==not-found R49 正典钉死)",
+        "-IncludeStderr 保留: 任意 rc 合流 (legacy 面·现役零用户·非破坏式)"
+      ],
+      "migration": "3 处 register_*.ps1 存在性检查调用点加 -StdoutOnly (R49 存在性语义在新默认下原样保真·T7 实证)",
+      "verification": {
+        "T1_rc0_stderr_default_stdout_only": "PASS (OUT only, no ERR)",
+        "T2_rc1_stderr_default_appends_stderr": "PASS (OUT+ERR, rc=1)",
+        "T3_rc1_StdoutOnly_pure_stdout": "PASS (OUT only)",
+        "T4_rc0_IncludeStderr_legacy_merge": "PASS (OUT+ERR)",
+        "T5_schtasks_existing_default": "PASS (rows, rc=0)",
+        "T6_schtasks_missing_default_diag": "PASS (stderr shown, rc=1)",
+        "T7_schtasks_missing_StdoutOnly_empty": "PASS (empty output, rc=1 -- existence canon preserved)"
+      },
+      "criterion": "第五犯零发生 (夜轮/patrol 扫描面·10-12 复核行)"
+    }
+  },
+  "d19_watermark": {
+    "consumed_new_rows": "D-20261005-06~11 (commit f0fb6ed 12:04:29)",
+    "last_decisions_sha_new": "d14dcc74872aa5997c1bfc3a02b7871611728a6c766fc2e348dae4a4d5d496ec",
+    "not_our_domain": ["D-20261005-06 receipt-batch18 (our F-20261005-01~03 consumed by group, informational)", "D-20261005-09 BigLife PT-03", "D-20261005-10 orders split-wave", "D-20261005-11 BigDomain legal"]
+  }
+}
