@@ -484,7 +484,19 @@ def main():
     if os.path.exists(OUT):
         try:
             with open(OUT, encoding="utf-8") as f:
-                hist = json.load(f).get("history", [])[-200:]
+                raw_hist = json.load(f).get("history", [])
+            # r717 heal: cross-machine drift once delivered double-encoded entries
+            # (history items as JSON strings). Normalize on read so the rolling
+            # window stays all-dicts; a raw str would crash the sustained-window
+            # check below (prev.get on str) and re-serialize into merged faces.
+            for e in raw_hist[-200:]:
+                if isinstance(e, str):
+                    try:
+                        e = json.loads(e)
+                    except Exception:
+                        continue
+                if isinstance(e, dict) and "ts" in e:
+                    hist.append(e)
         except Exception:
             hist = []
 
