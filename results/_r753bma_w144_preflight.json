@@ -1,0 +1,28 @@
+{
+ "probe": "r753 W144 finalize pre-flight (r708 3-leg, v2 r734 lineage)",
+ "legs": {
+  "leg1": {
+   "shards": "12/12",
+   "reparse": "PASS",
+   "dup": 0,
+   "family_A": 2000,
+   "family_B": 200,
+   "total": 2200,
+   "batch": [
+    "PERPETUAL-N1-W144"
+   ],
+   "j_slice_continuity": "A[0,2000) B[0,200) zero gap/overlap",
+   "band_anchor": "seed bands in frozen WAVE_CONFIGS[144] + prereg ff6d2f918 (runner-side, not shard-side)"
+  },
+  "leg2": {
+   "n1_runner_pids": [],
+   "self_match_excluded": "python.exe filter only"
+  },
+  "leg3": {
+   "seat_commit": "421dfaca7",
+   "seat": "MSG-2026-10-06-011x-bma-w144-seat",
+   "published": "r751 pre-freeze 2ba4a613f (r565 law)"
+  }
+ },
+ "verdict": "GREEN_FINALIZE_READY"
+}
