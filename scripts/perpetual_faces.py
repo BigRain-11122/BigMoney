@@ -3336,6 +3336,34 @@ N1_BANDS = {
     # NOT a re-pick (R250: W140 bands were never assigned).
     140: {"a": (323_004, 325_003), "b_exit": (94_601, 94_800),
          "engine_owner": "bm-a"},
+    # W141 (bm-a r747 freeze, seat MSG-2026-10-05-231x-bma-w141-seat
+    # pushed to origin aaa4d9be8 pre-freeze r565 law (plain
+    # fast-forward delivery, zero race this window, zero
+    # --no-verify);
+    # band gate ADMIT results/_r747bma_w141_band_gate.py: A arithmetic
+    # continuation 325_003+1 -> 325_004..327_003 CLEAN hops=0; B =
+    # FIRST-CLEAN past the own-wave A window (arithmetic continuation
+    # 94_801..95_000 REFUSED by probe seed 95_000; honest forward walk
+    # hops=116 lands 325_004..325_203 inside the W141 A band window;
+    # same-freeze mutual exclusion (leg2 law) -- B continues past the
+    # own-wave A window -> 327_004..327_203 hops=117, non-rotational
+    # r587 forward-monotone walk; B base == own-wave A tail+1);
+    # dual-window derive parity with pre-seat probe
+    # results/_r747bma_w141_probe_receipt.json; scan face =
+    # SEED_REGISTRY 187 int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W142+ projection (gate-derived r747): A first-clean
+    # 327_004..329_003 CLEAN hops=0 / B first-clean 327_204..327_403
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W141 B band will refuse the naive W142 A window;
+    # W142 freezer MUST re-derive on the post-W141 universe AND
+    # reserve the own-wave A window when deriving B (W141 precedent,
+    # same-freeze mutual exclusion, leg2 law; never transcribe r587).
+    # NOT a re-pick (R250: W141 bands were never assigned).
+    141: {"a": (325_004, 327_003), "b_exit": (327_004, 327_203),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
