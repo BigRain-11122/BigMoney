@@ -1,0 +1,21 @@
+{
+ "receipt": "r739 W133 finalize pre-flight (r708 3-leg law, serial run r738 law)",
+ "wave": 133,
+ "ts": "2026-10-05T18:52:23+08:00",
+ "leg1_file_dup": {
+  "status_rc": 0,
+  "ok": true,
+  "shards": "12/12 [0..11]",
+  "finalize_output_exists_pre": false
+ },
+ "leg2_live_process": {
+  "probe": "Win32_Process Name==python.exe AND CommandLine match perpetual_faces_n1 (v2 r734 filter)",
+  "hits": 0
+ },
+ "leg3_seat": {
+  "seat_file": "fleet/inbox/processed/MSG-2026-10-05-1824-bma-w133-seat.md",
+  "in_git": true,
+  "law": "published=reserved r565 law; pre-pushed 2d717cc03 (r738)"
+ },
+ "verdict": "GREEN_FINALIZE_READY"
+}
