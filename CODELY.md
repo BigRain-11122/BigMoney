@@ -2,12 +2,15 @@
 
 
 
+
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
 
 
+
 ### Feedback
+
 
 
 
@@ -32,6 +35,7 @@
 - [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
 
 - [2026-10-05 08:4x r523 bm-c] **S0 churn-absorb add 撞 daemon index.lock × daemon 陈旧 FETCH_HEAD 中途搬 main 坑（add rc128=竞态勿重试环·终点态核验后照常下序）**：S0 轮首脏=4 个 bm-c 车道 daemon 面，churn-absorb 定向 `git add` 撞同窗 daemon 持 index.lock（rc128 静默败→后续 commit rc1 零 staged）；同窗 daemon tick 以其早先 fetch 的陈旧 FETCH_HEAD 把 main FF 至 mid-tip（ff4b2031e≠真 tip 7f6bc285e）——会话侧表现=HEAD 在两次探测间「自行移动」。正法=①add rc128=daemon 竞态非阻塞故障，勿当场重试环，churn 留树 close 吸收（r620 收口范式）②集成目标恒 `git merge origin/main`（本轮 fetch 后真 tip），禁信 mid-state HEAD/FETCH_HEAD；FF 后 rev-list 双向计数+status 终点态核验（本窗 0/0+预期脏集=收敛）再照常下序。How to apply：S0 窗见 add rc128+HEAD 异动=daemon×集成窗常态面（r690/r696 族的 branch-move 新面），终点态定谳后继续轮务勿按中间态重做手术。
+
 
 
 
@@ -122,3 +126,4 @@
 - [2026-10-05 17:2x r737 bm-b] **外层 shell 工具 5min 静默取消×全量重定向=S6 链驱动器中途孤儿杀坑（r733 死会话族的会话环境新根因面·r737 实弹·split-run 断点续跑治愈零产品伤）**：车道会话经 shell 工具直跑 `powershell -File chain.ps1 *> log`（全输出重定向=调用面零 stdout）时，工具 5 分钟无输出即自动取消外层进程，链驱动器子进程被孤儿杀于任意腿中段（本窗腿 32 of 39，腿 01-31 已 rc0 在案）——r733「S6 链死在腿中段」因果链新增非崩溃根因：不是会话死，是工具超时。正法=①长链（>4min）一律 Start-Process -WindowStyle Hidden 分离点火+RedirectStandardOutput 落日志+轮询日志终点标记（本窗 resume 腿 32-39 分离点火 ~80s 收尾实证）；②断点续跑=已完成腿 RC 行日志在案即可续（链各腿幂等面），续跑驱动器头行标 RESUME+轮号诚实披露；③进程活性探针必带 -File/脚本路径精确 pattern 且知探针自匹配（r734 律三连复发实录：pid 每查必变=探针自身新 pid，非链还活着）。How to apply：一切 >=4min 的链/批跑器经 shell 工具点火前先转 Start-Process 分离；见「全量重定向+5min 静默取消」即预期孤儿杀，直接断点续跑勿重跑全链。
  - [2026-10-05 17:5x r560 bm-c] **双 scratch 路径分叉误诊勘误（r559「链血统三连自灭坑」定性翻案·r559 收据叙述面以本条为准）**：bm-c 实存两个 scratch 根——quant 层 K:\Fluxgroup\FluxGroup\quant\.codely-cli\scratch（.ps1 链血统族 r519-r535/r544-r545/r551/r555-r558）与仓内 quant\bigmoney\.codely-cli\scratch（.py 链血统族 r526-r554/r559）——会话按 CWD 相对解析 .codely-cli\scratch 时落根不定；r559 会话（落仓内根）找不到 r556-558 件即立「三连自灭」坑律=**误诊**：实况=quant 层 .ps1 真身在位（CreationTime=round 时点 16:08/16:28/16:39/16:57 铁证·Copy-Item 不保 CreationTime 无法伪造）；r559 链件在仓内在位=其「RETAINED」宣称自其解析根为真、r559 legdiff 收据「r556-558 未存留」叙述面错误（git 史保全不回改·勘误收据 results/_r560bmc_legdiff.txt）。正法四件：①「文件缺席/未存留」定性前必扫两根再下结论②血统/收据一律绝对路径③链血统件双镜像两根落盘（r560 起执行·MD5 恒等断言）④CreationTime=真血统 vs 复制件最强探针。How to apply：见「scratch 文件找不到」先查另一根勿急着立自灭坑律；legdiff/收据 OLD/NEW 锚一律绝对路径。
 - [2026-10-05 18:1x r561 bm-c] **close 脚本 UU 计数按 ls-files -u 行数=stage 行非文件数坑（r713 律行级新变体·fail-fast 零污染当场治愈）**：close 脚本把 `git ls-files -u` 输出按行计数当 UU 面数——每冲突文件输出 3 行（:1:/:2:/:3: 三 stage 各一行），本窗 3 文件 9 行→「UU=9」假数与 diff-filter=U 文件级计数（3）三倍分叉；幸 UU>0 判据两读法同号，fail-fast assert 拦停零污染。正法=文件级计数一律 `set(l.split('\t',1)[1] for l in out.splitlines() if l.strip())` 去重或 `git diff --name-only --diff-filter=U` 交叉（close2 双探针互证实证：stage 行集与 diff-filter=U 文件集同空收敛）。How to apply：一切集成窗 UU 计数/清单消费先问「输出单位=stage 行还是文件」；断言阈值按文件数钉。
+- [2026-10-05 18:2x r739 bm-b] **血统文件先复制后编辑律（r555/r559 存留律执行面近失·当场治愈零残留自证）**：复制上轮 S6 链血统时误对已存留真身（results/_r738bmb_s6_chain.ps1）直接 replace 改轮号——察觉后立即原位回退，git status --porcelain 该件对 HEAD 零差异=零残留实证，再走 Copy-Item→改副本正序+legdiff（r531 律 39 腿逐腿恒等）。Why：replace 顺手改源=上轮执行凭证的可逆性完全押在当场察觉；未察觉即=r559「收据引用对象失真」同族（存留真身被篡改、git 史外的血统证据面损坏）。How to apply：一切 lineage/链/工具血统轮次复制一律先 Copy-Item 再编辑副本；legdiff 时顺带核源文件对 HEAD 恒等（porcelain 该件空行）。| dept:工程 | r739 收口窗（三窗合并 18+18 UU+1 clean 零丢失 + S6 35 腿全 rc0 + trio NULLS V1465/Q1190/D964）
