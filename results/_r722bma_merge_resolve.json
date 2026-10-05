@@ -1,0 +1,85 @@
+{
+  "round": "r722 bm-a",
+  "mode": "merge",
+  "take_ours": [
+    "docs/daily_report/REPORT-2026-10-05.json",
+    "docs/daily_report/REPORT-2026-10-05.md",
+    "docs/live_usage/LIVE-2026-10-05.json",
+    "docs/live_usage/LIVE-2026-10-05.md",
+    "docs/live_usage/LIVE-latest.json",
+    "docs/live_usage/LIVE-latest.md",
+    "results/dashboard_status.json",
+    "results/dashboard_status.js",
+    "results/_attrition_guard_scan.json",
+    "results/daily_scorecard.json",
+    "results/fundamental_b_layer_filter.json",
+    "results/paper/COMPOSITE-CE-01_paper.json",
+    "results/paper/COMPOSITE-CE-02_paper.json",
+    "results/paper/DROUGHT-CE-01_paper.json",
+    "results/paper/ENGULF-CE-01_paper.json",
+    "results/paper/NEEDLE-DE-01_paper.json",
+    "results/paper/VOLATILITY-CE-01_paper.json",
+    "results/paper_export/export-2026-09-30.json",
+    "results/paper_export/latest.json",
+    "results/prospect_paper/_summary.json",
+    "results/prospect_promotion/_summary.json",
+    "results/t35_open_fill_verify.json",
+    "results/token_usage.json"
+  ],
+  "take_theirs": [
+    "results/futures_update_status.json",
+    "results/lhb_update_status.json",
+    "results/regime_state.json",
+    "results/scorecard_v1.json",
+    "results/strategy_scorecard.json",
+    "results/update_status.json"
+  ],
+  "union": {
+    "results/compute_audit.json": {
+      "ours_rows": 201,
+      "theirs_rows": 203,
+      "union_rows": 204
+    },
+    "results/x2_watch_log.jsonl": {
+      "ours_lines": 91,
+      "theirs_lines": 91,
+      "union_lines": 96,
+      "src_unparseable": 0
+    }
+  },
+  "inbox": {
+    "fleet/inbox/MSG-20261005-111x-bma-ALL.md": "rm rc=0",
+    "fleet/inbox/MSG-20261005-113x-bma-ALL.md": "rm rc=0",
+    "fleet/inbox/processed/MSG-20261005-113x-bma-ALL.md": "add rc=0"
+  },
+  "asserts": [
+    "compute_audit union rows=204 >= max side 203: True",
+    "x2_watch union lines=96 >= max side 91: True",
+    "re-read docs/daily_report/REPORT-2026-10-05.json: ts 2026-10-05 11:09:36 == expected 2026-10-05 11:09:36: True",
+    "re-read docs/live_usage/LIVE-2026-10-05.json: ts 2026-10-05T11:09:37 == expected 2026-10-05T11:09:37: True",
+    "re-read docs/live_usage/LIVE-latest.json: ts 2026-10-05T11:09:37 == expected 2026-10-05T11:09:37: True",
+    "re-read results/dashboard_status.json: ts None == expected None: True",
+    "re-read results/_attrition_guard_scan.json: ts 2026-10-05T11:11:59+08:00 == expected 2026-10-05T11:11:59+08:00: True",
+    "re-read results/daily_scorecard.json: ts None == expected None: True",
+    "re-read results/fundamental_b_layer_filter.json: ts 2026-10-05 11:09:12 == expected 2026-10-05 11:09:12: True",
+    "re-read results/paper/COMPOSITE-CE-01_paper.json: ts 2026-10-05 11:09:15 == expected 2026-10-05 11:09:15: True",
+    "re-read results/paper/COMPOSITE-CE-02_paper.json: ts 2026-10-05 11:09:16 == expected 2026-10-05 11:09:16: True",
+    "re-read results/paper/DROUGHT-CE-01_paper.json: ts 2026-10-05 11:09:16 == expected 2026-10-05 11:09:16: True",
+    "re-read results/paper/ENGULF-CE-01_paper.json: ts 2026-10-05 11:09:17 == expected 2026-10-05 11:09:17: True",
+    "re-read results/paper/NEEDLE-DE-01_paper.json: ts 2026-10-05 11:09:17 == expected 2026-10-05 11:09:17: True",
+    "re-read results/paper/VOLATILITY-CE-01_paper.json: ts 2026-10-05 11:09:18 == expected 2026-10-05 11:09:18: True",
+    "re-read results/paper_export/export-2026-09-30.json: ts None == expected None: True",
+    "re-read results/paper_export/latest.json: ts None == expected None: True",
+    "re-read results/prospect_paper/_summary.json: ts 2026-10-05T11:09:19+08:00 == expected 2026-10-05T11:09:19+08:00: True",
+    "re-read results/prospect_promotion/_summary.json: ts 2026-10-05T11:09:25+08:00 == expected 2026-10-05T11:09:25+08:00: True",
+    "re-read results/t35_open_fill_verify.json: ts 2026-10-05 11:09:18 == expected 2026-10-05 11:09:18: True",
+    "re-read results/token_usage.json: ts 2026-10-05 11:09:47 == expected 2026-10-05 11:09:47: True",
+    "re-read results/futures_update_status.json: ts 2026-10-05T11:09:00 == expected 2026-10-05T11:09:00: True",
+    "re-read results/lhb_update_status.json: ts 2026-10-05 11:08:59 == expected 2026-10-05 11:08:59: True",
+    "re-read results/regime_state.json: ts 2026-10-05 11:08:13 == expected 2026-10-05 11:08:13: True",
+    "re-read results/scorecard_v1.json: ts 2026-10-05T11:08:44 == expected 2026-10-05T11:08:44: True",
+    "re-read results/strategy_scorecard.json: ts 2026-10-05T11:08:53 == expected 2026-10-05T11:08:53: True",
+    "re-read results/update_status.json: ts 2026-10-05 11:08:12 == expected 2026-10-05 11:08:12: True",
+    "re-read results/compute_audit.json: ts 2026-10-05 11:08:04 == expected 2026-10-05 11:08:04: True"
+  ]
+}
