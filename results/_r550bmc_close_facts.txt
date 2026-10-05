@@ -1,0 +1,62 @@
+KNOWN_PRODUCTS_STAGED=9
+CLOSE_DIRTY=36
+  FACE Tools/_r550bmc_bookkeeping.py
+  FACE docs/daily_report/REPORT-2026-10-05.json
+  FACE docs/daily_report/REPORT-2026-10-05.md
+  FACE docs/live_usage/LIVE-2026-10-05.json
+  FACE docs/live_usage/LIVE-2026-10-05.md
+  FACE docs/live_usage/LIVE-latest.json
+  FACE docs/live_usage/LIVE-latest.md
+  FACE fleet/inbox/MSG-2026-10-05-1456-bma-w125-seat.md
+  FACE fleet/machines/bm-c.json
+  FACE qa/equity-curve-r550.png
+  FACE qa/smoke-r550.md
+  FACE research/HANDOVER.md
+  FACE results/_attrition_guard_scan.json
+  FACE results/_r550bmc_probe.txt
+  FACE results/_r550bmc_s6_log.txt
+  FACE results/autofill_state.bm-c.json
+  FACE results/compute_audit.bm-c.json
+  FACE results/compute_audit.json
+  FACE results/fund_premium_status.json
+  FACE results/fundamental_b_layer_filter.json
+  FACE results/futures_update_status.bm-c.json
+  FACE results/futures_update_status.json
+  FACE results/lhb_update_status.bm-c.json
+  FACE results/lhb_update_status.json
+  FACE results/pool_dualrun.bm-c.jsonl
+  FACE results/regime_state.bm-c.json
+  FACE results/regime_state.json
+  FACE results/saturation_engine/face_bm-c.json
+  FACE results/saturation_engine_state.bm-c.json
+  FACE results/token_usage.bm-c.json
+  FACE results/token_usage.json
+  FACE results/update_status.bm-c.json
+  FACE results/update_status.json
+  FACE round_reports-bm-c.md
+  FACE state-bm-c.json
+  FACE fleet/inbox/processed/MSG-2026-10-05-1456-bma-w125-seat.md
+STAGED=36
+STAGED==EXPECTED union count OK (36)
+PRODUCT_FACES_STAGED=9/9
+ROUND_COMMIT 3c00d777a roun
+ROUND_SHA 3c00d777ae
+PUSH_VERIFY_1 rc=1
+  {"repo": ".", "remote": "origin", "branch": "main", "push_rc": 1, "push_clean": false, "push_why": "push rc=1", "verdict": "NOT-DELIVERED", "reason": "push rc=1"}
+behind-origin signal -> r524 two-hop: fetch + merge + re-verify
+POS before hop-2 merge = 3/1
+MERGE rc=0
+UU canonical = 0 
+PUSH_VERIFY_2 rc=0
+  {"repo": ".", "remote": "origin", "branch": "main", "push_rc": 0, "push_clean": true, "push_why": "", "tip": "047019fe59bbea766eabf1144b318eb11ce4b9fc", "remote_tip": "047019fe59bbea766eabf1144b318eb11ce4b9fc", "ahead": 0, "behind": 0, "delivered": true, "verdict": "DELIVERED", "reason": ""}
+DELIVERY_PVRC=0 HOPS=2
+FINAL_POS = 0/0
+FINAL_TIP 047019fe59
+LSTREE qa/smoke-r550.md OK 11042df5fc52
+LSTREE qa/equity-curve-r550.png OK c43db03318f8
+LSTREE results/_r550bmc_s6_log.txt OK 5129edb8f475
+LSTREE state-bm-c.json OK 086d57e6c700
+LSTREE round_reports-bm-c.md OK 92ab24eae647
+LSTREE fleet/machines/bm-c.json OK e04bad875a18
+LSTREE research/HANDOVER.md OK ccc3996948d6
+LSTREE_OK=7/7
