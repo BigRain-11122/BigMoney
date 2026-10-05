@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 17:09:52",
+ "generated_at": "2026-10-05 17:21:09",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 970,
-  "result_jsons_landed_24h": 298,
+  "commits_24h": 961,
+  "result_jsons_landed_24h": 291,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 36,
+  "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-10-05 17:01:51",
-   "py_cpu_pct": 85.2,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-05 17:19:44",
+   "py_cpu_pct": 0.0,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -643,11 +645,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1207628,
+  "total_report_tokens_est": 1209632,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 16:24:45",
+   "prev_generated": "2026-10-05 16:41:36",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1428,
+   "report_tokens_growth": 2004,
    "mandate_growth": 0
   },
   "method": {
@@ -720,17 +722,75 @@
     "today_supply_gap_flags": 58
    },
    "bm-b": {
-    "latest_ts": "2026-10-05 17:01:51",
-    "py_pct": 85.2,
-    "cpu_pct": 35.0,
+    "latest_ts": "2026-10-05 16:38:34",
+    "py_pct": 85.8,
+    "cpu_pct": 53.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
      [
+      "15:09",
+      0.0
+     ],
+     [
+      "15:20",
+      0.0
+     ],
+     [
+      "15:20",
+      0.1
+     ],
+     [
       "15:27",
       85.9
      ],
+     [
+      "15:38",
+      0.0
+     ],
+     [
+      "15:41",
+      85.9
+     ],
+     [
+      "15:48",
+      0.1
+     ],
+     [
+      "15:50",
+      5.9
+     ],
+     [
+      "16:09",
+      0.8
+     ],
+     [
+      "16:12",
+      86.0
+     ],
+     [
+      "16:22",
+      0.5
+     ],
+     [
+      "16:38",
+      85.8
+     ]
+    ],
+    "today_samples": 115,
+    "today_floor_ok": 115,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 59
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-05 17:19:44",
+    "py_pct": 0.0,
+    "cpu_pct": 0.0,
+    "ready": 3,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
      [
       "15:38",
       0.0
@@ -772,76 +832,18 @@
       0.8
      ],
      [
-      "17:01",
-      85.2
-     ]
-    ],
-    "today_samples": 118,
-    "today_floor_ok": 118,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 60
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-05 16:39:27",
-    "py_pct": 0.8,
-    "cpu_pct": 4.0,
-    "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
-    "py_series_tail": [
-     [
-      "15:20",
-      0.0
-     ],
-     [
-      "15:20",
+      "16:58",
       0.1
      ],
      [
-      "15:27",
-      85.9
-     ],
-     [
-      "15:38",
+      "17:19",
       0.0
-     ],
-     [
-      "15:41",
-      85.9
-     ],
-     [
-      "15:48",
-      0.1
-     ],
-     [
-      "15:50",
-      5.9
-     ],
-     [
-      "16:09",
-      0.8
-     ],
-     [
-      "16:12",
-      86.0
-     ],
-     [
-      "16:22",
-      0.5
-     ],
-     [
-      "16:29",
-      0.7
-     ],
-     [
-      "16:39",
-      0.8
      ]
     ],
-    "today_samples": 116,
-    "today_floor_ok": 116,
+    "today_samples": 119,
+    "today_floor_ok": 119,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 60
+    "today_supply_gap_flags": 61
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -851,14 +853,14 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 128,
-    "core_seconds": 22366.4,
-    "wall_seconds": 2929.3,
-    "effective_cores": 7.64,
+    "batches_judged": 136,
+    "core_seconds": 23946.4,
+    "wall_seconds": 3050.1,
+    "effective_cores": 7.85,
     "single_core_burn": 13,
-    "multicore_burn": 115,
+    "multicore_burn": 123,
     "too_short": 0,
-    "last_ts": "2026-10-05T16:38:19+08:00",
+    "last_ts": "2026-10-05T16:46:19+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -878,8 +880,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 16,
-     "audit_ts": "2026-10-05 17:01:51"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 16:38:34"
     }
    },
    "bm-c": {
@@ -894,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 24,
-     "audit_ts": "2026-10-05 16:39:27"
+     "audit_batches": 17,
+     "audit_ts": "2026-10-05 17:19:44"
     }
    }
   },
@@ -903,32 +905,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 129,
+  "last_registered": 130,
   "last_owner": "bm-a",
-  "next_registration": 130,
-  "next_seatable": 130,
-  "chain_head": 677611,
-  "k": 279520,
+  "next_registration": 131,
+  "next_seatable": 131,
+  "chain_head": 679811,
+  "k": 281720,
   "waves": [
-   {
-    "wave": 127,
-    "owner": "bm-a",
-    "a": [
-     297004,
-     299003
-    ],
-    "b_exit": [
-     67601,
-     67800
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 675411,
-    "merged_mu": -0.09280469133131401,
-    "merged_sigma": 0.24484312070220346,
-    "k": 277320
-   },
    {
     "wave": 128,
     "owner": "bm-a",
@@ -959,8 +942,27 @@
      68201,
      68400
     ],
-    "shards_done": 4,
+    "shards_done": 12,
     "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 679811,
+    "merged_mu": -0.0927158827914241,
+    "merged_sigma": 0.24491799569831266,
+    "k": 281720
+   },
+   {
+    "wave": 130,
+    "owner": "bm-a",
+    "a": [
+     303004,
+     305003
+    ],
+    "b_exit": [
+     68502,
+     68701
+    ],
+    "shards_done": null,
+    "shards_total": null,
     "finalize_landed": false
    }
   ],

@@ -15,6 +15,10 @@ def git_out(*args):
                           creationflags=0x08000000)
 
 MERGE_TIP = git_out('rev-parse', 'MERGE_HEAD').stdout.decode('utf-8').strip()
+# r713 law: face list per live diff-filter=U authoritative; non-UU faces skipped (round-2 window reuse)
+UU = set(git_out('diff', '--name-only', '--diff-filter=U').stdout.decode('utf-8').split())
+if not UU:
+    sys.exit('no UU faces (merge already clean?)')
 
 def side(stage, path):
     r = git_out('show', ':%d:%s' % (stage, path))
@@ -98,7 +102,7 @@ def readback_assert(path, raw):
     assert rb.replace(b'\r\n', b'\n') == raw.replace(b'\r\n', b'\n'), 'readback != stage blob: %s' % path
 
 # ---- 1) snapshot faces: embedded-ts newer-wins; deep-ts audit fallback (r516-1)
-for p in SNAPSHOTS:
+for p in [x for x in SNAPSHOTS if x in UU]:
     o_raw, t_raw = side(2, p), side(3, p)
     if t_raw is None and o_raw is None:
         sys.exit('both sides missing for %s (not a UU face?)' % p)
@@ -129,6 +133,7 @@ for p in SNAPSHOTS:
 
 # ---- 2) token_usage: machines per-key max-union (r456 lineage) + newer top-level
 p = TOKEN
+assert p in UU, 'token face expected in UU set'
 o_raw, t_raw = side(2, p), side(3, p)
 o = json.loads(o_raw.decode('utf-8')); t = json.loads(t_raw.decode('utf-8'))
 om, tm = o.get('machines') or {}, t.get('machines') or {}
@@ -160,13 +165,13 @@ decisions[p] = ('per-key-union', 'machines max-union picked_theirs=%d top ours=%
 receipt['faces'][p] = {'action': 'per-key-union', 'picked_theirs': picked}
 
 # ---- 3) md/js twins follow their json twin (r708/r510 twin same-side law)
-for p, twin in MD_TWINS.items():
+for p, twin in [(k, v) for k, v in MD_TWINS.items() if k in UU]:
     s, why = decisions[twin]
     raw = side(2 if s == 'ours' else 3, p)
     write_bytes(p, raw); readback_assert(p, raw)
     decisions[p] = (s, 'md-twin of %s (%s)' % (twin, why))
     receipt['faces'][p] = {'action': s, 'why': decisions[p][1]}
-for p, twin in (JS_TWIN,):
+for p, twin in [t for t in (JS_TWIN,) if t[0] in UU]:
     s, why = decisions[twin]
     raw = side(2 if s == 'ours' else 3, p)
     write_bytes(p, raw); readback_assert(p, raw)
@@ -174,7 +179,7 @@ for p, twin in (JS_TWIN,):
     receipt['faces'][p] = {'action': s, 'why': decisions[p][1]}
 
 # ---- 4) rolling-ledger unions (r188/R208: history union + ts-newer base, r709/r729 law)
-for p, keys in UNION_LEDGERS.items():
+for p, keys in [(k, v) for k, v in UNION_LEDGERS.items() if k in UU]:
     o = json.loads(side(2, p).decode('utf-8'))
     t = json.loads(side(3, p).decode('utf-8'))
     oo, tt = probe_ts(o), probe_ts(t)
@@ -197,114 +202,115 @@ for p, keys in UNION_LEDGERS.items():
 
 # ---- 5) CODELY.md per-section block-union (r706 lstrip-bullet law + fusion probe)
 p = CODELY
-o_txt = side(2, p).decode('utf-8')
-t_txt = side(3, p).decode('utf-8')
-def split_sections(txt):
-    lines = txt.splitlines()
-    pre, secs, cur_title, cur = [], [], None, []
-    for l in lines:
-        if l.startswith('### '):
-            if cur_title is not None:
-                secs.append((cur_title, cur))
-            cur_title = l; cur = []
-        elif cur_title is None:
-            pre.append(l)
-        else:
-            cur.append(l)
-    if cur_title is not None:
-        secs.append((cur_title, cur))
-    return pre, secs
-def split_entries(lines):
-    ents, cur = [], []
-    for l in lines:
-        if l.lstrip().startswith('- ['):
-            if cur:
-                ents.append(cur)
-            cur = [l]
-        elif cur:
-            cur.append(l)
-        else:
-            cur = ['<PRE>%s' % l]
-    if cur:
-        ents.append(cur)
-    return ents
-def ekey(ent):
-    return ent[0].lstrip()
-pre_o, secs_o = split_sections(o_txt)
-pre_t, secs_t = split_sections(t_txt)
-result_secs = []
-codely_receipt = {'ours_sections': [t for t, _ in secs_o], 'theirs_sections': [t for t, _ in secs_t], 'appended': [], 'shared_diff': []}
-for title, tbody in secs_t:
-    o_body = None
-    for t2, b2 in secs_o:
-        if t2 == title:
-            o_body = b2; break
-    if o_body is None:
-        result_secs.append((title, tbody))
-        codely_receipt['appended'].append(('theirs-only-section', title))
-        continue
-    t_ents = split_entries(tbody)
-    o_ents = split_entries(o_body)
-    t_keys = {}
-    for e in t_ents:
-        k = ekey(e)
-        assert k not in t_keys, 'dup key theirs %s' % k[:60]
-        t_keys[k] = e
-    out_ents = list(t_ents)
-    for e in o_ents:
-        k = ekey(e)
-        if k.startswith('<PRE>'):
-            continue
-        if k in t_keys:
-            if e != t_keys[k]:
-                keep, drop = (e, t_keys[k]) if len('\n'.join(e)) >= len('\n'.join(t_keys[k])) else (t_keys[k], e)
-                codely_receipt['shared_diff'].append({'key': k[:80], 'kept': 'ours' if keep is e else 'theirs',
-                                                      'ours_len': len('\n'.join(e)), 'theirs_len': len('\n'.join(t_keys[k]))})
-                if keep is e:
-                    idx = out_ents.index(t_keys[k])
-                    out_ents[idx] = e
-            continue
-        out_ents.append(e)
-        codely_receipt['appended'].append(('ours-entry', k[:80]))
-    body_lines = []
-    for e in out_ents:
-        for l in e:
-            if l.startswith('<PRE>'):
-                body_lines.append(l[5:])
+if p in UU:
+    o_txt = side(2, p).decode('utf-8')
+    t_txt = side(3, p).decode('utf-8')
+    def split_sections(txt):
+        lines = txt.splitlines()
+        pre, secs, cur_title, cur = [], [], None, []
+        for l in lines:
+            if l.startswith('### '):
+                if cur_title is not None:
+                    secs.append((cur_title, cur))
+                cur_title = l; cur = []
+            elif cur_title is None:
+                pre.append(l)
             else:
-                body_lines.append(l)
-    result_secs.append((title, body_lines))
-o_titles = {t for t, _ in secs_o}
-for title, body in secs_o:
-    if title not in {t for t, _ in secs_t}:
-        result_secs.append((title, body))
-        codely_receipt['appended'].append(('ours-only-section', title))
-out_txt = '\n'.join(pre_t if pre_t else pre_o) + '\n'
-for title, body in result_secs:
-    out_txt += '\n' + title + '\n'
-    if body:
-        out_txt += '\n'.join(body) + '\n'
-res_keys = set()
-_, res_secs_final = split_sections(out_txt)
-for title, body in res_secs_final:
-    for e in split_entries(body):
-        k = ekey(e)
-        if not k.startswith('<PRE>'):
-            res_keys.add(k)
-for title, body in secs_o:
-    for e in split_entries(body):
-        k = ekey(e)
-        if not k.startswith('<PRE>'):
-            assert k in res_keys, 'CODELY zero-loss violated: %s' % k[:60]
-for title, body in secs_t:
-    for e in split_entries(body):
-        k = ekey(e)
-        if not k.startswith('<PRE>'):
-            assert k in res_keys, 'CODELY zero-loss violated (theirs): %s' % k[:60]
-write_bytes(p, out_txt.encode('utf-8'))
-decisions[p] = ('block-union', 'per-section union; appended=%d shared_diff=%d' % (
-    len(codely_receipt['appended']), len(codely_receipt['shared_diff'])))
-receipt['faces'][p] = {'action': 'block-union', 'codely': codely_receipt}
+                cur.append(l)
+        if cur_title is not None:
+            secs.append((cur_title, cur))
+        return pre, secs
+    def split_entries(lines):
+        ents, cur = [], []
+        for l in lines:
+            if l.lstrip().startswith('- ['):
+                if cur:
+                    ents.append(cur)
+                cur = [l]
+            elif cur:
+                cur.append(l)
+            else:
+                cur = ['<PRE>%s' % l]
+        if cur:
+            ents.append(cur)
+        return ents
+    def ekey(ent):
+        return ent[0].lstrip()
+    pre_o, secs_o = split_sections(o_txt)
+    pre_t, secs_t = split_sections(t_txt)
+    result_secs = []
+    codely_receipt = {'ours_sections': [t for t, _ in secs_o], 'theirs_sections': [t for t, _ in secs_t], 'appended': [], 'shared_diff': []}
+    for title, tbody in secs_t:
+        o_body = None
+        for t2, b2 in secs_o:
+            if t2 == title:
+                o_body = b2; break
+        if o_body is None:
+            result_secs.append((title, tbody))
+            codely_receipt['appended'].append(('theirs-only-section', title))
+            continue
+        t_ents = split_entries(tbody)
+        o_ents = split_entries(o_body)
+        t_keys = {}
+        for e in t_ents:
+            k = ekey(e)
+            assert k not in t_keys, 'dup key theirs %s' % k[:60]
+            t_keys[k] = e
+        out_ents = list(t_ents)
+        for e in o_ents:
+            k = ekey(e)
+            if k.startswith('<PRE>'):
+                continue
+            if k in t_keys:
+                if e != t_keys[k]:
+                    keep, drop = (e, t_keys[k]) if len('\n'.join(e)) >= len('\n'.join(t_keys[k])) else (t_keys[k], e)
+                    codely_receipt['shared_diff'].append({'key': k[:80], 'kept': 'ours' if keep is e else 'theirs',
+                                                          'ours_len': len('\n'.join(e)), 'theirs_len': len('\n'.join(t_keys[k]))})
+                    if keep is e:
+                        idx = out_ents.index(t_keys[k])
+                        out_ents[idx] = e
+                continue
+            out_ents.append(e)
+            codely_receipt['appended'].append(('ours-entry', k[:80]))
+        body_lines = []
+        for e in out_ents:
+            for l in e:
+                if l.startswith('<PRE>'):
+                    body_lines.append(l[5:])
+                else:
+                    body_lines.append(l)
+        result_secs.append((title, body_lines))
+    o_titles = {t for t, _ in secs_o}
+    for title, body in secs_o:
+        if title not in {t for t, _ in secs_t}:
+            result_secs.append((title, body))
+            codely_receipt['appended'].append(('ours-only-section', title))
+    out_txt = '\n'.join(pre_t if pre_t else pre_o) + '\n'
+    for title, body in result_secs:
+        out_txt += '\n' + title + '\n'
+        if body:
+            out_txt += '\n'.join(body) + '\n'
+    res_keys = set()
+    _, res_secs_final = split_sections(out_txt)
+    for title, body in res_secs_final:
+        for e in split_entries(body):
+            k = ekey(e)
+            if not k.startswith('<PRE>'):
+                res_keys.add(k)
+    for title, body in secs_o:
+        for e in split_entries(body):
+            k = ekey(e)
+            if not k.startswith('<PRE>'):
+                assert k in res_keys, 'CODELY zero-loss violated: %s' % k[:60]
+    for title, body in secs_t:
+        for e in split_entries(body):
+            k = ekey(e)
+            if not k.startswith('<PRE>'):
+                assert k in res_keys, 'CODELY zero-loss violated (theirs): %s' % k[:60]
+    write_bytes(p, out_txt.encode('utf-8'))
+    decisions[p] = ('block-union', 'per-section union; appended=%d shared_diff=%d' % (
+        len(codely_receipt['appended']), len(codely_receipt['shared_diff'])))
+    receipt['faces'][p] = {'action': 'block-union', 'codely': codely_receipt}
 
 # ---- 6) read-back marker scan (r506 residual law) + twin coherence
 ALL = SNAPSHOTS + [TOKEN] + list(MD_TWINS) + [JS_TWIN[0]] + list(UNION_LEDGERS) + [CODELY]
