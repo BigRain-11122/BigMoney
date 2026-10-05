@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 17:37:54",
+ "generated_at": "2026-10-05 17:42:56",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -302,16 +302,14 @@
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 38,
   "compute_audit_latest": {
-   "ts": "2026-10-05 17:36:12",
-   "py_cpu_pct": 37.0,
+   "ts": "2026-10-05 17:41:06",
+   "py_cpu_pct": 0.9,
    "flags": [
-    "cap_violation",
-    "gpu_unauthorized",
     "supply_gap"
    ],
-   "verdict": "FLAG:cap_violation,gpu_unauthorized,supply_gap"
+   "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -662,13 +660,29 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 17:36:12",
-    "py_pct": 37.0,
-    "cpu_pct": 100.0,
+    "latest_ts": "2026-10-05 17:05:41",
+    "py_pct": 0.4,
+    "cpu_pct": 0.0,
     "ready": 3,
-    "streak_min": 16.5,
-    "verdict": "FLAG:cap_violation,gpu_unauthorized,supply_gap",
+    "streak_min": null,
+    "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
+     [
+      "15:27",
+      85.9
+     ],
+     [
+      "15:38",
+      0.0
+     ],
+     [
+      "15:41",
+      85.9
+     ],
+     [
+      "15:48",
+      0.1
+     ],
      [
       "15:50",
       5.9
@@ -698,30 +712,14 @@
       0.8
      ],
      [
-      "16:58",
-      0.1
-     ],
-     [
-      "17:01",
-      85.2
-     ],
-     [
       "17:05",
       0.4
-     ],
-     [
-      "17:19",
-      0.0
-     ],
-     [
-      "17:36",
-      37.0
      ]
     ],
-    "today_samples": 122,
-    "today_floor_ok": 122,
+    "today_samples": 118,
+    "today_floor_ok": 118,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 62
+    "today_supply_gap_flags": 60
    },
    "bm-b": {
     "latest_ts": "2026-10-05 17:01:51",
@@ -786,25 +784,13 @@
     "today_supply_gap_flags": 60
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 17:19:44",
-    "py_pct": 0.0,
-    "cpu_pct": 0.0,
+    "latest_ts": "2026-10-05 17:41:06",
+    "py_pct": 0.9,
+    "cpu_pct": 6.0,
     "ready": 3,
-    "streak_min": 0.0,
+    "streak_min": 21.4,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "15:38",
-      0.0
-     ],
-     [
-      "15:41",
-      85.9
-     ],
-     [
-      "15:48",
-      0.1
-     ],
      [
       "15:50",
       5.9
@@ -838,14 +824,26 @@
       0.1
      ],
      [
+      "17:01",
+      85.2
+     ],
+     [
+      "17:05",
+      0.4
+     ],
+     [
       "17:19",
       0.0
+     ],
+     [
+      "17:41",
+      0.9
      ]
     ],
-    "today_samples": 119,
-    "today_floor_ok": 119,
+    "today_samples": 122,
+    "today_floor_ok": 122,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 61
+    "today_supply_gap_flags": 62
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -855,19 +853,19 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 153,
-    "core_seconds": 27217.3,
-    "wall_seconds": 3307.4,
-    "effective_cores": 8.23,
+    "batches_judged": 150,
+    "core_seconds": 26639.8,
+    "wall_seconds": 3262.0,
+    "effective_cores": 8.17,
     "single_core_burn": 13,
-    "multicore_burn": 140,
+    "multicore_burn": 137,
     "too_short": 0,
-    "last_ts": "2026-10-05T17:37:20+08:00",
+    "last_ts": "2026-10-05T17:34:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 26,
-     "audit_ts": "2026-10-05 17:36:12"
+     "audit_batches": 27,
+     "audit_ts": "2026-10-05 17:05:41"
     }
    },
    "bm-b": {
@@ -898,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 17,
-     "audit_ts": "2026-10-05 17:19:44"
+     "audit_batches": 20,
+     "audit_ts": "2026-10-05 17:41:06"
     }
    }
   },
@@ -963,7 +961,7 @@
      68702,
      68901
     ],
-    "shards_done": 5,
+    "shards_done": 2,
     "shards_total": 12,
     "finalize_landed": false
    }
