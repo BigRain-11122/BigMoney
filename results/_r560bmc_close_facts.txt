@@ -1,0 +1,40 @@
+{
+ "round": 560,
+ "machine": "bm-c",
+ "closed_at": "2026-10-05T17:48:58+08:00",
+ "round_commit": "65dbcdb4c",
+ "round_commit_faces": 54,
+ "push1_rc": 1,
+ "push1_behind": 2,
+ "push1_wave": "bm-b r736 close (S6 17:36-38 regen faces)",
+ "merge_commit": "1236f3160",
+ "uu_true_count": 18,
+ "uu_probe": "git ls-files -u (r713 law)",
+ "resolver_receipt": "results/_r560bmc_merge_resolve.json",
+ "push2_rc": 0,
+ "delivery_ahead_behind": [
+  0,
+  0
+ ],
+ "orders_diff_rc": [
+  0,
+  0
+ ],
+ "orders_acked": "154/154 x2 (round-start + close double-scan)",
+ "d19_decisions": "D14DCC74 MATCH (SHA-256 raw-blob)",
+ "group_orders": "3BF0F16E MATCH (SHA-1 r537 pin)",
+ "smoke": "48/48",
+ "qa_pack": "qa/smoke-r560.md 5/5 + equity-curve-r560.png (33rd consecutive determinism evidence)",
+ "s6_chain": "38/38 rc0 first-pass zero-heal 20th consecutive; log results/_r560bmc_s6_log.txt",
+ "legdiff": "v5 PASS results/_r560bmc_legdiff.txt (G1 38-legs vs r559 true file + G3 + G4 38/38 + corrective disclosure)",
+ "discovery_correction": "dual-scratch path divergence: r559 'self-destruct' claim overturned; r556-558 .ps1 alive in quant-level scratch; r560 chain dual-mirrored both roots",
+ "handover_5x": "r560 row appended (window r556-560; unified ledger 682,011 live-read)",
+ "task_family": "6/6 via CSV (IntradayMarks golden-week closure-legal, G3 10-09)",
+ "loop_pin": "5 phase-ok no-op",
+ "watchdog": "registered -Force idempotent",
+ "claws": "pre-commit + pre-push LF-normalized IN-PLACE",
+ "attrition": "4 ledgers CLEAN (healed rows historical)",
+ "inbox": "1->0 (W131 seat msg bm-a informational, archived processed)",
+ "bookkeeping_budget": "4/5 (state+heartbeat+RR row+CODELY correction pit; HANDOVER 5x mandated audit)",
+ "next_seat_window": "10-06 00:00 D-20261002-05 pin selftest (first round at/after midnight)"
+}
