@@ -3689,6 +3689,43 @@ N1_BANDS = {
     # NOT a re-pick (R250: W150 bands were never assigned).
     150: {"a": (344_804, 346_803), "b_exit": (346_804, 347_003),
          "engine_owner": "bm-a"},
+    # W151 (bm-a r763 freeze, seat MSG-2026-10-06-075x-bma-w151-seat
+    # pushed to origin f8e1306c8 pre-freeze r565 law (r763 pre-seat
+    # push; same-window self-ack inbox->processed move 351170f89 r763;
+    # payload = seat MSG + pre-seat probe + probe receipt + W150
+    # finalize products; deletion-set EMPTY);
+    # band gate ADMIT results/_r763bma_w151_band_gate.py: A = FIRST-CLEAN
+    # past the registered W150 B band (arithmetic continuation
+    # 346_804..348_803 REFUSED at its own start by the W150 B band
+    # 346_804..347_003, exactly as the W150 seat leg4 + r762 gate leg3
+    # projections both anticipated; honest forward walk hops=1 ->
+    # 347_004..349_003, non-rotational r587 forward-monotone walk;
+    # A base == prior-wave B tail+1 (347_003+1) machine-checkable --
+    # A-hops-prior-B staircase tenth instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 347_004..347_203 CLEAN on the registered universe
+    # but lands INSIDE the W151 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 349_004 -> 349_004..349_203,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (349_003+1) machine-checkable);
+    # dual-window derive parity with pre-seat probe
+    # results/_r763bma_w151_probe_receipt.json; scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W152+ projection (gate-derived r763): A first-clean
+    # 349_004..351_003 CLEAN hops=0 / B first-clean 349_204..349_403
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W151 B band 349_004..349_203 will refuse the naive
+    # W152 A window; W152 freezer MUST re-derive on the post-W151
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W151 bands were never assigned).
+    151: {"a": (347_004, 349_003), "b_exit": (349_004, 349_203),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
