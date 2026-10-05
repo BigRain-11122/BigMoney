@@ -1883,6 +1883,20 @@ SEED_REGISTRY = {
     "theme_persist_p1_nulls": 20_580_000,  # T-2026-10-04-165 THEME-PERSIST-P1 R4 persistence-gate permutation (K=2000) + mechanical wave-ride random-ignition nulls (K=200) (rng([20580000, k]) substream law; 2026-10-04 bm-a r657 freeze-window registration, band [20580000,20582200) disjoint, net gap 10000 above mon-p2 base 20570000, collision scan zero hit)
     "theme_judge_p1_nulls": 20_585_000,  # T-2026-10-04-167 THEME-JUDGE-P1 judged wave-ride random-ignition nulls, 4 families (strata {FULL,SOLO} x cost {x1,x2}, K=2000 each, rng([20585000, k]) substream law; 2026-10-04 bm-a r667 freeze-window registration, band [20585000,20587000) disjoint, net gap 2800 above theme_persist band end 20582200, collision scan zero hit -- probe r667)
     "theme_judge_p2_nulls": 20_589_000,  # T-2026-10-04-169 THEME-JUDGE-P2 deep-break (bl=0.75) redirect judged random-ignition nulls, 4 families (strata {FULL,SOLO} x cost {x1,x2}, K=2000 each, rng([20589000, k]) substream law; 2026-10-04 bm-a r676 freeze-window registration, band [20589000,20591000) disjoint, net gap 2000 above theme_judge_p1 band end 20587000, full-registry collision scan zero hit -- receipt results/theme_judge_p2_seed_band_receipt.json)
+        # TRIAL_LABOR_W16 band pick 2026-10-05 bm-a r721 freeze window
+        # (E10 band-level disjoint law, dual catch-back same window:
+        # natural +500 above then-max 20337500 -> 20338000/20338500/20339000
+        # REFUSED inside stock_face_furnace band [20333000,20445400);
+        # second pick 20590000-band REFUSED inside theme_judge_p2 band
+        # [20589000,20591000); final 20593000/20593500/20594000 ALL GREEN:
+        # full-registry base+annotated-band open-interval assert zero-hit,
+        # family band [20593000,20596000) incl. scrnull rng([20593500,i])
+        # i<200 + unc rng([20594000,cell_idx]) derived extents, gap 2000
+        # above theme_judge_p2 band end 20591000, rg repo-scan zero hit,
+        # three-key first-element distinct; prereg research/TRIAL_LABOR_W16_PREREG.md)
+    "trial_labor_w16_gen": 20_593_000,  # W16 Sobol generation base (20-tuple axis grid 6,772,211,712 combos; raw 10,000)
+    "trial_labor_w16_scrnull": 20_593_500,  # s2 screen K=200 same-structure random-signal nulls (rng([20593500, i]), i<200) per BACKTEST_PLAN three-iron-laws (max/rank gate legs merged into same-grid same-param-space draw)
+    "trial_labor_w16_unc": 20_594_000,  # W16 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip) (rng([20594000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
         # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
