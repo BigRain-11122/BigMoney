@@ -1,7 +1,7 @@
-# r733 bm-a merge resolver (vs origin race wave, MERGE_MODE stage: 2=ours 3=theirs)
-# 16 UU faces = 9 snapshot json + 3 md twins + 1 js twin + 2 rolling ledgers + token.
+# r733 bm-a merge resolver HOP-2 (vs bm-c r554 wave, MERGE_MODE stage: 2=ours 3=theirs)
+# 18 UU faces = 11 snapshot json + 3 md twins + 1 js twin + 2 rolling ledgers + token.
 # Bloodline: r734 bm-b _r734bmb_merge_resolve_w2.py verbatim + face-list extension
-#            (dashboard_status twins + 4 gate status faces); face list = diff-filter=U authoritative (r713 law).
+#            (dashboard_status twins + gate status faces + scorecard twins); face list = diff-filter=U authoritative (r713 law).
 # Canon: r709/r711 ts-newer-wins, r708 twin same-side (md+js), r729 rolling union,
 #        r715/r522 token per-key max-union, r515 stage-source, r704 readback, r706 marker scan.
 import json, subprocess, sys, os, re
@@ -68,6 +68,8 @@ SNAPSHOTS = [
     'results/lhb_update_status.json',
     'results/update_status.json',
     'results/fundamental_b_layer_filter.json',
+    'results/scorecard_v1.json',
+    'results/strategy_scorecard.json',
 ]
 TOKEN = 'results/token_usage.json'
 MD_TWINS = {
@@ -83,7 +85,7 @@ UNION_LEDGERS = {
     'results/regime_state.json': ['history', 'transitions'],
 }
 
-receipt = {'round': 'r733 bm-a S0 merge window', 'merge_head': MERGE_TIP,
+receipt = {'round': 'r733 bm-a S0 merge hop-2', 'merge_head': MERGE_TIP,
            'faces': {}, 'decisions': {}}
 decisions = {}
 
@@ -194,7 +196,7 @@ for p in ALL:
     assert not re.search(rb'(^|\n)>{7}( |$)', raw), 'marker left in %s' % p
 receipt['decisions'] = {k: v[0] + ' | ' + v[1] for k, v in decisions.items()}
 receipt['resolved_n'] = len(decisions)
-open(os.path.join(ROOT, 'results', '_r733bma_merge_resolve.json'), 'w', encoding='utf-8', newline='\n').write(
+open(os.path.join(ROOT, 'results', '_r733bma_merge_resolve_hop2.json'), 'w', encoding='utf-8', newline='\n').write(
     json.dumps(receipt, ensure_ascii=False, indent=1) + '\n')
 print('RESOLVED %d faces (MERGE_HEAD=%s)' % (len(decisions), MERGE_TIP[:9]))
 for k, v in sorted(decisions.items()):

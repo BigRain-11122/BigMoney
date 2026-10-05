@@ -1,0 +1,15 @@
+r553 bm-c close-script unpack fix note (fixmsg, r552 lineage form):
+git() return-arity drift: r552 lineage git() = 2-tuple (rc, out); r553 rewrite
+made it 3-tuple (rc, out, err); carried call sites `rc_head, head = git(...)`
+/ `rc_rmt, rmt = git(...)` not updated -> ValueError at the rev-parse step,
+AFTER push#2 had already delivered (zero origin harm, zero data harm; only
+close_facts / ls-tree terminal probe / second orders scan were pending).
+Fix: in-place edit of Tools/_r553bmc_close.py (rc_head, head, _ = git(...));
+receipts completed by Tools/_r553bmc_close_recovery.py with measured values
+only (POS recheck 0/0 tip 171dd3e43, LSTREE 11/11, orders rescan 154/154
+unacked 0). New pit law appended to CODELY.md (lineage copy must verify
+helper return-arity across ALL call sites + dry-run smoke before run; see
+"crashed after push" -> verify delivery state first, never blind re-push).
+Tail faces (this note + fixed close script + recovery script + closerow +
+close_facts + CODELY line + RR close row + inbox move) = r554 churn-absorb
+intake per r714 law.
