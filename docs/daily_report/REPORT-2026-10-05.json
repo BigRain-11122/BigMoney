@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 22:21:20",
+ "generated_at": "2026-10-05 22:29:26",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -298,14 +298,16 @@
  },
  "rd": {
   "commits_24h": 958,
-  "result_jsons_landed_24h": 307,
+  "result_jsons_landed_24h": 309,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 47,
   "compute_audit_latest": {
-   "ts": "2026-10-05 22:19:51",
-   "py_cpu_pct": 0.0,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-05 22:27:59",
+   "py_cpu_pct": 0.2,
+   "flags": [
+    "gpu_unauthorized"
+   ],
+   "verdict": "FLAG:gpu_unauthorized"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -658,37 +660,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 21:30:41",
-    "py_pct": 0.1,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-05 22:27:59",
+    "py_pct": 0.2,
+    "cpu_pct": 22.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
-     [
-      "19:58",
-      0.8
-     ],
-     [
-      "20:01",
-      0.5
-     ],
-     [
-      "20:14",
-      84.6
-     ],
-     [
-      "20:18",
-      0.5
-     ],
-     [
-      "20:35",
-      47.4
-     ],
-     [
-      "20:39",
-      0.6
-     ],
      [
       "20:42",
       86.0
@@ -712,12 +690,36 @@
      [
       "21:30",
       0.1
+     ],
+     [
+      "21:39",
+      0.8
+     ],
+     [
+      "21:51",
+      100.0
+     ],
+     [
+      "21:59",
+      0.0
+     ],
+     [
+      "22:03",
+      0.4
+     ],
+     [
+      "22:06",
+      86.2
+     ],
+     [
+      "22:27",
+      0.2
      ]
     ],
-    "today_samples": 153,
-    "today_floor_ok": 153,
+    "today_samples": 159,
+    "today_floor_ok": 159,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 76
+    "today_supply_gap_flags": 78
    },
    "bm-b": {
     "latest_ts": "2026-10-05 22:06:37",
@@ -782,13 +784,25 @@
     "today_supply_gap_flags": 76
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 22:19:51",
+    "latest_ts": "2026-10-05 21:59:27",
     "py_pct": 0.0,
-    "cpu_pct": 11.0,
+    "cpu_pct": 6.0,
     "ready": 3,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
+     [
+      "20:14",
+      84.6
+     ],
+     [
+      "20:18",
+      0.5
+     ],
+     [
+      "20:35",
+      47.4
+     ],
      [
       "20:39",
       0.6
@@ -822,24 +836,12 @@
       0.8
      ],
      [
-      "21:51",
-      100.0
-     ],
-     [
       "21:59",
-      0.0
-     ],
-     [
-      "22:06",
-      86.2
-     ],
-     [
-      "22:19",
       0.0
      ]
     ],
-    "today_samples": 158,
-    "today_floor_ok": 158,
+    "today_samples": 155,
+    "today_floor_ok": 155,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 77
    }
@@ -851,19 +853,19 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 256,
-    "core_seconds": 47573.0,
-    "wall_seconds": 4870.7,
-    "effective_cores": 9.77,
+    "batches_judged": 268,
+    "core_seconds": 49963.7,
+    "wall_seconds": 5052.5,
+    "effective_cores": 9.89,
     "single_core_burn": 13,
-    "multicore_burn": 243,
+    "multicore_burn": 255,
     "too_short": 0,
-    "last_ts": "2026-10-05T21:40:19+08:00",
+    "last_ts": "2026-10-05T22:11:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 26,
-     "audit_ts": "2026-10-05 21:30:41"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 22:27:59"
     }
    },
    "bm-b": {
@@ -894,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-05 22:19:51"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 21:59:27"
     }
    }
   },
@@ -907,8 +909,8 @@
   "last_owner": "bm-a",
   "next_registration": 141,
   "next_seatable": 141,
-  "chain_head": 701811,
-  "k": 303720,
+  "chain_head": 704011,
+  "k": 305920,
   "waves": [
    {
     "wave": 138,
@@ -959,9 +961,13 @@
      94601,
      94800
     ],
-    "shards_done": null,
-    "shards_total": null,
-    "finalize_landed": false
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 704011,
+    "merged_mu": -0.09277370750523013,
+    "merged_sigma": 0.2449038988632238,
+    "k": 305920
    }
   ],
   "seats": []
