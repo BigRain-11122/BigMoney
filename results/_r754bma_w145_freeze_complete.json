@@ -1,0 +1,35 @@
+{
+ "probe": "r754 bm-a W145 freeze-window completion (r753 dead-tail)",
+ "phase_a": {
+  "scripts\\perpetual_faces.py|# W145 (bm-a r753 freeze, seat MSG-2026-": "idempotent-skip",
+  "scripts\\perpetual_faces_n1.py|# --- W145 materializer face (r753 bm-a ": "idempotent-skip",
+  "scripts\\perpetual_faces_n1.py|# band facts (law sec.4 W145 row, r753):": "idempotent-skip",
+  "scripts\\perpetual_faces_n1.py|W145 row, r753 bm-a] ": "idempotent-skip"
+ },
+ "phase_b": {
+  "blanket": {
+   "W144_to_W145": 22,
+   "W143_to_W144": 38
+  },
+  "bytes": 18711,
+  "eol": "LF"
+ },
+ "post_checks": {
+  "title": true,
+  "batch_name": true,
+  "finalize_batch": true,
+  "s7_placeholder": true,
+  "s8_placeholder": true,
+  "A_band": true,
+  "B_band": true,
+  "no_stale_W144_band": true,
+  "no_stale_prior_B": true,
+  "evidence_cutoff": true,
+  "K_projection": true,
+  "ledger_head": true,
+  "w146_projection": true,
+  "staircase_fourth": true,
+  "freeze_tail": true
+ },
+ "status": "PASS"
+}

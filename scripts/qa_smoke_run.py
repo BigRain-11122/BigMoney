@@ -29,7 +29,17 @@ ROUND = None  # set in main
 
 
 def _read_round():
-    p = os.path.join(PATHS.root, "state-bm-c.json")
+    # r757 bm-b fix: machine-aware round read (was hardcoded state-bm-c.json -> wrong
+    # pack numbering on non-bm-c machines, e.g. bm-b got r589 in bm-c's namespace).
+    # State-file mapping per fleet/README.md S6 multi-machine rule: bm-b -> state.json.
+    try:
+        with open(os.path.join(PATHS.root, "fleet", "machine.json"),
+                  encoding="utf-8-sig") as fh:
+            mid = (json.load(fh).get("machine_id") or "").strip()
+    except (OSError, ValueError):
+        mid = ""
+    p = os.path.join(PATHS.root, "state.json" if mid == "bm-b"
+                     else "state-%s.json" % mid)
     try:
         with open(p, encoding="utf-8-sig") as fh:
             return json.load(fh).get("round_no", 0) + 1
