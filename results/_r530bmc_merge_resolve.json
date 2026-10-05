@@ -1,0 +1,30 @@
+{
+ "round": "r530 bm-c",
+ "merge_tip": "7a4f6612e",
+ "faces": {
+  "results/compute_audit.json": {
+   "action": "rolling-union+latest-newer-wins",
+   "latest_kept": "ours",
+   "latest_ts_ours": "2026-10-05 10:28:14",
+   "latest_ts_theirs": "2026-10-05 10:01:52",
+   "rows": "201+210->211",
+   "asserts": "reparse+count+all-dict+latest-kept PASS"
+  },
+  "results/regime_state.json": {
+   "history": "2+2->2",
+   "transitions": "0+0->0",
+   "action": "rolling-union+snapshot-newer-wins",
+   "snapshot_kept": "ours",
+   "asof_ours": "2026-09-30",
+   "asof_theirs": "2026-09-30",
+   "asserts": "reparse+union-count+asof-kept PASS"
+  },
+  "results/token_usage.json": {
+   "action": "machines-per-key-union",
+   "picked_theirs": 0,
+   "keys": "5+5->5",
+   "top_kept": "ours",
+   "asserts": "reparse+keyset-union PASS"
+  }
+ }
+}
