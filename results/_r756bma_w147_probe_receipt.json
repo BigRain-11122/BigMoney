@@ -1,0 +1,69 @@
+{
+ "probe": "r756 W147 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 144,
+   "tail": "W146",
+   "owner_rows": 136,
+   "bma_rows": 62,
+   "ordinal": 137,
+   "bma_ordinal": 63
+  },
+  "leg1": {
+   "ARITH_A": [
+    338004,
+    340003
+   ],
+   "ARITH_B": [
+    338204,
+    338403
+   ],
+   "A": [
+    338204,
+    340203
+   ],
+   "hops_A": 1,
+   "B": [
+    340204,
+    340403
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    338204,
+    338403
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      338204,
+      338403
+     ],
+     "jump_to": 340204
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W146 B band (staircase A-hops-prior-B sixth instance, E36 card); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W148p_A": "340204..342203",
+   "hops_A": 0,
+   "W148p_B": "340404..340603",
+   "hops_B": 0,
+   "W148p_B_lands_inside_W148p_A": true,
+   "note": "W148+ naive projection on pre-W147 universe; W148 freezer MUST re-derive on post-W147 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "338204_340203",
+  "B": "340204_340403"
+ }
+}
