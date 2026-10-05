@@ -25,6 +25,18 @@ import re
 import subprocess
 import sys
 
+# r755 root fix (r521 family): a CHANGED window prints decision rows that
+# carry U+2713/CJK; on a zh-CN GBK console/pipe print() raises
+# UnicodeEncodeError mid-report and kills the gate BEFORE the --update
+# watermark write. Self-heal stdout/stderr to UTF-8 (errors=replace) so the
+# gate always completes regardless of console codepage -- callers no longer
+# need to remember PYTHONIOENCODING=utf-8 (bm-b r755 live crash evidence).
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 CREATE_NO_WINDOW = 0x08000000
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GROUP_CANDIDATES = [
