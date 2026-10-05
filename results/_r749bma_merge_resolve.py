@@ -65,9 +65,12 @@ def deep_ts(obj):
 
 SNAPSHOTS = [
     'docs/daily_report/REPORT-2026-10-05.json',
+    'docs/daily_report/REPORT-2026-10-06.json',
     'docs/live_usage/LIVE-2026-10-05.json',
+    'docs/live_usage/LIVE-2026-10-06.json',
     'docs/live_usage/LIVE-latest.json',
     'results/_attrition_guard_scan.json',
+    'results/daily_scorecard.json',
     'results/dashboard_status.json',
     'results/fundamental_b_layer_filter.json',
     'results/futures_update_status.json',
@@ -79,7 +82,9 @@ SNAPSHOTS = [
 TOKEN = 'results/token_usage.json'
 MD_TWINS = {
     'docs/daily_report/REPORT-2026-10-05.md': 'docs/daily_report/REPORT-2026-10-05.json',
+    'docs/daily_report/REPORT-2026-10-06.md': 'docs/daily_report/REPORT-2026-10-06.json',
     'docs/live_usage/LIVE-2026-10-05.md': 'docs/live_usage/LIVE-2026-10-05.json',
+    'docs/live_usage/LIVE-2026-10-06.md': 'docs/live_usage/LIVE-2026-10-06.json',
     'docs/live_usage/LIVE-latest.md': 'docs/live_usage/LIVE-latest.json',
 }
 JS_TWIN = ('results/dashboard_status.js', 'results/dashboard_status.json')
@@ -89,7 +94,7 @@ UNION_LEDGERS = {
 }
 CODELY = 'CODELY.md'
 
-receipt = {'round': 'r749 bm-a S0 merge window (behind-8, 18 UU faces)', 'merge_head': MERGE_TIP,
+receipt = {'round': 'r749 bm-a S7 close merge window hop2 (behind-4, 18 UU faces incl 10-06 date faces + daily_scorecard)', 'merge_head': MERGE_TIP,
            'faces': {}, 'decisions': {}}
 decisions = {}
 
@@ -325,7 +330,7 @@ receipt['twin_checks'] = {'dashboard_json_ts': djts, 'dashboard_js_contains_same
 assert js_has, 'dashboard js/json twin ts mismatch'
 receipt['decisions'] = {k: v[0] + ' | ' + v[1] for k, v in decisions.items()}
 receipt['resolved_n'] = len(decisions)
-open(os.path.join(ROOT, 'results', '_r749bma_merge_resolve.json'), 'w', encoding='utf-8', newline='\n').write(
+open(os.path.join(ROOT, 'results', '_r749bma_merge_resolve_hop2.json'), 'w', encoding='utf-8', newline='\n').write(
     json.dumps(receipt, ensure_ascii=False, indent=1) + '\n')
 print('RESOLVED %d faces (MERGE_HEAD=%s)' % (len(decisions), MERGE_TIP[:9]))
 for k, v in sorted(decisions.items()):
