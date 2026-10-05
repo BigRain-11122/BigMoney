@@ -61,8 +61,19 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 35 行注册+本候选〔以 gate leg0 机证为准·含 W114/W117/W119 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·跑前为空·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r725 2026-10-05 13:0x】
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+- finalize 一次通过 rc=0（12/12 分片 2,200/2,200 位取；上游链 derive 复核 PASS：W116+W117+W118+W119 落账件在场=W119 total 657,811 为 prev 链头〔同窗 W119 finalize 先落=链序合法〕）。
+- w120_only mu **−0.094367** sigma 0.248384（K=2,200）；pre-W120 池 mu −0.092882 sigma 0.244795（K=259,720）；merged mu **−0.092894** sigma **0.244825**（K=**261,920**=canon 120+259,720+2,200）。
+- skill_line_v2 @n_eff 657,811：1.1742 → **1.1744**（K-lift **+0.0002**）；se_mu 收窄链 …→W119 0.000480 → 本波 **0.000478**@K261,920。
+- A 档 full_sharpe_p95 **0.3145** / p99 0.4445；账本 append 单发：prev 657,811 + 2,200 = **660,011**（r509 guard 前持久化块在场·单计）。
+- §5 断言对账：①|w120_only−merged|=0.0015<0.02 **PASS**；②sigma 相对变化 +0.01%<±10% **PASS**；③A p95 vs W115 锚 0.2911 差 **+0.0234**<0.05 **PASS**；④K-lift +0.0002≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
+
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r725
+
+- 零异常零干预：finalize 全链一次通过，账本链 657,811→660,011 线性单计（与 W119 同窗双 finalize=各自独立账本块·prev 链头 derive 正确衔接）；canon flip 不在本波（治理提案面素材·K2200 同例）。
+- 方法论捕获：无新方法；宝藏捕获：无（测量加深面零新发现宣称）。
+- 遗留：W121=表尾后下个自由号（A 285_004..287_003 CLEAN；B 66_001..66_200 hops=1 投影见本件 §5.5——下波冻结方必复核非转抄 r587 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
