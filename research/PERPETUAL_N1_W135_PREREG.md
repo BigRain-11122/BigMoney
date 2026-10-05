@@ -61,8 +61,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 50 行注册+本候选〔以 gate leg0 机证为准·含 W132/W133/W134 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r741 2026-10-05 19:5x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free）；上游链 derive 复核 PASS（W1..W134 落账已在位·W134 total 690,811 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场（回执 results/_r741bma_w135_preflight.json）：文件完备 12/12+finalize 输出缺位 + 活进程探针 v2 零命中（python.exe N1 runner 全扫·本窗全程串行执行 r738 律）+ 席位 MSG-2026-10-05-1933-bma-w135-seat 在 git 史（published=reserved r565 律·r740 冻结链 98712a0e3 预推）=GREEN_FINALIZE_READY 先行。
+- w135_only mu **−0.088966** sigma 0.242642（K=2,200）；pre-W135 池 mu −0.092883 sigma 0.244989（K=292,720）；merged mu **−0.092854** sigma **0.244971**（K=**294,920**=292,720+2,200 算术检·与 §0 投影恒等）。
+- skill_line_v2 @n_eff 持平键位 690,811：1.1775 → **1.1775**（K-lift **+0.0000**·正负交替如实报零号·机器键 line_delta_k_lift=0.0）；se_mu 收窄链 W132 0.000456 → W133 0.000454 → W134 0.000453 → **0.000451**（@K294,920）。
+- A 档 full_sharpe_p95 **0.3192** / p99 0.4566（A mu −0.082898）；账本 append 单发：prev 690,811 + 2,200 = **693,011**（单记·voids LOWAMP-P1/P2）。
+- §5 断言对账：①|w135_only−merged|=0.003888<0.02 **PASS**（机器键 mu_delta 面）；②sigma 相对变化 −0.0072%<±10% **PASS**；③A p95 vs W134 键 0.3117 差 +0.0075<0.05 **PASS**；④K-lift +0.0000≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r741
+- 零异常零补获：freeze r740（W135 FREEZE 链 ba7aa51dc 送达·席位 MSG-2026-10-05-1933 r565 律先推 98712a0e3·引擎 tick 19:31:17 自燃实证 shard-0 落地·r325 产物增长面）→分片连续烧全落地（12/12 @19:42:15 shard-11 实证·~1 分片/分钟）→finalize 本窗 r741 one-pass（19:50·同轮生命周期：r740 冻结+点火→r741 收口·单会话连续窗）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W136=表尾后下个自由号——**A 315_004..317_003 CLEAN / B 69_702..69_901 CLEAN 双 hops=0**（见本件 §5.5 投影·r740 gate 回执尾行·下波冻结窗必复核非镜像 r587 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
