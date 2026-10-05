@@ -1,0 +1,88 @@
+{
+ "round": "r532 bm-c",
+ "merge_tip": "origin/main post-bm-a-r721/bm-b-r723",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:22",
+   "ts_theirs": "2026-10-05 10:40:03"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours (twin-follows-json, r708)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:23",
+   "ts_theirs": "2026-10-05 10:40:04"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours (twin-follows-json, r708)"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:23",
+   "ts_theirs": "2026-10-05 10:40:04"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours (twin-follows-json, r708)"
+  },
+  "results/dashboard_status.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:35",
+   "ts_theirs": "2026-10-05 10:40:19"
+  },
+  "results/dashboard_status.js": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours (twin-follows-json, r708)"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:48+08:00",
+   "ts_theirs": "2026-10-05 10:40:54+08:00"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:48:59",
+   "ts_theirs": "2026-10-05 10:39:27"
+  },
+  "results/prospect_promotion/_summary.json": {
+   "action": "ts-newer-wins verbatim",
+   "kept": "ours",
+   "ts_ours": "2026-10-05 10:49:09+08:00",
+   "ts_theirs": "2026-10-05 10:39:29+08:00"
+  },
+  "results/compute_audit.json": {
+   "action": "rolling-union+latest-newer-wins",
+   "latest_kept": "ours",
+   "latest_ts_ours": "2026-10-05 10:47:33",
+   "latest_ts_theirs": "2026-10-05 10:36:48",
+   "rows": "201+205->206",
+   "asserts": "reparse+count+all-dict+latest-kept PASS"
+  },
+  "results/regime_state.json": {
+   "history": "2+2->2",
+   "transitions": "0+0->0",
+   "action": "rolling-union+snapshot-newer-wins",
+   "snapshot_kept": "ours",
+   "asof_ours": "2026-09-30",
+   "asof_theirs": "2026-09-30",
+   "asserts": "reparse+union-count+asof-kept PASS"
+  },
+  "results/token_usage.json": {
+   "action": "machines-per-key-union",
+   "picked_theirs": 0,
+   "keys": "5+5->5",
+   "top_kept": "ours",
+   "asserts": "reparse+keyset-union+all-dict PASS"
+  }
+ }
+}
