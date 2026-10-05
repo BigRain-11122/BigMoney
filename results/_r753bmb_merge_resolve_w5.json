@@ -1,0 +1,31 @@
+{
+ "round": "r753 bm-b merge WINDOW-5 (server-ref race window, 3 UU: attrition/compute_audit/token_usage)",
+ "merge_head": "3759da60b2323600e485a884188893f61ce77fe7",
+ "faces": {
+  "results/_attrition_guard_scan.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-06T00:06:42+08:00 theirs=2026-10-06T00:25:03+08:00 -> newer/origin"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 0
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "theirs",
+   "ours_len": 210,
+   "theirs_len": 201,
+   "union_len": 211
+  }
+ },
+ "decisions": {
+  "results/_attrition_guard_scan.json": "theirs | probe_ts ours=2026-10-06T00:06:42+08:00 theirs=2026-10-06T00:25:03+08:00 -> newer/origin",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=0 top ours=2026-10-06T00:10:07 theirs=2026-10-06T00:22:38",
+  "results/compute_audit.json": "union | rolling-ledger union, base=theirs (ours=2026-10-06T00:08:48 theirs=2026-10-06T00:21:06)"
+ },
+ "twin_checks": {
+  "dashboard_json_ts": "2026-10-06T00:10:07",
+  "dashboard_js_contains_same_ts": true
+ },
+ "resolved_n": 3
+}
