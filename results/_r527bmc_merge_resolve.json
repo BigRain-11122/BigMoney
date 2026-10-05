@@ -1,0 +1,37 @@
+{
+ "ts": "2026-10-05T09:54:12",
+ "uu": [
+  "results/compute_audit.json",
+  "results/token_usage.json"
+ ],
+ "faces": {
+  "results/compute_audit.json": "hist ts-identity union (ours latest 2026-10-05 09:49:02 vs theirs 2026-10-05 09:29:08)",
+  "results/token_usage.json": "token_usage: whole-face freshness (r456 explicit fallback)"
+ },
+ "compute_audit": {
+  "hist_key": "history",
+  "ours": 201,
+  "theirs": 204,
+  "union": 206,
+  "theirs_only_added": 5,
+  "latest_ours_ts": "2026-10-05 09:49:02",
+  "latest_theirs_ts": "2026-10-05 09:29:08"
+ },
+ "token_usage": {
+  "machines": 5,
+  "picks": {
+   "ours_only": 0,
+   "theirs_only": 0,
+   "newer_ours": 0,
+   "newer_theirs": 0,
+   "whole_face": 1
+  },
+  "mode": "whole-face freshness (r456 explicit fallback)",
+  "ours_ts": "2026-10-05 09:48:43",
+  "theirs_ts": "2026-10-05 09:39:48",
+  "took": "ours"
+ },
+ "merge_commit": "[main 057dd16f0] Merge remote-tracking branch 'origin/main'",
+ "push_verify_rc": 0,
+ "push_verify_tail": "{\"repo\": \".\", \"remote\": \"origin\", \"branch\": \"main\", \"push_rc\": 0, \"push_clean\": true, \"push_why\": \"\", \"tip\": \"057dd16f034c8588d564411daf8395c1ad76e9cc\", \"remote_tip\": \"057dd16f034c8588d564411daf8395c1ad76e9cc\", \"ahead\": 0, \"behind\": 0, \"delivered\": true, \"verdict\": \"DELIVERED\", \"reason\": \"\"}"
+}
