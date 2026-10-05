@@ -1,0 +1,40 @@
+{
+ "probe": "r743 W138 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 135,
+   "tail": "W137",
+   "owner_rows": 127,
+   "bma_rows": 53,
+   "ordinal": 128,
+   "bma_ordinal": 54
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "0bf01ef64 (pre-freeze push, merge-closeout per r524 law, zero --no-verify)"
+  },
+  "leg1": {
+   "A": "319_004..321_003",
+   "hops_A": 0,
+   "B": "94_201..94_400",
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "B_semantics": "arithmetic continuation CLEAN at first position (double-CLEAN window); the W137 honest 12-hop forward walk landed past the contiguous registered band mass 70_001..94_000, so the continuation is clean by construction; zero hops, non-rotational r587 forward-monotone assert in-walk; dual-window derive parity with the pre-seat probe",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-211x-bma-w138-seat.md",
+   "push": "0bf01ef64 (pre-freeze push, merge-closeout per r524 law, zero --no-verify)"
+  },
+  "leg3": {
+   "W139p_A": "321004..323003",
+   "hops_A": 0,
+   "W139p_B": "94401..94600",
+   "hops_B": 0
+  }
+ },
+ "verdict": "ADMIT"
+}
