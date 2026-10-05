@@ -2,22 +2,67 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
+ "active": [
+  {
+   "face": "N1",
+   "wave": 151,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w151-10of12",
+   "batch": "PERPETUAL-N1-W151",
+   "pid": 73172,
+   "started_at": "2026-10-06T07:49:04+08:00",
+   "started_epoch": 1791244144,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W151-10.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W151",
+    "prereg": "research/PERPETUAL_N1_W151_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-FORTY-FIRST ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 140 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W150 row bm-a r762 freeze fedebeb32, SINGLE STATE zero seat gap W2..W150 all registered; W150 finalize landed same-window r763, ledger head 726,011, merged pool K=327,920; seat published=reserved MSG-2026-10-06-075x-bma-w151-seat PUSHED to origin f8e1306c8 BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe + probe receipt; deletion-set EMPTY; same-window self-ack inbox->processed move 351170f89 r763; pre-seat probe and freeze-window band-gate runs derive identical, no fork face), engine_owner=bm-a, wave 151: A = FIRST-CLEAN past the registered W150 B band (the arithmetic continuation 346_804..348_803 is REFUSED at its own start by the W150 B band 346_804..347_003, exactly as the W150 seat leg4 + r762 gate leg3 projection notes anticipated; honest forward walk hops=1 -> 347_004..349_003; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase tenth instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 347_004..347_203 is CLEAN on the registered universe but lands INSIDE the W151 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 349_004, first-clean 349_004..349_203 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W150 seat leg4 + r762 gate leg3 projection notes re-derived -- both MANDATORY notes honored (post-W150 universe re-derive + own-wave A reservation); ADMIT receipt results/_r763bma_w151_band_gate.py; W152+ projection per this window gate: A first-clean 349_004..351_003 CLEAN / B first-clean 349_204..349_403 CLEAN -- naive B lands INSIDE the naive A window and the registered W151 B band 349_004..349_203 will refuse the naive W152 A window; W152 freezer MUST re-derive on the post-W151 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W150 finalize ALL LANDED (W150 finalize one-pass bm-a r763, net chain head 726,011, merged pool K=327,920) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
+    "a_seed_base": 347004,
+    "b_exit_seed_base": 349004,
+    "shard_subdir": "n1_w151",
+    "out_name": "n1_w151_results.json",
+    "engine_owner": "bm-a"
+   }
+  }
+ ],
  "ledger_buffer": [],
- "last_flush_at": "2026-10-06T07:19:04+08:00",
+ "last_flush_at": "2026-10-06T07:49:04+08:00",
  "crashes": {},
- "shards_done_total": 364,
- "last_shard_done_at": "2026-10-06T07:19:03+08:00",
+ "shards_done_total": 374,
+ "last_shard_done_at": "2026-10-06T07:49:04+08:00",
  "last_tick": {
-  "ts": "2026-10-06T07:33:04+08:00",
-  "epoch": 1791243181,
+  "ts": "2026-10-06T07:49:04+08:00",
+  "epoch": 1791244142,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 46.65206527709961,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
+  "ram_free_gb": 47.09796142578125,
+  "verdict": "ignited:n1w151-10of12 pid=73172 ledger_flush=3",
+  "active_n": 1,
+  "queue_depth": 1,
   "elapsed_sec": 2.7
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 151,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w151-11of12",
+   "batch": "PERPETUAL-N1-W151",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "151",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
