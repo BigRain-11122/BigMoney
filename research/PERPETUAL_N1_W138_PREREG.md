@@ -61,8 +61,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 53 行注册+本候选〔以 gate leg0 机证为准·含 W135/W136/W137 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r744 2026-10-05 21:2x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free）；上游链 derive 复核 PASS（W1..W137 落账已在位·W137 total 697,411 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场（回执 results/_r744bma_w138_preflight.json）：文件完备 12/12+finalize 输出缺位 + 活进程探针 v2 零命中（python.exe N1 runner 全扫·本窗全程串行执行 r738 律）+ 席位 MSG-2026-10-05-211x-bma-w138-seat 在 git 史（published=reserved r565 律·r743 冻结链预推 0bf01ef64）=GREEN_FINALIZE_READY 先行。
+- w138_only mu **−0.093232** sigma 0.239157（K=2,200）；pre-W138 池 mu −0.092807 sigma 0.244959（K=299,320）；merged mu **−0.092810** sigma **0.244917**（K=**301,520**=299,320+2,200 算术检·与 §0 投影恒等）。
+- skill_line_v2 @n_eff 持平键位 697,411：1.1779 → **1.1777**（K-lift **−0.0002**·正负交替如实报负号·机器键 line_delta_k_lift=−0.0002）；se_mu 收窄链 W135 0.000451 → W136 0.000449 → W137 0.000448 → **0.000446**（@K301,520）。
+- A 档 full_sharpe_p95 **0.3078** / p99 0.4529（A mu −0.087679）；账本 append 单发：prev 697,411 + 2,200 = **699,611**（单记·voids LOWAMP-P1/P2）。
+- §5 断言对账：①|w138_only−merged|=0.000422<0.02 **PASS**（机器键 mu_delta_w138_vs_w137ext=0.000338=w138_only 与 W137-only 跨波键·如实注记）；②sigma 相对变化 −0.017%<±10% **PASS**；③A p95 vs W137 键 0.3094 差 −0.0016<0.05 **PASS**；④K-lift −0.0002≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r744
+- 零异常零补获：freeze r743（W138 FREEZE 链 commit 6798a1e5f 送达·席位 MSG-2026-10-05-211x r565 律先推 0bf01ef64·引擎 tick 21:01 自燃实证首分片落地 @21:01·r325 产物增长面）→分片连续烧全落地（12/12 齐位于 r744 轮中·shard-7..11 由 r744 轮中零窗观察实证 ~1/min cadence）→finalize 本窗 r744 one-pass（21:2x·生命周期：r743 冻结+点火→r744 收口·单会话连续窗）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W139=表尾后下个自由号——**A 321_004..323_003 CLEAN / B first-clean 94_401..94_600（hops=0 双 CLEAN 窗）**（见本件 §5.5 投影·r743 gate 回执尾行·下波冻结窗必复核非镜像 r587 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。

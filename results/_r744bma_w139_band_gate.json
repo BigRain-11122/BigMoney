@@ -1,0 +1,40 @@
+{
+ "probe": "r744 W139 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 136,
+   "tail": "W138",
+   "owner_rows": 128,
+   "bma_rows": 54,
+   "ordinal": 129,
+   "bma_ordinal": 55
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "7e1fc08d0 (pre-freeze push, merge-mode clean auto-merge closeout per r524 law, delivery 39ec08fa0, zero --no-verify)"
+  },
+  "leg1": {
+   "A": "321_004..323_003",
+   "hops_A": 0,
+   "B": "94_401..94_600",
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "B_semantics": "arithmetic continuation CLEAN at first position (double-CLEAN continuation window); the W138 zero-hop double-CLEAN continuation already landed past the contiguous registered band mass 70_001..94_400, so the continuation is clean by construction; zero hops, non-rotational r587 forward-monotone assert in-walk; dual-window derive parity with the pre-seat probe",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-213x-bma-w139-seat.md",
+   "push": "7e1fc08d0 (pre-freeze push, merge-mode clean auto-merge closeout per r524 law, delivery 39ec08fa0, zero --no-verify)"
+  },
+  "leg3": {
+   "W140p_A": "323004..325003",
+   "hops_A": 0,
+   "W140p_B": "94601..94800",
+   "hops_B": 0
+  }
+ },
+ "verdict": "ADMIT"
+}
