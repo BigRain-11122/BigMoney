@@ -171,8 +171,8 @@ while hops < 3:
 
 rc, out, _ = git(["rev-list", "--left-right", "--count", "HEAD...origin/main"])
 ahead, behind = out.split()
-rc_head, head = git(["rev-parse", "HEAD"])
-rc_rmt, rmt = git(["rev-parse", "origin/main"])
+rc_head, head, _ = git(["rev-parse", "HEAD"])
+rc_rmt, rmt, _ = git(["rev-parse", "origin/main"])
 
 # ---- 5. ls-tree delivery probe (12 faces) ----
 probe_faces = ["qa/smoke-r553.md", "qa/equity-curve-r553.png",
