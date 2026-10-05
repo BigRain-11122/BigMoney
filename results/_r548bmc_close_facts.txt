@@ -1,0 +1,56 @@
+CLOSE_DIRTY=34
+  FACE docs/daily_report/REPORT-2026-10-05.json
+  FACE docs/daily_report/REPORT-2026-10-05.md
+  FACE docs/live_usage/LIVE-2026-10-05.json
+  FACE docs/live_usage/LIVE-2026-10-05.md
+  FACE docs/live_usage/LIVE-latest.json
+  FACE docs/live_usage/LIVE-latest.md
+  FACE fleet/machines/bm-c.json
+  FACE results/_attrition_guard_scan.json
+  FACE results/autofill_state.bm-c.json
+  FACE results/compute_audit.bm-c.json
+  FACE results/compute_audit.json
+  FACE results/fund_premium_status.json
+  FACE results/fundamental_b_layer_filter.json
+  FACE results/futures_update_status.bm-c.json
+  FACE results/futures_update_status.json
+  FACE results/lhb_update_status.bm-c.json
+  FACE results/lhb_update_status.json
+  FACE results/pool_dualrun.bm-c.jsonl
+  FACE results/regime_state.bm-c.json
+  FACE results/regime_state.json
+  FACE results/runnable_pool.bm-c.json
+  FACE results/saturation_engine/face_bm-c.json
+  FACE results/saturation_engine_state.bm-c.json
+  FACE results/token_usage.bm-c.json
+  FACE results/token_usage.json
+  FACE results/update_status.bm-c.json
+  FACE results/update_status.json
+  FACE round_reports-bm-c.md
+  FACE state-bm-c.json
+  FACE Tools/_r548bmc_bookkeeping.py
+  FACE qa/equity-curve-r548.png
+  FACE qa/smoke-r548.md
+  FACE results/_r548bmc_probe.txt
+  FACE results/_r548bmc_s6_log.txt
+STAGED=34
+ROUND_COMMIT 99a56ec8a roun
+ROUND_SHA 99a56ec8a9
+PUSH_VERIFY_1 rc=1
+  {"repo": ".", "remote": "origin", "branch": "main", "push_rc": 1, "push_clean": false, "push_why": "push rc=1", "verdict": "NOT-DELIVERED", "reason": "push rc=1"}
+behind-origin signal -> r524 two-hop: fetch + merge + re-verify
+POS before hop-2 merge = 3/3
+MERGE rc=0
+UU canonical = 0 
+PUSH_VERIFY_2 rc=0
+  {"repo": ".", "remote": "origin", "branch": "main", "push_rc": 0, "push_clean": true, "push_why": "", "tip": "166bb407e231eff4636c92cc52de7eb2e5523f01", "remote_tip": "166bb407e231eff4636c92cc52de7eb2e5523f01", "ahead": 0, "behind": 0, "delivered": true, "verdict": "DELIVERED", "reason": ""}
+DELIVERY_PVRC=0 HOPS=2
+FINAL_POS = 0/0
+FINAL_TIP 166bb407e2
+LSTREE qa/smoke-r548.md OK cb18279d388e
+LSTREE qa/equity-curve-r548.png OK e1e8c76e9500
+LSTREE results/_r548bmc_s6_log.txt OK e15b469e6578
+LSTREE state-bm-c.json OK 0c1873ad4541
+LSTREE round_reports-bm-c.md OK 007e6a98547c
+LSTREE fleet/machines/bm-c.json OK 75cfdbff0908
+LSTREE_OK=6/6
