@@ -1,0 +1,102 @@
+{
+ "round": "r544",
+ "faces": {
+  "results/regime_state.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:30:19 theirs=2026-10-05 13:21:40)"
+  },
+  "results/update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:30:18 theirs=2026-10-05 13:21:39)"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:12 theirs=2026-10-05 13:23:33)"
+  },
+  "results/futures_update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:07 theirs=2026-10-05 13:23:06)"
+  },
+  "results/lhb_update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:07 theirs=2026-10-05 13:23:05)"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:32:07 theirs=2026-10-05 13:24:41)"
+  },
+  "results/dashboard_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:48 theirs=2026-10-05 13:23:45)"
+  },
+  "results/scorecard_v1.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:30:51 theirs=2026-10-05 13:22:06)"
+  },
+  "results/strategy_scorecard.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:01 theirs=2026-10-05 13:22:17)"
+  },
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:36 theirs=2026-10-05 13:23:34)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:36 theirs=2026-10-05 13:23:35)"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 13:31:36 theirs=2026-10-05 13:23:35)"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/daily_report/REPORT-2026-10-05.json side=2"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/live_usage/LIVE-2026-10-05.json side=2"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/live_usage/LIVE-latest.json side=2"
+  },
+  "results/dashboard_status.js": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json results/dashboard_status.json side=2"
+  },
+  "results/compute_audit.json": {
+   "action": "history-union stage-sides",
+   "ours_rows": 201,
+   "theirs_rows": 201,
+   "merged_rows": 203
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union stage-sides"
+  }
+ },
+ "gates": {
+  "residual_screen": "PASS 18/18",
+  "readback": "PASS (every face write back-asserted)",
+  "side_summary": {
+   "results/regime_state.json": "write-stage-2",
+   "results/update_status.json": "write-stage-2",
+   "results/fundamental_b_layer_filter.json": "write-stage-2",
+   "results/futures_update_status.json": "write-stage-2",
+   "results/lhb_update_status.json": "write-stage-2",
+   "results/_attrition_guard_scan.json": "write-stage-2",
+   "results/dashboard_status.json": "write-stage-2",
+   "results/scorecard_v1.json": "write-stage-2",
+   "results/strategy_scorecard.json": "write-stage-2",
+   "docs/daily_report/REPORT-2026-10-05.json": "write-stage-2",
+   "docs/live_usage/LIVE-2026-10-05.json": "write-stage-2",
+   "docs/live_usage/LIVE-latest.json": "write-stage-2",
+   "docs/daily_report/REPORT-2026-10-05.md": "write-stage-2",
+   "docs/live_usage/LIVE-2026-10-05.md": "write-stage-2",
+   "docs/live_usage/LIVE-latest.md": "write-stage-2",
+   "results/dashboard_status.js": "write-stage-2",
+   "results/compute_audit.json": "history-union stage-sides",
+   "results/token_usage.json": "per-key-union stage-sides"
+  }
+ }
+}
