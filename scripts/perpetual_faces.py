@@ -2983,6 +2983,24 @@ N1_BANDS = {
     # NOT a re-pick (R250: W121 bands were never assigned).
     121: {"a": (285_004, 287_003), "b_exit": (66_001, 66_200),
          "engine_owner": "bm-a"},
+    # W122 frozen bands (bm-a r727 freeze; re-derived at freeze, never
+    # transcribed r587 law; pre-seat probe results/_r727bma_w122_probe.py
+    # rc0 + freeze-window gate ADMIT receipt
+    # results/_r727bma_w122_band_gate.py; dual-window derive parity held:
+    # A 287_004..289_003 arithmetic continuation from the registered W121
+    # A tail, CLEAN hops=0; B 66_201..66_400 arithmetic continuation from
+    # the registered W121 B tail, CLEAN hops=0 (cross-window convergence
+    # with the r726 W121 gate-tail W122+ projection);
+    # scan face = pre-W122 all registered N1 bands + SEED_REGISTRY 187 int
+    # values + v1/W1 ext bands + N3-R1 used-seed band + probe cluster
+    # 95_000..95_003 + cross-face probe points 95_004/95_006 + lfc/options
+    # actuals + N2/N4/N2-W15 probe points.
+    # W123+ projection (gate-derived r727): A 289_004..291_003
+    # CLEAN hops=0; B first-clean 66_401..66_600 CLEAN hops=0;
+    # next freezer must re-derive, never transcribe (r587 law).
+    # NOT a re-pick (R250: W122 bands were never assigned).
+    122: {"a": (287_004, 289_003), "b_exit": (66_201, 66_400),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -3424,6 +3442,24 @@ def cmd_selftest():
     assert all("runner" in f and "wave" in f for f in FACES)
     # 2. seed bands disjoint: intra-N1, vs v1, vs ext wave-1, vs SEED_REGISTRY
     reg_ints = {v for v in sg.SEED_REGISTRY.values() if isinstance(v, (int, float))}
+    # ADJUDICATED EXCEPTION (bm-a r726, attrition-guard whitelist precedent
+    # bm-b r295): SEED_REGISTRY sina_mf_ic_p1=58_700 was registered LATER
+    # (bm-a r719 SINA_MF_IC_P1 freeze; its rg RNG sweep face missed the
+    # N1_BANDS band face) and lands inside the ALREADY-BURNED W99 B band
+    # 58_551..58_750 at j=149 -- historical single-point overlap on a
+    # burned measurement face: statistically harmless (two different
+    # consumers of one RNG stream; the null draw remains a valid null
+    # draw), W99 finalize results stand un-reopened, the sina_mf_ic_p1
+    # batch is NOT re-registered (registry records what was actually
+    # used). Future band gates already treat SEED_REGISTRY live values
+    # as refusal points, so no forward face. r727 found THIS pf-level
+    # leg un-mirrored (the r726 fix landed in the perpetual_faces_n1
+    # selftest only) -- mirror completed here, disclosed not hidden.
+    w99_adjudicated = {58_700}
+    w99_b_probe = set(range(N1_BANDS[99]["b_exit"][0],
+                            N1_BANDS[99]["b_exit"][1] + 1))
+    assert w99_adjudicated <= w99_b_probe, \
+        "W99 adjudicated set drifted (must sit inside the burned band)"
     used = []
     for w, b in N1_BANDS.items():
         band_a = set(range(b["a"][0], b["a"][1] + 1))
@@ -3431,7 +3467,12 @@ def cmd_selftest():
         assert not (band_a & band_b), f"N1 w{w} A/B band overlap"
         assert not (band_a & V1_IN_USE) and not (band_b & V1_IN_USE), f"N1 w{w} hits v1 band"
         assert not (band_a & EXT_W1_IN_USE) and not (band_b & EXT_W1_IN_USE), f"N1 w{w} hits ext w1"
-        assert not (band_a & reg_ints) and not (band_b & reg_ints), f"N1 w{w} hits SEED_REGISTRY"
+        assert not (band_a & reg_ints), f"N1 w{w} A hits SEED_REGISTRY"
+        if w == 99:
+            assert not (band_b & (reg_ints - w99_adjudicated)), \
+                f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r719 point"
+        else:
+            assert not (band_b & reg_ints), f"N1 w{w} hits SEED_REGISTRY"
         used.append((band_a, band_b))
     for i in range(len(used)):
         for j in range(i + 1, len(used)):
