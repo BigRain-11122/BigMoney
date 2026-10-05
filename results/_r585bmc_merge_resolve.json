@@ -1,0 +1,102 @@
+{
+ "round": "r585 bm-c merge window (close v1 push#1 rejected behind-origin r524 law, bm-b r753/754/755 wave -> retry merge 13-UU; no pre-merge absorb; no inbox move-pair -- inbox empty, W144 MSG already processed in origin)",
+ "merge_head": "e5d42e6378b23d26a952b8ea26ff2d205a5c0fee",
+ "hops": [
+  {
+   "hop": 1,
+   "uu_n": 13,
+   "resolved": 13,
+   "faces": [
+    "docs/daily_report/REPORT-2026-10-06.json",
+    "docs/daily_report/REPORT-2026-10-06.md",
+    "docs/live_usage/LIVE-2026-10-06.json",
+    "docs/live_usage/LIVE-2026-10-06.md",
+    "docs/live_usage/LIVE-latest.json",
+    "docs/live_usage/LIVE-latest.md",
+    "results/compute_audit.json",
+    "results/fundamental_b_layer_filter.json",
+    "results/futures_update_status.json",
+    "results/lhb_update_status.json",
+    "results/regime_state.json",
+    "results/token_usage.json",
+    "results/update_status.json"
+   ]
+  }
+ ],
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:25:06>2026-10-06T01:14:42"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:24:49>2026-10-06T01:14:22"
+  },
+  "results/futures_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:24:44>2026-10-06T01:14:18"
+  },
+  "results/lhb_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:24:43>2026-10-06T01:14:17"
+  },
+  "results/update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:24:36>2026-10-06T01:10:03"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 0
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43)"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-2026-10-06.json (probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43)"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "action": "ours",
+   "why": "md-twin of docs/daily_report/REPORT-2026-10-06.json (probe_ts 2026-10-06T01:25:06>2026-10-06T01:14:42)"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "ours",
+   "ours_len": 201,
+   "theirs_len": 206,
+   "union_len": 207
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "base": "ours",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  }
+ },
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-06.json": "ours | probe_ts 2026-10-06T01:25:06>2026-10-06T01:14:42",
+  "docs/live_usage/LIVE-2026-10-06.json": "ours | probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43",
+  "docs/live_usage/LIVE-latest.json": "ours | probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43",
+  "results/fundamental_b_layer_filter.json": "ours | probe_ts 2026-10-06T01:24:49>2026-10-06T01:14:22",
+  "results/futures_update_status.json": "ours | probe_ts 2026-10-06T01:24:44>2026-10-06T01:14:18",
+  "results/lhb_update_status.json": "ours | probe_ts 2026-10-06T01:24:43>2026-10-06T01:14:17",
+  "results/update_status.json": "ours | probe_ts 2026-10-06T01:24:36>2026-10-06T01:10:03",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=0 top ours=2026-10-06T01:25:07 theirs=2026-10-06T01:14:44",
+  "docs/live_usage/LIVE-latest.md": "ours | md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43)",
+  "docs/live_usage/LIVE-2026-10-06.md": "ours | md-twin of docs/live_usage/LIVE-2026-10-06.json (probe_ts 2026-10-06T01:25:07>2026-10-06T01:14:43)",
+  "docs/daily_report/REPORT-2026-10-06.md": "ours | md-twin of docs/daily_report/REPORT-2026-10-06.json (probe_ts 2026-10-06T01:25:06>2026-10-06T01:14:42)",
+  "results/compute_audit.json": "union | rolling-ledger union, base=ours (ours=2026-10-06T01:24:28 theirs=2026-10-06T01:09:52)",
+  "results/regime_state.json": "union | rolling-ledger union, base=ours (ours=2026-10-06T01:24:37 theirs=2026-10-06T01:10:04)"
+ },
+ "resolved_n": 13
+}
