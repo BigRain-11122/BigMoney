@@ -1,24 +1,23 @@
 {
   "latest": {
-    "ts": "2026-10-05 14:28:45",
+    "ts": "2026-10-05 14:42:23",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 6.0,
-    "py_cpu_pct": 0.3,
-    "cores": 32,
-    "py_procs": 7,
-    "result_stale_min": 0.8,
+    "cpu_total_pct": 35.0,
+    "py_cpu_pct": 86.0,
+    "cores": 16,
+    "py_procs": 30,
+    "result_stale_min": 0.1,
     "fleet_open_tasks": 0,
     "pool_ready_count": 3,
     "pool_ready_unclaimed": 0,
-    "load_state": "pool-supply-gap",
+    "load_state": "burning-healthy",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
-      "reason": "pool-supply-gap"
+      "reason": "burning-healthy"
     },
-    "supply_gap_candidate": true,
+    "supply_gap_candidate": false,
     "supply_gap_detail": {
-      "run_samples": 3,
-      "span_min": 17.8
+      "reason": "burning-healthy"
     },
     "supply_floor": {
       "ready": 3,
@@ -26,12 +25,12 @@
       "breach": false
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 17.8,
+    "supply_family_streak_min": null,
     "gpu": {
       "present": true,
-      "util_pct": 0.0,
-      "mem_used_mb": 15350.0,
-      "compute_apps_count": 17,
+      "util_pct": 3.0,
+      "mem_used_mb": 4729.0,
+      "compute_apps_count": 24,
       "rogue_apps": []
     },
     "zombies": [],
@@ -39,72 +38,19 @@
     "single_core_hog_detail": null,
     "parallel_efficiency": {
       "window_min": 60.0,
-      "batches_judged": 22,
-      "core_seconds": 4271.03,
-      "wall_seconds": 332.7,
-      "effective_cores": 12.84,
-      "multicore_burn": 22,
+      "batches_judged": 24,
+      "core_seconds": 4673.74,
+      "wall_seconds": 363.0,
+      "effective_cores": 12.88,
+      "multicore_burn": 24,
       "single_core_burn": 0,
       "too_short_to_sample": 0,
       "readable": true
     },
-    "flags": [
-      "supply_gap"
-    ],
-    "verdict": "FLAG:supply_gap"
+    "flags": [],
+    "verdict": "CLEAN"
   },
   "history": [
-    {
-      "audit_version": "v2.4.2",
-      "cores": 16,
-      "cpu_total_pct": 63.0,
-      "flags": [],
-      "fleet_open_tasks": 0,
-      "gpu": {
-        "compute_apps_count": 23,
-        "mem_used_mb": 5706.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 2.0
-      },
-      "ignition_sla_breach_ids": [],
-      "load_state": "burning-healthy",
-      "parallel_efficiency": {
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "readable": true,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "wall_seconds": 0.0,
-        "window_min": 60.0
-      },
-      "pool_ready_count": 3,
-      "pool_ready_unclaimed": 1,
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "burning-healthy"
-      },
-      "py_cpu_pct": 85.2,
-      "py_procs": 31,
-      "result_stale_min": 0.6,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "supply_family_streak_min": null,
-      "supply_floor": {
-        "breach": false,
-        "floor": 3,
-        "ready": 3
-      },
-      "supply_gap_candidate": false,
-      "supply_gap_detail": {
-        "reason": "burning-healthy"
-      },
-      "ts": "2026-10-04 06:26:58",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "audit_version": "v2.4.2",
       "cores": 32,
@@ -10695,6 +10641,57 @@
         "supply_gap"
       ],
       "verdict": "FLAG:supply_gap"
+    },
+    {
+      "ts": "2026-10-05 14:42:23",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 35.0,
+      "py_cpu_pct": 86.0,
+      "cores": 16,
+      "py_procs": 30,
+      "result_stale_min": 0.1,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 3,
+      "pool_ready_unclaimed": 0,
+      "load_state": "burning-healthy",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "burning-healthy"
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "burning-healthy"
+      },
+      "supply_floor": {
+        "ready": 3,
+        "floor": 3,
+        "breach": false
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": null,
+      "gpu": {
+        "present": true,
+        "util_pct": 3.0,
+        "mem_used_mb": 4729.0,
+        "compute_apps_count": 24,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 24,
+        "core_seconds": 4673.74,
+        "wall_seconds": 363.0,
+        "effective_cores": 12.88,
+        "multicore_burn": 24,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [],
+      "verdict": "CLEAN"
     }
   ]
 }
