@@ -3435,6 +3435,41 @@ N1_BANDS = {
     # NOT a re-pick (R250: W143 bands were never assigned).
     143: {"a": (329_404, 331_403), "b_exit": (331_404, 331_603),
          "engine_owner": "bm-a"},
+    # W144 (bm-a r752 freeze, seat MSG-2026-10-06-011x-bma-w144-seat
+    # pushed to origin 2ba4a613f pre-freeze r565 law (plain
+    # fast-forward delivery, zero race this window, zero --no-verify);
+    # band gate ADMIT results/_r752bma_w144_band_gate.py: A = FIRST-CLEAN
+    # past the registered W143 B band (arithmetic continuation
+    # 331_404..333_403 REFUSED at its own start by the W143 B band
+    # 331_404..331_603, exactly as the r750 W143 gate-tail projection
+    # note anticipated; honest forward walk hops=1 -> 331_604..333_603,
+    # non-rotational r587 forward-monotone walk; A base == prior-wave
+    # B tail+1 (331_603+1) machine-checkable -- A-hops-prior-B
+    # staircase third instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 331_604..331_803 CLEAN on the registered universe
+    # but lands INSIDE the W144 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 333_604 -> 333_604..333_803,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (333_603+1) machine-checkable);
+    # dual-window derive parity with pre-seat probe
+    # results/_r751bma_w144_probe_receipt.json; scan face =
+    # SEED_REGISTRY 187 int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W145+ projection (gate-derived r752): A first-clean
+    # 333_604..335_603 CLEAN hops=0 / B first-clean 333_804..334_003
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W144 B band 333_604..333_803 will refuse the naive
+    # W145 A window; W145 freezer MUST re-derive on the post-W144
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W144 bands were never assigned).
+    144: {"a": (331_604, 333_603), "b_exit": (333_604, 333_803),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
