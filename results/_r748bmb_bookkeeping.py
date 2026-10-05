@@ -23,10 +23,12 @@ for tok in summ.split():
             rcs[k] = int(v)
         except ValueError:
             pass
-assert len(rcs) == 39, "expect 39 legs, got %d" % len(rcs)
+assert len(rcs) == 35, "expect 35 executed legs (25-28 golden-week honest-skip), got %d" % len(rcs)
+assert not any(k[:3] in ("25_", "26_", "27_", "28_") for k in rcs), "skipped legs 25-28 must not appear"
 n_ok = sum(1 for v in rcs.values() if v == 0)
 bad_legs = " ".join("%s=%d" % (k, v) for k, v in rcs.items() if v != 0)
-leg_txt = "39 legs rc0" if n_ok == 39 else "39 legs %d rc0, NONZERO: %s" % (n_ok, bad_legs)
+leg_txt = ("35 executed legs all rc0 (39 minus 25-28 golden-week honest-skip)" if n_ok == 35
+           else "35 executed legs %d rc0, NONZERO: %s (25-28 golden-week skip)" % (n_ok, bad_legs))
 s6_end = log_raw.rsplit("== S6 chain end", 1)[1].strip(" =\r\n")
 
 # --- fact extraction: leg39 trio readiness (r748 probe artifact) ---
@@ -73,10 +75,10 @@ st["next"] = ("(a) per-family nulls finalize as trio hits 2000/2000: V %d now (E
               "(c) 10-08 market reopen window (external data legs + paper marks resume + REGIME_GUARD v3 "
               "first new bar)" % (v, v_eta, q, d))
 st["note"] = ("r748: r747 dead-tail recovery round -- churn-absorb ac5d99880 (39 dead-tail files) + merge "
-              "origin/main behind-10 14-UU canon resolver 3c3a170e8 (receipt _r748bmb_merge_resolve.json); "
-              "orders 154/154 zero unacked; D-19 MATCH D14DCC74872A canonical rc0; smoke 48/48; S6 chain %s; "
-              "trio V%d/Q%d/D%d of 2000 mechanical_ready=%s; r747 line backfilled; LoopWatchdog RE-BUILT "
-              "(was missing)" % (leg_txt, v, q, d, mr))
+              "origin/main behind-10 14-UU + behind-7 17-UU two-window canon resolver (receipts _r748bmb_merge_resolve"
+              ".json w1/w2); orders 154/154 zero unacked; D-19 MATCH D14DCC74872A canonical rc0; smoke 48/48; "
+              "S6 chain %s; trio V%d/Q%d/D%d of 2000 mechanical_ready=%s; r747 line backfilled; LoopWatchdog "
+              "RE-BUILT (was missing)" % (leg_txt, v, q, d, mr))
 sp = io.open(ROOT + r"\state.json", "w", encoding="utf-8")
 json.dump(st, sp, ensure_ascii=False, indent=1)
 sp.close()
