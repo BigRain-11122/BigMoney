@@ -1,0 +1,54 @@
+{
+ "probe": "r757 W147 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 144,
+   "tail": "W146",
+   "owner_rows": 136,
+   "bma_rows": 62,
+   "ordinal": 137,
+   "bma_ordinal": 63
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "a5eadcdd7 (single-hop direct delivery, zero behind-signal, r565 published-before-freeze)"
+  },
+  "leg1": {
+   "A": "338_204..340_203",
+   "hops_A": 1,
+   "B": "340_204..340_403",
+   "hops_B": 1,
+   "B_naive_first_clean": "338_204..338_403",
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      338204,
+      338403
+     ],
+     "jump_to": 340204
+    }
+   ],
+   "A_semantics": "A arithmetic continuation 338_004..340_003 REFUSED at its own start by the registered W146 B band 338_004..338_203 (as the r755 W146 gate-tail projection note anticipated); honest forward walk hops past it -> 338_204..340_203, hops=1, non-rotational r587 forward-monotone assert in-walk; A base == prior-wave B tail+1 machine-checkable (A-hops-prior-B staircase sixth instance, E36 card)",
+   "B_semantics": "B arithmetic continuation 338_204..338_403 CLEAN on the registered universe but lands INSIDE the W147 own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law) -- the reserved walk jumps to 340_204 -> first-clean 340_204..340_403, hops=1, non-rotational r587 forward-monotone assert in-walk; B base == own-wave A tail+1 machine-checkable relation",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/processed/MSG-2026-10-06-045x-bma-w147-seat.md",
+   "push": "a5eadcdd7 (single-hop direct delivery, zero behind-signal)"
+  },
+  "leg3": {
+   "W148p_A": "340204..342203",
+   "hops_A": 0,
+   "W148p_B": "340404..340603",
+   "hops_B": 0,
+   "W148p_B_lands_inside_W148p_A": true,
+   "note": "W148+ naive projection on the pre-W147-registration universe: A first-clean 340_204..342_203 CLEAN hops=0 / B first-clean 340_404..340_603 CLEAN hops=0 -- naive B lands INSIDE the naive A window AND the registered W147 B band 340_204..340_403 will refuse the naive W148 A window once registered; W148 freezer MUST re-derive on the post-W147 universe AND reserve the own-wave A window when deriving B (W141 precedent, same-freeze mutual exclusion, leg2 law, E36 staircase card) -- never transcribe r587"
+  }
+ },
+ "verdict": "ADMIT"
+}
