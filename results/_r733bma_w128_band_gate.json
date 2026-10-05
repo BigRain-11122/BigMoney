@@ -1,0 +1,40 @@
+{
+ "probe": "r733 W128 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 125,
+   "tail": "W127",
+   "owner_rows": 117,
+   "bma_rows": 43,
+   "ordinal": 118,
+   "bma_ordinal": 44
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "0826a8e65 (+merge 99e292c9d, pre-freeze, r565)"
+  },
+  "leg1": {
+   "A": "299_004..301_003",
+   "hops_A": 0,
+   "B": "68_001..68_200",
+   "hops_B": 1,
+   "B_semantics": "arithmetic continuation from the registered W127 B tail 67_800+1 window 67_801..68_000 REFUSED at upper-edge endpoint cny_window_p1=68_000 -> past-hit restart (D-20261002-05 pin edge-endpoint family both-readings identical); dual-window derive parity with the pre-seat probe, cross-window convergence with the W127 gate-tail projection (r732)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-1612-bma-w128-seat.md",
+   "push": "0826a8e65 (pre-freeze, r565)"
+  },
+  "leg3": {
+   "W129p_A": "301004..303003",
+   "hops_A": 0,
+   "W129p_B": "68201..68400",
+   "hops_B": 0,
+   "B_refusal_fact": "hops=0 both sides at gate tail (next freezer re-derives)"
+  }
+ },
+ "verdict": "ADMIT"
+}
