@@ -1,0 +1,21 @@
+{
+ "receipt": "r740 W134 finalize pre-flight (r708 3-leg law, v2 python.exe filter per r734, serial legs per r738)",
+ "wave": 134,
+ "ts": "2026-10-05T19:2x+08:00",
+ "leg1_file_dup": {
+  "shards_present": "12/12 [0..11]",
+  "finalize_output_exists_pre": false,
+  "note": "status --wave 134 read; reparse+dup gate enforced inside FAIL-CLOSED finalize"
+ },
+ "leg2_live_process": {
+  "probe": "Get-CimInstance Win32_Process Name==python.exe AND CommandLine match perpetual_faces_n1",
+  "hits": 0,
+  "serial_note": "probe run serial (no parallel tool batch), full CommandLine inspected"
+ },
+ "leg3_seat": {
+  "seat_file": "fleet/inbox/processed/MSG-2026-10-05-1857-bma-w134-seat.md",
+  "in_git": "origin blob 5da8db9e5e2d5bb715f2540d85865d6136d4b588",
+  "law": "published=reserved r565 law; seat pushed by dead r739 session in freeze chain d6b64dddd"
+ },
+ "verdict": "GREEN_FINALIZE_READY"
+}
