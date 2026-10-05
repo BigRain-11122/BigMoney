@@ -3017,6 +3017,23 @@ N1_BANDS = {
     # NOT a re-pick (R250: W123 bands were never assigned).
     123: {"a": (289_004, 291_003), "b_exit": (66_401, 66_600),
          "engine_owner": "bm-a"},
+    # W124 freeze (bm-a r729): pre-seat probe results/_r729bma_w124_probe.py
+    # + freeze-window gate results/_r729bma_w124_band_gate.py; dual-window
+    # derive parity held: A 291_004..293_003 arithmetic continuation from
+    # the registered W123 A tail, CLEAN hops=0; B 66_601..66_800 arithmetic
+    # continuation from the registered W123 B tail, CLEAN hops=0
+    # (cross-window convergence with the r728 W123 gate-tail W124+
+    # projection); scan face = pre-W124 all registered N1 bands +
+    # SEED_REGISTRY 187 int values + v1/W1 ext bands + N3-R1 used-seed band
+    # + probe cluster 95_000..95_003 + cross-face probe points 95_004/95_006
+    # + lfc/options actuals + N2/N4/N2-W15 probe points.
+    # W125+ projection (gate-derived r729): A 293_004..295_003
+    # CLEAN hops=0; B first-clean 67_201..67_400 hops=2 (refusal facts
+    # inside 66_801..67_200 disclosed by probe leg1);
+    # next freezer must re-derive, never transcribe (r587 law).
+    # NOT a re-pick (R250: W124 bands were never assigned).
+    124: {"a": (291_004, 293_003), "b_exit": (66_601, 66_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
