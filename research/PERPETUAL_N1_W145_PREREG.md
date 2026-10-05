@@ -54,10 +54,16 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 60 行注册 + 本候选——以 gate leg0 机证为准·同 W141/W142/W143/W144 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·占位——跑前为空】
-- （占位：12/12 分片落地后 finalize one-pass 机械回填·回填限本节与 §8·judged 断言照 W144 例。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r755 one-pass rc0·12/12 分片消费·§7/§8 回填迟到窗如实披露：死尾死于 W146 席位窗未及回填·r756 补回；W146 §5 注记「回填同 commit 在场」与实况不符=宣称-实况断差特此修正】
+- **合并池**：pre-W145 K=314,720（mu=−0.092867·sigma=0.244966）→ W145-only K=2,200（mu=−0.091304·sigma=0.243712）→ **merged K=316,920（mu=−0.0929·sigma=0.2450）**；账本 712,811+2,200=**715,011**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w145_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 712,811）：1.1789 → **1.1789**（Δ=+0.0000）；se_mu 收窄链 W144 0.000437 → **0.000435**（0.244957/√316,920）。
+- **A 档 full_sharpe_p95=0.3095**（2,000 runs·W144 锚 0.3029）。
+- **§5 四预测键全过（机证）**：①|W145-only mu − merged mu|=0.0016<0.02 ✓ ②sigma 相对变化 −0.0037%<±10% ✓ ③A p95 差 +0.0066<0.05 ✓ ④K-lift +0.0000≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果件如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w145_vs_w144ext=+0.013561。
 
-## §8 批后复盘。【finalize 同窗回填·占位】
-- （占位：设计复用面+宝藏捕获问+W146+ 投影承接三行照 W144 例回填。）
+## §8 批后复盘。【finalize 同窗回填·迟到窗 r756 补回】
+- 设计=v1 冻结逐字复用·纯种子带深化——零新机制零新方法；**宝藏捕获问（O-20261003-2030 §1 判决 finalize 收口步）：本批无新宝藏**（阶梯/互斥机制面既有·finalize 无新增面）；方法论资产卡无 append 面。
+- W146+ 投影承接（§5 键 5 冻结窗已披露·W146 冻结窗实证）：A naive 335_804..337_803 被本波 B 带 335_804..336_003 拒（阶梯 A-hops-prior-B 继承）→ W146 A 重 derive 强制兑现=hops 1 落 **336_004..338_003**（r755 probe/band gate 回执）；B naive 336_004..336_203 落重 derive 后 A 窗内=**同窗互斥 leg2 律**→B 重 derive hops 1 落 **338_004..338_203**——投影机制全兑现；verify at W146 prereg 已闭环（r755）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
