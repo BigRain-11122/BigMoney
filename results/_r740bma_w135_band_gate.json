@@ -1,0 +1,39 @@
+{
+ "probe": "r740 W135 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 132,
+   "tail": "W134",
+   "owner_rows": 124,
+   "bma_rows": 50,
+   "ordinal": 125,
+   "bma_ordinal": 51
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "98712a0e3 (pre-freeze direct push r565, zero race this window)"
+  },
+  "leg1": {
+   "A": "313_004..315_003",
+   "hops_A": 0,
+   "B": "69_502..69_701",
+   "hops_B": 0,
+   "B_semantics": "double-CLEAN window: A and B both arithmetic continuations from the registered W134 tails, hops=0, zero refusal points in either window; dual-window derive parity with the pre-seat probe, cross-window convergence with the W134 seat MSG-1857 tail projection (r739)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-1933-bma-w135-seat.md",
+   "push": "98712a0e3 (pre-freeze direct push r565, zero race this window)"
+  },
+  "leg3": {
+   "W136p_A": "315004..317003",
+   "hops_A": 0,
+   "W136p_B": "69702..69901",
+   "hops_B": 0
+  }
+ },
+ "verdict": "ADMIT"
+}
