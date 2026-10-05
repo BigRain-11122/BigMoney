@@ -2,133 +2,51 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
+ "active": [],
+ "ledger_buffer": [
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 147,
-   "shard": 7,
-   "nshards": 12,
-   "key": "n1w147-7of12",
    "batch": "PERPETUAL-N1-W147",
-   "pid": 64084,
-   "started_at": "2026-10-06T05:02:05+08:00",
-   "started_epoch": 1791234125,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W147-7.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W147",
-    "prereg": "research/PERPETUAL_N1_W147_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-THIRTY-SEVENTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 136 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W146 row bm-a r755 freeze 8f06f6910, SINGLE STATE zero seat gap W2..W146 all registered; W146 finalize landed same-window r756, ledger head 717,211, merged pool K=319,120; seat published=reserved MSG-2026-10-06-045x-bma-w147-seat PUSHED to origin a5eadcdd7 BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe + probe receipt; deletion-set EMPTY; pre-freeze push single-hop direct delivery, zero behind-signal, zero --no-verify; pre-seat probe and freeze-window band-gate runs derive identical, no fork face), engine_owner=bm-a, wave 147: A = FIRST-CLEAN past the registered W146 B band (the arithmetic continuation 338_004..340_003 is REFUSED at its own start by the W146 B band 338_004..338_203, exactly as the r755 W146 gate-tail projection note anticipated; honest forward walk hops=1 -> 338_204..340_203; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase sixth instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 338_204..338_403 is CLEAN on the registered universe but lands INSIDE the W147 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 340_204, first-clean 340_204..340_403 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the r755 W146 gate-tail projection note re-derived -- both MANDATORY notes honored (post-W146 universe re-derive + own-wave A reservation); ADMIT receipt results/_r757bma_w147_band_gate.py; W148+ projection per this window gate: A first-clean 340_204..342_203 CLEAN / B first-clean 340_404..340_603 CLEAN -- naive B lands INSIDE the naive A window and the registered W147 B band 340_204..340_403 will refuse the naive W148 A window; W148 freezer MUST re-derive on the post-W147 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W146 finalize ALL LANDED (W146 finalize one-pass bm-a r756, §7/§8 backfill same commit; net chain head 717,211, merged pool K=319,120) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
-    "a_seed_base": 338204,
-    "b_exit_seed_base": 340204,
-    "shard_subdir": "n1_w147",
-    "out_name": "n1_w147_results.json",
-    "engine_owner": "bm-a"
-   }
-  }
- ],
- "ledger_buffer": [],
- "last_flush_at": "2026-10-06T05:02:05+08:00",
- "crashes": {},
- "shards_done_total": 319,
- "last_shard_done_at": "2026-10-06T05:02:04+08:00",
- "last_tick": {
-  "ts": "2026-10-06T05:02:05+08:00",
-  "epoch": 1791234122,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 43.87948226928711,
-  "verdict": "ignited:n1w147-7of12 pid=64084 ledger_flush=3",
-  "active_n": 1,
-  "queue_depth": 4,
-  "elapsed_sec": 2.8
- },
- "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 147,
-   "shard": 8,
-   "nshards": 12,
-   "key": "n1w147-8of12",
-   "batch": "PERPETUAL-N1-W147",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "8",
-    "--of",
-    "12",
-    "--wave",
-    "147",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 147,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w147-9of12",
-   "batch": "PERPETUAL-N1-W147",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "9",
-    "--of",
-    "12",
-    "--wave",
-    "147",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 147,
    "shard": 10,
    "nshards": 12,
    "key": "n1w147-10of12",
-   "batch": "PERPETUAL-N1-W147",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "147",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 100524,
+   "started_at": "2026-10-06T05:05:05+08:00",
+   "done_at": "2026-10-06T05:06:04+08:00",
+   "done_epoch": 1791234362,
+   "elapsed_sec": 57.9
   },
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 147,
+   "batch": "PERPETUAL-N1-W147",
    "shard": 11,
    "nshards": 12,
    "key": "n1w147-11of12",
-   "batch": "PERPETUAL-N1-W147",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "147",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 78904,
+   "started_at": "2026-10-06T05:06:05+08:00",
+   "done_at": "2026-10-06T05:07:04+08:00",
+   "done_epoch": 1791234422,
+   "elapsed_sec": 57.8
   }
- ]
+ ],
+ "last_flush_at": "2026-10-06T05:05:05+08:00",
+ "crashes": {},
+ "shards_done_total": 324,
+ "last_shard_done_at": "2026-10-06T05:07:04+08:00",
+ "last_tick": {
+  "ts": "2026-10-06T05:09:04+08:00",
+  "epoch": 1791234541,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 48.32091522216797,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
+  "elapsed_sec": 2.6
+ },
+ "skips": [],
+ "queue": []
 }
