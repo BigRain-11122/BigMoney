@@ -53,8 +53,10 @@ if ($pin -ge 0) {
 # U060 zero-window law: bare schtasks from a windowless session host = one
 # desktop console flash per launch; route through the CreateNoWindow helper
 # (Tools\Invoke-SilentExe.ps1). Existence semantics unchanged: stdout rows
-# present = task exists, empty + exit 1 = missing (R49 schtasks canon kept).
-$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn "Bigmoney-IterationLoop"'
+# present = task exists, empty + exit 1 = missing (R49 schtasks canon kept;
+# -StdoutOnly pins empty-output==not-found under the D-20261005-08 default
+# flip that appends stderr on rc!=0).
+$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn "Bigmoney-IterationLoop"' -StdoutOnly
 $disabledHeal = $false
 if ($exists) {
     try {
