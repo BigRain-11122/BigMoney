@@ -1569,11 +1569,35 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-05 17:04:01",
+  "ts": "2026-10-05 17:12:01",
   "machine": "bm-a",
-  "py_cpu_pct": 1.7,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.6,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-VALUE-P1-NULLS",
+  "shard": "fund-value-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 392,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-VALUE-P1-NULLS",
+    "shard": "fund-value-p1-nulls-0of1",
+    "sig": "scripts/fund_value_p1.py|run,--nulls",
+    "fuse_refusals": 392
+   },
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 843
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-NULLS",
+    "shard": "fund-divlowvol-p1-nulls-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
+    "fuse_refusals": 371
+   }
+  ]
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-05T16:46:19+08:00"
+ "core_samples_seen": "2026-10-05T17:11:20+08:00"
 }

@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 16:41:34",
+ "generated_at": "2026-10-05 17:07:29",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 969,
-  "result_jsons_landed_24h": 299,
+  "commits_24h": 974,
+  "result_jsons_landed_24h": 295,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 35,
+  "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-10-05 16:38:34",
-   "py_cpu_pct": 85.8,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-05 17:05:41",
+   "py_cpu_pct": 0.4,
+   "flags": [
+    "gpu_unauthorized"
+   ],
+   "verdict": "FLAG:gpu_unauthorized"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -643,11 +645,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1206200,
+  "total_report_tokens_est": 1207628,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-05 15:52:32",
+   "prev_generated": "2026-10-05 16:24:45",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1852,
+   "report_tokens_growth": 1428,
    "mandate_growth": 0
   },
   "method": {
@@ -658,37 +660,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-05 16:22:43",
-    "py_pct": 0.5,
-    "cpu_pct": 1.0,
+    "latest_ts": "2026-10-05 17:05:41",
+    "py_pct": 0.4,
+    "cpu_pct": 0.0,
     "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:gpu_unauthorized,supply_gap",
+    "streak_min": null,
+    "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
-     [
-      "14:42",
-      86.0
-     ],
-     [
-      "14:59",
-      0.8
-     ],
-     [
-      "15:00",
-      0.3
-     ],
-     [
-      "15:09",
-      0.0
-     ],
-     [
-      "15:20",
-      0.0
-     ],
-     [
-      "15:20",
-      0.1
-     ],
      [
       "15:27",
       85.9
@@ -710,14 +688,38 @@
       5.9
      ],
      [
+      "16:09",
+      0.8
+     ],
+     [
+      "16:12",
+      86.0
+     ],
+     [
       "16:22",
       0.5
+     ],
+     [
+      "16:29",
+      0.7
+     ],
+     [
+      "16:38",
+      85.8
+     ],
+     [
+      "16:39",
+      0.8
+     ],
+     [
+      "17:05",
+      0.4
      ]
     ],
-    "today_samples": 112,
-    "today_floor_ok": 112,
+    "today_samples": 118,
+    "today_floor_ok": 118,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 58
+    "today_supply_gap_flags": 60
    },
    "bm-b": {
     "latest_ts": "2026-10-05 16:38:34",
@@ -782,29 +784,13 @@
     "today_supply_gap_flags": 59
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 16:09:40",
+    "latest_ts": "2026-10-05 16:39:27",
     "py_pct": 0.8,
-    "cpu_pct": 8.0,
+    "cpu_pct": 4.0,
     "ready": 3,
     "streak_min": 0.0,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "14:42",
-      86.0
-     ],
-     [
-      "14:59",
-      0.8
-     ],
-     [
-      "15:00",
-      0.3
-     ],
-     [
-      "15:09",
-      0.0
-     ],
      [
       "15:20",
       0.0
@@ -836,12 +822,28 @@
      [
       "16:09",
       0.8
+     ],
+     [
+      "16:12",
+      86.0
+     ],
+     [
+      "16:22",
+      0.5
+     ],
+     [
+      "16:29",
+      0.7
+     ],
+     [
+      "16:39",
+      0.8
      ]
     ],
-    "today_samples": 112,
-    "today_floor_ok": 112,
+    "today_samples": 116,
+    "today_floor_ok": 116,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 58
+    "today_supply_gap_flags": 60
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -851,19 +853,19 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 124,
-    "core_seconds": 21598.7,
-    "wall_seconds": 2868.7,
-    "effective_cores": 7.53,
+    "batches_judged": 141,
+    "core_seconds": 24914.8,
+    "wall_seconds": 3125.7,
+    "effective_cores": 7.97,
     "single_core_burn": 13,
-    "multicore_burn": 111,
+    "multicore_burn": 128,
     "too_short": 0,
-    "last_ts": "2026-10-05T16:23:19+08:00",
+    "last_ts": "2026-10-05T17:07:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 32,
-     "audit_ts": "2026-10-05 16:22:43"
+     "audit_batches": 27,
+     "audit_ts": "2026-10-05 17:05:41"
     }
    },
    "bm-b": {
@@ -894,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 26,
-     "audit_ts": "2026-10-05 16:09:40"
+     "audit_batches": 24,
+     "audit_ts": "2026-10-05 16:39:27"
     }
    }
   },
@@ -903,51 +905,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 128,
+  "last_registered": 130,
   "last_owner": "bm-a",
-  "next_registration": 129,
-  "next_seatable": 129,
-  "chain_head": 677611,
-  "k": 279520,
+  "next_registration": 131,
+  "next_seatable": 131,
+  "chain_head": 679811,
+  "k": 281720,
   "waves": [
-   {
-    "wave": 126,
-    "owner": "bm-a",
-    "a": [
-     295004,
-     297003
-    ],
-    "b_exit": [
-     67401,
-     67600
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 673211,
-    "merged_mu": -0.09289352936900262,
-    "merged_sigma": 0.2448074890848076,
-    "k": 275120
-   },
-   {
-    "wave": 127,
-    "owner": "bm-a",
-    "a": [
-     297004,
-     299003
-    ],
-    "b_exit": [
-     67601,
-     67800
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 675411,
-    "merged_mu": -0.09280469133131401,
-    "merged_sigma": 0.24484312070220346,
-    "k": 277320
-   },
    {
     "wave": 128,
     "owner": "bm-a",
@@ -966,6 +930,40 @@
     "merged_mu": -0.09277592587292502,
     "merged_sigma": 0.24489186346722178,
     "k": 279520
+   },
+   {
+    "wave": 129,
+    "owner": "bm-a",
+    "a": [
+     301004,
+     303003
+    ],
+    "b_exit": [
+     68201,
+     68400
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 679811,
+    "merged_mu": -0.0927158827914241,
+    "merged_sigma": 0.24491799569831266,
+    "k": 281720
+   },
+   {
+    "wave": 130,
+    "owner": "bm-a",
+    "a": [
+     303004,
+     305003
+    ],
+    "b_exit": [
+     68502,
+     68701
+    ],
+    "shards_done": 5,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
