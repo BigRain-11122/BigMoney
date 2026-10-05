@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-05T21:19:43+08:00",
- "heartbeat_epoch_utc": 1791206383,
- "clock_read": "2026-10-05T21:19:43+08:00",
+ "last_seen": "2026-10-05T22:11:53+08:00",
+ "heartbeat_epoch_utc": 1791209513,
+ "clock_read": "2026-10-05T22:11:53+08:00",
  "cpu_cores": 16,
- "free_ram_gb": 2.8,
- "gpu_free_vram_gb": 3.2080078125,
- "verdict": "GREEN steady-state; free RAM below 4GB heavy-work gate = no new heavy jobs this round (fleet discipline), trio burns continue",
- "current_task": "r746 golden-week steady-state closeout (S6 chain 39 rc0, trio in-flight)",
+ "free_ram_gb": 3.7,
+ "gpu_free_vram_gb": 3.3,
+ "verdict": "healthy: trio burns in flight (autofill+workers), board empty, RAM <4GB heavy gate = zero new burn drafting",
+ "current_task": "r748 golden-week steady-state + r747 dead-tail recovery: trio NULLS burns V1566/Q1277/D1041 of 2000; S6 39-leg product chain; watchdog rebuilt",
  "orders_ack_count": 154,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -166,14 +166,14 @@
   "O-20261004-1440-bm-c.md"
  ],
  "gpu_free_vram_mb": 3285,
- "last_round_at": "2026-10-05T21:19:43+08:00",
- "round_no": 746,
+ "last_round_at": "2026-10-05T22:11:53+08:00",
+ "round_no": 748,
  "round": 745,
  "last_action": "r746 closed: churn-absorb 94da4f3d7 + clean auto-merge origin/main behind-4 zero-UU 2d039d535; S6 39 legs rc0; trio V1542/Q1256/D1022",
- "now_active": "FUND trio NULLS burns V1542/Q1256/D1022 of 2000 (autofill+workers alive)",
- "latest_artifact": "results/_r746bmb_s6_chain.log (39 legs ALL rc0) + docs/live_usage/LIVE-2026-10-05.md 2026-10-05T21:19:43+08:00",
- "next_milestone": "trio V finalize ~10-06 afternoon, Q ~10-07, D ~10-08; D-06 closeout 10-07 12:00; market reopen 10-08",
+ "now_active": "FUND trio NULLS burns V1566/Q1277/D1041 of 2000 (autofill+workers alive)",
+ "latest_artifact": "results/_r748bmb_s6_chain.log (35 executed legs all rc0 (39 minus 25-28 golden-week honest-skip)) + docs/live_usage/LIVE-2026-10-05.md 2026-10-05T22:11:53+08:00",
+ "next_milestone": "trio V finalize ~10-06 evening, Q ~10-07, D ~10-08; D-06 closeout 10-07 12:00; market reopen 10-08",
  "task": "FUND trio NULLS judgment batch lane (per-family finalize windows)",
- "ts": "2026-10-05T21:19:43+08:00",
- "updated": "2026-10-05T21:19:43+08:00"
+ "ts": "2026-10-05T22:11:53+08:00",
+ "updated": "2026-10-05T22:11:53+08:00"
 }
