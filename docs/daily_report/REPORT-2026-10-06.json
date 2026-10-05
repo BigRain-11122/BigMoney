@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 02:01:49",
+ "generated_at": "2026-10-06 02:06:42",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 956,
-  "result_jsons_landed_24h": 309,
+  "commits_24h": 952,
+  "result_jsons_landed_24h": 311,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 40,
+  "prereg_md_touched_24h": 41,
   "compute_audit_latest": {
-   "ts": "2026-10-06 02:00:20",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-06 02:05:02",
+   "py_cpu_pct": 0.4,
    "flags": [
-    "supply_gap"
+    "gpu_unauthorized"
    ],
-   "verdict": "FLAG:supply_gap"
+   "verdict": "FLAG:gpu_unauthorized"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -660,41 +660,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-06 01:01:12",
-    "py_pct": 0.0,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-06 02:05:02",
+    "py_pct": 0.4,
+    "cpu_pct": 48.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "FLAG:gpu_unauthorized",
     "py_series_tail": [
-     [
-      "23:15",
-      0.3
-     ],
-     [
-      "23:18",
-      0.1
-     ],
-     [
-      "23:31",
-      84.8
-     ],
-     [
-      "23:39",
-      0.0
-     ],
-     [
-      "23:47",
-      0.7
-     ],
-     [
-      "00:01",
-      0.1
-     ],
-     [
-      "00:01",
-      85.1
-     ],
      [
       "00:08",
       0.5
@@ -712,35 +684,51 @@
       1.0
      ],
      [
+      "00:44",
+      85.4
+     ],
+     [
+      "00:58",
+      0.1
+     ],
+     [
       "01:01",
       0.0
+     ],
+     [
+      "01:09",
+      85.4
+     ],
+     [
+      "01:24",
+      1.1
+     ],
+     [
+      "01:37",
+      85.9
+     ],
+     [
+      "01:40",
+      0.8
+     ],
+     [
+      "02:05",
+      0.4
      ]
     ],
-    "today_samples": 7,
-    "today_floor_ok": 7,
+    "today_samples": 14,
+    "today_floor_ok": 14,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 4
+    "today_supply_gap_flags": 5
    },
    "bm-b": {
-    "latest_ts": "2026-10-06 01:09:52",
-    "py_pct": 85.4,
-    "cpu_pct": 47.0,
+    "latest_ts": "2026-10-06 01:37:58",
+    "py_pct": 85.9,
+    "cpu_pct": 38.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "23:18",
-      0.1
-     ],
-     [
-      "23:31",
-      84.8
-     ],
-     [
-      "23:39",
-      0.0
-     ],
      [
       "23:47",
       0.7
@@ -774,23 +762,39 @@
       85.4
      ],
      [
+      "00:58",
+      0.1
+     ],
+     [
+      "01:01",
+      0.0
+     ],
+     [
       "01:09",
       85.4
+     ],
+     [
+      "01:37",
+      85.9
      ]
     ],
-    "today_samples": 8,
-    "today_floor_ok": 8,
+    "today_samples": 11,
+    "today_floor_ok": 11,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 4
    },
    "bm-c": {
-    "latest_ts": "2026-10-06 02:00:20",
-    "py_pct": 0.0,
-    "cpu_pct": 1.0,
+    "latest_ts": "2026-10-06 01:40:25",
+    "py_pct": 0.8,
+    "cpu_pct": 4.0,
     "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "00:01",
+      0.1
+     ],
      [
       "00:01",
       85.1
@@ -834,16 +838,12 @@
      [
       "01:40",
       0.8
-     ],
-     [
-      "02:00",
-      0.0
      ]
     ],
-    "today_samples": 13,
-    "today_floor_ok": 13,
+    "today_samples": 12,
+    "today_floor_ok": 12,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 6
+    "today_supply_gap_flags": 5
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -853,19 +853,19 @@
   "day": "2026-10-06",
   "machines": {
    "bm-a": {
-    "batches_judged": 12,
-    "core_seconds": 2299.9,
-    "wall_seconds": 182.6,
-    "effective_cores": 12.6,
+    "batches_judged": 24,
+    "core_seconds": 4717.0,
+    "wall_seconds": 364.2,
+    "effective_cores": 12.95,
     "single_core_burn": 0,
-    "multicore_burn": 12,
+    "multicore_burn": 24,
     "too_short": 0,
-    "last_ts": "2026-10-06T00:45:21+08:00",
+    "last_ts": "2026-10-06T01:50:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 12,
-     "audit_ts": "2026-10-06 01:01:12"
+     "audit_ts": "2026-10-06 02:05:02"
     }
    },
    "bm-b": {
@@ -880,8 +880,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-06 01:09:52"
+     "audit_batches": 10,
+     "audit_ts": "2026-10-06 01:37:58"
     }
    },
    "bm-c": {
@@ -896,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-06 02:00:20"
+     "audit_batches": 6,
+     "audit_ts": "2026-10-06 01:40:25"
     }
    }
   },
@@ -905,32 +905,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 143,
+  "last_registered": 144,
   "last_owner": "bm-a",
-  "next_registration": 144,
-  "next_seatable": 144,
+  "next_registration": 145,
+  "next_seatable": 145,
   "chain_head": 710611,
   "k": 312520,
   "waves": [
-   {
-    "wave": 141,
-    "owner": "bm-a",
-    "a": [
-     325004,
-     327003
-    ],
-    "b_exit": [
-     327004,
-     327203
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 706211,
-    "merged_mu": -0.09279784921459172,
-    "merged_sigma": 0.24493297190436314,
-    "k": 308120
-   },
    {
     "wave": 142,
     "owner": "bm-a",
@@ -968,6 +949,21 @@
     "merged_mu": -0.09278295885063355,
     "merged_sigma": 0.24496044688374483,
     "k": 312520
+   },
+   {
+    "wave": 144,
+    "owner": "bm-a",
+    "a": [
+     331604,
+     333603
+    ],
+    "b_exit": [
+     333604,
+     333803
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
