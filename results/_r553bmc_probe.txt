@@ -1,0 +1,16 @@
+SMOKE rc=0
+  [PASS] updater: update_daily selftest (exit-code contract) | exit=0 |   [updater] source parity 510300 @ 2026-09-30... PASS
+  [PASS] updater: update_lhb selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+  [PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+  [PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+  [PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 10/10 PASS
+  [PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+  [PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791184985 clock=2026-10-05T15:23:05+08:00
+  Summary: 48/48 PASS, 0 FAIL
+TASKS total=172 open=0 claimed_or_ip=46
+POOL {'done': 399, 'waiting': 1, 'ready': 3} total=403 ready=['FUND-VALUE-P1-NULLS', 'FUND-QUALITY-P1-NULLS', 'FUND-DIVLOWVOL-P1-NULLS']
+WM_RED red=False lane=healthy
+WM_JL verdict=py_low_board_clear next_pick=None
+SATENGINE rc=0
+  wave=2
+  status_first_400={  "machine_id": "bm-c",  "state_present": true,  "alive_flag": true,  "heartbeat_epoch": 1791185822,  "heartbeat_age_s": 28.76647162437439,  "burns_active": [],  "queue_next": [],  "wave_shards_done": {   "2": 12,   "3": 12,   "4": 12,   "5": 12,   "6": 12,   "7": 12,   "8": 12,   "9": 12,   "10": 12,   "11": 12,   "12": 12,   "13": 12,   "14": 12,   "16": 12,   "17": 12,   "18": 12,   "19": 12, 
