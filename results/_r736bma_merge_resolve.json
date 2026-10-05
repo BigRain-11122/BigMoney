@@ -1,0 +1,108 @@
+{
+ "round": "r736 bm-a S0 integration merge",
+ "merge_head": "de2c5ee2d2a690fe2224086886cec766ad9fe0b1",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:07:29>2026-10-05T16:59:57"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:09:37+08:00>2026-10-05T17:03:35+08:00"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:07:27>2026-10-05T16:59:34"
+  },
+  "results/futures_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:06:59>2026-10-05T16:59:29"
+  },
+  "results/lhb_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:06:58>2026-10-05T16:59:28"
+  },
+  "results/update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:05:50>2026-10-05T16:58:14"
+  },
+  "results/dashboard_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:07:40>2026-10-05T17:00:10"
+  },
+  "results/scorecard_v1.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:06:32>2026-10-05T16:59:10"
+  },
+  "results/strategy_scorecard.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T17:06:38>2026-10-05T16:59:20"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 0
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "ours",
+   "why": "md-twin of docs/daily_report/REPORT-2026-10-05.json (probe_ts 2026-10-05T17:07:29>2026-10-05T16:59:57)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-2026-10-05.json (probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58)"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58)"
+  },
+  "results/dashboard_status.js": {
+   "action": "ours",
+   "why": "md-twin of results/dashboard_status.json (probe_ts 2026-10-05T17:07:40>2026-10-05T17:00:10)"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "ours_len": 201,
+   "theirs_len": 201,
+   "union_len": 202
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  },
+  "CODELY.md": {
+   "action": "block-union",
+   "ours_lines": 2,
+   "theirs_lines": 1
+  }
+ },
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-05.json": "ours | probe_ts 2026-10-05T17:07:29>2026-10-05T16:59:57",
+  "docs/live_usage/LIVE-2026-10-05.json": "ours | probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58",
+  "docs/live_usage/LIVE-latest.json": "ours | probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58",
+  "results/_attrition_guard_scan.json": "ours | probe_ts 2026-10-05T17:09:37+08:00>2026-10-05T17:03:35+08:00",
+  "results/fundamental_b_layer_filter.json": "ours | probe_ts 2026-10-05T17:07:27>2026-10-05T16:59:34",
+  "results/futures_update_status.json": "ours | probe_ts 2026-10-05T17:06:59>2026-10-05T16:59:29",
+  "results/lhb_update_status.json": "ours | probe_ts 2026-10-05T17:06:58>2026-10-05T16:59:28",
+  "results/update_status.json": "ours | probe_ts 2026-10-05T17:05:50>2026-10-05T16:58:14",
+  "results/dashboard_status.json": "ours | probe_ts 2026-10-05T17:07:40>2026-10-05T17:00:10",
+  "results/scorecard_v1.json": "ours | probe_ts 2026-10-05T17:06:32>2026-10-05T16:59:10",
+  "results/strategy_scorecard.json": "ours | probe_ts 2026-10-05T17:06:38>2026-10-05T16:59:20",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=0 top ours=2026-10-05T17:07:40 theirs=2026-10-05T17:00:11",
+  "docs/daily_report/REPORT-2026-10-05.md": "ours | md-twin of docs/daily_report/REPORT-2026-10-05.json (probe_ts 2026-10-05T17:07:29>2026-10-05T16:59:57)",
+  "docs/live_usage/LIVE-2026-10-05.md": "ours | md-twin of docs/live_usage/LIVE-2026-10-05.json (probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58)",
+  "docs/live_usage/LIVE-latest.md": "ours | md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-05T17:07:30>2026-10-05T16:59:58)",
+  "results/dashboard_status.js": "ours | md-twin of results/dashboard_status.json (probe_ts 2026-10-05T17:07:40>2026-10-05T17:00:10)",
+  "results/compute_audit.json": "union | rolling-ledger union, ours latest/state",
+  "results/regime_state.json": "union | rolling-ledger union, ours latest/state",
+  "CODELY.md": "block-union | kept theirs r558 bm-c + ours r735 bm-a, upstream-first, 1+2 lines"
+ }
+}
