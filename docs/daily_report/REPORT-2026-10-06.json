@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 02:22:28",
+ "generated_at": "2026-10-06 02:44:54",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 949,
-  "result_jsons_landed_24h": 312,
+  "commits_24h": 947,
+  "result_jsons_landed_24h": 314,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 41,
+  "prereg_md_touched_24h": 38,
   "compute_audit_latest": {
-   "ts": "2026-10-06 02:21:47",
-   "py_cpu_pct": 1.3,
+   "ts": "2026-10-06 02:43:01",
+   "py_cpu_pct": 0.3,
    "flags": [
     "supply_gap"
    ],
@@ -647,9 +647,9 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1227116,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-06 01:42:13",
+   "prev_generated": "2026-10-06 02:06:55",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1632,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -722,25 +722,13 @@
     "today_supply_gap_flags": 5
    },
    "bm-b": {
-    "latest_ts": "2026-10-06 01:37:58",
-    "py_pct": 85.9,
-    "cpu_pct": 38.0,
+    "latest_ts": "2026-10-06 02:01:47",
+    "py_pct": 86.0,
+    "cpu_pct": 39.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "23:47",
-      0.7
-     ],
-     [
-      "00:01",
-      0.1
-     ],
-     [
-      "00:01",
-      85.1
-     ],
      [
       "00:08",
       0.5
@@ -749,48 +737,6 @@
       "00:21",
       0.1
      ],
-     [
-      "00:39",
-      100.0
-     ],
-     [
-      "00:42",
-      1.0
-     ],
-     [
-      "00:44",
-      85.4
-     ],
-     [
-      "00:58",
-      0.1
-     ],
-     [
-      "01:01",
-      0.0
-     ],
-     [
-      "01:09",
-      85.4
-     ],
-     [
-      "01:37",
-      85.9
-     ]
-    ],
-    "today_samples": 11,
-    "today_floor_ok": 11,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 4
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-06 02:21:47",
-    "py_pct": 1.3,
-    "cpu_pct": 30.0,
-    "ready": 3,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_gap",
-    "py_series_tail": [
      [
       "00:39",
       100.0
@@ -828,8 +774,58 @@
       0.8
      ],
      [
+      "02:01",
+      86.0
+     ]
+    ],
+    "today_samples": 14,
+    "today_floor_ok": 14,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 5
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-06 02:43:01",
+    "py_pct": 0.3,
+    "cpu_pct": 5.0,
+    "ready": 3,
+    "streak_min": 21.2,
+    "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
+     [
+      "00:44",
+      85.4
+     ],
+     [
+      "00:58",
+      0.1
+     ],
+     [
+      "01:01",
+      0.0
+     ],
+     [
+      "01:09",
+      85.4
+     ],
+     [
+      "01:24",
+      1.1
+     ],
+     [
+      "01:37",
+      85.9
+     ],
+     [
+      "01:40",
+      0.8
+     ],
+     [
       "02:00",
       0.0
+     ],
+     [
+      "02:01",
+      86.0
      ],
      [
       "02:05",
@@ -838,12 +834,16 @@
      [
       "02:21",
       1.3
+     ],
+     [
+      "02:43",
+      0.3
      ]
     ],
-    "today_samples": 16,
-    "today_floor_ok": 16,
+    "today_samples": 18,
+    "today_floor_ok": 18,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 7
+    "today_supply_gap_flags": 8
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -880,8 +880,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 10,
-     "audit_ts": "2026-10-06 01:37:58"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-06 02:01:47"
     }
    },
    "bm-c": {
@@ -896,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-06 02:21:47"
+     "audit_batches": 8,
+     "audit_ts": "2026-10-06 02:43:01"
     }
    }
   },
@@ -909,8 +909,8 @@
   "last_owner": "bm-a",
   "next_registration": 145,
   "next_seatable": 145,
-  "chain_head": 710611,
-  "k": 312520,
+  "chain_head": 712811,
+  "k": 314720,
   "waves": [
    {
     "wave": 142,
@@ -963,7 +963,11 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
-    "finalize_landed": false
+    "finalize_landed": true,
+    "ledger_total": 712811,
+    "merged_mu": -0.09286741166751399,
+    "merged_sigma": 0.24496582364318648,
+    "k": 314720
    }
   ],
   "seats": []
