@@ -1,0 +1,94 @@
+{
+ "round": "r755 bm-b merge WINDOW-1 (S0 merge after churn-absorb, 15 UU faces)",
+ "merge_head": "c28beb5634d583c8c005d79a573f592f83fb8b27",
+ "faces": {
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19"
+  },
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:42>2026-10-06T01:02:19"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:22>2026-10-06T01:02:17"
+  },
+  "results/futures_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:18>2026-10-06T01:02:13"
+  },
+  "results/lhb_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:14:17>2026-10-06T01:02:13"
+  },
+  "results/scorecard_v1.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:10:56>2026-10-06T01:01:48"
+  },
+  "results/strategy_scorecard.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:11:12>2026-10-06T01:01:53"
+  },
+  "results/update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-06T01:10:03>2026-10-06T01:01:20"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 2
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19)"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "action": "ours",
+   "why": "md-twin of docs/daily_report/REPORT-2026-10-06.json (probe_ts 2026-10-06T01:14:42>2026-10-06T01:02:19)"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "action": "ours",
+   "why": "md-twin of docs/live_usage/LIVE-2026-10-06.json (probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19)"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "ours",
+   "ours_len": 201,
+   "theirs_len": 205,
+   "union_len": 206
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "base": "ours",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  }
+ },
+ "decisions": {
+  "docs/live_usage/LIVE-latest.json": "ours | probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19",
+  "docs/daily_report/REPORT-2026-10-06.json": "ours | probe_ts 2026-10-06T01:14:42>2026-10-06T01:02:19",
+  "docs/live_usage/LIVE-2026-10-06.json": "ours | probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19",
+  "results/fundamental_b_layer_filter.json": "ours | probe_ts 2026-10-06T01:14:22>2026-10-06T01:02:17",
+  "results/futures_update_status.json": "ours | probe_ts 2026-10-06T01:14:18>2026-10-06T01:02:13",
+  "results/lhb_update_status.json": "ours | probe_ts 2026-10-06T01:14:17>2026-10-06T01:02:13",
+  "results/scorecard_v1.json": "ours | probe_ts 2026-10-06T01:10:56>2026-10-06T01:01:48",
+  "results/strategy_scorecard.json": "ours | probe_ts 2026-10-06T01:11:12>2026-10-06T01:01:53",
+  "results/update_status.json": "ours | probe_ts 2026-10-06T01:10:03>2026-10-06T01:01:20",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=2 top ours=2026-10-06T01:14:44 theirs=2026-10-06T01:02:30",
+  "docs/live_usage/LIVE-latest.md": "ours | md-twin of docs/live_usage/LIVE-latest.json (probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19)",
+  "docs/daily_report/REPORT-2026-10-06.md": "ours | md-twin of docs/daily_report/REPORT-2026-10-06.json (probe_ts 2026-10-06T01:14:42>2026-10-06T01:02:19)",
+  "docs/live_usage/LIVE-2026-10-06.md": "ours | md-twin of docs/live_usage/LIVE-2026-10-06.json (probe_ts 2026-10-06T01:14:43>2026-10-06T01:02:19)",
+  "results/compute_audit.json": "union | rolling-ledger union, base=ours (ours=2026-10-06T01:09:52 theirs=2026-10-06T01:01:12)",
+  "results/regime_state.json": "union | rolling-ledger union, base=ours (ours=2026-10-06T01:10:04 theirs=2026-10-06T01:01:21)"
+ },
+ "twin_checks": {
+  "dashboard_json_ts": "2026-10-06T01:02:30",
+  "dashboard_js_contains_same_ts": true
+ },
+ "resolved_n": 15
+}
