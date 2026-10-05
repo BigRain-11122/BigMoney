@@ -3,10 +3,10 @@
   "priority": "P1",
   "type": "sina-mf-retail-absorption-ic-reference-batch",
   "immediate": false,
-  "status": "claimed",
+  "status": "done",
   "claimed_by": "bm-a",
   "claimed_at": "2026-10-05T10:05:00+08:00",
   "spec": "Watermark next_pick claimed (r717): moneyflow IC reference batch, sina four-tier face (EM panel source-blocked 53/5222 since 09-25; sina panel = the only live moneyflow lane). Two-stage funnel per TRIAL_LABOR_LAW sec.2: r718 cheap census CENSUS_ENRICHED (small_share-d5 h10 t=-3.024 p=0.00043 / h20 t=-5.049 p=0.00007; full 36-cell grid disclosed, opposite-direction main-tier facts disclosed not claimed). This ticket = survivor reference-grade confirmation batch SINA_MF_IC_P1 (factor reference batch, zero engine, IC counts only): 5 faces (small_share d1/d5/d10/d20 + retail_group_d5 official r2+r3 grouping) x 2 gated horizons (h10+h20, both census-declared faces) = 10 cells; T+1 shift1 strict lag (family law; census was same-day optimistic face, disclosed); V1/V2/V3 family frozen lines + K=200x2 same-mask white-noise nulls (seed base 58_700 band 58_700..58_999, rg-scanned free, registered in freeze commit R250 one-step law); positional 2/3 IS/OOS split (probe: 235 eligible days @width>=1000, IS 156/OOS 79, period gates pass); D6 vs lhb_count_20 (strong, 20,759 in-window events) + ths pairs (weak-check declared, zero overlap probe fact); M1 t-face HLZ |t|>=3.0 claimable layer with overlap-inflation caveat; M3 family_key sina_mf_tier_ic open; banned_direction_gate ADMIT rc0. Prereg research/shortline/SINA_MF_IC_P1.md; probe results/_r719bma_sina_mf_ic_p1_probe.json.",
-  "progress": "r719 bm-a: claim commit (this commit) precedes prereg freeze commit (THS_AGG_P1 two-commit pattern); probe facts landed; banned gate ADMIT rc0; seed band scanned free.",
-  "result_ref": null
+  "progress": "r719 bm-a: claim commit -> prereg freeze commit (SINA_MF_IC_P1.md + seed 58_700 + probe facts) -> runner build (scripts/sina_mf_ic_p1.py, selftest 9/9 PASS hermetic; two Windows fixture fixes: np.load mmap detach + pd.Timestamp-ns trap caught by toy-debug pre-burn) -> BURN rc0 104s single-shot: 7/10 cells PASS family V-lines (retail-absorption face survives T+1 tradable caliber, OOS retention+strengthening on all 7); ledger 653411->653421 (batch_trials=10); M1 claimable 8/10 (max t 7.17, overlap caveat disclosed); D6 lhb ok (0.229-0.273), ths weak-check declared; attrition row appended (entries 100), guard CLEAN; raw null p95 addendum 0.0021/0.0022 (floor 0.02 binds 10x); prereg sec.7/8 backfilled with known-limitation disclosure (white-noise null loose for persistent factors, P-1a sec.7.4 kin).",
+  "result_ref": "qa/sina-mf-ic-p1-r719.md"
 }
