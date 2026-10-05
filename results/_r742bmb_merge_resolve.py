@@ -1,7 +1,7 @@
-# r741 bm-b merge resolver bloodline -> r740 bm-a (r736 bloodline + r714 full-face extension, MERGE_MODE stage: 2=ours 3=theirs)
-# 19 UU faces vs origin race wave (behind-15 merge window, diff-filter=U authoritative r713 law):
+# r742 bm-b merge resolver (r741 bloodline verbatim, MERGE_MODE stage: 2=ours 3=theirs)
+# 18 UU faces vs origin race wave (behind-8 merge window, diff-filter=U authoritative r713 law):
 #   11 snapshot json (incl dashboard_status.json) + token + 3 md twins + dashboard js twin
-#   + 2 rolling ledgers + CODELY.md block-union.
+#   + 2 rolling ledgers. (CODELY.md not in this window's UU set -- block-union leg guarded, skips clean.)
 # Canon: r709/r711 ts-newer-wins (format-normalized, face-level top-key anchor, deep-ts audit fallback),
 #        r708 twin same-side (md/js follow json), r729 rolling union ts-newer base, r715/r522 token
 #        per-key max-union, r706 lstrip-bullet CODELY block-union + fusion probe, r515 stage-source,
@@ -90,7 +90,7 @@ UNION_LEDGERS = {
 }
 CODELY = 'CODELY.md'
 
-receipt = {'round': 'r740 bm-a merge window (dead r739 tail absorb + behind-9 integration)', 'merge_head': MERGE_TIP,
+receipt = {'round': 'r742 bm-b merge window (close-push non-FF behind-8 daemon race)', 'merge_head': MERGE_TIP,
            'faces': {}, 'decisions': {}}
 decisions = {}
 
@@ -326,7 +326,7 @@ receipt['twin_checks'] = {'dashboard_json_ts': djts, 'dashboard_js_contains_same
 assert js_has, 'dashboard js/json twin ts mismatch'
 receipt['decisions'] = {k: v[0] + ' | ' + v[1] for k, v in decisions.items()}
 receipt['resolved_n'] = len(decisions)
-open(os.path.join(ROOT, 'results', '_r740bma_merge_resolve.w2.json'), 'w', encoding='utf-8', newline='\n').write(
+open(os.path.join(ROOT, 'results', '_r742bmb_merge_resolve.json'), 'w', encoding='utf-8', newline='\n').write(
     json.dumps(receipt, ensure_ascii=False, indent=1) + '\n')
 print('RESOLVED %d faces (MERGE_HEAD=%s)' % (len(decisions), MERGE_TIP[:9]))
 for k, v in sorted(decisions.items()):
