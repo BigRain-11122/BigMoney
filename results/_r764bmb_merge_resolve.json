@@ -1,0 +1,131 @@
+{
+ "round_finisher": 765,
+ "machine": "bm-b",
+ "merge_window": "r764 dead-session merge origin/main (behind-13)",
+ "lineage": "sections 1-6 (12 faces) resolved+staged by r764 dead session via _r764bmb_resolve.py; section 7 (6 faces) completed by r765 finisher _r765bmb_merge_finish.py (same recipes, r756 ts-normalize law); verification pass + receipt completed by r765 (dead session died pre-receipt)",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "recipe": "take-new by generated (ts-normalized r756)",
+   "side": "ours",
+   "ours_ts": "2026-10-06T06:04:28",
+   "theirs_ts": "2026-10-06T05:53:40",
+   "bytes": 23316,
+   "resolved_by": "r765 finisher"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "recipe": "md twin same-side bound (r708)",
+   "side": "ours",
+   "bytes": 10442,
+   "resolved_by": "r765 finisher"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "recipe": "take-new by generated (ts-normalized r756)",
+   "side": "ours",
+   "ours_ts": "2026-10-06T06:04:29",
+   "theirs_ts": "2026-10-06T05:53:41",
+   "bytes": 10954,
+   "resolved_by": "r765 finisher"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "recipe": "md twin same-side bound (r708)",
+   "side": "ours",
+   "bytes": 8068,
+   "resolved_by": "r765 finisher"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "take-new by generated (ts-normalized r756)",
+   "side": "ours",
+   "ours_ts": "2026-10-06T06:04:29",
+   "theirs_ts": "2026-10-06T05:53:41",
+   "bytes": 10954,
+   "resolved_by": "r765 finisher"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "md twin same-side bound (r708)",
+   "side": "ours",
+   "bytes": 8068,
+   "resolved_by": "r765 finisher"
+  },
+  "results/compute_audit.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass",
+   "recipe": "rolling-union by content identity + latest take-new by ts",
+   "union_hist": 204,
+   "latest_ts": "2026-10-06 06:02:58"
+  },
+  "results/regime_state.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/token_usage.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass",
+   "recipe": "per-key-max-union",
+   "generated": "2026-10-06 06:04:29",
+   "machines": [
+    "-bm-a",
+    "-bm-c",
+    "bm-a",
+    "bm-c",
+    "default"
+   ]
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/futures_update_status.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/lhb_update_status.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/update_status.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/_attrition_guard_scan.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/scorecard_v1.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass",
+   "recipe": "take-new by generated",
+   "taken_generated": "2026-10-06T05:44:38"
+  },
+  "results/strategy_scorecard.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/dashboard_status.json": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  },
+  "results/dashboard_status.js": {
+   "resolved_by": "r764 dead session (sections 1-6)",
+   "verify": "stage-0 pass"
+  }
+ },
+ "asserts": [
+  {
+   "js_wrapper_format": true
+  },
+  {
+   "uu_after_add": [],
+   "uu_clean": true
+  },
+  {
+   "conflict_marker_scan_18faces": [],
+   "clean": true
+  },
+  {
+   "json_parse_scan": [],
+   "clean": true
+  }
+ ],
+ "face_count": 18,
+ "verify_all_clean": true
+}
