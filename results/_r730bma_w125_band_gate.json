@@ -1,0 +1,40 @@
+{
+ "probe": "r730 W125 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 122,
+   "tail": "W124",
+   "owner_rows": 114,
+   "bma_rows": 40,
+   "ordinal": 115,
+   "bma_ordinal": 41
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "3f06d2ee5 (pre-freeze, r565)"
+  },
+  "leg1": {
+   "A": "293_004..295_003",
+   "hops_A": 0,
+   "B": "67_201..67_400",
+   "hops_B": 2,
+   "B_semantics": "arithmetic window 66_801..67_000 REFUSED at SEED_REGISTRY p1e_zoo_behavior=67_000 -> past-hit restart 67_001..67_200 REFUSED again -> first-clean 67_201..67_400 per D-20261002-05 pinned semantics; dual-window derive parity with the pre-seat probe, cross-window convergence with the W124 gate-tail projection (r729)",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-1456-bma-w125-seat.md",
+   "push": "3f06d2ee5 (pre-freeze, r565)"
+  },
+  "leg3": {
+   "W126p_A": "295004..297003",
+   "hops_A": 0,
+   "W126p_B": "67401..67600",
+   "hops_B": 0,
+   "B_refusal_fact": "hops=0 both sides at gate tail (next freezer re-derives)"
+  }
+ },
+ "verdict": "ADMIT"
+}
