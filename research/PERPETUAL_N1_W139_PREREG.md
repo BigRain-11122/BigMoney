@@ -61,7 +61,13 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 54 行注册+本候选〔以 gate leg0 机证为准·含 W136/W137/W138 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r745 2026-10-05 21:5x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free）；上游链 derive 复核 PASS（W1..W138 落账已在位·W138 total 699,611 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场（回执 results/_r745bma_w139_preflight.json）：文件完备 12/12+finalize 输出缺位 + 活进程探针 v2 零命中（python.exe N1 runner 全扫·本窗全程串行执行 r738 律）+ 席位 MSG-2026-10-05-213x-bma-w139-seat 在 git 史（published=reserved r565 律·r744 冻结链预推 7e1fc08d0）=GREEN_FINALIZE_READY 先行。
+- w139_only mu **−0.085629** sigma 0.242962（K=2,200）；pre-W139 池 mu −0.092810 sigma 0.244917（K=301,520）；merged mu **−0.092758** sigma **0.244903**（K=**303,720**=301,520+2,200 算术检·与 §0 投影恒等）。
+- skill_line_v2 @n_eff 持平键位 699,611：1.1778 → **1.1778**（K-lift **+0.0000**·机器键 line_delta_k_lift=0.0）；se_mu 收窄链 W136 0.000449 → W137 0.000448 → W138 0.000446 → **0.000444**（@K303,720）。
+- A 档 full_sharpe_p95 **0.3124** / p99 0.4532（A mu −0.081386）；账本 append 单发：prev 699,611 + 2,200 = **701,811**（单记·voids LOWAMP-P1/P2）。
+- §5 断言对账：①|w139_only−merged|=0.007129<0.02 **PASS**（机器键 mu_delta_w139_vs_w138ext=0.007603=w139_only 对 w138_only 波间差如实记）；②sigma 相对变化 −0.006%<±10% **PASS**（键 0.2449）；③A p95 0.3124 对 W138 锚 0.3078 差 +0.0046<0.05 **PASS**；④K-lift +0.0000 在 ±0.02 带内 **PASS**（线 1.1778 稳定）；⑤W140+ 投影复核=r745 冻结窗 gate leg3 逐位收敛（A 323_004..325_003 CLEAN hops=0 / B 94_601..94_800 CLEAN hops=0 双 CLEAN 续带窗）**PASS**。
+- 附注（r735 测量-实现分叉族新面·本窗发现同窗治愈）：r744 extract 测量过 B 窗 set-range 针（94_201..94_401→94_401..94_601）但 r744 insert 0b 漏带——W139 face `arith_b139` 窗口错探 W138 带（94_201..94_400·空转守卫·零数据伤：引擎烧录用 WAVE_CONFIGS 配置值 94_401 正确·带准入由外部 band gate 全域验证）；本窗 pre-insert 审计抓回·外科修复 `arith_b139 = set(range(94_401, 94_601))`（selftest PASS 复绿）+ W140 insert 0b 补齐 B-range 针防再犯。
 
 ## §8 批后复盘。【占位·跑前为空·终 7-T】
 
