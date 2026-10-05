@@ -14,6 +14,7 @@ import json
 import os
 import subprocess
 import sys
+import argparse
 
 import matplotlib
 matplotlib.use("Agg")
@@ -67,7 +68,15 @@ def load_panel_tail(n_bars=800, n_syms=3):
 
 def main():
     global ROUND
-    ROUND = _read_round()
+    # r758 bm-b: optional explicit round override. Default stays state+1
+    # (S7-close bump convention). Override needed when state was honestly
+    # jumped EARLY per r714 dead-tail law (state == current round in flight,
+    # state+1 would collide with the NEXT round's pack namespace).
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--round", type=int, default=None,
+                    help="explicit pack round number (default: state round_no+1)")
+    args = ap.parse_args()
+    ROUND = args.round if args.round else _read_round()
     os.makedirs(QA_DIR, exist_ok=True)
     tag = "smoke-r%d" % ROUND
     log = []
