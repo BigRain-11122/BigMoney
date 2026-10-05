@@ -1,0 +1,37 @@
+{
+ "round": "r534 bm-c",
+ "merge_face": "two-hop recovery vs bm-b r724 wave",
+ "faces": {
+  "results/_attrition_guard_scan.json": {
+   "action": "whole-face-ts-newer-wins",
+   "kept": "ours",
+   "ts_ours": "2026-10-05T11:10:08+08:00",
+   "ts_theirs": "2026-10-05T11:01:11+08:00",
+   "asserts": "reparse+ts-kept+both-sides-CLEAN PASS"
+  },
+  "results/compute_audit.json": {
+   "action": "rolling-union+latest-newer-wins",
+   "latest_kept": "ours",
+   "latest_ts_ours": "2026-10-05 11:08:04",
+   "latest_ts_theirs": "2026-10-05 10:57:14",
+   "rows": "201+202->203",
+   "asserts": "reparse+count+all-dict+latest-kept PASS"
+  },
+  "results/regime_state.json": {
+   "history": "2+2->2",
+   "transitions": "0+0->0",
+   "action": "rolling-union+snapshot-newer-wins",
+   "snapshot_kept": "ours",
+   "asof_ours": "2026-09-30",
+   "asof_theirs": "2026-09-30",
+   "asserts": "reparse+union-count+asof-kept PASS"
+  },
+  "results/token_usage.json": {
+   "action": "machines-per-key-union",
+   "picked_theirs": 0,
+   "keys": "5+5->5",
+   "top_kept": "ours",
+   "asserts": "reparse+keyset-union PASS"
+  }
+ }
+}
