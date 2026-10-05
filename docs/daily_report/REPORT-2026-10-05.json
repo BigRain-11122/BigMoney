@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-05",
- "generated_at": "2026-10-05 16:15:31",
+ "generated_at": "2026-10-05 16:29:44",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-05.md"
  },
  "rd": {
-  "commits_24h": 964,
-  "result_jsons_landed_24h": 299,
+  "commits_24h": 970,
+  "result_jsons_landed_24h": 300,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 34,
+  "prereg_md_touched_24h": 35,
   "compute_audit_latest": {
-   "ts": "2026-10-05 16:12:39",
-   "py_cpu_pct": 86.0,
+   "ts": "2026-10-05 16:29:08",
+   "py_cpu_pct": 0.7,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -643,16 +643,16 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1204348,
+  "total_report_tokens_est": 1205864,
   "delta_vs_prev": {
-   "mandate_growth": 0,
-   "report_tokens_growth": 936,
+   "prev_generated": "2026-10-05 15:52:32",
    "state_tokens_growth": 0,
-   "prev_generated": "2026-10-05 15:39:09"
+   "report_tokens_growth": 1516,
+   "mandate_growth": 0
   },
   "method": {
-   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API",
-   "bpe_proxy": 3.5
+   "bpe_proxy": 3.5,
+   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
   }
  },
  "utilization": {
@@ -782,33 +782,13 @@
     "today_supply_gap_flags": 57
    },
    "bm-c": {
-    "latest_ts": "2026-10-05 15:50:41",
-    "py_pct": 5.9,
-    "cpu_pct": 7.0,
+    "latest_ts": "2026-10-05 16:29:08",
+    "py_pct": 0.7,
+    "cpu_pct": 10.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
-     [
-      "14:28",
-      0.3
-     ],
-     [
-      "14:39",
-      0.9
-     ],
-     [
-      "14:41",
-      0.3
-     ],
-     [
-      "14:42",
-      86.0
-     ],
-     [
-      "14:59",
-      0.8
-     ],
      [
       "15:00",
       0.3
@@ -834,14 +814,34 @@
       0.0
      ],
      [
+      "15:41",
+      85.9
+     ],
+     [
+      "15:48",
+      0.1
+     ],
+     [
       "15:50",
       5.9
+     ],
+     [
+      "16:09",
+      0.8
+     ],
+     [
+      "16:12",
+      86.0
+     ],
+     [
+      "16:29",
+      0.7
      ]
     ],
-    "today_samples": 109,
-    "today_floor_ok": 109,
+    "today_samples": 114,
+    "today_floor_ok": 114,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 57
+    "today_supply_gap_flags": 58
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -851,14 +851,14 @@
   "day": "2026-10-05",
   "machines": {
    "bm-a": {
-    "batches_judged": 112,
-    "core_seconds": 19251.0,
-    "wall_seconds": 2687.1,
-    "effective_cores": 7.16,
+    "batches_judged": 115,
+    "core_seconds": 19839.0,
+    "wall_seconds": 2732.6,
+    "effective_cores": 7.26,
     "single_core_burn": 13,
-    "multicore_burn": 99,
+    "multicore_burn": 102,
     "too_short": 0,
-    "last_ts": "2026-10-05T15:57:20+08:00",
+    "last_ts": "2026-10-05T16:14:19+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -894,8 +894,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 24,
-     "audit_ts": "2026-10-05 15:50:41"
+     "audit_batches": 17,
+     "audit_ts": "2026-10-05 16:29:08"
     }
    }
   },
@@ -903,32 +903,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 127,
+  "last_registered": 128,
   "last_owner": "bm-a",
-  "next_registration": 128,
-  "next_seatable": 128,
-  "chain_head": 673211,
-  "k": 275120,
+  "next_registration": 129,
+  "next_seatable": 129,
+  "chain_head": 675411,
+  "k": 277320,
   "waves": [
-   {
-    "wave": 125,
-    "owner": "bm-a",
-    "a": [
-     293004,
-     295003
-    ],
-    "b_exit": [
-     67201,
-     67400
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 671011,
-    "merged_mu": -0.09281602264399824,
-    "merged_sigma": 0.24483525948572588,
-    "k": 272920
-   },
    {
     "wave": 126,
     "owner": "bm-a",
@@ -960,6 +941,25 @@
      67800
     ],
     "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 675411,
+    "merged_mu": -0.09280469133131401,
+    "merged_sigma": 0.24484312070220346,
+    "k": 277320
+   },
+   {
+    "wave": 128,
+    "owner": "bm-a",
+    "a": [
+     299004,
+     301003
+    ],
+    "b_exit": [
+     68001,
+     68200
+    ],
+    "shards_done": 4,
     "shards_total": 12,
     "finalize_landed": false
    }
