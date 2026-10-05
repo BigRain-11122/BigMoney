@@ -3310,6 +3310,32 @@ N1_BANDS = {
     # NOT a re-pick (R250: W139 bands were never assigned).
     139: {"a": (321_004, 323_003), "b_exit": (94_401, 94_600),
          "engine_owner": "bm-a"},
+    # W140 (bm-a r745 freeze, seat MSG-2026-10-05-215x-bma-w140-seat
+    # pushed to origin 08710e2d0 pre-freeze r565 law (plain
+    # fast-forward delivery, zero race this window, zero
+    # --no-verify);
+    # band gate ADMIT results/_r745bma_w140_band_gate.py: A arithmetic
+    # continuation 323_003+1 -> 323_004..325_003 CLEAN hops=0; B =
+    # arithmetic continuation from the W139 B tail 94_600+1 ->
+    # 94_601..94_800 CLEAN hops=0 (double-CLEAN continuation window;
+    # the W139 zero-hop double-CLEAN continuation landed past the
+    # contiguous registered band mass 70_001..94_600, clean by
+    # construction);
+    # dual-window derive parity with pre-seat probe
+    # results/_r745bma_w140_probe_receipt.json; scan face =
+    # SEED_REGISTRY 187 int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W141+ projection (gate-derived r745): A 325_004..327_003
+    # CLEAN hops=0; B first-clean 323_004..323_203 hops=115
+    # (pre-W140-registration baseline honest hop chain past the
+    # probe cluster; B re-derive MANDATORY at W141 prereg -- the
+    # baseline lands inside the now-registered W140 A band, next
+    # freezer must re-derive past it, never transcribe r587 law).
+    # NOT a re-pick (R250: W140 bands were never assigned).
+    140: {"a": (323_004, 325_003), "b_exit": (94_601, 94_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
