@@ -326,7 +326,7 @@ receipt['twin_checks'] = {'dashboard_json_ts': djts, 'dashboard_js_contains_same
 assert js_has, 'dashboard js/json twin ts mismatch'
 receipt['decisions'] = {k: v[0] + ' | ' + v[1] for k, v in decisions.items()}
 receipt['resolved_n'] = len(decisions)
-open(os.path.join(ROOT, 'results', '_r740bma_merge_resolve.w2.json'), 'w', encoding='utf-8', newline='\n').write(
+open(os.path.join(ROOT, 'results', '_r740bma_merge_resolve.w3.json'), 'w', encoding='utf-8', newline='\n').write(
     json.dumps(receipt, ensure_ascii=False, indent=1) + '\n')
 print('RESOLVED %d faces (MERGE_HEAD=%s)' % (len(decisions), MERGE_TIP[:9]))
 for k, v in sorted(decisions.items()):
