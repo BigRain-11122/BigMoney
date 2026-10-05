@@ -3155,6 +3155,22 @@ N1_BANDS = {
     # NOT a re-pick (R250: W131 bands were never assigned).
     131: {"a": (305_004, 307_003), "b_exit": (68_702, 68_901),
          "engine_owner": "bm-a"},
+    # W132 (bm-a r737 freeze, seat MSG-2026-10-05-1755-bma-w132-seat
+    # pushed to origin 9c7e85e7f pre-freeze r565 law; band gate ADMIT
+    # results/_r737bma_w132_band_gate.json: double-CLEAN window --
+    # A arithmetic continuation 307_003+1 -> 307_004..309_003
+    # CLEAN hops=0; B arithmetic continuation 68_901+1 ->
+    # 68_902..69_101 CLEAN hops=0; dual-window derive parity with
+    # pre-seat probe; scan face = SEED_REGISTRY 187 int values +
+    # v1/W1 ext bands + N3-R1 used-seed band + probe cluster
+    # 95_000..95_003 + cross-face probe points 95_004/95_006 +
+    # lfc/options actuals + N2/N4/N2-W15 probe points.
+    # W133+ projection (gate-derived r737): A 309_004..311_003
+    # CLEAN hops=0; B 69_102..69_301 CLEAN hops=0 (next freezer
+    # must re-derive, never transcribe r587 law).
+    # NOT a re-pick (R250: W132 bands were never assigned).
+    132: {"a": (307_004, 309_003), "b_exit": (68_902, 69_101),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

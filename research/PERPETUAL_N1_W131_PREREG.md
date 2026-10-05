@@ -61,8 +61,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 46 行注册+本候选〔以 gate leg0 机证为准·含 W128/W129/W130 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r737 2026-10-05 17:5x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free）；上游链 derive 复核 PASS（W1..W130 落账已在位·W130 total 682,011 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场（results/_r737bma_w131_preflight.py·r736 v2 血统）：文件完备 12/12 reparse（A=2,000/B=200 total=2,200）+ 活进程探针 v2 零同窗（python.exe N1 runner 全扫零命中·探针自匹配 r734 律滤除）+ 席位 MSG-2026-10-05-1726-bma-w131-seat 在 git 史（published=reserved r565 律·fde20e3a1 预推）=GREEN_FINALIZE_READY 先行。
+- w131_only mu **−0.098952** sigma 0.252074（K=2,200）；pre-W131 池 mu −0.092774 sigma 0.244947（K=283,920）；merged mu **−0.092821** sigma **0.245003**（K=**286,120**=283,920+2,200 算术检）。
+- skill_line_v2 @n_eff 682,011：1.1768 → **1.1771**（K-lift **+0.0003**）；se_mu 收窄链 W129 0.000461 → W130 0.000460 → **0.000458**。
+- A 档 full_sharpe_p95 **0.3234** / p99 0.5098（A mu −0.094066）；账本 append 单发：prev 682,011 + 2,200 = **684,211**（单记·voids LOWAMP-P1/P2）。
+- §5 断言对账：①|w131_only−merged|=0.006131<0.02 **PASS**；②sigma 相对变化 +0.0228%<±10% **PASS**；③A p95 vs W130 键 0.3256 差 −0.0022<0.05 **PASS**；④K-lift +0.0003≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r737
+- 零异常零补获：freeze r736（W131 FREEZE 链先推 8cd6667e8·席位 MSG-2026-10-05-1726 r565 律先推 fde20e3a1·引擎自燃 shard-0 @17:33）→分片连续烧全落地（12/12 @17:45:04·shards 0-8 r736 轮窗引擎逐分自落·shards 9-11 r737 轮首 churn-absorb 收编）→finalize 本窗 r737 one-pass（17:5x·跨轮生命周期：r736 冻结+点火→r737 收口·W129/W130 同构）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W132=表尾后下个自由号——**A 307_004..309_003 CLEAN / B first-clean 68_902..69_101 CLEAN 双 hops=0**（见席位 MSG-1726 tail 投影·下波冻结方必复核非镜像 r587 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
