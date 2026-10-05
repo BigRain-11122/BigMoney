@@ -61,8 +61,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 44 行注册+本候选〔以 gate leg0 机证为准·含 W126/W127/W128 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r735 2026-10-05 16:53】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取（A=2,000/B=200 算术检·分片名去重门 dup-free 2000/200）；上游链 derive 复核 PASS（W1..W128 落账已在位·W128 total 677,611 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场：文件完备 12/12 reparse（A=2,000/B=200 total=2,200 全分片 json.loads）+ 活进程探针 v2 零同窗（python.exe N1 runner 全扫零命中）+ dup 由 finalize fail-closed 内建=GREEN_FINALIZE_READY 先行；席位 MSG-2026-10-05-1627-bma-w129-seat 已 published=席位唯一性在场（r734 pre-freeze 3575842b2·bm-b r736 seat ack+bm-c r557 席位面确认·他机零 W129 finalize 竞态窗核验后点火）。
+- w129_only mu **−0.085087** sigma 0.248154（K=2,200）；pre-W129 池 mu −0.092776 sigma 0.244892（K=279,520）；merged mu **−0.092716** sigma **0.244918**（K=**281,720**=279,520+2,200 算术检）。
+- skill_line_v2 @n_eff 677,611：1.1762 → **1.1764**（K-lift **+0.0002**）；se_mu 收窄链 W127 0.000465 → W128 0.000463 → **0.000461**。
+- A 档 full_sharpe_p95 **0.3223** / p99 0.4752；账本 append 单发：prev 677,611 + 2,200 = **679,811**（单记）。
+- §5 断言对账：①|w129_only−merged|=0.007629<0.02 **PASS**；②sigma 相对变化 +0.0107%<±10% **PASS**；③A p95 vs W128 键 0.3189 差 +0.0034<0.05 **PASS**；④K-lift +0.0002≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r735
+- 零异常零补获：freeze r734（W129 FREEZE 链先推·席位 MSG-2026-10-05-1627 r565 律·引擎自燃 shard-0 @16:3x 收轮后）→分片连续烧全落地（12/12 @16:4x·shard-4..11 r735 轮首 churn-absorb 收编）→finalize 本窗 r735 one-pass（16:53:58·跨轮生命周期：r734 冻结+点火→r735 收口·W127/W128 同构）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W130=表尾后下个自由号——**A 303_004..305_003 CLEAN / B first-clean 68_502..68_701 hops=1**（见 §5 第5条投影·下游冻结方必复核非镜像 r587 律·B 面 68_401..68_600 拒绝点事实留 W130 预注册窗机证披露）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。

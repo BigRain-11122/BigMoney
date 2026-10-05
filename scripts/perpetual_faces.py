@@ -3120,6 +3120,25 @@ N1_BANDS = {
     # NOT a re-pick (R250: W129 bands were never assigned).
     129: {"a": (301_004, 303_003), "b_exit": (68_201, 68_400),
          "engine_owner": "bm-a"},
+    # W130 (bm-a r735 freeze, seat MSG-2026-10-05-1658-bma-w130-seat
+    # pushed to origin 02e151b0a pre-freeze r565 law; band gate ADMIT
+    # results/_r735bma_w130_band_gate.json: A arithmetic continuation
+    # 303_003+1 -> 303_004..305_003 CLEAN hops=0; B first-clean
+    # past-hit restart window after the REFUSED arithmetic
+    # continuation 68_401..68_600 from the registered W129 B tail
+    # 68_400+1 (refusal facts SEED_REGISTRY 68_500 t19_phantom_p1 +
+    # 68_501 perpetual_n4_b1, D-20261002-05 pin past-hit restart
+    # semantics, hops=1 -> 68_502..68_701); dual-window derive parity
+    # with pre-seat probe; scan face = SEED_REGISTRY 187 int values +
+    # v1/W1 ext bands + N3-R1 used-seed band + probe cluster
+    # 95_000..95_003 + cross-face probe points 95_004/95_006 +
+    # lfc/options actuals + N2/N4/N2-W15 probe points.
+    # W131+ projection (gate-derived r735): A 305_004..307_003
+    # CLEAN hops=0; B 68_702..68_901 CLEAN hops=0 (next freezer
+    # must re-derive, never transcribe r587 law).
+    # NOT a re-pick (R250: W130 bands were never assigned).
+    130: {"a": (303_004, 305_003), "b_exit": (68_502, 68_701),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
