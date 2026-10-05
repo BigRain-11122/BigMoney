@@ -1,0 +1,137 @@
+{
+ "probe": "r742 W137 freeze-window band gate",
+ "legs": {
+  "leg0": {
+   "rows": 134,
+   "tail": "W136",
+   "owner_rows": 126,
+   "bma_rows": 52,
+   "ordinal": 127,
+   "bma_ordinal": 53
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "af1c3c267 (pre-freeze push, merge-closeout per r524 law, zero --no-verify)"
+  },
+  "leg1": {
+   "A": "317_004..319_003",
+   "hops_A": 0,
+   "B": "94_001..94_200",
+   "hops_B": 12,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      69902,
+      70101
+     ],
+     "jump_to": 72001
+    },
+    {
+     "hop": 2,
+     "window": [
+      72001,
+      72200
+     ],
+     "jump_to": 74001
+    },
+    {
+     "hop": 3,
+     "window": [
+      74001,
+      74200
+     ],
+     "jump_to": 76001
+    },
+    {
+     "hop": 4,
+     "window": [
+      76001,
+      76200
+     ],
+     "jump_to": 78001
+    },
+    {
+     "hop": 5,
+     "window": [
+      78001,
+      78200
+     ],
+     "jump_to": 80001
+    },
+    {
+     "hop": 6,
+     "window": [
+      80001,
+      80200
+     ],
+     "jump_to": 82001
+    },
+    {
+     "hop": 7,
+     "window": [
+      82001,
+      82200
+     ],
+     "jump_to": 84001
+    },
+    {
+     "hop": 8,
+     "window": [
+      84001,
+      84200
+     ],
+     "jump_to": 86001
+    },
+    {
+     "hop": 9,
+     "window": [
+      86001,
+      86200
+     ],
+     "jump_to": 88001
+    },
+    {
+     "hop": 10,
+     "window": [
+      88001,
+      88200
+     ],
+     "jump_to": 90001
+    },
+    {
+     "hop": 11,
+     "window": [
+      90001,
+      90200
+     ],
+     "jump_to": 92001
+    },
+    {
+     "hop": 12,
+     "window": [
+      92001,
+      92200
+     ],
+     "jump_to": 94001
+    }
+   ],
+   "B_semantics": "honest 12-hop forward walk: first window 69_902..70_101 refused by N3-R1 used-seed band + contiguous registered 2_000-wide bands 70_001..94_000; every hop a strict forward jump past the refusing band (non-rotational r587, forward-monotone assert in-walk); dual-window derive parity with the pre-seat probe",
+   "derive_parity_with_pre_seat": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true,
+   "seat": "fleet/inbox/MSG-2026-10-05-202x-bma-w137-seat.md",
+   "push": "af1c3c267 (pre-freeze push, merge-closeout per r524 law, zero --no-verify)"
+  },
+  "leg3": {
+   "W138p_A": "319004..321003",
+   "hops_A": 0,
+   "W138p_B": "94201..94400",
+   "hops_B": 0
+  }
+ },
+ "verdict": "ADMIT"
+}
