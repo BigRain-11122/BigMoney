@@ -1,0 +1,28 @@
+take:2 22836B (tie->origin r140)
+take:2 10316B (tie->origin r140)
+take:3 10952B (ts-newer churn)
+take:3 8066B (ts-newer churn)
+take:3 10952B (ts-newer churn)
+take:3 8066B (ts-newer churn)
+take:3 126960B (ts-newer churn)
+take:3 93313B (ts-newer churn)
+take:3 1704B (ts-newer churn)
+take:3 3198B (ts-newer churn)
+take:3 326B (ts-newer churn)
+take:3 27754B (ts-newer churn)
+take:3 238109B (ts-newer churn)
+take:3 2035B (ts-newer churn)
+take:3 7842B (ts-newer churn)
+compute_audit union: |A|=204 |B|=201 |AUB|=205 latest=churn
+regime_state union: history |AUB|=2 transitions |AUB|=0 state=churn
+== wave-2 fix-forward (heal 5cef1b3f4 contamination, pre-push) ==
+contaminated-in-HEAD: docs/live_usage/LIVE-2026-10-05.md, docs/live_usage/LIVE-latest.md, results/dashboard_status.js
+(twin-anchor docs/live_usage/LIVE-2026-10-05.json: probe t2=2026-10-05 07:41:11 t3=2026-10-05 07:24:57 -> origin)
+docs/live_usage/LIVE-2026-10-05.md: FIX take:twin-follows-json:origin 8066B
+(twin-anchor docs/live_usage/LIVE-latest.json: probe t2=2026-10-05 07:41:11 t3=2026-10-05 07:24:57 -> origin)
+docs/live_usage/LIVE-latest.md: FIX take:twin-follows-json:origin 8066B
+(twin-anchor results/dashboard_status.json: probe t2=2026-10-05 07:41:22 t3=2026-10-05 07:25:13 -> origin)
+results/dashboard_status.js: FIX take:twin-follows-json:origin 93317B
+marker-scan: ALL 15 wave-2 faces CLEAN
+== merge-window-3 compute_audit final union ==
+compute_audit merge-union: ours=206(0 str-healed) theirs=206(201 str-healed) |AUB|=207 latest=theirs(2026-10-05 07:39:40) all-dicts-healed
