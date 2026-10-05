@@ -1,0 +1,96 @@
+{
+ "window": "r728 bm-a close merge 14-UU per-face newer-wins + compute_audit rolling union",
+ "faces": {
+  "results/compute_audit.json": {
+   "side": "ROLLING-UNION",
+   "base": "ours (latest 14:11:00 newer)",
+   "rows_ours": 201,
+   "rows_theirs": 201,
+   "overlap": 200,
+   "union_rows": 202,
+   "theirs_only_row": "14:10:55 preserved",
+   "latest_ts": "2026-10-05 14:11:00"
+  },
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "side": "ours",
+   "bytes": 23304,
+   "ts_key": "generated_at",
+   "ts": "2026-10-05 14:12:30"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "side": "ours",
+   "bytes": 10371,
+   "twin": "docs/daily_report/REPORT-2026-10-05.json",
+   "twin_ts_key": "generated_at"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "side": "ours",
+   "bytes": 10954,
+   "ts_key": "generated",
+   "ts": "2026-10-05T14:12:31"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "side": "ours",
+   "bytes": 8067,
+   "twin": "docs/live_usage/LIVE-2026-10-05.json",
+   "twin_ts_key": "generated"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "side": "ours",
+   "bytes": 10954,
+   "ts_key": "generated",
+   "ts": "2026-10-05T14:12:31"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "side": "ours",
+   "bytes": 8067,
+   "twin": "docs/live_usage/LIVE-latest.json",
+   "twin_ts_key": "generated"
+  },
+  "results/_attrition_guard_scan.json": {
+   "side": "ours",
+   "bytes": 2076,
+   "ts_key": "ts",
+   "ts": "2026-10-05T14:13:22+08:00"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "side": "ours",
+   "bytes": 1704,
+   "ts_key": "updated",
+   "ts": "2026-10-05 14:12:29"
+  },
+  "results/futures_update_status.json": {
+   "side": "ours",
+   "bytes": 3198,
+   "ts_key": "ts",
+   "ts": "2026-10-05T14:12:03"
+  },
+  "results/lhb_update_status.json": {
+   "side": "ours",
+   "bytes": 211,
+   "ts_key": "updated",
+   "ts": "2026-10-05 14:12:02"
+  },
+  "results/regime_state.json": {
+   "side": "ours",
+   "bytes": 1787,
+   "ts_key": "updated",
+   "ts": "2026-10-05 14:11:14"
+  },
+  "results/token_usage.json": {
+   "side": "ours",
+   "bytes": 1967,
+   "ts_key": "generated",
+   "ts": "2026-10-05 14:12:42"
+  },
+  "results/update_status.json": {
+   "side": "ours",
+   "bytes": 7842,
+   "ts_key": "updated",
+   "ts": "2026-10-05 14:11:11"
+  }
+ },
+ "law": "r709 directed fields / r515 stage-source / r706-A bytes / r704 readback / r708 twins / r725 rolling-union",
+ "resolved": 14,
+ "verdict": "14/14: 13 per-face ours-newer (directed ts probes re-derived from stages pre-resolve, zero fork; md twins byte-equal readback) + 1 compute_audit rolling union 201+201->202 rows (200 overlap, theirs-only 14:10:55 observation preserved, latest=ours 14:11:00)"
+}
