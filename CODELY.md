@@ -4,6 +4,7 @@
 
 
 
+
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
@@ -11,7 +12,9 @@
 
 
 
+
 ### Feedback
+
 
 
 
@@ -38,6 +41,7 @@
 - [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
 
 - [2026-10-05 08:4x r523 bm-c] **S0 churn-absorb add 撞 daemon index.lock × daemon 陈旧 FETCH_HEAD 中途搬 main 坑（add rc128=竞态勿重试环·终点态核验后照常下序）**：S0 轮首脏=4 个 bm-c 车道 daemon 面，churn-absorb 定向 `git add` 撞同窗 daemon 持 index.lock（rc128 静默败→后续 commit rc1 零 staged）；同窗 daemon tick 以其早先 fetch 的陈旧 FETCH_HEAD 把 main FF 至 mid-tip（ff4b2031e≠真 tip 7f6bc285e）——会话侧表现=HEAD 在两次探测间「自行移动」。正法=①add rc128=daemon 竞态非阻塞故障，勿当场重试环，churn 留树 close 吸收（r620 收口范式）②集成目标恒 `git merge origin/main`（本轮 fetch 后真 tip），禁信 mid-state HEAD/FETCH_HEAD；FF 后 rev-list 双向计数+status 终点态核验（本窗 0/0+预期脏集=收敛）再照常下序。How to apply：S0 窗见 add rc128+HEAD 异动=daemon×集成窗常态面（r690/r696 族的 branch-move 新面），终点态定谳后继续轮务勿按中间态重做手术。
+
 
 
 
@@ -136,3 +140,6 @@
 
 - [2026-10-05 18:2x r738 bm-a] **并行工具批自撞坑（r708 预检活进程探针假阳性族·r734 自匹配律的姊妹新面·W132 finalize 窗实弹·当场串行复核归零）**：把 r708 三腿预检的「分片 status 腿」与「活进程探针腿」放在同一消息的并行工具批里跑——探针（Get-CimInstance python.exe match perpetual_faces_n1）抓到同窗并行兄弟腿的 status 进程（pid 78420）=「live n1 processes 1」假阳性；这不是 finalize 在飞而是自家 status 命令。r734 律滤的是探针宿主自匹配（powershell.exe），本坑=同机并行批兄弟进程互撞（探针宿主过滤救不了）。正法：①预检三腿凡含活进程探针=串行执行（探针腿最后跑）②命中后先核 CommandLine 全文定性（st...前缀=status 腿自证）再裁决③命中数与预期语义对不上时 Start-Sleep 后串行复核归零再动 finalize。How to apply：未来一切 finalize/聚合类 spawn 前预检（r708 律族）的腿排布=串行；见「单 hit 且命令行含 status/探测字样」先疑并行自撞勿疑真冲突。
 - [2026-10-05 18:5x r741 bm-b] **PS 读取|写回同文件单管道流自锁坑（Get-Content 管道持读句柄 x Set-Content 同文件写=IOException；正法=[IO.File]::ReadAllText/WriteAllText 两步法）**：r741 复制 r740 链血统时 Get-Content -Raw file | ForEach-Object {...} | Set-Content file 单管道读写同一文件——PS 流式管道在 Set-Content 打开写句柄时上游 Get-Content 的 FileStream 仍持握=「The process cannot access the file because it is being used by another process」IOException（写入零发生=零残留零伤害）；同窗两步法 [IO.File]::ReadAllText 先装载变量+[IO.File]::WriteAllText 回写治愈。与 r739（先复制后编辑律）正交：r739 管「改源件 vs 改副本」的顺序面，本律管「单管道内读写同文件」的句柄面。How to apply：一切对既有文件做读-改-写回的 PS 内联编辑（轮号替换/血统改字/收口器改面）一律两步法（先 ReadAllText 后 WriteAllText）或复制到新路径再写；禁 Get-Content|...|Set-Content 同文件单管道形态。| dept:工程 | r741 收口窗（S6 39 腿全 rc0 + dualrun streak 34 + trio NULLS V1482/Q1205/D977）
+
+- [2026-10-05 19:5x r567 bm-c] **血统复用跨落位 ROOT 派生面坑（r511-② 外置硬编码律新变体·r531 复制链全串 diff 律姊妹面·当场 fail-fast 零伤）**：verbatim 复用 bm-b r742 merge resolver（源件居 results/ 仓内位、ROOT=dirname(dirname(__file__)) 位置自适应）到本机 scratch 落位时，只 count-assert 了轮号 4 处编辑、漏改 ROOT 行——scratch 位 dirname 降层解析到 .codely-cli → 首面写入即 FileNotFoundError 崩（零文件落盘、merge 态完好零污染），按 r511-② 律补 ROOT 硬编码重建后 18/18 面全解。Why：count-assert 只验「编辑意图已发生」不验「编辑集完备」；仓内位与 scratch 位两种合法落位互换时，位置派生行（ROOT/abspath/__file__/相对路径）= 必改面。How to apply：复用他机 resolver/工具血统先通读找位置派生行逐行定夺（保留或硬编码），scratch 落位一律 ROOT 硬编码；下台机器复用 r742 血统（同 18 面族竞态窗必复发）时先核 ROOT 行。
+- [2026-10-05 19:2x r740 bm-a] **0a 平移与 parity 块断言标签交互坑（r735 代码生成律新面·W135 冻结窗实弹·rep 断言 fail-closed 当场治愈零 origin 伤害）**：registry insert 血统的 0a 全量 W 序号平移（W134→W135/W133→W134/W132→W133）同样作用于提取 face 内 parity 块的**断言消息标签**（'W132 row parity drift'→'W133'、'W133'→'W134'）——old_parity 针若按原始 dump 标签（W130/W131/W132/W133）取形则 count==0 恒炸；正法=old_parity 针按 **0a 平移后标签形态**取形（本例 W130/W131/W133/W134——W130/W131 不在平移键集故原样），new_parity 写干净标签（W131..W134）；测量面（extract pass）跑在 0a 模拟后文本上故计数恒真。附：多段 insert 脚本（part1 face 变换+part2 n1 插入）必须严格串行——part2 在 part1 fail 后跑会把 WAVE_CONFIGS 插入只落内存（脚本尾部统一写盘=死在中间即零盘污），幂等重跑可收敛但时序上先 part1 后 part2 勿并行。
