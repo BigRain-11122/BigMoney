@@ -3,13 +3,16 @@
 
 
 
+
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
 
 
 
+
 ### Feedback
+
 
 
 
@@ -35,6 +38,7 @@
 - [2026-10-05 08:1x r522 bm-c] **merge resolver dict 键值反转坑（union=list(oid) 取序列化键而非行值→历史行整体变 JSON 字符串入库·计数断言盲区放行）**：r521 merge resolver compute_audit union 段 `union = list(oid)` 把 {dumps(e): e} 去重字典的**键**（=行序列化字符串）当 union 列表落盘——201 行全变 JSON 字符串入库（fcc27c2c8·双亲全净=污染 100% resolver 自产）+leg-02 write_lane 镜像把污染带进 bm-c 车道面；下游 merge_lane_views.merge_compute_audit `h.get("ts")` 撞 str 炸 AttributeError=daily_report 腿 rc1；断言层只验 len(union) 恒等未验类型=假通过（r419/r420 断言层族新面）。正法=①union 一律 `list(oid.values())`+行级 all-isinstance(dict) 双断言（写盘前+复读后）②污染愈合=反序列化原位手术（json.loads 逐行·零行损失·顺序/格式保全·ts 唯一验证·treasure_guard restore 分类门预过 rc0=可再生工件类放行）③计数恒等≠类型恒等——一切 union/merge 写盘断言必须带类型门。How to apply：复制 merge resolver 血统先核 dict comprehension 键值方向（键=去重 id·值=行对象·union 取 values）；见下游 h.get() 炸 str 先疑上游 union 键值反转。
 
 - [2026-10-05 08:4x r523 bm-c] **S0 churn-absorb add 撞 daemon index.lock × daemon 陈旧 FETCH_HEAD 中途搬 main 坑（add rc128=竞态勿重试环·终点态核验后照常下序）**：S0 轮首脏=4 个 bm-c 车道 daemon 面，churn-absorb 定向 `git add` 撞同窗 daemon 持 index.lock（rc128 静默败→后续 commit rc1 零 staged）；同窗 daemon tick 以其早先 fetch 的陈旧 FETCH_HEAD 把 main FF 至 mid-tip（ff4b2031e≠真 tip 7f6bc285e）——会话侧表现=HEAD 在两次探测间「自行移动」。正法=①add rc128=daemon 竞态非阻塞故障，勿当场重试环，churn 留树 close 吸收（r620 收口范式）②集成目标恒 `git merge origin/main`（本轮 fetch 后真 tip），禁信 mid-state HEAD/FETCH_HEAD；FF 后 rev-list 双向计数+status 终点态核验（本窗 0/0+预期脏集=收敛）再照常下序。How to apply：S0 窗见 add rc128+HEAD 异动=daemon×集成窗常态面（r690/r696 族的 branch-move 新面），终点态定谳后继续轮务勿按中间态重做手术。
+
 
 
 
@@ -129,4 +133,6 @@
 - [2026-10-05 18:2x r739 bm-b] **血统文件先复制后编辑律（r555/r559 存留律执行面近失·当场治愈零残留自证）**：复制上轮 S6 链血统时误对已存留真身（results/_r738bmb_s6_chain.ps1）直接 replace 改轮号——察觉后立即原位回退，git status --porcelain 该件对 HEAD 零差异=零残留实证，再走 Copy-Item→改副本正序+legdiff（r531 律 39 腿逐腿恒等）。Why：replace 顺手改源=上轮执行凭证的可逆性完全押在当场察觉；未察觉即=r559「收据引用对象失真」同族（存留真身被篡改、git 史外的血统证据面损坏）。How to apply：一切 lineage/链/工具血统轮次复制一律先 Copy-Item 再编辑副本；legdiff 时顺带核源文件对 HEAD 恒等（porcelain 该件空行）。| dept:工程 | r739 收口窗（三窗合并 18+18 UU+1 clean 零丢失 + S6 35 腿全 rc0 + trio NULLS V1465/Q1190/D964）
 
 - [2026-10-05 18:3x r563 bm-c] **干净 auto-merge 后冗余 commit 空断言崩溃坑（r524+r561 血统双源互织·当场治愈零数据伤）**：push-race 吸收环里 `git merge origin/main` rc=0 且零 UU = ort 已自动创建 merge commit；照抄 r561 close2 血统的「merge 后 commit -F」腿（其原设计服务 UU 解后续窗）必撞 nothing-to-commit rc≠0 且 stderr 空（该信息走 stdout，断言只吃 err 切片=假象「空错误」）→ close 中途崩；实况=auto-merge commit e92b854ae 已落+树净，恢复=直接 push 现 tip 续收口零重做。正法=吸收环 commit 腿带「干净 auto-merge 即跳过」分支：MERGE_HEAD 在（解窗续）/rc=0 干净（auto-commit 已落·跳 commit 直 push）；错误面判读=rc≠0+stderr 空先疑 nothing-to-commit 勿疑深层故障。How to apply：改编 push-race 吸收血统先核 merge 后 commit 腿的适用前提（UU 窗专用 vs 无条件）；r563 close 血统已带分支律。| dept:工程 | r563 收口窗（claw 拦#1=落后信号实证第 N 连·r524 律零 --no-verify）
+
 - [2026-10-05 18:2x r738 bm-a] **并行工具批自撞坑（r708 预检活进程探针假阳性族·r734 自匹配律的姊妹新面·W132 finalize 窗实弹·当场串行复核归零）**：把 r708 三腿预检的「分片 status 腿」与「活进程探针腿」放在同一消息的并行工具批里跑——探针（Get-CimInstance python.exe match perpetual_faces_n1）抓到同窗并行兄弟腿的 status 进程（pid 78420）=「live n1 processes 1」假阳性；这不是 finalize 在飞而是自家 status 命令。r734 律滤的是探针宿主自匹配（powershell.exe），本坑=同机并行批兄弟进程互撞（探针宿主过滤救不了）。正法：①预检三腿凡含活进程探针=串行执行（探针腿最后跑）②命中后先核 CommandLine 全文定性（st...前缀=status 腿自证）再裁决③命中数与预期语义对不上时 Start-Sleep 后串行复核归零再动 finalize。How to apply：未来一切 finalize/聚合类 spawn 前预检（r708 律族）的腿排布=串行；见「单 hit 且命令行含 status/探测字样」先疑并行自撞勿疑真冲突。
+- [2026-10-05 18:5x r741 bm-b] **PS 读取|写回同文件单管道流自锁坑（Get-Content 管道持读句柄 x Set-Content 同文件写=IOException；正法=[IO.File]::ReadAllText/WriteAllText 两步法）**：r741 复制 r740 链血统时 Get-Content -Raw file | ForEach-Object {...} | Set-Content file 单管道读写同一文件——PS 流式管道在 Set-Content 打开写句柄时上游 Get-Content 的 FileStream 仍持握=「The process cannot access the file because it is being used by another process」IOException（写入零发生=零残留零伤害）；同窗两步法 [IO.File]::ReadAllText 先装载变量+[IO.File]::WriteAllText 回写治愈。与 r739（先复制后编辑律）正交：r739 管「改源件 vs 改副本」的顺序面，本律管「单管道内读写同文件」的句柄面。How to apply：一切对既有文件做读-改-写回的 PS 内联编辑（轮号替换/血统改字/收口器改面）一律两步法（先 ReadAllText 后 WriteAllText）或复制到新路径再写；禁 Get-Content|...|Set-Content 同文件单管道形态。| dept:工程 | r741 收口窗（S6 39 腿全 rc0 + dualrun streak 34 + trio NULLS V1482/Q1205/D977）
