@@ -1,0 +1,82 @@
+{
+ "round": "r551",
+ "faces": {
+  "results/regime_state.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:09 theirs=2026-10-05 15:00:45)"
+  },
+  "results/update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:08 theirs=2026-10-05 14:59:26)"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:21 theirs=2026-10-05 15:02:12)"
+  },
+  "results/futures_update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:16 theirs=2026-10-05 15:01:45)"
+  },
+  "results/lhb_update_status.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:15 theirs=2026-10-05 15:01:44)"
+  },
+  "results/_attrition_guard_scan.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:10:29 theirs=2026-10-05 15:03:17)"
+  },
+  "docs/daily_report/REPORT-2026-10-05.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:37 theirs=2026-10-05 15:02:15)"
+  },
+  "docs/live_usage/LIVE-2026-10-05.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:38 theirs=2026-10-05 15:02:16)"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "action": "write-stage-2",
+   "why": "ts-newer-wins stage-2 (ours=2026-10-05 15:09:38 theirs=2026-10-05 15:02:16)"
+  },
+  "docs/daily_report/REPORT-2026-10-05.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/daily_report/REPORT-2026-10-05.json side=2"
+  },
+  "docs/live_usage/LIVE-2026-10-05.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/live_usage/LIVE-2026-10-05.json side=2"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "action": "write-stage-2",
+   "why": "twin-locked-to-json docs/live_usage/LIVE-latest.json side=2"
+  },
+  "results/compute_audit.json": {
+   "action": "history-union stage-sides",
+   "ours_rows": 201,
+   "theirs_rows": 202,
+   "merged_rows": 203
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union stage-sides"
+  }
+ },
+ "gates": {
+  "residual_screen": "PASS 14/14",
+  "readback": "PASS (every face write back-asserted)",
+  "side_summary": {
+   "results/regime_state.json": "write-stage-2",
+   "results/update_status.json": "write-stage-2",
+   "results/fundamental_b_layer_filter.json": "write-stage-2",
+   "results/futures_update_status.json": "write-stage-2",
+   "results/lhb_update_status.json": "write-stage-2",
+   "results/_attrition_guard_scan.json": "write-stage-2",
+   "docs/daily_report/REPORT-2026-10-05.json": "write-stage-2",
+   "docs/live_usage/LIVE-2026-10-05.json": "write-stage-2",
+   "docs/live_usage/LIVE-latest.json": "write-stage-2",
+   "docs/daily_report/REPORT-2026-10-05.md": "write-stage-2",
+   "docs/live_usage/LIVE-2026-10-05.md": "write-stage-2",
+   "docs/live_usage/LIVE-latest.md": "write-stage-2",
+   "results/compute_audit.json": "history-union stage-sides",
+   "results/token_usage.json": "per-key-union stage-sides"
+  }
+ }
+}
