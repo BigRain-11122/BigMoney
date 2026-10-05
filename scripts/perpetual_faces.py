@@ -3239,6 +3239,30 @@ N1_BANDS = {
     # NOT a re-pick (R250: W136 bands were never assigned).
     136: {"a": (315_004, 317_003), "b_exit": (69_702, 69_901),
          "engine_owner": "bm-a"},
+    # W137 (bm-a r742 freeze, seat MSG-2026-10-05-202x-bma-w137-seat
+    # pushed to origin af1c3c267 pre-freeze r565 law (push raced origin
+    # forward 2 commits = r524 behind-signal (bm-c r570 same-window
+    # wave), merge-mode zero-UU closeout, delivery d28d392ce); band
+    # gate ADMIT results/_r742bma_w137_band_gate.py: A arithmetic
+    # continuation 317_003+1 -> 317_004..319_003 CLEAN hops=0; B =
+    # FIRST-CLEAN window after the honest 12-hop forward walk past
+    # the W136 B tail (first window 69_902..70_101 refused by the
+    # N3-R1 used-seed band 70_000..70_005 + the contiguous
+    # registered 2_000-wide bands 70_001..94_000; non-rotational
+    # r587: every hop a strict forward jump; per-hop chain
+    # machine-traced in results/_r742bma_w137_probe_receipt.json);
+    # dual-window derive parity with pre-seat probe; scan face =
+    # SEED_REGISTRY 187 int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W138+ projection (gate-derived r742): A 319_004..321_003
+    # CLEAN hops=0; B first-clean 94_201..94_400 CLEAN hops=0
+    # double-CLEAN (next freezer must re-derive, never transcribe
+    # r587 law).
+    # NOT a re-pick (R250: W137 bands were never assigned).
+    137: {"a": (317_004, 319_003), "b_exit": (94_001, 94_200),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
