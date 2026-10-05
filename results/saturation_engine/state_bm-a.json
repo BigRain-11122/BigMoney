@@ -2,22 +2,287 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
+ "active": [
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 0,
+   "nshards": 12,
+   "key": "n1w145-0of12",
+   "batch": "PERPETUAL-N1-W145",
+   "pid": 92168,
+   "started_at": "2026-10-06T03:01:06+08:00",
+   "started_epoch": 1791226866,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W145-0.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W145",
+    "prereg": "research/PERPETUAL_N1_W145_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-THIRTY-FIFTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 134 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W144 row bm-a r752 freeze ff6d2f918, SINGLE STATE zero seat gap W2..W144 all registered; W144 finalize landed same-window r753, ledger head 712,811, merged pool K=314,720; seat published=reserved MSG-2026-10-06-023x-bma-w145-seat PUSHED to origin 55c2a1715 BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe + probe receipt; deletion-set EMPTY; pre-freeze push two-hop merge delivery 55c2a1715 -> d5fdbb317 (first push raced origin forward = r524 behind-signal; merge-mode closeout, zero --no-verify); pre-seat probe and freeze-window band-gate runs derive identical, no fork face), engine_owner=bm-a, wave 145: A = FIRST-CLEAN past the registered W144 B band (the arithmetic continuation 333_604..335_603 is REFUSED at its own start by the W144 B band 333_604..333_803, exactly as the r752 W144 gate-tail projection note anticipated; honest forward walk hops=1 -> 333_804..335_803; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase fourth instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 333_804..334_003 is CLEAN on the registered universe but lands INSIDE the W145 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 335_804, first-clean 335_804..336_003 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the r752 W144 gate-tail projection note re-derived -- both MANDATORY notes honored (post-W144 universe re-derive + own-wave A reservation); ADMIT receipt results/_r753bma_w145_band_gate.py; W146+ projection per this window gate: A first-clean 335_804..337_803 CLEAN / B first-clean 336_004..336_203 CLEAN -- naive B lands INSIDE the naive A window and the registered W145 B band 335_804..336_003 will refuse the naive W146 A window; W146 freezer MUST re-derive on the post-W145 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W144 finalize ALL LANDED (W144 finalize one-pass bm-a r753 247e53cf8, §7/§8 backfill same commit; net chain head 712,811, merged pool K=314,720) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
+    "a_seed_base": 333804,
+    "b_exit_seed_base": 335804,
+    "shard_subdir": "n1_w145",
+    "out_name": "n1_w145_results.json",
+    "engine_owner": "bm-a"
+   }
+  }
+ ],
  "ledger_buffer": [],
  "last_flush_at": "2026-10-06T02:05:05+08:00",
  "crashes": {},
  "shards_done_total": 288,
  "last_shard_done_at": "2026-10-06T01:51:04+08:00",
  "last_tick": {
-  "ts": "2026-10-06T02:18:05+08:00",
-  "epoch": 1791224282,
+  "ts": "2026-10-06T03:01:06+08:00",
+  "epoch": 1791226863,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 45.41954040527344,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
-  "elapsed_sec": 2.8
+  "ram_free_gb": 46.25362014770508,
+  "verdict": "ignited:n1w145-0of12 pid=92168",
+  "active_n": 1,
+  "queue_depth": 11,
+  "elapsed_sec": 3.0
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 1,
+   "nshards": 12,
+   "key": "n1w145-1of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 2,
+   "nshards": 12,
+   "key": "n1w145-2of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 3,
+   "nshards": 12,
+   "key": "n1w145-3of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 4,
+   "nshards": 12,
+   "key": "n1w145-4of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 5,
+   "nshards": 12,
+   "key": "n1w145-5of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 6,
+   "nshards": 12,
+   "key": "n1w145-6of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 7,
+   "nshards": 12,
+   "key": "n1w145-7of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 8,
+   "nshards": 12,
+   "key": "n1w145-8of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w145-9of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w145-10of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 145,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w145-11of12",
+   "batch": "PERPETUAL-N1-W145",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "145",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
