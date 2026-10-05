@@ -1,0 +1,65 @@
+{
+ "probe": "r753 W145 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 142,
+   "tail": "W144",
+   "owner_rows": 134,
+   "bma_rows": 60,
+   "ordinal": 135,
+   "bma_ordinal": 61
+  },
+  "leg1": {
+   "A": "333_804..335_803",
+   "hops_A": 1,
+   "A_refused_at_arithmetic_by": "registered W144 B band 333_604..333_803",
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      333604,
+      335603
+     ],
+     "refusers": [
+      "band333604..333803(registered band/actual)"
+     ],
+     "jump_to": 333804
+    }
+   ],
+   "B": "335_804..336_003",
+   "hops_B": 1,
+   "B_naive_first_clean": "333_804..334_003",
+   "B_naive_hops": 0,
+   "B_naive_lands_inside_own_wave_A": true,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      333804,
+      334003
+     ],
+     "refusers": [
+      "band333804..335803(own-wave-A(same-freeze-mutual-exclusion))"
+     ],
+     "jump_to": 335804
+    }
+   ],
+   "A_semantics": "A arithmetic continuation from the registered W144 A tail 333_603 + 1 -> 333_604..335_603 REFUSED (the registered W144 B band 333_604..333_803 sits at the arithmetic start, as the r752 W144 gate leg3 projection note anticipated); honest forward walk hops past the W144 B band -> first-clean 333_804..335_803, hops=1, non-rotational (r587) forward-monotone assert enforced in-walk; A base == prior-wave B tail+1 (333_803+1 == 333_804) machine-checkable relation (A-hops-prior-B staircase fourth instance, E36 card)",
+   "B_semantics": "B arithmetic continuation from the registered W144 B tail 333_803 + 1 -> 333_804..334_003 CLEAN on the registered universe BUT lands INSIDE the W145 own-wave A window 333_804..335_803 -- same-freeze mutual exclusion (W141 precedent, leg2 law); the walk with the own-wave A window reserved jumps to 335_804 -> first-clean 335_804..336_003, hops=1, non-rotational (r587) forward-monotone assert enforced in-walk; B base == own-wave A tail+1 (335_803+1 == 335_804) machine-checkable relation",
+   "r752_projection_mandatory_note": "honored on both faces: re-derive on the post-W144 universe (done) AND own-wave A reservation when deriving B (done)"
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W146p_A": "335804..337803",
+   "hops_A": 0,
+   "W146p_B": "336004..336203",
+   "hops_B": 0,
+   "W146p_B_lands_inside_W146p_A": true,
+   "note": "W146 freezer MUST re-derive (r587) and MUST apply the same-freeze mutual exclusion: reserve the W146 own-wave A window when deriving B (W141 precedent, leg2 law, E36 card); the registered W145 B band 335804..336003 will refuse the naive W146 A window (staircase A-hops-prior-B)"
+  }
+ },
+ "verdict": "ADMIT"
+}
