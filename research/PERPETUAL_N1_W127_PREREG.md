@@ -61,8 +61,18 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 从 git 交付（engine_owner==bm-a 42 行注册+本候选〔以 gate leg0 机证为准·含 W124/W125/W126 最近自有波〕）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面锚（自动·判线共享库零手抄）。
 
-## §7 跑后实证。【占位·finalize 收口机械回填】
+## §7 跑后实证。【finalize 收口机械回填·bm-a r733 2026-10-05 16:0x】
+- finalize one-pass rc=0；12/12 分片 2,200/2,200 位取；上游链 derive 复核 PASS（W1..W126 落账已在位·W126 total 673,211 为 prev 键头〔零在飞上游=键序前置净空·键序合法〕）；r708 预检三腿在场：文件完备 12/12 reparse（status --wave 127）+ 活进程探针零同窗（Win32_Process 全扫零 N1 runner）+ dup 由 finalize fail-closed 内建（分片名去重门）=GREEN_FINALIZE_READY 先行；席位 MSG-2026-10-05-1548-bma-w127-seat 已 published=席位唯一性在场。
+- w127_only mu **−0.081695** sigma 0.249066（K=2,200）；pre-W127 池 mu −0.092894 sigma 0.244807（K=275,120）；merged mu **−0.092805** sigma **0.244843**（K=**277,320**=275,120+2,200 算术检）。
+- skill_line_v2 @n_eff 673,211：1.1754 → **1.1757**（K-lift **+0.0003**）；se_mu 收窄链 W126 0.000467 → **0.000465**。
+- A 档 full_sharpe_p95 **0.3248** / p99 0.4756；账本 append 单发：prev 673,211 + 2,200 = **675,411**（单记）。
+- §5 断言对账：①|w127_only−merged|=0.011110<0.02 **PASS**；②sigma 相对变化 +0.0146%<±10% **PASS**；③A p95 vs W126 键 0.3007 差 **+0.0241**<0.05 **PASS**；④K-lift +0.0003≥−0.02 **PASS**——四断言全 PASS。
+- audit.machine=bm-a·finalize_only=true；evidence_cutoff=2026-09-22 顶层+ cutoff_meta 双写在场。
 
-## §8 批后复盘。【占位·跑前为空·终 7-T】
+## §8 批后复盘。【占位·跑前为空·终 7-T】→ 回填 2026-10-05 r733
+- 零异常零补获：freeze r732（W127 FREEZE 链先推·席位 MSG-2026-10-05-1548 r565 律）→engine tick 自燃 1/12 @15:46（r732 收轮后）→分片 2..11/12 连续烧全落地（12/12 @15:58:04·分片 10/11 由 engine ledger_buffer 收录·r733 轮首在场）→finalize 本窗 r733 one-pass（16:05·跨轮生命周期：r732 冻结+点火→r733 收口·W126 同构）。
+- 本窗意外收获：无（全链一次通过）。
+- 方法论捕获：无新方法论（测量加深面零新发现宣称）；宝藏捕获：无。
+- 遗留：W128=表尾后下个自由号——**A 299_004..301_003 CLEAN / B 68_001..68_200 hops=1 拒收事实 cny_window_p1=68_000**（见 §5.5 投影·下游冻结方必复核非镜像 r587 律·B 面撞线处置按 r726 W121 判例族）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后禁改判据（回填限 §7/§8）。
