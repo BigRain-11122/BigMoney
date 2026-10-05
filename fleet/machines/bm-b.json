@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-05T11:03:44+08:00",
- "heartbeat_epoch_utc": 1791169424,
- "clock_read": "2026-10-05T11:03:44+08:00",
+ "last_seen": "2026-10-05T13:53:27+08:00",
+ "heartbeat_epoch_utc": 1791179607,
+ "clock_read": "2026-10-05T13:53:27+08:00",
  "cpu_cores": 16,
- "free_ram_gb": 3.09,
- "gpu_free_vram_gb": 3.3,
- "verdict": "GREEN (trio NULLS 3 lanes burning legal occupancy V1294/Q1045/D836 of 2000, owner=bm-b keepalive fresh; engine queue 0 RAM-gated self-hold; V finalize window 10-06T13:1x)",
- "current_task": "r724 holiday steady-state maintenance (S6 35 legs rc0) + trio NULLS burn watch + readiness probe refresh",
+ "free_ram_gb": 3.9,
+ "gpu_free_vram_gb": 3.2,
+ "verdict": "healthy burning: trio NULLS three lanes in flight V1363/Q1105/D889 of 2000 (owner=bm-b keepalive) + engine idle queue 0 RAM self-hold free RAM 3.9GB < 4.0GB floor (no new burn legal); WM green; S6 chain 34 legs rc0 complete",
+ "current_task": "r730 dead-session succession + S6 chain completion round (r729 legs 01-17 + r730 legs 18-38 = 34/34 rc0); trio NULLS V1363/Q1105/D889 of 2000 burning (owner=bm-b), V finalize window 10-06, G4 PENDING r638 fallback armed",
  "orders_ack_count": 154,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -165,6 +165,6 @@
   "O-20261004-0808-bm-a.md",
   "O-20261004-1440-bm-c.md"
  ],
- "gpu_free_vram_mb": 3379,
- "last_round_at": "2026-10-05T11:03:44+08:00"
+ "gpu_free_vram_mb": 3276,
+ "last_round_at": "2026-10-05T13:53:27+08:00"
 }

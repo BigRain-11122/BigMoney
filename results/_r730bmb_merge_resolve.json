@@ -1,0 +1,54 @@
+{
+ "round": "r730 bm-b S0 merge window",
+ "merge_head": "3103cb81bb0c9ca9e73602706bbdb639d47b21b7",
+ "faces": {
+  "results/futures_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T13:31:44>2026-10-05T13:31:07"
+  },
+  "results/lhb_update_status.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T13:31:43>2026-10-05T13:31:07"
+  },
+  "results/scorecard_v1.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T13:28:50 theirs=2026-10-05T13:30:51 -> newer/origin"
+  },
+  "results/strategy_scorecard.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T13:29:05 theirs=2026-10-05T13:31:01 -> newer/origin"
+  },
+  "results/update_status.json": {
+   "action": "theirs",
+   "why": "probe_ts ours=2026-10-05T13:28:04 theirs=2026-10-05T13:30:18 -> newer/origin"
+  },
+  "results/token_usage.json": {
+   "action": "per-key-union",
+   "picked_theirs": 0
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "theirs",
+   "ours_len": 201,
+   "theirs_len": 203,
+   "union_len": 205
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "base": "theirs",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  }
+ },
+ "decisions": {
+  "results/futures_update_status.json": "ours | probe_ts 2026-10-05T13:31:44>2026-10-05T13:31:07",
+  "results/lhb_update_status.json": "ours | probe_ts 2026-10-05T13:31:43>2026-10-05T13:31:07",
+  "results/scorecard_v1.json": "theirs | probe_ts ours=2026-10-05T13:28:50 theirs=2026-10-05T13:30:51 -> newer/origin",
+  "results/strategy_scorecard.json": "theirs | probe_ts ours=2026-10-05T13:29:05 theirs=2026-10-05T13:31:01 -> newer/origin",
+  "results/update_status.json": "theirs | probe_ts ours=2026-10-05T13:28:04 theirs=2026-10-05T13:30:18 -> newer/origin",
+  "results/token_usage.json": "per-key-union | machines max-union picked_theirs=0 top ours=2026-10-05T13:10:13 theirs=2026-10-05T13:31:49",
+  "results/compute_audit.json": "union | rolling-ledger union, base=theirs (ours=2026-10-05T13:27:53 theirs=2026-10-05T13:30:10)",
+  "results/regime_state.json": "union | rolling-ledger union, base=theirs (ours=2026-10-05T13:28:05 theirs=2026-10-05T13:30:19)"
+ }
+}

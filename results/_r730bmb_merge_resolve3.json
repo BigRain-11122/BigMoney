@@ -1,0 +1,29 @@
+{
+ "round": "r730 bm-b S0 merge window-3",
+ "merge_head": "1fb97b3f50b622d4daa7b6e6c86855f9b54d6f18",
+ "faces": {
+  "results/_attrition_guard_scan.json": {
+   "action": "ours",
+   "why": "probe_ts 2026-10-05T13:52:20+08:00>2026-10-05T13:50:29+08:00"
+  },
+  "results/compute_audit.json": {
+   "action": "union+history",
+   "base": "theirs",
+   "ours_len": 206,
+   "theirs_len": 201,
+   "union_len": 207
+  },
+  "results/regime_state.json": {
+   "action": "union+transitions",
+   "base": "theirs",
+   "ours_len": 0,
+   "theirs_len": 0,
+   "union_len": 0
+  }
+ },
+ "decisions": {
+  "results/_attrition_guard_scan.json": "ours | probe_ts 2026-10-05T13:52:20+08:00>2026-10-05T13:50:29+08:00",
+  "results/compute_audit.json": "union | rolling-ledger union, base=theirs (ours=2026-10-05T13:48:00 theirs=2026-10-05T13:48:12)",
+  "results/regime_state.json": "union | rolling-ledger union, base=theirs (ours=2026-10-05T13:48:08 theirs=2026-10-05T13:48:22)"
+ }
+}
