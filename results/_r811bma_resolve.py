@@ -1,96 +1,144 @@
 # -*- coding: utf-8 -*-
-"""r811 bm-a rebase-conflict resolver (bigmoney-conflict-resolve skill canon).
-Stage law r351: rebase :2: = origin side, :3: = local (my commit) side.
-ALL_FACES 4 (update_status/lhb_update_status/futures_update_status/token_usage):
-  merge_lane_views resolve fail-closed (marker-polluted side blobs, JSONDecodeError)
-  -> r810-precedent fallback: take_new_json with marker checks.
-Manual adjudication (this round, fail-closed UNKNOWN handled by hand first):
-  _attrition_guard_scan UNKNOWN->snapshot: scan-evidence face (ts/rc/files),
-  origin 05:42:10 vs local 05:52:59 -> take-new by deep ts.
-  scorecard_v1/strategy_scorecard: origin 05:20 vs local 05:51 regens -> take-new.
-Improvement over r810 asset: dashboard .js bound to SAME side as .json (pair
-coherence; r810 took js local unconditionally).
+"""r811 bm-a push-storm UU resolver (28 faces) per bigmoney-conflict-resolve skill.
+Stage mapping in REBASE: :2: = origin side (new base), :3: = local side (replay commit) -- r351.
+ALL_FACES members -> merge_lane_views.py resolve (canon, no hand-union).
+Twins -> take-newer json by deep ts probe, md takes SAME side bytes (r327/r329).
+Host-guard faces -> take :3: (bm-a host per r378, fresh re-derive) with ts probe log.
+paper/*_paper + prospect summaries -> take-new by updated/generated deep probe.
+fundamental_b_layer_filter -> take-new by updated ts.
+_attrition_guard_scan -> take-new by ts.
+x2_watch_log.jsonl -> line-level union zero loss.
 """
-import subprocess, json, re, io, sys
+import json, subprocess, io, re, sys
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-MARKERS = ("<<<<<<<", ">>>>>>>", "=======")
 
 
-def stage(path, n):
+def stage(n, path):
     r = subprocess.run(["git", "show", f":{n}:{path}"], capture_output=True)
-    assert r.returncode == 0, (path, n, r.stderr[:200])
+    if r.returncode != 0:
+        raise RuntimeError(f"stage {n} {path}: {r.returncode}")
     return r.stdout
 
 
-def probe_ts(obj, best=""):
-    """Deep-scan for wall-clock ts values (r311 nested + r100 value shape)."""
-    if isinstance(obj, dict):
-        for k, v in obj.items():
-            if isinstance(v, str) and re.match(r"^20\d{2}-\d{2}-\d{2}[T ]\d{2}:\d{2}", v):
-                if v > best:
-                    best = v
-            else:
-                best = probe_ts(v, best)
-    elif isinstance(obj, list):
-        for v in obj:
-            best = probe_ts(v, best)
+def write(path, data):
+    if isinstance(data, str):
+        data = data.encode("utf-8")
+    io.open(path, "wb").write(data)
+
+
+def deep_ts(obj, prefer=("generated_at", "generated", "updated", "ts", "scan_ts")):
+    """Deep-scan nested layers for the newest wall-clock ts (r311/D-20261027 law)."""
+    best = None
+    def rec(o):
+        nonlocal best
+        if isinstance(o, dict):
+            for k, v in o.items():
+                kk = k.replace("_", "").replace("-", "").lower()
+                if isinstance(v, str) and re.match(r"^20\d{2}-\d{2}-\d{2}[T ]\d{2}:\d{2}", v):
+                    if kk in ("generatedat", "generated", "updated", "ts", "scants", "generatedts"):
+                        if best is None or v > best[0]:
+                            best = (v, k)
+                rec(v)
+        elif isinstance(o, list):
+            for it in o:
+                rec(it)
+    rec(obj)
     return best
 
 
-def take_bytes(path, side):
-    b = stage(path, side)
-    for m in MARKERS:
-        assert m.encode() not in b, f"{path}: side {side} carries conflict marker {m}"
-    io.open(path, "wb").write(b)
-    print(f"  {path}: took {'origin(:2:)' if side == 2 else 'local(:3:)'} whole bytes ({len(b)}B)")
+def jload(b):
+    return json.loads(b.decode("utf-8-sig", errors="strict"))
 
 
-def take_new_json(path):
-    b2, b3 = stage(path, 2), stage(path, 3)
-    p2 = not any(m.encode() in b2 for m in MARKERS)
-    p3 = not any(m.encode() in b3 for m in MARKERS)
-    j2 = json.loads(b2) if p2 else None
-    j3 = json.loads(b3) if p3 else None
-    t2 = probe_ts(j2) if j2 is not None else ""
-    t3 = probe_ts(j3) if j3 is not None else ""
-    print(f"  {path}: origin ts={t2!r} (clean={p2}) local ts={t3!r} (clean={p3})")
-    if not p2 and p3:
-        side = 3
-    elif not p3 and p2:
-        side = 2
+report = []
+
+# --- 1. ALL_FACES via canon resolver -----------------------------------------
+for f in ["results/compute_audit.json", "results/regime_state.json",
+          "results/token_usage.json", "results/update_status.json",
+          "results/lhb_update_status.json", "results/futures_update_status.json"]:
+    r = subprocess.run([sys.executable, "scripts/merge_lane_views.py", "resolve", f],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    report.append((f, "merge_lane_views resolve", r.returncode,
+                   (r.stdout or "").strip().splitlines()[-1:] or [r.stderr.strip()[:80]]))
+
+# --- 2. twins: json take-newer deep-probe, md same side ------------------------
+for jp, mp in [("docs/daily_report/REPORT-2026-10-07.json", "docs/daily_report/REPORT-2026-10-07.md"),
+               ("docs/live_usage/LIVE-2026-10-07.json", "docs/live_usage/LIVE-2026-10-07.md"),
+               ("docs/live_usage/LIVE-latest.json", "docs/live_usage/LIVE-latest.md")]:
+    b2, b3 = stage(2, jp), stage(3, jp)
+    j2, j3 = jload(b2), jload(b3)
+    t2, t3 = deep_ts(j2), deep_ts(j3)
+    if t3 and (not t2 or t3[0] >= t2[0]):
+        side, jb, ts = 3, b3, t3
     else:
-        assert t2 and t3, f"{path}: ts probe empty both sides"
-        side = 3 if t3 >= t2 else 2
-    take_bytes(path, side)
-    json.load(io.open(path, encoding="utf-8"))  # parse-verify law r185
-    return side
+        side, jb, ts = 2, b2, t2
+    write(jp, jb)
+    write(mp, stage(side, mp))
+    report.append((jp, f"twin take side :{side}: (ts {ts[0] if ts else 'MISS'} via {ts[1] if ts else '-'})", 0, ""))
 
+# --- 3. host-guard faces: take :3: (bm-a host r378) ---------------------------
+for f in ["results/scorecard_v1.json", "results/strategy_scorecard.json",
+          "results/dashboard_status.json", "results/dashboard_status.js"]:
+    b2, b3 = stage(2, f), stage(3, f)
+    ts3 = None
+    if not f.endswith(".js"):
+        try:
+            ts3 = deep_ts(jload(b3))
+        except Exception:
+            ts3 = None
+    write(f, b3)
+    report.append((f, f"host-guard take :3: (bm-a host r378; probe ts {ts3[0] if ts3 else 'n/a'})", 0, ""))
 
-print("[1] snapshot / status faces (ALL_FACES 4 via marker-checked take-new fallback)")
-take_new_json("results/update_status.json")
-take_new_json("results/lhb_update_status.json")
-take_new_json("results/futures_update_status.json")
-take_new_json("results/token_usage.json")
-take_new_json("results/fundamental_b_layer_filter.json")
-take_new_json("results/scorecard_v1.json")
-take_new_json("results/strategy_scorecard.json")
-take_new_json("results/_attrition_guard_scan.json")
+# --- 4. paper faces + prospect summaries: take-new by updated/generated -------
+for f in ["results/paper/COMPOSITE-CE-01_paper.json", "results/paper/COMPOSITE-CE-02_paper.json",
+          "results/paper/DROUGHT-CE-01_paper.json", "results/paper/ENGULF-CE-01_paper.json",
+          "results/paper/NEEDLE-DE-01_paper.json", "results/paper/VOLATILITY-CE-01_paper.json",
+          "results/prospect_paper/_summary.json", "results/prospect_promotion/_summary.json",
+          "results/fundamental_b_layer_filter.json", "results/_attrition_guard_scan.json",
+          "results/t35_open_fill_verify.json"]:
+    b2, b3 = stage(2, f), stage(3, f)
+    try:
+        j2, j3 = jload(b2), jload(b3)
+        t2, t3 = deep_ts(j2), deep_ts(j3)
+        if t3 and (not t2 or t3[0] >= t2[0]):
+            side, ts = 3, t3
+        else:
+            side, ts = 2, t2
+        write(f, stage(side, f))
+        report.append((f, f"take-new side :{side}: (ts {ts[0] if ts else 'MISS'})", 0, ""))
+    except Exception as e:
+        # not JSON or parse fail -> bytes take-new by mtime-ish probe impossible; fail loud
+        report.append((f, "PARSE-FAIL fail-closed", 2, str(e)[:100]))
+        raise
 
-print("[2] js-wrapper-snapshot: dashboard pair SAME-side coupling (json ts decides, js follows)")
-dash_side = take_new_json("results/dashboard_status.json")
-take_bytes("results/dashboard_status.js", dash_side)
-js = io.open("results/dashboard_status.js", encoding="utf-8").read()
-assert js.startswith("window.DASH_DATA =") and js.rstrip().endswith(";"), "js wrapper format broken (R209)"
+# --- 5. x2_watch_log.jsonl: line-level union ----------------------------------
+f = "results/x2_watch_log.jsonl"
+l2 = stage(2, f).decode("utf-8", "replace").splitlines()
+l3 = stage(3, f).decode("utf-8", "replace").splitlines()
+seen, out = set(), []
+for ln in l2 + l3:
+    if ln not in seen:
+        seen.add(ln)
+        out.append(ln)
+write(f, "\n".join(out) + ("\n" if out else ""))
+report.append((f, f"line union |{len(l2)}|+|{len(l3)}| -> {len(out)} rows", 0, ""))
 
-print("[3] twin-regen-md: REPORT pair (same side both)")
-rep_side = take_new_json("docs/daily_report/REPORT-2026-10-07.json")
-take_bytes("docs/daily_report/REPORT-2026-10-07.md", rep_side)
+# --- verify all JSON faces parse ----------------------------------------------
+bad = []
+for f in ["results/compute_audit.json", "results/regime_state.json", "results/token_usage.json",
+          "results/update_status.json", "results/lhb_update_status.json", "results/futures_update_status.json",
+          "docs/daily_report/REPORT-2026-10-07.json", "docs/live_usage/LIVE-2026-10-07.json",
+          "docs/live_usage/LIVE-latest.json", "results/scorecard_v1.json", "results/strategy_scorecard.json",
+          "results/dashboard_status.json", "results/fundamental_b_layer_filter.json",
+          "results/_attrition_guard_scan.json",
+          "results/paper/COMPOSITE-CE-01_paper.json", "results/prospect_paper/_summary.json",
+          "results/prospect_promotion/_summary.json"]:
+    try:
+        json.loads(io.open(f, encoding="utf-8-sig").read())
+    except Exception as e:
+        bad.append((f, str(e)[:60]))
+print("JSON parse gate:", "ALL PASS" if not bad else f"FAIL {bad}")
 
-print("[4] twin-regen-md: LIVE quartet (same side all 4)")
-live_side = take_new_json("docs/live_usage/LIVE-2026-10-07.json")
-take_bytes("docs/live_usage/LIVE-2026-10-07.md", live_side)
-take_bytes("docs/live_usage/LIVE-latest.json", live_side)
-take_bytes("docs/live_usage/LIVE-latest.md", live_side)
-
-print("RESOLVER DONE: all 16 faces written + parse-verified; next: git add -> rebase --continue")
+for f, act, rc, note in report:
+    print(f"  {f}: {act}" + (f" rc={rc} {note}" if rc else ""))
