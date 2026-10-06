@@ -1,10 +1,10 @@
 # CEO 实盘使用一页纸 · 2026-10-07
 
-> 自动生成 2026-10-07T04:01:46 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-10-07T04:20:24 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
-- **当前政体态：ORANGE**（shadow 探测·已连续 2 日）· asof 2026-09-30
+- **当前政体态：ORANGE**（shadow 探测·已连续 1 日）· asof 2026-09-30
 - 依据：hs300<MA200 (#10 collected); breadth 0.79>=65%
 - 沪深300ETF 收盘 4.432 vs MA200 4.7355（熔断线之下）
 - **市场时钟**：`ORANGE_COOL`（asof 2026-09-30）· 温度计 LHB 当日 84 行 · 净买 17.40 亿 vs 250日 p80=96.0 行（温度计=COOL）
@@ -85,9 +85,9 @@
 ## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）
 
 - 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：
-  - FUND-QUALITY-P1：1908/2000（dup_k=0）
+  - FUND-QUALITY-P1：1918/2000（dup_k=0）
   - FUND-VALUE-P1：2000/2000（dup_k=0）
-  - FUND-DIVLOWVOL-P1：1581/2000（dup_k=0）
+  - FUND-DIVLOWVOL-P1：1590/2000（dup_k=0）
 
 ## ⑥ 诚实免责
 
