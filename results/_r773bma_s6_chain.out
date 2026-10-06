@@ -1,0 +1,41 @@
+[pool_dualrun_reconcile] rc=0 0.1s :: [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 403 entries, drift-free streak 51, cutoff 2026-10-05T01:13:21+08:00)
+[compute_audit] rc=0 11.0s :: {"ts": "2026-10-06 11:53:14", "audit_version": "v2.4.2", "cpu_total_pct": 100.0, "py_cpu_pct": 94.4, "cores": 32, "py_procs": 62, "result_st
+[py_watermark] rc=0 7.5s :: {"ts": "2026-10-06 11:53:23", "epoch": 1791258796.0, "machine": "bm-a", "cpu_total_pct": 1.0, "cores": 32, "py_cpu_pct": 0.7, "py_procs": 28
+[update_daily] rc=0 1.9s :: status -> C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\update_status.json
+[market_regime] rc=0 0.8s ::   trigger: breadth 0.79>=65%
+[strategy_scorecard] rc=0 34.2s :: strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\strategy_scorecard
+[market_clock_call] rc=0 4.7s :: call written: C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+[update_lhb] rc=0 24.3s :: no events beyond cutoff yet - no-op
+[update_heat] rc=0 0.7s :: no-op: before 15:30:00 (post-close snapshot window)
+[update_futures] rc=0 0.4s :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+[update_repo] rc=0 0.2s :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+[update_options] rc=0 0.2s :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+[update_moneyflow] rc=0 10.9s :: spawned detached rank pass: rank lane never fired
+[update_sina_mf] rc=0 0.1s :: no-op: panel cutoff 2026-09-24 within 20 trading days of 2026-09-30 (rolling 250td window keeps it gapless) -> zero network
+[update_astock_daily] rc=0 1.1s :: no-op: astock_daily lane owned by bm-b, not this machine (bm-a)
+[update_etf_daily] rc=0 0.1s :: no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-a)
+[rev_osc_signal_export] rc=0 0.6s :: rev_osc_signal_export: lane guard (owner=bm-b, this=bm-a) -- stdout-only honest no-op
+[update_minute_feed] rc=0 0.0s :: update_minute_feed: lane guard (owner=bm-b, this=bm-a) -- stdout-only honest no-op
+[update_ths_panel] rc=0 0.3s :: no-op: daily 2026-09-30.csv already collected (same-day idempotent) -> zero network
+[ah_panel_puller] rc=0 10.9s :: spawned detached refresh: panel not complete (first run or prior fuse-stop)
+[update_fund_premium] rc=0 0.1s :: no-op: fund_premium lane owned by bm-c, not this machine (bm-a)
+[update_fundamental] rc=0 0.6s :: snapshot fresh (21.8h < 24h) -> skip
+[b_layer_filter] rc=0 0.6s :: verdict -> C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+[update_fund_statements] rc=0 1.2s :: no-op: panel complete: 86 periods x 3 faces cover latest statutory-complete 20260630 -> zero network
+[live_paper] rc=0 4.4s :: paper tracking: OK
+[t35_open_fill_verify] rc=0 0.1s :: open_fill_verify day=2026-09-30: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\Users\sjs20\Desktop\FluxGroup\quant\big
+[t24_prospect_paper] rc=0 1.2s :: prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-30
+[t24_prospect_promotion] rc=0 8.0s :: promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22
+[aggressive_lab] rc=0 13.2s :: aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+[alloc_paper] rc=0 0.6s :: no-op: alloc_paper lane owned by bm-b, not this machine (bm-a)
+[grid_paper] rc=0 0.6s :: grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+[system_v1_paper] rc=0 0.6s :: system_v1_paper: marks already at lane cutoff 2026-09-30 -- no-op (idempotent)
+[t35_paper_export] rc=0 0.1s :: -> C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\paper_export\export-2026-09-30.json + latest.json
+[daily_scorecard] rc=0 0.1s :: scorecard written: C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+[daily_report] rc=0 0.8s :: daily report written: REPORT-2026-10-06.md/.json faces=5 token=1
+[ceo_live_usage] rc=0 0.1s :: ceo_live_usage: C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-06.md (+ .json twin + LIVE-latest pointers) wri
+[build_status] rc=0 11.7s ::   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+[token_meter] rc=0 0.1s :: L2 local-LLM legs: 0 today / 7 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 3, 'ask': 1}); crash-fuse refusals=3653 across 77 sig
+
+S6 chain summary: 38 legs, 38 rc0, 0 non-zero: []
+total 154.0s
