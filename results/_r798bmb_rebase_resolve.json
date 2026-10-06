@@ -1,0 +1,102 @@
+{
+ "faces": [
+  {
+   "path": "docs/daily_report/REPORT-2026-10-07.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-07.md",
+   "recipe": "follow-json-twin",
+   "note": "docs/daily_report/REPORT-2026-10-07.json"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-07.json",
+   "recipe": "take-new-theirs",
+   "note": "2026-10-07T06:10:09 > 2026-10-07T05:52:09"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-07.md",
+   "recipe": "follow-json-twin",
+   "note": "docs/live_usage/LIVE-2026-10-07.json"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "recipe": "take-new-theirs",
+   "note": "2026-10-07T06:10:09 > 2026-10-07T05:52:09"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "recipe": "follow-json-twin",
+   "note": "docs/live_usage/LIVE-latest.json"
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "recipe": "take-new-theirs",
+   "note": "2026-10-07T06:10:08+08:00 > 2026-10-07T05:52:59+08:00"
+  },
+  {
+   "path": "results/compute_audit.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/dashboard_status.js",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/dashboard_status.json",
+   "recipe": "take-new-theirs",
+   "note": "2026-10-07T06:10:28 > 2026-10-07T05:52:21"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "recipe": "take-new-theirs",
+   "note": "2026-10-07T06:09:44 > 2026-10-07T05:51:22"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/regime_state.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/scorecard_v1.json",
+   "recipe": "host-authoritative-ours",
+   "note": "r378 bm-a single-writer"
+  },
+  {
+   "path": "results/strategy_scorecard.json",
+   "recipe": "host-authoritative-ours",
+   "note": "r378 bm-a single-writer"
+  },
+  {
+   "path": "results/token_usage.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  },
+  {
+   "path": "results/update_status.json",
+   "recipe": "fallback-ours",
+   "note": "no ts keys / no twin"
+  }
+ ],
+ "heal_pointer": {
+  "pre_rebase_round_commit": "7ffcd2011",
+  "known_ledger_loss_faces": [
+   "results/compute_audit.json",
+   "results/regime_state.json"
+  ],
+  "recipe": "union rows from git show 7ffcd2011:<face> into current per r792 rolling-ledger ts-union canon; resolver fallback-ours fired because deep_ts walk missed tail-position ts (first-5-list-items bug, fix next lineage)"
+ }
+}
