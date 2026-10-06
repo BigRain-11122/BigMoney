@@ -1,0 +1,1 @@
+PS backtick 吞字坑（O-1210 回执写入实弹·当场自愈零持久伤害）**：PowerShell 命令行内联 python 写 markdown 时，源串里的反引号 ` 被 PS 当行继续/转义符解析——` 2e7a9c6` 落盘成 `e7a9c6\（backtick 吞掉下一字符 2+尾随反引号残成反斜杠），git SHA 事实损坏；同窗 numstat 自检（11/1 非纯增）+回执块重读暴露。正法=①一切经 PS 命令行内联 python 的 markdown/文本写，禁源串带反引号——用 chr(96) 拼接或单件 python 脚本落盘执行；②多写者台账追加后必 diff 

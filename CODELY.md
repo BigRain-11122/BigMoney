@@ -1,14 +1,42 @@
 ## Codely Structured Memories
 
+
+
+
+
+
+
+
 ### User
 ## Codely Structured Memories
+
+
+
+
+
+
+
 
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
+
+
+
+
+
+
+
 ### Feedback
 - [2026-10-06 12:3x r774 bm-a] O-20261006-1218 综合研判令循环侧执行记录（CEO 直令·原 1215 与值班窗邮件直投令撞号让路改 1218·正典总控仓 9855c0d·主件 docs/synthesis/SYNTHESIS-METHODS-PLANS-R1-20261006.md）：同窗开票认领 P1/P2/P5 三面 = T-2026-10-06-174-P1 核心仓验证收口批（全计划唯一必烧项 ≤300 试·入 D-41 ≤500/30d 账·撤回判定写死在先）/ T-2026-10-06-175-P2 外源想法目录 R1（零烧·M3 引用式普查 top-20）/ T-2026-10-06-176-P1 排除书正典化（零烧·N1-N7 七面）；M1 双源同谳格位 + M2 排除书/双胞胎预滤 = 一切新线预注册强制门；姊妹票 T-173 认领撞号同窗裁定（origin 时序 56515d958<1dbff091c + 挂钟双指标·bm-c 让路·票 ours 逐字 673ca3434）+ 撞号 MSG 送 bm-c inbox（r619+ 重复开发停开请求·bm-b 深史数据道注记采纳）；D-19 ord 水位 30155db5→3e8c73e3 程序化消费（dec a44c39e0 MATCH 零动作）。
 - [2026-10-06 12:1x r773 bm-a] O-20261006-1207 题材深化批令执行记录（CEO 直令·O-20261001-2103/2106 追加·正典 d1b52cf·本仓副本经 r773 closeout merge 吸收 a0e34658b）：同窗认领=T-2026-10-06-173-P1 票 opened+claimed（immediate·三面=引入溯源 16 事件分类学×持续性/散户最优波 43 波段逐位全起点分布/配合面 两配径预注册）·D-41 §1.3/1.4 诚实律全执法·交付=48h 首版白话数字报告（due 10-08 午·正负双列）·D-19 双水位更新 dec a44c39e0/ord 30155db5（消费定性：dec 零新行动=集团分卷/核销批·ord 一件涉本司即本令）。
+
+
+
+
+
+
+
 
 ### Project
 - [2026-10-06 12:1x r773 bm-a] **冻结 vmap 部分token化畸形窗坑（r772 W157 freeze 实弹·r773 治愈窗发现）**：freeze-edits 值映射对「下波+投影散文」的复合带串（如 "A first-clean 360_004..362_003 / B first-clean 360_204..360_403"）按裸前缀部分 tokenize——"360_004"→@BSEED@ 而 "..362_003" 残留——产出起点大于终点的畸形窗面（362_204..362_003 / 362_404..360_403 落进 W157 WAVE_CONFIGS cfg 散文；结构字段/带行/seed bases 全机证无损=纯文档面）。正法=①投影散文复合串必须整串入 TOK（@PRA@/@PRB@ 级 token）禁裸前缀拼凑②冻结后探针必须正则扫全件 start>end 畸形窗（r772 entry-integrity 探针只盖了带行/seed 面漏了投影散文）③治愈=按冻结窗 gate 回执 leg3 机值整串恢复（r587 非转抄·_r773bma_w157_prose_heal.py 当窗治愈+双 selftest 零伤）。How to apply：W158+ 冻结编辑器一律先跑 edit_integrity 式实证探针列全字符串清单再定 TOK。
@@ -73,10 +101,11 @@
 
 - [2026-10-06 17:2x r632 bm-c] **血统复制器 needle 清单不完备=执行面滤 token 滞后一代坑（r631 复制器漏 2 针·r632 执行面实弹当场治愈零判决伤害）**：legdiff G0 探针的注释行+滤行（'# ---- G0 needle probe: every OLD line carrying the r630 round token ----' 与 'if "r630" in l]'）未入 r631 复制器 edits 清单→walk 后两行滞留 r630 而滤对象已进为 _r631 链（own token=r631）→r632 探针收据欠收（count=1 应 5）；G1-G4 判决面免疫（G3 opcode 全家具面独立覆盖全部 5 条推进行）但 r612 探针先行律的收据面失真。正法=①同窗收据治愈=正确 OLD-own token 复核重探（5 行 FAIL=0 追加进 results/_r632bmc_needle_probe.txt·correction 头注记）②r633 复制 heal=两针双步推进（r630→r632 一步到位）+断言 s2.count('if "r632" in l]')==1③探针先行律配「token 计数对账」腿：probe dump 全文件 round-token 计数（_r632bmc_lineage_probe.py 59 行范式）后按计数差核 needle 清单完备性——清单漏针=计数对不上即显形。How to apply：r633+ 复制器照 _r632bmc_lineage_copy.py 血统（heal 针已入清单）；新写复制器 edits 后必跑 token 计数对账（face 内 r6NN 计数==walk 后预期残量）勿信上代清单自认完备。| dept:工程 | r632 值守窗
 - [2026-10-06 17:4x r786 bm-a] **D-19 水位探针本地面哈希坑（r785 dec 512dc730 实弹·bm-c MSG-1735 跨机哨捕获·r786 同窗定谳零消费伤害）**：git show origin/main:docs/decisions.md 是正典读法（法已在 prompt），但 r785 实窗产出键 512dc730 非 origin blob——origin tip 85c61c5 自 13:47 未动=时间戳考古证本地面（工作树脏读/本地 patrol commit 面）；危害=键错位后未来真新增行会被「已消费」假象掩蔽。姊妹坑=跨机水位键比对未标哈希算法（bm-c SHA-1 36B2594C vs 本机 SHA-256 3e8c73e3——同 blob 双算法键被误判「两代滞后」）。正法=①水位键一律 git show origin/main:<path> 原始 blob 直算（零树触碰·禁工作树/本地 commit 面）②键旁必标算法③origin tip 时间戳考古=本地面判别法（tip 未动而键变=本地面铁证）④内容消费回执与键修正同窗落地（本例 01..05 行已全在 origin blob=消费完整·回执保全）。How to apply：一切水位/内容寻址探针（decisions/orders/orders_ack 族）照此四步；跨机键交换先对算法再对值。| dept:工程 | r786 收口窗
-
 - [2026-10-06 19:0x r636 bm-c] O-20261006-1845-bm-c 机队局域网检测+利用令 bm-c 回执记录（CEO 令 10-06 ~18:1x「请检测我的机队是否都加入了局域网，如果是的，请马上利用好」·patrol daemon 同窗入册+cdcbb5f03 落库）：本机自执面=Ollama 0.0.0.0:11434 双端点（LAN 192.168.1.5+tailnet 100.123.74.104）r636 当轮 /api/tags 两路活证（3 模型·qwen3.6-coder:35b 常驻 100%GPU）；行动项已派 @bm-a（入 tailnet sunjs666@+网络自报+测 C 端点）/ @bm-b（测连+LLM-via-C 立即利用·C 机 API=bm-b 最优 LLM 通道），回执限 10-07 12:00；集团镜像行（group orders 10-06 ~18:1x）r636 同窗 receipt-only 消费（r760 消费-回执同窗律·水位 36B2594C->1FB2E958）；orders_ack 已落。
 - [2026-10-06 19:0x r636 bm-c] **rebase 窗 patrol daemon detached-HEAD 落单坑（32-UU+daemon 扫单收口实弹·零 origin 伤害零内容丢失）**：S0 rebase 32-UU 全 staged 解面被本机 patrol daemon 的 add -A 落单（cdcbb5f03·18:43:55）扫入+rebase --continue 撞 r758 态机粘滞双发——治愈序=①内容覆盖探针（pick1 文件全集 vs daemon commit diff：missing 面=origin 侧胜共享面〔内容==onto 零 diff〕≠内容丢失，逐面定性后零丢失断言）②skip×2 收 rebase（pick 内容已交付即弃重放·禁 skip 前不做覆盖探针）③merge origin ORT 吸收+push behind0。How to apply：mid-rebase 窗若 HEAD 出现非本会话新 commit=先停手做覆盖探针定内容归属再选 skip/手落 commit 路线；daemon 扫单=无害面大前提=被扫内容本来就是要交付的本仓产出（r636 收据 results/_r636bmc_rebase_resolve.json+round report r636 行）。| dept:工程 | r636 S0 窗
+- [2026-10-06 19:0x r790 bm-a] O-20261006-1845-bm-c 机队组网令执行记录（CEO 令 bm-c 转发·回执节已落令件 fleet/orders/O-20261006-1845-bm-c.md）：bm-a=dasheng 已在 tailnet（100.110.185.62·sunjs666@·09-29 入网在册）——bm-c 检测「bm-a 不在 tailnet」实为漏认 dasheng 节点；物理 IP=10.86.98.91≠192.168.1.0/24 与 bm-c 非同物理 LAN（192.168.1.4 另有其机非 bm-a）；C 双节点实测 tailnet 100.123.74.104:11434 True+/api/tags 三模型在位（qwen3.6-coder:35b/qwen3.8:27b/glm-4.7-flash:30b）+qwen3.6-coder:35b 最小生成探针 OK；服务面 L2 自决=①大文件接收/中转节点候选（tailnet 直传待实测后 GM 定籍 TRANSFER.md）②本机 Ollama 对外暂不开放（GPU 常驻引擎/本地 LLM 车道）③ACE-Step 未驻场如实 ④LLM-via-C 35b 纳入 bm-a L2 候选通道待 GM 定籍（L1 脚本能算照旧禁走 LLM）。另 W163 finalize 落地（ledger→764,012·K=356,520）+HANDOVER 5x r761-790 合并行+决策水位 8fdf1f57/orders 415bbcea 消费零本司新派单。
+- [2026-10-06 19:4x r791 bm-a] O-20261003-1210 A 腿第三跑执行记录（bm-c 裁决 10-06 ~19:0x 放行·集团「全面开工」行承接）：FluxVerse ff 44b603c..2e7a9c6（GUID 直载修法零冲突）→ batchmode RunResidentsAll 第三跑 r3_EXIT=0=**八断言全绿 R1-R8 fail=0**（done=PASS residents=32/walkers=16/walk_len=4.97/pose_delta=3.535/frames=4·GUID 直载取得 CharacterAvatar·R4 重定向增益实证·R8 四帧字节恒等已提交件）；T-FV-147 翻面 done（TASKS.md 状态行）+O-1210 回执节落档（python 新鲜读改写律）+FluxVerse 外科 pathspec 提交 6346002（9 件·staged 他车道残件 world-events 族零吞）。三跑断言 FAIL→全绿链=FindAssets 索引面空返回根因定谳的最终实证闭环（R0 诊断→GUID 直载修法→第三跑全绿）。
+- [2026-10-06 19:3x r791 bm-a] **PS backtick 吞字坑（O-1210 回执写入实弹·当场自愈零持久伤害）**：PowerShell 命令行内联 python 写 markdown 时，源串里的反引号 ` 被 PS 当行继续/转义符解析——` 2e7a9c6` 落盘成 `e7a9c6\（backtick 吞掉下一字符 2+尾随反引号残成反斜杠），git SHA 事实损坏；同窗 numstat 自检（11/1 非纯增）+回执块重读暴露。正法=①一切经 PS 命令行内联 python 的 markdown/文本写，禁源串带反引号——用 chr(96) 拼接或单件 python 脚本落盘执行；②多写者台账追加后必 diff --numstat 自检非纯增即回读全文核损；③跨 shell 传递含特殊字符（backtick/\$/%）文本一律文件式中转勿命令行内联。pit-ps 域新面（ArgString 引号吞噬族姊妹坑·backtick 转义面）。
 - [2026-10-06 19:2x r637 bm-c] **合并恢复验证 marker 扫描禁全 staged 面=历史冲突证据件假红坑（r636 遗留 merge#2 续行窗实弹·当场修正零回滚）**：r637 S0 接 r636 死会话遗留合并#2（MERGE_HEAD 在位·16-UU 全解全 staged·收据 _r636bmc_merge_resolve2.json 在·r611③ 续行律适用）——验证探针首版对全部 staged blob 扫冲突标记撞 results/_r505bmc_conflict_probe.txt（r505 历史冲突证据收据·本件合法含 marker 文本）假红；修正=扫描限本合并变更集（git diff --cached --name-only HEAD 的 41 面）后 7/7 PASS（零 UU+marker 净+14 ours 面 staged blob==HEAD+2 union 面内容门+合并目标=当前 origin tip）。How to apply：合并/重放恢复验证腿的 marker 扫描一律 scoped 到 changed 集，仓内历史冲突证据收据=永久假红雷区；_r637bmc_merge_verify.py 血统=r63x+ 恢复窗验证模板（changed 集 scope 内建）。| dept:工程 | r637 S0 窗
 - [2026-10-06 19:2x r637 bm-c] **预派生血统件数据值锚滞代坑（复制器只步进轮号 token 不推数据值·r760 族新面）**：r636 血统复制器预派生的 _r637bmc_s05.py 把 HO 锚钉在 36B2594C（r636 建件时值），但 r636 窗内已消费 orders delta 36B2594C→1FB2E958（同窗水位更新在 state）——照跑预派生件=必然假 ord_delta（锚自身漂移非消费缺口）。正法=跑前核值锚：grep 预派生件 HB/HO 常量 vs state-<id>.json 水位键（事实驱动），不齐即先修锚再跑；本轮修锚后跑=dec MATCH 53 连清洁+真 delta 1FB2E958→64AE5947（P-2026-10-06-02 动员令行·bm-c 零新动作收执消费·同窗回执 r760 律）。How to apply：r638+ 预派生 s05/legdiff 族跑前一律先对值锚；血统复制器 needle 清单不含数据值=值锚维护归运行窗非复制器。| dept:工程 | r637 S0.5 窗
-- [2026-10-06 19:0x r790 bm-a] O-20261006-1845-bm-c 机队组网令执行记录（CEO 令 bm-c 转发·回执节已落令件 fleet/orders/O-20261006-1845-bm-c.md）：bm-a=dasheng 已在 tailnet（100.110.185.62·sunjs666@·09-29 入网在册）——bm-c 检测「bm-a 不在 tailnet」实为漏认 dasheng 节点；物理 IP=10.86.98.91≠192.168.1.0/24 与 bm-c 非同物理 LAN（192.168.1.4 另有其机非 bm-a）；C 双节点实测 tailnet 100.123.74.104:11434 True+/api/tags 三模型在位（qwen3.6-coder:35b/qwen3.8:27b/glm-4.7-flash:30b）+qwen3.6-coder:35b 最小生成探针 OK；服务面 L2 自决=①大文件接收/中转节点候选（tailnet 直传待实测后 GM 定籍 TRANSFER.md）②本机 Ollama 对外暂不开放（GPU 常驻引擎/本地 LLM 车道）③ACE-Step 未驻场如实 ④LLM-via-C 35b 纳入 bm-a L2 候选通道待 GM 定籍（L1 脚本能算照旧禁走 LLM）。另 W163 finalize 落地（ledger→764,012·K=356,520）+HANDOVER 5x r761-790 合并行+决策水位 8fdf1f57/orders 415bbcea 消费零本司新派单。
 - [2026-10-06 19:2x r780 bm-b] **PS Invoke-RestMethod CJK JSON body 非UTF-8坑+datetime naive/aware混比坑+rebase UU 单写者律压倒naive ts-newer（O-1845 LLM-via-C 首跑实弹+17-UU 窗·当场治愈零伤害）**：①PS `Invoke-RestMethod -Body $json` 发 CJK JSON 时按系统 ANSI 编码落体→远端 Ollama 收到 `???` 全乱码（模型自报「obscured by question marks」铁证）——正法=`[System.Text.Encoding]::UTF8.GetBytes($json)` 显式字节体+`charset=utf-8`（pit-encoding PS 宿主新面：subprocess/GBK 族只盖 python 侧，PS Invoke-RestMethod 侧首录）；②python strptime 双格式循环（%z 与无 %z）返回值 tzinfo 不齐→max() 比较崩 `can't compare offset-naive and offset-aware`（r756 归一律新子面：归一化必须含 tz 统一——naive 统一 attach +08:00 再比，禁裸返回）；③rebase 17-UU resolver：dashboard_status 双面本机 ts 更新（18:51>18:46）但 r378 单写者 host=bm-a 律压倒 naive take-newer=取 origin（本机写入系 guard stale-takeover 腿合法触发——本地 face 11-commit 陈旧时非 host 也续鲜——但 host face 新鲜时归 host，写入面非违规面如实注记）；S6 regen 面 15/17 按 ts 证据取 origin（bm-a r789 链 18:49-18:53 晚于本方死会话链 18:47-18:51）。另：V-burn 2000/2000 收口（r779 P0 闭环·池-门矛盾自愈）+死会话吸收前必跑进程树探针（Get-CimInstance CommandLine 过滤仓路径=零活执行体才吸收）+CODELY 53,019B>50KB 越线=他机 append 所致已旗标 D-06 收口窗 10-07 12:00 首项。How to apply：一切 PS 调 REST API 带 CJK body 一律 UTF8 字节体；ts 探针 strptime 归一律含 tz 统一面；rebase 宿主面取侧=单写者律>ts 证据>方向沿袭。| dept:工程 | r780 收口窗
