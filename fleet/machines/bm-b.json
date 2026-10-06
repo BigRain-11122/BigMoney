@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-07T06:15:18+08:00",
- "heartbeat_epoch_utc": 1791324918,
- "clock_read": "2026-10-07T06:15:18+08:00",
+ "last_seen": "2026-10-07T06:40:15+08:00",
+ "heartbeat_epoch_utc": 1791326415,
+ "clock_read": "2026-10-07T06:40:15+08:00",
  "cpu_cores": 16,
  "free_ram_gb": 7.33,
  "gpu_free_vram_gb": 3.654,
- "verdict": "green: dead-r797 absorb guard round r798; trio Q/D burns alive (Q 1963/2000 eta ~07:47 rate 0.387/min, D 1630/2000 accelerated 1.0/min eta ~12:22, V 2000 COMPLETE); orders 163/163; smoke 48/48; QA r798 5/5; satengine alive rc0 idle; boards 0 open; CODELY <=cap compliant; D-19 regression adjudicated per r701 law",
- "current_task": "r798 closed; next = Q first-to-2000 ~10-07 07:47 same-window pool dual-flip per r668 / trio finalize when Q+D both 2000 (D ~12:22) / market reopen 10-08 (S6 legs 25-28 + REGIME_GUARD v3 first new bar enforce)",
+ "verdict": "green: r798-tail heal round discharged (compute_audit 06:06:33 own-sample row restored, asserts PASS); trio Q 1974/2000 eta ~08:0x honest-corrected (0.33/min), D 1638/2000 slow lane eta ~10-08; orders 163/163; smoke 48/48; QA r799 5/5; satengine alive rc0 idle; boards 0 open; D-19 dual-face MATCH zero action",
+ "current_task": "r799 closed; next = Q first-to-2000 ~10-07 08:0x same-window pool dual-flip per r668 / D burn watch slow lane / trio finalize when Q+D both 2000 (window 10-05..10-09) / market reopen 10-08 S6 legs 25-28 + REGIME_GUARD v3 first new bar enforce",
  "orders_ack_count": 163,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -175,14 +175,14 @@
   "O-20261006-2358-bm-c.md"
  ],
  "gpu_free_vram_mb": 3654,
- "last_round_at": "2026-10-07T06:15:18+08:00",
- "round_no": 798,
- "round": 798,
- "last_action": "r798: dead-r797 absorb (honest jump 796->798) + orders 163/163 double-scan zero-delta + D-19 regression tri-source verified (watermarks -> origin truth 635C3024/9BE6A74F per r701) + smoke 48/48 + S6 35/35 rc0 + QA r798 5/5 + S7 quartet 4/4 + attrition CLEAN",
- "now_active": "FUND trio NULLS judgment batch in-flight: Q 1963/2000 (rate 0.387/min, ETA ~07:47) / D 1630/2000 (rate 1.0/min accelerated, ETA ~12:22) / V 2000/2000 COMPLETE; G1 pending Q+D, G2+G3 green, G4 PENDING r638 fallback armed; finalize window 10-05..10-09",
- "latest_artifact": "qa/smoke-r798.md 5/5 + qa/equity-curve-r798.png (93 trades determinism=True, --round 798 explicit) + results/_r798bmb_s6_chain.log (35 legs all rc0 306s) + results/_r798bmb_d19_read.json (D-19 regression tri-source evidence) @2026-10-07T06:15:18+08:00",
- "next_milestone": "trio Q first-to-2000 ~10-07 07:47 same-window pool dual-flip per r668 law + D ~12:22 (accelerated) + trio finalize when Q+D both 2000 + post-trio-close O-20261006-2358 self-claim <=1h + market reopen 10-08 (S6 legs 25-28 + REGIME_GUARD v3) - within 48h window",
- "task": "r798 closed; see state.next",
- "ts": "2026-10-07T06:15:18+08:00",
- "updated": "2026-10-07T06:15:18+08:00"
+ "last_round_at": "2026-10-07T06:40:15+08:00",
+ "round_no": 799,
+ "round": 799,
+ "last_action": "r799: S0 daemon keepalive commit 94e5cc39f + pull up-to-date + orders 163/163 + D-19 dual MATCH + smoke 48/48 + heal compute_audit ledger 1 row from 7ffcd2011 (r798 tail pointer discharged, receipt _r799bmb_heal_receipt.json) + S6 35/35 rc0 + QA r799 5/5 + trio probe Q1974/D1638 + S7 quartet 4/4 + attrition CLEAN",
+ "now_active": "FUND trio NULLS judgment batch in-flight: Q 1974/2000 (0.33/min, ETA ~08:0x) / D 1638/2000 (0.24/min, ETA ~10-08) / V 2000/2000 COMPLETE; G1 pending Q+D, G2+G3 green, G4 PENDING r638 fallback armed; finalize window 10-05..10-09",
+ "latest_artifact": "qa/smoke-r799.md 5/5 + qa/equity-curve-r799.png (93 trades determinism=True) + results/_r799bmb_heal_receipt.json (compute_audit ledger heal asserts) + results/_r799bmb_s6_chain.log (35 legs all rc0 337s) @2026-10-07T06:40:15+08:00",
+ "next_milestone": "trio Q first-to-2000 ~10-07 08:0x same-window pool dual-flip per r668 law + D slow-lane watch + trio finalize when Q+D both 2000 (window 10-05..10-09) + post-trio-close O-20261006-2358 self-claim <=1h + market reopen 10-08 (S6 legs 25-28 + REGIME_GUARD v3) - within 48h window",
+ "task": "r799 closed; see state.next",
+ "ts": "2026-10-07T06:40:15+08:00",
+ "updated": "2026-10-07T06:40:15+08:00"
 }
