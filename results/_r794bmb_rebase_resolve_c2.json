@@ -1,0 +1,166 @@
+{
+ "receipt": {
+  "window": "r794 bm-b cycle-2 rebase: r793 commit replay onto bm-c r649 tip 3abb4f70e (claw-blocked cycle-1 landing, r792 precedent)",
+  "stage_semantics": "r782 rebase window: stage2=origin/onto tip, stage3=replayed bm-b commit",
+  "faces": {
+   "docs/daily_report/REPORT-2026-10-07.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:03:48+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "docs/live_usage/LIVE-2026-10-07.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:03:49+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/dashboard_status.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:04:06+08:00",
+    "ts3": "2026-10-07 02:50:43+08:00",
+    "took": "stage2",
+    "note": "host=bm-a origin side preferred"
+   },
+   "docs/daily_report/REPORT-2026-10-07.md": {
+    "class": "twin-group-report-twin (md/js follower r510/r708)",
+    "ts2": "2026-10-07 03:03:48+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2"
+   },
+   "docs/live_usage/LIVE-2026-10-07.md": {
+    "class": "twin-group-live-quartet (md/js follower r510/r708)",
+    "ts2": "2026-10-07 03:03:49+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2"
+   },
+   "docs/live_usage/LIVE-latest.json": {
+    "class": "twin-group-live-quartet (md/js follower r510/r708)",
+    "ts2": "2026-10-07 03:03:49+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2"
+   },
+   "docs/live_usage/LIVE-latest.md": {
+    "class": "twin-group-live-quartet (md/js follower r510/r708)",
+    "ts2": "2026-10-07 03:03:49+08:00",
+    "ts3": "2026-10-07 02:50:25+08:00",
+    "took": "stage2"
+   },
+   "results/dashboard_status.js": {
+    "class": "twin-group-dash-twin (md/js follower r510/r708)",
+    "ts2": "2026-10-07 03:04:06+08:00",
+    "ts3": "2026-10-07 02:50:43+08:00",
+    "took": "stage2"
+   },
+   "results/_attrition_guard_scan.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:00:52+08:00",
+    "ts3": "2026-10-07 02:52:38+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/fundamental_b_layer_filter.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:03:20+08:00",
+    "ts3": "2026-10-07 02:50:06+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/futures_update_status.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:03:15+08:00",
+    "ts3": "2026-10-07 02:50:03+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/lhb_update_status.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:03:14+08:00",
+    "ts3": "2026-10-07 02:50:02+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/scorecard_v1.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:02:32+08:00",
+    "ts3": "2026-10-07 02:48:40+08:00",
+    "took": "stage2",
+    "note": "host=bm-a origin side preferred"
+   },
+   "results/strategy_scorecard.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:02:43+08:00",
+    "ts3": "2026-10-07 02:48:54+08:00",
+    "took": "stage2",
+    "note": "host=bm-a origin side preferred"
+   },
+   "results/token_usage.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:04:07+08:00",
+    "ts3": "2026-10-07 02:50:45+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/update_status.json": {
+    "class": "snapshot",
+    "ts2": "2026-10-07 03:01:48+08:00",
+    "ts3": "2026-10-07 02:47:49+08:00",
+    "took": "stage2",
+    "note": "snapshot deep-ts probe"
+   },
+   "results/compute_audit.json": {
+    "class": "rolling-ledger union (r522 values-union + r140 tie->onto + state-fields take-new)",
+    "ts2": "2026-10-07 03:01:40+08:00",
+    "ts3": "2026-10-07 02:47:41+08:00",
+    "state_took": "stage2",
+    "ledgers": {
+     "history": {
+      "len2": 201,
+      "len3": 206,
+      "union": 207
+     }
+    }
+   },
+   "results/regime_state.json": {
+    "class": "rolling-ledger union (r522 values-union + r140 tie->onto + state-fields take-new)",
+    "ts2": "2026-10-07 03:01:49+08:00",
+    "ts3": "2026-10-07 02:47:50+08:00",
+    "state_took": "stage2",
+    "ledgers": {
+     "transitions": {
+      "len2": 0,
+      "len3": 0,
+      "union": 0
+     },
+     "history": {
+      "len2": 2,
+      "len3": 2,
+      "union": 2
+     }
+    }
+   }
+  }
+ },
+ "written": [
+  "docs/daily_report/REPORT-2026-10-07.json",
+  "docs/daily_report/REPORT-2026-10-07.md",
+  "docs/live_usage/LIVE-2026-10-07.json",
+  "docs/live_usage/LIVE-2026-10-07.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json",
+  "results/dashboard_status.js",
+  "results/dashboard_status.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "results/regime_state.json",
+  "results/scorecard_v1.json",
+  "results/strategy_scorecard.json",
+  "results/token_usage.json",
+  "results/update_status.json"
+ ]
+}
