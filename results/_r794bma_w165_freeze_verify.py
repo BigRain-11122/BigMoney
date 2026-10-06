@@ -22,7 +22,7 @@ print("leg0: AST gates PASS on both files")
 
 # 1. machine-derived facts re-read from on-disk receipts (r587)
 gate = json.load(open("results/_r793bma_w165_band_gate.json", encoding="utf-8"))
-assert gate["verdict"] == "ADMIT" and gate["bands"] == {"A": "380004_382003", "B": "382004_382203"}, gate
+assert gate["verdict"] == "ADMIT" and gate["bands"] == {"A": "377804_379803", "B": "379804_380003"}, gate
 leg3 = gate["legs"]["leg3"]
 W166p_A, W166p_B = "379_804..381_803", "380_004..380_203"
 assert leg3["W166p_A"] == "379804..381803" and leg3["W166p_B"] == "380004..380203", leg3
@@ -97,7 +97,7 @@ assert "W166 A window; W166 freezer MUST re-derive on the post-W165" in pf2, "pf
 assert '"W166 A window; W166 freezer MUST re-derive on the "' in n2, "n1 freezer fragment"
 assert '"W165 B band 379_804..380_003 will refuse the naive "' in n2, "n1 refuse fragment"
 assert f"A first-clean {W166p_A} " in n2 and f"B first-clean {W166p_B} CLEAN" in n2, "n1 W166p prose"
-print("leg5: W166+ projection prose == r794 gate leg3 verbatim PASS")
+print("leg5: W166+ projection prose == r793 gate leg3 verbatim PASS")
 
 # 6. honesty faces
 assert "move deferred to the W166 finalize window (W165 seat still in" in pf2, "pf self-ack frag1"
@@ -107,7 +107,7 @@ assert "fleet/inbox at freeze time -- honest state)." in n2, "mat self-ack frag2
 assert "payload = seat MSG + pre-seat probe + probe receipt;" in pf2, "pf 3-item payload face"
 assert '"seat MSG + pre-seat probe + probe receipt; "' in n2, "entry 3-item payload face"
 assert "= seat MSG + pre-seat probe + probe receipt;" in n2, "mat 3-item payload face"
-assert "r794 pre-seat" in pf2 and "r794 pre-seat" in n2, "push session"
+assert "r793 pre-seat" in pf2 and "r793 pre-seat" in n2, "push session"
 assert "direct fast-forward behind-0" in pf2 and "direct fast-forward behind-0" in n2, \
     "direct-FF delivery face"
 assert '"number law after the REGISTERED W164 row bm-a r792 freeze "' in n2, "W164-row cite frag1"
@@ -127,14 +127,14 @@ print("leg6: honesty faces PASS (self-ack deferred to W166 / 3-item payload / di
 
 # 7. stale-scan in the NEW W165 blocks only (frozen faces keep their history)
 EO = '"engine_owner": "bm-a"},'
-i2 = pf2.find("    # W165 (bm-a r794 freeze")
+i2 = pf2.find("    # W165 (bm-a r795 freeze")
 j2 = pf2.find(EO, i2) + len(EO)
 newpfblk = pf2[i2:j2]
 k2 = n2.find('165: {"batch"')
 m2 = n2.find(EO, k2) + len(EO)
 newentry = n2[k2:m2]
 cs2 = n2.find('"+ W165 materializer face')
-ce2 = n2.find('"r794 bm-a] "', cs2) + len('"r794 bm-a] "')
+ce2 = n2.find('"r795 bm-a] "', cs2) + len('"r795 bm-a] "')
 newclaim = n2[cs2:ce2]
 assert i2 > 0 and k2 > 0 and cs2 > 0, "new W165 block anchors missing"
 # the mat CHAIN rows (138..163 parity asserts) are verbatim prior-wave

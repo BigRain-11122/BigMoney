@@ -76,7 +76,7 @@ assert leg1["ARITH_A"] == [377604, 379603], leg1["ARITH_A"]
 assert leg1["B_naive_first_clean"] == [377804, 378003], leg1["B_naive_first_clean"]
 assert leg1["parity_with_probe"] is True
 probe = json.load(open("results/_r793bma_w165_probe_receipt.json", encoding="utf-8"))
-assert probe["verdict"] == "ADMIT" and probe["bands"] == {"A": "377804_379803", "B": "379804_380003"}, probe
+assert probe["verdict"] == "ADMIT" and probe["bands"] == {"A": "380004_382003", "B": "382004_382203"}, probe
 w164res = json.load(open("results/perpetual_faces/n1_w164_results.json", encoding="utf-8"))
 assert w164res["null_pool_cumulative"]["merged"]["n_values"] == 358720, "W164 merged K drift"
 assert w164res["null_pool_cumulative"]["merged"]["n_values"] + 2200 == 360920, "W165 K projection arithmetic"

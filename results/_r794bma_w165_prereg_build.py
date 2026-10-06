@@ -11,7 +11,7 @@ import io, json, subprocess, sys
 
 # --- machine facts (r587) -------------------------------------------------------
 gate = json.load(open("results/_r793bma_w165_band_gate.json", encoding="utf-8"))
-assert gate["verdict"] == "ADMIT" and gate["bands"] == {"A": "380004_382003", "B": "382004_382203"}, gate["bands"]
+assert gate["verdict"] == "ADMIT" and gate["bands"] == {"A": "377804_379803", "B": "379804_380003"}, gate["bands"]
 leg1, leg3 = gate["legs"]["leg1"], gate["legs"]["leg3"]
 assert leg1["A"] == [377804, 379803] and leg1["B"] == [379804, 380003]
 assert leg1["hops_A"] == 1 and leg1["hops_B"] == 1
@@ -62,7 +62,7 @@ TOK = [
     # ordinal / row-count composites
     ("第 162 枚", "@ORDP@"),
     ("第 154 波【bm-a 第八十枚自有波", "@ORDW@"),
-    ("engine_owner 行 154+本候选=bm-a 第八十枚自有波【r792】", "@ORDT@"),
+    ("engine_owner 行 153+本候选=bm-a 第八十枚自有波【r792】", "@ORDT@"),
     ("engine_owner==bm-a 行 79+本候选", "@ORDA@"),
     ("engine_owner==bm-a 79 行注册 + 本候选", "@ORDB@"),
     ("同 W156/W157/W158/W159/W160/W161/W162/W163 最近自有波", "@ORDL@"),
