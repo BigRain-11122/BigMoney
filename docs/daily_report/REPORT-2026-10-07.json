@@ -1,6 +1,10 @@
 {
  "report_date": "2026-10-07",
+<<<<<<< HEAD
  "generated_at": "2026-10-07 05:39:20",
+=======
+ "generated_at": "2026-10-07 05:11:06",
+>>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +27,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +43,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +59,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +75,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +91,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +107,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,6 +301,7 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
+<<<<<<< HEAD
   "commits_24h": 601,
   "result_jsons_landed_24h": 339,
   "digests_landed_24h": 0,
@@ -304,15 +309,24 @@
   "compute_audit_latest": {
    "ts": "2026-10-07 05:38:15",
    "py_cpu_pct": 0.1,
+=======
+  "commits_24h": 625,
+  "result_jsons_landed_24h": 340,
+  "digests_landed_24h": 0,
+  "prereg_md_touched_24h": 42,
+  "compute_audit_latest": {
+   "ts": "2026-10-07 05:07:54",
+   "py_cpu_pct": 46.8,
+>>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -723,37 +737,13 @@
     "today_supply_gap_flags": 21
    },
    "bm-b": {
-    "latest_ts": "2026-10-07 03:50:22",
-    "py_pct": 47.2,
-    "cpu_pct": 5.0,
+    "latest_ts": "2026-10-07 05:07:54",
+    "py_pct": 46.8,
+    "cpu_pct": 17.0,
     "ready": 2,
-    "streak_min": 741.9,
+    "streak_min": 819.4,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "01:21",
-      3.0
-     ],
-     [
-      "01:46",
-      0.1
-     ],
-     [
-      "01:54",
-      47.1
-     ],
-     [
-      "02:00",
-      0.0
-     ],
-     [
-      "02:13",
-      0.1
-     ],
-     [
-      "02:17",
-      47.2
-     ],
      [
       "02:33",
       0.9
@@ -775,16 +765,41 @@
       4.5
      ],
      [
+      "03:39",
+      1.0
+     ],
+     [
       "03:50",
       47.2
+     ],
+     [
+      "03:59",
+      0.1
+     ],
+     [
+      "04:18",
+      0.9
+     ],
+     [
+      "04:38",
+      48.0
+     ],
+     [
+      "04:41",
+      1.0
+     ],
+     [
+      "05:07",
+      46.8
      ]
     ],
-    "today_samples": 14,
+    "today_samples": 20,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 14
+    "today_supply_gap_flags": 20
    },
    "bm-c": {
+<<<<<<< HEAD
     "latest_ts": "2026-10-07 05:38:15",
     "py_pct": 0.1,
     "cpu_pct": 16.0,
@@ -793,6 +808,28 @@
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
      [
+=======
+    "latest_ts": "2026-10-07 04:41:50",
+    "py_pct": 1.0,
+    "cpu_pct": 23.0,
+    "ready": 2,
+    "streak_min": 793.4,
+    "verdict": "FLAG:single_core_hog,supply_gap,supply_floor",
+    "py_series_tail": [
+     [
+      "02:13",
+      0.1
+     ],
+     [
+      "02:17",
+      47.2
+     ],
+     [
+      "02:33",
+      0.9
+     ],
+     [
+>>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
       "02:47",
       46.2
      ],
@@ -827,6 +864,7 @@
      [
       "04:41",
       1.0
+<<<<<<< HEAD
      ],
      [
       "05:00",
@@ -845,6 +883,14 @@
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 21
+=======
+     ]
+    ],
+    "today_samples": 18,
+    "today_floor_ok": 0,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 18
+>>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -881,8 +927,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-07 03:50:22"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-07 05:07:54"
     }
    },
    "bm-c": {
@@ -897,8 +943,13 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
+<<<<<<< HEAD
      "audit_batches": 12,
      "audit_ts": "2026-10-07 05:38:15"
+=======
+     "audit_batches": 0,
+     "audit_ts": "2026-10-07 04:41:50"
+>>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
     }
    }
   },
