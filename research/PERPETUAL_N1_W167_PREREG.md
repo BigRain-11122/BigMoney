@@ -54,10 +54,16 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 82 行注册 + 本候选——以 gate leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W167 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r806·one-pass rc0·12/12 分片消费——回填内容=n1_w167_results.json 冻结实测键·零改判据；回填窗注记：r806 finalize 窗漏回填·r811 补账窗收口（W159 拖延窗先例同律·如实注记）】
+- **合并池**：pre-W167 K=363,120 → W167-only K=2,200（mu=−0.094534·sigma=0.247125）→ **merged K=365,320（mu=−0.092877·sigma=0.245164）**；账本 prev=**770,612**+2,200=**772,812**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w167_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 770,612）：1.1836 → **1.1836**（Δ=**+0.0000**）；se_mu 收窄链 W165 0.000408 → W166 0.000407 → **0.000406**（0.2452/√365,320·results 键 se_mu_at_k365320）。
+- **A 档 full_sharpe_p95=0.3141**（2,000 runs·W166 锚=0.3005【n1_w166_results.json 机读】·差 +0.0136；<0.05 门过·正向微扩如实披露·抽样波动面）。
+- **§5 四预测键全过（机证）**：①|W167-only mu − merged mu|=0.0017<0.02 ✓ ②sigma 相对变化 +0.004%<±10% ✓ ③A p95 差 +0.0136<0.05 ✓ ④K-lift +0.0000≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果件如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w167_vs_w166ext=**−0.003335**。
 
-## §8 批后复盘。【finalize 同窗回填·待 W167 finalize 窗】
-- （占位·§5.5 W168+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·bm-a r806 finalize + r811 补账窗】
+- 设计=v1 冻结逐字复用·纯种子带深化——零新机制零新方法；**宝藏捕获问（O-20261003-2030 §1 判决 finalize 收口步）：本批无新宝藏**（A-hops-prior-B 阶梯第二十六例+own-A 保留 leg2 面已于冻结窗 r804 确认·E36 卡既有·finalize 无新增面）；方法论资产卡无 append 面。
+- W168+ 投影承接（冻结窗 leg3 已披露 + §5 键 5 同律·**双投影全兑现**）：A naive 384_204..386_403 被 W167 B 带 384_204..384_403 于自家起点拒（阶梯 A-hops-prior-B 继承第二十七例预注——**r806 W168 gate 兑现**：重 derive A 384_404..386_403 hops=1 如预注）→ B naive 384_404..384_603 落重 derive 后 A 窗内=**同窗互斥 leg2 律**（r806 gate 兑现：B 386_404..386_603 hops=1）——回执在案 results/_r806bma_w168_band_gate.json ADMIT + probe ADMIT·dual-window parity True；W168 冻结窗 r809（8d8842b61）+ W168 finalize r809 one-pass（abb7c0517·账本 775,012·K 367,520）已落地；W168 §7/§8 回填=r811 本补账窗同收（下节）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
