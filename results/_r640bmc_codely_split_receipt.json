@@ -1,0 +1,43 @@
+{
+ "round": "r640 bm-c",
+ "law": "CODELY main <=30KB watermark gate (30,720B); breach 31,924B after bm-b r782 re-insert -> 当窗即办 (batch-4 mini-split)",
+ "moved": [
+  {
+   "id": "A",
+   "needle": "worksnap 同名互覆 (r782 bm-b entry)",
+   "bytes": 1131,
+   "sha16": "105F7CBB07C19D16",
+   "target": "research/pit-git-resolver.md",
+   "domain_reason": "S0 merge-window worksnap + checkout 竞态 = resolver 族"
+  },
+  {
+   "id": "B",
+   "needle": "wrapper 25min timeout-kill (r639 bm-c entry)",
+   "bytes": 1017,
+   "sha16": "C678667C3501BABF",
+   "target": "research/pit-protocol-lane.md",
+   "domain_reason": "猝死恢复/半程收口继承 = protocol-lane 族"
+  }
+ ],
+ "main_before": 31924,
+ "main_after": 29774,
+ "gate": 30720,
+ "targets": {
+  "pit-git-resolver.md": [
+   22214,
+   23345
+  ],
+  "pit-protocol-lane.md": [
+   4078,
+   5094
+  ]
+ },
+ "assertions": {
+  "bytes_in_target_verbatim": true,
+  "main_under_gate": true,
+  "needles_count_1": true,
+  "no_double_blank_drift": true,
+  "removed_bytes_sum": 2150
+ },
+ "main_removed_bytes": 2150
+}
