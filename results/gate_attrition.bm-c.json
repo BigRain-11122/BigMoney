@@ -17694,6 +17694,20 @@
     ],
     "disposition": "7 cells -> factor-library material pool; strategy consumption = fresh prereg (explicit exit axis + CN-C7 stock costs + persistent-null calibration)"
    }
+  },
+  {
+   "batch": "COREBOOK-CLOSEOUT-P1",
+   "ts": "2026-10-06 14:0x",
+   "kind": "adjudication",
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 750812,
+   "gates": {
+    "banned_direction": "ADMIT (rc0, zero match)",
+    "freeze": "4f60b9d1a",
+    "probe": "7/7 artifacts, cutoffs asserted",
+    "run": "rc0 zero-burn verdict derivation"
+   },
+   "note": "zero-burn adjudication face: five deliverables consumed from frozen artifacts; E1-ETF retained-guidance (three-part pass), E2 retained, E1-stock withdrawn, d2-d5 delivered; D-41 6-C account 324/500 unchanged (CEO <=300 allocation untouched)"
   }
  ],
  "history": [
@@ -19485,6 +19499,30 @@
     "prereg": "research/PORTFOLIO_BOOK_P1.md"
    },
    "note": "4 book-config cells (recombination face, archive sleeves); trials ledger +4"
+  },
+  {
+   "batch": "THEME_DEEPEN_P1",
+   "ts": "2026-10-06 13:5x",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 9401,
+   "ledger_total_after": 750812,
+   "gates": {
+    "banned_direction_gate": "ADMIT zero-hit (first-run BAN-04 wording false-hit healed, re-run ADMIT)",
+    "d6_vs_reg6": {
+     "max_abs_corr": 0.1638,
+     "any_reject": false
+    },
+    "verdicts": {
+     "W1": "positive",
+     "W2": "negative",
+     "W3p": "negative",
+     "H1_first_wave_advantage": "supported_p=0.0165",
+     "H2_confirmation_edge": "negative_p=0.082"
+    },
+    "expansion_attrition": "6/8 dropped (5 no-ignition-in-window genuine strictness + 1 pre-bars), 2 computed"
+   },
+   "note": "T-2026-10-06-173-P1 r776 bm-a; prereg research/THEME_DEEPEN_P1_PREREG.md freeze 66d5ec5d4; wave-position retail-follow judgment face + introduction-taxonomy descriptive census"
   }
  ],
  "lane_machine": "bm-c"
