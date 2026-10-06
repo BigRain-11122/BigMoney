@@ -1,0 +1,36 @@
+{
+ "ritual": "r441/r703/r783 migration ritual (r789 bm-b, prescan rc3 x4 logged)",
+ "entries": {
+  "r640_qa_roundlabel_race": {
+   "target": "research/pit-protocol-lane.md",
+   "bytes": 867,
+   "sha16": "b976051eddf6def5",
+   "target_bytes_after": 5962
+  },
+  "r642_autostash_pop_dead": {
+   "target": "research/pit-git-resolver.md",
+   "bytes": 1213,
+   "sha16": "c813e01b7ab44e8f",
+   "target_bytes_after": 25741
+  },
+  "r787_rebase_continue_fake": {
+   "target": "research/pit-git-resolver.md",
+   "bytes": 1190,
+   "sha16": "d274a35e61043e23",
+   "target_bytes_after": 25741
+  }
+ },
+ "asserts": [
+  "main 31590 -> 29255 B (<=30720)",
+  "byte equation exact (3 entries + LFs out, 1 ptr row + LF in)",
+  "each entry verbatim x1 in target, sha16-anchored",
+  "all 25 pit-*.md <= 30720B",
+  "marker scan clean on main"
+ ],
+ "sizes": {
+  "main_before": 31590,
+  "main_after": 29255
+ },
+ "pit_files": 25,
+ "registry_line_appended": true
+}
