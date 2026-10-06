@@ -1,0 +1,30 @@
+{
+ "ritual": "r441/r703 migration ritual (completion leg after v4 main-write)",
+ "entries": {
+  "r782_worksnap": {
+   "target": "research/pit-git-resolver.md",
+   "bytes": 1129,
+   "sha16": "3e36394b1b44e2ae",
+   "target_bytes_after": 23336
+  },
+  "r639_lineage_stepper": {
+   "target": "research/pit-lineage-legdiff.md",
+   "bytes": 944,
+   "sha16": "53b80791b71c198c",
+   "target_bytes_after": 4732
+  }
+ },
+ "asserts": [
+  "main 31854 -> 30600 B (<=30720), ptr row x1, both entries removed",
+  "marker scan clean on main (domain pit files exempt: they document markers verbatim)",
+  "r782_worksnap verbatim x1 in research/pit-git-resolver.md (1129 B, sha16 3e36394b1b44e2ae, file 23336 B)",
+  "r639_lineage_stepper verbatim x1 in research/pit-lineage-legdiff.md (944 B, sha16 53b80791b71c198c, file 4732 B)",
+  "all 25 pit-*.md <= 30720B"
+ ],
+ "sizes": {
+  "main_before": 31854,
+  "main_after": 30600
+ },
+ "pit_files": 25,
+ "registry_line_appended": true
+}
