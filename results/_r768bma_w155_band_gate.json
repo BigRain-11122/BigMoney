@@ -1,0 +1,71 @@
+{
+ "gate": "r768 W155 band gate",
+ "legs": {
+  "leg0": {
+   "rows": 152,
+   "tail": "W154",
+   "owner_rows": 144,
+   "bma_rows": 70,
+   "ordinal": 145,
+   "bma_ordinal": 71
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "1fedffbe4 published (r768 pre-seat push, r565 law; W154 finalize products + bm-c r610 merge absorbed in the same push)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    355604,
+    357603
+   ],
+   "ARITH_B": [
+    355804,
+    356003
+   ],
+   "A": [
+    355804,
+    357803
+   ],
+   "hops_A": 1,
+   "B": [
+    357804,
+    358003
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    355804,
+    356003
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      355804,
+      356003
+     ],
+     "jump_to": 357804
+    }
+   ],
+   "parity_with_probe": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W156p_A": "357804..359803",
+   "hops_A": 0,
+   "W156p_B": "358004..358203",
+   "hops_B": 0,
+   "W156p_B_lands_inside_W156p_A": true,
+   "note": "naive-B-inside-naive-A; the registered W155 B band 357_804..358_003 will refuse the naive W156 A window; W156 freezer MUST re-derive on the post-W155 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "355804_357803",
+  "B": "357804_358003"
+ }
+}
