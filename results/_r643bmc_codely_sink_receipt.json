@@ -1,0 +1,27 @@
+{
+ "round": "r643 bm-c",
+ "ts": "2026-10-07T00:05:05+08:00",
+ "batch": "CODELY main flow-sink (r786 bm-b receipt + r798 bm-a receipt -> archive 202610.md)",
+ "law_refs": [
+  "D-20261002-06 main<=30KB gate leg",
+  "D-20260924-01 hot/cold reorg",
+  "TREASURE_PROTECTION_LAW s2 prescan ritual r441"
+ ],
+ "prescan": "rc3 registry-hit recorded honestly (CODELY.md + archive 202610.md both registered; legislated reorg mandate = authorization)",
+ "main_before_bytes": 31744,
+ "main_after_bytes": 30482,
+ "gate": 30720,
+ "gate_ok": true,
+ "removed_block_bytes": [
+  766,
+  797
+ ],
+ "removed_sha16": [
+  "17dc1301becd3d87",
+  "66788f55d2876d9e"
+ ],
+ "pointer_line_sha16": "bedf1fadb9de9283",
+ "archive_before_bytes": 23860,
+ "archive_after_bytes": 25577,
+ "zero_loss": "archive_delta == sum(removed) ; both blocks verbatim in archive ; zero residue in main"
+}
