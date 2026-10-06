@@ -1,0 +1,45 @@
+{
+ "round": "r637",
+ "probe": "mid-merge crash-recovery verification (r611(3) continue leg)",
+ "head": "0d2d655e55c3ab466e99bf3cd11dbed65867c33b",
+ "merge_head": "2d7a2de875f0d0870391433730a0a775dfb76e61",
+ "origin_ref_at_probe": "2d7a2de875f0d0870391433730a0a775dfb76e61",
+ "checks": [
+  {
+   "name": "A_zero_unmerged",
+   "ok": true,
+   "detail": "unmerged_lines=0 rc=0"
+  },
+  {
+   "name": "B_marker_scan_merge_changed",
+   "ok": true,
+   "detail": "changed_faces=41 hits=0"
+  },
+  {
+   "name": "Z_receipt_shape",
+   "ok": true,
+   "detail": "ours=14 union=2 faces=16"
+  },
+  {
+   "name": "C_ours_blob_eq_HEAD",
+   "ok": true,
+   "detail": "bad=0"
+  },
+  {
+   "name": "D_compute_audit_union",
+   "ok": true,
+   "detail": "len=203 expect=203 sorted=True latest_src=ours"
+  },
+  {
+   "name": "D_regime_union",
+   "ok": true,
+   "detail": "len=2 expect=2 asof_sorted=True base=ours"
+  },
+  {
+   "name": "E_merge_window_facts",
+   "ok": true,
+   "detail": "HEAD=0d2d655e55c3 MERGE_HEAD=2d7a2de875f0 origin_ref_now=2d7a2de875f0 merge_target_is_origin=True"
+  }
+ ],
+ "verdict": "PASS"
+}
