@@ -1,0 +1,71 @@
+{
+ "gate": "r810 W169 band gate",
+ "legs": {
+  "leg0": {
+   "rows": 166,
+   "tail": "W168",
+   "owner_rows": 158,
+   "bma_rows": 84,
+   "ordinal": 159,
+   "bma_ordinal": 85
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "e51edfcbc published (r810 pre-seat push, r565 law; direct FF behind-0 after one clean rebase onto bm-c r657 590ba0fe0; zero --no-verify)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    386404,
+    388403
+   ],
+   "ARITH_B": [
+    386604,
+    386803
+   ],
+   "A": [
+    386604,
+    388603
+   ],
+   "hops_A": 1,
+   "B": [
+    388604,
+    388803
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    386604,
+    386803
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      386604,
+      386803
+     ],
+     "jump_to": 388604
+    }
+   ],
+   "parity_with_probe": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W170p_A": "388604..390603",
+   "hops_A": 0,
+   "W170p_B": "388804..389003",
+   "hops_B": 0,
+   "W170p_B_lands_inside_W170p_A": true,
+   "note": "naive-B-inside-naive-A; the registered W169 B band 388_604..388_803 will refuse the naive W170 A window; W170 freezer MUST re-derive on the post-W169 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "386604_388603",
+  "B": "388604_388803"
+ }
+}
