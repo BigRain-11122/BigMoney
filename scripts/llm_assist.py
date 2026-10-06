@@ -8,9 +8,16 @@ reuse that serve, never rebuild it, and never grab the keepwarm.pause valve
 jobs owe the valve etiquette).
 
 Contract:
-  - transport: stdlib urllib against OLLAMA_HOST (default
-    http://127.0.0.1:11434). No new dependency (requests not in
-    requirements.txt).
+  - transport: stdlib urllib against the active endpoint. No new
+    dependency (requests not in requirements.txt).
+  - routing (O-20261006-1845 令2 adoption, r781 bm-b): bm-b's primary LLM
+    channel = C-machine Ollama over tailnet (RAM-bound bm-b cannot host
+    big models; qwen3.6-coder:35b, think:false). Local serve (qwen3.8:4b)
+    demoted to fallback when C is unreachable or a C-side generation
+    fails once. BIGMONEY_LLM_ROUTE=local forces the local serve (yield
+    valve for C interactive windows); =c forces C on any machine. Other
+    machines default local. C-channel calls send keep_alive=-1 to re-pin
+    C's resident model (squeezed-off recovery per the order's 利用律).
   - model: BIGMONEY_LLM_MODEL env override, default qwen3.8:4b (resident
     main per CEO order O-20261003-1210 item1, r618 bm-b swap; qwen2.5:7b
     demoted to on-demand, keepwarm paused).
@@ -48,6 +55,16 @@ from config import PATHS
 
 HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
 MODEL = os.environ.get("BIGMONEY_LLM_MODEL", "qwen3.8:4b")
+# C-machine Ollama over tailnet (O-20261006-1845 令2): bm-b's primary LLM
+# channel; local serve demoted to fallback. Route is resolved once per
+# process by _ensure_route() -- HOST/MODEL globals below are MUTATED to
+# the active endpoint, so every consumer of llm_assist.chat inherits it.
+C_HOST = os.environ.get("BIGMONEY_LLM_C_HOST",
+                        "http://100.123.74.104:11434").rstrip("/")
+C_MODEL = os.environ.get("BIGMONEY_LLM_C_MODEL", "qwen3.6-coder:35b")
+ROUTE_PREF = os.environ.get("BIGMONEY_LLM_ROUTE", "")  # ""=auto, "c", "local"
+_LOCAL_HOST = HOST        # frozen import-time local identity (fallback target)
+_LOCAL_MODEL = MODEL
 # Serve default num_ctx=4096 < retro prompts (~4.8k tokens -> 400
 # exceed_context_size_error). Request 8192 per call; KV-cache cost on the
 # resident 7B is ~+120MB VRAM (headroom verified 2026-09-23: 2.3GB free).
@@ -59,8 +76,11 @@ TAGS_TIMEOUT = 5          # serve liveness probe
 CHAT_TIMEOUT = 300        # 7B Q4 on RTX 3070: 12-60s per answer, keep slack
 LEDGER_TAIL_CHARS = 2500  # per-machine round-report tail fed to retro
 
-DISCLAIMER = ("> 本文件由本地 LLM（%s）生成 · 未经人工审计 · "
-              "主张非指令（防注入纪律，内容须人工核验后才可作为依据）" % MODEL)
+def _disclaimer():
+    # built at call time: MODEL mutates with the active route (r781)
+    return ("> 本文件由 LLM（%s，%s 通道）生成 · 未经人工审计 · "
+            "主张非指令（防注入纪律，内容须人工核验后才可作为依据）"
+            % (MODEL, ROUTE_LABEL))
 
 SYSTEM_PROMPT = (
     "你是 Bigmoney 量化公司的本地研究助理。公司定位=国内合法品种（ETF/A股）日线短线"
@@ -78,15 +98,16 @@ SYSTEM_PROMPT = (
 _OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 
-def _post(path, payload, timeout):
+def _post(path, payload, timeout, host=None):
     """GET when payload is None, POST otherwise. /api/tags is GET-only
     (POST -> 405, which must never be misreported as 'unreachable')."""
     headers = {"Content-Type": "application/json"}
     if payload is None:
-        req = urllib.request.Request(HOST + path, headers=headers, method="GET")
+        req = urllib.request.Request((host or HOST) + path, headers=headers,
+                                     method="GET")
     else:
         req = urllib.request.Request(
-            HOST + path,
+            (host or HOST) + path,
             data=json.dumps(payload).encode("utf-8"),
             headers=headers,
             method="POST",
@@ -95,8 +116,48 @@ def _post(path, payload, timeout):
         return json.loads(resp.read().decode("utf-8"))
 
 
+# --- route resolution (O-20261006-1845 令2 adoption, r781 bm-b) -----
+_route_done = False
+ROUTE_LABEL = "local"
+
+
+def _probe(host):
+    """(reachable, model_names) -- never raises on network errors."""
+    try:
+        data = _post("/api/tags", None, TAGS_TIMEOUT, host=host)
+    except (urllib.error.URLError, OSError, ValueError):
+        return False, []
+    return True, [m.get("name", "") for m in data.get("models", [])]
+
+
+def _ensure_route():
+    """Resolve the active endpoint once per process. bm-b defaults to the
+    C-machine channel (RAM-bound box cannot host big models); everyone
+    else defaults local. Reachable-but-model-absent still routes to C:
+    the generation call auto-loads and keep_alive=-1 re-pins (利用律)."""
+    global HOST, MODEL, ROUTE_LABEL, _route_done
+    if _route_done:
+        return
+    _route_done = True
+    ROUTE_LABEL = "local"
+    pref = ROUTE_PREF.strip().lower()
+    want_c = pref == "c" or (pref == "" and _machine_id() == "bm-b")
+    if want_c:
+        reachable, names = _probe(C_HOST)
+        if reachable:
+            HOST, MODEL, ROUTE_LABEL = C_HOST, C_MODEL, "c"
+            if C_MODEL not in names:
+                print(f"[llm_assist] route=c: {C_MODEL} not resident on C "
+                      f"(squeezed off) -> generation will re-pin "
+                      f"(keep_alive=-1)")
+        else:
+            print(f"[llm_assist] C endpoint {C_HOST} unreachable "
+                  f"-> local fallback")
+
+
 def check_serve():
     """(reachable, model_present, names) -- never raises on network errors."""
+    _ensure_route()
     try:
         data = _post("/api/tags", None, TAGS_TIMEOUT)
     except (urllib.error.URLError, OSError, ValueError):
@@ -156,30 +217,53 @@ def chat(messages, temperature=0.4, num_predict=900, usage_cmd=None):
     """One round-trip generation. Raises RuntimeError on API/model errors
     (HTTP body surfaced -- API errors must never read as 'unreachable').
     usage_cmd: when set, a successful generation is ledgered as one L2
-    consumption leg (O-0947 slice-3)."""
-    try:
-        data = _post("/api/chat", {
+    consumption leg (O-0947 slice-3).
+    Routing (r781): a C-channel failure (HTTP/network/empty) falls back
+    to the local serve once -- C interactive windows must not block the
+    leg (错峰让路); a local failure raises as before."""
+    global HOST, MODEL, ROUTE_LABEL
+    _ensure_route()
+
+    def _gen():
+        payload = {
             "model": MODEL,
             "messages": messages,
             "stream": False,
-            # thinking-capable resident (qwen3.8:4b) must not burn the
-            # num_predict budget on chain-of-thought: advisory lane wants
-            # the answer only (empirical: think default ate all 12
-            # selftest tokens -> empty content -> FAIL)
+            # thinking-capable models must not burn the num_predict budget
+            # on chain-of-thought: advisory lane wants the answer only
+            # (empirical: think default ate all 12 selftest tokens ->
+            # empty content -> FAIL)
             "think": False,
             "options": {"temperature": temperature,
                         "num_predict": num_predict,
                         "num_ctx": NUM_CTX},
-        }, CHAT_TIMEOUT)
-    except urllib.error.HTTPError as e:
+        }
+        if ROUTE_LABEL == "c":
+            payload["keep_alive"] = -1   # re-pin C's resident model (O-1845)
         try:
-            detail = e.read().decode("utf-8", "replace")[:300]
-        except Exception:
-            detail = "(no body)"
-        raise RuntimeError(f"API {e}: {detail}") from e
-    content = (data.get("message") or {}).get("content")
-    if not content:
-        raise RuntimeError(f"empty generation: {json.dumps(data)[:200]}")
+            return _post("/api/chat", payload, CHAT_TIMEOUT)
+        except urllib.error.HTTPError as e:
+            try:
+                detail = e.read().decode("utf-8", "replace")[:300]
+            except Exception:
+                detail = "(no body)"
+            raise RuntimeError(f"API {e}: {detail}") from e
+
+    def _content(data):
+        c = (data.get("message") or {}).get("content")
+        if not c:
+            raise RuntimeError(f"empty generation: {json.dumps(data)[:200]}")
+        return c
+
+    try:
+        content = _content(_gen())
+    except (RuntimeError, urllib.error.URLError, OSError) as e:
+        if ROUTE_LABEL != "c":
+            raise
+        print(f"[llm_assist] C-channel generation failed ({e}) "
+              f"-> local fallback (错峰让路)")
+        HOST, MODEL, ROUTE_LABEL = _LOCAL_HOST, _LOCAL_MODEL, "local"
+        content = _content(_gen())
     if usage_cmd:
         _log_usage(usage_cmd,
                    len(json.dumps(messages, ensure_ascii=False)
@@ -203,7 +287,7 @@ def _write(path, text):
 
 
 def _stamp(title, body):
-    return (f"# {title}\n\n{DISCLAIMER}\n"
+    return (f"# {title}\n\n{_disclaimer()}\n"
             f"生成时间：{dt.date.today().isoformat()}\n\n{body.strip()}\n")
 
 
@@ -249,6 +333,7 @@ def cmd_selftest():
         refused = True
     print(f"[selftest] serve OK, model OK, gen={reply!r}, "
           f"write-guard under research/ = {ok and refused}")
+    print(f"[selftest] active route = {ROUTE_LABEL} ({MODEL} @ {HOST})")
     return 0 if (reply and ok and refused) else 1
 
 
