@@ -1,0 +1,33 @@
+{
+  "round": "r799",
+  "machine": "bm-b",
+  "law": "snapshot take-new-by-ts (r188/R208; r798 receipt precedent)",
+  "rebase_semantics": "stage2=ours=origin base (bm-c r659 absorb), stage3=theirs=own df5ff06d3",
+  "faces": [
+    {
+      "path": "results/_attrition_guard_scan.json",
+      "recipe": "take-theirs",
+      "note": "take-new-own 06:37:34 > bm-c 06:30:12",
+      "sha16": "dd7d6cb0c5fa9126"
+    },
+    {
+      "path": "results/daily_scorecard.json",
+      "recipe": "take-ours",
+      "note": "take-new-bm-c 06:09:41 > own 05:05:44 stale residue",
+      "sha16": "37126f2678951c66"
+    },
+    {
+      "path": "results/paper_export/export-2026-09-30.json",
+      "recipe": "take-ours",
+      "note": "take-new-bm-c 06:12:04 > own 05:52:26 dead-r797 residue; regime_guard=enforce per 2026-10-01 date-gate law",
+      "sha16": "b3b22dc2a31e6de8"
+    },
+    {
+      "path": "results/paper_export/latest.json",
+      "recipe": "take-ours",
+      "note": "take-new-bm-c mirror of export-2026-09-30",
+      "sha16": "b3b22dc2a31e6de8"
+    }
+  ],
+  "ts": "2026-10-07T06:44:11+08:00"
+}
