@@ -1,14 +1,14 @@
 {
- "asof": "2026-10-07T04:27:29+08:00",
- "round": "r653 bm-c",
- "head": "65b062839e4263a98bb022b02fc339e2350b39c2",
- "origin_main": "65b062839e4263a98bb022b02fc339e2350b39c2",
+ "asof": "2026-10-07T04:32:27+08:00",
+ "round": "r653 bm-c (final delivered face)",
+ "head": "e2cee50ef5b18be0f2aedb15cef477df919307c3",
+ "origin_main": "e2cee50ef5b18be0f2aedb15cef477df919307c3",
  "delivered": true,
  "undelivered_count": 0,
- "codely_blob_size_bytes": 28571,
- "codely_blob_sha": "a143d017a4e0b94cbf5111ad01daf289fe4d589c",
+ "codely_blob_size_bytes": 30117,
+ "codely_blob_sha": "0c8a307bcca2fbcd66d06fc258e74dda423b44f2",
  "gate": 30720,
  "gate_ok": true,
- "headroom_bytes": 2149,
- "note": "post-commit blob face per r646 law (receipt-vs-commit mismatch pit); MEASURED main = 28,571B: bm-c own append = ZERO bytes; growth +1,175B vs r652 face (27,396B) is entirely bm-b r794 wave (64ae947e6: S4 pit + E40 card; provenance blob 27,396B@d18154b5e -> 28,571B@64ae947e6); r653 close.py size claims (27,396B unchanged) were stale-assumption errors, corrected by this receipt (kanzhu per W63 precedent, committed rows not retro-edited); window saga: push#1 non-FF (bm-b r794 wave mid-window) -> daemon checkpoint#1 -> rebase UU single-face _attrition_guard_scan.json (ts-line only, both scans CLEAN, resolved newer-wins) -> push#2 pre-push claw double-block (pool shard owner_since 04:24:10->04:14:10 backward = my tip inherited stale 04:14 pool snapshot vs live remote tip carrying bm-b 04:24 claim-refresh, MSG-0612 ring-replay family + phantom deletion of non-self-owned files, r651 stale-base kin; probe proven my commits touch zero pool faces) -> origin-integrate rebase (daemon checkpoint#2) 3/3 clean -> push ok; zero --no-verify escapes; claws in place all window"
+ "headroom_bytes": 603,
+ "note": "FINAL delivered face per r646 measured-face law: blob 30117B @ tip e2cee50ef5b1 (gate-ok headroom 603B). r653 bm-c own appends = 2 pits (+1,546B); bm-b r794 in-window +1,175B; close-time 27,396B stale claim kanzhu-corrected (see addendum-1/2 rows). Push saga total: 3 rejections all claw/push-law faces (non-FF wave, claw pool-owner_since live-remote-base double-block, claw bm-a r807 file deletion stale-base) -- each resolved by origin-integrate rebase, ZERO --no-verify escapes; claws in place all window. Next wave: main headroom 603B -> mini-split likely (r651 machinery)."
 }
