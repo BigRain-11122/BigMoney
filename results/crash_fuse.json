@@ -456,17 +456,6 @@
    "last_refusal_ts": "2026-10-03 00:56:12",
    "shard": "contest-ytd-p1-shard-6of8"
   },
-  "scripts/fund_value_p1.py|run,--nulls": {
-   "entry": "FUND-VALUE-P1-NULLS",
-   "code_sha256": "8a5fa7514c79e3cc",
-   "machine": "bm-a",
-   "refusals": 764,
-   "last_crash_ts": "2026-10-03 18:38:04",
-   "note": "keep blocked on bm-a r636: double-burn containment pin (re-armed post 5th incident 18:16-18:38: autofill claim after code_changed auto-clear of stale-sha pin, burn killed 18:52 tree-sweep r618, 50 rows discarded, file restored origin-verbatim); rightful burner bm-b in flight per MSG-1132/1155; clear ONLY if bm-b burn dies AND bm-b lane yields",
-   "count": 1,
-   "last_refusal_ts": "2026-10-06 16:18:04",
-   "shard": "fund-value-p1-nulls-0of1"
-  },
   "scripts/perpetual_faces_n1.py|run,--shard,11,--of,12": {
    "entry": "PERPETUAL-N1-W2-SHARD-11",
    "code_sha256": "5667c984e14af8e5",
@@ -1024,11 +1013,11 @@
    "crashes": 1
   },
   "scripts/fund_value_p1.py|run,--nulls": {
+   "cleared_ts": "2026-10-06 18:14:11",
+   "cleared_by": "bm-b",
    "reason": "code_changed",
-   "cleared_ts": "2026-10-03 18:16:04",
-   "cleared_by": "bm-a",
-   "old_code_sha256": "efd7b44a577cb52d",
-   "crashes": 1
+   "crashes": 1,
+   "old_code_sha256": "8a5fa7514c79e3cc"
   },
   "scripts/decision_chain_v3_tournament.py|run": {
    "reason": "code_changed",
