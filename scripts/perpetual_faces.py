@@ -3846,6 +3846,47 @@ N1_BANDS = {
     # NOT a re-pick (R250: W154 bands were never assigned).
     154: {"a": (353_604, 355_603), "b_exit": (355_604, 355_803),
          "engine_owner": "bm-a"},
+    # W155 (bm-a r768 freeze, seat MSG-2026-10-06-0943-bma-w155-seat
+    # pushed to origin 1fedffbe4 pre-freeze r565 law (r768 pre-seat
+    # push; payload = seat MSG + pre-seat probe + probe receipt +
+    # W154 finalize products; deletion-set EMPTY; delivery window
+    # absorbed a behind-2 bm-c r610 guard-round peer commit via
+    # merge, zero --no-verify; same-window self-ack inbox->processed
+    # move r768;
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r768bma_w155_band_gate.json: A = FIRST-CLEAN
+    # past the registered W154 B band (arithmetic continuation
+    # 355_604..357_603 REFUSED at its own start by the W154 B band
+    # 355_604..355_803, exactly as the W154 seat leg4 + r767 gate
+    # leg3 + r767 sec8 succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 355_804..357_803, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (355_803+1) machine-checkable -- A-hops-prior-B staircase
+    # fourteenth instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 355_804..356_003 CLEAN on the registered universe
+    # but lands INSIDE the W155 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 357_804 -> 357_804..358_003,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (357_803+1) machine-checkable);
+    # dual-window derive parity with pre-seat probe
+    # results/_r768bma_w155_probe_receipt.json; scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W156+ projection (gate-derived r768): A first-clean
+    # 357_804..359_803 CLEAN hops=0 / B first-clean 358_004..358_203
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W155 B band 357_804..358_003 will refuse the naive
+    # W156 A window; W156 freezer MUST re-derive on the post-W155
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W155 bands were never assigned).
+    155: {"a": (355_804, 357_803), "b_exit": (357_804, 358_003),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
