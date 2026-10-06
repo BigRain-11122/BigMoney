@@ -1,0 +1,54 @@
+{
+ "classified": [
+  {
+   "state": "UU",
+   "path": "results/token_usage.json",
+   "class": "snapshot",
+   "recipe": "take-new by generated ts (meter re-derives whole doc from files each round; newest measurement wins wholesale)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/x2_watch_log.jsonl",
+   "class": "append-log",
+   "recipe": "union both blobs line-level zero loss (append-only ledger)",
+   "law": "r188/r217"
+  }
+ ],
+ "unknown": [
+  {
+   "state": "UU",
+   "path": "results/paper/COMPOSITE-CE-01_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/COMPOSITE-CE-02_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/DROUGHT-CE-01_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/ENGULF-CE-01_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/NEEDLE-DE-01_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/VOLATILITY-CE-01_paper.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/prospect_paper/_summary.json"
+  },
+  {
+   "state": "UU",
+   "path": "results/prospect_promotion/_summary.json"
+  }
+ ]
+}
+== 2 classified, 8 UNKNOWN (fail-closed: classify manually, never blind take-new)
+RED: unclassifiable conflict entries ¡ª resolve by hand per SKILL.md ¡ìunknown; do NOT default-resolve.
