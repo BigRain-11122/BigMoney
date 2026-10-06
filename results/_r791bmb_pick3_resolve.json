@@ -1,0 +1,37 @@
+{
+ "window": "pick3-f14468d56 resolve (6 faces)",
+ "faces": {
+  "results/fund_divlowvol_p1/nulls.jsonl": {
+   "recipe": "union-by-k first-write-wins",
+   "blocks": 1,
+   "head_lines": 10,
+   "ours_lines": 1,
+   "final_lines": 1540
+  },
+  "results/fund_quality_p1/nulls.jsonl": {
+   "recipe": "union-by-k first-write-wins",
+   "blocks": 1,
+   "head_lines": 12,
+   "ours_lines": 1,
+   "final_lines": 1863
+  },
+  "results/saturation_engine/history_bm-b.jsonl": {
+   "recipe": "daemon-live/union epoch-dedupe sorted",
+   "blocks": 1,
+   "final_lines": 117,
+   "dup_diff_epochs": []
+  },
+  "results/saturation_engine/face_bm-b.json": {
+   "recipe": "daemon-live-wins (no markers, keep worktree)",
+   "blocks": 0
+  },
+  "results/saturation_engine/state_bm-b.json": {
+   "recipe": "daemon-live-wins (no markers, keep worktree)",
+   "blocks": 0
+  },
+  "results/p1d_gates.json": {
+   "recipe": "daemon-live-wins (no markers, keep worktree)",
+   "blocks": 0
+  }
+ }
+}
