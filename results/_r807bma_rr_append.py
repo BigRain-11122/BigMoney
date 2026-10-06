@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+"""r807 bm-a S5 RR line append (canonical path law r645; python fresh append)."""
+RR = "logs/iteration-loop/round_reports-bm-a.md"
+line = (
+    "2026-10-07T04:08:03+08:00 | r807 bm-a (dept:工程+研究) | watermark verdict: 绿"
+    "(red=false lane=healthy; probe py 低位=假期合法 idle 白名单面: 板全闭环 0 open 票+"
+    "引擎 idle verdict+0 active burns) | 当前活: W168 prereg build 本窗落地"
+    "(xform W167->W168·banned gate ADMIT rc0·push 送达 62bc99927)·freeze 5-face 编辑=下一窗"
+    "(r797/r799 两会话律) | 最近实物: research/PERPETUAL_N1_W168_PREREG.md @04:00"
+    "(origin 32420fe9d·A 384_404..386_403 阶梯 27 例 E36/B 386_404..386_603 own-A leg2·"
+    "§5 预测键全自 n1_w167_results.json 机读: ledger 锚 772,812·K 365,320·merged mu −0.0929·"
+    "W167-only −0.0945·sigma 0.245164·A p95 0.3141·se_mu 0.000406·K-lift +0.0000·"
+    "W169+ 投影 A 386_404..388_403/B 386_604..386_803 naive-B-inside-naive-A·阶梯 28 例 "
+    "re-derive MANDATORY) | 下个里程碑: W168 freeze+点火+finalize(窗≤48h·proj ledger "
+    "775,012/K 367,520)+10-07 12:00 D-06 收口窗 | did: S0 三连 churn-absorb 活塞(daemon 活面"
+    "竞速·r788 族)+rebase 干净 x2 零 UU+死会话 _r806/_r807 探针 forensics 归档"
+    "(pre-commit 钳拦 r807 resolver 字面标记样本→构造串改写后过=既有法正确执法·r651/r806 "
+    "条目已覆盖该家族零新坑律)+S0.5 令差集 163/163 双扫零未回执+双水位移动消费"
+    "(dec 635c3024→acc32216=D-20261007-01/02/03·BigMoney 面零新派单·①③ 主件判据 27,396B "
+    "已回线〔bm-c r651 mini-split 经 rebase 采纳·余量 3,324B·剃刀薄风险解除〕②D-0507/0508 "
+    "已 r723 核销;ord 9be6a74f→858d46c3=token 行委员会域零本司动作)+S1 smoke 48/48+S2 双板 "
+    "0 open+引擎活检查 rc0 idle+S3 主产=W168 prereg(xform 46 针 count==1 断言+残留 stray "
+    "band 扫全绿·banned gate rc0·amend 修 commit message 投影笔误 775,012 后 push)+S4 零新"
+    "坑律(本窗 claw 拦截=既有家族正确执法·主件 150B→3,324B 余量免动)+S6 38/38 rc0 128s"
+    "(_r807bma_s6_chain=r798 血统·golden-week no-op 族如实·dualrun ZERO-DRIFT·scorecard/"
+    "REPORT/LIVE-2026-10-07 再生·build_status 432combos·token L2 0 today)+S7 四件套绿"
+    "(loop pin=8 no-op 首发修 04:08+watchdog 重注册+双爪重装 CR 归一+attrition CLEAN×4 账本)"
+    "+state 806→807+心跳 epoch int 自证 | verify: smoke 48/48;S6 38/38 rc0 回执链内;banned "
+    "gate ADMIT;orders 163/163 双扫;decisions acc32216/orders 858d46c3 双水位同步;"
+    "W168 prereg 送达自证(push 后 fetch ahead=0 复核·62bc99927)| 本地未达 origin commit 数"
+    "=N(commit 后 push+fetch+rev-list 复核补录)| 下轮指针: r808=W168 freeze 链(face probe→"
+    "freeze edits 5-face TOK 图 r805 血统→verify 8 腿→commit→tick 自燃 12 shards→finalize)"
+    "+D-06 收口窗 12:00 [r807 bm-a]\n"
+)
+with open(RR, "a", encoding="utf-8", newline="") as f:
+    f.write(line)
+print("RR line appended to", RR)

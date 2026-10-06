@@ -1,4 +1,6 @@
-"""r807 bm-a rebase UU resolver (r806 crash recovery): 18 UU faces.
+"""r807 bm-a rebase UU resolver (r806 crash recovery build, extended live at
+the r807 04:2x window for the same-window S6 twin-regen collision with the
+bm-c standing-guard round): 28 UU faces.
 
 Channel law r648: read stage blobs via `git ls-files -u` sha -> `git cat-file -p`
 (NEVER `git show :N:` -- silent empty stdout+rc0 on some faces).
@@ -76,6 +78,22 @@ SNAPSHOTS = [
     "results/strategy_scorecard.json",
     "results/fundamental_b_layer_filter.json",
     "results/_attrition_guard_scan.json",
+    # r807 live-window extension (10-07 04:2x rebase, same-window S6
+    # twin-regen collision with bm-c standing-guard round): 9 more
+    # regenerable same-day JSON faces -> same deep-ts probe take-new
+    "results/paper/COMPOSITE-CE-01_paper.json",
+    "results/paper/COMPOSITE-CE-02_paper.json",
+    "results/paper/DROUGHT-CE-01_paper.json",
+    "results/paper/ENGULF-CE-01_paper.json",
+    "results/paper/NEEDLE-DE-01_paper.json",
+    "results/paper/VOLATILITY-CE-01_paper.json",
+    "results/prospect_paper/_summary.json",
+    "results/prospect_promotion/_summary.json",
+    "results/t35_open_fill_verify.json",
+]
+JSONL_UNION = [
+    # append-only line multiset union (r795 zero-loss law)
+    "results/x2_watch_log.jsonl",
 ]
 JS_WRAPPER = "results/dashboard_status.js"
 
@@ -176,6 +194,40 @@ def main():
         side, why = pick_side(path, st)
         n = byte_take(path, st, side)
         report.append(f"SNAP    {path} side={side} ({why}) {n}B")
+
+    # -- jsonl append-only line multiset union (r795 zero-loss law) --
+    from collections import Counter
+    for path in JSONL_UNION:
+        st = st_all[path]
+        for side in (2, 3):
+            for mk in MARKERS:
+                if mk in blob(st[side]):
+                    raise SystemExit(f"MARKER GATE FAIL {path} side{side}")
+        b2 = blob(st[2]).decode("utf-8")
+        b3 = blob(st[3]).decode("utf-8")
+        lines2 = [l for l in b2.splitlines() if l.strip()]
+        lines3 = [l for l in b3.splitlines() if l.strip()]
+        # backbone = longer side; append replay-only surplus lines in order
+        if len(lines2) >= len(lines3):
+            backbone, other = lines2, lines3
+            sides = ("2", "3")
+        else:
+            backbone, other = lines3, lines2
+            sides = ("3", "2")
+        need = Counter(other) - Counter(backbone)
+        surplus = []
+        for l in other:
+            if need.get(l, 0) > 0:
+                need[l] -= 1
+                surplus.append(l)
+        merged_lines = backbone + surplus
+        crlf = "\r\n" in b2
+        with open(path, "w", encoding="utf-8", newline="") as fh:
+            fh.write("\r\n".join(merged_lines) + ("\r\n" if crlf else "\n"))
+        report.append(
+            f"JSONL   {path} line-union backbone=side{sides[0]} "
+            f"{len(backbone)}+{len(surplus)} -> {len(merged_lines)} lines "
+            f"(side2={len(lines2)} side3={len(lines3)})")
 
     # -- js wrapper: same side as dashboard_status.json twin decision --
     stj = st_all["results/dashboard_status.json"]
