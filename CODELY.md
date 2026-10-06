@@ -1,4 +1,20 @@
 ## Codely Structured Memories
+## Codely Structured Memories
+### User
+- [2026-10-06 23:2x r786 bm-b] O-20261006-2110/2250/2257 三 CEO 令同窗执行回执：让路律套件部署（C:\Fluxgroup\.codely-cli\machine-state.ps1 本地化三处=$tasks 10 任务清单/qwen3.8:4b/MiniGameOllamaKeepWarm）+pause 实测 PASS（ollama 杀净 vram 4365→648MB·10 GPU 任务 Disabled·production-clean）+status 落档+2257 resume 复原 PASS（10 任务 Enabled·ollama serve 重启+qwen3.8:4b repin keep_alive=-1·vram 4357MB·MODE=mixed）；静默律双路通知闸设值+读回 0/0+任务自审=自建 23/23 全隐藏链（21 原生 wscript+Skyline 2 任务当窗改链·参数原样透传·machine 级 InvisibleRunner.vbs）+第三方 11 列报不代禁+触发词律/零窗律两行入全局 CODELY.md；回执节已填三令文件。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
