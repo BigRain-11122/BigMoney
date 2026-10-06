@@ -1897,6 +1897,7 @@ SEED_REGISTRY = {
     "trial_labor_w16_gen": 20_593_000,  # W16 Sobol generation base (20-tuple axis grid 6,772,211,712 combos; raw 10,000)
     "trial_labor_w16_scrnull": 20_593_500,  # s2 screen K=200 same-structure random-signal nulls (rng([20593500, i]), i<200) per BACKTEST_PLAN three-iron-laws (max/rank gate legs merged into same-grid same-param-space draw)
     "trial_labor_w16_unc": 20_594_000,  # W16 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip) (rng([20594000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+    "theme_deepen_p1_nulls": 20_600_000,  # T-2026-10-06-173 THEME-DEEPEN-P1 (O-20261006-1207 theme-deepening batch) face-2 per-wave random-entry nulls, K=200/wave x 43 waves, rng([20600000, wave_idx, k]) substream law; 2026-10-06 bm-a r776 freeze-window registration, band [20600000,20602200) disjoint, net gap 4000 above trial_labor_w16 family band end 20596000 (annotated band incl. unc extents; max registered base below = 20594000), full-registry collision scan zero hit (probe _r776bma_gateprobe3.py same window: nearest base 20594000, no base within 10k of 20600000 above)
         # G2-SLOT-OLD-P1 band pick 2026-10-03 bm-a r640 freeze window:
         # collision scan vs all registered bases (top=20520500, gap 9500)
         # + band [20530000, 20530020) disjoint; 20 same-mask random sleeves,
