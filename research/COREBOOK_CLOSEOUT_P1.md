@@ -83,10 +83,24 @@
 - `results/corebook_closeout_p1/corebook_closeout_p1.json`（顶层 evidence_cutoff+science_gates.cutoff_meta+trials_ledger 块+五面判定+CEO 白话判定块）；
 - 本文件 §7/§8 回填；票 T-2026-10-06-174-P1 result_ref 更新。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后回填·2026-10-06 bm-a r777】
 
-（跑后回填）
+- **五面判定落盘**（results/corebook_closeout_p1/corebook_closeout_p1.json·schema corebook_closeout_v1）：
+  - **E1-ETF 低振幅防御袖=retained-guidance**（三判据全过：`starts_12m_dist.positive_share`=0.8635≥0.50 ✓·12m 窗中位 +3.29%>0 ✓·`rolling_worst["5y"]`=+15.04%>0 ✓·n=1,128 窗）；**双标签照跑前写死落账**：注册面=P3 verdict judged-negative 逐字（skill_line 1.9722/headline Sharpe 1.158/M1 t 2.945/DSR 0.2695/PBO 0.4857/deep 轴 beat 46.5% 照录）+族键 lowamp_daily_xs CLOSED 在册不动；炉面宣称（+176%/2,675 格）=勘探富集读数降级（N7）——核心书期望值=0.86 正窗占比/中位 +3.29%（12m 窗）/滚动 5y 最差 +15.04%/零崩年。
+  - **E2 四资产配置=retained**（conclusion_A.verdict 逐字·A-EQW·cagr +5.69%/worst5y 为正）。
+  - **E1-stock 低量选股=withdrawn**（conclusion_B.verdict 逐字·pos_share 1.0 ∧ 中位 +11.04% ∧ **worst5y −1.53% 败**→撤回；原 14.80% 单起点结论撤回照报）。
+  - **②③④⑤=delivered**（ALLOC 277/300 格·n_trials 302／EXCL FULL 中位 +15.09% vs NONE +8.69%＝排除规则集 +6.4pp／COST schema 交付·cutoff 2026-09-29 如实分记／GRD 护栏交付·anchor cutoffs 混合面照录）。
+- **七源件 cutoff 断言全过**（市场面五件=2026-09-22 ✓·COST=2026-09-29 ✓·GRD=anchor_evidence_cutoffs 逐面）；源件 sha256 前 16 位落结果件（引用锚面）。
+- **账本三步律（r776）执法**：append_ledger 返回块**先嵌后写**→写后断言 total==prev+0（750,812==750,812 ✓）→head 复核无回退 ✓；**本批 +0 试验**，D-41 §6-C 账维持 **324/500**（CEO ≤300 额度零动用=预算节省面）。
+- audit：machine=bm-a·runner=scripts/corebook_closeout_p1.py·selftest 3/3（正/负/边界三态）·banned_direction_gate ADMIT（rc0·零命中）。
 
-## §8 批后复盘【必填·s7-T】
+## §8 批后复盘【跑后回填·2026-10-06 bm-a r777】
 
-（跑后回填）
+- **预测对账（§5 vs §7）**：①全对——E1-ETF 三判据全过 retained-guidance（0.86/3.29%/15.04% 与预期带逐位符）；②全对——E2 retained/E1-stock withdrawn 与 RETAIL_QUANT_TRACK §二 #1 记录一致；③全对——七源件 cutoff 断言按预测形态（市场面 09-22/COST 09-29/GRD 混合）；④N/A 面未触发。**4/4 对·零 MISS**。
+- **门禁链损耗账**：`results/gate_attrition.json` 追加一行（kind=adjudication·零烧裁定面：banned_direction ADMIT→freeze 4f60b9d1a→probe 7/7→run rc0——零损耗零逃逸）。
+- **试验量归因【§1.4/D-41 §6-C】**：本批新增试验 **0**（裁定面=已判定不重烧·O-1901 意义性律执法；CEO ≤300 预算零动用·账 324/500——30 天窗余额 176 留给 10-31 月界考面与纸盘晋升面）。
+- **核心书收口读数（CEO 白话）**：站住的=四资产配置（保留）+低振幅防御袖（保留作配置指导·不能当在册策略）+第一铁律排除规则（+6.4pp 成立）；撤回的=低量选股 14.80%（滚动 5 年最差为负）；已交付=配置扫描/排除边际/成本税账/行为护栏。**期望值修正**：核心仓预期=配置+排除的温和正收益（+5.7%/年中位·零崩年口径），非炉面 +176% 勘探读数。
+- **下游消费面**：10-31 月界首考（六员+SYSTEM-V1 判决）与纸盘晋升面按本批判定件消费；E1-ETF 注册重开通道=new_evidence_new_prereg 不变。
+- 回执入轮报告 r777；票 T-2026-10-06-174-P1 result_ref=results/corebook_closeout_p1/corebook_closeout_p1.json。
+
+- **跑前冻结=本件 commit**（freeze hash=4f60b9d1a）；冻结后禁改判据；回填限 §7/§8。

@@ -1,0 +1,212 @@
+{
+ "schema": "corebook_closeout_v1",
+ "batch": "COREBOOK-CLOSEOUT-P1",
+ "ticket": "T-2026-10-06-174-P1",
+ "order_ref": "O-20261006-1218 P1 (SYNTHESIS-R1 sec.4 P1, D-41 five deliverables)",
+ "evidence_cutoff": "2026-09-22",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "adjudication_nature": "zero-burn adjudication; five faces consumed from frozen artifacts; no new backtests",
+ "faces": {
+  "e1_etf_lowamp_guidance": {
+   "verdict": "retained-guidance",
+   "criteria": "allstart_pos_share>=0.50 AND allstart_median_cagr>0 AND worst5y_cagr>0 (prereg sec.4, frozen pre-run)",
+   "criteria_reads": {
+    "allstart_pos_share": 0.8635,
+    "allstart_median_cagr_12m_window": 0.0329,
+    "worst5y_cagr": 0.1504,
+    "n_windows": 1128,
+    "rolling_worst_3y": 0.0414,
+    "pos_share_ok": true,
+    "median_ok": true,
+    "worst5y_ok": true,
+    "pass": true
+   },
+   "dual_labels": {
+    "registration_face": "judged-negative",
+    "closed_family": "lowamp_daily_xs (CLOSED_FAMILIES row 7; reopen=new_evidence_new_prereg, untouched)",
+    "furnace_claim_correction": "exploration-enrichment reading ('2,675 cells significant', verification-window +176%) is DOWNGRADED per N7 shallow-threshold law; core-book expectation = adjudicated frozen readouts above, NOT +176%",
+    "registration_gate_reads": {
+     "skill_line_v2": 1.9722,
+     "headline_sharpe": 1.158046,
+     "m1_t": 2.945,
+     "dsr": 0.2695,
+     "pbo": 0.4857,
+     "deep_axis_beat": "642/1380=46.5%"
+    }
+   },
+   "source": "results/lowamp_p3/lowamp_p3_results.json",
+   "evidence_cutoff": "2026-09-22"
+  },
+  "e2_four_asset_allocation": {
+   "verdict": "retained",
+   "criteria": "allstart_pos_share>=0.50 AND allstart_median_cagr>0 AND worst5y_cagr>0 (prereg sec.4, frozen pre-burn)",
+   "criteria_reads": {
+    "cell_id": "A-EQW",
+    "rule": "monthly",
+    "w": [
+     0.25,
+     0.25,
+     0.25,
+     0.25
+    ],
+    "n_rebalances": 158,
+    "cost_drag_annual": 0.0003085539054428482,
+    "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+    "seed": null,
+    "cagr": 0.0568654384044085,
+    "vol": 0.06926555896572124,
+    "sharpe": 0.8343502996418845,
+    "t_info": 2.9727286992117268,
+    "maxdd": -0.1247651900525456,
+    "worst3y": -0.009878568409435906,
+    "worst5y": 0.02870049746309622,
+    "worst10y": 0.0385998454510017,
+    "p_dd20_1y": 0.0,
+    "n_dd_windows": 2949,
+    "win_1y_pos_share": 0.7988466757123474,
+    "win_month_pos_share": 0.5569620253164557,
+    "n_1y_windows": 2948,
+    "n_month_slices": 158,
+    "allstart_n_valid": 122,
+    "allstart_short": 37,
+    "allstart_best": 0.08698622844560422,
+    "allstart_worst": 0.04428781414314886,
+    "allstart_p25": 0.05477450958543911,
+    "allstart_median": 0.05703705746860033,
+    "allstart_p75": 0.061937857728561196,
+    "allstart_pos_share": 1.0,
+    "pos_share_ok": true,
+    "median_ok": true,
+    "worst5y_ok": true,
+    "pass": true
+   },
+   "source": "results/cross_start_robustness/scan.json",
+   "evidence_cutoff": "2026-09-22",
+   "claim_anchor": {
+    "cagr": 0.0587,
+    "maxdd": -0.144,
+    "win_rate": 0.71,
+    "source": "ORDER conclusion A: regime-adaptive four-asset, external config not in repo"
+   }
+  },
+  "e1_stock_low_volume": {
+   "verdict": "withdrawn",
+   "criteria": "allstart_pos_share>=0.50 AND allstart_median_cagr>0 AND worst5y_cagr>0 (prereg sec.3-B/sec.4, frozen pre-burn, Face A criteria family)",
+   "criteria_reads": {
+    "allstart_median": 0.11044477168768563,
+    "allstart_pos_share": 1.0,
+    "median_ok": true,
+    "pass": false,
+    "pos_share_ok": true,
+    "worst5y": -0.015270366626854104,
+    "worst5y_ok": false
+   },
+   "source": "results/cross_start_robustness/face_b.json",
+   "evidence_cutoff": "2026-09-22",
+   "note": "ORDER wording: majority of starts hold -> keep, else withdraw (low-volume conclusion's single-start defect was named by the ORDER as 须补验)."
+  },
+  "d2_allocation_policy_scan": {
+   "verdict": "delivered",
+   "source": "results/allocation_policy_scan/scan.json",
+   "n_trials": 302,
+   "summary": {
+    "n_grid_cells": 300,
+    "n_pass": 277,
+    "per_rule_total": 75,
+    "per_s_total": 60,
+    "per_c_total": 100,
+    "pass_by_rule": {
+     "annual": 70,
+     "quarterly": 69,
+     "monthly": 69,
+     "threshold5": 69
+    },
+    "pass_by_stock_w": {
+     "0.2": 60,
+     "0.3": 60,
+     "0.4": 60,
+     "0.5": 49,
+     "0.6": 48
+    },
+    "pass_by_cash_w": {
+     "0.0": 92,
+     "0.1": 92,
+     "0.2": 93
+    }
+   },
+   "evidence_cutoff": "2026-09-22"
+  },
+  "d3_exclusion_marginal": {
+   "verdict": "delivered",
+   "source": "results/exclusion_marginal_scan/scan.json",
+   "full_median": 0.1408317322852073,
+   "none_median": 0.11044477168768563,
+   "rand_full_median": 0.04417644638172058,
+   "rand_none_median": 0.037758872846836766,
+   "evidence_cutoff": "2026-09-22"
+  },
+  "d4_cost_turnover_tax": {
+   "verdict": "delivered",
+   "source": "results/account_cost_tax.json",
+   "schema": "account_cost_tax_v1",
+   "evidence_cutoff": "2026-09-29"
+  },
+  "d5_behavior_guardrails": {
+   "verdict": "delivered",
+   "source": "results/behavior_guardrails/guardrails.json",
+   "schema": "behavior_guardrails_v1",
+   "n_guardrails": 4,
+   "anchor_evidence_cutoffs": {
+    "account_cost_tax": "2026-09-29",
+    "allocation_policy_scan": "2026-09-22",
+    "cross_start_robustness": "2026-09-22",
+    "face_a_allstart_worst": 0.04428781414314886
+   }
+  }
+ },
+ "ceo_verdict_plain": {
+  "E2_四资产配置底仓": "保留（122 个起点全正·中位 +5.7%·滚动 5 年最差为正）",
+  "E1_股票低量选股": "撤回（全部起点中位 +11% 但滚动 5 年最差 -1.5% 不成立——原 14.80% 单起点结论按 CEO 判据撤回）",
+  "E1_ETF低振幅防御袖": "保留作配置指导（1128 个 12 月窗 86% 为正·中位 +3.29%·滚动 5 年最差 +15.04%）——但不能当在册策略（注册考试没过：判定为负）",
+  "交付2_配置政策扫描": "已交付（277/300 格过判）",
+  "交付3_排除边际曲线": "已交付（排除规则集 +6.4 个百分点·第一铁律成立）",
+  "交付4_成本换手税账": "已交付",
+  "交付5_行为护栏": "已交付",
+  "预算": "本批 0 个新试验——CEO 给的 300 个试验额度一个没用（已判定的事不重烧）·账上仍 324/500"
+ },
+ "source_sha256": {
+  "lowamp_p3": "f2299213b1d353034ee348cbcb7d7ae9e76e62e6879e2ce6945c889cb581f966",
+  "cross_start_a": "d3dc56738e0c1f6d0247e9d26c9a5cae9182696e971510ba18e0943264528afe",
+  "cross_start_b": "7f2c24a9589bba432bfb8f7da5c09cf22be2469b1aa598ff96c8bae08f8b4acb",
+  "alloc_scan": "79986a433c936d6969c8238f87a1645a963ae200fe3f17663f4a861dba7ddfec",
+  "excl_scan": "077913dd3597ba5a58193bf874b31b6184da84e909ad3e3bedbb75dba99a600a",
+  "cost_tax": "825da47e992da5abb1a9f28c6f4288d5b3e55b065b5684ea2fb73da6c349ad38",
+  "guardrails": "95c39651da4864ea5e167a9e1734bf89ae6da4653c92c48f34b9e1b350268127"
+ },
+ "d41_budget": {
+  "new_trials_this_batch": 0,
+  "account_after": "324/500 (unchanged; CEO <=300 allocation untouched)"
+ },
+ "audit": {
+  "machine": "bm-a",
+  "runner": "corebook_closeout_p1.py",
+  "prev_ledger_head_total": 750812
+ },
+ "trials_ledger": {
+  "prev_total": 750812,
+  "batch_trials": 0,
+  "total": 750812,
+  "batch": "COREBOOK-CLOSEOUT-P1",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/corebook_closeout_p1/corebook_closeout_p1.json",
+  "note": "adjudication face: zero new trials; five deliverables consumed from frozen artifacts per O-20261006-1218 P1; D-41 6-C account stays 324/500",
+  "evidence_cutoff": "2026-09-22"
+ }
+}
