@@ -1,0 +1,60 @@
+== _r637bmc_s05.py r635=0 r636=1 r637=1
+  L14: HO = "1FB2E9586977B43869481922EFC27ECEA12F579B"  # last_orders_sha (SHA-1, algo pin r537; advanced 36B2594C->1FB2E958 consumed r636 same-window per r760 receipt
+  L54: out = os.path.join(repo, "results", "_r637bmc_s05_facts.json")
+== _r637bmc_s6_chain.py r635=0 r636=1 r637=5
+  L1: """r637 bm-c S6 chain driver: 38-leg standing canon (r636 lineage commands
+  L6: _r637bmc_s6_chain.py (either mirror). PYTHONUTF8=1 + utf-8 IO persisted
+  L15: LOG = os.path.join(ROOT, "results", "_r637bmc_s6_log.txt")
+  L68: log.write(f"S6 chain r637 bm-c start {datetime.datetime.now().isoformat()}\n")
+  L89: log.write(f"\nS6 chain r637 bm-c rcmap: {rcmap}\n")
+== _r637bmc_legdiff.py r635=1 r636=12 r637=11
+  L2: """r637 bm-c legdiff v7: r636-chain (OLD) vs r637-chain (NEW).
+  L8: G4: r636 executed-log leg names == r637 chain leg names (38 cross).
+  L9: Receipt -> results/_r637bmc_legdiff.txt
+  L17: OLD = ROOT + r"\.codely-cli\scratch\_r636bmc_s6_chain.py"
+  L18: NEW = ROOT + r"\.codely-cli\scratch\_r637bmc_s6_chain.py"
+  L19: EXEC_LOG_OLD = ROOT + r"\results\_r636bmc_s6_log.txt"
+  L20: PROBE = ROOT + r"\results\_r637bmc_needle_probe.txt"
+  L21: OUT = ROOT + r"\results\_r637bmc_legdiff.txt"
+  L32: # ---- G0 needle probe: every OLD line carrying the r636 round token ----
+  L33: probe_rows = [(i + 1, l) for i, l in enumerate(old_lines) if "r636" in l]
+  L35: pf.write("r637 needle probe: OLD=_r636bmc_s6_chain.py lines containing token 'r636'\n")
+  L41: # r635->r636 (prior-round mention), r636->r637 (own-round token),
+  L42: # r637+->r638+ (next-anchor self-mention in docstring).
+  L62: w("G1 LEGS=%d CMD_IDENTICAL=%s BAD=%d (OLD=r636 true lineage file, absolute-path anchor)"
+  L97: w("G4 r636 executed-log leg names == r637 chain leg names: %s (exec=%d)" % (g4, len(exec_names)))
+== _r637bmc_s7probe.py r635=0 r636=1 r637=1
+  L1: # r637 bm-c S7 probe: task-family CSV cross + claws content-match.
+  L2: # Blood: r636 face (r535 -split law + CSV name column backslash-prefix known face).
+== _r637bmc_ledgerhead.py r635=0 r636=0 r637=0
+== _r637bmc_board.py r635=0 r636=0 r637=0
+== _r637bmc_s6facts.py r635=0 r636=1 r637=4
+  L2: """r637 bm-c S6 facts probe (r557 lineage): dual-lane split anchors per r547
+  L4: first-match). Receipt -> results/_r637bmc_s6_facts.json (r636 face)."""
+  L9: s = open(ROOT + r"\results\_r637bmc_s6_log.txt", encoding="utf-8-sig", errors="replace").read()
+  L65: out = ROOT + r"\results\_r637bmc_s6_facts.json"
+== _r637bmc_ca_probe.py r635=0 r636=1 r637=2
+  L1: # r637 bm-c CA probe (r636 ca_probe lineage, r576 law: CA facts from the
+  L5: txt = open(r"results\_r637bmc_s6_log.txt", encoding="utf-8", errors="replace").read()
+== _r637bmc_s7_second_scan.py r635=0 r636=0 r637=1
+  L14: facts = json.load(open(ROOT + r"\results\_r637bmc_s05_facts.json", encoding="utf-8"))
+== _r637bmc_s6_ignite.py r635=0 r636=0 r637=5
+  L1: # r637 bm-c S6 chain ignition: detached (r737 law) + exit-aware polling
+  L2: # (r748 law). Runner stdout/stderr -> results/_r637bmc_s6_runner.{out,err}.
+  L9: CHAIN = ROOT + r"\.codely-cli\scratch\_r637bmc_s6_chain.py"
+  L10: OUT = ROOT + r"\results\_r637bmc_s6_runner.out"
+  L11: ERR = ROOT + r"\results\_r637bmc_s6_runner.err"
+== _r637bmc_qa_ignite.py r635=0 r636=0 r637=4
+  L1: # r637 bm-c QA pack ignition: detached spawn of scripts/qa_smoke_run.py
+  L3: # chain per r605 window face). Runner stdout/stderr -> results/_r637bmc_qa_runner.{out,err}.
+  L10: OUT = ROOT + r"\results\_r637bmc_qa_runner.out"
+  L11: ERR = ROOT + r"\results\_r637bmc_qa_runner.err"
+== _r637bmc_qa_poll.py r635=0 r636=1 r637=7
+  L1: # r637 bm-c QA pack poll: wait for detached qa_smoke_run to land receipts,
+  L2: # then verify qa/smoke-r637.md content (5/5 + determinism + metrics identity
+  L3: # vs r636 face: sharpe/maxdd/win/trades) + equity PNG size + runner tail.
+  L11: MD = ROOT + r"\qa\smoke-r637.md"
+  L12: PNG = ROOT + r"\qa\equity-curve-r637.png"
+  L13: OUT = ROOT + r"\results\_r637bmc_qa_runner.out"
+  L14: ERRF = ROOT + r"\results\_r637bmc_qa_runner.err"
+  L23: assert os.path.exists(MD), "qa/smoke-r637.md not landed within poll window"
