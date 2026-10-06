@@ -1,0 +1,54 @@
+{
+ "round": "r607",
+ "semantics": "merge ours=bm-c-close theirs=origin-bm-a-r765",
+ "faces": {
+  "results/strategy_scorecard.json": "anchor whole-file ts-newer-wins by generated -> ours(bm-c-close) (ours=2026-10-06 08:30:09 theirs=2026-10-06 08:25:35; r756 normalized, tie->origin r440)",
+  "results/dashboard_status.json": "anchor whole-file ts-newer-wins by fleet.audit.ts -> ours(bm-c-close) (ours=2026-10-06 08:29:13 theirs=2026-10-06 08:24:49; r756 normalized, tie->origin r440)",
+  "docs/daily_report/REPORT-2026-10-06.json": "anchor whole-file ts-newer-wins by generated_at -> ours(bm-c-close) (ours=2026-10-06 08:31:00 theirs=2026-10-06 08:26:30; r756 normalized, tie->origin r440)",
+  "docs/live_usage/LIVE-2026-10-06.json": "anchor whole-file ts-newer-wins by generated -> ours(bm-c-close) (ours=2026-10-06 08:31:02 theirs=2026-10-06 08:26:31; r756 normalized, tie->origin r440)",
+  "docs/daily_report/REPORT-2026-10-06.md": "twin-bound same side as docs/daily_report/REPORT-2026-10-06.json (raw bytes)",
+  "docs/live_usage/LIVE-2026-10-06.md": "twin-bound same side as docs/live_usage/LIVE-2026-10-06.json (raw bytes)",
+  "docs/live_usage/LIVE-latest.json": "twin-bound same side as docs/live_usage/LIVE-2026-10-06.json (raw bytes)",
+  "docs/live_usage/LIVE-latest.md": "twin-bound same side as docs/live_usage/LIVE-2026-10-06.json (raw bytes)",
+  "results/_attrition_guard_scan.json": "whole-file ts-newer-wins by ts -> ours(bm-c-close) (ours=2026-10-06 08:33:21+08:00 theirs=2026-10-06 08:27:04+08:00; r756 normalized, tie->origin r440)",
+  "results/compute_audit.json": "rolling-union 201+203->204 dedup+ts-stable-sort (r758 law, zero-loss asserted; top ts-newer-wins)",
+  "results/daily_scorecard.json": "whole-file ts-newer-wins by traders.[5].forward_guard.as_of -> ours(bm-c-close) (ours=2026-10-06 08:30:39 theirs=2026-10-06 08:26:10; r756 normalized, tie->origin r440)",
+  "results/dashboard_status.js": "twin-bound same side as results/dashboard_status.json (raw bytes)",
+  "results/fundamental_b_layer_filter.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:31 theirs=2026-10-06 08:26:04; r756 normalized, tie->origin r440)",
+  "results/futures_update_status.json": "whole-file ts-newer-wins by ts -> ours(bm-c-close) (ours=2026-10-06 08:30:20 theirs=2026-10-06 08:26:00; r756 normalized, tie->origin r440)",
+  "results/lhb_update_status.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:19 theirs=2026-10-06 08:25:59; r756 normalized, tie->origin r440)",
+  "results/paper/COMPOSITE-CE-01_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:34 theirs=2026-10-06 08:26:07; r756 normalized, tie->origin r440)",
+  "results/paper/COMPOSITE-CE-02_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:35 theirs=2026-10-06 08:26:08; r756 normalized, tie->origin r440)",
+  "results/paper/DROUGHT-CE-01_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:36 theirs=2026-10-06 08:26:08; r756 normalized, tie->origin r440)",
+  "results/paper/ENGULF-CE-01_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:37 theirs=2026-10-06 08:26:09; r756 normalized, tie->origin r440)",
+  "results/paper/NEEDLE-DE-01_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:38 theirs=2026-10-06 08:26:09; r756 normalized, tie->origin r440)",
+  "results/paper/VOLATILITY-CE-01_paper.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:30:39 theirs=2026-10-06 08:26:10; r756 normalized, tie->origin r440)",
+  "results/paper_export/export-2026-09-30.json": "whole-file ts-newer-wins by generated_from_state_updated -> ours(bm-c-close) (ours=2026-10-06 08:30:39 theirs=2026-10-06 08:26:10; r756 normalized, tie->origin r440)",
+  "results/paper_export/latest.json": "whole-file ts-newer-wins by generated_from_state_updated -> ours(bm-c-close) (ours=2026-10-06 08:30:39 theirs=2026-10-06 08:26:10; r756 normalized, tie->origin r440)",
+  "results/prospect_paper/_summary.json": "whole-file ts-newer-wins by generated -> ours(bm-c-close) (ours=2026-10-06 08:30:42+08:00 theirs=2026-10-06 08:26:11+08:00; r756 normalized, tie->origin r440)",
+  "results/prospect_promotion/_summary.json": "whole-file ts-newer-wins by generated -> ours(bm-c-close) (ours=2026-10-06 08:30:42+08:00 theirs=2026-10-06 08:26:18+08:00; r756 normalized, tie->origin r440)",
+  "results/regime_state.json": "rolling-union 2+2->2 dedup+ts-stable-sort (r758 law, zero-loss asserted; top ts-newer-wins)",
+  "results/scorecard_v1.json": "twin-bound same side as results/strategy_scorecard.json (raw bytes)",
+  "results/t35_open_fill_verify.json": "whole-file ts-newer-wins by ts -> ours(bm-c-close) (ours=2026-10-06 08:30:40 theirs=2026-10-06 08:26:10; r756 normalized, tie->origin r440)",
+  "results/token_usage.json": "whole-file ts-newer-wins by generated -> ours(bm-c-close) (ours=2026-10-06 08:31:16 theirs=2026-10-06 08:26:42; r756 normalized, tie->origin r440)",
+  "results/update_status.json": "whole-file ts-newer-wins by updated -> ours(bm-c-close) (ours=2026-10-06 08:29:22 theirs=2026-10-06 08:24:58; r756 normalized, tie->origin r440)",
+  "results/x2_watch_log.jsonl": "append-only union dedup+ts-stable-sort 378+384->390 (r758 law, zero-loss asserted)"
+ },
+ "zero_loss": {
+  "results/compute_audit.json": {
+   "ours": 201,
+   "theirs": 203,
+   "merged": 204
+  },
+  "results/regime_state.json": {
+   "ours": 2,
+   "theirs": 2,
+   "merged": 2
+  },
+  "results/x2_watch_log.jsonl": {
+   "ours": 378,
+   "theirs": 384,
+   "merged": 390
+  }
+ }
+}
