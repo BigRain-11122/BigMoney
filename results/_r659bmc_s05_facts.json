@@ -1,0 +1,88 @@
+{
+ "ts": "2026-10-07T06:41:59+08:00",
+ "probe": "r659 bm-c s05+s3",
+ "group_fetch_rc": 0,
+ "decisions_sha256": "635C3024A95E4487A08E55BE9DAD3A97E41C73726A9D82D955986D95EF6F6AF6",
+ "gorders_sha1": "437E9CDD6B8B323BD6B8AEBF743361F748CF6FF9",
+ "state_dec_sha": "635C3024A95E4487A08E55BE9DAD3A97E41C73726A9D82D955986D95EF6F6AF6",
+ "state_ord_sha": "437E9CDD6B8B323BD6B8AEBF743361F748CF6FF9",
+ "dec_match": true,
+ "ord_match": true,
+ "orders_files": 164,
+ "orders_acked": 164,
+ "orders_unacked": [],
+ "acked_missing_on_disk": [],
+ "inbox_items": [
+  {
+   "name": "MSG-2026-10-07-0625-bmc-marker-contamination-heal.md",
+   "mtime": "2026-10-07T06:31:05"
+  }
+ ],
+ "watermark_red": {
+  "red": false,
+  "lane": "healthy",
+  "ts": "2026-10-07 06:42:02",
+  "next_pick": {
+   "status": "claimed",
+   "candidate": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
+   "lane": "event-attention-factors"
+  }
+ },
+ "sat_status_rc": 0,
+ "sat_status_tail": [
+  "    \"local_done\": 12,",
+  "    \"remote_done\": 12",
+  "   }",
+  "  }",
+  " ]",
+  "}"
+ ],
+ "trio": {
+  "Q_fund_quality_p1": {
+   "lines": 1968,
+   "target": 2000,
+   "pct": 98.4,
+   "mtime": "2026-10-07T06:31:05"
+  },
+  "V_fund_value_p1": {
+   "lines": 2000,
+   "target": 2000,
+   "pct": 100.0,
+   "mtime": "2026-10-06T19:17:19"
+  },
+  "D_fund_divlowvol_p1": {
+   "lines": 1634,
+   "target": 2000,
+   "pct": 81.7,
+   "mtime": "2026-10-07T06:31:05"
+  }
+ },
+ "peers": {
+  "bm-a": {
+   "last_seen": "2026-10-07T05:56:07+08:00",
+   "age_min": null,
+   "round_no": 810,
+   "verdict": "green: W169 seat chain landed (probe+seat+gate ADMIT, origin 5a0228cd4); engine idle verdict = golden-week legal idle; 0"
+  },
+  "bm-b": {
+   "last_seen": "2026-10-07T06:15:18+08:00",
+   "age_min": null,
+   "round_no": 798,
+   "verdict": "green: dead-r797 absorb guard round r798; trio Q/D burns alive (Q 1963/2000 eta ~07:47 rate 0.387/min, D 1630/2000 accel"
+  }
+ },
+ "fleet_board": {
+  "open": 0,
+  "claimed": 46,
+  "done": 125,
+  "other": 5,
+  "open_ids": []
+ },
+ "post_review_latest": {
+  "items": 53,
+  "counts": {
+   "YES": 48,
+   "WAIT": 5
+  }
+ }
+}
