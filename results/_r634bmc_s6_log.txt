@@ -1,0 +1,188 @@
+S6 chain r634 bm-c start 2026-10-06T17:47:51.725892
+
+=== 01_dualrun rc=0 0.6s
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 403 entries, drift-free streak 51, cutoff 2026-10-05T01:13:21+08:00)
+
+
+=== 02_compute_audit rc=0 8.5s
+{"ts": "2026-10-06 17:48:00", "audit_version": "v2.4.2", "cpu_total_pct": 7.0, "py_cpu_pct": 0.0, "cores": 32, "py_procs": 8, "result_stale_min": 0.5, "fleet_open_tasks": 0, "pool_ready_count": 2, "pool_ready_unclaimed": 0, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 14, "span_min": 195.3}, "supply_floor": {"ready": 2, "floor": 3, "breach": true}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 139.5, "gpu": {"present": true, "util_pct": 0.0, "mem_used_mb": 15646.0, "compute_apps_count": 18, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 12, "core_seconds": 2436.78, "wall_seconds": 182.3, "effective_cores": 13.37, "multicore_burn": 12, "single_core_burn": 0, "too_short_to_sample": 0, "readable": true}, "flags": ["supply_gap", "supply_floor"], "verdict": "FLAG:supply_gap,supply_floor"}
+compute_audit: runnable_pool merged-sync settled {"wrote_shared": false, "wrote_lane": true}
+
+
+=== 03_py_watermark rc=0 6.7s
+{"ts": "2026-10-06 17:48:07", "epoch": 1791280081.0, "machine": "bm-c", "cpu_total_pct": 12.0, "cores": 32, "py_cpu_pct": 0.5, "py_procs": 9, "top_proc_cores": 0.17, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "bars_present": false, "daily_panel": true, "verdict": "py_low_board_clear", "window": {"n": 2, "span_min": 20.1, "avg_py_cpu_pct": 0.2, "max_py_cpu_pct": 0.5}, "series_kept": 78}
+
+
+=== 04_update_daily rc=0 2.5s
+=== Bigmoney daily update 2026-10-06 17:48:08 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+
+
+=== 05_market_regime rc=0 1.2s
+regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-09-30 state=ORANGE (橙·高危) raw=ORANGE days_in_state=2 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.79>=65%
+
+
+=== 06_scorecard rc=0 0.6s
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 07_clock_call rc=0 5.7s
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+
+
+=== 08_lhb rc=0 4.6s
+cutoff=2026-09-30 quarter=2026Q3 today=2026-10-06
+fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-06
+refetched quarter rows=5432 new_beyond_cutoff=0
+no events beyond cutoff yet - no-op
+
+  0%|          | 0/11 [00:00<?, ?it/s]
+  9%|▉         | 1/11 [00:00<00:01,  9.17it/s]
+ 18%|█▊        | 2/11 [00:00<00:01,  7.52it/s]
+ 27%|██▋       | 3/11 [00:00<00:02,  3.13it/s]
+ 36%|███▋      | 4/11 [00:01<00:01,  3.62it/s]
+ 45%|████▌     | 5/11 [00:01<00:01,  3.92it/s]
+ 55%|█████▍    | 6/11 [00:01<00:01,  4.70it/s]
+ 64%|██████▎   | 7/11 [00:01<00:00,  5.08it/s]
+ 73%|███████▎  | 8/11 [00:01<00:00,  5.49it/s]
+ 82%|████████▏ | 9/11 [00:01<00:00,  5.84it/s]
+ 91%|█████████ | 10/11 [00:01<00:00,  5.98it/s]
+100%|██████████| 11/11 [00:02<00:00,  4.06it/s]
+                                               
+
+
+=== 09_heat rc=0 1.1s
+no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+
+
+=== 10_futures rc=0 0.7s
+no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+
+
+=== 11_repo rc=0 0.5s
+no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+
+
+=== 12_options rc=0 0.6s
+no-op: options lane owned by bm-a, not this machine (bm-c)
+
+
+=== 13_moneyflow rc=0 0.6s
+no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+
+
+=== 14_sina_mf rc=0 0.6s
+no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+
+
+=== 15_astock_daily rc=0 1.7s
+no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+
+
+=== 16_etf_daily rc=0 0.5s
+no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+
+
+=== 17_rev_osc rc=0 1.0s
+rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+
+=== 18_minute_feed rc=0 0.5s
+update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+
+=== 19_ths_panel rc=0 0.9s
+no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+
+
+=== 20_ah_panel rc=0 0.6s
+no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+
+
+=== 21_fund_premium rc=0 0.5s
+no-op: snapshot 2026-09-30 already covers expected NAV date 2026-09-30
+
+
+=== 22_fundamental rc=0 1.0s
+snapshot fresh (3.6h < 24h) -> skip
+
+
+=== 23_b_layer rc=0 1.1s
+mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}
+mask -> K:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv
+verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+
+
+=== 24_fund_statements rc=0 0.5s
+no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+
+
+=== 25_live_paper rc=0 1.1s
+lane_io single-writer guard: results/paper/* host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 26_t35_open_fill rc=0 0.6s
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 27_t24_prospect rc=0 1.0s
+lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 28_t24_promotion rc=0 0.5s
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 29_aggr_paper rc=0 14.0s
+aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+
+
+=== 30_alloc_paper rc=0 1.1s
+no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+
+
+=== 31_grid_paper rc=0 1.1s
+grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+
+
+=== 32_system_v1 rc=0 1.0s
+system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+
+
+=== 33_t35_export rc=0 0.5s
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 34_daily_scorecard rc=0 0.5s
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 35_daily_report rc=0 1.3s
+daily report written: REPORT-2026-10-06.md/.json faces=5 token=1
+
+
+=== 36_ceo_live rc=0 0.5s
+ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-06.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+
+
+=== 37_build_status rc=0 1.0s
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== 38_token_meter rc=0 0.5s
+saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 12980 + 14376 tokens (rough); ledger cumulative ~ 2049 state + 1244938 report tokens; delta=0
+L2 local-LLM legs: 0 today / 7 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 3, 'ask': 1}); crash-fuse refusals=3958 across 77 sigs
+
+
+S6 chain r634 bm-c rcmap: 01_dualrun=0 02_compute_audit=0 03_py_watermark=0 04_update_daily=0 05_market_regime=0 06_scorecard=0 07_clock_call=0 08_lhb=0 09_heat=0 10_futures=0 11_repo=0 12_options=0 13_moneyflow=0 14_sina_mf=0 15_astock_daily=0 16_etf_daily=0 17_rev_osc=0 18_minute_feed=0 19_ths_panel=0 20_ah_panel=0 21_fund_premium=0 22_fundamental=0 23_b_layer=0 24_fund_statements=0 25_live_paper=0 26_t35_open_fill=0 27_t24_prospect=0 28_t24_promotion=0 29_aggr_paper=0 30_alloc_paper=0 31_grid_paper=0 32_system_v1=0 33_t35_export=0 34_daily_scorecard=0 35_daily_report=0 36_ceo_live=0 37_build_status=0 38_token_meter=0
+
+S6 chain end 2026-10-06T17:48:59.244063 bad=[]
