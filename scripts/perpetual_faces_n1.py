@@ -4922,6 +4922,62 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 360_004,   # law sec.4 W156 B: 360_004..360_203 (FIRST-CLEAN past the own-wave A window; arithmetic 358_004..358_203 lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)
                             "shard_subdir": "n1_w156", "out_name": "n1_w156_results.json",
                             "engine_owner": "bm-a"},
+                       157: {"batch": "PERPETUAL-N1-W157",
+                            "prereg": ("research/PERPETUAL_N1_W157_PREREG.md (wave-level frozen "
+                                       "pre-run; design = frozen v1 null calibration verbatim, "
+                                       "new seed bands only; ONE HUNDRED-AND-FORTY-SEVENTH ENGINE-OWNED WAVE "
+                                       "BY MACHINE-DERIVE (engine_owner rows 146 + candidate), "
+                                       "own-series continuation per O-20261001-2355 sec.2 (first-free-"
+                                       "number law after the REGISTERED W156 row bm-a r771 freeze "
+                                       "13c989ba0, SINGLE STATE zero seat gap W2..W156 all "
+                                       "registered; W156 finalize landed same-window r772, ledger "
+                                       "head 739,211, merged pool K=341,120; seat published=reserved "
+                                       "MSG-2026-10-06-113x-bma-w157-seat PUSHED to origin 4af40c72d "
+                                       "BEFORE this freeze per r565 early-visibility law (payload = "
+                                       "seat MSG + pre-seat probe + probe receipt + W157 arc generator; "
+                                       "deletion-set EMPTY; delivery window = direct fast-forward "
+                                       "behind-0 at fetch (r772 pre-seat push), zero merge, zero "
+                                       "--no-verify; pre-seat probe and freeze-window band-gate "
+                                       "runs derive identical, no fork face), "
+                                       "engine_owner=bm-a, wave 157: "
+                                       "A = FIRST-CLEAN past the registered W156 B band (the "
+                                       "arithmetic continuation 360_004..362_003 is REFUSED at its "
+                                       "own start by the W156 B band 360_004..360_203, exactly as "
+                                       "the W156 seat W157+ projection + r771 gate leg3 + r772 sec8 succession "
+                                       "projection notes anticipated; honest forward walk hops=1 -> "
+                                       "360_204..362_203; A base == prior-wave B tail+1 "
+                                       "machine-checkable = A-hops-prior-B staircase sixteenth "
+                                       "instance, E36 card; non-rotational r587 forward-monotone "
+                                       "walk) + B = FIRST-CLEAN past the own-wave A window (the "
+                                       "arithmetic continuation 360_204..360_403 is CLEAN on the "
+                                       "registered universe but lands INSIDE the W157 A band "
+                                       "window -- same-freeze mutual exclusion, W141 precedent, "
+                                       "leg2 law -- the walk with the own-wave A window reserved "
+                                       "jumps to 362_204, first-clean 362_204..362_403 hops=1, "
+                                       "non-rotational r587 forward-monotone walk; B base == "
+                                       "own-wave A tail+1 machine-checkable; cross-window "
+                                       "convergence with the W156 seat W157+ projection + r771 gate leg3 + "
+                                       "r771 sec8 succession projection notes re-derived -- all "
+                                       "MANDATORY notes honored (post-W156 universe re-derive + "
+                                       "own-wave A reservation); ADMIT receipt "
+                                       "results/_r772bma_w157_band_gate.json; W157+ projection "
+                                       "per this window gate: A first-clean 362_204..362_003 "
+                                       "CLEAN / B first-clean 362_404..360_403 CLEAN -- naive "
+                                       "B lands INSIDE the naive A window and the registered "
+                                       "W157 B band 362_204..362_403 will refuse the naive "
+                                       "W157 A window; W157 freezer MUST re-derive on the "
+                                       "post-W157 universe AND reserve the own-wave A window "
+                                       "when deriving B (W141 precedent, leg2 law, E36 "
+                                       "staircase card); W1..W156 finalize ALL LANDED (W156 "
+                                       "finalize one-pass bm-a r772, net chain head 739,211, "
+                                       "merged pool K=341,120) -- ZERO in-flight upstream "
+                                       "seats, clean finalize chain precondition -- finalize "
+                                       "merge loop still derives the wave set from registry "
+                                       "keys at run time, FAIL-CLOSED r307 always on)"),
+                            "a_seed_base": 360_204,        # law sec.4 W157 A: 360_204..362_203 (FIRST-CLEAN past the registered W156 B band; arithmetic 360_004..362_003 REFUSED at own start by the W156 B band; hops=1; A-hops-prior-B staircase sixteenth instance, E36 card)
+                            "b_exit_seed_base": 362_204,   # law sec.4 W157 B: 362_204..362_403 (FIRST-CLEAN past the own-wave A window; arithmetic 360_204..360_403 lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)
+                            "shard_subdir": "n1_w157", "out_name": "n1_w157_results.json",
+                            "engine_owner": "bm-a"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -24910,47 +24966,47 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
-    # --- W156 materializer face (r769 bm-a freeze, own-series law
+    # --- W157 materializer face (r772 bm-a freeze, own-series law
     #     under CEO de-throttle order O-20261001-2355 sec.2): bm-a's
-    #     seventy-second owned per machine-derive (engine_owner==bm-a
-    #     rows 71 + candidate); wave 156 = first free number after
-    #     the REGISTERED W155 row (bm-a r768 freeze dde679c63) --
-    #     SINGLE STATE zero seat gap (W2..W155 all registered). Seat
-    #     published=reserved MSG-2026-10-06-1009-bma-w156-seat pushed
-    #     to origin ffce2936f BEFORE this freeze, r565 law (payload
-    #     = seat MSG + pre-seat probe + probe receipt + W156 arc generator;
+    #     seventy-third owned per machine-derive (engine_owner==bm-a
+    #     rows 72 + candidate); wave 157 = first free number after
+    #     the REGISTERED W156 row (bm-a r771 freeze 13c989ba0) --
+    #     SINGLE STATE zero seat gap (W2..W156 all registered). Seat
+    #     published=reserved MSG-2026-10-06-113x-bma-w157-seat pushed
+    #     to origin 4af40c72d BEFORE this freeze, r565 law (payload
+    #     = seat MSG + pre-seat probe + probe receipt + W157 arc generator;
     #     deletion-set EMPTY; delivery window = direct fast-forward
-    #     behind-0 at fetch (r769 pre-seat push), zero merge, zero
+    #     behind-0 at fetch (r772 pre-seat push), zero merge, zero
     #     --no-verify; self-ack inbox->processed move deferred to
-    #     the W156 finalize window). ONE HUNDRED-AND-FORTY-SIXTH engine wave BY
-    #     MACHINE-DERIVE (engine_owner rows 145 + candidate; gate
+    #     the W157 finalize window). ONE HUNDRED-AND-FORTY-SEVENTH engine wave BY
+    #     MACHINE-DERIVE (engine_owner rows 146 + candidate; gate
     #     leg0 machine output governs per r359 law).
-    #     W1..W155 finalize ALL LANDED (net chain head 737,011,
-    #     K=338,920 merged pool; W155 finalize one-pass bm-a r769)
+    #     W1..W156 finalize ALL LANDED (net chain head 739,211,
+    #     K=341,120 merged pool; W156 finalize one-pass bm-a r772)
     #     -- ZERO in-flight upstream seats, clean finalize chain
     #     precondition; the finalize merge loop still derives the
     #     wave set from registry keys at run time, FAIL-CLOSED r307
-    #     always on. ADMIT receipt results/_r769bma_w156_band_gate.json;
-    #     banned gate ADMIT 0; not a re-pick (R250: W156 bands were
+    #     always on. ADMIT receipt results/_r772bma_w157_band_gate.json;
+    #     banned gate ADMIT 0; not a re-pick (R250: W157 bands were
     #     never assigned).
-    _set_wave(156)
+    _set_wave(157)
     try:
-        assert WAVE_CONFIGS[156]["a_seed_base"] == pf.N1_BANDS[156]["a"][0], \
-            "W156 A band drift vs law mirror"
-        assert WAVE_CONFIGS[156]["b_exit_seed_base"] == \
-            pf.N1_BANDS[156]["b_exit"][0], "W156 B band drift vs law mirror"
-        assert WAVE_CONFIGS[156].get("engine_owner") == \
-            pf.N1_BANDS[156].get("engine_owner") == "bm-a", \
-            "W156 engine_owner drift (law mirror parity)"
-        w156_a = {A_SEED_BASE + j for j in range(A_N)}
-        w156_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
-        assert not (w156_a & w156_b), "W156 A/B band overlap"
-        assert not (w156_a & reg_ints) and not (w156_b & reg_ints), \
-            "W156 hits SEED_REGISTRY"
-        for nm, band in (("A", w156_a), ("B", w156_b)):
-            assert not (band & v1_a) and not (band & v1_b), f"W156 {nm} hits v1"
-            assert not (band & w1_a) and not (band & w1_b), f"W156 {nm} hits W1"
-            assert not (band & probes), f"W156 {nm} hits probe seeds"
+        assert WAVE_CONFIGS[157]["a_seed_base"] == pf.N1_BANDS[157]["a"][0], \
+            "W157 A band drift vs law mirror"
+        assert WAVE_CONFIGS[157]["b_exit_seed_base"] == \
+            pf.N1_BANDS[157]["b_exit"][0], "W157 B band drift vs law mirror"
+        assert WAVE_CONFIGS[157].get("engine_owner") == \
+            pf.N1_BANDS[157].get("engine_owner") == "bm-a", \
+            "W157 engine_owner drift (law mirror parity)"
+        w157_a = {A_SEED_BASE + j for j in range(A_N)}
+        w157_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w157_a & w157_b), "W157 A/B band overlap"
+        assert not (w157_a & reg_ints) and not (w157_b & reg_ints), \
+            "W157 hits SEED_REGISTRY"
+        for nm, band in (("A", w157_a), ("B", w157_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W157 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W157 {nm} hits W1"
+            assert not (band & probes), f"W157 {nm} hits probe seeds"
         # registered row parity (r307 pinned constants, recent estate)
         assert pf.N1_BANDS[138] == {"a": (319_004, 321_003),
                                     "b_exit": (94_201, 94_400),
@@ -25024,103 +25080,107 @@ def selftest() -> int:
                                     "b_exit": (357_804, 358_003),
                                     "engine_owner": "bm-a"}, \
             "registered W155 row parity drift (r307; bm-a r768)"
-        # prior-wave disjointness W2..W155 (single state: all
+        assert pf.N1_BANDS[156] == {"a": (358_004, 360_003),
+                                    "b_exit": (360_004, 360_203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W156 row parity drift (r307; bm-a r771)"
+        # prior-wave disjointness W2..W156 (single state: all
         # registered, dynamic registry derive, r511 law)
-        for wprev in sorted(w for w in WAVE_CONFIGS if w < 156):
-            assert not (w156_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
-                                 for j in range(A_N)}), f"W156 A hits W{wprev}"
-            assert not (w156_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
-                                  for j in range(B_N)}), f"W156 B hits W{wprev}"
-        n3r1_used156 = set(range(70_000, 70_006))
-        assert not (w156_a & n3r1_used156) and not (w156_b & n3r1_used156), \
-            "W156 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
-        assert not (w156_a & lfc_actual12) and not (w156_b & lfc_actual12), \
-            "W156 bands must clear the lfc actual draw range"
-        assert not (w156_a & options_actual12) and \
-            not (w156_b & options_actual12), \
-            "W156 bands must clear the options_wave2 actual draw range"
-        # band facts (law sec.4 W156 row, r769): A = FIRST-CLEAN past
-        # the registered W155 B band (the arithmetic continuation
-        # 357_804..359_803 is REFUSED at its own start by the W155
-        # B band 357_804..358_003, exactly as the W155 seat leg4 +
-        # r768 gate leg3 + r769 sec8 succession projection notes
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 157):
+            assert not (w157_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W157 A hits W{wprev}"
+            assert not (w157_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W157 B hits W{wprev}"
+        n3r1_used157 = set(range(70_000, 70_006))
+        assert not (w157_a & n3r1_used157) and not (w157_b & n3r1_used157), \
+            "W157 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        assert not (w157_a & lfc_actual12) and not (w157_b & lfc_actual12), \
+            "W157 bands must clear the lfc actual draw range"
+        assert not (w157_a & options_actual12) and \
+            not (w157_b & options_actual12), \
+            "W157 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W157 row, r772): A = FIRST-CLEAN past
+        # the registered W156 B band (the arithmetic continuation
+        # 360_004..362_003 is REFUSED at its own start by the W156
+        # B band 360_004..360_203, exactly as the W156 seat W157+ projection +
+        # r771 gate leg3 + r772 sec8 succession projection notes
         # anticipated; the honest forward walk hops=1 lands
-        # 358_004..360_003; A base == prior-wave B tail+1 (358_003+1)
-        # machine-checkable -- A-hops-prior-B staircase fifteenth
+        # 360_204..362_203; A base == prior-wave B tail+1 (360_203+1)
+        # machine-checkable -- A-hops-prior-B staircase sixteenth
         # instance, E36 card; non-rotational r587 forward-monotone
         # walk);
         # B = FIRST-CLEAN past the own-wave A window (the arithmetic
-        # continuation 358_004..358_203 is CLEAN on the registered
-        # universe but lands INSIDE the W156 A band window --
+        # continuation 360_204..360_403 is CLEAN on the registered
+        # universe but lands INSIDE the W157 A band window --
         # same-freeze mutual exclusion (W141 precedent, leg2 law) --
         # the walk with the own-wave A window reserved jumps to
-        # 360_004 and lands 360_004..360_203, hops=1, non-rotational
+        # 362_204 and lands 362_204..362_403, hops=1, non-rotational
         # r587 forward-monotone walk; B base == own-wave A tail+1
-        # (360_003+1) machine-checkable; cross-window convergence
-        # with the W155 seat leg4 + r768 gate leg3 + r768 sec8
+        # (362_203+1) machine-checkable; cross-window convergence
+        # with the W156 seat W157+ projection + r771 gate leg3 + r772 sec8
         # succession projection notes -- all MANDATORY notes
-        # honored (post-W155 universe re-derive + own-wave A
-        # reservation when deriving B); seat MSG-0943 tail,
+        # honored (post-W156 universe re-derive + own-wave A
+        # reservation when deriving B); seat MSG-1009 tail,
         # re-derived).
-        assert WAVE_CONFIGS[156]["a_seed_base"] == 358_004 == 358_003 + 1, (
-            "W156 A must be the first-clean window past the registered "
-            "W155 B band tail 358_003+1 (arithmetic continuation "
-            "357_804..359_803 REFUSED at its own start by the W155 B "
-            "band 357_804..358_003, exactly as the W155 seat leg4 + "
-            "r768 gate leg3 + r769 sec8 succession projection notes "
+        assert WAVE_CONFIGS[157]["a_seed_base"] == 360_204 == 360_203 + 1, (
+            "W157 A must be the first-clean window past the registered "
+            "W156 B band tail 360_203+1 (arithmetic continuation "
+            "360_004..362_003 REFUSED at its own start by the W156 B "
+            "band 360_004..360_203, exactly as the W156 seat W157+ projection + "
+            "r771 gate leg3 + r772 sec8 succession projection notes "
             "anticipated; honest forward walk hops=1; A base == "
             "prior-wave B tail+1 machine-checkable = A-hops-prior-B "
-            "staircase fifteenth instance, E36 card)")
-        arith_a156 = set(range(358_004, 360_004))
-        assert not (arith_a156 & reg_ints), \
-            "W156 A window must be CLEAN (first-clean ADMIT face past prior-wave B)"
-        assert WAVE_CONFIGS[156]["b_exit_seed_base"] == 360_004 == 360_003 + 1, (
-            "W156 B must be the first-clean window past the own-wave A "
-            "band tail 360_003+1 (arithmetic continuation "
-            "358_004..358_203 CLEAN on the registered universe but "
-            "lands INSIDE the W156 A band window; same-freeze mutual "
+            "staircase sixteenth instance, E36 card)")
+        arith_a157 = set(range(360_204, 362_204))
+        assert not (arith_a157 & reg_ints), \
+            "W157 A window must be CLEAN (first-clean ADMIT face past prior-wave B)"
+        assert WAVE_CONFIGS[157]["b_exit_seed_base"] == 362_204 == 362_203 + 1, (
+            "W157 B must be the first-clean window past the own-wave A "
+            "band tail 362_203+1 (arithmetic continuation "
+            "360_204..360_403 CLEAN on the registered universe but "
+            "lands INSIDE the W157 A band window; same-freeze mutual "
             "exclusion (W141 precedent, leg2 law) -- the walk with the "
-            "own-wave A window reserved jumps to 360_004, first-clean "
+            "own-wave A window reserved jumps to 362_204, first-clean "
             "hops=1, non-rotational r587 forward-monotone walk; B "
             "base == own-wave A tail+1 machine-checkable)")
-        arith_b156 = set(range(360_004, 360_204))
-        assert not (arith_b156 & reg_ints), \
-            "W156 B window must be CLEAN (first-clean ADMIT face past own-wave A)"
-        assert not (arith_b156 & arith_a156), \
-            "W156 A/B same-freeze mutual exclusion (B hops past own A)"
-        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W156-SHARD-0",
-                                          "n1w156-0of12"), "W156 entry identity"
-        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W156-SHARD-11",
-                                           "n1w156-11of12")
-        assert SHARD_DIR.endswith("n1_w156") and OUT.endswith(
-            "n1_w156_results.json"), "W156 path drift"
-        for wprev in sorted(w for w in WAVE_CONFIGS if w < 156):
+        arith_b157 = set(range(362_204, 362_404))
+        assert not (arith_b157 & reg_ints), \
+            "W157 B window must be CLEAN (first-clean ADMIT face past own-wave A)"
+        assert not (arith_b157 & arith_a157), \
+            "W157 A/B same-freeze mutual exclusion (B hops past own A)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W157-SHARD-0",
+                                          "n1w157-0of12"), "W157 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W157-SHARD-11",
+                                           "n1w157-11of12")
+        assert SHARD_DIR.endswith("n1_w157") and OUT.endswith(
+            "n1_w157_results.json"), "W157 path drift"
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 157):
             assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
                 PATHS.results_dir, "p2cal_ext",
                 WAVE_CONFIGS[wprev]["shard_subdir"])), \
-                f"W156 shard dir collides with W{wprev}"
-        # W156 finalize cumulative deps: W17..W155 outputs ALL PRESENT
-        # (landed net chain head 737,011 = W155 bm-a r769 one-pass --
+                f"W157 shard dir collides with W{wprev}"
+        # W157 finalize cumulative deps: W17..W156 outputs ALL PRESENT
+        # (landed net chain head 739,211 = W156 bm-a r772 one-pass --
         # ZERO in-flight upstream seats, clean precondition freeze
         # window; the finalize merge loop derives the wave set from
         # registry keys at run time and stays FAIL-CLOSED, r307
         # two-state law).
-        for _depw in range(17, 156):
+        for _depw in range(17, 157):
             assert os.path.exists(os.path.join(
                 OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
-                f"W156 finalize cumulative dep (W{_depw} output) missing"
+                f"W157 finalize cumulative dep (W{_depw} output) missing"
         # finalize wave-set derivation face (r511 derive law): every
-        # registered wave below 156 composes; wave 15 excluded by
-        # design; SINGLE STATE (W2..W155 all registered -- no
+        # registered wave below 157 composes; wave 15 excluded by
+        # design; SINGLE STATE (W2..W156 all registered -- no
         # two-state seat disclosure needed at this freeze).
-        assert sorted(w for w in WAVE_CONFIGS if w < 156) == \
+        assert sorted(w for w in WAVE_CONFIGS if w < 157) == \
             [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \
-            [w for w in range(16, 156)], \
-            "W156 prior-wave set must derive from registry keys (no 15; " \
-            "W2..W155 registered single state)"
+            [w for w in range(16, 157)], \
+            "W157 prior-wave set must derive from registry keys (no 15; " \
+            "W2..W156 registered single state)"
         assert os.path.exists(os.path.join(
-            PATHS.root, "research", "PERPETUAL_N1_W156_PREREG.md")), \
-            "W156 per-wave prereg missing (materializer requirement)"
+            PATHS.root, "research", "PERPETUAL_N1_W157_PREREG.md")), \
+            "W157 per-wave prereg missing (materializer requirement)"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
@@ -28232,6 +28292,19 @@ def selftest() -> int:
           "mutual exclusion, hops=1), ADMIT receipt "
           "results/_r769bma_w156_band_gate.json, law sec.4 W156 row, "
           "r769 bm-a] "
+          "+ W157 materializer face [same guard set, dep=W17..W156 "
+          "outputs ALL PRESENT (landed net chain head 739,211 = "
+          "W156 bm-a r772 one-pass, K=341,120 merged pool; ZERO "
+          "in-flight upstream seats), ONE HUNDRED-AND-FORTY-SEVENTH "
+          "ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 146 "
+          "+ candidate) bm-a's seventy-third owned claim per "
+          "machine-derive (engine_owner==bm-a rows 72 + candidate), "
+          "A=FIRST-CLEAN past the registered W156 B band (staircase "
+          "sixteenth instance, E36 card, hops=1) + B=FIRST-CLEAN past the "
+          "own-wave A window (W141 precedent, leg2 law, same-freeze "
+          "mutual exclusion, hops=1), ADMIT receipt "
+          "results/_r772bma_w157_band_gate.json, law sec.4 W157 row, "
+          "r772 bm-a] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
