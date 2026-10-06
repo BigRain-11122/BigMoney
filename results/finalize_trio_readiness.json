@@ -1,16 +1,16 @@
 {
  "machine": "bm-b",
- "ts": "2026-10-07T03:54:31+08:00",
+ "ts": "2026-10-07T04:44:18+08:00",
  "probe": "finalize_trio_readiness",
  "not_a_verdict": true,
  "target_draws": 2000,
  "families": {
   "fund_quality_p1": {
-   "have": 1912,
-   "lines": 1912,
+   "have": 1931,
+   "lines": 1931,
    "dup_k": 0,
-   "rate_per_min": 0.38848951694424344,
-   "eta_hours": 3.78
+   "rate_per_min": 1.0,
+   "eta_hours": 1.15
   },
   "fund_value_p1": {
    "have": 2000,
@@ -20,11 +20,11 @@
    "eta_hours": null
   },
   "fund_divlowvol_p1": {
-   "have": 1584,
-   "lines": 1584,
+   "have": 1601,
+   "lines": 1601,
    "dup_k": 0,
-   "rate_per_min": 0.339928327326213,
-   "eta_hours": 20.4
+   "rate_per_min": 1.0,
+   "eta_hours": 6.65
   }
  },
  "gates": {
@@ -35,11 +35,11 @@
  },
  "governance": {
   "status": "PENDING",
-  "decisions_sha": "ACC322169EAA759A6EA34C65BE35AA7EED7EA9B96DC0895DC7F4F682BECDF2FD",
-  "sha_moved_since_last_probe": true,
+  "decisions_sha": "77FFC880DBDFFFD349E21DDF31F63A466C90D2B67927E7353A79B173218C8CE3",
+  "sha_moved_since_last_probe": false,
   "note": "G-SEG GM ruling (MSG-2026-10-03-1720) not yet logged; r638 fallback = proceed on insufficient-sample single-read when mechanical gates green"
  },
  "mechanical_ready": false,
  "window_note": "finalize window 10-05..10-09; open when mechanical_ready and governance resolved (ruling or r638 fallback)",
- "elapsed_sec": 60.1
+ "elapsed_sec": 60.0
 }
