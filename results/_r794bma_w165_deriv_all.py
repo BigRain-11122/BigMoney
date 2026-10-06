@@ -361,7 +361,7 @@ for k, _old in pairs:
 rebuilt.append("}")
 s = s[:m.start()] + "\n".join(rebuilt) + s[m.end():]
 m2 = re.search(r"EXPECT = \{(.*?)\}", s, re.S)
-zeros = [k for k, _ in re.findall(r'"([^"]+)": 0[,}]', m2.group(1))]
+zeros = [k for k, _ in re.findall(r'"([^"]+)": (0)[,}]', m2.group(1))]
 for z in zeros:
     assert z in ("r788", "r787"), f"unexpected zero-count EXPECT needle: {z!r}"
 # key structural anchors
