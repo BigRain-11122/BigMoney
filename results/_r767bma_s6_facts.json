@@ -2,7 +2,7 @@
  {
   "leg": "pool_dualrun_reconcile",
   "rc": 0,
-  "sec": 0.2,
+  "sec": 0.1,
   "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 403 entries, drift-free streak 51, cutoff 2026-10-05T01:13:21+08:00)",
   "err": ""
  },
@@ -10,50 +10,50 @@
   "leg": "compute_audit",
   "rc": 0,
   "sec": 8.0,
-  "tail": "{\"ts\": \"2026-10-06 09:18:38\", \"audit_version\": \"v2.4.2\", \"cpu_total_pct\": 1.0, \"py_cpu_pct\": 0.2, \"cores\": 32, \"py_procs\": 27, \"result_stale_min\": 0.5, \"fleet_o",
-  "err": "compute_audit: runnable_pool merged-sync settled {\"wrote_shared\": false, \"wrote_lane\": true}"
+  "tail": "{\"ts\": \"2026-10-06 09:50:32\", \"audit_version\": \"v2.4.2\", \"cpu_total_pct\": 1.0, \"py_cpu_pct\": 0.1, \"cores\": 32, \"py_procs\": 33, \"result_stale_min\": 0.5, \"fleet_o",
+  "err": ""
  },
  {
   "leg": "py_watermark",
   "rc": 0,
-  "sec": 6.4,
-  "tail": "{\"ts\": \"2026-10-06 09:18:44\", \"epoch\": 1791249519.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 3.0, \"cores\": 32, \"py_cpu_pct\": 0.1, \"py_procs\": 27, \"top_proc_cores\": ",
+  "sec": 6.3,
+  "tail": "{\"ts\": \"2026-10-06 09:50:39\", \"epoch\": 1791251433.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 1.0, \"cores\": 32, \"py_cpu_pct\": 0.3, \"py_procs\": 32, \"top_proc_cores\": ",
   "err": ""
  },
  {
   "leg": "update_daily",
   "rc": 0,
-  "sec": 1.8,
+  "sec": 1.9,
   "tail": "status -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\update_status.json",
   "err": ""
  },
  {
   "leg": "market_regime",
   "rc": 0,
-  "sec": 0.7,
+  "sec": 0.8,
   "tail": "  trigger: breadth 0.79>=65%",
   "err": ""
  },
  {
   "leg": "strategy_scorecard",
   "rc": 0,
-  "sec": 42.1,
-  "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (42.0s)",
+  "sec": 45.2,
+  "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (45.0s)",
   "err": ""
  },
  {
   "leg": "market_clock_call",
   "rc": 0,
-  "sec": 5.0,
+  "sec": 3.7,
   "tail": "call written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0",
   "err": ""
  },
  {
   "leg": "update_lhb",
   "rc": 0,
-  "sec": 8.6,
+  "sec": 8.0,
   "tail": "no events beyond cutoff yet - no-op",
-  "err": "100%|��������������������| 11/11 [00:06<00:00,  1.67it/s]"
+  "err": "100%|��������������������| 11/11 [00:06<00:00,  1.83it/s]"
  },
  {
   "leg": "update_heat",
@@ -79,7 +79,7 @@
  {
   "leg": "update_options",
   "rc": 0,
-  "sec": 0.2,
+  "sec": 0.1,
   "tail": "no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network",
   "err": ""
  },
@@ -135,7 +135,7 @@
  {
   "leg": "ah_panel_puller",
   "rc": 0,
-  "sec": 10.5,
+  "sec": 10.4,
   "tail": "spawned detached refresh: panel not complete (first run or prior fuse-stop)",
   "err": ""
  },
@@ -149,42 +149,42 @@
  {
   "leg": "update_fundamental",
   "rc": 0,
-  "sec": 1.3,
-  "tail": "snapshot fresh (19.2h < 24h) -> skip",
+  "sec": 0.7,
+  "tail": "snapshot fresh (19.8h < 24h) -> skip",
   "err": ""
  },
  {
   "leg": "b_layer_filter",
   "rc": 0,
-  "sec": 1.5,
+  "sec": 0.7,
   "tail": "verdict -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json",
   "err": ""
  },
  {
   "leg": "update_fund_statements",
   "rc": 0,
-  "sec": 3.0,
+  "sec": 1.3,
   "tail": "no-op: panel complete: 86 periods x 3 faces cover latest statutory-complete 20260630 -> zero network",
   "err": ""
  },
  {
   "leg": "live_paper",
   "rc": 0,
-  "sec": 6.8,
+  "sec": 8.6,
   "tail": "paper tracking: OK",
   "err": ""
  },
  {
   "leg": "t35_open_fill_verify",
   "rc": 0,
-  "sec": 0.1,
+  "sec": 0.2,
   "tail": "open_fill_verify day=2026-09-30: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\t35_op",
   "err": ""
  },
  {
   "leg": "t24_prospect_paper",
   "rc": 0,
-  "sec": 1.0,
+  "sec": 3.8,
   "tail": "prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-30",
   "err": ""
  },
@@ -198,7 +198,7 @@
  {
   "leg": "aggressive_lab",
   "rc": 0,
-  "sec": 10.3,
+  "sec": 11.0,
   "tail": "aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)",
   "err": ""
  },
@@ -254,7 +254,7 @@
  {
   "leg": "build_status",
   "rc": 0,
-  "sec": 12.0,
+  "sec": 11.6,
   "tail": "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7",
   "err": ""
  },
@@ -262,7 +262,7 @@
   "leg": "token_meter",
   "rc": 0,
   "sec": 0.1,
-  "tail": "L2 local-LLM legs: 0 today / 7 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 3, 'ask': 1}); crash-fuse refusals=3500 across 77 sigs",
+  "tail": "L2 local-LLM legs: 0 today / 7 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 3, 'ask': 1}); crash-fuse refusals=3542 across 77 sigs",
   "err": ""
  }
 ]
