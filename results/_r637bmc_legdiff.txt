@@ -1,0 +1,13 @@
+G0 needle probe: OLD token lines=5 counterpart-in-NEW=5 fail=0
+G1 LEGS=38 CMD_IDENTICAL=True BAD=0 (OLD=r636 true lineage file, absolute-path anchor)
+G2 path-face: all non -m legs carry scripts/ prefix = True
+G3 non-leg diff furniture-only: True (furniture=6 bad=0 unpaired=0)
+    FURN: """r636 bm-c S6 chain driver: 38-leg standing canon (r635 lineage commands  ==>  """r637 bm-c S6 chain driver: 38-leg standing canon (r636 lineage commands
+    FURN: quant\\.codely-cli\\scratch, MD5-identical); r637+ legdiff OLD anchor =  ==>  quant\\.codely-cli\\scratch, MD5-identical); r638+ legdiff OLD anchor =
+    FURN: _r636bmc_s6_chain.py (either mirror). PYTHONUTF8=1 + utf-8 IO persisted  ==>  _r637bmc_s6_chain.py (either mirror). PYTHONUTF8=1 + utf-8 IO persisted
+    FURN: LOG = os.path.join(ROOT, "results", "_r636bmc_s6_log.txt")  ==>  LOG = os.path.join(ROOT, "results", "_r637bmc_s6_log.txt")
+    FURN: log.write(f"S6 chain r636 bm-c start {datetime.datetime.now().isoformat()}\n")  ==>  log.write(f"S6 chain r637 bm-c start {datetime.datetime.now().isoformat()}\n")
+    FURN: log.write(f"\nS6 chain r636 bm-c rcmap: {rcmap}\n")  ==>  log.write(f"\nS6 chain r637 bm-c rcmap: {rcmap}\n")
+G4 r636 executed-log leg names == r637 chain leg names: True (exec=38)
+ANCHORS: OLD=K:\Fluxgroup\FluxGroup\quant\bigmoney\.codely-cli\scratch\_r636bmc_s6_chain.py (md5 6E4FE9401324C0E1A64479F3362F0EA8) NEW=K:\Fluxgroup\FluxGroup\quant\bigmoney\.codely-cli\scratch\_r637bmc_s6_chain.py (md5 18262435B548F8A80E3C1231EA1B8A6E; dual-mirrored both scratch roots)
+LEGDIFF PASS
