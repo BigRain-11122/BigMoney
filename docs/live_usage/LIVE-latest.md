@@ -1,380 +1,99 @@
-{
- "schema": "ceo_live_usage_v1_5",
- "ticket": "T-202609-28-105",
- "day": "2026-10-06",
- "generated": "2026-10-06T08:31:02",
- "market": {
-  "state": "ORANGE",
-  "asof": "2026-09-30",
-  "mode": "shadow",
-  "days_in_state": 2,
-  "triggers": [
-   "hs300<MA200 (#10 collected)",
-   "breadth 0.79>=65%"
-  ],
-  "bench_close": 4.432,
-  "bench_ma200": 4.7355,
-  "clock_cell": "ORANGE_COOL",
-  "clock_asof": "2026-09-30",
-  "heat": "COOL",
-  "heat_basis": "LHB 当日 84 行 · 净买 17.40 亿 vs 250日 p80=96.0 行（温度计=COOL）"
- },
- "national_team": {
-  "status": "存量高控·近期无已验证增持动作",
-  "basis": "最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半年份额段指纹=区间净撤离（T-106 s3 EXODUS 段：510300 -701 亿份·证据截至 2026-09-24）；增持公告面=外网窗口全灭·零已验证新增动作。白话：国家队年报纸面还握大头，但上半年份额在退，也没有可信的新买公告",
-  "face_source": "T-106 s2+s3 landed artifacts (owner bm-c)",
-  "s2_evidence_cutoff": "2026-08-31",
-  "s3_evidence_cutoff": "2026-09-24",
-  "supported_subset": [
-   "510300",
-   "510050"
-  ],
-  "nominal_pct": {
-   "510300": 82.76,
-   "510050": 86.05
-  },
-  "per_etf_band": {
-   "510300": "extreme",
-   "510050": "extreme",
-   "510500": "heavy",
-   "159915": "heavy",
-   "588000": "absent",
-   "512100": "extreme"
-  },
-  "understated_note": "510500=75.58% heavy、512100=86.43% extreme：第二层持仓实测高于 CEO 两层命名暗示（UNDERSTATED如实注记）；588000=0 名义缺席；159915=54.03% 非 CEO 点名员",
-  "signal_face": {
-   "verdict": "not_supported（诚实判负）",
-   "basis": "T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）",
-   "universe_face_only": true
-  }
- },
- "ladder": {
-  "rungs": [
-   {
-    "state": "RED",
-    "cap": 0.2,
-    "note": "红色急跌/熔断态：股票敞口上限 20%"
-   },
-   {
-    "state": "YELLOW",
-    "cap": 0.65,
-    "note": "黄色过渡态：上限 65%"
-   },
-   {
-    "state": "ORANGE",
-    "cap": 0.5,
-    "note": "橙色高危态：上限 50%"
-   },
-   {
-    "state": "GREEN",
-    "cap": 0.8,
-    "note": "绿色常态：上限 80%"
-   },
-   {
-    "state": "GREEN×HOT",
-    "cap": 0.95,
-    "note": "绿色且市场热度 HOT：上限 95%"
-   }
-  ],
-  "regime_state": "ORANGE",
-  "current_state": "ORANGE",
-  "current_cap": 0.5
- },
- "corps_note": "ORANGE 态当值军种=震荡+防御（MARKET_STAGE_TABLE）；B_MAXDIV=防守型混合过渡正典（MSG-1958·军内分散法）",
- "members": [
-  {
-   "trader": "COMPOSITE-CE-01",
-   "b_maxdiv_weight": 0.036874,
-   "equity_cny": 1001010.0,
-   "cash_cny": 48761.0,
-   "positions": [
-    {
-     "symbol": "159980",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 188601.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -1399.0
-    },
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 190070.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 70.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 190005.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 5.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 189951.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -49.0
-    },
-    {
-     "symbol": "513100",
-     "category": "跨境ETF",
-     "market_value_cny": 193622.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 3622.0
-    }
-   ]
-  },
-  {
-   "trader": "COMPOSITE-CE-02",
-   "b_maxdiv_weight": 0.016659,
-   "equity_cny": 1000665.0,
-   "cash_cny": 49161.0,
-   "positions": [
-    {
-     "symbol": "159980",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 117826.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -874.0
-    },
-    {
-     "symbol": "159996",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 117022.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -1678.0
-    },
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 118744.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 44.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 118703.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 3.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 118669.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -31.0
-    },
-    {
-     "symbol": "512800",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 121404.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 2704.0
-    },
-    {
-     "symbol": "513100",
-     "category": "跨境ETF",
-     "market_value_cny": 120963.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 2263.0
-    },
-    {
-     "symbol": "513500",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 118172.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -528.0
-    }
-   ]
-  },
-  {
-   "trader": "DROUGHT-CE-01",
-   "b_maxdiv_weight": 0.100831,
-   "equity_cny": 1000000.0,
-   "cash_cny": 1000000.0,
-   "positions": []
-  },
-  {
-   "trader": "ENGULF-CE-01",
-   "b_maxdiv_weight": 0.064882,
-   "equity_cny": 1000000.0,
-   "cash_cny": 1000000.0,
-   "positions": []
-  },
-  {
-   "trader": "NEEDLE-DE-01",
-   "b_maxdiv_weight": 0.117036,
-   "equity_cny": 1000000.0,
-   "cash_cny": 1000000.0,
-   "positions": []
-  },
-  {
-   "trader": "VOLATILITY-CE-01",
-   "b_maxdiv_weight": 0.056253,
-   "equity_cny": 996820.0,
-   "cash_cny": 499347.0,
-   "positions": [
-    {
-     "symbol": "159980",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 99264.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -736.0
-    },
-    {
-     "symbol": "510050",
-     "category": "宽基·第一层（汇金高度控盘·O-1555）",
-     "market_value_cny": 98195.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -1805.0
-    },
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 100037.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 37.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 100002.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": 2.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 99975.0,
-     "hold_days": 4,
-     "unrealized_pnl_cny": -26.0
-    }
-   ]
-  }
- ],
- "intraday": {
-  "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
-  "today": "2026-10-06",
-  "asof": null,
-  "n_held_with_feed": 3,
-  "n_live": 0,
-  "rows": [
-   {
-    "symbol": "159980",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "159996",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "510050",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 2.938,
-    "prev_session_close": 2.938,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
-   },
-   {
-    "symbol": "511010",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 140.684,
-    "prev_session_close": 140.684,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
-   },
-   {
-    "symbol": "511090",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "511260",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "512800",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "513100",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 2.304,
-    "prev_session_close": 2.304,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
-   },
-   {
-    "symbol": "513500",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   }
-  ]
- },
- "judgment_burns": {
-  "feed": "results/fund_*_p1/nulls.jsonl append-only counters",
-  "target": 2000,
-  "finalize_gate": "have == 2000（预注册冻结硬门）",
-  "families": [
-   {
-    "family": "FUND-QUALITY-P1",
-    "present": true,
-    "have": 1480,
-    "target": 2000,
-    "dup_k": 0,
-    "last_append_age_min": 31.1
-   },
-   {
-    "family": "FUND-VALUE-P1",
-    "present": true,
-    "have": 1801,
-    "target": 2000,
-    "dup_k": 0,
-    "last_append_age_min": 31.1
-   },
-   {
-    "family": "FUND-DIVLOWVOL-P1",
-    "present": true,
-    "have": 1217,
-    "target": 2000,
-    "dup_k": 0,
-    "last_append_age_min": 31.1
-   }
-  ]
- },
- "chain_versions": [
-  {
-   "version": "v1 基线版",
-   "status": "PENDING（烧批/队列中）"
-  },
-  {
-   "version": "v1.1 跑前重冻结版",
-   "status": "LANDED（已判）"
-  },
-  {
-   "version": "v2 简化链版",
-   "status": "LANDED（已判）"
-  },
-  {
-   "version": "v3 锦标赛批",
-   "status": "LANDED（已判）"
-  }
- ],
- "disclaimers": [
-  "本页=决策链条研究产出的聚合展示，非投资建议；",
-  "CEO 手动跟随=CEO 直接权限；公司自动实盘开闸=月界（2026-10-01）+CEO 唯一门，本页不改变该门；",
-  "未激活袖面如实披露 NOT_ACTIVATED；既有六员持仓含行业 ETF 成分按 O-1533 如实标注，改仓=月界统一动作不追溯；",
-  "研究宇宙=五员宽基定谳（O-20260928-1555）：第一层 上证50/沪深300（汇金高度控盘）·第二层 中证500/中证1000/科创50；创业板指出列，行业/主题/跨境/债券/黄金维持排除；",
-  "国家队标注=T-106 s4 宇宙面（实测年报名义持仓+2026H1 撤离段指纹）；跟队信号面按 s3 诚实判负只挂标注，不产生交易指令；",
-  "持仓口径=最近收盘 bar（asof 见上）；盘中档=T-104 分钟源实时读出（v1.4 已接线·③节），09:15 起随源点亮·平行读出非重估值；"
- ]
-}
+# CEO 实盘使用一页纸 · 2026-10-06
+
+> 自动生成 2026-10-06T08:51:49 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+
+## ① 市场判定
+
+- **当前政体态：ORANGE**（shadow 探测·已连续 2 日）· asof 2026-09-30
+- 依据：hs300<MA200 (#10 collected); breadth 0.79>=65%
+- 沪深300ETF 收盘 4.432 vs MA200 4.7355（熔断线之下）
+- **市场时钟**：`ORANGE_COOL`（asof 2026-09-30）· 温度计 LHB 当日 84 行 · 净买 17.40 亿 vs 250日 p80=96.0 行（温度计=COOL）
+- 满热档判定（v1.3 已接线）：政体态 ORANGE + 温度计 COOL → 满热档未触发（需 GREEN+HOT）
+- **国家队状态：存量高控·近期无已验证增持动作** · 依据：最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半年份额段指纹=区间净撤离（T-106 s3 EXODUS 段：510300 -701 亿份·证据截至 2026-09-24）；增持公告面=外网窗口全灭·零已验证新增动作。白话：国家队年报纸面还握大头，但上半年份额在退，也没有可信的新买公告
+  - 宇宙面注记（T-106 s4）：已验证高控两员=510300、510050（名义 510300=82.76%、510050=86.05%）；510500=75.58% heavy、512100=86.43% extreme：第二层持仓实测高于 CEO 两层命名暗示（UNDERSTATED如实注记）；588000=0 名义缺席；159915=54.03% 非 CEO 点名员
+  - 跟队信号面：not_supported（诚实判负）——T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）
+
+## ② 仓位指令（阶梯总帽）
+
+- **当前态 ORANGE → 股票敞口总帽 50%**
+- 阶梯全表（冻结）：
+  - RED：20% — 红色急跌/熔断态：股票敞口上限 20%
+  - YELLOW：65% — 黄色过渡态：上限 65%
+  - ORANGE：50% — 橙色高危态：上限 50% ←当前
+  - GREEN：80% — 绿色常态：上限 80%
+  - GREEN×HOT：95% — 绿色且市场热度 HOT：上限 95%
+- 状态切换触发器（REGIME_GUARD v3 冻结面）：十日累计≤−8% / 20日波动>3年滚动p95 / 广度崩塌（core48 价<MA20 占比≥80% 且 5 日斜率为负）/ 沪深300<MA200 熔断线；GREEN×HOT 满热档=GREEN 政体态+温度计 HOT 复合（v1.3 已接线 results/market_clock/call_latest.json）。
+
+## ③ 六员分配与当前持仓
+
+- ORANGE 态当值军种=震荡+防御（MARKET_STAGE_TABLE）；B_MAXDIV=防守型混合过渡正典（MSG-1958·军内分散法）
+- 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：
+
+### COMPOSITE-CE-01（权重 3.69%｜权益 ¥1,001,010｜现金 ¥48,761）
+  - 159980｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥188,601｜持有 4 日｜浮盈亏 -1,399
+  - 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥190,070｜持有 4 日｜浮盈亏 70
+  - 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥190,005｜持有 4 日｜浮盈亏 5
+  - 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥189,951｜持有 4 日｜浮盈亏 -49
+  - 513100｜跨境ETF｜市值 ¥193,622｜持有 4 日｜浮盈亏 3,622
+
+### COMPOSITE-CE-02（权重 1.67%｜权益 ¥1,000,665｜现金 ¥49,161）
+  - 159980｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥117,826｜持有 4 日｜浮盈亏 -874
+  - 159996｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥117,022｜持有 4 日｜浮盈亏 -1,678
+  - 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥118,744｜持有 4 日｜浮盈亏 44
+  - 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥118,703｜持有 4 日｜浮盈亏 3
+  - 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥118,669｜持有 4 日｜浮盈亏 -31
+  - 512800｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥121,404｜持有 4 日｜浮盈亏 2,704
+  - 513100｜跨境ETF｜市值 ¥120,963｜持有 4 日｜浮盈亏 2,263
+  - 513500｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥118,172｜持有 4 日｜浮盈亏 -528
+
+### DROUGHT-CE-01（权重 10.08%｜权益 ¥1,000,000｜现金 ¥1,000,000）
+  - （当前空仓）
+
+### ENGULF-CE-01（权重 6.49%｜权益 ¥1,000,000｜现金 ¥1,000,000）
+  - （当前空仓）
+
+### NEEDLE-DE-01（权重 11.70%｜权益 ¥1,000,000｜现金 ¥1,000,000）
+  - （当前空仓）
+
+### VOLATILITY-CE-01（权重 5.63%｜权益 ¥996,820｜现金 ¥499,347）
+  - 159980｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥99,264｜持有 4 日｜浮盈亏 -736
+  - 510050｜宽基·第一层（汇金高度控盘·O-1555）｜市值 ¥98,195｜持有 4 日｜浮盈亏 -1,805
+  - 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥100,037｜持有 4 日｜浮盈亏 37
+  - 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥100,002｜持有 4 日｜浮盈亏 2
+  - 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥99,975｜持有 4 日｜浮盈亏 -26
+
+### 盘中档（T-104 分钟源·v1.4）
+- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）——在场 3 员照挂上一场收盘
+  - 159980：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+  - 159996：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+  - 510050：上一场收盘 2.938（上一场收盘档（今日 09:15 起随源点亮））
+  - 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））
+  - 511090：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+  - 511260：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+  - 512800：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+  - 513100：上一场收盘 2.304（上一场收盘档（今日 09:15 起随源点亮））
+  - 513500：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+
+## ④ 决策链版本横幅
+
+- v1 基线版：PENDING（烧批/队列中）
+- v1.1 跑前重冻结版：LANDED（已判）
+- v2 简化链版：LANDED（已判）
+- v3 锦标赛批：LANDED（已判）
+- v1 诚实锚：链输（J-TARGET 0/12 未过）；v2 简化链=池序首位在烧；v3 锦标赛=预注册冻结排队；赢家=只入册候选，上线走月界。
+
+## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）
+
+- 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：
+  - FUND-QUALITY-P1：1480/2000（dup_k=0）
+  - FUND-VALUE-P1：1801/2000（dup_k=0）
+  - FUND-DIVLOWVOL-P1：1217/2000（dup_k=0）
+
+## ⑥ 诚实免责
+
+- 本页=决策链条研究产出的聚合展示，非投资建议；
+- CEO 手动跟随=CEO 直接权限；公司自动实盘开闸=月界（2026-10-01）+CEO 唯一门，本页不改变该门；
+- 未激活袖面如实披露 NOT_ACTIVATED；既有六员持仓含行业 ETF 成分按 O-1533 如实标注，改仓=月界统一动作不追溯；
+- 研究宇宙=五员宽基定谳（O-20260928-1555）：第一层 上证50/沪深300（汇金高度控盘）·第二层 中证500/中证1000/科创50；创业板指出列，行业/主题/跨境/债券/黄金维持排除；
+- 国家队标注=T-106 s4 宇宙面（实测年报名义持仓+2026H1 撤离段指纹）；跟队信号面按 s3 诚实判负只挂标注，不产生交易指令；
+- 持仓口径=最近收盘 bar（asof 见上）；盘中档=T-104 分钟源实时读出（v1.4 已接线·③节），09:15 起随源点亮·平行读出非重估值；
