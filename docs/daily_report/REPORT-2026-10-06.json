@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-06",
- "generated_at": "2026-10-06 17:10:03",
+ "generated_at": "2026-10-06 17:29:44",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-06.md"
  },
  "rd": {
-  "commits_24h": 802,
-  "result_jsons_landed_24h": 358,
+  "commits_24h": 804,
+  "result_jsons_landed_24h": 360,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 52,
+  "prereg_md_touched_24h": 53,
   "compute_audit_latest": {
-   "ts": "2026-10-06 17:07:53",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-10-06 17:27:57",
+   "py_cpu_pct": 0.0,
    "flags": [
     "supply_gap",
     "supply_floor"
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1243310,
+  "total_report_tokens_est": 1243993,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-06 16:36:23",
+   "prev_generated": "2026-10-06 16:51:01",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 222,
+   "report_tokens_growth": 683,
    "mandate_growth": 0
   },
   "method": {
@@ -792,17 +792,13 @@
     "today_supply_gap_flags": 47
    },
    "bm-c": {
-    "latest_ts": "2026-10-06 17:07:53",
-    "py_pct": 0.3,
-    "cpu_pct": 5.0,
+    "latest_ts": "2026-10-06 17:27:57",
+    "py_pct": 0.0,
+    "cpu_pct": 4.0,
     "ready": 2,
-    "streak_min": 99.4,
+    "streak_min": 119.5,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "14:23",
-      87.6
-     ],
      [
       "14:32",
       6.2
@@ -846,12 +842,16 @@
      [
       "17:07",
       0.3
+     ],
+     [
+      "17:27",
+      0.0
      ]
     ],
-    "today_samples": 97,
+    "today_samples": 98,
     "today_floor_ok": 91,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 53
+    "today_supply_gap_flags": 54
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -861,14 +861,14 @@
   "day": "2026-10-06",
   "machines": {
    "bm-a": {
-    "batches_judged": 216,
-    "core_seconds": 42648.7,
-    "wall_seconds": 3317.6,
-    "effective_cores": 12.86,
+    "batches_judged": 228,
+    "core_seconds": 45085.5,
+    "wall_seconds": 3499.9,
+    "effective_cores": 12.88,
     "single_core_burn": 0,
-    "multicore_burn": 216,
+    "multicore_burn": 228,
     "too_short": 1,
-    "last_ts": "2026-10-06T16:26:20+08:00",
+    "last_ts": "2026-10-06T17:11:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -905,7 +905,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 12,
-     "audit_ts": "2026-10-06 17:07:53"
+     "audit_ts": "2026-10-06 17:27:57"
     }
    }
   },
@@ -913,32 +913,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 160,
+  "last_registered": 161,
   "last_owner": "bm-a",
-  "next_registration": 161,
-  "next_seatable": 161,
+  "next_registration": 162,
+  "next_seatable": 162,
   "chain_head": 757412,
   "k": 349920,
   "waves": [
-   {
-    "wave": 158,
-    "owner": "bm-a",
-    "a": [
-     362404,
-     364403
-    ],
-    "b_exit": [
-     364404,
-     364603
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 753012,
-    "merged_mu": -0.09289258219495253,
-    "merged_sigma": 0.24504498281553772,
-    "k": 345520
-   },
    {
     "wave": 159,
     "owner": "bm-a",
@@ -976,6 +957,21 @@
     "merged_mu": -0.09293127400548697,
     "merged_sigma": 0.2451217038520235,
     "k": 349920
+   },
+   {
+    "wave": 161,
+    "owner": "bm-a",
+    "a": [
+     369004,
+     371003
+    ],
+    "b_exit": [
+     371004,
+     371203
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
