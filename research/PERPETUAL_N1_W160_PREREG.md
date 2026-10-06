@@ -54,10 +54,16 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 75 行注册 + 本候选——以 gate leg0 机证为准·同 W155/W156/W157/W158/W159 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·占位——跑前为空】
-- （占位：12/12 分片落地后 finalize one-pass 机械回填·回填限本节与 §8·judged 断言照 W159 例。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r784·one-pass rc0·12/12 分片消费；回填窗注记：r783 冻结→tick 点火 16:16→12/12 交付 16:27→本窗 finalize（活进程探针+文件探针双绿后单跑=r708 律执法）——回填内容=n1_w160_results.json 冻结实测键·零改判据】
+- **合并池**：pre-W160 K=347,720（mu=−0.092945·sigma=0.245084）→ W160-only K=2,200（mu=−0.090749·sigma=0.251067）→ **merged K=349,920（mu=−0.092931·sigma=0.245122）**；账本 prev=**755,212**+2,200=**757,412**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w160_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 755,212）：1.1822 → **1.1824**（Δ=**+0.0002**）；se_mu 收窄链 W158 0.000417 → W159 0.000416 → **0.000414**（0.2451/√349,920·results 键 se_mu_at_k349920）。
+- **A 档 full_sharpe_p95=0.3297**（2,000 runs·W159 锚=0.3257【n1_w159_results.json 机读】·差 **+0.0040**；<0.05 门过·正向微扩如实披露·抽样波动面）。
+- **§5 四预测键全过（机证）**：①|W160-only mu − merged mu|=0.0022<0.02 ✓ ②sigma 相对变化 +0.015%<±10% ✓ ③A p95 差 +0.0040<0.05 ✓ ④K-lift +0.0002≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果件如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w160_vs_w159ext=**+0.010442**。
 
-## §8 批后复盘。【finalize 同窗回填·占位】
-- （占位：设计复用面+宝藏捕获问+W161+ 投影承接三行照 W159 例回填。）
+## §8 批后复盘。【finalize 同窗回填·bm-a r784】
+- 设计=v1 冻结逐字复用·纯种子带深化——零新机制零新方法；**宝藏捕获问（O-20261003-2030 §1 判决 finalize 收口步）：本批无新宝藏**（A-hops-prior-B 阶梯第十九例+own-A 保留 leg2 面已于冻结窗 r783 确认·E36 卡既有·finalize 无新增面）；方法论资产卡无 append 面。
+- W161+ 投影承接（r783 冻结窗 gate leg3 已披露 + §5 键 5 同律）：A naive 368_804..370_803（post-W160 宇宙将被本波 B 带 368_804..369_003 于自家起点拒——阶梯 A-hops-prior-B 继承第二十例·「W160-B-refuses-W161-A staircase 20th anticipated」预注待 W161 兑现）→ W161 A 重 derive 同强制（越过 W160 B 带·hops=1 预期→368_804..370_803）；B naive 369_004..369_203（CLEAN hops=0）落重 derive 后 A 窗内=**同窗互斥 leg2 律**——**W161 冻结方必在 post-W160 注册宇宙重 derive 且 derive B 时预留本波 A 窗**（E36 卡·W141 先例链）；verify at W161 prereg，hop 链逐跳在 probe 回执。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。

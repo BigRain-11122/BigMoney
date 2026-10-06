@@ -54,10 +54,16 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 74 行注册 + 本候选——以 gate leg0 机证为准·同 W155/W156/W157/W158 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·占位——跑前为空】
-- （占位：12/12 分片落地后 finalize one-pass 机械回填·回填限本节与 §8·judged 断言照 W158 例。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r782 one-pass rc0 + r784 回填窗补账（r782 窗被 S6/簿记占用回填未至如实注记·本窗补收口 r381 拖延窗内收口例）·12/12 分片消费——回填内容=n1_w159_results.json 冻结实测键·零改判据】
+- **合并池**：pre-W159 K=345,520（mu=−0.092893·sigma=0.245045）→ W159-only K=2,200（mu=−0.101191·sigma=0.251047）→ **merged K=347,720（mu=−0.092945·sigma=0.245084）**；账本 prev=**753,012**+2,200=**755,212**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w159_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 753,012）：1.1819 → **1.1820**（Δ=**+0.0001**）；se_mu 收窄链 W157 0.000418 → W158 0.000417 → **0.000416**（results 键 se_mu_at_k347720）。
+- **A 档 full_sharpe_p95=0.3257**（2,000 runs·W158 锚=0.2999【n1_w158_results.json 机读】·差 **+0.0258**；<0.05 门过·正向如实披露·抽样波动面）。
+- **§5 四预测键全过（机证）**：①|W159-only mu − merged mu|=0.0082<0.02 ✓ ②sigma 相对变化 +0.016%<±10% ✓ ③A p95 差 +0.0258<0.05 ✓ ④K-lift +0.0001≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果件如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w159_vs_w158ext=**−0.000540**。
 
-## §8 批后复盘。【finalize 同窗回填·占位】
-- （占位：设计复用面+宝藏捕获问+W160+ 投影承接三行照 W158 例回填。）
+## §8 批后复盘。【r782 finalize + r784 补账窗·bm-a】
+- 设计=v1 冻结逐字复用·纯种子带深化——零新机制零新方法；**宝藏捕获问（O-20261003-2030 §1 判决 finalize 收口步）：本批无新宝藏**（A-hops-prior-B 阶梯第十八例+own-A 保留 leg2 面已于冻结窗 r779 确认·E36 卡既有·finalize 无新增面）；方法论资产卡无 append 面。
+- W160+ 投影承接（r779 冻结窗 gate leg3 已披露 + §5 键 5 同律）：A naive 366_604..368_603 被 W159 B 带 366_604..366_803 于自家起点拒——阶梯 A-hops-prior-B 继承第十九例**已兑现**（W160 冻结窗 r783 A 366_804..368_803 hops=1·投影命中）；B naive 366_804..367_003 落重 derive 后 A 窗内=同窗互斥 leg2 律**已兑现**（W160 B 368_804..369_003 hops=1）；双投影兑现收敛机证=r783 冻结窗 ADMIT 回执 results/_r783bma_w160_band_gate.json。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
