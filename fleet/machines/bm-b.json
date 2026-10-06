@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-06T15:32:30+08:00",
- "heartbeat_epoch_utc": 1791271842,
- "clock_read": "2026-10-06T15:32:30+08:00",
+ "last_seen": "2026-10-06T16:56:00+08:00",
+ "heartbeat_epoch_utc": 1791276960,
+ "clock_read": "2026-10-06T16:56:00+08:00",
  "cpu_cores": 16,
  "free_ram_gb": 2.7,
  "gpu_free_vram_gb": 3.21,
- "verdict": "healthy: r776 recovery complete (S6 39 legs + QA 5/5 + attrition CLEAN + smoke 48/48); trio burns in flight V1979/Q1633/D1342 of 2000, V finalize ETA declared ~16:1x-17:0x (O-20261006-1410 item2 or-path: ETA declaration face sufficient); RAM <4GB heavy gate = zero new burn drafting legal",
- "current_task": "r776 recovery round closed (dead-r775 absorbed per bm-a r780 precedent); V first-to-2000 finalize watch",
+ "verdict": "amber: V-trio stalled at 1986/2000 (pool face says done vs readiness gate says incomplete = contradiction to resolve next round); integration clean; local undelivered 0",
+ "current_task": "V-trio re-queue next round P0 (1986/2000 stall diagnosis committed)",
  "orders_ack_count": 158,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -178,6 +178,6 @@
  "latest_artifact": "qa/smoke-r776.md + qa/equity-curve-r776.png (QA pack 5/5, 93 trades determinism=True) + fleet/orders/O-20261006-1410-bm-a.md bm-b receipt (item2 or-path waiver) + S6 39-leg chain absorbed (legs 01-38 rc0 + leg22 retry rc0) @2026-10-06 15:32",
  "next_milestone": "trio V lane first-to-2000 finalize ~10-06 16:1x-17:0x (finalize + same-window pool dual-flip); D-06 group closeout 10-07 12:00; market reopen 10-08 (REGIME_GUARD v3 first new bar)",
  "task": "FUND trio NULLS judgment batch lane (per-family finalize windows)",
- "ts": "2026-10-06T15:32:30+08:00",
+ "ts": "2026-10-06T16:56:00+08:00",
  "updated": "2026-10-06T15:32:30+08:00"
 }
