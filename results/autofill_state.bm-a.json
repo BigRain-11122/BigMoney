@@ -1569,11 +1569,29 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-06 19:32:01",
+  "ts": "2026-10-06 20:20:01",
   "machine": "bm-a",
-  "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 3.1,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-QUALITY-P1-NULLS",
+  "shard": "fund-quality-p1-nulls-0of1",
+  "fuse_crashes": 3,
+  "fuse_refusals": 1271,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-QUALITY-P1-NULLS",
+    "shard": "fund-quality-p1-nulls-0of1",
+    "sig": "scripts/fund_quality_p1.py|run,--nulls",
+    "fuse_refusals": 1271
+   },
+   {
+    "entry": "FUND-DIVLOWVOL-P1-NULLS",
+    "shard": "fund-divlowvol-p1-nulls-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
+    "fuse_refusals": 799
+   }
+  ]
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-06T18:51:20+08:00"
+ "core_samples_seen": "2026-10-06T20:11:20+08:00"
 }
