@@ -1,0 +1,565 @@
+{
+ "step": "D-20261005-08 Step1 (bm-a r767, receipt window 10-07 12:00)",
+ "step2_status": "ALREADY LANDED r723 bm-b -- Tools/Invoke-SilentExe.ps1 carries the D-20261005-08 output contract (default stdout-only; stderr only at rc!=0; -StdoutOnly / -IncludeStderr explicit switches)",
+ "repo_wrapper_call_sites": 104,
+ "switch_breakdown": {
+  "default (stderr only at rc!=0)": 97,
+  "StdoutOnly (stderr dropped any rc)": 3,
+  "IncludeStderr (merged at any rc; explicit opt-in)": 4,
+  "IncludeStderr UNCLASSIFIED rc0-data consumers": 0
+ },
+ "rc0_stderr_consumers": [],
+ "external_wrapper_refs": {
+  "family": "silent-git.ps1 (GM-session scratch, outside repo, K: drive)",
+  "ref_count": 18,
+  "refs": [
+   "results\\_r312bmc_liveness.ps1:L4",
+   "results\\_r312bmc_s0_check.ps1:L4",
+   "results\\_r312bmc_s0_triage.ps1:L4",
+   "results\\_r314bmc_close.ps1:L3",
+   "results\\_r314bmc_cycle2.ps1:L3",
+   "results\\_r314bmc_s7_checks.ps1:L3",
+   "results\\_r314bmc_surgery1.ps1:L4",
+   "results\\_r314bmc_surgery2a.ps1:L4",
+   "results\\_r314bmc_surgery2b.ps1:L4",
+   "results\\_r314bmc_surgery2c.ps1:L3",
+   "results\\_r314bmc_surgery2d.ps1:L3",
+   "results\\_r314bmc_surgery2d.ps1:L25",
+   "results\\_r328bmc_heal_surgical_push.ps1:L6",
+   "results\\_r328bmc_msg_surgical_push.ps1:L5",
+   "results\\_r767bma_wrapper_step1_audit.py:L24",
+   "results\\_r767bma_wrapper_step1_audit.py:L25",
+   "results\\_r767bma_wrapper_step1_audit.py:L135",
+   "Tools\\Invoke-SilentExe.ps1:L16"
+  ],
+  "note": "all four incidents (r511/r513/r706/r534) pre-date the r723 flip; canonical law r511-3 (python subprocess stdout-only for git-output parsing) in force; external wrapper is session-scope -- repo consumers already migrated or law-gated"
+ },
+ "verdict": "ZERO-rc0-stderr-consumers",
+ "fifth_incident_gate": "patrol recheck 10-12 (D-20261005-08 verdict criterion)",
+ "sites": [
+  {
+   "site": "results\\_r329bmc_closeout.py:L23",
+   "line": "\"verify\": \"r329: U060 zero-window self-fix (Invoke-SilentExe.ps1 helper + loop/satengine/dispatcher schtasks routed + watchdog no-false-success gate + prompt 4-spot & in-process conversion); S6 37/37 ",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_closeout.py:L43",
+   "line": "\"prod_lanes\": \"r329: U060 zero-window self-fix (Tools/Invoke-SilentExe.ps1 + 3 register scripts routed + watchdog no-false-success gate + prompt 4-spot & conversion) + S6 37/37 rc0\",",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_closeout.py:L48",
+   "line": "\"latest_artifact\": \"Tools/Invoke-SilentExe.ps1 zero-window helper + patched register_loop/saturation_engine/dispatcher/watchdog scripts + iteration_prompt.txt U060 conversion (2026-10-01T19:1x)\",",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_closeout.py:L65",
+   "line": "\"主产出=U060 零窗自修五件套（CEO 10-01 两申斥弹窗的工程根治面）：①Tools/Invoke-SilentExe.ps1 新建=CreateNoWindow 原生 exe 通用助手（stdout-only 默认保存在性真值语义+rc 传播+进程内 & 调用）②register_loop/saturation_engine/dispatcher 三脚本裸 schtasks→助手路由（",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_closeout.py:L68",
+   "line": "\"实况三行（CEO 过程可见面）：当前活=U060 零窗自修已落地·S7 工具链全机零闪窗就绪｜最近实物=Tools/Invoke-SilentExe.ps1+四 register 脚本+prompt 补丁（随轮 commit 上 origin·2026-10-01T19:1x）｜下个里程碑=compute_audit 假红根治+s2 第八件转换（窗 ≤48h）｜产品分=2（可跑零窗工具链+真跑验",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_prompt_patch.py:L18",
+   "line": "\"任务存废判定一律以 schtasks /query 为准（schtasks 调用一律经 Tools\\\\Invoke-SilentExe.ps1 零窗包装·Get-ScheduledTask 在任务实例运行中偶发 CIM 瞬态故障假阴性，R49 实证坑）\"),",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r329bmc_prompt_patch.py:L32",
+   "line": "assert p.count(\"Invoke-SilentExe.ps1 零窗包装\") == 1, \"canon note missing\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r336bmc_s6_runner.ps1:L3",
+   "line": "$w = \"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\Invoke-SilentExe.ps1\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r340bmc_s6_runner.ps1:L3",
+   "line": "$w = \"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\Invoke-SilentExe.ps1\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r369bmc_codely_split.py:L31",
+   "line": "\"silent-git/Invoke-SilentExe 包装器族·git 输出固定列解析族·D-19 水位 git show 字节律）\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r371bmc_s6_runner.ps1:L5",
+   "line": "$w = \"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\Invoke-SilentExe.ps1\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r374bmc_s6_runner.ps1:L5",
+   "line": "$w = \"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\Invoke-SilentExe.ps1\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r382bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r382bmc_s6_chain.ps1:L56",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r382bmc_s6_chain.ps1:L58",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r383bmc_ledger_scan.py:L4",
+   "line": "Read-only. Zero-window via Invoke-SilentExe.\"\"\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r383bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r383bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r383bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r402bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r402bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r402bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r403bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r403bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r403bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r405bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r405bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r405bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r407bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r407bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r407bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r408bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r408bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r408bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r409bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r409bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r409bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r410bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r410bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r410bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r411bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r411bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r411bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r412bmc_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r412bmc_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r412bmc_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r414bmc_s6_chain.ps1:L53",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r414bmc_s6_chain.ps1:L55",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r414bmc_s6_chain.ps1:L57",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r431bmc_ticket_ps.py:L44",
+   "line": "ENTRY = ('- [' + ENTRY_TS + ' r431 bm-c] silent-git/Invoke-SilentExe 包装器多行输出=单一 PS 字符串项坑'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r431bmc_ticket_ps.py:L49",
+   "line": "'直觉错配」族新面（wrapper 面首例）。How to apply：一切下游按行解析 silent-git/Invoke-SilentExe 输出前必先 '",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r435bmc_rebase_resolve.py:L11",
+   "line": "Usage (via Invoke-SilentExe, zero-window law):",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r442bmc_s6_chain.ps1:L41",
+   "line": "$lines = & Tools\\Invoke-SilentExe.ps1 -Exe python -ArgString $argstr -IncludeStderr",
+   "switch": "IncludeStderr",
+   "consumption_face": "display-tail logging (tail-2 Write-Output + $LASTEXITCODE verdict), zero rc=0 content parsing; explicit legacy-merge opt-in per r723 contract; one-shot historical receipt, not on a live path"
+  },
+  {
+   "site": "results\\_r443bmc_s6_chain.ps1:L41",
+   "line": "$lines = & Tools\\Invoke-SilentExe.ps1 -Exe python -ArgString $argstr -IncludeStderr",
+   "switch": "IncludeStderr",
+   "consumption_face": "same consumption face as _r442 (tail display + rc verdict only)"
+  },
+  {
+   "site": "results\\_r444bmc_s6_chain.ps1:L42",
+   "line": "$lines = & Tools\\Invoke-SilentExe.ps1 -Exe python -ArgString $argstr -IncludeStderr",
+   "switch": "IncludeStderr",
+   "consumption_face": "same consumption face as _r442 (tail display + rc verdict only)"
+  },
+  {
+   "site": "results\\_r448bmc_s6_chain.ps1:L51",
+   "line": "$lines = & Tools\\Invoke-SilentExe.ps1 -Exe python -ArgString $argstr -IncludeStderr",
+   "switch": "IncludeStderr",
+   "consumption_face": "same consumption face as _r442 (tail display + rc verdict only)"
+  },
+  {
+   "site": "results\\_r489bmc_report_append.py:L47",
+   "line": "\"- [2026-10-04 \" + hhmm + \" r489 bm-c] silent-git/Invoke-SilentExe 包装器输出单串对象坑（两包装器 Write-Output $out.TrimEnd() 把整段 stdout 作为一个含换行的 PS 字符串对象返回——$o | Select-Object -Last N 按【对象数】截非按【行数】截=零截断：本窗 satengin",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r539bmc_close1.ps1:L4",
+   "line": "$wrap = Join-Path $root 'Tools\\Invoke-SilentExe.ps1'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r539bmc_close2.ps1:L4",
+   "line": "$wrap = Join-Path $root 'Tools\\Invoke-SilentExe.ps1'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r539bmc_s6_chain.ps1:L11",
+   "line": "$wrap = Join-Path $root 'Tools\\Invoke-SilentExe.ps1'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r539bmc_s7.ps1:L5",
+   "line": "$wrap = Join-Path $root 'Tools\\Invoke-SilentExe.ps1'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r540bmc_s6_chain.ps1:L11",
+   "line": "$wrap = Join-Path $root 'Tools\\Invoke-SilentExe.ps1'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r540bmc_s7_taskfamily.ps1:L2",
+   "line": "$wrap = \"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\Invoke-SilentExe.ps1\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r582bmb_s7_selfheal.py:L16",
+   "line": "'-File', r'Tools\\Invoke-SilentExe.ps1',",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r609bmb_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r609bmb_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r609bmb_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r610bmb_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r610bmb_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r610bmb_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r611bmb_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r611bmb_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r611bmb_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r612bmb_s6_chain.ps1:L50",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r612bmb_s6_chain.ps1:L52",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r612bmb_s6_chain.ps1:L54",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r613bmb_s7_heal.ps1:L3",
+   "line": "$wd = & 'Tools\\Invoke-SilentExe.ps1' -Exe schtasks -Args '/query','/tn','Bigmoney-LoopWatchdog'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r618bmb_s6_chain.ps1:L49",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r618bmb_s6_chain.ps1:L51",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r618bmb_s6_chain.ps1:L53",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r618bmb_s7_heal.ps1:L3",
+   "line": "$wd = & 'Tools\\Invoke-SilentExe.ps1' -Exe schtasks -Args '/query','/tn','Bigmoney-LoopWatchdog'",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r619bmb_s6_chain.ps1:L49",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r619bmb_s6_chain.ps1:L51",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r619bmb_s6_chain.ps1:L53",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s6_chain.ps1:L49",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"-m $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s6_chain.ps1:L51",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString $leg[1]",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s6_chain.ps1:L53",
+   "line": "$out = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"$($leg[1]) $($leg[2])\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s7.ps1:L23",
+   "line": "$q = & Tools\\Invoke-SilentExe.ps1 -Exe schtasks.exe -ArgString \"/query /tn Bigmoney-IterationLoop /fo LIST\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s7.ps1:L25",
+   "line": "$q2 = & Tools\\Invoke-SilentExe.ps1 -Exe schtasks.exe -ArgString \"/query /tn Bigmoney-LoopWatchdog /fo LIST\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r620bmb_s7.ps1:L29",
+   "line": "$g = & Tools\\Invoke-SilentExe.ps1 -Exe python.exe -ArgString \"scripts\\attrition_ledger_guard.py scan\"",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r625bmb_d06_sweep.py:L28",
+   "line": "'> 增量回扫行（r625 bm-b·D-06 post-split 增量批次）：热层条目 1 条 verbatim 追加（10-03 14:2x·r618 工具签名漂移与 D-19 通道备胎两条——Invoke-SilentExe -Args/-ArgString 签名崩/ssh.github.com 双连击重置 https blobless fallback/PS 管道哈希假值 python ",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r745bmb_close.py:L25",
+   "line": "\"Trio V1533/Q1249/D1015 of 2000 (+14/+11/+10 vs r744). S7 quartet 4/4 (watchdog false-OK corrected: Invoke-SilentExe positional-arg binding error caught, re-verified rc0 via -Exe/-ArgString named-para",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r745bmb_close.py:L64",
+   "line": "\"S7 quartet 4/4 (IterationLoop pin=2 no-op first-fire 20:52; watchdog re-verified rc0 after false-OK catch: Invoke-SilentExe positional-arg binding error -> corrected -Exe/-ArgString named-params, M-l",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r767bma_wrapper_step1_audit.py:L13",
+   "line": "Step2 STATUS: already landed by r723 bm-b -- Tools/Invoke-SilentExe.ps1",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r767bma_wrapper_step1_audit.py:L23",
+   "line": "- Tools/Invoke-SilentExe.ps1 (repo-distributed single source, r303 law)",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r767bma_wrapper_step1_audit.py:L41",
+   "line": "CALL_PAT = re.compile(r\"Invoke-SilentExe\", re.I)",
+   "switch": "default"
+  },
+  {
+   "site": "results\\_r767bma_wrapper_step1_audit.py:L118",
+   "line": "\"step2_status\": \"ALREADY LANDED r723 bm-b -- Tools/Invoke-SilentExe.ps1 \"",
+   "switch": "default"
+  },
+  {
+   "site": "Tools\\register_dispatcher_task.ps1:L29",
+   "line": "$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn \"Bigmoney-ResidentDispatcher\"' -StdoutOnly",
+   "switch": "StdoutOnly"
+  },
+  {
+   "site": "Tools\\register_loop_task.ps1:L59",
+   "line": "$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn \"Bigmoney-IterationLoop\"' -StdoutOnly",
+   "switch": "StdoutOnly"
+  },
+  {
+   "site": "Tools\\register_saturation_engine_task.ps1:L26",
+   "line": "$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn \"Bigmoney-SaturationEngine\"' -StdoutOnly",
+   "switch": "StdoutOnly"
+  },
+  {
+   "site": "Tools\\_r415bmc_close.py:L74",
+   "line": "\"r412/r413 S6 维护+池面资格判定窗〔FUND-QUALITY-P1-SENS unclaimed=p1c_stock 本地缺席硬闸=结构性零可碰+Invoke-SilentExe ArgString 内层引号吞噬坑律+1〕；\"",
+   "switch": "default"
+  },
+  {
+   "site": "Tools\\_r441bmc_pit_git_b2_split.py:L92",
+   "line": "\"- [2026-10-01 19:2x r330 bm-c] Invoke-SilentExe/silent-git ArgString=CRT 剥内层双引号坑\",",
+   "switch": "default"
+  },
+  {
+   "site": "Tools\\_r441bmc_pit_git_b2_split.py:L146",
+   "line": "\"> 执法面：git 固定列输出解析（porcelain/diff/ls-tree/stderr 双形态）×零窗包装器（silent-git/Invoke-SilentExe 引号与 CRT 面）×subprocess bytes 通道×autocrlf 双空间对账与 EOL 写入面×探针律（bytes 先解析/缩进探针/孪生 ts/复用前复审）——一切解析 git 输出、经包装器调用、做字节对账",
+   "switch": "default"
+  },
+  {
+   "site": "Tools\\_r525bmc_bookkeeping.py:L223",
+   "line": "\"r521 QA 复跑+S6 链零窗 wrapper 化首跑〔38 腿全经 Invoke-SilentExe CreateNoWindow·r521 GBK 编码坑律入 CODELY：wrapper 收 python CJK 输出先设 PYTHONIOENCODING=utf-8 否则 U+FFFD 不可逆〕；\"",
+   "switch": "default"
+  }
+ ]
+}
