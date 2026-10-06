@@ -1,6 +1,57 @@
 {
-  "schema": "machine-hourly-util v1 (C-20261001-03)",
-  "rows": [
-    {"ts": "2026-10-01 11:50", "bm-a": {"util": "high", "work": "bigmoney-os T-91+pool shard+7b serve"}, "bm-b": {"util": "mid", "work": "compute-node standby+tts batch lane"}, "bm-c": {"util": "high", "work": "PERPETUAL-N1 W8 12-shard multicore burn"}, "bg-b": {"util": "unknown_heartbeat_stale", "work": "blackout-history"}, "bg-c": {"util": "unknown_heartbeat_stale", "work": "GPU-busy-but-dark history"}, "bigstream": {"util": "green-idle", "work": "idle-fast lane"}, "bigcompute": {"util": "day-wheel-design", "work": "designed-stale"}}
-  ]
+ "schema": "machine-hourly-util v1 (C-20261001-03; reviver C-20261006-03)",
+ "rows": [
+  {
+   "ts": "2026-10-01 11:50",
+   "bm-a": {
+    "util": "high",
+    "work": "bigmoney-os T-91+pool shard+7b serve"
+   },
+   "bm-b": {
+    "util": "mid",
+    "work": "compute-node standby+tts batch lane"
+   },
+   "bm-c": {
+    "util": "high",
+    "work": "PERPETUAL-N1 W8 12-shard multicore burn"
+   },
+   "bg-b": {
+    "util": "unknown_heartbeat_stale",
+    "work": "blackout-history"
+   },
+   "bg-c": {
+    "util": "unknown_heartbeat_stale",
+    "work": "GPU-busy-but-dark history"
+   },
+   "bigstream": {
+    "util": "green-idle",
+    "work": "idle-fast lane"
+   },
+   "bigcompute": {
+    "util": "day-wheel-design",
+    "work": "designed-stale"
+   }
+  },
+  {
+   "ts": "2026-10-06 23:48",
+   "bm-a": {
+    "util": "green-idle",
+    "work": "healthy: fleet lines green (smoke 48/48, S6 38/38, engine alive); GPU/LLM/cron face=PAUSED per O-20261006-2110 live-test (resume on CEO quan",
+    "ram_free_gb": 54.8,
+    "gpu_free_gb": 8.0
+   },
+   "bm-b": {
+    "util": "mid",
+    "work": "green: r786 closed (three CEO orders 2110/2250/2257 executed live-evidenced + dead r785 absorb + QA pack r786 5/5); Q/D burns alive via auto",
+    "ram_free_gb": 7.0,
+    "gpu_free_gb": 3.66
+   },
+   "bm-c": {
+    "util": "high",
+    "work": "alive: r642 takeover-close complete (autostash-pop 31-face conflict resolved per guard two-split: 9 registry/ledger stage3-local + 21 origin",
+    "ram_free_gb": 2.7,
+    "gpu_free_gb": 0.76
+   }
+  }
+ ]
 }
