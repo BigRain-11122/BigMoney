@@ -1,45 +1,45 @@
 {
  "machine": "bm-b",
- "ts": "2026-10-06T14:34:41+08:00",
+ "ts": "2026-10-06T15:21:15+08:00",
  "probe": "finalize_trio_readiness",
  "not_a_verdict": true,
  "target_draws": 2000,
  "families": {
   "fund_quality_p1": {
-   "have": 1617,
-   "lines": 1617,
+   "have": 1633,
+   "lines": 1633,
    "dup_k": 0,
-   "rate_per_min": 1.0,
-   "eta_hours": 6.38
+   "rate_per_min": 0.35109683279614007,
+   "eta_hours": 17.42
   },
   "fund_value_p1": {
-   "have": 1961,
-   "lines": 1961,
+   "have": 1979,
+   "lines": 1979,
    "dup_k": 0,
-   "rate_per_min": 0.3895714639105979,
-   "eta_hours": 1.67
+   "rate_per_min": 0.3949839368956576,
+   "eta_hours": 0.89
   },
   "fund_divlowvol_p1": {
-   "have": 1328,
-   "lines": 1328,
+   "have": 1343,
+   "lines": 1343,
    "dup_k": 0,
-   "rate_per_min": 0.28210347386629503,
-   "eta_hours": 39.7
+   "rate_per_min": 1.0,
+   "eta_hours": 10.95
   }
  },
  "gates": {
   "burn_complete": false,
   "integrity": true,
   "rehearsal_green": true,
-  "rehearsal_note": "all_legs_ok x3, age 2.3d"
+  "rehearsal_note": "all_legs_ok x3, age 2.4d"
  },
  "governance": {
   "status": "PENDING",
   "decisions_sha": "A44C39E01F9781BE981E208A48D852F6BCEF44709D004128591A88DF13C62EFB",
-  "sha_moved_since_last_probe": true,
+  "sha_moved_since_last_probe": false,
   "note": "G-SEG GM ruling (MSG-2026-10-03-1720) not yet logged; r638 fallback = proceed on insufficient-sample single-read when mechanical gates green"
  },
  "mechanical_ready": false,
  "window_note": "finalize window 10-05..10-09; open when mechanical_ready and governance resolved (ruling or r638 fallback)",
- "elapsed_sec": 60.0
+ "elapsed_sec": 60.1
 }
