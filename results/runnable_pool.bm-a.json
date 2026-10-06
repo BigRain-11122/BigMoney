@@ -13426,6 +13426,7 @@
    "ticket_ref": "T-2026-10-02-150-P1 (O-20261002-2115 sec.1 item-1 fundamental value NEW FAMILY first piece, monthly cross-sectional Top-20 at main-exam rank; prereg FROZEN bm-a r596; ignition gates ALL GREEN bm-b r598: TRANSFER r599 receipt + probe PASS 12 legs (t0=1994-05-03 frozen reproduction, zero below-floor after t0) + D6 ADMIT max|corr|=0.2014 + banned_direction_gate ADMIT rc0 r599 + selftest F1-F17)",
    "prereg_ref": "research/FUND-VALUE-P1.md FROZEN (judged cells VALUE-PE headline/VALUE-PB x faces x1/x2 + nulls 2000 rng([20500000,k]) + sens 500 rng([20500500,k]); evidence_cutoff 2026-09-22 D2 lockbox; exit-axis hold-through dual-channel default-stack disable + law-A census block 20%; workers 32 BelowNormal per O-2158 width law; seeds disjoint vs stock_face_furnace band r596 lesson)",
    "runner": "scripts/fund_value_p1.py",
+   "lane_owner": "bm-b",
    "runner_args": [
     "run",
     "--nulls"
@@ -13435,30 +13436,24 @@
      "key": "fund-value-p1-nulls-0of1",
      "status": "ready",
      "checkpoint": "results/fund_value_p1/ JSONL checkpoint resume (done-key skip)",
-     "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400 | rel-bm-b-r781 2026-10-06: three-face re-queue take-2 -- r780 shared-only flip was clobbered by 17:24 keepalive (stale closed+ok claim harvest re-flip + lane done@15:50:03 settle restore over ts-less ready face); cure = claim superseded + both faces ready + owner_since bumped fresh + lane_owner=bm-b pin (MSG-1132/1155/1838 canonical-burner); re-ignite 14 missing ks deterministic rng([20500000,k])",
+     "note": "K=2000 same-mask random-selection nulls (headline VALUE-PE mask, eq weights, N=20), rng([20500000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r622 11:47: burned on off-caliber cache (40/40 overlap keys diverged vs bm-b basis), burn killed, rows discarded, claim released -- bm-b burn is canonical per MSG-1132/MSG-1155; keep-block note on crash_fuse | rel-bm-a-r637 2026-10-03 19:09:12: 5th-incident ghost claim 18:16:08 (pid 87628 launched 18:16:02, fuse ast_crash 18:38:04, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (canonical burner pid 34396 per MSG-1838); owner_since=restore action-time per r400 | rel-bm-b-r781 2026-10-06 lane-heal: stale done@15:50:03 face retired to match the r781 three-face re-queue on shared+bm-b lane (r312 done-absorption made this mirror block the merged view); re-ignite 14 missing ks deterministic rng([20500000,k])",
      "owner": "bm-b",
-     "owner_since": "2026-10-06 17:49:09",
-     "claimed_since": "2026-10-06 15:24:12",
-     "done_at": "2026-10-06 15:50:03",
-     "harvested_by": "bm-b",
-     "harvest_claim": "fund-value-p1-nulls-0of1.bm-b.json"
+     "owner_since": "2026-10-06 18:08:24",
+     "claimed_since": "2026-10-06 15:24:12"
     }
    ],
    "workers_plan": {
     "workers": 32,
     "priority": "BelowNormal"
    },
-   "status": "done",
+   "status": "ready",
    "host_gates": [
     {
      "kind": "dir_nonempty",
      "path": "Money02/data/cache/p1c_stock",
      "pattern": "*.npy"
     }
-   ],
-   "done_by": "bm-b",
-   "done_at": "2026-10-06 15:50:03",
-   "lane_owner": "bm-b"
+   ]
   },
   {
    "id": "FUND-VALUE-P1-SENS",
