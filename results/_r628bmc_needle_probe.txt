@@ -1,0 +1,64 @@
+===== _r627bmc_s05.py =====
+L001: # r627 bm-c S0.5: orders strict-diff + D-19 decisions/orders hash probes +
+L002: # inbox scan. Blood: r626 verbatim (S0 git legs done in-session this
+L003: # round: r626 dead-round harvest succession (r412 law): 50-face idempotent set commit 01a1f252f -> rebase onto bm-a r780 wave = 31-UU per-face empirical resolve (30 take-origin regenerables + x2 union 510+510->516 ts-sort r758) -> replayed 0d390c1d5; push #1 claw block (phantom-delete + pool owner_since ring-replay read) = origin-advanced behind=3 -> merge absorb loop-2 -> landed f563fa97f tip==HEAD; residual dirty 4 daemon churn faces.
+L076: json.dump(facts, open(os.path.join(ROOT, ".codely-cli", "scratch", "_r627bmc_s05_facts.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+===== _r627bmc_s6_chain.py =====
+L001: """r627 bm-c S6 chain driver: 38-leg standing canon (r626 lineage commands
+L005: quant\\.codely-cli\\scratch, MD5-identical); r628+ legdiff OLD anchor =
+L006: _r627bmc_s6_chain.py (either mirror). PYTHONUTF8=1 + utf-8 IO persisted
+L015: LOG = os.path.join(ROOT, "results", "_r627bmc_s6_log.txt")
+L068:         log.write(f"S6 chain r627 bm-c start {datetime.datetime.now().isoformat()}\n")
+L089:         log.write(f"\nS6 chain r627 bm-c rcmap: {rcmap}\n")
+===== _r627bmc_legdiff.py =====
+L001: # r627 bm-c legdiff v7 (r626 v7 lineage): OLD=r626 true lineage / NEW=r627 chain.
+L002: #   G1   r627 LEGS command strings byte-identical vs r626 TRUE lineage file
+L003: #        (absolute path; r626 dual-mirrored both scratch roots MD5 2137DC42BB079BABEBAF06478B1B4E0C,
+L007: #   G4   r626 EXECUTED log leg names == r627 chain leg names, 38/38 cross.
+L018: OLD = r"K:\Fluxgroup\FluxGroup\quant\bigmoney\.codely-cli\scratch\_r626bmc_s6_chain.py"
+L019: NEW = r"K:\Fluxgroup\FluxGroup\quant\bigmoney\.codely-cli\scratch\_r627bmc_s6_chain.py"
+L020: R580LOG = r"K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r626bmc_s6_log.txt"
+L021: OUT = r"K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r627bmc_legdiff.txt"
+L024: assert os.path.exists(OLD), "OLD missing: r626 true file (repo-local scratch mirror)"
+L025: assert os.path.exists(NEW), "NEW missing: r627 chain file"
+L051: lines_out.append("G1 LEGS=38 CMD_IDENTICAL=%s BAD=%d (OLD=r626 true lineage file, absolute-path anchor)" % (cmd_bad == 0, cmd_bad))
+L084: rcmap = re.search(r"S6 chain r626 bm-c rcmap: (.+)", log_txt)
+L085: assert rcmap, "r626 rcmap line missing"
+L093:     lines_out.append("G4 r626 executed-log leg names == r627 chain leg names: True (exec=%d)" % len(exec_names))
+L098: assert old_md5 == "2137DC42BB079BABEBAF06478B1B4E0C", "r626 source MD5 tamper red flag: %s" % old_md5
+L099: assert new_md5.startswith("DF703B2C"), "r627 chain MD5 drift vs dual-mirror build face: %s" % new_md5
+L100: lines_out.append("ANCHORS: OLD=%s (md5 %s) NEW=%s (md5 %s; r627 chain dual-mirrored to "
+L101:                  "both scratch roots post-build, quant-layer mirror MD5-verified; r626 source "
+L102:                  "MD5 2137DC42BB079BABEBAF06478B1B4E0C pre/post-diff verified unchanged = r739 "
+===== _r627bmc_s7probe.py =====
+L001: # r627 bm-c S7 probe: task-family CSV cross + claws content-match.
+L002: # Blood: r626 face (r535 -split law + CSV name column backslash-prefix known face).
+===== _r627bmc_s6facts.py =====
+L001: # r627 bm-c S6 facts extractor: leg-block-pinned extraction (r547/r576 laws:
+L009: LOG = r"K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r627bmc_s6_log.txt"
+L066: json.dump(facts, open(r"K:\Fluxgroup\FluxGroup\quant\bigmoney\.codely-cli\scratch\_r627bmc_s6_facts.json", "w", encoding="utf-8"), ensure_ascii=False)
+===== _r627bmc_ca_probe.py =====
+L001: # r627 bm-c CA probe (r626 ca_probe lineage, r576 law: CA facts from the
+L005: txt = open(r"results\_r627bmc_s6_log.txt", encoding="utf-8", errors="replace").read()
+===== _r627bmc_s7_second_scan.py =====
+L014: facts = json.load(open(ROOT + r"\results\_r627bmc_s05_facts.json", encoding="utf-8"))
+===== _r627bmc_s6_ignite.py =====
+L001: # r627 bm-c S6 chain ignition: detached (r737 law) + exit-aware polling
+L002: # (r748 law). Runner stdout/stderr -> results/_r627bmc_s6_runner.{out,err}.
+L009: CHAIN = ROOT + r"\.codely-cli\scratch\_r627bmc_s6_chain.py"
+L010: OUT = ROOT + r"\results\_r627bmc_s6_runner.out"
+L011: ERR = ROOT + r"\results\_r627bmc_s6_runner.err"
+===== _r627bmc_qa_ignite.py =====
+L001: # r627 bm-c QA pack ignition: detached spawn of scripts/qa_smoke_run.py
+L003: # chain per r605 window face). Runner stdout/stderr -> results/_r627bmc_qa_runner.{out,err}.
+L010: OUT = ROOT + r"\results\_r627bmc_qa_runner.out"
+L011: ERR = ROOT + r"\results\_r627bmc_qa_runner.err"
+===== _r627bmc_qa_poll.py =====
+L001: # r627 bm-c QA pack poll: wait for detached qa_smoke_run to land receipts,
+L002: # then verify qa/smoke-r627.md content (5/5 + determinism + metrics identity
+L003: # vs r626 face: sharpe/maxdd/win/trades) + equity PNG size + runner tail.
+L011: MD = ROOT + r"\qa\smoke-r627.md"
+L012: PNG = ROOT + r"\qa\equity-curve-r627.png"
+L013: OUT = ROOT + r"\results\_r627bmc_qa_runner.out"
+L014: ERRF = ROOT + r"\results\_r627bmc_qa_runner.err"
+L023: assert os.path.exists(MD), "qa/smoke-r627.md not landed within poll window"
