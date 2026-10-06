@@ -1,0 +1,71 @@
+{
+ "gate": "r773 W158 band gate",
+ "legs": {
+  "leg0": {
+   "rows": 155,
+   "tail": "W157",
+   "owner_rows": 147,
+   "bma_rows": 73,
+   "ordinal": 148,
+   "bma_ordinal": 74
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "24aff72f5 published (r773 pre-seat push, r565 law; direct fast-forward behind-0, W157 finalize products + dead-r772 stranded freeze lineage same-window delivered)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    362204,
+    364203
+   ],
+   "ARITH_B": [
+    362404,
+    362603
+   ],
+   "A": [
+    362404,
+    364403
+   ],
+   "hops_A": 1,
+   "B": [
+    364404,
+    364603
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    362404,
+    362603
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      362404,
+      362603
+     ],
+     "jump_to": 364404
+    }
+   ],
+   "parity_with_probe": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W159p_A": "364404..366403",
+   "hops_A": 0,
+   "W159p_B": "364604..364803",
+   "hops_B": 0,
+   "W159p_B_lands_inside_W159p_A": true,
+   "note": "naive-B-inside-naive-A; the registered W158 B band 364_404..364_603 will refuse the naive W159 A window; W159 freezer MUST re-derive on the post-W158 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "362404_364403",
+  "B": "364404_364603"
+ }
+}
