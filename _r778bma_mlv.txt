@@ -1,0 +1,24 @@
+def main(argv):
+    if len(argv) < 2 or argv[1] not in ("merge", "reconcile", "selftest",
+                                        "resolve"):
+        print(__doc__)
+        return 2
+    if argv[1] == "selftest":
+        return _selftest()
+    if argv[1] == "resolve":
+        return _cmd_resolve(argv[2:])
+    faces = ALL_FACES
+    if "--face" in argv:
+        i = argv.index("--face")
+        faces = tuple(argv[i + 1:i + 2]) or ALL_FACES
+        for f in faces:
+            if f not in ALL_FACES:
+                print(f"unknown face {f!r}; ALL_FACES={ALL_FACES}")
+                return 2
+    if argv[1] == "merge":
+        return _cmd_merge(faces)
+    return _cmd_reconcile(faces)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

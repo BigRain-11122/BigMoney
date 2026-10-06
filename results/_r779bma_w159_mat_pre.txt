@@ -1,0 +1,43 @@
+# --- W158 materializer face (r773 bm-a freeze, own-series law
+    #     under CEO de-throttle order O-20261001-2355 sec.2): bm-a's
+    #     seventy-fourth owned per machine-derive (engine_owner==bm-a
+    #     rows 73 + candidate); wave 158 = first free number after
+    #     the REGISTERED W157 row (bm-a r772 freeze aed41df3e) --
+    #     SINGLE STATE zero seat gap (W2..W157 all registered). Seat
+    #     published=reserved MSG-2026-10-06-120x-bma-w158-seat pushed
+    #     to origin 24aff72f5 BEFORE this freeze, r565 law (payload
+    #     = seat MSG + pre-seat probe + probe receipt + W158 arc generator;
+    #     deletion-set EMPTY; delivery window = direct fast-forward
+    #     behind-0 at fetch (r773 pre-seat push), zero merge, zero
+    #     --no-verify; self-ack inbox->processed move deferred to
+    #     the W158 finalize window). ONE HUNDRED-AND-FORTY-EIGHTH engine wave BY
+    #     MACHINE-DERIVE (engine_owner rows 147 + candidate; gate
+    #     leg0 machine output governs per r359 law).
+    #     W1..W157 finalize ALL LANDED (net chain head 741,411,
+    #     K=343,320 merged pool; W157 finalize one-pass bm-a r773)
+    #     -- ZERO in-flight upstream seats, clean finalize chain
+    #     precondition; the finalize merge loop still derives the
+    #     wave set from registry keys at run time, FAIL-CLOSED r307
+    #     always on. ADMIT receipt results/_r773bma_w158_band_gate.json;
+    #     banned gate ADMIT 0; not a re-pick (R250: W158 bands were
+    #     never assigned).
+    _set_wave(158)
+    try:
+        assert WAVE_CONFIGS[158]["a_seed_base"] == pf.N1_BANDS[158]["a"][0], \
+            "W158 A band drift vs law mirror"
+        assert WAVE_CONFIGS[158]["b_exit_seed_base"] == \
+            pf.N1_BANDS[158]["b_exit"][0], "W158 B band drift vs law mirror"
+        assert WAVE_CONFIGS[158].get("engine_owner") == \
+            pf.N1_BANDS[158].get("engine_owner") == "bm-a", \
+            "W158 engine_owner drift (law mirror parity)"
+        w158_a = {A_SEED_BASE + j for j in range(A_N)}
+        w158_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w158_a & w158_b), "W158 A/B band overlap"
+        assert not (w158_a & reg_ints) and not (w158_b & reg_ints), \
+            "W158 hits SEED_REGISTRY"
+        for nm, band in (("A", w158_a), ("B", w158_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W158 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W158 {nm} hits W1"
+            assert not (band & probes), f"W158 {nm} hits probe seeds"
+        # registered row parity (r307 pinned constants, recent estate)
+        

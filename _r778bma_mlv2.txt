@@ -1,0 +1,55 @@
+def _cmd_resolve(argv):
+    path = None
+    opts = {"--stage1": None, "--stage2": None, "--stage3": None,
+            "--out": None, "--dry-run": False}
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a in ("--stage1", "--stage2", "--stage3", "--out"):
+            if i + 1 >= len(argv):
+                print(f"resolve: {a} needs a value")
+                return 2
+            opts[a] = argv[i + 1]
+            i += 2
+        elif a == "--dry-run":
+            opts[a] = True
+            i += 1
+        elif path is None:
+            path = a
+            i += 1
+        else:
+            print(f"resolve: unexpected arg {a!r}")
+            return 2
+    if not path:
+        print("resolve: usage: merge_lane_views.py resolve "
+              "<results/path.json> [--stage1 F --stage2 F --stage3 F "
+              "--out F --dry-run]")
+        return 2
+    face = detect_face(path)
+    rel = path.replace("\\", "/")
+    crlf = None
+    probe_indent = None
+    blobs = {}
+
+    def _load_file(p):
+        nonlocal crlf, probe_indent
+        raw = open(p, "rb").read()
+        if crlf is None and b"\r\n" in raw:
+            crlf = True
+        if probe_indent is None:
+            probe_indent = _probe_key_indent(raw)
+        return json.loads(raw.decode("utf-8"))
+
+    if opts["--stage1"] or opts["--stage2"] or opts["--stage3"]:
+        # forensic / replay mode: explicit stage files, no git index read
+        if opts["--stage1"]:
+            blobs["base"] = _load_file(opts["--sta
+=====
+ALL_FACES = A_FACES + B_FACES
+
+# D-20260928-03(1) batch-1 writer retirement (r381): faces whose shared
+# write is RETIRED -- the owning machine's writer is lane-primary and the
+# shared file is the FROZEN legacy base (still merger source #0, so
+# scattered/forensic rewrites of it stay absorbed).  Reconcile cannot
+# demand merged == shared any more (the live lane legitimately advances
+# past the fr
