@@ -1,0 +1,71 @@
+{
+ "gate": "r801 W167 band gate",
+ "legs": {
+  "leg0": {
+   "rows": 164,
+   "tail": "W166",
+   "owner_rows": 156,
+   "bma_rows": 82,
+   "ordinal": 157,
+   "bma_ordinal": 83
+  },
+  "leg0b": {
+   "own_seat_on_origin": true,
+   "other_seats": 0,
+   "seat_commit": "982424c5f published (r801 pre-seat push, r565 law; zero --no-verify)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    382004,
+    384003
+   ],
+   "ARITH_B": [
+    382204,
+    382403
+   ],
+   "A": [
+    382204,
+    384203
+   ],
+   "hops_A": 1,
+   "B": [
+    384204,
+    384403
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    382204,
+    382403
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      382204,
+      382403
+     ],
+     "jump_to": 384204
+    }
+   ],
+   "parity_with_probe": true
+  },
+  "leg2": {
+   "conflicts": 0,
+   "origin_vacancy": true
+  },
+  "leg3": {
+   "W168p_A": "384204..386203",
+   "hops_A": 0,
+   "W168p_B": "384404..384603",
+   "hops_B": 0,
+   "W168p_B_lands_inside_W168p_A": true,
+   "note": "naive-B-inside-naive-A; the registered W167 B band 384_204..384_403 will refuse the naive W168 A window; W168 freezer MUST re-derive on the post-W167 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "382204_384203",
+  "B": "384204_384403"
+ }
+}
