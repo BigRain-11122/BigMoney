@@ -1,0 +1,7 @@
+src = open('results/_r775bma_s6_chain.py', encoding='utf-8').read()
+src = src.replace('_r775bma_s6_chain.py', '_r780bma_s6_chain.py')
+src = src.replace('r775 bm-a; bloodline = r773 verbatim 38 legs, r767', 'r780 bm-a; bloodline = r775 verbatim 38 legs (r773/r767 grand-bloodline); recovery round')
+src = src.replace('"round": 775', '"round": 780')
+src = src.replace('_r775bma_s6_facts.json', '_r780bma_s6_facts.json')
+open('results/_r780bma_s6_chain.py', 'w', encoding='utf-8', newline='\n').write(src)
+print('chain script written, round tag:', '"round": 780' in src)
