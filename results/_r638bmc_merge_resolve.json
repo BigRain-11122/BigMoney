@@ -1,0 +1,150 @@
+{
+ "round": "r638",
+ "window": "dead-session continue merge: push-window origin-advance absorb (origin 7 new: bm-a r791/r792 + bm-b r781/791)",
+ "stage_semantics": "merge: s2=ours(bm-c r638 absorb), s3=theirs(origin tip)",
+ "host_guard_law": "results/dashboard_status.{json,js}+daily_scorecard+strategy_scorecard => theirs (r378 single-writer host=bm-a, r780 law rank > ts)",
+ "faces": 19,
+ "decisions": {
+  "results/dashboard_status.js": "theirs (host single-writer r378/r780)",
+  "results/dashboard_status.json": "theirs (host single-writer r378/r780)",
+  "results/fundamental_b_layer_filter.json": "ours",
+  "results/futures_update_status.json": "ours",
+  "results/lhb_update_status.json": "ours",
+  "results/regime_state.json": "union:base+asof-union",
+  "results/scorecard_v1.json": "ours",
+  "results/strategy_scorecard.json": "theirs (host single-writer r378/r780)",
+  "results/token_usage.json": "ours",
+  "results/update_status.json": "ours",
+  "results/runnable_pool.json": "auto-merge-verified",
+  "docs/daily_report/REPORT-2026-10-06.json": "ours",
+  "docs/daily_report/REPORT-2026-10-06.md": "ours",
+  "docs/live_usage/LIVE-2026-10-06.json": "ours",
+  "docs/live_usage/LIVE-2026-10-06.md": "ours",
+  "docs/live_usage/LIVE-latest.json": "ours",
+  "docs/live_usage/LIVE-latest.md": "ours",
+  "results/_attrition_guard_scan.json": "ours",
+  "results/compute_audit.json": "union:latest-newer+ts-union"
+ },
+ "evidence": {
+  "results/dashboard_status.js": {
+   "win_law": "theirs-host"
+  },
+  "results/dashboard_status.json": {
+   "win_law": "theirs-host"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "ours_ts": "2026-10-06 19:34:48",
+   "theirs_ts": "2026-10-06 19:25:48",
+   "win_law": "ours"
+  },
+  "results/futures_update_status.json": {
+   "ours_ts": "2026-10-06 19:34:38",
+   "theirs_ts": "2026-10-06 19:24:54",
+   "win_law": "ours"
+  },
+  "results/lhb_update_status.json": {
+   "ours_ts": "2026-10-06 19:34:36",
+   "theirs_ts": "2026-10-06 19:24:54",
+   "win_law": "ours"
+  },
+  "results/regime_state.json": {
+   "ours_ts": "2026-10-06 19:32:55",
+   "theirs_ts": "2026-10-06 19:23:37",
+   "hist_union": 2,
+   "base": "ours"
+  },
+  "results/scorecard_v1.json": {
+   "ours_ts": "2026-10-06 19:33:53",
+   "theirs_ts": "2026-10-06 19:24:10",
+   "win_law": "ours"
+  },
+  "results/strategy_scorecard.json": {
+   "win_law": "theirs-host"
+  },
+  "results/token_usage.json": {
+   "ours_ts": "2026-10-06 19:35:44",
+   "theirs_ts": "2026-10-06 19:26:43",
+   "win_law": "ours"
+  },
+  "results/update_status.json": {
+   "ours_ts": "2026-10-06 19:32:53",
+   "theirs_ts": "2026-10-06 19:23:36",
+   "win_law": "ours"
+  },
+  "results/runnable_pool.json": {
+   "fund_entries": {},
+   "fixed": []
+  },
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "a2c0e0d21a62",
+   "ours_sha12": "a2c0e0d21a62",
+   "theirs_sha12": "cac4b68acf18"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "865ac300a87b",
+   "ours_sha12": "865ac300a87b",
+   "theirs_sha12": "45be921d0cd2"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "acf7e67e08fe",
+   "ours_sha12": "acf7e67e08fe",
+   "theirs_sha12": "346acb16276d"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "846b93174aa8",
+   "ours_sha12": "846b93174aa8",
+   "theirs_sha12": "b7e3d0c49320"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "acf7e67e08fe",
+   "ours_sha12": "acf7e67e08fe",
+   "theirs_sha12": "346acb16276d"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "846b93174aa8",
+   "ours_sha12": "846b93174aa8",
+   "theirs_sha12": "b7e3d0c49320"
+  },
+  "results/_attrition_guard_scan.json": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "e2735a031d3b",
+   "ours_sha12": "e2735a031d3b",
+   "theirs_sha12": "6738e06a7dcb"
+  },
+  "results/compute_audit.json": {
+   "recovery": "run-1 face, decision recovered post-hoc by staged-blob sha",
+   "staged_sha12": "eeb19edcbcc3",
+   "ours_sha12": "24ea62cced11",
+   "theirs_sha12": "2ab05efe5c63"
+  }
+ },
+ "gates": {
+  "uu_left": 0,
+  "marker_hits": 0,
+  "blob_eq_bad": [],
+  "union_notes": {
+   "results/compute_audit.json": "sorted=True hist=205",
+   "results/regime_state.json": "sorted=True hist=2",
+   "results/x2_watch_log.jsonl": "jsonl sorted=True lines=624"
+  },
+  "gate_pass": true
+ },
+ "claw_context": "pre-push claw active; this merge commit carries zero deletions of other-machine faces",
+ "two_pass_note": "resolver run-1 crashed KeyError 'theirs-host' after resolving the first 8 UU faces (bug: blob() side lookup did not map the new theirs-host label; fixed same window, zero content harm -- crash before any miswrite; run-2 completed remaining 10 + pool). Receipt completed post-hoc by sha comparison per receipt-completeness discipline.",
+ "recovered_faces": [
+  "docs/daily_report/REPORT-2026-10-06.json",
+  "docs/daily_report/REPORT-2026-10-06.md",
+  "docs/live_usage/LIVE-2026-10-06.json",
+  "docs/live_usage/LIVE-2026-10-06.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json"
+ ]
+}
