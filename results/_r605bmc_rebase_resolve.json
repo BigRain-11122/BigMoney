@@ -1,0 +1,22 @@
+{
+ "round": "r605",
+ "faces": {
+  "results/compute_audit.json": "rolling-union 203+201->204 dedup+ts-stable-sort (r758/r767 law, zero-loss asserted)",
+  "results/regime_state.json": "rolling-union 2+2->2 dedup+ts-stable-sort (r758/r767 law, zero-loss asserted)",
+  "results/strategy_scorecard.json": "twin-anchor whole-file ts-newer-wins by generated -> theirs(bm-c) (ours=2026-10-06 07:43:02 theirs=2026-10-06 07:52:16; r756 normalized)",
+  "results/scorecard_v1.json": "twin-bound same-side as strategy_scorecard.json (r708 law, raw bytes)",
+  "results/update_status.json": "whole-file ts-newer-wins by updated -> theirs(bm-c) (ours=2026-10-06 07:42:26 theirs=2026-10-06 07:50:39; r756 normalized)"
+ },
+ "zero_loss": {
+  "results/compute_audit.json": {
+   "ours": 203,
+   "theirs": 201,
+   "merged": 204
+  },
+  "results/regime_state.json": {
+   "ours": 2,
+   "theirs": 2,
+   "merged": 2
+  }
+ }
+}
