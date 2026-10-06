@@ -2,258 +2,51 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 2,
-   "nshards": 12,
-   "key": "n1w159-2of12",
-   "batch": "PERPETUAL-N1-W159",
-   "pid": 87516,
-   "started_at": "2026-10-06T15:26:05+08:00",
-   "started_epoch": 1791271565,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W159-2.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W159",
-    "prereg": "research/PERPETUAL_N1_W159_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-FORTY-NINTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 148 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W158 row bm-a r773 freeze aed41df3e, SINGLE STATE zero seat gap W2..W158 all registered; W158 finalize landed same-window r778, ledger head 753,012, merged pool K=345,520; seat published=reserved MSG-2026-10-06-142x-bma-w159-seat PUSHED to origin 7b60d09da BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe + probe receipt + W159 arc generator; deletion-set EMPTY; delivery window = merge-absorb behind-delivery at fetch (r779 pre-seat push via merge-absorb window), zero --no-verify; pre-seat probe and freeze-window band-gate runs derive identical, no fork face), engine_owner=bm-a, wave 159: A = FIRST-CLEAN past the registered W158 B band (the arithmetic continuation 364_404..366_403 is REFUSED at its own start by the W158 B band 364_404..364_603, exactly as the W158 seat W159+ projection + r773 gate leg3 + r779 sec8 succession projection notes anticipated; honest forward walk hops=1 -> 364_604..366_603; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase eighteenth instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 364_604..364_803 is CLEAN on the registered universe but lands INSIDE the W159 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 366_604, first-clean 366_604..366_803 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W158 seat W159+ projection + r773 gate leg3 + r773 sec8 succession projection notes re-derived -- all MANDATORY notes honored (post-W158 universe re-derive + own-wave A reservation); ADMIT receipt results/_r779bma_w159_band_gate.json; W159+ projection per this window gate: A first-clean 366_604..368_603 CLEAN / B first-clean 366_804..367_003 CLEAN -- naive B lands INSIDE the naive A window and the registered W159 B band 366_604..366_803 will refuse the naive W160 A window; W160 freezer MUST re-derive on the post-W159 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W158 finalize ALL LANDED (W158 finalize one-pass bm-a r779, net chain head 753,012, merged pool K=345,520) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
-    "a_seed_base": 364604,
-    "b_exit_seed_base": 366604,
-    "shard_subdir": "n1_w159",
-    "out_name": "n1_w159_results.json",
-    "engine_owner": "bm-a"
-   }
-  }
- ],
+ "active": [],
  "ledger_buffer": [
   {
    "machine_id": "bm-a",
    "face": "N1",
    "wave": 159,
    "batch": "PERPETUAL-N1-W159",
-   "shard": 1,
-   "nshards": 12,
-   "key": "n1w159-1of12",
-   "pid": 49696,
-   "started_at": "2026-10-06T15:25:04+08:00",
-   "done_at": "2026-10-06T15:26:04+08:00",
-   "done_epoch": 1791271562,
-   "elapsed_sec": 58.1
-  }
- ],
- "last_flush_at": "2026-10-06T15:25:04+08:00",
- "crashes": {},
- "shards_done_total": 462,
- "last_shard_done_at": "2026-10-06T15:26:04+08:00",
- "last_tick": {
-  "ts": "2026-10-06T15:26:05+08:00",
-  "epoch": 1791271562,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 45.481773376464844,
-  "verdict": "ignited:n1w159-2of12 pid=87516",
-  "active_n": 1,
-  "queue_depth": 9,
-  "elapsed_sec": 3.0
- },
- "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 3,
-   "nshards": 12,
-   "key": "n1w159-3of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "3",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 4,
-   "nshards": 12,
-   "key": "n1w159-4of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "4",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 5,
-   "nshards": 12,
-   "key": "n1w159-5of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "5",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 6,
-   "nshards": 12,
-   "key": "n1w159-6of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "6",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 7,
-   "nshards": 12,
-   "key": "n1w159-7of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "7",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 8,
-   "nshards": 12,
-   "key": "n1w159-8of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "8",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w159-9of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "9",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 159,
    "shard": 10,
    "nshards": 12,
    "key": "n1w159-10of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 95500,
+   "started_at": "2026-10-06T15:34:05+08:00",
+   "done_at": "2026-10-06T15:35:04+08:00",
+   "done_epoch": 1791272102,
+   "elapsed_sec": 57.1
   },
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 159,
+   "batch": "PERPETUAL-N1-W159",
    "shard": 11,
    "nshards": 12,
    "key": "n1w159-11of12",
-   "batch": "PERPETUAL-N1-W159",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "159",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 58000,
+   "started_at": "2026-10-06T15:35:05+08:00",
+   "done_at": "2026-10-06T15:36:04+08:00",
+   "done_epoch": 1791272162,
+   "elapsed_sec": 57.0
   }
- ]
+ ],
+ "last_flush_at": "2026-10-06T15:34:05+08:00",
+ "crashes": {},
+ "shards_done_total": 472,
+ "last_shard_done_at": "2026-10-06T15:36:04+08:00",
+ "last_tick": {
+  "ts": "2026-10-06T15:48:04+08:00",
+  "epoch": 1791272882,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 46.58560562133789,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
+  "elapsed_sec": 2.8
+ },
+ "skips": [],
+ "queue": []
 }
