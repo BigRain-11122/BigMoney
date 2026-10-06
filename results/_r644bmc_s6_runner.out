@@ -1,0 +1,40 @@
+pool_dualrun_reconcile: rc=0 (0s) | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 403 entries, drift-free streak 51, cutoff 2026-10-05T01:13:21+08:00)
+compute_audit: rc=0 (8s) | {"ts": "2026-10-07 00:27:50", "audit_version": "v2.4.2", "cpu_total_pct": 76.0, "py_cpu_pct": 6.0, "cores": 32, "py_procs": 11, "result_stale_min": 0.
+py_watermark: rc=0 (6s) | {"ts": "2026-10-07 00:27:57", "epoch": 1791304071.0, "machine": "bm-c", "cpu_total_pct": 48.0, "cores": 32, "py_cpu_pct": 0.1, "py_procs": 9, "top_pro
+update_daily: rc=0 (2s) | core pool: 48 CSVs | today-bar guard: >= 15:30:00 | new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30 | status -> K:\Fluxgrou
+market_regime: rc=0 (1s) |   asof=2026-09-30 state=ORANGE (³È¡¤¸ßÎ£) raw=ORANGE days_in_state=2 mode=shadow |   trigger: hs300<MA200 (#10 collected) |   trigger: breadth 0.79>=65%
+strategy_scorecard: rc=0 (0s) | lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin heartbeat fresh (10min, local 70min stale view) -> skip derive this cycl
+market_clock_call: rc=0 (6s) | lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2) | call w
+update_lhb: rc=0 (1s) | cutoff=2026-09-30 quarter=2026Q3 today=2026-10-07 | no-op: <30min since last fetch attempt (min-interval guard)
+update_heat: rc=0 (1s) | no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+update_futures: rc=0 (0s) | no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+update_repo: rc=0 (0s) | no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+update_options: rc=0 (0s) | no-op: options lane owned by bm-a, not this machine (bm-c)
+update_moneyflow: rc=0 (0s) | no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+update_sina_mf: rc=0 (0s) | no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+update_astock_daily: rc=0 (1s) | no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+update_etf_daily: rc=0 (0s) | no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+rev_osc_signal_export: rc=0 (1s) | rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+update_minute_feed: rc=0 (0s) | update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+update_ths_panel: rc=0 (1s) | no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+ah_panel_puller: rc=0 (0s) | no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+update_fund_premium: rc=0 (0s) | no-op: before 15:30:00 (close-data alignment, update_heat precedent)
+update_fundamental: rc=0 (1s) | snapshot fresh (10.2h < 24h) -> skip
+b_layer_filter: rc=0 (1s) | gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True} | mask -> K:\Fluxgroup\
+update_fund_statements: rc=0 (0s) | no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+live_paper: rc=0 (1s) | lane_io single-writer guard: results/paper/* host=bm-a origin heartbeat fresh (10min, local 70min stale view) -> skip derive this cycle (r366 stale-vi
+t35_open_fill_verify: rc=0 (0s) | lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a origin heartbeat fresh (10min, local 70min stale view) -> skip derive this cy
+t24_prospect_paper: rc=0 (1s) | lane_io single-writer guard: results/prospect_paper/* host=bm-a origin heartbeat fresh (10min, local 70min stale view) -> skip derive this cycle (r366
+t24_prospect_promotion: rc=0 (0s) | lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin heartbeat fresh (10min, local 70min stale view) -> skip derive this cycle (
+aggressive_lab: rc=0 (27s) | aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+alloc_paper: rc=0 (1s) | no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+grid_paper: rc=0 (1s) | grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+system_v1_paper: rc=0 (1s) | system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+t35_paper_export: rc=0 (0s) | lane_io single-writer guard: results/paper_export/* host=bm-a origin heartbeat fresh (11min, local 70min stale view) -> skip derive this cycle (r366 s
+daily_scorecard: rc=0 (0s) | lane_io single-writer guard: results/daily_scorecard.json host=bm-a origin heartbeat fresh (11min, local 70min stale view) -> skip derive this cycle (
+daily_report: rc=0 (1s) | daily report written: REPORT-2026-10-07.md/.json faces=5 token=1
+ceo_live_usage: rc=0 (0s) | ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-07.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, 
+build_status: rc=0 (1s) | lane_io single-writer guard: results/dashboard_status.json host=bm-a origin heartbeat fresh (11min, local 71min stale view) -> skip derive this cycle 
+token_meter: rc=0 (0s) | saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json | per-round fixed context ~ 12980 + 8768 tokens (rough); ledger cumulative ~ 204
+
+NON-ZERO LEGS: none

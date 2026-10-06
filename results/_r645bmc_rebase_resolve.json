@@ -1,0 +1,83 @@
+{
+ "round": "r645-bm-c",
+ "window": "S0 rebase pick-1 takeover",
+ "ours": "a6c5ee909",
+ "mine": "17f67a8fc",
+ "base": "b9a46248f",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-07.json": {
+   "decision": "take-ours-newer",
+   "blob": "e465e4d9421d"
+  },
+  "docs/daily_report/REPORT-2026-10-07.md": {
+   "decision": "take-ours-newer",
+   "blob": "3634dd9ee3e6"
+  },
+  "docs/live_usage/LIVE-2026-10-07.json": {
+   "decision": "take-ours-newer",
+   "blob": "d8bfc9e70bd2"
+  },
+  "docs/live_usage/LIVE-2026-10-07.md": {
+   "decision": "take-ours-newer",
+   "blob": "883ff469cdf7"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "decision": "take-ours-newer",
+   "blob": "d8bfc9e70bd2"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "decision": "take-ours-newer",
+   "blob": "883ff469cdf7"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "decision": "take-ours-newer",
+   "blob": "db5ba3413621"
+  },
+  "results/futures_update_status.json": {
+   "decision": "take-ours-newer",
+   "blob": "c234018f4b59"
+  },
+  "results/lhb_update_status.json": {
+   "decision": "take-ours-newer",
+   "blob": "87fbf04d314b"
+  },
+  "results/token_usage.json": {
+   "decision": "take-ours-newer",
+   "blob": "fde48ecf7e0e"
+  },
+  "results/update_status.json": {
+   "decision": "take-ours-newer",
+   "blob": "0c10bf2bf9f8"
+  }
+ },
+ "gates": {
+  "zero_loss": true,
+  "deletions": true,
+  "r787_in_resolver": true,
+  "markers": 0,
+  "size_b": 26801,
+  "size_gate": "PASS <=30,720"
+ },
+ "uu_faces_initial": [],
+ "treasure_guard": {
+  "rc": 3,
+  "out_tail": " class)\r\n  restorable: docs/live_usage/LIVE-latest.md (reproducible-artifact class)\r\n  restorable: results/fundamental_b_layer_filter.json (reproducible-artifact class)\r\n  restorable: results/futures_update_status.json (reproducible-artifact class)\r\n  restorable: results/lhb_update_status.json (reproducible-artifact class)\r\n  restorable: results/update_status.json (reproducible-artifact class)\r\nTREASURE_GUARD RESTORE HARD REJECT: 2 forbidden face(s) -- registry/memory/ledger/round-report/ticket class never origin-restored; line-level union or extract-aside only (TREASURE_PROTECTION_LAW s2.4)\r\n"
+ },
+ "codely_hunks": [
+  {
+   "ours": 5,
+   "base": 7,
+   "theirs": 7,
+   "kept": 5
+  }
+ ],
+ "mojibake_healed": 1,
+ "codely": {
+  "size_b": 26801,
+  "base_b": 31590,
+  "ours_b": 28110,
+  "mine_b": 30605,
+  "hunks": 1,
+  "healed": 1
+ }
+}
