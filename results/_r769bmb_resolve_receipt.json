@@ -1,0 +1,132 @@
+{
+ "round": "r769",
+ "machine": "bm-b",
+ "faces": [
+  {
+   "path": "docs/daily_report/REPORT-2026-10-06.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "generated_at 08:03:09 > 07:53:12 (probed, r756-normalized) [already resolved, skipped]"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-06.md",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "twin of REPORT json -> SAME side (twins law) [already resolved, skipped]"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-06.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "generated 08:03:10 > 07:53:13 (probed) [already resolved, skipped]"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-06.md",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "twin -> SAME side [already resolved, skipped]"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "twin -> SAME side [already resolved, skipped]"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "twin -> SAME side [already resolved, skipped]"
+  },
+  {
+   "path": "results/dashboard_status.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "meta.generated_at 08:03:29 > 07:53:27 (probed) [already resolved, skipped]"
+  },
+  {
+   "path": "results/dashboard_status.js",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "js-wrapper twin -> SAME side, whole bytes (R209) [already resolved, skipped]"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "updated 08:02:49 > 07:52:41 (probed) [already resolved, skipped]"
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "ts 08:02:45 > 07:52:30 (probed) [already resolved, skipped]"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "updated 08:02:44 > 07:52:28 (probed) [already resolved, skipped]"
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "manual-class snapshot (per-run scan evidence): ts 08:07:53 > 07:54:01 (probed); re-run in S7 anyway [already resolved, skipped]"
+  },
+  {
+   "path": "results/strategy_scorecard.json",
+   "recipe": "take-side-raw-bytes",
+   "side": ":3:",
+   "why": "generated 08:01:11 > 07:52:16 (probed, schema-identical both sides) [already resolved, skipped]"
+  },
+  {
+   "path": "results/scorecard_v1.json",
+   "recipe": "twin-byte-copy",
+   "side": ":3: strategy_scorecard.json bytes",
+   "why": "origin-tip canon = byte-identical twin (520eb01ca md5 e0897e9369e2 both); :3: own-side old-schema write was stale writer lineage (scripts/scorecard.py v1 module refresh); twin invariant preserved with freshest content",
+   "md5": "2a16e38ec771c2f8"
+  },
+  {
+   "path": "results/compute_audit.json",
+   "recipe": "rolling-ledger-union",
+   "ours_hist": 204,
+   "theirs_hist": 201,
+   "union_hist": 205,
+   "why": "history union zero-loss (|A|=204 |B|=201 -> |A u B|=205 asserted); latest/state take-:3: (ts 07:59:53 > 07:42:17 probed); fmt indent=2 ascii=False"
+  },
+  {
+   "path": "results/regime_state.json#history",
+   "recipe": "rolling-ledger-union",
+   "ours": 2,
+   "theirs": 2,
+   "union": 2
+  },
+  {
+   "path": "results/regime_state.json#transitions",
+   "recipe": "rolling-ledger-union",
+   "ours": 0,
+   "theirs": 0,
+   "union": 0
+  },
+  {
+   "path": "results/regime_state.json",
+   "recipe": "ledger-union+state-take-:3:",
+   "why": "updated 08:00:04 > 07:42:27 probed; history/transitions union zero-loss"
+  }
+ ],
+ "asserts": [
+  {
+   "face": "compute_audit.history",
+   "assert": "|A u B| == dedup union count",
+   "ok": true
+  },
+  {
+   "face": "scorecard twin",
+   "assert": "scorecard_v1 bytes == strategy_scorecard bytes",
+   "ok": true
+  }
+ ],
+ "validation": "PASS",
+ "staged_unmerged_after": 0
+}

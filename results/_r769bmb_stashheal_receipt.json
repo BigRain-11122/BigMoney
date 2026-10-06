@@ -1,0 +1,54 @@
+{
+ "round": "r769",
+ "machine": "bm-b",
+ "heal": "autostash zero-loss union",
+ "faces": [
+  {
+   "path": "results/saturation_engine/history_bm-b.jsonl",
+   "recipe": "union+ts-stable-sort",
+   "disk_rows": 88,
+   "stash_rows": 120,
+   "recovered": 120,
+   "after": 208
+  },
+  {
+   "path": "results/fund_divlowvol_p1/nulls.jsonl",
+   "recipe": "key-indexed-union",
+   "disk_rows": 0,
+   "recovered_new_keys": 1223,
+   "superseded_variants": 0,
+   "after": 1223
+  },
+  {
+   "path": "results/fund_quality_p1/nulls.jsonl",
+   "recipe": "key-indexed-union",
+   "disk_rows": 1495,
+   "recovered_new_keys": 1,
+   "superseded_variants": 0,
+   "after": 1496
+  },
+  {
+   "path": "results/autofill_state.bm-b.json",
+   "recipe": "mixed-dict: last_tick ts-newer whole-dict, rest live-wins",
+   "diff_keys_vs_HEAD": [
+    "last_tick"
+   ],
+   "took_stash_last_tick": true,
+   "lt_head": "2026-10-06 08:10:01",
+   "lt_stash": "2026-10-06 08:12:01"
+  }
+ ],
+ "asserts": [
+  {
+   "face": "results/saturation_engine/history_bm-b.jsonl",
+   "assert": "post-write rows == disk+recovered (or more if daemon raced in)",
+   "ok": true
+  },
+  {
+   "face": "results/autofill_state.bm-b.json",
+   "assert": "isinstance(last_tick, dict) after write",
+   "ok": true
+  }
+ ],
+ "superseded_variants": []
+}
