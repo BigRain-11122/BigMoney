@@ -1,0 +1,64 @@
+{
+ "ritual": "r441/r703/r783/r651 migration ritual (r654 bm-c increment sweep, in-window gate breach fix)",
+ "asof": "2026-10-07T04:52:47+08:00",
+ "prescan": {
+  "rc": 3,
+  "out": "TREASURE_GUARD HARD REJECT: registry hit = redline (TREASURE_PROTECTION_LAW s2.1)\r\n  HIT: CODELY.md"
+ },
+ "entries": {
+  "r651_assert_marker_scan": {
+   "target": "research/pit-git.md",
+   "bytes_lf": 899,
+   "sha16": "1a99208413a030a1",
+   "head": "- [2026-10-07 04:1x r651 bm-c] **拆件断言层 marker 扫域过宽=引文文本误判坑（r",
+   "target_bytes_after": 23878
+  },
+  "r794_addu_pollution": {
+   "target": "research/pit-git-resolver.md",
+   "bytes_lf": 1174,
+   "sha16": "9105c86b743b09ad",
+   "head": "- [2026-10-07 04:2x r794 bm-b] **rebase 冲突窗内联 `git add -u` 循",
+   "target_bytes_after": 28003
+  },
+  "r653_prepush_claw_base": {
+   "target": "research/pit-git-staged.md",
+   "bytes_lf": 868,
+   "sha16": "7d95416ea291f1a2",
+   "head": "- [2026-10-07 04:3x r653 bm-c] **pre-push 爪比对基座=推送时刻活远端 tip ",
+   "target_bytes_after": 6513
+  }
+ },
+ "sha16_method": "sha256(entry_lf_text + LF)[:16], LF face (blob-durable), facts-driven",
+ "asserts": [
+  "main 31297 -> 29509 B blob (<= 30720 gate)",
+  "byte equation exact (3 entry lines + CRLFs out, 1 ptr row + CRLF in)",
+  "each entry verbatim x1 in target, x0 in main",
+  "all pit-*.md blobs <= gate (25 files)",
+  "utf-8 + LINE-START marker scan clean on written faces only (r651 pit law)",
+  "prescan rc logged verbatim (D-20261002-06 mandate authorizes ritual)",
+  "kept-in-main: r653 close-size pit (pit-lineage.md full 30,516B) + r808 bm-a pit (freshest)"
+ ],
+ "sizes": {
+  "main_before_blob": 31297,
+  "main_after_blob": 29509,
+  "main_before_disk": 31384,
+  "main_after_disk": 29594
+ },
+ "targets": {
+  "research/pit-git.md": {
+   "before": 22978,
+   "after": 23878
+  },
+  "research/pit-git-resolver.md": {
+   "before": 26828,
+   "after": 28003
+  },
+  "research/pit-git-staged.md": {
+   "before": 5644,
+   "after": 6513
+  }
+ },
+ "registry_line_appended": true,
+ "pit_files": 25,
+ "breach_context": "main measured 31,297B > 30,720B post-push (bm-a r808 +1,180B on r653-tail 30,117B; bm-a stale-receipt claim 29,751B = live case of r653 close-size pit)"
+}
