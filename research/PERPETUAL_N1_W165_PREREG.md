@@ -54,10 +54,21 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 80 行注册 + 本候选——以 gate leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W164 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待跑后】
-- （待 finalize 收口窗回填：合并池/账本/K-lift/se_mu/A p95/§5 四键机证/canon flip 态/审计段。）
+## §7 跑后实证。【finalize 收口机械回填·r795 落】
+- **合并池**：merged K=360,920·mu=-0.0929·sigma=0.245144（机取 n1_w165_results.json null_pool_cumulative.merged）。
+- **本波独立面**：w165_only K=2,200·mu=-0.092588·sigma=0.24066562。
+- **账本**：prev_total 766,212 + batch_trials 2,200 = **total 768,412**（batch=PERPETUAL-N1-W165·voids_applied=LOWAMP-P1/LOWAMP-P2·evidence_cutoff=2026-09-22）。
+- **K-lift**：skill_line_v2 @n_eff=766,212：1.1834 -> 1.1833（delta **-0.0001**·方向如实=本波微降）。
+- **se_mu@K360,920**：0.000408（机器键 se_mu_at_k360,920）。
+- **A 随机引擎出场 p95**：0.3018（families.A_random_engine_exit.full_sharpe_p95）。
+- **§5 四键机证**：seeds 带位对账=gate ADMIT 回执在场（band/projection 双窗恒等·pre-seat probe 与冻结窗 gate 同窗双跑 r793 实跑）；canon flip 态={'n_values': 120, 'mu': -0.09124, 'sigma': 0.23683094328545623}；shards_consumed=['shard-0-of-12.json', 'shard-1-of-12.json', 'shard-10-of-12.json', 'shard-11-of-12.json', 'shard-2-of-12.json', 'shard-3-of-12.json', 'shard-4-of-12.json', 'shard-5-of-12.json', 'shard-6-of-12.json', 'shard-7-of-12.json', 'shard-8-of-12.json', 'shard-9-of-12.json']。
+- **审计段**：finalize one-pass bm-a r795（12/12 shards 引擎 tick 自燃烧录 r535 律·本窗 finalize 命令收口·audit={'machine': 'bm-a', 'finalize_only': True}）。
 
-## §8 批后复盘。【finalize 同窗回填·待跑后】
-- （待 finalize 收口窗回填：设计复用面/宝藏捕获问/W166+ 投影承接。）
+## §8 批后复盘。【finalize 同窗回填·r795 落】
+- **设计复用面**：冻结 v1 设计 verbatim 零改动（例行 nulls-deepening 波·r794 工具血统+本窗 6 处值修正不涉设计）；无方法论新增（METHODOLOGY_ASSETS 零 append·捕获律问过=无新方法）。
+- **宝藏捕获问**：本批宝藏=无新增（例行波·TREASURE_REGISTRY 零出入记录·捕获律问过）。
+- **W166+ 投影承接**：A first-clean 379_804..381_803 CLEAN（hops=0）/B first-clean 380_004..380_203 CLEAN（hops=0）——naive B 落 naive A 窗内·W166 冻结方必须在 post-W165 注册宇宙重 derive 且 derive B 时预留本波 A 窗（W141 先例·leg2 律·E36 阶梯卡）；**W165 B 带 379_804..380_003 注册后将拒 naive W166 A 窗**——阶梯 A-hops-prior-B 继承第二十五例待 W166 注册宇宙复核（gate leg3 verbatim·r587 非转抄）。
+- **诚实披露**：本波 K-lift 微降 -0.0001（1.1834→1.1833）如实记录；se_mu/A p95 键名如有漂移以 n1_w165_results.json 机读为准。
+
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
