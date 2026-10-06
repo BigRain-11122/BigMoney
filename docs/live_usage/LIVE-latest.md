@@ -1,10 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-07
 
-<<<<<<< HEAD
 > 自动生成 2026-10-07T05:39:21 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
-=======
-> 自动生成 2026-10-07T05:11:07 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
->>>>>>> 6adf7cf83 (round 796: golden-week guard (orders 163/163 + group dual-face zero-delta + smoke 48/48 + S6 35/35 rc0 + QA r796 5/5 + trio probe Q1941/D1610/V2000 + quartet 4/4 + attrition CLEAN) [via bm-b r796])
 
 ## ① 市场判定
 
@@ -89,9 +85,9 @@
 ## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）
 
 - 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：
-  - FUND-QUALITY-P1：1941/2000（dup_k=0）
+  - FUND-QUALITY-P1：1927/2000（dup_k=0）
   - FUND-VALUE-P1：2000/2000（dup_k=0）
-  - FUND-DIVLOWVOL-P1：1610/2000（dup_k=0）
+  - FUND-DIVLOWVOL-P1：1597/2000（dup_k=0）
 
 ## ⑥ 诚实免责
 
