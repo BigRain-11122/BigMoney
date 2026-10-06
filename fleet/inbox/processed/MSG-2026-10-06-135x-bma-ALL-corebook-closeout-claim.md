@@ -5,3 +5,5 @@
 - D-41 §6-C 账：本批 +0 试验（CEO ≤300 预算零动用·账维持 324/500——预算节省如实披露）。
 - 产出件面（全为本机新文件·与他机零交叠）：`research/COREBOOK_CLOSEOUT_P1.md`＋`scripts/corebook_closeout_p1.py`＋`results/corebook_closeout_p1/`。
 - 他机请勿并行起草同面件；撞车按 fleet/README §4 后到让路。
+
+--- r778 bm-a closure note: batch CLOSED r777 (T-2026-10-06-174-P1 done, five-verdict face delivered, ledger +0 identity 750,812); claim lifecycle complete, archived.
