@@ -1,0 +1,34 @@
+{
+ "old_head": "aa871e7ae472f98ba3085e98444ddfee0fd59e7c",
+ "dirty_count": 42,
+ "blockers": [
+  "CODELY.md",
+  "results/compute_audit.json",
+  "results/paper_export/export-2026-09-30.json",
+  "results/paper_export/latest.json",
+  "results/regime_state.json"
+ ],
+ "steps": [
+  "worksnap CODELY.md -> _worksnap_r783bmb/CODELY__md",
+  "checkout -- blockers: CODELY.md, results/compute_audit.json, results/paper_export/export-2026-09-30.json, results/paper_export/latest.json, results/regime_state.json",
+  "ff-only merge origin/main -> 18070f8dac0"
+ ],
+ "asserts": [
+  "append-only ledgers byte-untouched by surgery (5/5 line counts stable)",
+  "take_theirs blob-sha == origin/main 4/4",
+  "CODELY r782 entry re-inserted before first domain-pointer block (dedupe-checked)",
+  "scoped marker scan clean on 5 touched files"
+ ],
+ "new_head": "18070f8dac043bf8a8c2906ddf18185c80127e44",
+ "ledger_lines": {
+  "results/fund_quality_p1/nulls.jsonl": 1759,
+  "results/fund_divlowvol_p1/nulls.jsonl": 1450,
+  "results/saturation_engine/history_bm-b.jsonl": 120,
+  "results/finalize_trio_readiness_history.bm-b.jsonl": 70,
+  "results/pool_dualrun.bm-b.jsonl": 50
+ },
+ "codely": {
+  "origin_lines": 69,
+  "result_lines": 71
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "take_theirs": [
+  "docs/daily_report/REPORT-2026-10-06.json",
+  "docs/daily_report/REPORT-2026-10-06.md",
+  "docs/live_usage/LIVE-2026-10-06.json",
+  "docs/live_usage/LIVE-2026-10-06.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json",
+  "results/daily_scorecard.json",
+  "results/dashboard_status.js",
+  "results/dashboard_status.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "results/post_review/REPORT-20261006.md",
+  "results/regime_state.json",
+  "results/scorecard_v1.json",
+  "results/strategy_scorecard.json",
+  "results/update_status.json"
+ ],
+ "unions": {
+  "results/post_review.jsonl": {
+   "ours": 6787,
+   "theirs": 6837,
+   "union": 6387
+  },
+  "results/token_usage.json": {
+   "merged_keys": [
+    "delta_vs_prev",
+    "generated",
+    "l2_local_llm",
+    "machines",
+    "method",
+    "order",
+    "per_round_context",
+    "total_report_tokens_est",
+    "total_state_tokens_est"
+   ]
+  }
+ },
+ "codely": {
+  "ours_lines": 112,
+  "theirs_lines": 65,
+  "result_lines": 70,
+  "blocks_appended": 2,
+  "blocks_skipped_migrated": 10
+ },
+ "overlays": {
+  "autofill_state.bm-b.json": {
+   "overlay": "kept-merged",
+   "snap_ts": "None",
+   "merged_ts": "None"
+  },
+  "p1d_gates.json": {
+   "overlay": "kept-merged",
+   "snap_ts": "None",
+   "merged_ts": "None"
+  },
+  "face_bm-b.json": {
+   "overlay": "kept-merged",
+   "snap_ts": "2026-10-06 20:36:04",
+   "merged_ts": "2026-10-06 20:38:04"
+  },
+  "state_bm-b.json": {
+   "overlay": "kept-merged",
+   "snap_ts": "None",
+   "merged_ts": "None"
+  },
+  "history_bm-b.jsonl": {
+   "appended_missing": 10
+  },
+  "fund_quality_p1/nulls.jsonl": {
+   "appended_missing": 3
+  }
+ },
+ "asserts": [
+  "take_theirs staged blob-sha == origin/main blob-sha 19/19",
+  "post_review.jsonl union >= max(side unique counts)",
+  "token_usage per-key recursive union (num=max, ts=newer, tie=ours)",
+  "CODELY ours-unique blocks all either appended or verified-migrated-in-pit-files",
+  "line-anchored marker scan clean on 24 touched files"
+ ]
+}

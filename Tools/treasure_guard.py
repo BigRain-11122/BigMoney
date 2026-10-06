@@ -132,6 +132,12 @@ RESTORE_FORBIDDEN = [
     ("append-only-ledger", re.compile(r"(?:^|/)pool_dualrun\.[^/]*\.jsonl$")),
     ("append-only-ledger", re.compile(r"(?:^|/)token_usage[^/]*\.json$")),
     ("append-only-ledger", re.compile(r"(?:^|/)watermark\.jsonl$")),
+    # r782 bm-b: burn trial-evidence shards are append-only ledgers, NOT
+    # reproducible artifacts -- regenerating a lost line = re-burning engine
+    # compute; stash-drop class ops lost 34 nulls lines across rounds (20 D
+    # + 11 Q historical + 3 in the r782 worksnap window) before this weld.
+    ("append-only-ledger", re.compile(r"(?:^|/)nulls\.jsonl$")),
+    ("append-only-ledger", re.compile(r"(?:^|/)sens\.jsonl$")),
     ("ticket-face", re.compile(r"(?:^|/)fleet/(orders|tasks|machines|inbox)/")),
 ]
 
@@ -331,6 +337,8 @@ def selftest():
         ("results/pool_dualrun.bm-c.jsonl", "append-only-ledger"),
         ("results/token_usage.bm-c.json", "append-only-ledger"),
         ("results/watermark.jsonl", "append-only-ledger"),
+        ("results/fund_divlowvol_p1/nulls.jsonl", "append-only-ledger"),
+        ("results/fund_quality_p1/sens.jsonl", "append-only-ledger"),
         ("firm/RULES.md", "registry"),
         ("fleet/orders/O-1.md", "registry"),
         ("research/memory-archive/202610.md", "registry"),
