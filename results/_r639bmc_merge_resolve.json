@@ -1,0 +1,196 @@
+{
+ "round": "r639-cont",
+ "window": "dead-session continue merge (r640 shift inherits killed r639 wrap-up): absorb origin advance (bm-a r793 close + bm-b r782 S0 merge / r781 closeout + autofill keepalives)",
+ "stage_semantics": "merge: s2=ours(bm-c e339e7dc1 r639 close), s3=theirs(origin tip)",
+ "host_guard_law": "results/dashboard_status.{json,js}+daily_scorecard+strategy_scorecard => theirs (r378 single-writer host=bm-a, r780 law rank > ts)",
+ "twin_law": "REPORT/LIVE md follow same-side json decision (r708)",
+ "codely_eol_law": "CODELY union CRLF-normalized + structure assert (r639 struct_heal glue-prevention)",
+ "faces": 30,
+ "decisions": {
+  "CODELY.md": "union:ours-primary+theirs-new-crlf",
+  "docs/daily_report/REPORT-2026-10-06.json": "theirs",
+  "docs/daily_report/REPORT-2026-10-06.md": "theirs (twin-follow docs/daily_report/REPORT-2026-10-06.json, r708)",
+  "docs/live_usage/LIVE-2026-10-06.json": "theirs",
+  "docs/live_usage/LIVE-2026-10-06.md": "theirs (twin-follow docs/live_usage/LIVE-2026-10-06.json, r708)",
+  "docs/live_usage/LIVE-latest.json": "theirs",
+  "docs/live_usage/LIVE-latest.md": "theirs (twin-follow docs/live_usage/LIVE-latest.json, r708)",
+  "results/compute_audit.json": "union:latest-newer+ts-union",
+  "results/daily_scorecard.json": "theirs (host single-writer r378/r780)",
+  "results/dashboard_status.js": "theirs (host single-writer r378/r780)",
+  "results/dashboard_status.json": "theirs (host single-writer r378/r780)",
+  "results/fundamental_b_layer_filter.json": "theirs",
+  "results/futures_update_status.json": "theirs",
+  "results/lhb_update_status.json": "theirs",
+  "results/paper/COMPOSITE-CE-01_paper.json": "theirs",
+  "results/paper/COMPOSITE-CE-02_paper.json": "theirs",
+  "results/paper/DROUGHT-CE-01_paper.json": "theirs",
+  "results/paper/ENGULF-CE-01_paper.json": "theirs",
+  "results/paper/NEEDLE-DE-01_paper.json": "theirs",
+  "results/paper/VOLATILITY-CE-01_paper.json": "theirs",
+  "results/prospect_paper/_summary.json": "theirs",
+  "results/prospect_promotion/_summary.json": "theirs",
+  "results/regime_state.json": "union:base+asof-union",
+  "results/scorecard_v1.json": "theirs",
+  "results/strategy_scorecard.json": "theirs (host single-writer r378/r780)",
+  "results/t35_open_fill_verify.json": "theirs",
+  "results/token_usage.json": "theirs",
+  "results/update_status.json": "theirs",
+  "results/x2_watch_log.jsonl": "union:ts-sorted-line-union",
+  "results/runnable_pool.json": "auto-merge-verified"
+ },
+ "evidence": {
+  "CODELY.md": {
+   "ours_lines": 66,
+   "theirs_only": 2,
+   "dropped_stale_variants": 1,
+   "merged_lines": 68,
+   "bytes": 29776,
+   "theirs_only_sample": "- [2026-10-06 12:1x r773 bm-a] O-20261006-1207 题材深化批令执行记录（CEO 直令·O-20261001-2103"
+  },
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "ours_ts": "2026-10-06 20:23:08",
+   "theirs_ts": "2026-10-06 20:33:57",
+   "win_law": "theirs"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "win_law": "theirs"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "ours_ts": "2026-10-06 20:23:10",
+   "theirs_ts": "2026-10-06 20:33:58",
+   "win_law": "theirs"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "win_law": "theirs"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "ours_ts": "2026-10-06 20:23:10",
+   "theirs_ts": "2026-10-06 20:33:58",
+   "win_law": "theirs"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "win_law": "theirs"
+  },
+  "results/compute_audit.json": {
+   "ours_ts": "2026-10-06 20:24:18",
+   "theirs_ts": "2026-10-06 20:31:55",
+   "hist_union": 203,
+   "latest": "theirs"
+  },
+  "results/daily_scorecard.json": {
+   "win_law": "theirs-host"
+  },
+  "results/dashboard_status.js": {
+   "win_law": "theirs-host"
+  },
+  "results/dashboard_status.json": {
+   "win_law": "theirs-host"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "ours_ts": "2026-10-06 20:22:32",
+   "theirs_ts": "2026-10-06 20:33:35",
+   "win_law": "theirs"
+  },
+  "results/futures_update_status.json": {
+   "ours_ts": "2026-10-06 20:22:19",
+   "theirs_ts": "2026-10-06 20:33:10",
+   "win_law": "theirs"
+  },
+  "results/lhb_update_status.json": {
+   "ours_ts": "2026-10-06 20:22:16",
+   "theirs_ts": "2026-10-06 20:33:09",
+   "win_law": "theirs"
+  },
+  "results/paper/COMPOSITE-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 20:22:36",
+   "theirs_ts": "2026-10-06 20:34:11",
+   "win_law": "theirs"
+  },
+  "results/paper/COMPOSITE-CE-02_paper.json": {
+   "ours_ts": "2026-10-06 20:22:37",
+   "theirs_ts": "2026-10-06 20:34:12",
+   "win_law": "theirs"
+  },
+  "results/paper/DROUGHT-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 20:22:39",
+   "theirs_ts": "2026-10-06 20:34:12",
+   "win_law": "theirs"
+  },
+  "results/paper/ENGULF-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 20:22:40",
+   "theirs_ts": "2026-10-06 20:34:13",
+   "win_law": "theirs"
+  },
+  "results/paper/NEEDLE-DE-01_paper.json": {
+   "ours_ts": "2026-10-06 20:22:42",
+   "theirs_ts": "2026-10-06 20:34:14",
+   "win_law": "theirs"
+  },
+  "results/paper/VOLATILITY-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 20:22:42",
+   "theirs_ts": "2026-10-06 20:34:14",
+   "win_law": "theirs"
+  },
+  "results/prospect_paper/_summary.json": {
+   "ours_ts": "2026-10-06 20:22:45",
+   "theirs_ts": "2026-10-06 20:33:38",
+   "win_law": "theirs"
+  },
+  "results/prospect_promotion/_summary.json": {
+   "ours_ts": "2026-10-06 20:22:46",
+   "theirs_ts": "2026-10-06 20:33:44",
+   "win_law": "theirs"
+  },
+  "results/regime_state.json": {
+   "ours_ts": "2026-10-06 20:20:58",
+   "theirs_ts": "2026-10-06 20:32:04",
+   "hist_union": 2,
+   "base": "theirs"
+  },
+  "results/scorecard_v1.json": {
+   "ours_ts": "2026-10-06 20:21:53",
+   "theirs_ts": "2026-10-06 20:32:34",
+   "win_law": "theirs"
+  },
+  "results/strategy_scorecard.json": {
+   "win_law": "theirs-host"
+  },
+  "results/t35_open_fill_verify.json": {
+   "ours_ts": "2026-10-06 20:22:43",
+   "theirs_ts": "2026-10-06 20:33:37",
+   "win_law": "theirs"
+  },
+  "results/token_usage.json": {
+   "ours_ts": "2026-10-06 20:23:28",
+   "theirs_ts": "2026-10-06 20:34:10",
+   "win_law": "theirs"
+  },
+  "results/update_status.json": {
+   "ours_ts": "2026-10-06 20:24:31",
+   "theirs_ts": "2026-10-06 20:32:03",
+   "win_law": "theirs"
+  },
+  "results/x2_watch_log.jsonl": {
+   "ours_lines": 630,
+   "theirs_lines": 630,
+   "union_lines": 636
+  },
+  "results/runnable_pool.json": {
+   "fund_entries": {},
+   "fixed": []
+  }
+ },
+ "gates": {
+  "uu_left": 0,
+  "marker_hits": 0,
+  "blob_eq_bad": [],
+  "union_notes": {
+   "results/compute_audit.json": "sorted=True hist=203",
+   "results/regime_state.json": "sorted=True hist=2",
+   "results/x2_watch_log.jsonl": "jsonl sorted=True lines=636"
+  },
+  "twin_same_side": true,
+  "gate_pass": true
+ },
+ "claw_context": "pre-push claw active; this merge commit carries zero deletions of other-machine faces"
+}
