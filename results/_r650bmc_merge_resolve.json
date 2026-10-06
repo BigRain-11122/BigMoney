@@ -1,0 +1,24 @@
+{
+ "asof_policy": "origin-newer-wins for regen faces (bm-a r806 S6 03:23+ vs bm-c 03:21); token per-key max-union; audit history ts-union; marker hard-gate both sides",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-07.json": "mine (t2=2026-10-07 03:06:48 t3=2026-10-07 03:23:08 m2=True m3=True)",
+  "docs/daily_report/REPORT-2026-10-07.md": "mine (t2=2026-10-07 03:03:00 t3=2026-10-07 03:21:27 m2=True m3=True)",
+  "docs/live_usage/LIVE-2026-10-07.json": "mine (t2=2026-10-07T03:06:49 t3=2026-10-07T03:23:09 m2=True m3=True)",
+  "docs/live_usage/LIVE-2026-10-07.md": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "docs/live_usage/LIVE-latest.json": "mine (t2=2026-10-07T03:06:49 t3=2026-10-07T03:23:09 m2=True m3=True)",
+  "docs/live_usage/LIVE-latest.md": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "results/_attrition_guard_scan.json": "mine (t2=2026-10-07T03:07:47+08:00 t3=2026-10-07T03:24:17+08:00 m2=True m3=True)",
+  "results/dashboard_status.js": "mine (t2=2026-10-07T03:07:00 t3=2026-10-07T03:23:23 m2=True m3=True)",
+  "results/dashboard_status.json": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "results/fundamental_b_layer_filter.json": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "results/futures_update_status.json": "mine (t2=2026-10-07T03:05:13 t3=2026-10-07T03:22:36 m2=True m3=True)",
+  "results/lhb_update_status.json": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "results/regime_state.json": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2=2026-09-30 t3=2026-09-30 m2=True m3=True)')",
+  "results/scorecard_v1.json": "mine (t2=2026-10-07T03:04:23 t3=2026-10-07T03:22:19 m2=True m3=True)",
+  "results/strategy_scorecard.json": "mine (t2=2026-10-07T03:04:29 t3=2026-10-07T03:22:29 m2=True m3=True)",
+  "results/update_status.json": "mine (fix-leg: empty-ts default overturned -- newer generation 03:21-03:24 wins; prev='origin (t2= t3= m2=True m3=True)')",
+  "results/token_usage.json": "per-key max-union",
+  "results/compute_audit.json": "history ts-union 203 rows (latest mine)"
+ },
+ "fix_leg": "7 faces re-resolved to mine: my S6 generation 03:21-03:24 provably newer than origin 03:03-03:07; twin convergence (LIVE md/json + dashboard js/json) + regime_state updated-field only diff"
+}
