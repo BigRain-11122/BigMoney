@@ -1,42 +1,14 @@
 ## Codely Structured Memories
 
-
-
-
-
-
-
-
 ### User
 ## Codely Structured Memories
-
-
-
-
-
-
-
 
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 
-
-
-
-
-
-
-
 ### Feedback
 - [2026-10-06 12:3x r774 bm-a] O-20261006-1218 综合研判令循环侧执行记录（CEO 直令·原 1215 与值班窗邮件直投令撞号让路改 1218·正典总控仓 9855c0d·主件 docs/synthesis/SYNTHESIS-METHODS-PLANS-R1-20261006.md）：同窗开票认领 P1/P2/P5 三面 = T-2026-10-06-174-P1 核心仓验证收口批（全计划唯一必烧项 ≤300 试·入 D-41 ≤500/30d 账·撤回判定写死在先）/ T-2026-10-06-175-P2 外源想法目录 R1（零烧·M3 引用式普查 top-20）/ T-2026-10-06-176-P1 排除书正典化（零烧·N1-N7 七面）；M1 双源同谳格位 + M2 排除书/双胞胎预滤 = 一切新线预注册强制门；姊妹票 T-173 认领撞号同窗裁定（origin 时序 56515d958<1dbff091c + 挂钟双指标·bm-c 让路·票 ours 逐字 673ca3434）+ 撞号 MSG 送 bm-c inbox（r619+ 重复开发停开请求·bm-b 深史数据道注记采纳）；D-19 ord 水位 30155db5→3e8c73e3 程序化消费（dec a44c39e0 MATCH 零动作）。
 - [2026-10-06 12:1x r773 bm-a] O-20261006-1207 题材深化批令执行记录（CEO 直令·O-20261001-2103/2106 追加·正典 d1b52cf·本仓副本经 r773 closeout merge 吸收 a0e34658b）：同窗认领=T-2026-10-06-173-P1 票 opened+claimed（immediate·三面=引入溯源 16 事件分类学×持续性/散户最优波 43 波段逐位全起点分布/配合面 两配径预注册）·D-41 §1.3/1.4 诚实律全执法·交付=48h 首版白话数字报告（due 10-08 午·正负双列）·D-19 双水位更新 dec a44c39e0/ord 30155db5（消费定性：dec 零新行动=集团分卷/核销批·ord 一件涉本司即本令）。
-
-
-
-
-
-
-
 
 ### Project
 - [2026-10-06 12:1x r773 bm-a] **冻结 vmap 部分token化畸形窗坑（r772 W157 freeze 实弹·r773 治愈窗发现）**：freeze-edits 值映射对「下波+投影散文」的复合带串（如 "A first-clean 360_004..362_003 / B first-clean 360_204..360_403"）按裸前缀部分 tokenize——"360_004"→@BSEED@ 而 "..362_003" 残留——产出起点大于终点的畸形窗面（362_204..362_003 / 362_404..360_403 落进 W157 WAVE_CONFIGS cfg 散文；结构字段/带行/seed bases 全机证无损=纯文档面）。正法=①投影散文复合串必须整串入 TOK（@PRA@/@PRB@ 级 token）禁裸前缀拼凑②冻结后探针必须正则扫全件 start>end 畸形窗（r772 entry-integrity 探针只盖了带行/seed 面漏了投影散文）③治愈=按冻结窗 gate 回执 leg3 机值整串恢复（r587 非转抄·_r773bma_w157_prose_heal.py 当窗治愈+双 selftest 零伤）。How to apply：W158+ 冻结编辑器一律先跑 edit_integrity 式实证探针列全字符串清单再定 TOK。
@@ -106,3 +78,4 @@
 - [2026-10-06 19:0x r636 bm-c] **rebase 窗 patrol daemon detached-HEAD 落单坑（32-UU+daemon 扫单收口实弹·零 origin 伤害零内容丢失）**：S0 rebase 32-UU 全 staged 解面被本机 patrol daemon 的 add -A 落单（cdcbb5f03·18:43:55）扫入+rebase --continue 撞 r758 态机粘滞双发——治愈序=①内容覆盖探针（pick1 文件全集 vs daemon commit diff：missing 面=origin 侧胜共享面〔内容==onto 零 diff〕≠内容丢失，逐面定性后零丢失断言）②skip×2 收 rebase（pick 内容已交付即弃重放·禁 skip 前不做覆盖探针）③merge origin ORT 吸收+push behind0。How to apply：mid-rebase 窗若 HEAD 出现非本会话新 commit=先停手做覆盖探针定内容归属再选 skip/手落 commit 路线；daemon 扫单=无害面大前提=被扫内容本来就是要交付的本仓产出（r636 收据 results/_r636bmc_rebase_resolve.json+round report r636 行）。| dept:工程 | r636 S0 窗
 - [2026-10-06 19:2x r637 bm-c] **合并恢复验证 marker 扫描禁全 staged 面=历史冲突证据件假红坑（r636 遗留 merge#2 续行窗实弹·当场修正零回滚）**：r637 S0 接 r636 死会话遗留合并#2（MERGE_HEAD 在位·16-UU 全解全 staged·收据 _r636bmc_merge_resolve2.json 在·r611③ 续行律适用）——验证探针首版对全部 staged blob 扫冲突标记撞 results/_r505bmc_conflict_probe.txt（r505 历史冲突证据收据·本件合法含 marker 文本）假红；修正=扫描限本合并变更集（git diff --cached --name-only HEAD 的 41 面）后 7/7 PASS（零 UU+marker 净+14 ours 面 staged blob==HEAD+2 union 面内容门+合并目标=当前 origin tip）。How to apply：合并/重放恢复验证腿的 marker 扫描一律 scoped 到 changed 集，仓内历史冲突证据收据=永久假红雷区；_r637bmc_merge_verify.py 血统=r63x+ 恢复窗验证模板（changed 集 scope 内建）。| dept:工程 | r637 S0 窗
 - [2026-10-06 19:2x r637 bm-c] **预派生血统件数据值锚滞代坑（复制器只步进轮号 token 不推数据值·r760 族新面）**：r636 血统复制器预派生的 _r637bmc_s05.py 把 HO 锚钉在 36B2594C（r636 建件时值），但 r636 窗内已消费 orders delta 36B2594C→1FB2E958（同窗水位更新在 state）——照跑预派生件=必然假 ord_delta（锚自身漂移非消费缺口）。正法=跑前核值锚：grep 预派生件 HB/HO 常量 vs state-<id>.json 水位键（事实驱动），不齐即先修锚再跑；本轮修锚后跑=dec MATCH 53 连清洁+真 delta 1FB2E958→64AE5947（P-2026-10-06-02 动员令行·bm-c 零新动作收执消费·同窗回执 r760 律）。How to apply：r638+ 预派生 s05/legdiff 族跑前一律先对值锚；血统复制器 needle 清单不含数据值=值锚维护归运行窗非复制器。| dept:工程 | r637 S0.5 窗
+- [2026-10-06 19:0x r790 bm-a] O-20261006-1845-bm-c 机队组网令执行记录（CEO 令 bm-c 转发·回执节已落令件 fleet/orders/O-20261006-1845-bm-c.md）：bm-a=dasheng 已在 tailnet（100.110.185.62·sunjs666@·09-29 入网在册）——bm-c 检测「bm-a 不在 tailnet」实为漏认 dasheng 节点；物理 IP=10.86.98.91≠192.168.1.0/24 与 bm-c 非同物理 LAN（192.168.1.4 另有其机非 bm-a）；C 双节点实测 tailnet 100.123.74.104:11434 True+/api/tags 三模型在位（qwen3.6-coder:35b/qwen3.8:27b/glm-4.7-flash:30b）+qwen3.6-coder:35b 最小生成探针 OK；服务面 L2 自决=①大文件接收/中转节点候选（tailnet 直传待实测后 GM 定籍 TRANSFER.md）②本机 Ollama 对外暂不开放（GPU 常驻引擎/本地 LLM 车道）③ACE-Step 未驻场如实 ④LLM-via-C 35b 纳入 bm-a L2 候选通道待 GM 定籍（L1 脚本能算照旧禁走 LLM）。另 W163 finalize 落地（ledger→764,012·K=356,520）+HANDOVER 5x r761-790 合并行+决策水位 8fdf1f57/orders 415bbcea 消费零本司新派单。

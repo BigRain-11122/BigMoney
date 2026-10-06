@@ -1,0 +1,196 @@
+{
+ "round": "r637",
+ "window": "merge#3 push-window origin-advance absorb (32-UU, bm-a r789+/bm-b r780+ S6 regen race)",
+ "stage_semantics": "merge: s2=ours(bm-c r637), s3=theirs(origin tip)",
+ "faces": 33,
+ "decisions": {
+  "CODELY.md": "union:line-union-append-only",
+  "docs/daily_report/REPORT-2026-10-06.json": "ours",
+  "docs/daily_report/REPORT-2026-10-06.md": "ours",
+  "docs/live_usage/LIVE-2026-10-06.json": "ours",
+  "docs/live_usage/LIVE-2026-10-06.md": "ours",
+  "docs/live_usage/LIVE-latest.json": "ours",
+  "docs/live_usage/LIVE-latest.md": "ours",
+  "results/_attrition_guard_scan.json": "ours",
+  "results/compute_audit.json": "union:latest-newer+ts-union",
+  "results/daily_scorecard.json": "ours",
+  "results/dashboard_status.js": "ours",
+  "results/dashboard_status.json": "ours",
+  "results/fundamental_b_layer_filter.json": "ours",
+  "results/futures_update_status.json": "ours",
+  "results/lhb_update_status.json": "ours",
+  "results/paper/COMPOSITE-CE-01_paper.json": "ours",
+  "results/paper/COMPOSITE-CE-02_paper.json": "ours",
+  "results/paper/DROUGHT-CE-01_paper.json": "ours",
+  "results/paper/ENGULF-CE-01_paper.json": "ours",
+  "results/paper/NEEDLE-DE-01_paper.json": "ours",
+  "results/paper/VOLATILITY-CE-01_paper.json": "ours",
+  "results/paper_export/export-2026-09-30.json": "ours",
+  "results/paper_export/latest.json": "ours",
+  "results/prospect_paper/_summary.json": "ours",
+  "results/prospect_promotion/_summary.json": "ours",
+  "results/regime_state.json": "union:base+asof-union",
+  "results/scorecard_v1.json": "ours",
+  "results/strategy_scorecard.json": "ours",
+  "results/t35_open_fill_verify.json": "ours",
+  "results/token_usage.json": "ours",
+  "results/update_status.json": "ours",
+  "results/x2_watch_log.jsonl": "union:ts-sorted-line-union",
+  "results/runnable_pool.json": "auto-merge-verified"
+ },
+ "evidence": {
+  "CODELY.md": {
+   "base_lines": 106,
+   "ours_only": 2,
+   "theirs_only": 1,
+   "merged_lines": 81,
+   "ours_only_sample": "- [2026-10-06 19:2x r637 bm-c] **预派生血统件数据值锚滞代坑（复制器只步进轮号 token 不推数据值·r760 族新面）**：",
+   "theirs_only_sample": "- [2026-10-06 19:0x r790 bm-a] O-20261006-1845-bm-c 机队组网令执行记录（CEO 令 bm-c 转发·回执节已"
+  },
+  "docs/daily_report/REPORT-2026-10-06.json": {
+   "ours_ts": "2026-10-06 19:12:17",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "docs/daily_report/REPORT-2026-10-06.md": {
+   "ours_ts": "2026-10-06 19:12:17",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "docs/live_usage/LIVE-2026-10-06.json": {
+   "ours_ts": "2026-10-06 19:12:18",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "docs/live_usage/LIVE-2026-10-06.md": {
+   "ours_ts": "2026-10-06 19:12:18",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "ours_ts": "2026-10-06 19:12:18",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "ours_ts": "2026-10-06 19:12:18",
+   "theirs_ts": "2026-10-06 19:06:27"
+  },
+  "results/_attrition_guard_scan.json": {
+   "ours_ts": "2026-10-06 19:14:26",
+   "theirs_ts": "2026-10-06 19:07:19"
+  },
+  "results/compute_audit.json": {
+   "ours_ts": "2026-10-06 19:10:17",
+   "theirs_ts": "2026-10-06 19:05:06",
+   "hist_union": 204,
+   "latest": "ours"
+  },
+  "results/daily_scorecard.json": {
+   "ours_ts": "2026-10-06 19:11:56",
+   "theirs_ts": "2026-10-06 19:06:07"
+  },
+  "results/dashboard_status.js": {
+   "ours_ts": "2026-10-06 19:12:35",
+   "theirs_ts": "2026-10-06 19:06:39"
+  },
+  "results/dashboard_status.json": {
+   "ours_ts": "2026-10-06 19:12:35",
+   "theirs_ts": "2026-10-06 19:06:39"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "ours_ts": "2026-10-06 19:11:47",
+   "theirs_ts": "2026-10-06 19:06:01"
+  },
+  "results/futures_update_status.json": {
+   "ours_ts": "2026-10-06 19:11:42",
+   "theirs_ts": "2026-10-06 19:05:58"
+  },
+  "results/lhb_update_status.json": {
+   "ours_ts": "2026-10-06 19:11:41",
+   "theirs_ts": "2026-10-06 19:05:57"
+  },
+  "results/paper/COMPOSITE-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 19:11:49",
+   "theirs_ts": "2026-10-06 19:06:04"
+  },
+  "results/paper/COMPOSITE-CE-02_paper.json": {
+   "ours_ts": "2026-10-06 19:11:50",
+   "theirs_ts": "2026-10-06 19:06:05"
+  },
+  "results/paper/DROUGHT-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 19:11:51",
+   "theirs_ts": "2026-10-06 19:06:05"
+  },
+  "results/paper/ENGULF-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 19:11:53",
+   "theirs_ts": "2026-10-06 19:06:06"
+  },
+  "results/paper/NEEDLE-DE-01_paper.json": {
+   "ours_ts": "2026-10-06 19:11:55",
+   "theirs_ts": "2026-10-06 19:06:06"
+  },
+  "results/paper/VOLATILITY-CE-01_paper.json": {
+   "ours_ts": "2026-10-06 19:11:56",
+   "theirs_ts": "2026-10-06 19:06:07"
+  },
+  "results/paper_export/export-2026-09-30.json": {
+   "ours_ts": "2026-10-06 19:11:56",
+   "theirs_ts": "2026-10-06 19:06:07"
+  },
+  "results/paper_export/latest.json": {
+   "ours_ts": "2026-10-06 19:11:56",
+   "theirs_ts": "2026-10-06 19:06:07"
+  },
+  "results/prospect_paper/_summary.json": {
+   "ours_ts": "2026-10-06 19:11:57",
+   "theirs_ts": "2026-10-06 19:06:08"
+  },
+  "results/prospect_promotion/_summary.json": {
+   "ours_ts": "2026-10-06 19:11:57",
+   "theirs_ts": "2026-10-06 19:06:14"
+  },
+  "results/regime_state.json": {
+   "ours_ts": "2026-10-06 19:10:26",
+   "theirs_ts": "2026-10-06 19:05:15",
+   "hist_union": 2,
+   "base": "ours"
+  },
+  "results/scorecard_v1.json": {
+   "ours_ts": "2026-10-06 19:11:24",
+   "theirs_ts": "2026-10-06 19:05:46"
+  },
+  "results/strategy_scorecard.json": {
+   "ours_ts": "2026-10-06 19:11:34",
+   "theirs_ts": "2026-10-06 19:05:52"
+  },
+  "results/t35_open_fill_verify.json": {
+   "ours_ts": "2026-10-06 19:11:56",
+   "theirs_ts": "2026-10-06 19:06:07"
+  },
+  "results/token_usage.json": {
+   "ours_ts": "2026-10-06 19:12:35",
+   "theirs_ts": "2026-10-06 19:06:39"
+  },
+  "results/update_status.json": {
+   "ours_ts": "2026-10-06 19:10:25",
+   "theirs_ts": "2026-10-06 19:05:14"
+  },
+  "results/x2_watch_log.jsonl": {
+   "ours_lines": 612,
+   "theirs_lines": 612,
+   "union_lines": 618
+  },
+  "results/runnable_pool.json": {
+   "fund_entries": {},
+   "fixed": []
+  }
+ },
+ "gates": {
+  "uu_left": 0,
+  "marker_hits": 0,
+  "blob_eq_bad": [],
+  "union_notes": {
+   "results/compute_audit.json": "sorted=True hist=204",
+   "results/regime_state.json": "sorted=True hist=2",
+   "results/x2_watch_log.jsonl": "jsonl sorted=True lines=618"
+  },
+  "gate_pass": true
+ },
+ "claw_context": "pre-push claw blocked prior push on phantom deletions (r759 law) + pool owner_since backward -- both cured by this merge absorb"
+}
