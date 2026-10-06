@@ -162,5 +162,109 @@
   "results/strategy_scorecard.json",
   "results/token_usage.json",
   "results/update_status.json"
- ]
+ ],
+ "pick2_window": {
+  "pick": "6ed6c4570 r793 churn-absorb-2 onto post-pick1 tree",
+  "faces": {
+   "results/fund_quality_p1/nulls.jsonl": {
+    "class": "append-log line-union zero-loss",
+    "len2": 1896,
+    "len3": 1890,
+    "wt_fresh_extra": 1,
+    "union": 1898
+   },
+   "results/saturation_engine/history_bm-b.jsonl": {
+    "class": "append-log line-union zero-loss",
+    "len2": 120,
+    "len3": 120,
+    "wt_fresh_extra": 3,
+    "union": 142
+   },
+   "results/saturation_engine/face_bm-b.json": {
+    "class": "lane-daemon live-wins (worktree fresh tick)",
+    "ts2": "2026-10-07T03:15:04+08:00",
+    "ts3": "2026-10-07T02:56:04+08:00",
+    "ts_wt": "2026-10-07T03:18:04+08:00"
+   },
+   "results/saturation_engine/state_bm-b.json": {
+    "class": "lane-daemon live-wins (worktree fresh tick)",
+    "ts2": "",
+    "ts3": "",
+    "ts_wt": ""
+   }
+  }
+ },
+ "pick2_final_r794_takeover2": {
+  "faces": {
+   "results/fund_divlowvol_p1/nulls.jsonl": {
+    "class": "append-log multiset line-union zero-loss (r188/r217 + treasure_guard rc3 union sanction)",
+    "len_stage2": 1573,
+    "len_stage3": 1573,
+    "len_wt_stripped": 1579,
+    "markers_in_wt": 3,
+    "union_lines": 1579,
+    "union_unique": 1579,
+    "ts_sorted": false,
+    "stage2_sha": "e47e01f1a58d6d7f63aff8b6df1991f067c350b3",
+    "stage3_sha": "0fd30027e4c6b074fa43e91be6a4ad47c77985a2"
+   },
+   "results/fund_quality_p1/nulls.jsonl": {
+    "class": "append-log multiset line-union zero-loss (r188/r217 + treasure_guard rc3 union sanction)",
+    "len_stage2": 1897,
+    "len_stage3": 1898,
+    "len_wt_stripped": 1904,
+    "markers_in_wt": 3,
+    "union_lines": 1904,
+    "union_unique": 1904,
+    "ts_sorted": false,
+    "stage2_sha": "65276a2952f01da9e0cf7be0a23bc9ed4dfd5b93",
+    "stage3_sha": "059aa920fa47ec71e4f95301f941c554adf7b752"
+   },
+   "results/saturation_engine/history_bm-b.jsonl": {
+    "class": "append-log multiset line-union zero-loss (r188/r217 + treasure_guard rc3 union sanction)",
+    "len_stage2": 120,
+    "len_stage3": 142,
+    "len_wt_stripped": 119,
+    "markers_in_wt": 1,
+    "union_lines": 159,
+    "union_unique": 159,
+    "ts_sorted": true,
+    "stage2_sha": "f677bb07a7cf5e41bfd82b7d2b28d30ee1064cba",
+    "stage3_sha": "e3dfacc6fc37f74a29a56c56c5924ea3b5d8c7c3"
+   },
+   "results/saturation_engine/face_bm-b.json": {
+    "class": "lane-daemon live-wins (worktree fresh bytes verbatim, R208/R216; classifier UNKNOWN -> manual per SKILL fail-closed)",
+    "took": "worktree-live",
+    "wt_ts": "2026-10-07T03:38:04+08:00",
+    "stage2_ts": "2026-10-07T03:25:04+08:00",
+    "stage3_ts": "2026-10-07T03:18:04+08:00",
+    "json_valid": true,
+    "stage2_sha": "4b1a396afa8fd4c08038d4bb16be8ea0a66c9c23",
+    "stage3_sha": "61d810a27664ff1e51ca3781f29323f6483ad1f7"
+   },
+   "results/saturation_engine/state_bm-b.json": {
+    "class": "lane-daemon live-wins (worktree fresh bytes verbatim, R208/R216; classifier UNKNOWN -> manual per SKILL fail-closed)",
+    "took": "worktree-live",
+    "wt_ts": "2026-10-07T03:38:04+08:00",
+    "stage2_ts": "2026-10-07T03:25:04+08:00",
+    "stage3_ts": "2026-10-07T03:18:04+08:00",
+    "json_valid": true,
+    "stage2_sha": "36c16abcf08a029490c10f1b452faf3a3c55086d",
+    "stage3_sha": "a684871d9d7161aac3ba0ab4584930e80535f750"
+   },
+   "results/p1d_gates.json": {
+    "class": "lane-daemon live-wins (worktree fresh bytes verbatim, R208/R216; classifier UNKNOWN -> manual per SKILL fail-closed)",
+    "took": "worktree-live",
+    "wt_ts": "2026-10-07 03:37",
+    "stage2_ts": "2026-10-07 03:25",
+    "stage3_ts": "2026-10-07 03:17",
+    "json_valid": true,
+    "stage2_sha": "fda0d9d693a543ad8103d7108e48dc403156c125",
+    "stage3_sha": "0e139556ba446a74dc44c59e2ed8630270664e5e"
+   }
+  },
+  "unknown": [],
+  "verdict": "PASS",
+  "resolved_at": "r794 bm-b takeover-2 (dead-session mid-pick2 corpse: staged receipt + autofill/runnable_pool already staged by predecessor)"
+ }
 }
