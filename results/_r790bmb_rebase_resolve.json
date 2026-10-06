@@ -1,0 +1,42 @@
+{
+ "round": "r790-takeover",
+ "mode": "rebase-tail-pick-469df318d-churn-absorb",
+ "faces": {
+  "results/p1d_gates.json": {
+   "recipe": "take-stage2-origin-newer",
+   "bytes": 1423,
+   "ts": "2026-10-07 00:55"
+  },
+  "results/saturation_engine/face_bm-b.json": {
+   "recipe": "take-stage2-origin-newer",
+   "bytes": 506,
+   "ts": "2026-10-07T00:55:04+08:00"
+  },
+  "results/saturation_engine/state_bm-b.json": {
+   "recipe": "take-stage2-origin-newer",
+   "bytes": 551,
+   "ts": "2026-10-07T00:55:04+08:00"
+  },
+  "results/saturation_engine/history_bm-b.jsonl": {
+   "recipe": "line-union-sorted",
+   "s2_lines": 120,
+   "s3_lines": 120,
+   "union_lines": 122,
+   "s2_only": 2,
+   "s3_only": 2,
+   "nl": "'\\r\\n'"
+  },
+  "results/fund_divlowvol_p1/nulls.jsonl": {
+   "recipe": "churn-absorb-append-only",
+   "head_lines": 1526,
+   "wt_lines": 1529
+  },
+  "results/fund_quality_p1/nulls.jsonl": {
+   "recipe": "churn-absorb-append-only",
+   "head_lines": 1845,
+   "wt_lines": 1849
+  }
+ },
+ "marker_scan": "PASS (0 markers in 4 resolved faces)",
+ "verdict": "all faces resolved, awaiting atomic add+continue (r787)"
+}
