@@ -769,3 +769,15 @@ DONE-7 S7: 四件套绿（loop pin=8 no-op+watchdog -Force 幂等重注册+pre-c
 - S6 35 legs rc0 golden-week faces (dualrun streak 51 ZERO-DRIFT; CA structural flags gpu_unauthorized+supply_gap honest; REPORT-2026-10-06 + LIVE-2026-10-06 regen ORANGE cap 50% heat COOL; t35 PASS zero-pending; prospect 22/22; scorecard+build_status host-written; token L2 0 today); S7 quartet green (loop pin8 phase-ok no-op, watchdog re-registered idempotent, claws content-match); attrition CLEAN; orders 154/154 dual-scan zero unacked; inbox 0; D-19 dual MATCH (decisions 7674E37B / orders 2E73244B)
 - CODELY pit line appended (WAVE_CONFIGS prereg continuation strings = freeze-editor quote-closure hot zone; programmatic wrap + shared-boilerplate assert budgeting; D-06 sweep to pit-engine-freeze.md at 10-07 window); main file now ~33KB (over 30KB pointer criterion, honestly disclosed -- D-06 collection window 10-07 handles)
 - 下轮指针: r762 W149 in-burn watch + finalize one-pass when 12/12 (projections K 325,720 / ledger 723,811); W150 seat publish after finalize per r565; re-arm 10-09 data chain G3
+
+
+## r765 | 2026-10-06T08:29:25+08:00 | dept:研究+工程 | watermark verdict: GREEN (red=false; lane=healthy; py_low_board_clear=板净合法白名单·引擎车道 W152 已收口) | 本地未达 origin commit 数=0
+- 当前活: W153 冻结窗待起（N1 泵第 151 枚·never-dry 常供给）
+- 最近实物: results/perpetual_faces/n1_w152_results.json @2026-10-06T08:22（K 332,320 合并池·ledger 730,411）+ research/PERPETUAL_N1_W152_PREREG.md §7/§8 回填
+- 下个里程碑: W153 freeze 窗 ≤10-07（gate+probe+席位公示 r565 律+prereg+冻结 commit）；D-06 收口窗 10-07；数据链 G3 重启 10-09
+- W152 finalize one-pass rc0（12/12 分片 08:19:16 齐于引擎 tick 自烧→finalize 08:22）：merged K=332,320 mu −0.0928 sigma 0.2450·ledger 728,211+2,200=730,411（voids LOWAMP-P1/P2）·skill_line_v2 K-lift 1.1801→1.1803（+0.0002·n_eff 恒等 728,211）·A 档 p95=0.3366（W151 锚 0.3247）·se_mu 0.000425·mu_delta_w152_vs_w151ext=−0.00244·canon flip NOT performed（K2200 同例法）
+- §5 四预测键全过（机证）: ①|W152-only mu − merged mu|=0.0018<0.02 ✓ ②sigma 相对变化 +0.017%<±10% ✓ ③A p95 差 +0.0119<0.05 ✓ ④K-lift +0.0002≤±0.02 ✓；prereg §7/§8 同窗 cite-fix 回填（r763/r764 范式·W153+ 投影承接=A 351_204..353_203 将被 W152 B 带 351_204..351_403 拒→A 重 derive 强制+B naive 351_404..351_603 落 A 窗内=同窗互斥 leg2 预披露）
+- r762/763/764=W150/W151/W152 冻结窗短会话（freeze commit fedebeb32/bd4cd7159/520eb01ca 均已 push·轮报告块从简如实注记）；r764 死会话收编（CODELY r764 坑律行+S6 churn+commitmsg 临时件）
+- S6 38 legs rc0 first-pass 120.6s（dualrun streak 51 ZERO-DRIFT·REPORT/LIVE-2026-10-06 再生·paper/live 腿 golden-week no-new-bar 诚实 no-op·scorecard_v1 再 derive 面合法）
+- S7: smoke 48/48·attrition CLEAN（healed 注记照录）·orders 154/154 双扫零未回执·D-19 双 MATCH（decisions 7674E37B/orders 2E73244B）·inbox 清零（W152 席位公示已兑现移 processed）·S7 四件套绿（loop pin8 Running=本实例/watchdog Ready/两爪 content-match）
+- 下轮指针: r766 W153 冻结窗（band gate pre-seat probe+席位公示 MSG r565 律+prereg 起草 37-needle xform+冻结 commit+tick 自点火；re-derive MANDATORY post-W152 宇宙+derive B 时预留本波 A 窗·E36 卡）；10-07 D-06 收口窗；10-09 数据链 G3 重启
