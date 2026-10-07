@@ -1,0 +1,126 @@
+{
+ "round": "r667",
+ "machine": "bm-c",
+ "leg": "D-06 pit-ps mini-split (31,449B>30,720B trigger)",
+ "prescan": {
+  "rc": 3,
+  "out": "TREASURE_GUARD HARD REJECT: registry hit = redline (TREASURE_PROTECTION_LAW s2.1)\r\n  HIT: research/pit-ps.md\r\n  HIT: research/pit-ps-wrapper.md\r\n  HIT: CODELY.md\r\n"
+ },
+ "prescan_legal_basis": "rc3 recorded per r651/r654 precedent: registry HIT on all three faces; action class = D-20261002-06 mandated verbatim zero-loss relocation (split), not deletion/sweep; zero-loss proven by byte equations + verbatim-in-target assertions in this receipt; TREASURE_REGISTRY rows untouched.",
+ "pit_ps_before_bytes_raw": 31449,
+ "pit_ps_before_md5_raw": "e1f04a9240026243604e65d515aa4f30",
+ "pit_ps_eol_face": {
+  "raw_bytes": 31449,
+  "crlf_lines": 52,
+  "lf_only_lines": 2,
+  "interior_cr": 0
+ },
+ "pit_ps_norm_before_bytes": 31451,
+ "eol_note": "mixed-EOL working-tree face normalized to CRLF per r420/r644 precedent; git blob stays LF (autocrlf); normalization recorded as separate healing face, not content change; all byte equations below run on the normalized face.",
+ "moved_line_indices": {
+  "r413": 17,
+  "r431_dwl": 20,
+  "r431": 27,
+  "r446": 35,
+  "r489": 41,
+  "r535": 48,
+  "r649": 51,
+  "r665": 52
+ },
+ "cross_file_uniqueness": "PASS",
+ "moved_lines": [
+  {
+   "tag": "r413",
+   "bytes": 821,
+   "sha16": "4f79f265d1d4dc5b",
+   "head": "- [2026-10-03 11:4x r413 bm-c] Invoke-SilentExe -ArgString 内"
+  },
+  {
+   "tag": "r431_dwl",
+   "bytes": 357,
+   "sha16": "373dd9b6bea2e46b",
+   "head": "> 直写行（r431 bm-c·post-split convention direct-write）：+1 条（包装器"
+  },
+  {
+   "tag": "r431",
+   "bytes": 823,
+   "sha16": "11a7d5a8ea359b84",
+   "head": "- [2026-10-03 21:4x r431 bm-c] silent-git/Invoke-SilentExe 包"
+  },
+  {
+   "tag": "r446",
+   "bytes": 888,
+   "sha16": "9583884b3ca590f5",
+   "head": "- [2026-10-04 05:5x r446 bm-c] 探针一律落文件律（r446 双犯实录·r436/r438 "
+  },
+  {
+   "tag": "r489",
+   "bytes": 819,
+   "sha16": "a8fe5f43d0f21390",
+   "head": "- [2026-10-04 18:43 r489 bm-c] silent-git/Invoke-SilentExe 包"
+  },
+  {
+   "tag": "r535",
+   "bytes": 1020,
+   "sha16": "c1e6325dbd7d1565",
+   "head": "[2026-10-05 11:3x r535 bm-c] **Invoke-SilentExe 单串返回体 PS 行级消"
+  },
+  {
+   "tag": "r649",
+   "bytes": 850,
+   "sha16": "893918a680abf9ea",
+   "head": "- [2026-10-07 03:1x r649 bm-c] **silent-git 包装器位置参数绑定坑（& wra"
+  },
+  {
+   "tag": "r665",
+   "bytes": 849,
+   "sha16": "8adbee7a65c100fb",
+   "head": "- [2026-10-07 08:4x r665 bm-c] **silent-git 捕获面=单块多行字符串×fore"
+  }
+ ],
+ "moved_bytes_no_eol": 6427,
+ "dropped_blank_count": 3,
+ "codely_before_bytes_raw": 30496,
+ "codely_before_md5_raw": "c4e535af6536d4ae3fa39bae600f5d65",
+ "codely_eol_face": {
+  "raw_bytes": 30496,
+  "crlf_lines": 89,
+  "lf_only_lines": 0,
+  "interior_cr": 0
+ },
+ "codely_norm_before_bytes": 30496,
+ "codely_moved_lines": [
+  {
+   "tag": "c662",
+   "bytes": 226,
+   "sha16": "32fa1beec6fd8ce9",
+   "head": "域指针·r662 bm-c（2026-10-07 07:4x）：轮号脚本克隆裸数字逃逸前缀 replace 坑（r758"
+  },
+  {
+   "tag": "c665",
+   "bytes": 273,
+   "sha16": "6d9bb56a4b27836d",
+   "head": "- 域指针·r665 bm-c（2026-10-07 08:4x）：silent-git 捕获面=单块多行字符串×for"
+  }
+ ],
+ "codely_dropped_blank_count": 1,
+ "pit_ps_after_bytes": 25985,
+ "pit_wrapper_after_bytes": 7537,
+ "codely_after_bytes": 30541,
+ "pit_ps_byte_equation": {
+  "expected": 25985,
+  "actual": 25985,
+  "verdict": "PASS"
+ },
+ "codely_byte_equation": {
+  "expected": 30541,
+  "actual": 30541,
+  "verdict": "PASS"
+ },
+ "asserts_pre_write": "ALL PASS (sizes<=30720 x3, verbatim-in-target x10, marker-absence x10, byte equations x2)",
+ "pit_ps_after_md5": "cb36d2199b017055e206dded779ee8c9",
+ "pit_wrapper_after_md5": "29ca1ce2c38a6bc252a236aa033f0e3c",
+ "codely_after_md5": "62bbeb905fce753a7e863c24a3c622a7",
+ "asserts_post_write": "ALL PASS (on-disk identity + verbatim + absence re-verified)",
+ "verdict": "DONE zero-loss"
+}

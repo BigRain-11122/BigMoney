@@ -1,0 +1,39 @@
+{
+ "ts_newer_to_stage3": [
+  "results/token_usage.json",
+  "results/_attrition_guard_scan.json",
+  "results/update_status.json",
+  "results/regime_state.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "docs/daily_report/REPORT-2026-10-07.json",
+  "docs/daily_report/REPORT-2026-10-07.md",
+  "docs/live_usage/LIVE-2026-10-07.json",
+  "docs/live_usage/LIVE-2026-10-07.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md"
+ ],
+ "union": "results/compute_audit.json",
+ "stage3_bytes": {
+  "results/token_usage.json": 1990,
+  "results/_attrition_guard_scan.json": 2076,
+  "results/update_status.json": 7483,
+  "results/regime_state.json": 1648,
+  "results/fundamental_b_layer_filter.json": 1661,
+  "results/futures_update_status.json": 265,
+  "results/lhb_update_status.json": 314,
+  "docs/daily_report/REPORT-2026-10-07.json": 23238,
+  "docs/daily_report/REPORT-2026-10-07.md": 10469,
+  "docs/live_usage/LIVE-2026-10-07.json": 10958,
+  "docs/live_usage/LIVE-2026-10-07.md": 8068,
+  "docs/live_usage/LIVE-latest.json": 10958,
+  "docs/live_usage/LIVE-latest.md": 8068
+ },
+ "union_rows": {
+  "ours": 201,
+  "theirs": 201,
+  "merged": 202
+ },
+ "verdict": "RESOLVED: 13 ts-newer->stage3(bm-c), 1 row-union"
+}

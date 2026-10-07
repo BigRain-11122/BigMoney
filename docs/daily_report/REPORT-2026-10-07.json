@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 09:34:24",
+ "generated_at": "2026-10-07 09:44:17",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 590,
-  "result_jsons_landed_24h": 328,
+  "commits_24h": 587,
+  "result_jsons_landed_24h": 327,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 38,
+  "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-10-07 09:31:16",
-   "py_cpu_pct": 100.0,
+   "ts": "2026-10-07 09:43:17",
+   "py_cpu_pct": 1.1,
    "flags": [
-    "cap_violation"
+    "supply_gap",
+    "supply_floor"
    ],
-   "verdict": "FLAG:cap_violation"
+   "verdict": "FLAG:supply_gap,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -660,13 +661,33 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 09:31:16",
-    "py_pct": 100.0,
-    "cpu_pct": 100.0,
+    "latest_ts": "2026-10-07 08:44:49",
+    "py_pct": 0.4,
+    "cpu_pct": 4.0,
     "ready": 1,
-    "streak_min": null,
-    "verdict": "FLAG:cap_violation",
+    "streak_min": 1036.3,
+    "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
+     [
+      "06:06",
+      56.3
+     ],
+     [
+      "06:31",
+      46.8
+     ],
+     [
+      "06:36",
+      1.0
+     ],
+     [
+      "06:49",
+      0.0
+     ],
+     [
+      "06:53",
+      2.0
+     ],
      [
       "07:09",
       0.0
@@ -688,38 +709,18 @@
       1.1
      ],
      [
-      "08:19",
-      0.4
-     ],
-     [
       "08:25",
       0.8
      ],
      [
       "08:44",
-      58.1
-     ],
-     [
-      "08:44",
       0.4
-     ],
-     [
-      "08:50",
-      5.9
-     ],
-     [
-      "09:07",
-      4.7
-     ],
-     [
-      "09:31",
-      100.0
      ]
     ],
-    "today_samples": 41,
+    "today_samples": 36,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 40
+    "today_supply_gap_flags": 36
    },
    "bm-b": {
     "latest_ts": "2026-10-07 08:44:12",
@@ -784,21 +785,13 @@
     "today_supply_gap_flags": 35
    },
    "bm-c": {
-    "latest_ts": "2026-10-07 09:07:55",
-    "py_pct": 4.7,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-07 09:43:17",
+    "py_pct": 1.1,
+    "cpu_pct": 17.0,
     "ready": 1,
-    "streak_min": 1059.4,
+    "streak_min": 1094.8,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "06:49",
-      0.0
-     ],
-     [
-      "06:53",
-      2.0
-     ],
      [
       "07:09",
       0.0
@@ -829,6 +822,10 @@
      ],
      [
       "08:44",
+      58.1
+     ],
+     [
+      "08:44",
       0.4
      ],
      [
@@ -838,12 +835,16 @@
      [
       "09:07",
       4.7
+     ],
+     [
+      "09:43",
+      1.1
      ]
     ],
-    "today_samples": 39,
+    "today_samples": 41,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 39
+    "today_supply_gap_flags": 41
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -853,19 +854,19 @@
   "day": "2026-10-07",
   "machines": {
    "bm-a": {
-    "batches_judged": 63,
-    "core_seconds": 12379.6,
-    "wall_seconds": 968.6,
-    "effective_cores": 12.78,
+    "batches_judged": 58,
+    "core_seconds": 11419.8,
+    "wall_seconds": 892.6,
+    "effective_cores": 12.79,
     "single_core_burn": 0,
-    "multicore_burn": 63,
+    "multicore_burn": 58,
     "too_short": 0,
-    "last_ts": "2026-10-07T09:34:20+08:00",
+    "last_ts": "2026-10-07T09:28:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 8,
-     "audit_ts": "2026-10-07 09:31:16"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-07 08:44:49"
     }
    },
    "bm-b": {
@@ -896,8 +897,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-07 09:07:55"
+     "audit_batches": 7,
+     "audit_ts": "2026-10-07 09:43:17"
     }
    }
   },
@@ -961,8 +962,8 @@
      393004,
      393203
     ],
-    "shards_done": 12,
-    "shards_total": 12,
+    "shards_done": null,
+    "shards_total": null,
     "finalize_landed": false
    }
   ],
