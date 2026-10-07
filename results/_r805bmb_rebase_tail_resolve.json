@@ -1,0 +1,35 @@
+{
+ "round": "r805",
+ "machine": "bm-b",
+ "event": "rebase tail-window surgical resolve (pick d6af69ce2; 3 satengine UU + pool_red_flags heal)",
+ "faces": {
+  "results/saturation_engine/state_bm-b.json": {
+   "recipe": "disk live-wins verbatim",
+   "disk_ts": "2026-10-07T13:56:04+08:00",
+   "st2_ts": "2026-10-07T13:45:05+08:00",
+   "st3_ts": "2026-10-07T13:44:04+08:00"
+  },
+  "results/saturation_engine/face_bm-b.json": {
+   "recipe": "disk live-wins verbatim",
+   "disk_ts": "2026-10-07T13:56:04+08:00",
+   "st2_ts": "2026-10-07T13:45:05+08:00",
+   "st3_ts": "2026-10-07T13:44:04+08:00"
+  },
+  "results/saturation_engine/history_bm-b.jsonl": {
+   "recipe": "3-source line-union (st2+st3+disk payload)",
+   "st2_lines": 120,
+   "st3_lines": 120,
+   "union": 132,
+   "ts_sorted": true,
+   "non_strict": 0
+  },
+  "results/pool_red_flags.jsonl": {
+   "recipe": "git-source line-union heal (heals 090b6d877 marker pollution committed via rebase-continue claw bypass)",
+   "fc367_lines": 71,
+   "r804_lines": 71,
+   "union": 72,
+   "ts_sorted": false,
+   "non_strict": 1
+  }
+ }
+}
