@@ -1,13 +1,13 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-07T11:14:37+08:00",
- "heartbeat_epoch_utc": 1791342877,
- "clock_read": "2026-10-07T11:14:37+08:00",
+ "last_seen": "2026-10-07T11:44:09+08:00",
+ "heartbeat_epoch_utc": 1791344649,
+ "clock_read": "2026-10-07T11:44:09+08:00",
  "cpu_cores": 16,
  "free_ram_gb": 6.19,
  "gpu_free_vram_gb": 3.654,
- "verdict": "green: r800 takeover closeout landed (6 dead sessions absorbed); O-0935 bm-b receipt delivered ahead of 10-09; Q 2000/2000 complete (dual-flip 07:18 verified), D 1709/2000, V 2000/2000; smoke 48/48; attrition CLEAN; orders 164/164; satengine alive rc0 idle",
- "current_task": "r800 closed; see state.next",
+ "verdict": "green: r801 debts cleared (QA r800 5/5 + HANDOVER 5x row); S6 35/35 rc0; smoke 48/48; attrition CLEAN; orders 164/164; D-19 dual MATCH; satengine alive rc0 idle",
+ "current_task": "r801 closed; next = D burn watch to 2000 -> trio finalize + O-2358 self-claim post-close + market reopen 10-08",
  "orders_ack_count": 164,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -176,14 +176,14 @@
   "O-20261007-0935-bm-c.md"
  ],
  "gpu_free_vram_mb": 3654,
- "last_round_at": "2026-10-07T11:14:37+08:00",
- "round_no": 800,
- "round": 800,
- "last_action": "r800: dead-session forensics (6x 25min kills) + O-0935 receipt absorb-commit + Q heal 2000/2000 dual-flip verify + smoke 48/48 + attrition CLEAN + quartet 4/4 + state 800",
- "now_active": "FUND trio: Q 2000/2000 COMPLETE (heal closed) / D 1709/2000 burning ~0.27/min ETA ~10-08 05:00 / V 2000/2000; G1 pending D, G2+G3 green, G4 PENDING r638 fallback armed; finalize window 10-05..10-09",
- "latest_artifact": "fleet/orders/O-20261007-0935-bm-c.md bm-b receipt (capability inventory, CEO order closure) + results/_r800bmb_s6_chain.log (35 legs rc0) @2026-10-07T11:14:37+08:00",
- "next_milestone": "QA r800 debt + 5x HANDOVER next round first actions + D 2000/2000 ~10-08 05:00 -> trio finalize + O-20261006-2358 self-claim <=1h post-close + market reopen 10-08 (S6 legs 25-28 + REGIME_GUARD v3) - within 48h window",
- "task": "r800 closed; see state.next",
- "ts": "2026-10-07T11:14:37+08:00",
- "updated": "2026-10-07T11:14:37+08:00"
+ "last_round_at": "2026-10-07T11:44:09+08:00",
+ "round_no": 801,
+ "round": 801,
+ "last_action": "r801: QA r800 debt pack 5/5 (qa/smoke-r800.md+equity-curve-r800.png, metrics identical to window chain = engine integrity) + 5x HANDOVER row (r686-r800 window) + S0 merge-mode double absorb 13+1 commits + S6 chain 35/35 rc0 + state 801",
+ "now_active": "FUND trio: Q 2000/2000 COMPLETE (dual-flip done) / D 1720/2000 burning ETA ~10-08 05:00 / V 2000/2000; finalize window 10-05..10-09, G2+G3 green, G1 pending D, G4 r638 fallback armed",
+ "latest_artifact": "qa/smoke-r800.md + qa/equity-curve-r800.png (QA charter pack 5/5, r800 honest debt discharged by r801) + research/HANDOVER.md 5x row (r686-r800) + results/_r801bmb_s6_chain.log (35 legs rc0 147s) @2026-10-07T11:44:09+08:00",
+ "next_milestone": "D 2000/2000 ~10-08 05:00 -> trio finalize same-window pool dual-flip + O-20261006-2358 self-claim <=1h post-close + market reopen 10-08 (S6 legs 25-28 + REGIME_GUARD v3 first bar) - within 48h window",
+ "task": "r801 closed; next = D burn watch to 2000 -> trio finalize + O-2358 self-claim post-close + market reopen 10-08",
+ "ts": "2026-10-07T11:44:09+08:00",
+ "updated": "2026-10-07T11:44:09+08:00"
 }

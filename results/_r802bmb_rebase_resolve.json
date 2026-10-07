@@ -1,0 +1,86 @@
+{
+ "round": "r802",
+ "machine": "bm-b",
+ "event": "rebase-replay 386f4cfb6 onto 1104e519d",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-07.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "docs/daily_report/REPORT-2026-10-07.md": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "docs/live_usage/LIVE-2026-10-07.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "docs/live_usage/LIVE-2026-10-07.md": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "results/regime_state.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "results/update_status.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "results/_attrition_guard_scan.json": {
+   "recipe": "take-side ts-duel",
+   "side": "theirs(st3,mine)"
+  },
+  "results/futures_update_status.json": {
+   "recipe": "take-side ts-duel",
+   "side": "ours(st2,bm-a)"
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "take-side ts-duel",
+   "side": "ours(st2,bm-a)"
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling-ledger union",
+   "hist_st2": 206,
+   "hist_st3": 201,
+   "union": 207,
+   "latest_side": "st3"
+  },
+  "results/token_usage.json": {
+   "recipe": "per-key max union",
+   "newer_side": "st3",
+   "generated": "2026-10-07 11:39:58"
+  }
+ },
+ "asserts": [
+  "compute_audit union 207 == |A∪B| 207"
+ ],
+ "staged": [
+  "docs/daily_report/REPORT-2026-10-07.json",
+  "docs/daily_report/REPORT-2026-10-07.md",
+  "docs/live_usage/LIVE-2026-10-07.json",
+  "docs/live_usage/LIVE-2026-10-07.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/regime_state.json",
+  "results/update_status.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/_attrition_guard_scan.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "results/compute_audit.json",
+  "results/token_usage.json"
+ ]
+}
