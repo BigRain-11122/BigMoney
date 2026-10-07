@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-07T12:55:28+08:00",
+ "updated_at": "2026-10-07T13:00:09+08:00",
  "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
  "entries": [
   {
@@ -14009,7 +14009,7 @@
      "checkpoint": "results/fund_divlowvol_p1/ JSONL checkpoint resume (done-key skip)",
      "note": "K=2000 same-mask random-selection nulls (headline DIVLOWVOL-YIELDVOL rank universe: yield>0 + low-vol half + full eligibility, G-MASK identity), eq weights, N=20, rng([20520000,k]); feeds skill_line_v2 null_pool | rel-bm-a-r629 2026-10-03 15:39:43: ghost-claim release (burn killed 13:48 r625 off-caliber era; cache T-156 verified 14:39) -- bm-b rightful burner in flight per division (r617-r620); fuse keep-blocked on bm-a | rel-bm-a-r637 2026-10-03 19:09:12: ghost claim 18:48:08 (pid 19856 launched 18:48:02, fuse crash_ts 18:53:16, refusals live 19:02:03) released FOUR-FACE per r616; rightful owner bm-b restored (burner pid 30208 per MSG-1838); owner_since=restore action-time per r400",
      "owner": "bm-b",
-     "owner_since": "2026-10-07 12:36:08"
+     "owner_since": "2026-10-07 13:08:08"
     }
    ],
    "workers_plan": {
@@ -15977,7 +15977,13 @@
    "id": "TRIAL-LABOR-W14-SCREEN",
    "ticket_ref": "T-2026-09-30-128 wave ticket (W14 lineage; screen leg enrollment bm-a r824 post screen-prep PASS)",
    "runner": "scripts/trial_labor_w14.py",
-   "runner_args": "screen --shard 0 --shards 1",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
    "status": "ready",
    "shards": [
     {
@@ -15985,8 +15991,8 @@
      "status": "ready",
      "checkpoint": "results/trial_labor_w14/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429)",
      "note": "single shard; worker_cap() parallelism inside the shard (W12/W13-SCREEN precedent)",
-     "owner": "bm-a",
-     "owner_since": "2026-10-07 12:55:49"
+     "owner": "bm-c",
+     "owner_since": "2026-10-07 13:16:08"
     }
    ],
    "data_deps": [
@@ -16003,7 +16009,8 @@
    },
    "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md FROZEN sec.0 TRIAL_LAB_W14_SCREEN (s2 cheap initial screen batch: batch_trials=293 distinct + 200 nulls; raw 10,000 per O-1132 expansion; evidence_cutoff 2026-09-22 P-5C frozen binding; screen line = beat6m > null p95 strictly, null p95 ref band [0.50,0.52]; resi+cnt axis pair new lineage)",
    "priority": 1,
-   "updated_at": "2026-10-07T12:55:28+08:00"
+   "updated_at": "2026-10-07T13:00:09+08:00",
+   "args_fix_note": "r824 bm-a: runner_args string->list fix (list(str) exploded to single chars = spawn got argv[1]=s -> argparse invalid-choice instant death, log evidence logs/autofill_TRIAL-LABOR-W14-SCREEN.log x2 crashes 12:56:08; array form per W13-SCREEN precedent schema)"
   }
  ],
  "lane_machine": "bm-c"
