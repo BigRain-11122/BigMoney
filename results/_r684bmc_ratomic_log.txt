@@ -1,0 +1,60 @@
+NOW: 2026-10-07 15:15:49 +08:00
+PRE_ADD_POLLUTION_COUNT=0
+RC_ADD=0
+REBASE_CONTINUE rc=0
+RB: [detached HEAD dc4c06e77] round 684: bm-c guard round closeout (reopen T-1 eve, fourth consecutive): QA r684 5/5 zero-mislabel (93 trades, equity 1,017,839 cross-round identical) + S6 38/38 rc0 (dualrun streak 4; CA supply flags = O-2115 sec-2 N1-closure honest face; bm-a stale-heartbeat 7-face stale-takeover derive per O-2100 sec-2.4; update_lhb 11/11 refetch) + smoke 48/48 + s05 double-sweep DEC/ORD zero-delta + post_review 45Y/0N/5W + tripwire/attrition CLEAN + state 684->685 [via bm-c r684]
+RB:  86 files changed, 5140 insertions(+), 498 deletions(-)
+RB:  create mode 100644 Tools/_r684bmc_close.py
+RB:  create mode 100644 Tools/_r684bmc_qa_ignite.py
+RB:  create mode 100644 Tools/_r684bmc_s05.py
+RB:  create mode 100644 Tools/_r684bmc_s6.py
+RB:  create mode 100644 _r684bmc_absorbmsg.txt
+RB:  create mode 100644 _r684bmc_commitmsg.txt
+RB:  create mode 100644 qa/equity-curve-r684.png
+RB:  create mode 100644 qa/smoke-r684.md
+RB:  create mode 100644 results/_r684bmc_close_log.txt
+RB:  create mode 100644 results/_r684bmc_qa_runner.err
+RB:  create mode 100644 results/_r684bmc_qa_runner.out
+RB:  create mode 100644 results/_r684bmc_rcont_log.txt
+RB:  create mode 100644 results/_r684bmc_rebase_resolve.json
+RB:  create mode 100644 results/_r684bmc_s05_facts.json
+RB:  create mode 100644 results/_r684bmc_s0_log.txt
+RB:  create mode 100644 results/_r684bmc_s1s3_log.txt
+RB:  create mode 100644 results/_r684bmc_s6_log.txt
+RB: Successfully rebased and updated refs/heads/main.
+SYMBOLIC_REF rc=0 val=refs/heads/main
+HEAD=dc4c06e77
+LOG: dc4c06e77 round 684: bm-c guard round closeout (reopen T-1 eve, fourth consecutive): QA r684 5/5 zero-mislabel (93 trades, equity 1,017,839 cross-round identical) + S6 38/38 rc0 (dualrun streak 4; CA supply flags = O-2115 sec-2 N1-closure honest face; bm-a stale-heartbeat 7-face stale-takeover derive per O-2100 sec-2.4; update_lhb 11/11 refetch) + smoke 48/48 + s05 double-sweep DEC/ORD zero-delta + post_review 45Y/0N/5W + tripwire/attrition CLEAN + state 684->685 [via bm-c r684]
+LOG: bf2d13197 round 684: S0 absorb own daemon live-faces (r620 law) [via bm-c r684]
+LOG: c2b565def r829 bm-a postscript-2: round report race-ledger line + smoke re-verify 48/48 post-rebase-surgery [via bm-a r829]
+LOG: e4475ca5d r829 bm-a postscript: close-push-race resolve ledger (bm-c r683 same-window, 14-UU S6 dual-run family, 6 union via merge_lane_views resolve + 8 deep-ts (7 replay-newer-wins + REPORT json twin tie 13:57:20 -> :2: with md twin unified :2: per r828 precedent) + daemon live-faces ours-live-wins x3; compute_audit sync_face settled post-rebase, reconcile ALL zero-drift; delivery AHEAD=0 BEHIND=0) [via bm-a r829]
+PRE_PUSH BEHIND=0 AHEAD=2
+RC_PUSH=1
+PUSH: PRE-PUSH CLAW: deletion set carries non-self-owned files (D-20261002-04, r519 family). Push FORBIDDEN.
+PUSH:   D qa/equity-curve-r805.png -- no owner evidence
+PUSH:   D qa/smoke-r805.md -- no owner evidence
+PUSH:   D results/_r805bmb_close.py -- no owner evidence
+PUSH:   D results/_r805bmb_d19_read.json -- no owner evidence
+PUSH:   D results/_r805bmb_d19_read.py -- no owner evidence
+PUSH:   D results/_r805bmb_daemon_face_resolve.py -- no owner evidence
+PUSH:   D results/_r805bmb_qa_pack.py -- no owner evidence
+PUSH:   D results/_r805bmb_rebase_resolve.json -- no owner evidence
+PUSH:   D results/_r805bmb_rebase_resolve.py -- no owner evidence
+PUSH:   D results/_r805bmb_s6_chain.py -- no owner evidence
+PUSH: PRE-PUSH CLAW: shared-pool shard owner_since went BACKWARD (MSG-2026-10-03-0612 proposal-2, ring-replay family). Push FORBIDDEN.
+PUSH:   POOL FUND-DIVLOWVOL-P1-NULLS|fund-divlowvol-p1-nulls-0of1 -- owner_since 2026-10-07 15:06:07 -> 2026-10-07 14:26:07 (backward, ring-replay family, MSG-0612)
+PUSH: Escape hatch: git push --no-verify (state the reason in the round report).
+PUSH: error: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'
+PUSH rejected -> single pull --rebase retry (r789 zero-autostash law)
+RC_PULL_REBASE=1
+RC_BRANCH_PUSH=0 :: remote: 
+remote: Create a pull request for 'machine/bm-c-r684' on GitHub by visiting:        
+remote:      https://github.com/BigRain-11122/BigMoney/pull/new/machine/bm-c-r684        
+remote: 
+To github.com:BigRain-11122/BigMoney.git
+ * [new branch]          HEAD -> machine/bm-c-r684
+DELIVERY: HEAD=dc4c06e77 BEHIND=8 AHEAD=2 (must be 0/0)
+LS_TREE_ORIGIN: 100644 blob 5401c175ea41d5e108d164001efbfb46df996e3a	state-bm-c.json
+POST_DIRTY_COUNT=2
+DIRTY:  M results/saturation_engine/face_bm-c.json
+DIRTY:  M results/saturation_engine_state.bm-c.json
