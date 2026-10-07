@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 19:14:30",
+ "generated_at": "2026-10-07 19:42:23",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 617,
-  "result_jsons_landed_24h": 331,
+  "commits_24h": 613,
+  "result_jsons_landed_24h": 328,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-10-07 19:12:48",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-07 19:40:10",
+   "py_cpu_pct": 2.0,
    "flags": [
-    "supply_gap"
+    "supply_gap",
+    "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap"
+   "verdict": "FLAG:supply_gap,supply_floor"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -645,11 +646,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1704209,
+  "total_report_tokens_est": 1705052,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-07 18:36:52",
+   "prev_generated": "2026-10-07 18:56:04",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1078,
+   "report_tokens_growth": 843,
    "mandate_growth": 0
   },
   "method": {
@@ -784,17 +785,13 @@
     "today_supply_gap_flags": 74
    },
    "bm-c": {
-    "latest_ts": "2026-10-07 19:12:48",
-    "py_pct": 0.0,
-    "cpu_pct": 11.0,
-    "ready": 3,
-    "streak_min": 38.1,
-    "verdict": "FLAG:supply_gap",
+    "latest_ts": "2026-10-07 19:40:10",
+    "py_pct": 2.0,
+    "cpu_pct": 34.0,
+    "ready": 2,
+    "streak_min": 65.5,
+    "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "17:19",
-      0.1
-     ],
      [
       "17:20",
       100.0
@@ -838,12 +835,16 @@
      [
       "19:12",
       0.0
+     ],
+     [
+      "19:40",
+      2.0
      ]
     ],
-    "today_samples": 97,
+    "today_samples": 98,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 92
+    "today_supply_gap_flags": 93
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -885,19 +886,19 @@
     }
    },
    "bm-c": {
-    "batches_judged": 2,
-    "core_seconds": 117.8,
-    "wall_seconds": 120.4,
-    "effective_cores": 0.98,
-    "single_core_burn": 2,
+    "batches_judged": 4,
+    "core_seconds": 153.8,
+    "wall_seconds": 205.6,
+    "effective_cores": 0.75,
+    "single_core_burn": 4,
     "multicore_burn": 0,
     "too_short": 0,
-    "last_ts": "2026-10-07T18:51:19+08:00",
+    "last_ts": "2026-10-07T19:40:46+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-07 19:12:48"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-07 19:40:10"
     }
    }
   },
