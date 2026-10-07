@@ -1,0 +1,39 @@
+{
+ "round": "r803",
+ "pick": "churn-absorb-1 a226e4b71",
+ "faces": [
+  {
+   "path": "results/saturation_engine/face_bm-b.json",
+   "recipe": "deep-ts-take-new",
+   "ts": [
+    "2026-10-07T09:47:04+08:00",
+    "2026-10-07T09:41:04+08:00"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 506
+  },
+  {
+   "path": "results/saturation_engine/history_bm-b.jsonl",
+   "recipe": "line-union",
+   "counts": [
+    120,
+    120,
+    126
+   ],
+   "bytes_written": 58338
+  },
+  {
+   "path": "results/saturation_engine/state_bm-b.json",
+   "recipe": "deep-ts-take-new",
+   "ts": [
+    "2026-10-07T09:47:04+08:00",
+    "2026-10-07T09:41:04+08:00"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 551
+  }
+ ],
+ "asserts": [
+  "results/saturation_engine/history_bm-b.jsonl: |A|=120 |B|=120 |A u B|=126 zero-loss"
+ ]
+}

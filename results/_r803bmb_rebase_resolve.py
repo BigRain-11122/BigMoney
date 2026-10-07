@@ -24,7 +24,8 @@ LEDGERS = {
     'results/compute_audit.json': ['history'],
     'results/regime_state.json': ['history', 'transitions'],
 }
-LINE_UNION = {'results/paper/marks/marks-20261007.jsonl'}
+LINE_UNION = {'results/paper/marks/marks-20261007.jsonl',
+              'results/saturation_engine/history_bm-b.jsonl'}
 
 def stage_blobs():
     out = git_bytes('ls-files', '-u').decode('utf-8', 'replace')
@@ -141,6 +142,6 @@ for path in conflict_paths:
     receipt['faces'].append(face)
     print(f"  {path}: {face['recipe']} -> {face.get('took', face.get('counts', ''))}")
 
-with open('results/_r803bmb_rebase_resolve.json', 'w', encoding='utf-8') as f:
+with open('results/_r803bmb_rebase_resolve2.json', 'w', encoding='utf-8') as f:
     json.dump(receipt, f, ensure_ascii=False, indent=1)
 print("receipt written; faces resolved:", len(receipt['faces']))

@@ -1,0 +1,29 @@
+{
+ "round": "r804",
+ "pick": "churn-absorb-2 17d634d61",
+ "faces": [
+  {
+   "path": "results/p1d_gates.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    null,
+    null
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 1422
+  },
+  {
+   "path": "results/saturation_engine/history_bm-b.jsonl",
+   "recipe": "line-union",
+   "counts": [
+    120,
+    129,
+    130
+   ],
+   "bytes_written": 60190
+  }
+ ],
+ "asserts": [
+  "results/saturation_engine/history_bm-b.jsonl: |A|=120 |B|=129 |AuB|=130 zero-loss"
+ ]
+}
