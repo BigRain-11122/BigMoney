@@ -25,10 +25,10 @@
    "entry": "FUND-DIVLOWVOL-P1-NULLS",
    "code_sha256": "6d49f8ec7b5a2118",
    "machine": "bm-a",
-   "refusals": 1138,
+   "refusals": 1141,
    "last_crash_ts": "2026-10-03 18:53:16",
    "count": 1,
-   "last_refusal_ts": "2026-10-07 13:00:03",
+   "last_refusal_ts": "2026-10-07 13:01:04",
    "shard": "fund-divlowvol-p1-nulls-0of1"
   },
   "scripts/innovation_quota_w6.py|run": {
@@ -1188,6 +1188,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "93923141b7ed995d"
+  },
+  "scripts/trial_labor_w14.py|screen,--shard,0,--shards,1": {
+   "cleared_ts": "2026-10-07 13:01:23",
+   "cleared_by": "bm-a",
+   "reason": "r824 bm-a manual tombstone: crash root-cause = pool entry runner_args string form (list(str) char-explode -> argv[1]=s argparse instant death), NOT runner code; fix landed r824 commit (runner_args now array per W13 schema); runner sha unchanged by design (frozen wave canon); cleared per D-03(2) tombstone law to unblock launch; evidence logs/autofill_TRIAL-LABOR-W14-SCREEN.log",
+   "crashes": 1,
+   "old_code_sha256": "af9ea474fcd4cb89"
   }
  }
 }
