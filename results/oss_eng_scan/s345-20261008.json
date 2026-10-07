@@ -1,0 +1,426 @@
+{
+ "ts": "2026-10-08T01:15:28+08:00",
+ "lane": "bm-a r853",
+ "law_ref": "O-20261007-2245 OSS_HARVEST_LEDGER section-1 S3/S4/S5",
+ "s3": {
+  "readme_entries": 592,
+  "shortlist": [
+   {
+    "label": "OSS-S3-01 gplearn (GP factor mining, W15 supply line)",
+    "in_readme": false,
+    "fetch_error": "HTTP Error 404: Not Found"
+   },
+   {
+    "label": "OSS-S3-02 PyPortfolioOpt (alloc/portfolio line)",
+    "in_readme": true,
+    "fetch_error": "HTTP Error 404: Not Found"
+   },
+   {
+    "label": "OSS-S3-03 Riskfolio-Lib (alloc+risk line)",
+    "in_readme": true,
+    "fetch_error": "HTTP Error 404: Not Found"
+   },
+   {
+    "label": "OSS-S3-04 quantstats (tearsheet/reporting registry)",
+    "in_readme": true,
+    "repo": "ranaroussi/quantstats",
+    "stars": 7686,
+    "pushed_at": "2026-09-27T19:40:19Z",
+    "license": "Apache-2.0",
+    "archived": false,
+    "desc": "Portfolio analytics for quants, written in Python",
+    "api": "core",
+    "license_gate": "PASS",
+    "health_ok": true,
+    "push_age_days": 10,
+    "dup_in_service": []
+   },
+   {
+    "label": "OSS-S3-05 easyquotation (A-share realtime quotes alt channel)",
+    "in_readme": false,
+    "repo": "shidenggui/easyquotation",
+    "stars": 5453,
+    "pushed_at": "2026-02-28T07:19:23Z",
+    "license": "MIT",
+    "archived": false,
+    "desc": "实时获取免费股票行情，支持新浪 / 腾讯(港股) / 集思录",
+    "api": "core",
+    "license_gate": "PASS",
+    "health_ok": true,
+    "push_age_days": 221,
+    "dup_in_service": []
+   },
+   {
+    "label": "OSS-S3-06 financepy (derivatives pricing, registry)",
+    "in_readme": true,
+    "repo": "domokane/FinancePy",
+    "stars": 3169,
+    "pushed_at": "2026-10-04T08:30:08Z",
+    "license": "GPL-3.0",
+    "archived": false,
+    "desc": "A Python Finance Library that focuses on the pricing and risk-management of Financial Derivatives, including fixed-income, equity, FX and credit derivatives. ",
+    "api": "core",
+    "license_gate": "FAIL(copyleft)",
+    "health_ok": true,
+    "push_age_days": 3,
+    "dup_in_service": []
+   }
+  ]
+ },
+ "s5": {
+  "A股 情绪 因子": {
+   "total": 19,
+   "kept": [
+    {
+     "repo": "qusong0627/QuantMind",
+     "stars": 1717,
+     "pushed_at": "2026-10-07T10:03:17Z",
+     "license": "AGPL-3.0",
+     "archived": false,
+     "desc": " QuantMind（量化大脑）开源版是一款面向个人开发者与投研团队的 AI 原生多市场量化交易平台。深度集成微软 Qlib、RD-Agent 因子演化与 QuantBot全能工作台，提供从 300+ 维因子挖掘、13 种机器学习与深度学习模型工场、Qlib 高性能回测、截面批量推理、7x24 实时舆情情绪分析，到通达",
+     "api": "search",
+     "license_gate": "FAIL(copyleft)",
+     "health_ok": true,
+     "push_age_days": 0,
+     "dup_in_service": []
+    }
+   ]
+  },
+  "龙虎榜 因子": {
+   "total": 2,
+   "kept": []
+  },
+  "china stock market sentiment indicator": {
+   "total": 5,
+   "kept": [
+    {
+     "repo": "irfanICMLL/EMM-for-stock-prediction",
+     "stars": 60,
+     "pushed_at": "2017-06-04T04:57:23Z",
+     "license": "NONE",
+     "archived": false,
+     "desc": "We propose a model to analyze sentiment of online stock forum and use the information to predict stock volatility in the Chinese market. By generating a sentime",
+     "api": "search",
+     "license_gate": "REGISTRY-ONLY",
+     "health_ok": false,
+     "push_age_days": 3412,
+     "dup_in_service": []
+    }
+   ]
+  }
+ },
+ "s4": {
+  "status": "via-session-web-channel",
+  "note": "joinquant/myquant community knowledge scan; rows recorded in ledger by session"
+ },
+ "errors": [
+  "S3 gplearn/gplearn HTTP Error 404: Not Found",
+  "S3 mbhushan/PyPortfolioOpt HTTP Error 404: Not Found",
+  "S3 dcajasun/Riskfolio-Lib HTTP Error 404: Not Found"
+ ],
+ "rc": 0,
+ "round2": {
+  "ts": "2026-10-08T01:15:59+08:00",
+  "errors": [],
+  "s3_canonical": {
+   "gplearn": {
+    "total": 54,
+    "top": [
+     {
+      "repo": "trevorstephens/gplearn",
+      "stars": 1893,
+      "pushed_age_days": null,
+      "license": "BSD-3-Clause",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "Genetic Programming in Python, with a scikit-learn inspired API"
+     },
+     {
+      "repo": "chengwei-wang-ucsc/GPlearn_finiance_stock_futures_extension",
+      "stars": 195,
+      "pushed_age_days": null,
+      "license": "MIT",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "This implementation contains the application of GPlearn's symbolic transformer on a commodity futures sector of the financial market. "
+     },
+     {
+      "repo": "dayzorro/GPLearnFinance3D",
+      "stars": 161,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "对GPLearn完成了三维改造，并且增加了IC,IR,RankIC等指标，增加了样本内样本外的数据保存，增加了基于IC追踪所有generation中符合要求的因子并保存的功能。"
+     }
+    ]
+   },
+   "PyPortfolioOpt": {
+    "total": 32,
+    "top": [
+     {
+      "repo": "PyPortfolio/PyPortfolioOpt",
+      "stars": 6078,
+      "pushed_age_days": null,
+      "license": "MIT",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "Financial portfolio optimization in python, including classical efficient frontier, Black-Litterman, Hierarchical Risk Parity"
+     },
+     {
+      "repo": "blckswmngbrd/PyPortfolioOptimizationNotebooks",
+      "stars": 40,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "Python Jupyter Notebooks for Financial Portfolio Optimization "
+     },
+     {
+      "repo": "gustavomachin/PortfolioOptimization_PyPortfolioOpt",
+      "stars": 7,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "Python Jupyter Notebooks for Financial Portfolio Optimization using the libraries yfinance and PyPortfolioOpt."
+     }
+    ]
+   },
+   "Riskfolio": {
+    "total": 39,
+    "top": [
+     {
+      "repo": "dcajasn/Riskfolio-Lib",
+      "stars": 4537,
+      "pushed_age_days": null,
+      "license": "BSD-3-Clause",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "Portfolio Optimization in Python"
+     },
+     {
+      "repo": "dcajasn/Riskfolio-FDP-Webinar",
+      "stars": 11,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "Materials from the Webinar \"How to build better portfolios with Python using Riskfolio-Lib\""
+     },
+     {
+      "repo": "ChadThackray/riskfolio-2022",
+      "stars": 6,
+      "pushed_age_days": null,
+      "license": "MIT",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "All the code from my video \"Riskfolio Quickstart Guide - Free course in python\""
+     }
+    ]
+   }
+  },
+  "s5_more": {
+   "A股情绪": {
+    "total": 150,
+    "top": [
+     {
+      "repo": "ArvinLovegood/go-stock",
+      "stars": 7784,
+      "pushed_age_days": null,
+      "license": "GPL-3.0",
+      "license_gate": "FAIL(copyleft)",
+      "archived": false,
+      "desc": "🦄🦄🦄AI赋能股票分析：AI加持的股票分析/选股工具。股票行情获取，AI热点资讯分析，AI资金/财务分析，涨跌报警推送。支持A股，港股，美股。支持市场整体/个股情绪分析，AI辅助选股等。数据全部保留在本地。支持DeepSeek，OpenAI， Ollama，LMStudio，AnythingLLM，"
+     },
+     {
+      "repo": "cirosantilli/china-dictatorship",
+      "stars": 3253,
+      "pushed_age_days": null,
+      "license": "CC-BY-SA-4.0",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "反中共政治宣传库。Anti Chinese government propaganda. 住在中国真名用户的网友请别给星星，不然你要被警察请喝茶。常见问答集，新闻集和饭店和音乐建议。卐习万岁卐。冠状病毒审查郝海东新疆改造中心六四事件法轮功 996.ICU709大抓捕巴拿马文件邓家贵低端人口西藏骚乱。"
+     },
+     {
+      "repo": "gege-circle/.github",
+      "stars": 2033,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "这里是GitHub的草场，也是戈戈圈爱好者的交流地，主要讨论动漫、游戏、科技、人文、生活等所有话题，欢迎各位小伙伴们在此讨论趣事。This is GitHub grassland, and the community place for Gege circle lovers, mainly disc"
+     },
+     {
+      "repo": "qusong0627/QuantMind",
+      "stars": 1717,
+      "pushed_age_days": null,
+      "license": "AGPL-3.0",
+      "license_gate": "FAIL(copyleft)",
+      "archived": false,
+      "desc": " QuantMind（量化大脑）开源版是一款面向个人开发者与投研团队的 AI 原生多市场量化交易平台。深度集成微软 Qlib、RD-Agent 因子演化与 QuantBot全能工作台，提供从 300+ 维因子挖掘、13 种机器学习与深度学习模型工场、Qlib 高性能回测、截面批量推理、7x24 实时"
+     },
+     {
+      "repo": "simonlin1212/vibe-astock",
+      "stars": 667,
+      "pushed_age_days": null,
+      "license": "Apache-2.0",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "A 股短线复盘看板：涨停池·连板梯队·龙虎榜·板块资金一屏看完，赚钱效应/晋级率/梯队断层/情绪周期等派生指标纯计算直出（不经过 AI），AI 只把数据串成能读的盘面研判。全本地运行，可用 Claude/Codex 订阅免 API key。| A-share short-term daily-rev"
+     },
+     {
+      "repo": "liangdabiao/easy_investment_Agent_crewai",
+      "stars": 659,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "基于AKShare和CrewAI的A股智能分析平台，通过多Agent协作提供专业的A股投资分析。  🚀 项目特色 📊 全面的A股数据分析：实时行情、财务数据、资金流向、市场情绪 🤖 多Agent协作：4个专业化AI角色协同工作 🇨🇳 A股市场特色：针对中国股市特点优化分析 📈 专业分析工具：基于AK"
+     }
+    ]
+   },
+   "股票情绪指标": {
+    "total": 20,
+    "top": [
+     {
+      "repo": "Dujltqzv/Some-Many-Books",
+      "stars": 24405,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "个人收藏书籍列表　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"
+     },
+     {
+      "repo": "cirosantilli/x86-bare-metal-examples",
+      "stars": 5387,
+      "pushed_age_days": null,
+      "license": "NOASSERTION",
+      "license_gate": "PENDING(probe)",
+      "archived": false,
+      "desc": "Dozens of minimal operating systems to learn x86 system programming. Tested on Ubuntu 17.10 host in QEMU 2.10 and real hardware. Userland cheat at: ht"
+     },
+     {
+      "repo": "cirosantilli/china-dictatorship",
+      "stars": 3253,
+      "pushed_age_days": null,
+      "license": "CC-BY-SA-4.0",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "反中共政治宣传库。Anti Chinese government propaganda. 住在中国真名用户的网友请别给星星，不然你要被警察请喝茶。常见问答集，新闻集和饭店和音乐建议。卐习万岁卐。冠状病毒审查郝海东新疆改造中心六四事件法轮功 996.ICU709大抓捕巴拿马文件邓家贵低端人口西藏骚乱。"
+     },
+     {
+      "repo": "gege-circle/.github",
+      "stars": 2033,
+      "pushed_age_days": null,
+      "license": "NONE",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "这里是GitHub的草场，也是戈戈圈爱好者的交流地，主要讨论动漫、游戏、科技、人文、生活等所有话题，欢迎各位小伙伴们在此讨论趣事。This is GitHub grassland, and the community place for Gege circle lovers, mainly disc"
+     },
+     {
+      "repo": "mihang123/mom-index",
+      "stars": 384,
+      "pushed_age_days": null,
+      "license": "MIT",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "👩‍👧 宝妈指数 — 追踪小白/宝妈投资情绪的反向指标。当菜市场大妈都在讨论股票时，就是你该离场的时候。"
+     },
+     {
+      "repo": "cirosantilli/china-dictatroship-7",
+      "stars": 370,
+      "pushed_age_days": null,
+      "license": "CC-BY-SA-4.0",
+      "license_gate": "REGISTRY-ONLY(nolic)",
+      "archived": false,
+      "desc": "反中共政治宣传库。Anti Chinese government propaganda. https://github.com/cirosantilli/china-dictatorship 的备份backup. 住在中国真名用户的网友请别给星星，不然你要被警察请喝茶。常见问答集，新闻集和饭店和音乐"
+     }
+    ]
+   },
+   "涨停 连板": {
+    "total": 6,
+    "top": [
+     {
+      "repo": "simonlin1212/vibe-astock",
+      "stars": 667,
+      "pushed_age_days": null,
+      "license": "Apache-2.0",
+      "license_gate": "PASS",
+      "archived": false,
+      "desc": "A 股短线复盘看板：涨停池·连板梯队·龙虎榜·板块资金一屏看完，赚钱效应/晋级率/梯队断层/情绪周期等派生指标纯计算直出（不经过 AI），AI 只把数据串成能读的盘面研判。全本地运行，可用 Claude/Codex 订阅免 API key。| A-share short-term daily-rev"
+     }
+    ]
+   },
+   "A股 量化 pythonstock": {
+    "total": 0,
+    "top": []
+   }
+  }
+ },
+ "round3": {
+  "ts": "2026-10-08T01:17:01+08:00",
+  "channel_note": "joinquant.com/community direct fetch = JS-rendered empty body (honest disclosure); evidence via search-channel snippets, dual-registered links",
+  "s4_rows": [
+   {
+    "id": "S4-01",
+    "name": "聚宽因子看板(情绪类因子 taxonomy)",
+    "src": "https://test.demo.joinquant.com/view/factorlib/list",
+    "star_face": "n/a(平台文档·无star面)",
+    "license": "商业平台文档(vendor registry)",
+    "fit": "A股原生因子分类正典:情绪类/动量类/风格/技术类因子族",
+    "reuse": "知识REF(分类学+因子命名采纳候选)",
+    "maturity": "在线",
+    "cost_h": 2,
+    "verdict": "REGISTRY(knowledge)",
+    "dup_check": "与在役引擎因子族无重叠;动量类=judged-out族仅分类学引用不准入"
+   },
+   {
+    "id": "S4-02",
+    "name": "聚宽 get_billboard_list 龙虎榜游资生态",
+    "src": "https://devpress.csdn.net/v1/article/detail/155556423",
+    "star_face": "n/a(社区教程)",
+    "license": "社区知识",
+    "fit": "龙虎榜营业部维度:知名游资买入跟踪/跟随策略判据",
+    "reuse": "知识REF(与在役LHB链互补=营业部维度扩展候选)",
+    "maturity": "在线",
+    "cost_h": 4,
+    "verdict": "REGISTRY(knowledge)",
+    "dup_check": "update_lhb.py在役取数面;营业部维度=增量非重复"
+   },
+   {
+    "id": "S4-03",
+    "name": "掘金智能策略:涨停开板/网格/条件单",
+    "src": "https://www.myquant.cn/docs2/tools/",
+    "star_face": "n/a(平台功能文档)",
+    "license": "商业平台文档(vendor registry)",
+    "fit": "涨停开板策略=A股原生连板情绪族判据;网格策略在役对照",
+    "reuse": "知识REF(涨停开板判据形式化候选)",
+    "maturity": "在线",
+    "cost_h": 4,
+    "verdict": "REGISTRY(knowledge)",
+    "dup_check": "GRID sleeve在役(网格=对照参考);涨停开板=新判据非重复"
+   },
+   {
+    "id": "S4-04",
+    "name": "游资龙虎榜驱动短线策略(风格切换判据)",
+    "src": "https://www.stockapi.com.cn/blog/22",
+    "star_face": "n/a(社区博客)",
+    "license": "社区知识",
+    "fit": "弱势市场游资快速兑现/连板概率骤降/T+1数据滞后三判据披露",
+    "reuse": "知识REF(情绪周期状态机判据候选)",
+    "maturity": "在线",
+    "cost_h": 2,
+    "verdict": "REGISTRY(knowledge)",
+    "dup_check": "与在役REGIME_GUARD三轴门互补(状态切换判据)"
+   }
+  ],
+  "s5_dup_note": "S5全族=情绪族(涨停/连板/龙虎榜/散户情绪)非judged-out族; mom-index=宝妈指数(散户情绪)非MOM动量族(名称撞面如实披露); 时间序/野路子零涉及",
+  "s5_top": {
+   "first": "simonlin1212/vibe-astock (Apache-2.0, 667★) REGIME-5情绪工具供给候选#1",
+   "second": "mihang123/mom-index (MIT, 384★) 散户反向情绪登记观察",
+   "exit": "QuantMind AGPL触顶退出; go-stock GPL=REF-ONLY; crewai项目无license=不可用"
+  }
+ }
+}
