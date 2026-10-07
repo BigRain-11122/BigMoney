@@ -1008,17 +1008,27 @@
    "fill_latency_min": 0.4,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-07 13:44:01",
+  "ts": "2026-10-07 14:02:01",
   "machine": "bm-b",
-  "py_cpu_pct": 12.4,
-  "verdict": "relaunch_cooldown",
+  "py_cpu_pct": 12.5,
+  "verdict": "fuse_refused_crash_loop",
   "entry": "TRIAL-LABOR-W14-SCREEN",
   "shard": "screen-0of1",
-  "last_launch_min": 22.3
+  "fuse_crashes": 1,
+  "fuse_refusals": 2,
+  "fuse_skipped": [
+   {
+    "entry": "TRIAL-LABOR-W14-SCREEN",
+    "shard": "screen-0of1",
+    "sig": "scripts/trial_labor_w14.py|screen,--shard,0,--shards,1",
+    "fuse_refusals": 2
+   }
+  ]
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-07T13:23:52+08:00"
