@@ -1,0 +1,32 @@
+{
+ "round": 674,
+ "machine": "bm-c",
+ "ts": "2026-10-07T12:21:09+08:00",
+ "conflicts": [
+  "results/compute_audit.json",
+  "results/token_usage.json"
+ ],
+ "canon": "r802 bm-b precedent: compute_audit history union (dedupe (ts,machine), sort ts, latest=max-ts) + token_usage per-key max (numeric max, string newer-wins)",
+ "audit": {
+  "stage2_hist_len": 208,
+  "stage3_hist_len": 201,
+  "union_len": 209,
+  "union_first_ts": "2026-10-05 19:17:00",
+  "union_last_ts": "2026-10-07 12:10:56",
+  "latest_ts": "2026-10-07 12:10:56"
+ },
+ "token": {
+  "merged_keys": 9,
+  "generated": "2026-10-07 12:12:52",
+  "totals": {
+   "total_state_tokens_est": 2049,
+   "total_report_tokens_est": 1665323
+  }
+ },
+ "law_refs": [
+  "r620 churn absorb",
+  "r789 add+continue atomic",
+  "r802 S6 twins per-face canon",
+  "O-2100 s2.4 stale-takeover"
+ ]
+}
