@@ -1,0 +1,26 @@
+CLOSE_SWEEP: dec_delta=False ord_delta=False unacked=0 inbox=0 shape=True
+DIRTY_COUNT=63 ALL_OWN=True
+ADD rc=0
+COMMIT rc=0
+HEAD=6c9fca4e3
+PUSH1 rc=1
+REBASE_RETRY rc=128
+R: error: cannot pull with rebase: You have unstaged changes.
+R: error: Please commit or stash them.
+PUSH2 rc=1
+PUSH_BRANCH rc=1 (fallback)
+DELIVERY: HEAD=6c9fca4e3 ORIGIN=31b878a92 BEHIND=4 AHEAD=1 (N=4)
+SYMBOLIC_REF=[refs/heads/main] rc=0
+POST_DIRTY=2
+PD:  M results/saturation_engine/face_bm-c.json
+PD:  M results/saturation_engine_state.bm-c.json
+ABSORB_A rc=0
+REBASE_A rc=0 behind=4
+A: Rebasing (1/2)Rebasing (2/2)Successfully rebased and updated refs/heads/main.
+PUSH_A rc=0
+DELIVERY: HEAD=50cf0b869 ORIGIN=50cf0b869 BEHIND=0 AHEAD=0 (N=0)
+SYMBOLIC_REF=[refs/heads/main] rc=0
+LOG: 50cf0b869 round 685: S7 absorb daemon tick faces (A, r620 law) [via bm-c r685]
+LOG: 717adb76b round 685: bm-c S0 integration-battle + 5x HANDOVER closeout: r684 leftover behind9/ahead3 queue redeemed (compute_audit.json diff3 two-law merge: latest newer-wins + history union 209; duplicate pick carrier ea6662523 disclosed zero-unique; absorb-A 70f2631dc evidence-dropped; r624 branch -f cure; push delivered N=0) + s05 double-sweep zero-delta + smoke 48/48 + S6 38/38 rc0 (dualrun streak 5) + QA r685 5/5 zero-mislabel (93 trades, png 66,191B) + 1 new pit direct-write pit-git-resolver-rebase.md (receipt) + HANDOVER r681-685 5x line + tripwire/attrition CLEAN + state 685->686 [via bm-c r685]
+LOG: 31b878a92 lane: bm-a daemon faces pre-rebase absorb 2 (r620 law)
+LOG: 78babd1ab lane: bm-a daemon faces pre-rebase absorb (r620 law)
