@@ -25,11 +25,20 @@ probe makes that determination mechanical and clock-frame-proof
 
 Exit codes: 0 = clean (or 0 orphans after kill), 2 = mechanism fault.
 selftest subcommand = offline hermetic check (zero psutil dependency
-on fake face tables)."""
+on fake face tables).
+
+v1.1.1 merge (bm-a r840, dual-machine same-order parallel build): bm-c's
+canonical three-face probe + bm-a's stdio-server exemption belt (10-face
+live-fire collateral family: idle MCP servers + serve_forever daemons
+falsely match all three faces; belt = never orphan-verdict, report-only
+idle_servers bucket). bm-a's separate v1.1 auto-kill design (WATCH-only +
+persistence gate) is superseded by this read-only-default canon per
+single-source law; the auto-kill idea lives on only as knife-3 tracking."""
 import argparse
 import datetime
 import json
 import os
+import re
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,6 +50,14 @@ STALL_CPU_SEC = 0.10     # < this CPU accumulation over the window = stalled
                          # per 12h -- the probe is the stricter gate)
 GRACE_MIN = 30.0         # young faces never judged (startup states)
 HIDDEN_HOSTS = ("wscript.exe", "pythonw.exe", "wscript")
+# v1.1.1 merge belt (bm-a r840 live-fire, 10-face collateral): idle stdio
+# MCP servers match all three faces while perfectly healthy -- their
+# launcher exits after detached spawn (parent-dead = their normal pattern)
+# and a stdin-blocked wait = zero CPU. They are NEVER orphan-verdicted;
+# reported separately as idle_servers.
+STDIO_SERVER_RE = re.compile(
+    r"--transport\s+stdio|mcp-for-unity|duckduckgo-mcp|mcpserver|mcp-server"
+    r"|\\uv\\tools\\", re.I)
 PY_NAMES = ("python.exe", "pythonw.exe", "python3.exe", "python313.exe")
 
 
@@ -143,6 +160,11 @@ def run(mode="probe"):
     orphans = [f for f in faces if f["face1_parent_dead"]
                and f["face2_no_hidden_host_ancestor"]
                and f["face3_cpu_stalled"]]
+    # v1.1.1 belt: stdio MCP servers are exempt from the orphan verdict
+    # (healthy idle; the r840 collateral family). Report-only bucket.
+    idle_servers = [f for f in orphans if STDIO_SERVER_RE.search(f["cmd"])]
+    orphan_pids = {f["pid"] for f in idle_servers}
+    orphans = [f for f in orphans if f["pid"] not in orphan_pids]
     killed = []
     if mode == "kill" and orphans:
         import psutil
@@ -155,7 +177,9 @@ def run(mode="probe"):
     report = {
         "ts": t0, "mode": mode, "py_faces_seen": len(faces),
         "orphans": len(orphans), "killed": killed,
+        "idle_servers_exempt": len(idle_servers),
         "faces": faces, "orphan_details": orphans,
+        "idle_server_details": idle_servers,
         "sample_sec": SAMPLE_SEC, "stall_cpu_sec": STALL_CPU_SEC,
         "grace_min": GRACE_MIN,
         "law": "O-20261008-1300 knife-2 three-face (parent-dead + "
@@ -207,8 +231,15 @@ def selftest():
     f4 = _judge_faces(tbl, 4, 0.0, 1.0)
     ok("young orphan inside grace: face-3 false",
        f4["face1_parent_dead"] and not f4["face3_cpu_stalled"])
-    allp = okc[0] == 4
-    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/4)")
+    # v1.1.1 belt leg (r840 collateral family): idle stdio MCP server cmd
+    # must match the exemption regex; a judge cmd must not.
+    ok("stdio-server belt: MCP cmds exempt, judge cmds not",
+       STDIO_SERVER_RE.search("mcp-for-unity.exe --transport stdio")
+       and STDIO_SERVER_RE.search(
+           "uv\\tools\\duckduckgo-mcp-server\\Scripts\\python.exe")
+       and not STDIO_SERVER_RE.search("judge.py --batch w14"))
+    allp = okc[0] == 5
+    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/5)")
     return 0 if allp else 2
 
 

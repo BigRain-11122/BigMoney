@@ -45,3 +45,4 @@
 
 域指针·r662 bm-c（2026-10-07 07:4x）：轮号脚本克隆裸数字逃逸前缀 replace 坑（r758/r640/r644 族新机械面）→research/pit-ps.md［裸数字 replace+克隆后残号门强制步+点火首行核验律］
 - 域指针·r665 bm-c（2026-10-07 08:4x）：silent-git 捕获面=单块多行字符串×foreach 按对象迭代坑（r511-③ wrapper 输出族姊妹面·S0 脏树判侧实弹 DIRTY-COUNT 1/43 fail-closed 自捕）→research/pit-ps.md［PS 消费面显式 -split 律］
+- [2026-10-07 20:2x r840 bm-a] **PS 单元素数组 [1..($parts.Length-1)] 反转域切片坑（r840 S6 批 harness 实弹·6 假 rc=2）**: $parts 为单元素（Length=1）时 $parts[1..0] 取 index 1（越界=$null）与 index 0=脚本名自身——拼接后把脚本文件名当子命令传给脚本 -> 6 个 gate 脚本齐报「unknown subcommand: <script>.py」rc=2 假机制故障（真默认入口=bare 调用 sys.argv[1] 缺省='gate'，重跑零参 6/6 rc0 治愈）。正法=拆参前先判 $parts.Length -gt 1 再切片，或 @() 包裹+$null 过滤。How to apply：批处理参数切片必带长度守卫；「unknown subcommand」报文含脚本名自身=切片反转铁证。
