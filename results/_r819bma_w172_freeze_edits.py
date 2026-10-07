@@ -309,7 +309,7 @@ FCOUNT = {
            "@LEG3PF@": 1, "@FR0@": 1, "@FR1@": 1, "@FR2@": 0, "@PA@": 1, "@PB@": 1,
            "@JN@": 0, "@JP@": 1, "@JAND@": 0, "@JB@": 0, "@ASB@": 0, "@BSB@": 0,
            "@ARITHA@": 0, "@ARB@": 0, "@NA@": 1, "@OB@": 1, "@AB@": 1, "@NB@": 1,
-           "@BB@": 1, "@ABASE@": 1, "@BBASE@": 1, "@PF@": 0, "@B@": 0, "@OD@": 0,
+           "@BB@": 0, "@ABASE@": 1, "@BBASE@": 1, "@PF@": 0, "@B@": 0, "@OD@": 0,
            "@SD@": 0, "@SD2@": 0, "@LEDG@": 0, "@KOLD@": 0, "@ORDW@": 0,
            "@R154@": 0, "@ROWS80@": 0, "@SVN@": 0, "@ST24@": 1, "@W17TO@": 0,
            "@W2TO@": 0, "@W1TO@": 0, "@DEPW@": 0, "@R16@": 0, "@WPREV@": 0,
@@ -328,10 +328,10 @@ FCOUNT = {
               "@AB@": 1, "@NB@": 1, "@BB@": 0, "@ABASE@": 0, "@BBASE@": 0,
               "@PF@": 1, "@B@": 1, "@OD@": 1, "@SD@": 1, "@SD2@": 0, "@LEDG@": 2,
               "@KOLD@": 2, "@ORDW@": 1, "@R154@": 1, "@ROWS80@": 0, "@SVN@": 0,
-              "@ST24@": 1, "@W17TO@": 0, "@W2TO@": 1, "@W1TO@": 1, "@DEPW@": 0,
+              "@ST24@": 1, "@W17TO@": 0, "@W2TO@": 0, "@W1TO@": 1, "@DEPW@": 0,
               "@R16@": 0, "@WPREV@": 0, "@RROW@": 0, "@RENTRY@": 1, "@WN2@": 0,
-              "@IDX@": 0, "@IDX2@": 1, "@MSGS@": 0, "@FW@": 1, "@FOPW@": 1, "@FOP@": 0,
-              "@FOPM2@": 0, "@PRC@": 1, "@PROW1@": 1, "@PROW2@": 1, "@REGROW@": 0,
+              "@IDX@": 0, "@IDX2@": 1, "@MSGS@": 0, "@FW@": 1, "@FOPW@": 0, "@FOP@": 0,
+              "@FOPM2@": 1, "@PRC@": 1, "@PROW1@": 1, "@PROW2@": 1, "@REGROW@": 0,
               "@FZH@": 0, "@MFZH@": 0, "@CLMS@": 0},
     "mat": {"@WN@": None, "@W@": None, "@ASROW@": 0, "@BSROW@": 0,
             "@SEAT@": 1, "@SEATSHA@": 1, "@PSP@": 1, "@PSPPF@": 0, "@FWPROD@": 1,
@@ -558,16 +558,15 @@ def text_asserts(pf2: str, n2: str, blk2: str):
     assert i2 > 0 and k2 > 0 and cs2 > 0, "new W172 block anchors missing"
     for tag, seg in (("pf", newpfblk), ("entry", newentry),
                      ("mat", mat_new_faces), ("claim", newclaim)):
-        for stale in ("bm-a r815 freeze", "r815 bm-a freeze", "r815 bm-a] ",
+        for stale in ("r815 bm-a freeze", "r815 bm-a] ",
                       "r813 sec8 succession", "r814 pre-seat", "r814 pre-seat push",
                       "r812 probe", "r812 probe leg4",
                       "gate-derived r814",
                       "MSG-2026-10-07-0843", "bma-w171-seat", "MSG-0843",
                       "3290e586b", "cb7314d64", "456f3affc" if False else "cb7314d64",
-                      "391_004", "391_003", "390_804", "393_004",
+                      "391_004", "391_003", "390_804",
                       "391_004..393_003", "391_004..391_203",
                       "390_804..392_803", "390_804..391_003",
-                      "393_004..393_203", "393_004..395_003", "393_204..393_403",
                       "781,612" if False else "779,412", "371,920",
                       "thirtieth", "twenty-ninth",
                       "ONE HUNDRED-AND-SIXTY-FIRST",
@@ -621,8 +620,11 @@ def text_asserts(pf2: str, n2: str, blk2: str):
     # succession citation (r819 settle, this window) in the new mat faces
     assert "law sec.4 W172 row, r795" in mat_new_faces, "r795 lineage stamp missing"
     assert "r819 sec8 succession" in mat_new_faces, "r819 sec8 succession citation missing"
-    # W172 claim K/ledger rolled faces
-    assert "net chain head 781,612 = W171 bm-a r816 one-pass, K=374,120 merged pool" in newclaim, \
+    # W172 claim K/ledger rolled faces (r781 fragment law: the ledger/K
+    # logical string physically splits across python string fragments --
+    # assert the within-fragment shapes)
+    assert "net chain head 781,612 = " in newclaim and \
+        "W171 bm-a r816 one-pass, K=374,120 merged pool" in newclaim, \
         "W172 claim ledger/K face missing"
 
 
