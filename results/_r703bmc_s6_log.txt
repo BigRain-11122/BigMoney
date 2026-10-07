@@ -1,39 +1,46 @@
-r703 bm-c S6 chain — 38 legs rc0 — 2026-10-07 21:47-21:55
-LEG pool_dualrun_reconcile rc=0 :: ZERO-DRIFT (406 entries, streak 22, cutoff 2026-10-07T13:00:09+08:00)
-LEG compute_audit rc=0 :: FLAG:supply_gap,supply_floor (pool ready=1 < floor 3; W14 between-wave gap, natural)
-LEG py_watermark probe rc=0 :: insufficient_history (session n=2; py 0.9%; benign)
-LEG update_daily rc=0 :: status written
-LEG market_regime rc=0 :: trigger breadth 0.79>=65%
-LEG strategy_scorecard rc=0 :: lane_io host=bm-a fresh -> honest skip (r366)
-LEG market_clock_call rc=0 :: CALL-2026-09-30 cell=ORANGE_COOL sleeves=4 activated=0
-LEG update_lhb rc=0 :: no-op (cutoff 2026-09-30 covers window)
-LEG update_heat rc=0 :: no-op (host bm-a, R31)
-LEG update_futures rc=0 :: no-op (cutoff covers)
-LEG update_repo rc=0 :: no-op (lane bm-a)
-LEG update_options rc=0 :: no-op (lane bm-a)
-LEG update_moneyflow rc=0 :: no-op (lane bm-a)
-LEG update_sina_mf rc=0 :: no-op (lane bm-a)
-LEG update_astock_daily rc=0 :: no-op (lane bm-b)
-LEG update_etf_daily rc=0 :: no-op (lane bm-b)
-LEG rev_osc_signal_export rc=0 :: no-op (lane bm-b)
-LEG update_minute_feed rc=0 :: no-op (lane bm-b)
-LEG update_ths_panel rc=0 :: no-op (lane bm-a)
-LEG ah_panel_puller rc=0 :: no-op (lane bm-a)
-LEG update_fund_premium rc=0 :: no-op (snapshot 2026-09-30 covers; reopen 10-08 first snapshot bm-c lane)
-LEG update_fundamental rc=0 :: fresh 7.3h skip
-LEG b_layer_filter rc=0 :: verdict written
-LEG update_fund_statements rc=0 :: no-op (lane bm-a)
-LEG live_paper rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG t35_open_fill rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG t24_paper rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG t24_promotion rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG aggr_paper rc=0 :: marks at cutoff no-op
-LEG alloc_paper rc=0 :: no-op (lane bm-b)
-LEG grid_paper rc=0 :: marks at cutoff no-op
-LEG system_v1_paper rc=0 :: no-op (lane bm-a)
-LEG t35_export rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG daily_scorecard rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG daily_report rc=0 :: REPORT-2026-10-07.md/.json faces=5
-LEG ceo_live_usage rc=0 :: LIVE-2026-10-07 (state=ORANGE cap=50% heat=COOL)
-LEG build_status rc=0 :: lane_io host=bm-a fresh -> honest skip
-LEG token_meter rc=0 :: L2 0 today/12 total
+r703 bm-c S6 chain (recovery session re-run; prior attempt 21:47-21:55 crashed post-run pre-close) -- 2026-10-07 22:13
+SMOKE rc=0 (63 lines; summary below)
+SMOKE [PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+SMOKE [PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+SMOKE [PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 10/10 PASS
+SMOKE [PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+SMOKE [PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791379869 clock=2026-10-07T21:31:09+08:00
+SMOKE Summary: 48/48 PASS, 0 FAIL
+LEG pool_dualrun_reconcile rc=0 :: [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 406 entries, drift-free streak 23, cutoff 2026-10-07T13
+LEG compute_audit rc=0 :: {"ts": "2026-10-07 22:14:03", "audit_version": "v2.4.2", "cpu_total_pct": 24.0, "py_cpu_pct": 4.8, "cores": 32
+LEG py_watermark rc=0 :: {"ts": "2026-10-07 22:14:10", "epoch": 1791382444.0, "machine": "bm-c", "cpu_total_pct": 23.0, "cores": 32, "p
+LEG update_daily rc=0 :: === Bigmoney daily update 2026-10-07 22:14:10 ===
+LEG market_regime rc=0 :: regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+LEG strategy_scorecard rc=0 :: lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin commit fresh (2min, heartbeats s
+LEG market_clock_call rc=0 :: lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive thi
+LEG update_lhb rc=0 :: cutoff=2026-09-30 quarter=2026Q3 today=2026-10-07
+LEG update_heat rc=0 :: no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+LEG update_futures rc=0 :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG update_repo rc=0 :: no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+LEG update_options rc=0 :: no-op: options lane owned by bm-a, not this machine (bm-c)
+LEG update_moneyflow rc=0 :: no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+LEG update_sina_mf rc=0 :: no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+LEG update_astock_daily rc=0 :: no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+LEG update_etf_daily rc=0 :: no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+LEG rev_osc_signal_export rc=0 :: rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG update_minute_feed rc=0 :: update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG update_ths_panel rc=0 :: no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+LEG ah_panel_puller rc=0 :: no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+LEG update_fund_premium rc=0 :: no-op: snapshot 2026-09-30 already covers expected NAV date 2026-09-30
+LEG update_fundamental rc=0 :: snapshot fresh (7.7h < 24h) -> skip
+LEG b_layer_filter rc=0 :: mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in
+LEG update_fund_statements rc=0 :: no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+LEG live_paper rc=0 :: lane_io single-writer guard: results/paper/* host=bm-a origin commit fresh (2min, heartbeats stale) -> skip de
+LEG t35_open_fill rc=0 :: lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a origin commit fresh (2min, heartbeats
+LEG t24_paper rc=0 :: lane_io single-writer guard: results/prospect_paper/* host=bm-a origin commit fresh (2min, heartbeats stale) -
+LEG t24_promotion rc=0 :: lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin commit fresh (2min, heartbeats stal
+LEG aggr_paper rc=0 :: aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG alloc_paper rc=0 :: no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+LEG grid_paper rc=0 :: grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG system_v1_paper rc=0 :: system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+LEG t35_export rc=0 :: lane_io single-writer guard: results/paper_export/* host=bm-a origin commit fresh (3min, heartbeats stale) -> 
+LEG daily_scorecard rc=0 :: lane_io single-writer guard: results/daily_scorecard.json host=bm-a origin commit fresh (3min, heartbeats stal
+LEG daily_report rc=0 :: daily report written: REPORT-2026-10-07.md/.json faces=5 token=1
+LEG ceo_live_usage rc=0 :: ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-07.md (+ .json twin + LIVE-
+LEG build_status rc=0 :: lane_io single-writer guard: results/dashboard_status.json host=bm-a origin commit fresh (3min, heartbeats sta
+LEG token_meter rc=0 :: saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
