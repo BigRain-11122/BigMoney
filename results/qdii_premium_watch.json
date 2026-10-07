@@ -1,0 +1,196 @@
+{
+ "generated": "2026-10-08T00:21:53+08:00",
+ "probe": "qdii_premium_watch v1.0 (DIGEST-20261008 theme-1 consumption, ARB-1 adjacency)",
+ "lane": "bm-c fund_premium (T-16 panel, read-only)",
+ "cluster_spec": "panel ftype == 指数型-海外股票 (panel's own classification, no hand list)",
+ "target_face": {
+  "nav_date": "2026-09-30",
+  "stats": {
+   "cluster_total_rows": 87,
+   "cluster_valid_rows": 46,
+   "coverage_pct": 52.9,
+   "median_premium_pct": -0.481,
+   "mean_premium_pct": -0.028,
+   "max_premium_pct": 5.589,
+   "min_premium_pct": -1.253,
+   "count_ge_3pct": 4,
+   "count_ge_10pct": 0
+  }
+ },
+ "baseline_face": {
+  "nav_date": "2026-09-29",
+  "stats": {
+   "cluster_total_rows": 87,
+   "cluster_valid_rows": 46,
+   "coverage_pct": 52.9,
+   "median_premium_pct": -0.365,
+   "mean_premium_pct": 0.061,
+   "max_premium_pct": 5.035,
+   "min_premium_pct": -0.812,
+   "count_ge_3pct": 4,
+   "count_ge_10pct": 0
+  }
+ },
+ "premium_definition": "premium_pct = (mkt_price - nav) / nav * 100（口径=面板快照当日收盘价 vs 当日单位净值）",
+ "top10_target": [
+  {
+   "code": "513310",
+   "name": "中韩半导体ETF华泰",
+   "mkt_price": 4.697,
+   "nav": 4.4484,
+   "premium_pct": 5.589
+  },
+  {
+   "code": "513880",
+   "name": "日经225ETF华安",
+   "mkt_price": 2.188,
+   "nav": 2.0864,
+   "premium_pct": 4.87
+  },
+  {
+   "code": "513520",
+   "name": "日经ETF华夏",
+   "mkt_price": 2.352,
+   "nav": 2.2463,
+   "premium_pct": 4.706
+  },
+  {
+   "code": "513000",
+   "name": "日经225ETF易方",
+   "mkt_price": 2.333,
+   "nav": 2.2526,
+   "premium_pct": 3.569
+  },
+  {
+   "code": "159866",
+   "name": "日经ETF工银",
+   "mkt_price": 1.723,
+   "nav": 1.678,
+   "premium_pct": 2.682
+  },
+  {
+   "code": "513800",
+   "name": "日本东证指数ETF南",
+   "mkt_price": 1.92,
+   "nav": 1.9194,
+   "premium_pct": 0.031
+  },
+  {
+   "code": "513970",
+   "name": "恒生消费ETF景顺",
+   "mkt_price": 0.767,
+   "nav": 0.7677,
+   "premium_pct": -0.091
+  },
+  {
+   "code": "159699",
+   "name": "恒生消费ETF广发",
+   "mkt_price": 0.833,
+   "nav": 0.8339,
+   "premium_pct": -0.108
+  },
+  {
+   "code": "159741",
+   "name": "恒生科技ETF嘉实",
+   "mkt_price": 0.531,
+   "nav": 0.532,
+   "premium_pct": -0.188
+  },
+  {
+   "code": "159202",
+   "name": "恒生互联网ETF万家",
+   "mkt_price": 0.734,
+   "nav": 0.7354,
+   "premium_pct": -0.19
+  }
+ ],
+ "top10_premium_movers": [
+  {
+   "code": "513520",
+   "name": "日经ETF华夏",
+   "premium_target_pct": 4.706,
+   "premium_baseline_pct": 4.051,
+   "delta_pp": 0.655
+  },
+  {
+   "code": "513880",
+   "name": "日经225ETF华安",
+   "premium_target_pct": 4.87,
+   "premium_baseline_pct": 4.225,
+   "delta_pp": 0.645
+  },
+  {
+   "code": "159866",
+   "name": "日经ETF工银",
+   "premium_target_pct": 2.682,
+   "premium_baseline_pct": 2.113,
+   "delta_pp": 0.569
+  },
+  {
+   "code": "513310",
+   "name": "中韩半导体ETF华泰",
+   "premium_target_pct": 5.589,
+   "premium_baseline_pct": 5.035,
+   "delta_pp": 0.554
+  },
+  {
+   "code": "159699",
+   "name": "恒生消费ETF广发",
+   "premium_target_pct": -0.108,
+   "premium_baseline_pct": -0.373,
+   "delta_pp": 0.265
+  },
+  {
+   "code": "513140",
+   "name": "港股通金融ETF华泰",
+   "premium_target_pct": -0.476,
+   "premium_baseline_pct": -0.663,
+   "delta_pp": 0.187
+  },
+  {
+   "code": "513000",
+   "name": "日经225ETF易方",
+   "premium_target_pct": 3.569,
+   "premium_baseline_pct": 3.417,
+   "delta_pp": 0.152
+  },
+  {
+   "code": "513800",
+   "name": "日本东证指数ETF南",
+   "premium_target_pct": 0.031,
+   "premium_baseline_pct": -0.106,
+   "delta_pp": 0.137
+  },
+  {
+   "code": "520520",
+   "name": "恒生消费ETF华泰柏",
+   "premium_target_pct": -0.426,
+   "premium_baseline_pct": -0.551,
+   "delta_pp": 0.125
+  },
+  {
+   "code": "510900",
+   "name": "恒生中国企业ETF易",
+   "premium_target_pct": -0.628,
+   "premium_baseline_pct": -0.72,
+   "delta_pp": 0.092
+  }
+ ],
+ "paired_members": 46,
+ "median_delta_pp": -0.127,
+ "holiday_window_note": "目标面 2026-09-30 为复市后首拍时，本差分即长假脱锚的当日可测面（DIGEST-20261008 主题一活验证窗）",
+ "folklore_anchor": {
+  "claim": "一个篮子20万无风险利润（制度性套利：高溢价QDII跨境ETF盘前申购）",
+  "source_posts": [
+   "jisilu 套利 feed 帖 525666 (2026-10-01)",
+   "jisilu 套利 feed 帖 525734 (2026-10-07)"
+  ],
+  "status": "unverified-hypothesis（借力三律·宣称数字未验证·仅记锚不入判线）",
+  "digest_ref": "research/digests/DIGEST-20261008-qdii-holiday-premium-arb-radar.md 主题1"
+ },
+ "verdict": "observation (纯测量面·零判据零门禁·folklore 只记锚)",
+ "consumers": [
+  "ARB-1 折溢价线判据素材",
+  "民俗判据形式化候选池（CEO 研究导向律）"
+ ]
+}
