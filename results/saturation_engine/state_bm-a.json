@@ -2,67 +2,51 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
+ "active": [],
+ "ledger_buffer": [
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 180,
+   "batch": "PERPETUAL-N1-W180",
    "shard": 10,
    "nshards": 12,
    "key": "n1w180-10of12",
-   "batch": "PERPETUAL-N1-W180",
    "pid": 3500,
    "started_at": "2026-10-08T01:23:05+08:00",
-   "started_epoch": 1791393785,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W180-10.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W180",
-    "prereg": "research/PERPETUAL_N1_W180_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-SEVENTIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 169 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W179 row bm-a r849 freeze ef540bf8f, SINGLE STATE zero seat gap W2..W179 all registered; W180 finalize landed same-window r827, ledger head 799,705, merged pool K=391,720; seat published=reserved MSG-2026-10-08-0030-bma-w180-seat PUSHED to origin d3b0737fe BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe script + probe receipt (3-item; the W179 finalize product already on origin since r850, not re-shipped; W146 precedent); deletion-set EMPTY; delivery window = direct fast-forward behind-0 at fetch (r851 pre-seat push), zero merge, zero --no-verify; single-window derive -- r812 merged the gate legs INTO the pre-seat probe; parity N/A honest), engine_owner=bm-a, wave 179: A = FIRST-CLEAN past the registered W179 B band (the arithmetic continuation 410_604..412_603 is REFUSED at its own start by the W179 B band 410_604..410_803, exactly as the W179 seat W180+ projection + r848 probe leg4 + r850 sec8 succession projection notes anticipated; honest forward walk hops=1 -> 410_804..412_803; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase FORTIETH instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 410_804..411_003 is CLEAN on the registered universe but lands INSIDE the W180 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 412_804, first-clean 412_804..413_003 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W179 seat W180+ projection + r848 probe leg4 + r850 sec8 succession projection notes re-derived -- all MANDATORY notes honored (post-W179 universe re-derive + own-wave A reservation); ADMIT receipt results/_r851bma_w180_probe_receipt.json; W181+ projection per this window gate: A first-clean 412_804..414_803 CLEAN / B first-clean 413_004..413_203 CLEAN -- naive B lands INSIDE the naive A window and the registered W180 B band 412_804..413_003 will refuse the naive W181 A window; W181 freezer MUST re-derive on the post-W180 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W179 finalize ALL LANDED (W179 finalize one-pass bm-a r850, net chain head 799,705, merged pool K=391,720) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
-    "a_seed_base": 410804,
-    "b_exit_seed_base": 412804,
-    "shard_subdir": "n1_w180",
-    "out_name": "n1_w180_results.json",
-    "engine_owner": "bm-a"
-   }
-  }
- ],
- "ledger_buffer": [],
- "last_flush_at": "2026-10-08T01:23:05+08:00",
- "crashes": {},
- "shards_done_total": 46,
- "last_shard_done_at": "2026-10-08T01:23:04+08:00",
- "last_tick": {
-  "ts": "2026-10-08T01:23:05+08:00",
-  "epoch": 1791393782,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 52.80263900756836,
-  "verdict": "ignited:n1w180-10of12 pid=3500 ledger_flush=3",
-  "active_n": 1,
-  "queue_depth": 1,
-  "elapsed_sec": 3.1
- },
- "skips": [],
- "queue": [
+   "done_at": "2026-10-08T01:25:04+08:00",
+   "done_epoch": 1791393902,
+   "elapsed_sec": 117.3
+  },
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 180,
+   "batch": "PERPETUAL-N1-W180",
    "shard": 11,
    "nshards": 12,
    "key": "n1w180-11of12",
-   "batch": "PERPETUAL-N1-W180",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "180",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 41852,
+   "started_at": "2026-10-08T01:25:05+08:00",
+   "done_at": "2026-10-08T01:26:04+08:00",
+   "done_epoch": 1791393962,
+   "elapsed_sec": 57.3
   }
- ]
+ ],
+ "last_flush_at": "2026-10-08T01:23:05+08:00",
+ "crashes": {},
+ "shards_done_total": 48,
+ "last_shard_done_at": "2026-10-08T01:26:04+08:00",
+ "last_tick": {
+  "ts": "2026-10-08T01:29:05+08:00",
+  "epoch": 1791394142,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 51.87183380126953,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
+  "elapsed_sec": 3.1
+ },
+ "skips": [],
+ "queue": []
 }
