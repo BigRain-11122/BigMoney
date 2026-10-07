@@ -1,0 +1,127 @@
+{
+ "round": 698,
+ "ts": "2026-10-07T19:07:51.841327",
+ "board_total": 176,
+ "board_open": [],
+ "board_claimed_count": 46,
+ "satengine_rc": 0,
+ "satengine_tail": "   \"authorization\": \"per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)\",\n   \"dedup\": {\n    \"local_done\": 12,\n    \"remote_done\": 12\n   }\n  }\n ]\n}",
+ "watermark_red": false,
+ "watermark_reason": "",
+ "py_watermark_last": {
+  "verdict": "py_low_with_work_cands",
+  "ts": "2026-10-07 18:52:59",
+  "machine": "bm-c"
+ },
+ "bandit_next_pick": null,
+ "w14_judge": {
+  "dir": {
+   "checkpoint": {
+    "size": 0,
+    "mtime": "2026-10-07T13:20"
+   },
+   "judge_state.json": {
+    "size": 603158,
+    "mtime": "2026-10-07T18:31"
+   },
+   "prep_state.json": {
+    "size": 315938,
+    "mtime": "2026-10-07T12:58"
+   },
+   "w14_candidates.json": {
+    "size": 746234,
+    "mtime": "2026-10-01T17:40"
+   },
+   "w14_grammar.json": {
+    "size": 188004,
+    "mtime": "2026-09-30T18:45"
+   },
+   "w14_screen.json": {
+    "size": 270152,
+    "mtime": "2026-10-07T18:29"
+   },
+   "w14_screen_cells.csv": {
+    "size": 74507,
+    "mtime": "2026-10-07T18:29"
+   }
+  },
+  "checkpoint": {
+   "count": 1,
+   "latest": [
+    "screen_shard_0of1.jsonl"
+   ],
+   "mtime": "2026-10-07T13:21"
+  },
+  "pool_entry": null,
+  "runner": {
+   "pid34320_alive": false,
+   "pid36336_alive": true,
+   "scanned": [
+    {
+     "pid": 36336,
+     "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/trial_labor_w16.py generate",
+     "age_min": 20.6
+    }
+   ]
+  },
+  "pool_hits": [
+   {
+    "id": "TRIAL-LABOR-W16-GENERATE",
+    "status": "ready",
+    "lane_owner": null,
+    "runner": "scripts/trial_labor_w16.py",
+    "shards": [
+     {
+      "key": "main",
+      "status": "ready",
+      "checkpoint": "",
+      "note": "ladder default shard (single-face batch, r301 family)",
+      "owner": "bm-a",
+      "owner_since": "2026-10-07 18:23:37"
+     }
+    ]
+   },
+   {
+    "id": "TRIAL-LABOR-W14-JUDGE",
+    "status": "ready",
+    "lane_owner": "bm-c",
+    "runner": "scripts/trial_labor_w14.py",
+    "shards": [
+     {
+      "key": "judge-0of1",
+      "status": "ready",
+      "checkpoint": "results/trial_labor_w14/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13 single-shard precedent)",
+      "note": "single shard W1-W13-JUDGE precedent; 77 judged cells = lightest judge batch in lineage (W13 99, W12 188); worker_cap() parallelism inside the shard",
+      "owner": "bm-c",
+      "owner_since": "2026-10-07 18:50:08"
+     }
+    ]
+   }
+  ]
+ },
+ "w16_generate": {
+  "claims": {
+   "main.bm-c.json": {
+    "size": 109,
+    "mtime": "2026-10-07T19:07",
+    "claimed_by": null,
+    "claimed_at": null,
+    "status": null,
+    "owner_since": null,
+    "pid": 25068
+   }
+  },
+  "products": [
+   {
+    "path": "results\\trial_labor_w16\\w16_candidates.json",
+    "size": 717608,
+    "mtime": "2026-10-07T18:59"
+   },
+   {
+    "path": "results\\trial_labor_w16\\w16_grammar.json",
+    "size": 196576,
+    "mtime": "2026-10-05T12:14"
+   }
+  ]
+ }
+}
