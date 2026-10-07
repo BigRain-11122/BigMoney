@@ -1,0 +1,72 @@
+{
+ "round": "r804",
+ "machine": "bm-b",
+ "event": "generic S6-twin rebase resolve (vs bm-c r678 + bm-a r825 same-window S6 estates; rebase semantics st2=origin-base st3=my-replayed-commit per r782 law)",
+ "faces": {
+  "results/regime_state.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/update_status.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/_attrition_guard_scan.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/futures_update_status.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/daily_report/REPORT-2026-10-07.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/daily_report/REPORT-2026-10-07.md": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/live_usage/LIVE-2026-10-07.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/live_usage/LIVE-2026-10-07.md": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "ts-duel",
+   "winner": "st2(origin-base)"
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling union+duel",
+   "hist_st2": 201,
+   "hist_st3": 209,
+   "union": 210,
+   "latest": "2026-10-07 13:47:28"
+  },
+  "results/token_usage.json": {
+   "recipe": "per-key max",
+   "generated": "2026-10-07 13:48:10"
+  },
+  "results/pool_core_samples.jsonl": {
+   "recipe": "jsonl line-union",
+   "st2_lines": 1958,
+   "st3_lines": 1956,
+   "union": 1959
+  }
+ }
+}
