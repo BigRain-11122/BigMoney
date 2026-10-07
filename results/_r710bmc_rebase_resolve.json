@@ -1,0 +1,85 @@
+{
+ "round": "r710 bm-c",
+ "resolutions": [
+  {
+   "file": "docs/daily_report/REPORT-2026-10-08.json",
+   "recipe": "take-ours",
+   "why": "twin REPORT-day json-side gen ts ours=2026-10-08 00:29:13 vs theirs=2026-10-08 00:22:59 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/daily_report/REPORT-2026-10-08.md",
+   "recipe": "take-ours",
+   "why": "twin REPORT-day json-side gen ts ours=2026-10-08 00:29:13 vs theirs=2026-10-08 00:22:59 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-latest.json",
+   "recipe": "take-ours",
+   "why": "twin LIVE-latest json-side gen ts ours=2026-10-08T00:29:14 vs theirs=2026-10-08T00:23:00 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-latest.md",
+   "recipe": "take-ours",
+   "why": "twin LIVE-latest json-side gen ts ours=2026-10-08T00:29:14 vs theirs=2026-10-08T00:23:00 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-2026-10-08.json",
+   "recipe": "take-ours",
+   "why": "twin LIVE-day json-side gen ts ours=2026-10-08T00:29:14 vs theirs=2026-10-08T00:23:00 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-2026-10-08.md",
+   "recipe": "take-ours",
+   "why": "twin LIVE-day json-side gen ts ours=2026-10-08T00:29:14 vs theirs=2026-10-08T00:23:00 -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "results/compute_audit.json",
+   "recipe": "r674 history union",
+   "why": "hist ours=201 theirs=201 -> union=202 dedupe(ts,machine) zero-loss, latest=max-ts"
+  },
+  {
+   "file": "results/token_usage.json",
+   "recipe": "r674 per-key max",
+   "why": "generated ours=2026-10-08 00:29:27 theirs=2026-10-08 00:23:00"
+  },
+  {
+   "file": "results/regime_state.json",
+   "recipe": "r773 base=newer+asof-union",
+   "why": "base updated=2026-10-08 00:26:38 other=2026-10-08 00:22:24, history 1+1 -> 1"
+  },
+  {
+   "file": "results/_attrition_guard_scan.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08T00:29:43+08:00 theirs=2026-10-08T00:24:21+08:00"
+  },
+  {
+   "file": "results/fundamental_b_layer_filter.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08 00:28:21 theirs=2026-10-08 00:22:36"
+  },
+  {
+   "file": "results/futures_update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08T00:27:42 theirs=2026-10-08T00:22:31"
+  },
+  {
+   "file": "results/lhb_update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08 00:27:22 theirs=2026-10-08 00:22:30"
+  },
+  {
+   "file": "results/update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08 00:26:38 theirs=2026-10-08 00:22:23"
+  },
+  {
+   "file": "results/saturation_engine/face_bm-c.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours=2026-10-08T00:37:49+08:00 theirs=2026-10-08T00:24:40+08:00"
+  },
+  {
+   "file": "results/saturation_engine_state.bm-c.json",
+   "recipe": "take-ours",
+   "why": "daemon live face r825 live-wins: stage2=pick-1 live absorb, top-ts ours=(none) theirs=(none)"
+  }
+ ]
+}
