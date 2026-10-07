@@ -3,31 +3,11 @@
  "pick": "churn-absorb-2 17d634d61",
  "faces": [
   {
-   "path": "results/_r804bmb_rebase_resolve2.json",
-   "recipe": "ts-newer-wins",
-   "ts": [
-    "2026-10-07T10:19:05",
-    null
-   ],
-   "took": "ours(origin)",
-   "bytes_written": 1496
-  },
-  {
-   "path": "results/p1d_gates.json",
-   "recipe": "ts-newer-wins",
-   "ts": [
-    null,
-    null
-   ],
-   "took": "ours(origin)",
-   "bytes_written": 1422
-  },
-  {
    "path": "results/saturation_engine/face_bm-b.json",
    "recipe": "ts-newer-wins",
    "ts": [
     "2026-10-07T10:19:05",
-    "2026-10-07T10:16:05"
+    "2026-10-07T10:17:05"
    ],
    "took": "ours(origin)",
    "bytes_written": 506
@@ -36,24 +16,24 @@
    "path": "results/saturation_engine/history_bm-b.jsonl",
    "recipe": "line-union",
    "counts": [
-    124,
+    125,
     120,
-    125
+    126
    ],
-   "bytes_written": 57875
+   "bytes_written": 58338
   },
   {
    "path": "results/saturation_engine/state_bm-b.json",
    "recipe": "ts-newer-wins",
    "ts": [
     "2026-10-07T10:19:05",
-    "2026-10-07T10:16:05"
+    "2026-10-07T10:17:05"
    ],
    "took": "ours(origin)",
    "bytes_written": 552
   }
  ],
  "asserts": [
-  "results/saturation_engine/history_bm-b.jsonl: |A|=124 |B|=120 |AuB|=125 zero-loss"
+  "results/saturation_engine/history_bm-b.jsonl: |A|=125 |B|=120 |AuB|=126 zero-loss"
  ]
 }
