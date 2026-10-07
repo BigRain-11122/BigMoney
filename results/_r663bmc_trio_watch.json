@@ -1,0 +1,52 @@
+{
+ "probe": "r663 bm-c trio watch + stall escalation evidence",
+ "ts": "2026-10-07T08:01:16+08:00",
+ "trio": {
+  "value": {
+   "nulls_lines": 2000,
+   "target": 2000,
+   "complete": true,
+   "claim_state": "closed ok by bm-b 2026-10-06T18:59:51+08:00 (pid 732, exit 0)"
+  },
+  "quality": {
+   "nulls_lines": 1985,
+   "target": 2000,
+   "complete": false,
+   "file_mtime": "2026-10-07T07:17:46",
+   "frozen_min_at_probe": 44
+  },
+  "divlowvol": {
+   "nulls_lines": 1648,
+   "target": 2000,
+   "complete": false,
+   "file_mtime": "2026-10-07T07:17:46",
+   "frozen_min_at_probe": 44
+  }
+ },
+ "bm_b_heartbeat": {
+  "last_seen": "2026-10-07T06:40:15+08:00",
+  "last_loop_round": "r799 closed",
+  "stale_min_at_probe": 81,
+  "origin_last_push_estimate": "2026-10-07T07:17:46"
+ },
+ "takeover_gate": {
+  "shard_owner": "bm-b",
+  "owner_since": "2026-10-07T07:04:10",
+  "claim_age_min": 57,
+  "min_age_min": 57,
+  "stale_min_law": 20,
+  "verdict": "OPEN (per r297/r603 ladder law)"
+ },
+ "bm_c_claim_eligibility": {
+  "host_gates": "FAIL (dir_nonempty Money02/data/cache/p1c_stock: cache absent on bm-c)",
+  "fuse_family": "r393 sig: bm-c re-entry only after p1c_stock TRANSFER (fleet decision)",
+  "verdict": "bm-c CANNOT claim"
+ },
+ "bm_a_ladder_status": {
+  "quality_nulls_fuse": "keep-blocked OFF-CALIBER containment, refusals=1494, last_refusal 2026-10-07T07:28:04",
+  "divlowvol_nulls_fuse": "keep-blocked, refusals=1022, last_refusal 2026-10-07T07:28:04",
+  "verdict": "bm-a daemon trying, refused by correct poison-guard keep-blocks"
+ },
+ "escalation": "MSG-2026-10-07-0801-bmc-ALL.md (r662 next-pointer prescribed action: window empty + hb stale -> fleet-note/GM escalation)",
+ "recommended_default": "wait bm-b recovery; checkpoint resume = zero loss; Q only 15 draws short; trio finalize window 10-05..10-09"
+}
