@@ -1,0 +1,11 @@
+{
+ "pick": "14/14 8d215dff1 daemon live-state checkpoint (mine, pre-pull)",
+ "faces": {
+  "results/p1d_gates.json": "stage2 verbatim (branch live 17:28-17:29 fresher than checkpoint 17:22-17:23)",
+  "results/saturation_engine/face_bm-b.json": "stage2 verbatim (branch live 17:28-17:29 fresher than checkpoint 17:22-17:23)",
+  "results/saturation_engine/history_bm-b.jsonl": "stage2 verbatim (branch live 17:28-17:29 fresher than checkpoint 17:22-17:23)",
+  "results/saturation_engine/state_bm-b.json": "stage2 verbatim (branch live 17:28-17:29 fresher than checkpoint 17:22-17:23)"
+ },
+ "recipe": "bm-b lane daemon faces live-wins: pick8-staged live state (17:29) newer than my pre-pull checkpoint (17:23) on all 4 faces; rolling-tail + regen semantics; byte-verbatim stage2",
+ "asserts": "PASS (ts probes + byte identity + marker-free)"
+}
