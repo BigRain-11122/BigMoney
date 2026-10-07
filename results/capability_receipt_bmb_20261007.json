@@ -1,0 +1,38 @@
+{
+  "receipt": "O-20261007-0935-bm-c dispatch leg bm-b: 分时片错峰告知 + 本地能力盘点回执",
+  "bill_ref": "cph4/council/C-20261007-02-bill.md 决议转办③ (deadline 10-09, judge criterion ⑤)",
+  "machine": "bm-b",
+  "probed_at": "2026-10-07T09:52:00+08:00",
+  "capability_inventory": {
+    "cpu": "AMD Ryzen 7 3800X, 8C/16T logical",
+    "ram_total_gb": 23.92,
+    "ram_free_gb_probe": 6.35,
+    "gpu": "NVIDIA GeForce RTX 3070 8192MiB (4377MiB used by Ollama qwen2.5:7b resident KEEP_ALIVE=-1, 3642MiB free, util 2% @probe)",
+    "local_ai_stack": [
+      "Ollama qwen2.5:7b-instruct 4.7GB 100%GPU resident (L1 route host; serve-warm wrapper + MinigameOllamaKeepWarm 10min self-heal; keepwarm.pause release valve for heavy GPU jobs)",
+      "ComfyUI SDXL + SD1.5 dual models, port 8198, on-demand start/stop (start-comfy.ps1, stop-after-use VRAM discipline)",
+      "rembg + ESGRGAN + F4 pixel acceptance pipeline (MiniGame art candidate production, zero-quota local)",
+      "piper/kokoro TTS主力 (bill evidence face already recorded group-side)"
+    ],
+    "lanes": [
+      "BigMoney-IterationLoop 10-min round (pin=2), S6 chain ~5min/round below-normal",
+      "Game lanes minute-pin staggered: BiuNiYiXia x1/x8, PhantomEscapeGo x4, HomeWreck x9",
+      "autofill keepalive + saturation_engine tick daemons",
+      "in-flight heavy: FUND trio D nulls burn (fund_divlowvol_p1 1681/2000 @09:37, honest eta ~10-08; RAM owner until finalize, frees after)"
+    ],
+    "roles": ["BigMoney compute-node", "MiniGame B-line local art production", "fleet L1 LLM route host"]
+  },
+  "time_slice_stagger_notice": {
+    "in_force_mechanisms": [
+      "三机分钟针位错峰 BigMoney S6 chain: bm-a=8 / bm-b=2 / bm-c=5 (6-min spread, D-20260928-03①)",
+      "keepwarm.pause release valve: heavy-GPU jobs pause Ollama resident then auto-resume (E-093 same-family, CEO 10% reserve law companion)",
+      "machine-state.ps1 CEO yield-gate: trigger words -> pause local models+GPU tasks+cron shifts; full-cycle live-tested r786 (vram 4365->648MB)",
+      "BelowNormal priority for all pool batch burns (CEO CPU reserve law)",
+      "ComfyUI 用后即停 (start/stop per job, no resident VRAM squat)"
+    ],
+    "l1_consumer_stagger_notice": "本机 L1=Ollama qwen2.5:7b 常驻 4.4GB VRAM；美术/重GPU批需 >4GB VRAM 时先走 keepwarm.pause 释放阀（E-093 同族信号）；LLM 间隙窗=轮体间（10min 节奏内 S6 链约 5min 占 CPU、LLM 请求走剩余窗）；CEO 让路词触发时 machine-state.ps1 全链让路（EngineTick/值守簿记保留）"
+  },
+  "deadline": "2026-10-09",
+  "acknowledged_by_round": "r803 bm-b 2026-10-07",
+  "note": "receipt delivered via fleet inbox MSG to bm-c (dispatcher) same-window per R3 immediate law; capability numbers live-probed this round, not copied from stale ledgers"
+}

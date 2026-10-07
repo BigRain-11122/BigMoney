@@ -3,6 +3,26 @@
  "pick": "churn-absorb-2 17d634d61",
  "faces": [
   {
+   "path": "results/_r804bmb_rebase_resolve2.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    null,
+    "2026-10-07T10:13:05"
+   ],
+   "took": "theirs(local)",
+   "bytes_written": 1035
+  },
+  {
+   "path": "results/autofill_state.bm-b.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    "2026-10-07 10:18:01",
+    "2026-10-07 10:04:01"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 29030
+  },
+  {
    "path": "results/p1d_gates.json",
    "recipe": "ts-newer-wins",
    "ts": [
@@ -11,19 +31,7 @@
    ],
    "took": "ours(origin)",
    "bytes_written": 1422
-  },
-  {
-   "path": "results/saturation_engine/history_bm-b.jsonl",
-   "recipe": "line-union",
-   "counts": [
-    120,
-    129,
-    130
-   ],
-   "bytes_written": 60190
   }
  ],
- "asserts": [
-  "results/saturation_engine/history_bm-b.jsonl: |A|=120 |B|=129 |AuB|=130 zero-loss"
- ]
+ "asserts": []
 }
