@@ -54,10 +54,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 85 行注册 + 本候选——以 probe leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166/W167/W168/W169 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W170 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r813 接管窗·one-pass rc0·12/12 分片消费——回填内容=n1_w170_results.json 冻结实测键零改判据；回填窗注记：r813 冻结窗会话死于 push 后收口前·本回填=同 r813 号接管窗收口（W159/W168/W169 拖延窗先例同律·如实注记）】
+- **合并池**：pre-W170 K=369,720（mu=−0.092849·sigma=0.245165）→ W170-only K=2,200（mu=−0.092667·sigma=0.243064）→ **merged K=371,920（mu=−0.092848·sigma=0.245153）**；账本 prev=**777,212**+2,200=**779,412**（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w170_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 777,212）：1.1841 → **1.184**（Δ=**−0.0001**·诚实实测漂移 vs §5 描述性投影面·nulls-deepening 线零显著性质变）；se_mu 收窄阈 W168 0.000404 → W169 0.000403 → **0.000402**（σ0.2452/√371,920·results 键 se_mu_at_k371920）。
+- **A 档 full_sharpe_p95=0.2931**（2,000 runs·W169 键 0.3289【n1_w169_results.json 机读】→差 **−0.0358**·<0.05 门过·抽样波动面如实披露）；A p99=0.4481·A mu=−0.086849。
+- **§5 四预键全过（机证）**：①|W170-only mu − merged mu|=0.0002<0.02 ✓②sigma 相对变化 −0.86%<±10% ✓③A p95 差 −0.0358<0.05 ✓④K-lift −0.0001≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提锚面 only·结果如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w170_vs_w169ext=**−0.005693**。
 
-## §8 批后复盘。【finalize 同窗回填·待 W170 finalize 窗】
-- （占位·§5.5 W171+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·bm-a r813 接管窗】
+- **§5.5 W171+ 投影承接（r812 probe 机证·下波冻结方复核非转抄 r587 律）**：A first-clean **390_804..392_803**（probe 预 hops=0——**W170 B 带 390_804..391_003 注册后拒绝 naive W171 A 窗**·W171 冻结方必须 post-W170 注册宇宙重 derive·阶梯 A-hops-prior-B 继承第三十例待 W171 机证）；B first-clean **391_004..391_203**（naive B 落 naive A 窗内·同窗互斥 leg2 律=W171 冻结方 derive B 时预留本波 A 窗）。W171 席位=下轮 seat 链（probe→seat MSG→冻结窗）。
+- 宝藏/方法论捕获问（O-20261003-2030/O-20261002-2100 收口步）：本批=测量加深面·**零新方法零新宝藏**（nulls-deepening 例波·设计 verbatim 复用）·如实注记。
+- 诚实披露面：r813 冻结窗会话死于 push 后收口前（state/心跳/轮报未落）·本 §7/§8 回填与 finalize 同 r813 号接管窗执行（W169 先例 r812 finalize+r813 补账同律）；烧录=引擎 tick 自燃（冻结 commit cb7314d64 08:00:02 后 15 秒首分片·12 分片 08:00:17..08:10:17 十分钟烧完·SATURATION_ENGINE 常驻律实证）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
