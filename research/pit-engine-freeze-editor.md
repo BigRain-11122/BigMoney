@@ -14,3 +14,4 @@
 
 - [2026-10-07 16:5x r833 bm-a] **prereg-build buildgen 面三律（W176 prereg 窗实弹·r829 血统一波前推·E41 同域）**：①AST 提取前代 build 脚本 TOK/BACK/EXPECT 禁 exec——exec 重放其时点锁定的活断言与 git 读腿（时过必炸或伪绿）；②发排前 DRY 全文件门（全部 TOK 计数+残 token 零+malformed 窗+r754 两形）零写入先行——本窗自加 sanity 腿（batch id 计数）首跑即拦（@TITLE@ 复合含 1 例=EXPECT+1 校准律）；③§5 实测锚显示形=U+2212 非 ASCII 减号——%.4f 产出 '-' 须 .replace('-',U+2212) 对齐血统显示形（下波 buildgen 以本波产物为 TOK 旧侧=形态漂移即计数门红）。执法面=本件。How to apply：W177+ prereg 窗一律走 buildgen 血统三律（AST+DRY 门+U+2212 锚形），禁手抄禁 exec 前代。
 - [2026-10-07 16:5x r833 bm-a] 域指针·增量：prereg-build buildgen 三律坑行（AST 禁 exec 前代/DRY 全文件门/U+2212 锚形）直写 pit-engine-freeze-editor.md（E41 同域·收据=轮报告 r833）
+- [2026-10-07 15:3x r830 bm-a] 域指针·增量批：冻结手术 buildgen 法首用（E41）坑行 verbatim 迁 research/pit-engine-freeze-editor.md（buildgen/冻结手术面·其行自declared 域）·收据同 _r832bma_codely_increment.json。

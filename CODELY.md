@@ -86,7 +86,4 @@
 - 域指针·r672 bm-c 增量批（2026-10-07 11:4x·主件余量红线触发）：水位 hash 管道快照假 delta 坑 1 条 verbatim 迁 pit-protocol-d19.md（r814 写面坑的读面姊妹·r537/r583 族）·收据 results/_r672bmc_codely_increment.json；新坑律仍先入本件后回扫。
 - 域指针·r679 bm-c 增量批（2026-10-07 13:5x·触发=主件 31,287B>30,720B〔bm-a r825 首入回弹〕）：r825 rebase UU 标记污染 daemon 状态面坑 1 条 verbatim 迁 pit-git-resolver.md（rebase 冲突窗族）·收据 _r679bmc_codely_increment.json；新坑律仍先入本件后回扫。
 
-- [2026-10-07 15:3x r830 bm-a] 域指针·增量批：冻结手术 buildgen 法首用（E41）坑行 verbatim 迁 research/pit-engine-freeze-editor.md（buildgen/冻结手术面·其行自declared 域）·收据同 _r832bma_codely_increment.json。
-
-- [2026-10-07 16:3x r832 bm-a] 域指针·增量批：daemon 活写阻断 rebase 的 writer-pause 让路法坑 1 条 verbatim 迁 research/pit-git-resolver.md（rebase×daemon 活写面·E42 卡同窗入 METHODOLOGY_ASSETS）·收据 results/_r832bma_codely_increment.json；新坑律仍先入本件后回扫。
-- 域指针·r693 bm-c：post_review 红行判定=每 id 末行口径坑（历史 NO 行翻绿不删·全行计数假读）直写 pit-tooling.md·收据 _r693bmc_codely_increment.json
+- [2026-10-07 20:5x r842 bm-a] **S5 轮账本行多轮连续丢失坑（r835-r841 七轮实录·r842 补记治愈）**：连续 7 会话窗完成 commit+push 但 round_reports-bm-a.md 零行落盘——r840 state 注记甚至宣称「report line+commits real」而文件实无该行（宣称面≠文件面）。Why：wrapper 25min 斩首/push-race rebase 手术后 S5 追加步被跳过，state 注记按预期而非实况书写。How to apply：①每轮 S7 前以文件尾实核上一轮账本行在盘（勿信 state 注记勿信 git log 推断）；②缺行=以该轮 commit 族+时间戳重建补记（标 补记+证据 sha）；③state 写「报告行已落」前必须先落行再写注记。

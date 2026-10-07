@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+import io, re
+t = io.open(r'research\PERPETUAL_N1_W177_PREREG.md', encoding='utf-8', newline='').read()
+lines = t.splitlines()
+print('LINES', len(lines))
+print('TITLE:', lines[0][:130])
+for pat in [r'A-ext seed=[^（]*', r'B-ext exit seed=[^（]*', r'净账本锚头 \*\*[^*]*',
+            r'累计 null 池[^=]*=\*\*[^*]*', r'波号 177[^·]*', r'引擎线第 \d+ 波【[^【]*']:
+    m = re.search(pat, t)
+    print('>>', m.group()[:110] if m else 'NONE')
+m = re.search(r'5\. \*\*W178\+ 投影[^：]*：A first-clean [0-9_\.]+ \*\*CLEAN\*\*（hops=0）；B first-clean \*\*[0-9_\.]+ CLEAN\*\*（hops=0）', t)
+print('>> S55:', m.group()[:100] if m else 'NONE')
+print('37th:', '第三十七例' in t, '| THIRTY-SEVENTH:', 'THIRTY-SEVENTH' in t)
+print('seat 780a0cd30:', '780a0cd30' in t, '| MSG name:', 'MSG-2026-10-07-2031-bma-w177-seat' in t)
+print('freeze 15ec44ea6:', '15ec44ea6' in t)
+print('K 385,120:', '385,120' in t, '| 387,320 proj:', '387,320' in t, '| 795,305:', '795,305' in t)
+print('se_mu 0.000395:', '0.000395' in t, '| p95 0.3118:', '0.3118' in t, '| sigma 0.245060:', '0.245060' in t)
+print('mu_delta cite +0.000773:', '+0.000773' in t)
+print('R250:', re.search(r'R250：.*', t).group()[:60])
+print('wave cli:', re.search(r'--wave 177[^）]*', t).group()[:50])
+print('fn face:', 'file_name="results/perpetual_faces/n1_w177_results.json"' in t)
+print('stale W1..W175?:', 'W1..W175' in t, '| W1..W176:', 'W1..W176' in t)
+print('stale 波号 176?:', '波号 176' in t, '| 波号 177:', '波号 177' in t)
+print('own-A reservation B face:', 'B 带本波 A 窗保留走' in t)
+print('sec7/8 cite r839:', 'r839 one-pass 窗' in t)
+print('W178 staircase mandate:', '继承第三十八例' in t)
+print('minus U+2212 mu key:', '−0.0927' in t, '| w176-only −0.0889:', '−0.0889' in t)
