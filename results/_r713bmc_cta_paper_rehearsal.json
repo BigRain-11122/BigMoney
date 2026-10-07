@@ -1,0 +1,84 @@
+{
+ "rc1": 0,
+ "rc2": 0,
+ "n_marks": 1,
+ "first_mark_date": "2026-10-08",
+ "first_mark_ret": 0.11722474,
+ "equity_cny": 11172247.43,
+ "panel_cutoff": "2026-10-08",
+ "status": "trial-live",
+ "schema": "cta_p1_paper_v1",
+ "slot_registration_ok": true,
+ "honest_history_keys": [
+  "au_beta_suspicion",
+  "g1_verdict",
+  "margin_profile",
+  "regime_promotion_pending",
+  "release_basis",
+  "v0_rollgap_caveat"
+ ],
+ "construction_universe": [
+  "IF",
+  "IC",
+  "IH",
+  "IM",
+  "T",
+  "TF",
+  "RB",
+  "AU",
+  "SC"
+ ],
+ "marks_summary": {
+  "n_marks": 1,
+  "first_mark": "2026-10-08",
+  "last_mark": "2026-10-08",
+  "total_ret": 0.11722474
+ },
+ "checks": [
+  {
+   "name": "first cmd_run accrues rc=0",
+   "ok": true
+  },
+  {
+   "name": "exactly 1 mark (the 10-08 bar)",
+   "ok": true
+  },
+  {
+   "name": "mark date = 2026-10-08",
+   "ok": true
+  },
+  {
+   "name": "equity positive near initial",
+   "ok": true
+  },
+  {
+   "name": "panel_cutoff = 2026-10-08",
+   "ok": true
+  },
+  {
+   "name": "status = trial-live",
+   "ok": true
+  },
+  {
+   "name": "schema = cta_p1_paper_v1",
+   "ok": true
+  },
+  {
+   "name": "slot registration #28 present",
+   "ok": true
+  },
+  {
+   "name": "universe = frozen nine",
+   "ok": true
+  },
+  {
+   "name": "honest-history disclosures carried (6 keys)",
+   "ok": true
+  },
+  {
+   "name": "second cmd_run idempotent rc=0",
+   "ok": true
+  }
+ ],
+ "all_pass": true
+}
