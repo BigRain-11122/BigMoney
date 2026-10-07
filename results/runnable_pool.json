@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-07T12:43:51+08:00",
+ "updated_at": "2026-10-07T12:55:28+08:00",
  "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
  "entries": [
   {
@@ -15984,7 +15984,9 @@
      "key": "screen-0of1",
      "status": "ready",
      "checkpoint": "results/trial_labor_w14/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429)",
-     "note": "single shard; worker_cap() parallelism inside the shard (W12/W13-SCREEN precedent)"
+     "note": "single shard; worker_cap() parallelism inside the shard (W12/W13-SCREEN precedent)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-07 12:55:49"
     }
    ],
    "data_deps": [
@@ -15993,7 +15995,15 @@
     "results/trial_labor_w14/prep_state.json"
    ],
    "enrolled_at": "2026-10-07T12:43:51+08:00",
-   "owner": null
+   "owner": null,
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (32-core bm-a: <=26 CEO 10% reserve law; W13-SCREEN 593 cells ~light; W14-SCREEN 293 cells = lightest in lineage per prereg sec.0 TRIAL_LAB_W14_SCREEN; screen leg-L 6m full-history per cell, resi+cnt gates carried per cell)",
+    "priority": "BelowNormal",
+    "note": "minutes-scale pool batch per prereg sec.0 (W12-SCREEN 1,059 cells ~3min precedent; W14 293 lightest); checkpoint resume per W12/W13 checkpoint law; BelowNormal + worker_cap = CEO 10% CPU reserve law"
+   },
+   "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md FROZEN sec.0 TRIAL_LAB_W14_SCREEN (s2 cheap initial screen batch: batch_trials=293 distinct + 200 nulls; raw 10,000 per O-1132 expansion; evidence_cutoff 2026-09-22 P-5C frozen binding; screen line = beat6m > null p95 strictly, null p95 ref band [0.50,0.52]; resi+cnt axis pair new lineage)",
+   "priority": 1,
+   "updated_at": "2026-10-07T12:55:28+08:00"
   }
  ]
 }
