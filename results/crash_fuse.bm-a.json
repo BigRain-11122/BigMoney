@@ -348,16 +348,6 @@
    "last_refusal_ts": "2026-09-30 09:40:06",
    "last_crash_ts": "2026-09-30 09:34:03"
   },
-  "scripts/fund_divlowvol_p1.py|run,--nulls": {
-   "entry": "FUND-DIVLOWVOL-P1-NULLS",
-   "code_sha256": "6d49f8ec7b5a2118",
-   "machine": "bm-a",
-   "refusals": 1217,
-   "last_crash_ts": "2026-10-03 18:53:16",
-   "count": 1,
-   "last_refusal_ts": "2026-10-07 17:28:04",
-   "shard": "fund-divlowvol-p1-nulls-0of1"
-  },
   "scripts/trial_labor_w14.py|generate": {
    "count": 1,
    "code_sha256": "07ae17fea4ba8da2",
@@ -1159,10 +1149,10 @@
   },
   "scripts/fund_divlowvol_p1.py|run,--nulls": {
    "crashes": 1,
-   "old_code_sha256": "2744ee595d0faeb3",
+   "old_code_sha256": "6d49f8ec7b5a2118",
    "cleared_by": "bm-a",
-   "cleared_ts": "2026-10-03 18:38:04",
-   "reason": "code_changed"
+   "cleared_ts": "2026-10-07 17:49:01",
+   "reason": "data_fixed_takeover_20261007: r625 keep-block own clearing condition MET (T-156 p1c_stock TRANSFER+verify 10-03 14:39 four-point ALL PASS incl 13/13 sha256==sender manifest + n_base 3292==bm-b basis; DIVLOWVOL-SENS clean burn 500/500 rc0 r630 + r632 caliber verdict canonical CLEAN); this sig = 18:53:16 re-arm artifact of r637 ghost-claim release surgery (pid 19856 killed 5min in, nulls.log zero-error zero-progress = external kill, r696 false-crash family, NOT runner/data fault); probe PASS 16/16 legs re-verified 2026-10-07 (transfer-manifest sha256 match + t0 frozen reproduction 2006-02-06 + sidecar zero-missing); takeover ladder OPEN (bm-b hb stale 186min, claim stale 2.2h, r297/r603); NULLS rows deterministic per-k union-safe (r297 LOWAMP precedent); family finalize unblocked only by NULLS completion (r632)"
   },
   "scripts/fund_quality_p1.py|run,--nulls": {
    "crashes": 1,
