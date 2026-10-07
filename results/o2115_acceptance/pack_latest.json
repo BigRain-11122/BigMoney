@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-04 06:34:06",
- "asof_date": "2026-10-04",
+ "generated": "2026-10-07 15:48:05",
+ "asof_date": "2026-10-07",
  "order_ref": "O-20261002-2115-bm-c sec.3 (10-08 governance-day acceptance)",
  "acceptance_date": "2026-10-08",
  "machine_view": "bm-c (shared-artifact aggregation, machine-agnostic rerun)",
@@ -37,10 +37,9 @@
      "pool": {
       "n_entries": 6,
       "by_status": {
-       "done": 5,
-       "ready": 1
+       "done": 6
       },
-      "done_share": 0.8333333333333334,
+      "done_share": 1.0,
       "ids": [
        "FUND-VALUE-P1-CELL-VALUEPB-X1",
        "FUND-VALUE-P1-CELL-VALUEPB-X2",
@@ -58,10 +57,9 @@
      "pool": {
       "n_entries": 4,
       "by_status": {
-       "done": 3,
-       "ready": 1
+       "done": 4
       },
-      "done_share": 0.75,
+      "done_share": 1.0,
       "ids": [
        "FUND-QUALITY-P1-CELL-QUALITYROE-X1",
        "FUND-QUALITY-P1-CELL-QUALITYROE-X2",
@@ -147,38 +145,37 @@
    "per_machine": {
     "bm-a": {
      "missing": false,
-     "launches": 37,
+     "launches": 50,
      "classes": {
-      "o2115_new": 27,
-      "other_lines": 8,
-      "perpetual_continuation": 2
+      "o2115_new": 10,
+      "other_lines": 40
      }
     },
     "bm-b": {
      "missing": false,
-     "launches": 21,
+     "launches": 36,
      "classes": {
-      "o2115_new": 18,
-      "other_lines": 3
+      "o2115_new": 19,
+      "other_lines": 17
      }
     },
     "bm-c": {
      "missing": false,
-     "launches": 23,
+     "launches": 41,
      "classes": {
       "o2115_new": 13,
-      "other_lines": 5,
+      "other_lines": 23,
       "perpetual_continuation": 5
      }
     }
    },
-   "total_launches": 81,
+   "total_launches": 127,
    "class_totals": {
-    "o2115_new": 58,
-    "other_lines": 16,
-    "perpetual_continuation": 7
+    "o2115_new": 42,
+    "other_lines": 80,
+    "perpetual_continuation": 5
    },
-   "o2115_new_share": 0.7160493827160493,
+   "o2115_new_share": 0.33070866141732286,
    "title": "引擎火力分布新面孔占比",
    "item": 4,
    "status": "met"
@@ -188,8 +185,8 @@
   {
    "flag": "fund_trio_nulls_pool_state",
    "state": {
-    "FUND-VALUE-P1-NULLS": "ready",
-    "FUND-QUALITY-P1-NULLS": "ready",
+    "FUND-VALUE-P1-NULLS": "done",
+    "FUND-QUALITY-P1-NULLS": "done",
     "FUND-DIVLOWVOL-P1-NULLS": "ready"
    },
    "note": "rightful burner = bm-b per MSG-1132/MSG-1155 division (r617-r620); off-caliber-era burns killed+discarded (r622/r629); finalize window 10-05..10-09"
