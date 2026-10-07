@@ -7,10 +7,13 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
-  "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
+  "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it",
+  "entries[].source": "O-20261007-2245 (OSS 引进管线 ① bm-c lane): 引进件必填上游 repo/URL; 自研件缺省=SELF 不填; 引进件 id 必带 OSS- 前缀 (血统区分律, 收养三律照常)",
+  "entries[].permit": "O-20261007-2245 许可门: MIT/Apache-2.0/BSD 直用+署名型登记; AGPL 禁入 (charter §五 spark-arc-studio 判例); 扫描期记录, 入池时复核",
+  "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)"
  },
- "updated_at": "2026-10-07T13:00:09+08:00",
- "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
+ "updated_at": "2026-10-07T23:21:00+08:00",
+ "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -16076,16 +16079,20 @@
    ],
    "lane_owner": "bm-c",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w14/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13 single-shard precedent)",
      "note": "single shard W1-W13-JUDGE precedent; 77 judged cells = lightest judge batch in lineage (W13 99, W12 188); worker_cap() parallelism inside the shard",
      "owner": "bm-c",
-     "owner_since": "2026-10-07 22:30:04",
-     "park_note": "AUTOFILL-PARK 2026-10-07 20:30:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+     "owner_since": "2026-10-07 23:20:03",
+     "park_note": "AUTOFILL-PARK 2026-10-07 20:30:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-07 22:30:04",
+     "done_at": "2026-10-07 23:20:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "judge-0of1.bm-c.json"
     }
    ],
    "data_deps": [
@@ -16104,7 +16111,9 @@
    "consumer_plan": "TRIAL-LABOR-W14-JUDGE -> w14_judge.json verdict face (reform-face FIRST registered wave: eligible_reform [0,10] predicted band + top-3 by composite dual face per O-1058 five-step chain; sumn-style negative readouts carried from screen = judge confirms at full caliber, negative results = lawful products) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY + TRIAL-RESICNT-* paper accounts spawn only on eligible) -> CEO-REPORT-WAVE14 48h face + scorecard CEO face; screen null p95 0.5116 -> W15 prereg reference band",
    "worker_class": "self-contained",
    "entered_at": "2026-10-07 18:33:25",
-   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)"
+   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)",
+   "done_by": "bm-c",
+   "done_at": "2026-10-07 23:20:03"
   }
  ],
  "lane_machine": "bm-a"
