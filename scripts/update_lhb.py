@@ -131,7 +131,12 @@ def _load_local_dates():
         try:
             df = pd.read_csv(path, usecols=[0])
             ds = pd.to_datetime(df[df.columns[0]], errors="coerce")
-            ds = sorted(ds.dropna().normalize().unique())
+            # r806 (bm-b): Series.normalize() does not exist (AttributeError,
+            # swallowed by the except below) -> calendar was ALWAYS None ->
+            # R18 holiday awareness silently dead since landing; weekday
+            # fallback fetched during golden week. .dt.normalize restores
+            # the documented intent (probe _r806bmb_lhb_gate_probe.json).
+            ds = sorted(ds.dropna().dt.normalize().unique())
             if len(ds):
                 dates = [pd.Timestamp(d) for d in ds]
         except Exception:
@@ -308,6 +313,19 @@ def main():
                  "last_attempt": str(now)})
     qs = q.start_time.strftime("%Y%m%d")
     qe = q.end_time.strftime("%Y%m%d")
+
+    # r806 (bm-b): bounded-fetch jacket -- requests has no default timeout,
+    # so a stalled server hung this leg forever (CloseWait 23min+ at
+    # 15:29, killed two loop sessions). 45s turns any stall into an
+    # honest fetch_fail rc2 instead of an unbounded hang.
+    import requests as _rq
+    _rq_request_orig = _rq.Session.request
+
+    def _jacket_request(self, *args, **kwargs):
+        kwargs.setdefault("timeout", 45)
+        return _rq_request_orig(self, *args, **kwargs)
+
+    _rq.Session.request = _jacket_request
 
     # ---- re-fetch the cutoff quarter (superset by construction)
     try:
