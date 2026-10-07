@@ -1,0 +1,54 @@
+{
+ "wave": 176,
+ "machine": "bm-a",
+ "round": "r839",
+ "law_ref": "pit r752 three-identity gates; preflight probe GREEN_FINALIZE_READY (external probe _r839bma_w176_preflight.py)",
+ "gate1_totals": {
+  "A": 2000,
+  "B": 200,
+  "n_backtests_sum": 2200,
+  "per_shard_audit_eq_families": true
+ },
+ "gate2_seeds": {
+  "A": "unique=2000 min=402004 max=404003",
+  "B_exit": "unique=200 min=404004 max=404203",
+  "B_entry": "unique=200 min=402004 max=402203"
+ },
+ "gate3_tiling": {
+  "A": "[0,166),[166,333),[333,500),[500,666),[666,833),[833,1000),[1000,1166),[1166,1333),[1333,1500),[1500,1666),[1666,1833),[1833,2000) half-open contiguous PASS",
+  "B": "[0,16),[16,33),[33,50),[50,66),[66,83),[83,100),[100,116),[116,133),[133,150),[150,166),[166,183),[183,200) half-open contiguous PASS"
+ },
+ "finalize": {
+  "prev_total": 790905,
+  "batch_trials": 2200,
+  "total": 793105,
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "evidence_cutoff": "2026-09-22",
+  "merged_k": 385120,
+  "merged_mu": -0.09272735666805151,
+  "merged_sigma": 0.24505954867123803,
+  "w_only_mu": -0.08890595454545454,
+  "mu_delta_w176_vs_w175ext": 0.000773,
+  "se_mu_at_k385120": 0.000395,
+  "skill_line_v2": {
+   "n_eff_held_equal": 790905,
+   "line_pre": 1.1846,
+   "line_merged": 1.1845,
+   "delta": -0.0001
+  },
+  "A_p95": 0.3118,
+  "A_p99": 0.4431,
+  "A_mu": -0.01028755,
+  "pred_keys": {
+   "1_mu_gap": 0.0038214021225969758,
+   "2_sigma_rel_pct": -0.011224034828175728,
+   "3_Ap95_delta_vs_w175": 0.010200000000000042,
+   "4_k_lift_delta": -0.0001
+  },
+  "default_wave_selftest": "PASS (incl. W176 materializer face)"
+ },
+ "generated_at": "2026-10-07T20:0x+08:00"
+}
