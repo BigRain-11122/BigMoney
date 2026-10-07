@@ -3772,8 +3772,141 @@ def cmd_judge_prep() -> int:
     return 0
 
 
+# ---- r699 RAM-aware spawn gate + single-instance lock (judge lane) ----
+# 19:2x live evidence: the post-fix runner built its state healthily,
+# then died at pool spawn with BrokenProcessPool. Root chain = same-
+# machine double-launch (a manual relaunch invisible to autofill's
+# cmdline needle scan raced the autofill launch; two state builds +
+# two worker pools collided) x judge-class initargs (full dual-leg
+# panels + per-leg state families = GB-scale PER WORKER COPY, ~10x
+# the 0.5GB/worker assumption inside worker_cap's RAM guard) x user-
+# foreground RAM squeeze (game launch 21s after the child deaths).
+# Children died abruptly -> crash-fuse poisoned the HEALTHY hash.
+# Fix law = measure, size, park: never oversubscribe RAM, never
+# double-run on this box, and park honestly (r491 AUTOFILL-PARK:
+# zero-burn, NOT a crash) instead of feeding the fuse.
+
+JUDGE_RAM_FLOOR_GB = 6.0   # early gate: below this even the state
+                           # build thrashes the box for minutes only
+                           # to park at the measured gate -- skip it
+
+
+def _judge_now_stamp():
+    import datetime
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def _judge_park(reason):
+    """Honest park (r491 law): zero-burn, NOT a crash. The autofill
+    launch-verify sweep reads this marker from the launch log and
+    parks entry+shard (waiting + park_note) instead of crash-fuse-
+    confirming this hash."""
+    print(f"AUTOFILL-PARK: {_judge_now_stamp()} {reason}")
+    print(f"JUDGE-PARK: {reason} -- honest zero-burn, defer to a "
+          f"fatter-RAM tick (un-park = session flip when the gate "
+          f"passes)")
+    return 0
+
+
+def _state_footprint_bytes(obj, _seen=None):
+    """Conservative in-process byte estimate of the shared judge
+    state: deep metadata walk (DataFrame.memory_usage deep /
+    ndarray.nbytes / str-bytes / recursive containers), ZERO copies.
+    Basis for the per-worker-copy RAM need (pickle round-trip lands
+    within ~25% of this)."""
+    import numpy as _np
+    if _seen is None:
+        _seen = set()
+    if isinstance(obj, (str, bytes, bytearray)):
+        return len(obj)
+    if obj is None or isinstance(obj, (bool, int, float, complex)):
+        return 0
+    if id(obj) in _seen:
+        return 0
+    _seen.add(id(obj))
+    if isinstance(obj, _np.ndarray):
+        return int(obj.nbytes)
+    if hasattr(obj, "memory_usage"):
+        try:
+            return int(obj.memory_usage(deep=True).sum())
+        except Exception:
+            return 0
+    if isinstance(obj, dict):
+        return sum(_state_footprint_bytes(v, _seen) for v in obj.values())
+    if isinstance(obj, (list, tuple, set, frozenset)):
+        return sum(_state_footprint_bytes(v, _seen) for v in obj)
+    return 0
+
+
+def _judge_ram_plan(foot_b, avail_b, cap):
+    """Pure decision: how many pool workers fit given the MEASURED
+    state footprint and current available RAM. Returns (workers,
+    park_reason); workers==0 means park. Keeps >=1GB for the user
+    foreground (CEO RAM-margin law analog); per-worker need = state
+    copy (foot x1.25 pickle overhead) + 256MB curve temps."""
+    headroom_b = 1 << 30
+    per_worker_b = int(foot_b * 1.25) + (256 << 20)
+    if per_worker_b <= 0:
+        return max(1, min(cap, 1)), ""
+    fit = int((avail_b - headroom_b) // per_worker_b)
+    if fit < 1:
+        return 0, (f"insufficient RAM avail={avail_b / 2**30:.1f}G "
+                   f"state~{foot_b / 2**30:.1f}G "
+                   f"per-worker~{per_worker_b / 2**30:.1f}G "
+                   f"(1 worker + 1G headroom cannot fit)")
+    return max(1, min(cap, fit)), ""
+
+
+def _judge_lock_path(shard, shards):
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    return os.path.join(CKPT_DIR, f"judge_shard{shard}of{shards}.lock")
+
+
+def _judge_lock_acquire(lock_path):
+    """Single-instance guard (r699): refuses when a LIVE sibling runner
+    holds the lock (same-machine double-launch closure -- 19:19 manual
+    relaunch + 19:22 autofill launch raced because the cmdline needle
+    scan never saw the manual form). Stale locks self-heal: dead pid,
+    or pid-reuse onto a non-runner process (cmdline identity check)."""
+    me = os.getpid()
+    if os.path.exists(lock_path):
+        prev = {}
+        try:
+            with open(lock_path, encoding="utf-8") as fh:
+                prev = json.load(fh)
+        except Exception:
+            prev = {}
+        ppid = prev.get("pid")
+        if isinstance(ppid, int) and ppid != me:
+            import psutil
+            try:
+                p = psutil.Process(ppid)
+                cmd = " ".join(p.cmdline() or [])
+                if p.is_running() and "trial_labor_w14" in cmd.lower():
+                    return False, ppid
+            except Exception:
+                pass          # dead / reused / unreadable pid: self-heal
+    with open(lock_path, "w", encoding="utf-8") as fh:
+        json.dump({"pid": me, "ts": _judge_now_stamp()}, fh)
+    return True, None
+
+
+def _judge_lock_release(lock_path):
+    try:
+        os.remove(lock_path)
+    except OSError:
+        pass
+
+
 def cmd_judge(shard: int, shards: int, workers) -> int:
     print(f"=== {WAVE} judge shard {shard}of{shards} ===")
+    lock_path = _judge_lock_path(shard, shards)
+    got_lock, sib = _judge_lock_acquire(lock_path)
+    if not got_lock:
+        return _judge_park(
+            f"double-launch guard: live sibling runner pid={sib} holds "
+            f"{os.path.basename(lock_path)} -- this attempt exits "
+            f"zero-burn (r699 same-machine double-run closure)")
     for p, what in ((JUDGE_STATE_FILE, "judge_state.json"),
                     (SCREEN_FILE, "w14_screen.json")):
         if not os.path.exists(p):
@@ -3808,6 +3941,18 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
         cells.append({"cell_id": f"JUDGE|{cid}", "candidate_id": cid,
                       "i": i, "cand": c, "template": template})
     mine = [c for i, c in enumerate(cells) if i % shards == shard]
+
+    # r699 early RAM floor: the state build alone is GB-scale (dual-leg
+    # panels + per-leg state families); below this floor the build
+    # thrashes the box for minutes only to park at the measured gate --
+    # skip it honestly up front.
+    import psutil as _ps
+    _avail_gb = _ps.virtual_memory().available / 2**30
+    if _avail_gb < JUDGE_RAM_FLOOR_GB:
+        return _judge_park(
+            f"insufficient RAM avail={_avail_gb:.1f}G < early floor "
+            f"{JUDGE_RAM_FLOOR_GB:.1f}G (state build alone is GB-scale; "
+            f"user-foreground squeeze) -- defer")
 
     vol_state_full, vol_err = tl4._vol_state_full()
     if vol_err:
@@ -3944,12 +4089,29 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
                                 default=float) + "\n")
 
     if todo:
+        # r699 measured RAM gate: size the worker pool to the MEASURED
+        # state footprint (never worker_cap's 0.5GB/worker assumption
+        # for judge-class initargs); park honestly when even one
+        # worker copy cannot fit (19:2x BrokenProcessPool root chain).
+        foot_b = _state_footprint_bytes(state)
+        avail_b = _ps.virtual_memory().available
+        workers_eff, park_reason = _judge_ram_plan(
+            foot_b, avail_b, workers or tl1.worker_cap())
+        if park_reason:
+            return _judge_park(park_reason + " -- measured at pool "
+                              "spawn (state built; checkpoint resume "
+                              "safe)")
+        print(f"judge RAM plan: state~{foot_b / 2**30:.1f}G "
+              f"avail={avail_b / 2**30:.1f}G -> workers={workers_eff} "
+              f"(r699 measured fit; worker_cap()="
+              f"{tl1.worker_cap()})")
         jobs = [(c["cell_id"], _judge_cell_w14, (c,)) for c in todo]
-        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+        tl1.run_cells_parallel(jobs, workers=workers_eff,
                               desc="judge cells",
                               initializer=tl1._init_worker,
                               initargs=(state,), on_result=on_result)
     print(f"judge shard {shard}of{shards} complete -> {ck}")
+    _judge_lock_release(lock_path)
     return 0
 
 
@@ -5127,6 +5289,46 @@ def cmd_selftest() -> int:
         _rets == [19] and len(_sites) >= 6
         and all(_s == 19 for _s in _sites),
         f"rets={_rets} sites={_sites}")
+
+    # ---- L18 RAM-plan + footprint + single-instance lock (r699 crash
+    # class: pool-spawn BrokenProcessPool under RAM squeeze x same-
+    # machine double-launch; measure-size-park law. Pure offline math
+    # and lock semantics, zero live state, zero pool spawns)
+    import numpy as _np18
+    _foot_est = _state_footprint_bytes(
+        {"arr": _np18.zeros(1000), "s": "x" * 100})
+    _ok("L18a state footprint estimator conservative on synthetic "
+        "array+str (>= true bytes, zero copies)",
+        _foot_est >= 1000 * 8 + 100,
+        f"est={_foot_est} vs >= {1000 * 8 + 100}")
+    _w0, _r0 = _judge_ram_plan(2 << 30, (3 << 30) - 1, 8)
+    _ok("L18b RAM plan parks when 1 worker + 1G headroom cannot fit "
+        "(2G state vs 3G avail)",
+        _w0 == 0 and "insufficient RAM" in _r0,
+        f"workers={_w0} reason={_r0[:80]}")
+    _w1, _r1 = _judge_ram_plan(1 << 30, 8 << 30, 25)
+    _w2, _r2 = _judge_ram_plan(1 << 30, 16 << 30, 25)
+    _ok("L18c RAM plan fits workers monotonically, respects cap, "
+        "never parks on healthy RAM (1G state)",
+        _w1 >= 1 and _r1 == "" and _w2 >= _w1 and _w2 <= 25
+        and _r2 == "",
+        f"w(8G)={_w1} w(16G)={_w2} cap=25")
+    import tempfile as _tf18
+    _tmpd = _tf18.mkdtemp(prefix="w14lock_")
+    _lp = os.path.join(_tmpd, "judge_shard0of1.lock")
+    _fresh_ok = _judge_lock_acquire(_lp)[0]
+    _judge_lock_release(_lp)
+    with open(_lp, "w", encoding="utf-8") as _fh:
+        json.dump({"pid": 4, "ts": "2026-10-07 19:00:00"}, _fh)
+    _reuse_ok = _judge_lock_acquire(_lp)[0]
+    _judge_lock_release(_lp)
+    import shutil as _sh18
+    _sh18.rmtree(_tmpd, ignore_errors=True)
+    _ok("L18d single-instance lock: fresh acquire ok + live non-runner "
+        "pid (pid-reuse onto System) self-heals instead of "
+        "false-blocking",
+        _fresh_ok and _reuse_ok,
+        f"fresh={_fresh_ok} reuse-heal={_reuse_ok}")
 
     print(f"\nselftest: {n_pass}/{n_leg} PASS "
           f"(scope: W14 resi+cnt layer + G-RESI/G-CNT + "
