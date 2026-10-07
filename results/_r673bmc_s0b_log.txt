@@ -1,0 +1,77 @@
+RC_ADD=0
+RC_COMMIT=0
+RC_PULL=0
+PULL: Rebasing (1/1)Successfully rebased and updated refs/heads/main.
+POST_DIRTY_COUNT=1
+POST_DIRTY: ?? results/_r673bmc_s0_log.txt
+HEAD=2e1c9127e POST_BEHIND=0 POST_AHEAD=1
+LOG: 2e1c9127e r673 pre-pull absorb: own daemon live-faces churn + r672 commitmsg leftovers (r620 law)
+LOG: 1e8db3237 round 821: W173 prereg build landed origin d76ce93d5 (banned gate ADMIT rc0; A 395_404..397_403 staircase 33rd E36 / B 397_404..397_603 own-A leg2; anchor 783,812/K 376,320; proj 378,520/786,012; ordinal divergence 32nd-anticipated vs THIRTY-THIRD-receipt disclosed per r587; seat sha 9cd8af3af path-derived vs r820 prose 014b4ede5 honesty-noted; generator execs truncated r819 build for exact TOK pairs, all r819 asserts re-passed live) + S6 37/37 rc0 golden-week no-op tribe (dualrun ZERO-DRIFT; scorecard/REPORT/LIVE-2026-10-07/build_status refreshed; attrition CLEAN x4) + smoke 48/48 + D-19 dec watermark repair acc32216(bad-provenance r820 regression)->635c3024 origin-blob machine-recomputed (zero new BigMoney rows: D-20261007-03 HQ-domain consumed r804/r813; orders e9fa5da4 MATCH; O-0935 bm-a leg receipted r817) + orders 167/167 double-sweep zero-unacked + watchdog re-registered + claws MATCH + state 820->821 + heartbeat epoch int [via bm-a r821]
+LOG: 96a9d20eb r672 addendum: push-race closeout receipt line (16-UU per-face canon resolve, zero --no-verify, delivery ahead=0)
+INCOMING: commit 1e8db3237a247e9916d3ad0708be4581ec304e3a
+INCOMING: Author: junsheng.sun <junsheng.sun@unity.cn>
+INCOMING: Date:   Wed Oct 7 11:45:07 2026 +0800
+INCOMING: 
+INCOMING:     round 821: W173 prereg build landed origin d76ce93d5 (banned gate ADMIT rc0; A 395_404..397_403 staircase 33rd E36 / B 397_404..397_603 own-A leg2; anchor 783,812/K 376,320; proj 378,520/786,012; ordinal divergence 32nd-anticipated vs THIRTY-THIRD-receipt disclosed per r587; seat sha 9cd8af3af path-derived vs r820 prose 014b4ede5 honesty-noted; generator execs truncated r819 build for exact TOK pairs, all r819 asserts re-passed live) + S6 37/37 rc0 golden-week no-op tribe (dualrun ZERO-DRIFT; scorecard/REPORT/LIVE-2026-10-07/build_status refreshed; attrition CLEAN x4) + smoke 48/48 + D-19 dec watermark repair acc32216(bad-provenance r820 regression)->635c3024 origin-blob machine-recomputed (zero new BigMoney rows: D-20261007-03 HQ-domain consumed r804/r813; orders e9fa5da4 MATCH; O-0935 bm-a leg receipted r817) + orders 167/167 double-sweep zero-unacked + watchdog re-registered + claws MATCH + state 820->821 + heartbeat epoch int [via bm-a r821]
+INCOMING:     
+INCOMING:     # Conflicts:
+INCOMING:     #       docs/daily_report/REPORT-2026-10-07.json
+INCOMING:     #       docs/daily_report/REPORT-2026-10-07.md
+INCOMING:     #       docs/live_usage/LIVE-2026-10-07.json
+INCOMING:     #       docs/live_usage/LIVE-2026-10-07.md
+INCOMING:     #       docs/live_usage/LIVE-latest.json
+INCOMING:     #       docs/live_usage/LIVE-latest.md
+INCOMING:     #       results/_attrition_guard_scan.json
+INCOMING:     #       results/compute_audit.json
+INCOMING:     #       results/fundamental_b_layer_filter.json
+INCOMING:     #       results/futures_update_status.json
+INCOMING:     #       results/lhb_update_status.json
+INCOMING:     #       results/regime_state.json
+INCOMING:     #       results/scorecard_v1.json
+INCOMING:     #       results/strategy_scorecard.json
+INCOMING:     #       results/token_usage.json
+INCOMING:     #       results/update_status.json
+INCOMING: 
+INCOMING:  docs/daily_report/REPORT-2026-10-07.md       |  22 +-
+INCOMING:  docs/live_usage/LIVE-2026-10-07.json         |  10 +-
+INCOMING:  docs/live_usage/LIVE-2026-10-07.md           |   4 +-
+INCOMING:  docs/live_usage/LIVE-latest.json             |  10 +-
+INCOMING:  docs/live_usage/LIVE-latest.md               |   4 +-
+INCOMING:  fleet/machines/bm-a.json                     |  36 +--
+INCOMING:  logs/iteration-loop/round_reports-bm-a.md    |   1 +
+INCOMING:  results/_attrition_guard_scan.json           |   2 +-
+INCOMING:  results/_r821bma_closeout.py                 | 144 +++++++++++
+INCOMING:  results/autofill_state.bm-a.json             |  16 +-
+INCOMING:  results/compute_audit.bm-a.json              | 234 +++++++++---------
+INCOMING:  results/compute_audit.json                   | 344 +++++++++++++++------------
+INCOMING:  results/dashboard_status.js                  |   2 +-
+INCOMING:  results/dashboard_status.json                | 155 ++++++------
+INCOMING:  results/dispatcher_state.bm-a.json           |  16 +-
+INCOMING:  results/fund_statement_update_status.json    |   2 +-
+INCOMING:  results/fundamental_b_layer_filter.json      |   2 +-
+INCOMING:  results/futures_update_status.bm-a.json      |   4 +-
+INCOMING:  results/futures_update_status.json           |   6 +-
+INCOMING:  results/heat_update_status.bm-a.json         |   2 +-
+INCOMING:  results/heat_update_status.json              |   2 +-
+INCOMING:  results/lhb_update_status.bm-a.json          |   2 +-
+INCOMING:  results/lhb_update_status.json               |   4 +-
+INCOMING:  results/options_update_status.json           |   2 +-
+INCOMING:  results/pool_dualrun.bm-a.jsonl              |   2 +-
+INCOMING:  results/prospect_paper/_summary.json         |   2 +-
+INCOMING:  results/prospect_promotion/_summary.json     |   2 +-
+INCOMING:  results/regime_state.bm-a.json               |   2 +-
+INCOMING:  results/regime_state.json                    |   4 +-
+INCOMING:  results/repo_update_status.json              |   4 +-
+INCOMING:  results/runnable_pool.bm-a.json              |   2 +-
+INCOMING:  results/saturation_engine/face_bm-a.json     |   8 +-
+INCOMING:  results/saturation_engine/history_bm-a.jsonl |  10 +-
+INCOMING:  results/saturation_engine/state_bm-a.json    |   8 +-
+INCOMING:  results/scorecard_v1.json                    |   2 +-
+INCOMING:  results/sina_mf_update_status.json           |   2 +-
+INCOMING:  results/strategy_scorecard.json              |   4 +-
+INCOMING:  results/token_usage.bm-a.json                |  14 +-
+INCOMING:  results/token_usage.json                     |  24 +-
+INCOMING:  results/update_status.bm-a.json              |   4 +-
+INCOMING:  results/update_status.json                   |   6 +-
+INCOMING:  state-bm-a.json                              |  42 ++--
+INCOMING:  42 files changed, 675 insertions(+), 493 deletions(-)

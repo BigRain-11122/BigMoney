@@ -8,6 +8,13 @@ market reopens Thursday 2026-10-08). Serves the r713 next-pointer line
 "10-08 open-market window external runs + paper legs resume" and the
 r710/r712 exam-dep line (marks floor advance on first new bar).
 
+r673 bm-c machine-adaptive extension (additive, bm-a face byte-preserving):
+MACHINE auto-detect via fleet/machine.json (S0-1 anchor law; absent file ->
+bm-a fallback keeps r714 author behavior identical); per-machine panel
+lane map (R31); per-machine satengine face file; per-machine output paths
+for non-bm-a seats (results/open_market_readiness.<id>.json +
+docs/open_market/READINESS-<date>-<id>.md). bm-a seat keeps r714 paths.
+
 Lineage: month_exam_readiness.py r713 skeleton reuse (probe+json+md+
 selftest contract). Law refs:
 - 产品优先律 P-2026-09-29-07: 能跑/能看实物 (probe + CEO plain md face).
@@ -31,7 +38,22 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MARKET_DATE = _dt.date(2026, 10, 8)  # golden week 10-01..07 close, reopen Thu
-MACHINE = "bm-a"
+
+
+def _detect_machine(root):
+    """Machine-id from fleet/machine.json (S0-1 anchor law). Absent/unreadable
+    file -> bm-a fallback keeps the r714 author face behavior identical."""
+    try:
+        with open(os.path.join(root, "fleet", "machine.json"), encoding="utf-8") as fh:
+            mid = json.load(fh).get("machine_id")
+        if isinstance(mid, str) and mid:
+            return mid
+    except Exception:
+        pass
+    return "bm-a"
+
+
+MACHINE = _detect_machine(ROOT)
 POOL_PATH = os.path.join("results", "runnable_pool.json")
 TRIO_NULLS_IDS = (
     "FUND-VALUE-P1-NULLS",
@@ -46,14 +68,32 @@ GATE_SCRIPTS = (
     "update_fund_premium.py", "update_fundamental.py", "update_lhb.py",
     "update_heat.py", "update_daily.py",
 )
-# R31 lane-owner law: panels are machine-local (gitignored data faces).
-# Host-lane panels must exist on this machine; other-lane panels absent here
-# is a LEGAL state (owner machine maintains them) -- recorded as fact only.
-LOCAL_PANELS = (
-    "minute_feed", "futures_daily", "repo_daily", "options", "moneyflow",
-    "sina_mf", "ths_ggzjl", "ah_panel", "heat", "fundamental",
-)
-OTHER_LANE_PANELS = {"fund_premium": "bm-c"}
+# R31 lane-owner law: data panels are machine-local (gitignored faces). Each
+# machine verifies ONLY the panels its own S6 lane maintains; other-lane
+# panels absent locally = LEGAL state (facts only, never a false RED).
+# bm-a tuple = r714 verbatim (byte-face preservation). Unknown machine ->
+# empty lane set + honest lane_map_missing fact (no fabricated ownership).
+PANEL_LANES = {
+    "bm-a": ("minute_feed", "futures_daily", "repo_daily", "options", "moneyflow",
+             "sina_mf", "ths_ggzjl", "ah_panel", "heat", "fundamental"),
+    "bm-b": ("minute_feed",),    # T-104 minute feed (bm-b lane, r390)
+    "bm-c": ("fund_premium",),   # T-16 NAV premium snapshot (bm-c lane)
+}
+
+
+def _other_lanes(machine):
+    """Panels owned by OTHER machines (absent locally = legal, R31)."""
+    own = set(PANEL_LANES.get(machine, ()))
+    out = {}
+    for owner, panels in PANEL_LANES.items():
+        for p in panels:
+            if owner != machine and p not in own and p not in out:
+                out[p] = owner
+    return out
+
+
+LOCAL_PANELS = PANEL_LANES.get(MACHINE, ())
+OTHER_LANE_PANELS = _other_lanes(MACHINE)
 HOLIDAY_FLOOR = "2026-09-30"  # last completed bar day before golden week
 
 GREEN, AMBER, RED = "GREEN", "AMBER", "RED"
@@ -138,20 +178,23 @@ def face_etf_clock(root):
     return _face(GREEN, facts, "主时钟停假期地板；10-08 首个完整 bar 日=gates 复活触发器")
 
 
-def face_gates_revive(root):
+def face_gates_revive(root, machine=MACHINE):
+    local_panels = PANEL_LANES.get(machine, ())
+    known_other = _other_lanes(machine)
     missing_scripts = [s for s in GATE_SCRIPTS
                         if not os.path.exists(os.path.join(root, "scripts", s))]
-    missing_panels = [d for d in LOCAL_PANELS
+    missing_panels = [d for d in local_panels
                       if not os.path.isdir(os.path.join(root, "data", d))]
     other_lane = {d: os.path.isdir(os.path.join(root, "data", d))
-                  for d in OTHER_LANE_PANELS}
+                  for d in known_other}
     facts = {"n_gate_scripts": len(GATE_SCRIPTS), "scripts_missing": missing_scripts,
-             "n_local_panels": len(LOCAL_PANELS), "panels_missing": missing_panels,
-             "other_lane_present": other_lane}
+             "n_local_panels": len(local_panels), "panels_missing": missing_panels,
+             "other_lane_present": other_lane,
+             "lane_map_missing": machine not in PANEL_LANES}
     if missing_scripts or missing_panels:
         return _face(RED, facts, "S6 链 gate/本机面板机械缺件（复市日即红）")
     return _face(GREEN, facts,
-                 "14 数据 gate+10 本机面板机械全在位（fund_premium=bm-c 车道本地面·本机缺席合法）；10-08 有新 bar 各腿从 no-op 转活")
+                 "14 数据 gate+%d 本机面板机械全在位（他机车道面本机缺席=合法 R31）；10-08 有新 bar 各腿从 no-op 转活" % len(local_panels))
 
 
 def face_moneyflow_panel(root):
@@ -273,8 +316,8 @@ def face_supply_lanes(root):
                  "trio finalize 窗 10-05..09（bm-b canonical 禁碰）；W117 GATED on W116；风格轮动 drafting 等 10-08 面板推进")
 
 
-def face_satengine(root):
-    p = os.path.join(root, "results", "saturation_engine", "face_%s.json" % MACHINE)
+def face_satengine(root, machine=MACHINE):
+    p = os.path.join(root, "results", "saturation_engine", "face_%s.json" % machine)
     if not os.path.exists(p):
         return _face(RED, {"face_file": False}, "饱和引擎 face 件缺失")
     try:
@@ -296,10 +339,16 @@ def face_satengine(root):
 
 def _md_face(out):
     lines = []
-    lines.append("# 复市窗就绪 READINESS-%s" % out["generated_date"])
+    title = out["generated_date"]
+    seat = out.get("machine") or "bm-a"
+    if seat != "bm-a":
+        title += "-" + seat
+    lines.append("# 复市窗就绪 READINESS-%s" % title)
     lines.append("")
     lines.append("> 10-08（周四）复市：黄金周 10-01..07 休市后首个交易日。")
     lines.append("> 本面=只读 L1 聚合（+0 试验 +0 记账），检查复市日自动转活的一切面。")
+    if seat != "bm-a":
+        lines.append("> 视角：%s 座（r673 机器自适应扩展；bm-a 座页面与路径不变）。" % seat)
     lines.append("")
     lines.append("**一句话结论：距 10-08 复市还有 %d 天；总体 %s。%s**" % (
         out["days_to_market"], out["verdict"], out["summary_plain"]))
@@ -318,17 +367,17 @@ def _md_face(out):
     return "\n".join(lines) + "\n"
 
 
-def cmd_run(root=ROOT):
+def cmd_run(root=ROOT, machine=MACHINE):
     now = _dt.datetime.now()
     faces = {
         "ETF 日线主时钟": face_etf_clock(root),
-        "S6 数据 gates 复活组": face_gates_revive(root),
+        "S6 数据 gates 复活组": face_gates_revive(root, machine),
         "moneyflow 面板": face_moneyflow_panel(root),
         "纸盘 marks 续跑面": face_paper_marks(root),
         "REGIME_GUARD v3": face_regime_guard(root),
         "外源双腿 run-11/run-7": face_external_runs(root),
         "判决/供给线": face_supply_lanes(root),
-        "饱和引擎守护": face_satengine(root),
+        "饱和引擎守护": face_satengine(root, machine),
     }
     verdict = _worst([f["status"] for f in faces.values()])
     n_amber = sum(1 for f in faces.values() if f["status"] == AMBER)
@@ -341,7 +390,7 @@ def cmd_run(root=ROOT):
         summary = "有红面=复市窗有实质缺件，见表逐面收口。"
     out = {
         "batch": "OPEN_MARKET_READINESS",
-        "machine": MACHINE,
+        "machine": machine,
         "generated": now.strftime("%Y-%m-%dT%H:%M:%S"),
         "generated_date": now.strftime("%Y-%m-%d"),
         "market_date": str(MARKET_DATE),
@@ -352,9 +401,13 @@ def cmd_run(root=ROOT):
         "faces": faces,
         "honesty": "read-only L1 aggregation; +0 trials +0 marks +0 registration faces; zero spawn",
     }
-    res_p = os.path.join(root, "results", "open_market_readiness.json")
+    res_p = (os.path.join(root, "results", "open_market_readiness.json")
+             if machine == "bm-a"
+             else os.path.join(root, "results", "open_market_readiness.%s.json" % machine))
     doc_d = os.path.join(root, "docs", "open_market")
-    doc_p = os.path.join(doc_d, "READINESS-%s.md" % out["generated_date"])
+    doc_p = (os.path.join(doc_d, "READINESS-%s.md" % out["generated_date"])
+             if machine == "bm-a"
+             else os.path.join(doc_d, "READINESS-%s-%s.md" % (out["generated_date"], machine)))
     try:
         with open(res_p, "w", encoding="utf-8") as fh:
             json.dump(out, fh, ensure_ascii=False, indent=2)
@@ -381,7 +434,7 @@ def _mkfixture(tmp):
     os.makedirs(os.path.join(tmp, "scripts"), exist_ok=True)
     for s in GATE_SCRIPTS:
         open(os.path.join(tmp, "scripts", s), "w").close()
-    for d in LOCAL_PANELS:
+    for d in PANEL_LANES["bm-a"]:  # hermetic: bm-a 10-panel set, not machine-detected
         os.makedirs(os.path.join(tmp, "data", d), exist_ok=True)
     os.makedirs(os.path.join(tmp, "data", "fund_premium"), exist_ok=True)  # other-lane (bm-c)
     os.makedirs(os.path.join(tmp, "results"), exist_ok=True)
@@ -434,15 +487,15 @@ def cmd_selftest():
         ok("L3 etf clock RED on member missing",
            f1b["status"] == RED and f1b["facts"]["five_members_missing"] == ["sh512100"])
         open(os.path.join(fx, "data", "daily", "sh512100.csv"), "w").close()
-        f2 = face_gates_revive(fx)
+        f2 = face_gates_revive(fx, machine="bm-a")
         ok("L4 gates GREEN 14+10", f2["status"] == GREEN and f2["facts"]["n_gate_scripts"] == 14
            and f2["facts"]["n_local_panels"] == 10)
         os.remove(os.path.join(fx, "scripts", "update_repo.py"))
-        ok("L5 gates RED on script missing", face_gates_revive(fx)["status"] == RED)
+        ok("L5 gates RED on script missing", face_gates_revive(fx, machine="bm-a")["status"] == RED)
         open(os.path.join(fx, "scripts", "update_repo.py"), "w").close()
         import shutil
         shutil.rmtree(os.path.join(fx, "data", "fund_premium"))
-        f2b = face_gates_revive(fx)
+        f2b = face_gates_revive(fx, machine="bm-a")
         ok("L5b other-lane panel absent stays GREEN (R31 lane law)",
            f2b["status"] == GREEN and f2b["facts"]["other_lane_present"] == {"fund_premium": False})
         os.makedirs(os.path.join(fx, "data", "fund_premium"), exist_ok=True)
@@ -480,11 +533,11 @@ def cmd_selftest():
            f7["status"] == AMBER and f7["facts"]["trio"]["FUND-QUALITY-P1-NULLS"]["shard"] == "done")
         ok("L14 supply RED on pool missing",
            face_supply_lanes(os.path.join(fx, "nowhere"))["status"] == RED)
-        f8 = face_satengine(fx)
+        f8 = face_satengine(fx, machine="bm-a")
         ok("L15 satengine GREEN alive+fresh", f8["status"] == GREEN and f8["facts"]["engine_alive"])
         with open(os.path.join(fx, "results", "saturation_engine", "face_bm-a.json"), "w", encoding="utf-8") as fh:
             json.dump({"engine_alive": False, "epoch": 1, "active_burns": []}, fh)
-        ok("L16 satengine RED on dead engine", face_satengine(fx)["status"] == RED)
+        ok("L16 satengine RED on dead engine", face_satengine(fx, machine="bm-a")["status"] == RED)
         ok("L17 marks extraction variants nav_series",
            _marks_last({"nav_series": [["2026-09-30", 1.0]]})[0] == "2026-09-30")
         ok("L18 marks extraction variants state_hist",
@@ -497,6 +550,44 @@ def cmd_selftest():
                            "饱和引擎守护": _face(GREEN, {"engine_alive": True}, "g")}})
         ok("L19 md face byte-idempotent", m1 == m2 and m1.startswith("# 复市窗就绪"))
         ok("L20 worst ordering", _worst([GREEN, AMBER, GREEN]) == AMBER and _worst([]) == RED)
+        # --- r673 machine-adaptive extension legs (bm-c seat) ---
+        ok("L21 detect fallback bm-a when fleet/machine.json absent",
+           _detect_machine(fx) == "bm-a")
+        os.makedirs(os.path.join(fx, "fleet"), exist_ok=True)
+        with open(os.path.join(fx, "fleet", "machine.json"), "w", encoding="utf-8") as fh:
+            json.dump({"machine_id": "bm-c"}, fh)
+        ok("L22 detect bm-c from fleet/machine.json", _detect_machine(fx) == "bm-c")
+        fc = face_gates_revive(fx, machine="bm-c")
+        ok("L23 bm-c lane GREEN 1 panel (fund_premium present)",
+           fc["status"] == GREEN and fc["facts"]["n_local_panels"] == 1
+           and "fund_premium" not in fc["facts"]["other_lane_present"])
+        shutil.rmtree(os.path.join(fx, "data", "fund_premium"))
+        fc2 = face_gates_revive(fx, machine="bm-c")
+        ok("L24 bm-c lane RED when own panel missing",
+           fc2["status"] == RED and fc2["facts"]["panels_missing"] == ["fund_premium"])
+        os.makedirs(os.path.join(fx, "data", "fund_premium"), exist_ok=True)
+        fz = face_gates_revive(fx, machine="bm-z")
+        ok("L25 unknown machine no false RED + lane_map_missing fact",
+           fz["status"] == GREEN and fz["facts"]["n_local_panels"] == 0
+           and fz["facts"]["lane_map_missing"] is True)
+        with open(os.path.join(fx, "results", "saturation_engine", "face_bm-c.json"), "w", encoding="utf-8") as fh:
+            json.dump({"engine_alive": True, "epoch": int(_dt.datetime.now().timestamp()),
+                       "active_burns": []}, fh)
+        ok("L26 satengine machine face file (face_bm-c.json)",
+           face_satengine(fx, machine="bm-c")["status"] == GREEN)
+        m3 = _md_face({"generated_date": "2026-10-07", "days_to_market": 1, "verdict": GREEN,
+                       "summary_plain": "s", "machine": "bm-c", "faces": {
+                           "ETF 日线主时钟": _face(GREEN, {"tail_bar": "2026-09-30"}, "g")}})
+        m4 = _md_face({"generated_date": "2026-10-07", "days_to_market": 1, "verdict": GREEN,
+                       "summary_plain": "s", "machine": "bm-c", "faces": {
+                           "ETF 日线主时钟": _face(GREEN, {"tail_bar": "2026-09-30"}, "g")}})
+        ok("L27 bm-c md title suffix + byte-idempotent",
+           m3 == m4 and "READINESS-2026-10-07-bm-c" in m3.splitlines()[0])
+        ma = _md_face({"generated_date": "2026-10-07", "days_to_market": 1, "verdict": GREEN,
+                       "summary_plain": "s", "machine": "bm-a", "faces": {
+                           "ETF 日线主时钟": _face(GREEN, {"tail_bar": "2026-09-30"}, "g")}})
+        ok("L28 bm-a md title unsuffixed (byte-face preservation)",
+           ma.splitlines()[0] == "# 复市窗就绪 READINESS-2026-10-07")
 
     print("selftest: %s" % ("ALL PASS" if not fails else "FAIL x%d" % len(fails)))
     return 0 if not fails else 1
