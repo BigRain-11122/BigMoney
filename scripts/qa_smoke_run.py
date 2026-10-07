@@ -166,7 +166,7 @@ def main():
                  "market_clock_call run rc=%d (idempotent same-day regen)\n" %
                  ("x" if ok5[4] else " ", sig_rc))
         fh.write("- [%s] 5. data pull healthy -- latest panel bar %s; "
-                 "S6 38-leg chain rc0 receipts in round report\n" %
+                 "S6 chain rc0 receipts in round report\n" %
                  ("x" if ok5[5] else " ", latest))
         fh.write("\n## evidence pointers\n\n- chart: %s\n- raw log: %s\n" %
                  (os.path.basename(png), tag + ".log"))
