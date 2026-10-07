@@ -109,7 +109,7 @@
 <tr><td>VOLATILITY-CE-01</td><td class='pos'>S</td><td><b>87.0</b></td><td>86</td><td>100</td><td>76</td><td>98</td><td>51</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>86.7</b></td><td>86</td><td>74</td><td>100</td><td>97</td><td>62</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>COMPOSITE-CE-01</td><td class='pos'>A</td><td><b>77.5</b></td><td>85</td><td>80</td><td>73</td><td>78</td><td>24</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
-<tr><td>NEEDLE-DE-01</td><td class='pos'>A</td><td><b>77.3</b></td><td>78</td><td>57</td><td>96</td><td>85</td><td>46</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
+<tr><td>NEEDLE-DE-01</td><td class='pos'>A</td><td><b>77.2</b></td><td>78</td><td>57</td><td>96</td><td>85</td><td>46</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>COMPOSITE-CE-02</td><td class='pos'>A</td><td><b>73.0</b></td><td>84</td><td>67</td><td>46</td><td>100</td><td>24</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>ENGULF-CE-01</td><td class='pos'>A</td><td><b>66.8</b></td><td>83</td><td>47</td><td>34</td><td>79</td><td>46</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 </table>
@@ -128,8 +128,8 @@
 <tr><td>VOLATILITY-CE-01</td><td class='pos'>S</td><td><b>79.7</b></td><td>87.0</td><td>29.8</td><td class='pos'>清</td><td>20.0</td><td>83.8</td></tr>
 <tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>79.3</b></td><td>86.7</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>83.3</td></tr>
 <tr><td>COMPOSITE-CE-01</td><td class='pos'>S</td><td><b>78.1</b></td><td>77.5</td><td>29.8</td><td class='pos'>清</td><td>0.0</td><td>88.3</td></tr>
-<tr><td>NEEDLE-DE-01</td><td class='pos'>S</td><td><b>75.3</b></td><td>77.3</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>82.7</td></tr>
 <tr><td>COMPOSITE-CE-02</td><td class='pos'>S</td><td><b>75.2</b></td><td>73.0</td><td>29.7</td><td class='pos'>清</td><td>0.0</td><td>86.1</td></tr>
+<tr><td>NEEDLE-DE-01</td><td class='pos'>S</td><td><b>75.2</b></td><td>77.2</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>82.7</td></tr>
 <tr><td>ENGULF-CE-01</td><td class='pos'>S</td><td><b>71.2</b></td><td>66.8</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>83.0</td></tr>
 <tr><td>PROS-DUCK-01</td><td class='pos'>A</td><td><b>18.7</b></td><td>46.8</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
 <tr><td>PROS-DUCK-CE-01</td><td class='pos'>A</td><td><b>17.4</b></td><td>43.5</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
@@ -167,13 +167,13 @@
 <tr><td>T-29-SCORECARD</td><td class='pos'>✓</td><td>T-29 战绩直达面 v0.1：daily_scorecard.py 纸盘真账本驱动（大字版消费面由 O-2045 s3 增补）</td><td class='dim'>file_exists:exists</td></tr>
 <tr><td>T-33-CORPS-ROSTER</td><td class='dim'>🟡</td><td>O-2012 三军种制：军种路由正典 STYLE_CORPS v1.1 + T-33 corps_roster v1+prereg 已落（bm-c r68）；进攻军 0 员在册=最</td><td class='dim'>file_exists:exists; file_exists:exists; file_exists:exists</td></tr>
 <tr><td>O-2030-PRESIGNAL</td><td class='dim'>🟡</td><td>O-2030 前置+组合令：军种建设前置律+组合律入正典；前置快线 harness A/B 批未跑</td><td class='dim'>file_contains:contains; file_exists:exists</td></tr>
+<tr><td>T-24-SLICE-A</td><td class='pos'>✓</td><td>T-24 slice-a PROSPECT 纸面跟踪道 22 员态+锚零漂移（canon s6 行 2）</td><td class='dim'>file_exists:exists; json_field:n_pass=22 (want 22); json_field:n_drift</td></tr>
+<tr><td>T-24-SLICE-B</td><td class='pos'>✓</td><td>T-24 slice-b 晋升门评估器 0/22 eligible 诚实三腿（canon s6 行 3）</td><td class='dim'>file_exists:exists; json_field:n_eligible=0 (want 0); count_glob:count</td></tr>
+<tr><td>O-2012-T33-D2-ATTACK-WAVE</td><td class='pos'>✓</td><td>O-2012/T-33 d2 进攻招募波 G1' v2 0/20 诚实零（canon s6 行 10）</td><td class='dim'>file_exists:exists; json_field:summary.g1_prime_v2_pass=0 (want 0); js</td></tr>
 <tr><td>O-2045-MILLION-PAPER</td><td class='pos'>✓</td><td>O-2045 百万纸盘四交付面全落地：d1 资本迁移（6 注册员各 1,000,000 CNY 构造性满足）+ d2 交易时段道（09:30 开盘成交验证器+盘中标记+15:00 </td><td class='dim'>file_contains:contains; file_exists:exists; file_exists:exists; file_e</td></tr>
 <tr><td>O-2100-COMPUTE-DISPATCH</td><td class='dim'>🟡</td><td>O-2100 算力调度机制 d2 核心：runnable pool + autofill C8 + 10min schtasks + watchdog 自愈腿 + 真验收 laun</td><td class='dim'>file_exists:exists; file_exists:exists; json_field:launches.0.verdict=</td></tr>
 <tr><td>O-2115-POST-REVIEW</td><td class='dim'>🟡</td><td>O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 regist</td><td class='dim'>git_log_file:git hit: 2115; file_exists:exists; file_exists:exists</td></tr>
 <tr><td>T-27-VETO-FIELD</td><td class='pos'>✓</td><td>T-27 产物时效字段：results/portfolio_blend_tournament.json 须带 verdict.veto_window_until（POST_REVI</td><td class='dim'>json_field:verdict.veto_window_until=2026-10-01</td></tr>
-<tr><td>T-24-SLICE-A</td><td class='pos'>✓</td><td>T-24 slice-a PROSPECT 纸面跟踪道 22 员态+锚零漂移（canon s6 行 2）</td><td class='dim'>file_exists:exists; json_field:n_pass=22 (want 22); json_field:n_drift</td></tr>
-<tr><td>T-24-SLICE-B</td><td class='pos'>✓</td><td>T-24 slice-b 晋升门评估器 0/22 eligible 诚实三腿（canon s6 行 3）</td><td class='dim'>file_exists:exists; json_field:n_eligible=0 (want 0); count_glob:count</td></tr>
-<tr><td>O-2012-T33-D2-ATTACK-WAVE</td><td class='pos'>✓</td><td>O-2012/T-33 d2 进攻招募波 G1' v2 0/20 诚实零（canon s6 行 10）</td><td class='dim'>file_exists:exists; json_field:summary.g1_prime_v2_pass=0 (want 0); js</td></tr>
 <tr><td>T-72-SINA-MF-COLLECTOR</td><td class='pos'>✓</td><td>T-72 sina 四档资金流采集器三切片交付：s1 采集器+离线 selftest 绿；s2 全宇宙首拉验收五线 PASS（fresh 5222≥5000·写盘面零违例 wors</td><td class='dim'>file_exists:exists; json_field:verdict=PASS (want PASS); json_gte:coun</td></tr>
 <tr><td>T-74-S2-MARKET-CLOCK-BACKTEST</td><td class='pos'>✓</td><td>T-74 s2 full-history backtest of the frozen clock tree (v1.1 s2b frozen pre-run, commit dc</td><td class='dim'>file_exists:exists; file_exists:exists; file_exists:exists; file_exist</td></tr>
 <tr><td>T-78-EXIT-OVERLAY-P1</td><td class='pos'>✓</td><td>T-78 s2+s3: engine dd_control additive flag (None=legacy byte-equal, entry-size face, hyst</td><td class='dim'>file_exists:exists; file_exists:exists; json_field:verdict.n_win=6 (wa</td></tr>
