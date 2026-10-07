@@ -12,7 +12,7 @@
   "entries[].permit": "O-20261007-2245 许可门: MIT/Apache-2.0/BSD 直用+署名型登记; AGPL 禁入 (charter §五 spark-arc-studio 判例); 扫描期记录, 入池时复核",
   "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)"
  },
- "updated_at": "2026-10-07T23:21:00+08:00",
+ "updated_at": "2026-10-08T03:23:54+08:00",
  "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
  "entries": [
   {
@@ -16114,6 +16114,39 @@
    "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)",
    "done_by": "bm-c",
    "done_at": "2026-10-07 23:20:03"
+  },
+  {
+   "id": "TRIAL-LABOR-W16-SCREEN",
+   "ticket_ref": "T-2026-10-05-172 WAVE-16 screen slice (TRIAL_LABOR_LAW sec.1 standing supply; W13=T-125 lineage; prereg FROZEN 2026-10-05 11:1x bm-a r721; GENERATE done 10-07 19:20:06 candidates n=173; screen-prep PASS bm-a r859 real-data gates; FUND trio finalize done -> burn window open)",
+   "prereg_ref": "research/TRIAL_LABOR_W16_PREREG.md FROZEN sec.0 TRIAL_LAB_W16_SCREEN (s2: 173 distinct + 200 nulls = 373 cells; survival beat6m > null p95, band [0.50,0.52])",
+   "consumer_plan": "TRIAL-LABOR-W16-SCREEN -> screen-finalize (lane-owner separate round per W5-W13 precedent) -> w16_screen.json + cells csv + null p95 in-band -> JUDGE entry on survivors -> w16_judge.json reform face -> s4 intake",
+   "runner": "scripts/trial_labor_w16.py",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-08 03:22:39",
+   "data_gates": "(1) GENERATE done w16_candidates.json n=173 + grammar sha16 ebf15822d2c8472e; (2) screen-prep PASS bm-a r859: panel 48/48 anchors 6/6 census 6m=1253 passive precomputed + sixteen G-gate faces valid, prep_state.json in-repo; (3) FUND trio finalize done verified 10-08 03:1x",
+   "shards": [
+    {
+     "key": "w16-screen-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w16/checkpoint/screen_shard_0of1.jsonl (append-per-cell resume, gitignored dir per r429)",
+     "note": "single shard; worker_cap() pool inside shard (W13-SCREEN 593 cells ~4min wall; W16 373 lighter)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-08 03:32:08"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   }
   }
  ],
  "lane_machine": "bm-c"
