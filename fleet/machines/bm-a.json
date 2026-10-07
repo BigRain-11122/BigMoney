@@ -1,6 +1,6 @@
 {
  "machine_id": "bm-a",
- "clock_read": "2026-10-08T01:40:34+08:00",
+ "clock_read": "2026-10-08T01:58:25+08:00",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_pct": 7.0,
@@ -19,9 +19,9 @@
  "gpu_idle_vram_mb": 5852,
  "gpu_total_vram_mb": 12282,
  "health": "ok",
- "heartbeat_epoch_utc": 1791394834,
+ "heartbeat_epoch_utc": 1791395905,
  "last_heartbeat_epoch_utc": 1791390684,
- "last_seen": "2026-10-08T01:40:34+08:00",
+ "last_seen": "2026-10-08T01:58:25+08:00",
  "last_action": "OSS ledger S3/S4/S5 sealed (research/OSS_HARVEST_LEDGER.md 六; vibe-astock REGIME-5 supply candidate #1); W180 burn shard 8/12 engine-owned",
  "last_round": "r853",
  "last_run": "2026-10-08T01:21:59+08:00",
@@ -31,7 +31,7 @@
  "round": 853,
  "round_no": 853,
  "task": "OSS ledger S3/S4/S5 scan (done) + W180 engine burn monitoring",
- "verdict": "loaded_ok",
+ "verdict": "py_low_board_clear (board clear, OSS admission lane active per O-2245)",
  "prod_lanes": [
   "bigmoney-os-loop (primary: perpetual N1 line W1..W166 closed, W167 next)",
   "autofill-compute-pool (fleet shard lane C8)",
@@ -232,13 +232,13 @@
   "O-20261007-2255-bm-c.md"
  ],
  "current": "W179 burning (2/12+ at closeout); finalize next round",
- "current_task": "W180 finalize one-pass landed (ledger 801,905 / K 393,920); OSS admission tickets next",
+ "current_task": "OSS S5-01 vibe-astock admission probe GO -> next update_zt_pool.py collector gate leg",
  "gpu_free_vram_gb": 5.3,
  "idle_gpu_vram_gb": 5.3,
- "gpu_vram_free_gb": 5.7,
+ "gpu_vram_free_gb": 5.45,
  "gpu_idle_vram_mib": 5427,
  "gpu_idle_vram": "5.7 GB (nvidia-smi single-source per O-20261006-2358)",
- "ts": "2026-10-08T01:40:34+08:00",
+ "ts": "2026-10-08T01:58:25+08:00",
  "tailnet_ip": "100.110.185.62",
  "tailnet_note": "in-tailnet since 09-29 (O-1815); re-verified r799 per O-20261006-2358 P0; C endpoint 100.123.74.104:11434/api/tags HTTP 200",
  "gpu_source_note": "single-source nvidia-smi direct read per O-20261006-2358 face 2 (all gpu* fields aligned r799)",
@@ -249,5 +249,6 @@
  "agenda_starved": false,
  "hostname": "DASHENG",
  "root_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
- "cpu_total_pct": 3.2
+ "cpu_total_pct": 3.2,
+ "ram_free_pct": 56.9
 }

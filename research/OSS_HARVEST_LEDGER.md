@@ -121,3 +121,15 @@
 
 （r714 bm-c 落池门接线腿·后续轮增量 append·禁改既有行）
 
+## 八、S5-01 vibe-astock 准入探针（@bm-a 车道·r855·O-20261001-2103 R2 工程腿首件落地）
+
+- 取证=scripts/_r855bma_vibe_probe.py（api.github.com 元数据复验+递归树 298 件漏斗 41 模块候选+raw 源码直读+本地数据就绪核）；证据件 results/oss_eng_scan/vibe-probe-20261008.json（rc0 全腿取齐）+参考件 _r855_vibe_emotion_metrics_ref.py（duanxian/emotion_metrics.py 全文 19,868B 存档）。
+- **元数据复验（10-08 实取·禁编数）**：667★·Apache-2.0·push 2026-10-07（隔日活跃）·Python 主语言·6.79MB·未归档——健康门 PASS 与台账一致。
+- **代码结构判定**：核心件 duanxian/emotion_metrics.py=纯计算模块（23.7KB·涨跌幅批量走腾讯 qt.gtimg.cn 直连·池数据走 pool_source.py 单点）——函数面=promotion_rates（晋级率）/money_effect（赚钱效应）/consec_premium（连板溢价）/ladder_gap（梯队断档）/cycle_position（情绪周期位置）/day_summary/build_metrics/render_metrics；**诚实工程面实证**（失败不伪装 0 家·缓存三重校验 schema/source/date·炸板率方向取反显式注释·trend 与位置两读法分开输出）=适配质量门加分。
+- **情绪周期三轴门公式提取（cycle_position·REGIME-5 供给核心）**：10 日窗 min-max 归一化三轴均值 score=(涨停家数+最高连板+(1−炸板率))/3→谷底日定位（trough）→day_n（距谷底第几天）+rising+trend（尾三日斜率分类）+pctile——与 O-2215 REGIME-5 判据供给与 O-20261001-2103 R2 特征面（涨停池/连板梯队/炸板率）逐项对口。
+- **数据通道**：pool_source.py 三端点=stock_zt_pool_em（涨停池）/stock_zt_pool_zbgc_em（炸板池）/stock_zt_pool_dtgc_em（跌停池）——本地 akshare 1.18.96 三 API 全在位实核 ✓；涨跌幅腿=腾讯批量 50/批（与在役 sina 通道同族直连）。
+- **反重复门 PASS**：涨停池/连板/炸板数据面 in-repo 零存在（theme_event_library.py:261 明注 deferred to that lane；wild_route_lab=合成 fixture 非采集）——本引进填真缺口零撞在役面。
+- **判定：S5-01 准入实验=GO**——下一件=涨停池前向采集 gate 腿 update_zt_pool.py（O-20261001-2103 R2 数据面·bigmoney-data-gate-wiring 范式：15:30 no-op 门+checkpoint+conn-fuse+车道 bm-a）→ 适配回放批预注册（出场轴三选一门+同族 corr 门+大样本三铁律照旧·外源宣称=未验证假设）→ 情绪周期三轴门入 REGIME-5 供给。工时预算更新：8h→6h（纯计算面结构清晰+数据 API 全在位·成本低于首判）。
+- 借力律注：以上公式提取=外源宣称面·入正典前须过独立验证门禁链（T+1/成本/随机基线三铁律+纸盘）。
+
+（r855 bm-a 准入探针腿·后续轮增量 append·禁改既有行）
