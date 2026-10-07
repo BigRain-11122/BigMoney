@@ -9,3 +9,5 @@
 
 - [2026-10-06 15:4x r781 bm-a] **冻结编辑器跨片段连续 needle 假阴坑（r775 血统 L310 潜缺陷·r781 实弹当场治愈零 origin 伤害）**：n1.py WAVE_CONFIGS 投影散文按 python 字符串续行分片（'...will refuse the naive "' 尾片 + 换行缩进 + '"W160 A window; W160 freezer ...' 头片）——按逻辑串写的连续 needle（'refuse the naive W160 A window; W160 freezer'）横跨片段边界 count==0 假阴（r775 冻结机 L310 断言 needle 同病：实测 r775 落地件中该连续串 count=0=该断言从未真过；r775 会话事后以 selftest+smoke 收口但脚本内断言未修，血统照抄即爆）。正法=断言一律取片内形（'"W160 A window; W160 freezer MUST re-derive on the "' 含引号全片 count==1）+ 前片尾（'will refuse the naive "'）独立断言；编后置断言套件跑挂不回滚文件=先跑 verify-only 套件（_r781bma_w159_freeze_verify.py 范式=edit 写盘后断言分离）。How to apply：W160+ 冻结机照 r781 双件（edits+verify）血统；一切跨 python 字符串续行的散文断言先 probe dump 物理行再取片内形。
 
+
+- [2026-10-07 15:3x r830 bm-a] **冻结手术 buildgen 法首用（E41·方法论资产卡已入 knowledge/METHODOLOGY_ASSETS.md）**：W175 FREEZE 全链一窗交付（面探针→AST 抽 r826 173 对→S74 事实 vmap→干跑两迭代拦 12 处零写入→首活 selftest 拦 own-key 滚缺→净回滚→复合序修→再活双绿→冻结 f3fca4055 上 origin→引擎自燃 n1w175 2/12+9 队列实证）；坑律=词级瀑布吞短复合（短键须级联不可见形）+值复合吞全串复合（全串须排值前）——后续 W176+ 冻结窗禁手抄 43KB 一律走 buildgen 血统；执法面=pit-engine-freeze-editor.md 域。How to apply：下波冻结窗先读 E41 卡+本行；buildgen 前必跑面探针（r773 leg1）；首活 selftest 红即净回滚重来勿带病续。

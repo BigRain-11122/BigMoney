@@ -86,4 +86,6 @@
 - 域指针·r672 bm-c 增量批（2026-10-07 11:4x·主件余量红线触发）：水位 hash 管道快照假 delta 坑 1 条 verbatim 迁 pit-protocol-d19.md（r814 写面坑的读面姊妹·r537/r583 族）·收据 results/_r672bmc_codely_increment.json；新坑律仍先入本件后回扫。
 - 域指针·r679 bm-c 增量批（2026-10-07 13:5x·触发=主件 31,287B>30,720B〔bm-a r825 首入回弹〕）：r825 rebase UU 标记污染 daemon 状态面坑 1 条 verbatim 迁 pit-git-resolver.md（rebase 冲突窗族）·收据 _r679bmc_codely_increment.json；新坑律仍先入本件后回扫。
 
-- [2026-10-07 15:3x r830 bm-a] **冻结手术 buildgen 法首用（E41·方法论资产卡已入 knowledge/METHODOLOGY_ASSETS.md）**：W175 FREEZE 全链一窗交付（面探针→AST 抽 r826 173 对→S74 事实 vmap→干跑两迭代拦 12 处零写入→首活 selftest 拦 own-key 滚缺→净回滚→复合序修→再活双绿→冻结 f3fca4055 上 origin→引擎自燃 n1w175 2/12+9 队列实证）；坑律=词级瀑布吞短复合（短键须级联不可见形）+值复合吞全串复合（全串须排值前）——后续 W176+ 冻结窗禁手抄 43KB 一律走 buildgen 血统；执法面=pit-engine-freeze-editor.md 域。How to apply：下波冻结窗先读 E41 卡+本行；buildgen 前必跑面探针（r773 leg1）；首活 selftest 红即净回滚重来勿带病续。
+- [2026-10-07 15:3x r830 bm-a] 域指针·增量批：冻结手术 buildgen 法首用（E41）坑行 verbatim 迁 research/pit-engine-freeze-editor.md（buildgen/冻结手术面·其行自declared 域）·收据同 _r832bma_codely_increment.json。
+
+- [2026-10-07 16:3x r832 bm-a] 域指针·增量批：daemon 活写阻断 rebase 的 writer-pause 让路法坑 1 条 verbatim 迁 research/pit-git-resolver.md（rebase×daemon 活写面·E42 卡同窗入 METHODOLOGY_ASSETS）·收据 results/_r832bma_codely_increment.json；新坑律仍先入本件后回扫。

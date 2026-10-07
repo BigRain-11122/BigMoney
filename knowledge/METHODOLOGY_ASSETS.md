@@ -127,3 +127,25 @@
 - **E40 rebase 冲突窗 add -u 污染后双侧 stage blob 重建通道（c3 takeover resolver）**：proven（r794 bm-b 实弹 17 面）——add -u 清空 ls-files -u 后 stage2=git show HEAD:<path>、stage3=git show <被 pick commit>:<path> 重建，deep-ts newer-wins（tie->stage2 r140）+rolling-ledger (ts,machine) values-union，写净面→定向 add+add -u 吸收 daemon 活写→continue 同 shell（r787）零丢失收口；receipt _r794bmb_c3_runs.jsonl + c2 daemon-face 联跑复用（_r794bmb_resolve_c2.py）；预防律=rebase 冲突窗禁 add -u 循环重试 pull（第一轮即污染）。
 - 2026-10-07 04:2x（bm-b r794）：S0 落地手术窗捕获律 O-20261002-2100 收口步 append E40 资产卡——r804 前兆 17 面当场拦截零 origin 伤害 live 实证。
 - **E41 冻结手术 buildgen 法（AST 抽前代 pairs+有序事实 vmap+物理转储计数预验+干跑/首活 selftest 双闸）**：proven：r830 bm-a 实弹（W175 freeze 面探针四转储→buildgen AST 抽 r826 全部 173 对 old 侧=物理面计数全验后才发射→干跑两迭代拦 12 处陈旧 token/针缺失零写入→首活 n1 selftest 拦 own-key 滚动缺（WAVE_CONFIGS[174] 自断言未滚 [175]）→净回滚→复合序修→再活→双 selftest 全绿→引擎两 tick 内自燃实证）；方法论=冻结类大手术件不再手抄 43KB——①前代同构件 AST 解析抽 pairs（old/new 全为字面量+NL 连接，迷你求值器足够）②本代事实=有序复合串映射（会话/sha/带位串/词级瀑布 W175→W176→W174→W175→W173→W174→W172→W173/序数词/裸号滚动）③old 侧=前代 new 侧原样即物理面（r776 律计数预验）④特例对（parity 链 append、镜像键 vs 自键同形异代）显式构造⑤词级瀑布会吞短复合——短键复合（'174: {"batch"' 形态）须级联不可见；值复合（== 397_604 == 397_603 + 1 形态）会先吞全串复合的目标——全串复合须排值复合之前（本窗两迭代坑律）；receipt=results/_r830bma_w175_freeze_buildgen.py + _r830bma_w175_freeze_edits.py（f3fca4055 已上 origin）；O-20261002-2100 捕获律 live 实证（E40 后续卡）
+
+
+## E42 — Writer-Pause Window（daemon 活写阻断 rebase 的让路法）
+
+**场景**：三机共享仓 pull --rebase 时，本机后台 daemon（饱和引擎烧分片/autofill/pool_worker/
+dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --continue` 需要净树，
+活写使 pick 反复失败并进入 reschedule 循环（done 文件堆积重复 pick 项、msgnum/end 失配、
+"staged changes"/"must edit merge conflicts" 提示误导）。
+
+**方法**：
+1. 诊断面：`git diff --name-only` + 文件 mtime 连续观测确认 daemon 是写入源；
+   `git status` 提示 "you have staged changes ... git commit" = editing-stop 态真错误
+   （被 Select-Object 截断吃掉时用 Out-String 全量打印拿真错误）。
+2. 让路面：临时 Disable 本机 4 个写盘计划任务（SatEngine/Autofill/PoolWorker/
+   ResidentDispatcher，经 Invoke-SilentExe 包装·U060 零窗律）；
+3. 静窗内完成 absorb+continue+冲突解（22-UU 批=ALL_FACES resolver+手解件）；
+4. rebase 落地后立即 ENABLE 全部恢复（队列态在文件面持久，暂停只延迟烧录零损失）；
+5. untracked 撞重放（引擎新写分片）按 r220 律 TEMP 暂移，回移前与重放侧做
+   EQUAL-EXCEPT-ELAPSED 断言（确定性再烧=科学面恒等，仅 wall-clock 元数据差）。
+
+**判据/先例**：r832 bm-a 实弹（W175 烧录期 origin 双机抢道 rebase 全链治愈，behind 0 送达）；
+禁用于 CEO 用机让路律场景（那是 machine-state.ps1 -Mode pause 的域）。
