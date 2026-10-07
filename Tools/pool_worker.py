@@ -42,7 +42,13 @@ via PID lock):
      write runnable_pool.json (pool single-writer law untouched).
   5. run entry.runner as a subprocess at BelowNormal priority, with a
      background heartbeat thread refreshing the claim file every 5 min
-     (stale > 20 min = another machine may lawfully take over, fleet law).
+     (stale > 20 min = another machine may lawfully take over, fleet law
+     -- UNLESS the owner shows a third liveness signal: commits pushed
+     to origin within ORIGIN_LIVENESS_MIN minutes, r700 law. A machine
+     mid-long-round heartbeats only at round end and its claim heartbeat
+     rides the tick cadence, but its session/daemon keeps committing --
+     the W16 double-burn window (bm-a 2026-10-07) proved both first
+     signals go stale while the machine is demonstrably alive).
   6. on finish: claim state=closed (outcome ok|fail) + result_ref,
      append a capacity-ledger row to results/pool_worker_ledger.jsonl
      ({machine_id, entry, shard, started, duration_sec, cores,
@@ -73,6 +79,9 @@ LEDGER = os.path.join(ROOT, "results", "pool_worker_ledger.jsonl")
 MACHINES_DIR = os.path.join(ROOT, "fleet", "machines")
 STALE_MIN = 20.0          # fleet law: claim stale > 20 min = takeable
 HEARTBEAT_SEC = 300.0     # claim heartbeat cadence (well under STALE_MIN)
+ORIGIN_LIVENESS_MIN = 15.0  # r700 third signal: origin commits fresher
+                            # than this name the owner machine alive
+ORIGIN_LIVENESS_SCAN = 40   # recent origin subjects scanned for the needle
 BELOW_NORMAL = 0x00004000  # win32 BELOW_NORMAL_PRIORITY_CLASS
 
 
@@ -172,11 +181,58 @@ def _fleet_hb_age_min(machine_id):
         return None
 
 
-def _owner_age_min(owner, shard):
-    """Effective owner freshness = freshest of heartbeat / claim-stamp
-    (autofill _owner_age_min parity -- same-machine takeover law)."""
+def _origin_commit_age_min(machine_id, root=None, ref="origin/main"):
+    """r700 third liveness signal (W16 double-burn window evidence):
+    a machine mid-long-round heartbeats only at round end and its
+    claim-by-file heartbeat rides the tick cadence, but its session /
+    daemon keeps committing and pushing -- a recent origin commit
+    naming the machine = the machine is alive. Returns the freshest
+    such commit age in minutes, or None (no sighting / git fault).
+    Attribution needle = machine-id substring in the subject (fleet
+    convention tags: 'via bm-a', 'lane: bm-c', 'pool_worker bm-c',
+    'bm-c r699 close'). Conservative-by-design: a false 'alive' merely
+    defers takeover a few minutes; the double-burn hazard only runs in
+    the false-'dead' direction (a subject mentioning a rival machine
+    incidentally reads that rival alive -- accepted, expires with the
+    scan window)."""
+    if not machine_id:
+        return None
+    try:
+        r = subprocess.run(
+            ["git", "log", ref, f"-{ORIGIN_LIVENESS_SCAN}",
+             "--format=%ct%x00%s"],
+            cwd=root or ROOT, capture_output=True)
+        if r.returncode != 0:
+            return None
+        now = time.time()
+        best = None
+        needle = str(machine_id).lower()
+        for line in r.stdout.decode(errors="replace").splitlines():
+            if "\x00" not in line:
+                continue
+            ts_s, subj = line.split("\x00", 1)
+            try:
+                age = (now - int(ts_s)) / 60.0
+            except ValueError:
+                continue
+            if age < 0:
+                age = 0.0
+            if needle in subj.lower():
+                if best is None or age < best:
+                    best = age
+        return best
+    except Exception:
+        return None
+
+
+def _owner_age_min(owner, shard, root=None, ref="origin/main"):
+    """Effective owner freshness = freshest of heartbeat / claim-stamp /
+    origin-commit liveness (autofill _owner_age_min parity -- same-machine
+    takeover law; third signal r700: min of all three, a fresh origin
+    commit protects a live-but-heartbeat-stale long-round owner)."""
     ages = [a for a in (_fleet_hb_age_min(owner),
-                        _age_min(shard.get("owner_since")))
+                        _age_min(shard.get("owner_since")),
+                        _origin_commit_age_min(owner, root=root, ref=ref))
             if a is not None]
     return min(ages) if ages else None
 
@@ -288,6 +344,15 @@ def _origin_claims_verdict(entry_id, shard_key, myid, root=None,
         if age < STALE_MIN:
             return ("occupied-fresh",
                     f"rival {who} claim fresh ({age:.1f}min)")
+        # r700 third signal: stale claim but the rival machine keeps
+        # committing on origin = alive mid-long-round -> no takeover.
+        oc_age = _origin_commit_age_min(who, root=root, ref=ref)
+        if oc_age is not None and oc_age < ORIGIN_LIVENESS_MIN:
+            return ("occupied-fresh",
+                    f"rival {who} claim stale ({age:.1f}min) but origin "
+                    f"commits fresh ({oc_age:.1f}min < "
+                    f"{ORIGIN_LIVENESS_MIN:.0f}min) -- third-signal alive "
+                    f"(r700, W16 double-burn law)")
         return ("takeover",
                 f"rival {who} claim stale ({age:.1f}min > "
                 f"{STALE_MIN:.0f}min)")
@@ -931,6 +996,88 @@ def selftest():
         mal_r = _data_deps_gate({"id": "X", "data_deps": "not-a-list"})
         ok("S22d malformed data_deps -> fail-closed skip",
            mal_r is not None and "malformed" in mal_r)
+        # S23 r700 origin-commit liveness third signal (W16 double-burn
+        # law face; hermetic tmp repos with date-controlled commits)
+        from datetime import timedelta
+        lrepo = os.path.join(tmp, "liveness_repo")
+        os.makedirs(lrepo, exist_ok=True)
+        r = subprocess.run(["git", "init", "-q"], cwd=lrepo,
+                           capture_output=True)
+        ok("S23a tmp git init (liveness)", r.returncode == 0)
+        if r.returncode == 0:
+            def _lc(subject, date_epoch=None):
+                env = dict(os.environ)
+                if date_epoch is not None:
+                    env["GIT_AUTHOR_DATE"] = f"{int(date_epoch)} +0000"
+                    env["GIT_COMMITTER_DATE"] = f"{int(date_epoch)} +0000"
+                subprocess.run(["git", "commit", "-q", "--allow-empty",
+                                "-m", subject], cwd=lrepo, env=env,
+                               capture_output=True)
+
+            _lc("lane: bm-x daemon churn absorb (r620 law)")
+            _lc("lane: bm-y old round close",
+                time.time() - 25 * 60)
+            age_x = _origin_commit_age_min("bm-x", root=lrepo, ref="HEAD")
+            age_y = _origin_commit_age_min("bm-y", root=lrepo, ref="HEAD")
+            age_z = _origin_commit_age_min("bm-z", root=lrepo, ref="HEAD")
+            ok("S23b fresh origin commit naming owner -> age < 15",
+               age_x is not None and age_x < ORIGIN_LIVENESS_MIN)
+            ok("S23c only-old sighting -> signal stale (>= 15)",
+               age_y is not None and age_y >= ORIGIN_LIVENESS_MIN)
+            ok("S23d no sighting -> None (signal absent)",
+               age_z is None)
+            # S23e/f _owner_age_min integration: hb + claim both stale
+            # 25min; a fresh origin commit protects a live long-round
+            # owner, absence keeps the honest takeover path intact.
+            global MACHINES_DIR
+            real_machines = MACHINES_DIR
+            MACHINES_DIR = os.path.join(tmp, "machines")
+            os.makedirs(MACHINES_DIR, exist_ok=True)
+            hb_stale = (datetime.now().astimezone()
+                        - timedelta(minutes=25)).isoformat(timespec="seconds")
+            with open(os.path.join(MACHINES_DIR, "bm-x.json"), "w",
+                      encoding="utf-8") as fh:
+                json.dump({"last_seen": hb_stale}, fh)
+            eff = _owner_age_min("bm-x", {"owner_since": hb_stale},
+                                 root=lrepo, ref="HEAD")
+            ok("S23e stale hb+claim + fresh origin commit -> owner alive",
+               eff is not None and eff < ORIGIN_LIVENESS_MIN)
+            eff_dead = _owner_age_min("bm-z", {"owner_since": hb_stale},
+                                      root=lrepo, ref="HEAD")
+            ok("S23f no third signal -> stale stands (takeover intact)",
+               eff_dead is not None and eff_dead >= STALE_MIN)
+            MACHINES_DIR = real_machines
+        # S23g/h verdict face (reuse S20 claims repo): stale rival claim
+        # + rival fresh origin commits -> occupied (no takeover); rival
+        # with only-old commits -> takeover stands.
+        v_ok_g = False
+        try:
+            _cw("w0-0of1.bm-w.json",
+                {"machine_id": "bm-w", "state": "running",
+                 "heartbeat": (datetime.now().astimezone()
+                               - timedelta(minutes=25)
+                               ).isoformat(timespec="seconds")})
+            _cc()
+            subprocess.run(["git", "-c", "user.email=st@t", "-c",
+                            "user.name=st", "commit", "-q", "--allow-empty",
+                            "-m", "bm-w daemon tick close (via bm-w)"],
+                           cwd=crepo, capture_output=True)
+            v, det = _origin_claims_verdict("G", "w0-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            v_ok_g = (v == "occupied-fresh" and "third-signal" in det)
+            ok("S23g stale claim + rival fresh commits -> occupied", v_ok_g)
+            _cw("w1-0of1.bm-v.json",
+                {"machine_id": "bm-v", "state": "running",
+                 "heartbeat": (datetime.now().astimezone()
+                               - timedelta(minutes=25)
+                               ).isoformat(timespec="seconds")})
+            _cc()
+            v, det = _origin_claims_verdict("G", "w1-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S23h stale claim + no fresh rival commits -> takeover",
+               v == "takeover")
+        except NameError:
+            ok("S23g/h verdict legs (need S20 crepo helpers)", False)
         CLAIMS = real_claims
         LEDGER = real_ledger
         allp = failc[0] == 0
