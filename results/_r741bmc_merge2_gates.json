@@ -1,0 +1,33 @@
+{
+ "round": 741,
+ "face": "merge2 closeout (pre-push claw block -> fetch -> merge absorb -> re-push)",
+ "claw_block": {
+  "claw": "pre-push ownership claw (D-20261002-04, r519 family)",
+  "event": "first push of r741 commit blocked: deletion set carried non-self-owned files (results/_r868bma_*.txt x4, no owner evidence)",
+  "diagnosis": "phantom-deletion family r759/r638: origin advanced mid-round (bm-a r868 two commits) AFTER my commit base; push tip lacked their new files = claw read as deletions; local zero deletion actions",
+  "resolution": "fetch -> behind=2 verified -> merge origin/main ORT -> gates -> re-push (canon path, zero --no-verify)"
+ },
+ "merge": {
+  "base": "535e3bd66",
+  "ours": "4534fc209 (r741 bm-c round commit, 45 faces)",
+  "theirs": "origin/main ccd18034e (bm-a r868: W182 FINALIZE one-pass ledger 806718 EXACT + W183 pre-seat probe + seat MSG, 18 faces)",
+  "merge_head": "3c249f033",
+  "uu_count": 0
+ },
+ "gates": {
+  "gate1_uu_clean": {"uu": 0, "pass": true},
+  "gate2_marker_clean": {"scope": "changed set + shared regen faces + state/report", "hits": 0, "pass": true},
+  "gate3_origin_verbatim": {"their_faces_checked": 18, "violations": [], "pass": true},
+  "gate4_union_reparse": {"both_touched_faces": 0, "note": "disjoint change sets 45 intersect 18 = 0; no spliced/union face exists; reparse requirement vacuous", "pass": true}
+ },
+ "push": {
+  "range": "ccd18034e..3c249f033",
+  "delivery_verify": {"ahead": 0, "behind": 0}
+ },
+ "inbox_processed": {
+  "msg": "MSG-2026-10-08-0741-bma-w183-seat.md",
+  "action": "W183 seat publication (bm-a owner): A 417_404..419_403 / B 419_404..419_603, E36 staircase 43rd instance; bm-c zero conflict zero claim receipt-only; freeze = bm-a active lane, not claimed; moved to processed/"
+ },
+ "supply_gap_note": "W183 seat MSG canonical response: the wave IS the standing supply line next-unit response to the never-dry standing law (engine queue 0 after W182 burn 12/12); bm-c compute_audit supply_gap+supply_floor flags = standing observation face, non-local action face",
+ "ts": "2026-10-08T07:45:00+08:00"
+}
