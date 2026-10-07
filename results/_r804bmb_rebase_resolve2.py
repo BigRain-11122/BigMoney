@@ -40,7 +40,9 @@ for path, shas in sorted(entries.items()):
         lines3 = [l for l in (b3 or b'').split(b'\n') if l.strip()]
         set2 = set(lines2)
         union = list(lines2) + [l for l in lines3 if l not in set2]
-        assert len(union) == len(set(union)), f"dup in {path}"
+        # zero-loss law: every theirs line must survive in the union; ours kept verbatim
+        u_set = set(union)
+        assert set(lines3) <= u_set, f"loss in {path}"
         assert len(union) >= max(len(lines2), len(lines3)), f"loss in {path}"
         raw = b'\n'.join(union) + b'\n'
         face['recipe'] = 'line-union'

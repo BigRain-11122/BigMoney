@@ -7,11 +7,64 @@
    "recipe": "ts-newer-wins",
    "ts": [
     "2026-10-07T10:13:05",
-    "2026-10-07T10:13:05"
+    null
    ],
    "took": "ours(origin)",
-   "bytes_written": 694
+   "bytes_written": 316
+  },
+  {
+   "path": "results/autofill_state.bm-b.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    "2026-10-07 10:18:01",
+    "2026-10-07 10:12:01"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 29030
+  },
+  {
+   "path": "results/fund_divlowvol_p1/nulls.jsonl",
+   "recipe": "line-union",
+   "counts": [
+    1692,
+    1692,
+    1693
+   ],
+   "bytes_written": 291822
+  },
+  {
+   "path": "results/saturation_engine/face_bm-b.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    "2026-10-07T10:19:05",
+    "2026-10-07T10:15:05"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 506
+  },
+  {
+   "path": "results/saturation_engine/history_bm-b.jsonl",
+   "recipe": "line-union",
+   "counts": [
+    120,
+    120,
+    124
+   ],
+   "bytes_written": 57412
+  },
+  {
+   "path": "results/saturation_engine/state_bm-b.json",
+   "recipe": "ts-newer-wins",
+   "ts": [
+    "2026-10-07T10:19:05",
+    "2026-10-07T10:15:05"
+   ],
+   "took": "ours(origin)",
+   "bytes_written": 552
   }
  ],
- "asserts": []
+ "asserts": [
+  "results/fund_divlowvol_p1/nulls.jsonl: |A|=1692 |B|=1692 |AuB|=1693 zero-loss",
+  "results/saturation_engine/history_bm-b.jsonl: |A|=120 |B|=120 |AuB|=124 zero-loss"
+ ]
 }
