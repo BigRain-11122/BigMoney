@@ -90,3 +90,5 @@
 - 域指针·r679 bm-c 增量批（2026-10-07 13:5x·触发=主件 31,287B>30,720B〔bm-a r825 首入回弹〕）：r825 rebase UU 标记污染 daemon 状态面坑 1 条 verbatim 迁 pit-git-resolver.md（rebase 冲突窗族）·收据 _r679bmc_codely_increment.json；新坑律仍先入本件后回扫。
 
 - 域指针·r703 bm-c mini-split 批（D-20261002-06 主件 ≤30KB 判据腿·2026-10-07 22:2x·触发=主件 31,761B>30,720B）：Ollama 0.40.0 resume GPU 误判坑条目 verbatim 迁出→**research/pit-machine.md**（新域件·machine-state/Ollama/GPU 面·pause/resume/pin/显存诊断动作前改读该件）+r843 bm-a S5 账本尾行无终结符粘连坑 verbatim 迁出→pit-protocol-lane.md〔append-only 台账机械族〕——逐条字节+sha16 对账=receipt results/_r703bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主件 ≤30KB）；新坑律仍先入本件后回扫。
+
+- [2026-10-07 22:5x r847 bm-a] **跨机部署无 BOM 非 ASCII ps1 GBK 解析炸坑（O-20261007-2240 实弹·fleet 部署律新面）**：C 机 v4 generate.ps1 终验 5/5 达标，字节级部署 bm-a 即解析炸（-replace 行报 Unexpected token 级联）——根因=zh-CN 机 PS 5.1 读无 BOM ps1 按 ANSI/GBK，UTF-8『…』(E2 80 A6) 尾字节 A6 与后引号组对吞引号→字符串失衡（iteration_loop.ps1 自家 ENCODING RULE 同族坑的跨机部署变体）；正法=目标机加 UTF-8 BOM（3 字节零改内容·5.1/pwsh 双兼容）或作者侧回归 ASCII-only body 律。How to apply：跨机部署 .ps1 前必检 BOM+非 ASCII 字节（python 探针一行）；fold/合并回取上游版后必复检 BOM 存活（本例 ME 会话 23:13 fold 若回取 C 无 BOM 版=本机 5min tick 复炸）；正典侧修法归上游机（回执已带）。

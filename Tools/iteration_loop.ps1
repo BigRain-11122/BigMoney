@@ -83,6 +83,17 @@ if ($LockProbeOnly) { Write-Output "probe: TAKE grabbed pid=$PID"; Remove-Item $
 try {
     Log "iteration round start $stamp"
 
+    # O-20261007-2315 idle hard-trigger bookkeeping leg (runs every round,
+    # AI-independent counting: probes GREEN-IDLE gate per resource-chain 8.2,
+    # detects backlog claims, maintains heartbeat idle_rounds/agenda_starved).
+    # Verdict lands in results/idle_trigger.<machine>.json for the round to
+    # consume same-round (claim a backlog line / declare --worked). Failures
+    # never kill the round: bookkeeping is best-effort, disclosed in the log.
+    try {
+        $idleOut = & python (Join-Path $Project 'Tools\idle_trigger.py') 2>&1
+        Log "idle_trigger: $idleOut"
+    } catch { Log "idle_trigger error: $_" }
+
     $codelyPath = (Get-Command codely -ErrorAction SilentlyContinue).Source
     if (-not $codelyPath) { Log 'FATAL: codely not on PATH for this context'; Beat 'error codely missing'; exit 2 }
     Log "codely=$codelyPath"
