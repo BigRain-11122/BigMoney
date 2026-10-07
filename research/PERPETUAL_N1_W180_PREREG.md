@@ -55,9 +55,18 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填·待 W180 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+- 账本恒等式：799,705 + 2,200 = **801,905** EXACT（§5 投影精确命中·prev_total/batch_trials/total 三键机读）。
+- 合并池：**K=393,920** EXACT（=W179 池 391,720 + 本波 2,200·§5 投影命中）。
+- merged mu **−0.092731**（机读 -0.0927312）/ w-only mu **−0.092499** / mu_delta(w180 vs w179ext) **+0.000725**。
+- merged sigma **0.245111**（W179 键 0.245086→0.245111）；w-only sigma 0.249476；se_mu@K393,920 **0.000391**（W179 0.000392→0.000391 收窄）。
+- skill_line_v2：line_pre **1.1851** → line_merged@K393,920 **1.1852**（K-lift **+0.0001**·n_eff_held_equal 799,705）；canon flip **NOT performed**（K2,200 同例法·治理提案面）。
+- A 档 full_sharpe_p95 **0.3098**（W179 锚 0.3265·Δ−0.0167<0.05 门过）·p99 0.4556·A mu −0.087837。
+- §5 四预键机证全过：①mu gap |−0.092499−(−0.092731)|=0.000232<0.02 PASS ②sigma 相对变化 +0.0100%<±10% PASS ③A p95 Δ−0.0167<0.05 PASS ④K-lift +0.0001≤±0.02 PASS。
+- audit.finalize_only=**true**（bm-a）·voids_applied=LOWAMP-P1/P2·evidence_cutoff=2026-09-22 在位·shards_consumed 12/12。
 
 ## §8 批后复盘。【finalize 同窗回填·待 W180 finalize 窗】
-- （占位·§5.5 W181+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+- §5.5 W181+ 投影承接（r851 seat probe 回执机证·W181 冻结方重 derive 强制非转抄 r587 律）：naive A **412_804..414_803**（hops=0 CLEAN）将拒于注册 W180 B 带 412_804..413_003 own-start=阶梯 A-hops-prior-B **第四十一例**预期·W181 冻结窗须在 post-W180 注册宇宙重 derive；naive B **413_004..413_203**（hops=0 CLEAN）——W141 同窗互斥 leg2 律适用 W181（derive B 时预留本波 A 窗）。
+- 宝藏/方法论捕获问：本批无新方法零新宝藏（finalize one-pass=canonical runner 单发 r718 先例 verbatim 复用·E42 writer-pause 静窗=r832 既有律复用）；TREASURE/METHODOLOGY 零 append。
+- 诚实披露面：W180-only mu −0.0925 比合并池 −0.0927 略浅=null 抽样正常波动非异常（w-only sigma 0.2495>池 0.2451 小样本正常）；K-lift **+0.0001**（W179 −0.0001 后回正·线 1.1851→1.1852）；A p95 0.3098 较 W179 锚 0.3265 下移 0.0167 仍门内如实披露；引擎 tick 自烧 12 分片（01:23:58-01:30:17）+finalize 同轮收口（r381 律）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
