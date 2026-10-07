@@ -61,3 +61,13 @@
 - 复扫通道：探针幂等可重跑（python scripts\oss_eng_scan.py·star/push 活取）；NOASSERTION 两件下窗核 LICENSE 文件后翻面。
 
 （r706 bm-c 工程类腿·后续轮增量 append·禁改既有行）
+
+## 五、NOASSERTION 许可核（E2/E5 翻面·@bm-c 车道·r707）
+
+- 取证法=python scripts\oss_license_probe.py（转正工具·幂等可重跑·api.github.com /license 端点活取 LICENSE 原文头 4KB 文本分类·叠加/双限制条款优先匹配·禁手抄）；证据件 results/oss_eng_scan/license-20261007.json（ok=2 fail=0·round 从 state 实读）。
+- **E2 vectorbt 翻面：NOASSERTION→Apache-2.0+Commons-Clause(v1.0)**——LICENSE.md 头部实为 Commons Clause 叠加条款（Apache-2.0 基座+「禁 Sell the Software」销售限制）=source-available 非纯开源；判定=**CONDITIONAL-REF-ONLY**（参照只读合法：向量化网格/N1 吞吐对标、读源码学技法可行；禁嵌入/分发/产品化/商用销售面）；待集团收获机制裁定参照件身份。
+- **E5 RQAlpha 翻面：NOASSERTION→双许可（米筐科技·非商业 Apache-2.0／商业用途须书面商业授权）**——LICENSE 原文中文双轨条款实锤；本司=商业实体→商用面未授权；判定=**CONDITIONAL-REF-ONLY**（A 股 T+1/费率/板规口径只读对标可行；禁引擎引入/嵌入/任何商用部署）；待集团裁定。
+- **许可门第二/三活捕获**（继 backtrader GPL 后）：star 数与「开源」名声不构成许可证据——9.3k/6.8k star 双星件均带商业限制条款；NOASSERTION 常见根因=叠加条款（Commons Clause）与非标双许可（中文授权条款 GitHub licensee 不识别）；**自动分类器叠加条款优先律**（首跑 Apache 关键词先命中=两件假 PASS 被人工复核 head_excerpt 抓出后修正分类顺序——机械翻面禁信，原文头逐件人工复核为正法）。
+- 台账状态汇总更新：工程类 15 件许可面全数有判——纯桶 9 件（可引进 8 件=E4/D3/G1/G2/G3/G4/B1/B2·含 B1 在飞注记+D1 在役登记 1 件）+禁入 2 件（E1 GPL/E3 LGPL 保守）+**条件参照 2 件（E2/E5 本节）**+vendor 待核 1 件（B3）+源缺 1 件（D2）——初筛可引进纯桶率与参照件分层计入 10-21 回访吃单率口径；适配首件排产不变（G3 uptime-kuma > G2 healthchecks > B2 easytrader·全 MIT/BSD 纯净件）。
+
+（r707 bm-c NOASSERTION 核腿·后续轮增量 append·禁改既有行）

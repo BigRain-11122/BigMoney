@@ -149,3 +149,6 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 
 **判据/先例**：r832 bm-a 实弹（W175 烧录期 origin 双机抢道 rebase 全链治愈，behind 0 送达）；
 禁用于 CEO 用机让路律场景（那是 machine-state.ps1 -Mode pause 的域）。
+
+- **E43 NOASSERTION 许可核通道=原文头叠加条款优先律**（proven·OSS 引进管线许可门）：GitHub API license=NOASSERTION 件的许可判定禁信 star 数/社区名声/记忆印象——正法=api.github.com /license 端点活取 LICENSE 原文（base64 解码）取头 4KB 文本分类，**叠加/双限制条款优先匹配**（Commons Clause 与非商业双许可授权条款先于 Apache/MIT 关键词判定——实弹：首跑 Apache 关键词先命中=两件假 PASS 被人工复核 head_excerpt 当场抓出后修正分类顺序）；商业实体许可桶三层判=纯桶直用（MIT/Apache/BSD/ISC）／禁入（GPL/AGPL/LGPL 族）／**CONDITIONAL-REF-ONLY**（Commons Clause 叠加=禁 Sell the Software·中文双许可非商业 Apache+商业书面授权制=企业商用面未授权）——参照只读（口径对标/读源码学技法）合法，禁嵌入/分发/产品化/商用部署。活捕获双例：vectorbt（9.3k★）=Apache-2.0+Commons-Clause v1.0、RQAlpha（6.8k★）=米筐中文双许可——star 数与「开源」名声不构成许可证据（继 backtrader GPL 后许可门第二/三活捕获）。证据=results/oss_eng_scan/license-20261007.json+scripts/oss_license_probe.py（幂等可重跑·round 从 state 实读）。
+- 2026-10-07 23:4x（bm-c r707·O-2245 NOASSERTION 许可核收口窗）：捕获律 append E43 许可核叠加条款优先律（工程引进件许可门收口步·O-20261002-2100 捕获律 live 实证）。
