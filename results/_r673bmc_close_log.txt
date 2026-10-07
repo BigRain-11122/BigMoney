@@ -1,0 +1,89 @@
+NOW: 2026-10-07 11:55:03 +08:00
+S05_CLOSE rc=0
+S05| S05 facts written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r673bmc_s05_facts.json
+DEC 635C3024A95E delta= False
+ORD B687D867ED7A delta= False
+fleet_orders 164 unacked 0 inbox_unread 1 ['MSG-2026-10-07-1200-bmc-ALL.md']
+S5_LEDGER rc=0
+S5| S5 row appended; ledger now 2255764 B
+TRIPWIRE rc=0
+TRIP| {"total_lines": 1164, "unique_nonempty": 1008, "header_count": 1, "max_line_multiplicity": 1, "entry_lines_unique": 305, "entry_max_multiplicity": 1, "active_dup": false, "eol": "\r\n"}
+VERDICT: CLEAN
+ATTRITION rc=0
+ATT| [gate_attrition.bm-a.json] shrink 2 rows at ded3d7588 (after 188b304f8) [healed]
+[gate_attrition.bm-a.json] shrink 4 rows at 299530314 (after e62e0e9c8) [healed]
+[gate_attrition.json] shrink 1 rows at 588d4c160 (after 790d4c1ea) [healed]
+guard scan: 4 ledger files, CLEAN (no active loss); evidence -> results/_attrition_guard_scan.json
+LOOP_REG rc=0 :: phase ok: machine=bm-c pin=5 current=5 (no-op, first fire stays 10/07/2026 12:05:00)
+WATCHDOG_REG rc=0 :: registered Bigmoney-LoopWatchdog (project=K:\Fluxgroup\FluxGroup\quant\bigmoney, logon=default per D-20261002-02), first fire 10/07/2026 11:57:00
+PRECOMMIT_CLAW MATCH
+PREPUSH_CLAW MATCH
+CLOSE_UPDATE rc=0
+CU| STATE written round_no=674 label=round 673 (bm-c) epoch_type=int gpu_mib=12376 cpu=2
+HB written round_no=674 epoch_type=int clock=2026-10-07T11:55:29+08:00
+CLOSE_UPDATER_OK 2026-10-07T11:55:29+08:00 epoch=1791345329 gpu_mib=12376 cpu=2
+PRECOMMIT_DIRTY_COUNT=47
+DIRTY:  M docs/daily_report/REPORT-2026-10-07.json
+DIRTY:  M docs/daily_report/REPORT-2026-10-07.md
+DIRTY:  M docs/live_usage/LIVE-2026-10-07.json
+DIRTY:  M docs/live_usage/LIVE-2026-10-07.md
+DIRTY:  M docs/live_usage/LIVE-latest.json
+DIRTY:  M docs/live_usage/LIVE-latest.md
+DIRTY:  M fleet/machines/bm-c.json
+DIRTY:  M logs/iteration-loop/round_reports-bm-c.md
+DIRTY:  M research/pit-tooling.md
+DIRTY:  M results/_attrition_guard_scan.json
+DIRTY:  M results/autofill_state.bm-c.json
+DIRTY:  M results/compute_audit.bm-c.json
+DIRTY:  M results/compute_audit.json
+DIRTY:  M results/dispatcher_state.bm-c.json
+DIRTY:  M results/fund_premium_status.json
+DIRTY:  M results/fundamental_b_layer_filter.json
+DIRTY:  M results/futures_update_status.bm-c.json
+DIRTY:  M results/futures_update_status.json
+DIRTY:  M results/lhb_update_status.bm-c.json
+DIRTY:  M results/lhb_update_status.json
+DIRTY:  M results/pool_dualrun.bm-c.jsonl
+DIRTY:  M results/regime_state.bm-c.json
+DIRTY:  M results/regime_state.json
+DIRTY:  M results/runnable_pool.bm-c.json
+DIRTY:  M results/saturation_engine/face_bm-c.json
+DIRTY:  M results/saturation_engine_state.bm-c.json
+DIRTY:  M results/token_usage.bm-c.json
+DIRTY:  M results/token_usage.json
+DIRTY:  M results/update_status.bm-c.json
+DIRTY:  M results/update_status.json
+DIRTY:  M scripts/open_market_readiness.py
+DIRTY:  M state-bm-c.json
+DIRTY: ?? Tools/_r673bmc_close_update.py
+DIRTY: ?? Tools/_r673bmc_pit_increment.py
+DIRTY: ?? Tools/_r673bmc_qa_ignite.py
+DIRTY: ?? Tools/_r673bmc_s05.py
+DIRTY: ?? Tools/_r673bmc_s5_ledger.py
+DIRTY: ?? Tools/_r673bmc_s6.py
+DIRTY: ?? fleet/inbox/MSG-2026-10-07-1200-bmc-ALL.md
+DIRTY: ?? results/_r673bmc_pit_tooling_increment.json
+DIRTY: ?? results/_r673bmc_qa_runner.err
+DIRTY: ?? results/_r673bmc_qa_runner.out
+DIRTY: ?? results/_r673bmc_s05_facts.json
+DIRTY: ?? results/_r673bmc_s0_log.txt
+DIRTY: ?? results/_r673bmc_s0b_log.txt
+DIRTY: ?? results/_r673bmc_s6_log.txt
+DIRTY: ?? results/open_market_readiness.bm-c.json
+RC_ADD=0
+RC_COMMIT=0
+RC_PUSH=1
+PUSH: To github.com:BigRain-11122/BigMoney.git
+PUSH:  ! [rejected]            main -> main (non-fast-forward)
+PUSH: error: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'
+PUSH: hint: Updates were rejected because the tip of your current branch is behind
+PUSH: hint: its remote counterpart. If you want to integrate the remote changes,
+PUSH: hint: use 'git pull' before pushing again.
+PUSH: hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PUSH rejected -> pull --rebase single retry (r789 zero-autostash law)
+RC_PULL_REBASE=0
+RC_PUSH2=0
+PUSH2: To github.com:BigRain-11122/BigMoney.git
+PUSH2:    1104e519d..c28311c0d  main -> main
+DELIVERY: HEAD=c28311c0d BEHIND=0 AHEAD=0 (must be 0/0)
+LS_TREE_ORIGIN: 100644 blob c5ede4390fdc2190306b2546d652deccc40a770f	state-bm-c.json
