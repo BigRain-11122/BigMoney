@@ -1,4 +1,4 @@
-# r802 bm-b S6 chain runner (lineage: verbatim copy of results/_r796bmb_s6_chain.py, zero intentional adds)
+# r802 bm-b S6 chain runner (lineage: verbatim copy of results/_r801bmb_s6_chain.py, zero intentional adds)
 # Legs 25-28 (live.paper/t35_open_fill/t24 pair): golden-week no-new-bar honest skip (cutoff 2026-09-30 unchanged, reopen 10-08)
 # python driver per r778-cont pattern: per-leg stdout progress + UTF-8 log (avoids ps1 UTF-16 face + 5-min shell cancel)
 import subprocess, sys, time, io
