@@ -1,0 +1,47 @@
+{
+ "round": 735,
+ "op": "codely-minisplit-r735",
+ "main_bytes_before": 32999,
+ "main_bytes_after": 30654,
+ "main_cap": 30720,
+ "removed_bytes": 3160,
+ "pointer_row_bytes": 815,
+ "two_pass_note": "pass-1 PTR 931B overshot cap by 50B (30,770B); pass-2 trimmed pointer row in-place to 815B (nav-only trim, zero loss to migrated blocks); blocks+targets untouched in pass-2",
+ "byte_equation": "pass-1 constructive identity asserted; pass-2 trim equation asserted (after == before - old_ptr + new_ptr)",
+ "eol_face": "working tree CRLF-dominant (disk 32,999B, CR==LF==103) vs LF git blob 32,896B (autocrlf) -- r420 family disk face; blocks carried native CRLF verbatim; byte gate measured on disk bytes; blob normalizes to LF on commit",
+ "prescan": "treasure_guard prescan rc3 registry hit on all touched paths, recorded per r651/r654/r670/r703/r731 precedent (D-20261002-06 standing law mandates main-file <=30KB; byte-verbatim zero-loss faces; blocks re-asserted bytes-in-target in-proc)",
+ "handoff_plan": "3 entries -> pit-git-resolver/pit-engine/pit-git-staged (via bm-c r734); amendment: pit-git-resolver.md 30,089B full -> rebase-window sub-file pit-git-resolver-rebase.md; r711 -> pit-protocol-d19.md added for headroom",
+ "migrated": [
+  {
+   "entry": "r863_rebase_continue",
+   "bytes": 742,
+   "sha16": "1368f4635a12c352",
+   "to": "research/pit-git-resolver-rebase.md"
+  },
+  {
+   "entry": "r863_buildgen_fresh",
+   "bytes": 506,
+   "sha16": "85ee105b63733012",
+   "to": "research/pit-engine.md"
+  },
+  {
+   "entry": "r734_prepush_claw",
+   "bytes": 1139,
+   "sha16": "5cb42cba5d50052b",
+   "to": "research/pit-git-staged.md"
+  },
+  {
+   "entry": "r711_hex_case",
+   "bytes": 774,
+   "sha16": "944773df7ee9320e",
+   "to": "research/pit-protocol-d19.md"
+  }
+ ],
+ "target_bytes_after": {
+  "research/pit-git-resolver-rebase.md": 15360,
+  "research/pit-engine.md": 29558,
+  "research/pit-git-staged.md": 10379,
+  "research/pit-protocol-d19.md": 21249
+ },
+ "zero_loss_assert": "each block bytes-verbatim in target + removed from main + retained lines constructive-identity (byte equations pass-1 and pass-2) + all touched files <= 30720B"
+}
