@@ -3215,11 +3215,15 @@ def _overlay_stop_disclosure_w14(cand, prices, P, atr20, fundamental_ok,
                                 gate_state, vol_state, yang_state,
                                 vconf_state, streak_state, tstate_state,
                                 amp_state, mom_state, std_state,
-                                rsqr_state, sumn_state):
+                                rsqr_state, sumn_state, resi_state=None,
+                                cnt_state=None):
     """Per-cell stop trigger/fill-day disclosure on the leg-L signal face
     with the W13 composition order (filter -> timing -> GATE -> VOL ->
     YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> STD ->
-    RSQR -> SUM -> initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
+    RSQR -> SUMN -> RESI -> CNT -> initial-stop (r698 W14 completion:
+    resi/cnt layers added per engine-face consistency law, mirroring
+    the run_candidate_curve_w14 composition through cnt_zero_mask);
+    MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
     tl12._overlay_stop_disclosure_w12 with the sumn overlay inserted
     before stop arming (engine-face consistency law; summary math
     imported)."""
@@ -3245,7 +3249,13 @@ def _overlay_stop_disclosure_w14(cand, prices, P, atr20, fundamental_ok,
     SD = std_zero_mask(MO, cand["axis"][13], std_state)
     RQ = rsqr_zero_mask(SD, cand["axis"][14], rsqr_state)
     NQ = sumn_zero_mask(SD, cand["axis"][15], sumn_state)
-    _, ev = tl2.stop_exit_overlay(NQ, prices, stop_key, atr20)
+    if resi_state is None:
+        resi_state = resi_state_series(prices)
+    if cnt_state is None:
+        cnt_state = cnt_state_series(prices)
+    RE = resi_zero_mask(NQ, cand["axis"][16], resi_state)
+    CN = cnt_zero_mask(RE, cand["axis"][17], cnt_state)
+    _, ev = tl2.stop_exit_overlay(CN, prices, stop_key, atr20)
     s = tl2._stop_dev_summary(ev, prices, mask.index)
     s["stop_face"] = stop_key
     return s
@@ -3271,7 +3281,9 @@ def _judge_cell_w14(cell):
            "amp_face": cand["axis"][11], "mom_face": cand["axis"][12],
            "std_face": cand["axis"][13],
            "rsqr_face": cand["axis"][14],
-            "sumn_face": cand["axis"][15]}
+            "sumn_face": cand["axis"][15],
+            "resi_face": cand["axis"][16],
+            "cnt_face": cand["axis"][17]}
     legs = {}
     for leg in ("L", "D"):
         prices, P, idx = (st[f"prices_{leg}"], st[f"P_{leg}"],
@@ -3288,31 +3300,31 @@ def _judge_cell_w14(cell):
         sd = st[f"std_state_{leg}"]
         rq = st[f"rsqr_state_{leg}"]
         nq = st[f"sumn_state_{leg}"]
+        rsl = st.get(f"resi_state_{leg}")
+        cnl = st.get(f"cnt_state_{leg}")
+        if rsl is None:
+            rsl = resi_state_series(prices)
+        if cnl is None:
+            cnl = cnt_state_series(prices)
         eq, trades, metrics, params, patch, fired, gz, vz, yz, cz, sz, \
-            tz, az, mz, dz, rz, nz = run_candidate_curve_w14(cand, template,
-                                                 prices,
-                                                 P, st["states"],
-                                                 st[f"atr20_{leg}"],
-                                                 fundamental_ok=fok,
-                                                 gate_state=gs,
-                                                 vol_state=vs,
-                                                 yang_state=ys,
-                                                 vconf_state=cs,
-                                                 streak_state=sk,
-                                                 tstate_state=ts,
-                                                 amp_state=ap,
-                                                 mom_state=mo,
-                                                 std_state=sd,
-                                                 rsqr_state=rq,
-                                                 sumn_state=nq)
+            tz, az, mz, dz, rz, nz, resz, cntz = run_candidate_curve_w14(
+                cand, template, prices, P, st["states"],
+                st[f"atr20_{leg}"], fundamental_ok=fok,
+                gate_state=gs, vol_state=vs, yang_state=ys,
+                vconf_state=cs, streak_state=sk, tstate_state=ts,
+                amp_state=ap, mom_state=mo, std_state=sd,
+                rsqr_state=rq, sumn_state=nq,
+                resi_state=rsl, cnt_state=cnl)
         with CostPatch(2):
             eq2, _, m2, _, _, fired2, gz2, vz2, yz2, cz2, sz2, tz2, \
-                az2, mz2, dz2, rz2, nz2 = run_candidate_curve_w14(
+                az2, mz2, dz2, rz2, nz2, resz2, cntz2 = \
+                run_candidate_curve_w14(
                     cand, template, prices, P, st["states"],
                     st[f"atr20_{leg}"], fundamental_ok=fok, gate_state=gs,
                     vol_state=vs, yang_state=ys, vconf_state=cs,
                     streak_state=sk, tstate_state=ts, amp_state=ap,
-                    mom_state=mo, std_state=sd, rsqr_state=rq, sumn_state=nq)
+                    mom_state=mo, std_state=sd, rsqr_state=rq,
+                    sumn_state=nq, resi_state=rsl, cnt_state=cnl)
         if len(eq) < 30 or float(eq.iloc[0]) <= 0:
             legs[leg] = {"beat": {}, "beat_x2": {}, "sharpe_full": None,
                          "sharpe_full_x2": None, "n_trades": 0,
@@ -3332,6 +3344,10 @@ def _judge_cell_w14(cell):
                          "rsqr_zeroed_x2": 0,
                          "sumn_zeroed": 0,
                          "sumn_zeroed_x2": 0,
+                         "resi_zeroed": 0,
+                         "resi_zeroed_x2": 0,
+                         "cnt_zeroed": 0,
+                         "cnt_zeroed_x2": 0,
                          "regime_start_windows": {"bear": 0, "bull": 0,
                                                   "chop": 0, "na": 0},
                          "degenerate": True}
@@ -3388,7 +3404,11 @@ def _judge_cell_w14(cell):
                      "amp_zeroed": int(az),
                      "amp_zeroed_x2": int(az2),
                      "mom_zeroed": int(mz),
-                     "mom_zeroed_x2": int(mz2)}
+                     "mom_zeroed_x2": int(mz2),
+                     "resi_zeroed": int(resz),
+                     "resi_zeroed_x2": int(resz2),
+                     "cnt_zeroed": int(cntz),
+                     "cnt_zeroed_x2": int(cntz2)}
         if leg == "L":
             out["legL_daily_returns"] = [round(float(x), 8)
                                          for x in daily.values]
@@ -3401,7 +3421,7 @@ def _judge_cell_w14(cell):
                  > 0.08).sum())
             out["stop_disclosure"] = _overlay_stop_disclosure_w14(
                 cand, prices, P, st["atr20_L"], fok, gs, vs, ys, cs, sk,
-                ts, ap, mo, sd, rq, nq)
+                ts, ap, mo, sd, rq, nq, resi_state=rsl, cnt_state=cnl)
     out["legs"] = legs
     if "legL_daily_returns" not in out:
         out["legL_daily_returns"] = []
@@ -5068,6 +5088,45 @@ def cmd_selftest() -> int:
             "structure pass)",
             _cn_meta.get("n_bars") == 3483
             and _cnt_structure_pass(_cn_meta))
+
+    # ---- L17 unpack-contract (r698 crash class: _judge_cell_w14 x1/x2
+    # call sites carried the stale W13 17-tuple unpack vs the W14
+    # 19-tuple return -> ValueError on the FIRST judged cell at 18:55,
+    # zero cells judged, crash-fuse same-version relaunch refused;
+    # AST-counts the return tuple + every assignment unpack site, star
+    # sites exempt, all must equal the return arity)
+    import ast as _ast
+    _src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "trial_labor_w14.py"),
+                encoding="utf-8").read()
+    _mod = _ast.parse(_src)
+    _rets = []
+    _sites = []
+    for _fn in _mod.body:
+        if not isinstance(_fn, _ast.FunctionDef):
+            continue
+        if _fn.name == "run_candidate_curve_w14":
+            for _nd in _ast.walk(_fn):
+                if isinstance(_nd, _ast.Return) and \
+                        isinstance(_nd.value, _ast.Tuple):
+                    _rets.append(len(_nd.value.elts))
+        for _nd in _ast.walk(_fn):
+            if isinstance(_nd, _ast.Assign) and \
+                    isinstance(_nd.value, _ast.Call) and \
+                    isinstance(_nd.value.func, _ast.Name) and \
+                    _nd.value.func.id == "run_candidate_curve_w14":
+                for _tg in _nd.targets:
+                    if isinstance(_tg, _ast.Tuple):
+                        if any(isinstance(_e, _ast.Starred)
+                               for _e in _tg.elts):
+                            continue
+                        _sites.append(len(_tg.elts))
+    _ok("L17 run_candidate_curve_w14 unpack contract (single 19-value "
+        "return tuple + every non-star call-site unpack == 19; r698 "
+        "judge 17-vs-19 first-cell crash class, r494 key-drift family)",
+        _rets == [19] and len(_sites) >= 6
+        and all(_s == 19 for _s in _sites),
+        f"rets={_rets} sites={_sites}")
 
     print(f"\nselftest: {n_pass}/{n_leg} PASS "
           f"(scope: W14 resi+cnt layer + G-RESI/G-CNT + "
