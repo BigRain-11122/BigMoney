@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 11:51:58",
+ "generated_at": "2026-10-07 12:08:53",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 576,
-  "result_jsons_landed_24h": 326,
+  "commits_24h": 577,
+  "result_jsons_landed_24h": 324,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 40,
+  "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-10-07 11:49:43",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-07 12:06:58",
+   "py_cpu_pct": 0.5,
    "flags": [
     "supply_gap",
     "supply_floor"
@@ -646,11 +646,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1662118,
+  "total_report_tokens_est": 1664190,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-07 11:25:53",
+   "prev_generated": "2026-10-07 11:39:48",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1299,
+   "report_tokens_growth": 2072,
    "mandate_growth": 0
   },
   "method": {
@@ -661,25 +661,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 11:38:19",
-    "py_pct": 0.4,
+    "latest_ts": "2026-10-07 12:06:58",
+    "py_pct": 0.5,
     "cpu_pct": 24.0,
     "ready": 1,
-    "streak_min": 115.0,
+    "streak_min": 143.7,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "08:50",
-      5.9
-     ],
-     [
-      "09:07",
-      4.7
-     ],
-     [
-      "09:31",
-      100.0
-     ],
      [
       "09:43",
       1.1
@@ -697,12 +685,12 @@
       0.1
      ],
      [
-      "10:52",
-      19.3
-     ],
-     [
       "10:43",
       0.1
+     ],
+     [
+      "10:52",
+      19.3
      ],
      [
       "11:07",
@@ -713,14 +701,26 @@
       0.4
      ],
      [
+      "11:30",
+      1.2
+     ],
+     [
       "11:38",
       0.4
+     ],
+     [
+      "11:49",
+      0.0
+     ],
+     [
+      "12:06",
+      0.5
      ]
     ],
-    "today_samples": 50,
+    "today_samples": 53,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 47
+    "today_supply_gap_flags": 50
    },
    "bm-b": {
     "latest_ts": "2026-10-07 10:52:54",
@@ -854,19 +854,19 @@
   "day": "2026-10-07",
   "machines": {
    "bm-a": {
-    "batches_judged": 75,
-    "core_seconds": 14750.4,
-    "wall_seconds": 1150.7,
-    "effective_cores": 12.82,
+    "batches_judged": 82,
+    "core_seconds": 16071.6,
+    "wall_seconds": 1257.1,
+    "effective_cores": 12.78,
     "single_core_burn": 0,
-    "multicore_burn": 75,
+    "multicore_burn": 82,
     "too_short": 0,
-    "last_ts": "2026-10-07T11:00:20+08:00",
+    "last_ts": "2026-10-07T12:08:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-07 11:38:19"
+     "audit_batches": 5,
+     "audit_ts": "2026-10-07 12:06:58"
     }
    },
    "bm-b": {
@@ -906,32 +906,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 172,
+  "last_registered": 173,
   "last_owner": "bm-a",
-  "next_registration": 173,
-  "next_seatable": 173,
+  "next_registration": 174,
+  "next_seatable": 174,
   "chain_head": 783812,
   "k": 376320,
   "waves": [
-   {
-    "wave": 170,
-    "owner": "bm-a",
-    "a": [
-     388804,
-     390803
-    ],
-    "b_exit": [
-     390804,
-     391003
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 779412,
-    "merged_mu": -0.09284782265003227,
-    "merged_sigma": 0.24515252721052017,
-    "k": 371920
-   },
    {
     "wave": 171,
     "owner": "bm-a",
@@ -969,6 +950,21 @@
     "merged_mu": -0.0928398867984694,
     "merged_sigma": 0.24513567445626935,
     "k": 376320
+   },
+   {
+    "wave": 173,
+    "owner": "bm-a",
+    "a": [
+     395404,
+     397403
+    ],
+    "b_exit": [
+     397404,
+     397603
+    ],
+    "shards_done": 7,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
