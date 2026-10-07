@@ -426,6 +426,7 @@ def main() -> int:
             ("open_fill_verify", "scripts/t35_open_fill_verify.py",
              ["--selftest"]),
             ("etf_daily", "scripts/update_etf_daily.py", ["selftest"]),
+            ("zt_pool", "scripts/update_zt_pool.py", ["selftest"]),
             ("fund_statements", "scripts/update_fund_statements.py",
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"

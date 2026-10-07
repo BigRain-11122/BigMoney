@@ -39,7 +39,9 @@ _KNOWN_FACES = ("compute_audit", "regime_state", "autofill_state",
                 "update_status", "heat_update_status",
                 "lhb_update_status", "futures_update_status",
                 "fundamental_status", "token_usage", "crash_fuse",
-                "market_clock/call_latest")
+                "market_clock/call_latest",
+                # O-20261001-2103 R2 data face (bm-a lane, S5-01 GO)
+                "zt_pool_update_status")
 _MID_CACHE = {"v": None}
 
 
