@@ -1,0 +1,16 @@
+{
+ "probe": "r665 bm-c in-window CODELY gate fix (post-merge union 31,231B > 30,720 gate; r654 precedent)",
+ "action": "r665 pit entry verbatim migrated CODELY.md -> research/pit-ps.md + one-line pointer in main",
+ "entry_sha16": "8ADBEE7A65C100FB",
+ "entry_bytes": 849,
+ "pointer_bytes": 419,
+ "main_bytes_before": 31231,
+ "main_bytes_after": 30801,
+ "pit_bytes_before": 29721,
+ "pit_bytes_after": 30571,
+ "containment": "entry bytes verbatim in pit-ps.md == entry removed from main (sha16 above both sides)",
+ "asserts": {
+  "entry_in_pit": true,
+  "entry_gone_from_main": true
+ }
+}
