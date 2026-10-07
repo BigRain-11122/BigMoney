@@ -1,12 +1,12 @@
 {
   "latest": {
-    "ts": "2026-10-08 05:59:35",
+    "ts": "2026-10-08 06:08:58",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 17.0,
+    "cpu_total_pct": 10.0,
     "py_cpu_pct": 0.0,
     "cores": 32,
     "py_procs": 7,
-    "result_stale_min": 0.1,
+    "result_stale_min": 0.8,
     "fleet_open_tasks": 0,
     "pool_ready_count": 1,
     "pool_ready_unclaimed": 0,
@@ -17,8 +17,8 @@
     },
     "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "run_samples": 16,
-      "span_min": 155.3
+      "run_samples": 17,
+      "span_min": 164.7
     },
     "supply_floor": {
       "ready": 1,
@@ -26,7 +26,7 @@
       "breach": true
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 211.7,
+    "supply_family_streak_min": 221.1,
     "gpu": {
       "present": true,
       "util_pct": 0.0,
@@ -1251,6 +1251,61 @@
       },
       "ignition_sla_breach_ids": [],
       "supply_family_streak_min": 211.7,
+      "gpu": {
+        "present": true,
+        "util_pct": 0.0,
+        "mem_used_mb": 15050.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 12,
+        "core_seconds": 2434.5,
+        "wall_seconds": 187.0,
+        "effective_cores": 13.02,
+        "multicore_burn": 12,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "supply_gap",
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_gap,supply_floor"
+    },
+    {
+      "ts": "2026-10-08 06:08:58",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 10.0,
+      "py_cpu_pct": 0.0,
+      "cores": 32,
+      "py_procs": 7,
+      "result_stale_min": 0.8,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 1,
+      "pool_ready_unclaimed": 0,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "supply_gap_candidate": true,
+      "supply_gap_detail": {
+        "run_samples": 17,
+        "span_min": 164.7
+      },
+      "supply_floor": {
+        "ready": 1,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 221.1,
       "gpu": {
         "present": true,
         "util_pct": 0.0,

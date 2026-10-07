@@ -1,0 +1,43 @@
+{
+ "round": 736,
+ "op": "codely-minisplit-r736",
+ "cap": 30720,
+ "prescan_rc": 0,
+ "prescan_note": "rc recorded per r651/r654/r670/r703/r731/r735 precedent; D-06 authorized byte-accounted verbatim migration (not a deletion)",
+ "main_bytes_before": 30654,
+ "removed_bytes": 1682,
+ "migrated": [
+  {
+   "entry": "r847",
+   "bytes": 871,
+   "sha16": "d69ab29a72b3b30f",
+   "to": "research/pit-encoding.md",
+   "target_bytes_before": 13149,
+   "target_bytes_after": 14020,
+   "bytes_in_target_verbatim": true
+  },
+  {
+   "entry": "r849",
+   "bytes": 811,
+   "sha16": "c6ecbc0d7e93cbec",
+   "to": "research/pit-git-staged.md",
+   "target_bytes_before": 10379,
+   "target_bytes_after": 11190,
+   "bytes_in_target_verbatim": true
+  }
+ ],
+ "main_bytes_after": 30422,
+ "added_bytes": {
+  "new_pit_r736": 753,
+  "pointer_row": 697
+ },
+ "byte_equation": "main_after == main_before - removed + new_pit + pointer: True",
+ "retained_identity": true,
+ "blocks_absent_from_main": true,
+ "cap_face": {
+  "CODELY.md": 30422,
+  "research/pit-encoding.md": 14020,
+  "research/pit-git-staged.md": 11190
+ },
+ "all_under_cap": true
+}
