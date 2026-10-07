@@ -17,3 +17,4 @@
 
 
 - 对账行 r703 bm-c: entry bytes=835 sha16=10ea5f36dc6fe57a verbatim-in-file (append-only ledger machinery family; zero-loss asserted; receipt=results/_r703bmc_codely_minisplit.json)
+- [2026-10-08 06:1x r865 bm-a] **轮报告行落陈旧 legacy 路径坑（r844 正典路径律复发·close 脚本硬编码 legacy face）**：r863 会话猝死前零报告行 + r864 收口脚本 _r864bma_report_append.py 把轮报告行 append 到 logs/iteration-loop/round_reports-bm-a.md（r844 已判 stale 的 legacy face）而非正典 ROOT round_reports-bm-a.md——正典账本尾行停在 r862 两轮序列断档，序列对账消费面静默失明；r865 S0 勘获（tail 现场核对 + git show 182a3240b --stat 双面定位）=行在 legacy blob 内完好零丢失。正法=①收口脚本写行后必 grep ROOT 正典面自证行在位（写入即验）；②已失行走 r841 重建律（origin commits 等证重建 + 如实 heal 注记行·本窗已落地）；③legacy face 按归档不删维持 r844 stale 判定零触碰。

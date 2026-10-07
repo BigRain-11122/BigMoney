@@ -42,7 +42,21 @@ import re
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "results", "_orphan_face_probe.json")
+# v1.1.2 (F-20261008-02 ①, bm-a r865): per-machine report path -- the old
+# shared name results/_orphan_face_probe.json was a no-suffix multi-machine
+# overwrite face and a fixed pull --rebase UU tax (bm-c r724 live fire; bm-a
+# r865 same-round second fire). Same paradigm as face_<id>.json/_state.<id>.json.
+# The orphan count consumed by round reports/heartbeats comes from this
+# probe's STDOUT, never from the file (zero cross-machine reader). The old
+# shared-name file is retired-in-place (frozen face, no new writes; deletion
+# would trip the pre-push ownership claw -- not this machine's last write).
+def _machine_id():
+    with open(os.path.join(ROOT, "fleet", "machine.json"),
+              encoding="utf-8") as _fh:
+        return json.load(_fh)["machine_id"]
+
+OUT = os.path.join(ROOT, "results",
+                   f"_orphan_face_probe.{_machine_id()}.json")
 SAMPLE_SEC = 20.0        # cpu stall sample window
 STALL_CPU_SEC = 0.10     # < this CPU accumulation over the window = stalled
                          # (0.10 core-sec / 20s ~= 36 core-min/12h, far
