@@ -1,6 +1,6 @@
 {
  "machine_id": "bm-a",
- "clock_read": "2026-10-08T02:41:06+08:00",
+ "clock_read": "2026-10-08T03:04:26+08:00",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_pct": 7.0,
@@ -19,9 +19,9 @@
  "gpu_idle_vram_mb": 5852,
  "gpu_total_vram_mb": 12282,
  "health": "ok",
- "heartbeat_epoch_utc": 1791398466,
+ "heartbeat_epoch_utc": 1791399866,
  "last_heartbeat_epoch_utc": 1791395905,
- "last_seen": "2026-10-08T02:41:06+08:00",
+ "last_seen": "2026-10-08T03:04:26+08:00",
  "last_action": "r857 S5_01_ZT_PILOT adaptation-replay pilot landed and burned PASS (48/48 cells)",
  "last_round": "r853",
  "last_run": "2026-10-08T02:23:09",
@@ -31,7 +31,7 @@
  "round": 856,
  "round_no": 856,
  "task": "zt_pool gate landed; prereg next",
- "verdict": "loaded_ok",
+ "verdict": "legally-idle-board-clear (pool supply_floor responded: census landed + 15:30 re-arm queued)",
  "prod_lanes": [
   "bigmoney-os-loop (primary: perpetual N1 line W1..W166 closed, W167 next)",
   "autofill-compute-pool (fleet shard lane C8)",
@@ -232,13 +232,13 @@
   "O-20261007-2255-bm-c.md"
  ],
  "current": "zt_pool collector gate landed (O-20261001-2103 R2 data face)",
- "current_task": "r857 closed: S5_01_ZT_PILOT prereg frozen (1fb041a22) + burn rc0 8/8 PASS; next=10-08 15:30 reopen re-arm + pilot panel-face re-verify after first accrual",
- "gpu_free_vram_gb": 5.3,
+ "current_task": "r858: S0 double-storm resolved + cycle_position census landed; next 15:30 re-arm",
+ "gpu_free_vram_gb": 5.48,
  "idle_gpu_vram_gb": 5.3,
  "gpu_vram_free_gb": 5.45,
  "gpu_idle_vram_mib": 5427,
  "gpu_idle_vram": "5.7 GB (nvidia-smi single-source per O-20261006-2358)",
- "ts": "2026-10-08T02:41:06+08:00",
+ "ts": "2026-10-08T03:04:26+08:00",
  "tailnet_ip": "100.110.185.62",
  "tailnet_note": "in-tailnet since 09-29 (O-1815); re-verified r799 per O-20261006-2358 P0; C endpoint 100.123.74.104:11434/api/tags HTTP 200",
  "gpu_source_note": "single-source nvidia-smi direct read per O-20261006-2358 face 2 (all gpu* fields aligned r799)",
@@ -250,5 +250,5 @@
  "hostname": "DASHENG",
  "root_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
  "cpu_total_pct": 3.2,
- "ram_free_pct": 55.1
+ "ram_free_pct": 57.3
 }

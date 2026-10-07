@@ -1,0 +1,204 @@
+{
+  "face": "cycle_position_census",
+  "lane": "bm-a",
+  "descriptive_census": true,
+  "not_a_judged_face": true,
+  "zero_backtest_zero_engine_zero_admission": true,
+  "evidence_cutoff": "2026-09-30",
+  "window_note": "12 trading days from frozen S5_01_ZT_PILOT replay batch; associations are illustrative at this N; forward zt_pool accrual (FIRST_DATE 2026-10-08, >=10td) re-anchors thresholds in the REGIME-5 supply prereg (~2026-10-22 usable)",
+  "provenance": {
+    "pilot_batch": "S5_01_ZT_PILOT",
+    "pilot_spec": "research/S5_01_ZT_PILOT.md",
+    "src_json_sha256": "832f75f3c14f6512cfab5f5d1cd044f51754e5668eb5fda91d4fb2c471f10be3",
+    "src_csv_sha256": "ef3f14ff5d981571a618b4237e4c3aff7757544f9bc4f6b0ef26f12af2196b12"
+  },
+  "axes": {
+    "axis_1_n_zt": "limit-up pool size (profit-effect breadth)",
+    "axis_2_n_dt": "limit-down pool size (loss-effect breadth)",
+    "axis_3_zb_rate": "opened-board rate zbgc/(zt+zbgc) (divergence)"
+  },
+  "per_day": [
+    {
+      "day": "2026-09-14",
+      "n_zt": 55,
+      "n_dt": 16,
+      "n_zbgc": 30,
+      "zb_rate": 0.352941
+    },
+    {
+      "day": "2026-09-15",
+      "n_zt": 32,
+      "n_dt": 27,
+      "n_zbgc": 24,
+      "zb_rate": 0.428571
+    },
+    {
+      "day": "2026-09-16",
+      "n_zt": 89,
+      "n_dt": 4,
+      "n_zbgc": 11,
+      "zb_rate": 0.11
+    },
+    {
+      "day": "2026-09-17",
+      "n_zt": 47,
+      "n_dt": 1,
+      "n_zbgc": 20,
+      "zb_rate": 0.298507
+    },
+    {
+      "day": "2026-09-18",
+      "n_zt": 78,
+      "n_dt": 0,
+      "n_zbgc": 25,
+      "zb_rate": 0.242718
+    },
+    {
+      "day": "2026-09-21",
+      "n_zt": 103,
+      "n_dt": 2,
+      "n_zbgc": 25,
+      "zb_rate": 0.195312
+    },
+    {
+      "day": "2026-09-22",
+      "n_zt": 63,
+      "n_dt": 3,
+      "n_zbgc": 18,
+      "zb_rate": 0.222222
+    },
+    {
+      "day": "2026-09-23",
+      "n_zt": 51,
+      "n_dt": 13,
+      "n_zbgc": 26,
+      "zb_rate": 0.337662
+    },
+    {
+      "day": "2026-09-24",
+      "n_zt": 52,
+      "n_dt": 13,
+      "n_zbgc": 10,
+      "zb_rate": 0.16129
+    },
+    {
+      "day": "2026-09-28",
+      "n_zt": 33,
+      "n_dt": 56,
+      "n_zbgc": 11,
+      "zb_rate": 0.25
+    },
+    {
+      "day": "2026-09-29",
+      "n_zt": 57,
+      "n_dt": 10,
+      "n_zbgc": 8,
+      "zb_rate": 0.123077
+    },
+    {
+      "day": "2026-09-30",
+      "n_zt": 52,
+      "n_dt": 9,
+      "n_zbgc": 12,
+      "zb_rate": 0.1875
+    }
+  ],
+  "distribution": {
+    "n_zt": {
+      "n": 12,
+      "min": 32,
+      "p25": 50.0,
+      "median": 53.5,
+      "p75": 66.75,
+      "p99": 101.46,
+      "max": 103
+    },
+    "n_dt": {
+      "n": 12,
+      "min": 0,
+      "p25": 2.75,
+      "median": 9.5,
+      "p75": 13.75,
+      "p99": 52.81,
+      "max": 56
+    },
+    "zb_rate": {
+      "n": 12,
+      "min": 0.11,
+      "p25": 0.1809,
+      "median": 0.2325,
+      "p75": 0.3083,
+      "p99": 0.4203,
+      "max": 0.428571
+    }
+  },
+  "markers": [
+    {
+      "day": "2026-09-14",
+      "markers": [
+        "zb_divergence_high(>1.5x med)"
+      ]
+    },
+    {
+      "day": "2026-09-15",
+      "markers": [
+        "n_zt_lowband(<40)",
+        "zb_divergence_high(>1.5x med)"
+      ]
+    },
+    {
+      "day": "2026-09-16",
+      "markers": []
+    },
+    {
+      "day": "2026-09-17",
+      "markers": []
+    },
+    {
+      "day": "2026-09-18",
+      "markers": []
+    },
+    {
+      "day": "2026-09-21",
+      "markers": []
+    },
+    {
+      "day": "2026-09-22",
+      "markers": []
+    },
+    {
+      "day": "2026-09-23",
+      "markers": []
+    },
+    {
+      "day": "2026-09-24",
+      "markers": []
+    },
+    {
+      "day": "2026-09-28",
+      "markers": [
+        "n_zt_lowband(<40)",
+        "n_dt_spike(>=4x med)"
+      ]
+    },
+    {
+      "day": "2026-09-29",
+      "markers": []
+    },
+    {
+      "day": "2026-09-30",
+      "markers": []
+    }
+  ],
+  "next_day_associations": {
+    "pair_count": 11,
+    "n_dt_t_vs_n_zt_t1": {
+      "pearson": -0.1056,
+      "spearman": -0.3356
+    },
+    "zb_rate_t_vs_n_zt_t1": {
+      "pearson": 0.3367,
+      "spearman": 0.2961
+    }
+  }
+}
