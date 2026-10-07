@@ -1,0 +1,184 @@
+{
+ "round": 684,
+ "window": "rebase 2/2 closeout vs bm-a r829 tip",
+ "canonical": [
+  {
+   "path": "results/compute_audit.json",
+   "out": "ge blobs present=['base', 'base_side', 'replay_side']\n  - history ts-key union -> 208 rows; state fields from :3: replay-side (latest.ts probe)\n[resolve:compute_audit] wrote results/compute_audit.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <compute_audit> (same-window law r376)"
+  },
+  {
+   "path": "results/regime_state.json",
+   "out": " whole-row union -> 2\n  - transitions: whole-row union -> 0\n  - history: whole-row union -> 1\n  - flat fields from :3: replay-side (updated probe)\n[resolve:regime_state] wrote results/regime_state.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <regime_state> (same-window law r376)"
+  },
+  {
+   "path": "results/update_status.json",
+   "out": "lve:update_status] stage blobs present=['base', 'base_side', 'replay_side']\n  - max-cutoff take by 'updated' from :3: replay-side (3 source(s))\n[resolve:update_status] wrote results/update_status.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <update_status> (same-window law r376)"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "out": "tatus] stage blobs present=['base', 'base_side', 'replay_side']\n  - max-cutoff take by 'updated' from :3: replay-side (3 source(s))\n[resolve:lhb_update_status] wrote results/lhb_update_status.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <lhb_update_status> (same-window law r376)"
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "out": "stage blobs present=['base', 'base_side', 'replay_side']\n  - max-cutoff take by 'ts' from :3: replay-side (3 source(s))\n[resolve:futures_update_status] wrote results/futures_update_status.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <futures_update_status> (same-window law r376)"
+  },
+  {
+   "path": "results/token_usage.json",
+   "out": "[resolve:token_usage] stage blobs present=['base', 'base_side', 'replay_side']\n  - max-cutoff take by 'generated' from :3: replay-side (3 source(s))\n[resolve:token_usage] wrote results/token_usage.json (parse-verified)\nnext: git add <path> -> $env:GIT_EDITOR='true' + git rebase --continue (PS env law r356) -> python scripts/merge_lane_views.py reconcile --face <token_usage> (same-window law r376)"
+  }
+ ],
+ "take_new": [
+  {
+   "decider": "docs/live_usage/LIVE-2026-10-07.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:54+08:00",
+   "t_local": "2026-10-07 15:09:51+08:00",
+   "faces": [
+    {
+     "path": "docs/live_usage/LIVE-2026-10-07.json",
+     "staged_eq_chosen": true,
+     "sha": "58680626f339"
+    },
+    {
+     "path": "docs/live_usage/LIVE-2026-10-07.md",
+     "staged_eq_chosen": true,
+     "sha": "0a637086b993"
+    },
+    {
+     "path": "docs/live_usage/LIVE-latest.json",
+     "staged_eq_chosen": true,
+     "sha": "58680626f339"
+    },
+    {
+     "path": "docs/live_usage/LIVE-latest.md",
+     "staged_eq_chosen": true,
+     "sha": "0a637086b993"
+    }
+   ]
+  },
+  {
+   "decider": "results/dashboard_status.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:03:07+08:00",
+   "t_local": "2026-10-07 15:10:07+08:00",
+   "faces": [
+    {
+     "path": "results/dashboard_status.json",
+     "staged_eq_chosen": true,
+     "sha": "e144bd164337"
+    },
+    {
+     "path": "results/dashboard_status.js",
+     "staged_eq_chosen": true,
+     "sha": "c49d3d1fb41e"
+    }
+   ]
+  },
+  {
+   "decider": "results/_attrition_guard_scan.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:03:07+08:00",
+   "t_local": "2026-10-07 15:12:47+08:00",
+   "faces": [
+    {
+     "path": "results/_attrition_guard_scan.json",
+     "staged_eq_chosen": true,
+     "sha": "3a8f99b3bc8d"
+    }
+   ]
+  },
+  {
+   "decider": "results/daily_scorecard.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 14:47:04+08:00",
+   "t_local": "2026-10-07 15:09:32+08:00",
+   "faces": [
+    {
+     "path": "results/daily_scorecard.json",
+     "staged_eq_chosen": true,
+     "sha": "638c82156369"
+    }
+   ]
+  },
+  {
+   "decider": "results/fundamental_b_layer_filter.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:31+08:00",
+   "t_local": "2026-10-07 15:09:24+08:00",
+   "faces": [
+    {
+     "path": "results/fundamental_b_layer_filter.json",
+     "staged_eq_chosen": true,
+     "sha": "c09b0f3f2f66"
+    }
+   ]
+  },
+  {
+   "decider": "results/prospect_paper/_summary.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:34+08:00",
+   "t_local": "2026-10-07 15:09:33+08:00",
+   "faces": [
+    {
+     "path": "results/prospect_paper/_summary.json",
+     "staged_eq_chosen": true,
+     "sha": "4794d4d9677a"
+    }
+   ]
+  },
+  {
+   "decider": "results/prospect_promotion/_summary.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:40+08:00",
+   "t_local": "2026-10-07 15:09:33+08:00",
+   "faces": [
+    {
+     "path": "results/prospect_promotion/_summary.json",
+     "staged_eq_chosen": true,
+     "sha": "97f529bc8dd3"
+    }
+   ]
+  },
+  {
+   "decider": "results/scorecard_v1.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:17+08:00",
+   "t_local": "2026-10-07 15:09:00+08:00",
+   "faces": [
+    {
+     "path": "results/scorecard_v1.json",
+     "staged_eq_chosen": true,
+     "sha": "1e4a26998bbe"
+    }
+   ]
+  },
+  {
+   "decider": "results/strategy_scorecard.json",
+   "side": ":3: replay(local)",
+   "why": "replay-newer-wins",
+   "t_origin": "2026-10-07 15:02:22+08:00",
+   "t_local": "2026-10-07 15:09:09+08:00",
+   "faces": [
+    {
+     "path": "results/strategy_scorecard.json",
+     "staged_eq_chosen": true,
+     "sha": "62cdae40f920"
+    }
+   ]
+  }
+ ],
+ "asserts": {
+  "ls_files_u_empty": true,
+  "scoped_marker_scan_clean": true,
+  "marker_hits": []
+ },
+ "uu_total": 19
+}
