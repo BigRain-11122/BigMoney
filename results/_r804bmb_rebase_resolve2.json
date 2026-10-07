@@ -6,38 +6,28 @@
    "path": "results/_r804bmb_rebase_resolve2.json",
    "recipe": "ts-newer-wins",
    "ts": [
-    "2026-10-07T10:13:05",
+    "2026-10-07T10:19:05",
     null
    ],
    "took": "ours(origin)",
-   "bytes_written": 316
+   "bytes_written": 1496
   },
   {
-   "path": "results/autofill_state.bm-b.json",
+   "path": "results/p1d_gates.json",
    "recipe": "ts-newer-wins",
    "ts": [
-    "2026-10-07 10:18:01",
-    "2026-10-07 10:12:01"
+    null,
+    null
    ],
    "took": "ours(origin)",
-   "bytes_written": 29030
-  },
-  {
-   "path": "results/fund_divlowvol_p1/nulls.jsonl",
-   "recipe": "line-union",
-   "counts": [
-    1692,
-    1692,
-    1693
-   ],
-   "bytes_written": 291822
+   "bytes_written": 1422
   },
   {
    "path": "results/saturation_engine/face_bm-b.json",
    "recipe": "ts-newer-wins",
    "ts": [
     "2026-10-07T10:19:05",
-    "2026-10-07T10:15:05"
+    "2026-10-07T10:16:05"
    ],
    "took": "ours(origin)",
    "bytes_written": 506
@@ -46,25 +36,24 @@
    "path": "results/saturation_engine/history_bm-b.jsonl",
    "recipe": "line-union",
    "counts": [
+    124,
     120,
-    120,
-    124
+    125
    ],
-   "bytes_written": 57412
+   "bytes_written": 57875
   },
   {
    "path": "results/saturation_engine/state_bm-b.json",
    "recipe": "ts-newer-wins",
    "ts": [
     "2026-10-07T10:19:05",
-    "2026-10-07T10:15:05"
+    "2026-10-07T10:16:05"
    ],
    "took": "ours(origin)",
    "bytes_written": 552
   }
  ],
  "asserts": [
-  "results/fund_divlowvol_p1/nulls.jsonl: |A|=1692 |B|=1692 |AuB|=1693 zero-loss",
-  "results/saturation_engine/history_bm-b.jsonl: |A|=120 |B|=120 |AuB|=124 zero-loss"
+  "results/saturation_engine/history_bm-b.jsonl: |A|=124 |B|=120 |AuB|=125 zero-loss"
  ]
 }
