@@ -1,0 +1,74 @@
+{
+ "round": "r831 bm-a",
+ "wave": 175,
+ "gate1_dual_selftest": "PASS (n1 selftest incl. W175 materializer face + pf law bands 9/9, pre-burn and post-finalize runs)",
+ "gate2_totals": {
+  "A_n": 2000,
+  "B_n": 200,
+  "n_backtests": 2200,
+  "expected": [
+   2000,
+   200,
+   2200
+  ],
+  "pass": true
+ },
+ "gate3_tiling": {
+  "semantics": "engine shard a_range/b_range = closed-interval LABELS over half-open burn spans [start, end); families.n = true burned count; adjacent shards share the labeled boundary point, burn de-duplicates it",
+  "spans": [
+   [
+    0,
+    166
+   ],
+   [
+    166,
+    333
+   ],
+   [
+    333,
+    500
+   ],
+   [
+    500,
+    666
+   ],
+   [
+    666,
+    833
+   ],
+   [
+    833,
+    1000
+   ],
+   [
+    1000,
+    1166
+   ],
+   [
+    1166,
+    1333
+   ],
+   [
+    1333,
+    1500
+   ],
+   [
+    1500,
+    1666
+   ],
+   [
+    1666,
+    1833
+   ],
+   [
+    1833,
+    2000
+   ]
+  ],
+  "pass": true
+ },
+ "dup_shard_ids": 0,
+ "freeze_face_identity": "PASS (12/12 same batch/prereg/law_ref/evidence_cutoff)",
+ "live_process_preflight": "NONE (r708 leg)",
+ "verdict": "GREEN"
+}

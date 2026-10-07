@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填·待 W175 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+- **合并池**：pre-W175 K=380,720（mu=-0.092767·sigma=0.245114）→ W175-only K=2,200（mu=-0.089679·sigma=0.240349）→ **merged K=382,920（mu=-0.092749·sigma=0.245087）**；账本 prev=**788,212**+2,200=**790,412**（恰=§0 投影恒等）（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w175_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 788,212）：1.1845 → **1.1844**（Δ=**-0.0001**·nulls-deepening 线零显著质变如实注记）；se_mu 收窄锚 W172 0.000400 → W173 0.000398 → W174 0.000397 → **0.000396**（σ0.245087/√382,920·results 键 se_mu_at_k382920）。
+- **A 档 full_sharpe_p95=0.3016**（2,000 runs·W174 键 0.3231【n1_w174_results.json 机读】→差 **-0.0215**·<0.05 门过·抽样波动面如实披露）；A p99=0.4783·A mu=-0.085508。
+- **§5 四预键全过（机证）**：①|W175-only mu − merged mu|=0.0031<0.02 ✓②sigma 相对变化 -0.0111%<±10% ✓③A p95 差 -0.0215<0.05 ✓④K-lift -0.0001≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提案面 only·结果如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w175_vs_w174ext=**-0.000148**；三门 r752 回执=results/_r831bma_w175_three_gate.json PASS（A 2,000/B 200 半开无缝 tiling 分片机读）。
 
 ## §8 批后复盘。【finalize 同窗回填·待 W175 finalize 窗】
-- （占位·§5.5 W176+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+- **§5.5 W176+ 投影承接（r828 probe 机证·下波冻结方复核非转抄 r587 律）**：A first-clean **401_804..403_803**（probe 预 hops=0-REJECT-WARNING 面重 derive 后 CLEAN——**W175 B 带 401_804..402_003 注册后将拒 naive W176 A 窗**·W176 冻结方必须 post-W175 注册宇宙重 derive·阶梯 A-hops-prior-B 继承第三十六例待 W176 机证）；B first-clean **402_004..402_203**（naive B 落 naive A 窗内·同窗互斥 leg2 律=W176 冻结方 derive B 时预留本波 A 窗·re-derive-MANDATORY）。W176 席位=下轮 seat 链（probe→seat MSG→冻结窗）。
+- 宝藏/方法论捕获问（O-20261003-2030/O-20261002-2100 收口步）：本批=测量加深面·**零新方法零新宝藏**（nulls-deepening 例波·设计 verbatim 复用）·如实注记。
+- 诚实披露面：本波 full-lifecycle 三窗节律（冻结=r830 窗 commit f3fca4055 已在 origin·引擎 tick 自燃 15:42→15:53 完成 12/12·finalize=r831 窗收口——r797/r799 两节律律合规：prereg 建=r829 窗/冻结=r830 窗/finalize=r831 窗）；**rebase 冲突窗治愈披露**（r825 同族：S0 rebase UU 污染引擎状态面三件→tick 假死空转窗内 shard-10 被引擎重拾幂等重烧——三侧结果件 audit.elapsed_sec 12.5/12.9/12.4 差异=runtime 元数据·科学面字段逐项恒等已机证=确定性引擎自保护·零数据伤害）；引擎分片带语义注记=a_range/b_range 闭区间标注+烧录左闭右开【families.n=真值烧录数·r752 三恒等门按半开 tiling 判读 PASS】。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
