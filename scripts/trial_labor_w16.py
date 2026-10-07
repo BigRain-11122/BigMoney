@@ -2981,14 +2981,16 @@ def _overlay_stop_disclosure_w16(cand, prices, P, atr20, fundamental_ok,
                                 gate_state, vol_state, yang_state,
                                 vconf_state, streak_state, tstate_state,
                                 amp_state, mom_state, std_state,
-                                rsqr_state, sumn_state):
+                                rsqr_state, sumn_state, resi_state,
+                                cnt_state, max_state, rank_state):
     """Per-cell stop trigger/fill-day disclosure on the leg-L signal face
-    with the W13 composition order (filter -> timing -> GATE -> VOL ->
+    with the W16 composition order (filter -> timing -> GATE -> VOL ->
     YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> STD ->
-    RSQR -> SUM -> initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
-    tl12._overlay_stop_disclosure_w12 with the sumn overlay inserted
-    before stop arming (engine-face consistency law; summary math
-    imported)."""
+    RSQR -> SUM -> RESI -> CNT -> MAX -> RANK -> initial-stop;
+    MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
+    tl12._overlay_stop_disclosure_w12 with the sumn/resi/cnt/max/rank
+    overlays inserted before stop arming (engine-face consistency law;
+    summary math imported)."""
     stop_key = cand["axis"][4]
     if stop_key == "none":
         s = tl2._stop_dev_summary([], prices, P["close"].index)
@@ -3010,8 +3012,12 @@ def _overlay_stop_disclosure_w16(cand, prices, P, atr20, fundamental_ok,
     MO = mom_zero_mask(AP, cand["axis"][12], mom_state)
     SD = std_zero_mask(MO, cand["axis"][13], std_state)
     RQ = rsqr_zero_mask(SD, cand["axis"][14], rsqr_state)
-    NQ = sumn_zero_mask(SD, cand["axis"][15], sumn_state)
-    _, ev = tl2.stop_exit_overlay(NQ, prices, stop_key, atr20)
+    NQ = sumn_zero_mask(RQ, cand["axis"][15], sumn_state)
+    RE = resi_zero_mask(NQ, cand["axis"][16], resi_state)
+    CN = cnt_zero_mask(RE, cand["axis"][17], cnt_state)
+    MX = max_zero_mask(CN, cand["axis"][18], max_state)
+    RK = rank_zero_mask(MX, cand["axis"][19], rank_state)
+    _, ev = tl2.stop_exit_overlay(RK, prices, stop_key, atr20)
     s = tl2._stop_dev_summary(ev, prices, mask.index)
     s["stop_face"] = stop_key
     return s
