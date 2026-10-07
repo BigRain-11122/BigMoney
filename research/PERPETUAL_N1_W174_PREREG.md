@@ -54,10 +54,17 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 89 行注册 + 本候选——以 probe leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166/W167/W168/W169/W170/W171/W172/W173 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W174 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·bm-a r826 one-pass 同窗 rc0·12/12 分片消费——回填内容=n1_w174_results.json 冻结实测键零改判据；回填窗注记：本波=full-lifecycle one-pass（r826 同窗冻结 commit 24cded752 + tick 点火 13:45 + 烧录 12/12 13:45→13:58 + finalize 同窗收口·W46 r348 同窗全生命周期先例·两节律律 r797/r799 合规：prereg 建=r825 窗/冻结=本 r826 窗）】
+- **合并池**：pre-W174 K=378,520（mu=-0.092786·sigma=0.245122）→ W174-only K=2,200（mu=-0.089531·sigma=0.243912）→ **merged K=380,720（mu=-0.092767·sigma=0.245114）**；账本 prev=**786,012**+2,200=**788,212**（恰=§0 投影恒等）（voids_applied=LOWAMP-P1/P2·file=results/perpetual_faces/n1_w174_results.json·evidence_cutoff=2026-09-22）。
+- **skill_line_v2 K-lift**（n_eff 恒等 786,012）：1.1844 → **1.1844**（Δ=**+0.0000**·nulls-deepening 线零显著质变如实注记）；se_mu 收窄锚 W171 0.000401 → W172 0.000400 → W173 0.000398 → **0.000397**（σ0.245114/√380,720·results 键 se_mu_at_k380720）。
+- **A 档 full_sharpe_p95=0.3231**（2,000 runs·W173 键 0.2986【n1_w173_results.json 机读】→差 **+0.0245**·<0.05 门过·抽样波动面如实披露——本波 A 档 p95 跳幅大于近波常态（W172→W173 差仅 −0.0010）但仍在冻结门内·零翻案零改线）；A p99=0.4665·A mu=-0.086111。
+- **§5 四预键全过（机证）**：①|W174-only mu − merged mu|=0.0032<0.02 ✓②sigma 相对变化 -0.0029%<±10% ✓③A p95 差 +0.0245<0.05 ✓④K-lift +0.0000≤±0.02 ✓。
+- **canon flip：NOT performed**（K2,200 同例法·治理提案面 only·结果如实注记）。
+- 审计：12 shards 零重叠连续覆盖 A[0,2000)/B[0,200)·n_backtests 合计 2,200·machine=bm-a·audit.finalize_only=true·批内波间漂移键 mu_delta_w174_vs_w173ext=**-0.005987**；三门 r752 回执=results/_r826bma_w174_three_gate.json PASS（A 2,000/B 200+带域 397,604..399,603/399,604..399,803 分片机读）。
 
-## §8 批后复盘。【finalize 同窗回填·待 W174 finalize 窗】
-- （占位·§5.5 W175+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·bm-a r826 one-pass 窗】
+- **§5.5 W175+ 投影承接（r823 probe 机证·下波冻结方复核非转抄 r587 律）**：A first-clean **399_604..401_603**（probe 预 hops=0——**W174 B 带 399_604..399_803 注册后将拒 naive W175 A 窗**·W175 冻结方必须 post-W174 注册宇宙重 derive·阶梯 A-hops-prior-B 继承第三十五例待 W175 机证）；B first-clean **399_804..400_003**（naive B 落 naive A 窗内·同窗互斥 leg2 律=W175 冻结方 derive B 时预留本波 A 窗·re-derive-MANDATORY）。W175 席位=下轮 seat 链（probe→seat MSG→冻结窗）。
+- 宝藏/方法论捕获问（O-20261003-2030/O-20261002-2100 收口步）：本批=测量加深面·**零新方法零新宝藏**（nulls-deepening 例波·设计 verbatim 复用）·如实注记。
+- 诚实披露面：本波 full-lifecycle one-pass（冻结 commit 24cded752 + 引擎 tick 自燃 13:45 起 + 12 分片 13:45→13:58 烧完·SATURATION_ENGINE 常驻律实证 + finalize 同窗收口——W46 r348 先例·两节律律合规如实注记）；冻结窗既有披露照录：序数面 convergence（W173 sec5.5 散文预告第三十四例=r823 回执机读 THIRTY-FOURTH·零分叉）；prereg 散文引用滑移（prose 'r823 probe leg4' vs 回执 A_semantics 机读 'r820 probe leg4'）按 r587 以回执面为准·prereg 面冻结纪律不改（r821/r822 同滑移先例）；mat B-face convergence universe-token 陈旧载痕 post-W171→post-W173 单词治愈（r822 sec8-heal 先例·W173 活块面未触碰）。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
