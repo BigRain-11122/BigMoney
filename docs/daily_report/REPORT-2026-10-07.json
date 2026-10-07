@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 10:00:09",
+ "generated_at": "2026-10-07 10:01:06",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    }
   ],
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 578,
-  "result_jsons_landed_24h": 320,
+  "commits_24h": 577,
+  "result_jsons_landed_24h": 323,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 37,
+  "prereg_md_touched_24h": 38,
   "compute_audit_latest": {
-   "ts": "2026-10-07 09:58:24",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-10-07 09:59:24",
+   "py_cpu_pct": 0.0,
    "flags": [
     "supply_floor"
    ],
@@ -660,13 +660,17 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 09:58:24",
-    "py_pct": 0.1,
-    "cpu_pct": 16.0,
+    "latest_ts": "2026-10-07 09:31:16",
+    "py_pct": 100.0,
+    "cpu_pct": 100.0,
     "ready": 1,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": null,
+    "verdict": "FLAG:cap_violation",
     "py_series_tail": [
+     [
+      "07:09",
+      0.0
+     ],
      [
       "07:19",
       0.2
@@ -710,13 +714,9 @@
      [
       "09:31",
       100.0
-     ],
-     [
-      "09:58",
-      0.1
      ]
     ],
-    "today_samples": 42,
+    "today_samples": 41,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 40
@@ -784,29 +784,13 @@
     "today_supply_gap_flags": 35
    },
    "bm-c": {
-    "latest_ts": "2026-10-07 09:07:55",
-    "py_pct": 4.7,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-07 09:59:24",
+    "py_pct": 0.0,
+    "cpu_pct": 2.0,
     "ready": 1,
-    "streak_min": 1059.4,
-    "verdict": "FLAG:supply_gap,supply_floor",
+    "streak_min": 16.1,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "06:49",
-      0.0
-     ],
-     [
-      "06:53",
-      2.0
-     ],
-     [
-      "07:09",
-      0.0
-     ],
-     [
-      "07:19",
-      0.2
-     ],
      [
       "07:39",
       0.0
@@ -829,6 +813,10 @@
      ],
      [
       "08:44",
+      58.1
+     ],
+     [
+      "08:44",
       0.4
      ],
      [
@@ -838,12 +826,24 @@
      [
       "09:07",
       4.7
+     ],
+     [
+      "09:31",
+      100.0
+     ],
+     [
+      "09:43",
+      1.1
+     ],
+     [
+      "09:59",
+      0.0
      ]
     ],
-    "today_samples": 39,
+    "today_samples": 43,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 39
+    "today_supply_gap_flags": 41
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -864,8 +864,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-07 09:58:24"
+     "audit_batches": 8,
+     "audit_ts": "2026-10-07 09:31:16"
     }
    },
    "bm-b": {
@@ -896,8 +896,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 4,
-     "audit_ts": "2026-10-07 09:07:55"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-07 09:59:24"
     }
    }
   },

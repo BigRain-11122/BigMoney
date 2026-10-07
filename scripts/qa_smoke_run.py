@@ -133,7 +133,7 @@ def main():
 
     # ---- QA item 5: data pipeline healthy (latest bar + collector faces) ----
     latest = max(str(window[s].index[-1].date()) for s in syms)
-    L("DATA latest_panel_bar=%s (golden-week no-op expected until 10-09)" % latest)
+    L("DATA latest_panel_bar=%s (golden-week no-op expected until 10-08)" % latest)
 
     # ---- report ----
     md = os.path.join(QA_DIR, tag + ".md")

@@ -1,0 +1,47 @@
+{
+ "batch": "r668 bm-c CODELY increment",
+ "prescan_rc": 3,
+ "prescan_note": "registry hits CODELY.md + pit-protocol-d19.md; r651/r654 operative precedent: verbatim zero-loss relocation, not deletion; registry rows untouched",
+ "migrated": [
+  {
+   "entry": "r814 bm-a watermark-write-side bad-source-hash pit",
+   "bytes_incl_cr": 758,
+   "sha16": "3598f944144aaa01",
+   "from": "CODELY.md",
+   "to": "research/pit-protocol-d19.md"
+  }
+ ],
+ "new_main_line": {
+  "bytes_incl_cr": 936,
+  "sha16": "1ee1dc2533fcebf7"
+ },
+ "target_accounting_line": {
+  "bytes_incl_cr": 526,
+  "sha16": "5ccde0927e664496"
+ },
+ "main_before": 30541,
+ "main_after": 30719,
+ "main_equation": "30541 - 759 + 937 = 30719",
+ "target_before": 16067,
+ "target_after": 17353,
+ "target_equation": "16067 + 759 + 527 = 17353",
+ "cap": 30720,
+ "gates": [
+  "needle count==1",
+  "sha16 pin",
+  "already-migrated",
+  "raw-needle==1",
+  "main cap",
+  "target cap",
+  "new-line budget<=937",
+  "byte equations x2",
+  "verbatim-in-target",
+  "marker-absence",
+  "new-line presence==1",
+  "CRLF three-count x2",
+  "strict reparse x2",
+  "preserved-face identity",
+  "tail line"
+ ],
+ "zero_loss": true
+}
