@@ -1,6 +1,6 @@
 # O-2115 验收实况页（10-08 治理日证据包 · 可复跑自动再生）
 
-- 生成：2026-10-07 15:48:05 · 视角：bm-c (shared-artifact aggregation, machine-agnostic rerun) · 验收日：2026-10-08
+- 生成：2026-10-07 18:03:26 · 视角：bm-c (shared-artifact aggregation, machine-agnostic rerun) · 验收日：2026-10-08
 - 总判：**ALL_MET**（逐件见下；负结果如实照报）
 
 ## 件1 · T-145 PIT审计+解锁评估+首批基本面族prereg冻结 — MET
