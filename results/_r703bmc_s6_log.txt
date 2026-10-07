@@ -1,0 +1,39 @@
+r703 bm-c S6 chain — 38 legs rc0 — 2026-10-07 21:47-21:55
+LEG pool_dualrun_reconcile rc=0 :: ZERO-DRIFT (406 entries, streak 22, cutoff 2026-10-07T13:00:09+08:00)
+LEG compute_audit rc=0 :: FLAG:supply_gap,supply_floor (pool ready=1 < floor 3; W14 between-wave gap, natural)
+LEG py_watermark probe rc=0 :: insufficient_history (session n=2; py 0.9%; benign)
+LEG update_daily rc=0 :: status written
+LEG market_regime rc=0 :: trigger breadth 0.79>=65%
+LEG strategy_scorecard rc=0 :: lane_io host=bm-a fresh -> honest skip (r366)
+LEG market_clock_call rc=0 :: CALL-2026-09-30 cell=ORANGE_COOL sleeves=4 activated=0
+LEG update_lhb rc=0 :: no-op (cutoff 2026-09-30 covers window)
+LEG update_heat rc=0 :: no-op (host bm-a, R31)
+LEG update_futures rc=0 :: no-op (cutoff covers)
+LEG update_repo rc=0 :: no-op (lane bm-a)
+LEG update_options rc=0 :: no-op (lane bm-a)
+LEG update_moneyflow rc=0 :: no-op (lane bm-a)
+LEG update_sina_mf rc=0 :: no-op (lane bm-a)
+LEG update_astock_daily rc=0 :: no-op (lane bm-b)
+LEG update_etf_daily rc=0 :: no-op (lane bm-b)
+LEG rev_osc_signal_export rc=0 :: no-op (lane bm-b)
+LEG update_minute_feed rc=0 :: no-op (lane bm-b)
+LEG update_ths_panel rc=0 :: no-op (lane bm-a)
+LEG ah_panel_puller rc=0 :: no-op (lane bm-a)
+LEG update_fund_premium rc=0 :: no-op (snapshot 2026-09-30 covers; reopen 10-08 first snapshot bm-c lane)
+LEG update_fundamental rc=0 :: fresh 7.3h skip
+LEG b_layer_filter rc=0 :: verdict written
+LEG update_fund_statements rc=0 :: no-op (lane bm-a)
+LEG live_paper rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG t35_open_fill rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG t24_paper rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG t24_promotion rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG aggr_paper rc=0 :: marks at cutoff no-op
+LEG alloc_paper rc=0 :: no-op (lane bm-b)
+LEG grid_paper rc=0 :: marks at cutoff no-op
+LEG system_v1_paper rc=0 :: no-op (lane bm-a)
+LEG t35_export rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG daily_scorecard rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG daily_report rc=0 :: REPORT-2026-10-07.md/.json faces=5
+LEG ceo_live_usage rc=0 :: LIVE-2026-10-07 (state=ORANGE cap=50% heat=COOL)
+LEG build_status rc=0 :: lane_io host=bm-a fresh -> honest skip
+LEG token_meter rc=0 :: L2 0 today/12 total
