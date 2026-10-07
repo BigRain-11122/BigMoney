@@ -1221,6 +1221,24 @@
    "reason": "external_kill_gm_o1300_launch_path_fixed",
    "crashes": 1,
    "old_code_sha256": "ebd2d73183cf87b9"
+  },
+  "scripts/trial_labor_w16.py|judge,--shard,0,--shards,1": {
+   "crashes": 1,
+   "old_code_sha256": "9331a9dfb72d37e3",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 03:57:37",
+   "reason": "r860 bm-a manual tombstone: crash root-cause = enrollment runner_args comma-string (1-element list -> single argv -> argparse instant-exit, honest zero-burn, checkpoint untouched); pool entry runner_args FIXED both faces r860 (5-element list); runner code never at fault (sha 9331a9dfb72d37e3 unchanged); r824 W14-screen tombstone precedent",
+   "entry": "TRIAL-LABOR-W16-JUDGE",
+   "shard": "w16-judge-0of1"
+  },
+  "scripts/trial_labor_w16.py|screen,--shard,0,--shards,1": {
+   "crashes": 1,
+   "old_code_sha256": "9331a9dfb72d37e3",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 03:58:29",
+   "reason": "r860 bm-a false-crash tombstone: SCREEN burn COMPLETED 373/373 cells 03:37:07, runner exited clean (launch log 'shard 0of1 complete'); trial-labor runners write no worker-claim file so the daemon harvest cannot land (W13 shard-note documented gap) -> 25-min confirm counted a false crash; completion takeover by observing round r860 per W13/W14 precedent",
+   "entry": "TRIAL-LABOR-W16-SCREEN",
+   "shard": "w16-screen-0of1"
   }
  }
 }
