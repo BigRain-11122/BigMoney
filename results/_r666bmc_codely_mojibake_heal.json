@@ -1,0 +1,42 @@
+{
+ "probe": "r666 bm-c CODELY.md mojibake heal + 2 direct-write pits + 1 pointer line",
+ "healed_lines": [
+  {
+   "line": 85,
+   "mojibake_bytes": 375,
+   "recovered_bytes": 226,
+   "recovered": "域指针·r662 bm-c（2026-10-07 07:4x）：轮号脚本克隆裸数字逃逸前缀 replace 坑（r758/r640/r644 族新机械面）→research/pit-ps.md［裸数字 replace+克隆后残号门强制步+点火首行核验律］",
+   "token_crosscheck": "4/5"
+  },
+  {
+   "line": 88,
+   "mojibake_bytes": 419,
+   "recovered_bytes": 271,
+   "recovered": "- 域指针·r665 bm-c（2026-10-07 08:4x）：silent-git 捕获面=单块多行字符䲒foreach 按对象迭代坑（r511-③ wrapper 输出族姊妹面·S0 脏树判侧实弹 DIRTY-COUNT 1/43 fail-closed 自捕）→research/pit-ps.md［PS 消费面显式 -split 律］",
+   "token_crosscheck": "3/4"
+  }
+ ],
+ "main_bytes_before": 30299,
+ "main_bytes_after_heal": 30002,
+ "main_bytes_final": 30405,
+ "root_cause": "python str literal \\xNN escapes of UTF-8 bytes (byte-as-str) in gate-fix pointer writer (_r665bmc_merge3.ps1 forensics); latin-1 intermediate, C1-control signature",
+ "recovery_law": "text.encode('latin-1').decode('utf-8') one-layer strip; zero-loss (no '?'DecoderFallback losses); containment gate >=0.85 vs pit-ps.md verbatim entries",
+ "pit_writes": {
+  "pit-encoding.md": [
+   12024,
+   13149
+  ],
+  "pit-lineage-legdiff.md": [
+   4741,
+   5802
+  ]
+ },
+ "post_verify": {
+  "c1_residual_lines": [],
+  "main_final_md5_16": "c8109b4af59d7b5b"
+ },
+ "fact_reconstruction_addendum": "line-88 pointer carried r662-session hand-escape typo: recovered byte-faithful text had U+4C92 where entry anchor (pit-ps.md L53) reads 字符串× (string-x); diagnosis: author typed \\xe4\\xb2\\x92 instead of \\xe4\\xb8\\x82\\xc3\\x97 (dropped 2 bytes); corrected per r407 fact-reconstruction law using surviving verbatim anchor. line-85 pointer byte-faithful recovery matched entry (pit-ps.md L54) with no correction needed.",
+ "main_bytes_final_after_correction": 30407,
+ "main_final_md5_16": "e8653ac76c1436f9",
+ "post_correction_c1_residual": []
+}
