@@ -97,4 +97,4 @@
 
 - [2026-10-08 01:0x r711 bm-c] **水位 hash hex 大小写归一坑（r537/r583 假 delta 族新变体·r672 读面姊妹）**：s05 水位门脚本 hashlib.hexdigest() 天然输出小写 hex，而 state 键存量值=大写存储（EE659451…）——字节面恒等的两值被 Python 大小写敏感 != 判成 changed=True（r711 实弹：DEC/ORD 双假 delta·当场被肉眼恒等核对抓获）；假阳性若漏检=对未变更的集团台账做假「消费+回执+水位键更新」三连假账。正法=水位比较一律 `.lower()` 双侧归一（或落库前统一大小写），facts 件保留原 case 供人读。How to apply：任何新写的水位/gate 脚本比较 hash 前必过大小写归一门；假 delta 家族执法面改读 pit-protocol-d19.md。
 
-- [2026-10-08 01:2x r853 bm-a] **GitHub 手写库全名过期 404 坑（OSS 扫描 3/6 实弹）**：手写 owner/repo 三条过期全 404（gplearn→trevorstephens、mbhushan→PyPortfolioOpt、dcajasun→dcajasn）；正法=外部库全名禁手写，一律 search-by-name 实证（search 自带 star/license/push 免 core 重取）。
+- 域指针·r731 bm-c（10-08）：amend 已推提交坑（push 必非快进·禁 force→正法=ls-remote 前置门+reset --soft 回已推 tip+新提交快进·实弹零损失）→pit-git-staged.md〔r806/r689 同域〕+r853 行（GitHub 手写库全名 404）verbatim 迁 pit-tooling.md；收据=results/_r731bmc_codely_minisplit.json。
