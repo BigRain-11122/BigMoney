@@ -1,0 +1,29 @@
+{
+ "probe": "r665 bm-c trio watch -- bm-b RE-stall detection + aging-line restart (r665 next-pointer (b) prescribed action)",
+ "ts": "2026-10-07T08:52:30+08:00",
+ "verdict": "STALLED AGAIN (r800 mid-round death suspected) -- aging line RESTARTED; escalation armed for next round if 09:02-09:15 window passes dark",
+ "evidence": {
+  "trio_counts": {
+   "quality": {"file": "results/fund_quality_p1/nulls.jsonl", "lines": 1988, "target": 2000, "short": 12, "mtime": "2026-10-07T08:16:09", "age_min_at_probe": 36, "advancing": false},
+   "divlowvol": {"file": "results/fund_divlowvol_p1/nulls.jsonl", "lines": 1654, "target": 2000, "short": 346, "mtime": "2026-10-07T08:16:09", "age_min_at_probe": 36, "advancing": false},
+   "value": {"file": "results/fund_value_p1/nulls.jsonl", "lines": 2000, "target": 2000, "complete": true}
+  },
+  "bm_b_heartbeat": {"last_seen": "2026-10-07T06:40:15", "round_no": 799, "stale_min_at_probe": 132},
+  "origin_last_bm_b_commits": [
+   {"sha": "5aee5cf94", "ts": "2026-10-07T08:09:54+08:00", "note": "r800 tail: daemon churn absorb, self-describes Q burn in-flight"},
+   {"sha": "074058f5e", "ts": "2026-10-07T08:09:54+08:00", "note": "autofill keepalive fund-divlowvol-p1-nulls owner=bm-b"},
+   {"sha": "43cce34a3", "ts": "2026-10-07T08:12:15+08:00", "note": "autofill keepalive owner=bm-b (last origin-visible bm-b activity)"}
+  ],
+  "r664_revival_context": "r664 withdrew the r663 alert at 08:20 on three-face revival evidence (origin 3 commits 08:09:54-08:12:15 + Q 1985->1988 by 08:16:09 + hb-stale excused as r800 mid-round). Since then: zero further origin commits, Q/D frozen at 08:16:09, no heartbeat update through what should have been r800 close (~08:35).",
+  "death_hypothesis": "r800 wrapper 25-min kill mid-round (same failure mode as bm-c r664 close-tail: round started 08:09:54, killed before close commit; Q burn interrupted at 1988, checkpoint done-key resume = zero loss per r663 default case)",
+  "recovery_path": "bm-b loop pin=2 -> next tick 09:02; healthy loop relaunches r801, autofill keepalive re-ignites nulls burn (owner=bm-b), checkpoint resumes Q at 1988"
+ },
+ "aging_line": {
+  "status": "RESTARTED (r664 had lifted the ~10:30 line)",
+  "threshold": "2026-10-07T09:15 (covers 09:02 + 09:12 loop ticks plus margin)",
+  "condition": "no bm-b origin commit AND no Q advance AND hb still <= 06:40:15 at next round probe",
+  "action_if_crossed": "re-escalate per r663 evidence pattern: new MSG-<ts>-bmc-ALL with full evidence chain + GM fleet-note; takeover stays CLOSED (bm-c host_gates FAIL p1c_stock cache absent, r393 fuse family -- watch-only lane per r668)"
+ },
+ "zero_loss_check": "Q/D checkpoint done-key resume law (r663 default case): burn interrupted mid-round = no duplicate-draw risk, target 2000 unchanged; fuse active={} empty (no burn lock)",
+ "next_pointer": "(a) r666 verdict on aging line (crossed -> escalate per r663; bm-b active -> withdraw + resume finalize window watch 10-05..10-09). (b) Q first-to-2000 same-window pool dual-flip = bm-b execution face per r668, bm-c watch+record. (c) 10-09 market reopen data-chain re-arm + REGIME_GUARD v3 first bar."
+}
