@@ -1,0 +1,37 @@
+{
+ "tries": [
+  {
+   "try": 1,
+   "commit_rc": 0,
+   "rebase_rc": 1,
+   "out": "error: cannot rebase: You have unstaged changes.\nerror: Please commit or stash them."
+  },
+  {
+   "try": 2,
+   "commit_rc": 0,
+   "rebase_rc": 1,
+   "out": "ith\nhint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\".\nhint: You can instead skip this commit: run \"git rebase --skip\".\nhint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\".\nhint: Disable this message with \"git config set advice.mergeConflict false\"\nCould not apply a7c4ad2ac... # lane: bm-c r702 churn absorb (daemon tick faces, r696 race law)"
+  },
+  {
+   "try": 3,
+   "commit_rc": 0,
+   "rebase_rc": 128,
+   "out": "fatal: It seems that there is already a rebase-merge directory, and\nI wonder if you are in the middle of another rebase.  If that is the\ncase, please try\n\tgit rebase (--continue | --abort | --skip)\nIf that is not the case, please\n\trm -fr \".git/rebase-merge\"\nand run me again.  I am stopping in case you still have something\nvaluable there."
+  },
+  {
+   "try": 4,
+   "commit_rc": 0,
+   "rebase_rc": 128,
+   "out": "fatal: It seems that there is already a rebase-merge directory, and\nI wonder if you are in the middle of another rebase.  If that is the\ncase, please try\n\tgit rebase (--continue | --abort | --skip)\nIf that is not the case, please\n\trm -fr \".git/rebase-merge\"\nand run me again.  I am stopping in case you still have something\nvaluable there."
+  },
+  {
+   "try": 5,
+   "commit_rc": 1,
+   "rebase_rc": 128,
+   "out": "fatal: It seems that there is already a rebase-merge directory, and\nI wonder if you are in the middle of another rebase.  If that is the\ncase, please try\n\tgit rebase (--continue | --abort | --skip)\nIf that is not the case, please\n\trm -fr \".git/rebase-merge\"\nand run me again.  I am stopping in case you still have something\nvaluable there."
+  }
+ ],
+ "status": "## HEAD (no branch)",
+ "behind": 0,
+ "ahead": 4
+}
