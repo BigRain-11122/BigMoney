@@ -31,3 +31,33 @@
 - 下一窗指针：S3/S4/S5 三面补扫（10-09 前）→ 首批 5 件定选 → 适配层首件实跑（qlib 因子面优先）。
 
 （r846 bm-a 首件·后续轮增量 append·禁改既有行）
+
+## 四、工程类首批扫描（@bm-c 车道·O-2245 §三·r706）
+
+- 取数法=scripts/oss_eng_scan.py 直读 api.github.com /repos（源注日期·禁编数·本表全部 2026-10-07 23:32 复跑实取·首跑 23:31 同数零漂移）；证据件 results/oss_eng_scan/scan-20261007.json（fetch ok=13 fail=1·rc1 partial 诚实披露）。
+- **负结果库联动实装**：探针加载 gate_attrition 四件全 token 1434 个逐件交叉——工程类 15 件 dup 全 clean（MOM/时钟/野路子判负族零撞·工程族与策略判负族构造性不相交=联动面成立）；在役线命中 2 件（akshare/tushare=已用通道，登记不引进）；在飞件注记=vnpy 携 CTA 模板面与 CTA_P1 在飞（O-2215②）交叉，只取模板不取判决。
+- 许可门活捕获：**backtrader=GPL-3.0 禁入**（最著名 Python 回测库踩雷=许可门实证）+nautilus_trader=LGPL-3.0（非 MIT/Apache 桶·按保守面暂判禁入·待集团收获机制裁定）；vectorbt/rqalpha=NOASSERTION 待逐件核 license 文件。
+
+| # | 件 | 出处 | star（api.github.com·10-07 23:31） | 许可 | 健康门 | 契合初判 | 反重复 | 成本预算 | scan 状态 |
+|---|---|---|---|---|---|---|---|---|---|
+| E1 | backtrader | mementum/backtrader | 23,413 | **GPL-3.0→禁入** | FAIL（push 停滞） | 事件驱动引擎·出场栈参照 | clean | 8h | **已扫·禁入** |
+| E2 | vectorbt | polakowo/vectorbt | 9,290 | NOASSERTION→待核 | PASS | 向量化网格扫描·N1 吞吐参照 | clean | 8h | **已扫·待核许可** |
+| E3 | nautilus_trader | nautechsystems/nautilus_trader | 29,681 | **LGPL-3.0→保守禁入** | PASS | 生产级引擎·实盘执行架构参照 | clean | 8h | **已扫·待集团裁定** |
+| E4 | zipline-reloaded | stefan-jansen/zipline-reloaded | 1,959 | Apache-2.0 | PASS | 管线式引擎·point-in-time 纪律参照 | clean | 8h | **已扫·全过** |
+| E5 | RQAlpha | ricequant/rqalpha | 6,815 | NOASSERTION→待核 | PASS | A 股原生 T+1 引擎·费率/板规口径对标 | clean | 8h | **已扫·待核许可** |
+| D1 | akshare | akfamily/akshare | 22,849 | MIT | PASS | 在役（sina 直连通道）·成本/稳健台账面 | clean+在役 | 2h | **已扫·在役登记** |
+| D2 | tushare | wadefu/tushare | 仓 404（SDK 现走 pypi/官网） | 待核 | UNVERIFIED | 在役（CEO token 已授权）·备份通道 | clean+在役 | 4h | **已扫·源缺诚实披露** |
+| D3 | easyquotation | shidenggui/easyquotation | 5,453 | MIT | PASS | 轻量实时行情库·盘中道候选 | clean | 4h | **已扫·全过** |
+| G1 | APScheduler | agronholm/apscheduler | 7,647 | MIT | PASS | 进程内调度器·Windows 机队循环加固候选 | clean | 4h | **已扫·全过** |
+| G2 | healthchecks | healthchecks/healthchecks | 10,386 | BSD-3 | PASS | 自托管 dead-man 哨兵·静默律看门狗面 | clean | 4h | **已扫·全过** |
+| G3 | uptime-kuma | louislam/uptime-kuma | 92,185 | MIT | PASS | 自托管活性面板·机队/daemon liveness 面 | clean | 4h | **已扫·全过** |
+| G4 | prefect | PrefectHQ/prefect | 23,983 | Apache-2.0 | PASS | 重量级 DAG 调度·控制面参照（与 git 控制面契合低） | clean | 6h | **已扫·全过·参照件** |
+| B1 | vnpy（工程面=网关腿） | vnpy/vnpy | 45,743 | MIT | PASS | 券商 API 适配+CTA 模板（策略面 S2 已扫） | clean+在飞注记 | 8h | **已扫·全过** |
+| B2 | easytrader | shidenggui/easytrader | 10,214 | MIT | PASS | 券商客户端自动化·纸盘→实盘桥候选 | clean | 8h | **已扫·全过** |
+| B3 | xtquant/QMT SDK | 官方分发（无 canonical GitHub 仓） | n/a | 待核（vendor docs） | n/a | QMT mini 官方 SDK·实盘对接候选 | clean | 8h | **已扫·vendor 面 PENDING** |
+
+- 引擎族定性（O-2245 §二原文）：回测引擎=「我们自研引擎的补短板参照」——E2-E5 为**参照件**（对标用·代码级借用须过许可门）；引进件候选=网关/调度/数据面。
+- bm-c 车道工程类初筛过门率 8/15（≥30% 目标线达）·适配首件建议排产：G3 uptime-kuma（机队活性面板·4h）>G2 healthchecks（dead-man 哨兵·4h）>B2 easytrader（实盘桥预研·8h）；入池编号带 OSS- 前缀（r705 schema 9 字段已备）待适配工单开立后落池。
+- 复扫通道：探针幂等可重跑（python scripts\oss_eng_scan.py·star/push 活取）；NOASSERTION 两件下窗核 LICENSE 文件后翻面。
+
+（r706 bm-c 工程类腿·后续轮增量 append·禁改既有行）

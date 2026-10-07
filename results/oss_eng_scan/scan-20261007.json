@@ -1,0 +1,347 @@
+{
+ "scan_ts": "2026-10-07T23:32:13+08:00",
+ "round": 706,
+ "machine": "bm-c",
+ "order": "O-20261007-2245-bm-c",
+ "source": "api.github.com /repos endpoint, live fetch, no hand-typed numbers",
+ "thresholds": {
+  "health_stars_min": 500,
+  "health_push_days": 365,
+  "forbid": [
+   "AGPL-2.0",
+   "AGPL-3.0",
+   "GPL-2.0",
+   "GPL-3.0",
+   "LGPL-2.1",
+   "LGPL-3.0"
+  ]
+ },
+ "attrition_tokens_loaded": 1434,
+ "fetched_ok": 13,
+ "fetched_fail": 1,
+ "candidates": [
+  {
+   "family": "F1-backtest-engine",
+   "id": "E1",
+   "repo": "mementum/backtrader",
+   "why": "event-driven engine; order/exit-stack reference for our self-engine gap analysis",
+   "cost_h": 8,
+   "dup_tags": [
+    "backtest-engine"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 23413,
+   "pushed_at": "2024-08-19T17:47:36Z",
+   "license": "GPL-3.0",
+   "archived": false,
+   "open_issues": 63,
+   "fetch": "ok",
+   "url": "https://github.com/mementum/backtrader",
+   "gate_license": "FORBIDDEN",
+   "push_age_days": 778,
+   "gate_health": "FAIL"
+  },
+  {
+   "family": "F1-backtest-engine",
+   "id": "E2",
+   "repo": "polakowo/vectorbt",
+   "why": "vectorized grid scan; N1 band-burn throughput reference",
+   "cost_h": 8,
+   "dup_tags": [
+    "backtest-engine",
+    "grid-scan"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 9290,
+   "pushed_at": "2026-09-26T11:27:49Z",
+   "license": "NOASSERTION",
+   "archived": false,
+   "open_issues": 141,
+   "fetch": "ok",
+   "url": "https://github.com/polakowo/vectorbt",
+   "gate_license": "PENDING",
+   "push_age_days": 11,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F1-backtest-engine",
+   "id": "E3",
+   "repo": "nautechsystems/nautilus_trader",
+   "why": "prod-grade engine; live-execution architecture reference",
+   "cost_h": 8,
+   "dup_tags": [
+    "backtest-engine",
+    "live-exec"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 29681,
+   "pushed_at": "2026-10-07T14:35:23Z",
+   "license": "LGPL-3.0",
+   "archived": false,
+   "open_issues": 144,
+   "fetch": "ok",
+   "url": "https://github.com/nautechsystems/nautilus_trader",
+   "gate_license": "FORBIDDEN",
+   "push_age_days": 0,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F1-backtest-engine",
+   "id": "E4",
+   "repo": "stefan-jansen/zipline-reloaded",
+   "why": "pipeline-style engine; point-in-time data discipline reference",
+   "cost_h": 8,
+   "dup_tags": [
+    "backtest-engine"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 1959,
+   "pushed_at": "2026-01-06T13:01:54Z",
+   "license": "Apache-2.0",
+   "archived": false,
+   "open_issues": 48,
+   "fetch": "ok",
+   "url": "https://github.com/stefan-jansen/zipline-reloaded",
+   "gate_license": "PASS",
+   "push_age_days": 274,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F1-backtest-engine",
+   "id": "E5",
+   "repo": "ricequant/rqalpha",
+   "why": "A-share native T+1 engine; fee/board-rule caliber comparison face",
+   "cost_h": 8,
+   "dup_tags": [
+    "backtest-engine",
+    "a-share-native"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 6815,
+   "pushed_at": "2026-09-28T03:17:24Z",
+   "license": "NOASSERTION",
+   "archived": false,
+   "open_issues": 32,
+   "fetch": "ok",
+   "url": "https://github.com/ricequant/rqalpha",
+   "gate_license": "PENDING",
+   "push_age_days": 9,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F2-data-pipeline",
+   "id": "D1",
+   "repo": "akfamily/akshare",
+   "why": "in-service (sina channel via direct endpoints); cost/robustness ledger face",
+   "cost_h": 2,
+   "dup_tags": [
+    "data-pipeline"
+   ],
+   "in_service": true,
+   "dup_hits_attrition": [],
+   "stars": 22849,
+   "pushed_at": "2026-10-07T04:17:29Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 2,
+   "fetch": "ok",
+   "url": "https://github.com/akfamily/akshare",
+   "gate_license": "PASS",
+   "push_age_days": 0,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F2-data-pipeline",
+   "id": "D2",
+   "repo": "wadefu/tushare",
+   "why": "pro API already CEO-token-authorized; backup channel for daily/fundamental faces",
+   "cost_h": 4,
+   "dup_tags": [
+    "data-pipeline"
+   ],
+   "in_service": true,
+   "dup_hits_attrition": [],
+   "stars": null,
+   "pushed_at": null,
+   "license": null,
+   "archived": null,
+   "open_issues": null,
+   "fetch": "HTTP-404",
+   "url": null,
+   "gate_license": "UNVERIFIED",
+   "gate_health": "UNVERIFIED",
+   "push_age_days": null
+  },
+  {
+   "family": "F2-data-pipeline",
+   "id": "D3",
+   "repo": "shidenggui/easyquotation",
+   "why": "lightweight realtime quote lib; intraday-marks channel candidate",
+   "cost_h": 4,
+   "dup_tags": [
+    "data-pipeline",
+    "intraday"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 5453,
+   "pushed_at": "2026-02-28T07:19:23Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 6,
+   "fetch": "ok",
+   "url": "https://github.com/shidenggui/easyquotation",
+   "gate_license": "PASS",
+   "push_age_days": 221,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F3-sched-monitor",
+   "id": "G1",
+   "repo": "agronholm/apscheduler",
+   "why": "in-process python scheduler; Windows-fleet loop hardening candidate",
+   "cost_h": 4,
+   "dup_tags": [
+    "scheduler"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 7647,
+   "pushed_at": "2026-10-05T18:50:30Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 62,
+   "fetch": "ok",
+   "url": "https://github.com/agronholm/apscheduler",
+   "gate_license": "PASS",
+   "push_age_days": 1,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F3-sched-monitor",
+   "id": "G2",
+   "repo": "healthchecks/healthchecks",
+   "why": "self-hosted dead-man cron monitor; fleet silence-law watchdog face",
+   "cost_h": 4,
+   "dup_tags": [
+    "monitor"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 10386,
+   "pushed_at": "2026-10-06T06:50:26Z",
+   "license": "BSD-3-Clause",
+   "archived": false,
+   "open_issues": 55,
+   "fetch": "ok",
+   "url": "https://github.com/healthchecks/healthchecks",
+   "gate_license": "PASS",
+   "push_age_days": 1,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F3-sched-monitor",
+   "id": "G3",
+   "repo": "louislam/uptime-kuma",
+   "why": "self-hosted uptime monitor; machine/daemon liveness dashboard candidate",
+   "cost_h": 4,
+   "dup_tags": [
+    "monitor"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 92185,
+   "pushed_at": "2026-10-07T07:55:16Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 834,
+   "fetch": "ok",
+   "url": "https://github.com/louislam/uptime-kuma",
+   "gate_license": "PASS",
+   "push_age_days": 0,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F3-sched-monitor",
+   "id": "G4",
+   "repo": "PrefectHQ/prefect",
+   "why": "heavyweight DAG scheduler; control-plane reference only (fits git-plane fleet poorly)",
+   "cost_h": 6,
+   "dup_tags": [
+    "scheduler"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 23983,
+   "pushed_at": "2026-10-07T15:28:13Z",
+   "license": "Apache-2.0",
+   "archived": false,
+   "open_issues": 881,
+   "fetch": "ok",
+   "url": "https://github.com/PrefectHQ/prefect",
+   "gate_license": "PASS",
+   "push_age_days": 0,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F4-broker-gateway",
+   "id": "B1",
+   "repo": "vnpy/vnpy",
+   "why": "gateway + CTA templates; strategy face already S2; engineering face = broker API adapter",
+   "cost_h": 8,
+   "dup_tags": [
+    "broker-gateway",
+    "cta-template"
+   ],
+   "in_flight_note": "CTA_P1 in-flight (O-2215-2): harvest templates only, no verdict import",
+   "dup_hits_attrition": [],
+   "stars": 45743,
+   "pushed_at": "2026-10-06T09:57:47Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 4,
+   "fetch": "ok",
+   "url": "https://github.com/vnpy/vnpy",
+   "gate_license": "PASS",
+   "push_age_days": 1,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F4-broker-gateway",
+   "id": "B2",
+   "repo": "shidenggui/easytrader",
+   "why": "retail broker-client automation; A-share order-route candidate for paper->live bridge",
+   "cost_h": 8,
+   "dup_tags": [
+    "broker-gateway"
+   ],
+   "dup_hits_attrition": [],
+   "stars": 10214,
+   "pushed_at": "2026-02-28T07:14:27Z",
+   "license": "MIT",
+   "archived": false,
+   "open_issues": 15,
+   "fetch": "ok",
+   "url": "https://github.com/shidenggui/easytrader",
+   "gate_license": "PASS",
+   "push_age_days": 221,
+   "gate_health": "PASS"
+  },
+  {
+   "family": "F4-broker-gateway",
+   "id": "B3",
+   "repo": null,
+   "why": "xtquant/QMT official SDK: vendor-distributed (no canonical GitHub repo); register as non-GitHub vendor face, gates pending vendor docs",
+   "cost_h": 8,
+   "dup_tags": [
+    "broker-gateway",
+    "vendor-sdk"
+   ],
+   "dup_hits_attrition": [],
+   "stars": null,
+   "pushed_at": null,
+   "license": null,
+   "archived": null,
+   "open_issues": null,
+   "fetch": "non-github-vendor",
+   "url": null,
+   "gate_license": "PENDING",
+   "gate_health": "PENDING"
+  }
+ ]
+}

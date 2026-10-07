@@ -1,0 +1,39 @@
+r706 bm-c S6 chain (O-2245 eng-scan round) -- 2026-10-07 23:32
+LEG pool_dualrun_reconcile rc=0 :: [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 406 entries, drift-free streak 26, cutoff 2026-10-07T23
+LEG compute_audit rc=0 :: {"ts": "2026-10-07 23:33:00", "audit_version": "v2.4.2", "cpu_total_pct": 4.0, "py_cpu_pct": 0.0, "cores": 32,
+LEG py_watermark rc=0 :: {"ts": "2026-10-07 23:33:06", "epoch": 1791387181.0, "machine": "bm-c", "cpu_total_pct": 11.0, "cores": 32, "p
+LEG update_daily rc=0 :: === Bigmoney daily update 2026-10-07 23:33:07 ===
+LEG market_regime rc=0 :: regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+LEG strategy_scorecard rc=0 :: lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (14min) -> skip derive 
+LEG market_clock_call rc=0 :: lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive thi
+LEG update_lhb rc=0 :: cutoff=2026-09-30 quarter=2026Q3 today=2026-10-07
+LEG update_heat rc=0 :: no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+LEG update_futures rc=0 :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG update_repo rc=0 :: no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+LEG update_options rc=0 :: no-op: options lane owned by bm-a, not this machine (bm-c)
+LEG update_moneyflow rc=0 :: no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+LEG update_sina_mf rc=0 :: no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+LEG update_astock_daily rc=0 :: no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+LEG update_etf_daily rc=0 :: no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+LEG rev_osc_signal_export rc=0 :: rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG update_minute_feed rc=0 :: update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG update_ths_panel rc=0 :: no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+LEG ah_panel_puller rc=0 :: no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+LEG update_fund_premium rc=0 :: no-op: snapshot 2026-09-30 already covers expected NAV date 2026-09-30
+LEG update_fundamental rc=0 :: snapshot fresh (9.0h < 24h) -> skip
+LEG b_layer_filter rc=0 :: mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in
+LEG update_fund_statements rc=0 :: no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+LEG live_paper rc=0 :: lane_io single-writer guard: results/paper/* host=bm-a heartbeat fresh (14min) -> skip derive this cycle (D-20
+LEG t35_open_fill rc=0 :: lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat fresh (14min) -> skip deriv
+LEG t24_paper rc=0 :: lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat fresh (14min) -> skip derive this cy
+LEG t24_promotion rc=0 :: lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (14min) -> skip derive thi
+LEG aggr_paper rc=0 :: aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG alloc_paper rc=0 :: no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+LEG grid_paper rc=0 :: grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG system_v1_paper rc=0 :: system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+LEG t35_export rc=0 :: lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (14min) -> skip derive this cycl
+LEG daily_scorecard rc=0 :: lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (14min) -> skip derive thi
+LEG daily_report rc=0 :: daily report written: REPORT-2026-10-07.md/.json faces=5 token=1
+LEG ceo_live_usage rc=0 :: ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-07.md (+ .json twin + LIVE-
+LEG build_status rc=0 :: lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (14min) -> skip derive th
+LEG token_meter rc=0 :: saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
