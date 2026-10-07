@@ -1,0 +1,28 @@
+{
+ "window": "S0 pull --rebase pick 8/14 (r806 takeover session)",
+ "resolved": {
+  "results/token_usage.json": {
+   "recipe": "snapshot take-new wholesale (stage2 verbatim bytes)",
+   "origin_generated": "2026-10-07 17:19:56",
+   "local_generated": "2026-10-07 16:33:47",
+   "assert": "re-read bytes == stage2 blob"
+  },
+  "results/crash_fuse.json": {
+   "recipe": "per-face max-merge newer-wins (cleared_ts/last_refusal_ts)",
+   "cleared_keys": 62,
+   "sigs_keys": 77,
+   "fund_key_cleared_from": "local 16:44:10 (bm-b code_changed)",
+   "fund_key_sigs_from": "origin 17:18:04 (refusals 1212)"
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling-ledger history union (ts,machine) + latest take-new",
+   "history_s2": 201,
+   "history_s3": 217,
+   "union": 221,
+   "collisions_equal": 197,
+   "latest_from": "origin 2026-10-07 17:19:12"
+  }
+ },
+ "asserts": "ALL PASS (parse/re-read/union-221/key-counts/newer-wins anchors)",
+ "laws": "r648 sha-channel blobs; r787 atomic add+continue; r794 targeted add only; MSG-0612 per-face max-merge; r188 union; R216 take-new; r704 re-read gates; r522 type gate"
+}
