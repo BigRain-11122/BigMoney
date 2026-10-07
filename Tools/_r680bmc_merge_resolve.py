@@ -94,25 +94,28 @@ def resolve():
             pick, side = newer_obj(ours, theirs)
             why = "ts-duel(%s)" % side
         elif path == "results/token_usage.json":
-            pick, side = newer_obj(ours, theirs)
-            keys = set(ours) | set(theirs)
-            merged = {}
-            for k in keys:
-                va, vb = ours.get(k), theirs.get(k)
-                if isinstance(va, dict) and isinstance(vb, dict):
-                    m = dict(va)
-                    for kk in set(va) | set(vb):
-                        x, y = va.get(kk), vb.get(kk)
-                        if isinstance(x, (int, float)) and isinstance(y, (int, float)):
-                            m[kk] = max(x, y)
-                        else:
-                            m[kk] = y if y is not None else x
-                    merged[k] = m
-                elif isinstance(va, (int, float)) and isinstance(vb, (int, float)):
-                    merged[k] = max(va, vb)
-                else:
-                    merged[k] = vb if vb is not None else va
-            pick, why = merged, "per-key-max-union(%s base)" % side
+            # r680 pit fix: single-level union replaced nested machine faces
+            # wholesale (machines['-bm-c'] took theirs' stale side). Recursive
+            # rule: numeric leaves -> max (r758 monotonic cumulative counters);
+            # dict leaves -> recurse; own-machine faces (keys containing
+            # 'bm-c') -> prefer ours for non-numeric leaves (owner-newer law).
+            def deep_union(a, b, own=False):
+                if isinstance(a, dict) and isinstance(b, dict):
+                    out = {}
+                    for k in sorted(set(a) | set(b)):
+                        ka = isinstance(k, str) and "bm-c" in k
+                        out[k] = deep_union(a.get(k), b.get(k), own or ka)
+                    return out
+                if isinstance(a, (int, float)) and isinstance(b, (int, float)) \
+                        and not isinstance(a, bool) and not isinstance(b, bool):
+                    return max(a, b)
+                if b is None:
+                    return a
+                if a is None:
+                    return b
+                return a if own else b
+            pick = deep_union(ours, theirs)
+            why = "recursive-max-union + own-face-wins"
         else:
             pick, side = newer_obj(ours, theirs)
             why = "default-ts-duel(%s)" % side
