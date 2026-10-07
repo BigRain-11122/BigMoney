@@ -1,0 +1,76 @@
+{
+ "round": "r848 bm-a",
+ "resolutions": [
+  {
+   "file": "docs/daily_report/REPORT-2026-10-07.json",
+   "recipe": "take-ours",
+   "why": "twin REPORT: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/daily_report/REPORT-2026-10-07.md",
+   "recipe": "take-ours",
+   "why": "twin REPORT: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-latest.json",
+   "recipe": "take-ours",
+   "why": "twin LIVE-latest: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-latest.md",
+   "recipe": "take-ours",
+   "why": "twin LIVE-latest: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-2026-10-07.json",
+   "recipe": "take-ours",
+   "why": "twin LIVE-day: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "docs/live_usage/LIVE-2026-10-07.md",
+   "recipe": "take-ours",
+   "why": "twin LIVE-day: json-side gen ts ours= vs theirs= -> ours whole-side (twin coherence)"
+  },
+  {
+   "file": "results/compute_audit.json",
+   "recipe": "ts-key row union",
+   "why": "rows ours=0 theirs=0 -> union=0 zero-loss"
+  },
+  {
+   "file": "results/_attrition_guard_scan.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/fundamental_b_layer_filter.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/futures_update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/lhb_update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/regime_state.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/token_usage.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  },
+  {
+   "file": "results/update_status.json",
+   "recipe": "take-ours",
+   "why": "newer-ts live-wins: ours= theirs="
+  }
+ ],
+ "postscript": "first-pass ts probe regex empty on both sides -> twins/status take-ours whole-side (git checkout --ours, full side blobs); compute_audit hand-union first write was BROKEN EMPTY (0+0->0) caught same-window and healed from original commit 4c410b7cc (mine) + HEAD (origin side): history ts-key union 201+201->202 zero-loss, latest newer-ts mine 23:16:34 > base 23:15:37; ours-side freshness evidence = my S6 regen 23:16 vs bm-c r705 closeout 22:xx per their commit wave"
+}

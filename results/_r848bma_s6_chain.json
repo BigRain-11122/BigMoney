@@ -1,0 +1,59 @@
+{
+ "ts": "2026-10-07T23:2x+08:00",
+ "round": "r848 bm-a",
+ "legs_rc0": [
+  "aggr_lab",
+  "ah_panel",
+  "alloc_paper",
+  "astock_daily",
+  "b_layer",
+  "build_status",
+  "ceo_live",
+  "clock_call",
+  "compute_audit",
+  "daily_report",
+  "daily_scorecard",
+  "etf_daily",
+  "fund_premium",
+  "fund_statements",
+  "fundamental",
+  "grid_paper",
+  "market_regime",
+  "minute_feed",
+  "pool_dualrun",
+  "prospect_paper",
+  "prospect_promo",
+  "py_watermark",
+  "rev_osc",
+  "scorecard",
+  "sysv1_paper",
+  "t35_export",
+  "ths_panel",
+  "token_meter",
+  "update_daily",
+  "update_futures",
+  "update_heat",
+  "update_lhb",
+  "update_moneyflow",
+  "update_options",
+  "update_repo",
+  "update_sina_mf"
+ ],
+ "n_rc0": 36,
+ "skipped": [
+  {
+   "leg": "live.paper",
+   "reason": "no new bar (golden week, panel cutoff 2026-09-30, market reopens 10-08)"
+  },
+  {
+   "leg": "t35_open_fill_verify",
+   "reason": "same trigger condition as live.paper = no new bar"
+  }
+ ],
+ "evidence": {
+  "dualrun": "ZERO-DRIFT streak 51, 406 entries",
+  "compute_audit": "flags supply_gap+supply_floor (pool ready=1<floor 3, streak 283min) -- canonical response = W179 seat this round, never-dry standing law",
+  "py_watermark": "insufficient_history (window n=1 post-epoch-restart, legitimate)",
+  "update_daily": "new rows 0, cutoff 2026-09-30 (holiday no-op legitimate)"
+ }
+}
