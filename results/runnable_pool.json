@@ -16079,16 +16079,20 @@
    ],
    "lane_owner": "bm-c",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w14/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13 single-shard precedent)",
      "note": "single shard W1-W13-JUDGE precedent; 77 judged cells = lightest judge batch in lineage (W13 99, W12 188); worker_cap() parallelism inside the shard",
      "owner": "bm-c",
-     "owner_since": "2026-10-07 22:30:04",
-     "park_note": "AUTOFILL-PARK 2026-10-07 20:30:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+     "owner_since": "2026-10-07 23:20:03",
+     "park_note": "AUTOFILL-PARK 2026-10-07 20:30:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-07 22:30:04",
+     "done_at": "2026-10-07 23:20:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "judge-0of1.bm-c.json"
     }
    ],
    "data_deps": [
@@ -16107,7 +16111,9 @@
    "consumer_plan": "TRIAL-LABOR-W14-JUDGE -> w14_judge.json verdict face (reform-face FIRST registered wave: eligible_reform [0,10] predicted band + top-3 by composite dual face per O-1058 five-step chain; sumn-style negative readouts carried from screen = judge confirms at full caliber, negative results = lawful products) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY + TRIAL-RESICNT-* paper accounts spawn only on eligible) -> CEO-REPORT-WAVE14 48h face + scorecard CEO face; screen null p95 0.5116 -> W15 prereg reference band",
    "worker_class": "self-contained",
    "entered_at": "2026-10-07 18:33:25",
-   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)"
+   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)",
+   "done_by": "bm-c",
+   "done_at": "2026-10-07 23:20:03"
   }
  ]
 }
