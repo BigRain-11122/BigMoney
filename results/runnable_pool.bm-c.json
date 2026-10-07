@@ -16130,23 +16130,29 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-08 03:22:39",
    "data_gates": "(1) GENERATE done w16_candidates.json n=173 + grammar sha16 ebf15822d2c8472e; (2) screen-prep PASS bm-a r859: panel 48/48 anchors 6/6 census 6m=1253 passive precomputed + sixteen G-gate faces valid, prep_state.json in-repo; (3) FUND trio finalize done verified 10-08 03:1x",
    "shards": [
     {
      "key": "w16-screen-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w16/checkpoint/screen_shard_0of1.jsonl (append-per-cell resume, gitignored dir per r429)",
      "note": "single shard; worker_cap() pool inside shard (W13-SCREEN 593 cells ~4min wall; W16 373 lighter)",
      "owner": "bm-a",
-     "owner_since": "2026-10-08 03:32:08"
+     "owner_since": "2026-10-08 03:58:31",
+     "claimed_since": "2026-10-08 03:32:08",
+     "done_at": "2026-10-08 03:58:31",
+     "harvested_by": "bm-a",
+     "harvest_claim": "w16-screen-0of1.bm-a.json"
     }
    ],
    "workers_plan": {
     "workers": 26,
     "priority": "BelowNormal"
-   }
+   },
+   "done_by": "bm-a",
+   "done_at": "2026-10-08 03:58:31"
   },
   {
    "id": "TRIAL-LABOR-W16-JUDGE",
@@ -16155,7 +16161,11 @@
    "consumer_plan": "TRIAL-LABOR-W16-JUDGE -> judge-finalize (lane-owner separate round per W5-W14 precedent) -> w16_judge.json verdict face (reform gate eligible_reform + composite top-3 dual face) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY row + TRIAL-MAXRANK-* paper seat on eligible only) -> 48h CEO report face + scorecard CEO face; screen null p95 0.5116 -> W17 prereg reference band",
    "runner": "scripts/trial_labor_w16.py",
    "runner_args": [
-    "judge,--shard,0,--shards,1"
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
    ],
    "lane_owner": "bm-a",
    "priority": 1,
@@ -16169,7 +16179,7 @@
      "checkpoint": "results/trial_labor_w16/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13/W14 single-shard precedent)",
      "note": "single shard W1-W14-JUDGE precedent; 40 judged cells = lightest judge batch in lineage (W14 77, W13 99); worker_cap() parallelism inside the shard; dual nulls B/P resampling per prereg sec.0 not ledger +0",
      "owner": "bm-a",
-     "owner_since": "2026-10-08 03:51:01"
+     "owner_since": "2026-10-08 04:22:07"
     }
    ],
    "workers_plan": {
