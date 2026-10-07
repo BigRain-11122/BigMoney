@@ -1521,38 +1521,41 @@
    "crash_counted": true
   },
   {
-   "ts": "2026-10-07 12:55:32",
+   "ts": "2026-10-07 12:55:43",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
    "verdict": "launched",
    "entry": "TRIAL-LABOR-W14-SCREEN",
    "shard": "screen-0of1",
-   "pid": 93620,
+   "pid": 73952,
    "runner_sha256": "af9ea474fcd4cb89",
    "core_verdict": "multiproc",
    "core_marker": "run_cells_parallel(",
    "fill_latency_min": 0.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-07 12:55:32",
+  "ts": "2026-10-07 13:01:38",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "launched",
-  "entry": "TRIAL-LABOR-W14-SCREEN",
-  "shard": "screen-0of1",
-  "pid": 93620,
-  "runner_sha256": "af9ea474fcd4cb89",
-  "core_verdict": "multiproc",
-  "core_marker": "run_cells_parallel(",
-  "fill_latency_min": 0.0,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "FUND-DIVLOWVOL-P1-NULLS",
+  "shard": "fund-divlowvol-p1-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1142,
+  "fuse_skipped": [
+   {
+    "entry": "FUND-DIVLOWVOL-P1-NULLS",
+    "shard": "fund-divlowvol-p1-nulls-0of1",
+    "sig": "scripts/fund_divlowvol_p1.py|run,--nulls",
+    "fuse_refusals": 1142
+   }
+  ]
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-07T12:13:20+08:00"
+ "core_samples_seen": "2026-10-07T12:56:13+08:00"
 }
