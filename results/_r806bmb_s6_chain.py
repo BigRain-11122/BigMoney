@@ -1,4 +1,4 @@
-﻿# r806 bm-b S6 chain runner (lineage: verbatim copy of results/_r802bmb_s6_chain.py, zero intentional adds)
+﻿# r806 bm-b S6 chain runner (lineage: verbatim copy of results/_r805bmb_s6_chain.py, zero intentional adds)
 # Legs 25-28 (live.paper/t35_open_fill/t24 pair): golden-week no-new-bar honest skip (cutoff 2026-09-30 unchanged, reopen 10-08)
 # python driver per r778-cont pattern: per-leg stdout progress + UTF-8 log (avoids ps1 UTF-16 face + 5-min shell cancel)
 import subprocess, sys, time, io
@@ -49,23 +49,14 @@ log.flush()
 rcs = []
 t0 = time.time()
 for name, args in LEGS:
-    # r806 w3: per-leg hard timeout -- one stalled leg must never hang the
-    # whole chain (w2 died exactly this way on 08_lhb at 15:29).
-    try:
-        r = subprocess.run([sys.executable] + args, capture_output=True,
-                           timeout=600)
-        rc, out, err = r.returncode, r.stdout, r.stderr
-    except subprocess.TimeoutExpired as te:
-        rc = 124
-        out = te.stdout if isinstance(te.stdout, bytes) else b""
-        err = te.stderr if isinstance(te.stderr, bytes) else b""
-    rcs.append((name, rc))
-    log.write("== LEG %s RC=%d ==\n" % (name, rc))
-    if rc != 0:
-        log.write(out.decode("utf-8", "replace")[-1500:] + "\n")
-        log.write(err.decode("utf-8", "replace")[-1500:] + "\n")
+    r = subprocess.run([sys.executable] + args, capture_output=True)
+    rcs.append((name, r.returncode))
+    log.write("== LEG %s RC=%d ==\n" % (name, r.returncode))
+    if r.returncode != 0:
+        log.write(r.stdout.decode("utf-8", "replace")[-1500:] + "\n")
+        log.write(r.stderr.decode("utf-8", "replace")[-1500:] + "\n")
     log.flush()
-    print("LEG %s RC=%d (%.0fs)" % (name, rc, time.time() - t0), flush=True)
+    print("LEG %s RC=%d (%.0fs)" % (name, r.returncode, time.time() - t0), flush=True)
 
 nonzero = [(n, r) for n, r in rcs if r != 0]
 print("SUMMARY legs=%d nonzero=%r" % (len(rcs), nonzero))

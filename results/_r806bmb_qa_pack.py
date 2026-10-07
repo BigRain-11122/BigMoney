@@ -1,5 +1,5 @@
 ﻿# r806 bm-b QA pack (in-round delivery, zero debt)
-# Lineage: _r801bmb_qa_pack.py verbatim structure; smoke-rNNN.md checklist face per smoke-r803.md format.
+# Lineage: _r805bmb_qa_pack.py verbatim structure; smoke-rNNN.md checklist face per smoke-r803.md format.
 # Evidence-only face (zero registration, zero ledger append). Log written by script itself (UTF-8,
 # shell redirect banned for CJK/UTF-8 faces -- pit-encoding domain).
 import os, sys, io, json
@@ -70,7 +70,7 @@ with io.open(md, "w", encoding="utf-8", newline="\n") as f:
     f.write(f"""# BigMoney QA self-verification r806
 
 > Group charter: docs/qa-smoke-test-charter.md (BigMoney section). Evidence = this pack; re-runnable every round; ZERO registration / ZERO ledger append (smoke face).
-> Lineage: r800 debt pack delivered by r801; this r806 pack produced in-round (no debt).
+> Lineage: r805 pack in-round; this r806 pack produced in-round (no debt).
 
 ## checklist
 
