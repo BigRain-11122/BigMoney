@@ -169,7 +169,19 @@ FAST_CONFIRM_MIN = 5.0    # r177bm-c instant-exit fast-confirm window:
                           # commit per minute for 25min before the fuse
                           # bit). Progress-bearing deaths keep the slow
                           # window (flip-lag false-positive guard intact).
-DETACHED = (0x00000008 | 0x00000200)   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
+DETACHED = (0x08000000 | 0x00000200)   # CREATE_NO_WINDOW | CREATE_NEW_PROCESS_GROUP
+                          # O-20261008-1300 launch-path law (CEO direct
+                          # order, visible-console seal): the former
+                          # DETACHED_PROCESS bit left the runner with NO
+                          # console, so every multiprocessing child it
+                          # spawned allocated its OWN VISIBLE console =
+                          # one desktop flash per child (trial_labor_w14
+                          # judge live case: 11 flashing children while
+                          # the CEO was gaming). CREATE_NO_WINDOW gives
+                          # the runner a HIDDEN console that its children
+                          # inherit -- zero flashes all the way down
+                          # (r317 pattern, now literal law for every
+                          # new helper script).
 
 
 def _now():

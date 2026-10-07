@@ -1,0 +1,43 @@
+{
+ "order": "O-20261008-1300-bm-c.md",
+ "round": 700,
+ "machine": "bm-c",
+ "ts": "2026-10-07T20:14:06+08:00",
+ "epoch_facts": {
+  "order_commit": "33acb6292",
+  "order_commit_epoch": 1791374577,
+  "order_commit_iso_local": "2026-10-07T20:02:57+08:00",
+  "note": "order-label 2026-10-08 13:00 vs commit epoch = ~17h GM-frame annotation divergence; adjudication belongs to GM"
+ },
+ "knife1_launch_path": {
+  "status": "FIXED",
+  "root_cause": "autofill.py DETACHED constant carried DETACHED_PROCESS (0x8): console-less runner -> each multiprocessing child allocates its own VISIBLE console = one desktop flash per child",
+  "fix": "DETACHED = CREATE_NO_WINDOW (0x08000000) | CREATE_NEW_PROCESS_GROUP (0x200); hidden console inherited by all descendants",
+  "selftest": "ALL PASS"
+ },
+ "knife2_orphan_patrol": {
+  "status": "LANDED",
+  "tool": "Tools/orphan_face_probe.py",
+  "three_faces": "parent-dead + no-wscript/pythonw-ancestor + cpu-stalled(<0.1 core-sec/20s, 30min grace)",
+  "selftest": "4/4 (cpu-active face NEVER judged = mechanical law for the misjudged full-speed judge tree)",
+  "live_probe": {
+   "py_faces": 4,
+   "orphans": 0
+  },
+  "round_zero_wired": "Tools/iteration_prompt.txt (round report/heartbeat must carry orphans=N line)"
+ },
+ "knife3_burn_timeout": {
+  "status": "SUBSUMED + POINTER",
+  "note": "12h no-progress bound enforced by the ~10min round-zero patrol (stricter); runner-side suicide timer = follow-up code round"
+ },
+ "killed_tree_cpu_evidence": {
+  "probe_window": "2026-10-07 20:00-20:05 local",
+  "workers_cpu_delta_per_8s": [
+   8.2,
+   4.8,
+   8.3
+  ],
+  "verdict": "burning at full speed at probe time; launch-path violation real (fixed), zombie determination not supported on the cpu-active face"
+ },
+ "w14_burn_loss": "absorbed by fill_ladder checkpoint resume (zero N_eff loss per r250 one-shot law)"
+}
