@@ -1,0 +1,37 @@
+{
+ "round": "r802",
+ "machine": "bm-b",
+ "event": "pick-4 747fb5976 replay resolve",
+ "faces": {
+  "results/fund_divlowvol_p1/nulls.jsonl": {
+   "recipe": "key-union (r621)",
+   "ours": 1723,
+   "theirs": 1722,
+   "union": 1725,
+   "ours_unique": [
+    1759,
+    1760,
+    1761
+   ],
+   "theirs_unique": [
+    1757,
+    1758
+   ]
+  },
+  "results/saturation_engine/history_bm-b.jsonl": {
+   "recipe": "epoch-union (r621)",
+   "ours": 120,
+   "theirs": 120,
+   "union": 128
+  },
+  "results/p1d_gates.json": {
+   "recipe": "ts-duel ours-live-wins (r440)"
+  },
+  "results/saturation_engine/face_bm-b.json": {
+   "recipe": "ts-duel ours-live-wins (r440)"
+  },
+  "results/saturation_engine/state_bm-b.json": {
+   "recipe": "ts-duel ours-live-wins (r440)"
+  }
+ }
+}
