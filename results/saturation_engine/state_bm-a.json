@@ -2,22 +2,287 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
+ "active": [
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 0,
+   "nshards": 12,
+   "key": "n1w174-0of12",
+   "batch": "PERPETUAL-N1-W174",
+   "pid": 70456,
+   "started_at": "2026-10-07T13:46:07+08:00",
+   "started_epoch": 1791351967,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W174-0.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W174",
+    "prereg": "research/PERPETUAL_N1_W174_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-SIXTY-FOURTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 163 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W173 row bm-a r822 freeze 04e95748a, SINGLE STATE zero seat gap W2..W173 all registered; W173 finalize landed same-window r823, ledger head 786,012, merged pool K=378,520; seat published=reserved MSG-2026-10-07-1247-bma-w174-seat PUSHED to origin 9b0e1cb29 BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe script + probe receipt (3-item; the W173 finalize product already on origin since r823, not re-shipped; W146 precedent); deletion-set EMPTY; delivery window = direct fast-forward behind-0 at fetch (r823 pre-seat push), zero merge, zero --no-verify; single-window derive -- r812 merged the gate legs INTO the pre-seat probe; parity N/A honest), engine_owner=bm-a, wave 173: A = FIRST-CLEAN past the registered W173 B band (the arithmetic continuation 397_404..399_403 is REFUSED at its own start by the W173 B band 397_404..397_603, exactly as the W173 seat W174+ projection + r820 probe leg4 + r823 sec8 succession projection notes anticipated; honest forward walk hops=1 -> 397_604..399_603; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase THIRTY-FOURTH instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 397_604..397_803 is CLEAN on the registered universe but lands INSIDE the W174 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 399_604, first-clean 399_604..399_803 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W173 seat W174+ projection + r820 probe leg4 + r823 sec8 succession projection notes re-derived -- all MANDATORY notes honored (post-W173 universe re-derive + own-wave A reservation); ADMIT receipt results/_r823bma_w174_probe_receipt.json; W175+ projection per this window gate: A first-clean 399_604..401_603 CLEAN / B first-clean 399_804..400_003 CLEAN -- naive B lands INSIDE the naive A window and the registered W174 B band 399_604..399_803 will refuse the naive W175 A window; W175 freezer MUST re-derive on the post-W174 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W173 finalize ALL LANDED (W173 finalize one-pass bm-a r823, net chain head 786,012, merged pool K=378,520) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
+    "a_seed_base": 397604,
+    "b_exit_seed_base": 399604,
+    "shard_subdir": "n1_w174",
+    "out_name": "n1_w174_results.json",
+    "engine_owner": "bm-a"
+   }
+  }
+ ],
  "ledger_buffer": [],
  "last_flush_at": "2026-10-07T12:28:05+08:00",
  "crashes": {},
  "shards_done_total": 640,
  "last_shard_done_at": "2026-10-07T12:14:04+08:00",
  "last_tick": {
-  "ts": "2026-10-07T13:38:05+08:00",
-  "epoch": 1791351482,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 50.42665100097656,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
-  "elapsed_sec": 3.0
+  "ts": "2026-10-07T13:46:07+08:00",
+  "epoch": 1791351964,
+  "py_cpu_pct": 0.1,
+  "ram_free_gb": 48.141265869140625,
+  "verdict": "ignited:n1w174-0of12 pid=70456",
+  "active_n": 1,
+  "queue_depth": 11,
+  "elapsed_sec": 3.2
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 1,
+   "nshards": 12,
+   "key": "n1w174-1of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 2,
+   "nshards": 12,
+   "key": "n1w174-2of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 3,
+   "nshards": 12,
+   "key": "n1w174-3of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 4,
+   "nshards": 12,
+   "key": "n1w174-4of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 5,
+   "nshards": 12,
+   "key": "n1w174-5of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 6,
+   "nshards": 12,
+   "key": "n1w174-6of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 7,
+   "nshards": 12,
+   "key": "n1w174-7of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 8,
+   "nshards": 12,
+   "key": "n1w174-8of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w174-9of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w174-10of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 174,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w174-11of12",
+   "batch": "PERPETUAL-N1-W174",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "174",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
