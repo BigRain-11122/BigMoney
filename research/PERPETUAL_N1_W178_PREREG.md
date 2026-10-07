@@ -54,10 +54,19 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 93 行注册 + 本候选——以 probe leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166/W167/W168/W169/W170/W171/W172/W173/W174/W175/W176/W177 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W178 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·r846 窗机证】
+- 账本恒等式：795,305 + 2,200 = **797,505** EXACT（§5 投影精确命中·prev_total/batch_trials/total 三键机读）。
+- 合并池：**K=389,520** EXACT（=W177 池 387,320 + 本波 2,200·§5 投影命中）。
+- merged mu **−0.092730**（6 位机读 -0.092730）/ w-only mu **−0.092253** / mu_delta(w178 vs w177ext) **+0.001369**。
+- merged sigma **0.245104**（W177 键 0.245080→0.245104）；w-only sigma 0.249435；se_mu@K389,520 **0.000393**（W177 0.000394→0.000393 收窄）。
+- skill_line_v2：line_pre **1.1848** → line_merged@K389,520 **1.1849**（K-lift **+0.0001**·n_eff_held_equal 795,305）；canon flip **NOT performed**（K2,200 同例法·治理提案面）。
+- A 档 full_sharpe_p95 **0.3275**（W177 锚 0.3116·Δ+0.0159<0.05 门过）·p99 0.4674·A mu −0.08865。
+- §5 四预键机证全过：①mu gap |−0.092253−(−0.092730)|=0.000477<0.02 PASS ②sigma 相对变化 +0.01%<±10% PASS ③A p95 Δ+0.0159<0.05 PASS ④K-lift +0.0001≤±0.02 PASS。
+- audit.finalize_only=**true**（bm-a）·voids_applied=LOWAMP-P1/P2·evidence_cutoff=2026-09-22 在位·shards_consumed 12/12。
 
-## §8 批后复盘。【finalize 同窗回填·待 W178 finalize 窗】
-- （占位·§5.5 W179+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·r846 窗】
+- §5.5 W179+ 投影承接（probe 机证·W179 冻结方重 derive 强制非转抄 r587 律）：A first-clean **408_404..410_403**（hops=0）/ B first-clean **408_604..408_803**（hops=0）——naive B 落 naive A 窗内（W141 同窗互斥·leg2 律/E36 卡适用 W179 冻结方）；W178 B 带 408_404..408_603 注册后将拒 naive W179 A 窗=阶梯 A-hops-prior-B 第三十九例继承。
+- 宝藏/方法论捕获问：本批无新方法零新宝藏（dead-r845 接管收口窗·finalize 三亽+半开区间 preflight=r839 血统既有律 verbatim 复用·r831 旧脚本含端点读法对半开 shard 生成假红=当场按 r839 半开律治愈·非新方法论）；TREASURE/METHODOLOGY 零 append。
+- 诚实披露面：r845 会话 22:08 冻结+点火后斩首未写 state（本窗 r846 接管收口·零重复烧·shards 12/12 全在）；W178-only mu −0.0923 比合并池 −0.0927 略浅=null 抽样正常波动非异常；K-lift 线 1.1848→1.1849 连续 177 波 nulls-deepening 线如实在册。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。

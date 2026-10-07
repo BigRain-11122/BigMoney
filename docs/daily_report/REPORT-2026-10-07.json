@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 22:15:06",
+ "generated_at": "2026-10-07 22:29:55",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 629,
-  "result_jsons_landed_24h": 337,
+  "commits_24h": 633,
+  "result_jsons_landed_24h": 335,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-10-07 22:14:03",
-   "py_cpu_pct": 4.8,
+   "ts": "2026-10-07 22:28:36",
+   "py_cpu_pct": 0.0,
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -661,25 +661,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 21:34:53",
-    "py_pct": 0.4,
-    "cpu_pct": 39.0,
+    "latest_ts": "2026-10-07 22:28:36",
+    "py_pct": 0.0,
+    "cpu_pct": 6.0,
     "ready": 1,
-    "streak_min": 181.3,
+    "streak_min": 235.0,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "19:12",
-      0.0
-     ],
-     [
-      "19:40",
-      2.0
-     ],
-     [
-      "19:55",
-      0.5
-     ],
      [
       "20:02",
       1.4
@@ -715,12 +703,24 @@
      [
       "21:34",
       0.4
+     ],
+     [
+      "21:47",
+      4.2
+     ],
+     [
+      "22:09",
+      50.4
+     ],
+     [
+      "22:28",
+      0.0
      ]
     ],
-    "today_samples": 110,
+    "today_samples": 113,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 105
+    "today_supply_gap_flags": 108
    },
    "bm-b": {
     "latest_ts": "2026-10-07 18:39:26",
@@ -785,13 +785,21 @@
     "today_supply_gap_flags": 90
    },
    "bm-c": {
-    "latest_ts": "2026-10-07 22:14:03",
-    "py_pct": 4.8,
-    "cpu_pct": 24.0,
+    "latest_ts": "2026-10-07 21:47:52",
+    "py_pct": 4.2,
+    "cpu_pct": 16.0,
     "ready": 1,
-    "streak_min": 220.5,
+    "streak_min": 194.3,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
+     [
+      "19:12",
+      0.0
+     ],
+     [
+      "19:40",
+      2.0
+     ],
      [
       "19:55",
       0.5
@@ -829,22 +837,14 @@
       14.8
      ],
      [
-      "21:34",
-      0.4
-     ],
-     [
       "21:47",
       4.2
-     ],
-     [
-      "22:14",
-      4.8
      ]
     ],
-    "today_samples": 112,
+    "today_samples": 110,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 107
+    "today_supply_gap_flags": 105
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -854,19 +854,19 @@
   "day": "2026-10-07",
   "machines": {
    "bm-a": {
-    "batches_judged": 144,
-    "core_seconds": 28322.8,
-    "wall_seconds": 2340.4,
-    "effective_cores": 12.1,
+    "batches_judged": 157,
+    "core_seconds": 30812.1,
+    "wall_seconds": 2559.5,
+    "effective_cores": 12.04,
     "single_core_burn": 3,
-    "multicore_burn": 141,
+    "multicore_burn": 154,
     "too_short": 2,
-    "last_ts": "2026-10-07T21:17:20+08:00",
+    "last_ts": "2026-10-07T22:19:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 13,
-     "audit_ts": "2026-10-07 21:34:53"
+     "audit_ts": "2026-10-07 22:28:36"
     }
    },
    "bm-b": {
@@ -897,8 +897,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 5,
-     "audit_ts": "2026-10-07 22:14:03"
+     "audit_batches": 13,
+     "audit_ts": "2026-10-07 21:47:52"
     }
    }
   },
@@ -910,8 +910,8 @@
   "last_owner": "bm-a",
   "next_registration": 179,
   "next_seatable": 179,
-  "chain_head": 795305,
-  "k": 387320,
+  "chain_head": 797505,
+  "k": 389520,
   "waves": [
    {
     "wave": 176,
@@ -962,9 +962,13 @@
      408404,
      408603
     ],
-    "shards_done": null,
-    "shards_total": null,
-    "finalize_landed": false
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 797505,
+    "merged_mu": -0.09272973018073526,
+    "merged_sigma": 0.24510442518008552,
+    "k": 389520
    }
   ],
   "seats": []
