@@ -1,0 +1,62 @@
+{
+ "round": 739,
+ "op": "codely-minisplit-r739",
+ "cap": 30720,
+ "prescan_rc": 0,
+ "prescan_note": "rc recorded per r651/r654/r670/r703/r731/r736 precedent; D-06 authorized byte-accounted verbatim migration (not a deletion)",
+ "main_bytes_before": 30422,
+ "removed_bytes": 753,
+ "migrated": [
+  {
+   "entry": "r736",
+   "bytes": 753,
+   "sha16": "792c8e5029bc2738",
+   "to": "research/pit-lineage.md",
+   "target_bytes_before": 20991,
+   "target_bytes_after": 21744,
+   "bytes_in_target_verbatim": true
+  }
+ ],
+ "main_bytes_after": 31007,
+ "added_bytes": {
+  "new_pit_r739": 735,
+  "pointer_row": 603
+ },
+ "byte_equation": "main_after == main_before - removed + new_pit + pointer: True",
+ "retained_identity": true,
+ "blocks_absent_from_main": true,
+ "cap_face": {
+  "CODELY.md": 30350,
+  "research/pit-lineage.md": 21744,
+  "research/pit-git-parse.md": 27208
+ },
+ "all_under_cap": true,
+ "fix_pass": {
+  "prescan_rc": 0,
+  "second_migration": {
+   "entry": "r703 E42 porcelain multi-line single-string false-0-UU",
+   "bytes": 801,
+   "sha16": "e6a0e5dc8e4c8711",
+   "to": "research/pit-git-parse.md",
+   "target_bytes_before": 26407,
+   "target_bytes_after": 27208,
+   "bytes_in_target_verbatim": true
+  },
+  "pointer_row_rewritten": {
+   "old_bytes": 603,
+   "new_bytes": 747
+  },
+  "main_bytes_before_pass2": 31007,
+  "main_bytes_after": 30350,
+  "byte_equation_pass2": true,
+  "retained_identity": true,
+  "block_absent": true,
+  "pointer_old_absent": true,
+  "cap_face_pass2": {
+   "CODELY.md": 30350,
+   "research/pit-lineage.md": 21744,
+   "research/pit-git-parse.md": 27208
+  },
+  "all_under_cap_pass2": true
+ }
+}
