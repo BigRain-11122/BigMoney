@@ -16036,19 +16036,68 @@
    },
    "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-RESI/G-CNT runner door asserts probe anchor faces resi60 decidable 3363/open 390/first-decidable 120 + cntd5 3364/137/119 + cntn20 3364/265/119 per frozen sec.3 (three-probe closure: bm-b r470 facts + r471 supplement facts + bm-c r277 gap facts, twin cross-val 39/39 byte-level)",
    "note": "runner LANDED bm-a r722 (dead r722-session half-work adopted wholesale; Slice-B completed: selftest 57/57 + grammar sha16 pinned at w16_grammar.json serialization time ebf15822d2c8472e + r446 three-command identity first-run real-data PASS; identity first-run bugfixes: anchor twenty-tuple axis + judge ledger products path); pool entry TRIAL-LABOR-W16-GENERATE release via fill_ladder gate-armed catalog (enqueued when floor law triggers); burn = autofill (execution-face separation O-2100, lane_owner=None any healthy machine may claim) subordinate to O-2115 supply priority (FUND trio NULLS finalize bm-b 10-05..09 first); downstream SCREEN/JUDGE pool entries land on their physical deps per W3-W14 precedent",
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "main",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family)",
      "owner": "bm-a",
-     "owner_since": "2026-10-07 18:23:37"
+     "owner_since": "2026-10-07 19:16:38",
+     "claimed_since": "2026-10-07 18:23:37",
+     "done_at": "2026-10-07 19:16:38",
+     "harvested_by": "bm-a",
+     "harvest_claim": "main.bm-c.json"
     }
    ],
    "entered_at": "2026-10-07 18:20:29",
-   "entered_by": "bm-a fill_ladder T-107 slice-2"
+   "entered_by": "bm-a fill_ladder T-107 slice-2",
+   "done_by": "bm-a",
+   "done_at": "2026-10-07 19:16:38"
+  },
+  {
+   "id": "TRIAL-LABOR-W14-JUDGE",
+   "ticket_ref": "T-2026-09-30-128 WAVE-14 judge slice (TRIAL_LABOR_LAW sec.1 standing supply; prereg FROZEN bm-b r471 adoption window; runner LANDED bm-b r472 selftest 53/53 grammar sha16 a231bf10940e7878 pinned; GENERATE consumed autofill lineage; SCREEN burned bm-c 2026-10-07 13:4x rc=0 checkpoint 493 rows (293 cells + 200 nulls full set), screen-finalize LANDED bm-c r696: null p95 0.5116 in ref band [0.50,0.52], survivors 77 -- judge physical dep satisfied; judge-prep PASS bm-c r696 same round: manifest 48 members, census L/D == frozen, eleven-gate meta faithful incl resi/cnt; enrollment per MSG-2026-10-07-1821-bma funnel plan declaration)",
+   "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md FROZEN sec.0 TRIAL_LAB_W14_JUDGE (s3 full judgment batch: batch_trials = survivors 77 judged cells; reform-standard FIRST registered wave per O-1058 five-step chain: L3 = batch-internal BH FDR q<=REFORM_Q_LEVEL 10% m=batch-internal candidates + four-dim composite complete dual gate science_gates.g2_reform_fdr4d + L4 top-N=3/wave by composite REFORM_TOPN_PER_WAVE; judge lines import science_gates frozen constants only (no hand-copied lines, r271 single-canon law); E[FP]=0.05*77=3.85; DSR = live chain head cross-wave no-reset, run-time live read governs = 790,905 post-SCREEN-finalize; 48h CEO report clock starts at judge-finalize)",
+   "runner": "scripts/trial_labor_w14.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "shards": [
+    {
+     "key": "judge-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w14/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13 single-shard precedent)",
+     "note": "single shard W1-W13-JUDGE precedent; 77 judged cells = lightest judge batch in lineage (W13 99, W12 188); worker_cap() parallelism inside the shard",
+     "owner": "bm-c",
+     "owner_since": "2026-10-07 18:50:08"
+    }
+   ],
+   "data_deps": [
+    "results/trial_labor_w14/w14_grammar.json",
+    "results/trial_labor_w14/w14_screen.json",
+    "results/trial_labor_w14/judge_state.json"
+   ],
+   "enrolled_at": "2026-10-07T18:33:25+08:00",
+   "enrolled_by": "bm-c r696",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg eleven-gate state faces incl resi+cnt overlays = heaviest per-worker state in the fleet; worker_cap RAM guard applies, free-RAM >=4GB in-runner gate per r354 three-sample law)",
+    "priority": "BelowNormal",
+    "note": "77 judged cells = lightest judge batch in lineage; dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+yang+vconf+streak+tstate+amp+mom+std+rsqr+sumn+resi+cnt overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2-W13 judge same-machinery precedent; exit stack = W1-lineage engine default exit per frozen grammar cells (prereg frozen 2026-09-30, pre-O-1108, carried unchanged W2-W13); BelowNormal + worker_cap = CEO 10% CPU reserve law"
+   },
+   "data_gates": "GATES ALL GREEN: (1) standing_no_judge_inflight PASS -- no TRIAL-LABOR judge entry in flight at enrollment (FUND-DIVLOWVOL-P1-NULLS = fund-trio family burn bm-b, W16-GENERATE = generate leg bm-a, neither is a trial-labor judge); (2) judge-prep real-data first fire bm-c r696 exit 0 PASS: manifest 48 members, census L/D == frozen, survivors 77, gate meta L/D na-window 199/199, vol meta L/D 519/519 (leg-L anchors 594calm/518wild), yang/vconf/streak/tstate/amp/mom/std/rsqr/sumn meta faithful incl slope-split disclosures; (3) screen-finalize LANDED same round: null p95 0.5116 in [0.50,0.52] ref band, survivors 77, w14_screen.json + w14_screen_cells.csv committed; (4) RAM r354 three-sample at flip time in-runner gate authoritative (bm-c free ~8GB heartbeat face >= 4GB); burn via autofill pool face per O-2100 execution-face separation; judge-finalize = bm-c lane separate round work per W5-W13 precedent; 48h CEO report clock starts at judge-finalize",
+   "consumer_plan": "TRIAL-LABOR-W14-JUDGE -> w14_judge.json verdict face (reform-face FIRST registered wave: eligible_reform [0,10] predicted band + top-3 by composite dual face per O-1058 five-step chain; sumn-style negative readouts carried from screen = judge confirms at full caliber, negative results = lawful products) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY + TRIAL-RESICNT-* paper accounts spawn only on eligible) -> CEO-REPORT-WAVE14 48h face + scorecard CEO face; screen null p95 0.5116 -> W15 prereg reference band",
+   "worker_class": "self-contained",
+   "entered_at": "2026-10-07 18:33:25",
+   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)"
   }
  ],
  "lane_machine": "bm-a"
