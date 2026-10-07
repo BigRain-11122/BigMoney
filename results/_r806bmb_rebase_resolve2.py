@@ -40,6 +40,7 @@ SNAP = {
 JSONL = {
     "results/fund_divlowvol_p1/nulls.jsonl": "k",
     "results/saturation_engine/history_bm-b.jsonl": "ts",
+    "results/paper/marks/marks-20261007.jsonl": "ts",
 }
 
 def resolve_snapshot(path):

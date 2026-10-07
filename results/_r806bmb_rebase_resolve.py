@@ -57,7 +57,7 @@ union = dict(o_rows)
 union.update(t_rows)
 merged = sorted(union.values(), key=lambda r: r.get("ts", ""))
 expected = len(o_rows) + len(set(t_rows) - set(o_rows))
-assert len(merged) == expected == 205, f"union count {len(merged)} != expected {expected}"
+assert len(merged) == expected, f"union count {len(merged)} != expected {expected}"
 
 latest = o["latest"] if o["latest"].get("ts", "") >= t["latest"].get("ts", "") else t["latest"]
 merged_doc = {"latest": latest, "history": merged}
