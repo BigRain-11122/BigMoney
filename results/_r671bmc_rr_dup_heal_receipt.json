@@ -1,0 +1,39 @@
+{
+ "round": 671,
+ "machine": "bm-c",
+ "action": "round_reports-bm-c.md 2^3 whole-file dup heal",
+ "prescan": "treasure_guard prescan rc0 zero-hit (this window, before heal)",
+ "original_bytes": 17882876,
+ "healed_bytes": 2245406,
+ "dropped_lines": 8106,
+ "dropped_bytes": 15637470,
+ "original_sha256": "4a158159881e6f5e668f8ef666557346c45ad8b87498965857c713c04ca0f7c3",
+ "healed_sha256": "a91429ba009b2661134f6b1507874d5a3bed4b799542fa48f7e4b864db972867",
+ "metrics_before": {
+  "total_lines": 9265,
+  "unique_nonempty": 1003,
+  "header_count": 8,
+  "max_line_multiplicity": 24,
+  "entry_lines_unique": 300,
+  "entry_max_multiplicity": 8,
+  "active_dup": true,
+  "eol": "\r\n"
+ },
+ "metrics_after": {
+  "total_lines": 1159,
+  "unique_nonempty": 1003,
+  "header_count": 1,
+  "max_line_multiplicity": 1,
+  "entry_lines_unique": 300,
+  "entry_max_multiplicity": 1,
+  "active_dup": false,
+  "eol": "\r\n"
+ },
+ "set_equality_zero_loss": true,
+ "header_count_after": 1,
+ "entry_lines_after_all_unique": true,
+ "quarantine_dir": "results\\_quarantine\\20261007-1105_r671bmc_rr_predup",
+ "quarantine_sha256": "4a158159881e6f5e668f8ef666557346c45ad8b87498965857c713c04ca0f7c3",
+ "family_law": "r453 merge-union exact-line dedup (pit-git-surgery.md)",
+ "lost_entries_note": "r657-r666/r668/r669 proper entry lines were lost in dead-session windows BEFORE the doublings (F0 tail ends r656) -- pre-existing loss, not healable from this file; commit messages retain the record."
+}

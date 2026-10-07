@@ -33,6 +33,7 @@
 
 - **E07 收养工具集首跑漂移法**（proven）：收养/隔窗复用的脚本工具集首次真跑前必核「源件时态漂移」三面——①copy-adapt 源件已带上一波机械回填态（§7/§8 尾）→占位尾整体回置勿逐 token 追补丁；②锚文本含幻影标点（跨机换行/引号风格差）→首跑 0 中即取 git show 字节面实锚勿按记忆重写；③leftover 黑名单会误伤自家合法输出（生成器自写的锚键引用）→计数=1+上下文断言双门豁免，黑名单保留真漏网。证据：W114 prereg_gen 三补丁 r594 bm-a（冻结首跑当场三红全治愈零损失·r471 收养律执行面）。
 - **E08 撤-FF-重落环+D 面清零门**（proven）：未推 commit 被 push 拒（爪拦/竞态前进）时的零 rebase 正法=撤 commit（reset --mixed HEAD~1）→恢复误删面→属主分面 checkout（本机白名单保留+其余全取 origin 正典）→执行时 rev-parse FF 重锚→重 commit 重 push；铁律=FF/reset 对齐后必先清零全部 " D" 面（基里新增而盘缺的件=术后伪影，add -A 会把盘缺记成提交删除）才准 add -A。证据：r594 unpushed 提交误吞 bm-a 领养工件 9 件被 T-144 pre-push 爪首次实弹拦截，r595 bm-b 撤-FF-重落治愈零丢失推送直达。
+- **E09 append-only 台账翻倍 tripwire+keep-first 治愈法**（proven）：多机竞速 UU 收口把全史台账整文件拼接=每窗 ×2 指数翻倍（r666/r668/r669 三窗 2.23MB→17.87MB 无声翻 8 倍）；防护三件=①UU/union 收口必 exact-line dedup+marker 计数②每轮 tripwire scan（头行计数>1 或长行 multiplicity≥4=ACTIVE）③治愈=keep-first dedup+集合恒等零丢失门+隔离区。证据：r671 治愈（17,882,876→2,245,406B·纯删除零插入·receipt results/_r671bmc_rr_dup_heal_receipt.json·tripwire Tools/_r671bmc_rr_dup_heal.py）。
 ## 三、负方法资产（证伪存档=省下的钱）
 
 - **N01 股票面三族判负**（proven）：低波动/超跌反弹/动量在 3106 股全史零稳健带——ETF 优势不外推个股，该线已关。证据：T-139 closure。
