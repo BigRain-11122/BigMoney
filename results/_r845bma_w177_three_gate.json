@@ -1,0 +1,54 @@
+{
+ "wave": 177,
+ "machine": "bm-a",
+ "round": "r845 (backfill window; gates first run inline at r844 dead-tail adoption -- this receipt = machine re-derive, values identical, honest provenance)",
+ "law_ref": "pit r752 three-identity gates; r844 inline gates + this re-derive",
+ "gate1_totals": {
+  "A": 2000,
+  "B": 200,
+  "n_backtests_sum": 2200,
+  "per_shard_audit_eq_families": true
+ },
+ "gate2_seeds": {
+  "A": "unique=2000 min=404204 max=406203",
+  "B_exit": "unique=200 min=406204 max=406403",
+  "B_entry": "unique=200 min=404204 max=404403"
+ },
+ "gate3_tiling": {
+  "A": "[0,166),[166,333),[333,500),[500,666),[666,833),[833,1000),[1000,1166),[1166,1333),[1333,1500),[1500,1666),[1666,1833),[1833,2000) half-open contiguous PASS",
+  "B": "[0,16),[16,33),[33,50),[50,66),[66,83),[83,100),[100,116),[116,133),[133,150),[150,166),[166,183),[183,200) half-open contiguous PASS"
+ },
+ "finalize": {
+  "prev_total": 793105,
+  "batch_trials": 2200,
+  "total": 795305,
+  "voids_applied": null,
+  "evidence_cutoff": "2026-09-22",
+  "merged_k": 387320,
+  "merged_mu": -0.09273243674481049,
+  "merged_sigma": 0.24507993213728818,
+  "w_only_mu": -0.09362172727272727,
+  "w_only_sigma": 0.24867731545542607,
+  "pre_mu": -0.09272735666805151,
+  "pre_sigma": 0.24505954867123803,
+  "mu_delta_w177_vs_w176ext": -0.004716,
+  "se_mu_at_k387320": 0.000394,
+  "skill_line_v2": {
+   "n_eff_held_equal": 793105,
+   "line_pre": 1.1846,
+   "line_merged": 1.1847,
+   "delta": 0.0001
+  },
+  "A_p95": 0.3116,
+  "A_p99": 0.483,
+  "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)",
+  "pred_keys": {
+   "1_mu_gap": 0.0008892905279167806,
+   "2_sigma_rel_pct": 0.008317760381376223,
+   "3_Ap95_delta_vs_w176": -0.00020000000000003348,
+   "4_k_lift_delta": 0.0001
+  },
+  "audit_finalize_only": true
+ },
+ "generated_at": "2026-10-07T21:5x+08:00 (r845 backfill window)"
+}
