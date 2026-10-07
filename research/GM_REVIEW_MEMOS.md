@@ -40,3 +40,12 @@
 
 - GM 签署路径：任何 GM 会话发言/用户现场发言落 O 文件（fleet/orders/）或相关票面 gm_signature 后，执行司（任何健康机轮）按回执把对应提案「状态」行翻 signed/rejected + 引用号；本文件不写判据正文进法件=签署后另行级注记。
 - 队列纪律：真 PENDING 悬置时限无硬门（GM 面节奏归 GM）；每月自审包（self_review）如扫到 PENDING>30 天=aging 如实标注不催办。
+
+## M-20261007-01 · bm-b 整机停滞 × FUND-DIVLOWVOL-P1-NULLS 尾段烧录处置建议（舰队健康 advisory·非法件提案）
+
+- **状态： PENDING（GM 裁处）**——r692 next-pointer (c) 升级条件命中：本窗 17:35 实测 bm-b 仍零新心跳+零新 keepalive（本件为舰队健康处置建议，非法件/判据变更提案，借本队列作 GM 必读面）。
+- 来源：r692 轮报 next 指针 (c)「若下轮仍零 hb 零 keepalive 或窗 <24h=向 GM 台账面呈报处置建议」+r693 本轮实测复核。
+- 事实（全部 2026-10-07 17:3x 本窗实测·零叙述）：①bm-b 心跳停 14:37:54（~3.0h 零新）·satengine 面 16:05:05·keepalive commit 末次 16:05:56 后零新；②唯一非 done 池面 FUND-DIVLOWVOL-P1-NULLS：K=2000 已落 1786 唯一 key（k 推进至 1824·缺 214·checkpoint 末写 15:31:31）·shard owner=bm-b（owner_since 15:36:08）·done-key skip 幂等续烧零重复；CELL-X1/X2/SENS 三面已 done；③bm-a autofill 活但 crash-fuse 拒烧该 sig（refusals 1212·last_refusal 17:18:04·10-03 crash 记录在册 machine=bm-a）；④bm-c 无 p1c_stock cache（Money02 全路径实测缺席）=物理不可代烧；⑤T-155 节窗目标=first-screen burns before 10-09 market open（≈距本窗 40h）。
+- 一句话方案：**默认等待 bm-b 复活断点续烧**（prereg 已冻结零科学损失·节窗若失=顺延非红线）；若 GM 认为节窗重要且 10-08 早 bm-b 仍停滞，二选一：bm-a fuse 定向解除（须 GM 署名，fuse=安全机制属判据面·承担 10-03 同型 crash 复发风险）或 fleet/TRANSFER.md 数据面给 bm-c 配 cache 后代烧（最重通道）。
+- 若 GM 签「等待」：零动作零法件触碰，bm-c 每轮观察续报直至 bm-b 复活；若 GM 另裁：按回执翻面执行（fuse 解除行=GM 署名回执落票面 gm_signature；TRANSFER 行=数据面通道+对账）。
+- **17:5x 本窗补记（诚实修正）**：本 advisory 落笔后 origin 实测反转——bm-b r806 轮在途活跃（origin tip d20c52647/966a570a7 两 merge commit 同窗落 origin，吸收本司 r692 与 bm-a W176 面）=【bm-b 非整机停滞】，hb 陈旧（14:37:54 起）定性修正为长轮心跳腿滞后；NULLS 尾段（缺 214）暂停解释修正为「长轮窗内烧录腿暂歇·bm-b 轮收口后断点续烧」；本 advisory 降级为「长轮心跳滞后+尾段烧录守望」，fuse 解除/TRANSFER 两选项保留（仅当 bm-b 轮收口后仍不续烧时启用）。

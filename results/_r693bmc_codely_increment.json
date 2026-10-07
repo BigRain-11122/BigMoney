@@ -1,0 +1,41 @@
+{
+ "round": 693,
+ "machine": "bm-c",
+ "action": "direct-write increment (r429/r666/r673 pattern) + truncation heal (line-level union per guard rc3) + r667-precedent pointer migration",
+ "migration_r833": {
+  "line_bytes": 214,
+  "sha16": "b2869cbbf3059ba6",
+  "from": "CODELY.md",
+  "to": "research/pit-engine-freeze-editor.md",
+  "needle_collision_note": "pit-body attribution shares 'r833 bm-a' text; pointer-line needle = full-line prefix",
+  "main_bytes_after_remove": 30519,
+  "main_under_line": true,
+  "dest_bytes_post": 6600,
+  "dest_under_line": true,
+  "verbatim_in_dest": true
+ },
+ "main_bytes_post": 30519,
+ "main_under_line": true,
+ "migration_done": true,
+ "target": "research/pit-tooling.md",
+ "pit": "post_review red-check latest-row-per-item canon (+ wb-boolean-chain dead-truncation appendix)",
+ "appended_bytes": 1262,
+ "appended_sha16": "1026367ceab8b226",
+ "target_bytes_post": 21533,
+ "target_under_line": true,
+ "heal": {
+  "incident": "dead boolean-chain open(p,'wb') (never wrote) truncated pit-tooling.md 20,312 -> 0B during first increment attempt",
+  "guard": "treasure_guard restore rc3 HARD REJECT (registry class)",
+  "method": "line-level union with HEAD blob (current face 0 lines -> union == HEAD lines verbatim); zero-loss = all HEAD lines present; LF-form HEAD blob landed (autocrlf-normalized)",
+  "zero_loss": true
+ },
+ "main_pointer_bytes": 184,
+ "main_bytes_pre": 30551,
+ "zero_loss": true,
+ "post_verify": {
+  "main_bytes": 30519,
+  "main_under_line": true,
+  "pit_verbatim_in_target": true,
+  "pointer_in_main": true
+ }
+}
