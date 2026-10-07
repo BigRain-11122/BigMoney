@@ -316,6 +316,52 @@ def _host_heartbeat_age_min_origin(host):
         return None
 
 
+def _origin_commit_age_min(host, ref="origin/main", scan=40):
+    """r701 third liveness signal (r700 pool_worker law face extended to
+    the lane_io guard): a host mid-long-round heartbeats only at round
+    end while its session/daemon keeps committing and pushing -- a recent
+    origin commit naming the host = the host is alive even with BOTH the
+    local and origin heartbeats stale (r700 live-fire: four C-faces
+    stale-takeover-derived on a live-but-heartbeat-stale bm-a).  Returns
+    the freshest such commit age in minutes, or None (no sighting / git
+    fault).  Attribution needle = machine-id substring in the subject
+    (fleet convention tags: 'via bm-a', 'lane: bm-c', 'bm-a r834 ...').
+    Conservative-by-design: a false 'alive' merely defers takeover a few
+    minutes; the double-write hazard only runs in the false-'dead'
+    direction.  Note the r371 caveat applies verbatim: the local
+    origin/main ref is only as fresh as the last fetch, so a stale fetch
+    reads the host older than it is = takeover proceeds = pre-r701
+    behavior at worst."""
+    import subprocess
+    if not host:
+        return None
+    try:
+        r = subprocess.run(
+            ["git", "log", ref, f"-{scan}", "--format=%ct%x00%s"],
+            capture_output=True, cwd=_REPO_ROOT, timeout=10,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        if r.returncode != 0:
+            return None
+        now = time.time()
+        best = None
+        needle = str(host).lower()
+        for line in r.stdout.decode(errors="replace").splitlines():
+            if "\x00" not in line:
+                continue
+            ts_s, subj = line.split("\x00", 1)
+            try:
+                age = (now - int(ts_s)) / 60.0
+            except ValueError:
+                continue
+            if age < 0:
+                age = 0.0
+            if needle in subj.lower() and (best is None or age < best):
+                best = age
+        return best
+    except Exception:
+        return None
+
+
 def shared_derive_write_allowed(face_rel, verbose=True):
     """Single-writer admission for a deterministic idempotent re-derive
     shared face (D-03(1) batch-3 C-family).  True = this machine should
@@ -351,6 +397,19 @@ def shared_derive_write_allowed(face_rel, verbose=True):
                   f"{local_face}) -> skip derive this cycle "
                   f"(r366 stale-view veto)")
         return False
+    # origin heartbeat also stale/unreadable -> third liveness signal
+    # (r701, r700 pool_worker law): a host mid-long-round pushes
+    # products/ledger commits between heartbeat writes -- a fresh origin
+    # commit naming the host = alive, veto the takeover (conservative
+    # direction only; commit unreadable -> takeover stands as before).
+    age_c = _origin_commit_age_min(host)
+    if age_c is not None and age_c < C_HOST_STALE_MIN:
+        if verbose:
+            print(f"lane_io single-writer guard: {face_rel} host={host} "
+                  f"origin commit fresh ({age_c:.0f}min, heartbeats "
+                  f"stale) -> skip derive this cycle "
+                  f"(r701 third-signal veto)")
+        return False
     if verbose:
         basis = (f"heartbeat stale {age:.0f}min" if age is not None
                  else "heartbeat unreadable")
@@ -367,12 +426,14 @@ def _selftest():
     saved_mid = li.machine_id
     saved_age = li._host_heartbeat_age_min
     saved_age_o = li._host_heartbeat_age_min_origin
+    saved_age_c = li._origin_commit_age_min
     faces = dict(li.C_SINGLE_WRITER_HOSTS)
     face = "results/__selftest_face.json"
     try:
         li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
         state = {"age": None}
         state_o = {"age": None, "calls": 0}
+        state_c = {"age": None, "calls": 0}
 
         def age(host):
             return state["age"]
@@ -381,8 +442,13 @@ def _selftest():
             state_o["calls"] += 1
             return state_o["age"]
 
+        def age_c(host, ref="origin/main", scan=40):
+            state_c["calls"] += 1
+            return state_c["age"]
+
         li._host_heartbeat_age_min = age
         li._host_heartbeat_age_min_origin = age_o
+        li._origin_commit_age_min = age_c
         legs = []
 
         # L1 host machine -> always allowed (even with stale heartbeat)
@@ -471,6 +537,61 @@ def _selftest():
                                                     verbose=False) is True))
         state_o["age"] = None
 
+        # --- r701 third-signal legs (origin-commit liveness veto;
+        # r700 pool_worker S23 law face, hermetic via monkeypatch)
+        # reset: local stale + origin-hb stale for every leg below
+        state["age"] = 25.0
+        state_o["age"] = 25.0
+        # L15 the r700 live-fire shape: both heartbeats stale but the
+        # host keeps committing -> veto (live-but-heartbeat-stale host)
+        state_c["age"] = 3.0
+        legs.append(("origin-commit-fresh-veto",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False))
+        # L16 all three signals stale -> takeover stands
+        state_c["age"] = 25.0
+        legs.append(("all-signals-stale-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        # L17 commit signal unreadable -> takeover stands (pre-r701
+        # behavior preserved, conservative fallback)
+        state_c["age"] = None
+        legs.append(("commit-unreadable-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        # L18 boundary: commit age == C_HOST_STALE_MIN is NOT < -> takeover
+        state_c["age"] = li.C_HOST_STALE_MIN
+        legs.append(("commit-boundary-equal-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        # L19 host machine -> always allowed WITHOUT consulting the
+        # commit signal (host fast path mirrors L1)
+        li.machine_id = lambda: "bm-z"
+        c_calls0 = state_c["calls"]
+        legs.append(("host-always-no-commit-read",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True
+                     and state_c["calls"] == c_calls0))
+        li.machine_id = lambda: "bm-x"
+        # L20 local-fresh fast path never consults the commit signal
+        state["age"] = 3.0
+        c_calls0 = state_c["calls"]
+        legs.append(("local-fresh-fastpath-no-commit-read",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False
+                     and state_c["calls"] == c_calls0))
+        # L21 origin-hb fresh veto path consults neither the commit
+        # signal (short-circuit order: hb before commit)
+        state["age"] = 25.0
+        state_o["age"] = 3.0
+        c_calls0 = state_c["calls"]
+        legs.append(("origin-hb-veto-no-commit-read",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is False
+                     and state_c["calls"] == c_calls0))
+        state_o["age"] = None
+        state_c["age"] = None
+
         # --- r452 union-mirror legs (clobber #4 root fix, hermetic tmp disk)
         import shutil
         import tempfile
@@ -548,6 +669,7 @@ def _selftest():
         li.machine_id = saved_mid
         li._host_heartbeat_age_min = saved_age
         li._host_heartbeat_age_min_origin = saved_age_o
+        li._origin_commit_age_min = saved_age_c
         li.C_SINGLE_WRITER_HOSTS = faces
 
 
