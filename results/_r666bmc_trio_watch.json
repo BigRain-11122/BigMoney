@@ -4,13 +4,41 @@
  "verdict": "AGING LINE CROSSED -- bm-b dark through both 09:02+09:12 loop ticks; RE-ESCALATED per r663 pattern (MSG-2026-10-07-0916-bmc-ALL published); takeover stays CLOSED",
  "evidence": {
   "trio_counts": {
-   "quality": {"file": "results/fund_quality_p1/nulls.jsonl", "lines": 1988, "target": 2000, "short": 12, "mtime": "2026-10-07T08:16:09", "frozen_min_at_verdict": 59, "advancing": false},
-   "divlowvol": {"file": "results/fund_divlowvol_p1/nulls.jsonl", "lines": 1654, "target": 2000, "short": 346, "mtime": "2026-10-07T08:16:09", "frozen_min_at_verdict": 59, "advancing": false},
-   "value": {"file": "results/fund_value_p1/nulls.jsonl", "lines": 2000, "target": 2000, "complete": true}
+   "quality": {
+    "file": "results/fund_quality_p1/nulls.jsonl",
+    "lines": 1988,
+    "target": 2000,
+    "short": 12,
+    "mtime": "2026-10-07T08:16:09",
+    "frozen_min_at_verdict": 59,
+    "advancing": false
+   },
+   "divlowvol": {
+    "file": "results/fund_divlowvol_p1/nulls.jsonl",
+    "lines": 1654,
+    "target": 2000,
+    "short": 346,
+    "mtime": "2026-10-07T08:16:09",
+    "frozen_min_at_verdict": 59,
+    "advancing": false
+   },
+   "value": {
+    "file": "results/fund_value_p1/nulls.jsonl",
+    "lines": 2000,
+    "target": 2000,
+    "complete": true
+   }
   },
-  "bm_b_heartbeat": {"last_seen": "2026-10-07T06:40:15", "round_no": 799, "stale_min_at_verdict": 155},
+  "bm_b_heartbeat": {
+   "last_seen": "2026-10-07T06:40:15",
+   "round_no": 799,
+   "stale_min_at_verdict": 155
+  },
   "origin_activity_since_0812_16": "12 commits, ALL bm-c r665 or bm-a r813/r814 faces, ZERO bm-b; last bm-b origin push = 08:12:15 43cce34a3 (autofill keepalive owner=bm-b)",
-  "missed_loop_ticks": ["09:02", "09:12"],
+  "missed_loop_ticks": [
+   "09:02",
+   "09:12"
+  ],
   "crash_fuse_active": {},
   "r664_withdrawal_context": "r664 withdrew r663 alert at 08:20 on revival evidence (3 origin commits 08:09:54-08:12:15 + Q 1985->1988); bm-b then died mid-r800 (~08:16 kill, close commit never landed); this is the SECOND dark window, same machine-level signature",
   "probe_hygiene_note": "BMB_COMMIT_SINCE_0812 regex printed True = FALSE POSITIVE: needle 'bm-b' matched r665's own commit-message prose ('bm-b re-stall aging-line restart'); origin 12-line eyeball verify = zero actual bm-b faces. Machine-activity probes must match authored-by/[via-owner tag, not prose mentions (r659 self-match family git-log variant)."
@@ -24,5 +52,23 @@
  },
  "zero_loss_check": "crash_fuse active={} empty; both burns checkpoint done-key resume (r663 default case): bm-b revival auto-resumes Q@1988/D@1654, zero duplicate-draw, target 2000 unchanged",
  "next_escalation_rung": "~10:30 local if still dark (hb 06:40 + >3.5h, r663 original 3h aging line same law)",
- "next_pointer": "(a) bm-b revival -> withdraw alert (note line, keep MSG file, r664 pattern) + resume trio finalize window watch 10-05..10-09. (b) 10-09 market reopen: data-chain re-arm + REGIME_GUARD v3 first bar + compute_audit structural flags re-eval. (c) W171 burn watch (bm-a seat, A 391_004..393_003 + B 393_004..393_203). (d) monthly exam 10-31 assembly face."
+ "next_pointer": "(a) bm-b revival -> withdraw alert (note line, keep MSG file, r664 pattern) + resume trio finalize window watch 10-05..10-09. (b) 10-09 market reopen: data-chain re-arm + REGIME_GUARD v3 first bar + compute_audit structural flags re-eval. (c) W171 burn watch (bm-a seat, A 391_004..393_003 + B 393_004..393_203). (d) monthly exam 10-31 assembly face.",
+ "revival_addendum": {
+  "ts": "2026-10-07T09:24:00+08:00",
+  "verdict_update": "WITHDRAWN -- bm-b revived in the minutes right after the 09:15:34 verdict probe; escalation MSG RESOLVED note appended (r664 pattern); aging line lifted; ~10:30 next rung disarmed",
+  "revival_evidence_origin": [
+   "8d47a5427 09:15:11 r802 churn-absorb-4 (mid-rebase live lane window)",
+   "477083d30 09:15:12 r802 churn-absorb-2 (autofill tick + Q claim face refresh, burn done)",
+   "2c63b0585 09:15:58 r802 churn-absorb-3 (live lane tick window)",
+   "09217e0cc 09:16:19 autofill keepalive fund-divlowvol-p1-nulls owner=bm-b"
+  ],
+  "counters_at_withdrawal": {
+   "quality": "2000/2000 COMPLETE (mtime 09:21:47) -- first-to-2000 reached, r668 execution face = bm-b",
+   "divlowvol": "1674/2000 advancing (mtime 09:21:47)",
+   "value": "2000/2000 complete (unaffected)",
+   "crash_fuse_active": {}
+  },
+  "honesty_note": "verdict probe fetch at 09:15:34 did not yet contain the revival commits (pushed after probe) -- verdict was legal on evidence visible at probe time; bm-b recovery actions started ~09:08 (status faces ts 09:08:10-09:08:15), near-simultaneous race with the aging line, not a false alarm",
+  "hb_note": "bm-b hb still 06:40:15 at withdrawal = r802 mid-flight not yet closed, not a darkness signal"
+ }
 }

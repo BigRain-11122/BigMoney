@@ -1,0 +1,33 @@
+{
+ "probe": "r666 bm-c push-race UU resolver",
+ "resolved": [
+  {
+   "path": "results/compute_audit.json",
+   "recipe": "row-union(history)+ts-newer(latest)",
+   "ours": 208,
+   "theirs": 201,
+   "merged": 209
+  },
+  {
+   "path": "results/futures_update_status.json",
+   "recipe": "ts-newer",
+   "ours_ts": "2026-10-07T08:46:55",
+   "theirs_ts": "2026-10-07T09:08:11",
+   "winner": "theirs"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "recipe": "ts-newer",
+   "ours_ts": "2026-10-07 08:46:54",
+   "theirs_ts": "2026-10-07 09:08:10",
+   "winner": "theirs"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "recipe": "ts-newer",
+   "ours_ts": "2026-10-07 08:46:59",
+   "theirs_ts": "2026-10-07 09:08:15",
+   "winner": "theirs"
+  }
+ ]
+}
