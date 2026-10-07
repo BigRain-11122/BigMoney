@@ -1,0 +1,43 @@
+    # W170 (bm-a r813 freeze, seat MSG-2026-10-07-0738-bma-w170-seat
+    # pushed to origin 0f00fa424 pre-freeze r565 law (r812 pre-seat
+    # push; payload = seat MSG + pre-seat probe script + probe receipt + the
+    # W169 finalize product (4-item, W146 same-push precedent);
+    # deletion-set EMPTY; delivery window
+    # = direct fast-forward behind-0 at fetch (r812 pre-seat
+    # push), zero merge, zero --no-verify; self-ack inbox->processed
+    # move DEFERRED to the W170 finalize window -- the W170 seat
+    # MSG sits in fleet/inbox/ at freeze time (honest deferred);
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r812bma_w170_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W169 B band (arithmetic continuation
+    # 388_604..390_603 REFUSED at its own start by the W169 B band
+    # 388_604..388_803, exactly as the W169 seat W170+ projection + r810 gate
+    # leg3 + r813 sec8 succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 388_804..390_803, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (388_803+1) machine-checkable -- A-hops-prior-B staircase
+    # twenty-ninth instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 388_804..389_003 CLEAN on the registered universe
+    # but lands INSIDE the W170 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 390_804 -> 390_804..391_003,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (390_803+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W170+ projection (gate-derived r812): A first-clean
+    # 390_804..392_803 CLEAN hops=0 / B first-clean 391_004..391_203
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W170 B band 390_804..391_003 will refuse the naive
+    # W171 A window; W171 freezer MUST re-derive on the post-W170
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W170 bands were never assigned).
+    170: {"a": (388_804, 390_803), "b_exit": (390_804, 391_003),
+         "engine_owner": "bm-a"},
