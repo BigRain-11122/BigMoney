@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 21:29:08",
+ "generated_at": "2026-10-07 21:37:04",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 625,
-  "result_jsons_landed_24h": 335,
+  "commits_24h": 630,
+  "result_jsons_landed_24h": 339,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 36,
   "compute_audit_latest": {
-   "ts": "2026-10-07 21:27:53",
-   "py_cpu_pct": 14.8,
+   "ts": "2026-10-07 21:34:53",
+   "py_cpu_pct": 0.4,
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -646,11 +646,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1712753,
+  "total_report_tokens_est": 1712991,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-07 20:47:50",
+   "prev_generated": "2026-10-07 21:13:55",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1006,
+   "report_tokens_growth": 238,
    "mandate_growth": 0
   },
   "method": {
@@ -661,21 +661,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 21:09:46",
-    "py_pct": 0.0,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-07 21:34:53",
+    "py_pct": 0.4,
+    "cpu_pct": 39.0,
     "ready": 1,
-    "streak_min": 156.2,
+    "streak_min": 181.3,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "18:52",
-      9.4
-     ],
-     [
-      "19:00",
-      4.9
-     ],
      [
       "19:12",
       0.0
@@ -715,12 +707,20 @@
      [
       "21:09",
       0.0
+     ],
+     [
+      "21:27",
+      14.8
+     ],
+     [
+      "21:34",
+      0.4
      ]
     ],
-    "today_samples": 108,
+    "today_samples": 110,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 103
+    "today_supply_gap_flags": 105
    },
    "bm-b": {
     "latest_ts": "2026-10-07 18:39:26",
@@ -865,8 +865,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 5,
-     "audit_ts": "2026-10-07 21:09:46"
+     "audit_batches": 13,
+     "audit_ts": "2026-10-07 21:34:53"
     }
    },
    "bm-b": {
@@ -910,8 +910,8 @@
   "last_owner": "bm-a",
   "next_registration": 178,
   "next_seatable": 178,
-  "chain_head": 793105,
-  "k": 385120,
+  "chain_head": 795305,
+  "k": 387320,
   "waves": [
    {
     "wave": 175,
@@ -964,7 +964,11 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
-    "finalize_landed": false
+    "finalize_landed": true,
+    "ledger_total": 795305,
+    "merged_mu": -0.09273243674481049,
+    "merged_sigma": 0.24507993213728818,
+    "k": 387320
    }
   ],
   "seats": []
