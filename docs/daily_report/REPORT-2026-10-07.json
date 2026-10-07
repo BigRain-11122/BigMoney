@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 20:16:41",
+ "generated_at": "2026-10-07 20:35:01",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 621,
-  "result_jsons_landed_24h": 336,
+  "commits_24h": 626,
+  "result_jsons_landed_24h": 335,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 37,
+  "prereg_md_touched_24h": 36,
   "compute_audit_latest": {
-   "ts": "2026-10-07 20:14:40",
-   "py_cpu_pct": 0.8,
+   "ts": "2026-10-07 20:33:22",
+   "py_cpu_pct": 0.2,
    "flags": [
     "supply_gap",
     "supply_floor"
@@ -645,25 +645,24 @@
   }
  ],
  "token_line": {
-  "total_state_tokens_est": null,
-  "total_report_tokens_est": null,
+  "total_state_tokens_est": 2049,
+  "total_report_tokens_est": 1709223,
   "delta_vs_prev": null,
-  "method": null
+  "method": {
+   "bpe_proxy": 3.5,
+   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+  }
  },
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-07 20:14:40",
-    "py_pct": 0.8,
-    "cpu_pct": 49.0,
+    "latest_ts": "2026-10-07 20:33:22",
+    "py_pct": 0.2,
+    "cpu_pct": 4.0,
     "ready": 1,
-    "streak_min": 101.1,
+    "streak_min": 119.8,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "18:17",
-      0.1
-     ],
      [
       "18:27",
       100.0
@@ -707,12 +706,16 @@
      [
       "20:14",
       0.8
+     ],
+     [
+      "20:33",
+      0.2
      ]
     ],
-    "today_samples": 103,
+    "today_samples": 104,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 98
+    "today_supply_gap_flags": 99
    },
    "bm-b": {
     "latest_ts": "2026-10-07 18:39:26",
@@ -857,8 +860,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-07 20:14:40"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-07 20:33:22"
     }
    },
    "bm-b": {
