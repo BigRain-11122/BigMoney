@@ -1,0 +1,44 @@
+{
+ "ts": "2026-10-08T01:50:34+08:00",
+ "round": "r714 bm-c",
+ "order": "O-20261007-2245 bm-c lane (enrollment-door leg)",
+ "face": "live dry-check, real pool/attrition carriers, ZERO pool write",
+ "expectation": "all three REJECT at scanning stage (door holds premature enrollment)",
+ "all_held": true,
+ "rows": [
+  {
+   "candidate": "G3-uptime-kuma",
+   "why": "fleet liveness dashboard adaptation candidate (sec-4 first pick)",
+   "rc": 1,
+   "decision": "REJECT",
+   "held_at_scanning": true,
+   "red_legs": [
+    "adapt_status",
+    "prereg_exit_axis"
+   ]
+  },
+  {
+   "candidate": "G2-healthchecks",
+   "why": "dead-man cron sentinel adaptation candidate (sec-4 second pick)",
+   "rc": 1,
+   "decision": "REJECT",
+   "held_at_scanning": true,
+   "red_legs": [
+    "adapt_status",
+    "permit_pure",
+    "prereg_exit_axis"
+   ]
+  },
+  {
+   "candidate": "B2-easytrader",
+   "why": "broker-client automation / paper->live bridge candidate (sec-4 third pick)",
+   "rc": 1,
+   "decision": "REJECT",
+   "held_at_scanning": true,
+   "red_legs": [
+    "adapt_status",
+    "prereg_exit_axis"
+   ]
+  }
+ ]
+}

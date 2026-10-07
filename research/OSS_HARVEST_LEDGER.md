@@ -111,3 +111,13 @@
 - 借力律注：外部宣称=未验证假设——以上 fit/工时为首判面，正式准入前一律走独立验证门禁链（数据口径→T+1→成本→随机基线三铁律）。
 
 ※r853 bm-a S3/S4/S5 补扫执行体（本章 append-only，本章在册）
+
+## 七、落池唯一门接线（@bm-c 车道·O-2245 §三③ 收口·r714）
+
+- **正典工具=Tools/oss_import_gate.py**（banned_direction_gate 血统 fail-closed 准入闸）：一切 OSS- 前缀引进件**落池前必过此门**（任何机器·任何车道）——rc0 ADMIT 才准走正典 settle（python scripts\merge_lane_views.py sync_face）+同轮 commit/push（r598 池注册必推律）+verdict 留档随件；rc1 REJECT=任一腿红（fail-closed·机械准入面·科学效度仍归 science_gates/人工复核）；rc2=机制故障（池/负结果载体不可读=fail-closed 拒一切）。
+- **12 腿**：id_prefix（OSS- 前缀=r705 保留命名空间）／id_unique（池命名空间查重）／schema_declares（池 schema 仍声明 r705 三字段=漂移守卫）／oss_fields（source/permit/adapt_status 三载体必填）／permit_pure（纯桶 MIT/Apache-2.0/BSD-3-Clause/BSD-2-Clause/ISC 直用·GPL/AGPL/LGPL 族禁入〔charter §五·backtrader/QuantMind 判例〕·NOASSERTION/PENDING/条件许可=先过 scripts/oss_license_probe.py 判定〔r707 E2/E5 判例：REF-ONLY 不得落池〕·**permit 必须规范 SPDX 全称**——BSD-3≠BSD-3-Clause 非规范串照拒）／adapt_status（仅 adapted 准落池·scanning/adapting 不准入·rejected=登记负结果库不入池）／attrition_cross（source 分词+dup_tags vs gate_attrition 四件 1434 token 反复活交叉·MOM/时钟/野路子判负族）／in_service（akshare/tushare 在役通道=登记不引进〔r706 判例〕）／prereg_exit_axis（prereg_ref 可解析到仓内 .md 且含出场轴显式声明+三选一标记〔O-20261001-1108：无声明=不冻结不烧〕·不可解析=fail-closed 拒）／runner_exists／status_ready／fields_standard。
+- **验收**：selftest 24/24 PASS（hermetic 17 fixture 腿+机制 2 腿+CLI rc 契约 2 腿+真载体 3 腿〔真池 406 entries·真 attrition 1434 token·参数化 token 走 vs oss_eng_scan 载体走逐集恒等 parity〕）→ results/_r714bmc_oss_import_gate_selftest.json；**live dry-check ALL-HELD**（台账 §四在排产三件按当前 scanning 态真门过闸→三件诚实 REJECT〔adapt_status+prereg_exit_axis 红·G2 另捕 permit=BSD-3 非规范 SPDX 红=fail-closed 严格性活证〕·零池写）→ results/_r714bmc_oss_import_gate_livecheck.json+results/_r714bmc_oss_gate_livecheck.py。
+- **接线位次**：r705 schema（字段已备）→r706/707 扫面与许可核（证据面）→**本节=注册门（准入面）**→未来首批 OSS- 落池（bm-a 策略类适配件 ≤10-16 等）一律先过门；扫描面 dup 联动（r706）与注册门（本节）=同一负结果库两道消费面，judged-negative 家族复活路径至此全闭。
+
+（r714 bm-c 落池门接线腿·后续轮增量 append·禁改既有行）
+

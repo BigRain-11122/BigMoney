@@ -1,0 +1,175 @@
+{
+ "tool": "Tools/oss_import_gate.py selftest",
+ "round": "r714 bm-c (O-20261007-2245 bm-c lane enrollment-door leg)",
+ "legs": [
+  {
+   "leg": "L01_admit_mit_full",
+   "expect": 0,
+   "exit": 0,
+   "ok": true,
+   "reason": "all legs green -- mechanical admission face only; scientific validity stays with science_gates / human review"
+  },
+  {
+   "leg": "L02_no_oss_prefix_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "id_prefix: id='E1-FOO' must start with 'OSS-' (r705 namespace)"
+  },
+  {
+   "leg": "L03_dup_id_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "id_unique: id='OSS-EXISTING-01' already in pool (1-entry namespace)"
+  },
+  {
+   "leg": "L04_missing_oss_fields",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "oss_fields: missing/empty: source"
+  },
+  {
+   "leg": "L05_gpl_forbidden",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "permit_pure: GPL-3.0 forbidden (charter sec.5; backtrader GPL / QuantMind AGPL precedents)"
+  },
+  {
+   "leg": "L06_agpl_forbidden",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "permit_pure: AGPL-3.0 forbidden (charter sec.5; backtrader GPL / QuantMind AGPL precedents)"
+  },
+  {
+   "leg": "L07_noassertion_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "permit_pure: NOASSERTION not in pure bucket ['Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'MIT']; adjudicate via"
+  },
+  {
+   "leg": "L08_scanning_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "adapt_status: adapt_status='scanning' not enrollable (only 'adapted' may enroll)"
+  },
+  {
+   "leg": "L09_rejected_to_negative_lib",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "adapt_status: rejected items register into the negative-results library (anti-resurrection), never into the pool"
+  },
+  {
+   "leg": "L10_attrition_hit_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "attrition_cross: judged-negative family token hit(s): ['fake_negfamily'] (anti-resurrection: MOM/clock/wild-way families"
+  },
+  {
+   "leg": "L11_in_service_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "in_service: in-service channel ['akshare'] = register-not-import (r706)"
+  },
+  {
+   "leg": "L12_exit_axis_missing",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "prereg_exit_axis: C:/Users/Dasheng/AppData/Local/Temp/tmpnjz1uo7x/FIXTURE_NOAXIS.md lacks explicit exit-axis declaration"
+  },
+  {
+   "leg": "L13_runner_missing",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "runner_exists: runner not found in-repo: scripts/nope_absent.py"
+  },
+  {
+   "leg": "L14_preref_unresolvable",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "prereg_exit_axis: prereg path not found in-repo: research/NOWHERE_ABSENT.md"
+  },
+  {
+   "leg": "L15_status_not_ready",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "status_ready: status='done' (enrollment face requires 'ready')"
+  },
+  {
+   "leg": "L16_schema_drift_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "schema_declares: pool schema missing r705 keys: entries[].source,entries[].permit,entries[].adapt_status"
+  },
+  {
+   "leg": "L17_broken_candidate_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "candidate unreadable: [Errno 2] No such file or directory: 'C:\\\\Users\\\\Dasheng\\\\AppData\\\\Local\\\\Temp\\\\tmpnjz1uo7x\\\\ABSEN"
+  },
+  {
+   "leg": "L18_pool_unreadable_mechanism",
+   "expect": 2,
+   "exit": 2,
+   "ok": true,
+   "reason": "pool carrier not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+  },
+  {
+   "leg": "L19_attrition_empty_mechanism",
+   "expect": 2,
+   "exit": 2,
+   "ok": true,
+   "reason": "attrition carriers empty/unreadable: zero tokens loaded"
+  },
+  {
+   "leg": "L20_cli_admit_rc0",
+   "expect": 0,
+   "exit": 0,
+   "ok": true,
+   "reason": "CLI rc contract"
+  },
+  {
+   "leg": "L21_cli_reject_rc1",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "reason": "CLI rc contract"
+  },
+  {
+   "leg": "L22_real_pool_loads",
+   "expect": true,
+   "exit": 0,
+   "ok": true,
+   "reason": "406 entries"
+  },
+  {
+   "leg": "L23_real_attrition_loads",
+   "expect": true,
+   "exit": 0,
+   "ok": true,
+   "reason": "1434 tokens (r706 recorded 1434)"
+  },
+  {
+   "leg": "L24_attrition_walk_parity",
+   "expect": true,
+   "exit": 0,
+   "ok": true,
+   "reason": "parity 1434 vs 1434"
+  }
+ ],
+ "all_pass": true
+}
