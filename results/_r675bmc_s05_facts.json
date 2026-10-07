@@ -1,0 +1,26 @@
+{
+ "round": 675,
+ "machine": "bm-c",
+ "ts": "2026-10-07T12:36:50+08:00",
+ "s05_round_start_dsha": "4c32527bf511b7e62eb52316864a9430b4fffe6cc23a39116c0b6c818782c254",
+ "s05_round_start_match_state": true,
+ "s05_close_dsha": "4c32527bf511b7e62eb52316864a9430b4fffe6cc23a39116c0b6c818782c254",
+ "s05_close_caught_change": false,
+ "midround_order_caught": "O-20261007-1157-bm-c.md (全面开工广播令 §全员 resume 节; landed via GM-session commit b8bb0b8c9 in the 12:32-12:36 window, after both round-start sweeps = double-sweep law working; issuer-machine self-exec complete per §2, loop-verified six production tasks Enabled 6/6 live [Autofill/LoopWatchdog/PoolWorker/ResidentDispatcher=Ready, IterationLoop/SaturationEngine=Running]; loop action = orders_ack append + 回执节 receipt line + round-report receipt, zero extra physical action; O-20261007-0935 in-flight reminder noted unchanged)",
+ "consumed_rows": [
+  "O-20261007-1157-bm-c.md (broadcast resume order: acked + 回执节 line, zero own physical action beyond verification)"
+ ],
+ "ord_sha": "b687d867ed7ae7f2b2a58d5b4e58a78a01201db1",
+ "ord_zero_delta": true,
+ "orders_total": 166,
+ "orders_acked": 166,
+ "orders_unacked": [],
+ "orders_gone": [],
+ "s6_rc": "38/38 rc0 (all legs executed, no bar-gated skips; dualrun streak 51 @403; update_lhb quarter refetch 11/11)",
+ "smoke": "48/48 PASS",
+ "qa": "qa/smoke-r675.md 5/5 + qa/equity-curve-r675.png 66,322B (93 trades, determinism=True, face-identical)",
+ "tripwire": "CLEAN (1165 lines, entry max multiplicity 1, active_dup false)",
+ "attrition": "CLEAN (4 ledgers; 5 healed historical shrink rows annotated)",
+ "watermark": "green (red=false lane healthy, py_low_board_clear legal idle)",
+ "compute_audit": "CLEAN flags=[] (first clean window since supply_gap family; W173 burned 12/12 on bm-a seat 12:13)"
+}

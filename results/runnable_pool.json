@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-05T01:13:21+08:00",
+ "updated_at": "2026-10-07T12:55:28+08:00",
  "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
  "entries": [
   {
@@ -5080,7 +5080,7 @@
    },
    "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-RESI/G-CNT runner door asserts probe anchor faces resi60 decidable 3363/open 390/first-decidable 120 + cntd5 3364/137/119 + cntn20 3364/265/119 per frozen sec.3 (three-probe closure: bm-b r470 facts + r471 supplement facts + bm-c r277 gap facts, twin cross-val 39/39 byte-level)",
    "note": "runner LANDED bm-b r472 (dead r472-session half-work adopted wholesale per r471 attrition law + Slice-B completed: selftest 53/53 incl. W14 own faces [eighteen-tuple grammar 1,693,052,928 / resi+cnt stream append zero disturbance / 28-source exclusion loader / G-RESI+G-CNT real-face fail-closed anchors / mask+engine parity vs W9+W13 / screen CSV contract resi/cnt columns]; three-command identity first-runs real-data rc=2 honest [screen-prep ALL gates PASS + candidates-absent tail refusal; screen-finalize generate-pending refusal; judge-prep screen-absent refusal]; grammar sha16 a231bf10940e7878 pinned at w14_grammar.json serialization)",
-   "status": "waiting",
+   "status": "done",
    "shards": [
     {
      "key": "generate-0of1",
@@ -5098,7 +5098,9 @@
    "parked_per": "D-20260930-41 sec.1.2 confirm-type-timing ban (any-confirm-timing family) + MSG-20260930-1755-bma-ALL bm-a r483 adjudication; receipt bm-b r473",
    "parked_at": "2026-09-30T18:1x+08:00",
    "unfreeze_gate": "research/RETAIL_QUANT_TRACK.md sec.4 gates (trial-budget attribution, <=500/30d) + sec.1.2 compliance self-proof; berth+drafts archived intact (probe facts not invalidated clause)",
-   "park_note": "re-parked r494 bm-b per r483 canon W14 adjudication (RETAIL_QUANT_TRACK L11: unfreeze requires this canon's sec-4 gate = trial-budget attribution + sec-1.2 compliance self-proof; r493 re-arm 9c1d97877 lacked the self-proof -- read a governance park as a dead-r472-session mechanical park, missed the parked_per sec-1.2 ban citation). MSG-20261001-0540-bmc-bmb pre-burn inquiry honored: in-flight generate pid 54704 killed at dedup 500/10000, w14_candidates.json absent = trial-gate consumption N=0 (pre-burn zero-loss window held). Unfreeze path = sec-4 self-proof OR GM dual-ruling (PERPETUAL_FACES v1.1 pending, MSG-20261001-0400); berth-holder bm-b retains the freeze-commit prereg+seeds (archive kept, canon '档存不删') | r504 bm-a restoration x2: re-park clobbered twice by settles (06:06 bm-b tick 2c4611a94, 06:26 bm-a tick) via r378 marker-law gap (park_note not a marker; legacy rank ready>waiting) -- merge_lane_views r504 fix: park_note marker + shared-verdict authority, selftest 4 new legs 0 FAIL; burn killed at dedup 7750/10000 pre-product, N=0 held | r527 bm-a segment (harvest round, post-completion facts): r526 ignite completed 17:28:17 (595.4s, pre-kill window elapsed) -> w14_candidates.json n=293 + TRIAL_GRAMMAR_LEDGER row a231bf10940e7878 committed as consumed-grammar inventory (grammar consumed is a fact; deletion would falsify state; zero engine cells = trial-gate N=0 held); shard flipped done on work-completion facts (W2 r138 harvest precedent); ENTRY PARK HONORED: screen/judge legs NOT started, no new prereg, supply line stays parked pending sec-4 self-proof OR GM dual-ruling (MSG-20261001-0400 thread); inter-machine verdict conflict (r526 STALE-ruling vs r494/r504 park) disclosed to bm-b + GM via MSG-20261001-173x"
+   "park_note": "re-parked r494 bm-b per r483 canon W14 adjudication (RETAIL_QUANT_TRACK L11: unfreeze requires this canon's sec-4 gate = trial-budget attribution + sec-1.2 compliance self-proof; r493 re-arm 9c1d97877 lacked the self-proof -- read a governance park as a dead-r472-session mechanical park, missed the parked_per sec-1.2 ban citation). MSG-20261001-0540-bmc-bmb pre-burn inquiry honored: in-flight generate pid 54704 killed at dedup 500/10000, w14_candidates.json absent = trial-gate consumption N=0 (pre-burn zero-loss window held). Unfreeze path = sec-4 self-proof OR GM dual-ruling (PERPETUAL_FACES v1.1 pending, MSG-20261001-0400); berth-holder bm-b retains the freeze-commit prereg+seeds (archive kept, canon '档存不删') | r504 bm-a restoration x2: re-park clobbered twice by settles (06:06 bm-b tick 2c4611a94, 06:26 bm-a tick) via r378 marker-law gap (park_note not a marker; legacy rank ready>waiting) -- merge_lane_views r504 fix: park_note marker + shared-verdict authority, selftest 4 new legs 0 FAIL; burn killed at dedup 7750/10000 pre-product, N=0 held | r527 bm-a segment (harvest round, post-completion facts): r526 ignite completed 17:28:17 (595.4s, pre-kill window elapsed) -> w14_candidates.json n=293 + TRIAL_GRAMMAR_LEDGER row a231bf10940e7878 committed as consumed-grammar inventory (grammar consumed is a fact; deletion would falsify state; zero engine cells = trial-gate N=0 held); shard flipped done on work-completion facts (W2 r138 harvest precedent); ENTRY PARK HONORED: screen/judge legs NOT started, no new prereg, supply line stays parked pending sec-4 self-proof OR GM dual-ruling (MSG-20261001-0400 thread); inter-machine verdict conflict (r526 STALE-ruling vs r494/r504 park) disclosed to bm-b + GM via MSG-20261001-173x",
+   "done_at": "2026-10-07T12:43:51+08:00",
+   "done_note": "product-on-disk evidence: results/trial_labor_w14/w14_candidates.json 746234B 293 candidates present (generate burned pre-pool-sync; entry flip bm-a r824 with file-size evidence; waiting->done reconciliation)"
   },
   {
    "id": "EXCLUSION-MARGINAL-P1-RUN",
@@ -15970,6 +15972,38 @@
    "worker_class": "self-contained",
    "done_by": "bm-a",
    "done_at": "2026-10-05 03:42:03"
+  },
+  {
+   "id": "TRIAL-LABOR-W14-SCREEN",
+   "ticket_ref": "T-2026-09-30-128 wave ticket (W14 lineage; screen leg enrollment bm-a r824 post screen-prep PASS)",
+   "runner": "scripts/trial_labor_w14.py",
+   "runner_args": "screen --shard 0 --shards 1",
+   "status": "ready",
+   "shards": [
+    {
+     "key": "screen-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w14/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429)",
+     "note": "single shard; worker_cap() parallelism inside the shard (W12/W13-SCREEN precedent)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-07 12:55:49"
+    }
+   ],
+   "data_deps": [
+    "results/trial_labor_w14/w14_grammar.json",
+    "results/trial_labor_w14/w14_candidates.json",
+    "results/trial_labor_w14/prep_state.json"
+   ],
+   "enrolled_at": "2026-10-07T12:43:51+08:00",
+   "owner": null,
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (32-core bm-a: <=26 CEO 10% reserve law; W13-SCREEN 593 cells ~light; W14-SCREEN 293 cells = lightest in lineage per prereg sec.0 TRIAL_LAB_W14_SCREEN; screen leg-L 6m full-history per cell, resi+cnt gates carried per cell)",
+    "priority": "BelowNormal",
+    "note": "minutes-scale pool batch per prereg sec.0 (W12-SCREEN 1,059 cells ~3min precedent; W14 293 lightest); checkpoint resume per W12/W13 checkpoint law; BelowNormal + worker_cap = CEO 10% CPU reserve law"
+   },
+   "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md FROZEN sec.0 TRIAL_LAB_W14_SCREEN (s2 cheap initial screen batch: batch_trials=293 distinct + 200 nulls; raw 10,000 per O-1132 expansion; evidence_cutoff 2026-09-22 P-5C frozen binding; screen line = beat6m > null p95 strictly, null p95 ref band [0.50,0.52]; resi+cnt axis pair new lineage)",
+   "priority": 1,
+   "updated_at": "2026-10-07T12:55:28+08:00"
   }
  ]
 }

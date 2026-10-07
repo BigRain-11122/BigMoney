@@ -1,0 +1,28 @@
+{
+ "round": 676,
+ "machine": "bm-c",
+ "ts": "2026-10-07T12:56:49+08:00",
+ "s05_round_start_dsha": "4c32527bf511b7e62eb52316864a9430b4fffe6cc23a39116c0b6c818782c254",
+ "s05_round_start_match_state": true,
+ "s05_close_dsha": "4c32527bf511b7e62eb52316864a9430b4fffe6cc23a39116c0b6c818782c254",
+ "s05_close_caught_change": false,
+ "new_order_caught": "O-20261007-1240-bm-c.md (G21-T006 AU02 bgm_main local-BGM production dispatch, MiniGame C1659 ruling chain; executor=bm-a ACE-Step 1.5 lane per S9.1.2 necessity gate already passed; bm-c zero execution face per the order capability-matrix note [C-machine has no local music line]; bm-c loop action = sweep-ack orders_ack append 166->167 + round-report receipt line; bm-a fills its own receipt <=10-08 12:00; bm-a-lane receipt watch carried in next pointers)",
+ "consumed_rows": [
+  "O-20261007-1240-bm-c.md (bm-a-lane production order: sweep-acked, zero bm-c execution, receipt watch -> next pointers)",
+  "O-20261007-0935-bm-c.md (bm-a capability receipt issuer-side 核收 note appended this round; both-machine receipts now closed ahead of <=10-09 window)"
+ ],
+ "ord_sha": "b687d867ed7ae7f2b2a58d5b4e58a78a01201db1",
+ "ord_zero_delta": true,
+ "orders_total": 167,
+ "orders_acked": 167,
+ "orders_unacked": [],
+ "orders_gone": [],
+ "s6_rc": "38/38 rc0 (all legs executed; dualrun streak 51 @404; update_lhb <30min legal no-op covered by r675 quarter refetch 11/11)",
+ "smoke": "48/48 PASS",
+ "qa": "qa/smoke-r676.md 5/5 + qa/equity-curve-r676.png 66,139B (93 trades, determinism=True, face-identical)",
+ "post_review": "45 YES / 0 NO / 5 WAIT (zero red rows, no P0 obligation)",
+ "tripwire": "CLEAN (1167 lines, entry max multiplicity 1, active_dup false)",
+ "attrition": "CLEAN (4 ledgers; healed historical shrink rows annotated)",
+ "watermark": "green (red=false lane healthy, py_low_board_clear legal idle)",
+ "compute_audit": "flags=[supply_gap,supply_floor] root-caused = between-seat wave gap round-2 (W173 burned 12/12 12:13 done; W174 seat published by bm-a 12:47, freeze = bm-a next window -> engine burn gap; bm-c engine idle legal per O-2115 sec-2 N1 closure; expected natural clear at W174 burn ignition, r674 precedent same family)"
+}
