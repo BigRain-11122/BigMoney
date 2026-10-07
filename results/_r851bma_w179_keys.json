@@ -1,0 +1,59 @@
+{
+ "npc_keys": [
+  "canon",
+  "merged",
+  "mu_delta_w179_vs_w178ext",
+  "pre_w179_cumulative",
+  "se_mu_at_k391720",
+  "w179_only"
+ ],
+ "merged": {
+  "n_values": 391720,
+  "mu": -0.09273250638210967,
+  "sigma": 0.24508636673356649
+ },
+ "w_only_key": [
+  "w179_only"
+ ],
+ "pre_key": [
+  "pre_w179_cumulative"
+ ],
+ "kl_keys": [
+  "canon_flip",
+  "formula",
+  "line_delta_k_lift",
+  "line_merged_391720",
+  "line_pre_w179",
+  "n_eff_held_equal",
+  "passive_term"
+ ],
+ "kl": {
+  "n_eff_held_equal": 797505,
+  "line_pre_w179": 1.1851,
+  "line_merged_391720": 1.185,
+  "line_delta_k_lift": -0.0001,
+  "passive_term": null,
+  "formula": "max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))",
+  "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+ },
+ "se_mu_key": [
+  "se_mu_at_k391720"
+ ],
+ "mu_delta_key": [
+  "mu_delta_w179_vs_w178ext"
+ ],
+ "A_p95": 0.3265,
+ "ledger": {
+  "prev_total": 797505,
+  "batch_trials": 2200,
+  "total": 799705,
+  "batch": "PERPETUAL-N1-W179",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "perpetual_faces/n1_w179_results.json",
+  "note": "perpetual N1 nulls-deepening wave 179 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+  "evidence_cutoff": "2026-09-22"
+ }
+}
