@@ -1,0 +1,65 @@
+{
+ "s0j": {
+  "steps": [
+   {
+    "step": "absorb_pre_rebase",
+    "rc": 0,
+    "head": "af117c196 autofill tick claim judge-0of1 owner=bm-c (r199 launch-claim + r290 self-commit) [via bm-c]"
+   },
+   {
+    "step": "pull_rebase",
+    "attempt": 0,
+    "rc": 1,
+    "out": "d get back to the state before \"git rebase\", run \"git rebase --abort\".\nhint: Disable this message with \"git config set advice.mergeConflict false\"\nCould not apply 2189a866d... # lane: bm-c r702 tail churn absorb w2 pre-rebase (daemon tick faces, r696 race law)"
+   },
+   {
+    "step": "probe_conflict_resolve",
+    "side": "--ours",
+    "stopped_msg": "lane: bm-c r702 tail churn absorb w2 pre-rebase (daemon tick faces, r696 race la"
+   },
+   {
+    "step": "rebase_continue",
+    "rc": 1,
+    "out": "03c3... # lane: bm-c r702 S0 quit-escape + dropped-pick rebuild absorb (r835/r700 precedent; stopped-pick content already at HEAD; s0b-s0h tools+facts restored verbatim; live daemon faces newest-wins)"
+   },
+   {
+    "step": "pull_rebase",
+    "attempt": 1,
+    "rc": 128,
+    "out": "error: Pulling is not possible because you have unmerged files.\nhint: Fix them up in the work tree, and then use 'git add/rm <file>'\nhint: as appropriate to mark resolution and make a commit.\nfatal: Exiting because of an unresolved conflict."
+   },
+   {
+    "step": "probe_conflict_resolve",
+    "side": "--theirs",
+    "stopped_msg": "lane: bm-c r702 S0 quit-escape + dropped-pick rebuild absorb (r835/r700 preceden"
+   },
+   {
+    "step": "rebase_continue",
+    "rc": 0,
+    "out": "results/_r702bmc_s0e_facts.json\n create mode 100644 results/_r702bmc_s0f_facts.json\n create mode 100644 results/_r702bmc_s0h_facts.json\nRebasing (6/6)\rSuccessfully rebased and updated refs/heads/main."
+   },
+   {
+    "step": "pull_rebase",
+    "attempt": 2,
+    "rc": 0,
+    "out": "Current branch main is up to date.\nFrom github.com:BigRain-11122/BigMoney\n * branch                main       -> FETCH_HEAD"
+   },
+   {
+    "step": "push1",
+    "rc": 0,
+    "out": "To github.com:BigRain-11122/BigMoney.git\n   e0150d762..e3e95f0b1  main -> main"
+   },
+   {
+    "step": "verify",
+    "behind": 0,
+    "ahead": 0,
+    "dirty": "M results/runnable_pool.bm-c.json"
+   },
+   {
+    "step": "final_log",
+    "log": "e3e95f0b1 autofill tick claim judge-0of1 owner=bm-c (r199 launch-claim + r290 self-commit) [via bm-c]\nc0090598e lane: bm-c r702 S0 quit-escape + dropped-pick rebuild absorb (r835/r700 precedent; stopped-pick content already at HEAD; s0b-s0h tools+facts restored verbatim; live daemon faces newest-wins)\ne2de00851 lane: bm-c r702 tail churn absorb w2 pre-rebase (daemon tick faces, r696 race law)\n57a2c24a4 lane: bm-c r702 tail churn absorb w2 pre-rebase (daemon tick faces, r696 race law)"
+   }
+  ],
+  "ok": true
+ }
+}

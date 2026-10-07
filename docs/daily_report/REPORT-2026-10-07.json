@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-07",
- "generated_at": "2026-10-07 21:13:41",
+ "generated_at": "2026-10-07 21:29:08",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-07.md"
  },
  "rd": {
-  "commits_24h": 624,
-  "result_jsons_landed_24h": 329,
+  "commits_24h": 625,
+  "result_jsons_landed_24h": 335,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 36,
   "compute_audit_latest": {
-   "ts": "2026-10-07 21:09:46",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-07 21:27:53",
+   "py_cpu_pct": 14.8,
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -646,11 +646,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1711747,
+  "total_report_tokens_est": 1712753,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-07 20:35:14",
+   "prev_generated": "2026-10-07 20:47:50",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1134,
+   "report_tokens_growth": 1006,
    "mandate_growth": 0
   },
   "method": {
@@ -785,33 +785,13 @@
     "today_supply_gap_flags": 90
    },
    "bm-c": {
-    "latest_ts": "2026-10-07 20:34:56",
-    "py_pct": 0.0,
-    "cpu_pct": 42.0,
+    "latest_ts": "2026-10-07 21:27:53",
+    "py_pct": 14.8,
+    "cpu_pct": 12.0,
     "ready": 1,
-    "streak_min": 121.3,
+    "streak_min": 174.3,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "18:27",
-      100.0
-     ],
-     [
-      "18:33",
-      0.7
-     ],
-     [
-      "18:34",
-      0.0
-     ],
-     [
-      "18:39",
-      0.7
-     ],
-     [
-      "18:52",
-      9.4
-     ],
      [
       "19:00",
       4.9
@@ -837,14 +817,34 @@
       0.8
      ],
      [
+      "20:33",
+      0.2
+     ],
+     [
       "20:34",
       0.0
+     ],
+     [
+      "20:46",
+      0.1
+     ],
+     [
+      "20:55",
+      0.8
+     ],
+     [
+      "21:09",
+      0.0
+     ],
+     [
+      "21:27",
+      14.8
      ]
     ],
-    "today_samples": 104,
+    "today_samples": 109,
     "today_floor_ok": 4,
     "today_sla_flags": 1,
-    "today_supply_gap_flags": 99
+    "today_supply_gap_flags": 104
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -854,14 +854,14 @@
   "day": "2026-10-07",
   "machines": {
    "bm-a": {
-    "batches_judged": 140,
-    "core_seconds": 27541.6,
-    "wall_seconds": 2279.7,
-    "effective_cores": 12.08,
+    "batches_judged": 144,
+    "core_seconds": 28322.8,
+    "wall_seconds": 2340.4,
+    "effective_cores": 12.1,
     "single_core_burn": 3,
-    "multicore_burn": 137,
+    "multicore_burn": 141,
     "too_short": 2,
-    "last_ts": "2026-10-07T21:13:20+08:00",
+    "last_ts": "2026-10-07T21:17:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -886,19 +886,19 @@
     }
    },
    "bm-c": {
-    "batches_judged": 5,
-    "core_seconds": 219.9,
-    "wall_seconds": 295.9,
-    "effective_cores": 0.74,
-    "single_core_burn": 5,
+    "batches_judged": 6,
+    "core_seconds": 230.5,
+    "wall_seconds": 356.1,
+    "effective_cores": 0.65,
+    "single_core_burn": 6,
     "multicore_burn": 0,
     "too_short": 0,
-    "last_ts": "2026-10-07T20:31:16+08:00",
+    "last_ts": "2026-10-07T21:26:23+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-07 20:34:56"
+     "audit_batches": 14,
+     "audit_ts": "2026-10-07 21:27:53"
     }
    }
   },
@@ -962,7 +962,7 @@
      406204,
      406403
     ],
-    "shards_done": 8,
+    "shards_done": 12,
     "shards_total": 12,
     "finalize_landed": false
    }
