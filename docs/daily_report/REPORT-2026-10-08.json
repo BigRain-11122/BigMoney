@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 15:36:14",
+ "generated_at": "2026-10-08 16:10:58",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-08.md"
  },
  "rd": {
-  "commits_24h": 523,
-  "result_jsons_landed_24h": 349,
+  "commits_24h": 525,
+  "result_jsons_landed_24h": 346,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 41,
   "compute_audit_latest": {
-   "ts": "2026-10-08 15:34:24",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-08 15:51:55",
+   "py_cpu_pct": 0.6,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1788349,
+  "total_report_tokens_est": 1789317,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-08 14:40:08",
+   "prev_generated": "2026-10-08 15:01:49",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 801,
+   "report_tokens_growth": 968,
    "mandate_growth": 0
   },
   "method": {
@@ -668,29 +668,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-08 13:54:24",
-    "py_pct": 0.4,
-    "cpu_pct": 40.0,
+    "latest_ts": "2026-10-08 15:51:55",
+    "py_pct": 0.6,
+    "cpu_pct": 13.0,
     "ready": 0,
-    "streak_min": 265.4,
+    "streak_min": 382.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "10:38",
-      1.1
-     ],
-     [
-      "11:01",
-      0.0
-     ],
-     [
-      "11:49",
-      1.1
-     ],
-     [
-      "12:11",
-      0.0
-     ],
      [
       "12:20",
       0.4
@@ -720,11 +704,27 @@
       0.0
      ],
      [
-      "13:54",
-      0.4
+      "13:59",
+      0.0
+     ],
+     [
+      "14:18",
+      0.6
+     ],
+     [
+      "14:38",
+      0.1
+     ],
+     [
+      "14:59",
+      0.2
+     ],
+     [
+      "15:51",
+      0.6
      ]
     ],
-    "today_samples": 18,
+    "today_samples": 22,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -861,19 +861,19 @@
   "day": "2026-10-08",
   "machines": {
    "bm-a": {
-    "batches_judged": 76,
-    "core_seconds": 14714.4,
-    "wall_seconds": 1399.3,
-    "effective_cores": 10.52,
+    "batches_judged": 88,
+    "core_seconds": 17832.1,
+    "wall_seconds": 1652.2,
+    "effective_cores": 10.79,
     "single_core_burn": 3,
-    "multicore_burn": 73,
+    "multicore_burn": 85,
     "too_short": 0,
-    "last_ts": "2026-10-08T12:52:29+08:00",
+    "last_ts": "2026-10-08T15:59:25+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-08 13:54:24"
+     "audit_batches": 7,
+     "audit_ts": "2026-10-08 15:51:55"
     }
    },
    "bm-b": {
@@ -913,32 +913,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 185,
+  "last_registered": 186,
   "last_owner": "bm-a",
-  "next_registration": 186,
-  "next_seatable": 186,
-  "chain_head": 814328,
-  "k": 404920,
+  "next_registration": 187,
+  "next_seatable": 187,
+  "chain_head": 816528,
+  "k": 407120,
   "waves": [
-   {
-    "wave": 183,
-    "owner": "bm-a",
-    "a": [
-     417404,
-     419403
-    ],
-    "b_exit": [
-     419404,
-     419603
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 808918,
-    "merged_mu": -0.09281502197143712,
-    "merged_sigma": 0.2450985707450674,
-    "k": 400520
-   },
    {
     "wave": 184,
     "owner": "bm-a",
@@ -976,6 +957,25 @@
     "merged_mu": -0.09285237330830783,
     "merged_sigma": 0.24509000188577854,
     "k": 404920
+   },
+   {
+    "wave": 186,
+    "owner": "bm-a",
+    "a": [
+     424004,
+     426003
+    ],
+    "b_exit": [
+     426004,
+     426203
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 816528,
+    "merged_mu": -0.09290458832776577,
+    "merged_sigma": 0.24508567875034984,
+    "k": 407120
    }
   ],
   "seats": []
