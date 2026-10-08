@@ -1,0 +1,31 @@
+{
+  "round": "r807-bm-b S0",
+  "rebase": "pick 762069faa onto de1ad11f9",
+  "files": {
+    "results/fund_divlowvol_p1/nulls.jsonl": {
+      "recipe": "append-log key-unique union",
+      "ours_lines": 2182,
+      "theirs_lines": 2000,
+      "union_unique": 2000,
+      "note": "probe: ours 183 intra-dups + missing null|1972; theirs=2000/2000 healed dual-flip verified superset"
+    },
+    "results/compute_audit.json": {
+      "recipe": "rolling-ledger history ts-union + latest take-new",
+      "ours_hist": 48,
+      "theirs_hist": 201,
+      "union": 249,
+      "latest_side": "ours",
+      "latest_ts": "2026-10-08 23:42:27"
+    },
+    "results/update_status.json": {
+      "recipe": "snapshot take-new",
+      "ours_updated": "2026-10-08 23:42:36",
+      "theirs_updated": "2026-10-07 20:17:13",
+      "winner": "ours"
+    },
+    "fleet/backlog.md": {
+      "recipe": "UNKNOWN->manual claim-collision, HEAD side (fleet/README.md S4 later-comer yields)",
+      "note": "bm-a claim 10-07T22:33 origin-first (84badf07d) wins; bm-b r806 self-claim 10-08 23:30 yields; T-94 ownership=bm-a"
+    }
+  }
+}
