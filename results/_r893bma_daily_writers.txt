@@ -1,0 +1,287 @@
+scripts\a158_tsgate_probe.py :: B2 standby supply)", |     "evidence_cutoff": CUTOFF, |     "universe": "full local ETF/fund panel data/daily/*.csv, >=500 bars at cutoff", |     "five_member_secondary": FIVE, |     "factors": "Alpha158 static library q
+
+scripts\a6_corr_regime_probe.py :: = 20 | OUT_PATH = "results/a6_corr_regime_probe.json" |  |  | def load_member(code: str): |     path = f"data/daily/sh{code}.csv" |     if not os.path.exists(path): |         raise SystemExit(f"FACE-MISMATCH VOID: declar
+
+scripts\account_cost_tax.py :: 000"] | STOCK_REF_CODE = "600519"          # sh main board (routed stock caliber) | PANEL_DIR = os.path.join(_REPO_ROOT, "data", "daily") | OUT_PATH = os.path.join(_REPO_ROOT, "results", "account_cost_tax.json") |  | # t
+
+scripts\ah_panel_puller.py :: : update_lhb/update_futures).""" |     import glob as _glob |     import re as _re |     cands = [os.path.join(ROOT, "data", "daily", "510300.csv")] |     cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data",
+
+scripts\allocation_policy_scan.py :: s, raw pd.read_csv direct reads, | truncated to EVIDENCE_CUTOFF at assembly -- RW-2 spirit): |     data/daily/sh510300.csv   stock leg, from 2012-05-28, warmup 0 |     data/daily/sh511010.csv   bond leg,  from 2013-04-09
+
+scripts\alloc_backtest.py :: vol, cap 50% iterative<=5, warmup=equal-weight frozen per |   sec.5.6) | P3 60-40 monthly | P3B 60-40 daily 5pp threshold twin | |   P4 fixed-income-plus 80-20 | P5 dividend-retirement 50/40/10 (PENDING |   off-hours 510
+
+scripts\alloc_paper.py :: forward, _lane_owner_id |     def _boom(symbols): |         raise FileNotFoundError("data/ext_slots/etf_daily/510880.csv (simulated)") |     globals()["_load_panel_forward"] = _boom |     globals()["_lane_owner_id"] = la
+
+scripts\alloc_s2_probe.py :: 9 s2 · bm-b | 口径：静态权重买入持有日收益（零成本零再平衡）——探针事实非回测判据面； | P2 权重=全窗逆波动率近似（回测按冻结规则用滚动 126d 窗，探针仅取形态）； | 现金腿=repo_daily.csv 逐日计息（CASH_LEG 承制件只读复用，rate/100/252，缺日 ffill）； | evidence_cutoff=2026-09-22（D2 前向锁盒——探针窗同步截断）。 | 产物：resul
+
+scripts\bond_carry_w3a.py :: on") | ATTRITION_JSON = os.path.join(ROOT, "results", "gate_attrition.json") | ETF_510300_CSV = os.path.join(ROOT, "data", "daily", "510300.csv") | CAPACITY_EVIDENCE = os.path.join(ROOT, "results", "bond_capacity_wave3a.
+
+scripts\build_premium_panel.py ::  ARB-1 deliverable-3: core48 ETF premium panel. |  | Pure-LOCAL panel builder, ZERO network (close=data/daily, NAV=fund_premium/nav, | dividends=fund_premium/dividends backfilled by update_fund_premium.py | backfill-divi
+
+scripts\build_trading_calendar.py :: -> hard corruption gate. |  | Sources (frozen list, all in-repo, all exchange fabrics): |   etf50    data/daily/sh510050.csv   (2005-02->, deepest ETF backbone) |   etf300   data/daily/sh510300.csv   (2012-05->) |   etf5
+
+scripts\cash_leg_gates.py ::  cutoff_meta |  | ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) | REPO_CSV = os.path.join(ROOT, "Money0923", "data", "repo_daily.csv") | OUT_JSON = os.path.join(PATHS.results_dir, "cash_leg_acceptanc
+
+scripts\census_588000_fullhist.py :: noqa: E402 | import pandas as pd  # noqa: E402 |  | MEMBER = "588000" | CORE = "510300" | PANEL_DIR = os.path.join(_REPO_ROOT, "data", "daily") | OUT_PATH = os.path.join(_REPO_ROOT, "results", "census_588000_fullhist.jso
+
+scripts\census_fusion_s2_w2.py :: consumers carry their own prereg + gates). |  | Universe (sec.9.3 frozen): astock qfq panel data/astock_daily/per/<code>.csv | (T-87 bm-b collector, bm-b-local gitignored) x data/fundamental/b_layer_mask.csv | code set, 
+
+scripts\census_w2_roster.py :: 2(A158_CSV), "rows": len(a158)}, |         }, |         "universe": { |             "panel": "data/astock_daily/per/*.csv qfq (T-87 bm-b collector, " |                      "bm-b-local gitignored)", |             "panel_
+
+scripts\ce_transfer.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\cny_window_p1.py :: dex <= cutoff] for s, df in prices.items()} |     cal = pd.DatetimeIndex( |         pd.read_csv(os.path.join("data", "daily", "510300.csv"), |                     parse_dates=["date"])["date"]).sort_values() |     cal = 
+
+scripts\cny_window_probe.py ::  os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) |  | import pandas as pd |  | PANEL = os.path.join("data", "daily", "510300.csv") | OUT = os.path.join("results", "cny_window_probe.json") |  | # Public calen
+
+scripts\cn_core_sat_p1.py :: l_pool=batch-own) on the JUDGED x2 | series; G2 = g2_registration_v2 + DSR (deflated_sharpe_ratio raw daily | returns) + family PBO (screening/pbo.cscv_pbo CSCV-8, 4-cell grid). D6 | reject face = max|corr| vs 6 register
+
+scripts\cn_div_lowvol_rot_p1.py ::  N = 4 cells + 50 nulls = 54 on the D1 bill. |  | Panel (prereg s2 + R251 amendment): corpus twins data/daily/sh{510880, | 512890}.csv, intersection timeline T=1862 (2019-01-18..2026-09-22), | A-only-within-window == ['2
+
+scripts\cn_mkneutral_p1.py ::   gated vs the frozen SECTOR probe -- identical formula, identical |           inputs) + data/futures_daily/IC.csv (2353 rows 2017-01-17 .. |           2026-09-24, truncated at cutoff, OHLC-only signal input, |          
+
+scripts\cn_regime_policy_p1.py :: , "runner.log") |  | EVIDENCE_CUTOFF = "2026-09-22"      # prereg s2 (corpus last bar) | CORPUS = os.path.join(ROOT, "data", "daily", "sh510300.csv") | T_FROZEN = 3483                      # probe: corpus rows | FIRST_FR
+
+scripts\cn_regime_policy_probe.py :: d |  | import regime_deep_replay as RDR | from market_clock_call import POSITION_LADDER |  | CORPUS = os.path.join(ROOT, "data", "daily", "sh510300.csv") | OUT = os.path.join(ROOT, "results", "cn_regime_policy_probe.json
+
+scripts\cn_soe_etf_p1.py :: _ETF_PREREG.md") | ETF_LIST = os.path.join(ROOT, "data", "basic", "etf_list.csv") | DAILY_DIR = os.path.join(ROOT, "data", "daily") | OUT_DIR = os.path.join(ROOT, "results", "cn_soe_ETF") | CELL_DIR = os.path.join(OUT_DI
+
+scripts\cn_trend_etf_p1.py :: trend_etf_p1'] = 20270201, band | 20270201..20272200 collision-free by construction). |  |   panel   data/daily/*.csv ETF board (OHLCV close-px face, 1724 files); |           D2 lockbox EVIDENCE_CUTOFF 2026-09-22 -- runn
+
+scripts\combined_exit_screen.py :: ap closed by contract). |  | FAIL branch (pre-registered): cost-thickness constraint unbreakable on | the daily ETF universe -> next batch pivots to low-frequency holding / | low-cost instruments (money/bond ETF basket).
+
+scripts\composite_ic.py ::                       {b[:-4] for b in bare}] |     for f in chosen: |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\contest_ytd_p1.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(PATHS.daily_dir, f), |                          parse_dates=["date"]).set_index("date").sort_index() |         
+
+scripts\cross_start_robustness.py :: h) |     af = probe_f.get("anchor_faces", {}) |     if (af.get("panel", {}).get("path") != "data/astock_daily/per/<code>.csv" |             or af.get("eligibility", {}).get("path") |             != "data/fundamental/elig
+
+scripts\cta_wave1.py :: -variety 1/n_alive margin share.""" |     fut_close = panel["close"][fut_col] |     spot_path = os.path.join(ROOT, "data", "daily", f"{spot_code}.csv") |     spot = pd.read_csv(spot_path, index_col=0, parse_dates=True).s
+
+scripts\cta_wave1_probe.py :: ource-gap exemption candidates |   P3 TS pull         -- futures_zh_daily_sina('TS0') -> data/futures_daily/TS.csv |                        (futures_main_sina lacks the TS face; census probe R184 |                       
+
+scripts\daily_report.py :: me, timedelta |  | ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) | OUT_DIR = os.path.join(ROOT, "docs", "daily_report") | sys.path.insert(0, os.path.join(ROOT, "scripts")) | import merge_lane_views a
+
+scripts\daily_scorecard.py :: e(os.path.abspath(__file__))) | PAPER_DIR = os.path.join(ROOT, "results", "paper") | OUT_HTML = os.path.join(ROOT, "results", "daily_scorecard.html") | OUT_JSON = os.path.join(ROOT, "results", "daily_scorecard.json") | P
+
+scripts\daily_validate.py :: rname(os.path.dirname(os.path.abspath(__file__)))) |  | from config import PATHS |  | STATUS_PATH = os.path.join(PATHS.results_dir, "daily_validate_status.json") | TENCENT_ROWS = 640            # ~2.5y tail, same as prob
+
+scripts\decision_chain_v2.py :: REV_P1_JSON = os.path.join(ROOT, "results", "rev_osc", "p1_results.json") | SLEEVE_ARTIFACT = os.path.join(ROOT, "results", "rev_osc", |                                "daily_series_FY_BG_TP8.json") | GC001_CSV = os.path
+
+scripts\div_lowvol_backtest.py :: ----------------------------------- data faces |  | def _leg_frame(fname): |     df = pd.read_csv(os.path.join(ROOT, "data", "daily", fname), |                      parse_dates=["date"]) |     return df.set_index("date")
+
+scripts\div_lowvol_probe.py :: }, |     "510880": None, | } |  |  | def _leg_frame(fname: str) -> pd.DataFrame: |     df = pd.read_csv(os.path.join(PATHS.daily_dir, fname), parse_dates=["date"]) |     return df.set_index("date").sort_index() |  |  | d
+
+scripts\download_all_etf.py :: """Fetch full ETF list from Sina, then batch download daily history. |  | Output: |   data/basic/etf_list.csv   - all ETFs |   data/daily/<code>.csv      - per-ETF daily bars | """ | import os, sys, time | sys.path.inser
+
+scripts\etf_ops_bp1.py :: MBERS = ["510050", "510300", "510500", "512100", "588000"] | ANCHORS = { |     "510050": {"path": "data/daily/sh510050.csv", "first": "2005-02-23", "rows": 5248}, |     "510300": {"path": "data/daily/sh510300.csv", "firs
+
+scripts\etf_ops_bp2.py ::  G1'v2 (science_gates.g1_prime_v2, batch_cells=15, pool='core48') |           on the chain full-panel daily mark-to-market x2 series (BP1 |           chain_daily booked-evenly face, eval_start = first MA200-valid); |    
+
+scripts\exclusion_marginal_scan.py :: (RES_DIR, "scan.json") | CELLS_FILE = os.path.join(RES_DIR, "scan_cells.csv") | ASTOCK_STATUS = os.path.join(ROOT, "results", "astock_daily_update_status.json") | ATTR_FILE = os.path.join(ROOT, "results", "gate_attrition
+
+scripts\fund_divlowvol_p1.py ::                  "div_events_faces.parquet")           # T-154 (DELIVERED) | ETF_510300_CSV = os.path.join(ROOT, "data", "daily", "sh510300.csv") |  | CUTOFF = pd.Timestamp("2026-09-22")          # prereg sec.2 D2 lockbo
+
+scripts\fund_quality_p1.py ::                        "quality_faces.parquet")          # T-152 (PENDING) | ETF_510300_CSV = os.path.join(ROOT, "data", "daily", "sh510300.csv") | VALUE_CONT = os.path.join(ROOT, "results", "fund_value_p1", |           
+
+scripts\fund_value_p1.py :: = os.path.join(ROOT, "data", "fund_history_export", "value_faces.parquet") | ETF_510300_CSV = os.path.join(ROOT, "data", "daily", "sh510300.csv") |  | CUTOFF = pd.Timestamp("2026-09-22")          # prereg sec.2 D2 lockbo
+
+scripts\fusion_grid_p1.py :: -literal) |     below_by_d, valid_by_d = {}, {} |     for code in MR._bare_codes(): |         p = os.path.join(PATHS.daily_dir, f"{code}.csv") |         s = pd.read_csv(p, parse_dates=["date"]).set_index("date")["close"]
+
+scripts\g2_slot_mon_p1.py :: OUT_DIR, "d6_numeric.json") | IC_CSV = os.path.join(OUT_DIR, "ic_by_face.csv") | IC_DAILY_CSV = os.path.join(OUT_DIR, "ic_daily.csv") | ATTR_JSON = os.path.join(ROOT, "results", "gate_attrition.json") |  | SIX_FIELDS = (
+
+scripts\g2_slot_old_p1.py :: OUT_DIR, "d6_numeric.json") | IC_CSV = os.path.join(OUT_DIR, "ic_by_face.csv") | IC_DAILY_CSV = os.path.join(OUT_DIR, "ic_daily.csv") | ATTR_JSON = os.path.join(ROOT, "results", "gate_attrition.json") |  | SIX_FIELDS = (
+
+scripts\g2_slot_stock_p1.py :: OUT_DIR, "d6_numeric.json") | IC_CSV = os.path.join(OUT_DIR, "ic_by_face.csv") | IC_DAILY_CSV = os.path.join(OUT_DIR, "ic_daily.csv") | ATTR_JSON = os.path.join(ROOT, "results", "gate_attrition.json") |  | SIX_FIELDS = (
+
+scripts\g2_slot_tail_p1.py :: OUT_DIR, "d6_numeric.json") | IC_CSV = os.path.join(OUT_DIR, "ic_by_face.csv") | IC_DAILY_CSV = os.path.join(OUT_DIR, "ic_daily.csv") | ATTR_JSON = os.path.join(ROOT, "results", "gate_attrition.json") |  | SIX_FIELDS = (
+
+scripts\grid_dualface_backtest.py :: MBERS = ["510050", "510300", "512100", "510500", "588000"] | ANCHORS = { |     "510050": {"path": "data/daily/sh510050.csv", "first": "2005-02-23", |                "rows": 5251}, |     "510300": {"path": "data/daily/sh5
+
+scripts\grid_paper.py :: ""data/daily single-instrument OHLCV at cutoff (s5b loader mirror).""" |     df = pd.read_csv(os.path.join(PATHS.daily_dir, f"{code}.csv"), |                      parse_dates=["date"]).set_index("date").sort_index() |   
+
+scripts\grid_sleeve_p1.py :: trument OHLCV at cutoff (prereg sec.2: repo |     data only, zero new sources).""" |     path = os.path.join(PATHS.daily_dir, f"{code}.csv") |     df = pd.read_csv(path, parse_dates=["date"]).set_index("date").sort_index
+
+scripts\innovation_quota_w1.py :: c, SEED_REGISTRY['innovation_quota_w1_repo']=20295000 registered | same-commit): |  |   panel   data/repo_daily/*.csv raw pd.read_csv direct read (date,open,high, |           low,close,volume), 11 terms, every file D2-tr
+
+scripts\innovation_quota_w10.py :: (pct_rank_state |           verbatim import, defaults asserted via inspect.signature). |   price   data/daily/510300.csv via csv.DictReader raw direct read, |           full history, truncated to evidence cutoff 2026-09-
+
+scripts\innovation_quota_w2.py :: c, SEED_REGISTRY['innovation_quota_w2_repo']=20298500 registered | same-commit): |  |   panel   data/repo_daily/*.csv raw pd.read_csv direct read, 11 terms |           (W1 census), every file D2-truncated to evidence cut
+
+scripts\innovation_quota_w3.py :: 41 W11 collision; SEED_REGISTRY['innovation_quota_w3_mom'] | registered same-window): |  |   panel   data/daily/sh510300.csv raw pd.read_csv direct read |           (date,open,high,low,close,volume,amount), D2-truncated 
+
+scripts\innovation_quota_w4.py :: aw; seed | reverified full-registry ALL GREEN, results/_r244bmc_w4_seed_reverify.py): |  |   panel   data/daily/sh510300.csv raw pd.read_csv direct read |           (date,open,high,low,close,volume,amount), D2-truncated 
+
+scripts\innovation_quota_w5.py :: -step law ALL GREEN via full import view, | results/_r248bmc_w5_seed_law_facts.json): |  |   panel   data/daily/sh510300.csv raw pd.read_csv direct read |           (date,open,high,low,close,volume,amount), D2-truncated 
+
+scripts\innovation_quota_w7.py :: m): |  |   panel   core48 bare-code close panel via _r254bmc_w7_nlnl_probe. |           load_core48 (data/daily/*.csv 6-digit names, union date |           index), D2-truncated to evidence cutoff 2026-09-29 (P-5C |      
+
+scripts\innovation_quota_w8.py :: json") | ATT_JSON_SHARED = os.path.join(ROOT, "results", "gate_attrition.json") | PASSIVE_CSV = os.path.join(ROOT, "data", "daily", "510300.csv") |  | BATCH_NAME = "COV_SHRINK_AB_P1" | BATCH_CELLS = 4                    
+
+scripts\innovation_quota_w9.py ::  |   panel   core48 bare-code close panel via _r259bmc_w9_crowding_probe. |           load_core48 (data/daily/*.csv 6-digit names, union date |           index), truncated to evidence cutoff 2026-09-29 (P-5C |           
+
+scripts\lfc_p1_screen.py :: l>0 AND OOS double | positive AND trades>=30 AND max|corr| vs the 3 registered traders' | anchor equity daily returns < 0.30 (full window). |  | Hard gates (batch void if broken): patch self-test + 3 trader 1x | anchor r
+
+scripts\lowchurn_screen.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\market_clock_call.py ::  bar == asof (fresh only, honest).""" |     import glob |  |     recs = [] |     for f in glob.glob(os.path.join(ROOT, "data", "daily", "*.csv")): |         sym = os.path.splitext(os.path.basename(f))[0] |         try: |
+
+scripts\market_regime.py ::  load_bench() -> pd.Series: |     for name in (f"{BENCH}.csv", f"sh{BENCH}.csv"): |         p = os.path.join(PATHS.daily_dir, name) |         if os.path.exists(p): |             df = pd.read_csv(p, parse_dates=["date"]).
+
+scripts\mass_trial_w1.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(PATHS.daily_dir, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         df = df[d
+
+scripts\mf_ic_p1.py :: ta", "moneyflow", "per") | BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars") | THS_DIR = os.path.join(ROOT, "data", "ths_ggzjl", "daily") | LHB_PATH = os.path.join(ROOT, "Money02", "data", "lhb", "lhb_detail.parqu
+
+scripts\mf_rot_backtest.py :: 2026-09-25-60" | PREREG = "research/midfreq/MF_ROT_S1_PREREG.md" | CAPITAL = 1_000_000.0 | DATA = os.path.join("data", "daily") | OUT_JSON = os.path.join("results", "midfreq", "MF_ROT_S1.json") | OUT_CSV = os.path.join("
+
+scripts\monthly_exam_prep.py ::  double-line: 510300 month-open close + panel-tail month gate |     bench = {} |     csv_path = os.path.join(ROOT, "data", "daily", "510300.csv") |     if os.path.isfile(csv_path): |         with io.open(csv_path, "r", e
+
+scripts\month_exam_readiness.py :: oot): |     """Last completed bar date in the local ETF calendar panel (sh510300).""" |     p = os.path.join(root, "data", "daily", "sh510300.csv") |     if not os.path.exists(p): |         return None |     last = None 
+
+scripts\national_team_s3_review.py :: ] |     return pts, segs |  |  | def load_member_panel(code, cutoff=EVIDENCE_CUTOFF): |     """Anchor-1: data/daily/<code>.csv pd.read_csv direct, raw truncated to |     evidence_cutoff (forward lockbox -- no post-cutoff
+
+scripts\new_signal_p1.py :: & full>0 & OOS double positive & >=30 trades & max|corr| vs | the 3 registered traders' anchor equity daily returns < 0.30). |  | Hard gates (batch void if broken): patch self-test + 3 trader anchor | reproduction (_evid
+
+scripts\og1_overnight_ic.py :: "results", "shortline", |                              "fund_premium_panel.json") | DAILY_DIR = os.path.join(ROOT, "data", "daily") | RES_CSV = os.path.join(ROOT, "research", "shortline", |                        "og1_ov
+
+scripts\open_market_readiness.py :: oot): |     """Last completed bar date in the local ETF calendar panel (sh510300).""" |     p = os.path.join(root, "data", "daily", "sh510300.csv") |     if not os.path.exists(p): |         return None |     last = None 
+
+scripts\options_s0_panel_probe.py ::  (round R192 log: | greeks face returns 行权价/交易代码/简称 for EXPIRED contracts too; 300ETF retains 202609; | daily face cols [日期,开盘,最高,最低,收盘,成交量]). |  | P0 gate criteria (prereg §2 ①-⑤ + span adaptive ruling): |   G1 contract
+
+scripts\options_wave2.py ::  |     panels = {} |     dates = None |     for code in opr.UNDERLYINGS: |         df = pd.read_csv(os.path.join(ROOT, "data", "daily", f"{code}.csv"), |                          index_col=0, parse_dates=True).sort_index
+
+scripts\p1_strategy_screen.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\p2_deepening.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\p2_null_calibration.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\p4_batch1_screen.py :: & full>0 & OOS double positive & >=30 trades & max|corr| vs | the 3 registered traders' anchor equity daily returns < 0.30). |  | Hard gates (batch void if broken): patch self-test + 3 trader anchor | reproduction (_evid
+
+scripts\p4_batch1_screen_gm.py :: ot (f.endswith(".csv") and f[:-4].isdigit()): |             continue |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(df) < min_li
+
+scripts\p4_batch2a_screen.py :: & full>0 & OOS double positive & >=30 trades & max|corr| vs | the 3 registered traders' anchor equity daily returns < 0.30). |  | Hard gates (batch void if broken): patch self-test + 3 trader anchor | reproduction + TA s
+
+scripts\p4_batch2_gates.py :: ] |         if not re.fullmatch(r"\d{6}", sym): |             continue |         df = pd.read_csv(os.path.join(PATHS.daily_dir, f), parse_dates=["date"]) |         df = df.set_index("date").sort_index() |         if len(
+
+scripts\p4_stock_panel.py :: TOCK_PANEL.md). |  | Pure data/factor build over MONEY02 bars (5222 parquet, dual-verified): | per-symbol daily limit-up detection (tiered by board %), streaks, distances, | plus market-level daily mood thermometer (aggr
+
+scripts\pb_heat_pull.py :: ership   clist stock universe f102   -> stock_boards.csv |   stage 3  board klines push2his 90.BKxxxx daily    -> klines/BKxxxx.csv |  | Discipline (round-39 audit pitfalls, all evidence-backed): |   - DIRECT opener only
+
+scripts\perpetual_faces_n3.py ::  |     rec["legs"]["P"] = { |         "ok": True, |         "quadruple": { |             "data_face": "data/daily/sh*.csv (core48 bare codes via " |                         "load_core)", |             "loader": "live.pap
+
+scripts\pool_audit.py ::      if stem.isdigit() and len(stem) == 6: |             files.setdefault(stem, {})["bare"] = os.path.join(PATHS.daily_dir, f) |         elif (stem.startswith(("sh", "sz")) and stem[2:].isdigit() |               and len(
+
+scripts\pull_510880_slot.py :: .path.dirname(os.path.dirname(os.path.abspath(__file__)))) |  | import pandas as pd |  | SLOT_DIR = os.path.join("data", "ext_slots", "etf_daily") | SLOT = os.path.join(SLOT_DIR, "510880.csv") | EVID = os.path.join("resu
+
+scripts\py_watermark.py :: OOT, "fleet", "tasks") | BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars") | DAILY_DIR = os.path.join(ROOT, "data", "daily") |  | SAMPLE_WINDOW_S = 3.0 | LOW_PY_LINE = 70.0        # O-1136: py CPU <70% of machine 
+
+scripts\qa_smoke_run.py :: sdigit()) |     panels = {} |     for f in files: |         sym = f[:-4] |         df = pd.read_csv(os.path.join(daily, f), parse_dates=["date"]) \ |                .set_index("date").sort_index() |         if {"open", "
+
+scripts\regime5_labeler.py :: ath.abspath(__file__))) | LABEL_DIR = os.path.join(ROOT, "results", "regime5_labels") | BENCH = os.path.join(ROOT, "data", "daily", "sh510300.csv") | SUPPORT_BENCH = os.path.join(ROOT, "data", "daily", "sh510050.csv") | 
+
+scripts\regime5_validation.py :: er) | from rev_osc_stock_p1 import COST_X1  # noqa: E402 (13.041bp/side frozen) |  | PANEL_PATH = os.path.join(ROOT, "data", "daily", "sh510300.csv") | LABELS_PATH = os.path.join(ROOT, "results", "regime5_labels", |     
+
+scripts\regime_calibration.py :: in (long history) + bare-only tail; overlap byte-identity asserted.""" |     tw = pd.read_csv(os.path.join(PATHS.daily_dir, f"sh{BENCH}.csv"), |                      parse_dates=["date"]).set_index("date")["close"].astyp
+
+scripts\rev_osc_signal_export.py ::  THIN_MARKET_MIN) |  | MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json") | STATUS_JSON = os.path.join(ROOT, "results", |                            "astock_daily_update_status.json") | PER_DIR = os.path.join(ROO
+
+scripts\saturation_engine.py :: owner false-reds the admit cases on |     # bm-a/bm-c, first live-fire bm-a r523) |     daily = os.path.join(tmp, "daily") |     os.makedirs(daily, exist_ok=True) |     prereg = os.path.join(tmp, "PERPETUAL_N1_W10_PREREG
+
+scripts\science_audit.py :: C6 regime-guard integrity |  | def _bench_calendar(): |     """Independent trading-day calendar from data/daily/510300.csv |     (read-only, zero network; date column by header name).""" |     path = os.path.join(_ROOT, 
+
+scripts\shortline_p1_ic.py :: , "amount"] |     series = {c: {} for c in cols} |     for f in files: |         df = pd.read_csv(os.path.join(daily, f), |                          parse_dates=["date"]).set_index("date").sort_index() |         for c in
+
+scripts\sina_construct_ic.py :: data", "sina_mf", "per") | BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars") | THS_DIR = os.path.join(ROOT, "data", "ths_ggzjl", "daily") | LHB_PATH = os.path.join(ROOT, "Money02", "data", "lhb", "lhb_detail.parqu
+
+scripts\sina_mf_ic_p1.py :: r") | LHB_PATH = os.path.join(ROOT, "Money02", "data", "lhb", "lhb_detail.parquet") | THS_DIR = os.path.join(ROOT, "data", "ths_ggzjl", "daily") | OUT_JSON = os.path.join(ROOT, "results", "shortline", "sina_mf_ic_p1.json
+
+scripts\stock_face_furnace.py :: .join(OUT_DIR, "probe_facts.json") | CELLS_DIR = os.path.join(OUT_DIR, "cells") | PANEL_CACHE = os.path.join(ROOT, "data", "astock_daily", "_furnace_panel.npz") | ASTOCK_STATUS = os.path.join(ROOT, "results", "astock_dai
+
+scripts\system_v1_paper.py :: frozen-mirror imports |  | MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json") | ETF_CSV = os.path.join(ROOT, "data", "daily", "510300.csv") | CALL_LATEST = os.path.join(ROOT, "results", "market_clock", "call_late
+
+scripts\t101_v4_a13_predface.py :: : 5252, "510500": 3290, |                    "512100": 2406, "588000": 1426} | ANCHOR_FACE = {c: f"data/daily/sh{c}.csv" for c in MEMBERS} | PREREG_REL = "research/T-101-V4_A13_PREDFACE_PREREG.md" | RESULTS_JSON = os.pat
+
+scripts\t101_v4_a2_prescreen.py :: _split parity | MAXDD_FLOOR = -0.35  # descriptive clause (BACKTEST_SCIENCE) | ANCHOR_FACE = {c: f"data/daily/sh{c}.csv" for c in UNIVERSE}  # G-ANCHOR-FACE probe-anchor same-face assertion |  |  | def load_panel(code: s
+
+scripts\t101_v4_a7_prescreen.py :: evidence unit | MAXDD_FLOOR = -0.35  # descriptive clause (BACKTEST_SCIENCE) | ANCHOR_FACE = {c: f"data/daily/sh{c}.csv" for c in UNIVERSE}  # G-ANCHOR-FACE equity legs | SIGNAL_FACE = "data/repo_daily/GC001.csv"  # G-AN
+
+scripts\t18_deep_axis.py :: (0, ROOT)   # engine/ + scripts.x imports under `python scripts/...` (p2 precedent) | DAILY = os.path.join(ROOT, "data", "daily") | MANIFEST_PATH = os.path.join(ROOT, "results", "shortline", "t18_deep_manifest.json") | C
+
+scripts\t18_deep_probe.py :: rt pandas as pd |  | ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) | DAILY = os.path.join(ROOT, "data", "daily") | OUT_JSON = os.path.join(ROOT, "results", "shortline", "t18_deep_axis_probe.json") | 
+
+scripts\t19_adjust_view.py ::                   "data/consolidation/adjust* + ticket note marker)", |         "panel_source": "data/daily/*.csv via live.paper.load_core " |                         "(raw face authoritative; D2 lockbox, zero rewrite)",
+
+scripts\t73_s2_factor_history.py :: lity -> higher forward return |       -> negative IC of vol level. Signal = VOL{w} trailing nanstd of daily |       close returns, w in {20, 60}, min_periods = ceil(w/2). Returns from the |       P1C cache close (ffill f
+
+scripts\t73_s2_policy_cycle.py :: y(): |     """510050 SSE-50 ETF daily close returns with r239 fund-event guard.""" |     path = os.path.join(ROOT, "data", "daily", "sh510050.csv") |     df = pd.read_csv(path, parse_dates=["date"]).set_index("date").sor
+
+scripts\t73_s2_style_rotation.py :: (ROOT, "results", "t73_s2") | OUT_JSON = os.path.join(OUT_DIR, "style_rotation.json") | DAILY = os.path.join(ROOT, "data", "daily") |  | EVIDENCE_CUTOFF = "2026-09-22" | BATCH = "T73-STYLE-ROT-S1" | SEED_BASE = None     
+
+scripts\theme_deepen_p1.py :: opped = [], [] |     for ev in EXPANSION: |         code = ev["proxy"] |         df = pd.read_csv(os.path.join(ROOT, "data", "daily", f"{code}.csv")) |         pre = int((df["date"] < ev["win"][0]).sum()) |         if pr
+
+scripts\theme_event_library.py :: dgment batch): |   * Historical theme event library from the in-repo long-history ETF panel |     (data/daily/sh*.csv / sz*.csv, full history; core48 bare-code files are |     NOT used -- long files supersede them for hi
+
+scripts\theme_ignition_census.py :: event target). This slice enumerates ignition episodes | ALGORITHMICALLY across the whole in-repo ETF daily panel: rule-detected | ignitions (no fame prior, no CEO anchor), full-panel coverage, per-episode | wave segment
+
+scripts\theme_ignition_face_probe.py :: ose,amount frame for an ETF (same file-resolution face as |     theme_event_library.load_series: data/daily/<code>.csv long-history file).""" |     path = os.path.join(data_dir, f"{code}.csv") |     if not os.path.exists
+
+scripts\theme_judge_p1.py ::  kernel inline) |     from collections import defaultdict |     import pandas as pd |     daily = os.path.join(ROOT, "data", "daily") |     by_norm = defaultdict(list) |     for f in os.listdir(daily): |         if f.end
+
+scripts\theme_judge_p2.py ::  kernel inline) |     from collections import defaultdict |     import pandas as pd |     daily = os.path.join(ROOT, "data", "daily") |     by_norm = defaultdict(list) |     for f in os.listdir(daily): |         if f.end
+
+scripts\theme_persist_p1.py ::       assert full is not None, f"panel missing {ev['proxy']}" |         assert os.path.exists(os.path.join(ROOT, "data", "daily", |                                            f"{ev['proxy']}.csv")), \ |             f"anc
+
+scripts\trial_labor_w10.py :: MOM anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): roc20-nan rows before bar 20 == |   20; first-dec
+
+scripts\trial_labor_w11.py :: MOM anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): roc20-nan rows before bar 20 == |   20; first-dec
+
+scripts\trial_labor_w12.py :: en sec.2 RSQR-series face (r447 probe basis): the |     git-tracked raw full-history member file data/daily/ |     sh510300.csv (open + high + low + close + volume columns), |     truncated at the evidence cutoff.  (tl8.
+
+scripts\trial_labor_w13.py :: en sec.2 SUMN-series face (r456 probe basis): the |     git-tracked raw full-history member file data/daily/ |     sh510300.csv (open + high + low + close + volume columns), |     truncated at the evidence cutoff.  (tl8.
+
+scripts\trial_labor_w14.py :: RESI/CNT-series face (r470/r471 probe basis): the |     git-tracked raw full-history member file data/daily/sh510300.csv |     (open + high + low + close + volume columns), truncated at the |     evidence cutoff.  (tl8._
+
+scripts\trial_labor_w16.py :: " |     face = _resicnt_face_full() |     if face is None: |         return None, (f"raw member face data/daily/sh{MAX_MEMBER}.csv " |                       f"absent/open-high-low-close-volume columns " |                
+
+scripts\trial_labor_w4.py :: top). |  |   G-VOL anchor law (prereg sec.2 probe facts, fail-closed): on the |   core48/leg-L face (data/daily/sh510300.csv, 3,483 bars 2012-05-28 -> |   2026-09-22 cutoff): med500 first valid bar-idx == 519 (2014-07-17
+
+scripts\trial_labor_w5.py :: ANG anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): yang days == 1,751 (50.27%), |   cross-table lowe
+
+scripts\trial_labor_w6.py :: ONF anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): zero-volume rows == 0; med20 first |   valid bar-
+
+scripts\trial_labor_w7.py :: EAK anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): warmup window == 2 bars; judgeable |   days == 3,
+
+scripts\trial_labor_w8.py :: ATE anchor law (prereg sec.2 probe facts, fail-closed): on the |   raw full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): zero-volume rows == 0; mad60 |   first-decidable 
+
+scripts\trial_labor_w9.py :: AMP anchor law (prereg sec.2 probe facts, fail-closed): on the raw |   full-history member face (data/daily/sh510300.csv, 3,483 bars |   2012-05-28 -> 2026-09-22 cutoff): zero-range rows (high == low) == |   0; med20amp 
+
+scripts\update_astock_daily.py :: """A-share per-stock daily-bar forward collector (T-2026-09-26-87 supply lane, bm-b). |  | Ticket/lane: fleet/tasks/T-2026-09-26-87.json progress_r279_bmb (bm-b supply | claim, opens r280); consumption = T-87 REV_OSC_STO
+
+scripts\update_daily.py :: op fetching | STATUS_PATH = os.path.join(PATHS.results_dir, "update_status.json") | LOCK_PATH = os.path.join(PATHS.root, "logs", "update_daily.lock") | LOCK_STALE_AGE = 30 * 60        # belt-and-braces reclaim behind the
+
+scripts\update_etf_daily.py :: 50 (tier1 SSE50) |     510500 (tier2 CSI500) 512100 (tier2 CSI1000) 588000 (tier2 STAR50) | Panel: data/daily/sh<code>.csv, 7 cols date,open,high,low,close,volume,amount. |  | Basis (probe evidence, r398 bm-b: results/_r
+
+scripts\update_fund_premium.py :: . |   backfill-nav  one-shot resumable NAV history for core48 (bare-code CSVs in |                 data/daily -- same enumeration as update_daily.core_files). |                 2.5s throttle, per-symbol retry w/ backoff 
+
+scripts\update_futures.py :: """Futures main-continuous daily puller (R48 bm-a, claim MSG-20260924-0645). |  | Full-history pull of 9 varieties (IF/IC/IM/IH/T/TF/RB/AU/SC) from sina | main-continuous daily kline into data/futures_daily/<V>.csv (root
+
+scripts\update_intraday_marks.py :: "bj"): |         if s.startswith(p): |             return s[len(p):] |     return s |  |  | DAILY_DIR = os.path.join(PATHS.data_dir, "daily") |  |  | def _local_last_close(sym: str, daily_dir: str | None = None) -> float
+
+scripts\update_lhb.py :: (0, ROOT) | from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin | DAILY_DIR = os.path.join(ROOT, "data", "daily") | CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv") | TOL = 1e-6 | PUBLISH_HOUR
+
+scripts\update_moneyflow.py :: periodic FULL-universe refresh (5222 symbols, 2.5s throttle, | detached background process) keeps the daily panel gapless as long as the | refresh interval stays < 120 trading days. Gate trigger = panel cutoff older | th
+
+scripts\update_options.py :: ame(os.path.abspath(__file__))) | OPT_DIR = os.path.join(ROOT, "data", "options") | PANEL_DIR = os.path.join(OPT_DIR, "daily") | META_JSON = os.path.join(OPT_DIR, "forward_meta.json") | REGISTRY_JSON = os.path.join(OPT_D
+
+scripts\update_repo.py :: e: it wraps newfqkline |   (same transposition blood) with no repair leg -- Money0923's cached |   repo_daily.csv inherited the 2.850 glitch (same bloodline, not evidence). | - Benign: ~13% of overlap rows differ by exac
+
+scripts\update_sina_mf.py :: s. |  | Positioning (prereg section-3): BACKFILL / gap-repair face for cross-source | redundancy -- NOT a daily forward face. Rolling <=250td source window per stock | (A1 amendment R314: num 100->250, prereg sec-6); | t
+
+scripts\update_ths_panel.py :: ce rolls = honest permanent | gap (recorded, never fabricated). |  | Storage (gitignored): data/ths_ggzjl/daily/<bar-day>.csv + _progress.json | (checkpoint page set) + status.json + _refresh.lock (pid-liveness). |  | Co
+
+scripts\update_zt_pool.py :: (0, ROOT) | from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin | DAILY_DIR = os.path.join(ROOT, "data", "daily") | CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv") |  | LANE_OWNER = "bm-a"   
+
+scripts\ytd_track_record.py :: d for d in marks_days if d in panel_dates] |  |  | def panel_trading_days(): |     df = pd.read_csv(os.path.join(PATHS.daily_dir, "510300.csv"), |                      parse_dates=["date"]) |     return {d.strftime("%Y-%
+
+scripts\zt_pool_pilot_replay.py :: awareness). Source: local core ETF calendar bar file.""" |     import pandas as pd |     path = os.path.join(ROOT, 'data', 'daily', '510300.csv') |     if not os.path.exists(path): |         return {} |     df = pd.read_

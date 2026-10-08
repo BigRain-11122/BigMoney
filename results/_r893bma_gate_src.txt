@@ -1,0 +1,17 @@
+LEN 11053
+140 s/audits/bigmoney-credibility-audit-20260930.md): | data/daily holds 1724 CSVs where only the 48 bare-code core48 files are | the fresh in-servi
+349 are code ALSO exists as a prefixed twin | (sh510300.csv vs 510300.csv). Any full-directory read is polluted by | stale bars + duplicate s
+363 exists as a prefixed twin | (sh510300.csv vs 510300.csv). Any full-directory read is polluted by | stale bars + duplicate securities (tas
+3827 _PREFIX_RE = re.compile(r"^(?:sh|sz)?(\d{6})$") |  |  | def canonical_symbol(sym: str) -> str: |     """Bare 6-digit code is the canonical key ('sh510300'/'51
+3932 git code is the canonical key ('sh510300'/'510300.csv' |     -> '510300'). Anything that does not resolve to a 6-digit code |     raises 
+4146  s = str(sym).strip().lower() |     if s.endswith(".csv"): |         s = s[:-4] |     s = os.path.basename(s) |     m = _PREFIX_RE.match(s) |  
+4706  'YYYY-MM-DD' (canonical face) |  |     @property |     def twins(self) -> list: |         return sorted(set(self.bare) & set(self.prefixed)) |  |     
+4795  sorted(set(self.bare) & set(self.prefixed)) |  |     def serving_file(self, code: str) -> str: |         return self.bare.get(code) or self.prefixed[co
+4897 turn self.bare.get(code) or self.prefixed[code] |  |  | def _tail_last_bar(path: str) -> str | None: |     """Last row's date column via full-tail read (r47
+5342 rip() |     except Exception: |         return None |  |  | def scan_daily_dir(daily_dir: str) -> PanelInventory: |     inv = PanelInventory() |     for f in sort
+5495 .listdir(daily_dir)): |         if not f.endswith(".csv"): |             continue |         stem = f[:-4] |         try: |             code = c
+6322 ctory=list)     # refusal reasons (ok=False) |  |     def refuse(self, reason: str) -> None: |         if reason not in self.reasons: |             
+6442 easons: |             self.reasons.append(reason) |  |  | def gate(symbols, mode: str = "batch", *, daily_dir: str | None = None, |          invento
+7724 inv = inventory or scan_daily_dir(daily_dir) |  |     def _d(a: str, b: str):  # calendar-day delta a-b (ISO dates sort) |         from dateti
+10204        res.accepted.append(code) |     return res |  |  | def verify() -> bool: |     """Self-check: whitelist frozen (sha16 pinned), no duplicates, t
+10684 ") == "510300" |     ok &= canonical_symbol("510300.csv") == "510300" |     ok &= canonical_symbol("sz159915") == "159915" |     return boo

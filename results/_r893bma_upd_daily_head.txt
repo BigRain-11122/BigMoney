@@ -1,0 +1,120 @@
+"""Incremental daily-bar updater for the core-48 pool + paper accrual hook.
+
+Why (J17 pointer): data/daily freshness depended on an external manual
+action. Paper tracking only accrues on new closed bars; without this
+updater months_tracked never grows and the 2026-10-31 first-month
+promotion check dies.
+
+Contract:
+  - scope: core-48 bare-code CSVs in data/daily (same universe as
+    live.paper.load_core / backtests). sh/sz-prefixed expansion-pool
+    files are NOT touched (BACKTEST_PLAN: no 1676 expansion).
+  - source parity: ak.fund_etf_hist_sina -- the same source the pool
+    was built with (download_etf.py); columns date,open,high,low,
+    close,volume,amount only.
+  - append-only: rows with date strictly greater than the file's last
+    date are appended; existing rows are NEVER rewritten. If the source
+    re-adjusts history (ETF dividend), the overlap check flags it in
+    the status log AND live.paper's anchor gate aborts loudly --
+    never auto-rewrite history here.
+  - closed-bars-only (no look-ahead): a bar dated TODAY is accepted
+    only after 15:30 Asia/Shanghai. Sina daily klines are completed
+    bars intraday (verified 2026-09-23 11:07), this guard is
+    defense-in-depth. Weekends/holidays -> 0 new rows = normal no-op.
+  - probe fast-path: one liquid symbol (510300) is updated first; if it
+    yields 0 new rows the whole market calendar is unchanged and the
+    remaining fetches are skipped (10-min polling stays cheap).
+  - laggard catch-up (R54): per-symbol publication lag breaks the
+    "one probe == whole calendar" assumption (2026-09-23: 12 SZ 159xxx
+    ETFs published hours after the sh names, then stayed frozen behind
+    the probe fast-path). When the probe yields 0 new rows, core files
+    whose last bar date is BEHIND the probe's are fetched anyway (heal),
+    with a per-symbol 60-min retry backoff (catchup_attempts in the
+    status file) and a 15-day staleness exit (dead/suspended symbols
+    stop being fetched, mirroring the pool F1 freshness rule).
+  - atomic write: staged to <path>.tmp then os.replace.
+  - idempotent: re-running the same day yields 0 new rows.
+  - hook: if ANY new bar landed, run `python -m live.paper` once
+    (anchor gate first; drift -> abort, trader JSONs untouched).
+    --no-paper skips the hook.
+  - status log: results/update_status.json (per-symbol rows appended,
+    overlap mismatches, failures, totals) for ops/dashboard reads.
+  - single assembly (T-04 F1): the status file is written ONCE, after
+    the paper hook, by main() -- it always carries exit_code + hook_ok
+    (+ hook_exit, cutoff_error). Staged .tmp + os.replace, atomic.
+  - single-instance lock (T-04 F1): logs/update_daily.lock PID lockfile;
+    a second live instance exits 0 without touching data. Stale PID is
+    reclaimed (dead-PID check; age > LOCK_STALE_AGE fallback).
+
+  - dual-leg fallback (T-08, additive NEW fields only -- sina default path
+    byte-identical): on primary fetch failure the run falls back to the
+    TENCENT VALIDATION LEG (scripts/daily_validate.py) for diagnosis -- bars
+    are NEVER written from tencent (no amount column, R34 probe evidence);
+    it answers "is the bar upstream at all?" per failed symbol and "is the
+    zero-row run a sina lag or a legit no-op?" via a 1-request probe-freshness
+    check after 15:30. On sweep success a post-sweep parity audit re-checks
+    the symbols that just received bars (level parity 1e-3, ex-div dates
+    false-red -> flagged, never auto-corrected). Status gains: source_used,
+    fallback_events, parity_audit (new keys only; readers of existing keys
+    unaffected). --simulate-primary-failure forces the primary fetcher to
+    fail for acceptance evidence (writes results/update_status_sim.json --
+    production status file untouched, zero data writes).
+
+Exit codes: 0 ok | 1 selftest fail | 2 symbol fetch failure |
+3 paper hook failed (anchor drift or crash -- NEVER silenced).
+
+Usage:
+    python scripts/update_daily.py             # update + paper hook
+    python scripts/update_daily.py --no-paper  # update only
+    python scripts/update_daily.py --selftest  # offline logic tests
+"""
+import datetime as dt
+import json
+import os
+import subprocess
+import sys
+import time
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
+
+from config import PATHS
+from config.lane_io import write_lane
+
+COLUMNS = ["date", "open", "high", "low", "close", "volume", "amount"]
+CLOSE_ACCEPT_TIME = dt.time(15, 30)      # today's bar only after market close
+PROBE_SYMBOL = "510300"                  # liquid SSE ETF, calendar proxy
+FETCH_SLEEP = 0.3                        # rate limit, mirrors download_etf.py
+CATCHUP_RETRY_MIN = 60          # laggard retry backoff window (minutes)
+CATCHUP_STALE_DAYS = 15        # lag beyond this -> dead symbol, stop fetching
+STATUS_PATH = os.path.join(PATHS.results_dir, "update_status.json")
+LOCK_PATH = os.path.join(PATHS.root, "logs", "update_daily.lock")
+LOCK_STALE_AGE = 30 * 60        # belt-and-braces reclaim behind the PID check
+
+
+def _pid_alive(pid: int) -> bool:
+    """True if `pid` names a live process. Windows: kernel32 OpenProcess +
+    WaitForSingleObject (WAIT_TIMEOUT == still running); a re-openable but
+    terminated process reports WAIT_OBJECT_0 -> dead. POSIX: os.kill(pid, 0).
+    ACCESS_DENIED on Windows means the process exists (elevated) -> alive."""
+    if not pid or pid < 1:
+        return False
+    if os.name == "nt":
+        try:
+            import ctypes
+            k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+            h = k32.OpenProcess(0x00100000, False, pid)  # SYNCHRONIZE
+            if not h:
+                # 5 == ACCESS_DENIED: exists but elevated -> alive
+                return ctypes.get_last_error() == 5
+            try:
+                rc = k32.WaitForSingleObject(h, 0)
+                return rc == 258  # WAIT_TIMEOUT
+            finally:
+                k32.CloseHandle(h)
+        except Exception:  # noqa: BLE001 -- never fatal
+            return False
+    try:
+        os.kill(pid, 0)
+        return True
