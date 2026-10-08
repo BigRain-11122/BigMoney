@@ -68,13 +68,18 @@
 
 - results/trial_labor_w16/{w16_grammar.json,w16_candidates.json,w16_screen.json,w16_screen_cells.csv,judge_state.json,w16_judge.json,w16_intake.json}（W14 目录范式同构+intake 改革门全列）+SEED_REGISTRY 三键（20593000/20593500/20594000·冻结步同 commit·R250 一步律）+波级票 T-2026-10-05-172+MSG 声明+attrition 行+TRIAL_GRAMMAR_LEDGER wave-16 行（GENERATE 消费时落）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-（冻结→生成→初筛→判决→intake 后回填）
+**【2026-10-08 一次定稿回填·bm-a r873（r862 判决面落地后的收口轮）·数字真值源=results/trial_labor_w16/*.json】**
 
-## §8 批后复盘。【必填 §7-T。】
+- **漏斗**：raw 10,000（Sobol 二十元组 6,772,211,712 轴组）→ distinct **173**（塌缩 98.27%·**1.73% ∉ 预测带 [2%,12%]=MISS 低于带下沿=变体供给弱化警报如实报**〔§4 弱化警报条款兑现〕·W14 2.93%→二十元组面进一步塌缩）→ 初筛 373 格（173+200 null）→ 存活 **40**（40/173=23.1%）→ 全量判决 40 格 → **G1'v2 0/40 过线**（最佳 W16-B-8195 leg-L Sharpe 0.7272 < 当批判线 1.1437·40 格全 verdict=fail·DSR 最高 0.017772 @ n_trials=802,278 活链头）→ **G2-v2 eligible 0** → intake 合法零（w16_intake.json n_eligible=0·**§5.3③ 模态零兑现**）。账本 801,905→SCREEN +373=**802,278**→JUDGE +40=**802,318**（TRIAL_LAB_W16_JUDGE·链头连续零断·voids_applied [LOWAMP-P1,LOWAMP-P2]）。
+- **判决面**：null 族中位 0.5116/p95=0.511572（**∈ [0.50,0.52] 参照带 ✓ 第九连带内**·W1/W2/W3/W13 同量化格值 641/1253）；E[FP]=0.05×40=**2.0** 名义披露；族 PBO：patterns **0.30**（9 格）/momentum **0.9571**（8）/folk **0.2571**（8）/trend 1·sentiment 2·ta 6·macro+rest <8 不足判读如实；描述面：ann>0 33/40·OOS(2025+) 双正 9/40·dd≥−35% 40/40·无崩盘年 40/40（x2 无崩盘年同）。
+- **§5 预测对账**：①塌缩 1.73% **MISS**（先验→屏级富集历史命中率维持 1/3 注记——本波未破局·弱化警报成立）；②null p95 带内 ✓；③**max30_q10 值格存活率 0.241935 vs none 基线 0.225225=1.07x ∈ [0.8x,1.6x] ✓**（带内低段·15/62）；rank30_q90 值格 0.2/0.252427=**0.79x**（贴带下沿·薄尾轴 217 开日样本充足律约束面兑现——§5.1 rank30 预测注记如实）；④eligible_reform/top-3 **对账悬置**（改革门面缺件——见 §8 缺口披露·本节不填数=占位纪律延续至改革面落地）；⑤负读数照报：40/40 判负·max30 值格 0/15 G1' 过线（细分段明细在 w16_judge.json cells·负结果=合法产出）。
 
-（判决落地后回填）
+## §8 批后复盘【必填·s7-T·r873 回填】
+
+**【回执 2026-10-08 bm-a r873（收口轮）】**attrition 损耗账两行（TRIAL_LAB_W16_SCREEN 373+TRIAL_LAB_W16_JUDGE 40）r860/r862 落地窗未落=r471 同款漂移债，r873 补录（results/gate_attrition.json history+bm-a 车道双写·retro_fill:true+原事件时戳 03:41:47/04:48:23）；判线 v2 当批读数 skill_line_v2=**1.1437**；零新注册员（G2-v2=0·TRIAL-MAXRANK-* 无账户面——**改革口径待补前为暂时态非终态**）。
+**【缺口披露·P0 续作点——改革门面（prereg §4 冻结口径）未落】**：W16 runner（r722 死会话收养·「沿 W14 范式」）血统复制**丢失 W14 改革面块**（trial_labor_w14.py 判决面=member_metrics 四维提取+batch_p_values=dual-nulls signflip_p+g2_reform_fdr4d+top-3 选岗+REFORM_CEILING_BASELINE 天花板基线〔L561/L959〕+science_gates 改革常数 import〔L158-161〕=正典源）——判决面以旧 G1'/G2-v2 口径落盘=**保守面**（0 过线负结果两口径方向一致概率高**但非终判**：改革门 L3=批内 BH FDR q≤10% 与 G1'v2 全局折减机制不同，§5.3① eligible_reform [0,10] 预测带未消费=对账悬置）。**精确续作点**：①改革面 derive 腿——从 W14 runner 移植改革面块至 W16 伴生面 results/trial_labor_w16/w16_reform_face.json（纯 derive：checkpoint 40 行四维材料完备·judge 已落盘 idempotent-guard 禁重跑·零重烧）→②intake 以改革口径重 derive（intake=判决面零账本行=重跑零账本成本·TRIAL-MAXRANK-* 上岗名册仅按 eligible_reform 口径）→③§7④⑤ 对账补记+48h CEO 呈报（钟起 2026-10-08 04:48·due 2026-10-10 04:48）双口径分离披露。
 
 ## §9 冻结窗收口与精确续作点。【append-only】
 
