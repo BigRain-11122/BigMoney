@@ -1,0 +1,100 @@
+{
+ "schema": "f1_ctap1_corr_probe_v1",
+ "ticket": "T-2026-10-08-177 leg-2 next-pointer-1 (REGIME5_BULL_SUPPLY_SCAN)",
+ "purpose": "D6 same-family admission probe: F1 ETF momentum rotation vs registered CTA_P1 (vol_target_tsmom_60 futures nine-variety)",
+ "d6_rule": "max|corr| on daily sleeve returns (sleeve-tag precedent); >=0.70 = same-family merge path (no separate prereg); <0.70 = cleared to own prereg",
+ "cta_p1_construction": "frozen verbatim: cta_p1_screen.sig_vol_target_tsmom(60) + build_weights(daily regime) + futures_runner.run cost x1, 10M parity, window 2017-01-17..cutoff",
+ "f1_construction": "long-only top-k monthly rotation on O-1555 frozen five; signal=close/close.shift(L)-1; weights=inverse 60d vol within top-k sum 1; month-first rebalance (cta_p1_screen month_first_index reuse); 1-day lag no-lookahead; cost 13.041bp/side x turnover (x1 repo convention)",
+ "universe_note": "588000 alive-handled (inception 2020-11); ranked among alive members only",
+ "window": {
+  "start": "2017-01-17",
+  "end": "2026-09-30",
+  "futures_cutoff": "2026-09-30",
+  "etf_cutoff": "2026-09-30"
+ },
+ "evidence_cutoff": "2026-09-30",
+ "cells": [
+  {
+   "lookback": 60,
+   "topk": 1,
+   "n_overlap": 2356,
+   "corr": 0.0126,
+   "f1_ann_ret_pct": -2.18,
+   "f1_ann_vol_pct": 24.42
+  },
+  {
+   "lookback": 60,
+   "topk": 2,
+   "n_overlap": 2356,
+   "corr": -0.0001,
+   "f1_ann_ret_pct": 1.01,
+   "f1_ann_vol_pct": 21.38
+  },
+  {
+   "lookback": 60,
+   "topk": 3,
+   "n_overlap": 2356,
+   "corr": -0.021,
+   "f1_ann_ret_pct": 2.28,
+   "f1_ann_vol_pct": 20.25
+  },
+  {
+   "lookback": 120,
+   "topk": 1,
+   "n_overlap": 2356,
+   "corr": 0.0004,
+   "f1_ann_ret_pct": 2.88,
+   "f1_ann_vol_pct": 24.85
+  },
+  {
+   "lookback": 120,
+   "topk": 2,
+   "n_overlap": 2356,
+   "corr": -0.0084,
+   "f1_ann_ret_pct": 1.76,
+   "f1_ann_vol_pct": 21.35
+  },
+  {
+   "lookback": 120,
+   "topk": 3,
+   "n_overlap": 2356,
+   "corr": -0.0232,
+   "f1_ann_ret_pct": 2.2,
+   "f1_ann_vol_pct": 20.13
+  },
+  {
+   "lookback": 250,
+   "topk": 1,
+   "n_overlap": 2323,
+   "corr": -0.0217,
+   "f1_ann_ret_pct": 3.91,
+   "f1_ann_vol_pct": 24.74
+  },
+  {
+   "lookback": 250,
+   "topk": 2,
+   "n_overlap": 2323,
+   "corr": -0.0295,
+   "f1_ann_ret_pct": 3.75,
+   "f1_ann_vol_pct": 21.33
+  },
+  {
+   "lookback": 250,
+   "topk": 3,
+   "n_overlap": 2323,
+   "corr": -0.0344,
+   "f1_ann_ret_pct": 2.37,
+   "f1_ann_vol_pct": 20.19
+  }
+ ],
+ "max_abs_corr": 0.0344,
+ "d6_threshold": 0.7,
+ "verdict": "CLEARED_TO_OWN_PREREG",
+ "honest_notes": [
+  "corr is scale-invariant: CTA_P1 futures sleeve embeds margin/leverage profile; correlation measured on realized daily equity returns",
+  "representative cells only (lookback x topk x monthly); full grid belongs to the future prereg if cleared",
+  "zero judgment gates in this probe -- admission face only; no beat/null/pbo claimed"
+ ],
+ "determinism": "no RNG; same panel bytes => same output bytes",
+ "generated_by": "results/_r890bma_f1_ctap1_corr_probe.py (bm-a r890)"
+}
