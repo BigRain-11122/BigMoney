@@ -5186,6 +5186,51 @@ N1_BANDS = {
     # NOT a re-pick (R250: W185 bands were never assigned).
     185: {"a": (421_804, 423_803), "b_exit": (423_804, 424_003),
          "engine_owner": "bm-a"},
+    # W186 (bm-a r882 freeze, seat MSG-2026-10-08-1354-bma-w186-seat
+    # pushed to origin dd362c690 pre-freeze r565 law (r880 pre-seat
+    # push; payload = seat MSG + pre-seat probe script + probe receipt
+    # (3-item; the W185 finalize product already on origin since r879,
+    # not re-shipped, W146 same-push precedent);
+    # deletion-set EMPTY; delivery window
+    # = direct fast-forward behind-0 at fetch (r880 pre-seat
+    # push), zero merge, zero --no-verify; self-ack archive ALREADY
+    # LANDED pre-freeze -- bm-a r880-window self-ack move (the W186
+    # seat MSG sits in fleet/inbox/processed/ at freeze time, honest
+    # archived);
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r880bma_w186_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W185 B band (arithmetic continuation
+    # 423_804..425_803 REFUSED at its own start by the W185 B band
+    # 423_804..424_003, exactly as the W185 seat W186+ projection + r875 probe
+    # leg4 + r879 sec8 same-window succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 424_004..426_003, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (424_003+1) machine-checkable -- A-hops-prior-B staircase
+    # FORTY-SIXTH instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 424_004..424_203 CLEAN on the registered universe
+    # but lands INSIDE the W186 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 426_004 -> 426_004..426_203,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (426_003+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W186+ projection (gate-derived r880): A first-clean
+    # 426_004..428_003 CLEAN hops=0 / B first-clean 426_204..426_403
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W186 B band 426_004..426_203 will refuse the naive
+    # W187 A window; W187 freezer MUST re-derive on the post-W186
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W186 bands were never assigned).
+    186: {"a": (424_004, 426_003), "b_exit": (426_004, 426_203),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
