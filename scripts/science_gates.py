@@ -1965,6 +1965,11 @@ SEED_REGISTRY = {
         # freeze BEFORE any burn, one-step R250 law; prereg
         # research/REGIME5_VALIDATION_P1.md sec.2/sec.3
         "regime5_validation_p1_null_base": 94_100,
+        # F1-BULL-COND-P1 null base (r899 bm-a, T-177 leg-2 slice-2): 94_200
+        # same 94_001..94_999 pocket, verified free in-registry this window
+        # (r899 machine-read: occupied 94_x ints = [94_100] only); registered
+        # at prereg freeze BEFORE any burn; prereg research/F1_BULL_COND_P1.md
+        "f1_bull_cond_p1_null_base": 94_200,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
