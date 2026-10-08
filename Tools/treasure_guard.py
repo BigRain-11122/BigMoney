@@ -39,6 +39,30 @@ def repo_root():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def _norm_path(path):
+    """Normalize any CLI path form to repo-root-relative forward-slash form.
+
+    r896 bm-a weld: registry entries are relative, so absolute-path callers
+    silently bypassed every match (live probe: abs form rc0 vs rel form rc3
+    on the same file). Paths outside the repo root keep their normalized
+    absolute form (still comparable, never a false hit).
+    """
+    p = str(path).replace("\\", "/")
+    try:
+        if os.path.isabs(path):
+            ap = os.path.abspath(path)
+            root = repo_root()
+            if ap == root:
+                return "."
+            if ap.startswith(root + os.sep):
+                p = os.path.relpath(ap, root).replace("\\", "/")
+    except Exception:
+        pass
+    if p.startswith("./"):
+        p = p[2:]
+    return p
+
+
 def _cell_parent(tokens):
     """Dir context from full-path tokens in one table cell (dir or file form)."""
     parents = []
@@ -100,7 +124,7 @@ def load_registry(root=None):
 
 
 def is_protected(path, families, exacts, globs):
-    p = path.replace("\\", "/")
+    p = _norm_path(path)
     if p in SELF_PROTECTED:
         return True
     if p in exacts:
@@ -152,7 +176,7 @@ def classify_restore(paths, families, exacts, globs):
     """
     allowed, forbidden = [], []
     for p in paths:
-        q = p.replace("\\", "/")
+        q = _norm_path(p)
         if is_protected(q, families, exacts, globs):
             forbidden.append((q, "registry"))
             continue

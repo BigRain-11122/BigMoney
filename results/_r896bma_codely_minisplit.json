@@ -1,0 +1,55 @@
+{
+ "round": 896,
+ "op": "codely-minisplit-r896",
+ "cap": 30720,
+ "prescan_rc": 0,
+ "prescan_note": "rc3 recorded per r651/r654/r670/r747 precedent; D-06 authorized byte-accounted verbatim migration (not a deletion)",
+ "r807_deletion_safety_probes": {
+  "追加式重锚": true,
+  "ledger_head": true,
+  "r807_marker": true
+ },
+ "main_bytes_before": 30922,
+ "removed_bytes": 2113,
+ "migrated": [
+  {
+   "entry": "r779 bm-c",
+   "bytes": 970,
+   "sha16": "82da10b826d5cc36",
+   "to": "research/pit-protocol-d19.md",
+   "bytes_in_target_verbatim": true
+  },
+  {
+   "entry": "r784 bm-c",
+   "bytes": 806,
+   "sha16": "a6804812df755117",
+   "to": "research/pit-git-resolver-rebase.md",
+   "bytes_in_target_verbatim": true
+  },
+  {
+   "entry": "r807 bm-b decl-row",
+   "bytes": 337,
+   "sha16": "9bb5e809c74a6879",
+   "to": "(deleted; content verified pre-present in research/pit-protocol-judge.md)"
+  }
+ ],
+ "main_bytes_after": 29434,
+ "added_bytes": {
+  "pointer_row": 625
+ },
+ "byte_equation": "main_after == main_before - removed + pointer: True",
+ "retained_identity": true,
+ "blocks_absent_from_main": true,
+ "cap_face": {
+  "CODELY.md": 29434,
+  "research/pit-protocol-d19.md": 24006,
+  "research/pit-git-resolver-rebase.md": 22011
+ },
+ "all_under_cap": true,
+ "prescan_disclosure": {
+  "rel_form_rc": 3,
+  "abs_form_rc_at_split_time": 0,
+  "note": "abs form bypassed registry (path-form guard hole discovered this round); split op itself = D-06 authorized verbatim zero-loss migration per r747 precedent; hole welded same round",
+  "guard_fix": "Tools/treasure_guard.py _norm_path weld (is_protected + classify_restore entry normalization); selftest PASS; abs/rel parity rc3 verified; clean file rc0"
+ }
+}
