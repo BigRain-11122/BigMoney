@@ -1,0 +1,48 @@
+{
+ "schema": "regime5_bull_scan_external_slice_v2_candidate_card",
+ "ticket": "T-2026-10-08-177 leg-2 slice-2 (O-20261007-2215 @bm-a lane, sec.3 borrow-law-first)",
+ "machine": "bm-a",
+ "round": "r900",
+ "candidate_id": "XASSET-ROT",
+ "candidate_rank": 2,
+ "source": {
+  "origin_study": "上海证券基金评价研究中心《探究多策略ETF组合的构建方法（1）——资产轮动策略》2024-08-30 (analysts 刘亦千 S0870511040001 / 谈福嘉 S0870123060004)",
+  "accessible_via": "sina finance reproduction 2024-09-12 doc-incnxaah7489218 (xueqiu original WAF-blocked, disclosed)",
+  "mechanism_spec_extracted": {
+   "family": "cross-asset-class + cross-country ETF momentum rotation (mid-long-term momentum, fully quantitative, zero discretionary)",
+   "pool": "15 ETFs spanning A-share equity (3), bonds, HK equity, US equity, European equity, gold -- 9 of 15 are equity-market indices (3 domestic + 6 overseas); exact tickers in report table (image face, not text-extractable from reproduction)",
+   "rebalance": "fixed cycle = last trading day of each natural month (month-end)",
+   "momentum_score": "multi-period historical returns composite (borrowing AQR 'A Century of Evidence on Trend-Following Investing' 1m/3m/12m construction)",
+   "selection": "rolling buy a FIXED COUNT of top-scored ETFs (long-only buy-and-hold until next month-end)",
+   "weighting": "inverse volatility w_i = (1/sigma_i) / sum(1/sigma_j), sigma from daily-return history (NOT equal weight)",
+   "backtest_proxies": "ETF tracking INDICES substituted for ETFs (listing dates too short); start rule = first month-end when >=8 of 15 indices have base-period data"
+  },
+  "claimed_numbers_unverified": {
+   "window": "2006-01-25 to 2024-06-28",
+   "annual_return": "13.33% (excess vs CSI300 +6.15%/yr)",
+   "sharpe": "1.21 (CSI300 0.28)",
+   "annual_vol": "11.05% vs CSI300 25.83%",
+   "beta_vs_csi300": 0.22,
+   "yearly_win_rate": "~85% (3 negative years of 19: 2008/2016/2022; CSI300 9 negative)",
+   "monthly_win_rate": "71.95% (159/221 months)",
+   "max_drawdown": "-28.43% (2015H2-2016 crash: momentum instant-failure with 9 equity indices held)",
+   "costs_disclosed_absent": "no fees/commissions/slippage/impact in source backtest -- our replication would add cost x1 (13.041bp/side) which the source numbers do not carry"
+  }
+ },
+ "assessment": {
+  "mechanism_cell_vs_our_faces": {
+   "ban_01_equity_index_cross_sectional": "DIFFERENT cell: BAN-01 killed narrow equity-index cross-sectional rotation (MOM 0/4920 significant); XASSET-ROT rotates ACROSS asset classes and countries (bond/gold/overseas sleeves give the drawdown-escape the equity-only cell lacked)",
+   "four_asset_path_2_1": "SAME broad family (asset-class momentum rotation), XASSET-ROT is the wider-pool/multi-country variant; D6 same-family correlation check (max|corr|>=0.7 reject) MUST run at prereg time against the confirmed four-asset path returns",
+   "croe_2024_factor_momentum": "complementary external anchor (bull-side concentration) already burned as F1-BULL-COND-P1 -> FAIL-CLOSED 0/9 (r899); XASSET-ROT does NOT depend on regime conditioning"
+  },
+  "data_feasibility_gate": {
+   "in_house_now": "510300/510050/510500/512100/588000 daily panel + grid cells 159915/512880/518880/511010 + futures(9) + repo + options; bond ETF/gold ETF daily exist via grid cells; CROSS-BORDER ETF daily bars (HK/US/Europe sleeves) ABSENT from all panels",
+   "blocker": "faithful replication needs a cross-border ETF daily collection lane (513100/513500/513030/513080/510900-class tickers) -- NEW data lane",
+   "freeze_law": "T-67 sec.2: new panel needs >=12 months forward history BEFORE any new prereg -- earliest XASSET-ROT prereg >= 12 months after lane ignition",
+   "p1_gate": "data-source expansion = P1-level new direction -> signed ticket required (GM signature per O-1620 delegation); lane proposal drafted separately, this card is the supply-side evidence"
+  },
+  "verification_plan_when_data_lands": "prereg from PREREG_TEMPLATE with alpha-mechanism sec.1 = asset-class momentum rotation; D6 vs four-asset path; cost x1 ON; three-window + holding-period grid per TRIAL_LABOR_LAW; random-signal baseline + N recorded (BACKTEST_PLAN three iron laws); exit-axis explicit declaration mandatory (O-20261001-1108)"
+ },
+ "verdict": "candidate card filed: mechanism spec extracted + claims marked UNVERIFIED + data-lane blocker + D6/p1 gates declared; NOT prereg-able today (cross-border lane absent)",
+ "next": "① P1 lane ticket for cross-border ETF daily collection (bm-b lane pattern, update_etf_daily family extension or new gate) ② 12-month forward accumulation ③ prereg + trial wave"
+}
