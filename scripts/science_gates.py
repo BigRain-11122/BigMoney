@@ -1970,6 +1970,23 @@ SEED_REGISTRY = {
         # (r899 machine-read: occupied 94_x ints = [94_100] only); registered
         # at prereg freeze BEFORE any burn; prereg research/F1_BULL_COND_P1.md
         "f1_bull_cond_p1_null_base": 94_200,
+        # TRIAL_LABOR_W17 exit-axis paired-block batch (bm-c r788 freeze window,
+        # ticket T-2026-10-09-178-P1): family band [20610000,20612500) --
+        # scrnull rng([20610500,i]) i<200 (K=200 screen nulls) + unc
+        # rng([20611000,cell_idx]) cell_idx<1384 (judge dual-nulls B=2000
+        # block bootstrap + P=2000 sign-flip); gen 20610000 held
+        # zero-consumption this batch (entry cells = W16 frozen 173 verbatim
+        # reuse, zero new Sobol generation; registered for family-band
+        # continuity + future W17-derived generation face); berth proposal
+        # lineage r786 probe L3 (20598000/20600000 trios refused:
+        # theme_deepen_p1_nulls=20600000 band [20600000,20602200)); verified
+        # free in-registry + repo-text-scan foreign-zero-hit this window
+        # (_r788bmc_w17_freeze_facts A8, 190-key live registry); registered
+        # at prereg freeze BEFORE any burn, one-step R250 law; prereg
+        # research/TRIAL_LABOR_W17_PREREG.md
+        "trial_labor_w17_gen": 20_610_000,
+        "trial_labor_w17_scrnull": 20_610_500,
+        "trial_labor_w17_unc": 20_611_000,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

@@ -1,0 +1,254 @@
+{
+ "round": 788,
+ "machine": "bm-c",
+ "wave": "TRIAL_LABOR_W17",
+ "funnel_leg": "3/5 freeze-window facts (draft sec.6.2)",
+ "burn": "ZERO (pre-write evidence)",
+ "A1_panel_anchor": {
+  "path": "data/daily/sh510300.csv",
+  "loader": "pd.read_csv direct (raw file, not engine load_core)",
+  "rows_total": 3489,
+  "rows_le_cutoff": 3483,
+  "first": "2012-05-28",
+  "last_le_cutoff": "2026-09-22",
+  "start_window": "2012-05-28 full history (P-5C binding)",
+  "warmup_face": "grammar member warmups per axis spec (first-decidable anchors live in grammar files)"
+ },
+ "A2_core48_face": {
+  "no_prefix_csvs": 48,
+  "min_last_bar": "2026-10-08",
+  "max_last_bar": "2026-10-08",
+  "all_last_ge_2026": true
+ },
+ "A3_entry_cells": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n_candidates": 173,
+  "family_split": {
+   "A": 6,
+   "B": 167
+  },
+  "axis_tuple_len": 20,
+  "exit_axis_values": {
+   "time_stop_10d": 19,
+   "profit_ladder": 22,
+   "trailing_stop": 25,
+   "time_stop_7d": 23,
+   "template_default": 25,
+   "ce_machine": 16,
+   "time_stop_5d": 21,
+   "time_stop_20d": 22
+  },
+  "sample_cell_keys": [
+   "axis",
+   "candidate_id",
+   "family",
+   "fn",
+   "max_corr_vs_registered_naive",
+   "module",
+   "negative_prior",
+   "provenance",
+   "sig_params",
+   "template_trader"
+  ],
+  "loader": "json.load direct (frozen product, zero re-derivation)"
+ },
+ "A4_grammar_lineage": {
+  "w14_grammar_sha256_16": "012ad419fe99d73f",
+  "judge_state_grammar_sha": "a231bf10940e7878",
+  "ledger_w14_sha16": "a231bf10940e7878",
+  "ledger_w16_sha16": "ebf15822d2c8472e",
+  "lineage_assert": true
+ },
+ "A5_w16_context": {
+  "w16_screen_n_survivors": 40,
+  "w16_screen_batch_cells": 373,
+  "w16_screen_k_nulls": 200,
+  "w16_judge_n_judged": 40,
+  "w16_judge_n_eligible_g2": 0,
+  "w16_reform_face_exists": false,
+  "w16_null_p95": null,
+  "w16_null_family_dump": "{'rates': [0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0.5116, 0"
+ },
+ "A6_dsr_chain_head": {
+  "dsr_chain_head_total": 833536,
+  "head_file": "n1_w191_results.json",
+  "active_voids": [
+   {
+    "batch": "LOWAMP-P1",
+    "voided_trials": 2008
+   },
+   {
+    "batch": "LOWAMP-P2",
+    "voided_trials": 2008
+   }
+  ],
+  "source": "science_gates.ledger_head() live call (authoritative chain head, cross-wave no-reset, void-adjusted)"
+ },
+ "A7_w1_exit_burn_correction": {
+  "w1_generated_exit_dist": {
+   "time_stop_5d": 70,
+   "time_stop_7d": 83,
+   "trailing_stop": 94,
+   "ce_machine": 79,
+   "profit_ladder": 73,
+   "template_default": 85,
+   "time_stop_20d": 101,
+   "time_stop_10d": 73
+  },
+  "w1_judged_exit_dist": {
+   "profit_ladder": 19,
+   "ce_machine": 15,
+   "template_default": 22,
+   "time_stop_5d": 10,
+   "time_stop_20d": 25,
+   "trailing_stop": 21,
+   "time_stop_7d": 20,
+   "time_stop_10d": 17
+  },
+  "w1_n_eligible": 0,
+  "full_census_per_wave": {
+   "trial_labor_w1": {
+    "n": 658,
+    "non_default_x": 573
+   },
+   "trial_labor_w10": {
+    "n": 2014,
+    "non_default_x": 1754
+   },
+   "trial_labor_w11": {
+    "n": 1262,
+    "non_default_x": 1102
+   },
+   "trial_labor_w12": {
+    "n": 859,
+    "non_default_x": 767
+   },
+   "trial_labor_w13": {
+    "n": 393,
+    "non_default_x": 332
+   },
+   "trial_labor_w14": {
+    "n": 293,
+    "non_default_x": 262
+   },
+   "trial_labor_w16": {
+    "n": 173,
+    "non_default_x": 148
+   },
+   "trial_labor_w2": {
+    "n": 2924,
+    "non_default_x": 2550
+   },
+   "trial_labor_w3": {
+    "n": 3552,
+    "non_default_x": 3124
+   },
+   "trial_labor_w4": {
+    "n": 3810,
+    "non_default_x": 3340
+   },
+   "trial_labor_w5": {
+    "n": 3926,
+    "non_default_x": 3467
+   },
+   "trial_labor_w6": {
+    "n": 3952,
+    "non_default_x": 3448
+   },
+   "trial_labor_w7": {
+    "n": 3704,
+    "non_default_x": 3234
+   },
+   "trial_labor_w8": {
+    "n": 2834,
+    "non_default_x": 2493
+   },
+   "trial_labor_w9": {
+    "n": 2515,
+    "non_default_x": 2214
+   }
+  },
+  "census_totals": {
+   "waves_with_candidates_file": 15,
+   "total_generated": 32869,
+   "total_non_default_x": 28808
+  },
+  "w16_judged_exit_dist": {
+   "time_stop_10d": 3,
+   "profit_ladder": 7,
+   "trailing_stop": 7,
+   "template_default": 6,
+   "ce_machine": 2,
+   "time_stop_7d": 4,
+   "time_stop_20d": 8,
+   "time_stop_5d": 3
+  },
+  "verdict": "EXIT_AXIS_BURNED_EVERY_WAVE (draft r786 sec.1 'zero exit-axis burn in W lineage' premise FALSE at the products face; r786 L1 probe scanned ledger TEXT not products = blind spot; W17's true novelty = complete-block PAIRED isolation design never burned -- X was always a confounded random draw dimension)"
+ },
+ "A8_seed_berth": {
+  "registry_n": 190,
+  "berth": [
+   20610000,
+   20610500,
+   20611000
+  ],
+  "band": [
+   20610000,
+   20612500
+  ],
+  "occupancy_blockers": [],
+  "foreign_text_hits": [],
+  "self_lineage_hits_n": 45,
+  "w17_range_keys_already_registered": [],
+  "w16_trio_still_registered": true,
+  "verdict": "CLEAN"
+ },
+ "A9_exit_face_feasibility": {
+  "exit_config_defaults": {
+   "take_profit_levels": [
+    0.05,
+    0.1,
+    0.2
+   ],
+   "take_profit_fractions": [
+    0.3333333333333333,
+    0.3333333333333333,
+    1.0
+   ],
+   "trailing_activate": 0.05,
+   "trailing_lock": 0.01,
+   "initial_stop": -0.08,
+   "loss_time_days": 8,
+   "time_decay_period": 12,
+   "time_decay_threshold": 0.02,
+   "global_hard_limit": 25,
+   "position_size_pct": 0.1,
+   "max_positions": 5
+  },
+  "engine_default_priority": [
+   "P1 signal_reversal -> close all",
+   "P2 stop_loss       -> initial -8%, trailing after +5%, follows high",
+   "P3 take_profit     -> tiered scale-out",
+   "P4 time_decay      -> hold N periods, return < threshold",
+   "P5 loss_time_stop  -> if losing and hold_days >= 8, force close",
+   "P6 hard_limit      -> global ceiling"
+  ],
+  "bridge_kwargs_face_reachable": true,
+  "exitpatch_fields_reachable": true,
+  "feasibility_assert": true,
+  "note": "all frozen faces implementable with ZERO engine edit (iron law intact; W1 EXIT_MACHINES bridged+patch idiom reuse)"
+ },
+ "A10_rival_scan": {
+  "fetch_rc": 0,
+  "origin_w17_rival_hits": [],
+  "fleet_tickets_1009": [],
+  "inbox_w17": [],
+  "verdict": "CLEAR"
+ },
+ "shape_assert": true,
+ "rc_map": {
+  "hard_violation": false,
+  "mechanism_issue": false
+ }
+}

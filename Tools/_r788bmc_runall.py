@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+"""r788 bm-c detached run supervisor: smoke -> QA pack -> S6 chain.
+
+Why detached (r788 live fire): the session shell cancels any command
+that produces no streamed output for 5.0 minutes, killing the child tree
+with it; Invoke-SilentExe buffers child stdout until exit, so any run
+longer than 5 silent minutes dies (first casualty = science_gates
+selftest, killed at 5:00 with zero output). House-canon zero-window
+channel for long runs = detached pythonw + self-log + parent poll
+(pit-spawn domain, saturation-engine daemon precedent, CEO silence law).
+
+Stage logs (house convention):
+  results/_r788bmc_smoke.txt       smoke_test stdout (fresh r788 re-run)
+  results/_r788bmc_qa_out.txt      qa_smoke_run --round 788 stdout
+  results/_r788bmc_s6_log.txt      S6 chain full log (40 legs, in-driver)
+  results/_r788bmc_s6_summary.txt  S6 chain per-leg rc summary stdout
+  results/_r788bmc_runlog.txt      supervisor stage markers (poll face)
+
+rc: first nonzero stage rc, honest. ASCII source."""
+import datetime
+import os
+import subprocess
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CNW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+PY = sys.executable.replace("pythonw.exe", "python.exe")
+RUNLOG = os.path.join(ROOT, "results", "_r788bmc_runlog.txt")
+ENV = dict(os.environ)
+ENV["PYTHONUTF8"] = "1"
+
+STAGES = [
+    ("smoke", [PY, "-m", "smoke_test"],
+     os.path.join(ROOT, "results", "_r788bmc_smoke.txt")),
+    ("qa_pack", [PY, "scripts/qa_smoke_run.py", "--round", "788"],
+     os.path.join(ROOT, "results", "_r788bmc_qa_out.txt")),
+    ("s6_chain", [PY, "Tools/_r788bmc_s6.py"],
+     os.path.join(ROOT, "results", "_r788bmc_s6_summary.txt")),
+]
+
+
+def log(msg):
+    with open(RUNLOG, "a", encoding="utf-8") as fh:
+        fh.write("%s %s\n" % (
+            datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
+            msg))
+
+
+def main():
+    log("supervisor start (smoke -> qa_pack -> s6_chain)")
+    rc_final = 0
+    for name, cmd, outpath in STAGES:
+        log("stage %s begin" % name)
+        with open(outpath, "w", encoding="utf-8") as fh:
+            p = subprocess.run(cmd, cwd=ROOT, stdout=fh,
+                                stderr=subprocess.STDOUT,
+                                creationflags=CNW, env=ENV)
+        log("stage %s end rc=%d" % (name, p.returncode))
+        rc_final = rc_final or p.returncode
+    log("supervisor done rc_final=%d" % rc_final)
+    with open(RUNLOG + ".rc", "w", encoding="utf-8") as fh:
+        fh.write(str(rc_final))
+    return rc_final
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

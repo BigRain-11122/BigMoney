@@ -1,0 +1,75 @@
+r788 bm-c science_gates selftest detached 2026-10-09T04:52:14+08:00
+[PASS] skill_line_v2 n_eff = live chain head + cells (data-driven, no frozen count)
+[PASS] skill_line_v2 monotone in N_eff
+[PASS] skill_line_v2 line = max(passive_term, null_term)
+[PASS] skill_line_v2 passive core48 strict(>=0.379)+0.10
+[PASS] skill_line_v2 n_eff_override pins chain position
+[PASS] g1_prime_v2 passes n_eff_override through (redo echo guard)
+[PASS] DSR honest: SR~1.6 at N=2727 does NOT clear 0.95 (calibration bite)
+[PASS] DSR strong edge (SR~2.5 ann) > 0.95 at N=2727
+[PASS] DSR pure noise < 0.60
+[PASS] DSR penalizes more trials (2727 -> 20000 lowers noise DSR)
+[PASS] dsr_from_stats reproduces raw-returns DSR within +-0.005 rounding tolerance
+[PASS] dsr_from_stats monotone in N (growing ledger never raises DSR)
+[PASS] bootstrap CI deterministic under fixed seed
+[PASS] bootstrap CI brackets point estimate
+[PASS] bootstrap CI lower bound > 0 for genuine edge
+[PASS] bootstrap CI noise lower bound < 0 (low-power disclosure)
+[PASS] passive_baseline rejects uncalibrated pool
+[PASS] append_ledger dict schema + chain-head prev
+[PASS] ledger_total tolerant: dict / flat list / dict-without-total / junk
+[PASS] T-02 7/7 evidence_cutoff: append_ledger embeds when given, omits when not
+[PASS] append_ledger prev_total override honored (r60 one-chain max, factor-line)
+[PASS] ledger_head recursive: subdir batch file visible (r112 fix)
+[PASS] ledger_head tolerates non-dict JSONs (r239 C-arm list form)
+[PASS] ledger_head void face: active void subtracts from raw/downstream totals
+[PASS] ledger_head void face: voids_applied stamp never re-subtracted (single count)
+[PASS] ledger_head void face: inert declaration is inert (raw face restored)
+[PASS] append_ledger: no stamp when no active void (inert declaration)
+[PASS] append_ledger prev_total override stays unstamped (raw-chain callers)
+[PASS] append_ledger stamps active voids (adjusted-head chain, single count)
+[PASS] finalize_already_landed trips on landed batch (pit-95 guard)
+[PASS] finalize_already_landed: absolute / results-relative / repo-relative file_name forms all resolve
+[PASS] finalize_already_landed None on different batch name
+[PASS] finalize_already_landed None on missing file
+[PASS] finalize_already_landed None when file_name is None
+[PASS] finalize_already_landed None on corrupt file (crash-recovery re-finalize lawful)
+[PASS] dual_trade_gate: tranches pad, entries honest
+[PASS] passive_strict_max = max across variants (0.3004 vs 0.379)
+[PASS] recorded_lines: p2 gate + CE nulls live-read
+[PASS] CostPatch x2: stressed single-side == recorded COST_X2_RATE
+[PASS] CostPatch restores FeeSchedule name on exit
+[PASS] SEED_REGISTRY: verified bases present, all ints positive
+[PASS] SEED_REGISTRY: t18_deep_axis base 54_000 registered (T-18 nulls lineage)
+[PASS] SEED_REGISTRY: div_lowvol_p1 base 60_000 registered (band 60000..60031, disjoint from mf_rot_s1 59000..59099)
+[PASS] t18_deep_axis pool: KeyError before nulls file; strict-max after
+[PASS] g1_prime_v2: line data-driven (= skill_line_v2 live, CI seed passthrough)
+[PASS] g1_prime_v2: genuine edge passes; noise fails line clause (edge vs ~0.93 line)
+[PASS] g1_prime_v2: F6 entries gate folded when counts supplied
+[PASS] g2_registration_v2: eligible only all-three; missing/weak inputs refused
+[PASS] g2_registration_v2: consumes deflated_sharpe_ratio dict directly
+[PASS] bh_batch_fdr: hand-checked all-pass batch (m=4, all adj q=0.04<=0.10)
+[PASS] bh_batch_fdr: hand-checked selective batch (A,B pass @0.003/0.03; C fail @0.5)
+[PASS] bh_batch_fdr: m=1 degenerates honestly to p<=q
+[PASS] bh_batch_fdr: None p refused honestly (excluded from m, not zero-filled)
+[PASS] _pct_ranks: midrank percentiles + tie block averaging (n=3)
+[PASS] reform_composite_scores: direction-corrected percentiles (low PBO ranks high)
+[PASS] reform_composite_scores: dim weights must sum to 1 (refused honestly)
+[PASS] reform_composite_scores: missing dim refused (composite None, no zero-fill)
+[PASS] g2_reform_fdr4d: FDR + composite joint verdict (X eligible, Y not)
+[PASS] g2_reform_fdr4d: anti-luck DSR is a DIMENSION not the sole gate (O-1058)
+[PASS] reform: unknown sub-metric refused; existing g2_registration_v2 untouched
+[PASS] reform step-2 FROZEN integrity: 4 dims, sum=1, no dim>=0.5, sub keys known, per-dim sums=1, top-N int>=1
+[PASS] reform step-2 FROZEN weights pass the composite gate unmodified (end-to-end consumption, zero hand-copied lines)
+[PASS] g2_reform_fdr4d: frozen-weights end-to-end (X dominates every dim, eligible; Y fails FDR)
+[PASS] M1 t_from_sharpe known answer (SR_ann=1.0, T=1512 -> sqrt(6))
+[PASS] M1 t_from_sharpe refuses thin samples (<20 periods, DSR floor mirror)
+[PASS] M1 t_value_gate: hurdle boundary (2.99 fail / 3.0 pass), missing input refused honestly (never waved through)
+[PASS] M1 t_value_gate: SR=2.5 6y face clears 3.0; SR=1.0 6y face does not (the cheap multiple-testing bite D-37 M1 named)
+[PASS] M3 closed_family_check: unknown open / closed-no-evidence rejected / declared delta = lawful reopen channel
+[PASS] M3 CLOSED_FAMILIES registry integrity: 9 entries mirror STRATEGY_LIBRARY §〇 dead inventory; fields complete; reopen enum known
+[PASS] ledger_head ignores _quarantine aside-copies (r685)
+
+science_gates selftest: 70/70 PASS, 0 FAIL
+
+[rc=0]
