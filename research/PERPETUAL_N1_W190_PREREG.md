@@ -54,10 +54,19 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 105 行注册 + 本候选——以 probe leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166/W167/W168/W169/W170/W171/W172/W173/W174/W175/W176/W177/W178/W179/W180/W181/W188/W189 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W190 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·r893 回填窗（finalize 21:19 r892-continuation finalize one-pass 窗落件·§7/§8 回填顺延至 r893 开窗首腿即刻补·非拖延窗对照 W159/W168/W169/W181·如实注记）】
+- 账本恒等式：823,128 + 2,200 = **825,328** EXACT（prev_total/batch_trials/total 三键机读·r892-continuation finalize one-pass 实测；**vs §5 冻结投影（823,128+2,200=825,328 机械算）零差**——本窗零在飞上游批冻结后入链·干净入链）。
+- 合并池：**K=415,920** EXACT（=W189 池 413,720 + 本波 2,200·§5 投影 415,920 命中）。
+- merged mu **-0.092883（机读 -0.09288258）/ w-only mu **-0.098599（机读 -0.09859909）/ mu_delta(w190 vs w189ext) **-0.010831。
+- merged sigma **0.245150（W189 键 0.245164→0.245150 第六位面微降·相对变化 -0.006%）；w-only sigma 0.242505；se_mu@K415,920 **0.000380**（W189 0.000381→W190 0.000380 收窄·链面 …W186 0.000384→W187 0.000383→W188 0.000382→W189 0.000381→W190 0.000380）。
+- skill_line_v2：line_pre **1.1867** → line_merged@K415,920 **1.1866**（K-lift **−0.0001**·n_eff_held_equal 823,128）；canon flip **NOT performed**（K2,200 同例法·治理提案面）。
+- A 档 full_sharpe_p95 **0.3068**（W189 锪 0.3447·Δ-0.0379 门内）·p99 0.4574·A mu −0.092202。
+- §5 四预键机证全过：①mu gap -0.0057<0.02 PASS（w-only 低于合并池·方向与 W189 +0.0051 相反·门内如实披露）②sigma 相对变化 -0.006%<±10% PASS ③A p95 Δ-0.0379<0.05 PASS ④K-lift −0.0001≤±0.02 PASS。
+- audit.finalize_only=**true**（bm-a）·voids_applied=LOWAMP-P1,LOWAMP-P2·evidence_cutoff=2026-09-22 在位·shards_consumed 12/12（引擎 tick 自烧 21:00 冻结窗后自主自燃 r325 实证·分片 12/12 于 finalize 前落位·S0-leg 吸收 21:20 commit 3d42893e3）·finalize 21:19 r892-continuation finalize one-pass 窗落件 commit 1c28dd21d。
 
-## §8 批后复盘。【finalize 同窗回填·待 W190 finalize 窗】
-- （占位·§5.5 W191+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·r893 回填窗】
+- §5.5 W191+ 投影承接（r892 probe 机证·W191 冻结方重 derive 强制非转抄 r587 律）：naive A **434_804..436_803**（hops=0 CLEAN）——被注册 W190 B 带 434_804..435_003 own-start 拒=阶梯 A-hops-prior-B 继承**第五十一例**——**r892 probe 实证复核确认**（A 435_004..437_003 hops=1 ·本窗 W191 链开窗兑现）；naive B **435_004..435_203**（hops=0 CLEAN）落本波 A 窗内——W141 同窗互斥 leg2 律适用 W191（derive B 时预留本波 A 窗·§5.5 预披露注记在案·r892 probe 实证 B 437_004..437_203 兑现）；W192+ 投影（r892 probe leg4 机证：A **437_004..439_003** / B **437_204..437_403**·B 落 A 窗内）——W192 冻结方必须在 post-W191 注册宇宙重 derive（r587·E36 卡·never transcribe）。
+- 宝藏/方法论捕获问：本批 finalize one-pass=canonical runner 单发 r718 先例 verbatim 复用零新方法零新宝藏；TREASURE/METHODOLOGY 零 append。
+- 诚实披露面：账本投影差 **零**（干净入链）；W190-only mu −0.0986 与合并池 −0.0929 差 -0.0057（较 W189 的 +0.0051 方向翻转·null 抽样单波 2,200 面小样本波动·四预键①仍 PASS）；mu_delta −0.010831=W190 w-only（−0.0986）较 W189ext-only（−0.0878）回落转负（W189 +0.010848 回升后单波 w-only 面波动·门内如实披露）；A p95 0.3068 较 W189 锪 0.3447 下移 −0.0379 仍门内（<0.05·测量面非注册利益）；line_pre 1.1867 较 W189 收官 line_merged 1.1866 的 +0.0001=n_eff 基 820,928→823,128 增长自然步进非池加深效应；K-lift **−0.0001**=W189 +0.0003 后回落（W138/W154–156/W168/W176 族回落先例面·四预键④ PASS）；合并池 K=415,920 EXACT；引擎 tick 自烧 12 分片（21:0x 冻结窗自燃）+finalize 21:19 落件（r892-continuation finalize one-pass 窗·commit 1c28dd21d）+§7/§8 回填 r893 次窗补（回填窗注记：W185 先例=finalize 同窗回填 r879·W186 先例=r885 次窗回填·W187 先例=r888 次窗回填·W188 先例=r890 次窗回填·W189 先例=r892 次窗回填·本波 finalize 窗 r892-continuation 为 finalize+W191 席位发布+dead-tail 收口满载窗·§7/§8 顺延至 r893 开窗首腿即刻补·非拖延窗对照 W159/W168/W169/W181·如实注记）+commit 收口。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
