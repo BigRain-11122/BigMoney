@@ -5504,6 +5504,52 @@ N1_BANDS = {
     # NOT a re-pick (R250: W192 bands were never assigned).
     192: {"a": (437_204, 439_203), "b_exit": (439_204, 439_403),
          "engine_owner": "bm-c"},
+    # W193 (bm-a r901 freeze, seat MSG-2026-10-09-0458-bma-w193-seat
+    # pushed to origin 9df3078c5 pre-freeze r565 law (r900 seat
+    # push; payload = seat MSG + pre-seat probe script + probe receipt
+    # (3-item; the W191 finalize product already on origin since r895,
+    # not re-shipped, W146 same-push precedent);
+    # deletion-set EMPTY; delivery window
+    # = direct fast-forward behind-0 at fetch (r900 seat push),
+    # zero merge, zero --no-verify; self-ack inbox->processed
+    # archive PENDING WITH THIS freeze window -- bm-a r901 freeze
+    # closeout archive move (the W193 seat MSG sits in
+    # fleet/inbox/ at freeze time, moves to processed/ with this
+    # window closeout, honest per frozen prereg sec.0);
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r900bma_w193_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W192 B band (arithmetic continuation
+    # 439_204..441_203 REFUSED at its own start by the W192 B band
+    # 439_204..439_403, exactly as the W192 prereg sec5.5 + bm-c r787 probe
+    # leg4 succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 439_404..441_403, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (439_403+1) machine-checkable -- A-hops-prior-B staircase
+    # FIFTY-THIRD instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 439_404..439_603 CLEAN on the registered universe
+    # but lands INSIDE the W193 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 441_404 -> 441_404..441_603,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (441_403+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W194+ projection (gate-derived r900): A first-clean
+    # 441_404..443_403 CLEAN hops=0 / B first-clean 441_604..441_803
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W193 B band 441_404..441_603 will refuse the naive
+    # W194 A window; W194 freezer MUST re-derive on the post-W193
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W193 bands were never assigned).
+    193: {"a": (439_404, 441_403), "b_exit": (441_404, 441_603),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -5980,7 +6026,28 @@ def cmd_selftest():
     # 2026-10-08 08:46 with base 94_100). Future band gates already
     # treat SEED_REGISTRY live values as refusal points, so no
     # forward face. Disclosed, not hidden.
-    w137_adjudicated = {94_100}
+    # ADJUDICATED EXCEPTION 3 (bm-a r901, the r874 precedent second
+    # instance, found red by the W193 five-face freeze selftest
+    # window): SEED_REGISTRY f1_bull_cond_p1_null_base=94_200 was
+    # registered LATER (bm-a r899 F1-BULL-COND-P1 prereg freeze
+    # 1b7e9e53d + same-window verdict burn; the r899 registration
+    # face verified registry-internal disjointness but MISSED the
+    # N1_BANDS band face -- same miss family as the r870 pocket
+    # sweep) and lands inside the ALREADY-BURNED W137 B band
+    # 94_001..94_200 at j=199 (the band tail). Historical
+    # single-point overlap on a burned measurement face:
+    # statistically harmless (the F1-BULL-COND-P1 verdict burn
+    # consumed only SPAWNED CHILDREN of SeedSequence(94_200) --
+    # never default_rng(94_200) itself -- so the two consumers
+    # never share an actual stream; the W137 exit draw remains a
+    # valid null draw), W137 finalize results stand un-reopened,
+    # the F1-BULL-COND-P1 batch is NOT re-registered (registry
+    # records what was actually used -- the F1 verdict burn ran
+    # 2026-10-09 04:18 with base 94_200, verdict FAIL-CLOSED
+    # disclosed r899). Future band gates already treat
+    # SEED_REGISTRY live values as refusal points, so no forward
+    # face. Disclosed, not hidden.
+    w137_adjudicated = {94_100, 94_200}
     w137_b_probe = set(range(N1_BANDS[137]["b_exit"][0],
                             N1_BANDS[137]["b_exit"][1] + 1))
     assert w137_adjudicated <= w137_b_probe, \
