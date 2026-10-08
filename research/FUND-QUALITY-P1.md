@@ -83,9 +83,30 @@
 
 （一次定稿；工程修复重跑须双跑留痕如实记账）
 
+**r806 finalize 实证（2026-10-08 23:33-23:35 落判·bm-b·driver 日志 rc0·单读 r638 律）**：
+
+- **判决=insufficient-sample**（G-SEG 分段覆盖 bear 70 / bull 65 / **chop 14<50** / na 246——与 DIVLOWVOL/VALUE 两族同结构性面；判据面顺序先决拒收，禁重跑）。
+- headline x1（t0 2001-09-03·T 6,077）：Sharpe **−0.3177**·ret_full 2.4844·maxDD **−1.1454（NAV 负穿面=病理披露）**·1,393 trades；日收益面 skew −54.70·kurtosis 3,044.8（极端日病理面）。
+- **病理披露（重要）**：headline x1 净值路径负穿（max_dd < −100%）→ 滚动窗「收益」出现 −12,598.74（3y）/−24,391.97（5y）/−28,030.64（10y）荒谬量级伪影——**该三数禁按面采信**；疑似引擎 per-symbol 子账或 qfq readjust 除权面病理，判决不受影响（G-SEG 先决+判据面全红），但**族重访前必须先修此病理**。
+- x2 生存面 Sharpe 0.3911>0 PASS（x1 病理面下两面读数不可比，如实注记）。
+- G1' v2 读数：line_ok=false；bootstrap CI95 [−0.5046, −0.1060] 下界<0 ✗；M1 t=−1.5600 fail；DSR 0.0 fail；PBO 1.0（fail band）；exit_census PASS（block_share 0.2）。
+- nulls（same-mask k=2,000）：μ 0.0171·σ 0.2046·p05/p50/p95=−0.2943/0.0254/0.3287；bootstrap p_ge_obs=0.522；signflip p_two_sided=0.0405。
+- 全起点 12m 分布（n=395）：best +1.9731 / p75 +0.2170 / median 0.0 / p25 −0.1322 / worst −1.0347 / positive_share 40.0%；滚动最差三数如病理披露节=伪影面禁采信。
+- 敏感性（k=500）：Sharpe p05/p50/p95=−0.3177/0.0527/0.3035·maxdd_worst −1.1454。
+- 台账：本批 +2,002（prev 792,907=陈旧树基座链·r807 追加式分叉补账 FUND-TRIO-REANCHOR-R807 重锚至活链头 831,336·零双计零丢失）。
+
 ## §8 批后复盘【必填·s7-T】
 
 - 预测对账（对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字）；
 - 回执入轮报告＋CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑。
 - **全起点分布【§1.3·D-20260930-41】**：最好/最坏/p25/中位/p75＋滚动 3/5/10 年窗口最差——只报单一起点=结论无效；撤回判定=多数起点不成立即撤回。
 - **试验量归因【§1.4】**：本批新增试验数 2,002（RETAIL_QUANT_TRACK §四闸 30 天 ≤500 预算**超限申报**：基本面三族假期开发窗=O-20261002-2115 CEO 直令提速授权——与 FUND-VALUE-P1 同窗同归因链；judged 仅 2 格，nulls 2,000=判据校准面非探索面·RANDOM_LARGE_SAMPLE_LAW 立法内必需；一句话归因=CEO 直令新家族第二件，判据面 N_eff 由立法最小值撑起非探索面膨胀）。
+
+**r807 批后复盘（absorb 窗回填）**：
+
+- **预测对账=部分对**：①方向带=**错（远低于带）**——headline Sharpe −0.3177 低于 §5(a) 预测带 0.3-0.8 下沿且为负，但读数受 NAV 负穿病理污染（§7 病理披露节），方向带对账**暂缓定性**，待病理修复后族重访再对；②「多数起点不成立预期」=**对**（positive_share 40.0%·median 0.0）；③nulls μ≈等权被动预期=**对**（μ 0.0171·σ 0.2046 宽 null 面≈无信息被动量级）。
+- **判线 v2 当批读数**：line_ok=false（obs 负值远离技能线；N_eff 面为陈旧树 792,909 时点读数如实留档）。
+- **门禁链损耗账**：`results/gate_attrition.json` 追加一行（FUND-QUALITY-P1·r807）。
+- **判决链结论**：G-SEG 先决 insufficient-sample（单读 r638 律）→ 无注册新员；判据面独立读数全红（CI 下界负/M1 fail/DSR 0/PBO fail）留档。**族重访前置=①NAV 负穿病理修复（工程排查项·疑似 qfq readjust 或 per-symbol 子账面）②G-SEG chop 覆盖结构性裁决**，两项齐备才准重烧。
+- **全起点分布**：见 §7 六数面（滚动三数因病理禁采信已如实标注）；撤回判定=不适用（判决非 judged-negative）。
+- 回执：r807 轮报告+CODELY.md 行级追加。

@@ -1,0 +1,48 @@
+{
+ "ts_": "2026-10-09T00:56:14+08:00",
+ "head_before": {
+  "total": 825328,
+  "file": "n1_w190_results.json",
+  "note": "perpetual N1 nulls-deepening wave 190 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+  "voided": [
+   {
+    "batch": "LOWAMP-P1",
+    "voided_trials": 2008
+   },
+   {
+    "batch": "LOWAMP-P2",
+    "voided_trials": 2008
+   }
+  ]
+ },
+ "head_after": {
+  "total": 831336,
+  "file": "fund_trio_p1_ledger_reanchor.json",
+  "note": "fork re-anchor (single-count): FUND-DIVLOWVOL/QUALITY/VALUE-P1 finalize landed on bm-b network-blocked stale tree consuming prev=790905 (freeze-era head); live head here excludes the trio; their 6008 trials are counted exactly ONCE in this row and the superseded branch totals 792907/794909/796913 are sub-head records that must never be re-added (E34 landing-head anchor + MSG-20261001-1432 fork family; verdicts untouched: insufficient-sample x3 single-read r638 law)",
+  "voided": [
+   {
+    "batch": "LOWAMP-P1",
+    "voided_trials": 2008
+   },
+   {
+    "batch": "LOWAMP-P2",
+    "voided_trials": 2008
+   }
+  ]
+ },
+ "block": {
+  "prev_total": 825328,
+  "batch_trials": 6008,
+  "total": 831336,
+  "batch": "FUND-TRIO-REANCHOR-R807",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/fund_trio_p1_ledger_reanchor.json",
+  "note": "fork re-anchor (single-count): FUND-DIVLOWVOL/QUALITY/VALUE-P1 finalize landed on bm-b network-blocked stale tree consuming prev=790905 (freeze-era head); live head here excludes the trio; their 6008 trials are counted exactly ONCE in this row and the superseded branch totals 792907/794909/796913 are sub-head records that must never be re-added (E34 landing-head anchor + MSG-20261001-1432 fork family; verdicts untouched: insufficient-sample x3 single-read r638 law)",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "file": "results\\fund_trio_p1_ledger_reanchor.json",
+ "law": "append-only additive repair; verdicts untouched (r638 single-read); zero double-count (superseded branch totals sub-head); zero loss (6008 re-anchored)"
+}

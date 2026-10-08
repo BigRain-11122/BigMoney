@@ -1,0 +1,46 @@
+{
+ "evidence_cutoff": "2026-09-22",
+ "batch": "FUND-TRIO-REANCHOR-R807",
+ "machine": "bm-b",
+ "kind": "trials-ledger fork re-anchor (additive repair row)",
+ "trio_batches": [
+  {
+   "batch": "FUND-DIVLOWVOL-P1",
+   "batch_trials": 2002,
+   "file": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+   "stale_prev": 790905,
+   "stale_total": 792907,
+   "verdict": "insufficient-sample"
+  },
+  {
+   "batch": "FUND-QUALITY-P1",
+   "batch_trials": 2002,
+   "file": "results/fund_quality_p1/fund_quality_p1_results.json",
+   "stale_prev": 792907,
+   "stale_total": 794909,
+   "verdict": "insufficient-sample"
+  },
+  {
+   "batch": "FUND-VALUE-P1",
+   "batch_trials": 2004,
+   "file": "results/fund_value_p1/fund_value_p1_results.json",
+   "stale_prev": 794909,
+   "stale_total": 796913,
+   "verdict": "insufficient-sample"
+  }
+ ],
+ "trials_ledger": {
+  "prev_total": 825328,
+  "batch_trials": 6008,
+  "total": 831336,
+  "batch": "FUND-TRIO-REANCHOR-R807",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/fund_trio_p1_ledger_reanchor.json",
+  "note": "fork re-anchor (single-count): FUND-DIVLOWVOL/QUALITY/VALUE-P1 finalize landed on bm-b network-blocked stale tree consuming prev=790905 (freeze-era head); live head here excludes the trio; their 6008 trials are counted exactly ONCE in this row and the superseded branch totals 792907/794909/796913 are sub-head records that must never be re-added (E34 landing-head anchor + MSG-20261001-1432 fork family; verdicts untouched: insufficient-sample x3 single-read r638 law)",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "guard_note": "finalize_already_landed(BATCH)=None pre-append; append_ledger prev is data-driven (no hand-copied prev)"
+}

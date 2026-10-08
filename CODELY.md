@@ -96,3 +96,5 @@
 
 - [2026-10-08 21:3x r779 bm-c] **跨机 DEC 水位矛盾核查三步法（近失坑实弹）**：他机轮报宣称消费了本机未见的新决策（bm-a r890「ee70cef0→54b242ac」vs 本机 origin 锚探针「EE70CEF0 零增量」）——①命令面首查：group 树 git log -- docs/decisions.md 不带 origin/main 前缀=读本地陈旧树（本机本地 group 树落后至 10-07 22:41·首查假读「无 10-08 决策提交」·D-20260930-13 禁读工作树副本律的 history/log 变体面）；②跨机哈希宣称面=他机可从其本地领先面消费（双工作面推送协议）·origin blob 锚探针是唯一可比面·他机本地领先≠本机漏消费；③终局裁决=origin blob 内容实读（决策行 verbatim 行号）+本机水位链回溯（facts 文件族定位首次消费轮=r756 消费 D-20261008-05~08·水位恒等闭环）。How to apply：见跨机水位矛盾先跑三步法再定性·禁跳步宣称「决策被回滚」。
 
+
+- [2026-10-09 01:1x r807 bm-b] 陈旧树 finalize 账本分叉+追加式重锚补账律→pit-protocol-judge.md〔finalize 记账族·网络封锁窗/stale 树落判的批 push 前必跑 ledger_head() vs 块 prev 对账·已上 origin 分叉只走追加式重锚禁改写禁重跑〕实弹=FUND trio 790905 vs 825328→重锚 831336。
