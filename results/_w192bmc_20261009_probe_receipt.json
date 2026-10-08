@@ -1,0 +1,81 @@
+{
+ "probe": "W192 pre-seat probe (bm-c interactive, CEO fill-order 2026-10-08 ~23:5x)",
+ "legs": {
+  "leg0": {
+   "rows": 188,
+   "tail": "W190",
+   "owner_rows": 180,
+   "bmc_rows": 34,
+   "ordinal": 182,
+   "bmc_ordinal": 35,
+   "w190_ledger_head": 825328,
+   "w191_status": "seat-reserved + prereg-frozen bm-a (r892 MSG + r893 ea42ee94a); five-face band row PENDING on origin at probe time -- declared bands 435_004..437_003 / 437_004..437_203 origin-text-verified and injected into this universe per the r892-leg4 mandate",
+   "w191_declared": {
+    "A": [
+     435004,
+     437003
+    ],
+    "B": [
+     437004,
+     437203
+    ]
+   }
+  },
+  "leg1": {
+   "ARITH_A": [
+    437004,
+    439003
+   ],
+   "ARITH_B": [
+    437204,
+    437403
+   ],
+   "A": [
+    437204,
+    439203
+   ],
+   "hops_A": 1,
+   "B": [
+    439204,
+    439403
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    437204,
+    437403
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      437204,
+      437403
+     ],
+     "jump_to": 439204
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by declared W191 B band 437_004..437_203 (staircase A-hops-prior-B FIFTY-SECOND instance, E36 card; W191 prereg sec5.5 + r892 W191 probe leg4 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W193p_A": "439204..441203",
+   "hops_A": 0,
+   "W193p_B": "439404..439603",
+   "hops_B": 0,
+   "W193p_B_lands_inside_W193p_A": true,
+   "note": "W193+ naive projection on pre-W192 universe; W192-B-refuses-W193-A staircase anticipated once W192 B registered (A-hops-prior-B FIFTY-THIRD instance anticipated); W193 freezer MUST re-derive on the post-W192 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "437204_439203",
+  "B": "439204_439403"
+ }
+}
