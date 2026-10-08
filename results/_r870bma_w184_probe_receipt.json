@@ -1,0 +1,70 @@
+{
+ "probe": "r870 W184 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 181,
+   "tail": "W183",
+   "owner_rows": 173,
+   "bma_rows": 99,
+   "ordinal": 174,
+   "bma_ordinal": 100,
+   "w183_ledger_head": 808918
+  },
+  "leg1": {
+   "ARITH_A": [
+    419404,
+    421403
+   ],
+   "ARITH_B": [
+    419604,
+    419803
+   ],
+   "A": [
+    419604,
+    421603
+   ],
+   "hops_A": 1,
+   "B": [
+    421604,
+    421803
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    419604,
+    419803
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      419604,
+      419803
+     ],
+     "jump_to": 421604
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W183 B band 419_404..419_603 (staircase A-hops-prior-B FORTY-FOURTH instance, E36 card; r868 W183 probe leg4 + W183 seat MSG leg4 + W183 prereg sec5.5/sec8 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W185p_A": "421604..423603",
+   "hops_A": 0,
+   "W185p_B": "421804..422003",
+   "hops_B": 0,
+   "W185p_B_lands_inside_W185p_A": true,
+   "note": "W185+ naive projection on pre-W184 universe; W184-B-refuses-W185-A staircase anticipated once W184 B registered; W185 freezer MUST re-derive on the post-W184 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "419604_421603",
+  "B": "421604_421803"
+ }
+}

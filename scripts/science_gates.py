@@ -1956,6 +1956,15 @@ SEED_REGISTRY = {
         # R250 law; lane = T-2026-10-05-171-P1 (watermark next_pick claimed
         # r717 moneyflow IC reference batch, census CENSUS_ENRICHED r718),
         # prereg research/shortline/SINA_MF_IC_P1.md sec.3
+        # REGIME5-VALIDATION-P1 permutation-null family base (T-2026-10-08-177
+        # slice-2, O-20261007-2215); 1,000 replications via numpy
+        # SeedSequence(94_100).spawn(1000) -- single-base derivation, ZERO band
+        # climbing (94_100+k climbing would cross into 95_000+ N1 staircase
+        # territory, D-20261004-02(2) law); pocket 94_001..94_999 verified free
+        # in-registry this window (r870 machine-read); registered at prereg
+        # freeze BEFORE any burn, one-step R250 law; prereg
+        # research/REGIME5_VALIDATION_P1.md sec.2/sec.3
+        "regime5_validation_p1_null_base": 94_100,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
