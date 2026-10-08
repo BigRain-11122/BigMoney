@@ -1,0 +1,55 @@
+{
+ "w184_finalize": {
+  "k_merged": 402720,
+  "ledger_head": 812128,
+  "ledger_prev": 809928,
+  "merged_mu": -0.09281762291418354,
+  "w184_only_mu": -0.09329113636363637,
+  "w184_only_sigma": 0.24424939062171883,
+  "sigma": 0.24509364008697107,
+  "se_mu": 0.000386,
+  "a_p95": 0.3194,
+  "a_p99": 0.4498,
+  "skill_line": 1.1857,
+  "skill_line_pre": 1.1857,
+  "k_lift": 0.0,
+  "n_eff_held_equal": 809928,
+  "evidence_cutoff": "2026-09-22"
+ },
+ "w185_bands": {
+  "A": "421804_423803",
+  "B": "423804_424003",
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_semantics": "A arithmetic continuation REFUSED at start by registered W184 B band 421_604..421_803 (staircase A-hops-prior-B FORTY-FIFTH instance, E36 card; r870 W184 probe leg4 + W184 seat MSG leg4 + W184 prereg sec5.5/sec8 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+  "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted",
+  "leg0_rows": 182,
+  "leg0_tail": "W184",
+  "owner_rows": 174,
+  "bma_rows": 100,
+  "ordinal": 175,
+  "bma_ordinal": 101,
+  "conflicts": 0,
+  "origin_vacancy": true
+ },
+ "w186p_projection": {
+  "W186p_A": "423804..425803",
+  "hops_A": 0,
+  "W186p_B": "424004..424203",
+  "hops_B": 0,
+  "W186p_B_lands_inside_W186p_A": true,
+  "note": "W186+ naive projection on pre-W185 universe; W185-B-refuses-W186-A staircase anticipated once W185 B registered; W186 freezer MUST re-derive on the post-W185 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587"
+ },
+ "inputs": {
+  "src_extract": {
+   "path": "results/_r876bma_w185_prereg_src.txt",
+   "bytes": 21446,
+   "sha256": "c6a87aff9a1df2f480768a2e2494b329a45127120b9d7baaf5b0ea1abba9d48b"
+  },
+  "seat_msg_processed_present": true,
+  "probe_receipt": "results/_r875bma_w185_probe_receipt.json",
+  "bloodline_buildgen": "results/_r872bma_w184_buildgen.py",
+  "bloodline_build": "results/_r872bma_w184_prereg_build.py"
+ },
+ "ordinal_count_check": "PASS (182 rows tail W184 / ordinal 175 / bma 101st own / conflicts 0 / vacancy True / K 402,720 / head 812,128)"
+}

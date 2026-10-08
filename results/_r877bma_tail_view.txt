@@ -1,0 +1,36 @@
+690: assert stale_wave == ["波号 185"], f"stale bare wave numbers: {stale_wave}"
+691: low_forms = sorted(set(re.findall(r"n1_w1[0-9][0-9]", out_t)))
+692: assert low_forms == ["n1_w184", "n1_w185"], f"unexpected n1_w1xx forms: {low_forms}"
+693: assert out_t.count("PERPETUAL-N1-W185") == EXPECT["@B@"] + 1, "batch id count drift"
+694: assert "W185 freeze" not in out_t.replace("；W184=bm-a r874 freeze", ""), \\
+695:     "unexpected W185-freeze text"
+696: 
+697: # stale-session sweep ("r870 probe leg4" = LEGAL new citation; bare
+698: # "400,520" = consumed by the K roll -- head-face stale probe uses the
+699: # whole-string 净账本锚头 form)
+700: for stale in ("r870 probe 回执", "（r870 probe leg2", "r868 probe", "r869 冻结件",
+701:               "已回填（r870", "d1f15ebf9", "【r870】", "FORTY-FOURTH",
+702:               "第四十四例", "0.3018", "0.245099", "−0.1026", "1.1855",
+703:               "400,520", "净账本锚头 808,918", "806,718", "MSG-2026-10-08-0826",
+704:               "r870 seat push", "bm-c r741"):
+705:     assert stale not in out_t, f"stale token survives: {stale!r}"
+706: assert "r870 probe leg4" in out_t, "new W184-probe-leg4 citation missing"
+707: assert out_t.count("r870") == 3, "r870 residual count=%d (expect 3 = leg4 x3)"
+708: 
+709: open(OUT, "wb").write(out_t.replace("\\n", "\\r\\n").encode("utf-8"))
+710: chk = io.open(OUT, encoding="utf-8", newline="").read()
+711: assert chk == out_t.replace("\\n", "\\r\\n"), "CRLF write roundtrip drift"
+712: assert chk.count("\\r\\n") >= 60, chk.count("\\r\\n")
+713: print(f"W185 prereg built: {OUT} bytes={len(chk.encode('utf-8'))} crlf={chk.count(chr(13)+chr(10))}")
+714: print("post-transform asserts PASS (token counts, residue-zero, malformed-window CLEAN, two-form CLEAN, stale-session sweep CLEAN)")
+715: '''
+716: 
+717: tok_lit = repr(TOK185)
+718: back_lit = repr([(t, BACK185[t]) for (t, _v) in BACK184])
+719: exp_lit = repr(EXPECT)
+720: assert TAIL.count("%s") == 3, TAIL.count("%s")
+721: out = HDR + "\n" + (TAIL % (tok_lit, back_lit, exp_lit))
+722: io.open(r"results\_r877bma_w185_prereg_build.py", "w", encoding="utf-8",
+723:         newline="\n").write(out)
+724: ast.parse(out)
+725: print("emitted: results/_r877bma_w185_prereg_build.py", len(out), "bytes")

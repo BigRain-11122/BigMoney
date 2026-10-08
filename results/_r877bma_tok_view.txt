@@ -1,0 +1,45 @@
+31:     r875 same-window, r864 lesson 3rd consecutive);
+37:   - pre-seat probe results/_r875bma_w185_probe_receipt.json rc0 ADMIT
+52:   - W184 finalize landed r875 one-pass SAME-window (r381+r864 lesson
+55:     r875 commit face; merged K=402,720 EXACT; merged mu -0.09281762
+61:   - W184 sec7/sec8 settle backfill landed the r875 SAME window (r864
+68:     log --diff-filter=A on the seat MSG inbox path, r875 window);
+136: probe = json.load(open(r"results/_r875bma_w185_probe_receipt.json",
+230: # W184 sec7/sec8 settle backfill landed the r875 SAME window (r864
+256:     ("已回填（r870 同窗·无漏补·r864 教训兑现·W159/W168/W169/W180 拖延窗先例对照·如实注记）",
+257:      "已回填（r875 同窗·无漏补·r864 教训兑现·W159/W168/W169/W180 拖延窗先例对照·如实注记）"),
+258:     ("已回填（r870 同窗）", "已回填（r875 同窗）"),
+259:     ("r870 bm-a 带闸窗（pre-seat probe r870 单窗", "r875 bm-a 带闸窗（pre-seat probe r875 单窗"),
+260:     ("（r870 承袭", "（r875 承袭"),
+261:     ("r870 probe 单跑兑现注记", "r875 probe 单跑兑现注记"),
+262:     ("（r870 probe leg2/leg3 实跑）", "（r875 probe leg2/leg3 实跑）"),
+264:      "r875 probe 回执 A_semantics 机读序数=FORTY-FIFTH"),
+268:     ("_r870bma_w184_probe_receipt.json", "_r875bma_w185_probe_receipt.json"),
+271:     ("【r870】", "【r875】"),
+272:     ("r870 seat push", "r875 seat push"),
+273:     ("自 r870 收口", "自 r875 收口"),
+390:     and "已回填（r875 同窗·无漏补·r864 教训兑现" in chk, chk[:250]
+406: assert SEAT_SHA in BACK185["@SEATPUB@"] and "r875 seat push" in \
+407:     BACK185["@SEATPUB@"] and "自 r875 收口" in BACK185["@SEATPUB@"] \
+420:     BACK185["@S5ANCH@"] and "已回填（r875 同窗）" in BACK185["@S5ANCH@"], \
+432:     BACK185["@TITLE@"] and "【r875】" in BACK185["@TITLE@"], BACK185["@TITLE@"]
+433: assert "r875 bm-a 带闸窗（pre-seat probe r875 单窗" in BACK185["@GATEW@"], \
+435: assert BACK185["@VAC@"] == "（r875 probe leg2/leg3 实跑）", BACK185["@VAC@"]
+436: assert "（r875 承袭" in BACK185["@MERGE@"], BACK185["@MERGE@"]
+437: assert "r875 probe 单跑兑现注记" in BACK185["@CLAIMLAW@"], \
+439: assert BACK185["@PRC@"] == "results/_r875bma_w185_probe_receipt.json", \
+467: TOK185 = [(val, tok) for (tok, val) in BACK184]
+470: for old, tok in TOK185:
+504:               "已回填（r870", "d1f15ebf9", "【r870】", "FORTY-FOURTH",
+514:       "stale-session sweep CLEAN" % len(TOK185))
+531: r875 probe ADMIT naive A 421_604..423_603 refused by W184 B ->
+533: reservation W141 leg2; W184 finalize r875 one-pass same-window (K
+537: 809,928 / A p95 0.3194); W184 sec7/sec8 settle backfill landed r875
+539: (prereg freeze f908433c4 r872); W185 seat push 304909e0e r875; seat
+553:     FIXED (W184 sec7/8 landed r875 same-window, no new case).
+568: probe = json.load(open(r"results/_r875bma_w185_probe_receipt.json",
+645: # W184 sec7/sec8 settle backfill landed the r875 SAME window (r864
+659: TOK185 = %s
+665: for old, tok in TOK185:
+701:               "已回填（r870", "d1f15ebf9", "【r870】", "FORTY-FOURTH",
+717: tok_lit = repr(TOK185)
