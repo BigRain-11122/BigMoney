@@ -1,0 +1,815 @@
+{
+ "batch": "REGIME5-VALIDATION-P1",
+ "prereg": "research/REGIME5_VALIDATION_P1.md",
+ "prereg_freeze_commit": "1aafbd257",
+ "family_key": "regime_labeler_validation",
+ "dept": "research",
+ "evidence_cutoff": "2026-09-30",
+ "science_gates": {
+  "evidence_cutoff": "2026-09-30"
+ },
+ "result": {
+  "labels": {
+   "k": 3289,
+   "first": "2013-03-21",
+   "last": "2026-09-30",
+   "cutoff": "2026-09-30"
+  },
+  "windows": {
+   "main_start": "2020-01-02",
+   "main_days": 1635,
+   "full_return_bearing_days": 3288
+  },
+  "leg_a_main_window": {
+   "unconditional_mean": 0.0001131064067582516,
+   "n_days": 1635,
+   "states": {
+    "BULL": {
+     "n": 59,
+     "mean": 0.0011074763005268359,
+     "d": 0.0009943698937685843,
+     "sd": 0.02133949995550474,
+     "t": 0.3579231049113148
+    },
+    "CHOP": {
+     "n": 1166,
+     "mean": -7.421454366620585e-05,
+     "d": -0.00018732095042445744,
+     "sd": 0.011465770593158026,
+     "t": -0.5578691936099647
+    },
+    "GRIND": {
+     "n": 76,
+     "mean": 0.0019406918860843947,
+     "d": 0.001827585479326143,
+     "sd": 0.00854988022805539,
+     "t": 1.8634788330542196
+    },
+    "BEAR": {
+     "n": 270,
+     "mean": 8.809416979718154e-05,
+     "d": -2.5012236961070066e-05,
+     "sd": 0.013022535262460805,
+     "t": -0.03156013661195592
+    },
+    "SUPPORT": {
+     "n": 64,
+     "mean": 0.0005444378444656416,
+     "d": 0.00043133143770738994,
+     "sd": 0.010234461127161008,
+     "t": 0.3371600574554446
+    }
+   }
+  },
+  "leg_a_full_history": {
+   "unconditional_mean": 0.0002603245855100128,
+   "n_days": 3288,
+   "states": {
+    "BULL": {
+     "n": 203,
+     "mean": 0.0016926749277276964,
+     "d": 0.0014323503422176836,
+     "sd": 0.01850236569809519,
+     "t": 1.1029860369582531
+    },
+    "CHOP": {
+     "n": 2142,
+     "mean": 7.515304370944888e-06,
+     "d": -0.0002528092811390679,
+     "sd": 0.012854126818139118,
+     "t": -0.9102489081270941
+    },
+    "GRIND": {
+     "n": 84,
+     "mean": 0.0021118487624057426,
+     "d": 0.0018515241768957298,
+     "sd": 0.00958737409025152,
+     "t": 1.7699840669183473
+    },
+    "BEAR": {
+     "n": 755,
+     "mean": 0.00035771675997254903,
+     "d": 9.739217446253623e-05,
+     "sd": 0.015012757390302849,
+     "t": 0.17825309196888853
+    },
+    "SUPPORT": {
+     "n": 104,
+     "mean": 0.00046889418311806626,
+     "d": 0.00020856959760805346,
+     "sd": 0.021381015063695608,
+     "t": 0.09948081931352781
+    }
+   }
+  },
+  "leg_a_perm_null": {
+   "BULL": {
+    "p_two_sided": 0.9193548387096774,
+    "null_abs_mean": 0.004171393310954997,
+    "null_abs_max": 0.020915611194079774,
+    "null_abs_p95": 0.0100473143878772
+   },
+   "CHOP": {
+    "p_two_sided": 0.005994005994005994,
+    "null_abs_mean": 4.057452337451505e-05,
+    "null_abs_max": 0.0002278678209313364,
+    "null_abs_p95": 0.00010610595253710487
+   },
+   "GRIND": {
+    "p_two_sided": 0.6256684491978609,
+    "null_abs_mean": 0.003693814819169512,
+    "null_abs_max": 0.031620551456281044,
+    "null_abs_p95": 0.010912509891817836
+   },
+   "BEAR": {
+    "p_two_sided": 0.992,
+    "null_abs_mean": 0.0014371809569059882,
+    "null_abs_max": 0.009141314490401236,
+    "null_abs_p95": 0.003979934994061343
+   },
+   "SUPPORT": {
+    "p_two_sided": 0.9318181818181818,
+    "null_abs_mean": 0.0036053426864877396,
+    "null_abs_max": 0.018110276850923812,
+    "null_abs_p95": 0.008511732069425975
+   }
+  },
+  "leg_a_block_bootstrap": {
+   "BULL": {
+    "ci_lo": -0.0027760847783473972,
+    "ci_hi": 0.008315464645214283,
+    "n_draws": 2000
+   },
+   "CHOP": {
+    "ci_lo": -0.0005776768520669326,
+    "ci_hi": 0.00016591353346773977,
+    "n_draws": 2000
+   },
+   "GRIND": {
+    "ci_lo": -0.0001138440111608347,
+    "ci_hi": 0.004166807643036313,
+    "n_draws": 2000
+   },
+   "BEAR": {
+    "ci_lo": -0.0015050472322131558,
+    "ci_hi": 0.001678809782242246,
+    "n_draws": 2000
+   },
+   "SUPPORT": {
+    "ci_lo": -0.0025492698984035276,
+    "ci_hi": 0.003421540731687216,
+    "n_draws": 2000
+   }
+  },
+  "m1_t_gate": {
+   "BULL": {
+    "gate": "m1_t_value",
+    "claim_class": "new_factor",
+    "hurdle": 3.0,
+    "t": 0.357923,
+    "pass": false,
+    "missing_input": false
+   },
+   "BEAR": {
+    "gate": "m1_t_value",
+    "claim_class": "new_factor",
+    "hurdle": 3.0,
+    "t": -0.03156,
+    "pass": false,
+    "missing_input": false
+   }
+  },
+  "main_gate": {
+   "BULL": {
+    "direction_ok": true,
+    "perm_p": 0.9193548387096774,
+    "perm_p_ok": false,
+    "ci": {
+     "ci_lo": -0.0027760847783473972,
+     "ci_hi": 0.008315464645214283,
+     "n_draws": 2000
+    },
+    "ci_ok": false,
+    "t": 0.3579231049113148,
+    "t_gate_pass": false,
+    "state_pass": false
+   },
+   "BEAR": {
+    "direction_ok": true,
+    "perm_p": 0.992,
+    "perm_p_ok": false,
+    "ci": {
+     "ci_lo": -0.0015050472322131558,
+     "ci_hi": 0.001678809782242246,
+     "n_draws": 2000
+    },
+    "ci_ok": false,
+    "t": -0.03156013661195592,
+    "t_gate_pass": false,
+    "state_pass": false
+   }
+  },
+  "label_face_holds": false,
+  "leg_b_n_conf_table": {
+   "1": {
+    "n_conf": 1,
+    "flips_F": 219,
+    "wrong_days_W": 0,
+    "transition_cost_C": 0.38940426000000117,
+    "opportunity_cost_O": 0.0,
+    "L": 0.38940426000000117,
+    "gross_routing_value": 1.1074099301037883,
+    "net": 0.7180056701037871
+   },
+   "2": {
+    "n_conf": 2,
+    "flips_F": 120,
+    "wrong_days_W": 174,
+    "transition_cost_C": 0.22456602000000003,
+    "opportunity_cost_O": 0.20636328935193088,
+    "L": 0.4309293093519309,
+    "gross_routing_value": 1.0889411747521134,
+    "net": 0.8643751547521134
+   },
+   "3": {
+    "n_conf": 3,
+    "flips_F": 109,
+    "wrong_days_W": 289,
+    "transition_cost_C": 0.20683026000000004,
+    "opportunity_cost_O": 0.34125609682280317,
+    "L": 0.5480863568228032,
+    "gross_routing_value": 1.0830349603997385,
+    "net": 0.8762047003997384
+   },
+   "5": {
+    "n_conf": 5,
+    "flips_F": 75,
+    "wrong_days_W": 432,
+    "transition_cost_C": 0.14188608000000005,
+    "opportunity_cost_O": 0.478604317451561,
+    "L": 0.6204903974515611,
+    "gross_routing_value": 1.0301482710039904,
+    "net": 0.8882621910039904
+   },
+   "8": {
+    "n_conf": 8,
+    "flips_F": 56,
+    "wrong_days_W": 596,
+    "transition_cost_C": 0.10328472000000004,
+    "opportunity_cost_O": 0.6079567471873367,
+    "L": 0.7112414671873367,
+    "gross_routing_value": 0.9419264671687141,
+    "net": 0.8386417471687141
+   }
+  },
+  "n_conf_star": 1,
+  "default3_kept": false,
+  "leg_c_net_pass": true,
+  "extreme_day_disclosure": [
+   {
+    "window": "2015-crash-rescue",
+    "from": "2015-06-15",
+    "to": "2015-07-31",
+    "days": [
+     {
+      "date": "2015-06-15",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -263.01
+     },
+     {
+      "date": "2015-06-16",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 148.96
+     },
+     {
+      "date": "2015-06-17",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -393.35
+     },
+     {
+      "date": "2015-06-18",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -623.34
+     },
+     {
+      "date": "2015-06-19",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 354.12
+     },
+     {
+      "date": "2015-06-23",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 220.31
+     },
+     {
+      "date": "2015-06-24",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -359.27
+     },
+     {
+      "date": "2015-06-25",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -745.32
+     },
+     {
+      "date": "2015-06-26",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -377.36
+     },
+     {
+      "date": "2015-06-29",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 722.14
+     },
+     {
+      "date": "2015-06-30",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -640.05
+     },
+     {
+      "date": "2015-07-01",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -212.06
+     },
+     {
+      "date": "2015-07-02",
+      "raw": "SUPPORT",
+      "eff": "CHOP",
+      "r_next_bp": -460.08
+     },
+     {
+      "date": "2015-07-03",
+      "raw": "SUPPORT",
+      "eff": "CHOP",
+      "r_next_bp": 270.48
+     },
+     {
+      "date": "2015-07-06",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": -439.75
+     },
+     {
+      "date": "2015-07-07",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": -1000.52
+     },
+     {
+      "date": "2015-07-08",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": 999.13
+     },
+     {
+      "date": "2015-07-09",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": 997.64
+     },
+     {
+      "date": "2015-07-10",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": 107.42
+     },
+     {
+      "date": "2015-07-13",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": -188.95
+     },
+     {
+      "date": "2015-07-14",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": -503.13
+     },
+     {
+      "date": "2015-07-15",
+      "raw": "SUPPORT",
+      "eff": "SUPPORT",
+      "r_next_bp": 230.67
+     },
+     {
+      "date": "2015-07-16",
+      "raw": "CHOP",
+      "eff": "SUPPORT",
+      "r_next_bp": 406.34
+     },
+     {
+      "date": "2015-07-17",
+      "raw": "CHOP",
+      "eff": "SUPPORT",
+      "r_next_bp": -28.57
+     },
+     {
+      "date": "2015-07-20",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 62.08
+     },
+     {
+      "date": "2015-07-21",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -47.46
+     },
+     {
+      "date": "2015-07-22",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 271.82
+     },
+     {
+      "date": "2015-07-23",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -208.91
+     },
+     {
+      "date": "2015-07-24",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -983.88
+     },
+     {
+      "date": "2015-07-27",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 115.7
+     },
+     {
+      "date": "2015-07-28",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 366.52
+     },
+     {
+      "date": "2015-07-29",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -343.53
+     },
+     {
+      "date": "2015-07-30",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 0.0
+     },
+     {
+      "date": "2015-07-31",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 2.6
+     }
+    ]
+   },
+   {
+    "window": "2016-01-circuit-breaker",
+    "from": "2016-01-04",
+    "to": "2016-01-31",
+    "days": [
+     {
+      "date": "2016-01-04",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -22.63
+     },
+     {
+      "date": "2016-01-05",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 155.94
+     },
+     {
+      "date": "2016-01-06",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -273.59
+     },
+     {
+      "date": "2016-01-07",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -218.14
+     },
+     {
+      "date": "2016-01-08",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -513.5
+     },
+     {
+      "date": "2016-01-11",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 71.14
+     },
+     {
+      "date": "2016-01-12",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -138.21
+     },
+     {
+      "date": "2016-01-13",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 168.17
+     },
+     {
+      "date": "2016-01-14",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -294.03
+     },
+     {
+      "date": "2016-01-15",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 6.31
+     },
+     {
+      "date": "2016-01-18",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 286.98
+     },
+     {
+      "date": "2016-01-19",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -285.1
+     },
+     {
+      "date": "2016-01-20",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -287.16
+     },
+     {
+      "date": "2016-01-21",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 97.47
+     },
+     {
+      "date": "2016-01-22",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 38.61
+     },
+     {
+      "date": "2016-01-25",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -564.1
+     },
+     {
+      "date": "2016-01-26",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -108.7
+     },
+     {
+      "date": "2016-01-27",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -216.35
+     },
+     {
+      "date": "2016-01-28",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 284.31
+     },
+     {
+      "date": "2016-01-29",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": -109.22
+     }
+    ]
+   },
+   {
+    "window": "2024-09-24-policy-pulse",
+    "from": "2024-09-23",
+    "to": "2024-09-30",
+    "days": [
+     {
+      "date": "2024-09-23",
+      "raw": "BEAR",
+      "eff": "BEAR",
+      "r_next_bp": 438.62
+     },
+     {
+      "date": "2024-09-24",
+      "raw": "CHOP",
+      "eff": "BEAR",
+      "r_next_bp": 137.15
+     },
+     {
+      "date": "2024-09-25",
+      "raw": "CHOP",
+      "eff": "BEAR",
+      "r_next_bp": 477.84
+     },
+     {
+      "date": "2024-09-26",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 629.12
+     },
+     {
+      "date": "2024-09-27",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 940.81
+     },
+     {
+      "date": "2024-09-30",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 422.87
+     }
+    ]
+   },
+   {
+    "window": "2025-04-tariff-shock",
+    "from": "2025-04-02",
+    "to": "2025-04-30",
+    "days": [
+     {
+      "date": "2025-04-02",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -50.26
+     },
+     {
+      "date": "2025-04-03",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -666.84
+     },
+     {
+      "date": "2025-04-07",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 94.72
+     },
+     {
+      "date": "2025-04-08",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 96.51
+     },
+     {
+      "date": "2025-04-09",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 167.29
+     },
+     {
+      "date": "2025-04-10",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 28.73
+     },
+     {
+      "date": "2025-04-11",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 20.83
+     },
+     {
+      "date": "2025-04-14",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 7.8
+     },
+     {
+      "date": "2025-04-15",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 23.37
+     },
+     {
+      "date": "2025-04-16",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 7.77
+     },
+     {
+      "date": "2025-04-17",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 25.89
+     },
+     {
+      "date": "2025-04-18",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 5.16
+     },
+     {
+      "date": "2025-04-21",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 7.74
+     },
+     {
+      "date": "2025-04-22",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 10.31
+     },
+     {
+      "date": "2025-04-23",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 0.0
+     },
+     {
+      "date": "2025-04-24",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 0.0
+     },
+     {
+      "date": "2025-04-25",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -15.46
+     },
+     {
+      "date": "2025-04-28",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -18.06
+     },
+     {
+      "date": "2025-04-29",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": -7.75
+     },
+     {
+      "date": "2025-04-30",
+      "raw": "CHOP",
+      "eff": "CHOP",
+      "r_next_bp": 95.71
+     }
+    ]
+   }
+  ],
+  "skill_line_v2_reading": {
+   "n_eff": 809928,
+   "mu_null": -0.0912,
+   "sigma_null": 0.2368,
+   "note": "disclosure reading only (shared-library line)"
+  }
+ },
+ "audit": {
+  "anchor_faces": "6/6 EXACT (panel first/rows/tail, labels cutoff/K/first-date; D2 lockbox asserted)",
+  "closed_families_regime_hits": [],
+  "seed_base_key": "regime5_validation_p1_null_base",
+  "seed_base": 94100,
+  "seed_derivation": "SeedSequence(base).spawn(1001): children 0..999 = 1,000 perm-null replicas, child 1000 = block-bootstrap rng (single-base derived, zero climbing)",
+  "numpy": "2.5.2",
+  "cost_x1_per_side": 0.0013041,
+  "transition_cost_rule": "double-side: dw * 2 * COST_X1 per confirmed flip (frozen sec.3)",
+  "leg_c_net_reading": "per-day routing value = |d_s| of confirmed state (drift capture + drift avoidance), per frozen sec.5.3 BEAR-avoidance arithmetic; signed literal sum is identically 0 by partition (rejected reading, disclosed)",
+  "o_n_reading": "fixed Leg-A full-history d table; per wrong day |d_eff - d_raw| (frozen sec.3 parenthetical)",
+  "m1_hurdle": 3.0,
+  "cells": 1010,
+  "envelope_note": "runtime.generated is the only wall-clock field; all numeric faces deterministic"
+ },
+ "runtime": {
+  "generated": "2026-10-08 08:46:02"
+ },
+ "trials_ledger": {
+  "prev_total": 808918,
+  "batch_trials": 1010,
+  "total": 809928,
+  "batch": "REGIME5-VALIDATION-P1",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json",
+  "evidence_cutoff": "2026-09-30"
+ }
+}
