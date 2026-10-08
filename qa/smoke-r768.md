@@ -8,7 +8,7 @@
 - [x] 2. results have real numbers -- sharpe=0.159 annual=0.0056 maxdd=-0.0433 win_rate=0.4624 trades=93
 - [x] 3. equity curve png -- equity-curve-r768.png
 - [x] 4. live-signal generation clean -- market_clock_call run rc=0 (idempotent same-day regen)
-- [x] 5. data pull healthy -- latest panel bar 2026-09-30; S6 38-leg chain rc0 receipts in round report
+- [x] 5. data pull healthy -- latest panel bar 2026-09-30; S6 chain rc0 receipts in round report
 
 ## evidence pointers
 
