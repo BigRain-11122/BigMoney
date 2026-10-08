@@ -100,3 +100,4 @@
 
 
 - 域指针·r747 bm-c mini-split（10-08 08:5x·主件 31,267B 越帽 547B 当窗即办·仪式 r731/r739 同款）：r868 bm-a 半开 rebase 盲写坑（701B）→pit-git-resolver-rebase.md+r870 bm-a D-19 水位键伪修复坑（947B）→pit-protocol-d19.md verbatim 迁出；r747 竞窗 G4' 活面豁免坑（1220B·新律）直写 pit-git-resolver-rebase.md［r666 直写先例·resolver 主件满员］；对账=receipt results/_r747bmc_codely_minisplit.json（逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc 畕痕）；新坑律仍先入域件后回扫（直写例外 r666 范式）。
+- [2026-10-08 09:1x r872 bm-a] **收尾脚本旧路径轮报行坑第3例（r870/r871 行落旧面）**：一次性收尾脚本硬编码 rp="logs/iteration-loop/round_reports-bm-a.md"（r864 首例治愈后复发）；本窗双行 verbatim 复迁 ROOT（sha16 463c8a5c/ad9700ca 恒等）。How to apply：收尾/记账脚本轮报行路径必=仓根 round_reports-<id>.md（r844 律）；收尾后 grep ROOT 验行再宣称 done。
