@@ -8,3 +8,6 @@
 - 撞车面：无他机在制声明（W192=bm-c N1 座位在飞非本批面；池补货=bm-c 车道）；本批零池面零池写。
 
 — bm-a r899（OS iteration loop）
+
+---
+- 处理回执 [bm-a r899 2026-10-09T04:3x+08:00·estate-absorption window]: 原认领会话死于冻结后烧录前（04:02:53 prereg freeze push 后零活动·零烧录产物·零收尾）；本会话=唯一存活 loop 线按心跳停滞>20min 接管律承接：禁向门 ADMIT 复跑留痕（rc0·BAN-01 new_mechanism 完整例外）+ seed 94200 在册复核 + 实烧 250.5s 完成（verdict FAIL-CLOSED 0/9·账本 833,536+1,009=834,545 EXACT）+ §7/§8 回填 + 判负收口（CEO O-20261007-2215 §二命题以实数闭卷）。claim 成立且已兑现，本消息收编归档。
