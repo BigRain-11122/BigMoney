@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 07:59:00",
+ "generated_at": "2026-10-08 08:09:30",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,12 +297,12 @@
   "md_link": "../live_usage/LIVE-2026-10-08.md"
  },
  "rd": {
-  "commits_24h": 632,
-  "result_jsons_landed_24h": 341,
+  "commits_24h": 634,
+  "result_jsons_landed_24h": 343,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 45,
+  "prereg_md_touched_24h": 44,
   "compute_audit_latest": {
-   "ts": "2026-10-08 07:58:20",
+   "ts": "2026-10-08 08:08:50",
    "py_cpu_pct": 4.7,
    "flags": [
     "supply_gap",
@@ -310,7 +310,7 @@
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1754999,
+  "total_report_tokens_est": 1756433,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-08 07:28:29",
+   "prev_generated": "2026-10-08 07:38:08",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1429,
+   "report_tokens_growth": 1434,
    "mandate_growth": 0
   },
   "method": {
@@ -668,21 +668,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-08 07:30:37",
-    "py_pct": 0.1,
-    "cpu_pct": 48.0,
+    "latest_ts": "2026-10-08 07:54:48",
+    "py_pct": 0.3,
+    "cpu_pct": 46.0,
     "ready": 1,
-    "streak_min": 302.7,
+    "streak_min": 326.9,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "04:59",
-      1.2
-     ],
-     [
-      "05:17",
-      1.1
-     ],
      [
       "05:29",
       0.2
@@ -720,14 +712,22 @@
       6.5
      ],
      [
-      "07:30",
-      0.1
+      "07:27",
+      0.0
+     ],
+     [
+      "07:37",
+      1.2
+     ],
+     [
+      "07:54",
+      0.3
      ]
     ],
-    "today_samples": 29,
+    "today_samples": 31,
     "today_floor_ok": 0,
     "today_sla_flags": 2,
-    "today_supply_gap_flags": 21
+    "today_supply_gap_flags": 23
    },
    "bm-b": {
     "latest_ts": "2026-10-07 18:39:26",
@@ -792,17 +792,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-08 07:58:20",
+    "latest_ts": "2026-10-08 08:08:50",
     "py_pct": 4.7,
-    "cpu_pct": 25.0,
+    "cpu_pct": 30.0,
     "ready": 1,
-    "streak_min": 330.4,
+    "streak_min": 340.9,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "05:29",
-      0.2
-     ],
      [
       "05:44",
       0.6
@@ -846,12 +842,16 @@
      [
       "07:58",
       4.7
+     ],
+     [
+      "08:08",
+      4.7
      ]
     ],
-    "today_samples": 31,
+    "today_samples": 32,
     "today_floor_ok": 0,
     "today_sla_flags": 2,
-    "today_supply_gap_flags": 23
+    "today_supply_gap_flags": 24
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -861,19 +861,19 @@
   "day": "2026-10-08",
   "machines": {
    "bm-a": {
-    "batches_judged": 40,
-    "core_seconds": 7114.8,
-    "wall_seconds": 761.2,
-    "effective_cores": 9.35,
+    "batches_judged": 47,
+    "core_seconds": 8358.6,
+    "wall_seconds": 872.2,
+    "effective_cores": 9.58,
     "single_core_burn": 3,
-    "multicore_burn": 37,
+    "multicore_burn": 44,
     "too_short": 0,
-    "last_ts": "2026-10-08T07:17:20+08:00",
+    "last_ts": "2026-10-08T07:59:20+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-08 07:30:37"
+     "audit_batches": 14,
+     "audit_ts": "2026-10-08 07:54:48"
     }
    },
    "bm-b": {
@@ -904,8 +904,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-08 07:58:20"
+     "audit_batches": 17,
+     "audit_ts": "2026-10-08 08:08:50"
     }
    }
   },
@@ -969,8 +969,8 @@
      419404,
      419603
     ],
-    "shards_done": null,
-    "shards_total": null,
+    "shards_done": 7,
+    "shards_total": 12,
     "finalize_landed": false
    }
   ],
