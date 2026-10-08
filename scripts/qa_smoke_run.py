@@ -2,9 +2,14 @@
 """qa_smoke_run.py -- BigMoney QA charter self-verification driver (group
 order 09-28 "AI做QA不能只写文档，要真跑" -> docs/qa-smoke-test-charter.md,
 BigMoney section). Produces the per-round qa/ evidence pack:
-  qa/smoke-r<N>.md             checklist report (5 items, evidence pointers)
-  qa/equity-curve-r<N>.png     real backtest equity + drawdown chart
-  qa/smoke-r<N>.log            raw numbers + signal/data leg receipts
+  qa/smoke-r<N>-<machine>.md        checklist report (5 items, evidence pointers)
+  qa/equity-curve-r<N>-<machine>.png real backtest equity + drawdown chart
+  qa/smoke-r<N>-<machine>.log       raw numbers + signal/data leg receipts
+D-20261009-02 (group decision 2026-10-09 00:00 batch, F-20261008-03
+cross-machine round-number collision case): QA pack paths carry the
+fleet/machine.json machine_id suffix (per-machine suffix law); historical
+pre-decision packs stay as-is (git archive, zero rename); round-number
+space stays per-machine independent.
 Reuses the canonical engine (engine.run_backtest: default exit stack, cost
 model, T+1) -- zero re-implementation, ZERO ledger append, ZERO registration:
 pure deterministic smoke measurement on the real panel tail. Safe to re-run
@@ -48,6 +53,17 @@ def _read_round():
         return 0
 
 
+def _read_machine_id():
+    # D-20261009-02 per-machine suffix law: <machine> = fleet/machine.json
+    # machine_id (bm-a/bm-b/bm-c); never hand-typed per r583 spirit.
+    try:
+        with open(os.path.join(PATHS.root, "fleet", "machine.json"),
+                  encoding="utf-8-sig") as fh:
+            return (json.load(fh).get("machine_id") or "").strip()
+    except (OSError, ValueError):
+        return "unknown"
+
+
 def load_panel_tail(n_bars=800, n_syms=3):
     daily = PATHS.daily_dir
     files = sorted(f for f in os.listdir(daily)
@@ -77,8 +93,9 @@ def main():
                     help="explicit pack round number (default: state round_no+1)")
     args = ap.parse_args()
     ROUND = args.round if args.round else _read_round()
+    MID = _read_machine_id()
     os.makedirs(QA_DIR, exist_ok=True)
-    tag = "smoke-r%d" % ROUND
+    tag = "smoke-r%d-%s" % (ROUND, MID)
     log = []
 
     def L(s):
@@ -101,7 +118,7 @@ def main():
       (len(r1["equity_curve"]), r1["equity_curve"][-1]))
 
     # ---- QA item 3: equity curve chart ----
-    png = os.path.join(QA_DIR, "equity-curve-r%d.png" % ROUND)
+    png = os.path.join(QA_DIR, "equity-curve-r%d-%s.png" % (ROUND, MID))
     eq = r1["equity_curve"]
     peak = pd.Series(eq).cummax()
     dd = (pd.Series(eq) / peak - 1.0)
