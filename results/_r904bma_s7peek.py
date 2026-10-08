@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+import io
+src = io.open('research/PERPETUAL_N1_W193_PREREG.md', encoding='utf-8', newline='').read()
+out = io.open('results/_r904bma_s7peek.txt', 'w', encoding='utf-8', newline='\n')
+i5 = src.find('\u00a75')
+i7 = src.find('\u00a77')
+i8 = src.find('\u00a78')
+out.write('=== SEC5 ===\n')
+out.write(src[i5:i7])
+out.write('\n=== SEC7 ===\n')
+out.write(src[i7:i8])
+out.write('\n=== SEC8-to-end ===\n')
+out.write(src[i8:])
+out.close()
+print('written', i5, i7, i8, len(src))
