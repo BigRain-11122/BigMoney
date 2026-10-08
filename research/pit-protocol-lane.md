@@ -25,3 +25,6 @@
 
 - [2026-10-08 09:1x r872 bm-a] **收尾脚本旧路径轮报行坑第3例（r870/r871 行落旧面）**：一次性收尾脚本硬编码 rp="logs/iteration-loop/round_reports-bm-a.md"（r864 首例治愈后复发）；本窗双行 verbatim 复迁 ROOT（sha16 463c8a5c/ad9700ca 恒等）。How to apply：收尾/记账脚本轮报行路径必=仓根 round_reports-<id>.md（r844 律）；收尾后 grep ROOT 验行再宣称 done。
 - 对账行 r779 bm-c: entry bytes=431 sha16=e17f923d951fe84a verbatim-in-file (r844/r865/r750 family domain move per r731 precedent; receipt=results/_r779bmc_coldptr_merge.json; zero-loss asserted)
+
+- [2026-10-08 22:2x r780 bm-c] **坑律在件≠模板链已治愈律（r749 跨机律误用坑 9 连复发实弹）**：r750 已把「收尾脚本误采 ROOT 冻结面」入 pit-protocol-lane.md 并治愈单案，但 r771-r779 close 模板链仍逐轮克隆前身的「ROOT round_reports-bm-c.md per r844 law」docstring 引用→九轮 10 行连落孤儿件·正典面 last-write 停 r770 三小时铁证（r780 行级 union 治愈·receipt _r780bmc_ledger_heal_receipt.json）。根因=坑律入域件后未回扫进正被克隆的模板源（close 脚本 docstring 法引用面）。How to apply：①坑律定性含「模板/脚本链」面时，除入 pit 件外必须同窗手术正被克隆的模板源（删错误法引用+改正典面指针）；②克隆 close/append 类脚本先核 docstring 法引用与当轮实况一致再执行；③轮账本落行后必查正典面尾行轮号==本轮号（r780 修复后 close 模板=正典面直写零 ROOT 触碰）。
+- 对账行 r780 bm-c: entry bytes=974 sha16=08dd0df93e12495a verbatim-in-file (r844/r865/r750 family domain move per r731/r735 precedent; receipt=results/_r780bmc_codely_minisplit.json)
