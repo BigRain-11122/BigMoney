@@ -54,10 +54,19 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 101 行注册 + 本候选——以 probe leg0 机证为准·同 W157/W158/W159/W160/W161/W162/W163/W165/W166/W167/W168/W169/W170/W171/W172/W173/W174/W175/W176/W177/W178/W179/W180/W181/W184/W185 最近自有波）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W186 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied。）
+## §7 跑后实证。【finalize 收口机械回填·r885 回填窗（finalize 16:08 r884 三死尾复合收口窗落件·§7/§8 回填顺延至 r885 开窗首腿即刻补·非拖延窗对照 W159/W168/W169/W180·如实注记）】
+- 账本恒等式：814,328 + 2,200 = **816,528** EXACT（prev_total/batch_trials/total 三键机读·r884 finalize one-pass 实测；**vs §5 冻结投影（814,328+2,200=816,528 机械算）零差**——本窗零在飞上游批冻结后入链·干净入链）。
+- 合并池：**K=407,120** EXACT（=W185 池 404,920 + 本波 2,200·§5 投影 407,120 命中）。
+- merged mu **−0.092905**（机读 -0.09290459）/ w-only mu **−0.102515**（机读 -0.10251500）/ mu_delta(w186 vs w185ext) **−0.003301**。
+- merged sigma **0.245086**（W185 键 0.245090→0.245086）；w-only sigma 0.244154；se_mu@K407,120 **0.000384**（W185 0.000385→W186 0.000384 收窄·链面 …W183 0.000387→W184 0.000386→W185 0.000385→W186 0.000384）。
+- skill_line_v2：line_pre **1.1859** → line_merged@K407,120 **1.1858**（K-lift **−0.0001**·n_eff_held_equal 814,328）；canon flip **NOT performed**（K2,200 同例法·治理提案面）。
+- A 档 full_sharpe_p95 **0.3004**（W185 锚 0.3066·Δ−0.0062 门过）·p99 0.4316·A mu −0.097146。
+- §5 四预键机证全过：①mu gap 0.009610<0.02 PASS ②sigma 相对变化 −0.0016%<±10% PASS ③A p95 Δ−0.0062<0.05 PASS ④K-lift −0.0001≤±0.02 PASS。
+- audit.finalize_only=**true**（bm-a）·voids_applied=LOWAMP-P1,LOWAMP-P2·evidence_cutoff=2026-09-22 在位·shards_consumed 12/12（引擎 tick 自烧 15:4x–16:0x·r882 冻结窗自燃 r325 实证·finalize 16:08 r884 三死尾复合收口窗落件）。
 
-## §8 批后复盘。【finalize 同窗回填·待 W186 finalize 窗】
-- （占位·§5.5 W187+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填。）
+## §8 批后复盘。【finalize 同窗回填·r885 回填窗】
+- §5.5 W187+ 投影承接（r880 probe 机证·W187 冻结方重 derive 强制非转抄 r587 律）：naive A **426_004..428_003**（hops=0 CLEAN）——被注册 W186 B 带 426_004..426_203 own-start 拒=阶梯 A-hops-prior-B 继承**第四十七例**——**r885 probe 实证复核确认**（A 426_204..428_203 hops=1 ·本窗 W187 链开窗兑现）；naive B **426_204..426_403**（hops=0 CLEAN）落 naive A 窗内——W141 同窗互斥 leg2 律适用 W187（derive B 时预留本波 A 窗·§5.5 预披露注记在案·r885 probe 实证 B 428_204..428_403 兑现）。
+- 宝藏/方法论捕获问：本批 finalize one-pass=canonical runner 单发 r718 先例 verbatim 复用零新方法零新宝藏；TREASURE/METHODOLOGY 零 append。
+- 诚实披露面：账本投影差 **零**（干净入链）；W186-only mu −0.1025 与合并池 −0.0929 差 0.0096（较 W185 的 0.0064 放宽·null 抽样单波 2,200 面小样本波动·四预键①仍 PASS）；mu_delta −0.003301=W186 w-only 较 W185ext-only（−0.0992）同向深化（单波 w-only 面波动·门内如实披露）；A p95 0.3004 较 W185 锚 0.3066 下移 −0.0062 仍门内（<0.05·测量面非注册利益）；line_pre 1.1859 较 W185 收官 1.1857 的 +0.0002=n_eff 基 812,128→814,328 增长自然步进非池加深效应；K-lift **−0.0001**=W185 −0.0001 连续第二波负值（W154/W155/W156 −0.0002 族先例面·四预键④ PASS）；合并池 K=407,120 EXACT；引擎 tick 自烧 12 分片（15:4x–16:0x）+finalize 16:08 落件（r884 三死尾复合收口窗·r844 dead-tail 收养）+§7/§8 回填 r885 次窗补（回填窗注记：W185 先例=finalize 同窗回填 r879·本波 finalize 窗 r884 为三死尾复合收口窗满载·§7/§8 顺延至 r885 开窗首腿即刻补·非拖延窗对照 W159/W168/W169/W180·如实注记）+commit 收口。
 
 - **跑前冻结=本件 commit**（freeze hash 归轮报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
