@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 12:12:57",
+ "generated_at": "2026-10-08 12:23:28",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -298,19 +298,19 @@
  },
  "rd": {
   "commits_24h": 602,
-  "result_jsons_landed_24h": 350,
+  "result_jsons_landed_24h": 346,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 41,
+  "prereg_md_touched_24h": 42,
   "compute_audit_latest": {
-   "ts": "2026-10-08 12:11:10",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-08 12:20:16",
+   "py_cpu_pct": 0.4,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1774252,
+  "total_report_tokens_est": 1775500,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-08 11:02:19",
+   "prev_generated": "2026-10-08 11:51:39",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1063,
+   "report_tokens_growth": 1248,
    "mandate_growth": 0
   },
   "method": {
@@ -668,11 +668,11 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-08 10:31:00",
-    "py_pct": 1.1,
-    "cpu_pct": 32.0,
+    "latest_ts": "2026-10-08 12:20:16",
+    "py_pct": 0.4,
+    "cpu_pct": 45.0,
     "ready": 0,
-    "streak_min": 62.0,
+    "streak_min": 171.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -698,9 +698,29 @@
      [
       "10:31",
       1.1
+     ],
+     [
+      "10:38",
+      1.1
+     ],
+     [
+      "11:01",
+      0.0
+     ],
+     [
+      "11:49",
+      1.1
+     ],
+     [
+      "12:11",
+      0.0
+     ],
+     [
+      "12:20",
+      0.4
      ]
     ],
-    "today_samples": 6,
+    "today_samples": 11,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -840,8 +860,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-08 10:31:00"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-08 12:20:16"
     }
    },
    "bm-b": {
