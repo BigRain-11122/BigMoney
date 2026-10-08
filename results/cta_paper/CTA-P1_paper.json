@@ -1,0 +1,70 @@
+{
+ "schema": "cta_p1_paper_v1",
+ "account": "CTA-P1",
+ "slot_registration": "experimental account #28: first slot beyond the 27-account experimental pool, number registered at wiring per O-20261007-2215 ss4",
+ "lane": "cta-p1 paper trial (O-20261007-2215 deliverable (2)-bm-c, engineering lane bm-c)",
+ "whitelist_paradigm": "PROS-* precedent: own lane dir; excluded from t35 paper_export, daily_scorecard and CEO faces by construction",
+ "guard": "shadow (record-only; zero interference; zero canon / production-account touch; live.paper registration face untouched - separate lane)",
+ "experimental": true,
+ "initial_cash_cny": 10000000.0,
+ "denomination": "CNY",
+ "sizing_rationale": "batch-parity with results/shortline_cta_p1.json meta (10M keeps whole-lot granularity from dominating small margin shares; marks comparable with the judged construction)",
+ "paper_start": "2026-10-08",
+ "paper_start_rationale": "O-20261007-2215: GM-signed release into paper trial wired at the 10-08 reopen (first-bar round per r703 ack); zero hindsight backfill - marks begin at the first reopen bar",
+ "evidence_cutoff_judgment_domain": "2026-09-23",
+ "construction": {
+  "signal": "vol_target_tsmom_60 @daily regime (frozen CTA_P1 SS3 construction)",
+  "carrier": "scripts/cta_p1_screen.py sig_vol_target_tsmom + build_weights (verbatim import, zero re-implementation)",
+  "engine": "engine/futures_runner.py run/load_panel (O-2250: ETF engine untouched)",
+  "universe": [
+   "IF",
+   "IC",
+   "IH",
+   "IM",
+   "T",
+   "TF",
+   "RB",
+   "AU",
+   "SC"
+  ],
+  "universe_note": "frozen CTA_P1 nine varieties pinned; TS (CTA_WAVE1 lane, post-freeze FUT_META addition) excluded",
+  "execution": "T signal -> T+1 open; T+0 two-way; per-lot fee + 1 tick slippage x1; per-variety margin cap 0.20; limit-touch blocks new exposure",
+  "exit_axis": "signal-following weights (futures_runner has no engine default exit stack; positions follow the frozen construction)",
+  "cost_face": "x1 (production-aligned)"
+ },
+ "honest_history": {
+  "g1_verdict": "CTA_P1 batch G1' v2 0/16 honest loss (frozen research/CTA_P1.md SS7): best cell = this construction, Sharpe 0.7408 vs skill_line_v2 1.1463; zero G2 registration, ledger +0",
+  "release_basis": "GM signature O-20261007-2215 ss2 (P1 face, bull-market offense gap): paper trial observation, NOT a registration; science gates not lowered and not re-claimed",
+  "v0_rollgap_caveat": "main-continuous V0 raw prices, roll-gap jumps marked as-is (symmetric with the judgment batch; G2 roll-smoothing debt clause not triggered - no registration)",
+  "au_beta_suspicion": "batch SS7 mechanism 3: trend alpha ~= AU gold beta on the judgment window (AU leg +121.5M of +116.7M commodity pnl); forward observation is the test",
+  "margin_profile": "batch margin_usage_max ~= 1.0 = embedded 7-10x leverage; paper marks carry this risk profile honestly (deep-drawdown capable)",
+  "regime_promotion_pending": "O-2215 ss1: weight promotion when REGIME-5 judges bull state - pending bm-a REGIME-5 judge (<=10-14); not wired in this lane"
+ },
+ "risk_budget": {
+  "per_variety_margin_cap": 0.2,
+  "global_margin_budget": 1.0,
+  "experimental": true
+ },
+ "marks": [
+  {
+   "date": "2026-10-08",
+   "daily_ret": 0.03131326,
+   "equity_cny": 10313132.55
+  }
+ ],
+ "marks_summary": {
+  "n_marks": 1,
+  "first_mark": "2026-10-08",
+  "last_mark": "2026-10-08",
+  "total_ret": 0.03131326
+ },
+ "equity_cny": 10313132.55,
+ "panel_cutoff": "2026-10-08",
+ "status": "trial-live",
+ "audit": {
+  "determinism": "double-run bit-exact (equity + trades), checked in-run",
+  "recompute": "full-window deterministic recompute per accrual",
+  "ledger": "science_gates +0 (observation lane, not a batch)"
+ },
+ "updated": "2026-10-08T21:05:21"
+}
