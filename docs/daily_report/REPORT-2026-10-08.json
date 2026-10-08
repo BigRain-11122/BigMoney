@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 16:10:58",
+ "generated_at": "2026-10-08 16:58:06",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    }
   ],
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-08.md"
  },
  "rd": {
-  "commits_24h": 525,
-  "result_jsons_landed_24h": 346,
+  "commits_24h": 512,
+  "result_jsons_landed_24h": 339,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 41,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-08 15:51:55",
-   "py_cpu_pct": 0.6,
+   "ts": "2026-10-08 16:55:54",
+   "py_cpu_pct": 0.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1789317,
+  "total_report_tokens_est": 1790036,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-08 15:01:49",
+   "prev_generated": "2026-10-08 16:11:17",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 968,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -668,25 +668,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-08 15:51:55",
-    "py_pct": 0.6,
-    "cpu_pct": 13.0,
+    "latest_ts": "2026-10-08 16:55:54",
+    "py_pct": 0.2,
+    "cpu_pct": 20.0,
     "ready": 0,
-    "streak_min": 382.9,
+    "streak_min": 446.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "12:20",
-      0.4
-     ],
-     [
-      "12:29",
-      1.1
-     ],
-     [
-      "12:39",
-      0.3
-     ],
      [
       "12:50",
       0.1
@@ -720,11 +708,23 @@
       0.2
      ],
      [
+      "15:34",
+      0.0
+     ],
+     [
       "15:51",
       0.6
+     ],
+     [
+      "16:20",
+      6.3
+     ],
+     [
+      "16:55",
+      0.2
      ]
     ],
-    "today_samples": 22,
+    "today_samples": 25,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -861,19 +861,19 @@
   "day": "2026-10-08",
   "machines": {
    "bm-a": {
-    "batches_judged": 88,
-    "core_seconds": 17832.1,
-    "wall_seconds": 1652.2,
-    "effective_cores": 10.79,
+    "batches_judged": 93,
+    "core_seconds": 19132.1,
+    "wall_seconds": 1753.5,
+    "effective_cores": 10.91,
     "single_core_burn": 3,
-    "multicore_burn": 85,
+    "multicore_burn": 90,
     "too_short": 0,
-    "last_ts": "2026-10-08T15:59:25+08:00",
+    "last_ts": "2026-10-08T16:57:26+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 7,
-     "audit_ts": "2026-10-08 15:51:55"
+     "audit_ts": "2026-10-08 16:55:54"
     }
    },
    "bm-b": {
@@ -913,32 +913,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 186,
+  "last_registered": 187,
   "last_owner": "bm-a",
-  "next_registration": 187,
-  "next_seatable": 187,
+  "next_registration": 188,
+  "next_seatable": 188,
   "chain_head": 816528,
   "k": 407120,
   "waves": [
-   {
-    "wave": 184,
-    "owner": "bm-a",
-    "a": [
-     419604,
-     421603
-    ],
-    "b_exit": [
-     421604,
-     421803
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 812128,
-    "merged_mu": -0.09281762291418354,
-    "merged_sigma": 0.24509364008697107,
-    "k": 402720
-   },
    {
     "wave": 185,
     "owner": "bm-a",
@@ -976,6 +957,21 @@
     "merged_mu": -0.09290458832776577,
     "merged_sigma": 0.24508567875034984,
     "k": 407120
+   },
+   {
+    "wave": 187,
+    "owner": "bm-a",
+    "a": [
+     426204,
+     428203
+    ],
+    "b_exit": [
+     428204,
+     428403
+    ],
+    "shards_done": 5,
+    "shards_total": 12,
+    "finalize_landed": false
    }
   ],
   "seats": []
