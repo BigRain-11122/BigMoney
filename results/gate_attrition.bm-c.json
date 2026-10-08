@@ -17723,6 +17723,66 @@
     "leg_c": "PASS"
    },
    "note": "measurement/calibration burn: 5 state-diff + 5 N_CONF + 1,000 perm-null; exit-axis N/A declared at freeze"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2002,
+   "ledger_total_after": 792907,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": true,
+    "x2_survival": true,
+    "m1_t": 3.9894,
+    "m1_pass": true,
+    "dsr": 0.6751,
+    "pbo": 0.0,
+    "note_gates": "G-SEG precedence; skill_line not beaten (null mu 0.7178); verdict single-read r638"
+   },
+   "note": "finalize 2026-10-08 23:30 bm-b network-blocked stale-tree prev=790905 (freeze-era head); r807 additive fork re-anchor FUND-TRIO-REANCHOR-R807 counted trio 6008 once onto live head 825328->831336; branch total 792907 superseded never re-add; attrition row retro-filled r807 absorb (r806 session beheaded pre-S7, r873 retro-fill precedent)",
+   "batch": "FUND-DIVLOWVOL-P1"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2002,
+   "ledger_total_after": 794909,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": false,
+    "x2_survival": true,
+    "m1_t": -1.56,
+    "m1_pass": false,
+    "dsr": 0.0,
+    "pbo": 1.0,
+    "note_gates": "headline x1 NAV negative-crossing pathology disclosed (max_dd -1.1454; rolling 3/5/10y figures are compounding artifacts, not readable); family revisit requires pathology fix first"
+   },
+   "note": "finalize 2026-10-08 23:33 same stale-tree fork chain; r807 re-anchor counted once (see FUND-DIVLOWVOL-P1 row); branch total 794909 superseded never re-add; retro-filled r807",
+   "batch": "FUND-QUALITY-P1"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2004,
+   "ledger_total_after": 796913,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": true,
+    "x2_survival": true,
+    "m1_t": 2.1288,
+    "m1_pass": false,
+    "dsr": 0.0935,
+    "pbo": 0.6143,
+    "note_gates": "in-band sharpe 0.3809 but M1/DSR/PBO all red = would fail even with G-SEG coverage"
+   },
+   "note": "finalize 2026-10-08 23:35 same stale-tree fork chain tail; r807 re-anchor counted once; branch total 796913 superseded never re-add; retro-filled r807",
+   "batch": "FUND-VALUE-P1"
   }
  ],
  "history": [
