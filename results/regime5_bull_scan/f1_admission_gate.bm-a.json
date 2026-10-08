@@ -1,0 +1,27 @@
+{
+ "schema": "regime5_bull_scan_admission_verdict_v1",
+ "ticket": "T-2026-10-08-177 leg-2 next-pointer-1 closure (r890 pointer: F1 prereg drafting)",
+ "machine": "bm-a",
+ "round": "r898",
+ "candidate": "F1 unconditional monthly top-k momentum rotation on O-1555 frozen five (as probed r890: signal=close/close.shift(L)-1, L in {60,120,250}, topk in {1,2,3}, inverse-60d-vol weights within top-k, month-first rebalance, 1-day lag, cost 13.041bp/side)",
+ "gate_tool": "Tools/banned_direction_gate.py --prereg results/regime5_bull_scan/f1_admission_test.bm-a.md",
+ "gate_rc": 1,
+ "decision": "REJECT",
+ "matched_ban_ids": ["BAN-01"],
+ "exception_state": {
+  "cited_ids": ["BAN-01", "BAN-09"],
+  "exception_type": null,
+  "honest_note": "no valid exception for the UNCONDITIONAL form: cross-section narrower than falsified 31-name test (5<31, worse by the falsification's own causal reason), broad-base trend-timing separately falsified ('trend timing carries no information on A-share broad bases'), BAN-09 style-persistence betting semantic family, and the r890 probe's own honest full-period numbers (ann -2.18%..+3.91% at 20-25% vol, Sharpe~0.1-0.16) are consistent with the falsified family"
+ },
+ "burned_cells": 0,
+ "burned_cells_note": "zero compute consumed -- this is exactly the admission-gate's purpose (D-20260930-41 s1.2: stop re-entering falsified directions before burning grids)",
+ "d6_probe_status": "D6 family-correlation face remains CLEARED (max|corr|=0.0344 vs CTA_P1) but D6 is a DIFFERENT admission face; banned-direction admission is independent and failed for the unconditional form",
+ "surviving_variant": {
+  "form": "BULL-regime-conditional rotation (trade only in REGIME-5 BULL windows per leg-1 labeler)",
+  "authority": "CEO order O-20261007-2215 sec.2 verbatim: 'unconditional cross-sectional momentum (MOM family 0/4920) large-sample negative on file -- regime-conditioning is a DIFFERENT proposition, but same meaning-gate + cost stress-test, no science-gate lowering for CEO demand'",
+  "status": "candidate for NEXT prereg -- NOT this round; external-first scan (borrow-law) precedes construction; full prereg discipline (exit-axis explicit gate, science_gates g1/g2, D6, multi-start distribution) applies with no reductions",
+  "honest_prior": "hard test: in BULL windows passive 510300 itself rises sharply; rotation must beat skill_line = max(passive+0.10, null p95) measured on the same windows, not absolute return"
+ },
+ "determinism": "gate is regex-deterministic over registry v1.0",
+ "generated_by": "bm-a r898"
+}

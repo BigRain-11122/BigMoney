@@ -1,0 +1,79 @@
+{
+ "schema": "regime5_bull_scan_external_slice_v1",
+ "ticket": "T-2026-10-08-177 leg-2 (O-20261007-2215 @bm-a lane, sec.3 borrow-law-first)",
+ "machine": "bm-a",
+ "round": "r898",
+ "purpose": "external-first supply scan for bull-offense candidates (trend/momentum/breakout families, domestic-native priority) -- borrow-law: external claims are UNVERIFIED hypotheses until our gate chain verifies",
+ "searches": [
+  {"query": "A股 牛市 动量轮动 ETF 策略 回测 有效性", "hits": 8},
+  {"query": "China A-share momentum strategy regime dependent bull market academic evidence", "hits": 8}
+ ],
+ "evidence": [
+  {
+   "source": "Chinese Journal of Engineering (CJoE) 2024 -- Smart Beta: An Empirical Study on the Factor Momentum Effect of A-share",
+   "url": "https://cjoe.cjoe.ac.cn/EN/10.12012/CJoE2024-0119",
+   "claim_verbatim": "factor momentum strategy can obtain significant excess returns in the A-share market, and the bull side contributes most of the returns of the strategy",
+   "relevance": "STRONGEST external anchor for the BULL-conditional variant: momentum profits in A-share concentrate on the bull side -- consistent with CEO order sec.2 'regime-conditioning is a different proposition' and with our unconditional negatives (MOM 0/4920, BAN-01)",
+   "status": "unverified external hypothesis"
+  },
+  {
+   "source": "雪球 10年+可靠回测采集 (citing 上海证券 asset-rotation study 2006-2024)",
+   "url": "https://xueqiu.com/8903395540/406189464",
+   "claim_verbatim": "A股落地首选：上海证券资产轮动（2006-2024, 13.33%, 夏普1.21）。规则完全量化、跨大类资产、与 A 股低相关 ... 可照其 15 只ETF池 + 多周期动量 + 波动率倒数权重复现，并做 CSCV/PBO 补验。国际基石：Antonacci GEM",
+   "relevance": "the domestic long-backtest evidence points at CROSS-ASSET-CLASS rotation (equity/bond/gold/cross-border GEM-style dual momentum), NOT narrow equity-index cross-sectional rotation -- different mechanism cell from BAN-01; kin to confirmed path 2.1 (four-asset) in group audit; proposes CSCV/PBO self-verification",
+   "status": "unverified external hypothesis (backtest numbers not reproduced by us)"
+  },
+  {
+   "source": "czi.finance -- Understanding the Evolution of Momentum Effects in China's Stock Market",
+   "url": "https://czi.finance/assets/ChinaMom.pdf",
+   "claim_verbatim": "Momentum strategies that buy past winners and sell past losers yield significant profits in the period before 2005, but they dissipate in the later sample",
+   "relevance": "consistent with our own negatives (stock-level momentum in A-share has no stable positive expectancy post-2005); supports restricting any momentum candidate to ETF/asset-class level with regime conditioning",
+   "status": "unverified external hypothesis"
+  },
+  {
+   "source": "ScienceDirect -- Institutional ownership and momentum in the Chinese A-share market",
+   "url": "https://www.sciencedirect.com/science/article/pii/S0927538X23000860",
+   "claim_verbatim": "the existence of the momentum effect is still controversial [in China]; monthly/weekly data find insignificant results (Li et al. 2010, Chen et al. 2018)",
+   "relevance": "external literature corroborates controversy; guards against over-anchoring on the CJoE bull-side finding",
+   "status": "unverified external hypothesis"
+  },
+  {
+   "source": "retail playbook cluster: 策引 momentum-rotation guide / 次方量化 ETF轮动深度拆解 / 大盘牛 platform / GitHub szjintz/ETFstrategy (趋势跟踪+动量轮动+风险平价)",
+   "urls": [
+    "https://www.myinvestpilot.com/docs/strategies/momentum-rotation",
+    "https://www.cifangquant.com/docs/etf-rotation-strategy-deep-dive",
+    "https://github.com/szjintz/ETFstrategy/tree/main"
+   ],
+   "claim_verbatim": "domestic-native retail rotation playbooks: top-k strongest ETFs, multi-period momentum scores, dual-momentum filters, stop-loss/backup legs",
+   "relevance": "domestic-native playbook priority face (CEO order sec.3): the popular constructions are variations of top-k rotation -- same family our unconditional F1 probe measured as no-expectancy; their published backtests are unverified and typically omit DSR/PBO/multi-start discipline",
+   "status": "unverified external claims (publication-bias risk disclosed)"
+  }
+ ],
+ "candidate_shortlist_next_prereg": [
+  {
+   "rank": 1,
+   "name": "F1-BULL-COND: five-ETF top-k momentum rotation restricted to REGIME-5 BULL windows",
+   "external_anchor": "CJoE bull-side factor momentum + CEO order sec.2 different-proposition ruling",
+   "admission_path": "banned-gate new_mechanism exception (regime-window isolation unseen by unconditional falsifications); then full prereg: exit-axis gate, D6, science_gates g1/g2, multi-start distribution, cost stress",
+   "honest_prior": "must beat skill_line = max(passive+0.10, null p95) computed on the SAME bull windows (passive rips in bull -- absolute return is not the bar)"
+  },
+  {
+   "rank": 2,
+   "name": "XASSET-ROT: cross-asset-class momentum rotation (GEM-style dual momentum: equity/bond/gold/cross-border, multi-period momentum + inverse-vol weights)",
+   "external_anchor": "上海证券 2006-2024 13.33%/Sharpe 1.21 claim + Antonacci GEM canon + confirmed-path 2.1 kinship",
+   "admission_path": "different mechanism cell from BAN-01 (asset-class level, not narrow equity cross-section); D6 vs CTA_P1 (futures TSMOM) required -- correlation risk is real; full prereg discipline unchanged",
+   "honest_prior": "consumes 511010/518880/513500-class members; panel availability check needed before drafting"
+  },
+  {
+   "rank": 0,
+   "name": "CTA_P1 vol_target_tsmom_60 (first candidate, CEO-named) + CTA_P2_NOAU backup",
+   "status": "already through G1' and in paper trial since 10-08 reopen -- no new prereg needed; matrix upgrades weight when labeler says BULL"
+  }
+ ],
+ "scan_gaps_disclosed": [
+  "breakout family (new-high density) not yet externally scanned this slice -- next slice candidate",
+  "no external evidence found that narrow equity-index cross-sectional rotation works unconditionally in A-share -- consistent with our falsifications"
+ ],
+ "determinism": "scan digest is citation-frozen; no RNG",
+ "generated_by": "bm-a r898 (search API via codely web tools; claims recorded verbatim from result snippets)"
+}
