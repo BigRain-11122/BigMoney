@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 10:33:28",
+ "generated_at": "2026-10-08 10:39:29",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-08.md"
  },
  "rd": {
-  "commits_24h": 631,
+  "commits_24h": 630,
   "result_jsons_landed_24h": 349,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 45,
   "compute_audit_latest": {
-   "ts": "2026-10-08 10:31:00",
+   "ts": "2026-10-08 10:38:47",
    "py_cpu_pct": 1.1,
    "flags": [
+    "single_core_hog",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:single_core_hog,pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -668,12 +669,12 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-08 10:31:00",
-    "py_pct": 1.1,
-    "cpu_pct": 32.0,
+    "latest_ts": "2026-10-08 09:40:33",
+    "py_pct": 0.0,
+    "cpu_pct": 5.0,
     "ready": 0,
-    "streak_min": 62.0,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 11.6,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
       "09:28",
@@ -682,25 +683,9 @@
      [
       "09:40",
       0.0
-     ],
-     [
-      "09:48",
-      1.0
-     ],
-     [
-      "10:07",
-      0.2
-     ],
-     [
-      "10:18",
-      1.0
-     ],
-     [
-      "10:31",
-      1.1
      ]
     ],
-    "today_samples": 6,
+    "today_samples": 2,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -768,12 +753,12 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-08 10:18:02",
-    "py_pct": 1.0,
-    "cpu_pct": 48.0,
+    "latest_ts": "2026-10-08 10:38:47",
+    "py_pct": 1.1,
+    "cpu_pct": 16.0,
     "ready": 0,
-    "streak_min": 49.1,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 69.8,
+    "verdict": "FLAG:single_core_hog,pool_starvation,supply_floor",
     "py_series_tail": [
      [
       "09:28",
@@ -794,9 +779,13 @@
      [
       "10:18",
       1.0
+     ],
+     [
+      "10:38",
+      1.1
      ]
     ],
-    "today_samples": 5,
+    "today_samples": 6,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -820,8 +809,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-08 10:31:00"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-08 09:40:33"
     }
    },
    "bm-b": {
@@ -852,8 +841,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-08 10:18:02"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-08 10:38:47"
     }
    }
   },
