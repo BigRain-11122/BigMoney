@@ -1,0 +1,477 @@
+{
+  "audit": {
+    "cont_span_face": "cont/nulls/sens span t0..cutoff; passive override = base-mask EW B&H at t0 same span",
+    "cost_face": "CN-C7 stock V1 13.041bp/side single-source (rev_osc_stock_p1.COST_X1 == cost_spec.x1_side_rate, asserted probe+F10); x2=CostPatch(2) -> rt 52.164bp",
+    "eligibility_face": "base=close/vol/amt>0 + amt20-median>=¥10M + listed>=252 + as-of ST proxy (p4_ext_tilt._st_regime verbatim, trailing-250 slice); dividend gate=yield_ttm>0; low-vol screen=sigma_252 (ddof=1, min 126 bars) <= cross-sectional median within candidates",
+    "engine_face": "engine.run_backtest per-symbol sub-accounts, entry_size_scale weight mapping, span-sliced frames with seed-ffill OHLC marks (P4 stale_ffill convention; F15 equivalence leg)",
+    "finalize_runtime_sec": 142.5,
+    "law_a_census": {
+      "block_share": 0.2,
+      "lawful_reasons": [
+        "signal_reversal"
+      ],
+      "ref": "prereg sec.0.6 second gate"
+    },
+    "machine": "bm-b",
+    "monthly_face": "firing months = clean-tail census starts passing UNIVERSE_FLOOR=60 (yield>0 AND base AND screenable); t0 pin 2006-02-06 (probe leg4 frozen read); pre-t0 flat; skipped months carry prior selections",
+    "regime_face": "510300 3-way MA200 proxy from repo core48 daily (p1c stock panel carries no 510300 column; date-keyed labels; reporting segment only, never a gate)",
+    "seed_disclosure": {
+      "note": "prereg sec.3 binds nulls to rng([20520000,k]) and sens to rng([20520500,k]); rows landed at the r610 freeze window (band-scan receipt probe leg5 GREEN).",
+      "null_aux": 20261003,
+      "nulls": 20520000,
+      "registry_rows": {
+        "fund_divlowvol_p1_nulls": 20520000,
+        "fund_divlowvol_p1_sens": 20520500
+      },
+      "sensitivity": 20520500
+    },
+    "yield_face": "yield_ttm(t)=sum(cash/share, ex_date in (t-365d,t]) / P_raw_close(t); P_raw=close_qfq*f(t) sidecar stepwise; kernels ttm_cash_sum/sidecar_f_at IMPORTED from fund_divlowvol_p1_probe (single source)"
+  },
+  "batch": "FUND-DIVLOWVOL-P1",
+  "cells": {
+    "DIVLOWVOL-YIELDVOL|x1": {
+      "cell": "DIVLOWVOL-YIELDVOL",
+      "face": "x1",
+      "key": "cont|DIVLOWVOL-YIELDVOL|x1",
+      "max_dd": -0.304164,
+      "n_days": 5018,
+      "n_entries": 1421,
+      "n_trades": 1401,
+      "nav_first": 1000000.0,
+      "nav_last": 5441765.8,
+      "ret_full": 4.441766,
+      "sharpe_full": 0.894092,
+      "t0": "2006-02-06",
+      "trades_per_year": 70.36
+    },
+    "DIVLOWVOL-YIELDVOL|x2": {
+      "cell": "DIVLOWVOL-YIELDVOL",
+      "face": "x2",
+      "key": "cont|DIVLOWVOL-YIELDVOL|x2",
+      "max_dd": -0.30899,
+      "n_days": 5018,
+      "n_entries": 1421,
+      "n_trades": 1401,
+      "nav_first": 1000000.0,
+      "nav_last": 5251910.27,
+      "ret_full": 4.25191,
+      "sharpe_full": 0.868297,
+      "t0": "2006-02-06",
+      "trades_per_year": 70.36
+    }
+  },
+  "d6": {
+    "batch": "FUND-DIVLOWVOL-P1",
+    "gate": "d6_same_family",
+    "generated": "2026-10-03T08:40:26+08:00",
+    "headline_cont": {
+      "n_days": 5017,
+      "n_signal_months": 242,
+      "t0": "2006-02-06"
+    },
+    "machine": "bm-b",
+    "max_abs_corr": 0.2555,
+    "max_member": "ENGULF-CE-01",
+    "pairs": [
+      {
+        "corr": 0.1332,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1566,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1517,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2555,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2076,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.2213,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7,
+    "runtime_sec": 28.0,
+    "sibling_family_disclosure": {
+      "FUND-QUALITY-P1 headline (QUALITY-ROE x1 cont)": {
+        "corr": 0.5796,
+        "gate_face": "disclosure-only (prereg sec.1)",
+        "n_overlap": 5017
+      },
+      "FUND-VALUE-P1 headline (VALUE-PE x1 cont)": {
+        "corr": 0.8039,
+        "gate_face": "disclosure-only (prereg sec.1)",
+        "n_overlap": 5017
+      }
+    },
+    "sim_basis": "probe-level lightweight: eq Top-20 monthly rotation on qfq close ratios, no engine, no cost (correlation gate input; levels non-judgmental, disclosed)",
+    "verdict": "ADMIT"
+  },
+  "descriptive": {
+    "crash_years_lte_-35pct": {},
+    "is_ann_ret": 3.4604,
+    "oos_ann_ret": 0.22,
+    "x2_cost_drag_sharpe": -0.0258
+  },
+  "evidence_cutoff": "2026-09-22",
+  "family_key": "fund_divlowvol_stock_xs",
+  "gates": {
+    "dsr": {
+      "T": 5017,
+      "dsr": 0.675103,
+      "kurtosis": 24.2054,
+      "n_trials": 2002,
+      "sigma_sr": 0.014436,
+      "skew": -0.4771,
+      "sr_annualized": 0.8941,
+      "sr_star": 0.049768
+    },
+    "exit_census": {
+      "block_share": 0.2,
+      "default_share": 0.0,
+      "default_stack_exits": 0,
+      "pass": true,
+      "per_reason": {
+        "signal_reversal": 1401
+      },
+      "per_sym": {
+        "000002": {
+          "signal_reversal": 1
+        },
+        "000012": {
+          "signal_reversal": 1
+        },
+        "000021": {
+          "signal_reversal": 2
+        },
+        "000027": {
+          "signal_reversal": 8
+        },
+        "000032": {
+          "signal_reversal": 1
+        },
+        "000036": {
+          "signal_reversal": 3
+        },
+        "000039": {
+          "signal_reversal": 9
+        },
+        "000048": {
+          "signal_reversal": 2
+        },
+        "000055": {
+          "signal_reversal": 1
+        },
+        "000059": {
+          "signal_reversal": 1
+        },
+        "000066": {
+          "signal_reversal": 2
+        },
+        "000069": {
+          "signal_reversal": 1
+        },
+        "000088": {
+          "signal_reversal": 8
+        },
+        "000089": {
+          "signal_reversal": 3
+        },
+        "000090": {
+          "signal_reversal": 1
+        },
+        "000155": {
+          "signal_reversal": 1
+        },
+        "000156": {
+          "signal_reversal": 2
+        },
+        "000157": {
+          "signal_reversal": 2
+        },
+        "000333": {
+          "signal_reversal": 1
+        },
+        "000338": {
+          "signal_reversal": 2
+        },
+        "000401": {
+          "signal_reversal": 1
+        },
+        "000402": {
+          "signal_reversal": 4
+        },
+        "000408": {
+          "signal_reversal": 1
+        },
+        "000417": {
+          "signal_reversal": 1
+        },
+        "000422": {
+          "signal_reversal": 1
+        },
+        "000423": {
+          "signal_reversal": 1
+        },
+        "000429": {
+          "signal_reversal": 6
+        },
+        "000488": {
+          "signal_reversal": 6
+        },
+        "000517": {
+          "signal_reversal": 2
+        },
+        "000530": {
+          "signal_reversal": 1
+        },
+        "000531": {
+          "signal_reversal": 1
+        },
+        "000536": {
+          "signal_reversal": 1
+        },
+        "000538": {
+          "signal_reversal": 1
+        },
+        "000539": {
+          "signal_reversal": 3
+        },
+        "000541": {
+          "signal_reversal": 8
+        },
+        "000543": {
+          "signal_reversal": 1
+        },
+        "000550": {
+          "signal_reversal": 6
+        },
+        "000551": {
+          "signal_reversal": 1
+        },
+        "000552": {
+          "signal_reversal": 1
+        },
+        "000554": {
+          "signal_reversal": 2
+        },
+        "000559": {
+          "signal_reversal": 1
+        },
+        "000568": {
+          "signal_reversal": 5
+        },
+        "000581": {
+          "signal_reversal": 6
+        },
+        "000600": {
+          "signal_reversal": 2
+        },
+        "000603": {
+          "signal_reversal": 2
+        },
+        "000625": {
+          "signal_reversal": 1
+        },
+        "000629": {
+          "signal_reversal": 2
+        },
+        "000630": {
+          "signal_reversal": 1
+        },
+        "000631": {
+          "signal_reversal": 4
+        },
+        "000635": {
+          "signal_reversal": 1
+        }
+      },
+      "total_exits": 1401
+    },
+    "g1_prime": {
+      "bootstrap_ci": {
+        "block_days": 10.0,
+        "ci95_high": 1.3285,
+        "ci95_low": 0.4635,
+        "ci_lower_bound_positive": true,
+        "n_resamples": 1000,
+        "point": 0.8941,
+        "seed": 20260923
+      },
+      "ci_lower_bound_positive": true,
+      "gate": "g1_prime_v2",
+      "line_ok": false,
+      "pass_v2": false,
+      "sharpe_full": 0.8941,
+      "skill_line": {
+        "ledger_head": {
+          "file": "w14_screen.json",
+          "note": null,
+          "total": 790905,
+          "voided": [
+            {
+              "batch": "LOWAMP-P1",
+              "voided_trials": 2008
+            },
+            {
+              "batch": "LOWAMP-P2",
+              "voided_trials": 2008
+            }
+          ]
+        },
+        "line": 1.0025,
+        "mu_null": 0.7178,
+        "n_eff": 792907,
+        "null_pool_source": "FUND-DIVLOWVOL-P1 same-mask nulls K=2000 rng([20520000,k])",
+        "null_term": 1.0025,
+        "passive_source": "batch_own_per_cell",
+        "passive_term": 0.5485,
+        "pool": "core48",
+        "sigma_null": 0.0546
+      },
+      "trade_gate": {
+        "dual_ok": true,
+        "entries_ok": true,
+        "min": 30,
+        "n_entries": 1421,
+        "n_trades": 1401,
+        "trades_ok": true
+      }
+    },
+    "g2": {
+      "dsr": 0.675103,
+      "dsr_gate": 0.95,
+      "dsr_ok": false,
+      "eligible_v2": false,
+      "family_pbo": 0.0,
+      "g1_pass": false,
+      "gate": "g2_registration_v2",
+      "missing_inputs": [
+        "g1_prime_v2"
+      ],
+      "pbo_gate": 0.25,
+      "pbo_ok": true
+    },
+    "g_seg": {
+      "coverage": {
+        "bear": 70,
+        "bull": 65,
+        "chop": 14,
+        "na": 246
+      },
+      "pass": false
+    },
+    "m1": {
+      "claim_class": "new_strategy",
+      "gate": "m1_t_value",
+      "hurdle": 3.0,
+      "missing_input": false,
+      "pass": true,
+      "t": 3.989367
+    },
+    "pbo": {
+      "band": "register_eligible",
+      "pbo": 0.0
+    },
+    "x2_survival": {
+      "pass": true,
+      "sharpe_full": 0.868297
+    }
+  },
+  "headline": {
+    "max_dd": -0.304164,
+    "n_entries": 1421,
+    "n_trades": 1401,
+    "ret_full": 4.441766,
+    "sharpe_full": 0.894092,
+    "t0": "2006-02-06",
+    "trades_per_year": 70.36
+  },
+  "nulls": {
+    "block_bootstrap": {
+      "B": 2000,
+      "block_len": 21,
+      "obs_sharpe": 0.894092,
+      "p_ge_obs": 0.489,
+      "seed": 20261003,
+      "sharpe_p05": 0.5054,
+      "sharpe_p50": 0.8884,
+      "sharpe_p95": 1.2673
+    },
+    "same_mask": {
+      "k": 2000,
+      "mu": 0.7178,
+      "p05": 0.6286,
+      "p50": 0.7183,
+      "p95": 0.8069,
+      "sigma": 0.0546
+    },
+    "sign_flip": {
+      "P": 2000,
+      "abs_mean_obs": 0.00035798,
+      "abs_mean_p50": 6.013e-05,
+      "abs_mean_p95": 0.00017895,
+      "p_two_sided": 0.0,
+      "seed": 20261003
+    }
+  },
+  "passive_face": {
+    "n_members_t0": 5018,
+    "ret_full": 4.300572,
+    "sharpe_full": 0.448455,
+    "span": [
+      "2006-02-06",
+      "2026-09-22"
+    ]
+  },
+  "probe_ref": "results/_fund_divlowvol_p1_transfer_probe.json",
+  "rolling_worst": {
+    "10y": 0.1257,
+    "3y": -0.0377,
+    "5y": -0.002
+  },
+  "sensitivity": {
+    "k": 500,
+    "maxdd_worst": -0.3337,
+    "sharpe_p05": 0.8429,
+    "sharpe_p50": 0.8726,
+    "sharpe_p95": 0.9024
+  },
+  "starts_12m_dist": {
+    "best": 2.0436,
+    "median": 0.0,
+    "n": 395,
+    "p25": 0.0,
+    "p75": 0.1603,
+    "positive_share": 0.481,
+    "worst": -0.7747
+  },
+  "ticket": "T-2026-10-03-155-P1",
+  "trials_ledger": {
+    "batch": "FUND-DIVLOWVOL-P1",
+    "batch_trials": 2002,
+    "evidence_cutoff": "2026-09-22",
+    "file": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+    "prev_total": 790905,
+    "total": 792907,
+    "voids_applied": [
+      "LOWAMP-P1",
+      "LOWAMP-P2"
+    ]
+  },
+  "verdict": "insufficient-sample"
+}

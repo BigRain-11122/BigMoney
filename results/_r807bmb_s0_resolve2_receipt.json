@@ -1,0 +1,465 @@
+{
+  "round": "r807-bm-b S0",
+  "pick": "dbbbf1c1c absorb",
+  "files": {
+    "data/daily/159901.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1637
+    },
+    "data/daily/159915.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1637
+    },
+    "data/daily/159919.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159920.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159928.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159934.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159949.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159980.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159985.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1638
+    },
+    "data/daily/159992.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1574
+    },
+    "data/daily/159995.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1617
+    },
+    "data/daily/159996.csv": {
+      "recipe": "csv-eol-only take-ours(LF origin face)",
+      "lines": 1592
+    },
+    "results/t24_prospect_paper_cells.jsonl": {
+      "recipe": "append-log line-union merge-sort ts",
+      "ours": 176,
+      "theirs": 176,
+      "union": 198,
+      "preexisting_corrupt_lines_kept": 0
+    },
+    "results/x2_watch_log.jsonl": {
+      "recipe": "append-log line-union merge-sort ts",
+      "ours": 1205,
+      "theirs": 1007,
+      "union": 1217,
+      "preexisting_corrupt_lines_kept": 1
+    },
+    "results/compute_audit.json": {
+      "recipe": "rolling-ledger history ts-union + latest take-new",
+      "ours_hist": 249,
+      "theirs_hist": 201,
+      "union": 250,
+      "latest_side": "ours",
+      "latest_ts": "2026-10-08 23:42:27"
+    },
+    "results/regime_state.json": {
+      "recipe": "rolling-ledger union history/transitions + take-new state",
+      "updated": "2026-10-08 23:42:37",
+      "history": 2
+    },
+    "firm/traders/COMPOSITE-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/COMPOSITE-CE-02.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/DROUGHT-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/ENGULF-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/NEEDLE-DE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-ANTS-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-ANTS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-BBS-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-BBS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-DOJI-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-DOJI-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-DUCK-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-DUCK-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-HAM-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-HAM-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-IBB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-IBB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-IMM-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-IMM-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-MCB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-MCB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-OVB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-OVB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-RSRS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-TMU-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-TMU-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/PROS-VOB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "firm/traders/VOLATILITY-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08",
+      "theirs_ts": "2026-10-09",
+      "winner": "theirs"
+    },
+    "results/futures_update_status.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08T23:43:56",
+      "theirs_ts": "2026-10-08T23:41:26",
+      "winner": "ours"
+    },
+    "results/lhb_update_status.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:43:54",
+      "theirs_ts": "2026-10-08 23:41:25",
+      "winner": "ours"
+    },
+    "results/paper/COMPOSITE-CE-01_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:03",
+      "theirs_ts": "2026-10-09 00:02:09",
+      "winner": "theirs"
+    },
+    "results/paper/COMPOSITE-CE-02_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:04",
+      "theirs_ts": "2026-10-09 00:02:10",
+      "winner": "theirs"
+    },
+    "results/paper/DROUGHT-CE-01_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:06",
+      "theirs_ts": "2026-10-09 00:02:12",
+      "winner": "theirs"
+    },
+    "results/paper/ENGULF-CE-01_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:07",
+      "theirs_ts": "2026-10-09 00:02:13",
+      "winner": "theirs"
+    },
+    "results/paper/NEEDLE-DE-01_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:09",
+      "theirs_ts": "2026-10-09 00:02:15",
+      "winner": "theirs"
+    },
+    "results/paper/VOLATILITY-CE-01_paper.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:10",
+      "theirs_ts": "2026-10-09 00:02:15",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-ANTS-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:02",
+      "theirs_ts": "2026-10-09 00:02:42",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-ANTS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:03",
+      "theirs_ts": "2026-10-09 00:02:45",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-BBS-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:04",
+      "theirs_ts": "2026-10-09 00:02:48",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-BBS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:06",
+      "theirs_ts": "2026-10-09 00:02:50",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-DOJI-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:07",
+      "theirs_ts": "2026-10-09 00:02:53",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-DOJI-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:08",
+      "theirs_ts": "2026-10-09 00:02:55",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-DUCK-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:09",
+      "theirs_ts": "2026-10-09 00:02:58",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-DUCK-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:11",
+      "theirs_ts": "2026-10-09 00:03:01",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-HAM-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:12",
+      "theirs_ts": "2026-10-09 00:03:03",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-HAM-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:13",
+      "theirs_ts": "2026-10-09 00:03:06",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-IBB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:14",
+      "theirs_ts": "2026-10-09 00:03:09",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-IBB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:16",
+      "theirs_ts": "2026-10-09 00:03:11",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-IMM-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:17",
+      "theirs_ts": "2026-10-09 00:03:14",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-IMM-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:19",
+      "theirs_ts": "2026-10-09 00:03:17",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-MCB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:20",
+      "theirs_ts": "2026-10-09 00:03:19",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-MCB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:21",
+      "theirs_ts": "2026-10-09 00:03:21",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-OVB-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:22",
+      "theirs_ts": "2026-10-09 00:03:24",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-OVB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:23",
+      "theirs_ts": "2026-10-09 00:03:27",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-RSRS-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:24",
+      "theirs_ts": "2026-10-09 00:03:29",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-TMU-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:25",
+      "theirs_ts": "2026-10-09 00:03:33",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-TMU-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:26",
+      "theirs_ts": "2026-10-09 00:03:36",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/PROS-VOB-CE-01.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 21:46:27",
+      "theirs_ts": "2026-10-09 00:03:38",
+      "winner": "theirs"
+    },
+    "results/prospect_paper/_summary.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08T23:44:11+08:00",
+      "theirs_ts": "2026-10-09T00:03:38+08:00",
+      "winner": "theirs"
+    },
+    "results/prospect_promotion/_summary.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08T23:44:12+08:00",
+      "theirs_ts": "2026-10-09T00:04:02+08:00",
+      "winner": "theirs"
+    },
+    "results/scorecard_v1.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08T23:43:37",
+      "theirs_ts": "2026-10-08T23:41:04",
+      "winner": "ours"
+    },
+    "results/strategy_scorecard.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08T23:43:47",
+      "theirs_ts": "2026-10-08T23:41:15",
+      "winner": "ours"
+    },
+    "results/t35_open_fill_verify.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:44:10",
+      "theirs_ts": "2026-10-09 00:02:39",
+      "winner": "theirs"
+    },
+    "results/update_status.json": {
+      "recipe": "snapshot deep-ts take-new",
+      "ours_ts": "2026-10-08 23:42:36",
+      "theirs_ts": "2026-10-08 23:39:45",
+      "winner": "ours"
+    }
+  }
+}
