@@ -1,0 +1,198 @@
+{
+ "wave": "TRIAL_LABOR_W17",
+ "grammar_kind": "w17_exit_axis_paired_block",
+ "prereg": "research/TRIAL_LABOR_W17_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "09476ecc5beb2304",
+ "seeds": {
+  "gen_held": 20610000,
+  "scrnull": 20610500,
+  "unc": 20611000,
+  "band": [
+   20610000,
+   20612500
+  ],
+  "note": "gen held zero-consumption this wave (entry = W16 frozen cells reuse); scrnull rng([20610500,i]) i<200; unc rng([20611000,cell_idx]) cell_idx<1384; paired-delta Wilcoxon streams rng([20611000,1300+f])"
+ },
+ "face_order": [
+  "template_default",
+  "tiered_tp_only",
+  "hard_stop_only",
+  "trailing_only",
+  "time_decay_only",
+  "loss_time_only",
+  "hard_limit_only",
+  "hold_to_end"
+ ],
+ "exit_faces": {
+  "template_default": {
+   "bridged": {},
+   "patch": {},
+   "rule": "P1-P6 full stack (X-axis semantics: A->registered face / B->engine default)"
+  },
+  "tiered_tp_only": {
+   "bridged": {
+    "take_profit_levels": [
+     0.05,
+     0.1,
+     0.2
+    ],
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 10.0,
+    "trailing_lock": 10.0,
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "take_profit_fractions": [
+     0.3333333333333333,
+     0.3333333333333333,
+     1.0
+    ],
+    "loss_time_days": 1000,
+    "global_hard_limit": 1000
+   },
+   "rule": "P3 only"
+  },
+  "hard_stop_only": {
+   "bridged": {
+    "initial_stop": -0.08,
+    "trailing_stop_activate": 0.05,
+    "trailing_lock": 0.01,
+    "take_profit_levels": [
+     10.0
+    ],
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "loss_time_days": 1000,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 1000
+   },
+   "rule": "P2 default bundle (initial -8% + 5%-trail)"
+  },
+  "trailing_only": {
+   "bridged": {
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 0.05,
+    "trailing_lock": 0.01,
+    "take_profit_levels": [
+     10.0
+    ],
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "loss_time_days": 1000,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 1000
+   },
+   "rule": "pure trailing, no initial stop (5%/1% defaults)"
+  },
+  "time_decay_only": {
+   "bridged": {
+    "time_decay_period": 12,
+    "time_decay_threshold": 0.02,
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 10.0,
+    "trailing_lock": 10.0,
+    "take_profit_levels": [
+     10.0
+    ]
+   },
+   "patch": {
+    "loss_time_days": 1000,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 1000
+   },
+   "rule": "P4 only (12d/2%)"
+  },
+  "loss_time_only": {
+   "bridged": {
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 10.0,
+    "trailing_lock": 10.0,
+    "take_profit_levels": [
+     10.0
+    ],
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "loss_time_days": 8,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 1000
+   },
+   "rule": "P5 only (8d losing force-exit)"
+  },
+  "hard_limit_only": {
+   "bridged": {
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 10.0,
+    "trailing_lock": 10.0,
+    "take_profit_levels": [
+     10.0
+    ],
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "loss_time_days": 1000,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 25
+   },
+   "rule": "P6 only (25d pure time ceiling)"
+  },
+  "hold_to_end": {
+   "bridged": {
+    "initial_stop": -1.0,
+    "trailing_stop_activate": 10.0,
+    "trailing_lock": 10.0,
+    "take_profit_levels": [
+     10.0
+    ],
+    "time_decay_period": 1000
+   },
+   "patch": {
+    "loss_time_days": 1000,
+    "take_profit_fractions": [
+     1.0
+    ],
+    "global_hard_limit": 1000
+   },
+   "rule": "P1 signal-native only (hold-to-end declaration, engine default exit stack explicitly disabled)"
+  }
+ },
+ "k_nulls": 200,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "judge_cap_blocks": 90,
+ "entry_source": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n": 173,
+  "family_split": {
+   "A": 6,
+   "B": 167
+  }
+ },
+ "w16_grammar_ref": {
+  "file": "results/trial_labor_w16/w16_grammar.json",
+  "grammar_sha16": "ebf15822d2c8472e"
+ },
+ "w14_lineage": {
+  "grammar_sha16": "a231bf10940e7878",
+  "file": "results/trial_labor_w14/w14_grammar.json"
+ },
+ "cell_key": "candidate_id x exit_face",
+ "n_pairs": 1384,
+ "screen_trials": 1584
+}

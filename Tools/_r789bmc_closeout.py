@@ -1,0 +1,160 @@
+# -*- coding: utf-8 -*-
+# r789 bm-c closeout: adopt dead-session estate bookkeeping (heartbeat/state/round-report/inbox)
+# Law: fleet/README.md sec.6 machine-split files; epoch must be JSON int (R170/R178);
+# clock_read ISO8601 T-separator (R262); products-first protocol 3-line face.
+import json, time, shutil, sys, io
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+CST = timezone(timedelta(hours=8))
+now = datetime.now(CST)
+now_iso = now.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+epoch = int(time.time())
+
+did = (
+    "2026-10-09T{hm}+08:00 | r789 | dept:工程/研究（死会话收养+W17 runner 落地入池+W192 finalize 收口轮·第 90 bm-c 连守轮） | "
+    "本地未达 origin commit 数=0（commit 后 push+fetch 自证·post-push sync 随批） | "
+    "WM-VERDICT: 绿（red=false·lane=healthy·next_pick=claimed moneyflow IC 源阻断 bm-a 车道合法·"
+    "DEC 83813196/ORD 1212A338 双恒等零消费·unacked 0〔54 orders〕·inbox 2 件本轮消费归档〔F-04 自席声明件+W193 席位件·§8 回填投影恒等核验〕） | "
+    "孤儿面=1（ComfyUI 产线资产·只读不杀） | "
+    "r789: 死会话收养+W17 runner 落地入池+W192 finalize 收口轮——"
+    "①S0 收养链：r789 前会话（05:0x-06:27 窗猝死·末笔 06:27:34）遗产全量收养（S0 吸收 commit e0fad8578"
+    "+W17 runner scripts/trial_labor_w17.py+池 10 条目+W192 one-pass finalize+§7/§8 回填+n1 w137 第二例裁定），"
+    "收养核验三绿（pool 418 entries=408 done+10 ready W17 全数机读〔GENERATE 1+SCREEN-SHARD-0..7+JUDGE 1〕"
+    "+n1 selftest 收口窗复跑 PASS〔含 W192 materializer face+w137_adjudicated {{94_100,94_200}} 裁定〕"
+    "+w192 results 机器对读〔账本 834,545+2,200=836,745 EXACT·K=420,320·skill_line 1.1874→1.1872·audit.finalize_only=true〕）；"
+    "②主产出=W17 出场轴判决链 runner 落地（selftest 21/21 hermetic〔L1-L14 断言电池〕+identity-face 三命令真实数据首跑"
+    " rc2 诚实拒收〔prep/finalize/judge-prep 06:00·r446 三命令律〕→fill_ladder runner_exists 门放行）"
+    "+入池 10 ready（staged data_deps 序列门：screen 等 w17_cells.json+prep_state.json·judge 等 judge_state.json·"
+    "screen/judge lane 钉 bm-c r429 checkpoint 机器本地律；SLA D-20261009-01③ 窗 10-10 00:00 前 17h+ 达成·"
+    "F-20261009-03 回执落账）+W192 finalize one-pass（六门 pre-finalize 探针 GREEN_FINALIZE_READY"
+    " results/_r789bmc_w192_prefinalize_probe.json→n1_w192_results.json 06:24→§7 跑后实证+§8 批后复盘同窗机械回填"
+    "〔§5 四预键全过·canon flip NOT performed·W193 席位投影恒等核验〕→perpetual_faces_n1.py w137_adjudicated 扩员"
+    " {{94_100}}→{{94_100,94_200}}〔r874 族第二例·spawn-children-only 零统计伤害·W137 finalize 照立〕）；"
+    "③S1 smoke 49/49（分离监督器 05:17 fresh）+QA smoke-r789-bm-c.md 5/5（91 trades·sharpe 0.199·determinism=True·"
+    "equity PNG 同批·per-machine 后缀律）；④S6 40/40 rc0 十连绿（results/_r789bmc_s6_log.txt·05:17-05:19 分离监督器·"
+    "fund_premium 10-08 NAV 首采=早窗诚实 no-op·15:30+ 轮落首采）；⑤S7 自愈批（loop pin=5·watchdog 在位·双爪重装·"
+    "attrition 台账 CLEAN·orders 收尾二扫）| 下轮指针: r790=W17 池烧跟进（autofill 常轨·GENERATE→SCREEN 8 分片→JUDGE·"
+    "lane 钉 bm-c·到窗读数随班回执）+W193 解锁（finalize 落 origin·bm-a 席位等待解除其下轮自见）"
+    "+fund_premium 10-08 NAV 首采（10-09 晚窗 15:30+·第十观测窗）+CEO 勾选选项 A 等待态+T-177 regime-5 标签器消费面跟进（bm-a 车道）"
+).format(hm=now.strftime("%H:%M:%S"))
+
+activity = (
+    "当前活: r789 bm-c（05:0x-06:5x 双会话合成·死会话收养+W17 runner 落地入池+W192 finalize 收口·第 90 连守轮）——"
+    "主产出=W17 判决链 runner 落地（selftest 21/21+identity-face 三命令真实数据 rc2 诚实拒收）+入池 10 ready"
+    "（SLA 窗 10-10 00:00 前 17h+ 达成）+W192 finalize one-pass（账本 836,745 EXACT·§7/§8 同窗回填） | "
+    "最近实物: scripts/trial_labor_w17.py + results/runnable_pool.json (10 ready W17) + results/perpetual_faces/n1_w192_results.json "
+    "+ research/PERPETUAL_N1_W192_PREREG.md (§7/§8 backfilled) @ 本轮收口 commit 2026-10-09T06:5x+08:00 | "
+    "下个里程碑: r790=W17 池烧跟进（autofill GENERATE→SCREEN 8 分片→JUDGE·lane bm-c）+W193 解锁自见+fund_premium NAV 首采（15:30+）"
+)
+
+artifact = (
+    "scripts/trial_labor_w17.py (W17 runner LANDED: selftest 21/21 + identity-face three-command first-run rc2 honest-refuse, "
+    "r446 law) + results/trial_labor_w17/w17_grammar.json + results/runnable_pool.json (418 entries, 10 ready claimable W17: "
+    "GENERATE 1 + SCREEN-SHARD-0..7 + JUDGE 1, staged data_deps gates, lane pinned bm-c r429) + Tools/fill_ladder_catalog.json "
+    "(runner_exists gate released) + results/perpetual_faces/n1_w192_results.json (W192 finalize one-pass: ledger 834,545+2,200=836,745 "
+    "EXACT, K=420,320, skill_line 1.1872, audit.finalize_only=true) + research/PERPETUAL_N1_W192_PREREG.md (§7/§8 machine backfill) "
+    "+ scripts/perpetual_faces_n1.py (w137_adjudicated {94_100,94_200} r874-family second instance) + HQ-FEEDBACK.md "
+    "(F-20261009-01 closed + F-20261009-03 pool-replenish receipt) + results/_r789bmc_w192_prefinalize_probe.json (six gates GREEN) "
+    "+ qa/smoke-r789-bm-c.md 5/5 + qa/equity-curve-r789-bm-c.png + results/_r789bmc_s6_log.txt (40 legs rc0 tenth green) "
+    "+ results/_r789bmc_n1_selftest.txt (adoption re-run PASS) + results/_r789bmc_runner_first_run.txt (r446 identity-face) "
+    "+ results/_r789bmc_w17_selftest.txt (21/21) + fleet/inbox/processed/ (2 msgs archived) @ " + now_iso
+)
+
+nxt = (
+    "r790 续作: ①W17 池烧跟进（autofill 常轨执行面分离：GENERATE→w17_cells.json→SCREEN-SHARD-0..7 8 分片→JUDGE·"
+    "lane 钉 bm-c r429 checkpoint 机器本地律·staged data_deps 序列门防早期空烧·烧录态读数随班回执）"
+    "②W193 解锁自见（W192 finalize 已落 origin·bm-a 席位 MSG-2026-10-09-0458 等待解除·anchor 滚至 W192 per r590）"
+    "③fund_premium 10-08 NAV 首采（发布面 T+1·10-09 晚窗 15:30+·第十观测窗）"
+    "④CEO 勾选后按选项走（A=视频段解冻·等待态）+T-177 regime-5 标签器消费面跟进（bm-a 车道）"
+    "⑤T-2026-10-09-178-P1 判决链票跟进（池烧完成前不关票·judge verdict→s4 intake→48h CEO 呈报）"
+)
+
+verify = (
+    "W17 runner 落地 git 可验（scripts/trial_labor_w17.py selftest 21/21 results/_r789bmc_w17_selftest.txt + identity-face "
+    "三命令首跑 rc2 诚实拒收 results/_r789bmc_runner_first_run.txt·r446 律） + pool 418=408 done+10 ready W17 全数机读"
+    "（GENERATE 1+SCREEN-SHARD-0..7+JUDGE 1） + W192 finalize（n1_w192_results.json 账本 834,545+2,200=836,745 EXACT·"
+    "K=420,320·skill_line_v2 1.1872·canon flip NOT performed·audit.finalize_only=true） + §5 四预键全过（mu gap 0.002380<0.02·"
+    "sigma Δ-0.008%<±10%·A p95 Δ-0.0079<0.05·K-lift -0.0002≤±0.02） + 六门探针 GREEN_FINALIZE_READY "
+    "（results/_r789bmc_w192_prefinalize_probe.json） + n1 selftest 收口窗复跑 PASS（W192 face+w137 双裁定） + "
+    "smoke 49/49 + QA smoke-r789-bm-c.md 5/5（91 trades·sharpe 0.199·determinism=True） + S6 40/40 rc0 十连绿 "
+    "（results/_r789bmc_s6_log.txt） + attrition 台账 CLEAN + 双爪重装 + loop pin=5 + DEC/ORD 双恒等零消费 "
+    "（_r789bmc_s0_facts.json） + 孤儿面=1 只读"
+)
+
+# ---- heartbeat ----
+hb_path = ROOT / "fleet" / "machines" / "bm-c.json"
+hb = json.loads(hb_path.read_text(encoding="utf-8"))
+for k in ("last_seen", "last_seen_at", "clock_read", "ts", "updated", "updated_at", "last_run_at",
+          "last_ts", "current_task_at"):
+    hb[k] = now_iso
+hb["heartbeat_epoch_utc"] = epoch
+hb["last_round"] = 789
+hb["last_round_at"] = now_iso
+hb["round_no"] = 790
+hb["round_no_label"] = "round 789 (bm-c)"
+hb["current_task"] = activity
+hb["activity_now"] = activity
+hb["did"] = did
+hb["note"] = did
+hb["verdict"] = did
+hb["last_round_summary"] = did
+hb["last_action"] = did
+hb["latest_artifact"] = artifact
+hb["next"] = nxt
+hb["next_pointer"] = nxt
+hb["next_milestone"] = nxt
+hb["verify"] = verify
+hb["idle_rounds"] = 0
+hb["agenda_starved"] = False
+hb["last_pulled_at"] = now_iso
+hb["head_sha"] = "pending-this-round-commit"
+hb_path.write_text(json.dumps(hb, ensure_ascii=False, indent=1), encoding="utf-8")
+
+# ---- state ----
+st_path = ROOT / "state-bm-c.json"
+st = json.loads(st_path.read_text(encoding="utf-8"))
+for k in ("clock_read", "current_task_at", "did", "last_round_at", "last_round_ts", "last_seen",
+          "last_seen_at", "last_run_at", "last_ts", "note", "last_round_summary", "last_action",
+          "verdict", "ts", "updated", "updated_at"):
+    if k in st:
+        st[k] = did if k in ("did", "note", "last_round_summary", "last_action", "verdict") else now_iso
+st["heartbeat_epoch_utc"] = epoch
+st["last_round"] = 789
+st["round_no"] = 790
+st["round_no_label"] = "round 789 (bm-c)"
+st["current_task"] = activity
+st["activity_now"] = activity
+st["latest_artifact"] = artifact
+st["next"] = nxt
+st["next_pointer"] = nxt
+st["next_milestone"] = nxt
+st["verify"] = verify
+st["idle_rounds"] = 0
+st["agenda_starved"] = False
+st_path.write_text(json.dumps(st, ensure_ascii=False, indent=1), encoding="utf-8")
+
+# ---- round report ----
+rr_path = ROOT / "logs" / "iteration-loop" / "round_reports-bm-c.md"
+with rr_path.open("a", encoding="utf-8") as f:
+    f.write(did + "\n")
+
+# ---- inbox archive ----
+moved = []
+for name in ("MSG-2026-10-09-0453-bmc-trial-labor-w17.md", "MSG-2026-10-09-0458-bma-w193-seat.md"):
+    src = ROOT / "fleet" / "inbox" / name
+    dst = ROOT / "fleet" / "inbox" / "processed" / name
+    if src.exists():
+        shutil.move(str(src), str(dst))
+        moved.append(name)
+
+# ---- self-checks ----
+hb2 = json.loads(hb_path.read_text(encoding="utf-8"))
+st2 = json.loads(st_path.read_text(encoding="utf-8"))
+assert isinstance(hb2["heartbeat_epoch_utc"], int), "epoch must be int"
+assert isinstance(st2["heartbeat_epoch_utc"], int), "state epoch must be int"
+assert "T" in hb2["clock_read"] and "+08:00" in hb2["clock_read"], "clock_read ISO T-separator"
+assert hb2["round_no"] == 790 and st2["round_no"] == 790
+assert hb2["last_round"] == 789 and st2["last_round"] == 789
+print("CLOSEOUT_OK", now_iso, "epoch", epoch, "moved", moved)

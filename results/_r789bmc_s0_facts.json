@@ -1,24 +1,25 @@
 {
  "round": 789,
  "repo_fetch_rc": 0,
- "pre_pull_dirty": "M Tools/fill_ladder_catalog.json\n M docs/daily_report/REPORT-2026-10-09.json\n M docs/daily_report/REPORT-2026-10-09.md\n M docs/live_usage/LIVE-2026-10-09.json\n M docs/live_usage/LIVE-2026-10-09.md\n M docs/live_usage/LIVE-latest.json\n M docs/live_usage/LIVE-latest.md\n M fleet/machines/bm-c.json\n M logs/iteration-loop/round_reports-bm-c.md\n M research/pit-spawn.md\n M results/_attrition_guard_scan.json\n M results/_orphan_face_probe.bm-c.json\n M results/autofill_state.bm-c.json\n M results/compute_audit.bm-c.json\n M results/compute_audit.json\n M results/dispatcher_state.bm-c.json\n M results/fund_premium_status.json\n M results/fundamental_b_layer_filter.json\n M results/futures_update_status.bm-c.json\n M results/futures_update_status.json\n M results/idle_trigger.bm-c.json\n M results/idle_trigger_state.bm-c.json\n M results/lhb_update_status.bm-c.json\n M results/lhb_update_status.json\n M results/pool_dualrun.bm-c.jsonl\n M results/regime_state.bm-c.json\n M results/regime_state.json\n M results/saturation_engine/face_bm-c.json\n M results/saturation_engine_state.bm-c.json\n M results/token_usage.bm-c.json\n M results/token_usage.json\n M results/update_status.bm-c.json\n M results/update_status.json\n M scripts/science_gates.py\n M state-bm-c.json\n?? Tools/_r788bmc_runall.py\n?? Tools/_r788bmc_s05.py\n?? Tools/_r788bmc_s6.py\n?? Tools/_r788bmc_s7.py\n?? Tools/_r788bmc_sg_selftest.py\n?? Tools/_r788bmc_w17_freeze_facts.py\n?? Tools/_r789bmc_s0.py\n?? fleet/inbox/MSG-2026-10-09-0453-bmc-trial-labor-w17.md\n?? fleet/tasks/T-2026-10-09-178-P1.json\n?? qa/equity-curve-r788-bm-c.png\n?? qa/smoke-r788-bm-c.md\n?? research/TRIAL_LABOR_W17_PREREG.md\n?? results/_r788bmc_qa_out.txt\n?? results/_r788bmc_runlog.txt\n?? results/_r788bmc_runlog.txt.rc\n?? results/_r788bmc_s05_facts.json\n?? results/_r788bmc_s6_log.txt\n?? results/_r788bmc_s6_summary.txt\n?? results/_r788bmc_sg_selftest.txt\n?? results/_r788bmc_sg_selftest.txt.rc\n?? results/_r788bmc_smoke.txt\n?? results/_r788bmc_w17_freeze_facts.json",
- "pre_pull_dirty_n": 57,
+ "pre_pull_dirty": "M docs/daily_report/REPORT-2026-10-09.json\n M docs/daily_report/REPORT-2026-10-09.md\n M docs/live_usage/LIVE-2026-10-09.json\n M docs/live_usage/LIVE-2026-10-09.md\n M docs/live_usage/LIVE-latest.json\n M docs/live_usage/LIVE-latest.md\n M results/_orphan_face_probe.bm-c.json\n M results/autofill_state.bm-c.json\n M results/compute_audit.bm-c.json\n M results/compute_audit.json\n M results/dispatcher_state.bm-c.json\n M results/fund_premium_status.json\n M results/fundamental_b_layer_filter.json\n M results/futures_update_status.bm-c.json\n M results/futures_update_status.json\n M results/gate_attrition.bm-c.json\n M results/idle_trigger.bm-c.json\n M results/idle_trigger_state.bm-c.json\n M results/lhb_update_status.bm-c.json\n M results/lhb_update_status.json\n M results/pool_dualrun.bm-c.jsonl\n M results/regime_state.bm-c.json\n M results/regime_state.json\n M results/runnable_pool.bm-c.json\n M results/runnable_pool.json\n M results/saturation_engine/face_bm-c.json\n M results/saturation_engine_state.bm-c.json\n M results/token_usage.bm-c.json\n M results/token_usage.json\n M results/update_status.bm-c.json\n M results/update_status.json\n?? Tools/_r789bmc_runall.py\n?? Tools/_r789bmc_s6.py\n?? Tools/_r789bmc_w17_first_runs.py\n?? qa/equity-curve-r789-bm-c.png\n?? qa/smoke-r789-bm-c.md\n?? results/_r789bmc_api_probe.py\n?? results/_r789bmc_dec_now.txt\n?? results/_r789bmc_jprep_out.txt\n?? results/_r789bmc_ord_now.txt\n?? results/_r789bmc_qa_out.txt\n?? results/_r789bmc_runlog.txt\n?? results/_r789bmc_runlog.txt.rc\n?? results/_r789bmc_runner_first_run.txt\n?? results/_r789bmc_runner_first_run.txt.rc\n?? results/_r789bmc_s6_log.txt\n?? results/_r789bmc_s6_summary.txt\n?? results/_r789bmc_sfin_out.txt\n?? results/_r789bmc_smoke.txt\n?? results/_r789bmc_sprep_out.txt\n?? results/_r789bmc_w17_selftest.txt\n?? results/trial_labor_w17/\n?? scripts/trial_labor_w17.py",
+ "pre_pull_dirty_n": 53,
  "pull_rc": 128,
  "pull_out": "",
  "pull_err": "error: cannot pull with rebase: You have unstaged changes.\nerror: Please commit or stash them.\n",
- "tip_log": "13cbe1489 r788 S0: absorb r787 dead-session bookkeeping estate (S6 40-leg log rc0 + S4 trio appends pit-engine-freeze-editor/METHODOLOGY E48/TREASURE row + heartbeat 03:59:34 + round report r787 line + attrition scan) + daemon live-faces round-7 post-freeze churn; dirty-list gate hand-verified zero foreign (behind=2 bm-a delta disjoint: F1-BULL-COND-P1 prereg + bm-a runtime faces) [via bm-c r788]\nbcb759fc9 round 899 (pre): bm-a runtime faces (probe/idle/engine states)\n1b7e9e53d F1-BULL-COND-P1 prereg freeze (T-177 leg-2 slice-2): 9 cells + 1000 BULL-mask nulls, seed 94_200 registered, banned-gate ADMIT (BAN-01 new_mechanism), selftest 13/13",
- "ahead": 0,
- "behind": 6,
+ "tip_log": "e0fad8578 r789 S0: adopt r788 dead-session W17 freeze estate (prereg FROZEN + science_gates seeds trio 20610000/20610500/20611000 + fill_ladder gate-armed entry + ticket T-2026-10-09-178 claimed + F-04 MSG + runall/s6/sg-selftest detached canon + QA pack r788 5/5 + S6 40-leg log rc0 + freeze-facts ten legs + heartbeat 04:59:20 + round report r788 line + pit-spawn r788 entry + bm-c live-faces churn); 14 shared-name live-faces local churn discarded pre-rebase (superseded by bm-a r899/r900 newer-wins, bc9230caf flatten precedent, treasure_guard prescan rc0 x14) [via bm-c r789]\n5a58423cf round 900 bm-a: W193 seat chain + XASSET-ROT slice-2 + S6 39-leg green (W193 seat published=reserved push 9df3078c5; pre-seat probe ADMIT staircase FIFTY-THIRD; slice-2 candidate card \u4e0a\u6d77\u8bc1\u5238 asset-rotation mechanism extracted with cross-border-lane/P1/D6 gates; ORD watermark repaired to python-raw canonical 861949ca bad-provenance disclosed; HANDOVER 5x r891-r900 window; state/heartbeat/report closeout) [via bm-a r900]\n9df3078c5 r900 bm-a: W193 seat published=reserved (pre-seat probe ADMIT A 439_404..441_403 / B 441_404..441_603, staircase FIFTY-THIRD hops=1/1, conflicts 0, origin vacancy; 183rd wave bm-a 108th owned; anchor W191 head 833,536; W192 finalize pending on bm-c -> freeze waits + anchor rolls r590) [via bm-a r900]",
+ "ahead": 1,
+ "behind": 2,
  "orphan_probe_rc": 0,
  "orphan_probe_tail": [
-  "{\"py_faces\": 6, \"orphans\": 1, \"killed\": [], \"report\": \"K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\_orphan_face_probe.bm-c.json\"}"
+  "{\"py_faces\": 7, \"orphans\": 1, \"killed\": [], \"report\": \"K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\_orphan_face_probe.bm-c.json\"}"
  ],
  "orphan_n": 1,
- "pool_total": 408,
+ "pool_total": 409,
  "pool_status": {
-  "done": 408
+  "done": 408,
+  "ready": 1
  },
- "pool_claimable": 0,
+ "pool_claimable": 1,
  "wm_red": false,
  "wm_verdict": "",
  "wm_err": "KeyError(slice(None, 200, None))",
@@ -35,7 +36,8 @@
  "fleet_orders_total": 54,
  "unacked": [],
  "inbox_unread": [
-  "MSG-2026-10-09-0453-bmc-trial-labor-w17.md"
+  "MSG-2026-10-09-0453-bmc-trial-labor-w17.md",
+  "MSG-2026-10-09-0458-bma-w193-seat.md"
  ],
  "shape_assert": true
 }

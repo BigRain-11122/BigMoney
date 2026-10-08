@@ -1,0 +1,65 @@
+== Bigmoney smoke test 2026-10-09 05:17:47 ==
+[PASS] env: core deps | numpy 2.2.6, pandas 3.0.6, scipy 1.16.1
+[PASS] config: paths | root=bigmoney, daily=K:\Fluxgroup\FluxGroup\quant\bigmoney\data\daily
+[PASS] config: param grid | 432 combos (expect 432)
+[PASS] config: combo_hash deterministic | hash=079d85ab
+[PASS] data: core ETF pool | 48 no-prefix CSVs (expect ~48)
+[PASS] data: OHLCV readable | 48/48 ok
+[PASS] data: freshness | latest bar 2026-10-08 (1d ago, limit 15)
+[PASS] rules: fee schedule sane | single-side cost 13.0 bp
+[PASS] rules: T+0 list | 511880 T+0, 510300 T+1
+[PASS] exit: loss 8d force-close
+[PASS] exit: tiered take-profit
+[PASS] exit: hard stop -8%
+[PASS] exit: hold otherwise
+[PASS] engine: smoke backtest | 3 syms x 400 bars, 40 trades
+[PASS] engine: deterministic | identical on rerun (no hidden randomness)
+[PASS] engine: T+1 respected | 40 trades checked, 0 same-day roundtrips
+[PASS] engine: exits fill at T+1 open (RW-1) | 40 exits checked, 0 non-open fills
+[PASS] engine: evidence_cutoff hard truncation (RW-2) | cutoff 2025-12-08, 597 post-cutoff rows dropped, result identical to pre-truncated input
+[PASS] engine: rows actually read <= cutoff (RW-2) | last bar read 2025-12-08 <= 2025-12-08
+[PASS] engine: legacy keyset intact without evidence_cutoff (RW-2) | no cutoff_meta when flag off
+[PASS] engine: emptying cutoff refused (RW-2) | out-of-range cutoff raises -> caller rc != 0
+[PASS] engine: single-source cost parity (RW-3) | same bar 100k CNY: 130.4100/side on engine+paper+x2 faces; spec verify=True
+[PASS] engine: grid legacy divergence = declared 0.041bp (RW-3) | frozen T-78 grid caliber 13.0bp vs canonical 13.041bp (delta 0.41 CNY/100k side)
+[PASS] panel gate: real in-service panel inside frozen 48-lock (RW-4) | 48/48 members in lock, sha16=abf3d43b, len(set)==len(list) holds
+[PASS] panel gate: twins refused, len(set)==len(list) (RW-4) | sh510300+510300 -> duplicate after canonicalization -> batch not accepted
+[PASS] panel gate: stale in-service member refused (RW-4) | last_bar 2026-01-01 vs anchor 2026-09-29 -> lock breach refused
+[PASS] panel gate: out-of-lock + silent-shrink refused (RW-4) | 600000 out-of-lock refused; 1-of-48 request = silent shrink refused
+[PASS] rules: stock fee routing sell 18.141bp / buy 13.141bp (D-39) | 600519 vs 510300 on 100k notional: buy +1 CNY (transfer), sell -51 CNY (stamp50+transfer1); ETF sell rate 13.0410bp == buy rate
+[PASS] engine: one-word bar buy dropped + sell deferred (CN-A, D-38) | exit off sealed board -> filled next real open (2026-01-12), violations=0 by construction
+[PASS] exit: P1 signal_reversal beats P2 stop (RW-7) | reversal+stop same bar -> signal_reversal (P1 > P2)
+[PASS] exit: P2 stop_loss beats P3 take_profit (RW-7) | pnl +10.5% >= tier-2 10% but price 110.5 <= trailing 110.88 -> stop_loss (P2 > P3)
+[PASS] exit: P4 time_decay beats P5 loss_time_stop (RW-7) | hold 12d pnl -1% -> time_decay, not loss_time_stop (P4 > P5)
+[PASS] exit: P6 global_hard_limit terminal tier (RW-7) | hold 25d pnl +3% >= decay threshold 2% -> hard_limit fires
+[PASS] gate: daily_loss_breaker boundary (RW-7) | halt at pnl <= -3%, clear above
+[PASS] gate: rejections raise, never silently drop (RW-7) | position/total/trade caps + invalid side + halted-day BUY all raise RiskGateRejected; reasons=['position weight 0.50 > cap 0.1', 'total weight 0.83 > cap 0.8', "invalid side 'SHORT'", 'daily_loss_breaker halt (pnl -5.00% <= -3.00%)', 'max_daily_trades 10 reached']
+[PASS] gate: halted day still lets exits through (RW-7) | circuit breaker blocks new opens, not de-risking sells
+[PASS] gate: emit_order_sheet is the sole gated exit (RW-7) | ungated emit -> RuntimeError; gate_orders receipt -> sheet written
+[PASS] network: detector | net_type=LAN
+[PASS] network: status readable
+[PASS] network: traffic gate
+  [paper] patch self-tests... PASS
+  [paper] monthly aggregation unit tests... PASS
+  [paper] seg_metrics short-segment honesty (F4)... PASS
+  [paper] x2 watch escalation chain (F3)... PASS
+  [paper] regime_guard additive flag (T-05)... PASS
+  [paper] loading universe for causality + anchor gates...
+  [paper] signal causality (truncate-and-compare)... PASS
+  [paper] anchor gate COMPOSITE-CE-01... PASS (IS s=1.1244 OOS s=0.862, cutoff 2026-09-22)
+  [paper] anchor gate COMPOSITE-CE-02... PASS (IS s=0.7841 OOS s=1.5605, cutoff 2026-09-22)
+  [paper] anchor gate DROUGHT-CE-01... PASS (IS s=0.461 OOS s=1.2407, cutoff 2026-09-22)
+  [paper] anchor gate ENGULF-CE-01... PASS (IS s=0.5337 OOS s=0.1686, cutoff 2026-09-22)
+  [paper] anchor gate NEEDLE-DE-01... PASS (IS s=0.6862 OOS s=0.1927, cutoff 2026-09-22)
+  [paper] anchor gate VOLATILITY-CE-01... PASS (IS s=1.103 OOS s=1.7166, cutoff 2026-09-22)
+[PASS] paper: pipeline selftest | patches+aggregation+causality+anchor + seg-honesty(F4) + x2-watch escalation(F3)
+[PASS] updater: update_daily selftest (exit-code contract) | exit=0 |   [updater] source parity 510300 @ 2026-10-08... PASS
+[PASS] updater: update_lhb selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+[PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+[PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 10/10 PASS
+[PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+[PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791493160 clock=2026-10-09T04:59:20+08:00
+
+Summary: 49/49 PASS, 0 FAIL
