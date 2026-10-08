@@ -1,0 +1,54 @@
+{
+ "round": 790,
+ "mode": "merge",
+ "stage_semantics": "stage2=ours(local) stage3=theirs(origin)",
+ "files": {
+  "results/runnable_pool.json": {
+   "decision": "per-face max-merge",
+   "diffs": [
+    "TRIAL-LABOR-W17-GENERATE",
+    "TRIAL-LABOR-W17-SCREEN-SHARD-0"
+   ],
+   "status_count": {
+    "done": 409,
+    "ready": 9
+   },
+   "generate_face": {
+    "status": "done",
+    "done_by": "bm-c",
+    "done_at": "2026-10-09 07:20:03",
+    "shard_owner": "bm-a",
+    "shard_owner_since": "2026-10-09 07:20:38",
+    "harvested_by": "bm-c",
+    "shard_status": "done"
+   },
+   "screen0_face": {
+    "owner": "bm-c",
+    "owner_since": "2026-10-09 07:20:37"
+   },
+   "out_bytes": 1041033
+  },
+  "results/pool_core_samples.jsonl": {
+   "decision": "two-pointer ts union",
+   "ours": 2206,
+   "theirs": 2206,
+   "merged": 2207,
+   "known_bad_preserved": 0,
+   "out_bytes": 508582
+  },
+  "results/pool_red_flags.jsonl": {
+   "decision": "two-pointer ts union",
+   "ours": 82,
+   "theirs": 82,
+   "merged": 82,
+   "known_bad_preserved": 1,
+   "out_bytes": 16848
+  }
+ },
+ "marker_sweep": "CLEAN",
+ "unmerged_files_seen": [
+  "results/pool_core_samples.jsonl",
+  "results/pool_red_flags.jsonl",
+  "results/runnable_pool.json"
+ ]
+}
