@@ -1,0 +1,79 @@
+{
+  "_comment": "FleetLink node roster (CEO order 2026-10-04; law: O-20260928-1855(3) state-plane v2, server-governance v2). Enabled nodes get poked by fleet-dispatch. Poke carries signals only - git stays the sole data channel. Adoption per machine: 1) tailscale up -> send login URL to CEO for one click (bm-b/bm-c); 2) fill host/tailnet_ip/root/repos/wake_tasks/status_files here; 3) set enabled=true; 4) run: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\\register-fleet-link.ps1 (idempotent, silent, no elevation needed - Tailscale-In firewall rules cover inbound).",
+  "port": 8790,
+  "nodes": [
+    {
+      "id": "bm-a",
+      "host": "DASHENG",
+      "tailnet_ip": "100.110.185.62",
+      "enabled": true,
+      "root": "C:/Users/sjs20/Desktop/FluxGroup",
+      "repos": [".", "gaming/MiniGame", "gaming/FluxVerse", "quant/bigmoney", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
+      "wake_tasks": ["BigStream-OSLoop", "BigLife-OSLoop", "BigDomain-OSLoop", "FluxVerseTick", "MiniGameEngineTick", "Bigmoney-IterationLoop"],
+      "status_files": ["gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json", "quant/bigmoney/fleet/machines/bm-a.json"]
+    },
+    {
+      "id": "bm-b",
+      "host": "BM-B",
+      "tailnet_ip": "100.82.175.0",
+      "enabled": true,
+      "root": "C:/Users/sjs20/Desktop/FluxGroup",
+      "repos": ["quant/bigmoney"],
+      "wake_tasks": [],
+      "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
+      "note": "tailnet join DONE 10-06 (CEO clicked; HQ verified 10-08 via bm-a 'tailscale status': active + TCP135 reachable). Roster pre-filled by HQ 10-08; bm-b loop remaining: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption."
+    },
+        {
+      "id": "bm-c",
+      "host": "FLUXGROUP",
+      "tailnet_ip": "100.123.74.104",
+      "enabled": true,
+      "root": "K:/Fluxgroup/FluxGroup",
+      "repos": [
+        "quant/bigmoney",
+        "gaming/MiniGame"
+      ],
+      "wake_tasks": [
+        "Bigmoney-IterationLoop",
+        "Bigmoney-SaturationEngine",
+        "Bigmoney-ResidentDispatcher",
+        "Bigmoney-Autofill",
+        "Bigmoney-PoolWorker",
+        "MiniGameEngineTick",
+        "MiniGameComfyDraftTick",
+        "MiniGameAuditTick",
+        "MiniGameGateTick",
+        "MiniGameRadarTick",
+        "MiniGameRadarDeepTick",
+        "MiniGameSiliconWatchTick"
+      ],
+      "status_files": [
+        "quant/bigmoney/fleet/machines/bm-c.json",
+        "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"
+      ],
+      "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; awaiting HQ poke verify to close adoption."
+    },
+    {
+      "id": "BG-B",
+      "host": "",
+      "tailnet_ip": "",
+      "enabled": false,
+      "root": "",
+      "repos": ["gaming/MiniGame"],
+      "wake_tasks": [],
+      "status_files": [],
+      "note": "adoption window per 08 hao protocol; register after tailnet join"
+    },
+    {
+      "id": "BG-C",
+      "host": "",
+      "tailnet_ip": "",
+      "enabled": false,
+      "root": "",
+      "repos": ["gaming/MiniGame"],
+      "wake_tasks": [],
+      "status_files": [],
+      "note": "adoption window per 08 hao protocol; register after tailnet join"
+    }
+  ]
+}
