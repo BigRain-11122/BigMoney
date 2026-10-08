@@ -1,0 +1,54 @@
+=== r787 bm-c S0 batch start 2026-10-09T01:59:20+08:00 ===
+{"py_faces": 4, "orphans": 1, "killed": [], "report": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_orphan_face_probe.bm-c.json"}
+[orphan rc=0]
+warning: in the working copy of 'results/saturation_engine/face_bm-c.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/saturation_engine_state.bm-c.json', LF will be replaced by CRLF the next time Git touches it
+[main d8e5e3207] r787 S0: absorb bm-c daemon live-faces (pre-rebase two-step, r620 law)
+ 7 files changed, 41 insertions(+), 54 deletions(-)
+[absorb commit rc=0]
+Rebasing (1/1)Successfully rebased and updated refs/heads/main.
+[rebase rc=0]
+be9d08eead99235b1215538c7f4710d6d30acf28
+e8dddd37c662b5cb07b2cd8b9b496d2cd6827f8e
+?? Tools/_r787bmc_s05.py
+?? results/_r787bmc_s05_facts.json
+?? results/_r787bmc_s0_log.txt
+?? results/_r787bmc_smoke.txt
+?? results/_r787bmc_w192_face_dump.py
+?? results/_r787bmc_w192_facedump_out.txt
+?? results/_r787bmc_w192_probe_n1_claim.txt
+?? results/_r787bmc_w192_probe_n1_entry.txt
+?? results/_r787bmc_w192_probe_n1_mat.txt
+?? results/_r787bmc_w192_probe_pf_block.txt
+{
+ "round": 787,
+ "fetch_rc": 0,
+ "dec_bytes": 188295,
+ "dec_sha": "8381319617DD5225CFC144E041FFB1CCE94903277FEE4219D8E80A24C1DC289A",
+ "ord_bytes": 281053,
+ "ord_sha": "1212A338587B167739E323B23CEFA87F8526A969",
+ "prev_dec_sha": "8381319617DD5225CFC144E041FFB1CCE94903277FEE4219D8E80A24C1DC289A",
+ "prev_ord_sha": "1212A338587B167739E323B23CEFA87F8526A969",
+ "dec_delta": false,
+ "ord_delta": false,
+ "ord_delta_rows": null,
+ "fleet_orders_total": 54,
+ "unacked": [],
+ "inbox_unread": [],
+ "shape_assert": true
+}
+[s05 rc=0]
+[smoke rc=0]
+6796c38a3 round 785: QA det-100th net-write (100th consecutive pack, r785 slot free at write-time probe both faces, 5/5, 91 trades determinism=True) + S6 40/40 sixth consecutive all-green window (REPORT/LIVE-2026-10-09 new-day faces) + closing-sweep group 00:15 batch consumption: D-20261009-01 item-3 pool-replenish accepted with baseline receipt F-20261009-01 (pool 408/408 done ready=0, moneyflow IC panel-blocked, real-supply plan = S3 trial-labor standing line from r786, window 10-10 00:00) + D-20261009-02 QA per-machine suffix law EXECUTED in-round (scripts/qa_smoke_run.py tag/png templates -> smoke-rNNN-<machine> family, py_compile rc0, historical packs zero-rename, receipt F-20261009-02) + D-20261009-03 non-quant zero-action + ORD wave-4 13 terminal rows archived zero-owed verified + watermarks rolled A6FE4864->83813196 / 3292E8FB->1212A338 (facts-driven) + HANDOVER 5x row r781-785 + W192 seat/prereg freeze consumed read-only (bm-c interactive window CEO fill-order, de1ad11f9, five-face strictly after bm-a W191) [via bm-c r785]
+fbc1ef8dd round 784: guard round (DEC/ORD dual watermarks unchanged A6FE4864/3292E8FB, zero consumption) + S6 40/40 all-green x5 (CEO faces 10-08 regen fifth consecutive, 5 lane_io stale-takeover derives vs bm-a stale heartbeat 113-115min per O-2100 s2.4 STALE_MIN law) + QA det-100th slot-deferred (r784 foreign-occupied both faces, r669 overwrite ban, det pack slides to r785 slot) + fund_premium sixth publish-face observation (10-08 NAV T+1, lands 10-09 evening window) [via bm-c r784]
+a606a7205 round 783 close: S7 delivery self-check row + mid-round DEC delta watermark roll (D-20261008-09 governance revisit consumed at closing double-sweep, non-quant zero-action) + canon ledger tail absorb [via bm-c r783]
+8d8fb3b37 round 783: broadcast resume ack (O-20261008-2315 bm-c loop receipt) + S6 40/40 all-green x4 (CEO faces 10-08 regen fourth consecutive) + QA det-99th zero-collision first-write r783 slot (window-rolled frozen face: 91 trades, equity 1,023,027, determinism=True) + ORD delta 2 rows consumed (EOL relayout + MiniGame-domain MV order, both non-quant zero-action) + fund_premium publish-face observation (NAV T+1, retry 10-09 evening window) [via bm-c r783]
+aec705f9e round 783 S0: daemon live-face absorb (6 faces, pre-rebase two-step law; zero foreign half-products) [via bm-c r783]
+b7f812590 round 782 close: S7 delivery self-check row + canon ledger tail + daemon churn absorb [via bm-c r782]
+33c8d2190 round 782: S6 40/40 all-green x3 (CEO faces 10-08 regen third consecutive) + QA det-99th defer 4th window (r782 own-slot foreign-occupied + r784 occupied, r783/r785 free, r669 overwrite ban, probe in evidence) + fund_premium publish-face observation (NAV T+1, retry 10-09 evening window, expected NAV date 09-30 held) + T-134 s2 rescan t33/t36 natural-accrual gate holds (no new audit artifacts, zero repo-face change) [via bm-c r782]
+c22f0d79e round 781 close: S7 delivery self-check row + canon ledger tail [via bm-c r781]
+89ae57e74 round 781: S6 40/40 all-green x2 (CEO faces 10-08 regen) + QA det-99th defer (r781/r782 foreign-occupied, r669) + fund_premium publish-face observation (NAV T+1, retry 10-09 evening) [via bm-c r781]
+3a624f7c2 round 780 close: S4 pit entry (template-chain law) + D-06 mini-split to pit-protocol-lane [via bm-c r780]
+58c03e68f round 780 close: S7 delivery self-check row + canon ledger tail [via bm-c r780]
+ba6a3823b round 780: 5x HANDOVER + ledger cross-face heal + QA triple-slot defer + S6 40/40 all-green [via bm-c r780]
+=== done 2026-10-09T02:00:40+08:00 ===
