@@ -1,5 +1,55 @@
 {
-  "ok": false,
-  "updated": "2026-10-07 18:23:09",
-  "error": "RuntimeError: stock_yjbb_em(20251231) failed: HTTPSConnectionPool(host='datacenter-web.eastmoney.com', port=443): Max retries exceeded with url: /api/data/v1/get?sortColumns=UPDATE_DATE%2CSECURITY_CODE&sortTypes=-1%2C-1&pageSize=500&pageNumber=22&reportName=RPT_LICO_FN_CPD&columns=ALL&filter=%28REPORTDATE%3D%272025-12-31%27%29 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)')))"
+  "ok": true,
+  "updated": "2026-10-08 14:39:41",
+  "periods": {
+    "annual": "20251231",
+    "interim": "20260630",
+    "interim_prev": "20250630"
+  },
+  "rows": {
+    "annual": 11513,
+    "interim": 11447,
+    "interim_prev": 11607,
+    "st_list": 405,
+    "st_source": "em_push2_direct_ua"
+  },
+  "degraded": {
+    "ttm_ok": true,
+    "prev_err": null
+  },
+  "skipped_dims": [
+    "证监会立案调查",
+    "年报审计非标意见"
+  ],
+  "health_gates": {
+    "annual_rows_ge_min": true,
+    "annual_period_within_18m": true,
+    "annual_np_nonnull_ge_095": true,
+    "st_rows_in_band": true,
+    "st_names_marker_ge_08": true,
+    "verdict_rows_gt_4000": true,
+    "np_ratio": 1.0,
+    "st_marker_ratio": 1.0,
+    "all_pass": true
+  },
+  "verdicts": {
+    "rows": 11635,
+    "eligible": 7274,
+    "r1_loss_total": 4325,
+    "r1_by_reason": {
+      "annual<0": 3542,
+      "ttm<0": 661,
+      "no_data": 122
+    },
+    "r2_st_total": 407,
+    "r2_by_source": {
+      "st_list+name_marker": 405,
+      "name_marker": 2
+    },
+    "ttm_ok_rows": 11446
+  },
+  "coverage_vs_bars": {
+    "bars_dir": "absent"
+  },
+  "snapshot": "data/fundamental/eligibility.csv"
 }
