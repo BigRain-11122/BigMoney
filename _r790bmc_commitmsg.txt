@@ -1,0 +1,33 @@
+r790 bm-c mid-round harvest: W17 generate leg landed + lane-stall cure
+
+- scripts/trial_labor_w17.py: tuple-bug fix (L563 _load_exclusion_rows_w16
+  returns (rows, disc) -- r789 landing crashed on unpack; daemon launch pid
+  23964 07:00:17 died AttributeError, first-real-data identity-face run per
+  r446 law caught it in-round; selftest 21/21 rerun PASS)
+- generate leg COMPLETE: 173x8 = 1384 paired cells (rerun face 25 W16
+  pairs, other hits 0) + TRIAL_GRAMMAR_LEDGER wave-17 row
+  (results/_r790bmc_w17_generate_out.txt rc=0)
+- screen-prep landed: 1253 starts passive 6m precompute -> prep_state.json
+  (gates G-PANEL/G-ENTRY/G-LINEAGE/G-EXITCFG/G-GRAMMAR all PASS)
+- Tools/autofill.py: _git() 60s hard timeout -- 07:17 live-fire: network
+  fetch hung 12+ min, killed resident dispatcher, zombie task instance
+  then skipped every later 1-min trigger (single-instance policy);
+  timeout-less git grandchild survives the tick-child 240s cap as orphan
+- S0/S0.5 facts: DEC 83813196 / ORD 1212A338 both identical zero-consume,
+  unacked 0/54, behind=6 integration follows this commit
+
+- continuation session 07:4x (dead r790 session 07:07-07:29 estate adopted
+  wholesale per r789 precedent): adoption verify three-green = selftest
+  21/21 rerun PASS + py_compile x2 rc0 + generate/prep products
+  machine-read (results/_r790bmc_w17_selftest_rerun.txt)
+- claim-collision window reconciled merge-mode (r746/r747 canon): daemon
+  commits harvest b3d074257 + claims b7f40149e/97d5654ea undelivered
+  (07:17 network-hang era, ahead=3) while bm-a claimed W17-GENERATE on
+  origin 07:20:38 (1316ab9e7, pre-fix runner = expected crash); merged
+  pool face = GENERATE done (bm-c products in this commit, done_at
+  07:20:03, harvested_by bm-c, W16-GENERATE exact precedent shape) +
+  bm-a claim fields newer-wins + screen-0 claim (bm-c 07:20:37)
+  preserved; origin delivery unblocks daemon claim_lost_yield (yields on
+  undelivered claims per visibility law, burn resumes next tick)
+
+[via bm-c r790]

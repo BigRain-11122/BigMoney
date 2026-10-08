@@ -1400,8 +1400,17 @@ def _pick(pool, myid, skip=None):
 
 
 def _git(args):
-    """Central git runner (selftest stubs this for hermetic claim legs)."""
-    r = subprocess.run(["git", *args], cwd=ROOT, capture_output=True)
+    """Central git runner (selftest stubs this for hermetic claim legs).
+    r790 bm-c: 60s hard timeout -- a hung network fetch/push must fail
+    the cycle fast, never stall the lane (07:17 live: fetch hung 12+ min,
+    killed the resident dispatcher, single-instance policy then skipped
+    every later 1-min trigger; the tick-child 240s cap kills the python
+    parent but the timeout-less git grandchild survives as an orphan)."""
+    try:
+        r = subprocess.run(["git", *args], cwd=ROOT, capture_output=True,
+                           timeout=60)
+    except subprocess.TimeoutExpired:
+        return 124, "git timeout 60s (r790 lane-stall cure)"
     return r.returncode, r.stderr.decode(errors="replace")[:200]
 
 

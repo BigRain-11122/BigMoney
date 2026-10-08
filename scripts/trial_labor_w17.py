@@ -557,7 +557,7 @@ def cmd_generate() -> int:
         print(f"GENERATE-GATE FAIL: w16_grammar sha drift != "
               f"{W16_GRAMMAR_SHA16}")
         return 1
-    rows = tl16._load_exclusion_rows_w16(w16g)
+    rows, _excl_disc = tl16._load_exclusion_rows_w16(w16g)
     n_prev_rows = len(rows)
     for c in cands:   # 16th source: W16 burned cells (own X faces)
         rows.append({"module": c["module"], "fn": c["fn"],
