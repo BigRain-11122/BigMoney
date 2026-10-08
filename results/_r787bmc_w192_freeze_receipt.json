@@ -1,0 +1,42 @@
+{
+ "round": 787,
+ "machine": "bm-c",
+ "wave": 192,
+ "post_import": {
+  "rows": 190,
+  "w192": {
+   "a": [
+    437204,
+    439203
+   ],
+   "b_exit": [
+    439204,
+    439403
+   ],
+   "engine_owner": "bm-c"
+  },
+  "w191": {
+   "a": [
+    435004,
+    437003
+   ],
+   "b_exit": [
+    437004,
+    437203
+   ],
+   "engine_owner": "bm-a"
+  }
+ },
+ "origin_vacancy_prepush": true,
+ "precheck": {
+  "rows": 189,
+  "bmc_rows": 34,
+  "owner_rows": 181,
+  "unowned_rows": 8
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "completion_note": "G11 type-face false red in the original instrument (JSON lists vs tuples) tripped after the G10 write with data fully correct; assert fixed in-place for lineage; this finisher re-verified and completed the G12 receipt. W191 row byte-intact, W192 rows landed both faces."
+}

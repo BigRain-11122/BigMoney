@@ -84,7 +84,8 @@ def main():
     owners = {}
     for w, c in N1_BANDS.items():
         owners[c.get("engine_owner")] = owners.get(c.get("engine_owner"), 0) + 1
-    assert owners.get("bm-c") == 34 and sum(owners.values()) == 181, \
+    owned = sum(v for k, v in owners.items() if k)
+    assert owners.get("bm-c") == 34 and owned == 181, \
         "owner counts drift: %s" % owners
     assert N1_BANDS[191] == {"a": (435004, 437003), "b_exit": (437004, 437203),
                             "engine_owner": "bm-a"}, "W191 row drift"
@@ -97,7 +98,8 @@ def main():
               "results/_w192bmc_20261009_probe_receipt.json"):
         assert os.path.exists(os.path.join(ROOT, f)), "seat-cited artifact missing: %s" % f
     facts["precheck"] = {"rows": len(N1_BANDS), "bmc_rows": owners.get("bm-c"),
-                         "owner_rows": sum(owners.values())}
+                         "owner_rows": owned,
+                         "unowned_rows": owners.get(None, 0)}
 
     # ---- G3 read live files, EOL detect (r370) ----
     n1_raw = open(N1P, encoding="utf-8", errors="replace", newline="").read()
@@ -116,7 +118,7 @@ def main():
         assert j > i, "end marker not found [%s]" % stag
         return text[i:j]
 
-    mat191 = chunk(n1n, "# --- W191 materializer face",
+    mat191 = chunk(n1n, "    # --- W191 materializer face",
                    "\n    # --- T-141 s2 lane face", "mat191")
     # include the trailing newline before T-141 in the block
     cfg191 = chunk(n1n, '    191: {"batch": "PERPETUAL-N1-W191",',
@@ -203,7 +205,7 @@ def main():
         ("WAVE_CONFIGS if w < 191):", "WAVE_CONFIGS if w < 192):", 2),
         ('f"W191 A hits W{wprev}"', 'f"W192 A hits W{wprev}"', 1),
         ('f"W191 B hits W{wprev}"', 'f"W192 B hits W{wprev}"', 1),
-        ("n3r1_used190", "n3r1_used191", 2),
+        ("n3r1_used190", "n3r1_used191", 3),
         ('"W191 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"',
          '"W192 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"', 1),
         ('"W191 bands must clear the lfc actual draw range"',
@@ -460,10 +462,10 @@ def main():
     assert w191_pos >= 0
     t141 = n1_b.find("    # --- T-141 s2 lane face", w191_pos)
     assert t141 > w191_pos, "T-141 marker not found after W191 block"
-    n1_final = n1_b[:t141] + mat192 + n1_b[t141:]
+    n1_final = n1_b[:t141] + mat192 + "\n" + n1_b[t141:]
     assert n1_final.count("# --- W192 materializer face") == 1
     assert n1_final.count("# --- W191 materializer face") == 1
-    assert n1_final.count("    # --- T-141 s2 lane face") == 2
+    assert n1_final.count("    # --- T-141 s2 lane face") == 1
     # pf row: after W191 row
     assert pfn.count(pf191_full) == 1
     pf_final = pfn.replace(pf191_full, pf191_full + "\n" + p, 1)
@@ -497,10 +499,10 @@ def main():
     assert chk.returncode == 0, "post-import check failed: %s" % chk.stderr[:300]
     post = json.loads(chk.stdout.decode("utf-8", "replace").strip().splitlines()[-1])
     assert post["rows"] == 190, "row count drift: %s" % post
-    assert post["w192"] == {"a": (437204, 439203), "b_exit": (439204, 439403),
+    assert post["w192"] == {"a": [437204, 439203], "b_exit": [439204, 439403],
                            "engine_owner": "bm-c"}, "W192 row drift: %s" % post
-    assert post["w191"] == {"a": (435004, 437003), "b_exit": (437004, 437203),
-                            "engine_owner": "bm-a"}, "W191 row damaged: %s" % post
+    assert post["w191"] == {"a": [435004, 437003], "b_exit": [437004, 437203],
+                           "engine_owner": "bm-a"}, "W191 row damaged: %s" % post
     facts["post_import"] = post
 
     # ---- G12 receipt + five-segment PASS prints (r578 law) ----
