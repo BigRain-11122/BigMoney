@@ -3,19 +3,26 @@
  "engine": "saturation-engine",
  "version": "0.2",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "ts": "2026-10-08T20:55:05+08:00",
- "epoch": 1791464105,
+ "ts": "2026-10-08T21:00:27+08:00",
+ "epoch": 1791464427,
  "py_cpu_pct": 0.0,
  "engine_alive": true,
- "ram_free_gb": 61.6,
- "active_burns": [],
- "queue_depth": 0,
+ "ram_free_gb": 64.0,
+ "active_burns": [
+  {
+   "batch": "PERPETUAL-N1-W190",
+   "shard": 1,
+   "pid": 16540,
+   "started_at": "2026-10-08T21:00:27+08:00"
+  }
+ ],
+ "queue_depth": 10,
  "families": {
-  "N1": 0,
+  "N1": 10,
   "N4": 0
  },
- "shards_done_total": 156,
- "last_shard_done_at": "2026-10-08T20:05:04+08:00",
- "last_flush_at": "2026-10-08T20:18:09+08:00",
- "verdict": "idle"
+ "shards_done_total": 157,
+ "last_shard_done_at": "2026-10-08T21:00:26+08:00",
+ "last_flush_at": "2026-10-08T21:00:27+08:00",
+ "verdict": "ignited:n1w190-1of12 pid=16540 ledger_flush=1"
 }
