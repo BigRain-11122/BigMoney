@@ -1,0 +1,24 @@
+{
+  "round": 776,
+  "machine": "bm-c",
+  "event": "mv_work frozen-lane working-tree deletion discovered and fully recovered",
+  "discovery": {
+    "when": "2026-10-08T20:2x+08:00 (r776 S2 exploration)",
+    "trigger": "next-ptr item-3 A-direction ammo production prep found results/mv_work/kf missing on disk while r775-tail corrective f67e60dc7 claimed 'all files stay on disk, MV production lane intact'",
+    "audit": "git show aecdc94a4 --name-only filtered results/mv_work -> 68 paths, ALL MISSING on disk; quarantine dir had no recent entry"
+  },
+  "root_cause": {
+    "chain": "accidental sweep aecdc94a4 (68 files 41.4MB tracked+pushed) -> git rm -r --cached untrack commit (disk intact at commit time, per r731 fast-forward law) -> git pull --rebase to absorb bm-a 9f8815952 (20:10:50 satengine churn): rebase (start) checkout origin/main whose tree STILL TRACKS the 68 files -> on-disk ignored copies have NO overwrite protection in checkout transitions = silently adopted as tracked base -> rebase (pick) replays the untrack commit's tree-deletion = deletion applies to worktree for real -> rebase (finish): files gone from disk",
+    "forensics": "reflog: 20:12:07 'rebase (start): checkout origin/main' -> 20:12:08 'rebase (pick)' -> 20:12:08 'rebase (finish)'; results/mv_work dir LastWriteTime = 20:12:08 = rebase-finish second = deletion moment smoking gun; git status showed ZERO mv_work entries (ignored face = deletion invisible to status)",
+    "falsified_claim": "r775-tail 'production lane intact' assertion was true at commit time but falsified by the same-window rebase; r775 closeout verify text inherited the false state"
+  },
+  "recovery": {
+    "gate": "python Tools/treasure_guard.py restore results/mv_work -> rc0 reproducible-artifact class, restore allowed",
+    "action": "git restore --source=aecdc94a4 --worktree -- results/mv_work (worktree only, no index touch; .gitignore results/mv_work/ pattern keeps them untracked per r770-r775 precedent)",
+    "verification": "ls-tree -r aecdc94a4 walk over all 68 paths: on-disk 68/68, missing 0; binary assets (png/jpg/mp3) blob-sha exact match; 16 text files (.md/.py/.json/.ass) differ only by LF->CRLF checkout normalization (blob 8908B/68LF/0CRLF vs disk 8976B/68CRLF, normalize-equal True on probe ANALYSIS-v2.md)",
+    "total_bytes_on_disk": 43441398,
+    "key_assets_back": ["kf/st4_glass_d.png (A-direction NEW BEST)", "kf/st1_library_z3_composite.png", "kf/style_v7_manifest.json", "kf/style_v7_z3_receipt.json", "mv001_source_320k.mp3", "PRODUCTION.md", "ANALYSIS-v2.md", "full_mv_v2.py", "lyrics_v2.ass"]
+  },
+  "pit_codify": "research/pit-git-resolver-rebase.md direct-write (r666 precedent; main CODELY 30684B = 36B headroom, no room)",
+  "lesson": "git rm --cached untrack commit + subsequent pull --rebase = rebase start checkout silently adopts ignored on-disk copies as tracked, then the pick replay materializes the tree-deletion onto the worktree. After ANY rm --cached untrack corrective, same-window pull --rebase is FORBIDDEN; if already rebased, ls-tree on-disk audit + git restore --source recovery."
+}
