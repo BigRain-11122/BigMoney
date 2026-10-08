@@ -2,133 +2,51 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [
+ "active": [],
+ "ledger_buffer": [
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 183,
-   "shard": 7,
-   "nshards": 12,
-   "key": "n1w183-7of12",
    "batch": "PERPETUAL-N1-W183",
-   "pid": 98828,
-   "started_at": "2026-10-08T08:00:05+08:00",
-   "started_epoch": 1791417605,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W183-7.log",
-   "cfg": {
-    "batch": "PERPETUAL-N1-W183",
-    "prereg": "research/PERPETUAL_N1_W183_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; ONE HUNDRED-AND-SEVENTY-THIRD ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 172 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W182 row bm-a r867 freeze 385dbafd8, SINGLE STATE zero seat gap W2..W182 all registered; W183 finalize landed same-window r827, ledger head 806,718, merged pool K=398,320; seat published=reserved MSG-2026-10-08-0741-bma-w183-seat PUSHED to origin ccd18034e BEFORE this freeze per r565 early-visibility law (payload = seat MSG + pre-seat probe script + probe receipt (3-item; the W182 finalize product already on origin since r868, not re-shipped; W146 precedent); deletion-set EMPTY; delivery window = direct fast-forward behind-0 at fetch (r868 pre-seat push), zero merge, zero --no-verify; single-window derive -- r812 merged the gate legs INTO the pre-seat probe; parity N/A honest), engine_owner=bm-a, wave 182: A = FIRST-CLEAN past the registered W182 B band (the arithmetic continuation 417_204..419_203 is REFUSED at its own start by the W182 B band 417_204..417_403, exactly as the W182 seat W183+ projection + r865 probe leg4 + r868 sec8 same-window succession projection notes anticipated; honest forward walk hops=1 -> 417_404..419_403; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase FORTY-THIRD instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 417_404..417_603 is CLEAN on the registered universe but lands INSIDE the W183 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 419_404, first-clean 419_404..419_603 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W182 seat W183+ projection + r865 probe leg4 + r868 sec8 same-window succession projection notes re-derived -- all MANDATORY notes honored (post-W182 universe re-derive + own-wave A reservation); ADMIT receipt results/_r868bma_w183_probe_receipt.json; W184+ projection per this window gate: A first-clean 419_404..421_403 CLEAN / B first-clean 419_604..419_803 CLEAN -- naive B lands INSIDE the naive A window and the registered W183 B band 419_404..419_603 will refuse the naive W184 A window; W184 freezer MUST re-derive on the post-W183 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W182 finalize ALL LANDED (W182 finalize one-pass bm-a r868, net chain head 806,718, merged pool K=398,320) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
-    "a_seed_base": 417404,
-    "b_exit_seed_base": 419404,
-    "shard_subdir": "n1_w183",
-    "out_name": "n1_w183_results.json",
-    "engine_owner": "bm-a"
-   }
-  }
- ],
- "ledger_buffer": [],
- "last_flush_at": "2026-10-08T08:00:05+08:00",
- "crashes": {},
- "shards_done_total": 79,
- "last_shard_done_at": "2026-10-08T08:00:04+08:00",
- "last_tick": {
-  "ts": "2026-10-08T08:00:05+08:00",
-  "epoch": 1791417602,
-  "py_cpu_pct": 0.0,
-  "ram_free_gb": 53.2961540222168,
-  "verdict": "ignited:n1w183-7of12 pid=98828 ledger_flush=3",
-  "active_n": 1,
-  "queue_depth": 4,
-  "elapsed_sec": 3.1
- },
- "skips": [],
- "queue": [
-  {
-   "face": "N1",
-   "wave": 183,
-   "shard": 8,
-   "nshards": 12,
-   "key": "n1w183-8of12",
-   "batch": "PERPETUAL-N1-W183",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "8",
-    "--of",
-    "12",
-    "--wave",
-    "183",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 183,
-   "shard": 9,
-   "nshards": 12,
-   "key": "n1w183-9of12",
-   "batch": "PERPETUAL-N1-W183",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "9",
-    "--of",
-    "12",
-    "--wave",
-    "183",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
-  },
-  {
-   "face": "N1",
-   "wave": 183,
    "shard": 10,
    "nshards": 12,
    "key": "n1w183-10of12",
-   "batch": "PERPETUAL-N1-W183",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "10",
-    "--of",
-    "12",
-    "--wave",
-    "183",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 48380,
+   "started_at": "2026-10-08T08:03:05+08:00",
+   "done_at": "2026-10-08T08:04:04+08:00",
+   "done_epoch": 1791417842,
+   "elapsed_sec": 57.3
   },
   {
+   "machine_id": "bm-a",
    "face": "N1",
    "wave": 183,
+   "batch": "PERPETUAL-N1-W183",
    "shard": 11,
    "nshards": 12,
    "key": "n1w183-11of12",
-   "batch": "PERPETUAL-N1-W183",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "11",
-    "--of",
-    "12",
-    "--wave",
-    "183",
-    "--workers",
-    "32",
-    "--lane",
-    "engine"
-   ]
+   "pid": 55360,
+   "started_at": "2026-10-08T08:04:05+08:00",
+   "done_at": "2026-10-08T08:05:04+08:00",
+   "done_epoch": 1791417902,
+   "elapsed_sec": 57.3
   }
- ]
+ ],
+ "last_flush_at": "2026-10-08T08:03:05+08:00",
+ "crashes": {},
+ "shards_done_total": 84,
+ "last_shard_done_at": "2026-10-08T08:05:04+08:00",
+ "last_tick": {
+  "ts": "2026-10-08T08:09:05+08:00",
+  "epoch": 1791418142,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 53.23138427734375,
+  "verdict": "idle",
+  "active_n": 0,
+  "queue_depth": 0,
+  "elapsed_sec": 3.0
+ },
+ "skips": [],
+ "queue": []
 }
