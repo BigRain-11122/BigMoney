@@ -1,0 +1,71 @@
+{
+ "probe": "r900 W193 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 190,
+   "tail": "W192",
+   "owner_rows": 182,
+   "bma_rows": 107,
+   "ordinal": 183,
+   "bma_ordinal": 108,
+   "w191_ledger_head": 833536,
+   "w192_status": "registered bm-c r787 f8703842c on origin; burn in-flight autonomous 12/12 (bm-c engine owner-gate); finalize PENDING (bm-c r788 plan) -- W193 freeze-time anchor rolls to W192 per r590 once landed"
+  },
+  "leg1": {
+   "ARITH_A": [
+    439204,
+    441203
+   ],
+   "ARITH_B": [
+    439404,
+    439603
+   ],
+   "A": [
+    439404,
+    441403
+   ],
+   "hops_A": 1,
+   "B": [
+    441404,
+    441603
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    439404,
+    439603
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      439404,
+      439603
+     ],
+     "jump_to": 441404
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W192 B band 439_204..439_403 (staircase A-hops-prior-B FIFTY-THIRD instance, E36 card; bm-c W192 freeze staircase FIFTY-SECOND + the mandatory post-W192 re-derive this probe performs); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W194p_A": "441404..443403",
+   "hops_A": 0,
+   "W194p_B": "441604..441803",
+   "hops_B": 0,
+   "W194p_B_lands_inside_W194p_A": true,
+   "note": "W194+ naive projection on pre-W193 universe; the registered W193 B band will refuse the naive W194 A window once W193 is registered (W193-B-refuses-W194-A staircase anticipated, E36 card); W194 freezer MUST re-derive on the post-W193 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "439404_441403",
+  "B": "441404_441603"
+ }
+}
