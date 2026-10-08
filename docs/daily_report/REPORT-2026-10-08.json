@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-08",
- "generated_at": "2026-10-08 12:23:28",
+ "generated_at": "2026-10-08 12:30:16",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-08.md"
  },
  "rd": {
-  "commits_24h": 602,
-  "result_jsons_landed_24h": 346,
+  "commits_24h": 600,
+  "result_jsons_landed_24h": 349,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 42,
   "compute_audit_latest": {
-   "ts": "2026-10-08 12:20:16",
-   "py_cpu_pct": 0.4,
+   "ts": "2026-10-08 12:29:35",
+   "py_cpu_pct": 1.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1775500,
+  "total_report_tokens_est": 1776321,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-08 11:51:39",
+   "prev_generated": "2026-10-08 12:13:14",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1248,
+   "report_tokens_growth": 821,
    "mandate_growth": 0
   },
   "method": {
@@ -788,11 +788,11 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-08 12:11:10",
-    "py_pct": 0.0,
-    "cpu_pct": 9.0,
+    "latest_ts": "2026-10-08 12:29:35",
+    "py_pct": 1.1,
+    "cpu_pct": 43.0,
     "ready": 0,
-    "streak_min": 162.2,
+    "streak_min": 180.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -834,9 +834,17 @@
      [
       "12:11",
       0.0
+     ],
+     [
+      "12:20",
+      0.4
+     ],
+     [
+      "12:29",
+      1.1
      ]
     ],
-    "today_samples": 10,
+    "today_samples": 12,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -893,7 +901,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-08 12:11:10"
+     "audit_ts": "2026-10-08 12:29:35"
     }
    }
   },
