@@ -80,9 +80,28 @@
 
 （一次定稿；工程修复重跑须双跑留痕如实记账）
 
+**r806 finalize 实证（2026-10-08 23:35-23:39 落判·bm-b·driver 日志 rc0·单读 r638 律）**：
+
+- **判决=insufficient-sample**（G-SEG 分段覆盖 bear 70 / bull 65 / **chop 14<50** / na 246——与 QUALITY/DIVLOWVOL 两族同结构性面；判据面顺序先决拒收，禁重跑）。
+- headline x1（t0 1994-05-03·T 7,873）：Sharpe **0.3809**·ret_full 4.0196·maxDD −0.7214·2,082 trades（66.63/yr）·entries 2,103；x2 生存面 Sharpe 0.3581>0 PASS。
+- G1' v2 读数：line_ok=false（obs 0.3809 未过硬技能线——同掩码 null μ 0.327 强基准）；bootstrap CI95 [0.0420, 0.7266] 下界>0 ✓；M1 t=2.1288 fail（<3.0）；DSR 0.0935 fail；PBO 0.6143（fail band）；exit_census PASS（block_share 0.2）。
+- nulls（same-mask k=2,000）：μ 0.3270·σ 0.0237·p05/p50/p95=0.2888/0.3263/0.3648；bootstrap p_ge_obs=0.493；signflip p_two_sided=0.03。
+- 全起点 12m 分布（n=395）：best +2.3892 / p75 +0.2112 / median +0.0169 / p25 −0.1294 / worst −0.8324 / positive_share 53.92%；滚动最差 3y −57.03% / 5y −67.79% / 10y −16.03%。
+- 敏感性（k=500）：Sharpe p05/p50/p95=0.3333/0.3781/0.4099·maxdd_worst −0.7874。
+- 台账：本批 +2,004（prev 794,909=陈旧树基座链尾·r807 追加式分叉补账 FUND-TRIO-REANCHOR-R807 重锚至活链头 825,328→**831,336**·零双计零丢失）。
+
 ## §8 批后复盘【必填·s7-T】
 
 - 预测对账（对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字）；
 - 回执入轮报告＋CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑。
 - **全起点分布【§1.3·D-20260930-41】**：最好/最坏/p25/中位/p75＋滚动 3/5/10 年窗口最差——只报单一起点=结论无效；撤回判定=多数起点不成立即撤回。
 - **试验量归因【§1.4】**：本批新增试验数 2,004（RETAIL_QUANT_TRACK §四闸 30 天 ≤500 预算**超限申报**：基本面三族假期开发窗=O-20261002-2115 CEO 直令提速授权，本批 2,004 含 nulls 2,000（nulls=判据校准面非探索面·RANDOM_LARGE_SAMPLE_LAW 立法内必需），judged 仅 4 格——一句话归因：CEO 直令新家族首考格，判据面 N_eff 由立法最小值撑起非探索面膨胀）。
+
+**r807 批后复盘（absorb 窗回填）**：
+
+- **预测对账=部分对**：①方向带=**对（带内）**——headline Sharpe 0.3809 落在 §5(a) 预测带 0.3-0.8 内（贴下沿，股票单名尾部风险拖累如预测）；②「多数起点不成立预期」=**部分对**（positive_share 53.92% 过半但 median 仅 +0.0169·worst −0.8324=长失效段真实存在）；③「beat 被动不确定方向」=**未过线**（obs 0.3809 vs 同掩码 null μ 0.327——超被动仅 +0.054，未及 +0.10 裕度，line_ok=false 实证）；④nulls μ≈等权被动=**对**（μ 0.327 稳定贴被动量级）。
+- **判线 v2 当批读数**：line_ok=false（obs 0.3809 < 数据驱动 skill line；N_eff 面为陈旧树 794,913 时点读数如实留档）。
+- **门禁链损耗账**：`results/gate_attrition.json` 追加一行（FUND-VALUE-P1·r807）。
+- **判决链结论**：G-SEG 先决 insufficient-sample（单读 r638 律）→ 无注册新员；判据面独立读数（M1 2.13<3.0·DSR 0.094·PBO 0.614 三红）留档=即便 G-SEG 覆盖补齐本批也不会过线。**族重访前置=G-SEG chop 覆盖结构性裁决**（价值族机制面本身无病理迹象，滚动最差面 3y −57%/5y −68% 为真实长失效段）。
+- **全起点分布**：见 §7 六数面全披露；撤回判定=不适用（判决非 judged-negative）。
+- 回执：r807 轮报告+CODELY.md 行级追加。

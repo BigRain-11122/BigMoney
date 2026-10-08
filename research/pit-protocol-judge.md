@@ -28,3 +28,6 @@
 
 - [2026-10-03 04:3x r397 bm-c] E1 独立算术腿断板日（h==l）语义失配坑（Leg C 三跑两败实弹·方法论卡 E13 收编）：无引擎独立腿首版对一字断板日的当日收益处理与引擎语义失配（ret_full nan→逐日差>5bp 达 1,644 天）——正解=断板日收盘价即成交价（引擎 T+1 收盘成交语义）+严格尾段切片对齐；终版 max diff 2e-8·days>5bp=0。连带发现=finalize gates.dsr.n_trials 实参=批内口径 2,008 而 prereg §4 文字面=「账本累计」——按累计口径 sr_star 只升、DSR 只降=判负双向稳健（偏差在反保守侧·§7 如实披露实测值禁按文面改写机读产物）。How to apply：E1 类独立对账腿先枚举断板日等退化行情日的引擎语义再写算术；判据口径面 prereg 文字与 runner 实参的缝=收口窗如实披露+下批 §4 写死取值调用式。
 
+
+
+- [2026-10-09 01:0x r807 bm-b] **陈旧树 finalize 账本分叉+追加式重锚补账律（stale-tree finalize ledger fork·实弹=FUND trio 三连）**：finalize 落在落后多日的本地树（网络封锁窗）时 science_gates.append_ledger 消费的 prev=陈旧树活链头（trio 实弹：prev=790,905 冻结期头·而机队活链头已被 W177..W190 推进至 825,328）→ 分叉三块分支 total（792,907/794,909/796,913）全部低于活链头=6,008 真试验对 ledger_head()（max-total 语义）不可见=N_eff 低估=技能线偏松。**探测法**：pull 拉平后比对批块 prev_total 与 ledger_head() 实读——prev ≠ 任何落地面活头即分叉。**治愈配方（分叉已上 origin·推送前发现窗口已过）**=追加式重锚行：正典调 append_ledger（fresh batch 名 FUND-TRIO-REANCHOR-R807·prev=活头自动 derive·voids 盖章·finalize_already_landed 守卫 None 通道）把分叉批 trial 数单次入账+note 明写「被取代分支 total 禁再叠加」；**禁**改写已落 origin 的块（历史保全）+**禁**重跑 finalize（单读 r638）。How to apply：凡网络封锁窗/stale 树上落判的 finalize，push 前必跑 ledger_head() vs 块 prev 对账（N1W9 推前防分叉窗）；已上 origin 的分叉只走追加式重锚，收据=results/_r807bmb_ledger_reanchor_receipt.json。

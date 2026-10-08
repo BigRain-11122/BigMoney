@@ -98,3 +98,5 @@
 
 - [2026-10-08 23:5x r784 bm-c] **git pull --rebase 拒「Cannot rebase onto multiple branches」（FETCH_HEAD 多 merge 候选坑）**：通配 fetch refspec+daemon 并发 fetch 交错→.git\FETCH_HEAD 出现 2 条非 not-for-merge 的 main 候选行（实测 192 行/2 候选）→pull --rebase 一律拒「多分支」（非冲突面·易误判为冲突）。正法=弃 pull 改显式两步：git fetch origin main（单引用→FETCH_HEAD 单候选）+git rebase origin/main；活跃 daemon churn（引擎 W 波烧录写 state 面）抢 rebase 前置净树检查时=紧窗吸收循环（add -A→commit→rebase 同拍·本窗 TRY1 一次过）。How to apply：S0/推送让路窗见此 fatal 勿反复 pull 勿判冲突·直接两步式；分支保底通道（machine/<id>-rN）仍为第二落点。
 
+
+- [2026-10-09 01:1x r807 bm-b] 陈旧树 finalize 账本分叉+追加式重锚补账律→pit-protocol-judge.md〔finalize 记账族·网络封锁窗/stale 树落判的批 push 前必跑 ledger_head() vs 块 prev 对账·已上 origin 分叉只走追加式重锚禁改写禁重跑〕实弹=FUND trio 790905 vs 825328→重锚 831336。
