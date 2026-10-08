@@ -1,0 +1,32 @@
+BACK186 = {
+    "@CHAIN@": back185_map["@CHAIN@"] + "；W185=bm-a r878 freeze（" + W185_SHA + "）",
+    "@KLT@": r1(back185_map["@KLT@"], " 如实披露",
+                "/W185 **" + DSIGN + DELTA4 + "** 如实披露"),
+    "@SEMT@": r1(back185_map["@SEMT@"], "**0.000386**】）",
+                 "**0.000386**→W185 **" + SEM4 + "**】）"),
+    "@S55@": s83(back185_map["@S55@"]),
+    "@SEATPUB@": s83(back185_map["@SEATPUB@"]),
+    "@ORDINALS@": (
+        r1(r1(r1(r1(r1(r1(r1(back185_map["@ORDINALS@"],
+            "第 175 波", "第 176 波"),
+            "第一百零一枚", "第一百零二枚"),
+            "行 100+本候选", "行 101+本候选"),
+            "/W183/W184 最近自有波", "/W184/W185 最近自有波"),
+            "注册表 W184 行后", "注册表 W185 行后"),
+            "MSG-2026-10-08-1032-bma-w185-seat", SEAT_MSG),
+            "304909e0e", SEAT_SHA)
+    ),
+    "@OWNCHAIN@": r1(back185_map["@OWNCHAIN@"],
+                     "/W183/W184 最近自有波", "/W184/W185 最近自有波"),
+    "@N171@": "186",
+    "@N170@": "185",
+    "@N169@": "184",
+}
+for tok in ("@TITLE@", "@WAVEFREE@", "@VAC@", "@MERGE@", "@AFACE@", "@BFACE@",
+            "@R250@", "@SCANFACE@", "@ANCHOR@", "@POOL@", "@SEATSENT@",
+            "@CLAIMLAW@", "@V2W@", "@ASEED@", "@ASEEDPROSE@", "@BENTRY@",
+            "@BSEEDPROSE@", "@GATEW@", "@FN@", "@RFN@", "@ODOLD@",
+            "@S5ANCH@", "@S51@", "@S51B@", "@S52@", "@S53@", "@KLKEY@",
+            "@WAVECLI@", "@EOB@", "@W136TO@", "@W2TO@", "@W1TO@", "@PRC@",
+            "@PF@", "@B@", "@WPN2@", "@WN@", "@W@", "@SD@", "@KOLD@"):
+    BACK186[tok] = s83(back185_map[tok])
