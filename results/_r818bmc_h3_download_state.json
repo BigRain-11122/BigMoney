@@ -1,0 +1,42 @@
+{
+ "started": "2026-10-09T19:46:54+08:00",
+ "driver": "Tools/_r818bmc_h3_download.py",
+ "fix_release": "r818 FIX-A stall-break + FIX-B 256KB chunks (r815 retired at zero-byte file-3 trickle-hang)",
+ "manifest_bytes_total": 40282065079,
+ "files": {
+  "diffusion_models/minimax_h3_fl2va_pruned_int4_convrot_simple.safetensors": {
+   "status": "already-complete",
+   "bytes": 16825666232,
+   "ts": "2026-10-09T19:46:54+08:00"
+  },
+  "text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors": {
+   "status": "already-complete",
+   "bytes": 15687142551,
+   "ts": "2026-10-09T19:46:54+08:00"
+  },
+  "vae/minimax_h3_video_vae_fp16.safetensors": {
+   "status": "in-flight",
+   "segs": 8,
+   "target": 5207808496,
+   "parts": {
+    "minimax_h3_video_vae_fp16.safetensors.part5": 650976062,
+    "minimax_h3_video_vae_fp16.safetensors.part7": 650976062,
+    "minimax_h3_video_vae_fp16.safetensors.part6": 650976062
+   },
+   "errors": {
+    "minimax_h3_video_vae_fp16.safetensors.part5": {
+     "ts": "2026-10-09T19:49:11+08:00",
+     "err": "OSError('eof mid-range at 650976062/650976062')"
+    },
+    "minimax_h3_video_vae_fp16.safetensors.part7": {
+     "ts": "2026-10-09T19:49:18+08:00",
+     "err": "OSError('eof mid-range at 650976062/650976062')"
+    },
+    "minimax_h3_video_vae_fp16.safetensors.part6": {
+     "ts": "2026-10-09T19:49:31+08:00",
+     "err": "OSError('eof mid-range at 650976062/650976062')"
+    }
+   }
+  }
+ }
+}
