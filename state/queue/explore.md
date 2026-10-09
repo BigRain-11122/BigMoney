@@ -5,7 +5,7 @@
 | # | 待办 | 指针 | 状态 |
 |---|---|---|---|
 | E1 | 可转债 T+0 数据面可行性调研（akshare cb 源可达性+费率/回转规则·新资产类调研先行） | akshare+PLAN.md P3 | done |
-| E2 | 期权 IV 面板 prereg 路线图（T-69 前向档 12 个月冻结窗计数·路线件先立） | scripts/update_options.py+T-67 §2 冻结律 | open |
+| E2 | 期权 IV 面板 prereg 路线图（T-69 前向档 12 个月冻结窗计数·路线件先立） | scripts/update_options.py+T-67 §2 冻结律 | done |
 | E3 | 北向资金数据源可达性扫描（akshare/东财源·情绪面因子候选） | 外源扫描两源交叉律 | open |
 | E4 | 央行公开市场操作流动性指标面（OMO 净投放→REPO 利率联动·REPO_PANEL 消费） | research/shortline/REPO_PANEL.md | open |
 | E5 | LHB 游资情绪因子形式化（情绪周期三轴门先例扩展·O-20260928-1522 国内打法优先律） | scripts/update_lhb.py+firm/RULES.md | open |
@@ -18,3 +18,5 @@
 | E12 | 逆回购月末利率脉冲策略化（GC001 节前尖峰实证 53.44→现金腿择时门候选） | scripts/update_repo.py | open |
 
 > r821 消耗记录（bm-b）：E1 本轮完成出列（**可转债 T+0 数据面可行性调研**：探针 `scripts/cb_data_probe.py`〔45s 超时夹克+2.5s 限速+零面板写+selftest 9/9〕+证据 `results/cb_data_probe.json`+调研件 `research/shortline/CB_T0_DATA_FEASIBILITY.md`；测量结论=日线级可行性成立〔sina spot 326 员宇宙+单券深史 1368~1433 bar≈5.5 年+活券尾=最新交易日 2026-10-09+日线×快照交叉验证 absdiff=0.0〕、分钟级源缺口〔sina min 活券上复测仍败=端点面〕、EM 两活一死〔bond_zh_cov 1059/bond_zh_cov_value_analysis 1380 活；bond_cov_comparison 二连败持久〕、JSL 强赎面免 token 318 行；T+0/±20%/适当性/费率规则面=置信标注+权威核验待做；落地门槛清单 5 项全未满足〔GM P1 票+T-67 12 个月前向窗+宇宙活性过滤+分钟源解决+独立成本假设〕；**零 prereg 零面板零回测纯调研**）。P3 队列 12→11（E2 队头）。
+
+> r822 消耗记录（bm-b）：E2 本轮完成出列（**期权 IV 面板 prereg 路线图→按令收口改判负类判读**：E2 队列项与 **O-20261009-1105 CEO 直令「不做期权」冲突**〔令 11:05 收死期权面+停采集面；队列 12:46 建面晚于令=建面轮未消费最新令面的陈旧方向〕——处置=禁产活路线图，改交判负判读件 `research/shortline/OPTIONS_IV_PREREG_ROADMAP.md`〔令面裁决+冻结档案测量+BS 反推 IV 保留设计〔知识保全面·现行法下禁据以立项〕+治理教训「建队列前必查当日新 CEO 令」〕+冻结窗计数面 `scripts/options_iv_freeze_counter.py`〔确定性零网络纯本地读+锚 FORWARD_LANE_START=2026-09-24 钉死〔git 首提 round 195 实证〕+保留窗回填行永不计数+lane_state=retired 判读随件+selftest 24/24〕+证据 `results/options_iv_freeze_counter.json`；冻结档案实况=**254 合约 16,812 行、前向积累仅 738 行、latest 2026-09-30、elapsed 0/12 月 gate open 名义资格日 2027-09-24 不可达〔车道收死〕**；**零 prereg 零回测零引擎零面板写**；唯一复活通道=新 CEO 令。P3 队列 11→10（E3 队头=北向资金数据源可达性扫描）。
