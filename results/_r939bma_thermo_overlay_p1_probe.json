@@ -1,0 +1,86 @@
+{
+ "batch": "THERMO-OVERLAY-P1",
+ "probe": "GREEN_PROBE_READY",
+ "lane": "bm-a (Money02 bars panel hosted)",
+ "closed_family": {
+  "gate": "closed_family_check",
+  "family": "thermo_overlay_p1",
+  "status": "open",
+  "in_registry": false
+ },
+ "seed_registry": {
+  "thermo_overlay_p1_nulls": 94500
+ },
+ "face_audit": {
+  "face1": {
+   "rows": 7216,
+   "cols": 13,
+   "first": "1996-12-16",
+   "last": "2026-09-22"
+  },
+  "face2": {
+   "files": 5222,
+   "rows_raw": 16650020,
+   "rows_window": 16444886,
+   "rows_valid": 16112689,
+   "sample": {
+    "file": "000001.parquet",
+    "cols": [
+     "date",
+     "close",
+     "high",
+     "preclose"
+    ]
+   },
+   "min_valid_rows_per_day": 276,
+   "valid_guard": "preclose notna AND preclose >= 1.0 (penny rows out)"
+  },
+  "mask_probe": {
+   "P100": {
+    "off_days": 145,
+    "segments": 109,
+    "rule": "n_sealed_down(t) >= 100"
+   },
+   "P500": {
+    "off_days": 46,
+    "segments": 36,
+    "rule": "n_sealed_down(t) >= 500"
+   },
+   "P1000": {
+    "off_days": 20,
+    "segments": 17,
+    "rule": "n_sealed_down(t) >= 1000"
+   },
+   "H12": {
+    "off_days": 1019,
+    "segments": 166,
+    "rule": "max_height(t) >= 12"
+   },
+   "H16": {
+    "off_days": 443,
+    "segments": 91,
+    "rule": "max_height(t) >= 16"
+   },
+   "PH": {
+    "off_days": 1050,
+    "segments": 183,
+    "rule": "(n_sealed_down(t) >= 500) OR (max_height(t) >= 12)"
+   }
+  },
+  "axis_identity": "thermo_daily date axis == bars panel union axis (bit-equal)"
+ },
+ "passive_face": {
+  "n": 7216,
+  "sharpe": 0.6035,
+  "ann_ret": 0.179325,
+  "sum": 5.134963,
+  "maxdd": -1.165644
+ },
+ "estimate": {
+  "panel_rows": 16444886,
+  "burn_estimate_min": "10-25 (5,222 parquet read + 6 cell replays + 1,200 null replays, pure vectorized numpy)",
+  "ram_peak_est_gb": 0.39
+ },
+ "runtime_sec": 66.7,
+ "generated_by": "bm-a r939 scripts/thermo_overlay_p1.py probe"
+}

@@ -1451,10 +1451,18 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-10 03:26:02",
+  "ts": "2026-10-10 04:02:02",
   "machine": "bm-a",
-  "py_cpu_pct": 3.5,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 3.7,
+  "verdict": "multicore_gate_refused",
+  "multicore_refused": [
+   {
+    "entry": "THERMO-OVERLAY-P1-BURN",
+    "shard": "thermo-overlay-p1-burn-0of1",
+    "runner": "scripts/thermo_overlay_p1.py",
+    "core_verdict": "single_core"
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-10T02:44:26+08:00"
