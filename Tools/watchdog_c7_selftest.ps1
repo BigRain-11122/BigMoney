@@ -30,10 +30,22 @@ function Test-AliveCim([int]$procId) {
     return ($null -ne $c)
 }
 function Write-Wm([string]$path, [double]$py, [int]$tickets, [int]$bandit) {
+    # LEGACY sample shape (no pool_ready_count) -- T1/T8b keep exercising the
+    # pre-T14 fallback read so the 3-machine rollout can never lose RED.
     $now = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
     $lines = @()
     foreach ($i in @(0,1,2)) {
         $lines += ('{"ts": "' + $now + '", "epoch": 1790241600.0, "machine": "bm-a", "cpu_total_pct": 10.0, "cores": 32, "py_cpu_pct": ' + $py + ', "py_procs": 3, "top_proc_cores": 0.1, "local_batch_running": false, "open_tickets": ' + $tickets + ', "open_ticket_ids": [], "bandit_open": ' + $bandit + ', "bars_present": true, "daily_panel": true}')
+    }
+    Set-Content -Path $path -Value $lines -Encoding ASCII
+}
+function Write-WmBucket([string]$path, [double]$py, [int]$poolReady, [string]$pidsJson) {
+    # T14 sample shape: two-state candidate buckets present. Board facts are
+    # deliberately non-zero in the T9 leg -- they must NOT trigger RED.
+    $now = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+    $lines = @()
+    foreach ($i in @(0,1,2)) {
+        $lines += ('{"ts": "' + $now + '", "epoch": 1790241600.0, "machine": "bm-a", "cpu_total_pct": 10.0, "cores": 32, "py_cpu_pct": ' + $py + ', "py_procs": 3, "top_proc_cores": 0.1, "local_batch_running": false, "open_tickets": 2, "open_ticket_ids": ["T-180", "T-181"], "bandit_open": 1, "pool_ready_ids": ' + $pidsJson + ', "pool_ready_count": ' + $poolReady + ', "board_inflight_ids": ["T-180@bm-b"], "work_cand_buckets": {"pool_batch": ' + $poolReady + ', "board_open": 2, "board_inflight": 1, "local_batch": 0}, "bars_present": true, "daily_panel": true}')
     }
     Set-Content -Path $path -Value $lines -Encoding ASCII
 }
@@ -135,6 +147,33 @@ Set-Content -Path $wm8b -Value @(
 Run-C7 $wm8b $red8b $st8b 45 5.0 | Out-Null
 $r8b = Get-Content $red8b -Raw | ConvertFrom-Json
 Check 'T8b freshest-sample work + low py -> red=true (escalation preserved)' ($r8b.red -eq $true -and $r8b.lane -like '*escalate*')
+
+# ---- T9 (T14 false-red fix): board work + bandit only, NO pool batch -> NOT red ----
+# the T-180/T-181 claimed-board-work class: py low while control-plane work
+# runs is lawful; open tickets + bandit advisory must no longer fire RED once
+# the bucketed sample shape is present.
+$wm9 = Join-Path $Tmp 'wm_boardonly.jsonl'; $red9 = Join-Path $Tmp 'red9.json'; $st9 = Join-Path $Tmp 'st9.json'
+Write-WmBucket $wm9 0.5 0 '[]'
+Run-C7 $wm9 $red9 $st9 45 5.0 | Out-Null
+$r9 = Get-Content $red9 -Raw | ConvertFrom-Json
+Check 'T9 board-work-only + low py -> red=false (T14 two-state fix)' ($r9.red -eq $false -and $r9.lane -eq 'healthy')
+Check 'T9 red-file carries bucket facts (board_open=2/inflight=1)' ($r9.work_cand_buckets.board_open -eq 2 -and $r9.work_cand_buckets.board_inflight -eq 1 -and $r9.work_cand_buckets.pool_batch -eq 0)
+Check 'T9 red-file carries board_inflight_ids naming' ($r9.board_inflight_ids -join ',' -eq 'T-180@bm-b')
+
+# ---- T10: pool-ready claimable + low py -> REAL red + automated naming ----
+$wm10 = Join-Path $Tmp 'wm_poolred.jsonl'; $red10 = Join-Path $Tmp 'red10.json'; $st10 = Join-Path $Tmp 'st10.json'
+Write-WmBucket $wm10 0.5 2 '["TRIAL-LABOR-W18-SHARD-0","TRIAL-LABOR-W18-SHARD-1"]'
+Run-C7 $wm10 $red10 $st10 45 5.0 | Out-Null
+$r10 = Get-Content $red10 -Raw | ConvertFrom-Json
+Check 'T10 pool-ready + low py -> red=true (pool-batch lane)' ($r10.red -eq $true -and $r10.lane -like '*pool-batch*escalate*')
+Check 'T10 automated naming: pool_ready_ids ride along' ($r10.pool_ready_ids.Count -eq 2 -and $r10.pool_ready_ids[0] -eq 'TRIAL-LABOR-W18-SHARD-0')
+
+# ---- T10b: pool-ready but py LOADED -> no red (load clears the flag) ----
+$wm10b = Join-Path $Tmp 'wm_poolgreen.jsonl'; $red10b = Join-Path $Tmp 'red10b.json'; $st10b = Join-Path $Tmp 'st10b.json'
+Write-WmBucket $wm10b 85.0 2 '["TRIAL-LABOR-W18-SHARD-0"]'
+Run-C7 $wm10b $red10b $st10b 45 5.0 | Out-Null
+$r10b = Get-Content $red10b -Raw | ConvertFrom-Json
+Check 'T10b pool-ready + loaded py -> red=false' ($r10b.red -eq $false)
 
 Write-Output ('selftest: ' + $pass + ' PASS, ' + $fail + ' FAIL')
 if ($fail -gt 0) { exit 1 } else { exit 0 }

@@ -20,6 +20,12 @@
 #   dashboards + round-report P0 first line, queue-lane diagnosis. -C7Only runs
 #   ONLY the C7 leg with overridable paths/thresholds (injection acceptance
 #   tests use it; production schtasks calls pass no args).
+#   T14 refinement (tech queue 2026-10-10): RED work = POOL-ready claimable
+#   batches only (two-state bucketing) -- open tickets / claimed board work /
+#   bandit advisory pointers are control-plane work, not CPU-batch starvation
+#   (T-180/T-181 claimed-board-work false-red class); py-low while board work
+#   runs is lawful. Samples lacking pool_ready_count (pre-T14 probe) keep the
+#   legacy open_tickets/bandit_open read (transition safety, 3-machine roll).
 
 param(
     [switch]$C7Only,
@@ -90,12 +96,12 @@ function Invoke-C7 {
     $lane = 'insufficient_history'
     $killed = @()
     $pySeries = @()
+    $fresh = $null
     if (Test-Path $WmFileIn) {
         $lines = @(Get-Content $WmFileIn -Tail 8 | Where-Object { $_ -match 'py_cpu_pct' })
         if ($lines.Count -ge $MinSamples) {
             $tail = @($lines | Select-Object -Last $MinSamples)
             $allLow = $true
-            $hasWork = $false
             foreach ($l in $tail) {
                 try {
                     $s = $l | ConvertFrom-Json
@@ -105,12 +111,24 @@ function Invoke-C7 {
                     # iteration wins): tail-union kept firing red after tickets
                     # were claimed/closed mid-window (R107 T-38 / R110 T-39
                     # stale false-reds); py lowness stays tail-3 (persistence test)
-                    $hasWork = ([int]$s.open_tickets -gt 0 -or [int]$s.bandit_open -gt 0)
+                    $fresh = $s
                 } catch { $allLow = $false }
+            }
+            $hasWork = $false
+            if ($null -ne $fresh) {
+                if ($null -ne $fresh.PSObject.Properties['pool_ready_count']) {
+                    # T14 two-state read: pool-ready claimable batches are the
+                    # real CPU-batch candidates; board work rides along in the
+                    # red file facts (automated T7 naming) without triggering.
+                    $hasWork = ([int]$fresh.pool_ready_count -gt 0)
+                } else {
+                    # legacy sample (pre-T14 probe): old read preserved
+                    $hasWork = ([int]$fresh.open_tickets -gt 0 -or [int]$fresh.bandit_open -gt 0)
+                }
             }
             if ($allLow -and $hasWork) {
                 $red = $true
-                $lane = 'runnable-work-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)'
+                $lane = 'pool-batch-runnable-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)'
             } else {
                 $lane = 'healthy'
             }
@@ -199,6 +217,14 @@ function Invoke-C7 {
         zombies_killed  = @($killed)
         next_pick = $nextPick
         order_ref = 'O-20260924-1626 R1/R2/R3'
+    }
+    # T7 automated violation-naming facts (tech queue): freshest-sample
+    # candidate buckets ride along so round reports cite the file instead of
+    # re-deriving the candidate list by hand. Absent on legacy samples -> null.
+    if ($null -ne $fresh) {
+        $out.work_cand_buckets = $fresh.work_cand_buckets
+        if ($null -ne $fresh.pool_ready_ids) { $out.pool_ready_ids = @($fresh.pool_ready_ids) }
+        if ($null -ne $fresh.board_inflight_ids) { $out.board_inflight_ids = @($fresh.board_inflight_ids) }
     }
     try { $out | ConvertTo-Json -Depth 4 | Set-Content -Path $RedFileIn -Encoding ASCII } catch { Log7 ('C7 red-file write failed: ' + $_.Exception.Message) }
     if ($red) {

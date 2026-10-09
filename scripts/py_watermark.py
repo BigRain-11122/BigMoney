@@ -15,6 +15,9 @@ This probe records FACTS ONLY (deterministic, zero judgment):
     local batch in flight (r305 false-negative fix, T-87 pass实证)
   - runnable-work inventory: open fleet tickets (ids), bandit open candidates,
     capability facts (Money02 bars present / core48 daily panel present)
+  - two-state candidate buckets (tech T7/T14): pool-ready claimable ids
+    (real CPU-batch candidates) vs board work (open unclaimed / claimed
+    in-flight "T-id@claimer") -- facts only, verdict faces unchanged
 Verdict (frozen at first run, do not tune by results):
   loaded_ok              max py CPU in window >= 70% (not sustained-low)
   py_low_with_work_cands py CPU <70% sustained >=15min AND work candidates
@@ -37,6 +40,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SERIES = os.path.join(ROOT, "results", "watermark.jsonl")
 BANDIT = os.path.join(ROOT, "results", "bandit_queue.json")
+POOL = os.path.join(ROOT, "results", "runnable_pool.json")
 TASKS_DIR = os.path.join(ROOT, "fleet", "tasks")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
 DAILY_DIR = os.path.join(ROOT, "data", "daily")
@@ -103,6 +107,46 @@ def _bandit_open(path=BANDIT):
         return sum(1 for c in cands if c.get("status") == "open")
     except Exception:
         return 0
+
+
+def _pool_ready_claimable(machine_id, pool_path=POOL):
+    """Ready pool entries claimable by THIS machine (fact only): status=ready
+    AND lane_owner null/ANY/unset/== this machine. Tech-queue T7/T14 lesson:
+    the pool face is the real 'runnable CPU batch' candidate list (O-1136
+    CPU-dense criterion); board tickets / bandit pointers are control-plane
+    work, not pool batches. Corrupt/missing file -> [] (honest, non-fatal)."""
+    ids = []
+    try:
+        with open(pool_path, encoding="utf-8") as f:
+            entries = json.load(f).get("entries", [])
+        for e in entries:
+            if e.get("status") != "ready":
+                continue
+            lane = e.get("lane_owner")
+            if lane in (None, "", "ANY", "any") or lane == machine_id:
+                ids.append(e.get("id") or "?")
+    except Exception:
+        return []
+    return ids
+
+
+def _board_inflight(tasks_dir=TASKS_DIR):
+    """Open tickets CLAIMED by any machine ("T-id@claimer") -- work in flight /
+    claim-locked board work. Adjudication-visibility fact only; NOT a work
+    candidate (r528 claim-lock law), named so rounds can cite it directly
+    instead of re-deriving the T-180/T-181 false-red explanation by hand."""
+    out = []
+    for p in sorted(glob.glob(os.path.join(tasks_dir, "T-*.json"))):
+        try:
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+            if d.get("status") == "open" and d.get("claimed_by"):
+                out.append("{}@{}".format(
+                    d.get("id") or os.path.basename(p)[:-5],
+                    d.get("claimed_by")))
+        except Exception:
+            pass
+    return out
 
 
 def _capability_facts(bars_dir=BARS_DIR, daily_dir=DAILY_DIR):
@@ -222,10 +266,13 @@ def probe():
     caps = _capability_facts()
     lock_lanes = _refresh_locks_alive()
     local_batch = bool(samp["local_batch_running"] or lock_lanes)
+    mid = _machine_id()
+    pool_ready = _pool_ready_claimable(mid)
+    board_inflight = _board_inflight()
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
         "epoch": round(now, 0),
-        "machine": _machine_id(),
+        "machine": mid,
         "cpu_total_pct": cpu_tot,
         "cores": cores,
         "py_cpu_pct": samp["py_cpu_pct"],
@@ -236,6 +283,15 @@ def probe():
         "open_tickets": len(ticket_ids),
         "open_ticket_ids": ticket_ids,
         "bandit_open": bandit_open,
+        "pool_ready_ids": pool_ready,
+        "pool_ready_count": len(pool_ready),
+        "board_inflight_ids": board_inflight,
+        "work_cand_buckets": {
+            "pool_batch": len(pool_ready),
+            "board_open": len(ticket_ids),
+            "board_inflight": len(board_inflight),
+            "local_batch": int(local_batch),
+        },
         "bars_present": caps["bars_present"],
         "daily_panel": caps["daily_panel"],
     }
@@ -394,6 +450,46 @@ def selftest():
             os.path.join(tmpd, "nope.json")) == 0)
     finally:
         shutil.rmtree(tmpd, ignore_errors=True)
+
+    # 4b) two-state candidate buckets (tech T7/T14): pool-ready claimable
+    #     (null/ANY/own-lane only) vs board work open-unclaimed vs in-flight
+    #     claimed ("T-id@claimer"); corrupt/missing faces tolerated honestly
+    tmpd4b = tempfile.mkdtemp()
+    try:
+        pp = os.path.join(tmpd4b, "runnable_pool.json")
+        entries = [
+            {"id": "P-ANY-NULL", "status": "ready", "lane_owner": None},
+            {"id": "P-ANY-STR", "status": "ready", "lane_owner": "ANY"},
+            {"id": "P-MINE", "status": "ready", "lane_owner": "bm-b"},
+            {"id": "P-OTHER", "status": "ready", "lane_owner": "bm-c"},
+            {"id": "P-DONE", "status": "done", "lane_owner": None},
+            {"id": "P-WAIT", "status": "waiting", "lane_owner": None},
+        ]
+        with open(pp, "w", encoding="utf-8") as f:
+            json.dump({"entries": entries}, f)
+        check("pool ready claimable (null/ANY/mine only)",
+              _pool_ready_claimable("bm-b", pp)
+              == ["P-ANY-NULL", "P-ANY-STR", "P-MINE"])
+        check("pool missing file -> []", _pool_ready_claimable(
+            "bm-b", os.path.join(tmpd4b, "nope.json")) == [])
+        with open(pp, "w", encoding="utf-8") as f:
+            f.write("{corrupt")
+        check("pool corrupt tolerated -> []",
+              _pool_ready_claimable("bm-b", pp) == [])
+        td4b = os.path.join(tmpd4b, "tasks")
+        os.makedirs(td4b)
+        for tid, st_, cl in (("T-A", "open", None), ("T-B", "open", "bm-c"),
+                             ("T-C", "done", "bm-a"), ("T-D", "open", "bm-b")):
+            d = {"id": tid, "status": st_}
+            if cl:
+                d["claimed_by"] = cl
+            with open(os.path.join(td4b, tid + ".json"), "w",
+                      encoding="utf-8") as f:
+                json.dump(d, f)
+        check("board inflight = open+claimed only",
+              _board_inflight(td4b) == ["T-B@bm-c", "T-D@bm-b"])
+    finally:
+        shutil.rmtree(tmpd4b, ignore_errors=True)
 
     # 5) refresh-lock face (r305 fix): live-pid lock lane counts, dead/corrupt
     #    ignored; network-throttled supply pass = honest local batch signal
