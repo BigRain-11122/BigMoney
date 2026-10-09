@@ -6,3 +6,7 @@
 
 
 - 对账行 r703 bm-c: entry bytes=1141 sha16=9ef7bfe3f7d0df47 verbatim-in-file (zero-loss asserted; receipt=results/_r703bmc_codely_minisplit.json)
+
+- [2026-10-09 20:5x] [2026-10-09 20:4x] bm-c 池批「点火成功却零产物」崩环坑（W17 屏分片 50 连 launched 全死实录）：autofill launches 台账交替重发 shard-0/1（15:48→20:38 六连·pid 每次全新）而池面恒 ready 零产物——真因=池条目 RAM gate 4GB（r354 诚实拒跑）而机器 RAM 被占尽（llama-server 6.5GB+豆包套件+桌面→free 0.4GB），runner 秒退无输出无死因回写面，launch 台账只记 launched 不记 death reason=崩环不可见 14h。诊断口诀=池批连 launched 零产物先查①RAM gate 阈值（池条目 note 字段）②psutil 大户清单③runner 手跑一次看秒退真因。正法=腾内存：Ollama 双任务 schtasks disable（MiniGameOllamaKeepWarm/Serve）+Stop-Process llama-server+ollama.exe（bm-a 10-09 腾显存正法复用·free 0.4→7.1GB）→autofill 下一 tick 自动真点火（实测 20:50 SHARD-0 起火 py_cpu 5.3%）；ComfyUI /free API 只清模型缓存不清系统 RAM（释放前后 free 0.6→0.4GB 无效实证）。生产后按序恢复任务（下轮验收屏分片烧讫后 enable+重启）。How to apply：烧批线崩环排查先过 RAM 门三查；launches 台账无死因面=诊断必手跑 runner 复现。
+
+- 对账行 r819 bm-c: direct-write entry per r666 precedent (CODELY.md 主件 30,509B 余量 211B 红线·Ollama/RAM 域归位 pit-machine.md); entry bytes=1236 sha16=ec58c3cc851595fa verbatim-in-file (zero-loss asserted); receipt=results/_r819bmc_pit_append.json
