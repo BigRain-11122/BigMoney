@@ -58,6 +58,16 @@
 - selftest：strategy_scorecard 全过含 P11 四腿（缺件 fail-closed/CN 落地位/GRID 中间态+双族联动/在位零落地实腿）+ market_clock_call 8/8（标签刷新零破坏）。
 - 落地≠激活哲学律生效：action_required 管线明文「marks/paper ledger→retro 台账→build_profile_cards 自动纳卡；无台账=LANDED_AWAITING_LEDGER 禁无账画像」。
 
+## §7 T9 判词面扩展（增补件 · 2026-10-10 r817 bm-b · tech-queue T9 授权）
+
+> 本节=覆盖面扩展增补，**非判据变更**：v1.0 §0-§1 三族判据判线零触碰（冻结律原文「禁改判据」对既有族完整保持）；两新面判词=各自批自家冻结预注册判词面的逐字消费（§5 单源律同律），零新判线零重判。
+
+1. **F1-BULL-COND 族（T-177 leg-2 slice-2 · 批预注册 research/F1_BULL_COND_P1.md）**：判定面=`results/regime5_bull_scan/F1-BULL-COND-2026-09-30.json` 顶层 `verdict` 逐字读——LANDED ⇔ 该批自家 `passing_cells` 非空（full chain = G1'v2 ∧ M1 t≥3.0 ∧ G2 registration，判词出自该批冻结 prereg，本面零重判）；缺件/无 verdict=ABSENT fail-closed。在位实况（bm-a r899 判负闭卷）：9 cells 0 pass（`any_cell_full_chain_pass=false`，best_cell_by_sharpe=L250_k3）→ 零落地 armed。
+2. **G2-SLOT-MON 族（T-163 · 批预注册 research/G2_SLOT_MON_P1.md）**：判定面=`results/g2_slot_mon_p1/g2_slot_mon_p1_census.json` 顶层 `family_verdicts` 逐字读——**提名≠落地**（该批自家 verdict 文本明文「stage-2 shortlist face; independent sec.9 freeze required」+ `stage` 字段明文 zero registration claims）；本面只读提名态（n_nominated_stage2/逐族 nominated_faces verbatim），`landings` 恒=[]零落地宣称；stage-2 独立冻结批日后若判正另行走位。在位实况：2/47 提名（old_032 robust + best_016 marginal）=`STAGE2_SHORTLIST_AWAITING_INDEPENDENT_FREEZE` 诚实中间态。
+3. selftest：P11 新增 P11e 腿（合成夹具：F1 verdict verbatim 落地正例 9-cell passing_cells → action_required 队列/G2 提名≠落地中间态/落地计数断言）；P11a 全族 ABSENT 断言自动覆盖两新族缺件 fail-closed。
+4. 工程附修（同窗）：模块顶 `sys.path.insert(0, ROOT)` = selftest 直调路径与 main() run 路径恒等（修前置坑：science_gates→knowledge 命名空间包 import 在 selftest 分支 ModuleNotFoundError——main() 早已插入 ROOT 而 selftest 分支漏插=纯路径面修复，判据/产物零行为变化）。
+
 ## 变更记录
 
 - v1.0 (2026-09-26 R265 bm-b)：跑前冻结（O-1342 §四 item4 落地钩子；判线零改动=三族自家冻结判词逐字消费）。
+- v1.1 (2026-10-10 r817 bm-b)：T9 判词面扩展增补件（§7）：+F1-BULL-COND（批 verdict verbatim）+G2-SLOT-MON（提名≠落地）两面接线；v1.0 判据判线零触碰；tech-queue T9 授权（state/queue/tech.md）；live 实况=5 族全 ok 零落地 armed（F1 0/9 判负 + G2 2/47 stage-2 待独立冻结）。

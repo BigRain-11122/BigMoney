@@ -31,6 +31,9 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
+sys.path.insert(0, ROOT)  # selftest path parity with main() run path (knowledge ns-pkg
+                          # import via science_gates T-127 cost_spec face; pre-existing
+                          # ModuleNotFoundError on direct selftest invocation, r817 fix)
 import scorecard as sc  # noqa: E402  (策略卡 v1.0 引擎 — T-07 认领权威命名, 复用零重建)
 
 RESULTS = os.path.join(ROOT, "results")
@@ -1060,7 +1063,8 @@ def build_profile_cards():
 
 
 # ———————————————— 落地钩子（T-81 slice-4 · O-20260926-1342 §四④ · LANDING_HOOKS_P1）————————————————
-# 预注册冻结: research/LANDING_HOOKS_P1.md（判线零改动=三族自家冻结判词面逐字消费）。
+# 预注册冻结: research/LANDING_HOOKS_P1.md（判线零改动=各族自家冻结判词面逐字消费。
+# v1.0 三族 CN/GRID/WILD + T9 增补 F1-BULL-COND/G2-SLOT-MON 两判词面·r817 bm-b·§7 增补件）。
 # 落地=晋升级正面判定（CN/GRID/WILD 各自冻结判词位）；观察 marks 车道≠落地；
 # 落地≠激活（激活仍走 profile_cards 逐州证据门×L3 格证据门，O-1342 §一.4 fail-closed 镜像）。
 
@@ -1137,9 +1141,71 @@ def landing_hooks(results_dir=None):
         wrec = {"state": "ABSENT",
                 "note": "results/wild_route/wild_route_s1.json missing/unreadable -> fail-closed",
                 "landings": []}
+    # — F1-BULL-COND 族（T9 接线·T-177 leg-2 slice-2）：批 verdict verbatim——
+    #   landing=该批自家 passing_cells 逐字读（full chain = G1'v2 ∧ M1 ∧ G2，
+    #   判词出自该批自家冻结 prereg research/F1_BULL_COND_P1.md，本面零重判） —
+    f1v = _load(os.path.join(rd, "regime5_bull_scan", "F1-BULL-COND-2026-09-30.json"))
+    f1_verd = f1v.get("verdict") if isinstance(f1v, dict) else None
+    if isinstance(f1_verd, dict) and "any_cell_full_chain_pass" in f1_verd:
+        f1_rec = {
+            "state": "ok",
+            "judgment_face": "results/regime5_bull_scan/F1-BULL-COND-2026-09-30.json "
+                             "(batch verdict verbatim; full chain = g1_prime_v2 pass_v2 "
+                             "AND M1 t>=3.0 AND g2_registration_v2 per batch's own "
+                             "frozen prereg)",
+            "n_cells": len(f1v.get("cells") or {}),
+            "any_cell_full_chain_pass": bool(f1_verd.get("any_cell_full_chain_pass")),
+            "passing_cells": list(f1_verd.get("passing_cells") or []),
+            "d6_any_reject": bool(f1_verd.get("d6_any_reject")),
+            "best_cell_by_sharpe": f1_verd.get("best_cell_by_sharpe"),
+            "evidence_cutoff": f1v.get("evidence_cutoff"),
+            "landings": list(f1_verd.get("passing_cells") or []),
+        }
+        if f1_rec["landings"] and not f1_rec["any_cell_full_chain_pass"]:
+            f1_rec["intermediate"] = ("PASSING_CELLS_VS_FULL_CHAIN_FLAG_MISMATCH "
+                                      "(honest disclose, fail-closed no landing)")
+    else:
+        f1_rec = {"state": "ABSENT",
+                  "note": "results/regime5_bull_scan/F1-BULL-COND-2026-09-30.json "
+                          "missing/unreadable/no verdict face -> fail-closed",
+                  "landings": []}
+    # — G2-SLOT-MON 族（T9 接线·T-163）：census family_verdicts verbatim——提名≠落地
+    #   （该批自家 verdict 文本明文 stage-2 shortlist 须独立 sec.9 冻结 + stage 字段
+    #   明文 zero registration claims；本面只读提名态零新判线零落地宣称） —
+    g2v = _load(os.path.join(rd, "g2_slot_mon_p1", "g2_slot_mon_p1_census.json"))
+    fv = g2v.get("family_verdicts") if isinstance(g2v, dict) else None
+    if isinstance(fv, dict) and fv:
+        nom_faces = {k: list((r or {}).get("nominated_faces") or [])
+                     for k, r in fv.items() if isinstance(r, dict)}
+        n_nom = sum(len(v) for v in nom_faces.values())
+        g2_rec = {
+            "state": "ok",
+            "judgment_face": "results/g2_slot_mon_p1/g2_slot_mon_p1_census.json "
+                             "(family_verdicts verbatim)",
+            "stage": g2v.get("stage"),
+            "family_verdicts": {k: {"n_faces_measured": (r or {}).get("n_faces_measured"),
+                                     "n_nominated": (r or {}).get("n_nominated"),
+                                     "nominated_faces": nom_faces[k]}
+                                 for k, r in fv.items() if isinstance(r, dict)},
+            "n_nominated_stage2": n_nom,
+            "evidence_cutoff": g2v.get("evidence_cutoff"),
+            "landings": [],
+            "landing_note": ("per the batch's own verdict text: stage-2 shortlist face, "
+                             "independent sec.9 freeze required (nomination != landing; "
+                             "zero registration claims verbatim from stage field)"),
+        }
+        if n_nom:
+            g2_rec["intermediate"] = "STAGE2_SHORTLIST_AWAITING_INDEPENDENT_FREEZE"
+    else:
+        g2_rec = {"state": "ABSENT",
+                  "note": "results/g2_slot_mon_p1/g2_slot_mon_p1_census.json "
+                          "missing/unreadable/no family_verdicts -> fail-closed",
+                  "landings": []}
     fam = {"CN (T-73 s3 five-model chain)": cn,
            "GRID (T-78 grid sleeve)": grid_rec,
-           "WILD (T-57 wild-route)": wrec}
+           "WILD (T-57 wild-route)": wrec,
+           "F1-BULL-COND (T-177 leg-2 s2 bull-window rotation)": f1_rec,
+           "G2-SLOT-MON (T-163 monthly translation)": g2_rec}
     landed = [{"family": fname, "member": m}
               for fname, rec in fam.items() for m in rec.get("landings", [])]
     action_required = [{"action": "profile on landing (O-1342 sec.4 item-4)",
@@ -1731,6 +1797,41 @@ def selftest():
         assert h2["families"]["GRID (T-78 grid sleeve)"]["landings"] == ["510300"]
         assert "CN-GRID-SLEEVE" in h2["families"]["CN (T-73 s3 five-model chain)"]["landings"]
         assert h2["summary"]["n_landings"] == 3   # CN-TEST-MODEL + CN-GRID-SLEEVE + GRID 510300
+        # P11e (T9 r817): F1-BULL-COND 批 verdict verbatim 落地腿 + G2-SLOT-MON 提名≠落地腿
+        os.makedirs(os.path.join(td, "regime5_bull_scan"), exist_ok=True)
+        with open(os.path.join(td, "regime5_bull_scan", "F1-BULL-COND-2026-09-30.json"),
+                  "w", encoding="utf-8") as f:
+            json.dump({"evidence_cutoff": "2026-09-30",
+                       "cells": {f"L{L}_k{k}": {} for L in (60, 120, 250) for k in (1, 2, 3)},
+                       "verdict": {"batch": "F1-BULL-COND-P1",
+                                   "any_cell_full_chain_pass": True,
+                                   "passing_cells": ["L250_k3"],
+                                   "d6_any_reject": False,
+                                   "best_cell_by_sharpe": "L250_k3"}}, f)
+        os.makedirs(os.path.join(td, "g2_slot_mon_p1"), exist_ok=True)
+        with open(os.path.join(td, "g2_slot_mon_p1", "g2_slot_mon_p1_census.json"),
+                  "w", encoding="utf-8") as f:
+            json.dump({"evidence_cutoff": "2026-09-22",
+                       "stage": "stage-1 census variant (fixture)",
+                       "family_verdicts": {
+                           "old": {"n_faces_measured": 18, "n_nominated": 1,
+                                   "nominated_faces": ["old_032"],
+                                   "verdict": "monthly-cadence survivor (stage-2 shortlist "
+                                              "face; independent sec.9 freeze required)"},
+                           "stock": {"n_faces_measured": 2, "n_nominated": 0,
+                                     "nominated_faces": []}}}, f)
+        h3 = landing_hooks(td)
+        f1f = h3["families"]["F1-BULL-COND (T-177 leg-2 s2 bull-window rotation)"]
+        assert f1f["state"] == "ok" and f1f["n_cells"] == 9
+        assert f1f["landings"] == ["L250_k3"] and f1f["any_cell_full_chain_pass"] is True
+        g2f = h3["families"]["G2-SLOT-MON (T-163 monthly translation)"]
+        assert g2f["state"] == "ok" and g2f["n_nominated_stage2"] == 1
+        assert g2f["family_verdicts"]["old"]["nominated_faces"] == ["old_032"]
+        assert g2f["landings"] == []   # 提名≠落地（该批自家 verdict 文本明文）
+        assert g2f["intermediate"] == "STAGE2_SHORTLIST_AWAITING_INDEPENDENT_FREEZE"
+        assert h3["summary"]["n_landings"] == 4   # P11c 3 + F1 L250_k3；G2 提名零贡献
+        assert h3["action_required"][-1]["member"] == "L250_k3"  # F1 落地进画像管线动作队列
+        # P11e-b: 判词位缺件 = 两新族 fail-closed ABSENT（P11a 全族断言已覆盖首扫）
         # P11d: 在位实腿（在位才跑）— §3 预测=三族全 ok 零落地 armed（五模型链 ALL-NEGATIVE）
         #     超集断言非硬等集：glob 面天然吸收未来 cn_* 新批产物（slice-6+ 新 prereg
         #     模型落 results/cn_*/p1_results.json 即自动入观察名单=钩子本义；R259 零产物
@@ -1760,6 +1861,8 @@ def selftest():
           "; T-81 slice-4 landing hooks: absent-fail-closed/CN pass-bit landing/GRID "
           "survivors-no-candidacy intermediate/shared CN-GRID-SLEEVE read/paper-candidacy "
           "dual-family firing"
+          "; T9 r817 new-face wiring: F1-BULL-COND batch-verdict verbatim landing/"
+          "G2-SLOT-MON nomination-not-landing stage-2 read"
           + (" + live 17-card leg incl slice-3 four-must faces" if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")) else "") + ")")
     return 0
 
