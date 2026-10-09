@@ -5688,6 +5688,52 @@ N1_BANDS = {
     # NOT a re-pick (R250: W196 bands were never assigned).
     196: {"a": (446_004, 448_003), "b_exit": (448_004, 448_203),
          "engine_owner": "bm-a"},
+    # W197 (bm-a r915 freeze, seat MSG-2026-10-09-1159-bma-w197-seat
+    # pushed to origin c59843acb pre-freeze r565 law (r914 seat
+    # push; payload = seat MSG + pre-seat probe script + probe receipt
+    # (3-item; the W196 finalize product already on origin since r913,
+    # not re-shipped, W146 same-push precedent);
+    # deletion-set EMPTY; delivery window
+    # = direct fast-forward behind-0 at fetch (r914 seat push),
+    # zero merge, zero --no-verify; self-ack inbox->processed
+    # archive ALREADY LANDED at the seat round r914 closeout --
+    # the W197 seat MSG sits in fleet/inbox/processed/ (self-acked
+    # per the S7 inbox-processing law at the seat round, honest
+    # per frozen prereg sec.0 -- W196 archive-pending N/A);
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r914bma_w197_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W196 B band (arithmetic continuation
+    # 448_004..450_003 REFUSED at its own start by the W196 B band
+    # 448_004..448_203, exactly as the W196 prereg sec5.5 + bm-a r910 probe
+    # leg4 succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 448_204..450_203, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (448_203+1) machine-checkable -- A-hops-prior-B staircase
+    # FIFTY-SEVENTH instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 448_204..448_403 CLEAN on the registered universe
+    # but lands INSIDE the W197 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 450_204 -> 450_204..450_403,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (450_203+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W198+ projection (gate-derived r914): A first-clean
+    # 450_204..452_203 CLEAN hops=0 / B first-clean 450_404..450_603
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W197 B band 450_204..450_403 will refuse the naive
+    # W198 A window; W198 freezer MUST re-derive on the post-W197
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W197 bands were never assigned).
+    197: {"a": (448_204, 450_203), "b_exit": (450_204, 450_403),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -6190,6 +6236,37 @@ def cmd_selftest():
                             N1_BANDS[137]["b_exit"][1] + 1))
     assert w137_adjudicated <= w137_b_probe, \
         "W137 adjudicated set drifted (must sit inside the burned band)"
+    # ADJUDICATED EXCEPTION 4 (bm-a r915, the r874 precedent third
+    # instance, found red by the W197 five-face freeze selftest
+    # window): SEED_REGISTRY parking_p1_null_base=94_300 was
+    # registered LATER (bm-a r914 dead-session PARKING-P1 prereg
+    # freeze b904a0a0e 12:11; the registration face verified
+    # registry-internal disjointness only -- in-registry 94_100/
+    # 94_200 not-hit -- and MISSED the N1_BANDS band face, same
+    # miss family as the r870/r899 pocket sweeps) and lands inside
+    # the ALREADY-BURNED W138 B band 94_201..94_400 at j=99.
+    # Caught PRE-BURN (the PARKING-P1 burn due 10-14 12:00 has NOT
+    # run -- first instance of the family caught before
+    # consumption; re-derivation considered and refused: the
+    # 94_001..94_999 pocket is exhausted, W137..W140 registered B
+    # bands cover 94_001..94_800 and any 94_801..94_999 base's
+    # spawn children would cross the 95_000..95_003 probe cluster,
+    # so the family rationale applies and the frozen prereg's base
+    # stands). Historical single-point overlap on a burned
+    # measurement face: statistically harmless (the PARKING-P1
+    # runner MUST consume only SPAWNED CHILDREN of
+    # SeedSequence(94_300) -- never default_rng(94_300) itself --
+    # so the two consumers never share an actual stream; the W138
+    # exit draw remains a valid null draw), W138 finalize results
+    # stand un-reopened, the parking_p1 batch is NOT
+    # re-registered (registry records the frozen prereg's choice).
+    # Future band gates already treat SEED_REGISTRY live values as
+    # refusal points, so no forward face. Disclosed, not hidden.
+    w138_adjudicated = {94_300}
+    w138_b_probe = set(range(N1_BANDS[138]["b_exit"][0],
+                            N1_BANDS[138]["b_exit"][1] + 1))
+    assert w138_adjudicated <= w138_b_probe, \
+        "W138 adjudicated set drifted (must sit inside the burned band)"
     used = []
     for w, b in N1_BANDS.items():
         band_a = set(range(b["a"][0], b["a"][1] + 1))
@@ -6203,6 +6280,9 @@ def cmd_selftest():
                 f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r719 point"
         elif w == 137:
             assert not (band_b & (reg_ints - w137_adjudicated)), \
+                f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r874 point"
+        elif w == 138:
+            assert not (band_b & (reg_ints - w138_adjudicated)), \
                 f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r874 point"
         else:
             assert not (band_b & reg_ints), f"N1 w{w} hits SEED_REGISTRY"
