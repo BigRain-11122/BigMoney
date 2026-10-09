@@ -112,3 +112,9 @@
 - **判决链结论**：G-SEG 先决 insufficient-sample（单读 r638 律）→ 无注册新员·无 live/paper 接线·无 smoke 锚定门复跑义务；G1' 明细（line_ok false/CI 下界正/M1 pass/DSR fail/PBO eligible）留档备族炉重访。**族重访前置=G-SEG chop 覆盖结构性问题裁决**（chop 14/50 系代理标签面供给不足，非本批可控变量）+ ex-date 接法探针两项。
 - **全起点分布**：见 §7 六数面（best/最坏/p25/中位/p75+滚动 3/5/10y 最差全披露）；撤回判定=不适用（判决非 judged-negative；样本不足面不触发撤回轴）。
 - 回执：r807 轮报告+CODELY.md 行级追加。
+
+**r811 ex-date 接法探针定谳（due ≤10-10 12:00·bm-b·探针=scripts/fund_trio_p1_diagnostics.py divlowvol-exdate 腿·内核单源 import 冻结 probe/runner·selftest 7/7）**：
+
+- **§5(a) 超带预案裁决=数据面无罪**：①join PIT 零违例——12 采样 firing 月（2006-02..2026-03 均匀）/19,387 候选员，冻结内核 ttm_cash_sum vs 独立窗口滤重算全等（1e-9 容差·0 失配·0 未排序包·构造性无未来事件）；②raw 恢复零违例——sidecar f≥1 方向/单位全对（f(latest)=1.0·P_raw 恒正·0 越界·1 例 j<0 前首事件边沿 689009 信息性注记）；③选股完整性 12/12（低波半区+Top-20 yield 降序+code 平序全过）；④收益面 qfq 干净——Sharpe 复现恒等（0.8940923==stored·ddof1 面钉死）·max |日收益| 7.1% 零 >10% 日·成员除权日 sleeve 均动 −0.00014 vs 全日 +0.00036（无除权日系统性负偏）。
+- **超带归因=掩码防御 beta+段结构，非数据问题**：same-mask null μ 0.7178 已处预测带上沿（预测带 0.3-0.8 锚在册 ETF 六员面、低估了掩码宇宙自身 beta）；headline 超 null 仅 +0.176；段分解 2013-2015 Sharpe 1.40（§5(a)「题材牛跑输」经济预测该段=**错**，如实对账）·2016 后 0.43。
+- **处置=不重烧**（判决 insufficient-sample 由 G-SEG 结构先决独立成立）；族重访前置维持 G-SEG chop 覆盖单一项（ex-date 项已闭合）。证据：results/fund_divlowvol_p1/ex_date_probe_r811.json。回执：r811 轮报告。

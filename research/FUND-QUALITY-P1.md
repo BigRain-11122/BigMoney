@@ -110,3 +110,9 @@
 - **判决链结论**：G-SEG 先决 insufficient-sample（单读 r638 律）→ 无注册新员；判据面独立读数全红（CI 下界负/M1 fail/DSR 0/PBO fail）留档。**族重访前置=①NAV 负穿病理修复（工程排查项·疑似 qfq readjust 或 per-symbol 子账面）②G-SEG chop 覆盖结构性裁决**，两项齐备才准重烧。
 - **全起点分布**：见 §7 六数面（滚动三数因病理禁采信已如实标注）；撤回判定=不适用（判决非 judged-negative）。
 - 回执：r807 轮报告+CODELY.md 行级追加。
+
+**r811 NAV 病理分诊定谳（due ≤10-10 12:00·bm-b·探针=scripts/fund_trio_p1_diagnostics.py quality-nav/quality-cliff/quality-era 三腿·selftest 7/7）**：
+
+- **病理定谳=真实年代亏损+分母伪影复合，非数据/引擎缺陷**：①面板无零/负价（close·open 全史 0 符号命中）；②引擎记账与价格面恒等（2005-05-16 过零日对账：observed pnl Δ−¥16,001 vs 简化 mark-to-market −¥16,580，96% 吻合=数据面解释、引擎无罪）；③**NAV 毁灭根因=2001-2005 高 ROE 排名在财报造假年代= fraud 磁铁**——era 归因 45 个 firing 月实证：最差月 2004-04 −19.1%（000633 合金投资 −77.8%=德隆系崩盘真实事件·000717 −33.5%）、2001-09 −9.9%（000682 东方电子 −34%=造假崩盘真实事件）、2005-04/05 −11.5%/−11.4%；简化月度复合 −67%（引擎真实路径更深至过零）；④2005-05-16 NAV 0.0045 过零=资本已灭后的常日（当日成员均动 −10%~+3.8% 平常），过零后一切统计（maxDD −1.1454/2006 年 −338×/rolling −12,598×/ret_full +248%/Sharpe −0.32 符号混乱）=**负 NAV 分母伪影，全部禁采信**（r807 披露确认）。
+- **族重访前置①诊断面=已闭合**（病理根因定谳如上）；**修复面候选（须走预注册+GM 署名链，本批零擅改）**：a) 年代处理——2001-2005 造假高 ROE 段须 fraud-era 处理或仿 divlowvol 干净尾 t0 后钉（2006-02 后）；b) 记账止损诚实面——hold-through+eq 设计对已灭账本无停机机制，重访版应过零即终止并诚实报 ruin（禁符号翻转伪影继续复利）。前置②（G-SEG chop 覆盖）维持。
+- 证据三件：results/fund_quality_p1/nav_pathology_triage_r811.json（重构校验 Sharpe/NAV/maxDD 三恒等）+ nav_cliff_dissection_r811.json（过零日逐成员解剖+记账对账）+ nav_era_attribution_r811.json（45 月毁伤归因+点名）。回执：r811 轮报告。
