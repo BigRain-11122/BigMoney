@@ -946,13 +946,19 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
         return 2
     ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
     if not ram_ok:
+        # flush=True mandatory (r691 four-piece law, r800 live case): the
+        # crash-confirmer reads this marker from the launch log MINUTES
+        # before interpreter shutdown would flush -- an unflushed marker
+        # is invisible to exactly the tick that must park instead of
+        # fuse-feeding (r800: marker printed 11:32:11, disk-landed only at
+        # process exit ~3min later; benign by luck, race is real).
         print(f"AUTOFILL-PARK: {_park_stamp()} screen RAM gate "
               f"{ram_min}GB < 4GB after bounded wait (r354/r379) -- "
               "honest zero-burn, NOT a crash (r491 park law); "
-              "un-park = session flip when RAM frees")
+              "un-park = session flip when RAM frees", flush=True)
         print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB after bounded "
               f"wait (three-sample r354 law; r379 wait-law) -- honest "
-              "refuse, pool retries when RAM frees")
+              "refuse, pool retries when RAM frees", flush=True)
         return 2
     tl1.GRAMMAR = json.load(open(W16_GRAMMAR_FILE, encoding="utf-8"))
     mine = [c for i, c in enumerate(cells) if i % shards == shard]
@@ -1578,9 +1584,9 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
         print(f"AUTOFILL-PARK: {_park_stamp()} judge RAM gate "
               f"{ram_min}GB < 4GB after bounded wait (r354/r379) -- "
               "honest zero-burn, NOT a crash (r491 park law); "
-              "un-park = session flip when RAM frees")
+              "un-park = session flip when RAM frees", flush=True)
         print(f"JUDGE-GATE: free RAM {ram_min}GB < 4GB after bounded "
-              f"wait -- honest refuse (RAM gate r354)")
+              f"wait -- honest refuse (RAM gate r354)", flush=True)
         return 2
     tl1.GRAMMAR = json.load(open(W16_GRAMMAR_FILE, encoding="utf-8"))
     # heavy worker state rebuilt live (jstate is the light metadata

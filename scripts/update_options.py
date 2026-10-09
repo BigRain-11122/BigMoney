@@ -724,6 +724,19 @@ def _selftest():
 
 
 def main():
+    # O-20261009-1105 CEO direct order (2026-10-09): options face CLOSED --
+    # 判负类永不立项, no approval channel. Consumer audit (bm-c engineering
+    # lane, 2026-10-09): sole consumer = frozen OPTIONS_WAVE2 batch
+    # (results/options_wave2.json, ran 2026-09-25); forward accumulation
+    # served only future options preregs, which this order abolishes ->
+    # zero forward consumers -> collection STOPPED (防浪费律). Historical
+    # panel data/options/ stays as-collected frozen; zero shared-state writes
+    # from this point. All subcommands honest no-op exit 0. Re-enable only
+    # via a new CEO order.
+    print("[RETIRED] update_options: options face closed per O-20261009-1105 "
+          "(consumer audit: historical wave-2 batch only, zero forward "
+          "consumers; anti-waste law) -- honest no-op, no collection.")
+    return 0
     cmd = sys.argv[1] if len(sys.argv) > 1 else "gate"
     if cmd == "selftest":
         return _selftest()
