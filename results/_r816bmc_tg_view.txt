@@ -1,0 +1,57 @@
+TOTAL_LINES=426
+L3: Single-source gate for ALL sweep/archive/retention/restore-class scripts:
+L4:   prescan    -> registry hit = HARD REJECT (exit 3), zero-hit = exit 0
+L12:   python Tools/treasure_guard.py prescan <path> [<path> ...]
+L39:     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+L46:     silently bypassed every match (live probe: abs form rc0 vs rel form rc3
+L56:                 return "."
+L63:     return p
+L74:     return max(parents, key=len) if parents else None
+L114:     return sorted(families), sorted(exacts), sorted(globs)
+L123:         return parse_registry(f.read())
+L129:         return True
+L131:         return True
+L133:         return True
+L135:         return True
+L136:     return False
+L140:     return [p for p in paths if is_protected(p, families, exacts, globs)]
+L183:         cls = next((c for c, rx in RESTORE_FORBIDDEN if rx.search(q)), None)
+L188:     return allowed, forbidden
+L196:     return h.hexdigest()
+L199: def cmd_prescan(args):
+L206:         return 3
+L207:     print("treasure_guard prescan: zero hits over", len(args), "path(s)")
+L208:     return 0
+L214:         return 2
+L226:         return 3
+L229:     return 0
+L245:         return 3
+L251:         src = os.path.join(root, p)
+L252:         if not os.path.exists(src):
+L257:         shutil.move(src, dst)
+L259:             "src": p.replace("\\", "/"),
+L276:     return 0
+L285:         return 2
+L300:         return 2
+L302:     return 0
+L309:         "| research/ | all prereg |\n"
+L326:     expect("parse: research/ family", "research/" in fam)
+L332:         "research/X_PREREG.md",
+L368:         ("research/memory-archive/202610.md", "registry"),
+L389:         src = os.path.join(td, "victim.txt")
+L390:         with open(src, "w") as f:
+L395:         shutil.move(src, dst)
+L400:         expect("quarantine roundtrip: moved", not os.path.exists(src) and os.path.isfile(dst))
+L403:     return 0 if ok else 1
+L406: def main(argv):
+L407:     if len(argv) < 2:
+L409:         return 2
+L410:     cmd, args = argv[1], argv[2:]
+L411:     if cmd == "prescan":
+L412:         return cmd_prescan(args)
+L414:         return cmd_restore(args)
+L416:         return cmd_quarantine(args)
+L418:         return cmd_assert(args)
+L420:         return selftest()
+L422:     return 2
+L426:     sys.exit(main(sys.argv))

@@ -1,0 +1,63 @@
+L6: FIX-1 (DOA root cause): r814 used `urlopen(req, timeout=(30, 90))` -- a
+L9: -> 22min zero-byte spin (pid 22896, CPU 1.4s, runner.out 0B). Fixed:
+L10: timeout=90 single int.
+L16: error per part into the live state json (thread-safe via lock) so any
+L18: Paradigm unchanged: 8-segment parallel ranged download + per-part size
+L30: STATE = os.path.join(R, "results", "_r815bmc_h3_download_state.json")
+L31: RECEIPT = os.path.join(R, "results", "_r815bmc_h3_download_receipt.json")
+L32: PART_DIR = os.path.join(MODELS, "_h3_parts")
+L37: # relpath | target bytes (server Content-Range truth, r815 probe) | url
+L68: def save_state(obj):
+L69: tmp = STATE + ".tmp"
+L72: os.replace(tmp, STATE)
+L75: def fetch_range(url, start, end, out_path, stop_flag, fstate, key):
+L77: Resume = part file size; server must honor Range (hf-mirror proven).
+L78: FIX-3: last distinct error per part is recorded into fstate['errors']
+L82: have = os.path.getsize(out_path) if os.path.exists(out_path) else 0
+L86: fstate.setdefault("parts", {})[key] = have
+L92: with urllib.request.urlopen(req, timeout=90) as r:   # FIX-1
+L95: with open(out_path, "ab") as f:
+L102: f.write(buf)
+L108: fstate.setdefault("errors", {})[key] = {
+L110: save_state(STATE_REF[0])
+L115: def download_one(rel, target, url, state):
+L116: final = os.path.join(MODELS, rel)
+L117: os.makedirs(os.path.dirname(final), exist_ok=True)
+L118: if os.path.exists(final) and os.path.getsize(final) == target:
+L119: state["files"][rel] = {"status": "already-complete",
+L121: save_state(state)
+L124: os.makedirs(PART_DIR, exist_ok=True)
+L125: stem = os.path.join(PART_DIR, os.path.basename(rel))
+L131: bounds.append((s, e, "%s.part%d" % (stem, i)))
+L132: state["files"][rel] = {"status": "in-flight", "segs": segs,
+L133: "target": target, "parts": {}, "errors": {}}
+L134: save_state(state)
+L135: fstate = state["files"][rel]
+L139: key = os.path.basename(pp)
+L141: args=(url, s, e, pp, stop_flag, fstate, key))
+L147: save_state(state)
+L148: ok = all(os.path.getsize(pp) == (e - s + 1)
+L149: for (s, e, pp) in bounds if os.path.exists(pp))
+L151: state["files"][rel]["status"] = "incomplete-restartable"
+L152: save_state(state)
+L155: with open(final, "wb") as out:
+L162: out.write(buf)
+L163: got = os.path.getsize(final)
+L167: state["files"][rel] = {"status": "complete", "bytes": got,
+L169: save_state(state)
+L171: state["files"][rel]["status"] = "concat-mismatch got=%d" % got
+L172: save_state(state)
+L176: STATE_REF = [None]
+L180: state = {"started": now_iso(), "driver": "Tools/_r815bmc_h3_download.py",
+L181: "fix_release": "r815 FIX-1 timeout int + FIX-2 file2 target "
+L183: "manifest_bytes_total": MANIFEST_TOTAL, "files": {}, "parts": {}}
+L184: STATE_REF[0] = state
+L185: save_state(state)
+L189: free = shutil.disk_usage(os.path.splitdrive(MODELS)[0] + "\\").free
+L190: state["disk_free_bytes"] = free
+L191: save_state(state)
+L193: state["abort"] = "disk low: %d" % free
+L194: save_state(state)
+L201: ok = download_one(rel, target, url, state)
+L205: "timeout TypeError + file2 10x byte typo)",
+L210: "all_complete": allok, "state_file": STATE}

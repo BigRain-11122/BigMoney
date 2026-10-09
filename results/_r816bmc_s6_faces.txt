@@ -1,0 +1,26 @@
+UPDATE_DAILY:
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_daily.py
+=== Bigmoney daily update 2026-10-09 18:52:40 ===
+
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-08
+
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+---
+POOL_DUALRUN:
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/pool_dualrun_reconcile.py run
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 418 entries, drift-free streak 12, cutoff 2026-10-09 06:28:49)
+---
+TOKEN_METER:
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/token_meter.py
+saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+
+per-round fixed context ~ 13827 + 8716 tokens (rough); ledger cumulative ~ 2049 state + 1849199 report tokens; delta=0
+
+L2 local-LLM legs: 2 today / 14 total (~1537 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2720 across 81 sigs
+---
+PY_WATERMARK:
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/py_watermark.py probe
+{"ts": "2026-10-09 18:52:39", "epoch": 1791543153.0, "machine": "bm-c", "cpu_total_pct": 70.0, "cores": 32, "py_cpu_pct": 1.0, "py_procs": 11, "top_proc_cores": 0.22, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "bars_present": false, "daily_panel": true, "verdict": "py_low_board_clear", "window": {"n": 2, "span_min": 21.6, "avg_py_cpu_pct": 0.6, "max_py_cpu_pct": 1.0}, "series_kept": 50}
+---
