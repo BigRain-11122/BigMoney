@@ -94,6 +94,17 @@ try {
         Log "idle_trigger: $idleOut"
     } catch { Log "idle_trigger error: $_" }
 
+    # T17 (tech queue r829, bm-c): structural S0.5 orders_ack diff scan
+    # (round-start face of the FLEET-OPS sec.3 receipt-closure double-scan;
+    # unacked -> exit 3, names + JSON face land in
+    # results/orders_ack_scan.<machine>.json for the round session to
+    # consume as P0 dispatch debt; stale legacy-format acks = soft notes).
+    # Read-only; failures never kill the round (best-effort, logged).
+    try {
+        $oasOut = & python (Join-Path $Project 'Tools\orders_ack_scan.py') 2>&1
+        Log "orders_ack_scan: $oasOut"
+    } catch { Log "orders_ack_scan error: $_" }
+
     $codelyPath = (Get-Command codely -ErrorAction SilentlyContinue).Source
     if (-not $codelyPath) { Log 'FATAL: codely not on PATH for this context'; Beat 'error codely missing'; exit 2 }
     Log "codely=$codelyPath"
