@@ -773,6 +773,26 @@
    "shard": "judge-0of1",
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-07 23:15:03"
+  },
+  "scripts/trial_labor_w17.py|generate": {
+   "count": 1,
+   "refusals": 5,
+   "code_sha256": "c99007e19a85be7f",
+   "last_crash_ts": "2026-10-09 07:45:36",
+   "entry": "TRIAL-LABOR-W17-GENERATE",
+   "shard": "main",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-09 07:52:04"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "519301605e3402f4",
+   "last_crash_ts": "2026-10-09 08:30:03",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+   "shard": "w17-screen-0of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-09 08:30:03"
   }
  },
  "cleared": {
@@ -1221,6 +1241,24 @@
    "reason": "external_kill_gm_o1300_launch_path_fixed",
    "crashes": 1,
    "old_code_sha256": "ebd2d73183cf87b9"
+  },
+  "scripts/trial_labor_w16.py|judge,--shard,0,--shards,1": {
+   "crashes": 2,
+   "old_code_sha256": "946458bc26898325",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 09:35:09",
+   "reason": "r873 bm-a manual tombstone: 04:52:04 crash = post-completion 30-min-confirm artifact (no pool_claims handshake, r860 pit law; W16-SCREEN same-morning precedent); burn completed cleanly 40/40 cells runner-log 'judge shard 0of1 complete' 04:24:08 rc0, checkpoint full, judge-finalize consumed r862 (w16_judge.json + ledger 802,318), intake lawful-zero; runner sha 946458bc not at fault; worker-claim umbrella landed same round",
+   "entry": "TRIAL-LABOR-W16-JUDGE",
+   "shard": "w16-judge-0of1"
+  },
+  "scripts/trial_labor_w16.py|screen,--shard,0,--shards,1": {
+   "crashes": 1,
+   "old_code_sha256": "9331a9dfb72d37e3",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 03:58:29",
+   "reason": "r860 bm-a false-crash tombstone: SCREEN burn COMPLETED 373/373 cells 03:37:07, runner exited clean (launch log 'shard 0of1 complete'); trial-labor runners write no worker-claim file so the daemon harvest cannot land (W13 shard-note documented gap) -> 25-min confirm counted a false crash; completion takeover by observing round r860 per W13/W14 precedent",
+   "entry": "TRIAL-LABOR-W16-SCREEN",
+   "shard": "w16-screen-0of1"
   }
  },
  "lane_machine": "bm-c"
