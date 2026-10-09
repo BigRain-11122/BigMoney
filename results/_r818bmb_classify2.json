@@ -1,0 +1,115 @@
+[
+ {
+  "path": "results/compute_audit.json",
+  "recipe": "union",
+  "counts": {
+   "history": {
+    "left": 201,
+    "right": 201,
+    "union": 202,
+    "zero_loss": true
+   }
+  }
+ },
+ {
+  "path": "results/regime_state.json",
+  "recipe": "union",
+  "counts": {
+   "history": {
+    "left": 3,
+    "right": 3,
+    "union": 3,
+    "zero_loss": true
+   },
+   "transitions": {
+    "left": 0,
+    "right": 0,
+    "union": 0,
+    "zero_loss": true
+   },
+   "triggers": {
+    "left": 2,
+    "right": 2,
+    "union": 2,
+    "zero_loss": true
+   }
+  }
+ },
+ {
+  "path": "results/fundamental_b_layer_filter.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:57:21 > 2026-10-10 05:48:47"
+ },
+ {
+  "path": "results/futures_update_status.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:55:47 > 2026-10-10T05:47:30"
+ },
+ {
+  "path": "results/lhb_update_status.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:55:46 > 2026-10-10 05:47:29"
+ },
+ {
+  "path": "results/token_usage.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:57:43 > 2026-10-10 05:49:48"
+ },
+ {
+  "path": "results/update_status.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:55:33 > 2026-10-10 05:46:13"
+ },
+ {
+  "path": "results/_attrition_guard_scan.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:58:33+08:00 > 2026-10-10T05:52:16+08:00"
+ },
+ {
+  "path": "docs/daily_report/REPORT-2026-10-10.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:57:42 > 2026-10-10 05:49:30"
+ },
+ {
+  "path": "docs/daily_report/REPORT-2026-10-10.md",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10 05:57:42 > 2026-10-10 05:49:30"
+ },
+ {
+  "path": "docs/live_usage/LIVE-2026-10-10.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:57:43 > 2026-10-10T05:49:31"
+ },
+ {
+  "path": "docs/live_usage/LIVE-2026-10-10.md",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:57:43 > 2026-10-10T05:49:31"
+ },
+ {
+  "path": "docs/live_usage/LIVE-latest.json",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:57:43 > 2026-10-10T05:49:31"
+ },
+ {
+  "path": "docs/live_usage/LIVE-latest.md",
+  "recipe": "take-new",
+  "side": "theirs(r818)",
+  "why": "ts 2026-10-10T05:57:43 > 2026-10-10T05:49:31"
+ },
+ {
+  "path": "results/runnable_pool.json",
+  "recipe": "take-ours",
+  "why": "bm-a r943 two-layer done-flip heal side; sync_face re-settle next"
+ }
+]

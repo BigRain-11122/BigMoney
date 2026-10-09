@@ -1,0 +1,82 @@
+{
+ "ts": "2026-10-10T05:53:35+08:00",
+ "law_refs": [
+  "state/queue/tech.md T12",
+  "TREASURE_PROTECTION_LAW s2",
+  "D-20261009-02 zero-rename (legacy frozen)",
+  "D-20261002-04 claw (tracked churn = no-owner class)",
+  "C-20261007-04 adjudication pattern (r703 bm-c)"
+ ],
+ "qa_files_total": 685,
+ "named_keep_forever": 9,
+ "window_rounds_per_bucket": 30,
+ "buckets": {
+  "legacy-untagged(D-20261009-02-frozen)": {
+   "files_total": 597,
+   "round_min": 516,
+   "round_max": 890,
+   "window_keep": 597,
+   "rotate_tracked": [],
+   "rotate_untracked": [],
+   "frozen": true
+  },
+  "bm-c": {
+   "files_total": 70,
+   "round_min": 786,
+   "round_max": 823,
+   "window_keep": 60,
+   "rotate_tracked": [
+    "qa/equity-curve-r786-bm-c.png",
+    "qa/equity-curve-r787-bm-c.png",
+    "qa/equity-curve-r788-bm-c.png",
+    "qa/equity-curve-r789-bm-c.png",
+    "qa/equity-curve-r790-bm-c.png",
+    "qa/smoke-r786-bm-c.md",
+    "qa/smoke-r787-bm-c.md",
+    "qa/smoke-r788-bm-c.md",
+    "qa/smoke-r789-bm-c.md",
+    "qa/smoke-r790-bm-c.md"
+   ],
+   "rotate_untracked": [],
+   "frozen": false
+  },
+  "bm-b": {
+   "files_total": 3,
+   "round_min": 806,
+   "round_max": 806,
+   "window_keep": 3,
+   "rotate_tracked": [],
+   "rotate_untracked": [],
+   "frozen": false
+  },
+  "bm-a": {
+   "files_total": 6,
+   "round_min": 897,
+   "round_max": 911,
+   "window_keep": 6,
+   "rotate_tracked": [],
+   "rotate_untracked": [],
+   "frozen": false
+  }
+ },
+ "rotate_tracked_total": 10,
+ "rotate_untracked_total": 0,
+ "rotate_tracked_paths": [
+  "qa/equity-curve-r786-bm-c.png",
+  "qa/equity-curve-r787-bm-c.png",
+  "qa/equity-curve-r788-bm-c.png",
+  "qa/equity-curve-r789-bm-c.png",
+  "qa/equity-curve-r790-bm-c.png",
+  "qa/smoke-r786-bm-c.md",
+  "qa/smoke-r787-bm-c.md",
+  "qa/smoke-r788-bm-c.md",
+  "qa/smoke-r789-bm-c.md",
+  "qa/smoke-r790-bm-c.md"
+ ],
+ "rotate_untracked_paths": [],
+ "prescan_hits": [],
+ "claw_note": "tracked churn blobs (md prose/png binary) carry no JSON owner evidence -> git_claw blocks any push deleting them (all machines); rotation of tracked candidates needs the C-20261007-04 adjudication pattern + --no-verify escape + receipt (r703 bm-c)",
+ "rotate_executed": false,
+ "rotate_bytes_tracked": 330757,
+ "rotate_bytes_untracked": 0
+}
