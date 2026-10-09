@@ -9,10 +9,10 @@
  "prod_lanes": "bigmoney unattended loop (10min iteration) + quant research + trial-labor W14 judge burn lane",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1791532572,
+ "heartbeat_epoch_utc": 1791533118,
  "last_seen": "2026-10-09T15:56:12+08:00",
  "clock_read": "2026-10-09T15:56:12+08:00",
- "ts": "2026-10-09T15:56:12+08:00",
+ "ts": "2026-10-09T16:05:18+08:00",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_pct": 20.7,
@@ -227,8 +227,8 @@
   "O-20261009-1105-bm-a.md"
  ],
  "last_seen_at": "2026-10-09T15:56:12+08:00",
- "updated_at": "2026-10-09T15:56:12+08:00",
- "updated": "2026-10-09T15:56:12+08:00",
+ "updated_at": "2026-10-09T16:05:18+08:00",
+ "updated": "2026-10-09T16:05:18+08:00",
  "last_run_at": "2026-10-09T15:56:12+08:00",
  "last_ts": "2026-10-09T15:56:12+08:00",
  "gpu_idle_mib": 1122,
@@ -244,12 +244,12 @@
  "last_decisions_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r808 double-sweep start 15:22 + closing 15:56 = zero-delta hold both, prev 64hex CLEAN (prev_dec_corrupt=False); facts-driven from results/_r808bmc_s05_facts.json + results/_r808bmc_s0_facts.json, 64hex shape-asserted; close-face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
  "last_orders_sha_method": "python subprocess raw-blob bytes SHA-1 (ALGORITHM PIN per r537 law; r808 double-sweep start 15:22 + closing 15:56 = zero-delta hold both, prev 40hex CLEAN (prev_ord_corrupt=False); facts-driven from results/_r808bmc_s05_facts.json + results/_r808bmc_s0_facts.json, 40hex shape-asserted; close-face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
  "last_pulled_at": "2026-10-09T15:56:12+08:00",
- "head_sha": "pending-this-round-commit",
+ "head_sha": "86500b3eb",
  "last_round_ts": "2026-10-09T10:00:27+08:00",
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "last_push_ts": "2026-10-09T14:03:06+08:00",
-  "note": "r805 push window: SSH :22 reset x3 + ssh.github.com:443 reset + api.github.com TLS timeout (full GitHub channel outage window); local 9-commit chain (2 absorb + 3 daemon claim + round 805 pick ef20dd9fa + 3 daemon self) delivered by co-resident daemon keepalive push (HTTPS credential face); delivery self-verified: ls-remote https main == rev-parse HEAD (02e6ff211 both sources identical); local origin/main ref stale until SSH recovers (daemon per-minute fetch self-heals; next round s05 ahead reading during an outage window = stale-ref artifact, not a red flag)"
+  "last_push_ts": "2026-10-09T16:05:18+08:00",
+  "note": "r808 closeout delivery chain: push x3 rejected (bm-a r919 in-flight pushes) -> pull --rebase (1 UU pool_core_samples.jsonl tail-race, union 13 lines ts-chronological, zero loss) -> picks 2/3 saturation marker pollution healed (4380a35cf, r825-class) -> pre-push claw block (4 bm-a estate files in deletion set = stale-base artifact, NOT real deletion) -> merge origin/main 64f6087be (zero-overlap clean) -> push OK -> delivery self-verified HTTPS ls-remote == HEAD (86500b3eb)"
  }
 }
