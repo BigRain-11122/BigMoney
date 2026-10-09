@@ -1,0 +1,7 @@
+src = open('scripts/trial_labor_w17.py', encoding='utf-8').read()
+i = src.find('def _cell_list_w17')
+print(src[i:i+1200])
+print('=====')
+src1 = open('scripts/trial_labor_w1.py', encoding='utf-8').read()
+j = src1.find('def _init_worker')
+print(src1[j:j+1000])
