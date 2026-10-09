@@ -927,6 +927,11 @@ def cmd_screen_prep() -> int:
     return 0
 
 
+def _park_stamp():
+    import datetime
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 def cmd_screen(shard: int, shards: int, workers) -> int:
     print(f"=== {WAVE} screen shard {shard}of{shards} ===")
     for p, what in ((PREP_FILE, "prep_state.json"),
@@ -941,6 +946,10 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
         return 2
     ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
     if not ram_ok:
+        print(f"AUTOFILL-PARK: {_park_stamp()} screen RAM gate "
+              f"{ram_min}GB < 4GB after bounded wait (r354/r379) -- "
+              "honest zero-burn, NOT a crash (r491 park law); "
+              "un-park = session flip when RAM frees")
         print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB after bounded "
               f"wait (three-sample r354 law; r379 wait-law) -- honest "
               "refuse, pool retries when RAM frees")
@@ -1566,8 +1575,12 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
     jstate = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
     ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
     if not ram_ok:
+        print(f"AUTOFILL-PARK: {_park_stamp()} judge RAM gate "
+              f"{ram_min}GB < 4GB after bounded wait (r354/r379) -- "
+              "honest zero-burn, NOT a crash (r491 park law); "
+              "un-park = session flip when RAM frees")
         print(f"JUDGE-GATE: free RAM {ram_min}GB < 4GB after bounded "
-              "wait -- honest refuse (RAM gate r354)")
+              f"wait -- honest refuse (RAM gate r354)")
         return 2
     tl1.GRAMMAR = json.load(open(W16_GRAMMAR_FILE, encoding="utf-8"))
     # heavy worker state rebuilt live (jstate is the light metadata
