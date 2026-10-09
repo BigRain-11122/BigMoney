@@ -17,6 +17,7 @@ CREATE = 0x08000000
 MSG = os.path.join(ROOT, "_r_bmc_s0msg.txt")
 
 OWN_PATTERNS = (
+    "_r_bmc_s0msg.txt",
     "state-bm-c.json", "fleet/machines/bm-c.json", "fleet/machines/bm-a.json",
     "fleet/machines/bm-b.json", "results/crash_fuse.json",
     "results/runnable_pool.json", "results/saturation", "results/idle_trigger",
