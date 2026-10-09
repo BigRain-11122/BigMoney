@@ -122,6 +122,17 @@ try {
     }
     $p.Refresh()
     Log "headless round finished exit=$($p.ExitCode)"
+
+    # T6 (tech queue r812, bm-c): structural idle_trigger --auto declare leg.
+    # Deterministic same-round clear of the two-read idle streak: pool shard
+    # claims by this machine, or session commits touching non-bookkeeping
+    # faces. Backstop for the hand --claimed/--worked semantic on non-bm-a
+    # carrier machines; failures never kill the round (best-effort, logged).
+    try {
+        $idleAutoOut = & python (Join-Path $Project 'Tools\idle_trigger.py') --auto 2>&1
+        Log "idle_trigger --auto: $idleAutoOut"
+    } catch { Log "idle_trigger --auto error: $_" }
+
     Beat "round done exit=$($p.ExitCode)"
     exit $p.ExitCode
 }

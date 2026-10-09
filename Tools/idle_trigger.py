@@ -247,6 +247,141 @@ def declare(mid, now, kind):
             'agenda_starved': False}
 
 
+# ---------------------------------------------------------------------------
+# T6 (tech queue r812, bm-c): structural --auto declare leg. Removes the
+# dependence on the round AI remembering to hand-run --claimed/--worked on
+# non-bm-a carrier machines. Deterministic, AI-independent:
+#   claimed <- pool shard owned by this machine with owner_since inside the
+#              window since the last bookkeeping touch (backlog.md claims are
+#              already auto-detected by bookkeeping's fresh_claim face).
+#   worked  <- commit(s) since last bookkeeping touch authored by THIS
+#              machine's git identity (committer email = local user.email;
+#              daemon subjects excluded) that touch at least one path OUTSIDE
+#              the pure-bookkeeping face set (product-first law: state files,
+#              round reports, heartbeat, memory appends, per-round helper
+#              receipts and always-drifting re-derive faces are bookkeeping;
+#              scripts/research/qa/data/pipeline outputs are work).
+# Conservative bias: anything undetected leaves the streak untouched, so a
+# miss can only produce an extra RED nudge, never a silent idle pass.
+# ---------------------------------------------------------------------------
+DAEMON_SUBJ = re.compile(r'^(autofill tick|dispatcher|resident dispatcher)', re.I)
+
+BOOKKEEP_PATHS = (
+    r'^CODELY\.md$',                      # memory appends = bookkeeping
+    r'^state(-bm-[a-z0-9]+)?\.json$',
+    r'^state\.json$',
+    r'^state/queue/',                     # tech/self-drive queue admin
+    r'^round_reports',                    # per-machine round ledgers
+    r'^logs/iteration-loop/',              # bm-b legacy ledger
+    r'^fleet/machines/[^/]+\.json$',      # heartbeats
+    r'^fleet/inbox/',                     # message moves
+    r'^results/_r\d+',                    # per-round helper receipts/logs
+    r'^results/_orphan_face_probe',
+    r'^results/idle_trigger',
+    r'^results/token_usage\.json$',
+    r'^results/compute_audit\.json$',
+    r'^results/_attrition_guard_scan\.json$',
+    r'^results/pool_dualrun\..*\.jsonl$',  # S6 evidence append (every round)
+    r'^results/strategy_scorecard\.json$', # re-derived every round (ts drift)
+    r'^results/saturation_engine/',       # engine state faces
+    r'^results/watermark',                # probe series
+    r'^dashboard_status\.(json|js)$',      # bm-a host re-derives every round
+)
+
+
+def is_bookkeeping_path(p):
+    p = (p or '').replace('\\', '/').strip()
+    return any(re.match(rx, p) for rx in BOOKKEEP_PATHS)
+
+
+def split_log_line(line):
+    """'sha<TAB>subject' -> (sha, subject); malformed -> (None, None)."""
+    if '\t' not in line:
+        return None, None
+    sha, subj = line.split('\t', 1)
+    return (sha.strip(), subj.strip()) if re.match(r'^[0-9a-f]{7,40}$', sha.strip()) else (None, None)
+
+
+def _git(args, timeout=20):
+    try:
+        p = subprocess.run(['git', '-C', PROJECT] + args, capture_output=True,
+                           creationflags=CNW, timeout=timeout)
+        return p.returncode, p.stdout.decode('utf-8', 'replace')
+    except Exception:
+        return 1, ''
+
+
+def _local_email():
+    rc, out = _git(['config', 'user.email'])
+    out = out.strip().lower()
+    return out if rc == 0 and out else None
+
+
+def _pool_claim_since(mid, floor_ts):
+    """Newest pool shard claim (key) by this machine with ts >= floor."""
+    best = None
+    try:
+        d = json.load(open(os.path.join(PROJECT, 'results', 'runnable_pool.json'),
+                           encoding='utf-8'))
+    except Exception:
+        return None
+    for e in d.get('entries', []):
+        for sh in e.get('shards', []) or []:
+            if sh.get('owner') == mid:
+                ts = parse_ts(sh.get('owner_since', '') or '')
+                if ts is not None and ts >= floor_ts:
+                    if best is None or ts > best[0]:
+                        best = (ts, sh.get('key', ''))
+    return best[1] if best else None
+
+
+def _work_paths_since(last_touch, email):
+    """Non-bookkeeping paths from this machine's session commits since ts."""
+    if not last_touch or not email:
+        return []
+    since = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(last_touch))
+    rc, out = _git(['log', '--since=' + since, '--committer=' + email,
+                    '--format=%H%x09%s'])
+    if rc != 0:
+        return []
+    hit = []
+    for line in out.splitlines():
+        sha, subj = split_log_line(line)
+        if not sha or DAEMON_SUBJ.match(subj):
+            continue
+        rc2, paths = _git(['diff-tree', '--no-commit-id', '--name-only',
+                           '-r', sha])
+        if rc2 != 0:
+            continue
+        for p in paths.splitlines():
+            if p and not is_bookkeeping_path(p):
+                hit.append(p)
+    return hit
+
+
+def auto_declare(mid, now):
+    st = load_state(mid)
+    last_touch = float(st.get('last_touch', 0.0) or 0.0)
+    floor = last_touch - 60.0 if last_touch else now - ROUND_WINDOW_MIN * 60
+    claim = _pool_claim_since(mid, floor)
+    if claim:
+        v = declare(mid, now, 'claimed')
+        v['auto_reason'] = 'pool_claim=%s' % claim
+        print(json.dumps(v, ensure_ascii=False))
+        return 0
+    paths = _work_paths_since(last_touch, _local_email())
+    if paths:
+        v = declare(mid, now, 'worked')
+        v['auto_reason'] = 'work_paths=%d e.g. %s' % (len(paths), paths[0])
+        print(json.dumps(v, ensure_ascii=False))
+        return 0
+    v = {'ts': time.strftime('%Y-%m-%dT%H:%M:%S+08:00', time.localtime(now)),
+         'machine': mid, 'declared': None, 'idle_rounds': st.get('streak', 0),
+         'auto_reason': 'no_pool_claim_no_work_commit'}
+    print(json.dumps(v, ensure_ascii=False))
+    return 0
+
+
 def selftest():
     # gate logic fixtures (no writes, no probes)
     ok = True
@@ -275,6 +410,56 @@ def selftest():
         if got != expect:
             ok = False
         print('[%s] ts parse %r -> %s' % (flag, raw, got))
+    # T6 (r812) bookkeeping-path classifier fixtures
+    path_cases = [
+        ('CODELY.md', True), ('state-bm-c.json', True), ('state.json', True),
+        ('state/queue/tech.md', True), ('round_reports-bm-c.md', True),
+        ('fleet/machines/bm-c.json', True), ('fleet/inbox/MSG-x.md', True),
+        ('results/_r812bmc_s05_facts.json', True),
+        ('results/_orphan_face_probe.bm-c.json', True),
+        ('results/idle_trigger.bm-c.json', True),
+        ('results/token_usage.json', True), ('results/compute_audit.json', True),
+        ('results/pool_dualrun.bm-c.jsonl', True),
+        ('results/strategy_scorecard.json', True),
+        ('results/saturation_engine/state_bm-c.json', True),
+        ('dashboard_status.json', True), ('dashboard_status.js', True),
+        ('scripts/science_audit.py', False), ('research/PIT-X.md', False),
+        ('qa/smoke-r812-bm-c.md', False), ('data/daily/sh510300.csv', False),
+        ('results/paper_export/export-2026-10-09.json', False),
+        ('results/market_clock/CALL-2026-10-09.json', False),
+        ('Tools/idle_trigger.py', False), ('fleet/backlog.md', False),
+        ('docs/live_usage/LIVE-20261009.md', False),
+        ('results\\strategy_scorecard.json', True),  # backslash normalization
+    ]
+    for p, want in path_cases:
+        got = is_bookkeeping_path(p)
+        flag = 'PASS' if got == want else 'FAIL'
+        if got != want:
+            ok = False
+        print('[%s] bookkeep-path %r -> %s' % (flag, p, got))
+    # T6 daemon-subject + log-line fixtures
+    subj_cases = [
+        ('autofill tick claim w17-screen-0of8 owner=bm-c (r199) [via bm-c]', True),
+        ('autofill tick keepalive w17-screen-0of8 owner=bm-c [via bm-c]', True),
+        ('round 812: T6 idle_trigger --auto declare leg [via bm-c r812]', False),
+    ]
+    for s, want in subj_cases:
+        got = bool(DAEMON_SUBJ.match(s))
+        flag = 'PASS' if got == want else 'FAIL'
+        if got != want:
+            ok = False
+        print('[%s] daemon-subj %r -> %s' % (flag, s[:40], got))
+    for line, want_sha in [
+        ('abc123def\t round 812: work', 'abc123def'),
+        ('short\t subj', None),
+        ('no-tab-line', None),
+    ]:
+        sha, subj = split_log_line(line)
+        got = sha if want_sha else None
+        flag = 'PASS' if got == want_sha else 'FAIL'
+        if got != want_sha:
+            ok = False
+        print('[%s] log-line %r -> sha=%s' % (flag, line[:24], sha))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 
@@ -291,6 +476,8 @@ def main():
     if '--worked' in argv:
         print(json.dumps(declare(mid, now, 'worked'), ensure_ascii=False))
         return 0
+    if '--auto' in argv:
+        return auto_declare(mid, now)
     v = bookkeeping(mid, now)
     print(json.dumps(v, ensure_ascii=False))
     return 0
