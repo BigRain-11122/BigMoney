@@ -1,0 +1,19 @@
+{
+  "round": 810,
+  "machine": "bm-b",
+  "method": "sparse-clone fresh-read r789/r809 lineage (git -C %TEMP%/d19_r809 fetch + show origin/main:docs/*.md, raw-blob SHA-1 40-hex PIN r537)",
+  "decisions_sha": "b148d0ad7c856e4b649f52b77212c57a2abe3776",
+  "orders_sha": "be40c8f84855b4ce1457374c4f265081a395a0f6",
+  "decisions_prev": "A3EA37BD70FD5ACC83BCF51939874CFFD59F1811",
+  "orders_prev": "A83FE1B418C81EF25EED9A51FC99AA45F9D7AEF0",
+  "decisions_changed": true,
+  "orders_changed": true,
+  "decisions_delta_consumed": [
+    "D-20261010-01 回执核销批 26 (bigmoney F-20261009-04/05 核销 group-side = closure, zero BM action)",
+    "D-20261010-02 orders 长龄行专扫批切片二清单化收班 (group-side housekeeping, zero BM dispatch)",
+    "D-20261010-03 机队工作区审计 A 腿假 FAIL 根治采纳 (our F-20261009-05 呈报 adopted; fix landed group-side by bm-a, zero BM-repo action)"
+  ],
+  "orders_delta_consumed": "no new BigMoney dispatch rows: O-2150 bm-b onboarding already claimed r809; O-2340 P6 delivered bm-a r931; O-0025 LoRA = bm-c lane",
+  "dispatch_board_new_bm_rows": 0,
+  "ts": "2026-10-10T01:40:00+08:00"
+}
