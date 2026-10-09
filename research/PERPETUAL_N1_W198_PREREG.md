@@ -54,10 +54,18 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 112 行注册 + 本候选——以 probe leg0 机证为准）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W198 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied）。
+## §7 跑后实证。【finalize 收口机械回填·r917 one-pass 落地】
+- **finalize one-pass=r917 bm-a（14:42:47·audit.finalize_only=true·machine=bm-a·shards_consumed 12/12）**；六门预探针全绿=GREEN_FINALIZE_READY（13 腿 PASS·回执 results/_r917bma_w198_prefinalize_probe.json）。
+- **账本恒等式**：prev 847,745 + 2,200 = **849,945 EXACT 零偏离**（五连窗）；**合并池 K=433,520**（pre-W198 431,320 + 2,200·registry 运行时 derive）；**投影行诚实披露**：§0 投影文本写 433,540=算术笔误 +20（431,320+2,200=433,520·非 433,540）——prereg 自带「投影面仅披露·finalize 运行时按 registry 键 derive 免疫」条款护住·零结果影响·如实留痕不回改。
+- **mu 对照**：merged mu=**−0.092800**（pre-W198 累计 −0.092778）；**W198-only mu=−0.097125**（w197ext 锚 −0.0928 侧 mu_delta_w198_vs_w197ext=−0.01596）；**§5 键1**：|w-only − merged|=0.004325 **<0.02 PASS**。
+- **sigma**：merged **0.2450971** vs pre 0.2450943 → 相对变化 **+0.0012% <±10% PASS**（§5 键2）；**se_mu 收窄链**：W197 0.000373 → **W198 0.000372**（se_mu_at_k433520·链续）。
+- **A 档 full_sharpe_p95=0.3279** vs W197 A p95 0.3307 → Δ=0.0028 **<0.05 PASS**（§5 键3·A 档 n=2,000）。
+- **skill_line_v2 K-lift**：n_eff_held_equal=847,745·line_pre_w198 **1.1878** → line_merged_433520 **1.1878**·**delta +0.0000 ≤±0.02 PASS**（§5 键4·W197 键 1.1877@K431,320 → 847,745 位 1.1878）。
+- **§5 四预键=4/4 PASS**（1 mu Δ0.0043 / 2 sigma +0.0012% / 3 A p95 Δ0.0028 / 4 K-lift +0.0000）；**canon flip 态**=NOT performed（治理提锚面 only·K2200 同例·本波零 flip）；voids_applied=LOWAMP-P1/P2；evidence_cutoff=2026-09-22（顶层+science_gates.cutoff_meta 双写在册）。
 
-## §8 批后复盘。【finalize 同窗回填·待 W198 finalize 窗】
-- （占位·§5.5 W199+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填）。
+## §8 批后复盘。【finalize 同窗回填·r917】
+- **W199+ 投影承接（§5.5 兑现面·下波冻结方复核非转抄 r587 律）**：W198 注册宇宙已含本波 A 带 450_404..452_403+B 带 452_404..452_603 → **naive W199 A 窗 452_404..454_403 将被 W198 B 带（452_404..452_603）拒**（§5.5 预言兑现·A-hops-prior-B 阶梯继承**第五十九例**待 W199 注册宇宙 probe 复核）；W199 B 同窗互斥面 leg2 律同强制（derive 时预留 W199 A 窗）·W141 先例链续。verify at W199 prereg·hop 链逐跳在 probe 回执。
+- **宝藏/方法论捕获问**：本批**零新方法零新宝藏**——例波测量面·finalize one-pass 机械与 W196/W197 同律零改写（探针 verbatim-roll 复用面）→ METHODOLOGY_ASSETS 卡不 append·TREASURE_REGISTRY 出入记录零行（捕获律如实注记）。
+- **诚实披露面**：①§0 投影文本 433,540 算术笔误（实=433,520·registry derive 免疫条款护住·§7 已留痕）；②烧录-收口窗跨轮（r916 点火 14:11→r917 finalize 14:42·31min·引擎 tick 架构正常跨轮收口）；③S0 双 rebase 风暴窗（r916 遗留 in-flight + origin 新进 bm-c r805/806 两批）由 r917 会话全收口（共享面 25+7 活面 union/newest-ts/dict-union 正典律零丢失·push 自证 d4ea4b348）——与本波科学面零接触（prereg §0-§6 冻结面零触碰）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。

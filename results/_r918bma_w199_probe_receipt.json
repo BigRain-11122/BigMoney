@@ -1,0 +1,72 @@
+{
+ "probe": "r918 W199 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 196,
+   "tail": "W198",
+   "owner_rows": 188,
+   "bma_rows": 113,
+   "ordinal": 189,
+   "bma_ordinal": 114,
+   "w198_ledger_head": 849945,
+   "w197_status": "registered bm-a r915 dead-session five-face freeze 13:0x + engine self-burn 12/12 13:01..13:12 (first-attempt session died 13:13 pre-closeout; dead-estate absorbed same-round per r899 law); finalize LANDED r915 session one-pass (ledger 847,745 EXACT zero-deviation vs sec5 frozen projection fourth consecutive window, K=431,320 EXACT, four pred keys PASS)",
+   "w198_status": "registered bm-a r916 five-face freeze 14:0x + engine self-burn 12/12 14:11.. (r916 session landed prereg+freeze same window); finalize LANDED r917 session one-pass origin d4ea4b348 (ledger 847,745+2,200=849,945 EXACT zero-deviation vs sec5 frozen projection five-window consecutive streak, K=433,520 EXACT, four pred keys 4/4 PASS) -- chain head FULLY CLEAN five-window consecutive streak; W199 freeze-time anchor = W198 finalize actuals per r590, zero roll-forward"
+  },
+  "leg1": {
+   "ARITH_A": [
+    452404,
+    454403
+   ],
+   "ARITH_B": [
+    452604,
+    452803
+   ],
+   "A": [
+    452604,
+    454603
+   ],
+   "hops_A": 1,
+   "B": [
+    454604,
+    454803
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    452604,
+    452803
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      452604,
+      452803
+     ],
+     "jump_to": 454604
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W198 B band 452_404..452_603 (staircase A-hops-prior-B FIFTY-NINTH instance, E36 card; W198 prereg sec5.5 leg4 + W198 prereg sec8 succession note both fulfilled); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W200p_A": "454604..456603",
+   "hops_A": 0,
+   "W200p_B": "454804..455003",
+   "hops_B": 0,
+   "W200p_B_lands_inside_W200p_A": true,
+   "note": "W200+ naive projection on pre-W199 universe; the registered W199 B band will refuse the naive W200 A window once W199 is registered (W199-B-refuses-W200-A staircase anticipated, E36 card); W200 freezer MUST re-derive on the post-W199 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "452604_454603",
+  "B": "454604_454803"
+ }
+}
