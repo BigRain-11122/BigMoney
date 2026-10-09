@@ -47,6 +47,13 @@ RAM_GATE_PCT = 40.0
 VRAM_GATE_GB = 6.0
 DEDUPE_MIN = 8.0
 ROUND_WINDOW_MIN = 11.0  # 10-min cadence + skew
+# Zero-desktop-flash flag for every git subprocess (U060/2026-10-01 silence
+# law). r812 live-fire pit: this constant MUST exist at module level before
+# _git uses it -- a missing module global raises NameError inside _git's
+# except-Exception swallow and the whole work-detection leg dies SILENTLY
+# (rc=1, out='' looks like an empty repo answer). Keep it here, asserted
+# in selftest.
+CNW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 CLAIM_RE = re.compile(r'claimed@([A-Za-z0-9\-]+)@(\S+)')
 
@@ -307,7 +314,10 @@ def _git(args, timeout=20):
         p = subprocess.run(['git', '-C', PROJECT] + args, capture_output=True,
                            creationflags=CNW, timeout=timeout)
         return p.returncode, p.stdout.decode('utf-8', 'replace')
-    except Exception:
+    except Exception as exc:
+        # r812 pit fix: NEVER swallow silently -- surface the failure on
+        # stderr (carrier log captures 2>&1) so a dead leg is diagnosable.
+        sys.stderr.write('idle_trigger._git EXC %r on %r\n' % (exc, args[:2]))
         return 1, ''
 
 
@@ -460,6 +470,14 @@ def selftest():
         if got != want_sha:
             ok = False
         print('[%s] log-line %r -> sha=%s' % (flag, line[:24], sha))
+    # r812-fix regression guard: module-level CNW must be defined and match
+    # subprocess.CREATE_NO_WINDOW (missing global = NameError swallowed by
+    # _git's except = work-detection leg dies SILENTLY -- live-fired r812).
+    cnw_ok = (CNW == getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+    flag = 'PASS' if cnw_ok else 'FAIL'
+    if not cnw_ok:
+        ok = False
+    print('[%s] cnw-consistency CNW=%d' % (flag, CNW))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 
