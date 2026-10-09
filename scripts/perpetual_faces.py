@@ -5550,6 +5550,52 @@ N1_BANDS = {
     # NOT a re-pick (R250: W193 bands were never assigned).
     193: {"a": (439_404, 441_403), "b_exit": (441_404, 441_603),
          "engine_owner": "bm-a"},
+    # W194 (bm-a r905 freeze, seat MSG-2026-10-09-0627-bma-w194-seat
+    # pushed to origin 5cca13637 pre-freeze r565 law (r902 seat
+    # push; payload = seat MSG + pre-seat probe script + probe receipt
+    # (3-item; the W191 finalize product already on origin since r895,
+    # not re-shipped, W146 same-push precedent);
+    # deletion-set EMPTY; delivery window
+    # = direct fast-forward behind-0 at fetch (r902 seat push),
+    # zero merge, zero --no-verify; self-ack inbox->processed
+    # archive PENDING WITH THIS freeze window -- bm-a r905 freeze
+    # closeout archive move (the W194 seat MSG sits in
+    # fleet/inbox/ at freeze time, moves to processed/ with this
+    # window closeout, honest per frozen prereg sec.0);
+    # deletion-set EMPTY);
+    # band gate ADMIT results/_r902bma_w194_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W193 B band (arithmetic continuation
+    # 441_404..443_403 REFUSED at its own start by the W193 B band
+    # 441_404..441_603, exactly as the W193 prereg sec5.5 + bm-a r900 probe
+    # leg4 succession projection notes all anticipated;
+    # honest forward walk hops=1 -> 441_604..443_603, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (441_603+1) machine-checkable -- A-hops-prior-B staircase
+    # FIFTY-FOURTH instance, E36 card);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 441_604..441_803 CLEAN on the registered universe
+    # but lands INSIDE the W194 A band window -- same-freeze mutual
+    # exclusion (W141 precedent, leg2 law) -- the walk with the
+    # own-wave A window reserved jumps to 443_604 -> 443_604..443_803,
+    # hops=1, non-rotational r587 forward-monotone walk; B base ==
+    # own-wave A tail+1 (443_603+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # W195+ projection (gate-derived r902): A first-clean
+    # 443_604..445_603 CLEAN hops=0 / B first-clean 443_804..444_003
+    # CLEAN hops=0 -- naive B lands INSIDE the naive A window and the
+    # registered W194 B band 443_604..443_803 will refuse the naive
+    # W195 A window; W195 freezer MUST re-derive on the post-W194
+    # universe AND reserve the own-wave A window when deriving B
+    # (W141 precedent, same-freeze mutual exclusion, leg2 law,
+    # E36 staircase card; never transcribe r587).
+    # NOT a re-pick (R250: W194 bands were never assigned).
+    194: {"a": (441_604, 443_603), "b_exit": (443_604, 443_803),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
