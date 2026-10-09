@@ -1,0 +1,2189 @@
+{
+ "face": "minute_feed_verify",
+ "lane_machine": "bm-b",
+ "spec": "research/etf_ops/MINUTE_FEED.md v1.4 + tech T8",
+ "calendar_source": "data/daily/sh510300.csv",
+ "calendar_tail": "2026-10-09",
+ "session_grid_bars": 240,
+ "full_day_expected_bars": 238,
+ "source_absent_labels": [
+  "14:58",
+  "14:59"
+ ],
+ "source_absent_law": "SHSE closing call auction 14:57-15:00 suspends continuous matching (39/39 near-full days census r816): 14:58/14:59 never trade -- source shape, not data loss; disclosed per-day, never backfilled",
+ "symbols": {
+  "510050": {
+   "frozen_archive": false,
+   "rows_total": 2446,
+   "days_present": 11,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-30",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 9,
+   "days_with_intra_gaps": [
+    "2026-09-17"
+   ],
+   "intra_gap_detail": [
+    {
+     "day": "2026-09-17",
+     "bars": 237,
+     "coverage_pct": 99.58,
+     "missing_count": 1,
+     "missing_labels": [
+      "10:45"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ],
+   "missing_days": [
+    "2026-10-08",
+    "2026-10-09"
+   ],
+   "recoverability": {
+    "trading_days_behind": 2,
+    "missing_days_detail": [
+     {
+      "day": "2026-10-08",
+      "recoverable_est": true
+     },
+     {
+      "day": "2026-10-09",
+      "recoverable_est": true
+     }
+    ],
+    "all_missing_recoverable_est": true,
+    "est_window_bars": 2000,
+    "est_window_trading_days": 8.33,
+    "est_window_first_day": "2026-09-21",
+    "law": "estimate only -- sina rolling window ~2000 bars (spec sec.2); recovery happens on the next gated run while the window still covers the day; days outside the window are permanently lost, disclosed never fabricated"
+   },
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 67,
+     "coverage_pct": 28.15,
+     "missing_count": 171,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 237,
+     "coverage_pct": 99.58,
+     "missing_count": 1,
+     "missing_labels": [
+      "10:45"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-30",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "510300": {
+   "frozen_archive": false,
+   "rows_total": 2446,
+   "days_present": 11,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-30",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 10,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [
+    "2026-10-08",
+    "2026-10-09"
+   ],
+   "recoverability": {
+    "trading_days_behind": 2,
+    "missing_days_detail": [
+     {
+      "day": "2026-10-08",
+      "recoverable_est": true
+     },
+     {
+      "day": "2026-10-09",
+      "recoverable_est": true
+     }
+    ],
+    "all_missing_recoverable_est": true,
+    "est_window_bars": 2000,
+    "est_window_trading_days": 8.33,
+    "est_window_first_day": "2026-09-21",
+    "law": "estimate only -- sina rolling window ~2000 bars (spec sec.2); recovery happens on the next gated run while the window still covers the day; days outside the window are permanently lost, disclosed never fabricated"
+   },
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-30",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "510500": {
+   "frozen_archive": false,
+   "rows_total": 2446,
+   "days_present": 11,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-30",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 10,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [
+    "2026-10-08",
+    "2026-10-09"
+   ],
+   "recoverability": {
+    "trading_days_behind": 2,
+    "missing_days_detail": [
+     {
+      "day": "2026-10-08",
+      "recoverable_est": true
+     },
+     {
+      "day": "2026-10-09",
+      "recoverable_est": true
+     }
+    ],
+    "all_missing_recoverable_est": true,
+    "est_window_bars": 2000,
+    "est_window_trading_days": 8.33,
+    "est_window_first_day": "2026-09-21",
+    "law": "estimate only -- sina rolling window ~2000 bars (spec sec.2); recovery happens on the next gated run while the window still covers the day; days outside the window are permanently lost, disclosed never fabricated"
+   },
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-30",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "511010": {
+   "frozen_archive": true,
+   "rows_total": 1970,
+   "days_present": 9,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-28",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 0,
+   "days_with_intra_gaps": [
+    "2026-09-16",
+    "2026-09-17",
+    "2026-09-18",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-09-24",
+    "2026-09-28"
+   ],
+   "intra_gap_detail": [
+    {
+     "day": "2026-09-16",
+     "bars": 217,
+     "coverage_pct": 91.18,
+     "missing_count": 21,
+     "missing_labels": [
+      "10:48",
+      "10:49",
+      "10:50",
+      "10:55",
+      "10:56",
+      "10:58",
+      "10:59",
+      "13:15",
+      "13:27",
+      "13:29",
+      "13:35",
+      "13:36"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 222,
+     "coverage_pct": 93.28,
+     "missing_count": 16,
+     "missing_labels": [
+      "10:41",
+      "10:49",
+      "10:55",
+      "10:59",
+      "11:12",
+      "11:13",
+      "11:15",
+      "11:18",
+      "11:23",
+      "11:30",
+      "13:12",
+      "13:19"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 224,
+     "coverage_pct": 94.12,
+     "missing_count": 14,
+     "missing_labels": [
+      "10:41",
+      "10:56",
+      "10:59",
+      "11:00",
+      "11:03",
+      "11:19",
+      "11:22",
+      "11:27",
+      "11:28",
+      "13:04",
+      "13:08",
+      "13:10"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 222,
+     "coverage_pct": 93.28,
+     "missing_count": 16,
+     "missing_labels": [
+      "10:43",
+      "11:04",
+      "11:08",
+      "11:10",
+      "11:12",
+      "11:18",
+      "11:19",
+      "11:24",
+      "11:25",
+      "13:02",
+      "13:17",
+      "13:20"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 212,
+     "coverage_pct": 89.08,
+     "missing_count": 26,
+     "missing_labels": [
+      "10:43",
+      "11:10",
+      "11:23",
+      "11:24",
+      "11:27",
+      "11:29",
+      "13:05",
+      "13:11",
+      "13:13",
+      "13:19",
+      "13:20",
+      "13:21"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 232,
+     "coverage_pct": 97.48,
+     "missing_count": 6,
+     "missing_labels": [
+      "10:20",
+      "11:03",
+      "11:29",
+      "13:15",
+      "13:20",
+      "13:33"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 228,
+     "coverage_pct": 95.8,
+     "missing_count": 10,
+     "missing_labels": [
+      "10:05",
+      "10:47",
+      "11:04",
+      "11:10",
+      "11:17",
+      "11:23",
+      "11:26",
+      "13:17",
+      "13:39",
+      "13:56"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 235,
+     "coverage_pct": 98.74,
+     "missing_count": 3,
+     "missing_labels": [
+      "10:57",
+      "13:43",
+      "13:49"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ],
+   "missing_days": [],
+   "recoverability": null,
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 217,
+     "coverage_pct": 91.18,
+     "missing_count": 21,
+     "missing_labels": [
+      "10:48",
+      "10:49",
+      "10:50",
+      "10:55",
+      "10:56",
+      "10:58",
+      "10:59",
+      "13:15",
+      "13:27",
+      "13:29",
+      "13:35",
+      "13:36"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 222,
+     "coverage_pct": 93.28,
+     "missing_count": 16,
+     "missing_labels": [
+      "10:41",
+      "10:49",
+      "10:55",
+      "10:59",
+      "11:12",
+      "11:13",
+      "11:15",
+      "11:18",
+      "11:23",
+      "11:30",
+      "13:12",
+      "13:19"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 224,
+     "coverage_pct": 94.12,
+     "missing_count": 14,
+     "missing_labels": [
+      "10:41",
+      "10:56",
+      "10:59",
+      "11:00",
+      "11:03",
+      "11:19",
+      "11:22",
+      "11:27",
+      "11:28",
+      "13:04",
+      "13:08",
+      "13:10"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 222,
+     "coverage_pct": 93.28,
+     "missing_count": 16,
+     "missing_labels": [
+      "10:43",
+      "11:04",
+      "11:08",
+      "11:10",
+      "11:12",
+      "11:18",
+      "11:19",
+      "11:24",
+      "11:25",
+      "13:02",
+      "13:17",
+      "13:20"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 212,
+     "coverage_pct": 89.08,
+     "missing_count": 26,
+     "missing_labels": [
+      "10:43",
+      "11:10",
+      "11:23",
+      "11:24",
+      "11:27",
+      "11:29",
+      "13:05",
+      "13:11",
+      "13:13",
+      "13:19",
+      "13:20",
+      "13:21"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 232,
+     "coverage_pct": 97.48,
+     "missing_count": 6,
+     "missing_labels": [
+      "10:20",
+      "11:03",
+      "11:29",
+      "13:15",
+      "13:20",
+      "13:33"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 228,
+     "coverage_pct": 95.8,
+     "missing_count": 10,
+     "missing_labels": [
+      "10:05",
+      "10:47",
+      "11:04",
+      "11:10",
+      "11:17",
+      "11:23",
+      "11:26",
+      "13:17",
+      "13:39",
+      "13:56"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 235,
+     "coverage_pct": 98.74,
+     "missing_count": 3,
+     "missing_labels": [
+      "10:57",
+      "13:43",
+      "13:49"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "511880": {
+   "frozen_archive": true,
+   "rows_total": 1970,
+   "days_present": 9,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-28",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 8,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [],
+   "recoverability": null,
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "511990": {
+   "frozen_archive": true,
+   "rows_total": 1970,
+   "days_present": 9,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-28",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 8,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [],
+   "recoverability": null,
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "512100": {
+   "frozen_archive": false,
+   "rows_total": 2446,
+   "days_present": 11,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-30",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 10,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [
+    "2026-10-08",
+    "2026-10-09"
+   ],
+   "recoverability": {
+    "trading_days_behind": 2,
+    "missing_days_detail": [
+     {
+      "day": "2026-10-08",
+      "recoverable_est": true
+     },
+     {
+      "day": "2026-10-09",
+      "recoverable_est": true
+     }
+    ],
+    "all_missing_recoverable_est": true,
+    "est_window_bars": 2000,
+    "est_window_trading_days": 8.33,
+    "est_window_first_day": "2026-09-21",
+    "law": "estimate only -- sina rolling window ~2000 bars (spec sec.2); recovery happens on the next gated run while the window still covers the day; days outside the window are permanently lost, disclosed never fabricated"
+   },
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-30",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "513100": {
+   "frozen_archive": true,
+   "rows_total": 1970,
+   "days_present": 12,
+   "first_day": "2026-09-10",
+   "last_bar_day": "2026-09-28",
+   "window_start_day_partial": "2026-09-10",
+   "full_days": 0,
+   "days_with_intra_gaps": [
+    "2026-09-11",
+    "2026-09-14",
+    "2026-09-15",
+    "2026-09-16",
+    "2026-09-17",
+    "2026-09-18",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-09-24",
+    "2026-09-28"
+   ],
+   "intra_gap_detail": [
+    {
+     "day": "2026-09-11",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-14",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-15",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ],
+   "missing_days": [],
+   "recoverability": null,
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-10",
+     "bars": 12,
+     "coverage_pct": 5.04,
+     "missing_count": 226,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-11",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-14",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-15",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 178,
+     "coverage_pct": 74.79,
+     "missing_count": 60,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "518880": {
+   "frozen_archive": true,
+   "rows_total": 1970,
+   "days_present": 9,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-28",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 8,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [],
+   "recoverability": null,
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  },
+  "588000": {
+   "frozen_archive": false,
+   "rows_total": 2446,
+   "days_present": 11,
+   "first_day": "2026-09-15",
+   "last_bar_day": "2026-09-30",
+   "window_start_day_partial": "2026-09-15",
+   "full_days": 10,
+   "days_with_intra_gaps": [],
+   "intra_gap_detail": [],
+   "missing_days": [
+    "2026-10-08",
+    "2026-10-09"
+   ],
+   "recoverability": {
+    "trading_days_behind": 2,
+    "missing_days_detail": [
+     {
+      "day": "2026-10-08",
+      "recoverable_est": true
+     },
+     {
+      "day": "2026-10-09",
+      "recoverable_est": true
+     }
+    ],
+    "all_missing_recoverable_est": true,
+    "est_window_bars": 2000,
+    "est_window_trading_days": 8.33,
+    "est_window_first_day": "2026-09-21",
+    "law": "estimate only -- sina rolling window ~2000 bars (spec sec.2); recovery happens on the next gated run while the window still covers the day; days outside the window are permanently lost, disclosed never fabricated"
+   },
+   "duplicates": 0,
+   "sorted": true,
+   "day_coverage": [
+    {
+     "day": "2026-09-15",
+     "bars": 66,
+     "coverage_pct": 27.73,
+     "missing_count": 172,
+     "missing_labels": [
+      "09:31",
+      "09:32",
+      "09:33",
+      "09:34",
+      "09:35",
+      "09:36",
+      "09:37",
+      "09:38",
+      "09:39",
+      "09:40",
+      "09:41",
+      "09:42"
+     ],
+     "extra_labels": [],
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-16",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-17",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-18",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-21",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-22",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-23",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-24",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-28",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    },
+    {
+     "day": "2026-09-30",
+     "bars": 238,
+     "coverage_pct": 100.0,
+     "source_shape_absent": [
+      "14:58",
+      "14:59"
+     ]
+    }
+   ]
+  }
+ },
+ "summary": {
+  "active_codes": [
+   "510050",
+   "510300",
+   "510500",
+   "512100",
+   "588000"
+  ],
+  "frozen_codes": [
+   "511010",
+   "511880",
+   "511990",
+   "513100",
+   "518880"
+  ],
+  "missing_days_union": [
+   "2026-10-08",
+   "2026-10-09"
+  ],
+  "intra_gap_days_union": [
+   "2026-09-17"
+  ],
+  "quality_violations": [],
+  "verdict": "gaps_disclosed",
+  "verdict_law": "measurement face only -- gaps/holes are disclosed facts; no fabrication, no gating"
+ }
+}

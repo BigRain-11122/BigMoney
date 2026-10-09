@@ -45,6 +45,7 @@ including zero repairs), then write.
 Usage:
     python scripts/update_minute_feed.py             # gated run
     python scripts/update_minute_feed.py --force     # validation run
+    python scripts/update_minute_feed.py verify      # T8 completeness report
     python scripts/update_minute_feed.py selftest    # hermetic offline
 Exit codes: 0 = ok/no-op, 2 = source/mechanism failure (honest),
             3 = overlap mismatch (source rewrote history; local intact).
@@ -67,6 +68,23 @@ OPEN_GATE_T = dt.time(9, 15)
 ATTEMPTS = 3
 BACKOFF_S = (5, 10)
 PERIOD = "1"
+
+# T8 completeness-verifier faces (tech queue, read-only measurement):
+# v1.2/v1.3 narrowing left the five T+0 codes archived-on-disk frozen
+# (spec sec.3) -- no missing-day accounting past their last bar day.
+FROZEN_CODES = {"511010", "511880", "511990", "513100", "518880"}
+# spec sec.2: sina rolling window ~2000 bars (GM probe 2026-09-28: 1970).
+# Estimate only -- used to classify missing days recoverable vs lost.
+WINDOW_EST_BARS = 2000
+# Empirical source shape (r816 T8 census, 39/39 near-full days across all
+# codes): 14:58/14:59 labels NEVER appear -- SHSE closing call auction
+# 14:57-15:00 suspends continuous matching, auction result prints at
+# 15:00.  Full-day expected shape = 240 - 2 = 238 bars.  If the source
+# ever returns these labels they surface as coverage >100% + extra
+# disclosure, never a silent merge.
+SOURCE_ABSENT_LABELS = ("14:58", "14:59")
+CALENDAR_CSV = os.path.join(ROOT, "data", "daily", "sh510300.csv")
+VERIFY_JSON = os.path.join(ROOT, "results", "minute_feed_verify.json")
 
 # T-103 category map seed -- spec sec.3 v1.3 (O-20260928-1555 five-member
 # universe final verdict: tier-1 huijin-high-control {510050, 510300} +
@@ -363,6 +381,228 @@ def run(force: bool = False) -> int:
     return 0
 
 
+# --------------------------- T8 verify face ---------------------------------
+#
+# Completeness verifier (tech queue T8, bm-b r816): read-only gap /
+# coverage / forward-accumulation quality report over the archive.
+# Measurement face only -- gaps are disclosed facts, never fabricated or
+# backfilled (spec sec.2 gap law).  Deterministic: every field derives
+# from archive + local calendar bytes, zero wall-clock -> rerun on the
+# same archive is byte-identical.  Lane-guarded like the collector
+# (R31 precedent); other machines = stdout-only honest no-op.
+
+def _session_grid():
+    """Empirical full-day label grid: sina end-minute labels 09:31..11:30
+    (120) + 13:01..15:00 (120) = 240 bars (observed on full days,
+    e.g. 510300 @2026-09-16..09-30)."""
+    labels = []
+    for h, mlo, mhi in ((9, 31, 59), (10, 0, 59), (11, 0, 30),
+                        (13, 1, 59), (14, 0, 59), (15, 0, 0)):
+        for m in range(mlo, mhi + 1):
+            labels.append(f"{h:02d}:{m:02d}")
+    return labels
+
+
+def _calendar_days(path=CALENDAR_CSV):
+    """Local ETF trading-day calendar (frozen five-member panel, same
+    master source as update_etf_daily 15:30 completeness law)."""
+    if not os.path.exists(path):
+        return []
+    days = []
+    with open(path, encoding="utf-8-sig") as fh:
+        header = fh.readline().strip().split(",")
+        if not header or header[0].strip().lower() != "date":
+            return []
+        for line in fh:
+            line = line.strip()
+            if line:
+                days.append(line.split(",")[0].strip())
+    return days
+
+
+def _recoverability_face(last_bar_day, calendar_days):
+    """Classify missing days recoverable vs permanently lost: the sina
+    rolling window (~WINDOW_EST_BARS) is the only backfill channel, so a
+    missing day is recoverable_est while it still sits inside the
+    estimated window; older = lost (gap law: never fabricated)."""
+    grid_n = len(_session_grid())
+    est_days_total = WINDOW_EST_BARS / grid_n
+    win_days = int(est_days_total)
+    window_days = calendar_days[-(win_days + 1):] if calendar_days else []
+    window_first = window_days[0] if window_days else None
+    missing = [d for d in calendar_days if d > last_bar_day]
+    detail = [{"day": d,
+               "recoverable_est": bool(window_first and d >= window_first)}
+              for d in missing]
+    return {
+        "trading_days_behind": len(missing),
+        "missing_days_detail": detail,
+        "all_missing_recoverable_est":
+            all(x["recoverable_est"] for x in detail) if detail else True,
+        "est_window_bars": WINDOW_EST_BARS,
+        "est_window_trading_days": round(est_days_total, 2),
+        "est_window_first_day": window_first,
+        "law": "estimate only -- sina rolling window ~2000 bars (spec "
+               "sec.2); recovery happens on the next gated run while "
+               "the window still covers the day; days outside the "
+               "window are permanently lost, disclosed never fabricated",
+    }
+
+
+def _verify_symbol(rows, calendar_days, frozen=False):
+    """Pure per-symbol completeness/quality analysis of archive rows."""
+    if not rows:
+        return {"empty": True, "frozen_archive": frozen}
+    grid = _session_grid()
+    grid_set = set(grid)
+    shape_absent = set(SOURCE_ABSENT_LABELS)
+    expected_bars = len(grid) - len(shape_absent)
+    by_day = {}
+    for r in rows:
+        by_day.setdefault(r[0][:10], []).append(r[0][11:16])
+    day_keys = sorted(by_day)
+    first_day = day_keys[0]
+    day_coverage = []
+    days_with_intra_gaps = []
+    full_days = 0
+    for d in day_keys:
+        present = set(by_day[d])
+        missing_all = [g for g in grid if g not in present]
+        src_absent = [g for g in missing_all if g in shape_absent]
+        missing = [g for g in missing_all if g not in shape_absent]
+        extra = sorted(present - grid_set)
+        entry = {"day": d, "bars": len(by_day[d]),
+                 "coverage_pct": round(
+                     100.0 * len(present & grid_set) / expected_bars, 2)}
+        if missing or extra:
+            entry["missing_count"] = len(missing)
+            entry["missing_labels"] = missing[:12]
+            entry["extra_labels"] = extra[:12]
+        if src_absent:
+            entry["source_shape_absent"] = src_absent
+        if not missing and not extra:
+            full_days += 1
+        day_coverage.append(entry)
+        # first day = rolling-window start, partial by construction (law:
+        # forward accumulation began mid-window that day) -> not a gap.
+        if d != first_day and (missing or extra):
+            days_with_intra_gaps.append(entry)
+    last_bar_day = day_keys[-1]
+    if frozen:
+        # v1.2/v1.3 narrowing: archive frozen at its last day by design,
+        # no continuation expectation -> no missing-day accounting.
+        recover = None
+        missing_days = []
+    else:
+        present = set(day_keys)
+        tail = calendar_days[-1] if calendar_days else last_bar_day
+        missing_days = [d for d in calendar_days
+                        if first_day < d <= tail and d not in present]
+        recover = _recoverability_face(last_bar_day, calendar_days)
+    return {
+        "frozen_archive": frozen,
+        "rows_total": len(rows),
+        "days_present": len(day_keys),
+        "first_day": first_day,
+        "last_bar_day": last_bar_day,
+        "window_start_day_partial": first_day,
+        "full_days": full_days,
+        "days_with_intra_gaps": [c["day"] for c in days_with_intra_gaps],
+        "intra_gap_detail": days_with_intra_gaps[:20],
+        "missing_days": missing_days,
+        "recoverability": recover,
+        "duplicates": len(rows) - len({r[0] for r in rows}),
+        "sorted": rows == sorted(rows, key=lambda r: r[0]),
+        "day_coverage": day_coverage,
+    }
+
+
+def _write_report(payload, mid):
+    """Dual-face report write (D-03(1) convention, same as status)."""
+    for path in (VERIFY_JSON,
+                 os.path.join(ROOT, "results",
+                              f"minute_feed_verify.{mid}.json")):
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(payload, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
+        os.replace(tmp, path)
+
+
+def verify() -> int:
+    with open(MACHINE_JSON, encoding="utf-8") as fh:
+        mid = json.load(fh).get("machine_id", "")
+    if mid != LANE_OWNER:
+        print(f"update_minute_feed verify: lane guard (owner={LANE_OWNER},"
+              f" this={mid}) -- stdout-only honest no-op")
+        return 0
+    calendar = _calendar_days()
+    if not calendar:
+        print("update_minute_feed verify: calendar face missing "
+              f"({CALENDAR_CSV}) -- mechanism failure (exit 2)")
+        return 2
+    symbols = {}
+    for name in sorted(os.listdir(FEED_DIR)):
+        if not name.endswith(".csv"):
+            continue
+        code = name[:-4]
+        try:
+            rows = _read_local(os.path.join(FEED_DIR, name))
+        except Exception as exc:                               # noqa: BLE001
+            print(f"update_minute_feed verify: unreadable archive {name}"
+                  f" -- {exc} (exit 2)")
+            return 2
+        symbols[code] = _verify_symbol(rows, calendar,
+                                       frozen=code in FROZEN_CODES)
+    active = {c: v for c, v in symbols.items()
+              if not v.get("frozen_archive")}
+    frozen = {c: v for c, v in symbols.items() if v.get("frozen_archive")}
+    active_missing = sorted({d for v in active.values()
+                             for d in v.get("missing_days", [])})
+    active_intra = sorted({d for v in active.values()
+                           for d in v.get("days_with_intra_gaps", [])})
+    quality_bad = [c for c, v in symbols.items()
+                   if v.get("duplicates") or not v.get("sorted", True)]
+    payload = {
+        "face": "minute_feed_verify",
+        "lane_machine": mid,
+        "spec": "research/etf_ops/MINUTE_FEED.md v1.4 + tech T8",
+        "calendar_source": "data/daily/sh510300.csv",
+        "calendar_tail": calendar[-1],
+        "session_grid_bars": len(_session_grid()),
+        "full_day_expected_bars":
+            len(_session_grid()) - len(SOURCE_ABSENT_LABELS),
+        "source_absent_labels": list(SOURCE_ABSENT_LABELS),
+        "source_absent_law":
+            "SHSE closing call auction 14:57-15:00 suspends continuous "
+            "matching (39/39 near-full days census r816): 14:58/14:59 "
+            "never trade -- source shape, not data loss; disclosed "
+            "per-day, never backfilled",
+        "symbols": symbols,
+        "summary": {
+            "active_codes": sorted(active),
+            "frozen_codes": sorted(frozen),
+            "missing_days_union": active_missing,
+            "intra_gap_days_union": active_intra,
+            "quality_violations": quality_bad,
+            "verdict": "complete" if (not active_missing
+                                     and not active_intra
+                                     and not quality_bad)
+                       else "gaps_disclosed",
+            "verdict_law": "measurement face only -- gaps/holes are "
+                           "disclosed facts; no fabrication, no gating",
+        },
+    }
+    _write_report(payload, mid)
+    print(f"update_minute_feed verify: {len(symbols)} symbols, "
+          f"verdict={payload['summary']['verdict']}, "
+          f"missing_days={active_missing or 'none'}, "
+          f"trading_days_behind="
+          f"{(active.get(sorted(active)[0], {}).get('recoverability') or {}).get('trading_days_behind') if active else 0}"
+          f" -> results/minute_feed_verify.json")
+    return 0
+
+
 # ------------------------------ selftest ------------------------------------
 
 def selftest() -> int:
@@ -527,6 +767,105 @@ def selftest() -> int:
     check("gap false when window overlaps local max",
           not (fetch[0][0] > local[-1][0]))
 
+    # [6] T8 verify face: session grid / per-day coverage / missing days /
+    # recoverability / frozen accounting / quality flags
+    grid = _session_grid()
+    check("session grid 240 labels 09:31..15:00",
+          len(grid) == 240 and grid[0] == "09:31" and grid[-1] == "15:00"
+          and len(set(grid)) == 240 and "11:30" in grid and "13:01" in grid
+          and "11:31" not in grid and "13:00" not in grid)
+
+    def mkrow(day, label, close="1.00"):
+        return (f"{day} {label}:00", "1.0", "1.1", "0.9", close, "100",
+                "104")
+
+    # full day = session grid minus the closing-auction source shape
+    full_labels = [g for g in grid if g not in SOURCE_ABSENT_LABELS]
+    full_d1 = [mkrow("2026-10-08", g) for g in full_labels]
+    holed_d2 = ([mkrow("2026-10-09", g) for g in full_labels
+                 if g != "10:45"]
+                + [mkrow("2026-10-09", "12:00", "9.9")])  # lunch = extra
+    partial_first = [mkrow("2026-09-30", g) for g in full_labels[:66]]
+    cal = ["2026-09-30", "2026-10-08", "2026-10-09", "2026-10-10",
+           "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16",
+           "2026-10-17", "2026-10-20", "2026-10-21", "2026-10-22",
+           "2026-10-23", "2026-10-24", "2026-10-27"]
+    rows_a = partial_first + full_d1 + holed_d2
+    v = _verify_symbol(rows_a, cal)
+    check("verify full-day counts + window-start partial exempt",
+          v["days_present"] == 3 and v["full_days"] == 1
+          and v["window_start_day_partial"] == "2026-09-30"
+          and "2026-09-30" not in v["days_with_intra_gaps"])
+    gap_day = [c for c in v["day_coverage"]
+               if c["day"] == "2026-10-09"][0]
+    check("verify intra-day hole + extra labels detected",
+          gap_day["missing_count"] == 1
+          and gap_day["missing_labels"] == ["10:45"]
+          and gap_day["extra_labels"] == ["12:00"]
+          and gap_day["source_shape_absent"] == ["14:58", "14:59"]
+          and gap_day["coverage_pct"] == round(100.0 * 237 / 238, 2)
+          and v["days_with_intra_gaps"] == ["2026-10-09"])
+    full_entry = [c for c in v["day_coverage"]
+                  if c["day"] == "2026-10-08"][0]
+    check("verify source-shape day counts full (auction labels exempt)",
+          full_entry["coverage_pct"] == 100.0
+          and full_entry["source_shape_absent"] == ["14:58", "14:59"]
+          and "2026-10-08" not in v["days_with_intra_gaps"])
+    shape_only = _verify_symbol(
+        [mkrow("2026-10-08", g) for g in full_labels], cal)
+    check("verify day missing ONLY auction labels = not a gap",
+          shape_only["days_with_intra_gaps"] == []
+          and shape_only["full_days"] == 1)
+    over_full = _verify_symbol(
+        [mkrow("2026-10-08", g) for g in grid], cal)
+    check("verify all-240-labels day: coverage >100 disclosed honest",
+          over_full["day_coverage"][0]["coverage_pct"]
+          == round(100.0 * 240 / 238, 2)
+          and over_full["full_days"] == 1
+          and "source_shape_absent" not in over_full["day_coverage"][0])
+    check("verify missing days after last bar (calendar-ahead)",
+          v["missing_days"] == ["2026-10-10", "2026-10-13",
+                                "2026-10-14", "2026-10-15", "2026-10-16",
+                                "2026-10-17", "2026-10-20", "2026-10-21",
+                                "2026-10-22", "2026-10-23", "2026-10-24",
+                                "2026-10-27"]
+          and v["recoverability"]["trading_days_behind"] == 12)
+    rec = v["recoverability"]
+    rec_by_day = {x["day"]: x["recoverable_est"]
+                  for x in rec["missing_days_detail"]}
+    check("verify window recoverability split (est 8 trading days)",
+          rec["est_window_first_day"] == "2026-10-15"
+          and rec_by_day["2026-10-14"] is False
+          and rec_by_day["2026-10-15"] is True
+          and rec["all_missing_recoverable_est"] is False)
+    v2 = _verify_symbol(partial_first, cal, frozen=True)
+    check("verify frozen archive: no missing-day accounting",
+          v2["frozen_archive"] is True and v2["missing_days"] == []
+          and v2["recoverability"] is None)
+    dup_rows = full_d1 + [full_d1[-1]]
+    unsorted = [full_d1[1], full_d1[0]] + full_d1[2:]
+    check("verify dup + unsorted quality flags",
+          _verify_symbol(dup_rows, [])["duplicates"] == 1
+          and _verify_symbol(dup_rows, [])["sorted"] is True
+          and _verify_symbol(unsorted, [])["duplicates"] == 0
+          and _verify_symbol(unsorted, [])["sorted"] is False)
+    # recoverability when archive is current: zero behind, nothing missing
+    v3 = _verify_symbol(full_d1, ["2026-10-08"], )
+    check("verify current archive = zero behind",
+          v3["missing_days"] == []
+          and v3["recoverability"]["trading_days_behind"] == 0
+          and v3["recoverability"]["all_missing_recoverable_est"] is True)
+    # calendar reader: header + date column
+    cal_p = os.path.join(tmp, "cal.csv")
+    with open(cal_p, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("date,open\n2026-10-08,1.0\n2026-10-09,1.1\n")
+    check("calendar reader parses date column",
+          _calendar_days(cal_p) == ["2026-10-08", "2026-10-09"])
+    with open(cal_p, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("bad,header\n")
+    check("calendar reader rejects non-date header",
+          _calendar_days(cal_p) == [])
+
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
@@ -535,6 +874,8 @@ def main(argv):
     if len(argv) > 1 and argv[1] == "selftest":
         print("=== update_minute_feed selftest (hermetic, no network) ===")
         return selftest()
+    if len(argv) > 1 and argv[1] == "verify":
+        return verify()
     force = "--force" in argv
     return run(force=force)
 
