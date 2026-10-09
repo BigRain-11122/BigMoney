@@ -1,26 +1,26 @@
-r824 bm-c S6 chain run 2026-10-10T02:08:28+08:00 legs=41
+r824 bm-c S6 chain run 2026-10-10T03:09:17+08:00 legs=42
 
 ===== pool_dualrun_reconcile =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/pool_dualrun_reconcile.py run
-[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 418 entries, drift-free streak 7, cutoff 2026-10-09 06:28:49)
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 418 entries, drift-free streak 8, cutoff 2026-10-09 06:28:49)
 
 [rc=0]
 
 ===== compute_audit =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/compute_audit.py
-{"ts": "2026-10-10 02:08:37", "audit_version": "v2.4.2", "cpu_total_pct": 34.0, "py_cpu_pct": 0.5, "cores": 32, "py_procs": 8, "result_stale_min": 0.1, "fleet_open_tasks": 2, "pool_ready_count": 9, "pool_ready_unclaimed": 5, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 53, "span_min": 1122.0}, "supply_floor": {"ready": 9, "floor": 3, "breach": false}, "ignition_sla_breach_ids": ["TRIAL-LABOR-W17-SCREEN-SHARD-4", "TRIAL-LABOR-W17-SCREEN-SHARD-5", "TRIAL-LABOR-W17-SCREEN-SHARD-6", "TRIAL-LABOR-W17-SCREEN-SHARD-7", "TRIAL-LABOR-W17-JUDGE"], "supply_family_streak_min": 1692.4, "gpu": {"present": true, "util_pct": 1.0, "mem_used_mb": 2143.0, "compute_apps_count": 23, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 1, "core_seconds": 18.55, "wall_seconds": 60.2, "effective_cores": 0.31, "multicore_burn": 0, "single_core_burn": 1, "too_short_to_sample": 0, "readable": true}, "flags": ["supply_gap", "ignition_sla"], "verdict": "FLAG:supply_gap,ignition_sla"}
+{"ts": "2026-10-10 03:09:30", "audit_version": "v2.4.2", "cpu_total_pct": 66.0, "py_cpu_pct": 41.1, "cores": 32, "py_procs": 18, "result_stale_min": 0.4, "fleet_open_tasks": 1, "pool_ready_count": 9, "pool_ready_unclaimed": 5, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 56, "span_min": 1182.9}, "supply_floor": {"ready": 9, "floor": 3, "breach": false}, "ignition_sla_breach_ids": ["TRIAL-LABOR-W17-SCREEN-SHARD-4", "TRIAL-LABOR-W17-SCREEN-SHARD-5", "TRIAL-LABOR-W17-SCREEN-SHARD-6", "TRIAL-LABOR-W17-SCREEN-SHARD-7", "TRIAL-LABOR-W17-JUDGE"], "supply_family_streak_min": 1753.2, "gpu": {"present": true, "util_pct": 13.0, "mem_used_mb": 16093.0, "compute_apps_count": 23, "rogue_apps": ["c:\\users\\dasheng\\appdata\\local\\programs\\python\\python313\\python.exe"]}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 16, "core_seconds": 4515.25, "wall_seconds": 511.4, "effective_cores": 8.83, "multicore_burn": 12, "single_core_burn": 4, "too_short_to_sample": 0, "readable": true}, "flags": ["gpu_unauthorized", "supply_gap", "ignition_sla"], "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla"}
 
 [rc=0]
 
 ===== py_watermark =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/py_watermark.py probe
-{"ts": "2026-10-10 02:08:44", "epoch": 1791569318.0, "machine": "bm-c", "cpu_total_pct": 73.0, "cores": 32, "py_cpu_pct": 0.3, "py_procs": 8, "top_proc_cores": 0.1, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 2, "open_ticket_ids": ["T-2026-10-10-180", "T-2026-10-10-181"], "bandit_open": 0, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 41}
+{"ts": "2026-10-10 03:09:39", "epoch": 1791572972.0, "machine": "bm-c", "cpu_total_pct": 41.0, "cores": 32, "py_cpu_pct": 29.4, "py_procs": 17, "top_proc_cores": 8.62, "local_batch_running": true, "refresh_lock_lanes": [], "open_tickets": 1, "open_ticket_ids": ["T-2026-10-10-181"], "bandit_open": 0, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 42}
 
 [rc=0]
 
 ===== update_daily =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_daily.py
-=== Bigmoney daily update 2026-10-10 02:08:45 ===
+=== Bigmoney daily update 2026-10-10 03:09:42 ===
 core pool: 48 CSVs | today-bar guard: >= 15:30:00
 new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-09
 status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
@@ -38,20 +38,13 @@ regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
 
 ===== strategy_scorecard =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/strategy_scorecard.py
-lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 69min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-scorecard: 6 traders -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\scorecard_v1.json (S=2 A=4 B=0 C=0, best VOLATILITY-CE-01 87.0)
-  VOLATILITY-CE-01   S  total= 87.0  d1=86 d2=100 d3=76 d4=98 d5=51 d6=100 d7=100  veto=clean
-  DROUGHT-CE-01      S  total= 86.6  d1=86 d2=74 d3=100 d4=97 d5=62 d6=100 d7=100  veto=clean
-  COMPOSITE-CE-01    A  total= 77.5  d1=85 d2=80 d3=73 d4=78 d5=24 d6=100 d7=100  veto=clean
-  NEEDLE-DE-01       A  total= 77.2  d1=78 d2=57 d3=96 d4=85 d5=46 d6=100 d7=100  veto=clean
-  COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean
-  ENGULF-CE-01       A  total= 66.8  d1=83 d2=47 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean
-strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\strategy_scorecard.json (77.6s)
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (18min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== market_clock_call =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/market_clock_call.py run
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
 call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
 
 [rc=0]
@@ -59,9 +52,7 @@ call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-20
 ===== update_lhb =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_lhb.py
 cutoff=2026-09-30 quarter=2026Q3 today=2026-10-10
-fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-09
-  0%|          | 0/11 [00:00<?, ?it/s]  9%|▉         | 1/11 [00:00<00:01,  9.14it/s] 18%|█▊        | 2/11 [00:00<00:01,  6.96it/s] 27%|██▋       | 3/11 [00:00<00:01,  6.23it/s] 36%|███▋      | 4/11 [00:00<00:01,  4.90it/s] 45%|████▌     | 5/11 [00:00<00:01,  5.54it/s] 55%|█████▍    | 6/11 [00:01<00:00,  5.90it/s] 64%|██████▎   | 7/11 [00:01<00:00,  5.85it/s] 73%|███████▎  | 8/11 [00:01<00:00,  5.87it/s] 82%|████████▏ | 9/11 [00:01<00:00,  4.42it/s] 91%|█████████ | 10/11 [00:01<00:00,  5.00it/s]100%|██████████| 11/11 [00:02<00:00,  5.29it/s]                                               refetched quarter rows=5432 new_beyond_cutoff=0
-no events beyond cutoff yet - no-op
+no-op: <30min since last fetch attempt (min-interval guard)
 
 [rc=0]
 
@@ -121,18 +112,15 @@ no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
 
 ===== regime_thermo_build =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/regime_thermo_build.py
-Traceback (most recent call last):
-  File "K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\regime_thermo_build.py", line 43, in <module>
-    os.makedirs(OUT, exist_ok=True)
-    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-  File "<frozen os>", line 218, in makedirs
-  File "<frozen os>", line 218, in makedirs
-  File "<frozen os>", line 218, in makedirs
-  [Previous line repeated 3 more times]
-  File "<frozen os>", line 228, in makedirs
-PermissionError: [WinError 5] 拒绝访问。: 'C:\\Users\\sjs20'
+regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
 
-[rc=1]
+[rc=0]
+
+===== regime_gate_evidence =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/regime_gate_evidence.py run
+[regime_gate_evidence] no-op (content-hash match) cutoff=2026-09-22
+
+[rc=0]
 
 ===== rev_osc_signal_export =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/rev_osc_signal_export.py run
@@ -166,7 +154,7 @@ no-op: weekend (NAV publishes on trading days only)
 
 ===== update_fundamental =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_fundamental.py
-snapshot fresh (11.1h < 24h) -> skip
+snapshot fresh (12.1h < 24h) -> skip
 
 [rc=0]
 
@@ -188,65 +176,25 @@ no-op: fund statements lane owned by bm-a, not this machine (bm-c)
 
 ===== live_paper =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m live.paper
-lane_io single-writer guard: results/paper/* host=bm-a heartbeat stale 71min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-=== Bigmoney paper tracking 2026-10-10 02:10:28 ===
-regime_guard: ENFORCE active from 2026-10-01 (window masked exec days: blocked=0, yellow=2)
-universe: 48 ETFs, data through 2026-10-09
-forward_guard: t14_rules_fidelity.build_guard wired (board-seal up=24 dn=42 susp=10)
-forward_guard: +T-19 consolidation mask (events=21 in-universe=21 blocked-days=21 skipped-non-panel=0)
-regime: major_bear=False cap=0.8 (close<MA250=True, dd=-0.1387)
-regime_guard: enforce active_from=2026-10-01 active=True
-COMPOSITE-CE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=-0.0029 | x2: insufficient_data | x2 watch: ok | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\COMPOSITE-CE-01_paper.json
-COMPOSITE-CE-02: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=-0.0047 | x2: insufficient_data | x2 watch: probation margin 0.0491 [PROBATION] | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\COMPOSITE-CE-02_paper.json
-DROUGHT-CE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\DROUGHT-CE-01_paper.json
-ENGULF-CE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: probation margin 0.0143 [PROBATION] | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\ENGULF-CE-01_paper.json
-NEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\NEEDLE-DE-01_paper.json
-VOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=-0.0049 | x2: insufficient_data | x2 watch: ok | saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\VOLATILITY-CE-01_paper.json
-paper tracking: OK
+lane_io single-writer guard: results/paper/* host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== t35_open_fill_verify =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t35_open_fill_verify.py
-lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat stale 71min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-open_fill_verify day=2026-10-09: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\t35_open_fill_verify.json
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== t24_prospect_paper =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t24_prospect_paper.py run
-lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat stale 71min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42)
-prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-10-09
+lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== t24_prospect_promotion =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t24_prospect_promotion.py run
-lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat stale 71min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-PROS-ANTS-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-ANTS-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-BBS-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-BBS-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-DOJI-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-DOJI-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-DUCK-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-DUCK-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-HAM-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-HAM-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-IBB-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-IBB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-IMM-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-IMM-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-MCB-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-MCB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-OVB-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-OVB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-RSRS-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-TMU-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-PROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)
-promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (19min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
@@ -282,16 +230,13 @@ system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
 
 ===== t35_paper_export =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t35_paper_export.py run
-lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 72min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-export 2026-10-09: traders=6 positions=18 equity=6000311 ops(entry/exit)=0/0 source=2026-10-08
--> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper_export\export-2026-10-09.json + latest.json
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (20min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== daily_scorecard =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/daily_scorecard.py
-lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 72min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-scorecard written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (20min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
@@ -309,18 +254,16 @@ ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-
 
 ===== build_status =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m monitor.build_status
-lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 72min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
-dashboard status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\dashboard_status.js
-  factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (20min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
 
 [rc=0]
 
 ===== token_meter =====
 $ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/token_meter.py
 saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
-per-round fixed context ~ 13953 + 8813 tokens (rough); ledger cumulative ~ 2049 state + 1853300 report tokens; delta=0
-L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2870 across 80 sigs
+per-round fixed context ~ 13953 + 8813 tokens (rough); ledger cumulative ~ 2049 state + 1854738 report tokens; delta=0
+L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2874 across 81 sigs
 
 [rc=0]
 
-DONE 2026-10-10T02:11:34+08:00
+DONE 2026-10-10T03:12:03+08:00

@@ -1,21 +1,22 @@
-"""r824 bm-c S6 chain driver: standing-leg canon, full log to
+"""r824 bm-c S6 chain driver: standing-leg canon + NEW regime_gate_evidence leg
+(T-180 dual-arm evidence face, welded after regime_thermo_build so the emotion
+arm is fresh when the evidence face aggregates). Full log to
 results/_r824bmc_s6_log.txt, compact per-leg rc summary to stdout.
 Leg count derived at runtime (honest count, never hand-typed).
-Clone credit: Tools/_r820bmc_s6.py (r820 canonical chain; r818 40-leg
-canon origin). MUST run under the SYSTEM python (Python313):
-sys.executable is inherited by every leg and the embedded ComfyUI
-python has no pandas/akshare (r516 first attempt = 18 import-crash
-reds). Every leg subprocess passes CREATE_NO_WINDOW
-(zero-desktop-flash defense-in-depth; U060/2026-10-01 silence law --
-safe in ANY host context).
-r824 watch-faces: weekend 02:1x run (r823 chain DONE 01:35:59 41 legs rc0 absorbed) -- market-data legs expected honest
-no-op (no new bar; 10-09 Friday bar face already held by r933 bm-a
-chain on origin); jman LoRA weight taildrop receive IN FLIGHT
-(tailscale file get detached, O-20261010-0025 CEO critical path) -- no
-S6 leg touches the GPU/training lane; RAM freed face (llama-server
-stopped r821); W17 faces-grammar fix (r820) in effect; update_options
-leg = standing honest no-op exit 0 per O-20261009-1105; bm-a/bm-b-owned
-lanes honest no-op on this machine per R31 lane guards."""
+Clone credit: Tools/_r823bmc_s6.py (r823 canonical chain with thermo leg; r820
+canon origin; r818 40-leg origin). MUST run under the SYSTEM python
+(Python313): sys.executable is inherited by every leg and the embedded
+ComfyUI python has no pandas/akshare (r516 first attempt = 18 import-crash
+reds). Every leg subprocess passes CREATE_NO_WINDOW (zero-desktop-flash
+defense-in-depth; U060/2026-10-01 silence law -- safe in ANY host context).
+r824 watch-faces: weekend 03:xx run -- market-data legs expected honest no-op
+(no new bar; 10-09 Friday bar face held on origin); jman LoRA TRAINING IN
+FLIGHT on the GPU lane (relaunched r824 after lora_krea2 module-path fix,
+16 epochs ~4096 steps) -- no S6 leg touches the GPU/training lane;
+RAM freed face (ComfyUI stopped r824, restart = post-training recovery
+debt); W17 faces-grammar fix (r820) in effect; update_options leg =
+standing honest no-op exit 0 per O-20261009-1105; bm-a/bm-b-owned lanes
+honest no-op on this machine per R31 lane guards."""
 
 import datetime
 import os
@@ -46,6 +47,7 @@ LEGS = [
     ("update_astock_daily", [PY, "scripts/update_astock_daily.py"]),
     ("update_etf_daily", [PY, "scripts/update_etf_daily.py"]),
     ("regime_thermo_build", [PY, "scripts/regime_thermo_build.py"]),
+    ("regime_gate_evidence", [PY, "scripts/regime_gate_evidence.py", "run"]),
     ("rev_osc_signal_export", [PY, "scripts/rev_osc_signal_export.py", "run"]),
     ("update_minute_feed", [PY, "scripts/update_minute_feed.py"]),
     ("update_ths_panel", [PY, "scripts/update_ths_panel.py"]),
