@@ -100,3 +100,15 @@
     - mode=='enforce'（未来·须校准过门+GM 批+法文件修订三前置）：橙/红日 paper 窗口新开仓须为零——**该腿在 enforce 接线（独立署名单）落地前不实现**，届时=新预注册追加判据；审计器在 mode=='enforce' 且接线缺失时报 `enforce_response_check:not_wired` 诚实注记。
   - state 件不存在（探测从未跑过）→ `MISSING`（诚实基线，非违规）。
 - 节律：随月度审计常跑（检六并入五检后的六检制）；发现项永不阻断、CEO 仅收通知（O-2205 口径不变）。
+
+## §10 检七：水位键覆盖率探针（D-19 消费面机队覆盖 · 2026-10-09 追加冻结 · 跑前写死）
+
+> 权威链：D-20260930-19 内容寻址律（DEC=SHA-256·ORD=SHA-1 ALGORITHM PIN r537）+ D-20261004-02③ 实径 fallback + tech 队列 T5（state/queue/tech.md）。本节=检七判据冻结，先于检七首场实跑；§8 变更协议同等适用。既有六检判据零改动。
+
+- 宇宙（数据驱动枚举）：仓根机器态面 `state-bm-*.json` 全部 + `state.json`（bm-b S5 沿用名）。
+- 冻结判据（裁定词汇 = OK / UNCOVERED / INCONSISTENT / LAG / STALE；发现只报不阻断）：
+  - (a) **键在场**：`last_decisions_sha` / `last_orders_sha` 双键；缺任一 → `UNCOVERED`（诚实发现：该机水位消费步未接线或态面缺失）。
+  - (b) **形状类**：DEC 键 = 64-hex（SHA-256 全值·正典形）或 40-hex（短形·机队历史惯例·前缀比较可容）；ORD 键 = 40-hex（SHA-1）；非 hex 或长度越界（DEC ∉ {40,64} / ORD ≠ 40）→ `INCONSISTENT`。
+  - (c) **机队一致性**：跨机归一比较（同长=全值比较〔大小写不敏感〕；40↔64=短形前缀比较）→ 归一后去重组数 >1 → `LAG`（某机消费水位落后或哈希基座异构=如实披露不定罪；逐机值+读取时间戳列出，裁定归轮会话 S0.5 消费步）。
+  - (d) **新鲜度**：`last_decisions_read_at`（缺则 `last_decisions_at` 兜底）距今 > 7 天 → `STALE`；时间键全缺 → `UNDATED` 注记（非发现）。
+- 节律：随月度审计常跑（七检制）；发现项永不阻断（O-2205 口径）。

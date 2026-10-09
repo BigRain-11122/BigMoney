@@ -11,13 +11,16 @@ not), 1 = auditor itself broken (exception / self-consistency red).
 Five checks + C6 (registry design — new checks are appended via their own
 prereg section; C6 = REGIME_GUARD monthly integrity check, criteria frozen in
 research/SCIENCE_AUDIT_PREREG.md s9 BEFORE its first run, authority
-REGIME_GUARD.md s4 + T-2026-09-23-05-P1 deliverable (5)):
+REGIME_GUARD.md s4 + T-2026-09-23-05-P1 deliverable (5); C7 = watermark-key
+coverage probe, criteria frozen in research/SCIENCE_AUDIT_PREREG.md s10
+BEFORE its first run, authority D-20260930-19 + tech queue T5):
   C1  null mu/sigma recompute          (rolling drift vs previous snapshot)
   C2  lockbox violation scan           (trials-ledger batch cutoff metadata)
   C3  registered-trader DSR recheck     (recomputed from stored g25 stats at current head)
   C4  gate attrition ledger summary     (results/gate_attrition.json presence/summary)
   C5  skill_line_v2 recompute           (current standing line + drift + formula gate)
   C6  regime-guard integrity            (threshold fingerprint / state continuity / response consistency)
+  C7  watermark-key coverage            (DEC/ORD sha presence / shape / agreement / recency)
 
 Usage:
   python scripts/science_audit.py selftest   # offline synthetic, zero network, zero writes
@@ -64,6 +67,13 @@ C5_LINE_DRIFT_K = 0.05
 C6_EXPECTED_FP = "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601"
 C6_STATES = ("GREEN", "YELLOW", "ORANGE", "RED")
 C6_PRIORITY = ("VIOLATION", "INCONSISTENT", "DRIFT", "GAP", "STALE")
+# --- C7 frozen criteria (SCIENCE_AUDIT_PREREG s10; frozen before first C7 run) ---
+C7_STATE_GLOBS = ("state-bm-*.json", "state.json")   # state.json = bm-b S5 legacy name
+C7_DEC_KEY = "last_decisions_sha"
+C7_ORD_KEY = "last_orders_sha"
+C7_READ_AT_KEYS = ("last_decisions_read_at", "last_decisions_at")
+C7_STALE_DAYS = 7.0
+C7_PRIORITY = ("UNCOVERED", "INCONSISTENT", "LAG", "STALE")
 
 
 def _load(path: str):
@@ -442,6 +452,152 @@ def _exit_code(c5_verdict: str, auditor_error: bool = False) -> int:
     return 1 if (auditor_error or c5_verdict == "SELFCONSISTENCY_RED") else 0
 
 
+# ---------------------------------------------------------------- C7 watermark-key coverage
+
+def _is_hex(s: str) -> bool:
+    return bool(s) and all(c in "0123456789abcdefABCDEF" for c in s)
+
+
+def _parse_iso(v: str):
+    import datetime
+    try:
+        s = str(v).strip()
+        if s.endswith("Z"):
+            s = s[:-1] + "+00:00"
+        dt = datetime.datetime.fromisoformat(s)
+        return dt if dt.tzinfo is not None else dt.astimezone()
+    except (ValueError, TypeError):
+        return None
+
+
+def _machine_label(base: str) -> str:
+    low = base.lower()
+    if low.startswith("state-"):
+        stem = base[:-5] if low.endswith(".json") else base
+        return stem[len("state-"):]
+    return "bm-b(state.json)"
+
+
+def _wm_value_groups(vals: list) -> list:
+    """Prefix-match equivalence grouping (prereg s10(c)): same-length values
+    compare full (case-insensitive); 40<->64-hex compare as short-form prefix."""
+    groups = []
+    for m, v, ts in vals:
+        placed = False
+        for g in groups:
+            gv = g["rep"]
+            if v == gv or (len(v) > len(gv) and v.startswith(gv)) \
+                    or (len(gv) > len(v) and gv.startswith(v)):
+                g["members"].append({"machine": m, "value": v, "read_at": ts})
+                if len(v) > len(gv):
+                    g["rep"] = v
+                placed = True
+                break
+        if not placed:
+            groups.append({"rep": v,
+                           "members": [{"machine": m, "value": v, "read_at": ts}]})
+    return groups
+
+
+def check_watermark_coverage(root_dir: str | None = None) -> dict:
+    """SCIENCE_AUDIT_PREREG s10 (criteria FROZEN before first C7 run).
+    Watermark-key coverage probe over fleet machine state faces:
+    (a) key presence, (b) shape class, (c) cross-machine agreement,
+    (d) recency. Read-only, zero network, findings never block."""
+    import datetime
+    root = _ROOT if root_dir is None else root_dir
+    out = {"check": "C7_watermark_key_coverage", "flags": {}, "findings": [],
+           "machines": []}
+    findings = out["findings"]
+    paths, seen = [], set()
+    for pat in C7_STATE_GLOBS:
+        for p in sorted(glob.glob(os.path.join(root, pat))):
+            low = os.path.basename(p).lower()
+            if low not in seen:
+                seen.add(low)
+                paths.append(p)
+    out["n_state_files"] = len(paths)
+    dec_vals, ord_vals = [], []
+    for p in paths:
+        base = os.path.basename(p)
+        m = _machine_label(base)
+        d = _load(p)
+        if d is None:
+            findings.append({"kind": "UNCOVERED",
+                             "detail": f"{base}: unreadable state face"})
+            out["machines"].append({"file": base, "machine": m,
+                                    "status": "UNREADABLE"})
+            continue
+        dec = str(d.get(C7_DEC_KEY, "") or "")
+        ordv = str(d.get(C7_ORD_KEY, "") or "")
+        rec = {"file": base, "machine": m, "flags": []}
+        if not dec:
+            findings.append({"kind": "UNCOVERED",
+                             "detail": f"{m}: {C7_DEC_KEY} absent"})
+            rec["flags"].append("dec_key_absent")
+        if not ordv:
+            findings.append({"kind": "UNCOVERED",
+                             "detail": f"{m}: {C7_ORD_KEY} absent"})
+            rec["flags"].append("ord_key_absent")
+        dec_ok = bool(dec) and _is_hex(dec) and len(dec) in (40, 64)
+        ord_ok = bool(ordv) and _is_hex(ordv) and len(ordv) == 40
+        rec["dec_shape"] = ("full64" if len(dec) == 64 else
+                            "short40" if len(dec) == 40 else "bad") if dec else None
+        rec["ord_shape"] = ("ok40" if ord_ok else "bad") if ordv else None
+        if dec and not dec_ok:
+            findings.append({"kind": "INCONSISTENT",
+                             "detail": f"{m}: dec sha malformed shape (len={len(dec)})"})
+            rec["flags"].append("dec_shape_bad")
+        if ordv and not ord_ok:
+            findings.append({"kind": "INCONSISTENT",
+                             "detail": f"{m}: ord sha malformed shape (len={len(ordv)})"})
+            rec["flags"].append("ord_shape_bad")
+        # (d) recency
+        ts = None
+        for k in C7_READ_AT_KEYS:
+            v = str(d.get(k, "") or "")
+            if v:
+                rec["dec_read_at"] = v
+                rec["dec_read_key"] = k
+                ts = _parse_iso(v)
+                break
+        if ts is None:
+            rec["flags"].append("dec_read_undated")
+            out["flags"][f"{m}_undated"] = True
+        else:
+            age = (datetime.datetime.now().astimezone() - ts).total_seconds() / 86400.0
+            rec["dec_read_age_days"] = round(age, 2)
+            if age > C7_STALE_DAYS:
+                findings.append({"kind": "STALE",
+                                 "detail": f"{m}: dec watermark read "
+                                           f"{rec['dec_read_at']} age "
+                                           f"{rec['dec_read_age_days']}d > "
+                                           f"{C7_STALE_DAYS}d"})
+                rec["flags"].append("dec_read_stale")
+        if dec_ok:
+            dec_vals.append((m, dec.lower(), rec.get("dec_read_at")))
+        if ord_ok:
+            ord_vals.append((m, ordv.lower(), rec.get("dec_read_at")))
+        rec["dec_sha16"] = dec[:16] + ("…" if len(dec) > 16 else "")
+        rec["ord_sha16"] = ordv[:16] + ("…" if len(ordv) > 16 else "")
+        out["machines"].append(rec)
+    # (c) cross-machine agreement
+    for label, vals in (("dec", dec_vals), ("ord", ord_vals)):
+        groups = _wm_value_groups(vals)
+        out[f"{label}_n_groups"] = len(groups)
+        if len(groups) > 1:
+            det = "; ".join(
+                f"{mem['machine']}={mem['value'][:16]}@{mem['read_at'] or 'undated'}"
+                for g in groups for mem in g["members"])
+            findings.append({"kind": "LAG",
+                             "detail": f"{label} watermark: {len(groups)} distinct "
+                                       f"normalized values across machines ({det})"})
+    out["verdict"] = "OK" if not findings else next(
+        (k for k in C7_PRIORITY
+         if any(f["kind"] == k for f in findings)), "FINDINGS")
+    return out
+
+
 # ---------------------------------------------------------------- run / rolling ledger
 
 def _prev_snapshot() -> tuple[dict | None, dict | None, str | None]:
@@ -467,22 +623,24 @@ def run() -> int:
     c4 = check_attrition()
     c5 = check_skill_line(line_prev)
     c6 = check_regime_guard()
+    c7 = check_watermark_coverage()
 
     payload = {
         "module": "scripts/science_audit.py",
-        "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
+        "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run; s10 = C7 frozen before its first run)",
         "generated": _now(),
         "ledger_head": head,
         "previous_snapshot_source": prev_src,
-        "checks": [c1, c2, c3, c4, c5, c6],
+        "checks": [c1, c2, c3, c4, c5, c6, c7],
         "summary": {
             "c1_null": c1["verdict"], "c2_lockbox": c2["verdict"], "c3_traders": c3["verdict"],
             "c4_attrition": c4["verdict"], "c5_line": c5["verdict"],
-            "c6_regime": c6["verdict"],
+            "c6_regime": c6["verdict"], "c7_watermark": c7["verdict"],
             "n_findings": len(c2["violations"]) + c3["n_stale"] + c3["n_warn"]
                            + (1 if c4["verdict"] == "MISSING" else 0)
                            + sum(1 for v in c5["flags"].values() if v)
-                           + len(c6["findings"]),
+                           + len(c6["findings"])
+                           + len(c7["findings"]),
         },
         "discipline": "findings never block any lane; CEO notification zero-action (O-2205)",
     }
@@ -666,6 +824,66 @@ def selftest() -> int:
         os.remove(os.path.join(tmp, "regime_state.json"))
         c6 = check_regime_guard()
         ok("C6 absent state file -> MISSING", c6["verdict"] == "MISSING")
+
+        # --- C7 watermark-key coverage (prereg s10; synthetic state faces on
+        #     a temp ROOT dir — real repo faces untouched)
+        import datetime as _dt
+        wm_tmp = tempfile.mkdtemp(prefix="c7_st_")
+        full64 = "A" * 64
+        short40 = "a" * 40            # lowercase prefix of full64 (case-insensitive)
+        _now_iso = _dt.datetime.now().astimezone().isoformat(timespec="seconds")
+
+        def st_w(name, dec=full64, ordv="B" * 40, read_at=_now_iso):
+            with open(os.path.join(wm_tmp, name), "w", encoding="utf-8") as fh:
+                json.dump({C7_DEC_KEY: dec, C7_ORD_KEY: ordv,
+                           C7_READ_AT_KEYS[0]: read_at}, fh)
+
+        st_w("state-bm-a.json")
+        st_w("state-bm-c.json", dec=short40.upper())      # same watermark, short form
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 OK path: prefix-match short form = same watermark, zero findings",
+           c7["verdict"] == "OK" and c7["n_state_files"] == 2
+           and c7["dec_n_groups"] == 1 and c7["ord_n_groups"] == 1)
+        st_w("state.json", dec="C" * 40)                  # genuinely different dec value
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 distinct dec value across machines -> LAG",
+           c7["verdict"] == "LAG" and c7["dec_n_groups"] == 2
+           and any(f["kind"] == "LAG" for f in c7["findings"]))
+        st_w("state-bm-x.json", dec="not-hex-!!")
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 non-hex dec value -> INCONSISTENT",
+           c7["verdict"] == "INCONSISTENT"
+           and any(f["kind"] == "INCONSISTENT" for f in c7["findings"]))
+        st_w("state-bm-y.json", ordv="B" * 64)            # ORD must be 40-hex (SHA-1)
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 ORD sha length != 40 -> INCONSISTENT",
+           any("ord sha malformed" in f["detail"] for f in c7["findings"]))
+        with open(os.path.join(wm_tmp, "state-bm-z.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"unrelated": 1}, fh)
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 missing both keys -> UNCOVERED",
+           c7["verdict"] == "UNCOVERED"
+           and any(f["kind"] == "UNCOVERED" for f in c7["findings"]))
+        stale_iso = (_dt.datetime.now().astimezone()
+                     - _dt.timedelta(days=9)).isoformat(timespec="seconds")
+        st_w("state-bm-stale.json", read_at=stale_iso)
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        ok("C7 dec watermark read age > 7d -> STALE",
+           any(f["kind"] == "STALE" for f in c7["findings"]))
+        with open(os.path.join(wm_tmp, "state-bm-undated.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({C7_DEC_KEY: full64, C7_ORD_KEY: "B" * 40}, fh)
+        c7 = check_watermark_coverage(root_dir=wm_tmp)
+        undated = [m for m in c7["machines"] if m["machine"] == "bm-undated"]
+        ok("C7 missing read-at keys -> UNDATED note flag, not a finding",
+           undated and "dec_read_undated" in undated[0]["flags"]
+           and not any("undated" in str(f.get("kind", "")).lower()
+                       for f in c7["findings"]))
+        c7 = check_watermark_coverage(root_dir=os.path.join(tmp, "no_such_dir"))
+        ok("C7 empty universe -> honest zero-face report (n_state_files=0)",
+           c7["n_state_files"] == 0 and c7["verdict"] == "OK")
+        shutil.rmtree(wm_tmp, ignore_errors=True)
 
         # --- run() exit rule: only C5 hard-red exits 1; findings exit 0
         ok("run exit rule: only SELFCONSISTENCY_RED (or auditor fault) exits 1; findings exit 0",

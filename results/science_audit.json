@@ -7718,16 +7718,478 @@
     "c6_regime": "VIOLATION",
     "n_findings": 36
    }
+  },
+  {
+   "generated": "2026-10-09 17:03:57",
+   "ledger_head": {
+    "total": 852145,
+    "file": "n1_w199_results.json",
+    "note": "perpetual N1 nulls-deepening wave 199 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+    "voided": [
+     {
+      "batch": "LOWAMP-P1",
+      "voided_trials": 2008
+     },
+     {
+      "batch": "LOWAMP-P2",
+      "voided_trials": 2008
+     }
+    ]
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.09124,
+    "sigma": 0.236831
+   },
+   "skill_line": {
+    "line": 1.1464,
+    "n_eff": 852145
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.09124,
+     "sigma": 0.236831,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.09124,
+      "sigma_prev": 0.236831,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-10-08",
+     "n_ledger_files": 67,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 41,
+     "violations": [
+      {
+       "file": "_r670bma_verdict_numbers.json",
+       "cutoff": null,
+       "key": null,
+       "status": "VIOLATION",
+       "reason": "post-v2 batch missing cutoff metadata (unverifiable lockbox read)"
+      },
+      {
+       "file": "decision_chain_e2e.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "decision_chain_v2.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "decision_chain_v3_tournament.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "prospect_regime_segments.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "t22_virtual_timepoints.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "t34_early_signal_verdict.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      }
+     ],
+     "verdict": "VIOLATIONS"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 28,
+     "n_stale": 22,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.001226,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.003022,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.000725,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.000353,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.001329,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "PROS-ANTS-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-ANTS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-BBS-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-BBS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DOJI-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DOJI-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DUCK-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DUCK-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-HAM-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-HAM-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IBB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IBB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IMM-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IMM-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-MCB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-MCB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-OVB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-OVB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-RSRS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-TMU-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-TMU-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-VOB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 852145,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.045021,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "STALE"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "PRESENT",
+     "n_entries": 106,
+     "keys": [
+      "created",
+      "entries",
+      "history",
+      "purpose",
+      "schema"
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 1.1464,
+     "n_eff": 852145,
+     "passive_term": 0.4792,
+     "null_term": 1.1464,
+     "ledger_head": {
+      "total": 852145,
+      "file": "n1_w199_results.json",
+      "note": "perpetual N1 nulls-deepening wave 199 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+      "voided": [
+       {
+        "batch": "LOWAMP-P1",
+        "voided_trials": 2008
+       },
+       {
+        "batch": "LOWAMP-P2",
+        "voided_trials": 2008
+       }
+      ]
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 1.134,
+     "flags": {
+      "line_drift_flag": false
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C6_regime_guard_integrity",
+     "flags": {
+      "paper_block_absent_everywhere": false
+     },
+     "findings": [
+      {
+       "kind": "VIOLATION",
+       "detail": "COMPOSITE-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "COMPOSITE-CE-02_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "DROUGHT-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "ENGULF-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "NEEDLE-DE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "VOLATILITY-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      }
+     ],
+     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "fp_matches_prereg": true,
+     "n_history": 2,
+     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "state_mode": "shadow",
+     "paper_files": 6,
+     "paper_with_block": 6,
+     "verdict": "VIOLATION"
+    },
+    {
+     "check": "C7_watermark_key_coverage",
+     "flags": {},
+     "findings": [
+      {
+       "kind": "INCONSISTENT",
+       "detail": "bm-a: ord sha malformed shape (len=64)"
+      },
+      {
+       "kind": "INCONSISTENT",
+       "detail": "bm-b(state.json): ord sha malformed shape (len=64)"
+      },
+      {
+       "kind": "LAG",
+       "detail": "dec watermark: 2 distinct normalized values across machines (bm-a=bd94a27ba4ac39bc@2026-10-09T16:38:09+08:00; bm-c=bd94a27ba4ac39bc@2026-10-09T16:50:40+08:00; bm-b(state.json)=4c32527bf511b7e6@2026-10-07T13:37:01+08:00)"
+      }
+     ],
+     "machines": [
+      {
+       "file": "state-bm-a.json",
+       "machine": "bm-a",
+       "flags": [
+        "ord_shape_bad"
+       ],
+       "dec_shape": "full64",
+       "ord_shape": "bad",
+       "dec_read_at": "2026-10-09T16:38:09+08:00",
+       "dec_read_key": "last_decisions_at",
+       "dec_read_age_days": 0.02,
+       "dec_sha16": "bd94a27ba4ac39bc…",
+       "ord_sha16": "b38eaaf8aec9e64c…"
+      },
+      {
+       "file": "state-bm-c.json",
+       "machine": "bm-c",
+       "flags": [],
+       "dec_shape": "full64",
+       "ord_shape": "ok40",
+       "dec_read_at": "2026-10-09T16:50:40+08:00",
+       "dec_read_key": "last_decisions_read_at",
+       "dec_read_age_days": 0.01,
+       "dec_sha16": "BD94A27BA4AC39BC…",
+       "ord_sha16": "F26E1A3767AE3749…"
+      },
+      {
+       "file": "state.json",
+       "machine": "bm-b(state.json)",
+       "flags": [
+        "ord_shape_bad"
+       ],
+       "dec_shape": "full64",
+       "ord_shape": "bad",
+       "dec_read_at": "2026-10-07T13:37:01+08:00",
+       "dec_read_key": "last_decisions_read_at",
+       "dec_read_age_days": 2.14,
+       "dec_sha16": "4C32527BF511B7E6…",
+       "ord_sha16": "E6A1DEE6270E08F5…"
+      }
+     ],
+     "n_state_files": 3,
+     "dec_n_groups": 2,
+     "ord_n_groups": 1,
+     "verdict": "INCONSISTENT"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "VIOLATIONS",
+    "c3_traders": "STALE",
+    "c4_attrition": "OK",
+    "c5_line": "OK",
+    "c6_regime": "VIOLATION",
+    "c7_watermark": "INCONSISTENT",
+    "n_findings": 38
+   }
   }
  ],
  "current": {
   "module": "scripts/science_audit.py",
-  "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
-  "generated": "2026-10-05 07:12:10",
+  "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run; s10 = C7 frozen before its first run)",
+  "generated": "2026-10-09 17:03:57",
   "ledger_head": {
-   "total": 649011,
-   "file": "n2_w15_judge.json",
-   "note": "T-133 s2 N2-W15 judge: 281 collapsed cells from 281 stage-1 survivors",
+   "total": 852145,
+   "file": "n1_w199_results.json",
+   "note": "perpetual N1 nulls-deepening wave 199 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
    "voided": [
     {
      "batch": "LOWAMP-P1",
@@ -7763,10 +8225,10 @@
    },
    {
     "check": "C2_lockbox_violation_scan",
-    "data_cutoff": "2026-09-30",
-    "n_ledger_files": 66,
+    "data_cutoff": "2026-10-08",
+    "n_ledger_files": 67,
     "n_whitelisted_legacy": 19,
-    "n_ok_with_cutoff": 40,
+    "n_ok_with_cutoff": 41,
     "violations": [
      {
       "file": "_r670bma_verdict_numbers.json",
@@ -7832,11 +8294,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.042409,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": -0.0485,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.001466,
+      "dsr_rechecked_now": 0.001226,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -7845,11 +8307,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.074987,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": -0.1586,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.003563,
+      "dsr_rechecked_now": 0.003022,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -7858,11 +8320,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.030128,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": -0.0214,
       "pbo_recorded": 0.4714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.000873,
+      "dsr_rechecked_now": 0.000725,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -7871,11 +8333,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.018704,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": -0.2763,
       "pbo_recorded": 0.1143,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.00043,
+      "dsr_rechecked_now": 0.000353,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -7884,11 +8346,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.044671,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": -0.0843,
       "pbo_recorded": 0.6429,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.001588,
+      "dsr_rechecked_now": 0.001329,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -8007,11 +8469,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.348554,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 649011,
+      "ledger_head_now": 852145,
       "ci_low_recorded": 0.4548,
       "pbo_recorded": 0.3,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.050428,
+      "dsr_rechecked_now": 0.045021,
       "dsr_gate_cross": false,
       "status": "OK"
      }
@@ -8021,7 +8483,7 @@
    {
     "check": "C4_gate_attrition_summary",
     "status": "PRESENT",
-    "n_entries": 99,
+    "n_entries": 106,
     "keys": [
      "created",
      "entries",
@@ -8033,14 +8495,14 @@
    },
    {
     "check": "C5_skill_line_v2_recompute",
-    "line": 1.134,
-    "n_eff": 649011,
+    "line": 1.1464,
+    "n_eff": 852145,
     "passive_term": 0.4792,
-    "null_term": 1.134,
+    "null_term": 1.1464,
     "ledger_head": {
-     "total": 649011,
-     "file": "n2_w15_judge.json",
-     "note": "T-133 s2 N2-W15 judge: 281 collapsed cells from 281 stage-1 survivors",
+     "total": 852145,
+     "file": "n1_w199_results.json",
+     "note": "perpetual N1 nulls-deepening wave 199 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
      "voided": [
       {
        "batch": "LOWAMP-P1",
@@ -8054,7 +8516,7 @@
     },
     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
     "formula_selfconsistent": true,
-    "line_prev": 1.119,
+    "line_prev": 1.134,
     "flags": {
      "line_drift_flag": false
     },
@@ -8066,10 +8528,6 @@
      "paper_block_absent_everywhere": false
     },
     "findings": [
-     {
-      "kind": "GAP",
-      "detail": "calendar gap 2026-09-24 -> 2026-09-30 (machine-off probe day = honest finding, not hidden)"
-     },
      {
       "kind": "VIOLATION",
       "detail": "COMPOSITE-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
@@ -8103,6 +8561,70 @@
     "paper_files": 6,
     "paper_with_block": 6,
     "verdict": "VIOLATION"
+   },
+   {
+    "check": "C7_watermark_key_coverage",
+    "flags": {},
+    "findings": [
+     {
+      "kind": "INCONSISTENT",
+      "detail": "bm-a: ord sha malformed shape (len=64)"
+     },
+     {
+      "kind": "INCONSISTENT",
+      "detail": "bm-b(state.json): ord sha malformed shape (len=64)"
+     },
+     {
+      "kind": "LAG",
+      "detail": "dec watermark: 2 distinct normalized values across machines (bm-a=bd94a27ba4ac39bc@2026-10-09T16:38:09+08:00; bm-c=bd94a27ba4ac39bc@2026-10-09T16:50:40+08:00; bm-b(state.json)=4c32527bf511b7e6@2026-10-07T13:37:01+08:00)"
+     }
+    ],
+    "machines": [
+     {
+      "file": "state-bm-a.json",
+      "machine": "bm-a",
+      "flags": [
+       "ord_shape_bad"
+      ],
+      "dec_shape": "full64",
+      "ord_shape": "bad",
+      "dec_read_at": "2026-10-09T16:38:09+08:00",
+      "dec_read_key": "last_decisions_at",
+      "dec_read_age_days": 0.02,
+      "dec_sha16": "bd94a27ba4ac39bc…",
+      "ord_sha16": "b38eaaf8aec9e64c…"
+     },
+     {
+      "file": "state-bm-c.json",
+      "machine": "bm-c",
+      "flags": [],
+      "dec_shape": "full64",
+      "ord_shape": "ok40",
+      "dec_read_at": "2026-10-09T16:50:40+08:00",
+      "dec_read_key": "last_decisions_read_at",
+      "dec_read_age_days": 0.01,
+      "dec_sha16": "BD94A27BA4AC39BC…",
+      "ord_sha16": "F26E1A3767AE3749…"
+     },
+     {
+      "file": "state.json",
+      "machine": "bm-b(state.json)",
+      "flags": [
+       "ord_shape_bad"
+      ],
+      "dec_shape": "full64",
+      "ord_shape": "bad",
+      "dec_read_at": "2026-10-07T13:37:01+08:00",
+      "dec_read_key": "last_decisions_read_at",
+      "dec_read_age_days": 2.14,
+      "dec_sha16": "4C32527BF511B7E6…",
+      "ord_sha16": "E6A1DEE6270E08F5…"
+     }
+    ],
+    "n_state_files": 3,
+    "dec_n_groups": 2,
+    "ord_n_groups": 1,
+    "verdict": "INCONSISTENT"
    }
   ],
   "summary": {
@@ -8112,7 +8634,8 @@
    "c4_attrition": "OK",
    "c5_line": "OK",
    "c6_regime": "VIOLATION",
-   "n_findings": 36
+   "c7_watermark": "INCONSISTENT",
+   "n_findings": 38
   },
   "discipline": "findings never block any lane; CEO notification zero-action (O-2205)"
  }
