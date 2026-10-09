@@ -54,10 +54,15 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 114 行注册 + 本候选——以 probe leg0 机证为准）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W200 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied）。
+## §7 跑后实证。【finalize 收口机械回填·r921 bm-a 已回填】
+- **账本恒等式**：852,145 + 2,200 = **854,345 EXACT**（n1_w200_results.json 机读·ledger_head 链头；§0 投影 437,920 合并池 **EXACT 兑现**）。
+- **测量面**：merged mu **−0.092755**（K=437,920）/ w-only mu **−0.090703**（K=2,200）/ §5 键1 读法 |w-only−merged|=**0.0021<0.02 PASS**；w200-vs-w199ext mu_delta=−0.004736（披露面）；merged sigma **0.245109** vs W199 键 0.245112 相对变化 **−0.0001% PASS（键2）**；se_mu 收窄链 W199 0.000371→W200 **0.000370** 延续；skill_line_v2 K-lift line_pre 1.1882→line_merged@K437,920 **1.1882·Δ+0.0000 PASS（键4·n_eff held equal 852,145）**；A 档 full_sharpe_p95 **0.3166** vs W199 0.3304 差 **0.0138<0.05 PASS（键3）**——**§5 四预键 4/4 机证 PASS**。
+- **canon flip 态**：NOT performed（治理提锚面 only·K2200 同例律）。
+- **audit.finalize_only=true（machine=bm-a）**；**voids_applied=['LOWAMP-P1','LOWAMP-P2']**；shards_consumed 12/12。
 
-## §8 批后复盘。【finalize 同窗回填·待 W200 finalize 窗】
-- （占位·§5.5 W201+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填）。
+## §8 批后复盘。【finalize 同窗回填·r921 bm-a 已回填】
+- **§5.5 W201+ 投影承接（r587·下波冻结方 probe 机证非转抄）**：W200 B 带 456_804..457_003 已注册→naive W201 A 窗 456_804..458_803 将被拒→A 重 derive 预期 1 hop 落 **457_004..459_003**（A-hops-prior-B 阶梯继承第六十一例）；B derive 须预留本波 A 窗（W141 leg2 律）预期 **459_004..459_203**；两投影届 W201 probe 回执复核。
+- **宝藏/方法论捕获问**：本窗零新方法（finalize one-pass=r920 既有范式复用；E42 writer-pause+add -u 全吸收=r863/r917 既有律执法）→ METHODOLOGY_ASSETS 零 append·TREASURE_REGISTRY 出入零行。
+- **诚实披露**：本窗=前任 r921 会话死亡遗产吸收（r899 先例：进程普查唯一循环会话=后继+冻结收据 17:41 未提交+烧录由引擎守护任务独立完成）；本窗 6 腿 churn-absorb treadmill 实录（r787 原子律+最终 add -u 全吸收一腿收口）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
