@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-10-10T04:56:11"
+    "generated_at": "2026-10-10T05:23:01"
   },
   "health": {
     "smoke": {
       "pass": 49,
       "fail": 0,
-      "at": "2026-10-10T04:44:05",
+      "at": "2026-10-10T05:13:12",
       "ok": true
     },
     "network": {
       "net_type": "LAN",
       "hotspot": false,
       "allow_heavy_sync": true,
-      "detected_at": "2026-10-09T20:27:06+00:00"
+      "detected_at": "2026-10-09T21:23:01+00:00"
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-10-10 04:52:32",
+      "last_run": "2026-10-10 05:19:16",
       "age_min": 3,
       "symbols": 48,
       "total_new_rows": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: weekend (no trading-day snapshot)",
       "l1_snapshots": 13,
-      "l1_updated": "2026-10-10 03:57:24",
+      "l1_updated": "2026-10-10 05:20:31",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-10-10T04:53:44",
+      "last_attempt": "2026-10-10T05:20:31",
       "age_min": 2,
       "cutoff": "2026-10-09",
       "errors": 0,
@@ -74,8 +74,8 @@
       "failures": 3,
       "conn_stopped": true,
       "mismatches": 0,
-      "last_attempt": "2026-10-10T03:57:25",
-      "age_min": 58,
+      "last_attempt": "2026-10-10T05:20:32",
+      "age_min": 2,
       "status": "warn",
       "text": "资金流源阻断停发 · 30min 自愈 · 已采 53/5222"
     },
@@ -88,8 +88,8 @@
       "rows_total": 39415,
       "cutoff": "2026-10-09",
       "mode": "no-op: cutoff covered",
-      "last_attempt": "2026-10-10T03:57:25",
-      "age_min": 58,
+      "last_attempt": "2026-10-10T05:20:31",
+      "age_min": 2,
       "status": "ok",
       "text": "逆回购梯 11/11 员"
     },
@@ -104,7 +104,7 @@
       "mismatches": 0,
       "enum_fails": 0,
       "last_attempt": "2026-10-09T10:35:14",
-      "age_min": 1100,
+      "age_min": 1127,
       "status": "ok",
       "text": "期权 pass 2026-09-30"
     },
@@ -119,7 +119,7 @@
       "nav_total": 48,
       "coverage": 1.0,
       "last_attempt": "2026-10-10T04:08:35",
-      "age_min": 47,
+      "age_min": 74,
       "status": "ok",
       "text": "NAV 覆盖 100%"
     },
@@ -133,16 +133,16 @@
       "pulled_rows": 10901,
       "quarantined": 91,
       "mapping_error": "em page 1: RemoteDisconnected: Remote end closed connection without response",
-      "last_attempt": "2026-10-10 03:58:33",
-      "age_min": 57,
+      "last_attempt": "2026-10-10 05:21:40",
+      "age_min": 1,
       "status": "bad",
       "text": "AH 映射源失败"
     },
     "collector_wall": {
       "present": true,
       "n_total": 18,
-      "n_ok": 12,
-      "n_warn": 6,
+      "n_ok": 13,
+      "n_warn": 5,
       "n_bad": 0,
       "n_none": 0,
       "rows": [
@@ -151,7 +151,7 @@
           "name": "日线核心",
           "lane": "全机",
           "present": true,
-          "ts": "2026-10-10 04:52:32",
+          "ts": "2026-10-10 05:19:16",
           "age_min": 3,
           "cutoff": "2026-10-09",
           "mode": null,
@@ -163,20 +163,20 @@
           "name": "龙虎榜",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10 04:53:43",
+          "ts": "2026-10-10 05:20:30",
           "age_min": 2,
           "cutoff": "2026-09-30",
-          "mode": "no-op (no events beyond cutoff yet)",
+          "mode": "no-op: <30min since last fetch attempt (min-interval guard)",
           "status": "ok",
-          "text": "no-op (no events beyond cutoff yet)"
+          "text": "no-op: <30min since last fetch attem"
         },
         {
           "id": "zt_pool",
           "name": "涨停池四面",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10 03:57:23",
-          "age_min": 58,
+          "ts": "2026-10-10 05:20:30",
+          "age_min": 2,
           "cutoff": "2026-10-09",
           "mode": "no-op: panel covers all bar-landed trading days",
           "status": "ok",
@@ -187,8 +187,8 @@
           "name": "人气榜",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10 03:57:24",
-          "age_min": 58,
+          "ts": "2026-10-10 05:20:31",
+          "age_min": 2,
           "cutoff": null,
           "mode": "no-op: weekend (no trading-day snapshot)",
           "status": "ok",
@@ -199,7 +199,7 @@
           "name": "期货主力",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10T04:53:44",
+          "ts": "2026-10-10T05:20:31",
           "age_min": 2,
           "cutoff": "2026-10-09",
           "mode": "no-op: cutoff covered",
@@ -211,8 +211,8 @@
           "name": "逆回购梯",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10T03:57:25",
-          "age_min": 58,
+          "ts": "2026-10-10T05:20:31",
+          "age_min": 2,
           "cutoff": "2026-10-09",
           "mode": "no-op: cutoff covered",
           "status": "ok",
@@ -224,7 +224,7 @@
           "lane": "bm-a",
           "present": true,
           "ts": "2026-10-09T10:35:14",
-          "age_min": 1100,
+          "age_min": 1127,
           "cutoff": null,
           "mode": "spawn: detached refresh",
           "status": "warn",
@@ -235,8 +235,8 @@
           "name": "主力资金流",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10T03:57:25",
-          "age_min": 58,
+          "ts": "2026-10-10T05:20:32",
+          "age_min": 2,
           "cutoff": null,
           "mode": "refresh source-blocked (connection-level)",
           "status": "warn",
@@ -247,8 +247,8 @@
           "name": "Sina四档流",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10T03:57:36",
-          "age_min": 58,
+          "ts": "2026-10-10T05:20:42",
+          "age_min": 2,
           "cutoff": "2026-09-24",
           "mode": "no-op: panel fresh",
           "status": "ok",
@@ -259,12 +259,12 @@
           "name": "THS聚合流",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-09-25T16:52:08",
-          "age_min": 20883,
-          "cutoff": null,
-          "mode": "wait: day file missing but window blocks: post-close 2026-09-25 but bar not land",
-          "status": "warn",
-          "text": "14天未跑"
+          "ts": "2026-10-10T05:21:30",
+          "age_min": 1,
+          "cutoff": "2026-09-30",
+          "mode": "conn-fuse stop at page 1: page 1: NameError: name 'base_events' is not defined",
+          "status": "ok",
+          "text": "conn-fuse stop at page 1: page"
         },
         {
           "id": "fundamental",
@@ -272,7 +272,7 @@
           "lane": "bm-a",
           "present": true,
           "ts": "2026-10-09 14:42:07",
-          "age_min": 853,
+          "age_min": 880,
           "cutoff": null,
           "mode": null,
           "status": "ok",
@@ -283,8 +283,8 @@
           "name": "财报三面",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10T03:58:45",
-          "age_min": 57,
+          "ts": "2026-10-10T05:21:52",
+          "age_min": 0,
           "cutoff": "20260630",
           "mode": "no_op",
           "status": "ok",
@@ -295,8 +295,8 @@
           "name": "AH溢价",
           "lane": "bm-a",
           "present": true,
-          "ts": "2026-10-10 03:58:33",
-          "age_min": 57,
+          "ts": "2026-10-10 05:21:40",
+          "age_min": 1,
           "cutoff": null,
           "mode": "refresh",
           "status": "warn",
@@ -308,7 +308,7 @@
           "lane": "bm-b",
           "present": true,
           "ts": "2026-10-10T04:53:55",
-          "age_min": 1,
+          "age_min": 28,
           "cutoff": "2026-09-30",
           "mode": "refresh in progress (lock alive)",
           "status": "warn",
@@ -320,7 +320,7 @@
           "lane": "bm-b",
           "present": true,
           "ts": "2026-10-10T04:53:56",
-          "age_min": 1,
+          "age_min": 28,
           "cutoff": "2026-10-09",
           "mode": "no-op: panel cutoff covered",
           "status": "ok",
@@ -332,7 +332,7 @@
           "lane": "bm-b",
           "present": true,
           "ts": "2026-10-07T18:34:47",
-          "age_min": 3501,
+          "age_min": 3527,
           "cutoff": null,
           "mode": null,
           "status": "warn",
@@ -344,7 +344,7 @@
           "lane": "bm-c",
           "present": true,
           "ts": "2026-10-10T04:08:35",
-          "age_min": 47,
+          "age_min": 74,
           "cutoff": null,
           "mode": "no-op: weekend",
           "status": "ok",
@@ -356,45 +356,41 @@
           "lane": "bm-c",
           "present": true,
           "ts": "2026-10-02T15:40:03",
-          "age_min": 10875,
+          "age_min": 10902,
           "cutoff": null,
           "mode": null,
           "status": "ok",
           "text": "完备"
         }
       ],
-      "text": "18 面 · ok 12 · warn 6 · bad 0 · 待产出 0"
+      "text": "18 面 · ok 13 · warn 5 · bad 0 · 待产出 0"
     },
     "token": {
       "present": true,
-      "generated": "2026-10-10 04:27:08",
+      "generated": "2026-10-10 04:56:13",
       "mandate_est": 14225,
       "codely_context_est": 7576,
       "state_est": 2049,
-      "report_est": 1856102,
+      "report_est": 1857018,
       "delta_state": 0,
-      "delta_report": 609,
-      "delta_prev": "2026-10-10 04:02:56"
+      "delta_report": 916,
+      "delta_prev": "2026-10-10 04:27:08"
     },
     "watermark": {
       "present": true,
       "py_tail": [
-        1.6,
-        2.4,
-        2.8,
-        3.0,
-        3.2
+        4.1,
+        3.9,
+        4.0,
+        4.4,
+        3.9
       ],
-      "last_sample": "2026-10-10 04:52:08",
-      "red": false,
-      "lane": "healthy",
+      "last_sample": "2026-10-10 05:19:14",
+      "red": true,
+      "lane": "pool-batch-runnable-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)",
       "zombies_killed": [],
-      "red_flags_recent": 0,
-      "next_pick": {
-        "status": "claimed",
-        "candidate": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
-        "lane": "event-attention-factors"
-      }
+      "red_flags_recent": 3,
+      "next_pick": null
     },
     "autofill": {
       "present": true,
@@ -412,27 +408,30 @@
         "TRIAL-LABOR-W17-JUDGE",
         "THERMO-OVERLAY-P1-BURN"
       ],
-      "last_tick": "2026-10-10 04:54:01",
-      "verdict": "pool_empty_or_busy",
-      "py_cpu_pct": 7.7,
+      "last_tick": "2026-10-10 05:22:34",
+      "verdict": "relaunch_cooldown",
+      "py_cpu_pct": 6.4,
       "launches_total": 50,
-      "fill_latency_last": 1289.8,
+      "fill_latency_last": 1362.9,
       "fill_target_met": false
     },
     "saturation": {
       "present": true,
       "py_tail": [
-        0.7,
-        0.4,
-        2.3,
-        1.8,
-        1.6,
-        2.4,
-        2.8,
-        3.0,
-        3.2
+        3.6,
+        13.0,
+        4.7,
+        1.5,
+        4.4,
+        6.0,
+        4.1,
+        4.1,
+        3.9,
+        4.0,
+        4.4,
+        3.9
       ],
-      "py_last_sample": "2026-10-10 04:52:08",
+      "py_last_sample": "2026-10-10 05:19:14",
       "pool_ready": 10,
       "pool_waiting": 0,
       "ready_ids": [
@@ -450,8 +449,8 @@
       "load_state": "pool-supply-gap",
       "starvation_flag": false,
       "starvation_candidate": false,
-      "audit_ts": "2026-10-10 04:52:02",
-      "starvation_flags_recent": 32
+      "audit_ts": "2026-10-10 05:19:07",
+      "starvation_flags_recent": 29
     },
     "engine": {
       "present": true,
@@ -460,36 +459,36 @@
       "rows": [
         {
           "machine_id": "bm-a",
-          "py_cpu_pct": 3.2,
-          "engine_alive": false,
-          "heartbeat_age_sec": 2510.0,
-          "active_burns": [],
-          "queue_depth": 0,
-          "shards_done_total": 132,
-          "last_shard_done_at": "2026-10-10T02:45:04+08:00",
-          "ts": "2026-10-10T04:14:05+08:00"
-        },
-        {
-          "machine_id": "bm-b",
-          "py_cpu_pct": 6.8,
+          "py_cpu_pct": 6.7,
           "engine_alive": true,
-          "heartbeat_age_sec": 50.0,
+          "heartbeat_age_sec": 40.0,
           "active_burns": [],
           "queue_depth": 0,
           "shards_done_total": 0,
           "last_shard_done_at": null,
-          "ts": "2026-10-10T04:55:05+08:00"
+          "ts": "2026-10-10T05:22:06+08:00"
+        },
+        {
+          "machine_id": "bm-b",
+          "py_cpu_pct": 6.9,
+          "engine_alive": false,
+          "heartbeat_age_sec": 1062.0,
+          "active_burns": [],
+          "queue_depth": 0,
+          "shards_done_total": 0,
+          "last_shard_done_at": null,
+          "ts": "2026-10-10T05:05:04+08:00"
         },
         {
           "machine_id": "bm-c",
-          "py_cpu_pct": 14.75,
+          "py_cpu_pct": 16.18,
           "engine_alive": false,
-          "heartbeat_age_sec": 1699.0,
+          "heartbeat_age_sec": 909.0,
           "active_burns": [],
           "queue_depth": 0,
           "shards_done_total": 2412,
           "last_shard_done_at": "2026-10-09T03:48:04+08:00",
-          "ts": "2026-10-10T04:27:36+08:00"
+          "ts": "2026-10-10T05:07:37+08:00"
         }
       ]
     },
@@ -891,17 +890,17 @@
     "daily_report": {
       "present": true,
       "report_date": "2026-10-10",
-      "generated_at": "2026-10-10 04:55:53",
+      "generated_at": "2026-10-10 05:22:44",
       "traders": 6,
       "equity_cny": 6000311.04,
       "positions": 18,
       "token_line": {
         "total_state_tokens_est": 2049,
-        "total_report_tokens_est": 1856102,
+        "total_report_tokens_est": 1857018,
         "delta_vs_prev": {
-          "prev_generated": "2026-10-10 04:02:56",
+          "prev_generated": "2026-10-10 04:27:08",
           "state_tokens_growth": 0,
-          "report_tokens_growth": 609,
+          "report_tokens_growth": 916,
           "mandate_growth": 0
         },
         "method": {
@@ -1533,14 +1532,14 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-10-10T04:01:20+08:00",
-        "age_min": 54.9,
+        "last_seen": "2026-10-10T04:32:34+08:00",
+        "age_min": 50.5,
         "health": "warn",
         "cpu_cores": 32,
         "idle_ram_gb": 42.1,
         "gpu_idle_vram_mb": 1404,
-        "current_task": "r940: THERMO-OVERLAY-P1 burn verdict absorb + sec.7/8 machine backfill + gate_attrition finalize check (burn via autofill watchdog <=30min cadence; prereg window <=48h from 03:3x freeze); PARKING-P1 burn due 10-14 12:00; HANDOVER next 5x boundary = r940 (on-time stamp expected)",
-        "verdict": "green (r939: smoke 49/49; selftest 21/21; probe GREEN faces-exact; S6 39/39 rc0; attrition CLEAN; quartet GREEN; pool burn pending watchdog claim)",
+        "current_task": "r941: THERMO-OVERLAY-P1-BURN verdict absorb (watchdog burn in-cadence) + prereg sec.7/8 machine backfill + gate_attrition finalize check; PARKING-P1 burn due 10-14 12:00; prereg window <=48h from 03:3x freeze; HANDOVER next 5x = r945",
+        "verdict": "green (r940: S0 dead-session rebase estate salvaged 2-stage 27-UU zero-loss push e3b8bdd54 0/0; smoke 49/49; S6 39/39 rc0; attrition CLEAN; quartet GREEN; pool THERMO-OVERLAY-P1-BURN ready awaiting watchdog)",
         "orders_ack": [
           "O-2026-09-26-2335-bm-a.md",
           "O-2026-09-26-2340-bm-a.md",
@@ -1742,19 +1741,19 @@
           "O-20261010-0058-bm-b.md",
           "O-20261010-0010-bm-c.md"
         ],
-        "clock_read": "2026-10-10T04:01:20+08:00",
+        "clock_read": "2026-10-10T04:32:34+08:00",
         "round_no": 83
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-10-10T04:34:43+08:00",
-        "age_min": 21.5,
+        "last_seen": "2026-10-10T05:05:41+08:00",
+        "age_min": 17.3,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "r816: tech queue head T8 (minute_feed completeness verifier) + waiting: astock refresh closeout / bm-c W17 burn receipt / moneyflow panel unblock",
-        "verdict": "r815: T7+T14 closed (two-state bucket red read -- pool-batch only triggers RED, board-work false-red class fixed, legacy sample fallback kept for 3-machine roll); smoke 49/49; S6 chain 42/42 rc0; pool dualrun ZERO-DRIFT streak 51; watermark buckets pool0/board0/local=astock lawful in-flight; supply_gap/ignition_sla yielded to bm-c W17 in-flight; orders both sweeps zero unacked; attrition CLEAN",
+        "current_task": "r817: tech queue head T9 (scorecard landing_hooks face) + waiting: minute_feed Monday backfill receipt / astock refresh closeout / bm-c W17 post-training resumption",
+        "verdict": "r816: T8 closed (verify subcommand, selftest 33 legs, real run verdict=gaps_disclosed: active-5 2 trading days behind 10-08/10-09 all_recoverable_est=true Monday 10-12 backfill, 1 real intra-day hole 510050@09-17 10:45, SHSE closing-auction source shape 39/39 census); smoke 49/49; S6 37 legs rc0; pool dualrun ZERO-DRIFT streak 51; watermark buckets pool0/board0/local=astock lawful in-flight; orders both sweeps zero unacked; ORD/DEC hash MATCH; attrition CLEAN",
         "orders_ack": [
           "O-2026-09-26-2335-bm-a.md",
           "O-2026-09-26-2340-bm-a.md",
@@ -1941,19 +1940,19 @@
           "O-20261009-2340-bm-a.md",
           "O-20261010-0010-bm-c.md"
         ],
-        "clock_read": "2026-10-10T04:34:43+08:00",
+        "clock_read": "2026-10-10T05:05:41+08:00",
         "round_no": 350
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-10-10T03:36:06+08:00",
-        "age_min": 80.1,
+        "last_seen": "2026-10-10T04:36:22+08:00",
+        "age_min": 46.7,
         "health": "warn",
         "cpu_cores": 32,
-        "idle_ram_gb": 0.5,
+        "idle_ram_gb": 0.8,
         "gpu_idle_vram_mb": 79,
-        "current_task": "当前活: r825 收口轮——CEO 令 jman 训练在烧（PID 53412·GPU 93%·RAM 0.5GB·4096 步 ETA ~21:00）+T-180 已翻 done+T-181 已认领 prereg 草案 v0 落盘 | 最近实物: research/THERMO_OVERLAY_P1.md（BAN-05 例外+禁开门 rc0 PASS+锚四元组+出场轴声明·DRAFT-NOT-FROZEN）+results/regime_gate_evidence/EVIDENCE-2026-09-22.json（双臂证据件·selftest 4/4）+T-180/181 票面翻新 @ 2026-10-10T03:36:06+08:00 | 下个里程碑: 训毕 ~21:00（恢复债=Ollama 双任务 enable+llama-server+ComfyUI 重启）→jman_val_grid 验证链→LOOKBOARD 上链；T-181 冻结门 8 项（F-04 MSG+episode 日期锚钉死+D6 数值）",
-        "verdict": "r825 bm-c: r824 dead-predecessor absorb + CEO-order training live-verified + T-180 closed + T-181 claimed with prereg DRAFT v0 (wm-red remediation). (1) S0-1 anchor bm-c, orphan probe orphans=0 py_faces=15; predecessor r824 died mid-round after 4 commits (T-180 claim / churn absorb / merge / daemon) without state/ledger close -> this session r825, state absorbed round number 824 (transient marker for QA driver round-read). (2) S0 fetch 0/0 aligned; dirty faces all bm-c-owned (predecessor artifacts + daemon live-state). (3) S0.5: DEC sha b87a92b1 / ORD sha e286f842 both MATCH (zero delta, zero new dispatch), orders_ack 185 zero unacked, inbox 1 file = MSG-20261009-173x bm-c->bm-b (addressee bm-b offline, left in place for its revival, not consumed by bm-c). (4) S1 smoke 49/49. (5) SatEngine status rc0 alive. (6) CEO order O-20261010-0025 jman training face: all three weights landed (dl3 direct 8-part download, receipt results/_r824bmc_krea2_dl_receipt.json overall=PASS, VAE sha gate PASS); predecessor first train attempt rc1 (ModuleNotFoundError lora_krea2, evidence TRAIN_EXIT_1 + probe file); relaunched 02:51 via D:/musubi-tuner/train_jman_v1.ps1 (PID 53412 on GPU) -- live-verified this round: GPU 93% util / 16.1GB used, train_log actively appending (03:20:45 mtime, 107KB, avr_loss 0.0608, step 5/4096 at 16.4s/it -- ETA ~18h -> ~21:00 tonight), RAM 0.5GB free (blocks_to_swap face, CEO-order priority). (7) T-180 closed: exporter selftest 4/4 + idempotent no-op + evidence JSON dual-arm sane -> status=done with result_ref. (8) T-181 claimed (only open ticket, claim+start same round) + deliverable research/THERMO_OVERLAY_P1.md DRAFT v0 (BAN-05 semantic exception new_data declared; BAN-04 textual false-positive on the word for combinatorial lattice cured by rewording; banned_direction_gate rc0 PASS on draft; alpha=behavioral bias with retail-wins answer; anchor quadruples for both arms incl thermo_daily.csv 1996-12-16 zero-warmup; evidence_cutoff 2026-09-22 P-5C; exit-axis choice-2 hold-to-end with default-exit-stack explicitly disabled; era stratification equal-calendar 3-band per order item-5; block-permutation random baseline + N accounting; DRAFT-NOT-FROZEN banner + 8-item freeze checklist). (9) QA driver r825 DEFERRED by RAM guard (0.55GB available < 1.5GB threshold, CEO training protection; r823 pack already collected by predecessor 01:48; r825 pack next RAM-safe round or post-training). (10) S6 chain NOT re-run: predecessor's 41-leg chain completed 03:12:03 all-green (zero rc1/2/3) 5 min before this session started -- double-open ban + RAM guard; watermark probe rerun verdict=insufficient_history (n=2 window). (11) S7: attrition scan CLEAN rc0, loop task pin=5 phase-ok, watchdog re-registered, both claws re-installed (LF-normalized), banned gate rc0.",
+        "current_task": "当前活: r827 收口——CEO 令 jman 训练在烧（PID 53412·GPU 99%·step 296/4096·avr_loss 0.0646·ETA ~22:45）+r826 前驱收编+rebase 撞车解算毕 | 最近实物: r827 轮报行+rebase 解算产物（x2_watch_log union 1517 行）+push d4d3a0aa7 @ 2026-10-10T04:36:22+08:00 | 下个里程碑: ~22:45 完训→恢复债（Ollama 双任务+llama-server+ComfyUI）+jman_val_grid 验证链+LOOKBOARD 上链；QA r825 包首个 RAM≥1.5GB 轮补跑",
+        "verdict": "r827 bm-c: r826 dead-predecessor absorb + daemon-live rebase collision resolved (r813 law: guard gate + deep-diff take-local 32 + x2 union 1517) + push d4d3a0aa7 (0/0) + training live-verified (step 296/4096, avr_loss 0.0646, ETA ~22:45 corrected) + T-181 yield-to-bm-a confirmed + smoke 49/49 + SatEngine rc0 + attrition CLEAN + DEC/ORD both MATCH + orders 0 unacked + inbox empty.",
         "orders_ack": [
           "O-2026-09-26-2335-bm-a.md",
           "O-2026-09-26-2340-bm-a.md",
@@ -2141,7 +2140,7 @@
           "O-20261010-0058-bm-b.md",
           "README.md"
         ],
-        "clock_read": "2026-10-10T03:36:06+08:00",
+        "clock_read": "2026-10-10T04:36:22+08:00",
         "round_no": 127
       }
     ],
@@ -3410,28 +3409,31 @@
         "id": "T-2026-10-10-181",
         "type": "thermo-overlay-prereg-slice",
         "priority": "P1",
-        "status": "claimed",
+        "status": "done",
         "claimed_by": "bm-a (OS iteration loop r938; claim-and-start same round per O-1730 immediate-law; pre-reads done: O-20261009-2340 + REGIME_THERMO_V1 + PREREG_TEMPLATE)"
       }
     ],
     "n_open": 5,
-    "n_claimed": 49,
-    "n_done": 127,
+    "n_claimed": 48,
+    "n_done": 128,
     "audit": {
-      "ts": "2026-10-10 04:52:02",
-      "verdict": "FLAG:supply_gap,ignition_sla",
+      "ts": "2026-10-10 05:19:07",
+      "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla",
       "flags": [
+        "gpu_unauthorized",
         "supply_gap",
         "ignition_sla"
       ],
-      "cpu_total_pct": 56.0,
-      "py_cpu_pct": 3.0,
-      "cores": 16,
-      "py_procs": 19,
+      "cpu_total_pct": 49.0,
+      "py_cpu_pct": 5.6,
+      "cores": 32,
+      "py_procs": 22,
       "zombies": 0,
-      "gpu_util_pct": 1.0,
-      "gpu_mem_used_mb": 4563.0,
-      "rogue_apps": []
+      "gpu_util_pct": 90.0,
+      "gpu_mem_used_mb": 11359.0,
+      "rogue_apps": [
+        "c:\\users\\sjs20\\appdata\\roaming\\uv\\python\\cpython-3.10.21-windows-x86_64-none\\python.exe"
+      ]
     },
     "p1d": {
       "pull_updated": "2026-09-24 03:49:34",
@@ -3472,12 +3474,12 @@
           "pass": true
         }
       },
-      "gates_date": "2026-10-10 04:55"
+      "gates_date": "2026-10-10 05:05"
     },
     "lhb": {
-      "verdict": "no-op (no events beyond cutoff yet)",
+      "verdict": "no-op: <30min since last fetch attempt (min-interval guard)",
       "cutoff": "2026-09-30",
-      "updated": "2026-10-10 04:53:43",
+      "updated": "2026-10-10 05:20:30",
       "new_rows": 0
     }
   },
@@ -3754,7 +3756,7 @@
         "note": "AU-β 嫌疑推翻：剔 AU 最优 tsmom_60@daily 0.669 未塌陷（vs 全9品种批 0.7408）；技能线 1.4278 新高（律9 判线=宇宙宽度刻度·σ抬线）；CTA 复活收窄至 P1 署名门"
       }
     ],
-    "trials_total": 860945,
+    "trials_total": 862151,
     "n_traders": 6,
     "ranking": []
   },
@@ -3895,7 +3897,7 @@
         "n_drift": 0,
         "months_total": 0,
         "data_cutoff": "2026-10-09",
-        "generated": "2026-10-10T04:26:28+08:00",
+        "generated": "2026-10-10T05:22:00+08:00",
         "window_semantics": "guarded"
       },
       "promotion": {
@@ -3906,7 +3908,7 @@
           "g2_full": 0,
           "t22_beat_passive": 0
         },
-        "generated": "2026-10-10T04:26:30+08:00"
+        "generated": "2026-10-10T05:22:09+08:00"
       }
     },
     "paper_started": true,
@@ -3916,7 +3918,7 @@
       "months_tracked": 0,
       "trades": 0,
       "bars": 42,
-      "last_update": "2026-10-10 04:26:26",
+      "last_update": "2026-10-10 05:21:58",
       "paper_start": "2026-09-23",
       "first_check": "2026-10-31",
       "month_progress": 0.4474,
@@ -3940,12 +3942,12 @@
         "grade": "S",
         "total": 87.05
       },
-      "generated": "2026-10-10T04:53:21",
+      "generated": "2026-10-10T05:20:04",
       "status": "ok",
       "text": "记分卡 6 员评级 S×2 A×4 B×0 C×0",
       "three_card": {
         "present": true,
-        "generated": "2026-10-10T04:53:31",
+        "generated": "2026-10-10T05:20:11",
         "n_strategy_cards": 6,
         "n_trader_cards": 28,
         "n_portfolio_cards": 7,
@@ -3999,7 +4001,7 @@
   },
   "events": [
     {
-      "time": "2026-10-10T04:44:05",
+      "time": "2026-10-10T05:13:12",
       "text": "自检 49项通过/0失败"
     },
     {
@@ -4007,11 +4009,11 @@
       "text": "交易员 COMPOSITE-CE-01/COMPOSITE-CE-02/DROUGHT-CE-01/ENGULF-CE-01/NEEDLE-DE-01/VOLATILITY-CE-01 过全 G2 门禁链持证上岗（INTERN）· paper 跟踪进行中，≥6 个月才可谈实盘"
     },
     {
-      "time": "2026-10-10 04:26:26",
+      "time": "2026-10-10 05:21:58",
       "text": "paper 跟踪进行中 · 6 员在册 · 累计 0 个月 · 窗口 0 笔（每日自动 accrue · 锚定门禁先行）"
     },
     {
-      "time": "2026-10-10 04:26:26",
+      "time": "2026-10-10 05:21:58",
       "text": "x2 看守 · 2 员薄垫看护（COMPOSITE-CE-02/ENGULF-CE-01）· margin<0.05 或不存活即 probation（T-04 F3 升级链）"
     },
     {
@@ -4020,43 +4022,43 @@
     },
     {
       "time": "-",
-      "text": "门禁链定案（试验账本 N=860945）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
+      "text": "门禁链定案（试验账本 N=862151）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-10-10 04:52:32",
+      "time": "2026-10-10 05:19:16",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-10-09"
     },
     {
-      "time": "2026-10-10 03:57:24",
+      "time": "2026-10-10 05:20:31",
       "text": "热度链 · L1 人气榜快照 13 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-10-10T04:53:44",
+      "time": "2026-10-10T05:20:31",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-10-09 · 刚跑"
     },
     {
-      "time": "2026-10-10T03:57:25",
+      "time": "2026-10-10T05:20:32",
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 53/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {
-      "time": "2026-10-10 04:27:08",
-      "text": "本地化 · token 粗估 状态 2049 · 报告 1856102 · 回合固定载入 7576（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-10-10 04:56:13",
+      "text": "本地化 · token 粗估 状态 2049 · 报告 1857018 · 回合固定载入 7576（byte/3.5 代理口径 · O-2325）"
     },
     {
-      "time": "2026-10-10 04:52:08",
-      "text": "算力水位 · py 1.6→2.4→2.8→3.0→3.2% · 绿 · 近段红牌 0 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
+      "time": "2026-10-10 05:19:14",
+      "text": "算力水位 · py 4.1→3.9→4.0→4.4→3.9% · 🚩红牌 · 近段红牌 3 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
     },
     {
-      "time": "2026-10-10 04:52:02",
-      "text": "满载面 · 池 ready 10/10 · 本机 py 0.7→0.4→2.3→1.8→1.6→2.4→2.8→3.0→3.2% · 态 pool-supply-gap · 无旗 · 近百采样旗 32 次（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）"
+      "time": "2026-10-10 05:19:07",
+      "text": "满载面 · 池 ready 10/10 · 本机 py 3.6→13.0→4.7→1.5→4.4→6.0→4.1→4.1→3.9→4.0→4.4→3.9% · 态 pool-supply-gap · 无旗 · 近百采样旗 29 次（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）"
     },
     {
-      "time": "2026-10-10T04:53:21",
+      "time": "2026-10-10T05:20:04",
       "text": "P-6 记分卡 · 记分卡 6 员评级 S×2 A×4 B×0 C×0 · 最优 VOLATILITY-CE-01 S 87.05 分（评价面 · hr 仍为唯一编制权）"
     },
     {
       "time": "-",
-      "text": "研究线 · 因子账本 N=653421 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 11/82 · WQ 腿完成 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=860945 另计）"
+      "text": "研究线 · 因子账本 N=653421 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 11/82 · WQ 腿完成 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=862151 另计）"
     },
     {
       "time": "2026-10-09",
@@ -4079,8 +4081,8 @@
       "text": "队列排程 · UCB1 advisory · 下一 跨库合成（未试） · 正收益 组合构建 · 开放0 · P1门1 · 已试臂 4/10 · exploit 最优 组合构建（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）"
     },
     {
-      "time": "2026-10-10T04:01:20+08:00",
-      "text": "机队 · 3 节点 1 活 · 票据 done 127/claimed 49/open 5 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
+      "time": "2026-10-10T04:32:34+08:00",
+      "text": "机队 · 3 节点 1 活 · 票据 done 128/claimed 48/open 5 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
       "time": "-",
@@ -4094,27 +4096,9 @@
   "group": {
     "siblings": [
       {
-        "name": "Biggame · biu你一下",
-        "last_active": "10-10 04:54",
-        "age_min": 2.1,
-        "alive": true
-      },
-      {
-        "name": "Biggame · HomeWreck",
-        "last_active": "10-10 04:56",
-        "age_min": 0.0,
-        "alive": true
-      },
-      {
-        "name": "Biggame · PhantomEscapeGo",
-        "last_active": "10-10 04:55",
-        "age_min": 0.6,
-        "alive": true
-      },
-      {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "10-10 04:55",
-        "age_min": 0.7,
+        "last_active": "10-10 05:23",
+        "age_min": 0.0,
         "alive": true
       }
     ]

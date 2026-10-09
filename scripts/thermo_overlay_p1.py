@@ -100,6 +100,45 @@ def glob_parquets():
     return sorted(_g.glob(os.path.join(BARS, "*.parquet")))
 
 
+# pool harvest handshake (O-20260930-2355 window; r942 gap fix): the
+# worker-side half mirrors lowamp_p1._pool_claim verbatim -- on a
+# successful burn (incl. the idempotent fast path) write the closed+ok
+# claim so the autofill harvest flip lands the shard done; without it
+# a completed burn reads as a crash to the fuse (r496 live family,
+# hit once on this runner 2026-10-10 -- claim backfilled by r942).
+POOL_ENTRY = "THERMO-OVERLAY-P1-BURN"
+POOL_SHARD = "thermo-overlay-p1-burn-0of1"
+_CLAIM_STARTED = ""
+
+
+def _machine_id() -> str:
+    try:
+        return json.load(open(os.path.join(ROOT, "fleet", "machine.json"),
+                              encoding="utf-8"))["machine_id"]
+    except Exception:
+        return "unknown"
+
+
+def _now_iso() -> str:
+    import datetime
+    return datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def _pool_claim(detail: str) -> None:
+    d = os.path.join(ROOT, "results", "pool_claims",
+                     POOL_ENTRY.replace("/", "_"))
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"{POOL_SHARD}.{_machine_id()}.json")
+    now = _now_iso()
+    with open(fp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "started": _CLAIM_STARTED,
+                   "closed_at": now, "result_ref": detail}, fh,
+                  ensure_ascii=False, indent=2, sort_keys=True)
+    print("pool claim closed:", os.path.basename(fp))
+
+
 # ------------------------------------------------------------------ data faces
 
 def load_faces(quiet=False):
@@ -434,6 +473,8 @@ def _cell_compute(name, r_u, off, years, shifts, passive_sr, passive_sum):
 
 
 def cmd_run(_):
+    global _CLAIM_STARTED
+    _CLAIM_STARTED = _now_iso()
     t0 = time.time()
     lane_guard()
     # idempotent fast path (cn_rev_tilt precedent; env override = re-finalize only)
@@ -445,6 +486,8 @@ def cmd_run(_):
                       "thermo_overlay_p1_results.json already finalized "
                       "(ledger block present); THERMO_OVERLAY_P1_REFINALIZE=1 "
                       "= only redo")
+                _pool_claim("idempotent fast path no-op: " + OUT
+                            + " already finalized (r942 claim-leg fix)")
                 return 0
         except Exception:
             pass
@@ -710,6 +753,10 @@ def cmd_run(_):
     nd = pd.DataFrame(null_rows, columns=["cell", "null_idx", "seed", "shift",
                                           "sharpe_x1"])
     nd.to_csv(NULLS_CSV, index=False)
+
+    _pool_claim(OUT + " (verdict any_cell_full_chain_pass="
+                + str(verdict["any_cell_full_chain_pass"])
+                + "; trials_ledger total " + str(led["total"]) + ")")
 
     print(json.dumps({"out": OUT, "verdict": verdict,
                       "ledger_total": led["total"], "passive_sr": passive_sr,

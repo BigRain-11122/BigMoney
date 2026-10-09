@@ -783,6 +783,45 @@
    "shard": "main",
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-09 07:52:04"
+  },
+  "scripts/trial_labor_w17.py|screen,1,8": {
+   "count": 1,
+   "refusals": 219,
+   "code_sha256": "07bb8f8a41e5dc49",
+   "last_crash_ts": "2026-10-09 20:50:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-1",
+   "shard": "w17-screen-1of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 05:11:07"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "count": 1,
+   "refusals": 64,
+   "code_sha256": "07bb8f8a41e5dc49",
+   "last_crash_ts": "2026-10-10 02:44:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+   "shard": "w17-screen-0of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 05:11:06"
+  },
+  "scripts/trial_labor_w17.py|screen,2,8": {
+   "count": 1,
+   "refusals": 62,
+   "code_sha256": "07bb8f8a41e5dc49",
+   "last_crash_ts": "2026-10-10 03:30:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-2",
+   "shard": "w17-screen-2of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 05:11:07"
+  },
+  "scripts/thermo_overlay_p1.py|run": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "681b0df9bba2dd6d",
+   "last_crash_ts": "2026-10-10 05:19:04",
+   "entry": "THERMO-OVERLAY-P1-BURN",
+   "shard": "thermo-overlay-p1-burn-0of1",
+   "machine": "bm-a"
   }
  },
  "cleared": {
@@ -1249,6 +1288,34 @@
    "reason": "r860 bm-a false-crash tombstone: SCREEN burn COMPLETED 373/373 cells 03:37:07, runner exited clean (launch log 'shard 0of1 complete'); trial-labor runners write no worker-claim file so the daemon harvest cannot land (W13 shard-note documented gap) -> 25-min confirm counted a false crash; completion takeover by observing round r860 per W13/W14 precedent",
    "entry": "TRIAL-LABOR-W16-SCREEN",
    "shard": "w16-screen-0of1"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "cleared_ts": "2026-10-09 23:35:52",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "07bb8f8a41e5dc49"
+  },
+  "scripts/trial_labor_w17.py|screen,1,8": {
+   "cleared_ts": "2026-10-09 11:38:03",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "519301605e3402f4"
+  },
+  "scripts/trial_labor_w17.py|screen,2,8": {
+   "cleared_ts": "2026-10-09 20:56:04",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "519301605e3402f4"
+  },
+  "scripts/trial_labor_w17.py|screen,3,8": {
+   "cleared_ts": "2026-10-09 21:38:05",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "519301605e3402f4"
   }
  },
  "lane_machine": "bm-a"
