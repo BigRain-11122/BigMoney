@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-09",
- "generated_at": "2026-10-09 19:45:20",
+ "generated_at": "2026-10-09 20:12:43",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-09.md"
  },
  "rd": {
-  "commits_24h": 433,
-  "result_jsons_landed_24h": 280,
+  "commits_24h": 432,
+  "result_jsons_landed_24h": 274,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 39,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-09 19:41:16",
-   "py_cpu_pct": 3.5,
+   "ts": "2026-10-09 20:08:23",
+   "py_cpu_pct": 1.0,
    "flags": [
     "supply_gap",
     "ignition_sla"
    ],
    "verdict": "FLAG:supply_gap,ignition_sla"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -662,9 +662,9 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1851576,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-09 19:13:27",
+   "prev_generated": "2026-10-09 19:34:12",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2377,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -675,17 +675,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-09 19:41:16",
-    "py_pct": 3.5,
-    "cpu_pct": 55.0,
+    "latest_ts": "2026-10-09 20:08:23",
+    "py_pct": 1.0,
+    "cpu_pct": 68.0,
     "ready": 9,
-    "streak_min": 1305.0,
+    "streak_min": 1332.1,
     "verdict": "FLAG:supply_gap,ignition_sla",
     "py_series_tail": [
-     [
-      "16:23",
-      0.1
-     ],
      [
       "16:42",
       6.4
@@ -729,12 +725,16 @@
      [
       "19:41",
       3.5
+     ],
+     [
+      "20:08",
+      1.0
      ]
     ],
-    "today_samples": 57,
-    "today_floor_ok": 46,
-    "today_sla_flags": 46,
-    "today_supply_gap_flags": 44
+    "today_samples": 58,
+    "today_floor_ok": 47,
+    "today_sla_flags": 47,
+    "today_supply_gap_flags": 45
    },
    "bm-b": {
     "latest_ts": "2026-10-08 23:39:08",
@@ -879,8 +879,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-09 19:41:16"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-09 20:08:23"
     }
    },
    "bm-b": {
