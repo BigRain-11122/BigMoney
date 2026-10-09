@@ -427,6 +427,16 @@ function renderChains() {
       `${n2(ah.mapped_pairs)} 对 · 新鲜 ${n2(ah.fresh_pairs)} · 隔离 ${n2(ah.quarantined)}`,
       ah.status === "bad" ? "bad" : (ah.status === "warn" ? "warn" : "ok"), ah.text));
   }
+  const cwall = D.data.collector_wall;
+  if (cwall && cwall.present) {
+    const nonok = (cwall.rows || []).filter(r => r.status === "warn" || r.status === "bad");
+    const note = nonok.length
+      ? nonok.map(r => `${esc(r.name)}:${r.status === "bad" ? "败" : "警"}${r.age_min != null ? " " + (r.age_min >= 1440 ? Math.floor(r.age_min / 1440) + "天" : r.age_min + "分") : ""}`).join("；").slice(0, 110)
+      : "全绿";
+    rows.push(chainRow("数据采集墙",
+      `${n2(cwall.n_total)} 面 · ok ${n2(cwall.n_ok)} · 警 ${n2(cwall.n_warn)} · 败 ${n2(cwall.n_bad)} · 待产出 ${n2(cwall.n_none)}`,
+      cwall.n_bad ? "bad" : (cwall.n_warn ? "warn" : "ok"), note));
+  }
   const h = D.data.heat;
   if (h && h.present) {
     rows.push(chainRow("热度链",

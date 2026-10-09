@@ -1,0 +1,22 @@
+WALL: "18 �� �� ok 12 �� warn 5 �� bad 0 �� ������ 1"
+  daily_core     lane=ȫ��   status=ok   age=25     cutoff=2026-10-08 cutoff 2026-10-08
+  lhb            lane=bm-a status=ok   age=23     cutoff=2026-09-30 no-op (no events beyond cutoff yet)
+  zt_pool        lane=bm-a status=ok   age=23     cutoff=2026-10-08 no-op: panel covers all bar-landed t
+  heat           lane=bm-a status=ok   age=23     cutoff=None       no-op: before 15:30:00 (post-close s
+  futures        lane=bm-a status=ok   age=23     cutoff=2026-10-08 no-op: cutoff covered
+  repo           lane=bm-a status=ok   age=23     cutoff=2026-10-08 no-op: cutoff covered
+  options        lane=bm-a status=warn age=294    cutoff=None       spawn: detached refresh
+  moneyflow      lane=bm-a status=warn age=43     cutoff=None       refresh source-blocked (connection-level
+  sina_mf        lane=bm-a status=ok   age=23     cutoff=2026-09-24 no-op: panel fresh
+  ths            lane=bm-a status=none age=None   cutoff=None       ������
+  fundamental    lane=bm-a status=ok   age=47     cutoff=None       �ڿ�
+  fund_statements lane=bm-a status=ok   age=23     cutoff=20260630   no_op
+  ah_panel       lane=bm-a status=warn age=43     cutoff=None       refresh
+  astock_daily   lane=bm-b status=warn age=947    cutoff=2026-09-30 refresh in progress (todo=5217/5229, qua
+  etf_daily      lane=bm-b status=ok   age=870    cutoff=2026-09-30 full-history pull, append-only, over
+  minute_feed    lane=bm-b status=warn age=2695   cutoff=None       1��δ��
+  fund_premium   lane=bm-c status=ok   age=49     cutoff=None       no-op: before close
+  fund_history   lane=bm-c status=ok   age=10069  cutoff=None       �걸
+BUILD-OK collector_wall wired: n_ok=12 n_warn=5 n_bad=0 n_none=1
+NODE-CHECK rc=0 
+T3-VERIFY ALL PASS

@@ -2389,6 +2389,105 @@ def _ah_state() -> dict:
     return out
 
 
+def _collector_wall_state() -> dict:
+    """J18b collector wall (tech-queue T3, r808 bm-c): one-glance health of
+    the whole update_* collector family on one face. Each row reads that
+    collector's own status file (single source per lane law); rows never
+    fabricated -- a missing face degrades to honest 待产出. Classification:
+    bad = fetch/validation failure or ok=False; warn = refresh in flight /
+    panel incomplete / stale >24h on an open face; ok = landed or legal
+    no-op; complete faces are terminal-ok (staleness is cutoff-business,
+    not run-cadence)."""
+    REG = [
+        ("daily_core", "日线核心", "update_status.json", None),
+        ("lhb", "龙虎榜", "lhb_update_status.json", "bm-a"),
+        ("zt_pool", "涨停池四面", "zt_pool_update_status.json", "bm-a"),
+        ("heat", "人气榜", "heat_update_status.json", "bm-a"),
+        ("futures", "期货主力", "futures_update_status.json", "bm-a"),
+        ("repo", "逆回购梯", "repo_update_status.json", "bm-a"),
+        ("options", "期权前向", "options_update_status.json", "bm-a"),
+        ("moneyflow", "主力资金流", "moneyflow_update_status.json", "bm-a"),
+        ("sina_mf", "Sina四档流", "sina_mf_update_status.json", "bm-a"),
+        ("ths", "THS聚合流", os.path.join("data", "ths_ggzjl", "status.json"),
+         "bm-a"),
+        ("fundamental", "财务资格", "fundamental_status.json", "bm-a"),
+        ("fund_statements", "财报三面", "fund_statement_update_status.json",
+         "bm-a"),
+        ("ah_panel", "AH溢价", "ah_panel_status.json", "bm-a"),
+        ("astock_daily", "个股日线qfq", "astock_daily_update_status.json",
+         "bm-b"),
+        ("etf_daily", "五员ETF", "etf_daily_pull_status.json", "bm-b"),
+        ("minute_feed", "ETF分钟", "minute_feed_status.json", "bm-b"),
+        ("fund_premium", "基金NAV", "fund_premium_status.json", "bm-c"),
+        ("fund_history", "基金史回填", "fund_history_status.json", "bm-c"),
+    ]
+
+    def _age_min(v):
+        try:
+            t = dt.datetime.fromisoformat(
+                str(v).replace(" ", "T").split(".")[0])
+            return int((dt.datetime.now() - t).total_seconds() // 60)
+        except Exception:
+            return None
+
+    rows = []
+    for cid, name, rel, lane in REG:
+        path = (os.path.join(PATHS.root, rel) if rel.startswith("data")
+                else os.path.join(PATHS.results_dir, rel))
+        d = _read_json(path)
+        row = {"id": cid, "name": name,
+               "lane": lane or (d or {}).get("lane") or "全机",
+               "present": bool(d), "ts": None, "age_min": None,
+               "cutoff": None, "mode": None, "status": "none",
+               "text": "待产出"}
+        if not d:
+            rows.append(row)
+            continue
+        ts = next((d[k] for k in ("updated", "ts", "generated",
+                                  "last_attempt", "last_success_ts",
+                                  "last_spawn_attempt") if d.get(k)), None)
+        row["ts"] = str(ts) if ts else None
+        row["age_min"] = _age_min(ts)
+        panel = d.get("panel") if isinstance(d.get("panel"), dict) else {}
+        cut = None
+        for cand in (d.get("cutoff"), d.get("cutoffs"), d.get("data_cutoff"),
+                     panel.get("cutoff"), d.get("nav_date")):
+            if cand:
+                cut = (str(max(cand.values())) if isinstance(cand, dict)
+                       else str(cand))
+                break
+        row["cutoff"] = cut
+        mode = next((str(d[k]) for k in ("verdict", "mode", "no_op_reason")
+                     if d.get(k)), "")
+        row["mode"] = mode[:80] or None
+        complete = d.get("complete", panel.get("complete"))
+        bad = (mode.startswith(("fail", "error"))
+               or "validation_fail" in mode or d.get("ok") is False)
+        inflight = any(s in mode for s in
+                       ("in progress", "refresh", "spawn", "在途"))
+        if bad:
+            row["status"], row["text"] = "bad", mode[:40] or "采集失败"
+        elif inflight:
+            row["status"], row["text"] = "warn", mode[:40]
+        elif complete is False:
+            row["status"], row["text"] = "warn", "面板未完备"
+        elif complete is True:
+            row["status"], row["text"] = "ok", (mode[:30] or "完备")
+        elif row["age_min"] is not None and row["age_min"] > 1440:
+            row["status"], row["text"] = "warn", f"{row['age_min'] // 1440}天未跑"
+        else:
+            row["status"] = "ok"
+            row["text"] = (mode[:36] or (f"cutoff {cut}" if cut else "在库"))
+        rows.append(row)
+    n = {s: sum(1 for r in rows if r["status"] == s)
+         for s in ("ok", "warn", "bad", "none")}
+    return {"present": bool(rows), "n_total": len(rows), "n_ok": n["ok"],
+            "n_warn": n["warn"], "n_bad": n["bad"], "n_none": n["none"],
+            "rows": rows,
+            "text": (f"{len(rows)} 面 · ok {n['ok']} · warn {n['warn']}"
+                     f" · bad {n['bad']} · 待产出 {n['none']}")}
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -2400,6 +2499,7 @@ def build() -> dict:
     data["options"] = _options_state()
     data["fund_premium"] = _premium_state()
     data["ah_panel"] = _ah_state()
+    data["collector_wall"] = _collector_wall_state()
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()

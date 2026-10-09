@@ -1,0 +1,404 @@
+
+// J10 distributed monitor -- real data only (window.DASH_DATA, JSONP convention
+// same as bigmoney.html/town.html; refreshed every loop tick by
+// python -m monitor.build_status). No mock values anywhere; missing data
+// degrades to explicit placeholders.
+
+const D = window.DASH_DATA || null;
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function n2(v, d) { return (v == null) ? "—" : v; }
+function fnum(v, digits) {
+  return (typeof v === "number") ? v.toFixed(digits) : "—";
+}
+function hhmm(s) {
+  const t = String(s == null ? "" : s);
+  return t.length >= 11 ? t.slice(11, 19) : t;
+}
+
+function renderHeader() {
+  const d = new Date();
+  document.getElementById("clock").textContent = d.toTimeString().slice(0, 8);
+  if (!D) return;
+  const sm = D.health.smoke;
+  const dot = document.getElementById("smoke-dot");
+  dot.className = "dot" + (sm.ok ? "" : " red");
+  document.getElementById("smoke-val").textContent = `${sm.pass}/${sm.pass + Math.max(0, sm.fail)}`;
+  document.getElementById("hdr-n").textContent = D.strategy.trials_total;
+  document.getElementById("hdr-traders").textContent = D.strategy.n_traders;
+  const net = D.health.network.net_type;
+  document.getElementById("net-type").textContent = net;
+}
+
+function renderNodes() {
+  const el = document.getElementById("node-list");
+  if (!D || !D.fleet || !D.fleet.present) {
+    el.innerHTML = '<div class="empty">机队心跳待产出（fleet/machines/）</div>';
+    return;
+  }
+  el.innerHTML = D.fleet.machines.map(m => {
+    const age = m.age_min == null ? "—" : m.age_min + "分";
+    return `
+    <div class="node ${m.health}">
+      <div class="name">${esc(m.id)} <span class="dot ${m.health === "ok" ? "" : (m.health === "warn" ? "yellow" : (m.health === "bad" ? "red" : "gray"))}"></span>R${n2(m.round_no)}</div>
+      <div class="row">心跳 <b>${esc(m.last_seen)}</b> · 龄 <b>${age}</b></div>
+      <div class="row"><b>${n2(m.cpu_cores)}</b>核 · 闲RAM <b>${n2(m.idle_ram_gb)}</b>G · GPU闲 <b>${n2(m.gpu_idle_vram_mb)}</b>M</div>
+      <div class="task">${esc(m.current_task || "—")}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderTickets() {
+  const el = document.getElementById("tickets");
+  if (!D || !D.fleet || !D.fleet.tickets.length) {
+    el.innerHTML = '<div class="empty">票据待产出（fleet/tasks/）</div>';
+    return;
+  }
+  const rows = D.fleet.tickets.map(t => `
+    <tr>
+      <td>${esc(t.id)}</td>
+      <td>${esc(t.type)}</td>
+      <td class="chip ${esc(t.status)}"><span>${esc(t.status)}</span></td>
+      <td class="owner">${esc(t.claimed_by || "—")}</td>
+    </tr>`).join("");
+  el.innerHTML = `
+    <table class="tickets">
+      <tr><th>ID</th><th>TYPE</th><th>STATUS</th><th>OWNER</th></tr>
+      ${rows}
+    </table>
+    <div class="kv" style="margin-top:4px;">
+      <span class="k">合计</span>
+      <span class="v">done ${D.fleet.n_done} · claimed ${D.fleet.n_claimed} · open ${D.fleet.n_open}</span>
+    </div>`;
+}
+
+function chainRow(name, val, st, stTxt) {
+  return `<div class="chain-row"><span class="nm">${esc(name)}</span>
+          <span class="val">${esc(val)}</span>
+          <span class="st ${st}">${esc(stTxt)}</span></div>`;
+}
+
+function pct(v, d) { return (typeof v === "number") ? (v * 100).toFixed(d) + "%" : "—"; }
+
+function renderCompany() {
+  const el = document.getElementById("company");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const p = (D.data && D.data.portfolio) || {};
+  if (p.present) {
+    rows.push(chainRow("EW6 组合",
+      `Sharpe ${fnum(p.ew_sharpe,4)} · 年化 ${pct(p.ew_annual,1)} · 回撤 ${pct(p.ew_dd,1)} · ×2 ${fnum(p.x2_sharpe,4)}${p.x2_survive ? " 存活" : ""}`,
+      p.ew_validated ? "ok" : "dim", p.ew_validated ? "validated" : "报告制"));
+    const iv = p.iv || {};
+    if (iv.present) {
+      rows.push(chainRow("IV6 预算",
+        `Sharpe ${fnum(iv.sharpe,4)} · 益 +${fnum(iv.benefit,3)} · DR ${fnum(iv.dr,2)} · ×2 ${fnum(iv.x2_sharpe,4)}${iv.x2_survive ? " 存活" : ""}`,
+        iv.v2_pass ? "ok" : "warn", iv.v2_pass ? "v2门过" : "T1待批"));
+    }
+  }
+  const cw = (D.data && D.data.corr_watch) || {};
+  if (cw.present) {
+    rows.push(chainRow("相关性监控",
+      `${n2(cw.verdict)} · W2 ${n2(cw.w2_hits)} 对 · 最高 ${fnum(cw.max_is2_pair,2)} · 尾窗 ${fnum(cw.rolling_avg_last,3)}`,
+      cw.verdict === "GREEN" ? "ok" : (cw.verdict === "RED" ? "bad" : "warn"),
+      (cw.w1_flag && cw.w1_flag !== "none") ? "W1旗" : "月更"));
+  }
+  const sc = (D.trading && D.trading.scorecard) || {};
+  if (sc.present) {
+    const g = sc.grade_counts || {};
+    const b = sc.best || {};
+    rows.push(chainRow("P-6 记分卡",
+      `S${n2(g.S)} A${n2(g.A)} B${n2(g.B)} C${n2(g.C)} · 最优 ${n2(b.id)} ${fnum(b.total,1)}`,
+      "dim", "月度重算"));
+  }
+  const pp = (D.trading && D.trading.paper) || {};
+  if (pp.x2_probation) {
+    rows.push(chainRow("×2 看护",
+      `probation ${n2(pp.x2_probation)} 员 · ${(pp.x2_probation_names || []).join(" ")}`,
+      "warn", "随 bar 滚动"));
+  }
+  const fr = (D.research && D.research.factor_line) || {};
+  if (fr.present) {
+    rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));
+  }
+  const gv = (D.data && D.data.governance) || {};
+  if (gv.present) {
+    const ga = gv.audit || {}, gb = gv.briefing || {};
+    rows.push(chainRow("治理面",
+      `审计 ${n2(ga.ok)}/${n2(ga.checks)} OK · findings ${n2(ga.findings)} · 简报 ${n2(gb.month)}`,
+      gv.status === "ok" ? "ok" : "warn", gv.status === "ok" ? "月度" : "待办"));
+  }
+  const qb = (D.data && D.data.queue_bandit) || {};
+  if (qb.present) {
+    rows.push(chainRow("队列排程", n2(qb.text), "dim", "UCB1 advisory"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
+}
+
+function renderChains() {
+  const el = document.getElementById("chains");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const u = D.data.update;
+  rows.push(chainRow("日线更新",
+    `cutoff ${n2(u.data_cutoff)} · ${n2(u.total_new_rows)} 行 · 失败 ${n2(u.failures)} · ${n2(u.symbols)} 符号`,
+    u.status === "bad" ? "bad" : (u.status === "warn" ? "warn" : (u.present ? "ok" : "dim")),
+    u.present ? u.text : "无件"));
+  const fl = D.fleet;
+  if (fl && fl.p1d) {
+    const g = fl.p1d.gates || {};
+    for (const [k, v] of Object.entries(fl.p1d.legs)) {
+      const gate = g[k] || {};
+      const cov = typeof gate.coverage === "number" ? (gate.coverage * 100).toFixed(1) + "%" : (gate.coverage || "—");
+      rows.push(chainRow("P-1d " + k,
+        `${n2(v.rows)} 行 · 门覆盖 ${cov}（门 ${n2(gate.gate)}）`,
+        gate.pass === true ? "ok" : (gate.pass === false ? "bad" : "dim"),
+        gate.pass === true ? "PASS" : (gate.pass === false ? "FAIL" : "—")));
+    }
+    rows.push(chainRow("P-1d 门时点", `gates ${n2(fl.p1d.gates_date)} · pull ${n2(fl.p1d.pull_updated)}`, "dim", "信息"));
+  }
+  if (fl && fl.lhb) {
+    const L = fl.lhb;
+    rows.push(chainRow("LHB", `cutoff ${n2(L.cutoff)} · 新 ${n2(L.new_rows)} 行`, L.verdict && String(L.verdict).startsWith("fail") ? "bad" : "ok", n2(L.verdict).slice(0, 24)));
+  }
+  const fq = D.data.futures;
+  if (fq && fq.present) {
+    rows.push(chainRow("期货日线",
+      `${n2(fq.varieties)} 品种 · ${n2(Math.round((fq.rows_total || 0) / 1000))}k 行 · cutoff ${n2(fq.cutoff)}`,
+      fq.status === "bad" ? "bad" : (fq.status === "warn" ? "warn" : "ok"), fq.text));
+  }
+  const mfw = D.data.moneyflow;
+  if (mfw && mfw.present) {
+    rows.push(chainRow("主力资金流",
+      `${n2(mfw.n_symbols)}/${n2(mfw.universe_n)} 只 · ${mfw.complete ? "cutoff " + n2(mfw.cutoff) : "前向采集"}`,
+      mfw.status === "bad" ? "bad" : (mfw.status === "warn" ? "warn" : "ok"), mfw.text));
+  }
+  const rp = D.data.repo;
+  if (rp && rp.present) {
+    rows.push(chainRow("逆回购梯",
+      `${n2(rp.terms)}/${n2(rp.planned)} 员 · ${n2(Math.round((rp.rows_total || 0) / 1000))}k 行 · cutoff ${n2(rp.cutoff)}`,
+      rp.status === "bad" ? "bad" : (rp.status === "warn" ? "warn" : "ok"), rp.text));
+  }
+  const op = D.data.options;
+  if (op && op.present) {
+    rows.push(chainRow("期权采集",
+      `宇宙 ${n2(op.universe)} · 补 ${n2(op.appended)} · pass ${n2(op.pass_date)}`,
+      op.status === "bad" ? "bad" : (op.status === "warn" ? "warn" : "ok"), op.text));
+  }
+  const fp = D.data.fund_premium;
+  if (fp && fp.present) {
+    rows.push(chainRow("基金NAV",
+      `NAV 日 ${n2(fp.nav_date)} · ${n2(fp.rows)} 行 · 覆盖 ${n2(fp.nav_done)}/${n2(fp.nav_total)}`,
+      fp.status === "bad" ? "bad" : (fp.status === "warn" ? "warn" : "ok"), fp.text));
+  }
+  const ah = D.data.ah_panel;
+  if (ah && ah.present) {
+    rows.push(chainRow("AH溢价",
+      `${n2(ah.mapped_pairs)} 对 · 新鲜 ${n2(ah.fresh_pairs)} · 隔离 ${n2(ah.quarantined)}`,
+      ah.status === "bad" ? "bad" : (ah.status === "warn" ? "warn" : "ok"), ah.text));
+  }
+  const cwall = D.data.collector_wall;
+  if (cwall && cwall.present) {
+    const nonok = (cwall.rows || []).filter(r => r.status === "warn" || r.status === "bad");
+    const note = nonok.length
+      ? nonok.map(r => `${esc(r.name)}:${r.status === "bad" ? "败" : "警"}${r.age_min != null ? " " + (r.age_min >= 1440 ? Math.floor(r.age_min / 1440) + "天" : r.age_min + "分") : ""}`).join("；").slice(0, 110)
+      : "全绿";
+    rows.push(chainRow("数据采集墙",
+      `${n2(cwall.n_total)} 面 · ok ${n2(cwall.n_ok)} · 警 ${n2(cwall.n_warn)} · 败 ${n2(cwall.n_bad)} · 待产出 ${n2(cwall.n_none)}`,
+      cwall.n_bad ? "bad" : (cwall.n_warn ? "warn" : "ok"), note));
+  }
+  const h = D.data.heat;
+  if (h && h.present) {
+    rows.push(chainRow("热度链",
+      `L1 ${n2(h.l1_snapshots)} 份 · L2 ${n2(h.l2_done)}/${n2(h.l2_target)} 件 · 拒 ${n2(h.l2_rejects)}`,
+      h.status === "bad" ? "bad" : (h.status === "warn" ? "warn" : "ok"), h.text));
+  }
+  const r = D.data.regime;
+  if (r && r.present) {
+    rows.push(chainRow("行情防线",
+      `${n2(r.state_cn)} · 在态 ${n2(r.days_in_state)} 日 · ${n2(r.mode)}`,
+      (r.state === "ORANGE" || r.state === "RED") ? "warn" : "ok",
+      (r.triggers || []).length ? "触发 " + r.triggers.join("；").slice(0, 16) : "无触发"));
+  }
+  const wm = D.data.watermark;
+  if (wm && wm.present) {
+    const py = (wm.py_tail || []).map(v => fnum(v, 1)).join("→");
+    const np = wm.next_pick;
+    rows.push(chainRow("算力水位",
+      `py ${py}% · 近红 ${n2(wm.red_flags_recent)} · 僵尸清 ${n2((wm.zombies_killed || []).length)}` +
+      (np ? ` · next ${esc(np.lane)}` : ""),
+      wm.red ? "bad" : "ok",
+      wm.red ? "🚩红牌" : (np ? n2(np.status) : "绿")));
+  }
+  const af = D.data.autofill;
+  if (af && af.present) {
+    const ids = (af.ready_ids || []).join(" ");
+    rows.push(chainRow("常供池 · autofill",
+      `ready ${n2(af.pool_ready)} · waiting ${n2(af.pool_waiting)} · tick判 ${n2(af.verdict)} · py ${fnum(af.py_cpu_pct, 1)}% · 补批延迟 ${n2(af.fill_latency_last)}min${ids ? " · " + esc(ids) : ""}`,
+      af.fill_target_met ? "ok" : "warn",
+      af.fill_target_met ? "10min 门达标" : "10min 门观察"));
+  }
+  const sat = D.data.saturation;
+  if (sat && sat.present) {
+    rows.push(chainRow("饱和审计面",
+      `载态 ${n2(sat.load_state)} · 池饿旗 ${sat.starvation_flag ? "立" : "无"} · 近段 ${n2(sat.starvation_flags_recent)} · ready ${n2(sat.pool_ready)}`,
+      sat.starvation_flag ? "warn" : "ok",
+      sat.starvation_candidate ? "候选观察" : "正常"));
+  }
+  const eng = D.data.engine;
+  if (eng && eng.present) {
+    const rowTxt = (eng.rows || []).map(r =>
+      `${esc(r.machine_id)} ${fnum(r.py_cpu_pct, 1)}%${r.engine_alive ? "" : " 💀"}`).join(" · ");
+    rows.push(chainRow("饱和引擎",
+      `${n2(eng.machines_alive)}/${n2(eng.machines_total)} 活 · ${rowTxt}`,
+      eng.machines_alive === eng.machines_total ? "ok" : "warn",
+      (eng.rows || []).map(r => `${esc(r.machine_id)} 队列 ${n2(r.queue_depth)} · 累计 ${n2(r.shards_done_total)} 片` + ((r.active_burns || []).length ? ` · 烧 ${(r.active_burns || []).join(",")}` : "")).join("；")));
+  }
+  const ew = D.data.engine_wave;
+  if (ew && ew.present) {
+    const ws = ew.waves || [];
+    const wtxt = ws.map(w => {
+      if (w.finalize_landed) return `W${n2(w.wave)}✓${n2(w.ledger_total)}`;
+      const sd = (w.shards_done == null) ? "—"
+        : `${n2(w.shards_done)}/${n2(w.shards_total == null ? 12 : w.shards_total)}`;
+      return `W${n2(w.wave)} ${sd}片 账待落`;
+    }).join(" · ");
+    const seats = (ew.seats || []).map(s => `W${n2(s.wave)} ${esc(s.machine)}`).join(" · ");
+    const landed = ws.filter(w => w.finalize_landed);
+    const head = landed.length ? landed[landed.length - 1] : null;
+    const sciTxt = head ? ` · mu ${fnum(head.merged_mu, 4)} σ ${fnum(head.merged_sigma, 4)}` : "";
+    const inFlight = ws.some(w => !w.finalize_landed &&
+      (w.shards_done == null || w.shards_total == null || w.shards_done < w.shards_total));
+    const accPending = ws.some(w => !w.finalize_landed && w.shards_done != null &&
+      w.shards_total != null && w.shards_done >= w.shards_total);
+    rows.push(chainRow("N1 波链 · 常供产线",
+      `注册尾 W${n2(ew.last_registered)} · 链头 ${n2(ew.chain_head)} · K ${n2(ew.k)}${sciTxt} · ${wtxt}` +
+      (seats ? ` · 前席 ${seats}` : "") + ` · 下一可席 W${n2(ew.next_seatable)}`,
+      (inFlight || accPending) ? "warn" : "ok",
+      inFlight ? "烧录在飞" : (accPending ? "账待落" : "常供")));
+  }
+  const tl = D.data.trial_labor;
+  if (tl && tl.present) {
+    const wv = (tl.waves || []).map(w => {
+      let s = `${n2(w.wave)}`;
+      s += w.screen_done ? " 屏✓" : " 屏…";
+      if (w.survivors_stage1 != null) s += ` 存${n2(w.survivors_stage1)}`;
+      if (w.judge) s += " 判✓";
+      return s;
+    }).join(" · ");
+    const pe = (tl.pool_entries || []).filter(e => e.status !== "done")
+      .map(e => `${n2(e.id)}:${n2(e.status)}`).join(" ");
+    rows.push(chainRow("试用劳力线 · 常设供给",
+      `${wv}${pe ? " · 池 {" + pe + "}" : ""}`,
+      pe ? "warn" : "dim", pe ? "池有待烧" : "漏斗史"));
+  }
+  const ff = D.data.fund_family;
+  if (ff && ff.present) {
+    const ftxt = (ff.families || []).map(f => {
+      const cellsDone = (f.cells || []).filter(c => (c.rows || 0) > 0).length;
+      const poolBits = (f.pool || []).map(e => {
+        const st = e.status === "done" ? "✔" : (esc(e.status) || "—");
+        const own = (e.status !== "done" && e.owner) ? "@" + esc(e.owner) : "";
+        return `${esc(e.id)}:${st}${own}`;
+      }).join(" ");
+      return `${esc(f.family)}[${n2(f.prereg_state)}] 判格 ${cellsDone}${(f.cells || []).length ? "/" + (f.cells || []).length : ""}` +
+        (f.nulls_rows ? ` NULLS ${n2(f.nulls_rows)}${f.nulls_target ? "/" + n2(f.nulls_target) : ""}` : "") +
+        (f.sens_rows ? ` SENS ${n2(f.sens_rows)}` : "") +
+        (f.results_landed ? " 判决✔" : "") +
+        (poolBits ? ` {${poolBits}}` : "");
+    }).join(" · ");
+    const allFam = ff.families || [];
+    const landed = allFam.some(f => f.results_landed);
+    const burning = allFam.some(f => (f.pool || []).some(e => e.status && e.status !== "done"));
+    rows.push(chainRow("基本面族战役",
+      ftxt,
+      landed ? "ok" : (burning ? "warn" : "dim"),
+      landed ? "判决面已落" : (burning ? "烧录在飞" : "排程/前置门")));
+    const fg = ff.finalize_gate;
+    const gateBits = fg ? Object.entries(fg.families || {}).map(([name, g]) => {
+      let s = esc(name.replace(/^fund_/, "").replace(/_p1$/, "").toUpperCase());
+      if (g.g_seg_pass === false) {
+        const chop = (g.g_seg_coverage && g.g_seg_coverage.chop != null) ? n2(g.g_seg_coverage.chop) : "?";
+        s += ` G-SEG chop${chop}<50 待${esc(g.g_seg_ruling_face || "GM")}裁`;
+      }
+      if (g.passive_crash) s += ` passive崩 待${esc(g.passive_fix_face || "bm-b")}修`;
+      return s;
+    }).join(" · ") : "";
+    const gated = !!(fg && Object.values(fg.families || {}).some(
+      g => g.g_seg_pass === false || g.passive_crash));
+    if (gateBits) {
+      rows.push(chainRow("基本面族 · finalize 前置门", gateBits,
+        gated ? "warn" : "ok", gated ? "待裁/待修" : "前置门净"));
+    }
+  }
+  const fv = D.data.family_verdicts;
+  if (fv && fv.present) {
+    const vtxt = (fv.verdicts || []).map(v => {
+      let s = esc(v.family);
+      if (v.verdict) s += `[${esc(v.verdict)}]`;
+      if (v.headline_sharpe != null) s += ` S ${fnum(v.headline_sharpe, 3)}`;
+      if (v.dsr != null) s += ` DSR ${fnum(v.dsr, 3)}`;
+      if (v.k_eff != null) s += ` K_eff ${n2(v.k_eff)}`;
+      if (v.members != null) s += ` ${n2(v.members)}员`;
+      if (v.ci95_lb_positive != null) s += ` CI95下界>0 ${n2(v.ci95_lb_positive)}/${n2(v.members || 0)}`;
+      if (v.window_cells != null) s += ` ${n2(v.window_cells)}窗`;
+      if (v.ledger_total != null) s += ` 账 ${n2(v.ledger_total)}`;
+      return s;
+    }).join(" · ");
+    rows.push(chainRow("家族判决图 · 深轴战役",
+      vtxt, "dim", "judged/closed"));
+  }
+  const t = D.data.token;
+  if (t && t.present) {
+    rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">链待产出</div>';
+}
+
+function renderAudit() {
+  const el = document.getElementById("audit");
+  if (!D || !D.fleet || !D.fleet.audit) {
+    el.innerHTML = '<div class="empty">审计待产出</div>'; return;
+  }
+  const a = D.fleet.audit;
+  const flags = (a.flags || []).join(", ");
+  el.innerHTML = `
+    <div class="kv"><span class="k">判定</span><span class="v">${esc(a.verdict)}</span></div>
+    <div class="kv"><span class="k">时刻</span><span class="v">${esc(a.ts)}</span></div>
+    <div class="kv"><span class="k">CPU 总/我方</span><span class="v">${fnum(a.cpu_total_pct, 0)}% / ${fnum(a.py_cpu_pct, 1)}%</span></div>
+    <div class="kv"><span class="k">核 / py 进程</span><span class="v">${n2(a.cores)} / ${n2(a.py_procs)}</span></div>
+    <div class="kv"><span class="k">GPU 利用/占用</span><span class="v">${fnum(a.gpu_util_pct, 0)}% / ${fnum(a.gpu_mem_used_mb, 0)}M</span></div>
+    <div class="kv"><span class="k">僵尸 / 越权</span><span class="v">${n2(a.zombies)} / ${(a.rogue_apps || []).length}</span></div>
+    ${flags ? `<div class="kv" style="color:var(--yellow)"><span class="k">旗</span><span class="v">${esc(flags)}</span></div>` : ""}`;
+}
+
+function renderToken() {
+  const el = document.getElementById("token");
+  if (!D || !D.data || !D.data.token || !D.data.token.present) {
+    el.innerHTML = '<div class="empty">计量待产出</div>'; return;
+  }
+  const t = D.data.token;
+  el.innerHTML = `
+    <div class="kv"><span class="k">状态载入</span><span class="v">${n2(t.state_est)}</span></div>
+    <div class="kv"><span class="k">报告累计</span><span class="v">${n2(t.report_est)}</span></div>
+    <div class="kv"><span class="k">回合增长</span><span class="v">${n2(t.delta_state)}</span></div>
+    <div class="kv"><span class="k">快照</span><span class="v">${esc(t.generated)}</span></div>`;
+}
+
+function renderLog() {
+  const el = document.getElementById("log");
+  if (!D || !D.events || !D.events.length) {
+    el.innerHTML = '<div class="line"><span class="t">[--]</span> <span class="info">事件待产出</span></div>';
+    return;
+  }
+  el.innerHTML = D.events.map(e => `
+    <div class="line"><span class="t">[${esc(hhmm(e.time))}]</span>
+    <span class="info">${esc(e.text)}</span></div>`).join("");
+}
+
+renderHeader(); renderNodes(); renderTickets(); renderCompany(); renderChains();
+renderAudit(); renderToken(); renderLog();
+setInterval(renderHeader, 1000);
