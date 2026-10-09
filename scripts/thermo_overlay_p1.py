@@ -43,6 +43,7 @@ sys.path.insert(0, ROOT)
 
 import science_gates as SG  # noqa: E402
 from screening.pbo import cscv_pbo  # noqa: E402
+from parallel_runner import run_cells_parallel, worker_cap  # noqa: E402  # O-20260930-2355 law-1: workers_plan is CODE
 
 BATCH = "THERMO-OVERLAY-P1"
 TRIALS_JUDGED = 6
@@ -385,6 +386,53 @@ def cmd_probe(_):
 
 # ------------------------------------------------------------------ run
 
+def _cell_compute(name, r_u, off, years, shifts, passive_sr, passive_sum):
+    """ProcessPool worker body for ONE judgment cell (r941 multicore retrofit
+    per O-20260930-2355 law-1). Math identical to the frozen serial design:
+    same overlay_stream/stats_block/_sharpe calls, same null law (shifts are
+    precomputed in the parent from rng(94500+i); workers only consume them),
+    same roundings. Parent reassembles in original mask-iteration order ->
+    payload byte-identical to the serial burn. Returns plain types only
+    (picklable across the wire)."""
+    T = len(r_u)
+    off = np.asarray(off, dtype=bool)
+    segs = count_segments(off)
+    x1 = overlay_stream(r_u, off, COST_SIDE_X1)
+    x2 = overlay_stream(r_u, off, COST_SIDE_X2)
+    year_labels = sorted(set(int(y) for y in years))
+    yr_x1 = {int(y): round(float(x1[years == y].sum()), 6) for y in year_labels}
+    yr_x2 = {int(y): round(float(x2[years == y].sum()), 6) for y in year_labels}
+    sign_agree = sum(1 for y in year_labels
+                     if (yr_x1[y] > 0) == (yr_x2[y] > 0))
+    null_rows, null_stress, sh = [], {}, []
+    for i, s in enumerate(shifts):
+        nm = off[(np.arange(T) + s) % T]
+        nv = overlay_stream(r_u, nm, COST_SIDE_X1)
+        nsr = _sharpe(nv)
+        null_rows.append((name, i, NULL_BASE + i, s, nsr))
+        if nsr is not None:
+            sh.append(nsr)
+        if i < 3:  # x2 stress face on first three nulls (disclosure)
+            nv2 = overlay_stream(r_u, nm, COST_SIDE_X2)
+            null_stress[f"{name}|null{i}"] = {
+                "shift": s, "x1": _sharpe(nv), "x2": _sharpe(nv2)}
+    a = np.asarray(sh, dtype=float)
+    null_cov = ({"n_values": int(len(a)), "mu": float(a.mean()),
+                 "sigma": float(a.std(ddof=1))} if len(a) >= 30 else None)
+    return {"segs": segs, "x1": x1.tolist(),
+            "x1_stats": stats_block(x1), "x2_stats": stats_block(x2),
+            "yearly_x1": yr_x1, "yearly_x2": yr_x2, "sign_agree": sign_agree,
+            "passive_diff": {"x1_minus_passive_sum":
+                             round(float(x1.sum() - passive_sum), 6),
+                             "x1_sr_minus_passive_sr":
+                             round(float((stats_block(x1)["sharpe"] or 0.0)
+                                         - passive_sr), 4)},
+            "sub_first_half": stats_block(x1[:T // 2]),
+            "sub_second_half": stats_block(x1[T // 2:]),
+            "null_rows": null_rows, "null_stress": null_stress,
+            "null_cov_raw": null_cov, "n_null_valid": int(len(sh))}
+
+
 def cmd_run(_):
     t0 = time.time()
     lane_guard()
@@ -423,55 +471,45 @@ def cmd_run(_):
     years = dates.year.values
     year_labels = sorted(set(int(y) for y in years))
 
+    # r941 multicore retrofit (O-20260930-2355 law-1): per-cell compute over
+    # the house ProcessPool; frozen quantities (masks/costs/nulls/seeds/
+    # gates/ledger) untouched; assembly below iterates masks in the SAME
+    # order as the serial design -> identical payload and CSV faces.
+    jobs = [(name, _cell_compute,
+             (name, np.asarray(r_u, dtype=float), np.asarray(off, dtype=bool),
+              years, shifts, passive_sr, float(np.asarray(r_u).sum())))
+            for name, off in masks.items()]
+    par = run_cells_parallel(jobs, workers=min(len(jobs), worker_cap()),
+                             desc="thermo cells")
+    workers_used = int(par.pop("__workers__", 1))
+
     for name, off in masks.items():
-        segs = count_segments(off)
+        res = par[name]
         f = FROZEN_MASK_FACTS[name]
-        if segs != f["segments"]:
-            _void(f"segment recount drift cell {name}: {segs} != frozen {f['segments']}")
-        x1 = overlay_stream(r_u, off, COST_SIDE_X1)
-        x2 = overlay_stream(r_u, off, COST_SIDE_X2)
-        s1 = pd.Series(x1, index=dates)
-        cell_series[name] = s1
-        # yearly faces (simple-return additive convention)
-        yr_x1 = {int(y): round(float(x1[years == y].sum()), 6) for y in year_labels}
-        yr_x2 = {int(y): round(float(x2[years == y].sum()), 6) for y in year_labels}
-        sign_agree = sum(1 for y in year_labels
-                         if (yr_x1[y] > 0) == (yr_x2[y] > 0))
+        if res["segs"] != f["segments"]:
+            _void(f"segment recount drift cell {name}: {res['segs']} != frozen {f['segments']}")
+        if res["null_cov_raw"] is None:
+            _void(f"null family too thin for cell {name}: {res['n_null_valid']} values")
+        x1 = np.asarray(res["x1"], dtype=float)
+        cell_series[name] = pd.Series(x1, index=dates)
         cells[name] = {
             "params": {"rule": f["rule"], "cost_side_x1": COST_SIDE_X1,
                        "cost_side_x2": COST_SIDE_X2},
-            "mask": {"off_days": int(np.asarray(off).sum()), "segments": segs,
-                     "n_trades": 2 * segs, "n_entries": segs},
-            "x1": stats_block(x1), "x2": stats_block(x2),
-            "passive_diff": {"x1_minus_passive_sum":
-                             round(float(x1.sum() - r_u.sum()), 6),
-                             "x1_sr_minus_passive_sr":
-                             round(float((stats_block(x1)["sharpe"] or 0.0)
-                                         - passive_sr), 4)},
-            "yearly_x1": yr_x1, "yearly_x2": yr_x2,
-            "yearly_sign_agreement": f"{sign_agree}/{len(year_labels)}",
-            "crash_year": bool(any(v <= CRASH_YEAR for v in yr_x1.values())),
-            "sub_first_half": stats_block(x1[:half]),
-            "sub_second_half": stats_block(x1[half:]),
+            "mask": {"off_days": int(np.asarray(off, dtype=bool).sum()),
+                     "segments": res["segs"],
+                     "n_trades": 2 * res["segs"], "n_entries": res["segs"]},
+            "x1": res["x1_stats"], "x2": res["x2_stats"],
+            "passive_diff": res["passive_diff"],
+            "yearly_x1": res["yearly_x1"], "yearly_x2": res["yearly_x2"],
+            "yearly_sign_agreement": f"{res['sign_agree']}/{len(year_labels)}",
+            "crash_year": bool(any(v <= CRASH_YEAR
+                                   for v in res["yearly_x1"].values())),
+            "sub_first_half": res["sub_first_half"],
+            "sub_second_half": res["sub_second_half"],
         }
-        # K=200 circular-shift nulls for THIS cell (frozen sec.3)
-        sh = []
-        for i, s in enumerate(shifts):
-            nm = np.asarray(off, dtype=bool)[(np.arange(T) + s) % T]
-            nv = overlay_stream(r_u, nm, COST_SIDE_X1)
-            nsr = _sharpe(nv)
-            null_rows.append((name, i, NULL_BASE + i, s, nsr))
-            if nsr is not None:
-                sh.append(nsr)
-            if i < 3:  # x2 stress face on first three nulls (disclosure)
-                nv2 = overlay_stream(r_u, nm, COST_SIDE_X2)
-                null_stress[f"{name}|null{i}"] = {
-                    "shift": s, "x1": _sharpe(nv), "x2": _sharpe(nv2)}
-        a = np.asarray(sh, dtype=float)
-        if len(a) < 30:
-            _void(f"null family too thin for cell {name}: {len(a)} values")
-        null_cov[name] = {"n_values": int(len(a)), "mu": float(a.mean()),
-                          "sigma": float(a.std(ddof=1))}
+        null_rows.extend(res["null_rows"])
+        null_stress.update(res["null_stress"])
+        null_cov[name] = res["null_cov_raw"]
 
     # family PBO: same-family 6-cell grid, CSCV-8 (frozen sec.4)
     in_df = pd.DataFrame({nm: cell_series[nm].values for nm in cell_series},
@@ -647,7 +685,14 @@ def cmd_run(_):
                                  "RNG; no wall-clock in content fields",
                   "engine_used": False,
                   "fresh_ledger_append": fresh,
-                  "generated_by": "bm-a r939 scripts/thermo_overlay_p1.py"},
+                  "workers": workers_used,
+                  "parallel": "house parallel_runner ProcessPool over 6 "
+                              "judgment cells (r941 retrofit, "
+                              "O-20260930-2355 law-1; per-cell math identical "
+                              "to frozen serial design)",
+                  "generated_by": "bm-a r939 scripts/thermo_overlay_p1.py "
+                                  "(r941 multicore retrofit; science faces "
+                                  "frozen-identical)"},
     }
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:
