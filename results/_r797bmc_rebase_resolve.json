@@ -1,0 +1,54 @@
+{
+ "round": 797,
+ "rebase": {
+  "picks": [
+   "a422fce54 S0 absorb",
+   "6c5beff1d main round 44f",
+   "0bc4776fb tick-dirt absorb"
+  ],
+  "base": "1bff68089 (bm-a machine-face commit)",
+  "conflict_faces": 13,
+  "resolver": ".codely-cli/scratch/_r797bmc_rebase_resolve.py",
+  "take_mine_evidence": "probe :2 origin 10:02:21..10:05:15 vs :3 mine 10:15:35..10:20:14 -- mine newer on all 11 ts-faces (r773 per-face law)",
+  "take_mine": [
+   "docs/daily_report/REPORT-2026-10-09.json",
+   "docs/daily_report/REPORT-2026-10-09.md",
+   "docs/live_usage/LIVE-2026-10-09.json",
+   "docs/live_usage/LIVE-2026-10-09.md",
+   "docs/live_usage/LIVE-latest.json",
+   "docs/live_usage/LIVE-latest.md",
+   "results/_attrition_guard_scan.json",
+   "results/fundamental_b_layer_filter.json",
+   "results/futures_update_status.json",
+   "results/lhb_update_status.json",
+   "results/token_usage.json",
+   "results/update_status.json"
+  ],
+  "twin_override_from_commit": [
+   "docs/daily_report/REPORT-2026-10-09.md"
+  ],
+  "union": {
+   "results/compute_audit.json": {
+    "origin_rows": 207,
+    "mine_rows": 201,
+    "union_rows": 208,
+    "latest_side": "mine"
+   },
+   "results/regime_state.json": {
+    "base_side": "mine",
+    "union_rows": 2
+   }
+  },
+  "continue_refusals": [
+   "r855 MM churn face (sat-engine tick mid-window) -> absorb+continue",
+   "pick-3 sat-face UU -> :2 fresher side (10:26:30) per r825 daemon-live-face priority law"
+  ]
+ },
+ "delivery": {
+  "head": "65f406c1b912886330a2808578f4d3579ef4d579",
+  "origin_main": "65f406c1b912886330a2808578f4d3579ef4d579",
+  "ahead": "0",
+  "behind": "0",
+  "note": "push race lost once (origin moved to 65f406c1b mid-push); daemon r290 keepalive self-commit (65f406c1b) tail-delivered the r797 commits; HEAD==origin after convergence (r773 tail-delivery normal-state law)"
+ }
+}
