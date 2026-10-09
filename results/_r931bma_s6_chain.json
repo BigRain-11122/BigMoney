@@ -1,0 +1,283 @@
+{
+ "start": "00:04:27",
+ "legs": [
+  {
+   "name": "dualrun_reconcile",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 418 entries, drift-free streak 9, cutoff 2026-10-09 06:28:49)",
+   "err_tail": ""
+  },
+  {
+   "name": "compute_audit",
+   "rc": 0,
+   "sec": 8.9,
+   "tail": "-6\", \"TRIAL-LABOR-W17-SCREEN-SHARD-7\", \"TRIAL-LABOR-W17-JUDGE\"], \"supply_family_streak_min\": 1568.3, \"gpu\": {\"present\": true, \"util_pct\": 23.0, \"mem_used_mb\": 10687.0, \"compute_apps_count\": 36, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": false, \"single_core_hog_detail\": null, \"parallel_efficiency\": {\"window_min\": 60.0, \"batches_judged\": 0, \"core_seconds\": 0.0, \"wall_seconds\": 0.0, \"effective_cores\": null, \"multicore_burn\": 0, \"single_core_burn\": 0, \"too_short_to_sample\": 0, \"readable\": true}, \"flags\": [\"supply_gap\", \"ignition_sla\"], \"verdict\": \"FLAG:supply_gap,ignition_sla\"}",
+   "err_tail": ""
+  },
+  {
+   "name": "py_watermark",
+   "rc": 0,
+   "sec": 6.9,
+   "tail": "{\"ts\": \"2026-10-10 00:04:43\", \"epoch\": 1791561877.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 57.0, \"cores\": 32, \"py_cpu_pct\": 1.5, \"py_procs\": 55, \"top_proc_cores\": 0.12, \"local_batch_running\": false, \"refresh_lock_lanes\": [], \"open_tickets\": 2, \"open_ticket_ids\": [\"T-2026-10-10-180\", \"T-2026-10-10-181\"], \"bandit_open\": 0, \"bars_present\": true, \"daily_panel\": true, \"verdict\": \"insufficient_history\", \"window\": {\"n\": 2, \"span_min\": 6.3}, \"series_kept\": 37}",
+   "err_tail": ""
+  },
+  {
+   "name": "update_daily",
+   "rc": 0,
+   "sec": 3.5,
+   "tail": "core pool: 48 CSVs | today-bar guard: >= 15:30:00\nnew rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-09\nstatus -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\update_status.json",
+   "err_tail": ""
+  },
+  {
+   "name": "market_regime",
+   "rc": 0,
+   "sec": 18.9,
+   "tail": "  asof=2026-10-09 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=3 mode=shadow\n  trigger: hs300<MA200 (#10 collected)\n  trigger: breadth 0.73>=65%",
+   "err_tail": ""
+  },
+  {
+   "name": "strategy_scorecard",
+   "rc": 0,
+   "sec": 131.7,
+   "tail": "  COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean\n  ENGULF-CE-01       A  total= 66.8  d1=83 d2=47 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean\nstrategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (131.3s)",
+   "err_tail": ""
+  },
+  {
+   "name": "market_clock_call",
+   "rc": 0,
+   "sec": 21.3,
+   "tail": "call written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0",
+   "err_tail": ""
+  },
+  {
+   "name": "update_lhb",
+   "rc": 0,
+   "sec": 9.1,
+   "tail": "fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-09\nrefetched quarter rows=5432 new_beyond_cutoff=0\nno events beyond cutoff yet - no-op",
+   "err_tail": "03<00:02,  1.72it/s]\r 64%|��������������   | 7/11 [00:04<00:02,  1.65it/s]\r 73%|����������������  | 8/11 [00:04<00:01,  1.71it/s]\r 82%|������������������ | 9/11 [00:05<00:01,  1.75it/s]\r 91%|������������������ | 10/11 [00:05<00:00,  1.58it/s]\r100%|��������������������| 11/11 [00:06<00:00,  1.58it/s]"
+  },
+  {
+   "name": "update_zt_pool",
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "no-op: panel covers all bar-landed trading days",
+   "err_tail": ""
+  },
+  {
+   "name": "update_heat",
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "no-op: weekend (no trading-day snapshot)",
+   "err_tail": ""
+  },
+  {
+   "name": "update_futures",
+   "rc": 0,
+   "sec": 0.3,
+   "tail": "no-op: local cutoff 2026-10-09 covers expected complete-bar date 2026-10-09 -> zero network",
+   "err_tail": ""
+  },
+  {
+   "name": "update_repo",
+   "rc": 0,
+   "sec": 0.3,
+   "tail": "no-op: local cutoff 2026-10-09 covers expected complete-bar date 2026-10-09 -> zero network",
+   "err_tail": ""
+  },
+  {
+   "name": "update_moneyflow",
+   "rc": 0,
+   "sec": 10.9,
+   "tail": "spawned detached rank pass: rank lane never fired",
+   "err_tail": ""
+  },
+  {
+   "name": "update_sina_mf",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: panel cutoff 2026-09-24 within 20 trading days of 2026-10-09 (rolling 250td window keeps it gapless) -> zero network",
+   "err_tail": ""
+  },
+  {
+   "name": "update_astock_daily",
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-a)",
+   "err_tail": ""
+  },
+  {
+   "name": "update_etf_daily",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-a)",
+   "err_tail": ""
+  },
+  {
+   "name": "regime_thermo_build",
+   "rc": 0,
+   "sec": 82.2,
+   "tail": "2026-09-22     5208        67        562              5      495   0.119217          41.0        19.0         4.0          3.0           6    0.012865\n\nDONE. csv+json at C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\regime_thermo",
+   "err_tail": ""
+  },
+  {
+   "name": "rev_osc_signal_export",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "rev_osc_signal_export: lane guard (owner=bm-b, this=bm-a) -- stdout-only honest no-op",
+   "err_tail": ""
+  },
+  {
+   "name": "update_minute_feed",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "update_minute_feed: lane guard (owner=bm-b, this=bm-a) -- stdout-only honest no-op",
+   "err_tail": ""
+  },
+  {
+   "name": "update_ths_panel",
+   "rc": 0,
+   "sec": 30.6,
+   "tail": "spawned detached refresh: day file 2026-10-09.csv missing, window open",
+   "err_tail": ""
+  },
+  {
+   "name": "ah_panel_puller",
+   "rc": 0,
+   "sec": 10.7,
+   "tail": "spawned detached refresh: panel not complete (first run or prior fuse-stop)",
+   "err_tail": ""
+  },
+  {
+   "name": "update_fund_premium",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: fund_premium lane owned by bm-c, not this machine (bm-a)",
+   "err_tail": ""
+  },
+  {
+   "name": "update_fundamental",
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "snapshot fresh (9.0h < 24h) -> skip",
+   "err_tail": ""
+  },
+  {
+   "name": "b_layer_filter",
+   "rc": 0,
+   "sec": 0.9,
+   "tail": "gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}\nmask -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\data\\fundamental\\b_layer_mask.csv\nverdict -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json",
+   "err_tail": ""
+  },
+  {
+   "name": "update_fund_statements",
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "no-op: panel complete: 86 periods x 3 faces cover latest statutory-complete 20260630 -> zero network",
+   "err_tail": ""
+  },
+  {
+   "name": "live_paper",
+   "rc": 0,
+   "sec": 6.0,
+   "tail": "NEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\paper\\NEEDLE-DE-01_paper.json\nVOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 7 bars since 2026-09-23 | months_tracked=0 dd=-0.0049 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\paper\\VOLATILITY-CE-01_paper.json\npaper tracking: OK",
+   "err_tail": ""
+  },
+  {
+   "name": "t35_open_fill_verify",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "open_fill_verify day=2026-10-09: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\t35_open_fill_verify.json",
+   "err_tail": ""
+  },
+  {
+   "name": "t24_prospect_paper",
+   "rc": 0,
+   "sec": 1.3,
+   "tail": "prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42)\nprospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-10-09",
+   "err_tail": ""
+  },
+  {
+   "name": "t24_prospect_promotion",
+   "rc": 0,
+   "sec": 6.8,
+   "tail": "PROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=2506)\nPROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=2506)\npromotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22",
+   "err_tail": ""
+  },
+  {
+   "name": "aggressive_lab_paper",
+   "rc": 0,
+   "sec": 60.3,
+   "tail": "aggr paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)",
+   "err_tail": ""
+  },
+  {
+   "name": "alloc_paper",
+   "rc": 0,
+   "sec": 0.9,
+   "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-a)",
+   "err_tail": ""
+  },
+  {
+   "name": "grid_paper",
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "grid paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)",
+   "err_tail": ""
+  },
+  {
+   "name": "system_v1_paper",
+   "rc": 0,
+   "sec": 0.9,
+   "tail": "system_v1_paper: marks already at lane cutoff 2026-09-30 -- no-op (idempotent)",
+   "err_tail": ""
+  },
+  {
+   "name": "t35_paper_export",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "export 2026-10-09: traders=6 positions=18 equity=6000311 ops(entry/exit)=0/0 source=2026-10-08\n-> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\export-2026-10-09.json + latest.json",
+   "err_tail": ""
+  },
+  {
+   "name": "daily_scorecard",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "scorecard written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6",
+   "err_tail": ""
+  },
+  {
+   "name": "daily_report",
+   "rc": 0,
+   "sec": 1.4,
+   "tail": "daily report written: REPORT-2026-10-10.md/.json faces=5 token=1",
+   "err_tail": ""
+  },
+  {
+   "name": "ceo_live_usage",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "ceo_live_usage: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-10-10.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)",
+   "err_tail": ""
+  },
+  {
+   "name": "build_status",
+   "rc": 0,
+   "sec": 21.7,
+   "tail": "dashboard status -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\dashboard_status.js\n  factors=10 backtest=432combos/0pass traders=6 milestones=5/7",
+   "err_tail": ""
+  },
+  {
+   "name": "token_meter",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "saved: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\token_usage.json\nper-round fixed context ~ 13953 + 8813 tokens (rough); ledger cumulative ~ 2049 state + 1851576 report tokens; delta=0\nL2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2717 across 82 sigs",
+   "err_tail": ""
+  }
+ ],
+ "new_bar": false,
+ "panel_pre": "2026-10-08",
+ "panel_post": "2026-10-08",
+ "end": "00:11:51",
+ "bad_legs": []
+}
