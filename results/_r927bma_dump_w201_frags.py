@@ -1,0 +1,21 @@
+import sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+src = open(r"scripts\perpetual_faces_n1.py", encoding="utf-8",
+           newline="").read().replace("\r\n", "\n")
+i = src.find("    # --- W201 materializer face")
+j = src.find("    _set_wave(2)", i)
+print(src[i:j + len("    _set_wave(2)")])
+print("=====CFG=====")
+i = src.find('    201: {"batch": "PERPETUAL-N1-W201",')
+j = src.find('"engine_owner": "bm-a"},', i)
+print(src[i:j + len('"engine_owner": "bm-a"},')])
+print("=====CLAIM=====")
+i = src.find('          "+ W201 materializer face')
+j = src.find('"r922 bm-a] "', i)
+print(src[i:j + len('"r922 bm-a] "')])
+print("=====PF=====")
+pf = open(r"scripts\perpetual_faces.py", encoding="utf-8",
+          newline="").read().replace("\r\n", "\n")
+i = pf.find("    # W201 (bm-a r922 freeze")
+j = pf.find('"engine_owner": "bm-a"},', i)
+print(pf[i:j + len('"engine_owner": "bm-a"},')])

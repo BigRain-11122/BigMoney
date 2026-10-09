@@ -24,7 +24,7 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 6,
+  "bars": 7,
   "months_tracked": 0,
   "monthly_returns": [],
   "current_dd": 0.0,
@@ -40,7 +40,7 @@
     {
       "month": "2026-10",
       "return": 0.0,
-      "bars": 1,
+      "bars": 2,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
@@ -64,13 +64,13 @@
     },
     "scaled_entries": 0,
     "status": "insufficient_data",
-    "bars": 6,
+    "bars": 7,
     "floor": 20,
     "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "cost_x2_check": {
     "status": "insufficient_data",
-    "bars": 6,
+    "bars": 7,
     "min_bars": 20
   },
   "x2_watch": {
@@ -80,12 +80,12 @@
     "survive": true,
     "source": "registration_x2_seed"
   },
-  "cutoff": "2026-10-08",
-  "updated": "2026-10-09 20:11:23",
+  "cutoff": "2026-10-09",
+  "updated": "2026-10-09 20:40:50",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-08"
+    "as_of": "2026-10-09"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -98,17 +98,18 @@
       "2026-09-28": "YELLOW",
       "2026-09-29": "YELLOW",
       "2026-09-30": "YELLOW",
-      "2026-10-08": "YELLOW"
+      "2026-10-08": "YELLOW",
+      "2026-10-09": "YELLOW"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 1,
+      "days_enforced": 2,
       "entries_blocked": 0,
       "entries_halved": 0
     },
     "shadow_ref": {
       "state": "ORANGE",
-      "asof": "2026-10-08"
+      "asof": "2026-10-09"
     },
     "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
@@ -120,7 +121,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-09 20:11:23",
+    "as_of": "2026-10-09 20:40:50",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
@@ -145,5 +146,11 @@
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },
-  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)",
+  "pending_entries": [
+    {
+      "symbol": "512400",
+      "queued_date": "2026-10-09"
+    }
+  ]
 }
