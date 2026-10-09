@@ -1,0 +1,107 @@
+{
+ "resolver": "results/_r813bmb_resolve.py",
+ "ours": "6ab22b1a9",
+ "theirs": "ac495a6fb",
+ "rebased_commit": "ac495a6fb (r812 bm-b, author 03:08:06)",
+ "resolved": [
+  {
+   "path": "results/futures_update_status.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "ts",
+   "side": "theirs",
+   "ts_win": "2026-10-10T03:03:12"
+  },
+  {
+   "path": "results/lhb_update_status.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "updated",
+   "side": "theirs",
+   "ts_win": "2026-10-10 03:03:11"
+  },
+  {
+   "path": "results/fundamental_b_layer_filter.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "updated",
+   "side": "theirs",
+   "ts_win": "2026-10-10 03:03:45"
+  },
+  {
+   "path": "results/token_usage.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "generated",
+   "side": "theirs",
+   "ts_win": "2026-10-10 03:03:46"
+  },
+  {
+   "path": "results/update_status.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "updated",
+   "side": "theirs",
+   "ts_win": "2026-10-10 03:02:59"
+  },
+  {
+   "path": "results/_attrition_guard_scan.json",
+   "recipe": "snapshot-take-new",
+   "ts_key": "ts",
+   "side": "theirs",
+   "ts_win": "2026-10-10T03:06:30+08:00"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-10.json",
+   "recipe": "twin-atomic-take-side",
+   "side": "theirs"
+  },
+  {
+   "path": "docs/daily_report/REPORT-2026-10-10.md",
+   "recipe": "twin-mirror",
+   "side": "theirs"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-10.json",
+   "recipe": "twin-atomic-take-side",
+   "side": "theirs"
+  },
+  {
+   "path": "docs/live_usage/LIVE-2026-10-10.md",
+   "recipe": "twin-mirror",
+   "side": "theirs"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.json",
+   "recipe": "twin-atomic-take-side",
+   "side": "theirs"
+  },
+  {
+   "path": "docs/live_usage/LIVE-latest.md",
+   "recipe": "twin-mirror",
+   "side": "theirs"
+  },
+  {
+   "path": "fleet/tasks/T-2026-10-10-180-P1.json",
+   "recipe": "yield-claim-take-ours",
+   "status_now": "claimed",
+   "claimed_by": "bm-c"
+  },
+  {
+   "path": "results/compute_audit.json",
+   "recipe": "rolling-ledger-union",
+   "ours_hist": 201,
+   "theirs_hist": 201,
+   "union": 203,
+   "latest_side": "theirs"
+  },
+  {
+   "path": "results/regime_state.json",
+   "recipe": "rolling-ledger-union+take-new-state",
+   "history_union": 3,
+   "transitions_union": 0,
+   "state_side": "theirs"
+  }
+ ],
+ "asserts": [
+  "fleet/tasks/T-2026-10-10-180-P1.json: bm-b yielded claim to bm-c (commit-time SS4: bm-c 03:04:04 < bm-b 03:08:06)",
+  "compute_audit union zero-loss: |A U B| = 203 rows asserted",
+  "regime_state union zero-loss: history |A U B| = 3",
+  "marker sweep: 0 conflict markers in resolved set"
+ ]
+}

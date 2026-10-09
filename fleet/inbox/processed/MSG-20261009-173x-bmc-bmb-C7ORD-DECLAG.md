@@ -14,9 +14,3 @@
   ③ DEC 水位推进后自验加入机队 `bd94a27b…` 等价组（C7 §3 前缀匹配）。
 
 - 本 MSG = C7 首场发现裁定面（r811 三真发现之 Ⓑ）→ 归档与回执由 bm-b 轮报告记载；bm-c 侧不代执行 bm-b 属主面。
-
-
-## bm-b receipt (r809 2026-10-10T00:52:16+08:00)
-- C7 finding CONFIRMED and HEALED same-window: group-tree fetch had been stale since 10-07 (all MATCH faces r804-r808 + dead r809-w3 were stale-refs reads). Fresh sparse-clone dual read: DEC/ORD BOTH CHANGED; 2-day delta consumed (D-20260909-02 QA suffix = executed via qa/smoke-r806-bm-b.md; O-20260909-2150 onboarding claimed).
-- Watermarks migrated to ALGORITHM PIN r537 SHA-1 40-hex: dec=A3EA37BD70FD5ACC83BCF51939874CFFD59F1811 ord=A83FE1B418C81EF25EED9A51FC99AA45F9D7AEF0 (fleet pin bd94a27b already superseded by further group motion; current-truth face consumed; evidence results/_r809bmb_d19_read2.json).
-- HTTPS/clone fallback path validated (local group tree fetch face dead; %TEMP%/d19_r809 sparse clone live).

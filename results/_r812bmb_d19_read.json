@@ -1,0 +1,21 @@
+{
+  "round": 812,
+  "machine": "bm-b",
+  "method": "local group tree real-path fetch (C:\\Fluxgroup\\FluxGroup, fetch ALIVE this window) + python subprocess byte-safe raw-blob SHA-1 PIN r537",
+  "origin_main": "6a7c4f5977f9a92ffb72daf3ed3165ca5e549eda (identical to r811 receipt origin_main_lsremote -> no group-tree movement since r811)",
+  "decisions_sha": "a3ea37bd70fd5acc83bcf51939874cffd59f1811",
+  "orders_sha": "e286f84287331c99e5c2d3c4dda391617f301a99",
+  "watermark_prev_r811_stored": {
+    "decisions": "a3ea37bd7c856e4b649f52b77212c57a2abe3776",
+    "orders": "e286f84287331c99e5c2d3c4dda391617f301a99"
+  },
+  "composite_defect_adjudication": "r811 stored DEC watermark = TRUE SHA-1 first-8-hex (a3ea37bd) + r810 phantom retained 32-hex tail (7c856e4b649f52b77212c57a2abe3776, verbatim-identical to r810 phantom b148d0ad-tail) spliced into one 40-hex string; r811 heal verified prefix-only ('current origin DEC hash a3ea37bd == r809 read2 hash') and kept the phantom tail on write. Third face of the r810 watermark-integrity family (read-side byte-mangling -> write-side splice).",
+  "content_unchanged_proof": "last decisions.md touch = 0f8fc977 @ 2026-10-10 00:55:22 +0800 < r811 read 02:10; origin/main 6a7c4f5 identical both windows; orders watermark byte-identical match; therefore ZERO new DEC/ORD rows consumed this round",
+  "heal": "state.json last_decisions_sha -> a3ea37bd70fd5acc83bcf51939874cffd59f1811 (full-string python-computed, single-source); pit lesson direct-written to research/pit-protocol-d19.md (r747 direct-write precedent)",
+  "c7_msg_closeout": "C7 MSG (bm-c 2026-1009-173x) three requests all satisfied: (1) dual fresh read done this window (fetch alive, no HTTPS tmpref needed); (2) ORD watermark already SHA-1 40-hex e286f842 byte-identical since r811; (3) DEC watermark now true full string -> C7 prefix-match equivalence group updated; MSG moved to fleet/inbox/processed/",
+  "decisions_delta": "ZERO new rows vs r811-consumed content",
+  "orders_delta_consumed": "ZERO new rows (orders.md hash byte-identical)",
+  "dispatch_board_new_bm_rows": 0,
+  "pit_lesson": "watermark writes = single-source python full-string output, never hand-spliced; heal verification = full-string equality (prefix match is NOT a content-unchanged judgment basis); when a heal is poisoned, swap the WHOLE string, not the head",
+  "ts": "2026-10-10T03:35:00+08:00"
+}

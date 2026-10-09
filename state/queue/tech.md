@@ -11,6 +11,11 @@
 | T9 | scorecard landing_hooks 判词面扩展（新冻结批判词面接线·冻结判词逐字消费律） | scripts/strategy_scorecard.py | open |
 | T10 | zt_pool 四面板交叉校验器（zt/zbgc/dtgc/strong 联动一致性·完备面日账对账扩展） | scripts/update_zt_pool.py+research/shortline/ZT_POOL.md | open |
 | T12 | QA charter 证据包归档轮转探针（qa/ 目录滚动窗清理·treasure_guard prescan 前置+quarantine 隔离模式） | qa/+Tools/treasure_guard.py | open |
+| T13 | D-19 水印写侧完整性守卫（r812 实录：r811 治愈面自身缺陷=SHA-1 真 8 位+承 r810 幻影尾 32 位拼接串入 state——写水位一律单源 python 全串、禁手拼、读侧全串恒等断言） | scripts/ 侧水位写步+results/_r812bmb_d19_read.json 证据 | open |
+| T14 | py_watermark 红牌判读精化（open 票=板工非池批：T-180/T-181 类认领工在飞时 py_low_with_work_cands 误红——事实清单分桶「池批可跑/板工在飞」两态） | scripts/py_watermark.py §四 | open |
+| T15 | regime_thermo_build 非 Money02 宿主车道判定（bm-b 实录 rc=1 honest face·GM P6 件禁双开——产适配提案走 HQ-FEEDBACK 或 GM 署名链，禁擅改 GM 主件） | scripts/regime_thermo_build.py+HQ-FEEDBACK.md | open |
+| T16 | dualarm 契约违约适配器（exit 3 blocked 路径的上游适配工装：§1 契约冻结禁改·适配器自动生成合法壳） | scripts/regime_gate_dualarm.py+REGIME_STYLE_MATRIX_V1 §1 | open |
+| T17 | fleet orders_ack 差集扫描自动化（轮首双扫手工化现状——glob×ack 集合差自动断言零未回执） | fleet/FLEET-OPS.md §S0.5 | open |
 
 > r805 消耗记录：T1（llm_assist summary 命令+OLLAMA_HOST 0.0.0.0 归一修复+selftest PASS+实物 research/auto/summary-bm-c-20261009.md）与 T11（scripts/repo_pulse_probe.py 探测器+results/repo_pulse_probe.json+selftest PASS）本轮完成出列；补入 T11-EXT 后续。技术队列 12→11 净减 1（self-drive §1 规则5 合规）。
 > r806 消耗记录：T11-EXT 本轮完成出列（scripts/repo_pulse_probe.py 全 11 员期限梯扩展+selftest PASS〔ladder join 腿新增〕+results/repo_pulse_probe.json 全梯面）。真发现=月末脉冲率随期限单调衰减（GC001 17.6%/lift 5.4x→GC003 13.2%→GC004 11.1%→GC007 8.2%→GC014 2.6%/GC028 0.8%〔两员反转低于非月末〕）+深市 R-001 月末 lift 4.7x+传导衰减（GC001 脉冲日 GC003 mean z 5.73→GC014 2.67→GC028 1.19）+GC091/182 非有限 z（平基线 MAD=0±∞）剔除计数披露。技术队列 11→10 净减 1。prereg 面按 T-67 §2 冻结律+P1 署名门不自动开（纯测量纪律维持）。

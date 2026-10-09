@@ -1,0 +1,70 @@
+{
+ "asof": "2026-09-30",
+ "asof_mismatch": {
+  "disclosure": "emotion arm = P-5C frozen face, trails the index-arm cutoff; honest as-is, no extrapolation",
+  "emotion_arm_cutoff": "2026-09-22",
+  "index_arm_cutoff": "2026-09-30"
+ },
+ "contract_receipt": {
+  "checks": {
+   "dates_strictly_ascending": true,
+   "keys_cutoff_source_labels": true,
+   "label_entry_shape": true,
+   "labels_nonempty": true,
+   "state_enum_5key": true
+  },
+  "contract": "REGIME_STYLE_MATRIX_V1 sec.1 input contract",
+  "pass": true
+ },
+ "emotion_arm": {
+  "axis_definitions_ref": "research/REGIME_THERMO_V1.md sec.1 (frozen, zero retouching)",
+  "cutoff": "2026-09-22",
+  "file": "results/regime_thermo/thermo_daily.csv",
+  "latest": {
+   "date": "2026-09-22",
+   "max_height": 6,
+   "n_broke": 495,
+   "n_firstboard": 41.0,
+   "n_lianban2": 19.0,
+   "n_lianban3": 4.0,
+   "n_lianban4p": 3.0,
+   "n_sealed": 67,
+   "n_sealed_down": 5,
+   "n_touched": 562,
+   "n_trade": 5208,
+   "pct_sealed": 0.012864823348694316,
+   "seal_rate": 0.11921708185053381
+  },
+  "n_days_panel": 7216
+ },
+ "face": "regime_gate_dualarm",
+ "honesty": {
+  "c1_gate_change_law": "C1 regime gate changes go through prereg + GM signature chain",
+  "emotion_arm_qualification": "exploratory descriptive face, ZERO judgment qualification (REGIME_THERMO_V1 sec.4)",
+  "evidence_face_only": "no gate criteria touched, no gating action (shadow evidence)",
+  "judgment_gate": "any thermo-state -> forward-return claim requires the independent prereg slice (T-2026-10-10-181) via science_gates shared library, no hand-copy"
+ },
+ "index_arm": {
+  "cutoff": "2026-09-30",
+  "file": "REGIME5-2026-09-30.json",
+  "first_label_date": "2013-03-21",
+  "latest_label_date": "2026-09-30",
+  "latest_state": "BEAR",
+  "n_labels": 3289,
+  "source": "REGIME-5 (bm-a)",
+  "state_distribution": {
+   "BEAR": 780,
+   "BULL": 201,
+   "CHOP": 2103,
+   "GRIND": 103,
+   "SUPPORT": 102
+  }
+ },
+ "provenance": {
+  "built_by": "bm-b r812",
+  "consumption": "C1 regime-gate evidence sibling face in the REGIME_GUARD consumption chain; gate state face remains results/regime_state.json",
+  "order_ref": "O-20261009-2340-bm-a.md sec.3 (dual-arm wiring)",
+  "ticket_claim": "T-2026-10-10-180 claimed 2026-10-10T02:57:21+08:00"
+ },
+ "ticket": "T-2026-10-10-180"
+}
