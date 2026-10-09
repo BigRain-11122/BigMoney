@@ -1,49 +1,10 @@
 ## Codely Structured Memories### Project
-
-
 ## Codely Structured Memories
 ### User
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### User
 ## Codely Structured Memories
-
-
-
-
-
-
-
-
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
-
-
-
-
-
-
-
-
 ### Feedback
 ### Project
 - 域指针·git 域首拆件导航行（r369 全文+全部增量注记 verbatim=archive 202610.md『热冷整编 2026-10-07 r703 bm-c 窗批』节）：git 域动作（S0 集成/push 撞拒/让路手术/closeout/外科推送/staged 提交前/解析 git 输出/零窗 git 调用）前必读 research/pit-git.md 及其子件族（surgery/surgery-guard/netpath/parse/staged/resolver/resolver-rebase/racewin）。
@@ -52,10 +13,6 @@
 - 域指针·D-20261002-06 协议域拆件（2026-10-02 r387 bm-c·T-2026-10-02-144(c)）：协议域坑律 27 条（轮协议与 D-19 水位消费/心跳与 state 簿记/认领让票与开票查收/收养三律/跨机宣称 git 实证面/prereg 准入与占位锚出场轴/finalize 记账与 AA 断言/judged 声明轴与 E1 判决/共享记忆 union 与 S0 restore 分类/正典机读字符面）已整域 verbatim 迁出→**research/pit-protocol.md**（件内字节对账+md5 行·零丢失断言）——S0.5 令扫/S0 恢复 restore/D-19 消费/心跳与 state 写/票认领让路/收养核验/prereg 起草与闸/judged 判决消费/共享 append-only 记忆面编辑前必读该件；流水/回执 2 条（r595 bm-a City3D 窗批）下沉→research/memory-archive/202610.md（r444 范式·指针行见 Reference 节）；r401 bm-c 增量回扫 6 条（D-19 路由/消费约定/恢复取号/E1 断板/时钟/簿记幂等族）已入件+direct-write 1 条（CODELY 域拆件块界坑·块界/双形态/ASCII 锚三律）——件内对账行为准；r411 bm-c 增量回扫 1 条（10-03 10:4x r410 融合形态律·块界变体④）已入件；另修 L56 r607 行 bullet 缺失形（变体⑤·行首裸 date 无连字符——行首过滤与 substring 兜底双漏·2 字节修复）（件内对账行为准）；r417 bm-c 增量回扫 3 条（r366 lane_io stale-view 假接管〔变体⑤ bullet-less 形迁移前 2B 归正〕/r371 origin-ref 心跳读腿/r415 HANDOVER 5x 机号限定）已入件（件内对账行为准）；r419 bm-c pre-split survivors 批次二 1 条（r294 lane_io 守卫梯子律）已入件（件内对账行+receipt 为准）；r439 bm-c 治愈 L14 行界合并缺陷（r509 行尾拼入 r569 外科域条目全文·split 战役边界 bug 族 r419 kin·already-migrated 门当场拦截·串录尾核 1429B 剔除零信息损失·r509 完好·真本随批迁 pit-git-surgery.md·pit-protocol 38,280→37,332B·receipt _r439bmc_pit_protocol_heal.json）。 r706 bm-b D-06 batch-3 sub-split（2026-10-05·域件 ≤30KB 再平衡）：pit-protocol.md 50,756B/53 条→本件 28 条 28,386B（轮协议核心：令扫/恢复分类/票让路/收养/猝死取号/state 簿记/共享记忆 union/字符面/lane_io 守卫/inbox）+pit-protocol-d19.md 13 条 12,164B（D-19 决策/orders 水位消费与内容寻址+水位探针族）+pit-protocol-judge.md 12 条 13,506B（prereg 准入/出场轴/finalize 记账与 AA 断言/judged 声明轴/E1 对账）·条目字节和 46,837B 三件恒等零丢失·变体⑥ 行内融合两条随宿主 blob 原样迁移·receipt=results/_r706bmb_pit_protocol_split_receipt.json——D-19 消费/水位探针动作前改读 pit-protocol-d19.md·prereg 闸/finalize/judged 消费动作前改读 pit-protocol-judge.md。
 - [2026-10-02 12:5x r575 bm-a] **§4 跳位语义钉死行（D-20261002-05 集团裁定·三机合流单）**：中位命中族（算术窗内非边缘端点命中·越 hit 起窗 vs 窗步链跳位两读法可分叉时）**一律越 hit 起窗**——依据=在册正主面零扰动（W68 现册 50_501..50_700）+先例密度 3:1（W26/W67/W68 vs W63）；边缘端点/尾点族两读法恒同解免钉（W74/W81 判例）；W63 中位历史面勘注不回改（git 史保全）。正典=法典 §4 钉死行+n1 selftest D-20261002-05 pin leg（正反断言·W68 判例锚·越 hit 读法==W68 注册带恒等/窗步链读法≠注册带拒绝）。
 - [2026-10-02 12:3x r365 bm-c] **法典 §4 跳位语义钉死行（D-20261002-05 集团裁定·三机合流判据·本行=三机共消费共享仓单行）**：带内中位命中=**越 hit 起窗**（窗自 hit+1 起扫首个净窗）——非整窗步进链（window-step chain）；冻结史例 W68-B（算术窗 50_401..50_600 撞 cta_p2_noau=50_500 中位→在册面 50_501..50_700=hit+1 起·r568 bm-a 首落）=正断言锚·链读 50_601..50_800=反断言锚；边缘端点命中两读法恒同解（W74-B 52_000／W81-B 54_000 族）不触发钉；W63-B=历史分叉例在册面不回改（r307 两态）。执法面=scripts/perpetual_faces.py selftest 第 9 腿（9/9 PASS）正反断言。
-
-
-
-
 ### Reference
 - 冷层指针（r812 合并·指针合并归档 r444/r779/r800 范式·D-20261002-06 主件 ≤30KB 判据腿）：r592/r639/r644/r651/r654/r666/r667/r670/r672/r679 十条冷层指针行——原十行全文 verbatim=archive 202610.md『热冷整编 2026-10-10 r812 bm-b 窗批』节（receipt=results/_r812bmb_coldptr_merge.json）；各所指正文另在 archive 202609.md/202610.md 对应『窗批』节与各 pit-* 域件；坑律本体全部在 pit-* 域件与正典件，指针行仅导航用。
 - 冷层指针（r779 合并·指针合并归档 r444/r800 范式·D-20261002-06 主件 ≤30KB 判据腿）：r387/r276/r483×2/r561/r431/r690/r643 八条冷层指针行——原八行全文 verbatim=archive 202610.md『热冷整编 2026-10-08 r779 bm-c 窗批』节（receipt=results/_r779bmc_coldptr_merge.json）；各所指正文另在 archive 202609.md/202610.md 对应『窗批』节（r292 正典=令件 fleet/orders/O-2026-09-30-2230-bm-a.md·r453 正典=fleet/orders/O-20261004-0808-bm-a.md+bm-c 轮报 r453）；坑律本体全部在 pit-* 域件与正典件，指针行仅导航用。
@@ -69,36 +26,21 @@
 - 域指针·r700 bm-b CODELY 主件回弹热冷整编批（D-20261002-06 主件回弹处置腿·2026-10-04 r700 bm-b）：Reference 节 10-03~10-04 增量坑律 87 条 verbatim 分域迁入各 pit 件（git 族=netpath/parse/surgery/staged·engine/pool/protocol/data/ps/tooling/spawn）——主件回弹处置收口；逐条字节+sha16 对账=receipt results/_r700bmb_d06_batch1_receipt.json（零丢失断言=逐块 bytes in target verbatim+主件字节恒等式+保留面恒等）；域件 ≤30KB 再平衡（流水下沉腿）=D-06 收口窗 10-07 维持；新坑律仍先入本件后回扫。
 - 冷层指针（r800 合并·指针合并归档 r444 范式·D-20261002-06 主件 ≤30KB 续压腿（D-20261007-01④ 顺延窗 10-09））：r483/r480/r292/r281/r481/r514/r504/r401/r447/r500 十条冷层指针行——原十行全文 verbatim=archive 202610.md『热冷整编 2026-10-07 r800 bm-a 窗批』节（receipt=results/_r800bma_coldptr_merge.json·登记册出入记录 2026-10-07 bm-a r800 行）；各所指正文另在 archive 202609.md/202610.md 对应『窗批』节；r447 正典=令件 fleet/orders/O-20261003-2030*.md+Tools/treasure_guard.py；r500 receipt=results/_r447bmc_d06_codely_heal.json；坑律本体全部在 pit-* 域件与正典件，指针行仅导航用。
 - 域指针·r783 bm-b 增量回扫批（D-20261002-06 主件 ≤30KB 判据腿·2026-10-06 r783 bm-b·迁移仪式 r441/r703 同款）：主件回弹增量坑律 2 条 verbatim 迁出——r782 worksnap 三连坑（S0 脏窗 worksnap 路径限定/checkout 竞态/guard RESTORE_FORBIDDEN 证据类）→pit-git-resolver.md〔S0 merge resolver 族·S0 脏窗处理动作前改读〕+r639 血统机械步进 \b 假界坑（r6NN 步进器 (?!\d) 形+修表全跑+compile 门）→pit-lineage-legdiff.md〔needle 步进器族·代际步进动作前改读〕——逐条字节+sha16 对账=receipt results/_r783bmb_codely_increment.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等式+主件 ≤30KB+全域件 ≤30KB·登记册出入记录行同步 append）；新坑律仍先入本件后回扫。
-
 - 域指针·r789 bm-b 增量回扫批（D-20261002-06 主件 ≤30KB 判据腿·2026-10-07 r789 bm-b·迁移仪式 r441/r703/r783 同款）：主件回弹增量坑律 3 条 verbatim 迁出——r640 QA 分离跑手轮标竞态坑（qa_ignite×close.py state 进位·close 前必 qa_poll 序）→pit-protocol-lane.md〔state 簿记/竞态族·QA 证据包收口动作前改读〕+r642 pull --rebase autostash pop 冲突致死+接管收口配方（净树零 autostash 根治律）→pit-git-resolver.md〔S0 脏窗/resolver 族〕+r787 rebase --continue 假冲突报×车道活面加窗坑（add+continue 原子化律）→pit-git-resolver.md〔S0 rebase continue 面〕——逐条字节+sha16 对账=receipt results/_r789bmb_codely_increment.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等式+主件 ≤30KB+全域件 ≤30KB·登记册出入记录行同步 append）；新坑律仍先入本件后回扫。
-
 - 域指针·r703 bm-c mini-split 批（D-20261002-06 主件 ≤30KB 判据腿·2026-10-07 22:2x·触发=主件 31,761B>30,720B）：Ollama 0.40.0 resume GPU 误判坑条目 verbatim 迁出→**research/pit-machine.md**（新域件·machine-state/Ollama/GPU 面·pause/resume/pin/显存诊断动作前改读该件）+r843 bm-a S5 账本尾行无终结符粘连坑 verbatim 迁出→pit-protocol-lane.md〔append-only 台账机械族〕——逐条字节+sha16 对账=receipt results/_r703bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主件 ≤30KB）；新坑律仍先入本件后回扫。
-
-
-
 - 域指针·r731 bm-c（10-08）：amend 已推提交坑（push 必非快进·禁 force→正法=ls-remote 前置门+reset --soft 回已推 tip+新提交快进·实弹零损失）→pit-git-staged.md〔r806/r689 同域〕+r853 行（GitHub 手写库全名 404）verbatim 迁 pit-tooling.md；收据=results/_r731bmc_codely_minisplit.json。
-
 - 域指针·r735 bm-c mini-split（10-08 05:5x·主件 blob 32,896B>30,720B 触发·仪式 r441/r731）：主件 4 行 verbatim 迁出——r863 rebase --continue 零 UU 仍拒坑（741B）→pit-git-resolver-rebase.md〔resolver 主件 30,089B 满员·rebase 冲突窗子件归位〕+r863 buildgen FRESH token 禁 s-图预处理坑（505B·行合并缺陷随迁治愈）→pit-engine.md+r734 pre-push 爪删集 push range 语义坑（1,138B）→pit-git-staged.md〔r806 同域〕+r711 水位 hash hex 大小写归一坑（772B）→pit-protocol-d19.md〔假 delta 族执法面〕——逐条字节+sha16 对账=receipt results/_r735bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc3 留痕）；新坑律仍先入本件后回扫。
 - 域指针·r736 bm-c mini-split（10-08 06:2x·新坑律 append 越帽触发｛30,654B+新条>30,720B｝·仪式 r441/r731/r735 同款）：主件 2 行 verbatim 迁出——r847 跨机部署无 BOM ps1 GBK 解析炸坑（871B）→pit-encoding.md［PS 宿主编码族·r521/r666 同域］+r849 外科推送双坑（811B）→pit-git-staged.md［commit 入场门+push 参数族·r731/r734 同域］；r736 轮驱动克隆漏裸数字参数坑（新律）留主件——逐条字节+sha16 对账=receipt results/_r736bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc 留痕）；新坑律仍先入本件后回扫。
 - 域指针·r739 bm-c mini-split（10-08 07:1x·新坑律 append 越帽触发｛30,422B+新条>30,720B｝·仪式 r441/r731/r736 同款·双迁行）：主件 2 行 verbatim 迁出——r736 轮驱动脚本克隆漏裸数字参数坑（753B）→pit-lineage.md［工具血统复制族·克隆替换机械面］+r703 E42 porcelain 多行单串假 0 UU 解析坑（800B）→pit-git-parse.md［解析 git 输出族·r703 批新律回扫归位］；r739 CAS 直投 cacheinfo 连等形态拒收坑（新律）留主件——逐条字节+sha16 对账=receipt results/_r739bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc 畕痕）；新坑律仍先入本件后回扫。
-
-
 - 域指针·r747 bm-c mini-split（10-08 08:5x·主件 31,267B 越帽 547B 当窗即办·仪式 r731/r739 同款）：r868 bm-a 半开 rebase 盲写坑（701B）→pit-git-resolver-rebase.md+r870 bm-a D-19 水位键伪修复坑（947B）→pit-protocol-d19.md verbatim 迁出；r747 竞窗 G4' 活面豁免坑（1220B·新律）直写 pit-git-resolver-rebase.md［r666 直写先例·resolver 主件满员］；对账=receipt results/_r747bmc_codely_minisplit.json（逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc 畕痕）；新坑律仍先入域件后回扫（直写例外 r666 范式）。
-
-
-
-
 - 域指针·r896 bm-a mini-split（10-09 02:4x·主件 30,922B 越帽 202B 当窗即办·仪式 r731/r747 同款）：r779 bm-c 跨机 DEC 水位矛盾核查三步法坑（970B）→pit-protocol-d19.md+r784 bm-c pull --rebase 拒多分支FETCH_HEAD 多候选坑（806B）→pit-git-resolver-rebase.md verbatim 迁出；r807 bm-b finalize重锤声明行（337B·内容已在 pit-protocol-judge.md 探针实证在位）主件摘除；对账=receipt results/_r896bma_codely_minisplit.json（逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc3 畕痕）；新坑律仍先入主件后回扫。
-
 - 域指针·r816 bm-c mini-split（10-09 18:5x·主件 30,544B 余量 176B 红线·仪式 r731/r747 同款）：r811 S0 scratch×CRLF 假脏环条目（原面）+r814 二连拒变体（pull fetch 秒窗·正法=fetch 后直接 rebase）+r815 rebase 直跑首发拒变体（drift-normalize+retry 一发）三面 verbatim/direct-write→pit-git-resolver-rebase.md+r815 H3 下载器 DOA 三连 bug（urllib timeout 元组+静默吞重试环+10× 字节）direct-write→pit-data.md〔r666 直写先例〕——逐块字节+sha16 对账=receipt results/_r816bmc_codely_minisplit.json（零丢失断言=逐块 bytes in target verbatim+主件保留面恒等+主/域件 ≤30KB·prescan rc 留痕）；新坑律仍先入主件后回扫（直写例外 r666 范式）。
 - [2026-10-10 00:2x] [r931 bm-a] O-20261009-2340 温度计循环侧承接处理完毕：每日刷新钩子已焊入 Tools/iteration_prompt.txt S6 链（运行时读取·下轮生效），政体门双臂/overlay 预注册已开票 T-2026-10-10-180/181＋179 done；正文指针=fleet/orders/O-20261009-2340-bm-a.md + r931 轮报告行。
-
 - [2026-10-10 03:5x r813 bm-b] **死会话 rebase 遗产抢救判例**：濒死会话死于 pull --rebase 冲突中途时，git status --porcelain 呈伪象（全 M/A 无 UU=濒死会话已 git add 塌缩 unmerged stage 之果）且藏 rebase 态——定谳唯一入口=非 porcelain git status 首行「interactive rebase in progress」；抢救序列=.git/rebase-merge/git-rebase-todo 读全 pick 链→parent-intersection 重建真冲突集（git diff --name-only <pick^>..<pick> ∩ <pick^>..<onto>）→分类器 --stdin 喂 UU 行取配方→解→GIT_EDITOR=true git rebase --continue（禁 abort·r220 律；每 pick 撞 daemon 活面=take-worktree-live+jsonl 三源 union 零丢失）。濒死会话的 git add ≠已解——pre-commit claw 是最后防线（标记件必拦）。
-
 - [2026-10-10 03:5x r813 bm-b] **rebase --continue 假冲突报真因=未暂存改动分支**：ls-files -u 全空时仍报「You must edit all merge conflicts and then mark them as resolved using git add」——真因=builtin/rebase.c rebase_continue 的 has_unstaged_changes 检查（消息文本复用冲突语境=误导定因）；诱因=活 daemon（SatEngine 周期写 face/state/history）在 add 与 continue 之间落盘竞态。解法=git add -A 吸收后同秒连发 continue；反复竞态=反复 add+continue（每次吸收最新 daemon 面=take-worktree-live 语义天然正确）；同理 dying-session add 后 daemon 覆写冲突标记件=worktree 反而最干净（face/state 无标记=直接取）。
-
 - [2026-10-10 04:1x r814 bm-b] **水位比较域错配坑（r786/r716 族新变体·当窗抓回零误账）**：`git rev-parse origin/main:<path>` 的 git blob sha（内容+`blob <size>\0` 头的域）≠ 水位键的 python raw-bytes content hash（r812 全串真值同法）——同算法（SHA-1 40hex）不同域，r814 现场拿 rev-parse 值 5811bc40 对水位 a3ea37bd 裸比较=假「新决策」差点触发重消费轮（b148d0ad 幻影值另证 PS 管道域=r810 族）。How to apply：水位比对/写键一律跑仓内正典探针（results/_r686bmb_d19_check.py 双律内建版），rev-parse 域值禁入比较面；手算值≠水位键时先换正典探针复算再定性（禁直接进消费分支）。
 - [2026-10-10 04:5x r816 bm-b] **sina 1m 分钟源形状=上交收盘集合竞价洞（SHSE closing call auction 14:57-15:00）**：全宇宙码近全日普查 39/39 恒缺 14:58/14:59 两标签（非数据损失=收盘竞价暂停连续撮合、结果并入 15:00 标签柱），满日真形状=238 bar 而非 240；追加律下日内洞永不回填（只并 day>本地最大行），故源侧缺分钟一经跨日即冻结=如实披露禁编造。How to apply：一切分钟面消费/校验（完备性、覆盖率、回测对齐）先扣 SOURCE_ABSENT_LABELS={14:58,14:59} 再算覆盖，否则满日恒 99.17% 假缺口全覆盖；校验器=scripts/update_minute_feed.py verify（T8·确定性幂等·results/minute_feed_verify.json），spec=research/etf_ops/MINUTE_FEED.md v1.4 增补行。
 - [2026-10-10 05:4x r817 bm-b] **脚本双入口分支路径面不对等坑（selftest 分支漏插 ROOT）**：strategy_scorecard.py 直调 `python scripts\strategy_scorecard.py selftest` 恒 ModuleNotFoundError('knowledge')——main() run 分支早已 sys.path.insert(0, ROOT) 而 selftest 分支在插入点之前 sys.exit 出走=两分支 import 面不对等；T-127 science_gates→knowledge ns-pkg import 落地后 selftest 直调即死且 smoke 不覆盖 scorecard（红项隐形）。HEAD stash 复现确认 pre-existing 非新引入。How to apply：多入口脚本的 sys.path 路径插入一律放模块顶层（分支共享=漏插温床根治），分支内再插=该分支外全死；给 smoke 增补 selftest 直调覆盖位前先查本坑。
 - [2026-10-10 05:5x r818 bm-b] **心跳大列表字段禁全文件手写重录（转录腐坏未出门 HEAD blob 正典治愈）**：收尾重写 fleet/machines/bm-b.json 时 orders_ack 184 条目列表手工重打=11 件条目名 202609xx/202610xx 位换腐坏（O-20261007→O-20260907 族）——差集机制恰好是 tech 队列 T17 的存在理由，本轮自伤实证其必要性；治愈=git show HEAD:fleet/machines/bm-b.json 取正典 blob 只回填 orders_ack 单字段+T17 式 glob×ack 差集断言零未回执零幻影（收据 results/_r818bmb_ack_heal.json）。How to apply：心跳/台账类含大列表字段的文件更新=脚本加载-改字段-落盘（禁整文件手打重录）；腐坏已发生时以 HEAD blob 为正典源恢复受染字段+差集验证收口。
 - [2026-10-10 06:2x r819 bm-b] **D-19 水位写步正典化**：S0.5/收口一切水位键写入一律走 `scripts/d19_watermark.py update`（读=正典探针 subprocess·写=verbatim 全串+--advance 原子门+读回恒等断言·selftest 14/14·回执 results/d19_watermark.json），禁手拼/前缀验证/收口脚本手写键（r810-r812 族四犯根治面）；坑律本体=pit-protocol-d19.md r812 条。How to apply：任何轮会话/收口脚本需要写 last_decisions_sha/last_orders_sha 时改调守卫，delta 先消费后 --advance。
+- [2026-10-10] PARKING-P1 停泊域首判决批收口（O-20261009-1105 CEO 直令·bm-a r945 死会话遗产收编）：24 格 0 全链过、0/3 注册——120td 承接正 pickup（+1.0~+3.4%/yr）但不过极端值技能线 5.1562（N_eff=862k 级）+滚动最差 3y 窗全负于 2025+ 段=非平稳实锚；判负收线=停泊 vehicle 维持 C2 repo 代理（GC001），复活条件=复权面板数据债清后另开 prereg；正典=research/PARKING_P1_PREREG.md §7/§8 回填+results/parking_p1.json。
