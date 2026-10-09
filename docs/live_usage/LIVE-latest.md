@@ -1,12 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-10
 
-<<<<<<< HEAD
-> 自动生成 2026-10-10T06:06:14 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
-||||||| parent of f9e65d539 (round 829 pre-rebase absorb: T17 orders_ack_scan estate from dead pred session (selftest 10/10 + real-run CLEAN verified) + daemon live faces + r828 S6 doc faces)
-> 自动生成 2026-10-10T05:22:05 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
-=======
-> 自动生成 2026-10-10T05:51:10 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
->>>>>>> f9e65d539 (round 829 pre-rebase absorb: T17 orders_ack_scan estate from dead pred session (selftest 10/10 + real-run CLEAN verified) + daemon live faces + r828 S6 doc faces)
+> 自动生成 2026-10-10T06:22:06 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
