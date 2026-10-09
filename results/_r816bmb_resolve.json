@@ -17,5 +17,11 @@
   "results/compute_audit.json": "union {'history': {'ours': 206, 'theirs': 201, 'union': 207}}",
   "results/regime_state.json": "union {'history': {'ours': 3, 'theirs': 3, 'union': 3}, 'transitions': {'ours': 0, 'theirs': 0, 'union': 0}, 'triggers': {'ours': 2, 'theirs': 2, 'union': 2}}"
  },
- "notes": []
+ "notes": [],
+ "pick2": {
+  "results/p1d_gates.json": "take-ours content-equal derive, newest meta.date 05:03>05:01",
+  "results/saturation_engine/face_bm-b.json": "take-theirs single-writer bm-b live face",
+  "results/saturation_engine/history_bm-b.jsonl": "take-theirs single-writer bm-b live face",
+  "results/saturation_engine/state_bm-b.json": "take-theirs single-writer bm-b live face"
+ }
 }
