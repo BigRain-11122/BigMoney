@@ -24,12 +24,14 @@ Honesty laws (frozen, ticket T-2026-10-10-180):
 - lane guard: bm-b only (R31); other machines stdout-only honest no-op
 
 Exit codes: 0 = normal/no-op, 2 = mechanism fault, 3 = upstream contract
-violation (blocked, awaiting adapter decision per MATRIX sec.1 --
-adapter allowed, contract itself frozen).
+violation the sec.1 adapter could not legalize (blocked; lossless classes
+are auto-shelled by scripts/regime_gate_dualarm_adapter.py -- MATRIX
+sec.1: adapter at wiring time, the contract itself frozen).
 Selftest: python scripts/regime_gate_dualarm.py selftest (offline)
 """
 
 import csv
+import hashlib
 import io
 import json
 import os
@@ -220,24 +222,66 @@ def run(root=ROOT):
     if _lane_owner_id() != LANE_OWNER:
         print("regime_gate_dualarm: not lane owner (bm-b), honest no-op")
         return 0
-    emo = load_emotion_arm()
+    emo = load_emotion_arm(THERMO_CSV)
     if emo is None:
         print("regime_gate_dualarm: awaiting_upstream (thermo_daily.csv "
               "absent), honest no-op")
         return 0
-    picked = pick_latest_labels_file()
+    picked = pick_latest_labels_file(LABELS_DIR)
     if picked is None:
         print("regime_gate_dualarm: awaiting_upstream (regime5_labels "
               "absent), honest no-op")
         return 0
     labels_path, doc = picked
     receipt = validate_contract(doc)
+    adaptation = None
     if not receipt["pass"]:
-        print("regime_gate_dualarm: upstream contract VIOLATION (blocked, "
-              "adapter needed per MATRIX sec.1) receipt="
-              + json.dumps(receipt["checks"], sort_keys=True))
-        return 3
+        # MATRIX sec.1: adapter at wiring time, the contract itself frozen
+        # (tech T16). Lossless classes -> legal shell consumed with full
+        # disclosure; judgment/data-absent classes stay blocked exit 3.
+        import regime_gate_dualarm_adapter as adapter
+        res = adapter.adapt(doc)
+        if not res["ok"]:
+            print("regime_gate_dualarm: upstream contract VIOLATION, adapter "
+                  "BLOCKED (data absent or judgment pick required) reasons="
+                  + json.dumps(res["blocked"], sort_keys=True))
+            return 3
+        with io.open(labels_path, "rb") as f:
+            orig_sha = hashlib.sha256(f.read()).hexdigest()
+        base = os.path.basename(labels_path)
+        shell_name = (base[:-len(".json")] if base.endswith(".json")
+                      else base) + ".adapted.json"
+        shell_dir = os.path.join(OUT_DIR, "adapted")
+        if not os.path.isdir(shell_dir):
+            os.makedirs(shell_dir)
+        shell_path = os.path.join(shell_dir, shell_name)
+        _atomic_write(shell_path, res["adapted"])
+        doc = res["adapted"]
+        receipt = validate_contract(doc)
+        if not receipt["pass"]:
+            print("regime_gate_dualarm: adapter shell failed the frozen "
+                  "validator (fail-closed), honest block")
+            return 3
+        adaptation = {
+            "law": "REGIME_STYLE_MATRIX_V1 sec.1: adapter at wiring time, "
+                   "contract frozen (tech T16)",
+            "original_file": base,
+            "original_sha256": orig_sha,
+            "failed_checks_before": res["violations"],
+            "adaptation_log": res["log"],
+            "n_labels_in": res["n_labels_in"],
+            "n_labels_out": res["n_labels_out"],
+            "adapted_shell": "results/regime_gate_dualarm/adapted/"
+                             + shell_name,
+        }
+        print("regime_gate_dualarm: contract violation -> legal shell "
+              "generated (lossless ops=%s), consuming adapted view with "
+              "disclosure"
+              % (",".join(sorted({e["op"] for e in res["log"]}))
+                 or "none"))
     artifact = build_artifact(emo, labels_path, doc, receipt)
+    if adaptation is not None:
+        artifact["adaptation"] = adaptation
     if not os.path.isdir(OUT_DIR):
         os.makedirs(OUT_DIR)
     out = os.path.join(OUT_DIR, "DUALARM-%s.json" % artifact["asof"])
@@ -252,6 +296,8 @@ def run(root=ROOT):
 def _selftest():
     import shutil
     import tempfile
+
+    global THERMO_CSV, LABELS_DIR, LANE_OWNER, OUT_DIR
 
     results = []
 
@@ -315,7 +361,6 @@ def _selftest():
         check("index_latest_state", art["index_arm"]["latest_state"] == "BEAR")
         out_dir = os.path.join(td, "out")
         os.makedirs(out_dir)
-        global OUT_DIR
         saved_out = OUT_DIR
         try:
             OUT_DIR = out_dir
@@ -347,6 +392,72 @@ def _selftest():
         if os.path.isdir(LABELS_DIR):
             pk = pick_latest_labels_file()
             check("integration_labels_loaded", pk is not None)
+        # L12 run()-level e2e: violating labels -> legal shell + disclosure
+        e2e_dir = os.path.join(td, "e2e")
+        ldir2 = os.path.join(e2e_dir, "labels")
+        out2 = os.path.join(e2e_dir, "out")
+        os.makedirs(ldir2)
+        os.makedirs(out2)
+        thermo2 = os.path.join(e2e_dir, "thermo_daily.csv")
+        with io.open(thermo2, "w", encoding="utf-8", newline="\n") as f:
+            f.write("date,n_trade,n_sealed,n_touched,n_sealed_down,"
+                    "n_broke,max_height,seal_rate,n_firstboard,"
+                    "n_lianban2,n_lianban3,n_lianban4p,pct_sealed\n")
+            f.write("2026-09-21,10,5,50,3,1,4,0.1,2,1,0,0,0.5\n")
+            f.write("2026-09-22,12,6,60,4,1,5,0.1,2,1,0,0,0.5\n")
+        with io.open(os.path.join(ldir2, "L.json"), "w",
+                     encoding="utf-8") as f:
+            json.dump({"cutoff": "2026-09-22", "source": "e2e",
+                       "labels": [{"date": "2026-09-21", "state": "bull"},
+                                  {"date": "2026-09-21", "state": "bull"},
+                                  {"date": "2026-09-20",
+                                   "state": "BULL"}]}, f)
+        s_thermo, s_labels, s_out, s_lane = (THERMO_CSV, LABELS_DIR,
+                                             OUT_DIR, LANE_OWNER)
+        try:
+            THERMO_CSV, LABELS_DIR, OUT_DIR = thermo2, ldir2, out2
+            LANE_OWNER = _lane_owner_id()
+            rc = run()
+            check("e2e_adapt_rc0", rc == 0)
+            art_path = os.path.join(out2, "DUALARM-2026-09-22.json")
+            check("e2e_artifact_written", os.path.isfile(art_path))
+            with io.open(art_path, encoding="utf-8") as f:
+                art = json.load(f)
+            check("e2e_adaptation_disclosed",
+                  art.get("adaptation", {}).get("n_labels_in") == 3
+                  and art["adaptation"]["n_labels_out"] == 2
+                  and len(art["adaptation"]["original_sha256"]) == 64
+                  and "dedupe" in {e["op"] for e in
+                                   art["adaptation"]["adaptation_log"]})
+            check("e2e_shell_landed",
+                  os.path.isfile(os.path.join(out2, "adapted",
+                                              "L.adapted.json")))
+            # L13 run()-level e2e: judgment-class violation stays blocked
+            with io.open(os.path.join(ldir2, "L.json"), "w",
+                         encoding="utf-8") as f:
+                json.dump({"cutoff": "2026-09-22", "source": "e2e",
+                           "labels": [{"date": "2026-09-20",
+                                       "state": "MARS"}]}, f)
+            check("e2e_blocked_rc3", run() == 3)
+            # L14 clean labels -> no adaptation key (schema stability)
+            with io.open(os.path.join(ldir2, "L.json"), "w",
+                         encoding="utf-8") as f:
+                json.dump({"cutoff": "2026-09-22", "source": "e2e",
+                           "labels": [{"date": "2026-09-21",
+                                       "state": "BULL"},
+                                      {"date": "2026-09-22",
+                                       "state": "CHOP"}]}, f)
+            check("e2e_clean_rc0", run() == 0)
+            with io.open(art_path, encoding="utf-8") as f:
+                art3 = json.load(f)
+            check("e2e_clean_no_adaptation_key", "adaptation" not in art3)
+            b_before = io.open(art_path, "rb").read()
+            run()
+            check("e2e_rerun_byte_identical",
+                  io.open(art_path, "rb").read() == b_before)
+        finally:
+            THERMO_CSV, LABELS_DIR, OUT_DIR, LANE_OWNER = (
+                s_thermo, s_labels, s_out, s_lane)
     finally:
         shutil.rmtree(td, ignore_errors=True)
 
@@ -366,4 +477,9 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # canonical-copy launcher: running this file as __main__ directly would
+    # make the adapter's `from regime_gate_dualarm import ...` (single-source
+    # law) load a second divergent module copy (classic __main__ trap); route
+    # through the canonical module instead.
+    import regime_gate_dualarm as _canonical
+    sys.exit(_canonical.main())
