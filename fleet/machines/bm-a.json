@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-09T10:06:41+08:00",
+ "clock_read": "2026-10-09T11:41:00+08:00",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_load_pct": 23.0,
@@ -8,7 +8,7 @@
  "cpu_total_pct": 23.0,
  "cpu_util_pct": 23.0,
  "current": "r910 closed: W195 finalize landed + W196 seat published; S6 39-leg green; next = W196 prereg build + five-face freeze",
- "current_task": "r911: W196 prereg build (buildgen anchor=W195 actuals 843,345/426,920 per r590; proj ledger 845,545 / K 429,120 naive) + five-face freeze (engine self-ignite 2-tick r535; window <=24h); 10-09 15:30 bars -> evening marks chain (REGIME_GUARD enforce + live.paper + t35/t24 family); pool replenish bm-c lane window 10-10 00:00; 月界首考 10-31",
+ "current_task": "r913 done: W196 finalize one-pass (ledger 845,545/K 429,120) + PARKING-P1 anchor facts; next r914 W197 seat + PARKING-P1 prereg draft",
  "free_ram_gb": 54.9,
  "gpu0_free_vram_gb": 1.96,
  "gpu_free_vram": "5.63GB",
@@ -24,7 +24,7 @@
  "gpu_total_vram_mb": 12282,
  "gpu_vram_free_gb": 5.63,
  "health": "ok",
- "heartbeat_epoch_utc": 1791511601,
+ "heartbeat_epoch_utc": 1791517260,
  "heartbeat_epoch_utc_type_int": true,
  "hostname": "DASHENG",
  "idle_gpu_vram_gb": 5.63,
@@ -35,11 +35,11 @@
  "last_action": "r910 closeout: estate absorb + W195 finalize + W196 seat + 5x HANDOVER + S6 39-leg + commit/push",
  "last_artifact": "r910 products: results/perpetual_faces/n1_w195_results.json (ledger 843,345/K 426,920 EXACT) + fleet/inbox/MSG-2026-10-09-1007-bma-w196-seat.md (186th wave bm-a 111th owned) + research/PERPETUAL_N1_W195_PREREG.md sec7/sec8 backfill + research/HANDOVER.md r910 5x entry + _r910bma resolver/probe/backfill family",
  "last_decisions_sha": "8381319617dd5225cfc144e041ffb1cce94903277fee4219d8e80a24c1dc289a",
- "last_heartbeat_epoch_utc": 1791510169,
+ "last_heartbeat_epoch_utc": 1791515420,
  "last_orders_sha": "861949ca7db707d1585edc6379e2ddc461574d0896f08efc499e11fbe3d716bf",
  "last_round": 909,
  "last_run": "2026-10-09T10:06:41+08:00",
- "last_seen": "2026-10-09T10:06:41+08:00",
+ "last_seen": "2026-10-09T11:41:00+08:00",
  "latest_artifact": "r910 products: results/perpetual_faces/n1_w195_results.json (ledger 843,345/K 426,920 EXACT) + fleet/inbox/MSG-2026-10-09-1007-bma-w196-seat.md (186th wave bm-a 111th owned) + research/PERPETUAL_N1_W195_PREREG.md sec7/sec8 backfill + research/HANDOVER.md r910 5x entry + _r910bma resolver/probe/backfill family",
  "loop_round": 910,
  "machine_id": "bm-a",
@@ -237,7 +237,8 @@
   "MSG-2026-10-08-2130-bma-w191-seat.md",
   "O-20261008-2315-bm-c.md",
   "O-20261008-2323-bm-b.md",
-  "O-20261009-0024-bm-b.md"
+  "O-20261009-0024-bm-b.md",
+  "O-20261009-1105-bm-a.md"
  ],
  "orphan_faces": 1,
  "orphan_killed": 0,
@@ -260,11 +261,11 @@
  "tailnet_note": "in-tailnet since 09-29 (O-1815); re-verified r799 per O-20261006-2358 P0; C endpoint 100.123.74.104:11434/api/tags HTTP 200",
  "task": "r911: W196 prereg build (buildgen anchor=W195 actuals 843,345/426,920 per r590; proj ledger 845,545 / K 429,120 naive) + five-face freeze (engine self-ignite 2-tick r535; window <=24h); 10-09 15:30 bars -> evening marks chain (REGIME_GUARD enforce + live.paper + t35/t24 family); pool replenish bm-c lane window 10-10 00:00; 月界首考 10-31",
  "total_ram_gb": 93.6,
- "ts": "2026-10-09T10:06:41+08:00",
+ "ts": "2026-10-09T11:41:00+08:00",
  "verdict": "green (red=false; engine ALIVE rc0 idle queue0 post-W195-close; py_low_board_clear legal idle whitelist + own never-dry lane W196 seat queued; ORD/DEC python-raw UNCHANGED)",
  "vram_free_gb": 0.89,
  "vram_free_mb": 3459,
- "last_orders_at": "2026-10-09T10:06:41+08:00",
+ "last_orders_at": "2026-10-09T11:10:20+08:00",
  "last_decisions_at": "2026-10-09T10:06:41+08:00",
  "sync": {
   "ts": "2026-10-09T08:32:15+08:00",
@@ -282,6 +283,7 @@
  },
  "next": "r911: W196 prereg build (buildgen anchor=W195 actuals 843,345/426,920 per r590; proj ledger 845,545 / K 429,120 naive) + five-face freeze (engine self-ignite 2-tick r535; window <=24h); 10-09 15:30 bars -> evening marks chain (REGIME_GUARD enforce + live.paper + t35/t24 family); pool replenish bm-c lane window 10-10 00:00; 月界首考 10-31",
  "did": "r910: r909 estate absorbed (S0 tight-loop commit b9b962672 + 33-UU canon resolve + push 0/0) + W195 finalize one-pass LANDED (ledger 843,345 EXACT; K 426,920; four pred keys PASS; sec7/sec8 backfilled; origin a0b16d1d8) + W196 seat chain (probe ADMIT A 446_004..448_003 staircase 56th / B 448_004..448_203; seat push 01992cd42) + 5x HANDOVER r901-910 discharged (r905 deferral cleared)",
- "last_orders_seen": "r910 double-scan: unacked=0; ORD 861949ca python-raw UNCHANGED",
- "last_decisions_seen": "r910 double-scan: DEC 83813196 python-raw UNCHANGED (raw-bytes recompute; zero BigMoney action)"
+ "last_orders_seen": "O-20261009-1105-bm-a ACKED r912 same-round (bm-a lane: PARKING-P1 prereg freeze <=10-14 12:00 started this round; options-kill execution belongs bm-c engineering lane per dispatch)",
+ "last_decisions_seen": "r910 double-scan: DEC 83813196 python-raw UNCHANGED (raw-bytes recompute; zero BigMoney action)",
+ "free_ram_pct": 52.9
 }
