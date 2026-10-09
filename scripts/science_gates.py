@@ -1979,6 +1979,14 @@ SEED_REGISTRY = {
         # own line, no core48 reuse); registered at prereg freeze BEFORE any
         # burn; prereg research/PARKING_P1_PREREG.md sec.2/sec.3
         "parking_p1_null_base": 94_300,
+        # THERMO-OVERLAY-P1 null base (r938 bm-a, ticket T-2026-10-10-181-P1,
+        # O-20261009-2340 sec.2.4): 94_500 same 94_001..94_999 pocket, verified
+        # free in-registry this window (r938 machine-read: occupied 94_x ints =
+        # [94_100, 94_200, 94_300]); K=200 circular-shift mask nulls per cell,
+        # rng([94_500 + i]) i<200 (structure-preserving phase randomization,
+        # batch-own null_pool for skill_line_v2); registered at prereg freeze
+        # BEFORE any burn; prereg research/THERMO-OVERLAY-P1.md sec.2/sec.3
+        "thermo_overlay_p1_nulls": 94_500,
         # TRIAL_LABOR_W17 exit-axis paired-block batch (bm-c r788 freeze window,
         # ticket T-2026-10-09-178-P1): family band [20610000,20612500) --
         # scrnull rng([20610500,i]) i<200 (K=200 screen nulls) + unc
