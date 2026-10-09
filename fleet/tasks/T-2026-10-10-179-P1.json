@@ -1,0 +1,15 @@
+{
+  "id": "T-2026-10-10-179",
+  "priority": "P1",
+  "type": "thermo-daily-refresh-hook-wiring",
+  "immediate": true,
+  "spec": "O-20261009-2340-bm-a.md 循环侧承接②每日刷新钩子：收盘数据入面板后重跑 scripts/regime_thermo_build.py（半分钱容差/率表全冻结·零刻度触碰）——与 sina bar 更新链同窗排程。交付面：(a) 循环侧一键复跑验证（确定性重建 rc0·面板 cutoff 2026-09-22 未推进=幂等零漂移实证）；(b) Tools/iteration_prompt.txt S6 序列外科插入 regime_thermo_build.py 腿（位=update_etf_daily 腿后/rev_osc 腿前·运行时读取文件=下一轮生效）；(c) Money02 bars 面板推进后自动延伸 thermo faces 至最新 cutoff（面板未推进=幂等重建零 git 漂移）。",
+  "status": "done",
+  "claimed_by": "bm-a (OS iteration loop r931; claim-and-complete same round per O-1730)",
+  "claimed_at": "2026-10-10T00:10:00+08:00",
+  "created_by": "user (Jason) via bm-a GM 直执窗 order O-20261009-2340-bm-a.md (CEO 原话「你赶紧干活，要有成果，自己选方向」) -> bm-a loop 循环侧承接",
+  "created_at": "2026-10-10T00:10:00+08:00",
+  "done_at": "2026-10-10T00:10:00+08:00",
+  "result_ref": "Tools/iteration_prompt.txt S6 leg inserted 48396->48838B (anchor-surgery script .codely-cli/tmp/r931bma_wire_thermo.py, leg present once, CRLF preserved) + loop-side rerun validation rc0 (thermo_daily last day 2026-09-22 unchanged = P-5C frozen panel, byte-identical rebuild)",
+  "notes": "勿双开 P6（GM 直执窗已建主件+构建器·b5ccb59cf）；本票=循环侧接线收口。温度计=纯描述面零判据（REGIME_THERMO_V1 全探索标注）——判据验证归 T-2026-10-10-181 overlay 预注册切片，政体门接线归 T-2026-10-10-180。"
+}
