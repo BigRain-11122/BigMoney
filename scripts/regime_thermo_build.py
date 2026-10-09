@@ -33,12 +33,19 @@ REGIME_THERMO_V1 — 游资情绪温度计三轴深史构建器（P6 情绪腿·
 描述面: 只报无条件分布与历史事件读数；条件前向收益验证=后续预注册切片（本件禁做）
 """
 
-import os, json, glob
+import os, sys, json, glob
 import numpy as np
 import pandas as pd
 
-BASE = r"C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney"
+# r824 fix: BASE was hardcoded to the bm-a path (C:\Users\sjs20\...) and crashed on
+# other machines (WinError 5 makedirs); resolve repo root from this file instead.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BARS = os.path.join(BASE, "Money02", "data", "bars")
+if not glob.glob(os.path.join(BARS, "*.parquet")):
+    # lane/data guard (r824): Money02 bars panel is bm-a-hosted; other machines
+    # stdout-only honest no-op per R31 lane-guard precedent (bm-b r810 same face).
+    print("regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op")
+    sys.exit(0)
 OUT = os.path.join(BASE, "results", "regime_thermo")
 os.makedirs(OUT, exist_ok=True)
 
