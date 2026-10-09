@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-10-10T05:20:11",
+ "generated": "2026-10-10T05:47:03",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -7326,7 +7326,7 @@
   "ticket": "T-2026-09-26-81",
   "order": "O-20260926-1342",
   "prereg": "research/LANDING_HOOKS_P1.md",
-  "prereg_sha256_16": "150ce7a7c54cbc19",
+  "prereg_sha256_16": "cdcebae5b9f7fed5",
   "evidence_cutoff": "2026-09-24",
   "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
   "philosophy": "landing = promotion-grade positive judgment per each family's own frozen prereg (verbatim consumption, zero new criteria); observation marks lane is NOT landing; landing != activation",
@@ -7403,6 +7403,48 @@
     "n_cells": 25,
     "n_pass": 0,
     "landings": []
+   },
+   "F1-BULL-COND (T-177 leg-2 s2 bull-window rotation)": {
+    "state": "ok",
+    "judgment_face": "results/regime5_bull_scan/F1-BULL-COND-2026-09-30.json (batch verdict verbatim; full chain = g1_prime_v2 pass_v2 AND M1 t>=3.0 AND g2_registration_v2 per batch's own frozen prereg)",
+    "n_cells": 9,
+    "any_cell_full_chain_pass": false,
+    "passing_cells": [],
+    "d6_any_reject": false,
+    "best_cell_by_sharpe": "L250_k3",
+    "evidence_cutoff": "2026-09-30",
+    "landings": []
+   },
+   "G2-SLOT-MON (T-163 monthly translation)": {
+    "state": "ok",
+    "judgment_face": "results/g2_slot_mon_p1/g2_slot_mon_p1_census.json (family_verdicts verbatim)",
+    "stage": "stage-1 census variant (monthly-translation decomposition; exploration; zero registration claims)",
+    "family_verdicts": {
+     "old": {
+      "n_faces_measured": 18,
+      "n_nominated": 1,
+      "nominated_faces": [
+       "old_032"
+      ]
+     },
+     "stock": {
+      "n_faces_measured": 2,
+      "n_nominated": 0,
+      "nominated_faces": []
+     },
+     "tail": {
+      "n_faces_measured": 27,
+      "n_nominated": 1,
+      "nominated_faces": [
+       "best_016"
+      ]
+     }
+    },
+    "n_nominated_stage2": 2,
+    "evidence_cutoff": "2026-09-22",
+    "landings": [],
+    "landing_note": "per the batch's own verdict text: stage-2 shortlist face, independent sec.9 freeze required (nomination != landing; zero registration claims verbatim from stage field)",
+    "intermediate": "STAGE2_SHORTLIST_AWAITING_INDEPENDENT_FREEZE"
    }
   },
   "landed": [],
@@ -8314,7 +8356,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 53.4,
+  "elapsed_sec": 48.8,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,

@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-10",
- "generated_at": "2026-10-10 05:22:44",
+ "generated_at": "2026-10-10 05:49:30",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,12 +297,12 @@
   "md_link": "../live_usage/LIVE-2026-10-10.md"
  },
  "rd": {
-  "commits_24h": 490,
-  "result_jsons_landed_24h": 267,
+  "commits_24h": 501,
+  "result_jsons_landed_24h": 271,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 39,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-10 05:19:07",
+   "ts": "2026-10-10 05:46:03",
    "py_cpu_pct": 5.6,
    "flags": [
     "gpu_unauthorized",
@@ -311,7 +311,7 @@
    ],
    "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -661,12 +661,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1857018,
+  "total_report_tokens_est": 1859058,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-10 04:27:08",
+   "prev_generated": "2026-10-10 04:56:13",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 916,
-   "mandate_growth": 0
+   "report_tokens_growth": 2040,
+   "mandate_growth": 5
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -676,11 +676,135 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-10 05:19:07",
+    "latest_ts": "2026-10-10 05:46:03",
     "py_pct": 5.6,
-    "cpu_pct": 49.0,
+    "cpu_pct": 67.0,
+    "ready": 9,
+    "streak_min": 1909.8,
+    "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla",
+    "py_series_tail": [
+     [
+      "03:42",
+      1.1
+     ],
+     [
+      "03:55",
+      5.9
+     ],
+     [
+      "04:01",
+      2.9
+     ],
+     [
+      "04:05",
+      23.2
+     ],
+     [
+      "04:20",
+      5.3
+     ],
+     [
+      "04:24",
+      3.3
+     ],
+     [
+      "04:25",
+      5.8
+     ],
+     [
+      "04:52",
+      3.0
+     ],
+     [
+      "05:15",
+      40.0
+     ],
+     [
+      "05:19",
+      5.6
+     ],
+     [
+      "05:20",
+      2.8
+     ],
+     [
+      "05:46",
+      5.6
+     ]
+    ],
+    "today_samples": 19,
+    "today_floor_ok": 19,
+    "today_sla_flags": 19,
+    "today_supply_gap_flags": 19
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-10 05:20:51",
+    "py_pct": 2.8,
+    "cpu_pct": 11.0,
     "ready": 10,
-    "streak_min": 1882.9,
+    "streak_min": 1884.6,
+    "verdict": "FLAG:single_core_hog,supply_gap,ignition_sla",
+    "py_series_tail": [
+     [
+      "02:24",
+      2.5
+     ],
+     [
+      "02:49",
+      5.3
+     ],
+     [
+      "03:02",
+      2.4
+     ],
+     [
+      "03:42",
+      1.1
+     ],
+     [
+      "03:55",
+      5.9
+     ],
+     [
+      "04:01",
+      2.9
+     ],
+     [
+      "04:05",
+      23.2
+     ],
+     [
+      "04:20",
+      5.3
+     ],
+     [
+      "04:24",
+      3.3
+     ],
+     [
+      "04:25",
+      5.8
+     ],
+     [
+      "04:52",
+      3.0
+     ],
+     [
+      "05:20",
+      2.8
+     ]
+    ],
+    "today_samples": 16,
+    "today_floor_ok": 16,
+    "today_sla_flags": 16,
+    "today_supply_gap_flags": 16
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-10 05:15:13",
+    "py_pct": 40.0,
+    "cpu_pct": 57.0,
+    "ready": 10,
+    "streak_min": 1879.0,
     "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla",
     "py_series_tail": [
      [
@@ -728,138 +852,14 @@
       3.0
      ],
      [
-      "05:19",
-      5.6
+      "05:15",
+      40.0
      ]
     ],
     "today_samples": 16,
     "today_floor_ok": 16,
     "today_sla_flags": 16,
     "today_supply_gap_flags": 16
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-10 04:52:02",
-    "py_pct": 3.0,
-    "cpu_pct": 56.0,
-    "ready": 10,
-    "streak_min": 1855.8,
-    "verdict": "FLAG:supply_gap,ignition_sla",
-    "py_series_tail": [
-     [
-      "01:08",
-      2.0
-     ],
-     [
-      "01:33",
-      1.8
-     ],
-     [
-      "01:39",
-      3.5
-     ],
-     [
-      "02:08",
-      0.5
-     ],
-     [
-      "02:24",
-      2.5
-     ],
-     [
-      "02:49",
-      5.3
-     ],
-     [
-      "03:02",
-      2.4
-     ],
-     [
-      "03:42",
-      1.1
-     ],
-     [
-      "04:01",
-      2.9
-     ],
-     [
-      "04:05",
-      23.2
-     ],
-     [
-      "04:24",
-      3.3
-     ],
-     [
-      "04:52",
-      3.0
-     ]
-    ],
-    "today_samples": 12,
-    "today_floor_ok": 12,
-    "today_sla_flags": 12,
-    "today_supply_gap_flags": 12
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-10 04:05:33",
-    "py_pct": 23.2,
-    "cpu_pct": 68.0,
-    "ready": 9,
-    "streak_min": 1809.3,
-    "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla",
-    "py_series_tail": [
-     [
-      "20:21",
-      18.8
-     ],
-     [
-      "20:41",
-      1.5
-     ],
-     [
-      "23:44",
-      1.4
-     ],
-     [
-      "01:08",
-      2.0
-     ],
-     [
-      "01:33",
-      1.8
-     ],
-     [
-      "01:39",
-      3.5
-     ],
-     [
-      "02:08",
-      0.5
-     ],
-     [
-      "02:24",
-      2.5
-     ],
-     [
-      "02:49",
-      5.3
-     ],
-     [
-      "03:02",
-      2.4
-     ],
-     [
-      "03:42",
-      1.1
-     ],
-     [
-      "04:05",
-      23.2
-     ]
-    ],
-    "today_samples": 9,
-    "today_floor_ok": 9,
-    "today_sla_flags": 9,
-    "today_supply_gap_flags": 9
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -880,8 +880,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-10 05:19:07"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-10 05:46:03"
     }
    },
    "bm-b": {
@@ -896,24 +896,24 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-10 04:52:02"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-10 05:20:51"
     }
    },
    "bm-c": {
-    "batches_judged": 7,
-    "core_seconds": 169.8,
-    "wall_seconds": 421.8,
-    "effective_cores": 0.4,
-    "single_core_burn": 7,
+    "batches_judged": 8,
+    "core_seconds": 196.8,
+    "wall_seconds": 482.1,
+    "effective_cores": 0.41,
+    "single_core_burn": 8,
     "multicore_burn": 0,
     "too_short": 0,
-    "last_ts": "2026-10-10T03:59:28+08:00",
+    "last_ts": "2026-10-10T05:12:28+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-10 04:05:33"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-10 05:15:13"
     }
    }
   },
