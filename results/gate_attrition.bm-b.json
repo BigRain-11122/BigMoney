@@ -17708,6 +17708,105 @@
     "run": "rc0 zero-burn verdict derivation"
    },
    "note": "zero-burn adjudication face: five deliverables consumed from frozen artifacts; E1-ETF retained-guidance (three-part pass), E2 retained, E1-stock withdrawn, d2-d5 delivered; D-41 6-C account 324/500 unchanged (CEO <=300 allocation untouched)"
+  },
+  {
+   "batch": "REGIME5-VALIDATION-P1",
+   "ts": "2026-10-08 08:46",
+   "kind": "validation-burn",
+   "cells_ledger_delta": 1010,
+   "ledger_total_after": 809928,
+   "gates": {
+    "banned_direction": "ADMIT rc0 at freeze (r870, sec.0.5)",
+    "freeze": "1aafbd257",
+    "anchor": "6/6 faces EXACT",
+    "main_gate": "FAIL (honest per-state face)",
+    "leg_c": "PASS"
+   },
+   "note": "measurement/calibration burn: 5 state-diff + 5 N_CONF + 1,000 perm-null; exit-axis N/A declared at freeze"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2002,
+   "ledger_total_after": 792907,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": true,
+    "x2_survival": true,
+    "m1_t": 3.9894,
+    "m1_pass": true,
+    "dsr": 0.6751,
+    "pbo": 0.0,
+    "note_gates": "G-SEG precedence; skill_line not beaten (null mu 0.7178); verdict single-read r638"
+   },
+   "note": "finalize 2026-10-08 23:30 bm-b network-blocked stale-tree prev=790905 (freeze-era head); r807 additive fork re-anchor FUND-TRIO-REANCHOR-R807 counted trio 6008 once onto live head 825328->831336; branch total 792907 superseded never re-add; attrition row retro-filled r807 absorb (r806 session beheaded pre-S7, r873 retro-fill precedent)",
+   "batch": "FUND-DIVLOWVOL-P1"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2002,
+   "ledger_total_after": 794909,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": false,
+    "x2_survival": true,
+    "m1_t": -1.56,
+    "m1_pass": false,
+    "dsr": 0.0,
+    "pbo": 1.0,
+    "note_gates": "headline x1 NAV negative-crossing pathology disclosed (max_dd -1.1454; rolling 3/5/10y figures are compounding artifacts, not readable); family revisit requires pathology fix first"
+   },
+   "note": "finalize 2026-10-08 23:33 same stale-tree fork chain; r807 re-anchor counted once (see FUND-DIVLOWVOL-P1 row); branch total 794909 superseded never re-add; retro-filled r807",
+   "batch": "FUND-QUALITY-P1"
+  },
+  {
+   "ts": "2026-10-09 00:58",
+   "kind": "fund-p1-finalize",
+   "cells_ledger_delta": 2004,
+   "ledger_total_after": 796913,
+   "gates": {
+    "verdict": "insufficient-sample",
+    "g_seg_chop": 14,
+    "g1_line_ok": false,
+    "g1_ci_lower_positive": true,
+    "x2_survival": true,
+    "m1_t": 2.1288,
+    "m1_pass": false,
+    "dsr": 0.0935,
+    "pbo": 0.6143,
+    "note_gates": "in-band sharpe 0.3809 but M1/DSR/PBO all red = would fail even with G-SEG coverage"
+   },
+   "note": "finalize 2026-10-08 23:35 same stale-tree fork chain tail; r807 re-anchor counted once; branch total 796913 superseded never re-add; retro-filled r807",
+   "batch": "FUND-VALUE-P1"
+  },
+  {
+   "batch": "F1-BULL-COND-P1",
+   "ts": "2026-10-09 04:29:58",
+   "kind": "judgment",
+   "cells_ledger_delta": 1009,
+   "ledger_total_after": 834545,
+   "gates": {
+    "g1_pass_cells": [],
+    "g2_eligible_cells": [],
+    "m1_pass_cells": [],
+    "full_chain_cells": []
+   },
+   "entries": [
+    "L60_k1: x1 SR 1.2283",
+    "L60_k2: x1 SR 1.3659",
+    "L60_k3: x1 SR 1.4658",
+    "L120_k1: x1 SR 0.6196",
+    "L120_k2: x1 SR 1.0814",
+    "L120_k3: x1 SR 1.4134",
+    "L250_k1: x1 SR 1.5667",
+    "L250_k2: x1 SR 1.4483",
+    "L250_k3: x1 SR 1.7088"
+   ]
   }
  ],
  "history": [
@@ -19523,6 +19622,107 @@
     "expansion_attrition": "6/8 dropped (5 no-ignition-in-window genuine strictness + 1 pre-bars), 2 computed"
    },
    "note": "T-2026-10-06-173-P1 r776 bm-a; prereg research/THEME_DEEPEN_P1_PREREG.md freeze 66d5ec5d4; wave-position retail-follow judgment face + introduction-taxonomy descriptive census"
+  },
+  {
+   "batch": "TRIAL_LAB_W16_SCREEN",
+   "ts": "2026-10-08 03:41:47",
+   "kind": "measurement",
+   "retro_fill": true,
+   "cells_ledger_delta": 373,
+   "ledger_total_after": 802278,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 173,
+     "n_survivors": 40,
+     "line": "beat6m_rate > null_p95 (prereg sec.3, frozen; null_p95=0.511572)"
+    },
+    "null_face": {
+     "p50": 0.5116,
+     "p95": 0.511572,
+     "n": 200,
+     "seed": 20593500,
+     "note": "K=200 TWENTY-tuple axis nulls (max/rank legs included), seed 20593500; p50 0.5116 / p95 0.511572 within prereg sec.5.2 band [0.50,0.52] (ninth consecutive in-band wave); screen survival line = program-frozen null p95 (W2-W15 identical law)"
+    },
+    "max_face": {
+     "segmented_survival": {
+      "max30_q10": {
+       "n_cells": 62,
+       "n_survivors": 15,
+       "survival_rate": 0.241935
+      },
+      "none": {
+       "n_cells": 111,
+       "n_survivors": 25,
+       "survival_rate": 0.225225
+      }
+     },
+     "note": "MAX30_q10 value-cell 0.241935 vs none base 0.225225 = 1.07x -- WITHIN prereg sec.5.1 [0.8x,1.6x] band (low end); collapse 173/10,000=1.73% distinct BELOW sec.5.1 [2%,12%] band = supply-weakening alert honestly reported (W14 2.93% -> further collapse on the twenty-tuple face)"
+    },
+    "rank_face": {
+     "segmented_survival": {
+      "rank30_q90": {
+       "n_cells": 70,
+       "n_survivors": 14,
+       "survival_rate": 0.2
+      },
+      "none": {
+       "n_cells": 103,
+       "n_survivors": 26,
+       "survival_rate": 0.252427
+      }
+     },
+     "note": "RANK30_q90 value-cell 0.79x vs none base -- at/below the max30 band lower edge (thin-tail axis, 217 probe open-days; sample-sufficiency constraint predicted in sec.5.1, readout confirms)"
+    }
+   },
+   "refs": {
+    "screen": "results/trial_labor_w16/w16_screen.json",
+    "prereg": "research/TRIAL_LABOR_W16_PREREG.md",
+    "grammar_ledger": "research/TRIAL_GRAMMAR_LEDGER.md"
+   },
+   "note": "retro-fill by bm-a r873 closure round (r860 finalize window landed product without attrition row -- W16 runner carries no attrition writer leg, r722 dead-session adoption lineage gap); data verbatim from w16_screen.json (trials_ledger prev 801905 + batch 373 = 802278, linear to W16-JUDGE +40 = 802318)"
+  },
+  {
+   "batch": "TRIAL_LAB_W16_JUDGE",
+   "ts": "2026-10-08 04:48:23",
+   "kind": "judgment",
+   "retro_fill": true,
+   "cells_ledger_delta": 40,
+   "ledger_total_after": 802318,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 40,
+     "n_pass": 0,
+     "line": 1.1437,
+     "best": {
+      "candidate_id": "W16-B-8195",
+      "sharpe": 0.7272
+     }
+    },
+    "dsr": {
+     "n": 40,
+     "max_dsr": 0.017772,
+     "n_trials": 802278
+    },
+    "family_pbo": {
+     "patterns": 0.3,
+     "momentum": 0.9571,
+     "folk": 0.2571,
+     "n_a_below_8": "trend1/sentiment2/ta6/macro+rest honest n/a"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0
+    },
+    "reform_face": {
+     "status": "PENDING_DERIVE",
+     "note": "prereg sec.4 reform caliber (eligible_reform + composite top-3) NOT in the landed runner (r722 adoption lost the W14 reform block); verdict landed on the old G1'/G2-v2 caliber = conservative face; reform-face derive slice = r873 continuation (§8 prereg), batch_p_values = dual-nulls signflip_p per reform canon sec.5 P1"
+    }
+   },
+   "refs": {
+    "judge": "results/trial_labor_w16/w16_judge.json",
+    "intake": "results/trial_labor_w16/w16_intake.json",
+    "prereg": "research/TRIAL_LABOR_W16_PREREG.md"
+   },
+   "note": "retro-fill by bm-a r873 closure round (r862 finalize+intake landed without attrition row); 40/40 judged verdict=fail; intake lawful-zero n_eligible=0 (prereg sec.5.3 pred.3 modal zero); 48h CEO report clock started at judge-finalize 04:48 (due 2026-10-10 04:48)"
   }
  ],
  "lane_machine": "bm-b"

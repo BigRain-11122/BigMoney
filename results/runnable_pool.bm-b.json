@@ -7,10 +7,13 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
-  "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
+  "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it",
+  "entries[].source": "O-20261007-2245 (OSS 引进管线 ① bm-c lane): 引进件必填上游 repo/URL; 自研件缺省=SELF 不填; 引进件 id 必带 OSS- 前缀 (血统区分律, 收养三律照常)",
+  "entries[].permit": "O-20261007-2245 许可门: MIT/Apache-2.0/BSD 直用+署名型登记; AGPL 禁入 (charter §五 spark-arc-studio 判例); 扫描期记录, 入池时复核",
+  "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)"
  },
- "updated_at": "2026-10-07T13:00:09+08:00",
- "_stamp_note": "r705 bm-a N2-W15 JUDGE enrollment: +12 entries PERPETUAL-N2-W15-JUDGE-SHARD-0..11 (sec.9.1 FROZEN r702 bm-b; N_judge=281 fixed by judge-prep r705 bm-a 01:10:23 PASS; JUDGE-PREP entry+shard double done-flip same window r489 law)",
+ "updated_at": "2026-10-09 06:28:49",
+ "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -16076,15 +16079,20 @@
    ],
    "lane_owner": "bm-c",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w14/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13 single-shard precedent)",
      "note": "single shard W1-W13-JUDGE precedent; 77 judged cells = lightest judge batch in lineage (W13 99, W12 188); worker_cap() parallelism inside the shard",
      "owner": "bm-c",
-     "owner_since": "2026-10-07 19:40:08"
+     "owner_since": "2026-10-07 23:20:03",
+     "park_note": "AUTOFILL-PARK 2026-10-07 20:30:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-07 22:30:04",
+     "done_at": "2026-10-07 23:20:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "judge-0of1.bm-c.json"
     }
    ],
    "data_deps": [
@@ -16103,7 +16111,442 @@
    "consumer_plan": "TRIAL-LABOR-W14-JUDGE -> w14_judge.json verdict face (reform-face FIRST registered wave: eligible_reform [0,10] predicted band + top-3 by composite dual face per O-1058 five-step chain; sumn-style negative readouts carried from screen = judge confirms at full caliber, negative results = lawful products) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY + TRIAL-RESICNT-* paper accounts spawn only on eligible) -> CEO-REPORT-WAVE14 48h face + scorecard CEO face; screen null p95 0.5116 -> W15 prereg reference band",
    "worker_class": "self-contained",
    "entered_at": "2026-10-07 18:33:25",
-   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)"
+   "entered_by": "bm-c r696 (screen-finalize + judge-prep same round; lane bm-c for finalize physical-dep continuity)",
+   "done_by": "bm-c",
+   "done_at": "2026-10-07 23:20:03"
+  },
+  {
+   "id": "TRIAL-LABOR-W16-SCREEN",
+   "ticket_ref": "T-2026-10-05-172 WAVE-16 screen slice (TRIAL_LABOR_LAW sec.1 standing supply; W13=T-125 lineage; prereg FROZEN 2026-10-05 11:1x bm-a r721; GENERATE done 10-07 19:20:06 candidates n=173; screen-prep PASS bm-a r859 real-data gates; FUND trio finalize done -> burn window open)",
+   "prereg_ref": "research/TRIAL_LABOR_W16_PREREG.md FROZEN sec.0 TRIAL_LAB_W16_SCREEN (s2: 173 distinct + 200 nulls = 373 cells; survival beat6m > null p95, band [0.50,0.52])",
+   "consumer_plan": "TRIAL-LABOR-W16-SCREEN -> screen-finalize (lane-owner separate round per W5-W13 precedent) -> w16_screen.json + cells csv + null p95 in-band -> JUDGE entry on survivors -> w16_judge.json reform face -> s4 intake",
+   "runner": "scripts/trial_labor_w16.py",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-08 03:22:39",
+   "data_gates": "(1) GENERATE done w16_candidates.json n=173 + grammar sha16 ebf15822d2c8472e; (2) screen-prep PASS bm-a r859: panel 48/48 anchors 6/6 census 6m=1253 passive precomputed + sixteen G-gate faces valid, prep_state.json in-repo; (3) FUND trio finalize done verified 10-08 03:1x",
+   "shards": [
+    {
+     "key": "w16-screen-0of1",
+     "status": "done",
+     "checkpoint": "results/trial_labor_w16/checkpoint/screen_shard_0of1.jsonl (append-per-cell resume, gitignored dir per r429)",
+     "note": "single shard; worker_cap() pool inside shard (W13-SCREEN 593 cells ~4min wall; W16 373 lighter)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-08 03:58:31",
+     "claimed_since": "2026-10-08 03:32:08",
+     "done_at": "2026-10-08 03:58:31",
+     "harvested_by": "bm-a",
+     "harvest_claim": "w16-screen-0of1.bm-a.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "done_by": "bm-a",
+   "done_at": "2026-10-08 03:58:31"
+  },
+  {
+   "id": "TRIAL-LABOR-W16-JUDGE",
+   "ticket_ref": "T-2026-10-05-172 WAVE-16 judge slice (TRIAL_LABOR_LAW sec.1 standing supply; prereg FROZEN 2026-10-05 11:1x bm-a r721; GENERATE done 10-07 19:20:06 candidates n=173 grammar sha16 ebf15822d2c8472e; SCREEN 373 cells burned autofill 03:32 rc=0 checkpoint full set; screen-finalize LANDED bm-a r860: null p95 0.5116 in ref band [0.50,0.52], survivors 40 -- judge physical dep satisfied; judge-prep PASS bm-a r860 same round: manifest 48/48, census L/D == frozen, sixteen-gate dual-leg meta faithful incl resi/cnt)",
+   "prereg_ref": "research/TRIAL_LABOR_W16_PREREG.md FROZEN sec.0 TRIAL_LAB_W16_JUDGE (s3 full judgment batch: batch_trials = survivors 40 judged cells; reform-standard second registered wave per O-1058 five-step chain: L3 batch-internal BH FDR q<=REFORM_Q_LEVEL 10% + four-dim composite complete dual gate science_gates.g2_reform_fdr4d + L4 top-N=3/wave by composite; judge lines import science_gates frozen constants only (r271 single-canon law); E[FP]=0.05*N_judged; DSR = live chain head cross-wave no-reset, run-time live read governs = 649,011 frozen-window read post N2-W15; 48h CEO report clock starts at judge-finalize)",
+   "consumer_plan": "TRIAL-LABOR-W16-JUDGE -> judge-finalize (lane-owner separate round per W5-W14 precedent) -> w16_judge.json verdict face (reform gate eligible_reform + composite top-3 dual face) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY row + TRIAL-MAXRANK-* paper seat on eligible only) -> 48h CEO report face + scorecard CEO face; screen null p95 0.5116 -> W17 prereg reference band",
+   "runner": "scripts/trial_labor_w16.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-10-08 03:47:32",
+   "data_gates": "GATES ALL GREEN: (1) standing_no_judge_inflight PASS -- no TRIAL-LABOR judge entry in flight at enrollment (all W1-W14 judge entries done; W16-SCREEN shard burn complete checkpoint 373/373, harvest flip pending daemon tick); (2) judge-prep real-data bm-a r860 exit 0 PASS: manifest 48 members PASS, census L/D == frozen, survivors 40, gate meta L/D na-window 199/199, vol meta 519/519 (leg-L anchors 594calm/518wild), yang/vconf/streak/tstate/amp/mom/std/rsqr/sumn meta faithful incl slope-split disclosures, judge_state.json in-repo; (3) screen-finalize LANDED bm-a r860: null p95 0.5116 in [0.50,0.52] ref band, survivors 40, w16_screen.json + w16_screen_cells.csv products in-repo; (4) RAM r354 three-sample at flip time in-runner gate authoritative (bm-a free ~54GB heartbeat face >= 4GB); burn via autofill pool face per O-2100 execution-face separation; judge-finalize = bm-a lane separate round per W5-W14 precedent; 48h CEO report clock starts at judge-finalize",
+   "shards": [
+    {
+     "key": "w16-judge-0of1",
+     "status": "done",
+     "checkpoint": "results/trial_labor_w16/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429; MACHINE-LOCAL = judge-finalize physical dep = burn machine per W13/W14 single-shard precedent)",
+     "note": "single shard W1-W14-JUDGE precedent; 40 judged cells = lightest judge batch in lineage (W14 77, W13 99); worker_cap() parallelism inside the shard; dual nulls B/P resampling per prereg sec.0 not ledger +0",
+     "owner": "bm-a",
+     "owner_since": "2026-10-08 09:36:03",
+     "claimed_since": "2026-10-08 04:22:07",
+     "done_at": "2026-10-08 09:36:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "w16-judge-0of1.bm-a.json"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal",
+    "note": "judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg sixteen-gate state faces incl resi/cnt = heaviest per-worker state in the fleet; worker_cap RAM guard applies, free-RAM >=4GB in-runner gate per r354 three-sample law; BelowNormal = CEO 10% CPU reserve law"
+   },
+   "data_deps": [
+    "results/trial_labor_w16/w16_grammar.json",
+    "results/trial_labor_w16/w16_screen.json",
+    "results/trial_labor_w16/judge_state.json"
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-08 09:36:03"
+  },
+  {
+   "id": "TRIAL-LABOR-W17-GENERATE",
+   "ticket_ref": "T-2026-10-09-178 wave ticket (opened+claimed same freeze commit per O-1730 immediate law, W8=T-120/W9=T-121/W10=T-122/W11=T-123/W12=T-124/W13=T-125/W14=T-128/W16=T-172 lineage); W17 candidate = bm-c r786 draft (TRIAL_LABOR_W17_CANDIDATE_EXITAXIS_PREREG_DRAFT.md funnel 1/5) + r786 probe five legs (results/_r786bmc_w17_probe_facts.json) + r788 freeze-window ten-leg facts ALL GREEN (Tools/_r788bmc_w17_freeze_facts.py, facts results/_r788bmc_w17_freeze_facts.json sha256_16 ff6603a27623c787; dead r788-session 04:05-04:29 estate adopted wholesale by continuation session); exit-axis complete-block PAIRED isolation design (same W16 entry cell x all 8 exit faces + control arm; A7 products-face census correction: X was a confounded random-draw dimension in W1-W16 -- 32,869 generated / 28,808 non-default, paired isolation never burned); seeds 20610000/20610500/20611000 three-step law ALL GREEN (natural trios 20598000/20600000 refused inside theme_deepen_p1_nulls [20600000,20602200); family band [20610000,20612500) zero-hit, 190-key live registry + repo text-scan foreign-zero-hit, 45 self-lineage hits classified); banned_direction_gate ADMIT rc0 (BAN-08 new_mechanism exception block, prereg sec.0.5)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md (FROZEN 2026-10-09 bm-c r788 freeze window, NOT a candidate draft)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "consumer_plan": "TRIAL-LABOR-W17-GENERATE/SCREEN/JUDGE -> judged verdict face (w17_judge.json + w17_reform_face.json + w17_paired_deltas.json batch-unique paired face-vs-control Wilcoxon reads per frozen sec.4) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face; negative-read grammar-efficiency conclusion = future-wave GENERATE may fix X=template_default per prereg sec.0 consumer (iii)",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "generation leg = CPU-light census build, W2-W16 machinery precedent; zero new Sobol generation (entry cells = W16 frozen 173 candidates verbatim reuse, sha256_16 22179881b7537193, 8-face full-cross = 1,384 paired cells + K=200 screen nulls); exclusion book 16 sources live-read at generate (W1-W14 fifteen + PERPETUAL-N2-W15 + W16); judge dual-nulls B=2000 block bootstrap + P=2000 sign-flip per RANDOM_LARGE_SAMPLE_LAW sec.3"
+   },
+   "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-face assertion battery per frozen sec.9: control-arm determinism cross-door (sec.5.1 exact 40/173 W16 screen same-cell identity) + ExitConfig defaults vs A9 frozen table + entry-source sha 22179881b7537193 + grammar lineage three-face identity (A4) + GBK reconfigure entry law (r236)",
+   "note": "runner build slice PENDING (funnel 4/5 next round per prereg sec.9; r446 surgical pit law: prep/finalize/judge-prep real-data identity-face three-command first-run BEFORE declaring runner landed); entry gated by runner_exists until runner lands; reform-face block MANDATORY in runner spec per W16 sec.8 gap lesson (member_metrics 4-dim + dual-nulls + g2_reform_fdr4d + top-3 + REFORM constants import, same-name check vs sec.4); pool replenish SLA D-20261009-01 (iii) window 10-10 00:00 >=10 claimable entries (GENERATE 1 + SCREEN shards + JUDGE shards); burn = autofill (execution-face separation O-2100, lane_owner=None any healthy machine may claim)",
+   "status": "done",
+   "shards": [
+    {
+     "key": "main",
+     "status": "done",
+     "checkpoint": "",
+     "note": "ladder default shard (single-face batch, r301 family)",
+     "owner": "bm-a",
+     "owner_since": "2026-10-09 07:20:38",
+     "claimed_since": "2026-10-09 07:00:07",
+     "done_at": "2026-10-09 07:20:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "main.bm-c.json"
+    }
+   ],
+   "entered_at": "2026-10-09 06:01:02",
+   "entered_by": "bm-c fill_ladder T-107 slice-2",
+   "done_by": "bm-c",
+   "done_at": "2026-10-09 07:20:03"
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "0",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:05",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-0of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_0of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-09 21:02:04",
+     "park_note": "AUTOFILL-PARK 2026-10-09 10:50:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-1",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "1",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:09",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-1of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_1of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-09 21:02:04",
+     "park_note": "AUTOFILL-PARK 2026-10-09 11:38:00: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-2",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "2",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:13",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-2of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_2of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-09 20:56:09"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-3",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "3",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:17",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-3of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_3of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": "bm-c",
+     "owner_since": "2026-10-09 20:58:04"
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-4",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "4",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:22",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-4of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_4of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-5",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "5",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:26",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-5of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_5of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-6",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "6",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:30",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-6of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_6of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-SCREEN-SHARD-7",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.3 screen (1,384 paired cells + K=200 nulls; sec.9 pool sequencing; exit-axis complete-block PAIRED isolation)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_screen.json -> judge chain -> w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "screen",
+    "7",
+    "8"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:35",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-screen-7of8",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_7of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
+     "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/w17_cells.json",
+    "results/trial_labor_w17/prep_state.json"
+   ]
+  },
+  {
+   "id": "TRIAL-LABOR-W17-JUDGE",
+   "ticket_ref": "T-2026-10-09-178-P1 (W17 wave ticket opened+claimed r788 freeze commit; pool replenish SLA D-20261009-01iii)",
+   "prereg_ref": "research/TRIAL_LABOR_W17_PREREG.md FROZEN 2026-10-09 sec.4 judge (dual nulls B=2000 block bootstrap + P=2000 sign-flip per RANDOM_LARGE_SAMPLE_LAW sec.3; paired face-vs-control Wilcoxon per sec.4)",
+   "consumer_plan": "TRIAL-LABOR-W17 chain: w17_judge.json verdict + reform face + paired deltas -> s4 intake -> STRATEGY_LIBRARY + TRIAL-EXITAXIS-* paper accounts -> 48h CEO report + scorecard CEO face (negative-read = future-wave GENERATE X fix per prereg sec.0 consumer iii)",
+   "runner": "scripts/trial_labor_w17.py",
+   "runner_args": [
+    "judge",
+    "0",
+    "1"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-09 06:28:49",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "w17-judge-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w17/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL r429; judge-finalize physical dep = burn machine W13/W14/W16 single-shard precedent)",
+     "note": "single shard machine-local law; judged cells = screen survivors + paired nulls; dual nulls B=2000 block bootstrap + P=2000 sign-flip; RAM gate r354 honest-refuse retry",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 26,
+    "priority": "BelowNormal"
+   },
+   "data_deps": [
+    "results/trial_labor_w17/judge_state.json"
+   ]
   }
  ],
  "lane_machine": "bm-b"
