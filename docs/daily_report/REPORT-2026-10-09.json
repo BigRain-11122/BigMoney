@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-09",
- "generated_at": "2026-10-09 12:42:26",
+ "generated_at": "2026-10-09 13:10:57",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-09.md"
  },
  "rd": {
-  "commits_24h": 335,
+  "commits_24h": 337,
   "result_jsons_landed_24h": 266,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 35,
   "compute_audit_latest": {
-   "ts": "2026-10-09 12:40:40",
-   "py_cpu_pct": 0.2,
+   "ts": "2026-10-09 13:09:01",
+   "py_cpu_pct": 0.0,
    "flags": [
     "supply_gap",
     "ignition_sla"
    ],
    "verdict": "FLAG:supply_gap,ignition_sla"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -660,11 +660,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1831822,
+  "total_report_tokens_est": 1833245,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-09 11:44:48",
+   "prev_generated": "2026-10-09 12:02:51",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2275,
+   "report_tokens_growth": 1423,
    "mandate_growth": 0
   },
   "method": {
@@ -675,25 +675,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-09 12:11:38",
-    "py_pct": 0.1,
-    "cpu_pct": 8.0,
+    "latest_ts": "2026-10-09 12:34:37",
+    "py_pct": 1.0,
+    "cpu_pct": 54.0,
     "ready": 9,
-    "streak_min": 855.4,
+    "streak_min": 878.4,
     "verdict": "FLAG:supply_gap,ignition_sla",
     "py_series_tail": [
-     [
-      "09:09",
-      0.3
-     ],
-     [
-      "09:18",
-      0.2
-     ],
-     [
-      "09:29",
-      0.5
-     ],
      [
       "09:35",
       1.3
@@ -727,14 +715,26 @@
       0.5
      ],
      [
+      "11:41",
+      1.1
+     ],
+     [
+      "12:02",
+      0.0
+     ],
+     [
       "12:11",
       0.1
+     ],
+     [
+      "12:34",
+      1.0
      ]
     ],
-    "today_samples": 29,
-    "today_floor_ok": 18,
-    "today_sla_flags": 18,
-    "today_supply_gap_flags": 16
+    "today_samples": 32,
+    "today_floor_ok": 21,
+    "today_sla_flags": 21,
+    "today_supply_gap_flags": 19
    },
    "bm-b": {
     "latest_ts": "2026-10-08 23:39:08",
@@ -799,21 +799,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-09 12:40:40",
-    "py_pct": 0.2,
-    "cpu_pct": 6.0,
+    "latest_ts": "2026-10-09 13:09:01",
+    "py_pct": 0.0,
+    "cpu_pct": 20.0,
     "ready": 9,
-    "streak_min": 884.4,
+    "streak_min": 912.8,
     "verdict": "FLAG:supply_gap,ignition_sla",
     "py_series_tail": [
-     [
-      "09:35",
-      1.3
-     ],
-     [
-      "09:38",
-      0.3
-     ],
      [
       "09:48",
       0.3
@@ -851,14 +843,22 @@
       0.1
      ],
      [
+      "12:34",
+      1.0
+     ],
+     [
       "12:40",
       0.2
+     ],
+     [
+      "13:09",
+      0.0
      ]
     ],
-    "today_samples": 32,
-    "today_floor_ok": 21,
-    "today_sla_flags": 21,
-    "today_supply_gap_flags": 19
+    "today_samples": 34,
+    "today_floor_ok": 23,
+    "today_sla_flags": 23,
+    "today_supply_gap_flags": 21
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -879,8 +879,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-09 12:11:38"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-09 12:34:37"
     }
    },
    "bm-b": {
@@ -900,19 +900,19 @@
     }
    },
    "bm-c": {
-    "batches_judged": 8,
-    "core_seconds": 146.4,
-    "wall_seconds": 446.5,
-    "effective_cores": 0.33,
-    "single_core_burn": 8,
+    "batches_judged": 9,
+    "core_seconds": 163.9,
+    "wall_seconds": 506.7,
+    "effective_cores": 0.32,
+    "single_core_burn": 9,
     "multicore_burn": 0,
     "too_short": 0,
-    "last_ts": "2026-10-09T12:26:23+08:00",
+    "last_ts": "2026-10-09T13:09:22+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-09 12:40:40"
+     "audit_ts": "2026-10-09 13:09:01"
     }
    }
   },
