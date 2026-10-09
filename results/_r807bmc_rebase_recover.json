@@ -1,26 +1,21 @@
 {
- "round": "r807-recover",
+ "round": "r807-recover-v2",
  "steps": [
-  "reset --soft -> HEAD=638d6325f",
-  "add-A rc=0; continue-1 rc=1 out='error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#1 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#2 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#3 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#4 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#5 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#6 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#7 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#8 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#9 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'",
-  "stop#10 churn-absorb add rc=0 continue rc=1 'error: Terminal is dumb, but EDITOR unset\\nPlease supply the message using either -m or -F option.\\nerror: could not commit staged changes.\\n'"
+  "g1 three-step commit @036d001d1 rc=0 [detached HEAD 4cf63bee2] autofill tick keepalive w17-screen-0of8 w17-screen-1of8 w17-screen-2of8 w17-screen-3of8 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]\n 12 files changed, 446 i",
+  "g1 continue rc=1 'You must edit all merge conflicts and then\\nmark them as resolved using git add\\n'",
+  "g2 churn-absorb commit rc=0 [detached HEAD 4023657dc] round 807 recover: mid-rebase churn absorb (daemon live faces, r685 own-carrier law)\n 4 files changed, 138 insertions(+), 13",
+  "g2 continue rc=1 'Rebasing (4/6)\\rerror: could not apply ae5dde1a6... round 807: T2 dashboard 3-face wiring (autofill/saturation/trial-labor) + ORD dual-order receipts + S6 40/40 + QA 5/5 [via bm-c r'",
+  "g3 stop@ae5dde1a6: resolved 9 faces (r805 machinery)",
+  "g3 three-step commit @ae5dde1a6 rc=0 [detached HEAD d1cdc537f] round 807: T2 dashboard 3-face wiring (autofill/saturation/trial-labor) + ORD dual-order receipts + S6 40/40 + QA 5/5 [via bm-c r807]\n 45 files changed, 2339 insertions(+), 5",
+  "g3 continue rc=1 'Rebasing (5/6)\\rRebasing (6/6)\\rerror: could not apply a0c2b3e87... round 807 s0-tail2: engine live-face absorb (tight-loop r884 law)\\nhint: Resolve all conflicts manually, mark them '",
+  "g4 stop@a0c2b3e87: resolved 2 faces (r805 machinery)",
+  "g4 three-step commit @a0c2b3e87 rc=1 interactive rebase in progress; onto d4ea4b348\nLast commands done (6 commands done):\n   pick e43821669 # round 807 s0-tail: daemon churn absorb (3 own faces, pre-rebase)\n   pick a0c2b3e87 # round 807 "
  ],
- "uu_stops": 0,
  "notes": [],
- "sanity": "OK head=0e90e21b2 parent=638d6325f stopped=036d001d1",
- "carrier_marker_hits": [],
+ "fatal": "three-step commit refused",
  "completed": false,
- "final_head": "638d6325f0db492a0a5ae57604c8758ddfcbbb0b",
- "final_log": "638d6325f round 807 s0: daemon live-face absorb (autofill churn, 1 face)\n84520f9a3 round 807 s0: daemon live-face absorb (4 own faces)\nd4ea4b348 r917 bm-a pre-integration absorb-1: engine live faces tight-loop (r884 law, post-burn bookkeeping) [via bm-a]\n33fc4d5a2 r917 bm-a pre-integration absorb: dispatcher live face quiesce snapshot (post-burn, r294 adoption law) [via bm-a]\nb760e3c9a r916 bm-a churn-absorb-1: engine live faces tight-loop (r884 law, burn in flight)\n1356f65c3 r916 bm-a churn-absorb: paper faces (S6 legs post-stage) + engine live faces (burn in-flight progression, r294 adoption law)\n82b881a4f round 916: W198 prereg BUILD + five-face FREEZE LANDED (research/PERPETUAL_N1_W198_PREREG.md 21,395B via buildgen two-gen eval chain r914 BACK AST-extract zero-transcription; anchor=W197 finalize actuals 847,745/431,320 per r590; bands A 450_404..452_403 staircase FIFTY-EIGHTH hops=1 + B 452_404..452_603 W141 reserved-walk hops=1; REG_N 195 zero-overlap) + pf N1_BANDS[198] + n1 WAVE_CONFIGS[198]/materializer face/selftest claim/archive-pending face (92+35+21+11+5+4 pairs count-asserted; r912 AST triples + r915 AST RULES two-gen chain; registry 195->196; W197/W196/W195 byte-intact post-import; pf selftest 9/9 + n1 selftest PASS incl W198 face) + engine self-burn IGNITED 14:11 n1w198 pid=10960 (in flight at commit; finalize next round once 12/12) + S6 38-leg rc0 bad NONE (options-skip per O-20261009-1105; panel 10-08 pre-15:30 honest no-op family) + seat MSG self-ack archived inbox->processed + methodology card (freeze-edit pair two-gen chain) + DEC/ORD bd94a27b/b6ea34b1 UNCHANGED zero re-consume [via bm-a]\naaaedec96 autofill tick keepalive w17-screen-0of8 w17-screen-1of8 w17-screen-2of8 w17-screen-3of8 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]\n500d8e4d4 r806 bm-c: T11-EXT repo term-ladder pulse extension (11 members: month-end decay + co-pulse + z transmission) + sha-watermark heal (facts-driven close, r583) + pit direct-write + S6/QA standing faces\nea42fb461 autofill tick keepalive w17-screen-0of8 w17-screen-1of8 w17-screen-2of8 w17-screen-3of8 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]",
- "final_dirty": "A  Tools/_r807bmc_rebase_recover.py\nA  Tools/_r807bmc_rebase_triage.py\nA  Tools/_r807bmc_s0.py\nA  _r_bmc_s0msg.txt\nM  results/_orphan_face_probe.bm-c.json\nM  results/autofill_state.bm-c.json\nM  results/idle_trigger.bm-c.json\nM  results/idle_trigger_state.bm-c.json\nM  results/runnable_pool.bm-c.json\nM  results/runnable_pool.json\nM  results/saturation_engine/face_bm-c.json\nM  results/saturation_engine_state.bm-c.json",
- "ahead_behind": "2\t1"
+ "final_head": "8c96024dd7ae339e6b3d9b2371f6d4c04a3c6999",
+ "final_log": "8c96024dd round 807 s0-tail: daemon churn absorb (3 own faces, pre-rebase)\nd1cdc537f round 807: T2 dashboard 3-face wiring (autofill/saturation/trial-labor) + ORD dual-order receipts + S6 40/40 + QA 5/5 [via bm-c r807]\n4023657dc round 807 recover: mid-rebase churn absorb (daemon live faces, r685 own-carrier law)\n4cf63bee2 autofill tick keepalive w17-screen-0of8 w17-screen-1of8 w17-screen-2of8 w17-screen-3of8 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]\n638d6325f round 807 s0: daemon live-face absorb (autofill churn, 1 face)\n84520f9a3 round 807 s0: daemon live-face absorb (4 own faces)\nd4ea4b348 r917 bm-a pre-integration absorb-1: engine live faces tight-loop (r884 law, post-burn bookkeeping) [via bm-a]\n33fc4d5a2 r917 bm-a pre-integration absorb: dispatcher live face quiesce snapshot (post-burn, r294 adoption law) [via bm-a]\nb760e3c9a r916 bm-a churn-absorb-1: engine live faces tight-loop (r884 law, burn in flight)\n1356f65c3 r916 bm-a churn-absorb: paper faces (S6 legs post-stage) + engine live faces (burn in-flight progression, r294 adoption law)",
+ "final_dirty_n": 0,
+ "ahead_behind": "6\t1"
 }
