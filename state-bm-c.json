@@ -53,14 +53,14 @@
  "gpu_idle_mib": 1109,
  "gpu_vram_free_mb": 1109,
  "cpu_util_pct": 5.2,
- "last_pulled_at": "2026-10-09T09:32:54+08:00",
- "head_sha": "2883709e64f58e833cc9f4aa5e3dbb6cb60d6975",
+ "last_pulled_at": "2026-10-09T09:44:17+08:00",
+ "head_sha": "48a47711928a16811d0bfc5c6b249f0d5a603593",
  "health": "ok",
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "last_push_ts": "2026-10-09T09:32:54+08:00",
-  "note": "r794 post-push delivery self-verified ahead=0/behind=0 via fetch+rev-list; clean push 2883709e6 (48 files, no race no rejection); S0 two-step absorb 2aace7729 (5 daemon live-faces: heartbeat + idle_trigger x2 + sat_engine x2, r620 law) + rebase origin/main rc0 (origin zero new commits, no resolver needed); no daemon self-commit ticks this window (SHARD-2 runner still in RAM-gate bounded wait, no pool flip yet)"
+  "last_push_ts": "2026-10-09T09:44:17+08:00",
+  "note": "r795 post-push delivery self-verified ahead=0/behind=0 via fetch+rev-list; clean push 48a477119 (88 files, no race no rejection); S0 two-step absorb 4e7b93aab (5 daemon live-faces incl. sat-daemon mid-add write race -> second absorb via amend of the unpushed commit, r731 law face) + rebase origin/main rc0 (origin zero new commits, no resolver needed); one autofill daemon self-commit tick this window (0d5f92fdf keepalive claim-refresh w17-screen-0/1/2of8 owner=bm-c, daemon-lane push), absorbed by history"
  },
  "total_ram_gb": 23.9,
  "cores": 32,
