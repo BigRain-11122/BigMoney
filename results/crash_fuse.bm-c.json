@@ -784,16 +784,6 @@
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-09 07:52:04"
   },
-  "scripts/trial_labor_w17.py|screen,0,8": {
-   "count": 1,
-   "refusals": 7,
-   "code_sha256": "519301605e3402f4",
-   "last_crash_ts": "2026-10-09 08:30:03",
-   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
-   "shard": "w17-screen-0of8",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-09 10:02:34"
-  },
   "scripts/trial_labor_w17.py|screen,1,8": {
    "count": 1,
    "refusals": 6,
@@ -813,6 +803,15 @@
    "shard": "w17-screen-2of8",
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-09 10:02:34"
+  },
+  "scripts/trial_labor_w17.py|screen,3,8": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "519301605e3402f4",
+   "last_crash_ts": "2026-10-09 10:50:03",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-3",
+   "shard": "w17-screen-3of8",
+   "machine": "bm-c"
   }
  },
  "cleared": {
@@ -1279,6 +1278,13 @@
    "reason": "r860 bm-a false-crash tombstone: SCREEN burn COMPLETED 373/373 cells 03:37:07, runner exited clean (launch log 'shard 0of1 complete'); trial-labor runners write no worker-claim file so the daemon harvest cannot land (W13 shard-note documented gap) -> 25-min confirm counted a false crash; completion takeover by observing round r860 per W13/W14 precedent",
    "entry": "TRIAL-LABOR-W16-SCREEN",
    "shard": "w16-screen-0of1"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "cleared_ts": "2026-10-09 10:50:03",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "519301605e3402f4"
   }
  },
  "lane_machine": "bm-c"
