@@ -1,0 +1,49 @@
+{
+ "round": 799,
+ "mode": "closing",
+ "dirty": "M docs/daily_report/REPORT-2026-10-09.json\n M docs/daily_report/REPORT-2026-10-09.md\n M docs/live_usage/LIVE-2026-10-09.json\n M docs/live_usage/LIVE-2026-10-09.md\n M docs/live_usage/LIVE-latest.json\n M docs/live_usage/LIVE-latest.md\n M results/_attrition_guard_scan.json\n M results/_orphan_face_probe.bm-c.json\n M results/autofill_state.bm-c.json\n M results/compute_audit.bm-c.json\n M results/compute_audit.json\n M results/dispatcher_state.bm-c.json\n M results/fund_premium_status.json\n M results/fundamental_b_layer_filter.json\n M results/futures_update_status.bm-c.json\n M results/futures_update_status.json\n M results/lhb_update_status.bm-c.json\n M results/lhb_update_status.json\n M results/pool_dualrun.bm-c.jsonl\n M results/regime_state.bm-c.json\n M results/regime_state.json\n M results/saturation_engine/face_bm-c.json\n M results/saturation_engine_state.bm-c.json\n M results/token_usage.bm-c.json\n M results/token_usage.json\n M results/update_status.bm-c.json\n M results/update_status.json\n?? Tools/_r799bmc_qa_ignite.py\n?? Tools/_r799bmc_s05.py\n?? Tools/_r799bmc_s6.py\n?? results/_r799bmc_qa_runner.err\n?? results/_r799bmc_qa_runner.out\n?? results/_r799bmc_s05_facts.json\n?? results/_r799bmc_s6_log.txt",
+ "dirty_n": 34,
+ "tip_log": "97bb83e5a autofill tick keepalive w17-screen-0of8 w17-screen-1of8 w17-screen-2of8 w17-screen-3of8 owner=bm-c (r288 claim-refresh + r290 self-commit) [via bm-c]\n348752868 round pre: bm-c state faces (orphan probe/autofill/dispatcher/idle/satengine)\ndb0240142 round 798 S7: sync face post-push (delivery 0/0 self-verified; rebase 17-UU resolver receipt + churn live-wins absorb)",
+ "ahead": 2,
+ "behind": 3,
+ "orphan_probe_rc": 0,
+ "orphan_probe_tail": [
+  "{\"py_faces\": 6, \"orphans\": 1, \"killed\": [], \"report\": \"K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\_orphan_face_probe.bm-c.json\"}"
+ ],
+ "orphan_n": 1,
+ "pool_total": 418,
+ "pool_status": {
+  "done": 409,
+  "ready": 9
+ },
+ "pool_claimable": 9,
+ "w17_faces": [
+  "TRIAL-LABOR-W17-GENERATE:done",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-0:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-1:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-2:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-3:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-4:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-5:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-6:ready",
+  "TRIAL-LABOR-W17-SCREEN-SHARD-7:ready",
+  "TRIAL-LABOR-W17-JUDGE:ready"
+ ],
+ "wm_red": false,
+ "wm_verdict": "",
+ "wm_next_pick": "{'status': 'claimed', 'candidate': 'moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)', 'lane': 'event-attention-",
+ "group_fetch_rc": 0,
+ "dec_bytes": 188295,
+ "dec_sha": "8381319617DD5225CFC144E041FFB1CCE94903277FEE4219D8E80A24C1DC289A",
+ "ord_bytes": 282093,
+ "ord_sha": "175A85D1010069CDF7F9422A09E55C4E060A0465",
+ "prev_dec_sha": "8381319617DD5225CFC144E041FFB1CCE94903277FEE4219D8E80A24C1DC289A",
+ "prev_ord_sha": "175A85D1010069CDF7F9422A09E55C4E060A0465",
+ "dec_delta": false,
+ "ord_delta": false,
+ "ord_delta_rows": null,
+ "fleet_orders_total": 54,
+ "unacked": [],
+ "inbox_unread": [],
+ "shape_assert": true
+}
