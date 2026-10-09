@@ -1,0 +1,72 @@
+{
+ "probe": "r920 W200 pre-seat probe",
+ "legs": {
+  "leg0": {
+   "rows": 197,
+   "tail": "W199",
+   "owner_rows": 189,
+   "bma_rows": 114,
+   "ordinal": 190,
+   "bma_ordinal": 115,
+   "w199_ledger_head": 852145,
+   "w198_status": "registered bm-a r916 five-face freeze + engine self-burn 12/12; finalize LANDED r917 one-pass origin d4ea4b348 (ledger 849,945 EXACT, K=433,520)",
+   "w199_status": "registered bm-a r919 five-face freeze (dead-session estate takeover absorb) + engine self-burn 12/12 15:38..15:50; finalize LANDED r920 one-pass push c19c67450 (ledger 849,945+2,200=852,145 EXACT, K=435,720 EXACT, skill_line_v2 1.1881) -- W200 freeze-time anchor = W199 finalize actuals per r590, zero roll-forward"
+  },
+  "leg1": {
+   "ARITH_A": [
+    454604,
+    456603
+   ],
+   "ARITH_B": [
+    454804,
+    455003
+   ],
+   "A": [
+    454804,
+    456803
+   ],
+   "hops_A": 1,
+   "B": [
+    456804,
+    457003
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    454804,
+    455003
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      454804,
+      455003
+     ],
+     "jump_to": 456804
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W199 B band 454_604..454_803 (staircase A-hops-prior-B SIXTIETH instance, E36 card; W199 prereg leg4 projection note fulfilled); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W201p_A": "456804..458803",
+   "hops_A": 0,
+   "W201p_B": "457004..457203",
+   "hops_B": 0,
+   "W201p_B_lands_inside_W201p_A": true,
+   "note": "W201+ naive projection on pre-W200 universe; the registered W200 B band will refuse the naive W201 A window once W200 is registered (W200-B-refuses-W201-A staircase anticipated, E36 card); W201 freezer MUST re-derive on the post-W200 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "454804_456803",
+  "B": "456804_457003"
+ }
+}
