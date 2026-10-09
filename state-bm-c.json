@@ -54,13 +54,13 @@
  "gpu_vram_free_mb": 1149,
  "cpu_util_pct": 14.0,
  "last_pulled_at": "2026-10-09T12:55:50+08:00",
- "head_sha": "86500b3eb",
+ "head_sha": "775731642",
  "health": "ok",
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "last_push_ts": "2026-10-09T16:05:18+08:00",
-  "note": "r808 closeout delivery chain: push x3 rejected (bm-a r919 in-flight pushes) -> pull --rebase (1 UU pool_core_samples.jsonl tail-race, union 13 lines ts-chronological, zero loss) -> picks 2/3 saturation marker pollution healed (4380a35cf, r825-class) -> pre-push claw block (4 bm-a estate files in deletion set = stale-base artifact, NOT real deletion) -> merge origin/main 64f6087be (zero-overlap clean) -> push OK -> delivery self-verified HTTPS ls-remote == HEAD (86500b3eb)"
+  "last_push_ts": "2026-10-09T17:12:00+08:00",
+  "note": "r811 delivery chain: commit 775731642 push OK first try (no race this window) + fetch + rev-list 0/0 self-verified; HTTPS ls-remote face unavailable (known C-machine intermittent), SSH fetch face used as delivery proof"
  },
  "total_ram_gb": 23.9,
  "cores": 32,
