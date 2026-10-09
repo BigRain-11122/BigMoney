@@ -1970,6 +1970,15 @@ SEED_REGISTRY = {
         # (r899 machine-read: occupied 94_x ints = [94_100] only); registered
         # at prereg freeze BEFORE any burn; prereg research/F1_BULL_COND_P1.md
         "f1_bull_cond_p1_null_base": 94_200,
+        # PARKING-P1 null base (r914 bm-a, O-20261009-1105-bm-a dispatch):
+        # 94_300 same 94_001..94_999 pocket, verified free in-registry this
+        # window (r914 machine-read: occupied 94_x ints = [94_100, 94_200]);
+        # K=200 masked random (entry,duration) stints on 511880, pickup vs
+        # repo-cash proxy, per-stint annualized Sharpe -> batch-own null_pool
+        # {coverage:{mu,sigma,n_values}} for skill_line_v2 (parking-domain
+        # own line, no core48 reuse); registered at prereg freeze BEFORE any
+        # burn; prereg research/PARKING_P1_PREREG.md sec.2/sec.3
+        "parking_p1_null_base": 94_300,
         # TRIAL_LABOR_W17 exit-axis paired-block batch (bm-c r788 freeze window,
         # ticket T-2026-10-09-178-P1): family band [20610000,20612500) --
         # scrnull rng([20610500,i]) i<200 (K=200 screen nulls) + unc
