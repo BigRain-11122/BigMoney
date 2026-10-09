@@ -1,0 +1,82 @@
+{
+ "probe": "W204 pre-seat probe (bm-c interactive, 2026-10-10, CEO fill-order + O-2334 local-full-use)",
+ "legs": {
+  "leg0": {
+   "rows": 200,
+   "tail": "W202",
+   "owner_rows": 192,
+   "bmc_rows": 35,
+   "bma_rows": 117,
+   "ordinal": 194,
+   "bmc_ordinal": 36,
+   "w202_ledger_head": 858745,
+   "w203_status": "seat-reserved bm-a r930 (MSG-2026-10-09-2329 processed on origin); five-face band row PENDING on origin at probe time -- declared bands 461_404..463_403 / 463_404..463_603 origin-text-verified and injected into this universe per the r930 leg4 mandate",
+   "w203_declared": {
+    "A": [
+     461404,
+     463403
+    ],
+    "B": [
+     463404,
+     463603
+    ]
+   }
+  },
+  "leg1": {
+   "ARITH_A": [
+    463404,
+    465403
+   ],
+   "ARITH_B": [
+    463604,
+    463803
+   ],
+   "A": [
+    463604,
+    465603
+   ],
+   "hops_A": 1,
+   "B": [
+    465604,
+    465803
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    463604,
+    463803
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      463604,
+      463803
+     ],
+     "jump_to": 465604
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by declared W203 B band 463_404..463_603 (staircase A-hops-prior-B SIXTY-FOURTH instance, E36 card; W203 seat leg4 projection + r930 W203 probe leg4 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W205p_A": "465604..467603",
+   "hops_A": 0,
+   "W205p_B": "465804..466003",
+   "hops_B": 0,
+   "W205p_B_lands_inside_W205p_A": true,
+   "note": "W205+ naive projection on pre-W204 universe; W204-B-refuses-W205-A staircase anticipated once W204 B registered (A-hops-prior-B SIXTY-FIFTH instance anticipated); W205 freezer MUST re-derive on the post-W204 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "463604_465603",
+  "B": "465604_465803"
+ }
+}
