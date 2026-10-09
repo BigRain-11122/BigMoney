@@ -1,0 +1,18 @@
+origin fleet-link.ps1 bytes=11827  version-line: # port taken: if the RUNNING instance is an older version, take over (self-upgrade)
+local  fleet-link.ps1 bytes=10350  version-line: started = (Get-Date -Format s); version = '1.0'
+origin has poke-worker ref=True repo_heads=True selfupgrade=True
+origin register ref MultipleInstances in ORIGIN register file checked separately
+origin register has Parallel=True
+origin Tools/fleet-poke-worker.ps1 rc=0 bytes=4851 | local exists=False same=n/a
+origin Tools/InvisibleRunner.vbs rc=0 bytes=641 | local exists=True same=True
+nodes: local==origin? False | local==HEAD? False | origin bytes=3881
+origin nodes: port=8790 ids=['bm-a', 'bm-b', 'bm-c', 'BG-B', 'BG-C']
+  node bm-a host=DASHENG (COMPUTERNAME=FLUXGROUP match=False)
+  node bm-b host=BM-B (COMPUTERNAME=FLUXGROUP match=False)
+  node bm-c host=FLUXGROUP (COMPUTERNAME=FLUXGROUP match=True)
+local nodes: port=8790 ids=['bm-a', 'bm-b', 'bm-c', 'BG-B', 'BG-C']
+TASK query rc=0 len=1691
+  TASK <Command>wscript.exe</Command>
+  TASK <Arguments>//B //nologo "K:\Fluxgroup\FluxGroup\Tools\InvisibleRunner.vbs" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "K:\Fluxgroup\FluxGroup\Tools\fleet-link.ps1" -Root "K:\Fluxgroup\FluxGroup" -NodeId bm-c</Arguments>
+PROC pid=28396 name=powershell.exe cmd=C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\Fluxgroup\FluxGroup\Tools\fleet-link.ps1 -Root K:\Fluxgroup\FluxGroup -NodeId bm-c
+listener-like powershell procs=1
