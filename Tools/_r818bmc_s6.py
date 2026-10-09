@@ -1,7 +1,7 @@
 """r818 bm-c S6 chain driver: standing-leg canon, full log to
 results/_r818bmc_s6_log.txt, compact per-leg rc summary to stdout.
 Leg count derived at runtime (honest count, never hand-typed).
-Clone credit: Tools/_r816bmc_s6.py (r816 canonical chain, 40 legs rc0).
+Clone credit: Tools/_r817bmc_s6.py (r817 canonical chain, 40 legs rc0).
 MUST run under the SYSTEM python (Python313): sys.executable is
 inherited by every leg and the embedded ComfyUI python has no
 pandas/akshare (r516 first attempt = 18 import-crash reds).
@@ -9,13 +9,14 @@ Every leg subprocess passes CREATE_NO_WINDOW (zero-desktop-flash
 defense-in-depth; U060/2026-10-01 silence law -- safe in ANY host
 context).
 r818 watch-faces: update_daily 10-09 bar landing retry (sina late-bar
-self-heal round 11; r808-r816 nine runs all 0 new rows, cutoff 10-08
+self-heal round 12; r808-r817 ten runs all 0 new rows, cutoff 10-08
 held; with a new bar the marks/paper legs accrue on the fresh panel
 idempotently; live_paper lane_io single-writer guard skips if bm-a
 heartbeat fresh); W17 screens 1/8 in burn behind the RAM gate (autofill
-auto_parked resubmit loop, honest busy face); H3 weight download file-1
-was 82.2% at r816 close (13.82/16.83GB, ~11MB/s, file-1 ETA ~19:2x;
-files 2-5 = 23.5GB queue behind, physical dep, O-20261009-1746);
+auto_parked resubmit loop, honest busy face; shard-1 pid 43204 dead at
+r818 check = parked face, autofill resubmit owns the lane); H3 weights
+5/5 landed exact bytes at r818 (40,282,346,779B vs manifest) = 768P T2V
+test piece in flight on the shared 8188 server (O-20261009-1746);
 fund_premium 10-09 NAV publishes T+1 (10-10 15:30+) so today stays an
 honest no-op face; update_options leg = RETIRED honest no-op exit 0 per
 O-20261009-1105 (leg STAYS in the chain as the honest no-op face);
