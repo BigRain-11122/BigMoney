@@ -42,16 +42,22 @@ ORD_METHOD = (
     "facts json, ZERO literal constants (r583 law)")
 
 did = (
-    "2026-10-09T{hm}+08:00 | r807 | dept:工程（P2 队头 T2 单消耗+ORD 双令回执+常设链全绿·第 108 bm-c 连守轮） | "
-    "本地未达 origin commit 数=0（commit 后 push 自证·双跳交付） | "
+    "2026-10-09T{hm}+08:00 | r807 | dept:工程（半开 rebase 接管收口+P2 队头 T2 单消耗+ORD 双令回执·第 108 bm-c 连守轮） | "
+    "本地未达 origin commit 数=0（commit 后 push 自证·HTTPS ls-remote 送达面） | "
     "WM-VERDICT: 绿（red=false·py_low_board_clear 板清合法 idle〔pre-15:30 无新 bar〕·"
     "next_pick=claimed moneyflow IC bm-a 车道合法·DEC BD94A27B 零差保持〔治愈后首度 prev_corrupt=False 双清面〕/"
     "ORD delta 同窗消费〔2 行=O-20261009-1315 云端 token 全面解锁令+O-20261009-1430 机队 Tailscale 通信令·"
     "两行均已 executed〔via bm-c 交互窗 14:3x〕·循环面 receipt-only 零新车道义务·唯一持续禁面=云端视频生成〕·"
     "unacked 0〔55 orders〕·inbox 0） | "
-    "孤儿面=2（探针自面+detached daemon 常驻面·只读不杀） | "
-    "r807: ①S0 daemon live-face 吸收 2 commit（9b30e6bf5 4 件+7fee3d996 autofill 1 件）+pull up-to-date〔behind=0〕"
-    "+孤儿 git.exe×2 击杀（被取消 s05 的 group fetch SSH 挂起腿 14:36:44 起·SSH 断窗实录）；"
+    "孤儿面=1（收尾探针只读不杀） | "
+    "r807: ①S0 双段实录——前班（14:25-14:48）daemon 吸收 2 commit+S6 40/40+QA 5/5+T2 产品 commit 后 pull --rebase "
+    "撞 bm-a 竞窗停于 pick3 冲突解 staged 后猝死〔14:48:43·r867 死形〕；本班〔14:55-15:2x〕轮首撞半开 rebase"
+    "〔r868 律先读 sequencer 态〕→盲吸收 commit 0e90e21b2 恰落 pick3 位=r685 载体形→reset --soft+r808 三步"
+    "〔author-script 注入+commit -F·Terminal-dumb 拒进形态实弹〕+r787 原子 add+churn 自有 commit 推进 6/6 picks"
+    "〔T2 产品 d1cdc537f 45 件+2339 行保全〕+末 pick 三步拒→r624 收口〔quit+branch -f+checkout·pick6 消息/作者"
+    "从原 commit 对象恢复〕→merge origin 3a875bf43 12 面〔deep-ts newer-wins+G4' tie→disk-live+ledger union 零丢失"
+    "·receipt results/_r807bmc_merge_close.json〕→push 6aec0c06f 送达自证〔HTTPS ls-remote==HEAD〕"
+    "→autofill daemon RAM 窗开自续 claim w17-screen-0〔a39998645 自提交自推·r290 律在役〕；"
     "②S0.5 s05 探针加超时夹克（75s/腿·SSH 断窗挂死 5min 实弹→防再发·r625 夹克律族·收据 results/_r807bmc_clone_receipt.json）"
     "+ORD 双令同窗消费回执；"
     "③S1 smoke 49/49+SAT 引擎活 rc0（bm-c Tools 面·fleet engine faces bm-a/bm 陈面如实披露=bm-a 25min/bm-b 离线 13h+〔O-20261009-1430 诊断面〕·他机车道不越）；"
@@ -71,10 +77,13 @@ did = (
 ).format(hm=HM)
 
 activity = (
-    "当前活: r807 bm-c（14:25-15:0x 窗·P2 队头 T2 单消耗+ORD 双令回执·常设链全绿·第 108 连守轮）——"
-    "主产出=dashboard.html 三新面接线（常供池/饱和审计/试用劳力线+active_burns·node 语法过+字段交叉核零缺失） | "
+    "当前活: r807 bm-c（14:25-15:2x 双班窗·前班 T2 产品+本班半开 rebase 接管收口·第 108 连守轮）——"
+    "主产出=dashboard.html 三新面接线（常供池/饱和审计/试用劳力线+active_burns·node 语法过+字段交叉核零缺失）"
+    "+半开 rebase 6/6 picks 收口（T2 产品保全+merge 12 面零丢失+push 送达自证） | "
     "最近实物: dashboard.html（T2 三面接线）+qa/smoke-r807-bm-c.md（5/5·91 trades·determinism=True）+"
-    "results/_r807bmc_s6_log.txt（40/40）+Tools/_r807bmc_{{s05,s6,qa_ignite,close}}.py（s05 带超时夹克）@本轮收口 commit | "
+    "results/_r807bmc_s6_log.txt（40/40）+Tools/_r807bmc_{{s05,s6,qa_ignite,close}}.py（s05 带超时夹克）"
+    "+Tools/_r807bmc_{{rebase_triage,rebase_recover,rebase_finale3,merge_close,push}}.py（接管收口链）"
+    "+results/_r807bmc_{{rebase_recover,merge_close}}.json（收口收据）@本轮收口 commit | "
     "下个里程碑: fund_premium 15:30+ NAV 首采（15:30+ 轮）+10-09 bar 15:30+ 落地→marks/REGIME 面+"
     "W17 RAM 窗开→autofill 自续烧（SLA 10-10 00:00）+exit-to-asset 设计件 ≤10-16 12:00"
 )
@@ -94,7 +103,10 @@ artifact = (
     "+ qa/smoke-r807-bm-c.md (5/5 QA charter pack) + qa/equity-curve-r807-bm-c.png (65,556B) "
     "+ results/_r807bmc_s6_log.txt (40/40 rc0 first-pass) "
     "+ results/_r807bmc_dash_script.js (node syntax-check artifact) "
-    "+ results/_r807bmc_qa_runner.out/.err (detached QA ignition pair) @ " + now_iso
+    "+ results/_r807bmc_qa_runner.out/.err (detached QA ignition pair) "
+    "+ Tools/_r807bmc_{rebase_triage,rebase_recover,rebase_finale3,merge_close,push}.py "
+    "(half-open rebase takeover chain: r808 three-step + r787 atomic + r624 finale + merge closeout) "
+    "+ results/_r807bmc_rebase_recover.json + results/_r807bmc_merge_close.json (takeover receipts) @ " + now_iso
 )
 
 nxt = (
@@ -107,7 +119,10 @@ nxt = (
 )
 
 verify = (
-    "smoke 49/49 + qa/smoke-r807-bm-c.md 5/5（91 trades·determinism=True·equity final 1,023,027·PNG 65,556B） "
+    "半开 rebase 收口链 6/6 picks 保全（T2 产品 d1cdc537f 45 件在链·收据 results/_r807bmc_rebase_recover.json） "
+    "+ merge 12 面零丢失（receipt results/_r807bmc_merge_close.json） "
+    "+ push 送达自证（6aec0c06f HTTPS tip==HEAD） "
+    "+ smoke 49/49 + qa/smoke-r807-bm-c.md 5/5（91 trades·determinism=True·equity final 1,023,027·PNG 65,556B） "
     "+ S6 40/40 rc0 首过（results/_r807bmc_s6_log.txt） "
     "+ node --check rc=0（dashboard.html 内联脚本语法） + 三面字段交叉核零缺失（autofill/saturation/trial_labor vs dashboard_status.js 实测面） "
     "+ attrition 台账 CLEAN + 双爪 LF 归一重装 + loop pin=5 幂等 + watchdog -Force + idle --worked 清零（idle_rounds=0） "

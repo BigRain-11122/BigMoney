@@ -1,0 +1,26 @@
+{
+ "round": "r807-merge-close",
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-09.json": "deep-ts newer-wins -> origin (2026-10-09 14:47:18 > 2026-10-09 14:42:36)",
+  "docs/live_usage/LIVE-2026-10-09.json": "deep-ts newer-wins -> origin (2026-10-09 14:47:19 > 2026-10-09 14:42:37)",
+  "docs/live_usage/LIVE-latest.json": "twin-of docs/live_usage/LIVE-2026-10-09.json -> stage2",
+  "results/_attrition_guard_scan.json": "deep-ts newer-wins -> origin (2026-10-09 14:49:10 > 2026-10-09 14:45:27)",
+  "results/compute_audit.json": "compute_audit: latest newer-wins + history union 201+205->206",
+  "results/fundamental_b_layer_filter.json": "deep-ts newer-wins -> origin (2026-10-09 14:46:48 > 2026-10-09 14:42:08)",
+  "results/futures_update_status.json": "deep-ts newer-wins -> origin (2026-10-09 14:46:14 > 2026-10-09 14:40:01)",
+  "results/lhb_update_status.json": "deep-ts newer-wins -> origin (2026-10-09 14:46:13 > 2026-10-09 14:40:00)",
+  "results/regime_state.json": "deep-ts newer-wins -> origin (2026-10-09 14:44:51 > 2026-10-09 14:39:52)",
+  "results/runnable_pool.json": "ts-tie-or-absent -> stage2 origin (r794 tie law) [merge-tie-override->ours disk-live]",
+  "results/token_usage.json": "LEDGER line-union: machines o5+r5 (replay-newer rows 0) + by_cmd union (replay-newer cmds 0) + base=origin (zero-loss asserted)",
+  "results/update_status.json": "deep-ts newer-wins -> origin (2026-10-09 14:44:50 > 2026-10-09 14:39:51)"
+ },
+ "steps": [
+  "merge rc=1 \"warning: in the working copy of 'results/saturation_engine/face_bm-c.json', LF will be replaced by CRLF the next time Git touches it\\nwarning: in the working copy of 'results/saturation_engine_state.bm-c.json', LF will be replaced by CRLF the next tim\"",
+  "merge commit rc=0 \"[main 6aec0c06f] round 807 bm-c S0 merge closeout: origin 3a875bf43 integrated (predecessor half-open rebase recovered via r808 three-step + r624 finale; 12 faces resolved: deep-ts newer-wins + G4' ti\""
+ ],
+ "theirs_tip": "3a875bf43b06303330b86f2d358561458a68fe31",
+ "uu_n": 12,
+ "ahead_behind": "8\t0",
+ "final_log": "6aec0c06f round 807 bm-c S0 merge closeout: origin 3a875bf43 integrated (predecessor half-open rebase recovered via r808 three-step + r624 finale; 12 faces resolved: deep-ts newer-wins + G4' tie->disk-live + ledger/union faces zero-loss) [via bm-c r807]\n988b29be1 round 807 s0-tail2: engine live-face absorb (tight-loop r884 law)\n3a875bf43 round 918: W199 seat chain (probe rc0 ADMIT A 452_604..454_603 + B 454_604..454_803 staircase FIFTY-NINTH hops 1/1; seat MSG published r565 law; anchor W198 finalize actuals 849,945/433,520)\n8c96024dd round 807 s0-tail: daemon churn absorb (3 own faces, pre-rebase)",
+ "final_dirty": "?? _r807bmc_mergemsg.txt"
+}
