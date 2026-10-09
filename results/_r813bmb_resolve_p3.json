@@ -1,0 +1,30 @@
+{
+ "stop": "pick-3 084d0701a",
+ "resolved": [
+  {
+   "path": "results/p1d_gates.json",
+   "recipe": "snapshot-take-ours",
+   "ts": ""
+  },
+  {
+   "path": "results/saturation_engine/face_bm-b.json",
+   "recipe": "snapshot-take-worktree-live",
+   "ts": "2026-10-10T03:38:04+08:00"
+  },
+  {
+   "path": "results/saturation_engine/state_bm-b.json",
+   "recipe": "snapshot-take-worktree-live",
+   "ts": "{'ts': '2026-10-10T03:38:04+08:00', 'epoch': 1791574681, 'py_cpu_pct': 0.0, 'ram_free_gb': 10.94485092163086, 'verdict': 'idle', 'active_n': 0, 'queue_depth': 0, 'elapsed_sec': 2.5}"
+  },
+  {
+   "path": "results/saturation_engine/history_bm-b.jsonl",
+   "recipe": "append-log-3src-union",
+   "s2": 120,
+   "s3": 120,
+   "union": 145
+  }
+ ],
+ "asserts": [
+  "history union zero-loss: |s2 U s3 U worktree| = 145"
+ ]
+}
