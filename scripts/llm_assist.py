@@ -40,6 +40,7 @@ Usage:
     python scripts/llm_assist.py review scripts/update_daily.py
     python scripts/llm_assist.py retro            # 复盘 -> research/auto/
     python scripts/llm_assist.py ideas "低相关分散化素材的新来源"
+    python scripts/llm_assist.py summary [machine]  # 轮报告白话摘要 -> research/auto/
 """
 import datetime as dt
 import glob
@@ -53,7 +54,23 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS
 
-HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
+def _norm_host(h):
+    """OLLAMA_HOST may carry a listen-all bind address (0.0.0.0) or a
+    scheme-less host[:port] -- normalize to a connectable URL (0.0.0.0 is
+    a bind target, not a connect target, esp. on Windows)."""
+    h = (h or "").strip().rstrip("/")
+    if not h:
+        return "http://127.0.0.1:11434"
+    if h.startswith("0.0.0.0"):
+        h = "127.0.0.1" + h[len("0.0.0.0"):]
+    if not h.startswith(("http://", "https://")):
+        h = "http://" + h
+    if ":" not in h.split("//", 1)[1]:
+        h += ":11434"
+    return h
+
+
+HOST = _norm_host(os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
 MODEL = os.environ.get("BIGMONEY_LLM_MODEL", "qwen3.8:4b")
 # C-machine Ollama over tailnet (O-20261006-1845 令2): bm-b's primary LLM
 # channel; local serve demoted to fallback. Route is resolved once per
@@ -384,6 +401,43 @@ def cmd_retro():
     return 0
 
 
+def _ledger_path(mid):
+    """Per-machine round ledger (fleet/README sec.6 file-split: bm-b keeps
+    the legacy round_reports.md, every other machine uses the -<id> suffix;
+    self-drive T1 consumes the OWN-machine ledger by default)."""
+    name = "round_reports.md" if mid == "bm-b" else f"round_reports-{mid}.md"
+    return os.path.join(PATHS.logs_dir, "iteration-loop", name)
+
+
+def cmd_summary(machine=None):
+    """Round-ledger tail -> plain-language summary (T1, O-20261009-1246 P2
+    queue head). CEO 白话律 (O-20260927-2244): no jargon, numbers up front,
+    one-line verdicts. Advisory artifact only (claims, never instructions)."""
+    mid = machine or _machine_id() or "bm-c"
+    ledger = _ledger_path(mid)
+    if not os.path.isfile(ledger):
+        print(f"[summary] no such ledger: {ledger}")
+        return 1
+    with open(ledger, encoding="utf-8", errors="replace") as f:
+        tail = f.read()[-LEDGER_TAIL_CHARS:]
+    prompt = (
+        "把下面这份机器轮账本尾部（最新一轮）压成给外行 CEO 看的白话摘要。"
+        "纪律（CEO 白话律）：①禁行话术语，术语要么翻译成人话要么不用；"
+        "②数字直给；③每问一句话结论。固定三问，每问一行：本轮做了什么"
+        "（含最关键的 1-2 个数字）/最强的验证证据是什么/下轮要干什么。"
+        "总共不超过 6 行。材料：\n\n" + tail
+    )
+    body = chat([{"role": "system", "content": SYSTEM_PROMPT},
+                 {"role": "user", "content": prompt}], temperature=0.2,
+                num_predict=400, usage_cmd="summary")
+    out = _research_path(
+        "auto", f"summary-{mid}-{dt.date.today():%Y%m%d}.md")
+    _write(out, _stamp(f"轮报告白话摘要 {mid} {dt.date.today().isoformat()}",
+                       f"材料：`{ledger}` 尾部 {LEDGER_TAIL_CHARS} 字符\n\n{body}"))
+    print(f"[summary] saved {out}\n\n{body}")
+    return 0
+
+
 def cmd_ideas(topic):
     prompt = (
         f"围绕主题「{topic}」为 Bigmoney 提出 3 个可验证的研究/工程 idea。"
@@ -422,6 +476,8 @@ def main(argv):
         return cmd_review(rest[0]) if rest else 1
     if cmd == "retro":
         return cmd_retro()
+    if cmd == "summary":
+        return cmd_summary(rest[0] if rest else None)
     if cmd == "ideas":
         return cmd_ideas(" ".join(rest)) if rest else 1
     print(f"unknown command: {cmd}\n{__doc__}")

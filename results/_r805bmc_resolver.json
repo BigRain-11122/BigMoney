@@ -1,0 +1,41 @@
+{
+ "round": 805,
+ "replay": "d7bce8b83",
+ "decisions": {
+  "docs/daily_report/REPORT-2026-10-09.json": "deep-ts newer-wins -> replay (2026-10-09 13:53:36 > 2026-10-09 13:46:13)",
+  "docs/daily_report/REPORT-2026-10-09.md": "md-twin-of docs/daily_report/REPORT-2026-10-09.json -> stage2",
+  "docs/live_usage/LIVE-2026-10-09.json": "deep-ts newer-wins -> replay (2026-10-09 13:53:37 > 2026-10-09 13:46:14)",
+  "docs/live_usage/LIVE-2026-10-09.md": "md-twin-of docs/live_usage/LIVE-2026-10-09.json -> stage2",
+  "docs/live_usage/LIVE-latest.json": "twin-of docs/live_usage/LIVE-2026-10-09.json -> stage2",
+  "docs/live_usage/LIVE-latest.md": "md-twin-of docs/live_usage/LIVE-2026-10-09.json -> stage2",
+  "results/_attrition_guard_scan.json": "deep-ts newer-wins -> replay (2026-10-09 13:53:59 > 2026-10-09 13:47:14)",
+  "results/compute_audit.json": "compute_audit: latest newer-wins + history union 201+201->202",
+  "results/fundamental_b_layer_filter.json": "deep-ts newer-wins -> replay (2026-10-09 13:52:51 > 2026-10-09 13:45:44)",
+  "results/futures_update_status.json": "deep-ts newer-wins -> replay (2026-10-09 13:52:46 > 2026-10-09 13:45:20)",
+  "results/lhb_update_status.json": "deep-ts newer-wins -> replay (2026-10-09 13:52:44 > 2026-10-09 13:45:19)",
+  "results/regime_state.json": "deep-ts newer-wins -> replay (2026-10-09 13:52:35 > 2026-10-09 13:44:22)",
+  "results/token_usage.json": "LEDGER line-union: machines o5+r5 (replay-newer rows 0) + by_cmd union (replay-newer cmds 1) + base=replay (zero-loss asserted)",
+  "results/update_status.json": "deep-ts newer-wins -> replay (2026-10-09 13:52:33 > 2026-10-09 13:44:22)"
+ },
+ "staged": [
+  "docs/daily_report/REPORT-2026-10-09.json",
+  "docs/daily_report/REPORT-2026-10-09.md",
+  "docs/live_usage/LIVE-2026-10-09.json",
+  "docs/live_usage/LIVE-2026-10-09.md",
+  "docs/live_usage/LIVE-latest.json",
+  "docs/live_usage/LIVE-latest.md",
+  "results/_attrition_guard_scan.json",
+  "results/compute_audit.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/lhb_update_status.json",
+  "results/regime_state.json",
+  "results/token_usage.json",
+  "results/update_status.json"
+ ],
+ "gates": {
+  "markers": 0,
+  "json_parse": "OK",
+  "faces": 14
+ }
+}
