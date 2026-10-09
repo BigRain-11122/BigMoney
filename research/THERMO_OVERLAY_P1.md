@@ -1,4 +1,6 @@
-# THERMO_OVERLAY_P1 · 温度计状态×题材配合面 overlay 切片【DRAFT v0 · 跑前未冻结】
+# THERMO_OVERLAY_P1 · 温度计状态×题材配合面 overlay 切片【SUPERSEDED · r826 让路 bm-a】
+
+> **状态横幅：SUPERSEDED-YIELDED（r826 bm-c·fleet/README.md §4 commit 时间序后到让路）**：bm-a 认领 commit 03:27:32 已推（同窗 FROZEN+seed thermo_overlay_p1_nulls=94500 登记）早于 bm-c 认领 commit 03:36:47（未推）——T-2026-10-10-181 让渡 bm-a。**正典冻结件=research/THERMO-OVERLAY-P1.md（bm-a r938）**；本件降格为 r825 草案工作笔记：零注册效力、禁烧禁引用禁入册、判据面一切以 bm-a 冻结件与票面 progress_r938 为准。
 
 > **状态横幅：DRAFT-NOT-FROZEN**。本件=T-2026-10-10-181 认领首轮产物（r825 bm-c·wm-red remediation lane）。跑前冻结 commit 前禁烧任何格；冻结时逐节回填占位并跑 banned_direction_gate。禁上线宣称、禁入册、禁 marks。任何「温度计状态→未来收益」判据宣称唯有本批过 science_gates 全起点三件套后成立（REGIME_THERMO_V1 §四诚实律）。
 > 令源：O-20261009-2340-bm-a.md 循环侧承接④⑤ + O-20261006-1218 P6 消费面②。票=T-2026-10-10-181-P1（claimed bm-c r825）。
