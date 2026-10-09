@@ -1,0 +1,13 @@
+# P1 主业务队列（Self-Drive v2.0 零空闲令·O-20261009-1246 修复派单 a 建面轮=2026-10-09 r804 bm-c）
+
+> 派生=当日审计发现（O-20261009-1246/1257 违例名单）+轮指针在册活；种子全部取自本司真实在飞/待办面。消耗律自下轮起算（self-drive §1 轮次启动规则·BigCompute 建面轮先例）。
+
+| # | 待办 | 指针 | 状态 |
+|---|---|---|---|
+| M1 | W17 screens+JUDGE 池烧收口（RAM 窗自续·autofill 常轨·AUTOFILL-PARK r797 在位）→T-2026-10-09-178-P1 判决批 verdict 出数+48h CEO 呈报链 | runnable_pool/ignition SLA 10-10 00:00 | in-flight |
+| M2 | fund_premium 15:30+ NAV 首采（10-08 NAV·发布面 T+1·第十六观测窗收口） | scripts/update_fund_premium.py | open（15:30+ 轮） |
+| M3 | W18 试用劳动力波排队件（上游=本司 W17-JUDGE 排水·禁假填充·排水即起草） | firm/TRIAL_LABOR_LAW.md §4 | blocked（上游批在飞） |
+| M4 | moneyflow IC 参考批点火跟随（panel 源阻断 30-min 自愈窗→面板完备即点火） | results/watermark_red.json next_pick | in-flight |
+| M5 | bm-a PARKING-P1 判决跑窗跟进（<3min 单核·过门→停泊袖接线 v1.0） | r803 下轮指针⑤ | open |
+| M6 | T-94 千人题库烧批续片（W178 永续波随波推进） | fleet/backlog.md 研究线行 10 | in-flight |
+| M7 | 试用劳动力常设线维持（板空/池饿时默认起草或续跑下一波候选试用期大考批） | firm/TRIAL_LABOR_LAW.md | 常备 |
