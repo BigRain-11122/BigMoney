@@ -1,73 +1,73 @@
 {
- "start": "10:02:03",
+ "start": "10:33:44",
  "legs": [
   {
    "name": "dualrun_reconcile",
    "rc": 0,
-   "sec": 0.2,
+   "sec": 0.1,
    "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 418 entries, drift-free streak 51, cutoff 2026-10-09 06:28:49)",
    "err_tail": ""
   },
   {
    "name": "compute_audit",
    "rc": 0,
-   "sec": 9.3,
-   "tail": "IAL-LABOR-W17-SCREEN-SHARD-7\", \"TRIAL-LABOR-W17-JUDGE\"], \"supply_family_streak_min\": 725.9, \"gpu\": {\"present\": true, \"util_pct\": 51.0, \"mem_used_mb\": 11341.0, \"compute_apps_count\": 33, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": false, \"single_core_hog_detail\": null, \"parallel_efficiency\": {\"window_min\": 60.0, \"batches_judged\": 14, \"core_seconds\": 4143.61, \"wall_seconds\": 341.1, \"effective_cores\": 12.15, \"multicore_burn\": 13, \"single_core_burn\": 1, \"too_short_to_sample\": 0, \"readable\": true}, \"flags\": [\"supply_gap\", \"ignition_sla\"], \"verdict\": \"FLAG:supply_gap,ignition_sla\"}",
-   "err_tail": "compute_audit: runnable_pool merged-sync settled {\"wrote_shared\": false, \"wrote_lane\": true}"
+   "sec": 8.1,
+   "tail": "TRIAL-LABOR-W17-SCREEN-SHARD-7\", \"TRIAL-LABOR-W17-JUDGE\"], \"supply_family_streak_min\": 757.6, \"gpu\": {\"present\": true, \"util_pct\": 1.0, \"mem_used_mb\": 6449.0, \"compute_apps_count\": 30, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": false, \"single_core_hog_detail\": null, \"parallel_efficiency\": {\"window_min\": 60.0, \"batches_judged\": 13, \"core_seconds\": 4124.94, \"wall_seconds\": 280.9, \"effective_cores\": 14.68, \"multicore_burn\": 13, \"single_core_burn\": 0, \"too_short_to_sample\": 0, \"readable\": true}, \"flags\": [\"supply_gap\", \"ignition_sla\"], \"verdict\": \"FLAG:supply_gap,ignition_sla\"}",
+   "err_tail": "compute_audit: runnable_pool merged-sync settled {\"wrote_shared\": true, \"wrote_lane\": true}"
   },
   {
    "name": "py_watermark",
    "rc": 0,
-   "sec": 6.6,
-   "tail": "{\"ts\": \"2026-10-09 10:02:19\", \"epoch\": 1791511333.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 26.0, \"cores\": 32, \"py_cpu_pct\": 0.1, \"py_procs\": 26, \"top_proc_cores\": 0.01, \"local_batch_running\": false, \"refresh_lock_lanes\": [], \"open_tickets\": 0, \"open_ticket_ids\": [], \"bandit_open\": 0, \"bars_present\": true, \"daily_panel\": true, \"verdict\": \"py_low_board_clear\", \"window\": {\"n\": 2, \"span_min\": 26.2, \"avg_py_cpu_pct\": 0.2, \"max_py_cpu_pct\": 0.2}, \"series_kept\": 35}",
+   "sec": 6.3,
+   "tail": "{\"ts\": \"2026-10-09 10:33:59\", \"epoch\": 1791513233.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 26.0, \"cores\": 32, \"py_cpu_pct\": 0.3, \"py_procs\": 24, \"top_proc_cores\": 0.05, \"local_batch_running\": false, \"refresh_lock_lanes\": [], \"open_tickets\": 0, \"open_ticket_ids\": [], \"bandit_open\": 0, \"bars_present\": true, \"daily_panel\": true, \"verdict\": \"insufficient_history\", \"window\": {\"n\": 1, \"span_min\": 0.0}, \"series_kept\": 35}",
    "err_tail": ""
   },
   {
    "name": "update_daily",
    "rc": 0,
-   "sec": 1.8,
+   "sec": 1.7,
    "tail": "core pool: 48 CSVs | today-bar guard: >= 15:30:00\nnew rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-08\nstatus -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\update_status.json",
    "err_tail": ""
   },
   {
    "name": "market_regime",
    "rc": 0,
-   "sec": 0.7,
+   "sec": 0.8,
    "tail": "  asof=2026-10-08 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=2 mode=shadow\n  trigger: hs300<MA200 (#10 collected)\n  trigger: breadth 0.83>=65%",
    "err_tail": ""
   },
   {
    "name": "strategy_scorecard",
    "rc": 0,
-   "sec": 41.7,
-   "tail": "  COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean\n  ENGULF-CE-01       A  total= 66.8  d1=83 d2=47 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean\nstrategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (41.6s)",
+   "sec": 56.3,
+   "tail": "  COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean\n  ENGULF-CE-01       A  total= 66.8  d1=83 d2=47 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean\nstrategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (56.1s)",
    "err_tail": ""
   },
   {
    "name": "market_clock_call",
    "rc": 0,
-   "sec": 4.1,
+   "sec": 4.6,
    "tail": "call written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0",
    "err_tail": ""
   },
   {
    "name": "update_lhb",
    "rc": 0,
-   "sec": 20.3,
+   "sec": 10.1,
    "tail": "fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-08\nrefetched quarter rows=5432 new_beyond_cutoff=0\nno events beyond cutoff yet - no-op",
-   "err_tail": "10<00:08,  1.71s/it]\r 64%|��������������   | 7/11 [00:11<00:06,  1.50s/it]\r 73%|����������������  | 8/11 [00:12<00:03,  1.31s/it]\r 82%|������������������ | 9/11 [00:14<00:02,  1.45s/it]\r 91%|������������������ | 10/11 [00:17<00:01,  1.82s/it]\r100%|��������������������| 11/11 [00:18<00:00,  1.56s/it]"
+   "err_tail": "04<00:03,  1.27it/s]\r 64%|��������������   | 7/11 [00:05<00:03,  1.26it/s]\r 73%|����������������  | 8/11 [00:06<00:02,  1.41it/s]\r 82%|������������������ | 9/11 [00:06<00:01,  1.49it/s]\r 91%|������������������ | 10/11 [00:07<00:00,  1.54it/s]\r100%|��������������������| 11/11 [00:08<00:00,  1.57it/s]"
   },
   {
    "name": "update_zt_pool",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.6,
    "tail": "no-op: panel covers all bar-landed trading days",
    "err_tail": ""
   },
   {
    "name": "update_heat",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.6,
    "tail": "no-op: before 15:30:00 (post-close snapshot window)",
    "err_tail": ""
   },
@@ -88,15 +88,15 @@
   {
    "name": "update_options",
    "rc": 0,
-   "sec": 0.2,
-   "tail": "throttle: last spawn 2026-10-09T09:37:30 (26.0min ago) < 30min -> no-op",
+   "sec": 1.0,
+   "tail": "spawned detached options refresh: local cutoff 2026-09-30 behind expected 2026-10-08",
    "err_tail": ""
   },
   {
    "name": "update_moneyflow",
    "rc": 0,
-   "sec": 0.1,
-   "tail": "throttle: rank spawn 2026-10-09T09:37:31 (26.0min ago) < 30min -> no-op",
+   "sec": 10.8,
+   "tail": "spawned detached rank pass: rank lane never fired",
    "err_tail": ""
   },
   {
@@ -109,7 +109,7 @@
   {
    "name": "update_astock_daily",
    "rc": 0,
-   "sec": 1.0,
+   "sec": 1.2,
    "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-a)",
    "err_tail": ""
   },
@@ -137,15 +137,15 @@
   {
    "name": "update_ths_panel",
    "rc": 0,
-   "sec": 0.2,
+   "sec": 0.3,
    "tail": "wait: day file missing but window blocks: weekday 2026-10-09 inside 09:15-15:30 (calendar lag -> conservative block)",
    "err_tail": ""
   },
   {
    "name": "ah_panel_puller",
    "rc": 0,
-   "sec": 0.1,
-   "tail": "spawn throttled (25min < 30min): panel not complete (first run or prior fuse-stop)",
+   "sec": 10.9,
+   "tail": "spawned detached refresh: panel not complete (first run or prior fuse-stop)",
    "err_tail": ""
   },
   {
@@ -159,7 +159,7 @@
    "name": "update_fundamental",
    "rc": 0,
    "sec": 0.6,
-   "tail": "snapshot fresh (18.6h < 24h) -> skip",
+   "tail": "snapshot fresh (19.1h < 24h) -> skip",
    "err_tail": ""
   },
   {
@@ -179,7 +179,7 @@
   {
    "name": "live_paper",
    "rc": 0,
-   "sec": 4.4,
+   "sec": 4.5,
    "tail": "NEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 6 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\paper\\NEEDLE-DE-01_paper.json\nVOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 6 bars since 2026-09-23 | months_tracked=0 dd=-0.0049 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\paper\\VOLATILITY-CE-01_paper.json\npaper tracking: OK",
    "err_tail": ""
   },
@@ -193,42 +193,42 @@
   {
    "name": "t24_prospect_paper",
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.1,
    "tail": "prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42)\nprospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-10-08",
    "err_tail": ""
   },
   {
    "name": "t24_prospect_promotion",
    "rc": 0,
-   "sec": 6.3,
+   "sec": 7.2,
    "tail": "PROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=2506)\nPROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=2506)\npromotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22",
    "err_tail": ""
   },
   {
    "name": "aggressive_lab_paper",
    "rc": 0,
-   "sec": 12.4,
+   "sec": 14.6,
    "tail": "aggr paper: marks already at panel cutoff 2026-10-08 -- no-op (idempotent)",
    "err_tail": ""
   },
   {
    "name": "alloc_paper",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.6,
    "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-a)",
    "err_tail": ""
   },
   {
    "name": "grid_paper",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.6,
    "tail": "grid paper: marks already at panel cutoff 2026-10-08 -- no-op (idempotent)",
    "err_tail": ""
   },
   {
    "name": "system_v1_paper",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.6,
    "tail": "system_v1_paper: marks already at lane cutoff 2026-09-30 -- no-op (idempotent)",
    "err_tail": ""
   },
@@ -242,14 +242,14 @@
   {
    "name": "daily_scorecard",
    "rc": 0,
-   "sec": 0.1,
+   "sec": 0.2,
    "tail": "scorecard written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6",
    "err_tail": ""
   },
   {
    "name": "daily_report",
    "rc": 0,
-   "sec": 0.8,
+   "sec": 1.0,
    "tail": "daily report written: REPORT-2026-10-09.md/.json faces=5 token=1",
    "err_tail": ""
   },
@@ -263,7 +263,7 @@
   {
    "name": "build_status",
    "rc": 0,
-   "sec": 14.5,
+   "sec": 20.4,
    "tail": "dashboard status -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\dashboard_status.js\n  factors=10 backtest=432combos/0pass traders=6 milestones=5/7",
    "err_tail": ""
   },
@@ -271,13 +271,13 @@
    "name": "token_meter",
    "rc": 0,
    "sec": 0.1,
-   "tail": "saved: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\token_usage.json\nper-round fixed context ~ 13827 + 8755 tokens (rough); ledger cumulative ~ 2049 state + 1825685 report tokens; delta=0\nL2 local-LLM legs: 0 today / 12 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 7, 'ask': 1, 'review': 1}); crash-fuse refusals=2718 across 81 sigs",
+   "tail": "saved: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\token_usage.json\nper-round fixed context ~ 13827 + 8755 tokens (rough); ledger cumulative ~ 2049 state + 1826611 report tokens; delta=0\nL2 local-LLM legs: 0 today / 12 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 7, 'ask': 1, 'review': 1}); crash-fuse refusals=2733 across 82 sigs",
    "err_tail": ""
   }
  ],
  "new_bar": false,
  "panel_pre": "2026-10-08",
  "panel_post": "2026-10-08",
- "end": "10:04:15",
+ "end": "10:36:33",
  "bad_legs": []
 }
