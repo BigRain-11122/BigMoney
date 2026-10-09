@@ -1,0 +1,109 @@
+{
+ "generated": "2026-10-10T03:59:30+08:00",
+ "purpose": "O-20261009-1105 @bm-b: parking return base -- full-history regime/bear empty-day distribution + live paper-window idle-capital stats",
+ "regime_face": {
+  "label_file": "REGIME5-2026-09-30.json",
+  "label_cutoff": "2026-09-30",
+  "total_days": 3289,
+  "days_by_state": {
+   "CHOP": 2103,
+   "BEAR": 780,
+   "BULL": 201,
+   "GRIND": 103,
+   "SUPPORT": 102
+  },
+  "fraction_by_state": {
+   "CHOP": 0.6394,
+   "BEAR": 0.2372,
+   "BULL": 0.0611,
+   "GRIND": 0.0313,
+   "SUPPORT": 0.031
+  }
+ },
+ "bear_proxy_face": {
+  "first_valid_bar": "2013-03-22",
+  "valid_days": 3290,
+  "bear_days": 1512,
+  "bear_fraction": 0.4596,
+  "bear_days_by_regime": {
+   "BEAR": 780,
+   "CHOP": 585,
+   "GRIND": 103,
+   "SUPPORT": 42
+  },
+  "first_bear_day": "2013-06-13",
+  "last_bear_day": "2026-10-09"
+ },
+ "paper_face": {
+  "first_day": "2026-09-24",
+  "last_day": "2026-10-09",
+  "days_sampled": 12,
+  "per_trader": {
+   "COMPOSITE-CE-01": {
+    "days": 12,
+    "zero_position_days": 0,
+    "cash_frac_max": 0.0489,
+    "idle_cny_max": 48761.0,
+    "cash_frac_mean": 0.0488,
+    "zero_position_fraction": 0.0
+   },
+   "COMPOSITE-CE-02": {
+    "days": 12,
+    "zero_position_days": 0,
+    "cash_frac_max": 0.0494,
+    "idle_cny_max": 49161.0,
+    "cash_frac_mean": 0.0492,
+    "zero_position_fraction": 0.0
+   },
+   "DROUGHT-CE-01": {
+    "days": 12,
+    "zero_position_days": 12,
+    "cash_frac_max": 1.0,
+    "idle_cny_max": 1000000.0,
+    "cash_frac_mean": 1.0,
+    "zero_position_fraction": 1.0
+   },
+   "ENGULF-CE-01": {
+    "days": 12,
+    "zero_position_days": 12,
+    "cash_frac_max": 1.0,
+    "idle_cny_max": 1000000.0,
+    "cash_frac_mean": 1.0,
+    "zero_position_fraction": 1.0
+   },
+   "NEEDLE-DE-01": {
+    "days": 12,
+    "zero_position_days": 12,
+    "cash_frac_max": 1.0,
+    "idle_cny_max": 1000000.0,
+    "cash_frac_mean": 1.0,
+    "zero_position_fraction": 1.0
+   },
+   "VOLATILITY-CE-01": {
+    "days": 12,
+    "zero_position_days": 0,
+    "cash_frac_max": 0.5018,
+    "idle_cny_max": 499347.0,
+    "cash_frac_mean": 0.501,
+    "zero_position_fraction": 0.0
+   }
+  },
+  "zero_position_days_by_regime": {
+   "BEAR": 9,
+   "GRIND": 3
+  },
+  "fleet_idle_cny": {
+   "mean": 3597270.0,
+   "max": 3597270.0,
+   "min": 3597270.0,
+   "last": 3597270.0
+  },
+  "regime_label_coverage_note": "paper days beyond regime5 label cutoff carry no join; zero_by_regime counts only covered days"
+ },
+ "honest_notes": [
+  "paper face = live window since paper inception (evidence window, not full history); per-strategy full-history replay needs engine burn face (follow-up slice, pool-gated)",
+  "bear proxy = PARKING_P1_PREREG Face-4 canonical (510300 close<MA200, warmup 200)",
+  "idle CNY = cash_cny sum across 6 traders; zero-position day = positions list empty at last mark of day"
+ ],
+ "latency_s": 0.0
+}
