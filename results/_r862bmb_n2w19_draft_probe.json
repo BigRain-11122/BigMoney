@@ -1,0 +1,135 @@
+{
+ "faces": {
+  "b_nulls_arithmetic": {
+   "b_derivation": "ceil(300 / (62 * 0.75))",
+   "b_derived": 7,
+   "envelope_cap": 500,
+   "envelope_k_times_1plus_b": 496,
+   "envelope_within_cap": true,
+   "expected_ok": 46.5,
+   "expected_pooled": 325.5,
+   "line_note": "sufficiency line stays 300 (never re-derived down post-refuse: post-freeze adjustment prohibition face); the BUDGET derives up instead",
+   "margin_ok_formulas_above_needed": 3.5,
+   "needed_ok_formulas": 43,
+   "sufficiency_line": 300,
+   "w19_k": 62
+  },
+  "census_anchors": {
+   "census_holds": true,
+   "census_product": "results\\t23_census\\CENSUS-2026-10-09.json",
+   "n_consumed_formulas": 48,
+   "null_family_p95": 0.139,
+   "observed_family_max_abs_icir": 0.353
+  },
+  "chain_head": {
+   "chain_head": {
+    "file": "CENSUS-2026-10-09.json",
+    "note": "T23 slice-2 random-grammar cheap census: K=64 formula draws + K*B=4096 within-day same-mask permutation nulls; zero engine runs (factor-reference face)",
+    "total": 876731,
+    "voided": [
+     {
+      "batch": "LOWAMP-P1",
+      "voided_trials": 2008
+     },
+     {
+      "batch": "LOWAMP-P2",
+      "voided_trials": 2008
+     }
+    ]
+   }
+  },
+  "closed_families": {
+   "alphagen_grammar_v1_open": true,
+   "closed_families_n": 9,
+   "keys": [
+    "cta_futures_p1",
+    "cn_combo_five_family",
+    "wild_route_s1",
+    "factor_blend",
+    "t28_spm_first",
+    "microcap_2024_crash",
+    "lowamp_daily_xs",
+    "lowamp_deep_xs",
+    "g2_slot_mon_p2_xs"
+   ]
+  },
+  "grammar_ledger": {
+   "alphagen_rows": 0,
+   "rows": []
+  },
+  "panel_gate": {
+   "cutoff": "2026-10-09",
+   "cutoff_pin_ok": true,
+   "per_files_on_disk": 5219,
+   "ready": true
+  },
+  "w18_attrition_replay": {
+   "attrition_frac": 0.25,
+   "cross_check_n_ok_times_b_eq_observed": true,
+   "implied_pooled_if_all_blocks_valid": 288,
+   "n_draws": 64,
+   "n_enrolled": 50,
+   "n_excluded_in_batch_dup": 6,
+   "n_excluded_ledger_t84s3": 8,
+   "n_h1_skip": 2,
+   "n_ok": 48,
+   "replay_seed_key": "perpetual_n2_w18_gen",
+   "seed_read_only": true,
+   "skip_frac_of_draws": 0.0312,
+   "survival_frac": 0.75,
+   "w18_design_nulls": 384,
+   "w18_observed_pooled": 288
+  },
+  "w19_band_derive": {
+   "a_head_end": 472203,
+   "a_horizon": [
+    472204,
+    732203
+   ],
+   "candidate_trio": [
+    [
+     736000,
+     736499
+    ],
+    [
+     736500,
+     736999
+    ],
+    [
+     737000,
+     737499
+    ]
+   ],
+   "candidate_x_readonly": 736000,
+   "max_wave": "W207",
+   "n1_bands_rows": 205,
+   "naive_inside_horizon": false,
+   "naive_next_slot_after_w18": 734000,
+   "note": "draft-window readout only; freeze window re-derives live and registers per R250 one-step law; DRAFT writes NO band values (r702 lesson)",
+   "reserved_intervals_n": 621,
+   "skipped_collision_xs": [
+    732500,
+    733000,
+    733500,
+    734000,
+    734500,
+    735000,
+    735500
+   ],
+   "w18_family_band_top": 734000
+  }
+ },
+ "probe": "PERPETUAL-N2-W19 draft-window probe (r862 bm-b)",
+ "verdict": "FACTS_RECORDED",
+ "w19_design_summary": {
+  "b_nulls_per_formula": 7,
+  "envelope_trials": 496,
+  "k_draws": 62,
+  "rounds": "R1=24->top6, R2=24 (top6 x 4)->top6, R3=14 (r2_top[0..3] x 3 + r2_top[4..5] x 1)",
+  "sufficiency_line_pooled": 300
+ },
+ "zero_burn": true,
+ "zero_ledger_append": true,
+ "zero_product_file": true,
+ "zero_seeds": true
+}
