@@ -1,0 +1,356 @@
+{
+ "face": "REGIME-AXIS-M1 panic-window column, frozen v1.0",
+ "order_ref": "O-20261010-1725-bm-a",
+ "panel_source": "results/regime_thermo/thermo_daily.csv (REGIME_THERMO_V1 frozen spec)",
+ "panel_cutoff": "2026-09-22",
+ "criteria": {
+  "P": "n_sealed_down >= 1000 (single-day limit-down >= 1000)",
+  "I_icepoint": "n_sealed <= 30 AND n_sealed_down >= 800 (thermo up-board freeze x panic-adjacent)",
+  "union": "P or I",
+  "cluster_gap_trading_days": 10
+ },
+ "n_days": 25,
+ "n_windows": 12,
+ "days": [
+  {
+   "date": "2008-06-10",
+   "n_sealed": 6,
+   "n_touched": 21,
+   "seal_rate": 0.285714,
+   "n_sealed_down": 891,
+   "crit": "I"
+  },
+  {
+   "date": "2015-06-26",
+   "n_sealed": 31,
+   "n_touched": 72,
+   "seal_rate": 0.430556,
+   "n_sealed_down": 1851,
+   "crit": "P"
+  },
+  {
+   "date": "2015-06-29",
+   "n_sealed": 39,
+   "n_touched": 408,
+   "seal_rate": 0.095588,
+   "n_sealed_down": 1385,
+   "crit": "P"
+  },
+  {
+   "date": "2015-07-02",
+   "n_sealed": 36,
+   "n_touched": 237,
+   "seal_rate": 0.151899,
+   "n_sealed_down": 1340,
+   "crit": "P"
+  },
+  {
+   "date": "2015-07-03",
+   "n_sealed": 33,
+   "n_touched": 419,
+   "seal_rate": 0.078759,
+   "n_sealed_down": 1293,
+   "crit": "P"
+  },
+  {
+   "date": "2015-07-07",
+   "n_sealed": 26,
+   "n_touched": 70,
+   "seal_rate": 0.371429,
+   "n_sealed_down": 1623,
+   "crit": "PI"
+  },
+  {
+   "date": "2015-07-08",
+   "n_sealed": 18,
+   "n_touched": 175,
+   "seal_rate": 0.102857,
+   "n_sealed_down": 848,
+   "crit": "I"
+  },
+  {
+   "date": "2015-07-15",
+   "n_sealed": 138,
+   "n_touched": 592,
+   "seal_rate": 0.233108,
+   "n_sealed_down": 1176,
+   "crit": "P"
+  },
+  {
+   "date": "2015-07-27",
+   "n_sealed": 21,
+   "n_touched": 308,
+   "seal_rate": 0.068182,
+   "n_sealed_down": 1691,
+   "crit": "PI"
+  },
+  {
+   "date": "2015-08-18",
+   "n_sealed": 26,
+   "n_touched": 278,
+   "seal_rate": 0.093525,
+   "n_sealed_down": 1467,
+   "crit": "PI"
+  },
+  {
+   "date": "2015-08-24",
+   "n_sealed": 7,
+   "n_touched": 28,
+   "seal_rate": 0.25,
+   "n_sealed_down": 2015,
+   "crit": "PI"
+  },
+  {
+   "date": "2015-08-25",
+   "n_sealed": 5,
+   "n_touched": 103,
+   "seal_rate": 0.048544,
+   "n_sealed_down": 1845,
+   "crit": "PI"
+  },
+  {
+   "date": "2015-09-01",
+   "n_sealed": 18,
+   "n_touched": 114,
+   "seal_rate": 0.157895,
+   "n_sealed_down": 995,
+   "crit": "I"
+  },
+  {
+   "date": "2015-09-14",
+   "n_sealed": 18,
+   "n_touched": 217,
+   "seal_rate": 0.082949,
+   "n_sealed_down": 1348,
+   "crit": "PI"
+  },
+  {
+   "date": "2016-01-04",
+   "n_sealed": 27,
+   "n_touched": 95,
+   "seal_rate": 0.284211,
+   "n_sealed_down": 1230,
+   "crit": "PI"
+  },
+  {
+   "date": "2016-01-07",
+   "n_sealed": 21,
+   "n_touched": 47,
+   "seal_rate": 0.446809,
+   "n_sealed_down": 1339,
+   "crit": "PI"
+  },
+  {
+   "date": "2016-01-11",
+   "n_sealed": 27,
+   "n_touched": 154,
+   "seal_rate": 0.175325,
+   "n_sealed_down": 1194,
+   "crit": "PI"
+  },
+  {
+   "date": "2016-01-26",
+   "n_sealed": 9,
+   "n_touched": 113,
+   "seal_rate": 0.079646,
+   "n_sealed_down": 996,
+   "crit": "I"
+  },
+  {
+   "date": "2016-02-25",
+   "n_sealed": 16,
+   "n_touched": 95,
+   "seal_rate": 0.168421,
+   "n_sealed_down": 1325,
+   "crit": "PI"
+  },
+  {
+   "date": "2018-06-19",
+   "n_sealed": 14,
+   "n_touched": 70,
+   "seal_rate": 0.2,
+   "n_sealed_down": 986,
+   "crit": "I"
+  },
+  {
+   "date": "2018-10-11",
+   "n_sealed": 18,
+   "n_touched": 70,
+   "seal_rate": 0.257143,
+   "n_sealed_down": 1000,
+   "crit": "PI"
+  },
+  {
+   "date": "2019-05-06",
+   "n_sealed": 26,
+   "n_touched": 108,
+   "seal_rate": 0.240741,
+   "n_sealed_down": 1000,
+   "crit": "PI"
+  },
+  {
+   "date": "2020-02-03",
+   "n_sealed": 81,
+   "n_touched": 182,
+   "seal_rate": 0.445055,
+   "n_sealed_down": 2938,
+   "crit": "P"
+  },
+  {
+   "date": "2024-02-05",
+   "n_sealed": 18,
+   "n_touched": 150,
+   "seal_rate": 0.12,
+   "n_sealed_down": 1334,
+   "crit": "PI"
+  },
+  {
+   "date": "2025-04-07",
+   "n_sealed": 25,
+   "n_touched": 131,
+   "seal_rate": 0.19084,
+   "n_sealed_down": 2770,
+   "crit": "PI"
+  }
+ ],
+ "windows": [
+  {
+   "w": 1,
+   "start": "2008-06-10",
+   "end": "2008-06-10",
+   "n_days": 1,
+   "peak_down": 891,
+   "dates": [
+    "2008-06-10"
+   ]
+  },
+  {
+   "w": 2,
+   "start": "2015-06-26",
+   "end": "2015-07-27",
+   "n_days": 8,
+   "peak_down": 1851,
+   "dates": [
+    "2015-06-26",
+    "2015-06-29",
+    "2015-07-02",
+    "2015-07-03",
+    "2015-07-07",
+    "2015-07-08",
+    "2015-07-15",
+    "2015-07-27"
+   ]
+  },
+  {
+   "w": 3,
+   "start": "2015-08-18",
+   "end": "2015-09-14",
+   "n_days": 5,
+   "peak_down": 2015,
+   "dates": [
+    "2015-08-18",
+    "2015-08-24",
+    "2015-08-25",
+    "2015-09-01",
+    "2015-09-14"
+   ]
+  },
+  {
+   "w": 4,
+   "start": "2016-01-04",
+   "end": "2016-01-11",
+   "n_days": 3,
+   "peak_down": 1339,
+   "dates": [
+    "2016-01-04",
+    "2016-01-07",
+    "2016-01-11"
+   ]
+  },
+  {
+   "w": 5,
+   "start": "2016-01-26",
+   "end": "2016-01-26",
+   "n_days": 1,
+   "peak_down": 996,
+   "dates": [
+    "2016-01-26"
+   ]
+  },
+  {
+   "w": 6,
+   "start": "2016-02-25",
+   "end": "2016-02-25",
+   "n_days": 1,
+   "peak_down": 1325,
+   "dates": [
+    "2016-02-25"
+   ]
+  },
+  {
+   "w": 7,
+   "start": "2018-06-19",
+   "end": "2018-06-19",
+   "n_days": 1,
+   "peak_down": 986,
+   "dates": [
+    "2018-06-19"
+   ]
+  },
+  {
+   "w": 8,
+   "start": "2018-10-11",
+   "end": "2018-10-11",
+   "n_days": 1,
+   "peak_down": 1000,
+   "dates": [
+    "2018-10-11"
+   ]
+  },
+  {
+   "w": 9,
+   "start": "2019-05-06",
+   "end": "2019-05-06",
+   "n_days": 1,
+   "peak_down": 1000,
+   "dates": [
+    "2019-05-06"
+   ]
+  },
+  {
+   "w": 10,
+   "start": "2020-02-03",
+   "end": "2020-02-03",
+   "n_days": 1,
+   "peak_down": 2938,
+   "dates": [
+    "2020-02-03"
+   ]
+  },
+  {
+   "w": 11,
+   "start": "2024-02-05",
+   "end": "2024-02-05",
+   "n_days": 1,
+   "peak_down": 1334,
+   "dates": [
+    "2024-02-05"
+   ]
+  },
+  {
+   "w": 12,
+   "start": "2025-04-07",
+   "end": "2025-04-07",
+   "n_days": 1,
+   "peak_down": 2770,
+   "dates": [
+    "2025-04-07"
+   ]
+  }
+ ],
+ "honesty": [
+  "descriptive derivation only, zero judgment claims; M-1 matrix slicing is a separate face",
+  "ice-face adds only days meeting BOTH frozen sub-conditions (no threshold fishing)",
+  "panel = P-5C frozen face cutoff 2026-09-22; panel refresh extends cutoff and this face re-derives deterministically"
+ ]
+}
