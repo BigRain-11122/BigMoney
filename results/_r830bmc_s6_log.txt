@@ -1,0 +1,68 @@
+r830 bm-c S6 chain run 2026-10-10T09:34:57+08:00 legs=43
+
+===== pool_dualrun_reconcile =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/pool_dualrun_reconcile.py run
+[pool_dualrun] DRIFT: $.entries[413].shards[0].owner_since ('2026-10-10 08:40:05' vs '2026-10-10 08:58:06') -- recorded as observation-phase data (drift-free streak reset), entries 419 vs 419, cutoff 2026-10-10 03:52:53
+
+[rc=0]
+
+===== compute_audit =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/compute_audit.py
+{"ts": "2026-10-10 09:35:26", "audit_version": "v2.4.2", "cpu_total_pct": 28.0, "py_cpu_pct": 25.4, "cores": 32, "py_procs": 20, "result_stale_min": 0.3, "fleet_open_tasks": 0, "pool_ready_count": 9, "pool_ready_unclaimed": 4, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 88, "span_min": 1568.8}, "supply_floor": {"ready": 9, "floor": 3, "breach": false}, "ignition_sla_breach_ids": ["TRIAL-LABOR-W17-SCREEN-SHARD-5", "TRIAL-LABOR-W17-SCREEN-SHARD-6", "TRIAL-LABOR-W17-SCREEN-SHARD-7", "TRIAL-LABOR-W17-JUDGE"], "supply_family_streak_min": 2139.2, "gpu": {"present": true, "util_pct": 1.0, "mem_used_mb": 16098.0, "compute_apps_count": 24, "rogue_apps": ["c:\\users\\dasheng\\appdata\\local\\programs\\python\\python313\\python.exe"]}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0, "effective_cores": null, "multicore_burn": 0, "single_core_burn": 0, "too_short_to_sample": 0, "readable": true}, "flags": ["gpu_unauthorized", "supply_gap", "ignition_sla"], "verdict": "FLAG:gpu_unauthorized,supply_gap,ignition_sla"}
+
+[rc=0]
+
+===== py_watermark =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/py_watermark.py probe
+{"ts": "2026-10-10 09:35:47", "epoch": 1791596130.0, "machine": "bm-c", "cpu_total_pct": 54.0, "cores": 32, "py_cpu_pct": 8.9, "py_procs": 20, "top_proc_cores": 2.16, "local_batch_running": true, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": ["TRIAL-LABOR-W17-SCREEN-SHARD-0", "TRIAL-LABOR-W17-SCREEN-SHARD-1", "TRIAL-LABOR-W17-SCREEN-SHARD-2", "TRIAL-LABOR-W17-SCREEN-SHARD-3", "TRIAL-LABOR-W17-SCREEN-SHARD-4", "TRIAL-LABOR-W17-SCREEN-SHARD-5", "TRIAL-LABOR-W17-SCREEN-SHARD-6", "TRIAL-LABOR-W17-SCREEN-SHARD-7", "TRIAL-LABOR-W17-JUDGE"], "pool_ready_count": 9, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 9, "board_open": 0, "board_inflight": 0, "local_batch": 1}, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 40}
+
+[rc=0]
+
+===== update_daily =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_daily.py
+=== Bigmoney daily update 2026-10-10 09:35:53 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-09
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+
+[rc=0]
+
+===== market_regime =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/market_regime.py
+regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-10-09 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=3 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.73>=65%
+
+[rc=0]
+
+===== strategy_scorecard =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/strategy_scorecard.py
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin commit fresh (9min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== market_clock_call =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/market_clock_call.py run
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+
+[rc=0]
+
+===== update_lhb =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_lhb.py
+cutoff=2026-09-30 quarter=2026Q3 today=2026-10-10
+fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-09
+refetched quarter rows=5432 new_beyond_cutoff=0
+no events beyond cutoff yet - no-op
+
+[rc=0]
+
+===== update_zt_pool =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_zt_pool.py
+no-op: zt_pool lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== zt_pool_crosscheck =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/zt_pool_crosscheck.py

@@ -1,0 +1,57 @@
+===== smoke_test =====
+== Bigmoney smoke test 2026-10-10 09:34:57 ==
+[PASS] env: core deps | numpy 2.2.6, pandas 3.0.6, scipy 1.16.1
+[PASS] config: paths | root=bigmoney, daily=K:\Fluxgroup\FluxGroup\quant\bigmoney\data\daily
+[PASS] config: param grid | 432 combos (expect 432)
+[PASS] config: combo_hash deterministic | hash=079d85ab
+[PASS] data: core ETF pool | 48 no-prefix CSVs (expect ~48)
+[PASS] data: OHLCV readable | 48/48 ok
+[PASS] data: freshness | latest bar 2026-10-09 (1d ago, limit 15)
+[PASS] rules: fee schedule sane | single-side cost 13.0 bp
+[PASS] rules: T+0 list | 511880 T+0, 510300 T+1
+[PASS] exit: loss 8d force-close
+[PASS] exit: tiered take-profit
+[PASS] exit: hard stop -8%
+[PASS] exit: hold otherwise
+[PASS] engine: smoke backtest | 3 syms x 400 bars, 39 trades
+[PASS] engine: deterministic | identical on rerun (no hidden randomness)
+[PASS] engine: T+1 respected | 39 trades checked, 0 same-day roundtrips
+[PASS] engine: exits fill at T+1 open (RW-1) | 39 exits checked, 0 non-open fills
+... [65 lines total, tail:] 
+[PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 10/10 PASS
+[PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+[PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791593341 clock=2026-10-10T08:49:01+08:00
+
+Summary: 49/49 PASS, 0 FAIL
+[rc=0 elapsed=87.7s]
+===== orphan_face_probe =====
+{"py_faces": 17, "orphans": 1, "killed": [], "report": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_orphan_face_probe.bm-c.json"}
+[rc=0 elapsed=30.0s]
+===== satengine_status =====
+{
+ "machine_id": "bm-c",
+ "state_present": true,
+ "alive_flag": true,
+ "heartbeat_epoch": 1791596156,
+ "heartbeat_age_s": 61.70961332321167,
+ "burns_active": [],
+ "queue_next": [],
+ "wave_shards_done": {
+  "2": 12,
+  "3": 12,
+  "4": 12,
+  "5": 12,
+  "6": 12,
+  "7": 12,
+  "8": 12,
+  "9": 12,
+  "10": 12,
+... [3857 lines total, tail:] 
+    "local_done": 12,
+    "remote_done": 12
+   }
+  }
+ ]
+}
+[rc=0 elapsed=2.3s]
