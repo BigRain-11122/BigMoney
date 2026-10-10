@@ -16460,17 +16460,21 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-09 06:28:26",
    "data_gates": "",
    "shards": [
     {
      "key": "w17-screen-5of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_5of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 21:04:04"
+     "owner_since": "2026-10-10 21:10:04",
+     "claimed_since": "2026-10-10 21:04:04",
+     "done_at": "2026-10-10 21:10:04",
+     "harvested_by": "bm-a",
+     "harvest_claim": "w17-screen-5of8.bm-a.json"
     }
    ],
    "workers_plan": {
@@ -16480,7 +16484,9 @@
    "data_deps": [
     "results/trial_labor_w17/w17_cells.json",
     "results/trial_labor_w17/prep_state.json"
-   ]
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-10 21:10:04"
   },
   {
    "id": "TRIAL-LABOR-W17-SCREEN-SHARD-6",
@@ -16505,7 +16511,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_6of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 21:04:04"
+     "owner_since": "2026-10-10 21:33:08"
     }
    ],
    "workers_plan": {
