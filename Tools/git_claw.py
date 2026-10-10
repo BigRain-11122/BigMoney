@@ -22,6 +22,11 @@ POLICY (fail-closed): deletions = files present in the OLD tree
     machine_id) == this machine -> allowed (self-owned yield/cleanup);
   * no owner evidence + allowlisted path (fleet/inbox/ move-to-
     processed pattern, r516 law) -> allowed;
+  * qa/ deletion + same-push treasure_guard quarantine manifest
+    whose moved[] lists the exact path with sha256 -> allowed
+    (D-20261010-07 fourth release category: manifest = the deletion's
+    self-proof; membership-only criterion, nothing else relaxed;
+    no-manifest qa/ deletions stay forbidden -- fail-closed intact);
   * everything else (foreign owner / no owner / unreadable blob) ->
     VIOLATION = push forbidden. Escape hatch: git push --no-verify
     (state the reason in the round report).
@@ -52,6 +57,14 @@ import tempfile
 # r516 law: inbox -> processed archive moves are the only no-owner
 # deletion pattern with standing fleet precedent (r366 fixup face).
 ALLOW_PREFIXES = ("fleet/inbox/",)
+
+# D-20261010-07 fourth release category: qa/ rotation deletions are
+# self-certified by a treasure_guard quarantine manifest riding in the
+# SAME push (results/_quarantine/<ts>/manifest.json, moved[] carrying
+# src+sha256 -- the legacy files[] shape has no sha256 face and does
+# not qualify).
+QUARANTINE_PREFIX = "results/_quarantine/"
+QA_PREFIX = "qa/"
 
 # Shared pool face gated by the MSG-2026-10-03-0612 proposal-2 leg.
 POOL_PATH = "results/runnable_pool.json"
@@ -125,6 +138,42 @@ def blob_owner(path, sha, repo):
     return None
 
 
+def quarantined_src_paths(new_sha, repo):
+    """Union of moved[].src entries across every
+    results/_quarantine/<ts>/manifest.json blob present in the tree
+    being pushed (D-20261010-07: the manifest is the deletion's
+    self-proof, so it must ride the SAME push). Only manifests whose
+    moved[] entries carry both src and sha256 qualify; unreadable /
+    shape-wrong / legacy-shape manifests contribute nothing
+    (fail-closed per claim). Only invoked when the deletion set
+    actually carries qa/ paths (zero cost on the common case)."""
+    r = _git(["ls-tree", "-r", "--name-only", new_sha, "--",
+              QUARANTINE_PREFIX], repo)
+    if r.returncode != 0:
+        return frozenset()
+    out = set()
+    for line in (r.stdout or b"").splitlines():
+        rel = line.strip().decode("utf-8", errors="replace")
+        if not rel.endswith("manifest.json"):
+            continue
+        b = _git(["show", "%s:%s" % (new_sha, rel)], repo)
+        if b.returncode != 0:
+            continue
+        try:
+            d = json.loads((b.stdout or b"").decode("utf-8",
+                                                    errors="replace"))
+        except Exception:
+            continue
+        moved = d.get("moved") if isinstance(d, dict) else None
+        if not isinstance(moved, list):
+            continue
+        for m in moved:
+            if (isinstance(m, dict) and m.get("src")
+                    and m.get("sha256")):
+                out.add(str(m["src"]).replace("\\", "/"))
+    return frozenset(out)
+
+
 def deletion_violations(old_sha, new_sha, repo, mid=None):
     """The claw. Returns [] = push allowed; non-empty = forbidden.
     Fail-closed: any unreadable face inside is itself a violation."""
@@ -134,9 +183,15 @@ def deletion_violations(old_sha, new_sha, repo, mid=None):
         paths = deleted_paths(old_sha, new_sha, repo)
     except Exception as exc:
         return [{"path": "<diff-tree>", "reason": "unreadable: %r" % (exc,)}]
+    if any(p.replace("\\", "/").startswith(QA_PREFIX) for p in paths):
+        certified = quarantined_src_paths(new_sha, repo)
+    else:
+        certified = frozenset()
     out = []
     for p in paths:
         norm = p.replace("\\", "/")
+        if norm in certified:
+            continue  # quarantine-manifest self-certified (D-20261010-07)
         owner = blob_owner(p, old_sha, repo)
         if owner == "?":
             out.append({"path": p, "reason": "blob unreadable (fail-closed)"})
@@ -409,6 +464,85 @@ def selftest():
             check_push(p2, p3, repo) == 1)
         leg("CLI check-push pool forward passes (rc 0)",
             check_push(p1, p2, repo) == 0)
+
+        # ---- D-20261010-07: quarantine manifest self-certification ----
+        def _commit_qa_file(rel, text):
+            fp = os.path.join(repo, *rel.split("/"))
+            os.makedirs(os.path.dirname(fp), exist_ok=True)
+            with open(fp, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            _git(["add", rel], repo)
+            _git(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", "qa fixture"], repo)
+            return _tip()
+
+        qa_base = _commit_qa_file("qa/old-r1.png", "png-bytes-r1")
+        _git(["rm", "-q", "--", "qa/old-r1.png"], repo)
+        _git(["-c", "user.name=st", "-c", "user.email=st@t",
+              "commit", "-q", "-m", "qa delete, no manifest"], repo)
+        leg("qa/ deletion WITHOUT manifest blocked",
+            any(v["path"] == "qa/old-r1.png"
+                for v in deletion_violations(qa_base, "HEAD", repo,
+                                             mid="bm-z")))
+        qa_base = _commit_qa_file("qa/old-r1.png", "png-bytes-r1")
+
+        def _write_manifest(ts, moved):
+            mdir = os.path.join(repo, "results", "_quarantine", ts)
+            os.makedirs(mdir, exist_ok=True)
+            with open(os.path.join(mdir, "manifest.json"), "w",
+                      encoding="utf-8") as fh:
+                json.dump({"ts": ts, "moved": moved, "reason": "selftest",
+                           "law": "TREASURE_PROTECTION_LAW §2",
+                           "observation_window_days": 7}, fh)
+            _git(["add", "results/_quarantine/%s/manifest.json" % ts],
+                  repo)
+
+        # same-push manifest listing the exact src+sha256 -> released
+        _git(["rm", "-q", "--", "qa/old-r1.png"], repo)
+        _write_manifest("20261010-1200", [
+            {"src": "qa/old-r1.png",
+             "dst": "results/_quarantine/20261010-1200/qa/old-r1.png",
+             "sha256": "0" * 64, "size": 12}])
+        _git(["-c", "user.name=st", "-c", "user.email=st@t",
+              "commit", "-q", "-m", "qa rotate with manifest"], repo)
+        leg("qa/ deletion with same-push manifest released",
+            deletion_violations(qa_base, "HEAD", repo, mid="bm-z") == [])
+        leg("CLI check-push manifest release passes (rc 0)",
+            check_push(qa_base, "HEAD", repo) == 0)
+
+        # manifest NOT listing the deleted path -> still blocked
+        qa_base = _commit_qa_file("qa/old-r2.png", "png-bytes-r2")
+        _git(["rm", "-q", "--", "qa/old-r2.png"], repo)
+        _write_manifest("20261010-1300", [
+            {"src": "qa/some-other.png",
+             "dst": "results/_quarantine/20261010-1300/qa/some-other.png",
+             "sha256": "1" * 64, "size": 12}])
+        _git(["-c", "user.name=st", "-c", "user.email=st@t",
+              "commit", "-q", "-m", "manifest path mismatch"], repo)
+        leg("qa/ deletion manifest path mismatch blocked",
+            any(v["path"] == "qa/old-r2.png"
+                for v in deletion_violations(qa_base, "HEAD", repo,
+                                             mid="bm-z")))
+
+        # legacy files[] shape (no sha256 face) -> not a release proof
+        qa_base = _commit_qa_file("qa/old-r3.png", "png-bytes-r3")
+        _git(["rm", "-q", "--", "qa/old-r3.png"], repo)
+        mdir = os.path.join(repo, "results", "_quarantine",
+                            "20261010-1400")
+        os.makedirs(mdir, exist_ok=True)
+        with open(os.path.join(mdir, "manifest.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"ts": "2026-10-10T14:00:00+08:00",
+                       "files": ["qa/old-r3.png"],
+                       "reason": "selftest legacy shape"}, fh)
+        _git(["add", "results/_quarantine/20261010-1400/manifest.json"],
+             repo)
+        _git(["-c", "user.name=st", "-c", "user.email=st@t",
+              "commit", "-q", "-m", "legacy shape manifest"], repo)
+        leg("legacy files[] manifest not a release proof",
+            any(v["path"] == "qa/old-r3.png"
+                for v in deletion_violations(qa_base, "HEAD", repo,
+                                             mid="bm-z")))
 
     # machine.json reader on the real tree (read-only environment fact)
     mid = machine_id(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
