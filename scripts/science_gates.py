@@ -2010,6 +2010,20 @@ SEED_REGISTRY = {
         "trial_labor_w17_gen": 20_610_000,
         "trial_labor_w17_scrnull": 20_610_500,
         "trial_labor_w17_unc": 20_611_000,
+        # T23 slice-2 alphagen random-grammar census (bm-b r841 freeze window,
+        # queue row state/queue/tech.md T23 -- slice-1 POSITIVE-with-riders
+        # r840, slice-2 gated on astock panel rebuild completion): gen
+        # rng([20615000, k]) k<64 (K=64 formula-tree draws) + nulls
+        # rng([20615100, k, b]) k<64, b<64 (B=64 within-day same-mask
+        # factor-rank permutation nulls per formula, sina_construct_ic null
+        # design); family band [20615000, 20615200); berth lineage: W17
+        # family band [20610000, 20612500) end -> net gap 2500; rg scan
+        # scripts/ + research/ zero-hit for the 20615 band this window
+        # (Money02/Money0923 numeric coincidences = foreign faces, disclosed);
+        # registered at runner build BEFORE any burn (one-step R250 law);
+        # runner scripts/t23_random_grammar_census.py
+        "t23_grammar_census_gen": 20_615_000,
+        "t23_grammar_census_null": 20_615_100,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
