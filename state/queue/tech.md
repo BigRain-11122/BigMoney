@@ -17,6 +17,7 @@
 | T16 | dualarm 契约违约适配器（exit 3 blocked 路径的上游适配工装：§1 契约冻结禁改·适配器自动生成合法壳） | scripts/regime_gate_dualarm.py+REGIME_STYLE_MATRIX_V1 §1 | done |
 | T17 | fleet orders_ack 差集扫描自动化（轮首双扫手工化现状——glob×ack 集合差自动断言零未回执） | fleet/FLEET-OPS.md §S0.5 | done |
 | T18 | 队头撞头探针（P2/P3 队头认领前跨机撞头检测：他机心跳 current_task/task=in_flight·next/now_active=declared_intent 双档声明匹配+origin 队列表头对账=E3 r823/r947、E4 r825/r948 双撞实录根治面） | scripts/queue_head_collision_probe.py+Tools/iteration_prompt.txt S3 前置腿 | done |
+| T19 | queue 种子面闭合族机检闸（P2/P3 队列登记时种子文本 vs science_gates.CLOSED_FAMILIES 键/判负词面机检——E6 撞门实录 r949 bm-a：建面轮 r804 未核闭合族=陈旧面入队【725fa437】；闸=登记器内置 lint 或登记轮强制核验步，防换皮重开预备面再生。行号 T19=本行【原拟 T18 撞 bm-b r826 队头撞头探针同窗同号·后到让号 per fleet README §4·r949 注记】 | scripts/science_gates.py+state/queue/explore.md+research/digests/DIGEST-20261010-e6-microcap-closed-adjudication.md | open |
 
 > r805 消耗记录：T1（llm_assist summary 命令+OLLAMA_HOST 0.0.0.0 归一修复+selftest PASS+实物 research/auto/summary-bm-c-20261009.md）与 T11（scripts/repo_pulse_probe.py 探测器+results/repo_pulse_probe.json+selftest PASS）本轮完成出列；补入 T11-EXT 后续。技术队列 12→11 净减 1（self-drive §1 规则5 合规）。
 > r806 消耗记录：T11-EXT 本轮完成出列（scripts/repo_pulse_probe.py 全 11 员期限梯扩展+selftest PASS〔ladder join 腿新增〕+results/repo_pulse_probe.json 全梯面）。真发现=月末脉冲率随期限单调衰减（GC001 17.6%/lift 5.4x→GC003 13.2%→GC004 11.1%→GC007 8.2%→GC014 2.6%/GC028 0.8%〔两员反转低于非月末〕）+深市 R-001 月末 lift 4.7x+传导衰减（GC001 脉冲日 GC003 mean z 5.73→GC014 2.67→GC028 1.19）+GC091/182 非有限 z（平基线 MAD=0±∞）剔除计数披露。技术队列 11→10 净减 1。prereg 面按 T-67 §2 冻结律+P1 署名门不自动开（纯测量纪律维持）。
