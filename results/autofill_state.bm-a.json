@@ -1,23 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-04 10:00:31",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "THEME-JUDGE-P1",
-   "shard": "theme-judge-p1-burn-0of1",
-   "pid": 78852,
-   "runner_sha256": "980fcd7c38043793",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": 9.2,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-04 10:18:46",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -1433,20 +1416,49 @@
    "fullburn_window": false,
    "target_met": false,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-10 19:47:02",
+   "machine": "bm-a",
+   "py_cpu_pct": 3.7,
+   "cooldown_skipped": {
+    "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+    "shard": "w17-screen-0of8",
+    "last_launch_min": 19.6
+   },
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-1",
+   "shard": "w17-screen-1of8",
+   "pid": 46276,
+   "runner_sha256": "faec7eea2224bfc2",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": 2238.9,
+   "fullburn_window": false,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-10 19:46:42",
+  "ts": "2026-10-10 19:47:02",
   "machine": "bm-a",
-  "py_cpu_pct": 0.2,
+  "py_cpu_pct": 3.7,
   "cooldown_skipped": {
    "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
    "shard": "w17-screen-0of8",
-   "last_launch_min": 19.3
+   "last_launch_min": 19.6
   },
-  "verdict": "claim_lost_yield",
+  "verdict": "launched",
   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-1",
-  "shard": "w17-screen-1of8"
+  "shard": "w17-screen-1of8",
+  "pid": 46276,
+  "runner_sha256": "faec7eea2224bfc2",
+  "core_verdict": "multiproc",
+  "core_marker": "run_cells_parallel(",
+  "fill_latency_min": 2238.9,
+  "fullburn_window": false,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-10T19:28:44+08:00"
