@@ -16581,17 +16581,21 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-09 06:28:49",
    "data_gates": "",
    "shards": [
     {
      "key": "w17-judge-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w17/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL r429; judge-finalize physical dep = burn machine W13/W14/W16 single-shard precedent)",
      "note": "single shard machine-local law; judged cells = screen survivors + paired nulls; dual nulls B=2000 block bootstrap + P=2000 sign-flip; RAM gate r354 honest-refuse retry",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 22:52:15"
+     "owner_since": "2026-10-10 23:38:03",
+     "claimed_since": "2026-10-10 22:52:15",
+     "done_at": "2026-10-10 23:38:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "w17-judge-0of1.bm-a.json"
     }
    ],
    "workers_plan": {
@@ -16600,7 +16604,9 @@
    },
    "data_deps": [
     "results/trial_labor_w17/judge_state.json"
-   ]
+   ],
+   "done_by": "bm-b",
+   "done_at": "2026-10-10 23:38:03"
   },
   {
    "id": "THERMO-OVERLAY-P1-BURN",
