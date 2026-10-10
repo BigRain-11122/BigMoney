@@ -2,35 +2,17 @@
  "advisory": "verdict is data; COLLISION_RISK/DECLARED_INTENT_RISK -> yield that head, take next row or another agenda; STALE_LOCAL_QUEUE -> pull before claiming (local queue face behind origin)",
  "fetch_rc": 0,
  "machine_id": "bm-a",
- "origin_main": "dab467fb6 2026-10-10 10:52:50 +0800",
+ "origin_main": "d7c7e3bd2 2026-10-10 11:24:37 +0800",
  "probe": "queue_head_collision_probe",
  "queues": [
   {
-   "flags": [
-    {
-     "head": "T20",
-     "machine": "bm-b",
-     "type": "declared_intent"
-    }
-   ],
+   "flags": [],
    "local_head": "T20",
-   "machine_faces": [
-    {
-     "age_min": 17.1,
-     "last_seen": "2026-10-10T10:37:39+08:00",
-     "machine": "bm-b",
-     "matches": [
-      {
-       "head": "T20",
-       "type": "declared_intent"
-      }
-     ]
-    }
-   ],
+   "machine_faces": [],
    "origin_head": "T20",
    "origin_readable": true,
    "queue": "state/queue/tech.md",
-   "verdict": "DECLARED_INTENT_RISK"
+   "verdict": "CLEAR"
   },
   {
    "flags": [
@@ -43,8 +25,8 @@
    "local_head": "E9",
    "machine_faces": [
     {
-     "age_min": 17.1,
-     "last_seen": "2026-10-10T10:37:39+08:00",
+     "age_min": 26.8,
+     "last_seen": "2026-10-10T11:00:47+08:00",
      "machine": "bm-b",
      "matches": [
       {
