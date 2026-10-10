@@ -1,0 +1,86 @@
+# LHB_THERMO_IC_P1 · 龙虎榜聚合情绪轴→大盘指数前向信息 IC 判决批预注册
+
+> 模板：research/PREREG_TEMPLATE.md（2026-09-23 入库版）· 令源谱系：O-20260928-1522（CEO 研究导向令·游资情绪周期=点名优先供给向①）＋ explore 板 E5 行（LHB 热度轴·O-20261009-2340 P6 温度计家族）· slice-1 描述面=r946 lhb_thermo_build.py（4799 日·零判据零阈值）· 本件=slice-2 判据门（independent prereg only）。
+> 状态：**FROZEN**（bm-a r947 跑前 commit 冻结；跑后只许回填 §7/§8，禁改判据禁重跑）。
+> 消费面定位：E5 行判据步；P6 政体门情绪臂参照族（lhb 流量臂与涨跌停计数臂的差异化信息判决——双源皆负=情绪择时族级闭合·流量面过门=新信息源）。
+
+## §0 批件身份【跑前】
+
+- **批名**：LHB_THERMO_IC_P1；**批内格数 = 36**（6 轴 × 2 z 窗 × 3 h；**h10=唯一门控期限**——h5/h20 只对过门者补算报告列〔非门控·防窥探·PA_LHB_IC 先例〕；36 格全量入 audit 段与 §四预算）。
+- **认领**：F-04 先行——`fleet/inbox/MSG-2026-10-10-0830-bma.md` 同 commit 声明；任务板引用：explore 板 E5 行（open→本批判决后翻面）。
+- **部门归属**：dept:研究（研究部·情绪/政体供给线·O-20260928-1522 优先向①）。
+- **算力预算**：runner 纯 L1 确定性向量化（IC 36 格 + 200 null×36 格 circular-shift 重放·预估 <5 分钟）——轮内可跑非池批；audit 段必带。
+
+## §0.5 禁开方向硬闸【跑前·D-20260930-41 §1.2】
+
+- 闸实测：`python Tools/banned_direction_gate.py --prereg research/LHB_THERMO_IC_P1.md`（判决 JSON 同 freeze commit 入 §6）——**实跑判决=ADMIT（exit 0·matched=[]·「no banned direction claimed」）**：闸形态级判定本批纯 IC 测量问题形态不构成 BAN-05 禁开面（=本节例外③的机器确认·闸判严于自判从自判从严从闸）；本节 BAN-05 自声明+例外段保留为保守诚实面（万一形态判读分歧时的预置例外论证）。
+- **命中编号：BAN-05**（大盘水温/市场温度择时族）。
+- **例外类型：`new_data`（主）**。
+- **原否证不可能看见的东西**：①BAN-05 原否证面=ETF 世代 breadth/MA200 截面数据上的**入场确认前置滤**（THERMO-OVERLAY-P1 §0.5 已核原文）——**龙虎榜席位级资金流量聚合面**（Money02/data/lhb 266,285 raw 行·2007-01-04→2026-09-30·净买入六轴日聚合）在原否证数据面**不存在观测量**（榜单资金流≠价格截面/均线族）；②同族 sibling THERMO-OVERLAY-P1（2026-10-10 判负 0/6）面=**涨跌停计数微观结构**（价格到达制度边界的事件数）≠**游资实际净下注资金流**（钱 vs 计数）——本批=该情绪择时族第二数据源的差异化信息判决步（族级闭合需要的最后一块证据面）；③本批问题形态=**纯信息测量（TS-IC）**——不设任何入场门/离场门/仓位规则/前置滤，BAN-05 否证的是「前置滤改善既有策略」，本批不构成该形态。科学效力归判据链，本节例外=入场券非结论。
+
+## §1 α 机制段【D6】
+
+- [x] **行为偏差**：游资榜净买入聚合=注意力驱动的拥挤度观测——注意力稀缺（Kahneman）下榜单曝光吸 引散户追买（处置效应+追涨），曝光峰值=拥挤峰值=边际买家耗尽的局部顶信号；冰点（净流出极端）=无人愿卖的衰竭底。**由谁付出代价**：追榜后入场者（attention 高峰后买入的散户）——他们在拥挤峰值接货、为均值回归付费；反向持有人收取该代价。游资情绪周期的民俗判据（O-20260928-1522 点名优先向①）形式化=「过热退潮·冰点进场」的逆情绪 convention。
+- **散户凭什么赢【§1.2】**：**制度**——龙虎榜=交易所法定免费披露（akshare 采集在库·零数据门槛）+510300 ETF 执行 26.082bp/往返零容量约束；散户赢面=无融资盘强平/赎回强制义务（机构在情绪极端日被强制同向交易，散户可持逆情绪仓位熬过退潮段）。
+- **同族相关性准入检查【D6】**：family_key=`lhb_thermo_ic_p1`（新族·`science_gates.CLOSED_FAMILIES` 不在册·在册交易员零成员用本信号）——**预检已跑**（r947·信号级 spearman·250d z 同变换口径）：6 LHB 轴 × 5 P6 政体轴（seal_rate/max_height/n_lianban4p/n_sealed_down/n_broke）max|corr|=**38%**（L_n_lhb×P_n_sealed_down）·流量轴族 max|corr|=26%（netbuy_pos_share×n_sealed_down）——全部 « 0.70 拒收线·信息面独立成立；批内同族 6 轴为同族格点（家族 PBO 面如实披露）；正式 D6 intake 实算（日收益口径）在本批无 sleeve 收益面——**纯测量批零持仓零 sleeve**，D6 日收益口径不适用（无收益序列产生），以信号级预检为准并在 §8 披露。
+
+## §2 数据与面板【跑前探针事实·非结果】
+
+- **宇宙/标的**：大盘指数面=510300（沪深300ETF·retail 目标执行工具）；LHB 聚合面=全市场榜单聚合（无宇宙筛选·全 A 榜单口径）。
+- **数据锚面四元组**：
+  - 面 1（情绪信号面）：`results/lhb_thermo/lhb_thermo_daily.csv` / `pd.read_csv` raw 直读 / 2007-01-04 起算 / z 窗预热 {120,250} 交易日——探针实锚（r946 build·r947 复核）：**4,799 行·12 列·首 2007-01-04·末 2026-09-30**（dedup keep-first per (code,day)·38,239 多原因行如实记 n_rows_raw）。
+  - 面 2（指数收益面）：`data/daily/sh510300.csv` / `pd.read_csv` raw 直读（列 date/open/high/low/close/volume/amount） / 2012-05-28 起算 / 零预热（fwd 收益直接派生）——探针实锚：**3,490 行·7 列·首 2012-05-28·末 2026-10-09**。
+  - **探针-锚同面断言**：runner 探针实载路径与上述声明逐位比对，一面不等=面错配 VOID fail-closed 拒烧。
+- **join 覆盖诚实披露**：LHB 4,799 日 ∩ 510300 全日历（至 2026-10-09）= **3,488 日**；**cutoff 2026-09-22 截断后实测 join = 3,483 日**（2012-05-28..2026-09-22·r947 runner probe 实锚）——2007-01→2012-05 段（1,311 LHB 日）因 510300 面板 2012-05-28 起而**不可测**（数据面现实非选择；该段含 2008 崩盘+2009 修复两大情绪周期·损失如实披露，不外推补偿）。
+- **窗口与 evidence_cutoff**：一律截断 **2026-09-22（P-5C 冻结面·与 THERMO-OVERLAY-P1 同窗=判决可比）**；cutoff 后新 bar 锁定不得回流本批；结果 JSON 顶层必带 `science_gates.cutoff_meta` 字段。
+- **数据完备门（不过禁跑）**：面 1 行数==4,799 ∧ 首==2007-01-04 ∧ 末==2026-09-30；面 2 行数==3,490 ∧ 首==2012-05-28；join≥3,400 日；cutoff 截断后首有效信号日（z250 预热完）≤2013-06-30。
+- **种子选位律合规**：null 基点 **94,700**（94 带净袋·与在位 94100/94200/94300/94500-94699〔thermo_overlay 200 尾段〕disjoint·本 commit 登记 SEED_REGISTRY `lhb_thermo_ic_p1_nulls=94700`）。
+
+## §3 方法学【冻结】
+
+- **轴清单（6·全日频）**：`n_lhb`（榜单数=活跃度）、`netbuy_sum`（净买额和=游资净下注）、`netbuy_pos_share`（净买占比）、`med_netbuy`（中位净买）、`netbuy_intensity`（净买强度=netbuy_sum/lhb_amt_sum）、`amt_share`（榜单额/市场额=注意力占比）——全部来自面 1 既有列，零新衍生。
+- **变换（冻结）**：z_w(t) = (x(t) − rolling_mean_w(x)) / rolling_std_w(x)，w ∈ {120, 250}，min_periods=w；**信号 s(t) = −z_w(axis(t))**（**逆情绪 convention 逐字冻结**：过热=负信号·冰点=正信号·§1 机制方向）。
+- **滞后规则（禁未来数据）**：LHB 榜单 t 日 ≥18:00 披露 → 信号 t 日收盘后可用 → 前向收益 **r_h(t) = close(t+1+h)/close(t+1) − 1**（510300 close-to-close·自 t+1 收盘起算=t+1 收盘可执行口径）；h ∈ {5,10,20}（**h10 唯一门控**）。
+- **TS-IC（时序 IC·本批「IC」定义冻结）**：spearman(s(t), r_h(t)) 全窗逐日对（重叠前向窗如实声明——null 同结构吸收）；**月度子 IC**=逐日历月内 spearman（月内 ≥15 有效对才计入）→ IC_IR = mean(月度 IC)/std(月度 IC)。
+- **分段（三窗+IS/OOS 双制冻结）**：S1 2013-06-07..2017-12-29 / S2 2018-01-02..2022-06-30 / S3 2022-07-01..2026-09-22（三段≈4.5 年均衡·描述面分段恒带）；门控 IS/OOS=`composite_ic.IS_END` 全公司口径（IS≤2024-12-31·OOS=2025-01-01..cutoff）。
+- **null 对照（K=200 circular shift·THERMO-OVERLAY 保结构正法）**：s_null,i(t) = s((t+shift_i) mod T)，shift_i ~ U{1..T−1}——保序保边际保自相关（z 窗惯性全保留）·仅随机化相位=「情绪时点是否携带信息」的零假设正法；K=200/格·seed=**94700+i**（i=0..199·SEED_REGISTRY 本 commit 登记）；被动基线=不适用（纯测量面无持仓基线·被动持有 510300 收益不构成本批对照——如实声明）。
+- **成本口径【CN-C7 申报】**：本批=纯信息测量零交易零成本发生；下游 sleeve 消费面（如过门）执行成本=ETF 面 A 恒等 **26.082 bp/往返**（`knowledge/cost_spec.py` 派生·未来 sleeve 预注册按此申报，本批不产生成本面）。
+- **账本**：`science_gates.append_ledger(batch_name='LHB_THERMO_IC_P1', batch_trials=36, file_name='lhb_thermo_ic_p1/lhb_thermo_ic_p1_results.json', evidence_cutoff='2026-09-22')`（PA_LHB_IC 零引擎先例+PARKING 实格入账先例合并口径：36 实格入账·null 不入账〔THERMO-OVERLAY 1,206 全入 vs PARKING 24 实格两先例分歧·取保守上限的实格面〕；§四轨道预算 348→384/500 同步记账）。
+- **出场轴显式门【TRIAL_LABOR_LAW §4 三选一】**：**③ template_default 按设计测**——纯 IC 测量面零持仓零出场栈；runner **零直接 engine/backtest/exit_rules import + 命名空间零 engine 族绑定**（代码层结构化断言〔AST import 扫描+运行时命名空间绑定检查·selftest 6/6〕；共享判据库 science_gates/composite_ic 自身的传递 engine 包依赖≠本 runner 使用引擎——THERMO-OVERLAY sibling 同语义）·无止损/无超时/无出场调用。
+- **闭合族对号【M3】**：family_key=**lhb_thermo_ic_p1**——`science_gates.CLOSED_FAMILIES` 不在册=open 照跑（closed_family_check 实跑收据入 §6）；与已判负 r680（榜单级跟随）/r681（席位级跟随）分界=**事件级选股问题 vs 市场级聚合择时问题**（问题形态+目标工具+观测聚合层三重不同）；与 PA_LHB_IC 分界=截面个股因子 vs 市场级时序信号（同一数据源两问题面·slice-1 面板 demarcation 已记）。
+
+## §4 判据【跑前写死·禁看结果调线】
+
+- **门控口径（h10 唯一门控·PA_LHB_IC 三门口径沿用）**：
+  - **V1** = |IS TS-IC| > max(0.02, 该格 K=200 null |TS-IC| p95)；
+  - **V2** = |IS IC_IR_monthly| ≥ 0.30；
+  - **V3** = OOS 同号 ∧ |OOS TS-IC| ≥ 0.5×|IS TS-IC|；
+  - IS 有效期数 ≥ 500（日对数）；
+- **M1 t 面【必填】**：因子面直接 t=t(IC) = IC_IR_monthly(IS) × sqrt(n_months_IS)（月度块≈非重叠近似·重叠日对的多重检验膨胀由月块粒度吸收）→ `science_gates.m1_t_value_gate(t, hurdle=3.0, claim_class='new_factor')`；缺面=missing_input 拒收。
+- **全链过门** = V1 ∧ V2 ∧ V3 ∧ M1(t≥3.0) 全真（h10 门控面）；过门格数本批为机制判决读数非注册读数——**过门≠注册**：任何过门格的 sleeve/注册动作=另开预注册正门（G 门禁链），本批零注册面动作。
+- **描述性条款（批级披露）**：36 格全量披露 TS-IC/IC_IR/null p95/三段 IC/OOS IC；本批=收益信息判决面非数据腐坏检测面——硬界三件套不适用主判；极端日先验入 §5。
+- **全起点分布【§1.3 D-41】**：适用性声明——纯 IC 测量面无持仓路径依赖（信号-收益对逐日全窗计算·无起点敏感性路径），以**三段分段 IC + IS/OOS 双制**替代起点分布（分段恒带=时稳健性面）；无 sleeve 起点面可报告·如实声明非隐藏。
+
+## §5 跑前预测【写死于跑前·跑后对账】
+
+1. **流量轴主向预测（55% 信心）**：netbuy_sum/netbuy_intensity/med_netbuy/netbuy_pos_share 四流量轴在逆情绪 convention 下 h10 TS-IC 弱正 [+0.005, +0.04]（游资情绪周期民俗判据成立面）——若全窗 |TS-IC|<0.02 平坦=民俗判据在日频粒度被否证（诚实负结果非批失败）。
+2. **计数轴预测**：n_lhb 逆情绪 IC ≈ 0 [−0.01, +0.02]（活跃度水平≠方向信息）；amt_share 最弱（注意力占比稀释）。
+3. **过门格数预测**：≤3/36（12 门控格中 0-2 过全链·THERMO-OVERLAY sibling 0/6 刚判负·同族面负结果延续概率高——本批价值=族级证据非注册冲刺）。
+4. **门槛读数预测**：null p95 |TS-IC| 预测 ≈0.025-0.045（circular shift 保 z 窗惯性·250d z 格 null 带宽于 120d 格）；skill 面=max(0.02, p95)·多数格死于 V1。
+5. **极端日先验【(c)】**：2015-06/07 股灾窗（LHB netbuy z>3 聚簇·510300 单日 ±8-9% 量级）/2024-02 微盘危机/2025-04 关税窗——高|z| 对与极端 fwd 收益集中在该三窗；该窗内 IC 符号不稳定（V 型底反弹 2015-07-09 类）=预期形态非数据腐坏；月度子 IC 序列将出现 ±0.3 级单月极值（2015-07 单月可 |IC|>0.3）=预期内非异常。
+
+## §6 产物【跑前占位】
+
+- runner：`scripts/lhb_thermo_ic_p1.py`（subcommands: probe / run / selftest；selftest=离线自检；车道=bm-a 宿主·他机 fail-closed 探针拒）。
+- 结果：`results/lhb_thermo_ic_p1/lhb_thermo_ic_p1_results.json`（顶层 evidence_cutoff 必带·cutoff_meta 字段）+ `cells_ts_ic.csv`（36 格全量读数）+ `nulls_summary.csv`。
+- 跑前收据（同 freeze commit）：banned_direction_gate 判决 JSON + closed_family_check 收据 + SEED_REGISTRY 登记（lhb_thermo_ic_p1_nulls=94700）+ §2 探针实锚。
+
+## §7 跑后实证【跑前必须为空——写数字即造假】
+
+（跑后机器回填·一次定稿）
+
+## §8 批后复盘【跑后回填】
+
+（跑后机器回填：预测对账·门禁链损耗账〔gate_attrition 追加〕·§四预算记账 348→384·试验量归因〔36 格≤100 无归因义务·如实报数〕·判后去向〔E5 行翻面+族级结论〕）
+
+—— 认领：bm-a OS 循环 r947 · 2026-10-10 · F-04 MSG-2026-10-10-0830-bma

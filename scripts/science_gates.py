@@ -1987,6 +1987,12 @@ SEED_REGISTRY = {
         # batch-own null_pool for skill_line_v2); registered at prereg freeze
         # BEFORE any burn; prereg research/THERMO-OVERLAY-P1.md sec.2/sec.3
         "thermo_overlay_p1_nulls": 94_500,
+        # LHB aggregate-emotion axes -> index forward-info IC verdict batch
+        # (bm-a r947 freeze, prereg research/LHB_THERMO_IC_P1.md sec.2/sec.3);
+        # circular-shift nulls rng([94_700 + i]) i<200 (K=200 structure-
+        # preserving phase randomization); 94_700..94_899 disjoint from
+        # occupied [94_100, 94_200, 94_300, 94_500..94_699]
+        "lhb_thermo_ic_p1_nulls": 94_700,
         # TRIAL_LABOR_W17 exit-axis paired-block batch (bm-c r788 freeze window,
         # ticket T-2026-10-09-178-P1): family band [20610000,20612500) --
         # scrnull rng([20610500,i]) i<200 (K=200 screen nulls) + unc
