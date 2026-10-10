@@ -1,4 +1,6 @@
-# N2-MP1 预注册（素材池消费批 wave-1）——**DRAFT · 起草窗（未冻结）**
+# N2-MP1 预注册（素材池消费批 wave-1）——**FROZEN v1.0（2026-10-11 bm-b r868 冻结窗·五条件门全绿证链）**
+
+> **FROZEN v1.0 五条件证链（r868）**：①selftest 复跑——`scripts/mp1_tsgate_probe.py selftest` **30/30 PASS**（七腿 hermetic：parser round-trip 96 池式全过+逐算子手树、t23.evaluate 单标的手值〔DELTA/MA/CORR 数值断言+CSRANK 单标的常量退化〕、门构造 decidable 律+NaN 伪影禁用+常数序列边界不开、统计腿 IS/OOS 切分+成本+stride+判定四态、确定性双跑恒等、G-ANCHOR-MP1 实数据锚 3341/390/149 复现+G-PANEL/G-CUTOFF+shard 分割、refuse-if-exists 幂等）；②数据完备门 probe 复跑——`results/_r867bmb_mp1_draft_probe.json` 复跑实证 pool 96/96 跨波 overlap=0·CSRANK 7 排除·可算 89·178 门·E[FP]=8.9·面板五员 cutoff 2026-10-09 同面；③banned_direction_gate --prereg 本件 **ADMIT rc0 matched=[]**（回执 results/_r868bmb_banned_gate.txt·随冻结 commit）；④origin 写前复核——git show origin/main:research/N2_MP1_PREREG.md=DRAFT 态（HEAD=origin tip 零漂移）；⑤状态翻面 FROZEN 与 runner 交付（scripts/mp1_tsgate_probe.py）+checkpoint gitignore 面**同 commit**。冻结后禁改 §0-§6 判据面；跑后只回填 §7/§8，要改判据要重跑。
 
 > 模板=research/PREREG_TEMPLATE.md 结构镜像（§0-§8）；批型=**判别力探针/供应普查**（gate_census→gate_verify 血统·A158-TSGATE-P1 逐字先例）——**非策略回测批**：G1'v2/G2v2 机械面不适用（无策略收益序列·§4 如实申报），判读线=gate_verify 三控判线逐字镜像（A158-TSGATE-P1 §3 同源）；跑前 commit 冻结；跑后只回填 §7/§8，要改判据要重跑。
 > 通道/谱系授权=W19 §8+W20 §8 消费侧指针（**「任何消费（输入特征路线/注册面）须全新预注册+成本压测·A158-TSGATE-P1/A10 先例门」**未关线）+W20 §0 素材池消费评估窗 **≤2026-10-13**（独立轨道）+TRIAL_LABOR_LAW §1 常设线（板空/池饿=默认供料）+O-1819 队列永不清空；tech.md **T24 行**（r867 登记·queue_seed_gate rc0 hits=[] status=open）。
@@ -82,5 +84,5 @@
 ## 附：slice 分工账（防重复开发·跨窗接力·W18/W19/W20 同构）
 
 - **slice-1（r867 bm-b 本窗·起草+探针）**：本件 DRAFT + `results/_r867bmb_mp1_draft_probe.py`（六腿只读探针：池读数/可算分类/面板在位/解析器 round-trip/单标的评估腿/锚候选读数——回执 `results/_r867bmb_mp1_draft_probe.json`）+ tech.md T24 登记+同轮认领。
-- **slice-2（后续轮·runner+冻结窗）**：`scripts/mp1_tsgate_probe.py` 交付（selftest 全绿+probe 实跑）+五条件机证（探针批型：selftest 复跑+数据完备门 probe 复跑+banned_direction_gate --prereg rc0+origin 写前复核（prereg origin 侧 DRAFT 核对）+状态翻面 FROZEN 同 commit）。
+- **slice-2（r868 bm-b 本窗·runner+冻结窗·已落地）**：`scripts/mp1_tsgate_probe.py` 交付（selftest 30/30 全绿+七腿 hermetic）+五条件机证全过（selftest 复跑+数据完备门 probe 复跑+banned_direction_gate --prereg rc0 ADMIT+origin 写前复核 DRAFT 态+状态翻面 FROZEN 同 commit）——回执=标题 FROZEN v1.0 证链+results/_r868bmb_banned_gate.txt。
 - **slice-3（烧录窗·冻结同轮或后续轮）**：池条目入 runnable_pool→烧录（autofill 或轮内）→finalize 合并→§7/§8 回填+TREASURE_REGISTRY 出入记录（素材池消费首读面）+轮报告/CODELY.md 回执。**评估窗 ≤2026-10-13（W20 §0 令面）——slice-2/3 须在窗内落地，逾期=轨道窗口失效须重议**。
