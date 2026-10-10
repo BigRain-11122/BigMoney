@@ -763,6 +763,105 @@
    "entry": "FUND-DIVLOWVOL-P1-NULLS",
    "shard": "fund-divlowvol-p1-nulls-0of1",
    "machine": "bm-b"
+  },
+  "scripts/trial_labor_w14.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 5,
+   "code_sha256": "ebd2d73183cf87b9",
+   "last_crash_ts": "2026-10-07 22:40:04",
+   "entry": "TRIAL-LABOR-W14-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-07 23:15:03"
+  },
+  "scripts/trial_labor_w17.py|generate": {
+   "count": 1,
+   "refusals": 5,
+   "code_sha256": "c99007e19a85be7f",
+   "last_crash_ts": "2026-10-09 07:45:36",
+   "entry": "TRIAL-LABOR-W17-GENERATE",
+   "shard": "main",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-09 07:52:04"
+  },
+  "scripts/thermo_overlay_p1.py|run": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "681b0df9bba2dd6d",
+   "last_crash_ts": "2026-10-10 05:19:04",
+   "entry": "THERMO-OVERLAY-P1-BURN",
+   "shard": "thermo-overlay-p1-burn-0of1",
+   "machine": "bm-a"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "count": 1,
+   "refusals": 204,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 12:48:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+   "shard": "w17-screen-0of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,2,8": {
+   "count": 1,
+   "refusals": 117,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 14:44:03",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-2",
+   "shard": "w17-screen-2of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,3,8": {
+   "count": 1,
+   "refusals": 113,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 15:16:08",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-3",
+   "shard": "w17-screen-3of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,4,8": {
+   "count": 1,
+   "refusals": 113,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 15:16:08",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-4",
+   "shard": "w17-screen-4of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,5,8": {
+   "count": 1,
+   "refusals": 112,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 15:22:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-5",
+   "shard": "w17-screen-5of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,6,8": {
+   "count": 1,
+   "refusals": 106,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 15:34:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-6",
+   "shard": "w17-screen-6of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
+  },
+  "scripts/trial_labor_w17.py|screen,7,8": {
+   "count": 1,
+   "refusals": 102,
+   "code_sha256": "faec7eea2224bfc2",
+   "last_crash_ts": "2026-10-10 15:42:04",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-7",
+   "shard": "w17-screen-7of8",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-10 19:02:03"
   }
  },
  "cleared": {
@@ -1204,6 +1303,73 @@
    "cleared_by": "bm-b",
    "cleared_ts": "2026-10-01 12:38:17",
    "reason": "code_changed"
+  },
+  "scripts/trial_labor_w14.py|judge,--shard,0,--shards,1": {
+   "cleared_ts": "2026-10-07 20:17:12",
+   "cleared_by": "bm-c",
+   "reason": "external_kill_gm_o1300_launch_path_fixed",
+   "crashes": 1,
+   "old_code_sha256": "ebd2d73183cf87b9"
+  },
+  "scripts/trial_labor_w16.py|judge,--shard,0,--shards,1": {
+   "crashes": 2,
+   "old_code_sha256": "946458bc26898325",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 09:35:09",
+   "reason": "r873 bm-a manual tombstone: 04:52:04 crash = post-completion 30-min-confirm artifact (no pool_claims handshake, r860 pit law; W16-SCREEN same-morning precedent); burn completed cleanly 40/40 cells runner-log 'judge shard 0of1 complete' 04:24:08 rc0, checkpoint full, judge-finalize consumed r862 (w16_judge.json + ledger 802,318), intake lawful-zero; runner sha 946458bc not at fault; worker-claim umbrella landed same round",
+   "entry": "TRIAL-LABOR-W16-JUDGE",
+   "shard": "w16-judge-0of1"
+  },
+  "scripts/trial_labor_w16.py|screen,--shard,0,--shards,1": {
+   "crashes": 1,
+   "old_code_sha256": "9331a9dfb72d37e3",
+   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-08 03:58:29",
+   "reason": "r860 bm-a false-crash tombstone: SCREEN burn COMPLETED 373/373 cells 03:37:07, runner exited clean (launch log 'shard 0of1 complete'); trial-labor runners write no worker-claim file so the daemon harvest cannot land (W13 shard-note documented gap) -> 25-min confirm counted a false crash; completion takeover by observing round r860 per W13/W14 precedent",
+   "entry": "TRIAL-LABOR-W16-SCREEN",
+   "shard": "w16-screen-0of1"
+  },
+  "scripts/trial_labor_w17.py|screen,0,8": {
+   "cleared_ts": "2026-10-10 12:02:50",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "07bb8f8a41e5dc49"
+  },
+  "scripts/trial_labor_w17.py|screen,1,8": {
+   "cleared_ts": "2026-10-10 19:18:06",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "faec7eea2224bfc2"
+  },
+  "scripts/trial_labor_w17.py|screen,2,8": {
+   "cleared_ts": "2026-10-10 13:44:06",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "07bb8f8a41e5dc49"
+  },
+  "scripts/trial_labor_w17.py|screen,3,8": {
+   "cleared_ts": "2026-10-10 14:44:05",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "07bb8f8a41e5dc49"
+  },
+  "scripts/trial_labor_w17.py|screen,4,8": {
+   "cleared_ts": "2026-10-10 14:50:06",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 2,
+   "old_code_sha256": "07bb8f8a41e5dc49"
+  },
+  "scripts/trial_labor_w17.py|screen,5,8": {
+   "cleared_ts": "2026-10-10 14:56:07",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "07bb8f8a41e5dc49"
   }
  },
  "lane_machine": "bm-b"
