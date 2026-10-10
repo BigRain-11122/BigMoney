@@ -29,7 +29,7 @@
  "updated": "2026-10-11T04:38:00+08:00",
  "updated_at": "2026-10-11T04:38:00+08:00",
  "cpu_idle_pct": 76,
- "verify": "receipts: smoke 49/49 + S0.5 probe zero-delta + S6 43/43 rc0 (_r851bmc_s6_log.txt, dualrun streak 27) + attrition 4 CLEAN + quartet green + idle --worked + this books commit/push_verify",
+ "verify": "receipts: smoke 49/49 + S0.5 probe zero-delta + S6 43/43 rc0 (_r851bmc_s6_log.txt, dualrun streak 27) + attrition 4 CLEAN + quartet green + idle --worked + rebase-race 31-UU resolved (resolver _r851bmc_rebase_resolver.py receipt) + push/fetch delivery 0/0 (tip 5d0dec3de)",
  "activity_now": "当前活: 守望窗（W209 freeze 待上游 W208 落链·M10 行+cron 9defca39 durable 在位·jman trainer 21288 在烧 CPU 29.9h ETA ~09:45-10:00）| 最近实物: S6 43 腿经营面全绿 rc0（dualrun streak 27·面板/纸盘/scorecard/看板/日报全刷·cap 旗新面定谳=共烧包络内 advisory）@ 2026-10-11T04:32 | 上轮席位实物 W211 包 0a60b8850（A 479_004..481_003/B 481_004..481_203）@ 2026-10-11T03:52 | 下个里程碑: W209 freeze（W208 落链即 M10 自动执行）+ jman 完训验证三件 ~09:45-10:00（≤48h SLA）",
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
  "ord_sha_method": "python subprocess raw-blob bytes SHA-1 (ALGORITHM PIN per r537 law; r818 start sweep via SSH primary leg rc0; ord delta TRUE = EA6B0AB5 -> 0A1D9C1D consumed IN-ROUND: delta face = status-edit on existing BigStream rows (O-20261009-1830 executed closeout note), ZERO new order rows, zero BigMoney action, watermark updated; all bm-c dispatches (O-1746/O-1755/O-1845) already executed in r817/receipts in case; facts-driven, 40hex shape-asserted; ZERO literal constants (r583 law)",
@@ -57,10 +57,10 @@
  "head_sha": "0a60b8850",
  "health": "ok",
  "sync": {
-  "ahead_behind": "0/0 pre-books",
-  "origin_tip": "bd02dc7d7",
-  "ts": "2026-10-11T04:38:00+08:00",
-  "note": "r851 books: maintenance round (S6 + watch faces + cap-flag adjudication), no new delivery commit; books commit follows this write"
+  "ahead_behind": "0/0 post-rebase-race",
+  "origin_tip": "5d0dec3de",
+  "ts": "2026-10-11T04:50:00+08:00",
+  "note": "r851 close hit bm-b r860 same-window push race (2 origin commits landed mid-round); 31-UU rebase resolved (r845 bloodline + r773 union duo compute_audit/x2 + r708 twins, all adjudications ours-newer by ts), pre2 empty-pick dropped live-wins, push 11252931f..5d0dec3de delivery 0/0 verified, changed-set marker/reparse PASS"
  },
  "total_ram_gb": 25.7,
  "cores": 32,
