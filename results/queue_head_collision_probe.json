@@ -1,15 +1,15 @@
 {
  "advisory": "verdict is data; COLLISION_RISK/DECLARED_INTENT_RISK -> yield that head, take next row or another agenda; STALE_LOCAL_QUEUE -> pull before claiming (local queue face behind origin)",
  "fetch_rc": 0,
- "machine_id": "bm-a",
- "origin_main": "28f1958ec 2026-10-10 09:47:58 +0800",
+ "machine_id": "bm-b",
+ "origin_main": "917cc469b 2026-10-10 10:23:19 +0800",
  "probe": "queue_head_collision_probe",
  "queues": [
   {
    "flags": [],
-   "local_head": "T19",
+   "local_head": "T20",
    "machine_faces": [],
-   "origin_head": "T19",
+   "origin_head": "T20",
    "origin_readable": true,
    "queue": "state/queue/tech.md",
    "verdict": "CLEAR"
@@ -17,26 +17,26 @@
   {
    "flags": [
     {
-     "head": "E8",
-     "machine": "bm-b",
+     "head": "E9",
+     "machine": "bm-a",
      "type": "in_flight"
     }
    ],
-   "local_head": "E8",
+   "local_head": "E9",
    "machine_faces": [
     {
-     "age_min": 6.9,
-     "last_seen": "2026-10-10T09:43:27+08:00",
-     "machine": "bm-b",
+     "age_min": 26.5,
+     "last_seen": "2026-10-10T09:59:38+08:00",
+     "machine": "bm-a",
      "matches": [
       {
-       "head": "E8",
+       "head": "E9",
        "type": "in_flight"
       }
      ]
     }
    ],
-   "origin_head": "E8",
+   "origin_head": "E9",
    "origin_readable": true,
    "queue": "state/queue/explore.md",
    "verdict": "COLLISION_RISK"
