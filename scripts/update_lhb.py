@@ -5,10 +5,11 @@ ledger N untouched.
 Source-consistent with the original archive: ak.stock_lhb_detail_em
 (EastMoney), same schema by construction. The original pipeline
 (Money02/lhb_download.py) is quarterly-chunked and idempotent; this
-refresh keeps that mechanism intact: re-fetch ONLY the quarter that
-contains the current cutoff (superset overwrite of that one chunk),
-then rebuild lhb_detail.parquet exactly the way the original script does
-(concat all chunks). Appending to the parquet without the chunk would
+refresh keeps that mechanism intact: re-fetch every quarter from the
+cutoff's quarter through the expected-disclosure quarter (superset
+overwrite of one quarter-pure chunk per fetched quarter), then rebuild
+lhb_detail.parquet exactly the way the original script does (concat all
+chunks). Appending to the parquet without the chunks would
 desynchronize the two and a future re-run of the original downloader
 would silently drop the appended rows.
 
@@ -16,6 +17,17 @@ Safety (update_daily paradigm):
   - overlap check: re-fetched rows with date <= cutoff must match the
     stored rows for the cutoff date (row count + net-buy sum, tol 1e-6);
     mismatch = source restated history -> write NOTHING, flag, exit 3
+  - quarter-boundary fetch window (r835 bm-c deadlock fix): the fetch
+    used to re-fetch ONLY the cutoff's quarter, which deadlocks at
+    quarter turnover -- cutoff froze at 2026-09-30 (Q3 end) while the
+    gate expected disclosures to 2026-10-09; the Q4 window (10-08 and
+    10-09, 164 rows live in the EM source per probe
+    results/_r835bmc_lhb_q4_probe.json) was unreachable by construction
+    and the gate refired every 30min for nothing. Fix: fetch EVERY
+    quarter from the cutoff quarter through the quarter containing the
+    expected disclosure date; rows are split back per quarter so each
+    chunk file stays quarter-pure (a future original-downloader re-run
+    must not silently drop appended rows).
   - late-disclosure superset acceptance (r280 bm-c deadlock fix): the
     EM source legitimately COMPLETES past-date rows for days after the
     event -- late LHB disclosures keep landing past-date rows (25 rows
@@ -194,6 +206,22 @@ def fetch_gate(cutoff, now, last_attempt, dates=None):
                  f"disclosure {expected.date()}")
 
 
+def quarters_to_fetch(cutoff, expected):
+    """r835 quarter-boundary fix: quarters from the cutoff's quarter through
+    the expected disclosure date's quarter (inclusive). Same-quarter case
+    collapses to a single entry (pre-r835 behavior). Crossing cases walk
+    forward one quarter at a time; a multi-year gap still yields a finite
+    list because the gate only fires when the panel is stale, not absent."""
+    q0 = pd.Period(cutoff, freq="Q")
+    q1 = pd.Period(expected, freq="Q")
+    out = []
+    qi = q0
+    while qi <= q1:
+        out.append(qi)
+        qi = qi + 1
+    return out
+
+
 def atomic_parquet_write(df, path):
     """.tmp + rowcount verify + os.replace: a crash mid-write must never
     leave a truncated store that the next rebuild silently ingests."""
@@ -311,8 +339,17 @@ def main():
     # still throttle the next round (EM datacenter citizenship)
     save_status({"cutoff": str(cutoff.date()), "verdict": "fetching",
                  "last_attempt": str(now)})
-    qs = q.start_time.strftime("%Y%m%d")
-    qe = q.end_time.strftime("%Y%m%d")
+
+    # r835 (bm-c): multi-quarter fetch window -- see docstring. The old
+    # single-quarter window deadlocked at quarter turnover (cutoff frozen
+    # at 2026-09-30 while 10-08/10-09 events sat unreachable in Q4).
+    # CALENDAR, not panel dates: passing the panel's own dates here
+    # pinned `expected` to the panel max (=cutoff) and collapsed the
+    # window back to a single quarter -- the exact deadlock this fix
+    # targets (caught live 16:0x, quarters=1). The gate computes its
+    # expected from the local trading calendar (dates=None); the window
+    # MUST use the same source or the two disagree at every turnover.
+    quarters = quarters_to_fetch(cutoff, expected_disclosure_date(now))
 
     # r806 (bm-b): bounded-fetch jacket -- requests has no default timeout,
     # so a stalled server hung this leg forever (CloseWait 23min+ at
@@ -327,16 +364,26 @@ def main():
 
     _rq.Session.request = _jacket_request
 
-    # ---- re-fetch the cutoff quarter (superset by construction)
+    # ---- fetch every quarter on the stale path, one call per quarter
+    # (per-quarter windows keep each chunk quarter-pure; the EM endpoint
+    # honors arbitrary start/end windows so Q3 and Q4 are disjoint by
+    # construction)
+    frames = []
     try:
         import akshare as ak
-        df = ak.stock_lhb_detail_em(start_date=qs, end_date=qe)
+        for qt in quarters:
+            dfq = ak.stock_lhb_detail_em(
+                start_date=qt.start_time.strftime("%Y%m%d"),
+                end_date=qt.end_time.strftime("%Y%m%d"))
+            if dfq is not None and not dfq.empty:
+                frames.append(dfq)
     except Exception as ex:
         save_status({"cutoff": str(cutoff.date()), "verdict":
                      f"fetch_fail: {type(ex).__name__}: {str(ex)[:120]}",
                      "last_attempt": str(now)})
         print(f"FETCH FAIL {type(ex).__name__}: {str(ex)[:120]}", flush=True)
         return 2
+    df = pd.concat(frames, ignore_index=True) if frames else None
     if df is None or df.empty:
         save_status({"cutoff": str(cutoff.date()), "new_rows": 0,
                      "verdict": "fetch returned empty (kept local)",
@@ -345,8 +392,9 @@ def main():
         return 0
     fd = pd.to_datetime(df["上榜日"])
     new = df[fd > cutoff]
-    print(f"refetched quarter rows={len(df)} new_beyond_cutoff={len(new)}",
-          flush=True)
+    print(f"refetched rows={len(df)} quarters={len(quarters)} "
+          f"({','.join(str(qt) for qt in quarters)}) "
+          f"new_beyond_cutoff={len(new)}", flush=True)
 
     # ---- overlap check at the cutoff date
     old_day = lhb[pd.to_datetime(lhb["上榜日"]) == cutoff]
@@ -387,21 +435,26 @@ def main():
         print(f"OVERLAP MISMATCH {detail} - kept local, no write", flush=True)
         return 3
 
-    # ---- overwrite the cutoff quarter chunk, rebuild parquet
+    # ---- overwrite one chunk per fetched quarter, rebuild parquet
+    # (r835: multi-quarter split keeps every chunk file quarter-pure)
     if len(new) == 0:
         save_status({"cutoff": str(cutoff.date()), "new_rows": 0,
                      "verdict": "no-op (no events beyond cutoff yet)",
                      "overlap": detail, "last_attempt": str(now)})
         print("no events beyond cutoff yet - no-op", flush=True)
         return 0
-    chunk_path = os.path.join(CHUNKS, f"{q}.parquet")
-    atomic_parquet_write(df, chunk_path)
+    per = fd.dt.to_period("Q")
+    for qt in quarters:
+        fq = df[per == qt]
+        if len(fq):
+            atomic_parquet_write(fq, os.path.join(CHUNKS, f"{qt}.parquet"))
     total = rebuild_from_chunks()
     new_cutoff = str(pd.to_datetime(
         pd.read_parquet(PARQUET, columns=["上榜日"])["上榜日"]).max().date())
     save_status({"cutoff_before": str(cutoff.date()),
                  "cutoff_after": new_cutoff, "new_rows": int(len(new)),
-                 "quarter_refetched": str(q), "total_rows": int(total),
+                 "quarters_refetched": [str(qt) for qt in quarters],
+                 "total_rows": int(total),
                  "overlap": detail, "last_attempt": str(now),
                  "verdict": "updated"})
     print(f"updated: +{len(new)} rows, cutoff {cutoff.date()} -> "
@@ -496,6 +549,36 @@ def selftest():
                                     ts(la_s) if la_s else None)
         assert should == want_fetch, f"{name}: got {should} ({reason})"
         print(f"[PASS] fetch_gate {name}", flush=True)
+
+    # ---- r835: quarter-boundary fetch window (deadlock fix --
+    # cutoff at Q3 end, expected disclosure in Q4 must widen the fetch)
+    got = quarters_to_fetch(ts("2026-09-30"), ts("2026-10-09"))
+    assert [str(x) for x in got] == ["2026Q3", "2026Q4"], got
+    print("[PASS] quarters_to_fetch boundary crossing -> [Q3, Q4]",
+          flush=True)
+    got = quarters_to_fetch(ts("2026-09-15"), ts("2026-09-20"))
+    assert [str(x) for x in got] == ["2026Q3"], got
+    print("[PASS] quarters_to_fetch same quarter -> [Q3]", flush=True)
+    got = quarters_to_fetch(ts("2026-09-30 18:00"), ts("2027-01-05 18:00"))
+    assert [str(x) for x in got] == ["2026Q3", "2026Q4", "2027Q1"], got
+    print("[PASS] quarters_to_fetch multi-year walk -> [Q3, Q4, 2027Q1]",
+          flush=True)
+    got = quarters_to_fetch(ts("2026-10-08"), ts("2026-10-09"))
+    assert [str(x) for x in got] == ["2026Q4"], got
+    print("[PASS] quarters_to_fetch inside Q4 -> [Q4]", flush=True)
+
+    # ---- r835 live-fire regression leg: the call site must feed the
+    # quarters window from the CALENDAR-based expected (dates=None ->
+    # local trading calendar, same source as the gate), never from the
+    # panel's own dates (panel max == cutoff collapses the window to one
+    # quarter = the deadlock this fix targets; caught live 16:0x)
+    src = open(__file__, encoding="utf-8").read()
+    bad = "expected_disclosure_date(now, " + "dates))"
+    good = "expected_disclosure_date(now" + "))"
+    assert bad not in src, "quarters window fed from panel dates (deadlock)"
+    assert src.count(good) == 1, f"call-site calendar form x{src.count(good)}"
+    print("[PASS] quarters window fed from calendar (not panel dates)",
+          flush=True)
 
     # ---- store-absent guard (HANDOVER s3 sparse-clone profile)
     import tempfile

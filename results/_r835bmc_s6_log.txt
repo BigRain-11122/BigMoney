@@ -1,0 +1,283 @@
+r835 bm-c S6 chain run 2026-10-10T15:35:45+08:00 legs=43
+
+===== pool_dualrun_reconcile =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/pool_dualrun_reconcile.py run
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 419 entries, drift-free streak 8, cutoff 2026-10-10 03:52:53)
+
+[rc=0]
+
+===== compute_audit =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/compute_audit.py
+{"ts": "2026-10-10 15:35:53", "audit_version": "v2.4.2", "cpu_total_pct": 6.0, "py_cpu_pct": 0.5, "cores": 32, "py_procs": 7, "result_stale_min": 0.4, "fleet_open_tasks": 0, "pool_ready_count": 9, "pool_ready_unclaimed": 1, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 103, "span_min": 1929.3}, "supply_floor": {"ready": 9, "floor": 3, "breach": false}, "ignition_sla_breach_ids": ["TRIAL-LABOR-W17-JUDGE"], "supply_family_streak_min": 2499.6, "gpu": {"present": true, "util_pct": 1.0, "mem_used_mb": 13313.0, "compute_apps_count": 23, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 5, "core_seconds": 161.58, "wall_seconds": 301.1, "effective_cores": 0.54, "multicore_burn": 0, "single_core_burn": 5, "too_short_to_sample": 0, "readable": true}, "flags": ["supply_gap", "ignition_sla"], "verdict": "FLAG:supply_gap,ignition_sla"}
+
+[rc=0]
+
+===== py_watermark =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/py_watermark.py probe
+{"ts": "2026-10-10 15:35:59", "epoch": 1791617754.0, "machine": "bm-c", "cpu_total_pct": 37.0, "cores": 32, "py_cpu_pct": 0.1, "py_procs": 7, "top_proc_cores": 0.02, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": ["TRIAL-LABOR-W17-SCREEN-SHARD-0", "TRIAL-LABOR-W17-SCREEN-SHARD-1", "TRIAL-LABOR-W17-SCREEN-SHARD-2", "TRIAL-LABOR-W17-SCREEN-SHARD-3", "TRIAL-LABOR-W17-SCREEN-SHARD-4", "TRIAL-LABOR-W17-SCREEN-SHARD-5", "TRIAL-LABOR-W17-SCREEN-SHARD-6", "TRIAL-LABOR-W17-SCREEN-SHARD-7", "TRIAL-LABOR-W17-JUDGE"], "pool_ready_count": 9, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 9, "board_open": 0, "board_inflight": 0, "local_batch": 0}, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 34}
+
+[rc=0]
+
+===== update_daily =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_daily.py
+=== Bigmoney daily update 2026-10-10 15:36:00 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-09
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+
+[rc=0]
+
+===== market_regime =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/market_regime.py
+regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-10-09 state=ORANGE (橙·高危) raw=ORANGE days_in_state=3 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.73>=65%
+
+[rc=0]
+
+===== strategy_scorecard =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/strategy_scorecard.py
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin commit fresh (4min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== market_clock_call =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/market_clock_call.py run
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+
+[rc=0]
+
+===== update_lhb =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_lhb.py
+cutoff=2026-09-30 quarter=2026Q3 today=2026-10-10
+fetch: cutoff 2026-09-30 behind expected disclosure 2026-10-09
+  0%|          | 0/11 [00:00<?, ?it/s]  9%|▉         | 1/11 [00:00<00:01,  9.21it/s] 18%|█▊        | 2/11 [00:00<00:01,  4.95it/s] 27%|██▋       | 3/11 [00:00<00:01,  5.27it/s] 36%|███▋      | 4/11 [00:00<00:01,  4.95it/s] 45%|████▌     | 5/11 [00:00<00:01,  5.28it/s] 55%|█████▍    | 6/11 [00:01<00:00,  5.60it/s] 64%|██████▎   | 7/11 [00:01<00:00,  4.08it/s] 73%|███████▎  | 8/11 [00:01<00:00,  4.51it/s] 82%|████████▏ | 9/11 [00:01<00:00,  5.16it/s] 91%|█████████ | 10/11 [00:02<00:00,  4.94it/s]100%|██████████| 11/11 [00:02<00:00,  5.42it/s]                                               refetched quarter rows=5432 new_beyond_cutoff=0
+no events beyond cutoff yet - no-op
+
+[rc=0]
+
+===== update_zt_pool =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_zt_pool.py
+no-op: zt_pool lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== zt_pool_crosscheck =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/zt_pool_crosscheck.py
+zt_pool crosscheck: CLEAN (days=2 rows={'zt': 112, 'zbgc': 46, 'dtgc': 21, 'strong': 370} findings=0 soft=2) -> results\zt_pool_crosscheck.json
+  soft-warn C/strong_x_dtgc [2026-10-08]: same-day overlap codes: ['001216', '601811', '603949']
+  soft-warn C/strong_x_dtgc [2026-10-09]: same-day overlap codes: ['002487', '605366']
+
+[rc=0]
+
+===== update_heat =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_heat.py
+no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+
+[rc=0]
+
+===== update_futures =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_futures.py
+no-op: local cutoff 2026-10-09 covers expected complete-bar date 2026-10-09 -> zero network
+
+[rc=0]
+
+===== update_repo =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_repo.py
+no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== update_options =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_options.py
+[RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste law) -- honest no-op, no collection.
+
+[rc=0]
+
+===== update_moneyflow =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_moneyflow.py
+no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== update_sina_mf =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_sina_mf.py
+no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== update_astock_daily =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_astock_daily.py
+no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+
+===== update_etf_daily =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_etf_daily.py
+no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+
+===== regime_thermo_build =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/regime_thermo_build.py
+regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+
+[rc=0]
+
+===== regime_gate_evidence =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/regime_gate_evidence.py run
+[regime_gate_evidence] no-op (content-hash match) cutoff=2026-09-22
+
+[rc=0]
+
+===== rev_osc_signal_export =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/rev_osc_signal_export.py run
+rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+
+===== update_minute_feed =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_minute_feed.py
+update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+
+===== update_ths_panel =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_ths_panel.py
+no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== ah_panel_puller =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/ah_panel_puller.py
+no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== update_fund_premium =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_fund_premium.py snapshot
+no-op: weekend (NAV publishes on trading days only)
+
+[rc=0]
+
+===== update_fundamental =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_fundamental.py
+=== Bigmoney fundamental eligibility update 2026-10-10 15:37:17 ===
+  0%|          | 0/24 [00:00<?, ?it/s]  4%|▍         | 1/24 [00:21<08:08, 21.22s/it]  8%|▊         | 2/24 [00:21<03:19,  9.06s/it] 12%|█▎        | 3/24 [00:21<01:44,  4.99s/it] 17%|█▋        | 4/24 [00:22<01:01,  3.06s/it] 21%|██        | 5/24 [00:22<00:38,  2.01s/it] 25%|██▌       | 6/24 [00:22<00:25,  1.39s/it] 29%|██▉       | 7/24 [00:22<00:16,  1.02it/s] 33%|███▎      | 8/24 [00:22<00:11,  1.39it/s] 38%|███▊      | 9/24 [00:22<00:08,  1.77it/s] 42%|████▏     | 10/24 [00:23<00:06,  2.14it/s] 46%|████▌     | 11/24 [00:23<00:04,  2.69it/s] 50%|█████     | 12/24 [00:23<00:03,  3.22it/s] 54%|█████▍    | 13/24 [00:23<00:02,  3.81it/s] 58%|█████▊    | 14/24 [00:23<00:02,  3.98it/s] 62%|██████▎   | 15/24 [00:24<00:02,  4.34it/s] 67%|██████▋   | 16/24 [00:24<00:02,  3.24it/s] 71%|███████   | 17/24 [00:24<00:01,  3.87it/s] 75%|███████▌  | 18/24 [00:24<00:01,  4.35it/s] 79%|███████▉  | 19/24 [00:24<00:01,  4.82it/s] 83%|████████▎ | 20/24 [00:25<00:00,  5.28it/s] 88%|████████▊ | 21/24 [00:25<00:00,  5.91it/s] 92%|█████████▏| 22/24 [00:25<00:00,  6.04it/s] 96%|█████████▌| 23/24 [00:25<00:00,  5.82it/s]                                                 0%|          | 0/1 [00:00<?, ?it/s]                                       0%|          | 0/23 [00:00<?, ?it/s]  9%|▊         | 2/23 [00:00<00:02,  9.80it/s] 13%|█▎        | 3/23 [00:00<00:02,  9.23it/s] 17%|█▋        | 4/23 [00:00<00:02,  7.45it/s] 22%|██▏       | 5/23 [00:00<00:02,  6.09it/s] 26%|██▌       | 6/23 [00:00<00:02,  6.47it/s] 30%|███       | 7/23 [00:00<00:02,  6.99it/s] 35%|███▍      | 8/23 [00:01<00:02,  7.00it/s] 39%|███▉      | 9/23 [00:22<01:33,  6.65s/it] 48%|████▊     | 11/23 [00:22<00:42,  3.56s/it] 57%|█████▋    | 13/23 [00:22<00:21,  2.16s/it] 65%|██████▌   | 15/23 [00:22<00:11,  1.40s/it] 74%|███████▍  | 17/23 [00:22<00:05,  1.05it/s] 83%|████████▎ | 19/23 [00:23<00:02,  1.45it/s] 87%|████████▋ | 20/23 [00:23<00:01,  1.70it/s] 91%|█████████▏| 21/23 [00:23<00:00,  2.04it/s] 96%|█████████▌| 22/23 [00:23<00:00,  2.44it/s]100%|██████████| 23/23 [00:23<00:00,  2.73it/s]                                                 0%|          | 0/24 [00:00<?, ?it/s]  8%|▊         | 2/24 [00:00<00:05,  4.09it/s] 12%|█▎        | 3/24 [00:00<00:04,  4.99it/s] 17%|█▋        | 4/24 [00:00<00:03,  5.27it/s] 21%|██        | 5/24 [00:00<00:03,  5.56it/s] 25%|██▌       | 6/24 [00:01<00:03,  5.84it/s] 29%|██▉       | 7/24 [00:01<00:02,  5.73it/s] 33%|███▎      | 8/24 [00:01<00:02,  5.42it/s] 38%|███▊      | 9/24 [00:01<00:02,  5.52it/s] 42%|████▏     | 10/24 [00:01<00:02,  5.95it/s] 46%|████▌     | 11/24 [00:02<00:02,  5.36it/s] 50%|█████     | 12/24 [00:02<00:02,  4.78it/s] 54%|█████▍    | 13/24 [00:02<00:02,  5.25it/s] 58%|█████▊    | 14/24 [00:02<00:01,  5.65it/s] 62%|██████▎   | 15/24 [00:02<00:01,  5.85it/s] 67%|██████▋   | 16/24 [00:02<00:01,  5.71it/s] 71%|███████   | 17/24 [00:03<00:01,  4.81it/s] 75%|███████▌  | 18/24 [00:03<00:01,  5.42it/s] 79%|███████▉  | 19/24 [00:03<00:00,  5.83it/s] 83%|████████▎ | 20/24 [00:03<00:00,  6.27it/s] 88%|████████▊ | 21/24 [00:24<00:19,  6.50s/it] 92%|█████████▏| 22/24 [00:25<00:09,  4.63s/it] 96%|█████████▌| 23/24 [00:25<00:03,  3.31s/it]100%|██████████| 24/24 [00:25<00:00,  2.38s/it]                                                 [st] vendor endpoint failed (ConnectionError) -> direct UA
+snapshot: 11637 rows | eligible 7276 | loss 4325 {'annual<0': 3542, 'ttm<0': 661, 'no_data': 122} | st 407
+periods: annual 20251231 interim 20260630 (ttm_ok=True) | st_source=em_push2_direct_ua
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_status.json
+
+[rc=0]
+
+===== b_layer_filter =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m firm.risk.b_layer_filter
+mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}
+mask -> K:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv
+verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+
+[rc=0]
+
+===== update_fund_statements =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/update_fund_statements.py
+no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+
+===== live_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m live.paper
+lane_io single-writer guard: results/paper/* host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== t35_open_fill_verify =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t35_open_fill_verify.py
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== t24_prospect_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t24_prospect_paper.py run
+lane_io single-writer guard: results/prospect_paper/* host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== t24_prospect_promotion =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t24_prospect_promotion.py run
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== aggressive_lab =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/aggressive_lab.py paper
+aggr paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+
+===== alloc_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/alloc_paper.py run
+no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+
+===== grid_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/grid_paper.py run
+grid paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+
+===== cta_p1_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/cta_p1_paper.py run
+cta paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+
+===== system_v1_paper =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/system_v1_paper.py run
+system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+
+===== t35_paper_export =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/t35_paper_export.py run
+lane_io single-writer guard: results/paper_export/* host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== daily_scorecard =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/daily_scorecard.py
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== daily_report =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/daily_report.py run
+daily report written: REPORT-2026-10-10.md/.json faces=5 token=1
+
+[rc=0]
+
+===== ceo_live_usage =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/ceo_live_usage.py
+ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-10.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+
+[rc=0]
+
+===== build_status =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m monitor.build_status
+lane_io single-writer guard: results/dashboard_status.json host=bm-a origin commit fresh (7min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+
+===== token_meter =====
+$ C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe scripts/token_meter.py
+saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 14519 + 8566 tokens (rough); ledger cumulative ~ 2049 state + 1877213 report tokens; delta=0
+L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2921 across 87 sigs
+
+[rc=0]
+
+DONE 2026-10-10T15:39:10+08:00
