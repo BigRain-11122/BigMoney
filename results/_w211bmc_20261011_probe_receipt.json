@@ -1,0 +1,81 @@
+{
+ "probe": "W211 pre-seat probe (bm-c loop r849, 2026-10-11 03:5x, CEO fill-order standing re-issued + seat-first law + never-dry supply line; W208 declared bm-a + W209 declared bm-c + W210 declared bm-b injected; W207 registered + finalized by bm-b r856/r857)",
+ "legs": {
+  "leg0": {
+   "rows": 205,
+   "tail": "W207-registered",
+   "owner_rows": 197,
+   "bmc_rows": 37,
+   "bma_rows": 119,
+   "bmb_rows": 41,
+   "ordinal": 201,
+   "bmc_ordinal": 40,
+   "w207_ledger_head": 872571,
+   "bmc_ordinal_note": "bm-c attempt-continuity: W209 MSG prose = 39th owned (r846 aborted W208 draft consumed the 38th slot); this candidate = 40th per the same continuity",
+   "anchor": "W207 finalize LANDED (ledger 872,571 = prev 870,371 + 2,200, K=453,320); W208 freeze pending bm-a side, W209 freeze pending bm-c side, W210 seat-reserved bm-b side; W211 freeze GATED on W210 freeze+finalize (M9 chain-order); W211 freeze-time anchor per r590 line = W210 finalize actuals (pending)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    478804,
+    480803
+   ],
+   "ARITH_B": [
+    479004,
+    479203
+   ],
+   "A": [
+    479004,
+    481003
+   ],
+   "hops_A": 1,
+   "B": [
+    481004,
+    481203
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    479004,
+    479203
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      479004,
+      479203
+     ],
+     "jump_to": 481004
+    }
+   ],
+   "A_semantics": "A arithmetic continuation from declared W210 A tail REFUSED at start by declared W210 B band (staircase A-hops-prior-B SEVENTY-FIRST instance, E36 card, per the W210 seat leg4 anticipation); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=479004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=481004 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true,
+   "w208_seat_path": "fleet/inbox/processed/MSG-2026-10-11-0129-bma-w208-seat.md",
+   "w209_seat_path": "fleet/inbox/processed/MSG-20261011-0301-bmc-w209-seat.md",
+   "w210_seat_path": "fleet/inbox/MSG-20261011-0319-bmb-w210-seat.md"
+  },
+  "leg4": {
+   "W212p_A": "481004..483003",
+   "hops_A": 0,
+   "W212p_B": "481204..481403",
+   "hops_B": 0,
+   "W212p_B_lands_inside_W212p_A": true,
+   "note": "W212+ naive projection on pre-W211 universe; the registered W211 B band will refuse the naive W212 A window once W211 is registered (A-hops-prior-B SEVENTY-SECOND instance anticipated); W212 freezer MUST re-derive on the post-W211 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "479004_481003",
+  "B": "481004_481203"
+ }
+}
