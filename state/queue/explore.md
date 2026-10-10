@@ -10,7 +10,7 @@
 | E4 | 央行公开市场操作流动性指标面（OMO 净投放→REPO 利率联动·REPO_PANEL 消费）——r948 bm-a 调研收口：主候选（OMO 日度净投放操作流）数据源未达（EM reportName 未知三候选诚实排除·数据债登记）；复合面双柱可建=月频政策面（货币当局资产负债 33 年活至 2026.8）+日频响应面（FDR001 定盘 ≥2020 分年分块可拉+Shibor 11.5 年）；REPO_PANEL 联动已量化（月末 +1.07pp·2020 交易所-银行间价差 +67.9bp/当前 -6.5bp 状态翻转）＋r825 bm-b 同窗收敛判读（akshare 全库 1141 函数名×17 关键词零净投放命中·月度存量面 356 月·FR007×GC007 同日 r=0.869/728 重叠日） | research/digests/DIGEST-20261010-omo-liquidity-face.md+research/shortline/OMO_LIQUIDITY_DATA_FEASIBILITY.md | done |
 | E5 | LHB 游资情绪因子形式化（情绪周期三轴门先例扩展·O-20260928-1522 国内打法优先律）——slice-1 描述面 r946 + slice-2 判决面 r947 双落地收口 | scripts/update_lhb.py+lhb_thermo_build.py+research/LHB_THERMO_IC_P1.md | closed |
 | E6 | 微盘股量化因子外源扫描（韭研/雪球/研报三源·小市值效应本土化） | 外源扫描+独立验证门禁链 | open |
-| E7 | 行业轮动 ETF 网格族候选（core48 外行业 ETF 扩展·grid 族先例） | grid_paper.py 族先例 | open |
+| E7 | 行业轮动 ETF 网格族候选（core48 外行业 ETF 扩展·grid 族先例） | grid_paper.py 族先例 | claimed@bm-b@2026-10-10T09:36:00+08:00 |
 | E8 | 商品期货跨期价差监控面（9 品种主力连续面板消费·近远月价差序列化） | scripts/update_futures.py | open |
 | E9 | 港股通 AH 折溢价均值回归深化（AH panel 消费面·T-17 后续候选） | scripts/ah_panel_puller.py | open |
 | E10 | 涨停梯队接力打法数据面（zt_pool 四面联动·连板梯队生存分析） | scripts/update_zt_pool.py | open |
