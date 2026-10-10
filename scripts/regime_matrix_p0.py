@@ -58,6 +58,15 @@ DEPOSIT_BASELINE_5Y = 0.0130                  # 1.30%/yr, disclosed source
 STATES = ["BULL", "CHOP", "GRIND", "BEAR", "SUPPORT"]
 MIN_WINDOWS_VERDICT = 30                      # n>=30 floors a verdict column
 
+# theme wave-rider stream: THEME-JUDGE-P1 (T-173) adjudicated artifact, cell
+# TJ-FULL-x1 -- pooled equal-weight per-date returns over full cluster rides,
+# x1 cost, cash (0 return) on non-ride days, 2014-12-05..2026-09-22 (= evidence
+# cutoff). Declared bull-market home weapon per O-1725 sec.2 P0.
+THEME_SOURCE = os.path.join(ROOT, "results", "theme_judge_p1",
+                            "theme_judge_p1_results.json")
+THEME_CELL = "TJ-FULL-x1"
+THEME_NET_TOL = 5e-6                          # nav reconstruction anchor tolerance
+
 # P0 registry: declared home regime + stream status. Pending rows carry the
 # candidate source so the next slice can pin them without re-research.
 LOWAMP_HOME = "BEAR"   # defensive family declared home (REGIME_STYLE_MATRIX_V1
@@ -84,10 +93,10 @@ P0_REGISTRY = [
      "source": "results/system_v1_paper/SYSTEM-V1_paper.json -- paper since 2026-09-24, 12m windows exist only after 2027-09"},
     {"id": "dip-rebound-trio", "group": "dip-rebound", "home": "BEAR",
      "status": "awaiting_stream",
-     "source": "declared bear-market weapon (O-1725 sec.2 P0); stream file not pinned this slice"},
+     "source": "declared bear-market weapon (O-1725 sec.2 P0); refine_bench rev_p2 artifacts are trade-level (entries/trades/exits) -- daily-stream reconstruction = next slice"},
     {"id": "theme-wave-rider", "group": "theme", "home": "BULL",
-     "status": "awaiting_stream",
-     "source": "declared bull-market weapon (O-1725 sec.2 P0); T-173 batch artifacts not pinned this slice"},
+     "status": "stream_wired",
+     "source": "results/theme_judge_p1/theme_judge_p1_results.json cell TJ-FULL-x1 (pooled equal-weight daily stream, x1 cost, cash on non-ride days; nav anchor = pooled_net; O-1725 sec.2 declared bull weapon)"},
 ]
 
 
@@ -262,6 +271,35 @@ def _pending_row(spec):
             "cells": {}, "verdicts": None}
 
 
+def load_theme_stream():
+    """Load the THEME-JUDGE-P1 TJ-FULL-x1 pooled daily stream.
+
+    Returns (dates, rets, nav) in the matrix convention (rets[i] = return
+    INTO dates[i]; nav[i] = cumulative NAV at close of dates[i]) with
+    verification anchors:
+      A1 len(dates) == len(returns) (1:1 per-date pooled return)
+      A2 nav reconstruction: prod(1+r)-1 == pooled_net within THEME_NET_TOL
+    """
+    with open(THEME_SOURCE, encoding="utf-8") as fh:
+        d = json.load(fh)
+    cell = d["cells"][THEME_CELL]
+    dates = [str(x) for x in cell["dates"]]
+    rets = [float(x) for x in cell["returns"]]
+    if len(dates) != len(rets):
+        raise SystemExit(f"matrix p0 mechanism: theme stream len mismatch "
+                         f"{len(dates)} dates vs {len(rets)} returns")
+    nav = [1.0]
+    for r in rets:
+        nav.append(nav[-1] * (1.0 + r))
+    nav = nav[1:]
+    net_recon = nav[-1] - 1.0
+    net_claim = float(cell["pooled_net"])
+    if abs(net_recon - net_claim) > THEME_NET_TOL:
+        raise SystemExit(f"matrix p0 mechanism: theme nav anchor "
+                         f"{net_recon:.6f} != pooled_net {net_claim:.6f}")
+    return dates, rets, nav
+
+
 def run():
     os.makedirs(OUT_DIR, exist_ok=True)
     axis = load_regime_axis()
@@ -302,6 +340,10 @@ def run():
         if spec["id"] == "lowamp-FAMILY-EW":
             rows.append(slice_stream(spec["id"], spec["home"], fam_dates,
                                      fam_rets, fam_nav, axis))
+        elif spec["id"] == "theme-wave-rider":
+            t_dates, t_rets, t_nav = load_theme_stream()
+            rows.append(slice_stream(spec["id"], spec["home"], t_dates,
+                                     t_rets, t_nav, axis))
         else:
             cell = spec["id"].replace("lowamp-", "")
             dates, rets, nav = loaded[cell]

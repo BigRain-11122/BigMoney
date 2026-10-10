@@ -5,7 +5,7 @@
  "deposit_baseline_source": "major-bank 5y posted rate 2026-09 ~1.30%/yr (research/DIRECTION_REVIEW_BM_INPUT.md); CEO law O-1705",
  "dup_stream_disclosure": "upstream duplicate streams: LA-EQ==LA-REP -- family EW overweights these; disclosed per honesty law",
  "evidence_cutoff": "2026-09-22",
- "generated": "2026-10-10T21:21:57",
+ "generated": "2026-10-10T21:38:54",
  "order_ref": "O-20261010-1725-bm-a.md + O-20261010-1825 sec.2.4",
  "regime_axis": {
   "label_cutoff": "2026-09-30",
@@ -619,18 +619,127 @@
    "group": "dip-rebound",
    "home": "BEAR",
    "id": "dip-rebound-trio",
-   "source": "declared bear-market weapon (O-1725 sec.2 P0); stream file not pinned this slice",
+   "source": "declared bear-market weapon (O-1725 sec.2 P0); refine_bench rev_p2 artifacts are trade-level (entries/trades/exits) -- daily-stream reconstruction = next slice",
    "status": "awaiting_stream",
    "verdicts": null
   },
   {
-   "cells": {},
-   "group": "theme",
-   "home": "BULL",
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.34923397563500425,
+      "median": -0.044797375882324686,
+      "min": -0.23744688904252176,
+      "n": 448,
+      "p25": -0.09999800329359443,
+      "p75": -0.01250028303239728,
+      "pos_share": 0.15848214285714285
+     },
+     "sharpe_median": -1.1098490888087393,
+     "worst_dd": -0.24307354360797984
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.23767827460572288,
+      "median": 0.013172814139562505,
+      "min": -0.42878253032582503,
+      "n": 166,
+      "p25": -0.0702292299429329,
+      "p75": 0.11743738779411494,
+      "pos_share": 0.5240963855421686
+     },
+     "sharpe_median": 0.1676827355974913,
+     "worst_dd": -0.4341840051496533
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.35360416136266526,
+      "median": 0.01497295029676049,
+      "min": -0.4327881536076249,
+      "n": 1614,
+      "p25": -0.11058361584009119,
+      "p75": 0.16709865073497848,
+      "pos_share": 0.5223048327137546
+     },
+     "sharpe_median": 0.1802391660257589,
+     "worst_dd": -0.4341840051496533
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.34923397563500425,
+      "median": -0.03847208911583483,
+      "min": -0.4327881536076249,
+      "n": 984,
+      "p25": -0.1306063211184238,
+      "p75": 0.15869109983924917,
+      "pos_share": 0.4247967479674797
+     },
+     "sharpe_median": -0.062274985702955726,
+     "worst_dd": -0.4341840051496533
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.3052805711990756,
+      "median": -0.10876961320086742,
+      "min": -0.19266960398280208,
+      "n": 71,
+      "p25": -0.13274845283726,
+      "p75": -0.08296197510900805,
+      "pos_share": 0.14084507042253522
+     },
+     "sharpe_median": -0.6776806058687422,
+     "worst_dd": -0.21696378663543603
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.25172148918982407,
+      "median": -0.10454885451720453,
+      "min": -0.2798913246299015,
+      "n": 79,
+      "p25": -0.14967292787926106,
+      "p75": -0.04836311746020189,
+      "pos_share": 0.12658227848101267
+     },
+     "sharpe_median": -0.4790662831109312,
+     "worst_dd": -0.290329888387573
+    }
+   },
    "id": "theme-wave-rider",
-   "source": "declared bull-market weapon (O-1725 sec.2 P0); T-173 batch artifacts not pinned this slice",
-   "status": "awaiting_stream",
-   "verdicts": null
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": -0.044797375882324686,
+      "n": 448,
+      "verdict": "harmed"
+     },
+     "CHOP": {
+      "median": 0.01497295029676049,
+      "n": 1614,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": -0.10876961320086742,
+      "n": 71,
+      "verdict": "harmed"
+     },
+     "SUPPORT": {
+      "median": -0.10454885451720453,
+      "n": 79,
+      "verdict": "harmed"
+     }
+    },
+    "gate_off": [
+     "GRIND",
+     "BEAR",
+     "SUPPORT"
+    ],
+    "home": "BULL",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
   }
  ],
  "schema": "regime_matrix_p0_v1",
