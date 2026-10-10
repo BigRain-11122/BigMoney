@@ -1201,21 +1201,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-10 12:11:02",
+  "ts": "2026-10-10 12:14:01",
   "machine": "bm-c",
-  "py_cpu_pct": 0.0,
-  "verdict": "launched",
-  "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
-  "shard": "w17-screen-0of8",
-  "pid": 47172,
-  "runner_sha256": "faec7eea2224bfc2",
-  "core_verdict": "multiproc",
-  "core_marker": "run_cells_parallel(",
-  "fill_latency_min": 1783.0,
-  "fullburn_window": false,
-  "target_met": false,
-  "saturation_launches": 1
+  "py_cpu_pct": 1.8,
+  "single_core_red_flags": [
+   {
+    "ts": "2026-10-10T12:12:25+08:00",
+    "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-0",
+    "shard": "w17-screen-0of8",
+    "pid": 47172,
+    "wall_s": 60.3,
+    "effective_cores": 0.35,
+    "law": "O-20260930-2355 sec.1 law-2"
+   }
+  ],
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-c",
- "core_samples_seen": "2026-10-10T11:30:09+08:00"
+ "core_samples_seen": "2026-10-10T12:12:25+08:00"
 }
