@@ -1,0 +1,86 @@
+{
+ "probe": "W206 pre-seat probe (bm-c interactive, 2026-10-10 23:3x, CEO fill-order re-issued 23:1x + O-2334 local-full-use)",
+ "legs": {
+  "leg0": {
+   "rows": 202,
+   "tail": "W204",
+   "owner_rows": 194,
+   "bmc_rows": 36,
+   "bma_rows": 118,
+   "ordinal": 196,
+   "bmc_ordinal": 37,
+   "w204_ledger_head": 864387,
+   "w205_status": "seat-reserved bm-a 16:27 (MSG-2026-10-10-1627 on origin; probe r956 receipt landed); five-face band row + per-wave prereg PENDING on origin at probe time -- declared bands 465_804..467_803 / 467_804..468_003 origin-text-verified and injected into this universe per the r956 leg4 mandate",
+   "w205_declared": {
+    "A": [
+     465804,
+     467803
+    ],
+    "B": [
+     467804,
+     468003
+    ]
+   }
+  },
+  "leg1": {
+   "ARITH_A": [
+    467804,
+    469803
+   ],
+   "ARITH_B": [
+    468004,
+    468203
+   ],
+   "A": [
+    468004,
+    470003
+   ],
+   "hops_A": 1,
+   "B": [
+    470004,
+    470203
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    468004,
+    468203
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      468004,
+      468203
+     ],
+     "jump_to": 470004
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by declared W205 B band 467_804..468_003 (staircase A-hops-prior-B SIXTY-SIXTH instance, E36 card; W205 seat leg4 projection + r956 W205 probe leg4 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=468004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=470004 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W207p_A": "470004..472003",
+   "hops_A": 0,
+   "W207p_B": "470204..470403",
+   "hops_B": 0,
+   "W207p_B_lands_inside_W207p_A": true,
+   "note": "W207+ naive projection on pre-W206 universe; the registered W206 B band will refuse the naive W207 A window once W206 is registered (A-hops-prior-B SIXTY-SEVENTH instance anticipated); W207 freezer MUST re-derive on the post-W206 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "468004_470003",
+  "B": "470004_470203"
+ }
+}
