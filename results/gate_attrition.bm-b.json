@@ -17871,6 +17871,30 @@
     "amt_share|z120|h10",
     "amt_share|z250|h10"
    ]
+  },
+  {
+   "batch": "PERPETUAL-N2-W18",
+   "ts": "2026-10-11 04:53:21",
+   "kind": "search-refusal",
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 876731,
+   "gates": {
+    "v1_unjudgeable": 1,
+    "v1_pass": 0,
+    "m1_pass": 0,
+    "full_chain_pass": 0
+   },
+   "entries": [
+    "freeze_window=r861_bm-b_d4c852425",
+    "pooled_nulls=288<300_frozen_sufficiency_line->honest_refuse_rc2",
+    "draw_envelope=64_consumed;n_ok>=48_lower_bound;split_face_not_persisted_by_refusal_path",
+    "zero_product_file;zero_trials_ledger_row(chain_head_876731_unchanged)",
+    "verdict=V1_UNJUDGEABLE(non-fail_non-pass);D1_no_readout;M1_not_applicable",
+    "trials_consumed=352_evaluations(64_draws+288_nulls);enrolled_448_row_not_fired(ledger_tied_to_product_landing)",
+    "design_lesson=B6_per_formula_budget_did_not_price_T-84s3_redraw+skip_attrition;W19_redraft_face;family_key_open"
+   ],
+   "prereg": "research/PERPETUAL_N2_W18_PREREG.md",
+   "runner": "scripts/alphagen_beam_w18.py"
   }
  ],
  "history": [

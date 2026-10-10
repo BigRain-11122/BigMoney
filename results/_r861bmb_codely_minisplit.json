@@ -1,0 +1,42 @@
+{
+ "asserts": [
+  "original==remaining+removed (byte exact)",
+  "migrated bytes verbatim in target",
+  "main<=30720",
+  "target<=30720",
+  "main LF convention",
+  "target pure LF preserved"
+ ],
+ "law": "CODELY.md <=30KB cap (D-20261002-06); ceremony r833/r896",
+ "main_after": 29942,
+ "main_before": 30510,
+ "migrated": [
+  {
+   "anchor": "21:0x r838 bm-c",
+   "bytes": 793,
+   "sha16": "55fd8c28a945d866"
+  },
+  {
+   "anchor": "21:2x r839 bm-c",
+   "bytes": 414,
+   "sha16": "1b1710b128aada18"
+  }
+ ],
+ "new_entry_bytes": 639,
+ "new_entry_sha16": "d661843595855c2e",
+ "probe_eol_main": {
+  "bytes": 30510,
+  "crlf": 2,
+  "pure_lf": 46
+ },
+ "probe_eol_target": {
+  "bytes": 14883,
+  "crlf": 0,
+  "pure_lf": 22
+ },
+ "removed_bytes_incl_lf": 1209,
+ "round": "r861 bm-b mini-split (migrate-then-append same window)",
+ "separator_bytes": 0,
+ "target_after": 16092,
+ "target_before": 14883
+}
