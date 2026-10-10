@@ -4,7 +4,7 @@
  "regime_v3": {
   "state": "ORANGE",
   "asof": "2026-10-09",
-  "days_in_state": 3,
+  "days_in_state": 1,
   "triggers": [
    "hs300<MA200 (#10 collected)",
    "breadth 0.73>=65%"
@@ -101,15 +101,15 @@
  "fresh_universe_n": 53,
  "breadth_r20_pos": 0.151,
  "active_sleeves": [
-  "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
-  "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
-  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
+  "grid sleeve (grid) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
+  "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
+  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
   "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
  ],
  "l3_evidence": {
   "activated": [],
-  "evidence_face": "results/strategy_scorecard.json profile_cards",
-  "evidence_cutoff": "2026-09-24",
+  "evidence_face": "EVIDENCE_FACE_MISSING: JSONDecodeError('Expecting property name enclosed in double quotes: line 5 column 1 (char 123)')",
+  "evidence_cutoff": null,
   "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
   "prereg_sha256_16": "3304f84f60826cd6"
  },
