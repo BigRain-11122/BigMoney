@@ -995,7 +995,13 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
              "passive_6m": {int(k): v for k, v in
                             prep["passive_6m_ret"].items()},
              "fundamental_ok": fundamental_ok,
-             "grammar": grammar, "atr20": tl2.atr20_series(prices),
+             # r581/crash-fix: the pool worker's ONLY grammar consumer is
+             # run_candidate_curve_w17 L350 tl1.GRAMMAR["faces"][mk] -- the
+             # W17 grammar has no faces table (faces live in W16 grammar,
+             # 77 mk keys). spawn workers re-import tl1 so the parent's
+             # L963 tl1.GRAMMAR load never propagates; the faces table
+             # must ride initargs (w1 _init_worker GRAMMAR law, r121).
+             "grammar": tl1.GRAMMAR, "atr20": tl2.atr20_series(prices),
              "gate_state": tl16.tl3.gate_state_series(prices),
              "vol_state": vol_state, "yang_state": yang_state,
              "vconf_state": vconf_state,
@@ -1591,7 +1597,10 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
     tl1.GRAMMAR = json.load(open(W16_GRAMMAR_FILE, encoding="utf-8"))
     # heavy worker state rebuilt live (jstate is the light metadata
     # face; W16 cmd_judge caliber): legs + overlay states + starts
+    # r581/crash-fix: judge workers run run_candidate_curve_w17 too (the
+    # L350 tl1.GRAMMAR["faces"][mk] lookup) -- grammar rides initargs.
     state = {"wave": WAVE, "starts": jstate["starts"],
+             "grammar": tl1.GRAMMAR,
              "passive": jstate["passive"],
              "judged_cells": jstate["judged_cells"],
              "states": tl1.v3_state_series()}

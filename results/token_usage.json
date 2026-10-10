@@ -1,72 +1,72 @@
 {
- "generated": "2026-10-10 12:02:01",
- "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
- "method": {
-  "bpe_proxy": 3.5,
-  "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
- },
- "per_round_context": {
-  "mandate_read_tokens_est": 14514,
-  "codely_read_tokens_est": 8758,
-  "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
- },
- "machines": {
-  "-bm-a": {
-   "state_bytes": 0,
-   "state_tokens_est": 0,
-   "report_bytes": 1490744,
-   "report_tokens_est": 425926
+  "generated": "2026-10-10 11:47:48",
+  "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
+  "method": {
+    "bpe_proxy": 3.5,
+    "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
   },
-  "-bm-c": {
-   "state_bytes": 0,
-   "state_tokens_est": 0,
-   "report_bytes": 2826134,
-   "report_tokens_est": 807466
+  "per_round_context": {
+    "mandate_read_tokens_est": 14519,
+    "codely_read_tokens_est": 8772,
+    "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
   },
-  "bm-a": {
-   "state_bytes": 3646,
-   "state_tokens_est": 1041,
-   "report_bytes": 0,
-   "report_tokens_est": 0
+  "machines": {
+    "-bm-a": {
+      "state_bytes": 0,
+      "state_tokens_est": 0,
+      "report_bytes": 1491585,
+      "report_tokens_est": 426167
+    },
+    "-bm-c": {
+      "state_bytes": 0,
+      "state_tokens_est": 0,
+      "report_bytes": 2827495,
+      "report_tokens_est": 807855
+    },
+    "bm-a": {
+      "state_bytes": 3646,
+      "state_tokens_est": 1041,
+      "report_bytes": 0,
+      "report_tokens_est": 0
+    },
+    "bm-c": {
+      "state_bytes": 1961,
+      "state_tokens_est": 560,
+      "report_bytes": 0,
+      "report_tokens_est": 0
+    },
+    "default": {
+      "state_bytes": 1570,
+      "state_tokens_est": 448,
+      "report_bytes": 2245221,
+      "report_tokens_est": 641491
+    }
   },
-  "bm-c": {
-   "state_bytes": 1961,
-   "state_tokens_est": 560,
-   "report_bytes": 0,
-   "report_tokens_est": 0
+  "l2_local_llm": {
+    "legs_total": 14,
+    "legs_today": 0,
+    "tokens_est_total": 26865,
+    "tokens_est_today": 0,
+    "by_cmd": {
+      "retro": 3,
+      "selftest": 8,
+      "ask": 1,
+      "review": 1,
+      "summary": 1
+    },
+    "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
+    "crash_fuse": {
+      "sigs": 86,
+      "refusals": 3980,
+      "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
+    }
   },
-  "default": {
-   "state_bytes": 1570,
-   "state_tokens_est": 448,
-   "report_bytes": 2245221,
-   "report_tokens_est": 641491
+  "total_state_tokens_est": 2049,
+  "total_report_tokens_est": 1875513,
+  "delta_vs_prev": {
+    "prev_generated": "2026-10-10 10:59:15",
+    "state_tokens_growth": 0,
+    "report_tokens_growth": 1088,
+    "mandate_growth": 28
   }
- },
- "l2_local_llm": {
-  "legs_total": 14,
-  "legs_today": 0,
-  "tokens_est_total": 26865,
-  "tokens_est_today": 0,
-  "by_cmd": {
-   "retro": 3,
-   "selftest": 8,
-   "ask": 1,
-   "review": 1,
-   "summary": 1
-  },
-  "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
-  "crash_fuse": {
-   "sigs": 85,
-   "refusals": 3872,
-   "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
-  }
- },
- "total_state_tokens_est": 2049,
- "total_report_tokens_est": 1874883,
- "delta_vs_prev": {
-  "prev_generated": "2026-10-10 11:33:50",
-  "state_tokens_growth": 0,
-  "report_tokens_growth": 0,
-  "mandate_growth": 0
- }
 }
