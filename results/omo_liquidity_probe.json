@@ -1,0 +1,559 @@
+{
+ "ts": "2026-10-10 08:54:48",
+ "machine_id": "bm-b",
+ "akshare_version": "1.18.96",
+ "law_ref": "P3 explore E4 survey-first; REPO_PANEL consumer face; production landing gated on GM ticket + T-67 s2 freeze law (>=12 months forward accumulation before any new prereg)",
+ "stage_a_inventory": {
+  "keywords": [
+   "omo",
+   "reverse_repo",
+   "pboc",
+   "mlf",
+   "slp",
+   "liquidity",
+   "money_supply",
+   "shibor",
+   "interbank",
+   "swap_rate",
+   "repo_rate",
+   "lpr",
+   "base_rate",
+   "open_market",
+   "central",
+   "bank_financing",
+   "bank_china_interest"
+  ],
+  "ak_public_names": 1141,
+  "matched": [
+   "macro_bank_china_interest_rate",
+   "macro_china_bank_financing",
+   "macro_china_central_bank_balance",
+   "macro_china_lpr",
+   "macro_china_money_supply",
+   "macro_china_shibor_all",
+   "macro_china_swap_rate",
+   "rate_interbank",
+   "repo_rate_hist",
+   "repo_rate_query"
+  ]
+ },
+ "endpoints": [
+  {
+   "family": "policy",
+   "name": "macro_china_reverse_repo",
+   "label": "PBOC reverse-repo policy-rate face (name guess)",
+   "ok": false,
+   "missing": true,
+   "error": "function absent in this akshare build"
+  },
+  {
+   "family": "policy",
+   "name": "macro_china_omo",
+   "label": "OMO operations face (name guess)",
+   "ok": false,
+   "missing": true,
+   "error": "function absent in this akshare build"
+  },
+  {
+   "family": "policy",
+   "name": "macro_china_base_rate",
+   "label": "benchmark policy-rate steps face",
+   "ok": false,
+   "missing": true,
+   "error": "function absent in this akshare build"
+  },
+  {
+   "family": "policy",
+   "name": "macro_china_lpr",
+   "label": "LPR quoted-rate face (liquidity-transmission adjacent)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 1.39,
+   "rows": 1576,
+   "columns": [
+    "TRADE_DATE",
+    "LPR1Y",
+    "LPR5Y",
+    "RATE_1",
+    "RATE_2"
+   ],
+   "first_row_sample": {
+    "TRADE_DATE": "1991-04-21",
+    "LPR1Y": "nan",
+    "LPR5Y": "nan",
+    "RATE_1": "8.64",
+    "RATE_2": "9.72"
+   },
+   "last_row_sample": {
+    "TRADE_DATE": "2026-09-20",
+    "LPR1Y": "3.0",
+    "LPR5Y": "3.5",
+    "RATE_1": "4.35",
+    "RATE_2": "4.9"
+   }
+  },
+  {
+   "family": "market",
+   "name": "macro_china_swap_rate",
+   "label": "FR007-style interest-rate swap history (money-market face)",
+   "args_used": {
+    "start_date": "20200101",
+    "end_date": "20261010"
+   },
+   "args_dropped": [],
+   "signature": [
+    "start_date",
+    "end_date"
+   ],
+   "ok": false,
+   "elapsed_s": 0.59,
+   "error": "ValueError: Length mismatch: Expected axis has 0 elements, new values have 17 elements"
+  },
+  {
+   "family": "market",
+   "name": "repo_rate_hist",
+   "label": "interbank repo fixing-rate history (name guess)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [
+    "start_date",
+    "end_date"
+   ],
+   "ok": true,
+   "elapsed_s": 0.32,
+   "rows": 17,
+   "columns": [
+    "date",
+    "FR001",
+    "FR007",
+    "FR014",
+    "FDR001",
+    "FDR007",
+    "FDR014"
+   ],
+   "first_row_sample": {
+    "date": "2020-09-30",
+    "FR001": "2.7",
+    "FR007": "2.5",
+    "FR014": "3.09",
+    "FDR001": "2.42",
+    "FDR007": "2.43",
+    "FDR014": "3.01"
+   },
+   "last_row_sample": {
+    "date": "2020-10-29",
+    "FR001": "2.15",
+    "FR007": "3.15",
+    "FR014": "2.95",
+    "FDR001": "2.12",
+    "FDR007": "2.49",
+    "FDR014": "2.9"
+   }
+  },
+  {
+   "family": "market",
+   "name": "rate_interbank",
+   "label": "interbank offered-rate face (CJK args, signature-filtered)",
+   "args_used": {
+    "market": "\u4e0a\u6d77\u94f6\u884c\u95f4\u540c\u4e1a\u62c6\u653e\u5229\u7387 Shibor",
+    "symbol": "Shibor\u4eba\u6c11\u5e01",
+    "indicator": "1\u5468"
+   },
+   "args_dropped": [],
+   "signature": [
+    "market",
+    "symbol",
+    "indicator"
+   ],
+   "ok": false,
+   "elapsed_s": 0.0,
+   "error": "KeyError: '\u4e0a\u6d77\u94f6\u884c\u95f4\u540c\u4e1a\u62c6\u653e\u5229\u7387 Shibor'"
+  },
+  {
+   "family": "market",
+   "name": "macro_china_shibor_all",
+   "label": "Shibor full-history face (money-market adjacent)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 0.45,
+   "rows": 2380,
+   "columns": [
+    "\u65e5\u671f",
+    "O/N-\u5b9a\u4ef7",
+    "O/N-\u6da8\u8dcc\u5e45",
+    "1W-\u5b9a\u4ef7",
+    "1W-\u6da8\u8dcc\u5e45",
+    "2W-\u5b9a\u4ef7",
+    "2W-\u6da8\u8dcc\u5e45",
+    "1M-\u5b9a\u4ef7",
+    "1M-\u6da8\u8dcc\u5e45",
+    "3M-\u5b9a\u4ef7",
+    "3M-\u6da8\u8dcc\u5e45",
+    "6M-\u5b9a\u4ef7",
+    "6M-\u6da8\u8dcc\u5e45",
+    "9M-\u5b9a\u4ef7",
+    "9M-\u6da8\u8dcc\u5e45",
+    "1Y-\u5b9a\u4ef7",
+    "1Y-\u6da8\u8dcc\u5e45"
+   ],
+   "first_row_sample": {
+    "\u65e5\u671f": "2015-05-08",
+    "O/N-\u5b9a\u4ef7": "1.443",
+    "O/N-\u6da8\u8dcc\u5e45": "nan",
+    "1W-\u5b9a\u4ef7": "2.334",
+    "1W-\u6da8\u8dcc\u5e45": "nan",
+    "2W-\u5b9a\u4ef7": "2.834",
+    "2W-\u6da8\u8dcc\u5e45": "nan",
+    "1M-\u5b9a\u4ef7": "3.211",
+    "1M-\u6da8\u8dcc\u5e45": "nan",
+    "3M-\u5b9a\u4ef7": "3.7985",
+    "3M-\u6da8\u8dcc\u5e45": "nan",
+    "6M-\u5b9a\u4ef7": "4.1831",
+    "6M-\u6da8\u8dcc\u5e45": "nan",
+    "9M-\u5b9a\u4ef7": "4.396",
+    "9M-\u6da8\u8dcc\u5e45": "nan",
+    "1Y-\u5b9a\u4ef7": "4.5",
+    "1Y-\u6da8\u8dcc\u5e45": "nan"
+   },
+   "last_row_sample": {
+    "\u65e5\u671f": "2026-10-09",
+    "O/N-\u5b9a\u4ef7": "1.313",
+    "O/N-\u6da8\u8dcc\u5e45": "-6.26",
+    "1W-\u5b9a\u4ef7": "1.341",
+    "1W-\u6da8\u8dcc\u5e45": "-4.9",
+    "2W-\u5b9a\u4ef7": "1.363",
+    "2W-\u6da8\u8dcc\u5e45": "-2.48",
+    "1M-\u5b9a\u4ef7": "1.418",
+    "1M-\u6da8\u8dcc\u5e45": "-0.2",
+    "3M-\u5b9a\u4ef7": "1.43",
+    "3M-\u6da8\u8dcc\u5e45": "0.0",
+    "6M-\u5b9a\u4ef7": "1.45",
+    "6M-\u6da8\u8dcc\u5e45": "0.0",
+    "9M-\u5b9a\u4ef7": "1.47",
+    "9M-\u6da8\u8dcc\u5e45": "0.0",
+    "1Y-\u5b9a\u4ef7": "1.48",
+    "1Y-\u6da8\u8dcc\u5e45": "0.0"
+   }
+  },
+  {
+   "family": "macro",
+   "name": "macro_china_money_supply",
+   "label": "money-supply aggregates (monthly liquidity macro, name guess)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 0.32,
+   "rows": 224,
+   "columns": [
+    "\u6708\u4efd",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u6570\u91cf(\u4ebf\u5143)",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u540c\u6bd4\u589e\u957f",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u73af\u6bd4\u589e\u957f",
+    "\u8d27\u5e01(M1)-\u6570\u91cf(\u4ebf\u5143)",
+    "\u8d27\u5e01(M1)-\u540c\u6bd4\u589e\u957f",
+    "\u8d27\u5e01(M1)-\u73af\u6bd4\u589e\u957f",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u6570\u91cf(\u4ebf\u5143)",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u540c\u6bd4\u589e\u957f",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u73af\u6bd4\u589e\u957f"
+   ],
+   "first_row_sample": {
+    "\u6708\u4efd": "2026\u5e7408\u6708\u4efd",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u6570\u91cf(\u4ebf\u5143)": "3568083.6",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u540c\u6bd4\u589e\u957f": "7.5",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u73af\u6bd4\u589e\u957f": "0.36585309",
+    "\u8d27\u5e01(M1)-\u6570\u91cf(\u4ebf\u5143)": "1157741.43",
+    "\u8d27\u5e01(M1)-\u540c\u6bd4\u589e\u957f": "4.1",
+    "\u8d27\u5e01(M1)-\u73af\u6bd4\u589e\u957f": "0.2700821",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u6570\u91cf(\u4ebf\u5143)": "148311.98",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u540c\u6bd4\u589e\u957f": "11.2",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u73af\u6bd4\u589e\u957f": "0.07362881"
+   },
+   "last_row_sample": {
+    "\u6708\u4efd": "2008\u5e7401\u6708\u4efd",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u6570\u91cf(\u4ebf\u5143)": "417846.17",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u540c\u6bd4\u589e\u957f": "18.88",
+    "\u8d27\u5e01\u548c\u51c6\u8d27\u5e01(M2)-\u73af\u6bd4\u589e\u957f": "3.58076932",
+    "\u8d27\u5e01(M1)-\u6570\u91cf(\u4ebf\u5143)": "154872.59",
+    "\u8d27\u5e01(M1)-\u540c\u6bd4\u589e\u957f": "20.54",
+    "\u8d27\u5e01(M1)-\u73af\u6bd4\u589e\u957f": "1.54303226",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u6570\u91cf(\u4ebf\u5143)": "36673.15",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u540c\u6bd4\u589e\u957f": "31.21",
+    "\u6d41\u901a\u4e2d\u7684\u73b0\u91d1(M0)-\u73af\u6bd4\u589e\u957f": "20.89656205"
+   }
+  },
+  {
+   "family": "policy",
+   "name": "macro_bank_china_interest_rate",
+   "label": "China interest-rate history face (may carry OMO 7d policy steps)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 3.1,
+   "rows": 218,
+   "columns": [
+    "\u5546\u54c1",
+    "\u65e5\u671f",
+    "\u4eca\u503c",
+    "\u9884\u6d4b\u503c",
+    "\u524d\u503c"
+   ],
+   "first_row_sample": {
+    "\u5546\u54c1": "\u4e2d\u56fd\u592e\u884c\u51b3\u8bae\u62a5\u544a",
+    "\u65e5\u671f": "1991-05-01",
+    "\u4eca\u503c": "8.64",
+    "\u9884\u6d4b\u503c": "nan",
+    "\u524d\u503c": "nan"
+   },
+   "last_row_sample": {
+    "\u5546\u54c1": "\u4e2d\u56fd\u592e\u884c\u51b3\u8bae\u62a5\u544a",
+    "\u65e5\u671f": "2019-11-20",
+    "\u4eca\u503c": "4.15",
+    "\u9884\u6d4b\u503c": "4.2",
+    "\u524d\u503c": "4.2"
+   }
+  },
+  {
+   "family": "pboc",
+   "name": "macro_china_central_bank_balance",
+   "label": "PBOC balance-sheet face (monthly OMO/MLF/SLF stock side)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 4.2,
+   "rows": 356,
+   "columns": [
+    "\u7edf\u8ba1\u65f6\u95f4",
+    "\u56fd\u5916\u8d44\u4ea7",
+    "\u5916\u6c47",
+    "\u8d27\u5e01\u9ec4\u91d1",
+    "\u5176\u4ed6\u56fd\u5916\u8d44\u4ea7",
+    "\u5bf9\u653f\u5e9c\u503a\u6743",
+    "\u5176\u4e2d:\u4e2d\u592e\u653f\u5e9c",
+    "\u5bf9\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8\u503a\u6743",
+    "\u5bf9\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743",
+    "\u5bf9\u975e\u8d27\u5e01\u91d1\u878d\u673a\u6784\u503a\u6743",
+    "\u5bf9\u975e\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743",
+    "\u5176\u4ed6\u8d44\u4ea7",
+    "\u603b\u8d44\u4ea7",
+    "\u50a8\u5907\u8d27\u5e01",
+    "\u53d1\u884c\u8d27\u5e01",
+    "\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e",
+    "\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8",
+    "\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8",
+    "\u5bf9\u91d1\u878d\u673a\u6784\u8d1f\u503a",
+    "\u51c6\u5907\u91d1\u5b58\u6b3e",
+    "\u975e\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e",
+    "\u6d3b\u671f\u5b58\u6b3e",
+    "\u503a\u5238",
+    "\u56fd\u5916\u8d1f\u503a",
+    "\u653f\u5e9c\u5b58\u6b3e",
+    "\u81ea\u6709\u8d44\u91d1",
+    "\u5176\u4ed6\u8d1f\u503a",
+    "\u603b\u8d1f\u503a"
+   ],
+   "first_row_sample": {
+    "\u7edf\u8ba1\u65f6\u95f4": "2026.8",
+    "\u56fd\u5916\u8d44\u4ea7": "231817.81",
+    "\u5916\u6c47": "217247.55",
+    "\u8d27\u5e01\u9ec4\u91d1": "5243.77",
+    "\u5176\u4ed6\u56fd\u5916\u8d44\u4ea7": "9326.49",
+    "\u5bf9\u653f\u5e9c\u503a\u6743": "21345.56",
+    "\u5176\u4e2d:\u4e2d\u592e\u653f\u5e9c": "21345.56",
+    "\u5bf9\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8\u503a\u6743": "213399.37",
+    "\u5bf9\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743": "3850.94",
+    "\u5bf9\u975e\u8d27\u5e01\u91d1\u878d\u673a\u6784\u503a\u6743": "nan",
+    "\u5bf9\u975e\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743": "nan",
+    "\u5176\u4ed6\u8d44\u4ea7": "28153.6",
+    "\u603b\u8d44\u4ea7": "498567.28",
+    "\u50a8\u5907\u8d27\u5e01": "401814.26",
+    "\u53d1\u884c\u8d27\u5e01": "152891.76",
+    "\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e": "223278.85",
+    "\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8": "223278.85",
+    "\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8": "nan",
+    "\u5bf9\u91d1\u878d\u673a\u6784\u8d1f\u503a": "nan",
+    "\u51c6\u5907\u91d1\u5b58\u6b3e": "nan",
+    "\u975e\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e": "nan",
+    "\u6d3b\u671f\u5b58\u6b3e": "nan",
+    "\u503a\u5238": "2400.0",
+    "\u56fd\u5916\u8d1f\u503a": "2096.21",
+    "\u653f\u5e9c\u5b58\u6b3e": "62541.14",
+    "\u81ea\u6709\u8d44\u91d1": "219.75",
+    "\u5176\u4ed6\u8d1f\u503a": "23014.92",
+    "\u603b\u8d1f\u503a": "498567.28"
+   },
+   "last_row_sample": {
+    "\u7edf\u8ba1\u65f6\u95f4": "1993.3",
+    "\u56fd\u5916\u8d44\u4ea7": "1324.0",
+    "\u5916\u6c47": "1222.0",
+    "\u8d27\u5e01\u9ec4\u91d1": "12.0",
+    "\u5176\u4ed6\u56fd\u5916\u8d44\u4ea7": "90.0",
+    "\u5bf9\u653f\u5e9c\u503a\u6743": "nan",
+    "\u5176\u4e2d:\u4e2d\u592e\u653f\u5e9c": "1339.6",
+    "\u5bf9\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8\u503a\u6743": "nan",
+    "\u5bf9\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743": "213.5",
+    "\u5bf9\u975e\u8d27\u5e01\u91d1\u878d\u673a\u6784\u503a\u6743": "nan",
+    "\u5bf9\u975e\u91d1\u878d\u6027\u516c\u53f8\u503a\u6743": "561.1",
+    "\u5176\u4ed6\u8d44\u4ea7": "nan",
+    "\u603b\u8d44\u4ea7": "nan",
+    "\u50a8\u5907\u8d27\u5e01": "9846.1",
+    "\u53d1\u884c\u8d27\u5e01": "4867.3",
+    "\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e": "3844.6",
+    "\u5176\u4ed6\u5b58\u6b3e\u6027\u516c\u53f8": "nan",
+    "\u5176\u4ed6\u91d1\u878d\u6027\u516c\u53f8": "nan",
+    "\u5bf9\u91d1\u878d\u673a\u6784\u8d1f\u503a": "nan",
+    "\u51c6\u5907\u91d1\u5b58\u6b3e": "nan",
+    "\u975e\u91d1\u878d\u6027\u516c\u53f8\u5b58\u6b3e": "1134.2",
+    "\u6d3b\u671f\u5b58\u6b3e": "nan",
+    "\u503a\u5238": "nan",
+    "\u56fd\u5916\u8d1f\u503a": "nan",
+    "\u653f\u5e9c\u5b58\u6b3e": "337.6",
+    "\u81ea\u6709\u8d44\u91d1": "310.3",
+    "\u5176\u4ed6\u8d1f\u503a": "-384.1",
+    "\u603b\u8d1f\u503a": "nan"
+   }
+  },
+  {
+   "family": "pboc",
+   "name": "macro_china_bank_financing",
+   "label": "bank financing face (standing facilities family, name guess)",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [],
+   "ok": true,
+   "elapsed_s": 0.3,
+   "rows": 273,
+   "columns": [
+    "\u65e5\u671f",
+    "\u6700\u65b0\u503c",
+    "\u6da8\u8dcc\u5e45",
+    "\u8fd13\u6708\u6da8\u8dcc\u5e45",
+    "\u8fd16\u6708\u6da8\u8dcc\u5e45",
+    "\u8fd11\u5e74\u6da8\u8dcc\u5e45",
+    "\u8fd12\u5e74\u6da8\u8dcc\u5e45",
+    "\u8fd13\u5e74\u6da8\u8dcc\u5e45"
+   ],
+   "first_row_sample": {
+    "\u65e5\u671f": "2000-03-01",
+    "\u6700\u65b0\u503c": "4",
+    "\u6da8\u8dcc\u5e45": "nan",
+    "\u8fd13\u6708\u6da8\u8dcc\u5e45": "nan",
+    "\u8fd16\u6708\u6da8\u8dcc\u5e45": "nan",
+    "\u8fd11\u5e74\u6da8\u8dcc\u5e45": "nan",
+    "\u8fd12\u5e74\u6da8\u8dcc\u5e45": "nan",
+    "\u8fd13\u5e74\u6da8\u8dcc\u5e45": "nan"
+   },
+   "last_row_sample": {
+    "\u65e5\u671f": "2026-09-01",
+    "\u6700\u65b0\u503c": "3341",
+    "\u6da8\u8dcc\u5e45": "-4.15949512",
+    "\u8fd13\u6708\u6da8\u8dcc\u5e45": "-13.53519669",
+    "\u8fd16\u6708\u6da8\u8dcc\u5e45": "-1.32900177",
+    "\u8fd11\u5e74\u6da8\u8dcc\u5e45": "3.05367057",
+    "\u8fd12\u5e74\u6da8\u8dcc\u5e45": "7.73943889",
+    "\u8fd13\u5e74\u6da8\u8dcc\u5e45": "14.81099656"
+   }
+  },
+  {
+   "family": "discovered",
+   "name": "repo_rate_query",
+   "label": "inventory-scan discovered face",
+   "args_used": {},
+   "args_dropped": [],
+   "signature": [
+    "symbol"
+   ],
+   "ok": true,
+   "elapsed_s": 0.23,
+   "rows": 747,
+   "columns": [
+    "date",
+    "FR001",
+    "FR007",
+    "FR014"
+   ],
+   "first_row_sample": {
+    "date": "2023-10-09",
+    "FR001": "1.81",
+    "FR007": "2.01",
+    "FR014": "1.85"
+   },
+   "last_row_sample": {
+    "date": "2026-10-09",
+    "FR001": "1.31",
+    "FR007": "1.38",
+    "FR014": "1.43"
+   }
+  }
+ ],
+ "linkage": {
+  "status": "unavailable: no OK daily face carried a parseable net-injection column"
+ },
+ "freshness": [
+  {
+   "face": "repo_rate_hist",
+   "rows": 17,
+   "first_date": "2020-09-30",
+   "last_date": "2020-10-29",
+   "days_stale_vs_today": 2172
+  },
+  {
+   "face": "macro_china_shibor_all",
+   "rows": 2380,
+   "first_date": "2015-05-08",
+   "last_date": "2026-10-09",
+   "days_stale_vs_today": 1
+  },
+  {
+   "face": "macro_bank_china_interest_rate",
+   "rows": 218,
+   "first_date": null,
+   "last_date": "2019-11-20",
+   "days_stale_vs_today": 2516
+  },
+  {
+   "face": "macro_china_bank_financing",
+   "rows": 273,
+   "first_date": "2000-03-01",
+   "last_date": "2026-09-01",
+   "days_stale_vs_today": 39
+  },
+  {
+   "face": "repo_rate_query",
+   "rows": 747,
+   "first_date": "2023-10-09",
+   "last_date": "2026-10-09",
+   "days_stale_vs_today": 1
+  }
+ ],
+ "price_linkage": {
+  "face": "repo_rate_query",
+  "price_col": "FR007",
+  "overlap_window": [
+   "2023-10-09",
+   "2026-10-09"
+  ],
+  "n_overlap": 728,
+  "pearson_same_day": 0.869,
+  "basis_exchange_minus_interbank_mean": 0.0305,
+  "basis_std": 0.2229,
+  "status": "measured (descriptive only, no judgment)"
+ },
+ "summary": {
+  "reachable": 8,
+  "missing": 3,
+  "total": 13,
+  "net_injection_face_available": false,
+  "linkage_status": "unavailable: no OK daily face carried a parseable net-injection column",
+  "price_linkage_status": "measured (descriptive only, no judgment)",
+  "forward_window_law": "T-67 s2: >=12 months forward accumulation before any new prereg on this face",
+  "production_gate": "GM-signed ticket required for any collector/lane landing (survey-first legal only)",
+  "verdict": "measured; see research/shortline/OMO_LIQUIDITY_DATA_FEASIBILITY.md"
+ }
+}
