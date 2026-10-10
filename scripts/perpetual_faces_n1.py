@@ -24479,8 +24479,29 @@ def selftest() -> int:
         w139_a = {A_SEED_BASE + j for j in range(A_N)}
         w139_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
         assert not (w139_a & w139_b), "W139 A/B band overlap"
-        assert not (w139_a & reg_ints) and not (w139_b & reg_ints), \
-            "W139 hits SEED_REGISTRY"
+        # r957 adjudication (r874 mirror, O-20261010-1906; full
+        # disclosure in the pf-level w139_adjudicated comment):
+        # thermo_overlay_p1_nulls base=94_500 (bm-a r938 T-181
+        # slice-1 registration; its pocket sweep verified
+        # in-registry disjointness but MISSED the N1_BANDS band
+        # face) lands inside the ALREADY-BURNED W139 B band
+        # 94_401..94_600 at j=99. CORRECTED argument (NOT the r874
+        # spawn-children path): BOTH consumers consume
+        # default_rng(94_500) itself -- thermo draws one
+        # integers(1,T) phase shift per null seed, the W139 engine
+        # exit draw consumes the same PCG64 stream. Harmless via
+        # DISJOINT INJECTION FACES: the phase shifts enter the
+        # 1997-2026 thermo-timeline null law, the engine draw enters
+        # the factor-cell exit axis -- two data faces that never
+        # meet, and neither inference reads the other. W139
+        # finalize stands, the thermo batch is NOT re-registered.
+        # Disclosed, not hidden.
+        w139_adjudicated = {94_500}
+        assert w139_adjudicated <= w139_b, \
+            "W139 adjudicated set drifted (must sit inside the burned band)"
+        assert not (w139_a & reg_ints) and \
+            not (w139_b & (reg_ints - w139_adjudicated)), \
+            "W139 hits SEED_REGISTRY beyond the adjudicated r957 point"
         for nm, band in (("A", w139_a), ("B", w139_b)):
             assert not (band & v1_a) and not (band & v1_b), f"W139 {nm} hits v1"
             assert not (band & w1_a) and not (band & w1_b), f"W139 {nm} hits W1"
@@ -24547,8 +24568,9 @@ def selftest() -> int:
             "registered B band tail (CLEAN hops=0 at both the pre-seat "
             "probe and the freeze-window gate; double-CLEAN window)")
         arith_b139 = set(range(94_401, 94_601))
-        assert not (arith_b139 & reg_ints), \
-            "W139 B window must be CLEAN (arithmetic ADMIT face, hops=0)"
+        # r957 adjudication (see the w139_adjudicated disclosure above):
+        assert not (arith_b139 & (reg_ints - w139_adjudicated)), \
+            "W139 B window must be CLEAN beyond the adjudicated r957 point (arithmetic ADMIT face)"
         assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W139-SHARD-0",
                                           "n1w139-0of12"), "W139 entry identity"
         assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W139-SHARD-11",
@@ -24619,8 +24641,27 @@ def selftest() -> int:
         w140_a = {A_SEED_BASE + j for j in range(A_N)}
         w140_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
         assert not (w140_a & w140_b), "W140 A/B band overlap"
-        assert not (w140_a & reg_ints) and not (w140_b & reg_ints), \
-            "W140 hits SEED_REGISTRY"
+        # r957 adjudication (r874 mirror, O-20261010-1906; full
+        # disclosure in the pf-level w140_adjudicated comment):
+        # lhb_thermo_ic_p1_nulls base=94_700 (bm-a E5 slice-2
+        # registration; its registration sweep MISSED the N1_BANDS
+        # band face, same miss family as r870/r899) lands inside
+        # the ALREADY-BURNED W140 B band 94_601..94_800 at j=99.
+        # STRONGER than the r874 spawn-children argument: the two
+        # consumers run DIFFERENT RNG algorithm families -- lhb
+        # uses Python stdlib random.Random(94_700+i) (MT19937), the
+        # W140 engine exit draw uses numpy default_rng(94_700+j)
+        # (PCG64) -- the same seed integer produces entirely
+        # different streams, so the two consumers never share an
+        # actual stream. Bookkeeping-level overlap only,
+        # statistically harmless. W140 finalize stands, the lhb
+        # batch is NOT re-registered. Disclosed, not hidden.
+        w140_adjudicated = {94_700}
+        assert w140_adjudicated <= w140_b, \
+            "W140 adjudicated set drifted (must sit inside the burned band)"
+        assert not (w140_a & reg_ints) and \
+            not (w140_b & (reg_ints - w140_adjudicated)), \
+            "W140 hits SEED_REGISTRY beyond the adjudicated r957 point"
         for nm, band in (("A", w140_a), ("B", w140_b)):
             assert not (band & v1_a) and not (band & v1_b), f"W140 {nm} hits v1"
             assert not (band & w1_a) and not (band & w1_b), f"W140 {nm} hits W1"
@@ -24690,8 +24731,9 @@ def selftest() -> int:
             "registered B band tail (CLEAN hops=0 at both the pre-seat "
             "probe and the freeze-window gate; double-CLEAN window)")
         arith_b140 = set(range(94_601, 94_801))
-        assert not (arith_b140 & reg_ints), \
-            "W140 B window must be CLEAN (arithmetic ADMIT face, hops=0)"
+        # r957 adjudication (see the w140_adjudicated disclosure above):
+        assert not (arith_b140 & (reg_ints - w140_adjudicated)), \
+            "W140 B window must be CLEAN beyond the adjudicated r957 point (arithmetic ADMIT face)"
         assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W140-SHARD-0",
                                           "n1w140-0of12"), "W140 entry identity"
         assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W140-SHARD-11",

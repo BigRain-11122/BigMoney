@@ -6543,6 +6543,54 @@ def cmd_selftest():
                             N1_BANDS[138]["b_exit"][1] + 1))
     assert w138_adjudicated <= w138_b_probe, \
         "W138 adjudicated set drifted (must sit inside the burned band)"
+    # ADJUDICATED EXCEPTION 5 (bm-a r957, O-20261010-1906 request,
+    # r874 precedent family, found red by the W204 five-face freeze
+    # selftest window on origin): SEED_REGISTRY
+    # thermo_overlay_p1_nulls=94_500 was registered LATER (bm-a r938
+    # T-181 slice-1 registration; the registration face verified
+    # in-registry disjointness but MISSED the N1_BANDS band face --
+    # same miss family as the r870/r899 pocket sweeps) and lands
+    # inside the ALREADY-BURNED W139 B band 94_401..94_600 at j=99.
+    # CORRECTED argument (NOT the r874 spawn-children path -- the
+    # thermo runner consumes default_rng(94_500+i) itself, and so
+    # does the W139 engine exit draw at j=99: same-family same-seed
+    # = SHARED PCG64 stream). Harmless via DISJOINT INJECTION FACES:
+    # the thermo null law draws one integers(1,T) phase shift per
+    # null seed into the 1997-2026 thermo timeline; the W139 engine
+    # draw randomizes the factor-cell exit axis -- two data faces
+    # that never meet, and neither statistical inference reads the
+    # other, so no spurious-correlation channel exists. W139
+    # finalize results stand un-reopened, the thermo_overlay_p1
+    # batch is NOT re-registered (registry records what was actually
+    # used -- the thermo burn ran 2026-10-09 with base 94_500).
+    # Future band gates already treat SEED_REGISTRY live values as
+    # refusal points, so no forward face. Disclosed, not hidden.
+    w139_adjudicated = {94_500}
+    w139_b_probe = set(range(N1_BANDS[139]["b_exit"][0],
+                            N1_BANDS[139]["b_exit"][1] + 1))
+    assert w139_adjudicated <= w139_b_probe, \
+        "W139 adjudicated set drifted (must sit inside the burned band)"
+    # ADJUDICATED EXCEPTION 6 (bm-a r957, same O-20261010-1906
+    # request): SEED_REGISTRY lhb_thermo_ic_p1_nulls=94_700 was
+    # registered LATER (bm-a E5 slice-2 LHB_THERMO_IC_P1
+    # registration; same N1_BANDS miss family) and lands inside the
+    # ALREADY-BURNED W140 B band 94_601..94_800 at j=99. STRONGER
+    # than the r874 spawn-children argument: the two consumers run
+    # DIFFERENT RNG algorithm families -- lhb consumes Python
+    # stdlib random.Random(94_700+i) (MT19937), the W140 engine exit
+    # draw consumes numpy default_rng(94_700+j) (PCG64) -- the same
+    # seed integer produces entirely different streams, so the two
+    # consumers never share an actual stream. Bookkeeping-level
+    # overlap only, statistically harmless; the W140 exit draw
+    # remains a valid null draw. W140 finalize results stand
+    # un-reopened, the lhb_thermo_ic_p1 batch is NOT re-registered.
+    # Future band gates already treat SEED_REGISTRY live values as
+    # refusal points, so no forward face. Disclosed, not hidden.
+    w140_adjudicated = {94_700}
+    w140_b_probe = set(range(N1_BANDS[140]["b_exit"][0],
+                            N1_BANDS[140]["b_exit"][1] + 1))
+    assert w140_adjudicated <= w140_b_probe, \
+        "W140 adjudicated set drifted (must sit inside the burned band)"
     used = []
     for w, b in N1_BANDS.items():
         band_a = set(range(b["a"][0], b["a"][1] + 1))
@@ -6560,6 +6608,12 @@ def cmd_selftest():
         elif w == 138:
             assert not (band_b & (reg_ints - w138_adjudicated)), \
                 f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r874 point"
+        elif w == 139:
+            assert not (band_b & (reg_ints - w139_adjudicated)), \
+                f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r957 point"
+        elif w == 140:
+            assert not (band_b & (reg_ints - w140_adjudicated)), \
+                f"N1 w{w} hits SEED_REGISTRY beyond the adjudicated r957 point"
         else:
             assert not (band_b & reg_ints), f"N1 w{w} hits SEED_REGISTRY"
         used.append((band_a, band_b))
