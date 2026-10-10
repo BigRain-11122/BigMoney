@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·待 W204 finalize 窗〕\n- （占位·finalize one-pass 后机械回填：账本恒等式 prev+2,200=total 三键机读+合并池 K EXACT+merged mu/w-only mu/sigma/se_mu+skill_line_v2 K-lift 对照+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied+shards_consumed。）
+- **finalize one-pass 已回填（bm-c r837·2026-10-10 20:3x·同窗=freeze+ignite+finalize 一窗全链）**：
+  - 账本恒等式：prev_total **862,187** + batch_trials **2,200** = total **864,387**（三键机读·science_gates.ledger；prev=届时空窗活链头 derive 非手抄——W203 finalize 头 860,945 与本窗 prev 862,187 差 1,242=他批合法 append·活链头 derive 律兑现）。
+  - 合并池 K=**446,720** EXACT（444,520+2,200·n_values 机读）。
+  - merged mu=−0.092697 / w-only mu=−0.086008 / w-only sigma=0.23939 / merged sigma=0.245097 / se_mu@K446,720=**0.000367**（se_mu 收窄链 …→W203 0.000368→W204 0.000367 单调收窄）。
+  - skill_line_v2 K-lift 对照：line_pre_w204 **1.1888** → line_merged@K446,720 **1.1887**（delta **−0.0001**·n_eff_held_equal 862,187）。
+  - §5 四预键机证**全 PASS**：①|w-only mu − merged mu|=0.0067<0.02 ②merged sigma vs W202 键 0.245165 相对 −0.03%<±10% ③A 档 full_sharpe_p95=**0.3053** vs W202 A 档 0.3214 差 0.0161<0.05 ④K-lift |−0.0001|≤0.02。附注：A 档 p99=0.4675·A 档 mu=−0.080374·B 档 n=200（出场面族·p95 不适用同 W203 例）。
+  - canon flip 态=**NOT performed**（治理提案面 only·K2200 同例）。
+  - audit.finalize_only=true·machine=bm-c；voids_applied=[LOWAMP-P1, LOWAMP-P2]；shards_consumed=12/12（shard-0..11-of-12.json）；evidence_cutoff=2026-09-22+science_gates.cutoff_meta 双写在位（science_audit C2 强字）。
+  - 产物=results/perpetual_faces/n1_w204_results.json（finalize one-pass·幂等禁重跑=r538 律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·待 W204 finalize 窗〕\n- （占位·finalize 收口窗机械回填：§5.5 W205+ 投影承接机证+宝藏/方法论捕获问+诚实披露面。）
+- **批后复盘（bm-c r837 同窗回填）**：
+  - §5.5 W205+ 投影承接机证：W205 席位 MSG-2026-10-10-1627-bma 已在 W204-declared 宇宙上声明 A **465_804..467_803**（=本波 probe leg4 投影 465_604..467_603 被 W204 B 带拒后 1 hop·A-hops-prior-B 阶梯 SIXTY-FIFTH 实例在册）+B **467_804..468_003**——W204 行已上 origin（caa423cd1），W205 freeze 窗按其席位 MSG 原文强制重拉重验宇宙面。
+  - 宝藏/方法论捕获问：本批新方法=**「死会话 splice 丢失→ADMIT 回执重建术」**（preflight 零写入探针 12/12→活体 splice：r609 origin-verbatim 基座断言+r761 程序化引号包裹·AST 门首跑拦截尾串缺陷→净回滚→修复重跑零带病→selftest 绿门）——与 r787 E48/r909 律族同源，本批实弹再证；工具件 _r837bmc_w204_preflight.py/_r837bmc_w204_freeze_edits.py 留仓可复用。TREASURE_REGISTRY 零出入（方法已由既有律族覆盖·无新登记件）。
+  - 诚实披露面：①本波=W139/W140 SEED_REGISTRY 撞点裁决（O-1906·carve-outs 7464be852）后**首枚过链波**——非撞点复发面；②C1804 死会话 spliced 双件不可恢复→本波 phase-2 从 ADMIT 回执诚实重建（r836 披露兑现·「≤2 班」SLA 达成=第 2 班收口）；③引擎 live daemon mtime-watch 自燃 12/12 分片+finalize 同窗完成（freeze→ignite→finalize 一窗全链·r325 点火验证=两笔引擎 ledger commit 6+6 分片产物增长面实证）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
