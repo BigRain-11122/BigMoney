@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-10",
- "generated_at": "2026-10-10 23:27:07",
+ "generated_at": "2026-10-10 23:46:33",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-10.md"
  },
  "rd": {
-  "commits_24h": 534,
-  "result_jsons_landed_24h": 376,
+  "commits_24h": 553,
+  "result_jsons_landed_24h": 211,
   "digests_landed_24h": 14,
-  "prereg_md_touched_24h": 60,
+  "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-10-10 23:25:57",
-   "py_cpu_pct": 4.7,
+   "ts": "2026-10-10 23:43:07",
+   "py_cpu_pct": 33.2,
    "flags": [
-    "supply_gap",
+    "gpu_unauthorized",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap,supply_floor"
+   "verdict": "FLAG:gpu_unauthorized,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -667,11 +667,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1888078,
+  "total_report_tokens_est": 1888856,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-10 22:58:02",
+   "prev_generated": "2026-10-10 23:17:35",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 912,
+   "report_tokens_growth": 778,
    "mandate_growth": 0
   },
   "method": {
@@ -682,17 +682,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-10 22:21:21",
-    "py_pct": 0.4,
-    "cpu_pct": 65.0,
+    "latest_ts": "2026-10-10 23:17:15",
+    "py_pct": 5.8,
+    "cpu_pct": 43.0,
     "ready": 1,
-    "streak_min": 2905.1,
+    "streak_min": 2961.0,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "19:30",
-      10.4
-     ],
      [
       "19:30",
       0.7
@@ -736,12 +732,16 @@
      [
       "22:21",
       0.4
+     ],
+     [
+      "23:17",
+      5.8
      ]
     ],
-    "today_samples": 69,
+    "today_samples": 70,
     "today_floor_ok": 67,
     "today_sla_flags": 57,
-    "today_supply_gap_flags": 68
+    "today_supply_gap_flags": 69
    },
    "bm-b": {
     "latest_ts": "2026-10-10 23:25:57",
@@ -806,66 +806,66 @@
     "today_supply_gap_flags": 71
    },
    "bm-c": {
-    "latest_ts": "2026-10-10 21:42:44",
-    "py_pct": 6.9,
-    "cpu_pct": 18.0,
-    "ready": 3,
-    "streak_min": 2866.5,
-    "verdict": "FLAG:supply_gap",
+    "latest_ts": "2026-10-10 23:43:07",
+    "py_pct": 33.2,
+    "cpu_pct": 20.0,
+    "ready": 0,
+    "streak_min": 2986.9,
+    "verdict": "FLAG:gpu_unauthorized,supply_floor",
     "py_series_tail": [
      [
-      "14:59",
-      9.2
+      "21:37",
+      3.4
      ],
      [
-      "15:53",
-      0.5
-     ],
-     [
-      "17:31",
-      1.3
-     ],
-     [
-      "18:36",
-      1.4
-     ],
-     [
-      "19:30",
-      10.4
-     ],
-     [
-      "19:30",
-      0.7
-     ],
-     [
-      "19:50",
-      5.9
-     ],
-     [
-      "20:19",
-      8.0
-     ],
-     [
-      "20:41",
+      "21:39",
       5.3
-     ],
-     [
-      "21:15",
-      6.1
-     ],
-     [
-      "21:18",
-      10.6
      ],
      [
       "21:42",
       6.9
+     ],
+     [
+      "21:44",
+      16.4
+     ],
+     [
+      "22:21",
+      0.4
+     ],
+     [
+      "22:56",
+      4.1
+     ],
+     [
+      "23:16",
+      6.0
+     ],
+     [
+      "23:25",
+      4.7
+     ],
+     [
+      "16:13",
+      18.6
+     ],
+     [
+      "16:27",
+      6.0
+     ],
+     [
+      "23:17",
+      5.8
+     ],
+     [
+      "23:43",
+      33.2
      ]
     ],
-    "today_samples": 65,
-    "today_floor_ok": 65,
+    "today_samples": 74,
+    "today_floor_ok": 67,
     "today_sla_flags": 57,
-    "today_supply_gap_flags": 64
+    "today_supply_gap_flags": 72
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -875,19 +875,19 @@
   "day": "2026-10-10",
   "machines": {
    "bm-a": {
-    "batches_judged": 22,
-    "core_seconds": 4885.4,
-    "wall_seconds": 874.2,
-    "effective_cores": 5.59,
-    "single_core_burn": 10,
+    "batches_judged": 23,
+    "core_seconds": 4931.1,
+    "wall_seconds": 934.9,
+    "effective_cores": 5.27,
+    "single_core_burn": 11,
     "multicore_burn": 12,
     "too_short": 0,
-    "last_ts": "2026-10-10T21:41:28+08:00",
+    "last_ts": "2026-10-10T22:53:31+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-10 22:21:21"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-10 23:17:15"
     }
    },
    "bm-b": {
@@ -919,7 +919,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-10 21:42:44"
+     "audit_ts": "2026-10-10 23:43:07"
     }
    }
   },
@@ -930,7 +930,7 @@
   "last_registered": 204,
   "last_owner": "bm-c",
   "next_registration": 205,
-  "next_seatable": 205,
+  "next_seatable": 208,
   "chain_head": 864387,
   "k": 446720,
   "waves": [
@@ -992,7 +992,16 @@
     "k": 446720
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 206,
+    "machine": "bm-c"
+   },
+   {
+    "wave": 207,
+    "machine": "bm-b"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
