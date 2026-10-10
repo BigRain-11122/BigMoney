@@ -28,3 +28,5 @@
 
 - [2026-10-08 22:2x r780 bm-c] **坑律在件≠模板链已治愈律（r749 跨机律误用坑 9 连复发实弹）**：r750 已把「收尾脚本误采 ROOT 冻结面」入 pit-protocol-lane.md 并治愈单案，但 r771-r779 close 模板链仍逐轮克隆前身的「ROOT round_reports-bm-c.md per r844 law」docstring 引用→九轮 10 行连落孤儿件·正典面 last-write 停 r770 三小时铁证（r780 行级 union 治愈·receipt _r780bmc_ledger_heal_receipt.json）。根因=坑律入域件后未回扫进正被克隆的模板源（close 脚本 docstring 法引用面）。How to apply：①坑律定性含「模板/脚本链」面时，除入 pit 件外必须同窗手术正被克隆的模板源（删错误法引用+改正典面指针）；②克隆 close/append 类脚本先核 docstring 法引用与当轮实况一致再执行；③轮账本落行后必查正典面尾行轮号==本轮号（r780 修复后 close 模板=正典面直写零 ROOT 触碰）。
 - 对账行 r780 bm-c: entry bytes=974 sha16=08dd0df93e12495a verbatim-in-file (r844/r865/r750 family domain move per r731/r735 precedent; receipt=results/_r780bmc_codely_minisplit.json)
+
+- [2026-10-10 05:5x r818 bm-b] **心跳大列表字段禁全文件手写重录（转录腐坏未出门 HEAD blob 正典治愈）**：收尾重写 fleet/machines/bm-b.json 时 orders_ack 184 条目列表手工重打=11 件条目名 202609xx/202610xx 位换腐坏（O-20261007→O-20260907 族）——差集机制恰好是 tech 队列 T17 的存在理由，本轮自伤实证其必要性；治愈=git show HEAD:fleet/machines/bm-b.json 取正典 blob 只回填 orders_ack 单字段+T17 式 glob×ack 差集断言零未回执零幻影（收据 results/_r818bmb_ack_heal.json）。How to apply：心跳/台账类含大列表字段的文件更新=脚本加载-改字段-落盘（禁整文件手打重录）；腐坏已发生时以 HEAD blob 为正典源恢复受染字段+差集验证收口。
