@@ -16646,6 +16646,39 @@
    "result_ref": "results/thermo_overlay_p1/thermo_overlay_p1_results.json (0/6 full-chain honest multi-cell negative per frozen sec.5; M1 4/6 P100/P500/P1000/H16; F6 P1000 17<30 per sec.5.3; best P1000 Sharpe 0.6509 +0.047 vs passive, maxdd zero improvement; gate_attrition judgment row ledger 862,151; prereg sec.7/8 backfilled commit 0039da1c7; claim closed ok 05:02:41 pid 5476)",
    "done_at": "2026-10-10T05:02:41+08:00",
    "note": "r943 bm-a done-flip (stale-ready heal): burn completed 05:02:41 + verdict absorbed r942 (sec.7/8 + attrition row + T-181 done) but entry flip was missed -- watermark red pool-batch-runnable-idle-low-cpu root cause; claim file closed-ok evidence results/pool_claims/THERMO-OVERLAY-P1-BURN/thermo-overlay-p1-burn-0of1.bm-a.json"
+  },
+  {
+   "id": "N2-MP1",
+   "ticket_ref": "tech.md T24 row (r867 bm-b registered+claimed; TRIAL_LABOR_LAW standing line + W19/W20 sec.8 consumption pointer; prereg FROZEN bm-b r868 commit 0b1be1745; supply-floor response: audit FLAG pool_starvation+supply_floor ready=0<3 this window; hypothesis falsifiable: pool selected on cross-sectional |ICIR| survival, per-instrument time-series quantile-gate usage may still discriminate 20d forward -- usage-swap independent hypothesis r433)",
+   "prereg_ref": "research/N2_MP1_PREREG.md FROZEN v1.0 (89 computable of 96-member material pool W19 48 + W20 48, 7 CSRANK excluded single-instrument degenerate; 178 gates two-side rolling(252,min120) q10/q90; h=20 fwd T+1 next-close; IS<=2016-12-31/OOS>=2017-01-01; cost 0.10% RT; stride-20 thinning; verdict=gate_verify verbatim; buckets pit-95/r431 strict; evidence_cutoff 2026-10-09; anchor G-ANCHOR-MP1 510300 DELTA(VOLUME,30)_q10 decidable==3341 open==390 first-idx==149 r867 probe verbatim, live-reproduced r868)",
+   "consumer_plan": "N2-MP1 run shard 0of1 -> results/mp1_tsgate_p1/shard_0of1.jsonl (append-per-inst checkpoint, resume cross-kill) -> finalize (any healthy machine, refuse-if-exists) -> results/mp1_tsgate_p1.json + research/MP1_TSGATE.md -> PASS gates earn gate_verify-style independent-recheck candidacy -> T-101 v4 regime-gate candidate library; PARTIAL -> C1 input-feature candidate list; FAIL = pool member time-series-gate usage line closed (wave-1 negative closeout lawful, O-1820); secondary consumers T-74 L5 ladder features; non-trial ledger (marks +0 SEED +0)",
+   "runner": "scripts/mp1_tsgate_probe.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-11 07:34:06",
+   "data_gates": "in-runner fail-closed exit 2 every invocation: G-PANEL (csvs>=1500 + five-member present) + G-CUTOFF (five tails<=2026-10-09; 510300 truncated rows==3490) + G-FACTORS (89 formulas not-all-NaN + decidable>=500 on anchor + gate-order identity pin vs pool face) + pool-identity drift guards (96/89/7/0 + anchor top-|h1_ic_ir| pin) + G-ANCHOR-MP1 (dec==3341 open==390 first-idx==149); no host gates (pure pandas CPU, any machine); RAM trivial (<1GB)",
+   "shards": [
+    {
+     "key": "n2-mp1-run-0of1",
+     "status": "ready",
+     "checkpoint": "results/mp1_tsgate_p1/shard_0of1.jsonl (append-per-instrument done-set resume, r340 incremental law)",
+     "note": "worker_cap() parallelism inside the shard via parallel_runner (ProcessPool, __main__ guarded); multi-shard i%shards split legal on partial claim",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 12,
+    "priority": "BelowNormal",
+    "note": "est serial ~4-8min / 12-worker ~1-2min; 1,013 insts (>=500 bars) x 89 formulas x 178 gates; deterministic; zero engine, zero network, zero token; selftest 30/30 hermetic; per-instrument checkpoint flush via on_result"
+   }
   }
  ]
 }
