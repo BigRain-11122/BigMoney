@@ -11,7 +11,7 @@ def run(cmd):
     return r.returncode, (r.stdout or "") + (r.stderr or "")
 
 def uu_paths():
-    rc, out, _ = run(["git", "ls-files", "-u"])
+    rc, out = run(["git", "ls-files", "-u"])
     return sorted(set(l.split("\t")[1] for l in out.splitlines() if "\t" in l))
 
 def marker_scan(paths):
@@ -33,12 +33,17 @@ if out.strip():
 else:
     print("[1] tree clean, no absorb needed")
 
-# step 2: fetch
+# step 2+3: fetch + rebase with churn-absorb retry loop (r784/r815: daemon rewrites race the window)
 rc, out = run(["git", "fetch", "origin"])
 print(f"[2] fetch rc={rc}")
-
-# step 3: rebase onto origin/main (single try; conflicts auto-resolved below)
 rc, out = run(["git", "rebase", "origin/main"])
+if rc != 0 and "commit or stash" in out:
+    for attempt in range(3):
+        run(["git", "add", "-A"])
+        run(["git", "commit", "-m", "race absorb retry: daemon churn window"])
+        rc, out = run(["git", "rebase", "origin/main"])
+        if rc == 0:
+            break
 print(f"[3] rebase rc={rc} :: {out.strip().splitlines()[-1][:120] if out.strip() else ''}")
 
 # step 3b: auto-resolve loop (max 5)
