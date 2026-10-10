@@ -1,0 +1,66 @@
+"""r865 bm-b HANDOVER 5x window row append (window r806-r865, overdue-backlog compact)."""
+import io
+import os
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+ROW = (
+    "> bm-b round 865 五倍数核对（2026-10-11 06:4x·增量窗 r806-r865 六十轮·前窗 "
+    "r686-r800 已由 r800 行+r805 行覆盖·OVERDUE-BACKLOG DISCLOSED: r810..r860 "
+    "各 5x stamp 未落——窗口承载 tech 队列出列纪元+P3 调研队列纪元+429 风暴科学"
+    "处置纪元+r834 删库事故恢复纪元+alphagen N2 全弧纪元；per r420/r500/r770/"
+    "r790 precedent 单窗紧凑覆盖零回改零伪造；逐轮权威=logs/iteration-loop/"
+    "round_reports.md 全行在册）：窗口主线=**六纪元并进**——①**tech 队列出列纪元"
+    "（r807-r820）**：T8 minute_feed 完备性校验器+T9 scorecard landing_hooks 判词"
+    "面+T12 QA 证据包归档轮转探针+T13 D-19 水位写侧完整性守卫+T16 dualarm §1 契约"
+    "适配器逐件出列+S6 全链 rc0 长窗+5x 补账窗 r781-r820；②**P3 explore 调研队列"
+    "纪元（r821-r828）**：E1 可转债 T+0 数据面/E2 期权域 CEO 令冲突判负收口（O-"
+    "20260909-1105 令面优先律首例）/E3 北向资金源可达性/E4 央行 OMO（价格联动正向"
+    "副产出）/E7 行业轮动 ETF 网格族/E8 商品期货跨期价差六件调研判读收口；③"
+    "**429 风暴科学处置纪元（10-09~10-10·CODELY 判例三条）**：云端限流定谳+六车道"
+    "SWA true→false S4U 重注册（唤醒同秒羊群根治）+.env 双假设覆盖投放+settings "
+    "死 MCP 清理（429 风暴后全车道 70+ 轮全绿 429×0 实证）；④**r834 删库事故恢复"
+    "纪元（10-10）**：bigmoney 整树递归删除事故（.git+13 面全灭）分离克隆恢复配方"
+    "（reset --mixed+定向 checkout 禁 hard）+r840 astock_daily gate P0 修复（"
+    "gitignored per/*.csv 5,217 件毁而 tracked 状态件宣称 complete=假新鲜死锁→"
+    "盘面守卫）+P0 坑律三条入 CODELY（子仓递归删除硬停/零树触碰消费/kill 宣称必"
+    "复核 PID）；⑤**engine 席位与 CEO 令线**：r836 M-1 政体轴冻结（O-1725 提前 1 "
+    "日）+r838 idle_trigger vram 解耦（CEO 令同轮认领完工）+T-183 双认领后到让路"
+    "判例+r839 O-2006 resume+r844/r845 backlog row-9 CPH4 tile bench（editor-"
+    "batchmode 8/8 GREEN ≤19,728 tiles/frame）+r848-852 W207 席位+prereg+freeze-"
+    "prep（never-dry 线·W210 席随 W209 链守）+r863 pool-EOL 跨机裁定回执（pf "
+    "selftest 9/9）+push-race/死会话吸收链全窗（claw 正拦 fail-closed 多例实证）；"
+    "⑥**alphagen N2 全弧纪元（r840-r865·本窗主产线）**：r840 T23 slice-1 范式评估"
+    "POSITIVE-with-riders→r841 census runner 建成→r858 随机语法全量普查族级校准"
+    "census_holds=true（max 0.353>null p95 0.139·48 unique/64 draws）→r859-r861 "
+    "W18 反馈搜索首烧全弧（冻结+烧录拒烧 pooled 288<300=UNJUDGEABLE 非判负·§8 "
+    "下波修正令=损耗实证重定价）→r862-r864 W19 全弧（起草探针损耗重放 8+6+2→48 "
+    "ok 逐位对账 288→runner 27/27→三带注册 736_000/736_500/737_000 derive 撞 W18 "
+    "halo 步进 7 槽→**冻结+判读烧录同轮 V1=HOLDS**：族 max 0.38>pooled null p95 "
+    "0.086·pooled 336≥300 充分线一次越过（W18 欠账清偿）+D1 杠杆正信号 0.38 vs "
+    "census 0.353（单读数零强宣称）+M1 9/48 正方向 t≥3.0+损耗分解成功面全落盘+账本 "
+    "876,731→877,227+TREASURE 素材池 48 式+9 M1 候选带）→r865〔本 5x 轮〕**W20 "
+    "复现波 slice-1**（prereg DRAFT+9 面起草探针+runner 克隆 selftest 28/28："
+    "RP1 [0.20,0.45] 带复现/RP2 杠杆 2/2-1/2 复现读数面预声明·新去重源=W19 "
+    "enrolled 51 式并入 T-84s3 防零公式重烧·B=7 闸内唯一预算·derive 只读 X=739,500 "
+    "步进过 W19 halo·冻结+判读烧录=下轮）。产品清单漂移（增量代表非全列）="
+    "scripts/t23_random_grammar_census.py+scripts/alphagen_beam_w1{8,9}.py+"
+    "scripts/alphagen_beam_w20.py+research/PERPETUAL_N2_W1{8,9}_PREREG.md+"
+    "research/PERPETUAL_N2_W20_PREREG.md+results/t23_census/CENSUS-2026-10-09."
+    "json+results/alphagen_w1{8,9}/*+results/alphagen_w20/probe_latest.json+"
+    "results/_r86[0-5]bmb_* 工件族+scripts/idle_trigger.py vram 解耦面+results/"
+    "_r834bmb_RECOVERY_RUNBOOK.md+r840 astock gate 修复面。池态与维护面=统一链 "
+    "877,227 实读平持（W19 后零入账·W20 冻结窗候）；S6 38→41 腿 rc0 长窗（alloc "
+    "rc2=510880 已知 stale-leg 面长窗携带·dualrun ZERO-DRIFT streak 51）；smoke "
+    "48→49/49；attrition 4 台账 CLEAN；orders 双扫零未回执长窗（67/192/0）；D-19 "
+    "双水位 MATCH 长窗（dec caca0c6e/ord f90233c7）；四件套幂等（pin=2 no-op）。"
+    "指针：**W20 冻结窗+判读烧录（下轮 r866·RP1/RP2 复现定谳面=反馈搜索杠杆 2/2 "
+    "或 1/2）+素材池消费 prereg 评估窗 ≤10-13（A158-TSGATE-P1/A10 先例门·独立轨）"
+    "+W210 席守（bm-a W208/W209 链落链即动）+月界首考 10-31**；下一 5x=bm-b r870。"
+    " [via bm-b r865]\n"
+)
+
+p = os.path.join(REPO, "research", "HANDOVER.md")
+with io.open(p, "a", encoding="utf-8", newline="\n") as f:
+    f.write(ROW)
+print("HANDOVER row appended, bytes=%d" % len(ROW.encode("utf-8")))
