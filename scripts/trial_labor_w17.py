@@ -65,6 +65,7 @@ except Exception:
     pass
 
 import trial_labor_w1 as tl1   # import-face reuse law (prereg sec.6)
+import science_gates           # M1 t-face: t_from_sharpe + m1_t_value_gate (frozen law import)
 import trial_labor_w2 as tl2   # survival math + dual-nulls + D6 core
 import trial_labor_w16 as tl16  # W16 runner: overlay states, exclusion
                                 # book loader, curve-caliber lineage
@@ -1799,8 +1800,9 @@ def cmd_judge_finalize() -> int:
         r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
                         else "insufficient-sample" if not r[
                             "sample_sufficient"] else "fail")
-        t_stat = tl1.t_from_sharpe(r["legL_sharpe_full"], len(rets))
-        r["t_face"] = tl1.m1_t_value_gate(t_stat)
+        # M1 t-face law (prereg sec.4): derivation lives in science_gates (frozen import)
+        t_stat = science_gates.t_from_sharpe(r["legL_sharpe_full"], len(rets))
+        r["t_face"] = science_gates.m1_t_value_gate(t_stat)
     # -- family PBO (CSCV 8 blocks; family = strategy module; <8 n/a)
     fam_map = {}
     for r in judged:
