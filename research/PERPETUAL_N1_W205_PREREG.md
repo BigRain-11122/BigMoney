@@ -54,10 +54,21 @@
 - 引擎台账：bm-a tick 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-a 118 行注册 + 本候选——以 probe leg0 机证为准）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
-## §7 跑后实证。【finalize 收口机械回填·待 W205 finalize 窗】
-- （占位·finalize one-pass 后机械回填：账本恒等式+合并池 K+merged mu/w-only mu/mu_delta+sigma+se_mu+skill_line_v2 K-lift+A 档 p95+§5 四预键机证+canon flip 态+audit.finalize_only+voids_applied）。
+## §7 跑后实证。【finalize 收口机械回填】
+- **finalize one-pass 已回填（bm-a r963·2026-10-11 01:1x·estate-continuation 窗：前 r963 会话死中途（W205 五面冻结 4e0f4bd4b 落链+引擎自烧 12/12 后死亡）→本窗补账 finalize）**：
+  - 账本恒等式：prev_total **865,971** + batch_trials **2,200** = total **868,171**（三键机读·science_gates.ledger；prev=届时空窗活链头 derive 非手抄——W204 finalize 头 864,387 与本窗 prev 865,971 差 1,584=他批合法 append·活链头 derive 律兑现）。
+  - 合并池 K=**448,920** EXACT（446,720+2,200·n_values 机读·§0 投影 448,920 精确兑现）。
+  - merged mu=**−0.092696** / w-only mu=**−0.092578** / w-only sigma=**0.242065** / merged sigma=**0.245082** / se_mu@K448,920=**0.000366**（se_mu 收窄链 …→W203 0.000368→W204 0.000367→W205 0.000366 单调收窄）。
+  - skill_line_v2 K-lift 对照：line_pre_w205 **1.1889** → line_merged@K448,920 **1.1889**（delta **+0.0000**·n_eff_held_equal 865,971·formula max(passive+0.10, mu+sigma*sqrt(2*ln N_eff))）。
+  - §5 四预键机证**全 PASS**：①W205-only mu −0.092578 vs W204 merged 键 −0.092697 差 0.000119<0.02（机器键 mu_delta_w205_vs_w204ext=−0.006571=W205-only vs W204-only(−0.086008) 对照面如实注记）②merged sigma 0.245082 vs W204 键 0.245097 相对 −0.006%<±10% ③A 档 full_sharpe_p95=**0.3069** vs W204 A 档 0.3053 差 0.0016<0.05 ④K-lift |+0.0000|≤0.02。附注：A 档 full_sharpe_p99=0.4354·B 档 n=200（出场面族·p95 不适用同 W203/W204 例）。
+  - canon flip 态=**NOT performed**（治理提案面 only·K2200 同例）。
+  - audit.finalize_only=true·machine=bm-a；voids_applied=[LOWAMP-P1, LOWAMP-P2]；shards_consumed=12/12（shard-0..11-of-12.json·分片 0-7 前窗 commit 4e0f4bd4b、8-11 本窗 absorb 39ea207d4）；evidence_cutoff=2026-09-22+science_gates.cutoff_meta 双写在位（science_audit C2 强字）。
+  - 产物=results/perpetual_faces/n1_w205_results.json（finalize one-pass·幂等禁重跑=r538 律）。
 
-## §8 批后复盘。【finalize 同窗回填·待 W205 finalize 窗】
-- （占位·§5.5 W206+ 投影承接+宝藏/方法论捕获问+诚实披露面·finalize 收口窗机械回填）。
+## §8 批后复盘。【finalize 同窗回填】
+- **批后复盘（bm-a r963 同窗回填）**：
+  - §5.5 W206+ 投影承接机证：W206 席位 MSG-20261010-2323-bmc 已声明 A **468_004..470_003**（=本波 §5.5 投影 A 467_804..469_803 被 W205 B 带 467_804..468_003 拒后 1 hop·阶梯 A-hops-prior-B 继承第六十六例待 W206 冻结窗机证）+B 按同窗互斥律重 derive；W207=bm-b freeze-prep 在册；**W208=本窗席位先行面（bm-a 下一自有波·O-20261010-2350 执法二条 seat-first 律）**。
+  - 宝藏/方法论捕获问：本批新方法=**「混合时间戳格式字典序假序坑」**（twin-resolver deep-ts 探针对 "2026-10-11 00:48:00"（空格面）与 "2026-10-11T00:47:32+08:00"（T 面）做裸字符串 max 比较——空格(0x20)<T(0x54) 使空格面恒小=跨格式假序，本窗 REPORT twin 实弹当场自捕并改判 :2:（origin 00:48:00 实新于 replay 00:47:32）零错账落地）；正法=探针比较前归一（空格→T、剥时区后缀）或 datetime 解析比较——已入 knowledge/METHODOLOGY_ASSETS.md。TREASURE_REGISTRY 零出入（方法由方法论卡承载·无新登记件）。
+  - 诚实披露面：①本波=estate-continuation 收口：前 r963 会话死中途（五面冻结+引擎 12/12 自烧完成·finalize 未跑）→rogue-deleter 双面愈合（absorb 4/5）→本窗吸收分片 8-11+finalize one-pass；②账本 prev 865,971 vs W204 头 864,387 差 1,584=他批（W17-JUDGE 让渡等）合法 append·活链头 derive 非手抄；③本窗 S0 双 rebase 风暴（19+13+3 面）canon-resolved 零 abort 零 --no-verify。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。
