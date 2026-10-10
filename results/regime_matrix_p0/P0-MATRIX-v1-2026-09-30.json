@@ -1,0 +1,644 @@
+{
+ "adjudication_nature": "attribution reslice of judged streams; NOT a new criterion claim (order sec.4)",
+ "batch": "REGIME-MATRIX-P0-V1",
+ "deposit_baseline_5y": 0.013,
+ "deposit_baseline_source": "major-bank 5y posted rate 2026-09 ~1.30%/yr (research/DIRECTION_REVIEW_BM_INPUT.md); CEO law O-1705",
+ "dup_stream_disclosure": "upstream duplicate streams: LA-EQ==LA-REP -- family EW overweights these; disclosed per honesty law",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-10-10T21:21:57",
+ "order_ref": "O-20261010-1725-bm-a.md + O-20261010-1825 sec.2.4",
+ "regime_axis": {
+  "label_cutoff": "2026-09-30",
+  "labels_file": "results/regime5_labels/REGIME5-2026-09-30.json",
+  "n_label_days": 3289,
+  "panic_canonical": "bm-b canonical per REGIME_AXIS_PANIC_RECONCILIATION.md",
+  "panic_file": "results/regime_axis_m1/panic_windows.json",
+  "panic_n_days": 25,
+  "panic_n_windows": 12
+ },
+ "rows": [
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.20683361583617677,
+      "median": 0.04673114442113602,
+      "min": -0.012902822149084892,
+      "n": 777,
+      "p25": 0.021994477835495463,
+      "p75": 0.12252492748496357,
+      "pos_share": 0.9806949806949807
+     },
+     "sharpe_median": 1.900083125453211,
+     "worst_dd": -0.038133718906672276
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.13015534893896197,
+      "median": 0.027216816561615786,
+      "min": -0.006450863857429434,
+      "n": 191,
+      "p25": 0.002410980641266547,
+      "p75": 0.06254234534827685,
+      "pos_share": 0.8481675392670157
+     },
+     "sharpe_median": 0.8482854688074972,
+     "worst_dd": -0.05042404270528866
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.19360916842623643,
+      "median": 0.027744093561538063,
+      "min": -0.0160142541924011,
+      "n": 1833,
+      "p25": 0.005917641745950997,
+      "p75": 0.04012613208929605,
+      "pos_share": 0.8221494817239499
+     },
+     "sharpe_median": 1.199401294715226,
+     "worst_dd": -0.05042404270528866
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.20683361583617677,
+      "median": 0.039000396371731694,
+      "min": -0.010181252772858418,
+      "n": 1566,
+      "p25": 0.022865037610689032,
+      "p75": 0.05895319973740559,
+      "pos_share": 0.929757343550447
+     },
+     "sharpe_median": 1.5903274300719923,
+     "worst_dd": -0.05042404270528866
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.14402819551559087,
+      "median": 0.036846482275773695,
+      "min": -0.012116175208649826,
+      "n": 86,
+      "p25": 0.028443622465369134,
+      "p75": 0.03961537942764071,
+      "pos_share": 0.9534883720930233
+     },
+     "sharpe_median": 2.2363880885721157,
+     "worst_dd": -0.038133718906672276
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.18288815683466653,
+      "median": 0.03449220656271623,
+      "min": -0.007722777682776294,
+      "n": 90,
+      "p25": 0.011097211470718626,
+      "p75": 0.04888449535959449,
+      "pos_share": 0.8888888888888888
+     },
+     "sharpe_median": 1.9498529739988681,
+     "worst_dd": -0.04165250610487514
+    }
+   },
+   "id": "lowamp-LA-EQ",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.027216816561615786,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.027744093561538063,
+      "n": 1833,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.036846482275773695,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.03449220656271623,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.1902432375476495,
+      "median": 0.04651816722206026,
+      "min": -0.002441875380358005,
+      "n": 777,
+      "p25": 0.0228330953863618,
+      "p75": 0.11474108423305474,
+      "pos_share": 0.9987129987129987
+     },
+     "sharpe_median": 1.8703130677100928,
+     "worst_dd": -0.043594673029740405
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.1312738666860438,
+      "median": 0.02830375347867431,
+      "min": -0.012031221308151596,
+      "n": 191,
+      "p25": 0.0009152787750135172,
+      "p75": 0.05745585047517099,
+      "pos_share": 0.7905759162303665
+     },
+     "sharpe_median": 0.7822676862259699,
+     "worst_dd": -0.05465807691766578
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.17984070091275273,
+      "median": 0.027698293996559542,
+      "min": -0.028585832678020284,
+      "n": 1833,
+      "p25": 0.0047268106539550825,
+      "p75": 0.04076822227066268,
+      "pos_share": 0.8046917621385706
+     },
+     "sharpe_median": 1.2027694296287577,
+     "worst_dd": -0.05465807691766578
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.1902432375476495,
+      "median": 0.0386689227830721,
+      "min": -0.010300199606711913,
+      "n": 1566,
+      "p25": 0.013733598360794852,
+      "p75": 0.05740461244416617,
+      "pos_share": 0.929757343550447
+     },
+     "sharpe_median": 1.5570905975266098,
+     "worst_dd": -0.05465807691766578
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.14633769665622198,
+      "median": 0.03763653575382786,
+      "min": -0.012427401312283703,
+      "n": 86,
+      "p25": 0.028805177988547315,
+      "p75": 0.040095569736863734,
+      "pos_share": 0.9534883720930233
+     },
+     "sharpe_median": 2.260741761853911,
+     "worst_dd": -0.043594673029740405
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.16792415804223593,
+      "median": 0.03532235548563922,
+      "min": -0.0065155915965681155,
+      "n": 90,
+      "p25": 0.011502574754753636,
+      "p75": 0.04948915561767925,
+      "pos_share": 0.8777777777777778
+     },
+     "sharpe_median": 1.7153685775008465,
+     "worst_dd": -0.04417795739660235
+    }
+   },
+   "id": "lowamp-LA-EDGE",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.02830375347867431,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.027698293996559542,
+      "n": 1833,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.03763653575382786,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.03532235548563922,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.20683361583617677,
+      "median": 0.04673114442113602,
+      "min": -0.012902822149084892,
+      "n": 777,
+      "p25": 0.021994477835495463,
+      "p75": 0.12252492748496357,
+      "pos_share": 0.9806949806949807
+     },
+     "sharpe_median": 1.900083125453211,
+     "worst_dd": -0.038133718906672276
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.13015534893896197,
+      "median": 0.027216816561615786,
+      "min": -0.006450863857429434,
+      "n": 191,
+      "p25": 0.002410980641266547,
+      "p75": 0.06254234534827685,
+      "pos_share": 0.8481675392670157
+     },
+     "sharpe_median": 0.8482854688074972,
+     "worst_dd": -0.05042404270528866
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.19360916842623643,
+      "median": 0.027744093561538063,
+      "min": -0.0160142541924011,
+      "n": 1833,
+      "p25": 0.005917641745950997,
+      "p75": 0.04012613208929605,
+      "pos_share": 0.8221494817239499
+     },
+     "sharpe_median": 1.199401294715226,
+     "worst_dd": -0.05042404270528866
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.20683361583617677,
+      "median": 0.039000396371731694,
+      "min": -0.010181252772858418,
+      "n": 1566,
+      "p25": 0.022865037610689032,
+      "p75": 0.05895319973740559,
+      "pos_share": 0.929757343550447
+     },
+     "sharpe_median": 1.5903274300719923,
+     "worst_dd": -0.05042404270528866
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.14402819551559087,
+      "median": 0.036846482275773695,
+      "min": -0.012116175208649826,
+      "n": 86,
+      "p25": 0.028443622465369134,
+      "p75": 0.03961537942764071,
+      "pos_share": 0.9534883720930233
+     },
+     "sharpe_median": 2.2363880885721157,
+     "worst_dd": -0.038133718906672276
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.18288815683466653,
+      "median": 0.03449220656271623,
+      "min": -0.007722777682776294,
+      "n": 90,
+      "p25": 0.011097211470718626,
+      "p75": 0.04888449535959449,
+      "pos_share": 0.8888888888888888
+     },
+     "sharpe_median": 1.9498529739988681,
+     "worst_dd": -0.04165250610487514
+    }
+   },
+   "id": "lowamp-LA-REP",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.027216816561615786,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.027744093561538063,
+      "n": 1833,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.036846482275773695,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.03449220656271623,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.265024978581456,
+      "median": 0.05884372530504267,
+      "min": -0.019677605876517346,
+      "n": 777,
+      "p25": 0.024446823044521837,
+      "p75": 0.09805800294976486,
+      "pos_share": 0.9781209781209781
+     },
+     "sharpe_median": 1.8301829387531543,
+     "worst_dd": -0.05108905984036993
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.20180926371164576,
+      "median": 0.01888846189067217,
+      "min": -0.02142379762655877,
+      "n": 191,
+      "p25": -0.0009851291427382391,
+      "p75": 0.0699383713756937,
+      "pos_share": 0.6963350785340314
+     },
+     "sharpe_median": 0.3974506280497619,
+     "worst_dd": -0.07426203088666805
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.24478814396804993,
+      "median": 0.028436112923705625,
+      "min": -0.026700534887228677,
+      "n": 1833,
+      "p25": 0.009971301965732371,
+      "p75": 0.04161342397992507,
+      "pos_share": 0.8472449536279324
+     },
+     "sharpe_median": 1.0859642272683145,
+     "worst_dd": -0.07426203088666805
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.23451234994754588,
+      "median": 0.04089302714224663,
+      "min": -0.026700534887228677,
+      "n": 1566,
+      "p25": 0.014283704085829352,
+      "p75": 0.07045144221488198,
+      "pos_share": 0.8473818646232439
+     },
+     "sharpe_median": 1.340927492810808,
+     "worst_dd": -0.07426203088666805
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.22538101300408853,
+      "median": 0.03665772138948975,
+      "min": -0.012039091703662574,
+      "n": 86,
+      "p25": 0.03054808526586439,
+      "p75": 0.0460484180878985,
+      "pos_share": 0.9651162790697675
+     },
+     "sharpe_median": 1.6316659177280517,
+     "worst_dd": -0.05108905984036993
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.12316863772195319,
+      "median": 0.04265376737489113,
+      "min": -0.017311798357139474,
+      "n": 90,
+      "p25": 0.014785386910370513,
+      "p75": 0.062257823715117566,
+      "pos_share": 0.8333333333333334
+     },
+     "sharpe_median": 1.531860603191477,
+     "worst_dd": -0.052598748947409124
+    }
+   },
+   "id": "lowamp-LA-T3",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.01888846189067217,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.028436112923705625,
+      "n": 1833,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.03665772138948975,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.04265376737489113,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.19829405875803263,
+      "median": 0.04961093452829268,
+      "min": -0.01056397840496881,
+      "n": 777,
+      "p25": 0.02275234067241505,
+      "p75": 0.11882905880538885,
+      "pos_share": 0.9858429858429858
+     },
+     "sharpe_median": 1.9333548180926121,
+     "worst_dd": -0.04183459435269554
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.14810779611234692,
+      "median": 0.027535266521187873,
+      "min": -0.009631301389173563,
+      "n": 191,
+      "p25": 0.0008248748126492567,
+      "p75": 0.058895934299114994,
+      "pos_share": 0.8167539267015707
+     },
+     "sharpe_median": 0.7104792224650188,
+     "worst_dd": -0.055405804315711626
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.191073920257659,
+      "median": 0.027351884515986802,
+      "min": -0.01722200324770229,
+      "n": 1833,
+      "p25": 0.005753348495976196,
+      "p75": 0.04072715645478775,
+      "pos_share": 0.8134206219312602
+     },
+     "sharpe_median": 1.2106020859734425,
+     "worst_dd": -0.055405804315711626
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.18786052518790486,
+      "median": 0.039990267678990055,
+      "min": -0.014361369478804398,
+      "n": 1566,
+      "p25": 0.018032001502924777,
+      "p75": 0.059035439405993706,
+      "pos_share": 0.9080459770114943
+     },
+     "sharpe_median": 1.5689683911418721,
+     "worst_dd": -0.055405804315711626
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.16460127018467796,
+      "median": 0.03768162237865358,
+      "min": -0.009035816471312907,
+      "n": 86,
+      "p25": 0.027568183521401335,
+      "p75": 0.03994627696416697,
+      "pos_share": 0.9534883720930233
+     },
+     "sharpe_median": 2.0387695132376673,
+     "worst_dd": -0.04183459435269554
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.16382070653848468,
+      "median": 0.03620921656064602,
+      "min": -0.009503267634184742,
+      "n": 90,
+      "p25": 0.010096552170028583,
+      "p75": 0.052447324501374015,
+      "pos_share": 0.8555555555555555
+     },
+     "sharpe_median": 1.7962844823856974,
+     "worst_dd": -0.04502745006933839
+    }
+   },
+   "id": "lowamp-FAMILY-EW",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.027535266521187873,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.027351884515986802,
+      "n": 1833,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.03768162237865358,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.03620921656064602,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {},
+   "group": "four-asset",
+   "home": null,
+   "id": "four-asset-corebook",
+   "source": "candidate: results/cross_start_robustness/face_b.json (summary only, Jan starts); daily stream not materialized in-library",
+   "status": "awaiting_stream",
+   "verdicts": null
+  },
+  {
+   "cells": {},
+   "group": "defensive-six",
+   "home": "BEAR",
+   "id": "six-members",
+   "source": "candidate: corebook_closeout_p1 faces reference source artifacts by sha; sleeve stream files not pinned this slice",
+   "status": "awaiting_stream",
+   "verdicts": null
+  },
+  {
+   "cells": {},
+   "group": "system-v1",
+   "home": null,
+   "id": "SYSTEM-V1",
+   "source": "results/system_v1_paper/SYSTEM-V1_paper.json -- paper since 2026-09-24, 12m windows exist only after 2027-09",
+   "status": "insufficient_history",
+   "verdicts": null
+  },
+  {
+   "cells": {},
+   "group": "dip-rebound",
+   "home": "BEAR",
+   "id": "dip-rebound-trio",
+   "source": "declared bear-market weapon (O-1725 sec.2 P0); stream file not pinned this slice",
+   "status": "awaiting_stream",
+   "verdicts": null
+  },
+  {
+   "cells": {},
+   "group": "theme",
+   "home": "BULL",
+   "id": "theme-wave-rider",
+   "source": "declared bull-market weapon (O-1725 sec.2 P0); T-173 batch artifacts not pinned this slice",
+   "status": "awaiting_stream",
+   "verdicts": null
+  }
+ ],
+ "schema": "regime_matrix_p0_v1",
+ "small_sample_disclosure": "EXTREME column spans only ~25 panic days over full history -> low power, honest disclosure per order sec.4",
+ "ticket": "T-2026-10-10-182",
+ "window": {
+  "bars": 252,
+  "convention": "regime at window start (all starts)"
+ },
+ "zero_burn": true
+}
