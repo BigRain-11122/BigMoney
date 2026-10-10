@@ -1,5 +1,5 @@
 ===== smoke_test =====
-== Bigmoney smoke test 2026-10-10 09:34:57 ==
+== Bigmoney smoke test 2026-10-10 09:42:34 ==
 [PASS] env: core deps | numpy 2.2.6, pandas 3.0.6, scipy 1.16.1
 [PASS] config: paths | root=bigmoney, daily=K:\Fluxgroup\FluxGroup\quant\bigmoney\data\daily
 [PASS] config: param grid | 432 combos (expect 432)
@@ -21,20 +21,20 @@
 [PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 10/10 PASS
 [PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
 [PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
-[PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791593341 clock=2026-10-10T08:49:01+08:00
+[PASS] fleet: heartbeat epoch fields present | bm-c: epoch=1791581219 clock=2026-10-10T05:26:59+08:00
 
 Summary: 49/49 PASS, 0 FAIL
-[rc=0 elapsed=87.7s]
+[rc=0 elapsed=68.5s]
 ===== orphan_face_probe =====
-{"py_faces": 17, "orphans": 1, "killed": [], "report": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_orphan_face_probe.bm-c.json"}
-[rc=0 elapsed=30.0s]
+{"py_faces": 20, "orphans": 1, "killed": [], "report": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_orphan_face_probe.bm-c.json"}
+[rc=0 elapsed=29.1s]
 ===== satengine_status =====
 {
  "machine_id": "bm-c",
  "state_present": true,
  "alive_flag": true,
- "heartbeat_epoch": 1791596156,
- "heartbeat_age_s": 61.70961332321167,
+ "heartbeat_epoch": 1791596589,
+ "heartbeat_age_s": 64.38918995857239,
  "burns_active": [],
  "queue_next": [],
  "wave_shards_done": {
@@ -54,4 +54,4 @@ Summary: 49/49 PASS, 0 FAIL
   }
  ]
 }
-[rc=0 elapsed=2.3s]
+[rc=0 elapsed=1.8s]
