@@ -5,7 +5,7 @@
  "deposit_baseline_source": "major-bank 5y posted rate 2026-09 ~1.30%/yr (research/DIRECTION_REVIEW_BM_INPUT.md); CEO law O-1705",
  "dup_stream_disclosure": "upstream duplicate streams: LA-EQ==LA-REP -- family EW overweights these; disclosed per honesty law",
  "evidence_cutoff": "2026-09-22",
- "generated": "2026-10-10T21:38:54",
+ "generated": "2026-10-10T23:31:26",
  "order_ref": "O-20261010-1725-bm-a.md + O-20261010-1825 sec.2.4",
  "regime_axis": {
   "label_cutoff": "2026-09-30",
@@ -588,22 +588,237 @@
    }
   },
   {
-   "cells": {},
-   "group": "four-asset",
-   "home": null,
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.2825176296962941,
+      "median": 0.07003356466209287,
+      "min": -0.034112521705740306,
+      "n": 755,
+      "p25": 0.03812956546381663,
+      "p75": 0.13743732513210827,
+      "pos_share": 0.9668874172185431
+     },
+     "sharpe_median": 1.275176681716921,
+     "worst_dd": -0.10646306951821782
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.16735639187219897,
+      "median": 0.038552284345397814,
+      "min": -0.056153144587874015,
+      "n": 191,
+      "p25": -0.015643602536018986,
+      "p75": 0.0812725205639091,
+      "pos_share": 0.6649214659685864
+     },
+     "sharpe_median": 0.48874151049960873,
+     "worst_dd": -0.12476519005254538
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.25741340296143345,
+      "median": 0.04229706419642354,
+      "min": -0.0737895403049299,
+      "n": 1825,
+      "p25": -0.0003255217220172746,
+      "p75": 0.11937263903858697,
+      "pos_share": 0.7484931506849315
+     },
+     "sharpe_median": 0.8610435624684328,
+     "worst_dd": -0.12476519005254538
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.25741340296143345,
+      "median": 0.0978165140353513,
+      "min": -0.0737895403049299,
+      "n": 1566,
+      "p25": 0.029451327599393395,
+      "p75": 0.13695893129982384,
+      "pos_share": 0.8505747126436781
+     },
+     "sharpe_median": 1.2704379313816307,
+     "worst_dd": -0.12476519005254538
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.19276030160928914,
+      "median": 0.04420962979651222,
+      "min": -0.050067421372624876,
+      "n": 86,
+      "p25": 0.03101164610757573,
+      "p75": 0.13587719073106375,
+      "pos_share": 0.7906976744186046
+     },
+     "sharpe_median": 1.0374430793935465,
+     "worst_dd": -0.10646306951821782
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.18198232657580737,
+      "median": 0.0342509228859027,
+      "min": -0.04193085322986123,
+      "n": 90,
+      "p25": -0.010527005516264787,
+      "p75": 0.12244014197285713,
+      "pos_share": 0.7
+     },
+     "sharpe_median": 0.4530874224671523,
+     "worst_dd": -0.07496287936188861
+    }
+   },
    "id": "four-asset-corebook",
-   "source": "candidate: results/cross_start_robustness/face_b.json (summary only, Jan starts); daily stream not materialized in-library",
-   "status": "awaiting_stream",
-   "verdicts": null
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": 0.07003356466209287,
+      "n": 755,
+      "verdict": "unhurt"
+     },
+     "BULL": {
+      "median": 0.038552284345397814,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.04229706419642354,
+      "n": 1825,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.04420962979651222,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.0342509228859027,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": null,
+    "home_pass": null,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
   },
   {
-   "cells": {},
-   "group": "defensive-six",
-   "home": "BEAR",
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 0.0954303858052683,
+      "median": 0.029908537137184887,
+      "min": -0.03607639415774677,
+      "n": 290,
+      "p25": 0.01609997473998992,
+      "p75": 0.05503076424541847,
+      "pos_share": 0.9448275862068966
+     },
+     "sharpe_median": 1.2161491594984364,
+     "worst_dd": -0.04777829655539889
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.07220850053803707,
+      "median": 0.04550264822112893,
+      "min": 0.03734313927885324,
+      "n": 47,
+      "p25": 0.041873017166284554,
+      "p75": 0.05958330794725342,
+      "pos_share": 1.0
+     },
+     "sharpe_median": 1.6084494202376873,
+     "worst_dd": -0.018745295366863424
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.09560312538160476,
+      "median": 0.03974731164423417,
+      "min": -0.039203427715046923,
+      "n": 923,
+      "p25": 0.015436270693444665,
+      "p75": 0.05767743677396309,
+      "pos_share": 0.781148429035753
+     },
+     "sharpe_median": 1.7441874705774247,
+     "worst_dd": -0.04777829655539889
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.09560312538160476,
+      "median": 0.05670086998326063,
+      "min": 0.011051625567168877,
+      "n": 522,
+      "p25": 0.044690799192519004,
+      "p75": 0.0730140442006551,
+      "pos_share": 1.0
+     },
+     "sharpe_median": 2.4028069083213865,
+     "worst_dd": -0.01686750511042323
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.07841058862393435,
+      "median": 0.044145892045874824,
+      "min": -0.036583701209404684,
+      "n": 68,
+      "p25": 0.025363041003399228,
+      "p75": 0.05855773038167811,
+      "pos_share": 0.75
+     },
+     "sharpe_median": 2.0944760592478953,
+     "worst_dd": -0.04777829655539889
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.08525090475372887,
+      "median": 0.0573960151846894,
+      "min": 0.011051625567168877,
+      "n": 50,
+      "p25": 0.03879544820656727,
+      "p75": 0.07009720276777304,
+      "pos_share": 1.0
+     },
+     "sharpe_median": 2.614487376362347,
+     "worst_dd": -0.018745295366863424
+    }
+   },
    "id": "six-members",
-   "source": "candidate: corebook_closeout_p1 faces reference source artifacts by sha; sleeve stream files not pinned this slice",
-   "status": "awaiting_stream",
-   "verdicts": null
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.04550264822112893,
+      "n": 47,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.03974731164423417,
+      "n": 923,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.044145892045874824,
+      "n": 68,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.0573960151846894,
+      "n": 50,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
   },
   {
    "cells": {},
@@ -615,13 +830,118 @@
    "verdicts": null
   },
   {
-   "cells": {},
-   "group": "dip-rebound",
-   "home": "BEAR",
+   "cells": {
+    "BEAR": {
+     "ret": {
+      "max": 1.9877189312803516,
+      "median": 0.24696289628758827,
+      "min": -0.2504478101413018,
+      "n": 777,
+      "p25": 0.11314927647646278,
+      "p75": 0.6699911521453275,
+      "pos_share": 0.8507078507078507
+     },
+     "sharpe_median": 2.970949229147844,
+     "worst_dd": -0.444170173146595
+    },
+    "BULL": {
+     "ret": {
+      "max": 1.4563367642619607,
+      "median": 0.22699521521333144,
+      "min": -0.40236477269948023,
+      "n": 191,
+      "p25": -0.08424462461498805,
+      "p75": 0.8134426616304963,
+      "pos_share": 0.643979057591623
+     },
+     "sharpe_median": 3.7924702495228164,
+     "worst_dd": -0.4588184019485936
+    },
+    "CHOP": {
+     "ret": {
+      "max": 1.7241125989845525,
+      "median": 0.14374878667267232,
+      "min": -0.41231120961571055,
+      "n": 1888,
+      "p25": -0.028238289261084876,
+      "p75": 0.4092754956509078,
+      "pos_share": 0.6800847457627118
+     },
+     "sharpe_median": 3.179724138839207,
+     "worst_dd": -0.4588184019485936
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 1.9877189312803516,
+      "median": 0.45684554052394033,
+      "min": -0.41231120961571055,
+      "n": 1566,
+      "p25": 0.0,
+      "p75": 0.7828566172554392,
+      "pos_share": 0.7011494252873564
+     },
+     "sharpe_median": 3.170517781374742,
+     "worst_dd": -0.4588184019485936
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.8233275066515107,
+      "median": 0.1897727880636435,
+      "min": -0.2062046777291121,
+      "n": 86,
+      "p25": 0.02863633730915932,
+      "p75": 0.42278583178758206,
+      "pos_share": 0.7558139534883721
+     },
+     "sharpe_median": 2.729094702329308,
+     "worst_dd": -0.45581146222155544
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 1.1826632739708818,
+      "median": 0.310487482016768,
+      "min": -0.3764710836238565,
+      "n": 90,
+      "p25": -0.16440564386786571,
+      "p75": 0.5630409691030406,
+      "pos_share": 0.6888888888888889
+     },
+     "sharpe_median": 2.1990635578546174,
+     "worst_dd": -0.4588184019485936
+    }
+   },
    "id": "dip-rebound-trio",
-   "source": "declared bear-market weapon (O-1725 sec.2 P0); refine_bench rev_p2 artifacts are trade-level (entries/trades/exits) -- daily-stream reconstruction = next slice",
-   "status": "awaiting_stream",
-   "verdicts": null
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.22699521521333144,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.14374878667267232,
+      "n": 1888,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": 0.1897727880636435,
+      "n": 86,
+      "verdict": "unhurt"
+     },
+     "SUPPORT": {
+      "median": 0.310487482016768,
+      "n": 90,
+      "verdict": "unhurt"
+     }
+    },
+    "gate_off": [],
+    "home": "BEAR",
+    "home_pass": true,
+    "n_unlabeled_starts": 5507,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
   },
   {
    "cells": {

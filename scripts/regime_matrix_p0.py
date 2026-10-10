@@ -6,10 +6,12 @@ Axis: REGIME-5 v1.0 labels (results/regime5_labels/REGIME5-2026-09-30.json)
   + canonical panic column results/regime_axis_m1/panic_windows.json
   (25 days / 12 windows, bm-b face = reconciliation canonical per
   research/REGIME_AXIS_PANIC_RECONCILIATION.md).
-Streams v1: LOWAMP-P3 judged continuous streams (deep axis, base face = net of
-  x1 cost) -- the P0 row "low-vol defensive family" (four cells + equal-weight composite).
-  All other P0 rows are registered as pending (stream pinning = next slice) or
-  insufficient-history (SYSTEM-V1 paper since 2026-09-24).
+Streams v1 (r963 full pin): LOWAMP-P3 judged continuous streams (deep axis,
+  x1-cost base face; four cells + equal-weight composite) + theme TJ-FULL-x1
+  + dip-rebound trio (rev_p2 raw|base x1 equal-weight composite)
+  + six-members (member_reinforce x1 equal-weight composite)
+  + four-asset A-EQW (deterministic imported-engine replay, anchor-exact).
+  SYSTEM-V1 alone stays insufficient-history (paper since 2026-09-24).
 Baseline: 5y deposit 1.30%/yr (major-bank posted rate 2026-09,
   research/DIRECTION_REVIEW_BM_INPUT.md; O-1705 CEO law "minimum floor = beat the
   current 5-year fixed deposit rate"; numeric line disclosed in every report).
@@ -58,6 +60,37 @@ DEPOSIT_BASELINE_5Y = 0.0130                  # 1.30%/yr, disclosed source
 STATES = ["BULL", "CHOP", "GRIND", "BEAR", "SUPPORT"]
 MIN_WINDOWS_VERDICT = 30                      # n>=30 floors a verdict column
 
+# dip-rebound trio (r963 pin): the three judged raw|base x1 faces of the
+# REFINE_BENCH_STOCK_REV_P2 primary family (D-15/D-25/Dtop10 depth grid,
+# time-exit H20, x1 cost). Daily streams live in-library as .npy on the
+# p1c_stock frozen panel (T=8792, 1990-12-19..2026-09-22).
+REV_P2_CELLS = os.path.join(ROOT, "results", "refine_bench_stock", "rev_p2",
+                            "cells")
+DIP_TRIO = ["D-15_raw_base_time_h20", "D-25_raw_base_time_h20",
+            "Dtop10_raw_base_time_h20"]
+STOCK_DATES_NPY = os.path.join(ROOT, "Money02", "data", "cache", "p1c_stock",
+                                "dates.npy")
+
+# six-members (r963 pin): the 6 registered members' x1 daily streams from the
+# MEMBER-REINFORCE-P1 checkpoint artifacts (core48 joined panel truncated at
+# 2026-09-22, 1631 bars). Row = equal-weight daily composite (family-EW law).
+MR_CELLS = os.path.join(ROOT, "results", "member_reinforce", "cells")
+SIX_MEMBERS = ["COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
+               "ENGULF-CE-01", "NEEDLE-DE-01", "VOLATILITY-CE-01"]
+
+# four-asset corebook (r963 pin): deterministic replay of the judged A-EQW
+# cell (equal-weight 25x4, monthly) through the SAME imported engine
+# (allocation_policy_scan load_faces + simulate_with_dates, store_path=True),
+# anchor-exact vs results/cross_start_robustness/scan.json (audit
+# reproduction, NOT a new trial; g25 recorded-cell-reproduction precedent).
+FOURASSET_SCAN = os.path.join(ROOT, "results", "cross_start_robustness",
+                              "scan.json")
+
+# stat-anchor tolerances (sidecars round to 4dp; ann faces observed <=1e-3)
+TOL_SHARPE = 2e-4
+TOL_ANN = 1e-3
+TOL_DD = 1e-4
+
 # theme wave-rider stream: THEME-JUDGE-P1 (T-173) adjudicated artifact, cell
 # TJ-FULL-x1 -- pooled equal-weight per-date returns over full cluster rides,
 # x1 cost, cash (0 return) on non-ride days, 2014-12-05..2026-09-22 (= evidence
@@ -83,17 +116,17 @@ P0_REGISTRY = [
     {"id": "lowamp-FAMILY-EW", "group": "lowvol-defensive", "home": LOWAMP_HOME,
      "status": "stream_wired", "source": "equal-weight daily mean of the four lowamp cells"},
     {"id": "four-asset-corebook", "group": "four-asset", "home": None,
-     "status": "awaiting_stream",
-     "source": "candidate: results/cross_start_robustness/face_b.json (summary only, Jan starts); daily stream not materialized in-library"},
+     "status": "stream_wired",
+     "source": "deterministic replay of judged cell A-EQW (equal-weight 25x4, monthly) via imported allocation_policy_scan engine (load_faces + simulate_with_dates store_path=True); anchor-exact vs results/cross_start_robustness/scan.json (cagr/vol/sharpe/maxdd/n_reb diff 0.0); audit reproduction NOT a new trial (g25 precedent); panel 2013-07-29..2026-09-22 n=3200; corebook face e2 retained"},
     {"id": "six-members", "group": "defensive-six", "home": LOWAMP_HOME,
-     "status": "awaiting_stream",
-     "source": "candidate: corebook_closeout_p1 faces reference source artifacts by sha; sleeve stream files not pinned this slice"},
+     "status": "stream_wired",
+     "source": "equal-weight daily composite of the 6 registered members' x1 streams (results/member_reinforce/cells/<ID>_x1.npy, per-member sidecar stat-anchored); core48 joined panel truncated at 2026-09-22 (1631 bars); family-EW law; declared bear-market home (REGIME_STYLE_MATRIX_V1 sec.2 defensive_six)"},
     {"id": "SYSTEM-V1", "group": "system-v1", "home": None,
      "status": "insufficient_history",
      "source": "results/system_v1_paper/SYSTEM-V1_paper.json -- paper since 2026-09-24, 12m windows exist only after 2027-09"},
     {"id": "dip-rebound-trio", "group": "dip-rebound", "home": "BEAR",
-     "status": "awaiting_stream",
-     "source": "declared bear-market weapon (O-1725 sec.2 P0); refine_bench rev_p2 artifacts are trade-level (entries/trades/exits) -- daily-stream reconstruction = next slice"},
+     "status": "stream_wired",
+     "source": "equal-weight daily composite of the three judged raw|base x1 faces (D-15/D-25/Dtop10, results/refine_bench_stock/rev_p2/cells/*.npy, sidecar stat-anchored exact); p1c_stock panel 1990-12-19..2026-09-22 T=8792; REFINE_BENCH_STOCK_REV_P2 primary family; declared bear-market weapon (O-1725 sec.2 P0)"},
     {"id": "theme-wave-rider", "group": "theme", "home": "BULL",
      "status": "stream_wired",
      "source": "results/theme_judge_p1/theme_judge_p1_results.json cell TJ-FULL-x1 (pooled equal-weight daily stream, x1 cost, cash on non-ride days; nav anchor = pooled_net; O-1725 sec.2 declared bull weapon)"},
@@ -300,6 +333,143 @@ def load_theme_stream():
     return dates, rets, nav
 
 
+def _stream_stats(rets, drop_first):
+    """Sharpe/ann/maxdd recomputed from a daily stream (r963 probe
+    convention: rev_p2 sidecars anchor on the full stream incl. the leading
+    zero return; member_reinforce sidecars anchor on rets[1:])."""
+    r = np.asarray(rets, dtype=float)
+    if drop_first:
+        r = r[1:]
+    sd = float(r.std(ddof=1))
+    mean = float(r.mean())
+    sharpe = mean / sd * math.sqrt(252.0) if sd > 0 else 0.0
+    eq = np.cumprod(1.0 + r)
+    years = len(r) / 252.0
+    ann = float(eq[-1] ** (1.0 / years) - 1.0) if years > 0 else 0.0
+    maxdd = float((eq / np.maximum.accumulate(eq) - 1.0).min())
+    return {"sharpe_full": sharpe, "ann_ret": ann, "max_dd": maxdd}
+
+
+def _verify_stats(rets, sidecar, drop_first, label):
+    """Fail-closed anchor check of a stream vs its frozen sidecar stats
+    (sidecar shape: rev_p2 nests under 'stats'; member_reinforce is flat)."""
+    st = sidecar.get("stats", sidecar)
+    got = _stream_stats(rets, drop_first)
+    for key, tol in (("sharpe_full", TOL_SHARPE), ("ann_ret", TOL_ANN),
+                     ("max_dd", TOL_DD)):
+        want = float(st[key])
+        if abs(got[key] - want) > tol:
+            raise SystemExit(
+                f"matrix p0 mechanism: {label} stat anchor {key} "
+                f"recon {got[key]:.6f} vs sidecar {want:.6f} (tol {tol})")
+
+
+def _to_matrix_stream(dates_full, rets_full):
+    """(dates_full, rets_full) -> matrix convention (rets[i] = return INTO
+    dates[i]; leading return dropped; nav[j] = NAV at close of dates[j])."""
+    rets = [float(x) for x in rets_full]
+    if len(rets) < 2 or len(dates_full) != len(rets):
+        raise SystemExit(f"matrix p0 mechanism: stream face mismatch "
+                         f"{len(dates_full)} dates vs {len(rets)} rets")
+    nav = []
+    cur = 1.0
+    for r in rets:
+        cur *= (1.0 + r)
+        nav.append(cur)
+    return list(dates_full[1:]), rets[1:], nav[1:]
+
+
+def _ew_composite(streams):
+    """Equal-weight daily mean of aligned streams (family-EW law)."""
+    n = len(streams[0])
+    for s in streams:
+        if len(s) != n:
+            raise SystemExit(f"matrix p0 mechanism: composite len mismatch "
+                             f"{len(s)} vs {n}")
+    return [sum(s[i] for s in streams) / len(streams) for i in range(n)]
+
+
+def load_dip_rebound_stream():
+    """Dip-rebound trio: equal-weight composite of the three judged raw|base
+    x1 faces on the p1c_stock frozen panel. Anchors: per-cell sidecar stats
+    (exact at 4dp, incl-first convention per r963 probe)."""
+    dates_np = np.load(STOCK_DATES_NPY)
+    dates_full = [str(pd.Timestamp(x).date())
+                  for x in pd.to_datetime(dates_np, unit="us")]
+    if (dates_full[0], dates_full[-1]) != ("1990-12-19", "2026-09-22"):
+        raise SystemExit(f"matrix p0 mechanism: stock panel lockbox drift "
+                         f"{dates_full[0]}..{dates_full[-1]}")
+    streams = []
+    for c in DIP_TRIO:
+        a = np.load(os.path.join(REV_P2_CELLS, c + "_x1.npy"))
+        if len(a) != len(dates_full):
+            raise SystemExit(f"matrix p0 mechanism: {c} len {len(a)} != "
+                             f"panel {len(dates_full)}")
+        side = json.load(open(os.path.join(REV_P2_CELLS, c + "_x1.json"),
+                              encoding="utf-8"))
+        _verify_stats(a, side, drop_first=False, label=c)
+        streams.append(a.tolist())
+    return _to_matrix_stream(dates_full, _ew_composite(streams))
+
+
+def load_six_members_stream():
+    """Six-members: equal-weight composite of the 6 registered members' x1
+    streams on the core48 joined panel truncated at the cutoff. Anchors:
+    per-member sidecar stats (drop-first convention per r963 probe)."""
+    from live.paper import load_core, build_panels
+    cut = LOWAMP_CUTOFF
+    prices = load_core()
+    pcut = {s: df[df.index <= cut] for s, df in prices.items()}
+    pidx = build_panels(pcut)["close"].index
+    if str(pidx[-1].date()) != "2026-09-22":
+        raise SystemExit(f"matrix p0 mechanism: core48 cutoff drift "
+                         f"{pidx[-1].date()}")
+    streams = []
+    for m in SIX_MEMBERS:
+        a = np.load(os.path.join(MR_CELLS, m + "_x1.npy"))
+        if len(a) > len(pidx):
+            raise SystemExit(f"matrix p0 mechanism: {m} len {len(a)} > "
+                             f"panel {len(pidx)}")
+        idx_m = pidx[:len(a)]
+        if str(idx_m[-1].date()) != "2026-09-22":
+            raise SystemExit(f"matrix p0 mechanism: {m} last bar "
+                              f"{idx_m[-1].date()} != 2026-09-22")
+        side = json.load(open(os.path.join(MR_CELLS, m + "_x1.json"),
+                              encoding="utf-8"))
+        _verify_stats(a, side, drop_first=True, label=m)
+        streams.append(a.tolist())
+    dates_full = [str(x.date()) for x in pidx]
+    return _to_matrix_stream(dates_full, _ew_composite(streams))
+
+
+def load_four_asset_stream():
+    """Four-asset corebook: deterministic replay of judged cell A-EQW via the
+    imported allocation_policy_scan engine (audit reproduction, zero trials).
+    Anchors: _path_metrics(path) vs scan.json A-EQW (exact) + n_reb."""
+    from scripts import allocation_policy_scan as aps
+    aps._cost_check()
+    d4, r4, _facts = aps.load_faces()
+    targets = np.array([[0.25, 0.25, 0.25, 0.25]])
+    sim = aps.simulate_with_dates(d4, r4, targets, np.zeros(1, dtype=int),
+                                  "monthly", store_path=True)
+    path = sim["path"][0]
+    met = aps._path_metrics(path)
+    with open(FOURASSET_SCAN, encoding="utf-8") as fh:
+        scan = json.load(fh)
+    ae = [x for x in scan["cells"] if x["cell_id"] == "A-EQW"][0]
+    for k in ("cagr", "vol", "sharpe", "maxdd"):
+        if abs(met[k] - float(ae[k])) > 1e-9:
+            raise SystemExit(f"matrix p0 mechanism: A-EQW anchor {k} "
+                             f"replay {met[k]} != scan {ae[k]}")
+    if int(sim["n_reb"][0]) != int(ae["n_rebalances"]):
+        raise SystemExit(f"matrix p0 mechanism: A-EQW n_reb "
+                         f"{int(sim['n_reb'][0])} != {ae['n_rebalances']}")
+    dates_full = [str(x) for x in d4]
+    rets_full = [float(path[0]) - 1.0] + \
+        (path[1:] / path[:-1] - 1.0).tolist()
+    return _to_matrix_stream(dates_full, rets_full)
+
+
 def run():
     os.makedirs(OUT_DIR, exist_ok=True)
     axis = load_regime_axis()
@@ -344,6 +514,15 @@ def run():
             t_dates, t_rets, t_nav = load_theme_stream()
             rows.append(slice_stream(spec["id"], spec["home"], t_dates,
                                      t_rets, t_nav, axis))
+        elif spec["id"] == "dip-rebound-trio":
+            d, r, n = load_dip_rebound_stream()
+            rows.append(slice_stream(spec["id"], spec["home"], d, r, n, axis))
+        elif spec["id"] == "six-members":
+            d, r, n = load_six_members_stream()
+            rows.append(slice_stream(spec["id"], spec["home"], d, r, n, axis))
+        elif spec["id"] == "four-asset-corebook":
+            d, r, n = load_four_asset_stream()
+            rows.append(slice_stream(spec["id"], spec["home"], d, r, n, axis))
         else:
             cell = spec["id"].replace("lowamp-", "")
             dates, rets, nav = loaded[cell]
@@ -418,7 +597,10 @@ def render_md(out):
             d = cells[st]["ret"]
             vals.append(f"{pct(d.get('median'))} (n={d.get('n',0)})" if d.get("n") else "-")
         v = r["verdicts"]
-        home_txt = f"主场 {v['home']}：{'达标' if v['home_pass'] else '未达'}"
+        if v["home"] is None:
+            home_txt = "无主场声明（全天候面·全态按客场口径判）"
+        else:
+            home_txt = f"主场 {v['home']}：{'达标' if v['home_pass'] else '未达'}"
         away = "; ".join(f"{st}:{x.get('verdict','')}" for st, x in v["away_unhurt"].items())
         L.append(f"| {r['id']} | " + " | ".join(vals) + f" | {home_txt} | {away} |")
     L.append("")
@@ -533,7 +715,32 @@ def selftest():
     check("t13 panic day strings extracted", all(
         isinstance(x, str) and len(x) == 10 for x in ax3["panic_days"]),
         f"n={len(ax3['panic_days'])} sample={sorted(ax3['panic_days'])[:1]}")
-    print(f"selftest: {ok[0]}/13 PASS")
+    # t14 _to_matrix_stream convention: leading zero return dropped, nav compounding
+    d14 = [f"2020-01-{i:02d}" for i in range(1, 6)]
+    r14 = [0.0, 0.01, -0.02, 0.03, 0.005]
+    dd14, rr14, nn14 = _to_matrix_stream(d14, r14)
+    check("t14 stream drop-first + nav",
+          dd14[0] == "2020-01-02" and len(rr14) == 4 and len(nn14) == 4
+          and abs(nn14[0] - 1.01) < 1e-12
+          and abs(nn14[-1] - 1.01 * 0.98 * 1.03 * 1.005) < 1e-12)
+    # t15 ew composite + stat-anchor accept/reject
+    comp = _ew_composite([[0.01, 0.02], [0.03, 0.04]])
+    check("t15a ew composite mean",
+          abs(comp[0] - 0.02) < 1e-12 and abs(comp[1] - 0.03) < 1e-12)
+    s15 = _stream_stats([0.0] + [0.001] * 100, drop_first=False)
+    _verify_stats([0.0] + [0.001] * 100, {"stats": s15}, drop_first=False,
+                  label="t15-accept")
+    bad15 = {"stats": {"sharpe_full": 9.9, "ann_ret": 0.5, "max_dd": -0.5}}
+    try:
+        _verify_stats([0.0] + [0.001] * 100, bad15, drop_first=False,
+                      label="t15-reject")
+        raise SystemExit("  FAIL t15b anchor reject did not raise")
+    except SystemExit as e:
+        if "t15-reject" not in str(e):
+            raise
+    ok[0] += 1
+    print("  PASS t15b anchor verify accept+reject")
+    print(f"selftest: {ok[0]}/16 PASS")
 
 
 def main():
