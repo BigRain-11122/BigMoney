@@ -82,17 +82,29 @@
 - 结果：`results/alphagen_w19/W19-2026-10-09.json`（顶层 `science_gates.cutoff_meta` + 损耗分解披露段）+ audit 段（seed/掩码/PIT 截面分布/去重排除计数/杠杆对照读数/逐式五数概括/IS 无分割声明——500 普查窗参照批无 IS/OOS 分割·census 同面）+ 本件 §7 回填。
 - 幂等：同机同数据复跑数字逐位相同（全确定性 rng·cutoff 钉死截断面）。
 
-## §7 跑后实证【跑后一次定稿回填·占位】
+## §7 跑后实证【2026-10-11 r864 bm-b 一次定稿回填】
 
-（烧录窗回填：烧录实况/V1 判词/D1 杠杆读数/M1 t 面/损耗分解实收对预测/处置指针。）
+- 烧录实况：冻结 commit f5426c419 同窗起跑（slice-4·单进程短批合法窗）；面板就绪（cutoff 2026-10-09·universe 3,514·census dates 500·eligible median 2,980·pin_end=2026-10-09 装载后截断面同刻零漂移）；实测 elapsed **152.0s**（预估 ≤120s·**超预估 27% 如实披露**·O-2100 短批窗 300s 帽内）。
+- **V1=HOLDS**：族 max |ICIR| **0.38** > pooled null 族 p95 **0.086**（pooled **336**≥300 充分线门内·程序冻结面）——**反馈搜索杠杆首个可判读读数=族级过线**（W18 拒烧欠账就此清偿）。
+- **D1 杠杆对照（描述性非门控）**：0.38 vs census 随机族 max 0.353 → leverage_positive_signal=**true**——反馈搜索≥随机搜索（带内微幅优势·**单读数零强宣称**·K=62 vs 64=96.9% 绘制奇偶披露照携·同面等预算不宣称）。
+- **M1 t 面**：48 存活员全带 t 面（missing_input=0·缺面拒收律合规）；**9/48 过 t≥3.0 正方向门**（负向 t 高绝对值员如实记 pass=false——符号翻面属消费侧设计非测量面主张）。
+- **损耗分解实收（成功烧录也落全分解=W18 欠账不复）**：496 包络 → T-84s3 ledger 命中 **6** + 批内重复 **5** = 11 排除 → 51 enrolled → 3 h1 skip（**5.9%**<10% 守卫未触发）→ 48 ok → **48×7=336 pooled**。
+- 账本：append_ledger 876,731→**877,227**（+496·PERPETUAL-N2-W19 行=活链头·prev 实读复核一致）。
+- 处置：见 §8。
 
-## §8 批后复盘【跑后一次定稿回填·占位】
+## §8 批后复盘【2026-10-11 r864 定稿·s7-T】
 
-（烧录窗回填：预测对账/设计复盘一句话/门禁链损耗账 results/gate_attrition.json 行/试验量归因/回执。）
+- 预测对账：**#1** P(pooled≥300)≈88%=**实证达成**（实收 336·损耗定价 B=7 一次越过充分线）；**#2** 排除面 ~14±4=实收 **11** ✓带内（6+5 双面同源量级）·skip ≤5% 预测=实收 **5.9%** 微超（3/51·守卫 >10% 未触发·诚实披露）；**#3** 杠杆面 [0.20,0.45]=实收 **0.38** ✓带内·先验 ~30%=单读数正信号（不宣称确证）；**#4** V1 过线 ~50%=**实收 PASS**；**#5** 极端日先验=逐式 |ICIR| 五数概括 [0.004, 0.124, 0.226, 0.283, 0.38] 入 audit 供事后检视。
+- 设计复盘一句话：**损耗实证重定价（B=6→7）一次闭环**——25% 双独立种子面损耗率定价将 pooled 从 W18 实收 288 推到本批实收 336（期望 325.5·实收+10），充分线一次越过；「预算按损耗定价、线永不降」W18 教训律全链兑现（线保持 300·B 从 6 升 7·refusal receipt 硬规格兑现=成功面也带全分解）。
+- 门禁链损耗账：results/gate_attrition.json 追加 PERPETUAL-N2-W19 行（kind=ic_judgment·cells_ledger_delta=496·ledger_total_after=877,227·guard scan CLEAN）。
+- 族级判线当批读数：null 族 p95=**0.086**（pooled 336）·族 max **0.38**·过线比 4.42×。
+- 试验量归因：§1.4 申报 496 格——实消费 **398** 评估（62 draws+336 nulls）·未消费包结面 **98**（14 非存活式×7 null 泊位=恒等对账 398+98=496）·入账 **496**（§3 冻结包结口径 append_ledger batch_trials=496）·496≤500 闸内。
+- 消费侧指针：48 存活员（带血统标签+120d 短窗折价族级校准标签）入因子素材池——**任何消费（输入特征路线/注册面）须全新预注册+成本压测**（A158-TSGATE-P1/A10 先例门·D6 门届时按冻结口径过）；9 员 M1 正方向 t≥3.0 面为最强候选带·禁直接策略化。
+- 回执：入轮报告 r864+CODELY.md 行级追加。
 
 ## 附：slice 分工账（防重复开发·跨窗接力·W18 同构）
 
 - **slice-1（r862 bm-b 本窗·本草案+起草探针）**：本件 DRAFT + `results/_r862bmb_n2w19_draft_probe.py`（**W18 损耗分解重放=8+6+2→48 ok·48×6=288 逐位对账**/census 锚/闭合族非撞/语法登记簿零行/链头/带 derive 只读取数/B 算术八面机证·回执 `_r862bmb_n2w19_draft_probe.json`）。
 - **slice-2（r863 bm-b 已落地·runner）**：`scripts/alphagen_beam_w19.py` 三腿+selftest hermetic（27/27 PASS·L1c r836 克隆律全参数核对腿+L12 pin 纯函数腿+L13 FREEZE-GATE 拒烧机证腿=tempdir 零 repo 盘写整跑 rc2+零批产物+refusal receipt 全 null 分解面）+refusal receipt 分解落盘（四拒点全落：freeze-gate/面板门/损耗守卫/充分线）+截断钉死面（t23.load_panel pin_end 参数化向后兼容扩展·装载期日期轴截断=窗口起点/终点双钉死·legacy 默认路径逐字不变·t23 selftest 与 W18 runner 克隆源回归全 0）+probe PASS（10 checks·含 draft probe 回执对账腿与 pin 接线披露腿）；状态=runner 就绪候冻结窗。
 - **slice-3（冻结窗·r864 bm-b 已落地）**：五条件机证+band gate 活导出（X=736_000·撞 W18 halo 步进 7 槽·回执 results/_r864bmb_w19_band_gate.txt）+seed_admit_gate rc0×3+banned_direction_gate rc0+三带登记 science_gates.SEED_REGISTRY（736_000/736_500/737_000）+状态翻面 FROZEN（W15 r492/W18 r861 同构·R250 一步律同 commit）。
-- **slice-4（烧录窗）**：run 短批+finalize+§7/§8 回填（≤496 draws ≤120s 单进程·O-2100 短批合法窗）。
+- **slice-4（烧录窗·r864 bm-b 已落地）**：run 短批 **判读成立**——V1=HOLDS（族 max 0.38>pooled null p95 0.086·336≥300）+D1 杠杆正信号（0.38>0.353 描述性）+M1 9/48 正方向 t≥3.0+§7/§8 回填+attrition 行（kind=ic_judgment）+账本 876,731→877,227（实测 152s·300s 帽内）。
