@@ -1,0 +1,43 @@
+{
+ "advisory": "verdict is data; CLOSED_FAMILY_COLLISION on a live row = the owning round must adjudicate the row out (or the row must declare the family reopen channel per O-20260925-1105) before any work starts; registration-time law = run 'check' on the seed text BEFORE adding any new P2/P3 row",
+ "machine_id": "bm-a",
+ "probe": "queue_seed_gate",
+ "queues": [
+  {
+   "findings": [],
+   "live_rows": 1,
+   "notes": [
+    {
+     "column": "pointer",
+     "hits": [
+      {
+       "face": "microcap",
+       "family": "microcap_2024_crash"
+      }
+     ],
+     "id": "T19",
+     "note": "pointer-only citation of a closed family (meta/adjudication reference) -- not a block"
+    }
+   ],
+   "queue": "state/queue/tech.md"
+  },
+  {
+   "findings": [],
+   "live_rows": 5,
+   "notes": [],
+   "queue": "state/queue/explore.md"
+  }
+ ],
+ "registry_keys": [
+  "cn_combo_five_family",
+  "cta_futures_p1",
+  "factor_blend",
+  "g2_slot_mon_p2_xs",
+  "lowamp_daily_xs",
+  "lowamp_deep_xs",
+  "microcap_2024_crash",
+  "t28_spm_first",
+  "wild_route_s1"
+ ],
+ "verdict": "CLEAR"
+}
