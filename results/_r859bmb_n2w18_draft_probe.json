@@ -1,0 +1,67 @@
+{
+ "probe": "r859 bm-b PERPETUAL-N2-W18 draft-facts probe",
+ "zero_burn": true,
+ "zero_ledger_append": true,
+ "zero_seeds": true,
+ "checks": {
+  "census_anchors": {
+   "faces": {
+    "census_holds": true,
+    "observed_family_max_abs_icir": 0.353,
+    "null_family_p95": 0.139,
+    "b_nulls": 64,
+    "min_cross": 100,
+    "census_days": 500,
+    "k_formulas": 64,
+    "n_unique_formulas": 48,
+    "evidence_cutoff": "2026-10-09",
+    "ledger_total": 876731
+   },
+   "mismatches": [],
+   "ok": true
+  },
+  "astock_panel_disk_truth": {
+   "complete": true,
+   "per_files_on_disk": 5219,
+   "cutoff": "2026-10-09",
+   "disk_truth_law": "per-files disk count wins (r840 gate fix)",
+   "ok": true
+  },
+  "closed_families": {
+   "n_keys": 9,
+   "keys": [
+    "cn_combo_five_family",
+    "cta_futures_p1",
+    "factor_blend",
+    "g2_slot_mon_p2_xs",
+    "lowamp_daily_xs",
+    "lowamp_deep_xs",
+    "microcap_2024_crash",
+    "t28_spm_first",
+    "wild_route_s1"
+   ],
+   "family_key": "alphagen_grammar_v1",
+   "family_key_collides": false,
+   "word_face_hits": [],
+   "ok": true
+  },
+  "trials_ledger_head": {
+   "ledger_head_total": 876731,
+   "draft_anchor": 876731,
+   "monotone_ok": true,
+   "ok": true
+  },
+  "prereg_draft_markers": {
+   "missing_markers": [],
+   "section_marks": 24,
+   "draft_status_line": true,
+   "ok": true
+  },
+  "grammar_ledger_first_burn": {
+   "alphagen_rows": 0,
+   "first_burn_confirmed": true,
+   "ok": true
+  }
+ },
+ "verdict": "PASS"
+}
