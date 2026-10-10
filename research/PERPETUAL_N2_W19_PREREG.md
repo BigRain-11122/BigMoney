@@ -83,6 +83,6 @@
 ## 附：slice 分工账（防重复开发·跨窗接力·W18 同构）
 
 - **slice-1（r862 bm-b 本窗·本草案+起草探针）**：本件 DRAFT + `results/_r862bmb_n2w19_draft_probe.py`（**W18 损耗分解重放=8+6+2→48 ok·48×6=288 逐位对账**/census 锚/闭合族非撞/语法登记簿零行/链头/带 derive 只读取数/B 算术八面机证·回执 `_r862bmb_n2w19_draft_probe.json`）。
-- **slice-2（后续窗·runner）**：`scripts/alphagen_beam_w19.py` 三腿+selftest hermetic+FREEZE-GATE 拒烧机证+refusal receipt 分解落盘+截断钉死面（N2-W15/W18 slice-2 同构·r836 克隆律参数核对清单）。
+- **slice-2（r863 bm-b 已落地·runner）**：`scripts/alphagen_beam_w19.py` 三腿+selftest hermetic（27/27 PASS·L1c r836 克隆律全参数核对腿+L12 pin 纯函数腿+L13 FREEZE-GATE 拒烧机证腿=tempdir 零 repo 盘写整跑 rc2+零批产物+refusal receipt 全 null 分解面）+refusal receipt 分解落盘（四拒点全落：freeze-gate/面板门/损耗守卫/充分线）+截断钉死面（t23.load_panel pin_end 参数化向后兼容扩展·装载期日期轴截断=窗口起点/终点双钉死·legacy 默认路径逐字不变·t23 selftest 与 W18 runner 克隆源回归全 0）+probe PASS（10 checks·含 draft probe 回执对账腿与 pin 接线披露腿）；状态=runner 就绪候冻结窗。
 - **slice-3（冻结窗）**：五条件机证+band gate 活导出+三带 derive 登记+状态翻面 FROZEN（W15 r492/W18 r861 同构·R250 一步律）。
 - **slice-4（烧录窗）**：run 短批+finalize+§7/§8 回填（≤496 draws ≤120s 单进程·O-2100 短批合法窗）。

@@ -341,13 +341,28 @@ def gate_face(status=None):
 
 # ------------------------------------------------------------------ panel load
 
-def load_panel():
+def _pin_cal_slice(cal_all, pin_end, window):
+    """Pin-slice window law (W19 prereg sec.2 pin-dead-slice face):
+    truncate the full calendar to <= pin_end, then take the trailing
+    `window` rows. Any panel advance beyond pin_end yields the
+    byte-identical date window (zero +/-N-day drift vs the pinned
+    census face); pin_end=None preserves the legacy trailing-window
+    behavior verbatim (census/W18 callers unchanged)."""
+    if pin_end is not None:
+        cal_all = [d for d in cal_all if str(d) <= str(pin_end)]
+    return cal_all[-window:]
+
+
+def load_panel(pin_end=None):
     """Census panel: last CENSUS_DAYS+WARMUP rows of the sh510300 calendar,
     universe = stock_face_furnace._universe() (eligibility & ok_static &
     per-file intersection, single source), P4_BATCH2 dynamic eligibility
-    clauses verbatim via rev_osc_stock_p1 constants (build_panel kin)."""
+    clauses verbatim via rev_osc_stock_p1 constants (build_panel kin).
+    pin_end (optional, W19): truncate the date axis to <= pin_end BEFORE
+    the trailing-window take -- the pin-slice keeps the panel face
+    anchored to the census instant regardless of later bar advances."""
     cal_all = pd.read_csv(GATE_CSV, usecols=["date"])["date"].astype(str).tolist()
-    cal = cal_all[-(CENSUS_DAYS + WARMUP):]
+    cal = _pin_cal_slice(cal_all, pin_end, CENSUS_DAYS + WARMUP)
     uni = sff._universe()
     T, N = len(cal), len(uni)
     F = {k: np.full((T, N), np.nan, dtype=np.float64)
