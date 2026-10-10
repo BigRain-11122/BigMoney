@@ -1,0 +1,103 @@
+{
+ "checks": {
+  "bands": {
+   "face": {
+    "gen": {
+     "key": "perpetual_n2_w20_gen",
+     "registered": false,
+     "value": null
+    },
+    "scrnull": {
+     "key": "perpetual_n2_w20_scrnull",
+     "registered": false,
+     "value": null
+    },
+    "unc": {
+     "key": "perpetual_n2_w20_unc",
+     "registered": false,
+     "value": null
+    }
+   },
+   "freeze_gate_open": false,
+   "ok": true
+  },
+  "census_anchors": {
+   "consumed_formula_n": 48,
+   "mismatches": [],
+   "ok": true
+  },
+  "chain_head": {
+   "monotone_ok": true,
+   "ok": true,
+   "total": 877227
+  },
+  "closed_families": {
+   "collides": false,
+   "family_key": "alphagen_grammar_v1",
+   "n_keys": 9,
+   "ok": true,
+   "word_face_hits": []
+  },
+  "draft_probe_receipt": {
+   "faces": [
+    "b_nulls_arithmetic",
+    "census_anchors",
+    "chain_head",
+    "closed_families",
+    "grammar_ledger",
+    "panel_gate",
+    "prereg_posture",
+    "w19_consumed_face",
+    "w20_band_derive"
+   ],
+   "ok": true,
+   "path": "results/_r865bmb_n2w20_draft_probe.json"
+  },
+  "grammar_ledger": {
+   "alphagen_rows": 0,
+   "expected_rows": 0,
+   "note": "W19/census consumed formulas are carried by the census-product + W19-result-file sources (draw-time T-84s3); the ledger text scan stays belt-and-braces",
+   "ok": true
+  },
+  "panel_gate": {
+   "cutoff": "2026-10-09",
+   "disk_truth_override": false,
+   "ok": true,
+   "per_files_on_disk": 5219,
+   "ready": true
+  },
+  "pin_slice_wiring": {
+   "cutoff_pin": "2026-10-09",
+   "legacy_default_untouched": true,
+   "ok": true,
+   "pin_cal_slice_fn": true,
+   "pin_end_param": true
+  },
+  "prereg_markers": {
+   "missing": [],
+   "ok": true,
+   "sections": 42
+  },
+  "runner_freeze_conditions": {
+   "c1_runner_selftest_freezegate_proof": "runner landed (this module); selftest L13 refuse-burn machine proof (rc2 + zero product + refusal receipt)",
+   "c2_bands_derive_admit": "freeze window (r682 recipe + seed_admit_gate rc0)",
+   "c3_criteria_shared_lib": "prereg sec.4 cites family-level line; freeze window verifies",
+   "c4_d6_explicit": "prereg sec.1 D6 face; freeze window verifies",
+   "c5_meaning_gate_orders": "freeze window",
+   "ok": true
+  },
+  "w19_source": {
+   "dedup_union_with_census": 99,
+   "n_enrolled": 51,
+   "n_ok": 48,
+   "ok": true,
+   "product": "results/alphagen_w19/W19-2026-10-09.json",
+   "reconciles_w19_anchors": true
+  }
+ },
+ "probe": "PERPETUAL-N2-W20 runner fact probe (slice-2)",
+ "verdict": "PASS",
+ "zero_burn": true,
+ "zero_ledger_append": true,
+ "zero_seeds": true
+}

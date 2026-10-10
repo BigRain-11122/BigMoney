@@ -1,0 +1,176 @@
+{
+ "faces": {
+  "b_nulls_arithmetic": {
+   "b_derivation": "ceil(300 / (62 * 0.7742))",
+   "b_derived": 7,
+   "b_only_feasible_under_cap": true,
+   "envelope_cap": 500,
+   "envelope_k_times_1plus_b": 496,
+   "envelope_within_cap": true,
+   "expected_ok": 48.0,
+   "expected_pooled": 336.0,
+   "line_note": "sufficiency line stays 300 (never re-derived down: post-freeze adjustment prohibition face); the BUDGET derives up instead; B=7 is the only budget the 500 cap admits",
+   "margin_ok_formulas_above_needed": 5.0,
+   "needed_ok_formulas": 43,
+   "risk_disclosure": "dedup source grows by 51 W19-enrolled formulas -> collision attrition may rise; if pooled < 300 the runner refuses with a full-decomposition receipt (W18/W19 law); the LINE never moves",
+   "sufficiency_line": 300,
+   "survival_empirical_faces": {
+    "census": 0.75,
+    "w19": 0.7742
+   },
+   "survival_required_for_b": 0.6912,
+   "w20_k": 62
+  },
+  "census_anchors": {
+   "census_holds": true,
+   "census_product": "results/t23_census/CENSUS-2026-10-09.json",
+   "n_consumed_formulas": 48,
+   "null_family_p95": 0.139,
+   "observed_family_max_abs_icir": 0.353,
+   "overlap_census_w19": 0,
+   "overlap_expected_zero": true,
+   "union_census_w19": 99
+  },
+  "chain_head": {
+   "chain_head": {
+    "file": "W19-2026-10-09.json",
+    "note": "PERPETUAL-N2-W19 alphagen beam feedback-search reference batch: K=62 draws (R1/R2/R3=24/24/14, R3 split (3, 3, 3, 3, 1, 1)) + B=7/formula pooled permutation nulls (attrition-priced budget, W18 sec.8 lesson); zero engine runs (factor-reference face); family-level criteria V1 (T23 census calibration law)",
+    "total": 877227,
+    "voided": [
+     {
+      "batch": "LOWAMP-P1",
+      "voided_trials": 2008
+     },
+     {
+      "batch": "LOWAMP-P2",
+      "voided_trials": 2008
+     }
+    ]
+   },
+   "expected": 877227,
+   "matches_w19_closeout": true
+  },
+  "closed_families": {
+   "alphagen_grammar_v1_open": true,
+   "closed_families_n": 9,
+   "keys": [
+    "cta_futures_p1",
+    "cn_combo_five_family",
+    "wild_route_s1",
+    "factor_blend",
+    "t28_spm_first",
+    "microcap_2024_crash",
+    "lowamp_daily_xs",
+    "lowamp_deep_xs",
+    "g2_slot_mon_p2_xs"
+   ]
+  },
+  "grammar_ledger": {
+   "alphagen_rows": 0,
+   "note": "W19/W18/census consumed formulas are carried by the census product + W19 result-file sources (draw-time T-84s3); the ledger text scan stays belt-and-braces",
+   "rows": []
+  },
+  "panel_gate": {
+   "cutoff": "2026-10-09",
+   "cutoff_floor_ok": true,
+   "cutoff_pin": "2026-10-09",
+   "per_files_on_disk": 5219,
+   "ready": true,
+   "same_instant_now": true
+  },
+  "prereg_posture": {
+   "band_value_leak": [],
+   "frozen_marker_absent": true,
+   "ok": true,
+   "w19_frozen_still_true": true,
+   "w20_prereg_exists": true
+  },
+  "w19_consumed_face": {
+   "attrition_frac_of_draws": 0.2258,
+   "decomp_reconciliation": {
+    "envelope_reconciliation": true,
+    "n_enrolled": 51,
+    "n_excluded_in_batch_dup": 5,
+    "n_excluded_ledger_t84s3": 6,
+    "n_h1_skip": 3,
+    "n_ok": 48,
+    "n_pooled": 336,
+    "ok_times_b_eq_observed": true
+   },
+   "dedup_source_grows_by": 51,
+   "n_h1_skip": 3,
+   "n_ok": 48,
+   "n_records": 51,
+   "skip_frac_of_enrolled": 0.0588,
+   "survival_frac_of_draws": 0.7742,
+   "unique_formulas": 51,
+   "w19_product": "results/alphagen_w19/W19-2026-10-09.json"
+  },
+  "w20_band_derive": {
+   "a_head_end": 472203,
+   "a_horizon": [
+    472204,
+    732203
+   ],
+   "candidate_trio": [
+    [
+     739500,
+     739999
+    ],
+    [
+     740000,
+     740499
+    ],
+    [
+     740500,
+     740999
+    ]
+   ],
+   "candidate_x_readonly": 739500,
+   "derive_forced_past_w19_halo": true,
+   "max_wave": "W207",
+   "n1_bands_rows": 205,
+   "naive_next_slot_after_w19": 737500,
+   "note": "draft-window readout only; freeze window re-derives live and registers per R250 one-step law; DRAFT writes NO band values (r702 lesson)",
+   "reserved_intervals_n": 624,
+   "skipped_collision_xs": [
+    732500,
+    733000,
+    733500,
+    734000,
+    734500,
+    735000,
+    735500,
+    736000,
+    736500,
+    737000,
+    737500,
+    738000,
+    738500,
+    739000
+   ],
+   "w19_family_halo_top": 739000,
+   "w19_registered_keys": {
+    "perpetual_n2_w19_gen": 736000,
+    "perpetual_n2_w19_scrnull": 736500,
+    "perpetual_n2_w19_unc": 737000
+   }
+  }
+ },
+ "probe": "PERPETUAL-N2-W20 draft-window probe (r865 bm-b)",
+ "verdict": "FACTS_RECORDED",
+ "w20_design_summary": {
+  "b_nulls_per_formula": 7,
+  "dedup_source": "census 48 + W19 enrolled 51 + ledger text",
+  "envelope_trials": 496,
+  "k_draws": 62,
+  "research_question": "does the W19 family readout (V1 HOLDS 0.38, D1 leverage 0.38 vs census 0.353) replicate under an INDEPENDENT seed band",
+  "rounds": "R1=24->top6, R2=24 (top6 x 4)->top6, R3=14 (r2_top[0..3] x 3 + r2_top[4..5] x 1)",
+  "sufficiency_line_pooled": 300,
+  "wave": "PERPETUAL-N2-W20 (replication wave)"
+ },
+ "zero_burn": true,
+ "zero_ledger_append": true,
+ "zero_product_file": true,
+ "zero_seeds": true
+}
