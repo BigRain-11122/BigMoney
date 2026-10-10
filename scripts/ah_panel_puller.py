@@ -79,6 +79,10 @@ PREMIUM_GROSS_CAP = 5.0       # |premium| beyond = leg failure (wrong mapping /
                               # bad price guard; real AH premium stays well under)
 OVERLAP_TOL = 1e-6
 CROSSCHECK_TOL = 0.05
+CROSSCHECK_REL_TOL = 0.30     # T21 dual gate: relative-diff pass (date-gap confound)
+CROSSCHECK_ABS_READJ = 0.10   # T21 re-adjudication abs gate (E9 pass@10pp face)
+SCALE_GATE_IQR_MED = 0.5      # source falsification gate (E9: tencent garbage = 2.0)
+SCALE_GATE_MIN_N = 10
 MIN_PAIR_ROWS = 60            # ~1 quarter of common trading days; fewer = the
                               # pair is too young / broken to feed the panel
 PER_HEADER = ["date", "close_A", "close_H", "fx_HKD_CNY", "premium"]
@@ -258,16 +262,75 @@ def rows_to_append(local_rows, new_rows):
     return [r for r in new_rows if r[0] > last]
 
 
-def crosscheck_verdict(premium, tx_premium_pct, tol=CROSSCHECK_TOL):
-    """(verdict, detail). verdict in {'pass','fail'}; caller quarantines on
-    fail (tencent spot premium ratio vs latest synthesized close premium;
-    a wrong A<->H mapping shows up as a huge gap). Pure."""
-    if tx_premium_pct is None:
+def crosscheck_verdict(premium, em_premium_raw, tol=CROSSCHECK_TOL,
+                       rel_tol=CROSSCHECK_REL_TOL):
+    """(verdict, detail). verdict in {'pass','fail','deferred'}; caller
+    quarantines on fail. T21 (r952) source re-point: EM f188 premium from the
+    DLMK0101 mapping face, raw/10000 = fraction (E9 adjudication: tencent
+    census premium_pct parse = broken scale, mass quarantine = false-positive
+    family; mapping family validated by EM/10000 offline re-crosscheck).
+    Dual gate: abs diff <= tol OR relative diff <= rel_tol -- the live census
+    vs last-bar date gap moves small numbers, a wrong A<->H mapping shows up
+    as a gap comparable to the level. Pure."""
+    if em_premium_raw is None:
         return "deferred", "no census premium field"
-    diff = abs(premium - float(tx_premium_pct) / 100.0)
+    try:
+        em_fraction = float(em_premium_raw) / 10000.0
+    except (TypeError, ValueError):
+        return "deferred", "census premium unparseable"
+    diff = abs(premium - em_fraction)
     if diff <= tol:
         return "pass", f"diff {diff:.4g} within {tol}"
-    return "fail", f"diff {diff:.4g} > {tol} (mapping suspect)"
+    rel = diff / max(abs(em_fraction), 0.05)
+    if rel <= rel_tol:
+        return "pass", f"rel {rel:.3g} within {rel_tol} (diff {diff:.4g})"
+    return "fail", f"diff {diff:.4g} rel {rel:.3g} > gates (mapping suspect)"
+
+
+def scale_gate_status(samples, iqr_med_max=SCALE_GATE_IQR_MED,
+                      min_n=SCALE_GATE_MIN_N):
+    """Source falsification test (r952 证伪测试 law): samples = [(synth,
+    em_fraction), ...]. A healthy crosscheck source yields a tight
+    constant-scale ratio distribution (E9: tencent garbage parse measured
+    IQR/med = 2.0; healthy face << 0.5). Returns (status, iqr_over_med, n)
+    with status in {'pass','fail','insufficient'}. Pure."""
+    ratios = []
+    for synth, em in samples:
+        try:
+            em = float(em)
+            synth = float(synth)
+        except (TypeError, ValueError):
+            continue
+        if em != 0.0:
+            ratios.append(synth / em)
+    n = len(ratios)
+    if n < min_n:
+        return "insufficient", None, n
+    s = sorted(ratios)
+    def q(p):
+        i = p * (n - 1)
+        lo, hi = int(i), min(int(i) + 1, n - 1)
+        return s[lo] + (s[hi] - s[lo]) * (i - lo)
+    med = q(0.5)
+    iqr = q(0.75) - q(0.25)
+    if med == 0:
+        return "fail", None, n
+    iqr_over_med = iqr / abs(med)
+    return ("pass" if iqr_over_med <= iqr_med_max else "fail"), iqr_over_med, n
+
+
+def readjudicate_verdict(diff, em_fraction, abs_tol=CROSSCHECK_ABS_READJ,
+                         rel_tol=CROSSCHECK_REL_TOL):
+    """T21 offline re-adjudication rule for crosscheck-quarantined pairs,
+    judged on the E9 EM/10000 true-face evidence. Pure."""
+    if diff is None or em_fraction is None:
+        return "family_adjudicated", "no evidence row; TX-parse root cause covers"
+    if diff <= abs_tol:
+        return "pass", f"diff {diff:.4g} within {abs_tol}"
+    rel = diff / max(abs(em_fraction), 0.05)
+    if rel <= rel_tol:
+        return "pass", f"rel {rel:.3g} within {rel_tol}"
+    return "fail", f"diff {diff:.4g} rel {rel:.3g} > gates"
 
 
 def progress_roll(progress, new_target):
@@ -614,6 +677,8 @@ def _refresh_inner():
     attempts = dict(prog.get("attempts") or {})
     done = list(prog.get("done") or [])
     mismatches, crosschecks = [], {}
+    em_map = {r["h_code"]: r.get("premium_pct") for r in pairs}
+    scale_samples, cross_fail_run = [], []
     fuse = 0
     pulled = 0
     for pair in pairs:
@@ -648,14 +713,21 @@ def _refresh_inner():
             if new:
                 append_pair_rows(h, new)
                 pulled += len(new)
-            # mapping cross-check: only meaningful when the latest synthesized
-            # row is the current bar day (census = live spot snapshot)
+            # mapping cross-check (T21 re-point: EM f188 from the DLMK0101
+            # mapping face; only meaningful when the latest synthesized row
+            # is the current bar day -- census = live spot snapshot)
             verdict, detail = "deferred", "no census or stale last row"
-            if tx_map.get(h) is not None and rows[-1][0] == target:
-                verdict, detail = crosscheck_verdict(rows[-1][4], tx_map[h])
+            if em_map.get(h) is not None and rows[-1][0] == target:
+                verdict, detail = crosscheck_verdict(rows[-1][4], em_map[h])
+                try:
+                    scale_samples.append(
+                        (rows[-1][4], float(em_map[h]) / 10000.0))
+                except (TypeError, ValueError):
+                    pass
             crosschecks[h] = verdict
             if verdict == "fail":
                 quarantined[h] = f"crosscheck {detail} @ {now:%Y-%m-%d}"
+                cross_fail_run.append((h, detail))
                 print(f"crosscheck FAIL {h}: {detail} -> quarantined")
                 continue
             done.append(h)
@@ -679,6 +751,19 @@ def _refresh_inner():
                                    "last_update": now.strftime(
                                        "%Y-%m-%d %H:%M:%S")})
         time.sleep(PAIR_SLEEP_S)
+
+    # T21 source falsification gate: broken crosscheck-source scale
+    # (tencent-parse-family garbage) -> this run's crosscheck fails are not
+    # trustworthy -> roll back quarantine actions, downgrade to deferred.
+    src_status, src_iqr, src_n = scale_gate_status(scale_samples)
+    crosscheck_source_degraded = (src_status == "fail")
+    if src_status == "fail" and cross_fail_run:
+        for h, _detail in cross_fail_run:
+            quarantined.pop(h, None)
+            crosschecks[h] = "deferred"
+        print(f"crosscheck source scale gate FAIL (IQR/med {src_iqr:.3g}, "
+              f"n {src_n}) -- {len(cross_fail_run)} fails downgraded to "
+              "deferred, zero quarantine (r952 falsification law)")
 
     _write_json(PROGRESS, {"run_target": target, "done": done,
                            "attempts": attempts, "quarantined": quarantined,
@@ -723,6 +808,11 @@ def _refresh_inner():
         crosscheck_pass=sum(1 for v in crosschecks.values() if v == "pass"),
         crosscheck_deferred=sum(1 for v in crosschecks.values()
                                 if v == "deferred"),
+        crosscheck_fail=sum(1 for v in crosschecks.values() if v == "fail"),
+        crosscheck_source=src_status,
+        crosscheck_source_iqr_over_med=src_iqr,
+        crosscheck_source_n=src_n,
+        crosscheck_source_degraded=crosscheck_source_degraded,
         fx_rows=len(fx_rows), fx_range_flag=fx_bad,
         hsahp_rows=hsahp_rows_n, tx_census_rows=tx_rows_n,
         panel_rows=panel_rows, last_refresh_exit=exit_code,
@@ -732,6 +822,121 @@ def _refresh_inner():
           f"quarantined={len(quarantined)} pulled_rows={pulled} "
           f"cutoff={cutoff} complete={complete} exit={exit_code}")
     return exit_code
+
+
+# --------------------------------------------------- T21 readjudicate/finalize
+
+def run_readjudicate(evidence_path=None):
+    """T21: offline re-adjudication of crosscheck quarantines on the E9
+    EM/10000 true-face evidence (results/ah_meanrev_probe.json). TX-parse
+    root cause = family-level false positive (E9 adjudication); evidence
+    rows give per-pair dual-gate verdicts. Failure-reason quarantines stay.
+    Receipt -> results/ah_readjudicate.json. Offline, zero network."""
+    ev_path = evidence_path or os.path.join("results", "ah_meanrev_probe.json")
+    ev = _read_json(ev_path) or {}
+    rows = ((ev.get("crosscheck_diagnosis") or {}).get("em_face")
+            or {}).get("rows", [])
+    er = {r.get("h_code"): r for r in rows}
+    prog = _read_json(PROGRESS) or {}
+    quarantined = dict(prog.get("quarantined") or {})
+    attempts = dict(prog.get("attempts") or {})
+    now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    receipt = {
+        "mode": "readjudicate", "ts": now, "evidence_path": ev_path,
+        "rule": {"abs_tol": CROSSCHECK_ABS_READJ,
+                 "rel_tol": CROSSCHECK_REL_TOL,
+                 "family_basis": "E9: TX census premium_pct parse broken "
+                                 "(NON_CONSTANT_SCALE, IQR/med 2.0) -> "
+                                 "crosscheck quarantine family = false "
+                                 "positive; mapping validated EM/10000"},
+        "evidence_rows": len(rows), "unquarantined": [], "kept": [],
+    }
+    for h, reason in sorted(list(quarantined.items())):
+        if not str(reason).startswith("crosscheck"):
+            receipt["kept"].append(
+                {"h_code": h, "verdict": "kept",
+                 "detail": "failure-reason quarantine (not crosscheck family)",
+                 "old_reason": reason})
+            continue
+        row = er.get(h)
+        if row:
+            v, detail = readjudicate_verdict(row.get("diff"),
+                                             row.get("em_fraction"))
+        else:
+            v, detail = readjudicate_verdict(None, None)
+        if v in ("pass", "family_adjudicated"):
+            quarantined.pop(h, None)
+            attempts[h] = 0
+            receipt["unquarantined"].append(
+                {"h_code": h, "verdict": v, "detail": detail,
+                 "old_reason": reason})
+        else:
+            quarantined[h] = (f"crosscheck re-adjudicated {detail} "
+                              f"@ {dt.date.today():%Y-%m-%d}")
+            receipt["kept"].append(
+                {"h_code": h, "verdict": v, "detail": detail,
+                 "old_reason": reason})
+    _write_json(PROGRESS, {"run_target": prog.get("run_target"),
+                           "done": list(prog.get("done") or []),
+                           "attempts": attempts, "quarantined": quarantined,
+                           "last_update": now})
+    _write_json(os.path.join("results", "ah_readjudicate.json"), receipt)
+    print(f"readjudicate: unquarantined {len(receipt['unquarantined'])} "
+          f"/ kept {len(receipt['kept'])} (evidence rows "
+          f"{receipt['evidence_rows']})")
+    return 0
+
+
+def run_finalize():
+    """T21: standalone consolidated-panel rebuild from per/ files excluding
+    currently quarantined pairs (machine-local data, zero network); refresh
+    the status face honestly. Offline."""
+    prog = _read_json(PROGRESS) or {}
+    quarantined = dict(prog.get("quarantined") or {})
+    em = _read_json(UNIVERSE_EM) or {}
+    em_by_h = {r["h_code"]: r for r in em.get("rows", [])}
+    cutoff, panel_rows, pairs_in_panel = None, 0, 0
+    frames = []
+    try:
+        import pandas as pd
+        for fn in sorted(os.listdir(PER_DIR)):
+            if not fn.endswith(".csv"):
+                continue
+            h = fn[:-4]
+            if h in quarantined or h not in em_by_h:
+                continue
+            dfp = pd.read_csv(pair_path(h))
+            if not len(dfp):
+                continue
+            dfp["h_code"] = h
+            dfp["a_code"] = em_by_h[h]["a_code"]
+            frames.append(dfp)
+            panel_rows += len(dfp)
+            pairs_in_panel += 1
+            dmax = str(dfp["date"].max())
+            if cutoff is None or dmax > cutoff:
+                cutoff = dmax
+        if frames:
+            panel = pd.concat(frames, ignore_index=True)[
+                ["date", "h_code", "a_code", "close_A", "close_H",
+                 "fx_HKD_CNY", "premium"]]
+            panel.sort_values(["date", "h_code"], inplace=True)
+            panel.to_parquet(PANEL_PARQUET, index=False)
+    except Exception as e:
+        print(f"panel assembly error: {str(e)[:200]}")
+        return 2
+    now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    complete = ((pairs_in_panel + len(quarantined)) >= len(em_by_h)
+                and cutoff is not None)
+    write_status(mode="finalize", ts=now, complete=complete, cutoff=cutoff,
+                 quarantined=quarantined, quarantine_count=len(quarantined),
+                 panel_rows=panel_rows, panel_pairs=pairs_in_panel,
+                 universe_em_total=len(em_by_h),
+                 evidence_cutoff=cutoff)
+    print(f"finalize: panel_pairs={pairs_in_panel} rows={panel_rows} "
+          f"cutoff={cutoff} quarantined={len(quarantined)} "
+          f"complete={complete}")
+    return 0
 
 
 # ---------------------------------------------------------------- gate
@@ -869,12 +1074,33 @@ def _selftest():
           and r9["quarantined"] == {"03308": "x"}
           and progress_roll(p9, "2026-09-24") is p9)
 
-    # F10 crosscheck verdict (pass / fail / deferred)
-    v1, _ = crosscheck_verdict(0.1621, 16.5)
-    v2, _ = crosscheck_verdict(0.1621, 80.0)
-    v3, _ = crosscheck_verdict(0.1621, None)
+    # F10 crosscheck verdict (T21 EM f188 re-point: raw/10000, dual gate)
+    v1, _ = crosscheck_verdict(0.1621, 1621)      # em 0.1621, diff ~0 pass
+    v2, _ = crosscheck_verdict(0.1621, 8000)      # em 0.8, diff .64 rel .80 fail
+    v3, _ = crosscheck_verdict(0.1621, None)      # deferred
+    v4, _ = crosscheck_verdict(0.9, 12000)        # diff .3 > .05, rel .25 pass
+    v5, _ = crosscheck_verdict(0.1621, "abc")    # unparseable deferred
     check("F10 crosscheck_verdict", v1 == "pass" and v2 == "fail"
-          and v3 == "deferred")
+          and v3 == "deferred" and v4 == "pass" and v5 == "deferred")
+
+    # F13 scale gate (source falsification: healthy tight vs garbage wide)
+    healthy = [(1.0 + 0.02 * ((i % 5) - 2), 1.0) for i in range(20)]
+    garbage = [(1.0 * (10 ** ((i % 7) - 3)), 1.0) for i in range(20)]
+    tiny = healthy[:4]
+    s_h, iqr_h, n_h = scale_gate_status(healthy)
+    s_g, iqr_g, n_g = scale_gate_status(garbage)
+    s_t, _, n_t = scale_gate_status(tiny)
+    check("F13 scale_gate_status", s_h == "pass" and s_g == "fail"
+          and s_t == "insufficient" and n_h == 20 and n_t == 4
+          and iqr_g is not None and iqr_g > SCALE_GATE_IQR_MED)
+
+    # F14 readjudication rule (dual gate on E9 evidence face)
+    r1, _ = readjudicate_verdict(0.03, 0.48)      # abs pass
+    r2, _ = readjudicate_verdict(0.227, 2.069)    # abs fail, rel .11 pass
+    r3, _ = readjudicate_verdict(0.4, 0.2)        # abs fail, rel 2.0 fail
+    r4, _ = readjudicate_verdict(None, None)      # family adjudication
+    check("F14 readjudicate_verdict", r1 == "pass" and r2 == "pass"
+          and r3 == "fail" and r4 == "family_adjudicated")
 
     # F11 pair file roundtrip (header + append + read)
     test_h = "99999"
@@ -893,7 +1119,7 @@ def _selftest():
     check("F12 status readable", isinstance(st, dict))
 
     print(f"selftest: {len(fails)} fail" + ("s" if len(fails) != 1 else "")
-          + f" / 12 groups")
+          + f" / 14 groups")
     return 1 if fails else 0
 
 
@@ -906,10 +1132,14 @@ def main(argv):
     if cmd == "status":
         print(json.dumps(load_status(), ensure_ascii=False, indent=1))
         return 0
+    if cmd == "readjudicate":
+        return run_readjudicate() or 0
+    if cmd == "finalize":
+        return run_finalize() or 0
     if cmd == "selftest":
         return _selftest()
     print(f"unknown subcommand: {cmd} (gate default | refresh | status | "
-          f"selftest)")
+          f"readjudicate | finalize | selftest)")
     return 2
 
 

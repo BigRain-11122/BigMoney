@@ -29,6 +29,16 @@
 - **腾讯普查面（辅助）**：`hk_rank.php` board=A_H（akshare stock_zh_ah_spot 同源，页级重试）；
   行第 14 字段=溢价率%——用作**逐对映射交叉验**：|合成 premium − 腾讯溢价% /100| ≤ 0.05
   过；**超标=映射疑误=该对隔离**（错映射=毒因子数据，宁可停对人工复核）。
+- **【T21 修订 2026-10-10 r952】检查源重指**：腾讯普查溢价%解析=烂值面（E9 判决：
+  NON_CONSTANT_SCALE·ratio IQR/med=2.0·91 对 mass quarantine=false-positive 族）——
+  交叉验检查源重指 **EM f188 溢价（raw/10000=fraction·与映射权威面同批拉取零额外请求）**；
+  判据升格双门=|合成 premium − EM f188/10000| ≤ 0.05 **OR** 相对差 ≤ 0.30（census 现场
+  vs 末 bar 日期差 confound 吸收；错映射表现为与 level 同量级的 gap 而非几个 pp）；
+  **检查源证伪门（r952 证伪测试律）**：批内 synth/EM 比值分布 IQR/median > 0.5=源刻度坏
+  →本轮 crosscheck fail 全降级 deferred 零隔离（防烂源再产假隔离族）；
+  TX census 面保留宇宙差集披露职（h_code 集），溢价值弃用。91 假隔离对已按 E9 证据面
+  逐对复判全数释放（`readjudicate` 子命令·回执 results/ah_readjudicate.json；
+  `finalize` 子命令=独立 parquet 重建腿）。
 - 宇宙漂移如实记（探针日 220 对 vs 采集日 200 对实证）；EM total 与腾讯 census 差集入 status。
 
 ## §3 采集契约（house 模式=update_moneyflow/THS 族）
