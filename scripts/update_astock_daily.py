@@ -52,9 +52,13 @@ Semantics (update_sina_mf / update_futures family):
   expected cutoff (next bar day) re-arms every settled symbol -- a resumed
   stock is fetched again (self-heal law preserved)
 - gate (daily-forward face): panel complete AND cutoff >= expected latest
-  complete bar date -> zero-network no-op; incomplete/first-pull -> spawn
-  detached full-universe refresh; complete but cutoff lagging > 20td ->
-  refresh-repull (all symbols); 30-min spawn throttle; lock-alive no-op
+complete bar date -> zero-network no-op; incomplete/first-pull -> spawn
+detached full-universe refresh; complete but cutoff lagging > 20td ->
+refresh-repull (all symbols); 30-min spawn throttle; lock-alive no-op;
+disk-truth guard: a "complete" verdict is verified against per/*.csv on
+disk -- the tracked status face alone cannot no-op (P0 r834-kin: tree
+deletion destroyed gitignored per files, git restore revived the status
+face only -> gate would no-op forever on a dead panel)
 - lane guard: gate acts only on bm-b (R31); other machines stdout-only no-op
 
 Exit codes (gate):    0 = ok/no-op/spawned/in-progress; 2 = machinery failure
@@ -703,6 +707,16 @@ def spawn_detached(arg):
                          close_fds=False)
 
 
+def _disk_truth_override(complete, panel, per_on_disk):
+    """P0 r834-kin guard: gitignored per/*.csv are un-restorable from git,
+    so a tracked status face may keep claiming a complete panel that no
+    longer exists on disk. Disk face wins."""
+    if not complete:
+        return False
+    claimed = int(panel.get("per_files") or 0)
+    return per_on_disk == 0 or per_on_disk < claimed
+
+
 def gate():
     """S6 step: freshness verdict -> detached spawn (daily-forward face)."""
     st = load_status()
@@ -715,6 +729,15 @@ def gate():
     panel = st.get("panel") or {}
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
+    per_on_disk = len(_glob.glob(os.path.join(PER_DIR, "*.csv")))
+    st["per_files_on_disk"] = per_on_disk
+    if _disk_truth_override(complete, panel, per_on_disk):
+        st["disk_truth_override"] = (
+            f"status claims complete panel but per files on disk = "
+            f"{per_on_disk} (status {panel.get('per_files')}) -> disk face "
+            f"wins, rebuild (P0 r834-kin guard)")
+        complete = False
+        cutoff = None
     needs, reason = stale_gate(cutoff, now)
     if not needs:
         st["ts"] = now.isoformat(timespec="seconds")
@@ -785,6 +808,15 @@ def _selftest():
     assert needs and "structural stale" in reason2, reason2
     needs, _ = stale_gate(None, now, dates)
     assert needs and "first pull" in _
+    # disk-truth override (P0 r834-kin guard): tracked status claiming a
+    # complete panel cannot no-op when the gitignored per/*.csv face is
+    # gone / partially deleted -- disk face wins, rebuild spawns
+    assert _disk_truth_override(True, {"per_files": 5217}, 0)
+    assert _disk_truth_override(True, {"per_files": 5217}, 4000)
+    assert _disk_truth_override(True, {}, 0)          # legacy status shape
+    assert not _disk_truth_override(True, {"per_files": 5217}, 5217)
+    assert not _disk_truth_override(True, {"per_files": 5217}, 5300)
+    assert not _disk_truth_override(False, {"per_files": 5217}, 0)
     # completeness guard (family S1)
     rows = [{DATE_KEY: "2026-09-24", PRIMARY: 1.0},
             {DATE_KEY: "2026-09-25", PRIMARY: 2.0}]

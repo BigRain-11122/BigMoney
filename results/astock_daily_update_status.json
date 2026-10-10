@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-10T20:19:29",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-10-10T20:40:01",
+  "mode": "refresh in progress (todo=5229/5229, quarantined=0, settled=0)",
   "panel": {
-    "complete": true,
+    "complete": false,
     "cutoff": "2026-10-09",
     "universe_n": 5229,
     "per_files": 5217
@@ -32,7 +32,7 @@
     "repull": false
   },
   "quarantined_n": 12,
-  "last_spawn_attempt": "2026-10-10T06:53:54",
+  "last_spawn_attempt": "2026-10-10T20:40:00",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
   "settled_n": 14,
@@ -52,5 +52,7 @@
     "601198",
     "688496"
   ],
-  "no_op_reason": "panel fresh (cutoff 2026-10-09 >= expected 2026-10-09)"
+  "no_op_reason": "panel fresh (cutoff 2026-10-09 >= expected 2026-10-09)",
+  "per_files_on_disk": 0,
+  "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5217) -> disk face wins, rebuild (P0 r834-kin guard)"
 }
