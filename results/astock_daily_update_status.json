@@ -1,11 +1,11 @@
 {
-  "ts": "2026-10-11T01:30:20",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-11T02:01:02",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-09",
     "universe_n": 5229,
-    "per_files": 5217
+    "per_files": 5219
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -19,40 +19,36 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 14,
-    "fetched": 14,
+    "todo": 24,
+    "fetched": 18,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "failures_tail": [
+      "000019:RuntimeError:validation_fail:sanity_defects=1/7875",
+      "001235:KeyError:'date'",
+      "001381:KeyError:'date'",
+      "301569:KeyError:'date'",
+      "301660:KeyError:'date'",
+      "301718:KeyError:'date'",
+      "688089:RuntimeError:validation_fail:sanity_defects=1/1637",
+      "688143:RuntimeError:validation_fail:sanity_defects=1/914",
+      "688173:RuntimeError:validation_fail:sanity_defects=1/1131",
+      "689009:JSONDecodeError:No value to decode"
+    ],
+    "failures_n": 10,
     "conn_stopped": false,
-    "elapsed_min": 0.9,
+    "elapsed_min": 1.4,
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
-  "quarantined_n": 12,
-  "last_spawn_attempt": "2026-10-10T20:40:00",
+  "quarantined_n": 0,
+  "last_spawn_attempt": "2026-10-11T01:59:36",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 14,
-  "settled": [
-    "000016",
-    "000582",
-    "000668",
-    "002388",
-    "002667",
-    "002731",
-    "002813",
-    "002860",
-    "300082",
-    "300773",
-    "600293",
-    "601059",
-    "601198",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-10-09 >= expected 2026-10-09)",
-  "per_files_on_disk": 4761,
+  "per_files_on_disk": 5219,
   "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5217) -> disk face wins, rebuild (P0 r834-kin guard)"
 }

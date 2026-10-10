@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-11",
- "generated_at": "2026-10-11 01:33:33",
+ "generated_at": "2026-10-11 01:55:32",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -277,31 +277,37 @@
    "clock_cell": "ORANGE_COOL",
    "position_cap_ladder": 0.5,
    "active_sleeves": [
-    "grid sleeve (grid) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
-    "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
-    "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_EVIDENCE_FACE_MISSING; profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3))",
+    "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
+    "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
+    "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
     "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
    ]
   },
   "marks_asof": "2026-10-09"
  },
  "live_usage": {
-  "status": "missing",
-  "note": "LIVE-2026-10-11.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数"
+  "status": "ok",
+  "day": "2026-10-11",
+  "state": "ORANGE",
+  "rung": "ORANGE",
+  "cap": 0.5,
+  "heat": "COOL",
+  "clock_cell": "ORANGE_COOL",
+  "members": 6,
+  "md_link": "../live_usage/LIVE-2026-10-11.md"
  },
  "rd": {
-  "commits_24h": 544,
-  "result_jsons_landed_24h": 209,
+  "commits_24h": 538,
+  "result_jsons_landed_24h": 207,
   "digests_landed_24h": 14,
-  "prereg_md_touched_24h": 35,
+  "prereg_md_touched_24h": 34,
   "compute_audit_latest": {
-   "ts": "2026-10-11 01:32:31",
-   "py_cpu_pct": 29.7,
+   "ts": "2026-10-11 01:53:16",
+   "py_cpu_pct": 2.3,
    "flags": [
-    "gpu_unauthorized",
     "supply_floor"
    ],
-   "verdict": "FLAG:gpu_unauthorized,supply_floor"
+   "verdict": "FLAG:supply_floor"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -659,10 +665,13 @@
   }
  ],
  "token_line": {
-  "total_state_tokens_est": null,
-  "total_report_tokens_est": null,
+  "total_state_tokens_est": 2049,
+  "total_report_tokens_est": 1893534,
   "delta_vs_prev": null,
-  "method": null
+  "method": {
+   "bpe_proxy": 3.5,
+   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+  }
  },
  "utilization": {
   "machines": {
@@ -729,60 +738,20 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-11 00:38:46",
-    "py_pct": 3.9,
-    "cpu_pct": 3.0,
+    "latest_ts": "2026-10-11 01:53:16",
+    "py_pct": 2.3,
+    "cpu_pct": 6.0,
     "ready": 0,
-    "streak_min": 3042.5,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 20.8,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
-      "21:44",
-      16.4
+      "01:32",
+      29.7
      ],
      [
-      "22:21",
-      0.4
-     ],
-     [
-      "22:56",
-      4.1
-     ],
-     [
-      "23:16",
-      6.0
-     ],
-     [
-      "23:25",
-      4.7
-     ],
-     [
-      "16:13",
-      18.6
-     ],
-     [
-      "16:27",
-      6.0
-     ],
-     [
-      "23:17",
-      5.8
-     ],
-     [
-      "23:43",
-      33.2
-     ],
-     [
-      "23:54",
-      5.8
-     ],
-     [
-      "00:22",
-      15.1
-     ],
-     [
-      "00:38",
-      3.9
+      "01:53",
+      2.3
      ]
     ],
     "today_samples": 2,
@@ -844,7 +813,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-11 00:38:46"
+     "audit_ts": "2026-10-11 01:53:16"
     }
    },
    "bm-c": {
