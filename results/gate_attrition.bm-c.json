@@ -17895,6 +17895,29 @@
    ],
    "prereg": "research/PERPETUAL_N2_W18_PREREG.md",
    "runner": "scripts/alphagen_beam_w18.py"
+  },
+  {
+   "batch": "PERPETUAL-N2-W19",
+   "ts": "2026-10-11 06:0x",
+   "kind": "ic_judgment",
+   "cells_ledger_delta": 496,
+   "ledger_total_after": 877227,
+   "gates": {
+    "face": "family-level V1 (T23 census calibration law) + per-survivor M1 t>=3.0 positive-direction; per-cell full chain = h1_ok survivor AND M1; registration chain NOT in batch scope (material pool only, prereg sec.0)",
+    "v1_pass": 1,
+    "v1_unjudgeable": 0,
+    "m1_pass": 9,
+    "full_chain_pass": 9
+   },
+   "entries": [
+    "freeze_window=r864_bm-b_f5426c419",
+    "pooled_nulls=336>=300_frozen_sufficiency_line->first_judgeable_burn_of_the_feedback_lever",
+    "attrition=6_t84s3+5_in_batch_dup->11_excluded;51_enrolled;3_h1_skip(5.9%<10%_guard);48_ok;48*7=336",
+    "v1_family_max|ICIR|=0.38>pooled_null_p95=0.086->HOLDS",
+    "d1_leverage=0.38_vs_census_random_0.353->positive_signal(descriptive_non-gating;K=62_vs_64_parity_disclosed)",
+    "m1_t>=3.0_positive_direction=9/48_survivors",
+    "material_pool_only;zero_registration;zero_engine_runs"
+   ]
   }
  ],
  "history": [
