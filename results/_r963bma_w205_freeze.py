@@ -113,7 +113,8 @@ def main():
     for w, c in N1_BANDS.items():
         owners[c.get("engine_owner")] = owners.get(c.get("engine_owner"), 0) + 1
     assert owners.get("bm-a") == 118 and owners.get("bm-c") == 36 \
-        and owners.get("bm-b") == 40 and sum(owners.values()) == 194
+        and owners.get("bm-b") == 40 and owners.get(None) == 8 \
+        and len(N1_BANDS) == 202
     fin = json.load(open(os.path.join(
         ROOT, "results", "perpetual_faces", "n1_w204_results.json"),
         encoding="utf-8"))
@@ -175,6 +176,7 @@ def main():
 
     # ---- G5 mat205 ----
     ci = mat204.find("_set_wave(204)")
+    ci = mat204.rfind("\n", 0, ci) + 1  # keep line-start indent
     body204 = mat204[ci:]
     comment205 = """    # --- W205 materializer face (r963 bm-a five-face freeze under CEO
     #     fill-order RE-ISSUE O-20261010-2350-bm-c critical path +
@@ -248,6 +250,7 @@ def main():
     body204 = rep(body204, '"n1w204-0of12"', '"n1w205-0of12"', 1, "shard-id-0")
     body204 = rep(body204, '"n1w204-11of12"', '"n1w205-11of12"', 1, "shard-id-11")
     body204 = rep(body204, '"n1_w204_results.json"', '"n1_w205_results.json"', 1, "out-name")
+    body204 = rep(body204, 'SHARD_DIR.endswith("n1_w204")', 'SHARD_DIR.endswith("n1_w205")', 1, "shard-dir")
     # ordinal + set_wave
     body204 = rep(body204, "SIXTY-FOURTH", "SIXTY-FIFTH", 2, "ordinal")
     body204 = rep(body204, "_set_wave(204)", "_set_wave(205)", 1, "set-wave")
@@ -270,6 +273,8 @@ def main():
     pin_new = rep(pin_new, '"engine_owner": "bm-a"},',
                   '"engine_owner": "bm-c"},', 1, "pin-owner")
     pin_new = pin_new.replace("(r307; bm-a r936)", "(r307; bm-c r837)")
+    pin_new = pin_new.replace("registered W203 row parity",
+                              "registered W204 row parity")
     body204 = rep(body204, "\x00PIN\x00", pin_new, 1, "pin-restore")
     for tok in ("W203", "\x00", "bm-a r938", "860,945", "w203_", "n1_w204",
                 "PERPETUAL-N1-W204", "PERPETUAL_N1_W204"):
@@ -340,15 +345,15 @@ def main():
     # upstream cites
     cfg205 = rep(cfg205, "bm-a r936 freeze", "bm-c r837 freeze+finalize one-pass", 1, "cfg-up1")
     cfg205 = rep(cfg205, "b2bb60963", "2c8ef33c8", 1, "cfg-up2")
-    cfg205 = rep(cfg205, "bm-a r938", "bm-c r837", 2, "cfg-up3")
-    cfg205 = rep(cfg205, "860,945", "864,387", 2, "cfg-up4")
-    cfg205 = rep(cfg205, "444,520", "446,720", 2, "cfg-up5")
+    cfg205 = rep(cfg205, "bm-a r938", "bm-c r837", 1, "cfg-up3")
+    cfg205 = rep(cfg205, "860,945", "864,387", 1, "cfg-up4")
+    cfg205 = rep(cfg205, "444,520", "446,720", 1, "cfg-up5")
     # seat / receipt / names / ordinals
     cfg205 = rep(cfg205, "MSG-20261010-0022-bmc-w204-seat PUSHED to origin 7cf82c262",
                  "MSG-2026-10-10-1627-bma-w205-seat PUSHED to origin 63b5bd3dd", 1, "cfg-seat")
     cfg205 = rep(cfg205, "results/_w204bmc_20261010_probe_receipt.json",
                  "results/_r956bma_w205_probe_receipt.json", 1, "cfg-receipt")
-    cfg205 = rep(cfg205, "PERPETUAL-N1-W204", "PERPETUAL-N1-W205", 1, "cfg-batch")
+    cfg205 = rep(cfg205, '204: {"batch": "PERPETUAL-N1-W204",', '205: {"batch": "PERPETUAL-N1-W205",', 1, "cfg-rowno-batch")
     cfg205 = rep(cfg205, "PERPETUAL_N1_W204_PREREG.md", "PERPETUAL_N1_W205_PREREG.md", 1, "cfg-prereg")
     cfg205 = rep(cfg205, '"shard_subdir": "n1_w204", "out_name": "n1_w204_results.json"',
                  '"shard_subdir": "n1_w205", "out_name": "n1_w205_results.json"', 1, "cfg-shard")
@@ -415,6 +420,8 @@ def main():
           "ADMIT receipt "
           "results/_r956bma_w205_probe_receipt.json, law sec.4 W205 row, "
           "r963 bm-a] "
+"""
+    claim205 = claim205.rstrip("\n")
 
     if fails:
         print("RESULT: FAIL at rolls (%d) -- zero writes" % len(fails))
@@ -427,6 +434,7 @@ def main():
     P = [pre_src]
 
     def pr(old, new, expect, tag):
+        old = old.replace("2026", "\x00Y26")
         P[0] = rep(P[0], old, new, expect, tag)
 
     P[0] = P[0].replace("2026", "\x00Y26")
@@ -480,8 +488,8 @@ def main():
     pr("--prereg research/PERPETUAL_N1_W204_PREREG.md", "--prereg research/PERPETUAL_N1_W205_PREREG.md", 1, "pre-gate-path")
     pr("entry rng seed=**463_604+j**（法典 §4 W204 行 A=463_604..465_603·**FIRST-CLEAN past prior-wave B 阶梯第六十四例**：算术续带 463_204..465_203 起点即被 W203 声明 B 带拒→1 hop 落 463_604..465_603·",
        "entry rng seed=**465_804+j**（法典 §4 W205 行 A=465_804..467_803·**FIRST-CLEAN past prior-wave B 阶梯第六十五例**：算术续带 465_604..467_603 起点即被 W204 注册 B 带拒→1 hop 落 465_804..467_803·", 1, "pre-A-tier")
-    pr("entry rng=**463_604+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）；exit rng=**465_604+j**（法典 §4 W204 行 B=465_604..465_803·**FIRST-CLEAN past own-wave A**：B 算术续带 463_604..463_803 在声明宇宙上 CLEAN 但落在本波 A 窗 463_604..465_603 内→**同窗互斥面 leg2 律·W141 先例**强制 B 越本波 A 窗→保留走落 465_604..465_803·hops=1·**B base==本波 A 尾+1 机检关系**·非转抄 r587·hop 链逐跳在 probe 回执·与 W203 席位 leg4 投影+r930 probe leg4 承接面注记兑现收敛·ADMIT 回执在场）",
-       "entry rng=**465_804+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）；exit rng=**467_804+j**（法典 §4 W205 行 B=467_804..468_003·**FIRST-CLEAN past own-wave A**：B 算术续带 465_804..466_003 在声明宇宙上 CLEAN 但落在本波 A 窗 465_804..467_803 内→**同窗互斥面 leg2 律·W141 先例**强制 B 越本波 A 窗→保留走落 467_804..468_003·hops=1·**B base==本波 A 尾+1 机检关系**·非转抄 r587·hop 链逐跳在 probe 回执·与 W204 pf/probe leg4 投影承接面注记兑现收敛·ADMIT 回执在场）", 1, "pre-B-tier")
+    pr("entry rng=**463_604+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）；exit rng=**465_604+j**（法典 §4 W204 行 B=465_604..465_803·**FIRST-CLEAN past own-wave A**：B 算术续带 463_604..463_803 在声明宇宙上 CLEAN 但落在本波 A 窗 463_604..465_603 内→**同窗互斥面 leg2 律·W141 先例**强制 B 越本波 A 窗→保留走落 465_604..465_803·hops=1·**B base==本波 A 尾+1 机检关系**·非轮转 r587·hop 链逐跳在 probe 回执·与 W203 席位 leg4 投影+r930 probe leg4 承接面注记兑现收敛·ADMIT 回执在场）",
+       "entry rng=**465_804+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）；exit rng=**467_804+j**（法典 §4 W205 行 B=467_804..468_003·**FIRST-CLEAN past own-wave A**：B 算术续带 465_804..466_003 在声明宇宙上 CLEAN 但落在本波 A 窗 465_804..467_803 内→**同窗互斥面 leg2 律·W141 先例**强制 B 越本波 A 窗→保留走落 467_804..468_003·hops=1·**B base==本波 A 尾+1 机检关系**·非轮转 r587·hop 链逐跳在 probe 回执·与 W204 pf/probe leg4 投影承接面注记兑现收敛·ADMIT 回执在场）", 1, "pre-B-tier")
     pr("W204 带与 v1 在用带", "W205 带与 v1 在用带", 1, "pre-disjoint1")
     pr("W2..W202 带（**全注册单态**）、W203 声明带注入、", "W2..W204 带（**全注册单态**）、", 1, "pre-disjoint2")
     pr("本波机验 ADMIT 回执在场=_w204bmc_20261010 探针窗", "本波机验 ADMIT 回执在场=_r956bma_w205 探针窗", 1, "pre-disjoint3")

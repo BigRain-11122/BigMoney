@@ -6068,6 +6068,29 @@ N1_BANDS = {
     # NOT a re-pick (R250: W204 bands were never assigned).
     204: {"a": (463_604, 465_603), "b_exit": (465_604, 465_803),
          "engine_owner": "bm-c"},
+    # W205 (bm-a r963 freeze, seat MSG-2026-10-10-1627-bma-w205-seat pushed
+    # to origin 63b5bd3dd pre-freeze r565 law; probe receipt
+    # results/_r956bma_w205_probe_receipt.json ADMIT; W204-state guard
+    # FIRED at freeze: the W204 row landed on origin (bm-c r837
+    # freeze+finalize 2c8ef33c8) after the W205 seat -- re-pulled +
+    # re-verified, bands match the declared universe the seat derived
+    # on; A 465_804..467_803 hops=1 A-hops-prior-B staircase
+    # SIXTY-FIFTH instance E36; B 467_804..468_003 hops=1 own-A
+    # mutual exclusion W141; not a re-pick R250; zero --no-verify;
+    # the W205 seat MSG sits in fleet/inbox/processed/ at freeze
+    # time, honest archived per S7 law;
+    # W206+ projection per probe leg4: A first-clean 467_804..469_803
+    # CLEAN / B first-clean 468_004..468_203 CLEAN -- naive B lands
+    # INSIDE the naive A window and the registered W205 B band
+    # 467_804..468_003 will refuse the naive W206 A window (W206 seat
+    # MSG-20261010-2323-bmc declared on the post-W205 universe; the
+    # W206 freezer MUST re-pull and re-verify if the W205 row lands
+    # before the W206 freeze); W206 freezer MUST re-derive on the
+    # post-W205 universe AND reserve the own-wave A window when
+    # deriving B (W141 precedent, same-freeze mutual exclusion, leg2
+    # law, E36 staircase card; never transcribe r587)).
+    205: {"a": (465_804, 467_803), "b_exit": (467_804, 468_003),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

@@ -1,0 +1,99 @@
+{
+ "round": 963,
+ "machine": "bm-a",
+ "wave": 205,
+ "receipt": "ADMIT parity OK",
+ "w204_guard": {
+  "rows": 202,
+  "tail": "W204",
+  "anchor_total": 864387,
+  "anchor_K": 446720
+ },
+ "w206_declared_disjoint": true,
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "frag_sizes": {
+  "pf": 3520,
+  "cfg": 5661,
+  "mat": 22531,
+  "claim": 1047
+ },
+ "body_W_rolls": {
+  "W204_to_W205": 26,
+  "W203_to_W204": 13
+ },
+ "cfg_W_rolls": {
+  "W204_to_W205": 4,
+  "W203_to_W204": 10
+ },
+ "prereg_len": 12167,
+ "post_import": {
+  "rows": 203,
+  "w205": {
+   "a": [
+    465804,
+    467803
+   ],
+   "b_exit": [
+    467804,
+    468003
+   ],
+   "engine_owner": "bm-a"
+  },
+  "w204": {
+   "a": [
+    463604,
+    465603
+   ],
+   "b_exit": [
+    465604,
+    465803
+   ],
+   "engine_owner": "bm-c"
+  },
+  "w203": {
+   "a": [
+    461404,
+    463403
+   ],
+   "b_exit": [
+    463404,
+    463603
+   ],
+   "engine_owner": "bm-a"
+  },
+  "cfg205": [
+   465804,
+   467804,
+   "n1_w205",
+   "n1_w205_results.json",
+   "bm-a"
+  ]
+ },
+ "banned_direction_gate_rc": 0,
+ "seed_admit_gate_rc": 2,
+ "seed_admit_gate_tail": "usage: seed_admit_gate.py [-h] [--span SPAN] [--selfcheck] [base]\r\nseed_admit_gate.py: error: argument base: invalid int value: 'check'\r\n",
+ "seed_admit_gate_note": "G11b original call form was wrong (prior-session bug: 'check' subcommand does not exist, rc=2 usage error). Correct-form post-freeze evidence: seed_admit_gate 465804 -> N1_BAND_COLLISION wave=205 key=a (self collision = the W205 A band correctly registered); 467804 -> N1_BAND_COLLISION wave=205 key=b_exit (self). ZERO REGISTRY_COLLISION on either base = SEED_REGISTRY face clean. Pre-freeze ADMIT substance = r956 probe receipt (bands clean on pre-W205 universe, on origin 63b5bd3dd) + freeze-time G9 disjointness vs all 202 rows.",
+ "seed_admit_gate_postfreeze": {
+  "465804": {
+   "rc": 1,
+   "faces": [
+    "N1_BAND_COLLISION value=465804 wave=205 key=a lo=465804 hi=467803",
+    "seed_admit_gate rc1 base=465804 span=1 collisions=1 verdict=BLOCKED"
+   ]
+  },
+  "467804": {
+   "rc": 1,
+   "faces": [
+    "N1_BAND_COLLISION value=467804 wave=205 key=b_exit lo=467804 hi=468003",
+    "seed_admit_gate rc1 base=467804 span=1 collisions=1 verdict=BLOCKED"
+   ]
+  }
+ },
+ "selftest": {
+  "perpetual_faces": "9/9 PASS (includes W205 seed-bands leg)",
+  "perpetual_faces_n1": "exit 0 (claims chain ends with W205 r963 bm-a face + T-141 exemption)"
+ }
+}
