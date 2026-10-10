@@ -1,0 +1,70 @@
+{
+ "face": "REGIME-AXIS panic-window single-canonical reconciliation",
+ "round": 837,
+ "machine": "bm-c",
+ "ticket": "T-2026-10-10-182",
+ "order_ref": "O-20261010-1725-bm-a sec.1 extreme-market column",
+ "panel_source": "results/regime_thermo/thermo_daily.csv",
+ "panel_cutoff": "2026-09-22",
+ "canonical": {
+  "file": "results/regime_axis_m1/panic_windows.json",
+  "owner": "bm-b r837",
+  "criteria": {
+   "P": "n_sealed_down >= 1000 (single-day limit-down >= 1000)",
+   "I_icepoint": "n_sealed <= 30 AND n_sealed_down >= 800 (thermo up-board freeze x panic-adjacent)",
+   "union": "P or I",
+   "cluster_gap_trading_days": 10
+  },
+  "n_days": 25,
+  "n_windows": 12
+ },
+ "independent_rederive": {
+  "n_days": 25,
+  "n_windows": 12,
+  "date_set_equal_to_bmb": true,
+  "leg_composition": {
+   "P_only": 6,
+   "I_only": 5,
+   "both": 14
+  }
+ },
+ "cross_checks": {
+  "bmc_r835_leg1_only": {
+   "n_days": 20,
+   "status": "kept as cross-check"
+  },
+  "bma_r956_threshold800": {
+   "n_days": 29,
+   "status": "kept as cross-check"
+  }
+ },
+ "divergence_root_cause": {
+  "band_800_1000": 9,
+  "icepoint_days_in_band": 5,
+  "non_icepoint_days_in_band": 4,
+  "non_icepoint_dates": [
+   {
+    "date": "2015-06-19",
+    "n_sealed": 47,
+    "n_sealed_down": 925
+   },
+   {
+    "date": "2015-07-06",
+    "n_sealed": 62,
+    "n_sealed_down": 829
+   },
+   {
+    "date": "2015-10-21",
+    "n_sealed": 31,
+    "n_sealed_down": 807
+   },
+   {
+    "date": "2024-10-09",
+    "n_sealed": 53,
+    "n_sealed_down": 896
+   }
+  ],
+  "verdict": "bm-a >=800 single threshold absorbs 4 non-ice-point days that satisfy neither order-text leg; bm-c 20-day face = leg-1 only (ice-point leg absent at r835)"
+ },
+ "verdict": "CANONICAL = bm-b panic_windows.json (order-text verbatim two-leg union, 25 days / 12 windows, independently re-derived identical)"
+}

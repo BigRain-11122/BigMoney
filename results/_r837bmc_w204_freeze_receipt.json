@@ -1,0 +1,39 @@
+{
+ "round": 837,
+ "machine": "bm-c",
+ "wave": 204,
+ "phase": "five-face freeze phase-2 splice rebuild (C1804 loss, honest rebuild)",
+ "origin_base": "033353999eed8219209f432ad41d4fb95482d6ee",
+ "pf_sha16_pre": "1906589df0ca019b",
+ "n1_sha16_pre": "7cfecb951f4d9675",
+ "pf_sha16_post": "9b907ba18948ece5",
+ "n1_sha16_post": "a0b30e9713988e4b",
+ "bands": {
+  "A": "463604_465603",
+  "B": "465604_465803",
+  "a_lo": 463604,
+  "a_hi": 465603,
+  "b_lo": 465604,
+  "b_hi": 465803
+ },
+ "admit_receipt": "results/_w204bmc_20261010_probe_receipt.json",
+ "seed_admit_gate": [
+  "rc0 base=463604 span=2000 checked=2000 verdict=FREE",
+  "rc0 base=465604 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run r837 freeze window)",
+ "adjudication_unblock": "W139/W140 carve-outs 7464be852 (O-20261010-1906-bm-c, receipt MSG-2026-10-10-1940)",
+ "parity_section": {
+  "source": "W203 block physical bytes (rows 138..187)",
+  "bytes": 13016,
+  "row_asserts": 50
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w203_block_kept": 1
+ }
+}

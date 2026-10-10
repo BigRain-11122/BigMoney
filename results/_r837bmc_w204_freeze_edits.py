@@ -16,14 +16,20 @@ def git(*a):
     return subprocess.run(["git", "-C", REPO, *a], capture_output=True)
 
 # ---------- gate 0: fresh origin, working == origin (r609 law) ----------
+# condition: origin/main fully contained in HEAD (no behind) AND the
+# two splice-target faces are byte-identical to the origin/main blobs.
 git("fetch", "origin")
 r = git("rev-parse", "HEAD"); head = r.stdout.decode().strip()
 ro = git("rev-parse", "origin/main"); omain = ro.stdout.decode().strip()
-assert head == omain, f"HEAD {head} != origin/main {omain} -- rebase first (r609)"
+anc = git("merge-base", "--is-ancestor", "origin/main", "HEAD")
+assert anc.returncode == 0, f"origin/main {omain} not contained in HEAD {head} -- rebase first (r609)"
 for path in ("scripts/perpetual_faces.py", "scripts/perpetual_faces_n1.py"):
     b = git("show", f"origin/main:{path}")
     w = open(os.path.join(REPO, path), "rb").read()
-    assert b.stdout == w, f"working {path} != origin blob -- stale base (r609 abort)"
+    # autocrlf=true: repo blob is LF, working tree is CRLF -- compare
+    # content modulo EOL (byte identity on the normalized plane).
+    assert b.stdout.replace(b"\r\n", b"\n") == w.replace(b"\r\n", b"\n"), \
+        f"working {path} != origin blob (content, EOL-normalized) -- stale base (r609 abort)"
 
 # ---------- band facts from the committed ADMIT receipt (never transcribed) ----------
 rec = json.load(open(RECEIPT_IN, encoding="utf-8"))
@@ -218,10 +224,14 @@ PRE = [
  "merge loop still derives the wave set from registry ",
  "keys at run time, FAIL-CLOSED r307 always on)",
 ]
-for s in PRE:
-    cfg_lines.append(f'{PRE_I}"{s}"')
+for i, s in enumerate(PRE):
+    if i == len(PRE) - 1:
+        # last fragment carries the tuple close on the same physical
+        # line (r761 quote-closing hot zone: never a bare '"),' line)
+        cfg_lines.append(f'{PRE_I}"{s}"),')
+    else:
+        cfg_lines.append(f'{PRE_I}"{s}"')
 cfg_lines += [
- f'{PRE_I}"),',
  f'{MEM_I}"a_seed_base": 463_604,        # law sec.4 W204 A: 463_604..465_603 (FIRST-CLEAN past the registered W203 B band; arithmetic 463_404..465_403 REFUSED at own start by the W203 B band 463_404..463_603; hops=1; A-hops-prior-B staircase SIXTY-FOURTH instance, E36 card; ordinal machine-read SIXTY-FOURTH per probe receipt)',
  f'{MEM_I}"b_exit_seed_base": 465_604,   # law sec.4 W204 B: 465_604..465_803 (FIRST-CLEAN past the own-wave A window; arithmetic 463_604..463_803 lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)',
  f'{MEM_I}"shard_subdir": "n1_w204", "out_name": "n1_w204_results.json",',
@@ -428,7 +438,8 @@ n1_t4 = n1_t3.replace(old_pr, EOL.join(pr) + EOL + old_pr, 1)
 
 # ---------- post-edit count gates ----------
 assert n1_t4.count('"PERPETUAL-N1-W204"') == 1
-assert n1_t4.count("W204 materializer face") == 1
+assert n1_t4.count("# --- W204 materializer face") == 1     # block header
+assert n1_t4.count('"+ W204 materializer face') == 1        # print fragment
 assert n1_t4.count('204: {"batch": "PERPETUAL-N1-W204"') == 1
 assert pf_t2.count('    204: {"a"') == 1
 assert pf_t2.count('"engine_owner": "bm-c"},\r\n}') == 1
