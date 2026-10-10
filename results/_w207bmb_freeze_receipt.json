@@ -1,0 +1,55 @@
+{
+ "machine": "bm-b",
+ "wave": 207,
+ "phase": "five-face freeze chain-order splice (prepared pre-landing r852, executed post-W206-finalize)",
+ "origin_base": "f845769132ac9a85770db463908b26a07c23d69c",
+ "pf_sha16_pre": "194ae34562608103",
+ "n1_sha16_pre": "f81039378a66a355",
+ "pf_sha16_post": "a91e0e48efe0950d",
+ "n1_sha16_post": "e70c7faa95a37106",
+ "bands": {
+  "A": "470204_472203",
+  "B": "472204_472403",
+  "a_lo": 470204,
+  "a_hi": 472203,
+  "b_lo": 472204,
+  "b_hi": 472403
+ },
+ "admit_receipt": "results/_w207bmb_20261010_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=470204 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=472204 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w206_upstream": {
+  "freeze_sha": "68ba08347844d4fcb5eb6e77a0095074c9080861",
+  "prereg_sha": "0620f78fdee572787f1ba9a17ff23b0c91878c81",
+  "ledger_total": 870371,
+  "merged_n": 451120
+ },
+ "w207_prereg_sha": "6fa2dae16068dbf47357cb578aa363c6c6290349",
+ "seat": "fleet/inbox/processed/MSG-20261010-2335-bmb-w207-seat.md (origin 014a3e85e)",
+ "prereg_bundle": "origin 6fa2dae16",
+ "ordinals": {
+  "engine_owned_ordinal": 197,
+  "bmb_owned_ordinal": 41,
+  "staircase_instance": "SIXTY-SEVENTH (E36 card, receipt leg1 machine-read)"
+ },
+ "parity_estate": {
+  "source": "landed W205 block physical bytes (marker -> 204-row-leg)",
+  "bytes": 12815,
+  "rows": 50,
+  "window": "138..187"
+ },
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": false,
+  "detected_n1": "\n",
+  "detected_pf": "\n"
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w205_block_kept": 1,
+  "w206_block_kept": 1
+ }
+}

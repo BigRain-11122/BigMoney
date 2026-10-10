@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+# r856 bm-b state.json advance (round bookkeeping, single machine file)
+import json
+
+P = "state.json"
+NOW = "2026-10-11T02:49:03+08:00"
+R = 856
+
+did = ("r856: S0 FF merge de06463b4->803d27d3b (bm-c r846 pre2, 21 files, zero overlap, 8 own live faces live-wins) "
+       "+ round-mid absorb ->f84576913 (bm-c r846 close W206 finalize, 44 files, zero overlap) + s05 orders diff zero (67/192/0) "
+       "+ D19 dual watermark identical (dec caca0c6e / ord f90233c7, probe rc0) + smoke 49/49 + orphan 1 (pid23124 T23 autofire "
+       "watcher = intentional detached seat mid-mission, not collected) + S2 board clear (job0/ticket0/wm insufficient_history) "
+       "+ S3 engine rc0; W207 FIVE-FACE FREEZE LANDED (primary product): M9 gate 2/2 opened by bm-c MSG-20261011-0246 "
+       "(W206 finalize ledger 870,371 / K 451,120); staged splice editor executed after single physical-byte needle align "
+       "(MEM_I 468_004->468004, bm-c landed cfg no-underscore format; full anchor audit results/_r856bmb_w207_anchor_audit.py "
+       "= exactly 1 drift, all other anchors/indents verified); bands A 470_204..472_203 / B 472_204..472_403 (staircase "
+       "SIXTY-SEVENTH E36 card, ADMIT receipt driven, seed_admit_gate both FREE); splice gates all green + py_compile both + "
+       "n1 selftest PASS; pf selftest leg8 real-pool CRLF face = PRE-EXISTING cross-machine drift (committed pool blob LF-only "
+       ">=10-10 15:20 via autofill producer commits; bm-b autocrlf=false byte-faithful checkout -> assert red; bm-c 9/9 at 02:02 "
+       "with local CRLF tree; forensics results/_r856bmb_pool_eol_forensics.py; NOT splice-caused; pool byte-face untouched per "
+       "pit-pool laws, fleet adjudication flagged); W207 IGNITION VERIFIED r325 cycle-1: engine active_burns n1w207-3of12 "
+       "(3 done + 1 active, queue 8); T23 watcher alive to ~03:27, astock refresh tail 5219/5229 checkpoint preserved; "
+       "S6 41 legs 40 rc0 + alloc rc2 known; S7 quartet ALIVE (loop pin=2 no-op, watchdog re-registered idempotent, dual claws "
+       "installed) + attrition CLEAN (1 healed historical) + idle --worked")
+
+nxt = ("r857 queue: T23 census_holds readout (watcher to ~03:27; complete flip -> burn 10-15min -> verdict window <=10-11 06:00; "
+       "expiry without flip -> quarantine carryover check + re-arm single-flight) -> W207 12/12 shard burn watch -> post-burn "
+       "verify (ledger head 870,371 + W207 batch growth) -> pf selftest pool-EOL face fleet adjudication flag (producer-vs-guard "
+       "mismatch, cross-machine, awaiting group decision; not hot-fixed) -> holds: N2 U3(1) prereg window / negative: G2 "
+       "academic-citation fallback; astock complete flip then moneyflow IC next_pick unlock; O-20261011-0012 CPU-max maintained; "
+       "W18 drain-gated (bm-a owns w17-judge)")
+
+s = json.load(open(P, encoding="utf-8"))
+s["machine_id"] = "bm-b"
+s["round_no"] = R
+s["round"] = R
+s["round_no_label"] = "r857"
+s["note"] = did
+s["did"] = did
+s["last_action"] = did
+s["last_round_at"] = NOW
+s["ts"] = NOW
+s["updated"] = NOW
+s["updated_at"] = NOW
+s["last_seen"] = NOW
+s["clock_read"] = NOW
+s["last_round_ts"] = NOW
+s["last_decisions_read_at"] = NOW
+s["last_orders_read_at"] = NOW
+s["now_active"] = ("r856 closeout: W207 five-face freeze landed + ignited (engine burning n1w207 shards); T23 watcher armed on "
+                   "astock refresh tail; pool-EOL drift flagged for fleet adjudication")
+s["current_task"] = nxt
+s["task"] = nxt
+s["next"] = nxt
+s["latest_artifact"] = ("r856: results/_w207bmb_freeze_receipt.json (W207 freeze receipt, bands A 470_204..472_203 / B 472_204..472_403, "
+                        "pf_sha16_post a91e0e48efe0950d / n1_sha16_post e70c7faa95a37106, w206_upstream ledger 870371 K 451120) + "
+                        "scripts/perpetual_faces.py W207 row + scripts/perpetual_faces_n1.py W207 cfg/materializer/print + "
+                        "results/_r856bmb_w207_anchor_audit.py + results/_r856bmb_pool_eol_forensics.py + results/_r856bmb_s6chain.ps1/.log (41 legs)")
+s["next_milestone"] = ("W207 12/12 burn complete -> ledger head growth verify (<=10-11 04:0x window) -> T23 census_holds verdict "
+                       "<=10-11 06:00 -> N2 U3(1) prereg / G2 fallback; pool-EOL fleet adjudication decision (probe-vs-bytes guard "
+                       "vs producer CRLF writer alignment)")
+s["verdict"] = ("GREEN: r856 (W207 freeze = primary product landed + ignition cycle-1 verified; chain 40/41 with known alloc rc2; "
+                "pf selftest leg8 = pre-existing pool-EOL drift flagged not blocking (n1 selftest green + splice gates green); "
+                "T23 watcher armed; tasks ALIVE; attrition CLEAN)")
+g = s.get("d19_watermark_guard") or {}
+g["round_ref"] = R
+g["ts"] = NOW
+s["d19_watermark_guard"] = g
+json.dump(s, open(P, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+print("state.json advanced to round", R)

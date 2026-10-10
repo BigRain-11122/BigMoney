@@ -199,7 +199,7 @@ def line_indent(t, needle):
 CFG_I  = line_indent(n1_t, '206: {"batch"')
 PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W206_PREREG.md')
 PRE_I  = line_indent(n1_t, '"pre-run; design = frozen v1 null calibration verbatim, "')
-MEM_I  = line_indent(n1_t, '"a_seed_base": 468_004')
+MEM_I  = line_indent(n1_t, '"a_seed_base": 468004')  # r856: landed bm-c W206 cfg entry uses no-underscore int literal (physical-byte anchor align, r909 law; audit probe results/_r856bmb_w207_anchor_audit.py)
 ROW_I  = line_indent(pf_t,  '206: {"a"')
 ROWC_I = line_indent(pf_t,  '"engine_owner": "bm-c"},')
 
