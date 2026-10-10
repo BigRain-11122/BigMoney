@@ -2,22 +2,206 @@
  "version": "0.2",
  "machine_id": "bm-a",
  "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)",
- "active": [],
- "ledger_buffer": [],
- "last_flush_at": null,
+ "active": [
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 5,
+   "nshards": 12,
+   "key": "n1w205-5of12",
+   "batch": "PERPETUAL-N1-W205",
+   "pid": 10132,
+   "started_at": "2026-10-11T00:16:08+08:00",
+   "started_epoch": 1791648968,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W205-5.log",
+   "cfg": {
+    "batch": "PERPETUAL-N1-W205",
+    "prereg": "research/PERPETUAL_N1_W205_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; TWO HUNDRED AND FIFTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 194 + candidate), own-series continuation per O-20261001-2355 sec.2 (first-free-number law after the REGISTERED W204 row bm-c r837 freeze+finalize one-pass 2c8ef33c8, SINGLE STATE zero seat gap W2..W205 all registered; W1..W204 finalize ALL LANDED (W204 bm-c r837 one-pass, ledger head 864,387, merged pool K=446,720) -- ZERO in-flight upstream seats at splice time, clean precondition; seat published=reserved MSG-2026-10-10-1627-bma-w205-seat PUSHED to origin 63b5bd3dd BEFORE this freeze per r565 early-visibility law (payload = seat MSG + prereg + pre-seat probe script + probe receipt, frozen commit 1422ad767); deletion-set EMPTY; delivery window = direct freeze this window (W204-state guard FIRED: the W204 row landed on origin at bm-c r837 2c8ef33c8 AFTER the W205 seat -- this entry re-pulled and re-verified the universe face at freeze time per the seat fail-safe leg0 law: registry rows 202, tail W204, W204 bands == the declared universe the W205 bands were derived on, owner bm-c machine-read); zero merge at freeze delivery, zero --no-verify; single-window derive -- r812 merged the gate legs INTO the pre-seat probe; parity N/A honest), engine_owner=bm-c, wave 204: A = FIRST-CLEAN past the registered W204 B band (the arithmetic continuation 465_604..467_603 is REFUSED at its own start by the W204 B band 465_604..465_803, exactly as the W204 pf/probe leg4 succession projection notes anticipated; honest forward walk hops=1 -> 465_804..467_803; A base == prior-wave B tail+1 machine-checkable = A-hops-prior-B staircase SIXTY-FIFTH instance, E36 card; non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN past the own-wave A window (the arithmetic continuation 465_804..466_003 is CLEAN on the registered universe but lands INSIDE the W205 A band window -- same-freeze mutual exclusion, W141 precedent, leg2 law -- the walk with the own-wave A window reserved jumps to 467_804, first-clean 467_804..468_003 hops=1, non-rotational r587 forward-monotone walk; B base == own-wave A tail+1 machine-checkable; cross-window convergence with the W204 pf/probe leg4 succession projection notes re-derived -- all MANDATORY notes honored (post-W204 universe re-derive + own-wave A reservation); ADMIT receipt results/_r956bma_w205_probe_receipt.json + seed_admit_gate rc0 both bands FREE (O-20261010-1945-bm-a ADMIT convention upgrade); W206+ projection per this window gate: A first-clean 467_804..469_803 CLEAN / B first-clean 468_004..468_203 CLEAN -- naive B lands INSIDE the naive A window and the registered W205 B band 467_804..468_003 will refuse the naive W206 A window (W206 seat MSG-20261010-2323-bmc declared on the post-W205-declared universe; the W206 freezer MUST re-pull and re-verify if the W205 row lands before the W206 freeze); W207+ freezer MUST re-derive on the post-W206 universe AND reserve the own-wave A window when deriving B (W141 precedent, leg2 law, E36 staircase card); W1..W204 finalize ALL LANDED (W204 finalize one-pass bm-c r837, net chain head 864,387, merged pool K=446,720) -- ZERO in-flight upstream seats, clean finalize chain precondition -- finalize merge loop still derives the wave set from registry keys at run time, FAIL-CLOSED r307 always on)",
+    "a_seed_base": 465804,
+    "b_exit_seed_base": 467804,
+    "shard_subdir": "n1_w205",
+    "out_name": "n1_w205_results.json",
+    "engine_owner": "bm-a"
+   }
+  }
+ ],
+ "ledger_buffer": [
+  {
+   "machine_id": "bm-a",
+   "face": "N1",
+   "wave": 205,
+   "batch": "PERPETUAL-N1-W205",
+   "shard": 3,
+   "nshards": 12,
+   "key": "n1w205-3of12",
+   "pid": 36012,
+   "started_at": "2026-10-11T00:14:06+08:00",
+   "done_at": "2026-10-11T00:15:05+08:00",
+   "done_epoch": 1791648903,
+   "elapsed_sec": 57.1
+  },
+  {
+   "machine_id": "bm-a",
+   "face": "N1",
+   "wave": 205,
+   "batch": "PERPETUAL-N1-W205",
+   "shard": 4,
+   "nshards": 12,
+   "key": "n1w205-4of12",
+   "pid": 19164,
+   "started_at": "2026-10-11T00:15:07+08:00",
+   "done_at": "2026-10-11T00:16:04+08:00",
+   "done_epoch": 1791648962,
+   "elapsed_sec": 55.4
+  }
+ ],
+ "last_flush_at": "2026-10-11T00:14:06+08:00",
  "crashes": {},
- "shards_done_total": 0,
- "last_shard_done_at": null,
+ "shards_done_total": 5,
+ "last_shard_done_at": "2026-10-11T00:16:04+08:00",
  "last_tick": {
-  "ts": "2026-10-10T23:59:12+08:00",
-  "epoch": 1791647943,
-  "py_cpu_pct": 14.0,
-  "ram_free_gb": 47.62712097167969,
-  "verdict": "idle",
-  "active_n": 0,
-  "queue_depth": 0,
-  "elapsed_sec": 8.7
+  "ts": "2026-10-11T00:16:08+08:00",
+  "epoch": 1791648962,
+  "py_cpu_pct": 0.2,
+  "ram_free_gb": 43.00521469116211,
+  "verdict": "ignited:n1w205-5of12 pid=10132",
+  "active_n": 1,
+  "queue_depth": 6,
+  "elapsed_sec": 6.1
  },
  "skips": [],
- "queue": []
+ "queue": [
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 6,
+   "nshards": 12,
+   "key": "n1w205-6of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 7,
+   "nshards": 12,
+   "key": "n1w205-7of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 8,
+   "nshards": 12,
+   "key": "n1w205-8of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 9,
+   "nshards": 12,
+   "key": "n1w205-9of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 10,
+   "nshards": 12,
+   "key": "n1w205-10of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  },
+  {
+   "face": "N1",
+   "wave": 205,
+   "shard": 11,
+   "nshards": 12,
+   "key": "n1w205-11of12",
+   "batch": "PERPETUAL-N1-W205",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12",
+    "--wave",
+    "205",
+    "--workers",
+    "32",
+    "--lane",
+    "engine"
+   ]
+  }
+ ]
 }
