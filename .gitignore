@@ -72,6 +72,9 @@ results/watermark.jsonl
 # lock; the tracked claim/ledger faces live under results/pool_claims/ +
 # results/pool_worker_ledger.jsonl
 results/pool_worker_lock.*.json
+# L54 recheck defer (pit-pool r832 bm-c): machine-local claim-strand
+# cooldown marker -- ephemeral re-claim suppression, never a commit face
+results/claim_strand.*
 # T-108 D2 resident dispatcher (O-20260928-1630): machine-local event append
 # log; the tracked face is the machine-suffixed results/dispatcher_state.
 # <mid>.json lane file (event-written only)

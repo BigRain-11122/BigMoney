@@ -129,6 +129,13 @@ _GIT_DIR = os.path.join(ROOT, ".git")
 CLAIMS = os.path.join(ROOT, "results", "pool_claims")
 CORE_SAMPLES = os.path.join(ROOT, "results", "pool_core_samples.jsonl")
 RED_FLAGS = os.path.join(ROOT, "results", "pool_red_flags.jsonl")
+# L54 hard-fix (pit-pool r832 bm-c unbounded re-claim pile): claim-
+# strand cooldown face. Per-machine lane name via _lane_path_for (r381
+# law); gitignored machine-local marker, deliberately NOT tick-owned
+# commit dirt (_tick_owned_dirt stays STATE/FUSE/lanes only) -- losing
+# it costs at most one extra claim attempt (fail-open by design).
+STRAND = os.path.join(ROOT, "results", "claim_strand.json")
+CLAIM_STRAND_MIN = 15
 
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
@@ -1376,6 +1383,16 @@ def _pick(pool, myid, skip=None):
                 # done shards never re-fire (r180: entry left "ready" +
                 # done shard wedged the picker into no-op relaunches)
                 continue
+            sd = _strand_defer_age_min(e["id"], sh["key"])
+            if sd is not None and sd < CLAIM_STRAND_MIN:
+                # L54 recheck defer (pit-pool r832): this shard's last
+                # claim push was rejected with recovery exhausted -- a
+                # re-claim would only pile one more doomed commit on
+                # the local strand the session S0 delivery owns.
+                _log(f"skip {e['id']}/{sh['key']}: claim-strand cooldown "
+                     f"({sd:.0f}min < {CLAIM_STRAND_MIN}min, L54 "
+                     f"recheck defer)")
+                continue
             xc = _ext_claim_age_min(e["id"], sh["key"])
             if xc is not None and xc < STALE_MIN:
                 # O-20260928-2210 claim-by-file truth: an external pool
@@ -1412,6 +1429,91 @@ def _git(args):
     except subprocess.TimeoutExpired:
         return 124, "git timeout 60s (r790 lane-stall cure)"
     return r.returncode, r.stderr.decode(errors="replace")[:200]
+
+
+def _strand_path():
+    return _lane_path_for(STRAND) or STRAND
+
+
+def _strand_load():
+    try:
+        with open(_strand_path(), encoding="utf-8") as fh:
+            d = json.load(fh)
+        return d if isinstance(d, dict) else {}
+    except Exception:
+        return {}
+
+
+def _strand_save(d):
+    path = _strand_path()
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(d, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, path)
+
+
+def _strand_defer_age_min(entry_id, shard_key):
+    """Age (min) of the claim-strand cooldown for this shard; None
+    when absent/unreadable (L54 recheck defer -- fail-open)."""
+    try:
+        rec = _strand_load().get(entry_id + "/" + shard_key)
+        if not rec:
+            return None
+        dt = datetime.strptime(rec.get("ts", ""),
+                               "%Y-%m-%d %H:%M:%S")
+        return (datetime.now() - dt).total_seconds() / 60.0
+    except Exception:
+        return None
+
+
+def _strand_defer_record(entry_id, shard_key):
+    d = _strand_load()
+    k = entry_id + "/" + shard_key
+    r = d.get(k) or {}
+    r["ts"] = _now()
+    r["count"] = int(r.get("count", 0)) + 1
+    d[k] = r
+    try:
+        _strand_save(d)
+    except Exception as ex:
+        # fail-soft: the cooldown is an optimization, never a blocker
+        _log(f"strand defer write fault ({ex}) -- fail-open")
+
+
+def _strand_defer_clear(entry_id, shard_key):
+    try:
+        d = _strand_load()
+        if d.pop(entry_id + "/" + shard_key, None) is not None:
+            _strand_save(d)
+    except Exception:
+        pass
+
+
+def _claim_strand_recheck(entry_id, sh, myid):
+    """L54 fetch-once + recheck defer (pit-pool r832 bm-c live case:
+    35 claim commits / 25min unbounded pile). After a claim push was
+    rejected and the r282 recovery could not land it, recheck the
+    origin pool (_origin_shard_state fetches fresh). Our claim now
+    visible on origin (a session delivered the local pile) -> True:
+    the fire gate is satisfied (r199 origin-visible-claim law).
+    Otherwise record a claim-strand cooldown -> the picker defers
+    re-claims until the window lapses -- without it the r598
+    visibility gate reads origin truth, an unlanded claim looks
+    unclaimed, and every tick re-claims + piles one more commit.
+    Probe unavailable -> treat as stranded (conservative: the push
+    DID fail, so the claim is not origin-visible)."""
+    oc = _origin_shard_state(entry_id, sh.get("key"))
+    if (oc is not None and oc[1] == myid and oc[0] != "done"):
+        _log(f"claim OK: {sh.get('key')} owner={myid} landed on "
+             f"origin (session delivery) -> L54 recheck fires")
+        _strand_defer_clear(entry_id, sh.get("key"))
+        return True
+    _strand_defer_record(entry_id, sh.get("key"))
+    _log(f"claim strand: {sh.get('key')} push lost + recovery "
+         f"exhausted, origin still shows it unlanded -> "
+         f"{CLAIM_STRAND_MIN}min re-claim cooldown (L54 recheck "
+         f"defer; session S0 delivery owns the local pile)")
+    return False
 
 
 def _claim_shard(sh, myid, entry_id):
@@ -1590,6 +1692,11 @@ def _claim_shard(sh, myid, entry_id):
             if foreign is not None:
                 _log(f"claim rebase-retry skipped: foreign rebase in "
                      f"flight ({foreign}) -> yield keeps claim commit")
+                # L54 recheck defer: foreign rebase ate the r282
+                # recovery -- without the recheck this path fed the
+                # unbounded re-claim pile too.
+                if _claim_strand_recheck(entry_id, sh, myid):
+                    return True
                 raise RuntimeError(err)
             rc2, err2 = _git(("pull", "--rebase"))
             if rc2 == 0:
@@ -1597,6 +1704,7 @@ def _claim_shard(sh, myid, entry_id):
                 if rc3 == 0:
                     _log(f"claim OK: {sh.get('key')} owner={myid} "
                          f"pushed (rebase-retry r282)")
+                    _strand_defer_clear(entry_id, sh.get("key"))
                     return True
                 err = err3
             else:
@@ -1614,7 +1722,14 @@ def _claim_shard(sh, myid, entry_id):
                     _log(f"claim rebase-retry refused "
                          f"({(err2 or '').strip()[-100:]}) -> yield "
                          f"keeps claim commit")
+            # L54 fetch-once + recheck defer: push lost + recovery
+            # exhausted -> either the session delivered our claim
+            # (fire) or record the strand cooldown so the next tick
+            # does not re-claim + pile one more doomed commit.
+            if _claim_strand_recheck(entry_id, sh, myid):
+                return True
             raise RuntimeError(err)
+        _strand_defer_clear(entry_id, sh.get("key"))
         _log(f"claim OK: {sh.get('key')} owner={myid} pushed")
         return True
     except Exception as ex:
@@ -2296,7 +2411,7 @@ def selftest():
     import tempfile
     global POOL, STATE, FUSE, MACHINES, LOG, LOGS_DIR, _GIT_DIR, \
         _py_cpu_pct, _runner_alive, _fuse_gate_view, _pool_settle, \
-        CLAIMS, CORE_SAMPLES, RED_FLAGS, _runner_core_verdict
+        CLAIMS, CORE_SAMPLES, RED_FLAGS, _runner_core_verdict, STRAND
     ok_all = True
 
     def ok(name, cond):
@@ -2327,6 +2442,7 @@ def selftest():
         CLAIMS = os.path.join(tmp, "pool_claims")
         CORE_SAMPLES = os.path.join(tmp, "pool_core_samples.jsonl")
         RED_FLAGS = os.path.join(tmp, "pool_red_flags.jsonl")
+        STRAND = os.path.join(tmp, "claim_strand.json")
         _mcv_orig = _runner_core_verdict
         _runner_core_verdict = \
             lambda r: ("multiproc", "fixture-passthrough")
@@ -2823,6 +2939,52 @@ def selftest():
         ok("S15r2 origin-present ready -> claim proceeds (no over-block)",
            r15r2 is True and p15r2.get("owner") == "bm-b"
            and git_seq == ["add", "commit", "push"])
+        # S15t family -- L54 fetch-once + recheck defer (pit-pool r832
+        # bm-c live case: push non-FF + r282 recovery eaten by the
+        # dirty-tree race -> every tick re-claimed a shard origin
+        # showed unowned -> 35 commits / 25min unbounded pile). The
+        # recheck either fires on a session-delivered claim or records
+        # a strand cooldown the picker honors.
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_at["stage"] = "push"
+        r15t = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        fail_at["stage"] = None
+        sd_t = _strand_load().get("E1/s0")
+        ok("S15t1 push lost + recovery exhausted -> strand recorded, "
+           "yield keeps claim",
+           r15t is False and sd_t is not None
+           and int(sd_t.get("count", 0)) == 1)
+        pool_t = {"entries": [dict(entry, shards=[
+            {"key": "s0", "status": "ready", "owner": None}])]}
+        pe_t, psh_t = _pick(pool_t, "bm-b")
+        ok("S15t2 picker defers the cooled shard (no unbounded "
+           "re-claim)",
+           pe_t is None and psh_t is None)
+        _strand_save({"E1/s0": {"ts": "2026-09-24 18:00:00",
+                                "count": 1}})
+        pe_t2, psh_t2 = _pick(pool_t, "bm-b")
+        ok("S15t3 strand window lapsed -> shard takeable again "
+           "(fail-open)",
+           pe_t2 is not None and psh_t2 is not None
+           and psh_t2.get("key") == "s0")
+        _strand_save({"E1/s0": {"ts": _now(), "count": 1}})
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        r15t4 = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        ok("S15t4 successful claim clears the strand marker",
+           r15t4 is True and "E1/s0" not in _strand_load())
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        _ORIGIN_POOL_BLOB = json.dumps({"entries": [dict(
+            entry, shards=[{"key": "s0", "status": "ready",
+                            "owner": "bm-b",
+                            "owner_since": _now()}])]})
+        fail_at["stage"] = "push"
+        fail_next["q"] = ["pull"]
+        r15t5 = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        _ORIGIN_POOL_BLOB = None
+        fail_at["stage"] = None
+        fail_next["q"] = []
+        ok("S15t5 recheck sees session-delivered claim -> fire",
+           r15t5 is True and "E1/s0" not in _strand_load())
         # S15g3 OUR pull started a rebase and it conflicted -> abort
         # OURS (marker cleared), yield keeps claim
         _pool_with({"key": "s0", "status": "ready", "owner": None})
