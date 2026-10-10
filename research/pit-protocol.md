@@ -1,7 +1,7 @@
 # pit-protocol —— 协议域坑律正典（D-20261002-06 域分件·第五拆件）
 
 > 来源：CODELY.md 整域 verbatim 迁出（2026-10-02 r387 bm-c·T-2026-10-02-144(c)·集团裁定 D-20261002-06「坑律按域分件·轮 prompt 按需局部读」）。
-> 执法面：S0.5 令扫与 orders 差集（排序窗/计数口径/条目形态）/S0 恢复 restore 分类与集成净路/跨机宣称 git 实证面/票认领让路与开票查收/收养（半成品·工具集·悬空引用）核验/猝死诊断与轮号取号/心跳与 state 簿记写入/共享 append-only 记忆 union 与正典机读字符面/lane_io 单机执笔守卫/inbox 声明——上述动作前必读本件；D-19 决策/orders 水位消费与水位探针→改读 pit-protocol-d19.md；prereg 起草与准入闸（banned_direction·占位锚·出场轴）/finalize 记账与 AA 断言/judged 批声明轴与 E1 对账→改读 pit-protocol-judge.md。
+> 执法面：S0.5 令扫与 orders 差集（排序窗/计数口径/条目形态）/S0 恢复 restore 分类与集成净路/跨机宣称 git 实证面/票认领让路与开票查收/收养（半成品·工具集·悬空引用）核验/共享 append-only 记忆 union 与正典机读字符面/lane_io 单机执笔守卫/inbox 声明——上述动作前必读本件；D-19 决策/orders 水位消费与水位探针→改读 pit-protocol-d19.md；prereg 起草与准入闸（banned_direction·占位锚·出场轴）/finalize 记账与 AA 断言/judged 批声明轴与 E1 对账→改读 pit-protocol-judge.md。state 轮号停滞诊断/猝死会话处置/心跳与 state 簿记写入机械/尾部写回自证→改读 pit-protocol-lane.md。
 > 字节对账行（零丢失断言）：CODELY.md 迁出前 75507B（LF blob 面·md5=3a0530bdf8526a2ba8c686fec245bc62）→迁出后 51553B（LF blob 面·md5=e4c75c3d798eb24d17e41033b7740ad4·净变化=−25158B 删除窗+1204B 指针行 2 条）；移出 29 条（协议 27+流水 2）·条目字节和（LF blob 空间）=25128B·删除窗字节和（LF·含窗内行间胶）=25158B·逐字节恒等零丢失（每条 core 在目标件 verbatim 在场断言过）；本件由拆件脚本机械迁移非手抄（r335 机证律同源）。；r387 收编窗复核（bm-c 行集探针）：29 条中 r596 bm-a（FUND-VALUE-P1 选带）实未入迁移集——按 r595 律回插 CODELY.md 原锚位留驻·有效迁移 28 条；r509 目标件版本与 origin 分歧——收编窗回改 origin-verbatim；r307 为空白面变体；零丢失以复检 PASS 为准
 > 已拆域件：pit-git.md（r369·49 条）；pit-pool.md（r373·16 条）；pit-engine.md（r585·33 条）；pit-data.md（r380·5 条）；pit-protocol.md（r387·本件 27 条）；流水下沉=archive 202610.md r387 窗批 2 条；余=post-split 域增量再扫（D-06 全线收口窗 2026-10-07）。
 > 增量回扫行（r401 bm-c·T-2026-10-02-144(c)）：热层协议域条目 6 条 verbatim 追加（10-03 00:5x r597~06:2x r610 批）·追加核 4796 B（LF blob 面·md5=c8aa93f71e6d9d97368bd8dd57250a5f）·零丢失断言 PASS（逐行 verbatim 在场+源件零残留·机械迁移非手抄·r399 范式同源）。
@@ -25,11 +25,7 @@
 
 - [2026-10-01 15:5x r322 bm-c] 崩溃会话交付件悬空引用核查律（r471 收养律补面·r302 指针族的死亡会话变体）：收养猝死半成品时除核验代码/产物外，必扫其票面 result_ref/progress 里「已 raised/已发 MSG」类指针的实物在场性——本例 s3-bm-c result_ref 引用 MSG-20261001-154x 但崩溃尝试未及落件；r322 按票面所指名补齐缺失件而非留悬空引用入 origin。How to apply：adopt 时逐个「已通知/已开票/已发消息」声明做 Test-Path/git log 在场核验，缺失=补齐或如实改记未发起，禁悬空引用上 origin。另注（本窗实弹）：CODELY.md 内坑律条目正文引用 "<<<<<<<"/">>>>>>>"/"|||||||" 标记串=标记计数断言假阳性面（r312「先数全文件标记数」律对含标记引用文本的文件须以「HEAD 锚行」定位为准，裸计数会误伤合法条目）。
 
-- [2026-10-02 01:1x r529 bm-b] state.json round_no 停滞+git 已有次轮 self-labeled commit=上轮会话猝死诊断律（r528 恢复轮实弹）：上轮提交已带「round N+1」自标而 state round_no 停 N、heartbeat 同停=该会话死于 S7 前夜（本例 r528 冻结 W36+烧 shard-0/1 后猝死·state 停 527）。恢复轮处置=①轮号跳过猝死会话自称轮号（527→529·bm-a r545/r546 先例）防双身份②已 commit 冻结面/分片产物按 r471 收养律核验后收编（ride pre-pull 超集交付 r505/r523 律）③finalize 消费链头先 origin 真值核验（r518）后一过定稿（r538 禁盲重跑）。How to apply：轮首 state round_no 与 git log 自标轮号差 ≥1=先诊断上轮猝死（git 署名+心跳龄+产物在场三面），勿按 state 加一直推编号。
-
 - [2026-10-02 13:3x r367 bm-c] orders 目录名排序窗口漏令坑（S0.5 实弹近误）：fleet\orders 按名排序时 dash 格式新令（O-2026-10-02-*）排在无 dash 旧令（O-20260928-*）**之前的中段位**（ASCII '-'<'0'）——「取最近 N 件」类窗口看不到新 dash 令（本窗 last-25 实查即漏段）；R13「禁时间戳过滤·全扫差集」的可靠执行面=程序化全集差集（文件集×orders_ack -notcontains，本窗 143/0 正判靠此面）。How to apply：orders 扫描一律脚本化全集差集，禁目录名排序的尾部/头部窗口截断；同族=任何「按文件名序取边窗」的台账扫描面。
-
-- [2026-10-02 16:4x r583 bm-b] 心跳/state JSON 写入律：只更新动态字段（last_seen/epoch/clock/任务/资源/verdict），清单型字段（orders_ack 等）必须从既有文件读入携带，禁凭记忆重构清单（本窗实弹：全文件重写时凭记忆捏造 143 个令名覆写 bm-b.json orders_ack——若流至 origin 会使 S0.5 台账差集程序化扫描永久假绿=闸面双害；盘写未 commit 未推即被自查抓回，git show HEAD 版恢复真清单+json.loads 自证后收口）。How to apply：一切心跳/state 写入=load 既有→改动态字段→写回；清单/台账型字段永不重写。同族=r535 禁手抄 derive 律的文件面变体。
 
 - [2026-10-02 21:3x r384 bm-c] S0 恢复脚本 dirty∩delta 分面 restore 须区分可再生工件 vs 记忆/账本面（r382 条目险失实弹·当场治愈）：恢复环对「本地脏 ∩ origin 增量」件一律 checkout 回 HEAD 再 FF——CODELY.md 命中该交集（bm-a r594 同窗 append）时把死会话未 commit 的 r382 坑律条目连根丢弃（该条目只在工作树从未入 HEAD/origin，restore=不可再生灭失）；幸 FF 后在场搜索抓回，按早前 diff 全文 verbatim 重插归位。正法=dirty∩delta 分类三档：可再生工件（S6 faces/审计件/日报）=restore 合法随链再生；append-only jsonl=union 先存旁（r570/r589 律）；记忆/账本/轮报类（CODELY/round_reports/state/心跳）=禁 restore，须行级 union（origin verbatim 底+本地行追加）或先摘录存旁再 restore。How to apply：一切 S0/整合脚本的 restore 面预写文件类别表；FF 后必跑「死会话遗留条目在场性」搜索自证（本轮 r382 锚串搜索零中即抓回）。
 
@@ -53,8 +49,6 @@
  - [2026-10-01 r294 bm-c] r378 单笔守卫=stale-takeover 梯子非硬跳过（假「守卫漂移」教训）：daily_scorecard/dashboard_status 在 bm-c 写入≠守卫失灵——lane_io shared_derive_write_allowed=L1 host 恒写/L3 非 host+host 心跳龄>C_HOST_STALE_MIN(20min)=合法接管（本窗 bm-a 心跳 48min=接管合法）。查守卫码 pattern 漏「lane_io」关键字=误判「零守卫码」。How to apply：非 host 机写共享 derive 面先查 host 心跳龄再定性；守卫排查 pattern 必含 config.lane_io import 面。
 
 - [2026-10-04 03:2x r643 bm-b] 迭代轮 tick 重叠活会话探测三证律（02:39 tick=先行收养会话承接 r642 遗留 push-race 收口〔02:42:47 merge 落本工作树 reflog→02:56 inbox 大扫→~03:00 退出·零 state/心跳/轮号触碰〕，02:52 tick=本会话同窗在飞实录）：轮首异常抖动（pull 反复 unstaged·inbox 列得出读不到=文件面闪变）先探测勿当纯 daemon treadmill——三证=①git reflog 近窗非本会话时间戳 merge/commit ②fleet/inbox 文件列出↔读取 Not Found 闪变=他会话 S7 搬运中 ③Win32_Process 命令行含本仓 prompt 的 codely 进程数≥2；活并发期共享簿记面（state/心跳/轮报告）零写退避，先行会话退出证（进程消失+其簿记面未动）后后到会话承下一轮号禁双写。How to apply：S0 pull 二连失败且树脏仅为 daemon 面时仍过三证；发现活并发即只读等到对方退出再收口。
-
-- [2026-10-04 04:0x r645 bm-b] state.json 尾逗号崩律：上轮 S7 手工写回留尾逗号 → strict json.loads 崩（D-19 水位读腿当场炸·finalize 探针容错读幸存零伤）——律=state.json 写回一律 json.dump/等价程序化写+写后 json.loads 自证（与心跳 epoch 自证同律）才许收轮；同窗 D-19 假 CHANGED 复验=PS > 重定向 UTF-16 转码面（pit-ps 在册律·正解=subprocess capture_output 原字节），假警先复现证伪勿上报（r641 律兑现）。
 
 - [2026-10-04 04:3x r646 bm-b] orders 双扫计数口径坑：ls-tree 全目录计数（fleet/orders/ 含非 O-*.md 件=153）vs Get-ChildItem O-*.md 过滤计数（=152）——跨口径计数比对产出假「新令」警报；Compare-Object 双侧同口径 ls-tree 集合比对实证零差。How to apply：令差集判定一律双侧同口径集合比对（ls-tree vs ls-tree），禁跨口径计数比对；假警先证伪再上报（r641 律兑现面）。另（同窗观察）：S7 push-race 窗内并发 tick 会话同仓 absorb+merge（reflog 04:24:34 双 commit 实证 c7beb5443/19add92fa），后到会话 merge 报 Already up to date=前体已并——撞此形态先 reflog 核拓扑再定叙事，勿重复 absorb（本轮 a7dc6fff3 为无害幂等面）。
 

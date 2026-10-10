@@ -30,3 +30,9 @@
 - 对账行 r780 bm-c: entry bytes=974 sha16=08dd0df93e12495a verbatim-in-file (r844/r865/r750 family domain move per r731/r735 precedent; receipt=results/_r780bmc_codely_minisplit.json)
 
 - [2026-10-10 05:5x r818 bm-b] **心跳大列表字段禁全文件手写重录（转录腐坏未出门 HEAD blob 正典治愈）**：收尾重写 fleet/machines/bm-b.json 时 orders_ack 184 条目列表手工重打=11 件条目名 202609xx/202610xx 位换腐坏（O-20261007→O-20260907 族）——差集机制恰好是 tech 队列 T17 的存在理由，本轮自伤实证其必要性；治愈=git show HEAD:fleet/machines/bm-b.json 取正典 blob 只回填 orders_ack 单字段+T17 式 glob×ack 差集断言零未回执零幻影（收据 results/_r818bmb_ack_heal.json）。How to apply：心跳/台账类含大列表字段的文件更新=脚本加载-改字段-落盘（禁整文件手打重录）；腐坏已发生时以 HEAD blob 为正典源恢复受染字段+差集验证收口。
+- [2026-10-02 01:1x r529 bm-b] state.json round_no 停滞+git 已有次轮 self-labeled commit=上轮会话猝死诊断律（r528 恢复轮实弹）：上轮提交已带「round N+1」自标而 state round_no 停 N、heartbeat 同停=该会话死于 S7 前夜（本例 r528 冻结 W36+烧 shard-0/1 后猝死·state 停 527）。恢复轮处置=①轮号跳过猝死会话自称轮号（527→529·bm-a r545/r546 先例）防双身份②已 commit 冻结面/分片产物按 r471 收养律核验后收编（ride pre-pull 超集交付 r505/r523 律）③finalize 消费链头先 origin 真值核验（r518）后一过定稿（r538 禁盲重跑）。How to apply：轮首 state round_no 与 git log 自标轮号差 ≥1=先诊断上轮猝死（git 署名+心跳龄+产物在场三面），勿按 state 加一直推编号。
+
+- [2026-10-02 16:4x r583 bm-b] 心跳/state JSON 写入律：只更新动态字段（last_seen/epoch/clock/任务/资源/verdict），清单型字段（orders_ack 等）必须从既有文件读入携带，禁凭记忆重构清单（本窗实弹：全文件重写时凭记忆捏造 143 个令名覆写 bm-b.json orders_ack——若流至 origin 会使 S0.5 台账差集程序化扫描永久假绿=闸面双害；盘写未 commit 未推即被自查抓回，git show HEAD 版恢复真清单+json.loads 自证后收口）。How to apply：一切心跳/state 写入=load 既有→改动态字段→写回；清单/台账型字段永不重写。同族=r535 禁手抄 derive 律的文件面变体。
+
+- [2026-10-04 04:0x r645 bm-b] state.json 尾逗号崩律：上轮 S7 手工写回留尾逗号 → strict json.loads 崩（D-19 水位读腿当场炸·finalize 探针容错读幸存零伤）——律=state.json 写回一律 json.dump/等价程序化写+写后 json.loads 自证（与心跳 epoch 自证同律）才许收轮；同窗 D-19 假 CHANGED 复验=PS > 重定向 UTF-16 转码面（pit-ps 在册律·正解=subprocess capture_output 原字节），假警先复现证伪勿上报（r641 律兑现）。
+
