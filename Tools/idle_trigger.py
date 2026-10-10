@@ -4,10 +4,16 @@
 # in-machine per-round construct. CEO root complaint: recurring idle machines).
 #
 # Law map:
-#   - resource-chain 8.2 GREEN-IDLE gate: RAM free >=40% AND VRAM free >=6GB AND
-#     no in-flight batch. Declared-standby machines are exempt (8.2.3); here a
-#     paused machine does not run rounds at all (loop task stopped), so pause is
+#   - resource-chain 8.2 GREEN-IDLE gate: RAM free >=40% AND no in-flight
+#     batch. Declared-standby machines are exempt (8.2.3); here a paused
+#     machine does not run rounds at all (loop task stopped), so pause is
 #     structurally self-consistent and needs no extra marker.
+#   - T-2026-10-10-183 / O-20261010-1825 sec.3 (CEO direct, 10-10): the
+#     vram_free>=6GB term is REMOVED from the gate. Claim lane work is
+#     CPU-only quant backfill; CEO foreground apps legally occupying VRAM
+#     must not collectively punish the CPU lanes (live-fired 10-10 18:1x:
+#     vram_free 0.13G blocked all idle-trigger claiming). VRAM stays
+#     probed and disclosed (vram_free_gb field) but no longer gates.
 #   - resource-chain 8.1: claim lane = fleet/backlog.md claim-by-file protocol
 #     (line-end "claimed@<machine>@<ts>").
 #   - O-20261007-2315 two-read trigger: consecutive GREEN-IDLE rounds with no
@@ -213,7 +219,9 @@ def bookkeeping(mid, now):
     claimable, fresh_claim = parse_backlog(mid, now)
     ram_ok = ram is None or ram >= RAM_GATE_PCT  # probe fail disclosed, not guessed
     vram_ok = vram is None or vram >= VRAM_GATE_GB
-    green_idle = bool(ram_ok and vram_ok and not inflight)
+    # T-2026-10-10-183: vram_ok is disclosure-only (VRAM decoupled from the
+    # CPU-only claim lane per O-20261010-1825 sec.3).
+    green_idle = bool(ram_ok and not inflight)
     if green_idle and fresh_claim is None:
         st['streak'] = int(st.get('streak', 0)) + 1
     else:
@@ -229,13 +237,15 @@ def bookkeeping(mid, now):
         'green_idle': green_idle,
         'ram_free_pct': ram,
         'vram_free_gb': vram,
+        'vram_gate_satisfied': bool(vram_ok),
+        'vram_gate_note': 'disclosure-only since T-2026-10-10-183 (O-20261010-1825 sec.3)',
         'inflight_reasons': inflight,
         'claimed_recent': fresh_claim is not None,
         'claimable_pool_lines': len(claimable),
         'idle_rounds': idle_rounds,
         'agenda_starved': agenda_starved,
         'two_read_red': idle_rounds >= 2,
-        'law_ref': 'O-20261007-2315 + resource-chain 8.2',
+        'law_ref': 'O-20261007-2315 + resource-chain 8.2 + T-2026-10-10-183 vram-decouple',
     }
     with open(out_path(mid), 'w', encoding='utf-8') as f:
         json.dump(v, f, ensure_ascii=False, indent=1)
@@ -394,15 +404,16 @@ def auto_declare(mid, now):
 
 def selftest():
     # gate logic fixtures (no writes, no probes)
+    # T-2026-10-10-183: vram decoupled from the CPU-only claim lane -- the
+    # gate no longer consumes the vram term; fixtures reflect the new law.
     ok = True
     def gate(ram, vram, inflight):
         ram_ok = ram is None or ram >= RAM_GATE_PCT
-        vram_ok = vram is None or vram >= VRAM_GATE_GB
-        return bool(ram_ok and vram_ok and not inflight)
+        return bool(ram_ok and not inflight)
     cases = [
         (50.0, 8.0, [], True, 'all-green'),
         (30.0, 8.0, [], False, 'ram-below-gate'),
-        (50.0, 2.0, [], False, 'vram-below-gate'),
+        (50.0, 2.0, [], True, 'vram-below-gate-cpu-lane-allowed'),
         (50.0, 8.0, ['satengine_active=1'], False, 'inflight-blocks'),
         (None, 8.0, [], True, 'ram-probe-fail-disclosed'),
         (None, None, [], True, 'both-probes-fail-disclosed'),

@@ -4,11 +4,20 @@
  "type": "idle-gate-decouple-cpu-only",
  "immediate": false,
  "spec": "O-20261010-1825-bm-a.md item-3 enforcement ticket: idle_trigger/saturation CPU-only quant backfill criterion must STRIP the vram_free condition -- CEO foreground use of the machine is legal (VRAM fully occupied by CEO apps must not veto a pure-CPU backtest fill). Change face = Tools/idle_trigger.py (fleet-shared single source, machine_id-aware, r847 deployer face) GREEN-IDLE criteria (currently RAM>=40% free / VRAM>=6GB / no in-flight batch -- the CPU-only fill arm must drop the VRAM leg) + same audit for saturation_engine idle-fill criterion. Acceptance = selftest covers: (a) VRAM-occupied state (CEO foreground legal) still triggers CPU-only fill, (b) GPU-job-related gates unchanged, (c) machine_id-aware fields intact. Live anchor = O-1825 attribution item-3: bm-a vram_free 0.13G made green_idle=false, pure-CPU fill was collaterally blocked (contributing factor to the 13h zero-emission window).",
- "status": "claimed",
+ "status": "done",
  "order_ref": "O-20261010-1825-bm-a.md",
  "created_by": "user (Jason) via bm-a GM order O-20261010-1825 -> bm-c loop r835 ticket-filed-same-round",
  "created_at": "2026-10-10T19:16:00+08:00",
  "notes": "Tool owner face = bm-a (r847 idle_trigger deployer machine) -- claimant self-runs selftest after fix, three machines inherit via pull per shared-single-source law. This ticket = O-1825 item-3 'work order lands in T queue' enforcement piece, filed same round per claim-and-start law. | r958 bm-a claim: execution starts r959 (r958 budget consumed by r957 dead-estate rebase absorption + concurrent GM-session git surgery + O-1945 slice A; disclosed in r958 round report).",
  "claimed_by": "bm-a",
- "claimed_at": "2026-10-10T19:54:00+08:00"
+ "claimed_at": "2026-10-10T19:54:00+08:00",
+ "claim_collision_resolution": {
+  "law": "fleet/README.md sec.4 later-claimer-yields (r837 W17 precedent)",
+  "first_claimer": "bm-a @2026-10-10T19:54:00+08:00 (commit 74fbf52d7, tool-owner face, exec r959) -- OWNS this ticket",
+  "later_claimer": "bm-b @2026-10-10T20:29:00+08:00 -- YIELDED ownership per law",
+  "resolution": "work independently completed by bm-b r838 before seeing bm-a claim (local board read was pre-fetch stale); bm-b keeps no ownership, done-flip + result evidence recorded for fleet honesty; bm-a verify-face = re-run selftest on next pull per ticket notes (three machines inherit via shared-single-source law); bm-a exec r959 absorbs the close, no re-edit needed (idle_trigger.py fix already landed via bm-b r838 commit)"
+ },
+ "completed_at": "2026-10-10T20:29:00+08:00",
+ "result_ref": "Tools/idle_trigger.py (bm-b r838) + selftest ALL PASS 43 legs",
+ "result_summary": "Done (by bm-b, ownership yielded to bm-a per later-claimer law): green_idle gate drops vram term (ram_ok AND not inflight) -- VRAM-occupied CEO-foreground state (live anchor vram_free 0.13G) still triggers CPU-only fill, selftest leg vram-below-gate-cpu-lane-allowed frozen in; GPU faces unchanged (vram probe disclosure-only fields; saturation_engine audited zero vram refs, RAM_FLOOR_GB 4.0 untouched); machine_id fields intact; live-verified vram 3.37G -> green_idle=true. bm-a claimed first (19:54) but had not landed code at conflict time; identical-fix duplicate re-edit explicitly avoided."
 }
