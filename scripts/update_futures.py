@@ -303,14 +303,7 @@ def fetch_akshare(sym):
     return rows
 
 
-def fetch_raw(sym):
-    url = RAW_URL.format(sym=sym)
-    with _no_proxy_opener().open(url, timeout=30) as resp:
-        txt = resp.read().decode("utf-8", errors="replace")
-    m = re.search(r"\(\s*(\[.*\])\s*\)", txt, re.S)
-    if not m:
-        raise RuntimeError("raw_parse_fail: no json array")
-    arr = json.loads(m.group(1))
+def _raw_items_to_rows(arr):
     rows = []
     for it in arr:
         d = it.get("d", "")
@@ -319,10 +312,22 @@ def fetch_raw(sym):
             "open": float(it["o"]), "high": float(it["h"]),
             "low": float(it["l"]), "close": float(it["c"]),
             "volume": float(it.get("v") or 0) or None,
-            "oi": float(it.get("o") or 0) or None,
+            # sina raw kline: "o"=open price, "p"=positions (OI) -- E8 probe
+            # evidence results/_r828bmb_e8_shape_probe.py (T20)
+            "oi": float(it.get("p") or 0) or None,
             "settle": None,
         })
     return rows
+
+
+def fetch_raw(sym):
+    url = RAW_URL.format(sym=sym)
+    with _no_proxy_opener().open(url, timeout=30) as resp:
+        txt = resp.read().decode("utf-8", errors="replace")
+    m = re.search(r"\(\s*(\[.*\])\s*\)", txt, re.S)
+    if not m:
+        raise RuntimeError("raw_parse_fail: no json array")
+    return _raw_items_to_rows(json.loads(m.group(1)))
 
 
 def fetch(sym):
@@ -538,7 +543,15 @@ def _selftest():
         assert local_data_cutoff(td) == "2026-09-23"
         os.remove(os.path.join(td, "AU" + ".csv"))
         assert local_data_cutoff(td) is None  # any-missing -> None (honest fetch)
-    print("selftest: 10/10 PASS")
+    # S11 raw fallback OI key position ("p"=positions vs "o"=open price, T20;
+    # regression guard for the pre-fix contamination: oi used to mirror open)
+    items = [{"d": "2026-09-23", "o": 3550.0, "h": 3600.0, "l": 3500.0,
+              "c": 3570.0, "v": 123.0, "p": 1673458.0}]
+    r11 = _raw_items_to_rows(items)[0]
+    assert r11["open"] == 3550.0 and r11["oi"] == 1673458.0
+    r11b = _raw_items_to_rows([{**items[0], "p": 0}])[0]
+    assert r11b["oi"] is None and r11b["open"] == 3550.0  # missing/zero OI -> honest None
+    print("selftest: 11/11 PASS")
     return 0
 
 
