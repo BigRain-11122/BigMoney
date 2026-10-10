@@ -2,31 +2,31 @@
   "meta": {
     "batch": "P-1d ext-slot gates",
     "prereg": "research/shortline/P1D_EXT_SLOTS_IC.md SS4",
-    "date": "2026-10-10 14:25",
+    "date": "2026-10-10 15:13",
     "cutoff": "2026-09-22",
     "puller_done_flag_note": "done flags in results/ext_slots_pull_status.json are NOT trusted (r47 false-green: margin was 16/198 months in-flight with done=true); these gates verify disk data directly",
-    "elapsed_s": 0.0
+    "elapsed_s": 0.9
   },
   "dzjy": {
-    "files": 0,
-    "rows": 0,
+    "files": 166,
+    "rows": 316817,
     "trading_days_in_span": 3333,
-    "covered_days": 0,
-    "coverage": 0.0,
+    "covered_days": 3331,
+    "coverage": 0.9994,
     "gate": 0.95,
-    "pass": false
+    "pass": true
   },
   "margin": {
-    "sse_files": 0,
+    "sse_files": 14,
     "sse_empty_months": 0,
-    "szse_files": 0,
+    "szse_files": 14,
     "szse_empty_months": 0,
     "trading_days_in_span": 4005,
-    "dual_days": 0,
-    "coverage": 0.0,
+    "dual_days": 260,
+    "coverage": 0.0649,
     "gate": 0.9,
-    "last_dual_day": "",
-    "tail_trading_days": 999,
+    "last_dual_day": "2011-10-31",
+    "tail_trading_days": 3620,
     "pass": false
   },
   "gdhs": {
@@ -38,22 +38,22 @@
   },
   "puller_status_informational": {
     "dzjy": {
-      "chunks": 165,
-      "rows": 316436,
+      "chunks": 330,
+      "rows": 633253,
       "done": true,
       "failures": 0
     },
     "gdhs": {
       "chunks": 44,
       "rows": 183927,
-      "done": true,
-      "failures": 0
+      "done": false,
+      "failures": 5
     },
     "margin": {
-      "chunks": 199,
-      "rows": 6632890,
-      "done": true,
-      "failures": 0
+      "chunks": 213,
+      "rows": 6655781,
+      "done": false,
+      "failures": 6
     }
   },
   "pass": false
