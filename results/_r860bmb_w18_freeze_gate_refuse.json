@@ -1,0 +1,10 @@
+{
+ "cmd": "python scripts/alphagen_beam_w18.py run",
+ "expected_rc": 2,
+ "probe": "r860 bm-b FREEZE-GATE refuse-burn machine proof (prereg freeze condition c1 leg)",
+ "rc": 2,
+ "refuse_json": "{\"freeze_gate\": \"refuse\", \"zero_burn\": true, \"law\": \"three-band registration (r682 derive + seed_admit gate) missing -> honest refuse, rc2\", \"bands\": {\"gen\": {\"key\": \"perpetual_n2_w18_gen\", \"registered\": false, \"value\": null}, \"scrnull\": {\"key\": \"perpetual_n2_w18_scrnull\", \"registered\": false, \"value\": null}, \"unc\": {\"key\": \"perpetual_n2_w18_unc\", \"registered\": false, \"value\": null}}, \"prereg\": \"research/PERPETUAL_N2_W18_PREREG.md\"}",
+ "stderr_tail": "",
+ "ts": "2026-10-11T04:30:46+08:00",
+ "verdict": "PASS"
+}
