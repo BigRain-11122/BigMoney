@@ -1,0 +1,59 @@
+{
+ "round": "r824-ring2",
+ "faces": {
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "take-ours (ts 08:12:5x > 08:04-05)",
+   "bytes": 1661
+  },
+  "results/futures_update_status.json": {
+   "recipe": "take-ours (ts 08:12:5x > 08:04-05)",
+   "bytes": 3199
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "take-ours (ts 08:12:5x > 08:04-05)",
+   "bytes": 328
+  },
+  "results/update_status.json": {
+   "recipe": "take-ours (ts 08:12:5x > 08:04-05)",
+   "bytes": 7844
+  },
+  "results/compute_audit.json": {
+   "recipe": "ledger union both sides, scalars take-ours",
+   "counts": {
+    "history": {
+     "ours": 210,
+     "theirs": 210,
+     "union": 212
+    }
+   }
+  },
+  "results/regime_state.json": {
+   "recipe": "ledger union both sides, scalars take-ours",
+   "counts": {
+    "triggers": {
+     "ours": 2,
+     "theirs": 2,
+     "union": 2
+    },
+    "transitions": {
+     "ours": 0,
+     "theirs": 0,
+     "union": 0
+    },
+    "history": {
+     "ours": 4,
+     "theirs": 3,
+     "union": 4
+    }
+   }
+  },
+  "state/queue/explore.md": {
+   "recipe": "append-ledger-md union, r823(08:10:21) then r947(08:22:34)",
+   "kept_lines": {
+    "r823": 1,
+    "r947": 1
+   }
+  }
+ },
+ "law": "skill bigmoney-conflict-resolve r188/R208/R216/R208-ledger-md"
+}

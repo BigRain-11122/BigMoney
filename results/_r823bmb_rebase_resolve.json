@@ -1,0 +1,75 @@
+{
+ "round": "r823",
+ "base": "295238c2c",
+ "faces": {
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 1704
+  },
+  "results/futures_update_status.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 3198
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 326
+  },
+  "results/update_status.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 7842
+  },
+  "results/token_usage.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 2078
+  },
+  "docs/daily_report/REPORT-2026-10-10.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 23752
+  },
+  "docs/daily_report/REPORT-2026-10-10.md": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 10443
+  },
+  "docs/live_usage/LIVE-2026-10-10.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 10967
+  },
+  "docs/live_usage/LIVE-2026-10-10.md": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 8075
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 10967
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "take-new (my side, clean, newest ts)",
+   "bytes": 8075
+  },
+  "results/compute_audit.json": {
+   "recipe": "rolling-ledger union (base+hunkA+hunkB+mine) + scalars take-new(mine)",
+   "hunk_sides_parseable": {
+    "A": false,
+    "B": true
+   },
+   "union_counts": {
+    "history": 210
+   },
+   "source_docs": 3
+  },
+  "results/regime_state.json": {
+   "recipe": "rolling-ledger union (base+hunkA+hunkB+mine) + scalars take-new(mine)",
+   "hunk_sides_parseable": {
+    "A": false,
+    "B": true
+   },
+   "union_counts": {
+    "triggers": 2,
+    "transitions": 0,
+    "history": 3
+   },
+   "source_docs": 3
+  }
+ },
+ "law": "skill bigmoney-conflict-resolve; r188/R208/R216; origin marker-corruption heal"
+}
