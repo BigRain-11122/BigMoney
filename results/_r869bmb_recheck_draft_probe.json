@@ -1,0 +1,128 @@
+{
+ "batch": "GATE-RECHECK-MP1-slice1-draft-probe",
+ "machine": "bm-b",
+ "round": "r869",
+ "ok": true,
+ "n_pass_legs": 6,
+ "failed_legs": [],
+ "legs": {
+  "L1_mp1_face": {
+   "ok": true,
+   "n_pass": 25,
+   "n_pass_gates": 25,
+   "med_t_axis_all_numeric": true,
+   "cutoff": "2026-10-09",
+   "pass_gates": [
+    "ABS(VWAP)_q10",
+    "ADD(HIGH,VWAP)_q10",
+    "ADD(LOW,OPEN)_q10",
+    "ADD(LOW,VWAP)_q10",
+    "CORR(CLOSE,RET,20)_q10",
+    "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90",
+    "CORR(LOW,MAX(HIGH,60),5)_q90",
+    "CORR(LOW,OPEN,5)_q90",
+    "CORR(MA(CLOSE,10),VWAP,10)_q90",
+    "CORR(OPEN,VWAP,10)_q90",
+    "DELTA(MAX(RET,30),5)_q90",
+    "DELTA(MAX(VOLUME,30),5)_q90",
+    "DIV(VOLUME,AMOUNT)_q90",
+    "LOG(OPEN)_q10",
+    "MA(LOW,30)_q10",
+    "MAX(HIGH,20)_q10",
+    "MAX(HIGH,30)_q10",
+    "MUL(HIGH,MAX(LOW,30))_q10",
+    "MUL(HIGH,MUL(OPEN,VWAP))_q10",
+    "MUL(HIGH,OPEN)_q10",
+    "MUL(HIGH,SUM(CLOSE,20))_q10",
+    "MUL(NEG(CLOSE),OPEN)_q90",
+    "NEG(HIGH)_q90",
+    "SUM(HIGH,30)_q10",
+    "SUM(OPEN,30)_q10"
+   ]
+  },
+  "L2_five_member_face": {
+   "ok": true,
+   "pass_gates_covered": 25,
+   "missing": [],
+   "member_missing": {},
+   "n_in_min": 60,
+   "n_in_max": 403,
+   "dual_negative_member_prior": {
+    "DELTA(MAX(VOLUME,30),5)_q90": {
+     "510050": -0.013476,
+     "510300": -0.010063
+    },
+    "DELTA(MAX(RET,30),5)_q90": {
+     "510050": -0.000583,
+     "510300": -0.009223
+    }
+   }
+  },
+  "L3_a158_library": {
+   "ok": true,
+   "library_entries": [
+    "CNTD5_q90",
+    "CNTN20_q10",
+    "MAX30_q10",
+    "RANK30_q90",
+    "RESI60_q90",
+    "RSQR10_q90",
+    "RSQR20_q90",
+    "RSQR5_q90",
+    "STD10_q90",
+    "STD20_q90",
+    "SUMD30_q90",
+    "SUMD5_q90",
+    "SUMN10_q10",
+    "SUMN20_q10",
+    "VSUMD10_q90",
+    "VSUMD20_q90",
+    "VSUMD30_q90"
+   ],
+   "a158_cutoff": "2026-09-22",
+   "same_instant_rebuild_law": "this batch rebuilds registered-gate signals at 2026-10-09"
+  },
+  "L4_import_faces": {
+   "ok": true,
+   "faces": {
+    "mp1.parse_formula": true,
+    "mp1.mp1_factors": true,
+    "mp1.gate_universe": true,
+    "mp1.inst_gate_stats": true,
+    "mp1.thin": true,
+    "mp1.load_truncated": true,
+    "a158.alpha158_factors": true,
+    "recheck.thin_b": true,
+    "recheck.union_find_clusters": true,
+    "recheck.face_a_leg": true
+   }
+  },
+  "L5_panel_truth": {
+   "ok": true,
+   "sh510300_truncated_rows": 3490,
+   "member_rows": {
+    "510300": 3490,
+    "510050": 5255,
+    "510500": 3293,
+    "512100": 2409,
+    "588000": 1429
+   }
+  },
+  "L6_prereg_markers": {
+   "ok": true,
+   "sections": {
+    "sec0": true,
+    "sec1": true,
+    "sec2": true,
+    "sec3": true,
+    "sec4": true,
+    "sec5": true,
+    "sec6": true,
+    "sec7": true,
+    "sec8": true
+   },
+   "draft_state": true,
+   "t25_registered": true
+  }
+ }
+}
