@@ -68,8 +68,14 @@ assert [a_lo, a_hi] == leg1["A"] and [b_lo, b_hi] == leg1["B"], "receipt band mi
 assert (a_lo, a_hi) == (468_004, 470_003) and (b_lo, b_hi) == (470_004, 470_203), \
     f"W206 band drift vs probe ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}"
 w205_b_tail = W205["b_exit"][1]      # registered W205 row b_exit hi (pf import)
+w205_a_tail = W205["a"][1]           # registered W205 row A hi (pf import)
 pri_b_tail = a_hi                    # own-wave A tail
 assert w205_b_tail + 1 == a_lo and a_hi + 1 == b_lo, "staircase base relations broken"
+# MSG-20261011-0120 fix 3: the REFUSED arithmetic continuation starts at
+# prior-wave A-tail+1 (== W205 B-base), machine-derived, never transcribed.
+assert w205_a_tail + 1 == W205["b_exit"][0], "W205 A-tail+1 != W205 B-base"
+assert [w205_a_tail + 1, w205_a_tail + 2_000] == leg1["ARITH_A"], \
+    f"refused-continuation start drift vs probe receipt leg1 ARITH_A: {[w205_a_tail + 1, w205_a_tail + 2_000]} != {leg1['ARITH_A']}"
 
 # ---------- re-run discipline gates at freeze window (banned + seed_admit) ----------
 g = subprocess.run([PY, os.path.join(REPO, "Tools", "banned_direction_gate.py"),
@@ -88,11 +94,20 @@ for base, span in ((a_lo, 2_000), (b_lo, 200)):
                       else f"rc0 base={base} span={span}")
 print("gates OK:", " | ".join(gate_lines))
 
-# ---------- read files, EOL ----------
+# ---------- read files, EOL (r838 law: runtime per-file detection, MSG-20261011-0120 fix 1) ----------
 pf_b = open(PF, "rb").read(); pf_t = pf_b.decode("utf-8")
 n1_b = open(N1, "rb").read(); n1_t = n1_b.decode("utf-8")
-EOL = "\r\n"; PF_EOL = "\r\n"
-assert pf_t.count("\r\n") > 0 and n1_t.count("\r\n") > 0
+
+def detect_eol(t):
+    """r838 law: per-file runtime EOL detection (repo files are pure LF as of
+    the W205 landing era; never assume CRLF -- MSG-20261011-0120 finding 1)."""
+    crlf = t.count("\r\n")
+    lf = t.count("\n") - crlf
+    return "\r\n" if crlf > lf else "\n"
+
+EOL = detect_eol(n1_t); PF_EOL = detect_eol(pf_t)
+assert pf_t.count(PF_EOL) > 0 and n1_t.count(EOL) > 0, \
+    f"EOL detection degenerate: pf={PF_EOL!r} n1={EOL!r}"
 
 def must(t, s, n, what):
     c = t.count(s)
@@ -102,7 +117,7 @@ def must(t, s, n, what):
 def fmt(n):  # 468004 -> "468_004"
     return f"{n // 1000}_{n % 1000:03d}"
 
-# ---------- extract parity section (physical bytes, never re-typed) ----------
+# ---------- extract parity section (physical bytes, never re-typed; MSG-20261011-0120 fix 2) ----------
 a6 = '    # --- W205 materializer face'
 a4 = '    # --- T-141 s2 lane face'
 w205_start = n1_t.find(a6); t141_pos = n1_t.find(a4)
@@ -111,23 +126,34 @@ blk = n1_t[w205_start:t141_pos]
 par_marker = "        # registered row parity (r307 pinned constants, recent estate)"
 m_disj = re.search(r"        # prior-wave disjointness W2\.\.W\d+ \(single state: all", blk)
 assert n1_t.count(par_marker) >= 1 and m_disj, "parity markers not found in W205 block"
-par_sec = blk[blk.find(par_marker):m_disj.start()]
-assert par_sec.count("assert pf.N1_BANDS[") == 50 and par_sec.endswith(EOL)
+# marker->disj span = 50 recent estate rows + 1 upstream W204 row leg = 51 asserts
+# (bm-b r852 empirical finding). Cut the PURE estate segment at the W204-leg
+# assert line start (exactly the 50 estate rows) so the W206 block re-grows to
+# 50 estate + own w205_leg = 51, generation-stable structure.
+par_full = blk[blk.find(par_marker):m_disj.start()]
+m204 = re.search(r" *assert pf\.N1_BANDS\[204\] ==", par_full)
+assert m204, "upstream W204 row leg not found inside W205 parity span"
+par_sec = par_full[:m204.start()]
+assert par_sec.endswith(EOL), "estate segment must end with EOL"
+assert par_sec.count("assert pf.N1_BANDS[") == 50, \
+    f"estate segment row asserts {par_sec.count('assert pf.N1_BANDS[')} != 50 (bm-b r852 finding: 50 estate rows)"
+assert par_full.count("assert pf.N1_BANDS[") == 51, \
+    f"full parity span {par_full.count('assert pf.N1_BANDS[')} != 51 (50 estate + 1 W204 leg)"
 
-# ---------- indent extraction (physical, not assumed) ----------
-def line_indent(t, needle):
+# ---------- indent extraction (physical, not assumed; per-file EOL, MSG-20261011-0120 fix 1) ----------
+def line_indent(t, needle, eol):
     i = t.find(needle)
     assert i >= 0, f"indent needle not found: {needle[:40]}"
-    ls = t.rfind(EOL, 0, i) + 2
-    line = t[ls:t.find(EOL, ls)]
+    ls = t.rfind(eol, 0, i) + len(eol)
+    line = t[ls:t.find(eol, ls)]
     return line[:len(line) - len(line.lstrip(" "))]
 
-CFG_I  = line_indent(n1_t, '205: {"batch"')
-PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W205_PREREG.md')
-PRE_I  = line_indent(n1_t, '"pre-run; design = frozen v1 null calibration verbatim, "')
-MEM_I  = line_indent(n1_t, '"a_seed_base": 465_804')
-ROW_I  = line_indent(pf_t,  '205: {"a"')
-ROWC_I = line_indent(pf_t,  '"engine_owner": "bm-a"},')
+CFG_I  = line_indent(n1_t, '205: {"batch"', EOL)
+PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W205_PREREG.md', EOL)
+PRE_I  = line_indent(n1_t, '"pre-run; design = frozen v1 null calibration verbatim, "', EOL)
+MEM_I  = line_indent(n1_t, '"a_seed_base": 465_804', EOL)
+ROW_I  = line_indent(pf_t,  '205: {"a"', PF_EOL)
+ROWC_I = line_indent(pf_t,  '"engine_owner": "bm-a"},', PF_EOL)
 
 # ---------- pf comment + row ----------
 pf_comment = EOL.join([
@@ -145,7 +171,7 @@ f"    # head {w205_total} machine-read at freeze time); zero --no-verify;",
 "    # time, honest archived per S7 law);",
 "    # band gate ADMIT results/_w206bmc_20261010_probe_receipt.json: A = FIRST-CLEAN",
 "    # past the registered W205 B band (arithmetic continuation",
-f"    # {fmt(465_804+1)}..{fmt(469_803)} REFUSED at its own start by the W205 B band",
+f"    # {fmt(w205_a_tail + 1)}..{fmt(469_803)} REFUSED at its own start by the W205 B band",
 f"    # {fmt(W205['b_exit'][0])}..{fmt(w205_b_tail)}, exactly as the W205 seat leg4",
 "    # projection + r956 W205 probe leg4 anticipated;",
 f"    # honest forward walk hops=1 -> {fmt(a_lo)}..{fmt(a_hi)}, non-rotational",
@@ -182,9 +208,9 @@ f"    # {fmt(b_lo)}..{fmt(b_hi)} will refuse the naive W207 A window; W207 freez
 ])
 pf_row = (f'{ROW_I}206: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
           f'"b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
-          + EOL + f'{ROWC_I}"engine_owner": "bm-c"}},' + EOL)
+          + PF_EOL + f'{ROWC_I}"engine_owner": "bm-c"}},' + PF_EOL)
 # belt-and-braces: display form must equal the canonical W-family text
-assert pf_row.split(EOL)[0].strip() == \
+assert pf_row.split(PF_EOL)[0].strip() == \
     f'206: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
 
 old_pf = must(pf_t, ('         "engine_owner": "bm-a"},' + PF_EOL + '}'
@@ -224,7 +250,7 @@ PRE = [
  "legs INTO the pre-seat probe; parity N/A honest), ",
  "engine_owner=bm-c, wave 206: ",
  "A = FIRST-CLEAN past the registered W205 B band (the ",
- f"arithmetic continuation {fmt(465_804+1)}..{fmt(469_803)} is REFUSED at its ",
+ f"arithmetic continuation {fmt(w205_a_tail + 1)}..{fmt(469_803)} is REFUSED at its ",
  f"own start by the W205 B band {fmt(W205['b_exit'][0])}..{fmt(w205_b_tail)}, exactly as ",
  "the W205 seat leg4 + r956 probe leg4 succession ",
  "projection notes anticipated; honest forward walk hops=1 -> ",
@@ -261,7 +287,7 @@ for i, s in enumerate(PRE):
     else:
         cfg_lines.append(f'{PRE_I}"{s}"')
 cfg_lines += [
- f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W206 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN past the registered W205 B band; arithmetic {fmt(465_804+1)}..{fmt(469_803)} REFUSED at own start by the W205 B band {fmt(W205["b_exit"][0])}..{fmt(w205_b_tail)}; hops=1; A-hops-prior-B staircase SIXTY-SIXTH instance, E36 card; ordinal machine-read SIXTY-SIXTH per probe receipt)',
+ f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W206 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN past the registered W205 B band; arithmetic {fmt(w205_a_tail + 1)}..{fmt(469_803)} REFUSED at own start by the W205 B band {fmt(W205["b_exit"][0])}..{fmt(w205_b_tail)}; hops=1; A-hops-prior-B staircase SIXTY-SIXTH instance, E36 card; ordinal machine-read SIXTY-SIXTH per probe receipt)',
  f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W206 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN past the own-wave A window; arithmetic {fmt(a_lo)}..{fmt(a_lo+199)} lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)',
  f'{MEM_I}"shard_subdir": "n1_w206", "out_name": "n1_w206_results.json",',
  f'{MEM_I}"engine_owner": "bm-c"}},',
@@ -347,7 +373,7 @@ tail = [
  '            "W206 bands must clear the options_wave2 actual draw range"',
  "        # band facts (law sec.4 W206 row): A = FIRST-CLEAN past",
  "        # the registered W205 B band (the arithmetic continuation",
- f"        # {fmt(465_804+1)}..{fmt(469_803)} is REFUSED at its own start by the W205 B band",
+ f"        # {fmt(w205_a_tail + 1)}..{fmt(469_803)} is REFUSED at its own start by the W205 B band",
  f"        # {fmt(W205['b_exit'][0])}..{fmt(w205_b_tail)}, exactly as the W205 seat leg4 + r956 probe",
  "        # leg4 succession projection notes anticipated; honest",
  f"        # forward walk hops=1 lands {fmt(a_lo)}..{fmt(a_hi)}; A base ==",
@@ -459,7 +485,7 @@ assert n1_t4.count("# --- W206 materializer face") == 1     # block header
 assert n1_t4.count('"+ W206 materializer face') == 1        # print fragment
 assert n1_t4.count('206: {"batch": "PERPETUAL-N1-W206"') == 1
 assert pf_t2.count('    206: {"a"') == 1
-assert pf_t2.count('"engine_owner": "bm-c"},\r\n}') == 1
+assert pf_t2.count('"engine_owner": "bm-c"},' + PF_EOL + '}') == 1
 assert n1_t4.count('    # --- T-141 s2 lane face') == 1
 assert n1_t4.count('"PERPETUAL-N1-W206-SHARD-0"') == 1
 assert n1_t4.count('f"W206 A hits W{wprev}"') == 1
