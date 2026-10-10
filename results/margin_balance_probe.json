@@ -1,0 +1,110 @@
+{
+ "status": "OK",
+ "probe": "E11 margin balance sentiment face",
+ "channels": {
+  "sse": {
+   "alive": true,
+   "unit": "YUAN",
+   "disclosure": "T-1",
+   "fields": [
+    "信用交易日期",
+    "融资余额",
+    "融资买入额",
+    "融券余量",
+    "融券余量金额",
+    "融券卖出量",
+    "融资融券余额"
+   ]
+  },
+  "szse": {
+   "alive": true,
+   "unit": "1e8 YUAN",
+   "disclosure": "T-2 (lag probed up to 3 calendar days)",
+   "fields": [
+    "融资买入额",
+    "融资余额",
+    "融券卖出量",
+    "融券余量",
+    "融券余额",
+    "融资融券余额"
+   ],
+   "lag_day_used": "probed"
+  }
+ },
+ "errors": {},
+ "history_span": {
+  "bars_2015_01": 20,
+  "earliest_dt": "20150105",
+  "bars_fetched_520d": 346
+ },
+ "snapshot": {
+  "near10": [
+   {
+    "dt": "20260918",
+    "fin_yi": 13345.62,
+    "short_yi": 187.13
+   },
+   {
+    "dt": "20260921",
+    "fin_yi": 13398.9,
+    "short_yi": 189.25
+   },
+   {
+    "dt": "20260922",
+    "fin_yi": 13407.97,
+    "short_yi": 189.35
+   },
+   {
+    "dt": "20260923",
+    "fin_yi": 13407.82,
+    "short_yi": 187.87
+   },
+   {
+    "dt": "20260924",
+    "fin_yi": 13318.42,
+    "short_yi": 186.64
+   },
+   {
+    "dt": "20260928",
+    "fin_yi": 13187.69,
+    "short_yi": 184.2
+   },
+   {
+    "dt": "20260929",
+    "fin_yi": 13194.82,
+    "short_yi": 186.84
+   },
+   {
+    "dt": "20260930",
+    "fin_yi": 12965.21,
+    "short_yi": 188.93
+   },
+   {
+    "dt": "20261008",
+    "fin_yi": 12984.38,
+    "short_yi": 189.37
+   },
+   {
+    "dt": "20261009",
+    "fin_yi": 12914.37,
+    "short_yi": 189.44
+   }
+  ],
+  "fin_short_ratio": 114.1,
+  "delta_250td": {
+   "n": 345,
+   "mean_yi": -11.02,
+   "std_yi": 74.36,
+   "min_yi": -246.32,
+   "max_yi": 379.89,
+   "pct_neg": 0.6
+  }
+ },
+ "honesty": [
+  "SZSE unit=亿元 vs SSE unit=YUAN (1e8 disparity) -- never mix raw",
+  "SZSE T-2 disclosure lag -- venue latest bars differ by one bar",
+  "sentiment-family prereg closed (r947 dual verdicts); margin = new data-source channel; judged face needs own ticket + PREREG gate",
+  "zero criteria, zero prereg, zero panel writes in this probe"
+ ],
+ "ts": "2026-10-10T12:40:03"
+}
