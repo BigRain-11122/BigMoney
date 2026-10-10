@@ -1,0 +1,31 @@
+{
+  "ts": "2026-10-10T14:0x+08:00",
+  "round": "r834 bm-b (recovery round; prior attempts 12:52+13:22 both 25min-timeout-killed, state never advanced past r833)",
+  "incident": "bigmoney standalone repo .git + 8 tracked dirs + 3 root files recursively deleted from working tree",
+  "destroyed": [".git", ".gitignore", "CODELY.md", "HQ-FEEDBACK.md", "data", "docs", "engine", "firm", "fleet", "knowledge", "legacy", "live"],
+  "survived": ["PLAN.md", "README.md", "requirements.txt", "smoke_test.py", "state.json", "state-bm-a.json", "state-bm-c.json", "round_reports-bm-a.md", "round_reports-bm-c.md", "town.html", "network_detector.py", "traffic_policy.py", "_r*.txt scratch", "logs", "monitor", "Money02", "Money0923", "qa", "QuantBull", "research", "results", "screening", "scripts", "state", "strategies", "tasks", "Tools", "__pycache__(recreated by python post-13:22)"],
+  "window": ["2026-10-10T13:11:23 (last S6 write w/ data/ in place per 13:22-round audit)", "2026-10-10T13:22:02 (next runner probe found fleet/machine.json missing)"],
+  "deletion_interrupted_at": "13:17:02 runner 25min timeout tree-kill; NTFS-order walk stopped right before 'logs' (13:22-round USN reading: deletions timestamped up to 13:16:59)",
+  "session_audit": {
+    "r834_125202_main_transcript": "last entry 13:16:41Z-8h=13:16:41+08 ('delete stale group .git/info/sparse-checkout.lock + retry sparse-add'); 139 lines, zero destructive cmds vs bigmoney (double-audited: 13:22 round + this round)",
+    "r834_subagents": "43 tasks; key suspect task-e906a13f CLEARED: cmd was Stop-Process 4 PIDs + Remove-Item GROUP index.lock only, stopped 13:03:18 exit 1 (before destruction window)",
+    "foreign_sessions": "3 project sessions (cf4d812 12:56/13:04/13:17:36 calls, 61d718, 2c4895) = HomeWreck/MiniGame own-file edits per 13:22-round audit; full 13:17:36 call text not yet re-verified by this round",
+    "culprit_command": "NOT YET FOUND in any reviewed transcript; suspected to be mid-flight when process tree was killed at 13:17:02 (never recorded)"
+  },
+  "group_repo_status": {
+    "ls_files_quant_bigmoney": 0,
+    "commits_touching_quant_bigmoney": 0,
+    "gitignore_isolation": "intact (quant/bigmoney/ ignored)",
+    "group_working_tree": "clean, HEAD=463dd4a (bm-a 12:5x), sparse=true cone={cph4/council, cph4/fleet/meme-daily-v1}, partial clone blob:none",
+    "conclusion": "13:22-round's 'group-index cone-deletion' theory DISPROVEN by this round; gaming/MiniGame intact (134 entries) = deletion was TARGETED at quant/bigmoney, not group-wide clean"
+  },
+  "order_anomaly_honest_note": "neither pure NTFS order nor git-index order fully explains survivor set (e.g. CODELY.md/HQ-FEEDBACK.md died while PLAN.md/README.md/Money02 survived); deletion may have been multi-target or pattern-list based; USN deep-dive = next-round task",
+  "zombie": "git.exe PID 24568 since 09:18:04, empty cmdline, parent 25936 dead; r832 claimed kill but FAILED; still alive at 13:5x; inert, left in place for forensics",
+  "recovery": {
+    "clone_detached": "C:\\Users\\Administrator\\r836bmb_git (git clone --no-checkout git@github.com:BigRain-11122/bigmoney.git), origin HEAD=fec72330715e6277d640b1addbd971dda009a8b3, competing with DiT 16.8GB download for bandwidth",
+    "wt_backup_35_files": "C:\\Users\\Administrator\\r836bmb_wtbackup\\ (13:0x S6 products, LWT>12:50) + state.json snapshot",
+    "procedure": "results/_r834bmb_RECOVERY_RUNBOOK.md (reset --mixed + targeted checkout of 8 dirs; NO reset --hard)"
+  },
+  "prevention_law_until_root_cause_closed": "no sparse-checkout/clean/checkout--. operations on C:\\Fluxgroup\\FluxGroup; group-tree consumption via 'git show origin/main:<path>' zero-tree-touch only; r833's 'verify group tree sparse-disable' task direction VOID",
+  "scoring": "this round = disaster-recovery round; deliverables = runbook + this forensics file + fleet inbox alert + detached clone in-flight; no commit possible (.git gone) - honestly recorded"
+}
