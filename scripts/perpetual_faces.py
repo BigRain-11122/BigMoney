@@ -7057,15 +7057,26 @@ def cmd_selftest():
         assert e["workers_plan"]["workers"] == 1, "N3 light-batch workers face"
         for forbidden_owner in ("owner", "owner_since", "done_at", "done_by"):
             assert forbidden_owner not in e["shards"][0]
-    # 8. pool format-mirror probe (read-only; r289 law: indent2+CRLF probed;
-    #    trailing face follows the migrated canonical producer -- bm-b r499
-    #    pool-format migration made the flip tool emit trailing NL and the
-    #    probe dynamic; the guard asserts probe-vs-bytes truth, not a
-    #    hardcoded pre-migration face)
+    # 8. pool format-mirror probe (read-only; r289 law: indent2+EOL+trailing
+    #    probed dynamically; every format face follows the migrated canonical
+    #    producer -- bm-b r499 pool-format migration made the flip tool emit
+    #    trailing NL and the probe dynamic; bm-c r307 migrated the indent
+    #    face; r852 bm-c completes the family on the EOL face: the guard
+    #    asserts probe-vs-bytes truth, not a hardcoded pre-migration face --
+    #    the pool blob has been LF-only on origin since >=10-10 15:20 per
+    #    autofill producer commits (r856 bm-b forensics), so the old
+    #    hardcoded CRLF pin chronic-false-flagged byte-faithful LF checkouts
+    #    while passing autocrlf-converted CRLF trees (probe drift = format
+    #    face follows the writer, r500 law)
     if os.path.exists(POOL_PATH):
         indent, crlf, trailing_nl = _pool_format_probe()
-        assert crlf, f"pool EOL face drifted: crlf={crlf}"
         b = open(POOL_PATH, "rb").read()
+        # EOL probe-vs-bytes truth (r499 trailing / r307 indent migration
+        # family completed on the last hardcoded format face)
+        nl = b.count(b"\n")
+        crlf_bytes = b.count(b"\r\n") >= max(1, nl) // 2
+        assert crlf == crlf_bytes, \
+            f"EOL probe drift vs bytes: {crlf}/{crlf_bytes}"
         assert trailing_nl == b.endswith(b"\n"), "trailing probe drift vs bytes"
         # indent probe-vs-bytes truth (bm-c r307 trailing-pin fix applied
         # to the indent face too: the file's real indent is whatever the
