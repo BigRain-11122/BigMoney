@@ -1,0 +1,238 @@
+﻿r841 bm-c S6 chain run 2026-10-10T21:59:33+08:00 legs=43
+===== pool_dualrun_reconcile =====
+$ python scripts\pool_dualrun_reconcile.py run
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 419 entries, drift-free streak 15, cutoff 2026-10-10 03:52:53)
+
+[rc=0]
+===== compute_audit =====
+$ python scripts\compute_audit.py
+{"ts": "2026-10-10 21:59:41", "audit_version": "v2.4.2", "cpu_total_pct": 8.0, "py_cpu_pct": 10.5, "cores": 32, "py_procs": 7, "result_stale_min": 0.0, "fleet_open_tasks": 0, "pool_ready_count": 2, "pool_ready_unclaimed": 0, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 117, "span_min": 2313.1}, "supply_floor": {"ready": 2, "floor": 3, "breach": true}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 2883.4, "gpu": {"present": true, "util_pct": 100.0, "mem_used_mb": 15040.0, "compute_apps_count": 22, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 1, "core_seconds": 15.55, "wall_seconds": 60.4, "effective_cores": 0.26, "multicore_burn": 0, "single_core_burn": 1, "too_short_to_sample": 0, "readable": true}, "flags": ["supply_gap", "supply_floor"], "verdict": "FLAG:supply_gap,supply_floor"}
+
+[rc=0]
+===== py_watermark =====
+$ python scripts\py_watermark.py probe
+{"ts": "2026-10-10 21:59:47", "epoch": 1791640782.0, "machine": "bm-c", "cpu_total_pct": 29.0, "cores": 32, "py_cpu_pct": 5.4, "py_procs": 7, "top_proc_cores": 1.65, "local_batch_running": true, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": [], "pool_ready_count": 0, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 0, "board_open": 0, "board_inflight": 0, "local_batch": 1}, "bars_present": false, "daily_panel": true, "verdict": "py_low_with_work_cands", "window": {"n": 4, "span_min": 18.6, "avg_py_cpu_pct": 5.2, "max_py_cpu_pct": 6.3}, "series_kept": 29}
+
+[rc=0]
+===== update_daily =====
+$ python scripts\update_daily.py
+=== Bigmoney daily update 2026-10-10 21:59:48 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-09
+status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+
+[rc=0]
+===== market_regime =====
+$ python scripts\market_regime.py
+regime state -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-10-09 state=ORANGE (橙·高危) raw=ORANGE days_in_state=3 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.73>=65%
+
+[rc=0]
+===== strategy_scorecard =====
+$ python scripts\strategy_scorecard.py
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin commit fresh (19min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+===== market_clock_call =====
+$ python scripts\market_clock_call.py run
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-09.md cell=ORANGE_COOL sleeves=4 activated=0
+
+[rc=0]
+===== update_lhb =====
+$ python scripts\update_lhb.py
+cutoff=2026-10-09 quarter=2026Q4 today=2026-10-10
+no-op: cutoff 2026-10-09 covers latest disclosure window (2026-10-09)
+
+[rc=0]
+===== update_zt_pool =====
+$ python scripts\update_zt_pool.py
+no-op: zt_pool lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== zt_pool_crosscheck =====
+$ python scripts\zt_pool_crosscheck.py
+zt_pool crosscheck: CLEAN (days=2 rows={'zt': 112, 'zbgc': 46, 'dtgc': 21, 'strong': 370} findings=0 soft=2) -> results\zt_pool_crosscheck.json
+  soft-warn C/strong_x_dtgc [2026-10-08]: same-day overlap codes: ['001216', '601811', '603949']
+  soft-warn C/strong_x_dtgc [2026-10-09]: same-day overlap codes: ['002487', '605366']
+
+[rc=0]
+===== update_heat =====
+$ python scripts\update_heat.py
+no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+
+[rc=0]
+===== update_futures =====
+$ python scripts\update_futures.py
+no-op: local cutoff 2026-10-09 covers expected complete-bar date 2026-10-09 -> zero network
+
+[rc=0]
+===== update_repo =====
+$ python scripts\update_repo.py
+no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== update_options =====
+$ python scripts\update_options.py
+[RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste law) -- honest no-op, no collection.
+
+[rc=0]
+===== update_moneyflow =====
+$ python scripts\update_moneyflow.py
+no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== update_sina_mf =====
+$ python scripts\update_sina_mf.py
+no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== update_astock_daily =====
+$ python scripts\update_astock_daily.py
+no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+===== update_etf_daily =====
+$ python scripts\update_etf_daily.py
+no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+===== regime_thermo_build =====
+$ python scripts\regime_thermo_build.py
+regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+
+[rc=0]
+===== regime_gate_evidence =====
+$ python scripts\regime_gate_evidence.py run
+[regime_gate_evidence] no-op (content-hash match) cutoff=2026-09-22
+
+[rc=0]
+===== rev_osc_signal_export =====
+$ python scripts\rev_osc_signal_export.py run
+rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+===== update_minute_feed =====
+$ python scripts\update_minute_feed.py
+update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+===== update_ths_panel =====
+$ python scripts\update_ths_panel.py
+no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== ah_panel_puller =====
+$ python scripts\ah_panel_puller.py
+no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== update_fund_premium =====
+$ python scripts\update_fund_premium.py snapshot
+no-op: weekend (NAV publishes on trading days only)
+
+[rc=0]
+===== update_fundamental =====
+$ python scripts\update_fundamental.py
+snapshot fresh (4.4h < 24h) -> skip
+
+[rc=0]
+===== b_layer_filter =====
+$ python -m firm.risk.b_layer_filter
+mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}
+mask -> K:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv
+verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+
+[rc=0]
+===== update_fund_statements =====
+$ python scripts\update_fund_statements.py
+no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+
+[rc=0]
+===== live_paper =====
+$ python -m live.paper
+lane_io single-writer guard: results/paper/* host=bm-a origin commit fresh (20min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+===== t35_open_fill_verify =====
+$ python scripts\t35_open_fill_verify.py
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a origin commit fresh (20min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+===== t24_prospect_paper =====
+$ python scripts\t24_prospect_paper.py run
+lane_io single-writer guard: results/prospect_paper/* host=bm-a origin commit fresh (20min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+===== t24_prospect_promotion =====
+$ python scripts\t24_prospect_promotion.py run
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin commit fresh (20min, heartbeats stale) -> skip derive this cycle (r701 third-signal veto)
+
+[rc=0]
+===== aggressive_lab =====
+$ python scripts\aggressive_lab.py paper
+aggr paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+===== alloc_paper =====
+$ python scripts\alloc_paper.py run
+no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+
+[rc=0]
+===== grid_paper =====
+$ python scripts\grid_paper.py run
+grid paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+===== cta_p1_paper =====
+$ python scripts\cta_p1_paper.py run
+cta paper: marks already at panel cutoff 2026-10-09 -- no-op (idempotent)
+
+[rc=0]
+===== system_v1_paper =====
+$ python scripts\system_v1_paper.py run
+system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+
+[rc=0]
+===== t35_paper_export =====
+$ python scripts\t35_paper_export.py run
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 128min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+export 2026-10-09: traders=6 positions=18 equity=6000311 ops(entry/exit)=0/0 source=2026-10-08
+-> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper_export\export-2026-10-09.json + latest.json
+
+[rc=0]
+===== daily_scorecard =====
+$ python scripts\daily_scorecard.py
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 128min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+scorecard written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+
+[rc=0]
+===== daily_report =====
+$ python scripts\daily_report.py run
+daily report written: REPORT-2026-10-10.md/.json faces=5 token=1
+
+[rc=0]
+===== ceo_live_usage =====
+$ python scripts\ceo_live_usage.py
+ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-10.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+
+[rc=0]
+===== build_status =====
+$ python -m monitor.build_status
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 128min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)
+dashboard status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\dashboard_status.js
+  factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+
+[rc=0]
+===== token_meter =====
+$ python scripts\token_meter.py
+saved: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 14519 + 8717 tokens (rough); ledger cumulative ~ 2049 state + 1885660 report tokens; delta=0
+L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2897 across 81 sigs
+
+[rc=0]
+=== S6 DONE legs=43 nonzero=0 22:01:22 ===
