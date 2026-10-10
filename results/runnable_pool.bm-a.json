@@ -16248,20 +16248,24 @@
     "0",
     "8"
    ],
-   "lane_owner": "bm-a",
+   "lane_owner": "bm-c",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-09 06:28:05",
    "data_gates": "",
    "shards": [
     {
      "key": "w17-screen-0of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_0of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:27:34",
-     "park_note": "AUTOFILL-PARK 2026-10-09 10:50:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+     "owner_since": "2026-10-10 19:34:03",
+     "park_note": "AUTOFILL-PARK 2026-10-09 10:50:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-10 19:04:03",
+     "done_at": "2026-10-10 19:34:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "w17-screen-0of8.bm-c.json"
     }
    ],
    "workers_plan": {
@@ -16271,7 +16275,9 @@
    "data_deps": [
     "results/trial_labor_w17/w17_cells.json",
     "results/trial_labor_w17/prep_state.json"
-   ]
+   ],
+   "done_by": "bm-c",
+   "done_at": "2026-10-10 19:10:03"
   },
   {
    "id": "TRIAL-LABOR-W17-SCREEN-SHARD-1",
@@ -16296,7 +16302,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_1of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:28:03",
+     "owner_since": "2026-10-10 19:47:08",
      "park_note": "AUTOFILL-PARK 2026-10-09 11:38:00: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
     }
    ],
