@@ -1,0 +1,45 @@
+{
+ "machine": "bm-c",
+ "wave": 206,
+ "phase": "five-face freeze chain-order splice (prepared pre-landing, executed post-W205-finalize)",
+ "origin_base": "0536bdb791011985df87158b719a9252460c6277",
+ "pf_sha16_pre": "98e5fcad73e74f38",
+ "n1_sha16_pre": "148530f36b1dbc53",
+ "pf_sha16_post": "5ae4674d891351cc",
+ "n1_sha16_post": "846b0faf856eac81",
+ "bands": {
+  "A": "468004_470003",
+  "B": "470004_470203",
+  "a_lo": 468004,
+  "a_hi": 470003,
+  "b_lo": 470004,
+  "b_hi": 470203
+ },
+ "admit_receipt": "results/_w206bmc_20261010_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=468004 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=470004 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w205_upstream": {
+  "freeze_sha": "4e0f4bd4b009e6c07b51f1598229bb34631f7082",
+  "prereg_sha": "4e0f4bd4b009e6c07b51f1598229bb34631f7082",
+  "ledger_total": 868171,
+  "merged_n": 448920
+ },
+ "seat": "fleet/inbox/processed/MSG-20261010-2323-bmc-w206-seat.md (origin e25629f7)",
+ "prereg_bundle": "origin 0620f78",
+ "parity_section": {
+  "source": "W205 block physical bytes",
+  "bytes": 13016,
+  "row_asserts": 50
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w205_block_kept": 1
+ }
+}
