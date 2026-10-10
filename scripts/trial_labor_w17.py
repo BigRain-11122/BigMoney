@@ -932,7 +932,59 @@ def _park_stamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+_BURN_STARTED = None
+
+
+def _claim_machine_id() -> str:
+    """Worker-claim identity (fleet/machine.json; honest fallback)."""
+    try:
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return json.load(open(os.path.join(root, "fleet", "machine.json"),
+                              encoding="utf-8"))["machine_id"]
+    except Exception:
+        return "unknown"
+
+
+def _worker_claim(entry_id: str, shard_key: str, result_ref: str) -> None:
+    """r497 worker-side harvest handshake (W17 lineage gap closed
+    2026-10-10: the w14->w16->w17 clone chain lost this leg, r797
+    lineage-copy-loss family -- live cost: completed burns read as
+    crashes to the fuse and the campaign froze, r496/r860 families).
+    On a completed burn write results/pool_claims/<entry>/<shard>.<mid>
+    .json with state=closed+outcome=ok so the launcher's harvest flip
+    lands the shard done. The worker NEVER writes runnable_pool.json
+    (pool single-writer law). Only called from the real-burn
+    completion paths -- the hermetic selftest never reaches here."""
+    try:
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        d = os.path.join(root, "results", "pool_claims", entry_id)
+        os.makedirs(d, exist_ok=True)
+        mid = _claim_machine_id()
+        fp = os.path.join(d, f"{shard_key}.{mid}.json")
+        import datetime
+        now = datetime.datetime.now().astimezone().isoformat(
+            timespec="seconds")
+        with open(fp, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump({"machine_id": mid, "state": "closed",
+                       "outcome": "ok", "pid": os.getpid(),
+                       "started": _BURN_STARTED, "closed_at": now,
+                       "exit_code": 0, "result_ref": result_ref},
+                      fh, indent=1, ensure_ascii=False)
+        print(f"WORKER-CLAIM closed+ok -> "
+              f"{os.path.relpath(fp, root)}", flush=True)
+    except Exception as exc:
+        # product already landed -- a failed handshake must not fail the
+        # burn; the observation round can still write the claim by hand
+        # (r860 trio), so disclose and exit clean.
+        print(f"WORKER-CLAIM fault (non-fatal, hand-write per r860 "
+              f"trio): {exc}", flush=True)
+
+
 def cmd_screen(shard: int, shards: int, workers) -> int:
+    global _BURN_STARTED
+    import datetime
+    _BURN_STARTED = datetime.datetime.now().astimezone().isoformat(
+        timespec="seconds")
     print(f"=== {WAVE} screen shard {shard}of{shards} ===")
     for p, what in ((PREP_FILE, "prep_state.json"),
                     (CELLS_FILE, "w17_cells.json")):
@@ -1042,6 +1094,10 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
                               initializer=tl1._init_worker,
                               initargs=(state,), on_result=on_result)
     print(f"shard {shard}of{shards} complete -> {ck}")
+    _worker_claim(f"TRIAL-LABOR-W17-SCREEN-SHARD-{shard}",
+                  f"w17-screen-{shard}of{shards}",
+                  os.path.relpath(ck, os.path.dirname(os.path.dirname(
+                      os.path.abspath(__file__)))))
     return 0
 
 
@@ -1580,6 +1636,10 @@ def cmd_judge_prep() -> int:
 
 
 def cmd_judge(shard: int, shards: int, workers) -> int:
+    global _BURN_STARTED
+    import datetime
+    _BURN_STARTED = datetime.datetime.now().astimezone().isoformat(
+        timespec="seconds")
     print(f"=== {WAVE} judge shard {shard}of{shards} ===")
     if not os.path.exists(JUDGE_STATE_FILE):
         print("JUDGE-GATE: judge_state.json absent -- run judge-prep")
@@ -1669,6 +1729,10 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
                               initializer=tl1._init_worker,
                               initargs=(state,), on_result=on_result)
     print(f"judge shard {shard}of{shards} complete -> {ck}")
+    _worker_claim("TRIAL-LABOR-W17-JUDGE",
+                  f"w17-judge-{shard}of{shards}",
+                  os.path.relpath(ck, os.path.dirname(os.path.dirname(
+                      os.path.abspath(__file__)))))
     return 0
 
 

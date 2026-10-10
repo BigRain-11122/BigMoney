@@ -1,8 +1,13 @@
 {
  "machine_id": "bm-a",
- "state": "claimed",
- "pid": 73564,
- "heartbeat": "2026-10-10T18:59:43+08:00",
- "note": "O-20261010-1825 sec.1 CEO-ordered handover bm-c->bm-a: bm-c owner_since 15:12-15:20 + zero checkpoint product + heartbeat stale 15:15 (film-chain CEO priority, RAM-GATE 4GB blocked); takeover evidence chain per r899/r904 precedent; bm-c film chain untouched",
+ "state": "closed",
+ "outcome": "ok",
+ "pid": 46276,
+ "started": "2026-10-10 19:47:02",
+ "closed_at": "2026-10-10T19:55:14+08:00",
+ "exit_code": 0,
+ "result_ref": "results/trial_labor_w17/checkpoint/screen_shard_1of8.jsonl",
+ "cells": 198,
+ "note": "r959 session closure per r860 trio (runner completed 19:55:14, log 'shard 1of8 complete', 198/198 cells, product on disk; trial-labor runner lacks worker-claim handshake = r497 lineage gap, fix landing same round); launch pid 46276 via autofill 19:47:02",
  "order_ref": "O-20261010-1825"
 }
