@@ -16292,18 +16292,22 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-09 06:28:09",
    "data_gates": "",
    "shards": [
     {
      "key": "w17-screen-1of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_1of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:08",
-     "park_note": "AUTOFILL-PARK 2026-10-09 11:38:00: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+     "owner_since": "2026-10-10 20:16:04",
+     "park_note": "AUTOFILL-PARK 2026-10-09 11:38:00: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-10 19:47:08",
+     "done_at": "2026-10-10 20:16:04",
+     "harvested_by": "bm-a",
+     "harvest_claim": "w17-screen-1of8.bm-a.json"
     }
    ],
    "workers_plan": {
@@ -16313,7 +16317,9 @@
    "data_deps": [
     "results/trial_labor_w17/w17_cells.json",
     "results/trial_labor_w17/prep_state.json"
-   ]
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-10 20:16:04"
   },
   {
    "id": "TRIAL-LABOR-W17-SCREEN-SHARD-2",
@@ -16338,7 +16344,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_2of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46",
+     "owner_since": "2026-10-10 20:22:34",
      "park_note": "AUTOFILL-PARK 2026-10-09 20:56:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
     }
    ],
@@ -16374,7 +16380,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_3of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46",
+     "owner_since": "2026-10-10 20:22:34",
      "park_note": "AUTOFILL-PARK 2026-10-10 02:48:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
     }
    ],
@@ -16410,7 +16416,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_4of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46",
+     "owner_since": "2026-10-10 20:22:34",
      "park_note": "AUTOFILL-PARK 2026-10-10 08:04:02: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
     }
    ],
@@ -16446,7 +16452,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_5of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46"
+     "owner_since": "2026-10-10 20:22:34"
     }
    ],
    "workers_plan": {
@@ -16481,7 +16487,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_6of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46"
+     "owner_since": "2026-10-10 20:22:34"
     }
    ],
    "workers_plan": {
@@ -16516,7 +16522,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/screen_shard_7of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 1584 cells (198/shard); RAM gate 4GB r354 honest-refuse retry; fail-closed rc2 until cells+prep_state (data_deps)",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46"
+     "owner_since": "2026-10-10 20:22:34"
     }
    ],
    "workers_plan": {
@@ -16551,7 +16557,7 @@
      "checkpoint": "results/trial_labor_w17/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL r429; judge-finalize physical dep = burn machine W13/W14/W16 single-shard precedent)",
      "note": "single shard machine-local law; judged cells = screen survivors + paired nulls; dual nulls B=2000 block bootstrap + P=2000 sign-flip; RAM gate r354 honest-refuse retry",
      "owner": "bm-a",
-     "owner_since": "2026-10-10 19:47:46"
+     "owner_since": "2026-10-10 20:22:34"
     }
    ],
    "workers_plan": {
