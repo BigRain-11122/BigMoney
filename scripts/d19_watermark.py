@@ -504,7 +504,9 @@ def main(argv=None):
                           "always runs the canonical probe fresh")
     p_u.add_argument("--state", default=None)
     p_u.add_argument("--machine-json", default=MACHINE_JSON)
-    p_u.add_argument("--receipt", default=RECEIPT)
+    p_u.add_argument("--receipt", default=RECEIPT,
+                     help="receipt evidence FILE PATH (not text; default "
+                          "results/d19_watermark.json)")
 
     p_v = sub.add_parser("verify")
     p_v.add_argument("--state", default=None)
