@@ -6,7 +6,7 @@
 |---|---|---|---|
 | E1 | 可转债 T+0 数据面可行性调研（akshare cb 源可达性+费率/回转规则·新资产类调研先行） | akshare+PLAN.md P3 | done |
 | E2 | 期权 IV 面板 prereg 路线图（T-69 前向档 12 个月冻结窗计数·路线件先立） | scripts/update_options.py+T-67 §2 冻结律 | done |
-| E3 | 北向资金数据源可达性扫描（akshare/东财源·情绪面因子候选） | 外源扫描两源交叉律 | done |
+| E3 | 北向资金数据源可达性扫描（akshare/东财源·情绪面因子候选）——r823 bm-b 判负收口（northbound_probe 12 面）+r947 bm-a 双源收敛判负（流量面 2024-08-16 政策死亡·季度持股 8 点快照+南向旁系登记不开发） | 外源扫描两源交叉律 | done |
 | E4 | 央行公开市场操作流动性指标面（OMO 净投放→REPO 利率联动·REPO_PANEL 消费） | research/shortline/REPO_PANEL.md | open |
 | E5 | LHB 游资情绪因子形式化（情绪周期三轴门先例扩展·O-20260928-1522 国内打法优先律）——slice-1 描述面 r946 + slice-2 判决面 r947 双落地收口 | scripts/update_lhb.py+lhb_thermo_build.py+research/LHB_THERMO_IC_P1.md | closed |
 | E6 | 微盘股量化因子外源扫描（韭研/雪球/研报三源·小市值效应本土化） | 外源扫描+独立验证门禁链 | open |
@@ -24,3 +24,4 @@
 > r823 消耗记录（bm-b）：E3 本轮完成出列（**北向资金数据源可达性扫描→判负收口**：探针 `scripts/northbound_probe.py`〔45s 超时夹克+2.5s 限速+getattr 守卫+ASCII 源码 \u 转义律+selftest 9/9〕+证据 `results/northbound_probe.json`+判读件 `research/shortline/NORTHBOUND_DATA_REACHABILITY.md`；测量结论=akshare 1.18.96 十二面实测**可达 6/12**，但核心资金流字段（净买额/买入/卖出/累计净买额）自 **2024-08-16** 起三面一致 100% NaN〔disclosure 断崖实证·候选锚 2024-08-19·实测 last_nonnull 为准〕·分钟面 241 行**全 0.0 占位陷阱**〔端点活≠数据活〕·个股持股面冻结 2024-08-16〔跨日即冻结律〕·稀疏例外日〔2026-04-08/2024-09-27〕在册禁作恢复信号·残余活面〔领涨股/指数收盘/宽度字段〕单源集中 EM 且「北向持股」归因不可核〔持股集冻结 2+ 年〕→**判负：现行披露制度下北向情绪因子生产车道不可立，T-67 §2 前向 12 个月窗永不可达〔E2 期权同构判负〕**；零 prereg 零面板零采集落地；复活门=披露恢复/两源新渠道/CEO 新令三选一且全须 GM 署名票+T-67 §2 前向窗。P3 队列 10→9（E4 队头=央行 OMO 流动性指标面）。
 
 > r947 处理记录：E5 本轮收口出列——slice-2 判据面=LHB_THERMO_IC_P1（预注册冻结 5b8ea0afe→烧录 25.5s·36 格 0/12 全链过门·V1 全败 |IC_IS|max 0.043 < null p95 0.048-0.084·n_lhb 动量向暗示月块 t=-3.33 但 V1/V2 双败不外推）——与 THERMO-OVERLAY-P1（涨跌停计数面 0/6·r938）双源合流=**市场级情绪择时族级闭合**（LHB 全景四判负：r680 榜单级/r681 席位级/r947 市场级+overlay 计数面）；游资情绪周期逆情绪 convention 在两数据面上形式化后均否证。lhb_thermo 描述面保留为 P6 政体门情绪臂参照族（不升级判据·判据升级须另过预注册正门）。探索队列 11→10。
+> r947 消耗记录（bm-a）：E3 后到让路注记（撞头：bm-b r823 先手收口 E3=primary〔northbound_probe 12 面探针+results/northbound_probe.json+research/shortline/NORTHBOUND_DATA_REACHABILITY.md〕·bm-a r947 同窗独立完成=convergent secondary 让路——双机独立同判负：北向流量面 2024-08-16 政策死亡双源收敛〔bm-a 证据=scripts/hsgt_source_probe.py〔selftest 7/7·6 接口 8 请求〕+results/shortline/hsgt_source_probe.json+research/digests/DIGEST-20261010-e3-hsgt-source-probe.md〕；bm-a 增补证据面=same-endpoint 南向对照实验〔北向 0 vs 南向 -23.31/+26.22 亿真值=零填系政策非损坏〕+季度持股快照 8 点存活〔2024-09-30..2026-06-30 季度末 2.41→3.10 万亿〕+南向旁系日度真值登记不开发；判负判词以 bm-b r823 复活门三选一为准〔披露恢复/两源新渠道/CEO 新令+GM 署名票+T-67 §2 前向窗〕；双探针双判词件并档）

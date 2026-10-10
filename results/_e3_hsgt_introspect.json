@@ -1,0 +1,97 @@
+{
+ "stock_hsgt_fund_flow_summary_em": {
+  "present": true,
+  "doc": "东方财富网-数据中心-资金流向-沪深港通资金流向 / https://data.eastmoney.com/hsgt/index.html#lssj / :return: 沪深港通资金流向 / :rtype: pandas.DataFrame",
+  "urls": [
+   "https://data.ea",
+   "https://datacenter-web.ea"
+  ],
+  "params": []
+ },
+ "stock_hsgt_fund_min_em": {
+  "present": true,
+  "doc": "东方财富-数据中心-沪深港通-市场概括-分时数据 / https://data.eastmoney.com/hsgt/hsgtDetail/scgk.html / :param symbol: 北向资金；choice of {\"北向资金\", \"南向资金\"} / :type symbol: str / :return: 沪深港通持股-分时数据 / :rtype: pandas.DataFrame",
+  "urls": [
+   "https://data.ea",
+   "https://pu"
+  ],
+  "params": [
+   "symbol"
+  ]
+ },
+ "stock_hsgt_hist_em": {
+  "present": true,
+  "doc": "东方财富网-数据中心-资金流向-沪深港通资金流向-沪深港通历史数据 / https://data.eastmoney.com/hsgt/index.html / :param symbol: choice of {\"北向资金\", \"沪股通\", \"深股通\", \"南向资金\", \"港股通沪\", \"港股通深\"} / :type symbol: str / :return: 沪深港通历史数据 / :rtype: pandas.DataFrame",
+  "urls": [
+   "https://data.ea",
+   "https://datacenter-web.ea"
+  ],
+  "params": [
+   "symbol"
+  ]
+ },
+ "stock_hsgt_individual_em": {
+  "present": true,
+  "doc": "东方财富-数据中心-沪深港通-沪深港通持股-具体股票 / https://data.eastmoney.com/hsgt/StockHdDetail/002008.html / :param symbol: 股票代码 / :type symbol: str / :return: 具体股票-沪深港通持股 / :rtype: pandas.DataFrame",
+  "urls": [
+   "https://data.ea"
+  ],
+  "params": [
+   "symbol"
+  ]
+ },
+ "stock_hsgt_board_rank_em": {
+  "present": true,
+  "doc": "东方财富网-数据中心-沪深港通持股-行业板块排行-北向资金增持行业板块排行 / https://data.eastmoney.com/hsgtcg/bk.html / :param symbol: choice of {\"北向资金增持行业板块排行\", \"北向资金增持概念板块排行\", \"北向资金增持地域板块排行\"} / :type symbol: str / :param indicator: choice of {\"今日\", \"3日\",",
+  "urls": [
+   "https://data.ea",
+   "https://data.ea",
+   "https://datacenter-web.ea"
+  ],
+  "params": [
+   "symbol",
+   "indicator"
+  ]
+ },
+ "stock_hsgt_hold_stock_em": {
+  "present": true,
+  "doc": "东方财富-数据中心-沪深港通持股-个股排行 / https://data.eastmoney.com/hsgtcg/list.html / :param market: choice of {\"北向\", \"沪股通\", \"深股通\"} / :type market: str / :param indicator: choice of {\"今日排行\", \"3日排行\", \"5日排行\", \"10日排行\", \"月排行\", \"季排行\", \"年排行\"}",
+  "urls": [
+   "https://data.ea",
+   "https://data.ea",
+   "https://datacenter-web.ea"
+  ],
+  "params": [
+   "market",
+   "indicator"
+  ]
+ },
+ "stock_hsgt_stock_statistics_em": {
+  "present": true,
+  "doc": "东方财富网-数据中心-沪深港通-沪深港通持股-每日个股统计 / https://data.eastmoney.com/hsgtcg/StockStatistics.aspx / market=001，沪股通持股 / market=003，深股通持股 / :param symbol: choice of {\"北向持股\", \"南向持股\"} / :type symbol: str / :param start_date: 指定数据获取开始的时",
+  "urls": [
+   "https://data.ea",
+   "https://datacenter-web.ea",
+   "http://datacenter-web.ea"
+  ],
+  "params": [
+   "symbol",
+   "start_date",
+   "end_date"
+  ]
+ },
+ "stock_hsgt_institution_statistics_em": {
+  "present": true,
+  "doc": "东方财富网-数据中心-沪深港通-沪深港通持股-每日机构统计 / https://data.eastmoney.com/hsgtcg/InstitutionStatistics.aspx / :param market: choice of {\"北向持股\", \"南向持股\", \"沪股通持股\", \"深股通持股\"} / :type market: str / :param start_date: 指定数据获取开始的时间，e.g., \"20200",
+  "urls": [
+   "https://data.ea",
+   "https://datacenter-web.ea",
+   "https://datacenter-web.ea"
+  ],
+  "params": [
+   "market",
+   "start_date",
+   "end_date"
+  ]
+ }
+}
