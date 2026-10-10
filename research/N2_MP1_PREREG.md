@@ -73,13 +73,23 @@
 - 产物：`results/mp1_tsgate_p1.json`（顶层 cutoff_meta+prereg 块+178 门 IS/OOS 聚合+verdicts+五员次级表+波次血统分组+极端日门态披露+audit 段）+ `research/MP1_TSGATE.md`（可读供应面：判定表+PASS/PARTIAL 候选清单+诚实注记）+ checkpoint `results/mp1_tsgate_p1/`（gitignored·per-shard jsonl 断点续跑）。
 - 池路由：入池 `N2-MP1`（lane_owner=null·lane-free·workers_plan=shard 内 worker_cap 并行 BelowNormal）；~4-8min 串行估计=池批面（autofill 续烧合法）；finalize=烧后合并腿。
 
-## §7 跑后实证。【跑后回填·占位】
+## §7 跑后实证。【2026-10-11 r868 bm-b 烧录窗回填】
 
-（冻结后烧录窗回填：漏斗全链/§5 预测对账/锚门复现/消费面主发现/诚实注记。）
+- **漏斗全链**：池 96（W19 48+W20 48·overlap=0）→ CSRANK 构造性排除 7 → 可算 89 → 178 门 → 面板 1,724 工具扫描 → **1,013 工具 ≥500 bars 入样**（711 min_bars 诚实跳过·与 A158-TSGATE §7 同面同数）→ 每门 OOS 工具数 ~909-931 → **判定：PASS=25（14.0%）·PARTIAL=43（24.2%）·FAIL=110（61.8%）·N/A=0**（合计 178 恒等）。产物=results/mp1_tsgate_p1.json + research/MP1_TSGATE.md；finalize rc0。
+- **锚门复现（§5.1 ✓）**：G-ANCHOR-MP1 510300 DELTA(VOLUME,30)_q10 decidable==3341∧open==390∧首可判 bar-idx==149——烧录认领窗 preflight 与 finalize preflight 双次 fail-closed 复现（in-run）。
+- **§5 预测对账（两 MISS 如实披露）**：§5.2 **MISS**——预测 PASS∈[0,12]·PASS+PARTIAL≤40，实测 25/68：预测带未锚定同机械先例实绩率（A158-TSGATE 314 门实绩 PASS 15.3%·PASS+PARTIAL 60.5%），本批实绩 14.0%/38.2% 与 A158 PASS 率几乎恒等=先验设定方法论错误（保守带下界拍低了），非批机械问题；§5.3 **MISS**——预测 FAIL≥120 实测 110；§5.4 **HELD**（无信息先验声明兑现）——M1 正向带 9 员 18 门 PASS=0（低于池基率 14.0%）·PARTIAL=5·FAIL=13：截面 t≥3.0 对时序门判读无方向预测力，换用法独立假设（r433）在 M1 带上实证成立；§5.5 极端日门态披露面落盘（七日开窗门数 33/19/48/50/77/57/43·逐门清单在产物 extreme_day_open_gates_510300）。
+- **消费面主发现**：PASS 25 门集中于**价格水位类叶式 q10 低分位门族**（MAX(HIGH,20)/MA(LOW,30)/SUM(OPEN,30)/SUM(HIGH,30)/LOG(OPEN)/ADD(LOW,*)/MUL(HIGH,*) 等——语义=「价格水位处 252 日窗低分位」超跌折扣态）：OOS 净差中位 +1.1%~+1.3%/20d·正份额 0.74-0.77·中位 t ~2.1-2.6·stride-20 不重叠读数仍正（+0.40%~+0.81%）；**族内机械相关**（同编码窗口低水位）如实注记——25 门更接近「单一价格水位族发现」而非 25 个独立信号；E[FP]=8.9 假阳预期内，升格前必过独立复核面。
+- **波次血统分组**：W19 员 48 式 96 门=PASS 8/PARTIAL 32/FAIL 56；W20 员 41 式 82 门=PASS 17/PARTIAL 11/FAIL 54（W19 波员 h1 面更强→PARTIAL 占比更高；W20 价格水位族→PASS 集中）。
+- **机制坑披露（同窗治愈）**：verdict_counts_by-wave 聚合腿 generator 单次消费坑——per-verdict 计数字典推导耗尽共享 generator 致首键后全零（总计数经 dict.values() 视图恒正确·逐门面完好）；runner `_verdict_counts` 物化修复+产物双面（JSON 波次表+MD 波次表行）raw-text 治愈（真值 W19 8/32/56·W20 17/11/54·和=178 恒等=对账通过）；证据 results/_r868bmb_wave_heal.py + selftest 修复后 30/30。坑律入 research/pit-ps.md（r666 直写例外·主件水位 108B）。
+- **运维面**：池条目 N2-MP1（lane-free）push 后 autofill tick 认领 07:38:09（bm-b·origin refs 门）→ 12 workers 烧录 1,724/1,724 checkpoint 完成（~2min）→ finalize 同窗 rc0；烧录窗=冻结同轮（评估窗 ≤10-13 节律内首日落地）。
 
-## §8 批后复盘。【跑后回填·占位】
+## §8 批后复盘。【2026-10-11 r868 bm-b 烧录窗回填】
 
-（跑后回填：消费面指名回执/关线清单/独立复核队列指针/素材池消费轨道处置（正收口=PASS 员入独立复核队列·负收口=wave-1 关线）/轮报告与 CODELY.md 回执。）
+- **消费面指名回执**：PASS 25 门→**独立复核资格**（gate_verify 式下一关=D6 邻接审计+独立 OOS 复核·镜像 GATE-RECHECK-A158 先例·零注册效力零策略宣称）；PARTIAL 43 门→C1 输入特征候选清单（gate_verify PARTIAL 降格先例）；FAIL 110 门=该池员时序门用法关线（合法产出·与截面 IC 参照面互为独立假设不互相翻案）。
+- **素材池消费轨道处置=正收口（wave-1）**：96 员池首次消费产出 25 PASS+43 PARTIAL 候选面（对 E[FP]=8.9）——时序分位门用法是素材池的真实供给通道；**跨先例对读**：本批（截面存活员池）PASS 率 14.0% ≈ A158-TSGATE（截面判负员库）PASS 率 15.3%——时序门用法面的候选产出率对截面选择先验近似不敏感（两点实证），「换用法独立假设」从判例面升为数据面支撑；wave-2+（池扩容/新用法）须另过预注册正门。
+- **独立复核队列指针**：GATE-RECHECK-MP1（25 PASS 门·价格水位族为主）——按队列纪律后续轮登记起草（队列门 queue_seed_gate 预检·同族机械相关披露先行）。
+- **M1 带处置**：M1 9 员时序门面零 PASS——截面 t≥3.0 强候选带在换用法面不外推（§1.② 选择偏差披露兑现），带员 PARTIAL 5 门入 C1 清单照报。
+- **宝藏/方法论回执**：TREASURE_REGISTRY 出入记录一行（素材池消费首读面）；METHODOLOGY_ASSETS E54 卡（素材池消费普查法：A158 runner 克隆+池公式面换装+t23 单源 import+池身份漂移护栏+起草探针锚——wave-2+ 复用范式；附 §5.2 预测带须锚定同机械先例实绩率的校准律）；pit-ps.md 新坑一行（generator 单次消费坑）；轮报告/CODELY 回执见 r868 轮报告。
 
 ## 附：slice 分工账（防重复开发·跨窗接力·W18/W19/W20 同构）
 

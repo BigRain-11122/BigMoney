@@ -586,7 +586,10 @@ def aggregate(rows, xdays, skipped, n_workers):
 
 
 def _verdict_counts(agg, pred=None):
-    sel = agg.values() if pred is None else (a for a in agg.values() if pred(a))
+    # materialize: a generator here is single-use -- the per-verdict dict
+    # comprehension would exhaust it after the first verdict key and
+    # zero every later count (r868 live-fire on verdict_counts_by_wave).
+    sel = [a for a in agg.values() if pred is None or pred(a)]
     return {v: sum(1 for a in sel if a["verdict"] == v)
             for v in ("PASS", "PARTIAL", "FAIL", "N/A")}
 
