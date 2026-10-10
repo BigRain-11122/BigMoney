@@ -1,23 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-04 13:07:41",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "THEME-JUDGE-P2",
-   "shard": "theme-judge-p2-burn-0of1",
-   "pid": 90336,
-   "runner_sha256": "6d53aac3aa6acca7",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": null,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-04 15:53:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.5,
@@ -1437,14 +1420,43 @@
    "fill_latency_min": 2271.9,
    "fullburn_window": false,
    "target_met": false,
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-10 20:32:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.7,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-3",
+   "shard": "w17-screen-3of8",
+   "pid": 73432,
+   "runner_sha256": "ae0dd9602159ed38",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": 2283.9,
+   "fullburn_window": false,
+   "target_met": false,
    "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-10 20:30:01",
+  "ts": "2026-10-10 20:32:01",
   "machine": "bm-a",
-  "py_cpu_pct": 7.9,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.7,
+  "harvest_flipped": 1,
+  "verdict": "launched",
+  "entry": "TRIAL-LABOR-W17-SCREEN-SHARD-3",
+  "shard": "w17-screen-3of8",
+  "pid": 73432,
+  "runner_sha256": "ae0dd9602159ed38",
+  "core_verdict": "multiproc",
+  "core_marker": "run_cells_parallel(",
+  "fill_latency_min": 2283.9,
+  "fullburn_window": false,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-10T20:21:22+08:00"
