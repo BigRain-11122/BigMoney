@@ -97,13 +97,18 @@ WORKERS = min(os.cpu_count() or 8, CORE_CAP.get(MACHINE_ID, 1 << 30))
                              # foreground-reserve). RAM floor gate stays the
                              # only lowering authority -- never an excuse.
 SAMPLE_S = 2.0               # instantaneous py-CPU sample window (autofill face)
-MAX_ACTIVE_BURNS = 2         # O-20261002-2158 leg-2: single burn below 70% core
-                             # face = the engine MUST ignite a second burn
-                             # ("留白即点火" literal duty); PY_IGNITE_CEIL +
-                             # RAM_FLOOR_GB stay the authority gates. One
-                             # ignite per tick cycle (bounded by 60s cadence);
-                             # the pool daemon remains the multi-launch
-                             # saturator for pool faces.
+MAX_ACTIVE_BURNS = 4         # O-20261011-0012 sec.2 item-1 (CEO fleet-CPU
+                             # saturation order): width raised 2->4, first step
+                             # inside the order's 4-6 band (RAM 45G free live
+                             # probe; PY_IGNITE_CEIL + RAM_FLOOR_GB stay the
+                             # authority gates; audit face re-reads py_cpu each
+                             # round -- if py still <70% with 4, next raise ->6).
+                             # Supersedes the O-20261002-2158 leg-2 width face
+                             # (single-burn-below-70% duty keeps holding at
+                             # any width >= 2). One ignite per tick cycle
+                             # (bounded by 60s cadence); the pool daemon
+                             # remains the multi-launch saturator for pool
+                             # faces.
 PY_IGNITE_CEIL = 75.0        # ignite only with headroom (pool/judged first)
 RAM_FLOOR_GB = 4.0           # bm-b shared-machine discipline (heartbeat law)
 LEDGER_FLUSH_MIN = 15.0      # sec.2 async batch window (10-20min band)
