@@ -1,0 +1,20 @@
+LEG1_DRAFT_POSTURE
+  draft_no_band_values_marker_lines=2 (expect >=1)
+  band_values_in_prereg=[] (expect [])
+  N1_BANDS rows=205 max_wave=W207 A_head_end=472203 B_head_end(W207)=472403
+  A_horizon=[472204..732203] naive_next_slot_after_W18=734000 W18_unc=733500 W18_halo_hi=735500 naive_collides_w18_halo=True -> derive position forced by r682 law + W18 family halo (not free-picked)
+LEG2_RESERVED reg_n=201 halo=2000 A_horizon=[472204..732203] B_projection=[472404..503403] n_intervals=621
+LEG3_DERIVED_X 736000 (x_min=732204 rounded to 500)
+  SKIP x=732500 (collision, walking +500)
+  SKIP x=733000 (collision, walking +500)
+  SKIP x=733500 (collision, walking +500)
+  SKIP x=734000 (collision, walking +500)
+  SKIP x=734500 (collision, walking +500)
+  SKIP x=735000 (collision, walking +500)
+  SKIP x=735500 (collision, walking +500)
+  NEW-gen band 736000..736499 CLEAN
+  NEW-scrnull band 736500..736999 CLEAN
+  NEW-unc band 737000..737499 CLEAN
+AUDIT nearest_reserved_below=735500 nearest_reserved_above=20258923
+REPO_TEXT_SCAN patterns=['736,000', '736,500', '736000', '736500', '737,000', '737000'] hits=[]
+BAND_GATE_VERDICT ADMIT

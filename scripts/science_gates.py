@@ -2048,6 +2048,36 @@ SEED_REGISTRY = {
         "perpetual_n2_w18_gen": 732_500,
         "perpetual_n2_w18_scrnull": 733_000,
         "perpetual_n2_w18_unc": 733_500,
+        # PERPETUAL-N2-W19 alphagen beam feedback-search reference batch,
+        # attrition-priced re-burn (bm-b r864 slice-3 freeze window, queue
+        # row state/queue/tech.md T23 U3 channel-1; prereg
+        # research/PERPETUAL_N2_W19_PREREG.md): gen
+        # rng([736_000, round, parent, slot]) round in {1,2,3},
+        # R1 rng([gen,1,i]) i<24; R2 rng([gen,2,p,j]) p<6, j<4; R3
+        # rng([gen,3,p,j]) p<6, j<split[p], split=(3,3,3,3,1,1) (beam
+        # feedback search, K=62 draws -- R3 tail trimmed 16->14, the
+        # only geometric delta vs W18, exploration cores R1/R2
+        # verbatim) + scrnull rng([736_500, idx, b]) idx<62, b<7 (B=7
+        # within-day same-mask factor-rank permutation nulls per
+        # formula, attrition-priced ceil(300/(62*0.75)) per W18 sec.8
+        # lesson); unc 737_000 = reserved berth, ZERO W19 core-mechanism
+        # consumption (W15/W18 unc/judge precedent; freeze-window
+        # wiring, disclosed not asserted); family band [736_000,
+        # 737_500); berth lineage: r682 ladder-horizon law live derive
+        # -- N1_BANDS 205 rows A_head_end=472_203 -> horizon end
+        # 732_203 -> X walks past the W18 registered-key halo (skip
+        # chain 732_500..735_500, 7 steps; naive next slot 734_000
+        # collides with perpetual_n2_w18_unc halo 735_500 = derive
+        # position forced, not free-picked) -> 736_000
+        # (_r864bmb_w19_band_gate.txt ADMIT; trio CLEAN vs 621 reserved
+        # intervals); seed_admit_gate rc0 base=736_000/736_500/737_000
+        # span=500 all FREE (O-20261010-1945 ADMIT convention); repo
+        # text scan scripts/+research/ zero-hit; registered at prereg
+        # freeze BEFORE any burn, one-step R250 law; runner
+        # scripts/alphagen_beam_w19.py
+        "perpetual_n2_w19_gen": 736_000,
+        "perpetual_n2_w19_scrnull": 736_500,
+        "perpetual_n2_w19_unc": 737_000,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

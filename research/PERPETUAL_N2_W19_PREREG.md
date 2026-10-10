@@ -1,9 +1,19 @@
-# PERPETUAL-N2-W19 预注册（波级）——**DRAFT · 起草窗（零烧录·零账本·零种子登记）**
+# PERPETUAL-N2-W19 预注册（波级）——**FROZEN · 已冻结**
 
-> **状态：DRAFT（2026-10-11 r862 bm-b slice-1 起草窗·F-04=MSG-20261011-0532-bmb-n2w19-draft.md）。本窗不冻结——冻结=后续窗五条件机证（N2-W15 r492/W18 r861 冻结门同构）。草案禁写带值（r702 带位漂移教训）——seeds 三带=冻结窗 r682 活导出 derive + Tools/seed_admit_gate.py rc0 + R250 一步律同 commit 登记后回填。**
+> **状态：FROZEN（2026-10-11 r864 bm-b slice-3 冻结窗·席位=r862 起草+r863 runner 同线承接·F-04=MSG-20261011-0532-bmb-n2w19-draft.md）。冻结 commit=三带登记 science_gates.SEED_REGISTRY（perpetual_n2_w19_gen=736_000 / scrnull=736_500 / unc=737_000·带宽 499·r682 horizon 活导出 derive 撞 W18 族带 halo 步进 7 槽·seed_admit_gate rc0×3）+本状态翻面（R99 跑前冻结律 / R250 one-step 律）。冻结门五条件逐条机证见「冻结门机证记录」节。**
 > 通道：T23 U3①「全新语法」（tech.md T23 行·r840 slice-1 范式评估=POSITIVE-with-riders + r858 slice-2 随机语法全量普查=族级校准 census_holds=true）；谱系授权=W18 §8 下波修正令（「B 值/充分线按损耗实证重设·runner 拒烧路径落盘分解」属新预注册·family_key alphagen_grammar_v1 保持 open 不关线·G2 预案不触发=非判负）；令源：O-20260930-2340 常供面令（N2 常供面授权面·无需新署名）+O-20261011-0012 sec.ii queue-deepen+O-1819 队列永不清空+TRIAL_LABOR_LAW §1 常设线。
 > 法：research/PREREG_TEMPLATE.md（本件骨架）+research/PERPETUAL_FACES.md §2 N2 行+BACKTEST_SCIENCE.md v2 族冻结常数+三铁律照旧。
 > 谱系：N2-W15（组合采样面·judged-negative 281/281·open 不关线）→ N2-W18（反馈搜索首烧·拒烧于充分线 288<300→V1=UNJUDGEABLE 非判负非通过·零产物零账本行）——本批=同研究问题同设计的**损耗实证重定价重烧**：族级校准判线下反馈搜索杠杆的首个可判读读数（W18 因 null 预算未计损耗账而不可判读，本批以双独立种子面 25% 损耗实证定价 B 后首烧）。
+
+## 冻结门机证记录（slice-3 冻结窗·2026-10-11 r864 bm-b）
+
+1. runner slice-2 腿落地 ✅——r863 交付（0ff4369f0）：scripts/alphagen_beam_w19.py 三腿 run/probe/selftest；本窗复核=selftest 27/27 ALL PASS（含 L13 FREEZE-GATE 拒烧机证腿=tempdir rc2+零盘写+null 全分解 receipt）+ probe 10/10 PASS rc0（results/alphagen_w19/probe_latest.json 本窗复跑）。
+2. 三步种子法登记 ✅——本冻结 commit 落 science_gates.SEED_REGISTRY 三键（gen=736_000 / scrnull=736_500 / unc=737_000·带宽 499·家族带 [736_000, 737_500)）：r682 horizon 活导出 derive（N1_BANDS 205 行·A_head_end=472_203·horizon=[472_204..732_203]·X=732_500 起步**撞 W18 族带注册键 halo（w18_unc=733_500±2_000→735_500）步进 7 槽至 736_000**=derive 位强制非自由挑）·回执 results/_r864bmb_w19_band_gate.txt（ADMIT·三带对 621 保留区间全 CLEAN·skip 链 732_500..735_500 逐槽留痕）+ seed_admit_gate rc0×3（base=736_000/736_500/737_000·span=500 全 FREE·O-20261010-1945 ADMIT 约定）+ repo 文本扫 scripts/+research/ 零外撞；banned_direction_gate --prereg 退出 0（见 §0.5 冻结窗实跑）。
+3. 判据节共享库 ✅——§4 判线=族级程序冻结面（V1=族 max |ICIR| > 本批 pooled null 族 p95·T23 slice-2 校准律）+ M1 t 面调 science_gates.m1_t_value_gate 共享库（缺 t 面=missing_input 拒收）；G1'/G2/DSR 策略门按 §0 批性质豁免（IC 参照面零引擎）如实申报非适用，无手抄判线。
+4. D6 同族显式 ✅——§1 冻结窗写死：本批=IC 参照面·存活员仅入因子素材池**不注册交易员**（§0 禁直接注册面）→「素材池不注册=不触发 D6 注册门」如实声明（§1 预留二选一之选(b)·消费侧注册时按全新预注册另过 D6 门）。
+5. 意义门三问+令面 ✅——§0 三行作答在案（研究问题/消费方/登记簿查重首烧证）；授权面=O-20260930-2340 常供面令（N2 常供面·无需新署名）+O-20261011-0012 sec.ii queue-deepen+O-1819 队列永不清空+TRIAL_LABOR_LAW §1 常设线+W18 §8 下波修正令；本窗令面核对=fleet/orders 差集 0（67/192/0·r864 S0.5 双扫）。
+
+写前复核（r687 律·冻结 commit 写 registry 前 fetch+origin 单点）：origin tip=36f2df813（=本机 r863 closeout·零他机推进）·三键 origin 缺席·prereg origin 侧仍 DRAFT（无他机冻结）→ ADMIT-PROCEED-WRITE。
 
 ## §0 批件身份【跑前填·冻结时核】
 
@@ -17,7 +27,7 @@
 
 ## §0.5 禁开方向硬闸【冻结窗跑】
 
-- 冻结 commit 前必过：`python Tools/banned_direction_gate.py --prereg research/PERPETUAL_N2_W19_PREREG.md` 退出 0；本批正文不引任何禁向词面（价量公式族测量面·非九禁向主张），若闸命中外来词面按 missing_fields 补例外三件套（r494 合同律）禁绕闸。
+- 冻结 commit 前必过（**r864 冻结窗实跑 rc0**）：`python Tools/banned_direction_gate.py --prereg research/PERPETUAL_N2_W19_PREREG.md` 退出 0（decision=ADMIT·matched=[]）；本批正文不引任何禁向词面（价量公式族测量面·非九禁向主张），若闸命中外来词面按 missing_fields 补例外三件套（r494 合同律）禁绕闸。
 
 ## §1 α 机制段【D6】
 
@@ -47,7 +57,7 @@
 - **拒烧路径落盘分解（W18 §8 教训·runner 硬规格）**：本批任何 rc2 拒烧（freeze-gate/面板门/损耗守卫/充分线）runner 必落 **refusal receipt**（results/alphagen_w19/refusal-<cutoff>.json）：n_excluded_ledger_t84s3/n_excluded_in_batch_dup/n_enrolled/n_h1_skip/n_ok/n_pooled 全分解落盘——W18 拒烧时分解面未落盘（唯一持久面=n_pooled stdout）致损耗来源靠本批重放补证的欠账不再重演；拒烧仍=零产物零账本行（账本行绑定产物落地律不变）。
 - 账本：`science_gates.append_ledger(batch_name="PERPETUAL-N2-W19", batch_trials=496, file_name="results/alphagen_w19/W19-2026-10-09.json", evidence_cutoff="2026-10-09")`（dict schema 唯一·prev=活链头实读冻结窗复核——r862 探针读数 876,731）。
 - **闭合族对号声明【M3】**：family_key=**alphagen_grammar_v1**——`science_gates.CLOSED_FAMILIES` 9 键对号**不在册=open 照跑**（r862 探针机证：9 键无 alphagen 词面）；新证据增量声明（W18 同面照携）：①语法面新=公式树自由表达式≠A158 固定清单≠N2 18-tuple 轴门；②判读面新=族级校准判线（census 2026-10-09）；③机制面新=受控反馈搜索 vs 全史一切无反馈采样。
-- 种子（三步法·**草案禁写带值**——冻结窗 r682 活导出 derive + Tools/seed_admit_gate.py rc0×3 + R250 一步律同 commit 登记 science_gates.SEED_REGISTRY 三键 perpetual_n2_w19_{gen,scrnull,unc} 后回填本节）；起草窗只读取数（冻结窗活重导为准·撞 W18 族带 halo 步进所得）：见 results/_r862bmb_n2w19_draft_probe.json face w19_band_derive（candidate_x_readonly+trio CLEAN 面）。**rng 流冻结钉死（几何差同步钉死）**：gen 流 rng([gen, round, parent, slot])——R1 rng([gen,1,i]) i<24 / R2 rng([gen,2,p,j]) p<6·j<4 / **R3 rng([gen,3,p,j]) p<6·j<split[p]·split=(3,3,3,3,1,1)**；scrnull 流 rng([scrnull, idx, b]) idx<62·b<7；unc=预留泊位零本批核心机制消费（W15/W18 unc/judge 先例·披露非断言）；FREEZE-GATE=三带任一缺席 rc2 诚实拒烧（W18 同律）。
+- 种子（三步法·**冻结窗已登记**）：gen/scrnull/unc 三带=**736_000 / 736_500 / 737_000**（带宽 499·家族带 [736_000, 737_500)）——r682 horizon 配方活导出 derive（N1_BANDS 205 行·A_head_end=472_203·horizon=[472_204..732_203]·X=732_500 起步**撞 W18 族带注册键 halo（w18_unc=733_500±2_000→735_500）步进 7 槽至 736_000**·derive 位强制非自由挑）+`Tools/seed_admit_gate.py` rc0×3（base=736_000/736_500/737_000·span=500 全 FREE·O-20261010-1945 ADMIT 约定）·回执 results/_r864bmb_w19_band_gate.txt（与 r862 起草窗只读候选 736_000 逐位一致·活重导复核成立）；**rng 流冻结钉死（几何差同步钉死）**：gen 流 rng([gen, round, parent, slot])——R1 rng([gen,1,i]) i<24 / R2 rng([gen,2,p,j]) p<6·j<4 / **R3 rng([gen,3,p,j]) p<6·j<split[p]·split=(3,3,3,3,1,1)**；scrnull 流 rng([scrnull, idx, b]) idx<62·b<7；unc=737_000 预留泊位零本批核心机制消费（W15/W18 unc/judge 先例·披露非断言）；登记=冻结 commit 同窗 science_gates.SEED_REGISTRY（R250 一步律·冻结前草案零带值 r702 教训已守）；FREEZE-GATE=三带任一缺席 rc2 诚实拒烧（W18 同律）。
 
 ## §4 判据【跑前写死·冻结窗核；判线一律族级=T23 律·W18 同面】
 
@@ -84,5 +94,5 @@
 
 - **slice-1（r862 bm-b 本窗·本草案+起草探针）**：本件 DRAFT + `results/_r862bmb_n2w19_draft_probe.py`（**W18 损耗分解重放=8+6+2→48 ok·48×6=288 逐位对账**/census 锚/闭合族非撞/语法登记簿零行/链头/带 derive 只读取数/B 算术八面机证·回执 `_r862bmb_n2w19_draft_probe.json`）。
 - **slice-2（r863 bm-b 已落地·runner）**：`scripts/alphagen_beam_w19.py` 三腿+selftest hermetic（27/27 PASS·L1c r836 克隆律全参数核对腿+L12 pin 纯函数腿+L13 FREEZE-GATE 拒烧机证腿=tempdir 零 repo 盘写整跑 rc2+零批产物+refusal receipt 全 null 分解面）+refusal receipt 分解落盘（四拒点全落：freeze-gate/面板门/损耗守卫/充分线）+截断钉死面（t23.load_panel pin_end 参数化向后兼容扩展·装载期日期轴截断=窗口起点/终点双钉死·legacy 默认路径逐字不变·t23 selftest 与 W18 runner 克隆源回归全 0）+probe PASS（10 checks·含 draft probe 回执对账腿与 pin 接线披露腿）；状态=runner 就绪候冻结窗。
-- **slice-3（冻结窗）**：五条件机证+band gate 活导出+三带 derive 登记+状态翻面 FROZEN（W15 r492/W18 r861 同构·R250 一步律）。
+- **slice-3（冻结窗·r864 bm-b 已落地）**：五条件机证+band gate 活导出（X=736_000·撞 W18 halo 步进 7 槽·回执 results/_r864bmb_w19_band_gate.txt）+seed_admit_gate rc0×3+banned_direction_gate rc0+三带登记 science_gates.SEED_REGISTRY（736_000/736_500/737_000）+状态翻面 FROZEN（W15 r492/W18 r861 同构·R250 一步律同 commit）。
 - **slice-4（烧录窗）**：run 短批+finalize+§7/§8 回填（≤496 draws ≤120s 单进程·O-2100 短批合法窗）。
