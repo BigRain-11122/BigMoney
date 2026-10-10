@@ -1,12 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-11
 
-<<<<<<< HEAD
-> 自动生成 2026-10-11T00:52:02 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
-||||||| parent of 2823e3277 (round 843 close (bm-c): O-20261011-0012 CPU-max order consumed (light-opportunistic honest unmet + O-1725 matrix claim receipt = zero-dup, bm-a 9/10 wired) + W206 watcher cron re-armed (old durable dead) + jman ep6 checkpoint PASS (ETA in SLA) + S6 43/43 rc0 + S7 quartet green + state/heartbeat/report books)
-> 自动生成 2026-10-11T00:48:01 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
-=======
-> 自动生成 2026-10-11T01:13:27 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
->>>>>>> 2823e3277 (round 843 close (bm-c): O-20261011-0012 CPU-max order consumed (light-opportunistic honest unmet + O-1725 matrix claim receipt = zero-dup, bm-a 9/10 wired) + W206 watcher cron re-armed (old durable dead) + jman ep6 checkpoint PASS (ETA in SLA) + S6 43/43 rc0 + S7 quartet green + state/heartbeat/report books)
+> 自动生成 2026-10-11T01:11:54 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
