@@ -8,6 +8,6 @@
 | M2 | fund_premium 15:30+ NAV 首采（10-08 NAV·发布面 T+1·第十六观测窗收口） | scripts/update_fund_premium.py | open（15:30+ 轮） |
 | M3 | W18 试用劳动力波排队件（上游=本司 W17-JUDGE 排水·禁假填充·排水即起草） | firm/TRIAL_LABOR_LAW.md §4 | blocked（上游批在飞） |
 | M4 | moneyflow IC 参考批点火跟随（panel 源阻断 30-min 自愈窗→面板完备即点火） | results/watermark_red.json next_pick | in-flight |
-| M5 | bm-a PARKING-P1 判决跑窗跟进（<3min 单核·过门→停泊袖接线 v1.0） | r803 下轮指针⑤ | open |
+| M5 | bm-a PARKING-P1 判决跑窗跟进（<3min 单核·过门→停泊袖接线 v1.0）——r953 收口出列：批已烧录判决（r945 死窗遗产收编·24 格·§7/§8 一次定稿）=**判负收线**（511090/511380 120td 档正 pickup 但 G1′ 极端值技能线不过+正 pickup 非平稳〔滚动最差 3y 全负 2025+ 段〕+as-traded 分红低估保守面三重一致；vehicle of record 维持 C2 repo 代理 GC001 隔夜）→停泊袖接线腿 verdict-gated **不放线**（bm-c ≤10-16 设计件消费负判决·10-21 回访/10-31 月考=零增益如实呈报） | r803 下轮指针⑤+research/PARKING_P1_PREREG.md §7/§8+results/parking_p1.json | done |
 | M6 | T-94 千人题库烧批续片（W178 永续波随波推进） | fleet/backlog.md 研究线行 10 | in-flight |
 | M7 | 试用劳动力常设线维持（板空/池饿时默认起草或续跑下一波候选试用期大考批） | firm/TRIAL_LABOR_LAW.md | 常备 |
