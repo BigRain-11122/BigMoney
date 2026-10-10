@@ -22,6 +22,7 @@ import json, re, subprocess, sys, os, datetime, io
 REPO = r"C:\Fluxgroup\FluxGroup\quant\bigmoney"
 RECEIPT = os.path.join(REPO, "results", "_r853bmb_rebase_resolver.json")
 ISO_RE = re.compile(r"20\d{2}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}")
+ISO_MIN_RE = re.compile(r"20\d{2}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
 TS_KEY_RE = re.compile(r"(ts|time|date|asof|updated|generated|last|epoch|when)", re.I)
 
 LEDGER_FACES = {
@@ -31,7 +32,7 @@ LEDGER_FACES = {
     "results/prospect_paper/_summary.json", "results/prospect_promotion/_summary.json",
     "results/token_usage.json", "results/_attrition_guard_scan.json",
 }
-JSONL_FACES = {"results/x2_watch_log.jsonl"}
+JSONL_FACES = {"results/x2_watch_log.jsonl", "results/saturation_engine/history_bm-b.jsonl"}
 
 def git(*args, binary=False):
     r = subprocess.run(["git", "-C", REPO] + list(args), capture_output=True)
@@ -52,9 +53,13 @@ def blob(sha):
     return git("cat-file", "blob", sha, binary=True)
 
 def parse_iso(s):
-    s = s.replace(" ", "T")[:19]
+    s = s.replace(" ", "T")
     try:
-        return datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S")
+        return datetime.datetime.strptime(s[:19], "%Y-%m-%dT%H:%M:%S")
+    except Exception:
+        pass
+    try:
+        return datetime.datetime.strptime(s[:16], "%Y-%m-%dT%H:%M")
     except Exception:
         return None
 
@@ -64,8 +69,9 @@ def deep_ts(obj, best=None):
         for k, v in obj.items():
             if isinstance(v, str):
                 t = None
-                if TS_KEY_RE.search(str(k)) and ISO_RE.match(v[:19]):
-                    t = parse_iso(v[:19])
+                if TS_KEY_RE.search(str(k)):
+                    m = ISO_RE.search(v) or ISO_MIN_RE.search(v)
+                    t = parse_iso(m.group(0)) if m else None
                 if t is None:
                     m = ISO_RE.search(v)
                     t = parse_iso(m.group(0)) if m else None
