@@ -2,7 +2,7 @@
  "advisory": "verdict is data; COLLISION_RISK/DECLARED_INTENT_RISK -> yield that head, take next row or another agenda; STALE_LOCAL_QUEUE -> pull before claiming (local queue face behind origin)",
  "fetch_rc": 0,
  "machine_id": "bm-a",
- "origin_main": "63e49c0f6 2026-10-10 12:33:32 +0800",
+ "origin_main": "a900d5180 2026-10-10 12:58:51 +0800",
  "probe": "queue_head_collision_probe",
  "queues": [
   {
@@ -15,32 +15,14 @@
    "verdict": "CLEAR"
   },
   {
-   "flags": [
-    {
-     "head": "E9",
-     "machine": "bm-b",
-     "type": "in_flight"
-    }
-   ],
-   "local_head": "E9",
-   "machine_faces": [
-    {
-     "age_min": 8.1,
-     "last_seen": "2026-10-10T12:28:45+08:00",
-     "machine": "bm-b",
-     "matches": [
-      {
-       "head": "E9",
-       "type": "in_flight"
-      }
-     ]
-    }
-   ],
-   "origin_head": "E9",
+   "flags": [],
+   "local_head": "E12",
+   "machine_faces": [],
+   "origin_head": "E12",
    "origin_readable": true,
    "queue": "state/queue/explore.md",
-   "verdict": "COLLISION_RISK"
+   "verdict": "CLEAR"
   }
  ],
- "verdict": "COLLISION_RISK"
+ "verdict": "CLEAR"
 }

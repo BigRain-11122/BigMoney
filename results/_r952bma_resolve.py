@@ -1,170 +1,129 @@
 # -*- coding: utf-8 -*-
-"""r952 bm-a rebase storm resolver (per bigmoney-conflict-resolve skill).
-Stage semantics during rebase: :2: = origin side (HEAD at replay base), :3: = my commit being replayed.
-Recipes: queue md = manual union (T20 renumber-yield per fleet README S4, E8/E9 row + record union);
-snapshots = deep-ts take-new (r311 deep-scan law); single-writer bm-a faces = take :3: (R216);
-md twins byte-copy from winning json side (r329 twin coupling).
+"""r952 bm-a rebase conflict resolver (bigmoney-conflict-resolve skill recipes).
+
+Hand-resolves the non-ALL_FACES UU set per classifier output:
+  - twin-regen (daily_report + live_usage): json deep-ts probe picks the
+    side, ALL same-producer twins (incl. .md and LIVE-latest pointers)
+    byte-copy from the SAME side (r98/r99/r100/r329 twin-side coupling).
+  - hardened-probe snapshots (scorecard_v1, strategy_scorecard, prospect
+    summaries, fundamental_b_layer_filter, dashboard_status.json):
+    deep-scan wall-clock ts, r100 key-normalize (strip _/-), value must
+    be ^20\\d{2}- WITH time-of-day, no key-EXCLUDE lists (R350), probe
+    STAGED blobs (:2: origin / :3: local), tie -> :2: (HEAD, r140).
+  - js-wrapper-snapshot (dashboard_status.js): whole-byte take-side
+    coupled to dashboard_status.json winner (R209 - never re-serialize).
+Writes winner-side raw bytes; parse-verifies JSONs before write.
 """
-import subprocess, json, os, re, sys, io
+import json
+import re
+import subprocess
+import sys
 
-ROOT = r"C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney"
-GIT = r"C:\Program Files\Git\cmd\git.exe"
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-def git_bytes(*args):
-    r = subprocess.run([GIT] + list(args), capture_output=True, cwd=ROOT)
-    if r.returncode != 0:
-        raise RuntimeError(f"git {args} rc={r.returncode}: {r.stderr.decode('utf-8', 'replace')[:200]}")
-    return r.stdout
+TS_RE = re.compile(r"^20\d{2}-")
+TOD_RE = re.compile(r"[T ]\d{2}:\d{2}")
+PREFIXES = ("generated", "updated", "asof", "ts", "stateupdated", "clock",
+            "last")
 
-def stage_blob(path, n):
-    return git_bytes("show", f":{n}:{path}")
 
-def wbytes(path, b):
-    assert isinstance(b, bytes)
-    with io.open(os.path.join(ROOT, path.replace("/", os.sep)), "wb") as f:
-        f.write(b)
+def stage_bytes(stage, path):
+    r = subprocess.run(["git", "show", ":%s:%s" % (stage, path)],
+                       capture_output=True)
+    return r.stdout if r.returncode == 0 else None
 
-def jload(b):
-    return json.loads(b.decode("utf-8"))
 
-TS_KEYS = ("generated_at", "generated", "ts", "timestamp", "asof", "updated_at", "updated", "scanned_at", "last_run", "run_ts")
+def deep_wallclock(obj):
+    """Max wall-clock ts anywhere under probe-shaped keys (r100/R350)."""
+    best = [None]
 
-def deep_ts(obj):
-    """Deep-scan for ts-like keys; returns max ISO/epoch-normalized string with path."""
-    best = [None, None]
-    def norm(s):
-        s = str(s)
-        if re.fullmatch(r"\d{10}", s):
-            return "E:" + s
-        if re.fullmatch(r"\d{13}", s):
-            return "E:" + s[:-3]  # ms->s truncate for compare
-        m = re.match(r"(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2}(:\d{2})?)", s)
-        if m:
-            return "I:" + m.group(1) + "T" + m.group(2)
-        return None
-    def walk(o, p):
+    def walk(o):
         if isinstance(o, dict):
             for k, v in o.items():
-                if isinstance(v, (str, int, float)) and not isinstance(v, bool):
-                    kl = str(k).lower()
-                    if kl in TS_KEYS and norm(v) is not None:
-                        nv = norm(v)
-                        if best[0] is None or nv > best[0]:
-                            best[0], best[1] = nv, p + "." + str(k)
-                walk(v, p + "." + str(k))
+                nk = str(k).replace("_", "").replace("-", "").lower()
+                if (isinstance(v, str) and TS_RE.match(v)
+                        and TOD_RE.search(v)
+                        and any(nk.startswith(p) for p in PREFIXES)):
+                    if best[0] is None or v > best[0]:
+                        best[0] = v
+                walk(v)
         elif isinstance(o, list):
-            for i, v in enumerate(o[:200]):  # cap scan depth for huge ledgers
-                walk(v, p + f"[{i}]")
-    walk(obj, "$")
-    return tuple(best)
+            for it in o:
+                walk(it)
 
-log = []
+    walk(obj)
+    return best[0]
 
-def resolve_snapshot_pair(path_json, path_md):
-    """REPORT/LIVE twin: probe generated ts in json stages, take newer side; md byte-copy same side. Tie -> :2: (r140)."""
-    b2, b3 = stage_blob(path_json, 2), stage_blob(path_json, 3)
-    t2, t3 = deep_ts(jload(b2)), deep_ts(jload(b3))
-    if t3[0] is not None and (t2[0] is None or t3[0] > t2[0]):
-        side, n = 3, ":3(mine)"
-    else:
-        side, n = 2, ":2(origin)"
-    wbytes(path_json, stage_blob(path_json, side))
-    wbytes(path_md, stage_blob(path_md, side))
-    log.append(f"{path_json}: take {n} (ts2={t2} ts3={t3}) + md twin same side")
 
-def resolve_take_new(path):
-    b2, b3 = stage_blob(path, 2), stage_blob(path, 3)
-    try:
-        t2, t3 = deep_ts(jload(b2)), deep_ts(jload(b3))
-    except Exception as e:
-        log.append(f"{path}: parse-probe fail ({e}); fallback :2:")
-        wbytes(path, b2); return
-    if t3[0] is not None and (t2[0] is None or t3[0] > t2[0]):
-        side, n = 3, ":3(mine)"
-    else:
-        side, n = 2, ":2(origin)"
-    wbytes(path, stage_blob(path, side))
-    log.append(f"{path}: take {n} (ts2={t2[0]} ts3={t3[0]})")
+def probe_side(path):
+    """2 = origin, 3 = local; None-probe on a side = no evidence."""
+    sides = {}
+    for stage in (2, 3):
+        raw = stage_bytes(stage, path)
+        if raw is None:
+            sides[stage] = None
+            continue
+        try:
+            sides[stage] = deep_wallclock(json.loads(raw.decode("utf-8",
+                                                   errors="replace")))
+        except Exception:
+            sides[stage] = None
+    if sides[2] and sides[3]:
+        return 2 if sides[2] >= sides[3] else 3
+    if sides[3] and not sides[2]:
+        return 3
+    if sides[2] and not sides[3]:
+        return 2
+    return 2  # tie / no evidence both sides -> HEAD (:2:) per r140
 
-def resolve_take_mine(path):
-    b3 = stage_blob(path, 3)
-    if path.endswith(".json"):
-        jload(b3)  # parse-verify
-    if path.endswith(".js"):
-        assert b"window.DASH_DATA" in b3, "js wrapper missing"
-    wbytes(path, b3)
-    log.append(f"{path}: take :3(mine) [single-writer host=bm-a lane, R216]")
 
-def resolve_tech_md():
-    p = "state/queue/tech.md"
-    l2 = stage_blob(p, 2).decode("utf-8").splitlines(keepends=False)
-    l3 = stage_blob(p, 3).decode("utf-8").splitlines(keepends=False)
-    t20_2 = [x for x in l2 if x.startswith("| T20 |")]
-    t20_3 = [x for x in l3 if x.startswith("| T20 |")]
-    assert len(t20_2) == 1 and len(t20_3) == 1, f"tech T20 rows: {len(t20_2)}/{len(t20_3)}"
-    my_row = t20_3[0]
-    # renumber mine T20->T21 with yield note (bm-b r828 10:07:48 < mine 10:31:38 -> I yield, fleet README S4)
-    note = "【原拟 T20·与 bm-b r828 T20 同窗撞号·后到让号 per fleet README §4（r952 bm-a 注记）】"
-    assert my_row.count("|") >= 4
-    parts = my_row.split("|")
-    parts[1] = " T21 "
-    parts[2] = parts[2].rstrip() + note
-    new_row = "|".join(parts)
-    out = []
-    for x in l2:
-        out.append(x)
-        if x.startswith("| T20 |"):
-            out.append(new_row)
-    wbytes(p, ("\r\n".join(out) + "\r\n").encode("utf-8"))
-    log.append(f"{p}: union both T20 rows; mine renumbered -> T21 (yield per S4)")
+def write_side(path, stage, verify_json=True):
+    raw = stage_bytes(stage, path)
+    if raw is None:
+        raise SystemExit("FATAL: no stage blob for %s" % path)
+    if verify_json and path.endswith(".json"):
+        json.loads(raw.decode("utf-8", errors="replace"))  # parse gate
+    with open(path, "wb") as fh:
+        fh.write(raw)
+    print("[resolve] %s <- :%d:" % (path, stage))
 
-def resolve_explore_md():
-    p = "state/queue/explore.md"
-    l2 = stage_blob(p, 2).decode("utf-8").splitlines(keepends=False)
-    l3 = stage_blob(p, 3).decode("utf-8").splitlines(keepends=False)
-    e9_2 = [x for x in l2 if x.startswith("| E9 |")]
-    e9_3 = [x for x in l3 if x.startswith("| E9 |")]
-    r951_3 = [x for x in l3 if x.startswith("> r951 收口记录")]
-    r828_2 = [x for x in l2 if x.startswith("> r828 消耗记录")]
-    assert len(e9_2) == 1 and len(e9_3) == 1 and len(r951_3) == 1 and len(r828_2) == 1, \
-        f"e9_2={len(e9_2)} e9_3={len(e9_3)} r951={len(r951_3)} r828={len(r828_2)}"
-    out = []
-    for x in l2:
-        if x.startswith("| E9 |"):
-            out.append(e9_3[0])  # my side: done (r951 completed E9)
-        else:
-            out.append(x)
-        if x.startswith("> r828 消耗记录"):
-            out.append(r951_3[0])  # append my r951 record after bm-b r828 (chronological)
-    wbytes(p, ("\r\n".join(out) + "\r\n").encode("utf-8"))
-    log.append(f"{p}: E8 done row kept (origin healed side); E9 row -> mine (done); r827 healed + r828 + r951 records union")
 
-def main():
-    # 1) twin-regen snapshots (json probe + md byte-copy same side)
-    resolve_snapshot_pair("docs/daily_report/REPORT-2026-10-10.json", "docs/daily_report/REPORT-2026-10-10.md")
-    for jm, mm in [("docs/live_usage/LIVE-2026-10-10.json", "docs/live_usage/LIVE-2026-10-10.md"),
-                   ("docs/live_usage/LIVE-latest.json", "docs/live_usage/LIVE-latest.md")]:
-        # LIVE family: probe once on dated json, apply side to all four (r439)
-        b2, b3 = stage_blob("docs/live_usage/LIVE-2026-10-10.json", 2), stage_blob("docs/live_usage/LIVE-2026-10-10.json", 3)
-        t2, t3 = deep_ts(jload(b2)), deep_ts(jload(b3))
-        side = 3 if (t3[0] is not None and (t2[0] is None or t3[0] > t2[0])) else 2
-        wbytes(jm, stage_blob(jm, side)); wbytes(mm, stage_blob(mm, side))
-        log.append(f"{jm}+{mm}: take :{side} (ts2={t2[0]} ts3={t3[0]})")
-    # 2) single-writer bm-a faces -> :3:
-    for p in ["results/dashboard_status.json", "results/dashboard_status.js",
-              "results/strategy_scorecard.json", "results/scorecard_v1.json"]:
-        resolve_take_mine(p)
-    # 3) take-new snapshots
-    for p in ["results/prospect_promotion/_summary.json",
-              "results/_attrition_guard_scan.json",
-              "results/queue_head_collision_probe.json"]:
-        resolve_take_new(p)
-    # 4) queue md unions (manual adjudication: UNKNOWN class)
-    resolve_tech_md()
-    resolve_explore_md()
-    for line in log:
-        print(line)
-    print("RESOLVE-OK", len(log))
+report = [
+    ("docs/daily_report/REPORT-2026-10-10.json",
+     "docs/daily_report/REPORT-2026-10-10.md"),
+]
+for j, m in report:
+    s = probe_side(j)
+    write_side(j, s)
+    write_side(m, s, verify_json=False)
 
-if __name__ == "__main__":
-    main()
+# live_usage family: one producer run wrote dated pair + latest pointers
+live = ["docs/live_usage/LIVE-2026-10-10.json",
+        "docs/live_usage/LIVE-2026-10-10.md",
+        "docs/live_usage/LIVE-latest.json",
+        "docs/live_usage/LIVE-latest.md"]
+s_live = probe_side(live[0])
+s_latest = probe_side(live[2])
+if s_live != s_latest:
+    print("[WARN] live dated/latest probes disagree (%d vs %d) -- "
+          "per-pair winners" % (s_live, s_latest))
+write_side(live[0], s_live)
+write_side(live[1], s_live, verify_json=False)
+write_side(live[2], s_latest)
+write_side(live[3], s_latest, verify_json=False)
+
+# js-wrapper + its json twin: coupled side, whole bytes (R209)
+dash_json = "results/dashboard_status.json"
+s_dash = probe_side(dash_json)
+write_side(dash_json, s_dash)
+write_side("results/dashboard_status.js", s_dash, verify_json=False)
+
+# hardened-probe snapshots: raw-byte take-new
+for p in ("results/fundamental_b_layer_filter.json",
+          "results/scorecard_v1.json",
+          "results/strategy_scorecard.json",
+          "results/prospect_paper/_summary.json",
+          "results/prospect_promotion/_summary.json"):
+    write_side(p, probe_side(p))
+
+print("resolver done: 13 files")
