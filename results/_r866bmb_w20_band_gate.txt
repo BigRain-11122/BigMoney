@@ -1,0 +1,27 @@
+LEG1_DRAFT_POSTURE
+  draft_no_band_values_marker_lines=1 (expect >=1)
+  band_values_in_prereg=[] (expect [])
+  N1_BANDS rows=205 max_wave=W207 A_head_end=472203 B_head_end(W207)=472403
+  A_horizon=[472204..732203] naive_next_slot_after_W19=737500 W19_unc=737000 W19_halo_hi=739000 naive_collides_w19_halo=True -> derive position forced by r682 law + W18+W19 family halo chain (not free-picked)
+LEG2_RESERVED reg_n=204 halo=2000 A_horizon=[472204..732203] B_projection=[472404..503403] n_intervals=624
+LEG3_DERIVED_X 739500 (x_min=732204 rounded to 500)
+  SKIP x=732500 (collision, walking +500)
+  SKIP x=733000 (collision, walking +500)
+  SKIP x=733500 (collision, walking +500)
+  SKIP x=734000 (collision, walking +500)
+  SKIP x=734500 (collision, walking +500)
+  SKIP x=735000 (collision, walking +500)
+  SKIP x=735500 (collision, walking +500)
+  SKIP x=736000 (collision, walking +500)
+  SKIP x=736500 (collision, walking +500)
+  SKIP x=737000 (collision, walking +500)
+  SKIP x=737500 (collision, walking +500)
+  SKIP x=738000 (collision, walking +500)
+  SKIP x=738500 (collision, walking +500)
+  SKIP x=739000 (collision, walking +500)
+  NEW-gen band 739500..739999 CLEAN
+  NEW-scrnull band 740000..740499 CLEAN
+  NEW-unc band 740500..740999 CLEAN
+AUDIT nearest_reserved_below=739000 nearest_reserved_above=20258923
+REPO_TEXT_SCAN patterns=['739,500', '739500', '740,000', '740,500', '740000', '740500'] foreign_hits=[] self_hits=['research/HANDOVER.md:739,500 [SELF own-wave r865 draft-readout citation]'] (self=own-wave r865 draft-probe readout custody face, disclosed not blocking; foreign!=0 -> REFUSE)
+BAND_GATE_VERDICT ADMIT

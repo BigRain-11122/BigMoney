@@ -2078,6 +2078,39 @@ SEED_REGISTRY = {
         "perpetual_n2_w19_gen": 736_000,
         "perpetual_n2_w19_scrnull": 736_500,
         "perpetual_n2_w19_unc": 737_000,
+        # PERPETUAL-N2-W20 alphagen beam feedback-search reference batch,
+        # REPLICATION WAVE -- 2nd independent seed-band readout of the
+        # feedback-search lever (bm-b r866 slice-2 freeze window, queue
+        # row state/queue/tech.md T23 U3 channel-1; prereg
+        # research/PERPETUAL_N2_W20_PREREG.md): gen
+        # rng([739_500, round, parent, slot]) round in {1,2,3},
+        # R1 rng([gen,1,i]) i<24; R2 rng([gen,2,p,j]) p<6, j<4; R3
+        # rng([gen,3,p,j]) p<6, j<split[p], split=(3,3,3,3,1,1) (beam
+        # feedback search, K=62 draws -- W19 geometry verbatim,
+        # replication wave: only free degree = seed band) + scrnull
+        # rng([740_000, idx, b]) idx<62, b<7 (B=7 within-day same-mask
+        # factor-rank permutation nulls per formula, attrition-priced
+        # ceil(300/(62*0.75)) per W18 sec.8 lesson); unc 740_500 =
+        # reserved berth, ZERO W20 core-mechanism consumption
+        # (W15/W18/W19 unc/judge precedent; freeze-window wiring,
+        # disclosed not asserted); family band [739_500, 741_000);
+        # berth lineage: r682 ladder-horizon law live derive --
+        # N1_BANDS 205 rows A_head_end=472_203 -> horizon end 732_203
+        # -> X walks past the W18+W19 registered-key halo chain (skip
+        # chain 732_500..739_000, 14 steps; naive next slot 737_500
+        # collides with perpetual_n2_w19_unc halo 739_000 = derive
+        # position forced, not free-picked) -> 739_500
+        # (_r866bmb_w20_band_gate.txt ADMIT; trio CLEAN vs 624 reserved
+        # intervals; repo text scan foreign zero-hit, self-face =
+        # own-wave r865 draft-probe readout citation in the
+        # research/HANDOVER.md 5x row, disclosed not blocking);
+        # seed_admit_gate rc0 base=739_500/740_000/740_500 span=500 all
+        # FREE (O-20261010-1945 ADMIT convention); registered at prereg
+        # freeze BEFORE any burn, one-step R250 law; runner
+        # scripts/alphagen_beam_w20.py
+        "perpetual_n2_w20_gen": 739_500,
+        "perpetual_n2_w20_scrnull": 740_000,
+        "perpetual_n2_w20_unc": 740_500,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
