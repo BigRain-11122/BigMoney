@@ -1,0 +1,63 @@
+# PERPETUAL-N1-W209 预注册 · N1 nulls-deepening 泵第 207 枚（never-dry 常供给例波·波序号连续·机面 derive：engine_owner 行 197 注册在册（表尾 W207 行·probe leg0 机证）+W208 bm-a 席位在飞（01:29 声明）+本候选=bm-c 第三十八枚自有波【bm-c 交互窗 2026-10-11 03:2x·CEO 填载令 standing+2026-10-10 ~23:1x RE-ISSUE+O-20260909-2334 本地满用令】）
+
+> 令源：CEO 直令 **O-20260101-1410**（机队算力根固盘项与彻底解决策·SATURATION_ENGINE_LAW v1.0 随令立法）；建造票 **T-2026-10-01-141** s1（引擎核=self 仓单源脚本·本机 bm-c 实例=**live daemon mtime-watch 热重载架构**——冻结编辑落工作栈后引擎下一 cycle n1_bands() mtime 复读自见新行自烧【r535 律·D-20260902-03 fix ①】·点火验证唯一证据=2 cycle 内产物增长面【r325 律·state queue 面不修】）→ **never-dry 常供给例波**：**O-20260101-2355 CEO 去节流令 §二**【每机自烧连续系列不等等待·down-series 续跑】+ O-20260929-2355 同窗同律共引+ **本窗领取令=CEO 直令 2026-10-08 ~23:5x「你的机器CPU算力闲置严重，自己去领回测任务！排满」standing + 2026-10-10 ~23:1x RE-ISSUE「机队CPU算力全部用于回测，排满！我说了多少次了 每次都没有！」+ O-20260909-2334-bm-b §1-2 本地满用令（2026-10-09 23:34）**【bm-c 循环班直执·O-20260924-1730 认领即开动同轮律·本机引擎队列空转实测（saturation_engine_state.bm-c.json queue_next 空·burns_active 0 实读）】。**波号 209=注册表 W207 席后+W208 声明席后首个自由号**【本冻结窗 fetch 实核表尾时 W209 号位空档·rg 行 WAVE_CONFIGS+prereg 路径三查+origin ls-tree vacancy 机证（r847 probe leg3 实跑）；全 inbox/processed/ W209 席位零外机命中（W208=bm-a 01:29 席位 MSG-2026-10-11-0129-bma-w208-seat 在册 processed·probe leg3 机证）；**W207=bm-b r856 五面冻结+finalize 已落（r857 03:3x·账本头 872,571 机读·origin d550bf11c）——本波上游链=W208 五面+W208 finalize 产物（链序律·唯一在飞上游）**；本机席位公示=MSG-20261011-0301-bmc-w209-seat 已推 origin e989c03eb 先于本冻结【r565 律·席位先行】】。**单态零席位空档**：W2..W207 全注册（W206=bm-c r846/r847 finalize one-pass f84576913【账本头 870,371 机读】；W207=bm-b r856 freeze 五面落链）——W208 声明席在飞（bm-a）。
+
+> **带位（r535 机阀 derive 律·ADMIT 回执=results/_w209bmc_20261011_probe_receipt.json 五腿单窗 gate-合并单回执结构（r812/r820/r823 先例承袭·dual-window parity N/A 诚实注记））**：本波 **A-ext seed=474_604..476_603**（**A 面=FIRST-CLEAN past prior-wave B 阶梯第六十九例**：A 面算术继续带 474_404..476_403（自声明 W208 A 尾续）在其起点即被 W208 声明 B 带 474_404..474_603 **拒**（W208 席位 leg4 投影+其 probe 所预言+强制）→ 诚实前向走 **1 hop** 落 **474_604..476_603**·**A base==前波 B 尾+1（474_603+1）机检关系**=**A-hops-prior-B 阶梯几何第六十九例（E36 卡）**·非轮转 r587 前向单调断言在走册；序数面如实披露：本窗 probe 回执 A_semantics 机读序数=SIXTY-NINTH（第六十九例）·本件按回执序数面记载非转抄（r587））；**B-ext exit seed=476_604..476_803**（**B 面=FIRST-CLEAN past own-wave A**：B 面 naive first-clean 继续带 474_604..474_803 在声明宇宙上 CLEAN 但**落在本波 A 窗 474_604..476_603 内**（**同窗互斥面 leg2 律·W141 先例**：A 与 B 同一冻结 commit 双注册·互斥断言强制 B 越过本波 A 窗）→ B 带本波 A 窗保留走 **1 hop** 落 **476_604..476_803**·**B base==本波 A 尾+1（476_603+1）机检关系**·hop 链逐跳在 probe 回执；**W208 席位 leg4 投影承接面注记兑现**：投影预言 W209 须在 post-W208 声明宇宙重 derive 且 derive B 时预留本波 A 窗——本窗双面兑现·A 被拒+阶梯越带如投影所期·B 同窗互斥保留=投影所期·已如实披露非分叉）。R250：W209 带从未指派·测量面零结果可锁。**seed_admit_gate（O-20261010-1945-bm-a ADMIT convention）rc0 双带 FREE**：A base=474604 span=2000 checked=2000 verdict=FREE / B base=476604 span=200 checked=200 verdict=FREE（probe leg2 机证·新 null-base 选点 N1_BANDS 保留域查点强制腿在场）。扫描面=pre-W209 全二百零五行注册 N1 带表（表尾 W207 行·probe leg0 机证 205 行）+W208 声明带（A 472_404..474_403/B 474_404..474_603）双席位注入（origin 席位 MSG 文本验证·probe leg3 w208_seat_path=processed 机证）；v1 ext；v1 在用带；SEED_REGISTRY 全键零交叠（leg2 机证）；**N3 已用种子带脚**（N3-R1=70_000..70_005 共 6 值·MSG-183x r529 裁定行强制脚·探针腿 71_000..71_005 双带避让）；**runner 设计探针种子簇 95_000..95_003**（r335 发现腿 W26 起一切带间隙回执强制携）；**跨面探针点 95_004/95_006**（r602 披露腿）；N2/N4 设计探针点 40_000/40_001；N2-W15 草案探针点 31_000/31_500/32_000；lfc 实际流 30_000..30_099；options_wave2 实际流 63_000..63_049【leg-3e 实际流避让带】。
+
+> 性质=**测量加深面**（法典 §2：N1 对既有零假设基线按新种子带重 bootstrap 加深·产物=更深置信面【p95/p99/mu/sigma/se_mu】·非新注册件·不入候选池·不占试验法消费登记行；D6 同族相关性与契合族对称约束 N1 厚薄性·本面如实注记）。
+
+> 复用域 verbatim import 禁重写：`scripts/p2_null_calibration.py`（frozen v1 设计·run_one 引擎同源）；`scripts/p2_null_calibration_ext.py`（波扩展范式）；`scripts/perpetual_faces_n1.py`（W2..W207 落地 runner 的 wave 参数化复用——同引擎同语义同切分律·仅法典 §4 新带行）；引擎侧 `scripts/saturation_engine.py`【本机 bm-c 实例·live daemon mtime-watch 热重载架构】只做队列点火台账处理面·runner 零改写。**本冻结=循环班直笔+探针机证（无 buildgen emission 链——extraction-from-emission 律 N/A 诚实注记·五腿探针回执在场为准·selftest W209 face 将随五面冻结落地验证）。**
+
+## §0 批件身份。【必填·跑前】
+- 批名=**PERPETUAL-N1-W209**。N=**2,200**（A 档 2,000；B 档 200）；账本 **+2,200**（null trials 计数自 K2200 先例；prev=**届时空窗活链头 derive 禁手抄**——起稿窗实况（**锚滚链面 r576/r590 律·起稿未 commit 前 W207 finalize 中窗连落〔bm-b r857·origin d550bf11c〕刷锚至最新已落账键**）：**W1..W207 N1 finalize 已全部落地**【净账本锚头 **872,571**·K=453,320 合并池·n1_w207_results.json 机读·W207 finalize one-pass bm-b r857】；**W208=bm-a 01:29 席位在册·五面 gated（W207 finalize 已落=前置已开）——唯一在飞上游席注记**·「零在飞上游链前」断言不适用改如实注记；finalize 键序前置=届时按 registry 键 derive 复核 FAIL-CLOSED r307 两态例恒在；累计 null 池=453,320+2,200（W208 投影）+2,200（本波）=**457,720 投影**（机械算·投影面仅披露·finalize 运行时按 registry 键 derive 免疫）。
+- 认领：never-dry 常供给例波（TRIAL_LABOR_LAW §4·板空/池饿/无在飞判决批=默认续跑下一波——本机引擎队列空转+burns_active 0 实读；**CEO 直令 2026-10-08 ~23:5x 领单 standing+2026-10-10 ~23:1x RE-ISSUE「机队CPU算力全部用于回测，排满」+O-20260909-2334-bm-b §1-2 本地满用令**（本机席位公示 MSG-20261011-0301-bmc-w209-seat 已推 origin e989c03eb r565 律·probe W210+ 投影 A 476_604..478_603 / B 476_804..477_003 **naive-B-inside-naive-A re-derive 强制注记+同窗互斥预披露**（投影 B 落投影 A 窗内·W209 B 带 476_604..476_803 注册后将拒 naive W210 A 窗=阶梯 A-hops-prior-B 继承第七十例待 W210 注册宇宙复核））；O-20260924-1730 CEO 即时律（认领与开动同轮·禁排未来轮次）；T-2026-10-01-141 s1 引擎线第 199 波【bm-c 第三十八枚自有波【机面 derive：probe leg0 bmc_rows=37 注册在册+本候选=第 38 枚（W207 先例同式：bmb_ordinal=40 行+候选=41）；probe 回执 bmc_ordinal=39 面如实注记=+2 机械携带偏差（vs 37+1=38）——以 freeze 时 live derive 为准 r587/r359·错账留痕禁抹除】】。（波号=注册表 W207 席后+W208 声明席后首个自由号·单态零席位空档；中位公示 MSG-20261011-0301-bmc-w209-seat 先推 origin e989c03eb r565 律；lane-free；dept:研究）。
+- 算力预算=**引擎本地队列烧录**（SATURATION_ENGINE_LAW §1/§2·**不入池**·免预注册税）；12 分片（每片 A 档 2,000/12；B 档 200/12 连续切分）；每片 workers=8（O-20260101-1332 复核律）；本机并发帽=**核帽 26/32**（CEO CPU 余量律 09-28·py<70 fill 线 MACHINE_IGNITE_HOLD 88 机器阀）；点火前自检=引擎 PreIgnitionChecks（r316 律）；checkpoint=分片件落位（presence=done 语义·确定性重算字节幂等覆写）；台账=引擎 ledger jsonl+state 以 git 交付。
+- 物化条件（法典冻结标签行·runner 落地与批产物一批）：本波**引擎生成器物化**（N1_BANDS 单源 derive·engine_owner==bm-c 波的未烧分片=本地队列项；per-wave prereg 在场=物化前置条件）；池面 supply 生成器对 engine_owner 波群跳过物化【cmd_supply owner 跳过闸防零号双烧面】；**引擎实况注记（本机 bm-c 实例=live daemon mtime-watch 热重载——五面冻结编辑落工作栈后引擎下一 cycle n1_bands() mtime 复读自见 W209 行并点火自烧【r535 律·D-20260902-03 fix ①·r325/r330 kill-restart 序免做】。**点火验证唯一证据=产物增长面**【r325 律·2 cycle 窗】·RAM face 随 cycle 上报。
+- CPU 余量律（CEO 令 09-28）：本机烧批 BelowNormal 优先级；引擎 cycle 分离子进程烧完即退。
+
+## §0.5 禁开方向硬闸。【必填·跑前】
+- 跑前通过闸问`python Tools/banned_direction_gate.py --prereg research/PERPETUAL_N1_W209_PREREG.md` → exit 0=放行（回执入窗报告；fail-closed）。
+- 人工预读结论：**零命中**——本波对既有 core48 零假设基线（p2_calibration v1/v2 canon；v1 ext；v2..W207 落地）的种子带扩展重测，纯测量基线加深，零新机制宣称、零新候选面、零新信号定义、零新前置条件类规则；禁向词面不在本件复述（机器闸为准·防证伪模式词面自篡）。
+
+## §1 机制段
+- 本面非候选新面：模板 §1 机制四选一**不用**（法典 §2 测量面免如实注记）。加深对象=既有 G1' 技能线 null 基线（skill_line_v2 消费面基线）；本波不产生任何注册宣称，三、判定面=N/A。
+
+## §2 数据与引用
+- 宇宙=core48 bare codes（48 员）；载入 `p2_null_calibration_ext.load_core_at_cutoff`（v1 `load_core`·**2026-09-22 硬截止**=同窗事逐字）；引擎=`p2_null_calibration.run_one`（frozen v1 同源 import·禁旁路）；费率=`run_one` 引擎内建面（FeeSchedule 单源·run_one 引擎内固定面）；断言=**48 员**（宇宙漂移 FAIL-CLOSED 拒烧·引擎 PreIgnitionChecks 前置复验）；面板末行==2026-09-22（实跑双轮断言）。
+- evidence_cutoff=**2026-09-22**（同窗例；结果 JSON 顶层字段·`science_gates.cutoff_meta("2026-09-22")` 双写·强字断 science_audit C2 VIOLATION）。
+- DATA_GAP 对号：不涉（core48 legacy 面板在仓覆盖全窗）。
+
+## §3 方法论逐冻结带。
+- **A 档**（j=0..1,999）：entry rng seed=**474_604+j**（法典 §4 W209 行 A=474_604..476_603·**FIRST-CLEAN past prior-wave B 阶梯第六十九例**：算术续带 474_404..476_403 起点即被 W208 声明 B 带 474_404..474_603 拒→1 hop 落 474_604..476_603·A base==前波 B 尾+1 机检关系·E36 卡·hops=1·ADMIT 回执在场）；p=`BASELINE_P[(j//50)%2]`（v1 50-seed 块交替惯例逐字）；随机入场短窗=**引擎退出口**（v1 设计逐字）。
+- **B 档**（j=0..199）：entry rng=**474_604+j**（与 A[j] 同源配对语义逐字·runner 实证 entry=A_SEED_BASE+j）；exit rng=**476_604+j**（法典 §4 W209 行 B=476_604..476_803·**FIRST-CLEAN past own-wave A**：B 算术续带 474_604..474_803 在声明宇宙上 CLEAN 但落在本波 A 窗 474_604..476_603 内→**同窗互斥面 leg2 律·W141 先例**强制 B 越本波 A 窗→保留走落 476_604..476_803·hops=1·**B base==本波 A 尾+1 机检关系**·非轮转 r587·hop 链逐跳在 probe 回执·与 W208 席位 leg4 投影承接面注记兑现收敛·ADMIT 回执在场）；p_exit=`P_EXIT=0.05`。
+- **出场轴显式声明（O-20260101-1108 反瞎搞三道门·TRIAL_LABOR_LAW §4）**：本波出场轴=**template_default 按设计测**——null 基线的被测对象即 v1 冻结设计的引擎缺省出场栈（run_one 引擎内固定面），与 skill_line_v2 被基线携同出场栈（测量判等必须同模板才构成 null）；r301【非股票族禁装缺省栈】教规对本面不适用（本面非判决面非策略宣称面）。不适用=本面非判决面非宣称面（三腿对锚 N/A·measurement-only 如实注记）。
+- 探针=不另烧（W2 探针 95_002/95_003 已证设计端到端；本波设计=W2..W207 逐字复用，runner probe 非本窗期性 no-op；账本 +0）。
+- 确定性例：同 seed 重跑字节恒等（分片件 append-only·重跑同片字节恒等并幂等覆写语义）；分片=连续切分零重叠缝隙（Nshards∈{1,2,4,12} 切片数算自检）；spawn 面配置随 executor initializer 携带（Windows spawn 重导入回滚默认法物化前已防护·selftest 腿强制）。
+- 种子带 disjoint 全例（selftest 强制）：W209 带与 v1 在用带（10_000..10_099/20_000..20_019）、W1 ext 带（10_100..12_099/20_100..20_299）、W2..W207 带（**全注册单态**）、W208 声明带注入（A 472_404..474_403/B 474_404..474_603·origin 席位 MSG 文本验证）、runner 设计探针种子簇（95_000..95_003·r335 发现腿）、跨面探针点 95_004/95_006（r602 披露腿）、N3-R1 已用种子带（70_000..70_005·MSG-183x 强制腿·探针腿 71_000..71_005 双带避让）、SEED_REGISTRY 全键零交叠集（lfc/options/N2/N4/N2-W15 探针点避让带 leg 3e 实际流面）；**本波 A/B 同窗互斥断言在 face 在场**（B 越本波 A 窗腿）；本波机验 ADMIT 回执在场=_w209bmc_20261011 探针窗（pre-seat probe 单窗·gate 腿合并结构承袭 r812/r820/r823 先例·parity N/A 诚实注记·**seed_admit_gate rc0 双带 FREE O-20261010-1945-bm-a ADMIT convention**）；selftest W209 face（A=first-clean past prior-wave B 恒等·B=first-clean past own-wave A 恒等+同窗互斥断言·W208 行 parity 腿【r735 测量-实现分叉族防护面：A/B 窗 set-range 针在场】）随五面冻结落地。
+
+## §4 判据/读出面（测量面·数字读出·零注册问题）
+- 合并池 `canon 120 + 已落账净值（起草窗实流 W1..W207 已落账 453,320 实测·derive 禁手抄）+W208 2,200（在飞）+本波 2,200`；`skill_line_v2` **自 n_eff K-lift**（旧线届时空窗前 K derive·v2 归因律逐字·禁手抄 prev）；mu/sigma/p95/p99 新旧对照面与 se_mu 收窄链逐列披露。
+- 账本：finalize 止 `science_gates.append_ledger(batch_name="PERPETUAL-N1-W209", batch_trials=2200, file_name="results/perpetual_faces/n1_w209_results.json", evidence_cutoff="2026-09-22")`（dict schema 唯一禁手抄 prev·**guard 前持久化坠入 family summary**=r509 append_ledger 幻记账律·selftest 拒双 append 腿在场·**首次 finalize 后要重跑自删**=r538 双记账坑例·若需重跑先删未 commit 自产自证件）。
+- 时序 pass/fail 问题（测量面三、四）N/A 如实；本波数字为治理提锚面素材（canon flip 不在本波——K2200 同例）。
+
+## §5 跑前预测。【必填】写死于跑前
+（起草窗实况注记：**W1..W207 N1 finalize 已全部落地**——净账本锚头 872,571·**K=453,320 合并池**·**W208 在飞上游席注记（bm-a·01:29 席位在册·五面 gated）——本波 §5 预测键=**W207 实测值**【results/perpetual_faces/n1_w207_results.json·N1 面最新已落账键·W208 落账后属上游先决非本键面·freeze 时活链头与合并池 K 按 registry 键 derive 机读进冻结回执非本键面；**起稿窗内 W207 finalize 中窗连落=锚滚链面 r576/r590 律·起稿未 commit 前刷锚至最新已落账键；probe 回执 leg0 anchor 面（W206 actuals·probe 时点 03:0x 正确）如实注记不覆盖**】。
+1. W209-only mu 与累计池 merged mu（W207 实测键 **−0.09272665**·K=453,320 合并池·W207-only 实测 **−0.09495945**）差异 **|Δ|<0.02**（W2..W207 共二百零六面实测 mu 稳定先例·单波跨键微）。
+2. sigma 相对变化 **<±10%**（同设计同窗·纯抽样波动；键 **0.24511748**=W207 合并池实测）。
+3. A 档 full_sharpe_p95 与 W207 A 档 p95（**0.3195** 实测锚）差 **<0.05**（门标注法 W5..W207 先例：结果知情面仅作机器断言之用·测量面非注册利益）。
+4. K-lift 线移动幅度 **≤±0.02**（累计池加深零 se_mu 收窄线自 mu/sigma 微调面非质变——W136..W207 先例链披露【各波 K-lift 全在 ±0.0003 内·机读可复核·键 W207 实测 K-lift **−0.0001**·line_merged@K453,320 **1.1892**·line_pre_w207 1.1893·n_eff_held_equal 870,371；se_mu 收窄链 …→W204 0.000367→W206 0.000365→W207 **0.000364**】）。
+5. **W210+ 投影（probe 机证 leg4·下波冻结方复核非转抄 r587 律）**：A naive first-clean 476_604..478_603 CLEAN（hops=0·pre-W209 宇宙）；B naive first-clean **476_804..477_003 CLEAN**（hops=0）——**naive B 落在 naive A 窗内**（W141 同窗互斥先例适用于 W210：W210 冻结方必须在 post-W209 注册宇宙重 derive 且 derive B 时预留本波 A 窗——leg2 律/E36 卡）；**W209 B 带 476_604..476_803 注册后将拒 naive W210 A 窗**——W210 A 重 derive 同强制（越过 W209 B 带·阶梯 A-hops-prior-B 继承第七十例待 W210 注册宇宙复核）；**承接面已实证收敛：bm-b r857 W210 席位 probe 已按此投影落带（W210 A=476_804..478_803=越过 W209 声明 B 带的 first-clean 第七十例·W210 B=478_804..479_003）**——与本投影承接注记逐位收敛·跨窗兑现如实披露；verify at W210 prereg，hop 链逐跳在 probe 回执。
+
+## §6 产物
+- runner=`scripts/perpetual_faces_n1.py`（selftest/status/run --shard k --of 12 --wave 209/finalize --wave 209；probe/parity=W2 设计验腿本波跑=no-op）；点火面 `scripts/saturation_engine.py`（本机 bm-c 实例·**live daemon mtime-watch 热重载**·本地队列→PreIgnitionChecks→分离子进程点火→完成→台账处理【runner_args --lane engine 车道闸同 r523 律】）；**点火验证=2 cycle 内产物增长面**【n1_w209/ 分片计数增长·唯一点火证据·r325 律】。
+- 交付：`results/p2cal_ext/n1_w209/shard-<k>-of-12.json`（append-only·确定性）；`results/perpetual_faces/n1_w209_results.json`（finalize 合并件·顶层 evidence_cutoff·cutoff_meta·audit 段·K-lift 对照；finalize 键序前置=**起草窗在飞上游席 W208（bm-a）**——跑时按 registry 键 derive 复核·FAIL-CLOSED r307 两态例恒在）。
+- 引擎台账：bm-c live daemon 架构=engine ledger jsonl+state/face/history 以 git 交付（engine_owner==bm-c 37 行注册 + 本候选——以 probe leg0 机证为准）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
+- 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
+
+## §7 跑后实证。【finalize 收口机械回填】
+- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 四预键机证四件/六门探针/canon flip 态/audit 段——r846 W206 §7 范式）
+
+## §8 批后复盘。【finalize 同窗回填】
+- （占位·finalize 同窗回填：§5.5 W210+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r846 W206 §8 范式）
+
+- **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
