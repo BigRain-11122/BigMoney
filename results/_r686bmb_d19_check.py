@@ -4,6 +4,14 @@ Group tree read path (D-20261004-02③): prefer K: group tree; fallback any
 local group tree real path; else temp sparse clone of origin blob. All
 hashing on git-show original bytes via subprocess capture (r660 law).
 Writes results/_r686bmb_d19_check.json; exit 0 = checked, 2 = mechanism fault.
+
+T22 (2026-10-10 r954 bm-a): state read is machine-context aware -- resolve
+from fleet/machine.json (bm-b -> state.json legacy, others -> state-<id>.json,
+r582 law); the module no longer hardcodes state.json. --state argv (injected
+by d19_watermark.py cmd_probe/cmd_update) and D19_STATE env override the path,
+but the basename MUST equal the machine-derived filename -- mismatch is a
+mechanism fault (state-<id> read = the single legal watermark assertion
+anchor; the r953 defect face was this probe reporting bm-b's watermark).
 """
 import hashlib
 import json
@@ -14,7 +22,25 @@ import tempfile
 
 REPO = os.path.dirname(os.path.abspath(__file__))  # results/
 ROOT = os.path.dirname(REPO)
-STATE = os.path.join(ROOT, "state.json")
+
+
+def resolve_state(root, argv_state=None):
+    """T22 machine-context law: state read = state-<machine_id>.json
+    (bm-b = state.json legacy, r582). argv --state wins (caller-injected,
+    e.g. d19_watermark.py), then D19_STATE env, then machine.json derive.
+    Returns (state_path, machine_id, err); basename mismatch -> err."""
+    mj = os.path.join(root, "fleet", "machine.json")
+    try:
+        with open(mj, encoding="utf-8") as f:
+            mid = json.load(f)["machine_id"]
+    except Exception as e:
+        return None, None, "machine.json unreadable: %r" % e
+    fname = "state.json" if mid == "bm-b" else "state-%s.json" % mid
+    path = argv_state or os.environ.get("D19_STATE") or os.path.join(root, fname)
+    if os.path.basename(path) != fname:
+        return path, mid, ("state/machine mismatch: --state %s but machine %s "
+                          "expects %s" % (path, mid, fname))
+    return path, mid, None
 
 
 def sha256(b: bytes) -> str:
@@ -41,10 +67,28 @@ def git_show(tree: str, path: str):
 
 
 def main() -> int:
+    argv_state = None
+    if len(sys.argv) > 2 and sys.argv[1] == "--state":
+        argv_state = sys.argv[2]
+    elif "--state" in sys.argv:
+        i = sys.argv.index("--state")
+        if i + 1 < len(sys.argv):
+            argv_state = sys.argv[i + 1]
     out = {"trees_tried": [], "decisions_sha": None, "orders_sha": None,
            "wm_decisions": None, "wm_orders": None,
-           "decisions_changed": None, "orders_changed": None, "err": None}
+           "decisions_changed": None, "orders_changed": None, "err": None,
+           "machine": None, "state_path": None}
     try:
+        STATE, mid, s_err = resolve_state(ROOT, argv_state)
+        out["machine"] = mid
+        out["state_path"] = STATE
+        if s_err:
+            out["err"] = s_err
+            json.dump(out, open(os.path.join(
+                REPO, "_r686bmb_d19_check.json"), "w", encoding="utf-8"),
+                ensure_ascii=True, indent=1)
+            print("FAULT: %s" % s_err)
+            return 2
         st = json.load(open(STATE, encoding="utf-8"))
         out["wm_decisions"] = st.get("last_decisions_sha")
         out["wm_orders"] = st.get("last_orders_sha")

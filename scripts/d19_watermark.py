@@ -21,7 +21,10 @@ protocol-d19.md):
              SAME round -- enforced by refusing a delta without an
              explicit --advance (atomicity gate);
   r582       bm-b state file = state.json, other machines state-<id>.json
-             (machine_id from fleet/machine.json; never guessed).
+             (machine_id from fleet/machine.json; never guessed);
+  T22        every probe invocation is passed --state (machine-aware); the
+             probe asserts basename == machine-derived filename (r954 bm-a
+             defect: probe read bm-b's watermark and cried false delta).
 
 Subcommands
   probe     run the canonical read probe and print its summary (read-only);
@@ -122,8 +125,9 @@ def cmd_update(opts):
         if opts.probe_json:
             ev_path = opts.probe_json
         else:
-            rc = subprocess.run([sys.executable, PROBE], cwd=ROOT,
-                                 capture_output=True).returncode
+            rc = subprocess.run(
+                [sys.executable, PROBE, "--state", opts.state],
+                cwd=ROOT, capture_output=True).returncode
             if rc != 0:
                 receipt["action"] = "refused"
                 receipt["err"] = "canonical probe rc=%d" % rc
@@ -258,8 +262,11 @@ def cmd_verify(opts):
     return rc
 
 
-def cmd_probe(_opts):
-    r = subprocess.run([sys.executable, PROBE], cwd=ROOT)
+def cmd_probe(opts):
+    # T22: inject the machine-aware state path so the probe reads
+    # state-<id>.json, never a legacy/wrong-machine watermark.
+    _, state = resolve_state_path(MACHINE_JSON, ROOT)
+    r = subprocess.run([sys.executable, PROBE, "--state", state], cwd=ROOT)
     return r.returncode
 
 
@@ -448,6 +455,32 @@ def selftest():
         o = argparse.Namespace(state=sp, receipt=rec, probe_evidence=pj)
         assert cmd_verify(o) == 3
     leg("L14 verify malformed stored key -> 3", l14)
+
+    # L15 T22 probe machine-context law: probe resolves state-<id>.json from
+    #     machine.json (bm-b -> state.json legacy); --state pointing at a
+    #     wrong machine's file = hard mismatch fault (r954 defect face)
+    def l15():
+        import importlib.util
+        os.environ.pop("D19_STATE", None)
+        spec = importlib.util.spec_from_file_location("_d19_probe_t22", PROBE)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        d = os.path.join(tmp, "fix_t22")
+        os.makedirs(os.path.join(d, "fleet"))
+        mj = os.path.join(d, "fleet", "machine.json")
+        json.dump({"machine_id": "bm-a"}, open(mj, "w"))
+        p, mid, err = mod.resolve_state(d)
+        assert err is None and mid == "bm-a" and p.endswith("state-bm-a.json")
+        json.dump({"machine_id": "bm-b"}, open(mj, "w"))
+        p, mid, err = mod.resolve_state(d)
+        assert err is None and p.endswith("state.json"), "bm-b legacy name"
+        json.dump({"machine_id": "bm-a"}, open(mj, "w"))
+        p, mid, err = mod.resolve_state(d, os.path.join(d, "state.json"))
+        assert err and "mismatch" in err, "wrong-machine --state must fault"
+        p, mid, err = mod.resolve_state(d, os.path.join(d, "state-bm-a.json"))
+        assert err is None and p.endswith("state-bm-a.json"), "explicit ok"
+    leg("L15 T22 probe reads state-<id>.json (machine derive + mismatch gate)",
+        l15)
 
     fails = [l for l in legs if not l[1]]
     for name, ok, why in legs:
