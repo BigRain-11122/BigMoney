@@ -1,0 +1,23 @@
+{
+ "tool": "w17-transfer-receipt",
+ "machine_id": "bm-c",
+ "round": "r835",
+ "ts": "2026-10-10T19:16:00+08:00",
+ "order_ref": "O-20261010-1825-bm-a.md item-1 (W17 shard yield, receipt with round)",
+ "facts": {
+  "screen_shards_total": 8,
+  "claim_truth_face": "entries[].shards[].owner = bm-c on all 8 screen shards (r692 claim-truth-at-shard-layer law; entry-top owner field is not the claim face)",
+  "lane_pin_law": "checkpoint field verbatim: 'MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8 of 1584 cells (198/shard)'",
+  "judge_entry_state": "TRIAL-LABOR-W17-JUDGE = single shard w17-judge-0of1, owner=null, status=ready; judged cells = screen survivors + paired nulls -> not claimable before screen finalize; burn machine = judge-finalize machine (W13/W14/W16 single-shard precedent)",
+  "gate_opened_in_round": "2026-10-10T19:02:10+08:00 autofill claim file results/pool_claims/TRIAL-LABOR-W17-SCREEN-SHARD-0/w17-screen-0of8.bm-c.json state=claimed pid=54960 pythonw ALIVE (in-round process check)",
+  "resource_face": "nvidia-smi 1785MiB/16384MiB used, util 1% (CEO mv0001 video chain phase-down); free RAM 4.0GB (>= r354 4GB gate)",
+  "wave_progress": "SHARD-0 burning on bm-c at claim time; SHARD-1..7 ready+owned bm-c, autofill claim-refresh (L54 hard-fix r834) picks up next as RAM gate permits"
+ },
+ "verdict": {
+  "transfer_as_ordered": "ILLEGAL for the SCREEN shards: r429 machine-local checkpoint + lane pin to bm-c -- a bm-a/bm-b burn would strand its checkpoint jsonl on the burning machine while screen-finalize reads the LOCAL CKPT_DIR on bm-c = silently missing 198 cells/shard = wave data corruption; a blind claim-yield would also re-open the r694 reclaim-blind-window face",
+  "disposition": "claims stay on bm-c lane. The order's intent (wave must progress, no stall) is served by the in-round fact: RAM gate OPENED 19:02 (CEO video chain phase-down freed the resource face) and autofill ignited SHARD-0 the same minute -- the 13h stall premise is dissolved, wave is burning now",
+  "w18_fold": "W18 draft berth (next slice) must encode cross-machine-legal checkpoint transport (git-transported checkpoint or per-machine finalize merge) so future yield orders are executable as written -- folded into the W18 candidate drafting slice",
+  "honesty_note": "W17-JUDGE itself is unclaimed (owner=null) -- the order's 'W17-JUDGE 8 shards claimed on bm-c' wording maps to the 8 SCREEN shards; JUDGE is a single-shard entry gated on screen survivors"
+ },
+ "evidence_in_round": "pool dump (12 W17 entries + shard-layer owners) + claim file read + Get-Process pid 54960 alive + nvidia-smi + Win32_OperatingSystem free RAM, all in r835 command log"
+}
