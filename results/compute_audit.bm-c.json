@@ -1,20 +1,20 @@
 {
   "latest": {
-    "ts": "2026-10-11 04:09:32",
+    "ts": "2026-10-11 04:29:45",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 60.0,
-    "py_cpu_pct": 25.7,
+    "cpu_total_pct": 85.0,
+    "py_cpu_pct": 37.4,
     "cores": 32,
-    "py_procs": 18,
-    "result_stale_min": 0.4,
+    "py_procs": 16,
+    "result_stale_min": 0.2,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "pool_ready_unclaimed": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 17,
-      "span_min": 266.4
+      "run_samples": 18,
+      "span_min": 286.6
     },
     "supply_gap_candidate": false,
     "supply_gap_detail": {
@@ -26,11 +26,11 @@
       "breach": true
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 3253.3,
+    "supply_family_streak_min": 3273.5,
     "gpu": {
       "present": true,
-      "util_pct": 60.0,
-      "mem_used_mb": 16070.0,
+      "util_pct": 95.0,
+      "mem_used_mb": 16075.0,
       "compute_apps_count": 18,
       "rogue_apps": [
         "c:\\users\\dasheng\\appdata\\local\\programs\\python\\python313\\python.exe"
@@ -51,68 +51,14 @@
       "readable": true
     },
     "flags": [
+      "cap_violation",
       "gpu_unauthorized",
       "pool_starvation",
       "supply_floor"
     ],
-    "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor"
+    "verdict": "FLAG:cap_violation,gpu_unauthorized,pool_starvation,supply_floor"
   },
   "history": [
-    {
-      "ts": "2026-10-07 20:16:55",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 14.0,
-      "py_cpu_pct": 55.9,
-      "cores": 16,
-      "py_procs": 27,
-      "result_stale_min": 2.0,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 7,
-        "span_min": 103.3
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 103.3,
-      "gpu": {
-        "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 4380.0,
-        "compute_apps_count": 23,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 1,
-        "core_seconds": 18.48,
-        "wall_seconds": 60.1,
-        "effective_cores": 0.31,
-        "multicore_burn": 0,
-        "single_core_burn": 1,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_gap",
-        "supply_floor"
-      ],
-      "verdict": "FLAG:supply_gap,supply_floor"
-    },
     {
       "ts": "2026-10-08 09:28:59",
       "audit_version": "v2.4.2",
@@ -11837,6 +11783,65 @@
         "supply_floor"
       ],
       "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor"
+    },
+    {
+      "ts": "2026-10-11 04:29:45",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 85.0,
+      "py_cpu_pct": 37.4,
+      "cores": 32,
+      "py_procs": 16,
+      "result_stale_min": 0.2,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 18,
+        "span_min": 286.6
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 3273.5,
+      "gpu": {
+        "present": true,
+        "util_pct": 95.0,
+        "mem_used_mb": 16075.0,
+        "compute_apps_count": 18,
+        "rogue_apps": [
+          "c:\\users\\dasheng\\appdata\\local\\programs\\python\\python313\\python.exe"
+        ]
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "cap_violation",
+        "gpu_unauthorized",
+        "pool_starvation",
+        "supply_floor"
+      ],
+      "verdict": "FLAG:cap_violation,gpu_unauthorized,pool_starvation,supply_floor"
     }
   ],
   "lane_machine": "bm-c"
