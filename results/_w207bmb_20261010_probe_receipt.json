@@ -1,0 +1,98 @@
+{
+ "probe": "W207 pre-seat probe (bm-b, 2026-10-10 23:4x, O-20261010-2350-bm-c sec.2 @bm-b seat-first + O-2334 local-full-use)",
+ "legs": {
+  "leg0": {
+   "rows": 202,
+   "tail": "W204",
+   "owner_rows": 194,
+   "bmc_rows": 36,
+   "bma_rows": 118,
+   "bmb_rows": 40,
+   "ordinal": 197,
+   "bmb_ordinal": 41,
+   "w204_ledger_head": 864387,
+   "w205_status": "seat-reserved bm-a 16:27 (MSG-2026-10-10-1627 on origin, processed/; probe receipt r956 landed); five-face band row + per-wave prereg PENDING on origin at probe time -- declared bands 465_804..467_803 / 467_804..468_003 origin-text-verified and injected",
+   "w206_status": "seat-reserved bm-c 23:23 (MSG-20261010-2323 on origin, inbox/; probe receipt landed 0620f78fd); freeze gated on W205 landing -- five-face band row + per-wave prereg PENDING on origin at probe time -- declared bands 468_004..470_003 / 470_004..470_203 origin-text-verified and injected per the W206 seat leg4 mandate",
+   "w205_declared": {
+    "A": [
+     465804,
+     467803
+    ],
+    "B": [
+     467804,
+     468003
+    ]
+   },
+   "w206_declared": {
+    "A": [
+     468004,
+     470003
+    ],
+    "B": [
+     470004,
+     470203
+    ]
+   }
+  },
+  "leg1": {
+   "ARITH_A": [
+    470004,
+    472003
+   ],
+   "ARITH_B": [
+    470204,
+    470403
+   ],
+   "A": [
+    470204,
+    472203
+   ],
+   "hops_A": 1,
+   "B": [
+    472204,
+    472403
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    470204,
+    470403
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      470204,
+      470403
+     ],
+     "jump_to": 472204
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by declared W206 B band 470_004..470_203 (staircase A-hops-prior-B SIXTY-SEVENTH instance, E36 card; W206 seat leg4 projection + W206 probe leg4 anticipated and MANDATED this re-derive); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=470204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=472204 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W208p_A": "472204..474203",
+   "hops_A": 0,
+   "W208p_B": "472404..472603",
+   "hops_B": 0,
+   "W208p_B_lands_inside_W208p_A": true,
+   "note": "W208+ naive projection on pre-W207 universe; the registered W207 B band 472_204..472_403 will refuse the naive W208 A window once W207 is registered (A-hops-prior-B SIXTY-EIGHTH instance anticipated); W208 freezer MUST re-derive on the post-W207 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 staircase card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "470204_472203",
+  "B": "472204_472403"
+ }
+}
