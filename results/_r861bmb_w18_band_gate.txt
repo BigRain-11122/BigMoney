@@ -1,0 +1,13 @@
+LEG1_DRAFT_POSTURE
+  draft_no_band_values_marker_lines=2 (expect >=1)
+  band_values_in_prereg=[] (expect [])
+  N1_BANDS rows=205 max_wave=W207 A_head_end=472203 B_head_end(W207)=472403
+  A_horizon=[472204..732203] naive_next_slot_after_W15=546000 inside_horizon=True -> derive position forced by r682 law (not free-picked)
+LEG2_RESERVED reg_n=198 halo=2000 A_horizon=[472204..732203] B_projection=[472404..503403] n_intervals=618
+LEG3_DERIVED_X 732500 (x_min=732204 rounded to 500)
+  NEW-gen band 732500..732999 CLEAN
+  NEW-scrnull band 733000..733499 CLEAN
+  NEW-unc band 733500..733999 CLEAN
+AUDIT nearest_reserved_below=732203 nearest_reserved_above=20258923
+REPO_TEXT_SCAN patterns=['732,500', '732500', '733,000', '733,500', '733000', '733500'] hits=[]
+BAND_GATE_VERDICT ADMIT
