@@ -4,9 +4,11 @@
  "type": "idle-gate-decouple-cpu-only",
  "immediate": false,
  "spec": "O-20261010-1825-bm-a.md item-3 enforcement ticket: idle_trigger/saturation CPU-only quant backfill criterion must STRIP the vram_free condition -- CEO foreground use of the machine is legal (VRAM fully occupied by CEO apps must not veto a pure-CPU backtest fill). Change face = Tools/idle_trigger.py (fleet-shared single source, machine_id-aware, r847 deployer face) GREEN-IDLE criteria (currently RAM>=40% free / VRAM>=6GB / no in-flight batch -- the CPU-only fill arm must drop the VRAM leg) + same audit for saturation_engine idle-fill criterion. Acceptance = selftest covers: (a) VRAM-occupied state (CEO foreground legal) still triggers CPU-only fill, (b) GPU-job-related gates unchanged, (c) machine_id-aware fields intact. Live anchor = O-1825 attribution item-3: bm-a vram_free 0.13G made green_idle=false, pure-CPU fill was collaterally blocked (contributing factor to the 13h zero-emission window).",
- "status": "open",
+ "status": "claimed",
  "order_ref": "O-20261010-1825-bm-a.md",
  "created_by": "user (Jason) via bm-a GM order O-20261010-1825 -> bm-c loop r835 ticket-filed-same-round",
  "created_at": "2026-10-10T19:16:00+08:00",
- "notes": "Tool owner face = bm-a (r847 idle_trigger deployer machine) -- claimant self-runs selftest after fix, three machines inherit via pull per shared-single-source law. This ticket = O-1825 item-3 'work order lands in T queue' enforcement piece, filed same round per claim-and-start law."
+ "notes": "Tool owner face = bm-a (r847 idle_trigger deployer machine) -- claimant self-runs selftest after fix, three machines inherit via pull per shared-single-source law. This ticket = O-1825 item-3 'work order lands in T queue' enforcement piece, filed same round per claim-and-start law. | r958 bm-a claim: execution starts r959 (r958 budget consumed by r957 dead-estate rebase absorption + concurrent GM-session git surgery + O-1945 slice A; disclosed in r958 round report).",
+ "claimed_by": "bm-a",
+ "claimed_at": "2026-10-10T19:54:00+08:00"
 }
