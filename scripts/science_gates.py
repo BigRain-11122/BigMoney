@@ -2024,6 +2024,30 @@ SEED_REGISTRY = {
         # runner scripts/t23_random_grammar_census.py
         "t23_grammar_census_gen": 20_615_000,
         "t23_grammar_census_null": 20_615_100,
+        # PERPETUAL-N2-W18 alphagen beam feedback-search reference batch
+        # (bm-b r861 slice-3 freeze window, queue row state/queue/tech.md
+        # T23 U3 channel-1; prereg research/PERPETUAL_N2_W18_PREREG.md):
+        # gen rng([732_500, round, parent, slot]) round in {1,2,3},
+        # R1 rng([gen,1,i]) i<24; R2 rng([gen,2,p,j]) p<6, j<4; R3
+        # rng([gen,3,p,j]) p<4, j<4 (beam feedback search, K=64 draws) +
+        # scrnull rng([733_000, idx, b]) idx<64, b<6 (B=6 within-day
+        # same-mask factor-rank permutation nulls per formula, census
+        # sina_construct_ic null design); unc 733_500 = reserved berth,
+        # ZERO W18 core-mechanism consumption (W15 unc/judge precedent;
+        # freeze-window wiring, disclosed not asserted); family band
+        # [732_500, 734_000); berth lineage: r682 ladder-horizon law live
+        # derive -- N1_BANDS 205 rows A_head_end=472_203 -> horizon end
+        # 732_203 -> X=732_500 = smallest 500-multiple above horizon
+        # (_r861bmb_w18_band_gate.txt ADMIT; trio CLEAN vs 618 reserved
+        # intervals; W15-era next slot 546_000 now inside the raised
+        # A-horizon = derive position forced); seed_admit_gate rc0
+        # base=732_500/733_000/733_500 span=500 all FREE (O-20261010-1945
+        # ADMIT convention); repo text scan scripts/+research/ zero-hit;
+        # registered at prereg freeze BEFORE any burn, one-step R250 law;
+        # runner scripts/alphagen_beam_w18.py
+        "perpetual_n2_w18_gen": 732_500,
+        "perpetual_n2_w18_scrnull": 733_000,
+        "perpetual_n2_w18_unc": 733_500,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

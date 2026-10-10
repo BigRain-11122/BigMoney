@@ -1,9 +1,19 @@
-# PERPETUAL-N2-W18 预注册（波级）——**DRAFT · 起草窗（未冻结·零烧录）**
+# PERPETUAL-N2-W18 预注册（波级）——**FROZEN · 已冻结**
 
-> **状态：DRAFT（bm-b r859 起草窗开启·F-04=MSG-20261011-0412-bmb-n2w18-draft.md）。本件 commit 后仍禁烧：冻结=后续窗五条件机证（N2-W15「冻结门」同构）——①runner 腿落地+selftest 全绿+FREEZE-GATE 拒烧在位机证 ②三步种子法全绿（gen/scrnull/unc 三带冻结 commit 登记 science_gates.SEED_REGISTRY·带值=冻结窗 r682 horizon 配方 derive+seed_admit_gate rc0·R250 一步律·**草案禁写带值**——r702 带位漂移教训）③判据节共享库引用 ④D6 同族显式 ⑤意义门三问+令面核对。**
+> **状态：FROZEN（2026-10-11 r861 bm-b slice-3 冻结窗·席位=r859 起草+r860 runner 同线承接·F-04=MSG-20261011-0412-bmb-n2w18-draft.md）。冻结 commit=三带登记 science_gates.SEED_REGISTRY（perpetual_n2_w18_gen=732_500 / scrnull=733_000 / unc=733_500·带宽 499·r682 horizon 活导出 derive·seed_admit_gate rc0×3）+本状态翻面（R99 跑前冻结律 / R250 one-step 律）。冻结门五条件逐条机证见「冻结门机证记录」节。**
 > 通道：T23 U3①「全新语法」（tech.md T23 行·r840 slice-1 范式评估=**POSITIVE-with-riders**+r858 slice-2 随机语法全量普查=**族级校准 census_holds=true**）；令源：O-20260930-2340 常供面令（N2 常供面授权面·无需新署名）+O-20261011-0012 sec.ii queue-deepen+O-1819 队列永不清空+TRIAL_LABOR_LAW §1 常设线。
 > 法：research/PREREG_TEMPLATE.md（本件骨架）+research/PERPETUAL_FACES.md §2 N2 行+BACKTEST_SCIENCE.md v2 族冻结常数+三铁律照旧。
 > 谱系：N2-W15（组合采样面·judged-negative 281/281·family_key perpetual_faces_n2 保持 open 不关线）——本批≠同语法重跑：18-tuple 轴门 pin 撞号裁定已定谳非撞（r840 L1：轴系=公式树 vs 轴门元组·生成机制=反馈搜索 vs Sobol 无反馈采样·双异）。
+
+## 冻结门机证记录（slice-3 冻结窗·2026-10-11 r861 bm-b）
+
+1. runner slice-2 腿落地 ✅——r860 交付（11252931f）：scripts/alphagen_beam_w18.py 三腿 run/probe/selftest；本窗复核=selftest 22/22 ALL PASS + FREEZE-GATE 拒烧实跑 rc=2 机证（results/_r860bmb_w18_freeze_gate_refuse.json·三带缺席诚实拒·零烧零文件写）+ probe 8 faces PASS rc0（results/alphagen_w18/probe_latest.json）。
+2. 三步种子法登记 ✅——本冻结 commit 落 science_gates.SEED_REGISTRY 三键（gen=732_500 / scrnull=733_000 / unc=733_500·带宽 499·家族带 [732_500, 734_000)）：r682 horizon 活导出 derive（N1_BANDS 205 行·A_head_end=472_203·horizon=[472_204..732_203]·X=732_500=horizon 上首个 500 倍数·三带对 618 保留区间全 CLEAN·W15 后续槽 546_000 现已落被 N1 新波抬高的 A-horizon 内=derive 位强制非自由挑）·回执 results/_r861bmb_w18_band_gate.txt（ADMIT）+ seed_admit_gate rc0×3（base=732_500/733_000/733_500·span=500 全 FREE·O-20261010-1945 ADMIT 约定）+ repo 文本扫 scripts/+research/ 零外撞；banned_direction_gate --prereg 退出 0（见 §0.5 冻结窗实跑）。
+3. 判据节共享库 ✅——§4 判线=族级程序冻结面（V1=族 max |ICIR| > 本批 pooled null 族 p95·T23 slice-2 校准律）+ M1 t 面调 science_gates.m1_t_value_gate 共享库（缺 t 面=missing_input 拒收）；G1'/G2/DSR 策略门按 §0 批性质豁免（IC 参照面零引擎）如实申报非适用，无手抄判线。
+4. D6 同族显式 ✅——§1 冻结窗写死：本批=IC 参照面·存活员仅入因子素材池**不注册交易员**（§0 禁直接注册面）→「素材池不注册=不触发 D6 注册门」如实声明（§1 预留二选一之选(b)·消费侧注册时按全新预注册另过 D6 门）。
+5. 意义门三问+令面 ✅——§0 三行作答在案（研究问题/消费方/登记簿查重首烧证）；授权面=O-20260930-2340 常供面令（N2 常供面·无需新署名）+O-20261011-0012 sec.ii queue-deepen+O-1819 队列永不清空+TRIAL_LABOR_LAW §1 常设线；本窗令面核对=fleet/orders 差集 0（67/192/0·r861 S0.5 双扫）。
+
+写前复核（r687 律·冻结 commit 写 registry 前 fetch+origin 单点）：origin tip=efb3c2961（bm-c r851 pre3）·三键 origin 缺席·prereg origin 侧仍 DRAFT（无他机冻结）·带闸+准入闸回执在案（_r861bmb_w18_band_gate.txt·rc0×3）→ ADMIT-PROCEED-WRITE。
 
 ## §0 批件身份【跑前填·冻结时核】
 
@@ -13,6 +23,7 @@
 - 部门归属：dept:研究。
 - 算力预算：**短批单进程合法窗（O-2100 先例：20-120s 带 300s 帽）**——K=64 公式绘制 × 500 普查日 × PIT 截面（eligible_median 2,980）向量化 IC，census 同机械 4,160 draws 实测 564.1s → 本批 ≤448 draws 预估 ≤120s 纯 CPU 单进程，不入 runnable_pool；批报告必带 audit 段。
 - 试验量：**本批新入账 trial 数 ≤500（RETAIL_QUANT_TRACK §四 30 天 ≤500 预算闸内）**——设计见 §3（K=64 公式+384 置换 null=448 enrolled）；§1.4 归因一句话=「搜索范式首烧：族级校准判线下对反馈搜索杠杆的最廉价可判读测量，448 格 ≤500 预算闸内」。
+- 意义门三问（冻结窗 c5 作答）：①研究问题=「受控反馈搜索（beam 逐轮择优扩展）在冻结价量公式语法上是否比随机搜索基线产出更高族级 |ICIR|」——census（T23 slice-2）随机族锚 max 0.353/null p95 0.139 在案，反馈杠杆至今无判读；②消费方=本批存活员→因子素材池（带 120d 短窗折价族级校准标签+血统标签）·后续消费（输入特征路线/注册面）须全新预注册+成本压测（A158-TSGATE-P1/A10 先例门）；范式读数（D1 杠杆面）→N2 反馈杠杆线收口决策（判负=G2 预案只留学术引用）；③语法登记簿查重=research/TRIAL_GRAMMAR_LEDGER.md 无 alphagen 反馈搜索行（r859 起草探针机证零 alphagen 行·本批=该语法族在反馈搜索机制下首烧·随机式 census 48 式由 T-84s3 指纹去重在绘制时排除）。
 
 ## §0.5 禁开方向硬闸【冻结窗跑】
 
@@ -22,7 +33,7 @@
 
 - 四选一（本批选择）+一句话论证：**微观结构**——OHLCV/AMOUNT/VWAP 公式树族=价量微观结构代理面（订单流压力/流动性提供补偿的可观测投影）；**探索面主张（canon §2「探索面」原注·N2-W15 同构）**：不预设任何单一公式有超额，本批测量=「反馈搜索杠杆」本身是否在族级校准判线下产出过线员。
 - **散户凭什么赢【§1.2】**：本批=**测量面，无直接交易面**（可交易账户面=core48 ETF/基金白名单·只做多——股票截面因子不可直接交易·r840 L2 已裁定）；可用消费走门/输入特征路线（A158-TSGATE-P1/A10 先例·core48 上）须另开预注册。答不出直接赢面=如实申报非批不受理项（测量面豁免论证·冻结窗核）。
-- **同族相关性准入检查【D6·冻结窗执行面写死】**：逐存活员 max|corr| vs 在册交易员全部成分员+sleeve 全员（日收益序列口径）≥0.7 拒收——**本批为 IC 参照面（无日收益策略曲线）**：D6 执行面=因子值序列 Spearman vs 在册员信号面冻结窗另定（或按「素材池不注册=不触发 D6 注册门」如实声明——冻结窗二选一写死禁留白）。
+- **同族相关性准入检查【D6·冻结窗已写死=选(b)如实声明】**：逐存活员 max|corr| vs 在册交易员全部成分员+sleeve 全员（日收益序列口径）≥0.7 拒收——**本批为 IC 参照面（无日收益策略曲线）**：冻结窗二选一裁定=**(b)「素材池不注册=不触发 D6 注册门」如实声明**——本批存活员仅入因子素材池不注册交易员（§0 禁直接注册面），D6 注册门不在本批触发面内；素材池后续任何消费（输入特征路线/注册面）须全新预注册，届时按该批判据节冻结的口径（因子值序列 Spearman vs 在册员信号面）过 D6 同族检查。
 - **邻接血统负先验披露（R1 骑士·r840 三骑士之一·逐字照携）**：A158 系截面 157/158 判负·GTJA 0/183 core48·WQ 0/82 strict；DSR 累计墙高（活链头 876,731）；RL/MCTS IC 宣称一律「宣称未核」（R3 骑士）。
 
 ## §2 数据与面板【跑前探针事实，非结果】
@@ -42,7 +53,7 @@
 - null：每式 B=6 within-day same-mask 置换 null（census 同构造缩样）→ **pooled 384 null 族**；族级判线=族 null p95（pooled ≥300 抽样充分披露·per-formula null 仅描述面）。
 - 账本：`science_gates.append_ledger(batch_name="PERPETUAL-N2-W18", batch_trials=448, file_name="results/alphagen_w18/W18-2026-10-09.json", evidence_cutoff="2026-10-09")`（dict schema 唯一·prev=活链头实读 876,731 冻结窗复核）。
 - **闭合族对号声明【M3】**：family_key=**alphagen_grammar_v1**——`science_gates.CLOSED_FAMILIES` 9 键对号**不在册=open 照跑**（2026-10-11 04:0x 机证：9 键无 alphagen/alpha158/公式树词面·探针腿 P3）；新证据增量声明（防换皮质疑·U3①裁定面）：①语法面新=公式树自由表达式≠A158 固定清单≠N2 18-tuple 轴门；②判读面新=族级校准判线（census 2026-10-09）；③机制面新=受控反馈搜索 vs 全史一切无反馈采样。
-- 种子（三步法·**冻结 commit 同窗登记·草案禁写带值**）：gen/scrnull/unc 三带=冻结窗 r682 horizon 配方 derive（N1_BANDS 活导出+registry 全值±2000 halo+显式实际流全域+A/B 梯 horizon 门）+`Tools/seed_admit_gate.py` rc0 先行；rng 流写死于冻结节。
+- 种子（三步法·**冻结窗已登记**）：gen/scrnull/unc 三带=**732_500 / 733_000 / 733_500**（带宽 499·家族带 [732_500, 734_000)）——r682 horizon 配方活导出 derive（N1_BANDS 205 行·A_head_end=472_203·X=horizon 上首个 500 倍数·三带对 618 保留区间全 CLEAN）+`Tools/seed_admit_gate.py` rc0×3（base=732_500/733_000/733_500·span=500 全 FREE）·回执 results/_r861bmb_w18_band_gate.txt；**rng 流冻结钉死**：gen 流 rng([732_500, round, parent, slot])——R1 rng([gen,1,i]) i<24 / R2 rng([gen,2,p,j]) p<6·j<4 / R3 rng([gen,3,p,j]) p<4·j<4；scrnull 流 rng([733_000, idx, b]) idx<64·b<6；unc=733_500 预留泊位零本批核心机制消费（W15 unc/judge 先例·披露非断言）；登记=冻结 commit 同窗 science_gates.SEED_REGISTRY（R250 一步律·冻结前草案零带值 r702 教训已守）。
 
 ## §4 判据【跑前写死·冻结窗定稿；判线一律族级=T23 律】
 
