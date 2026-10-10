@@ -55,9 +55,21 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （回填位·finalize one-pass 后按 W204 §7 例机械回填：账本恒等式三键机读·K·mu/sigma/se_mu·K-lift 对照·§5 四预键机证·canon flip 态·audit 段）
+- **finalize one-pass 已回填（bm-c r846·2026-10-11 02:3x·链路=M8 循环班队列行 waiting-upstream 自动链：W205 finalize 落地〔bm-a r963〕→M8 自动冻结 01:49→引擎自燃 12/12〔01:50-01:54·r325 点火验证=两笔引擎 ledger commit 780b2169b+a61da7d7b〕→本窗 one-pass finalize）**：
+  - 账本恒等式：prev_total **868,171** + batch_trials **2,200** = total **870,371**（三键机读·science_gates.ledger；prev=W205 finalize 活链头 derive 非手抄——与冻结回执 w205_upstream.ledger_total 恒等）。
+  - 合并池 K=**451,120** EXACT（448,920+2,200·n_values 机读）。
+  - merged mu=−0.09271576 / w-only mu=−0.09671182 / w-only sigma=0.25234585 / merged sigma=0.24511740 / se_mu@K451,120=**0.000365**（se_mu 收窄链 …→W203 0.000368→W204 0.000367→W206 0.000365 单调收窄）。
+  - skill_line_v2 K-lift 对照：line_pre_w206 **1.189** → line_merged@K451,120 **1.1891**（delta **+0.0001**·n_eff_held_equal 868,171）。
+  - §5 四预键机证**全 PASS**（results/_r846bmc_w206_s5fourkeys.json）：①W206-only mu vs 键 −0.092697 Δ=−0.004015<0.02（机读字段 mu_delta_w206_vs_w205ext=−0.004133 同过门）②merged sigma 0.24511740 vs 键 0.245097 相对 +0.0083%<±10% ③A 档 full_sharpe_p95=**0.3289**（finalize 产物机读）vs W204 A 档 0.3053 差 0.0236<0.05（s5keys 探针 index 约定读 0.3288 同过）④K-lift |+0.0001|≤0.02。附注：A 档 p99=0.4838·A 档 full_sharpe_mu=−0.089503·B 档 n=200（出场面族·p95 不适用同 W203/W204 例）。
+  - pre-finalize 六门探针 13/13 GREEN_FINALIZE_READY（results/_r846bmc_w206_prefinalize_probe.json·含 G5 活进程零在飞 r708 腿+G6 头 868,171 恒等）。
+  - canon flip 态=**NOT performed**（治理提案面 only·K2200 同例·机读 canon_flip 字段）。
+  - audit.finalize_only=true·machine=bm-c；voids_applied=[LOWAMP-P1, LOWAMP-P2]；shards_consumed=12/12（shard-0..11-of-12.json）；evidence_cutoff=2026-09-22+science_gates.cutoff_meta 双写在位（science_audit C2 强字）。
+  - 产物=results/perpetual_faces/n1_w206_results.json（finalize one-pass·幂等禁重跑=r538 律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （回填位·按 W204 §8 例：W207+ 投影承接机证·宝藏/方法论捕获问·诚实披露面）
+- **批后复盘（bm-c r846 同窗回填）**：
+  - §5.5 W207+ 投影承接机证：W207 席位=bm-b（M9 上游闸=W206 freeze+finalize 双件）——本窗 finalize 落地后闸 **2/2 全开**；投影键（本波 §5.5 probe 机证·下波冻结方复核非转抄 r587 律）：A first-clean **470_004..472_003** CLEAN（hops=0）+B first-clean **470_204..470_403** CLEAN（hops=0）——naive B 落在 naive A 窗内（W141 同窗互斥先例适用于 W207·W207 冻结方必须在 post-W206 注册宇宙重 derive 且 derive B 时预留本波 A 窗——leg2 律/E36 卡·阶梯 A-hops-prior-B 继承**第六十七例**）；MSG 回执已发 bm-b（fleet/inbox/MSG-20261011-0246-bmc-w206-finalize.md）。
+  - 宝藏/方法论捕获问：本批新方法=**零**（M8 循环班队列行 waiting-upstream 自动链首例全链 live-fire 兑现——机制本体已由 r843/r844 建制时登记·本窗为机制兑现非新方法；冻结/点火/finalize 全走既有正法：ADMIT 回执 splice r609/r761 律+引擎自燃 r325 律+one-pass finalize r906 律）。TREASURE_REGISTRY 零出入。
+  - 诚实披露面：①本波=A-hops-prior-B 阶梯**第六十六例**（A base 468,004==W205 B 尾 468,003+1·probe leg0 机读·序数面按回执记载）；②M8 自动链时序：W205 finalize（bm-a r963）→M8 队列行自动冻结（01:49·origin 基座 0536bdb 实取非缓存）→引擎自燃 12/12（01:50-01:54）→finalize one-pass 本窗（r846）——freeze 与 finalize 跨会话分窗完成（M8 队列行 waiting-upstream 自动化设计预期·非 W204 一窗全链例）；③孤儿面=ComfyUI 8188 idle server（jman 训练验证链在用·只读不杀）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据（回填限 §7/§8）。

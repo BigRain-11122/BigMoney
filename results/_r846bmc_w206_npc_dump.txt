@@ -1,0 +1,48 @@
+{
+ "null_pool_cumulative": {
+  "canon": {
+   "n_values": 120,
+   "mu": -0.09124,
+   "sigma": 0.23683094328545623
+  },
+  "pre_w206_cumulative": {
+   "n_values": 448920,
+   "mu": -0.09269617571059433,
+   "sigma": 0.24508158264191174
+  },
+  "w206_only": {
+   "n_values": 2200,
+   "mu": -0.09671181818181818,
+   "sigma": 0.25234585426543277
+  },
+  "merged": {
+   "n_values": 451120,
+   "mu": -0.09271575899982266,
+   "sigma": 0.24511740284157893
+  },
+  "mu_delta_w206_vs_w205ext": -0.004133,
+  "se_mu_at_k451120": 0.000365
+ },
+ "skill_line_v2_k_lift": {
+  "n_eff_held_equal": 868171,
+  "line_pre_w206": 1.189,
+  "line_merged_451120": 1.1891,
+  "line_delta_k_lift": 0.0001,
+  "passive_term": null,
+  "formula": "max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))",
+  "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+ },
+ "families_summary": {
+  "A_random_engine_exit": {
+   "n": 2000,
+   "full_sharpe_p95": 0.3289,
+   "full_sharpe_p99": 0.4838,
+   "full_sharpe_mu": -0.089503,
+   "n_runs": 2000
+  },
+  "B_random_entry_random_exit": {
+   "n": 200,
+   "n_runs": 200
+  }
+ }
+}
