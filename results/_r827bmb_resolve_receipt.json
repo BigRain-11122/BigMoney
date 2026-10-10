@@ -1,0 +1,99 @@
+{
+ "round": "r827",
+ "faces": {
+  "docs/daily_report/REPORT-2026-10-10.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10 09:29:21",
+   "ts_m": "2026-10-10 09:40:25",
+   "took": "mine"
+  },
+  "docs/daily_report/REPORT-2026-10-10.md": {
+   "recipe": "snapshot-take-new(md)",
+   "ts_o": "2026-10-10 09:29:21",
+   "ts_m": "2026-10-10 09:40:25",
+   "took": "mine"
+  },
+  "docs/live_usage/LIVE-2026-10-10.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10T09:29:22",
+   "ts_m": "2026-10-10T09:40:26",
+   "took": "mine"
+  },
+  "docs/live_usage/LIVE-2026-10-10.md": {
+   "recipe": "snapshot-take-new(md)",
+   "ts_o": "2026-10-10T09:29:22",
+   "ts_m": "2026-10-10T09:40:26",
+   "took": "mine"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10T09:29:22",
+   "ts_m": "2026-10-10T09:40:26",
+   "took": "mine"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "recipe": "snapshot-take-new(md)",
+   "ts_o": "2026-10-10T09:29:22",
+   "ts_m": "2026-10-10T09:40:26",
+   "took": "mine"
+  },
+  "results/_attrition_guard_scan.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10T09:33:01+08:00",
+   "ts_m": "2026-10-10T09:41:43+08:00",
+   "took": "mine"
+  },
+  "results/token_usage.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10 09:29:37",
+   "ts_m": "2026-10-10 09:40:27",
+   "took": "mine"
+  },
+  "results/futures_update_status.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10T09:28:21",
+   "ts_m": "2026-10-10T09:39:31",
+   "took": "mine"
+  },
+  "results/lhb_update_status.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10 09:28:08",
+   "ts_m": "2026-10-10 09:39:29",
+   "took": "mine"
+  },
+  "results/update_status.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10 09:27:16",
+   "ts_m": "2026-10-10 09:39:05",
+   "took": "mine"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "recipe": "snapshot-take-new",
+   "ts_o": "2026-10-10 09:29:02",
+   "ts_m": "2026-10-10 09:40:03",
+   "took": "mine"
+  },
+  "results/compute_audit.json": {
+   "recipe": "ledger-union",
+   "hist_o": 201,
+   "hist_m": 201,
+   "hist_union": 203,
+   "latest_took": "mine"
+  },
+  "results/regime_state.json": {
+   "recipe": "ledger-union+state-take-new",
+   "hist_union": 3,
+   "trans_union": 0,
+   "scalars_took": "mine"
+  },
+  "state/queue/explore.md": {
+   "recipe": "row-union(E6<-origin done row, stale dup healed, E7<-mine, both records)",
+   "e6_side": "origin",
+   "e7_side": "mine",
+   "stale_dup_dropped": 1
+  }
+ },
+ "notes": [
+  "explore.md HEAL: dropped 1 stale duplicate E6 open row(s) from origin side (kept r949 done row verbatim)"
+ ]
+}
