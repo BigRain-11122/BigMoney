@@ -1587,11 +1587,15 @@ def cmd_judge_prep() -> int:
                        and p <= n - 1 - w
                        and listed.iloc[p] >= tl1.MIN_LISTED]
             else:
+                # W16-caliber fix (judge-prep): FROZEN_CENSUS["D"] is the
+                # eligible_without_min_listed face (p5c_grid_probe.json
+                # freeze evidence: 3104/2978/2726 vs 2079/1953/1701 gated)
+                # -- leg-D starts carry no MIN_LISTED gate, matching
+                # trial_labor_w16 judge-prep (`if leg == "L" else True`).
                 st_ = [p for p in range(n)
                        if idx[p] >= tl1.LEG_D_FLOOR
                        and p >= tl1.WARMUP_TD
-                       and p <= n - 1 - w
-                       and listed.iloc[p] >= tl1.MIN_LISTED]
+                       and p <= n - 1 - w]
             if len(st_) != tl1.FROZEN_CENSUS[leg][wname]:
                 print(f"JUDGE-PREP-GATE FAIL: leg-{leg} {wname} starts "
                       f"{len(st_)} != census "
