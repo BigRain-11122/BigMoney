@@ -1,0 +1,1321 @@
+{
+ "batch": "LHB_THERMO_IC_P1",
+ "burned_by": "bm-a r947",
+ "burned_at": "2026-10-10T08:08:31+08:00",
+ "evidence_cutoff": "2026-09-22",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "closed_family_check": {
+  "gate": "closed_family_check",
+  "family": "lhb_thermo_ic_p1",
+  "status": "open",
+  "in_registry": false
+ },
+ "design": {
+  "axes": [
+   "n_lhb",
+   "netbuy_sum",
+   "netbuy_pos_share",
+   "med_netbuy",
+   "netbuy_intensity",
+   "amt_share"
+  ],
+  "zwins": [
+   120,
+   250
+  ],
+  "hs": [
+   5,
+   10,
+   20
+  ],
+  "h_gate": 10,
+  "segments": {
+   "S1": [
+    "2013-06-07",
+    "2017-12-29"
+   ],
+   "S2": [
+    "2018-01-02",
+    "2022-06-30"
+   ],
+   "S3": [
+    "2022-07-01",
+    "2026-09-22"
+   ]
+  },
+  "is_end": "2024-12-31",
+  "null_base": 94700,
+  "n_nulls": 200,
+  "convention": "contrarian s=-z_w(axis)"
+ },
+ "faces": {
+  "face1_lhb_thermo": {
+   "rows": 4799,
+   "cols": 12,
+   "first": "2007-01-04",
+   "last": "2026-09-30"
+  },
+  "face2_sh510300": {
+   "rows": 3490,
+   "cols": 7,
+   "first": "2012-05-28",
+   "last": "2026-10-09"
+  },
+  "join_days": 3483,
+  "join_first": "2012-05-28",
+  "join_last": "2026-09-22",
+  "unmeasurable_disclosed": "2007-01..2012-05 LHB segment (1311 days) unmeasurable on the 2012-05-28+ ETF face, no backfill"
+ },
+ "gating_summary": {
+  "gating_cells": 12,
+  "full_chain_pass": 0,
+  "pass_cells": []
+ },
+ "trials_ledger": {
+  "prev_total": 862151,
+  "batch_trials": 36,
+  "total": 862187,
+  "batch": "LHB_THERMO_IC_P1",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "lhb_thermo_ic_p1/lhb_thermo_ic_p1_results.json",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "audit": {
+  "engine_used": false,
+  "exit_axis": "template_default_pure_ic",
+  "runtime_note": "L1 deterministic vectorized, in-round burn"
+ },
+ "cells": [
+  {
+   "axis": "n_lhb",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.06154,
+   "ts_ic_is": -0.06624,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.04687,
+   "pairs_oos": 413,
+   "ic_ir_is": -0.3106,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.01709,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.09585,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.03778,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "n_lhb",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.02999,
+   "ts_ic_is": -0.0393,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.03413,
+   "pairs_oos": 408,
+   "ic_ir_is": -0.2769,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.05003,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.00665,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.02576,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.0782,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "pairs_gate": true,
+   "m1_t": -3.334,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "n_lhb",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": 0.00873,
+   "ts_ic_is": -0.00784,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.14301,
+   "pairs_oos": 398,
+   "ic_ir_is": -0.1802,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.0212,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.01023,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.02889,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "n_lhb",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.05348,
+   "ts_ic_is": -0.06171,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.01841,
+   "pairs_oos": 413,
+   "ic_ir_is": -0.2906,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.01195,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.11864,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.01639,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "n_lhb",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.02548,
+   "ts_ic_is": -0.04118,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.06578,
+   "pairs_oos": 408,
+   "ic_ir_is": -0.2593,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.04826,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.03675,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.00852,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.08434,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "pairs_gate": true,
+   "m1_t": -3.046,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "n_lhb",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": 0.01075,
+   "ts_ic_is": -0.01526,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.1973,
+   "pairs_oos": 398,
+   "ic_ir_is": -0.1723,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.0026,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.03013,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.06423,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.01387,
+   "ts_ic_is": -0.00924,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.04393,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.0094,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03754,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01405,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.00655,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.01086,
+   "ts_ic_is": -0.00204,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.0733,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.1027,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.01156,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.04053,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.00374,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.05446,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": 1.237,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.0001,
+   "ts_ic_is": 0.00154,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.00204,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.117,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03759,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.03582,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.05264,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.01951,
+   "ts_ic_is": -0.01299,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.03826,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.0222,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03883,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01342,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.0181,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.02917,
+   "ts_ic_is": -0.01993,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.05949,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.1106,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.0178,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.04923,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.03494,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.05841,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": 1.299,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_sum",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.02644,
+   "ts_ic_is": -0.02514,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.02872,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.1082,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.04438,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.05681,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.00811,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 0.02655,
+   "ts_ic_is": 0.02617,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.03063,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.2222,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.03757,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.01807,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.03406,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": 0.01552,
+   "ts_ic_is": 0.02143,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.03548,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.2483,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.05868,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01432,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.01238,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.05208,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "pairs_gate": true,
+   "m1_t": 2.99,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.00736,
+   "ts_ic_is": -0.00994,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.01973,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.1155,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.02362,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.04424,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.0176,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 0.0102,
+   "ts_ic_is": 0.01009,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.02347,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.2127,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.01458,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.00929,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.01146,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.01297,
+   "ts_ic_is": -0.00691,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.04921,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.2553,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.0233,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.02911,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.01913,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.06385,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": 2.999,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_pos_share",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.04732,
+   "ts_ic_is": -0.04958,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.00097,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.1062,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.01578,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.07596,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.01974,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 0.01196,
+   "ts_ic_is": 0.01133,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.02386,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.0976,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.02107,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.02398,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.03676,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": 0.00968,
+   "ts_ic_is": 0.01811,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.05658,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.1604,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.00203,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.01381,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.01169,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.05416,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "pairs_gate": true,
+   "m1_t": 1.932,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": 0.00286,
+   "ts_ic_is": 0.0037,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.00757,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.0992,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.01502,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.00929,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.03032,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 6e-05,
+   "ts_ic_is": 0.00035,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.01083,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.1018,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03557,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.02725,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.00399,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.01093,
+   "ts_ic_is": -0.00116,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.06911,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.1468,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.02051,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.01216,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.03363,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.05464,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": 1.724,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "med_netbuy",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.02861,
+   "ts_ic_is": -0.02603,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.02613,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.088,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03742,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.02528,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.02765,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.00965,
+   "ts_ic_is": -0.00123,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.0615,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.0401,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.02387,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01004,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.00745,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.009,
+   "ts_ic_is": 0.00444,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.09798,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.1198,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.00961,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.04738,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.02118,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.04837,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "pairs_gate": true,
+   "m1_t": 1.443,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.00497,
+   "ts_ic_is": -0.00022,
+   "pairs_is": 2945,
+   "ts_ic_oos": -0.01808,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.1087,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03235,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.04582,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.03397,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": -0.02229,
+   "ts_ic_is": -0.01265,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.06868,
+   "pairs_oos": 413,
+   "ic_ir_is": 0.0329,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.03353,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01824,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.02967,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": -0.03366,
+   "ts_ic_is": -0.01957,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.10478,
+   "pairs_oos": 408,
+   "ic_ir_is": 0.104,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.00825,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.05873,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.05351,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.0532,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": 1.221,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "netbuy_intensity",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": -0.04018,
+   "ts_ic_is": -0.0356,
+   "pairs_is": 2815,
+   "ts_ic_oos": -0.02405,
+   "pairs_oos": 398,
+   "ic_ir_is": 0.0924,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": -0.05501,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.07131,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.00941,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 120,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 0.00919,
+   "ts_ic_is": 0.00447,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.0565,
+   "pairs_oos": 413,
+   "ic_ir_is": -0.1754,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.00488,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.02952,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.03182,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 120,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": 0.02693,
+   "ts_ic_is": 0.02488,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.06062,
+   "pairs_oos": 408,
+   "ic_ir_is": -0.1462,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.0419,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.00017,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.00796,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.06304,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": -1.76,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 120,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": 0.02729,
+   "ts_ic_is": 0.02768,
+   "pairs_is": 2945,
+   "ts_ic_oos": 0.04964,
+   "pairs_oos": 398,
+   "ic_ir_is": -0.0745,
+   "n_months_is": 145,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.01251,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.01028,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.01382,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 250,
+   "h": 5,
+   "gating": false,
+   "ts_ic_full": 0.02009,
+   "ts_ic_is": 0.01584,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.08072,
+   "pairs_oos": 413,
+   "ic_ir_is": -0.2088,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.02301,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": -0.00512,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": 0.02074,
+     "pairs": 1022
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 250,
+   "h": 10,
+   "gating": true,
+   "ts_ic_full": 0.044,
+   "ts_ic_is": 0.04304,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.09299,
+   "pairs_oos": 408,
+   "ic_ir_is": -0.1684,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.06101,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.03785,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.02824,
+     "pairs": 1017
+    }
+   },
+   "null_p95_abs_ic": 0.07619,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "pairs_gate": true,
+   "m1_t": -1.978,
+   "m1_pass": false,
+   "full_chain": false,
+   "report_only": false
+  },
+  {
+   "axis": "amt_share",
+   "zwin": 250,
+   "h": 20,
+   "gating": false,
+   "ts_ic_full": 0.04716,
+   "ts_ic_is": 0.04795,
+   "pairs_is": 2815,
+   "ts_ic_oos": 0.0845,
+   "pairs_oos": 398,
+   "ic_ir_is": -0.0936,
+   "n_months_is": 138,
+   "segments": {
+    "S1": {
+     "ts_ic": 0.03336,
+     "pairs": 1115
+    },
+    "S2": {
+     "ts_ic": 0.03475,
+     "pairs": 1090
+    },
+    "S3": {
+     "ts_ic": -0.00837,
+     "pairs": 1007
+    }
+   },
+   "v1": null,
+   "v2": null,
+   "v3": null,
+   "m1_t": null,
+   "full_chain": false,
+   "report_only": true
+  }
+ ]
+}

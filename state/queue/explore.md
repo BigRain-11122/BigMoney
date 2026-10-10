@@ -8,7 +8,7 @@
 | E2 | 期权 IV 面板 prereg 路线图（T-69 前向档 12 个月冻结窗计数·路线件先立） | scripts/update_options.py+T-67 §2 冻结律 | done |
 | E3 | 北向资金数据源可达性扫描（akshare/东财源·情绪面因子候选） | 外源扫描两源交叉律 | open |
 | E4 | 央行公开市场操作流动性指标面（OMO 净投放→REPO 利率联动·REPO_PANEL 消费） | research/shortline/REPO_PANEL.md | open |
-| E5 | LHB 游资情绪因子形式化（情绪周期三轴门先例扩展·O-20260928-1522 国内打法优先律） | scripts/update_lhb.py+firm/RULES.md | open |
+| E5 | LHB 游资情绪因子形式化（情绪周期三轴门先例扩展·O-20260928-1522 国内打法优先律）——slice-1 描述面 r946 + slice-2 判决面 r947 双落地收口 | scripts/update_lhb.py+lhb_thermo_build.py+research/LHB_THERMO_IC_P1.md | closed |
 | E6 | 微盘股量化因子外源扫描（韭研/雪球/研报三源·小市值效应本土化） | 外源扫描+独立验证门禁链 | open |
 | E7 | 行业轮动 ETF 网格族候选（core48 外行业 ETF 扩展·grid 族先例） | grid_paper.py 族先例 | open |
 | E8 | 商品期货跨期价差监控面（9 品种主力连续面板消费·近远月价差序列化） | scripts/update_futures.py | open |
@@ -20,5 +20,5 @@
 > r821 消耗记录（bm-b）：E1 本轮完成出列（**可转债 T+0 数据面可行性调研**：探针 `scripts/cb_data_probe.py`〔45s 超时夹克+2.5s 限速+零面板写+selftest 9/9〕+证据 `results/cb_data_probe.json`+调研件 `research/shortline/CB_T0_DATA_FEASIBILITY.md`；测量结论=日线级可行性成立〔sina spot 326 员宇宙+单券深史 1368~1433 bar≈5.5 年+活券尾=最新交易日 2026-10-09+日线×快照交叉验证 absdiff=0.0〕、分钟级源缺口〔sina min 活券上复测仍败=端点面〕、EM 两活一死〔bond_zh_cov 1059/bond_zh_cov_value_analysis 1380 活；bond_cov_comparison 二连败持久〕、JSL 强赎面免 token 318 行；T+0/±20%/适当性/费率规则面=置信标注+权威核验待做；落地门槛清单 5 项全未满足〔GM P1 票+T-67 12 个月前向窗+宇宙活性过滤+分钟源解决+独立成本假设〕；**零 prereg 零面板零回测纯调研**）。P3 队列 12→11（E2 队头）。
 
 > r822 消耗记录（bm-b）：E2 本轮完成出列（**期权 IV 面板 prereg 路线图→按令收口改判负类判读**：E2 队列项与 **O-20261009-1105 CEO 直令「不做期权」冲突**〔令 11:05 收死期权面+停采集面；队列 12:46 建面晚于令=建面轮未消费最新令面的陈旧方向〕——处置=禁产活路线图，改交判负判读件 `research/shortline/OPTIONS_IV_PREREG_ROADMAP.md`〔令面裁决+冻结档案测量+BS 反推 IV 保留设计〔知识保全面·现行法下禁据以立项〕+治理教训「建队列前必查当日新 CEO 令」〕+冻结窗计数面 `scripts/options_iv_freeze_counter.py`〔确定性零网络纯本地读+锚 FORWARD_LANE_START=2026-09-24 钉死〔git 首提 round 195 实证〕+保留窗回填行永不计数+lane_state=retired 判读随件+selftest 24/24〕+证据 `results/options_iv_freeze_counter.json`；冻结档案实况=**254 合约 16,812 行、前向积累仅 738 行、latest 2026-09-30、elapsed 0/12 月 gate open 名义资格日 2027-09-24 不可达〔车道收死〕**；**零 prereg 零回测零引擎零面板写**；唯一复活通道=新 CEO 令。P3 队列 11→10（E3 队头=北向资金数据源可达性扫描）。
-| E2 | 期权 IV 面板 prereg 路线图（T-69 前向档 12 个月冻结窗计数·路线件先立） | scripts/update_options.py+T-67 §2 冻结律 | open |
 > r946 消耗记录：E1 本轮收口出列——源可达性腿=bm-b r814 双活探针（bond_zh_cov PASS 1,059 行/bond_cb_redeem_jsl PASS 318 行）+bm-a r186 探针（8/9 面活）；费率/回转规则腿=bm-a r946 新件 research/digests/DIGEST-20261010-cb-trading-rules-fees.md（T+0 回转多源一致/±20% 双期率表锚 2022-08-01 细则施行界/成本面=无印花税无过户费·未来子批须独立冻结成本常数禁沿用股票 COST_X1/经手费两源出入如实披露）。新资产类开工仍须 GM 署名任务单（队列头注律：调研先行合法）。探索队列 12→11。
+> r947 处理记录：E5 本轮收口出列——slice-2 判据面=LHB_THERMO_IC_P1（预注册冻结 5b8ea0afe→烧录 25.5s·36 格 0/12 全链过门·V1 全败 |IC_IS|max 0.043 < null p95 0.048-0.084·n_lhb 动量向暗示月块 t=-3.33 但 V1/V2 双败不外推）——与 THERMO-OVERLAY-P1（涨跌停计数面 0/6·r938）双源合流=**市场级情绪择时族级闭合**（LHB 全景四判负：r680 榜单级/r681 席位级/r947 市场级+overlay 计数面）；游资情绪周期逆情绪 convention 在两数据面上形式化后均否证。lhb_thermo 描述面保留为 P6 政体门情绪臂参照族（不升级判据·判据升级须另过预注册正门）。探索队列 11→10。
