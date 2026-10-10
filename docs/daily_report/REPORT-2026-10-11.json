@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-11",
- "generated_at": "2026-10-11 03:32:11",
+ "generated_at": "2026-10-11 03:54:40",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-11.md"
  },
  "rd": {
-  "commits_24h": 529,
-  "result_jsons_landed_24h": 205,
+  "commits_24h": 521,
+  "result_jsons_landed_24h": 200,
   "digests_landed_24h": 14,
   "prereg_md_touched_24h": 34,
   "compute_audit_latest": {
-   "ts": "2026-10-11 03:29:06",
-   "py_cpu_pct": 24.9,
+   "ts": "2026-10-11 03:52:13",
+   "py_cpu_pct": 34.2,
    "flags": [
     "gpu_unauthorized",
     "pool_starvation",
@@ -668,12 +668,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1899884,
+  "total_report_tokens_est": 1902202,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-11 02:47:56",
+   "prev_generated": "2026-10-11 03:03:25",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2104,
-   "mandate_growth": 5
+   "report_tokens_growth": 2318,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -745,74 +745,12 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-11 03:11:46",
-    "py_pct": 0.7,
-    "cpu_pct": 1.0,
+    "latest_ts": "2026-10-11 03:31:55",
+    "py_pct": 0.2,
+    "cpu_pct": 0.0,
     "ready": 0,
-    "streak_min": 3195.5,
+    "streak_min": 3215.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
-    "py_series_tail": [
-     [
-      "00:22",
-      15.1
-     ],
-     [
-      "00:38",
-      3.9
-     ],
-     [
-      "00:45",
-      25.2
-     ],
-     [
-      "00:46",
-      5.5
-     ],
-     [
-      "01:09",
-      3.0
-     ],
-     [
-      "01:19",
-      0.2
-     ],
-     [
-      "01:32",
-      29.7
-     ],
-     [
-      "02:05",
-      30.2
-     ],
-     [
-      "02:20",
-      2.3
-     ],
-     [
-      "02:31",
-      22.0
-     ],
-     [
-      "02:43",
-      0.2
-     ],
-     [
-      "03:11",
-      0.7
-     ]
-    ],
-    "today_samples": 12,
-    "today_floor_ok": 0,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 0
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-11 03:29:06",
-    "py_pct": 24.9,
-    "cpu_pct": 18.0,
-    "ready": 0,
-    "streak_min": 3212.8,
-    "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor",
     "py_series_tail": [
      [
       "00:38",
@@ -859,11 +797,73 @@
       26.9
      ],
      [
-      "03:29",
-      24.9
+      "03:31",
+      0.2
      ]
     ],
     "today_samples": 13,
+    "today_floor_ok": 0,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 0
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-11 03:52:13",
+    "py_pct": 34.2,
+    "cpu_pct": 22.0,
+    "ready": 0,
+    "streak_min": 3236.0,
+    "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor",
+    "py_series_tail": [
+     [
+      "00:45",
+      25.2
+     ],
+     [
+      "00:46",
+      5.5
+     ],
+     [
+      "01:09",
+      3.0
+     ],
+     [
+      "01:19",
+      0.2
+     ],
+     [
+      "01:32",
+      29.7
+     ],
+     [
+      "02:05",
+      30.2
+     ],
+     [
+      "02:20",
+      2.3
+     ],
+     [
+      "02:31",
+      22.0
+     ],
+     [
+      "02:43",
+      0.2
+     ],
+     [
+      "03:02",
+      26.9
+     ],
+     [
+      "03:29",
+      24.9
+     ],
+     [
+      "03:52",
+      34.2
+     ]
+    ],
+    "today_samples": 14,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -904,7 +904,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 12,
-     "audit_ts": "2026-10-11 03:11:46"
+     "audit_ts": "2026-10-11 03:31:55"
     }
    },
    "bm-c": {
@@ -919,8 +919,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 12,
-     "audit_ts": "2026-10-11 03:29:06"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-11 03:52:13"
     }
    }
   },
@@ -931,7 +931,7 @@
   "last_registered": 207,
   "last_owner": "bm-b",
   "next_registration": 208,
-  "next_seatable": 211,
+  "next_seatable": 212,
   "chain_head": 872571,
   "k": 453320,
   "waves": [
@@ -1001,6 +1001,10 @@
    {
     "wave": 210,
     "machine": "bm-b"
+   },
+   {
+    "wave": 211,
+    "machine": "bm-c"
    }
   ]
  },
