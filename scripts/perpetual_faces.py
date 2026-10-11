@@ -6260,6 +6260,65 @@ N1_BANDS = {
     # NOT a re-pick (R250: W209 bands were never assigned).
     209: {"a": (474_604, 476_603), "b_exit": (476_604, 476_803),
          "engine_owner": "bm-c"},
+    # W210 (bm-c loop TAKEOVER five-face freeze splice, seat
+    # MSG-20261011-0319-bmb-w210-seat published by bm-b, pushed to origin d550bf11c
+    # pre-freeze r565 law; prereg REBUILT machine-read in the takeover window (bm-b
+    # payload claim never landed on origin, disclosed); ADMIT probe receipt frozen
+    # commit 8c89c1138b (prereg research/PERPETUAL_N1_W210_PREREG.md,
+    # probe results/_w210bmb_20261011_probe_receipt.json @ d550bf11c8);
+    # TAKEOVER r898: bm-b hb-stall 94min >> 20min GM re-assignment gate + W209
+    # finalize landed 4h+ with the armed lane unexecuted (engine idle, burns_active=[],
+    # CEO fill-order standing RE-ISSUED 2026-10-10 ~23:1x) -> bm-c executes per the
+    # W208 takeover r885 precedent; takeover notice MSG-2026-10-12-0020 pushed to
+    # origin c64bc2287 BEFORE this freeze (anti-double-burn, bm-b armed-lane
+    # yield requested); engine_owner bm-b -> bm-c, bands UNCHANGED R250;
+    # deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W209 five-face (freeze 87b81f9732) + W209
+    # finalize product landed (n1_w209_results.json present, ledger
+    # head 883589 machine-read at freeze time); zero --no-verify;
+    # the W210 seat MSG sits in fleet/inbox/processed/MSG-20261011-0319-bmb-w210-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w210bmb_20261011_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W209 B band (arithmetic continuation
+    # 476_604..478_603 REFUSED at its own start by the W209 B band
+    # 476_604..476_803, exactly as the W209 seat leg4
+    # projection anticipated;
+    # honest forward walk hops=1 -> 476_804..478_803, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (476_803+1) machine-checkable -- A-hops-prior-B staircase
+    # SEVENTIETH instance, E36 card (probe receipt leg1 A_semantics
+    # machine-read ordinal, never transcribed);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 476_804..477_003 CLEAN on the registered
+    # universe but lands INSIDE the W210 A band window 476_804..478_803 --
+    # same-freeze mutual exclusion (W141 precedent, leg2 law) --
+    # the walk with the own-wave A window reserved jumps to
+    # 478_804 -> 478_804..479_003, hops=1, non-rotational
+    # r587 forward-monotone walk; B base == own-wave A tail+1
+    # (478_803+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=476804 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=478804 span=200 checked=200 verdict=FREE.
+    # W211+ projection (gate-derived pre-seat probe leg4, pre-W210
+    # universe): A naive first-clean 478804..480803 CLEAN hops=0 /
+    # B naive first-clean 479004..479203 CLEAN hops=0 -- naive B lands
+    # INSIDE the naive A window and the registered W210 B band
+    # 478_804..479_003 will refuse the naive W211 A window; W211 freezer
+    # MUST re-derive on the post-W210 universe AND reserve the
+    # own-wave A window when deriving B (W141 precedent, leg2 law,
+    # E36 staircase card; never transcribe r587) -- CONVERGENCE ALREADY
+    # PROVEN: the published W211 seat (bm-c, MSG-20261011-0350) re-derived
+    # A 479_004..481_003 hopping the W210 declared B band (SEVENTY-FIRST
+    # instance materialized at seat time) + B 481_004..481_203.
+    # NOT a re-pick (R250: W210 bands were never assigned).
+    210: {"a": (476_804, 478_803), "b_exit": (478_804, 479_003),
+         "engine_owner": "bm-c"},  # takeover r898: bm-b hb-stall 94min -> bm-c per CEO fill-order standing; bands unchanged R250 (bm-b probe ADMIT verbatim, seat MSG-20261011-0319)
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

@@ -1,0 +1,70 @@
+{
+ "machine": "bm-c",
+ "wave": 210,
+ "phase": "five-face freeze chain-order splice -- TAKEOVER FACE (bm-b armed lane stalled, executed by bm-c per GM re-assignment + CEO fill-order standing, W208 takeover r885 precedent)",
+ "origin_base": "8c89c1138b760dcfac1909ffad81e696d7c0dc3d",
+ "pf_sha16_pre": "4211b441007cabbf",
+ "n1_sha16_pre": "52ecbcef4cbc001a",
+ "pf_sha16_post": "9eb112dffb8dc8aa",
+ "n1_sha16_post": "d9a38792cd62ad86",
+ "bands": {
+  "A": "476804_478803",
+  "B": "478804_479003",
+  "a_lo": 476804,
+  "a_hi": 478803,
+  "b_lo": 478804,
+  "b_hi": 479003
+ },
+ "admit_receipt": "results/_w210bmb_20261011_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=476804 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=478804 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w209_upstream": {
+  "freeze_sha": "87b81f973266cb45802f589957198feea266bb70",
+  "prereg_sha": "2d0415076df3cb4a2ba3729cdbfaaf1f7c89a7cb",
+  "ledger_total": 883589,
+  "merged_n": 457720
+ },
+ "w208_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w208_results.json present (belt-and-braces gate)"
+ },
+ "seat": "fleet/inbox/processed/MSG-20261011-0319-bmb-w210-seat.md (origin d550bf11c)",
+ "takeover": {
+  "seat_registered_by": "bm-b r857 (probe ADMIT receipt @ d550bf11c)",
+  "gate": "hb-stall 94min >> 20min GM re-assignment gate (fleet/machines/bm-b.json last_seen 2026-10-11T22:47:19+08:00, r898 fresh read) + armed lane unexecuted 4h+ past W209 finalize (10-11 19:56) with engine idle (burns_active=[] queue_next=[])",
+  "law": "GM re-assignment + CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10 ~23:1x + O-20260924-1730 same-round claim-and-start",
+  "precedent": "W208 takeover r885 (bm-a->bm-c, commit 4682d6b19, bands unchanged R250, broadcast MSG-20261011-1931-bmc)",
+  "notice": "MSG-2026-10-12-0020-bmc-ALL-w210-takeover pushed to origin c64bc2287 BEFORE the freeze (anti-double-burn; bm-b armed-lane yield requested)",
+  "bands_unchanged": "R250 respected: bm-b probe ADMIT bands verbatim (476_804..478_803 / 478_804..479_003), zero re-derive",
+  "prereg_rebuild": "bm-b seat MSG payload claimed per-wave prereg+freeze pushed -- origin never contained them (git log -S W210 research/ zero hits, machine-checked); prereg REBUILT machine-read in the takeover window (upstream W209 actuals + probe receipt verbatim)"
+ },
+ "prereg_bundle": {
+  "prereg_sha": "8c89c1138b760dcfac1909ffad81e696d7c0dc3d",
+  "probe_receipt_sha": "d550bf11c81312e09a6c223dd338dcf5e3e05981"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 199,
+  "bmc_rows_live": 39,
+  "bmb_rows_live": 41,
+  "engine_owned_ordinal": 200,
+  "bmc_own_ordinal": 40,
+  "probe_receipt_bmb_ordinal_face": 42,
+  "note": "TAKEOVER re-derive: bm-c rows+1 = 40th own wave per live derive (r587/r359 governs); the bm-b seat-time probe leg0 bmb_ordinal=42 face disclosed honestly -- the seat was bm-b's 42nd at publish time, ownership transferred r898"
+ },
+ "parity_section": {
+  "source": "W209 block physical bytes (own block, structure known)",
+  "bytes": 18210,
+  "row_asserts": 69,
+  "note": "r858 absorb generation full-span estate W138..W206 (69 rows); W210 block re-grows to 70 rows ending at W209 (w209_leg)"
+ },
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": false
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1
+ }
+}
