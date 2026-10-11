@@ -1,0 +1,281 @@
+L2| # 2026-10-12 05:0x bm-c r910 freeze: W214 five-face freeze splice editor.
+L3| # Upstream chain ALL LANDED at this window: W1..W213 finalize products
+L4| # present (W213 finalize one-pass 04:2x, net chain head 892,389,
+L5| # merged pool K=466,520, n1_w213_results.json machine-read) -- ZERO
+L8| # Lineage: _w213bmc_freeze_edits.py pattern (proven live-fire freeze,
+L9| # r908 window executed) + r787 preflight law + r609 origin-verbatim
+L10| # base + r761 programmatic quote wrapping + r909 physical-byte anchors
+L12| # Zero hardcoded upstream band values: ALL W213 facts machine-derived from the
+L14| # the committed ADMIT receipt (results/_w214bmc_20261012_probe_receipt.json)
+L15| # which was derived on the post-W213-REGISTERED universe. If the LIVE W213 bands
+L17| # STRUCTURAL CHOICE (vs the W213 editor): the parity estate (W138..W206
+L18| # full-span, 69 rows, r858 absorb generation) is extracted from the OWN W213
+L20| # generation) -- the W213 block's own W212 leg (1 row) is excluded from the
+L21| # estate path and fresh W212 + W213 legs are appended for the W214 block parity
+L22| # (72 rows: estate 69 + W211 leg + W212 leg + W213 leg). Extraction self-asserts
+L31| RECEIPT_IN = os.path.join(REPO, "results", "_w214bmc_20261012_probe_receipt.json")
+L32| RECEIPT_OUT = os.path.join(REPO, "results", "_w214bmc_freeze_receipt.json")
+L33| SEAT_MSG = "MSG-20261012-0438-bmc-w214-seat.md"
+L34| SEAT_ORIGIN = "d55a6b58b"
+L56| # ---------- gate 0.5: W213 five-face landed + W213 finalize product present ----------
+L58| # W214 freeze and are belt-and-braces checked here + enforced by the block's
+L59| # cumulative-deps assert range(17, 214) at selftest time)
+L60| W213 = dict(pf_mod.N1_BANDS.get(213) or {})
+L61| assert W213.get("engine_owner") == "bm-c", \
+L62| f"W213 row not landed as declared (bm-c own seat owner expected, no takeover face): {W213} -- five-face freeze missing;" \
+L64| w213_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w213_results.json")
+L65| assert os.path.exists(w213_out_path), "W213 finalize product missing (n1_w213_results.json) -- chain dep not met"
+L66| w212_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w212_results.json")
+L68| w211_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w211_results.json")
+L70| w210_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w210_results.json")
+L72| w209_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w209_results.json")
+L74| w213_out = json.load(open(w213_out_path, encoding="utf-8"))
+L75| w213_led = (w213_out.get("science_gates") or {}).get("ledger") or {}
+L76| w213_total = w213_led.get("total")
+L77| w213_merged_n = None
+L79| w213_merged_n = w213_out["null_pool_cumulative"]["merged"]["n_values"]
+L82| assert w213_total == 892_389 and w213_merged_n == 466_520, \
+L83| f"W213 finalize anchors drift at freeze time: total={w213_total} merged={w213_merged_n} (expect 892,389 / 466,520)"
+L85| r = git("log", "--format=%H", "-S", '213: {"a"', "--", "scripts/perpetual_faces.py")
+L86| w213_freeze_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L87| r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W213_PREREG.md")
+L88| w213_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L89| assert os.path.exists(os.path.join(REPO, "research", "PERPETUAL_N1_W213_PREREG.md")), \
+L90| "bm-c W213 per-wave prereg missing on disk -- chain face incomplete, abort"
+L96| assert len(owner_rows_live) == 203 and len(bmc_rows_live) == 43, \
+L97| f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 203/43 PRE-splice post-W213 registration; W213 prec
+L98| print(f"gate0.5 OK: W213 landed (freeze {w213_freeze_sha[:10]}, owner=bm-c own seat), "
+L99| f"W213+W212+W211+W210+W209 finalize products present "
+L100| f"(W213 ledger head {w213_total}, merged n={w213_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
+L112| assert (a_lo, a_hi) == (485_604, 487_603) and (b_lo, b_hi) == (487_604, 487_803), \
+L113| f"W214 band drift vs probe ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}"
+L114| w213_b_tail = W213["b_exit"][1]      # registered W213 row b_exit hi (pf import, live)
+L115| w213_a_tail = W213["a"][1]           # registered W213 row A hi (pf import, live)
+L116| assert w213_b_tail + 1 == a_lo and a_hi + 1 == b_lo, "staircase base relations broken"
+L117| # the REFUSED arithmetic continuation starts at prior-wave A-tail+1 (== W213 B-base),
+L119| assert w213_a_tail + 1 == W213["b_exit"][0], "W213 A-tail+1 != W213 B-base (registered row in-wave relation)"
+L120| assert [w213_a_tail + 1, w213_a_tail + 2_000] == leg1["ARITH_A"], \
+L121| f"refused-continuation start drift vs probe receipt leg1 ARITH_A: {[w213_a_tail + 1, w213_a_tail + 2_000]} != {leg1['ARITH_A']}"
+L124| r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W214_PREREG.md")
+L125| w214_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L126| r = git("log", "--diff-filter=A", "--format=%H", "--", "results/_w214bmc_20261012_probe_receipt.json")
+L127| w214_receipt_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L134| assert seat_found, f"W214 seat MSG missing from both inbox paths: {SEAT_MSG}"
+L138| "--prereg", "research/PERPETUAL_N1_W214_PREREG.md"],
+L172| def fmt(n):  # 485604 -> "485_604"
+L176| # STRUCTURAL CHOICE: extract the estate from the OWN W213 block (bytes known
+L178| # the W213 block is this machine's own splice generation (r908 window editor),
+L179| # structure known. The W213 block span ends where the T-141 s2 lane face
+L181| a13 = '    # --- W213 materializer face'
+L183| w213_start = n1_t.find(a13); t141_pos = n1_t.find(a_t141)
+L184| assert w213_start > 0 and t141_pos > w213_start, \
+L185| "W213 materializer block face not found (W213 freeze not landed? header-text drift -> honest re-derive required)"
+L186| blk = n1_t[w213_start:t141_pos]
+L190| "parity span markers not found in W213 block"
+L194| assert m212, "upstream W212 row leg not found inside W213 parity span"
+L213| CFG_I  = line_indent(n1_t, '213: {"batch"', EOL)
+L214| PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W213_PREREG.md', EOL)
+L216| # MEM_I derived INSIDE the W213 cfg entry span (own splice generation, value
+L218| _c213 = n1_t.find('213: {"batch"')
+L219| assert _c213 > 0, "W213 cfg entry not found (W213 freeze not landed?)"
+L220| _mpos = n1_t.find('"a_seed_base"', _c213)
+L221| assert _mpos > 0 and n1_t.find('"shard_subdir"', _c213) > _mpos, "W213 cfg a_seed_base line not found"
+L222| MEM_I  = line_indent(n1_t, '"a_seed_base": ' + str(W213["a"][0]), EOL) \
+L223| if n1_t.find('"a_seed_base": ' + str(W213["a"][0]), _c213) > 0 \
+L224| else line_indent(n1_t, '"a_seed_base": ' + fmt(W213["a"][0]), EOL)
+L225| ROW_I  = line_indent(pf_t,  '213: {"a"', PF_EOL)
+L227| # ---------- W213 row owner line (physical bytes; comment text is own generation) ----------
+L228| w213_row_start = pf_t.find('    213: {"a"')
+L229| assert w213_row_start > 0, "W213 row literal not found in pf source"
+L230| _own_ls = pf_t.find(PF_EOL, w213_row_start) + len(PF_EOL)
+L232| w213_own_line = pf_t[_own_ls:_own_le]
+L233| assert '"engine_owner": "bm-c"' in w213_own_line, \
+L234| f"W213 owner line unexpected bytes: {w213_own_line!r}"
+L235| ROWC_I = w213_own_line[:len(w213_own_line) - len(w213_own_line.lstrip(" "))]
+L239| "    # W214 (bm-c loop five-face freeze splice, seat",
+L240| "    # MSG-20261012-0438-bmc-w214-seat pushed to origin " + SEAT_ORIGIN,
+L242| "    # commit " + w214_prereg_sha[:10] + " (prereg research/PERPETUAL_N1_W214_PREREG.md",
+L243| "    # r910 freeze-window bundle, probe",
+L244| "    # results/_w214bmc_20261012_probe_receipt.json @ " + w214_receipt_sha[:10] + ");",
+L247| "    # splice AFTER the bm-c W213 five-face (freeze " + w213_freeze_sha[:10] + ") + W213",
+L248| "    # finalize product landed (n1_w213_results.json present, ledger",
+L249| "    # head " + str(w213_total) + " machine-read at freeze time); zero --no-verify;",
+L250| "    # the W214 seat MSG sits in " + seat_found + " at freeze",
+L252| "    # band gate ADMIT results/_w214bmc_20261012_probe_receipt.json: A = FIRST-CLEAN",
+L253| "    # past the registered W213 B band (arithmetic continuation",
+L254| "    # " + fmt(w213_a_tail + 1) + ".." + fmt(w213_a_tail + 2_000) + " REFUSED at its own start by the W213 B band",
+L255| "    # " + fmt(W213["b_exit"][0]) + ".." + fmt(w213_b_tail) + ", exactly as the W213 seat leg4",
+L259| "    # (" + fmt(w213_b_tail) + "+1) machine-checkable -- A-hops-prior-B staircase",
+L260| "    # SEVENTY-FOURTH instance, E36 card (probe receipt leg1 A_semantics",
+L264| "    # universe but lands INSIDE the W214 A band window " + fmt(a_lo) + ".." + fmt(a_hi) + " --",
+L279| "    # W215+ projection (gate-derived pre-seat probe leg4, pre-W214",
+L282| "    # INSIDE the naive A window and the registered W214 B band",
+L284| "    # MUST re-derive on the post-W214 universe AND reserve the",
+L286| "    # E36 staircase card, SEVENTY-FIFTH instance anticipated; never transcribe r587).",
+L288| pf_row = (f'{ROW_I}214: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
+L293| f'214: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+L295| old_pf = must(pf_t, (w213_own_line + PF_EOL + '}'
+L297| new_pf = (w213_own_line + PF_EOL
+L303| fin_face = (f"W1..W213 finalize ALL LANDED (W213 finalize product present at splice, "
+L304| f"net chain head {w213_total} machine-read, merged pool K={w213_merged_n} "
+L309| f'{CFG_I}214: {{"batch": "PERPETUAL-N1-W214",',
+L310| f'{PRE_KEY_I}"prereg": ("research/PERPETUAL_N1_W214_PREREG.md (wave-level frozen "',
+L314| "new seed bands only; TWO HUNDRED AND FOURTEENTH ENGINE-OWNED WAVE ",
+L317| "number law after the REGISTERED W213 row five-face freeze (own seat published MSG-20261012-0342, executed bm-c r908 freeze window; engine self-burn 1
+L318| f"{w213_freeze_sha[:10]} (prereg {w213_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W213 all ",
+L321| "MSG-20261012-0438-bmc-w214-seat PUSHED to origin " + SEAT_ORIGIN + " ",
+L323| "seat MSG + pre-seat probe script + probe receipt @ r909 window; per-wave prereg + ",
+L324| "freeze splice script landed in the r910 freeze-window bundle ",
+L325| f"commit {w214_prereg_sha[:10]} @ receipt {w214_receipt_sha[:10]}); ",
+L327| "after the W213 five-face + W213 finalize product landed ",
+L328| "(executed in the bm-c loop r910 freeze window ",
+L333| "engine_owner=bm-c, wave 214: ",
+L334| "A = FIRST-CLEAN past the registered W213 B band (the ",
+L335| f"arithmetic continuation {fmt(w213_a_tail + 1)}..{fmt(w213_a_tail + 2_000)} is REFUSED at its ",
+L336| f"own start by the W213 B band {fmt(W213['b_exit'][0])}..{fmt(w213_b_tail)}, exactly as ",
+L337| "the W213 seat leg4 succession ",
+L340| "machine-checkable = A-hops-prior-B staircase SEVENTY-FOURTH ",
+L345| f"INSIDE the W214 A band window {fmt(a_lo)}..{fmt(a_hi)} -- same-freeze mutual ",
+L350| "convergence with the W213 seat leg4 succession projection ",
+L351| "notes -- all MANDATORY notes honored (post-W213 universe ",
+L353| "results/_w214bmc_20261012_probe_receipt.json + ",
+L358| f"the registered W214 B band {fmt(b_lo)}..{fmt(b_hi)} will refuse the naive W215 A window; ",
+L359| "W215+ freezer MUST re-derive on the post-W214 universe AND ",
+L361| "leg2 law, E36 staircase card, SEVENTY-FIFTH instance anticipated) -- ",
+L372| f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W214 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN past the registered W213 B band; arithmetic {fmt(w213
+L373| f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W214 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN past the own-wave A window; arithmetic {fmt(a_lo)}..{
+L374| f'{MEM_I}"shard_subdir": "n1_w214", "out_name": "n1_w214_results.json",',
+L383| assert new_cfg.count('214: {"batch": "PERPETUAL-N1-W214"') == 1
+L388| "    # --- W214 materializer face (bm-c loop five-face freeze splice,",
+L392| "    #     bm-c's forty-fourth owned per machine-derive (engine_owner==bm-c",
+L393| "    #     rows 43 + candidate; seat-time live face 44th = r909 probe leg0",
+L394| "    #     live derive governs); wave 214 = first free number after the",
+L395| "    #     REGISTERED W213 row (five-face freeze " + w213_freeze_sha[:10] + "; own seat published",
+L396| "    #     MSG-20261012-0438, executed bm-c r909 seat window; engine self-burn 12/12",
+L398| "    #     -- SINGLE STATE zero seat gap (W2..W213 all registered). Seat",
+L399| "    #     published=reserved MSG-20261012-0438-bmc-w214-seat pushed",
+L401| "    #     seat MSG + pre-seat probe script + probe receipt @ r909 window; per-wave prereg +",
+L402| "    #     freeze splice script landed in the r910 freeze-window bundle",
+L403| "    #     commit " + w214_prereg_sha[:10] + "; deletion-set EMPTY; delivery window",
+L404| "    #     = chain-order splice after the W213 five-face + W213 finalize",
+L405| "    #     product landed; zero --no-verify; the W214 seat MSG sits in",
+L408| "    #     TWO HUNDRED AND FOURTEENTH engine wave BY",
+L409| "    #     MACHINE-DERIVE (engine_owner rows 203 + candidate; gate",
+L414| "    #     results/_w214bmc_20261012_probe_receipt.json;",
+L418| "    #     not a re-pick (R250: W214 bands were never assigned).",
+L419| "    _set_wave(214)",
+L421| '        assert WAVE_CONFIGS[213]["a_seed_base"] == pf.N1_BANDS[213]["a"][0], \\',
+L422| '            "W214 upstream W213 mirror drift (a)"',
+L423| "        assert WAVE_CONFIGS[213][\"b_exit_seed_base\"] == \\",
+L424| '            pf.N1_BANDS[213]["b_exit"][0], "W214 upstream W213 mirror drift (b)"',
+L425| "        assert WAVE_CONFIGS[213].get(\"engine_owner\") == \\",
+L426| '            pf.N1_BANDS[213].get("engine_owner") == "bm-c", \\',
+L427| '            "W214 upstream W213 engine_owner mirror drift (law-mirror parity; bm-c own-seat face)"',
+L428| "        w213_a = {A_SEED_BASE + j for j in range(A_N)}",
+L429| "        w213_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
+L430| '        assert not (w213_a & w213_b), "W214 A/B band overlap"',
+L431| "        assert not (w213_a & reg_ints) and not (w213_b & reg_ints), \\",
+L432| '            "W214 hits SEED_REGISTRY"',
+L433| '        for nm, band in (("A", w213_a), ("B", w213_b)):',
+L434| '            assert not (band & v1_a) and not (band & v1_b), f"W214 {nm} hits v1"',
+L435| '            assert not (band & w1_a) and not (band & w1_b), f"W214 {nm} hits W1"',
+L436| '            assert not (band & probes), f"W214 {nm} hits probe seeds"',
+L444| w213_leg = [
+L445| f'        assert pf.N1_BANDS[213] == {{"a": ({fmt(pf_mod.N1_BANDS[213]["a"][0])}, {fmt(pf_mod.N1_BANDS[213]["a"][1])}),',
+L446| f'                                    "b_exit": ({fmt(pf_mod.N1_BANDS[213]["b_exit"][0])}, {fmt(pf_mod.N1_BANDS[213]["b_exit"][1])}),',
+L448| '            "registered W213 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"',
+L451| "        # prior-wave disjointness W2..W213 (single state: all",
+L453| "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 214):",
+L454| '            assert not (w213_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j',
+L455| "                                 for j in range(A_N)}), f\"W214 A hits W{wprev}\"",
+L456| '            assert not (w213_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j',
+L457| "                                  for j in range(B_N)}), f\"W214 B hits W{wprev}\"",
+L458| "        n3r1_used214 = set(range(70_000, 70_006))",
+L459| "        assert not (w213_a & n3r1_used214) and not (w213_b & n3r1_used214), \\",
+L460| '            "W214 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"',
+L461| "        assert not (w213_a & lfc_actual12) and not (w213_b & lfc_actual12), \\",
+L462| '            "W214 bands must clear the lfc actual draw range"',
+L463| "        assert not (w213_a & options_actual12) and \\",
+L464| "            not (w213_b & options_actual12), \\",
+L465| '            "W214 bands must clear the options_wave2 actual draw range"',
+L466| "        # band facts (law sec.4 W214 row): A = FIRST-CLEAN past",
+L467| "        # the registered W213 B band (the arithmetic continuation",
+L468| f"        # {fmt(w213_a_tail + 1)}..{fmt(w213_a_tail + 2_000)} is REFUSED at its own start by the W213 B band",
+L469| f"        # {fmt(W213['b_exit'][0])}..{fmt(w213_b_tail)}, exactly as the W213 seat leg4",
+L472| f"        # prior-wave B tail+1 ({fmt(w213_b_tail)}+1) machine-checkable --",
+L473| "        # A-hops-prior-B staircase SEVENTY-FOURTH instance, E36 card;",
+L477| f"        # registered universe but lands INSIDE the W214 A band window",
+L483| "        # cross-window convergence with the W213 seat leg4",
+L485| "        # honored (post-W213 universe re-derive + own-wave A",
+L487| "        # seat MSG-0438 tail, re-derived).",
+L488| f'        assert WAVE_CONFIGS[214]["a_seed_base"] == {a_lo} == {w213_b_tail} + 1, (',
+L489| '            "W214 A must be the first-clean window past the registered "',
+L490| '            "W213 B band tail (arithmetic continuation REFUSED at its own "',
+L491| '            "start by the W213 B band, exactly as the W213 seat leg4 "',
+L494| '            "= A-hops-prior-B staircase SEVENTY-FOURTH instance, E36 card)")',
+L495| f"        arith_a214 = set(range({a_lo}, {a_hi + 1}))",
+L496| "        assert not (arith_a214 & reg_ints), \\",
+L497| '            "W214 A window must be CLEAN (first-clean ADMIT face past prior-wave B)"',
+L498| f'        assert WAVE_CONFIGS[214]["b_exit_seed_base"] == {b_lo} == {a_hi} + 1, (',
+L499| '            "W214 B must be the first-clean window past the own-wave A "',
+L501| '            "universe but lands INSIDE the W214 A band window; "',
+L506| f"        arith_b214 = set(range({b_lo}, {b_hi + 1}))",
+L507| "        assert not (arith_b214 & reg_ints), \\",
+L508| '            "W214 B window must be CLEAN (first-clean ADMIT face past own-wave A)"',
+L509| "        assert not (arith_b214 & arith_a214), \\",
+L510| '            "W214 A/B same-freeze mutual exclusion (B hops past own A)"',
+L511| "        assert _entry_shard_of(0, 12) == (\"PERPETUAL-N1-W214-SHARD-0\",",
+L512| '                                          "n1w214-0of12"), "W214 entry identity"',
+L513| '        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W214-SHARD-11",',
+L514| '                                           "n1w214-11of12")',
+L515| "        assert SHARD_DIR.endswith(\"n1_w214\") and OUT.endswith(",
+L516| '            "n1_w214_results.json"), "W214 path drift"',
+L517| "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 214):",
+L521| '                f"W214 shard dir collides with W{wprev}"',
+L522| "        # W214 finalize cumulative deps: W17..W213 outputs ALL PRESENT",
+L523| f"        # (landed net chain head {w213_total} machine-read at freeze time)",
+L528| "        for _depw in range(17, 214):",
+L531| '                f"W214 finalize cumulative dep (W{_depw} output) missing"',
+L533| "        # registered wave below 214 composes; wave 15 excluded by",
+L534| "        # design; SINGLE STATE (W2..W213 all registered -- no",
+L536| "        assert sorted(w for w in WAVE_CONFIGS if w < 214) == \\",
+L538| "            [w for w in range(16, 214)], \\",
+L539| '            "W214 prior-wave set must derive from registry keys (no 15; " \\',
+L540| '            "W2..W213 registered single state)"',
+L542| '            PATHS.root, "research", "PERPETUAL_N1_W214_PREREG.md")), \\',
+L543| '            "W214 per-wave prereg missing (materializer requirement)"',
+L548| block = EOL.join(hdr) + EOL + par_sec + EOL.join(w212_leg) + EOL + EOL.join(w213_leg) + EOL + EOL.join(tail) + EOL
+L554| '          "+ W214 materializer face [same guard set, dep=W17..W213 "',
+L555| f'          "outputs ALL PRESENT (landed net chain head {w213_total} = W213 bm-c finalize one-pass, K={w213_merged_n} merged pool) -- ZERO "',
+L556| '          "in-flight upstream seats at splice, clean precondition, TWO HUNDRED AND FOURTEENTH "',
+L558| '          "+ candidate) bm-c\'s forty-fourth owned claim per "',
+L561| '          "A=FIRST-CLEAN past the registered W213 B band (staircase "',
+L562| '          "SEVENTY-FOURTH instance, E36 card, hops=1) + B=FIRST-CLEAN past the "',
+L568| '          "results/_w214bmc_20261012_probe_receipt.json, law sec.4 W214 row, "',
+L575| assert n1_t4.count('"batch": "PERPETUAL-N1-W214"') == 1
+L576| assert n1_t4.count("# --- W214 materializer face") == 1     # block header
+L577| assert n1_t4.count('"+ W214 materializer face') == 1        # print fragment
+L578| assert n1_t4.count('214: {"batch": "PERPETUAL-N1-W214"') == 1
+L579| assert pf_t2.count(ROW_I + '214: {"a"') == 1
+L582| assert n1_t4.count('"PERPETUAL-N1-W214-SHARD-0"') == 1
+L583| assert n1_t4.count('f"W214 A hits W{wprev}"') == 1
+L584| assert n1_t4.count(f'assert pf.N1_BANDS[213] == {{"a": ({fmt(pf_mod.N1_BANDS[213]["a"][0])}, {fmt(pf_mod.N1_BANDS[213]["a"][1])}),') == 1
+L589| assert n1_t4.count('    # --- W213 materializer face') == 1  # prior block kept
+L605| "machine": "bm-c", "wave": 214,
+L606| "phase": "five-face freeze chain-order splice (r910 freeze window, upstream ALL LANDED clean precondition)",
+L613| "admit_receipt": "results/_w214bmc_20261012_probe_receipt.json",
+L616| "w213_upstream": {"freeze_sha": w213_freeze_sha, "prereg_sha": w213_prereg_sha,
+L617| "ledger_total": w213_total, "merged_n": w213_merged_n,
+L619| "repair_chain_note": "r908 freeze + engine self-burn 12/12 + r909 finalize one-pass 04:2x (repair-free chain)"},
+L620| "w212_transitive": {"finalize_product": "results/perpetual_faces/n1_w212_results.json present (belt-and-braces gate; ledger 890,189 / K=464,320)"},
+L621| "w211_transitive": {"finalize_product": "results/perpetual_faces/n1_w211_results.json present (belt-and-braces gate)"},
+L622| "w210_transitive": {"finalize_product": "results/perpetual_faces/n1_w210_results.json present (belt-and-braces gate)"},
+L623| "w209_transitive": {"finalize_product": "results/perpetual_faces/n1_w209_results.json present (belt-and-braces gate)"},
+L625| "prereg_bundle": {"prereg_sha": w214_prereg_sha, "probe_receipt_sha": w214_receipt_sha,
+L626| "note": "r910 freeze-window bundle: prereg + this splice editor landed same-window, upstream W213 already landed (clean-precondition third consecutive
+L631| "note": "post-W213 registration: bm-c rows 43 + candidate = 44th owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=44 = 
+L632| "parity_section": {"source": "OWN W213 block physical bytes (own splice generation, structure known exactly)",
+L635| "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211 + W212 legs -> W214 block = 72 rows ending at W213"},
+L637| "liveness_anchors": {"t141_marker_kept": 1, "w209_block_kept": 1, "w210_block_kept": 1, "w211_block_kept": 1, "w212_block_kept": 1, "w213_block_kept":
+L642| "w213_upstream")}, indent=1))
+L643| print("SPLICE OK -- py_compile both green; NEXT: selftest (default wave, r522 law) -> pathspec commit+push -> ignition verify (2-cycle n1_w214 growth)
