@@ -1,0 +1,25 @@
+gate0.5 OK: W213 landed (freeze a24069f4c1, owner=bm-c own seat), W213+W212+W211+W210+W209 finalize products present (W213 ledger head 892389, merged n=466520); owner rows 203 + candidate, bm-c rows 43 + candidate (44th own wave per live derive r587/r359; probe receipt leg0 bmc_ordinal=44 seat-time live face disclosed)
+gates OK: seed_admit_gate rc0 base=485604 span=2000 checked=2000 verdict=FREE | seed_admit_gate rc0 base=487604 span=200 checked=200 verdict=FREE
+{
+ "phase": "five-face freeze chain-order splice (r910 freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "b0aa90376798797a19f530ef0cbcebf952582ca3",
+ "pf_sha16_post": "eae5440aa85f3cdf",
+ "n1_sha16_post": "7e80f8d0dd87ee3b",
+ "bands": {
+  "A": "485604_487603",
+  "B": "487604_487803",
+  "a_lo": 485604,
+  "a_hi": 487603,
+  "b_lo": 487604,
+  "b_hi": 487803
+ },
+ "w213_upstream": {
+  "freeze_sha": "a24069f4c1069838803a39d002d85a9102d18576",
+  "prereg_sha": "eeda8514587158102137e8be262cf3e0b3005925",
+  "ledger_total": 892389,
+  "merged_n": 466520,
+  "engine_owner": "bm-c (own seat honored, no takeover face)",
+  "repair_chain_note": "r908 freeze + engine self-burn 12/12 + r909 finalize one-pass 04:2x (repair-free chain)"
+ }
+}
+SPLICE OK -- py_compile both green; NEXT: selftest (default wave, r522 law) -> pathspec commit+push -> ignition verify (2-cycle n1_w214 growth)
