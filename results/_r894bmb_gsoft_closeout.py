@@ -20,7 +20,7 @@ REPO = r"C:\Fluxgroup\FluxGroup"
 SCRATCH = os.path.join(os.environ.get("TEMP", r"C:\Users\Administrator\AppData\Local\Temp"), "r894soft")
 SC = os.path.join(SCRATCH, "\u8f6f\u8457\u7533\u8bf7\u6750\u6599")
 SRC_BASE = r"C:\Fluxgroup\MiniGame"
-IDX = os.path.join(SCRATCH, "r894bmb2.index")
+IDX = os.path.join(SCRATCH, "r894bmb_%d.index" % int(time.time()))
 LOG_PATH = r"C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r894bmb_gsoft_run.log"
 RECEIPT_PATH = r"C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r894bmb_gsoft_receipt.json"
 EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
@@ -104,11 +104,16 @@ def main():
         # G2: enough included files
         if len(include) < 40:
             P("GUARD G2 FAIL: only %d files" % len(include)); sys.exit(4)
-        # G3: zero deletions vs origin
-        r = run(["git", "-C", REPO, "diff-tree", "-r", "--diff-filter=D", "--name-only", base, tree], check=False)
-        dels = [l for l in r.stdout.decode("utf-8", "replace").splitlines() if l.strip()]
+        # G3: zero deletions vs origin -- pure tree-walk (ls-tree reads no blobs:
+        # partial-clone-safe; diff-tree triggers a 2893-object lazy fetch, r894 live-fire)
+        b_paths = set()
+        t = run(["git", "-C", REPO, "ls-tree", "-r", "--name-only", base], timeout=300).stdout.decode("utf-8", "replace")
+        b_paths = set(l.strip() for l in t.splitlines() if l.strip())
+        t2 = run(["git", "-C", REPO, "ls-tree", "-r", "--name-only", tree], timeout=300).stdout.decode("utf-8", "replace")
+        n_paths = set(l.strip() for l in t2.splitlines() if l.strip())
+        dels = b_paths - n_paths
         if dels:
-            P("GUARD G3 FAIL: deletions %d: %s" % (len(dels), dels[:5])); sys.exit(4)
+            P("GUARD G3 FAIL: deletions %d: %s" % (len(dels), sorted(dels)[:5])); sys.exit(4)
         P("guards G1-G3 pass: tree=%s" % tree[:12])
 
         msg = ("B\u673ar894: G\u7cfb owner\u817f\u6e90\u7a0b\u5e8f\u6536\u53e3\u5341\u6b3e\uff08O-20261010-1810\u2462/O-20261011-1917\u00a71\uff09"

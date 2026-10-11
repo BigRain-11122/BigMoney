@@ -1,0 +1,47 @@
+r894 bm-b G-soft owner leg -- STATUS AT ROUND CLOSE 2026-10-11 20:35:40
+================================================================================
+WHAT LANDED (BigMoney repo):
+  - round 894 commit pushed via worktree cherry-pick = d3616be53 (on f53023c7c bm-c r887)
+  - O-1917 receipt marked [x] in-flight; heartbeat/state/round-report updated; smoke 49/49
+
+WHAT IS IN FLIGHT (FluxGroup repo, autonomous detached process):
+  - PID 13988 python results/_r894bmb_gsoft_closeout.py (run 4, launched ~20:34)
+  - materials: 10 games' source PDF+txt+guide regenerated & verified in scratch
+    (%TEMP%\r894soft\软著申请材料\, mtimes 19:55:08-10; ten-game bytes verified)
+  - run 4 chain: read-tree OK (171KB real index, NOT the empty-tree hazard)
+    -> update-index x41 -> write-tree -> G1-G4 guards (G3 now ls-tree path-diff,
+    partial-clone-safe) -> ls-remote G4 -> surgical push origin <sha>:main
+    -> writes results/_r894bmb_gsoft_receipt.json + _r894bmb_gsoft_run.log
+  - at 20:35 write-tree had spawned partial-clone lazy fetch (pack_header=2893,
+    17.1MB downloaded, momentarily stalled) -- if socket died, run 4 hangs;
+    NEXT ROUND ACTION: check receipt file; if absent and remote main still
+    65b58a66, kill python+git strays (NOT 24568) and re-run the SAME committed
+    script (idempotent, unique temp index, safe guards). Network stalls are the
+    10-09 family (nighttime GFW, self-healing).
+
+INCIDENTS THIS ROUND (forensic trail):
+  1. Prior r894 session (19:48-20:13) died mid-push; its 4 git PIDs (19:55:15)
+     survived with NO TCP = dead socket; its temp index was EMPTY (read-tree
+     hung) => the in-flight push was an EMPTY-TREE commit = would have WIPED the
+     whole FluxGroup repo if it landed. Intercepted+killed; remote verified
+     untouched (65b58a66). Scratch output was fully intact -> safe rebuild path.
+  2. diff-tree guard (G3 v1) triggered a 2,893-object partial-clone lazy fetch
+     -> replaced with ls-tree path-walk (no blob reads). r894 live-fire pit.
+  3. BigMoney push rejected once (bm-c r887 landed mid-round) -> rebase wedged
+     on locked .out/.err (detached proc handles) -> abort blocked -> killed proc,
+     unwedged, then clean worktree cherry-pick pattern -> landed d3616be53.
+  4. 25-min kill orphaned git children repeatedly: kill PYTHON PARENT DOES NOT
+     KILL ITS GIT CHILDREN on this box. Sweep `Get-Process git` after every
+     kill of a parented pipeline. (Existing pit-law family, re-confirmed.)
+
+NEXT ROUND PRIORITY ORDER:
+  1. Verify G-soft push landed (ls-remote FluxGroup main != 65b58a66) -> if
+     landed: write O-1917 receipt numbers from results/_r894bmb_gsoft_receipt.json
+     (per-game pages/files list per O-1810 criteria), heartbeat, commit push.
+     If not landed: re-run closeout script (see above).
+  2. O-1917-3 hot-topic pool scoring (POOL-SCORED-20261012.md, due 10-12 12:00)
+  3. O-1917-2 BigHouse first research piece (due 10-12 18:00)
+  4. W18 judge pool registration (47 blocks; read pit-pool + pit-pool-burn first)
+  5. S6 full 41-leg chain (skipped this round = push battle ate the window)
+  6. T-184 510880 transfer watch 10-12 15:30; IntradayMarks Monday 09:25;
+     48h CEO report due 10-13 11:2x
