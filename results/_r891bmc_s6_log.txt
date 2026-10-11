@@ -1,0 +1,31 @@
+pool_dualrun|rc=0|[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 445 entries, drift-free streak 6, cutoff 2026-10-11 20:57:49)
+compute_audit|rc=0|{"ts": "2026-10-11 22:03:31", "audit_version": "v2.4.2", "cpu_total_pct": 46.0, "py_cpu_pct": 5.0, "cores": 32, "py_procs": 11, "result_stale_min": 0.9, "fleet_open_tasks": 0, "pool_ready_count": 0, "pool_ready_unclaimed": 0, "load_state": "idle-starvation", "pool_starvation_candidate": true, "pool_starvation_detail": {"run_samples": 6, "span_min": 142.0}, "supply_gap_candidate": false, "supply_gap_detail": {"reason": "idle-starvation"}, "supply_floor": {"ready": 0, "floor": 3, "breach": true}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 274.7, "gpu": {"present": true, "util_pct": 100.0, "mem_used_mb": 15080.0, "compute_apps_count": 19, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0, "effective_cores": null, "multicore_burn": 0, "single_core_burn": 0, "too_short_to_sample": 0, "readable": true}, "flags": ["pool_starvation", "supply_floor"], "verdict": "FLAG:pool_starvation,supply_floor"}
+py_watermark|rc=0|{"ts": "2026-10-11 22:03:38", "epoch": 1791727412.0, "machine": "bm-c", "cpu_total_pct": 58.0, "cores": 32, "py_cpu_pct": 4.2, "py_procs": 10, "top_proc_cores": 1.14, "local_batch_running": true, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": [], "pool_ready_count": 0, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 0, "board_open": 0, "board_inflight": 0, "local_batch": 1}, "bars_present": false, "daily_panel": true, "verdict": "py_low_with_work_cands", "window": {"n": 2, "span_min": 23.8, "avg_py_cpu_pct": 4.2, "max_py_cpu_pct": 4.2}, "series_kept": 57}
+update_daily|rc=0|status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+market_regime|rc=0|  trigger: breadth 0.73>=65%
+strategy_scorecard|rc=0|strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\strategy_scorecard.json (151.3s)
+market_clock|rc=0|call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-09.md cell=ORANGE_COOL sleeves=4 activated=0
+update_lhb|rc=0|no-op: cutoff 2026-10-09 covers latest disclosure window (2026-10-09)
+update_zt_pool|rc=0|no-op: zt_pool lane owned by bm-a, not this machine (bm-c)
+update_heat|rc=0|no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+update_futures|rc=0|no-op: local cutoff 2026-10-09 covers expected complete-bar date 2026-10-09 -> zero network
+update_repo|rc=0|no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+update_options|rc=0|[RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste law) -- honest no-op, no collection.
+update_moneyflow|rc=0|no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+update_sina_mf|rc=0|no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+update_astock_daily|rc=0|no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+update_etf_daily|rc=0|no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+regime_thermo_build|rc=0|regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+regime_gate_dualarm|rc=0|regime_gate_dualarm: not lane owner (bm-b), honest no-op
+rev_osc_signal_export|rc=0|rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+update_minute_feed|rc=0|update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+update_ths_panel|rc=0|no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+ah_panel_puller|rc=0|no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+update_fund_premium|rc=0|no-op: weekend (NAV publishes on trading days only)
+update_fundamental|rc=0|snapshot fresh (3.8h < 24h) -> skip
+b_layer_filter|rc=0|verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+update_fund_statements|rc=0|no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+daily_report|rc=0|daily report written: REPORT-2026-10-11.md/.json faces=5 token=1
+ceo_live_usage|rc=0|ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-11.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+token_meter|rc=0|L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2903 across 83 sigs
+S6-SUMMARY|legs=30|red=0
