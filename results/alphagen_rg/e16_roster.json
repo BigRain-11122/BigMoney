@@ -1,0 +1,128 @@
+{
+ "design_pin": {
+  "K_depth1": 120,
+  "K_depth2": 80,
+  "K_total": 200,
+  "a158_negative_prior": "157/158 |ICIR|<0.09 ETF/fund corpus; A9 0/9 single-gate; A10 0/16 combo (lineage disclosure)",
+  "census_window_start": "2018-01-01",
+  "consumer_plan": "verdict licenses or kills the RL build before training spend (T23 slice-2 gate); if licensed, next step = N2 U3 channel-1 drafting window via PREREG_TEMPLATE (alpha-mechanism 4-choose-1 + D6 + exit-axis + seed gate + collision probe)",
+  "d6_law": "same-family max|corr|>=0.7 reject at registration; census output is distribution face only -- D6 enforced on any survivor registration, not here",
+  "exit_axis": "measurement census -- no position/exit machinery; survivor consumption route = time-series gate / input feature on core48 (A158-TSGATE-P1 + A10 precedents), long-only T+1 cost model; judged faces later need their own exit-axis explicit 3-choose-1 declaration",
+  "forward_return": "1d_close_to_close",
+  "nulls": {
+   "K_nulls": 200,
+   "design": "per-date cross-sectional rank permutation (factor ranks shuffled within each date, same computed factor matrix reused -- same-machinery null face)"
+  },
+  "sampler_seed": 20261011,
+  "trial_budget_law": "BACKTEST_PLAN <=500 trials/30d; census counted as K_total trials on the batch ledger face (proposal for prereg to freeze; nulls are calibration, not trials)"
+ },
+ "grammar_space": {
+  "base_inputs": [
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "vwap",
+   "turnover"
+  ],
+  "cross_input_ops": [],
+  "depth1_expression_space_size": 1160,
+  "depth2_note": "depth-2 sampled as op(depth-1 result, window) -- space is d1_space x ops x windows; sampled, not enumerated",
+  "single_input_ops": [
+   "BETA",
+   "CNTD",
+   "CNTN",
+   "CNTP",
+   "CORD",
+   "CORR",
+   "IMAX",
+   "IMIN",
+   "IMXD",
+   "LOW",
+   "MA",
+   "MAX",
+   "QTLD",
+   "QTLU",
+   "RANK",
+   "RESI",
+   "ROC",
+   "RSQR",
+   "RSV",
+   "STD",
+   "SUMD",
+   "SUMN",
+   "SUMP",
+   "VMA",
+   "VSTD",
+   "VSUMD",
+   "VSUMN",
+   "VSUMP",
+   "WVMA"
+  ],
+  "windows": [
+   5,
+   10,
+   20,
+   30,
+   60
+  ]
+ },
+ "kbar_names": [
+  "KMID",
+  "KLEN",
+  "KMID2",
+  "KUP",
+  "KUP2",
+  "KLOW",
+  "KLOW2",
+  "KSFT",
+  "KSFT2"
+ ],
+ "l1_zero_network": true,
+ "machine": "BIGMONEY",
+ "mini_timing": {
+  "elapsed_sec_2_passes": 0.232,
+  "est_full_panel_rows_2018plus": 9110390,
+  "est_passes_total": 280,
+  "naive_singlethread_est_min": 56.6,
+  "sampled_rows_window_2018plus": 87281,
+  "sampled_stocks": 50,
+  "shard_note": "pool batch 12 shards x workers>=4 pattern (R31 lane law); estimate is naive singlethread, pool burn multiplies down"
+ },
+ "panel_disk_truth": {
+  "all_sampled_at_expected_cutoff": true,
+  "per_files_on_disk": 5219,
+  "sampled_last_dates_max": "2026-10-09",
+  "sampled_last_dates_min": "2026-10-09",
+  "sampled_n": 40
+ },
+ "price0_names": [
+  "OPEN0",
+  "HIGH0",
+  "LOW0",
+  "VWAP0"
+ ],
+ "probe": "E16 alphagen slice-2 random-grammar census roster (leg-1)",
+ "queue_row": "state/queue/explore.md E16",
+ "substrate_gate": {
+  "kbar_count": 9,
+  "names_unique": true,
+  "price0_count": 4,
+  "rolling_feats": 145,
+  "rolling_ops": 29,
+  "total_features": 158,
+  "total_is_158": true
+ },
+ "ts": "2026-10-11T11:29:05+08:00",
+ "universe_faces": {
+  "bmask_ok_static": 3517,
+  "bmask_rows": 5222,
+  "eligibility_eligible": 7276,
+  "eligibility_rows": 11637,
+  "pit_disclosure": "eligibility.csv is a <24h as-collected snapshot (ST/loss face); applying it backward over history is a measurement-face universe caveat, disclosed -- survivors face strict-PIT rules only in a later judged prereg; b_layer_mask first/last board ranges are historical and used as the per-code validity window",
+  "universe_join_n": 3517
+ },
+ "zero_judgment": true
+}
