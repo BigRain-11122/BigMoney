@@ -6208,7 +6208,7 @@ N1_BANDS = {
     # -- the walk with the own-wave A window reserved jumps to 474_604 ->
     # 474_604..474_803); NOT a re-pick (R250: W208 bands were never assigned).
     208: {"a": (472_404, 474_403), "b_exit": (474_404, 474_603),
-         "engine_owner": "bm-a"},
+         "engine_owner": "bm-c"},  # takeover r885: bm-a dead 21.5h+ (hb 10-10 21:52) ->排满律接管烧录权; bands unchanged (R250 no re-pick); bm-a revive sees done-face+MSG-1925
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
