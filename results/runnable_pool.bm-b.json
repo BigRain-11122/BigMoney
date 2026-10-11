@@ -16752,6 +16752,522 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_0of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-0OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_0of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-0of12",
+     "note": "formulas i%12==0 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": "bm-b",
+     "owner_since": "2026-10-11 12:04:09",
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_1of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-1OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_1of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-1of12",
+     "note": "formulas i%12==1 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_2of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-2OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_2of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-2of12",
+     "note": "formulas i%12==2 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_3of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-3OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_3of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-3of12",
+     "note": "formulas i%12==3 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_4of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-4OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_4of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-4of12",
+     "note": "formulas i%12==4 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_5of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-5OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_5of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-5of12",
+     "note": "formulas i%12==5 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_6of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-6OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_6of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-6of12",
+     "note": "formulas i%12==6 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_7of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-7OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_7of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-7of12",
+     "note": "formulas i%12==7 (17 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_8of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-8OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_8of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-8of12",
+     "note": "formulas i%12==8 (16 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_9of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-9OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_9of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-9of12",
+     "note": "formulas i%12==9 (16 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_10of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-10OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_10of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-10of12",
+     "note": "formulas i%12==10 (16 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
+  },
+  {
+   "consumer_plan": "shard product results/alphagen_rg/shard_11of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2): t23 gate_face (panel complete + disk-truth + fresh) + roster sha16==1d06d218b2cbf870 + seeds registered 20620000/20620100 + cal window 2255 rows (warmup 130, census 2125, first 2017-06-26, last 2026-10-09) + universe band 3400-3600 + panel cutoff >= 2026-10-09 (D2 lockbox: batch face truncated to 2026-10-09 regardless of later bars); per-formula checkpoint ckpt/shard_<k>of12.jsonl cross-kill resume; skip >10% shard-face honest in product",
+   "entered_at": "2026-10-11 12:3x",
+   "entered_by": "bm-b r878",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/astock_daily/per"
+    }
+   ],
+   "id": "E16-ALPHAGEN-RG-SHARD-11OF12",
+   "lane_note": "R31 lane law: data/astock_daily/per is a bm-b-lane gitignored machine-local panel -- all 12 shards burn on bm-b; host_gates let panel-less machines skip honestly; panel cache npz (~520MB, gitignored) built once by the first shard run, deterministic rebuild if absent (cutoff-keyed)",
+   "lane_owner": "bm-b",
+   "prereg_ref": "research/E16_ALPHAGEN_RG_CENSUS_P1.md FROZEN bm-b r878 commit 1f70c9b (measurement census K=200 = 120 d1 + 80 d2, B=200 same-mask permutation nulls/formula, window 2018-01-01+, evidence_cutoff 2026-10-09 D2 lockbox, universe sff._universe 3514 + P4_BATCH2 dynamic clauses, verdict census_holds=observed_family_max_abs_icir > null_family_p95; ledger trials=200 roster pin (nulls=calibration); seeds e16_alphagen_rg_gen=20620000 / e16_alphagen_rg_null=20620100 registered at freeze one-step R250 law)",
+   "priority": 1,
+   "runner": "scripts/alphagen_rg_census.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--shards",
+    "12"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/alphagen_rg/ckpt/shard_11of12.jsonl (per-formula append jsonl, done-set resume cross-kill, truncated-tail tolerated)",
+     "key": "e16-rg-11of12",
+     "note": "formulas i%12==11 (16 formulas); est 5-15min/shard with workers=8",
+     "owner": null,
+     "owner_since": null,
+     "status": "ready"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
+   "worker_class": "bm-hosted",
+   "workers_plan": {
+    "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
+    "priority": "BelowNormal",
+    "workers": 8
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
