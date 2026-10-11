@@ -16662,24 +16662,30 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-11 07:34:06",
    "data_gates": "in-runner fail-closed exit 2 every invocation: G-PANEL (csvs>=1500 + five-member present) + G-CUTOFF (five tails<=2026-10-09; 510300 truncated rows==3490) + G-FACTORS (89 formulas not-all-NaN + decidable>=500 on anchor + gate-order identity pin vs pool face) + pool-identity drift guards (96/89/7/0 + anchor top-|h1_ic_ir| pin) + G-ANCHOR-MP1 (dec==3341 open==390 first-idx==149); no host gates (pure pandas CPU, any machine); RAM trivial (<1GB)",
    "shards": [
     {
      "key": "n2-mp1-run-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/mp1_tsgate_p1/shard_0of1.jsonl (append-per-instrument done-set resume, r340 incremental law)",
      "note": "worker_cap() parallelism inside the shard via parallel_runner (ProcessPool, __main__ guarded); multi-shard i%shards split legal on partial claim",
      "owner": "bm-b",
-     "owner_since": "2026-10-11 08:08:08"
+     "owner_since": "2026-10-11 08:22:03",
+     "claimed_since": "2026-10-11 08:08:08",
+     "done_at": "2026-10-11 08:22:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "n2-mp1-run-0of1.bm-b.json"
     }
    ],
    "workers_plan": {
     "workers": 12,
     "priority": "BelowNormal",
     "note": "est serial ~4-8min / 12-worker ~1-2min; 1,013 insts (>=500 bars) x 89 formulas x 178 gates; deterministic; zero engine, zero network, zero token; selftest 30/30 hermetic; per-instrument checkpoint flush via on_result"
-   }
+   },
+   "done_by": "bm-b",
+   "done_at": "2026-10-11 08:22:03"
   }
  ]
 }
