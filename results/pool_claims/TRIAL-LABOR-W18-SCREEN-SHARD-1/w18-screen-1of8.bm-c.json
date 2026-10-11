@@ -1,6 +1,9 @@
 {
  "machine_id": "bm-c",
- "state": "running",
- "pid": 29672,
- "heartbeat": "2026-10-11T18:17:22+08:00"
+ "state": "closed",
+ "outcome": "fail",
+ "note": "double-burn yield: bm-c worker pid29672 burned 17:32-18:19 (local ckpt 113KB, no push), origin-visible claim face stayed at 17:32:13 launch stamp (ext-worker claim heartbeat has no self-push channel -> STALE_MIN takeover gate opened on bm-b side); bm-b takeover 17:56:24 -> done closed ok 18:00:23 = authoritative checkpoint owner. bm-c burn produced no yield, honest-fail frees shard; ckpt screen_shard_1of8.jsonl kept locally as redundant artifact.",
+ "closed_at": "2026-10-11T18:26:00+08:00",
+ "exit_code": null,
+ "result_ref": null
 }
