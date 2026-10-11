@@ -251,8 +251,12 @@ def _registered_leg_rets(idx_leg):
     }
     wbase = next(p for p, d in enumerate(st["idx"])
                  if pd.Timestamp(d) >= idx_leg[0])
-    if wbase < 1:
-        raise ValueError("leg window base needs >=1 pre-window bar")
+    if wbase < 0:
+        raise ValueError("leg window base negative")
+    # wbase == 0 is LAWFUL here: the core48 trial-labor panel IS the leg-L
+    # face (1631 bars 2020-01-02..cutoff, r876 probe5) -- the whole curve
+    # is the window; pct_change().dropna() then yields the 1630 real-return
+    # days, the same bar0-dropped alignment as the candidate side.
     st["wbase"] = wbase
     reg = rd._registered_window_rets(st, None)
     # align to the 1630 real-return days (bar0 construct-zero dropped)
