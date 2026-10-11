@@ -94,8 +94,8 @@ assert os.path.exists(os.path.join(REPO, "research", "PERPETUAL_N1_W210_PREREG.m
 owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
 bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
 _expected_bmc = 40 if W210.get("engine_owner") == "bm-c" else 39
-assert len(owner_rows_live) == 201 and len(bmc_rows_live) == _expected_bmc, \
-    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 201/{_expected_bmc} post-W208+W209+W210 registration; W210 takeover r898 face: bm-c 40th own wave, this candidate = 41st, live derive governs r587/r359)"
+assert len(owner_rows_live) == 200 and len(bmc_rows_live) == _expected_bmc, \
+    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 200/{_expected_bmc} PRE-splice post-W208+W209+W210 registration; r899 anchor erratum: dead r898 patch anchored 201 = off-by-one double-count of the already-spliced W210 row -- W209 precedent 198/38 pre-splice pair + W210 splice 199/39->200/40, forensic script results/_r899bmc_w211_ordinals.py; W210 takeover r898 face: bm-c 40th own wave, this candidate = 41st, live derive governs r587/r359)"
 print(f"gate0.5 OK: W210 landed (freeze {w210_freeze_sha[:10]}, owner={W210.get('engine_owner')} "
       f"[r898 takeover face, commit d5ec83b72 verified when bm-c]), W210+W209+W208 finalize products present "
       f"(W210 ledger head {w210_total}, merged n={w210_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
@@ -445,7 +445,7 @@ f'            pf.N1_BANDS[210].get("engine_owner") == "{W210.get("engine_owner")
 w210_leg = [
  f'        assert pf.N1_BANDS[210] == {{"a": ({fmt(W210["a"][0])}, {fmt(W210["a"][1])}),',
  f'                                    "b_exit": ({fmt(W210["b_exit"][0])}, {fmt(W210["b_exit"][1])}),',
-f'                                    "engine_owner": "{W210.get("engine_owner")}", \\',
+'                                    "engine_owner": "{}"}}, \\'.format(W210.get("engine_owner")),
 '            "registered W210 row parity drift (r307; bm-b five-face freeze; r898 takeover bm-b->bm-c face disclosed)"',
 ]
 tail = [
