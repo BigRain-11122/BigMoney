@@ -1,7 +1,7 @@
 {
  "audit": {
   "elapsed_sec": 0.3,
-  "generated_at": "2026-10-11T18:13:34+08:00",
+  "generated_at": "2026-10-11T18:36:32+08:00",
   "read_only": true
  },
  "banned_direction_gate": {
@@ -90,9 +90,9 @@
  },
  "freeze_conditions": {
   "1_runner_selftest_green": "pending selftest run this window",
-  "2_seed_admit_gate_rc0": 0,
+  "2_seed_admit_gate_rc0": 1,
   "3_banned_direction_gate_rc0": 0,
-  "4_prereg_frozen": false,
+  "4_prereg_frozen": true,
   "5_meaning_gate_three_questions": "freeze-window session action"
  },
  "grammar": {
@@ -148,14 +148,14 @@
  "seeds": {
   "admit_gate_probe": {
    "ran": true,
-   "rc": 0,
+   "rc": 1,
    "stderr_tail": "",
-   "stdout_tail": "seed_admit_gate rc0 base=20625000 span=500 checked=500 verdict=FREE\n"
+   "stdout_tail": "REGISTRY_COLLISION value=20625000 key=n2u3_alphagen_rl_gen\nseed_admit_gate rc1 base=20625000 span=500 collisions=1 verdict=BLOCKED\n"
   },
   "bands": {
-   "n2u3_alphagen_rl_gen": false,
-   "n2u3_alphagen_rl_scrnull": false,
-   "n2u3_alphagen_rl_unc": false
+   "n2u3_alphagen_rl_gen": true,
+   "n2u3_alphagen_rl_scrnull": true,
+   "n2u3_alphagen_rl_unc": true
   },
   "proposal_base": 20625000,
   "proposal_spacing": 500

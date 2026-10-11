@@ -93,7 +93,11 @@ Subcommands:
                  grammar face, seed posture, banned-gate posture, closed
                  families, dedup sources, freeze-condition checklist) ->
                  results/alphagen_rl_p1/probe_latest.json
-  pretrain    -- FREEZE-GATED bootstrap pretrain (leg-2)
+  pretrain    -- FREEZE-GATED bootstrap pretrain (leg-2 step 1)
+  probe       -- FREEZE-GATED leg-2 compound probe (pool-entry face):
+                 idempotent pretrain (skip when pretrain_policy.npz
+                 exists) + train --episodes N, one atomic burn; receipt
+                 = throughput face for leg-3 sizing
   train       -- FREEZE-GATED PPO fine-tune with per-episode resume (leg-3)
   export-topk -- FREEZE-GATED top-K=32 candidate table on the full panel
   judge       -- FREEZE-GATED judged face gate (leg-4; refuses until the
@@ -137,6 +141,7 @@ import alphagen_rg_census as e16                             # noqa: E402
 import t23_random_grammar_census as t23                      # noqa: E402
 from pa_lhb_ic import rank_rows, ic_from_ranks, fwd_ret      # noqa: E402
 from composite_ic import stats_block                         # noqa: E402
+from parallel_runner import run_cells_parallel, worker_cap   # noqa: E402
 
 # ------------------------------------------------------------ frozen constants
 BATCH = "N2U3-ALPHAGEN-RL-P1"
@@ -661,9 +666,10 @@ class GrammarEnv:
         self.seed_gen = int(seed_gen)
         self.n_in = SLOTS * g["n_vocab"] + SLOTS
 
-    def episode(self, policy, episode_seed):
-        """One episode: policy-sampled token sequence -> node -> reward.
-        Deterministic given (policy params, episode_seed)."""
+    def sample(self, policy, episode_seed):
+        """Token-sampling half of an episode (cheap parent-side face):
+        tokens/logps/vals/masks + node identity. Deterministic given
+        (policy params, episode_seed)."""
         g = grammar_face()
         rng = np.random.default_rng([self.seed_gen, int(episode_seed)])
         tokens, logps, vals, masks = [], [], [], []
@@ -688,16 +694,23 @@ class GrammarEnv:
         node = tokens_to_node(tokens)
         key = e16.canonical_key(node)
         fstr = e16.formula_str(node)
-        dup = key in self.excluded
-        marginal, sign, cand_blk, base_ic = self.pool.marginal(node)
-        skip = marginal is None
-        reward = 0.0 if skip else float(marginal)
         return {"tokens": tuple(tokens), "node": node,
-                "formula": fstr, "key": key, "dup": bool(dup),
-                "skip": bool(skip), "marginal": marginal, "sign": sign,
-                "cand_blk": cand_blk, "pool_base_ic": base_ic,
-                "reward": reward, "logps": tuple(logps),
-                "values": tuple(vals), "masks": masks}
+                "formula": fstr, "key": key,
+                "dup": bool(key in self.excluded),
+                "logps": tuple(logps), "values": tuple(vals),
+                "masks": masks}
+
+    def episode(self, policy, episode_seed):
+        """One episode (sequential reference face): policy-sampled token
+        sequence -> node -> reward. Deterministic given (policy params,
+        episode_seed)."""
+        ep = self.sample(policy, episode_seed)
+        marginal, sign, cand_blk, base_ic = self.pool.marginal(ep["node"])
+        skip = marginal is None
+        ep.update({"skip": bool(skip), "marginal": marginal, "sign": sign,
+                   "cand_blk": cand_blk, "pool_base_ic": base_ic,
+                   "reward": 0.0 if skip else float(marginal)})
+        return ep
 
     def rollout(self, policy, start_ep, n_ep):
         eps = []
@@ -837,6 +850,47 @@ def freeze_gate(face, registry=None, prereg_path=PREREG,
         _dump(posture, rp)
         posture["receipt"] = rp
     return posture["ok"], posture
+
+# ------------------------- multiproc eval face (O-20260930-2355 law-1
+# ProcessPool conversion: workers_plan is CODE, not a declaration. The
+# expensive face of every burn is the synergy-pool MARGINAL eval; within
+# a batch the pool is frozen (admissions land in the parent AFTER the
+# batch, cmd_train law), so per-node evals are independent pure functions
+# of (node, panel, pool snapshot) -> parallel results assemble by index
+# and are bit-identical to the sequential reference loop (episode()).
+# Workers rebuild the seed-pinned panel + pool from the SAME frozen
+# cache face via initializer/initargs (shared state law, zero closures).
+_MP_STATE = {}
+
+
+def _mp_init(cache_path, uni_n, gen, survivor_nodes, admitted_pairs):
+    """Worker-side one-time init: rebuild the training panel + synergy
+    pool (survivors + batch-admitted-so-far) from the same frozen cache.
+    Identical inputs -> bit-identical pool -> bit-identical marginals."""
+    panel = load_training_panel(cache_path, uni_n, gen)
+    pool = SynergyPool(panel, list(survivor_nodes))
+    for node, sign in admitted_pairs:
+        pool.admit(node, sign)
+    _MP_STATE["pool"] = pool
+
+
+def _mp_marginal(node):
+    marginal, sign, cand_blk, base = _MP_STATE["pool"].marginal(node)
+    return {"marginal": marginal, "sign": sign, "cand_blk": cand_blk,
+            "base_ic": base}
+
+
+def _marginals_parallel(nodes, initargs, workers):
+    """Parallel marginal batch; prereg sec.0 workers_plan =
+    min(worker_cap(), 8). Returns (results-by-index, workers_used)."""
+    if not workers or workers <= 0:
+        workers = min(worker_cap(), 8)
+    jobs = [(f"marg-{i}", _mp_marginal, (nd,)) for i, nd in enumerate(nodes)]
+    out = run_cells_parallel(jobs, workers=workers, desc="rl-marginals",
+                             initializer=_mp_init, initargs=initargs)
+    used = out.pop("__workers__", workers)
+    return [out[f"marg-{i}"] for i in range(len(nodes))], used
+
 
 # ---------------------------------------------------------------- commands
 
@@ -985,9 +1039,15 @@ def cmd_pretrain(args):
         depth = 1 if (i % 10) < (BOOT_DEPTH1_FRAC * 10) else 2
         draws.append(e16._draw_node(rng, g["ops"], depth))
     env = GrammarEnv(panel, pool, excluded, gen)
+    # parallel marginal batch (256 independent draws; pool = survivors
+    # only during pretrain -- no admissions, initargs admit list empty)
+    surv_nodes = [n for n, _, _ in survivors]
+    margs, used_w = _marginals_parallel(
+        draws, (cache_path, TRAIN_UNI_N, gen, surv_nodes, []),
+        getattr(args, "workers", 0))
     recs = []
     for i, node in enumerate(draws):
-        marginal, sign, blk, base = pool.marginal(node)
+        marginal, sign = margs[i]["marginal"], margs[i]["sign"]
         recs.append({"i": i, "node": node,
                      "formula": e16.formula_str(node),
                      "key": e16.canonical_key(node),
@@ -1025,7 +1085,8 @@ def cmd_pretrain(args):
                "top_bc": [{"formula": r["formula"],
                            "marginal": r["marginal"]} for r in quart[:8]],
                "seed_key": SEED_KEY_GEN, "train_uni_n": TRAIN_UNI_N,
-               "meta": meta, "audit": {"generated_at": _now()}}
+               "meta": meta, "audit": {"generated_at": _now(),
+                                       "workers": used_w}}
     _dump(receipt, os.path.join(CKPT_DIR, "pretrain_receipt.json"))
     print(json.dumps({"pretrain": "ok", "n_draws": N_BOOT,
                       "n_evaluable": len(okd), "n_bc": len(quart)},
@@ -1068,8 +1129,30 @@ def cmd_train(args):
     target = done_eps + args.episodes
     updates = 0
     surr = 0.0
+    surv_nodes = [n for n, _, _ in survivors]
+    used_w = None
     while done_eps < target:
-        eps = env.rollout(policy, done_eps, PPO["rollout_episodes"])
+        # sample token sequences (cheap, parent-side, policy-dependent)
+        seqs = [env.sample(policy, done_eps + j)
+                for j in range(PPO["rollout_episodes"])]
+        # parallel marginal batch: pool snapshot = survivors + admissions
+        # from PREVIOUS batches (this batch's admissions land after the
+        # PPO update below -- within-batch pool frozen = sequential law)
+        admitted = [(m[0], m[2]) for m in pool.members[len(surv_nodes):]]
+        margs, used_w = _marginals_parallel(
+            [s["node"] for s in seqs],
+            (cache_path, TRAIN_UNI_N, gen, surv_nodes, admitted),
+            getattr(args, "workers", 0))
+        eps = []
+        for j, s in enumerate(seqs):
+            r = margs[j]
+            s.update({"marginal": r["marginal"], "sign": r["sign"],
+                      "cand_blk": r["cand_blk"],
+                      "pool_base_ic": r["base_ic"],
+                      "skip": r["marginal"] is None,
+                      "reward": 0.0 if r["marginal"] is None
+                      else float(r["marginal"])})
+            eps.append(s)
         with open(log_path, "a", encoding="utf-8", newline="\n") as f:
             for j, ep in enumerate(eps):
                 f.write(json.dumps({
@@ -1096,12 +1179,48 @@ def cmd_train(args):
                "last_surr": round(surr, 6), "pool_members": len(pool.members),
                "seed_key": SEED_KEY_GEN, "train_uni_n": TRAIN_UNI_N,
                "audit": {"generated_at": _now(),
-                         "elapsed_sec": round(time.time() - t0, 1)}}
+                         "elapsed_sec": round(time.time() - t0, 1),
+                         "workers": used_w}}
     _dump(receipt, os.path.join(CKPT_DIR, "train_receipt.json"))
     print(json.dumps({"train": "ok", "episodes": done_eps,
                       "updates": updates,
                       "pool_members": len(pool.members)},
                      ensure_ascii=False))
+    return 0
+
+
+def cmd_probe(args):
+    """leg-2 short-window training probe (pool-entry face): idempotent
+    pretrain (skipped when pretrain_policy.npz exists) + train
+    --episodes N in ONE atomic burn; receipt = throughput face for
+    leg-3 sizing."""
+    ok, posture = _require_freeze("probe")
+    if not ok:
+        return 2
+    t0 = time.time()
+    did_pretrain = False
+    if not os.path.exists(os.path.join(CKPT_DIR, "pretrain_policy.npz")):
+        rc = cmd_pretrain(args)
+        if rc:
+            return rc
+        did_pretrain = True
+    rc = cmd_train(args)
+    if rc:
+        return rc
+    with open(os.path.join(CKPT_DIR, "train_receipt.json"),
+              encoding="utf-8") as f:
+        tr = json.load(f)
+    receipt = {"face": "probe", "pretrain_ran": did_pretrain,
+               "episodes_total": tr.get("episodes"),
+               "updates": tr.get("updates"),
+               "pool_members": tr.get("pool_members"),
+               "workers": (tr.get("audit") or {}).get("workers"),
+               "elapsed_sec": round(time.time() - t0, 1),
+               "audit": {"generated_at": _now()}}
+    _dump(receipt, os.path.join(CKPT_DIR, "probe_receipt.json"))
+    print(json.dumps({"probe": "ok",
+                      "episodes": receipt["episodes_total"],
+                      "pretrain_ran": did_pretrain}, ensure_ascii=False))
     return 0
 
 
@@ -1563,6 +1682,30 @@ def selftest():
     check("L12b in-batch key dedup counting (alias + repeat)",
           dups == 2 and len(seen_batch) == 2)
 
+    # L13 parallel marginal equivalence (O-20260930-2355 law-1
+    # ProcessPool conversion): worker-side rebuild from the same
+    # synthetic cache (survivor + admitted pair) must be bit-identical
+    # to the in-process sequential reference
+    cand_nodes = [("d1", "ROC", "close", 5), ("d1", "MA", "volume", 10),
+                  ("d2", "STD", 20, ("d1", "MA", "close", 5)),
+                  ("d1", "RANK", "amount", 60),
+                  ("d1", "QTLD", "volume", 20)]
+    pool_ref = SynergyPool(panel, [("d1", "MA", "volume", 10)])
+    pool_ref.admit(("d1", "ROC", "close", 5), 1.0)
+    seq_ref = [pool_ref.marginal(nd) for nd in cand_nodes]
+    par_res, par_w = _marginals_parallel(
+        cand_nodes,
+        (cp, TRAIN_UNI_N, 777, [("d1", "MA", "volume", 10)],
+         [(("d1", "ROC", "close", 5), 1.0)]), 2)
+    par_ok = all(
+        (a[0] == b["marginal"]) and (a[1] == b["sign"])
+        and ((a[2] is None) == (b["cand_blk"] is None))
+        and (a[2] is None or a[2]["ic_mean"] == b["cand_blk"]["ic_mean"])
+        and a[3] == b["base_ic"]
+        for a, b in zip(seq_ref, par_res))
+    check("L13 parallel marginal == sequential reference (bit-exact)",
+          par_ok and par_w == 2)
+
     n_pass = sum(1 for _, c in ok if c)
     print(f"selftest: {n_pass}/{len(ok)} PASS")
     return 0 if n_pass == len(ok) else 1
@@ -1574,9 +1717,18 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("env-probe")
     p = sub.add_parser("pretrain")
+    p.add_argument("--workers", type=int, default=0,
+                   help="eval workers; 0 = min(worker_cap(), 8)")
+    p = sub.add_parser("probe")
+    p.add_argument("--episodes", type=int, default=320,
+                   help="training episodes this probe invocation")
+    p.add_argument("--workers", type=int, default=0,
+                   help="eval workers; 0 = min(worker_cap(), 8)")
     p = sub.add_parser("train")
     p.add_argument("--episodes", type=int, default=320,
                     help="additional training episodes this invocation")
+    p.add_argument("--workers", type=int, default=0,
+                   help="eval workers; 0 = min(worker_cap(), 8)")
     sub.add_parser("export-topk")
     sub.add_parser("judge")
     sub.add_parser("status")
@@ -1590,6 +1742,8 @@ def main():
         return cmd_env_probe(a)
     if a.cmd == "pretrain":
         return cmd_pretrain(a)
+    if a.cmd == "probe":
+        return cmd_probe(a)
     if a.cmd == "train":
         return cmd_train(a)
     if a.cmd == "export-topk":

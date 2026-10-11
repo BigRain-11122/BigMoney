@@ -17727,6 +17727,46 @@
    "lane_relay_note": "r881 bm-c lane relay (W17 handover precedent): bm-c free RAM 0.8-1.5GB << 4GB gate r354 (CEO game session 4.6GB + MV chain = legal yield), shard workers parked r379/r491; lane opened ANY for healthy-machine burn; checkpoint stays machine-local -- screen-finalize round consolidates faces via fleet channel before judging.",
    "done_by": "bm-b",
    "done_at": "2026-10-11 18:32:04"
+  },
+  {
+   "id": "N2U3-ALPHAGEN-RL-P1-LEG2-PROBE",
+   "ticket_ref": "N2U3-ALPHAGEN-RL-P1 leg-2 short-window training probe (freeze commit 8f49d6eea r892; runner multiproc conversion r892: parallel marginal eval face + L13 bit-exact equivalence leg, selftest 46/46; F-04 MSG-20261011-1835-bmb declaration)",
+   "prereg_ref": "research/N2U3_ALPHAGEN_RL_P1.md FROZEN 2026-10-11 (r892 freeze commit 8f49d6eea; five-condition gate closed; evidence_cutoff=2026-10-09; seed bands 20625000/20625500/20626000)",
+   "consumer_plan": "N2U3 chain: leg-2 probe (pretrain + 256 eps PPO) -> probe_receipt throughput face sizes leg-3 full-training pool entry -> export-topk K=32 -> judged face (core48 all-start virtual timepoints g1_prime_v2/g2_registration_v2) -> N2 U3 channel-1 verdict; consumers = N2 U3 channel-1 closeout decision + factor material pool per prereg sec.0.9 item-2; P3 prediction face = RL marginal gain honest disclosure",
+   "runner": "scripts/alphagen_rl_p1.py",
+   "runner_args": [
+    "probe",
+    "--episodes",
+    "256"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-11 18:43:01",
+   "data_gates": "fail-closed rc2 freeze gate in-runner (prereg FROZEN + 3 seed bands required); panel gate = E16 frozen cache 2026-10-09 in place; universe/eligibility faces read-only",
+   "shards": [
+    {
+     "key": "n2u3-leg2-probe",
+     "status": "ready",
+     "checkpoint": "",
+     "note": "",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "workers=min(worker_cap(),8)=8 per prereg sec.0 workers_plan; parallel marginal eval ProcessPool (O-20260930-2355 law-1 conversion); BelowNormal CEO headroom law"
+   },
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "results/alphagen_rg"
+    }
+   ],
+   "data_deps": [
+    "results/alphagen_rg/panel_cache_2026-10-09.npz"
+   ]
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -17741,7 +17781,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-11 17:28:41",
+ "updated_at": "2026-10-11 18:43:01",
  "version": 1,
  "lane_machine": "bm-b"
 }
