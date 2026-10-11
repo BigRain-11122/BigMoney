@@ -420,10 +420,14 @@ def _null_axis_draw_w18(i):
 # ------------------------------------------------------------ grammar / generate
 def _entry_load():
     """Entry-source anchor gate (prereg sec.2 A3): frozen W16 candidates
-    product, sha256_16 verbatim, zero re-derivation."""
+    product, sha256_16 verbatim, zero re-derivation.  The anchor was
+    pinned on a CRLF worktree face, so hash the CRLF-canonical face:
+    LF-only checkouts of the identical blob must not false-mismatch
+    (r890 bm-b crash-loop repair); any content drift still fails closed."""
     with open(ENTRY_FILE, "rb") as fh:
         raw = fh.read()
-    sha16 = __import__("hashlib").sha256(raw).hexdigest()[:16]
+    canon = raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+    sha16 = __import__("hashlib").sha256(canon).hexdigest()[:16]
     if sha16 != ENTRY_SHA16:
         raise SystemExit(f"ENTRY-GATE FAIL: w16_candidates.json sha "
                          f"{sha16} != frozen {ENTRY_SHA16}")
