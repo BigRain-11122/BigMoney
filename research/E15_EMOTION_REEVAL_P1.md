@@ -89,8 +89,18 @@
 - 池 entry：`results/runnable_pool.json` 新 entry E15-EMOTION-REEVAL-P1-RUN（ready·workers_plan{workers:1,priority:BelowNormal}·worker_class=self-contained·lane_owner=null）。
 - F-04 MSG：freeze commit 同窗 fleet/inbox/ 声明（防双机撞建）。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【2026-10-11 11:2x bm-b r876 一次定稿回填·真值源=results/emotion_reeval/E15-REEVAL-2026-09-22.json】
 
-## §8 批后复盘【必填·s7-T】
+- **烧成实况（诚实双窗留痕）**：首跑 11:1x 死于注册重放窗基守卫（wbase<1 误设——探针5 实证 core48 面板=leg-L 全窗 2020-01-02 起·窗基 0 合法）＝**产出前工程死零判读**（判据零触碰·修复 commit 5a011ef7c 先行推送后二跑）；二跑 clean rc0（~90s·R41 <5min 轮内豁免）——**autofill 多核门拒收面如实披露**：O-20260930-2355 law-1 拒单线程 runner（11:08:01 tick verdict=multicore_gate_refused core_verdict=single_core）→本批 L1 单遍 derive 走 R41 轮内烧非池面自动点火（池 entry 翻 done 收口·供给面计数腿被消费）。
+- **判决面（m=4·BH q≤0.10·E[FP]=0.2 名义）**：**fdr_pass 4/4**（bh_q 0.0/0.0/0.0013/0.0015 全 ≪0.10）；**D6 拒收 2**（W3-23027+W3-46133 均 survivor-cluster 批内簇塌缩——vs 注册员 max|corr| 全 <0.7〔0.2699/0.1749·clash=ENGULF-CE-01 非撞线〕＝同族/同面批内互塌：sentiment 双员互塌保 W2-23057〔batch_dsr 0.999926〕、ta.strong_close 塌出）；**eligible_reform=2/4：W2-23057（sentiment.turnover_surge·合成分 0.54625）+W3-27009（seasonal.trend_by_season·合成分 0.54875）**；**上岗名单 2 员**（W3-27009→W2-23057 合成分降序·top-3 帽不触发）。
+- **四维读数（全员）**：batch_dsr（n_trials=4）0.9988-0.9999（批内折减近饱和）；regime_min_sharpe_L：W3-27009 **+0.8689 全段正**〔bear 2.5967/bull 0.8689/chop 1.0848〕=合成分头名主因，其余三员 bull 段负（-0.2053/-0.9556/-0.2271）；ceiling（vs 五员 EW 年化 4.68%）全员负（-0.0171..-0.0328）＝绝对收益面无一胜可投被动基线（批内百分位合成不掩盖·如实披露）；G-REPRO 4/4 ok（重建 Sharpe==冻结 sharpe_full 逐员恒等）。
+- **新旧判线对照（重估非翻案律实证）**：4 员全局口径 DSR 0.2429-0.5288（旧 G2 处刑面）→ 批内口径 0.9988+（改革面）——全局账本折减废止后 2 员过注册口径、2 员被批内簇去重拦下；批型区分度主载荷=ret/robust/anti_overfit 三维（anti_luck 维全员饱和无区分）。
+- **账本/损耗**：ledger_delta **0**（重估 derive 面·REEVAL18 §7 先例）+attrition **0** 行（零烧格）+marks +0；产物 evidence_cutoff=2026-09-22+cutoff_meta 双键在位（C2 合法）。
 
-（跑后回填：预测对账＋损耗账（零烧格披露）＋判线当批读数＋回执入轮报告与 CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑；捕获律收口步问「本批有无新方法/新宝藏」有则 knowledge/METHODOLOGY_ASSETS.md 或 TREASURE_REGISTRY.md append。）
+## §8 批后复盘【2026-10-11 11:2x bm-b r876】
+
+- **预测对账（§5 六条）**：P1 fdr_pass 4∈[2,4] **✓**；P2 D6 拒收 2∈[0,2] **✓**（注：拒收来源=批内簇非注册撞线——预测面「注册撞线拒收」语义部分偏移如实注记）；P3 eligible 2∈[0,3] **✓**；P4 上岗 2∈[0,3] **✓**；**P5 batch_dsr 0.9988-0.9999 ∉[0.25,0.95] MISS**——批内折减（n_trials=4）饱和度远超预估带上沿，批容量近零时 DSR 维失去区分度=改革合成分设计的实证注脚（非缺陷·四维无单维独裁构造兑现）；P6 regime_min 负 3/4>50% **✓**（W3-27009 全段正=四员唯一）。
+- **工程坑实录（三面）**：①core48 面板本体=leg-L 全窗（2020-01-02 起）非五员 2012 深窗——窗基 wbase=0 合法（探针5 实证·首跑死因）；②autofill 多核门（O-20260930-2355 law-1）拒单线程 runner——**轻量 L1 derive 批禁入池面自动点火**（supply-floor 链后续腿 runner 设计输入：要么 ProcessPool 转换要么 R41 轮内烧）；③**冻结判决分片件携 legL_daily_returns 全序列（n=1631/员）=复判零重模拟通道**（r876 首证·新方法学捕获→METHODOLOGY_ASSETS E56 卡）。
+- **捕获律收口（O-20261002-2100）**：本批有新方法 → METHODOLOGY_ASSETS **E56 冻结判决分片件零重模拟复判法** append；有新宝藏 → TREASURE_REGISTRY **E15 情绪族复判 2 员 eligible_reform 入册行**（onboard 名单=月界 s4 intake 候选·注册/纸盘上岗=月界面非本批自动面）。
+- **消费面**：onboard 2 员（W3-27009/W2-23057）→ s4 intake=**月界呈报面**（D6 binding→STRATEGY_LIBRARY 注册行+TRIAL-* 纸盘泊位+SIGNAL_BUILDERS 接线+smoke 锚定门复跑——r877+ 执行腿）+**48h CEO 呈报钟随判决面落地起计（due 2026-10-13 11:2x）**；digest=research/digests/DIGEST-20261011-e15-emotion-reeval.md；supply floor 面：E15 entry 消费后 ready 回 0——floor ≥3 by 10-13 目标待后续目录腿（r877+ 顺位起草）。
+- **复跑纪律**：产物在位=no-op（E15_EMOTION_REEVAL_REFINALIZE=1 唯一重做）；工程修复窗双跑留痕已载（首跑死/二跑成·commit 5a011ef7c 界桩）。

@@ -1,0 +1,468 @@
+{
+ "attrition_rows": 0,
+ "batch": "E15_EMOTION_REEVAL_P1",
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-22"
+ },
+ "d6_rejected": [
+  {
+   "candidate_id": "W3-23027",
+   "d6": {
+    "clash": "ENGULF-CE-01",
+    "max_corr_vs_registered": 0.2699
+   },
+   "reason": "survivor-cluster"
+  },
+  {
+   "candidate_id": "W3-46133",
+   "d6": {
+    "clash": "ENGULF-CE-01",
+    "max_corr_vs_registered": 0.1749
+   },
+   "reason": "survivor-cluster"
+  }
+ ],
+ "eligible_reform": [
+  "W2-23057",
+  "W3-27009"
+ ],
+ "evidence_cutoff": "2026-09-22",
+ "fdr": {
+  "e_fp_nominal": 0.2,
+  "gate": "bh_batch_fdr",
+  "m": 4,
+  "q_level": 0.1
+ },
+ "g_repro": {
+  "W2-23057": {
+   "frozen_sharpe_full": 1.1535,
+   "ok": true,
+   "rebuilt_sharpe": 1.1535
+  },
+  "W3-23027": {
+   "frozen_sharpe_full": 1.218,
+   "ok": true,
+   "rebuilt_sharpe": 1.218
+  },
+  "W3-27009": {
+   "frozen_sharpe_full": 1.2843,
+   "ok": true,
+   "rebuilt_sharpe": 1.2843
+  },
+  "W3-46133": {
+   "frozen_sharpe_full": 1.1829,
+   "ok": true,
+   "rebuilt_sharpe": 1.1829
+  }
+ },
+ "gates": {
+  "five_member_ew_ann": 0.046759,
+  "leg_idx": {
+   "census": {
+    "12m": 1127,
+    "24m": 875,
+    "6m": 1253
+   },
+   "first": "2020-01-02",
+   "last": "2026-09-22",
+   "n": 1631
+  },
+  "reform_weight_freeze_integrity": true,
+  "registered_replay_channel": "trial_labor_w1 A_TEMPLATES x DEFAULT_AXIS (reeval18_drill._registered_window_rets caliber)"
+ },
+ "honesty": "re-evaluation derive face: zero candidate-curve re-simulation, zero generation trials, zero ledger append (REEVAL18 sec.7 precedent); carried materials verbatim from frozen judge shards/roster; new-vs-old calibers disclosed per member (old_line_face).",
+ "ledger_delta": 0,
+ "member_count_m": 4,
+ "members": {
+  "W2-23057": {
+   "bh": {
+    "bh_q": 0.001333,
+    "fdr_pass": true,
+    "p": 0.001
+   },
+   "d6": {
+    "clash": "ENGULF-CE-01",
+    "max_corr_vs_registered": 0.2664
+   },
+   "d6_admitted": true,
+   "details": {
+    "axes": {
+     "R": "bear",
+     "S": "full",
+     "T": "daily",
+     "X": "t5"
+    },
+    "family": "sentiment.turnover_surge",
+    "old_line_face": {
+     "g1_margin": 0.0213,
+     "g1_sharpe_full": 1.1535,
+     "g1_skill_line": 1.1322,
+     "g2_eligible": false,
+     "global_dsr": 0.5288,
+     "n_eff_start_windows": 12063,
+     "oos_sharpe_legL": 1.9327
+    },
+    "params": {
+     "n": 13,
+     "threshold": 2.868716
+    },
+    "regime_segments": {
+     "bear": {
+      "n_days": 196,
+      "sharpe": 1.8587
+     },
+     "bull": {
+      "n_days": 663,
+      "sharpe": -0.2053
+     },
+     "chop": {
+      "n_days": 772,
+      "sharpe": 1.6269
+     }
+    }
+   },
+   "eligible_reform": true,
+   "member_metrics": {
+    "anti_luck": {
+     "batch_dsr": 0.999926
+    },
+    "anti_overfit": {
+     "d6_max_abs_corr": 0.2664,
+     "family_pbo": 0.2286
+    },
+    "ret": {
+     "annualized_ret_L": 0.029644,
+     "beat12m_rate_L": 0.547471,
+     "beat6m_rate_L": 0.537111,
+     "return_ceiling_O1126": -0.017115,
+     "sharpe_full_L": 1.1535
+    },
+    "robust": {
+     "bootstrap_ci_low_L": 1.5e-05,
+     "cost_x2_sharpe_L": 1.0409,
+     "regime_min_sharpe_L": -0.2053
+    }
+   },
+   "provenance": {
+    "annualized_ret_L": "derived:frozen daily compound",
+    "batch_dsr": "derived:deflated_sharpe_ratio(n_trials=4)",
+    "beat12m_rate_L": "carried:shard legs.L.x1.beat.12m",
+    "beat6m_rate_L": "carried:shard legs.L.x1.beat.6m",
+    "bootstrap_ci_low_L": "carried:shard dual_nulls.bootstrap_ci[0]",
+    "cost_x2_sharpe_L": "carried:shard legs.L.x2",
+    "family_pbo": "carried:e15_roster (archive authority)",
+    "regime_min_sharpe_L": "derived:frozen daily x v3_state_series",
+    "return_ceiling_O1126": "derived:ann - five_member_ew_O1555 (ew_ann=0.046759)",
+    "sharpe_full_L": "carried:shard legs.L.x1"
+   },
+   "reform": {
+    "bh_q": 0.001333,
+    "composite": 0.54625,
+    "dim_scores": {
+     "anti_luck": 0.875,
+     "anti_overfit": 0.525,
+     "ret": 0.4625,
+     "robust": 0.425
+    },
+    "eligible_reform": true,
+    "fdr_pass": true,
+    "missing_dims": [],
+    "p": 0.001
+   }
+  },
+  "W3-23027": {
+   "bh": {
+    "bh_q": 0.0,
+    "fdr_pass": true,
+    "p": 0.0
+   },
+   "d6": {
+    "clash": "ENGULF-CE-01",
+    "max_corr_vs_registered": 0.2699
+   },
+   "d6_admitted": false,
+   "details": {
+    "axes": {
+     "R": "bear",
+     "S": "full",
+     "T": "daily",
+     "X": "t5"
+    },
+    "family": "sentiment.turnover_surge",
+    "old_line_face": {
+     "g1_margin": 0.0841,
+     "g1_sharpe_full": 1.218,
+     "g1_skill_line": 1.1339,
+     "g2_eligible": false,
+     "global_dsr": 0.4903,
+     "n_eff_start_windows": 12063,
+     "oos_sharpe_legL": 1.4377
+    },
+    "params": {
+     "n": 27,
+     "threshold": 3.160676
+    },
+    "regime_segments": {
+     "bear": {
+      "n_days": 196,
+      "sharpe": 2.3472
+     },
+     "bull": {
+      "n_days": 663,
+      "sharpe": -0.9556
+     },
+     "chop": {
+      "n_days": 772,
+      "sharpe": 1.6203
+     }
+    }
+   },
+   "eligible_reform": false,
+   "member_metrics": {
+    "anti_luck": {
+     "batch_dsr": 0.999894
+    },
+    "anti_overfit": {
+     "d6_max_abs_corr": 0.2699,
+     "family_pbo": 0.1857
+    },
+    "ret": {
+     "annualized_ret_L": 0.031002,
+     "beat12m_rate_L": 0.535936,
+     "beat6m_rate_L": 0.533919,
+     "return_ceiling_O1126": -0.015757,
+     "sharpe_full_L": 1.218
+    },
+    "robust": {
+     "bootstrap_ci_low_L": 2.2e-05,
+     "cost_x2_sharpe_L": 1.1016,
+     "regime_min_sharpe_L": -0.9556
+    }
+   },
+   "provenance": {
+    "annualized_ret_L": "derived:frozen daily compound",
+    "batch_dsr": "derived:deflated_sharpe_ratio(n_trials=4)",
+    "beat12m_rate_L": "carried:shard legs.L.x1.beat.12m",
+    "beat6m_rate_L": "carried:shard legs.L.x1.beat.6m",
+    "bootstrap_ci_low_L": "carried:shard dual_nulls.bootstrap_ci[0]",
+    "cost_x2_sharpe_L": "carried:shard legs.L.x2",
+    "family_pbo": "carried:e15_roster (archive authority)",
+    "regime_min_sharpe_L": "derived:frozen daily x v3_state_series",
+    "return_ceiling_O1126": "derived:ann - five_member_ew_O1555 (ew_ann=0.046759)",
+    "sharpe_full_L": "carried:shard legs.L.x1"
+   },
+   "reform": {
+    "bh_q": 0.0,
+    "composite": 0.5425,
+    "dim_scores": {
+     "anti_luck": 0.375,
+     "anti_overfit": 0.575,
+     "ret": 0.6625,
+     "robust": 0.5125
+    },
+    "eligible_reform": true,
+    "fdr_pass": true,
+    "missing_dims": [],
+    "p": 0.0
+   }
+  },
+  "W3-27009": {
+   "bh": {
+    "bh_q": 0.0,
+    "fdr_pass": true,
+    "p": 0.0
+   },
+   "d6": {
+    "clash": "DROUGHT-CE-01",
+    "max_corr_vs_registered": 0.1428
+   },
+   "d6_admitted": true,
+   "details": {
+    "axes": {
+     "R": "none",
+     "S": "full",
+     "T": "weekly",
+     "X": "t20"
+    },
+    "family": "seasonal.trend_by_season",
+    "old_line_face": {
+     "g1_margin": 0.1504,
+     "g1_sharpe_full": 1.2843,
+     "g1_skill_line": 1.1339,
+     "g2_eligible": false,
+     "global_dsr": 0.2429,
+     "n_eff_start_windows": 12063,
+     "oos_sharpe_legL": 2.2952
+    },
+    "params": {
+     "ma_n": 400,
+     "month": 4
+    },
+    "regime_segments": {
+     "bear": {
+      "n_days": 196,
+      "sharpe": 2.5967
+     },
+     "bull": {
+      "n_days": 663,
+      "sharpe": 0.8689
+     },
+     "chop": {
+      "n_days": 772,
+      "sharpe": 1.0848
+     }
+    }
+   },
+   "eligible_reform": true,
+   "member_metrics": {
+    "anti_luck": {
+     "batch_dsr": 0.998785
+    },
+    "anti_overfit": {
+     "d6_max_abs_corr": 0.1428,
+     "family_pbo": 0.2714
+    },
+    "ret": {
+     "annualized_ret_L": 0.015496,
+     "beat12m_rate_L": 0.500444,
+     "beat6m_rate_L": 0.559457,
+     "return_ceiling_O1126": -0.031263,
+     "sharpe_full_L": 1.2843
+    },
+    "robust": {
+     "bootstrap_ci_low_L": 1.2e-05,
+     "cost_x2_sharpe_L": 1.1302,
+     "regime_min_sharpe_L": 0.8689
+    }
+   },
+   "provenance": {
+    "annualized_ret_L": "derived:frozen daily compound",
+    "batch_dsr": "derived:deflated_sharpe_ratio(n_trials=4)",
+    "beat12m_rate_L": "carried:shard legs.L.x1.beat.12m",
+    "beat6m_rate_L": "carried:shard legs.L.x1.beat.6m",
+    "bootstrap_ci_low_L": "carried:shard dual_nulls.bootstrap_ci[0]",
+    "cost_x2_sharpe_L": "carried:shard legs.L.x2",
+    "family_pbo": "carried:e15_roster (archive authority)",
+    "regime_min_sharpe_L": "derived:frozen daily x v3_state_series",
+    "return_ceiling_O1126": "derived:ann - five_member_ew_O1555 (ew_ann=0.046759)",
+    "sharpe_full_L": "carried:shard legs.L.x1"
+   },
+   "reform": {
+    "bh_q": 0.0,
+    "composite": 0.54875,
+    "dim_scores": {
+     "anti_luck": 0.125,
+     "anti_overfit": 0.575,
+     "ret": 0.6125,
+     "robust": 0.75
+    },
+    "eligible_reform": true,
+    "fdr_pass": true,
+    "missing_dims": [],
+    "p": 0.0
+   }
+  },
+  "W3-46133": {
+   "bh": {
+    "bh_q": 0.0015,
+    "fdr_pass": true,
+    "p": 0.0015
+   },
+   "d6": {
+    "clash": "ENGULF-CE-01",
+    "max_corr_vs_registered": 0.1749
+   },
+   "d6_admitted": false,
+   "details": {
+    "axes": {
+     "R": "bear",
+     "S": "delever",
+     "T": "daily",
+     "X": "t5"
+    },
+    "family": "ta.strong_close",
+    "old_line_face": {
+     "g1_margin": 0.049,
+     "g1_sharpe_full": 1.1829,
+     "g1_skill_line": 1.1339,
+     "g2_eligible": false,
+     "global_dsr": 0.4945,
+     "n_eff_start_windows": 12063,
+     "oos_sharpe_legL": 1.2692
+    },
+    "params": {
+     "pos_th": 0.516373,
+     "vol_len": 10,
+     "vol_mult": 2.563805
+    },
+    "regime_segments": {
+     "bear": {
+      "n_days": 196,
+      "sharpe": 1.7433
+     },
+     "bull": {
+      "n_days": 663,
+      "sharpe": -0.2271
+     },
+     "chop": {
+      "n_days": 772,
+      "sharpe": 1.7125
+     }
+    }
+   },
+   "eligible_reform": false,
+   "member_metrics": {
+    "anti_luck": {
+     "batch_dsr": 0.999898
+    },
+    "anti_overfit": {
+     "d6_max_abs_corr": 0.1749,
+     "family_pbo": 0.3714
+    },
+    "ret": {
+     "annualized_ret_L": 0.013999,
+     "beat12m_rate_L": 0.510204,
+     "beat6m_rate_L": 0.52913,
+     "return_ceiling_O1126": -0.03276,
+     "sharpe_full_L": 1.1829
+    },
+    "robust": {
+     "bootstrap_ci_low_L": 8e-06,
+     "cost_x2_sharpe_L": 1.0811,
+     "regime_min_sharpe_L": -0.2271
+    }
+   },
+   "provenance": {
+    "annualized_ret_L": "derived:frozen daily compound",
+    "batch_dsr": "derived:deflated_sharpe_ratio(n_trials=4)",
+    "beat12m_rate_L": "carried:shard legs.L.x1.beat.12m",
+    "beat6m_rate_L": "carried:shard legs.L.x1.beat.6m",
+    "bootstrap_ci_low_L": "carried:shard dual_nulls.bootstrap_ci[0]",
+    "cost_x2_sharpe_L": "carried:shard legs.L.x2",
+    "family_pbo": "carried:e15_roster (archive authority)",
+    "regime_min_sharpe_L": "derived:frozen daily x v3_state_series",
+    "return_ceiling_O1126": "derived:ann - five_member_ew_O1555 (ew_ann=0.046759)",
+    "sharpe_full_L": "carried:shard legs.L.x1"
+   },
+   "reform": {
+    "bh_q": 0.0015,
+    "composite": 0.3625,
+    "dim_scores": {
+     "anti_luck": 0.625,
+     "anti_overfit": 0.325,
+     "ret": 0.2625,
+     "robust": 0.3125
+    },
+    "eligible_reform": true,
+    "fdr_pass": true,
+    "missing_dims": [],
+    "p": 0.0015
+   }
+  }
+ },
+ "onboard_list": [
+  "W3-27009",
+  "W2-23057"
+ ],
+ "prereg_ref": "research/E15_EMOTION_REEVAL_P1.md FROZEN (freeze commit precedes this run)"
+}
