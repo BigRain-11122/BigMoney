@@ -1,40 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-03 10:24:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 50.3,
-   "keepalive": [
-    "fund-value-p1-nulls-0of1"
-   ],
-   "fuse_skipped": [
-    {
-     "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X1",
-     "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x1-0of1",
-     "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x1",
-     "fuse_refusals": 3
-    },
-    {
-     "entry": "FUND-DIVLOWVOL-P1-CELL-DIVLOWVOLYIELDVOL-X2",
-     "shard": "fund-divlowvol-p1-cell-divlowvolyieldvol-x2-0of1",
-     "sig": "scripts/fund_divlowvol_p1.py|run,--cell,DIVLOWVOL-YIELDVOL,--face,x2",
-     "fuse_refusals": 2
-    }
-   ],
-   "verdict": "launched",
-   "entry": "FUND-DIVLOWVOL-P1-NULLS",
-   "shard": "fund-divlowvol-p1-nulls-0of1",
-   "pid": 25980,
-   "runner_sha256": "06bd2bb2bd306363",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 0.7,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-03 10:26:01",
    "machine": "bm-b",
    "py_cpu_pct": 55.3,
@@ -1072,24 +1038,39 @@
    "fullburn_window": false,
    "target_met": false,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-11 18:12:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 17.7,
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-5",
+   "shard": "w18-screen-5of8",
+   "pid": 29428,
+   "runner_sha256": "b493751455877ec8",
+   "core_verdict": "multiproc",
+   "core_marker": "run_cells_parallel(",
+   "fill_latency_min": 62.9,
+   "fullburn_window": false,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-11 18:10:01",
+  "ts": "2026-10-11 18:12:01",
   "machine": "bm-b",
-  "py_cpu_pct": 6.4,
-  "single_core_red_flags": [
-   {
-    "ts": "2026-10-11T18:09:21+08:00",
-    "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-4",
-    "shard": "w18-screen-4of8",
-    "pid": 22184,
-    "wall_s": 60.1,
-    "effective_cores": 1.06,
-    "law": "O-20260930-2355 sec.1 law-2"
-   }
-  ],
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 17.7,
+  "verdict": "launched",
+  "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-5",
+  "shard": "w18-screen-5of8",
+  "pid": 29428,
+  "runner_sha256": "b493751455877ec8",
+  "core_verdict": "multiproc",
+  "core_marker": "run_cells_parallel(",
+  "fill_latency_min": 62.9,
+  "fullburn_window": false,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-11T18:09:21+08:00"
