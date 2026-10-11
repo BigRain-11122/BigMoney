@@ -1,0 +1,77 @@
+{
+ "probe": "W208 pre-seat probe (bm-c interactive, 2026-10-11, CEO fill-order + idle-reprimand window)",
+ "legs": {
+  "leg0": {
+   "rows": 205,
+   "tail": "W207",
+   "owner_rows": 197,
+   "bmc_rows": 37,
+   "bma_rows": 119,
+   "ordinal": 198,
+   "bmc_ordinal": 37,
+   "w207_ledger_head": 872571,
+   "w207_prev": 870371,
+   "w207_K": 453320,
+   "w207_mu": -0.09272664784258478,
+   "w207_sigma": 0.24511748314962398,
+   "w207_wonly_mu": -0.0949594545454544
+  },
+  "leg1": {
+   "ARITH_A": [
+    472204,
+    474203
+   ],
+   "ARITH_B": [
+    472404,
+    472603
+   ],
+   "A": [
+    472404,
+    474403
+   ],
+   "hops_A": 1,
+   "B": [
+    474404,
+    474603
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    472404,
+    472603
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      472404,
+      472603
+     ],
+     "jump_to": 474404
+    }
+   ],
+   "A_semantics": "A arithmetic continuation REFUSED at start by registered W207 B band 472_204..472_403 (staircase A-hops-prior-B SIXTY-EIGHTH instance, E36 card); honest forward walk, non-rotational r587",
+   "B_semantics": "B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual exclusion (W141 precedent, leg2 law); reserved walk past own-A"
+  },
+  "leg2": {
+   "conflicts": 0
+  },
+  "leg3": {
+   "origin_vacancy": true,
+   "absorb_mode": "bm-a seat MSG-2026-10-11-0129-bma-w208-seat (01:29, stale 11h, no prereg/five-face) = dead-estate absorb premise per r899/r915; takeover by bm-c interactive completes the chain, engine_owner stays bm-a per the seat claim; W209=bm-c tick-window seat+prereg on origin awaits this freeze per the chain-order law"
+  },
+  "leg4": {
+   "W209p_A": "474404..476403",
+   "hops_A": 0,
+   "W209p_B": "474604..474803",
+   "hops_B": 0,
+   "W209p_B_lands_inside_W209p_A": true,
+   "note": "W209+ naive projection on pre-W208 universe; W208-B-refuses-W209-A staircase anticipated once W208 B registered (SIXTY-NINETH instance anticipated); W209 freezer MUST re-derive on the post-W208 universe AND reserve own-wave A when deriving B (W141 precedent, leg2 law, E36 card) -- never transcribe r587)"
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": "472404_474403",
+  "B": "474404_474603"
+ }
+}
