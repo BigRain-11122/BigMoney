@@ -6191,6 +6191,24 @@ N1_BANDS = {
     # NOT a re-pick (R250: W207 bands were never assigned).
     207: {"a": (470_204, 472_203), "b_exit": (472_204, 472_403),
          "engine_owner": "bm-b"},
+    # W208 (bm-c interactive window 2026-10-11 ABSORB-FREEZE of the stale bm-a seat
+    # MSG-2026-10-11-0129-bma-w208-seat published 01:29, 11h stale with no
+    # prereg/five-face; dead-estate absorb per r899/r915 law (bm-a loop round 872
+    # alive but has not picked it up); engine_owner stays bm-a per the seat claim;
+    # bands machine-derived in the absorb-mode pre-seat probe
+    # results/_w208bmc_20261011_probe_receipt.json (rc0 ADMIT, leg1 hops=1/1):
+    # A = FIRST-CLEAN past prior-wave B (arithmetic continuation 472_204..474_203
+    # REFUSED at its own start by the registered W207 B band 472_204..472_403;
+    # honest forward walk -> 472_404..474_403; A base == prior-wave B tail+1
+    # (472_403+1) machine-checkable -- A-hops-prior-B staircase SIXTY-EIGHTH
+    # instance, E36 card; non-rotational r587 forward-monotone walk);
+    # B = FIRST-CLEAN past own-wave A (arithmetic continuation 474_404..474_603
+    # is CLEAN on the declared universe but lands INSIDE the W208 A band window
+    # 472_404..474_403 -- same-freeze mutual exclusion (W141 precedent, leg2 law)
+    # -- the walk with the own-wave A window reserved jumps to 474_604 ->
+    # 474_604..474_803); NOT a re-pick (R250: W208 bands were never assigned).
+    208: {"a": (472_404, 474_403), "b_exit": (474_404, 474_603),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
