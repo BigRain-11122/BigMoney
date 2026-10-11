@@ -1,0 +1,28 @@
+{
+ "ts": "2026-10-12T02:38:00+08:00",
+ "round": "r904 bm-b",
+ "dept": "工程",
+ "finding": "r903 release valve incomplete: only the llama-server RUNNER was killed; ollama serve daemon (PID 14440, up since 10-09 22:54) survived and respawned a new runner on the next in-flight flash request at 01:57:43 -> VRAM refilled (7858 used / 161 free) -> i2v contention resumed, batch still zero-save",
+ "respawn_chain_evidence": [
+  "runner PID 28644 StartTime 01:57:43, parent = ollama.exe serve PID 14440 (Get-CimInstance)",
+  "daemon alive since 10-09 22:54:30 = MinigameOllamaServe task instance (LastRunTime 10-09 22:54:24, LastTaskResult 267009 running)",
+  "serve.log 01:57+: continuous /v1/chat/completions 500s at 4m+ latencies (load attempts thrashing on full VRAM)",
+  "keep-warm.ps1 marker gate CONFIRMED healthy: keepwarm.log zero new lines since 10-04 11:44 (marker set 22:13:57 -> keep-warm exits line 7)",
+  "serve-warm.ps1 (PID 9772) = one-shot Wait-Process supervisor, no respawn loop; MiniGameOllamaServe task = login-trigger only (LastRun 10-09 22:54)"
+ ],
+ "action": "full valve third leg: Stop-Process ollama daemon 14440 first (cuts respawn source), then llama-server runner 28644",
+ "result_vram_mib": {
+  "before_kill": {"used": 7858, "free": 161},
+  "after_kill": {"used": 4219, "free": 3800},
+  "minutes_later": {"used": 7437, "free": 582, "note": "ComfyUI allocator expansion into freed headroom (expected, same pattern as r903) - i2v render now has the big pool"}
+ },
+ "respawn_source_census": "post-kill zero revival paths: daemon dead + marker gates keep-warm 10-min task + Serve task login-only + serve-warm supervisor exits when daemon dies",
+ "restoration_contract": "batch done -> Remove-Item keepwarm.pause -> next KeepWarm tick restores serve+pin within 10 min (serve-warm.ps1 header documents this exact contract)",
+ "i2v_lane_state_at_action": {
+  "driver_pid": 3968,
+  "comfyui_pid": 16432,
+  "queue_running": 1,
+  "queue_pending": 0,
+  "note": "KN16 in flight since ~01:13 (driver 4200s window near expiry; zombie may finish with freed VRAM or flip to timeout -> KN21 next)"
+ }
+}
