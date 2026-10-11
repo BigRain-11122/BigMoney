@@ -6,73 +6,87 @@
                                         {
                                             "value":  [
                                                           {
-                                                              "schema":  "machine-hourly-util v1 (C-20261001-03; reviver C-20261006-03)",
-                                                              "rows":  "@{ts=2026-10-01 11:50; bm-a=; bm-b=; bm-c=; bg-b=; bg-c=; bigstream=; bigcompute=} @{ts=2026-10-06 23:48; bm-a=; bm-b=; bm-c=}"
+                                                              "value":  [
+                                                                            {
+                                                                                "schema":  "machine-hourly-util v1 (C-20261001-03; reviver C-20261006-03)",
+                                                                                "rows":  "@{ts=2026-10-01 11:50; bm-a=; bm-b=; bm-c=; bg-b=; bg-c=; bigstream=; bigcompute=} @{ts=2026-10-06 23:48; bm-a=; bm-b=; bm-c=}"
+                                                                            },
+                                                                            {
+                                                                                "bm-c":  "@{gpu_free_gb=0.7; util=amber; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=-1 flags=2; ram_free_gb=1.8}",
+                                                                                "ts":  "2026-10-11 21:33"
+                                                                            },
+                                                                            {
+                                                                                "ts":  "2026-10-11 21:34",
+                                                                                "bm-c":  "@{gpu_free_gb=0.7; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3; util=amber; ram_free_gb=1.5}"
+                                                                            },
+                                                                            {
+                                                                                "bm-c":  "@{util=amber; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3; ram_free_gb=1.4; gpu_free_gb=0.7}",
+                                                                                "ts":  "2026-10-11 21:35"
+                                                                            }
+                                                                        ],
+                                                              "Count":  4
                                                           },
                                                           {
-                                                              "bm-c":  "@{gpu_free_gb=0.7; util=amber; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=-1 flags=2; ram_free_gb=1.8}",
-                                                              "ts":  "2026-10-11 21:33"
-                                                          },
-                                                          {
-                                                              "ts":  "2026-10-11 21:34",
-                                                              "bm-c":  "@{gpu_free_gb=0.7; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3; util=amber; ram_free_gb=1.5}"
-                                                          },
-                                                          {
-                                                              "bm-c":  "@{util=amber; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3; ram_free_gb=1.4; gpu_free_gb=0.7}",
+                                                              "bm-c":  {
+                                                                           "ram_free_gb":  2,
+                                                                           "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
+                                                                           "gpu_free_gb":  1,
+                                                                           "util":  "amber"
+                                                                       },
                                                               "ts":  "2026-10-11 21:35"
                                                           }
                                                       ],
-                                            "Count":  4
+                                            "Count":  2
                                         },
                                         {
                                             "bm-c":  {
-                                                         "ram_free_gb":  2,
-                                                         "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
-                                                         "gpu_free_gb":  1,
+                                                         "ram_free_gb":  1.9,
+                                                         "work":  "oversight: cpu=AMBER gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
+                                                         "gpu_free_gb":  0.9,
                                                          "util":  "amber"
                                                      },
-                                            "ts":  "2026-10-11 21:35"
+                                            "ts":  "2026-10-11 21:36"
+                                        },
+                                        {
+                                            "bm-c":  {
+                                                         "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=4",
+                                                         "ram_free_gb":  2.2,
+                                                         "gpu_free_gb":  1.5,
+                                                         "util":  "amber"
+                                                     },
+                                            "ts":  "2026-10-11 21:37"
+                                        },
+                                        {
+                                            "ts":  "2026-10-11 21:38",
+                                            "bm-c":  {
+                                                         "ram_free_gb":  1.8,
+                                                         "util":  "amber",
+                                                         "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
+                                                         "gpu_free_gb":  1.5
+                                                     }
                                         }
                                     ],
-                          "Count":  2
+                          "Count":  4
                       },
                       {
                           "bm-c":  {
-                                       "ram_free_gb":  1.9,
-                                       "work":  "oversight: cpu=AMBER gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
-                                       "gpu_free_gb":  0.9,
-                                       "util":  "amber"
-                                   },
-                          "ts":  "2026-10-11 21:36"
-                      },
-                      {
-                          "bm-c":  {
-                                       "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=4",
-                                       "ram_free_gb":  2.2,
-                                       "gpu_free_gb":  1.5,
-                                       "util":  "amber"
-                                   },
-                          "ts":  "2026-10-11 21:37"
-                      },
-                      {
-                          "ts":  "2026-10-11 21:38",
-                          "bm-c":  {
-                                       "ram_free_gb":  1.8,
-                                       "util":  "amber",
+                                       "ram_free_gb":  2.8,
                                        "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
-                                       "gpu_free_gb":  1.5
-                                   }
+                                       "gpu_free_gb":  0.7,
+                                       "util":  "amber"
+                                   },
+                          "ts":  "2026-10-11 22:36"
                       }
                   ],
-        "Count":  4
+        "Count":  2
     },
     {
         "bm-c":  {
-                     "ram_free_gb":  2.8,
+                     "ram_free_gb":  1.7,
                      "work":  "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=0 wave=209 flags=3",
-                     "gpu_free_gb":  0.7,
+                     "gpu_free_gb":  5,
                      "util":  "amber"
                  },
-        "ts":  "2026-10-11 22:36"
+        "ts":  "2026-10-11 23:36"
     }
 ]
