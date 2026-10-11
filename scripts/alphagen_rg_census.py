@@ -730,12 +730,52 @@ def _ckpt_flush(fp, rec):
     fp.flush()
 
 
+# pool harvest handshake (O-20260930-2355 window; r942 gap fix -- third
+# live instance = E16 shards 0/1 completed 2026-10-11 ~13:0x then falsely
+# fed the crash fuse because this runner lacked the worker-side half;
+# claims for 0/1 backfilled r881 per r497/r860 canonical remedy): the
+# worker-side half mirrors lowamp_p1._pool_claim /
+# thermo_overlay_p1._pool_claim verbatim (per-shard parameterized) -- on
+# a successful burn (incl. the idempotent ckpt-skip fast path) write the
+# closed+ok claim so the autofill harvest flip lands the shard done;
+# without it a completed burn reads as a crash to the fuse (r496 family).
+def _machine_id():
+    try:
+        return json.load(open(os.path.join(ROOT, "fleet", "machine.json"),
+                              encoding="utf-8"))["machine_id"]
+    except Exception:
+        return "unknown"
+
+
+def _pool_claim(shard, shards, started, detail):
+    entry = f"E16-ALPHAGEN-RG-SHARD-{shard}OF{shards}"
+    shard_key = f"e16-rg-{shard}of{shards}"
+    d = os.path.join(ROOT, "results", "pool_claims", entry)
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"{shard_key}.{_machine_id()}.json")
+    now = dt.datetime.now().astimezone().isoformat(timespec="seconds")
+    with open(fp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "started": started, "closed_at": now,
+                   "result_ref": detail}, fh,
+                  ensure_ascii=False, indent=2, sort_keys=True)
+    print("pool claim closed:", os.path.basename(fp))
+
+
 def cmd_run(shard, shards, workers):
     t0 = time.time()
+    started_iso = dt.datetime.now().astimezone().isoformat(timespec="seconds")
     face = gate_face()
     if not face["ready"]:
         print(json.dumps({"awaiting_panel": True, "gate": face},
-                         ensure_ascii=False, default=str))
+                         ensure_ascii=False, default=str), flush=True)
+        # r491 data-wait park marker (r797 landing law: every runner's
+        # data-gate refusal path carries it): honest zero-burn rc2 parks
+        # the entry instead of feeding the crash fuse a false crash.
+        print(f"AUTOFILL-PARK: {time.strftime('%Y-%m-%d %H:%M:%S')} "
+              f"panel gate not ready -- honest zero-burn, NOT a crash "
+              f"(r491 law)", flush=True)
         return 2
     # batch cutoff is FROZEN (D2 lockbox): the live panel cutoff is only a
     # readiness signal; later bars are truncated at load either way.
@@ -790,6 +830,8 @@ def cmd_run(shard, shards, workers):
                       "n_ok": n_ok, "n_skip": product["n_skip"],
                       "elapsed_sec": product["audit"]["elapsed_sec"]},
                      ensure_ascii=False))
+    _pool_claim(shard, shards, started_iso,
+                out + f" (n_ok={n_ok}, n_skip={product['n_skip']})")
     return 0
 
 
@@ -1119,6 +1161,33 @@ def selftest():
           led["batch_trials"] == 4 and led["total"] == 104)
     check("s7c finalize_already_landed guard available",
           callable(sg.finalize_already_landed))
+
+    # s8 wiring guards (r878 closed-selftest law + r797 landing grep law
+    # + r942 landing requirement): the claim-close leg must sit inside
+    # cmd_run on the success path and the r491 park marker on its
+    # data-gate refusal path -- a closed selftest without wiring legs
+    # reads green while the real run silently drops the handshake
+    # (r496 family, third live instance on this runner 2026-10-11).
+    import ast as _ast
+    _self_src = open(os.path.abspath(__file__), encoding="utf-8").read()
+    _tree = _ast.parse(_self_src)
+    _run_fn = None
+    for _n in _ast.walk(_tree):
+        if isinstance(_n, _ast.FunctionDef) and _n.name == "cmd_run":
+            _run_fn = _n
+            break
+    _ok_claim = False
+    if _run_fn is not None:
+        for _n in _ast.walk(_run_fn):
+            if (isinstance(_n, _ast.Call)
+                    and isinstance(_n.func, _ast.Name)
+                    and _n.func.id == "_pool_claim"):
+                _ok_claim = True
+                break
+    check("s8a pool claim-close call wired inside cmd_run", _ok_claim)
+    check("s8b r491 park marker on cmd_run gate-refusal path",
+          _run_fn is not None
+          and "AUTOFILL-PARK" in _ast.get_source_segment(_self_src, _run_fn))
 
     n_pass = sum(1 for _, c in ok if c)
     print(f"selftest: {n_pass}/{len(ok)} PASS")
