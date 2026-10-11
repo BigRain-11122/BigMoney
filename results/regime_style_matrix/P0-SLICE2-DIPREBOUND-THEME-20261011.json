@@ -1,0 +1,778 @@
+{
+ "schema": "p0-matrix-slice2",
+ "batch": "P0-MATRIX-SLICE2-DIPREBOUND-THEME",
+ "order_ref": "O-20261010-1725 sec.2 zero-burn v1 (P0 rows: dip rebound home-ground verify + theme event-window)",
+ "axis_freeze": "research/REGIME_AXIS_M1_FREEZE.md (bm-b r836)",
+ "deposit_floor": 0.013,
+ "td_per_year": 252,
+ "roll_window_td": 252,
+ "evidence_cutoff": "2026-09-22",
+ "label_first_day": "2013-03-21",
+ "calendar_axis": "results/regime_thermo/thermo_daily.csv (identity gate); dip series aligned by its own explicit dates array (cross-checked vs stored stats)",
+ "attribution_note": "slice attribution only; NOT a new-criterion claim; scheduling enforcement goes through its own prereg (freeze sec.4)",
+ "dip_rebound": {
+  "family": "dip_rebound",
+  "three_piece": "FY first-yang entry + BG bear gate + TP8 take-profit (REFINE-BENCH-20260926-P1 refined sleeve)",
+  "source": "results/rev_osc/daily_series_FY_BG_TP8.json",
+  "provenance": {
+   "machine": "bm-a",
+   "ts": "2026-09-28 00:50:26",
+   "engine": "rev_osc_stock_p1.sim_cell (judged frozen config, deterministic zero-rng)",
+   "cache": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock",
+   "law": "prereg s9-a4 two-path sleeve gate; artifact path = physical-dependency fallback, stats gate equal"
+  },
+  "declared_home": "BEAR (style matrix dip_rebound sleeve row)",
+  "faces": {
+   "x1": {
+    "n_days": 8792,
+    "date_first": "1990-12-19",
+    "date_last": "2026-09-22",
+    "sha256_series_stored": "e985f8e32d97d87c8cb1a37e9948d3ff6e809b5e14a191f7e3e1b2e74ae10ad9",
+    "full_span_stored": {
+     "sharpe_full": -0.219,
+     "ann_ret": -0.014384,
+     "max_dd": -0.57193,
+     "n_days": 8792,
+     "median_abs_r": 0.0,
+     "p999_abs_r": 0.036853
+    },
+    "full_span_recomputed": {
+     "sharpe_full": -0.219031,
+     "ann_ret": -0.014386,
+     "max_dd": -0.57193
+    },
+    "unlabeled_days": 5508,
+    "labeled_days": 3284,
+    "panic_days_in": 24,
+    "active_days_nonzero": 2428,
+    "counters_stored": {
+     "entries": 4417,
+     "trades": 4417,
+     "unfillable": 19,
+     "skips": {
+      "gate_closed": 929,
+      "gate_undefined": 28,
+      "thin_market": 341,
+      "empty_fill": 0
+     },
+     "exits": {
+      "time": 1839,
+      "tp": 1439,
+      "tp_gap": 119,
+      "sl": 1020,
+      "tail": 0
+     },
+     "cohorts": 1744
+    },
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": -0.007113280025131452,
+      "cum_ret": -0.0057,
+      "sharpe": -1.5236,
+      "max_dd": -0.0068,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2097,
+      "ann_ret": 0.04320516268962127,
+      "cum_ret": 0.4219,
+      "sharpe": 0.9394,
+      "max_dd": -0.0837,
+      "roll12": {
+       "n_windows": 1846,
+       "best": 0.2774,
+       "p75": 0.0753,
+       "median": 0.0367,
+       "p25": 0.0072,
+       "worst": -0.0823,
+       "pos_share": 0.7654
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.18552081459293757,
+      "cum_ret": -0.079,
+      "sharpe": -2.9474,
+      "max_dd": -0.0924,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.016970380014958097,
+      "cum_ret": 0.0523,
+      "sharpe": 0.2049,
+      "max_dd": -0.2614,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.2943,
+       "p75": 0.0685,
+       "median": -0.031,
+       "p25": -0.0807,
+       "worst": -0.1763,
+       "pos_share": 0.3411
+      },
+      "three_verdicts": {
+       "floor_beat_median": false,
+       "not_negative_median": false,
+       "gate_off_advice": true
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": -0.0512681595998592,
+      "cum_ret": -0.0201,
+      "sharpe": -0.549,
+      "max_dd": -0.064,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.7175664271529194,
+      "cum_ret": -0.1134,
+      "sharpe": -6.0105,
+      "max_dd": -0.1137,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   "x2": {
+    "n_days": 8792,
+    "date_first": "1990-12-19",
+    "date_last": "2026-09-22",
+    "sha256_series_stored": "0902f29e7d53083982811970fcfaa702e9df10e1f5ce5a2194ea4f48be12ff77",
+    "full_span_stored": {
+     "sharpe_full": -0.505,
+     "ann_ret": -0.030544,
+     "max_dd": -0.707232,
+     "n_days": 8792,
+     "median_abs_r": 0.0,
+     "p999_abs_r": 0.036583
+    },
+    "full_span_recomputed": {
+     "sharpe_full": -0.50506,
+     "ann_ret": -0.030547,
+     "max_dd": -0.707232
+    },
+    "unlabeled_days": 5508,
+    "labeled_days": 3284,
+    "panic_days_in": 24,
+    "active_days_nonzero": 2428,
+    "counters_stored": {
+     "entries": 4417,
+     "trades": 4417,
+     "unfillable": 19,
+     "skips": {
+      "gate_closed": 929,
+      "gate_undefined": 28,
+      "thin_market": 341,
+      "empty_fill": 0
+     },
+     "exits": {
+      "time": 1839,
+      "tp": 1439,
+      "tp_gap": 119,
+      "sl": 1020,
+      "tail": 0
+     },
+     "cohorts": 1744
+    },
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": -0.0078099786584526765,
+      "cum_ret": -0.0062,
+      "sharpe": -1.5856,
+      "max_dd": -0.0072,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2097,
+      "ann_ret": 0.02508480307798555,
+      "cum_ret": 0.229,
+      "sharpe": 0.5668,
+      "max_dd": -0.1057,
+      "roll12": {
+       "n_windows": 1846,
+       "best": 0.2552,
+       "p75": 0.0598,
+       "median": 0.0204,
+       "p25": -0.0079,
+       "worst": -0.1007,
+       "pos_share": 0.6793
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.20519724622654756,
+      "cum_ret": -0.0879,
+      "sharpe": -3.2506,
+      "max_dd": -0.0991,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": -0.04598395267834343,
+      "cum_ret": -0.133,
+      "sharpe": -0.3636,
+      "max_dd": -0.3305,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.2156,
+       "p75": 0.0028,
+       "median": -0.0904,
+       "p25": -0.1377,
+       "worst": -0.227,
+       "pos_share": 0.2515
+      },
+      "three_verdicts": {
+       "floor_beat_median": false,
+       "not_negative_median": false,
+       "gate_off_advice": true
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": -0.0825776627400644,
+      "cum_ret": -0.0326,
+      "sharpe": -0.9199,
+      "max_dd": -0.0698,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.7256095756255854,
+      "cum_ret": -0.1159,
+      "sharpe": -6.016,
+      "max_dd": -0.1161,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   }
+  }
+ },
+ "theme_wave": {
+  "family": "theme_wave_ride",
+  "declared_home": "BULL (style matrix cta/theme row, O-1725 P0 declared bull weapon)",
+  "window_semantics": "episode = theme ignition event window (wlen days, stratum FULL/SOLO); regime = REGIME-5 label at ignition_date; panic-day ignitions bucket to PANIC with priority",
+  "batches": {
+   "TJ": {
+    "source": "results/theme_judge_p1/episodes.csv",
+    "n_episodes_total": 1822,
+    "ignition_date_range": [
+     "2006-12-20",
+     "2026-09-08"
+    ],
+    "strata": {
+     "TJ-FULL": {
+      "x1": {
+       "n_episodes": 1171,
+       "unlabeled_episodes": 0,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 292,
+         "median_sys_net": 0.0369,
+         "p25": -0.1085,
+         "p75": 0.2698,
+         "best": 0.8677,
+         "worst": -0.914,
+         "pos_share": 0.5959,
+         "median_excess_vs_bh": 0.0187,
+         "beat_bh_share": 0.5753
+        },
+        "CHOP": {
+         "n_episodes": 864,
+         "median_sys_net": 0.0214,
+         "p25": -0.17,
+         "p75": 0.2342,
+         "best": 2.0055,
+         "worst": -0.8511,
+         "pos_share": 0.5428,
+         "median_excess_vs_bh": -0.0216,
+         "beat_bh_share": 0.25
+        },
+        "GRIND": {
+         "n_episodes": 0
+        },
+        "BEAR": {
+         "n_episodes": 0
+        },
+        "SUPPORT": {
+         "n_episodes": 15,
+         "median_sys_net": -0.1594,
+         "p25": -0.161,
+         "p75": -0.1581,
+         "best": 0.0701,
+         "worst": -0.1632,
+         "pos_share": 0.1333,
+         "median_excess_vs_bh": 0.0369,
+         "beat_bh_share": 0.9333,
+         "sample_note": "n=15 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      },
+      "x2": {
+       "n_episodes": 1171,
+       "unlabeled_episodes": 0,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 292,
+         "median_sys_net": 0.0342,
+         "p25": -0.1111,
+         "p75": 0.2669,
+         "best": 0.8534,
+         "worst": -0.9144,
+         "pos_share": 0.5925,
+         "median_excess_vs_bh": 0.0177,
+         "beat_bh_share": 0.5719
+        },
+        "CHOP": {
+         "n_episodes": 864,
+         "median_sys_net": 0.0187,
+         "p25": -0.1729,
+         "p75": 0.2323,
+         "best": 1.9976,
+         "worst": -0.8515,
+         "pos_share": 0.5324,
+         "median_excess_vs_bh": -0.0236,
+         "beat_bh_share": 0.2442
+        },
+        "GRIND": {
+         "n_episodes": 0
+        },
+        "BEAR": {
+         "n_episodes": 0
+        },
+        "SUPPORT": {
+         "n_episodes": 15,
+         "median_sys_net": -0.1616,
+         "p25": -0.1632,
+         "p75": -0.1603,
+         "best": 0.0673,
+         "worst": -0.1654,
+         "pos_share": 0.1333,
+         "median_excess_vs_bh": 0.0358,
+         "beat_bh_share": 0.9333,
+         "sample_note": "n=15 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      }
+     },
+     "TJ-SOLO": {
+      "x1": {
+       "n_episodes": 651,
+       "unlabeled_episodes": 27,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 131,
+         "median_sys_net": -0.0545,
+         "p25": -0.1778,
+         "p75": 0.2095,
+         "best": 1.5656,
+         "worst": -0.8943,
+         "pos_share": 0.4351,
+         "median_excess_vs_bh": -0.0332,
+         "beat_bh_share": 0.4656
+        },
+        "CHOP": {
+         "n_episodes": 404,
+         "median_sys_net": -0.096,
+         "p25": -0.2699,
+         "p75": 0.0855,
+         "best": 2.2519,
+         "worst": -0.9136,
+         "pos_share": 0.3564,
+         "median_excess_vs_bh": -0.0109,
+         "beat_bh_share": 0.3564
+        },
+        "GRIND": {
+         "n_episodes": 10,
+         "median_sys_net": -0.1644,
+         "p25": -0.2821,
+         "p75": -0.0853,
+         "best": 0.671,
+         "worst": -0.4113,
+         "pos_share": 0.1,
+         "median_excess_vs_bh": -0.3045,
+         "beat_bh_share": 0.1,
+         "sample_note": "n=10 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "BEAR": {
+         "n_episodes": 55,
+         "median_sys_net": -0.0867,
+         "p25": -0.1586,
+         "p75": 0.118,
+         "best": 0.6338,
+         "worst": -0.6858,
+         "pos_share": 0.3455,
+         "median_excess_vs_bh": -0.2096,
+         "beat_bh_share": 0.2545
+        },
+        "SUPPORT": {
+         "n_episodes": 24,
+         "median_sys_net": -0.0818,
+         "p25": -0.1732,
+         "p75": -0.0334,
+         "best": 0.4444,
+         "worst": -0.7652,
+         "pos_share": 0.1667,
+         "median_excess_vs_bh": 0.0224,
+         "beat_bh_share": 0.5833,
+         "sample_note": "n=24 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      },
+      "x2": {
+       "n_episodes": 651,
+       "unlabeled_episodes": 27,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 131,
+         "median_sys_net": -0.0594,
+         "p25": -0.1831,
+         "p75": 0.204,
+         "best": 1.5556,
+         "worst": -0.8947,
+         "pos_share": 0.4198,
+         "median_excess_vs_bh": -0.0356,
+         "beat_bh_share": 0.4504
+        },
+        "CHOP": {
+         "n_episodes": 404,
+         "median_sys_net": -0.0984,
+         "p25": -0.2764,
+         "p75": 0.0837,
+         "best": 2.2392,
+         "worst": -0.9141,
+         "pos_share": 0.354,
+         "median_excess_vs_bh": -0.0124,
+         "beat_bh_share": 0.354
+        },
+        "GRIND": {
+         "n_episodes": 10,
+         "median_sys_net": -0.173,
+         "p25": -0.2914,
+         "p75": -0.0928,
+         "best": 0.6644,
+         "worst": -0.4189,
+         "pos_share": 0.1,
+         "median_excess_vs_bh": -0.3128,
+         "beat_bh_share": 0.1,
+         "sample_note": "n=10 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "BEAR": {
+         "n_episodes": 55,
+         "median_sys_net": -0.0891,
+         "p25": -0.1608,
+         "p75": 0.11,
+         "best": 0.6232,
+         "worst": -0.6895,
+         "pos_share": 0.3455,
+         "median_excess_vs_bh": -0.2106,
+         "beat_bh_share": 0.2364
+        },
+        "SUPPORT": {
+         "n_episodes": 24,
+         "median_sys_net": -0.0849,
+         "p25": -0.1753,
+         "p75": -0.0368,
+         "best": 0.4425,
+         "worst": -0.767,
+         "pos_share": 0.1667,
+         "median_excess_vs_bh": 0.0213,
+         "beat_bh_share": 0.5833,
+         "sample_note": "n=24 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      }
+     }
+    }
+   },
+   "TJ2": {
+    "source": "results/theme_judge_p2/episodes.csv",
+    "n_episodes_total": 1822,
+    "ignition_date_range": [
+     "2006-12-20",
+     "2026-09-08"
+    ],
+    "strata": {
+     "TJ2-FULL": {
+      "x1": {
+       "n_episodes": 1171,
+       "unlabeled_episodes": 0,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 292,
+         "median_sys_net": 0.0059,
+         "p25": -0.1599,
+         "p75": 0.281,
+         "best": 0.8313,
+         "worst": -0.914,
+         "pos_share": 0.5068,
+         "median_excess_vs_bh": 0.0,
+         "beat_bh_share": 0.4418
+        },
+        "CHOP": {
+         "n_episodes": 864,
+         "median_sys_net": 0.0807,
+         "p25": -0.1225,
+         "p75": 0.2933,
+         "best": 2.6128,
+         "worst": -0.8511,
+         "pos_share": 0.6088,
+         "median_excess_vs_bh": 0.0,
+         "beat_bh_share": 0.2812
+        },
+        "GRIND": {
+         "n_episodes": 0
+        },
+        "BEAR": {
+         "n_episodes": 0
+        },
+        "SUPPORT": {
+         "n_episodes": 15,
+         "median_sys_net": -0.2172,
+         "p25": -0.2185,
+         "p75": -0.215,
+         "best": 0.014,
+         "worst": -0.2194,
+         "pos_share": 0.0667,
+         "median_excess_vs_bh": -0.0198,
+         "beat_bh_share": 0.0,
+         "sample_note": "n=15 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      },
+      "x2": {
+       "n_episodes": 1171,
+       "unlabeled_episodes": 0,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 292,
+         "median_sys_net": 0.0032,
+         "p25": -0.1621,
+         "p75": 0.2777,
+         "best": 0.829,
+         "worst": -0.9144,
+         "pos_share": 0.5034,
+         "median_excess_vs_bh": 0.0,
+         "beat_bh_share": 0.4349
+        },
+        "CHOP": {
+         "n_episodes": 864,
+         "median_sys_net": 0.0781,
+         "p25": -0.126,
+         "p75": 0.2897,
+         "best": 2.6033,
+         "worst": -0.8515,
+         "pos_share": 0.6065,
+         "median_excess_vs_bh": 0.0,
+         "beat_bh_share": 0.2812
+        },
+        "GRIND": {
+         "n_episodes": 0
+        },
+        "BEAR": {
+         "n_episodes": 0
+        },
+        "SUPPORT": {
+         "n_episodes": 15,
+         "median_sys_net": -0.2192,
+         "p25": -0.2205,
+         "p75": -0.217,
+         "best": 0.0113,
+         "worst": -0.2215,
+         "pos_share": 0.0667,
+         "median_excess_vs_bh": -0.0208,
+         "beat_bh_share": 0.0,
+         "sample_note": "n=15 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      }
+     },
+     "TJ2-SOLO": {
+      "x1": {
+       "n_episodes": 651,
+       "unlabeled_episodes": 27,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 131,
+         "median_sys_net": -0.0708,
+         "p25": -0.2496,
+         "p75": 0.1426,
+         "best": 1.6084,
+         "worst": -0.8943,
+         "pos_share": 0.3969,
+         "median_excess_vs_bh": -0.0407,
+         "beat_bh_share": 0.4046
+        },
+        "CHOP": {
+         "n_episodes": 404,
+         "median_sys_net": -0.1075,
+         "p25": -0.2678,
+         "p75": 0.077,
+         "best": 1.9776,
+         "worst": -0.9178,
+         "pos_share": 0.3441,
+         "median_excess_vs_bh": 0.0,
+         "beat_bh_share": 0.3193
+        },
+        "GRIND": {
+         "n_episodes": 10,
+         "median_sys_net": -0.149,
+         "p25": -0.2085,
+         "p75": -0.0851,
+         "best": 0.4846,
+         "worst": -0.3238,
+         "pos_share": 0.2,
+         "median_excess_vs_bh": -0.2936,
+         "beat_bh_share": 0.1,
+         "sample_note": "n=10 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "BEAR": {
+         "n_episodes": 55,
+         "median_sys_net": -0.0773,
+         "p25": -0.1736,
+         "p75": 0.2827,
+         "best": 0.8414,
+         "worst": -0.551,
+         "pos_share": 0.4364,
+         "median_excess_vs_bh": -0.1415,
+         "beat_bh_share": 0.2
+        },
+        "SUPPORT": {
+         "n_episodes": 24,
+         "median_sys_net": -0.1582,
+         "p25": -0.2309,
+         "p75": -0.007,
+         "best": 0.5092,
+         "worst": -0.7229,
+         "pos_share": 0.25,
+         "median_excess_vs_bh": 0.0282,
+         "beat_bh_share": 0.625,
+         "sample_note": "n=24 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      },
+      "x2": {
+       "n_episodes": 651,
+       "unlabeled_episodes": 27,
+       "panic_ignitions": 0,
+       "by_regime": {
+        "BULL": {
+         "n_episodes": 131,
+         "median_sys_net": -0.0732,
+         "p25": -0.2525,
+         "p75": 0.1397,
+         "best": 1.5846,
+         "worst": -0.8947,
+         "pos_share": 0.3969,
+         "median_excess_vs_bh": -0.0422,
+         "beat_bh_share": 0.4046
+        },
+        "CHOP": {
+         "n_episodes": 404,
+         "median_sys_net": -0.111,
+         "p25": -0.2708,
+         "p75": 0.0732,
+         "best": 1.966,
+         "worst": -0.918,
+         "pos_share": 0.3366,
+         "median_excess_vs_bh": -0.0008,
+         "beat_bh_share": 0.3144
+        },
+        "GRIND": {
+         "n_episodes": 10,
+         "median_sys_net": -0.1567,
+         "p25": -0.2144,
+         "p75": -0.0908,
+         "best": 0.4788,
+         "worst": -0.3308,
+         "pos_share": 0.2,
+         "median_excess_vs_bh": -0.2997,
+         "beat_bh_share": 0.1,
+         "sample_note": "n=10 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "BEAR": {
+         "n_episodes": 55,
+         "median_sys_net": -0.0797,
+         "p25": -0.1757,
+         "p75": 0.2777,
+         "best": 0.8294,
+         "worst": -0.5551,
+         "pos_share": 0.4182,
+         "median_excess_vs_bh": -0.1471,
+         "beat_bh_share": 0.2
+        },
+        "SUPPORT": {
+         "n_episodes": 24,
+         "median_sys_net": -0.1615,
+         "p25": -0.2329,
+         "p75": -0.0096,
+         "best": 0.5072,
+         "worst": -0.7243,
+         "pos_share": 0.25,
+         "median_excess_vs_bh": 0.0272,
+         "beat_bh_share": 0.625,
+         "sample_note": "n=24 < 30 episodes: small-sample bucket, read distribution shape not verdicts"
+        },
+        "PANIC": {
+         "n_episodes": 0
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "coverage_gaps_update": {
+  "four_asset": "unchanged from slice v1: no in-repo daily stream (replay leg)",
+  "six_member_defensive_and_system_v1": "unchanged: forward paper marks too short for 12m windows",
+  "dip_rebound": "RESOLVED this slice: located stream (DECISION_CHAIN_V2_P1 sleeve-daily-series) and wired into the matrix -- slice v1 sec.4 row superseded",
+  "theme_wave": "RESOLVED this slice: event-window attribution landed (ignition-date regime bucketing)"
+ },
+ "audit": {
+  "machine": "bm-c",
+  "generated": "2026-10-11 14:28:52",
+  "runtime_note": "zero-burn deterministic re-slice, no engine re-run, no new trials"
+ }
+}
