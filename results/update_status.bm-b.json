@@ -1,8 +1,8 @@
 {
- "updated": "2026-10-11 16:07:18",
- "now": "2026-10-11 16:07:17.633463",
+ "updated": "2026-10-11 16:36:24",
+ "now": "2026-10-11 16:36:22.225717",
  "close_accept_time": "15:30:00",
- "symbols": 48,
+ "symbols": 49,
  "total_new_rows": 0,
  "failures": [],
  "overlap_mismatches": [],
@@ -125,6 +125,13 @@
    "overlap_mismatch": false,
    "error": null,
    "skipped": "probe_no_new"
+  },
+  {
+   "symbol": "510880",
+   "appended": 0,
+   "overlap_mismatch": false,
+   "error": null,
+   "skipped": "catchup_stale_dead"
   },
   {
    "symbol": "511010",
@@ -345,10 +352,14 @@
   }
  ],
  "catchup": {
-  "laggards": [],
+  "laggards": [
+   "510880"
+  ],
   "fetched": [],
   "backoff": [],
-  "stale_dead": []
+  "stale_dead": [
+   "510880"
+  ]
  },
  "catchup_attempts": {},
  "cutoff_error": null,
