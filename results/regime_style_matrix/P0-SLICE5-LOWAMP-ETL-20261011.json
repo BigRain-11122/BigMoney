@@ -1,0 +1,1885 @@
+{
+ "schema": "p0-matrix-slice5",
+ "batch": "P0-MATRIX-SLICE5-LOWAMP-ETL",
+ "order_ref": "O-20261010-1725 sec.2 zero-burn v1 (P0 row: 低波防御族 ETF home-ground verify)",
+ "axis_freeze": "research/REGIME_AXIS_M1_FREEZE.md (bm-b r836)",
+ "deposit_floor": 0.013,
+ "td_per_year": 252,
+ "roll_window_td": 252,
+ "evidence_cutoff": "2026-09-22",
+ "batch_cutoff_note": "cells replayed at the batch's own cutoff 2026-09-22 via its own runner (load_axis/_cont_task verbatim); regime bucketing uses REGIME-5 labels through 2026-09-30",
+ "label_first_day": "2013-03-21",
+ "calendar_axis": "replay panel index (legacy 2020-01-02.., deep 2013-06-17.., both end 2026-09-22; label coverage 100% residue 0 per probe)",
+ "family": "lowamp_defensive_etf",
+ "family_verdict": "judged-negative (LOWAMP-P3 dual-axis beat 642/1380=46.5% pass=false; exit-census PASS; D6 0.1868 ADMIT) -- attribution of the adjudicated stream, not a rescue claim",
+ "declared_home": "defensive all-weather claim (matrix v1 lowvol sleeve row, BEAR/SUPPORT-weighted) -- home-ground verify face",
+ "attribution_note": "slice attribution only; NOT a new-criterion claim; scheduling enforcement goes through its own prereg (freeze sec.4)",
+ "lowamp_defensive_etf": {
+  "family": "lowamp_defensive_etf",
+  "three_piece": "W-bar low-amplitude rank Top-N defensive-ETF rotation (LA-REP invvol / LA-EQ eq / LA-T3 N3 / LA-EDGE W104), LOWAMP-P3 frozen specs, T+1 engine-canonical",
+  "source": "results/lowamp_p3/cont_*.json (16 frozen continuous cells) replayed via scripts/lowamp_p3.py verbatim",
+  "provenance": {
+   "batch": "LOWAMP-P3",
+   "ticket": "T-2026-10-01-140",
+   "cost": "base=x1 (13.041bp/side frozen), x2=CostPatch(2.0)",
+   "panel": "legacy=core48 adj face 2020-01-02.., deep=t18_deep_panel 2013-06-17.."
+  },
+  "cells": [
+   {
+    "family": "legacy",
+    "cell": "LA-EQ|legacy|base",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "eq"
+    },
+    "source": "results/lowamp_p3/cont_LA-EQ_legacy_base.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.158046,
+     "ret_full": 0.158756,
+     "max_dd": -0.037083,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1158756.09
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.158046,
+     "ret_full": 0.158756,
+     "max_dd": -0.037083,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1158756.09
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.019355024364047235,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6396,
+      "max_dd": -0.0154,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.01884978684981009,
+      "cum_ret": 0.0879,
+      "sharpe": 0.9645,
+      "max_dd": -0.0334,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0571,
+       "p75": 0.0441,
+       "median": 0.0359,
+       "p25": 0.0154,
+       "worst": -0.02,
+       "pos_share": 0.8183
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.012771007255893085,
+      "cum_ret": 0.0042,
+      "sharpe": 0.5624,
+      "max_dd": -0.008,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03800335012130929,
+      "cum_ret": 0.0435,
+      "sharpe": 2.01,
+      "max_dd": -0.012,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0428,
+       "p75": 0.0346,
+       "median": 0.0323,
+       "p25": 0.0303,
+       "worst": 0.0265,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.060529156066897905,
+      "cum_ret": 0.0146,
+      "sharpe": 5.8166,
+      "max_dd": -0.0026,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6897790869256997,
+      "cum_ret": 0.0063,
+      "sharpe": 13.2033,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-EQ|legacy|x2",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "eq"
+    },
+    "source": "results/lowamp_p3/cont_LA-EQ_legacy_x2.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.119469,
+     "ret_full": 0.153707,
+     "max_dd": -0.037131,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1153706.74
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.119469,
+     "ret_full": 0.153707,
+     "max_dd": -0.037131,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1153706.74
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.019426319446178897,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6407,
+      "max_dd": -0.0155,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.01799420803117391,
+      "cum_ret": 0.0838,
+      "sharpe": 0.9176,
+      "max_dd": -0.0335,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0574,
+       "p75": 0.0423,
+       "median": 0.0347,
+       "p25": 0.0154,
+       "worst": -0.0213,
+       "pos_share": 0.8183
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.012839757346062353,
+      "cum_ret": 0.0042,
+      "sharpe": 0.5633,
+      "max_dd": -0.008,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03738815819229635,
+      "cum_ret": 0.0428,
+      "sharpe": 1.9702,
+      "max_dd": -0.0121,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0431,
+       "p75": 0.0338,
+       "median": 0.0316,
+       "p25": 0.0295,
+       "worst": 0.0257,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.060819370783074644,
+      "cum_ret": 0.0146,
+      "sharpe": 5.8163,
+      "max_dd": -0.0026,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6937023281310608,
+      "cum_ret": 0.0063,
+      "sharpe": 13.2044,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-EDGE|legacy|base",
+    "spec": {
+     "W": 104,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-EDGE_legacy_base.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.285324,
+     "ret_full": 0.172777,
+     "max_dd": -0.025516,
+     "n_trades": 3,
+     "n_entries": 5,
+     "nav_last": 1172776.98
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.285324,
+     "ret_full": 0.172777,
+     "max_dd": -0.025516,
+     "n_trades": 3,
+     "n_entries": 5,
+     "nav_last": 1172776.98
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1526,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.01927674028188886,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6379,
+      "max_dd": -0.0154,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.02101171992396944,
+      "cum_ret": 0.0984,
+      "sharpe": 1.11,
+      "max_dd": -0.0246,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0567,
+       "p75": 0.0451,
+       "median": 0.0359,
+       "p25": 0.0148,
+       "worst": -0.0156,
+       "pos_share": 0.8544
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.021568036631836485,
+      "cum_ret": 0.0071,
+      "sharpe": 0.9668,
+      "max_dd": -0.0079,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03775520627315254,
+      "cum_ret": 0.0433,
+      "sharpe": 2.0113,
+      "max_dd": -0.0119,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0426,
+       "p75": 0.0343,
+       "median": 0.0321,
+       "p25": 0.03,
+       "worst": 0.0263,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.06012026461795705,
+      "cum_ret": 0.0145,
+      "sharpe": 5.8187,
+      "max_dd": -0.0025,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6847998204774026,
+      "cum_ret": 0.0062,
+      "sharpe": 13.198,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-EDGE|legacy|x2",
+    "spec": {
+     "W": 104,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-EDGE_legacy_x2.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.258364,
+     "ret_full": 0.169325,
+     "max_dd": -0.025549,
+     "n_trades": 3,
+     "n_entries": 5,
+     "nav_last": 1169324.54
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.258364,
+     "ret_full": 0.169325,
+     "max_dd": -0.025549,
+     "n_trades": 3,
+     "n_entries": 5,
+     "nav_last": 1169324.54
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1526,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.01932642908459614,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6385,
+      "max_dd": -0.0154,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.020493144157892162,
+      "cum_ret": 0.0958,
+      "sharpe": 1.0801,
+      "max_dd": -0.0247,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0569,
+       "p75": 0.0441,
+       "median": 0.0356,
+       "p25": 0.0149,
+       "worst": -0.0156,
+       "pos_share": 0.8465
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.021625382899385537,
+      "cum_ret": 0.0071,
+      "sharpe": 0.9667,
+      "max_dd": -0.008,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03709587805483672,
+      "cum_ret": 0.0425,
+      "sharpe": 1.9719,
+      "max_dd": -0.012,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0427,
+       "p75": 0.0335,
+       "median": 0.0313,
+       "p25": 0.0292,
+       "worst": 0.0255,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.060314578571201594,
+      "cum_ret": 0.0145,
+      "sharpe": 5.8186,
+      "max_dd": -0.0026,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6874207735779052,
+      "cum_ret": 0.0062,
+      "sharpe": 13.1987,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-REP|legacy|base",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-REP_legacy_base.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.158046,
+     "ret_full": 0.158756,
+     "max_dd": -0.037083,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1158756.09
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.158046,
+     "ret_full": 0.158756,
+     "max_dd": -0.037083,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1158756.09
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.019355024364047235,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6396,
+      "max_dd": -0.0154,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.01884978684981009,
+      "cum_ret": 0.0879,
+      "sharpe": 0.9645,
+      "max_dd": -0.0334,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0571,
+       "p75": 0.0441,
+       "median": 0.0359,
+       "p25": 0.0154,
+       "worst": -0.02,
+       "pos_share": 0.8183
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.012771007255893085,
+      "cum_ret": 0.0042,
+      "sharpe": 0.5624,
+      "max_dd": -0.008,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03800335012130929,
+      "cum_ret": 0.0435,
+      "sharpe": 2.01,
+      "max_dd": -0.012,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0428,
+       "p75": 0.0346,
+       "median": 0.0323,
+       "p25": 0.0303,
+       "worst": 0.0265,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.060529156066897905,
+      "cum_ret": 0.0146,
+      "sharpe": 5.8166,
+      "max_dd": -0.0026,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6897790869256997,
+      "cum_ret": 0.0063,
+      "sharpe": 13.2033,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-REP|legacy|x2",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-REP_legacy_x2.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.119469,
+     "ret_full": 0.153707,
+     "max_dd": -0.037131,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1153706.74
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.119469,
+     "ret_full": 0.153707,
+     "max_dd": -0.037131,
+     "n_trades": 7,
+     "n_entries": 9,
+     "nav_last": 1153706.74
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": -0.019426319446178897,
+      "cum_ret": -0.0044,
+      "sharpe": -0.6407,
+      "max_dd": -0.0155,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.01799420803117391,
+      "cum_ret": 0.0838,
+      "sharpe": 0.9176,
+      "max_dd": -0.0335,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0574,
+       "p75": 0.0423,
+       "median": 0.0347,
+       "p25": 0.0154,
+       "worst": -0.0213,
+       "pos_share": 0.8183
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.012839757346062353,
+      "cum_ret": 0.0042,
+      "sharpe": 0.5633,
+      "max_dd": -0.008,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.03738815819229635,
+      "cum_ret": 0.0428,
+      "sharpe": 1.9702,
+      "max_dd": -0.0121,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0431,
+       "p75": 0.0338,
+       "median": 0.0316,
+       "p25": 0.0295,
+       "worst": 0.0257,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.060819370783074644,
+      "cum_ret": 0.0146,
+      "sharpe": 5.8163,
+      "max_dd": -0.0026,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.6937023281310608,
+      "cum_ret": 0.0063,
+      "sharpe": 13.2044,
+      "max_dd": 0.0,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-T3|legacy|base",
+    "spec": {
+     "W": 89,
+     "N": 3,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-T3_legacy_base.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.270441,
+     "ret_full": 0.209751,
+     "max_dd": -0.042423,
+     "n_trades": 46,
+     "n_entries": 49,
+     "nav_last": 1209750.63
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.270441,
+     "ret_full": 0.209751,
+     "max_dd": -0.042423,
+     "n_trades": 46,
+     "n_entries": 49,
+     "nav_last": 1209750.63
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": 0.09162927818757938,
+      "cum_ret": 0.02,
+      "sharpe": 2.9832,
+      "max_dd": -0.008,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.017385892952137993,
+      "cum_ret": 0.0809,
+      "sharpe": 0.7454,
+      "max_dd": -0.0328,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0641,
+       "p75": 0.0403,
+       "median": 0.0315,
+       "p25": 0.015,
+       "worst": -0.0293,
+       "pos_share": 0.8205
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.020110373925146918,
+      "cum_ret": 0.0066,
+      "sharpe": 0.7349,
+      "max_dd": -0.0114,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.05927654161065332,
+      "cum_ret": 0.068,
+      "sharpe": 2.6717,
+      "max_dd": -0.0098,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.064,
+       "p75": 0.0537,
+       "median": 0.0473,
+       "p25": 0.0445,
+       "worst": 0.0415,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.08584415998676609,
+      "cum_ret": 0.0205,
+      "sharpe": 6.112,
+      "max_dd": -0.0031,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.015340861552043616,
+      "cum_ret": 0.0002,
+      "sharpe": 0.352,
+      "max_dd": -0.0028,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "legacy",
+    "cell": "LA-T3|legacy|x2",
+    "spec": {
+     "W": 89,
+     "N": 3,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-T3_legacy_x2.json",
+    "axis_window": [
+     "2020-01-02",
+     "2026-09-22"
+    ],
+    "n_days": 1631,
+    "identity_stored": {
+     "sharpe_full": 1.196034,
+     "ret_full": 0.197833,
+     "max_dd": -0.043903,
+     "n_trades": 46,
+     "n_entries": 49,
+     "nav_last": 1197832.9
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.196034,
+     "ret_full": 0.197833,
+     "max_dd": -0.043903,
+     "n_trades": 46,
+     "n_entries": 49,
+     "nav_last": 1197832.9
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 1630,
+    "panic_days_in": 3,
+    "active_days_nonzero": 1541,
+    "by_regime": {
+     "BULL": {
+      "n_days": 57,
+      "ann_ret": 0.0901485182808035,
+      "cum_ret": 0.0197,
+      "sharpe": 2.9324,
+      "max_dd": -0.0081,
+      "sample_note": "n=57 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 1137,
+      "ann_ret": 0.015800553395445727,
+      "cum_ret": 0.0733,
+      "sharpe": 0.6742,
+      "max_dd": -0.0341,
+      "roll12": {
+       "n_windows": 886,
+       "best": 0.0635,
+       "p75": 0.0383,
+       "median": 0.0295,
+       "p25": 0.0137,
+       "worst": -0.0305,
+       "pos_share": 0.8025
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 83,
+      "ann_ret": 0.018037674331740305,
+      "cum_ret": 0.0059,
+      "sharpe": 0.6548,
+      "max_dd": -0.0115,
+      "sample_note": "n=83 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 288,
+      "ann_ret": 0.05778774167797529,
+      "cum_ret": 0.0663,
+      "sharpe": 2.5874,
+      "max_dd": -0.0103,
+      "roll12": {
+       "n_windows": 37,
+       "best": 0.0632,
+       "p75": 0.0521,
+       "median": 0.0457,
+       "p25": 0.0426,
+       "worst": 0.0398,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 62,
+      "ann_ret": 0.08517971057923912,
+      "cum_ret": 0.0203,
+      "sharpe": 5.9534,
+      "max_dd": -0.0031,
+      "sample_note": "n=62 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 3,
+      "ann_ret": 0.004356339670104736,
+      "cum_ret": 0.0001,
+      "sharpe": 0.1088,
+      "max_dd": -0.0029,
+      "sample_note": "n=3 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-EQ|deep|base",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "eq"
+    },
+    "source": "results/lowamp_p3/cont_LA-EQ_deep_base.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.115291,
+     "ret_full": 0.625393,
+     "max_dd": -0.050424,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1625392.93
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.115291,
+     "ret_full": 0.625393,
+     "max_dd": -0.050424,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1625392.93
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.014032200882976298,
+      "cum_ret": 0.0112,
+      "sharpe": 0.4212,
+      "max_dd": -0.0372,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.03803937406980307,
+      "cum_ret": 0.3533,
+      "sharpe": 1.4028,
+      "max_dd": -0.0338,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1847,
+       "p75": 0.041,
+       "median": 0.0287,
+       "p25": 0.0146,
+       "worst": -0.0142,
+       "pos_share": 0.9241
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.010831242032191768,
+      "cum_ret": -0.0044,
+      "sharpe": -0.385,
+      "max_dd": -0.0203,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.05824456487561469,
+      "cum_ret": 0.1872,
+      "sharpe": 1.1983,
+      "max_dd": -0.036,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1575,
+       "p75": 0.1331,
+       "median": 0.0737,
+       "p25": 0.028,
+       "worst": 0.0118,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.06789585074547744,
+      "cum_ret": 0.0256,
+      "sharpe": 1.8127,
+      "max_dd": -0.024,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.1931416580598514,
+      "cum_ret": -0.0202,
+      "sharpe": -2.6143,
+      "max_dd": -0.0476,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-EQ|deep|x2",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "eq"
+    },
+    "source": "results/lowamp_p3/cont_LA-EQ_deep_x2.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.020565,
+     "ret_full": 0.57354,
+     "max_dd": -0.0514,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1573539.65
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.020565,
+     "ret_full": 0.57354,
+     "max_dd": -0.0514,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1573539.65
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.01147758742125271,
+      "cum_ret": 0.0091,
+      "sharpe": 0.3414,
+      "max_dd": -0.0394,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.03541231760205976,
+      "cum_ret": 0.3258,
+      "sharpe": 1.2775,
+      "max_dd": -0.0349,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1767,
+       "p75": 0.0398,
+       "median": 0.0276,
+       "p25": 0.0107,
+       "worst": -0.0153,
+       "pos_share": 0.9045
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.011770559661253732,
+      "cum_ret": -0.0047,
+      "sharpe": -0.4093,
+      "max_dd": -0.0209,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.055129971235949204,
+      "cum_ret": 0.1767,
+      "sharpe": 1.116,
+      "max_dd": -0.0366,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1546,
+       "p75": 0.1287,
+       "median": 0.0707,
+       "p25": 0.0255,
+       "worst": 0.0105,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.06687385598936246,
+      "cum_ret": 0.0252,
+      "sharpe": 1.7471,
+      "max_dd": -0.0246,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.1947592787737391,
+      "cum_ret": -0.0204,
+      "sharpe": -2.6008,
+      "max_dd": -0.0484,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-EDGE|deep|base",
+    "spec": {
+     "W": 104,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-EDGE_deep_base.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.066348,
+     "ret_full": 0.604283,
+     "max_dd": -0.054658,
+     "n_trades": 67,
+     "n_entries": 69,
+     "nav_last": 1604282.63
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.066348,
+     "ret_full": 0.604283,
+     "max_dd": -0.054658,
+     "n_trades": 67,
+     "n_entries": 69,
+     "nav_last": 1604282.63
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3125,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.011745570716493514,
+      "cum_ret": 0.0094,
+      "sharpe": 0.3488,
+      "max_dd": -0.0397,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.0333139001149807,
+      "cum_ret": 0.3041,
+      "sharpe": 1.2145,
+      "max_dd": -0.0346,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1742,
+       "p75": 0.0392,
+       "median": 0.0278,
+       "p25": 0.0057,
+       "worst": -0.0153,
+       "pos_share": 0.842
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": 0.023836743585958775,
+      "cum_ret": 0.0095,
+      "sharpe": 1.1169,
+      "max_dd": -0.0057,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.06290519759558943,
+      "cum_ret": 0.2032,
+      "sharpe": 1.2722,
+      "max_dd": -0.0373,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1592,
+       "p75": 0.1376,
+       "median": 0.0777,
+       "p25": 0.0301,
+       "worst": 0.0138,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.07279620293297628,
+      "cum_ret": 0.0274,
+      "sharpe": 1.867,
+      "max_dd": -0.0255,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.21973235672536007,
+      "cum_ret": -0.0234,
+      "sharpe": -2.5707,
+      "max_dd": -0.0517,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-EDGE|deep|x2",
+    "spec": {
+     "W": 104,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-EDGE_deep_x2.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 0.979073,
+     "ret_full": 0.554954,
+     "max_dd": -0.05679,
+     "n_trades": 67,
+     "n_entries": 69,
+     "nav_last": 1554954.19
+    },
+    "identity_replayed": {
+     "sharpe_full": 0.979073,
+     "ret_full": 0.554954,
+     "max_dd": -0.05679,
+     "n_trades": 67,
+     "n_entries": 69,
+     "nav_last": 1554954.19
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3125,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.009010488524538562,
+      "cum_ret": 0.0072,
+      "sharpe": 0.2672,
+      "max_dd": -0.0419,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.03059331641883478,
+      "cum_ret": 0.2766,
+      "sharpe": 1.0957,
+      "max_dd": -0.0362,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1661,
+       "p75": 0.0381,
+       "median": 0.0268,
+       "p25": 0.0025,
+       "worst": -0.0192,
+       "pos_share": 0.7862
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": 0.02433296715692812,
+      "cum_ret": 0.0097,
+      "sharpe": 1.1145,
+      "max_dd": -0.0059,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.0599371545591334,
+      "cum_ret": 0.193,
+      "sharpe": 1.1944,
+      "max_dd": -0.0379,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1561,
+       "p75": 0.1333,
+       "median": 0.0749,
+       "p25": 0.0275,
+       "worst": 0.0129,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.07458401552765781,
+      "cum_ret": 0.0281,
+      "sharpe": 1.8697,
+      "max_dd": -0.0261,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.2202715174803117,
+      "cum_ret": -0.0234,
+      "sharpe": -2.5456,
+      "max_dd": -0.0523,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-REP|deep|base",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-REP_deep_base.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.115291,
+     "ret_full": 0.625393,
+     "max_dd": -0.050424,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1625392.93
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.115291,
+     "ret_full": 0.625393,
+     "max_dd": -0.050424,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1625392.93
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.014032200882976298,
+      "cum_ret": 0.0112,
+      "sharpe": 0.4212,
+      "max_dd": -0.0372,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.03803937406980307,
+      "cum_ret": 0.3533,
+      "sharpe": 1.4028,
+      "max_dd": -0.0338,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1847,
+       "p75": 0.041,
+       "median": 0.0287,
+       "p25": 0.0146,
+       "worst": -0.0142,
+       "pos_share": 0.9241
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.010831242032191768,
+      "cum_ret": -0.0044,
+      "sharpe": -0.385,
+      "max_dd": -0.0203,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.05824456487561469,
+      "cum_ret": 0.1872,
+      "sharpe": 1.1983,
+      "max_dd": -0.036,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1575,
+       "p75": 0.1331,
+       "median": 0.0737,
+       "p25": 0.028,
+       "worst": 0.0118,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.06789585074547744,
+      "cum_ret": 0.0256,
+      "sharpe": 1.8127,
+      "max_dd": -0.024,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.1931416580598514,
+      "cum_ret": -0.0202,
+      "sharpe": -2.6143,
+      "max_dd": -0.0476,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-REP|deep|x2",
+    "spec": {
+     "W": 89,
+     "N": 2,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-REP_deep_x2.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.020565,
+     "ret_full": 0.57354,
+     "max_dd": -0.0514,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1573539.65
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.020565,
+     "ret_full": 0.57354,
+     "max_dd": -0.0514,
+     "n_trades": 72,
+     "n_entries": 74,
+     "nav_last": 1573539.65
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.01147758742125271,
+      "cum_ret": 0.0091,
+      "sharpe": 0.3414,
+      "max_dd": -0.0394,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.03541231760205976,
+      "cum_ret": 0.3258,
+      "sharpe": 1.2775,
+      "max_dd": -0.0349,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.1767,
+       "p75": 0.0398,
+       "median": 0.0276,
+       "p25": 0.0107,
+       "worst": -0.0153,
+       "pos_share": 0.9045
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.011770559661253732,
+      "cum_ret": -0.0047,
+      "sharpe": -0.4093,
+      "max_dd": -0.0209,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.055129971235949204,
+      "cum_ret": 0.1767,
+      "sharpe": 1.116,
+      "max_dd": -0.0366,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1546,
+       "p75": 0.1287,
+       "median": 0.0707,
+       "p25": 0.0255,
+       "worst": 0.0105,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.06687385598936246,
+      "cum_ret": 0.0252,
+      "sharpe": 1.7471,
+      "max_dd": -0.0246,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.1947592787737391,
+      "cum_ret": -0.0204,
+      "sharpe": -2.6008,
+      "max_dd": -0.0484,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-T3|deep|base",
+    "spec": {
+     "W": 89,
+     "N": 3,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-T3_deep_base.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 1.089856,
+     "ret_full": 0.673282,
+     "max_dd": -0.074262,
+     "n_trades": 189,
+     "n_entries": 192,
+     "nav_last": 1673282.11
+    },
+    "identity_replayed": {
+     "sharpe_full": 1.089856,
+     "ret_full": 0.673282,
+     "max_dd": -0.074262,
+     "n_trades": 189,
+     "n_entries": 192,
+     "nav_last": 1673282.11
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.06660767474220575,
+      "cum_ret": 0.0528,
+      "sharpe": 1.3924,
+      "max_dd": -0.0335,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.046664351623931344,
+      "cum_ret": 0.4471,
+      "sharpe": 1.4778,
+      "max_dd": -0.0324,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.2522,
+       "p75": 0.0499,
+       "median": 0.03,
+       "p25": 0.0168,
+       "worst": -0.0213,
+       "pos_share": 0.8928
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.01201078054140603,
+      "cum_ret": -0.0048,
+      "sharpe": -0.4065,
+      "max_dd": -0.0209,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.04917178046804116,
+      "cum_ret": 0.1566,
+      "sharpe": 1.1042,
+      "max_dd": -0.0311,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.133,
+       "p75": 0.0928,
+       "median": 0.0539,
+       "p25": 0.0341,
+       "worst": 0.0185,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.13084484004728147,
+      "cum_ret": 0.0485,
+      "sharpe": 2.3624,
+      "max_dd": -0.0308,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.6282208631687652,
+      "cum_ret": -0.0899,
+      "sharpe": -11.9104,
+      "max_dd": -0.0921,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   },
+   {
+    "family": "deep",
+    "cell": "LA-T3|deep|x2",
+    "spec": {
+     "W": 89,
+     "N": 3,
+     "sizing": "invvol"
+    },
+    "source": "results/lowamp_p3/cont_LA-T3_deep_x2.json",
+    "axis_window": [
+     "2013-06-17",
+     "2026-09-22"
+    ],
+    "n_days": 3230,
+    "identity_stored": {
+     "sharpe_full": 0.975873,
+     "ret_full": 0.600827,
+     "max_dd": -0.079595,
+     "n_trades": 189,
+     "n_entries": 192,
+     "nav_last": 1600827.49
+    },
+    "identity_replayed": {
+     "sharpe_full": 0.975873,
+     "ret_full": 0.600827,
+     "max_dd": -0.079595,
+     "n_trades": 189,
+     "n_entries": 192,
+     "nav_last": 1600827.49
+    },
+    "returns_max_abs_diff_vs_stored": 0.0,
+    "unlabeled_days": 0,
+    "labeled_days": 3229,
+    "panic_days_in": 24,
+    "active_days_nonzero": 3140,
+    "by_regime": {
+     "BULL": {
+      "n_days": 201,
+      "ann_ret": 0.060973200505208824,
+      "cum_ret": 0.0483,
+      "sharpe": 1.2567,
+      "max_dd": -0.037,
+      "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "CHOP": {
+      "n_days": 2042,
+      "ann_ret": 0.043474463985852196,
+      "cum_ret": 0.4118,
+      "sharpe": 1.346,
+      "max_dd": -0.0348,
+      "roll12": {
+       "n_windows": 1791,
+       "best": 0.244,
+       "p75": 0.0444,
+       "median": 0.0284,
+       "p25": 0.0144,
+       "worst": -0.023,
+       "pos_share": 0.8721
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "GRIND": {
+      "n_days": 101,
+      "ann_ret": -0.013979859047489107,
+      "cum_ret": -0.0056,
+      "sharpe": -0.4608,
+      "max_dd": -0.0214,
+      "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "BEAR": {
+      "n_days": 764,
+      "ann_ret": 0.04499683746485905,
+      "cum_ret": 0.1428,
+      "sharpe": 0.9941,
+      "max_dd": -0.0334,
+      "roll12": {
+       "n_windows": 513,
+       "best": 0.1296,
+       "p75": 0.0865,
+       "median": 0.0478,
+       "p25": 0.0316,
+       "worst": 0.0164,
+       "pos_share": 1.0
+      },
+      "three_verdicts": {
+       "floor_beat_median": true,
+       "not_negative_median": true,
+       "gate_off_advice": false
+      }
+     },
+     "SUPPORT": {
+      "n_days": 97,
+      "ann_ret": 0.13083814014119532,
+      "cum_ret": 0.0485,
+      "sharpe": 2.3009,
+      "max_dd": -0.0321,
+      "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     },
+     "PANIC": {
+      "n_days": 24,
+      "ann_ret": -0.637541852175756,
+      "cum_ret": -0.0921,
+      "sharpe": -12.0473,
+      "max_dd": -0.094,
+      "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+     }
+    }
+   }
+  ]
+ },
+ "family_rollup_by_axis_window": {
+  "legacy": {
+   "BULL": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "CHOP": {
+    "n_cells_with_12m": 8,
+    "median_of_medians": 0.0352
+   },
+   "GRIND": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "BEAR": {
+    "n_cells_with_12m": 8,
+    "median_of_medians": 0.0322
+   },
+   "SUPPORT": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "PANIC": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   }
+  },
+  "deep": {
+   "BULL": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "CHOP": {
+    "n_cells_with_12m": 8,
+    "median_of_medians": 0.0281
+   },
+   "GRIND": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "BEAR": {
+    "n_cells_with_12m": 8,
+    "median_of_medians": 0.0722
+   },
+   "SUPPORT": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   },
+   "PANIC": {
+    "n_cells_with_12m": 0,
+    "median_of_medians": null
+   }
+  }
+ },
+ "coverage_gaps_update": {
+  "lowamp_defensive_etf": "RESOLVED this slice: 16 adjudicated cells replayed identity-clean and wired into the matrix (P0 row 低波防御族 ETF)",
+  "six_member_defensive_and_system_v1": "unchanged: forward paper marks too short for 12m windows"
+ },
+ "audit": {
+  "machine": "bm-c",
+  "generated": "2026-10-11 21:05:46",
+  "runtime_note": "zero-burn deterministic replay of the frozen LOWAMP-P3 continuous configs (batch runner verbatim), no new trials, no engine re-tuning"
+ }
+}
