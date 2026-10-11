@@ -2111,6 +2111,29 @@ SEED_REGISTRY = {
         "perpetual_n2_w20_gen": 739_500,
         "perpetual_n2_w20_scrnull": 740_000,
         "perpetual_n2_w20_unc": 740_500,
+        # T-101-V4-A14-PREDFACE v4 22-gate predictor extension (bm-b r872
+        # slice-2 freeze window, queue row state/queue/tech.md T26; prereg
+        # research/T-101-V4_A14_PREDFACE_PREREG.md): scrnull
+        # rng([20615500, cell_idx]) circular-shift nulls K=200/cell, OOS
+        # derived stream rng([20615500+100000, cell_idx]); unc
+        # rng([20616500, cell_idx]) circular block bootstrap B=2000
+        # block=10, OOS derived +100000 (A13 stream law, 30 cells);
+        # three-step law ALL GREEN pre-freeze (208 keys / 207 int bases):
+        # seed_admit_gate
+        # rc0 base=20615500/20616500 FREE; zero exact collision vs all
+        # registered values; canon first-els int(default_rng(b).
+        # integers(0,2**31)) = 445511398 / 1163362 distinct vs all
+        # bases; derive bands b..b+29 and +100000 faces clean; band
+        # open-interval assert = outside every annotated band (natural
+        # +500 ladder above then-max band end 20615200 t23_grammar_
+        # census [20615000,20615200); 20338xxx candidates REFUSED
+        # inside stock_face_furnace band [20333000,20445400), W16
+        # precedent); rg code face (scripts/Tools/research) AND
+        # data/daily face both ZERO hits for both bases; registered at
+        # prereg freeze BEFORE any burn, one-step R250 law; runner
+        # scripts/t101_v4_a14_predface.py
+        "t101_v4_a14_predface_scrnull": 20_615_500,
+        "t101_v4_a14_predface_unc": 20_616_500,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
