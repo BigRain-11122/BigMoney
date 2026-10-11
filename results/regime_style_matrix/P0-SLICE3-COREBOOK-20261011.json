@@ -1,0 +1,217 @@
+{
+ "schema": "p0-matrix-slice3",
+ "batch": "P0-MATRIX-SLICE3-COREBOOK",
+ "order_ref": "O-20261010-1725 sec.2 zero-burn replay leg (P0_MATRIX_SLICE_V1.md sec.4 declared face: corebook four-asset, external config, replay not re-slice)",
+ "axis_freeze": "research/REGIME_AXIS_M1_FREEZE.md (bm-b r836)",
+ "deposit_floor": 0.013,
+ "td_per_year": 252,
+ "roll_window_td": 252,
+ "evidence_cutoff": "2026-09-22",
+ "label_first_day": "2013-03-21",
+ "calendar_axis": "results/regime_thermo/thermo_daily.csv (identity gates live re-verified: tail anchor + set equality replay window)",
+ "attribution_note": "slice attribution only; NOT a new-criterion claim; scheduling enforcement goes through its own prereg (freeze sec.4)",
+ "exit_axis_nature": "permanent allocation (always-invested, monthly rebalance); no engine exit stack involved",
+ "replay": {
+  "config": {
+   "cell_id": "A-EQW",
+   "rule": "monthly",
+   "w": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "legs": [
+    "stock",
+    "bond",
+    "gold",
+    "cash"
+   ]
+  },
+  "verdict_face": "results/corebook_closeout_p1/corebook_closeout_p1.json#faces.e2_four_asset_allocation (verdict retained)",
+  "stream_rel": "results/regime_style_matrix/corebook_replay_stream_A-EQW-monthly.json",
+  "faces_facts": {
+   "stock": {
+    "rows": 3483,
+    "first": "2012-05-28",
+    "last": "2026-09-22"
+   },
+   "bond": {
+    "rows": 3273,
+    "first": "2013-04-09",
+    "last": "2026-09-22"
+   },
+   "gold": {
+    "rows": 3200,
+    "first": "2013-07-29",
+    "last": "2026-09-22"
+   },
+   "cash": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22"
+   },
+   "ffill_counts": {
+    "stock": 0,
+    "bond": 0,
+    "gold": 0,
+    "cash": 0
+   },
+   "n_days": 3200,
+   "joint_start": "2013-07-29",
+   "joint_end": "2026-09-22"
+  },
+  "path_metrics_replay": {
+   "cagr": 0.0568654384044085,
+   "vol": 0.06926555896572124,
+   "sharpe": 0.8343502996418845,
+   "t_info": 2.9727286992117268,
+   "maxdd": -0.1247651900525456,
+   "worst3y": -0.009878568409435906,
+   "worst5y": 0.02870049746309622,
+   "worst10y": 0.0385998454510017,
+   "p_dd20_1y": 0.0,
+   "n_dd_windows": 2949
+  },
+  "xcheck_vs_frozen_e2": {
+   "cagr": {
+    "replay": 0.0568654384044085,
+    "frozen_e2": 0.0568654384044085,
+    "abs_diff": 0.0
+   },
+   "vol": {
+    "replay": 0.06926555896572124,
+    "frozen_e2": 0.06926555896572124,
+    "abs_diff": 0.0
+   },
+   "sharpe": {
+    "replay": 0.8343502996418845,
+    "frozen_e2": 0.8343502996418845,
+    "abs_diff": 0.0
+   },
+   "maxdd": {
+    "replay": -0.1247651900525456,
+    "frozen_e2": -0.1247651900525456,
+    "abs_diff": 0.0
+   },
+   "worst5y": {
+    "replay": 0.02870049746309622,
+    "frozen_e2": 0.02870049746309622,
+    "abs_diff": 0.0
+   },
+   "p_dd20_1y": {
+    "replay": 0.0,
+    "frozen_e2": 0.0,
+    "abs_diff": 0.0
+   },
+   "n_dd_windows": {
+    "replay": 2949,
+    "frozen_e2": 2949,
+    "abs_diff": 0.0
+   }
+  },
+  "n_rebalances": 158,
+  "entry_cost_frac": 0.0009780750000000001,
+  "tot_rebalance_cost_frac": 0.003916920410760601,
+  "claim_anchor_distinction": "ORDER conclusion A anchor cagr 0.0587 refers to the external regime-adaptive variant (config NOT in repo); this slice replays the in-repo judged A-EQW/monthly face (cagr 0.0569) -- the two are distinct faces, reported separately, no conflation"
+ },
+ "cells": [
+  {
+   "family": "COREBOOK",
+   "cell": "A-EQW|x1",
+   "source": "results/regime_style_matrix/corebook_replay_stream_A-EQW-monthly.json",
+   "t0": "2013-07-29",
+   "n_days": 3200,
+   "burn_machine": null,
+   "unlabeled_days": 0,
+   "labeled_days": 3199,
+   "panic_days_in": 24,
+   "by_regime": {
+    "BULL": {
+     "n_days": 201,
+     "ann_ret": 0.18112226621909278,
+     "cum_ret": 0.142,
+     "sharpe": 2.2093,
+     "max_dd": -0.0673,
+     "sample_note": "n=201 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+    },
+    "CHOP": {
+     "n_days": 2034,
+     "ann_ret": 0.03425576376349948,
+     "cum_ret": 0.3124,
+     "sharpe": 0.5431,
+     "max_dd": -0.1119,
+     "roll12": {
+      "n_windows": 1783,
+      "best": 0.1937,
+      "p75": 0.0946,
+      "median": 0.0492,
+      "p25": -0.0241,
+      "worst": -0.0936,
+      "pos_share": 0.6629
+     },
+     "three_verdicts": {
+      "floor_beat_median": true,
+      "not_negative_median": true,
+      "gate_off_advice": false
+     }
+    },
+    "GRIND": {
+     "n_days": 101,
+     "ann_ret": 0.07354218335408191,
+     "cum_ret": 0.0289,
+     "sharpe": 1.4631,
+     "max_dd": -0.0218,
+     "sample_note": "n=101 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+    },
+    "BEAR": {
+     "n_days": 742,
+     "ann_ret": 0.07941472539650074,
+     "cum_ret": 0.2523,
+     "sharpe": 1.2212,
+     "max_dd": -0.0467,
+     "roll12": {
+      "n_windows": 491,
+      "best": 0.1432,
+      "p75": 0.0915,
+      "median": 0.0715,
+      "p25": 0.051,
+      "worst": -0.0108,
+      "pos_share": 0.9796
+     },
+     "three_verdicts": {
+      "floor_beat_median": true,
+      "not_negative_median": true,
+      "gate_off_advice": false
+     }
+    },
+    "SUPPORT": {
+     "n_days": 97,
+     "ann_ret": 0.09934582375388712,
+     "cum_ret": 0.0371,
+     "sharpe": 0.9056,
+     "max_dd": -0.0575,
+     "sample_note": "n=97 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+    },
+    "PANIC": {
+     "n_days": 24,
+     "ann_ret": 0.09364974560206618,
+     "cum_ret": 0.0086,
+     "sharpe": 0.5728,
+     "max_dd": -0.034,
+     "sample_note": "n=24 < 252 trading days: all-start 12m rolling windows impossible; ann_ret for buckets this short is a per-day-pace extrapolation, read cum_ret instead"
+    }
+   }
+  }
+ ],
+ "coverage_gaps_update": {
+  "defense_six_and_system_v1": "forward paper marks accumulating since 2026-09-24; 12m all-start windows impossible until ~2027-09 (honest accumulation, unchanged)"
+ },
+ "audit": {
+  "deterministic": true,
+  "zero_burn": true,
+  "n_new_trials": 0,
+  "seed": null,
+  "machine": "bm-c"
+ }
+}

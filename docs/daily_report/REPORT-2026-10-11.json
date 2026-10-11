@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-11",
- "generated_at": "2026-10-11 14:33:42",
+ "generated_at": "2026-10-11 14:57:01",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-11.md"
  },
  "rd": {
-  "commits_24h": 415,
-  "result_jsons_landed_24h": 151,
+  "commits_24h": 425,
+  "result_jsons_landed_24h": 150,
   "digests_landed_24h": 5,
-  "prereg_md_touched_24h": 42,
+  "prereg_md_touched_24h": 41,
   "compute_audit_latest": {
-   "ts": "2026-10-11 14:31:06",
-   "py_cpu_pct": 5.6,
+   "ts": "2026-10-11 14:54:22",
+   "py_cpu_pct": 3.3,
    "flags": [
     "supply_gap"
    ],
    "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -662,22 +662,15 @@
    "type": "regime-matrix-m1-p0-slice",
    "immediate": true,
    "owner": "bm-c (iteration loop r835; claim-and-del"
-  },
-  {
-   "id": "T-2026-10-11-184",
-   "status": "claimed",
-   "type": "transfer",
-   "immediate": false,
-   "owner": "bm-b (OS iteration loop, round 879; rece"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1948115,
+  "total_report_tokens_est": 1949119,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-11 13:24:23",
+   "prev_generated": "2026-10-11 14:02:17",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1024,
+   "report_tokens_growth": 1004,
    "mandate_growth": 0
   },
   "method": {
@@ -750,41 +743,29 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-11 13:39:02",
-    "py_pct": 68.7,
-    "cpu_pct": 79.0,
-    "ready": 9,
-    "streak_min": 5.6,
-    "verdict": "FLAG:supply_gap",
+    "latest_ts": "2026-10-11 14:14:41",
+    "py_pct": 90.3,
+    "cpu_pct": 43.0,
+    "ready": 8,
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
      [
-      "12:50",
-      20.1
-     ],
-     [
-      "13:09",
-      13.9
-     ],
-     [
-      "13:33",
-      1.7
-     ],
-     [
-      "13:39",
-      68.7
+      "14:14",
+      90.3
      ]
     ],
-    "today_samples": 4,
-    "today_floor_ok": 4,
+    "today_samples": 1,
+    "today_floor_ok": 1,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 2
+    "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-11 14:31:06",
-    "py_pct": 5.6,
-    "cpu_pct": 20.0,
-    "ready": 8,
-    "streak_min": 69.3,
+    "latest_ts": "2026-10-11 14:54:22",
+    "py_pct": 3.3,
+    "cpu_pct": 26.0,
+    "ready": 7,
+    "streak_min": 92.6,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
      [
@@ -806,12 +787,16 @@
      [
       "14:31",
       5.6
+     ],
+     [
+      "14:54",
+      3.3
      ]
     ],
-    "today_samples": 5,
-    "today_floor_ok": 5,
+    "today_samples": 6,
+    "today_floor_ok": 6,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 3
+    "today_supply_gap_flags": 4
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -837,19 +822,19 @@
     }
    },
    "bm-b": {
-    "batches_judged": 21,
-    "core_seconds": 4622.8,
-    "wall_seconds": 736.4,
-    "effective_cores": 6.28,
+    "batches_judged": 22,
+    "core_seconds": 5087.0,
+    "wall_seconds": 796.9,
+    "effective_cores": 6.38,
     "single_core_burn": 3,
-    "multicore_burn": 18,
+    "multicore_burn": 19,
     "too_short": 1,
-    "last_ts": "2026-10-11T13:36:09+08:00",
+    "last_ts": "2026-10-11T14:03:17+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 3,
-     "audit_ts": "2026-10-11 13:39:02"
+     "audit_ts": "2026-10-11 14:14:41"
     }
    },
    "bm-c": {
@@ -865,7 +850,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 1,
-     "audit_ts": "2026-10-11 14:31:06"
+     "audit_ts": "2026-10-11 14:54:22"
     }
    }
   },

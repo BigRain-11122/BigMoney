@@ -3,7 +3,11 @@
  "canon": "MARKET_CLOCK_COMBO s0 v1.2 L3 evidence-driven (O-20260926-1342 sec.3)",
  "meta": {
   "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
-  "source_face": "EVIDENCE_FACE_MISSING: JSONDecodeError('Expecting property name enclosed in double quotes: line 5 column 1 (char 123)')",
+  "source_face": "results/strategy_scorecard.json profile_cards",
+  "batch": "PROFILE-CARDS-P1",
+  "ticket": "T-2026-09-26-81",
+  "evidence_cutoff": "2026-09-24",
+  "source_prereg_sha256_16": "67c48f8aab9708a0",
   "prereg_sha256_16": "3304f84f60826cd6"
  },
  "cells": {
@@ -22,12 +26,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
-     "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "PASS",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 3,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -36,9 +44,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -46,12 +54,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -60,9 +70,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -71,9 +81,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -85,15 +95,23 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "PASS",
+      "COMPOSITE-CE-02": "PASS",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "PASS",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 5,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
-   "activated": []
+   "activated": [
+    "offense"
+   ]
   },
   "GREENxHOT": {
    "design_sleeves": [],
@@ -110,12 +128,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
-     "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "DEAD_ZONE",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -124,9 +146,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -134,12 +156,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "DEAD_ZONE"
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_DEAD",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -148,9 +172,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -159,9 +183,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -173,15 +197,23 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "DEAD_ZONE",
+      "COMPOSITE-CE-02": "DEAD_ZONE",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "DEAD_ZONE",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
-   "activated": []
+   "activated": [
+    "offense"
+   ]
   },
   "YELLOWxCOOL": {
    "design_sleeves": [],
@@ -198,12 +230,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "PASS",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 3,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -212,9 +248,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -222,12 +258,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
-     "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -236,9 +274,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -247,9 +285,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -261,15 +299,23 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "PASS",
+      "COMPOSITE-CE-02": "PASS",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "PASS",
+      "NEEDLE-DE-01": "DEAD_ZONE"
+     },
+     "n_pass": 4,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
-   "activated": []
+   "activated": [
+    "mean_reversion"
+   ]
   },
   "YELLOWxHOT": {
    "design_sleeves": [],
@@ -286,12 +332,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "DEAD_ZONE",
+      "AGGR-CONC-TOP2": "DEAD_ZONE",
+      "AGGR-REGIME": "DEAD_ZONE"
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_DEAD",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -300,9 +350,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -310,12 +360,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
-     "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -324,9 +376,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -335,9 +387,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -349,15 +401,23 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
-     "n_pass": 0,
-     "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "DEAD_ZONE",
+      "COMPOSITE-CE-02": "DEAD_ZONE",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "DEAD_ZONE",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
-   "activated": []
+   "activated": [
+    "mean_reversion"
+   ]
   },
   "ORANGExCOOL": {
    "design_sleeves": [],
@@ -375,12 +435,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -389,9 +453,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -399,12 +463,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -413,9 +479,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -424,9 +490,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -438,12 +504,18 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
    "activated": []
@@ -464,12 +536,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -478,9 +554,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -488,12 +564,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -502,9 +580,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -513,9 +591,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -527,12 +605,18 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
     }
    },
    "activated": []
@@ -551,12 +635,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -565,9 +653,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -575,12 +663,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -589,9 +679,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -600,9 +690,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -614,12 +704,18 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
      "status": "STRUCTURAL_CASH",
      "activated": true,
-     "note": "cash floor by construction (prereg sec.2 rule 4); strategy risk-leg NOT activated: evidence face missing"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg); strategy risk-leg NOT activated: zero RED days in evidence window"
     }
    },
    "activated": [
@@ -640,12 +736,16 @@
       "AGGR-CONC-TOP2",
       "AGGR-REGIME"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "grid": {
      "label": "grid sleeve",
@@ -654,9 +754,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_FALSIFIED",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
     },
     "mean_reversion": {
      "label": "mean-reversion range sleeve",
@@ -664,12 +764,14 @@
      "members": [
       "VOLATILITY-CE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": null
     },
     "satellite": {
      "label": "wild-theme micro-satellite",
@@ -678,9 +780,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
     },
     "divlowvol": {
      "label": "dividend-lowvol base position",
@@ -689,9 +791,9 @@
      "cell_verdicts": {},
      "n_pass": 0,
      "evidence_activated": false,
-     "status": "NOT_ACTIVATED_EVIDENCE_FACE_MISSING",
+     "status": "NOT_ACTIVATED_JUDGED_NEGATIVE",
      "activated": false,
-     "note": "profile_cards face unreadable -> fail-closed (prereg sec.2 rule 3)"
+     "note": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)"
     },
     "airdefense_cash": {
      "label": "air-defense cash leg",
@@ -703,12 +805,18 @@
       "ENGULF-CE-01",
       "NEEDLE-DE-01"
      ],
-     "cell_verdicts": {},
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
      "n_pass": 0,
      "evidence_activated": false,
      "status": "STRUCTURAL_CASH",
      "activated": true,
-     "note": "cash floor by construction (prereg sec.2 rule 4); strategy risk-leg NOT activated: evidence face missing"
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg); strategy risk-leg NOT activated: zero RED days in evidence window"
     }
    },
    "activated": [
