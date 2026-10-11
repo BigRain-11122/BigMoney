@@ -1,0 +1,86 @@
+{
+ "wave": "TRIAL_LABOR_W18",
+ "grammar_kind": "w18_sizing_axis_paired_block",
+ "prereg": "research/TRIAL_LABOR_W18_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "724b6135a5fdb6ae",
+ "seeds": {
+  "gen_held": 20630000,
+  "scrnull": 20630500,
+  "unc": 20631000,
+  "band": [
+   20630000,
+   20632500
+  ],
+  "note": "gen held zero-consumption this wave (entry = W16 frozen cells reuse); scrnull rng([20630500,i]) i<200; unc rng([20631000,cell_idx]) cell_idx<692; paired-delta Wilcoxon streams rng([20631000,400+f]) f<4 (above judge consumption <360, below declared band top 692)"
+ },
+ "face_order": [
+  "equal_weight",
+  "inverse_vol",
+  "cap20",
+  "regime_delever"
+ ],
+ "sizing_faces": {
+  "source": "tl1.AXIS_SIZING verbatim import",
+  "rules": {
+   "equal_weight": "base nominal (fixed_initial default + cell pct, no scale)",
+   "cap20": "sizing_mode=\"equity_fraction\" + position_size_pct=0.20",
+   "inverse_vol": "entry_size_scale=clip(0.15/vol20d_annual,<=1.0) runner-level scale series",
+   "regime_delever": "entry_size_scale=0.5 on bear-state days (REGIME_MAP bear)"
+  },
+  "control_arm": "per-cell as-burned axis[2] frozen face (W16 sampled constant)",
+  "deferred": [
+   "vol_target (no in-repo implementation; zero-reimplementation discipline)"
+  ]
+ },
+ "x_consumed": {
+  "face": "template_default",
+  "basis": "W17 prereg sec.0 consumer (3) grammar-efficiency conclusion: W17-JUDGE 344 cells all-negative + 7 exit faces paired median delta 0.0 (wilcoxon_p 0.966-1.0)"
+ },
+ "k_nulls": 200,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "judge_cap_blocks": 90,
+ "entry_source": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n": 173,
+  "family_split": {
+   "A": 6,
+   "B": 167
+  },
+  "axis2_sizing_census": {
+   "equal_weight": 46,
+   "inverse_vol": 37,
+   "cap20": 47,
+   "regime_delever": 43
+  }
+ },
+ "w16_grammar_ref": {
+  "file": "results/trial_labor_w16/w16_grammar.json",
+  "grammar_sha16": "ebf15822d2c8472e"
+ },
+ "w17_grammar_ref": {
+  "file": "results/trial_labor_w17/w17_grammar.json",
+  "grammar_sha16": "09476ecc5beb2304"
+ },
+ "w14_lineage": {
+  "grammar_sha16": "a231bf10940e7878",
+  "file": "results/trial_labor_w14/w14_grammar.json"
+ },
+ "cell_key": "candidate_id x sizing_face",
+ "n_pairs": 692,
+ "screen_trials": 892,
+ "determinism_cross_gate": {
+  "pairs": 173,
+  "keys": [
+   "beat6m_rate",
+   "binom_z",
+   "binom_p"
+  ],
+  "source": "results/trial_labor_w17/w17_screen_cells.csv (exit_face==template_default rows)",
+  "source_control_survivors": 43
+ }
+}
