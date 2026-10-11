@@ -87,11 +87,17 @@
 
 ## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-（跑前必须为空——写数字即造假）
+- **SCREEN（TRIAL_LAB_W18_SCREEN·r892 落链）**：692 配对胞+200 同构 null=892；null p95=**0.511572**（带 [0.50,0.53] 命中=true）；存活 **152/692**（equal_weight 41/cap20 37/inverse_vol 35/regime_delever 39）；§5.1 硬门 as-burned 自 173 对 vs W17 control 三列字节恒等 43/173 复现（确定性零漂移）；账本 878,297+892=**879,189**。
+- **JUDGE（TRIAL_LAB_W18_JUDGE·finalize 2026-10-12T00:44 bm-b detached PID25060 落地）**：n_blocks=**47**（上限 90 未触发·block_cap_applied=false）·n_judged=**188**（4×47 完整配对块：152 存活腿覆盖 47 cell+36 同块非存活兄弟腿入判供配对读数）·g1_pass=**0**·eligible_v2/eligible_reform/onboard 全 **[]**=零晋升 lawful-zero；E[FP]_nominal=**9.4**（0.05×188）披露在案（0 实过 vs 9.4 名义期望假阳）；skill_line_v2 当批读数=**line 1.1481**（passive 0.4792·null_term 1.1481·mu_null −0.0912）@ n_eff 883,777（分叉支口径·§8 损耗账披露+重锚）；family PBO 全表在 w18_judge.json（folk 0.8429/36·patterns 0.4286/44·momentum 0.9143/32·mean_reversion 0.5857/8·ta 0.3857/28·macro 0.5857/12·sentiment 0.8/8·volatility 0.5714/8·event/trend/composite_rotation <8 G2 不可判如实注记）。
+- **配对差分（w18_paired_deltas.json）**：四 face 中位差全≈0——equal_weight +0.0001（p 0.006·29 informative）·cap20 0.0（p 0.012·37）·inverse_vol −0.0005（p 0.079·36）·regime_delever 0.0（p 0.046·39）；IQR 0.029-0.081；四 as-burned 子群二级读数随件（描述性披露不替代判线·§4 冻结条款）。
+- **账本终态**：SCREEN 892 上链（879,189）+JUDGE 188 落分叉支 883,589+188=883,777（judge-prep 19:11 捕获 prev·先于 W210 23:2x 落链 883,589+2,200=885,789）→**r902 追加式重锚** 885,789+188=**885,977** 上活链（results/trial_labor_w18/w18_judge_ledger_reanchor_r902.json+receipt results/_r902bmb_w18_reanchor_receipt.json·r807 推前防分叉窗捕获·被取代分支 total 883,777 禁再叠加）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（冻结时按模板填占位·跑后回填：预测对账+门禁链损耗账+判线 v2 当批读数+全起点分布+试验量归因——单批 892>100 一句话归因=TRIAL_LABOR_LAW §1 常供律例行供给步·W17 零候选后 sizing 轴另起·CEO O-1825 sec.2 令面承接批·sizing 轴显式隔离首烧批）
+- **预测对账**：§5.1 恒好 43/173 ✓字节恒等复现；§5.2 treatment 存活率 4/4 面带内（eq 41/173=23.7%·cap20 37/173=21.4%·inv 35/173=20.2%·del 39/173=22.5% vs 基线 24.9%×[0.8x,1.6x]=[19.9%,39.8%]）；§5.3 null p95 0.5116∈[0.50,0.53] ✓；§5.4 eligible_reform **0**∈[0,3] ✓+n_blocks **47**∈[43,75] ✓；§5.5 中位方向面：inverse_vol 预测≥0 实测 −0.0005（Wilcoxon p 0.079 不显著·vol-managed 正向 folklore 未获支持）、regime_delever 预测≥0 实测 0.0（bear 减仓 dd 改善 folklore 无中位 Sharpe 迁移）、cap20/equal_weight 方向不定实测 0.0/+0.0001——**§0 consumer ② 兑现：负读数→X（sizing）轴降权正统性依据=活弹实证**（判负池上 sizing 配置零中位迁移=无胜者 face 可固定·GENERATE S 固定通道不触发）。
+- **门禁链损耗账**：892 SCREEN→152 存活腿→47 完整块（块完整律 4 腿全入判=188 判腿）→G1 0 过→0 注册；入场源 W16 173 verbatim 零新生成=T-84s3 去重损耗 N/A（本批零新语法生成面·gen seed 20630000 保留持有）；SCREEN→JUDGE 稼耗=152 存活腿同 cell 聚合 47 块（36 非存活兄弟腿入判=块完整性机械面非选择面·配对读数非块刃）。
+- **判线 v2 当批读数**：line 1.1481 @ n_eff 883,777（分叉支口径）；活链重锚后 n_eff 885,977 派生线只升不降=已判负 188 胞在新线下更负——**判负稳健零翻案**（r807 looser-side 论证·verdicts 单读 r638 律不动）。
+- **全起点分布+试验量归因**：单批 892>100 一句话归因=TRIAL_LABOR_LAW §1 常供律例行供给步（W17 零候选后 sizing 轴另起·CEO O-1825 sec.2 令面承接批·sizing 轴显式隔离首烧批）——首烧判负=sizing 配置轴对 W16 判负候选池零复活效应，供给面结论：下一波另起新轴或新入场源，sizing 轴不产候选不重烧（同族禁开面·TRIAL_GRAMMAR_LEDGER 已注 same-grammar rerun FORBIDDEN）。
 
 ## §9 冻结窗收口与精确续作点。【append-only】
 

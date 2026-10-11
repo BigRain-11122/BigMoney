@@ -1,0 +1,48 @@
+{
+ "ts_": "2026-10-12T01:5x+08:00",
+ "head_before": {
+  "total": 885789,
+  "file": "n1_w210_results.json",
+  "note": "perpetual N1 nulls-deepening wave 210 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+  "voided": [
+   {
+    "batch": "LOWAMP-P1",
+    "voided_trials": 2008
+   },
+   {
+    "batch": "LOWAMP-P2",
+    "voided_trials": 2008
+   }
+  ]
+ },
+ "head_after": {
+  "total": 885977,
+  "file": "w18_judge_ledger_reanchor_r902.json",
+  "note": "fork re-anchor (single-count): TRIAL_LAB_W18_JUDGE finalize (landed 2026-10-12T00:44 bm-b, PID25060 detached) consumed prev=883589 captured at judge-prep 19:11 (pre-W210); W210 landed 23:2x from same prev (883589+2200=885789) -> W18 block 883589+188=883777 is a sub-head fork invisible to ledger_head(); the 188 judge trials are counted exactly ONCE in this row and the superseded branch total 883777 must never be re-added (r807 stale-tree fork family, E34 landing-head anchor); verdicts untouched: all 188 fail was judged on skill_line 1.1481 @ n_eff 883777 < live 885977-derived line = looser-side verdict, single-read r638 law, re-anchor only tightens -> zero flips",
+  "voided": [
+   {
+    "batch": "LOWAMP-P1",
+    "voided_trials": 2008
+   },
+   {
+    "batch": "LOWAMP-P2",
+    "voided_trials": 2008
+   }
+  ]
+ },
+ "block": {
+  "prev_total": 885789,
+  "batch_trials": 188,
+  "total": 885977,
+  "batch": "TRIAL_LAB_W18_JUDGE-REANCHOR-R902",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results\\trial_labor_w18\\w18_judge_ledger_reanchor_r902.json",
+  "note": "fork re-anchor (single-count): TRIAL_LAB_W18_JUDGE finalize (landed 2026-10-12T00:44 bm-b, PID25060 detached) consumed prev=883589 captured at judge-prep 19:11 (pre-W210); W210 landed 23:2x from same prev (883589+2200=885789) -> W18 block 883589+188=883777 is a sub-head fork invisible to ledger_head(); the 188 judge trials are counted exactly ONCE in this row and the superseded branch total 883777 must never be re-added (r807 stale-tree fork family, E34 landing-head anchor); verdicts untouched: all 188 fail was judged on skill_line 1.1481 @ n_eff 883777 < live 885977-derived line = looser-side verdict, single-read r638 law, re-anchor only tightens -> zero flips",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "file": "results\\trial_labor_w18\\w18_judge_ledger_reanchor_r902.json",
+ "law": "append-only additive repair; verdicts untouched (r638 single-read); zero double-count (superseded branch 883777 sub-head); zero loss (188 re-anchored); caught pre-push (r807 pre-push fork window)"
+}
