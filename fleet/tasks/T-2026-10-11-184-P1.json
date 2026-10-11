@@ -7,8 +7,8 @@
   "spec": "Direction: bm-a (sender) -> bm-b (receiver). Payload: data/daily/510880.csv (single file, ~300KB, gitignored data face; CN_CORE T-73 long-history 4784-bar face, alloc_paper P5 slot pin). Sender SOP: Plan A git transfer branch (T-31 precedent): force-add the gitignored file to branch transfer/t184-510880, push, then git checkout main + git checkout transfer/t184-510880 -- data/daily/510880.csv is NOT needed on sender (file already in sender worktree; skip reland unless branch switched) -- manifest out via Tools/transfer_manifest.ps1 -Path <file> -Out fleet/transfers/t184-510880-sender.json. Receiver SOP (bm-b, next round after sender push): git fetch; git checkout origin/transfer/t184-510880 -- data/daily/510880.csv; git restore --staged data/daily/510880.csv (R90 pit law: checkout auto-stages gitignored path into main index -- MUST unstage); manifest + -Verify vs sender manifest; done -> status=done + result_ref both manifests. Deadline: next new bar Monday 2026-10-12 ~15:30 (before then alloc_paper leg stays rc=2 honest; marks current through 2026-10-09, zero data loss so far -- idempotent accrual had no new bars since file loss). Validation anchor: alloc_paper S6 leg returns rc=0 post-restore; ALLOC-P5.json marks face unchanged through 2026-10-09 (byte-stale-leg disclosure intact).",
   "registered_by": "bm-b (OS iteration loop, round 872 continuation)",
   "registered_at": "2026-10-11T09:40:00+08:00",
-  "status": "open",
-  "claimed_by": null,
-  "claimed_at": null,
+  "status": "claimed",
+  "claimed_by": "bm-b (OS iteration loop, round 879; receiver leg claimed -- physical dependency: sender branch transfer/t184-510880 not on origin as of 2026-10-11T12:5x+08:00 (ls-remote empty); restore fires same round the branch lands; alloc_paper leg stays rc=2 honest per spec until then)",
+  "claimed_at": "2026-10-11T12:52:00+08:00",
   "result_ref": null
 }

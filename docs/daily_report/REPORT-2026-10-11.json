@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-11",
- "generated_at": "2026-10-11 12:33:14",
+ "generated_at": "2026-10-11 12:52:54",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,17 @@
   "md_link": "../live_usage/LIVE-2026-10-11.md"
  },
  "rd": {
-  "commits_24h": 403,
-  "result_jsons_landed_24h": 157,
+  "commits_24h": 409,
+  "result_jsons_landed_24h": 152,
   "digests_landed_24h": 7,
-  "prereg_md_touched_24h": 41,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-11 12:28:53",
-   "py_cpu_pct": 6.1,
-   "flags": [
-    "idle_with_work"
-   ],
-   "verdict": "FLAG:idle_with_work"
+   "ts": "2026-10-11 12:50:07",
+   "py_cpu_pct": 20.1,
+   "flags": [],
+   "verdict": "CLEAN"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -665,25 +663,17 @@
   },
   {
    "id": "T-2026-10-11-184",
-   "status": "open",
+   "status": "claimed",
    "type": "transfer",
    "immediate": false,
-   "owner": ""
+   "owner": "bm-b (OS iteration loop, round 879; rece"
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1945118,
-  "delta_vs_prev": {
-   "prev_generated": "2026-10-11 12:12:24",
-   "state_tokens_growth": 0,
-   "report_tokens_growth": 714,
-   "mandate_growth": 0
-  },
-  "method": {
-   "bpe_proxy": 3.5,
-   "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
-  }
+  "total_state_tokens_est": null,
+  "total_report_tokens_est": null,
+  "delta_vs_prev": null,
+  "method": null
  },
  "utilization": {
   "machines": {
@@ -750,64 +740,20 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-11 11:29:38",
-    "py_pct": 0.5,
-    "cpu_pct": 1.0,
-    "ready": 0,
-    "streak_min": 3693.4,
-    "verdict": "FLAG:idle_with_work,supply_floor",
+    "latest_ts": "2026-10-11 12:50:07",
+    "py_pct": 20.1,
+    "cpu_pct": 9.0,
+    "ready": 12,
+    "streak_min": null,
+    "verdict": "CLEAN",
     "py_series_tail": [
      [
-      "07:34",
-      32.9
-     ],
-     [
-      "07:57",
-      1.0
-     ],
-     [
-      "08:21",
-      1.4
-     ],
-     [
-      "08:34",
-      30.1
-     ],
-     [
-      "08:43",
-      0.4
-     ],
-     [
-      "09:12",
-      0.2
-     ],
-     [
-      "09:31",
-      1.8
-     ],
-     [
-      "10:06",
-      0.9
-     ],
-     [
-      "10:29",
-      1.7
-     ],
-     [
-      "10:47",
-      1.3
-     ],
-     [
-      "11:02",
-      2.1
-     ],
-     [
-      "11:29",
-      0.5
+      "12:50",
+      20.1
      ]
     ],
-    "today_samples": 42,
-    "today_floor_ok": 0,
+    "today_samples": 1,
+    "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
    },
@@ -897,19 +843,19 @@
     }
    },
    "bm-b": {
-    "batches_judged": 16,
-    "core_seconds": 2711.4,
-    "wall_seconds": 434.2,
-    "effective_cores": 6.24,
+    "batches_judged": 18,
+    "core_seconds": 3388.0,
+    "wall_seconds": 555.0,
+    "effective_cores": 6.1,
     "single_core_burn": 3,
-    "multicore_burn": 13,
+    "multicore_burn": 15,
     "too_short": 0,
-    "last_ts": "2026-10-11T09:16:30+08:00",
+    "last_ts": "2026-10-11T12:33:19+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-11 11:29:38"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-11 12:50:07"
     }
    },
    "bm-c": {
