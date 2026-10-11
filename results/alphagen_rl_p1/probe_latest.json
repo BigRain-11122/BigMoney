@@ -1,0 +1,163 @@
+{
+ "audit": {
+  "elapsed_sec": 0.3,
+  "generated_at": "2026-10-11T18:13:34+08:00",
+  "read_only": true
+ },
+ "banned_direction_gate": {
+  "ran": true,
+  "rc": 0,
+  "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/N2U3_ALPHAGEN_RL_P1.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}\n"
+ },
+ "cache": {
+  "exists": true,
+  "path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rg\\panel_cache_2026-10-09.npz",
+  "size_mb": 578.7
+ },
+ "census_product": {
+  "anchors_match": true,
+  "exists": true,
+  "n_ok": 200,
+  "survivors": [
+   {
+    "abs_icir": 0.455,
+    "formula": "LOW(turnover,30)"
+   },
+   {
+    "abs_icir": 0.432,
+    "formula": "LOW(volume,10)"
+   },
+   {
+    "abs_icir": 0.426,
+    "formula": "QTLD(volume,20)"
+   },
+   {
+    "abs_icir": 0.408,
+    "formula": "VMA(volume,60)"
+   },
+   {
+    "abs_icir": 0.389,
+    "formula": "ROC(volume,20)"
+   },
+   {
+    "abs_icir": 0.388,
+    "formula": "SUMN(volume,60)"
+   },
+   {
+    "abs_icir": 0.387,
+    "formula": "ROC(turnover,20)"
+   },
+   {
+    "abs_icir": 0.386,
+    "formula": "RANK(amount,60)"
+   }
+  ],
+  "top_k": 8,
+  "verdict_holds": true
+ },
+ "cutoff_pin": "2026-10-09",
+ "dedup": {
+  "excluded_keys": 200,
+  "hits": {
+   "census": 200,
+   "ledger_scan": 0,
+   "w19": 0,
+   "w20": 0
+  },
+  "w19_product": true,
+  "w20_product": true
+ },
+ "family": {
+  "check": {
+   "family": "alphagen_rl_grammar",
+   "gate": "closed_family_check",
+   "in_registry": false,
+   "status": "open"
+  },
+  "closed_families": [
+   "cn_combo_five_family",
+   "cta_futures_p1",
+   "factor_blend",
+   "g2_slot_mon_p2_xs",
+   "lowamp_daily_xs",
+   "lowamp_deep_xs",
+   "microcap_2024_crash",
+   "t28_spm_first",
+   "wild_route_s1"
+  ],
+  "family_key": "alphagen_rl_grammar",
+  "in_closed_families": false
+ },
+ "freeze_conditions": {
+  "1_runner_selftest_green": "pending selftest run this window",
+  "2_seed_admit_gate_rc0": 0,
+  "3_banned_direction_gate_rc0": 0,
+  "4_prereg_frozen": false,
+  "5_meaning_gate_three_questions": "freeze-window session action"
+ },
+ "grammar": {
+  "base_inputs": 8,
+  "depth_max": 2,
+  "e16_import_face": "scripts/alphagen_rg_census.py (verbatim)",
+  "ops": 29,
+  "qlib_loader_sha16": "814b7f7ab3d418ae",
+  "qlib_loader_sha16_match": true,
+  "qlib_loader_sha16_pin": "814b7f7ab3d418ae",
+  "vocab": 44,
+  "windows": 5
+ },
+ "mechanics": {
+  "k_top": 32,
+  "n_boot": 256,
+  "pool_boundary_disclosure": "registered members have no stock cross-section face at training time; they enter at the judged D6 daily-return gate",
+  "pool_top_k": 8,
+  "ppo": {
+   "clip": 0.2,
+   "ent_coef": 0.01,
+   "epochs": 4,
+   "gae_lambda": 0.95,
+   "gamma": 1.0,
+   "hidden": 64,
+   "lr": 0.0003,
+   "max_grad_norm": 0.5,
+   "minibatch": 8,
+   "rollout_episodes": 32,
+   "vf_coef": 0.5
+  },
+  "tau_admit": 0.005,
+  "train_uni_n": 1024
+ },
+ "panel_gate": {
+  "cal_window_ok": true,
+  "complete_claim": true,
+  "cutoff": "2026-10-09",
+  "disk_truth_override": false,
+  "mode": "no-op: panel fresh",
+  "panel_cutoff_ok": true,
+  "per_files_on_disk": 5219,
+  "ready": true,
+  "rebuild_lock": false,
+  "roster_sha16": "1d06d218b2cbf870",
+  "roster_sha_ok": true,
+  "seeds_ok": true,
+  "stale_reason": null,
+  "status_per_files": 5219,
+  "status_universe_n": 5229
+ },
+ "queue_row": "state/queue/explore.md E17 (N2 U3 channel-1 RL 主考批)",
+ "seeds": {
+  "admit_gate_probe": {
+   "ran": true,
+   "rc": 0,
+   "stderr_tail": "",
+   "stdout_tail": "seed_admit_gate rc0 base=20625000 span=500 checked=500 verdict=FREE\n"
+  },
+  "bands": {
+   "n2u3_alphagen_rl_gen": false,
+   "n2u3_alphagen_rl_scrnull": false,
+   "n2u3_alphagen_rl_unc": false
+  },
+  "proposal_base": 20625000,
+  "proposal_spacing": 500
+ }
+}
