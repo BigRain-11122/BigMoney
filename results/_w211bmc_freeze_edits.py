@@ -52,13 +52,20 @@ sys.path.insert(0, os.path.join(REPO, "research"))
 import perpetual_faces as pf_mod
 
 # ---------- gate 0.5: W210 five-face landed + W210 finalize product present ----------
+# (r898 takeover face: the W210 freeze was executed by bm-c per GM re-assignment;
+#  owner accepted in (bm-b, bm-c) with takeover-commit verification, W208-takeover
+#  gate0.5 precedent applied verbatim)
 # (chain-order precondition; W209 finalize is the transitive dep of the W210
 # freeze and is belt-and-braces checked here + enforced by the block's
 # cumulative-deps assert range(17, 211) at selftest time)
 W210 = dict(pf_mod.N1_BANDS.get(210) or {})
-assert W210.get("engine_owner") == "bm-b", \
-    f"W210 row not landed as declared (bm-b seat owner expected): {W210} -- five-face freeze missing;" \
+assert W210.get("engine_owner") in ("bm-b", "bm-c"), \
+    f"W210 row not landed as declared (bm-b seat owner expected; bm-c r898 takeover face allowed): {W210} -- five-face freeze missing;" \
     " if a takeover face exists the freeze window MUST re-derive this editor honestly"
+if W210.get("engine_owner") == "bm-c":
+    tk = git("cat-file", "-t", "d5ec83b72")
+    assert tk.returncode == 0 and tk.stdout.decode().strip() == "commit", \
+        "W210 takeover commit d5ec83b72 missing -- ownership face unverified, abort"
 w210_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w210_results.json")
 assert os.path.exists(w210_out_path), "W210 finalize product missing (n1_w210_results.json) -- chain dep not met"
 w209_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w209_results.json")
@@ -86,12 +93,15 @@ assert os.path.exists(os.path.join(REPO, "research", "PERPETUAL_N1_W210_PREREG.m
 # pre-takeover carryover era fully resolved post-W208/W209 registration)
 owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
 bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
-assert len(owner_rows_live) == 200 and len(bmc_rows_live) == 39, \
-    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 200/39 post-W208+W209+W210 registration)"
-print(f"gate0.5 OK: W210 landed (freeze {w210_freeze_sha[:10]}, owner=bm-b), W210+W209+W208 finalize products present "
+_expected_bmc = 40 if W210.get("engine_owner") == "bm-c" else 39
+assert len(owner_rows_live) == 201 and len(bmc_rows_live) == _expected_bmc, \
+    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 201/{_expected_bmc} post-W208+W209+W210 registration; W210 takeover r898 face: bm-c 40th own wave, this candidate = 41st, live derive governs r587/r359)"
+print(f"gate0.5 OK: W210 landed (freeze {w210_freeze_sha[:10]}, owner={W210.get('engine_owner')} "
+      f"[r898 takeover face, commit d5ec83b72 verified when bm-c]), W210+W209+W208 finalize products present "
       f"(W210 ledger head {w210_total}, merged n={w210_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
-      f"bm-c rows {len(bmc_rows_live)} + candidate (40th own wave, attempt-continuity face; probe receipt leg0 "
-      f"bmc_ordinal=40 == rows+1 EXACT)")
+      f"bm-c rows {len(bmc_rows_live)} + candidate (41st own wave per the W210 takeover r898 re-derive; "
+      f"probe receipt leg0 bmc_ordinal=40 seat-time face disclosed -- the takeover shifted the own-ordinal +1, "
+      f"live derive at freeze time governs r587/r359)")
 
 # ---------- band facts from the committed ADMIT receipt (never transcribed) ----------
 rec = json.load(open(RECEIPT_IN, encoding="utf-8"))
@@ -221,8 +231,10 @@ assert w210_row_start > 0, "W210 row literal not found in pf source"
 _own_ls = pf_t.find(PF_EOL, w210_row_start) + len(PF_EOL)
 _own_le = pf_t.find(PF_EOL, _own_ls)
 w210_own_line = pf_t[_own_ls:_own_le]
-assert '"engine_owner": "bm-b"' in w210_own_line, \
+assert ('"engine_owner": "bm-b"' in w210_own_line) or ('"engine_owner": "bm-c"' in w210_own_line), \
     f"W210 owner line unexpected bytes: {w210_own_line!r}"
+if '"engine_owner": "bm-c"' in w210_own_line:
+    assert "takeover r898" in w210_own_line, "W210 bm-c owner line lacks the takeover r898 annotation"
 ROWC_I = w210_own_line[:len(w210_own_line) - len(w210_own_line.lstrip(" "))]
 
 # ---------- pf comment + row ----------
@@ -309,7 +321,7 @@ PRE = [
  "new seed bands only; TWO HUNDRED AND ELEVENTH ENGINE-OWNED WAVE ",
  f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
  "own-series continuation per O-20260101-2355 sec.2 (first-free-",
- "number law after the REGISTERED W210 row bm-b five-face freeze ",
+ "number law after the REGISTERED W210 row five-face freeze (seat published by bm-b MSG-20261011-0319; r898 TAKEOVER: bm-b armed lane stalled 94min >> 20min GM re-assignment gate -> bm-c executed the freeze, engine_owner bm-b->bm-c, bands unchanged R250, notice MSG-2026-10-12-0020 @ c64bc2287 pre-pushed), ",
  f"{w210_freeze_sha[:10]} (prereg {w210_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W210 all ",
  "registered; " + fin_face + "; ",
  "seat published=reserved ",
@@ -389,7 +401,7 @@ hdr = [
  "    #     bm-c's fortieth owned per machine-derive (engine_owner==bm-c",
  "    #     rows 39 + candidate; attempt-continuity face: the aborted r846 W208",
  "    #     draft consumed the 38th slot, W209 = 39th, this = 40th); wave 211 = first free number after the",
- f"    #     REGISTERED W210 row (bm-b five-face freeze {w210_freeze_sha[:10]}) --",
+f"    #     REGISTERED W210 row (five-face freeze {w210_freeze_sha[:10]}; seat published by bm-b, r898 TAKEOVER: bm-b hb-stall 94min -> bm-c executed per GM re-assignment + CEO fill-order standing, bands unchanged R250, notice MSG-2026-10-12-0020 @ c64bc2287; engine_owner at W211 freeze governs) --",
  "    #     SINGLE STATE zero seat gap (W2..W210 all registered). Seat",
  "    #     published=reserved MSG-20261011-0350-bmc-w211-seat pushed",
  "    #     to origin " + SEAT_ORIGIN + " BEFORE this freeze, r565 law (payload =",
@@ -418,8 +430,8 @@ hdr = [
  "        assert WAVE_CONFIGS[210][\"b_exit_seed_base\"] == \\",
  '            pf.N1_BANDS[210]["b_exit"][0], "W211 upstream W210 mirror drift (b)"',
  "        assert WAVE_CONFIGS[210].get(\"engine_owner\") == \\",
- '            pf.N1_BANDS[210].get("engine_owner") == "bm-b", \\',
- '            "W211 upstream W210 engine_owner mirror drift (law-mirror parity)"',
+f'            pf.N1_BANDS[210].get("engine_owner") == "{W210.get("engine_owner")}", \\',
+'            "W211 upstream W210 engine_owner mirror drift (law-mirror parity; r898 takeover bm-b->bm-c face disclosed)"',
  "        w210_a = {A_SEED_BASE + j for j in range(A_N)}",
  "        w210_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
  '        assert not (w210_a & w210_b), "W211 A/B band overlap"',
@@ -433,8 +445,8 @@ hdr = [
 w210_leg = [
  f'        assert pf.N1_BANDS[210] == {{"a": ({fmt(W210["a"][0])}, {fmt(W210["a"][1])}),',
  f'                                    "b_exit": ({fmt(W210["b_exit"][0])}, {fmt(W210["b_exit"][1])}),',
- '                                    "engine_owner": "bm-b"}, \\',
- '            "registered W210 row parity drift (r307; bm-b five-face freeze)"',
+f'                                    "engine_owner": "{W210.get("engine_owner")}", \\',
+'            "registered W210 row parity drift (r307; bm-b five-face freeze; r898 takeover bm-b->bm-c face disclosed)"',
 ]
 tail = [
  "        # prior-wave disjointness W2..W210 (single state: all",
