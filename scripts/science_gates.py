@@ -2010,6 +2010,26 @@ SEED_REGISTRY = {
         "trial_labor_w17_gen": 20_610_000,
         "trial_labor_w17_scrnull": 20_610_500,
         "trial_labor_w17_unc": 20_611_000,
+        # TRIAL_LABOR_W18 (sizing-axis first burn, 4-arm full-cross
+        # paired-block isolation; bm-c r879 freeze window): berth trio
+        # 20630000/20630500/20631000 = W17 trio structure mirror (role
+        # spacing 500/1000); draft berth 20620000 was occupied by
+        # e16_alphagen_rg (gen 20620000/null 20620100, 10-11 05:0x --
+        # draft's own anticipated rejection, W17 lesson). Freeze-window
+        # live gate re-run ALL FREE per recheck_law (probe receipt =
+        # evidence not reservation): scrnull rng([20630500,i]) i<200 ->
+        # [20630500,20630700); unc rng([20631000,cell_idx]) cell_idx<692
+        # -> [20631000,20631692); gen 20630000 held zero-consumption
+        # (entry = W16 frozen 173 cells verbatim, zero new generation);
+        # family band [20630000,20632500) zero-hit on 212-key live
+        # registry + repo text-scan foreign-zero-hit at freeze; free
+        # in-registry BEFORE this commit, registered at prereg freeze
+        # BEFORE any burn, one-step R250 law; prereg
+        # research/TRIAL_LABOR_W18_PREREG.md (facts
+        # results/_r879bmc_w18_freeze_facts.json)
+        "trial_labor_w18_gen": 20_630_000,
+        "trial_labor_w18_scrnull": 20_630_500,
+        "trial_labor_w18_unc": 20_631_000,
         # T23 slice-2 alphagen random-grammar census (bm-b r841 freeze window,
         # queue row state/queue/tech.md T23 -- slice-1 POSITIVE-with-riders
         # r840, slice-2 gated on astock panel rebuild completion): gen

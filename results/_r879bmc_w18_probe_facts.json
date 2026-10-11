@@ -1,0 +1,214 @@
+{
+ "probe": "TRIAL_LABOR_W18 freeze-window probe facts",
+ "funnel_leg": "2/5 (draft done bm-b r838 -> THIS probe -> freeze -> runner -> pool)",
+ "wave": "TRIAL_LABOR_W18 (sizing-axis first burn, paired-block isolation design)",
+ "draft": "research/TRIAL_LABOR_W18_CANDIDATE_SIZINGAXIS_PREREG_DRAFT.md",
+ "precondition": "W17-JUDGE drain complete (physical gate MET 2026-10-11 14:49)",
+ "legs": {
+  "seed_bands": {
+   "draft_trio_20620000": [
+    {
+     "base": 20620000,
+     "span": 1000,
+     "rc": 1,
+     "verdict": "BLOCKED",
+     "raw": "seed_admit_gate rc1 base=20620000 span=1000 collisions=2 verdict=BLOCKED"
+    },
+    {
+     "base": 20620500,
+     "span": 1000,
+     "rc": 0,
+     "verdict": "FREE",
+     "raw": "seed_admit_gate rc0 base=20620500 span=1000 checked=1000 verdict=FREE"
+    },
+    {
+     "base": 20621000,
+     "span": 1000,
+     "rc": 0,
+     "verdict": "FREE",
+     "raw": "seed_admit_gate rc0 base=20621000 span=1000 checked=1000 verdict=FREE"
+    }
+   ],
+   "draft_trio_band_head": {
+    "base": 20620000,
+    "span": 2000,
+    "rc": 1,
+    "verdict": "BLOCKED",
+    "raw": "seed_admit_gate rc1 base=20620000 span=2000 collisions=2 verdict=BLOCKED"
+   },
+   "alt_trio_20630": [
+    {
+     "base": 20630000,
+     "span": 1000,
+     "rc": 0,
+     "verdict": "FREE",
+     "raw": "seed_admit_gate rc0 base=20630000 span=1000 checked=1000 verdict=FREE"
+    },
+    {
+     "base": 20630500,
+     "span": 1000,
+     "rc": 0,
+     "verdict": "FREE",
+     "raw": "seed_admit_gate rc0 base=20630500 span=1000 checked=1000 verdict=FREE"
+    },
+    {
+     "base": 20631000,
+     "span": 1000,
+     "rc": 0,
+     "verdict": "FREE",
+     "raw": "seed_admit_gate rc0 base=20631000 span=1000 checked=1000 verdict=FREE"
+    }
+   ],
+   "alt_trio_20620_head": {
+    "base": 20620200,
+    "span": 1000,
+    "rc": 0,
+    "verdict": "FREE",
+    "raw": "seed_admit_gate rc0 base=20620200 span=1000 checked=1000 verdict=FREE"
+   },
+   "alt_20621000": {
+    "base": 20621000,
+    "span": 1000,
+    "rc": 0,
+    "verdict": "FREE",
+    "raw": "seed_admit_gate rc0 base=20621000 span=1000 checked=1000 verdict=FREE"
+   },
+   "determination": {
+    "draft_band_occupied": true,
+    "occupied_by": [
+     "e16_alphagen_rg_gen",
+     "e16_alphagen_rg_null"
+    ],
+    "occupation_note": "e16 froze 20620000/20620100 on 10-11 05:0x AFTER the draft (10-10 20:0x) proposed the same berth -- the draft's own anticipated rejection (W17 lesson: natural candidates can be occupied); freeze window MUST re-derive",
+    "recommended_primary": "20630000/20630500/20631000 (structure mirror of W17 trio 20610000/20610500/20611000, role spacing 500/1000 preserved, all FREE at probe time)",
+    "alt_free_all": true,
+    "recheck_law": "freeze window re-runs seed_admit_gate live (probe receipt is evidence, not a reservation)"
+   }
+  },
+  "w16_source": {
+   "path": "results/trial_labor_w16/w16_candidates.json",
+   "sha256_16": "22179881b7537193",
+   "n": 173,
+   "n_candidates": 173,
+   "first": "W16-A-0000",
+   "last": "W16-B-9471",
+   "n_173_assert": true,
+   "verbatim_reuse_law": "draft sec.4: zero new generation, 173 cells verbatim; sha frozen at freeze time by re-read"
+  },
+  "w17_drain": {
+   "w17_judge": {
+    "n_judged": 344,
+    "g1_pass_n": 0,
+    "eligible_v2_n": 0,
+    "eligible_reform_n": 0,
+    "onboard_n": 0,
+    "E_FP_nominal": 17.2
+   },
+   "paired_deltas_face_medians": {
+    "tiered_tp_only": 0.0,
+    "hard_stop_only": 0.0,
+    "trailing_only": 0.0,
+    "time_decay_only": 0.0,
+    "loss_time_only": 0.0,
+    "hard_limit_only": 0.0,
+    "hold_to_end": 0.0
+   },
+   "paired_deltas_wilcoxon_p": {
+    "tiered_tp_only": 1.0,
+    "hard_stop_only": 0.98,
+    "trailing_only": 0.997,
+    "time_decay_only": 1.0,
+    "loss_time_only": 0.997,
+    "hard_limit_only": 0.966,
+    "hold_to_end": 0.981
+   },
+   "paired_deltas_n_pairs": 43,
+   "drain_complete": true,
+   "drain_note": "W17-JUDGE finalize landed 2026-10-11 14:49 (bm-c lane, ledger total 878,097) -- W18 physical precondition MET"
+  },
+  "x_axis": {
+   "w17_all_negative": true,
+   "all_exit_faces_median_delta_le_zero": true,
+   "x_axis_determination": "template_default",
+   "law": "draft sec.3 (W17 landed -> X per W17 sec.0 consumer (3) grammar-efficiency conclusion) + W17 prereg consumer (3) text: all-negative paired-isolation re-fail = exit-axis demotion canonical basis, future waves may FIX X=template_default saving the axis",
+   "exit_axis_gate_declaration": "(3) template_default measured by design (engine default stack = tested baseline, three-choice gate zero-gap)"
+  },
+  "sizing_face_inventory": {
+   "engine_native_sizing_modes": [
+    "equity_fraction",
+    "fixed_initial"
+   ],
+   "backtester_mentions_found": [
+    "equity_fraction",
+    "fixed_initial"
+   ],
+   "default_mode": "fixed_initial",
+   "native_faces_complete": true,
+   "invvol_vol_target_engine_native": false,
+   "invvol_precedent": "LOWAMP-P1/-DEEP-P1 sizing in {invvol,eq} burned at RUNNER portfolio-weight level (scripts/lowamp_p1.py etc.), NOT an engine sizing_mode face",
+   "freeze_resolution_note": "draft sec.3 discipline: face set = engine-native config faces verbatim (zero reimplementation); eq-flat arm maps to sizing_mode=equity_fraction native face, control arm = per-cell frozen S verbatim (as-burned); invvol/vol_target are NOT engine-native -> freeze window either (a) resolves to the two engine-native arms (control=as-burned frozen S, treatment=equity_fraction), or (b) follows LOWAMP runner-level portfolio-weight precedent with verbatim runner reuse, or (c) honestly defers the non-native faces to a future wave -- the prereg freeze must state the resolution explicitly"
+  },
+  "grammar_census": {
+   "n_wave_rows": 21,
+   "rows_mentioning_sizing": [],
+   "isolated_sizing_axis_rows": [],
+   "lowamp_mixed_dim_disclosed": [
+    "LOWAMP-P1 (sizing in {invvol,eq} = mixed sampling dimension, family-specific, VOID-then-P2 lineage)",
+    "LOWAMP-DEEP-P1 (deep-universe consumption of the same mixed dimension)"
+   ],
+   "isolation_claim_holds": true,
+   "census_note": "full-product census per W17 banner lesson (L1 text scan blind spots): ledger rows carry grammar sha not per-axis burn faces; candidates files W1..W16 carry entry-filter axis tuples only (verified: axis tuples hold gate/vol/yang/vconf/streak/tstate/amp/mom/std/rsqr/sumn/resi/cnt/max/rank faces, no sizing face slot); W17 cells pair entry x exit faces with S frozen per cell"
+  },
+  "candidates_axis_slots": {
+   "distinct_axis_faces": 52,
+   "sizing_like_faces_in_axis_tuple": [],
+   "axis_is_pure_entry_filter": true
+  },
+  "dsr_head": {
+   "total": 878097,
+   "file": "w17_judge.json",
+   "note": null,
+   "voided": [
+    {
+     "batch": "LOWAMP-P1",
+     "voided_trials": 2008
+    },
+    {
+     "batch": "LOWAMP-P2",
+     "voided_trials": 2008
+    }
+   ]
+  },
+  "collision_checks": {
+   "inbox_w18_trial_hits": [],
+   "task_ticket_hits": [],
+   "draft_owner": "bm-b r838 (2026-10-10 20:07)",
+   "bm_b_declared_next_mentions_w18": false,
+   "bm_a_declared_next_mentions_w18": false,
+   "fetch_state": "origin fetched this round (behind 0 after pull --rebase --autostash)",
+   "verdict": "no rival W18 freeze claim in flight; probe declared via fleet MSG this round per F-04"
+  },
+  "anchors": {
+   "evidence_cutoff": "2026-09-22",
+   "core48_lockbox": "RW-4 frozen universe",
+   "core48_daily_csv_present": 1724,
+   "universe_note": "same binding as W14/W16/W17 lineage (P-5C frozen face)",
+   "ram_budget_note": "probe+freeze=light; SCREEN burn goes to the pool (any healthy engine claims); local RAM gate 8.1pct free at probe time =film lane priority respected"
+  },
+  "banned_gate": {
+   "rc": 0,
+   "decision": "ADMIT",
+   "matched": [],
+   "note": "live-run this round on the DRAFT (candidate); the frozen prereg re-runs the gate at freeze time (rc0 = freeze-gate necessary condition)"
+  }
+ },
+ "evidence_cutoff": "2026-09-22",
+ "audit": {
+  "machine": "bm-c",
+  "round": 879,
+  "generated": "2026-10-11 15:37:32",
+  "read_only": true,
+  "zero_pool_writes": true,
+  "zero_registry_writes": true
+ }
+}
