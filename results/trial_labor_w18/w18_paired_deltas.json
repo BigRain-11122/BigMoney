@@ -1,0 +1,132 @@
+{
+ "wave": "TRIAL_LABOR_W18",
+ "stage": "paired-deltas",
+ "evidence_cutoff": "2026-09-22",
+ "reading": "legL_sharpe_full (face-vs-as-burned leg-L Sharpe paired deltas across complete blocks)",
+ "per_face": {
+  "equal_weight": {
+   "n_pairs_informative": 29,
+   "n_degenerate_excluded": 18,
+   "n_missing_reading": 0,
+   "median_delta": 0.0001,
+   "iqr": 0.0285,
+   "wilcoxon_p": 0.006,
+   "rng": [
+    20631000,
+    400
+   ],
+   "as_burned_subgroup_deltas": {
+    "cap20": {
+     "n": 10,
+     "median": -0.02295,
+     "iqr": 0.086325
+    },
+    "inverse_vol": {
+     "n": 11,
+     "median": 0.0015,
+     "iqr": 0.02155
+    },
+    "regime_delever": {
+     "n": 8,
+     "median": 0.01005,
+     "iqr": 0.068625
+    }
+   }
+  },
+  "inverse_vol": {
+   "n_pairs_informative": 36,
+   "n_degenerate_excluded": 11,
+   "n_missing_reading": 0,
+   "median_delta": -0.0005,
+   "iqr": 0.066875,
+   "wilcoxon_p": 0.079,
+   "rng": [
+    20631000,
+    401
+   ],
+   "as_burned_subgroup_deltas": {
+    "cap20": {
+     "n": 10,
+     "median": -0.0322,
+     "iqr": 0.09335
+    },
+    "equal_weight": {
+     "n": 18,
+     "median": -0.00045,
+     "iqr": 0.05685
+    },
+    "regime_delever": {
+     "n": 8,
+     "median": 0.0058,
+     "iqr": 0.038325
+    }
+   }
+  },
+  "cap20": {
+   "n_pairs_informative": 37,
+   "n_degenerate_excluded": 10,
+   "n_missing_reading": 0,
+   "median_delta": 0.0,
+   "iqr": 0.0755,
+   "wilcoxon_p": 0.012,
+   "rng": [
+    20631000,
+    402
+   ],
+   "as_burned_subgroup_deltas": {
+    "equal_weight": {
+     "n": 18,
+     "median": -0.00115,
+     "iqr": 0.089575
+    },
+    "inverse_vol": {
+     "n": 11,
+     "median": 0.0115,
+     "iqr": 0.0762
+    },
+    "regime_delever": {
+     "n": 8,
+     "median": 0.00795,
+     "iqr": 0.07475
+    }
+   }
+  },
+  "regime_delever": {
+   "n_pairs_informative": 39,
+   "n_degenerate_excluded": 8,
+   "n_missing_reading": 0,
+   "median_delta": 0.0,
+   "iqr": 0.0809,
+   "wilcoxon_p": 0.046,
+   "rng": [
+    20631000,
+    403
+   ],
+   "as_burned_subgroup_deltas": {
+    "cap20": {
+     "n": 10,
+     "median": -0.02295,
+     "iqr": 0.0863
+    },
+    "equal_weight": {
+     "n": 18,
+     "median": 0.0,
+     "iqr": 0.00225
+    },
+    "inverse_vol": {
+     "n": 11,
+     "median": 0.0,
+     "iqr": 0.06
+    }
+   }
+  }
+ },
+ "degenerate_census_full_173": {
+  "cap20": 47,
+  "inverse_vol": 37,
+  "regime_delever": 43,
+  "equal_weight": 46
+ },
+ "exclusion_law": "informative pairs only per face f: the cell-as-burned(f) subgroup is excluded (constructed delta==0, zero information; prereg sec.4 frozen) -- degenerate pairs fully disclosed, retained for block-completeness + determinism-anchor dual duty",
+ "rng_streams": "unc family band rng([20631000,400+f]) f<4 (above judge consumption <360, below band top 692)"
+}
