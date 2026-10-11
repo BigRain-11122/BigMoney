@@ -18,5 +18,6 @@
 9. 【CPH4】低配机 2D 渲染性能基准（bm-b 3070 档·确定 tile 大城帧预算）——claimed@bm-b@2026-10-10T21:59:03+08:00 → done@bm-b@2026-10-10T22:38:00+08:00（standalone player 隐藏窗路线 r844 诊断 blocked〔零窗律冲突〕→ r845 editor-batchmode 手动 RT 渲染循环路线 8 配置矩阵 8/8 rc0 全 GREEN：pan p99 ≤5.04ms ≪16.67ms；**帧预算结论=每帧可见 tiles ≤19,728（60fps p99 口径·含 20% 安全余量·editor 口径=player 保守下界）**；产物=results/tile_bench/（REPORT.md+summary.json+8 run JSON+harness 三件）+工作面 C:\Fluxgroup\bench-work\tile-bench\）·r868 bm-c 归档（2026-10-11T11:09:45+08:00）：done@ 已在位零残留·原行「claim @」空格形漏 claimed@ 串致 idle_trigger 假计数·本归档补齐串+注记·非代工
 10. 【BigMoney】T-94 千人题库烧批续片（永续线 W9+ 分片）——可领（claimed@bm-a@2026-10-07T22:33:00+08:00，O-20261007-1850 派单领池·永续引擎 W178 烧批=本片在飞·T-94 题库续片随波推进）·claimed@bm-b@2026-10-09T01:00:39+08:00（O-20261006-2358 致 bm-b §2 trio 燃毕自领补录——r806 23:30 已领但死于 wrapper 斩首未落 git·r807 补录；bm-b 分片=本机 SatEngine 永续波队列随波推进，当前本机队列 0 在册如实注记）
 11. 【BigDomain】19.9 旅程 v2 双案用户文案件（M2 预备·纯内容零额度）——可领（claimed@bm-a@2026-10-07T22:33:00+08:00，O-20261007-1850 派单领池·纯文案零额度·下窗产出）
+12. 【BigHouse】城市接入件设计（复刻范围/构件清单/城内选址/City3D 库 AD-NNN 引用选件·消费 R1 研究件 §2.2 解剖+§五接口·纯设计零额度·BLUEPRINT v0.4 为纲）——可领（BigHouse 席循环班议程·O-20261011-1917-bm-c §2① idle-claim 接线 r896 落位·R1 研究件已落地 house/BigHouse commit 16fda71·due ≤10-15·产出计分面=城内选址图+构件清单设计件入仓）
 
 ——池建立 2026-10-01 11:5x·首任补货员=秘书处
