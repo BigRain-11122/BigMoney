@@ -555,7 +555,8 @@ def cmd_run(shard, shards, workers):
             vals = pd.Series(p["feats"][f]["vals"], index=di) \
                 .reindex(master_dates)
             dec = pd.Series(p["feats"][f]["dec"], index=di
-                            ).fillna(False).astype(bool)
+                            ).reindex(master_dates
+                                      ).fillna(False).astype(bool)
             feats[f] = {"vals": vals.values, "dec": dec.values}
         re[m] = {"close": close.values, "feats": feats}
     todo_r = [(m, f) for m in MEMBERS for f in FEATURES
