@@ -1,0 +1,115 @@
+{
+ "batch": "E15_EMOTION_REEVAL_ROSTER",
+ "direction_family": "sentiment.turnover_surge",
+ "families": [
+  {
+   "best_member": "W3-27009",
+   "best_oos_sharpe_legL": 2.2952,
+   "direction_clue": false,
+   "family": "seasonal.trend_by_season",
+   "min_family_pbo": 0.2714,
+   "n_members": 1,
+   "recurrence_ge2": false
+  },
+  {
+   "best_member": "W2-23057",
+   "best_oos_sharpe_legL": 1.9327,
+   "direction_clue": true,
+   "family": "sentiment.turnover_surge",
+   "min_family_pbo": 0.1857,
+   "n_members": 2,
+   "recurrence_ge2": true
+  },
+  {
+   "best_member": "W3-46133",
+   "best_oos_sharpe_legL": 1.2692,
+   "direction_clue": false,
+   "family": "ta.strong_close",
+   "min_family_pbo": 0.3714,
+   "n_members": 1,
+   "recurrence_ge2": false
+  }
+ ],
+ "generated_by": "scripts/emotion_reeval_roster.py",
+ "members": [
+  {
+   "bootstrap_ci_lower": 1.203e-05,
+   "candidate_id": "W3-27009",
+   "dsr": 0.2429,
+   "family": "seasonal.trend_by_season",
+   "family_pbo": 0.2714,
+   "g1_margin": 0.1504,
+   "g1_sharpe_full": 1.2843,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": false,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.078627,
+   "oos_sharpe_legL": 2.2952,
+   "signflip_p": 0.0
+  },
+  {
+   "bootstrap_ci_lower": 1.538e-05,
+   "candidate_id": "W2-23057",
+   "dsr": 0.5288,
+   "family": "sentiment.turnover_surge",
+   "family_pbo": 0.2286,
+   "g1_margin": 0.0213,
+   "g1_sharpe_full": 1.1535,
+   "g1_skill_line": 1.1322,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": true,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.034019,
+   "oos_sharpe_legL": 1.9327,
+   "signflip_p": 0.001
+  },
+  {
+   "bootstrap_ci_lower": 2.235e-05,
+   "candidate_id": "W3-23027",
+   "dsr": 0.4903,
+   "family": "sentiment.turnover_surge",
+   "family_pbo": 0.1857,
+   "g1_margin": 0.0841,
+   "g1_sharpe_full": 1.218,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": true,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.022776,
+   "oos_sharpe_legL": 1.4377,
+   "signflip_p": 0.0
+  },
+  {
+   "bootstrap_ci_lower": 7.52e-06,
+   "candidate_id": "W3-46133",
+   "dsr": 0.4945,
+   "family": "ta.strong_close",
+   "family_pbo": 0.3714,
+   "g1_margin": 0.049,
+   "g1_sharpe_full": 1.1829,
+   "g1_skill_line": 1.1339,
+   "g2_dsr_ok": false,
+   "g2_eligible": false,
+   "g2_pbo_ok": false,
+   "n_eff_start_windows": 12063,
+   "oos_ret_legL": 0.009026,
+   "oos_sharpe_legL": 1.2692,
+   "signflip_p": 0.0015
+  }
+ ],
+ "n_members": 4,
+ "notes": [
+  "Descriptive roster only: zero judgment, zero thresholds; batch",
+  "membership m and BH-FDR gate decided by the frozen prereg (E15 leg-2).",
+  "Reform gates to be imported from science_gates (g2_reform_fdr4d,",
+  "REFORM_DIM_WEIGHTS, REFORM_SUB_WEIGHTS, REFORM_TOPN_PER_WAVE) -",
+  "no hand-copied judgment lines (r271 single-canon law)."
+ ],
+ "source_evidence_cutoff": "2026-09-22",
+ "source_honesty": "Report-only aggregation of frozen wave judge files; no new judgments, no thresholds touched. Near-miss dossier kept verbatim for the next supply wave; family recurrence (sentiment.turnover_surge x2) is the direction clue, not a promotion.",
+ "source_report_card": "results/mass_trial/report_card.json"
+}
