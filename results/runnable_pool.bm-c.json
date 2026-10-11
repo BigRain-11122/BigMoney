@@ -17747,17 +17747,21 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-11 18:43:01",
    "data_gates": "fail-closed rc2 freeze gate in-runner (prereg FROZEN + 3 seed bands required); panel gate = E16 frozen cache 2026-10-09 in place; universe/eligibility faces read-only",
    "shards": [
     {
      "key": "n2u3-leg2-probe",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "",
      "owner": "bm-b",
-     "owner_since": "2026-10-11 18:45:50"
+     "owner_since": "2026-10-11 19:26:04",
+     "claimed_since": "2026-10-11 18:45:50",
+     "done_at": "2026-10-11 19:26:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "n2u3-leg2-probe.bm-b.json"
     }
    ],
    "workers_plan": {
@@ -17773,7 +17777,9 @@
    ],
    "data_deps": [
     "results/alphagen_rg/panel_cache_2026-10-09.npz"
-   ]
+   ],
+   "done_by": "bm-b",
+   "done_at": "2026-10-11 19:26:04"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
