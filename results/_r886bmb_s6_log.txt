@@ -1,0 +1,48 @@
+r886 bm-b S6 chain stdout-audit log (2026-10-11 15:44-15:47 +08:00)
+Evidence form: serialized 37-leg command chain ran to ===S6 DONE=== marker, overall exit 0,
+zero FAIL/error/traceback markers in stdout. Honest disclosure: this window used direct
+chain execution (no per-leg rc recorder driver), so per-leg verdicts below are stdout
+audits of each leg's own self-reported status line, not captured $LASTEXITCODE values.
+
+ 1 pool_dualrun_reconcile run      -> ZERO-DRIFT (434 entries, streak 44, cutoff 11:12:33)
+ 2 compute_audit                   -> CLEAN / burning-healthy (eff_cores 7.58, py_procs 31)
+ 3 py_watermark probe              -> py_low_with_work_cands (pool_batch=5, local_batch=1 in-flight = legal burn-ramp face)
+ 4 update_daily                    -> Sunday 0 new rows, cutoff 2026-10-09
+ 5 market_regime                   -> ORANGE shadow asof 2026-10-09 (hs300<MA200, breadth 0.73)
+ 6 strategy_scorecard              -> lane_io stale-takeover derive (bm-a 1075min dark); S=2 A=4, best VOLATILITY-CE-01 87.0
+ 7 market_clock_call run           -> CALL-2026-10-09 cell=ORANGE_COOL sleeves=4 activated=0
+ 8 update_lhb                      -> no-op cutoff 2026-10-09 covers disclosure window
+ 9 update_zt_pool                  -> no-op lane owned by bm-a
+10 update_heat                     -> no-op lane bm-a (R31 r378 catch5)
+11 update_futures                  -> no-op cutoff covers expected complete-bar date
+12 update_repo                     -> no-op lane bm-a
+13 update_options                  -> RETIRED per O-20261009-1105, honest no-op
+14 update_moneyflow                -> no-op lane bm-a
+15 update_sina_mf                  -> no-op lane bm-a
+16 update_astock_daily             -> no-op panel fresh (bm-b lane)
+17 update_etf_daily                -> no-op panel cutoff covers (bm-b lane)
+18 regime_thermo_build             -> full-history rebuild DONE csv+json (results/regime_thermo)
+19 regime_gate_dualarm run         -> DUALARM-2026-09-30.json (index=BEAR @09-30, emotion @09-22) (bm-b)
+20 rev_osc_signal_export run       -> no-op idempotent SIG/BARS at cutoff 2026-10-09 (bm-b)
+21 update_minute_feed              -> non-workday no-op (bm-b)
+22 update_ths_panel                -> no-op lane bm-a
+23 ah_panel_puller                 -> no-op lane bm-a
+24 update_fund_premium snapshot    -> no-op lane bm-c
+25 update_fundamental              -> snapshot fresh (20.9h < 24h) skip
+26 firm.risk.b_layer_filter       -> mask 5222 codes, gates all_pass
+27 update_fund_statements          -> no-op lane bm-a
+28 aggressive_lab paper            -> no-op marks at panel cutoff
+29 alloc_paper run                 -> 7 accounts byte-identical no-op (rc-face green = T-184 self-rescue anchor 3rd consecutive healthy window)
+30 grid_paper run                  -> no-op idempotent
+31 system_v1_paper run             -> lane guard owner=bm-a stdout-only no-op
+32 t35_paper_export run            -> stale-takeover derive export-2026-10-09.json (6 traders, 18 positions, equity 6000311)
+33 daily_scorecard                 -> stale-takeover derive daily_scorecard.html (6 traders)
+34 daily_report run                -> REPORT-2026-10-11.md/.json faces=5 token=1
+35 ceo_live_usage                  -> LIVE-2026-10-11.md (state=ORANGE rung=ORANGE cap=50% heat=COOL, 6 members)
+36 monitor.build_status            -> stale-takeover derive dashboard_status.js (factors=10, traders=6, milestones=5/7)
+37 token_meter                     -> saved, delta=0
+
+Skipped by design this window (honest, not failures):
+- monthly trio (science_audit / monthly_briefing / self_review): not month-first round (2026-10-11)
+- new-bar-triggered legs (live.paper / t35_open_fill_verify / t24_prospect_paper / t24_prospect_promotion):
+  Sunday, no new bar; panel cutoff 2026-10-09 (Friday) already covered.
