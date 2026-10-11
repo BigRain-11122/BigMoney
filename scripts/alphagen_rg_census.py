@@ -758,11 +758,15 @@ def cmd_run(shard, shards, workers):
             def on_result(key, payload):
                 _ckpt_flush(fp, payload)
 
-        run_cells_parallel(
-            jobs, workers=workers or min(worker_cap(), 8),
-            desc=f"e16-shard{shard}",
-            initializer=_worker_init, initargs=(npz_path,),
-            on_result=on_result)
+            # inside the with: fp must stay open for every on_result flush
+            # (r878 indent bug: call sat at with-header level = block exited
+            # before first flush -> ValueError I/O on closed file, 19min burn
+            # zero-checkpoint loss)
+            run_cells_parallel(
+                jobs, workers=workers or min(worker_cap(), 8),
+                desc=f"e16-shard{shard}",
+                initializer=_worker_init, initargs=(npz_path,),
+                on_result=on_result)
     merged = dict(done)
     merged.update({i: r for i, r in _ckpt_done(shard).items()})
     recs = [merged[i] for i in idxs if i in merged]
