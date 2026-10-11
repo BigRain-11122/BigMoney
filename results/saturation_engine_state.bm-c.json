@@ -215,7 +215,7 @@
   "205": 12,
   "206": 12,
   "207": 12,
-  "208": 0
+  "208": 10
  },
  "wave_complete_flags": [
   2,
@@ -424,92 +424,25 @@
   206,
   207
  ],
- "queue_next": [],
- "ignitions": [
+ "queue_next": [
   {
-   "wave": 78,
-   "shard": 4,
-   "pid": 30924,
-   "epoch": 1790912816,
-   "primary": false
-  },
-  {
-   "wave": 78,
-   "shard": 6,
-   "pid": 11392,
-   "epoch": 1790912816,
-   "primary": false
-  },
-  {
-   "wave": 78,
-   "shard": 7,
-   "pid": 6736,
-   "epoch": 1790912873,
-   "primary": false
-  },
-  {
-   "wave": 78,
+   "face": "N1",
+   "wave": 208,
    "shard": 9,
-   "pid": 29336,
-   "epoch": 1790912873,
-   "primary": false
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
   },
   {
-   "wave": 78,
+   "face": "N1",
+   "wave": 208,
    "shard": 10,
-   "pid": 34216,
-   "epoch": 1790912873,
-   "primary": false
-  },
-  {
-   "wave": 80,
-   "shard": 2,
-   "pid": 11416,
-   "epoch": 1790913991,
-   "primary": true
-  },
-  {
-   "wave": 80,
-   "shard": 5,
-   "pid": 14992,
-   "epoch": 1790913991,
-   "primary": true
-  },
-  {
-   "wave": 80,
-   "shard": 8,
-   "pid": 13160,
-   "epoch": 1790913991,
-   "primary": true
-  },
-  {
-   "wave": 80,
-   "shard": 11,
-   "pid": 2044,
-   "epoch": 1790914042,
-   "primary": true
-  },
-  {
-   "wave": 80,
-   "shard": 0,
-   "pid": 10984,
-   "epoch": 1790914042,
-   "primary": false
-  },
-  {
-   "wave": 80,
-   "shard": 1,
-   "pid": 18592,
-   "epoch": 1790914042,
-   "primary": false
-  },
-  {
-   "wave": 80,
-   "shard": 3,
-   "pid": 34528,
-   "epoch": 1790914101,
-   "primary": false
-  },
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  }
+ ],
+ "ignitions": [
   {
    "wave": 80,
    "shard": 4,
@@ -1825,15 +1758,112 @@
    "pid": 39440,
    "epoch": 1791654796,
    "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 2,
+   "pid": 32844,
+   "epoch": 1791717870,
+   "primary": true
+  },
+  {
+   "wave": 208,
+   "shard": 5,
+   "pid": 41560,
+   "epoch": 1791717870,
+   "primary": true
+  },
+  {
+   "wave": 208,
+   "shard": 8,
+   "pid": 43380,
+   "epoch": 1791717870,
+   "primary": true
+  },
+  {
+   "wave": 208,
+   "shard": 11,
+   "pid": 32052,
+   "epoch": 1791717928,
+   "primary": true
+  },
+  {
+   "wave": 208,
+   "shard": 0,
+   "pid": 27080,
+   "epoch": 1791717944,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 1,
+   "pid": 31728,
+   "epoch": 1791717944,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 3,
+   "pid": 37556,
+   "epoch": 1791717978,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 4,
+   "pid": 43588,
+   "epoch": 1791718002,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 6,
+   "pid": 36060,
+   "epoch": 1791718002,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 7,
+   "pid": 52656,
+   "epoch": 1791718037,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 9,
+   "pid": 46420,
+   "epoch": 1791718055,
+   "primary": false
+  },
+  {
+   "wave": 208,
+   "shard": 10,
+   "pid": 50820,
+   "epoch": 1791718055,
+   "primary": false
   }
  ],
- "burns_active": [],
- "cycle": 4623,
- "heartbeat_epoch": 1791716681,
- "last_cycle_ts": "2026-10-11T19:04:41",
- "py_cpu_pct": 0.22,
- "machine_cpu_pct": 9.3,
- "done_count": 2460,
+ "burns_active": [
+  {
+   "wave": 208,
+   "shard": 9,
+   "pid": 46420,
+   "adopted": false
+  },
+  {
+   "wave": 208,
+   "shard": 10,
+   "pid": 50820,
+   "adopted": false
+  }
+ ],
+ "cycle": 4705,
+ "heartbeat_epoch": 1791718096,
+ "last_cycle_ts": "2026-10-11T19:28:16",
+ "py_cpu_pct": 50.01,
+ "machine_cpu_pct": 61.0,
+ "done_count": 2470,
  "quarantined": [
   [
    12,
@@ -1862,81 +1892,11 @@
   "204:8": 1
  },
  "sync": {
-  "last_epoch": 1791716681,
+  "last_epoch": 1791718096,
   "remote_done_count": 2460,
   "err": null
  },
  "completed": [
-  {
-   "wave": 69,
-   "shard": 0,
-   "pid": 42316,
-   "ended_epoch": 1790906181,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 1,
-   "pid": 26528,
-   "ended_epoch": 1790906181,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 3,
-   "pid": 12056,
-   "ended_epoch": 1790906197,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 6,
-   "pid": 23128,
-   "ended_epoch": 1790906215,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 4,
-   "pid": 13056,
-   "ended_epoch": 1790906232,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 7,
-   "pid": 43580,
-   "ended_epoch": 1790906232,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 9,
-   "pid": 41212,
-   "ended_epoch": 1790906254,
-   "rc": null
-  },
-  {
-   "wave": 69,
-   "shard": 10,
-   "pid": 21060,
-   "ended_epoch": 1790906271,
-   "rc": null
-  },
-  {
-   "wave": 71,
-   "shard": 5,
-   "pid": 43272,
-   "ended_epoch": 1790907603,
-   "rc": null
-  },
-  {
-   "wave": 71,
-   "shard": 2,
-   "pid": 43384,
-   "ended_epoch": 1790907626,
-   "rc": null
-  },
   {
    "wave": 71,
    "shard": 8,
@@ -3265,6 +3225,76 @@
    "shard": 10,
    "pid": 39440,
    "ended_epoch": 1791654870,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 5,
+   "pid": 41560,
+   "ended_epoch": 1791717928,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 2,
+   "pid": 32844,
+   "ended_epoch": 1791717944,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 8,
+   "pid": 43380,
+   "ended_epoch": 1791717944,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 11,
+   "pid": 32052,
+   "ended_epoch": 1791717978,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 0,
+   "pid": 27080,
+   "ended_epoch": 1791718002,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 1,
+   "pid": 31728,
+   "ended_epoch": 1791718002,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 3,
+   "pid": 37556,
+   "ended_epoch": 1791718037,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 4,
+   "pid": 43588,
+   "ended_epoch": 1791718055,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 6,
+   "pid": 36060,
+   "ended_epoch": 1791718055,
+   "rc": null
+  },
+  {
+   "wave": 208,
+   "shard": 7,
+   "pid": 52656,
+   "ended_epoch": 1791718096,
    "rc": null
   }
  ],
@@ -6767,32 +6797,14 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 0,
+    "local_done": 10,
     "remote_done": 0
    }
   }
  ],
- "append_pending": 0,
+ "append_pending": 1,
  "append_err": null,
  "ledger_appends": [
-  {
-   "epoch": 1790904215,
-   "n_paths": 6,
-   "mid": "bm-c",
-   "committed": "[main 1620402ea] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
-   "push_rc": 1,
-   "outcome": "push_rejected_local_kept",
-   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected"
-  },
-  {
-   "epoch": 1790904306,
-   "n_paths": 6,
-   "mid": "bm-c",
-   "committed": "[main 8f6b246e7] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
-   "push_rc": 1,
-   "outcome": "push_rejected_local_kept",
-   "reason": "To github.com:BigRain-11122/BigMoney.git\n ! [rejected]            HEAD -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:BigRain-11122/BigMoney.git'\nhint: Updates were rejected"
-  },
   {
    "epoch": 1790906160,
    "n_paths": 6,
@@ -7194,9 +7206,25 @@
    "committed": "[main a61da7d7b] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
    "push_rc": 0,
    "outcome": "pushed"
+  },
+  {
+   "epoch": 1791717979,
+   "n_paths": 4,
+   "mid": "bm-c",
+   "committed": "[main 148a369f4] saturation engine ledger append (bm-c): 4 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 0,
+   "outcome": "pushed"
+  },
+  {
+   "epoch": 1791718055,
+   "n_paths": 5,
+   "mid": "bm-c",
+   "committed": "[main 3985f38da] saturation engine ledger append (bm-c): 5 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 0,
+   "outcome": "pushed"
   }
  ],
- "last_append_epoch": 1791654870,
+ "last_append_epoch": 1791718055,
  "quarantine_clear_r445": {
   "ts": "2026-10-04T05:04:32+08:00",
   "round": "r445 bm-c",
