@@ -1,0 +1,16 @@
+## §8 批后复盘【2026-10-11 r866 定稿·s7-T】
+
+- 预测对账：**#1** P(pooled≥300)≈85%=**实证达成**（实收 336 一次越过）；**#2** 排除面 ~13±5=实收 **13** ✓带心（10 T-84s3+3 批内重复·去重源扩容上移带兑现）·skip ≤6% 预测=实收 **2.0%** ✓带内（1/49）；**#3 RP1** 带内 ~60%=**实收带外上方 0.478**（带复现 FAILS 如实披露·预测带 [0.20,0.45] 为 W19 单读数校准面·本读数高带上缘 6.2%——更高非更强宣称·跑后禁令禁重调）；**#4 RP2** P(≥0.353)≈35-40%（刻意不膨胀先验）=**实收 TRUE**→**2/2 定谳**（低先验复现成功=杠杆面最强证据形态）；**#5** V1 过线 ~50%=**实收 PASS**（过线比 5.5×）；**#6** 极端日先验=逐式 |ICIR| 五数概括 [0.044, 0.105, 0.147, 0.246, 0.478] 入 audit 供事后检视。
+- 设计复盘一句话：**复现波一次闭环**——独立种子带（739_500 系 vs W19 736_000 系）下 V1/RP2 双复现成立（0.478>0.087·0.478≥0.353）、RP1 预测带校准面如实失败（带外上方）；「单读数零强宣称→2/2 定谳」的复现波语义全链兑现（T-84s3 去重源扩容 99 式零公式重烧=防疏浚律机械面实证）。
+- 门禁链损耗账：results/gate_attrition.json 追加 PERPETUAL-N2-W20 行（kind=ic_judgment·cells_ledger_delta=496·ledger_total_after=877,723·guard scan CLEAN·entries n=112）。
+- 族级判线当批读数：null 族 p95=**0.087**（pooled 336）·族 max **0.478**·过线比 5.5×。
+- 试验量归因：§1.4 申报 496 格——实消费 **398** 评估（62 draws+336 nulls）·未消费包结面 **98**（14 非存活式×7 null 泊位=恒等对账 398+98=496）·入账 **496**（§3 冻结包结口径 append_ledger batch_trials=496）·496≤500 闸内。
+- 消费侧指针：48 存活员（带 W20 波次血统标签+120d 短窗折价族级校准标签）入因子素材池——**任何消费（输入特征路线/注册面）须全新预注册+成本压测**（A158-TSGATE-P1/A10 先例门·D6 门届时按冻结口径过）；M1 正方向 0 员本波零新增候选（W19 9 员 M1 候选带仍为最强候选带·负向 27 员为消费侧符号翻面设计面如实披露）；**N2 反馈杠杆线收口：RP2=2/2 → 杠杆宣称可引用**——后续同族波次须防「换皮重跑」（z 轴/期限/阈值变体=同族禁开面·重启须新数据源+例外三问）；素材池消费预注册评估窗 ≤10-13 轨道不变。
+- 回执：入轮报告 r866+CODELY.md 行级追加。
+
+## 附：slice 分工账（防重复开发·跨窗接力·W18/W19 同构）
+
+- **slice-1（r865 bm-b 本窗·草案+探针+runner）**：本件 DRAFT + `results/_r865bmb_n2w20_draft_probe.py`（W19 消费面 51 式读数+census 锚 union=99/闭合族非撞/链头 877,227/带 derive 只读取数/B 算术八面机证·回执 `_r865bmb_n2w20_draft_probe.json`）+ `scripts/alphagen_beam_w20.py` 三腿+selftest hermetic（含 L5c W19 源解析腿+L13 FREEZE-GATE 拒烧机证腿）+probe（冻结窗前实跑回执）。
+- **slice-2（冻结窗·后续轮 bm-b）**：五条件机证（runner selftest 复跑+probe 复跑）+band gate 活导出（撞 W18+W19 halo 步进·回执 results/_r86Nbmb_w20_band_gate.txt）+seed_admit_gate rc0×3+banned_direction_gate rc0+三带登记 science_gates.SEED_REGISTRY+状态翻面 FROZEN（W15/W18/W19 同构·R250 一步律同 commit）+写前复核（r687 律：fetch+origin 单点·三键 origin 缺席核）。
+- **slice-3（烧录窗·冻结同轮或后续轮 bm-b）**：run 短批判读（V1+RP1/RP2 复现面+M1+损耗分解+§7/§8 回填+attrition 行+账本 append（prev=冻结窗实读链头）+TREASURE_REGISTRY 出入记录（素材池扩容面）+轮报告/CODELY.md 回执）。
+- **slice-2 执行回执（2026-10-11 r866 bm-b·冻结+烧录同轮 W19 r864 先例）**：五条件机证全绿（selftest 28/28 复跑+probe 11/11 复跑+band gate ADMIT X=739_500 活重导与 r865 只读候选逐位一致+seed_admit rc0×3+banned_direction rc0）+三带登记同 commit+状态翻面 FROZEN（本 commit）→ slice-3 判读烧录同窗随即执行（V1/RP1/RP2 读数见 §7/§8 回填）。
