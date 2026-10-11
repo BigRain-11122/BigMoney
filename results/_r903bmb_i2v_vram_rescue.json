@@ -1,0 +1,23 @@
+{
+ "ts": "2026-10-12T02:06:44+08:00",
+ "round": "r903 bm-b",
+ "dept": "工程",
+ "finding": "i2v album bmb lane dead-in-effect: only 1/53 units landed (XQ28 22:31, 17min in light window); r897 run burned KN16/KN21/KN01 each to the silent 4200s timeout ladder (zero SAVED), r902 restart same pattern (KN16 70min+ no save)",
+ "root_cause": "VRAM contention: llama-server qwen3.8:4b pinned 3.7GB KEEP_ALIVE=-1 (resident since 10-04 11:44 keepwarm reload; current instance restarted 1:08:53 re-pin during album prep) -> ComfyUI int4 i2v thrash, 17min/unit -> 70min+/unit > driver --timeout 4200s -> silent skip, zero output",
+ "evidence": [
+  "XQ28 only landed unit: 22:14:47 submit -> 22:31:17 save = 17min",
+  "r897 log ladder: KN16 4207s -> KN21 4202s -> KN01 (killed at session absorb), zero SAVED lines",
+  "nvidia-smi pre-fix: 7568/8192 MiB used, 451 free; ollama ps: qwen3.8:4b 3.7GB 100% GPU UNTIL=Forever",
+  "serve.log flash callers got 500s (3.03s + 4m49s + 4m43s) during contention = local LLM route degraded too"
+ ],
+ "action": "release-valve two legs: keepwarm.pause marker verified in place (gates keep-warm reload only, does NOT unload resident model, serve-warm ignores it); `ollama stop qwen3.8:4b` wedged at Stopping... >90s (in-flight flash requests) -> Stop-Process llama-server PID 28000",
+ "result_vram_mib": {
+  "before_free": 444,
+  "after_free": 3646,
+  "note": "in-flight ComfyUI job absorbed headroom afterwards (161 MiB free = allocator expansion, expected)"
+ },
+ "consumer_impact": "flash local route down while marker in place -> L2 cloud fallback per law; keep-warm restores serve within 10 min after marker removal (post-batch leg)",
+ "kn16_outcome": "still_running_3301s",
+ "residual": "KN16 salvage face: comfy-out orphan copy or --only re-claim later (seed deterministic); KN21 onward expected ~17min/unit; 52 remaining ~15-17h -> ETA ~10-13 05:00",
+ "orphan_probe_note": "probe flagged i2v driver PID 3968 (3-face hit = sleep-poller false positive per pit-machine r884 law); consumer check (queue API + log advance) = alive, NOT killed"
+}
