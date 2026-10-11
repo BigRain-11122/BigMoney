@@ -1,5 +1,7 @@
 # T-101-V4-A14-PREDFACE freeze window declared (bm-b r872)
 
+发件：bm-b
+
 - 声明（F-04 先行律·防双机撞车）：bm-b 本轮开启 **T-101-V4-A14-PREDFACE 冻结窗**——v4 22 门库 A13 式预测器扩展批（A13 §8 下游指针兑现+A1/C1 复合臂输入特征供料面；DIGEST-20261011-w21 Q2 唯一开放用法面裁定；tech.md T26 行 r871 认领在案 commit 1bbd0bdfd）。**池条目 id=T-101-V4-A14-PREDFACE 本窗提交**——他机见此声明即冻结该 id（见声明即冻结律）。
 - 批面：30 格=3 特征（f_c2v4 22 门均值/f_mp1 5 门均值/f_c2 17 门对照）×5 员×RAW/RESID 两面；A13 机器件克隆 r836 全参数显式律+MP1 门信号构造 mp1 机器件 import 单源；判线=A13 家族四条款（|IC_OOS|≥0.10+位移 null p<0.05+IS/OOS 同号+full/OOS 同号·FV 9 格）；evidence_cutoff 2026-10-09 五员锚（行数 3490/5255/3293/2409/1429·探针实测）。
 - 种子：t101_v4_a14_predface_scrnull=20615500 / t101_v4_a14_predface_unc=20616500（三步律全绿+seed_admit_gate rc0；自然 +500 梯上位 above t23 带尾 20615200；20338xxx 候选因 furnace 带 [20333000,20445400) 拒用=W16 判例律）。
