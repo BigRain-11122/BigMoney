@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 四预键机证四件/六门探针/canon flip 态/audit 段——r846 W206 §7 范式）
+- **finalize one-pass 已回填（bm-c r909·2026-10-12 04:2x 债务愈合窗·finalize 本体早已落地（r886 窗死亡会话·K=457,720·账本头 883,589）·本窗补 §5 五预键机证+§7/§8 机械回填（r902-r907 死亡会话链遗留债务愈合））**：
+  - 账本恒等式：prev_total **881,389** + batch_trials **2,200** = total **883,589**（三键机读自 n1_w209_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=457720 EXACT·merged mu=**-0.09269549** / merged sigma=**0.24508902**·w209-only mu=**-0.07800191** / w209-only sigma=**0.24203946**（全机读零手抄）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1897** → line_merged **1.1897** @n_eff 881,389（delta **+0.0000**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r909 三波探针 results/_r909bmc_three_wave_probe.py 本窗补做）**：key1 w-only vs merged |Δmu|=**0.0147**<0.02 PASS；key2 sigma 相对变化 **-0.011611%**<±10% PASS；key3 A 档 p95 **0.3144** 差 **0.0051**<0.05 PASS；key4 K-lift **+0.0000**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@Kk457720=**0.000362**（se_mu_at_k457720）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w209_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W210+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r846 W206 §8 范式）
+- **批后复盘（bm-c r909 同窗回填）**：
+  - §5.5 下波投影承接：**W210 投影已实证兑现**——W210 落带 A=476,804..478,803=越过 W209 声明 B 带（476,604..476,803）的 first-clean（阶梯第七十例·bm-b r857 probe 承接注记与本投影逐位收敛·W210 finalize 亦已落 K=459,920）。
+  - 宝藏/方法论捕获问：本批新方法=**零**（freeze→引擎自燃→finalize 全走既有正法·队列机制本体已建制登记）→TREASURE_REGISTRY 出入记录=零行（如实披露非漏记）。
+  - 诚实披露面：①本回填=r909 债务愈合窗（finalize 落地于 r886 窗死亡会话·§7/§8 回填滞后至今·五预键机证本窗三波探针补做）；②W210 经 r898 takeover 归 bm-c 已 finalize·承接链闭合。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。

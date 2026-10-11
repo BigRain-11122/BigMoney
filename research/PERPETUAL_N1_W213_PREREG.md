@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r907 W212 §7 范式）
+- **finalize one-pass 已回填（bm-c r909·2026-10-12 04:2x 债务愈合窗·全链=r908 席位发布 4f3b0d6a8→r908 per-wave prereg eeda85145→r908 五面冻结拼接 a24069f4c（03:58）→引擎自燃 12/12（03:58:26-04:04:04·live daemon mtime-watch 热重载自动拾取·每片 182 backtests）→本窗 r909 one-pass finalize 04:1x）**：
+  - 账本恒等式：prev_total **890,189** + batch_trials **2,200** = total **892,389**（三键机读自 n1_w213_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=466520 EXACT·merged mu=**-0.09268619** / merged sigma=**0.24512063**·w213-only mu=**-0.09609245** / w213-only sigma=**0.24518392**（全机读零手抄）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1904** → line_merged **1.1904** @n_eff 890,189（delta **+0.0000**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r909 三波探针 results/_r909bmc_three_wave_probe.py 本窗补做）**：key1 w-only vs merged |Δmu|=**0.0034**<0.02 PASS；key2 sigma 相对变化 **+0.000061%**<±10% PASS；key3 A 档 p95 **0.3056** 差 **0.0226**<0.05 PASS；key4 K-lift **+0.0000**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@Kk466520=**0.000359**（se_mu_at_k466520）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w213_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W214+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r907 W212 §8 范式）
+- **批后复盘（bm-c r909 同窗回填）**：
+  - §5.5 下波投影承接：**W214+ 投影（probe 机证 leg4）**：naive A 485,404..487,403 / naive B 485,604..485,803——**W213 B 带（485,404..485,603）注册后 naive W214 A 窗将被拒**：W214 冻结方必须在 post-W213 注册宇宙重 derive 且 A 越过 485,603（阶梯 A-hops-prior-B 第七十五例）·derive B 预留 W214 A 窗——verify at W214 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏/方法论捕获问：本批新方法=**零**（freeze→引擎自燃→finalize 全走既有正法·队列机制本体已建制登记）→TREASURE_REGISTRY 出入记录=零行（如实披露非漏记）。
+  - 诚实披露面：①r908 死会话吸收（席位/prereg/冻结三 commit 落链后死于收口前·state 滞 r907——本窗=r909 推进愈合）；②W209/W211 §7/§8 回填债同窗愈合；③W212 §5 五预键债已由 r908 W213 prereg 构建时 47 count-asserted rolls 机证+本窗三波探针补全机证面；④六门探针事实（席位 MSG 已推/冻结五面已落/12 分片/registry 带位恒等/prereg 已 commit/上游链头恒等）本窗全验。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
