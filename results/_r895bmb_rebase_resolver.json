@@ -2,21 +2,111 @@
  "round": "r895",
  "pick": "5bea0dfe1",
  "onto": "e8a2f4638",
- "uu_count": 2,
+ "uu_count": 15,
  "faces": {
-  "results/post_review.jsonl": {
-   "policy": "jsonl-line-union",
-   "s2_lines": 10108,
-   "s3_lines": 10108,
-   "out_lines": 10158,
-   "bytes": 12688200
-  },
-  "results/post_review/REPORT-20261011.md": {
-   "policy": "text-newest-iso",
-   "t2": "2026-10-11 20:03:15",
-   "t3": "2026-10-11 20:25:26",
+  "docs/daily_report/REPORT-2026-10-11.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:43:13",
+   "t3": "2026-10-11 20:52:32",
    "side": "s3",
-   "bytes": 7332
+   "bytes": 24255
+  },
+  "docs/daily_report/REPORT-2026-10-11.md": {
+   "policy": "text-newest-iso",
+   "t2": "2026-10-11 20:43:13",
+   "t3": "2026-10-11 20:52:32",
+   "side": "s3",
+   "bytes": 10465
+  },
+  "docs/live_usage/LIVE-2026-10-11.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:43:14",
+   "t3": "2026-10-11 20:52:33",
+   "side": "s3",
+   "bytes": 10966
+  },
+  "docs/live_usage/LIVE-2026-10-11.md": {
+   "policy": "text-newest-iso",
+   "t2": "2026-10-11 20:43:14",
+   "t3": "2026-10-11 20:52:33",
+   "side": "s3",
+   "bytes": 8074
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:43:14",
+   "t3": "2026-10-11 20:52:33",
+   "side": "s3",
+   "bytes": 10966
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "policy": "text-newest-iso",
+   "t2": "2026-10-11 20:43:14",
+   "t3": "2026-10-11 20:52:33",
+   "side": "s3",
+   "bytes": 8074
+  },
+  "results/compute_audit.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:39:41",
+   "t3": "2026-10-11 20:49:41",
+   "side": "s3",
+   "bytes": 30971
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "policy": "payload-equal-newer-ts",
+   "t2": "2026-10-11 20:43:13",
+   "t3": "2026-10-11 20:52:08",
+   "side": "s3",
+   "bytes": 1704
+  },
+  "results/futures_update_status.json": {
+   "policy": "payload-equal-newer-ts",
+   "t2": "2026-10-11 20:42:19",
+   "t3": "2026-10-11 20:51:22",
+   "side": "s3",
+   "bytes": 265
+  },
+  "results/lhb_update_status.json": {
+   "policy": "payload-equal-newer-ts",
+   "t2": "2026-10-11 20:41:53",
+   "t3": "2026-10-11 20:51:21",
+   "side": "s3",
+   "bytes": 197
+  },
+  "results/regime_state.json": {
+   "policy": "payload-equal-newer-ts",
+   "t2": "2026-10-11 20:40:32",
+   "t3": "2026-10-11 20:49:49",
+   "side": "s3",
+   "bytes": 1713
+  },
+  "results/scorecard_v1.json": {
+   "policy": "payload-equal-newer-ts",
+   "t2": "2026-10-11 20:41:37",
+   "t3": "2026-10-11 20:50:54",
+   "side": "s3",
+   "bytes": 27832
+  },
+  "results/strategy_scorecard.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:41:47",
+   "t3": "2026-10-11 20:51:07",
+   "side": "s3",
+   "bytes": 239678
+  },
+  "results/token_usage.json": {
+   "policy": "ledger-superset-pick",
+   "rows2": 10,
+   "rows3": 10,
+   "bytes": 2079
+  },
+  "results/update_status.json": {
+   "policy": "regen-newest-ts",
+   "t2": "2026-10-11 20:40:31",
+   "t3": "2026-10-11 20:49:48",
+   "side": "s3",
+   "bytes": 7842
   }
  },
  "unresolved": [],
