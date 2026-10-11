@@ -202,6 +202,30 @@ def _scan_file(path: str, code: str, agg: dict, meta: dict) -> None:
         ea["promo"].append(1 if promo else 0)
         if ret5 == ret5:
             ea["ret5"].append(ret5)
+        # v1.1 cross segmentation (E14 digest sec.3 draft-window probe leg):
+        # rung x era / year x rung cells were absent in v1.0 (pooled faces
+        # only) -- the prereg design freedom lives exactly here.
+        cre = _bucket(agg, ("cross_re", "%s|%s" % (rb, era_of(year))))
+        cyr = _bucket(agg, ("cross_yre", "%d|%s" % (year, rb)))
+        cre["n"] += 1
+        cyr["n"] += 1
+        for xb in (cre, cyr):
+            xb["gap"].append(gap)
+            xb["ret1"].append(ret1)
+            xb["promo"].append(1 if promo else 0)
+            if ret5 == ret5:
+                xb["ret5"].append(ret5)
+        if year >= 2022:
+            ch = _bucket(agg, ("cross_h22", rb))
+            cbh = _bucket(agg, ("cross_bh22", "%s|%s" % (b, rb)))
+            ch["n"] += 1
+            cbh["n"] += 1
+            for xb in (ch, cbh):
+                xb["gap"].append(gap)
+                xb["ret1"].append(ret1)
+                xb["promo"].append(1 if promo else 0)
+                if ret5 == ret5:
+                    xb["ret5"].append(ret5)
 
 
 def _stat(xs: list) -> dict:
@@ -240,6 +264,14 @@ def _agg_out(agg: dict, cost_rt: float) -> dict:
                 float(pd.Series(a["prem1"]).mean()) - cost_rt, 6)
         if key[0] in ("year", "era"):
             out.setdefault(key[0], {})[str(key[1])] = entry
+        elif key[0] == "cross_re":
+            out.setdefault("cross_rung_era", {})[key[1]] = entry
+        elif key[0] == "cross_yre":
+            out.setdefault("cross_year_rung", {})[key[1]] = entry
+        elif key[0] == "cross_h22":
+            out.setdefault("cross_2022plus", {})[key[1]] = entry
+        elif key[0] == "cross_bh22":
+            out.setdefault("cross_board_2022plus", {})[key[1]] = entry
         else:
             out["%s|%s" % key] = entry
     return out
@@ -259,7 +291,7 @@ def cmd_run() -> int:
     cost_rt = 2 * COST_X1_RATE
     face = {
         "probe": "lu_prem_census",
-        "version": "v1.0",
+        "version": "v1.1",
         "law_ref": "E30 T+1 open-reality decomposition (lhb-seat-axis census "
                    "precedent) + EXTERNAL_IDEAS_CATALOG_R1-20261006 #2 "
                    "cheap-census-first",
@@ -300,7 +332,7 @@ def cmd_run() -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
     rows = []
     for key, entry in sorted(face["segments"].items()):
-        if key.startswith(("year", "era")):
+        if key.startswith(("year", "era", "cross")):
             continue
         b, rb = key.split("|")
         rows.append({
@@ -319,10 +351,28 @@ def cmd_run() -> int:
         })
     pd.DataFrame(rows).to_csv(os.path.join(OUT_DIR, "by_board_rung.csv"),
                               index=False)
+    xrows = []
+    for fam in ("cross_rung_era", "cross_year_rung", "cross_2022plus",
+                "cross_board_2022plus"):
+        for cell, entry in sorted(face["segments"].get(fam, {}).items()):
+            xrows.append({
+                "family": fam, "cell": cell, "n": entry["n"],
+                "gap_mean": entry["gap"].get("mean"),
+                "gap_win": entry["gap"].get("win"),
+                "ret1_net_mean": entry.get("ret1_net_mean"),
+                "ret5_n": entry["ret5_open"].get("n"),
+                "ret5_mean": entry["ret5_open"].get("mean"),
+                "ret5_median": entry["ret5_open"].get("median"),
+                "ret5_win": entry["ret5_open"].get("win"),
+                "ret5_net_mean": entry.get("ret5_net_mean"),
+                "promo_rate": entry["promo_rate"],
+            })
+    pd.DataFrame(xrows).to_csv(os.path.join(OUT_DIR, "by_rung_era.csv"),
+                               index=False)
     with open(os.path.join(OUT_DIR, "face.json"), "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1, default=str)
     tot = sum(v["n"] for k, v in face["segments"].items()
-              if not k.startswith(("year", "era")))
+              if not k.startswith(("year", "era", "cross")))
     print("census done: files=%d events=%d stocks_with_events=%d "
           "cutoff=%s elapsed=%.1fs"
           % (len(files), tot, meta["stocks_with_events"],
@@ -405,12 +455,22 @@ def cmd_selftest() -> int:
     eq("year_2021_n", agg[("year", 2021)]["n"], 3)
     # ret5: day2 event has i+5 in range; day6 event does not
     eq("main_r1_ret5_n", len(agg[("main", "r1")]["ret5"]), 1)
+    # v1.1 cross bucket legs
+    eq("cross_re_r1_2123", agg[("cross_re", "r1|2021-2023")]["n"], 3)  # main x2 + star x1
+    eq("cross_re_r2_2123", agg[("cross_re", "r2|2021-2023")]["n"], 1)
+    eq("cross_re_r1_1720", agg[("cross_re", "r1|2017-2020")]["n"], 1)
+    eq("cross_yre_2021_r1", agg[("cross_yre", "2021|r1")]["n"], 2)
+    eq("cross_yre_2021_r2", agg[("cross_yre", "2021|r2")]["n"], 1)
+    eq("cross_yre_2022_r1", agg[("cross_yre", "2022|r1")]["n"], 1)
+    eq("cross_h22_r1", agg[("cross_h22", "r1")]["n"], 1)  # star 2022 only
+    eq("cross_bh22_star_r1", agg[("cross_bh22", "star|r1")]["n"], 1)
+    eq("cross_h22_r2_absent", ("cross_h22", "r2") in agg, False)  # 2021 main r2 stays out
     if fails:
         print("SELFTEST FAIL (%d):" % len(fails))
         for f in fails:
             print("  " + f)
         return 2
-    print("SELFTEST PASS (18 legs)")
+    print("SELFTEST PASS (27 legs)")
     return 0
 
 
