@@ -10,9 +10,9 @@
  "gpu_free_vram_mb": 13637,
  "heartbeat_epoch_utc": 1791729140,
  "idle_ram_gb": 0.74,
- "last_decisions_read_at": "2026-10-11T22:47:24+08:00",
- "last_decisions_sha": "dad6c562a36b8ddc9dc12e211c1d3c281f613827e1a41741857e8d5e87a85ab6",
- "last_decisions_sha_method": "python sha256 over git-show origin/main raw content bytes (r865 pin, probe-consistent; r871 cross-asserted via results/_s05_probe.bm-c.json, zero literals r583",
+ "last_decisions_read_at": "2026-10-11T23:10:02+08:00",
+ "last_decisions_sha": "eb14c441ba0131e26e3c3b2fafc17900747152dd463a654beacffdce65ef5d73",
+ "last_decisions_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show); r894 ERRATUM+HEAL: r893 dying-session dec watermark dad6c562 = corrupt face (blob-history scan of last 8 commits touching docs/decisions.md zero-hit; r863 recurrence 3rd instance); true lineage f22e42ef -> 55ecb132 (db043100e) -> eb14c441 (8facf50b3 current); eb14c441 content already consumed pre-r892 (r892 read-back 'unchanged'), zero new rows; healed to real current blob; recurrence guard honored: delta TRUE verified vs git blob history before consuming",
  "last_orders_sha": "1394ccf8aa2b10da46a34c147a48e6d157fb4055",
  "last_orders_sha_method": "python sha1 over git-show origin/main raw content bytes (d19 probe tool algorithm = system-of-record; r871勘误: r867/r865 notes mislabeled this key as git rev-parse blob sha -- rev-parse face 3dcc636d describes SAME content, different algorithm; watermark writes must match probe recompute or false-delta every round; legal path=d19_watermark update --advance, facts results/_s05_probe.bm-c.json, zero literals r583",
  "last_round": 893,
@@ -23,7 +23,7 @@
  "last_ts": "2026-10-11T22:32:20+08:00",
  "note": "r893 bm-c: (1) S0-1 anchor bm-c + round-zero probe py_faces=8 orphans=1 zero-kill (ComfyUI :8188 MV-lane infra kept); (2) S0 pull blocked by local runtime-state dirt (6 files, own automation faces, staged-targeted commit this round); (3) S0.5 orders delta ZERO unacked + D-19 dual watermark consumed: D-20261011-07 (bm-c three MV items already executed by 21:3x interactive window + wave supply mechanized W211 armed behind W210) + D-20261011-08 (oversight executor FluxGroup-FleetOversight deployed alive, first hourly run 22:36:34) + orders tail 6 new rows all BigStream/group-governance faces (CEO 22:3x prop law scooter->bicycle 6-frame reshake in-flight 3/6 landed; i2v client stopped awaiting new frames per CEO prop law) -- zero BigMoney repo action, both watermarks ADVANCED dec dad6c562 / ord 1394ccf8; (4) S1 smoke 49/49 green; (5) S6 full chain 38/38 rc0: batch1 14 + batch2 13 + batch3 10 + queue_seed_gate scan CLEAR -- REPORT-2026-10-11 + LIVE-2026-10-11 (ORANGE cap50) + daily_scorecard 6 traders + export-2026-10-09 re-derived, dualrun ZERO-DRIFT streak 8, watermark py_low_board_clear legal idle, compute_audit pool_starvation flag EXEMPT (GPU/RAM yielded to MV CEO-priority lane: KF reshake in-flight + W-chain supply armed M8+cron alive); (6) attrition guard scan CLEAN (healed notes recorded); (7) loop/watchdog/pre-commit/pre-push quad self-heal all green (pin=5 no-op); (8) boards clear: P2 all done, P3 head E17=bm-b yielded, job_list empty; (9) MV watch: i2v 2/26 clips landed (V2_KFL + XQ28), unit3 XQ_XQ02 stopped per CEO prop law, KF v2.3 BICYCLE reshake 3/6 frames landed (XQ02/05/07 22:36-22:46), interactive window owns restart with fresh frames",
  "ram_free_gb": 0.74,
- "round_no": 893,
+ "round_no": 895,
  "round_no_label": "r893",
  "ts": "2026-10-11T22:47:24+08:00",
  "updated": "2026-10-11T22:47:24+08:00",
@@ -67,7 +67,7 @@
  "cpu_cores": 32,
  "current_task_ts": "2026-10-11T21:15:57+08:00",
  "last_round_summary_at": "2026-10-11T21:15:57+08:00",
- "last_orders_read_at": "2026-10-11T22:47:24+08:00",
+ "last_orders_read_at": "2026-10-11T23:10:02+08:00",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -90,5 +90,6 @@
  "last_orders_sha_note": "r863 reconciled: 24ad1708 corrupt-face retired (no blob provenance); true lineage 24e6066e->4d33cb4f (r843, O-20261011-0012 consumed) -> f90233c7 (r854, X2348 row, current tip, zero new rows); recurrence guard: on delta TRUE verify vs git blob history before consuming",
  "last_decisions_seen": "2026-10-11T19:35:00+08:00",
  "now_active": "r893: MV prop-law reshake lane in-flight (KF v2.3 3/6 frames, GPU/RAM yielded) + BigMoney watch round; W211 armed behind W210 upstream",
- "gpu_free_vram_gb": 13.9
+ "gpu_free_vram_gb": 13.9,
+ "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895"
 }
