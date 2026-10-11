@@ -55,9 +55,21 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r911 W214 §7 范式）
+- **finalize one-pass 已回填（bm-c r913·2026-10-12 06:2x 窗·全链=r911 席位发布 37d7adc0a→r912 per-wave prereg 1d9008192→r912 五面冻结拼接 1e71c3b93（05:54）→引擎自燃 12/12（05:55-06:00·live daemon mtime-watch 热重载自动拾取·ledger append 51c9cb3f2/194cd1625 两批 6+6）→本窗 r913 one-pass finalize 06:2x）**：
+  - 账本恒等式：prev_total **894,589** + batch_trials **2,200** = total **896,789**（三键机读自 n1_w215_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=470920 EXACT·merged mu=**-0.09267681368385289** / merged sigma=**0.24513084223502632**·w215-only mu=**-0.08961677272727273** / w215-only sigma=**0.24718243417919367**（全机读零手抄·回执=results/_r913bmc_w215_fivekey_receipt.json）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1906** → line_merged **1.1907** @n_eff 894,589（delta **+0.0001**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r913 五键探针 results/_r913bmc_w215_fivekey_probe.py 本窗 pre-finalize 六门探针后同窗补做）**：key1 w-only vs merged |Δmu|=**0.00306004**<0.02 PASS；key2 sigma 相对变化 **+0.00387246%**<±10% PASS；key3 A 档 p95 **0.3212** 差 **0.0126**<0.05 PASS；key4 K-lift **+0.0001**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@K470920=**0.000357**（se_mu_at_k470920·前键 W214 0.000358→W215 0.000357）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·finalize_only=true·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w215_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
+  - **pre-finalize 六门探针先于 finalize 本窗跑**（r907/r909 债务教训链三连执：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS 含 W215 materializer 面+shard 12/12 盘面+seed_admit FREE x2〔freeze receipt 在册〕+零活烧录进程 W215 面+账本头 894,589=W214 landed）——W212 债务模式零复发。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W216+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r911 W214 §8 范式）
+- **批后复盘（bm-c r913 同窗回填）**：
+  - §5.5 下波投影承接：**W216+ 投影（probe 机证 leg4·本波 prereg §5.5 原文）**：naive A 489,804..491,803 / naive B 490,004..490,203——**naive B 落在 naive A 窗内**（W141 同窗互斥先例适用于 W216：W216 冻结方必须在 post-W215 注册宇宙重 derive 且 derive B 时预留 W216 A 窗——leg2 律/E36 卡）；**W215 B 带（489,804..490,003）注册后 naive W216 A 窗将被拒**——W216 A 重 derive 同强制（越过 W215 B 尾 490,003·阶梯 A-hops-prior-B 第七十六例）；verify at W216 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏与方法论捕获问：本批测量面零新方法零新坑（引擎两批 6+6 ledger append 按设计落·无 deferred 无锁撞·finalize 一次 r913 独占零双计）——零捕获如实注记。
+  - 诚实披露面：本波烧录链=r912 冻结窗后引擎全自动自燃（06:00:14 尾 shard 完成实测）→本窗 r913 吸收+finalize 收口——链头消费=账本 append 由引擎单调·finalize 一次本窗独占；state/心跳轮计数器 r913 窗对账同步。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
