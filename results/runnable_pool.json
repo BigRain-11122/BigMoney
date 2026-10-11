@@ -12,7 +12,7 @@
   "entries[].permit": "O-20261007-2245 许可门: MIT/Apache-2.0/BSD 直用+署名型登记; AGPL 禁入 (charter §五 spark-arc-studio 判例); 扫描期记录, 入池时复核",
   "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)"
  },
- "updated_at": "2026-10-11 07:34:06",
+ "updated_at": "2026-10-11 09:12:45",
  "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
  "entries": [
   {
@@ -16686,6 +16686,42 @@
    },
    "done_by": "bm-b",
    "done_at": "2026-10-11 08:22:03"
+  },
+  {
+   "id": "T-101-V4-A14-PREDFACE",
+   "ticket_ref": "tech.md T26 row (r871 bm-b registered+claimed commit 1bbd0bdfd; DIGEST-20261011-w21 Q2 adjudication: A13-style predictor extension on the v4 22-gate library = the only open consumption face; A13 sec.8 downstream pointer: f_c2 continuous prediction face -> A1/C1 composite named input feature (bm-b lane); supply-floor response: audit FLAG pool ready=0<3 this chain raises the floor 0->1)",
+   "prereg_ref": "research/T-101-V4_A14_PREDFACE_PREREG.md FROZEN v1.0 (r872 bm-b freeze commit b22d02a08 five-condition chain: selftest 16/16x2 + draft-probe rerun byte-identical md5 9af05782500f + banned gate ADMIT rc0 + origin pre-write DRAFT check + same-commit runner+SEED_REGISTRY 20615500/20616500; 30 cells; evidence_cutoff 2026-10-09)",
+   "consumer_plan": "T-101-V4-A14-PREDFACE run shard 0of1 -> results/t101_v4_a14/shard_0of1.jsonl (append-per-record checkpoint, done-set resume) -> finalize (any healthy machine, refuse-if-exists + single-shot landed-batch law) -> results/t101_v4_a14_predface.json + append_ledger(batch_trials=30) + prereg sec.7/sec.8 backfill -> FV-PASS/supply-note cells -> A1/C1 composite input-feature roster (named consumer, composite arm itself gated behind BAN-05 + sentiment-family double-negative per DIGEST Q3) + T-101 v4 arm-table A14 row + gate_attrition row for negative cells; trials-ledger batch (marks +0 SEED +0, 30 cells counted at finalize)",
+   "runner": "scripts/t101_v4_a14_predface.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-11 09:12:45",
+   "data_gates": "",
+   "shards": [
+    {
+     "key": "t101-v4-a14-run-0of1",
+     "status": "ready",
+     "checkpoint": "results/t101_v4_a14/shard_0of1.jsonl (append-per-record done-set resume; 5 raw member records + 15 resid cell records; pool-claim handshake results/pool_claims/T-101-V4-A14-PREDFACE/t101-v4-a14-run-0of1.<machine>.json on completion)",
+     "note": "frozen cell order raw(0..14) resid(15..29); cell_idx by position = rng streams [20615500/20616500, cell_idx] deterministic regardless of scheduling; MP1 mask machinery import single-source (mp1_tsgate_probe.mp1_factors -> t23.evaluate); A158 face via a158_tsgate_probe.gate_universe (fv.GATES17); RESID phase needs all 5 member records (0of1 contract face; multi-shard split defers honestly if members incomplete)",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "30-cell informational predictor batch (3 mask-mean features x 5 members x RAW/RESID): per-member ProcessPool jobs (A158 157-factor + MP1 89-formula build + shift-nulls K=200 x3 segs + block bootstrap B=2000 x2 segs) then 15 resid cell jobs; A13 40-cell 27.8s same-machinery baseline + mp1 factor face increment -> est 1-3 min wall on 4 workers; RAM trivial (<1GB); runner-internal fail-closed gates (five-member anchor rows + tail-date assert + G-ANCHOR-MP1 3341/390/149 reproduction + MP1 roster identity) every invocation"
+   },
+   "data_deps": [
+    "data/daily"
+   ]
   }
  ]
 }
