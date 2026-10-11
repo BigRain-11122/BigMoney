@@ -17661,21 +17661,27 @@
     "results/trial_labor_w18/w18_cells.json",
     "results/trial_labor_w18/prep_state.json"
    ],
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "w18-screen-6of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w18/checkpoint/screen_shard_6of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "owner": "bm-b",
      "note": "stride i%8 of 892 cells (692 paired + 200 nulls); RAM gate 4GB r354 honest-refuse retry",
-     "owner_since": "2026-10-11 18:18:15"
+     "owner_since": "2026-10-11 18:26:04",
+     "claimed_since": "2026-10-11 18:18:15",
+     "done_at": "2026-10-11 18:26:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "w18-screen-6of8.bm-b.json"
     }
    ],
    "entered_at": "2026-10-11 17:09:16",
    "entered_by": "bm-c",
    "lane_relay_at": "2026-10-11 17:28:41",
-   "lane_relay_note": "r881 bm-c lane relay (W17 handover precedent): bm-c free RAM 0.8-1.5GB << 4GB gate r354 (CEO game session 4.6GB + MV chain = legal yield), shard workers parked r379/r491; lane opened ANY for healthy-machine burn; checkpoint stays machine-local -- screen-finalize round consolidates faces via fleet channel before judging."
+   "lane_relay_note": "r881 bm-c lane relay (W17 handover precedent): bm-c free RAM 0.8-1.5GB << 4GB gate r354 (CEO game session 4.6GB + MV chain = legal yield), shard workers parked r379/r491; lane opened ANY for healthy-machine burn; checkpoint stays machine-local -- screen-finalize round consolidates faces via fleet channel before judging.",
+   "done_by": "bm-b",
+   "done_at": "2026-10-11 18:26:04"
   },
   {
    "id": "TRIAL-LABOR-W18-SCREEN-SHARD-7",
