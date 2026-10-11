@@ -37,7 +37,7 @@
  "last_decisions_at": "2026-10-11T11:42:48+08:00",
  "last_run_at": "2026-10-11T10:33:31+08:00",
  "last_round_summary": "r869 close: 周末守望轮 3——S6 43/43 (ZERO-DRIFT streak 9) + W17 finalize 守望（PID 20012 在飞）+ ORD/DEC 零 delta + smoke 49/49 + attrition CLEAN + idle_rounds=0（--worked·闸未过无领单义务）+ 心跳计数器三面同步修复",
- "last_action": "r869 S6 43/43 (streak 9) + W17 finalize watch + E15 inbox receipt + heartbeat counter sync",
+ "last_action": "r869 addendum: delivery self-proof (push direct 9eccc64c5, 0/0 verified)",
  "verdict": "r869 close: 周末守望轮 3——S6 43/43 (ZERO-DRIFT streak 9) + W17 finalize 守望（PID 20012 在飞）+ ORD/DEC 零 delta + smoke 49/49 + attrition CLEAN + idle_rounds=0（--worked·闸未过无领单义务）+ 心跳计数器三面同步修复",
  "next_pointer": "r870: (1) W17 finalize 落地检查→intake→selftest（r307 律）→attrition guard→ledger prev 对账（r807 律）→捕获律收口；(2) W208/W209 落链守望→M10 自动链（W211/W212 freeze-prep 先读 pit-engine-finalize.md）；(3) T-184 期限观察（10-12 15:30·GM 哨兵域·本机持 510880.csv 完整副本可应援）；(4) moneyflow IC prereg 待面板完备；(5) 轻量机会面 RAM≥40% 维持即续",
  "latest_artifact": "S6 43/43 rc0 (_r869bmc_s6_log.txt, ZERO-DRIFT streak 9) + E15 inbox zero-action receipt",
@@ -54,13 +54,13 @@
  "gpu_vram_free_mb": 1680,
  "cpu_util_pct": 6,
  "last_pulled_at": "2026-10-11T10:33:31+08:00",
- "head_sha": "014e6da16",
+ "head_sha": "9eccc64c5",
  "health": "ok",
  "sync": {
-  "ahead_behind": "r869 books commit pending",
-  "origin_tip": "014e6da16",
-  "ts": "2026-10-11T11:42:48+08:00",
-  "note": "r869 books pass; addendum flips sync face post-push"
+  "ahead_behind": "0/0 delivered",
+  "origin_tip": "9eccc64c5",
+  "ts": "2026-10-11T11:43:36+08:00",
+  "note": "r869 addendum: clean delivery self-proof (push direct, zero rebase, zero claw block, fetch+rev-list 0/0 verified)"
  },
  "total_ram_gb": 25.7,
  "cores": 32,
@@ -86,6 +86,6 @@
  "orphan_face": 1,
  "orphan_faces": 1,
  "last_round_at_legacy": "2026-10-11T10:33:31+08:00",
- "last_action_at": "2026-10-11T11:42:48+08:00",
+ "last_action_at": "2026-10-11T11:43:36+08:00",
  "last_orders_sha_note": "r863 reconciled: 24ad1708 corrupt-face retired (no blob provenance); true lineage 24e6066e->4d33cb4f (r843, O-20261011-0012 consumed) -> f90233c7 (r854, X2348 row, current tip, zero new rows); recurrence guard: on delta TRUE verify vs git blob history before consuming"
 }
