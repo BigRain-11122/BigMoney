@@ -1050,7 +1050,8 @@
    "fill_latency_min": 28.7,
    "fullburn_window": false,
    "target_met": false,
-   "saturation_launches": 5
+   "saturation_launches": 5,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-11 17:38:28",
@@ -1082,44 +1083,17 @@
    "fill_latency_min": 29.9,
    "fullburn_window": false,
    "target_met": false,
-   "saturation_launches": 6
+   "saturation_launches": 6,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-11 17:42:01",
+  "ts": "2026-10-11 17:48:01",
   "machine": "bm-b",
-  "py_cpu_pct": 0.0,
-  "verdict": "fuse_refused_crash_loop",
+  "py_cpu_pct": 6.2,
+  "verdict": "claim_lost_yield",
   "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-2",
-  "shard": "w18-screen-2of8",
-  "fuse_crashes": 1,
-  "fuse_refusals": 2,
-  "fuse_skipped": [
-   {
-    "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-2",
-    "shard": "w18-screen-2of8",
-    "sig": "scripts/trial_labor_w18.py|screen,2,8",
-    "fuse_refusals": 2
-   },
-   {
-    "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-3",
-    "shard": "w18-screen-3of8",
-    "sig": "scripts/trial_labor_w18.py|screen,3,8",
-    "fuse_refusals": 2
-   },
-   {
-    "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-4",
-    "shard": "w18-screen-4of8",
-    "sig": "scripts/trial_labor_w18.py|screen,4,8",
-    "fuse_refusals": 1
-   },
-   {
-    "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-5",
-    "shard": "w18-screen-5of8",
-    "sig": "scripts/trial_labor_w18.py|screen,5,8",
-    "fuse_refusals": 1
-   }
-  ]
+  "shard": "w18-screen-2of8"
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-11T17:39:36+08:00"
