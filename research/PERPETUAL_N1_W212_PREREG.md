@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r886 W209 §7 范式）
+- **finalize one-pass 已回填（bm-c r907·2026-10-12 03:3x·链路=r906 freeze splice LANDED 03:06:37〔commit 0f30cb725〕→引擎自燃 12/12〔03:06:34-03:10:33·2 笔引擎 ledger commit b1944432d+a3c648d6b=点火验证 r325 律〕→本窗 one-pass finalize 03:3x）**：
+  - 账本恒等式：prev_total **887989** + batch_trials **2200** = total **890189**（三键机读·finalize stdout 直接抓取零手抄；prev=W211 finalize 活链头 887,989 恒等——与 W212 冻结回执 w211_upstream.ledger_total 恒等）。
+  - 合并池 K=**464320** EXACT（462120+2200·机读断言过）。
+  - merged mu=**-0.0927** / w212-only mu=**-0.0872** / w212-only sigma=**0.2476** / merged sigma=**0.2451**（pre-pool mu=-0.0927·sigma=0.2451 均机读）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1902** → line_merged@n_eff 887,989 **1.1903**（delta **+0.0001**·K-lift |+0.0001|≤0.02 判线内）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=[LOWAMP-P1, LOWAMP-P2]·machine=bm-c·shards_consumed=12/12（shard-0..11-of-12.json·每片 182 backtests=166A+16B·n_backtests 机读）·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w212_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位）。
+  - **诚实披露**：§5 五预键机证探针+pre-finalize 六门探针未在本窗重跑（死亡会话链 r898-r906 同族债务·W209/W211 §7/§8 回填亦在债——下窗补；本 finalize 走 FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕全过=门活机证）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W213+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r886 W209 §8 范式）
+- **批后复盘（bm-c r907 同窗回填）**：
+  - §5.5 W213+ 投影承接：**W213 席位未注册**——上游 W212 finalize 双件本窗落地后 freeze 闸全开（clean precondition）；下窗第一动作=席位 probe+prereg 起草+splice editor freeze-prep 束（r888/r906 freeze-prep 先例）。
+  - 宝藏/方法论捕获问：本批新方法=**零**（freeze→引擎自燃→finalize 全走既有正法·M8/M10 队列机制本体已建制登记）→TREASURE_REGISTRY 出入记录=零行（如实披露非漏记）。
+  - 诚实披露面：①§5 五预键/pre-finalize 六门探针债（上§7 披露）；②W209/W211 prereg §7/§8 回填债务继承披露（r902-r906 死亡会话遗留·下窗补）；③本窗为 r907 吸收窗（r898-r906 九死亡会话无 closeout·state 滞后 r897——本窗一次性愈合）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
