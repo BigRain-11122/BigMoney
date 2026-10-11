@@ -436,7 +436,7 @@ hdr = [
 w211_leg = [
  f'        assert pf.N1_BANDS[211] == {{"a": ({fmt(W211["a"][0])}, {fmt(W211["a"][1])}),',
  f'                                    "b_exit": ({fmt(W211["b_exit"][0])}, {fmt(W211["b_exit"][1])}),',
-'                                    "engine_owner": "bm-c"}}, \\',
+'                                    "engine_owner": "bm-c"}, \\',
 '            "registered W211 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"',
 ]
 tail = [
