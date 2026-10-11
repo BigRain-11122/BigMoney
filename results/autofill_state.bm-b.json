@@ -992,7 +992,8 @@
    "fill_latency_min": 4.0,
    "fullburn_window": false,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-11 07:42:02",
@@ -1013,22 +1014,13 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-11 07:58:02",
+  "ts": "2026-10-11 08:06:01",
   "machine": "bm-b",
-  "py_cpu_pct": 7.0,
-  "verdict": "fuse_refused_crash_loop",
+  "py_cpu_pct": 0.0,
+  "verdict": "relaunch_cooldown",
   "entry": "N2-MP1",
   "shard": "n2-mp1-run-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 6,
-  "fuse_skipped": [
-   {
-    "entry": "N2-MP1",
-    "shard": "n2-mp1-run-0of1",
-    "sig": "scripts/mp1_tsgate_probe.py|run,--shard,0,--shards,1",
-    "fuse_refusals": 6
-   }
-  ]
+  "last_launch_min": 24.1
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-11T07:43:17+08:00"
