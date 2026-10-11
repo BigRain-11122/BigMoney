@@ -16930,18 +16930,24 @@
      "key": "e16-rg-3of12",
      "note": "formulas i%12==3 (17 formulas); est 5-15min/shard with workers=8",
      "owner": "bm-b",
-     "owner_since": "2026-10-11 13:35:00",
-     "status": "ready"
+     "owner_since": "2026-10-11 13:54:03",
+     "status": "done",
+     "claimed_since": "2026-10-11 13:35:00",
+     "done_at": "2026-10-11 13:54:03",
+     "harvested_by": "bm-b",
+     "harvest_claim": "e16-rg-3of12.bm-b.json"
     }
    ],
-   "status": "ready",
+   "status": "done",
    "ticket_ref": "state/queue/explore.md E16 (supply-floor chain leg-4, external catalog #17 / T23 slice-2 POSITIVE-with-riders continuation; bm-b r877 registration + r878 leg-2; F-04 MSG-20261011-1215-bmb; prereg freeze commit 1f70c9b precedes runner build precedes ANY burn, R99 law)",
    "worker_class": "bm-hosted",
    "workers_plan": {
     "note": "ProcessPool via parallel_runner.run_cells_parallel over per-formula tasks (top-level picklable fn, npz member reads per task ~180MB); selftest 31/31 hermetic (incl injected-signal ICIR leg + permutation determinism + OLS/quantile/rank hand-values); autofill multicore law O-2026-09-30-2355 satisfied (real ProcessPool)",
     "priority": "BelowNormal",
     "workers": 8
-   }
+   },
+   "done_by": "bm-b",
+   "done_at": "2026-10-11 13:54:03"
   },
   {
    "consumer_plan": "shard product results/alphagen_rg/shard_4of12.json -> finalize (observing round after 12/12 shards complete, refuse-if-exists) -> results/alphagen_rg/CENSUS-2026-10-09.json verdict face: census_holds=True -> N2 U3 channel-1 drafting window opens via PREREG_TEMPLATE (RL build licensed before training spend); False -> RL build killed (G2 fallback, academic citation only); supply floor face: pool_ready 0 -> 12 (E16 leg-2 remedy per state verdict r877)",
