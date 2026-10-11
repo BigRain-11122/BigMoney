@@ -1,11 +1,12 @@
 {
  "adjudication_nature": "attribution reslice of judged streams; NOT a new criterion claim (order sec.4)",
+ "assembly_note": "v1 assembly complete early (r890 bm-c): grid-harvest 5 rows wired from slice4 identity-verified aggregates (verbatim, no recompute) + dip-rebound-FY_BG_TP8 sleeve row wired from the slice2 identity-gated judged stream -- six P0 row-families all stand (SYSTEM-V1 forward-hold excepted); REGIME-5 label verify due 10-14 -> v1.1 zero-burn re-slice one-shot if labels revise",
  "batch": "REGIME-MATRIX-P0-V1",
  "deposit_baseline_5y": 0.013,
  "deposit_baseline_source": "major-bank 5y posted rate 2026-09 ~1.30%/yr (research/DIRECTION_REVIEW_BM_INPUT.md); CEO law O-1705",
  "dup_stream_disclosure": "upstream duplicate streams: LA-EQ==LA-REP -- family EW overweights these; disclosed per honesty law",
  "evidence_cutoff": "2026-09-22",
- "generated": "2026-10-10T23:31:26",
+ "generated": "2026-10-11T21:39:10",
  "order_ref": "O-20261010-1725-bm-a.md + O-20261010-1825 sec.2.4",
  "regime_axis": {
   "label_cutoff": "2026-09-30",
@@ -947,6 +948,123 @@
    "cells": {
     "BEAR": {
      "ret": {
+      "max": 0.257459574728897,
+      "median": 0.012802570639780964,
+      "min": -0.11012583384000263,
+      "n": 777,
+      "p25": -0.03369608617406494,
+      "p75": 0.07187682705479226,
+      "pos_share": 0.5971685971685972
+     },
+     "sharpe_median": 0.24228643755384194,
+     "worst_dd": -0.21150555198575283
+    },
+    "BULL": {
+     "ret": {
+      "max": 0.25617859140114385,
+      "median": 0.03892032985610494,
+      "min": -0.16124288487944305,
+      "n": 191,
+      "p25": -0.05513761836320863,
+      "p75": 0.12715256348291903,
+      "pos_share": 0.5654450261780105
+     },
+     "sharpe_median": 0.8131751550292775,
+     "worst_dd": -0.26469413881440773
+    },
+    "CHOP": {
+     "ret": {
+      "max": 0.2588399313858496,
+      "median": 0.0,
+      "min": -0.1936730330233356,
+      "n": 1888,
+      "p25": -0.04204156340704762,
+      "p75": 0.05321137089010791,
+      "pos_share": 0.4867584745762712
+     },
+     "sharpe_median": 0.0,
+     "worst_dd": -0.26469413881440773
+    },
+    "EXTREME": {
+     "note": "overlay: windows containing >=1 canonical panic day (regime-agnostic)",
+     "ret": {
+      "max": 0.2588399313858496,
+      "median": 0.020900706569751293,
+      "min": -0.1936730330233356,
+      "n": 1566,
+      "p25": -0.03768877665261369,
+      "p75": 0.09691976508431543,
+      "pos_share": 0.570242656449553
+     },
+     "sharpe_median": 0.49073340681615224,
+     "worst_dd": -0.26469413881440773
+    },
+    "GRIND": {
+     "ret": {
+      "max": 0.052928724904470315,
+      "median": -0.016392890576850117,
+      "min": -0.10092064248623422,
+      "n": 86,
+      "p25": -0.04880978483719309,
+      "p75": 0.018117412409345668,
+      "pos_share": 0.3023255813953488
+     },
+     "sharpe_median": -0.3362715702680313,
+     "worst_dd": -0.22036514769520787
+    },
+    "SUPPORT": {
+     "ret": {
+      "max": 0.15907123257654399,
+      "median": -0.04110038407575273,
+      "min": -0.1350987823447115,
+      "n": 90,
+      "p25": -0.07484599523907365,
+      "p75": -0.021349180191977818,
+      "pos_share": 0.17777777777777778
+     },
+     "sharpe_median": -0.4693652351393909,
+     "worst_dd": -0.26469413881440773
+    }
+   },
+   "id": "dip-rebound-FY_BG_TP8",
+   "verdicts": {
+    "away_unhurt": {
+     "BULL": {
+      "median": 0.03892032985610494,
+      "n": 191,
+      "verdict": "unhurt"
+     },
+     "CHOP": {
+      "median": 0.0,
+      "n": 1888,
+      "verdict": "unhurt"
+     },
+     "GRIND": {
+      "median": -0.016392890576850117,
+      "n": 86,
+      "verdict": "harmed"
+     },
+     "SUPPORT": {
+      "median": -0.04110038407575273,
+      "n": 90,
+      "verdict": "harmed"
+     }
+    },
+    "gate_off": [
+     "GRIND",
+     "SUPPORT"
+    ],
+    "home": "BEAR",
+    "home_pass": false,
+    "n_unlabeled_starts": 5507,
+    "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "ret": {
       "max": 0.34923397563500425,
       "median": -0.044797375882324686,
       "min": -0.23744688904252176,
@@ -1058,6 +1176,462 @@
     "home_pass": true,
     "n_unlabeled_starts": 0,
     "proxy_disclosure": "v1 proxy: home_pass=median>=deposit baseline; away/gate use median sign at n>=30; significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": -0.1026,
+      "median": -0.112,
+      "min": -0.161,
+      "n": 37,
+      "p25": -0.1298,
+      "p75": -0.1045,
+      "pos_share": 0.0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "BULL": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "CHOP": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.1496,
+      "median": 0.0656,
+      "min": -0.0373,
+      "n": 886,
+      "p25": 0.0289,
+      "p75": 0.0843,
+      "pos_share": 0.8792
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "EXTREME": {
+     "note": "panic-overlay windows not carried in slice4 aggregate face",
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "GRIND": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "SUPPORT": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    }
+   },
+   "face_convention": "bucket_pure_252: slice4 face = 252 consecutive IN-REGIME bucket days (panic days excluded, non-regime days skipped) -- distinct from the calendar-12m-window rows; convention unification is the 10-13/14 assembly decision",
+   "id": "grid-harvest-510300",
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": -0.112,
+      "n": 37,
+      "verdict": "harmed"
+     },
+     "BULL": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "GRIND": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "SUPPORT": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     }
+    },
+    "gate_off": [
+     "BEAR"
+    ],
+    "home": "CHOP",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy (aggregate face): verdicts carried verbatim from slice4 three_verdicts (floor n>=30 windows); significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": -0.0639,
+      "median": -0.1308,
+      "min": -0.1609,
+      "n": 37,
+      "p25": -0.1555,
+      "p75": -0.0904,
+      "pos_share": 0.0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "BULL": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "CHOP": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.309,
+      "median": 0.0736,
+      "min": -0.1193,
+      "n": 885,
+      "p25": -0.0134,
+      "p75": 0.1411,
+      "pos_share": 0.7017
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "EXTREME": {
+     "note": "panic-overlay windows not carried in slice4 aggregate face",
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "GRIND": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "SUPPORT": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    }
+   },
+   "face_convention": "bucket_pure_252: slice4 face = 252 consecutive IN-REGIME bucket days (panic days excluded, non-regime days skipped) -- distinct from the calendar-12m-window rows; convention unification is the 10-13/14 assembly decision",
+   "id": "grid-harvest-159915",
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": -0.1308,
+      "n": 37,
+      "verdict": "harmed"
+     },
+     "BULL": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "GRIND": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "SUPPORT": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     }
+    },
+    "gate_off": [
+     "BEAR"
+    ],
+    "home": "CHOP",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy (aggregate face): verdicts carried verbatim from slice4 three_verdicts (floor n>=30 windows); significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": -0.1332,
+      "median": -0.1625,
+      "min": -0.1803,
+      "n": 37,
+      "p25": -0.1686,
+      "p75": -0.1544,
+      "pos_share": 0.0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "BULL": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "CHOP": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.1669,
+      "median": 0.0574,
+      "min": -0.0658,
+      "n": 886,
+      "p25": 0.0238,
+      "p75": 0.093,
+      "pos_share": 0.8792
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "EXTREME": {
+     "note": "panic-overlay windows not carried in slice4 aggregate face",
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "GRIND": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "SUPPORT": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    }
+   },
+   "face_convention": "bucket_pure_252: slice4 face = 252 consecutive IN-REGIME bucket days (panic days excluded, non-regime days skipped) -- distinct from the calendar-12m-window rows; convention unification is the 10-13/14 assembly decision",
+   "id": "grid-harvest-512880",
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": -0.1625,
+      "n": 37,
+      "verdict": "harmed"
+     },
+     "BULL": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "GRIND": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "SUPPORT": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     }
+    },
+    "gate_off": [
+     "BEAR"
+    ],
+    "home": "CHOP",
+    "home_pass": true,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy (aggregate face): verdicts carried verbatim from slice4 three_verdicts (floor n>=30 windows); significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.1015,
+      "median": 0.0888,
+      "min": 0.0726,
+      "n": 37,
+      "p25": 0.0864,
+      "p75": 0.0952,
+      "pos_share": 1.0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "BULL": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "CHOP": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.0354,
+      "median": 0.0003,
+      "min": -0.0476,
+      "n": 886,
+      "p25": -0.0173,
+      "p75": 0.0247,
+      "pos_share": 0.5034
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "EXTREME": {
+     "note": "panic-overlay windows not carried in slice4 aggregate face",
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "GRIND": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "SUPPORT": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    }
+   },
+   "face_convention": "bucket_pure_252: slice4 face = 252 consecutive IN-REGIME bucket days (panic days excluded, non-regime days skipped) -- distinct from the calendar-12m-window rows; convention unification is the 10-13/14 assembly decision",
+   "id": "grid-harvest-518880",
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": 0.0888,
+      "n": 37,
+      "verdict": "unhurt"
+     },
+     "BULL": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "GRIND": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "SUPPORT": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     }
+    },
+    "gate_off": [],
+    "home": "CHOP",
+    "home_pass": false,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy (aggregate face): verdicts carried verbatim from slice4 three_verdicts (floor n>=30 windows); significance tests deferred to dispatch-law prereg slice",
+    "verdict_floor_n": 30
+   }
+  },
+  {
+   "cells": {
+    "BEAR": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.0013,
+      "median": 0.0009,
+      "min": 0.0005,
+      "n": 37,
+      "p25": 0.0008,
+      "p75": 0.001,
+      "pos_share": 1.0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "BULL": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "CHOP": {
+     "face_note": "aggregate face: per-window sharpe/dd not carried in slice4 artifact",
+     "ret": {
+      "max": 0.0036,
+      "median": 0.0015,
+      "min": -0.0027,
+      "n": 886,
+      "p25": 0.0008,
+      "p75": 0.0021,
+      "pos_share": 0.9594
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "EXTREME": {
+     "note": "panic-overlay windows not carried in slice4 aggregate face",
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "GRIND": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    },
+    "SUPPORT": {
+     "ret": {
+      "n": 0
+     },
+     "sharpe_median": null,
+     "worst_dd": null
+    }
+   },
+   "face_convention": "bucket_pure_252: slice4 face = 252 consecutive IN-REGIME bucket days (panic days excluded, non-regime days skipped) -- distinct from the calendar-12m-window rows; convention unification is the 10-13/14 assembly decision",
+   "id": "grid-harvest-511010",
+   "verdicts": {
+    "away_unhurt": {
+     "BEAR": {
+      "median": 0.0009,
+      "n": 37,
+      "verdict": "unhurt"
+     },
+     "BULL": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "GRIND": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     },
+     "SUPPORT": {
+      "n": 0,
+      "verdict": "insufficient_n"
+     }
+    },
+    "gate_off": [],
+    "home": "CHOP",
+    "home_pass": false,
+    "n_unlabeled_starts": 0,
+    "proxy_disclosure": "v1 proxy (aggregate face): verdicts carried verbatim from slice4 three_verdicts (floor n>=30 windows); significance tests deferred to dispatch-law prereg slice",
     "verdict_floor_n": 30
    }
   }

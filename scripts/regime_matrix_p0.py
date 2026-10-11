@@ -12,6 +12,10 @@ Streams v1 (r963 full pin): LOWAMP-P3 judged continuous streams (deep axis,
   + six-members (member_reinforce x1 equal-weight composite)
   + four-asset A-EQW (deterministic imported-engine replay, anchor-exact).
   SYSTEM-V1 alone stays insufficient-history (paper since 2026-09-24).
+  r890 wire (bm-c early assembly): + grid-harvest 5 cells consumed verbatim
+  from the slice4 identity-verified aggregate artifact (no daily stream on
+  disk) + dip-rebound quenched sleeve FY_BG_TP8 (DECISION_CHAIN_V2_P1 judged
+  frozen stream, slice2 identity-gated; distinct face from the rev_p2 trio).
 Baseline: 5y deposit 1.30%/yr (major-bank posted rate 2026-09,
   research/DIRECTION_REVIEW_BM_INPUT.md; O-1705 CEO law "minimum floor = beat the
   current 5-year fixed deposit rate"; numeric line disclosed in every report).
@@ -100,6 +104,26 @@ THEME_SOURCE = os.path.join(ROOT, "results", "theme_judge_p1",
 THEME_CELL = "TJ-FULL-x1"
 THEME_NET_TOL = 5e-6                          # nav reconstruction anchor tolerance
 
+# dip-rebound quenched sleeve (r890 wire): DECISION_CHAIN_V2_P1 judged frozen
+# sleeve FY_BG_TP8 (FY first-yang entry + BG bear gate + TP8 take-profit),
+# x1 face. Slice2 (r877) identity-gated this stream's calendar and delivered
+# the home-ground verdict: BEAR home FAILED (12m median -3.10%, pos_share
+# 34.1%, gate_off advice) -- carried honest here. This row and the rev_p2
+# 'dip-rebound-trio' row are two DISTINCT judged faces of the dip-rebound
+# family (primary depth-grid trio vs quenched sleeve) -- both rows stand.
+DIP_SLEEVE_SOURCE = os.path.join(ROOT, "results", "rev_osc",
+                                 "daily_series_FY_BG_TP8.json")
+
+# grid-harvest rows (r890 wire): T-78 GRID-SLEEVE-P1 frozen batch, 5 cells
+# replayed identity-clean at slice4 (r883). The slice4 artifact carries ONLY
+# per-regime aggregates (no daily arrays on disk) -> consumed VERBATIM here
+# (zero recompute, zero reimplementation); per-window sharpe/dd and the
+# panic overlay are honestly absent ('-' / None).
+GRID_SLICE4 = os.path.join(ROOT, "results", "regime_style_matrix",
+                           "P0-SLICE4-GRID-20261011.json")
+GRID_HOME = "CHOP"   # O-1725 P0 declared chop-market weapon (slice4 declared_home)
+GRID_CELLS = ["510300", "159915", "512880", "518880", "511010"]
+
 # P0 registry: declared home regime + stream status. Pending rows carry the
 # candidate source so the next slice can pin them without re-research.
 LOWAMP_HOME = "BEAR"   # defensive family declared home (REGIME_STYLE_MATRIX_V1
@@ -127,9 +151,27 @@ P0_REGISTRY = [
     {"id": "dip-rebound-trio", "group": "dip-rebound", "home": "BEAR",
      "status": "stream_wired",
      "source": "equal-weight daily composite of the three judged raw|base x1 faces (D-15/D-25/Dtop10, results/refine_bench_stock/rev_p2/cells/*.npy, sidecar stat-anchored exact); p1c_stock panel 1990-12-19..2026-09-22 T=8792; REFINE_BENCH_STOCK_REV_P2 primary family; declared bear-market weapon (O-1725 sec.2 P0)"},
+    {"id": "dip-rebound-FY_BG_TP8", "group": "dip-rebound", "home": "BEAR",
+     "status": "stream_wired",
+     "source": "results/rev_osc/daily_series_FY_BG_TP8.json faces.x1 (DECISION_CHAIN_V2_P1 judged frozen sleeve FY first-yang+BG bear gate+TP8, slice2 identity-gated calendar, sidecar stat-anchored); NOTE conventions: this row = calendar-12m-window face (matrix r963 pin); slice2's home-ground verdict BEAR -3.10%/pos 34.1% = bucket-pure 252-in-BEAR-days face -- two honest cuts, home FAILS the floor either way (calendar median 1.28% < 1.30% floor; bucket-pure median negative); distinct judged face from dip-rebound-trio, both stand"},
     {"id": "theme-wave-rider", "group": "theme", "home": "BULL",
      "status": "stream_wired",
      "source": "results/theme_judge_p1/theme_judge_p1_results.json cell TJ-FULL-x1 (pooled equal-weight daily stream, x1 cost, cash on non-ride days; nav anchor = pooled_net; O-1725 sec.2 declared bull weapon)"},
+    {"id": "grid-harvest-510300", "group": "grid-harvest", "home": GRID_HOME,
+     "status": "slice_aggregate",
+     "source": "P0-SLICE4-GRID-20261011.json cell 510300 (T-78 GRID-SLEEVE-P1 frozen batch, identity-clean replay; aggregates consumed verbatim, no daily stream on disk)"},
+    {"id": "grid-harvest-159915", "group": "grid-harvest", "home": GRID_HOME,
+     "status": "slice_aggregate",
+     "source": "P0-SLICE4-GRID-20261011.json cell 159915 (T-78 GRID-SLEEVE-P1 frozen batch, identity-clean replay; aggregates consumed verbatim, no daily stream on disk)"},
+    {"id": "grid-harvest-512880", "group": "grid-harvest", "home": GRID_HOME,
+     "status": "slice_aggregate",
+     "source": "P0-SLICE4-GRID-20261011.json cell 512880 (T-78 GRID-SLEEVE-P1 frozen batch, identity-clean replay; aggregates consumed verbatim, no daily stream on disk)"},
+    {"id": "grid-harvest-518880", "group": "grid-harvest", "home": GRID_HOME,
+     "status": "slice_aggregate",
+     "source": "P0-SLICE4-GRID-20261011.json cell 518880 (T-78 GRID-SLEEVE-P1 frozen batch, identity-clean replay; aggregates consumed verbatim, no daily stream on disk)"},
+    {"id": "grid-harvest-511010", "group": "grid-harvest", "home": GRID_HOME,
+     "status": "slice_aggregate",
+     "source": "P0-SLICE4-GRID-20261011.json cell 511010 (T-78 GRID-SLEEVE-P1 frozen batch, identity-clean replay; aggregates consumed verbatim, no daily stream on disk)"},
 ]
 
 
@@ -393,9 +435,18 @@ def load_dip_rebound_stream():
     """Dip-rebound trio: equal-weight composite of the three judged raw|base
     x1 faces on the p1c_stock frozen panel. Anchors: per-cell sidecar stats
     (exact at 4dp, incl-first convention per r963 probe)."""
-    dates_np = np.load(STOCK_DATES_NPY)
-    dates_full = [str(pd.Timestamp(x).date())
-                  for x in pd.to_datetime(dates_np, unit="us")]
+    dates_np = None
+    if os.path.exists(STOCK_DATES_NPY):
+        dates_np = np.load(STOCK_DATES_NPY)
+        dates_full = [str(pd.Timestamp(x).date())
+                      for x in pd.to_datetime(dates_np, unit="us")]
+    else:
+        # r890 bm-c fallback: the p1c_stock cache is a host-local face (absent
+        # on this node); the slice2 identity-gated FY_BG_TP8 artifact carries
+        # the SAME frozen panel calendar (p1c_stock T=8792) -- same-panel dates
+        # consumed from the verified artifact, lockbox assertions unchanged.
+        with open(DIP_SLEEVE_SOURCE, encoding="utf-8") as fh:
+            dates_full = [str(v) for v in json.load(fh)["faces"]["x1"]["dates"]]
     if (dates_full[0], dates_full[-1]) != ("1990-12-19", "2026-09-22"):
         raise SystemExit(f"matrix p0 mechanism: stock panel lockbox drift "
                          f"{dates_full[0]}..{dates_full[-1]}")
@@ -410,6 +461,87 @@ def load_dip_rebound_stream():
         _verify_stats(a, side, drop_first=False, label=c)
         streams.append(a.tolist())
     return _to_matrix_stream(dates_full, _ew_composite(streams))
+
+
+def load_dip_sleeve_stream():
+    """Dip-rebound quenched sleeve FY_BG_TP8 x1 (judged frozen config,
+    slice2 identity-gated calendar). Anchors: sidecar stats on the full
+    stream incl. leading zero (rev_p2 convention, drop_first=False)."""
+    with open(DIP_SLEEVE_SOURCE, encoding="utf-8") as fh:
+        d = json.load(fh)
+    x = d["faces"]["x1"]
+    dates = [str(v) for v in x["dates"]]
+    rets = [float(v) for v in x["series"]]
+    if len(dates) != len(rets):
+        raise SystemExit(f"matrix p0 mechanism: dip sleeve stream len "
+                         f"mismatch {len(dates)} vs {len(rets)}")
+    _verify_stats(rets, x["stats"], drop_first=False, label="FY_BG_TP8")
+    return _to_matrix_stream(dates, rets)
+
+
+def _grid_row_from_payload(cell_code, payload, sid):
+    """Grid row consumed VERBATIM from the slice4 identity-verified aggregate
+    face (pure function: payload in, matrix row out -- hermetic-testable).
+    Identity re-assert: stored vs replayed stats must be bit-equal. Verdicts
+    carried from slice4 three_verdicts (same floor n>=30 windows); per-window
+    sharpe/dd and the panic overlay are honestly absent."""
+    c = payload["grid_harvest"]["cells"][cell_code]
+    # identity re-assert (artifact key asymmetry: stored face uses
+    # 'sharpe_full', replayed face uses 'sharpe' -- slice4 emission shape)
+    idt, idr = c["identity_stored"], c["identity_replayed"]
+    pairs = ((idt.get("sharpe_full", idt.get("sharpe")),
+              idr.get("sharpe_full", idr.get("sharpe"))),
+             (idt["ann"], idr["ann"]), (idt["mdd"], idr["mdd"]))
+    for a, b in pairs:
+        if abs(float(a) - float(b)) != 0.0:
+            raise SystemExit(f"matrix p0 mechanism: grid {cell_code} "
+                             f"identity gate broken")
+    cells = {}
+    for st in STATES:
+        b = (c["by_regime"] or {}).get(st) or {}
+        r12 = b.get("roll12")
+        if r12:
+            cells[st] = {"ret": {"n": r12["n_windows"], "median": r12["median"],
+                                "p25": r12.get("p25"), "p75": r12.get("p75"),
+                                "min": r12.get("worst"), "max": r12.get("best"),
+                                "pos_share": r12.get("pos_share")},
+                         "sharpe_median": None, "worst_dd": None,
+                         "face_note": ("aggregate face: per-window sharpe/dd "
+                                       "not carried in slice4 artifact")}
+        else:
+            cells[st] = {"ret": {"n": 0}, "sharpe_median": None, "worst_dd": None}
+    cells["EXTREME"] = {"ret": {"n": 0}, "sharpe_median": None, "worst_dd": None,
+                        "note": "panic-overlay windows not carried in slice4 aggregate face"}
+    verdicts = {"home": GRID_HOME, "home_pass": None, "away_unhurt": {},
+                "gate_off": [], "n_unlabeled_starts": c.get("unlabeled_days", 0),
+                "verdict_floor_n": MIN_WINDOWS_VERDICT,
+                "proxy_disclosure": ("v1 proxy (aggregate face): verdicts carried "
+                                     "verbatim from slice4 three_verdicts (floor "
+                                     "n>=30 windows); significance tests deferred "
+                                     "to dispatch-law prereg slice")}
+    home_b = (c["by_regime"] or {}).get(GRID_HOME) or {}
+    if home_b.get("roll12") and home_b["roll12"]["n_windows"] >= MIN_WINDOWS_VERDICT:
+        verdicts["home_pass"] = bool(home_b["three_verdicts"]["floor_beat_median"])
+    for st in STATES:
+        if st == GRID_HOME:
+            continue
+        b = (c["by_regime"] or {}).get(st) or {}
+        r12, tv = b.get("roll12"), b.get("three_verdicts")
+        if not r12 or not tv:
+            verdicts["away_unhurt"][st] = {"n": r12["n_windows"] if r12 else 0,
+                                           "verdict": "insufficient_n"}
+            continue
+        verdicts["away_unhurt"][st] = {"n": r12["n_windows"],
+                                       "median": r12["median"],
+                                       "verdict": "unhurt" if tv["not_negative_median"] else "harmed"}
+        if tv["gate_off_advice"]:
+            verdicts["gate_off"].append(st)
+    return {"id": sid, "cells": cells, "verdicts": verdicts,
+            "face_convention": ("bucket_pure_252: slice4 face = 252 consecutive "
+                                "IN-REGIME bucket days (panic days excluded, "
+                                "non-regime days skipped) -- distinct from the "
+                                "calendar-12m-window rows; convention unification "
+                                "is the 10-13/14 assembly decision")}
 
 
 def load_six_members_stream():
@@ -503,11 +635,18 @@ def run():
     ) if dup_groups else None
 
     rows = []
+    grid_payload = None
     for spec in P0_REGISTRY:
-        if spec["status"] != "stream_wired":
+        if spec["status"] not in ("stream_wired", "slice_aggregate"):
             rows.append(_pending_row(spec))
             continue
-        if spec["id"] == "lowamp-FAMILY-EW":
+        if spec["status"] == "slice_aggregate":
+            if grid_payload is None:
+                with open(GRID_SLICE4, encoding="utf-8") as fh:
+                    grid_payload = json.load(fh)
+            code = spec["id"].replace("grid-harvest-", "")
+            rows.append(_grid_row_from_payload(code, grid_payload, spec["id"]))
+        elif spec["id"] == "lowamp-FAMILY-EW":
             rows.append(slice_stream(spec["id"], spec["home"], fam_dates,
                                      fam_rets, fam_nav, axis))
         elif spec["id"] == "theme-wave-rider":
@@ -516,6 +655,9 @@ def run():
                                      t_rets, t_nav, axis))
         elif spec["id"] == "dip-rebound-trio":
             d, r, n = load_dip_rebound_stream()
+            rows.append(slice_stream(spec["id"], spec["home"], d, r, n, axis))
+        elif spec["id"] == "dip-rebound-FY_BG_TP8":
+            d, r, n = load_dip_sleeve_stream()
             rows.append(slice_stream(spec["id"], spec["home"], d, r, n, axis))
         elif spec["id"] == "six-members":
             d, r, n = load_six_members_stream()
@@ -552,6 +694,12 @@ def run():
         "small_sample_disclosure": ("EXTREME column spans only ~25 panic days over full "
                                     "history -> low power, honest disclosure per order sec.4"),
         "dup_stream_disclosure": dup_note,
+        "assembly_note": ("v1 assembly complete early (r890 bm-c): grid-harvest 5 rows "
+                          "wired from slice4 identity-verified aggregates (verbatim, no "
+                          "recompute) + dip-rebound-FY_BG_TP8 sleeve row wired from the "
+                          "slice2 identity-gated judged stream -- six P0 row-families all "
+                          "stand (SYSTEM-V1 forward-hold excepted); REGIME-5 label verify "
+                          "due 10-14 -> v1.1 zero-burn re-slice one-shot if labels revise"),
         "rows": rows,
     }
     jpath = os.path.join(OUT_DIR, f"P0-MATRIX-v1-{cutoff}.json")
@@ -579,6 +727,12 @@ def render_md(out):
     L.append(f"- 定存底线：5 年期 {out['deposit_baseline_5y']*100:.2f}%/年（{out['deposit_baseline_source']}）")
     L.append("- 窗口：12 月滚动（252 bar）·全起点口径·起点政体归属；EXTREME=含恐慌日窗（叠加列）")
     L.append("- 诚实边界：" + out["small_sample_disclosure"])
+    if out.get("assembly_note"):
+        L.append("- 组装注：" + out["assembly_note"])
+    conv = [r.get("face_convention") for r in out["rows"] if r.get("face_convention")]
+    if conv:
+        L.append("- 口径注：〔桶内窗〕行 = 切片四桶内 252 连续本政体日窗（panic 日剔除·跳过非本政体日）·"
+                 "与历法 12 月窗行不同口径（切片 home-ground 面惯例）·10-13/14 组装统一裁决")
     L.append("")
     L.append("## 已接线行（12 月窗中位收益 ×各政体）")
     L.append("")
@@ -602,7 +756,10 @@ def render_md(out):
         else:
             home_txt = f"主场 {v['home']}：{'达标' if v['home_pass'] else '未达'}"
         away = "; ".join(f"{st}:{x.get('verdict','')}" for st, x in v["away_unhurt"].items())
-        L.append(f"| {r['id']} | " + " | ".join(vals) + f" | {home_txt} | {away} |")
+        rid = r["id"]
+        if r.get("face_convention"):
+            rid += " 〔桶内窗〕"
+        L.append(f"| {rid} | " + " | ".join(vals) + f" | {home_txt} | {away} |")
     L.append("")
     L.append("## 待接线行（下一切片钉流）")
     L.append("")
@@ -740,7 +897,60 @@ def selftest():
             raise
     ok[0] += 1
     print("  PASS t15b anchor verify accept+reject")
-    print(f"selftest: {ok[0]}/16 PASS")
+    # t16 grid-harvest registry rows wired (5 cells, slice_aggregate, home CHOP)
+    gregs = [r for r in P0_REGISTRY if r["group"] == "grid-harvest"]
+    check("t16 grid registry 5 rows",
+          len(gregs) == 5 and all(r["status"] == "slice_aggregate"
+                                  and r["home"] == "CHOP" for r in gregs)
+          and {r["id"].replace("grid-harvest-", "") for r in gregs} == set(GRID_CELLS),
+          f"n={len(gregs)}")
+    # t17 _grid_row_from_payload conversion (synthetic slice4-shaped payload)
+    pay = {"grid_harvest": {"cells": {"X1": {
+        "identity_stored": {"sharpe_full": 0.5, "ann": 0.04, "mdd": -0.1},
+        "identity_replayed": {"sharpe": 0.5, "ann": 0.04, "mdd": -0.1},
+        "unlabeled_days": 0,
+        "by_regime": {
+            "CHOP": {"n_days": 1137, "roll12": {"n_windows": 886, "median": 0.0656,
+                       "p25": 0.0289, "p75": 0.0843, "best": 0.1496,
+                       "worst": -0.0373, "pos_share": 0.8792},
+                     "three_verdicts": {"floor_beat_median": True,
+                                        "not_negative_median": True,
+                                        "gate_off_advice": False}},
+            "BEAR": {"n_days": 288, "roll12": {"n_windows": 37, "median": -0.112,
+                      "p25": -0.1298, "p75": -0.1045, "best": -0.1026,
+                      "worst": -0.161, "pos_share": 0.0},
+                     "three_verdicts": {"floor_beat_median": False,
+                                        "not_negative_median": False,
+                                        "gate_off_advice": True}},
+            "BULL": {"n_days": 57},
+        }}}}}
+    grow = _grid_row_from_payload("X1", pay, "grid-harvest-X1")
+    check("t17a grid row home verdict carried",
+          grow["verdicts"]["home_pass"] is True
+          and grow["cells"]["CHOP"]["ret"]["n"] == 886
+          and abs(grow["cells"]["CHOP"]["ret"]["median"] - 0.0656) < 1e-12)
+    check("t17b grid away verdict + insufficient_n",
+          grow["verdicts"]["away_unhurt"]["BEAR"]["verdict"] == "harmed"
+          and "BEAR" in grow["verdicts"]["gate_off"]
+          and grow["verdicts"]["away_unhurt"]["BULL"]["verdict"] == "insufficient_n"
+          and grow["cells"]["EXTREME"]["ret"]["n"] == 0
+          and "bucket_pure_252" in grow["face_convention"])
+    # t18 grid identity gate fail-closed
+    pay["grid_harvest"]["cells"]["X1"]["identity_replayed"]["sharpe"] = 0.6
+    try:
+        _grid_row_from_payload("X1", pay, "grid-harvest-X1")
+        raise SystemExit("  FAIL t18 identity gate did not raise")
+    except SystemExit as e:
+        if "identity gate broken" not in str(e):
+            raise
+    ok[0] += 1
+    print("  PASS t18 grid identity gate fail-closed")
+    # t19 dip sleeve row + source face shape
+    dregs = [r for r in P0_REGISTRY if r["id"] == "dip-rebound-FY_BG_TP8"]
+    check("t19 dip sleeve row + source",
+          len(dregs) == 1 and dregs[0]["status"] == "stream_wired"
+          and os.path.exists(DIP_SLEEVE_SOURCE))
+    print(f"selftest: {ok[0]}/21 PASS")
 
 
 def main():
