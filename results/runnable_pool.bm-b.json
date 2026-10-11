@@ -17398,20 +17398,26 @@
     "results/trial_labor_w18/w18_cells.json",
     "results/trial_labor_w18/prep_state.json"
    ],
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "w18-screen-0of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w18/checkpoint/screen_shard_0of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-c -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "owner": "bm-c",
      "note": "stride i%8 of 892 cells (692 paired + 200 nulls); RAM gate 4GB r354 honest-refuse retry",
-     "owner_since": "2026-10-11 18:36:34",
-     "park_note": "AUTOFILL-PARK 2026-10-11 17:10:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
+     "owner_since": "2026-10-11 18:46:04",
+     "park_note": "AUTOFILL-PARK 2026-10-11 17:10:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)",
+     "claimed_since": "2026-10-11 18:36:34",
+     "done_at": "2026-10-11 18:46:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "w18-screen-0of8.bm-c.json"
     }
    ],
    "entered_at": "2026-10-11 17:09:16",
-   "entered_by": "bm-c"
+   "entered_by": "bm-c",
+   "done_by": "bm-c",
+   "done_at": "2026-10-11 18:46:04"
   },
   {
    "id": "TRIAL-LABOR-W18-SCREEN-SHARD-1",
@@ -17741,17 +17747,21 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-11 18:43:01",
    "data_gates": "fail-closed rc2 freeze gate in-runner (prereg FROZEN + 3 seed bands required); panel gate = E16 frozen cache 2026-10-09 in place; universe/eligibility faces read-only",
    "shards": [
     {
      "key": "n2u3-leg2-probe",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "",
      "owner": "bm-b",
-     "owner_since": "2026-10-11 18:45:50"
+     "owner_since": "2026-10-11 19:26:04",
+     "claimed_since": "2026-10-11 18:45:50",
+     "done_at": "2026-10-11 19:26:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "n2u3-leg2-probe.bm-b.json"
     }
    ],
    "workers_plan": {
@@ -17767,7 +17777,9 @@
    ],
    "data_deps": [
     "results/alphagen_rg/panel_cache_2026-10-09.npz"
-   ]
+   ],
+   "done_by": "bm-b",
+   "done_at": "2026-10-11 19:26:04"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

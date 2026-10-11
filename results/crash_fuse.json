@@ -822,16 +822,6 @@
    "shard": "e16-rg-0of12",
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-11 13:14:09"
-  },
-  "scripts/alphagen_rl_p1.py|probe,--episodes,256": {
-   "count": 1,
-   "refusals": 6,
-   "code_sha256": "7ff16c44cc73ca3a",
-   "last_crash_ts": "2026-10-11 19:12:06",
-   "entry": "N2U3-ALPHAGEN-RL-P1-LEG2-PROBE",
-   "shard": "n2u3-leg2-probe",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-11 19:22:08"
   }
  },
  "cleared": {
@@ -1410,6 +1400,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "df427ae2d58ee639"
+  },
+  "scripts/alphagen_rl_p1.py|probe,--episodes,256": {
+   "crashes": 1,
+   "old_code_sha256": "7ff16c44cc73ca3a",
+   "cleared_by": "bm-b",
+   "cleared_ts": "2026-10-11T19:25:52+08:00",
+   "reason": "r893 bm-b manual tombstone: 19:12:06 crash = post-completion 25-min confirm artifact (probe burn COMPLETED 19:06:39: ckpt/probe_receipt.json face=probe episodes=256 updates=8 pool_members=8 workers=8 elapsed_sec=1237.9 + train/pretrain receipts; r860 gap = trial-labor runner writes no pool_claims handshake; confirmer killed lingering pid-25280 tree after ok-summary). Claim file + harvest flip landed this window (r860 three-piece). Runner code unchanged (frozen wave, commit 8f49d6eea)."
   }
  }
 }
