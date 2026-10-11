@@ -25,8 +25,8 @@
  "ram_free_gb": 9.3,
  "round_no": 871,
  "round_no_label": "r870",
- "ts": "2026-10-11T11:53:50+08:00",
- "updated": "2026-10-11T11:53:50+08:00",
+ "ts": "2026-10-11T11:57:11+08:00",
+ "updated": "2026-10-11T11:57:11+08:00",
  "updated_at": "2026-10-11T11:53:50+08:00",
  "cpu_idle_pct": 94,
  "verify": "receipts: smoke 49/49 + results/_r869bmc_s6_log.txt (43/43 rc0 bad=0, ZERO-DRIFT streak 9) + results/_attrition_guard_scan.json (4 ledgers CLEAN) + Tools/s05_probe.py zero-delta + idle_trigger --worked (idle_rounds=0) + this books commit/push_verify",
@@ -37,7 +37,7 @@
  "last_decisions_at": "2026-10-11T11:42:48+08:00",
  "last_run_at": "2026-10-11T10:33:31+08:00",
  "last_round_summary": "r870 close: 周末守望轮 4——S6 43/43（streak 10）+ W17 finalize 守望 + HANDOVER 5x 补记 + 双水位零 delta + smoke 49/49 + attrition CLEAN",
- "last_action": "r870 close: books commit + push verify (this round)",
+ "last_action": "r870 addendum: new order O-20261011-1105-bm-c receipted (ack 193, executor @bm-a, quant loop non-executor zero-action) + push-claw stale-base race healed (rebase onto 686277e9d, re-push 636783781, 0/0 verified) + watermark cross-face divergence disclosed (state f90233c7==live green; heartbeat mirror ccf3ed9d stale @10:32, no rewrite)",
  "verdict": "r870 close: 周末守望轮 4——S6 43/43（streak 10）+ W17 finalize 守望 + HANDOVER 5x 补记 + 双水位零 delta + smoke 49/49 + attrition CLEAN",
  "next_pointer": "r870: (1) W17 finalize 落地检查→intake→selftest（r307 律）→attrition guard→ledger prev 对账（r807 律）→捕获律收口；(2) W208/W209 落链守望→M10 自动链（W211/W212 freeze-prep 先读 pit-engine-finalize.md）；(3) T-184 期限观察（10-12 15:30·GM 哨兵域·本机持 510880.csv 完整副本可应援）；(4) moneyflow IC prereg 待面板完备；(5) 轻量机会面 RAM≥40% 维持即续",
  "latest_artifact": "S6 43/43 rc0 (_r870bmc_s6_log.txt, ZERO-DRIFT streak 10) + HANDOVER r870 5x line",
@@ -86,6 +86,6 @@
  "orphan_face": 1,
  "orphan_faces": 1,
  "last_round_at_legacy": "2026-10-11T10:33:31+08:00",
- "last_action_at": "2026-10-11T11:53:50+08:00",
+ "last_action_at": "2026-10-11T11:57:11+08:00",
  "last_orders_sha_note": "r863 reconciled: 24ad1708 corrupt-face retired (no blob provenance); true lineage 24e6066e->4d33cb4f (r843, O-20261011-0012 consumed) -> f90233c7 (r854, X2348 row, current tip, zero new rows); recurrence guard: on delta TRUE verify vs git blob history before consuming"
 }
