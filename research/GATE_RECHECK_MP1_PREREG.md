@@ -73,11 +73,23 @@
 
 ## §7 跑后实证。【跑后回填·判决面 owner 一次定稿】
 
-（跑后回填）
+- 烧录：r870 bm-b 同轮 slice-2+3 全链（freeze commit c01757733=runner+FROZEN 翻面同批；burn 单趟分钟级轮内合法面零池交互）；elapsed 见 results/gate_recheck_mp1.json runtime 段。
+- **四态判决面：RECHECK-CONFIRM=5 / REGISTERED-CLONE=0 / CLUSTER-COLLAPSED=16 / RECHECK-FAIL=4**（25=5+0+16+4 恒等对账）；簇数 9·代表数 n_reps=9·**E[FP]=0.05×9=0.45**。
+- **入册清单（5 门→T-101 v4 政体门候选库·与 A158 RECHECK 17 门同库并列）**：MA(LOW,30)_q10（价格水位巨簇代表·簇 #0 size17·med_t=2.603）/ CORR(OPEN,VWAP,10)_q90（med_net=+0.0165·5/5 正员·thin_B +0.0111）/ CORR(MA(CLOSE,10),VWAP,10)_q90（5/5 正员）/ CORR(HIGH,MUL(CLOSE,HIGH),20)_q90（maxcorr_reg=0.528 全场最高仍在线下）/ DELTA(MAX(RET,30),5)_q90（thin_B 中位 +0.0201 全场最高）。
+- **C1 降格清单（4 门）**：CORR(CLOSE,RET,20)_q10（五员 med_net=-0.0040·正员 2/5——MP1 全面板 OOS 中位正在五员消费面反号=复核批价值面实证）/ CORR(LOW,MAX(HIGH,60),5)_q90（thin_B -0.0077）/ CORR(LOW,OPEN,5)_q90（med_net≈0·thin_B -0.0006）/ DELTA(MAX(VOLUME,30),5)_q90（thin_B -0.0004）。
+- **Face R 次级面对账：125/125 逐位恒等全过**（25 门×5 员·net/n_in/thin(格点A)·sh 正典键·零容差）——同 cutoff 同构造确定性实证=双烧窗零漂移。
+- 锚复现腿全过：G-ANCHOR-MP1 3341/390/149 逐位 + G-P1 PASS==25 + G-RECHECK-A158 library==17 + G-FACTORS-R 44 门面 decidable≥100/员。
+- **簇结构实证**：价格水位巨簇 #0（size=17·簇内 max|corr|=1.000——§1 价格水位族机械相关披露如期整簇坍缩·16 非代表门=坍缩合法产出零损失）+8 个 CORR/DELTA 族单点簇（族间不并=五员 OOS 开仓指示面 CORR 族内互不撞线·与 MAX/LOG/SUM/MA 水位族隔离）。
+- **§5 预测带对账（E54）**：#1 锚复现=PASS（确定性）；#2 簇数 9∈[2,12] 带内 HIT·**模态预期「全并 ≤3 簇」MISS 如实**（价格水位巨簇如期但 CORR/DELTA 族未并簇=8 单点）；#3 CLONE 0∈[0,5] 带内 HIT（邻接预警 MAX30_q10 vs MAX(HIGH,30|20)_q10 实算 max|corr|=0.252/0.289<0.7 未撞线=预警以实算收口）；#4 CONFIRM 5∈[0,8] 带内 HIT（确认集中面=水位族代表+CORR 族与预期一致）；#5 负员先验 VOLUME 变体=RECHECK-FAIL HIT（预测命中·败因=thin_B 腿-0.0004 而非正员腿 3/5 过）、RET 变体=RECHECK-CONFIRM（bare 键先验双负在 sh 正典面仅单负=键面结构差异如实）。
 
 ## §8 批后复盘。【跑后回填】
 
-（跑后回填）
+- **消费回执**：5 CONFIRM 门入册 T-101 v4 政体门候选库（library_entries 字段=登记面·与 A158 17 门同库并列；入册=候选资格非策略宣称，v4 臂预注册锦标赛再判）；4 FAIL 门入 C1 输入特征降格清单（gate_verify PARTIAL 降格先例+A158 RECHECK 10 降格门同库累计）；16 坍缩门簇表披露不重复入册；0 CLONE=拒收面空。
+- **键面错配教训（如实披露）**：§5.5 负员先验起草时读 five_member_oos **bare 名键**（510050=-0.0135/510300=-0.0101），烧录消费面=**sh 正典键**（-0.0087/-0.0072）——两键面数据不同（bare/sh 为不同文件·n_in 276 vs 418）但结构性结论（VOLUME 变体双负→FAIL）两键面一致成立；后续批次先验实读一律 sh 正典键。
+- 模态预期 MISS 复盘：价格水位族坍缩如期（族内 |corr|=1.000 极端共线），但「量能簇+CORR 簇主导 ≤3 簇」低估了 CORR 族门间独立性（8 单点簇）——五员 OOS 开仓指示面上 CORR(X,Y,W) 变体间相关不足 0.7=族粒度比语法直觉细。
+- 判定不互借律承 §1：本批 5 门入册=政体门候选资格；全仓择时用法面（r433 判例族）独立判决互不借判。
+- 非试验账本批：marks +0·SEED +0·零 trials_ledger append·零 rng 消费（门机械确定性）；Face R 对账腿=MP1 独有新面（A158 RECHECK 无此面）——方法论卡已 append（次级面逐位对账=冻结批复核批漂移防护范式）。
+- 窗口纪律：评估窗 ≤2026-10-15 如期（r869 slice-1 → r870 slice-2+3 同窗全链=提前 5 天收口）。
 
 ## 附：slice 分工账（防重复开发·跨窗接力·MP1/A158-RECHECK 同构）
 

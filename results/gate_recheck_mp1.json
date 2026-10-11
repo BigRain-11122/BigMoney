@@ -1,0 +1,2106 @@
+{
+ "batch": "GATE-RECHECK-MP1",
+ "evidence_cutoff": "2026-10-09",
+ "p1_ref": "results/mp1_tsgate_p1.json (N2-MP1, FROZEN bm-b r868 commit 0b1be1745)",
+ "prereg": {
+  "ref": "research/GATE_RECHECK_MP1_PREREG.md",
+  "frozen_at": "pre-burn (see git blame)"
+ },
+ "verdict_counts": {
+  "REGISTERED-CLONE": 0,
+  "CLUSTER-COLLAPSED": 16,
+  "RECHECK-CONFIRM": 5,
+  "RECHECK-FAIL": 4
+ },
+ "n_reps": 9,
+ "e_fp": 0.45,
+ "gates": {
+  "ABS(VWAP)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.078,
+   "p1_oos_med_net": 0.01099,
+   "p1_is_med_net": 0.00961,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.000674,
+      "thin_a": -0.006593,
+      "thin_b": -0.006614,
+      "n_in": 418,
+      "n_out": 1930
+     },
+     "510050": {
+      "net": 0.002595,
+      "thin_a": 0.005114,
+      "thin_b": 0.005317,
+      "n_in": 399,
+      "n_out": 1949
+     },
+     "510500": {
+      "net": 0.003641,
+      "thin_a": 0.003367,
+      "thin_b": 0.002479,
+      "n_in": 458,
+      "n_out": 1890
+     },
+     "512100": {
+      "net": -0.015004,
+      "thin_a": -0.010308,
+      "thin_b": -0.010169,
+      "n_in": 475,
+      "n_out": 1794
+     },
+     "588000": {
+      "net": 0.017288,
+      "thin_a": 0.006314,
+      "thin_b": 0.005565,
+      "n_in": 316,
+      "n_out": 973
+     }
+    },
+    "med_net": 0.002595,
+    "pos_members": 3,
+    "med_thin_b": 0.002479,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.327,
+     "RSV60_low": 0.4515,
+     "CNTD5_q90": -0.0214,
+     "CNTN20_q10": -0.104,
+     "MAX30_q10": -0.1731,
+     "RANK30_q90": -0.109,
+     "RESI60_q90": -0.0169,
+     "RSQR10_q90": 0.0391,
+     "RSQR20_q90": 0.0341,
+     "RSQR5_q90": 0.0369,
+     "STD10_q90": 0.1304,
+     "STD20_q90": 0.1366,
+     "SUMD30_q90": -0.16,
+     "SUMD5_q90": -0.081,
+     "SUMN10_q10": -0.1096,
+     "SUMN20_q10": -0.1452,
+     "VSUMD10_q90": 0.0365,
+     "VSUMD20_q90": 0.0465,
+     "VSUMD30_q90": 0.0491
+    },
+    "max_corr_registered": 0.4515,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "ADD(HIGH,VWAP)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.028,
+   "p1_oos_med_net": 0.01102,
+   "p1_is_med_net": 0.0105,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -6.2e-05,
+      "thin_a": -0.009156,
+      "thin_b": -0.009177,
+      "n_in": 425,
+      "n_out": 1923
+     },
+     "510050": {
+      "net": 0.002151,
+      "thin_a": 0.006244,
+      "thin_b": 0.006444,
+      "n_in": 401,
+      "n_out": 1947
+     },
+     "510500": {
+      "net": 0.003499,
+      "thin_a": 0.005427,
+      "thin_b": 0.004609,
+      "n_in": 467,
+      "n_out": 1881
+     },
+     "512100": {
+      "net": -0.015062,
+      "thin_a": -0.014803,
+      "thin_b": -0.014723,
+      "n_in": 477,
+      "n_out": 1792
+     },
+     "588000": {
+      "net": 0.017044,
+      "thin_a": 0.00511,
+      "thin_b": 0.005534,
+      "n_in": 318,
+      "n_out": 971
+     }
+    },
+    "med_net": 0.002151,
+    "pos_members": 3,
+    "med_thin_b": 0.004609,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3258,
+     "RSV60_low": 0.4505,
+     "CNTD5_q90": -0.0201,
+     "CNTN20_q10": -0.1052,
+     "MAX30_q10": -0.1766,
+     "RANK30_q90": -0.1119,
+     "RESI60_q90": -0.0166,
+     "RSQR10_q90": 0.0385,
+     "RSQR20_q90": 0.0335,
+     "RSQR5_q90": 0.0364,
+     "STD10_q90": 0.1293,
+     "STD20_q90": 0.1347,
+     "SUMD30_q90": -0.1628,
+     "SUMD5_q90": -0.0795,
+     "SUMN10_q10": -0.1104,
+     "SUMN20_q10": -0.1502,
+     "VSUMD10_q90": 0.0313,
+     "VSUMD20_q90": 0.0406,
+     "VSUMD30_q90": 0.0424
+    },
+    "max_corr_registered": 0.4505,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "ADD(LOW,OPEN)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.205,
+   "p1_oos_med_net": 0.01181,
+   "p1_is_med_net": 0.00932,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000522,
+      "thin_a": -0.006104,
+      "thin_b": -0.006337,
+      "n_in": 412,
+      "n_out": 1936
+     },
+     "510050": {
+      "net": 0.002186,
+      "thin_a": 0.005377,
+      "thin_b": 0.005577,
+      "n_in": 388,
+      "n_out": 1960
+     },
+     "510500": {
+      "net": 0.005702,
+      "thin_a": 0.004271,
+      "thin_b": 0.004027,
+      "n_in": 453,
+      "n_out": 1895
+     },
+     "512100": {
+      "net": -0.012817,
+      "thin_a": -0.011254,
+      "thin_b": -0.011113,
+      "n_in": 474,
+      "n_out": 1795
+     },
+     "588000": {
+      "net": 0.017135,
+      "thin_a": 0.005068,
+      "thin_b": 0.005468,
+      "n_in": 313,
+      "n_out": 976
+     }
+    },
+    "med_net": 0.002186,
+    "pos_members": 4,
+    "med_thin_b": 0.004027,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3135,
+     "RSV60_low": 0.4446,
+     "CNTD5_q90": -0.0165,
+     "CNTN20_q10": -0.0982,
+     "MAX30_q10": -0.1634,
+     "RANK30_q90": -0.0939,
+     "RESI60_q90": -0.0071,
+     "RSQR10_q90": 0.0386,
+     "RSQR20_q90": 0.0335,
+     "RSQR5_q90": 0.0355,
+     "STD10_q90": 0.1373,
+     "STD20_q90": 0.1435,
+     "SUMD30_q90": -0.1584,
+     "SUMD5_q90": -0.0752,
+     "SUMN10_q10": -0.0995,
+     "SUMN20_q10": -0.1412,
+     "VSUMD10_q90": 0.0428,
+     "VSUMD20_q90": 0.0507,
+     "VSUMD30_q90": 0.0533
+    },
+    "max_corr_registered": 0.4446,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "ADD(LOW,VWAP)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.165,
+   "p1_oos_med_net": 0.01152,
+   "p1_is_med_net": 0.01073,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.000892,
+      "thin_a": -0.00544,
+      "thin_b": -0.005439,
+      "n_in": 410,
+      "n_out": 1938
+     },
+     "510050": {
+      "net": 0.001523,
+      "thin_a": -0.001108,
+      "thin_b": -0.001093,
+      "n_in": 387,
+      "n_out": 1961
+     },
+     "510500": {
+      "net": 0.004161,
+      "thin_a": 0.005143,
+      "thin_b": 0.004892,
+      "n_in": 456,
+      "n_out": 1892
+     },
+     "512100": {
+      "net": -0.013068,
+      "thin_a": -0.012146,
+      "thin_b": -0.012006,
+      "n_in": 465,
+      "n_out": 1804
+     },
+     "588000": {
+      "net": 0.018681,
+      "thin_a": 0.005829,
+      "thin_b": 0.005079,
+      "n_in": 309,
+      "n_out": 980
+     }
+    },
+    "med_net": 0.001523,
+    "pos_members": 3,
+    "med_thin_b": -0.001093,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3274,
+     "RSV60_low": 0.4546,
+     "CNTD5_q90": -0.0209,
+     "CNTN20_q10": -0.1003,
+     "MAX30_q10": -0.1695,
+     "RANK30_q90": -0.1064,
+     "RESI60_q90": -0.0144,
+     "RSQR10_q90": 0.0388,
+     "RSQR20_q90": 0.0337,
+     "RSQR5_q90": 0.0404,
+     "STD10_q90": 0.1408,
+     "STD20_q90": 0.1418,
+     "SUMD30_q90": -0.1586,
+     "SUMD5_q90": -0.0807,
+     "SUMN10_q10": -0.1071,
+     "SUMN20_q10": -0.1436,
+     "VSUMD10_q90": 0.0438,
+     "VSUMD20_q90": 0.0517,
+     "VSUMD30_q90": 0.0543
+    },
+    "max_corr_registered": 0.4546,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "CORR(CLOSE,RET,20)_q10": {
+   "verdict": "RECHECK-FAIL",
+   "p1_oos_med_t": 0.537,
+   "p1_oos_med_net": 0.00198,
+   "p1_is_med_net": 0.00766,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.008483,
+      "thin_a": -0.003044,
+      "thin_b": -0.002951,
+      "n_in": 237,
+      "n_out": 2111
+     },
+     "510050": {
+      "net": -0.003968,
+      "thin_a": 0.001146,
+      "thin_b": 0.001339,
+      "n_in": 235,
+      "n_out": 2113
+     },
+     "510500": {
+      "net": 0.002684,
+      "thin_a": 0.004859,
+      "thin_b": 0.004777,
+      "n_in": 248,
+      "n_out": 2100
+     },
+     "512100": {
+      "net": -0.005821,
+      "thin_a": -0.011345,
+      "thin_b": -0.010987,
+      "n_in": 242,
+      "n_out": 2007
+     },
+     "588000": {
+      "net": 0.021721,
+      "thin_a": 0.012544,
+      "thin_b": 0.013901,
+      "n_in": 130,
+      "n_out": 1139
+     }
+    },
+    "med_net": -0.003968,
+    "pos_members": 2,
+    "med_thin_b": 0.001339,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": -0.0413,
+     "RSV60_low": -0.031,
+     "CNTD5_q90": -0.0044,
+     "CNTN20_q10": 0.1287,
+     "MAX30_q10": -0.0478,
+     "RANK30_q90": -0.0247,
+     "RESI60_q90": -0.0066,
+     "RSQR10_q90": -0.0667,
+     "RSQR20_q90": 0.13,
+     "RSQR5_q90": -0.0382,
+     "STD10_q90": -0.0618,
+     "STD20_q90": 0.1105,
+     "SUMD30_q90": 0.1013,
+     "SUMD5_q90": -0.0271,
+     "SUMN10_q10": -0.0377,
+     "SUMN20_q10": 0.181,
+     "VSUMD10_q90": -0.0372,
+     "VSUMD20_q90": 0.0003,
+     "VSUMD30_q90": 0.0004
+    },
+    "max_corr_registered": 0.181,
+    "cluster_id": 1,
+    "cluster_rep": "CORR(CLOSE,RET,20)_q10",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90": {
+   "verdict": "RECHECK-CONFIRM",
+   "p1_oos_med_t": 1.346,
+   "p1_oos_med_net": 0.00783,
+   "p1_is_med_net": 0.01763,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.003647,
+      "thin_a": 0.005623,
+      "thin_b": 0.005811,
+      "n_in": 254,
+      "n_out": 2094
+     },
+     "510050": {
+      "net": 0.00424,
+      "thin_a": 0.001603,
+      "thin_b": 0.001209,
+      "n_in": 250,
+      "n_out": 2098
+     },
+     "510500": {
+      "net": 0.011399,
+      "thin_a": 0.022321,
+      "thin_b": 0.022052,
+      "n_in": 283,
+      "n_out": 2065
+     },
+     "512100": {
+      "net": 0.003228,
+      "thin_a": -0.004643,
+      "thin_b": -0.005132,
+      "n_in": 241,
+      "n_out": 2009
+     },
+     "588000": {
+      "net": 0.031482,
+      "thin_a": -0.003775,
+      "thin_b": -0.003736,
+      "n_in": 140,
+      "n_out": 1130
+     }
+    },
+    "med_net": 0.00424,
+    "pos_members": 4,
+    "med_thin_b": 0.001209,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": -0.0314,
+     "RSV60_low": -0.0242,
+     "CNTD5_q90": 0.0752,
+     "CNTN20_q10": 0.2558,
+     "MAX30_q10": 0.1838,
+     "RANK30_q90": 0.2045,
+     "RESI60_q90": 0.3308,
+     "RSQR10_q90": 0.1795,
+     "RSQR20_q90": 0.4478,
+     "RSQR5_q90": 0.0455,
+     "STD10_q90": 0.1888,
+     "STD20_q90": 0.2818,
+     "SUMD30_q90": 0.3515,
+     "SUMD5_q90": 0.12,
+     "SUMN10_q10": 0.2978,
+     "SUMN20_q10": 0.5284,
+     "VSUMD10_q90": 0.0758,
+     "VSUMD20_q90": 0.1397,
+     "VSUMD30_q90": 0.1456
+    },
+    "max_corr_registered": 0.5284,
+    "cluster_id": 2,
+    "cluster_rep": "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "CORR(LOW,MAX(HIGH,60),5)_q90": {
+   "verdict": "RECHECK-FAIL",
+   "p1_oos_med_t": 0.546,
+   "p1_oos_med_net": 0.00343,
+   "p1_is_med_net": 0.01191,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.008476,
+      "thin_a": -0.006828,
+      "thin_b": -0.007691,
+      "n_in": 144,
+      "n_out": 1138
+     },
+     "510050": {
+      "net": 0.005873,
+      "thin_a": -0.000598,
+      "thin_b": -0.000343,
+      "n_in": 142,
+      "n_out": 1239
+     },
+     "510500": {
+      "net": 0.001689,
+      "thin_a": -0.008011,
+      "thin_b": -0.010412,
+      "n_in": 138,
+      "n_out": 1101
+     },
+     "512100": {
+      "net": 0.017209,
+      "thin_a": -0.030645,
+      "thin_b": -0.030444,
+      "n_in": 146,
+      "n_out": 1160
+     },
+     "588000": {
+      "net": -0.039457,
+      "thin_a": 0.00149,
+      "thin_b": 0.002779,
+      "n_in": 60,
+      "n_out": 436
+     }
+    },
+    "med_net": 0.005873,
+    "pos_members": 4,
+    "med_thin_b": -0.007691,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": -0.006,
+     "RSV60_low": -0.0035,
+     "CNTD5_q90": 0.1202,
+     "CNTN20_q10": 0.1878,
+     "MAX30_q10": 0.2136,
+     "RANK30_q90": 0.1832,
+     "RESI60_q90": 0.1634,
+     "RSQR10_q90": 0.2069,
+     "RSQR20_q90": 0.1536,
+     "RSQR5_q90": 0.1232,
+     "STD10_q90": 0.1612,
+     "STD20_q90": 0.0872,
+     "SUMD30_q90": 0.2823,
+     "SUMD5_q90": 0.1988,
+     "SUMN10_q10": 0.266,
+     "SUMN20_q10": 0.2824,
+     "VSUMD10_q90": 0.1023,
+     "VSUMD20_q90": 0.1076,
+     "VSUMD30_q90": 0.0964
+    },
+    "max_corr_registered": 0.2824,
+    "cluster_id": 3,
+    "cluster_rep": "CORR(LOW,MAX(HIGH,60),5)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "CORR(LOW,OPEN,5)_q90": {
+   "verdict": "RECHECK-FAIL",
+   "p1_oos_med_t": 0.627,
+   "p1_oos_med_net": 0.00285,
+   "p1_is_med_net": 0.00331,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.003447,
+      "thin_a": 0.001943,
+      "thin_b": 0.002058,
+      "n_in": 234,
+      "n_out": 2114
+     },
+     "510050": {
+      "net": -0.006824,
+      "thin_a": -0.003827,
+      "thin_b": -0.003766,
+      "n_in": 239,
+      "n_out": 2109
+     },
+     "510500": {
+      "net": 0.009435,
+      "thin_a": 0.007745,
+      "thin_b": 0.006946,
+      "n_in": 260,
+      "n_out": 2088
+     },
+     "512100": {
+      "net": 3.3e-05,
+      "thin_a": -0.016609,
+      "thin_b": -0.016384,
+      "n_in": 245,
+      "n_out": 2020
+     },
+     "588000": {
+      "net": 0.021481,
+      "thin_a": -0.001646,
+      "thin_b": -0.000564,
+      "n_in": 132,
+      "n_out": 1153
+     }
+    },
+    "med_net": 3.3e-05,
+    "pos_members": 3,
+    "med_thin_b": -0.000564,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": -0.1007,
+     "RSV60_low": -0.0909,
+     "CNTD5_q90": 0.3187,
+     "CNTN20_q10": 0.0881,
+     "MAX30_q10": 0.1748,
+     "RANK30_q90": 0.1781,
+     "RESI60_q90": 0.1984,
+     "RSQR10_q90": 0.1063,
+     "RSQR20_q90": -0.006,
+     "RSQR5_q90": 0.21,
+     "STD10_q90": 0.1279,
+     "STD20_q90": 0.0587,
+     "SUMD30_q90": 0.1042,
+     "SUMD5_q90": 0.4927,
+     "SUMN10_q10": 0.1987,
+     "SUMN20_q10": 0.1371,
+     "VSUMD10_q90": 0.0441,
+     "VSUMD20_q90": 0.0527,
+     "VSUMD30_q90": 0.051
+    },
+    "max_corr_registered": 0.4927,
+    "cluster_id": 4,
+    "cluster_rep": "CORR(LOW,OPEN,5)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "CORR(MA(CLOSE,10),VWAP,10)_q90": {
+   "verdict": "RECHECK-CONFIRM",
+   "p1_oos_med_t": 1.551,
+   "p1_oos_med_net": 0.00913,
+   "p1_is_med_net": 0.00579,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.005934,
+      "thin_a": 0.009094,
+      "thin_b": 0.009298,
+      "n_in": 236,
+      "n_out": 2112
+     },
+     "510050": {
+      "net": 0.004057,
+      "thin_a": 0.006183,
+      "thin_b": 0.005763,
+      "n_in": 234,
+      "n_out": 2114
+     },
+     "510500": {
+      "net": 0.018408,
+      "thin_a": 0.009194,
+      "thin_b": 0.010129,
+      "n_in": 267,
+      "n_out": 2081
+     },
+     "512100": {
+      "net": 0.022127,
+      "thin_a": 0.028208,
+      "thin_b": 0.028266,
+      "n_in": 242,
+      "n_out": 2009
+     },
+     "588000": {
+      "net": 0.003013,
+      "thin_a": -0.020325,
+      "thin_b": -0.019845,
+      "n_in": 137,
+      "n_out": 1134
+     }
+    },
+    "med_net": 0.005934,
+    "pos_members": 5,
+    "med_thin_b": 0.009298,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1246,
+     "RSV60_low": 0.0836,
+     "CNTD5_q90": 0.1008,
+     "CNTN20_q10": 0.171,
+     "MAX30_q10": 0.1635,
+     "RANK30_q90": 0.1382,
+     "RESI60_q90": 0.1921,
+     "RSQR10_q90": 0.4311,
+     "RSQR20_q90": 0.2545,
+     "RSQR5_q90": 0.1109,
+     "STD10_q90": 0.2234,
+     "STD20_q90": 0.1486,
+     "SUMD30_q90": 0.1675,
+     "SUMD5_q90": 0.1504,
+     "SUMN10_q10": 0.2828,
+     "SUMN20_q10": 0.2612,
+     "VSUMD10_q90": 0.1237,
+     "VSUMD20_q90": 0.1251,
+     "VSUMD30_q90": 0.1194
+    },
+    "max_corr_registered": 0.4311,
+    "cluster_id": 5,
+    "cluster_rep": "CORR(MA(CLOSE,10),VWAP,10)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "CORR(OPEN,VWAP,10)_q90": {
+   "verdict": "RECHECK-CONFIRM",
+   "p1_oos_med_t": 1.581,
+   "p1_oos_med_net": 0.00984,
+   "p1_is_med_net": 0.00557,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.016464,
+      "thin_a": 0.010557,
+      "thin_b": 0.011068,
+      "n_in": 245,
+      "n_out": 2103
+     },
+     "510050": {
+      "net": 0.000834,
+      "thin_a": 0.009155,
+      "thin_b": 0.009162,
+      "n_in": 241,
+      "n_out": 2107
+     },
+     "510500": {
+      "net": 0.018081,
+      "thin_a": 0.014598,
+      "thin_b": 0.014342,
+      "n_in": 250,
+      "n_out": 2098
+     },
+     "512100": {
+      "net": 0.0127,
+      "thin_a": 0.033089,
+      "thin_b": 0.033151,
+      "n_in": 256,
+      "n_out": 2004
+     },
+     "588000": {
+      "net": 0.020478,
+      "thin_a": -0.002015,
+      "thin_b": 0.00071,
+      "n_in": 142,
+      "n_out": 1138
+     }
+    },
+    "med_net": 0.016464,
+    "pos_members": 5,
+    "med_thin_b": 0.011068,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.0962,
+     "RSV60_low": 0.0801,
+     "CNTD5_q90": 0.1041,
+     "CNTN20_q10": 0.1234,
+     "MAX30_q10": 0.0921,
+     "RANK30_q90": 0.097,
+     "RESI60_q90": 0.1559,
+     "RSQR10_q90": 0.3775,
+     "RSQR20_q90": 0.1239,
+     "RSQR5_q90": 0.1069,
+     "STD10_q90": 0.4029,
+     "STD20_q90": 0.2414,
+     "SUMD30_q90": 0.1368,
+     "SUMD5_q90": 0.1221,
+     "SUMN10_q10": 0.2878,
+     "SUMN20_q10": 0.1744,
+     "VSUMD10_q90": 0.0949,
+     "VSUMD20_q90": 0.1116,
+     "VSUMD30_q90": 0.1177
+    },
+    "max_corr_registered": 0.4029,
+    "cluster_id": 6,
+    "cluster_rep": "CORR(OPEN,VWAP,10)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "DELTA(MAX(RET,30),5)_q90": {
+   "verdict": "RECHECK-CONFIRM",
+   "p1_oos_med_t": 0.785,
+   "p1_oos_med_net": 0.00413,
+   "p1_is_med_net": 0.00306,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.005345,
+      "thin_a": -0.002061,
+      "thin_b": -0.00188,
+      "n_in": 240,
+      "n_out": 2108
+     },
+     "510050": {
+      "net": 0.0003,
+      "thin_a": 0.00307,
+      "thin_b": 0.002856,
+      "n_in": 241,
+      "n_out": 2107
+     },
+     "510500": {
+      "net": 0.017348,
+      "thin_a": 0.022375,
+      "thin_b": 0.021965,
+      "n_in": 247,
+      "n_out": 2101
+     },
+     "512100": {
+      "net": 0.004907,
+      "thin_a": 0.045292,
+      "thin_b": 0.045242,
+      "n_in": 239,
+      "n_out": 1995
+     },
+     "588000": {
+      "net": 0.015753,
+      "thin_a": 0.018801,
+      "thin_b": 0.020137,
+      "n_in": 125,
+      "n_out": 1129
+     }
+    },
+    "med_net": 0.004907,
+    "pos_members": 4,
+    "med_thin_b": 0.020137,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": -0.0927,
+     "RSV60_low": -0.0493,
+     "CNTD5_q90": 0.0726,
+     "CNTN20_q10": 0.0127,
+     "MAX30_q10": 0.0761,
+     "RANK30_q90": 0.0906,
+     "RESI60_q90": 0.1288,
+     "RSQR10_q90": -0.0036,
+     "RSQR20_q90": -0.0017,
+     "RSQR5_q90": -0.0077,
+     "STD10_q90": 0.1774,
+     "STD20_q90": 0.1284,
+     "SUMD30_q90": 0.066,
+     "SUMD5_q90": 0.1333,
+     "SUMN10_q10": 0.1078,
+     "SUMN20_q10": 0.0755,
+     "VSUMD10_q90": 0.0777,
+     "VSUMD20_q90": 0.1287,
+     "VSUMD30_q90": 0.1143
+    },
+    "max_corr_registered": 0.1774,
+    "cluster_id": 7,
+    "cluster_rep": "DELTA(MAX(RET,30),5)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "DELTA(MAX(VOLUME,30),5)_q90": {
+   "verdict": "RECHECK-FAIL",
+   "p1_oos_med_t": 0.588,
+   "p1_oos_med_net": 0.00239,
+   "p1_is_med_net": 0.00104,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.007215,
+      "thin_a": -0.000602,
+      "thin_b": -0.000435,
+      "n_in": 277,
+      "n_out": 2071
+     },
+     "510050": {
+      "net": -0.008729,
+      "thin_a": -0.006364,
+      "thin_b": -0.006648,
+      "n_in": 261,
+      "n_out": 2087
+     },
+     "510500": {
+      "net": 0.011644,
+      "thin_a": 0.007607,
+      "thin_b": 0.007295,
+      "n_in": 280,
+      "n_out": 2068
+     },
+     "512100": {
+      "net": 0.003875,
+      "thin_a": -0.002898,
+      "thin_b": -0.002779,
+      "n_in": 280,
+      "n_out": 1955
+     },
+     "588000": {
+      "net": 0.019893,
+      "thin_a": 0.02357,
+      "thin_b": 0.022811,
+      "n_in": 149,
+      "n_out": 1106
+     }
+    },
+    "med_net": 0.003875,
+    "pos_members": 3,
+    "med_thin_b": -0.000435,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.0208,
+     "RSV60_low": 0.027,
+     "CNTD5_q90": 0.0354,
+     "CNTN20_q10": 0.0305,
+     "MAX30_q10": 0.0408,
+     "RANK30_q90": 0.08,
+     "RESI60_q90": 0.1134,
+     "RSQR10_q90": 0.0692,
+     "RSQR20_q90": 0.0478,
+     "RSQR5_q90": 0.0266,
+     "STD10_q90": 0.2592,
+     "STD20_q90": 0.1585,
+     "SUMD30_q90": 0.081,
+     "SUMD5_q90": 0.0564,
+     "SUMN10_q10": 0.0959,
+     "SUMN20_q10": 0.1012,
+     "VSUMD10_q90": 0.2936,
+     "VSUMD20_q90": 0.381,
+     "VSUMD30_q90": 0.4058
+    },
+    "max_corr_registered": 0.4058,
+    "cluster_id": 8,
+    "cluster_rep": "DELTA(MAX(VOLUME,30),5)_q90",
+    "cluster_size": 1,
+    "is_rep": true
+   }
+  },
+  "DIV(VOLUME,AMOUNT)_q90": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.078,
+   "p1_oos_med_net": 0.01099,
+   "p1_is_med_net": 0.00961,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": -0.000674,
+      "thin_a": -0.006593,
+      "thin_b": -0.006614,
+      "n_in": 418,
+      "n_out": 1930
+     },
+     "510050": {
+      "net": 0.002595,
+      "thin_a": 0.005114,
+      "thin_b": 0.005317,
+      "n_in": 399,
+      "n_out": 1949
+     },
+     "510500": {
+      "net": 0.003641,
+      "thin_a": 0.003367,
+      "thin_b": 0.002479,
+      "n_in": 458,
+      "n_out": 1890
+     },
+     "512100": {
+      "net": -0.015004,
+      "thin_a": -0.010308,
+      "thin_b": -0.010169,
+      "n_in": 475,
+      "n_out": 1794
+     },
+     "588000": {
+      "net": 0.017288,
+      "thin_a": 0.006314,
+      "thin_b": 0.005565,
+      "n_in": 316,
+      "n_out": 973
+     }
+    },
+    "med_net": 0.002595,
+    "pos_members": 3,
+    "med_thin_b": 0.002479,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.327,
+     "RSV60_low": 0.4515,
+     "CNTD5_q90": -0.0214,
+     "CNTN20_q10": -0.104,
+     "MAX30_q10": -0.1731,
+     "RANK30_q90": -0.109,
+     "RESI60_q90": -0.0169,
+     "RSQR10_q90": 0.0391,
+     "RSQR20_q90": 0.0341,
+     "RSQR5_q90": 0.0369,
+     "STD10_q90": 0.1304,
+     "STD20_q90": 0.1366,
+     "SUMD30_q90": -0.16,
+     "SUMD5_q90": -0.081,
+     "SUMN10_q10": -0.1096,
+     "SUMN20_q10": -0.1452,
+     "VSUMD10_q90": 0.0365,
+     "VSUMD20_q90": 0.0465,
+     "VSUMD30_q90": 0.0491
+    },
+    "max_corr_registered": 0.4515,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "LOG(OPEN)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.203,
+   "p1_oos_med_net": 0.01185,
+   "p1_is_med_net": 0.01032,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000974,
+      "thin_a": -0.004751,
+      "thin_b": -0.000395,
+      "n_in": 412,
+      "n_out": 1936
+     },
+     "510050": {
+      "net": 0.003376,
+      "thin_a": 0.006223,
+      "thin_b": 0.006411,
+      "n_in": 400,
+      "n_out": 1948
+     },
+     "510500": {
+      "net": 0.004338,
+      "thin_a": 0.0056,
+      "thin_b": 0.005356,
+      "n_in": 459,
+      "n_out": 1889
+     },
+     "512100": {
+      "net": -0.013232,
+      "thin_a": -0.014963,
+      "thin_b": -0.014661,
+      "n_in": 476,
+      "n_out": 1793
+     },
+     "588000": {
+      "net": 0.017047,
+      "thin_a": 0.00778,
+      "thin_b": 0.00818,
+      "n_in": 315,
+      "n_out": 974
+     }
+    },
+    "med_net": 0.003376,
+    "pos_members": 4,
+    "med_thin_b": 0.005356,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3057,
+     "RSV60_low": 0.4356,
+     "CNTD5_q90": -0.0115,
+     "CNTN20_q10": -0.0975,
+     "MAX30_q10": -0.1608,
+     "RANK30_q90": -0.0908,
+     "RESI60_q90": -0.0007,
+     "RSQR10_q90": 0.0398,
+     "RSQR20_q90": 0.034,
+     "RSQR5_q90": 0.0391,
+     "STD10_q90": 0.1335,
+     "STD20_q90": 0.1448,
+     "SUMD30_q90": -0.1603,
+     "SUMD5_q90": -0.0689,
+     "SUMN10_q10": -0.0956,
+     "SUMN20_q10": -0.1387,
+     "VSUMD10_q90": 0.0379,
+     "VSUMD20_q90": 0.042,
+     "VSUMD30_q90": 0.0461
+    },
+    "max_corr_registered": 0.4356,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MA(LOW,30)_q10": {
+   "verdict": "RECHECK-CONFIRM",
+   "p1_oos_med_t": 2.603,
+   "p1_oos_med_net": 0.0131,
+   "p1_is_med_net": 0.01317,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000771,
+      "thin_a": 0.00723,
+      "thin_b": 0.007339,
+      "n_in": 410,
+      "n_out": 1938
+     },
+     "510050": {
+      "net": 0.002754,
+      "thin_a": 0.005321,
+      "thin_b": 0.004475,
+      "n_in": 414,
+      "n_out": 1934
+     },
+     "510500": {
+      "net": 0.0113,
+      "thin_a": 0.004662,
+      "thin_b": 0.004471,
+      "n_in": 449,
+      "n_out": 1899
+     },
+     "512100": {
+      "net": -0.012446,
+      "thin_a": -0.012871,
+      "thin_b": -0.015255,
+      "n_in": 449,
+      "n_out": 1791
+     },
+     "588000": {
+      "net": 0.004844,
+      "thin_a": 0.007359,
+      "thin_b": 0.006534,
+      "n_in": 343,
+      "n_out": 917
+     }
+    },
+    "med_net": 0.002754,
+    "pos_members": 4,
+    "med_thin_b": 0.004475,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1275,
+     "RSV60_low": 0.2781,
+     "CNTD5_q90": 0.0397,
+     "CNTN20_q10": -0.0013,
+     "MAX30_q10": -0.0372,
+     "RANK30_q90": 0.0793,
+     "RESI60_q90": 0.2152,
+     "RSQR10_q90": 0.0071,
+     "RSQR20_q90": 0.0329,
+     "RSQR5_q90": 0.0312,
+     "STD10_q90": 0.0883,
+     "STD20_q90": 0.1117,
+     "SUMD30_q90": -0.0691,
+     "SUMD5_q90": 0.021,
+     "SUMN10_q10": 0.0204,
+     "SUMN20_q10": -0.0009,
+     "VSUMD10_q90": 0.0225,
+     "VSUMD20_q90": 0.0315,
+     "VSUMD30_q90": 0.036
+    },
+    "max_corr_registered": 0.2781,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": true
+   }
+  },
+  "MAX(HIGH,20)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.421,
+   "p1_oos_med_net": 0.01335,
+   "p1_is_med_net": 0.00365,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.004855,
+      "thin_a": 0.001959,
+      "thin_b": 0.002493,
+      "n_in": 418,
+      "n_out": 1930
+     },
+     "510050": {
+      "net": -0.000567,
+      "thin_a": -0.002072,
+      "thin_b": -0.002047,
+      "n_in": 455,
+      "n_out": 1893
+     },
+     "510500": {
+      "net": 0.010478,
+      "thin_a": -0.000544,
+      "thin_b": -0.001025,
+      "n_in": 498,
+      "n_out": 1850
+     },
+     "512100": {
+      "net": -0.020224,
+      "thin_a": -0.022758,
+      "thin_b": -0.022878,
+      "n_in": 508,
+      "n_out": 1742
+     },
+     "588000": {
+      "net": 0.013188,
+      "thin_a": -0.004108,
+      "thin_b": -0.004374,
+      "n_in": 369,
+      "n_out": 901
+     }
+    },
+    "med_net": 0.004855,
+    "pos_members": 3,
+    "med_thin_b": -0.002047,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1655,
+     "RSV60_low": 0.2893,
+     "CNTD5_q90": 0.0021,
+     "CNTN20_q10": -0.0394,
+     "MAX30_q10": -0.0954,
+     "RANK30_q90": -0.0052,
+     "RESI60_q90": 0.1233,
+     "RSQR10_q90": -0.0036,
+     "RSQR20_q90": 0.0026,
+     "RSQR5_q90": 0.0259,
+     "STD10_q90": 0.0349,
+     "STD20_q90": 0.0535,
+     "SUMD30_q90": -0.1306,
+     "SUMD5_q90": -0.004,
+     "SUMN10_q10": -0.0198,
+     "SUMN20_q10": -0.0768,
+     "VSUMD10_q90": 0.0138,
+     "VSUMD20_q90": 0.0101,
+     "VSUMD30_q90": 0.0124
+    },
+    "max_corr_registered": 0.2893,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MAX(HIGH,30)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.095,
+   "p1_oos_med_net": 0.01067,
+   "p1_is_med_net": 0.00599,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.004575,
+      "thin_a": 0.003407,
+      "thin_b": -0.001399,
+      "n_in": 407,
+      "n_out": 1941
+     },
+     "510050": {
+      "net": 0.001508,
+      "thin_a": -0.007705,
+      "thin_b": -0.008073,
+      "n_in": 443,
+      "n_out": 1905
+     },
+     "510500": {
+      "net": 0.009336,
+      "thin_a": 0.008403,
+      "thin_b": 0.008121,
+      "n_in": 488,
+      "n_out": 1860
+     },
+     "512100": {
+      "net": -0.023303,
+      "thin_a": -0.022493,
+      "thin_b": -0.024558,
+      "n_in": 504,
+      "n_out": 1736
+     },
+     "588000": {
+      "net": 0.015274,
+      "thin_a": 0.015924,
+      "thin_b": 0.015784,
+      "n_in": 390,
+      "n_out": 870
+     }
+    },
+    "med_net": 0.004575,
+    "pos_members": 4,
+    "med_thin_b": -0.001399,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1119,
+     "RSV60_low": 0.2515,
+     "CNTD5_q90": 0.0133,
+     "CNTN20_q10": -0.0223,
+     "MAX30_q10": -0.0492,
+     "RANK30_q90": 0.0447,
+     "RESI60_q90": 0.1568,
+     "RSQR10_q90": 0.0026,
+     "RSQR20_q90": -0.0024,
+     "RSQR5_q90": 0.0226,
+     "STD10_q90": 0.0425,
+     "STD20_q90": 0.0469,
+     "SUMD30_q90": -0.0842,
+     "SUMD5_q90": 0.0095,
+     "SUMN10_q10": -0.0035,
+     "SUMN20_q10": -0.0387,
+     "VSUMD10_q90": 0.0149,
+     "VSUMD20_q90": 0.0124,
+     "VSUMD30_q90": 0.0161
+    },
+    "max_corr_registered": 0.2515,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MUL(HIGH,MAX(LOW,30))_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.265,
+   "p1_oos_med_net": 0.01181,
+   "p1_is_med_net": 0.00462,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.003547,
+      "thin_a": 0.003816,
+      "thin_b": 0.002791,
+      "n_in": 433,
+      "n_out": 1915
+     },
+     "510050": {
+      "net": 0.005941,
+      "thin_a": 0.004029,
+      "thin_b": 0.004325,
+      "n_in": 468,
+      "n_out": 1880
+     },
+     "510500": {
+      "net": 0.005458,
+      "thin_a": 0.000585,
+      "thin_b": -0.000154,
+      "n_in": 526,
+      "n_out": 1822
+     },
+     "512100": {
+      "net": -0.022658,
+      "thin_a": -0.016725,
+      "thin_b": -0.015808,
+      "n_in": 529,
+      "n_out": 1711
+     },
+     "588000": {
+      "net": 0.006737,
+      "thin_a": 0.004112,
+      "thin_b": 0.005568,
+      "n_in": 403,
+      "n_out": 857
+     }
+    },
+    "med_net": 0.005458,
+    "pos_members": 4,
+    "med_thin_b": 0.002791,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.2296,
+     "RSV60_low": 0.348,
+     "CNTD5_q90": -0.0156,
+     "CNTN20_q10": -0.0747,
+     "MAX30_q10": -0.1307,
+     "RANK30_q90": -0.0436,
+     "RESI60_q90": 0.058,
+     "RSQR10_q90": 0.0099,
+     "RSQR20_q90": 0.0126,
+     "RSQR5_q90": 0.0262,
+     "STD10_q90": 0.0768,
+     "STD20_q90": 0.093,
+     "SUMD30_q90": -0.1552,
+     "SUMD5_q90": -0.0416,
+     "SUMN10_q10": -0.0679,
+     "SUMN20_q10": -0.1177,
+     "VSUMD10_q90": 0.0202,
+     "VSUMD20_q90": 0.0248,
+     "VSUMD30_q90": 0.0327
+    },
+    "max_corr_registered": 0.348,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MUL(HIGH,MUL(OPEN,VWAP))_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.102,
+   "p1_oos_med_net": 0.01109,
+   "p1_is_med_net": 0.01093,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000645,
+      "thin_a": -0.008773,
+      "thin_b": -0.004478,
+      "n_in": 419,
+      "n_out": 1929
+     },
+     "510050": {
+      "net": 0.001576,
+      "thin_a": 0.006544,
+      "thin_b": 0.006745,
+      "n_in": 397,
+      "n_out": 1951
+     },
+     "510500": {
+      "net": 0.004041,
+      "thin_a": 0.003095,
+      "thin_b": 0.002835,
+      "n_in": 459,
+      "n_out": 1889
+     },
+     "512100": {
+      "net": -0.015526,
+      "thin_a": -0.011803,
+      "thin_b": -0.011724,
+      "n_in": 485,
+      "n_out": 1784
+     },
+     "588000": {
+      "net": 0.016746,
+      "thin_a": 0.007674,
+      "thin_b": 0.008074,
+      "n_in": 315,
+      "n_out": 974
+     }
+    },
+    "med_net": 0.001576,
+    "pos_members": 4,
+    "med_thin_b": 0.002835,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3174,
+     "RSV60_low": 0.4484,
+     "CNTD5_q90": -0.0182,
+     "CNTN20_q10": -0.1017,
+     "MAX30_q10": -0.172,
+     "RANK30_q90": -0.1083,
+     "RESI60_q90": -0.0115,
+     "RSQR10_q90": 0.0377,
+     "RSQR20_q90": 0.035,
+     "RSQR5_q90": 0.0355,
+     "STD10_q90": 0.1282,
+     "STD20_q90": 0.138,
+     "SUMD30_q90": -0.1611,
+     "SUMD5_q90": -0.0792,
+     "SUMN10_q10": -0.1071,
+     "SUMN20_q10": -0.1463,
+     "VSUMD10_q90": 0.0351,
+     "VSUMD20_q90": 0.0422,
+     "VSUMD30_q90": 0.0432
+    },
+    "max_corr_registered": 0.4484,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MUL(HIGH,OPEN)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.066,
+   "p1_oos_med_net": 0.01105,
+   "p1_is_med_net": 0.01107,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.00101,
+      "thin_a": -0.006548,
+      "thin_b": -0.002196,
+      "n_in": 422,
+      "n_out": 1926
+     },
+     "510050": {
+      "net": 0.002066,
+      "thin_a": 0.006175,
+      "thin_b": 0.006377,
+      "n_in": 403,
+      "n_out": 1945
+     },
+     "510500": {
+      "net": 0.004213,
+      "thin_a": 0.004017,
+      "thin_b": 0.003773,
+      "n_in": 459,
+      "n_out": 1889
+     },
+     "512100": {
+      "net": -0.014736,
+      "thin_a": -0.013154,
+      "thin_b": -0.013074,
+      "n_in": 481,
+      "n_out": 1788
+     },
+     "588000": {
+      "net": 0.016521,
+      "thin_a": 0.00778,
+      "thin_b": 0.00818,
+      "n_in": 319,
+      "n_out": 970
+     }
+    },
+    "med_net": 0.002066,
+    "pos_members": 4,
+    "med_thin_b": 0.003773,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3129,
+     "RSV60_low": 0.443,
+     "CNTD5_q90": -0.0174,
+     "CNTN20_q10": -0.1004,
+     "MAX30_q10": -0.1703,
+     "RANK30_q90": -0.1027,
+     "RESI60_q90": -0.0093,
+     "RSQR10_q90": 0.0377,
+     "RSQR20_q90": 0.035,
+     "RSQR5_q90": 0.0378,
+     "STD10_q90": 0.1272,
+     "STD20_q90": 0.1363,
+     "SUMD30_q90": -0.1616,
+     "SUMD5_q90": -0.0759,
+     "SUMN10_q10": -0.1031,
+     "SUMN20_q10": -0.1461,
+     "VSUMD10_q90": 0.0305,
+     "VSUMD20_q90": 0.0361,
+     "VSUMD30_q90": 0.0372
+    },
+    "max_corr_registered": 0.443,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MUL(HIGH,SUM(CLOSE,20))_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.292,
+   "p1_oos_med_net": 0.01183,
+   "p1_is_med_net": 0.00988,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.003067,
+      "thin_a": -0.000447,
+      "thin_b": 0.000806,
+      "n_in": 420,
+      "n_out": 1928
+     },
+     "510050": {
+      "net": 0.002319,
+      "thin_a": 0.000432,
+      "thin_b": 0.000832,
+      "n_in": 413,
+      "n_out": 1935
+     },
+     "510500": {
+      "net": 0.006892,
+      "thin_a": 0.003081,
+      "thin_b": 0.003052,
+      "n_in": 460,
+      "n_out": 1888
+     },
+     "512100": {
+      "net": -0.01586,
+      "thin_a": -0.009957,
+      "thin_b": -0.009526,
+      "n_in": 456,
+      "n_out": 1794
+     },
+     "588000": {
+      "net": 0.01293,
+      "thin_a": -0.000309,
+      "thin_b": 0.001931,
+      "n_in": 353,
+      "n_out": 917
+     }
+    },
+    "med_net": 0.003067,
+    "pos_members": 4,
+    "med_thin_b": 0.000832,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.254,
+     "RSV60_low": 0.385,
+     "CNTD5_q90": -0.0023,
+     "CNTN20_q10": -0.089,
+     "MAX30_q10": -0.1418,
+     "RANK30_q90": -0.068,
+     "RESI60_q90": 0.0459,
+     "RSQR10_q90": 0.0127,
+     "RSQR20_q90": 0.0137,
+     "RSQR5_q90": 0.0343,
+     "STD10_q90": 0.1031,
+     "STD20_q90": 0.1243,
+     "SUMD30_q90": -0.1648,
+     "SUMD5_q90": -0.0427,
+     "SUMN10_q10": -0.0676,
+     "SUMN20_q10": -0.1251,
+     "VSUMD10_q90": 0.0247,
+     "VSUMD20_q90": 0.0285,
+     "VSUMD30_q90": 0.0347
+    },
+    "max_corr_registered": 0.385,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "MUL(NEG(CLOSE),OPEN)_q90": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.101,
+   "p1_oos_med_net": 0.01103,
+   "p1_is_med_net": 0.01101,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000761,
+      "thin_a": -0.002823,
+      "thin_b": -0.002404,
+      "n_in": 417,
+      "n_out": 1931
+     },
+     "510050": {
+      "net": 0.002527,
+      "thin_a": 0.006869,
+      "thin_b": 0.007069,
+      "n_in": 396,
+      "n_out": 1952
+     },
+     "510500": {
+      "net": 0.004033,
+      "thin_a": 0.009031,
+      "thin_b": 0.008333,
+      "n_in": 463,
+      "n_out": 1885
+     },
+     "512100": {
+      "net": -0.013818,
+      "thin_a": -0.012774,
+      "thin_b": -0.012694,
+      "n_in": 479,
+      "n_out": 1790
+     },
+     "588000": {
+      "net": 0.01689,
+      "thin_a": 0.009031,
+      "thin_b": 0.008311,
+      "n_in": 315,
+      "n_out": 974
+     }
+    },
+    "med_net": 0.002527,
+    "pos_members": 4,
+    "med_thin_b": 0.007069,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.327,
+     "RSV60_low": 0.4545,
+     "CNTD5_q90": -0.019,
+     "CNTN20_q10": -0.1023,
+     "MAX30_q10": -0.1739,
+     "RANK30_q90": -0.108,
+     "RESI60_q90": -0.0117,
+     "RSQR10_q90": 0.0406,
+     "RSQR20_q90": 0.0379,
+     "RSQR5_q90": 0.0369,
+     "STD10_q90": 0.1319,
+     "STD20_q90": 0.1432,
+     "SUMD30_q90": -0.1608,
+     "SUMD5_q90": -0.0795,
+     "SUMN10_q10": -0.1051,
+     "SUMN20_q10": -0.1452,
+     "VSUMD10_q90": 0.0357,
+     "VSUMD20_q90": 0.0458,
+     "VSUMD30_q90": 0.0461
+    },
+    "max_corr_registered": 0.4545,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "NEG(HIGH)_q90": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.004,
+   "p1_oos_med_net": 0.01066,
+   "p1_is_med_net": 0.01082,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.000531,
+      "thin_a": -0.008122,
+      "thin_b": -0.003988,
+      "n_in": 427,
+      "n_out": 1921
+     },
+     "510050": {
+      "net": 0.00086,
+      "thin_a": 0.005994,
+      "thin_b": 0.006196,
+      "n_in": 406,
+      "n_out": 1942
+     },
+     "510500": {
+      "net": 0.003356,
+      "thin_a": -0.002378,
+      "thin_b": -0.003386,
+      "n_in": 461,
+      "n_out": 1887
+     },
+     "512100": {
+      "net": -0.015607,
+      "thin_a": -0.013803,
+      "thin_b": -0.013722,
+      "n_in": 483,
+      "n_out": 1786
+     },
+     "588000": {
+      "net": 0.016893,
+      "thin_a": 0.008072,
+      "thin_b": 0.008471,
+      "n_in": 320,
+      "n_out": 969
+     }
+    },
+    "med_net": 0.00086,
+    "pos_members": 4,
+    "med_thin_b": -0.003386,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.3178,
+     "RSV60_low": 0.4441,
+     "CNTD5_q90": -0.0203,
+     "CNTN20_q10": -0.1019,
+     "MAX30_q10": -0.1762,
+     "RANK30_q90": -0.1091,
+     "RESI60_q90": -0.0156,
+     "RSQR10_q90": 0.0342,
+     "RSQR20_q90": 0.0323,
+     "RSQR5_q90": 0.0383,
+     "STD10_q90": 0.1221,
+     "STD20_q90": 0.132,
+     "SUMD30_q90": -0.1593,
+     "SUMD5_q90": -0.0767,
+     "SUMN10_q10": -0.1092,
+     "SUMN20_q10": -0.1498,
+     "VSUMD10_q90": 0.0279,
+     "VSUMD20_q90": 0.0327,
+     "VSUMD30_q90": 0.0338
+    },
+    "max_corr_registered": 0.4441,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "SUM(HIGH,30)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.45,
+   "p1_oos_med_net": 0.01255,
+   "p1_is_med_net": 0.01113,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.002269,
+      "thin_a": 0.006726,
+      "thin_b": 0.00507,
+      "n_in": 426,
+      "n_out": 1922
+     },
+     "510050": {
+      "net": 0.002618,
+      "thin_a": 8e-06,
+      "thin_b": -0.001247,
+      "n_in": 425,
+      "n_out": 1923
+     },
+     "510500": {
+      "net": 0.011397,
+      "thin_a": 0.005948,
+      "thin_b": 0.005535,
+      "n_in": 465,
+      "n_out": 1883
+     },
+     "512100": {
+      "net": -0.017073,
+      "thin_a": -0.017274,
+      "thin_b": -0.01973,
+      "n_in": 457,
+      "n_out": 1783
+     },
+     "588000": {
+      "net": 0.001537,
+      "thin_a": 0.005674,
+      "thin_b": 0.007512,
+      "n_in": 375,
+      "n_out": 885
+     }
+    },
+    "med_net": 0.002269,
+    "pos_members": 4,
+    "med_thin_b": 0.00507,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1351,
+     "RSV60_low": 0.2823,
+     "CNTD5_q90": 0.0384,
+     "CNTN20_q10": -0.0011,
+     "MAX30_q10": -0.0359,
+     "RANK30_q90": 0.0797,
+     "RESI60_q90": 0.2052,
+     "RSQR10_q90": 0.0068,
+     "RSQR20_q90": 0.0345,
+     "RSQR5_q90": 0.0331,
+     "STD10_q90": 0.0722,
+     "STD20_q90": 0.0952,
+     "SUMD30_q90": -0.0745,
+     "SUMD5_q90": 0.0267,
+     "SUMN10_q10": 0.0285,
+     "SUMN20_q10": -0.006,
+     "VSUMD10_q90": 0.027,
+     "VSUMD20_q90": 0.0335,
+     "VSUMD30_q90": 0.0327
+    },
+    "max_corr_registered": 0.2823,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  },
+  "SUM(OPEN,30)_q10": {
+   "verdict": "CLUSTER-COLLAPSED",
+   "p1_oos_med_t": 2.581,
+   "p1_oos_med_net": 0.01298,
+   "p1_is_med_net": 0.01061,
+   "face_a": {
+    "members": {
+     "510300": {
+      "net": 0.001544,
+      "thin_a": 0.009862,
+      "thin_b": 0.008207,
+      "n_in": 415,
+      "n_out": 1933
+     },
+     "510050": {
+      "net": 0.003083,
+      "thin_a": 0.003655,
+      "thin_b": 0.0024,
+      "n_in": 419,
+      "n_out": 1929
+     },
+     "510500": {
+      "net": 0.012516,
+      "thin_a": 0.004317,
+      "thin_b": 0.001343,
+      "n_in": 449,
+      "n_out": 1899
+     },
+     "512100": {
+      "net": -0.015794,
+      "thin_a": -0.016541,
+      "thin_b": -0.018994,
+      "n_in": 455,
+      "n_out": 1785
+     },
+     "588000": {
+      "net": 0.002032,
+      "thin_a": 0.006056,
+      "thin_b": 0.007916,
+      "n_in": 357,
+      "n_out": 903
+     }
+    },
+    "med_net": 0.002032,
+    "pos_members": 4,
+    "med_thin_b": 0.0024,
+    "n_valid_thin_b": 5
+   },
+   "d6": {
+    "vs_registered": {
+     "RSV30_low": 0.1261,
+     "RSV60_low": 0.2752,
+     "CNTD5_q90": 0.0403,
+     "CNTN20_q10": 0.0018,
+     "MAX30_q10": -0.0322,
+     "RANK30_q90": 0.0848,
+     "RESI60_q90": 0.2142,
+     "RSQR10_q90": 0.0091,
+     "RSQR20_q90": 0.0309,
+     "RSQR5_q90": 0.03,
+     "STD10_q90": 0.0828,
+     "STD20_q90": 0.1024,
+     "SUMD30_q90": -0.0653,
+     "SUMD5_q90": 0.0245,
+     "SUMN10_q10": 0.0251,
+     "SUMN20_q10": -0.0028,
+     "VSUMD10_q90": 0.0273,
+     "VSUMD20_q90": 0.0362,
+     "VSUMD30_q90": 0.0392
+    },
+    "max_corr_registered": 0.2752,
+    "cluster_id": 0,
+    "cluster_rep": "MA(LOW,30)_q10",
+    "cluster_size": 17,
+    "is_rep": false
+   }
+  }
+ },
+ "clusters": [
+  {
+   "id": 0,
+   "members": [
+    "ABS(VWAP)_q10",
+    "ADD(HIGH,VWAP)_q10",
+    "ADD(LOW,OPEN)_q10",
+    "ADD(LOW,VWAP)_q10",
+    "DIV(VOLUME,AMOUNT)_q90",
+    "LOG(OPEN)_q10",
+    "MA(LOW,30)_q10",
+    "MAX(HIGH,20)_q10",
+    "MAX(HIGH,30)_q10",
+    "MUL(HIGH,MAX(LOW,30))_q10",
+    "MUL(HIGH,MUL(OPEN,VWAP))_q10",
+    "MUL(HIGH,OPEN)_q10",
+    "MUL(HIGH,SUM(CLOSE,20))_q10",
+    "MUL(NEG(CLOSE),OPEN)_q90",
+    "NEG(HIGH)_q90",
+    "SUM(HIGH,30)_q10",
+    "SUM(OPEN,30)_q10"
+   ],
+   "rep": "MA(LOW,30)_q10",
+   "intra_max_corr": 1.0
+  },
+  {
+   "id": 1,
+   "members": [
+    "CORR(CLOSE,RET,20)_q10"
+   ],
+   "rep": "CORR(CLOSE,RET,20)_q10",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 2,
+   "members": [
+    "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90"
+   ],
+   "rep": "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 3,
+   "members": [
+    "CORR(LOW,MAX(HIGH,60),5)_q90"
+   ],
+   "rep": "CORR(LOW,MAX(HIGH,60),5)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 4,
+   "members": [
+    "CORR(LOW,OPEN,5)_q90"
+   ],
+   "rep": "CORR(LOW,OPEN,5)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 5,
+   "members": [
+    "CORR(MA(CLOSE,10),VWAP,10)_q90"
+   ],
+   "rep": "CORR(MA(CLOSE,10),VWAP,10)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 6,
+   "members": [
+    "CORR(OPEN,VWAP,10)_q90"
+   ],
+   "rep": "CORR(OPEN,VWAP,10)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 7,
+   "members": [
+    "DELTA(MAX(RET,30),5)_q90"
+   ],
+   "rep": "DELTA(MAX(RET,30),5)_q90",
+   "intra_max_corr": 0.0
+  },
+  {
+   "id": 8,
+   "members": [
+    "DELTA(MAX(VOLUME,30),5)_q90"
+   ],
+   "rep": "DELTA(MAX(VOLUME,30),5)_q90",
+   "intra_max_corr": 0.0
+  }
+ ],
+ "library_entries": [
+  "CORR(HIGH,MUL(CLOSE,HIGH),20)_q90",
+  "CORR(MA(CLOSE,10),VWAP,10)_q90",
+  "CORR(OPEN,VWAP,10)_q90",
+  "DELTA(MAX(RET,30),5)_q90",
+  "MA(LOW,30)_q10"
+ ],
+ "registered_clone": [],
+ "c1_demotion": [
+  "CORR(CLOSE,RET,20)_q10",
+  "CORR(LOW,MAX(HIGH,60),5)_q90",
+  "CORR(LOW,OPEN,5)_q90",
+  "DELTA(MAX(VOLUME,30),5)_q90"
+ ],
+ "secondary_face_reconciliation": {
+  "n_compared": 125,
+  "all_equal": true,
+  "face": "net/n_in/thin(lattice-A) vs mp1_tsgate_p1.json five_member_oos sh-canonical keys, zero tolerance",
+  "law": "same cutoff same construction = positional identity; mismatch = config drift VOID"
+ },
+ "audit": {
+  "split": "2017-01-01",
+  "cost_rt": 0.001,
+  "stride": 20,
+  "d6_line": 0.7,
+  "thin_group": "B (drop-first greedy; A = MP1 stored face)",
+  "members": [
+   "510300",
+   "510050",
+   "510500",
+   "512100",
+   "588000"
+  ],
+  "panel": "sh-prefixed canonical files (bare name files NOT consumed)",
+  "registered_family": {
+   "n": 19,
+   "rsv_absolute": {
+    "RSV30_low": "RSV30<0.20 absolute",
+    "RSV60_low": "RSV60<0.20 absolute"
+   },
+   "a158_library": [
+    "CNTD5_q90",
+    "CNTN20_q10",
+    "MAX30_q10",
+    "RANK30_q90",
+    "RESI60_q90",
+    "RSQR10_q90",
+    "RSQR20_q90",
+    "RSQR5_q90",
+    "STD10_q90",
+    "STD20_q90",
+    "SUMD30_q90",
+    "SUMD5_q90",
+    "SUMN10_q10",
+    "SUMN20_q10",
+    "VSUMD10_q90",
+    "VSUMD20_q90",
+    "VSUMD30_q90"
+   ],
+   "rebuilt_cutoff": "2026-10-09"
+  },
+  "min_decidable_per_member": 100,
+  "expected_pass": 25,
+  "expected_library": 17
+ },
+ "science_gates": {
+  "evidence_cutoff": "2026-10-09"
+ },
+ "runtime": {
+  "generated": "2026-10-11 08:12:37",
+  "elapsed_sec": 5.4
+ }
+}

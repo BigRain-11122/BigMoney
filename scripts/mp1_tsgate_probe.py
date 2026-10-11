@@ -476,6 +476,37 @@ def process_instrument(path):
 
 
 # ---------------------------------------------------------------- run/ckpt
+def _pool_claim(shard, shards, detail):
+    """O-20260930-2355 claim-close leg (lowamp_p1 verbatim pattern; r942
+    four-piece remedy leg-3, added r870 after the fuse misread the completed
+    burn as a crash): on a completed shard write results/pool_claims/
+    N2-MP1/<shard_key>.<machine>.json state=closed outcome=ok so the
+    launcher harvest flip lands the shard done. Worker NEVER writes
+    runnable_pool.json (pool single-writer law; without this handshake a
+    completed burn reads as a crash to the fuse, r496 live family).
+    Idempotent fast-path: a todo==0 rerun rewrites the claim (redo
+    immunity, r942 leg-3)."""
+    try:
+        mid = json.loads((ROOT / "fleet" / "machine.json")
+                         .read_text(encoding="utf-8"))["machine_id"]
+    except Exception:
+        mid = "unknown"
+    now = time.strftime("%Y-%m-%d %H:%M:%S")
+    d = ROOT / "results" / "pool_claims" / BATCH
+    d.mkdir(parents=True, exist_ok=True)
+    key = "n2-mp1-run-%dof%d" % (shard, shards)
+    fp = d / ("%s.%s.json" % (key, mid))
+    fp.write_text(json.dumps({
+        "machine_id": mid, "state": "closed", "pid": os.getpid(),
+        "heartbeat": now, "outcome": "ok", "exit_code": 0,
+        "started": _CLAIM_STARTED, "closed_at": now, "result_ref": detail,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print("[mp1tsg] pool claim closed: %s" % fp.name, flush=True)
+
+
+_CLAIM_STARTED = None
+
+
 def shard_stems(k, n):
     csvs = sorted(SRC.glob("*.csv"))
     return [p for i, p in enumerate(csvs) if i % n == k]
@@ -498,6 +529,8 @@ def done_set(k, n):
 
 
 def cmd_run(shard, shards, workers):
+    global _CLAIM_STARTED
+    _CLAIM_STARTED = time.strftime("%Y-%m-%d %H:%M:%S")
     t0 = time.time()
     ncsv, _ = preflight_gates()          # fail-closed every invocation
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -515,6 +548,12 @@ def cmd_run(shard, shards, workers):
                 fh.flush()
             run_cells_parallel(jobs, workers=workers or worker_cap(),
                                desc="insts", on_result=keep)
+    remaining = len([p for p in shard_stems(shard, shards)
+                     if p.stem not in done_set(shard, shards)])
+    if remaining == 0:
+        _pool_claim(shard, shards,
+                    "shard complete (checkpoint %d insts, todo=0); results finalized=%s"
+                    % (len(done_set(shard, shards)), RESULTS_JSON.exists()))
     print("[mp1tsg] shard done in %.0fs -> %s" % (time.time() - t0, fp), flush=True)
     return 0
 
