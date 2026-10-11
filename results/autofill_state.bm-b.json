@@ -990,7 +990,8 @@
    "fill_latency_min": null,
    "fullburn_window": false,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-11 12:52:01",
@@ -1015,10 +1016,25 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-11 13:02:01",
+  "ts": "2026-10-11 13:12:01",
   "machine": "bm-b",
-  "py_cpu_pct": 48.3,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.1,
+  "fuse_skipped": [
+   {
+    "entry": "E16-ALPHAGEN-RG-SHARD-0OF12",
+    "shard": "e16-rg-0of12",
+    "sig": "scripts/alphagen_rg_census.py|run,--shard,0,--shards,12",
+    "fuse_refusals": 1
+   }
+  ],
+  "cooldown_skipped": {
+   "entry": "E16-ALPHAGEN-RG-SHARD-1OF12",
+   "shard": "e16-rg-1of12",
+   "last_launch_min": 20.2
+  },
+  "verdict": "claim_lost_yield",
+  "entry": "E16-ALPHAGEN-RG-SHARD-2OF12",
+  "shard": "e16-rg-2of12"
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-11T12:53:24+08:00"
