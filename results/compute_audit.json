@@ -1,15 +1,15 @@
 {
   "latest": {
-    "ts": "2026-10-11 12:11:16",
+    "ts": "2026-10-11 12:03:31",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 48.0,
-    "py_cpu_pct": 4.5,
-    "cores": 32,
-    "py_procs": 9,
-    "result_stale_min": 0.4,
+    "cpu_total_pct": 3.0,
+    "py_cpu_pct": 0.9,
+    "cores": 16,
+    "py_procs": 11,
+    "result_stale_min": 0.5,
     "fleet_open_tasks": 1,
     "pool_ready_count": 12,
-    "pool_ready_unclaimed": 11,
+    "pool_ready_unclaimed": 12,
     "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
@@ -29,9 +29,9 @@
     "supply_family_streak_min": null,
     "gpu": {
       "present": true,
-      "util_pct": 1.0,
-      "mem_used_mb": 15271.0,
-      "compute_apps_count": 20,
+      "util_pct": 2.0,
+      "mem_used_mb": 4508.0,
+      "compute_apps_count": 22,
       "rogue_apps": []
     },
     "zombies": [],
@@ -48,8 +48,10 @@
       "too_short_to_sample": 0,
       "readable": true
     },
-    "flags": [],
-    "verdict": "CLEAN"
+    "flags": [
+      "idle_with_work"
+    ],
+    "verdict": "FLAG:idle_with_work"
   },
   "history": [
     {
@@ -11780,16 +11782,16 @@
       "verdict": "FLAG:idle_with_work,pool_starvation,supply_floor"
     },
     {
-      "ts": "2026-10-11 12:11:16",
+      "ts": "2026-10-11 12:03:31",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 48.0,
-      "py_cpu_pct": 4.5,
-      "cores": 32,
-      "py_procs": 9,
-      "result_stale_min": 0.4,
+      "cpu_total_pct": 3.0,
+      "py_cpu_pct": 0.9,
+      "cores": 16,
+      "py_procs": 11,
+      "result_stale_min": 0.5,
       "fleet_open_tasks": 1,
       "pool_ready_count": 12,
-      "pool_ready_unclaimed": 11,
+      "pool_ready_unclaimed": 12,
       "load_state": "pool-supply-gap",
       "pool_starvation_candidate": false,
       "pool_starvation_detail": {
@@ -11809,9 +11811,9 @@
       "supply_family_streak_min": null,
       "gpu": {
         "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 15271.0,
-        "compute_apps_count": 20,
+        "util_pct": 2.0,
+        "mem_used_mb": 4508.0,
+        "compute_apps_count": 22,
         "rogue_apps": []
       },
       "zombies": [],
@@ -11828,8 +11830,10 @@
         "too_short_to_sample": 0,
         "readable": true
       },
-      "flags": [],
-      "verdict": "CLEAN"
+      "flags": [
+        "idle_with_work"
+      ],
+      "verdict": "FLAG:idle_with_work"
     }
   ]
 }
