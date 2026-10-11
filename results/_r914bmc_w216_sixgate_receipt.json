@@ -1,0 +1,49 @@
+{
+ "machine": "bm-c",
+ "wave": 216,
+ "phase": "pre-finalize six-gate probe r914",
+ "ts": "2026-10-12T06:49:41",
+ "gates": {
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=490004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=492004 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=490004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=492004 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 490004,
+   "b_exit_seed_base": 492004,
+   "shard_subdir": "n1_w216",
+   "out_name": "n1_w216_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 896789,
+  "prev_merged_n": 470920,
+  "expect_total": 898989,
+  "expect_merged": 473120
+ }
+}
