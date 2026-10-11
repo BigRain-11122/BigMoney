@@ -17821,6 +17821,49 @@
    },
    "done_by": "bm-b",
    "done_at": "2026-10-11 21:08:03"
+  },
+  {
+   "id": "N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN",
+   "ticket_ref": "N2U3-ALPHAGEN-RL-P1 leg-3 full training (freeze commit 8f49d6eea r892; leg-2 probe done 2026-10-11 19:26 bm-b: 256 eps / 8 workers / pretrain+train products in ckpt; runner train = additive-episodes + checkpoint resume from train_policy.npz + episode-log append-never-reset; leg-3 total budget 4096 eps ~3.3h est at probe rate 2.9s/ep; judged face NOT in this entry = separate export-topk + judge legs per prereg sec.6)",
+   "prereg_ref": "research/N2U3_ALPHAGEN_RL_P1.md FROZEN 2026-10-11 (r892 freeze commit 8f49d6eea; five-condition gate closed; evidence_cutoff=2026-10-09; seed bands 20625000/20625500/20626000)",
+   "consumer_plan": "N2U3 chain: leg-3 full training (this entry, 4096 eps from leg-2 probe ckpt) -> export-topk K=32 -> judged face (core48 all-start virtual timepoints g1_prime_v2/g2_registration_v2) -> N2 U3 channel-1 verdict; consumers = N2 U3 channel-1 closeout decision + factor material pool per prereg sec.0.9 item-2; P3 prediction face = RL marginal gain honest disclosure at judged",
+   "runner": "scripts/alphagen_rl_p1.py",
+   "runner_args": [
+    "train",
+    "--episodes",
+    "4096"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-10-12 01:20:00",
+   "data_gates": "fail-closed rc2 freeze gate in-runner (prereg FROZEN + 3 seed bands required); panel gate = E16 frozen cache 2026-10-09 in place; resume face = results/alphagen_rl_p1/ckpt/train_policy.npz (falls back to pretrain_policy.npz per runner); additive-episode semantics disclosed: interrupted re-claim ADDS a fresh budget on top of done_eps -- accepted because training face is uncounted (prereg sec.3 trial_budget_law: RL search face and nulls calibration not counted) and judged face untouched",
+   "shards": [
+    {
+     "key": "n2u3-leg3-train",
+     "status": "waiting",
+     "checkpoint": "",
+     "note": ""
+    }
+   ],
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal",
+    "note": "workers=min(worker_cap(),8)=8 per prereg sec.0 workers_plan; parallel marginal eval ProcessPool (O-20260930-2355 law-1 conversion); BelowNormal CEO headroom law; pure CPU numpy+pandas zero GPU face -- coexists with i2v CEO video lane (GPU-bound) without VRAM contention"
+   },
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "results/alphagen_rg"
+    },
+    {
+     "kind": "dir_nonempty",
+     "path": "results/alphagen_rl_p1/ckpt"
+    }
+   ],
+   "data_deps": [
+    "results/alphagen_rg/panel_cache_2026-10-09.npz"
+   ]
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
