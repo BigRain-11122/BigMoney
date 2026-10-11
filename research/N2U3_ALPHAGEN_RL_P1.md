@@ -1,6 +1,15 @@
-# N2U3-ALPHAGEN-RL-P1 —— N2 U3 通道①「全新语法」alphagen RL 公式因子主考批（预注册 DRAFT）
+# N2U3-ALPHAGEN-RL-P1 —— N2 U3 通道①「全新语法」alphagen RL 公式因子主考批（预注册 FROZEN）
 
-> 【状态：DRAFT——起草窗产物·未冻结（bm-b r889 起草）】**N2 U3 channel-1 drafting window 开窗依据**=E16_ALPHAGEN_RG_CENSUS_P1 判读线 `census_holds=true`（obs family max |ICIR| 0.455 > null family p95 0.077·n_ok 200/200·r888 finalize·results/alphagen_rg/CENSUS-2026-10-09.json）——E16 §3 判读线 verbatim「holds→RL build licensed（N2 U3 channel-1 drafting window 经 PREREG_TEMPLATE 正门合法开窗）」；承接链=T23 slice-1 POSITIVE-with-riders（DIGEST-20261010 三骑士：R1 血统负先验披露·本节 §1 执法／R2 语料面板门控=E16 面板已完备·已解／R3 RL 引擎宣称未核=本批 leg 序先建后烧诚实核）。**冻结门**（N2-W15 冻结门五条件先例）：leg-1 runner 建+selftest 全绿＋种子带 `seed_admit_gate` rc0＋`banned_direction_gate --prereg` rc0＋判据节共享库引用核＋意义门三问，全过另窗冻结 commit；跑前只许本 DRAFT 状态翻面，跑后只许回填 §7/§8，禁改判据禁重跑（工程修复重跑须双跑留痕）。
+> 【状态：FROZEN——冻结窗翻面（bm-b r892·2026-10-11 18:4x）·冻结 commit=本窗】**N2 U3 channel-1 drafting window 开窗依据**=E16_ALPHAGEN_RG_CENSUS_P1 判读线 `census_holds=true`（obs family max |ICIR| 0.455 > null family p95 0.077·n_ok 200/200·r888 finalize·results/alphagen_rg/CENSUS-2026-10-09.json）——E16 §3 判读线 verbatim「holds→RL build licensed（N2 U3 channel-1 drafting window 经 PREREG_TEMPLATE 正门合法开窗）」；承接链=T23 slice-1 POSITIVE-with-riders（DIGEST-20261010 三骑士：R1 血统负先验披露·本节 §1 执法／R2 语料面板门控=E16 面板已完备·已解／R3 RL 引擎宣称未核=本批 leg 序先建后烧诚实核）。
+> **冻结门五条件全过收口（N2-W15 冻结门先例·r892 实跑回执）**：
+> 1. leg-1 runner 建+selftest 全绿 ✅——scripts/alphagen_rl_p1.py（r891 建·七子命令）+冻结窗复跑 selftest **45/45 PASS**（r892 18:4x）；
+> 2. 种子带 `seed_admit_gate` rc0 ✅——`seed_admit_gate rc0 base=20625000 span=1001 checked=1001 verdict=FREE`（三键位全覆盖 gen 20625000/scrnull 20625500/unc 20626000；起草窗 span500 预验→冻结窗 span1001 全带收口）；
+> 3. `banned_direction_gate --prereg` rc0 ✅——回执 `decision=ADMIT`（registry v1.0·matched=[]·reason=no banned direction claimed·r892 冻结窗实跑）；
+> 4. 判据节共享库引用核 ✅——§4 判线全引用共享库零手抄（g1_prime_v2/g2_registration_v2/m1_t_value_gate·`science_gates` import）＋runner freeze_gate/gate 腿机械消费同一 `sg` 面（selftest L10 族 judged 门腿+L11 账本腿在 45/45 内）＋env-probe 同窗复跑 admit_rc=0/banned_rc=0；
+> 5. 意义门三问+令面 ✅——§0.9 三行作答在案（冻结窗作答）；授权面=O-20260930-2340 常供面令（N2 常供面·无需新署名）+TRIAL_LABOR_LAW §1 常设线+E16 §3 判读线（holds→RL build licensed）+T23 slice-1 承接令；本窗令面核对=fleet/orders 差集 **0**（dec 81f27c6d+ord 69090314 双零 delta·r892 S0.5 canonical probe）。
+> 6. 冻结窗执行面=prereg 翻面 FROZEN＋三带登记三键 ✅——`scripts/science_gates.py` SEED_REGISTRY 登记 `n2u3_alphagen_rl_gen=20_625_000 / n2u3_alphagen_rl_scrnull=20_625_500 / n2u3_alphagen_rl_unc=20_626_000`（冻结 commit 面内·env-probe bands 3/3 true·freeze_gate posture ok）。
+> **evidence_cutoff=2026-10-09（冻结窗写死）**——面板完备末 bar 实锚（panel gate ready·per_files 5219==状态件 5219·roster_sha16 1d06d218b2cbf870 ok·census 锚恒等 TOP-8/200·r892 env-probe 回执）；cutoff 后新 bar 锁定不得回流本批。
+> **冻结门后纪律（原文延续）**：跑前只许状态翻面（本行已翻），跑后只许回填 §7/§8，禁改判据禁重跑（工程修复重跑须双跑留痕）。
 > 【批型】**主考批（judged）**——RL（强化学习）表达式树搜索在 E16 幸存语法空间上生成 top-K 公式 → core48 消费面全起点虚拟时点 judged 判决；判线=BACKTEST_SCIENCE v2 共享库（g1_prime_v2/g2_registration_v2）；负即止（G2 fallback·学术引用面·EXCLUSION_BOOK 复活总律）。
 
 ## §0 批件身份【必填·跑前】
@@ -9,13 +18,19 @@
 - 认领：F-04 先行——冻结窗前 fleet/inbox/ MSG 声明（防双机撞建 runner）；队列行=state/queue/explore.md 新行（T-19 seed gate 注册闸 rc0 后登记）；起草窗=本文件（bm-b r889·E16 holds 开窗指针承接）。
 - 部门归属：dept:研究（alphagen 范式评估线·T23→E16→本批三段链第三段）。
 - 算力预算：leg-1=runner 纯工程零烧录；leg-2=短窗训练探针估 30-60min（入池分离烧录·BelowNormal·workers=min(worker_cap(),8)）；leg-3=完整训练估 2-6h（入池·跨轮 checkpoint·per-episode 断点续跑）；judged 面=引擎全起点虚拟时点批（入池）；**全链 >5min 一律池面禁轮内代跑（O-20260924-2100 执行面分离律）**；批报告必带 audit 段。
-- evidence_cutoff（前向锁盒 D2）=**冻结 commit 时点面板完备末 bar 实锚**（预计 2026-10-09 或 10-12·冻结窗写死；cutoff 后新 bar 锁定不得回流本批）；结果 JSON 顶层必带 `evidence_cutoff` + `science_gates.cutoff_meta` 字段。
+- evidence_cutoff（前向锁盒 D2）=**2026-10-09（冻结窗写死·r892）**——冻结 commit 时点面板完备末 bar 实锚（panel gate ready·per_files 5219==状态件·r889 起草窗预估面 2026-10-09 或 10-12 → 实锚落 2026-10-09）；cutoff 后新 bar 锁定不得回流本批；结果 JSON 顶层必带 `evidence_cutoff` + `science_gates.cutoff_meta` 字段。
 
 ## §0.5 禁开方向硬闸【必填·跑前·D-20260930-41 §1.2】
 
 - 跑前实跑：`python Tools/banned_direction_gate.py --prereg research/N2U3_ALPHAGEN_RL_P1.md` → 回执记入冻结 commit message。
 - 本批命中 BAN-__：无（冻结窗实跑回执为准）。
 - R1 血统负先验披露（骑士执法·非阻烧亦不借判）：A158 系 157/158 ETF/基金截面判负（GTJA 0/183 core48·WQ 0/82 strict·A9 0/9·A10 0/16）——本批与先验差异面=**搜索机制**（RL 反馈搜索 vs 固定清单/随机采样）＋**语料**（股票宽截面因子测量+core48 消费 vs ETF 截面直接注册）＋**判读**（全起点虚拟时点 judged vs 截面 IC），三差异如实披露；先验历史墙高在 §5 P2 预测面承载。
+
+## §0.9 意义门三问【冻结窗作答·r892】
+
+- ①研究问题=「RL 反馈搜索（自举预训练+PPO 微调·协同池边际 rank-IC 奖励）在 E16 幸存语法空间上是否比无反馈采样基线产出更高边际 IC 的 top-K 公式集，且 judged 消费面（core48·全起点虚拟时点）能否过 G1'v2」——反馈搜索杠杆在该语法空间至今零判读（T23 无反馈随机族 null p95 0.077→E16 census 测量 obs 族 max 0.455→本批=反馈机制首烧·负即止）。
+- ②消费方=本批 top-32 公式 judged 读数→N2 U3 通道①收口决策（正=RL 搜索线留任待 leg-3 完整训练+D6 注册面·负=EXCLUSION_BOOK 收口·G2 fallback 学术引用面）；存活公式逐字随件→因子素材池（血统标签 RL-search·P3 预测面=RL 边际增益诚实披露）·任何后续消费（输入特征路线/注册面）须全新预注册+成本压测（A158-TSGATE-P1/A10 先例门）。
+- ③语法登记簿查重=research/TRIAL_GRAMMAR_LEDGER.md alphagen 行=**0**（r892 冻结窗 Select-String 机证零行·本批=该语法族在 RL 反馈搜索机制下首烧；E16 随机 census 式与 W18/W19/W20 beam 族由 T-84s3 指纹去重在绘制时排除·E16 幸存者 TOP-8 为协同池目标面非重烧面）。
 
 ## §1 α 机制段【必填·D6——无机制段=批不受理】
 

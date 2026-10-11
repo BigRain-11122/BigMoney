@@ -2174,6 +2174,15 @@ SEED_REGISTRY = {
         # law; runner scripts/alphagen_rg_census.py
         "e16_alphagen_rg_gen": 20_620_000,
         "e16_alphagen_rg_null": 20_620_100,
+        # n2u3_alphagen_rl (gen 20625000/scrnull 20625500/unc 20626000,
+        # 10-11 18:4x freeze window -- seed_admit_gate rc0
+        # base=20625000 span=1001 checked=1001 verdict=FREE
+        # (all three key positions covered, O-20261010-1945 ADMIT
+        # convention); registered at prereg freeze BEFORE any burn,
+        # one-step R250 law; runner scripts/alphagen_rl_p1.py
+        "n2u3_alphagen_rl_gen": 20_625_000,
+        "n2u3_alphagen_rl_scrnull": 20_625_500,
+        "n2u3_alphagen_rl_unc": 20_626_000,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
