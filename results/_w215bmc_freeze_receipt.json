@@ -1,0 +1,77 @@
+{
+ "machine": "bm-c",
+ "wave": 215,
+ "phase": "five-face freeze chain-order splice (r912 freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "1d9008192db7e4a83ff2b25623308cd73be51c40",
+ "pf_sha16_pre": "eae5440aa85f3cdf",
+ "n1_sha16_pre": "7e80f8d0dd87ee3b",
+ "pf_sha16_post": "80135b42fc5cdbf0",
+ "n1_sha16_post": "6c1c2e083acd2e24",
+ "bands": {
+  "A": "487804_489803",
+  "B": "489804_490003",
+  "a_lo": 487804,
+  "a_hi": 489803,
+  "b_lo": 489804,
+  "b_hi": 490003
+ },
+ "admit_receipt": "results/_w215bmc_20261012_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=487804 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=489804 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w214_upstream": {
+  "freeze_sha": "4664900c861bac333d785d3bc4e4086a77b247ee",
+  "prereg_sha": "b0aa90376798797a19f530ef0cbcebf952582ca3",
+  "ledger_total": 894589,
+  "merged_n": 468720,
+  "engine_owner": "bm-c (own seat honored, no takeover face)",
+  "repair_chain_note": "r910 freeze + engine self-burn 12/12 + r911 finalize one-pass 05:2x (repair-free chain)"
+ },
+ "w213_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w213_results.json present (belt-and-braces gate; ledger 892,389 / K=466,520)"
+ },
+ "w212_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w212_results.json present (belt-and-braces gate)"
+ },
+ "w211_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w211_results.json present (belt-and-braces gate)"
+ },
+ "w210_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w210_results.json present (belt-and-braces gate)"
+ },
+ "seat": "fleet/inbox/MSG-20261012-0536-bmc-w215-seat.md (origin 37d7adc0a)",
+ "prereg_bundle": {
+  "prereg_sha": "1d9008192db7e4a83ff2b25623308cd73be51c40",
+  "probe_receipt_sha": "37d7adc0aff1352af560ed7a900fb56c1b713925",
+  "note": "r912 freeze-window bundle: prereg + this splice editor landed same-window, upstream W214 already landed (clean-precondition fourth consecutive window)"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 204,
+  "bmc_rows_live": 44,
+  "engine_owned_ordinal": 205,
+  "bmc_own_ordinal": 45,
+  "probe_receipt_bmc_ordinal_face": 45,
+  "note": "post-W214 registration: bm-c rows 44 + candidate = 45th owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=45 = r911 seat-time live face -- disclosed honest)"
+ },
+ "parity_section": {
+  "source": "OWN W214 block physical bytes (own splice generation, structure known exactly)",
+  "bytes": 19078,
+  "row_asserts": 71,
+  "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211 + W212 + W213 legs -> W215 block = 73 rows ending at W214"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1
+ }
+}
