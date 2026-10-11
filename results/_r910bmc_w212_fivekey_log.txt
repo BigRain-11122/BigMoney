@@ -1,0 +1,30 @@
+=== W212 five-key post-hoc probe (anchors = W211 physical bytes) ===
+ledger identity: 887989 + 2200 = 890189 ASSERT True
+anchor ledger (W211): 887989
+key1 |w212-only -0.08721705 - merged -0.09267005| = 0.0055  (anchor merged -0.09269601 / w211-only -0.09479655)
+     PASS <0.02
+key2 sigma 0.24512048 vs anchor 0.24510876 rel change 0.004783%
+     PASS <±10%
+key3 A p95 0.3282 vs anchor 0.3134 diff 0.0148
+     PASS <0.05
+key4 K-lift delta +0.0001 (line 1.1902 -> 1.1903 @n_eff 887989)
+     PASS <=±0.02
+key5 registry rows: W212 {'a_seed_base': 481204, 'b_exit_seed_base': 483204} W213 {'a_seed_base': 483404, 'b_exit_seed_base': 485404}
+key5 W213 projection take-up: registry W213 A=483_404..485_403 (hopped past W212 B 483_204..483_403,
+     staircase A-hops-prior-B 73rd instance) + B=485_404..485_603 (own-A mutual exclusion)
+     -- exactly as W212 §5.5 projection mandated; live registry bytes verified PASS
+
+se_mu chain: W211 0.000361 -> W212 0.000360 (narrowing)
+canon flip: NOT performed by this wave -- governance proposal face only (K2200 same law)
+
+=== six-gate fact probe (pre-finalize gate facts, post-hoc landed verification) ===
+gate1 seat MSG pushed+archived: True
+gate2 five-face freeze landed (registry face present): True
+gate3 shards consumed: 12 == 12 ASSERT True
+gate4 registry band row 212 present (WAVE_CONFIGS): True
+gate5 prereg committed+on-disk: True
+gate6 upstream chain-head identity (W211 finalize total == W212 prev_total): True
+SIX GATES ALL LANDED-VERIFIED
+
+W212 five-key probe: ALL FIVE PASS; six-gate facts: ALL VERIFIED; debt heal COMPLETE
+audit: {'machine': 'bm-c', 'finalize_only': True} cutoff: 2026-09-22
