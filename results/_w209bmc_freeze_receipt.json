@@ -1,0 +1,66 @@
+{
+ "machine": "bm-c",
+ "wave": 209,
+ "phase": "five-face freeze chain-order splice (prepared pre-landing, executed post-W208-finalize)",
+ "origin_base": "690bdfc28350c0d7f5bd9878cc551698cffb482e",
+ "pf_sha16_pre": "87036c25053e7601",
+ "n1_sha16_pre": "2a44a1bf589aa94a",
+ "pf_sha16_post": "4211b441007cabbf",
+ "n1_sha16_post": "52ecbcef4cbc001a",
+ "bands": {
+  "A": "474604_476603",
+  "B": "476604_476803",
+  "a_lo": 474604,
+  "a_hi": 476603,
+  "b_lo": 476604,
+  "b_hi": 476803
+ },
+ "admit_receipt": "results/_w209bmc_20261011_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=474604 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=476604 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w208_upstream": {
+  "freeze_sha": "0ea2b9bde71091ca4fe7cb5507d671d0ea02c8d2",
+  "prereg_sha": "044036c5f22ee9be03bddf02dd540c0d5572dcb7",
+  "ledger_total": 881389,
+  "merged_n": 455520
+ },
+ "w207_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w207_results.json present (belt-and-braces gate)"
+ },
+ "seat": "fleet/inbox/processed/MSG-20261011-0301-bmc-w209-seat.md (origin e989c03eb)",
+ "prereg_bundle": {
+  "prereg_sha": "2d0415076df3cb4a2ba3729cdbfaaf1f7c89a7cb",
+  "probe_receipt_sha": "e989c03ebc90610f657649a92413eb354638c584"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 198,
+  "bmc_rows_live": 38,
+  "engine_owned_ordinal": 199,
+  "bmc_own_ordinal": 39,
+  "probe_receipt_bmc_ordinal_face": 39,
+  "note": "post-r885-takeover: bm-c rows+1 = 39 == probe leg0 bmc_ordinal=39 face EXACT MATCH -- the pre-takeover +2 mechanical carryover vs rows+1=38 was RESOLVED by the W208 ownership transfer (commit 4682d6b19); live derive at freeze time governs per r587/r359, disclosed in prereg sec.0"
+ },
+ "w208_ownership": {
+  "registered_by": "bm-a five-face freeze (absorb r858)",
+  "engine_owner_at_freeze": "bm-c",
+  "takeover": "r885 bm-a->bm-c (hb-stall 1291min >> 20min gate; CEO fill-order standing; commit 4682d6b19; bands unchanged R250; broadcast MSG-20261011-1931-bmc)",
+  "n1_mirror_heal": "engine_owner bm-a -> bm-c restored in this splice (law-mirror parity, documented self-heal)"
+ },
+ "parity_section": {
+  "source": "W208 block physical bytes",
+  "bytes": 18210,
+  "row_asserts": 69,
+  "note": "r858 absorb generation full-span estate W138..W206 (69 rows) disclosed vs the W206-era 50-row recent-estate window; W209 block re-grows to 70 rows ending at W208"
+ },
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": false
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w208_block_kept": 1
+ }
+}

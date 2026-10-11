@@ -48,8 +48,16 @@ import perpetual_faces as pf_mod
 # freeze and is belt-and-braces checked here + enforced by the block's
 # cumulative-deps assert range(17, 209) at selftest time)
 W208 = dict(pf_mod.N1_BANDS.get(208) or {})
-assert W208.get("engine_owner") == "bm-a", \
-    f"W208 row not landed as declared (engine_owner != bm-a): {W208} -- bm-a five-face freeze missing"
+# r886 takeover face (executed freeze window): W208 was REGISTERED by the bm-a
+# five-face freeze (absorb r858) then engine_owner legally transferred bm-a->bm-c
+# per the hb-stall takeover gate + CEO fill-order law (commit 4682d6b19, bands
+# unchanged R250; broadcast MSG-20261011-1931-bmc). Machine-evidence gate:
+assert W208.get("engine_owner") in ("bm-a", "bm-c"), \
+    f"W208 row not landed as declared: {W208} -- five-face freeze missing"
+if W208.get("engine_owner") == "bm-c":
+    tk = git("cat-file", "-t", "4682d6b19")
+    assert tk.returncode == 0 and tk.stdout.decode().strip() == "commit", \
+        "W208 takeover commit 4682d6b19 missing -- ownership face unverified, abort"
 w208_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w208_results.json")
 assert os.path.exists(w208_out_path), "W208 finalize product missing (n1_w208_results.json) -- chain dep not met"
 w207_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w207_results.json")
@@ -72,11 +80,12 @@ w208_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
 # live derive at freeze time governs per r587, probe face disclosed in prereg)
 owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
 bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
-assert len(owner_rows_live) == 198 and len(bmc_rows_live) == 37, \
-    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 198/37 post-W208)"
-print(f"gate0.5 OK: W208 landed (freeze {w208_freeze_sha[:10]}), W208+finalW207 finalize products present "
+assert len(owner_rows_live) == 198 and len(bmc_rows_live) == 38, \
+    f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 198/38 post-W208 + r885 takeover)"
+print(f"gate0.5 OK: W208 landed (freeze {w208_freeze_sha[:10]}, owner={W208.get('engine_owner')} post-takeover), W208+finalW207 finalize products present "
       f"(ledger head {w208_total}, merged n={w208_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
-      f"bm-c rows {len(bmc_rows_live)} + candidate (38th own wave)")
+      f"bm-c rows {len(bmc_rows_live)} + candidate (39th own wave; probe receipt leg0 bmc_ordinal=39 face "
+      f"now == rows+1 EXACT -- the pre-takeover +2 carryover resolved by the r885 ownership transfer)")
 
 # ---------- band facts from the committed ADMIT receipt (never transcribed) ----------
 rec = json.load(open(RECEIPT_IN, encoding="utf-8"))
@@ -141,6 +150,33 @@ EOL = detect_eol(n1_t); PF_EOL = detect_eol(pf_t)
 assert pf_t.count(PF_EOL) > 0 and n1_t.count(EOL) > 0, \
     f"EOL detection degenerate: pf={PF_EOL!r} n1={EOL!r}"
 
+# ---------- n1 W208 mirror heal (r885 takeover consequence; documented ----------
+# self-heal at next face regeneration -- MSG-20261011-1931-bmc). The takeover
+# commit 4682d6b19 updated the pf band row only; the n1 WAVE_CONFIGS[208]
+# mirror engine_owner field is healed HERE to restore law-mirror parity
+# (field is display/parity only -- zero burn-path effect, bands unchanged R250).
+_sdir_pos = n1_t.find('"shard_subdir": "n1_w208"')
+assert _sdir_pos > 0, "n1 W208 cfg shard_subdir line not found"
+_eol1 = n1_t.find(EOL, _sdir_pos)
+_sdir_ls = n1_t.rfind(EOL, 0, _sdir_pos) + len(EOL)
+_sdir_line = n1_t[_sdir_ls:_eol1]
+_own2_ls = _eol1 + len(EOL)
+_own2_le = n1_t.find(EOL, _own2_ls)
+_w208_mirror_line = n1_t[_own2_ls:_own2_le]
+assert '"engine_owner": "bm-a"},' in _w208_mirror_line, \
+    f"n1 W208 mirror owner line unexpected bytes: {_w208_mirror_line!r}"
+_mir_indent = _w208_mirror_line[:len(_w208_mirror_line) - len(_w208_mirror_line.lstrip(" "))]
+_mir_new_line = (_mir_indent + '"engine_owner": "bm-c"},  # takeover r885 heal: '
+                 'mirror parity with pf row (bm-a hb-stall 21.5h+ -> bm-c per CEO '
+                 'fill-order law; bands unchanged R250)')
+_old_two = _sdir_line + EOL + _w208_mirror_line
+_new_two = _sdir_line + EOL + _mir_new_line
+assert n1_t.count(_old_two) == 1, f"n1 W208 mirror anchor count != 1: {n1_t.count(_old_two)}"
+n1_t = n1_t.replace(_old_two, _new_two, 1)
+# NOTE: n1_b (receipt sha16_pre face) intentionally NOT reassigned -- it stays
+# the ORIGINAL on-disk bytes; the heal is disclosed via receipt w208_ownership.
+print("n1 W208 mirror healed: engine_owner bm-a -> bm-c (law-mirror parity, r885 takeover face)")
+
 def must(t, s, n, what):
     c = t.count(s)
     assert c == n, f"anchor {what}: count {c} != {n}"
@@ -155,22 +191,29 @@ a4 = '    # --- T-141 s2 lane face'
 w208_start = n1_t.find(a6); t141_pos = n1_t.find(a4)
 assert w208_start > 0 and t141_pos > w208_start, "W208 materializer block not found (bm-a freeze not landed?)"
 blk = n1_t[w208_start:t141_pos]
-par_marker = "        # registered row parity (r307 pinned constants, recent estate)"
-m_disj = re.search(r"        # prior-wave disjointness W2\.\.W\d+ \(single state: all", blk)
-assert n1_t.count(par_marker) >= 1 and m_disj, "parity markers not found in W208 block"
-# marker->disj span = 50 recent estate rows + 1 upstream W207 row leg = 51 asserts
-# (bm-b r852 empirical finding, generation-stable structure). Cut the PURE estate
-# segment at the W207-leg assert line start (exactly the 50 estate rows) so the
-# W209 block re-grows to 50 estate + own w208_leg = 51.
-par_full = blk[blk.find(par_marker):m_disj.start()]
+# W208-block parity span (r858 absorb generation): NO "(r307 pinned constants)"
+# section marker -- rows run contiguous W138..W207 (70 asserts) straight into the
+# disjointness comment ("(single state, dynamic de..." wording). Extraction
+# adapts: span = first row assert line start -> disjointness comment; estate =
+# span minus the final W207 upstream leg (69 rows W138..W206); the W209 block
+# re-grows to estate + own w208_leg = 70 rows ending at W208 (full-span
+# generation continuation, disclosed vs the W206-era 50-row window).
+m_first_row = re.search(r"assert pf\.N1_BANDS\[", blk)
+m_disj = re.search(r"        # prior-wave disjointness W2\.\.W\d+ \(single state", blk)
+assert m_first_row and m_disj and m_disj.start() > m_first_row.start(), \
+    "parity span markers not found in W208 block"
+_row_ls = blk.rfind(EOL, 0, m_first_row.start()) + len(EOL)
+par_full = blk[_row_ls:m_disj.start()]
 m207 = re.search(r" *assert pf\.N1_BANDS\[207\] ==", par_full)
 assert m207, "upstream W207 row leg not found inside W208 parity span"
 par_sec = par_full[:m207.start()]
 assert par_sec.endswith(EOL), "estate segment must end with EOL"
-assert par_sec.count("assert pf.N1_BANDS[") == 50, \
-    f"estate segment row asserts {par_sec.count('assert pf.N1_BANDS[')} != 50 (generation-stable law)"
-assert par_full.count("assert pf.N1_BANDS[") == 51, \
-    f"full parity span {par_full.count('assert pf.N1_BANDS[')} != 51 (50 estate + 1 W207 leg)"
+_estate_ws = re.findall(r"assert pf\.N1_BANDS\[(\d+)\] ==", par_sec)
+assert par_sec.count("assert pf.N1_BANDS[") == 69 \
+    and [int(w) for w in _estate_ws] == list(range(138, 207)), \
+    f"estate segment not W138..W206 full-span 69 rows: n={par_sec.count('assert pf.N1_BANDS[')} range={(_estate_ws[:2], _estate_ws[-2:])}"
+assert par_full.count("assert pf.N1_BANDS[") == 70, \
+    f"full parity span {par_full.count('assert pf.N1_BANDS[')} != 70 (69 estate + 1 W207 leg)"
 
 # ---------- indent extraction (physical, not assumed; per-file EOL) ----------
 def line_indent(t, needle, eol):
@@ -183,9 +226,9 @@ def line_indent(t, needle, eol):
 CFG_I  = line_indent(n1_t, '208: {"batch"', EOL)
 PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W208_PREREG.md', EOL)
 PRE_I  = line_indent(n1_t, '"pre-run; design = frozen v1 null calibration verbatim, "', EOL)
-MEM_I  = line_indent(n1_t, '"a_seed_base": ' + str(W208["a"][0]), EOL)
+MEM_I  = line_indent(n1_t, '"a_seed_base": ' + fmt(W208["a"][0]), EOL)  # r858 absorb cfg writes underscore form (472_404)
 ROW_I  = line_indent(pf_t,  '208: {"a"', PF_EOL)
-ROWC_I = line_indent(pf_t,  '"engine_owner": "bm-a"},', PF_EOL)
+ROWC_I = line_indent(pf_t,  '"engine_owner": "bm-c"},  # takeover r885', PF_EOL)
 
 # ---------- pf comment + row ----------
 pf_comment = PF_EOL.join([
@@ -196,7 +239,8 @@ pf_comment = PF_EOL.join([
 "    # probe results/_w209bmc_20261011_probe_receipt.json @ " + w209_receipt_sha[:10] + ");",
 "    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10",
 "    # ~23:1x; deletion-set EMPTY; delivery window = chain-order",
-"    # splice AFTER the bm-a W208 five-face (freeze " + w208_freeze_sha[:10] + ") + W208",
+"    # splice AFTER the bm-a W208 five-face (freeze " + w208_freeze_sha[:10] + "; ownership",
+"    # bm-a->bm-c takeover r885 commit 4682d6b19, bands unchanged R250) + W208",
 "    # finalize product landed (n1_w208_results.json present, ledger",
 "    # head " + str(w208_total) + " machine-read at freeze time); zero --no-verify;",
 "    # the W209 seat MSG sits in " + seat_found + " at freeze",
@@ -245,9 +289,18 @@ pf_row = (f'{ROW_I}209: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
 assert pf_row.split(PF_EOL)[0].strip() == \
     f'209: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
 
-old_pf = must(pf_t, ('         "engine_owner": "bm-a"},' + PF_EOL + '}'
+# W208 row owner line derived from PHYSICAL bytes (post-takeover r885: bm-c with
+# takeover comment; never transcribed -- r609/r909 law)
+w208_row_start = pf_t.find('    208: {"a"')
+assert w208_row_start > 0, "W208 row literal not found in pf source"
+_own_ls = pf_t.find(PF_EOL, w208_row_start) + len(PF_EOL)
+_own_le = pf_t.find(PF_EOL, _own_ls)
+w208_own_line = pf_t[_own_ls:_own_le]
+assert '"engine_owner": "bm-c"},' in w208_own_line and "takeover r885" in w208_own_line, \
+    f"W208 owner line unexpected bytes: {w208_own_line!r}"
+old_pf = must(pf_t, (w208_own_line + PF_EOL + '}'
                      + PF_EOL + '# v1 + ext(wave-1) in-use bands'), 1, "pf_close")
-new_pf = ('         "engine_owner": "bm-a"},' + PF_EOL
+new_pf = (w208_own_line + PF_EOL
           + pf_comment + PF_EOL + pf_row
           + '}' + PF_EOL + '# v1 + ext(wave-1) in-use bands')
 pf_t2 = pf_t.replace(old_pf, new_pf, 1)
@@ -338,8 +391,8 @@ hdr = [
  "    #     own-series law under CEO fill-order standing 2026-10-08 ~23:5x",
  "    #     + RE-ISSUE 2026-10-10 ~23:1x + O-20260909-2334-bm-b sec.1-2",
  "    #     local-full-use + O-20260924-1730 claim-and-start same-round law):",
- "    #     bm-c's thirty-eighth owned per machine-derive (engine_owner==bm-c",
- "    #     rows 37 + candidate); wave 209 = first free number after the",
+ "    #     bm-c's thirty-ninth owned per machine-derive (engine_owner==bm-c",
+ "    #     rows 38 + candidate, W208 included via the r885 takeover); wave 209 = first free number after the",
  f"    #     REGISTERED W208 row (bm-a five-face freeze {w208_freeze_sha[:10]}) --",
  "    #     SINGLE STATE zero seat gap (W2..W208 all registered). Seat",
  "    #     published=reserved MSG-20261011-0301-bmc-w209-seat pushed",
@@ -368,8 +421,8 @@ hdr = [
  "        assert WAVE_CONFIGS[208][\"b_exit_seed_base\"] == \\",
  '            pf.N1_BANDS[208]["b_exit"][0], "W209 B band drift vs law mirror"',
  "        assert WAVE_CONFIGS[208].get(\"engine_owner\") == \\",
- '            pf.N1_BANDS[208].get("engine_owner") == "bm-a", \\',
- '            "W209 engine_owner drift (law mirror parity)"',
+ '            pf.N1_BANDS[208].get("engine_owner") == "bm-c", \\',
+ '            "W209 engine_owner drift (law mirror parity; r885 takeover heal)"',
  "        w208_a = {A_SEED_BASE + j for j in range(A_N)}",
  "        w208_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
  '        assert not (w208_a & w208_b), "W209 A/B band overlap"',
@@ -383,8 +436,8 @@ hdr = [
 w208_leg = [
  f'        assert pf.N1_BANDS[208] == {{"a": ({fmt(W208["a"][0])}, {fmt(W208["a"][1])}),',
  f'                                    "b_exit": ({fmt(W208["b_exit"][0])}, {fmt(W208["b_exit"][1])}),',
- '                                    "engine_owner": "bm-a"}, \\',
- '            "registered W208 row parity drift (r307; bm-a five-face freeze)"',
+ '                                    "engine_owner": "bm-c"}, \\',
+ '            "registered W208 row parity drift (r307; bm-a five-face freeze + r885 bm-c takeover)"',
 ]
 tail = [
  "        # prior-wave disjointness W2..W208 (single state: all",
@@ -491,11 +544,11 @@ n1_t3 = n1_t2.replace(old_blk_anchor, block + old_blk_anchor, 1)
 # ---------- n1 print line ----------
 pr = [
  '          "+ W209 materializer face [same guard set, dep=W17..W208 "',
- f'          "outputs ALL PRESENT (landed net chain head {w208_total} = W208 bm-a finalize one-pass, K={w208_merged_n} merged pool) -- ZERO "',
+ f'          "outputs ALL PRESENT (landed net chain head {w208_total} = W208 bm-c finalize one-pass post-takeover, K={w208_merged_n} merged pool) -- ZERO "',
  '          "in-flight upstream seats at splice, clean precondition, TWO HUNDRED AND NINTH "',
  f'          "ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} "',
- '          "+ candidate) bm-c\'s thirty-eighth owned claim per "',
- '          "machine-derive (engine_owner==bm-c rows 37 + candidate), "',
+ '          "+ candidate) bm-c\'s thirty-ninth owned claim per "',
+ '          "machine-derive (engine_owner==bm-c rows 38 + candidate, W208 via r885 takeover), "',
  '          "A=FIRST-CLEAN past the registered W208 B band (staircase "',
  '          "SIXTY-NINTH instance, E36 card, hops=1) + B=FIRST-CLEAN past the "',
  '          "own-wave A window (W141 precedent, leg2 law, same-freeze "',
@@ -556,9 +609,14 @@ receipt = {
                     "engine_owned_ordinal": len(owner_rows_live) + 1,
                     "bmc_own_ordinal": len(bmc_rows_live) + 1,
                     "probe_receipt_bmc_ordinal_face": 39,
-                    "note": "probe leg0 bmc_ordinal=39 face = +2 mechanical carryover vs rows+1=38 convention (W207 precedent bmb_ordinal=rows+1); live derive at freeze time governs per r587/r359, disclosed in prereg sec.0"},
+                    "note": "post-r885-takeover: bm-c rows+1 = 39 == probe leg0 bmc_ordinal=39 face EXACT MATCH -- the pre-takeover +2 mechanical carryover vs rows+1=38 was RESOLVED by the W208 ownership transfer (commit 4682d6b19); live derive at freeze time governs per r587/r359, disclosed in prereg sec.0"},
+  "w208_ownership": {"registered_by": "bm-a five-face freeze (absorb r858)",
+                     "engine_owner_at_freeze": W208.get("engine_owner"),
+                     "takeover": "r885 bm-a->bm-c (hb-stall 1291min >> 20min gate; CEO fill-order standing; commit 4682d6b19; bands unchanged R250; broadcast MSG-20261011-1931-bmc)",
+                     "n1_mirror_heal": "engine_owner bm-a -> bm-c restored in this splice (law-mirror parity, documented self-heal)"},
   "parity_section": {"source": "W208 block physical bytes", "bytes": len(par_sec),
-                     "row_asserts": par_sec.count("assert pf.N1_BANDS[")},
+                     "row_asserts": par_sec.count("assert pf.N1_BANDS["),
+                     "note": "r858 absorb generation full-span estate W138..W206 (69 rows) disclosed vs the W206-era 50-row recent-estate window; W209 block re-grows to 70 rows ending at W208"},
   "eol": {"n1_crlf": EOL == "\r\n", "pf_crlf": PF_EOL == "\r\n"},
   "liveness_anchors": {"t141_marker_kept": 1, "w208_block_kept": 1},
 }

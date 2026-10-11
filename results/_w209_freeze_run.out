@@ -1,0 +1,24 @@
+gate0.5 OK: W208 landed (freeze 0ea2b9bde7, owner=bm-c post-takeover), W208+finalW207 finalize products present (ledger head 881389, merged n=455520); owner rows 198 + candidate, bm-c rows 38 + candidate (39th own wave; probe receipt leg0 bmc_ordinal=39 face now == rows+1 EXACT -- the pre-takeover +2 carryover resolved by the r885 ownership transfer)
+gates OK: seed_admit_gate rc0 base=474604 span=2000 checked=2000 verdict=FREE | seed_admit_gate rc0 base=476604 span=200 checked=200 verdict=FREE
+n1 W208 mirror healed: engine_owner bm-a -> bm-c (law-mirror parity, r885 takeover face)
+{
+ "phase": "five-face freeze chain-order splice (prepared pre-landing, executed post-W208-finalize)",
+ "origin_base": "690bdfc28350c0d7f5bd9878cc551698cffb482e",
+ "pf_sha16_post": "4211b441007cabbf",
+ "n1_sha16_post": "52ecbcef4cbc001a",
+ "bands": {
+  "A": "474604_476603",
+  "B": "476604_476803",
+  "a_lo": 474604,
+  "a_hi": 476603,
+  "b_lo": 476604,
+  "b_hi": 476803
+ },
+ "w208_upstream": {
+  "freeze_sha": "0ea2b9bde71091ca4fe7cb5507d671d0ea02c8d2",
+  "prereg_sha": "044036c5f22ee9be03bddf02dd540c0d5572dcb7",
+  "ledger_total": 881389,
+  "merged_n": 455520
+ }
+}
+SPLICE OK -- py_compile both green; NEXT: selftest (default wave, r522 law) -> pathspec commit+push -> ignition verify (2-cycle n1_w209 growth)
