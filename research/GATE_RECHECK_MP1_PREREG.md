@@ -1,6 +1,6 @@
 # GATE-RECHECK-MP1 预注册 —— MP1 时序分位门 25 PASS 独立复核批（D6 邻接审计+五员落地性复核·v4 候选库升格通道·镜像 GATE-RECHECK-A158 先例）
 
-> 本批=N2-MP1（FROZEN bm-b r868 commit 0b1be1745·§8 指针「PASS 25 门获独立复核资格（GATE-RECHECK-MP1 按 GATE-RECHECK-A158 先例）」）的直接消费批。跑前冻结于烧批前（R99 律）；判据节禁看结果改线。**状态：DRAFT（r869 bm-b slice-1 起草窗——冻结前禁烧·五条件机证后翻面）**。
+> 本批=N2-MP1（FROZEN bm-b r868 commit 0b1be1745·§8 指针「PASS 25 门获独立复核资格（GATE-RECHECK-MP1 按 GATE-RECHECK-A158 先例）」）的直接消费批。跑前冻结于烧批前（R99 律）；判据节禁看结果改线。**状态：FROZEN v1.0（r870 bm-b 五条件机证全绿：selftest 7/7 复跑 + 数据完备 draft probe 复跑 rc0 字节恒等 + banned_direction_gate ADMIT rc0 + origin 写前复核 DRAFT 态 + 本翻面与 runner 交付同 commit）**。评估窗 ≤2026-10-15。
 > 通道授权：MP1 §8 指针+TREASURE_REGISTRY 素材池消费首读面（2026-10-11 r868 行）+tech.md T25 行（r869 登记·queue_seed_gate rc0 hits=[] status=open+撞头探针 CLEAR）+队列纪律（独立复核队列指针在册）。
 > 统摄律：BACKTEST_SCIENCE.md v2 + COMPUTE_AUDIT.md 批件纪律 + pit-95/r431 decidable 掩码律 + r433 同门换用法判例 + O-20260925-1105 例外三问。
 
