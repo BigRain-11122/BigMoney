@@ -181,3 +181,8 @@ results/**/*.npy
 results/theme_judge_p2/nulls_frags/
 # mv frozen-lane scratch: keep untracked per r770-r774 precedent (r775-tail fix)
 results/mv_work/
+# E16-ALPHAGEN-RG (alphagen slice-2 random-grammar stock census, r878 bm-b):
+# machine-local panel cache (~520MB leaves npz) + per-formula checkpoints;
+# committed evidence = e16_roster.json + shard_<k>of12.json + CENSUS-*.json
+results/alphagen_rg/ckpt/
+results/alphagen_rg/panel_cache_*.npz

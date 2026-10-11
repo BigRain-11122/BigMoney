@@ -2134,6 +2134,26 @@ SEED_REGISTRY = {
         # scripts/t101_v4_a14_predface.py
         "t101_v4_a14_predface_scrnull": 20_615_500,
         "t101_v4_a14_predface_unc": 20_616_500,
+        # E16 alphagen slice-2 random-grammar stock census (bm-b r878 leg-2
+        # freeze window, queue row state/queue/explore.md E16; prereg
+        # research/E16_ALPHAGEN_RG_CENSUS_P1.md): gen rng([20620000, i])
+        # i<200 (K=200 formula draws: 120 depth-1 + 80 depth-2 from the
+        # vendored A158 29-op x 8-input x 5-window grammar, dedup
+        # rejection in-stream) + null rng([20620100, idx, bj]) idx<200,
+        # bj<200 (B=200 within-day same-mask factor-rank permutation
+        # nulls per formula, t23 sina_construct_ic null design);
+        # family band [20620000, 20620300) -- berth lineage: natural
+        # +500 ladder above A14 predface 20616500 (t23 20615 family
+        # tail); roster leg-1 proposal 20261011/20261111 REFUSED by
+        # seed_admit_gate (2026xxxx band collisions t73_style_rot_s1/
+        # cn_core_sat_p1/cn_core_ddctl_p1/rev_osc_stock_p1) -> clean
+        # re-pick, gate is the authority; seed_admit_gate rc0
+        # base=20620000/20620100 span=200 both FREE (checked=200,
+        # zero collisions, O-20261010-1945 ADMIT convention);
+        # registered at prereg freeze BEFORE any burn, one-step R250
+        # law; runner scripts/alphagen_rg_census.py
+        "e16_alphagen_rg_gen": 20_620_000,
+        "e16_alphagen_rg_null": 20_620_100,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
