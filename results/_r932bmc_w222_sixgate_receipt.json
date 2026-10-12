@@ -1,0 +1,57 @@
+{
+ "machine": "bm-c",
+ "wave": 222,
+ "phase": "PRE-FINALIZE six-gate at absorb window r932 (burn-window gate missed: r931 splice window died post-splice post-burn pre-gate ~15:24, engine self-burned 12/12 with no live session, ledger appends b5305fe4a+0028f84cb pushed; W212-family recurrence #5 disclosed; standing law note: six-gate script not pre-written with freeze bundle -- dead session estate, r930 pointer item unfulfilled)",
+ "ts": "2026-10-12T15:40:48",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "162d4639a84dbb86",
+   "n1_sha16_now": "4a4c322379288bdc",
+   "pf_sha16_freeze_post": "162d4639a84dbb86",
+   "n1_sha16_freeze_post": "91ee8da62387e2ec",
+   "repair_note": "n1 selftest W222 LHS boundary repair at absorb window r932 (w<221 -> w<222 + comment, atomic pair; family #4 stale-copy, r923/r928 lineage): n1_sha16_now != n1_sha16_freeze_post BY THIS REPAIR, zero scientific fields -- bands/N/criteria unchanged, engine burn consumed the bands face, unaffected; pf file UNREPAIRED (sha16 equality asserted)"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=503204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=505204 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=503204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=505204 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 503204,
+   "b_exit_seed_base": 505204,
+   "shard_subdir": "n1_w222",
+   "out_name": "n1_w222_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 909989,
+  "prev_merged_n": 484120,
+  "expect_total": 912189,
+  "expect_merged": 486320
+ }
+}

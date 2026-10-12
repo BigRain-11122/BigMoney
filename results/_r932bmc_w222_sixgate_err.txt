@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r932bmc_w222_sixgate.py", line 73, in <module>
+    assert g3.returncode == 0, f"n1 selftest FAIL: {(g3.stdout or '')[-500:]} {(g3.stderr or '')[-500:]}"
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: n1 selftest FAIL:  up\FluxGroup\quant\bigmoney\scripts\perpetual_faces_n1.py", line 47202, in selftest
+    assert sorted(w for w in WAVE_CONFIGS if w < 221) == \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        [w for w in range(16, 222)], \
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: W222 prior-wave set must derive from registry keys (no 15; W2..W221 registered single state)
+

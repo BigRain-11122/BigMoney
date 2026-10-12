@@ -1,0 +1,263 @@
+L2: # 2026-10-12 14:0x bm-c r927 freeze (absorb r925 committed prereg estate + r926 zero-commit scratch estate): W221 five-face freeze splice editor.
+L3: # Upstream chain ALL LANDED at this window: W1..W220 finalize products
+L4: # present (W220 finalize one-pass 12:0x, net chain head 907,789,
+L5: # merged pool K=481,920, n1_w220_results.json machine-read) -- ZERO
+L8: # Lineage: _w220bmc_freeze_edits.py pattern (proven live-fire freeze,
+L12: # Zero hardcoded upstream band values: ALL W220 facts machine-derived from the
+L14: # the committed ADMIT receipt (results/_w221bmc_20261012_probe_receipt.json)
+L15: # which was derived on the post-W220-REGISTERED universe. If the LIVE W220 bands
+L17: # STRUCTURAL CHOICE (vs the W220 editor): the parity estate (W138..W206
+L18: # full-span, 69 rows, r858 absorb generation) is extracted from the OWN W220
+L20: # generation) -- the W220 block's own W219 leg (1 row) is excluded from the
+L21: # estate path and fresh W219 + W220 legs are appended for the W221 block parity
+L22: # (79 rows: estate 69 + W211 leg + W212 leg + W213 leg + W214 leg + W215 leg + W216 leg + W217 leg + W218 leg + W219 leg + W220 leg).
+L23: # Extraction self-asserts the 77-row cut (69 estate + W211 + W212 + W213 + W214 + W215 + W216 + W217 + W218)
+L35: RECEIPT_IN = os.path.join(REPO, "results", "_w221bmc_20261012_probe_receipt.json")
+L36: RECEIPT_OUT = os.path.join(REPO, "results", "_w221bmc_freeze_receipt.json")
+L37: SEAT_MSG = "MSG-20261012-1225-bmc-w221-seat.md"
+L60: # ---------- gate 0.5: W220 five-face landed + W220 finalize product present ----------
+L61: # (chain-order precondition; W219/W218/W217/W216 finalize are transitive deps of the
+L62: # W221 freeze and are belt-and-braces checked here + enforced by the block's
+L63: # cumulative-deps assert range(17, 220) at selftest time)
+L64: W220 = dict(pf_mod.N1_BANDS.get(220) or {})
+L65: assert W220.get("engine_owner") == "bm-c", \
+L66:     f"W220 row not landed as declared (bm-c own seat owner expected, no takeover face): {W220} -- five-face freeze missing;" \
+L68: w220_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w220_results.json")
+L69: assert os.path.exists(w220_out_path), "W220 finalize product missing (n1_w220_results.json) -- chain dep not met"
+L70: w219_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w219_results.json")
+L71: assert os.path.exists(w219_out_path), "W219 finalize product missing (transitive chain dep) -- abort"
+L72: w218_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w218_results.json")
+L73: assert os.path.exists(w218_out_path), "W218 finalize product missing (transitive chain dep) -- abort"
+L74: w217_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w217_results.json")
+L75: assert os.path.exists(w217_out_path), "W217 finalize product missing (transitive chain dep) -- abort"
+L76: w216_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w216_results.json")
+L77: assert os.path.exists(w216_out_path), "W216 finalize product missing (transitive chain dep) -- abort"
+L78: w220_out = json.load(open(w220_out_path, encoding="utf-8"))
+L79: w220_led = (w220_out.get("science_gates") or {}).get("ledger") or {}
+L80: w220_total = w220_led.get("total")
+L81: w220_merged_n = None
+L83:     w220_merged_n = w220_out["null_pool_cumulative"]["merged"]["n_values"]
+L86: assert w220_total == 907_789 and w220_merged_n == 481_920, \
+L87:     f"W220 finalize anchors drift at freeze time: total={w220_total} merged={w220_merged_n} (expect 907,789 / 481,920)"
+L89: r = git("log", "--format=%H", "-S", '220: {"a"', "--", "scripts/perpetual_faces.py")
+L90: w220_freeze_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L91: r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W220_PREREG.md")
+L92: w220_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L93: assert os.path.exists(os.path.join(REPO, "research", "PERPETUAL_N1_W220_PREREG.md")), \
+L94:     "bm-c W220 per-wave prereg missing on disk -- chain face incomplete, abort"
+L101:     f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bmc={len(bmc_rows_live)} (expect 210/50 PRE-splice post-W220 registration; W220 precedent 209/49 pre-splice + W220 splice 210/50; this candidate = 51st own wave per the same live-derive law, r587/r359)"
+L102: print(f"gate0.5 OK: W220 landed (freeze {w220_freeze_sha[:10]}, owner=bm-c own seat), "
+L103:       f"W220+W219+W218+W217+W216 finalize products present "
+L104:       f"(W220 ledger head {w220_total}, merged n={w220_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
+L117:     f"W221 band drift vs probe ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}"
+L118: w220_b_tail = W220["b_exit"][1]      # registered W220 row b_exit hi (pf import, live)
+L119: w220_a_tail = W220["a"][1]           # registered W220 row A hi (pf import, live)
+L120: assert w220_b_tail + 1 == a_lo and a_hi + 1 == b_lo, "staircase base relations broken"
+L121: # the REFUSED arithmetic continuation starts at prior-wave A-tail+1 (== W220 B-base),
+L123: assert w220_a_tail + 1 == W220["b_exit"][0], "W220 A-tail+1 != W220 B-base (registered row in-wave relation)"
+L124: assert [w220_a_tail + 1, w220_a_tail + 2_000] == leg1["ARITH_A"], \
+L125:     f"refused-continuation start drift vs probe receipt leg1 ARITH_A: {[w220_a_tail + 1, w220_a_tail + 2_000]} != {leg1['ARITH_A']}"
+L128: r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W221_PREREG.md")
+L129: w221_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L130: r = git("log", "--diff-filter=A", "--format=%H", "--", "results/_w221bmc_20261012_probe_receipt.json")
+L131: w221_receipt_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+L138: assert seat_found, f"W221 seat MSG missing from both inbox paths: {SEAT_MSG}"
+L142:                     "--prereg", "research/PERPETUAL_N1_W221_PREREG.md"],
+L180: # STRUCTURAL CHOICE: extract the estate from the OWN W220 block (bytes known
+L181: # exactly: full-span estate W138..W206 69 rows + own W211 leg + own W212 leg + own W213 leg + own W214 leg + own W215 leg + own W216 leg + own W217 leg + own W218 leg + own W219 leg) -- the W220 block is this machine's own splice generation
+L182: # (r923 window editor), structure known. The W220 block span ends where the
+L184: a15 = '    # --- W220 materializer face'
+L186: w220_start = n1_t.find(a15); t141_pos = n1_t.find(a_t141)
+L187: assert w220_start > 0 and t141_pos > w220_start, \
+L188:     "W220 materializer block face not found (W220 freeze not landed? header-text drift -> honest re-derive required)"
+L189: blk = n1_t[w220_start:t141_pos]
+L193:     "parity span markers not found in W220 block"
+L196: m219 = re.search(r" *assert pf\.N1_BANDS\[219\] ==", par_full)
+L197: assert m219, "upstream W219 row leg not found inside W220 parity span"
+L203:     and [int(_estate_ws[69]), int(_estate_ws[70]), int(_estate_ws[71]), int(_estate_ws[72]), int(_estate_ws[73]), int(_estate_ws[74]), int(_estate_ws[75]), int(_estate_ws[76])] == [211, 212, 213, 214, 215, 216, 217, 218], \
+L204:     f"estate segment not W138..W206 full-span 69 rows + W211 + W212 + W213 + W214 + W215 + W216 + W217 + W218 legs: n={par_sec.count('assert pf.N1_BANDS[')} range={(_estate_ws[:2], _estate_ws[-8:])}"
+L206:     f"full parity span {par_full.count('assert pf.N1_BANDS[')} != 78 (69 estate + W211 leg + W212 leg + W213 leg + W214 leg + W215 leg + W216 leg + W217 leg + W218 leg + W219 leg)"
+L216: CFG_I  = line_indent(n1_t, '220: {"batch"', EOL)
+L217: PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W220_PREREG.md', EOL)
+L219: # MEM_I derived INSIDE the W220 cfg entry span (own splice generation, value
+L221: _c220 = n1_t.find('220: {"batch"')
+L222: assert _c220 > 0, "W220 cfg entry not found (W220 freeze not landed?)"
+L224: assert _mpos > 0 and n1_t.find('"shard_subdir"', _c220) > _mpos, "W220 cfg a_seed_base line not found"
+L225: MEM_I  = line_indent(n1_t, '"a_seed_base": ' + str(W220["a"][0]), EOL) \
+L226:     if n1_t.find('"a_seed_base": ' + str(W220["a"][0]), _c220) > 0 \
+L227:     else line_indent(n1_t, '"a_seed_base": ' + fmt(W220["a"][0]), EOL)
+L228: ROW_I  = line_indent(pf_t,  '220: {"a"', PF_EOL)
+L230: # ---------- W220 row owner line (physical bytes; comment text is own generation) ----------
+L231: w220_row_start = pf_t.find('    220: {"a"')
+L232: assert w220_row_start > 0, "W220 row literal not found in pf source"
+L233: _own_ls = pf_t.find(PF_EOL, w220_row_start) + len(PF_EOL)
+L235: w220_own_line = pf_t[_own_ls:_own_le]
+L236: assert '"engine_owner": "bm-c"' in w220_own_line, \
+L237:     f"W220 owner line unexpected bytes: {w220_own_line!r}"
+L238: ROWC_I = w220_own_line[:len(w220_own_line) - len(w220_own_line.lstrip(" "))]
+L242: "    # W221 (bm-c loop five-face freeze splice, seat",
+L243: "    # MSG-20261012-1225-bmc-w221-seat pushed to origin " + SEAT_ORIGIN,
+L245: "    # commit " + w221_prereg_sha[:10] + " (prereg research/PERPETUAL_N1_W221_PREREG.md",
+L247: "    # results/_w221bmc_20261012_probe_receipt.json @ " + w221_receipt_sha[:10] + ");",
+L250: "    # splice AFTER the bm-c W220 five-face (freeze " + w220_freeze_sha[:10] + ") + W220",
+L251: "    # finalize product landed (n1_w220_results.json present, ledger",
+L252: "    # head " + str(w220_total) + " machine-read at freeze time); zero --no-verify;",
+L253: "    # the W221 seat MSG sits in " + seat_found + " at freeze",
+L255: "    # band gate ADMIT results/_w221bmc_20261012_probe_receipt.json: A = FIRST-CLEAN",
+L256: "    # past the registered W220 B band (arithmetic continuation",
+L257: "    # " + fmt(w220_a_tail + 1) + ".." + fmt(w220_a_tail + 2_000) + " REFUSED at its own start by the W220 B band",
+L258: "    # " + fmt(W220["b_exit"][0]) + ".." + fmt(w220_b_tail) + ", exactly as the W220 seat leg4",
+L262: "    # (" + fmt(w220_b_tail) + "+1) machine-checkable -- A-hops-prior-B staircase",
+L267: "    # universe but lands INSIDE the W221 A band window " + fmt(a_lo) + ".." + fmt(a_hi) + " --",
+L282: "    # W222+ projection (gate-derived pre-seat probe leg4, pre-W221",
+L285: "    # INSIDE the naive A window and the registered W221 B band",
+L287: "    # MUST re-derive on the post-W221 universe AND reserve the",
+L291: pf_row = (f'{ROW_I}221: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
+L296:     f'221: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+L298: old_pf = must(pf_t, (w220_own_line + PF_EOL + '}'
+L300: new_pf = (w220_own_line + PF_EOL
+L306: fin_face = (f"W1..W220 finalize ALL LANDED (W220 finalize product present at splice, "
+L307:             f"net chain head {w220_total} machine-read, merged pool K={w220_merged_n} "
+L312:  f'{CFG_I}221: {{"batch": "PERPETUAL-N1-W221",',
+L313:  f'{PRE_KEY_I}"prereg": ("research/PERPETUAL_N1_W221_PREREG.md (wave-level frozen "',
+L320:  "number law after the REGISTERED W220 row five-face freeze (own seat published MSG-20261012-1025, executed bm-c r923 freeze window; engine self-burn 12/12; finalize one-pass 12:0x), ",
+L321:  f"{w220_freeze_sha[:10]} (prereg {w220_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W220 all ",
+L324:  "MSG-20261012-1225-bmc-w221-seat PUSHED to origin " + SEAT_ORIGIN + " ",
+L328:  f"commit {w221_prereg_sha[:10]} @ receipt {w221_receipt_sha[:10]}); ",
+L330:  "after the W220 five-face + W220 finalize product landed ",
+L336:  "engine_owner=bm-c, wave 221: ",
+L337:  "A = FIRST-CLEAN past the registered W220 B band (the ",
+L338:  f"arithmetic continuation {fmt(w220_a_tail + 1)}..{fmt(w220_a_tail + 2_000)} is REFUSED at its ",
+L339:  f"own start by the W220 B band {fmt(W220['b_exit'][0])}..{fmt(w220_b_tail)}, exactly as ",
+L340:  "the W220 seat leg4 succession ",
+L348:  f"INSIDE the W221 A band window {fmt(a_lo)}..{fmt(a_hi)} -- same-freeze mutual ",
+L353:  "convergence with the W220 seat leg4 succession projection ",
+L354:  "notes -- all MANDATORY notes honored (post-W220 universe ",
+L356:  "results/_w221bmc_20261012_probe_receipt.json + ",
+L358:  "ADMIT convention); W221+ projection per this window gate: ",
+L361:  f"the registered W221 B band {fmt(b_lo)}..{fmt(b_hi)} will refuse the naive W222 A window; ",
+L362:  "W222+ freezer MUST re-derive on the post-W221 universe AND ",
+L375:  f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W221 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN past the registered W220 B band; arithmetic {fmt(w220_a_tail + 1)}..{fmt(w220_a_tail + 2_000)} REFUSED at own start by the W220 B band {fmt(W220["b_exit"][0])}..{fmt(w220_b_tail)}; hops=1; A-hops-prior-B staircase EIGHTY-FIRST instance, E36 card; ordinal machine-read EIGHTY-FIRST per probe receipt)',
+L376:  f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W221 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN past the own-wave A window; arithmetic {fmt(a_lo)}..{fmt(a_lo + 199)} lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)',
+L377:  f'{MEM_I}"shard_subdir": "n1_w221", "out_name": "n1_w221_results.json",',
+L386: assert new_cfg.count('221: {"batch": "PERPETUAL-N1-W221"') == 1
+L391:  "    # --- W221 materializer face (bm-c loop five-face freeze splice,",
+L397:  "    #     live derive governs); wave 221 = first free number after the",
+L398:  "    #     REGISTERED W220 row (five-face freeze " + w220_freeze_sha[:10] + "; own seat published",
+L401:  "    #     -- SINGLE STATE zero seat gap (W2..W220 all registered). Seat",
+L402:  "    #     published=reserved MSG-20261012-1225-bmc-w221-seat pushed",
+L406:  "    #     commit " + w221_prereg_sha[:10] + "; deletion-set EMPTY; delivery window",
+L407:  "    #     = chain-order splice after the W220 five-face + W220 finalize",
+L408:  "    #     product landed; zero --no-verify; the W221 seat MSG sits in",
+L417:  "    #     results/_w221bmc_20261012_probe_receipt.json;",
+L421:  "    #     not a re-pick (R250: W221 bands were never assigned).",
+L422:  "    _set_wave(221)",
+L424:  '        assert WAVE_CONFIGS[220]["a_seed_base"] == pf.N1_BANDS[220]["a"][0], \\',
+L425:  '            "W221 upstream W220 mirror drift (a)"',
+L426:  "        assert WAVE_CONFIGS[220][\"b_exit_seed_base\"] == \\",
+L427:  '            pf.N1_BANDS[220]["b_exit"][0], "W221 upstream W220 mirror drift (b)"',
+L428:  "        assert WAVE_CONFIGS[220].get(\"engine_owner\") == \\",
+L429:  '            pf.N1_BANDS[220].get("engine_owner") == "bm-c", \\',
+L430:  '            "W221 upstream W220 engine_owner mirror drift (law-mirror parity; bm-c own-seat face)"',
+L431:  "        w220_a = {A_SEED_BASE + j for j in range(A_N)}",
+L432:  "        w220_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
+L433:  '        assert not (w220_a & w220_b), "W221 A/B band overlap"',
+L434:  "        assert not (w220_a & reg_ints) and not (w220_b & reg_ints), \\",
+L435:  '            "W221 hits SEED_REGISTRY"',
+L436:  '        for nm, band in (("A", w220_a), ("B", w220_b)):',
+L437:  '            assert not (band & v1_a) and not (band & v1_b), f"W221 {nm} hits v1"',
+L438:  '            assert not (band & w1_a) and not (band & w1_b), f"W221 {nm} hits W1"',
+L439:  '            assert not (band & probes), f"W221 {nm} hits probe seeds"',
+L441: w219_leg = [
+L442:  f'        assert pf.N1_BANDS[219] == {{"a": ({fmt(pf_mod.N1_BANDS[219]["a"][0])}, {fmt(pf_mod.N1_BANDS[219]["a"][1])}),',
+L443:  f'                                    "b_exit": ({fmt(pf_mod.N1_BANDS[219]["b_exit"][0])}, {fmt(pf_mod.N1_BANDS[219]["b_exit"][1])}),',
+L445: '            "registered W219 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"',
+L447: w220_leg = [
+L448:  f'        assert pf.N1_BANDS[220] == {{"a": ({fmt(pf_mod.N1_BANDS[220]["a"][0])}, {fmt(pf_mod.N1_BANDS[220]["a"][1])}),',
+L449:  f'                                    "b_exit": ({fmt(pf_mod.N1_BANDS[220]["b_exit"][0])}, {fmt(pf_mod.N1_BANDS[220]["b_exit"][1])}),',
+L451: '            "registered W220 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"',
+L454:  "        # prior-wave disjointness W2..W220 (single state: all",
+L456:  "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 221):",
+L457:  '            assert not (w220_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j',
+L458:  "                                 for j in range(A_N)}), f\"W221 A hits W{wprev}\"",
+L459:  '            assert not (w220_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j',
+L460:  "                                  for j in range(B_N)}), f\"W221 B hits W{wprev}\"",
+L462:  "        assert not (w220_a & n3r1_used221) and not (w220_b & n3r1_used221), \\",
+L463:  '            "W221 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"',
+L464:  "        assert not (w220_a & lfc_actual12) and not (w220_b & lfc_actual12), \\",
+L465:  '            "W221 bands must clear the lfc actual draw range"',
+L466:  "        assert not (w220_a & options_actual12) and \\",
+L467:  "            not (w220_b & options_actual12), \\",
+L468:  '            "W221 bands must clear the options_wave2 actual draw range"',
+L469:  "        # band facts (law sec.4 W221 row): A = FIRST-CLEAN past",
+L470:  "        # the registered W220 B band (the arithmetic continuation",
+L471:  f"        # {fmt(w220_a_tail + 1)}..{fmt(w220_a_tail + 2_000)} is REFUSED at its own start by the W220 B band",
+L472:  f"        # {fmt(W220['b_exit'][0])}..{fmt(w220_b_tail)}, exactly as the W220 seat leg4",
+L475:  f"        # prior-wave B tail+1 ({fmt(w220_b_tail)}+1) machine-checkable --",
+L480:  f"        # registered universe but lands INSIDE the W221 A band window",
+L486:  "        # cross-window convergence with the W220 seat leg4",
+L488:  "        # honored (post-W220 universe re-derive + own-wave A",
+L491:  f'        assert WAVE_CONFIGS[221]["a_seed_base"] == {a_lo} == {w220_b_tail} + 1, (',
+L492:  '            "W221 A must be the first-clean window past the registered "',
+L493:  '            "W220 B band tail (arithmetic continuation REFUSED at its own "',
+L494:  '            "start by the W220 B band, exactly as the W220 seat leg4 "',
+L500:  '            "W221 A window must be CLEAN (first-clean ADMIT face past prior-wave B)"',
+L501:  f'        assert WAVE_CONFIGS[221]["b_exit_seed_base"] == {b_lo} == {a_hi} + 1, (',
+L502:  '            "W221 B must be the first-clean window past the own-wave A "',
+L504:  '            "universe but lands INSIDE the W221 A band window; "',
+L511:  '            "W221 B window must be CLEAN (first-clean ADMIT face past own-wave A)"',
+L513:  '            "W221 A/B same-freeze mutual exclusion (B hops past own A)"',
+L514:  "        assert _entry_shard_of(0, 12) == (\"PERPETUAL-N1-W221-SHARD-0\",",
+L515:  '                                          "n1w221-0of12"), "W221 entry identity"',
+L516:  '        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W221-SHARD-11",',
+L517:  '                                           "n1w221-11of12")',
+L518:  "        assert SHARD_DIR.endswith(\"n1_w221\") and OUT.endswith(",
+L519:  '            "n1_w221_results.json"), "W221 path drift"',
+L520:  "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 221):",
+L524:  '                f"W221 shard dir collides with W{wprev}"',
+L525:  "        # W221 finalize cumulative deps: W17..W220 outputs ALL PRESENT",
+L526:  f"        # (landed net chain head {w220_total} machine-read at freeze time)",
+L531:  "        for _depw in range(17, 221):",
+L534:  '                f"W221 finalize cumulative dep (W{_depw} output) missing"',
+L536:  "        # registered wave below 220 composes; wave 15 excluded by",
+L537:  "        # design; SINGLE STATE (W2..W220 all registered -- no",
+L539:  "        assert sorted(w for w in WAVE_CONFIGS if w < 220) == \\",
+L541:  "            [w for w in range(16, 221)], \\",
+L542:  '            "W221 prior-wave set must derive from registry keys (no 15; " \\',
+L543:  '            "W2..W220 registered single state)"',
+L545:  '            PATHS.root, "research", "PERPETUAL_N1_W221_PREREG.md")), \\',
+L546:  '            "W221 per-wave prereg missing (materializer requirement)"',
+L551: block = EOL.join(hdr) + EOL + par_sec + EOL.join(w219_leg) + EOL + EOL.join(w220_leg) + EOL + EOL.join(tail) + EOL
+L557:  '          "+ W221 materializer face [same guard set, dep=W17..W220 "',
+L558:  f'          "outputs ALL PRESENT (landed net chain head {w220_total} = W220 bm-c finalize one-pass, K={w220_merged_n} merged pool) -- ZERO "',
+L564:  '          "A=FIRST-CLEAN past the registered W220 B band (staircase "',
+L571:  '          "results/_w221bmc_20261012_probe_receipt.json, law sec.4 W221 row, "',
+L578: assert n1_t4.count('"batch": "PERPETUAL-N1-W221"') == 1
+L579: assert n1_t4.count("# --- W221 materializer face") == 1     # block header
+L580: assert n1_t4.count('"+ W221 materializer face') == 1        # print fragment
+L581: assert n1_t4.count('221: {"batch": "PERPETUAL-N1-W221"') == 1
+L582: assert pf_t2.count(ROW_I + '221: {"a"') == 1
+L585: assert n1_t4.count('"PERPETUAL-N1-W221-SHARD-0"') == 1
+L586: assert n1_t4.count('f"W221 A hits W{wprev}"') == 1
+L587: assert n1_t4.count(f'assert pf.N1_BANDS[220] == {{"a": ({fmt(pf_mod.N1_BANDS[220]["a"][0])}, {fmt(pf_mod.N1_BANDS[220]["a"][1])}),') == 1
+L595: assert n1_t4.count('    # --- W216 materializer face') == 1  # prior block kept (W216 splice landed r914 window)
+L596: assert n1_t4.count('    # --- W217 materializer face') == 1  # prior block kept (W217 splice landed r916 window)
+L597: assert n1_t4.count('    # --- W218 materializer face') == 1  # prior block kept (W218 splice landed r918 window)
+L598: assert n1_t4.count('    # --- W219 materializer face') == 1  # prior block kept (W219 splice landed r920 window)
+L599: assert n1_t4.count('    # --- W220 materializer face') == 1  # prior block kept (W220 splice landed r923 window)
+L615:   "machine": "bm-c", "wave": 221,
+L623:   "admit_receipt": "results/_w221bmc_20261012_probe_receipt.json",
+L626:   "w220_upstream": {"freeze_sha": w220_freeze_sha, "prereg_sha": w220_prereg_sha,
+L627:                     "ledger_total": w220_total, "merged_n": w220_merged_n,
+L630:   "w219_transitive": {"finalize_product": "results/perpetual_faces/n1_w219_results.json present (belt-and-braces gate; ledger 905,589 / K=479,720)"},
+L631: "w218_transitive": {"finalize_product": "results/perpetual_faces/n1_w218_results.json present (belt-and-braces gate; ledger 903,389 / K=477,520)"},
+L632:   "w217_transitive": {"finalize_product": "results/perpetual_faces/n1_w217_results.json present (belt-and-braces gate; ledger 901,189 / K=475,320)"},
+L633:   "w216_transitive": {"finalize_product": "results/perpetual_faces/n1_w216_results.json present (belt-and-braces gate; ledger 898,989 / K=473,120)"},
+L635:   "prereg_bundle": {"prereg_sha": w221_prereg_sha, "probe_receipt_sha": w221_receipt_sha,
+L636:                     "note": "prereg derived+committed in the r925 dead window (2e251d084, five-level lineage replay + editor_gen fix replay, preflight 46/46; anchor-verification scratch from the r926 zero-commit dead window absorbed); splice editor derived from the committed W220 editor template by count-asserted ordered transform (protect-restore regions, fail-closed pair law) in this r927 absorb window; upstream W220 already landed (clean-precondition tenth consecutive window); zero transcription"},
+L641:                     "note": "post-W221 registration: bm-c rows 50 + candidate = 51st owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=51 = r924 seat-time live face -- disclosed honest)"},
+L642:   "parity_section": {"source": "OWN W220 block physical bytes (own splice generation, structure known exactly)",
+L645:                     "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211 + W212 + W213 + W214 + W215 + W216 + W217 + W218 legs -> W221 block = 79 rows ending at W220; disclosed: inherited W213 leg error-string face (\"registered W212 row parity drift\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact)"},
+L647:   "liveness_anchors": {"t141_marker_kept": 1, "w209_block_kept": 1, "w210_block_kept": 1, "w211_block_kept": 1, "w212_block_kept": 1, "w213_block_kept": 1, "w214_block_kept": 1, "w215_block_kept": 1, "w216_block_kept": 1, "w217_block_kept": 1, "w218_block_kept": 1, "w219_block_kept": 1, "w220_block_kept": 1},
+L652:        "w220_upstream")}, indent=1))
+L653: print("SPLICE OK -- py_compile both green; NEXT: selftest (default wave, r522 law) -> pathspec commit+push -> ignition verify (2-cycle n1_w221 growth)")
