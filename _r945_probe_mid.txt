@@ -1,0 +1,148 @@
+109 | print(f"leg0: {len(N1_BANDS)} rows tail=W225 registered, owner={owner_total} -> 215th wave, bm-c 56th owned (continuity), anchor W225 ledger head {led.get('total')} K={w2
+110 | 
+111 | # --- W226 own vacancy on origin (both states) ----------------------------------
+112 | r_vac = subprocess.run(["git", "ls-tree", "--name-only", "-r", "origin/main", "--",
+113 |                          "fleet/inbox/", "fleet/inbox/processed/"], cwd=ROOT,
+114 |                         capture_output=True)
+115 | all_inbox = r_vac.stdout.decode("utf-8").splitlines()
+116 | w226_seats = [ln for ln in all_inbox if "w226" in ln.lower() and "seat" in ln.lower()]
+117 | assert w226_seats == [], f"vacancy failed: W226 seats already exist: {w226_seats}"
+118 | out_pf = subprocess.check_output(
+119 |     ["git", "show", "origin/main:scripts/perpetual_faces.py"],
+120 |     cwd=ROOT, encoding="utf-8", errors="replace")
+121 | assert '226: {"a": (' not in out_pf, "vacancy failed: W226 row ALREADY on origin (r511 tail-lock)"
+122 | outn1_vac = subprocess.check_output(
+123 |     ["git", "show", "origin/main:scripts/perpetual_faces_n1.py"],
+124 |     cwd=ROOT, encoding="utf-8", errors="replace")
+125 | assert '"PERPETUAL-N1-W226"' not in outn1_vac, "vacancy failed: W226 WAVE_CONFIGS ALREADY on origin"
+126 | outpre_vac = subprocess.check_output(["git", "ls-tree", "--name-only", "origin/main", "--",
+127 |                                        "research/PERPETUAL_N1_W226_PREREG.md"], cwd=ROOT,
+128 |                                       encoding="utf-8", errors="replace").strip()
+129 | assert not outpre_vac, "vacancy failed: W226 per-wave prereg ALREADY on origin"
+130 | print("vacancy: W226 origin vacancy held (no seat / row / configs / prereg)")
+131 | 
+132 | points = {v for v in science_gates.SEED_REGISTRY.values() if isinstance(v, int)}
+133 | points |= set(N24_PROBE_POINTS) | set(N2_W15_PROBE_POINTS)
+134 | points |= set(CROSSFACE_PROBE_POINTS)
+135 | points |= set(range(N3R1_USED[0], N3R1_USED[1] + 1))
+136 | points |= set(PROBE_SEEDS)
+137 | bands = []
+138 | for wnum, cfg in N1_BANDS.items():
+139 |     for key in ("a", "b_exit"):
+140 |         bands.append(tuple(cfg[key]))
+141 | bands += V1_IN_USE + W1_EXT
+142 | actual = [LFC_ACTUAL, OPTIONS_ACTUAL]
+143 | 
+144 | # --- leg 1: honest forward walk from the registered W225 tails ------------------
+145 | ARITH_A = (W225_A[1] + 1, W225_A[1] + WIDTH_A)
+146 | ARITH_B = (W225_B[1] + 1, W225_B[1] + WIDTH_B)
+147 | 
+148 | 
+149 | def first_clean(lo, width, trace=None, extra_bands=()):
+150 |     hops = 0
+151 |     prev_lo = lo
+152 |     while True:
+153 |         hi = lo + width - 1
+154 |         bad_pts = [p for p in points if lo <= p <= hi]
+155 |         bad_bands = [b for b in list(bands) + list(extra_bands) + actual
+156 |                      if overlaps((lo, hi), b)]
+157 |         if not bad_pts and not bad_bands:
+158 |             return (lo, hi), hops
+159 |         jump = max([p + 1 for p in bad_pts] + [b[1] + 1 for b in bad_bands])
+160 |         assert jump > prev_lo, f"non-rotational violation: jump {jump} <= {prev_lo}"
+161 |         if trace is not None:
+162 |             trace.append({"hop": hops + 1, "window": [lo, hi], "jump_to": jump})
+163 |         lo = jump
+164 |         prev_lo = lo
+165 |         hops += 1
+166 | 
+167 | 
+168 | (fc_a, hops_a) = first_clean(ARITH_A[0], WIDTH_A)
+169 | b_trace = []
+170 | (fc_b, hops_b) = first_clean(ARITH_B[0], WIDTH_B, trace=b_trace,
+171 |                              extra_bands=(fc_a,))
+172 | (fc_b_naive, hops_b_naive) = first_clean(ARITH_B[0], WIDTH_B)
+173 | assert fc_a[0] == W225_B[1] + 1, "leg1 staircase A base != prior-wave B tail+1"
+174 | assert fc_b[0] == fc_a[1] + 1, "leg1 staircase B base != own-A tail+1"
+175 | assert fc_a[0] > ARITH_A[0], ("leg1 A not refused (staircase A-hops-prior-B EIGHTY-SIXTH "
+176 |                                "instance expected per W225 seat MSG leg4 projection line)")
+177 | assert overlaps(fc_b_naive, fc_a), "leg1 naive B expected INSIDE own-A (mutual exclusion face)"
+178 | assert not overlaps(fc_a, fc_b), "leg1 A/B overlap"
+179 | receipt["legs"]["leg1"] = {
+180 |     "ARITH_A": list(ARITH_A), "ARITH_B": list(ARITH_B),
+181 |     "A": list(fc_a), "hops_A": hops_a,
+182 |     "B": list(fc_b), "hops_B": hops_b,
+183 |     "B_naive_first_clean": list(fc_b_naive), "B_naive_hops": hops_b_naive,
+184 |     "B_hop_chain": b_trace,
+185 |     "A_semantics": ("A arithmetic continuation from registered W225 A tail REFUSED at start by "
+186 |                     "registered W225 B band (staircase A-hops-prior-B EIGHTY-SIXTH instance, E36 "
+187 |                     "card, per the W225 seat MSG leg4 anticipation); honest forward walk, non-rotational r587"),
+188 |     "B_semantics": ("B naive first-clean lands INSIDE own-wave A window -- same-freeze mutual "
+189 |                     "exclusion (W141 precedent, leg2 law); reserved walk past own-A, hops machine-counted"),
+190 | }
+191 | print(f"leg1: A {fc_a[0]}..{fc_a[1]} hops={hops_a} + B {fc_b[0]}..{fc_b[1]} hops={hops_b} (naive B {fc_b_naive[0]}..{fc_b_naive[1]} inside own-A; staircase held)")
+192 | 
+193 | # --- leg 2: full reserved universe conflict scan ------------------------------
+194 | conflicts = []
+195 | for tag, band in (("A", fc_a), ("B", fc_b)):
+196 |     for wname, cfg in N1_BANDS.items():
+197 |         for key in ("a", "b_exit"):
+198 |             lo, hi = cfg[key]
+199 |             if overlaps((lo, hi), band):
+200 |                 conflicts.append(f"N1_BANDS W{wname}.{key} x W226-{tag}")
+201 |     for k, v in science_gates.SEED_REGISTRY.items():
+202 |         if isinstance(v, int) and band[0] <= v <= band[1]:
+203 |             conflicts.append(f"SEED_REGISTRY[{k}]={v} inside W226-{tag}")
+204 |     for nm, rng in (("lfc", LFC_ACTUAL), ("options", OPTIONS_ACTUAL)):
+205 |         if overlaps(rng, band):
+206 |             conflicts.append(f"{nm} actual x W226-{tag}")
+207 |     for nm, pp in (("N2/N4", N24_PROBE_POINTS), ("N2-W15", N2_W15_PROBE_POINTS),
+208 |                    ("crossface", CROSSFACE_PROBE_POINTS), ("probe", PROBE_SEEDS)):
+209 |         for p in pp:
+210 |             if band[0] <= p <= band[1]:
+211 |                 conflicts.append(f"{nm} probe point {p} inside W226-{tag}")
+212 |     if overlaps(N3R1_USED, band):
+213 |         conflicts.append(f"N3-R1 used-seed band x W226-{tag}")
+214 |     for nm, bb in (("v1-in-use", V1_IN_USE), ("w1-ext", W1_EXT)):
+215 |         for r2 in bb:
+216 |             if overlaps(r2, band):
+217 |                 conflicts.append(f"{nm} x W226-{tag}")
+218 | assert not conflicts, f"leg2 failed: W226 conflicts {conflicts}"
+219 | 
+220 | # --- seed_admit_gate (O-20261010-1945-bm-a ADMIT convention upgrade) ------------
+221 | gate_lines = []
+222 | for base, span in ((fc_a[0], WIDTH_A), (fc_b[0], WIDTH_B)):
+223 |     g = subprocess.run([sys.executable, os.path.join(ROOT, "Tools", "seed_admit_gate.py"),
+224 |                         str(base), "--span", str(span)],
+225 |                        cwd=ROOT, capture_output=True, text=True,
+226 |                        encoding="utf-8", errors="replace", creationflags=CREAT)
+227 |     assert g.returncode == 0, f"seed_admit_gate FAIL base={base}: {g.stdout} {g.stderr}"
+228 |     gate_lines.append(g.stdout.strip().splitlines()[-1] if g.stdout.strip() else f"rc0 base={base} span={span}")
+229 | receipt["legs"]["leg2"] = {"conflicts": 0, "seed_admit_gate": gate_lines}
+230 | print("leg2: conflicts=0; seed_admit_gate:", " | ".join(gate_lines))
+231 | 
+232 | # --- leg 3: origin vacancy (recorded; W226 seat must NOT exist yet) -------------
+233 | receipt["legs"]["leg3"] = {"origin_vacancy": True}
+234 | print("leg3: origin vacancy held (no W226 seat / row / configs / prereq)")
+235 | 
+236 | # --- leg 4: W226+ projection (probe tail, next freezer re-derives) -------------
+237 | (fc223_a, h222a) = first_clean(fc_a[1] + 1, WIDTH_A)
+238 | (fc223_b, h222b) = first_clean(fc_b[1] + 1, WIDTH_B)
+239 | inside223 = overlaps(fc223_b, fc223_a)
+240 | receipt["legs"]["leg4"] = {"W226p_A": f"{fc223_a[0]}..{fc223_a[1]}", "hops_A": h222a,
+241 |                            "W226p_B": f"{fc223_b[0]}..{fc223_b[1]}", "hops_B": h222b,
+242 |                            "W226p_B_lands_inside_W226p_A": inside223,
+243 |                            "note": ("W226+ naive projection on pre-W226 universe; "
+244 |                                     "the registered W226 B band will refuse the naive W226 A window "
+245 |                                     "once W226 is registered (A-hops-prior-B EIGHTY-SEVENTH instance "
+246 |                                     "anticipated); W226 freezer MUST re-derive on the post-W226 universe "
+247 |                                     "AND reserve own-wave A when deriving B (W141 precedent, leg2 law, "
+248 |                                     "E36 staircase card) -- never transcribe r587)")}
+249 | print(f"leg4: W226+ projection A {fc223_a[0]}..{fc223_a[1]} hops={h222a} / B {fc223_b[0]}..{fc223_b[1]} hops={h222b} (B inside A: {inside223})")
+250 | 
+251 | receipt["verdict"] = "ADMIT"
+252 | receipt["bands"] = {"A": f"{fc_a[0]}_{fc_a[1]}", "B": f"{fc_b[0]}_{fc_b[1]}"}
+253 | json.dump(receipt, open(os.path.join(ROOT, "results",
+254 |                                      "_w226bmc_20261012_probe_receipt.json"), "w",
+255 |                         encoding="utf-8"), ensure_ascii=False, indent=1)
+256 | print(f"W226 PRE-SEAT PROBE rc0 ADMIT: A {fc_a[0]}..{fc_a[1]} + B {fc_b[0]}..{fc_b[1]} (staircase geometry held; receipt written)")
