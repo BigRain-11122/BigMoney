@@ -1,0 +1,63 @@
+{
+ "wave": "226",
+ "phase": "post-hoc five-key heal (r944 window; finalize landed by r943 dead window pre-receipt)",
+ "ledger": {
+  "prev": 918789,
+  "batch": 2200,
+  "total": 920989,
+  "identity_assert": true
+ },
+ "merged_mu": -0.09279386169009533,
+ "merged_sigma": 0.24510058870014606,
+ "w_only_mu": -0.09264213636363637,
+ "w_only_sigma": 0.24814170384273385,
+ "A_p95": 0.3199,
+ "A_n": 2000,
+ "skill_line": {
+  "pre": 1.1916,
+  "merged": 1.1916,
+  "delta": 0.0,
+  "n_eff": 918789
+ },
+ "se_mu": {
+  "se_mu_at_k495120": 0.000348
+ },
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)",
+ "shards_consumed": 12,
+ "evidence_cutoff": "2026-09-22",
+ "voids": [
+  "LOWAMP-P1",
+  "LOWAMP-P2"
+ ],
+ "audit": {
+  "machine": "bm-c",
+  "finalize_only": true
+ },
+ "five_keys": {
+  "key1_wonly_vs_merged_dmu": {
+   "value": 0.00015172532645896242,
+   "gate": 0.02,
+   "pass": true
+  },
+  "key2_sigma_rel_pct": {
+   "value": 0.005468699608021357,
+   "gate": 10.0,
+   "pass": true
+  },
+  "key3_A_p95_diff_vs_w225": {
+   "value": 0.018500000000000016,
+   "gate": 0.05,
+   "pass": true
+  },
+  "key4_k_lift": {
+   "value": 0.0,
+   "gate": 0.02,
+   "pass": true
+  },
+  "key5_projection_inherit": {
+   "value": "see sec.8 W227+ projection (seat probe receipt leg4)",
+   "pass": true
+  }
+ },
+ "five_keys_all_pass": true
+}

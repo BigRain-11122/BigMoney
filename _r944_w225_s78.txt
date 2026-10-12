@@ -1,0 +1,14 @@
+## ��7 �ܺ�ʵ֤����finalize �տڻ�е���
+- **finalize one-pass �ѻ��bm-c r940 ����2026-10-12 20:2x���н� r938 ϯλ���� c78dd1a44+r939 per-wave prereg derive 4b22941a7+r939 ���涳�� splice 84ecb3a3a��**��ȫ��=r938 ϯλ������probe rc0 ADMIT A 509_804..511_803 ���� EIGHTY-FIFTH hops=1+B 511_804..512_003 own-A exclusion hops=1����r939 prereg derive+land���ż�Ѫͳ�ط� preflight 46/46����r939 splice landed��family #6 LHS/RHS/ע����Ԫ��ԭ�����ս��༭�� derive=W224 ��8 �����᰸ִ�С���ִ _w225bmc_freeze_receipt.json�������� daemon mtime-watch ��ȼ 12/12��batched ledger append 641efeb69+4b4946df6 ���ύ����r939 �Ự�����տ�ǰ������/fivekey �����ѱ�δ�ܣ������� r940 �տ�ȫ estate��
+  - �˱����ʽ��prev_total **916,589** + batch_trials **2,200** = total **918,789**���������� n1_w225_results.json science_gates.ledger��prev+batch==total ���ͨ���������� ledger_pre ������ȣ�
+  - �ϲ��� K=**492,920** EXACT������ ledger_pre ���� 490,720+2,200 ���֣���merged mu=**-0.09279453887040492** / merged sigma=**0.24508718561818685**��w225-only mu=**-0.09782472727272727** / w225-only sigma=**0.2457078963517878**��ȫ��ʵ��=results/perpetual_faces/n1_w225_results.json+results/_r939bmc_w225_fivekey_receipt.json��ê W224 ʵ������� derive ��д��r583 �ɣ�
+  - skill_line_v2 K-lift ���գ�line_pre **1.1915** �� line_merged **1.1914** @n_eff 916,589��delta **-0.0001**����5 Ԥ�� ��0.02 ���ڡ�W2..W224 ����������ʵ�⣩
+  - **��5 ��Ԥ����֤��fivekey probe=results/_r939bmc_w225_fivekey_receipt.json �� finalize ͬ����**��key1 w-only vs merged |��mu|=**0.0050301884**<0.02 PASS��key2 sigma ��Ա仯 **+0.0011293222%**<��10% PASS��key3 A �� p95 **0.3014** vs W224 0.3168 �� **0.0154**<0.05 PASS��key4 K-lift **-0.0001**��0.02 PASS��key5 ͶӰ�нӼ� ��8����**���ȫ��=��5 Ԥ��ȫ��������Υ��**��
+  - se_mu ��խ�����У�se_mu_at_k492920=**0.000349**��ǰ�� W224 0.00035 ƽ�����ա���ͷ����
+  - canon flip ̬=NOT performed��K2200 ͬ�ɡ������᰸�� only����
+  - audit��voids_applied=['LOWAMP-P1','LOWAMP-P2']��machine=bm-c��finalize_only=true��shards_consumed=12/12��evidence_cutoff=2026-09-22��
+  - **����̽��=PRE-FINALIZE ȫ�̣���ȷ��λ��W222 miss#5 ����� 3 ������W223/W224/������=results/_r939bmc_w225_sixgate_receipt.json**��banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS+shards 12/12 �ڳ�+seed_admit FREE x2��base=509804 span=2000+base=511804 span=200��+splice �����ԣ�bands facts==freeze receipt��pf sha16 **d8668dd33296e1db** �� n1 sha16 **635bf63e66bae66b** ˫�� clean-equal ����ͨ��=**family #6 �޸�����ʷ�״����޸�**����Ԫ��ԭ�����ս� r939 �༭�� derive����whole-file recheck 'if w < 225)' x3+range(16,225)+range(17,225)+below-225 ע��ȫ�ڳ���+WAVE_CONFIGS[225] row engine_owner=bm-c��a_seed_base=509_804/b_exit_seed_base=511_804+ledger_pre 916,589=W224 landed�����߽��ɨ�������ڳ�ִ����W222 ��8 ������衤�� 3 ������
+
+## ��8 �����̡���finalize ͬ�����
+- **�����̣�bm-c r940 ��ͬ�����**��
+  - ��5.5 �²�ͶӰ�нӻ�֤��**W226+ ͶӰ=probe ��֤ leg4���б��� ��5.5��results/_w225bmc_20261012_probe_receipt.json

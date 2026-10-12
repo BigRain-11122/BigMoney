@@ -1,0 +1,12 @@
+NEW SHOTS（44 镜） =================
+# (id, t0, t1, speed, kf_prompt, i2v_prompt)
+NEW = [
+    # ---- 前奏 0-17.5（她入馆·世界呼吸）----
+    ("INT1_hall_breath", 0.00, 3.50, 0.85,
+     kf("med", "eye", "a dark museum hall after closing seen from the entrance, a single glass display case lit warm at the far end of the long aisle", "hall_night", lens="35"),
+     i2v("A medium shot at eye level", "holds a static locked-off shot with only the distant case light breathing slowly brighter and dimmer",
+         "A dark museum hall after closing, a single warm amber display case far down the aisle, the light breathing, dust motes drifting in the lit air")),
+    ("INT2_row_wake", 3.50, 7.50, 0.92,
+     kf("wide", "eye", "a row of glass display cases in a dark museum hall waking one after another, warm pools marching into the distance, her small distant silhouette just inside the entrance", "row_wake", lens="35"),
+     i2v("A wide shot at eye level", "pushes in with small amplitude at slow speed",
+         "A row of museum display cases lighting up one after another down a dark hall, warm amber pools marching into the distance, a small distant silhouette of a young woman standing just inside the entrance")

@@ -1,0 +1,67 @@
+{
+ "machine": "bm-c",
+ "wave": 226,
+ "phase": "POST-FINALIZE six-gate heal (r944 window; W212-pattern recurrence #3 disclosed -- r943 dead window landed splice 9b44d37d1 + engine self-burn 12/12 + finalize 22:41:33 but died pre-six-gate; healed post-hoc per r917 precedent; W227 must run PRE-FINALIZE)",
+ "ts": "2026-10-12T22:52:12",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "f670ff87a0d1af59",
+   "n1_sha16_now": "79109bf30ab12cbb",
+   "pf_sha16_freeze_post": "f670ff87a0d1af59",
+   "n1_sha16_freeze_post": "79109bf30ab12cbb",
+   "family6_triple_wholefile_recheck": true,
+   "repair_note": "NO repair expected: family #6 triple carried atomically in the r943 splice; both sha16 faces asserted clean-equal"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=512004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=514004 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=512004 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=514004 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 512004,
+   "b_exit_seed_base": 514004,
+   "shard_subdir": "n1_w226",
+   "out_name": "n1_w226_results.json",
+   "seed_bases_match_freeze_bands": true
+  },
+  "finalize_identity_posthoc": {
+   "ledger_prev": 918789,
+   "ledger_batch": 2200,
+   "ledger_total": 920989,
+   "merged_n": 495120,
+   "identity_assert": true,
+   "note": "post-hoc verification of the dead-window finalize product against pre-wave anchors"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 918789,
+  "prev_merged_n": 492920,
+  "expect_total": 920989,
+  "expect_merged": 495120
+ }
+}
