@@ -55,9 +55,21 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r915 W216 §7 范式）
+- **finalize one-pass 已回填（bm-c r917·2026-10-12 08:2x 窗·全链=r915 席位发布 MSG-20261012-0700 1e1454cfb→r916 per-wave prereg+五面冻结拼接 ad011fee2→引擎自燃 12/12（ledger append 60c0799cd/ca9f9f616 两批 6+6）→r916 one-pass finalize 08:10:30〔r916 窗死于 finalize 提交前·本窗 r917 吸收并落地——r894/r897/r907/r911/r915 absorb 范式第 7 例〕）**：
+  - 账本恒等式：prev_total **898,989** + batch_trials **2,200** = total **901,189**（三键机读自 n1_w217_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=475320 EXACT·merged mu=**-0.0927515162416898** / merged sigma=**0.2450875595363311**·w217-only mu=**-0.10123772727272728** / w217-only sigma=**0.24155758543227537**（全机读零手抄·回执=results/_r917bmc_w217_fivekey_receipt.json）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1907** → line_merged **1.1906** @n_eff 898,989（delta **-0.0001**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r917 五键探针 results/_r917bmc_w217_fivekey_probe.py 本窗 finalize 吸收后同窗补做）**：key1 w-only vs merged |Δmu|=**0.00848621**<0.02 PASS；key2 sigma 相对变化 **-0.00647110%**<±10% PASS；key3 A 档 p95 **0.3074** 差 **0.0122**<0.05 PASS；key4 K-lift **-0.0001**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@K475320=**0.000355**（se_mu_at_k475320·前键链 W215 0.000357→W216 0.000356→W217 0.000355）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·finalize_only=true·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w217_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
+  - **六门探针=债务面如实披露**（r916 窗死于引擎烧录与 finalize 之间·pre-finalize 六门窗错过=W212 模式第 2 例复发）——本窗 r917 吸收窗 post-finalize 补做治愈全绿（回执 results/_r917bmc_w217_sixgate_receipt.json：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS+shard 12/12 盘面+seed_admit FREE x2〔seat-time r915+freeze-time r916 FREE 证据消费注记·post-freeze 新跑对已注册 own row 无意义〕+WAVE_CONFIGS[217] row engine_owner=bm-c·a_seed_base=492204/b_exit_seed_base=494204+ledger_pre 898,989=W216 landed）——**W218 链六门必须 pre-finalize 跑（W212/W216/W217 三例教训·禁再 post-hoc）**。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W218+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r915 W216 §8 范式）
+- **批后复盘（bm-c r917 同窗回填）**：
+  - §5.5 下波投影承接：**W218+ 投影（probe 机证 leg4·本波 prereg §5.5 原文）**：naive A 494,204..496,203 被本波 W217 B 带（494,204..494,403）起点即拒——**阶梯 A-hops-prior-B 第七十八例兑现**（W217 §5.5 投影预言命中）；naive B 494,404..494,603 落 W218 own-A 窗内（W141 同窗互斥先例适用）→**W218 A=494,404..496,403 / B=496,404..496,603**（hops=1+1·W218 席位探针 results/_w218bmc_20261012_probe.py rc0 ADMIT·回执 results/_w218bmc_20261012_probe_receipt.json leg1/leg4 机证·席位 MSG-20261012-0830-bmc-w218-seat 本窗发布）；verify at W218 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏与方法论捕获问：本批测量面零新方法（引擎两批 6+6 ledger append 按设计落·无 deferred 无锁撞·finalize 产物一次 r916 独占 r917 吸收落地零双计）——**流程面一坑如实入账：pre-finalize 六门窗被垂死窗跳过（W212 模式第 2 例）·治法=W218 链把六门探针写入冻结窗固定步（burn 完成即跑六门·再进 finalize）**。
+  - 诚实披露面：本波烧录链=r916 冻结窗后引擎全自动自燃（两批 6+6 ledger append）→r916 finalize one-pass 08:10:30 产物落盘后窗死（死于 finalize 提交与收尾前·六门窗错过+finalize 产物完好留存）→本窗 r917 吸收（产物机读复核+五键探针+六门 post-hoc 债务治愈+§7/§8 回填+提交落地）——链头消费=账本 append 由引擎单调·finalize 产物一次 r916 独占零双计；state/心跳轮计数器 r917 窗对账同步（counter advanced 916->918 absorb 范式）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。

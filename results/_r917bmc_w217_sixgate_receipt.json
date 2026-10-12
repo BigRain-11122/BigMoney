@@ -1,0 +1,49 @@
+{
+ "machine": "bm-c",
+ "wave": 217,
+ "phase": "post-finalize six-gate DEBT HEAL r917 (pre-finalize window missed: r916 died between burn and finalize; disclosed; W218 must run pre-finalize)",
+ "ts": "2026-10-12T08:20:54",
+ "gates": {
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=492204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=494204 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=492204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=494204 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 492204,
+   "b_exit_seed_base": 494204,
+   "shard_subdir": "n1_w217",
+   "out_name": "n1_w217_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 898989,
+  "prev_merged_n": 473120,
+  "expect_total": 901189,
+  "expect_merged": 475320
+ }
+}
