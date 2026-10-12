@@ -1,0 +1,402 @@
+{
+ "round": "r908",
+ "stage": "S0 rebase pick 2/5 (5a668750b)",
+ "faces": {
+  "results/post_review.jsonl": {
+   "recipe": "line-level union (S2 order + S3-only appended)",
+   "S2_lines": 10508,
+   "S3_lines": 10508,
+   "S3_only_added": 50
+  },
+  "fleet/machine-health.json": {
+   "recipe": "per-machine ownership deep-merge / newer-ISO-wins",
+   "S2_keys": "<class 'list'>",
+   "S3_keys": "<class 'list'>"
+  },
+  "results/d19_watermark.json": {
+   "recipe": "per-machine ownership deep-merge / newer-ISO-wins",
+   "S2_keys": [
+    "ts",
+    "cmd",
+    "advance",
+    "state_path",
+    "action",
+    "changed",
+    "reasons",
+    "err",
+    "written"
+   ],
+   "S3_keys": [
+    "ts",
+    "cmd",
+    "state_path",
+    "structural",
+    "probe_equality"
+   ]
+  },
+  "results/_r686bmb_d19_check.json": {
+   "recipe": "machine==bm-b probe truth",
+   "picked": "S3 machine=bm-b wm_orders=33aee17076256050074fe3e171103535b79b5b9a"
+  },
+  "results/_r686bmb_orders_fresh.md": {
+   "recipe": "line superset",
+   "picked": "S2 superset of S3",
+   "S2_lines": 387,
+   "S3_lines": 385
+  },
+  "results/post_review/REPORT-20261012.md": {
+   "recipe": "line union (S2 + S3-only appended)",
+   "S2_only_lines": 2,
+   "S3_only_lines": 2
+  }
+ },
+ "decisions": [
+  "results/d19_watermark.json: whole-dict S3 newer (2026-10-12T22:45:23+08:00 > 2026-10-12T20:00:54+08:00)"
+ ],
+ "preview_d19_watermark": {
+  "S2": {
+   "ts": "2026-10-12T20:00:54+08:00",
+   "cmd": "update",
+   "advance": true,
+   "state_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state-bm-c.json",
+   "action": "advanced",
+   "changed": {
+    "decisions": false,
+    "orders": true
+   },
+   "reasons": [],
+   "err": null,
+   "written": {
+    "last_decisions_sha": "94c9339335c996b373b332e33cf47aad3de8f292a53c742ad3e6efae304cd3ff",
+    "last_orders_sha": "4d1986f7b988317af5ccf09f17fd437e939ee8f527b12696a6bf9bbde39e3a07"
+   }
+  },
+  "S3": {
+   "ts": "2026-10-12T22:45:23+08:00",
+   "cmd": "verify",
+   "state_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state.json",
+   "structural": {
+    "last_decisions_sha": {
+     "ok": true,
+     "why": "ok",
+     "len": 40
+    },
+    "last_orders_sha": {
+     "ok": true,
+     "why": "ok",
+     "len": 40
+    }
+   },
+   "probe_equality": {
+    "last_decisions_sha": {
+     "equal": false,
+     "fresh": "5c0ea727f3dbd13053a76d9ef9571ebdabf5d338"
+    },
+    "last_orders_sha": {
+     "equal": false,
+     "fresh": "f9a221a197181c08bc7a38c571439624226094fd"
+    }
+   }
+  }
+ },
+ "preview_machine_health": {
+  "S2": [
+   {
+    "value": [
+     {
+      "value": [
+       {
+        "value": [
+         {
+          "value": [
+           {
+            "value": " ",
+            "Count": 2
+           },
+           {
+            "@{name=qwen3.6-coder:35b; model=qwen3.6-coder:35b; size=13773224016; digest=530c7b1df2c90b0811bea83012d6dd514cc8fdae7181f126c8dbefb49799a066; details=; expires_at=2319-01-22T14:43:58.415364007+08:00; size_vram=13773224016; context_length=16384; runner=llamacpp}": "@{ram_free_gb=2.5; work=oversight: cpu=AMBER gpu=AMBER llm=AMBER engine_q=0 wave=223 flags=3; gpu_free_gb=14.9; util=amber}",
+            "ts": "2026-10-12 18:36"
+           }
+          ],
+          "Count": 2
+         },
+         {
+          "@{name=qwen3.6-coder:35b; model=qwen3.6-coder:35b; size=13773224016; digest=530c7b1df2c90b0811bea83012d6dd514cc8fdae7181f126c8dbefb49799a066; details=; expires_at=2319-01-22T14:43:58.415364007+08:00; size_vram=13773224016; context_length=16384; runner=llamacpp}": {
+           "ram_free_gb": 2.4,
+           "work": "oversight: cpu=RED gpu=RED llm=RED engine_q=0 wave=224 flags=6",
+           "gpu_free_gb": 14.9,
+           "util": "red"
+          },
+          "ts": "2026-10-12 19:36"
+         }
+        ],
+        "Count": 2
+       },
+       {
+        "@{name=qwen3.6-coder:35b; model=qwen3.6-coder:35b; size=13773224016; digest=530c7b1df2c90b0811bea83012d6dd514cc8fdae7181f126c8dbefb49799a066; details=; expires_at=2319-01-22T14:43:58.415364007+08:00; size_vram=13773224016; context_length=16384; runner=llamacpp}": {
+         "ram_free_gb": 3.3,
+         "work": "oversight: cpu=RED gpu=RED llm=RED engine_q=0 wave=225 flags=6",
+         "gpu_free_gb": 14.7,
+         "util": "red"
+        },
+        "ts": "2026-10-12 20:36"
+       }
+      ],
+      "Count": 2
+     },
+     {
+      "@{name=qwen3.6-coder:35b; model=qwen3.6-coder:35b; size=13773224016; digest=530c7b1df2c90b0811bea83012d6dd514cc8fdae7181f126c8dbefb49799a066; details=; expires_at=2319-01-22T14:43:58.415364007+08:00; size_vram=13773224016; context_length=16384; runner=llamacpp}": {
+       "ram_free_gb": 4.6,
+       "work": "oversight: cpu=RED gpu=RED llm=RED engine_q=0 wave=225 flags=6",
+       "gpu_free_gb": 14.9,
+       "util": "red"
+      },
+      "ts": "2026-10-12 21:36"
+     }
+    ],
+    "Count": 2
+   },
+   {
+    "@{name=qwen3.6-coder:35b; model=qwen3.6-coder:35b; size=13773224016; digest=530c7b1df2c90b0811bea83012d6dd514cc8fdae7181f126c8dbefb49799a066; details=; expires_at=2319-01-22T14:43:58.415364007+08:00; size_vram=13773224016; context_length=16384; runner=llamacpp}": {
+     "ram_free_gb": 3.7,
+     "work": "oversight: cpu=RED gpu=RED llm=RED engine_q=0 wave=225 flags=6",
+     "gpu_free_gb": 14.8,
+     "util": "red"
+    },
+    "ts": "2026-10-12 22:36"
+   }
+  ],
+  "S3": [
+   {
+    "value": [
+     {
+      "value": [
+       {
+        "value": [
+         {
+          "value": [
+           {
+            "value": " ",
+            "Count": 2
+           },
+           {
+            "bm-c": "@{ram_free_gb=1.6; work=oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=3 wave=209 flags=4; gpu_free_gb=1.7; util=amber}",
+            "ts": "2026-10-12 00:36"
+           }
+          ],
+          "Count": 2
+         },
+         {
+          "@{name=qwen3.8:4b; model=qwen3.8:4b; size=3711319408; digest=58fa442e1084117cff1873ca83854119064f8046fdf3dbea76fa40617735acd0; details=; expires_at=2319-01-22T00:59:14.108898907+08:00; size_vram=3711319408; context_length=4096}": {
+           "ram_free_gb": 0.5,
+           "work": "oversight: cpu=GREEN gpu=GREEN llm=OFFLOAD engine_q=-1 wave=210 flags=0",
+           "gpu_free_gb": 0.3,
+           "util": "green"
+          },
+          "ts": "2026-10-12 01:11"
+         }
+        ],
+        "Count": 2
+       },
+       {
+        "@{name=qwen3.8:4b; model=qwen3.8:4b; size=3711319408; digest=58fa442e1084117cff1873ca83854119064f8046fdf3dbea76fa40617735acd0; details=; expires_at=2319-01-22T01:45:14.380874407+08:00; size_vram=3711319408; context_length=4096}": {
+         "ram_free_gb": 5.9,
+         "work": "oversight: cpu=AMBER gpu=GREEN llm=OFFLOAD engine_q=-1 wave=210 flags=0",
+         "gpu_free_gb": 0.3,
+         "util": "green"
+        },
+        "ts": "2026-10-12 02:11"
+       }
+      ],
+      "Count": 2
+     },
+     {
+      "@{name=qwen3.8:4b; model=qwen3.8:4b; size=3711319408; digest=58fa442e1084117cff1873ca83854119064f8046fdf3dbea76fa40617735acd0; details=; expires_at=2319-01-22T21:56:44.675365207+08:00; size_vram=3711319408; context_length=4096}": {
+       "ram_free_gb": 8.5,
+       "work": "oversight: cpu=GREEN gpu=GREEN llm=AMBER engine_q=-1 wave=211 flags=1",
+       "gpu_free_gb": 3.6,
+       "util": "amber"
+      },
+      "ts": "2026-10-12 22:11"
+     }
+    ],
+    "Count": 2
+   },
+   {
+    "bm-b": {
+     "ram_free_gb": 16.9,
+     "work": "oversight: cpu=YIELD gpu=YIELD llm=YIELD engine_q=-1 wave=211 flags=0",
+     "gpu_free_gb": 7.6,
+     "util": "yield"
+    },
+    "ts": "2026-10-12 23:11"
+   }
+  ]
+ },
+ "preview_report_20261012": {
+  "S2": [
+   "# \u4e8b\u540e\u590d\u5ba1\u62a5\u544a REPORT-20261012\uff08O-20260924-2115 \u00b7 \u9996\u6279\u56de\u586b\uff09",
+   "\u751f\u6210 2026-10-12 20:02:19 \u00b7 \u590d\u5ba1\u5668=\u786e\u5b9a\u6027\u91cdderive\uff08\u96f6 LLM\uff0c\u6267\u884c\u4fa7\u4e0d\u81ea\u8bc1\uff09",
+   "",
+   "\u5224\u5b9a\u5206\u5e03\uff1a\u271345 / \u27170 / \ud83d\udfe15 / \u2b1c0",
+   "",
+   "| \u5ba3\u79f0 id | \u5224 | \u5931\u8d25\u5224\u636e | \u5ba3\u79f0\uff08\u4e00\u53e5\u8bdd\uff09 |",
+   "|---|---|---|---|",
+   "| T-22-FINALIZE | \u2713 | \u2014 | T-22 \u4e3b\u8f74 finalize\uff1a\u56db\u95e8 PASS\uff0c\u4e3b\u5224 base 6m \u4e24\u8f74 6/6 FAIL 0.70 \u7ebf\uff08\u8bda\u5b9e\u8d1f\uff09\uff0c\u5206\u6bb5\u8868+\u8d26\u672c 35,893 \u843d\u76d8 |",
+   "| T-24-SLICE-A | \u2713 | \u2014 | T-24 slice-a PROSPECT \u7eb8\u9762\u8ddf\u8e2a\u9053 22 \u5458\u6001+\u951a\u96f6\u6f02\u79fb\uff08canon s6 \u884c 2\uff09 |",
+   "| T-24-SLICE-B | \u2713 | \u2014 | T-24 slice-b \u664b\u5347\u95e8\u8bc4\u4f30\u5668 0/22 eligible \u8bda\u5b9e\u4e09\u817f\uff08canon s6 \u884c 3\uff09 |",
+   "| T-25-WATERMARK-C7 | \u2713 | \u2014 | T-25 C7 \u817f LIVE\uff1awatchdog \u7ea2\u724c\u5224\u5b9a+\u50f5\u5c38\u4e09\u67e5\u6740+watermark_red.json\uff0c\u81ea\u68c0 10/10 \u771f\u6740 |",
+   "| T-26-EXPANSION | \u2713 | \u2014 | T-26 \u6269\u5bb9\u9a8c\u6536\u5305 v1.0\uff1aA1-A6 \u95e8+\u9996\u5355\u5206\u7247\u8868\uff08J-1 T-22 PROSPECT beat-rate\uff09+\u53cc\u89d2\u8272\u6a21\u677f\uff1bA4 \u7f3a\u4ef6\u5df2\u7531 owner \u95ed |",
+   "| T-27-BMAXDIV-WIRING | \ud83d\udfe1 | \u2014 | T-27 \u4e94\u6cd5\u9526\u6807\u8d5b v2 \u4e00\u6b21\u5b9a\u7a3f winner=B_MAXDIV\uff081.068/0.660/x2 0.614 \u5b58\u6d3b\uff09\uff0c\u6279\u51c6\u540e\u96f6\u63a5\u7ebf |",
+   "| T-28-STABLE-PROFIT | \u2713 | \u2014 | T-28 \u7a33\u5b9a\u76c8\u5229\u6279 done \u8bda\u5b9e\u8d1f\uff1aJ1/J2/J3 \u8fc7\u3001J4 12m pooled 0.4854<0.70 \u2717 \u5982\u5b9e\uff08\u96f6\u5408\u683c=\u4e09\u9053\u95f8\u8bbe\u8ba1\u6001\uff09 |",
+   "| T-29-SCORECARD | \u2713 | \u2014 | T-29 \u6218\u7ee9\u76f4\u8fbe\u9762 v0.1\uff1adaily_scorecard.py \u7eb8\u76d8\u771f\u8d26\u672c\u9a71\u52a8\uff08\u5927\u5b57\u7248\u6d88\u8d39\u9762\u7531 O-2045 s3 \u589e\u8865\uff09 |",
+   "| T-33-CORPS-ROSTER | \ud83d\udfe1 | \u2014 | O-2012 \u4e09\u519b\u79cd\u5236\uff1a\u519b\u79cd\u8def\u7531\u6b63\u5178 STYLE_CORPS v1.1 + T-33 corps_roster v1+prereg \u5df2\u843d\uff08bm-c r68\uff09\uff1b\u8fdb |",
+   "| O-2012-T33-D2-ATTACK-WAVE | \u2713 | \u2014 | O-2012/T-33 d2 \u8fdb\u653b\u62db\u52df\u6ce2 G1' v2 0/20 \u8bda\u5b9e\u96f6\uff08canon s6 \u884c 10\uff09 |",
+   "| O-2030-PRESIGNAL | \ud83d\udfe1 | \u2014 | O-2030 \u524d\u7f6e+\u7ec4\u5408\u4ee4\uff1a\u519b\u79cd\u5efa\u8bbe\u524d\u7f6e\u5f8b+\u7ec4\u5408\u5f8b\u5165\u6b63\u5178\uff1b\u524d\u7f6e\u5feb\u7ebf harness A/B \u6279\u672a\u8dd1 |",
+   "| O-2045-MILLION-PAPER | \u2713 | \u2014 | O-2045 \u767e\u4e07\u7eb8\u76d8\u56db\u4ea4\u4ed8\u9762\u5168\u843d\u5730\uff1ad1 \u8d44\u672c\u8fc1\u79fb\uff086 \u6ce8\u518c\u5458\u5404 1,000,000 CNY \u6784\u9020\u6027\u6ee1\u8db3\uff09+ d2 \u4ea4\u6613\u65f6\u6bb5\u9053\uff0809:30 \u5f00\u76d8\u6210\u4ea4\u9a8c\u8bc1\u5668+\u76d8 |",
+   "| O-2100-COMPUTE-DISPATCH | \ud83d\udfe1 | json_field:entries.0.id=A158-TRUEGAP-IC (want J1-PROSPECT-BEATRATE) | O-2100 \u7b97\u529b\u8c03\u5ea6\u673a\u5236 d2 \u6838\u5fc3\uff1arunnable pool + autofill C8 + 10min schtasks + watchdog \u81ea\u6108\u817f  |",
+   "| O-2115-POST-REVIEW | \ud83d\udfe1 | \u2014 | O-2115 \u590d\u5ba1\u673a\u5236 d1\uff1a\u6b63\u5178\uff08GM \u4ee4 commit \u9884\u843d\uff09+\u786e\u5b9a\u6027\u590d\u5ba1\u5668 post_review.py\uff08\u6ce8\u5165\u865a\u62a5\u6837\u672c\u5fc5\u6355 selftest 7/7\uff09+\u9996 |",
+   "| T-27-VETO-FIELD | \u2713 | \u2014 | T-27 \u4ea7\u7269\u65f6\u6548\u5b57\u6bb5\uff1aresults/portfolio_blend_tournament.json \u987b\u5e26 verdict.veto_window_until |",
+   "| T-72-SINA-MF-COLLECTOR | \u2713 | \u2014 | T-72 sina \u56db\u6863\u8d44\u91d1\u6d41\u91c7\u96c6\u5668\u4e09\u5207\u7247\u4ea4\u4ed8\uff1as1 \u91c7\u96c6\u5668+\u79bb\u7ebf selftest \u7eff\uff1bs2 \u5168\u5b87\u5b99\u9996\u62c9\u9a8c\u6536\u4e94\u7ebf PASS\uff08fresh 5222\u22655000\u00b7\u5199 |",
+   "| T-74-S2-MARKET-CLOCK-BACKTEST | \u2713 | \u2014 | T-74 s2 full-history backtest of the frozen clock tree (v1.1 s2b frozen pre-run, |",
+   "| T-78-EXIT-OVERLAY-P1 | \u2713 | \u2014 | T-78 s2+s3: engine dd_control additive flag (None=legacy byte-equal, entry-size  |",
+   "| T-78-WINNER-WIRING | \u2713 | \u2014 | T-78 s4 winner wiring: 3 members registered with maximal WIN cells (COMPOSITE-CE |",
+   "| T-78-GRID-SLEEVE-P1 | \u2713 | \u2014 | T-78 s5a+s5b (unlock-4, T-73 s3 slice consumed-by-T-78): GRID_SLEEVE_P1 prereg f |",
+   "| T-78-GRID-PAPER-WIRING | \u2713 | \u2014 | T-78 s5c: GRID-* 5-cell paper observation-account family wired (scripts/grid_pap |",
+   "| T-73-CN-REV-TILT-P1 | \u2713 | \u2014 | T-73 s3 slice-1 CN-REVERSAL-TILT full arc: prereg frozen pre-run (R245/R246 zero |",
+   "| T-73-CN-DIV-LOWVOL-ROT-P1 | \u2713 | \u2014 | T-73 s3 slice-2 CN-DIV-LOWVOL-ROT full arc: prereg frozen R250 + R251 zero-run a |",
+   "| R252-BMA-LEDGER-CHAIN-REPAIR | \u2713 | \u2014 | R252 bm-a trials-ledger chain repair: five family-runner products embedded appen |",
+   "| T-73-CN-REGIME-POLICY-P1 | \u2713 | \u2014 | T-73 s3 slice-3 CN-REGIME-POLICY full arc: s2-sliceB digest prior-research oblig |",
+   "| T-73-STYLE-ROT-S1 | \u2713 | \u2014 | T-73 s2 slice-E style-rotation full arc (last remaining s2 topic -> s2 COMPLETE) |",
+   "| T-73-CN-CORE-SATELLITE-P1 | \u2713 | \u2014 | T-73 s3 slice-5 (FINAL CN-native model) CN-CORE-SATELLITE full arc one round: an |",
+   "| T-83-S1-NINE-LAYER-INVENTORY | \u2713 | \u2014 | T-83 s1 nine-layer full inventory delivered (O-20260926-1355 CEO governance audi |",
+   "| T-83-S2-DETECTION | \u2713 | \u2014 | T-83 s2 conflict/duplication/dead-face detection delivered (O-20260926-1355 CEO  |",
+   "| T-81-PROFILE-CARDS | \u2713 | \u2014 | T-81 slice-1 profile cards delivered (O-20260926-1342 sec.3): prereg research/PR |",
+   "| T-81-L3-ACTIVATION-EVIDENCE | \u2713 | \u2014 | T-81 slice-2 L3 activation-table evidence-drive delivered: prereg research/L3_AC |",
+   "| T-81-SAMPLE-SCIENCE | \u2713 | \u2014 | T-81 slice-3 sample science delivered: prereg research/SAMPLE_SCIENCE_P1.md v1.0 |",
+   "| T-81-LANDING-HOOKS | \u2713 | \u2014 | T-81 slice-4 landing hooks delivered: prereg research/LANDING_HOOKS_P1.md v1.0 f |",
+   "| T-83-S4-QUARTERLY-WIRING | \u2713 | \u2014 | T-83 s4 quarterly entropy-audit wiring confirmed (O-20260926-1355 \u5e38\u8bbe\u5316): BigMoney |",
+   "| T-83-S3-GM-DELIVERABLES | \u2713 | \u2014 | T-83 s3 GM-signed seven-deliverable batch, slice 1 of 3 (\u4ef6\u2460\u2461\u2463 landed this round; |",
+   "| T-83-S3-GM-SLICE2 | \u2713 | \u2014 | T-83 s3 GM seven-deliverable batch slice 2 of 3 (\u4ef6\u2462\u2464\u2465\u2466 landed this round; with s |",
+   "| T-87-REV-OSC-P1 | \u2713 | \u2014 | T-87 s2 first-priority REV-OSC-STOCK-P1 full arc: prereg frozen commit a7761433  |",
+   "| T-87-CN-SOE-P1 | \u2713 | \u2014 | T-87 s2 queue #2 CN_SOE_ETF_P1 (zhongtegu SOE sleeve, SCHOOL_SUPPLY_S1 sec.2 zer |",
+   "| T-86-S2-CENSUS-FUS-W1 | \u2713 | \u2014 | T-86 s2 factor-level fusion census wave-1 full arc: prereg research/CENSUS_FUSIO |",
+   "| T-86-S3-CENSUS-FUS-UNC | \u2713 | \u2014 | T-86 s3 uncertainty face full arc: prereg sec.3 s3 rules frozen at e51e55e0 + se |",
+   "| T-87-CN-TREND-P1 | \u2713 | \u2014 | T-87 s2 queue #1 CN_TREND_ETF_P1 (trend-following ETF sleeve, SCHOOL_SUPPLY_S1 s |",
+   "| T-87-CN-KLINE-PATTERN-P1 | \u2713 | \u2014 | T-87 s2 queue #3 CN_KLINE_PATTERN_P1 (THS-formula K-line pattern families per SC |",
+   "| T-85-FUSION-GRID-P1 | \u2713 | \u2014 | T-85 s2/s3 FUSION_GRID_P1 (fusion-layer grid over 32 registered member NAVs, O-2 |",
+   "| T-87-CN-SECTOR-LEADER-P1 | \u2713 | \u2014 | T-87 s2 queue #4 CN_SECTOR_LEADER_P1 (sector-leader non-limit face per SCHOOL_SU |",
+   "| T-87-CN-MKTNEUTRAL-P1 | \u2713 | \u2014 | T-87 s2 queue #5 CN_MKTNEUTRAL_P1 (market-neutral stock-quintile x IC constant-s |",
+   "| T-89-S1-PROSPECT-SEGMENTS-FINALIZE | \u2713 | \u2014 | T-89 slice-1 PROS_REGIME_SEGMENTS_P1 finalize PASS (bm-b r318, after T-93 30-sha |",
+   "| T-90-V1-E2E-FINALIZE | \u2713 | \u2014 | T-90 DECISION_CHAIN_E2E_P1 v1.1 verdict LANDED (bm-b r318): chain_win=False (bas |",
+   "| T-89-S3-ATTACK-SUPPLY-MEMO | \u2713 | \u2014 | T-89 slice-3 attack-corps supply acceleration review memo delivered to GM queue  |",
+   "| T-90-D4-CHAIN-HEALTH-WIRING | \u2713 | \u2014 | T-90 deliverable-4 monthly four-piece chain-health section wired (bm-b r319): sc |",
+   "| T-2026-10-04-165-R4-THEME-PERSIST-P1 | \u2713 | \u2014 | T-2026-10-04-165 R4 chain slot (bm-a r657): THEME_PERSIST_P1 prereg frozen commi |",
+   "",
+   "## \u81ea\u6211\u611f\u52a8\u4e13\u9879\u68c0\u6d4b\uff08\u542f\u53d1\u5f0f\u00b7\u5982\u5b9e\u6807\u6ce8\uff09",
+   "",
+   "- round_reports-bm-a.md: \u52a8\u4f5c\u8bcd\u884c 1\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 36\uff0c\u6b63\u8d1f\u6bd4 0.03",
+   "- round_reports.md: \u52a8\u4f5c\u8bcd\u884c 4\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 45\uff0c\u6b63\u8d1f\u6bd4 0.09",
+   "- round_reports-bm-c.md: \u52a8\u4f5c\u8bcd\u884c 5\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 44\uff0c\u6b63\u8d1f\u6bd4 0.11"
+  ],
+  "S3": [
+   "# \u4e8b\u540e\u590d\u5ba1\u62a5\u544a REPORT-20261012\uff08O-20260924-2115 \u00b7 \u9996\u6279\u56de\u586b\uff09",
+   "\u751f\u6210 2026-10-12 22:01:49 \u00b7 \u590d\u5ba1\u5668=\u786e\u5b9a\u6027\u91cdderive\uff08\u96f6 LLM\uff0c\u6267\u884c\u4fa7\u4e0d\u81ea\u8bc1\uff09",
+   "",
+   "\u5224\u5b9a\u5206\u5e03\uff1a\u271345 / \u27170 / \ud83d\udfe15 / \u2b1c0",
+   "",
+   "| \u5ba3\u79f0 id | \u5224 | \u5931\u8d25\u5224\u636e | \u5ba3\u79f0\uff08\u4e00\u53e5\u8bdd\uff09 |",
+   "|---|---|---|---|",
+   "| T-22-FINALIZE | \u2713 | \u2014 | T-22 \u4e3b\u8f74 finalize\uff1a\u56db\u95e8 PASS\uff0c\u4e3b\u5224 base 6m \u4e24\u8f74 6/6 FAIL 0.70 \u7ebf\uff08\u8bda\u5b9e\u8d1f\uff09\uff0c\u5206\u6bb5\u8868+\u8d26\u672c 35,893 \u843d\u76d8 |",
+   "| T-24-SLICE-A | \u2713 | \u2014 | T-24 slice-a PROSPECT \u7eb8\u9762\u8ddf\u8e2a\u9053 22 \u5458\u6001+\u951a\u96f6\u6f02\u79fb\uff08canon s6 \u884c 2\uff09 |",
+   "| T-24-SLICE-B | \u2713 | \u2014 | T-24 slice-b \u664b\u5347\u95e8\u8bc4\u4f30\u5668 0/22 eligible \u8bda\u5b9e\u4e09\u817f\uff08canon s6 \u884c 3\uff09 |",
+   "| T-25-WATERMARK-C7 | \u2713 | \u2014 | T-25 C7 \u817f LIVE\uff1awatchdog \u7ea2\u724c\u5224\u5b9a+\u50f5\u5c38\u4e09\u67e5\u6740+watermark_red.json\uff0c\u81ea\u68c0 10/10 \u771f\u6740 |",
+   "| T-26-EXPANSION | \u2713 | \u2014 | T-26 \u6269\u5bb9\u9a8c\u6536\u5305 v1.0\uff1aA1-A6 \u95e8+\u9996\u5355\u5206\u7247\u8868\uff08J-1 T-22 PROSPECT beat-rate\uff09+\u53cc\u89d2\u8272\u6a21\u677f\uff1bA4 \u7f3a\u4ef6\u5df2\u7531 owner \u95ed |",
+   "| T-27-BMAXDIV-WIRING | \ud83d\udfe1 | \u2014 | T-27 \u4e94\u6cd5\u9526\u6807\u8d5b v2 \u4e00\u6b21\u5b9a\u7a3f winner=B_MAXDIV\uff081.068/0.660/x2 0.614 \u5b58\u6d3b\uff09\uff0c\u6279\u51c6\u540e\u96f6\u63a5\u7ebf |",
+   "| T-28-STABLE-PROFIT | \u2713 | \u2014 | T-28 \u7a33\u5b9a\u76c8\u5229\u6279 done \u8bda\u5b9e\u8d1f\uff1aJ1/J2/J3 \u8fc7\u3001J4 12m pooled 0.4854<0.70 \u2717 \u5982\u5b9e\uff08\u96f6\u5408\u683c=\u4e09\u9053\u95f8\u8bbe\u8ba1\u6001\uff09 |",
+   "| T-29-SCORECARD | \u2713 | \u2014 | T-29 \u6218\u7ee9\u76f4\u8fbe\u9762 v0.1\uff1adaily_scorecard.py \u7eb8\u76d8\u771f\u8d26\u672c\u9a71\u52a8\uff08\u5927\u5b57\u7248\u6d88\u8d39\u9762\u7531 O-2045 s3 \u589e\u8865\uff09 |",
+   "| T-33-CORPS-ROSTER | \ud83d\udfe1 | \u2014 | O-2012 \u4e09\u519b\u79cd\u5236\uff1a\u519b\u79cd\u8def\u7531\u6b63\u5178 STYLE_CORPS v1.1 + T-33 corps_roster v1+prereg \u5df2\u843d\uff08bm-c r68\uff09\uff1b\u8fdb |",
+   "| O-2012-T33-D2-ATTACK-WAVE | \u2713 | \u2014 | O-2012/T-33 d2 \u8fdb\u653b\u62db\u52df\u6ce2 G1' v2 0/20 \u8bda\u5b9e\u96f6\uff08canon s6 \u884c 10\uff09 |",
+   "| O-2030-PRESIGNAL | \ud83d\udfe1 | \u2014 | O-2030 \u524d\u7f6e+\u7ec4\u5408\u4ee4\uff1a\u519b\u79cd\u5efa\u8bbe\u524d\u7f6e\u5f8b+\u7ec4\u5408\u5f8b\u5165\u6b63\u5178\uff1b\u524d\u7f6e\u5feb\u7ebf harness A/B \u6279\u672a\u8dd1 |",
+   "| O-2045-MILLION-PAPER | \u2713 | \u2014 | O-2045 \u767e\u4e07\u7eb8\u76d8\u56db\u4ea4\u4ed8\u9762\u5168\u843d\u5730\uff1ad1 \u8d44\u672c\u8fc1\u79fb\uff086 \u6ce8\u518c\u5458\u5404 1,000,000 CNY \u6784\u9020\u6027\u6ee1\u8db3\uff09+ d2 \u4ea4\u6613\u65f6\u6bb5\u9053\uff0809:30 \u5f00\u76d8\u6210\u4ea4\u9a8c\u8bc1\u5668+\u76d8 |",
+   "| O-2100-COMPUTE-DISPATCH | \ud83d\udfe1 | json_field:entries.0.id=A158-TRUEGAP-IC (want J1-PROSPECT-BEATRATE) | O-2100 \u7b97\u529b\u8c03\u5ea6\u673a\u5236 d2 \u6838\u5fc3\uff1arunnable pool + autofill C8 + 10min schtasks + watchdog \u81ea\u6108\u817f  |",
+   "| O-2115-POST-REVIEW | \ud83d\udfe1 | \u2014 | O-2115 \u590d\u5ba1\u673a\u5236 d1\uff1a\u6b63\u5178\uff08GM \u4ee4 commit \u9884\u843d\uff09+\u786e\u5b9a\u6027\u590d\u5ba1\u5668 post_review.py\uff08\u6ce8\u5165\u865a\u62a5\u6837\u672c\u5fc5\u6355 selftest 7/7\uff09+\u9996 |",
+   "| T-27-VETO-FIELD | \u2713 | \u2014 | T-27 \u4ea7\u7269\u65f6\u6548\u5b57\u6bb5\uff1aresults/portfolio_blend_tournament.json \u987b\u5e26 verdict.veto_window_until |",
+   "| T-72-SINA-MF-COLLECTOR | \u2713 | \u2014 | T-72 sina \u56db\u6863\u8d44\u91d1\u6d41\u91c7\u96c6\u5668\u4e09\u5207\u7247\u4ea4\u4ed8\uff1as1 \u91c7\u96c6\u5668+\u79bb\u7ebf selftest \u7eff\uff1bs2 \u5168\u5b87\u5b99\u9996\u62c9\u9a8c\u6536\u4e94\u7ebf PASS\uff08fresh 5222\u22655000\u00b7\u5199 |",
+   "| T-74-S2-MARKET-CLOCK-BACKTEST | \u2713 | \u2014 | T-74 s2 full-history backtest of the frozen clock tree (v1.1 s2b frozen pre-run, |",
+   "| T-78-EXIT-OVERLAY-P1 | \u2713 | \u2014 | T-78 s2+s3: engine dd_control additive flag (None=legacy byte-equal, entry-size  |",
+   "| T-78-WINNER-WIRING | \u2713 | \u2014 | T-78 s4 winner wiring: 3 members registered with maximal WIN cells (COMPOSITE-CE |",
+   "| T-78-GRID-SLEEVE-P1 | \u2713 | \u2014 | T-78 s5a+s5b (unlock-4, T-73 s3 slice consumed-by-T-78): GRID_SLEEVE_P1 prereg f |",
+   "| T-78-GRID-PAPER-WIRING | \u2713 | \u2014 | T-78 s5c: GRID-* 5-cell paper observation-account family wired (scripts/grid_pap |",
+   "| T-73-CN-REV-TILT-P1 | \u2713 | \u2014 | T-73 s3 slice-1 CN-REVERSAL-TILT full arc: prereg frozen pre-run (R245/R246 zero |",
+   "| T-73-CN-DIV-LOWVOL-ROT-P1 | \u2713 | \u2014 | T-73 s3 slice-2 CN-DIV-LOWVOL-ROT full arc: prereg frozen R250 + R251 zero-run a |",
+   "| R252-BMA-LEDGER-CHAIN-REPAIR | \u2713 | \u2014 | R252 bm-a trials-ledger chain repair: five family-runner products embedded appen |",
+   "| T-73-CN-REGIME-POLICY-P1 | \u2713 | \u2014 | T-73 s3 slice-3 CN-REGIME-POLICY full arc: s2-sliceB digest prior-research oblig |",
+   "| T-73-STYLE-ROT-S1 | \u2713 | \u2014 | T-73 s2 slice-E style-rotation full arc (last remaining s2 topic -> s2 COMPLETE) |",
+   "| T-73-CN-CORE-SATELLITE-P1 | \u2713 | \u2014 | T-73 s3 slice-5 (FINAL CN-native model) CN-CORE-SATELLITE full arc one round: an |",
+   "| T-83-S1-NINE-LAYER-INVENTORY | \u2713 | \u2014 | T-83 s1 nine-layer full inventory delivered (O-20260926-1355 CEO governance audi |",
+   "| T-83-S2-DETECTION | \u2713 | \u2014 | T-83 s2 conflict/duplication/dead-face detection delivered (O-20260926-1355 CEO  |",
+   "| T-81-PROFILE-CARDS | \u2713 | \u2014 | T-81 slice-1 profile cards delivered (O-20260926-1342 sec.3): prereg research/PR |",
+   "| T-81-L3-ACTIVATION-EVIDENCE | \u2713 | \u2014 | T-81 slice-2 L3 activation-table evidence-drive delivered: prereg research/L3_AC |",
+   "| T-81-SAMPLE-SCIENCE | \u2713 | \u2014 | T-81 slice-3 sample science delivered: prereg research/SAMPLE_SCIENCE_P1.md v1.0 |",
+   "| T-81-LANDING-HOOKS | \u2713 | \u2014 | T-81 slice-4 landing hooks delivered: prereg research/LANDING_HOOKS_P1.md v1.0 f |",
+   "| T-83-S4-QUARTERLY-WIRING | \u2713 | \u2014 | T-83 s4 quarterly entropy-audit wiring confirmed (O-20260926-1355 \u5e38\u8bbe\u5316): BigMoney |",
+   "| T-83-S3-GM-DELIVERABLES | \u2713 | \u2014 | T-83 s3 GM-signed seven-deliverable batch, slice 1 of 3 (\u4ef6\u2460\u2461\u2463 landed this round; |",
+   "| T-83-S3-GM-SLICE2 | \u2713 | \u2014 | T-83 s3 GM seven-deliverable batch slice 2 of 3 (\u4ef6\u2462\u2464\u2465\u2466 landed this round; with s |",
+   "| T-87-REV-OSC-P1 | \u2713 | \u2014 | T-87 s2 first-priority REV-OSC-STOCK-P1 full arc: prereg frozen commit a7761433  |",
+   "| T-87-CN-SOE-P1 | \u2713 | \u2014 | T-87 s2 queue #2 CN_SOE_ETF_P1 (zhongtegu SOE sleeve, SCHOOL_SUPPLY_S1 sec.2 zer |",
+   "| T-86-S2-CENSUS-FUS-W1 | \u2713 | \u2014 | T-86 s2 factor-level fusion census wave-1 full arc: prereg research/CENSUS_FUSIO |",
+   "| T-86-S3-CENSUS-FUS-UNC | \u2713 | \u2014 | T-86 s3 uncertainty face full arc: prereg sec.3 s3 rules frozen at e51e55e0 + se |",
+   "| T-87-CN-TREND-P1 | \u2713 | \u2014 | T-87 s2 queue #1 CN_TREND_ETF_P1 (trend-following ETF sleeve, SCHOOL_SUPPLY_S1 s |",
+   "| T-87-CN-KLINE-PATTERN-P1 | \u2713 | \u2014 | T-87 s2 queue #3 CN_KLINE_PATTERN_P1 (THS-formula K-line pattern families per SC |",
+   "| T-85-FUSION-GRID-P1 | \u2713 | \u2014 | T-85 s2/s3 FUSION_GRID_P1 (fusion-layer grid over 32 registered member NAVs, O-2 |",
+   "| T-87-CN-SECTOR-LEADER-P1 | \u2713 | \u2014 | T-87 s2 queue #4 CN_SECTOR_LEADER_P1 (sector-leader non-limit face per SCHOOL_SU |",
+   "| T-87-CN-MKTNEUTRAL-P1 | \u2713 | \u2014 | T-87 s2 queue #5 CN_MKTNEUTRAL_P1 (market-neutral stock-quintile x IC constant-s |",
+   "| T-89-S1-PROSPECT-SEGMENTS-FINALIZE | \u2713 | \u2014 | T-89 slice-1 PROS_REGIME_SEGMENTS_P1 finalize PASS (bm-b r318, after T-93 30-sha |",
+   "| T-90-V1-E2E-FINALIZE | \u2713 | \u2014 | T-90 DECISION_CHAIN_E2E_P1 v1.1 verdict LANDED (bm-b r318): chain_win=False (bas |",
+   "| T-89-S3-ATTACK-SUPPLY-MEMO | \u2713 | \u2014 | T-89 slice-3 attack-corps supply acceleration review memo delivered to GM queue  |",
+   "| T-90-D4-CHAIN-HEALTH-WIRING | \u2713 | \u2014 | T-90 deliverable-4 monthly four-piece chain-health section wired (bm-b r319): sc |",
+   "| T-2026-10-04-165-R4-THEME-PERSIST-P1 | \u2713 | \u2014 | T-2026-10-04-165 R4 chain slot (bm-a r657): THEME_PERSIST_P1 prereg frozen commi |",
+   "",
+   "## \u81ea\u6211\u611f\u52a8\u4e13\u9879\u68c0\u6d4b\uff08\u542f\u53d1\u5f0f\u00b7\u5982\u5b9e\u6807\u6ce8\uff09",
+   "",
+   "- round_reports-bm-a.md: \u52a8\u4f5c\u8bcd\u884c 1\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 36\uff0c\u6b63\u8d1f\u6bd4 0.03",
+   "- round_reports.md: \u52a8\u4f5c\u8bcd\u884c 4\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 45\uff0c\u6b63\u8d1f\u6bd4 0.09",
+   "- round_reports-bm-c.md: \u52a8\u4f5c\u8bcd\u884c 0\uff0c\u7f3a\u8bc1\u636e\u6307\u9488 0\uff0c\u8bda\u5b9e\u8d1f\u6807\u8bb0 40\uff0c\u6b63\u8d1f\u6bd4 0.0"
+  ]
+ },
+ "preview_d19_check": {
+  "S2": {
+   "trees_tried": [
+    "k-tree"
+   ],
+   "decisions_sha": "94c9339335c996b373b332e33cf47aad3de8f292a53c742ad3e6efae304cd3ff",
+   "orders_sha": "3e3d424e25562f98ad26598ecca81c1bd4ee2e8880d654fd34789eb9b6bcaae1",
+   "wm_decisions": "94c9339335c996b373b332e33cf47aad3de8f292a53c742ad3e6efae304cd3ff",
+   "wm_orders": "7351cf2f4c3e55a43b0f5412a3f8fcea4e78c03629959defd335a6affec768e8",
+   "decisions_changed": false,
+   "orders_changed": true,
+   "err": null,
+   "machine": "bm-c",
+   "state_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state-bm-c.json",
+   "decisions_method": "sha256",
+   "orders_method": "sha256"
+  },
+  "S3": {
+   "trees_tried": [
+    "local-tree"
+   ],
+   "decisions_sha": "5c0ea727f3dbd13053a76d9ef9571ebdabf5d338",
+   "orders_sha": "f9a221a197181c08bc7a38c571439624226094fd",
+   "wm_decisions": "358ba69b6159b03126d276c65001a2e9933af87d",
+   "wm_orders": "33aee17076256050074fe3e171103535b79b5b9a",
+   "decisions_changed": true,
+   "orders_changed": true,
+   "err": null,
+   "machine": "bm-b",
+   "state_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state.json",
+   "decisions_method": "sha1",
+   "orders_method": "sha1"
+  }
+ }
+}
