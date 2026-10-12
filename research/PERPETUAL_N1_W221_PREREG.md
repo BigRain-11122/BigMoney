@@ -55,9 +55,21 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r923 W220 §7 范式）
+- **finalize one-pass 已回填（bm-c r928·2026-10-12 14:1x 窗·全链=r924 席位发布 MSG-20261012-1225（063bb5a77）→r925 死窗 prereg derive（12:5x·提交 2e251d084）→r926 零提交死窗（13:1x-13:2x anchor 验证 scratch·r927 吸收）→r927 窗 absorb r925/r926+prereg prose fix（提交 cf0b51d21）→r927 延续死窗 13:4x-13:56 五面冻结拼接落盘未提交（freeze edits 13:56:09+freeze receipt 13:56:26·零提交死亡）→引擎 daemon 自燃 12/12（13:57-14:01·两笔 batched ledger append 01ac36bad+1461e9f22）→本窗 r928 吸收全 estate：六门 POST-HOC 愈合（burn-window 门错过=W212 族第 4 例·W217/r917 债先例）+n1 selftest wave-set 边界修复（LHS w<220→w<221·editor_gen 复制残留·零科学面）→one-pass finalize 本窗收口）**：
+  - 账本恒等式：prev_total **907,789** + batch_trials **2,200** = total **909,989**（三键机读自 n1_w221_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=484120 EXACT·merged mu=**-0.09279008097165992** / merged sigma=**0.24511900565739553**·w221-only mu=**-0.09078718181818181** / w221-only sigma=**0.24536835463884743**（全机读零手抄·回执=results/_r928bmc_w221_fivekey_receipt.json·锚键 W220 实测面程序化 derive 零字面常量〔r583 律〕）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1912** → line_merged **1.1912** @n_eff 907,789（delta **+0.0000**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r928 五键探针 results/_r928bmc_w221_fivekey_probe.py 本窗 finalize 同窗跑）**：key1 w-only vs merged |Δmu|=**0.00200290**<0.02 PASS；key2 sigma 相对变化 **+0.00037597%**<±10% PASS；key3 A 档 p95 **0.3137** 差 **0.0017**<0.05 PASS；key4 K-lift **+0.0000**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@K484120=**0.000352**（se_mu_at_k484120·前键链 W219 0.000354→W220 0.000353→W221 0.000352 收窄链持续）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·finalize_only=true·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w221_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
+  - **六门探针=POST-HOC 愈合全绿（burn-window 门错过=W212 族第 4 例·W217/r917 债先例·全披露在回执 results/_r928bmc_w221_sixgate_receipt.json）**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS〔含边界修复〕+shard 12/12 盘面+seed_admit FREE x2〔base=501004 span=2000+base=503004 span=200·seat-time r924+freeze-time 证据消费注记〕+splice 完整性（N1_BANDS[221] bands 事实==freeze receipt+pf sha16 恒等 13d69a06cc980766）+WAVE_CONFIGS[221] row engine_owner=bm-c·a_seed_base=501004/b_exit_seed_base=503004+ledger_pre 907,789=W220 landed——**W222 必须烧录窗内 PRE-FINALIZE 跑六门（常设法·W218/W219/W220 正相三波链被本波死窗打断·如实披露）**。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W222+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r923 W220 §8 范式）
+- **批后复盘（bm-c r928 同窗回填）**：
+  - §5.5 下波投影承接：**W222+ 投影（probe 机证 leg4·本波 prereg §5.5 原文）**：naive A 503_004..505_003 CLEAN（pre-W221 宇宙）但将被注册后的 W221 B 带（503_004..503_203）起点即拒——**阶梯 A-hops-prior-B 第八十二例待 W222 席位探针兑现**（本波 §5.5 投影预言·hop 链逐跳在 probe 回执）；naive B 503_204..503_403 CLEAN 但落 naive W222 A 窗内（W141 同窗互斥先例适用）→**W222 席位方必须在 post-W221 注册宇宙重 derive 双带且 derive B 时预留本波 A 窗**（W222 freezer 承接面强制注记·never transcribe r587）·verify at W222 prereg。
+  - 宝藏与方法论捕获问：本批测量面零新方法（引擎单批 12/12 ledger append 按设计落·finalize 产物一次 r928 独占零双计）。流程面两例如实入账：①死窗 splice 烧录后六门 POST-HOC 愈合=W212 族第 4 例（W218/W219/W220 正相三波链被打断）——根因=会话在 splice→gate 间隙死亡（今日死窗率结构性）·缓解面=六门脚本随 freeze 束同窗预写（W222 席位方承接注记）；②**editor_gen 转换型生成器第 3 例（r923 两处+本窗 1 处）**：复制型 derive 的**条件边界成对面**（filter bound LHS 与 expected list RHS）必须作为原子对一起变换——本例 LHS `w < 220` 未随 RHS `range(16,221)` 更新（r923「find/repl 对以管线中间态为参照系」律的补充面）。
+  - 诚实披露面：本波烧录链=r925 死窗（prereg derive 提交 2e251d084）→r926 零提交死窗→r927 窗（absorb r925/r926+prose fix cf0b51d21）→r927 延续死窗 13:4x-13:56（editor derive 五轮 scratch _r927bmc_*+freeze edits+freeze receipt 零提交死亡）→引擎自燃 12/12（两笔 batched append）→本窗 r928 吸收（splice 提交 98da27a40+六门 POST-HOC+selftest 边界修复+finalize+五键+§7/§8 回填）——链头消费=账本 append 由引擎单调·finalize 产物一次 r928 独占零双计；state/心跳计数器 924→929 推进（r925/r927 带提交体吸收·r926/splice 延续死窗零轮号债务）。另注：n1 selftest W221 face 注释 prose「rows 209 + candidate」承袭 W220 模板未更新（冻结回执 ordinal_faces owner_rows_live=210+候选=211th owned 为准·gate leg0 机出 governs per r359）——纯注释面零断言零功能影响·extraction law 保留原样。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
