@@ -27,7 +27,10 @@ pair("A-hops-prior-B EIGHTY-SEVENTH instance ",
 pair("EIGHTY-SIXTH ", "EIGHTY-SEVENTH ", 3)  # 3rd hit rides in the soon-discarded docstring
 
 # --- 3: docstring swap ---------------------------------------------------------------
-i = t.find('"""'); j = t.find('"""', 3) + 3
+# r955 fix: W226 template carries a coding-header line before its docstring
+# (generation shape change) -- closing-quote search must anchor AFTER the opening
+# quotes (i+3), and the pre-docstring prefix (coding line) must be preserved.
+i = t.find('"""'); j = t.find('"""', i + 3) + 3
 DOC = '''"""W227 pre-seat probe (bm-c loop window r945, 2026-10-12 23:4x; standing CEO
 fill-order 2026-10-08 ~23:5x re-issued 2026-10-10 ~23:1x + O-20260924-1730
 claim-ignite same-round law). Upstream face = W226 FULL CYCLE LANDED (r940 seat
@@ -64,7 +67,7 @@ _r944bmc_w226_fivekey_receipt.json re-verified r945). W227 freeze is GATED on
 nothing in-flight -- upstream fully landed, clean chain-order window.
 Bloodline: _w226bmc_20261012_probe.py derive machinery verbatim, W227 facts
 live-registry-driven; single-state universe (no declared-injection legs)."""'''
-t = DOC + t[j:]
+t = t[:i] + DOC + t[j:]
 
 # --- 4: receipt probe string ----------------------------------------------------------
 NEW_PROBE_STR = ('receipt = {"probe": "W227 pre-seat probe (bm-c loop r945 window, 2026-10-12 23:4x, '
