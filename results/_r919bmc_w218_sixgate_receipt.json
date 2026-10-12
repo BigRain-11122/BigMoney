@@ -1,0 +1,49 @@
+{
+ "machine": "bm-c",
+ "wave": 218,
+ "phase": "PRE-FINALIZE six-gate r919 (in burn window: engine self-burn 12/12 complete, finalize NEXT; W212/W216/W217 lesson applied, no post-hoc)",
+ "ts": "2026-10-12T09:10:04",
+ "gates": {
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=494404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=496404 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=494404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=496404 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 494404,
+   "b_exit_seed_base": 496404,
+   "shard_subdir": "n1_w218",
+   "out_name": "n1_w218_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 901189,
+  "prev_merged_n": 475320,
+  "expect_total": 903389,
+  "expect_merged": 477520
+ }
+}

@@ -55,9 +55,21 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r917 W217 §7 范式）
+- **finalize one-pass 已回填（bm-c r919·2026-10-12 09:1x 窗·全链=r917 席位发布 MSG-20261012-0830→r918 per-wave prereg+五面冻结拼接 9afb0b1d7 08:58:39→引擎自燃 12/12（ledger append 3c58e0e77/6afa2661f 两批 6+6·末批 09:03:25）→r919 本窗 six-gate **PRE-FINALIZE 烧录窗内跑**（W212/W216/W217 三例教训首次 pre-hoc 执行·零 post-hoc 债）→r919 one-pass finalize 09:1x〔r918 窗死于冻结拼接提交后·本窗 r919 吸收并落地——r894/r897/r907/r911/r915/r917 absorb 范式第 8 例〕）**：
+  - 账本恒等式：prev_total **901,189** + batch_trials **2,200** = total **903,389**（三键机读自 n1_w218_results.json science_gates.ledger·断言 prev+batch==total 过）。
+  - 合并池 K=477520 EXACT·merged mu=**-0.09278310939855922** / merged sigma=**0.24510530093526126**·w218-only mu=**-0.09960895454545454** / w218-only sigma=**0.24887127801574327**（全机读零手抄·回执=results/_r919bmc_w218_fivekey_receipt.json·锚键 W217 实测面程序化 derive 零字面常量〔r583 律·r917 面手抄缺口的工艺升级〕）。
+  - skill_line_v2 K-lift 对照：line_pre **1.1907** → line_merged **1.1908** @n_eff 901,189（delta **+0.0001**·判线 ±0.02 内·先例带 ±0.0003 对照如实）。
+  - **§5 五预键机证（r919 五键探针 results/_r919bmc_w218_fivekey_probe.py 本窗 finalize 同窗补做）**：key1 w-only vs merged |Δmu|=**0.00682585**<0.02 PASS；key2 sigma 相对变化 **+0.00723880%**<±10% PASS；key3 A 档 p95 **0.3037** 差 **0.0037**<0.05 PASS；key4 K-lift **+0.0001**≤±0.02 PASS；key5 投影承接见 §8。**五键全过=§5 预测键全部兑现**。
+  - se_mu 收窄链对照：se_mu@K477520=**0.000355**（se_mu_at_k477520·前键链 W216 0.000356→W217 0.000355→W218 0.000355 平台带）。
+  - canon flip 态=NOT performed（K2200 同例·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']·machine=bm-c·finalize_only=true·shards_consumed=12/12·evidence_cutoff=2026-09-22。
+  - 产物=results/perpetual_faces/n1_w218_results.json（finalize one-pass·幂等禁重跑=r538 律·pit-95 孤儿 finalize 守卫在位·FAIL-CLOSED 五重守卫〔pit-95/shard 完备/overlap-gap/重名/账本恒等〕过闸即本 finalize 落地机证）。
+  - **六门探针=PRE-FINALIZE 烧录窗内跑全绿（W212/W216/W217 三例教训后首次正相执行·零 post-hoc 债）**（回执 results/_r919bmc_w218_sixgate_receipt.json：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS+shard 12/12 盘面+seed_admit FREE x2〔base=494404 span=2000+base=496404 span=200·seat-time r917+freeze-time r918 FREE 证据消费注记〕+WAVE_CONFIGS[218] row engine_owner=bm-c·a_seed_base=494404/b_exit_seed_base=496404+ledger_pre 901,189=W217 landed）——**烧录完成→六门→finalize 固定序首次全链兑现·W219+ 续持**。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W219+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r917 W217 §8 范式）
+- **批后复盘（bm-c r919 同窗回填）**：
+  - §5.5 下波投影承接：**W219+ 投影（probe 机证 leg4·本波 prereg §5.5 原文）**：naive A 496,404..498,403 被注册后的 W218 B 带（496,404..496,603）起点即拒——**阶梯 A-hops-prior-B 第七十九例兑现**（W218 §5.5 投影预言命中）；naive B 496,604..496,803 落 W219 own-A 窗内（W141 同窗互斥先例适用）→**W219 A=496,604..498,603 / B=498,604..498,803**（hops=1+1·W219 席位探针下窗跑·verify at W219 prereg·hop 链逐跳在 probe 回执）。
+  - 宝藏与方法论捕获问：本批测量面零新方法（引擎两批 6+6 ledger append 按设计落·无 deferred 无锁撞·finalize 产物一次 r919 独占零双计）——**流程面一正例如实入账：六门探针首次 pre-finalize 烧录窗内执行（三例教训治法兑现）=固定序「烧录完成→六门→finalize」成立·W219+ 续持为常设步**。
+  - 诚实披露面：本波烧录链=r918 冻结窗后引擎全自动自燃（两批 6+6 ledger append）→r918 窗死于冻结拼接提交与收尾前（六门窗未跳过——本窗 r919 吸收时烧录已完·六门在正确相跑）→本窗 r919 吸收（six-gate pre-finalize+finalize 产物机读复核+五键探针+§7/§8 回填+提交落地）——链头消费=账本 append 由引擎单调·finalize 产物一次 r919 独占零双计；state/心跳轮计数器 r919 窗对账同步（counter advanced 918->920 absorb 范式）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
