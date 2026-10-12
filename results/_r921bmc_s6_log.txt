@@ -1,0 +1,14 @@
+r921 bm-c S6 evidence-legs start 2026-10-12 10:08:51
+pool_dualrun           rc=0      0.2s [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 446 entries, drift-free streak 21, cutoff 2026-10-11 20:57:49)
+compute_audit          rc=0      8.7s {"ts": "2026-10-12 10:08:59", "audit_version": "v2.4.2", "cpu_total_pct": 13.0, "py_cpu_pct": 4.4, "cores": 32, "py_procs": 10, "result_stale_min": 0.3, "fleet_open_tasks": 0, "pool_ready_count": 0, "
+py_watermark           rc=0      6.8s {"ts": "2026-10-12 10:09:06", "epoch": 1791770940.0, "machine": "bm-c", "cpu_total_pct": 49.0, "cores": 32, "py_cpu_pct": 2.0, "py_procs": 11, "top_proc_cores": 0.64, "local_batch_running": true, "ref
+token_meter            rc=0      0.1s L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2903 across 83 sigs
+full_38_leg_chain      SKIP  ran r914 window 06:43-06:48 + panels r916 08:03-08:07 this morning; intraday no-op legs identical; Monday new-bar full chain = 15:30+ window today
+live_paper             SKIP  no new bar (Friday 2026-10-09 processed; Monday 10:2x intraday, new bar 15:30 today)
+t35_open_fill_verify   SKIP  same trigger: no new bar
+t24_prospect_paper     SKIP  same trigger: no new bar
+t24_prospect_promotion SKIP  same trigger: no new bar
+science_audit          SKIP  monthly first-round leg; 10-12 is not month-first
+monthly_briefing       SKIP  monthly first-round leg
+self_review            SKIP  monthly first-round leg
+SUMMARY ok=4 bad=0 skipped=8
