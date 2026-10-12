@@ -1,0 +1,57 @@
+{
+ "machine": "bm-c",
+ "wave": 223,
+ "phase": "PRE-FINALIZE six-gate at r934 burn window (correct phase per W217+ standing law; splice 448c4d8c2 pushed 17:4x, engine self-burn in flight; W222 was burn-window miss #5 healed at absorb r932)",
+ "ts": "2026-10-12T17:24:44",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "5d75182a123e1725",
+   "n1_sha16_now": "93a557b3b78d680b",
+   "pf_sha16_freeze_post": "5d75182a123e1725",
+   "n1_sha16_freeze_post": "91cbb82a993641d7",
+   "repair_note": "n1 selftest W223 LHS boundary repair at r934 burn window (w<222 -> w<223 + comment, atomic pair; family #5 stale-template-copy, r923/r928/r932 lineage; derive inherited the pre-r932-repair editor snapshot face, fix does not backflow into editor templates): n1_sha16_now != n1_sha16_freeze_post BY THIS REPAIR, zero scientific fields -- bands/N/criteria unchanged, engine burn consumed the bands face, unaffected; pf file UNREPAIRED (sha16 equality asserted)"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=505404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=507404 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=505404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=507404 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 505404,
+   "b_exit_seed_base": 507404,
+   "shard_subdir": "n1_w223",
+   "out_name": "n1_w223_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 912189,
+  "prev_merged_n": 486320,
+  "expect_total": 914389,
+  "expect_merged": 488520
+ }
+}
