@@ -1,0 +1,58 @@
+{
+ "machine": "bm-c",
+ "wave": 225,
+ "phase": "PRE-FINALIZE six-gate at r939 window (correct phase per W217+ standing law; splice executed+committed this window 84ecb3a3a; engine self-burn 12/12 complete; correct-phase chain W218..W224 post-miss run 2 -> this wave extends it to run 3 consecutive)",
+ "ts": "2026-10-12T20:28:14",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "d8668dd33296e1db",
+   "n1_sha16_now": "635bf63e66bae66b",
+   "pf_sha16_freeze_post": "d8668dd33296e1db",
+   "n1_sha16_freeze_post": "635bf63e66bae66b",
+   "family6_triple_wholefile_recheck": true,
+   "repair_note": "NO repair this window: family #6 LHS/RHS/comment atomic triple absorbed into the r939 editor derive (W224 sec.8 upgrade proposal executed); BOTH pf and n1 sha16 clean-equal to freeze receipt post values asserted (W224-window repair precedent not needed)"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=509804 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=511804 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=509804 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=511804 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 509804,
+   "b_exit_seed_base": 511804,
+   "shard_subdir": "n1_w225",
+   "out_name": "n1_w225_results.json"
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 916589,
+  "prev_merged_n": 490720,
+  "expect_total": 918789,
+  "expect_merged": 492920
+ }
+}
