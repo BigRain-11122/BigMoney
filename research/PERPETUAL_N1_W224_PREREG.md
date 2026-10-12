@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r935 W223 §7 范式）
+- **finalize one-pass 已回填（bm-c r937 absorb 窗·2026-10-12 19:1x·承接 r935 席位发布 e2676c8eb+r936 per-wave prereg derive ac1b1de64）**：全链=r935 席位发布+sec.7/8 旧波回填（8d13daa7c/e2676c8eb）→r936 prereg derive+land（ac1b1de64·八级血统重放 preflight 46/46）→r937 死窗 splice 盘上执行（18:56·回执 _w224bmc_freeze_receipt.json·未提交）→引擎 daemon mtime-watch 自燃 12/12（batched ledger append 7ae27e58b+9ad2edbf5 自提交 18:58:59/19:01:40）→r937 死窗死于收口前→本吸收窗收口全 estate：
+  - 账本恒等式：prev_total **914,389** + batch_trials **2,200** = total **916,589**（机器断言 n1_w224_results.json science_gates.ledger·prev+batch==total 恒等通过·与六门 ledger_pre 期望恒等）
+  - 合并池 K=**490,720** EXACT（六门 ledger_pre 期望 488,520+2,200 兑现）；merged mu=**-0.09277198748777307** / merged sigma=**0.24508441782537593**；w224-only mu=**-0.09231609090909092** / w224-only sigma=**0.24293243568633563**（全部实数=results/perpetual_faces/n1_w224_results.json·锚 W223 实测键程序化 derive 对写·r583 律）
+  - skill_line_v2 K-lift 对照：line_pre **1.1914** → line_merged **1.1913** @n_eff 914,389·delta **-0.0001**（§5 预测 ±0.02 门内·W2..W223 先例链延续实测）
+  - **§5 五预键机证（fivekey probe=results/_r937bmc_w224_fivekey_receipt.json 与 finalize 同窗）**：key1 w-only vs merged |Δmu|=**0.000456**<0.02 PASS；key2 sigma 相对变化 **-0.0040%**<±10% PASS；key3 A 档 p95 **0.3168** vs W223 0.3129 差 **0.0039**<0.05 PASS；key4 K-lift **-0.0001**≤0.02 PASS；key5 投影承接见 §8——**五键全过=§5 预测全部兑现零违例**。
+  - se_mu 收窄链续行：se_mu_at_k490720=**0.00035**（前键 W223 0.000351 平带续收·W221 0.000352 链头）。
+  - canon flip 态=NOT performed（K2200 同律·治理提案面 only）。
+  - audit：voids_applied=['LOWAMP-P1','LOWAMP-P2']；machine=bm-c；finalize_only=true；shards_consumed=12/12；evidence_cutoff=2026-09-22。
+  - **六门探针=PRE-FINALIZE 全绿（正确相位·W222 miss#5 术后第 2 连——W223 正确相位+本波）=results/_r937bmc_w224_sixgate_receipt.json（19:1x）**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS（**W224 集推导 LHS 边界修复 w<223→w<224+注释原子对·family #6 陈旧编辑器面 r923/r928/r932/r934 血统·零科学字段**·r937 死窗编辑器 bump 了 RHS range(16,224) 与 W2..W223 注释行但漏 LHS·本窗修复披露）+shards 12/12 在场+seed_admit FREE x2（base=507604 span=2000+base=509604 span=200）+splice 完整性（bands facts==freeze receipt·pf sha16 c9e9dfae2ceb369f 恒等断言未修复）+WAVE_CONFIGS[224] row engine_owner=bm-c·a_seed_base=507_604/b_exit_seed_base=509_604+ledger_pre 914,389=W223 landed——边界对扫描门腿在场执法（W222 §8 升格后常设·第 2 波）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W225+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r935 W223 §8 范式）
+- **批后复盘（bm-c r937 吸收窗同窗回填）**：
+  - §5.5 下波投影承接机证：**W225+ 投影=probe 机证 leg4（承本波 §5.5·results/_w224bmc_20261012_probe_receipt.json）**：A naive first-clean **509_604..511_603**（hops=0·post-W224 注册宇宙待重 derive·W224 B 带 509_604..509_803 注册后拒 naive A 窗起点——W225 A 必须**越过 W224 B 带**重 derive·阶梯 A-hops-prior-B **第八十五例**预期）；B naive first-clean **509_804..510_003**（hops=0）——**naive B 落在 naive A 窗内**（W141 先例·同窗互斥面）：W225 冻结方必须 post-W224 注册宇宙重 derive 且 derive B 时**预留本波 A 窗**（leg2 律/E36 卡·85 实例预期）；verify at W225 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏与方法论捕获：family #6 陈旧编辑器 LHS 漏 bump 复发（r923/r928/r932/r934 后第 6 案·同一断言族=集推导 LHS w<N 未随 RHS range(16,N+1) bump）——已知族面零新方法论卡（knowledge/METHODOLOGY_ASSETS.md 零 append·捕获律问过即录）；零新宝藏（TREASURE_REGISTRY 零行）。族根已知=derive 继承编辑器模板快照·修复不回流（W223 §8 已注）——**防复发候选=编辑器模板派生时对「LHS/RHS/注释」三元组配对断言**（升级提案面·候 W225 冻结编辑器 derive 复核腿吸收·禁本窗自行改模板法）。
+  - 诚实披露面：r937 死窗死于收口前（splice+edpreflight+六门编辑器派生全产物在场·零遗产损失·本窗吸收收口）；六门正确相位在 W222 miss 后第 2 连；compute_audit pool_starvation+supply_floor 结构旗披露（armed response=波链本身·W225 席位=下一动作）；canon flip 治理提案面未执行（K2200 同律·待治理窗）；update_daily 周一 bars 仍缺（cutoff 10-09·papers 链候 bar 落地）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
