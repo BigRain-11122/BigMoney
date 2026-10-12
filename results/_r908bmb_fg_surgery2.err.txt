@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\_r908bmb_fg_surgery.py", line 120, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\_r908bmb_fg_surgery.py", line 48, in main
+    git(["read-tree", tip], env=env)
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\_r908bmb_fg_surgery.py", line 34, in git
+    raise RuntimeError("git %s rc=%d: %s" % (args, r.returncode,
+RuntimeError: git ['read-tree', '83f0fca8294ad52195ea3da79f90870854c35a4b'] rc=128: fatal: Unable to create 'C:\Users\Administrator\AppData\Local\Temp\_r908bmb_fg_index.lock': File exists.
+
+Another git process seems to be running in this repository, or the lock file may be stale
+

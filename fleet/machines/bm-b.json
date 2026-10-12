@@ -1,24 +1,24 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-12T23:35:15+08:00",
+ "clock_read": "2026-10-13T00:27:10+08:00",
  "cpu_cores": 16,
- "current_task": "r907 closeout: post-outage first round -- i2v batch re-ignited (8/53, KN07 in-flight)",
+ "current_task": "r908 closeout; r909 = batch watch + Speech-02/Music3 lane + trial-labor refill",
  "did": "r907: (1) 20h gap adjudicated: 03:03 + 22:16:45 power losses (root cause 550W PSU, CEO-domain), reboot ~22:20; predecessors r907 (22:12, died in outage) + r907b (22:43, KN16 landed 23:00:32, died at 25min watchdog) absorbed; (2) PRIMARY: smoke 49/49 + 180W cap verified + marker present -> ComfyUI 23:32:21 + driver 23:32:47 detached -> KN07 re-submitted 15s running = batch revival proof (8/53, SKIP-resume); (3) machine resumed 23:24:26 (other-domain actor); (4) DEFERRED r908: S6 41 legs (Monday bar unfetched) + orders scan (3 fetch timeouts) + IntradayMarks 09:25 missed-fire verify",
  "free_ram_gb": 1.1,
  "gpu_free_vram_gb": 0.29,
  "gpu_free_vram_mb": 297,
- "heartbeat_epoch_utc": 1791819315,
+ "heartbeat_epoch_utc": 1791822430,
  "idle_rounds": 0,
  "last_action": "r907: i2v batch re-ignited post-double-outage (8/53, KN07 in-flight) + 20h gap adjudicated",
  "last_action_at": "2026-10-12T23:35:15+08:00",
  "last_round_at": "2026-10-12T23:35:15+08:00",
- "last_seen": "2026-10-12T23:35:15+08:00",
+ "last_seen": "2026-10-13T00:27:10+08:00",
  "latest_artifact": "log-bmb-r907c.out.txt (KN07 SUBMITTED+15s running) + KN_KN16.mp4 @23:00:32 (batch 8/53)",
  "machine_id": "bm-b",
  "next": "r908: S6 41-leg full chain (update_daily pulls 10-12 bar -> paper family) > orders scan (fetch re-probe) > IntradayMarks Monday missed-fire accounting > i2v batch watch (53/53 ETA 10-13 morning -> remove keepwarm.pause marker) > unity-mcp POC (due 10-13 12:00) > W18+E15 48h CEO reports (10-13 11:2x / 10-14 00:44) > BigHouse T-2 (<=10-15)",
  "next_milestone": "i2v 批毕 ETA ~06:3x（6/53·提速 ~4min/单）→ unity-mcp POC 回执 ≤10-13 12:00；E15 48h 报 10-13 11:2x；W18 48h CEO 报 10-14 00:44；BigHouse T-2 ≤10-15",
  "note": "r907: post-outage first round; i2v batch re-ignited 23:32 (ComfyUI + driver detached, KN07 in-flight, 8/53); S6/orders deferred r908; idle_rounds reset = real production work this round",
- "now_active": "i2v batch re-burning (KN07 in-flight, 8/53 done, ComfyUI r907c + driver detached)",
+ "now_active": "i2v animatic batch burning (9/53, KN08 in-flight) + group surgery push in flight",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -220,7 +220,10 @@
   "O-20261011-2126-bm-c.md",
   "O-20261011-2147-bm-c.md",
   "O-20261011-2215-bm-c.md",
-  "O-20261011-2333-bm-c.md"
+  "O-20261011-2333-bm-c.md",
+  "O-20261010-2325-bm-b.md",
+  "O-20261012-0739-bm-c.md",
+  "O-20261012-0940-bm-a.md"
  ],
  "orders_ack_count": 201,
  "orphan_face": 0,
@@ -235,10 +238,10 @@
   "note": "r906 closeout push lands with this commit"
  },
  "task": "r907: i2v 批续跑值守（批毕 ETA ~06:3x → 移 keepwarm.pause marker 恢复 flash 本地线）> T-184 courtesy compare（bm-a transfer/t184-510880 到货即对）> unity-mcp POC 执行窗（due 10-13 12:00）> W18+E15 48h CEO 报（10-13 11:2x/10-14 00:44）> BigHouse T-2 ≤10-15",
- "ts": "2026-10-12T23:35:15+08:00",
+ "ts": "2026-10-13T00:27:10+08:00",
  "updated": "2026-10-12T23:35:15+08:00",
  "updated_at": "2026-10-12T23:35:15+08:00",
- "verdict": "GREEN: i2v batch revived (8/53, KN07 in-flight, VRAM 7.9GB loaded, 180W cap active, CEO-approved keep-running posture) + smoke 49/49; deferred faces = S6 chain + orders scan + IntradayMarks verify (r908); observe = night network degraded (3 fetch timeouts)",
+ "verdict": "GREEN-with-flags (batch revived #2 burning; pool_starvation/supply_floor flags = standing line, O-1612 waiver)",
  "vram_free_gb": 0.29,
  "round_no_label": "r907",
  "orders_ack_notes": {
@@ -247,5 +250,18 @@
   "O-20261011-2333-bm-c.md": "r901 bm-b: POC 受理+环境探针实跑（本会话 unity-mcp 工具面 find_gameobjects 探针=No Unity Editor instances found——编辑器未开=执行硬前件）；执行窗=剧本 v5 与 i2v lane 之后（令内 GPU 门·VRAM 0.07 满载实证）；回执 due 10-13 12:00 前完成（实弹动作+版本+坑录+升产线判读；截图随执行窗补）",
   "MSG-2026-10-12-0020-bmc-ALL-w210-takeover.md": "r901 bm-b: W210 让位确认回执已落 fleet/inbox/MSG-2026-10-12-00xx-bmb-bmc；引擎面实读零 W210 本地面（burns_active=[] queue_next=[] shards_done_total=0）；N1 供给线下一=W211 finalize 之后照 MSG 执行"
  },
- "green_idle": false
+ "green_idle": false,
+ "gpu": {
+  "util_pct": 100.0,
+  "mem_used_mb": 7887,
+  "power_w": 176.2,
+  "face": "i2v int4 animatic batch (ComfyUI r908c)"
+ },
+ "ram": {
+  "total_gb": 24,
+  "slots_populated": 2,
+  "slots_free": 2,
+  "board": "Gigabyte AB350M-Gaming 3-CF",
+  "receipt": "results/_r908bmb_ram_slots.json"
+ }
 }
