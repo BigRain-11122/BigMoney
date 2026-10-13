@@ -57,10 +57,10 @@
  "head_sha": "r983 closeout commit rides this window",
  "health": "ok",
  "sync": {
-  "origin_tip": "5c25db795 (bm-a W236 seat) at window open; closeout push rides",
-  "ts": "2026-10-14T05:06:07+08:00",
-  "ahead_behind": "0/0 pre-closeout",
-  "note": "r982: clean wait-state window (round_no=982 at open, executed r982, advanced 982->983)"
+  "origin_tip": "715e45df8 (r986 closeout, post-rebase) at close",
+  "ts": "2026-10-14T06:22:10+08:00",
+  "ahead_behind": "0/0 verified post-push",
+  "note": "r986: push raced bm-a 20190b53e absorb (claw caught, stash-bridge rebase landed, union merge 2 ledgers, supersession-drop stash); see r986 addendum row"
  },
  "total_ram_gb": 23.9,
  "cores": 32,
@@ -114,7 +114,7 @@
  "gpu_used_vram_mib": 14785,
  "gpu_total_vram_mib": 16384,
  "r947_absorb_note": "r947 absorb note: prior sessions r942-r946 (FIVE) plus a 00:0x-00:15 dead window each ran full/partial bodies with commits+pushes (r943 splice 9b44d37d1 + engine self-burn batched 9f41cf5be/eed45a825 + finalize one-pass 22:41:33; r944 six-gate heal + fivekey receipt + sec.7/8 backfill + S6 Monday chain; r945 closeout estate bd50be730 incl W226 re-verify + ORD 2215/2225/2240/2305 consumed; r946 S0 pre-rebase checkpoint 03a9e291d incl W227 probe derive unrun; 00:0x window ran post_review + s05 probe + idle_trigger) -- ALL died pre-closeout (state frozen at 942/round_no 942); this session executed as r947 (next after highest committed label r946) per the bm-c r894/r897/r907/r911/r915/r917/r919/r921/r928/r930/r933/r941 absorb precedent and advanced counter 942->948 so next session = r948; zero double-count: S0.5 dual-delta consumed THIS window (dec 94c93393->fb5825cb / ord 7351cf2f->a8d9efaf, watermarks advanced by this session), r942-r946 body debts were handled by their own commits; the 00:0x dead-window products (post_review report) landed by this window",
- "orders_ack_receipt": "r986: zero unacked both scans; group ORD/DEC dual-delta FALSE both (ord 348eaf34 content-sha / dec 86187eff hold); zero bm-c execution owed",
+ "orders_ack_receipt": "r986: zero unacked both scans; group ORD/DEC dual-delta FALSE both (ord 348eaf34 content-sha / dec 86187eff hold); zero bm-c execution owed; push-race closed via rebase (addendum row)",
  "r948_rebase_surgery_note": "r948 surgery note: r947 session died at 00:37:59 mid pull --rebase (onto=b98de9b32, orig-head=54f8fe48b), leaving .git/rebase-merge in place with pick#1 (03a9e291d r946 checkpoint) replayed as 1419f7b57 and pick#2 (19caa949c r947 closeout) APPLIED TO INDEX but uncommitted; state/heartbeat/round-report writes had landed (r947 closeout script ran) but commit/push never happened. This session found the staged estate, committed it as 375f9334a ON THE DETACHED HEAD (before detecting the rebase state -- push then failed non-FF x2 because (a) local main ref=54f8fe48b stale = the pushed ref, (b) after surgery, real race with bm-b round 909 push 66658ccbf). Resolution: treasure_guard rc0 on affected faces -> rebase --abort (autostash applied, all reproducible-class) -> reset --hard 375f9334a after content-supersession verification (state-bm-c.json + round_reports-bm-c.md byte-identical across tips = r947 products fully preserved) -> worktree add @66658ccbf -> cherry-pick 1419f7b57 (clean) + 375f9334a (3 shared-face conflicts: token_usage.json = mine 00:52:22 wholesale + bm-a mirror keys from bm-b view; compute_audit.json = latest mine 00:52:15 + history union-by-ts 63; _attrition_guard_scan.json = bm-b 00:49:57 newer wholesale) -> cb43255bb -> push LANDED 66658ccbf..cb43255bb -> worktree removed -> main reset --hard origin/main behind 0. Old chain (54f8fe48b/19caa949c/03a9e291d) content-fully-preserved, reachable via reflog. E61 methodology card appended.",
  "prod_lanes": "CPU=N1 W236: bm-a chain in-flight (prereg 67ade8314 landed 05:1x; splice/burn/finalize theirs; bm-c yielded per seat-first); MF-IC-P1: parked 22d source-blocked (panel absent on bm-c verified; bm-a collector lane, relay MSG-0512 standing); GPU=MV V3: burn window protected per O-20261014-0312 sec.2",
  "r951_absorb_note": "r951 absorb note: prior dead session (labeled r951, died ~02:2x post-QC pre-closeout; heartbeat still r950, counter still 951) executed: C02_v2 + C03 video QC verdicts (QC-r951.json), 12-frame pre-burn sweep of C04-C09+R01-R06 vs PROPS cuneiform canon (0 hard fails, 3 ADVISORY), C02_v3 reshake submission 02:09:53 (landed), and PLANNED a bm-a MSG (never landed in any inbox) + C03 dual-track; this session absorbed per bm-c r894/r897/r907 absorb precedent: executed as r951 continuation, advanced counter 951->952; zero double-count: S0.5 dual-delta FALSE this window (dec fb5825cb / ord a8d9efaf both current)",
