@@ -1,0 +1,52 @@
+# -*- coding: utf-8 -*-
+"""r973 context dump: exact template regions for W233 editor pair authoring."""
+import io, re
+t = io.open(r"results\_w232bmc_freeze_edits.py", encoding="utf-8", newline="").read()
+
+def dump(pat, before=10, after=400, n=2):
+    print("=" * 20, pat)
+    for i, m in enumerate(re.finditer(re.escape(pat), t)):
+        if i >= n: break
+        print(repr(t[max(0, m.start()-before):m.start()+after]))
+
+dump("# present (W231 finalize", after=460, n=1)
+dump("# Lineage: _w231bmc_freeze_edits.py pattern", after=260, n=1)
+dump("# LHS/RHS/comment ATOMIC TRIPLE absorbed", after=340, n=1)
+dump("# STRUCTURAL CHOICE (vs the W231 editor)", after=900, n=1)
+dump("# STRUCTURAL CHOICE: extract the estate", after=620, n=1)
+dump('f"W231+W230+W229', after=120, n=1)
+dump("W230/W229/W228/W227 finalize are transitive deps", after=80, n=1)
+dump("MSG-20261013-1155-bmc, executed bm-c r966", after=420, n=1)
+dump('"    #     MSG-20261013-1155-bmc, executed bm-c r966', after=480, n=1)
+dump('"    #     seat MSG + pre-seat probe script + probe receipt @ r966 window', after=340, n=1)
+dump('"seat MSG + pre-seat probe script + probe receipt @ r966 window', after=240, n=1)
+dump("ordinal machine-read NINETY-SECOND per probe receipt", after=60, n=3)
+dump('assert par_sec.count("assert pf.N1_BANDS[") == 87', after=260, n=1)
+dump("int(_estate_ws[86]) == 228", after=400, n=1)
+dump('f"estate segment not W138..W206', after=140, n=1)
+dump('assert par_full.count("assert pf.N1_BANDS[") == 89', after=200, n=1)
+dump('!= 89 (69 estate', after=160, n=1)
+dump("assert new_cfg.count('232: {\"batch\"", after=90, n=1)
+dump("assert n1_t4.count('232: {\"batch\"", after=90, n=1)
+dump('assert n1_t4.count(f\'assert pf.N1_BANDS[231]', after=200, n=1)
+dump("w229_leg = [", after=520, n=1)
+dump('"w231_upstream"', after=620, n=1)
+dump('"w230_transitive"', after=240, n=1)
+dump("full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W228 legs", after=140, n=1)
+dump('"note": "W231 editor family-6 gate carried forward', after=300, n=1)
+dump('"probe_receipt_bmc_ordinal_face": 62', after=40, n=1)
+dump("r967 prereg derived", after=280, n=1)
+dump("SIXTEEN-level", after=160, n=1)
+dump("62nd owned", after=200, n=1)
+dump("assert block.count(\"if w < 232)\")", after=200, n=1)
+print("=" * 20, "KEPT tail check")
+i = t.index("assert n1_t4.count('    # --- W231 materializer face')")
+print(repr(t[i-400:i+420]))
+print("=" * 20, "LIVE line")
+i = t.index('"liveness_anchors"')
+l0 = t.rindex("\n", 0, i) + 1
+l1 = t.index("\n", l0)
+print(repr(t[l0:l1]))
+print("block_kept in line:", t[l0:l1].count("_block_kept"))
+print("=" * 20, "header first 3 lines")
+print(repr(t[:600]))
