@@ -14,7 +14,12 @@ independent sources, joined:
   3. PASS iff every filled pending's cost_price matches the captured
      session open within REL_TOL; pendings absent from open_positions
      counted as ``dropped`` (guard drop / ADV cap / cash -- engine-
-     internal, honest, NOT a breach); zero pendings = zero-case PASS.
+     internal, honest, NOT a breach); zero pendings = zero-case PASS;
+     watch re-fires on positions filled an earlier session
+     (hold_days >= 2) counted as ``refire_held`` info -- each fill is
+     verified on its own fill day, cross-day cost compare of a re-fire
+     watch is a phantom breach (r967 fix, live-fire 2026-10-13
+     DROUGHT-CE-01 512400).
 
 Evidence is append-only marks jsonl + overwritten state: the join can
 only happen AFTER day D's evening engine run, for the day named by the
@@ -67,6 +72,16 @@ def _load_states() -> dict:
             "cutoff": cutoff,
             "positions": {p["symbol"]: p["cost_price"]
                           for p in st.get("open_positions", [])},
+            # r967 entry-day discriminator (false-BREACH fix, live-fire
+            # 2026-10-13 DROUGHT-CE-01 512400: filled 10-12 at open
+            # 1.646 == that day's watch 1.646 exact; 10-13 watch re-fire
+            # @1.575 joined against the prior-day cost = 4.5% phantom
+            # breach. hold_days >= 2 = filled an earlier session; each
+            # fill is verified on its own fill day, cross-day compare
+            # of a re-fire watch is meaningless.
+            "held_since": {p["symbol"]: p.get("hold_days")
+                           for p in st.get("open_positions", [])
+                           if p.get("hold_days") is not None},
         }
     return out
 
@@ -101,6 +116,7 @@ def verify(states: dict, marks_pw: dict | None) -> dict:
     """Join -> report dict. Per trader: matched/dropped/breached detail.
     marks_pw None = marks file missing for the day (no-evidence)."""
     per_trader, n_breach, n_matched, n_dropped, n_zero, n_nomarks = {}, 0, 0, 0, 0, 0
+    n_refire = 0
     for tid, st in sorted(states.items()):
         pw = (marks_pw or {}).get(tid)
         if marks_pw is None:
@@ -116,6 +132,14 @@ def verify(states: dict, marks_pw: dict | None) -> dict:
                 if cost is None:
                     detail.append({"symbol": sym, "outcome": "dropped"})
                     n_dropped += 1
+                    continue
+                hd = st.get("held_since", {}).get(sym)
+                if hd is not None and hd >= 2:
+                    detail.append({"symbol": sym, "outcome": "refire_held",
+                                   "cost_price": cost,
+                                   "session_open": session_open,
+                                   "hold_days": hd})
+                    n_refire += 1
                     continue
                 rel = abs(cost - session_open) / session_open
                 row = {"symbol": sym, "outcome": "filled",
@@ -138,7 +162,8 @@ def verify(states: dict, marks_pw: dict | None) -> dict:
     return {"verdict": verdict, "rel_tol": REL_TOL,
             "counters": {"matched": n_matched, "dropped": n_dropped,
                          "breach": n_breach, "zero_pending_traders": n_zero,
-                         "no_marks_traders": n_nomarks},
+                         "no_marks_traders": n_nomarks,
+                         "refire_held": n_refire},
             "per_trader": per_trader}
 
 
@@ -208,6 +233,19 @@ def _selftest() -> bool:
     # F5: zero-pending day (marks exist, no pending_watch) -> PASS zero-case
     rep = verify(states_fix({"510300": 4.1}), {})
     ok &= rep["verdict"] == "PASS" and rep["per_trader"]["T-X"]["status"] == "zero_pending"
+    # F7: watch re-fire on a position filled an earlier session
+    # (hold_days >= 2) -> refire_held info, never a breach (r967 fix)
+    st7 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 1.646},
+                   "held_since": {"510300": 2}}}
+    rep = verify(st7, {"T-X": {"510300": 1.575}})
+    ok &= rep["verdict"] == "PASS" and rep["counters"]["refire_held"] == 1
+    ok &= rep["counters"]["breach"] == 0 and rep["counters"]["matched"] == 0
+    # F8: same-day fill (hold_days == 1) still compared normally
+    st8 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 4.1001},
+                   "held_since": {"510300": 1}}}
+    rep = verify(st8, {"T-X": {"510300": 4.1}})
+    ok &= rep["verdict"] == "PASS" and rep["counters"]["matched"] == 1
+    ok &= rep["counters"]["refire_held"] == 0
     # F6: earliest-tick precedence in marks parsing (temp file)
     tmp = tempfile.mkdtemp(prefix="ofv_st_")
     try:

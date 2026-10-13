@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Continue'
 $env:PYTHONIOENCODING = 'utf-8'
 $env:BIGMONEY_REGIME_GUARD = 'enforce'
-$log = 'C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\_r966bma_s6_chain.log'
+$log = 'C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\_r967bma_s6_chain.log'
 $legs = @(
   @('pool_dualrun', 'python scripts\pool_dualrun_reconcile.py run'),
   @('compute_audit', 'python scripts\compute_audit.py'),
