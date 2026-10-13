@@ -4,12 +4,14 @@
 #   find  = m30(SUB32[i][k][1])  -- materialized W232-face, extracted from the
 #                                   committed _w232bmc_prereg_derive.py lineage
 #                                   (zero transcription; r787/r587 laws)
-#   repl  = R33[i][k]            -- authored W233 faces (_w233bmc_r33_data.py --
-#                                   TO BE AUTHORED NEXT WINDOW from _w233bmc_facts.json)
+#   repl  = R33[i][k]            -- authored W233 faces (results/_w233bmc_r33_data.py
+#                                   -- authored r972 from _w233bmc_facts.json)
 # Two live-value pairs keep the BinOp source form so the W234-level
 # extract_lit replay resolves them with vars (lineage continuity):
 #   (0,3) freeze-window label ; (20,0) live RAM.
-# STATUS r971: skeleton complete; requires results/_w233bmc_r33_data.py to run.
+# STATUS r972: R33 authored this window (results/_w233bmc_r33_data.py, all
+# values live-verified); freeze-round label face corrected r971->r972 (the
+# derive runs in the r972 window per r971 next-window pointer).
 # All historical faces resolved from _w233bmc_facts.json (machine-frozen r971)
 # + the W231 freeze-time blob (aebe0a5ac) -- zero eyeball transcription.
 import ast, json, re, subprocess, sys
@@ -99,7 +101,7 @@ for i in range(46):
         if i == 0 and k == 3:
             assert r.startswith("@@BINOP_WINLABEL@@"), "R33[0][3] marker missing"
             pre = r[len("@@BINOP_WINLABEL@@"):]
-            assert pre == "【bm-c 循环班 r971 freeze 窗·"
+            assert pre == "【bm-c 循环班 r972 freeze 窗·"
             entries.append('("【bm-c 循环班 r967 freeze 窗·" + WIN_LABEL_232,"' + pre + '" + WIN_LABEL)')
             continue
         if i == 20 and k == 0:
