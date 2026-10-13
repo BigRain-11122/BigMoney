@@ -1,0 +1,110 @@
+{
+ "probe": "W238 pre-seat probe (bm-a loop r976 window, 2026-10-14 07:4x, CEO fill-order standing + seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + O-20261013-22:1x CPU standing-open; post-W237-DECLARED universe, upstream W236 registered+FINALIZED 16dd2cda0 + W237 declared seat 9312ef7ac freeze-unblocked; W238 seat = queue-depth supply depth-2, freeze waits-upstream W237 finalize)",
+ "legs": {
+  "leg0": {
+   "rows": 234,
+   "tail": "W236-registered (W237 splice pending)",
+   "w237_splice_landed": false,
+   "w237_face": "ADMIT-receipt (declared, splice pending bm-c lane)",
+   "w237_bands": {
+    "A": [
+     536204,
+     538203
+    ],
+    "B": [
+     538204,
+     538403
+    ]
+   },
+   "w236_finalize_landed": true,
+   "owner_rows": 226,
+   "bmc_rows": 64,
+   "bma_rows": 121,
+   "bmb_rows": 41,
+   "ordinal": 228,
+   "bma_ordinal": 122,
+   "bma_ordinal_note": "bm-a attempt-continuity: 121 live bm-a rows (tail=W236 registered+FINALIZED bm-a r975 estate-absorb closeout) + this candidate = 122nd owned; engine wave ordinal = 226 registry owner rows + W237 declared (bm-c 65th, splice pending) + this candidate = 228th; live derive governs r359",
+   "anchor": "W236 registered+FINALIZED upstream (finalize one-pass 16dd2cda0: ledger 942,989 / K=517,120 / five-key ALL PASS _r975bma_w236_fivekey_receipt.json; n1_w236_results.json landed) + W237 declared seat (bm-c 9312ef7ac + ADMIT receipt; freeze unblocked post-W236-finalize, M12 chain-order next); this W238 SEAT does not wait for the W237 burn per seat-first law O-20261010-2350 sec.2 (queue-depth supply depth-2, 禁等上一波烧完才占下一席); the W238 FREEZE waits-upstream on W237 finalize (physical dependency, seat MSG note + next-window watch armed)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    538204,
+    540203
+   ],
+   "ARITH_B": [
+    538404,
+    538603
+   ],
+   "A": [
+    538404,
+    540403
+   ],
+   "hops_A": 1,
+   "B": [
+    540404,
+    540603
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    538404,
+    538603
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      538404,
+      538603
+     ],
+     "jump_to": 540404
+    }
+   ],
+   "A_semantics": "A arithmetic continuation from the W237 declared A tail REFUSED at start by the W237 declared B band (staircase A-hops-prior-B NINETY-EIGHTH instance, E36 card, per the W237 seat MSG leg4 anticipation; never transcribed r587); honest forward walk hops past the W237 declared B band",
+   "B_semantics": "B arithmetic continuation from the W237 declared B tail CLEAN on the pre-W238 universe BUT lands INSIDE the W238 own-wave A window (same-freeze mutual exclusion, W141 precedent, band-gate leg2 law); the walk with the own-wave A window reserved jumps to own-A tail+1",
+   "relation_asserts": {
+    "A_base_eq_priorB_tail_plus1": true,
+    "B_base_eq_ownA_tail_plus1": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=538404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=540404 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W239p_A_naive": "540404..542403",
+   "W239p_A_first_clean": "542501..544500",
+   "hops_A": 2,
+   "W239p_A_naive_refusers_seeds": [
+    541500,
+    542000
+   ],
+   "W239p_B_naive": "540604..540803",
+   "W239p_B_first_clean": "540604..540803",
+   "hops_B": 0,
+   "W239p_B_lands_inside_W239p_A_naive": true,
+   "note": "W239+ projection on the pre-W238 universe (assuming the W238 seat bands declared here register verbatim). NEW FACE vs the W237 leg4 window: the naive W239 A continuation 540_404..542_403 is REFUSED by live SEED_REGISTRY points [541500, 542000] (machine-read, first occurrence above the 538k registered tail) -> honest forward walk first-clean A 542501..544500 hops=2; the registered W238 B band will also refuse the naive W239 A window once W238 registers (A-hops-prior-B NINETY-NINTH instance anticipated, E36 card, W141 precedent); W239 freezer MUST re-derive on the post-W238 universe AND reserve the own-wave A window when deriving B -- never transcribe r587."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   538404,
+   540403
+  ],
+  "B": [
+   540404,
+   540603
+  ],
+  "a_lo": 538404,
+  "a_hi": 540403,
+  "b_lo": 540404,
+  "b_hi": 540603
+ }
+}
