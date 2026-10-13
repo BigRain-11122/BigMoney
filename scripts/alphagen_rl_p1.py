@@ -1765,7 +1765,8 @@ def _judged_core(panel, faces, dates, basket, anchors, topk_rows,
         "aggregate": {"n_g1_pass_v2": n_g1,
                       "n_registered": n_reg,
                       "n_d6_refused": sum(
-                          1 for c in cells if c["refused_d6"]),
+                          1 for c in cells
+                          if c["verdict"]["refused_d6"]),
                       "n_m1_pass": sum(
                           1 for c in cells
                           if c["m1_t_value_gate"]["pass"])},
