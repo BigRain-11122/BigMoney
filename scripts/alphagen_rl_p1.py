@@ -2383,6 +2383,7 @@ def main():
     p.add_argument("--workers", type=int, default=0,
                    help="eval workers; 0 = min(worker_cap(), 8)")
     sub.add_parser("export-topk")
+    sub.add_parser("tsgate-probe")
     sub.add_parser("judge")
     sub.add_parser("status")
     sub.add_parser("selftest")
@@ -2401,6 +2402,8 @@ def main():
         return cmd_train(a)
     if a.cmd == "export-topk":
         return cmd_export_topk(a)
+    if a.cmd == "tsgate-probe":
+        return cmd_tsgate_probe(a)
     if a.cmd == "judge":
         return cmd_judge(a)
     return 1
