@@ -1,0 +1,37 @@
+{
+  "probe": "r918 bm-b unity-mcp bridge probe #4 + bridge-level diagnosis",
+  "ts": "2026-10-13T23:36:00+08:00",
+  "verdict": "ROOT-CAUSE-ADJUDICATED: bridge unconnected is mechanical, not transient",
+  "findings": {
+    "editor_alive": true,
+    "editor_instance": {
+      "pid": 23584,
+      "started": "2026-10-13T23:33:18+08:00",
+      "cmdline": "Tuanjie.exe -batchmode -quit -projectPath C:\\Fluxgroup\\MiniGame\\MobTide -executeMethod Sy.MobTide.BuildService.BuildDouyin -logFile Logs/buildpackage_dy_12.log",
+      "classification": "BATCHMODE BUILD INSTANCE (Douyin mini-game build, game-lane production, not an interactive editor window)",
+      "auto_exit": "TuanjieAutoQuitter PID 8468 in process group = editor exits after build"
+    },
+    "mcp_bridge": {
+      "probe_result": "No Unity Editor instances found (manage_scene get_active)",
+      "ports_listening_pid23584": [34999, 38000, 38443, 55504, 56584, 13244],
+      "mcp_default_port_face": "absent - no MCP for Unity bridge port in listener set"
+    },
+    "plugin_install": {
+      "project": "C:\\Fluxgroup\\MiniGame\\MobTide",
+      "manifest_json_mcp": false,
+      "assets_mcp_dir": false,
+      "conclusion": "MobTide project has NO MCP for Unity plugin installed"
+    }
+  },
+  "root_cause": "Two independent blockers: (1) all 4 probes hit either no editor or a -batchmode/-quit build instance (MCP bridge not designed for batchmode build runs); (2) the only project with an editor session open (MobTide) has no MCP for Unity plugin installed. Bridge connect requires BOTH an interactive editor window AND a plugin-installed project.",
+  "next_window_conditions": [
+    "interactive Tuanjie editor window (no -batchmode flag)",
+    "a project with MCP for Unity plugin installed and bridge enabled"
+  ],
+  "poc_next_step_options": [
+    "A: install MCP for Unity plugin into a chosen test project (needs project pick decision; DO NOT touch MobTide while its build batch is running)",
+    "B: wait for CEO/game-lane to open an interactive editor on a plugin-installed project"
+  ],
+  "prior_probe_history": "probe#1 r914 (editor spawned 03:43 batchmode), probe#2 r916, probe#3 r917, probe#4 r918 this file",
+  "notes": "Douyin build (buildpackage_dy_12.log) is game-lane production (MiniGame/MobTide), not BigMoney repo face; logged for editor-open-window correlation only. Build log still being written at 23:34:50 = batch healthy."
+}
