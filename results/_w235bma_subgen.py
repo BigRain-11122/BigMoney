@@ -15,9 +15,9 @@
 # TAKEOVER NOTE: engine_owner flips bm-c->bm-a (r885/r898 precedent); bands
 # unchanged (R250 no re-pick, seat receipt verbatim).
 import ast, json, re, subprocess, sys
-sys.path.insert(0, r"K:\Fluxgroup\FluxGroup\quant\bigmoney\results")
+sys.path.insert(0, r"C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results")
 sys.stdout.reconfigure(encoding="utf-8")
-REPO = r"K:\Fluxgroup\FluxGroup\quant\bigmoney"
+REPO = r"C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney"
 
 def blob(rev, path):
     b = subprocess.run([r"C:\Program Files\Git\cmd\git.exe", "-C", REPO, "show", f"{rev}:{path}"],

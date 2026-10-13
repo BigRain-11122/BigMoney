@@ -24,7 +24,7 @@
 R35 = {
  0: ["PERPETUAL-N1-W235 预注册 · N1 nulls-deepening 泵第 233 枚",
      "engine_owner 行 224 注册在册（表尾 W234 行·probe leg0 机证 232 行",
-     "本候选=bm-a takeover 接管自有波【live-derive face：席面 prose takeover face（bm-c r976 席位 MSG-20261013-2149-bmc 承袭·bm-c hb-stall 158min+（hb 23:59 后 r977/r978 双死窗 prereg derive 未落盘）→bm-a 排满律接管 r885/r898 先例·bands unchanged R250 no re-pick）→freeze 时 live derive bma rows 119+候选=第 120 枚 EXACT·以 freeze 时 live derive 为准 r587/r359",
+     "本候选=bm-a takeover 接管自有波【live-derive face：席面 prose takeover face（bm-c r976 席位 MSG-20261013-2149-bmc 承袭·bm-c hb-stall 158min+（hb 23:59 后 r977/r978 双死窗 prereg derive 未落盘）→bm-a 排满律接管 r885/r898 先例·bands unchanged R250 no re-pick）→freeze 时 live derive bma rows 119+候选=第 120 枚 EXACT",
      "@@BINOP_WINLABEL@@【bm-a 循环班 r967 takeover freeze 窗·"],
  1: ["saturation_engine.py status live-read r967："],
  2: ["**波号 235=注册表 W234 席后首个自由号**",
