@@ -23,7 +23,7 @@
  "last_ts": 1791926471,
  "note": "r983: wait-state window close (W236 yield + MF-IC-P1 parked + bars not due); counter 983->984",
  "ram_free_gb": 0.5,
- "round_no": 984,
+ "round_no": 985,
  "round_no_label": "r983",
  "ts": "2026-10-14T05:21:11+08:00",
  "updated": "2026-10-14T05:21:11+08:00",
@@ -151,5 +151,6 @@
  "r981_closeout_note": "r981: clean continuation window (state round_no=981 at open, executed r981, advanced 981->982 so next session=r982); zero absorb owed (r980 closeout fb4941a6f landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both windows (ord 348eaf34 / dec 86187eff current, unacked=0); W236 chain face correctly yielded to bm-a (declared intent + in-flight window); S0 stash-bridge supersession drop disclosed (daemon live-faces rewrites blocked pop -> stale snapshots dropped live-wins)",
  "heartbeat_epoch_utc_type": "int (assert)",
  "r983_closeout_note": "r983: clean continuation window (state round_no=983 at open, executed r983, advanced 983->984 so next=r984); zero absorb owed (r982 closeout landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both scans (opening + S7 tail); wait-state window honestly declared per one-line law",
- "r983_absorb_note": ""
+ "r983_absorb_note": "",
+ "r984_closeout_note": "r984: (1) S0-1 anchor bm-c + round-zero probe py_faces=8 orphans=2 zero-kill; S0 stash->pull --rebase->pop clean (r923bmb estate landed; daemon state files x6 legit dirty, zero conflict); (2) S0.5 dual-delta TRUE both consumed: ORD ae5d7cda->53582389 (new rows = 10-13 23:5x V3-fix relay + tail rows, BigStream MV lane, zero BigMoney execution) + DEC 2bf2a0ef->86187eff (new row = C-20261013-01 group cleanup case executed, targets=BigStream/MiniGame group-tree files, zero BigMoney execution) + unacked local=0 both scans (opening + S7 tail, sha-identity 86187eff/53582389 verified zero mid-round rows); (3) S1 smoke 49/49; (4) S3: satengine ALIVE rc0 (burns 0/queue 0, W236=bm-a seat 5c25db795 04:46 in-flight, chain theirs per seat-first) + wm red=false healthy wait-state (next_pick=claimed MF-IC-P1 parked source-blocked) + post_review today ✗0 (✓45/🟡5, 05:00:48 sweep) + jobs=0 + idle green_idle=false RAM 1.8pct honest not-claim-eligible (GPU lane=MV V3 burn window protected per O-20261014-0312 sec.2); (5) WAIT-STATE WINDOW held per one-line law (10-14 bars not due until 15:30; MF-IC-P1 parked 20d at S2 gate, collector fix=bm-a lane, MSG-0512 relay in inbox addressed to bm-a; pool ready=0 sole-entry claimed-by-bm-b N2U3 + RW-5 freeze bans new prereg first-intake = supply legally chained to W236 finalize [bm-a]); (6) S6 light: dualrun ZERO-DRIFT streak 51 + compute_audit FLAG supply_floor structural (ready 0<floor 3, answered-by-chain W236) + token delta=0 L2 legs 0 today; (7) S7: attrition 4 CLEAN + pin=5 no-op + watchdog re-registered + both claws installed + tail dual-scan zero-new; pitfall same-window: s05 probe first-print GBK UnicodeEncodeError on emoji -> PYTHONIOENCODING=utf-8 rerun (known pit-encoding face, zero data loss)"
 }
