@@ -88,13 +88,23 @@
 
 - results/trial_labor_w17/{w17_grammar.json,w17_cells.json,w17_screen.json,w17_screen_cells.csv,judge_state.json,w17_judge.json,w17_reform_face.json,w17_intake.json,w17_paired_deltas.json}（W16 目录范式同构+改革面件**必列**+配对差分件本批独有）+SEED_REGISTRY 三键（20610000/20610500/20611000·冻结步同 commit·R250 一步律）+波级票 T-2026-10-09-178-P1+MSG 声明+attrition 行（SCREEN 1,584+JUDGE 8×n_blocks）+TRIAL_GRAMMAR_LEDGER wave-17 行（GENERATE 消费时落）。
 
-## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除·r966 bm-a 2026-10-13】
 
-（跑前必须为空——写数字即造假）
+- **SCREEN（2026-10-10 22:30 落盘·trials_ledger 864,387+1,584=865,971）**：1,384 配对格+200 null=1,584 试验；survival_rule=beat6m_rate > null_p95（§4 冻结 W2 数学·零手挑）；null_p95=0.511572·band [0.50,0.53] 命中=判线合法带内；survivors 332/1,384（24.0%）——per-face：template_default 43/173·tiered_tp_only 43/173·其余六 face 各 41/173（出场 face 间近零分化·首证）；control-determinism 25/25 重跑对逐字节恒等。
+- **§5.1 预测对账**：predicted 40 vs observed control survivors 43=MISS（+3·如实记 MISS 不粉饰）。
+- **JUDGE（2026-10-11 06:48 finalize 落盘·trials_ledger 877,753+344=878,097）**：43 完整配对块×8 出场 face=344 判格；G1'v2 pass **0/344**（skill_line_v2=1.1478@n_eff 878,097·bootstrap CI 下界>0·trade_gate 30/30 三控全灭）；G2-v2 eligible **0**（family PBO 全族 >0.25——最差 momentum 0.9571/64·folk 0.8286/72·sentiment 0.80/16；event/trend/volatility 0.0@n=8=小样本零·非证据如实注记）；E[FP] 名义 17.2（观测 0 pass=负池一致）；onboard 0。
+- **配对差分（§4 出场轴读数·本批独有件 w17_paired_deltas.json）**：七 face 比值 0.966-1.0·Wilcoxon p 0.98-1.0=判负池上出场轴零迁移（出场规则选择救不了负 alpha 候选·机制面结论）。
+- **intake（r966 补跑）**：n_eligible 0 lawful-zero→w17_intake.json（D6 绑定门零上船·注册管线零动作·marks 非试验账本 +0）。
+- **attrition 行**：TRIAL_LAB_W17_SCREEN+JUDGE 两行四面尾追 r966（r964 死窗欠账·r902 bm-b W18 晚追先例·guard scan CLEAN·evidence results/_attrition_guard_scan.json）。
 
-## §8 批后复盘【必填·s7-T】
+## §8 批后复盘【必填·s7-T·r966 回填】
 
-（冻结时按模板填占位·跑后回填：预测对账+门禁链损耗账+判线 v2 当批读数+全起点分布+试验量归因——单批 1,584>100 一句话归因=TRIAL_LABOR_LAW §1 常供律例行供给步·D-20261009-01③ 池补货 SLA 窗 10-10 00:00 承接批·出场轴显式门基线批）
+- **预测对账**：§5 预测 40 控制组生存者 vs 实测 43=MISS（+3）；G1/G2 modal 零生存=§5 pred.3 合法态兑现（负结果照报不粉饰）。
+- **门禁链损耗账**：1,584（screen 试验）→332 生存者（−1,252·24.0% 过筛率）→43 template-face 块×8 face=344 判格→G1 0 pass→G2 0 eligible→onboard 0；全程零人工挑线零看结果调阈。
+- **判线 v2 当批读数**：skill_line_v2=1.1478（passive_term 0.4792·null μ −0.0912/σ 0.2368·p2_calibration_v2 random* 池）@n_eff 878,097。
+- **全起点分布**：候选级虚拟时点全起点族（beat6m_k/n 口径·screen 面）——null_p95 band [0.50,0.53] 命中=判线校准带内零漂移；rerun 25 对逐字节恒等=烧录机械确定性双证。
+- **试验量归因（单批 1,584>100 一句话）**：TRIAL_LABOR_LAW §1 常供律例行供给步·D-20261009-01③ 池补货 SLA 窗承接批·出场轴显式门基线批——本批证伪「出场规则可救负 alpha」假设（七 face 零迁移）；W18 尺寸轴消费 template_default=43/173 同席复用（sec.0 consumer(3) 兑现·grammar ledger W18 行在册）。
+- **CEO 48h 呈报钟**：判决面 2026-10-11 06:48 落地起计——lawful-zero 负结果如实呈报（负结果照报律）。
 
 ## §9 冻结窗收口与精确续作点。【append-only】
 
@@ -102,3 +112,4 @@
 - **runner 构建切片（下轮·funnel 4/5）**：scripts/trial_labor_w17.py clone trial_labor_w16.py import-face 复用（W16 runner 范式+r446 手术坑律）+出场 face 层（W1 EXIT_MACHINES bridged+patch 习语·face 表 §3 冻结参数 verbatim）+改革面块必列（W16 §8 缺口教训）+G-face 断言电池（control 臂决定论交叉门=§5.1·ExitConfig 缺省表=A9·入场源 sha=22179881b7537193·grammar 血统三面恒等）+GBK reconfigure 入口律（r236）+selftest hermetic 全绿→prep/finalize/judge-prep 真数据 identity-face 三命令首跑→宣布 runner landed→fill_ladder TRIAL-LABOR-W17-GENERATE runner_exists 门放行。
 - **GENERATE→SCREEN→JUDGE→intake（runner landed 后·CPU 余量律+O-2100 执行面分离·>5min 入池）**；D-20261009-01③ SLA 窗 10-10 00:00 前入池 ≥10 claimable（GENERATE 1+SCREEN 分片+JUDGE 分片）；**48h CEO 呈报钟随判决面落地起计**。
 - **W16 改革面悬置（非本批义务·如实注记）**：w16_reform_face.json 缺件在案（W16 §8 精确续作点①②③= bm-a 车道）——本批 §4 改革口径从 runner 起即列规约，不承袭该缺口。
+- **closeout（r966 bm-a·2026-10-13 23:0x）**：§7/§8 一次定稿回填+w17_intake.json 补跑（lawful-zero）+attrition SCREEN/JUDGE 两行四面尾追（guard scan CLEAN）+票 T-2026-10-09-178-P1 关单（done·result_ref=w17 判决族）——r963/r964 死窗 §6 欠账全清；W16 改革面悬置仍在案（bm-a 车道后续窗）。

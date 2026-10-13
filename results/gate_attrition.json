@@ -18005,6 +18005,67 @@
     "verdict_stability=looser-side (line at n_eff 883777 < live 885977-derived; all-fail stays all-fail; r638 single-read)",
     "sec.0 consumer (2) fulfilled: negative reading -> X (sizing) axis de-weight justification live-fire; zero onboard; same-grammar rerun FORBIDDEN"
    ]
+  },
+  {
+   "batch": "TRIAL_LAB_W17_SCREEN",
+   "ts": "2026-10-10 22:30",
+   "kind": "measurement",
+   "cells_ledger_delta": 1584,
+   "ledger_total_after": 865971,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 1584,
+     "n_nulls": 200,
+     "n_survivors": 332,
+     "line": "beat6m_rate > null_p95 (prereg sec.4 frozen W2 math, zero hand-picked)",
+     "null_p95": 0.511572,
+     "null_p95_band": [
+      0.5,
+      0.53
+     ],
+     "null_p95_band_hit": true,
+     "control_determinism": "25/25 rerun pairs byte-identical (W16 carry-over)",
+     "sec51_prediction_accounting": {
+      "predicted": 40,
+      "observed_control_survivors": 43,
+      "verdict": "MISS"
+     }
+    }
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W17_PREREG.md (frozen bm-c r788 2026-10-09)",
+    "ledger=864387+1584=865971 (trials_ledger block in results/trial_labor_w17/w17_screen.json)",
+    "sec.6 closeout row late-appended r966 bm-a (screen landed 10-10 22:30; r963/r964 dead-window debt; heal per r902 bm-b W18 late-append precedent)"
+   ]
+  },
+  {
+   "batch": "TRIAL_LAB_W17_JUDGE",
+   "ts": "2026-10-11 06:48",
+   "kind": "measurement",
+   "cells_ledger_delta": 344,
+   "ledger_total_after": 878097,
+   "gates": {
+    "g1_prime_v2": {
+     "n_judged": 344,
+     "n_pass": 0,
+     "line": "sharpe_full > skill_line_v2=1.1478 @ n_eff 878097 AND bootstrap CI lower>0 AND trade_gate (n_trades>=30 AND n_entries>=30)"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "line": "G1' pass AND DSR>=0.95 AND family PBO<=0.25 CSCV 8 blocks",
+     "family_pbo_worst": "momentum 0.9571/64, folk 0.8286/72, sentiment 0.8/16; event/trend/volatility 0.0 at n_cells=8 each = small-cell zeros, not quality evidence"
+    },
+    "e_fp_nominal": 17.2,
+    "paired_deltas": "seven exit-rule faces ratio 0.966-1.0, wilcoxon p 0.98-1.0 = exit-axis zero-migration on judged-negative pool (results/trial_labor_w17/w17_paired_deltas.json)"
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W17_PREREG.md sec.7/sec.8 backfilled same round (r966)",
+    "blocks=43 complete paired blocks x8 exit faces=344",
+    "ledger=877753+344=878097 (trials_ledger block in results/trial_labor_w17/w17_judge.json)",
+    "products=results/trial_labor_w17/{w17_judge.json,w17_reform_face.json,w17_paired_deltas.json,w17_intake.json (lawful-zero, r966)}",
+    "verdict=lawful-zero (0/344 G1, 0 eligible, onboard 0) = honest negative wave; negative-result-report law applies (照报不粉饰)",
+    "sec.6 closeout row late-appended r966 bm-a (judge-finalize landed products 10-11 06:48 but r964 session died pre-attrition-row; heal per r902 bm-b W18 late-append precedent)"
+   ]
   }
  ],
  "history": [
