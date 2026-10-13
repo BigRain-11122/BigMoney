@@ -17871,6 +17871,140 @@
     "amt_share|z120|h10",
     "amt_share|z250|h10"
    ]
+  },
+  {
+   "batch": "PERPETUAL-N2-W18",
+   "ts": "2026-10-11 04:53:21",
+   "kind": "search-refusal",
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 876731,
+   "gates": {
+    "v1_unjudgeable": 1,
+    "v1_pass": 0,
+    "m1_pass": 0,
+    "full_chain_pass": 0
+   },
+   "entries": [
+    "freeze_window=r861_bm-b_d4c852425",
+    "pooled_nulls=288<300_frozen_sufficiency_line->honest_refuse_rc2",
+    "draw_envelope=64_consumed;n_ok>=48_lower_bound;split_face_not_persisted_by_refusal_path",
+    "zero_product_file;zero_trials_ledger_row(chain_head_876731_unchanged)",
+    "verdict=V1_UNJUDGEABLE(non-fail_non-pass);D1_no_readout;M1_not_applicable",
+    "trials_consumed=352_evaluations(64_draws+288_nulls);enrolled_448_row_not_fired(ledger_tied_to_product_landing)",
+    "design_lesson=B6_per_formula_budget_did_not_price_T-84s3_redraw+skip_attrition;W19_redraft_face;family_key_open"
+   ],
+   "prereg": "research/PERPETUAL_N2_W18_PREREG.md",
+   "runner": "scripts/alphagen_beam_w18.py"
+  },
+  {
+   "batch": "PERPETUAL-N2-W19",
+   "ts": "2026-10-11 06:0x",
+   "kind": "ic_judgment",
+   "cells_ledger_delta": 496,
+   "ledger_total_after": 877227,
+   "gates": {
+    "face": "family-level V1 (T23 census calibration law) + per-survivor M1 t>=3.0 positive-direction; per-cell full chain = h1_ok survivor AND M1; registration chain NOT in batch scope (material pool only, prereg sec.0)",
+    "v1_pass": 1,
+    "v1_unjudgeable": 0,
+    "m1_pass": 9,
+    "full_chain_pass": 9
+   },
+   "entries": [
+    "freeze_window=r864_bm-b_f5426c419",
+    "pooled_nulls=336>=300_frozen_sufficiency_line->first_judgeable_burn_of_the_feedback_lever",
+    "attrition=6_t84s3+5_in_batch_dup->11_excluded;51_enrolled;3_h1_skip(5.9%<10%_guard);48_ok;48*7=336",
+    "v1_family_max|ICIR|=0.38>pooled_null_p95=0.086->HOLDS",
+    "d1_leverage=0.38_vs_census_random_0.353->positive_signal(descriptive_non-gating;K=62_vs_64_parity_disclosed)",
+    "m1_t>=3.0_positive_direction=9/48_survivors",
+    "material_pool_only;zero_registration;zero_engine_runs"
+   ]
+  },
+  {
+   "batch": "PERPETUAL-N2-W20",
+   "ts": "2026-10-11 06:5x",
+   "kind": "ic_judgment",
+   "cells_ledger_delta": 496,
+   "ledger_total_after": 877723,
+   "gates": {
+    "face": "family-level V1 (T23 census calibration law) + per-survivor M1 t>=3.0 positive-direction; per-cell full chain = h1_ok survivor AND M1; registration chain NOT in batch scope (material pool only, prereg sec.0)",
+    "v1_pass": 1,
+    "v1_unjudgeable": 0,
+    "m1_pass": 0,
+    "full_chain_pass": 0
+   },
+   "entries": [
+    "freeze_window=r866_bm-b_526f3d4d3",
+    "pooled_nulls=336>=300_frozen_sufficiency_line->second_judgeable_burn_of_the_feedback_lever(replication_wave)",
+    "attrition=10_t84s3+3_in_batch_dup->13_excluded;49_enrolled;1_h1_skip(2.0%<10%_guard);48_ok;48*7=336",
+    "v1_family_max|ICIR|=0.478>pooled_null_p95=0.087->HOLDS",
+    "rp1_band[0.20,0.45]=0.478_above_band->band_replication_FAILS(disclosed_per_prereg_law_no_re-tune)",
+    "rp2_leverage=0.478>=census_random_0.353->2/2_independent_readings->leverage_claim_UPGRADED_citable(descriptive_non-gating)",
+    "m1_t>=3.0_positive_direction=0/48_survivors(negative_direction|t|>=3=27/48_descriptive_disclosure)",
+    "material_pool_only;zero_registration;zero_engine_runs"
+   ]
+  },
+  {
+   "batch": "TRIAL_LAB_W18_SCREEN",
+   "ts": "2026-10-11 19:10",
+   "kind": "measurement",
+   "cells_ledger_delta": 892,
+   "ledger_total_after": 879189,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 692,
+     "n_nulls": 200,
+     "n_survivors": 152,
+     "line": "beat6m_rate > null_p95 (W2 frozen math)",
+     "null_p95": 0.511572,
+     "null_p95_band": [
+      0.5,
+      0.53
+     ],
+     "survivors_by_face": {
+      "equal_weight": 41,
+      "cap20": 37,
+      "inverse_vol": 35,
+      "regime_delever": 39
+     },
+     "as_burned_identity": "43/173 vs W17 control three-column byte-identical (sec.5.1 hard gate)"
+    }
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W18_PREREG.md (frozen bm-c r879)",
+    "source=W16 frozen 173 candidates verbatim (zero new generation; gen seed 20630000 held)",
+    "dedup_face=NA (verbatim reuse, T-84s3 no-op by construction)",
+    "ledger=878297+892=879189 (trials_ledger block in w18_screen.json)",
+    "sec.6 closeout row appended r902 bm-b (finalize process PID25060 landed products 00:44 but died pre-attrition-row)"
+   ]
+  },
+  {
+   "batch": "TRIAL_LAB_W18_JUDGE",
+   "ts": "2026-10-12 00:44",
+   "kind": "measurement",
+   "cells_ledger_delta": 188,
+   "ledger_total_after": 885977,
+   "gates": {
+    "g1_prime_v2": {
+     "n_judged": 188,
+     "n_pass": 0,
+     "line": "sharpe_full > skill_line_v2=1.1481 @ n_eff 883777 (fork-branch reading) AND bootstrap CI lower>0 AND entries>=0"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "line": "G1' pass AND DSR>=0.95 AND family PBO<=0.25 CSCV 8 blocks",
+     "family_pbo_worst": "momentum 0.9143/32, folk 0.8429/36; best ta 0.3857/28 (all families fail <=0.25)"
+    },
+    "e_fp_nominal": 9.4,
+    "paired_deltas": "four-face median delta ~0 (eq +0.0001/cap20 0.0/inv -0.0005/del 0.0; IQR 0.029-0.081) = sizing axis zero-median-migration on judged-negative pool"
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W18_PREREG.md sec.7/sec.8 backfilled r902 (one-shot definitive)",
+    "blocks=47 complete paired blocks x4 faces=188 (152 surviving legs over 47 cells + 36 non-surviving sibling legs for paired reading)",
+    "ledger_fork=prev 883589 captured at judge-prep 19:11 pre-W210; W210 landed 23:2x from same prev (885789) -> judge block 883777 sub-head",
+    "reanchor=r902 append-only re-anchor row 885789+188=885977 on live chain (results/trial_labor_w18/w18_judge_ledger_reanchor_r902.json; r807 pre-push fork window catch; superseded branch 883777 must never be re-added)",
+    "verdict_stability=looser-side (line at n_eff 883777 < live 885977-derived; all-fail stays all-fail; r638 single-read)",
+    "sec.0 consumer (2) fulfilled: negative reading -> X (sizing) axis de-weight justification live-fire; zero onboard; same-grammar rerun FORBIDDEN"
+   ]
   }
  ],
  "history": [

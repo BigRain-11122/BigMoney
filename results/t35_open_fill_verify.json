@@ -1,45 +1,53 @@
 {
- "verdict": "NO_EVIDENCE",
+ "verdict": "BREACH",
  "rel_tol": 0.002,
  "counters": {
   "matched": 0,
   "dropped": 0,
-  "breach": 0,
-  "zero_pending_traders": 0,
-  "no_marks_traders": 6
+  "breach": 1,
+  "zero_pending_traders": 5,
+  "no_marks_traders": 0
  },
  "per_trader": {
   "COMPOSITE-CE-01": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
+   "status": "zero_pending",
    "detail": []
   },
   "COMPOSITE-CE-02": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
+   "status": "zero_pending",
    "detail": []
   },
   "DROUGHT-CE-01": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
-   "detail": []
+   "status": "breach",
+   "detail": [
+    {
+     "symbol": "512400",
+     "outcome": "BREACH",
+     "cost_price": 1.646,
+     "session_open": 1.575,
+     "rel_diff": 0.045079
+    }
+   ]
   },
   "ENGULF-CE-01": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
+   "status": "zero_pending",
    "detail": []
   },
   "NEEDLE-DE-01": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
+   "status": "zero_pending",
    "detail": []
   },
   "VOLATILITY-CE-01": {
    "cutoff": "2026-10-13",
-   "status": "no_marks",
+   "status": "zero_pending",
    "detail": []
   }
  },
  "day": "2026-10-13",
- "ts": "2026-10-13 20:59:55"
+ "ts": "2026-10-13 21:57:23"
 }

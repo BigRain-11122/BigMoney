@@ -1,0 +1,84 @@
+# 每日战报 — 2026-10-11
+
+> 生成 2026-10-11 02:53:09 · 聚合面零新判据 · 缺面如实标注
+
+## 一、实战面
+- **市场时钟**：`ORANGE_COOL`（asof 2026-10-09）· 仓位阶梯帽 0.5
+- **激活袖**：grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))；mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)；dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))；zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)
+- **在册交易员**（6 员 · marks 2026-10-09）：总权益 6000311.04 CNY · 总持仓 18 · 当日入场 0 / 出场 0
+  - COMPOSITE-CE-01: 资本 {'initial': 1000000.0, 'equity': 1002926.47, 'positions_value': 954165.35, 'cash': 48761.12, 'denomination': 'CNY'} · 持仓 5 · dd -0.0029 · 守卫 {'mode': 'shadow', 'active_from': None}
+  - COMPOSITE-CE-02: 资本 {'initial': 1000000.0, 'equity': 1002183.64, 'positions_value': 953022.17, 'cash': 49161.47, 'denomination': 'CNY'} · 持仓 8 · dd -0.0047 · 守卫 {'mode': 'shadow', 'active_from': None}
+  - DROUGHT-CE-01: 资本 {'initial': 1000000.0, 'equity': 1000000.0, 'positions_value': 0, 'cash': 1000000.0, 'denomination': 'CNY'} · 持仓 0 · dd 0.0 · 守卫 {'mode': 'shadow', 'active_from': None}
+  - ENGULF-CE-01: 资本 {'initial': 1000000.0, 'equity': 1000000.0, 'positions_value': 0, 'cash': 1000000.0, 'denomination': 'CNY'} · 持仓 0 · dd 0.0 · 守卫 {'mode': 'shadow', 'active_from': None}
+  - NEEDLE-DE-01: 资本 {'initial': 1000000.0, 'equity': 1000000.0, 'positions_value': 0, 'cash': 1000000.0, 'denomination': 'CNY'} · 持仓 0 · dd 0.0 · 守卫 {'mode': 'shadow', 'active_from': None}
+  - VOLATILITY-CE-01: 资本 {'initial': 1000000.0, 'equity': 995200.93, 'positions_value': 495853.55, 'cash': 499347.38, 'denomination': 'CNY'} · 持仓 5 · dd -0.0049 · 守卫 {'mode': 'shadow', 'active_from': None}
+- **实验账户族**（27 个：AGGR/ALLOC/CN 纸盘）：
+  - [AGGR] AGGR-BARBELL: equity 999292.64 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-CONC-TOP2: equity 998725.72 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-FULLCE-C80: equity 999609.11 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-FULLCE: equity 999511.25 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-GREEN-MAX: equity 996016.53 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-GREEN-TOP2: equity 999414.66 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-MOM: equity 998483.96 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-NOCASH: equity 999858.15 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-OFFENSE-FULL: equity 1000679.4 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-OFFENSE: equity 1000330.12 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-REG3: equity 1000679.4 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-REGIME: equity 1000679.4 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-60: equity 998431.48 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-80: equity 997843.19 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-C80: equity 998980.85 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-C95: equity 998789.51 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-MON: equity 1001936.78 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP2-WK: equity 995645.87 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP3-GRAD: equity 998608.75 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [AGGR] AGGR-TOP3: equity 999021.19 · shadow (record-only; zero interference; zero canon/production-account touch)
+  - [ALLOC] ALLOC-P1: equity N/A(面未产出) · monthly
+  - [ALLOC] ALLOC-P2: equity N/A(面未产出) · monthly
+  - [ALLOC] ALLOC-P3: equity N/A(面未产出) · monthly
+  - [ALLOC] ALLOC-P3B: equity N/A(面未产出) · daily-threshold
+
+## 二、CEO 实盘使用面（T-105 直达）
+- **[实盘一页纸直达](../live_usage/LIVE-2026-10-11.md)**（LIVE-2026-10-11）：政体态 **ORANGE** · 有效档位 **ORANGE** → 股票敞口总帽 50% · 温度计 COOL · 市场时钟 `ORANGE_COOL` · 六员 6 员持仓见一页纸
+
+## 三、研发面（24h）
+- 提交 534 · 判定/结果件落地 207 · 调研 digest 14 · 预注册/正典触碰 34
+- 在飞批：是 · 水位判定 `insufficient_history` · 算力审计 `{"ts": "2026-10-11 02:50:13", "py_cpu_pct": 9.9, "flags": ["pool_starvation", "supply_floor"], "verdict": "FLAG:pool_starvation,supply_floor"}`
+- **候选产线 · 常青 N1 波链**：链头 870371 runs · 合并池 K 451120 · 注册尾 W206（bm-c）· 下一注册 W207
+  - 近波：W204 bm-c 12/12 账落 | W205 bm-a 12/12 账落 | W206 bm-c 12/12 账落
+  - 席位：已占席 W207（bm-b） · 下一可席 W208
+
+## 四、决策面（今日 GM 自主决策日志尾）
+- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0
+- 2026-09-26 09:47 · T-74 热度复合 v0 采 LHB 板面活动度代理（H_act≥滚动250日p80 且 H_net>0=HOT），涨停家数/炸板率/连板高度采集器缺位如实披露不编造 · 理由=只用既有面（LHB 2007→2026 26.6万行在仓），前向面（moneyflow/THS/人气）禁入回测 · 指针=MARKET_CLOCK_COMBO.md §1/§2
+- 2026-09-26 09:47 · T-74/T-75/T-77 三票同轮认领同轮开动（T-74 s0+s1 当日出、T-75 首报当日出、T-77 路由正典+token 行当日出，重活留精确续点） · 理由=O-1730 CEO 即时律：认领与开动同轮，禁排未来轮次 · 指针=fleet/tasks/T-2026-09-26-{74,75,77}-P1.json progress_r239
+- 2026-09-26 09:47 · T-75 每日战报 v0=纯聚合面（零新指标零新判据发明，缺面挂如实标签），当日=周六无交易照出（面态如实标注） · 理由=O-0940「报告自己来」+ O-2115 诚实律 · 指针=scripts/daily_report.py + docs/daily_report/
+
+## 五、明日队列（公司自排优先级）
+- T-2026-09-24-16(claimed) fund-premium-data-probe ← bm-c (OS iteration loop, round 51)
+- T-2026-09-24-17(claimed) ah-hk-data-probe ← bm-c (OS iteration loop, round 57)
+- T-2026-09-24-29(claimed) scorecard-direct-access ← bm-a (OS iteration loop, round 106; v0.2
+- T-2026-09-24-36(claimed [immediate]) compute-dispatcher-mechanism ← bm-a (OS iteration loop, round 91)
+- T-2026-09-24-37(claimed [immediate]) post-review-mechanism ← bm-a (OS iteration loop, round 92; bm-c 
+- T-2026-09-25-39(claimed) data-pipeline-source-repair ← bm-a (OS iteration loop, round 109)
+- T-2026-09-25-43(claimed) data-pipeline-source-expansion ← bm-a
+- T-2026-09-25-46(claimed) batch-preregistration ← bm-b (OS iteration loop, round 159)
+- T-2026-09-25-49(claimed) batch-preregistration-revival ← bm-b (OS iteration loop, round 167)
+- T-2026-09-25-54(claimed [immediate]) stability-first-admission-and-orthogonal-pool ← bm-b
+- T-2026-09-25-56(claimed [immediate]) aggressive-blend-lab ← bm-a (OS iteration loop, round 157; clai
+- T-2026-09-25-58(claimed [immediate]) broad-aggressive-combo-family ← bm-a (OS iteration loop, round 157; clai
+
+## 六、算力利用率（O-1614 满载机制 · T-107 面）
+- **bm-a**：py 9.9%（总机 40.0% · 2026-10-11 02:50:13）· 池 ready 0 · 今日底线合规 0/12· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 3174.0min · `FLAG:pool_starvation,supply_floor`
+  - py 序列（近 12 采样）：00:22=15.1% 00:38=3.9% 00:45=25.2% 00:46=5.5% 01:09=3.0% 01:19=0.2% 01:32=29.7% 02:05=30.2% 02:11=5.3% 02:20=2.3% 02:31=22.0% 02:50=9.9%
+- **bm-b**：py 2.3%（总机 4.0% · 2026-10-11 02:20:16）· 池 ready 0 · 今日底线合规 0/9· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 3144.0min · `FLAG:pool_starvation,supply_floor`
+  - py 序列（近 12 采样）：23:25=4.7% 23:43=33.2% 23:54=5.8% 00:22=15.1% 00:38=3.9% 00:45=25.2% 00:46=5.5% 01:09=3.0% 01:19=0.2% 01:32=29.7% 02:05=30.2% 02:20=2.3%
+- **bm-c**：py 22.0%（总机 42.0% · 2026-10-11 02:31:24）· 池 ready 0 · 今日底线合规 0/10· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 3155.1min · `FLAG:gpu_unauthorized,pool_starvation,supply_floor`
+  - py 序列（近 12 采样）：23:43=33.2% 23:54=5.8% 00:22=15.1% 00:38=3.9% 00:45=25.2% 00:46=5.5% 01:09=3.0% 01:19=0.2% 01:32=29.7% 02:05=30.2% 02:20=2.3% 02:31=22.0%
+- 填充台账：T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label
+- **核分布/并行效率三机对照（T-134 s4 · 2026-10-11）**：**bm-a** 有效核 13.16（判 7 批 · 多核达标 7 · 单核红牌 0 · 短跑不计 0）；**bm-b** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-c** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）
+
+## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）
+- 状态面估计 2049 · 报告面估计 1897480 · 增量 {"prev_generated": "2026-10-11 02:21:26", "state_tokens_growth": 0, "report_tokens_growth": 1281, "mandate_growth": 5} · 口径 {'bpe_proxy': 3.5, 'disclosure': 'ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API'}
+
+> 判负与缺口照报不粉饰；三态标注（立法/生效/验收）见各票。
