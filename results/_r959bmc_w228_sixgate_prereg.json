@@ -1,0 +1,59 @@
+{
+ "machine": "bm-c",
+ "wave": 228,
+ "phase": "PRE-FINALIZE six-gate (r959 continuation window; W217+ standing law executed on schedule -- shards 12/12 landed via engine self-burn 08:19-08:22, finalize not yet run, splice estate committed pre-gate)",
+ "ts": "2026-10-13T08:30:30",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "f4347ccd6913950c",
+   "n1_sha16_now": "aed7ae3d0b6af2ad",
+   "pf_sha16_freeze_post": "f4347ccd6913950c",
+   "n1_sha16_freeze_post": "aed7ae3d0b6af2ad",
+   "family6_triple_wholefile_recheck": true,
+   "repair_note": "NO repair expected: family #6 triple carried atomically in the dead-window splice (receipt family6_triple_gate.absorbed=true); both sha16 faces asserted clean-equal"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=516404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=518404 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=516404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=518404 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 516404,
+   "b_exit_seed_base": 518404,
+   "shard_subdir": "n1_w228",
+   "out_name": "n1_w228_results.json",
+   "seed_bases_match_freeze_bands": true
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 923189,
+  "prev_merged_n": 497320,
+  "expect_total": 925389,
+  "expect_merged": 499520
+ }
+}
