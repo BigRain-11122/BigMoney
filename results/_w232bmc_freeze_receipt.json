@@ -1,0 +1,98 @@
+{
+ "machine": "bm-c",
+ "wave": 232,
+ "phase": "five-face freeze chain-order splice (r968 freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "27d154582ede7a7eee8ef96e6cbfdd78304def08",
+ "pf_sha16_pre": "d6a58a8d9bee6343",
+ "n1_sha16_pre": "5bdd36b321215873",
+ "pf_sha16_post": "38225c87391fbaf3",
+ "n1_sha16_post": "b9ae9097b095c422",
+ "bands": {
+  "A": "525204_527203",
+  "B": "527204_527403",
+  "a_lo": 525204,
+  "a_hi": 527203,
+  "b_lo": 527204,
+  "b_hi": 527403
+ },
+ "admit_receipt": "results/_w232bmc_20261013_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=525204 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=527204 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w231_upstream": {
+  "freeze_sha": "aee0bd9fa30d095d57cef70e7bdd4f38ec85318d",
+  "prereg_sha": "aebe0a5acc2a2d6bbd30a90359b433b58d636139",
+  "ledger_total": 931989,
+  "merged_n": 506120,
+  "engine_owner": "bm-c (own seat honored, no takeover face)",
+  "repair_chain_note": "r966 splice (W231 freeze landed aee0bd9fa r966 window, estate committed+pushed by r966 itself; session died post-push pre-closeout, residual absorbed by r967) + engine self-burn 12/12 (492972ee7+4e373b743) + r966 finalize one-pass 13:2x 0636c1d12 (six-gate PRE-FINALIZE correct phase -- standing law held, sixth consecutive)"
+ },
+ "w225_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w225_results.json present (belt-and-braces gate; ledger 918,789 / K=492,920)"
+ },
+ "w224_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w224_results.json present (belt-and-braces gate; ledger 916,589 / K=490,720)"
+ },
+ "w223_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w223_results.json present (belt-and-braces gate; ledger 914,389 / K=488,520)"
+ },
+ "w230_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w230_results.json present (belt-and-braces gate; ledger 929,789 / K=503,920)"
+ },
+ "seat": "fleet/inbox/MSG-20261013-1345-bmc.md (origin 8d3a1b78a)",
+ "prereg_bundle": {
+  "prereg_sha": "a3a7aa63230e87cb5a6212f54a07bc1738dde5b3",
+  "probe_receipt_sha": "8d3a1b78a525f66c61044752440848d02846c206",
+  "note": "prereg derived+committed in the r967 window (a3a7aa63230e87cb5a6212f54a07bc1738dde5b3, SIXTEEN-level lineage replay chain, preflight 46/46); splice editor derived from the committed W231 editor template by count-asserted ordered transform (protect-restore regions, fail-closed pair law) in this same r968 freeze window; upstream W231 already landed (clean-precondition twenty-first consecutive window); zero transcription"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 221,
+  "bmc_rows_live": 61,
+  "engine_owned_ordinal": 222,
+  "bmc_own_ordinal": 62,
+  "probe_receipt_bmc_ordinal_face": 62,
+  "note": "post-W232 registration: bm-c rows 61 + candidate = 62nd owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=62 = r966 seat-time live face -- disclosed honest)"
+ },
+ "parity_section": {
+  "source": "OWN W231 block physical bytes (own splice generation, structure known exactly)",
+  "bytes": 23814,
+  "row_asserts": 87,
+  "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W228 legs + W229 leg + W230 leg + W231 leg -> W232 block = 90 rows ending at W231; disclosed: (a) inherited W213 leg error-string face (\"registered W212 row parity drift\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact); (b) prereg block-30 prose carries the lineage one-wave-behind \"\u5757\" face (mechanical aging, r927 fixB family) while this editor extracts from the OWN W231 block -- parity list face exact, zero functional impact"
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "note": "W231 editor family-6 gate carried forward: new block LHS w<232 x3 / RHS range(16,232)+range(17,232) / comment below-232 count-asserted ATOMICALLY before splice; W231 block's own w<231 face = legitimate prior-wave boundary (not stale)"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1,
+  "w215_block_kept": 1,
+  "w216_block_kept": 1,
+  "w217_block_kept": 1,
+  "w218_block_kept": 1,
+  "w219_block_kept": 1,
+  "w220_block_kept": 1,
+  "w221_block_kept": 1,
+  "w222_block_kept": 1,
+  "w223_block_kept": 1,
+  "w224_block_kept": 1,
+  "w225_block_kept": 1,
+  "w226_block_kept": 1,
+  "w227_block_kept": 1,
+  "w228_block_kept": 1,
+  "w229_block_kept": 1,
+  "w230_block_kept": 1,
+  "w231_block_kept": 1
+ }
+}
