@@ -1,0 +1,60 @@
+{
+ "machine": "bm-a",
+ "wave": 235,
+ "phase": "PRE-FINALIZE six-gate (r970; W217+ standing law executed on schedule -- shards 12/12 landed via engine self-burn 03:45-03:56, finalize not yet run, splice estate landed pre-gate 684523fcb->ff438aeaf post-S0-rebase, prereg 26354B sha16 91d568af162efbc1)",
+ "ts": "2026-10-14T04:12:15",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "cb3a772b18b76020",
+   "n1_sha16_now": "9acddfa2cf58ef29",
+   "pf_sha16_freeze_post": "cb3a772b18b76020",
+   "n1_sha16_freeze_post": "9acddfa2cf58ef29",
+   "family6_triple_wholefile_recheck": true,
+   "prior_wave_234_boundary_kept": true,
+   "repair_note": "NO repair expected: family #6 triple carried atomically in the splice; both sha16 faces asserted clean-equal"
+  },
+  "banned": {
+   "rc": 0,
+   "tail": "}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=531804 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=533804 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=531804 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=533804 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "post-freeze fresh gate run N/A (own row registered); seat-time + freeze-time FREE evidence consumed"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-a",
+   "a_seed_base": 531804,
+   "b_exit_seed_base": 533804,
+   "shard_subdir": "n1_w235",
+   "out_name": "n1_w235_results.json",
+   "seed_bases_match_freeze_bands": true
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 938589,
+  "prev_merged_n": 512720,
+  "expect_total": 940789,
+  "expect_merged": 514920
+ }
+}
