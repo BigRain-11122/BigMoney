@@ -1,0 +1,43 @@
+{
+  "probe": "r919 bm-b unity POC next-step decision adjudication (probe#5)",
+  "ts": "2026-10-13T23:52:00+08:00",
+  "verdict": "ADJUDICATED: Option A (headless plugin install into a picked project) NOT EXECUTABLE; decision = Option B (first interactive editor window) with ready GUI recipes",
+  "inputs": {
+    "prior": "results/_r918bmb_unity_bridge_probe4.json (bridge unconnected = batchmode x plugin-absent two-factor)",
+    "official_docs": "codely-docs.tuanjie.cn /using-codely/codely-bridge-installation-guide + /using-codely/codely-cowork (fetched this round)"
+  },
+  "plugin_identity": {
+    "official_name": "Codely Bridge",
+    "distributed_via": "Tuanjie Registry (editor Package Manager) or Tuanjie Cowork auto-install",
+    "system_requirements": "Unity 2021.3+ / Tuanjie 2021.3+ (local editor 2022.3.62t15 QUALIFIES)",
+    "usage": "Window -> Tuanjie AI -> Open Bridge Window"
+  },
+  "install_recipes_for_first_interactive_window": {
+    "R1_editor_native": "interactive editor -> Window -> Package Manager -> Tuanjie Registry -> search 'Tuanjie AI' -> install 'Codely Bridge' -> Window -> Tuanjie AI -> Open Bridge Window",
+    "R2_cowork_auto": "launch Tuanjie Cowork -> open workspace on target Unity/Tuanjie project folder -> click Unity/Tuanjie icon in chat dialog -> Codely Bridge Package auto-installs into editor",
+    "note": "R2 requires Cowork app RUNNING (currently dormant); R1 likely requires Tuanjie account/Hub login in editor (licensing client handshake verified working 2026-10-13 15:33 build log, Hub GUI login still CEO physical item)"
+  },
+  "disk_sweep_zero_hits": [
+    "C:\\Users\\Administrator\\.local\\bin (exes only: mcp-for-unity.exe server v10.2.0 Coplay-lineage + unity-mcp.exe CLI client)",
+    "C:\\Program Files\\Tuanjie (full editor tree incl. BuiltInPackages, no MCP/Codely Bridge package)",
+    "C:\\Program Files\\Tuanjie Hub (no MCP artifacts)",
+    "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Tuanjie Cowork (no .unitypackage, no scopedRegistries/package-name strings)",
+    "C:\\Users\\Administrator\\AppData\\Roaming\\UnityMCP + Local\\UnityMCP (customer_uuid + milestones.json + logs only)",
+    "C:\\Users\\Administrator\\AppData\\Local\\Tuanjie\\cache (UPM cache: no MCP packages)",
+    "C:\\Program Files\\Tuanjie\\...\\PackageManager\\Editor\\manifest.json (editor global manifest: no bridge entry)",
+    "C:\\Fluxgroup\\MiniGame\\Tools",
+    "%TEMP% _MEI* extraction dirs (none present)"
+  ],
+  "process_face_at_decision": {
+    "tuanjie_editor": "none (MobTide batchmode build batch EXITED - PID 23584 gone, TuanjieAutoQuitter completed buildpackage_dy_12)",
+    "tuanjie_cowork": "not running (auto-install face dormant until launched)",
+    "codely_shells": 4 lane processes alive
+  },
+  "red_herring_closure": {
+    "milestone": "Roaming\\UnityMCP\\milestones.json first_scene_modification=2026-10-11 ~17:00 initially suggested a past working bridge",
+    "refuted_by": "server logs across ALL rotations (unity_mcp_server.log + .1 + .2, range 2026-10-10..now) show 'Found 0 Unity instances' at every startup/scan; milestone = client-side marker fired on tool INVOCATION (probes call scene tools and fail), not on successful connection"
+  },
+  "project_pick_resolution": "dissolved - bridge install is a per-project GUI action taking seconds; whichever project the first interactive window opens gets the bridge (recommend: any game-lane project CEO opens; bridge adds a package, does not touch scenes). No pre-window headless action is possible or needed. MobTide 'do-not-touch while build running' constraint LIFTED (batch exited).",
+  "next_step_owner": "CEO/game-lane physical action: open interactive editor window (R1 or R2) -> bm-b lane then verifies mcp-for-unity discovery (Found >=1 instance) and runs the POC tool battery",
+  "probe_history": "probe#1 r914, #2 r916, #3 r917, #4 r918 (mechanical two-factor), #5 r919 THIS FILE (decision adjudication + official install recipes landed)"
+}
