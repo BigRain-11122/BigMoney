@@ -1,9 +1,9 @@
 {
-  "ts": "2026-10-14T00:15:03",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-14T04:46:06",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-09",
+    "cutoff": "2026-10-13",
     "universe_n": 5229,
     "per_files": 5219
   },
@@ -19,39 +19,36 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 14,
-    "fetched": 14,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "todo": 5219,
+    "fetched": 5218,
+    "appended": 6603,
+    "readjusted": 25,
+    "readjusted_tail": [
+      "603915@2019-06-14",
+      "603919@2016-03-10",
+      "603995@2019-12-24",
+      "605090@2021-05-25",
+      "605117@2021-04-20",
+      "688072@2022-04-20",
+      "688110@2021-12-10",
+      "688161@2021-06-30"
+    ],
+    "failures_tail": [
+      "002362:conn:ConnectionError",
+      "601598:Error:field larger than field limit (131072)"
+    ],
+    "failures_n": 2,
     "conn_stopped": false,
-    "elapsed_min": 0.9,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 376.9,
+    "vwap_anchor_max": 0.545981,
     "repull": false
   },
   "quarantined_n": 10,
   "last_spawn_attempt": "2026-10-13T22:29:10",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 14,
-  "settled": [
-    "000016",
-    "000582",
-    "000668",
-    "002388",
-    "002667",
-    "002731",
-    "002813",
-    "002860",
-    "300082",
-    "300773",
-    "600293",
-    "601059",
-    "601198",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-10-09 >= expected 2026-10-09)",
   "per_files_on_disk": 5219,
   "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5217) -> disk face wins, rebuild (P0 r834-kin guard)"

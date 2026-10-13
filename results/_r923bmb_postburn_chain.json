@@ -1,0 +1,27 @@
+{
+ "started": "2026-10-14T04:27:50",
+ "steps": [
+  {
+   "step": "probe",
+   "rc": 0,
+   "sec": 1022.4,
+   "stdout_tail": "[pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n  [pool] 20/32 rl-marginals\n{\"train\": \"ok\", \"episodes\": 4672, \"updates\": 10, \"pool_members\": 8}\n{\"probe\": \"ok\", \"episodes\": 4672, \"pretrain_ran\": false}",
+   "stderr_tail": "uxGroup\\quant\\bigmoney\\scripts\\alphagen_rg_census.py:308: RuntimeWarning: divide by zero encountered in divide\n  return _clean(_ref(X, d) / X)\nC:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\alphagen_rg_census.py:308: RuntimeWarning: divide by zero encountered in divide\n  return _clean(_ref(X, d) / X)"
+  },
+  {
+   "step": "export-topk",
+   "rc": 0,
+   "sec": 338.0,
+   "stdout_tail": "{\"export_topk\": \"ok\", \"n_unique\": 32, \"n_dup\": 0, \"n_skip\": 0, \"out\": \"C:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\alphagen_rl_p1\\\\TOPK-2026-10-09.json\"}",
+   "stderr_tail": "igmoney\\scripts\\alphagen_rg_census.py:338: RuntimeWarning: divide by zero encountered in divide\n  return _clean(_roll_quantile(X, d, 0.2) / X)\nC:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\alphagen_rg_census.py:308: RuntimeWarning: divide by zero encountered in divide\n  return _clean(_ref(X, d) / X)"
+  },
+  {
+   "step": "judge",
+   "rc": 2,
+   "sec": 1.6,
+   "stdout_tail": "{\n \"refused\": true,\n \"face\": \"judge\",\n \"problems\": [\n  \"condition failed: tsgate_anchors\"\n ],\n \"receipt\": \"C:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\alphagen_rl_p1\\\\refusal-judge.json\"\n}",
+   "stderr_tail": ""
+  }
+ ],
+ "finished": "2026-10-14T04:50:32"
+}
