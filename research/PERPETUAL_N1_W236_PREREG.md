@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r970 W235 §7 范式）
+- **finalize one-pass 已落地（r975 bm-a own-wave 遗产吸收收口窗 2026-10-14 07:1x·承 bm-a own-seat 链 r971 席位发布（MSG-20261014-0446-bma-w236-seat @ origin 5c25db795·早视法 r565）→r972 prereg derive（67ade8314·own-seat 零接管）→五面冻结 splice（死窗中断于 commit 前·本 r975 窗遗产吸收落链 6e798bd22·sha16 post 44b87d828160d281/de93f34835a652f5 双 MATCH 验证后提交）→引擎 daemon 自燃 12/12（06:52-07:03 窗 ~1min/shard·burn shards 落链 08b6067c9）→本窗 r975 六门 PRE-FINALIZE 正相位跑毕（W217-debt 常设法正确执行·第十一连续正确相位·W212-pattern 零复发）→finalize one-pass→五键机证后收口（披露面 §8）**：
+  - 账本恒等式：prev_total **940,789** + batch_trials **2,200** = total **942,989** EXACT（断言通过·与 sixgate ledger_pre 投影恒等）；
+  - 合并池 K=**517,120** EXACT（与 ledger_pre 投影 514,920+2,200 恒等）；merged mu=**-0.09280925529857674** / merged sigma=**0.24508877529792397**；w236-only mu=**-0.09685531818181818** / w236-only sigma=**0.24321843115998462**（全机读=results/perpetual_faces/n1_w236_results.json+results/_r975bma_w236_fivekey_receipt.json；锚 W235 实数程序 derive 写入 r583 律）；
+  - skill_line_v2 K-lift 对照：line_pre **1.1927** → line_merged **1.1927** @n_eff 940,789；delta **0.0**（§5 预键 ≤0.02 达标·W2..W235 阶梯对照链实锚）；
+  - **§5 五预键机证验证（fivekey probe=results/_r975bma_w236_fivekey_receipt.json·同窗配对）**：key1 w-only vs merged |Δmu|=**0.004046062883241441**<0.02 PASS；key2 sigma 相对变化 **-0.0032850372334760855%**<±10% PASS；key3 A 面 p95 **0.3139** vs W235 0.3058 差 **0.008099999999999996**<0.05 PASS；key4 K-lift **0.0**≤0.02 PASS；key5 投影承接见 §8（**五键全过=§5 五预键全达标零违例**）；
+  - se_mu 收窄链头：se_mu_at_k517120=**0.000341**（前值 W235 se_mu_at_k514920=0.000342 链头对照）；
+  - canon flip 态=NOT performed（K2200 同律·治理提案面 only）；
+  - audit：voids_applied=["LOWAMP-P1", "LOWAMP-P2"]；machine=bm-a；finalize_only=True；shards_consumed=12/12；evidence_cutoff=2026-09-22；
+  - **六门探针=PRE-FINALIZE 正相位（W217-debt 常设法正确执行·第十一连续）=results/_r975bma_w236_sixgate_prereg.json**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS+shards 12/12 在场+seed_admit FREE x2（534004 span=2000 checked=2000+536004 span=200 checked=200·烧录检查点复跑=自撞 BLOCKED=注册落位完整性正锚）+splice 完整性（bands facts==freeze receipt·pf sha16 **44b87d828160d281** 与 n1 sha16 **de93f34835a652f5** 双面 clean-equal 断言通过=family #6 三元组 splice 原子携带零返·W235 界 w<236 x3 合法保留）+WAVE_CONFIGS[236] row engine_owner=bm-a（a_seed_base=534004/b_exit_seed_base=536004）+**finalize 恒等 post-hoc 断言（账本 942,989/K 517,120 EXACT vs W235 锚）**——W237 冻结方（bm-c 席已发布）必须六门 PRE-FINALIZE（常设法·防死窗复发面）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W237+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r970 W235 §8 范式）
+- **批后复盘（bm-a r975 own-wave 遗产吸收收口窗回填）**：
+  - §5.5 下波投影承接机证：**W237+ 投影=席位 probe 机证 leg4（承本波 §5.5·results/_w236bma_20261014_probe_receipt.json）**：A naive first-clean **536004..538003**（hops=0·pre-W236 宇宙·post-W236 注册宇宙待重 derive）；B naive first-clean **536204..536403**（hops=0）——**naive B 落在 naive A 窗内**（W141 先例·同窗互斥面适用于 W237）；**W236 B 带 536_004..536_203 注册后将拒 naive W237 A 窗**（A-hops-prior-B **NINETY-SEVENTH 例**预期·E36 卡/leg2 律）：W237 冻结方必须 post-W236 注册宇宙重 derive 且 derive B 时**预留本波 A 窗**——**已实证**：bm-c W237 席已发布（9312ef7ac/5654c4f04·A 536_204..538_203 hops=1 NINETY-SEVENTH staircase / B 538_204..538_403 own-A-reserved W141 先例·probe ADMIT seed_admit FREE x2·wait-upstream 本 W236 finalize 已落）=投影 CONFIRMED by published seat；verify at W237 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏与方法论捕获：**六门相位=PRE-FINALIZE 正确执行（W217-debt 常设法连续第十一波正确相位·W212-pattern 零复发）**；**死窗遗产吸收范式再证**（r899 先例第三实例：席位 r971→prereg r972→冻结编辑全落盘但 commit 前窗死→接续窗验 sha16 双 MATCH+selftest 后零返工直接落链=死窗不重烧不重 derive 零科学面损失）；零新宝藏（TREASURE_REGISTRY 零行·标准链照 canon 无新坑）。
+  - 诚实披露面：r975 窗=bm-a own-wave finalize 遗产吸收窗（席位自发布 zero-takeover·own-seat continuity）；轮报告面 r962 后死窗断档至 r975（r963-r974 死窗工作实锚=origin 提交链 W205..W236 波序+T-182 等·收口行全缺=本窗诚实补账·序列以 r975 续接不回改）；S0 rebase 干净（2-behind 非重叠·紧循环 E42/r884 法）；上游 W235 全周期=bm-a r970 own-wave 收口（takeover face·ledger 940,589/K 514,920 五键全过）；S0.5 消费本窗=见轮报告（水位探针按 d19_watermark 双扫）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
