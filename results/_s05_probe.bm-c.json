@@ -1,16 +1,16 @@
 {
  "tool": "s05_probe",
- "ts": "2026-10-13T09:55:42+08:00",
+ "ts": "2026-10-13T11:58:46+08:00",
  "machine_id": "bm-c",
  "watermark_face": {
   "tool": "d19_watermark.py probe",
   "rc": 0,
   "timed_out": false,
   "decisions_changed": false,
-  "orders_changed": false,
+  "orders_changed": true,
   "decisions_sha": "fb5825cb68a9524e2e8f2df12caeb537e3cafbda64d09d2f8478943d9986a2a7",
   "wm_decisions": "fb5825cb68a9524e2e8f2df12caeb537e3cafbda64d09d2f8478943d9986a2a7",
-  "orders_sha": "d559e5300920b87e409cc98ff76d48122eec99cbdd5459fc172f734e6cfba908",
+  "orders_sha": "29c2ba65329f4cc30f9d5d904c3cac177b1f2dfa0734ee991e61add4809b83f3",
   "wm_orders": "d559e5300920b87e409cc98ff76d48122eec99cbdd5459fc172f734e6cfba908",
   "decisions_method": "sha256",
   "orders_method": "sha256"
@@ -18,10 +18,8 @@
  "ack_face": {
   "machine_id": "bm-c",
   "orders_count": 80,
-  "ack_count": 204,
-  "unacked": [
-   "O-20261013-0930-bm-b.md"
-  ],
+  "ack_count": 205,
+  "unacked": [],
   "stale_acks": [
    "O-20260923-1514-bm-a.md",
    "O-20260923-1533-bm-a.md",
@@ -149,10 +147,8 @@
    "O-20260930-2054-bm-a.md"
   ]
  },
- "orders_delta": false,
+ "orders_delta": true,
  "decisions_delta": false,
- "unacked": [
-  "O-20261013-0930-bm-b.md"
- ],
- "exit": 3
+ "unacked": [],
+ "exit": 4
 }
