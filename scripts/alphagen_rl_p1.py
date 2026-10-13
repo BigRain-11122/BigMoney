@@ -851,6 +851,54 @@ def freeze_gate(face, registry=None, prereg_path=PREREG,
         posture["receipt"] = rp
     return posture["ok"], posture
 
+
+# ------------------------- leg-3 completion gate (r922 post-burn
+# consumption fail-closed face): export-topk/judge must not consume a
+# top-K built from a MID-TRAINING log. Prereg sec.3 output face = the
+# TRAINED top-K (post leg-3), so a partial-log export is VOID by
+# prereg sequencing. Completion face = train receipt of a COMPLETED
+# leg-3-scale run: cumulative episodes >= probe base + leg-3 pool
+# budget (additive re-claim law: interrupted restarts ADD a fresh 4096
+# budget, so any completed leg-3 chain ends at or above this line) AND
+# receipt episodes == on-disk log line count (guards stale receipt vs a
+# re-claimed in-flight log). Pure I/O, deterministic.
+LEG2_PROBE_EPS = 256                      # leg-2 probe budget (resume base)
+LEG3_TRAIN_EPS = 4096                     # leg-3 pool-entry budget
+LEG3_COMPLETE_EPS = LEG2_PROBE_EPS + LEG3_TRAIN_EPS
+
+
+def _train_complete_face(ckpt_dir=None):
+    """(ok, face) completion gate for the post-burn consumption legs."""
+    cd = ckpt_dir or CKPT_DIR
+    rcpt = os.path.join(cd, "train_receipt.json")
+    log = os.path.join(cd, "train_log.jsonl")
+    if not os.path.exists(rcpt):
+        return False, {"train_complete": False,
+                       "reason": "receipt_absent"}
+    try:
+        with open(rcpt, encoding="utf-8") as f:
+            r = json.load(f)
+    except (OSError, ValueError) as exc:              # noqa: BLE001
+        return False, {"train_complete": False,
+                       "reason": "receipt_unreadable",
+                       "error": str(exc)}
+    eps = r.get("episodes")
+    if r.get("face") != "train" or not isinstance(eps, int):
+        return False, {"train_complete": False,
+                       "reason": "receipt_face_mismatch",
+                       "receipt": {"face": r.get("face"),
+                                   "episodes": eps}}
+    n_log = 0
+    if os.path.exists(log):
+        with open(log, encoding="utf-8") as f:
+            n_log = sum(1 for ln in f if ln.strip())
+    okc = eps >= LEG3_COMPLETE_EPS and n_log == eps
+    return okc, {"train_complete": okc, "receipt_episodes": eps,
+                 "log_lines": n_log, "required_min": LEG3_COMPLETE_EPS,
+                 "reason": None if okc else
+                 ("incomplete_leg3_budget" if eps < LEG3_COMPLETE_EPS
+                  else "log_receipt_mismatch_reclaim_inflight")}
+
 # ------------------------- multiproc eval face (O-20260930-2355 law-1
 # ProcessPool conversion: workers_plan is CODE, not a declaration. The
 # expensive face of every burn is the synergy-pool MARGINAL eval; within
@@ -1228,6 +1276,11 @@ def cmd_export_topk(args):
     ok, posture = _require_freeze("export-topk")
     if not ok:
         return 2
+    okc, cface = _train_complete_face()
+    if not okc:
+        print(json.dumps({"awaiting_train_complete": True,
+                          "completion_face": cface}, ensure_ascii=False))
+        return 2
     log_path = os.path.join(CKPT_DIR, "train_log.jsonl")
     if not os.path.exists(log_path):
         print(json.dumps({"awaiting_train": True,
@@ -1311,6 +1364,7 @@ def cmd_judge(args):
         "topk_product": os.path.exists(
             os.path.join(OUT_DIR, f"TOPK-{CUTOFF_PIN}.json")),
         "tsgate_anchors": os.path.exists(TSGATE_ANCHORS),
+        "train_complete": _train_complete_face()[0],
     }
     ok, posture = _require_freeze("judge", extra=extra)
     if not ok:
@@ -1705,6 +1759,44 @@ def selftest():
         for a, b in zip(seq_ref, par_res))
     check("L13 parallel marginal == sequential reference (bit-exact)",
           par_ok and par_w == 2)
+
+    # L14 leg-3 completion gate (post-burn consumption fail-closed face)
+    def _mk_ckpt_face(d, n_log, eps):
+        os.makedirs(d, exist_ok=True)
+        with open(os.path.join(d, "train_log.jsonl"), "w",
+                  encoding="utf-8") as f:
+            for i in range(n_log):
+                f.write(json.dumps({"ep": i, "formula": "MA(close,5)",
+                                    "dup": False, "skip": False,
+                                    "marginal": 0.001, "sign": 1.0,
+                                    "reward": 0.001}) + "\n")
+        _dump({"face": "train", "episodes": eps, "updates": 1,
+               "pool_members": POOL_TOP_K, "seed_key": SEED_KEY_GEN,
+               "train_uni_n": TRAIN_UNI_N,
+               "audit": {"generated_at": _now()}},
+              os.path.join(d, "train_receipt.json"))
+
+    ckA = os.path.join(td, "ck_partial")
+    _mk_ckpt_face(ckA, 300, 300)
+    okA, faceA = _train_complete_face(ckA)
+    check("L14a partial training face refused (incomplete leg3 budget)",
+          not okA and faceA["reason"] == "incomplete_leg3_budget"
+          and faceA["required_min"] == 4352)
+    ckB = os.path.join(td, "ck_reclaim")
+    _mk_ckpt_face(ckB, 4400, 4352)
+    okB, faceB = _train_complete_face(ckB)
+    check("L14b stale receipt vs re-claimed log refused (mismatch)",
+          not okB and faceB["reason"]
+          == "log_receipt_mismatch_reclaim_inflight")
+    okC, faceC = _train_complete_face(os.path.join(td, "ck_empty"))
+    check("L14c missing receipt refused",
+          not okC and faceC["reason"] == "receipt_absent")
+    ckD = os.path.join(td, "ck_done")
+    _mk_ckpt_face(ckD, LEG3_COMPLETE_EPS, LEG3_COMPLETE_EPS)
+    okD, faceD = _train_complete_face(ckD)
+    check("L14d completed leg-3 face accepted (receipt==log, >= 4352)",
+          okD and faceD["receipt_episodes"] == LEG3_COMPLETE_EPS
+          and faceD["log_lines"] == LEG3_COMPLETE_EPS)
 
     n_pass = sum(1 for _, c in ok if c)
     print(f"selftest: {n_pass}/{len(ok)} PASS")
