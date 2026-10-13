@@ -1721,7 +1721,7 @@ def _judged_core(panel, faces, dates, basket, anchors, topk_rows,
                       * math.sqrt(int(r0["n_periods"])))
         m1 = sg.m1_t_value_gate(t_stat)
         # D6: registered members + same-batch already-judged formulas
-        d6 = _d6_corr_cell(net, same_batch_rets)
+        d6 = d6_fn(net, {**member_rets, **same_batch_rets})
         cell["g1_prime_v2"] = g1
         cell["g2_registration_v2"] = g2
         cell["m1_t_value_gate"] = m1
@@ -1921,8 +1921,8 @@ def cmd_judge(args):
         eq = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
         member_rets[tid] = eq.pct_change().dropna()
     res = _judged_core(panel, faces, dates, basket, anchors, rows,
-                       topk_sha16, member_rets, ROOT_RESULTS,
-                       OUT_DIR)
+                       topk_sha16, member_rets, sg.RESULTS_DIR,
+                       OUT_DIR, _d6_corr_cell)
     if res.get("refused"):
         print(json.dumps(res, ensure_ascii=False))
         return 2
