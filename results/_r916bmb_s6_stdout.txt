@@ -1,0 +1,17 @@
+pool_dualrun_reconcile: rc=0 (0s) | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 446 entries, drift-free streak 51, cutoff 2026-10-11 20:57:49)
+compute_audit: rc=0 (9s) | {"ts": "2026-10-13 09:49:25", "audit_version": "v2.4.2", "cpu_total_pct": 45.0, "py_cpu_pct": 11.5, "cores": 16, "py_procs": 19, "result_stale_min": 0
+py_watermark: rc=0 (6s) | {"ts": "2026-10-13 09:49:32", "epoch": 1791856166.0, "machine": "bm-b", "cpu_total_pct": 7.0, "cores": 16, "py_cpu_pct": 2.3, "py_procs": 19, "top_pro
+update_daily: rc=0 (2s) | core pool: 48 CSVs | today-bar guard: >= 15:30:00 | new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-12 | status -> C:\Fluxgrou
+market_regime: rc=0 (2s) |   asof=2026-10-12 state=ORANGE (³È¡¤¸ßÎ£) raw=ORANGE days_in_state=2 mode=shadow |   trigger: hs300<MA200 (#10 collected) |   trigger: breadth 0.75>=65%
+strategy_scorecard: rc=0 (142s) |   COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean |   ENGULF-CE-01       A  total= 66.8  d1=83 d2=47 d3=34
+market_clock_call: rc=0 (10s) | call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-12.md cell=ORANGE_COOL sleeves=4 activated=0
+update_lhb: rc=0 (1s) | cutoff=2026-10-12 quarter=2026Q4 today=2026-10-13 | no-op: cutoff 2026-10-12 covers latest disclosure window (2026-10-12)
+update_zt_pool: rc=0 (1s) | no-op: zt_pool lane owned by bm-a, not this machine (bm-b)
+update_heat: rc=0 (1s) | no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+update_futures: rc=0 (0s) | no-op: local cutoff 2026-10-12 covers expected complete-bar date 2026-10-12 -> zero network
+update_repo: rc=0 (0s) | no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+update_options: rc=0 (0s) | [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste la
+update_moneyflow: rc=0 (0s) | no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+update_sina_mf: rc=0 (0s) | no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+update_astock_daily: rc=0 (1s) | throttle: last spawn 2026-10-13T09:43:33 (8.7min ago) < 30min -> no-op
+update_etf_daily: rc=0 (0s) | no-op: panel cutoff 2026-10-12 covers expected complete-bar date 2026-10-12 -> zero network
