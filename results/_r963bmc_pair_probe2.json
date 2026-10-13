@@ -1,0 +1,299 @@
+[
+ {
+  "name": "w228_dict_def",
+  "pattern": "^W228 = |^W228=|W228 = pf",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 76,
+    "text": "# cumulative-deps assert range(17, 229) at selftest time)\nW228 = dict(pf_mod.N1_BANDS.get(228) or {})\nassert W228.get(\"engine_owner\") == \"bm-c\", \\\n    f\"W228 row not landed as declared (bm-c own seat owner expected, no takeover face): {W228} -- five-face freeze missing;\" \\\n    \" if an unexpected face exists the freeze window MUST re-derive this editor honestly\""
+   }
+  ]
+ },
+ {
+  "name": "a_tail_def",
+  "pattern": "w229_a_tail = |w229_a_tail=",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "b_tail_def",
+  "pattern": "w229_b_tail = |w229_b_tail=",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "upstream_face_defs",
+  "pattern": "w228_freeze_sha = |w228_prereg_sha = ",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 102,
+    "text": "w228_freeze_sha = (r.stdout.decode().strip().splitlines() or [\"n/a\"])[0]\nr = git(\"log\", \"--diff-filter=A\", \"--format=%H\", \"--\", \"research/PERPETUAL_N1_W228_PREREG.md\")\nw228_prereg_sha = (r.stdout.decode().strip().splitlines() or [\"n/a\"])[0]\nassert os.path.exists(os.path.join(REPO, \"research\", \"PERPETUAL_N1_W228_PREREG.md\")), \\\n    \"bm-c W228 per-wave prereg missing on disk -- chain face incomplete, abort\"\n# live ordinal derive (r359 law: gate machine output governs; the pre-seat probe\n# receipt leg0 face bmc_ordinal=59 = seat-time live face; live derive at freeze"
+   },
+   {
+    "line": 104,
+    "text": "w228_prereg_sha = (r.stdout.decode().strip().splitlines() or [\"n/a\"])[0]\nassert os.path.exists(os.path.join(REPO, \"research\", \"PERPETUAL_N1_W228_PREREG.md\")), \\\n    \"bm-c W228 per-wave prereg missing on disk -- chain face incomplete, abort\"\n# live ordinal derive (r359 law: gate machine output governs; the pre-seat probe\n# receipt leg0 face bmc_ordinal=59 = seat-time live face; live derive at freeze\n# time: bmc rows 58 + candidate = 59th EXACT)\nowner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get(\"engine_owner\")]"
+   }
+  ]
+ },
+ {
+  "name": "post_edit_gate_line",
+  "pattern": "n1_t4\\.count\\(f\\'assert pf\\.N1_BANDS\\[228\\]",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 617,
+    "text": "assert n1_t4.count('\"PERPETUAL-N1-W229-SHARD-0\"') == 1\nassert n1_t4.count(f'assert pf.N1_BANDS[228] == {{\"a\": ({fmt(pf_mod.N1_BANDS[228][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"a\"][1])}),') == 1\nassert n1_t4.count('    # --- W209 materializer face') == 1  # estate source block kept\nassert n1_t4.count('    # --- W210 materializer face') == 1  # prior block kept\nassert n1_t4.count('    # --- W211 materializer face') == 1  # prior block kept"
+   }
+  ]
+ },
+ {
+  "name": "family6_gate_code",
+  "pattern": "MUST move together",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 578,
+    "text": "# block's LHS w<227 / RHS range(16,227)/range(17,227) / comment below-227 MUST move together.\nassert block.count(\"if w < 229)\") == 3, f\"family-6 triple: w<229 count {block.count('if w < 229)')} != 3\"\nassert block.count(\"if w < 228\") == 0, \"family-6 triple: stale w<228 leaked into the W229 block\"\nassert block.count(\"range(16, 229)\") == 1 and block.count(\"range(17, 229)\") == 1, \"family-6 triple: RHS ranges wrong\"\nassert block.count(\"registered wave below 229 composes\") == 1, \"family-6 triple: comment face wrong\"\nold_blk_anchor = must(n1_t2, \"    # --- T-141 s2 lane face\", 1, \"t141_marker\")\nn1_t3 = n1_t2.replace(old_blk_anchor, block + old_blk_anchor, 1)\n\n# ---------- n1 print line ----------\npr = [\n '          \"+ W229 materializer face [same guard set, dep=W17..W228 \"',\n f'          \"outputs ALL PRESENT (landed net chain head {w228_total} = W228 bm-c finalize one-pass, K={w228_merged_n} merged pool) -- ZERO \"',\n '          \"in-flight upstream seats at splice, clean precondition, TWO HUNDRED AND TWENTY-NINTH \"',\n f'          \"ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} \"',\n '          \"+ candidate) bm-c\\'s fifty-ninth owned claim per \"',"
+   }
+  ]
+ },
+ {
+  "name": "band_literal",
+  "pattern": "\\(520_604, 520_803\\)",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 128,
+    "text": "leg1 = rec[\"legs\"][\"leg1\"]\nassert [a_lo, a_hi] == leg1[\"A\"] and [b_lo, b_hi] == leg1[\"B\"], \"receipt band mismatch\"\nassert (a_lo, a_hi) == (518_604, 520_603) and (b_lo, b_hi) == (520_604, 520_803), \\\n    f\"W229 band drift vs probe ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}\"\nw228_b_tail = W228[\"b_exit\"][1]      # registered W228 row b_exit hi (pf import, live)\nw228_a_tail = W228[\"a\"][1]           # registered W228 row A hi (pf import, live)\nassert w228_b_tail + 1 == a_lo and a_hi + 1 == b_lo, \"staircase base relations broken\""
+   }
+  ]
+ },
+ {
+  "name": "probe_receipt_read",
+  "pattern": "_w229bmc_20261013_probe_receipt\\.json",
+  "hits": 9,
+  "blocks": [
+   {
+    "line": 22,
+    "text": "# the committed ADMIT receipt (results/_w229bmc_20261013_probe_receipt.json)\n# which was derived on the post-W228-REGISTERED universe. If the LIVE W228 bands\n# differ from the declared face, the staircase asserts fail LOUD (fail-closed).\n# STRUCTURAL CHOICE (vs the W227 editor): the parity estate (W138..W206"
+   },
+   {
+    "line": 47,
+    "text": "RECEIPT_IN = os.path.join(REPO, \"results\", \"_w229bmc_20261013_probe_receipt.json\")\nRECEIPT_OUT = os.path.join(REPO, \"results\", \"_w229bmc_freeze_receipt.json\")\nSEAT_MSG = \"MSG-20261013-0855-bmc.md\"\nSEAT_ORIGIN = \"c9e9e83b8\""
+   },
+   {
+    "line": 142,
+    "text": "r = git(\"log\", \"--diff-filter=A\", \"--format=%H\", \"--\", \"results/_w229bmc_20261013_probe_receipt.json\")\nw229_receipt_sha = (r.stdout.decode().strip().splitlines() or [\"n/a\"])[0]\n# seat MSG honest location (inbox or processed; S7 archive law)\nseat_found = None"
+   }
+  ]
+ },
+ {
+  "name": "set_wave",
+  "pattern": "_set_wave\\(229\\)",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 441,
+    "text": " \"    #     not a re-pick (R250: W229 bands were never assigned).\",\n \"    _set_wave(229)\",\n \"    try:\",\n '        assert WAVE_CONFIGS[228][\"a_seed_base\"] == pf.N1_BANDS[228][\"a\"][0], \\\\',"
+   }
+  ]
+ },
+ {
+  "name": "arith_defs",
+  "pattern": "arith_a229 = |arith_b229 = ",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 523,
+    "text": " f\"        arith_a229 = set(range({a_lo}, {a_hi + 1}))\",\n \"        assert not (arith_a229 & reg_ints), \\\\\",\n '            \"W229 A window must be CLEAN (first-clean ADMIT face past prior-wave B)\"',\n f'        assert WAVE_CONFIGS[229][\"b_exit_seed_base\"] == {b_lo} == {a_hi} + 1, (',"
+   },
+   {
+    "line": 534,
+    "text": " f\"        arith_b229 = set(range({b_lo}, {b_hi + 1}))\",\n \"        assert not (arith_b229 & reg_ints), \\\\\",\n '            \"W229 B window must be CLEAN (first-clean ADMIT face past own-wave A)\"',\n \"        assert not (arith_b229 & arith_a229), \\\\\","
+   }
+  ]
+ },
+ {
+  "name": "n3r1_region",
+  "pattern": "n3r1_used229",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 486,
+    "text": " \"        n3r1_used229 = set(range(70_000, 70_006))\",\n \"        assert not (w228_a & n3r1_used229) and not (w228_b & n3r1_used229), \\\\\",\n '            \"W229 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)\"',\n \"        assert not (w228_a & lfc_actual12) and not (w228_b & lfc_actual12), \\\\\","
+   }
+  ]
+ },
+ {
+  "name": "c228_region",
+  "pattern": "_c228",
+  "hits": 5,
+  "blocks": [
+   {
+    "line": 237,
+    "text": "_c228 = n1_t.find('228: {\"batch\"')\nassert _c228 > 0, \"W228 cfg entry not found (W228 freeze not landed?)\"\n_mpos = n1_t.find('\"a_seed_base\"', _c228)"
+   },
+   {
+    "line": 238,
+    "text": "assert _c228 > 0, \"W228 cfg entry not found (W228 freeze not landed?)\"\n_mpos = n1_t.find('\"a_seed_base\"', _c228)\nassert _mpos > 0 and n1_t.find('\"shard_subdir\"', _c228) > _mpos, \"W228 cfg a_seed_base line not found\""
+   }
+  ]
+ },
+ {
+  "name": "wv229_colon",
+  "pattern": "wave 229: ",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 352,
+    "text": " \"legs INTO the pre-seat probe; parity N/A honest), \",\n \"engine_owner=bm-c, wave 229: \",\n \"A = FIRST-CLEAN past the registered W228 B band (the \",\n f\"arithmetic continuation {fmt(w228_a_tail + 1)}..{fmt(w228_a_tail + 2_000)} is REFUSED at its \",\n f\"own start by the W228 B band {fmt(W228['b_exit'][0])}..{fmt(w228_b_tail)}, exactly as \","
+   }
+  ]
+ },
+ {
+  "name": "cfg_new_block",
+  "pattern": "new_cfg = \\[",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "row_new_block",
+  "pattern": "new_row = \\[",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "banned_gate",
+  "pattern": "banned",
+  "hits": 5,
+  "blocks": [
+   {
+    "line": 152,
+    "text": "# ---------- re-run discipline gates at freeze window (banned + seed_admit) ----------\ng = subprocess.run([PY, os.path.join(REPO, \"Tools\", \"banned_direction_gate.py\"),\n                    \"--prereg\", \"research/PERPETUAL_N1_W229_PREREG.md\"],\n                   cwd=REPO, capture_output=True, text=True, encoding=\"utf-8\",\n                   errors=\"replace\")"
+   },
+   {
+    "line": 153,
+    "text": "g = subprocess.run([PY, os.path.join(REPO, \"Tools\", \"banned_direction_gate.py\"),\n                    \"--prereg\", \"research/PERPETUAL_N1_W229_PREREG.md\"],\n                   cwd=REPO, capture_output=True, text=True, encoding=\"utf-8\",\n                   errors=\"replace\")\nassert g.returncode == 0, f\"banned gate FAIL: {g.stdout} {g.stderr}\""
+   },
+   {
+    "line": 157,
+    "text": "assert g.returncode == 0, f\"banned gate FAIL: {g.stdout} {g.stderr}\"\ngate_lines = []\nfor base, span in ((a_lo, 2_000), (b_lo, 200)):\n    g2 = subprocess.run([PY, os.path.join(REPO, \"Tools\", \"seed_admit_gate.py\"),\n                         str(base), \"--span\", str(span)],"
+   }
+  ]
+ },
+ {
+  "name": "seed_admit",
+  "pattern": "seed_admit",
+  "hits": 8,
+  "blocks": [
+   {
+    "line": 152,
+    "text": "# ---------- re-run discipline gates at freeze window (banned + seed_admit) ----------\ng = subprocess.run([PY, os.path.join(REPO, \"Tools\", \"banned_direction_gate.py\"),\n                    \"--prereg\", \"research/PERPETUAL_N1_W229_PREREG.md\"],\n                   cwd=REPO, capture_output=True, text=True, encoding=\"utf-8\","
+   },
+   {
+    "line": 160,
+    "text": "    g2 = subprocess.run([PY, os.path.join(REPO, \"Tools\", \"seed_admit_gate.py\"),\n                         str(base), \"--span\", str(span)],\n                        cwd=REPO, capture_output=True, text=True, encoding=\"utf-8\",\n                        errors=\"replace\")"
+   },
+   {
+    "line": 164,
+    "text": "    assert g2.returncode == 0, f\"seed_admit_gate FAIL base={base}: {g2.stdout} {g2.stderr}\"\n    gate_lines.append(g2.stdout.strip().splitlines()[-1] if g2.stdout.strip()\n                      else f\"rc0 base={base} span={span}\")\nprint(\"gates OK:\", \" | \".join(gate_lines))"
+   }
+  ]
+ },
+ {
+  "name": "wave_configs_assert",
+  "pattern": "WAVE_CONFIGS\\[229\\]",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 516,
+    "text": " \"        # seat MSG-1229 tail, re-derived).\",\n f'        assert WAVE_CONFIGS[229][\"a_seed_base\"] == {a_lo} == {w228_b_tail} + 1, (',\n '            \"W229 A must be the first-clean window past the registered \"',\n '            \"W228 B band tail (arithmetic continuation REFUSED at its own \"',\n '            \"start by the W228 B band, exactly as the W228 seat leg4 \"',"
+   },
+   {
+    "line": 526,
+    "text": " '            \"W229 A window must be CLEAN (first-clean ADMIT face past prior-wave B)\"',\n f'        assert WAVE_CONFIGS[229][\"b_exit_seed_base\"] == {b_lo} == {a_hi} + 1, (',\n '            \"W229 B must be the first-clean window past the own-wave A \"',\n '            \"band tail (arithmetic continuation CLEAN on the registered \"',\n '            \"universe but lands INSIDE the W229 A band window; \"',"
+   }
+  ]
+ },
+ {
+  "name": "bandfacts_assert",
+  "pattern": "WAVE_CONFIGS\\[228\\]",
+  "hits": 3,
+  "blocks": [
+   {
+    "line": 443,
+    "text": " \"    try:\",\n '        assert WAVE_CONFIGS[228][\"a_seed_base\"] == pf.N1_BANDS[228][\"a\"][0], \\\\',\n '            \"W229 upstream W228 mirror drift (a)\"',\n \"        assert WAVE_CONFIGS[228][\\\"b_exit_seed_base\\\"] == \\\\\",\n '            pf.N1_BANDS[228][\"b_exit\"][0], \"W229 upstream W228 mirror drift (b)\"',"
+   },
+   {
+    "line": 445,
+    "text": " '            \"W229 upstream W228 mirror drift (a)\"',\n \"        assert WAVE_CONFIGS[228][\\\"b_exit_seed_base\\\"] == \\\\\",\n '            pf.N1_BANDS[228][\"b_exit\"][0], \"W229 upstream W228 mirror drift (b)\"',\n \"        assert WAVE_CONFIGS[228].get(\\\"engine_owner\\\") == \\\\\",\n '            pf.N1_BANDS[228].get(\"engine_owner\") == \"bm-c\", \\\\',"
+   },
+   {
+    "line": 447,
+    "text": " '            pf.N1_BANDS[228][\"b_exit\"][0], \"W229 upstream W228 mirror drift (b)\"',\n \"        assert WAVE_CONFIGS[228].get(\\\"engine_owner\\\") == \\\\\",\n '            pf.N1_BANDS[228].get(\"engine_owner\") == \"bm-c\", \\\\',\n '            \"W229 upstream W228 engine_owner mirror drift (law-mirror parity; bm-c own-seat face)\"',\n \"        w228_a = {A_SEED_BASE + j for j in range(A_N)}\","
+   }
+  ]
+ },
+ {
+  "name": "pf_mirror_assert",
+  "pattern": "pf\\.N1_BANDS\\[228\\]",
+  "hits": 5,
+  "blocks": [
+   {
+    "line": 443,
+    "text": " '        assert WAVE_CONFIGS[228][\"a_seed_base\"] == pf.N1_BANDS[228][\"a\"][0], \\\\',\n '            \"W229 upstream W228 mirror drift (a)\"',\n \"        assert WAVE_CONFIGS[228][\\\"b_exit_seed_base\\\"] == \\\\\","
+   },
+   {
+    "line": 446,
+    "text": " '            pf.N1_BANDS[228][\"b_exit\"][0], \"W229 upstream W228 mirror drift (b)\"',\n \"        assert WAVE_CONFIGS[228].get(\\\"engine_owner\\\") == \\\\\",\n '            pf.N1_BANDS[228].get(\"engine_owner\") == \"bm-c\", \\\\',"
+   },
+   {
+    "line": 448,
+    "text": " '            pf.N1_BANDS[228].get(\"engine_owner\") == \"bm-c\", \\\\',\n '            \"W229 upstream W228 engine_owner mirror drift (law-mirror parity; bm-c own-seat face)\"',\n \"        w228_a = {A_SEED_BASE + j for j in range(A_N)}\","
+   },
+   {
+    "line": 467,
+    "text": " f'        assert pf.N1_BANDS[228] == {{\"a\": ({fmt(pf_mod.N1_BANDS[228][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"a\"][1])}),',\n f'                                    \"b_exit\": ({fmt(pf_mod.N1_BANDS[228][\"b_exit\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"b_exit\"][1])}),',\n'                                    \"engine_owner\": \"bm-c\"}, \\\\',"
+   },
+   {
+    "line": 617,
+    "text": "assert n1_t4.count(f'assert pf.N1_BANDS[228] == {{\"a\": ({fmt(pf_mod.N1_BANDS[228][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"a\"][1])}),') == 1\nassert n1_t4.count('    # --- W209 materializer face') == 1  # estate source block kept\nassert n1_t4.count('    # --- W210 materializer face') == 1  # prior block kept"
+   }
+  ]
+ },
+ {
+  "name": "est_ws_83",
+  "pattern": "_estate_ws\\[83\\]",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 219,
+    "text": "    and int(_estate_ws[83]) == 225, \\\n    f\"estate segment not W138..W206 full-span 69 rows + W211..W224 legs + W225 leg: n={par_sec.count('assert pf.N1_BANDS[')} range={(_estate_ws[:2], _estate_ws[-14:])}\"\nassert par_full.count(\"assert pf.N1_BANDS[\") == 86, \\\n    f\"full parity span {par_full.count('assert pf.N1_BANDS[')} != 86 (69 estate + W211..W223 legs + W224 leg + W225 leg + W226 leg + W227 leg)\""
+   }
+  ]
+ },
+ {
+  "name": "hdr_def",
+  "pattern": "hdr = \\[",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 406,
+    "text": "hdr = [\n \"    # --- W229 materializer face (bm-c loop five-face freeze splice,\",\n \"    #     own-series law under CEO fill-order standing 2026-10-08 ~23:5x\",\n \"    #     + RE-ISSUE 2026-10-10 ~23:1x + O-20260909-2334-bm-b sec.1-2\",\n \"    #     local-full-use + O-20260924-1730 claim-and-start same-round law):\",\n \"    #     bm-c's fifty-ninth owned per machine-derive (engine_owner==bm-c\",\n \"    #     rows 58 + candidate; seat-time live face 59th = r959 probe leg0\","
+   }
+  ]
+ },
+ {
+  "name": "tail_def",
+  "pattern": "^tail = \\[",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 478,
+    "text": "tail = [\n \"        # prior-wave disjointness W2..W228 (single state: all\",\n \"        # registered, dynamic registry derive, r511 law)\",\n \"        for wprev in sorted(w for w in WAVE_CONFIGS if w < 229):\",\n '            assert not (w228_a & {WAVE_CONFIGS[wprev][\"a_seed_base\"] + j',\n \"                                 for j in range(A_N)}), f\\\"W229 A hits W{wprev}\\\"\",\n '            assert not (w228_b & {WAVE_CONFIGS[wprev][\"b_exit_seed_base\"] + j',"
+   }
+  ]
+ }
+]

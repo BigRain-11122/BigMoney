@@ -1,0 +1,415 @@
+[
+ {
+  "name": "header",
+  "pattern": "freeze window \\(upstream W1",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 2,
+    "text": "# -*- coding: utf-8 -*-\n# 2026-10-13 09:2x bm-c r961 freeze window (upstream W1..W228 ALL LANDED, clean precondition): W229 five-face freeze splice editor.\n# Upstream chain ALL LANDED at this window: W1..W228 finalize products\n# present (W228 finalize one-pass r959 08:3x landed in-window 6744db794; splice\n# estate 842f817ad dead r959 window machine-verified then landed by\n# r959-continuation, net chain head 925,389, merged pool K=499,520,\n# n1_w228_results.json machine-read) -- ZERO in-flight upstream seats,\n# clean precondition (eighteenth consecutive fully-clean freeze window).\n# Upstream six-gate disclosure: the W228 cycle ran its six-gate PRE-FINALIZE\n# correctly (W217-debt standing law held, W212-pattern zero recurrence); THIS\n# W229 cycle runs PRE-FINALIZE likewise (standing law).\n# Lineage: _w228bmc_freeze_edits.py pattern (proven live-fire freeze,"
+   }
+  ]
+ },
+ {
+  "name": "present_prose",
+  "pattern": "# present \\(W2",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 4,
+    "text": "# Upstream chain ALL LANDED at this window: W1..W228 finalize products\n# present (W228 finalize one-pass r959 08:3x landed in-window 6744db794; splice\n# estate 842f817ad dead r959 window machine-verified then landed by\n# r959-continuation, net chain head 925,389, merged pool K=499,520,\n# n1_w228_results.json machine-read) -- ZERO in-flight upstream seats,\n# clean precondition (eighteenth consecutive fully-clean freeze window).\n# Upstream six-gate disclosure: the W228 cycle ran its six-gate PRE-FINALIZE\n# correctly (W217-debt standing law held, W212-pattern zero recurrence); THIS\n# W229 cycle runs PRE-FINALIZE likewise (standing law).\n# Lineage: _w228bmc_freeze_edits.py pattern (proven live-fire freeze,"
+   }
+  ]
+ },
+ {
+  "name": "lineage",
+  "pattern": "# Lineage: _w229bmc_freeze_edits",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "atomic_triple",
+  "pattern": "ATOMIC TRIPLE absorbed",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 17,
+    "text": "# physical-byte anchors + r838 per-file EOL detection + family #6\n# LHS/RHS/comment ATOMIC TRIPLE absorbed (the new block's w<229>/\n# range(16,229)/below-229 triple is count-asserted atomically; the W228\n# block's own w<228 face is legitimate prior-wave boundary, not stale).\n# Zero hardcoded upstream band values: ALL W228 facts machine-derived from the\n# LIVE pf import at freeze time (bm-c's own registered row), cross-checked against\n# the committed ADMIT receipt (results/_w229bmc_20261013_probe_receipt.json)"
+   }
+  ]
+ },
+ {
+  "name": "struct_choice_a",
+  "pattern": "STRUCTURAL CHOICE \\(vs the W228 editor\\)",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "struct_choice_b",
+  "pattern": "STRUCTURAL CHOICE: extract the estate",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 192,
+    "text": "# STRUCTURAL CHOICE: extract the estate from the OWN W228 block (bytes known\n# exactly: full-span estate W138..W206 69 rows + own W211 leg + ... + own W225 leg) -- the W228 block is this machine's own splice generation\n# (r959 freeze-window editor, estate machine-verified then landed 842f817ad by r959-continuation), structure known. The W228 block span ends where the\n# T-141 s2 lane face marker begins.\na15 = '    # --- W228 materializer face'\na_t141 = '    # --- T-141 s2 lane face'\nw228_start = n1_t.find(a15); t141_pos = n1_t.find(a_t141)\nassert w228_start > 0 and t141_pos > w228_start, \\\n    \"W228 materializer block face not found (W228 freeze not landed? header-text drift -> honest re-derive required)\""
+   }
+  ]
+ },
+ {
+  "name": "gate05",
+  "pattern": "w227_out_path = os\\.path\\.join",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 88,
+    "text": "w227_out_path = os.path.join(REPO, \"results\", \"perpetual_faces\", \"n1_w227_results.json\")\nassert os.path.exists(w227_out_path), \"W227 finalize product missing (transitive chain dep) -- abort\"\nw228_out = json.load(open(w228_out_path, encoding=\"utf-8\"))\nw228_led = (w228_out.get(\"science_gates\") or {}).get(\"ledger\") or {}"
+   }
+  ]
+ },
+ {
+  "name": "gate05_present",
+  "pattern": "finalize products present",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 115,
+    "text": "      f\"W228+W227+W226+W225+W224 finalize products present \"\n      f\"(W228 ledger head {w228_total}, merged n={w228_merged_n}); owner rows {len(owner_rows_live)} + candidate, \""
+   }
+  ]
+ },
+ {
+  "name": "kept_first_last",
+  "pattern": "--- W228 materializer face",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 196,
+    "text": "a15 = '    # --- W228 materializer face'\na_t141 = '    # --- T-141 s2 lane face'"
+   },
+   {
+    "line": 637,
+    "text": "assert n1_t4.count('    # --- W228 materializer face') == 1  # prior block kept (W228 splice landed 842f817ad dead r959 window, estate machine-verified then landed by r959-continuation)\n# no start>end malformed windows in inserted prose (r773 law)"
+   }
+  ]
+ },
+ {
+  "name": "kept_w209",
+  "pattern": "--- W209 materializer face",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 618,
+    "text": "assert n1_t4.count('    # --- W209 materializer face') == 1  # estate source block kept\nassert n1_t4.count('    # --- W210 materializer face') == 1  # prior block kept"
+   }
+  ]
+ },
+ {
+  "name": "liveness",
+  "pattern": "liveness_anchors",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 687,
+    "text": "  \"liveness_anchors\": {\"t141_marker_kept\": 1, \"w209_block_kept\": 1, \"w210_block_kept\": 1, \"w211_block_kept\": 1, \"w212_block_kept\": 1, \"w213_block_kept\": 1, \"w214_block_kept\": 1, \"w215_block_kept\": 1, \"w216_block_kept\": 1, \"w217_block_kept\": 1, \"w218_block_kept\": 1, \"w219_block_kept\": 1, \"w220_block_kept\": 1, \"w221_block_kept\": 1, \"w222_block_kept\": 1, \"w223_block_kept\": 1, \"w224_block_kept\": 1, \"w225_block_kept\": 1, \"w226_block_kept\": 1, \"w227_block_kept\": 1, \"w228_block_kept\": 1},\n}\nopen(RECEIPT_OUT, \"w\", encoding=\"utf-8\").write(json.dumps(receipt, indent=1))\nprint(json.dumps({k: receipt[k] for k in"
+   }
+  ]
+ },
+ {
+  "name": "legdefs",
+  "pattern": "w226_leg = \\[",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 472,
+    "text": "w226_leg = [\n f'        assert pf.N1_BANDS[226] == {{\"a\": ({fmt(pf_mod.N1_BANDS[226][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[226][\"a\"][1])}),',\n f'                                    \"b_exit\": ({fmt(pf_mod.N1_BANDS[226][\"b_exit\"][0])}, {fmt(pf_mod.N1_BANDS[226][\"b_exit\"][1])}),',\n'                                    \"engine_owner\": \"bm-c\"}, \\\\',\n'            \"registered W226 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)\"',\n]\ntail = ["
+   }
+  ]
+ },
+ {
+  "name": "leg227",
+  "pattern": "w227_leg = \\[",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 460,
+    "text": "w227_leg = [\n f'        assert pf.N1_BANDS[227] == {{\"a\": ({fmt(pf_mod.N1_BANDS[227][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[227][\"a\"][1])}),',\n f'                                    \"b_exit\": ({fmt(pf_mod.N1_BANDS[227][\"b_exit\"][0])}, {fmt(pf_mod.N1_BANDS[227][\"b_exit\"][1])}),',\n'                                    \"engine_owner\": \"bm-c\"}, \\\\',\n'            \"registered W227 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)\"',\n]\nw228_leg = ["
+   }
+  ]
+ },
+ {
+  "name": "leg228",
+  "pattern": "w228_leg = \\[",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 466,
+    "text": "w228_leg = [\n f'        assert pf.N1_BANDS[228] == {{\"a\": ({fmt(pf_mod.N1_BANDS[228][\"a\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"a\"][1])}),',\n f'                                    \"b_exit\": ({fmt(pf_mod.N1_BANDS[228][\"b_exit\"][0])}, {fmt(pf_mod.N1_BANDS[228][\"b_exit\"][1])}),',\n'                                    \"engine_owner\": \"bm-c\"}, \\\\',\n'            \"registered W228 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)\"',\n]\nw226_leg = ["
+   }
+  ]
+ },
+ {
+  "name": "asm",
+  "pattern": "block = EOL\\.join\\(hdr\\)",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 576,
+    "text": "block = EOL.join(hdr) + EOL + par_sec + EOL.join(w226_leg) + EOL + EOL.join(w227_leg) + EOL + EOL.join(w228_leg) + EOL + EOL.join(tail) + EOL\n# family #6 atomic triple gate (carried forward): the new\n# block's LHS w<227 / RHS range(16,227)/range(17,227) / comment below-227 MUST move together."
+   }
+  ]
+ },
+ {
+  "name": "receipt_upstream",
+  "pattern": "\"w228_upstream\"",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 664,
+    "text": "  \"w228_upstream\": {\"freeze_sha\": w228_freeze_sha, \"prereg_sha\": w228_prereg_sha,\n                    \"ledger_total\": w228_total, \"merged_n\": w228_merged_n,\n                    \"engine_owner\": \"bm-c (own seat honored, no takeover face)\",\n                    \"repair_chain_note\": \"r959 splice (W228 freeze landed 842f817ad dead r959 window, estate machine-verified then landed by r959-continuation) + engine self-burn 12/12 (03bca8089+95e210be1) + r959 finalize one-pass 08:3x 6744db794 (six-gate PRE-FINALIZE correct phase -- standing law held, third consecutive)\"},\n  \"w225_transitive\": {\"finalize_product\": \"results/perpetual_faces/n1_w225_results.json present (belt-and-braces gate; ledger 918,789 / K=492,920)\"},\n  \"w224_transitive\": {\"finalize_product\": \"results/perpetual_faces/n1_w224_results.json present (belt-and-braces gate; ledger 916,589 / K=490,720)\"},\n  \"w223_transitive\": {\"finalize_product\": \"results/perpetual_faces/n1_w223_results.json present (belt-and-braces gate; ledger 914,389 / K=488,520)\"},"
+   }
+  ]
+ },
+ {
+  "name": "receipt_transitive",
+  "pattern": "\"w227_transitive\"",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 671,
+    "text": "  \"w227_transitive\": {\"finalize_product\": \"results/perpetual_faces/n1_w227_results.json present (belt-and-braces gate; ledger 923,189 / K=497,320)\"},\n  \"seat\": seat_found + \" (origin \" + SEAT_ORIGIN + \")\",\n  \"prereg_bundle\": {\"prereg_sha\": w229_prereg_sha, \"probe_receipt_sha\": w229_receipt_sha,\n                    \"note\": \"prereg derived+committed in the r960 window (e485a0b3f, THIRTEEN-level lineage replay chain, preflight 46/46); splice editor derived from the committed W228 editor template by count-asserted ordered transform (protect-restore regions, fail-closed pair law) in this same r961 freeze window; upstream W228 already landed (clean-precondition eighteenth consecutive window); zero transcription\"},"
+   }
+  ]
+ },
+ {
+  "name": "receipt_note",
+  "pattern": "\"note\": \"prereg derived\\+committed",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 674,
+    "text": "                    \"note\": \"prereg derived+committed in the r960 window (e485a0b3f, THIRTEEN-level lineage replay chain, preflight 46/46); splice editor derived from the committed W228 editor template by count-asserted ordered transform (protect-restore regions, fail-closed pair law) in this same r961 freeze window; upstream W228 already landed (clean-precondition eighteenth consecutive window); zero transcription\"},\n  \"ordinal_faces\": {\"owner_rows_live\": len(owner_rows_live), \"bmc_rows_live\": len(bmc_rows_live),\n                    \"engine_owned_ordinal\": len(owner_rows_live) + 1,\n                    \"bmc_own_ordinal\": len(bmc_rows_live) + 1,"
+   }
+  ]
+ },
+ {
+  "name": "receipt_parity",
+  "pattern": "full-span estate W138\\.\\.W206 \\(69 rows, r858 absorb generation\\) \\+ W211",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 683,
+    "text": "                    \"note\": \"full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W225 legs + W226 leg + W227 leg + W228 leg -> W229 block = 87 rows ending at W228; disclosed: (a) inherited W213 leg error-string face (\\\"registered W212 row parity drift\\\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact); (b) prereg block-30 prose carries the lineage one-wave-behind \\\"块\\\" face (mechanical aging, r927 fixB family) while this editor extracts from the OWN W228 block -- parity list face exact, zero functional impact\"},\n  \"family6_triple_gate\": {\"absorbed\": True,\n                          \"note\": \"W228 editor family-6 gate carried forward: new block LHS w<229 x3 / RHS range(16,229)+range(17,229) / comment below-229 count-asserted ATOMICALLY before splice; W228 block's own w<228 face = legitimate prior-wave boundary (not stale)\"},\n  \"eol\": {\"n1_crlf\": EOL == \"\\r\\n\", \"pf_crlf\": PF_EOL == \"\\r\\n\"},"
+   }
+  ]
+ },
+ {
+  "name": "receipt_family6",
+  "pattern": "family-6 gate carried forward",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 685,
+    "text": "                          \"note\": \"W228 editor family-6 gate carried forward: new block LHS w<229 x3 / RHS range(16,229)+range(17,229) / comment below-229 count-asserted ATOMICALLY before splice; W228 block's own w<228 face = legitimate prior-wave boundary (not stale)\"},\n  \"eol\": {\"n1_crlf\": EOL == \"\\r\\n\", \"pf_crlf\": PF_EOL == \"\\r\\n\"},\n  \"liveness_anchors\": {\"t141_marker_kept\": 1, \"w209_block_kept\": 1, \"w210_block_kept\": 1, \"w211_block_kept\": 1, \"w212_block_kept\": 1, \"w213_block_kept\": 1, \"w214_block_kept\": 1, \"w215_block_kept\": 1, \"w216_block_kept\": 1, \"w217_block_kept\": 1, \"w218_block_kept\": 1, \"w219_block_kept\": 1, \"w220_block_kept\": 1, \"w221_block_kept\": 1, \"w222_block_kept\": 1, \"w223_block_kept\": 1, \"w224_block_kept\": 1, \"w225_block_kept\": 1, \"w226_block_kept\": 1, \"w227_block_kept\": 1, \"w228_block_kept\": 1},\n}"
+   }
+  ]
+ },
+ {
+  "name": "receipt_ordinal",
+  "pattern": "probe_receipt_bmc_ordinal_face",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 678,
+    "text": "                    \"probe_receipt_bmc_ordinal_face\": 59,\n                    \"note\": \"post-W229 registration: bm-c rows 58 + candidate = 59th owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=59 = r959 seat-time live face -- disclosed honest)\"},\n  \"parity_section\": {\"source\": \"OWN W228 block physical bytes (own splice generation, structure known exactly)\","
+   }
+  ]
+ },
+ {
+  "name": "rows_owned",
+  "pattern": "59th owned",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 679,
+    "text": "                    \"probe_receipt_bmc_ordinal_face\": 59,\n                    \"note\": \"post-W229 registration: bm-c rows 58 + candidate = 59th owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=59 = r959 seat-time live face -- disclosed honest)\"},\n  \"parity_section\": {\"source\": \"OWN W228 block physical bytes (own splice generation, structure known exactly)\",\n                    \"bytes\": len(par_sec),\n                    \"row_asserts\": par_sec.count(\"assert pf.N1_BANDS[\"),"
+   }
+  ]
+ },
+ {
+  "name": "cfg_asserts",
+  "pattern": "PERPETUAL-N1-W229",
+  "hits": 7,
+  "blocks": [
+   {
+    "line": 328,
+    "text": " f'{CFG_I}229: {{\"batch\": \"PERPETUAL-N1-W229\",',\n f'{PRE_KEY_I}\"prereg\": (\"research/PERPETUAL_N1_W229_PREREG.md (wave-level frozen \"',"
+   },
+   {
+    "line": 402,
+    "text": "assert new_cfg.count('229: {\"batch\": \"PERPETUAL-N1-W229\"') == 1\nn1_t2 = n1_t.replace(old_cfg, new_cfg, 1)"
+   },
+   {
+    "line": 539,
+    "text": " \"        assert _entry_shard_of(0, 12) == (\\\"PERPETUAL-N1-W229-SHARD-0\\\",\",\n '                                          \"n1w229-0of12\"), \"W229 entry identity\"',"
+   },
+   {
+    "line": 541,
+    "text": " '        assert _entry_shard_of(11, 12) == (\"PERPETUAL-N1-W229-SHARD-11\",',\n '                                           \"n1w229-11of12\")',"
+   },
+   {
+    "line": 609,
+    "text": "assert n1_t4.count('\"batch\": \"PERPETUAL-N1-W229\"') == 1\nassert n1_t4.count(\"# --- W229 materializer face\") == 1     # block header"
+   },
+   {
+    "line": 612,
+    "text": "assert n1_t4.count('229: {\"batch\": \"PERPETUAL-N1-W229\"') == 1\nassert pf_t2.count(ROW_I + '229: {\"a\"') == 1"
+   }
+  ]
+ },
+ {
+  "name": "m_cut",
+  "pattern": "row leg not found inside",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 209,
+    "text": "assert m226, \"upstream W226 row leg not found inside W228 parity span\"\npar_sec = par_full[:m226.start()]\nassert par_sec.endswith(EOL), \"estate segment must end with EOL\""
+   }
+  ]
+ },
+ {
+  "name": "par_sec",
+  "pattern": "assert par_sec\\.count",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 213,
+    "text": "assert par_sec.count(\"assert pf.N1_BANDS[\") == 84 \\\n    and [int(w) for w in _estate_ws[:69]] == list(range(138, 207)) \\\n    and [int(_estate_ws[69]), int(_estate_ws[70]), int(_estate_ws[71]), int(_estate_ws[72]), int(_estate_ws[73]), int(_estate_ws[74]), int(_estate_ws[75]), int(_estate_ws[76]), int(_estate_ws[77]), int(_estate_ws[78]), int(_estate_ws[79])] == [211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221] \\\n    and int(_estate_ws[80]) == 222 \\\n    and int(_estate_ws[81]) == 223 \\"
+   }
+  ]
+ },
+ {
+  "name": "estate_ws",
+  "pattern": "_estate_ws\\[",
+  "hits": 7,
+  "blocks": [
+   {
+    "line": 214,
+    "text": "    and [int(w) for w in _estate_ws[:69]] == list(range(138, 207)) \\\n    and [int(_estate_ws[69]), int(_estate_ws[70]), int(_estate_ws[71]), int(_estate_ws[72]), int(_estate_ws[73]), int(_estate_ws[74]), int(_estate_ws[75]), int(_estate_ws[76]), int(_estate_ws[77]), int(_estate_ws[78]), int(_estate_ws[79])] == [211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221] \\\n    and int(_estate_ws[80]) == 222 \\\n    and int(_estate_ws[81]) == 223 \\\n    and int(_estate_ws[82]) == 224 \\"
+   }
+  ]
+ },
+ {
+  "name": "par_full",
+  "pattern": "assert par_full\\.count",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 221,
+    "text": "assert par_full.count(\"assert pf.N1_BANDS[\") == 86, \\\n    f\"full parity span {par_full.count('assert pf.N1_BANDS[')} != 86 (69 estate + W211..W223 legs + W224 leg + W225 leg + W226 leg + W227 leg)\"\n\n# ---------- indent extraction (physical, not assumed; per-file EOL) ----------"
+   }
+  ]
+ },
+ {
+  "name": "post_edit_gate",
+  "pattern": "post-edit gate",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "seat_prose_inline",
+  "pattern": "MSG-20261013-0855-bmc, executed",
+  "hits": 0,
+  "blocks": []
+ },
+ {
+  "name": "seat_prose_block",
+  "pattern": "MSG-20261013-0720-bmc, executed bm-c r957",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 336,
+    "text": " \"number law after the REGISTERED W228 row five-face freeze (own seat published MSG-20261013-0720-bmc, executed bm-c r957 (seat 4e30ddf69); splice 842f817ad dead r959 window estate machine-verified then landed by r959-continuation; engine self-burn 12/12; finalize one-pass r959 08:3x; six-gate PRE-FINALIZE correct phase standing law held, third consecutive), \",\n f\"{w228_freeze_sha[:10]} (prereg {w228_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W228 all \",\n \"registered; \" + fin_face + \"; \",\n \"seat published=reserved \",\n \"MSG-20261013-0855-bmc PUSHED to origin \" + SEAT_ORIGIN + \" \",\n \"BEFORE this freeze per r565 early-visibility law (payload = \",\n \"seat MSG + pre-seat probe script + probe receipt @ r959 window; per-wave prereg \",\n \"r960 + freeze splice script landed in this r961 freeze-window bundle \","
+   },
+   {
+    "line": 415,
+    "text": " \"    #     MSG-20261013-0720-bmc, executed bm-c r957 (seat 4e30ddf69); splice\",\n \"    #     842f817ad dead r959 window estate machine-verified then landed by\",\n \"    #     r959-continuation; engine self-burn 12/12 + finalize one-pass r959 08:3x\",\n \"    #     splice estate + PRE-FINALIZE six-gate chain (standing law held, third\",\n \"    #     consecutive -- THIS W229 cycle runs PRE-FINALIZE likewise), honest note)\",\n \"    #     -- SINGLE STATE zero seat gap (W2..W228 all registered). Seat\",\n \"    #     published=reserved MSG-20261013-0855-bmc pushed\",\n \"    #     to origin \" + SEAT_ORIGIN + \" BEFORE this freeze, r565 law (payload =\","
+   }
+  ]
+ },
+ {
+  "name": "probe_window_faces",
+  "pattern": "probe receipt @ r959 window",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 342,
+    "text": " \"seat MSG + pre-seat probe script + probe receipt @ r959 window; per-wave prereg \",\n \"r960 + freeze splice script landed in this r961 freeze-window bundle \",\n f\"commit {w229_prereg_sha[:10]} @ receipt {w229_receipt_sha[:10]}); \","
+   },
+   {
+    "line": 423,
+    "text": " \"    #     seat MSG + pre-seat probe script + probe receipt @ r959 window; per-wave prereg\",\n \"    #     r960 + freeze splice script landed in this r961 freeze-window bundle\",\n \"    #     commit \" + w229_prereg_sha[:10] + \"; deletion-set EMPTY; delivery window\","
+   }
+  ]
+ },
+ {
+  "name": "ordinal_faces",
+  "pattern": "EIGHTY-NINTH per probe receipt|staircase EIGHTY-NINTH",
+  "hits": 4,
+  "blocks": [
+   {
+    "line": 359,
+    "text": " \"machine-checkable = A-hops-prior-B staircase EIGHTY-NINTH \",\n \"instance, E36 card (probe receipt leg1 machine-read ordinal); \","
+   },
+   {
+    "line": 391,
+    "text": " f'{MEM_I}\"a_seed_base\": {a_lo},        # law sec.4 W229 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN past the registered W228 B band; arithmetic {fmt(w228_a_tail + 1)}..{fmt(w228_a_tail + 2_000)} REFUSED at own start by the W228 B band {fmt(W228[\"b_exit\"][0])}..{fmt(w228_b_tail)}; hops=1; A-hops-prior-B staircase EIGHTY-NINTH instance, E36 card; ordinal machine-read EIGHTY-NINTH per probe receipt)',\n f'{MEM_I}\"b_exit_seed_base\": {b_lo},   # law sec.4 W229 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN past the own-wave A window; arithmetic {fmt(a_lo)}..{fmt(a_lo + 199)} lands inside own-A, same-freeze mutual exclusion W141 precedent; reserved walk hops=1; B base == own-A tail+1)',"
+   },
+   {
+    "line": 501,
+    "text": " \"        # A-hops-prior-B staircase EIGHTY-NINTH instance, E36 card;\",\n \"        # non-rotational r587 forward-monotone walk);\","
+   },
+   {
+    "line": 522,
+    "text": " '            \"= A-hops-prior-B staircase EIGHTY-NINTH instance, E36 card\")',\n f\"        arith_a229 = set(range({a_lo}, {a_hi + 1}))\","
+   }
+  ]
+ },
+ {
+  "name": "wave_first_free",
+  "pattern": "wave 229 = first free number",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 413,
+    "text": " \"    #     live derive governs); wave 229 = first free number after the\",\n \"    #     REGISTERED W228 row (five-face freeze \" + w228_freeze_sha[:10] + \"; own seat published\",\n \"    #     MSG-20261013-0720-bmc, executed bm-c r957 (seat 4e30ddf69); splice\",\n \"    #     842f817ad dead r959 window estate machine-verified then landed by\",\n \"    #     r959-continuation; engine self-burn 12/12 + finalize one-pass r959 08:3x\","
+   }
+  ]
+ },
+ {
+  "name": "downstream_seat",
+  "pattern": "downstream W230 seat",
+  "hits": 2,
+  "blocks": [
+   {
+    "line": 325,
+    "text": "            f\"downstream W230 seat NOT yet published (queue-deepen seat-chain mandate \"\n            f\"O-20261011-0012 sec.ii -- next seat publication follows per seat-first law)\")"
+   },
+   {
+    "line": 381,
+    "text": " \"downstream W230 seat publication pending per seat-first law; \" + fin_face + \" -- the finalize \",\n \"merge loop still derives the wave set from registry keys at \","
+   }
+  ]
+ },
+ {
+  "name": "transitive_deps",
+  "pattern": "finalize are transitive deps",
+  "hits": 1,
+  "blocks": [
+   {
+    "line": 73,
+    "text": "# (chain-order precondition; W227/W226/W225/W224 finalize are transitive deps of the\n# W229 freeze and are belt-and-braces checked here + enforced by the block's"
+   }
+  ]
+ }
+]
