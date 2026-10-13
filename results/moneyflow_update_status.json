@@ -1,31 +1,33 @@
 {
-  "ts": "2026-10-13T21:53:14",
-  "mode": "refresh source-blocked (connection-level)",
+  "ts": "2026-10-13T23:11:44",
+  "mode": "refresh fuse-stopped",
   "panel": {
-    "cutoff": null,
+    "cutoff": "2026-10-13",
     "complete": false,
-    "n_symbols": 53,
+    "n_symbols": 5222,
     "universe_n": 5222
   },
   "claim": "MSG-20260924-0920-bm-a-moneyflow-collector",
   "last_refresh": {
-    "started": "2026-09-25T00:32:03",
-    "elapsed_min": 0.1,
+    "started": "2026-10-13T23:11:12",
+    "elapsed_min": 0.5,
     "appended": 0,
-    "failures": 3,
+    "failures": 5,
     "failure_head": [
-      "000151:conn:ConnectionError",
-      "000153:conn:ConnectionError",
-      "000155:conn:ConnectionError"
+      "000151:TypeError:function() argument 'code' must be code, not str",
+      "000153:NameError:name 'base_events' is not defined",
+      "000155:NameError:name 'base_events' is not defined",
+      "000156:NameError:name 'base_events' is not defined",
+      "000157:NameError:name 'base_events' is not defined"
     ],
     "mismatches": [],
     "n_mismatches": 0,
     "quarantined": [],
     "skipped_glob": [],
-    "fuse_stopped": false,
-    "conn_stopped": true
+    "fuse_stopped": true,
+    "conn_stopped": false
   },
-  "last_spawn_attempt": "2026-09-25T00:32:02",
+  "last_spawn_attempt": "2026-10-13T23:11:12",
   "spawn_reason": "no local panel (first run)",
   "rank": {
     "ts": "2026-10-13T21:55:52",
@@ -44,5 +46,6 @@
     "mismatches_n": 0,
     "mismatch_head": [],
     "last_run_elapsed_s": 158.2
-  }
+  },
+  "spawn_mode": "first-pull/continuation"
 }
