@@ -1,0 +1,70 @@
+{
+  "wave": "TRIAL_LABOR_W19",
+  "stage": "candidate-draft-probe",
+  "funnel_leg": "1/5+2/5 (draft+probe, W17 r786 same-window precedent)",
+  "machine": "bm-b",
+  "round": "r924",
+  "ts": "2026-10-14T06:25:00+08:00",
+  "probe_facts": {
+    "axis_choice": {
+      "axis": "timing (axis[3] of W16 20-tuple)",
+      "tl1_AXIS_TIMING_verbatim": ["daily_signal", "weekly_grid"],
+      "apply_timing_semantics": "scripts/trial_labor_w1.py L596-604: daily_signal=mask native verbatim; weekly_grid=mask AND ISO first-trading-day-of-week gate (isoweek!=shift(1) OR isoyear!=shift(1))",
+      "w16_T_slot_census": {"daily_signal": 128, "weekly_grid": 45, "n": 173},
+      "zero_isolation_burn_evidence": "W1-W16: T = per-cell frozen random-sampled confound dimension; W17 (exit axis) and W18 (sizing axis) both carried T verbatim as non-variable axis (declared in both preregs sec.3); grammar ledger has no timing-isolation row; freeze-window A7 full-product census REQUIRED (fail-closed)"
+    },
+    "consumed_canon": {
+      "X_axis": "template_default per W17 sec.0 consumer(3) -- exit axis zero-migration (344 judged, 7-face paired median ratio 0.966-1.0, Wilcoxon p 0.98-1.0)",
+      "S_axis": "as-burned native per W18 sec.0 consumer(2) -- sizing non-discriminating (188 judged lawful-zero, 4-face median deltas all ~0)",
+      "determinism_chain": "W17 control arm 43/173 == W18 as-burned arm 43/173 (byte-identical per xgate n_pairs=173 mismatches=[] pass=true); W19 as-burned T arm prediction = exactly 43/173 (three-wave chain 3rd link)"
+    },
+    "entry_source_anchor": {
+      "path": "results/trial_labor_w16/w16_candidates.json",
+      "sha256_16_crlf_canonical": "22179881b7537193",
+      "sha256_16_raw_lf_worktree_this_machine": "9974725830e76f31",
+      "git_blob": "33f7ea3fcfc32727ca444b49c74adc12eefab579",
+      "git_status_clean": true,
+      "last_commit_touching_path": "1ba49d7a9 (2026-10-07 bm-c r698)",
+      "crlf_recipe_law": "r890 bm-b crash-loop repair: anchor pinned on CRLF face; hash CRLF-canonical face (raw.replace(CRLF->LF).replace(LF->CRLF)); W18 runner _entry_load L421-429 verbatim clone REQUIRED for W19 runner; raw-LF face must NOT be asserted directly"
+    },
+    "seed_band": {
+      "proposal_gen": 20640000,
+      "proposal_scrnull": 20640500,
+      "proposal_unc": 20641000,
+      "admit_gate_span1_this_window": {"base": 20640000, "rc": 0, "verdict": "FREE"},
+      "occupied_2060_2065_live_read": ["theme_deepen_p1_nulls=20600000", "trial_labor_w17_gen=20610000", "trial_labor_w17_scrnull=20610500", "trial_labor_w17_unc=20611000", "t23_grammar_census_gen=20615000", "t23_grammar_census_null=20615100", "t101_v4_a14_predface_scrnull=20615500", "t101_v4_a14_predface_unc=20616500", "e16_alphagen_rg_gen=20620000", "e16_alphagen_rg_null=20620100", "n2u3_alphagen_rl_gen=20625000", "n2u3_alphagen_rl_scrnull=20625500", "n2u3_alphagen_rl_unc=20626000", "trial_labor_w18_gen=20630000", "trial_labor_w18_scrnull=20630500", "trial_labor_w18_unc=20631000"],
+      "registry_live_keys": 218,
+      "freeze_window_required": "span=1001 full-band re-run + registry disjoint assertion + repo-text foreign-hit scan (W17 theme_deepen lesson)"
+    },
+    "panel_anchor": {
+      "sh510300_rows_le_cutoff_2026_09_22": 3483,
+      "cutoff": "2026-09-22",
+      "core48_lockbox": "RW-4"
+    },
+    "grid_arithmetic": {
+      "screen_paired_cells": 346,
+      "k_nulls": 200,
+      "screen_trials": 546,
+      "judge_blocks_cap": 90,
+      "judge_cells_max": 180
+    },
+    "dsr_live_head_draft_time": {"total": 940789, "file": "n1_w235_results.json", "note": "SatEngine perpetual waves advancing; freeze-window live read is authoritative"},
+    "collision_probe": {"verdict": "CLEAR", "tech_head": "T22", "explore_head": "E14", "w19_rival_scan": "no rival W19 trial-labor candidate/freeze face in repo scan this window"},
+    "supply_trigger_faces": {
+      "board_empty": true,
+      "pool_ready": 0,
+      "pool_floor": 3,
+      "wline_judged_batches_inflight": 0,
+      "other_channel_inflight_disclosure": "N2U3-ALPHAGEN-RL-P1 judged burning detached PID 8908 (E17 channel-1, bm-b lane, MUST NOT kill per r922 pit law) -- different channel, not a W-line judged batch, non-blocking for W19 freeze; compute stagger per power-line law"
+    }
+  },
+  "gates": {
+    "banned_direction_gate": {
+      "run1_pre_exception": {"decision": "REJECT", "matched": "BAN-04 Grid trading word-face hit line 18 (weekly_grid frozen tl1 face name)", "rc_note": "word-face collision, mechanism NOT grid trading"},
+      "exception_block_added": "sec.0.5 citing BAN-04, exception_type=new_mechanism, falsification-orthogonality statement (timing calendar gate vs price-level ladder)",
+      "run2_post_exception": {"decision": "ADMIT", "registry_version": "v1.0"},
+      "law_note": "rc display via Select-Object pipe = -1 false-negative artifact (B795 sister pit); decision field is authoritative; freeze window must re-run rc0 with full output capture"
+    },
+    "queue_seed_gate": "not-applicable at draft (queue registration gate fires only when registering queue rows; W19 is standing-line supply step, no queue row)"
+  }
+}
