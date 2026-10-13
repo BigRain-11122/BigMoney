@@ -4,3 +4,20 @@ C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\pa_lhb_ic.py:85: RuntimeWarning: M
   fm = np.nanmean(F, axis=1)
 C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\pa_lhb_ic.py:86: RuntimeWarning: Mean of empty slice
   rm = np.nanmean(R, axis=1)
+Traceback (most recent call last):
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\alphagen_rl_p1.py", line 2413, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\alphagen_rl_p1.py", line 2408, in main
+    return cmd_judge(a)
+           ^^^^^^^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\alphagen_rl_p1.py", line 1923, in cmd_judge
+    res = _judged_core(panel, faces, dates, basket, anchors, rows,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\alphagen_rl_p1.py", line 1767, in _judged_core
+    "n_d6_refused": sum(
+                    ^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\alphagen_rl_p1.py", line 1768, in <genexpr>
+    1 for c in cells if c["refused_d6"]),
+                        ~^^^^^^^^^^^^^^
+KeyError: 'refused_d6'

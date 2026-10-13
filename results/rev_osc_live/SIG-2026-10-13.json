@@ -1,0 +1,131 @@
+{
+ "schema": "rev_osc_live_sig_v1",
+ "date": "2026-10-13",
+ "gate": {
+  "face": "510300_close<MA200",
+  "signal_date": "2026-10-13",
+  "close": 4.345,
+  "ma200": 4.7287,
+  "open": true,
+  "disclosure": "judged face gate = sse_close<MA200 (Money02 p1c index, frozen 2026-09-22); live forward face = 510300 ETF close<MA200 (market-clock trigger #10 same face, forward-refreshed by update_daily; SYSTEM_V1 L1 clock authority) -- proxy equivalence disclosed per SIG file"
+ },
+ "universe": {
+  "ok_static_n": 3515,
+  "panel_read_n": 3513,
+  "with_bar_n": 3507,
+  "qualified_n": 2004
+ },
+ "thin_market": false,
+ "picks": [
+  {
+   "code": "688368",
+   "board": "star",
+   "drop20": -0.333444,
+   "drop60": -0.408317,
+   "close": 100.45,
+   "open": 98.5,
+   "amount20": 544143827.0,
+   "rank": 0
+  },
+  {
+   "code": "688668",
+   "board": "star",
+   "drop20": -0.326182,
+   "drop60": -0.444206,
+   "close": 178.71,
+   "open": 171.33,
+   "amount20": 998542589.0,
+   "rank": 1
+  },
+  {
+   "code": "688498",
+   "board": "star",
+   "drop20": -0.316293,
+   "drop60": -0.268222,
+   "close": 1163.0,
+   "open": 1053.15,
+   "amount20": 5529053505.0,
+   "rank": 2
+  },
+  {
+   "code": "603823",
+   "board": "main",
+   "drop20": -0.311165,
+   "drop60": -0.394242,
+   "close": 39.98,
+   "open": 39.34,
+   "amount20": 1187593675.0,
+   "rank": 3
+  },
+  {
+   "code": "301489",
+   "board": "chinext",
+   "drop20": -0.309304,
+   "drop60": -0.298031,
+   "close": 95.91,
+   "open": 93.13,
+   "amount20": 662770185.0,
+   "rank": 4
+  },
+  {
+   "code": "300870",
+   "board": "chinext",
+   "drop20": -0.306081,
+   "drop60": -0.402794,
+   "close": 150.06,
+   "open": 144.0,
+   "amount20": 970334063.0,
+   "rank": 5
+  },
+  {
+   "code": "688048",
+   "board": "star",
+   "drop20": -0.303333,
+   "drop60": -0.482276,
+   "close": 209.0,
+   "open": 198.9,
+   "amount20": 3122445118.0,
+   "rank": 6
+  },
+  {
+   "code": "688117",
+   "board": "star",
+   "drop20": -0.302632,
+   "drop60": -0.415302,
+   "close": 16.43,
+   "open": 15.85,
+   "amount20": 202394553.0,
+   "rank": 7
+  },
+  {
+   "code": "688629",
+   "board": "star",
+   "drop20": -0.297518,
+   "drop60": -0.562148,
+   "close": 89.44,
+   "open": 88.0,
+   "amount20": 1430365589.0,
+   "rank": 8
+  },
+  {
+   "code": "603950",
+   "board": "main",
+   "drop20": -0.291285,
+   "drop60": -0.291064,
+   "close": 45.62,
+   "open": 43.26,
+   "amount20": 323263047.0,
+   "rank": 9
+  }
+ ],
+ "params": {
+  "top_n": 10,
+  "drop_win": 20,
+  "first_bullish": true,
+  "eligibility": "b_layer ok_static & board!=other & close>=1 & amount20>=5e7 (min 10 finite) & listed>=20 bars & bar on signal day",
+  "frozen_mirror": "REV_OSC_STOCK_PREREG s3 FY_BG_TP8 signal face (constants imported from rev_osc_stock_p1.py)"
+ },
+ "cost_ref": "P4_BATCH2 13.041bp/side x1 (judged face anchor)",
+ "panel_cutoff": "2026-10-13",
+ "updated": "2026-10-14 06:25:03"
+}
