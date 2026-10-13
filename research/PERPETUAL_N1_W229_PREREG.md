@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——r959 W228 §7 范式）
+- **finalize one-pass 已落地（r962 续窗 2026-10-13 09:5x·承 r959 席位发布 c9e9e83b8+r960 per-wave prereg derive e485a0b3f+r961 死窗五面冻结 splice（estate 本窗机证后 commit）+引擎 daemon mtime-watch 自燃 12/12（batched ledger append e3665b334+b5d62792d 自提交））——r961 死窗死于 splice commit 前（引擎已自燃=六门未跑）=本续窗机证 splice estate（sha16 receipt-match 双面+py_compile+WAVE 行 census 228/229=1/1 双面+N1_BANDS[229] live-import 带值断言）→commit→六门 PRE-FINALIZE 正相位跑毕（W217-debt 常设法正确执行·第四连续正确相位·W212-pattern 零复发）→finalize one-pass→五键机证后收口（披露面 §8）**：
+  - 账本恒等式：prev_total **925,389** + batch_trials **2,200** = total **927,589** EXACT（断言通过·与 sixgate ledger_pre 投影恒等）；
+  - 合并池 K=**501,720** EXACT（与 ledger_pre 投影 499,520+2,200 恒等）；merged mu=**-0.09270128159132583** / merged sigma=**0.24507549056282102**；w229-only mu=**-0.08818286363636363** / w229-only sigma=**0.2433817500069644**（全机读=results/perpetual_faces/n1_w229_results.json+results/_r962bmc_w229_fivekey_receipt.json；锚 W228 实数程序 derive 写入 r583 律）；
+  - skill_line_v2 K-lift 对照：line_pre **1.1919** → line_merged **1.1919** @n_eff 925,389；delta **0.0**（§5 预键 ≤0.02 达标·W2..W228 阶梯对照链实锚）；
+  - **§5 五预键机证验证（fivekey probe=results/_r962bmc_w229_fivekey_receipt.json·续窗配对）**：key1 w-only vs merged |Δmu|=**0.004518417954962203**<0.02 PASS；key2 sigma 相对变化 **-0.0030566868301345807%**<±10% PASS；key3 A 面 p95 **0.3199** vs W228 0.32 差 **9.999999999998899e-05**<0.05 PASS；key4 K-lift **0.0**≤0.02 PASS；key5 投影承接见 §8（**五键全过=§5 五预键全达标零违例**）；
+  - se_mu 收窄链头：se_mu_at_k501720=**0.000346**（前值 W228 se_mu_at_k499520=0.000347 收窄·链头收窄）；
+  - canon flip 态=NOT performed（K2200 同律·治理提案面 only）；
+  - audit：voids_applied=["LOWAMP-P1", "LOWAMP-P2"]；machine=bm-c；finalize_only=True；shards_consumed=12/12；evidence_cutoff=2026-09-22；
+  - **六门探针=PRE-FINALIZE 正相位（W217-debt 常设法正确执行·第四连续）=results/_r962bmc_w229_sixgate_prereg.json**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS+shards 12/12 在场+seed_admit FREE x2（518604 span=2000 checked=2000+520604 span=200 checked=200）+splice 完整性（bands facts==freeze receipt·pf sha16 **04433c68d2fe8491** 与 n1 sha16 **51ac5362dbac44c4** 双面 clean-equal 断言通过=family #6 三元组死窗 splice 原子携带零返）+WAVE_CONFIGS[229] row engine_owner=bm-c（a_seed_base=518604/b_exit_seed_base=520604）+**finalize 恒等 post-hoc 断言（账本 927,589/K 501,720 EXACT vs W228 锚）**——W230 必须六门 PRE-FINALIZE（常设法·防死窗复发面）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W230+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——r959 W228 §8 范式）
+- **批后复盘（bm-c r962 续窗回填·r961 死窗愈合窗）**：
+  - §5.5 下波投影承接机证：**W230+ 投影=席位 probe 机证 leg4（承本波 §5.5·results/_w229bmc_20261013_probe_receipt.json）**：A naive first-clean **520604..522603**（hops=0·pre-W229 宇宙·post-W229 注册宇宙待重 derive）；B naive first-clean **520804..521003**（hops=0）——**naive B 落在 naive A 窗内**（W141 先例·同窗互斥面适用于 W230）；**W229 B 带 520_604..520_803 注册后将拒 naive W230 A 窗**（A-hops-prior-B **NINETIETH 例**预期·E36 卡/leg2 律）：W230 冻结方必须 post-W229 注册宇宙重 derive 且 derive B 时**预留本波 A 窗**；verify at W230 prereg·hop 链逐跳在 probe 回执。
+  - 宝藏与方法论捕获：**六门相位=PRE-FINALIZE 正确执行（W217-debt 常设法连续第四波正确相位·W212-pattern 零复发）**——本窗死因=会话中途死亡（splice 落盘 09:38:18+引擎自燃 12/12 自提交后死于 splice commit 前·六门与 finalize 归本续窗补齐）非相位 miss=法面无缺口；本窗新方法论卡一行（estate 验证断言形状必须 live-import derive 而非前窗字面克隆——首跑三断言形状错证伪·estate 本身零缺陷）append knowledge/METHODOLOGY_ASSETS.md；零新宝藏（TREASURE_REGISTRY 零行）。
+  - 诚实披露面：r961 死窗 estate=splice 双面+editor 工件未 commit（引擎 ledger append 已自提交 e3665b334+b5d62792d）——本续窗按 bm-c absorb 先例线（r894/r897/r907/r911/r915/r917/r919/r921/r928/r930/r933/r941/r947/r951/r956/r959 第 17 例）机证 splice estate（sha16 双面 receipt-match+py_compile+WAVE census+N1_BANDS live-import）→commit→六门正相位→恒等断言 EXACT 后收口上链；CEO 全面开工令 O-20261013-0930 同窗收执（resume 完成+本地栈满用自证）；MV i2v 车道并行无欠账（GPU 面由 bm-a 导演席调度）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
