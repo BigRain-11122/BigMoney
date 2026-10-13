@@ -7173,6 +7173,56 @@ N1_BANDS = {
     # E36 staircase card, EIGHTY-EIGHTH instance anticipated; never transcribe r587).
     227: {"a": (514_204, 516_203), "b_exit": (516_204, 516_403),
          "engine_owner": "bm-c"},
+    # W228 (bm-c loop five-face freeze splice, seat
+    # MSG-20261013-0720-bmc pushed to origin 4e30ddf69
+    # pre-freeze r565 law; prereg + ADMIT probe receipt frozen
+    # commit e6c8441aaa (prereg research/PERPETUAL_N1_W228_PREREG.md
+    # r958 prereg derived + landed pre-freeze, probe
+    # results/_w228bmc_20261013_probe_receipt.json @ 4e30ddf693);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W227 five-face (freeze 48c321706b) + W227
+    # finalize product landed (n1_w227_results.json present, ledger
+    # head 923189 machine-read at freeze time); zero --no-verify;
+    # the W228 seat MSG sits in fleet/inbox/MSG-20261013-0720-bmc.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w228bmc_20261013_probe_receipt.json: A = FIRST-CLEAN
+    # past the registered W227 B band (arithmetic continuation
+    # 516_204..518_203 REFUSED at its own start by the W227 B band
+    # 516_204..516_403, exactly as the W227 seat leg4
+    # projection anticipated);
+    # honest forward walk hops=1 -> 516_404..518_403, non-rotational
+    # r587 forward-monotone walk; A base == prior-wave B tail+1
+    # (516_403+1) machine-checkable -- A-hops-prior-B staircase
+    # EIGHTY-EIGHTH instance, E36 card (probe receipt leg1 A_semantics
+    # machine-read ordinal, never transcribed);
+    # B = FIRST-CLEAN past the own-wave A window (arithmetic
+    # continuation 516_404..516_603 CLEAN on the registered
+    # universe but lands INSIDE the W228 A band window 516_404..518_403 --
+    # same-freeze mutual exclusion (W141 precedent, leg2 law) --
+    # the walk with the own-wave A window reserved jumps to
+    # 518_404 -> 518_404..518_603, hops=1, non-rotational
+    # r587 forward-monotone walk; B base == own-wave A tail+1
+    # (518_403+1) machine-checkable);
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=516404 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=518404 span=200 checked=200 verdict=FREE.
+    # W229+ projection (gate-derived pre-seat probe leg4, pre-W228
+    # universe): A naive first-clean 518404..520403 CLEAN hops=0 /
+    # B naive first-clean 518604..518803 CLEAN hops=0 -- naive B lands
+    # INSIDE the naive A window and the registered W228 B band
+    # 518_404..518_603 will refuse the naive W229 A window; W229 freezer
+    # MUST re-derive on the post-W228 universe AND reserve the
+    # own-wave A window when deriving B (W141 precedent, leg2 law,
+    # E36 staircase card, EIGHTY-NINTH instance anticipated; never transcribe r587).
+    228: {"a": (516_404, 518_403), "b_exit": (518_404, 518_603),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
