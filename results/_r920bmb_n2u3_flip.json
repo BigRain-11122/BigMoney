@@ -1,0 +1,29 @@
+{
+ "entry": "N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN",
+ "ts_local": null,
+ "preflight": {
+  "host_gates": {
+   "results/alphagen_rg nonempty": true,
+   "results/alphagen_rl_p1/ckpt nonempty": true,
+   "panel_cache_2026-10-09.npz": true,
+   "runner scripts/alphagen_rl_p1.py": true,
+   "free_ram_gb>=4 (live)": "8.18"
+  },
+  "crash_fuse": "no ACTIVE train sig in fuse"
+ },
+ "surgery": {
+  "eol_probe": {
+   "crlf_pairs": 17883,
+   "bare_lf": 0
+  },
+  "roundtrip_identical": false,
+  "waiting_status_hits": 2,
+  "verified": {
+   "entry_status": "ready",
+   "shard_status": "ready",
+   "lane_owner": "bm-b"
+  },
+  "readback_identical": true,
+  "changed_lines_expected": "3 (2 status flips + 1 shard note)"
+ }
+}
