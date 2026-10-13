@@ -1,0 +1,104 @@
+{
+ "probe": "W237 pre-seat probe (bm-c loop r988 window, 2026-10-14 07:0x, CEO fill-order standing + seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + O-20261013-22:1x CPU standing-open; post-W236-DECLARED universe, upstream W236 seat 5c25db795 + prereg 67ade8314 landed, five-face splice + burn pending on the bm-a lane; seat-first queue-depth supply, freeze waits-upstream W236 finalize)",
+ "legs": {
+  "leg0": {
+   "rows": 233,
+   "tail": "W235-registered (W236 splice pending)",
+   "w236_splice_landed": false,
+   "w236_face": "ADMIT-receipt (declared+frozen, splice pending bm-a lane)",
+   "w236_bands": {
+    "A": [
+     534004,
+     536003
+    ],
+    "B": [
+     536004,
+     536203
+    ]
+   },
+   "w236_burn_pending": true,
+   "owner_rows": 225,
+   "bmc_rows": 64,
+   "bma_rows": 120,
+   "bmb_rows": 41,
+   "ordinal": 227,
+   "bmc_ordinal": 65,
+   "bmc_ordinal_note": "bm-c attempt-continuity: 64 live bm-c rows + this candidate = 65th owned; engine wave ordinal = 225 registry owner rows + W236 declared (bm-a 121st, splice pending) + this candidate = 227th; live derive governs r359",
+   "anchor": "W236 seat+frozen upstream (seat MSG-20261014-0446-bma-w236-seat @ origin 5c25db795 + ADMIT receipt + prereg 67ade8314 landed; five-face splice + burn pending on the bm-a lane; n1_w236_results.json absent); this SEAT does not wait for the W236 burn per seat-first law O-20261010-2350 sec.2 (queue-depth supply, 禁等上一波烧完才占下一席); the W237 FREEZE waits-upstream on W236 finalize (physical dependency, seat MSG note + M-row watch armed)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    536004,
+    538003
+   ],
+   "ARITH_B": [
+    536204,
+    536403
+   ],
+   "A": [
+    536204,
+    538203
+   ],
+   "hops_A": 1,
+   "B": [
+    538204,
+    538403
+   ],
+   "hops_B": 1,
+   "B_naive_first_clean": [
+    536204,
+    536403
+   ],
+   "B_naive_hops": 0,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      536204,
+      536403
+     ],
+     "jump_to": 538204
+    }
+   ],
+   "A_semantics": "A arithmetic continuation from the W236 declared A tail REFUSED at start by the W236 B band (staircase A-hops-prior-B NINETY-SEVENTH instance, E36 card, per the W236 seat MSG leg4 anticipation; never transcribed r587); honest forward walk hops past the W236 B band",
+   "B_semantics": "B arithmetic continuation from the W236 declared B tail CLEAN on the pre-W237 universe BUT lands INSIDE the W237 own-wave A window (same-freeze mutual exclusion, W141 precedent, band-gate leg2 law); the walk with the own-wave A window reserved jumps to own-A tail+1",
+   "relation_asserts": {
+    "A_base_eq_priorB_tail_plus1": true,
+    "B_base_eq_ownA_tail_plus1": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=536204 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=538204 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W238p_A": "538204..540203",
+   "hops_A": 0,
+   "W238p_B": "538404..538603",
+   "hops_B": 0,
+   "W238p_B_lands_inside_W238p_A": true,
+   "note": "W238+ naive projection on the pre-W237 universe (assuming the W237 seat bands declared here register verbatim); the registered W237 B band will refuse the naive W238 A window once W237 is registered (A-hops-prior-B NINETY-EIGHTH instance anticipated, E36 card, W141 precedent); W238 freezer MUST re-derive on the post-W237 universe AND reserve the own-wave A window when deriving B -- never transcribe r587."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   536204,
+   538203
+  ],
+  "B": [
+   538204,
+   538403
+  ],
+  "a_lo": 536204,
+  "a_hi": 538203,
+  "b_lo": 538204,
+  "b_hi": 538403
+ }
+}
