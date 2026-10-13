@@ -1,0 +1,97 @@
+{
+ "machine": "bm-c",
+ "wave": 231,
+ "phase": "five-face freeze chain-order splice (r965 freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "722d23cd9bcb13cc100e2f748566a9e92be76848",
+ "pf_sha16_pre": "e1401e6256c8d8eb",
+ "n1_sha16_pre": "1932f43910262ea5",
+ "pf_sha16_post": "d6a58a8d9bee6343",
+ "n1_sha16_post": "5bdd36b321215873",
+ "bands": {
+  "A": "523004_525003",
+  "B": "525004_525203",
+  "a_lo": 523004,
+  "a_hi": 525003,
+  "b_lo": 525004,
+  "b_hi": 525203
+ },
+ "admit_receipt": "results/_w231bmc_20261013_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=523004 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=525004 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w230_upstream": {
+  "freeze_sha": "24e12fa5e7c68d461fed8cd56606a60aa3dda9a1",
+  "prereg_sha": "91de0ae8391bd7e436972425c3aaaa13fc84730d",
+  "ledger_total": 929789,
+  "merged_n": 503920,
+  "engine_owner": "bm-c (own seat honored, no takeover face)",
+  "repair_chain_note": "r963 splice (W230 freeze landed 24e12fa5e dead r963 window, estate machine-verified then landed by r963) + engine self-burn 12/12 (0ef11a120+aec41c57c) + r963 finalize one-pass 11:5x ce70c5808 (six-gate PRE-FINALIZE correct phase -- standing law held, fifth consecutive)"
+ },
+ "w225_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w225_results.json present (belt-and-braces gate; ledger 918,789 / K=492,920)"
+ },
+ "w224_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w224_results.json present (belt-and-braces gate; ledger 916,589 / K=490,720)"
+ },
+ "w223_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w223_results.json present (belt-and-braces gate; ledger 914,389 / K=488,520)"
+ },
+ "w229_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w229_results.json present (belt-and-braces gate; ledger 927,589 / K=501,720)"
+ },
+ "seat": "fleet/inbox/processed/MSG-20261013-1155-bmc.md (origin 6638ddf9f)",
+ "prereg_bundle": {
+  "prereg_sha": "aebe0a5acc2a2d6bbd30a90359b433b58d636139",
+  "probe_receipt_sha": "6638ddf9fbd07819375060f8dfeef7d057da7952",
+  "note": "prereg derived+committed in the r964 window (aebe0a5ac, FIFTEEN-level lineage replay chain, preflight 46/46); splice editor derived from the committed W230 editor template by count-asserted ordered transform (protect-restore regions, fail-closed pair law) in this same r965 freeze window; upstream W230 already landed (clean-precondition twentieth consecutive window); zero transcription"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 220,
+  "bmc_rows_live": 60,
+  "engine_owned_ordinal": 221,
+  "bmc_own_ordinal": 61,
+  "probe_receipt_bmc_ordinal_face": 61,
+  "note": "post-W231 registration: bm-c rows 60 + candidate = 61st owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_ordinal=61 = r963 seat-time live face -- disclosed honest)"
+ },
+ "parity_section": {
+  "source": "OWN W230 block physical bytes (own splice generation, structure known exactly)",
+  "bytes": 23518,
+  "row_asserts": 86,
+  "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W227 legs + W228 leg + W229 leg + W230 leg -> W231 block = 89 rows ending at W230; disclosed: (a) inherited W213 leg error-string face (\"registered W212 row parity drift\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact); (b) prereg block-30 prose carries the lineage one-wave-behind \"\u5757\" face (mechanical aging, r927 fixB family) while this editor extracts from the OWN W230 block -- parity list face exact, zero functional impact"
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "note": "W230 editor family-6 gate carried forward: new block LHS w<231 x3 / RHS range(16,231)+range(17,231) / comment below-231 count-asserted ATOMICALLY before splice; W230 block's own w<230 face = legitimate prior-wave boundary (not stale)"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1,
+  "w215_block_kept": 1,
+  "w216_block_kept": 1,
+  "w217_block_kept": 1,
+  "w218_block_kept": 1,
+  "w219_block_kept": 1,
+  "w220_block_kept": 1,
+  "w221_block_kept": 1,
+  "w222_block_kept": 1,
+  "w223_block_kept": 1,
+  "w224_block_kept": 1,
+  "w225_block_kept": 1,
+  "w226_block_kept": 1,
+  "w227_block_kept": 1,
+  "w228_block_kept": 1,
+  "w229_block_kept": 1,
+  "w230_block_kept": 1
+ }
+}
