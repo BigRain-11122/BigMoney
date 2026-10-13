@@ -2,18 +2,20 @@
  "schema": "ceo_live_usage_v1_5",
  "ticket": "T-202609-28-105",
  "day": "2026-10-13",
- "generated": "2026-10-13T19:58:00",
+ "generated": "2026-10-13T21:54:46",
  "market": {
   "state": "ORANGE",
-  "asof": "2026-10-12",
+  "asof": "2026-10-13",
   "mode": "shadow",
-  "days_in_state": 2,
+  "days_in_state": 3,
   "triggers": [
+   "breadth 0.81>=80% slope -0.0208<0",
    "hs300<MA200 (#10 collected)",
-   "breadth 0.75>=65%"
+   "crash10d -0.057<=-5%",
+   "breadth 0.81>=65%"
   ],
-  "bench_close": 4.36,
-  "bench_ma200": 4.7305,
+  "bench_close": 4.345,
+  "bench_ma200": 4.7287,
   "clock_cell": "ORANGE_COOL",
   "clock_asof": "2026-10-12",
   "heat": "COOL",
@@ -344,7 +346,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 9276.2
+    "last_append_age_min": 9393.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -352,7 +354,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 10120.7
+    "last_append_age_min": 10237.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -360,7 +362,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 6914.0
+    "last_append_age_min": 7030.8
    }
   ]
  },
