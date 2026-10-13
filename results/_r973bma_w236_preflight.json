@@ -1,0 +1,110 @@
+{
+ "probe_receipt": {
+  "verdict": "ADMIT",
+  "bands": {
+   "A": [
+    534004,
+    536003
+   ],
+   "B": [
+    536004,
+    536203
+   ],
+   "a_lo": 534004,
+   "a_hi": 536003,
+   "b_lo": 536004,
+   "b_hi": 536203
+  },
+  "path": "results/_w236bma_20261014_probe_receipt.json"
+ },
+ "W235_row_live": {
+  "a": [
+   531804,
+   533803
+  ],
+  "b_exit": [
+   533804,
+   534003
+  ],
+  "engine_owner": "bm-a"
+ },
+ "W236_row_live": {},
+ "W235_finalize": {
+  "ledger_total": 940789,
+  "merged_n": 514920,
+  "product": "results/perpetual_faces/n1_w235_results.json"
+ },
+ "transitive_deps_present": true,
+ "pickaxe_shas": {
+  "w236_prereg_add": [
+   "67ade83145a2767666bda5cf730e88159654888f"
+  ],
+  "w236_prereg_last_committed": [
+   "67ade83145a2767666bda5cf730e88159654888f"
+  ],
+  "w235_prereg_add": [
+   "89bd6962cd9e367586e1fdb520e37b8b47e5ee86"
+  ],
+  "w235_freeze": [
+   "ff438aeaf87c26af984eba78d3396c5cb778cfa4"
+  ],
+  "w236_probe_receipt_add": [
+   "5c25db795721db8c652edcfee2471ca1e21aeea6"
+  ]
+ },
+ "seat": {
+  "msg": "MSG-20261014-0446-bma-w236-seat.md",
+  "origin_state": "processed"
+ },
+ "foreign_seat_files": [],
+ "ordinal_faces": {
+  "owner_rows_live": 225,
+  "bma_rows_live": 120,
+  "bmc_rows_live": 64,
+  "engine_owned_ordinal": 226,
+  "bma_own_ordinal": 121
+ },
+ "seed_admit_gate": [
+  {
+   "band": "A",
+   "base": 534004,
+   "span": 2000,
+   "rc": 0,
+   "tail": [
+    "seed_admit_gate rc0 base=534004 span=2000 checked=2000 verdict=FREE"
+   ]
+  },
+  {
+   "band": "B",
+   "base": 536004,
+   "span": 200,
+   "rc": 0,
+   "tail": [
+    "seed_admit_gate rc0 base=536004 span=200 checked=200 verdict=FREE"
+   ]
+  }
+ ],
+ "engine": {
+  "alive": true,
+  "active_burns": [],
+  "queue_depth": 0
+ },
+ "W236_declared_bands": {
+  "A": "534004_536003",
+  "B": "536004_536203",
+  "raw": {
+   "A": [
+    534004,
+    536003
+   ],
+   "B": [
+    536004,
+    536203
+   ],
+   "a_lo": 534004,
+   "a_hi": 536003,
+   "b_lo": 536004,
+   "b_hi": 536203
+  }
+ }
+}
