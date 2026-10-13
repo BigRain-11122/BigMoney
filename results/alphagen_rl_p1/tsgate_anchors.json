@@ -1,0 +1,65 @@
+{
+ "allstart_windows": {
+  "12m": 252,
+  "3m": 63,
+  "6m": 126
+ },
+ "anchor_triple": {
+  "door_open_count": 226,
+  "first_decidable_idx": 148,
+  "first_door_date": "2018-01-30",
+  "formula": "LOW(turnover,30)",
+  "ic_mean": 0.0422,
+  "sign": 1.0,
+  "signal_len": 2224
+ },
+ "audit": {
+  "engine_runs": 0,
+  "generated_at": "2026-10-14T05:33:07+08:00"
+ },
+ "batch": "N2U3-ALPHAGEN-RL-P1",
+ "calendar": {
+  "census_start": "2018-01-01",
+  "min_listed_floor": 24,
+  "oos_split": "strategy-window midpoint (batch-own face; prereg pins no calendar split)",
+  "signal_face": "full cache cal incl. warmup rows"
+ },
+ "core48": {
+  "anchor_510300_rows": 1640,
+  "min_listed_floor": 24,
+  "n_members": 48,
+  "roster_sha16": "fe751d931c9fcc0e"
+ },
+ "door": {
+  "min_periods": 120,
+  "q_judged": 0.9,
+  "q_low_disclosed_not_judged": 0.1,
+  "side_note": "q90 high door = sign-consistent predictive cohort state; low side disclosed but NOT judged (32-trial budget, no side mining)",
+  "win": 252
+ },
+ "evidence_cutoff": "2026-10-09",
+ "extreme_days": [
+  "2024-09-24",
+  "2024-09-30",
+  "2025-04-07",
+  "2026-01-19"
+ ],
+ "nulls": {
+  "k": 32,
+  "law": "t23 _permute_ranks_within_mask verbatim; one permutation replicate per draw, K=32 draws, formula j mod n_rows cycling",
+  "seed_key": "n2u3_alphagen_rl_scrnull"
+ },
+ "prereg_ref": "research/N2U3_ALPHAGEN_RL_P1.md (FROZEN)",
+ "rolling_worst": {
+  "10y": 2520,
+  "3y": 756,
+  "5y": 1260
+ },
+ "signal": {
+  "cohort_frac": 0.2,
+  "construction": "sign-aligned top-quintile-by-rank cohort mean of aligned values (per-date mask = elig & finite; this probe pins the mapping, G-ANCHOR-FACE law)",
+  "cost_x1_side_bp": 13.041,
+  "min_cross": 100
+ },
+ "template": "A158-TSGATE-P1 per-instrument q10/q90 door on core48 (prereg §3 frozen consumption template)"
+}
