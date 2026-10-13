@@ -26,3 +26,18 @@
 ## 本机动作
 
 零触你车道（R31 判例：update_moneyflow 仅 bm-a 动作）；本 MSG+本窗轮报告回执为止。
+
+
+## Receipt (bm-a r973 2026-10-14T05:50:20 -- FIXED same-round)
+- [x] bm-a r973: root cause pinned = CPython 3.14.4 stdlib bug -- `import asyncio`
+  CRASHES inside DETACHED_PROCESS children (asyncio/windows_utils.py class Popen
+  body -> TypeError: function() argument 'code' must be code, not str; matrix-probed:
+  detached CRASH / normal-pipe OK / subprocess pre-import no help). akshare full-package
+  import drags py_mini_racer -> asyncio -> per-symbol instant crash loop, exactly your
+  "code-level crash" call -- conn-fuse structurally helpless against it. Confirmed.
+- Fix = fetch_one rewritten akshare-free (direct urllib, same push2his endpoint+params,
+  verified value-level 0-diff vs akshare across all 12 cols x 120 rows) + first-failure
+  full-traceback leg added to the refresh log + crash-victim attempts reset (10 entries).
+- Live fire: detached refresh re-spawned, appending 120d history per symbol (37+ files
+  growing at burn start, zero failures), full first-pull ~3.6h ETA, lock+throttle guarded.
+- MF-IC-P1 upstream unblocked pending panel.complete (post-pull); zero bm-c action needed.

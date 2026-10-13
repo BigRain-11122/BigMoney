@@ -53,6 +53,7 @@ import re
 import subprocess
 import sys
 import time
+import traceback
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -397,21 +398,48 @@ def _is_conn_error(ename, emsg=""):
 
 
 def fetch_one(code, market):
-    """Rolling-120d daily rows for one stock via akshare (direct connection)."""
-    import akshare as ak
-    df = ak.stock_individual_fund_flow(stock=code, market=market)
-    if df is None or len(df) == 0:
-        return []
+    """Rolling-120d daily rows for one stock, direct urllib (akshare-free).
+
+    v3 (r973, MSG-20261014-0512): the akshare full-package import drags in
+    py_mini_racer -> asyncio, and on CPython 3.14.4 the asyncio import itself
+    CRASHES inside DETACHED_PROCESS children (asyncio/windows_utils.py class
+    Popen body -> TypeError: function() argument 'code' must be code, not
+    str; matrix-probed: detached asyncio CRASH / normal-pipe asyncio OK /
+    subprocess pre-import no help -> stdlib bug, transport-level fix only).
+    Same push2his endpoint+params as akshare 1.18.96
+    stock_individual_fund_flow, parsed in-place via the proven rank-lane
+    urllib pattern -- zero akshare import so the detached refresh survives.
+    """
+    market_map = {"sh": 1, "sz": 0, "bj": 0}
+    url = ("https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
+           f"?lmt=0&klt=101&secid={market_map[market]}.{code}"
+           "&fields1=f1,f2,f3,f7"
+           "&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63"
+           ",f64,f65&ut=b2884a393a59ad64002292a3e90d46a5"
+           f"&_={int(time.time() * 1000)}")
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+    })
+    with _no_proxy_opener().open(req, timeout=45) as resp:
+        payload = json.loads(resp.read().decode("utf-8", errors="replace"))
+    klines = (payload.get("data") or {}).get("klines") or []
+    # kline part order (EM fflow daykline): 0 date, 1 zhu-li yuan, 2 xiao yuan,
+    # 3 zhong yuan, 4 da yuan, 5 chaoda yuan, 6 zhu-li pct, 7 xiao pct,
+    # 8 zhong pct, 9 da pct, 10 chaoda pct, 11 close, 12 pct_chg, 13/14 unused.
+    _pos = (11, 12, 1, 6, 5, 10, 4, 9, 3, 8, 2, 7)  # FLOW_COLS[i] <- parts[_pos[i]]
     rows = []
-    for _, x in df.iterrows():
-        d = str(x.get("日期"))[:10]
+    for item in klines:
+        parts = str(item).split(",")
+        if len(parts) < 13:
+            continue
+        d = parts[0][:10]
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", d):
             continue
         r = {"date": d}
-        for col in FLOW_COLS:
-            v = x.get(col)
+        for col, j in zip(FLOW_COLS, _pos):
             try:
-                r[col] = None if v is None or v != v else float(v)
+                r[col] = float(parts[j])
             except (TypeError, ValueError):
                 r[col] = None
         rows.append(r)
@@ -559,6 +587,9 @@ def refresh(limit=None, repull=False):
         consec_fail, consec_conn, appended_total = 0, 0, 0
         failures, mismatches = [], []
         conn_stopped = False
+        failures_tb_logged = False  # r973: one full traceback per run (19-day
+        # debug blackout was caused by short-form failure_head only -- the
+        # crash era never surfaced its asyncio-import stack to the log)
         panel_cutoff, n_rows_total = None, 0
         t_start = time.time()
         for i, code in enumerate(todo):
@@ -608,6 +639,11 @@ def refresh(limit=None, repull=False):
                 else:
                     prog["attempts"][code] = prog["attempts"].get(code, 0) + 1
                     failures.append(f"{code}:{ename}:{emsg[:120]}")
+                    if not failures_tb_logged:
+                        failures_tb_logged = True
+                        print(f"first non-conn failure this run ({code}) -- "
+                              f"full traceback:")
+                        traceback.print_exc(file=sys.stdout)
                 consec_fail += 1
             save_progress(prog)
             if consec_fail >= FUSE_LIMIT:
