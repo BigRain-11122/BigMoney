@@ -16,19 +16,22 @@
 # n_eff 934,189 / se_mu 0.000343), W234 seat commit 260217d39
 # (MSG-20261013-1955-bmc pushed before freeze, r974 window + absorb), W233
 # splice 0ca920362 (dead r973 window) + engine self-burn 6c1587483/d4cce3ffe
-# + finalize 19:5x (r974 tail). All values live-verified this window (r975).
+# + finalize 19:5x (r974 tail). All values live-verified this window (r975)
+# + r976 derive-window re-verification (hygiene re-scan green + anchors
+# re-verified live; label faces corrected r975->r976 per r971->r972
+# precedent: stamps claim the window the derive runs in).
 R34 = {
  0: ["PERPETUAL-N1-W234 预注册 · N1 nulls-deepening 泵第 232 枚",
      "engine_owner 行 223 注册在册（表尾 W233 行·probe leg0 机证 231 行",
      "本候选=bm-c 第六十四枚自有波【live-derive face：席面 prose 64th=seat-time face（r974 窗 W233 注册后 attempt-continuity live derive·r973 freeze receipt 63rd owned 承袭）→freeze 时 live derive bm-c rows 63+候选=第 64 枚 EXACT",
-     "@@BINOP_WINLABEL@@【bm-c 循环班 r975 freeze 窗·"],
- 1: ["saturation_engine.py status live-read r975："],
+     "@@BINOP_WINLABEL@@【bm-c 循环班 r976 freeze 窗·"],
+ 1: ["saturation_engine.py status live-read r976："],
  2: ["**波号 234=注册表 W233 席后首个自由号**",
-     "r975 窗实跑：origin inbox/processed/ 零 W234 席位外机命中",
+     "r976 窗实跑：origin inbox/processed/ 零 W234 席位外机命中",
      "origin perpetual_faces.py 零 234 行",
      "perpetual_faces_n1.py 零 PERPETUAL-N1-W234 WAVE_CONFIGS",
      "origin 零 PERPETUAL_N1_W234_PREREG.md"],
- 3: ["+W221=bm-c r928 五面冻结（98da27a40）+引擎自燃 12/12+r928 finalize one-pass 已落（K=484,120·账本头 909,989 机读·n1_w221_results.json·14:1x）+W222=bm-c r931 死窗五面冻结 estate 落盘·r932 absorb 提交（4167d791d）+引擎自燃 12/12+r932 finalize one-pass 已落（K=486,320·账本头 912,189 机读·n1_w222_results.json·15:5x）+W223=bm-c r934 五面冻结（448c4d8c2）+引擎自燃 12/12+r935 finalize one-pass 已落（K=488,520·账本头 914,389 机读·n1_w223_results.json·17:2x）+W224=bm-c r937 死窗五面冻结 estate 落盘·r937 absorb 提交（d307e3d1d）+引擎自燃 12/12+r937 finalize one-pass 已落（K=490,720·账本头 916,589 机读·n1_w224_results.json·19:1x）+W225=bm-c r939 五面冻结（84ecb3a3a）+引擎自燃 12/12+r940 finalize one-pass 已落（K=492,920·账本头 918,789 机读·n1_w225_results.json·20:2x）+W226=bm-c r943 死窗五面冻结 estate 落盘·r945 absorb 提交（bd50be730）+引擎自燃 12/12+r943 finalize one-pass 已落（K=495,120·账本头 920,989 机读·n1_w226_results.json·22:4x）+W227=bm-c r956 五面冻结（48c321706）+引擎自燃 12/12+r956 finalize one-pass 已落（K=497,320·账本头 923,189 机读·n1_w227_results.json·06:5x）+W228=bm-c r959 死窗五面冻结 estate 落盘·r959 absorb 提交（842f817ad）+引擎自燃 12/12+r959 finalize one-pass 已落（K=499,520·账本头 925,389 机读·n1_w228_results.json·08:3x）+W229=bm-c r961 死窗五面冻结 estate 落盘·r962 absorb 提交（2ae8553e6）+引擎自燃 12/12+r962 finalize one-pass 已落（K=501,720·账本头 927,589 机读·n1_w229_results.json·10:1x）+W230=bm-c r963 死窗五面冻结 estate 落盘·r963 absorb 提交（24e12fa5e）+引擎自燃 12/12+r963 finalize one-pass 已落（K=503,920·账本头 929,789 机读·n1_w230_results.json·11:5x）+W231=bm-c r966 五面冻结（aee0bd9fa）+引擎自燃 12/12+r966 finalize one-pass 已落（K=506,120·账本头 931,989 机读·n1_w231_results.json·13:2x）+W@L32@=bm-c r968 死窗五面冻结 estate 落盘·r968 absorb 提交（e58dbcda3）+引擎自燃 12/12+r968 finalize one-pass 已落（K=508,320·账本头 934,189 机读·n1_w2@L32@_results.json·15:2x）+W233=bm-c r973 死窗五面冻结（0ca920362）+引擎自燃 12/12+r974 finalize one-pass 已落（K=510,520·账本头 936,389 机读·n1_w233_results.json·19:5x）——本波上游链=W1..W233 finalize 全落地"],
+ 3: ["+W221=bm-c r928 五面冻结（98da27a40）+引擎自燃 12/12+r928 finalize one-pass 已落（K=484,120·账本头 909,989 机读·n1_w221_results.json·14:1x）+W222=bm-c r931 死窗五面冻结 estate 落盘·r932 absorb 提交（4167d791d）+引擎自燃 12/12+r932 finalize one-pass 已落（K=486,320·账本头 912,189 机读·n1_w222_results.json·15:5x）+W223=bm-c r934 五面冻结（448c4d8c2）+引擎自燃 12/12+r935 finalize one-pass 已落（K=488,520·账本头 914,389 机读·n1_w223_results.json·17:2x）+W224=bm-c r937 死窗五面冻结 estate 落盘·r937 absorb 提交（d307e3d1d）+引擎自燃 12/12+r937 finalize one-pass 已落（K=490,720·账本头 916,589 机读·n1_w224_results.json·19:1x）+W225=bm-c r939 五面冻结（84ecb3a3a）+引擎自燃 12/12+r940 finalize one-pass 已落（K=492,920·账本头 918,789 机读·n1_w225_results.json·20:2x）+W226=bm-c r943 死窗五面冻结 estate 落盘·r945 absorb 提交（bd50be730）+引擎自燃 12/12+r943 finalize one-pass 已落（K=495,120·账本头 920,989 机读·n1_w226_results.json·22:4x）+W227=bm-c r956 五面冻结（48c321706）+引擎自燃 12/12+r956 finalize one-pass 已落（K=497,320·账本头 923,189 机读·n1_w227_results.json·06:5x）+W228=bm-c r959 死窗五面冻结 estate 落盘·r959 absorb 提交（842f817ad）+引擎自燃 12/12+r959 finalize one-pass 已落（K=499,520·账本头 925,389 机读·n1_w228_results.json·08:3x）+W229=bm-c r961 死窗五面冻结 estate 落盘·r962 absorb 提交（2ae8553e6）+引擎自燃 12/12+r962 finalize one-pass 已落（K=501,720·账本头 927,589 机读·n1_w229_results.json·10:1x）+W230=bm-c r963 死窗五面冻结 estate 落盘·r963 absorb 提交（24e12fa5e）+引擎自燃 12/12+r963 finalize one-pass 已落（K=503,920·账本头 929,789 机读·n1_w230_results.json·11:5x）+W231=bm-c r966 五面冻结（aee0bd9fa）+引擎自燃 12/12+r966 finalize one-pass 已落（K=506,120·账本头 931,989 机读·n1_w231_results.json·13:2x）+W@L32@=bm-c r968 死窗五面冻结 estate 落盘·r968 absorb 提交（e58dbcda3）+引擎自燃 12/12+r968 finalize one-pass 已落（K=508,320·账本头 934,189 机读·n1_w@L32@_results.json·15:2x）+W233=bm-c r973 死窗五面冻结（0ca920362）+引擎自燃 12/12+r974 finalize one-pass 已落（K=510,520·账本头 936,389 机读·n1_w233_results.json·19:5x）——本波上游链=W1..W233 finalize 全落地"],
  4: ["本机席位公示=MSG-20261013-1955-bmc 已推 origin 260217d39 先于本冻结【r565 律·席位先行·r974 窗】；下游 W235+ 投影见 §5.5（probe 机证 leg4·W235 freezer 承接面）】。"],
  5: ["W2..W233 全注册在冻结时点成立"],
  6: ["ADMIT 回执=results/_w234bmc_20261013_probe_receipt.json"],
