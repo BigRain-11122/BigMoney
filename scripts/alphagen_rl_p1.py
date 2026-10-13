@@ -139,9 +139,10 @@ for _p in (ROOT, os.path.join(ROOT, "scripts")):
 import science_gates as sg                                   # noqa: E402
 import alphagen_rg_census as e16                             # noqa: E402
 import t23_random_grammar_census as t23                      # noqa: E402
-from pa_lhb_ic import rank_rows, ic_from_ranks, fwd_ret      # noqa: E402
-from composite_ic import stats_block                         # noqa: E402
-from parallel_runner import run_cells_parallel, worker_cap   # noqa: E402
+from pa_lhb_ic import rank_rows, ic_from_ranks, fwd_ret   # noqa: E402
+from composite_ic import stats_block                       # noqa: E402
+from parallel_runner import run_cells_parallel, worker_cap  # noqa: E402
+from screening.pbo import cscv_pbo                         # noqa: E402
 
 # ------------------------------------------------------------ frozen constants
 BATCH = "N2U3-ALPHAGEN-RL-P1"
@@ -1355,11 +1356,511 @@ def cmd_export_topk(args):
     return 0
 
 
+# ------------------------------------------- judged face (leg-4 build, r923)
+# A158-TSGATE-P1 door template on the core48 consumption face (prereg
+# §3 frozen): stock cross-section factor -> sign-aligned top-quintile
+# cohort mean of aligned values (the "factor tail state" feature; the
+# mapping is probed+anchored by cmd_tsgate_probe, G-ANCHOR-FACE law)
+# -> per-instrument q10/q90 rolling-quantile doors (q90 high door
+# judged = the sign-consistent predictive cohort state) -> long-only
+# T+1 equal-weight-basket strategy at cost x1/x2/x3 -> P-5/P-5B
+# all-start virtual time points -> G1'v2/G2v2/M1/D6 shared-lib gates.
+DOOR_WIN = 252                              # A158-TSGATE-P1 verbatim
+DOOR_MINP = 120                             # A158-TSGATE-P1 verbatim
+DOOR_Q_JUDGED = 0.90                        # high door = judged side
+DOOR_Q_LOW_DISCLOSED = 0.10                 # template low side, NOT
+                                            # judged (32-trial budget,
+                                            # no side mining)
+COHORT_FRAC = 0.20                          # top-quintile by aligned rank
+COST_X1_SIDE_BP = 13.041                    # ETF 26.082bp round-trip, A
+COST_FACES = (("x1", 1.0), ("x2", 2.0), ("x3", 3.0))
+EXTREME_DAYS = ("2024-09-24", "2024-09-30", "2025-04-07",
+                "2026-01-19")               # prereg §5 P4 frozen four
+JUDGED_LEDGER_NAME = "N2U3_ALPHAGEN_RL_P1"  # prereg §3 ledger verbatim
+JUDGED_PRODUCT = os.path.join(OUT_DIR, f"JUDGED-{CUTOFF_PIN}.json")
+ALLSTART_WINDOWS = {"3m": 63, "6m": 126, "12m": 252}   # P-5 windows
+ROLLING_WORST = {"3y": 756, "5y": 1260, "10y": 2520}   # §1.3 rolling
+MIN_LISTED = 24                             # P-5 deployment floor
+
+
+def _sharpe_ann(r):
+    r = np.asarray(r, dtype=float)
+    if r.size < 2:
+        return 0.0
+    sd = float(r.std(ddof=1))
+    return float(r.mean() / sd * np.sqrt(252.0)) if sd > 0.0 else 0.0
+
+
+def _max_drawdown(eq):
+    peak = eq.cummax()
+    return float((eq / peak - 1.0).min())
+
+
+def _signal_faces(F, sign, elig):
+    """Sign-aligned top-quintile cohort mean of aligned factor values
+    (A158-TSGATE-P1 transposition feature): per-date mask = elig &
+    finite; cohort = top ceil(20%*n_t) names by aligned rank; feature
+    = cohort mean of aligned values; thin days (n_t < MIN_CROSS) are
+    gate-closed NaN (E16 MIN_CROSS law)."""
+    Fc = np.where(np.isfinite(F), F, np.nan)
+    eff = (elig & np.isfinite(Fc))
+    A = np.where(eff, Fc * float(sign), np.nan)
+    FrA = rank_rows(eff, A)
+    n_t = eff.sum(axis=1)
+    return A, FrA, eff, n_t
+
+
+def _cohort_mean(A, FrA, eff, n_t):
+    """Cohort-mean feature from an (observed or permuted) aligned-rank
+    matrix -- identical selection mechanics for the observed face and
+    the null face."""
+    k_t = np.maximum(1, np.ceil(COHORT_FRAC * n_t).astype(np.int64))
+    thr = (n_t - k_t + 1).astype(np.float64)
+    coh = eff & (FrA >= thr[:, None])
+    cnt = coh.sum(axis=1)
+    with np.errstate(invalid="ignore"):
+        s = np.where(cnt > 0,
+                     np.nansum(np.where(coh, A, 0.0), axis=1)
+                     / np.maximum(cnt, 1), np.nan)
+    return np.where(n_t >= MIN_CROSS, s, np.nan)
+
+
+def _door_state(s, dates):
+    """A158-TSGATE-P1 door mechanics verbatim: rolling(252,
+    min_periods=120).quantile(0.90) on the signal series; open =
+    s > qref on decidable days; state carries forward between
+    decidable days (in/out bucket persistence law)."""
+    ser = pd.Series(s, index=dates)
+    qref = ser.rolling(DOOR_WIN, min_periods=DOOR_MINP).quantile(
+        DOOR_Q_JUDGED)
+    decidable = ser.notna() & qref.notna()
+    opens = (ser > qref) & decidable
+    vals = pd.Series(np.where(decidable, opens, np.nan), index=dates)
+    state = vals.ffill().fillna(False).astype(bool)
+    return state, opens, qref, decidable
+
+
+def _door_strategy(door_state, basket_ret, cost_side_bp):
+    """Long-only T+1 door strategy on the core48 equal-weight basket:
+    condition at close t -> position effective t+1; per-side cost on
+    position transitions (x1 face = COST_X1_SIDE_BP)."""
+    cal = basket_ret.index
+    d = door_state.reindex(cal).ffill().fillna(False).astype(float)
+    pos = d.shift(1).fillna(0.0)            # T+1: prior day's condition
+    gross = basket_ret * pos
+    prev = pos.shift(1).fillna(0.0)
+    turn = (pos - prev).abs()
+    net = gross - turn * (float(cost_side_bp) / 1e4)
+    entries = int(((pos == 1.0) & (prev == 0.0)).sum())
+    exits = int(((pos == 0.0) & (prev == 1.0)).sum())
+    return {"net": net, "pos": pos, "n_entries": entries,
+            "n_trades": exits}
+
+
+def _allstart_face(net, basket_ret):
+    """P-5/P-5B all-start virtual time points: every start p with a
+    full window -> strategy vs same-window passive (EW basket
+    buy&hold) window returns; beat rates + full-start 6m distribution
+    + rolling 3/5/10y worst (§1.3 disclosure face)."""
+    cal = net.index
+    pas = basket_ret.reindex(cal)
+    es = (1.0 + net).cumprod().values
+    ep = (1.0 + pas).cumprod().values
+    n = len(cal)
+    out = {"n_starts": {}, "beat_rate": {}, "rolling_worst": {},
+           "fullstart_6m": None}
+    for wname, w in ALLSTART_WINDOWS.items():
+        if n < w:
+            out["n_starts"][wname] = 0
+            out["beat_rate"][wname] = None
+            continue
+        rs = es[w - 1:] / es[:n - w + 1] - 1.0
+        rp = ep[w - 1:] / ep[:n - w + 1] - 1.0
+        out["n_starts"][wname] = int(len(rs))
+        out["beat_rate"][wname] = round(float(np.mean(rs > rp)), 4)
+        if wname == "6m":
+            out["fullstart_6m"] = {
+                "best": round(float(rs.max()), 4),
+                "worst": round(float(rs.min()), 4),
+                "p25": round(float(np.percentile(rs, 25)), 4),
+                "median": round(float(np.median(rs)), 4),
+                "p75": round(float(np.percentile(rs, 75)), 4)}
+    for yname, w in ROLLING_WORST.items():
+        if n >= w:
+            rw = es[w - 1:] / es[:n - w + 1] - 1.0
+            out["rolling_worst"][yname] = round(float(rw.min()), 4)
+        else:
+            out["rolling_worst"][yname] = None
+    return out
+
+
+def _core48_face():
+    """core48 consumption panel (live.paper.load_core frozen-whitelist
+    lock, single source): members truncated at the cutoff pin ->
+    member daily returns + equal-weight basket returns on the common
+    calendar + roster anchor facts (G-CONSUME face)."""
+    from live.paper import load_core
+    core = load_core()
+    ps = pd.Timestamp(CUTOFF_PIN)
+    roster, rets = [], {}
+    for code, df in core.items():
+        d = df[df.index <= ps]
+        if len(d) < 2:
+            continue
+        roster.append(code)
+        rets[code] = d["close"].pct_change().dropna()
+    roster = sorted(roster)
+    if len(roster) < MIN_LISTED:
+        raise RuntimeError(f"core48 face too thin: {len(roster)}")
+    import hashlib
+    facts = {
+        "n_members": len(roster),
+        "roster_sha16": hashlib.sha256(
+            "|".join(roster).encode("utf-8")).hexdigest()[:16],
+        "anchor_510300_rows": (int(len(core["510300"]))
+                               if "510300" in core else None),
+        "min_listed_floor": MIN_LISTED,
+    }
+    return {"roster": roster, "member_rets": rets, "facts": facts}
+
+
+def _anchor_triple(panel, faces, dates):
+    """G-ANCHOR-FACE anchor: TOP-1 E16 survivor formula on the full
+    panel, member-sign face (ic_mean sign -- the SynergyPool
+    _add_member default) -> deterministic signal triple. Probe and
+    consumer must derive the identical triple."""
+    survivors, _ = load_survivor_nodes()
+    node, formula, _ = survivors[0]
+    F = e16.evaluate(node, panel["leaves"])
+    blk, _ = ic_face(F, faces)
+    sign = 1.0 if blk["ic_mean"] >= 0 else -1.0
+    A, FrA, eff, n_t = _signal_faces(F, sign, panel["elig"])
+    s = _cohort_mean(A, FrA, eff, n_t)
+    state, opens, qref, decidable = _door_state(s, dates)
+    first_dec = int(np.argmax(decidable.values)) \
+        if bool(decidable.any()) else -1
+    first_open = None
+    if bool(opens.any()):
+        first_open = str(dates[np.argmax(opens.values)].date())
+    return {"formula": formula, "sign": sign,
+            "ic_mean": round(float(blk["ic_mean"]), 6),
+            "signal_len": int(np.isfinite(s).sum()),
+            "first_decidable_idx": first_dec,
+            "door_open_count": int(opens.sum()),
+            "first_door_date": first_open}
+
+
+def _assert_same_face(anchors, panel, faces, dates):
+    """Consumer-side G-ANCHOR-FACE law: re-derive the anchor triple on
+    the same frozen faces and compare; any drift = refuse (config
+    mismatch, never a silent pass)."""
+    if not isinstance(anchors, dict) or "anchor_triple" not in anchors:
+        return False, {"reason": "anchors absent/malformed"}
+    if anchors.get("evidence_cutoff") != CUTOFF_PIN:
+        return False, {"reason": "anchor cutoff drift",
+                       "anchors_cutoff": anchors.get("evidence_cutoff")}
+    triple = _anchor_triple(panel, faces, dates)
+    ok = triple == anchors["anchor_triple"]
+    return ok, {"reason": "same-face assert " + ("OK" if ok else
+               "MISMATCH"), "rederived": triple}
+
+
+def _judged_core(panel, faces, dates, basket, anchors, topk_rows,
+                 topk_sha16, member_rets, results_dir, out_dir,
+                 d6_fn, null_k=K_TOP):
+    """Judged face battery (leg-4): per TOPK row -> signal/door/strategy
+    (x1 primary; x2/x3 stability descriptive) -> G1'v2 (batch-own K=32
+    scrnull permutation null pool) + G2 (DSR raw-returns + family PBO
+    CSCV-8) + M1 (factor IC t from the TOPK re-eval face) + D6 (REG6 +
+    same-batch prior, daily-return correlation) + per-instrument /
+    all-start / extreme-day / OOS-midpoint disclosure faces. Pure core:
+    every repo read is injected (selftest runs synthetic faces); d6_fn
+    = the shared _d6_corr_cell correlation face (W15 canon, injected by
+    the caller so the hermetic selftest never imports the tl1..tl14
+    chain)."""
+    scrnull = int(sg.SEED_REGISTRY[SEED_KEY_SCRNULL])
+    rows = list(topk_rows)
+    if not rows:
+        raise RuntimeError("no TOPK rows to judge")
+    # strategy calendar = signal x basket with the P-5 listing floor
+    R = pd.DataFrame(basket["member_rets"])
+    sig_dates = pd.DatetimeIndex(dates)
+    listed = R.notna().sum(axis=1)
+    floor_days = listed[listed >= MIN_LISTED].index
+    cal = sig_dates.intersection(floor_days)
+    basket_cal = R.mean(axis=1, skipna=True).reindex(cal).dropna()
+    cal = basket_cal.index
+    cells, null_vals, rets_by_cell = [], [], {}
+    for i, row in enumerate(rows):
+        node = parse_formula(row["formula"])
+        assert node is not None, row["formula"]
+        F = e16.evaluate(node, panel["leaves"])
+        sign = float(row["sign"])
+        A, FrA, eff, n_t = _signal_faces(F, sign, panel["elig"])
+        s = _cohort_mean(A, FrA, eff, n_t)
+        state, opens, qref, decidable = _door_state(s, sig_dates)
+        strat = {cname: _door_strategy(state, basket_cal,
+                                       COST_X1_SIDE_BP * mult)
+                 for cname, mult in COST_FACES}
+        net = strat["x1"]["net"]
+        eq = (1.0 + net).cumprod()
+        yearly = (1.0 + net).groupby(net.index.year).prod() - 1.0
+        # OOS = strategy-window midpoint (batch-own face, disclosed)
+        half = len(net) // 2
+        oos_eq = eq.iloc[half:]
+        oos_ret = float(oos_eq.iloc[-1] / oos_eq.iloc[0] - 1.0)
+        # per-instrument door-active face (A158 per-inst median shape)
+        poscal = strat["x1"]["pos"]
+        inst_sh = {}
+        for code, mr in basket["member_rets"].items():
+            m = mr.reindex(cal).fillna(0.0) * poscal
+            if float(m.std(ddof=1) or 0.0) > 0:
+                inst_sh[code] = _sharpe_ann(m)
+        med_inst = (round(float(np.median(list(inst_sh.values()))), 4)
+                    if inst_sh else None)
+        # extreme-day door states (P4 frozen four; absent = None)
+        exd = {}
+        for dstr in EXTREME_DAYS:
+            ts = pd.Timestamp(dstr)
+            exd[dstr] = (bool(state.loc[ts]) if ts in state.index
+                         else None)
+        cell = {
+            "i": i, "formula": row["formula"],
+            "sign": sign,
+            "m1_t_face": {"ic_mean": row.get("ic_mean"),
+                          "abs_icir": row.get("abs_icir"),
+                          "n_periods": row.get("n_periods")},
+            "n_entries": strat["x1"]["n_entries"],
+            "n_trades": strat["x1"]["n_trades"],
+            "sharpe_full_x1": round(_sharpe_ann(net), 4),
+            "sharpe_full_x2": round(_sharpe_ann(strat["x2"]["net"]), 4),
+            "sharpe_full_x3": round(_sharpe_ann(strat["x3"]["net"]), 4),
+            "max_dd_x1": round(_max_drawdown(eq), 4),
+            "yearly_x1": {str(k): round(float(v), 4)
+                          for k, v in yearly.items()},
+            "descriptive": {
+                "ann_pos": bool(eq.iloc[-1] > eq.iloc[0]),
+                "oos_dual_pos": bool(_sharpe_ann(
+                    net.iloc[half:]) > 0 and oos_ret > 0),
+                "oos_sharpe": round(_sharpe_ann(net.iloc[half:]), 4),
+                "oos_ret": round(oos_ret, 4),
+                "dd_ok": bool(_max_drawdown(eq) >= -0.35),
+                "no_crash_year": bool(yearly.min() > -0.30
+                                      if len(yearly) else False),
+                "x2_yearly_stable": bool(
+                    ((1.0 + strat["x2"]["net"]).groupby(
+                        strat["x2"]["net"].index.year).prod()
+                     - 1.0).min() > -0.30
+                    if len(net) else False),
+            },
+            "per_instrument": {
+                "median_door_active_sharpe": med_inst,
+                "n_instrument_face": len(inst_sh),
+                "anchor_510300_sharpe": inst_sh.get("510300")},
+            "extreme_day_door_state": exd,
+            "allstart": _allstart_face(net, basket_cal),
+        }
+        # K=32 same-mask permutation nulls: draw j belongs to formula
+        # j mod n_rows (one permutation replicate per draw, t23
+        # verbatim; values feed the batch-own skill line)
+        j = i
+        while j < null_k:
+            rng = np.random.default_rng([scrnull, j])
+            FrA_null = t23._permute_ranks_within_mask(FrA, eff, rng)
+            s_null = _cohort_mean(A, FrA_null, eff, n_t)
+            st_null, _, _, _ = _door_state(s_null, sig_dates)
+            nz = _door_strategy(st_null, basket_cal,
+                                COST_X1_SIDE_BP)["net"]
+            null_vals.append(round(_sharpe_ann(nz), 4))
+            j += len(rows)
+        cells.append(cell)
+        rets_by_cell[i] = net
+    # batch-own null pool (>=30 law: K=32)
+    mu = float(np.mean(null_vals))
+    sd = float(np.std(null_vals, ddof=1)) if len(null_vals) > 1 else None
+    null_pool = {"values": null_vals, "source":
+                 "N2U3 batch-own K=32 scrnull permutation nulls "
+                 "(t23 _permute_ranks_within_mask verbatim, one "
+                 "replicate per draw, formula j mod n_rows cycling)",
+                 "coverage": {"n_values": len(null_vals),
+                              "schemas_parsed": ["batch_own_scrnull"],
+                              "known_unparsed": [],
+                              "mu": mu, "sigma": sd}}
+    # family PBO (CSCV-8) on the complete 32 x T net matrix
+    mat = pd.DataFrame({i: rets_by_cell[i] for i in range(len(cells))})
+    pbo_out = cscv_pbo(mat)
+    pbo_val = float(pbo_out["pbo"])
+    # phase 2: per-cell gates (skill line is batch-level data-driven)
+    same_batch_rets = dict(member_rets)
+    for cell in cells:
+        i = cell["i"]
+        net = rets_by_cell[i]
+        rets = [float(v) for v in net.values]
+        try:
+            g1 = sg.g1_prime_v2(cell["sharpe_full_x1"], rets, K_TOP,
+                                n_trades=cell["n_trades"],
+                                n_entries=cell["n_entries"],
+                                pool="core48", null_pool=null_pool,
+                                results_dir=results_dir)
+        except Exception as exc:                    # noqa: BLE001
+            g1 = {"gate": "g1_prime_v2", "pass_v2": False,
+                  "error": f"skill-line face refused: {exc}"}
+        try:
+            dsr = sg.deflated_sharpe_ratio(rets, K_TOP)
+        except Exception as exc:                    # noqa: BLE001
+            dsr = {"dsr": None, "error": str(exc)}
+        g2 = sg.g2_registration_v2(g1.get("pass_v2", False), dsr,
+                                   pbo_val)
+        # M1: factor-face IC t (t = sign(ic_mean)*|icir|*sqrt(n))
+        r0 = cell["m1_t_face"]
+        t_stat = None
+        if (r0.get("ic_mean") is not None
+                and r0.get("abs_icir") not in (None, 0)
+                and r0.get("n_periods")):
+            t_stat = (np.sign(r0["ic_mean"]) * r0["abs_icir"]
+                      * math.sqrt(int(r0["n_periods"])))
+        m1 = sg.m1_t_value_gate(t_stat)
+        # D6: registered members + same-batch already-judged formulas
+        d6 = _d6_corr_cell(net, same_batch_rets)
+        cell["g1_prime_v2"] = g1
+        cell["g2_registration_v2"] = g2
+        cell["m1_t_value_gate"] = m1
+        cell["d6"] = d6
+        cell["d6_ok"] = not (d6.get("max_corr_vs_registered") is not None
+                             and d6["max_corr_vs_registered"] >= 0.7)
+        cell["verdict"] = {
+            "g1_pass_v2": bool(g1.get("pass_v2")),
+            "g2_eligible_v2": bool(g2.get("eligible_v2")),
+            "m1_pass": bool(m1.get("pass")),
+            "d6_ok": bool(cell["d6_ok"]),
+            "refused_d6": not bool(cell["d6_ok"]),
+            "registered": bool(g2.get("eligible_v2") and m1.get("pass")
+                               and cell["d6_ok"]),
+        }
+        same_batch_rets[f"BATCH:{i}"] = net
+    out_path = os.path.join(out_dir, f"JUDGED-{CUTOFF_PIN}.json")
+    if os.path.exists(out_path):
+        return {"refused": True, "reason": "judged product already "
+                "landed (refuse-if-exists law)", "out": out_path}
+    n_g1 = sum(1 for c in cells if c["verdict"]["g1_pass_v2"])
+    n_reg = sum(1 for c in cells if c["verdict"]["registered"])
+    product = {
+        **sg.cutoff_meta(CUTOFF_PIN),
+        "batch": BATCH,
+        "face": "judged (leg-4: A158-TSGATE-P1 q90 door on core48, "
+        "long-only T+1, cost x1/x2/x3, all-start virtual time points)",
+        "k_cells": len(cells),
+        "topk_sha16_pin": topk_sha16,
+        "anchors_sha16_pin": anchors.get("_sha16"),
+        "door": {"win": DOOR_WIN, "min_periods": DOOR_MINP,
+                 "q_judged": DOOR_Q_JUDGED,
+                 "q_low_disclosed_not_judged": DOOR_Q_LOW_DISCLOSED},
+        "signal_construction": anchors.get("signal"),
+        "cost": {"x1_side_bp": COST_X1_SIDE_BP,
+                 "faces": [f[0] for f in COST_FACES]},
+        "null_pool": null_pool,
+        "family_pbo": {"pbo": round(pbo_val, 4),
+                       "verdict": pbo_out.get("verdict"),
+                       "n_blocks": 8},
+        "aggregate": {"n_g1_pass_v2": n_g1,
+                      "n_registered": n_reg,
+                      "n_d6_refused": sum(
+                          1 for c in cells if c["refused_d6"]),
+                      "n_m1_pass": sum(
+                          1 for c in cells
+                          if c["m1_t_value_gate"]["pass"])},
+        "cells": cells,
+        "prereg_ref": PREREG_REL + " (FROZEN at burn time)",
+        "ledger": sg.append_ledger(
+            JUDGED_LEDGER_NAME, K_TOP, file_name=out_path,
+            evidence_cutoff=CUTOFF_PIN, results_dir=results_dir),
+        "audit": {"engine_runs": 0, "generated_at": _now(),
+                  "batch_cells_ledger": K_TOP,
+                  "note": "RL search face + nulls calibration not "
+                  "counted (E16 trial_budget_law); judged K=32 "
+                  "counted; E[FP]=0.05*32=1.6 nominal"},
+    }
+    _dump(product, out_path)
+    return {"refused": False, "out": out_path, "product": product}
+
+
+def cmd_tsgate_probe(args):
+    """Freeze-gated anchor probe (leg-4 step 1): pins the §3 frozen
+    consumption mapping (door params + signal construction + core48
+    roster facts + anchor formula triple) into tsgate_anchors.json.
+    Refuse-if-exists: re-derivation is the judge consumer's same-face
+    assert, never a rewrite."""
+    ok, posture = _require_freeze("tsgate-probe")
+    if not ok:
+        return 2
+    if os.path.exists(TSGATE_ANCHORS):
+        print(json.dumps({"tsgate_probe": "already-landed (refuse "
+                         "rewrite; judge asserts same-face on "
+                         "consume)"}, ensure_ascii=False))
+        return 0
+    pf = e16.gate_face()
+    if not pf.get("ready"):
+        print(json.dumps({"refused": True, "reason": "panel gate not "
+                          "ready", "panel_gate_keys": sorted(pf)[:8]},
+                         ensure_ascii=False))
+        return 2
+    cache_path, meta = e16.ensure_cache(CUTOFF_PIN)
+    gen = int(sg.SEED_REGISTRY[SEED_KEY_GEN])
+    panel = load_training_panel(cache_path, 0, gen)
+    faces = _panel_faces(panel)
+    dates = pd.to_datetime(np.asarray(panel["cal"],
+                                      dtype="datetime64[us]"))
+    basket = _core48_face()
+    triple = _anchor_triple(panel, faces, dates)
+    anchors = {
+        **sg.cutoff_meta(CUTOFF_PIN),
+        "batch": BATCH,
+        "template": "A158-TSGATE-P1 per-instrument q10/q90 door on "
+        "core48 (prereg §3 frozen consumption template)",
+        "door": {"win": DOOR_WIN, "min_periods": DOOR_MINP,
+                 "q_judged": DOOR_Q_JUDGED,
+                 "q_low_disclosed_not_judged": DOOR_Q_LOW_DISCLOSED,
+                 "side_note": "q90 high door = sign-consistent "
+                 "predictive cohort state; low side disclosed but NOT "
+                 "judged (32-trial budget, no side mining)"},
+        "signal": {"cohort_frac": COHORT_FRAC,
+                   "min_cross": MIN_CROSS,
+                   "cost_x1_side_bp": COST_X1_SIDE_BP,
+                   "construction": "sign-aligned top-quintile-by-rank "
+                   "cohort mean of aligned values (per-date mask = "
+                   "elig & finite; this probe pins the mapping, "
+                   "G-ANCHOR-FACE law)"},
+        "calendar": {"signal_face": "full cache cal incl. warmup rows",
+                     "census_start": "2018-01-01",
+                     "oos_split": "strategy-window midpoint (batch-own "
+                     "face; prereg pins no calendar split)",
+                     "min_listed_floor": MIN_LISTED},
+        "core48": basket["facts"],
+        "anchor_triple": triple,
+        "nulls": {"k": K_TOP, "seed_key": SEED_KEY_SCRNULL,
+                  "law": "t23 _permute_ranks_within_mask verbatim; one "
+                  "permutation replicate per draw, K=32 draws, "
+                  "formula j mod n_rows cycling"},
+        "extreme_days": list(EXTREME_DAYS),
+        "allstart_windows": ALLSTART_WINDOWS,
+        "rolling_worst": ROLLING_WORST,
+        "prereg_ref": PREREG_REL + " (FROZEN)",
+        "audit": {"engine_runs": 0, "generated_at": _now()},
+    }
+    _dump(anchors, TSGATE_ANCHORS)
+    print(json.dumps({"tsgate_probe": "ok", "anchors": TSGATE_ANCHORS,
+                      "anchor_triple": triple,
+                      "core48": basket["facts"]},
+                     ensure_ascii=False, indent=1))
+    return 0
+
+
 def cmd_judge(args):
-    """Judged-face gate (leg-4). Leg-1 = gate + honest refuse only: the
-    judged consumption template (core48 tsgate, A158-TSGATE-P1 precedent)
-    is pinned by the freeze-window probe (G-ANCHOR-FACE law) and built in
-    the post-freeze judged leg."""
+    """Judged face (leg-4): consumes the frozen tsgate anchors (same-
+    face assert) + the TOPK candidate table (sha16-pinned) -> full
+    judged battery -> JUDGED-<cutoff>.json + ledger 32 (first judged
+    N2U3 channel-1 evidence). Refuses until anchors + TOPK + leg-3
+    completion all stand; refuse-if-exists on the product."""
     extra = {
         "topk_product": os.path.exists(
             os.path.join(OUT_DIR, f"TOPK-{CUTOFF_PIN}.json")),
@@ -1369,13 +1870,73 @@ def cmd_judge(args):
     ok, posture = _require_freeze("judge", extra=extra)
     if not ok:
         return 2
-    # post-freeze judged leg lands here (leg-4 build); reaching this line
-    # in leg-1 is impossible (products absent) -- honest placeholder:
-    print(json.dumps({"judged_leg_pending": True,
-                      "note": "post-freeze judged leg (leg-4) consumes "
-                      "the frozen tsgate anchors; this build carries the "
-                      "gate machine only"}, ensure_ascii=False))
-    return 2
+    if os.path.exists(JUDGED_PRODUCT):
+        print(json.dumps({"refused": True, "reason": "judged product "
+                          "already landed (refuse-if-exists law)",
+                          "out": JUDGED_PRODUCT}, ensure_ascii=False))
+        return 0
+    pf = e16.gate_face()
+    if not pf.get("ready"):
+        print(json.dumps({"refused": True, "reason": "panel gate not "
+                          "ready"}, ensure_ascii=False))
+        return 2
+    import hashlib
+    with open(TSGATE_ANCHORS, "rb") as f:
+        anchors_blob = f.read()
+    anchors = json.loads(anchors_blob.decode("utf-8"))
+    anchors["_sha16"] = hashlib.sha256(anchors_blob).hexdigest()[:16]
+    topk_path = os.path.join(OUT_DIR, f"TOPK-{CUTOFF_PIN}.json")
+    with open(topk_path, "rb") as f:
+        topk_blob = f.read()
+    topk = json.loads(topk_blob.decode("utf-8"))
+    topk_sha16 = hashlib.sha256(topk_blob).hexdigest()[:16]
+    rows = topk.get("rows") or []
+    if not rows:
+        print(json.dumps({"refused": True, "reason": "TOPK zero rows"},
+                         ensure_ascii=False))
+        return 2
+    cache_path, meta = e16.ensure_cache(CUTOFF_PIN)
+    gen = int(sg.SEED_REGISTRY[SEED_KEY_GEN])
+    panel = load_training_panel(cache_path, 0, gen)
+    faces = _panel_faces(panel)
+    dates = pd.to_datetime(np.asarray(panel["cal"],
+                                      dtype="datetime64[us]"))
+    ok_face, face_ev = _assert_same_face(anchors, panel, faces, dates)
+    if not ok_face:
+        print(json.dumps({"refused": True, "reason": "G-ANCHOR-FACE "
+                          "same-window assert failed", "evidence":
+                          face_ev}, ensure_ascii=False))
+        return 2
+    basket = _core48_face()
+    # D6 registered-member daily returns (ew6 member_run canon face,
+    # live.paper anchor-gate code path; heavy imports stay judge-local)
+    import ew6_portfolio as E
+    from perpetual_faces_n2 import _d6_corr_cell, REG6   # noqa: E402
+    from live.paper import load_core
+    if E.PRICES_FULL is None:
+        E.PRICES_FULL = load_core()
+    member_rets = {}
+    for tid in REG6:
+        r = E.member_run(tid)
+        eq = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
+        member_rets[tid] = eq.pct_change().dropna()
+    res = _judged_core(panel, faces, dates, basket, anchors, rows,
+                       topk_sha16, member_rets, ROOT_RESULTS,
+                       OUT_DIR)
+    if res.get("refused"):
+        print(json.dumps(res, ensure_ascii=False))
+        return 2
+    p = res["product"]
+    print(json.dumps({"judge": "ok", "out": res["out"],
+                      "k_cells": p["k_cells"],
+                      "aggregate": p["aggregate"],
+                      "family_pbo": p["family_pbo"],
+                      "null_mu_sigma": [p["null_pool"]["coverage"]["mu"],
+                                        p["null_pool"]["coverage"][
+                                            "sigma"]],
+                      "ledger_total": p["ledger"]["total"]},
+                     ensure_ascii=False, indent=1))
+    return 0
 
 
 def cmd_status(args):
