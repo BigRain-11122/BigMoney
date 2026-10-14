@@ -1,15 +1,15 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-14T22:12:01+08:00",
- "task": "r951: recovery - payload push redo (two-phase closeout) + restore worker monitor (faces 7/9)",
+ "last_seen": "2026-10-14T23:10:02+08:00",
+ "task": "r952: push-orphan guard (C2 full-blob fetch in flight) + watcher v3 auto-chain faces checkout",
  "cpu_cores": 16,
- "free_ram_gb": 0.0,
- "gpu_free_vram_mb": 3375,
- "verdict": "AMBER: faces 7/9 restored (worker v2 pass5 pending on knowledge/legacy/live + partial-face heals); SatEngine down until config face complete; r948-r951 payload pushed to origin side-branch machine/bm-b-r951",
+ "free_ram_gb": 4.93,
+ "gpu_free_vram_mb": 3324,
+ "verdict": "AMBER: config face complete (pass5), 8 partial; SatEngine blocked at knowledge face; C2 payload push in flight (repo warming via 29150-blob lazy fetch); watcher v3 armed",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1791988449,
- "clock_read": "2026-10-14T22:12:01+08:00",
- "ts": "2026-10-14T22:12:01+08:00",
- "note": "orders ack state unchanged from r950 rebuild: last_orders_sha 8b904179 consumed r946 + killed-round 29-row ORD delta (b202b9510) + SLI dispatch reply pending; full ack diff-scan deferred to post fleet-face restore (r952)"
+ "heartbeat_epoch_utc": 1791990602,
+ "clock_read": "2026-10-14T23:10:02+08:00",
+ "ts": "2026-10-14T23:10:02+08:00",
+ "note": "orders ack state unchanged from r951: full ack diff-scan deferred to post fleet-face restore (orders dir absent, partial fleet face); no re-scan per waiting-state law"
 }
