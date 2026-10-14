@@ -1,0 +1,76 @@
+{
+ "machine": "bm-a",
+ "wave": 243,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w243_results.json",
+ "merged": {
+  "k": 532520,
+  "mu": -0.09275885450311726,
+  "sigma": 0.2450685864903817,
+  "se_mu_k532520": 0.000336
+ },
+ "w243_only": {
+  "mu": -0.09687704545454545,
+  "sigma": 0.24941838464843483
+ },
+ "skill_line": {
+  "n_eff_held": 956735,
+  "line_pre_w243": 1.1933,
+  "line_merged_532520": 1.1934,
+  "k_lift_delta": 0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3193,
+  "full_sharpe_p99": 0.4637
+ },
+ "checks": [
+  {
+   "name": "key1_w243_vs_merged_mu_gap",
+   "value": 0.004118190951428194,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w242_key",
+   "value": 1.7084503117256733e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 7.388881826195641e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": 0.020199999999999996,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000336,
+   "band": 0.000374,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 956735,
+  "batch_trials": 2200,
+  "total": 958935,
+  "exact": true
+ },
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)",
+ "honest_disclosure": [
+  "line_pre_w243=1.1933 vs prereg-quoted W242 line_merged@K530,320=1.1932: 0.0001 held-n face (pre-line recomputed at n_eff=956,735 by skill_line_v2; key4 judges the MOVE +0.0001 not absolute)",
+  "W242 prereg sec7/8 placeholders remain un-backfilled (r999 overclaim, no functional impact; W242 numbers live in n1_w242_results.json + commit 90db59fc3)"
+ ]
+}
