@@ -1,10 +1,10 @@
 {
  "report_date": "2026-10-14",
- "generated_at": "2026-10-14 21:00:00",
+ "generated_at": "2026-10-14 22:15:16",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 6004241.39,
+   "total_equity_cny": 6000685.5,
    "total_positions": 19,
    "entries_today": 0,
    "exits_today": 0,
@@ -15,9 +15,9 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 1005369.24,
-     "positions_value": 956608.11,
-     "cash": 48761.13,
+     "equity": 1004145.12,
+     "positions_value": 955384.0,
+     "cash": 48761.12,
      "denomination": "CNY"
     },
     "positions": 5,
@@ -31,9 +31,9 @@
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 1005705.12,
-     "positions_value": 956543.64,
-     "cash": 49161.48,
+     "equity": 1004017.62,
+     "positions_value": 954856.13,
+     "cash": 49161.49,
      "denomination": "CNY"
     },
     "positions": 8,
@@ -95,13 +95,13 @@
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 995540.86,
-     "positions_value": 496193.48,
+     "equity": 994896.59,
+     "positions_value": 495549.21,
      "cash": 499347.38,
      "denomination": "CNY"
     },
     "positions": 5,
-    "dd": -0.0049,
+    "dd": -0.0051,
     "guard": {
      "mode": "enforce",
      "active_from": "2026-10-01"
@@ -273,7 +273,7 @@
    }
   ],
   "market_clock": {
-   "asof": "2026-10-13",
+   "asof": "2026-10-14",
    "clock_cell": "ORANGE_COOL",
    "position_cap_ladder": 0.5,
    "active_sleeves": [
@@ -298,12 +298,12 @@
  },
  "rd": {
   "commits_24h": 300,
-  "result_jsons_landed_24h": 161,
+  "result_jsons_landed_24h": 157,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 30,
   "compute_audit_latest": {
-   "ts": "2026-10-14 20:50:44",
-   "py_cpu_pct": 5.6,
+   "ts": "2026-10-14 22:12:54",
+   "py_cpu_pct": 0.3,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -662,9 +662,9 @@
   "total_state_tokens_est": 2630,
   "total_report_tokens_est": 2080875,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-14 20:00:27",
+   "prev_generated": "2026-10-14 21:00:37",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 101,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -675,37 +675,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-14 19:44:37",
+    "latest_ts": "2026-10-14 22:12:54",
     "py_pct": 0.3,
-    "cpu_pct": 40.0,
+    "cpu_pct": 18.0,
     "ready": 0,
-    "streak_min": 983.3,
+    "streak_min": 1131.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:49",
-      0.9
-     ],
-     [
-      "16:09",
-      0.9
-     ],
-     [
-      "16:12",
-      2.6
-     ],
-     [
-      "16:35",
-      2.8
-     ],
-     [
-      "16:49",
-      2.4
-     ],
-     [
-      "17:12",
-      0.5
-     ],
      [
       "17:27",
       0.4
@@ -728,10 +704,34 @@
      ],
      [
       "19:44",
+      9.5
+     ],
+     [
+      "19:44",
+      0.3
+     ],
+     [
+      "19:59",
+      2.3
+     ],
+     [
+      "20:20",
+      2.9
+     ],
+     [
+      "20:50",
+      5.6
+     ],
+     [
+      "21:20",
+      6.4
+     ],
+     [
+      "22:12",
       0.3
      ]
     ],
-    "today_samples": 54,
+    "today_samples": 60,
     "today_floor_ok": 4,
     "today_sla_flags": 5,
     "today_supply_gap_flags": 8
@@ -799,17 +799,13 @@
     "today_supply_gap_flags": 8
    },
    "bm-c": {
-    "latest_ts": "2026-10-14 20:50:44",
-    "py_pct": 5.6,
-    "cpu_pct": 21.0,
+    "latest_ts": "2026-10-14 21:20:46",
+    "py_pct": 6.4,
+    "cpu_pct": 60.0,
     "ready": 0,
-    "streak_min": 1049.4,
+    "streak_min": 1079.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "16:49",
-      2.4
-     ],
      [
       "17:12",
       0.5
@@ -853,9 +849,13 @@
      [
       "20:50",
       5.6
+     ],
+     [
+      "21:20",
+      6.4
      ]
     ],
-    "today_samples": 58,
+    "today_samples": 59,
     "today_floor_ok": 4,
     "today_sla_flags": 5,
     "today_supply_gap_flags": 8
@@ -868,19 +868,19 @@
   "day": "2026-10-14",
   "machines": {
    "bm-a": {
-    "batches_judged": 48,
-    "core_seconds": 30831.3,
-    "wall_seconds": 2280.9,
-    "effective_cores": 13.52,
+    "batches_judged": 60,
+    "core_seconds": 38724.1,
+    "wall_seconds": 2760.7,
+    "effective_cores": 14.03,
     "single_core_burn": 0,
-    "multicore_burn": 48,
+    "multicore_burn": 60,
     "too_short": 1,
-    "last_ts": "2026-10-14T16:35:10+08:00",
+    "last_ts": "2026-10-14T20:43:48+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-14 19:44:37"
+     "audit_ts": "2026-10-14 22:12:54"
     }
    },
    "bm-b": {
@@ -911,8 +911,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-14 20:50:44"
+     "audit_batches": 12,
+     "audit_ts": "2026-10-14 21:20:46"
     }
    }
   },
@@ -923,9 +923,9 @@
   "last_registered": 242,
   "last_owner": "bm-a",
   "next_registration": 243,
-  "next_seatable": 243,
-  "chain_head": 954535,
-  "k": 528120,
+  "next_seatable": 244,
+  "chain_head": 956735,
+  "k": 530320,
   "waves": [
    {
     "wave": 240,
@@ -976,12 +976,21 @@
      541204,
      541403
     ],
-    "shards_done": null,
-    "shards_total": null,
-    "finalize_landed": false
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 956735,
+    "merged_mu": -0.09274177044048876,
+    "merged_sigma": 0.2450504759686019,
+    "k": 530320
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 243,
+    "machine": "bm-a"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

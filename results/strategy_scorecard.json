@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-10-14T20:55:25",
+ "generated": "2026-10-14T22:14:17",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -71,7 +71,7 @@
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 0.862,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3402,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": -0.3403,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -195,7 +195,7 @@
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.5605,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5417,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": -0.5418,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -275,7 +275,7 @@
    },
    "DROUGHT-CE-01": {
     "grade": "S",
-    "total": 86.59,
+    "total": 86.58,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 74.01,
+      "score": 74.0,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.2407,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4276,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": -0.4277,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -443,7 +443,7 @@
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.1686,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6124,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": -0.6125,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -568,7 +568,7 @@
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.1927,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4892,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": -0.4893,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 1.7166,
-       "skill_line_v2": 1.1516,
+       "skill_line_v2": 1.1517,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.1062,
-       "ledger_head_total": 954535
+       "null_margin_vs_skill_line": 0.1061,
+       "ledger_head_total": 956735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -799,9 +799,9 @@
     "current_dd": -0.0029,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 1005369.24,
-     "positions_value_cny": 956608.11,
-     "cash_cny": 48761.13,
+     "equity_cny": 1004145.12,
+     "positions_value_cny": 955384.0,
+     "cash_cny": 48761.12,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -898,9 +898,9 @@
     "current_dd": -0.0047,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 1005705.12,
-     "positions_value_cny": 956543.64,
-     "cash_cny": 49161.48,
+     "equity_cny": 1004017.62,
+     "positions_value_cny": 954856.13,
+     "cash_cny": 49161.49,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -975,12 +975,12 @@
    "trader": "DROUGHT-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 86.59,
+    "total": 86.58,
     "grade": "S",
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 74.01,
+     "2": 74.0,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1291,11 +1291,11 @@
     "state": "tested",
     "months_tracked": 0,
     "n_monthly_returns": 0,
-    "current_dd": -0.0049,
+    "current_dd": -0.0051,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 995540.86,
-     "positions_value_cny": 496193.48,
+     "equity_cny": 994896.59,
+     "positions_value_cny": 495549.21,
      "cash_cny": 499347.38,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -8356,7 +8356,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 133.9,
+  "elapsed_sec": 50.7,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
