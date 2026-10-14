@@ -235,14 +235,133 @@
     }
    },
    "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T10:45:29+08:00",
+   "epoch": 1791945929,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_3433s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 10,
+    "ollama_loaded": [
+     "qwen2.5:14b-8k"
+    ],
+    "comfy_8188": "UP",
+    "engine_state_age_s": 22,
+    "heartbeat_age_s": 3433,
+    "disk_free_gb": 525.7,
+    "ram_free_gb": 11.3,
+    "gpu": {
+     "util_pct": "100 %",
+     "mem_used_mib": "11684 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T10:50:30+08:00",
+   "epoch": 1791946230,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "ollama_api_down",
+    "heartbeat_stale_3734s"
+   ],
+   "stack": {
+    "ollama_api": "DOWN",
+    "ollama_store_models": 0,
+    "ollama_loaded": [],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 3734,
+    "disk_free_gb": 531.6,
+    "ram_free_gb": 68.9,
+    "gpu": {
+     "util_pct": "35 %",
+     "mem_used_mib": "4391 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T10:55:30+08:00",
+   "epoch": 1791946530,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_4034s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 10,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 22,
+    "heartbeat_age_s": 4034,
+    "disk_free_gb": 550.5,
+    "ram_free_gb": 64.8,
+    "gpu": {
+     "util_pct": "26 %",
+     "mem_used_mib": "9780 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T11:00:30+08:00",
+   "epoch": 1791946830,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_4334s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 10,
+    "ollama_loaded": [
+     "qwen2.5:14b-8k"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 11,
+    "heartbeat_age_s": 4334,
+    "disk_free_gb": 549.9,
+    "ram_free_gb": 59.0,
+    "gpu": {
+     "util_pct": "86 %",
+     "mem_used_mib": "11717 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
   }
  ],
  "latest": {
-  "ts": "2026-10-14T10:40:30+08:00",
-  "epoch": 1791945630,
+  "ts": "2026-10-14T11:00:30+08:00",
+  "epoch": 1791946830,
   "verdict": "DEGRADED",
   "degraded": [
-   "heartbeat_stale_3134s"
+   "heartbeat_stale_4334s"
   ],
   "stack": {
    "ollama_api": "UP",
@@ -250,14 +369,14 @@
    "ollama_loaded": [
     "qwen2.5:14b-8k"
    ],
-   "comfy_8188": "UP",
-   "engine_state_age_s": 5,
-   "heartbeat_age_s": 3134,
-   "disk_free_gb": 525.7,
-   "ram_free_gb": 10.2,
+   "comfy_8188": "DOWN (report-only, MV lane protected)",
+   "engine_state_age_s": 11,
+   "heartbeat_age_s": 4334,
+   "disk_free_gb": 549.9,
+   "ram_free_gb": 59.0,
    "gpu": {
-    "util_pct": "100 %",
-    "mem_used_mib": "11714 MiB",
+    "util_pct": "86 %",
+    "mem_used_mib": "11717 MiB",
     "mem_total_mib": "12282 MiB"
    },
    "tasks": {
