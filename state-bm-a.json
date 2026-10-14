@@ -36,9 +36,9 @@
  "orphan_face": 0,
  "orphan_faces": 0,
  "push_verified": {
-  "ts": "2026-10-14T18:40:35+08:00",
-  "note": "r996: closeout push pending at state-write; sync field updated post-push addendum",
-  "origin_tip": "pending"
+  "ts": "2026-10-14T18:44:55+08:00",
+  "note": "r996: closeout push a9ab3b51d..4a1a70e72 rc0 behind=0 verified (3-race cycle; heal commit cured claw-bypass marker contamination at tip; addendum line landed)",
+  "origin_tip": "4a1a70e72"
  },
  "recent_artifact": "results/_r995bma_s6_chain.log (27-leg chain 18:17 bad=0, absorbed+committed) + results/_w242bma_20261014_probe_receipt.json (W242 seat, on-disk verified)",
  "round": 996,
@@ -46,16 +46,16 @@
  "round_no_label": "r946",
  "sync": {
   "ahead_behind": "0/0",
-  "origin_tip": "f597934fa",
-  "ts": "2026-10-14T13:08:48+08:00",
-  "note": "r985: W238 closeout push 50fa77623..f597934fa verified (range line + ls-tree x3 + behind-0); local-not-at-origin commit count=0"
+  "origin_tip": "4a1a70e72",
+  "ts": "2026-10-14T18:44:55+08:00",
+  "note": "r996: closeout push a9ab3b51d..4a1a70e72 verified (range line + rev-list 0); local-not-at-origin commit count=0"
  },
  "task": "r996 storm-closeout + D19 ORD ack + S6 absorb",
  "ts": "2026-10-14T18:40:35+08:00",
  "updated": "2026-10-14T18:40:35+08:00",
  "updated_at": "2026-10-14T18:40:35+08:00",
  "verdict": "green (wm-red=false; satengine ALIVE rc0 idle queue0; W242 freeze waits-upstream W241 finalize bm-c lane; dualrun streak 25 absorbed 18:17; orphan 0/34)",
- "verify": "green (smoke 49/49 + rebase 844fa5bd9 clean tree + attrition CLEAN rc0 + watermark red=false + S7 quartet green + idle --worked)",
+ "verify": "green (smoke 49/49 + rebase 844fa5bd9 clean tree + attrition CLEAN rc0 + watermark red=false + S7 quartet green + idle --worked) + tip marker-free=0 + push 4a1a70e72 behind=0",
  "last_decisions_read_at": "2026-10-14T18:40:35+08:00",
  "last_orders_read_at": "2026-10-14T18:40:35+08:00",
  "d19_watermark_guard": {
