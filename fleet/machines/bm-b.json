@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T05:58:03+08:00",
- "task": "r962: recovery monitor round (third beat) - v5 restore driver alive+converging (pid 3672, pass1 rc255 double-time ~9 files/min, ETA ~08:30); C-r961 consumed PUSHED_VERIFIED (042c1c89); completion package gated on ALL_RESTORED",
- "did": "r962: (a) v5 driver liveness re-verified via process table (pid 3672 alive 05:54, no restart since r961 check) + fresh receipt (05:51 RUNNING 400/1804 zero-fail 241 retried_ok, ~9.2/min ETA ~08:30) (b) C-r961 push receipt consumed PUSHED_VERIFIED 042c1c89 behind=0 (third main push since r946 incident) (c) saturation engine alive idle queue_depth 0 (hb 36s, py 1.2%) (d) backfill_ext_slots worker alive pid 25076 own-lane (e) watermark red=false green face 05:52 (f) group D-19 s05 probe verdict=DELTA_PRESENT (g) loop+watchdog tasks verified in registry via schtasks wrapper (next 06:02/05:56) (h) S0 pull/S1 smoke/S6 chain/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
+ "last_seen": "2026-10-15T06:28:01+08:00",
+ "task": "r963: recovery monitor round (fourth beat) - v5 restore driver alive+converging (pid 3672, ~8.3 files/min, ETA ~08:41); C-r962 consumed PUSHED_VERIFIED (ca485e06); backfill worker settled via C7 zombie disposal (by-design); completion package gated on ALL_RESTORED",
+ "did": "r963: (a) v5 driver liveness double-verified (Get-Process 06:15 + tasklist at closeout; start 05:24 no restart; receipt 700/1804 zero-fail 541 retried_ok, ~8.3 files/min ETA ~08:41) (b) C-r962 push receipt consumed PUSHED_VERIFIED ca485e06, ancestor-verified on origin (peer tip 0aab3849062c stacked on top, zero loss) (c) backfill worker settle concluded: watchdog C7 zombie kill 06:16:02 (age 47min cpu_delta 0.02s 3-check passed, whitelist lane, by-design; resume=existing-healers S6/C4/C5; C4 chain ALIVE 06:22:02) (d) engine alive idle queue_depth 0 (hb 10s) (e) watermark red=false healthy 06:16 face (f) sentinel NORMAL flags none (g) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (h) loop+watchdog tasks verified (loop next 06:22 pinned :x2; watchdog beats in log) (i) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
  "gpu_free_vram_mb": 3517,
- "verdict": "AMBER-recovering: v5 restore driver converging zero-fail (rc255 double-time ~9.2 files/min, ETA ~08:30 +/- 1h); snapshot status=RUNNING done=450 remaining=1354; completion package (smoke+S6+attrition+catch-up+merges) gated on ALL_RESTORED; zero origin-side loss",
+ "verdict": "AMBER-recovering: v5 restore driver converging zero-fail (~8.3 files/min, ETA ~08:41); snapshot status=RUNNING done=700 remaining=1104; backfill worker settled via C7 (by-design); completion package gated on ALL_RESTORED; zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792015083,
- "clock_read": "2026-10-15T05:58:03+08:00",
- "ts": "2026-10-15T05:58:03+08:00",
- "orders_ack": "r962: DELTA_PRESENT - fresh views saved results/_r962bmb_*_fresh.md; watermarks NOT moved (pending r963 deep consumption)",
- "note": "monitor round: no new claims (job_list empty; restore in flight = active work, not idle); driver receipts are the product faces; no rm on any repo face; group-tree zero-touch (origin reads only); round_reports.md local history verified intact pre-append (1440 lines, round 1 head present)"
+ "heartbeat_epoch_utc": 1792016881,
+ "clock_read": "2026-10-15T06:28:01+08:00",
+ "ts": "2026-10-15T06:28:01+08:00",
+ "orders_ack": "r963: NO_DELTA (s05 re-probe) - ord/dec watermarks unchanged; peer tip 0aab3849062c stacked on own C-r962; zero unacked O-orders",
+ "note": "monitor round: no new claims (job_list empty; restore in flight = active work); driver receipts are the product faces; no rm on any repo face; group-tree zero-touch (origin reads only); backfill worker kill = watchdog C7 designed disposal, not a false kill (evidence watchdog.log 06:16:02 + watermark_red face)"
 }
