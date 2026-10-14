@@ -1,0 +1,102 @@
+{
+ "probe": "W241 pre-seat probe (bm-c loop r1001 window, 2026-10-14 17:0x, CEO fill-order standing + seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + O-20261013 22:1x CPU standing-open; post-W240-REGISTERED universe, upstream W239 registered+FINALIZED (bm-c r996 estate closeout, ledger 950,135/K=523,720) + W240 registered seat (bm-a 1325 MSG + splice landed + shard pack 16:42, burn in flight bm-a lane); W241 seat = queue-depth supply depth-2, freeze waits-upstream W240 finalize)",
+ "legs": {
+  "leg0": {
+   "rows": 238,
+   "tail": "W240-registered",
+   "w240_splice_landed": true,
+   "w240_face": "registry-row",
+   "w240_bands": {
+    "A": [
+     545501,
+     547500
+    ],
+    "B": [
+     540804,
+     541003
+    ]
+   },
+   "w239_finalize_landed": true,
+   "owner_rows": 230,
+   "bmc_rows": 66,
+   "bma_rows": 123,
+   "bmb_rows": 41,
+   "ordinal": 231,
+   "bmc_ordinal": 67,
+   "bmc_ordinal_note": "bm-c attempt-continuity: 66 live bm-c rows (tail=W239 registered+FINALIZED bm-c r996 estate closeout: ledger 950,135 EXACT / merged pool K=523,720 EXACT / five-key ALL PASS / n1_w239_results.json landed) + this candidate = 67th owned; engine wave ordinal = 230 registry owner rows (W240 registered, bm-a 123rd) + this candidate = 231st; live derive governs r359",
+   "anchor": "W239 registered+FINALIZED upstream (finalize one-pass: ledger 950,135 / K=523,720 / five-key ALL PASS _w239bmc_fivekey_receipt.json; n1_w239_results.json landed; commit acd421c74) + W240 registered seat (bm-a 1325 MSG + splice landed + shard pack 16:42, burn in flight bm-a lane); this W241 SEAT does not wait for the W240 burn per seat-first law O-20261010-2350 sec.2 (queue-depth supply depth-2, 禁等上一波烧完才占下一席); the W241 FREEZE waits-upstream on W240 finalize (physical dependency, seat MSG note + next-window watch armed)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    547501,
+    549500
+   ],
+   "ARITH_B": [
+    541004,
+    541203
+   ],
+   "A": [
+    547501,
+    549500
+   ],
+   "hops_A": 0,
+   "A_hop_chain": [],
+   "B": [
+    541004,
+    541203
+   ],
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "B_naive_first_clean": [
+    541004,
+    541203
+   ],
+   "B_naive_hops": 0,
+   "A_semantics": "A arithmetic continuation from the W240-REGISTERED A tail 547_500+1 CLEAN at naive start on the post-W240-REGISTERED universe (seed-decoupled A-continuation face, hops=0 -- second consecutive seed-gap face, per the W240 seat MSG leg4 anticipation confirmed live; never transcribed r587); A base = first clean window, forward-monotone non-rotational r587 enforced in-walk",
+   "B_semantics": "B arithmetic continuation from the W240-REGISTERED B tail 541_003+1 CLEAN on the post-W240-REGISTERED universe and NOT inside the W241 own-wave A window (own-A sits far above the B staircase -- seed-decoupled gap face third consecutive); B base == prior-wave B tail+1 machine-checkable; no own-A reservation jump needed (fc_b == fc_b_naive)",
+   "relation_asserts": {
+    "A_clean_at_naive_start": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_base_eq_priorB_tail_plus1": true,
+    "AB_mutual_exclusion": true,
+    "B_no_ownA_jump": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=547501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=541004 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W242p_A_naive": "549501..551500",
+   "W242p_A_first_clean": "549501..551500",
+   "hops_A": 0,
+   "W242p_A_naive_refusers_seeds": [],
+   "W242p_B_naive": "541204..541403",
+   "W242p_B_first_clean": "541204..541403",
+   "hops_B": 0,
+   "W242p_B_lands_inside_W242p_A_naive": false,
+   "note": "W242+ projection on the pre-W241 universe (assuming the W241 seat bands declared here register verbatim). W242 freezer MUST re-derive on the post-W241 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; seed-gap decoupled face: W241 A sits far above the B staircase, re-read the live trace, do NOT assume the staircase A-base==prior-B-tail+1 equality."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   547501,
+   549500
+  ],
+  "B": [
+   541004,
+   541203
+  ],
+  "a_lo": 547501,
+  "a_hi": 549500,
+  "b_lo": 541004,
+  "b_hi": 541203
+ }
+}
