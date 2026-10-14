@@ -432,7 +432,7 @@ def spawn_detached_refresh():
     with io.open(LOG, "a", encoding="utf-8") as lf:
         subprocess.Popen([sys.executable, os.path.abspath(__file__), "refresh"],
                          stdout=lf, stderr=subprocess.STDOUT,
-                         stdin=subprocess.DEVNULL, creationflags=flags, close_fds=False)
+                         stdin=subprocess.DEVNULL, creationflags=flags, close_fds=True)
 
 
 def gate(now_fn=None, spawn_fn=None):

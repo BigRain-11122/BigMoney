@@ -937,8 +937,10 @@ def spawn_detached(arg):
         subprocess.Popen(
             [sys.executable, os.path.abspath(__file__), arg],
             stdout=lf, stderr=subprocess.STDOUT,
-            stdin=subprocess.DEVNULL, creationflags=flags, close_fds=False)
-    # child inherits lf; parent keeps running (R20 backfill precedent)
+            stdin=subprocess.DEVNULL, creationflags=flags, close_fds=True)
+    # child keeps lf via std-handle passing; close_fds=True stops the gate's
+    # own std pipes (e.g. a batch chain's capture pipes) leaking into the
+    # detached refresh -- r977 chain-park root cause, E64 card
 
 
 def gate():

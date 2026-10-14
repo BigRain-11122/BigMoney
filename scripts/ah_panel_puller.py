@@ -949,7 +949,7 @@ def spawn_detached_refresh():
         subprocess.Popen([sys.executable, os.path.abspath(__file__), "refresh"],
                          stdout=lf, stderr=subprocess.STDOUT,
                          stdin=subprocess.DEVNULL, creationflags=flags,
-                         close_fds=False)
+                         close_fds=True)
 
 
 def run_gate(now_fn=None, spawn_fn=None):

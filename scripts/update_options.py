@@ -277,7 +277,7 @@ def spawn_detached(arg):
         subprocess.Popen([sys.executable, os.path.abspath(__file__), arg],
                          stdout=lf, stderr=subprocess.STDOUT,
                          stdin=subprocess.DEVNULL, creationflags=flags,
-                         close_fds=False)
+                         close_fds=True)
 
 
 # ------------------------------------------------------------- fetch faces
