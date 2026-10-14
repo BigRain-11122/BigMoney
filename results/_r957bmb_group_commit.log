@@ -1,0 +1,42 @@
+2026-10-15T03:39:19 driver start pid=21616
+2026-10-15T03:39:19 save status=RUNNING {'phase': 'init'}
+2026-10-15T03:39:23 fetch rc=0
+2026-10-15T03:39:23 tip=5ff55510cf30
+2026-10-15T03:39:35 overlay changed=62 payload=7.1MB
+2026-10-15T03:39:35 save status=ABORT {'error': "mktree rc=128 err=fatal: entry 'FluxVerse_V1.0_源程序.pdf' object e5f86bd0142866077bcce1e999b111ce4e5d03c6 is unavailable\n", 'phase': 'surgery'}
+2026-10-15T03:39:57 driver start pid=20728
+2026-10-15T03:39:57 save status=RUNNING {'phase': 'init'}
+2026-10-15T03:40:01 fetch rc=0
+2026-10-15T03:40:01 tip=5ff55510cf30
+2026-10-15T03:40:13 overlay changed=62 payload=7.1MB
+2026-10-15T03:40:19 save status=RUNNING {'phase': 'surgery-done', 'new_commit': 'e10f0bc1b89931d69bacb5e72b5ef717e25f69ac', 'changed_count': 62, 'payload_mb': 7.1, 'changed_sample': ['generate_copyright.py', 'README.md', 'G04_ScrewOut/ScrewOut_V1.0_源程序.pdf', 'G04_ScrewOut/ScrewOut_V1.0_源程序.txt', 'G04_ScrewOut/ScrewOut_V1.0_软件设计说明书.pdf', 'G04_ScrewOut/申请表填写指南.md', 'G04_ScrewOut/申请表填写指南.pdf', 'G04_ScrewOut/CCPC 提交材料/ScrewOut_V1.0_源程序.pdf']}
+2026-10-15T03:40:23 pre-push fetch rc=0
+2026-10-15T03:40:26 push rc=1 out= err=filename in tree entry
+remote: fatal: early EOF        
+error: remote unpack failed: index-pack failed
+To github.com:BigRain-11122/FluxGroup.git
+ ! [remote rejected] e10f0bc1b89931d69bacb5e72b5ef717e25f69ac -> main (failed)
+error: failed to push some refs to 'github.com:BigRain-11122/FluxGroup.git'
+
+2026-10-15T03:40:26 retry once after refetch
+2026-10-15T03:40:34 pre-push fetch rc=0
+2026-10-15T03:40:38 push rc=1 out= err=filename in tree entry
+remote: fatal: early EOF        
+error: remote unpack failed: index-pack failed
+To github.com:BigRain-11122/FluxGroup.git
+ ! [remote rejected] e10f0bc1b89931d69bacb5e72b5ef717e25f69ac -> main (failed)
+error: failed to push some refs to 'github.com:BigRain-11122/FluxGroup.git'
+
+2026-10-15T03:40:38 save status=FAIL {'error': 'push not verified', 'remote': "fatal: empty filename in tree entry\nremote: fatal: early EOF        \nerror: remote unpack failed: index-pack failed\nTo github.com:BigRain-11122/FluxGroup.git\n ! [remote rejected] e10f0bc1b89931d69bacb5e72b5ef717e25f69ac -> main (failed)\nerror: failed to push some refs to 'github.com:BigRain-11122/FluxGroup.git'\n", 'new_commit': 'e10f0bc1b89931d69bacb5e72b5ef717e25f69ac', 'phase': 'push'}
+2026-10-15T03:52:17 driver start pid=23872
+2026-10-15T03:52:17 save status=RUNNING {'phase': 'init'}
+2026-10-15T03:52:22 fetch rc=0
+2026-10-15T03:52:22 tip=5ff55510cf30
+2026-10-15T03:54:35 overlay changed=62 payload=7.1MB
+2026-10-15T03:55:11 save status=RUNNING {'phase': 'surgery-done', 'new_commit': 'bfa61b617dee22c96941ead5400843fd55130259', 'changed_count': 62, 'payload_mb': 7.1, 'changed_sample': ['generate_copyright.py', 'README.md', 'G04_ScrewOut/ScrewOut_V1.0_源程序.pdf', 'G04_ScrewOut/ScrewOut_V1.0_源程序.txt', 'G04_ScrewOut/ScrewOut_V1.0_软件设计说明书.pdf', 'G04_ScrewOut/申请表填写指南.md', 'G04_ScrewOut/申请表填写指南.pdf', 'G04_ScrewOut/CCPC 提交材料/ScrewOut_V1.0_源程序.pdf']}
+2026-10-15T03:55:16 pre-push fetch rc=0
+2026-10-15T03:55:23 push rc=0 out= err=To github.com:BigRain-11122/FluxGroup.git
+   5ff5551..bfa61b6  bfa61b617dee22c96941ead5400843fd55130259 -> main
+
+2026-10-15T03:55:27 save status=PUSHED_VERIFIED {'new_commit': 'bfa61b617dee22c96941ead5400843fd55130259', 'remote_main': 'bfa61b617dee22c96941ead5400843fd55130259', 'changed_count': 62, 'payload_mb': 7.1, 'base_tip': '5ff55510cf30e8092424e1d6d03c19f432f286b0', 'orders_blob': '94cda05bfd571fde442a36606b9bdb7174ee81d6'}
+2026-10-15T03:55:27 DONE PUSHED_VERIFIED sha=bfa61b617dee22c96941ead5400843fd55130259
