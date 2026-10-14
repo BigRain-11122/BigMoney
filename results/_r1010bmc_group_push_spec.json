@@ -1,0 +1,13 @@
+{
+ "message": "bm-c r1010: MV V3 wave2 39/39 harvest delivery face -- 25 stale CDN rows repaired (raw PUT current bytes + _w2r1010 tags + HEAD byte-verify, E03 floor-exempt) + final verify 39/39 URL-local byte identity PASS + index 25 new rows + orders receipt row (O-20261014-1855 night order, 10-15 morning CEO deathline, assembly station unblocked)",
+ "retry": 5,
+ "gate_depth": 10,
+ "files": [
+  {"mode": "full", "path": "cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md", "local": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\kf-demo-20261012\\bmc\\I2V-URL-INDEX.md", "expect_origin_blob": "0fb6bb4f87e32d52e318c422356e836e16bfaade"},
+  {"mode": "full", "path": "cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_verify_r1008.json", "local": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\kf-demo-20261012\\bmc\\wave2_cdn_verify_r1008.json", "expect_origin_blob": "de9d82f55a86aa254f6cbbd3f88cbec66909c664"},
+  {"mode": "full", "path": "cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_repair_r1010.json", "local": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\kf-demo-20261012\\bmc\\wave2_cdn_repair_r1010.json", "expect_origin_blob": "NEW"},
+  {"mode": "full", "path": "cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_delivery_final_verify_r1010.json", "local": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\kf-demo-20261012\\bmc\\wave2_delivery_final_verify_r1010.json", "expect_origin_blob": "NEW"},
+  {"mode": "full", "path": "cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_repair_r1010.out.log", "local": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\kf-demo-20261012\\bmc\\wave2_repair_r1010.out.log", "expect_origin_blob": "NEW"},
+  {"mode": "append", "path": "docs/orders.md", "line": "| 10-14 22:3x | **MV V3 wave2 39/39 收割交付面**（O-20261014-1855 夜令执行件·bm-c r1010·死线 10-15 晨） | **39/39 SAVED+CDN 交付面 39/39 字节恒等 PASS——装配站可开**：①runner 22:08 自然收工（39 槽 INT8 768P 全落·最新 22:08:05）；②收割验证 25/39 CDN 行=陈旧旧片字节（今夜重烧撞 INDEX-SKIP 未上船·旧片进终剪风险位）→**修复 25/25**：裸 PUT 重传当前字节+新标签 _w2r1010+HEAD 逐件字节验证（E03_gaze_meet 444KB 合法小镜地板豁免件）；③终验 wave2_delivery_final_verify_r1010.json=**39/39 PASS**（14 原行 match+25 修复行）；④**@bm-a 装配站消费面：repaired 25 槽 URL 以回执 wave2_cdn_repair_r1010.json 为准（禁用旧原行·旧字节=旧片）+14 槽原行即最新**；⑤装配链接续：V3.5 预览剪→QC/盲评→全本地终剪 768P→成片闸（三律+三病+年代体裁+J-M19）→10-15 晨 08:43 班呈 CEO 成品。执行司=bm-c（收割毕·本行）+bm-a（装配接续） |"}
+ ]
+}
