@@ -501,43 +501,116 @@ def _saturation_state() -> dict:
     return out
 
 
+def _machine_health_union() -> dict:
+    """D-20261015-02 dual-source helper (council dispatch; F-20261014-01/02):
+    last per-machine rows from the fleet/machine-health.json hourly union
+    ledger (appended locally by group Tools/fleet-oversight.ps1 from local-disk
+    tick reads -- engine queue + lane colors survive the tick-face git exit)
+    + heartbeat freshness from fleet/machines/<mid>.json. Fail-soft:
+    unreadable/absent faces = {} (honest not-yet)."""
+    out: dict = {}
+    try:
+        entries = _read_json(os.path.join(
+            PATHS.root, "fleet", "machine-health.json")) or []
+    except Exception:
+        entries = []
+    if isinstance(entries, list):
+        for e in entries:
+            if not isinstance(e, dict):
+                continue
+            ts = e.get("ts")
+            for k, v in e.items():
+                if k == "ts" or not isinstance(v, dict):
+                    continue
+                mid = str(k)
+                row = dict(out.get(mid) or {})
+                m = re.search(r"engine_q=(-?\d+)", str(v.get("work") or ""))
+                if m:
+                    row["engine_q"] = int(m.group(1))
+                if v.get("util"):
+                    row["util"] = v.get("util")
+                row["union_ts"] = ts
+                out[mid] = row
+    for mid in list(out.keys()):
+        try:
+            hb = _read_json(os.path.join(
+                PATHS.root, "fleet", "machines", mid + ".json")) or {}
+        except Exception:
+            hb = {}
+        row = out[mid]
+        ts = hb.get("ts")
+        row["heartbeat_ts"] = ts
+        age = None
+        if ts:
+            try:
+                t = dt.datetime.fromisoformat(str(ts))
+                age = round((dt.datetime.now(t.tzinfo) - t)
+                            .total_seconds() / 60.0, 1)
+            except Exception:
+                age = None
+        row["heartbeat_age_min"] = age
+    return out
+
+
 def _engine_face_state() -> dict:
     """SATURATION_ENGINE CEO face (T-2026-10-01-141 s3, law sec.5):
-    three-machine py% standing row, engine-written live. Each machine's
-    saturation engine writes results/saturation_engine/face_<id>.json
-    (per-machine lane file, git-synced by round commits -- same-lane
-    law as autofill_state.<id>); this reader aggregates every face file
-    present into the standing row. Rows missing = that machine's engine
-    slice not landed yet (honest face, no fabrication)."""
+    three-machine py% standing row. D-20261015-02 consumption-face switch:
+    tick faces left git -- the OWN machine's live face_<id>.json keeps being
+    engine-written on local disk (untracked, read here for the live py% row),
+    while machines whose face files are no longer git-synced into this
+    checkout are sourced from the dual visibility channel: machine-health
+    union rows (hourly engine queue + lane colors) + heartbeat freshness.
+    Union rows carry hourly cadence and no py% (honest None, never
+    fabricated); rows missing = that machine's slice not landed yet."""
     out = {"present": False, "machines_total": 0, "machines_alive": 0,
            "rows": []}
-    d = os.path.join(PATHS.results_dir, "saturation_engine")
-    if not os.path.isdir(d):
-        return out
     rows = []
-    for fn in sorted(os.listdir(d)):
-        if not (fn.startswith("face_") and fn.endswith(".json")):
+    seen = set()
+    d = os.path.join(PATHS.results_dir, "saturation_engine")
+    if os.path.isdir(d):
+        for fn in sorted(os.listdir(d)):
+            if not (fn.startswith("face_") and fn.endswith(".json")):
+                continue
+            r = _read_json(os.path.join(d, fn)) or {}
+            if not r.get("machine_id"):
+                continue
+            age_sec = None
+            if isinstance(r.get("epoch"), int):
+                age_sec = round(max(0.0, time.time() - r["epoch"]), 0)
+            alive = age_sec is not None and age_sec <= 300
+            rows.append({"machine_id": r.get("machine_id"),
+                         "py_cpu_pct": r.get("py_cpu_pct"),
+                         "engine_alive": bool(alive),
+                         "heartbeat_age_sec": age_sec,
+                         "active_burns": r.get("active_burns") or [],
+                         "queue_depth": r.get("queue_depth"),
+                         "shards_done_total": r.get("shards_done_total"),
+                         "last_shard_done_at": r.get("last_shard_done_at"),
+                         "ts": r.get("ts"),
+                         "source": "live_face"})
+            seen.add(r.get("machine_id"))
+    union = _machine_health_union()
+    for mid in sorted(union):
+        if mid in seen:
             continue
-        r = _read_json(os.path.join(d, fn)) or {}
-        if not r.get("machine_id"):
-            continue
-        age_sec = None
-        if isinstance(r.get("epoch"), int):
-            age_sec = round(max(0.0, time.time() - r["epoch"]), 0)
-        alive = age_sec is not None and age_sec <= 300
-        rows.append({"machine_id": r.get("machine_id"),
-                     "py_cpu_pct": r.get("py_cpu_pct"),
-                     "engine_alive": bool(alive),
-                     "heartbeat_age_sec": age_sec,
-                     "active_burns": r.get("active_burns") or [],
-                     "queue_depth": r.get("queue_depth"),
-                     "shards_done_total": r.get("shards_done_total"),
-                     "last_shard_done_at": r.get("last_shard_done_at"),
-                     "ts": r.get("ts")})
+        u = union[mid]
+        rows.append({"machine_id": mid,
+                     "py_cpu_pct": None,
+                     "engine_alive": None,
+                     "heartbeat_age_sec": None,
+                     "active_burns": None,
+                     "queue_depth": u.get("engine_q"),
+                     "shards_done_total": None,
+                     "last_shard_done_at": None,
+                     "ts": u.get("union_ts"),
+                     "source": "machine_health_union",
+                     "union_util": u.get("util"),
+                     "heartbeat_ts": u.get("heartbeat_ts"),
+                     "heartbeat_age_min": u.get("heartbeat_age_min")})
     rows.sort(key=lambda x: str(x.get("machine_id")))
     out["rows"] = rows
     out["machines_total"] = len(rows)
-    out["machines_alive"] = sum(1 for r in rows if r["engine_alive"])
+    out["machines_alive"] = sum(1 for r in rows if r.get("engine_alive"))
     out["present"] = bool(rows)
     return out
 

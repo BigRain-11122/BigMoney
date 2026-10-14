@@ -193,3 +193,40 @@ results/alphagen_rg/panel_cache_*.npz
 results/alphagen_rl_p1/ckpt/
 
 results/_quarantine/_r955bmc_qcframes-20261013-r956/*.png
+
+# D-20261015-02 (council dispatch; F-20261014-01/02): pure daemon live-tick
+# faces OUT of git. These are rewritten every cycle by local daemons (satengine
+# state/face/history, autofill, dispatcher, sentinel, idle-trigger) and raced
+# the S0 stash-bridge 7x across 2 machines (estate-near-loss bm-c r999).
+# Zero science value, regenerable (watermark.jsonl precedent). Cross-machine
+# visibility now = dual source: fleet/machine-health.json hourly union
+# (local-disk reads by group Tools/fleet-oversight.ps1 -- unaffected) +
+# heartbeat files fleet/machines/<mid>.json + FleetLink /status. Dashboard
+# consumption face switched: monitor/build_status.py _engine_face_state reads
+# own-machine live face locally + cross-machine rows from the machine-health
+# union + heartbeat freshness (r1001 bm-a leg). Shared-name legacy face
+# results/autofill_state.json retired-in-place frozen (F-20261008-02 law:
+# stays tracked, never rewritten). Each per-machine face is untracked by its
+# OWNING machine only (pre-push claw audit.machine ownership respected).
+results/autofill_state.bm-a.json
+results/autofill_state.bm-b.json
+results/autofill_state.bm-c.json
+results/_sentinel_bm-a.json
+results/_sentinel_bm-c.json
+results/dispatcher_state.bm-a.json
+results/dispatcher_state.bm-c.json
+results/idle_trigger.bm-a.json
+results/idle_trigger.bm-b.json
+results/idle_trigger.bm-c.json
+results/idle_trigger_state.bm-a.json
+results/idle_trigger_state.bm-b.json
+results/idle_trigger_state.bm-c.json
+results/saturation_engine/state_bm-a.json
+results/saturation_engine/state_bm-b.json
+results/saturation_engine/state_bm-c.json
+results/saturation_engine/face_bm-a.json
+results/saturation_engine/face_bm-b.json
+results/saturation_engine/face_bm-c.json
+results/saturation_engine/history_bm-a.jsonl
+results/saturation_engine/history_bm-b.jsonl
+results/saturation_engine_state.bm-c.json
