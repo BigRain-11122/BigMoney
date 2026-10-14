@@ -2183,6 +2183,27 @@ SEED_REGISTRY = {
         "n2u3_alphagen_rl_gen": 20_625_000,
         "n2u3_alphagen_rl_scrnull": 20_625_500,
         "n2u3_alphagen_rl_unc": 20_626_000,
+        # TRIAL_LABOR_W19 (timing-axis first burn, 2-arm full-cross
+        # paired-block isolation; bm-b r927 freeze window): berth trio
+        # 20640000/20640500/20641000 = W17/W18 trio structure mirror
+        # (role spacing 500/1000). Freeze-window live gate re-run
+        # ALL FREE per recheck_law (probe receipt = evidence not
+        # reservation): seed_admit_gate rc0 base=20640000 span=1001
+        # checked=1001 verdict=FREE; scrnull rng([20640500,i]) i<200
+        # -> [20640500,20640700); unc rng([20641000,cell_idx])
+        # cell_idx<346 -> [20641000,20641346); gen 20640000 held
+        # zero-consumption (entry = W16 frozen 173 cells verbatim,
+        # zero new generation); family band [20640000,20642500)
+        # zero-hit on 218-key live registry + repo text-scan foreign
+        # seed claims zero (self-lineage faces + numeric data
+        # coincidences disclosed, W18 same classification law);
+        # registered at prereg freeze BEFORE any burn, one-step R250
+        # law; prereg research/TRIAL_LABOR_W19_PREREG.md (draft
+        # bm-b r924, probe facts results/_r924bmb_w19_probe_facts.json
+        # + freeze probe results/_r925bmb_w19_freeze_probe.json 8/8)
+        "trial_labor_w19_gen": 20_640_000,
+        "trial_labor_w19_scrnull": 20_640_500,
+        "trial_labor_w19_unc": 20_641_000,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
