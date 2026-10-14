@@ -1,0 +1,135 @@
+{
+ "machine": "bm-c",
+ "wave": 239,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "24ae49d420c68097f4dca9894e4d85698a3fa02f",
+ "pf_sha16_pre": "6189fd35b247d41d",
+ "n1_sha16_pre": "6ee4b58964e621db",
+ "pf_sha16_post": "669049b8fbf58b56",
+ "n1_sha16_post": "698d8eed6d73f9a1",
+ "bands": {
+  "A": [
+   542501,
+   544500
+  ],
+  "B": [
+   540604,
+   540803
+  ],
+  "a_lo": 542501,
+  "a_hi": 544500,
+  "b_lo": 540604,
+  "b_hi": 540803
+ },
+ "admit_receipt": "results/_w239bmc_20261014_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=542501 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=540604 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "FIRST-CLEAN past prior-wave B tail AND live SEED_REGISTRY points (hops=2 seed-hop NEW FACE; staircase GE face)",
+  "B": "FIRST-CLEAN arithmetic continuation of prior-wave B tail (hops=0, B base == prior-B tail+1 EXACT; first seed-decoupled A/B gap face)"
+ },
+ "w238_upstream": {
+  "freeze_sha": "50fa776239e113cf2d1948a9dafca6dcd3162e36",
+  "prereg_sha": "8049952c9f8a38b7f9dfae64a745e026b2b11c22",
+  "ledger_total": 947935,
+  "merged_n": 521520,
+  "engine_owner": "bm-a (upstream seat honored)",
+  "repair_chain_note": "W238 bm-a own-wave closeout r985 (five-face splice 50fa77623 + engine self-burn 12/12 + finalize one-pass + five-key ALL PASS + sec78 backfill; six-gate PRE-FINALIZE 13th consecutive correct phase -- standing law held)"
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261014-0914-bmc-w239-seat.md",
+  "seat_origin": "603ff65d9",
+  "inherited": false,
+  "note": "seat published=reserved by bm-c itself (MSG-20261014-0914-bmc-w239-seat pushed to origin 603ff65d9 r991 BEFORE this freeze per r565 law); zero takeover -- wave 239 engine_owner=bm-c, bm-c's 66th own wave per live derive (probe leg0 owner_rows=227 / bmc_ordinal=66 = seat-time pre-splice faces disclosed honest, live derive governs r587/r359; freeze-time live face owner rows 228 + candidate = 229th EXACT)"
+ },
+ "w237_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w237_results.json present (belt-and-braces gate; ledger 945,189 / K=519,320)"
+ },
+ "w236_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w236_results.json present (belt-and-braces gate; ledger 942,989 / K=517,120)"
+ },
+ "w235_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w235_results.json present (belt-and-braces gate; ledger 940,789 / K=514,920)"
+ },
+ "w234_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w234_results.json present (belt-and-braces gate; ledger 938,589 / K=512,720)"
+ },
+ "w233_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w233_results.json present (belt-and-braces gate; ledger 936,389 / K=510,520)"
+ },
+ "w232_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w232_results.json present (belt-and-braces gate; ledger 934,189 / K=508,320)"
+ },
+ "w231_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w231_results.json present (belt-and-braces gate; ledger 931,989 / K=506,120)"
+ },
+ "w230_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w230_results.json present (belt-and-braces gate)"
+ },
+ "downstream_seat": "W240 seat ALREADY published by bm-a @ origin 39a30b6a0 (r986, queue-depth supply depth-3; W240 freeze waits-upstream on THIS W239 finalize, seat-first law held)",
+ "seat": "fleet/inbox/processed/MSG-20261014-0914-bmc-w239-seat.md (origin 603ff65d9)",
+ "prereg_bundle": {
+  "prereg_sha": "97a7ff0e616394200f2c77513bd7b26af02c4355",
+  "probe_receipt_sha": "603ff65d9d5fd97a3648f2b4f9734783f587f44a",
+  "note": "prereg derived+committed by the dead r996 session (47 SUB pairs from the frozen W238 template 8049952c9; estate absorbed by THIS r996-continuation window per the bm-c absorb precedent lineage 24th generation; zero takeover; freeze-time live derive bmc rows 65 + candidate 66th EXACT per r587/r359); splice editor derived from the committed W238 editor template by count-asserted ordered transform in this same freeze window (E63 heal: arith_a239/arith_b239 define+assert consistent -- the W238 template one-behind assert drift NOT carried); upstream W238 already landed (clean-precondition twenty-eighth consecutive window); zero transcription"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 228,
+  "bma_rows_live": 122,
+  "bmc_rows_live": 65,
+  "engine_owned_ordinal": 229,
+  "bmc_own_ordinal": 66,
+  "probe_receipt_bmc_ordinal_face": 66,
+  "note": "post-W238 registration: bm-c rows 65 + candidate = 66th owned (live derive at freeze time governs per r587/r359; probe leg0 owner_rows=227 / bmc_ordinal=66 = seat-time pre-splice faces -- zero takeover, own-seat continuity)"
+ },
+ "parity_section": {
+  "source": "OWN W238 block physical bytes (bm-a own splice generation, structure known exactly)",
+  "bytes": 24702,
+  "row_asserts": 90,
+  "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W231 legs -> W239 block = 97 rows ending at W238 (estate 90 + fresh W232 leg + W233 leg + W234 leg + W235 leg + W236 leg + W237 leg + W238 leg); disclosed: (a) inherited W213 leg error-string face (\"registered W212 row parity drift\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact); (b) W238 block's band-set variable one-behind naming face (w237_a holds wave-238 bands) = lineage mechanical aging face -- W239 block follows the same pattern (w238_a holds wave-239 bands), zero functional impact"
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "note": "W238 editor family-6 gate carried forward: new block LHS w<239 x3 / RHS range(16,239)+range(17,239) / comment below-239 count-asserted ATOMICALLY before splice; W238 block's own w<238 face = legitimate prior-wave boundary (not stale); E63 heal applied (arith define/assert consistent)"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1,
+  "w215_block_kept": 1,
+  "w216_block_kept": 1,
+  "w217_block_kept": 1,
+  "w218_block_kept": 1,
+  "w219_block_kept": 1,
+  "w220_block_kept": 1,
+  "w221_block_kept": 1,
+  "w222_block_kept": 1,
+  "w223_block_kept": 1,
+  "w224_block_kept": 1,
+  "w225_block_kept": 1,
+  "w226_block_kept": 1,
+  "w227_block_kept": 1,
+  "w228_block_kept": 1,
+  "w229_block_kept": 1,
+  "w230_block_kept": 1,
+  "w231_block_kept": 1,
+  "w232_block_kept": 1,
+  "w233_block_kept": 1,
+  "w234_block_kept": 1,
+  "w235_block_kept": 1,
+  "w236_block_kept": 1,
+  "w237_block_kept": 1,
+  "w238_block_kept": 1
+ }
+}
