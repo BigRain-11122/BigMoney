@@ -1,15 +1,15 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T00:03:57+08:00",
- "task": "r953: C3a/C3b surgery commits + detached fetch-first push driver (side-branch machine/bm-b-r951, receipt r954) + worker v2 faces monitor",
+ "last_seen": "2026-10-15T01:09:00+08:00",
+ "task": "r954: G5 receipt + D-19 orders-delta consumption (watermark advanced) + resumable blobfill driver (supersedes treadmill watcher/worker) + C3 surgery + side-branch machine/bm-b-r954 push",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
- "gpu_free_vram_mb": 3335,
- "verdict": "AMBER: faces restore in flight (worker v2 via watcher v3 auto-chain, config done, fleet+ in progress); SatEngine dead until knowledge face heals (S4U tick auto-revives); push driver detached in flight; local main C1/C2/C3a/C3b; decisions/orders DELTA detected (dec=False ord=True) - views saved to results/_r953bmb_group_*_view.md, consumption agenda r954 (SLA <=2 rounds per D-19 law)",
+ "gpu_free_vram_mb": 3526,
+ "verdict": "AMBER-improving: 7/9 faces on disk (config/docs/engine/firm/knowledge/legacy/live rc=0); fleet+data pending blobfill driver (resumable 160-SHA batch fetch, pid 28880, in flight); SatEngine dead until fleet face lands (machine.json); side-branch machine/bm-b-r951 LANDED (peer visibility restored); G5 receipt delivered r954 branch; group orders delta consumed",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1791993889,
- "clock_read": "2026-10-15T00:03:57+08:00",
- "ts": "2026-10-15T00:03:57+08:00",
- "note": "orders ack scan deferred (fleet/orders face absent, restore in flight); group decisions/orders probe completed r953 (receipt results/_r953bmb_group_probe.json); worker-4008 kill cause + USN window + other-lane transcripts = forensics standing"
+ "heartbeat_epoch_utc": 1791997740,
+ "clock_read": "2026-10-15T01:09:00+08:00",
+ "ts": "2026-10-15T01:09:00+08:00",
+ "note": "blobfill supersedes watcher v3+worker v2 (single-batch lazy fetch = non-resumable treadmill); orders ack diff-scan: origin newest O-20261014-0949-bm-b predates r946 last healthy scan = zero new; smoke/S6 deferred until ALL_FACES_RESTORED marker"
 }
