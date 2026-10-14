@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r996 W239 §7 范式）
+- **finalize one-pass 已落地（r993 bm-a own-wave 窗 2026-10-14 17:3x·承 bm-a own-seat 链 r987 席位发布（MSG-20261014-1325-bma-w240-seat @ origin 94136b9dd·早视法 r565）→r991/r992 死窗 prereg derive（14:55 实跑回执 _w240bma_prereg_derive_receipt.json）→r992 五面冻结 splice estate（dc27f5217·死窗 16:18-fire 遗产吸收落地·sha16 post fbbaddbd0ff8acf1/…双 MATCH 验证后提交）→引擎自燃 12/12（r992 splice 携带·12/12 分片在场）→本窗 r993 六门 PRE-FINALIZE 正相位跑毕（W217-debt 常设法正确执行·第十四连续正确相位·W212-pattern 零复发）→finalize one-pass→五键机证后收口（披露面 §8）**：
+  - 账本恒等式：prev_total **950,135** + batch_trials **2,200** = total **952,335** EXACT（断言通过）；**投影零偏离披露**：冻结 §0 投影 952,335=W239 尾 950,135+2,200 与实收链头恒等 EXACT（零交织批·共享链干净推进面）；
+  - 合并池 K=**525,920** EXACT（与投影 523,720+2,200 恒等·零偏离）；merged mu=**-0.0927649283160937** / merged sigma=**0.24510198892862325**；w240-only mu=**-0.10033099999999999** / w240-only sigma=**0.24863153289094989**（全机读=results/perpetual_faces/n1_w240_results.json+results/_w240bma_fivekey_receipt.json；锚 W239 实数程序 derive 写入 r583 律）；
+  - skill_line_v2 K-lift 对照：line_pre **1.1932** → line_merged **1.1932** @n_eff 950,135；delta **0.0**（§5 预键 ≤0.02 达标·W2..W239 阶梯对照链实锚）；
+  - **§5 五预键机证验证（fivekey probe=results/_w240bma_fivekey_receipt.json·同窗配对）**：key1 w-only vs merged |Δmu|=**0.007566071683906286**<0.02 PASS；key2 sigma 相对变化 **0.0061960491045369185%**<±10% PASS；key3 A 面 p95 **0.316** vs W239 0.32 差 **0.0040000000000000036**<0.05 PASS；key4 K-lift **0.0**≤0.02 PASS；key5 投影承接见 §8（**五键全过=§5 五预键全达标零违例**）；
+  - se_mu 收窄链头：se_mu_at_k525920=**0.000338**（前值 W239 se_mu_at_k523720=0.000339 链头对照）；
+  - canon flip 态=NOT performed（K2200 同律·治理提案面 only）；
+  - audit：voids_applied=["LOWAMP-P1", "LOWAMP-P2"]；machine=bm-a；finalize_only=True；shards_consumed=12/12；evidence_cutoff=2026-09-22；
+  - **六门探针=PRE-FINALIZE 正相位（W217-debt 常设法正确执行·第十四连续）=results/_w240bma_sixgate_prereg.json**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS（缺省波 r522 律）+shards 12/12 在场+seed_admit FREE x2（545501 span=2000 checked=2000+540804 span=200 checked=200·本窗复跑=自撞 BLOCKED=注册落位完整性正锚）+splice 完整性（bands facts==freeze receipt·pf sha16 **fbbaddbd0ff8acf1** 与 n1 sha16 **e0ad98904784b111** 双面 clean-equal 断言通过=种子面 splice 原子携带零返·W239 界 row 完整保留）+WAVE_CONFIGS[240] row engine_owner=bm-a（a_seed_base=545501/b_exit_seed_base=540804）+**finalize 恒等 post-hoc 断言（账本 952,335/K 525,920 EXACT）**——W241 冻结方必须六门 PRE-FINALIZE（常设法·防死窗复发面）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W241+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r996 W239 §8 范式）
+- **批后复盘（bm-a r993 own-wave 窗回填）**：
+  - §5.5 下波投影承接机证：**W241+ 投影=席位 probe 机证 leg4（承本波 §5.5·results/_w240bma_20261014_probe_receipt.json）**：A naive **547501..549500** first-clean **547501..549500**（hops=0·pre-W240 宇宙零活点拒）；B naive **541004..541203** first-clean **541004..541203**（hops=0·lands-inside-A=false 腿在场）——**W241 席位未发布（inbox 零 W241 席位外机命中·截至本 finalize）**；W241 冻结方必须 post-W240 注册宇宙重 derive（r587）+**derive B 时预留本波 A 窗**（seed-gap 承袭 face：W240 A/B 仍 decoupled〔A 545_501..547_500 高悬于 B 540_804..541_003 之上〕·禁假设 staircase A-base==prior-B-tail+1 恒等·W141 先例）+六门 PRE-FINALIZE（第十五连续 mandate·本 finalize 已解除其 waits-upstream 物理依赖）。
+  - 宝藏与方法论捕获：**六门相位=PRE-FINALIZE 正确执行（W217-debt 常设法连续第十四波正确相位·W212-pattern 零复发）**；**死窗遗产吸收链正法执行（r992 splice estate 吸收 16:18-fire 死窗 prereg derive+五面冻结+分片→r993 同窗 finalize·零跨轮拖延）**；**S0 rebase 风暴修复（r993 本窗：19-文件共享再生面 canonical resolve〔deep-ts 快照+host faces take-local+twin 同侧配对〕+4 陈旧 stash 清账〔r642 净树根治律·sha 留痕 _r993_stash_shas〕）**——零新宝藏（TREASURE_REGISTRY 零行·标准链照 canon 无新坑）；方法论 E67 已由 r992 落卡（daemon-tick union recovery）。
+  - 诚实披露面：r993 窗=bm-a own-wave finalize 收口窗（席位自发布 r987 zero-takeover·prereg derive r991/r992 死窗·splice r992 死窗遗产吸收·烧毕同窗 finalize r993·r381 律）；上游 W239 全周期=bm-c r996-continuation own-wave 收口（ledger 950,135/K 523,720 五键全过·sixgate 第十三连续）；S0 拉取=rebase 竞速修复窗（bm-c r940 竞速 19-UU canonical resolve 后 0-behind·b4b4ec77b push 验证）；本窗烧制无 kill-restart（r992 splice 携带 12/12 分片顺跑）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。

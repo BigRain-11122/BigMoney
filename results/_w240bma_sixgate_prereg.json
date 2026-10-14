@@ -1,0 +1,75 @@
+{
+ "machine": "bm-a",
+ "wave": 240,
+ "phase": "PRE-FINALIZE six-gate (r993 bm-a own-wave window; standing law fourteenth consecutive -- engine self-burn 12/12 landed by r992 splice estate (origin dc27f5217), finalize not yet run)",
+ "ts": "2026-10-14T17:3x",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "fbbaddbd0ff8acf1",
+   "n1_sha16_now": "e0ad98904784b111",
+   "pf_sha16_freeze_post": "fbbaddbd0ff8acf1",
+   "n1_sha16_freeze_post": "e0ad98904784b111",
+   "family_seed_face_counts": {
+    "seed_admit_gate rc0 base=545501 span=2000 checked=2000 verdict=FREE": 1,
+    "seed_admit_gate rc0 base=540804 span=200 checked=200 verdict=FREE": 1
+   },
+   "prior_wave_239_boundary_kept": true,
+   "repair_note": "NO repair expected: seed-admit faces carried atomically in the r992 splice estate; both sha16 faces asserted clean-equal (receipt-post == disk-now)"
+  },
+  "banned": {
+   "rc": 0,
+   "decision": "ADMIT",
+   "note": "fresh run this window (python Tools/banned_direction_gate.py --prereg research/PERPETUAL_N1_W240_PREREG.md), reason=no banned direction claimed"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true,
+   "note": "default-wave call per r522 law"
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=545501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=540804 span=200 checked=200 verdict=FREE"
+   ],
+   "burn_checkpoint_fresh_run": [
+    "seed_admit_gate rc1 base=545501 span=2000 collisions=2000 verdict=BLOCKED (self-collision wave=240 key=a)",
+    "seed_admit_gate rc1 base=540804 span=200 collisions=200 verdict=BLOCKED (self-collision wave=240 key=b_exit)"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w240bma_freeze_receipt.json; fresh run this window = self-collision BLOCKED = registration-landed integrity positive (expected post-registration, W237/W238 sixgate note pattern)"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-a",
+   "a_seed_base": 545501,
+   "b_exit_seed_base": 540804,
+   "shard_subdir": "n1_w240",
+   "out_name": "n1_w240_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_545501": true,
+    "b_exit_seed_base_540804": true,
+    "shard_subdir_n1_w240": true,
+    "out_name_n1_w240_results": true,
+    "engine_owner_bm_a": true
+   }
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 950135,
+  "prev_merged_n": 523720,
+  "expect_total": 952335,
+  "expect_merged": 525920,
+  "anchor": "W239 finalize (bm-c r996-continuation one-pass, 950,135/K=523,720) per freeze receipt w239_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
