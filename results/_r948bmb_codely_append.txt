@@ -1,0 +1,2 @@
+
+[2026-10-14 20:41] bm-b git 仓二灭（r947 窗）恢复判例+新坑律（详档 results/_r948bmb_forensics_addendum.md）：①git 进程击杀必须杀树（taskkill /T 或按出生时间+cmdline 验真体）——`Start-Process git` 返回的是 cmd-shim PID，Stop-Process 杀 shim=真体孤儿化持 index.lock（worker 全 face rc128 实锤），且 Remove-Item 在 EAP=Continue 下对被占用锁静默失败假报「cleared」；②清锁一律 -ErrorAction Stop + Test-Path 复核断言；③被杀轮 25 条命令全审计+sli-reconcile 脚本=清白，.git 毁损者仍未归案（USN 19:36-19:55 窗+他 lane transcript 待查）；④data 幸存推翻「字母序扫荡被中断」论——被毁集=r836/r947 恢复 checkout 清单(+.git) 精确枚举=定向破坏「可恢复面」，非随机扫荡。
