@@ -689,11 +689,73 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-14 12:37:52",
-    "py_pct": 2.8,
-    "cpu_pct": 71.0,
+    "latest_ts": "2026-10-14 13:43:30",
+    "py_pct": 1.0,
+    "cpu_pct": 11.0,
     "ready": 0,
-    "streak_min": 556.6,
+    "streak_min": 622.2,
+    "verdict": "FLAG:pool_starvation,supply_floor",
+    "py_series_tail": [
+     [
+      "08:47",
+      0.8
+     ],
+     [
+      "08:59",
+      0.0
+     ],
+     [
+      "09:15",
+      0.1
+     ],
+     [
+      "09:47",
+      0.5
+     ],
+     [
+      "10:09",
+      0.2
+     ],
+     [
+      "10:21",
+      0.2
+     ],
+     [
+      "10:39",
+      0.6
+     ],
+     [
+      "10:58",
+      11.9
+     ],
+     [
+      "12:01",
+      8.0
+     ],
+     [
+      "12:37",
+      2.8
+     ],
+     [
+      "13:26",
+      0.7
+     ],
+     [
+      "13:43",
+      1.0
+     ]
+    ],
+    "today_samples": 38,
+    "today_floor_ok": 4,
+    "today_sla_flags": 5,
+    "today_supply_gap_flags": 8
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-14 13:04:07",
+    "py_pct": 24.7,
+    "cpu_pct": 7.0,
+    "ready": 0,
+    "streak_min": 582.8,
     "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
@@ -741,8 +803,8 @@
       8.0
      ],
      [
-      "12:37",
-      2.8
+      "13:04",
+      24.7
      ]
     ],
     "today_samples": 36,
@@ -893,8 +955,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 6,
-     "audit_ts": "2026-10-14 12:37:52"
+     "audit_batches": 1,
+     "audit_ts": "2026-10-14 13:43:30"
     }
    },
    "bm-b": {
