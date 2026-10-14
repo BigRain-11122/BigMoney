@@ -1,0 +1,160 @@
+{
+ "wave": "TRIAL_LABOR_W19",
+ "stage": "screen-finalize",
+ "prereg": "research/TRIAL_LABOR_W19_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "e15a4a7b3a3b2b36",
+ "n_paired_cells": 346,
+ "k_nulls": 200,
+ "survival_rule": "beat6m_rate > null_p95 (prereg sec.4, frozen W2 math, zero hand-picked)",
+ "null_p95": 0.511572,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "null_p95_band_hit": true,
+ "n_survivors": 70,
+ "survivors": [
+  "W16-B-0700|daily_signal",
+  "W16-B-0814|daily_signal",
+  "W16-B-1257|daily_signal",
+  "W16-B-2027|daily_signal",
+  "W16-B-4415|daily_signal",
+  "W16-B-4576|daily_signal",
+  "W16-B-4711|daily_signal",
+  "W16-B-4781|daily_signal",
+  "W16-B-5409|daily_signal",
+  "W16-B-5565|daily_signal",
+  "W16-B-6007|daily_signal",
+  "W16-B-6333|daily_signal",
+  "W16-B-6500|daily_signal",
+  "W16-B-6703|daily_signal",
+  "W16-B-6939|daily_signal",
+  "W16-B-7720|daily_signal",
+  "W16-B-8339|daily_signal",
+  "W16-B-0700|weekly_grid",
+  "W16-B-3910|weekly_grid",
+  "W16-B-4415|weekly_grid",
+  "W16-B-4711|weekly_grid",
+  "W16-B-5409|weekly_grid",
+  "W16-B-6500|weekly_grid",
+  "W16-B-7720|weekly_grid",
+  "W16-B-8105|weekly_grid",
+  "W16-B-0720|daily_signal",
+  "W16-B-1573|daily_signal",
+  "W16-B-2172|daily_signal",
+  "W16-B-2381|daily_signal",
+  "W16-B-4489|daily_signal",
+  "W16-B-4588|daily_signal",
+  "W16-B-4713|daily_signal",
+  "W16-B-7860|daily_signal",
+  "W16-B-1573|weekly_grid",
+  "W16-B-4588|weekly_grid",
+  "W16-B-6705|weekly_grid",
+  "W16-B-0137|daily_signal",
+  "W16-B-0273|daily_signal",
+  "W16-B-0625|daily_signal",
+  "W16-B-0730|daily_signal",
+  "W16-B-2910|daily_signal",
+  "W16-B-2979|daily_signal",
+  "W16-B-3694|daily_signal",
+  "W16-B-4727|daily_signal",
+  "W16-B-5480|daily_signal",
+  "W16-B-7925|daily_signal",
+  "W16-B-8169|daily_signal",
+  "W16-B-8853|daily_signal",
+  "W16-B-0137|weekly_grid",
+  "W16-B-2175|weekly_grid",
+  "W16-B-2910|weekly_grid",
+  "W16-B-5935|weekly_grid",
+  "W16-B-6655|weekly_grid",
+  "W16-B-7925|weekly_grid",
+  "W16-B-8169|weekly_grid",
+  "W16-B-0100|daily_signal",
+  "W16-B-2237|daily_signal",
+  "W16-B-2545|daily_signal",
+  "W16-B-3030|daily_signal",
+  "W16-B-3334|daily_signal",
+  "W16-B-4612|daily_signal",
+  "W16-B-6699|daily_signal",
+  "W16-B-7549|daily_signal",
+  "W16-B-8195|daily_signal",
+  "W16-B-8953|daily_signal",
+  "W16-B-0100|weekly_grid",
+  "W16-B-2024|weekly_grid",
+  "W16-B-2237|weekly_grid",
+  "W16-B-4304|weekly_grid",
+  "W16-B-6491|weekly_grid"
+ ],
+ "g_face_battery": {
+  "G-ENTRY": {
+   "sha256_16": "22179881b7537193"
+  },
+  "G-EXITCFG": {
+   "pass": true
+  },
+  "G-TIMING": {
+   "faces": [
+    "daily_signal",
+    "weekly_grid"
+   ],
+   "pass": true
+  },
+  "G-CONTROL-DETERMINISM": {
+   "w17_source": {
+    "source": "w17_screen_cells.csv control rows",
+    "n_pairs_expected": 173,
+    "n_checked": 173,
+    "keys": [
+     "beat6m_rate",
+     "binom_z",
+     "binom_p"
+    ],
+    "mismatches": [],
+    "pass": true
+   },
+   "w18_source": {
+    "source": "w18_screen_cells.csv as-burned rows",
+    "n_pairs_expected": 173,
+    "n_checked": 173,
+    "keys": [
+     "beat6m_rate",
+     "binom_z",
+     "binom_p"
+    ],
+    "mismatches": [],
+    "pass": true
+   }
+  },
+  "sec51_prediction_accounting": {
+   "predicted": 43,
+   "observed_as_burned_survivors": 43,
+   "verdict": "HIT"
+  }
+ },
+ "per_face_survival": {
+  "daily_signal": {
+   "n": 173,
+   "n_survivors": 47,
+   "survival_rate": 0.271676
+  },
+  "weekly_grid": {
+   "n": 173,
+   "n_survivors": 23,
+   "survival_rate": 0.132948
+  }
+ },
+ "rerun_pairs_n": 173,
+ "trials_ledger": {
+  "prev_total": 945189,
+  "batch_trials": 546,
+  "total": 945735,
+  "batch": "TRIAL_LAB_W19_SCREEN",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/trial_labor_w19/w19_screen.json",
+  "evidence_cutoff": "2026-09-22"
+ }
+}
