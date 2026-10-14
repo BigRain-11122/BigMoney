@@ -1,0 +1,20 @@
+top keys: batch, generated, preregistered_doc, law_ref, evidence_cutoff, science_gates, universe, families, null_pool_cumulative, skill_line_v2_k_lift, shards_consumed, audit
+pool keys: canon, pre_w244_cumulative, w244_only, merged, mu_delta_w244_vs_w243ext, se_mu_at_k534720
+  pool[canon]: n_values, mu, sigma
+  pool[pre_w244_cumulative]: n_values, mu, sigma
+  pool[w244_only]: n_values, mu, sigma
+  pool[merged]: n_values, mu, sigma
+sl keys: n_eff_held_equal, line_pre_w244, line_merged_534720, line_delta_k_lift, passive_term, formula, canon_flip
+  sl[n_eff_held_equal] = 958935
+  sl[line_pre_w244] = 1.1935
+  sl[line_merged_534720] = 1.1934
+  sl[line_delta_k_lift] = -0.0001
+  sl[passive_term] = None
+  sl[formula] = max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))
+  sl[canon_flip] = NOT performed by this wave -- governance proposal face only (K2200 same law)
+famA keys: n, full_sharpe_p95, full_sharpe_p99, full_sharpe_mu, runs
+  famA[full_sharpe_p95] = 0.2952
+  famA[full_sharpe_p99] = 0.4583
+merged: {"n_values": 534720, "mu": -0.09280470732345901, "sigma": 0.24505387799755757}
+w244_only: {"n_values": 2200, "mu": -0.1039035909090909, "sigma": 0.24126584672441487}
+science_gates: {"cutoff_meta": {"evidence_cutoff": "2026-09-22", "source": "frozen v1/v2 canon window (same-window law)"}, "ledger": {"prev_total": 958935, "batch_trials": 2200, "total": 961135, "batch": "PERPETUAL-N1-W244", "voids_applied": ["LOWAMP-P1", "LOWAMP-P2"], "file": "perpetual_faces/n1_w244_results.json", "note": "perpetual N1 nulls-deepening wave 244 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22", "evidence_cutoff": "2026-09-22"}}
