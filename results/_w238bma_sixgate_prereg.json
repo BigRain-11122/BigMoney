@@ -1,0 +1,80 @@
+{
+ "machine": "bm-a",
+ "wave": 238,
+ "phase": "PRE-FINALIZE six-gate (r985 bm-a own-wave window; W217+ standing law thirteenth consecutive -- engine self-burn 12/12 delivered 12:44:04 this window (last shard done_at 2026-10-14T12:44:04+08:00), finalize not yet run, freeze splice landed 50fa77623)",
+ "ts": "2026-10-14T12:5x",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "6189fd35b247d41d",
+   "n1_sha16_now": "6ee4b58964e621db",
+   "pf_sha16_freeze_post": "6189fd35b247d41d",
+   "n1_sha16_freeze_post": "6ee4b58964e621db",
+   "family6_triple_wholefile_recheck": true,
+   "family6_seed_face_counts": {
+    "seed_admit_gate rc0 base=538404 span=2000 checked=2000 verdict=FREE": 1,
+    "seed_admit_gate rc0 base=540404 span=200 checked=200 verdict=FREE": 1
+   },
+   "prior_wave_237_boundary_kept": true,
+   "repair_note": "NO repair expected: family #6 seed-admit faces carried atomically in the splice; both sha16 faces asserted clean-equal (receipt-post == disk-now)"
+  },
+  "banned": {
+   "rc": 0,
+   "decision": "ADMIT",
+   "note": "re-run at burn checkpoint this window (python Tools/banned_direction_gate.py --prereg research/PERPETUAL_N1_W238_PREREG.md), default registry research/BANNED_DIRECTIONS.json"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true,
+   "note": "default-wave call per r522 law"
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=538404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=540404 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=538404 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=540404 span=200 checked=200 verdict=FREE"
+   ],
+   "burn_checkpoint_fresh_run": [
+    "seed_admit_gate rc1 base=538404 span=2000 collisions=2000 verdict=BLOCKED (self-collision wave=238 key=a)",
+    "seed_admit_gate rc1 base=540404 span=200 collisions=200 verdict=BLOCKED (self-collision wave=238 key=b_exit)"
+   ],
+   "note": "seat-time + freeze-time FREE evidence consumed verbatim from _w238bma_20261014_probe_receipt.json / _w238bma_freeze_receipt.json; burn-checkpoint fresh run = self-collision BLOCKED = registration-landed integrity positive (expected post-registration, W237 sixgate note pattern)"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-a",
+   "a_seed_base": 538404,
+   "b_exit_seed_base": 540404,
+   "shard_subdir": "n1_w238",
+   "out_name": "n1_w238_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base": true,
+    "b_exit_seed_base": true,
+    "shard_subdir_n1_w238": true,
+    "out_name_n1_w238_results": true,
+    "engine_owner_bm_a": true
+   }
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 945189,
+  "prev_merged_n": 519320,
+  "expect_total": 947389,
+  "expect_merged": 521520,
+  "anchor": "W237 finalize (bm-c r990 one-pass, 945,189/K=519,320) per freeze receipt w237_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
