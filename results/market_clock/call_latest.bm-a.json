@@ -3,11 +3,13 @@
  "clock_cell": "ORANGE_COOL",
  "regime_v3": {
   "state": "ORANGE",
-  "asof": "2026-10-13",
-  "days_in_state": 3,
+  "asof": "2026-10-14",
+  "days_in_state": 4,
   "triggers": [
-   "breadth 0.81>=80% slope -0.0208<0",
    "hs300<MA200 (#10 collected)",
+   "crash10d -0.069<=-5%",
+   "breadth 0.79>=65%",
+   "breadth 0.81>=80% slope -0.0208<0",
    "crash10d -0.057<=-5%",
    "breadth 0.81>=65%"
   ]
@@ -38,12 +40,6 @@
    "r60": 0.092
   },
   {
-   "symbol": "515220",
-   "r5": 0.0378,
-   "r20": 0.0173,
-   "r60": 0.1536
-  },
-  {
    "symbol": "513520",
    "r5": 0.0267,
    "r20": 0.0147,
@@ -62,10 +58,16 @@
    "r60": 0.0509
   },
   {
-   "symbol": "511010",
-   "r5": 0.0008,
-   "r20": -0.0026,
-   "r60": 0.0006
+   "symbol": "512170",
+   "r5": -0.0118,
+   "r20": -0.0059,
+   "r60": 0.0772
+  },
+  {
+   "symbol": "159980",
+   "r5": -0.0083,
+   "r20": -0.0179,
+   "r60": 0.0373
   }
  ],
  "sector_board_bottom5": [
@@ -100,8 +102,8 @@
    "r60": -0.2425
   }
  ],
- "fresh_universe_n": 53,
- "breadth_r20_pos": 0.132,
+ "fresh_universe_n": 42,
+ "breadth_r20_pos": 0.143,
  "active_sleeves": [
   "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
   "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",

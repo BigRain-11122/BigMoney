@@ -21,13 +21,13 @@
     }
   },
   "evidence_cutoff": "2026-09-22",
-  "cutoff": "2026-10-13",
-  "updated": "2026-10-13 21:57:40",
+  "cutoff": "2026-10-14",
+  "updated": "2026-10-14 20:43:00",
   "paper_start": "2026-09-24",
-  "bars": 8,
+  "bars": 9,
   "months_tracked": 0,
   "monthly_returns": [],
-  "current_dd": -0.004,
+  "current_dd": -0.0055,
   "months_detail": [
     {
       "month": "2026-09",
@@ -39,17 +39,17 @@
     },
     {
       "month": "2026-10",
-      "return": -0.0022,
-      "bars": 4,
+      "return": -0.0038,
+      "bars": 5,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "win_rate": 1.0,
-    "num_trades": 2,
-    "avg_hold_days": 2.5,
+    "win_rate": 0.6667,
+    "num_trades": 3,
+    "avg_hold_days": 2.33,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -59,9 +59,8 @@
       "sell_deferred": 0,
       "violations": 0
     },
-    "scaled_entries": 2,
     "status": "insufficient_data",
-    "bars": 8,
+    "bars": 9,
     "floor": 20,
     "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
@@ -74,10 +73,13 @@
     "recorded_max_dd": -0.2419
   },
   "regime_guard": {
-    "mode": "enforce",
-    "approved": true,
-    "active_from": "2026-10-01",
-    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy"
+    "mode": "shadow",
+    "state": "ORANGE",
+    "state_cn": "橙·高危",
+    "asof": "2026-10-14",
+    "raw_level": "ORANGE",
+    "days_in_state": 4,
+    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
   },
   "forward_guard": {
     "enabled": true,
