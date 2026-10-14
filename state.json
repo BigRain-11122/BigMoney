@@ -1,6 +1,6 @@
 {
- "clock_read": "2026-10-15T06:40:30+08:00",
- "current_task": "r964: recovery monitor + C-r964 origin/main surgery push in flight",
+ "clock_read": "2026-10-15T07:00:30+08:00",
+ "current_task": "r965: recovery monitor + HANDOVER 5x duty + C-r965 origin/main surgery push in flight",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -13,10 +13,10 @@
   "ts": "2026-10-14T19:14:49+08:00"
  },
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r964: monitor round (fifth beat) - v5 driver alive double-verified (pid 3672, receipt 746/1804 fails=30 cumulative-scattered retried_ok=557, ~2.0 files/min ETA ~15:45; breaker=consecutive-only not tripped, pass-2 owns fail set); C-r963 receipt consumed PUSHED_VERIFIED (17b4090e, ancestor-verified on origin, tip=bb7cc2640c4e, behind=0); lane face re-registered quad (loop/watchdog/precommit/prepush claws, idempotent in-process); engine alive idle queue 0; watermark red=False (2026-10-15 06:40:02 face); sentinel NORMAL; group D-19 s05 probe NO_DELTA_ZERO_ACTION (orders auto-consumed=False / decisions auto-consumed=False); CODELY pending-union face accounted (identical=False, union merge rides completion package); S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law (ALL_RESTORED completion package)",
+ "did": "r965: monitor round (sixth beat) + HANDOVER 5x duty - v5 driver alive double-verified (pid 3672, receipt 786/1804 fails=70 cumulative-scattered retried_ok=557, ~2.0 files/min ETA ~16:05; breaker 300s probe = designed response, pass-2 owns fail set); C-r964 receipt consumed PUSHED_VERIFIED (c7bf840c, ancestor-verified on origin, tip=71ac3a885721, behind=0); HANDOVER 5x entry landed (r911-r965 window, stamps r915..r960 OVERDUE-DISCLOSED, tail verbatim verified, 5726B); lane face re-registered quad (loop/watchdog/precommit/prepush claws, idempotent in-process); engine alive idle queue 0; watermark red=False (2026-10-15 07:00:02 face); sentinel NORMAL; group D-19 s05 probe NO_DELTA_ZERO_ACTION (fresh fetch re-run); CODELY pending-union face accounted (identical=False); S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law (ALL_RESTORED completion package)",
  "heartbeat_epoch_utc_face": "restored: fleet/machines/bm-b.json updated this round (epoch int verified at write)",
- "last_action": "r964: monitor round - C-r963 consumed (ancestor-verified), lane quad re-registered, health faces re-verified, C-r964 closeout push",
- "last_action_at": "2026-10-15T06:40:30+08:00",
+ "last_action": "r965: monitor round - C-r964 consumed (ancestor-verified), HANDOVER 5x landed, lane quad re-registered, health faces re-verified, C-r965 closeout push",
+ "last_action_at": "2026-10-15T07:00:30+08:00",
  "last_decisions_at": "2026-10-15T05:29:06+08:00",
  "last_decisions_read_at": "2026-10-15T04:00:33+08:00",
  "last_decisions_sha": "6910a9ed7d1a99044b607c6307d2e6f9e44b8e9f3dd0d7c301e5ea57cd5c2cb9",
@@ -25,23 +25,23 @@
  "last_orders_read_at": "2026-10-15T04:00:33+08:00",
  "last_orders_sha": "e2423fefcae0e9f9f0b54e9375dd11f4d51dd14c",
  "last_orders_sha_note": "r962 consumed 6cc07bf4->e2423fef (delta = 1 row: bm-c xinqing wave3 A-batch 29/29 receipt row, MV domain, not-BigMoney = zero action); view=results/_r962bmb_orders_fresh.md",
- "last_round_at": "2026-10-15T06:40:30+08:00",
- "last_round_ts": "2026-10-15T06:40:30+08:00",
- "last_seen": "2026-10-15T06:40:30+08:00",
- "latest_artifact": "results/_r964bmb_monitor.json + _r964bmb_s05_scan.json + C-r964 origin/main commit (receipt _r964bmb_push_receipt.json)",
+ "last_round_at": "2026-10-15T07:00:30+08:00",
+ "last_round_ts": "2026-10-15T07:00:30+08:00",
+ "last_seen": "2026-10-15T07:00:30+08:00",
+ "latest_artifact": "results/_r965bmb_monitor.json + _r965bmb_s05_scan.json + research/HANDOVER.md 5x entry (r911-r965) + C-r965 origin/main commit (receipt _r965bmb_push_receipt.json)",
  "machine_id": "bm-b",
- "next": "r965: 1) read results/_r964bmb_push_receipt.json: PUSHED_VERIFIED -> consume (behind=0); FAILED -> idempotent relaunch closeout (re-run safe); RUNNING -> wait for settle (minutes-scale; re-read before any relaunch; do NOT double-launch while RUNNING); 2) read results/_r960bmb_restore_receipt.json: ALL_RESTORED -> completion package (smoke 49/49 + full S6 chain + orders full ack diff-scan + attrition rescan + warm-window origin catch-up: real fetch + reset-to-origin-main + normal commit sweep of local results receipts + side-branch merges [machine/bm-b-r954 c59c94e7 carries G5 receipt MSG-20261015-0104, verified NOT on origin main - delivery law r959; machine/bm-b-r958 dc0034d7] + CODELY union merge + MSG-20261014-2015 retraction move); PARTIAL_PASSES_EXHAUSTED -> push peer bundle request MSG to origin main + relaunch v5; RUNNING -> monitor one line (~2.0 files/min honest ETA ~15:45; retried_ok climbing = healthy; fails set = pass-2 face); 3) engine: queue idle 0 - resume owned by existing healers (S6/C4), do NOT hand-relaunch backfill worker; 4) standing: no rm on repo faces; group-tree zero-touch (origin reads only); CODELY size check pass; HANDOVER 5x duty falls to r965 (round_no=965 = multiple of 5)",
- "next_milestone": "v5 ALL_RESTORED (ETA ~15:45 at ~2.0 files/min; <=24h commitment stands from r957) -> completion package smoke+S6+attrition+catch-up+merges",
- "note": "r964 monitor round: no new pit law; standing laws r959 (per-file lazy fetch small-pack) + r960 (retry-once + consecutive-only breaker, fails_in_pass=cumulative reading) + r962 (round_reports.md binary/append law) remain active; C-r964 surgery push --no-verify receipted per r950 cold-index claw-hang law; r954 side-branch merge REQUIRED for G5 receipt visibility (delivery law third instance, rides completion package); CODELY union merge rides completion package (origin blob != local, zero-network accounted)",
- "now_active": "r964: v5 restore driver (detached, converging) + C-r964 main surgery push in closeout (receipt = r965 face)",
+ "next": "r966: 1) read results/_r965bmb_push_receipt.json: PUSHED_VERIFIED -> consume (behind=0); FAILED -> idempotent relaunch closeout (re-run safe); RUNNING -> wait for settle (do NOT double-launch while RUNNING); 2) read results/_r960bmb_restore_receipt.json: ALL_RESTORED -> completion package (smoke 49/49 + full S6 chain + orders full ack diff-scan + attrition rescan + warm-window origin catch-up + side-branch merges [machine/bm-b-r954 c59c94e7 carries G5 receipt MSG-20261015-0104 - delivery law r959; machine/bm-b-r958 dc0034d7] + CODELY union merge + MSG-20261014-2015 retraction move); PARTIAL_PASSES_EXHAUSTED -> push peer bundle request MSG to origin main + relaunch v5; RUNNING -> monitor one line (~2.0 files/min honest ETA ~16:05; breaker-tripped dead windows = designed 300s probe cadence (r960); judge health by receipt done-climb + breaker cycle exit, not retried_ok; fails set = pass-2 face); 3) engine: queue idle 0 - resume owned by existing healers (S6/C4), do NOT hand-relaunch backfill worker; 4) standing: no rm on repo faces; group-tree zero-touch (origin reads only); CODELY size check pass",
+ "next_milestone": "v5 ALL_RESTORED (ETA ~16:05 at ~2.0 files/min; <=24h commitment stands from r957) -> completion package smoke+S6+attrition+catch-up+merges",
+ "note": "r965 monitor round + 5x duty: no new pit law; standing laws r959 (per-file lazy fetch small-pack) + r960 (retry-once + consecutive-only breaker) + r962 (binary/append law, applied to HANDOVER.md this round) remain active; C-r965 surgery push --no-verify receipted per r950 cold-index claw-hang law; r954 side-branch merge REQUIRED for G5 receipt visibility (rides completion package); CODELY union merge rides completion package; HANDOVER 5x stamps r915..r960 OVERDUE-DISCLOSED in r965 single window entry (zero recurrence discipline)",
+ "now_active": "r965: v5 restore driver (detached, converging) + C-r965 main surgery push in closeout (receipt = r966 face)",
  "orphan_face": 0,
- "orphan_face_note": "r964: non-round-zero not re-probed; r959 reading 0/18; v5 driver = own-lane legit body (pid 3672 alive double-verified)",
+ "orphan_face_note": "r965: non-round-zero not re-probed; r959 reading 0/18; v5 driver = own-lane legit body (pid 3672 alive double-verified)",
  "orphan_faces": 0,
- "round": 964,
- "round_no": 965,
- "round_no_label": "r964",
+ "round": 965,
+ "round_no": 966,
+ "round_no_label": "r965",
  "sync": {
-  "last_push_ts": "2026-10-15T06:40:30+08:00",
+  "last_push_ts": "2026-10-15T07:00:30+08:00",
   "r962_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
@@ -63,7 +63,7 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, carries G5 MSG MSG-20261015-0104, main-merge pending) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7)",
   "behind_origin_main": 0,
-  "note": "C-r964 push in flight (receipt = r965 face); local main ref still r946-era (cold-index pull deferred to warm window post-restore); origin tip after C-r963 = 17b4090e (own, verified landed)",
+  "note": "C-r965 push in flight (receipt = r966 face); local main ref still r946-era (cold-index pull deferred to warm window post-restore); origin tip after C-r964 = c7bf840c (own, verified landed)",
   "r963_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "17b4090edda526410bdb9c2771fe148ac91e01f1",
@@ -71,29 +71,36 @@
    "behind_origin_main": 0
   },
   "r964_main_push": {
+   "status": "PUSHED_VERIFIED",
+   "pushed_sha": "c7bf840cf6704a7b72b5f54efd92e833d1085562",
+   "consumed_at": "2026-10-15T06:41:03+08:00",
+   "behind_origin_main": 0
+  },
+  "r965_main_push": {
    "status": "in-flight",
-   "receipt": "results/_r964bmb_push_receipt.json",
+   "receipt": "results/_r965bmb_push_receipt.json",
    "target": "refs/heads/main",
-   "note": "C-r964 surgery parent=origin tip (bb7cc2640c4e); own faces only (heartbeat/state/round report), deletion set empty"
+   "note": "C-r965 surgery parent=origin tip (71ac3a885721); own faces only (heartbeat/state/round report/HANDOVER), deletion set empty"
   }
  },
- "task": "r964: (a) v5 liveness + receipt + driver-log monitor (b) C-r963 receipt consume + ancestor verify (c) lane-task registry checks + idempotent re-registration quad (d) engine + watermark + sentinel faces (e) s05 D-19 true-delta probe (f) CODELY pending-union face accounting (g) C-r964 surgery push",
- "ts": "2026-10-15T06:40:30+08:00",
- "updated": "2026-10-15T06:40:30+08:00",
- "updated_at": "2026-10-15T06:40:30+08:00",
- "verdict": "AMBER-recovering: v5 restore driver converging (~2.0 files/min, ETA ~15:45); 746/1804 pass1 at 2026-10-15T06:39:55+08:00 + climbing (fails=30 scattered, pass-2 face); completion package deferred until ALL_RESTORED; zero origin-side loss",
- "current": "r964: recovery monitor round (fifth beat) + C-r964 surgery push",
- "last_artifact": "results/_r964bmb_monitor.json (health+lane+CODELY face evidence) + _r964bmb_closeout.py",
+ "task": "r965: (a) v5 liveness + receipt + driver-log monitor (b) C-r964 receipt consume + ancestor verify (c) HANDOVER 5x duty (r911-r965 window entry) (d) lane-task registry checks + idempotent re-registration quad (e) engine + watermark + sentinel faces (f) s05 D-19 probe (g) C-r965 surgery push",
+ "ts": "2026-10-15T07:00:30+08:00",
+ "updated": "2026-10-15T07:00:30+08:00",
+ "updated_at": "2026-10-15T07:00:30+08:00",
+ "verdict": "AMBER-recovering: v5 restore driver converging (~2.0 files/min, ETA ~16:05); 786/1804 pass1 at 2026-10-15T06:59:57+08:00 + climbing (fails=70 scattered, pass-2 face); completion package deferred until ALL_RESTORED; zero origin-side loss",
+ "current": "r965: recovery monitor round (sixth beat) + HANDOVER 5x + C-r965 surgery push",
+ "last_artifact": "results/_r965bmb_monitor.json (health+lane+CODELY+HANDOVER evidence) + research/HANDOVER.md r965 5x entry + _r965bmb_closeout.py",
  "sat_engine": {
   "status": "alive (idle, queue_depth 0, heartbeat fresh)",
-  "checked_at": "2026-10-15T06:40:30+08:00"
+  "checked_at": "2026-10-15T07:00:30+08:00"
  },
  "last_decisions_sha_probe": "6910a9ed7d1a99044b607c6307d2e6f9e44b8e9f3dd0d7c301e5ea57cd5c2cb9",
- "last_decisions_probe_at": "2026-10-15T06:40:30+08:00",
+ "last_decisions_probe_at": "2026-10-15T07:00:30+08:00",
  "decisions_delta_pending": false,
  "last_orders_sha_probe": "e2423fefcae0e9f9f0b54e9375dd11f4d51dd14c",
  "orders_delta_pending": false,
  "d19_probe_due": false,
- "d19_probe_due_note": "r964: group probe verdict=NO_DELTA_ZERO_ACTION (receipt results/_r964bmb_s05_scan.json); true-delta=0/0 rows (orders/decisions), relevant=0/0; auto-consumed watermark moves=False/False; C-r963 landed 17b4090e",
- "last_orders_probe_at": "2026-10-15T06:40:30+08:00"
+ "d19_probe_due_note": "r965: group probe verdict=NO_DELTA_ZERO_ACTION (receipt results/_r965bmb_s05_scan.json, fresh fetch re-run); watermarks unchanged; C-r964 landed c7bf840c",
+ "last_orders_probe_at": "2026-10-15T07:00:30+08:00",
+ "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did"
 }

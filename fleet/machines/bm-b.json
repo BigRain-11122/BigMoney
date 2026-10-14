@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T06:40:30+08:00",
- "task": "r964: recovery monitor round (fifth beat) - v5 restore driver alive+converging (pid 3672, ~2.0 files/min, ETA ~15:45); C-r963 consumed PUSHED_VERIFIED (17b4090e); lane quad re-registered idempotent; completion package gated on ALL_RESTORED",
- "did": "r964: (a) v5 driver liveness double-verified (Get-Process 06:33 + tasklist at closeout; start 05:24 no restart; receipt 746/1804 fails=30 cumulative-scattered retried_ok=557, ~2.0 files/min ETA ~15:45; driver log tail breaker_seen=True) (b) C-r963 push receipt consumed PUSHED_VERIFIED 17b4090e, ancestor-verified on origin (tip after fetch=bb7cc2640c4e) (c) lane face: schtasks queries 3/3 registered + idempotent re-registration quad (loop/watchdog/precommit-claw/prepush-claw) run in-process no-window (d) engine alive idle queue 0 (e) watermark red=False (2026-10-15 06:40:02 face) (f) sentinel NORMAL flags none (g) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (h) CODELY pending-union face accounted zero-network (identical=False; union merge rides completion package) (i) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
+ "last_seen": "2026-10-15T07:00:30+08:00",
+ "task": "r965: recovery monitor round (sixth beat) + HANDOVER 5x duty - v5 restore driver alive+converging (pid 3672, ~2.0 files/min, ETA ~16:05); C-r964 consumed PUSHED_VERIFIED (c7bf840c); HANDOVER r911-r965 window entry landed; C-r965 closeout push",
+ "did": "r965: (a) v5 driver liveness double-verified (Get-Process 06:52 + tasklist at closeout; start 05:24 no restart; receipt 786/1804 fails=70 cumulative-scattered retried_ok=557, ~2.0 files/min ETA ~16:05; breaker 300s probe cadence = designed response) (b) C-r964 push receipt consumed PUSHED_VERIFIED c7bf840c, ancestor-verified on origin (tip after fetch=71ac3a885721) (c) HANDOVER 5x duty landed: OVERDUE-DISCLOSED r911-r965 window entry appended (tail verbatim verified, binary append law r962) (d) lane face: schtasks 3/3 registered + idempotent re-registration quad in-process (e) engine alive idle queue 0 (f) watermark red=False (2026-10-15 07:00:02 face) (g) sentinel NORMAL flags none (h) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (fresh fetch re-run) (i) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
  "gpu_free_vram_mb": 3517,
- "verdict": "AMBER-recovering: v5 restore driver converging (~2.0 files/min, ETA ~15:45); snapshot status=RUNNING done=746 remaining=1088 fails=30(scattered,pass-2 face); completion package gated on ALL_RESTORED; zero origin-side loss",
+ "verdict": "AMBER-recovering: v5 restore driver converging (~2.0 files/min, ETA ~16:05); snapshot status=RUNNING done=786 remaining=1088 fails=70(scattered,pass-2 face); completion package gated on ALL_RESTORED; zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792017630,
- "clock_read": "2026-10-15T06:40:30+08:00",
- "ts": "2026-10-15T06:40:30+08:00",
- "orders_ack": "r964: NO_DELTA (s05 re-probe) - ord/dec watermarks unchanged; C-r963 landed (17b4090e); zero unacked O-orders",
- "note": "monitor round (fifth beat): no new claims (job_list empty; restore in flight = active work); driver receipts are the product faces; no rm on any repo face; group-tree zero-touch (origin reads only); backfill worker settle NOT re-scanned (closed r963)"
+ "heartbeat_epoch_utc": 1792018830,
+ "clock_read": "2026-10-15T07:00:30+08:00",
+ "ts": "2026-10-15T07:00:30+08:00",
+ "orders_ack": "r965: NO_DELTA (s05 re-probe fresh fetch) - ord/dec watermarks unchanged; C-r964 landed (c7bf840c); zero unacked O-orders",
+ "note": "monitor round (sixth beat) + 5x duty: no new claims (job_list empty; restore in flight = active work); no rm on any repo face; group-tree zero-touch (origin reads only)"
 }
