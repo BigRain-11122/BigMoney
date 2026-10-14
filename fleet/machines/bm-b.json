@@ -1,15 +1,15 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T01:09:00+08:00",
- "task": "r954: G5 receipt + D-19 orders-delta consumption (watermark advanced) + resumable blobfill driver (supersedes treadmill watcher/worker) + C3 surgery + side-branch machine/bm-b-r954 push",
+ "last_seen": "2026-10-15T01:39:49+08:00",
+ "task": "r955: treadmill-2 adjudicated (raw-SHA chunk fetch server-rejected, tree-killed) + patient restore deployed (checkout cascade discovery) + tmp_pack salvage driver in flight (26 orphan packs ~260MB) + C-r955 surgery + side-branch machine/bm-b-r955 push",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
- "gpu_free_vram_mb": 3526,
- "verdict": "AMBER-improving: 7/9 faces on disk (config/docs/engine/firm/knowledge/legacy/live rc=0); fleet+data pending blobfill driver (resumable 160-SHA batch fetch, pid 28880, in flight); SatEngine dead until fleet face lands (machine.json); side-branch machine/bm-b-r951 LANDED (peer visibility restored); G5 receipt delivered r954 branch; group orders delta consumed",
+ "gpu_free_vram_mb": 3523,
+ "verdict": "AMBER-recovering: blobfill raw-SHA channel adjudicated dead (GitHub rejects unadvertised wants, 9+ batches zero progress -> tree-killed); patient restore checkout cascades per-blob 'unable to read sha1 file' without lazy fetch (promisor config verified intact) - channel diagnosis delegated to salvage driver (r956 face); 26 orphaned tmp_packs from killed chains discovered -> salvage may backfill free (zero network); r951-r954 product chain fully delivered on origin (machine/bm-b-r951 + machine/bm-b-r954 PUSHED_VERIFIED)",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1791997740,
- "clock_read": "2026-10-15T01:09:00+08:00",
- "ts": "2026-10-15T01:09:00+08:00",
- "note": "blobfill supersedes watcher v3+worker v2 (single-batch lazy fetch = non-resumable treadmill); orders ack diff-scan: origin newest O-20261014-0949-bm-b predates r946 last healthy scan = zero new; smoke/S6 deferred until ALL_FACES_RESTORED marker"
+ "heartbeat_epoch_utc": 1791999589,
+ "clock_read": "2026-10-15T01:39:49+08:00",
+ "ts": "2026-10-15T01:39:49+08:00",
+ "note": "salvage driver pid 4892 in flight (index-pack --stdin --fix-thin salvage -> census -> checkout retry -> single-blob lazy-fetch GIT_TRACE diagnostic); receipt results/_r955bmb_salvage_receipt.json = r956 channel decision face; smoke/S6/orders-ack/attrition/unshallow deferred until ALL_FACES_RESTORED marker"
 }
