@@ -1,0 +1,52 @@
+{
+ "wave": "TRIAL_LABOR_W19",
+ "stage": "paired-deltas",
+ "evidence_cutoff": "2026-09-22",
+ "reading": "legL_sharpe_full (face-vs-as-burned leg-L Sharpe paired deltas across complete blocks)",
+ "per_face": {
+  "daily_signal": {
+   "n_pairs_informative": 21,
+   "n_degenerate_excluded": 35,
+   "n_missing_reading": 0,
+   "median_delta": 0.0942,
+   "iqr": 0.7054,
+   "wilcoxon_p": 0.01,
+   "rng": [
+    20641000,
+    200
+   ],
+   "as_burned_subgroup_deltas": {
+    "weekly_grid": {
+     "n": 21,
+     "median": 0.0942,
+     "iqr": 0.7054
+    }
+   }
+  },
+  "weekly_grid": {
+   "n_pairs_informative": 35,
+   "n_degenerate_excluded": 21,
+   "n_missing_reading": 0,
+   "median_delta": -0.2808,
+   "iqr": 0.6998,
+   "wilcoxon_p": 0.358,
+   "rng": [
+    20641000,
+    201
+   ],
+   "as_burned_subgroup_deltas": {
+    "daily_signal": {
+     "n": 35,
+     "median": -0.2808,
+     "iqr": 0.6998
+    }
+   }
+  }
+ },
+ "degenerate_census_full_173": {
+  "weekly_grid": 45,
+  "daily_signal": 128
+ },
+ "exclusion_law": "informative pairs only per face f: the cell-as-burned(f) subgroup is excluded (constructed delta==0, zero information; prereg sec.4 frozen) -- degenerate pairs fully disclosed, retained for block-completeness + determinism-anchor dual duty",
+ "rng_streams": "unc family band rng([20641000,200+f]) f<2 (above judge consumption <180, below band top 346)"
+}
