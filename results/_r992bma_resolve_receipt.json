@@ -1,0 +1,102 @@
+{
+ "machine": "bm-a",
+ "round": 992,
+ "files": {
+  "docs/daily_report/REPORT-2026-10-14.json": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin json ts-diffpick whole-byte (t2=2026-10-14 16:16:39 t3=2026-10-14 16:12:37)",
+   "sha16_out": "ba9c74eef2cb6e42"
+  },
+  "docs/daily_report/REPORT-2026-10-14.md": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin md byte-copy from same side (r329 no-json-parse)",
+   "sha16_out": "79c386620a2b99ab"
+  },
+  "docs/live_usage/LIVE-2026-10-14.json": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin json ts-diffpick whole-byte (t2=2026-10-14T16:16:40 t3=2026-10-14T16:12:38)",
+   "sha16_out": "394a6929197a441a"
+  },
+  "docs/live_usage/LIVE-2026-10-14.md": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin md byte-copy from same side (r329 no-json-parse)",
+   "sha16_out": "fd2dd098ffce708b"
+  },
+  "docs/live_usage/LIVE-latest.json": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin json ts-diffpick whole-byte (t2=2026-10-14T16:16:40 t3=2026-10-14T16:12:38)",
+   "sha16_out": "394a6929197a441a"
+  },
+  "docs/live_usage/LIVE-latest.md": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "reason": "twin md byte-copy from same side (r329 no-json-parse)",
+   "sha16_out": "fd2dd098ffce708b"
+  },
+  "results/_attrition_guard_scan.json": {
+   "verdict": "RESOLVED",
+   "side": 3,
+   "ts": "2026-10-14T16:33:16+08:00",
+   "reason": "snapshot take-new deep-ts (2026-10-14T16:19:46+08:00 vs 2026-10-14T16:33:16+08:00)",
+   "sha16_out": "7fe1b8ceca19b1af",
+   "sha16_s2": "961292650fe68077",
+   "sha16_s3": "3a6cdd2da2676095"
+  },
+  "results/fundamental_b_layer_filter.json": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "ts": null,
+   "reason": "no ts both sides, tie->stage2 (r140)",
+   "sha16_out": "edb4ae579479bf5a",
+   "sha16_s2": "d187dcdb332006dc",
+   "sha16_s3": "6da18d32fa5efbc9"
+  },
+  "results/prospect_promotion/_summary.json": {
+   "verdict": "RESOLVED",
+   "side": 2,
+   "ts": "2026-10-14T16:16:03+08:00",
+   "reason": "snapshot take-new deep-ts (2026-10-14T16:16:03+08:00 vs 2026-10-14T16:12:17+08:00)",
+   "sha16_out": "e16c6fb863500f00",
+   "sha16_s2": "d4585e200db49284",
+   "sha16_s3": "6fec183097cbc062"
+  },
+  "results/strategy_scorecard.json": {
+   "verdict": "RESOLVED",
+   "side": 3,
+   "ts": "2026-10-14T16:11:17",
+   "reason": "host-authority bm-a sole writer r378",
+   "sha16_out": "6fc554e4f92f5afe",
+   "sha16_s2": "ef5ef7cf4ec14eb6",
+   "sha16_s3": "b28a4c531d2a6c66"
+  },
+  "results/scorecard_v1.json": {
+   "verdict": "RESOLVED",
+   "side": 3,
+   "ts": "2026-10-14T16:11:06",
+   "reason": "host-authority bm-a sole writer r378",
+   "sha16_out": "caff4276cee91c5e",
+   "sha16_s2": "520ea4dbed91dddf",
+   "sha16_s3": "d8d234bfa55a6fa4"
+  },
+  "results/dashboard_status.json": {
+   "verdict": "RESOLVED",
+   "side": 3,
+   "ts": "2026-10-14T16:12:56",
+   "reason": "host-authority bm-a sole writer r378",
+   "sha16_out": "3665d730c377e01d",
+   "sha16_s2": "32330852cf4b34f2",
+   "sha16_s3": "2df1d015c9a0d9d7"
+  },
+  "results/dashboard_status.js": {
+   "verdict": "RESOLVED",
+   "side": 3,
+   "reason": "js-wrapper byte-take same side as dashboard_status.json (R209)",
+   "sha16_out": "2ca4f0b8362a5e43"
+  }
+ }
+}

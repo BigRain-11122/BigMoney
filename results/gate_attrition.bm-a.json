@@ -18120,6 +18120,67 @@
     "topk": "results/alphagen_rl_p1/TOPK-2026-10-09.json"
    },
    "verdict": "0/32 registered; RL line closed negative per prereg sec.0.9-2 (EXCLUSION_BOOK close, G2 fallback)"
+  },
+  {
+   "batch": "TRIAL_LAB_W19_SCREEN",
+   "ts": "2026-10-14 11:12",
+   "kind": "measurement",
+   "cells_ledger_delta": 546,
+   "ledger_total_after": 945735,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 346,
+     "n_nulls": 200,
+     "n_survivors": 70,
+     "line": "beat6m_rate > null_p95 (W2 frozen math)",
+     "null_p95": 0.511572,
+     "null_p95_band": [
+      0.5,
+      0.53
+     ],
+     "survivors_by_face": {
+      "daily_signal": 47,
+      "weekly_grid": 23
+     },
+     "as_burned_identity": "43/173 vs W17 control AND W18 as-burned three-column byte-identical (sec.5.1 hard gate; three-wave determinism chain closed r931)"
+    }
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W19_PREREG.md (frozen bm-b r927)",
+    "source=W16 frozen 173 cells verbatim reuse x 2 timing faces (tl1.AXIS_TIMING verbatim, zero new timing code)",
+    "paired-block design: 346 cells + 200 isomorphic nulls; degenerate 173 pairs disclosed in w19_paired_deltas.json",
+    "ledger 945189+546=945735 (results/trial_labor_w19/w19_screen.json trials_ledger)"
+   ]
+  },
+  {
+   "batch": "TRIAL_LAB_W19_JUDGE",
+   "ts": "2026-10-14 13:49",
+   "kind": "measurement",
+   "cells_ledger_delta": 112,
+   "ledger_total_after": 948047,
+   "gates": {
+    "g1_prime_v2": {
+     "n_judged": 112,
+     "n_pass": 0,
+     "note": "best sharpe_full_L 0.7515 (W16-B-0730|daily_signal); all below skill line; zero registrations lawful-zero wave"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "line": "G1' pass AND DSR>=0.95 AND family PBO<=0.25 CSCV 8 blocks",
+     "family_pbo_reading": "ta 0.3286/16; momentum 0.9429/18; folk 0.2286/26; patterns 0.7/28; trend None/2 (insufficient<8); mean_reversion None/4 (insufficient<8); composite_rotation None/2 (insufficient<8); event None/2 (insufficient<8); sentiment None/4 (insufficient<8); macro None/6 (insufficient<8); volatility None/4 (insufficient<8)"
+    },
+    "e_fp_nominal": 5.6,
+    "paired_deltas": "daily_signal face: informative n=45 (weekly_asburned subgroup), median +0.0942, wilcoxon_p 0.01; weekly_grid face: informative n=128 (daily_asburned subgroup), median -0.2808, wilcoxon_p 0.358; degenerate 173 disclosed",
+    "zvx": "8 weekly_grid arms zero-variance excluded (judge members 104 = 112 - 8, disclosed in w19_reform_face.json)",
+    "reform_face": "g2_reform_fdr4d eligible_reform=[] onboard_list=[] (reform line parallel negative, E[FP]=5.6 vs 0 observed)"
+   },
+   "entries": [
+    "prereg=research/TRIAL_LABOR_W19_PREREG.md sec.0-9 frozen; finalize detached PID 17108 landed 13:49:47 (out.log receipt)",
+    "X=template_default (W17 consumer-3) S=as-burned (W18 consumer-2) T=only-tested-axis; execution-side three-axis adjudication chain closed",
+    "consumer-2 cashed: T-axis downweight canon basis -- future GENERATE needs entry x filter faces only",
+    "ledger 947935+112=948047 (results/trial_labor_w19/w19_judge.json trials_ledger; finalize out.log 'ledger total 948047')",
+    "ts = product-file mtime face (judge finalize 13:49:47 out.log receipt)"
+   ]
   }
  ],
  "history": [
