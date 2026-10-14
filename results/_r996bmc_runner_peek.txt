@@ -1,0 +1,49 @@
+lines: 322
+h"] = 1344
+    n6["height"] = 768
+    wf["10"]["inputs"]["noise_seed"] = seed
+    pid = nf.http_json(SERVER + "/prompt", {"prompt": wf, "client_id": "bmc-v3wave1-r996"})["prompt_id"]
+    nf.log("[%s] SUBMITTED frame=%s seed=%d pid=%s" % (tag, img, seed, pid))
+    return pid
+
+
+def collect_shot(pid, out_mp4, tag, t0, budget):
+    """Poll history for pid, fetch mp4 when done."""
+    while time.time() - t0 < budget:
+        time.sleep(15)
+        try:
+            hist = nf.http_json(SERVER + "/history/" + pid, timeout=20)
+        except Exception:
+            continue
+        e = hist.get(pid)
+        if e is None:
+            nf.log("[%s] %4ds running..." % (tag, time.time() - t0))
+            continue
+        if e.get("status", {}).get("status_str") == "error":
+            nf.log("[%s] ERROR %s" % (tag, json.dumps(e["status"].get("messages", []))[:300]))
+            return False
+        for nid, out in e["outputs"].items():
+            vids = out.get("gifs", []) or out.get("videos", []) or out.get("images", [])
+            for vid in vids:
+                u = "%s/view?filename=%s&subfolder=%s&type=%s" % (
+                    SERVER, vid["filename"], vid.get("subfolder", ""), vid.get("type", "output"))
+                data = urllib.request.urlopen(u, timeout=300).read()
+                io.open(out_mp4, "wb").write(data)
+                nf.log("[%s] SAVED %s (%.0fs)" % (tag, os.path.basename(out_mp4), time.time() - t0))
+                return True
+        return False
+    nf.log("[%s] TIMEOUT" % tag)
+    return False
+
+
+def wave1():
+    state = {"wave": 1, "shots": {}}
+    save_progress(state)
+    # submit ALL first (server queue burns even if this client dies)
+    t0 = time.time()
+    pending = []
+    for i, (tag, frame, prose) in enumerate(WAVE1):
+        out_mp4 = os.path.join(I2V_OUT, tag + ".mp4")
+        if os.path.isfile(out_mp4) and os.path.getsize(out_mp4) > 500000:
+            nf.log("[%s] SKIP (exists)" % tag)
+            state["shots"][tag] = {"status": "SAVE

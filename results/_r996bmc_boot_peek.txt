@@ -1,0 +1,33 @@
+def boot_krea2():
+    subprocess.run(["taskkill", "/F", "/IM", "python.exe", "/FI",
+                    "WINDOWTITLE eq ComfyUI*"], capture_output=True)
+    try:
+        out = subprocess.check_output(["wmic", "process", "where",
+                                       "commandline like '%ComfyUI\\\\main.py%' get processid"],
+                                     ).decode("utf-8", "replace")
+        for line in out.splitlines():
+            line = line.strip()
+            if line.isdigit():
+                subprocess.run(["taskkill", "/F", "/PID", line], capture_output=True)
+    except Exception:
+        pass
+    log = open(os.path.join(BMC, "comfy_krea2_r996.out.log"), "ab")
+    err = open(os.path.join(BMC, "comfy_krea2_r996.err.log"), "ab")
+    subprocess.Popen([COMFY_EXE, "-s", "ComfyUI\\main.py", "--windows-standalone-build"],
+                     cwd=COMFY_CWD, stdout=log, stderr=err, creationflags=0x08000000)
+    t0 = time.time()
+    while time.time() - t0 < 300:
+        time.sleep(5)
+        try:
+            nf.http_json(SERVER + "/system_stats", timeout=8)
+            nf.log("[boot:krea2] server UP in %.0fs" % (time.time() - t0))
+            return True
+        except Exception:
+            continue
+    nf.log("[boot:krea2] SERVER BOOT FAIL after 300s")
+    return False
+
+
+def sil4_prose():
+    t = io.open(NEWKF_PACK, encoding="utf-8").read()
+    m = re.search(r"### SIL4_cr
