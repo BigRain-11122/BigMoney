@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T07:31:15+08:00",
- "task": "r967: recovery monitor round (eighth beat) - v5 restore driver alive+probe-cadence (pid 3672, receipt 846/1804, dead window 100%-fail cycles since ~06:29, ok=716 flat); C-r966 consumed PUSHED_VERIFIED (9105e251, ancestor on origin, tip=9105e25145ba); D-19 NO_DELTA_ZERO_ACTION; C-r967 closeout push",
- "did": "r967: (a) v5 driver liveness double-verified (session Get-Process + closeout tasklist; start 05:24 no restart; receipt 846/1804 fails=130 dead-window face, ok=716 flat since ~06:29, retried_ok=557; breaker 300s probe cadence = designed response; stagnant_vs_anchor=False) (b) C-r966 push receipt consumed PUSHED_VERIFIED 9105e251, ancestor-verified on origin (tip after fetch=9105e25145ba) (c) lane face: schtasks 3/3 registered + idempotent re-registration quad in-process (d) engine alive idle queue 0 (e) watermark red=False (2026-10-15 07:31:02 face) (f) sentinel NORMAL flags none (g) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (fresh fetch re-run) (h) inbox zero new unreads (2 known pending completion-package faces) (i) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
+ "last_seen": "2026-10-15T07:50:55+08:00",
+ "task": "r968: recovery monitor round (ninth beat) - v5 restore driver alive+probe-cadence (pid 3672 via cmdline-discovery, receipt 886/1804, ok=716 flat dead-window face); C-r967 consumed PUSHED_VERIFIED (3c546509, ancestor on origin, tip=5e24d1fdb493); CEO order delivery face: repair in flight (absent on origin -> add-only payload face); D-19 NO_DELTA_ZERO_ACTION; C-r968 closeout push",
+ "did": "r968: (a) v5 driver liveness (fresh cmdline pid discovery -> pid 3672 via cmdline-discovery; tasklist alive=True; receipt 886/1804 fails=170 dead-window face, ok=716 flat, retried_ok=557; anchor 866@07:40:03 stagnant=False; breaker 300s probe cadence = designed response) (b) C-r967 push receipt consumed PUSHED_VERIFIED 3c546509, ancestor-verified on origin (tip after fetch=5e24d1fdb493) (c) CEO order O-20261015-0025 delivery check: ABSENT on origin -> delivery repair this round: add-only surgery payload face (r959 delivery law; issuer copy, unchecked receipt section) (d) lane face: schtasks 3/3 registered + idempotent re-registration quad in-process (e) engine alive idle queue 0 (f) watermark red=False (2026-10-15 07:51:02 face) (g) sentinel NORMAL flags none (h) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (fresh fetch) (i) inbox zero new unreads (2 known pending completion-package faces) (j) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
  "gpu_free_vram_mb": 3517,
- "verdict": "AMBER-recovering: v5 restore driver alive (pid 3672, 846/1804 pass1, remaining=1088, fails=130 dead-window probe cadence; ok=716 flat since ~06:29 = honest dead-channel face); completion package gated on ALL_RESTORED; zero origin-side loss",
+ "verdict": "AMBER-recovering: v5 restore driver alive (pid 3672, 886/1804 pass1, remaining=1088, fails=170 dead-window probe cadence; ok=716 flat = honest dead-channel face); completion package gated on ALL_RESTORED; zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792020675,
- "clock_read": "2026-10-15T07:31:15+08:00",
- "ts": "2026-10-15T07:31:15+08:00",
- "orders_ack": "r967: NO_DELTA (s05 re-probe fresh fetch) - ord/dec watermarks unchanged; C-r966 landed (9105e251); zero unacked O-orders (origin latest = O-20261014-0949-bm-b, acked)",
- "note": "monitor round (eighth beat): no new claims (job_list empty; restore in flight = active work); no rm on any repo face; group-tree zero-touch (origin reads only)"
+ "heartbeat_epoch_utc": 1792021855,
+ "clock_read": "2026-10-15T07:50:55+08:00",
+ "ts": "2026-10-15T07:50:55+08:00",
+ "orders_ack": "r968: NO_DELTA (s05 fresh fetch) - ord/dec watermarks unchanged; C-r967 landed (3c546509); zero unacked O-orders; CEO order O-20261015-0025 delivery face: ABSENT on origin -> delivery repair this round: add-only surgery payload face (r959 delivery law; issuer copy, unchecked receipt section)",
+ "note": "monitor round (ninth beat): no new claims (job_list empty; restore in flight = active work); no rm on any repo face; group-tree zero-touch (origin reads only)"
 }
