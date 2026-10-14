@@ -115,3 +115,7 @@
 - 综合研判主件：docs/synthesis/SYNTHESIS-METHODS-PLANS-R1-20261006.md §1.2（N1-N7 原始行）·§三 M2（排除书资产化方法）
 
 —— bm-a r778 · T-2026-10-06-176-P1 · 2026-10-06 · 零烧裁定（+0 试验）·研究产出非投资建议·实盘开闸=月界首考＋CEO 亲批不变
+
+### 附录·新增类级负发现（2026-10-14 bm-b r933 首录·判决 finalize 类收口步）
+
+- **RL 反馈搜索无增量（N2U3-ALPHAGEN-RL-P1·E17 judged 判负）**：E16 census 已证同一语法空间存在 |ICIR|>0.4 信号面，但 RL 反馈搜索（PPO+协同池边际 rank-IC 奖励·4096 eps 断点续跑）相对 E16 无反馈随机采样 **无可判读增量**——leg-2 边际 IC flat（Q0-Q3 均值 0.0001-0.0002 无上升信号）；judged top-32 全灭 0/32（G1'v2 0 过〔best QTLD(low,60) SR 0.5435 vs skill_line 2.952 @ N_eff 940,821〕·M1 9/32·D6 拒 18·DSR max 0.2355·PBO 0.2714）；RL 收敛全部价格字段（close 13/high 7/open 6/low 3/vwap 3）而非先验量能/换手族=族向预测证伪。**撞号指纹**：同一语法空间内「反馈 vs 非反馈搜索机制对比」再开须新证据增量三选一声明（新机制族/新数据面/判线改革）；same-grammar rerun FORBIDDEN。证据=results/alphagen_rl_p1/JUDGED-2026-10-09.json+research/N2U3_ALPHAGEN_RL_P1.md §7/§8+attrition 双面行（r933）。

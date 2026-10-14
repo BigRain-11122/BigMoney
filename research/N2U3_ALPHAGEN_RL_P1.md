@@ -84,13 +84,16 @@
 - 产物：训练日志+top-32 公式表（公式串逐字）+judged `results/alphagen_rl_p1/JUDGED-<cutoff>.json`（顶层 evidence_cutoff+cutoff_meta+audit 段）；机器本地件（gitignored）=per-episode checkpoint+panel cache。
 - F-04 MSG：冻结 commit 同窗 fleet/inbox/ 声明。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后一次定稿·r933 bm-b 2026-10-14 13:5x】
 
-（一次定稿；工程修复重跑须双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+- judged 落地：`results/alphagen_rl_p1/JUDGED-2026-10-09.json`（114KB·2026-10-14 07:42:26 落地·leg-3 训练 4096 eps 断点续跑毕→export-topk n_unique=32/n_skip=0→judged K=32 格全判零 skip）；账本 940,789→**940,821** 单调 +32 EXACT（judged 格计入；RL 搜索面与 nulls 校准不计=E16 trial_budget_law 同例）。
+- 门禁链逐环：D6 拒收 **18/32**（vs 在册成员 max|corr| 0.706–1.000）→ M1 t≥3 过 **9/32**（t 10.416–13.227·全部 d6_ok 正 t 格）→ G1'v2 过 **0/32**（best `QTLD(low,60)` sharpe_full_x1 **0.5435** vs **skill_line_v2 2.952** @ n_eff 940,821·批内自有 scrnull 池 n=32 μ=-0.2571/σ=0.6119；bootstrap CI95 [-0.1707, 1.2811] 下界≤0）→ G2 注册 **0**（DSR max **0.2355** < 0.95 且 family PBO **0.2714** > 0.25 双 fail）→ **registered 0/32**。
+- 预测对账：**P1=错**（预测集中量能/换手族邻域 [0.2,0.5]——实测 RL 收敛全部价格字段 {close 13/high 7/open 6/low 3/vwap 3}，零量能/换手/成交额字段；|ICIR| med 0.178/max 0.363，带内 14/32 仅部分）；**P2=对**（预测 G1' 0/32 概率>70%——实测 0/32 且差距巨大 best 0.54 vs 判线 2.95）；**P3=错**（leg-2 训练边际 IC flat 0.0001–0.0002 无上升信号=RL 反馈不优于 E16 无反馈基线→license 问题判负）；**P4=过**（极端日门 2024-09-24/09-30/2025-04-07/2026-01-19 全 false 无坍缩；成本 x2/x3 逐年稳定 32/32）；**P5=过**（n_unique_formulas=32、n_skip=0<10%、n_excluded_dup=0）。
+- 全起点分布（best 格 `QTLD(low,60)`·judged 消费面全起点虚拟时点 P-5/P-5B）：fullstart_6m best **+0.1753** / p25 **-0.0043** / 中位 **+0.0193** / p75 **+0.0402** / worst **-0.1301**；滚动最差 3y **-0.0201** / 5y **+0.0228** / 10y null；beat_rate 3m 0.5708 / 6m 0.5337 / 12m 0.4906；逐年 2022 -0.0692 / 2026 -0.0429 负年；max_dd_x1 **-13.71%**。
 
 ## §8 批后复盘【必填·s7-T】
 
-- 预测对账（P1-P5 对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行·若适用）＋判线当批读数（skill_line_v2/DSR/PBO 数字）；
-- 回执入轮报告＋CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑。
-- **全起点分布【§1.3】**：最好/最坏/p25/中位/p75＋滚动 3/5/10 年窗口最差（judged 消费面全起点虚拟时点 P-5/P-5B）。
-- **试验量归因【§1.4】**：本批新增试验数=**32**（judged 格·计入 ≤500/30d 预算）；一句话归因：E16 census 已证语法空间存在 |ICIR|>0.4 信号面，RL 搜索=把 E16 无反馈采样升级为反馈搜索的最小承诺主考（top-32 格），负即止步 RL 线（EXCLUSION_BOOK 收口·G2 fallback）。
+- 预测对账（P1-P5）：P1 错（族向收敛证伪）/P2 对/P3 错（核心 license 面判负）/P4 过/P5 过——**一句话定谳：RL 反馈搜索在该语法空间不产生高于无反馈采样的可注册信号**；门禁链损耗账=`results/gate_attrition.json` + `gate_attrition.bm-b.json` 各追加 N2U3_ALPHAGEN_RL_P1 一行（32 eliminated 全灭·r933）；判线当批读数=skill_line_v2 2.952 / DSR max 0.2355 / family PBO 0.2714 / null 池 μ=-0.2571 σ=0.6119。
+- 回执：轮报告 r933 bm-b + CODELY.md 行级追加；**零新注册员**（无注册件/无 live/paper SIGNAL_BUILDERS 接线/smoke 锚定门无涉——负结果链合法零动作）。
+- **全起点分布【§1.3】**：见 §7（best 格五分位+滚动窗+逐年+回撤齐备；批最差格 `VSTD(ROC(close,60),10)` sharpe -1.0795）。
+- **试验量归因【§1.4】**：本批新增试验数=**32**（judged 格·计入 ≤500/30d 预算；E16 census 200 同窗先烧）；一句话归因：E16 census 已证语法空间存在 |ICIR|>0.4 信号面，RL 搜索=把 E16 无反馈采样升级为反馈搜索的最小承诺主考（top-32 格）——**判负落地：负即止步 RL 线（EXCLUSION_BOOK 收口·G2 fallback 学术引用面·same-grammar rerun FORBIDDEN judgment single-shot 律）**；语法登记簿 `research/TRIAL_GRAMMAR_LEDGER.md` alphagen RL 首烧行已回填（§0.9③ 冻结窗承诺兑现）。
