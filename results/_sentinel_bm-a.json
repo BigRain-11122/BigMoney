@@ -3,280 +3,6 @@
  "law_ref": "O-20261014-0949 sec.1-4 + O-0948 pattern",
  "ticks": [
   {
-   "ts": "2026-10-14T12:30:30+08:00",
-   "epoch": 1791952230,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_9734s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 1,
-    "ollama_loaded": [
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 9734,
-    "disk_free_gb": 636.0,
-    "ram_free_gb": 41.9,
-    "gpu": {
-     "util_pct": "0 %",
-     "mem_used_mib": "7103 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T12:35:31+08:00",
-   "epoch": 1791952531,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_10035s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 19,
-    "heartbeat_age_s": 10035,
-    "disk_free_gb": 635.9,
-    "ram_free_gb": 31.1,
-    "gpu": {
-     "util_pct": "0 %",
-     "mem_used_mib": "11233 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T12:40:30+08:00",
-   "epoch": 1791952830,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_10334s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 10334,
-    "disk_free_gb": 635.4,
-    "ram_free_gb": 36.7,
-    "gpu": {
-     "util_pct": "0 %",
-     "mem_used_mib": "11622 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T12:45:30+08:00",
-   "epoch": 1791953130,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_10634s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 17,
-    "heartbeat_age_s": 10634,
-    "disk_free_gb": 635.7,
-    "ram_free_gb": 30.6,
-    "gpu": {
-     "util_pct": "13 %",
-     "mem_used_mib": "11630 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T12:50:30+08:00",
-   "epoch": 1791953430,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_10934s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 10934,
-    "disk_free_gb": 634.2,
-    "ram_free_gb": 36.2,
-    "gpu": {
-     "util_pct": "1 %",
-     "mem_used_mib": "10879 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T12:55:30+08:00",
-   "epoch": 1791953730,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_11234s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 11234,
-    "disk_free_gb": 634.1,
-    "ram_free_gb": 39.7,
-    "gpu": {
-     "util_pct": "47 %",
-     "mem_used_mib": "11329 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T13:00:30+08:00",
-   "epoch": 1791954030,
-   "verdict": "DEGRADED",
-   "degraded": [
-    "heartbeat_stale_11534s"
-   ],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 11534,
-    "disk_free_gb": 634.2,
-    "ram_free_gb": 39.2,
-    "gpu": {
-     "util_pct": "100 %",
-     "mem_used_mib": "11249 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T13:05:30+08:00",
-   "epoch": 1791954330,
-   "verdict": "NORMAL",
-   "degraded": [],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 24,
-    "heartbeat_age_s": 57,
-    "disk_free_gb": 634.0,
-    "ram_free_gb": 37.3,
-    "gpu": {
-     "util_pct": "35 %",
-     "mem_used_mib": "11371 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
-   "ts": "2026-10-14T13:10:30+08:00",
-   "epoch": 1791954630,
-   "verdict": "NORMAL",
-   "degraded": [],
-   "stack": {
-    "ollama_api": "UP",
-    "ollama_store_models": 2,
-    "ollama_loaded": [
-     "qwen2.5:7b-instruct",
-     "bge-m3:latest"
-    ],
-    "comfy_8188": "DOWN (report-only, MV lane protected)",
-    "engine_state_age_s": 19,
-    "heartbeat_age_s": 357,
-    "disk_free_gb": 634.0,
-    "ram_free_gb": 30.0,
-    "gpu": {
-     "util_pct": "28 %",
-     "mem_used_mib": "11047 MiB",
-     "mem_total_mib": "12282 MiB"
-    },
-    "tasks": {
-     "Bigmoney-IterationLoop": "present",
-     "Bigmoney-LoopWatchdog": "present"
-    }
-   },
-   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
-  },
-  {
    "ts": "2026-10-14T13:15:30+08:00",
    "epoch": 1791954930,
    "verdict": "NORMAL",
@@ -608,14 +334,293 @@
     }
    },
    "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:25:29+08:00",
+   "epoch": 1791962729,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_8456s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 8456,
+    "disk_free_gb": 631.9,
+    "ram_free_gb": 28.8,
+    "gpu": {
+     "util_pct": "25 %",
+     "mem_used_mib": "11644 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:30:29+08:00",
+   "epoch": 1791963029,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_8756s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 8756,
+    "disk_free_gb": 630.6,
+    "ram_free_gb": 30.1,
+    "gpu": {
+     "util_pct": "45 %",
+     "mem_used_mib": "11469 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:35:29+08:00",
+   "epoch": 1791963329,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_9056s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 9056,
+    "disk_free_gb": 630.6,
+    "ram_free_gb": 31.7,
+    "gpu": {
+     "util_pct": "39 %",
+     "mem_used_mib": "11628 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:40:29+08:00",
+   "epoch": 1791963629,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_9356s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 9356,
+    "disk_free_gb": 630.6,
+    "ram_free_gb": 31.9,
+    "gpu": {
+     "util_pct": "41 %",
+     "mem_used_mib": "11598 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:45:29+08:00",
+   "epoch": 1791963929,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_9656s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 23,
+    "heartbeat_age_s": 9656,
+    "disk_free_gb": 630.5,
+    "ram_free_gb": 28.6,
+    "gpu": {
+     "util_pct": "42 %",
+     "mem_used_mib": "11317 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:50:29+08:00",
+   "epoch": 1791964229,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_9956s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 22,
+    "heartbeat_age_s": 9956,
+    "disk_free_gb": 630.5,
+    "ram_free_gb": 30.3,
+    "gpu": {
+     "util_pct": "34 %",
+     "mem_used_mib": "11480 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T15:55:29+08:00",
+   "epoch": 1791964529,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_10256s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 22,
+    "heartbeat_age_s": 10256,
+    "disk_free_gb": 630.4,
+    "ram_free_gb": 28.0,
+    "gpu": {
+     "util_pct": "38 %",
+     "mem_used_mib": "11574 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T16:00:29+08:00",
+   "epoch": 1791964829,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_10556s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 22,
+    "heartbeat_age_s": 10556,
+    "disk_free_gb": 630.4,
+    "ram_free_gb": 28.3,
+    "gpu": {
+     "util_pct": "40 %",
+     "mem_used_mib": "10958 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T16:05:29+08:00",
+   "epoch": 1791965129,
+   "verdict": "DEGRADED",
+   "degraded": [
+    "heartbeat_stale_10856s"
+   ],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 2,
+    "ollama_loaded": [
+     "qwen2.5:7b-instruct",
+     "bge-m3:latest"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 20,
+    "heartbeat_age_s": 10856,
+    "disk_free_gb": 630.2,
+    "ram_free_gb": 22.7,
+    "gpu": {
+     "util_pct": "17 %",
+     "mem_used_mib": "10974 MiB",
+     "mem_total_mib": "12282 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV GPU lane CEO-priority per C-20261014-01 sec.2)"
   }
  ],
  "latest": {
-  "ts": "2026-10-14T14:05:29+08:00",
-  "epoch": 1791957929,
+  "ts": "2026-10-14T16:05:29+08:00",
+  "epoch": 1791965129,
   "verdict": "DEGRADED",
   "degraded": [
-   "heartbeat_stale_3656s"
+   "heartbeat_stale_10856s"
   ],
   "stack": {
    "ollama_api": "UP",
@@ -625,13 +630,13 @@
     "bge-m3:latest"
    ],
    "comfy_8188": "DOWN (report-only, MV lane protected)",
-   "engine_state_age_s": 23,
-   "heartbeat_age_s": 3656,
-   "disk_free_gb": 633.1,
-   "ram_free_gb": 33.1,
+   "engine_state_age_s": 20,
+   "heartbeat_age_s": 10856,
+   "disk_free_gb": 630.2,
+   "ram_free_gb": 22.7,
    "gpu": {
-    "util_pct": "28 %",
-    "mem_used_mib": "11319 MiB",
+    "util_pct": "17 %",
+    "mem_used_mib": "10974 MiB",
     "mem_total_mib": "12282 MiB"
    },
    "tasks": {
