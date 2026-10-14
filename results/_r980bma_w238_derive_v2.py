@@ -306,7 +306,7 @@ residue = [f for f in FORBID if f in out]
 assert not residue, 'forbidden residue: %s' % residue
 
 # context-pinned legal prior-wave citations (scan-refine law: blanket ban -> pinned counts)
-assert out.count('538_204..538_403') == 3, out.count('538_204..538_403')          # W237 registered B rejector x3 (S3b/S11/S21)
+assert out.count('538_204..538_403') == 2, out.count('538_204..538_403')          # W237 registered B rejector x2 (S3b+S11; r982 fix: dead-session off-by-one, canon W236/W237 prior-B count==2, template own-B x6 all converted)
 assert out.count('W237 注册 B 带 538_204..538_403') == 2, 'rejector-band phrase x2'   # (S3b + S11)
 assert out.count('_w237bmc') == 1 and out.count('_w237bmc_freeze_edits.py') == 1     # template-source citation x1
 assert out.count('938,589') == 1                                                     # W234 historical ledger head x1 (chain narration)
@@ -315,15 +315,15 @@ assert out.count('938,589') == 1                                                
 assert out.count('n1_w237_results.json') == 3, out.count('n1_w237_results.json')
 assert out.count('n1_w238_results.json') == 2, out.count('n1_w238_results.json')
 assert out.count('PERPETUAL-N1-W238') == 4, out.count('PERPETUAL-N1-W238')
-assert out.count('PERPETUAL_N1_W238') == 1
+assert out.count('PERPETUAL_N1_W238') == 2, out.count('PERPETUAL_N1_W238')           # r982 fix: template canon x2 (vacancy four-check + banned-gate lines)
 assert 'n1_w238/shard' in out
 assert '538_404' in out and '540_404' in out and '540_403' in out and '538_203' in out
-assert 'NINETY-EIGHTH' in out and out.count('第九十八例') == 2                        # own-A ordinal x2 (S3b+S11)
+assert 'NINETY-EIGHTH' in out and out.count('第九十八例') == 4                        # r982 fix: own-A ordinal x4 (header+S0-带位+S3b+S11, template canon 97th==4)
 assert '第九十九例' in out                                                            # W239 projection ordinal (S21/S6a)
 assert '542_501..544_500' in out and '541500' in out and '542000' in out              # NEW FACE first-clean + live-seed refusers
 assert '3e551d846' in out and '0745-bma' in out                                       # own seat commit + MSG
-assert out.count('第 122 枚') == 1                                                    # bma ordinal
-assert out.count('945,189') == 2                                                      # net ledger head (S5b + S16)
+assert out.count('第 122 枚') == 2, out.count('第 122 枚')                             # r982 fix: bma ordinal x2 (header + S0 claim, template canon x2)
+assert out.count('945,189') == 3, out.count('945,189')                                # r982 fix: net ledger head x3 (chain W237 entry + S5b + S16)
 
 with open(OUT_PATH, 'w', encoding='utf-8', newline='') as fh:
     fh.write(out)
