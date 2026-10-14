@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T07:17:38+08:00",
- "task": "r966: recovery monitor round (seventh beat) - v5 restore driver alive+converging (pid 3672, receipt 816/1804, breaker 300s probe cadence cycling); C-r965 consumed PUSHED_VERIFIED (c6d9fa3a, ancestor on origin, tip=59f699771 bm-c r1019 on top); D-19 NO_DELTA; C-r966 closeout push",
- "did": "r966: (a) v5 driver liveness double-verified (Get-Process 07:12 + tasklist at closeout; start 05:24 no restart; receipt 816/1804 fails=100 cumulative-scattered retried_ok=557; breaker 300s probe cadence = designed response; stagnant_vs_anchor=False) (b) C-r965 push receipt consumed PUSHED_VERIFIED c6d9fa3a, ancestor-verified on origin (tip after fetch=59f699771455, bm-c r1019 on top) (c) lane face: schtasks 3/3 registered + idempotent re-registration quad in-process (d) engine alive idle queue 0 (e) watermark red=False (2026-10-15 07:16:01 face) (f) sentinel NORMAL flags none (g) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (fresh fetch re-run) (h) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
+ "last_seen": "2026-10-15T07:31:15+08:00",
+ "task": "r967: recovery monitor round (eighth beat) - v5 restore driver alive+probe-cadence (pid 3672, receipt 846/1804, dead window 100%-fail cycles since ~06:29, ok=716 flat); C-r966 consumed PUSHED_VERIFIED (9105e251, ancestor on origin, tip=9105e25145ba); D-19 NO_DELTA_ZERO_ACTION; C-r967 closeout push",
+ "did": "r967: (a) v5 driver liveness double-verified (session Get-Process + closeout tasklist; start 05:24 no restart; receipt 846/1804 fails=130 dead-window face, ok=716 flat since ~06:29, retried_ok=557; breaker 300s probe cadence = designed response; stagnant_vs_anchor=False) (b) C-r966 push receipt consumed PUSHED_VERIFIED 9105e251, ancestor-verified on origin (tip after fetch=9105e25145ba) (c) lane face: schtasks 3/3 registered + idempotent re-registration quad in-process (d) engine alive idle queue 0 (e) watermark red=False (2026-10-15 07:31:02 face) (f) sentinel NORMAL flags none (g) group D-19 s05 probe verdict=NO_DELTA_ZERO_ACTION (fresh fetch re-run) (h) inbox zero new unreads (2 known pending completion-package faces) (i) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law + ALL_RESTORED completion package",
  "cpu_cores": 16,
  "free_ram_gb": 0.0,
  "gpu_free_vram_mb": 3517,
- "verdict": "AMBER-recovering: v5 restore driver alive (pid 3672, 816/1804 pass1, remaining=1088, fails=100 scattered pass-2 face); breaker cycling 300s probe cadence in dead window (designed r960); completion package gated on ALL_RESTORED; zero origin-side loss",
+ "verdict": "AMBER-recovering: v5 restore driver alive (pid 3672, 846/1804 pass1, remaining=1088, fails=130 dead-window probe cadence; ok=716 flat since ~06:29 = honest dead-channel face); completion package gated on ALL_RESTORED; zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792019858,
- "clock_read": "2026-10-15T07:17:38+08:00",
- "ts": "2026-10-15T07:17:38+08:00",
- "orders_ack": "r966: NO_DELTA (s05 re-probe fresh fetch) - ord/dec watermarks unchanged; C-r965 landed (c6d9fa3a); zero unacked O-orders (origin latest = O-20261014-0949-bm-b, acked)",
- "note": "monitor round (seventh beat): no new claims (job_list empty; restore in flight = active work); no rm on any repo face; group-tree zero-touch (origin reads only)"
+ "heartbeat_epoch_utc": 1792020675,
+ "clock_read": "2026-10-15T07:31:15+08:00",
+ "ts": "2026-10-15T07:31:15+08:00",
+ "orders_ack": "r967: NO_DELTA (s05 re-probe fresh fetch) - ord/dec watermarks unchanged; C-r966 landed (9105e251); zero unacked O-orders (origin latest = O-20261014-0949-bm-b, acked)",
+ "note": "monitor round (eighth beat): no new claims (job_list empty; restore in flight = active work); no rm on any repo face; group-tree zero-touch (origin reads only)"
 }
