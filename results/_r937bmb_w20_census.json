@@ -1,0 +1,691 @@
+{
+ "census_id": "W20-ENROLLMENT-SLICE1-TSP-CENSUS",
+ "round": "r937 bm-b",
+ "source": "github.com/shy3130/tick-stock-panel",
+ "source_tree_sha": "3d8a42617759b227d036e31f3c821ffcca014ebe",
+ "burn_face": "core48 ETF daily panel (trial-labor tl1 chassis)",
+ "domains": {
+  "D1_face_feasibility": "limit-mechanics features absent on core48",
+  "D2_inrepo_twin": "77 (module,fn) burned W1-W16 inventory",
+  "D3_closed_families": "science_gates.CLOSED_FAMILIES 9 keys",
+  "D4_exclusion_routes": "N1-N7 fingerprints (N2 same-axis / N4 negatives)"
+ },
+ "fixtures": {
+  "active_limit_gene": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "closed_keys": [],
+   "required_features": [
+    "limit_up_count_60d"
+   ],
+   "features_found": [
+    "change_pct",
+    "limit_up_count_60d",
+    "vol_ratio_5d"
+   ],
+   "why": "limit-mechanics feature (60d limit-up count) absent on core48 ETF face; asset_types=stock",
+   "evidence": "entry = matrix_feature(market, \"limit_up_count_60d\") >= int(params.get(\"min_limit_count\", 3))\nentry &= matrix_feature(market, \"change_pct\") < float(params.get(\"max_change_pct\", 7.0)) / 100.0\nentry &= matrix_feature(market, \"vol_ratio_5d\") <= float(params.get(\"vol_ratio_max\", 1.2))\nexit_ = matrix_feature(market, \"limit_up_count_60d\") < int(params.get(\"min_limit_count\", 3)) - 1\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_active_limit_gene\",),\nexit_signal_ids=(\"signal_active_gene_cool\",),",
+   "closed_gate_probe": []
+  },
+  "boll_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.bb_squeeze_breakout",
+    "mean_reversion.bollinger_breakout",
+    "ta.vol_breakout"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "boll_upper",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "boll_lower",
+    "boll_upper",
+    "vol_ratio_5d"
+   ],
+   "why": "upper-band breakout + volume = boll-squeeze-breakout family + vol confirmation; both boll directions burned in-repo",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.close > upper\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nexit_ = market.close < lower\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_boll_breakout_upper\",),\nexit_signal_ids=(\"signal_boll_breakdown_lower\",),",
+   "closed_gate_probe": []
+  },
+  "breakout_new_high_60d": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.donchian_breakout",
+    "event.breakout_confirm"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "high_60d",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "change_pct",
+    "high_60d",
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "why": "close > prior 60d high + volume = donchian N-day-high breakout + breakout_confirm volume face",
+   "evidence": "entry = market.close > prior_high\nentry &= matrix_feature(market, \"change_pct\") >= float(params.get(\"min_change_pct\", 2.0)) / 100.0\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(params.get(\"vol_ratio_min\", 1.3))\nexit_ = market.close < ma20\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_breakout_high_60d\",),\nexit_signal_ids=(\"signal_break_ma20_lose\",),",
+   "closed_gate_probe": []
+  },
+  "broken_board_recovery": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "closed_keys": [],
+   "required_features": [
+    "limit_up_locked"
+   ],
+   "features_found": [
+    "change_pct",
+    "limit_up_locked",
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "why": "limit_up_locked absent on core48; asset_types=stock",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.limit_up_locked.astype(bool)\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nentry &= matrix_feature(market, \"change_pct\") > float(\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_limit_up\",),",
+   "closed_gate_probe": []
+  },
+  "bullish_alignment": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.triple_ma",
+    "patterns.yang_break_3ma"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma5",
+    "ma10",
+    "ma20",
+    "ma60",
+    "momentum_20d"
+   ],
+   "features_found": [
+    "ma10",
+    "ma20",
+    "ma5",
+    "ma60",
+    "momentum_20d"
+   ],
+   "why": "MA5>MA10>MA20>MA60 alignment = triple_ma all-aligned-bullish + yang_break_3ma converged-MA family",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= (ma5 > ma10) & (ma10 > ma20) & (ma20 > ma60)\nentry &= matrix_feature(market, \"momentum_20d\") > 0\nexit_ = ma_dead | ma20_breakdown\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(ma_dead, 0, np.where(ma20_breakdown, 1, -1)).astype(np.int16),\nentry_signal_ids=(\"signal_ma_golden_5_20\", \"signal_ma_golden_20_60\"),\nexit_signal_ids=(\"signal_ma_dead_5_20\", \"signal_ma20_breakdown\"),",
+   "closed_gate_probe": []
+  },
+  "consecutive_limit_ups": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "closed_keys": [],
+   "required_features": [
+    "limit_up_locked",
+    "consecutive_limit_ups"
+   ],
+   "features_found": [
+    "consecutive_limit_ups",
+    "limit_up_locked"
+   ],
+   "why": "limit/board features absent on core48; asset_types=stock",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.limit_up_locked.astype(bool)\nentry &= matrix_feature(market, \"consecutive_limit_ups\") >= int(\nentry=entry.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_limit_up\",),",
+   "closed_gate_probe": []
+  },
+  "high_turnover_surge": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "sentiment.turnover_surge"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "turnover_rate",
+    "change_pct"
+   ],
+   "features_found": [
+    "change_pct",
+    "ma20",
+    "turnover_rate"
+   ],
+   "why": "turnover_rate > threshold + change filter = turnover_surge name-identical mechanism",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= matrix_feature(market, \"turnover_rate\") > float(\nentry &= (\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_volume_surge\",),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  },
+  "limit_up_momentum": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "closed_keys": [],
+   "required_features": [
+    "consecutive_limit_ups"
+   ],
+   "features_found": [
+    "change_pct",
+    "consecutive_limit_ups"
+   ],
+   "why": "board-count feature absent on core48; asset_types=stock",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= (\nentry &= matrix_feature(market, \"consecutive_limit_ups\") >= int(\nentry=entry.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_limit_up\",),",
+   "closed_gate_probe": []
+  },
+  "long_lower_shadow_reversal": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.hammer_reversal",
+    "patterns.needle_probe"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "prev_close",
+    "close_position",
+    "momentum_5d",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "close_position",
+    "ma5",
+    "momentum_5d",
+    "prev_close",
+    "vol_ratio_5d"
+   ],
+   "why": "long-lower-shadow candle + drop + volume = hammer_reversal; needle_probe docstring self-declares hammer cousin same-family",
+   "evidence": "entry = shadow_pct >= float(params.get(\"shadow_pct_min\", 3.0))\nentry &= matrix_feature(market, \"momentum_5d\") <= float(params.get(\"drop_pct_max\", -5.0)) / 100.0\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= 1.2   # 承接需有量\nentry &= matrix_feature(market, \"close_position\") >= 0.5\nexit_ = market.close < ma5\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_long_lower_shadow\",),",
+   "closed_gate_probe": []
+  },
+  "low_volatility_leader": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "volatility.low_vol_long"
+   ],
+   "closed_keys": [
+    "lowamp_daily_xs",
+    "lowamp_deep_xs"
+   ],
+   "required_features": [
+    "annual_vol_20d",
+    "momentum_20d",
+    "ma20"
+   ],
+   "features_found": [
+    "annual_vol_20d",
+    "ma20",
+    "momentum_20d"
+   ],
+   "why": "low-vol selection + trend filter = low_vol_long twin; family-level close = lowamp_daily_xs + lowamp_deep_xs (judged negative P3/deep true faces)",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= matrix_feature(market, \"momentum_20d\") > 0\nentry &= matrix_feature(market, \"annual_vol_20d\") < float(params.get(\"vol_max\", 0.30))\nentry &= market.close > ma20\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_ma20_breakout\",),",
+   "closed_gate_probe": [
+    {
+     "gate": "closed_family_check",
+     "family": "lowamp_daily_xs",
+     "status": "rejected",
+     "in_registry": true,
+     "reopen_rule": "new_evidence_new_prereg",
+     "reason": "closed family: declare the new-evidence delta vs the archived verdict (O-20260925-1105 新证据=新预注册) or cite the entry's reopen channel",
+     "entry": {
+      "verdict": "judged_negative_p3_true_face",
+      "closed_by": "LOWAMP-P3 verdict + E1 four-leg (r533 bm-b, 2026-10-02)",
+      "evidence": "results/lowamp_p3/lowamp_p3_results.json + research/LOWAMP-P3.md sec.7/8 (P1/P2 voided defect-faces; P3 = exit-axis dual-channel corrected face, law-A census default_share 0.0, merit gates G1'/M1/DSR/PBO/dual-axis all failed)",
+      "reopen": "new_evidence_new_prereg"
+     }
+    },
+    {
+     "gate": "closed_family_check",
+     "family": "lowamp_deep_xs",
+     "status": "rejected",
+     "in_registry": true,
+     "reopen_rule": "new_evidence_new_prereg",
+     "reason": "closed family: declare the new-evidence delta vs the archived verdict (O-20260925-1105 新证据=新预注册) or cite the entry's reopen channel",
+     "entry": {
+      "verdict": "judged_negative_deep_p1_true_face",
+      "closed_by": "LOWAMP-DEEP-P1 verdict + E1 four-leg (r397 bm-c, 2026-10-03)",
+      "evidence": "results/lowamp_deep_p1/lowamp_deep_p1_results.json + research/LOWAMP-DEEP-P1.md sec.7/8 (deep-axis new-family full judgment: headline LAD-EDGE deep Sharpe 1.0663 < skill_line 1.512, DSR 0.7004 < 0.95; M1/x2/law-A census/G-SEG/reproduction all PASS; true-eq faces first-measured on deep universe far weaker; P1/P2 voids applied, ledger 615492+2008=617500)",
+      "reopen": "new_evidence_new_prereg"
+     }
+    }
+   ]
+  },
+  "ma_convergence_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "patterns.ma_converge_break",
+    "ta.bb_squeeze_breakout"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma5",
+    "ma10",
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "change_pct",
+    "ma10",
+    "ma20",
+    "ma5",
+    "vol_ratio_5d"
+   ],
+   "why": "MA-band squeeze then breakout = ma_converge_break name-identical + squeeze family",
+   "evidence": "entry = squeeze & (market.close > band_top)\nentry &= matrix_feature(market, \"change_pct\") >= float(params.get(\"min_change_pct\", 2.0)) / 100.0\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= 1.2\nexit_ = market.close < ma10\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_ma_convergence_breakout\",),\nexit_signal_ids=(\"signal_ma10_lose\",),",
+   "closed_gate_probe": []
+  },
+  "ma_golden_cross": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma5",
+    "ma20",
+    "ma60",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "ma20",
+    "ma5",
+    "ma60",
+    "vol_ratio_5d"
+   ],
+   "why": "MA5/20 golden cross + MA60 filter = dual_ma_cross mechanism + burned trend axis",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= golden\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nentry &= market.close > matrix_feature(market, \"ma60\")\nentry=entry.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(dead, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_ma_golden_5_20\",),\nexit_signal_ids=(\"signal_ma_dead_5_20\",),",
+   "closed_gate_probe": []
+  },
+  "macd_below_zero_revival": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "patterns.macd_divergence"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "macd_dif"
+   ],
+   "features_found": [
+    "macd_dif"
+   ],
+   "why": "new 20d low + DIF<0 + DIF lifting = bullish MACD divergence at new low (macd_divergence docstring verbatim anatomy)",
+   "evidence": "entry = new_low & (dif < 0) & (dif > shift(dif, revive))\nexit_ = (dif > 0) & (shift(dif, 1) <= 0)\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_macd_below_zero_revival\",),\nexit_signal_ids=(\"signal_macd_golden_above_zero\",),",
+   "closed_gate_probe": []
+  },
+  "macd_golden": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.macd_trend"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "macd_dif",
+    "macd_dea",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "vol_ratio_5d"
+   ],
+   "why": "DIF/DEA golden cross + volume = macd_trend (Appel golden-cross trend) twin",
+   "evidence": "entry = (\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nentry=entry.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(dead, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_macd_golden\",),\nexit_signal_ids=(\"signal_macd_dead\",),",
+   "closed_gate_probe": []
+  },
+  "n_day_low_reversal": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "patterns.big_yin_shakeout",
+    "folk.low_suction",
+    "mean_reversion.rsi_revert"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "low_60d",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "low_60d",
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "why": "60d-new-low + bullish candle + volume = oversold-reversal family; N4 item-4 single-instrument short-term reversal on ETF face judged negative",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.close <= matrix_feature(market, \"low_60d\")\nentry &= market.close > market.open\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_n_day_low\",),",
+   "closed_gate_probe": []
+  },
+  "near_limit_up": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "closed_keys": [],
+   "required_features": [
+    "price_limit_pct"
+   ],
+   "features_found": [
+    "change_pct",
+    "ma20",
+    "price_limit_pct"
+   ],
+   "why": "price_limit_pct absent on core48; asset_types=stock",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= change > float(params.get(\"min_change\", 7.0)) / 100.0\nentry &= (\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  },
+  "oversold_bounce": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "mean_reversion.rsi2",
+    "mean_reversion.rsi_revert"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "rsi_14",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "ma20",
+    "rsi_14",
+    "vol_ratio_5d"
+   ],
+   "why": "RSI<30 + bullish candle = RSI-oversold revert family; N4 item-4 reversal negative",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= matrix_feature(market, \"rsi_14\") < float(params.get(\"rsi_max\", 30.0))\nentry &= market.close > market.open\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  },
+  "oversold_reversal": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "mean_reversion.rsi_revert",
+    "mean_reversion.rsi2"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "rsi_14",
+    "ma5"
+   ],
+   "features_found": [
+    "change_pct",
+    "ma20",
+    "ma5",
+    "rsi_14"
+   ],
+   "why": "RSI<30 + change filter + MA5 = RSI-oversold family; N4 item-4 reversal negative",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= matrix_feature(market, \"rsi_14\") < float(params.get(\"rsi_max\", 30.0))\nentry &= (\nentry &= market.close > matrix_feature(market, \"ma5\")\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  },
+  "platform_consolidation_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "patterns.box_breakout"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "why": "N-day platform range + breakout above prior high = box_breakout name-identical",
+   "evidence": "entry = range_pct <= float(params.get(\"range_pct_max\", 8.0))\nentry &= market.close > prior_high\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(params.get(\"vol_ratio_min\", 1.5))\nexit_ = market.close < matrix_feature(market, \"ma20\")\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_platform_breakout\",),\nexit_signal_ids=(\"signal_platform_fail_ma20\",),",
+   "closed_gate_probe": []
+  },
+  "pullback_ma20_bounce": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "mean_reversion.pullback_bounce",
+    "folk.low_suction"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma5",
+    "ma20",
+    "ma60"
+   ],
+   "features_found": [
+    "change_pct",
+    "ma20",
+    "ma5",
+    "ma60"
+   ],
+   "why": "close near MA20 in MA-aligned uptrend = pullback_bounce (in-uptrend buy-pullback) + low_suction",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= (market.close > ma20 * (1.0 - proximity)) & (\nentry &= (ma5 > ma20) & (ma20 > ma60)\nentry &= matrix_feature(market, \"change_pct\") > 0\nexit_ = ma20_breakdown | ma_dead\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(ma20_breakdown, 0, np.where(ma_dead, 1, -1)).astype(np.int16),\nentry_signal_ids=(\"signal_ma_golden_5_20\",),",
+   "closed_gate_probe": []
+  },
+  "pullback_to_support": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "folk.low_suction",
+    "patterns.vol_drought_reversal"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma20",
+    "ma60",
+    "vol_ratio_5d",
+    "momentum_20d"
+   ],
+   "features_found": [
+    "ma20",
+    "ma60",
+    "momentum_20d",
+    "vol_ratio_5d"
+   ],
+   "why": "shrinking-volume pullback to rising MA in uptrend = low_suction (uptrend pullback) + vol_drought (volume-dry) faces",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= (market.close > ma20 * (1.0 - proximity)) & (\nentry &= matrix_feature(market, \"vol_ratio_5d\") < float(\nentry &= market.close > matrix_feature(market, \"ma60\")\nentry &= matrix_feature(market, \"momentum_20d\") > 0\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),",
+   "closed_gate_probe": []
+  },
+  "rsi_midline_pullback": {
+   "verdict": "COLLIDE_AXIS",
+   "twins": [
+    "mean_reversion.rsi2",
+    "mean_reversion.rsi_revert",
+    "folk.rsi_low_flat",
+    "ta.rsi_divergence"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "rsi_14",
+    "ma60",
+    "ma20"
+   ],
+   "features_found": [
+    "ma20",
+    "ma60"
+   ],
+   "why": "closest-to-surviving: RSI mid-band window in uptrend has no EXACT in-repo fn twin, but is a within-axis parameter/window variant of the burned RSI entry axis (4 burned RSI faces); N2 same-axis zero-increment fingerprint; entry family = oscillator window + trend filter, both axes consumed",
+   "evidence": "entry = market.close > matrix_feature(market, \"ma60\")\nentry &= (rsi >= lo) & (rsi <= hi)\nentry &= was_strong\nexit_ = market.close < matrix_feature(market, \"ma20\")\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_rsi_midline_pullback\",),\nexit_signal_ids=(\"signal_rsi_midline_fail\",),",
+   "closed_gate_probe": []
+  },
+  "strong_open": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "folk.gap_up_hold",
+    "sentiment.overnight_drift"
+   ],
+   "closed_keys": [],
+   "required_features": [],
+   "features_found": [
+    "change_pct",
+    "ma20"
+   ],
+   "why": "open gap >=3% + close>open + change filter = gap-up-hold (gap-up unfilled folk) + overnight-drift open face",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.open > shift(market.close, 1) * (\nentry &= market.close > market.open\nentry &= (\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  },
+  "trend_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.donchian_breakout",
+    "event.breakout_confirm"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma60",
+    "high_60d",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "high_60d",
+    "ma20",
+    "ma60",
+    "vol_ratio_5d"
+   ],
+   "why": "MA60 trend filter + 60d high + volume = donchian + breakout_confirm composition",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= market.close > matrix_feature(market, \"ma60\")\nentry &= market.close >= matrix_feature(market, \"high_60d\")\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nexit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))\nentry=entry.astype(np.uint8),\nexit=exit_.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(exit_, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_n_day_high\",),",
+   "closed_gate_probe": []
+  },
+  "volume_price_surge": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.vol_breakout",
+    "trend.dual_ma_cross",
+    "sentiment.price_volume_trend"
+   ],
+   "closed_keys": [],
+   "required_features": [
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "features_found": [
+    "ma20",
+    "vol_ratio_5d"
+   ],
+   "why": "MA20 cross breakout + volume>=2x + bullish candle = vol_breakout + ma-cross + PVT family composition",
+   "evidence": "entry = np.ones(market.shape, dtype=bool)\nentry &= breakout\nentry &= matrix_feature(market, \"vol_ratio_5d\") >= float(\nentry &= market.close > market.open\nentry=entry.astype(np.uint8),\nentry_signal_code=np.where(entry, 0, -1).astype(np.int16),\nexit_signal_code=np.where(breakdown, 0, -1).astype(np.int16),\nentry_signal_ids=(\"signal_ma20_breakout\",),\nexit_signal_ids=(\"signal_ma20_breakdown\",),",
+   "closed_gate_probe": []
+  }
+ },
+ "seeds": {
+  "boll_breakdown_lower": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "mean_reversion.bollinger_breakout"
+   ],
+   "evidence": "[{'left': 'close',                      'op': '<',                      'right': 'field:boll_lower',                      'leftDays': 0,                      'rightDays': 0}]"
+  },
+  "boll_breakout_upper": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.bb_squeeze_breakout"
+   ],
+   "evidence": "[{'left': 'close',                      'op': '>',                      'right': 'field:boll_upper',                      'leftDays': 0,                      'rightDays': 0}]"
+  },
+  "broken_limit_up": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "evidence": "[{'left': 'raw_high', 'op': '>', 'right': '0', 'leftDays': 0, 'rightDays': 0},                     {'left': 'raw_close',                      'op': '<',                      'right': 'field:limit_up_price',              "
+  },
+  "limit_down": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "evidence": "[{'left': 'raw_close', 'op': '>', 'right': '0', 'leftDays': 0, 'rightDays': 0},                     {'left': 'raw_close',                      'op': '<=',                      'right': 'field:limit_down_price',          "
+  },
+  "limit_down_recovery": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "evidence": "[{'left': 'raw_low', 'op': '>', 'right': '0', 'leftDays': 0, 'rightDays': 0},                     {'left': 'raw_close',                      'op': '>',                      'right': 'field:limit_down_price',             "
+  },
+  "limit_up": {
+   "verdict": "INFEASIBLE_FACE",
+   "twins": [],
+   "evidence": "[{'left': 'raw_close', 'op': '>', 'right': '0', 'leftDays': 0, 'rightDays': 0},                     {'left': 'raw_close',                      'op': '>=',                      'right': 'field:limit_up_price',            "
+  },
+  "ma10_breakdown": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '<', 'right': 'field:ma10', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close',                      'op': '>=',                      'right': 'field:ma10',                     "
+  },
+  "ma10_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '>', 'right': 'field:ma10', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close',                      'op': '<=',                      'right': 'field:ma10',                     "
+  },
+  "ma20_breakdown": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '<', 'right': 'field:ma20', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close',                      'op': '>=',                      'right': 'field:ma20',                     "
+  },
+  "ma20_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '>', 'right': 'field:ma20', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close',                      'op': '<=',                      'right': 'field:ma20',                     "
+  },
+  "ma5_breakdown": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '<', 'right': 'field:ma5', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close', 'op': '>=', 'right': 'field:ma5', 'leftDays': 1, 'rightDays': 1}]"
+  },
+  "ma5_breakout": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'close', 'op': '>', 'right': 'field:ma5', 'leftDays': 0, 'rightDays': 0},                     {'left': 'close', 'op': '<=', 'right': 'field:ma5', 'leftDays': 1, 'rightDays': 1}]"
+  },
+  "ma_dead_5_20": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'ma5', 'op': '<', 'right': 'field:ma20', 'leftDays': 0, 'rightDays': 0},                     {'left': 'ma5', 'op': '>=', 'right': 'field:ma20', 'leftDays': 1, 'rightDays': 1}]"
+  },
+  "ma_golden_20_60": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'ma20', 'op': '>', 'right': 'field:ma60', 'leftDays': 0, 'rightDays': 0},                     {'left': 'ma20', 'op': '<=', 'right': 'field:ma60', 'leftDays': 1, 'rightDays': 1}]"
+  },
+  "ma_golden_5_20": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.dual_ma_cross"
+   ],
+   "evidence": "[{'left': 'ma5', 'op': '>', 'right': 'field:ma20', 'leftDays': 0, 'rightDays': 0},                     {'left': 'ma5', 'op': '<=', 'right': 'field:ma20', 'leftDays': 1, 'rightDays': 1}]"
+  },
+  "macd_dead": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.macd_trend"
+   ],
+   "evidence": "[{'left': 'macd_dif',                      'op': '<',                      'right': 'field:macd_dea',                      'leftDays': 0,                      'rightDays': 0},                     {'left': 'macd_dif',    "
+  },
+  "macd_golden": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.macd_trend"
+   ],
+   "evidence": "[{'left': 'macd_dif',                      'op': '>',                      'right': 'field:macd_dea',                      'leftDays': 0,                      'rightDays': 0},                     {'left': 'macd_dif',    "
+  },
+  "n_day_high": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "trend.donchian_breakout"
+   ],
+   "evidence": "[{'left': 'close',                      'op': '>=',                      'right': 'field:high_60d',                      'leftDays': 0,                      'rightDays': 0}]"
+  },
+  "n_day_low": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "mean_reversion.rsi_revert",
+    "patterns.big_yin_shakeout"
+   ],
+   "evidence": "[{'left': 'close',                      'op': '<=',                      'right': 'field:low_60d',                      'leftDays': 0,                      'rightDays': 0}]"
+  },
+  "volume_surge": {
+   "verdict": "COLLIDE_TWIN",
+   "twins": [
+    "ta.vol_breakout",
+    "sentiment.turnover_surge"
+   ],
+   "evidence": "[{'left': 'vol_ratio_5d', 'op': '>=', 'right': '2', 'leftDays': 0, 'rightDays': 0}]"
+  }
+ },
+ "gate_probes": [],
+ "summary": {
+  "fixtures_total": 25,
+  "fixtures_infeasible_face": 5,
+  "fixtures_collide_twin": 19,
+  "fixtures_collide_axis": 1,
+  "fixtures_survive": 0,
+  "seeds_total": 20,
+  "seeds_infeasible_face": 4,
+  "seeds_collide": 16,
+  "seeds_survive": 0,
+  "survivors": 0,
+  "route_verdict": "CLOSED-at-entry-family-level for core48 face: source is the same folk-TA axis canon already burned by the in-repo W1-W16 grammar (17 exact twins, 1 closed-family hit, 3 N4-negative reversals, 1 same-axis variant, closest-to-survive = rsi_midline_pullback documented) + 9 limit-mechanics faces infeasible on the burn face; zero prereg candidates -> no W20 prereg draft from this source (drafting would fail D2/D3/D4 freeze gates)"
+ }
+}

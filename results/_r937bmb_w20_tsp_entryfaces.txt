@@ -1,0 +1,618 @@
+### active_limit_gene | name=涨停基因活跃股 | assets="stock" | ENTRY="signal_active_limit_gene" | EXIT="signal_active_gene_cool" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = matrix_feature(market, "limit_up_count_60d") >= int(params.get("min_limit_count", 3))
+        # 当日未涨停 (休整日而非情绪顶点) 且量能收敛
+        entry &= matrix_feature(market, "change_pct") < float(params.get("max_change_pct", 7.0)) / 100.0
+        entry &= matrix_feature(market, "vol_ratio_5d") <= float(params.get("vol_ratio_max", 1.2))
+        # 出场: 股性冷却 (60日涨停计数回落到阈值下)
+        exit_ = matrix_feature(market, "limit_up_count_60d") < int(params.get("min_limit_count", 3)) - 1
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_active_limit_gene",),
+            exit_signal_ids=("signal_active_gene_cool",),
+        )
+MATRIX_STRATEGY = ActiveLimitGeneMatrixStrategy()
+
+### boll_breakout | name=布林突破 | assets="stock", "etf" | ENTRY="signal_boll_breakout_upper" | EXIT="signal_boll_breakdown_lower" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        upper = matrix_feature(market, "boll_upper")
+        lower = matrix_feature(market, "boll_lower")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_boll_breakout", True):
+            entry &= market.close > upper
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.5)
+            )
+        exit_ = market.close < lower
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_boll_breakout_upper",),
+            exit_signal_ids=("signal_boll_breakdown_lower",),
+        )
+MATRIX_STRATEGY = BollBreakoutMatrixStrategy()
+
+### breakout_new_high_60d | name=放量创60日新高 | assets="stock", "etf" | ENTRY="signal_breakout_high_60d" | EXIT="signal_break_ma20_lose" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        prior_high = shift(matrix_feature(market, "high_60d"), 1)   # 昨日及以前的60日高点
+        entry = market.close > prior_high
+        entry &= matrix_feature(market, "change_pct") >= float(params.get("min_change_pct", 2.0)) / 100.0
+        if params.get("require_volume", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(params.get("vol_ratio_min", 1.3))
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = market.close < ma20
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_breakout_high_60d",),
+            exit_signal_ids=("signal_break_ma20_lose",),
+        )
+MATRIX_STRATEGY = BreakoutNewHigh60dMatrixStrategy()
+
+### broken_board_recovery | name=断板反包 | assets="stock" | ENTRY="signal_limit_up" | EXIT="signal_ma20_breakdown" | fields="close", "volume", "raw_close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_limit_up", True):
+            entry &= market.limit_up_locked.astype(bool)
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.5)
+            )
+        if params.get("use_change_filter", True):
+            entry &= matrix_feature(market, "change_pct") > float(
+                params.get("change_pct_min", 0.03)
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_limit_up",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = BrokenBoardRecoveryMatrixStrategy()
+
+### bullish_alignment | name=均线多头 | assets="stock", "etf" | ENTRY="signal_ma_golden_5_20", "signal_ma_golden_20_60" | EXIT="signal_ma_dead_5_20", "signal_ma20_breakdown" | fields="close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma5 = matrix_feature(market, "ma5")
+        ma10 = matrix_feature(market, "ma10")
+        ma20 = matrix_feature(market, "ma20")
+        ma60 = matrix_feature(market, "ma60")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_ma_alignment", True):
+            entry &= (ma5 > ma10) & (ma10 > ma20) & (ma20 > ma60)
+        if params.get("require_positive_momentum", True):
+            entry &= matrix_feature(market, "momentum_20d") > 0
+        ma_dead = (ma5 < ma20) & (shift(ma5, 1) >= shift(ma20, 1))
+        ma20_breakdown = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        exit_ = ma_dead | ma20_breakdown
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(ma_dead, 0, np.where(ma20_breakdown, 1, -1)).astype(np.int16),
+            entry_signal_ids=("signal_ma_golden_5_20", "signal_ma_golden_20_60"),
+            exit_signal_ids=("signal_ma_dead_5_20", "signal_ma20_breakdown"),
+        )
+MATRIX_STRATEGY = BullishAlignmentMatrixStrategy()
+
+### consecutive_limit_ups | name=连板股 | assets="stock" | ENTRY="signal_limit_up" | EXIT= | fields="consecutive_limit_ups", "raw_close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_limit_up", True):
+            entry &= market.limit_up_locked.astype(bool)
+        if params.get("use_boards_filter", True):
+            entry &= matrix_feature(market, "consecutive_limit_ups") >= int(
+                params.get("min_boards", 2)
+            )
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_limit_up",),
+        )
+MATRIX_STRATEGY = ConsecutiveLimitUpsMatrixStrategy()
+
+### high_turnover_surge | name=高换手拉升 | assets="stock" | ENTRY="signal_volume_surge" | EXIT="signal_ma20_breakdown" | fields="close", "turnover_rate"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_turnover_filter", True):
+            entry &= matrix_feature(market, "turnover_rate") > float(
+                params.get("min_turnover", 5.0)
+            )
+        if params.get("use_change_filter", True):
+            entry &= (
+                matrix_feature(market, "change_pct") > float(params.get("min_change", 3.0)) / 100.0
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_volume_surge",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = HighTurnoverSurgeMatrixStrategy()
+
+### limit_up_momentum | name=连板接力 | assets="stock" | ENTRY="signal_limit_up" | EXIT= | fields="close", "consecutive_limit_ups"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_change_filter", True):
+            entry &= (
+                matrix_feature(market, "change_pct") > float(params.get("min_change", 5.0)) / 100.0
+            )
+        if params.get("use_boards_filter", True):
+            entry &= matrix_feature(market, "consecutive_limit_ups") >= int(
+                params.get("min_boards", 1)
+            )
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_limit_up",),
+        )
+MATRIX_STRATEGY = LimitUpMomentumMatrixStrategy()
+
+### long_lower_shadow_reversal | name=长下影反击 | assets="stock" | ENTRY="signal_long_lower_shadow" | EXIT="signal_ma5_lose_after_shadow" | fields="open", "high", "low", "close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        prev_close = matrix_feature(market, "prev_close")
+        body_bot = np.minimum(market.open, market.close)
+        shadow_pct = (body_bot - market.low) / prev_close * 100.0
+        entry = shadow_pct >= float(params.get("shadow_pct_min", 3.0))
+        entry &= matrix_feature(market, "momentum_5d") <= float(params.get("drop_pct_max", -5.0)) / 100.0
+        entry &= matrix_feature(market, "vol_ratio_5d") >= 1.2   # 承接需有量
+        if params.get("require_recovery", True):
+            # 收盘位于当日振幅上半部 (close_position ∈ [0,1]): 长下影反击常为低开回拉,
+            # 收盘仍可能低于开盘 (假阴线), 用位置而非阴阳判定收复力度
+            entry &= matrix_feature(market, "close_position") >= 0.5
+        ma5 = matrix_feature(market, "ma5")
+        exit_ = market.close < ma5
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_long_lower_shadow",),
+            exit_signal_ids=("signal_ma5_lose_after_shadow",),
+        )
+MATRIX_STRATEGY = LongLowerShadowReversalMatrixStrategy()
+
+### low_volatility_leader | name=低波动龙头 | assets="stock", "etf" | ENTRY="signal_ma20_breakout" | EXIT="signal_ma20_breakdown" | fields="close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma20 = matrix_feature(market, "ma20")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_positive_momentum", True):
+            entry &= matrix_feature(market, "momentum_20d") > 0
+        if params.get("use_volatility_filter", True):
+            entry &= matrix_feature(market, "annual_vol_20d") < float(params.get("vol_max", 0.30))
+        if params.get("require_above_ma20", True):
+            entry &= market.close > ma20
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_ma20_breakout",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = LowVolatilityLeaderMatrixStrategy()
+
+### ma_convergence_breakout | name=均线粘合突破 | assets="stock", "etf" | ENTRY="signal_ma_convergence_breakout" | EXIT="signal_ma10_lose" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma5 = matrix_feature(market, "ma5")
+        ma10 = matrix_feature(market, "ma10")
+        ma20 = matrix_feature(market, "ma20")
+        band_top = np.maximum(np.maximum(ma5, ma10), ma20)
+        band_bot = np.minimum(np.minimum(ma5, ma10), ma20)
+        spread = np.abs(band_top - band_bot) / ma20 * 100.0
+        # 粘合: 近 squeeze_days 日 (含昨日, 不含今日) 带宽持续低于阈值
+        days = max(2, int(params.get("squeeze_days", 5)))
+        tight = spread <= float(params.get("spread_pct_max", 2.5))
+        squeeze = shift(tight, 1).astype(bool)
+        for k in range(2, days + 1):
+            squeeze &= shift(tight, k).astype(bool)
+        # 今日变盘: 放量阳线脱离粘合带, 收盘站上三线上方
+        entry = squeeze & (market.close > band_top)
+        entry &= matrix_feature(market, "change_pct") >= float(params.get("min_change_pct", 2.0)) / 100.0
+        if params.get("require_volume", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= 1.2
+        exit_ = market.close < ma10
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_ma_convergence_breakout",),
+            exit_signal_ids=("signal_ma10_lose",),
+        )
+MATRIX_STRATEGY = MAConvergenceBreakoutMatrixStrategy()
+
+### ma_golden_cross | name=MA 金叉 | assets="stock", "etf" | ENTRY="signal_ma_golden_5_20" | EXIT="signal_ma_dead_5_20" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma5 = matrix_feature(market, "ma5")
+        ma20 = matrix_feature(market, "ma20")
+        golden = (ma5 > ma20) & (shift(ma5, 1) <= shift(ma20, 1))
+        dead = (ma5 < ma20) & (shift(ma5, 1) >= shift(ma20, 1))
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_ma_golden", True):
+            entry &= golden
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.2)
+            )
+        if params.get("require_above_ma60", True):
+            entry &= market.close > matrix_feature(market, "ma60")
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=dead.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(dead, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_ma_golden_5_20",),
+            exit_signal_ids=("signal_ma_dead_5_20",),
+        )
+MATRIX_STRATEGY = MAGoldenCrossMatrixStrategy()
+
+### macd_below_zero_revival | name=MACD 零下回升 | assets="stock" | ENTRY="signal_macd_below_zero_revival" | EXIT="signal_macd_golden_above_zero" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        win = max(5, int(params.get("low_window", 20)))
+        revive = max(3, int(params.get("revive_days", 10)))
+        dif = matrix_feature(market, "macd_dif")
+        # 阶段新低: 今日收盘 <= 前 win 日 (不含今日) 的最低收盘
+        prior_min = shift(market.close, 1)
+        for k in range(2, win + 1):
+            prior_min = np.fmin(prior_min, shift(market.close, k))
+        new_low = market.close <= prior_min
+        # 零下 + DIF 较 revive 日前抬升 (动能拒绝新低)
+        entry = new_low & (dif < 0) & (dif > shift(dif, revive))
+        # 出场: DIF 上穿零轴 (修复完成)
+        exit_ = (dif > 0) & (shift(dif, 1) <= 0)
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_macd_below_zero_revival",),
+            exit_signal_ids=("signal_macd_golden_above_zero",),
+        )
+MATRIX_STRATEGY = MACDBelowZeroRevivalMatrixStrategy()
+
+### macd_golden | name=MACD 金叉放量 | assets="stock", "etf" | ENTRY="signal_macd_golden" | EXIT="signal_macd_dead" | fields="close", "volume"
+def compute_signals(
+        self,
+        market: MarketDataMatrix,
+        params: dict,
+    ) -> SignalMatrix:
+        valid = np.isfinite(market.close)
+        ema12 = ewm_adjust_false(market.close, valid, span=12)
+        ema26 = ewm_adjust_false(market.close, valid, span=26)
+        dif = ema12 - ema26
+        dif_valid = np.isfinite(dif)
+        dea = ewm_adjust_false(dif, dif_valid, span=9)
+        previous_dif = shift(dif, 1, dif_valid)
+        previous_dea = shift(dea, 1, np.isfinite(dea))
+        golden = (dif > dea) & (previous_dif <= previous_dea)
+        dead = (dif < dea) & (previous_dif >= previous_dea)
+        entry = (
+            golden
+            if params.get("require_macd_golden", True)
+            else np.ones(
+                market.shape,
+                dtype=bool,
+            )
+        )
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.5)
+            )
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=dead.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(dead, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_macd_golden",),
+            exit_signal_ids=("signal_macd_dead",),
+        )
+MATRIX_STRATEGY = MACDGoldenMatrixStrategy()
+
+### n_day_low_reversal | name=新低反转 | assets="stock", "etf" | ENTRY="signal_n_day_low" | EXIT="signal_ma20_breakdown" | fields="open", "close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_n_day_low", True):
+            entry &= market.close <= matrix_feature(market, "low_60d")
+        if params.get("require_bullish_candle", True):
+            entry &= market.close > market.open
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.5)
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_n_day_low",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = NDayLowReversalMatrixStrategy()
+
+### near_limit_up | name=逼近涨停 | assets="stock" | ENTRY= | EXIT="signal_ma20_breakdown" | fields="close", "price_limit_pct"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        change = matrix_feature(market, "change_pct")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_change_filter", True):
+            entry &= change > float(params.get("min_change", 7.0)) / 100.0
+        if params.get("use_limit_gap_filter", True):
+            limit_pct = matrix_feature(market, "price_limit_pct")
+            entry &= (
+                change
+                >= limit_pct - float(params.get("limit_gap", 3.0)) / 100.0
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = NearLimitUpMatrixStrategy()
+
+### oversold_bounce | name=超跌反弹 | assets="stock", "etf" | ENTRY= | EXIT="signal_ma20_breakdown" | fields="open", "close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_rsi_filter", True):
+            entry &= matrix_feature(market, "rsi_14") < float(params.get("rsi_max", 30.0))
+        if params.get("require_bullish_candle", True):
+            entry &= market.close > market.open
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 1.2)
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = OversoldBounceMatrixStrategy()
+
+### oversold_reversal | name=超跌反转 | assets="stock" | ENTRY= | EXIT="signal_ma20_breakdown" | fields="close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_rsi_filter", True):
+            entry &= matrix_feature(market, "rsi_14") < float(params.get("rsi_max", 30.0))
+        if params.get("use_change_filter", True):
+            entry &= (
+                matrix_feature(market, "change_pct") > float(params.get("min_change", 1.0)) / 100.0
+            )
+        if params.get("require_above_ma5", True):
+            entry &= market.close > matrix_feature(market, "ma5")
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = OversoldReversalMatrixStrategy()
+
+### platform_consolidation_breakout | name=平台整理突破 | assets="stock" | ENTRY="signal_platform_breakout" | EXIT="signal_platform_fail_ma20" | fields="high", "low", "close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        days = max(4, int(params.get("platform_days", 10)))
+        # 平台区间: 前 days 日 (不含今日) 的最高/最低 (滚动窗口平移)
+        prior_high = shift(market.high, 1)
+        prior_low = shift(market.low, 1)
+        for k in range(2, days + 1):
+            prior_high = np.fmax(prior_high, shift(market.high, k))
+            prior_low = np.fmin(prior_low, shift(market.low, k))
+        range_pct = (prior_high - prior_low) / market.close * 100.0
+        # 平台成立 + 今日放量突破平台上沿
+        entry = range_pct <= float(params.get("range_pct_max", 8.0))
+        entry &= market.close > prior_high
+        entry &= matrix_feature(market, "vol_ratio_5d") >= float(params.get("vol_ratio_min", 1.5))
+        exit_ = market.close < matrix_feature(market, "ma20")
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_platform_breakout",),
+            exit_signal_ids=("signal_platform_fail_ma20",),
+        )
+MATRIX_STRATEGY = PlatformConsolidationBreakoutMatrixStrategy()
+
+### pullback_ma20_bounce | name=均线回踩反弹 | assets="stock" | ENTRY="signal_ma_golden_5_20" | EXIT="signal_ma20_breakdown", "signal_ma_dead_5_20" | fields="close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma5 = matrix_feature(market, "ma5")
+        ma20 = matrix_feature(market, "ma20")
+        ma60 = matrix_feature(market, "ma60")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_ma20_proximity", True):
+            proximity = float(params.get("ma_proximity", 2.0)) / 100.0
+            entry &= (market.close > ma20 * (1.0 - proximity)) & (
+                market.close < ma20 * (1.0 + proximity)
+            )
+        if params.get("require_ma_alignment", True):
+            entry &= (ma5 > ma20) & (ma20 > ma60)
+        if params.get("require_positive_change", True):
+            entry &= matrix_feature(market, "change_pct") > 0
+        ma20_breakdown = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        ma_dead = (ma5 < ma20) & (shift(ma5, 1) >= shift(ma20, 1))
+        exit_ = ma20_breakdown | ma_dead
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(ma20_breakdown, 0, np.where(ma_dead, 1, -1)).astype(np.int16),
+            entry_signal_ids=("signal_ma_golden_5_20",),
+            exit_signal_ids=("signal_ma20_breakdown", "signal_ma_dead_5_20"),
+        )
+MATRIX_STRATEGY = PullbackMA20BounceMatrixStrategy()
+
+### pullback_to_support | name=缩量回踩 | assets="stock", "etf" | ENTRY="signal_ma_golden_5_20" | EXIT="signal_ma20_breakdown" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma20 = matrix_feature(market, "ma20")
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_ma20_proximity", True):
+            proximity = float(params.get("ma_proximity", 0.02))
+            entry &= (market.close > ma20 * (1.0 - proximity)) & (
+                market.close < ma20 * (1.0 + proximity)
+            )
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") < float(
+                params.get("vol_ratio_max", 0.8)
+            )
+        if params.get("require_above_ma60", True):
+            entry &= market.close > matrix_feature(market, "ma60")
+        if params.get("require_positive_momentum", True):
+            entry &= matrix_feature(market, "momentum_20d") > 0
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_ma_golden_5_20",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = PullbackToSupportMatrixStrategy()
+
+### rsi_midline_pullback | name=RSI 中轴回踩 | assets="stock", "etf" | ENTRY="signal_rsi_midline_pullback" | EXIT="signal_rsi_midline_fail" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        rsi = matrix_feature(market, f"rsi_{int(params.get('rsi_period', 14))}")
+        lo = float(params.get("mid_low", 45.0))
+        hi = float(params.get("mid_high", 60.0))
+        # 趋势前提: MA60 上方; 今日 RSI 落在中轴区间
+        entry = market.close > matrix_feature(market, "ma60")
+        entry &= (rsi >= lo) & (rsi <= hi)
+        # 回踩而非走坏: 近5日内出现过 RSI > hi+5 (强势记忆), 且今日未破中轴下沿
+        was_strong = shift(rsi, 1) > hi + 5
+        for k in range(2, 6):
+            was_strong |= shift(rsi, k) > hi + 5
+        entry &= was_strong
+        exit_ = market.close < matrix_feature(market, "ma20")
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_rsi_midline_pullback",),
+            exit_signal_ids=("signal_rsi_midline_fail",),
+        )
+MATRIX_STRATEGY = RSIMidlinePullbackMatrixStrategy()
+
+### strong_open | name=强势高开 | assets="stock" | ENTRY= | EXIT="signal_ma20_breakdown" | fields="open", "close"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("use_open_gap_filter", True):
+            entry &= market.open > shift(market.close, 1) * (
+                1.0 + float(params.get("min_open_gap", 3.0)) / 100.0
+            )
+        if params.get("require_close_above_open", True):
+            entry &= market.close > market.open
+        if params.get("use_change_filter", True):
+            entry &= (
+                matrix_feature(market, "change_pct") > float(params.get("min_change", 3.0)) / 100.0
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = StrongOpenMatrixStrategy()
+
+### trend_breakout | name=趋势突破 | assets="stock", "etf" | ENTRY="signal_n_day_high" | EXIT="signal_ma20_breakdown" | fields="close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_above_ma60", True):
+            entry &= market.close > matrix_feature(market, "ma60")
+        if params.get("require_n_day_high", True):
+            entry &= market.close >= matrix_feature(market, "high_60d")
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 2.0)
+            )
+        ma20 = matrix_feature(market, "ma20")
+        exit_ = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=exit_.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(exit_, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_n_day_high",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = TrendBreakoutMatrixStrategy()
+
+### volume_price_surge | name=量价齐升 | assets="stock", "etf" | ENTRY="signal_ma20_breakout" | EXIT="signal_ma20_breakdown" | fields="open", "close", "volume"
+def compute_signals(self, market: MarketDataMatrix, params: dict) -> SignalMatrix:
+        ma20 = matrix_feature(market, "ma20")
+        breakout = (market.close > ma20) & (shift(market.close, 1) <= shift(ma20, 1))
+        breakdown = (market.close < ma20) & (shift(market.close, 1) >= shift(ma20, 1))
+        entry = np.ones(market.shape, dtype=bool)
+        if params.get("require_ma20_breakout", True):
+            entry &= breakout
+        if params.get("use_volume_filter", True):
+            entry &= matrix_feature(market, "vol_ratio_5d") >= float(
+                params.get("vol_ratio_min", 2.0)
+            )
+        if params.get("require_bullish_candle", True):
+            entry &= market.close > market.open
+        return make_signal_matrix(
+            market.shape,
+            entry=entry.astype(np.uint8),
+            exit=breakdown.astype(np.uint8),
+            entry_signal_code=np.where(entry, 0, -1).astype(np.int16),
+            exit_signal_code=np.where(breakdown, 0, -1).astype(np.int16),
+            entry_signal_ids=("signal_ma20_breakout",),
+            exit_signal_ids=("signal_ma20_breakdown",),
+        )
+MATRIX_STRATEGY = VolumePriceSurgeMatrixStrategy()
+
