@@ -1,0 +1,73 @@
+def cmd_supply():
+    pool, live, starving, py, py_ok = _trigger()
+    st = _load_state()
+    st["flags"] = {
+        "pool_starved": bool(starving),
+        "supply_floor": bool(starving and not any(f["runner"] for f in FACES)),
+        "generated_at": sg._now() if hasattr(sg, "_now") else None,
+    }
+    st["last_supply"] = {
+        "live": live, "starving": bool(starving), "py": py, "py_ok": py_ok,
+        "faces_pending": [f["id"] for f in FACES if not f["runner"]],
+    }
+    if not (starving and py_ok):
+        st["flags"]["supply_floor"] = False
+        _write_state(st)
+        print(f"supply: no trigger (live={live} py={py}) -- flags updated")
+        return 0
+    landed = [f for f in sorted(FACES, key=lambda x: x["priority"])
+              if f["runner"] and f.get("supply_ready", True)]
+    blocked = [f["id"] for f in FACES
+               if f["runner"] and not f.get("supply_ready", True)]
+    if blocked:
+        st["last_supply"]["supply_blocked"] = blocked
+    if not landed:
+        _write_state(st)
+        if blocked:
+            print(f"supply: trigger MET but runner-landed faces awaiting the "
+                  f"per-shard materializer pattern ({','.join(blocked)}) -- "
+                  f"honest no-op, flags written; first wave materialized via "
+                  f"autofill submit per law sequencing line")
+        else:
+            print("supply: trigger MET but no face runner landed -- honest no-op, "
+                  "flags written (pool_starved/supply_floor) for s3 wiring; "
+                  "N1-W2 runner is the next law-sequenced deliverable")
+        return 0
+    ts = sg._now() if hasattr(sg, "_now") else None
+    vals = list(pool.get("entries", []))
+    if isinstance(pool.get("entries"), dict):
+        vals = list(pool["entries"].values())
+    # face dispatch in priority order (law sec.1 N1>N3>N2>N4) with
+    # per-face wave gates; a face gated by its own wave state (bands /
+    # per-wave prereg / same-face in-flight) falls through to the next
+    # landed face -- canon sequencing (N1-W2 -> N3-R1 -> N2-W15 -> N4-B1)
+    # is honored by the gates, not by hardcoding one face.
+    chosen = None            # (face_id, payload)
+    for face in landed:
+        fid = face["id"]
+        # law sec.1 leg-3: no same-face in-flight wave (live =
+        # ready/waiting/running; park_note'd entries are deliberate
+        # holds, not in-flight supply -- same r304/r504 marker law)
+        live = [e for e in vals
+                if str(e.get("id", "")).startswith(f"PERPETUAL-{fid}-")
+                and str(e.get("status", "")) in ("ready", "waiting",
+                                                "running")
+                and not e.get("park_note")
+                and _claimable(e)]
+        if live:
+            st["last_supply"]["awaiting"] = (f"{fid} wave in flight "
+                                             f"({len(live)} live entries)")
+            continue
+        if fid == "N1":
+            # next wave from pool entry truth (materialization ledger of
+            # record; generator-local state waves[] is not the
+            # cross-machine truth face)
+            waves_seen = []
+            for e in vals:
+                eid = str(e.get("id", ""))
+                if eid.startswith("PERPETUAL-N1-W") and "-SHARD-" in eid:
+                    try:
+                        waves_seen.append(int(
+                            eid.split("PERPETUAL-N1-W")[1]
+                               .split("-SHARD-")[0]))
+               
