@@ -1,0 +1,77 @@
+{
+ "derive": "W243 prereg machine-generated SUB from frozen W242 template",
+ "machine": "bm-a",
+ "round": "r1001",
+ "template_commit": "4574bfeca536292e546047d87b44ae26d56ad51b",
+ "upstream_finalize_commit": "90db59fc30472a1f7f9905943dbd1eae97c5c391",
+ "sub_pairs_applied": 50,
+ "out_path": "research/PERPETUAL_N1_W243_PREREG.md",
+ "out_bytes": 30518,
+ "facts": {
+  "merged_mu": -0.09274177044048876,
+  "merged_sigma": 0.2450504759686019,
+  "w242_only_mu": -0.0889020909090909,
+  "w242_only_sigma": 0.23301597539377827,
+  "a_p95": 0.2991,
+  "se_mu_at_k": 0.000337,
+  "k_lift": -0.0002,
+  "line_merged": 1.1932,
+  "line_pre": 1.1934,
+  "n_eff_held_equal": 954535,
+  "ledger_prev_total": 954535,
+  "ledger_batch": 2200,
+  "ledger_total": 956735,
+  "merged_K": 530320,
+  "n1_bands_rows": 240,
+  "owner_rows": 232,
+  "bmc_rows": 67,
+  "bma_rows": 124,
+  "bands": {
+   "A": [
+    551501,
+    553500
+   ],
+   "B": [
+    541501,
+    541700
+   ]
+  },
+  "ram_free_gb": 64.0,
+  "engine_status": {
+   "active_burns": [],
+   "queue_next": [],
+   "queue_depth": 0
+  },
+  "seed_hop_face": {
+   "hops_A": 0,
+   "A_hop_chain": [],
+   "hops_B": 1,
+   "b_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      541404,
+      541603
+     ],
+     "jump_to": 541501,
+     "refuser_pts": [
+      541500
+     ],
+     "refuser_bands": []
+    }
+   ],
+   "b_decoupled": true
+  },
+  "w244p": {
+   "refusers": [],
+   "first_clean": "553501..555500",
+   "hops": 0,
+   "B_naive": "541701..541900",
+   "B_first_clean": "541701..541900",
+   "B_hops": 0,
+   "B_inside_A": false
+  }
+ },
+ "forbidden_residue": [],
+ "lineage_quirk_note": "inherited \"本机 bm-c 实例\" engine-architecture phrases carried verbatim from the W242 template (lineage mechanical face, disclosed; the freeze window is bm-a)"
+}
