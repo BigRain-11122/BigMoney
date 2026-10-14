@@ -1,0 +1,108 @@
+{
+ "probe": "W244 pre-seat probe (bm-a loop r1004 window, 2026-10-15 01:5x, CEO fill-order standing + seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + O-20261013-22:1x CPU standing-open; post-W243-REGISTERED universe, upstream W243 registered+FINALIZED (bm-a r1003 closeout ledger 958,935 / K=532,520); ZERO in-flight upstream seats -- W244 freeze UNBLOCKED at seat time, queue-depth supply depth-1)",
+ "legs": {
+  "leg0": {
+   "rows": 241,
+   "tail": "W243-registered",
+   "w243_splice_landed": true,
+   "w243_face": "registry-row",
+   "w243_bands": {
+    "A": [
+     551501,
+     553500
+    ],
+    "B": [
+     541501,
+     541700
+    ]
+   },
+   "w243_finalize_landed": true,
+   "w243_finalize_anchors": {
+    "ledger_total": 958935,
+    "merged_n": 532520,
+    "skill_line_delta_k_lift": 0.0001
+   },
+   "owner_rows": 233,
+   "bmc_rows": 67,
+   "bma_rows": 125,
+   "bmb_rows": 41,
+   "ordinal": 234,
+   "bma_ordinal": 126,
+   "bma_ordinal_note": "bm-a attempt-continuity: 125 live bm-a rows (tail=W243 registered+FINALIZED bm-a r1003 own-wave closeout: ledger 958,935 EXACT / merged pool K=532,520 / skill_line 1.1933->1.1934 K-lift +0.0001 in-band) + this candidate = 126th owned; engine wave ordinal = 233 registry owner rows + this candidate = 234th; live derive governs r359",
+   "anchor": "W243 registered+FINALIZED upstream (bm-a r1003 closeout ledger 958,935 / K=532,520; n1_w243_results.json landed; five-key ALL PASS results/_r1003bma_w243_fivekeys.json); ZERO in-flight upstream seats at seat time -- the W244 FREEZE is UNBLOCKED immediately (waits-upstream DISARMED by the W243 finalize landing 01:4x); this W244 SEAT = queue-depth supply depth-1 (first seat of the new supply cycle) per seat-first law O-20261010-2350 sec.2 (seats never queue behind freeze windows; standing CEO fill-order 2026-10-08 ~23:5x RE-ISSUED 2026-10-10 ~23:1x + O-20261013 22:1x CPU standing-open + never-dry O-1819)"
+  },
+  "leg1": {
+   "ARITH_A": [
+    553501,
+    555500
+   ],
+   "ARITH_B": [
+    541701,
+    541900
+   ],
+   "A": [
+    553501,
+    555500
+   ],
+   "hops_A": 0,
+   "A_hop_chain": [],
+   "B": [
+    541701,
+    541900
+   ],
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "B_naive_first_clean": [
+    541701,
+    541900
+   ],
+   "B_naive_hops": 0,
+   "A_semantics": "A arithmetic continuation from the W243-REGISTERED A tail 553_500+1 = 553_501..555_500 is CLEAN at naive start on the post-W243-REGISTERED universe (fifth consecutive seed-gap A-continuation face, anticipated by the W243 probe leg4 and confirmed live; never transcribed r587); A base = first clean window, forward-monotone non-rotational r587 enforced in-walk; A base >= prior-wave B tail+1 floor machine-checkable relation",
+   "B_semantics": "B arithmetic continuation from the W243-REGISTERED B tail 541_700+1 = 541_701..541_900 is CLEAN at the naive window (clean face, hops=0, zero refusers -- the W242-era live-seed refusal chain (SEED_REGISTRY 541_500) is behind us); which is NOT inside the W244 own-wave A window 553_501..555_500 (own-A sits far above the B staircase -- seed-decoupled gap face sixth consecutive); B base == prior-wave B tail+1 EXACT in this face (clean arithmetic continuation) -- B_no_ownA_jump=true (fc_b == fc_b_naive: no own-A reservation jump needed)",
+   "relation_asserts": {
+    "A_clean_at_naive_start": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_clean_at_naive_start": true,
+    "B_base_above_priorB_tail": true,
+    "AB_mutual_exclusion": true,
+    "B_no_ownA_jump": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=553501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=541701 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W245p_A_naive": "555501..557500",
+   "W245p_A_first_clean": "555501..557500",
+   "hops_A": 0,
+   "W245p_A_naive_refusers_seeds": [],
+   "W245p_B_naive": "541901..542100",
+   "W245p_B_first_clean": "542001..542200",
+   "hops_B": 1,
+   "W245p_B_lands_inside_W245p_A_naive": false,
+   "note": "W245+ projection on the pre-W244 universe (assuming the W244 seat bands declared here register verbatim). W245 freezer MUST re-derive on the post-W244 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; seed-gap face inherited from W239..W243: A/B decoupled, re-read the live trace, do NOT assume the staircase A-base==prior-B-tail+1 equality."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   553501,
+   555500
+  ],
+  "B": [
+   541701,
+   541900
+  ],
+  "a_lo": 553501,
+  "a_hi": 555500,
+  "b_lo": 541701,
+  "b_hi": 541900
+ }
+}
