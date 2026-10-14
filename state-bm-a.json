@@ -17,7 +17,7 @@
  "last_heartbeat_epoch_utc": 1792004652,
  "last_orders_at": "2026-10-15T03:04:12+08:00",
  "last_orders_seen": "r1006: ORD 766760cd re-verified UNCHANGED (python-raw origin blob sha256 == watermark); zero delta; zero action",
- "last_orders_sha": "766760cd614f7812c98913ed4f7bee8890c912ca990641d5c12d1762b296fb2b",
+ "last_orders_sha": "41960bc5c4d6a66b07e5ae1dcb9cf8eebdcc1391c3e2ddea220a8548d4dd11b1",
  "last_orders_ts": "2026-10-10T21:52:02+08:00",
  "last_round": 1006,
  "last_round_at": "2026-10-15T03:04:12+08:00",
@@ -56,8 +56,8 @@
  "updated_at": "2026-10-15T03:04:12+08:00",
  "verdict": "green (red=false; satengine ALIVE rc0 queue0 idle; py 0.3 pct insufficient_history fresh-window post-r1005-burn; compute_audit pool_starvation+supply_floor flag ACKNOWLEDGED -- active supply line = W244 chain: seat landed 08df387e0 + prereg landed this round + freeze next; orphan 0/26)",
  "verify": "green (smoke 49/49 + audit quartet CLEAN/ZERO-DRIFT + prereg no-DRAFT evidence_cutoff verified + idle --worked + push behind=0 self-verify)",
- "last_decisions_read_at": "2026-10-15T03:04:12+08:00",
- "last_orders_read_at": "2026-10-15T03:04:12+08:00",
+ "last_decisions_read_at": "2026-10-15T05:12:58+08:00",
+ "last_orders_read_at": "2026-10-15T05:12:58+08:00",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -66,8 +66,8 @@
   "method_orders": "sha256",
   "verbatim": true,
   "advance": true,
-  "round_ref": 1006,
-  "ts": "2026-10-15T03:04:12+08:00"
+  "round_ref": 1007,
+  "ts": "2026-10-15T05:12:58+08:00"
  },
  "notes_seq_r962": "r959/r960 died mid-replay, r961 committed but report line absent (estate absorbed in commit 99e4456dc on origin); sequence resumes honestly at r962 per round_reports canonical face",
  "notes_seq_repair_r1006": "state round_no found stale at 1000 (r1000-era partial write; dead r1001-r1005 windows landed no state S7 writes -- estate commits 8d928ae53/08df387e0/5c30d8dad governs); sequence repaired per r962 precedent: canonical face = round_reports + git log -> this round = r1006, round_no next = 1007"
