@@ -1,0 +1,90 @@
+{
+ "wave": "TRIAL_LABOR_W19",
+ "grammar_kind": "w19_timing_axis_paired_block",
+ "prereg": "research/TRIAL_LABOR_W19_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "e15a4a7b3a3b2b36",
+ "seeds": {
+  "gen_held": 20640000,
+  "scrnull": 20640500,
+  "unc": 20641000,
+  "band": [
+   20640000,
+   20642500
+  ],
+  "note": "gen held zero-consumption this wave (entry = W16 frozen cells reuse); scrnull rng([20640500,i]) i<200; unc rng([20641000,cell_idx]) cell_idx<346; paired-delta Wilcoxon streams rng([20641000,200+f]) f<2 (above judge consumption <180, below declared band top 346)"
+ },
+ "face_order": [
+  "daily_signal",
+  "weekly_grid"
+ ],
+ "timing_faces": {
+  "source": "tl1.AXIS_TIMING verbatim import",
+  "rules": {
+   "daily_signal": "mask native verbatim (zero gating; baseline)",
+   "weekly_grid": "mask AND ISO-week-first-trading-day gate (isoweek!=shift(1) OR isoyear!=shift(1), tl1.apply_timing L596-604 verbatim)"
+  },
+  "control_arm": "per-cell as-burned axis[3] frozen face (W16 sampled constant)",
+  "apply_timing": "tl1.apply_timing L596-604 verbatim (zero new timing code)"
+ },
+ "x_consumed": {
+  "face": "template_default",
+  "basis": "W17 prereg sec.0 consumer (3) grammar-efficiency conclusion: W17-JUDGE 344 cells all-negative + 7 exit faces paired median delta 0.0 (wilcoxon_p 0.966-1.0)"
+ },
+ "s_consumed": {
+  "face": "as-burned cell native axis[2]",
+  "basis": "W18 prereg sec.0 consumer (2) grammar-efficiency conclusion: W18-JUDGE 188 cells lawful-zero + 4 sizing faces paired median delta all ~0 = S-axis non-discriminating"
+ },
+ "k_nulls": 200,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "judge_cap_blocks": 90,
+ "entry_source": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n": 173,
+  "family_split": {
+   "A": 6,
+   "B": 167
+  },
+  "axis3_timing_census": {
+   "daily_signal": 128,
+   "weekly_grid": 45
+  }
+ },
+ "w16_grammar_ref": {
+  "file": "results/trial_labor_w16/w16_grammar.json",
+  "grammar_sha16": "ebf15822d2c8472e"
+ },
+ "w17_grammar_ref": {
+  "file": "results/trial_labor_w17/w17_grammar.json",
+  "grammar_sha16": "09476ecc5beb2304"
+ },
+ "w18_grammar_ref": {
+  "file": "results/trial_labor_w18/w18_grammar.json",
+  "grammar_sha16": "724b6135a5fdb6ae"
+ },
+ "w14_lineage": {
+  "grammar_sha16": "a231bf10940e7878",
+  "file": "results/trial_labor_w14/w14_grammar.json"
+ },
+ "cell_key": "candidate_id x timing_face",
+ "n_pairs": 346,
+ "screen_trials": 546,
+ "determinism_cross_gate": {
+  "pairs": 173,
+  "keys": [
+   "beat6m_rate",
+   "binom_z",
+   "binom_p"
+  ],
+  "sources": [
+   "results/trial_labor_w17/w17_screen_cells.csv (exit_face==template_default rows)",
+   "results/trial_labor_w18/w18_screen_cells.csv (as-burned sizing rows)"
+  ],
+  "source_control_survivors": 43,
+  "chain": "three-wave third link: W17 control == W18 as-burned == W19 as-burned"
+ }
+}
