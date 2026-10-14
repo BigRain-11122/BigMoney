@@ -22,6 +22,13 @@ POLICY (fail-closed): deletions = files present in the OLD tree
     machine_id) == this machine -> allowed (self-owned yield/cleanup);
   * no owner evidence + allowlisted path (fleet/inbox/ move-to-
     processed pattern, r516 law) -> allowed;
+  * no owner evidence + per-machine daemon face naming
+    `<stem>.bm-<id>.<ext>` (T27, D-20261015-02 own-face untrack law):
+    the filename suffix IS the owner evidence -- self == allowed,
+    any other id == foreign (still blocked). Fail-closed intact:
+    faces that carry no machine field inside the blob are exactly
+    the faces whose ownership lives in the name (r1011 live-fire:
+    --no-verify escape hatch was the only path).
   * qa/ deletion + same-push treasure_guard quarantine manifest
     whose moved[] lists the exact path with sha256 -> allowed
     (D-20261010-07 fourth release category: manifest = the deletion's
@@ -50,6 +57,7 @@ real git binary, zero company-repo/network surface, r117 law).
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -68,6 +76,12 @@ QA_PREFIX = "qa/"
 
 # Shared pool face gated by the MSG-2026-10-03-0612 proposal-2 leg.
 POOL_PATH = "results/runnable_pool.json"
+
+# T27 (D-20261015-02): per-machine daemon face naming convention.
+# `results/compute_audit.bm-c.json` -> owner bm-c. The id must sit in
+# a dot-sandwich before the final extension so plain dash forms
+# (state-bm-c.json) and prose stay outside this evidence channel.
+_FILENAME_OWNER_RE = re.compile(r"\.(bm-[a-z0-9]+)\.[A-Za-z0-9]+$")
 
 _ZERO = "0" * 40
 _NO_WINDOW = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW
@@ -138,6 +152,18 @@ def blob_owner(path, sha, repo):
     return None
 
 
+def filename_owner(path):
+    """Owner evidence from the per-machine daemon naming convention
+    `<stem>.bm-<id>.<ext>` (T27, D-20261015-02): daemon faces (probe
+    reports, per-machine status mirrors) carry zero machine field in
+    the blob -- their name is the only ownership fact. Returns the
+    parsed machine id, or None when the face is not per-machine
+    named. Inverse of the blob leg: this NEVER invents evidence for
+    unnamed faces."""
+    m = _FILENAME_OWNER_RE.search(path.replace("\\", "/"))
+    return m.group(1) if m else None
+
+
 def quarantined_src_paths(new_sha, repo):
     """Union of moved[].src entries across every
     results/_quarantine/<ts>/manifest.json blob present in the tree
@@ -196,8 +222,16 @@ def deletion_violations(old_sha, new_sha, repo, mid=None):
         if owner == "?":
             out.append({"path": p, "reason": "blob unreadable (fail-closed)"})
         elif owner is None:
-            if not norm.startswith(ALLOW_PREFIXES):
+            if norm.startswith(ALLOW_PREFIXES):
+                continue  # inbox move-to-processed (r516)
+            fowner = filename_owner(norm)
+            if fowner is None:
                 out.append({"path": p, "reason": "no owner evidence"})
+            elif fowner != mid:
+                out.append({"path": p,
+                            "reason": "foreign owner %s (filename, T27)"
+                            % fowner})
+            # fowner == mid: self-owned per-machine daemon face (T27)
         elif owner != mid:
             out.append({"path": p, "reason": "foreign owner %s" % owner})
     return out
@@ -344,6 +378,10 @@ def selftest():
             "results/prose.md": "# prose, no owner\n",
             "fleet/inbox/MSG-1.md": "# inbox msg, no owner\n",
             "results/keep.json": "{}",
+            # T27 per-machine daemon faces (zero machine field inside)
+            "results/daemon_self.bm-z.json": '{"py_cpu": 0.5}',
+            "results/daemon_other.bm-a.json": '{"py_cpu": 0.5}',
+            "results/dashform-bm-a.md": "# dash form, not dot-sandwich\n",
         }
         for rel, text in base.items():
             fp = os.path.join(repo, *rel.split("/"))
@@ -370,7 +408,10 @@ def selftest():
         # shape / no-owner prose / allowlisted inbox move
         for rel in ("results/prod_other.json", "results/prod_self.json",
                     "results/state_face.json", "results/prose.md",
-                    "fleet/inbox/MSG-1.md"):
+                    "fleet/inbox/MSG-1.md",
+                    "results/daemon_self.bm-z.json",
+                    "results/daemon_other.bm-a.json",
+                    "results/dashform-bm-a.md"):
             _git(["rm", "-q", "--", rel], repo)
         _git(["-c", "user.name=st", "-c", "user.email=st@t",
               "commit", "-q", "-m", "deletions"], repo)
@@ -389,6 +430,17 @@ def selftest():
         leg("inbox move-to-processed allowed",
             "fleet/inbox/MSG-1.md" not in vpaths)
         leg("kept file not flagged", "results/keep.json" not in vpaths)
+        # T27: filename-suffix owner evidence (dot-sandwich only)
+        leg("per-machine daemon self face allowed (T27)",
+            "results/daemon_self.bm-z.json" not in vpaths)
+        leg("per-machine daemon foreign face blocked (T27)",
+            "results/daemon_other.bm-a.json" in vpaths
+            and vreason.get("results/daemon_other.bm-a.json",
+                            "").startswith("foreign owner"))
+        leg("dash-form per-machine name NOT filename evidence (T27)",
+            "results/dashform-bm-a.md" in vpaths
+            and vreason.get("results/dashform-bm-a.md", "")
+            == "no owner evidence")
 
         # staged-deletion face
         sd = staged_deletions(repo)
