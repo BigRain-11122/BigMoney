@@ -1,17 +1,27 @@
 {
- "ts": "2026-10-14T18:18:14+08:00",
- "cmd": "update",
- "advance": true,
- "state_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state.json",
- "action": "advanced",
- "changed": {
-  "decisions": false,
-  "orders": true
+ "ts": "2026-10-14T18:50:00+08:00",
+ "cmd": "verify",
+ "state_path": "state.json",
+ "structural": {
+  "last_decisions_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 64
+  },
+  "last_orders_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 40
+  }
  },
- "reasons": [],
- "err": null,
- "written": {
-  "last_decisions_sha": "c61d7884b347e7e706ed98546aadc304f7f3afddd9071a511a0152a860a064bb",
-  "last_orders_sha": "1176e4c470a59ba19c7b9a7fd0a90062f596c02f"
+ "probe_equality": {
+  "last_decisions_sha": {
+   "equal": true,
+   "fresh": "c61d7884b347e7e706ed98546aadc304f7f3afddd9071a511a0152a860a064bb"
+  },
+  "last_orders_sha": {
+   "equal": true,
+   "fresh": "1bb6ffe79ff1fa9ffbd117f7151881c5f58f629f"
+  }
  }
 }
