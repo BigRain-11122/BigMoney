@@ -2,51 +2,119 @@
  "face": "minute_feed_status",
  "lane_machine": "bm-b",
  "kind": "gated",
- "ts": "2026-10-14T13:27:01",
- "last_success_ts": "2026-10-14T13:27:01",
+ "ts": "2026-10-14T14:02:35",
+ "last_success_ts": "2026-10-14T14:02:35",
  "archive_dir": "data/minute_feed",
  "symbols": {
   "510300": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 3545,
-   "rows_new": 23,
-   "oldest_fetched": "2026-09-24 10:52:00",
+   "rows_total": 3580,
+   "rows_new": 35,
+   "oldest_fetched": "2026-09-24 11:28:00",
    "gap_vs_local": false
   },
   "510050": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 3545,
-   "rows_new": 23,
-   "oldest_fetched": "2026-09-24 10:52:00",
+   "rows_total": 3580,
+   "rows_new": 35,
+   "oldest_fetched": "2026-09-24 11:28:00",
    "gap_vs_local": false
   },
   "510500": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 3545,
-   "rows_new": 23,
-   "oldest_fetched": "2026-09-24 10:52:00",
+   "rows_total": 3580,
+   "rows_new": 35,
+   "oldest_fetched": "2026-09-24 11:28:00",
    "gap_vs_local": false
   },
   "512100": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 3545,
-   "rows_new": 23,
-   "oldest_fetched": "2026-09-24 10:52:00",
+   "rows_total": 3580,
+   "rows_new": 35,
+   "oldest_fetched": "2026-09-24 11:28:00",
    "gap_vs_local": false
   },
   "588000": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 3545,
-   "rows_new": 23,
-   "oldest_fetched": "2026-09-24 10:52:00",
+   "rows_total": 3580,
+   "rows_new": 35,
+   "oldest_fetched": "2026-09-24 11:28:00",
    "gap_vs_local": false
   }
  },
- "rows_new_total": 115,
- "spec": "research/etf_ops/MINUTE_FEED.md v1.4"
+ "rows_new_total": 175,
+ "spec": "research/etf_ops/MINUTE_FEED.md v1.4",
+ "repairs": {
+  "510300": {
+   "kind": "tail_partial_capture",
+   "ts": "2026-10-14 13:27:00",
+   "old": [
+    "2026-10-14 13:27:00",
+    "4.320",
+    "4.322",
+    "4.319",
+    "4.322",
+    "1603700",
+    "6929497.3347"
+   ],
+   "new": [
+    "2026-10-14 13:27:00",
+    "4.320",
+    "4.322",
+    "4.319",
+    "4.322",
+    "1836200",
+    "7934355.9279"
+   ]
+  },
+  "510500": {
+   "kind": "tail_partial_capture",
+   "ts": "2026-10-14 13:27:00",
+   "old": [
+    "2026-10-14 13:27:00",
+    "7.076",
+    "7.080",
+    "7.076",
+    "7.080",
+    "147300",
+    "1042741.4046"
+   ],
+   "new": [
+    "2026-10-14 13:27:00",
+    "7.076",
+    "7.083",
+    "7.076",
+    "7.083",
+    "188700",
+    "1335900.6058"
+   ]
+  },
+  "588000": {
+   "kind": "tail_partial_capture",
+   "ts": "2026-10-14 13:27:00",
+   "old": [
+    "2026-10-14 13:27:00",
+    "1.484",
+    "1.486",
+    "1.483",
+    "1.486",
+    "8275500",
+    "12285978.8570"
+   ],
+   "new": [
+    "2026-10-14 13:27:00",
+    "1.484",
+    "1.486",
+    "1.483",
+    "1.486",
+    "10093400",
+    "14987237.3676"
+   ]
+  }
+ }
 }

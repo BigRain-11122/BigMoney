@@ -86,13 +86,21 @@
 
 - results/trial_labor_w19/{w19_grammar.json,w19_cells.json,w19_screen.json,w19_screen_cells.csv,judge_state.json,w19_judge.json,w19_reform_face.json,w19_intake.json,w19_paired_deltas.json}（W17/W18 目录范式同构+改革面件**必列**+配对差分件含**两 as-burned T 子群二级读数**）+SEED_REGISTRY 三键（20640000/20640500/20641000·冻结步同 commit·R250 一步律）+波级票 T-2026-10-14-186-P1+MSG 声明（MSG-20261014-0810-bmb-w19-freeze·同 commit 送达）+attrition 行（SCREEN 546+JUDGE 2×n_blocks）+TRIAL_GRAMMAR_LEDGER wave-19 行（GENERATE 消费时落）。
 
-## §7 跑后实证【跑后一次定稿回填·占位纪律——跑前禁写】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除·2026-10-14 bm-b r935 落地窗】
 
-- 占位：SCREEN/JUDGE/配对差分/账本终态跑后回填（W18 §7 范式）。
+- **SCREEN（TRIAL_LAB_W19_SCREEN·r931 落链）**：346 配对胞+200 同构 null=546；null p95=**0.511572**（带 [0.50,0.53] 命中=true·四波连续带内）；存活 **70/346**（daily_signal 47/173=27.17%·weekly_grid 23/173=13.29%·per_face_survival 随件）；§5.1 硬门 as-burned **43/173** 双源三列字节恒等复现（vs W17 control 行 AND W18 as-burned 行·pred43/obs43——**三波决定论链闭合**）；账本 945,189+546=**945,735**。
+- **JUDGE（TRIAL_LAB_W19_JUDGE·finalize 2026-10-14T13:49:47 bm-b detached PID 17108 落地）**：n_blocks=**56**（上限 90 未触发·block_cap_applied=false）·n_judged=**112**（2×56 完整配对块）·g1_pass=**0**·eligible_v2/eligible_reform/onboard 全 **[]**=零晋升 lawful-zero；E[FP]_nominal=**5.6**（0.05×112）披露在案（0 实过 vs 5.6 名义期望假阳）；批内最优 judged 员=W16-B-0730\|daily_signal sharpe_full_L **0.7515**（robust：cost_x2 0.5418·regime_min −0.0461·bootstrap CI low −1.16e-06）·最差 −0.9685（W16-B-2024\|daily_signal）·全距远低于注册线；family PBO 全表（ta 0.3286/16·momentum 0.9429/18·folk 0.2286/26·patterns 0.7/28·trend 2/mean_reversion 4/composite_rotation 2/event 2/sentiment 4/macro 6/volatility 4 各 <8 G2 不可判如实注记）在 w19_judge.json；**zvx 8 员 weekly_grid 臂零方差排除**（judged members 104=112−8·w19_reform_face.json 披露）。
+- **配对差分（w19_paired_deltas.json）**：daily_signal face informative n=**45**（weekly_asburned 子群·treatment=daily）中位差 **+0.0942**·IQR 0.7054·wilcoxon_p **0.01**；weekly_grid face informative n=**128**（daily_asburned 子群·treatment=weekly）中位差 **−0.2808**·IQR 0.6998·wilcoxon_p 0.358；退化对 census 全 173（daily 128/weekly 45）逐字披露；rng=unc 族带 rng([20641000,200+f])·族顶 346 之下零撞（§4 冻结口径执行）；两 as-burned T 子群二级读数随件（本批独有交付件兑现）。
+- **账本终态**：SCREEN 945,189+546=945,735 上链 →（批间他批消费至 947,935）→ JUDGE 947,935+112=**948,047**（w19_judge.json trials_ledger+finalize out.log「ledger total 948047」双面一致）；attrition 双面行（gate_attrition.json+gate_attrition.bm-b.json 各 TRIAL_LAB_W19_SCREEN/TRIAL_LAB_W19_JUDGE 两行）r935 落账·guard scan CLEAN。
 
-## §8 批后复盘【必填·s7-T·跑后回填】
+## §8 批后复盘【必填·s7-T·跑后回填·2026-10-14 bm-b r935】
 
-- 占位：预测对账+门禁链损耗账+判线当批读数+全起点分布归因跑后回填（W18 §8 范式）。
+- **预测对账（§5.1-§5.6）**：§5.1 as-burned 43/43 恒等复现 **HIT**（三波链 W17→W18→W19 闭合·确定性引擎零漂移三证）；§5.2 weekly 臂（thinning）存活 23/173=13.3% vs 带 [10.0%,27.4%] **HIT**（0.53x 基线·thinning 方向证实）·daily 臂（thickening）47/173=27.2% vs 带 [19.9%,37.4%] **HIT**（1.09x）；§5.3 null p95 带 [0.50,0.53] 实读 0.511572 **HIT**（四波连续）；§5.4 eligible_reform 预测 [0,3] 实收 0 **HIT**·n_blocks 预测 [20,60] 实收 56 **HIT**；§5.5 配对差分方向：weekly→daily **+0.0942 p=0.01**（预测 delta≥0 方向 **HIT**·边际显著如实注记——thickening 在负 alpha 池上方向性少亏）·daily→weekly **−0.2808 p=0.358**（预测 ≤0 方向 **HIT**·n.s.）；§5.6 极端日=描述面披露非判线（§4 冻结条款·不 adjudicate）。**6/6 预测全 HIT=本批预测校准面四波最优**（W17/W18 各有带外项）。
+- **一句话定谳**：**T 轴照负——执行侧三轴 X/S/T 全定谳收官**（W17 344 格 X 七 face 配对中位差全 0.0 → W18 188 格 S 四 face 中位差≈0 → W19 112 格 T 两 face lawful-zero·三波链同源 W16 173 入场 cell）；**未来 GENERATE 只需入场×过滤面**（语法效率可执行结论·§0 consumer ②兑现链闭合——X=template_default〔W17 consumer ③〕+S=as-burned〔W18 consumer ②〕+T=daily_signal〔本批微弱方向读数 +0.09 p=0.01=降权非禁用·default 选日频即可〕）；zero-variance 排除律与配对块隔离设计=可复制方法面（三波连续零事故）。
+- **门禁链损耗账**：attrition 双面 2 行（546+112）；guard scan CLEAN；zvx 8 员披露零静默；退化对 173 全披露非隐藏；判线当批读数=E[FP] 5.6 vs 0 实过（防运气门四波连续 0 放行=门槛正常工作再证）。
+- **全起点分布**：104 judged 员全表在 w19_reform_face.json member_metrics（best 0.7515/worst −0.9685·四维 ret/robust/anti_overfit/anti_luck 齐备）；配对块 56 全 2 臂完备（块完整律兑现）。
+- **回执**：轮报告 r935 bm-b+本 §7/§8 回填+s4 intake lawful-zero（n_eligible 0·w19_intake.json）+产物 commit 223720adb 推送 42b6f6111（48h CEO 呈报钟起算 2026-10-14T13:49:47·due 2026-10-16T13:49）+TREASURE_REGISTRY 出入行+语法登记簿 wave-19 行（GENERATE 时点已落账）；**零新注册员**（负结果链合法零动作）。
+- **试验量归因**：本批新增试验数=**658**（SCREEN 546+JUDGE 112·prereg §0 算力预算面内）；供结契约兑现=双消费定谳收官批（①T 轴首份受控配对读数表交付 ②负读数语法效率结论兑现 ③intake 零员 ④engine apply_timing 稳健性证据〔三波链零漂移〕 ⑤scorecard/CEO 一页纸消费面=48h 呈报）。
 
 ## §9 冻结窗收口与精确续作点。【append-only】
 
