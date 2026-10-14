@@ -89,7 +89,7 @@ SPECIALIST_GAPS = {
     "BULL": "第二专精员缺口=牛市进攻策略供给扫描（bm-a 研究车道·≤10-14 交付）",
 }
 
-N_CONF = 3  # 确认窗 3 交易日（v1 缺省；上游判别器全史回放 K≥1000 律校准后冻结）
+N_CONF = 1  # 换装 r998 bm-c：REGIME5-VALIDATION-P1 Leg B 校准 argmin L(N)=1（L(1)=3,894.04bp < L(3)=5,480.86bp·缺省3确认律破·验证批§7机读）；诚实注记：L(N)面的|d_s|差分多数未过方向性门（主门判负·t+1视界）——N_CONF=1=裸标签直通·防打脸保护移交 10-17~24 调度律预注册路由闸面；修订窗律内合法换装（§二修订窗开·首个标签翻面事件未落账）
 
 
 def confirm_window(raw, n_conf=N_CONF):
@@ -217,16 +217,22 @@ def cmd_selftest():
         if not cond:
             fails.append(name)
 
-    # t1 hysteresis basic: flip confirmed only at 3rd consecutive new label
-    eff = confirm_window(["BEAR"] * 5 + ["BULL"] * 3)
-    check("t1-early-hold", eff[5] == "BEAR" and eff[6] == "BEAR")
-    check("t1-confirm", eff[7] == "BULL")
-    # t2 jitter: alternating labels never flip after bootstrap
+    # t1 hysteresis basic: flip confirmed only at N_CONF-th consecutive new label
+    eff = confirm_window(["BEAR"] * 5 + ["BULL"] * 8)
+    for k in range(5, 5 + N_CONF - 1):
+        check("t1-early-hold+%d" % (k - 5), eff[k] == "BEAR")
+    check("t1-confirm", eff[5 + N_CONF - 1] == "BULL")
+    # t2 jitter: N_CONF>=2 -> alternating labels never flip after bootstrap;
+    #    N_CONF==1 -> calibrated passthrough (r998), alternating flips each day
     alt = ["BEAR"]
     for i in range(20):
         alt.append("BULL" if alt[-1] == "BEAR" else "BEAR")
     eff = confirm_window(alt)
-    check("t2-jitter-zero-flip", switch_events(list(range(len(eff))), eff) == [])
+    flips2 = switch_events(list(range(len(eff))), eff)
+    if N_CONF >= 2:
+        check("t2-jitter-zero-flip", flips2 == [])
+    else:
+        check("t2-passthrough-honest", len(flips2) >= 1 and eff[1] != eff[0])
     # t3 transition cost known value: BEAR->BULL dw precomputed
     c, dw = transition_cost("BEAR", "BULL")
     expect_dw = abs(0.20 - 0.50) + abs(0.00 - 0.10) + abs(0.20 - 0.20) \
@@ -245,9 +251,10 @@ def cmd_selftest():
         for s in DISABLE_V1[st]:
             check("t5-disable-%s-%s" % (st, s), MATRIX_V1[st][s] == 0.0)
     # t6 glide: confirmation day keeps previous weights, day after new ones
-    eff = confirm_window(["BEAR"] * 5 + ["BULL"] * 4)
-    check("t6-glide-flipday", weights_on_day(eff, 7) == MATRIX_V1["BEAR"])
-    check("t6-glide-after", weights_on_day(eff, 8) == MATRIX_V1["BULL"])
+    eff = confirm_window(["BEAR"] * 5 + ["BULL"] * 8)
+    conf_day = 5 + N_CONF - 1
+    check("t6-glide-flipday", weights_on_day(eff, conf_day) == MATRIX_V1["BEAR"])
+    check("t6-glide-after", weights_on_day(eff, conf_day + 1) == MATRIX_V1["BULL"])
     # t7 specialists >= 2 per state OR honest gap marker on file
     for st in STATES:
         n = sum(1 for s in SLEEVES if MATRIX_V1[st][s] > 0)
