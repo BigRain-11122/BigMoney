@@ -1,0 +1,129 @@
+{
+ "machine": "bm-a",
+ "wave": 238,
+ "phase": "five-face freeze chain-order splice (bm-a own-seat freeze window, upstream ALL LANDED clean precondition)",
+ "origin_base": "07e682cd5cfafa4c7d0707467d9bb15114d63e3a",
+ "pf_sha16_pre": "92487bc3d2cd0f68",
+ "n1_sha16_pre": "f168d5e7c3c83200",
+ "pf_sha16_post": "6189fd35b247d41d",
+ "n1_sha16_post": "6ee4b58964e621db",
+ "bands": {
+  "A": [
+   538404,
+   540403
+  ],
+  "B": [
+   540404,
+   540603
+  ],
+  "a_lo": 538404,
+  "a_hi": 540403,
+  "b_lo": 540404,
+  "b_hi": 540603
+ },
+ "admit_receipt": "results/_w238bma_20261014_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=538404 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=540404 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "w237_upstream": {
+  "freeze_sha": "e4a23cc7a9c876871b20f5865f6f5fc90598a191",
+  "prereg_sha": "d311a543990bf999e8f1db7cb31d2ab9918f9dcf",
+  "ledger_total": 945189,
+  "merged_n": 519320,
+  "engine_owner": "bm-c (upstream seat honored)",
+  "repair_chain_note": "W237 bm-c own-wave closeout r990 (five-face splice e4a23cc7a + engine self-burn 12/12 + finalize one-pass + five-key ALL PASS + sec78 backfill; six-gate PRE-FINALIZE correct phase -- standing law held)"
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261014-0745-bma-w238-seat.md",
+  "seat_origin": "3e551d846",
+  "inherited": false,
+  "note": "seat published=reserved by bm-a itself (MSG-20261014-0745-bma-w238-seat pushed to origin 3e551d846 r976 BEFORE this freeze per r565 law); zero takeover -- wave 238 engine_owner=bm-a, bm-a's 122nd own wave per live derive (probe leg0 owner_rows=226 / bma_ordinal=122 = seat-time pre-splice faces disclosed honest, live derive governs r587/r359; freeze-time live face owner rows 227 + candidate = 228th EXACT)"
+ },
+ "w236_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w236_results.json present (belt-and-braces gate; ledger 942,989 / K=517,120)"
+ },
+ "w235_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w235_results.json present (belt-and-braces gate; ledger 940,789 / K=514,920)"
+ },
+ "w234_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w234_results.json present (belt-and-braces gate; ledger 938,589 / K=512,720)"
+ },
+ "w233_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w233_results.json present (belt-and-braces gate; ledger 936,389 / K=510,520)"
+ },
+ "w232_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w232_results.json present (belt-and-braces gate; ledger 934,189 / K=508,320)"
+ },
+ "w231_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w231_results.json present (belt-and-braces gate)"
+ },
+ "w230_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w230_results.json present (belt-and-braces gate)"
+ },
+ "w225_transitive": {
+  "finalize_product": "results/perpetual_faces/n1_w225_results.json present (belt-and-braces gate; ledger 918,789 / K=492,920)"
+ },
+ "seat": "fleet/inbox/processed/MSG-20261014-0745-bma-w238-seat.md (origin 3e551d846)",
+ "prereg_bundle": {
+  "prereg_sha": "8049952c9f8a38b7f9dfae64a745e026b2b11c22",
+  "probe_receipt_sha": "3e551d846e178f1997d1e966336ce3c8c645c97b",
+  "note": "prereg derived+committed by the bm-a r983 window (own-seat derive landed pre-freeze, on origin via the r983 push; zero takeover; freeze-time live derive bma rows 121 + candidate 122nd EXACT per r587/r359); splice editor derived from the committed W237 editor template by count-asserted ordered transform in this same freeze window; upstream W237 already landed (clean-precondition twenty-seventh consecutive window); zero transcription"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 227,
+  "bma_rows_live": 121,
+  "bmc_rows_live": 65,
+  "engine_owned_ordinal": 228,
+  "bma_own_ordinal": 122,
+  "probe_receipt_bma_ordinal_face": 122,
+  "note": "post-W237 registration: bm-a rows 121 + candidate = 122nd owned (live derive at freeze time governs per r587/r359; probe leg0 owner_rows=226 / bma_ordinal=122 = seat-time pre-splice faces -- zero takeover, own-seat continuity)"
+ },
+ "parity_section": {
+  "source": "OWN W237 block physical bytes (bm-c own splice generation, structure known exactly)",
+  "bytes": 24702,
+  "row_asserts": 90,
+  "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W231 legs -> W238 block = 96 rows ending at W237 (estate 90 + fresh W232 leg + W233 leg + W234 leg + W235 leg + W236 leg + W237 leg); disclosed: (a) inherited W213 leg error-string face (\"registered W212 row parity drift\") preserved verbatim per extraction law (r912 generation cosmetic slip, assert target [213] correct, zero functional impact); (b) W237 block's band-set variable one-behind naming face (w236_a holds wave-237 bands) = lineage mechanical aging face -- W238 block follows the same pattern (w237_a holds wave-238 bands), zero functional impact"
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "note": "W237 editor family-6 gate carried forward: new block LHS w<238 x3 / RHS range(16,238)+range(17,238) / comment below-238 count-asserted ATOMICALLY before splice; W237 block's own w<237 face = legitimate prior-wave boundary (not stale)"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "t141_marker_kept": 1,
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1,
+  "w215_block_kept": 1,
+  "w216_block_kept": 1,
+  "w217_block_kept": 1,
+  "w218_block_kept": 1,
+  "w219_block_kept": 1,
+  "w220_block_kept": 1,
+  "w221_block_kept": 1,
+  "w222_block_kept": 1,
+  "w223_block_kept": 1,
+  "w224_block_kept": 1,
+  "w225_block_kept": 1,
+  "w226_block_kept": 1,
+  "w227_block_kept": 1,
+  "w228_block_kept": 1,
+  "w229_block_kept": 1,
+  "w230_block_kept": 1,
+  "w231_block_kept": 1,
+  "w232_block_kept": 1,
+  "w233_block_kept": 1,
+  "w234_block_kept": 1,
+  "w235_block_kept": 1,
+  "w236_block_kept": 1,
+  "w237_block_kept": 1
+ }
+}
