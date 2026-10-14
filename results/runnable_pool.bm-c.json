@@ -17929,19 +17929,25 @@
     "results/trial_labor_w19/w19_cells.json",
     "results/trial_labor_w19/prep_state.json"
    ],
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "w19-screen-0of8",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w19/checkpoint/screen_shard_0of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-b -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 546 cells (346 paired + 200 nulls); lane pinned bm-b per r429 machine-local checkpoint law (prereg sec.9 'any healthy engine' superseded by checkpoint locality, W17 enrollment precedent); RAM gate 4GB r354 honest-refuse retry",
      "owner": "bm-b",
-     "owner_since": "2026-10-14 09:36:08"
+     "owner_since": "2026-10-14 09:42:04",
+     "claimed_since": "2026-10-14 09:36:08",
+     "done_at": "2026-10-14 09:42:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "w19-screen-0of8.bm-b.json"
     }
    ],
    "entered_at": "2026-10-14 09:27:15",
-   "entered_by": "bm-b r930 (W18-pattern enrollment, gates in-script)"
+   "entered_by": "bm-b r930 (W18-pattern enrollment, gates in-script)",
+   "done_by": "bm-b",
+   "done_at": "2026-10-14 09:42:04"
   },
   {
    "id": "TRIAL-LABOR-W19-SCREEN-SHARD-1",
@@ -17973,7 +17979,8 @@
      "status": "ready",
      "checkpoint": "results/trial_labor_w19/checkpoint/screen_shard_1of8.jsonl (MACHINE-LOCAL r429 gitignored; lane pinned bm-b -- screen-finalize reads local CKPT_DIR; stride i%8)",
      "note": "stride i%8 of 546 cells (346 paired + 200 nulls); lane pinned bm-b per r429 machine-local checkpoint law (prereg sec.9 'any healthy engine' superseded by checkpoint locality, W17 enrollment precedent); RAM gate 4GB r354 honest-refuse retry",
-     "owner": null
+     "owner": "bm-b",
+     "owner_since": "2026-10-14 09:42:18"
     }
    ],
    "entered_at": "2026-10-14 09:27:15",
