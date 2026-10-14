@@ -1,0 +1,64 @@
+{
+ "machine": "bm-c",
+ "wave": 241,
+ "phase": "PRE-FINALIZE six-gate (r1005 bm-c own-wave window; W217+ standing law FIFTEENTH consecutive -- engine self-burn 12/12 landed via daemon mtime-watch, finalize not yet run, freeze splice landed 8e980ce3e)",
+ "ts": "2026-10-14T19:2x",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "1ee24a106e442268",
+   "n1_sha16_now": "deb02b66eb4221b9",
+   "pf_sha16_freeze_post": "1ee24a106e442268",
+   "n1_sha16_freeze_post": "deb02b66eb4221b9",
+   "family6_triple_wholefile_recheck": true,
+   "prior_wave_240_boundary_kept": true,
+   "e63_heal_verified": true,
+   "r1005_assert_shape_heal_disclosed": "freeze editor line-157 A_clean_at_naive_start read healed to leg1.relation_asserts face (E63-family instance disclosed in splice commit 8e980ce3e); estate zero-defect verified by legkey audit results/_r1005bmc_legkey_audit.py",
+   "repair_note": "NO repair expected: family #6 triple carried atomically in the splice; both sha16 faces asserted clean-equal (receipt-post == disk-now); E63 heal face = arith_a241/arith_b241 define+assert consistent, zero one-behind drift"
+  },
+  "banned": {
+   "rc": 0,
+   "decision": "ADMIT",
+   "note": "re-run at burn checkpoint this window, default registry research/BANNED_DIRECTIONS.json"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "summary": "9/9 PASS"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "ok": true
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true
+  },
+  "seed_admit": {
+   "seat_receipt_leg2": [
+    "seed_admit_gate rc0 base=547501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=541004 span=200 checked=200 verdict=FREE"
+   ],
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=547501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=541004 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "seat-time + freeze-time FREE evidence consumed (receipt verbatim); burn-checkpoint fresh run = self-collision BLOCKED = registration-landed integrity positive (expected post-registration)"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 547501,
+   "b_exit_seed_base": 541004,
+   "shard_subdir": "n1_w241",
+   "out_name": "n1_w241_results.json",
+   "seed_bases_match_freeze_bands": true
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 952335,
+  "prev_merged_n": 525920,
+  "expect_total": 954535,
+  "expect_merged": 528120
+ }
+}

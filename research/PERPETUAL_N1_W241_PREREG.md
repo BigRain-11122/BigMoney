@@ -55,9 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-a r993 W240 §7 范式）
+- **finalize one-pass 已落地（r1005 bm-c own-wave 窗 2026-10-14 19:2x·承 bm-c own-seat 链 r1002 席位发布（MSG-20261014-1755-bmc-w241-seat @ origin 20782916a·早视法 r565）→r1003 死窗 prereg derive（18:40 实跑回执 _r1003bmc_w241_prereg_derive_receipt.json·a9ab3b51d estate 吸收落地）→r1004 死窗续 editor derive（18:50 _w241bmc_derive_editor.py+_w241bmc_freeze_edits.py 遗产·本窗 r1005 吸收）→r1005 五面冻结 splice estate（8e980ce3e·sha16 post 1ee24a106e442268/deb02b66eb4221b9）→引擎自燃 12/12（daemon mtime-watch·19:0x-19:2x）→本窗 r1005 六门 PRE-FINALIZE 正相位跑毕（W217-debt 常设法正确执行·第十五连续正确相位·W212-pattern 零复发）→finalize one-pass→五键机证后收口（披露面 §8）**：
+  - 账本恒等式：prev_total **952,335** + batch_trials **2,200** = total **954,535** EXACT（断言通过）；**投影零偏离披露**：冻结 §0 投影 954,535=W240 尾 952,335+2,200 与实收链头恒等 EXACT（零交织批·共享链干净推进面）；
+  - 合并池 K=**528,120** EXACT（与投影 525,920+2,200 恒等·零偏离）；merged mu=**-0.09275776546996894** / merged sigma=**0.2450994564577611**；w241-only mu=**-0.09104545454545455** / w241-only sigma=**0.24454286927528757**（全机读=results/perpetual_faces/n1_w241_results.json+results/_w241bmc_fivekey_receipt.json；锚 W240 实数程序 derive 写入 r583 律）；
+  - skill_line_v2 K-lift 对照：line_pre **1.1933** → line_merged **1.1933** @n_eff **952335**；delta **0.0**（§5 预键 ≤0.02 达标·W2..W240 阶梯对照链实锚）；
+  - **§5 五预键机证验证（fivekey probe=results/_w241bmc_fivekey_receipt.json·同窗配对）**：key1 w-only vs merged |Δmu|=**0.0017123109245143903**<0.02 PASS；key2 sigma 相对变化 **-0.0010332314614108838%**<±10% PASS；key3 A 面 p95 **0.3216** vs W240 0.316 差 **0.005599999999999994**<0.05 PASS；key4 K-lift **0.0**≤0.02 PASS；key5 投影承接见 §8（**五键全过=§5 五预键全达标零违例**）；
+  - se_mu 收窄链头：se_mu_at_k528120=**0.000337**（前值 W240 se_mu_at_k525920=0.000338 链头对照）；
+  - canon flip 态=NOT performed by this wave -- governance proposal face only (K2200 same law)（K2200 同律·治理提案面 only）；
+  - audit：voids_applied=['LOWAMP-P1', 'LOWAMP-P2']；machine=bm-c；finalize_only=True；shards_consumed=12/12；evidence_cutoff=2026-09-22；
+  - **六门探针=PRE-FINALIZE 正相位（W217-debt 常设法正确执行·第十五连续）=results/_w241bmc_sixgate_prereg.json**：banned ADMIT rc0+pf selftest 9/9+n1 selftest PASS（缺省波 r522 律）+shards 12/12 在场+seed_admit FREE x2（547501 span=2000 checked=2000+541004 span=200 checked=200·本窗复跑=自撞 BLOCKED=注册落位完整性正锚）+splice 完整性（bands facts==freeze receipt·pf sha16 **1ee24a106e442268** 与 n1 sha16 **deb02b66eb4221b9** 双面 clean-equal 断言通过=种子面 splice 原子携带零返·W240 界 row 完整保留）+WAVE_CONFIGS[241] row engine_owner=bm-c（a_seed_base=547501/b_exit_seed_base=541004）+**finalize 恒等 post-hoc 断言（账本 954,535/K 528,120 EXACT）**——W242 冻结方必须六门 PRE-FINALIZE（常设法·第十六连续 mandate·防死窗复发面）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W242+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-a r993 W240 §8 范式）
+- **批后复盘（bm-c r1005 own-wave 窗回填）**：
+  - §5.5 下波投影承接机证：**W242 席位已发布=确认**（bm-a MSG-20261014-1814-bma-w242-seat @ pickaxe 7fcd7cc3c5：A naive **549501..551500** / B naive **541204..541403**——本波 §5.5/席位 probe leg4 投影 **549501..551500**/**541204..541403** 与发布席恒等·hops=0 双带；W242 冻结方必须 post-W241 注册宇宙重 derive（r587）+**derive B 时预留本波 A 窗**（seed-gap 承袭 face：W241 A/B 仍 decoupled〔A 547_501..549_500 高悬于 B 541_004..541_203 之上〕·禁假设 staircase A-base==prior-B-tail+1 恒等·W141 先例）+六门 PRE-FINALIZE（第十六连续 mandate·本 finalize 已解除其 waits-upstream 物理依赖）。
+  - 宝藏与方法论捕获：**E63 家族断言形状漂移第 4 实例（新坑面·本窗发现+同窗治愈）**=冻结编辑器 line-157 `leg1.get("A_clean_at_naive_start")` 顶层读取 vs 席位 probe receipt 实际承载位 `leg1.relation_asserts` ——假阴性 fail-closed 拦截（数据零漂·estate 零缺陷·legkey 审计 results/_r1005bmc_legkey_audit.py 全量对照后单点治愈）——E63 卡 update-in-place 增实例注（记忆瘦身律同源：同主题禁 append 旧版）；**死窗遗产吸收链正法执行（r1003 prereg derive 遗产 a9ab3b51d 落地+r1004 editor 遗产本窗吸收·零跨轮拖延）**——零新独立宝藏（TREASURE_REGISTRY 零行）。
+  - 诚实披露面：r1005 窗=bm-c own-wave finalize 收口窗（席位自发布 r1002 zero-takeover·prereg derive r1003 死窗·editor derive r1004 死窗遗产吸收·splice+burn+sixgate+finalize+fivekey+backfill 同窗 r1005·r381 律）；上游 W240 全周期=bm-a r993 own-wave 收口（ledger 952,335/K 525,920 五键全过·sixgate 第十四连续）；S0 拉取=热窗竞速双轮 stash-bridge（bm-b r945+r997/bm-a r996 三连推·共享再生面 UU 1 件 live-wins resolve）；本窗烧制无 kill-restart（splice 携带 12/12 分片 daemon 顺跑）；冻结编辑器 line-157 断言形状治愈披露于 splice commit 8e980ce3e+sixgate receipt r1005_assert_shape_heal_disclosed 面。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
