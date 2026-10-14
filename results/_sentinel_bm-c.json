@@ -1,0 +1,90 @@
+{
+ "schema": "bm-c-sentinel v1.0",
+ "law_ref": "O-20261014-0949 sec.1-4 + O-0948 pattern",
+ "ticks": [
+  {
+   "ts": "2026-10-14T09:53:12+08:00",
+   "epoch": 1791942792,
+   "verdict": "NORMAL",
+   "degraded": [],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 5,
+    "ollama_loaded": [
+     "qwen3.8:27b"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 54,
+    "heartbeat_age_s": 341,
+    "disk_free_gb": 574.5,
+    "ram_free_gb": 6.2,
+    "gpu": {
+     "util_pct": "1 %",
+     "mem_used_mib": "15645 MiB",
+     "mem_total_mib": "16384 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV V3 burn lane protected per O-20261014-0312 sec.2)"
+  },
+  {
+   "ts": "2026-10-14T09:55:09+08:00",
+   "epoch": 1791942909,
+   "verdict": "NORMAL",
+   "degraded": [],
+   "stack": {
+    "ollama_api": "UP",
+    "ollama_store_models": 5,
+    "ollama_loaded": [
+     "qwen3.8:27b"
+    ],
+    "comfy_8188": "DOWN (report-only, MV lane protected)",
+    "engine_state_age_s": 35,
+    "heartbeat_age_s": 458,
+    "disk_free_gb": 574.5,
+    "ram_free_gb": 6.4,
+    "gpu": {
+     "util_pct": "1 %",
+     "mem_used_mib": "15680 MiB",
+     "mem_total_mib": "16384 MiB"
+    },
+    "tasks": {
+     "Bigmoney-IterationLoop": "present",
+     "Bigmoney-LoopWatchdog": "present"
+    }
+   },
+   "self_heal": "v1 alert-only (zero restarts; MV V3 burn lane protected per O-20261014-0312 sec.2)"
+  }
+ ],
+ "latest": {
+  "ts": "2026-10-14T09:55:09+08:00",
+  "epoch": 1791942909,
+  "verdict": "NORMAL",
+  "degraded": [],
+  "stack": {
+   "ollama_api": "UP",
+   "ollama_store_models": 5,
+   "ollama_loaded": [
+    "qwen3.8:27b"
+   ],
+   "comfy_8188": "DOWN (report-only, MV lane protected)",
+   "engine_state_age_s": 35,
+   "heartbeat_age_s": 458,
+   "disk_free_gb": 574.5,
+   "ram_free_gb": 6.4,
+   "gpu": {
+    "util_pct": "1 %",
+    "mem_used_mib": "15680 MiB",
+    "mem_total_mib": "16384 MiB"
+   },
+   "tasks": {
+    "Bigmoney-IterationLoop": "present",
+    "Bigmoney-LoopWatchdog": "present"
+   }
+  },
+  "self_heal": "v1 alert-only (zero restarts; MV V3 burn lane protected per O-20261014-0312 sec.2)"
+ }
+}
