@@ -1,0 +1,57 @@
+{
+ "round": "r941 bm-b",
+ "ts": "2026-10-14T17:1x:00+08:00",
+ "law_refs": [
+  "D-20261002-06 domain split order",
+  "O-20260927-0230 <=30KB hardline law",
+  "r667 pit-ps-wrapper precedent",
+  "r335 machine-evidence law"
+ ],
+ "prescan": {
+  "tool": "Tools/treasure_guard.py prescan",
+  "rc": 3,
+  "authorization": "D-20260206 group split order authorized migration face (rc3 hit = pit/memory registry face, same as r939/r667)",
+  "stdout_tail": "TREASURE_GUARD HARD REJECT: registry hit = redline (TREASURE_PROTECTION_LAW s2.1)\r\n  HIT: research/pit-ps.md\r\n  HIT: research/pit-ps-runner.md\r\n"
+ },
+ "main_file": {
+  "path": "research/pit-ps.md",
+  "bytes_before": 32451,
+  "bytes_after": 24456,
+  "note_line_bytes": 596,
+  "cap": 30720,
+  "within_cap": true,
+  "md5_after": "788aa99bb83dde2dce303122930623a1"
+ },
+ "child_file": {
+  "path": "research/pit-ps-runner.md",
+  "bytes_total": 9530,
+  "core_bytes": 8591,
+  "core_md5": "8cd8f02b7cb09ddbf007e9459259059a",
+  "core_eol": "LF",
+  "blocks": 11
+ },
+ "byte_identity": {
+  "assert_main_byte_arithmetic": true,
+  "assert_retained_face_identity": true,
+  "assert_migrated_zero_residue_in_main": true,
+  "assert_all_migrated_blocks_verbatim_in_child": true,
+  "assert_retained_markers_each_once_in_main": true,
+  "formula": "bytes_after == bytes_before - core_bytes + note_line_bytes"
+ },
+ "migrated_blocks": [
+  "- [2026-10-01 06:3x r495",
+  "- [2026-10-01 14:0x r318",
+  "- [2026-10-02 06:0x r559",
+  "- [2026-10-02 11:1x r571",
+  "- [2026-10-03 02:0x r392",
+  "- [2026-10-03 03:4x r605",
+  "- [2026-10-03 08:5x r404",
+  "- [2026-10-03 09:2x r617",
+  "- [2026-10-03 10:2x r409",
+  "- [2026-10-03 14:2x r618",
+  "> 增量回扫行（r625 bm-b"
+ ],
+ "retained_markers": 22,
+ "domain_pointer": "pit-ps.md main keeps judgment/consumption/surgery family + r941 routing note; runner mechanical family -> pit-ps-runner.md (predecessor: r667 wrapper family -> pit-ps-wrapper.md)",
+ "zero_loss": "PASS"
+}
