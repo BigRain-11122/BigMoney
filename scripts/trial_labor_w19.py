@@ -2024,6 +2024,14 @@ def cmd_judge_finalize() -> int:
     # -- per-cell verdicts (G1'v2 + DSR + M1 t-face)
     for r in judged:
         rets = r.get("legL_daily_returns") or []
+        # zero-variance face (batch-unique: weekly_grid treatment arm
+        # with 0 entries -- prereg sec.5.5 "trade gate" branch): DSR is
+        # UNDEFINED on constant returns (frozen lib raises); G1 keeps
+        # the frozen entries>=30 trade-gate refuse, t-face stays
+        # recorded, G2 refuses on the missing DSR input -- never waved
+        # through
+        r["zero_variance"] = bool(rets) and len(set(
+            float(x) for x in rets)) == 1
         if r["legs"].get("L", {}).get("degenerate") or not rets:
             r["dsr"] = None
             r["g1_pass"] = False
@@ -2033,10 +2041,14 @@ def cmd_judge_finalize() -> int:
         g1 = tl1.g1_prime_v2(r["legL_sharpe_full"], rets, batch_cells,
                              pool="core48", n_trades=r["legL_n_trades"],
                              n_entries=r["legL_n_entries"])
-        dsr = tl1.deflated_sharpe_ratio(rets, n_trials=n_trials)
-        r["g1_prime_v2"] = g1
-        r["dsr"] = {"dsr": round(float(dsr["dsr"]), 6),
-                    "n_trials": n_trials}
+        if r["zero_variance"]:
+            r["g1_prime_v2"] = g1
+            r["dsr"] = None
+        else:
+            dsr = tl1.deflated_sharpe_ratio(rets, n_trials=n_trials)
+            r["g1_prime_v2"] = g1
+            r["dsr"] = {"dsr": round(float(dsr["dsr"]), 6),
+                        "n_trials": n_trials}
         r["g1_pass"] = g1["pass_v2"]
         r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
                         else "insufficient-sample" if not r[
@@ -2067,7 +2079,7 @@ def cmd_judge_finalize() -> int:
             r["family_pbo"] = pbos[fam]["pbo"]
     # -- G2 registration columns (historical caliber, sec.4(b))
     for r in judged:
-        if r.get("g1_prime_v2") is None:
+        if r.get("g1_prime_v2") is None or r.get("dsr") is None:
             r["g2_registration_v2"] = None
             continue
         r["g2_registration_v2"] = tl1.g2_registration_v2(
@@ -2081,7 +2093,11 @@ def cmd_judge_finalize() -> int:
             reg_rets[s] = pd.Series(vals)
     member_metrics, batch_p, cand_rets = {}, {}, {}
     for r in judged:
-        if r["legs"].get("L", {}).get("degenerate"):
+        # zero-variance arm (0 entries) has no reform candidacy: the
+        # four-dim composite is undefined on a never-traded arm --
+        # excluded from the reform face, fully disclosed in the product
+        if (r["legs"].get("L", {}).get("degenerate")
+                or r.get("zero_variance")):
             continue
         mm = {
             "ret": {"sharpe_full_L": r["legL_sharpe_full"],
@@ -2140,6 +2156,9 @@ def cmd_judge_finalize() -> int:
                                      g2["members"][c]["composite"]}
                                     for c in onboard],
                    "five_member_ew_baseline_ann": base_ann,
+                   "zero_variance_arms_excluded": sorted(
+                       [r["cell_id"] for r in judged
+                        if r.get("zero_variance")]),
                    "constants": {"dim_weights": REFORM_DIM_WEIGHTS,
                                  "sub_weights": REFORM_SUB_WEIGHTS,
                                  "q": REFORM_Q_LEVEL,

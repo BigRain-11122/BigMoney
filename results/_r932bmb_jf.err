@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\trial_labor_w19.py", line 2497, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\trial_labor_w19.py", line 2483, in main
+    return {"grammar": cmd_grammar, "generate": cmd_generate,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\trial_labor_w19.py", line 2036, in cmd_judge_finalize
+    dsr = tl1.deflated_sharpe_ratio(rets, n_trials=n_trials)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\science_gates.py", line 507, in deflated_sharpe_ratio
+    raise ValueError("zero-variance returns")
+ValueError: zero-variance returns
