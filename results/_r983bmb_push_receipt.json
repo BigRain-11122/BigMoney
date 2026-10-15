@@ -1,0 +1,43 @@
+{
+ "base": "86819ad77644c3137907ab55f8513e75f7d3040f",
+ "commit": "a5ae43853f11c2c16dbef82eaeaca4821cdff0b1",
+ "root_tree": "ac42ac16d5917205f5f14f442a4b3231907a82ef",
+ "face": 20,
+ "ts": "2026-10-15T16:46:23+0800",
+ "status": "PUSHED_VERIFIED",
+ "remote_tip": "a5ae43853f11c2c16dbef82eaeaca4821cdff0b1",
+ "faces": [
+  "CODELY.md",
+  "research/memory-archive/202610.md",
+  "state.json",
+  "fleet/machines/bm-b.json",
+  "logs/iteration-loop/round_reports.md",
+  "results/_r983bmb_codely_minisplit.py",
+  "results/_r983bmb_codely_minisplit.json",
+  "results/_r983bmb_s6chain.log",
+  "results/_r983bmb_s6chain_driver.py",
+  "results/_r983bmb_closeout_prep.py",
+  "results/_r983bmb_surgery.py",
+  "results/_r686bmb_d19_check.json",
+  "results/_orphan_face_probe.bm-b.json",
+  "results/_attrition_guard_scan.json",
+  "results/astock_daily_update_status.json",
+  "results/update_status.json",
+  "results/token_usage.json",
+  "results/idle_trigger.bm-b.json",
+  "results/pool_dualrun.bm-b.jsonl",
+  "results/compute_audit.json"
+ ],
+ "own_delivery_verified": [
+  "fleet/orders/O-20261015-0025-bm-b.md",
+  "fleet/orders/O-20261015-0906-bm-b.md",
+  "fleet/orders/O-20261015-0915-bm-b.md",
+  "fleet/orders/O-20261015-0952-bm-b.md",
+  "fleet/inbox/MSG-20261015-0104-bmb-P1B-G5-done.md",
+  "fleet/inbox/MSG-20261015-0825-bm-b-cpu-pool-restock.md",
+  "fleet/inbox/MSG-20261015-0952-bm-b-work-request.md",
+  "fleet/inbox/MSG-20261015-1608-bm-b-animatic-53-53-done.md"
+ ],
+ "delivery_check": "content-level rev-parse blob sha == hash-object local (20/20)",
+ "note": "C-r983 own-face surgery push (r982 v2 bloodline: ancestor-inclusive dirs + CONTENT delivery check + processed/ two-account MSG check); deletion set empty; docs faces intentionally excluded (anti-regression, r982 policy); astock data churn (per-files) held local pending refresh completion package (next round); CODELY.md reorg + archive 202610.md are the round payload head; state face carries PENDING_AT_HASH_TIME marker (local touch-up post-receipt, lands next round)"
+}
