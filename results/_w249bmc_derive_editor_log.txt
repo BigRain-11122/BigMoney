@@ -1,0 +1,119 @@
+P1-fresh/legcount-loop: 2x 'range(236, 248)'
+P1-legs-range: 1x 'range(232, 247)'
+P1-dropped-range: 1x 'list(range(236, 247))'
+P1-kept-list: 1x '[232, 233, 234, 235]'
+P1-kept-count: 1x 'assert legs_kept.count("assert pf.N1_BANDS[") =='
+P1-legs-count: 1x 'assert legs_sec.count("assert pf.N1_BANDS[") == '
+P1-parfull-count: 1x 'assert par_full.count("assert pf.N1_BANDS[") == '
+P1-m236->m237: 4x 'm236'
+P1-split-regex: 1x 'r" *assert pf\\.N1_BANDS\\[236\\] =="'
+P1-fresh-firstline: 1x '\'        assert pf.N1_BANDS[236] == {"a": (\''
+P1-boundary-err: 1x 'W236 leg boundary not found inside W247 legs seg'
+P1-kept-err: 1x 'kept segment not W232..W235 four legs'
+P1-dropped-err: 1x 'dropped segment not W236..W246 eleven legs'
+P1-transitive-deps: 2x '(244, 243, 242, 241, 240, 239, 238, 237, 236, 23'
+P1-liveness-range: 2x 'range(209, 249)'
+P1-hdr-dropped: 1x 'W236..W246 legs (11 rows) do NOT enter'
+P1-hdr-fresh: 1x 'fresh W236..W247 legs (12 rows) are added'
+P1-hdr-parity: 1x 'parity = 106 rows (W138..W206 + W211..W247). Zer'
+P1-ext-kept: 1x 'AND the W232..W235'
+P1-ext-dropped: 1x 'W236..W246 legs (11) are EXCLUDED from the estat'
+P1-ext-fresh: 1x 'appends fresh W236..W247 legs (12, machine-deriv'
+P1-split-kept: 1x 'keep W232..W235 verbatim (4 legs)'
+P1-split-dropped: 1x 'W236..W246 legs (11) are excluded from the estat'
+P1-blk-kept-comment: 1x 'W232..W235 legs (4) extracted verbatim from the '
+P1-blk-dropped-comment: 1x "the W247 block's own W236..W246 legs (11) are"
+P1-blk-fresh-comment: 1x 'W236..W247 legs (12) added, machine-derived'
+P1-blk-parity-comment: 1x '-> 106 parity rows (W138..W206+W211..W247).'
+P1-rcpt-kept: 1x '+ W232..W235 legs extracted verbatim (4) per the'
+P1-rcpt-dropped: 1x "the W247 block's own W236..W246 legs (11) EXCLUD"
+P1-rcpt-fresh: 1x 'fresh W236..W247 legs (12) machine-derived'
+P1-rcpt-parity: 1x 'W248 block = 106 rows (W138..W206 + W211..W247)'
+P2-downstream: 14x 'W249'
+P3-self: 185x '248'
+P3 consumed 185 '248' substrings
+P4-upstream: 240x '247'
+P4 consumed 240 '247' substrings
+P5-key-bbase: 1x 'ra.get("B_base_above_W248c_tail")'
+P5-key-rsvA: 1x 'ra.get("W248c_reservation_respected_A")'
+P5-key-rsvB: 1x 'ra.get("W248c_reservation_respected_B")'
+P5-gate05-owner: 1x 'assert W248.get("engine_owner") == "bm-a"'
+P5-gate05-err: 1x 'bm-a seat owner expected'
+P5-print-owner: 1x 'owner=bm-a seat honored'
+P5-mirror-owner: 1x 'pf.N1_BANDS[248].get("engine_owner") == "bm-a"'
+P5-mirror-err: 1x 'law-mirror parity; bm-a upstream seat face'
+P5-legmsg-248: 1x '"registered W248 row parity drift (r307; bm-a fi'
+P5-owner-exec: 2x 'bm-a own seat executed at'
+P5-owner-window: 2x 'the bm-a r1021 window'
+P5-upstream-chain: 1x 'bm-a r1021 freeze + r1022 finalize one-pass'
+P5-upstream-chain-lb: 1x 'bm-a r1021 freeze + r1022 finalize\n# one-pass'
+P5-splice-gen: 1x 'bm-a r1021 splice\n# generation'
+P5-splice-gen2: 1x 'bm-a splice generation r1021 window'
+P5-upstream-pair: 2x 'bm-a r1021/r1022'
+P5-closeout: 3x 'bm-a r1022 own-wave closeout'
+P5-closeout-ts: 1x 'closeout 19:0x'
+P5-rcpt-closeout: 1x 'bm-a own-wave closeout r1022'
+P5-print-upstream: 1x 'W248 bm-a finalize one-pass'
+P5-rcpt-owner: 1x '"engine_owner": "bm-a (upstream seat honored)"'
+P5-hdr-window: 1x 'bm-c r1036 freeze window'
+P5-derive-window: 5x 'r1034-continuation/r1035 window'
+P5-authored: 2x 'authored 20:00:36'
+P5-lineage: 1x '_w248bma_freeze_edits.py template (proven live-f'
+P5-seat-msg: 7x 'MSG-20261015-164x-bmc-w249-seat'
+P5-seat-origin: 2x '86819ad77'
+P5-seat-pub: 0x 'r1030 MSG-20261015-164x'
+P5-seat-pub2: 1x 'r1030 BEFORE this freeze'
+P5-seat-lane: 2x 'queue-depth supply depth-2 at publish, waits-ups'
+P5-seat-lane-hdr: 0x 'waits-upstream ARMED on the W248 chain is DISARM'
+P5-seat-lane-inner: 1x "the W249 freeze's waits-upstream on the W248 cha"
+P5-ledger-int: 1x '967_735'
+P5-k-int: 1x '541_320'
+P5-ledger-prose: 8x '967,735'
+P5-k-prose: 8x '541,320'
+P5-band-alo: 4x '561_501'
+P5-band-ahi: 3x '563_500'
+P5-band-blo: 2x '544_701'
+P5-band-bhi: 2x '544_900'
+P5-band-alo-int: 1x '561501'
+P5-rcpt-staircase: 1x 'the registered W239 A band 542_501..544_500 and '
+P5-ord-gate: 1x '== 237 and len(bma_rows_live) == 129 and len(bmc'
+P5-ord-owner-prose: 2x 'owner rows 237 + candidate'
+P5-ord-err: 1x '237/129/67 PRE-splice'
+P5-ord-bmc-prose: 0x 'bm-c rows 67 +\n      f"candidate = 68th'
+P5-ord-rows67: 2x 'bm-c rows 67 + candidate'
+P5-ord-rows67b: 1x 'rows 67 + candidate'
+P5-ord-receipt68: 7x 'bmc_ordinal=68'
+P5-ord-68th: 3x '68th own wave'
+P5-ord-68claim: 0x '68th owned claim'
+P5-word-68: 3x 'SIXTY-EIGHTH'
+P5-word-248: 3x 'TWO HUNDRED AND FORTY-EIGHTH'
+P5-ord-face68: 1x 'probe_receipt_bmc_ordinal_face": 68'
+P5-seedgap: 13x 'TENTH consecutive'
+P5-cleanwin: 2x 'thirty-sixth consecutive'
+P5-wave-label: 1x '"wave 245: ",'
+P5-bundle-note: 1x 'banned gate rc0, committed+pushed same window; c'
+OUT '# --- W249 materializer face' = 2
+OUT '# --- W248 materializer face' = 1
+OUT '"+ W249 materializer face' = 2
+OUT 'range(16, 249)' = 2
+OUT 'range(17, 249)' = 3
+OUT 'range(237, 249)' = 3
+OUT 'range(209, 250)' = 2
+OUT 'if w < 249)' = 5
+OUT 'if w < 248)' = 1
+OUT '_w249bmc_20261015_probe_receipt.json' = 10
+OUT '_w249bmc_freeze_receipt.json' = 1
+OUT 'MSG-20261015-225x-bmc-w249-seat' = 7
+OUT '8949e0aef' = 2
+OUT '969_935' = 1
+OUT '543_520' = 1
+OUT '(563_501, 565_500)' = 1
+OUT '(544_901, 545_100)' = 1
+OUT 'B_base_above_W248_tail' = 1
+OUT 'W247_W248_bands_respected_A' = 1
+OUT 'W250p_A_naive' = 2
+OUT 'arith_a249' = 6
+OUT 'arith_b249' = 6
+OUT '"PERPETUAL-N1-W249-SHARD-0"' = 1
+OUT 'n1_w249_results.json' = 2
+OUT 'TWELFTH consecutive' = 13
