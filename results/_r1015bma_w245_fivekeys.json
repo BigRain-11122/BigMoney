@@ -1,0 +1,78 @@
+{
+ "machine": "bm-a",
+ "wave": 245,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w245_results.json",
+ "merged": {
+  "k": 536920,
+  "mu": -0.09281866181181554,
+  "sigma": 0.24503785037139217,
+  "se_mu_k536920": 0.000334
+ },
+ "w245_only": {
+  "mu": -0.09621036363636364,
+  "sigma": 0.24114152903970645
+ },
+ "skill_line": {
+  "n_eff_held": 961135,
+  "line_pre_w245": 1.1935,
+  "line_merged_536920": 1.1934,
+  "k_lift_delta": -0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.302,
+  "full_sharpe_p99": 0.4577
+ },
+ "checks": [
+  {
+   "name": "key1_w245_vs_merged_mu_gap",
+   "value": 0.0033917018245480934,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w244_key",
+   "value": 1.3951811815543502e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": -6.541267009456529e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": 0.006799999999999973,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": -0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000334,
+   "band": 0.000335,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 961135,
+  "batch_trials": 2200,
+  "total": 963335,
+  "exact": true
+ },
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)",
+ "honest_disclosure": [
+  "line_pre_w245=1.1935 vs prereg-quoted W244 line_merged@K534,720=1.1934: 0.0001 held-n face (pre-line recomputed at n_eff=961,135 by skill_line_v2; key4 judges the MOVE -0.0001 not absolute)",
+  "K-lift delta -0.0001 = second consecutive negative move in the W136..W244 precedent chain (W244 first-negative; all prior within +/-0.0003); inside precedent band and far inside the 0.02 registered band -- nulls-deepening measurement face, not a returns claim",
+  "A-band full_sharpe_p95 0.3020 vs W244 key 0.2952: delta +0.0068 inside 0.05 band (pure sampling noise of the 2,000-trial A slice; measurement face, not registered returns)",
+  "se_mu 0.000334 continues the monotone narrowing chain (W244 0.000335); K=536,920 EXACT 534,720+2,200; ledger 961,135+2,200=963,335 EXACT"
+ ]
+}
