@@ -1,0 +1,5 @@
+W245 freeze receipt: wave=244 bands={'A': [555501, 557500], 'B': [542001, 542200], 'a_lo': 555501, 'a_hi': 557500, 'b_lo': 542001, 'b_hi': 542200}
+  band_semantics.A: FIRST-CLEAN arithmetic continuation of prior-wave A tail (hops=0, A_hop_chain empty + A_clean_at_naive_start=true; seed-decoupled A-continuation face, sixth consecutive seed-gap face; A base == prior-
+  band_semantics.B: FIRST-CLEAN post-hop forward walk (the naive continuation is REFUSED by the live SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull; hops=1, hop chain recorded, honest forward walk lands first-clean
+W245 probe receipt A_semantics: A arithmetic continuation from the W244-REGISTERED A tail 555_500+1 = 555_501..557_500 is CLEAN at naive start on the post-W244-REGISTERED universe (sixth consecutive seed-gap A-continuation face, anticipated by the W244
+W245 probe receipt B_semantics: B arithmetic continuation from the W244-REGISTERED B tail 541_900+1 = 541_901..542_100 hits the live-seed refuser SEED_REGISTRY 542_000 inside the naive window -> honest forward walk first-clean 542_001..542_200 (hops=1)

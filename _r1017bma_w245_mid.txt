@@ -1,0 +1,217 @@
+295: ROWC_I = w243_own_line[:len(w243_own_line) - len(w243_own_line.lstrip(" "))]
+296: 
+297: # ---------- pf comment + row ----------
+298: pf_comment = PF_EOL.join([
+299: "    # W245 (bm-a loop five-face freeze splice -- OWN-SEAT face, seat",
+300: "    # MSG-20261015-0844-bma-w245-seat published=reserved by bm-a itself @",
+301: "    # origin " + SEAT_ORIGIN + " (r1010, queue-depth supply depth-1 at publish, takeover lane disclosed (GM re-assignment: bm-c declared the W245 turn at r1020 closeout then heartbeat froze 64.5min with zero origin commits post the W244-finalize unblock -- stall >1 round, takeover per the r1009 next-pointer rule)); prereg + ADMIT probe",
+302: "    # receipt frozen commit " + w244_prereg_sha[:10] + " (prereg research/PERPETUAL_N1_W245_PREREG.md",
+303: "    # r1010 absorbed-window machine-SUB derive landed pre-freeze, probe",
+304: "    # results/_w245bma_20261015_probe_receipt.json @ " + w244_receipt_sha[:10] + ");",
+305: "    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10",
+306: "    # ~23:1x; deletion-set EMPTY; delivery window = chain-order",
+307: "    # splice AFTER the bm-a W244 five-face (freeze " + w243_freeze_sha[:10] + ") + W244",
+308: "    # finalize product landed (n1_w244_results.json present, ledger",
+309: "    # head " + str(w243_total) + " machine-read at freeze time); zero --no-verify;",
+310: "    # the W245 seat MSG sits in " + seat_found + " at freeze",
+311: "    # time, honest archived per S7 law);",
+312: "    # band gate ADMIT results/_w245bma_20261015_probe_receipt.json: A = FIRST-CLEAN",
+313: "    # arithmetic continuation of the prior-wave A tail (" + fmt(w244_a_tail + 1) + ".." + fmt(w244_a_tail + 2_000) + " CLEAN",
+314: "    # at naive start on the registered universe, hops=0, A_hop_chain empty +",
+315: "    # A_clean_at_naive_start=true -- seed-decoupled A-continuation face,",
+316: "    # sixth consecutive seed-gap face per the W244 seat leg4 anticipation",
+317: "    # confirmed live; A base == prior-wave A tail+1 (" + fmt(w244_a_tail) + "+1) machine-checkable;",
+318: "    # B = FIRST-CLEAN post-hop forward walk (the naive continuation",
+319: "    # (" + fmt(w244_b_tail + 1) + ".." + fmt(w244_b_tail + 200) + " is REFUSED by the live",
+320: "    # SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull; hops=1, hop chain",
+321: "    # recorded, honest forward walk lands first-clean " + fmt(b_lo) + ".." + fmt(b_hi) + " -- B",
+322: "    # lands OUTSIDE the own-A window " + fmt(a_lo) + ".." + fmt(a_hi) + ":",
+323: "    # seed-decoupled A/B gap face seventh; B base == live refuser 542_000+1 machine-checkable;",
+324: "    # single-window derive (r812 merged the gate legs INTO the",
+325: "    # pre-seat probe; dual-window parity N/A honest); scan face =",
+326: "    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1",
+327: "    # used-seed band + probe cluster 95_000..95_003 + cross-face",
+328: "    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/",
+329: "    # N2-W15 probe points.",
+330: "    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):",
+331: "    # " + gate_lines[0] + ";",
+332: "    # " + gate_lines[1] + ".",
+333: "    # W246+ projection (gate-derived pre-seat probe leg4, pre-W245",
+334: "    # universe): A naive first-clean " + rec["legs"]["leg4"]["W246p_A_naive"] + " hops=" + str(rec["legs"]["leg4"]["hops_A"]) + " (this window's gate: CLEAN, zero live",
+335: "    # seed refusers) / B naive first-clean " + rec["legs"]["leg4"]["W246p_B_naive"] + " hops=" + str(rec["legs"]["leg4"]["hops_B"]) + " (this window's gate: CLEAN, zero live",
+336: "    # refusers anticipated -- B first-clean " + rec["legs"]["leg4"]["W246p_B_first_clean"] + "; B lands OUTSIDE",
+337: "    # the naive A window, seed-gap face inherited); W246 freezer MUST",
+338: "    # re-derive on the post-W245 universe AND reserve the own-wave A window",
+339: "    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1",
+340: "    # equality); never transcribe r587.",
+341: ])
+342: pf_row = (f'{ROW_I}245: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
+343:           f'"b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+344:           + PF_EOL + f'{ROWC_I}"engine_owner": "bm-a"}},' + PF_EOL)
+345: # belt-and-braces: display form must equal the canonical W-family text
+346: assert pf_row.split(PF_EOL)[0].strip() == \
+347:     f'245: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+348: 
+349: old_pf = must(pf_t, (w243_own_line + PF_EOL + '}'
+350:                      + PF_EOL + '# v1 + ext(wave-1) in-use bands'), 1, "pf_close")
+351: new_pf = (w243_own_line + PF_EOL
+352:           + pf_comment + PF_EOL + pf_row
+353:           + '}' + PF_EOL + '# v1 + ext(wave-1) in-use bands')
+354: pf_t2 = pf_t.replace(old_pf, new_pf, 1)
+355: 
+356: # ---------- n1 cfg entry (programmatic quote wrapping, r761 law) ----------
+357: fin_face = (f"W1..W244 finalize ALL LANDED (W244 finalize product present at splice, "
+358:             f"net chain head {w243_total} machine-read, merged pool K={w243_merged_n} "
+359:             f"machine-read) -- ZERO in-flight upstream seats at splice time, clean precondition "
+360:             f"(thirty-third consecutive fully-clean freeze window); downstream W245 seat NOT YET "
+361:             f"PUBLISHED at this freeze window (the next freezer must seat-first publish per "
+362:             f"O-20261010-2350 sec.2 queue-depth supply; the W245 freezer MUST re-derive live on "
+363:             f"the post-W245 universe + reserve the own-wave A window when deriving B per the "
+364:             f"W245 seat leg4 mandate, never transcribe r587)")
+365: cfg_lines = [
+366:  f'{CFG_I}245: {{"batch": "PERPETUAL-N1-W245",',
+367:  f'{PRE_KEY_I}"prereg": ("research/PERPETUAL_N1_W245_PREREG.md (wave-level frozen "',
+368: ]
+369: PRE = [
+370:  "pre-run; design = frozen v1 null calibration verbatim, ",
+371:  "new seed bands only; TWO HUNDRED AND FORTY-FIFTH ENGINE-OWNED WAVE ",
+372:  f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
+373:  "own-series continuation per O-20260101-2355 sec.2 (first-free-",
+374:  "number law after the REGISTERED W244 row five-face freeze (bm-a own seat executed at the bm-a r1007 window; engine self-burn 12/12; finalize one-pass bm-a r1008 own-wave closeout, ledger 961,135 / K=534,720 machine-read), ",
+375:  f"{w243_freeze_sha[:10]} (prereg {w243_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W244 all ",
+376:  "registered; " + fin_face + "; ",
+377:  "seat published=reserved ",
+378:  "MSG-20261015-0844-bma-w245-seat PUSHED to origin " + SEAT_ORIGIN + " ",
+379:  "BEFORE this freeze per r565 early-visibility law (payload = ",
+380:  "seat MSG + pre-seat probe script + probe receipt; per-wave prereg ",
+381:  "r1010 absorbed-window machine-SUB derive landed pre-freeze -- takeover lane disclosed (GM re-assignment: bm-c declared the W245 turn at r1020 closeout then heartbeat froze 64.5min with zero origin commits post the W244-finalize unblock -- stall >1 round, takeover per the r1009 next-pointer rule) face, bm-a own-seat ",
+382:  "continuity, ",
+383:  f"prereg {w244_prereg_sha[:10]} @ receipt {w244_receipt_sha[:10]}) -- this freeze splice editor derived from the committed W244 editor template in this same freeze window; ",
+384:  "deletion-set EMPTY; delivery window = chain-order splice ",
+385:  "after the W244 five-face + W244 finalize product landed ",
+386:  "(executed in the bm-a loop freeze window ",
+387:  "under the CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED ",
+388:  "2026-10-10 ~23:1x); zero merge at freeze delivery, zero ",
+389:  "--no-verify; single-window derive -- r812 merged the gate ",
+390:  "legs INTO the pre-seat probe; parity N/A honest), ",
+391:  "engine_owner=bm-a (bm-a OWN-SEAT face -- bm-a's ONE HUNDRED AND TWENTY-SIXTH owned claim per machine-derive (engine_owner==bm-a rows ",
+392:  f"{len(bma_rows_live)} + candidate; probe receipt leg0 bma_ordinal=127 = seat-time pre-splice ",
+393:  "live faces disclosed honest, live derive governs ",
+394:  "r587/r359 -- takeover lane disclosed (GM re-assignment: bm-c declared the W245 turn at r1020 closeout then heartbeat froze 64.5min with zero origin commits post the W244-finalize unblock -- stall >1 round, takeover per the r1009 next-pointer rule), own-seat continuity)), ",
+395:  "wave 244: ",
+396:  "A = FIRST-CLEAN arithmetic continuation of the prior-wave A tail (the continuation ",
+397:  f"{fmt(w244_a_tail + 1)}..{fmt(w244_a_tail + 2_000)} is CLEAN at its own start ",
+398:  "-- hops=0, A_hop_chain empty + A_clean_at_naive_start=true, seed-decoupled ",
+399:  "A-continuation face, sixth consecutive seed-gap face exactly as the W244 seat leg4 ",
+400:  "succession projection notes anticipated; A base == prior-wave A tail+1 (",
+401:  f"{fmt(w244_a_tail)}+1) machine-checkable; ",
+402:  "non-rotational r587 forward-monotone walk) + B = FIRST-CLEAN post-hop ",
+403:  "forward walk (the naive continuation ",
+404:  f"{fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live SEED_REGISTRY point ",
+405:  "542_000 perpetual_n2_w15_scrnull -- hops=1, hop chain recorded; honest forward walk first-clean ",
+406:  f"{fmt(b_lo)}..{fmt(b_hi)} -- B lands OUTSIDE the ",
+407:  f"own-A window {fmt(a_lo)}..{fmt(a_hi)}; seed-decoupled A/B gap ",
+408:  "face seventh consecutive; B base == live refuser 542_000+1 ",
+409:  "machine-checkable; cross-window convergence with the W244 seat leg4 succession projection ",
+410:  "notes -- all MANDATORY notes honored (post-W244 universe ",
+411:  "re-derive + live-trace re-read, no staircase-equality assumption); ADMIT receipt ",
+412:  "results/_w245bma_20261015_probe_receipt.json + ",
+413:  "seed_admit_gate rc0 both bands FREE (O-20261010-1945-bm-a ",
+414:  "ADMIT convention); W246+ projection per this window gate: ",
+415:  f"A naive first-clean {rec['legs']['leg4']['W246p_A_naive']} CLEAN (hops=0, zero live seed refusers) / B naive first-clean ",
+416:  f"{rec['legs']['leg4']['W246p_B_naive']} hops=0 (both windows CLEAN on the pre-W245 universe, zero live refusers anticipated -- B first-clean {rec['legs']['leg4']['W246p_B_first_clean']} -- lands OUTSIDE the naive A window -- seed-gap face ",
+417:  "inherited); W246 freezer MUST re-derive on the post-W245 universe AND ",
+418:  "reserve the own-wave A window when deriving B (do NOT assume the ",
+419:  "staircase A-base==prior-B-tail+1 equality) -- the finalize ",
+420:  "merge loop still derives the wave set from registry keys at ",
+421:  "run time, FAIL-CLOSED r307 always on)",
+422: ]
+423: for i, s in enumerate(PRE):
+424:     if i == len(PRE) - 1:
+425:         cfg_lines.append(f'{PRE_I}"{s}"),')
+426:     else:
+427:         cfg_lines.append(f'{PRE_I}"{s}"')
+428: cfg_lines += [
+429:  f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W245 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN arithmetic continuation of the prior-wave A tail; {fmt(w244_a_tail + 1)}..{fmt(w244_a_tail + 2_000)} CLEAN at naive start hops=0, A_hop_chain empty + A_clean_at_naive_start=true; seed-decoupled A-continuation face sixth consecutive seed-gap face; A base == prior-A tail+1)',
+430:  f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W245 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN post-hop forward walk: naive staircase {fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} REFUSED by live SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull, hops=1, hop chain recorded; honest forward walk first-clean; B base == refuser+1 EXACT; B lands outside own-A; seed-decoupled A/B gap face seventh consecutive)',
+431:  f'{MEM_I}"shard_subdir": "n1_w245", "out_name": "n1_w245_results.json",',
+432:  f'{MEM_I}"engine_owner": "bm-a"}},',
+433: ]
+434: 
+435: cfg_block = EOL.join(cfg_lines)
+436: old_cfg = must(n1_t, ('                       }' + EOL
+437:                       + 'PREREG = WAVE_CONFIGS[2]["prereg"]'), 1, "n1_cfg_close")
+438: new_cfg = (cfg_block + EOL
+439:            + '                       }' + EOL
+440:            + 'PREREG = WAVE_CONFIGS[2]["prereg"]')
+441: assert new_cfg.count('245: {"batch": "PERPETUAL-N1-W245"') == 1
+442: n1_t2 = n1_t.replace(old_cfg, new_cfg, 1)
+443: 
+444: # ---------- n1 materializer block ----------
+445: hdr = [
+446:  "    # --- W245 materializer face (bm-a loop five-face freeze splice --",
+447:  "    #     OWN-SEAT face under CEO fill-order standing 2026-10-08 ~23:5x",
+448:  "    #     + RE-ISSUE 2026-10-10 ~23:1x + O-20260909-2334 local-full-use",
+449:  "    #     + O-20260924-1730 claim-and-start same-round law):",
+450:  "    #     bm-a's one hundred and twenty-seventh owned per machine-derive (engine_owner==bm-a",
+451:  f"    #     rows {len(bma_rows_live)} + candidate; own-seat face: seat published=reserved by bm-a itself",
+452:  "    #     (r1010 MSG-20261015-0844-bma-w245-seat @ origin " + SEAT_ORIGIN + "; probe leg0",
+453:  "    #     bma_ordinal=127 = seat-time pre-splice faces;",
+454:  "    #     live derive at freeze governs);",
+455:  "    #     wave 244 = first free number after the",
+456:  "    #     REGISTERED W244 row (five-face freeze " + w243_freeze_sha[:10] + "; bm-a own seat executed at",
+457:  "    #     the bm-a r1007 window; engine",
+458:  "    #     self-burn 12/12 + finalize one-pass bm-a r1008 own-wave closeout ledger 961,135 / K=534,720",
+459:  "    #     -- SINGLE STATE zero seat gap (W2..W244 all registered). Seat",
+460:  "    #     published=reserved MSG-20261015-0844-bma-w245-seat pushed",
+461:  "    #     to origin " + SEAT_ORIGIN + " BEFORE this freeze, r565 law (payload =",
+462:  "    #     seat MSG + pre-seat probe script + probe receipt; per-wave prereg",
+463:  f"    #     r1010 absorbed-window derive landed pre-freeze commit {w244_prereg_sha[:10]}; this freeze splice editor",
+464:  "    #     derived from the committed W244 editor template in this same freeze",
+465:  "    #     window (E63 heal lineage: arith_a244/arith_b244 define+assert consistent);",
+466:  "    #     deletion-set EMPTY; delivery window",
+467:  "    #     = chain-order splice after the W244 five-face + W244 finalize",
+468:  "    #     product landed; zero --no-verify; the W245 seat MSG sits in",
+469:  "    #     " + seat_found + " at freeze time, honest archived",
+470:  "    #     per S7 law).",
+471:  "    #     TWO HUNDRED AND FORTY-FIFTH engine wave BY",
+472:  f"    #     MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate; gate",
+473:  "    #     leg0 machine output governs per r359 law).",
+474:  f"    #     {fin_face}; the finalize merge loop",
+475:  "    #     still derives the wave set from registry keys at run",
+476:  "    #     time, FAIL-CLOSED r307 always on. ADMIT receipt",
+477:  "    #     results/_w245bma_20261015_probe_receipt.json;",
+478:  "    #     seed_admit_gate rc0 both bands FREE (O-20261010-1945-bm-a",
+479:  f"    #     ADMIT convention upgrade): {gate_lines[0]}; {gate_lines[1]};",
+480:  "    #     banned gate ADMIT 0 (re-run at freeze window);",
+481:  "    #     not a re-pick (R250: W245 bands were never assigned).",
+482:  "    _set_wave(245)",
+483:  "    try:",
+484:  '        assert WAVE_CONFIGS[244]["a_seed_base"] == pf.N1_BANDS[244]["a"][0], \\',
+485:  '            "W245 upstream W244 mirror drift (a)"',
+486:  "        assert WAVE_CONFIGS[244][\"b_exit_seed_base\"] == \\",
+487:  '            pf.N1_BANDS[244]["b_exit"][0], "W245 upstream W244 mirror drift (b)"',
+488:  "        assert WAVE_CONFIGS[244].get(\"engine_owner\") == \\",
+489:  '            pf.N1_BANDS[244].get("engine_owner") == "bm-a", \\',
+490:  '            "W245 upstream W244 engine_owner mirror drift (law-mirror parity; bm-a upstream seat face)"',
+491:  "        w243_a = {A_SEED_BASE + j for j in range(A_N)}",
+492:  "        w243_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
+493:  '        assert not (w243_a & w243_b), "W245 A/B band overlap"',
+494:  "        assert not (w243_a & reg_ints) and not (w243_b & reg_ints), \\",
+495:  '            "W245 hits SEED_REGISTRY"',
+496:  '        for nm, band in (("A", w243_a), ("B", w243_b)):',
+497:  '            assert not (band & v1_a) and not (band & v1_b), f"W245 {nm} hits v1"',
+498:  '            assert not (band & w1_a) and not (band & w1_b), f"W245 {nm} hits W1"',
+499:  '            assert not (band & probes), f"W245 {nm} hits probe seeds"',
+500: ]
+501: w243_leg = [
+502:  f'        assert pf.N1_BANDS[244] == {{"a": ({fmt(pf_mod.N1_BANDS[244]["a"][0])}, {fmt(pf_mod.N1_BANDS[244]["a"][1])}),',
+503:  f'                                    "b_exit": ({fmt(pf_mod.N1_BANDS[244]["b_exit"][0])}, {fmt(pf_mod.N1_BANDS[244]["b_exit"][1])}),',
+504: '                                    "engine_owner": "bm-a"}, \\',
+505: '            "registered W244 row parity drift (r307; bm-a five-face freeze; own-seat face disclosed)"',
+506: ]
+507: tail = [
+508:  "        # prior-wave disjointness W2..W244 (single state: all",
+509:  "        # registered, dynamic registry derive, r511 law)",
+510:  "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 245):",
+511:  '            assert not (w243_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j',

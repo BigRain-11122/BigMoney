@@ -1,0 +1,19 @@
+642: n1_t4 = n1_t3.replace(old_pr, EOL.join(pr) + EOL + old_pr, 1)
+645: assert n1_t4.count('"batch": "PERPETUAL-N1-W245"') == 1
+646: assert n1_t4.count("# --- W245 materializer face") == 1     # block header
+647: assert n1_t4.count('"+ W245 materializer face') == 1        # print fragment
+648: assert n1_t4.count('245: {"batch": "PERPETUAL-N1-W245"') == 1
+651: assert n1_t4.count('    # --- T-141 s2 lane face') == 1
+652: assert n1_t4.count('"PERPETUAL-N1-W245-SHARD-0"') == 1
+653: assert n1_t4.count(f'assert pf.N1_BANDS[244] == {{"a": ({fmt(pf_mod.N1_BANDS[244]["a"][0])}, {fmt(pf_mod.N1_BANDS[244]["a"][1])}),') == 1
+654: assert n1_t4.count(f'assert pf.N1_BANDS[243] == {{"a": ({fmt(pf_mod.N1_BANDS[243]["a"][0])}, {fmt(pf_mod.N1_BANDS[243]["a"][1])}),') == 2
+660: assert n1_t4.count(f'assert pf.N1_BANDS[242] == {{"a": ({fmt(pf_mod.N1_BANDS[242]["a"][0])}, {fmt(pf_mod.N1_BANDS[242]["a"][1])}),') == 3
+661: assert n1_t4.count(f'assert pf.N1_BANDS[241] == {{"a": ({fmt(pf_mod.N1_BANDS[241]["a"][0])}, {fmt(pf_mod.N1_BANDS[241]["a"][1])}),') == 4
+662: assert n1_t4.count(f'assert pf.N1_BANDS[240] == {{"a": ({fmt(pf_mod.N1_BANDS[240]["a"][0])}, {fmt(pf_mod.N1_BANDS[240]["a"][1])}),') == 5
+663: assert n1_t4.count(f'assert pf.N1_BANDS[239] == {{"a": ({fmt(pf_mod.N1_BANDS[239]["a"][0])}, {fmt(pf_mod.N1_BANDS[239]["a"][1])}),') == 6
+664: assert n1_t4.count(f'assert pf.N1_BANDS[238] == {{"a": ({fmt(pf_mod.N1_BANDS[238]["a"][0])}, {fmt(pf_mod.N1_BANDS[238]["a"][1])}),') == 7
+665: assert n1_t4.count(f'assert pf.N1_BANDS[237] == {{"a": ({fmt(pf_mod.N1_BANDS[237]["a"][0])}, {fmt(pf_mod.N1_BANDS[237]["a"][1])}),') == 8
+666: assert n1_t4.count(f'assert pf.N1_BANDS[236] == {{"a": ({fmt(pf_mod.N1_BANDS[236]["a"][0])}, {fmt(pf_mod.N1_BANDS[236]["a"][1])}),') == 9
+668: assert n1_t4.count(f"    # --- W{_b} materializer face") == 1, f"W{_b} block kept-count drift"
+677: open(N1, "wb").write(n1_t4.encode("utf-8"))
+690: "n1_sha16_post": hashlib.sha256(n1_t4.encode("utf-8")).hexdigest()[:16],

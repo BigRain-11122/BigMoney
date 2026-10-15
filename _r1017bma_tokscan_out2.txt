@@ -1,0 +1,435 @@
+   1 [Wref,roundref] # 2026-10-15 12:4x bm-a r1013 freeze window (upstream W1..W244 ALL LANDED, clean
+   2 [Wref,roundref] # precondition -- W244 finalize one-pass bm-a r1008 own-wave closeout 07:4x,
+   3 [Wref] # ledger head 961,135 / K=534,720 machine-read): W245 five-face freeze splice
+   4 [wref] # editor -- bm-a OWN-SEAT face (seat MSG-20261015-0844-bma-w245-seat
+   5 [roundref,sha16ish] # published=reserved by bm-a itself @ origin 2b0947947 r1010, pre-seat probe
+   6 [wref] # ADMIT receipt results/_w245bma_20261015_probe_receipt.json same payload;
+   7 [Wref] # the W245 freeze's waits-upstream on the W244 finalize is DISARMED by the W244
+   8 [Wref,roundref] # finalize landing 07:4x -- takeover lane disclosed (GM re-assignment: bm-c declared the W245 turn at r1020 closeout t
+   9 [Wref,perpn1us,roundref] # PERPETUAL_N1_W245_PREREG.md derived by the absorbed r1010 window
+  10 [Wref,roundref,sha16ish] # and landed by the r1011 commit 6473fb7f8, machine-SUB from frozen W245 tpl 260ffd3f8).
+  11 [wref] # Lineage: _w244bma_freeze_edits.py template (proven live-fire freeze, bm-a
+  12 [roundref] # r1007 window; engine self-burn 12/12 + finalize one-pass verified r1008) +
+  15 [wlt] # family #6 LHS/RHS/comment ATOMIC TRIPLE (the new block's w<245>/
+  17 [Wref,wlt] # atomically; the W244 block's own w<244 face is legitimate prior-wave
+  20 [Wref] # NEW FACE vs the W244 editor (honest disclosure): the W245 B band takes the
+  22 [bandlit] # 541_901..542_100 is REFUSED by the live SEED_REGISTRY point 542_000
+  24 [bandlit] # first-clean 542_001..542_200) -- B base != prior-B-tail+1 EXACT in this
+  28 [bandlit] # (B base == live refuser 542_000+1 EXACT; B_naive_hops=1 recorded).
+  29 [Wref] # Zero hardcoded upstream band values: ALL W244 facts machine-derived from the
+  30 [Wref] # LIVE pf import at freeze time (the registered W244 row -- bm-a own seat
+  32 [wref] # (results/_w245bma_20261015_probe_receipt.json) which was derived on the
+  33 [Wref] # post-W244-REGISTERED universe. If the LIVE W244 bands differ from the
+  35 [Wref,parityspan] # STRUCTURAL CHOICE (vs the W244 editor): the parity estate + the W232..W243
+  36 [Wref] # fresh legs are BOTH extracted from the OWN W244 block physical bytes
+  37 [roundref] # (bm-a r1007 splice generation, committed -- structure known exactly); the
+  38 [Wref] # W245 block appends ONE fresh W244 leg (machine-derived from the live
+  39 [Wref,parityspan] # registered row) -> 103 parity rows (estate 90 ending W231 + W232..W243
+  40 [Wref] # legs 12 + W244 leg 1). Extraction self-asserts the 90-row estate cut and
+  49 [wref] RECEIPT_IN = os.path.join(REPO, "results", "_w245bma_20261015_probe_receipt.json")
+  50 [wref] RECEIPT_OUT = os.path.join(REPO, "results", "_w245bma_freeze_receipt.json")
+  51 [wref] SEAT_MSG = "MSG-20261015-0844-bma-w245-seat.md"
+  52 [sha16ish] SEAT_ORIGIN = "2b0947947"
+  74 [Wref] # ---------- gate 0.5: W244 five-face landed + W244 finalize product present ----------
+  75 [Wref] # (chain-order precondition; W244/W241/W240/W239/W238/W237/W236/W235/W234/W233 finalize are
+  76 [Wref] # transitive deps of the W245 freeze and are belt-and-braces checked here + enforced
+  77 [range17] # by the block's cumulative-deps assert range(17, 245) at selftest time)
+  78 [Wref,nbget] W244 = dict(pf_mod.N1_BANDS.get(244) or {})
+  79 [Wref] assert W244.get("engine_owner") == "bm-a", \
+  80 [Wref] f"W244 row not landed as declared (bm-a seat owner expected): {W244} -- five-face freeze missing;" \
+  82 [n1wref,wref] w243_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w244_results.json")
+  83 [Wref,n1wref,wref] assert os.path.exists(w243_out_path), "W244 finalize product missing (n1_w244_results.json) -- chain dep not met"
+  87 [wref] w243_out = json.load(open(w243_out_path, encoding="utf-8"))
+  88 [wref] w243_led = (w243_out.get("science_gates") or {}).get("ledger") or {}
+  89 [wref] w243_total = w243_led.get("total")
+  90 [wref] w243_merged_n = None
+  92 [wref] w243_merged_n = w243_out["null_pool_cumulative"]["merged"]["n_values"]
+  95 [bandlit,wref] assert w243_total == 961_135 and w243_merged_n == 534_720, \
+  96 [Wref,wref] f"W244 finalize anchors drift at freeze time: total={w243_total} merged={w243_merged_n} (expect 961,135 / 534,720)"
+  98 [dictkey] r = git("log", "--format=%H", "-S", '244: {"a"', "--", "scripts/perpetual_faces.py")
+  99 [wref] w243_freeze_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+ 100 [Wref,perpn1us] r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W244_PREREG.md")
+ 101 [wref] w243_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+ 102 [Wref,perpn1us] r = git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W245_PREREG.md")
+ 103 [wref] w244_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+ 104 [Wref,perpn1us] assert os.path.exists(os.path.join(REPO, "research", "PERPETUAL_N1_W245_PREREG.md")), \
+ 105 [Wref,roundref] "W245 per-wave prereg missing on disk -- chain face incomplete, abort (r1010 derive landed pre-freeze expected)"
+ 106 [Wref,perpn1us] with open(os.path.join(REPO, "research", "PERPETUAL_N1_W245_PREREG.md"), encoding="utf-8") as _fh:
+ 108 [Wref] assert "DRAFT-NOT-FROZEN" not in _pre_head, "W245 prereg still DRAFT -- abort (freeze commit pending face)"
+ 109 [ordinals] # live ordinal derive (r359 law: gate machine output governs; the pre-seat probe
+ 110 [ordinals] # receipt leg0 face owner_rows=234 / bma_rows=126 / bma_ordinal=127
+ 111 [Wref] # = seat-time PRE-W245-splice live faces; live derive at freeze time:
+ 112 [Wref,ordinals] # W244 splice LANDED (finalize adds no registry rows) -> owner rows 234 + candidate = 235th EXACT; bm-a rows 125 +
+ 113 [Wref,roundref] # candidate = 127th EXACT -- bm-a own-seat continuity face, takeover lane disclosed (GM re-assignment: bm-c declared t
+ 114 [ordinals] owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
+ 117 [ordinals] assert len(owner_rows_live) == 234 and len(bma_rows_live) == 126 and len(bmc_rows_live) == 67, \
+ 118 [Wref,ordinals] f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bma={len(bma_rows_live)} bmc={len(bmc_rows_live)} (e
+ 119 [Wref,roundref,wref] print(f"gate0.5 OK: W244 landed (freeze {w243_freeze_sha[:10]}, owner=bm-a seat honored, takeover lane disclosed (GM r
+ 120 [Wref] f"W244+W241+W240+W239+W238+W237+W236+W235+W234+W233+W232 finalize products present "
+ 121 [Wref,ordinals,wref] f"(W244 ledger head {w243_total}, merged n={w243_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
+ 123 [ordinals] f"probe receipt leg0 bma_ordinal=127 = seat-time pre-splice faces disclosed honest)")
+ 139 [bandlit] assert (a_lo, a_hi) == (555_501, 557_500) and (b_lo, b_hi) == (542_001, 542_200), \
+ 140 [Wref] f"W245 band drift vs probe ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}"
+ 141 [Wref,wref] w244_b_tail = W244["b_exit"][1]      # registered W244 row b_exit hi (pf import, live)
+ 142 [Wref,wref] w244_a_tail = W244["a"][1]           # registered W244 row A hi (pf import, live)
+ 143 [Wref] # W245 FACE (probe receipt leg1 relation_asserts):
+ 146 [ordinals] # empty, A_clean_at_naive_start=true -- sixth consecutive seed-gap face per
+ 147 [Wref] # the W244 seat leg4 anticipation confirmed live); B takes the live-seed-hop
+ 148 [bandlit] # face (the naive continuation 541_901..542_100 is REFUSED by the live
+ 149 [bandlit] # SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull inside the naive
+ 151 [bandlit] # 542_001..542_200 -- B base == live refuser+1 EXACT, B_no_ownA_jump=true;
+ 152 [ordinals] # B_hop_lands_inside_A=false; gap face seventh consecutive); A sits far above
+ 155 [wref] assert w244_a_tail + 1 == a_lo, "A continuation base relation broken (A == prior-wave A tail+1 EXACT)"
+ 156 [wref] assert w244_b_tail + 1 < b_lo, "B live-seed-hop face violated: B base must sit ABOVE the refused naive base (prior-B t
+ 157 [wref] assert a_lo > w244_b_tail + 1, "seed-decoupled A-continuation face violated: A base must sit ABOVE prior-B tail+1 (see
+ 159 [Wref] assert W244["b_exit"][1] < W244["a"][0], \
+ 160 [Wref] "upstream W244 row in-wave decoupled relation broken (registered W244 B window must sit below own W244 A window)"
+ 167 [bandlit] assert leg1.get("B_naive_hops") == 1 and (leg1.get("B_hop_chain") or [{}])[0].get("refuser_pts") == [542_000], \
+ 168 [bandlit] "B hop-chain face drift (B_naive_hops=1, first refuser point 542_000 -- live-seed hop face)"
+ 175 [wref] assert [w244_a_tail + 1, w244_a_tail + 2_000] == leg1["ARITH_A"], \
+ 176 [wref] f"A-continuation start drift vs probe receipt leg1 ARITH_A: {[w244_a_tail + 1, w244_a_tail + 2_000]} != {leg1['ARITH_A
+ 177 [wref] assert [w244_b_tail + 1, w244_b_tail + 200] == leg1["ARITH_B"], \
+ 178 [wref] f"B naive continuation drift vs probe receipt leg1 ARITH_B: {[w244_b_tail + 1, w244_b_tail + 200]} != {leg1['ARITH_B']
+ 181 [wref] r = git("log", "--diff-filter=A", "--format=%H", "--", "results/_w245bma_20261015_probe_receipt.json")
+ 182 [wref] w244_receipt_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+ 189 [Wref] assert seat_found, f"W245 seat MSG missing from both inbox paths: {SEAT_MSG}"
+ 193 [Wref,perpn1us] "--prereg", "research/PERPETUAL_N1_W245_PREREG.md"],
+ 227 [bandlit] def fmt(n):  # 501004 -> "501_004"
+ 232 [Wref,parityspan] # rows + W211..W231 legs) AND the W232..W243 fresh legs from the OWN W244
+ 233 [roundref] # block physical bytes (bm-a r1007 splice generation, committed -- structure
+ 234 [Wref] # known exactly); the W245 block appends ONE fresh W244 leg -> 102 rows.
+ 235 [Wref] a22 = '    # --- W244 materializer face'
+ 237 [wref] w243_start = n1_t.find(a22); t141_pos = n1_t.find(a_t141)
+ 238 [wref] assert w243_start > 0 and t141_pos > w243_start, \
+ 239 [Wref] "W244 materializer block face not found (W244 freeze not landed? header-text drift -> honest re-derive required)"
+ 240 [wref] blk = n1_t[w243_start:t141_pos]
+ 244 [Wref] "parity span markers not found in W244 block"
+ 248 [Wref] assert m232, "upstream W232 row leg not found inside W244 parity span"
+ 261 [Wref,parityspan] f"full parity span {par_full.count('assert pf.N1_BANDS[')} != 102 (90 estate + W232..W243 legs 12)"
+ 264 [range232,range24x] and [int(w) for w in _legs_ws] == list(range(232, 244)), \
+ 265 [Wref,legcount,parityspan] f"legs segment not W232..W243 twelve legs: n={legs_sec.count('assert pf.N1_BANDS[')} waves={_legs_ws}"
+ 275 [dictkey] CFG_I  = line_indent(n1_t, '244: {"batch"', EOL)
+ 276 [Wref,perpn1us] PRE_KEY_I = line_indent(n1_t, '"prereg": ("research/PERPETUAL_N1_W244_PREREG.md', EOL)
+ 278 [dictkey] _c243 = n1_t.find('244: {"batch"')
+ 279 [Wref] assert _c243 > 0, "W244 cfg entry not found (W244 freeze not landed?)"
+ 281 [Wref] assert _mpos > 0 and n1_t.find('"shard_subdir"', _c243) > _mpos, "W244 cfg a_seed_base line not found"
+ 282 [Wref] MEM_I  = line_indent(n1_t, '"a_seed_base": ' + str(W244["a"][0]), EOL) \
+ 283 [Wref] if n1_t.find('"a_seed_base": ' + str(W244["a"][0]), _c243) > 0 \
+ 284 [Wref] else line_indent(n1_t, '"a_seed_base": ' + fmt(W244["a"][0]), EOL)
+ 285 [dictkey] ROW_I  = line_indent(pf_t,  '244: {"a"', PF_EOL)
+ 287 [Wref] # ---------- W244 row owner line (physical bytes; comment text is own generation) ----------
+ 288 [dictkey,wref] w243_row_start = pf_t.find('    244: {"a"')
+ 289 [Wref,wref] assert w243_row_start > 0, "W244 row literal not found in pf source"
+ 290 [wref] _own_ls = pf_t.find(PF_EOL, w243_row_start) + len(PF_EOL)
+ 292 [wref] w243_own_line = pf_t[_own_ls:_own_le]
+ 293 [wref] assert '"engine_owner": "bm-a"' in w243_own_line, \
+ 294 [Wref,wref] f"W244 owner line unexpected bytes: {w243_own_line!r}"
+ 295 [wref] ROWC_I = w243_own_line[:len(w243_own_line) - len(w243_own_line.lstrip(" "))]
+ 299 [Wref] "    # W245 (bm-a loop five-face freeze splice -- OWN-SEAT face, seat",
+ 300 [wref] "    # MSG-20261015-0844-bma-w245-seat published=reserved by bm-a itself @",
+ 301 [Wref,roundref] "    # origin " + SEAT_ORIGIN + " (r1010, queue-depth supply depth-1 at publish, takeover lane disclosed (GM re-assign
+ 302 [Wref,perpn1us,wref] "    # receipt frozen commit " + w244_prereg_sha[:10] + " (prereg research/PERPETUAL_N1_W245_PREREG.md",
+ 303 [roundref] "    # r1010 absorbed-window machine-SUB derive landed pre-freeze, probe",
+ 304 [wref] "    # results/_w245bma_20261015_probe_receipt.json @ " + w244_receipt_sha[:10] + ");",
+ 307 [Wref,wref] "    # splice AFTER the bm-a W244 five-face (freeze " + w243_freeze_sha[:10] + ") + W244",
+ 308 [n1wref,wref] "    # finalize product landed (n1_w244_results.json present, ledger",
+ 309 [wref] "    # head " + str(w243_total) + " machine-read at freeze time); zero --no-verify;",
+ 310 [Wref] "    # the W245 seat MSG sits in " + seat_found + " at freeze",
+ 312 [wref] "    # band gate ADMIT results/_w245bma_20261015_probe_receipt.json: A = FIRST-CLEAN",
+ 313 [wref] "    # arithmetic continuation of the prior-wave A tail (" + fmt(w244_a_tail + 1) + ".." + fmt(w244_a_tail + 2_000) + 
+ 316 [Wref,ordinals] "    # sixth consecutive seed-gap face per the W244 seat leg4 anticipation",
+ 317 [wref] "    # confirmed live; A base == prior-wave A tail+1 (" + fmt(w244_a_tail) + "+1) machine-checkable;",
+ 319 [wref] "    # (" + fmt(w244_b_tail + 1) + ".." + fmt(w244_b_tail + 200) + " is REFUSED by the live",
+ 320 [bandlit] "    # SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull; hops=1, hop chain",
+ 323 [bandlit] "    # seed-decoupled A/B gap face seventh; B base == live refuser 542_000+1 machine-checkable;",
+ 333 [Wref] "    # W246+ projection (gate-derived pre-seat probe leg4, pre-W245",
+ 334 [Wref] "    # universe): A naive first-clean " + rec["legs"]["leg4"]["W246p_A_naive"] + " hops=" + str(rec["legs"]["leg4"]["h
+ 335 [Wref] "    # seed refusers) / B naive first-clean " + rec["legs"]["leg4"]["W246p_B_naive"] + " hops=" + str(rec["legs"]["leg
+ 336 [Wref] "    # refusers anticipated -- B first-clean " + rec["legs"]["leg4"]["W246p_B_first_clean"] + "; B lands OUTSIDE",
+ 337 [Wref] "    # the naive A window, seed-gap face inherited); W246 freezer MUST",
+ 338 [Wref] "    # re-derive on the post-W245 universe AND reserve the own-wave A window",
+ 349 [wref] old_pf = must(pf_t, (w243_own_line + PF_EOL + '}'
+ 351 [wref] new_pf = (w243_own_line + PF_EOL
+ 357 [Wref] fin_face = (f"W1..W244 finalize ALL LANDED (W244 finalize product present at splice, "
+ 358 [wref] f"net chain head {w243_total} machine-read, merged pool K={w243_merged_n} "
+ 360 [Wref,ordinals] f"(thirty-third consecutive fully-clean freeze window); downstream W245 seat NOT YET "
+ 362 [Wref] f"O-20261010-2350 sec.2 queue-depth supply; the W245 freezer MUST re-derive live on "
+ 363 [Wref] f"the post-W245 universe + reserve the own-wave A window when deriving B per the "
+ 364 [Wref] f"W245 seat leg4 mandate, never transcribe r587)")
+ 366 [Wref,perpn1] f'{CFG_I}245: {{"batch": "PERPETUAL-N1-W245",',
+ 367 [Wref,perpn1us] f'{PRE_KEY_I}"prereg": ("research/PERPETUAL_N1_W245_PREREG.md (wave-level frozen "',
+ 372 [ordinals] f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
+ 374 [Wref,roundref] "number law after the REGISTERED W244 row five-face freeze (bm-a own seat executed at the bm-a r1007 window; engine se
+ 375 [Wref,wref] f"{w243_freeze_sha[:10]} (prereg {w243_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W244 all ",
+ 378 [wref] "MSG-20261015-0844-bma-w245-seat PUSHED to origin " + SEAT_ORIGIN + " ",
+ 381 [Wref,roundref] "r1010 absorbed-window machine-SUB derive landed pre-freeze -- takeover lane disclosed (GM re-assignment: bm-c declare
+ 383 [Wref,wref] f"prereg {w244_prereg_sha[:10]} @ receipt {w244_receipt_sha[:10]}) -- this freeze splice editor derived from the commi
+ 385 [Wref] "after the W244 five-face + W244 finalize product landed ",
+ 392 [ordinals] f"{len(bma_rows_live)} + candidate; probe receipt leg0 bma_ordinal=127 = seat-time pre-splice ",
+ 394 [Wref,roundref] "r587/r359 -- takeover lane disclosed (GM re-assignment: bm-c declared the W245 turn at r1020 closeout then heartbeat 
+ 397 [wref] f"{fmt(w244_a_tail + 1)}..{fmt(w244_a_tail + 2_000)} is CLEAN at its own start ",
+ 399 [Wref,ordinals] "A-continuation face, sixth consecutive seed-gap face exactly as the W244 seat leg4 ",
+ 401 [wref] f"{fmt(w244_a_tail)}+1) machine-checkable; ",
+ 404 [wref] f"{fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live SEED_REGISTRY point ",
+ 405 [bandlit] "542_000 perpetual_n2_w15_scrnull -- hops=1, hop chain recorded; honest forward walk first-clean ",
+ 408 [bandlit,ordinals] "face seventh consecutive; B base == live refuser 542_000+1 ",
+ 409 [Wref] "machine-checkable; cross-window convergence with the W244 seat leg4 succession projection ",
+ 410 [Wref] "notes -- all MANDATORY notes honored (post-W244 universe ",
+ 412 [wref] "results/_w245bma_20261015_probe_receipt.json + ",
+ 414 [Wref] "ADMIT convention); W246+ projection per this window gate: ",
+ 415 [Wref] f"A naive first-clean {rec['legs']['leg4']['W246p_A_naive']} CLEAN (hops=0, zero live seed refusers) / B naive first-c
+ 416 [Wref] f"{rec['legs']['leg4']['W246p_B_naive']} hops=0 (both windows CLEAN on the pre-W245 universe, zero live refusers antic
+ 417 [Wref] "inherited); W246 freezer MUST re-derive on the post-W245 universe AND ",
+ 429 [Wref,ordinals,wref] f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W245 A: {fmt(a_lo)}..{fmt(a_hi)} (FIRST-CLEAN arithmetic continuati
+ 430 [Wref,bandlit,ordinals,wref] f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W245 B: {fmt(b_lo)}..{fmt(b_hi)} (FIRST-CLEAN post-hop forward walk
+ 431 [n1wref,wref] f'{MEM_I}"shard_subdir": "n1_w245", "out_name": "n1_w245_results.json",',
+ 441 [Wref,dictkey,perpn1] assert new_cfg.count('245: {"batch": "PERPETUAL-N1-W245"') == 1
+ 446 [Wref] "    # --- W245 materializer face (bm-a loop five-face freeze splice --",
+ 450 [ordinals] "    #     bm-a's one hundred and twenty-seventh owned per machine-derive (engine_owner==bm-a",
+ 452 [roundref,wref] "    #     (r1010 MSG-20261015-0844-bma-w245-seat @ origin " + SEAT_ORIGIN + "; probe leg0",
+ 453 [ordinals] "    #     bma_ordinal=127 = seat-time pre-splice faces;",
+ 456 [Wref,wref] "    #     REGISTERED W244 row (five-face freeze " + w243_freeze_sha[:10] + "; bm-a own seat executed at",
+ 457 [roundref] "    #     the bm-a r1007 window; engine",
+ 458 [roundref] "    #     self-burn 12/12 + finalize one-pass bm-a r1008 own-wave closeout ledger 961,135 / K=534,720",
+ 459 [Wref] "    #     -- SINGLE STATE zero seat gap (W2..W244 all registered). Seat",
+ 460 [wref] "    #     published=reserved MSG-20261015-0844-bma-w245-seat pushed",
+ 463 [roundref,wref] f"    #     r1010 absorbed-window derive landed pre-freeze commit {w244_prereg_sha[:10]}; this freeze splice editor",
+ 464 [Wref] "    #     derived from the committed W244 editor template in this same freeze",
+ 467 [Wref] "    #     = chain-order splice after the W244 five-face + W244 finalize",
+ 468 [Wref] "    #     product landed; zero --no-verify; the W245 seat MSG sits in",
+ 472 [ordinals] f"    #     MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate; gate",
+ 477 [wref] "    #     results/_w245bma_20261015_probe_receipt.json;",
+ 481 [Wref] "    #     not a re-pick (R250: W245 bands were never assigned).",
+ 482 [setwave] "    _set_wave(245)",
+ 484 [nbidx,wcidx] '        assert WAVE_CONFIGS[244]["a_seed_base"] == pf.N1_BANDS[244]["a"][0], \\',
+ 485 [Wref] '            "W245 upstream W244 mirror drift (a)"',
+ 486 [wcidx] "        assert WAVE_CONFIGS[244][\"b_exit_seed_base\"] == \\",
+ 487 [Wref,nbidx] '            pf.N1_BANDS[244]["b_exit"][0], "W245 upstream W244 mirror drift (b)"',
+ 488 [wcidx] "        assert WAVE_CONFIGS[244].get(\"engine_owner\") == \\",
+ 489 [nbidx] '            pf.N1_BANDS[244].get("engine_owner") == "bm-a", \\',
+ 490 [Wref] '            "W245 upstream W244 engine_owner mirror drift (law-mirror parity; bm-a upstream seat face)"',
+ 491 [wref] "        w243_a = {A_SEED_BASE + j for j in range(A_N)}",
+ 492 [wref] "        w243_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}",
+ 493 [Wref,wref] '        assert not (w243_a & w243_b), "W245 A/B band overlap"',
+ 494 [wref] "        assert not (w243_a & reg_ints) and not (w243_b & reg_ints), \\",
+ 495 [Wref] '            "W245 hits SEED_REGISTRY"',
+ 496 [wref] '        for nm, band in (("A", w243_a), ("B", w243_b)):',
+ 497 [Wref] '            assert not (band & v1_a) and not (band & v1_b), f"W245 {nm} hits v1"',
+ 498 [Wref] '            assert not (band & w1_a) and not (band & w1_b), f"W245 {nm} hits W1"',
+ 499 [Wref] '            assert not (band & probes), f"W245 {nm} hits probe seeds"',
+ 501 [wref] w243_leg = [
+ 502 [nbidx] f'        assert pf.N1_BANDS[244] == {{"a": ({fmt(pf_mod.N1_BANDS[244]["a"][0])}, {fmt(pf_mod.N1_BANDS[244]["a"][1])})
+ 503 [nbidx] f'                                    "b_exit": ({fmt(pf_mod.N1_BANDS[244]["b_exit"][0])}, {fmt(pf_mod.N1_BANDS[244]["
+ 505 [Wref] '            "registered W244 row parity drift (r307; bm-a five-face freeze; own-seat face disclosed)"',
+ 508 [Wref] "        # prior-wave disjointness W2..W244 (single state: all",
+ 510 [ifwless] "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 245):",
+ 511 [wref] '            assert not (w243_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j',
+ 512 [Wref] "                                 for j in range(A_N)}), f\"W245 A hits W{wprev}\"",
+ 513 [wref] '            assert not (w243_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j',
+ 514 [Wref] "                                  for j in range(B_N)}), f\"W245 B hits W{wprev}\"",
+ 516 [wref] "        assert not (w243_a & n3r1_used244) and not (w243_b & n3r1_used244), \\",
+ 517 [Wref] '            "W245 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"',
+ 518 [wref] "        assert not (w243_a & lfc_actual12) and not (w243_b & lfc_actual12), \\",
+ 519 [Wref] '            "W245 bands must clear the lfc actual draw range"',
+ 520 [wref] "        assert not (w243_a & options_actual12) and \\",
+ 521 [wref] "            not (w243_b & options_actual12), \\",
+ 522 [Wref] '            "W245 bands must clear the options_wave2 actual draw range"',
+ 523 [Wref] "        # band facts (law sec.4 W245 row): A = FIRST-CLEAN arithmetic",
+ 525 [wref] f"        # ({fmt(w244_a_tail + 1)}..{fmt(w244_a_tail + 2_000)} CLEAN at naive start on the",
+ 528 [Wref,ordinals] "        # sixth consecutive seed-gap face, exactly as the W244 seat leg4",
+ 530 [wref] f"        # tail+1 ({fmt(w244_a_tail)}+1) machine-checkable;",
+ 532 [wref] f"        # ({fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live SEED_REGISTRY",
+ 533 [bandlit] "        # point 542_000 perpetual_n2_w15_scrnull; hops=1, hop chain",
+ 537 [ordinals] f"        # {fmt(a_lo)}..{fmt(a_hi)}; seed-decoupled A/B gap face seventh consecutive;",
+ 538 [bandlit] "        # B base == live refuser 542_000+1",
+ 542 [Wref] "        # the W244 seat leg4 succession projection notes -- all",
+ 543 [Wref] "        # MANDATORY notes honored (post-W244 universe",
+ 545 [wcidx,wref] f'        assert WAVE_CONFIGS[245]["a_seed_base"] == {a_lo} == {w244_a_tail} + 1, (',
+ 546 [Wref] '            "W245 A must be the first-clean arithmetic continuation of the "',
+ 548 [ordinals] '            "seed-decoupled A-continuation face, sixth consecutive seed-gap face, "',
+ 549 [Wref] '            "exactly as the W244 seat leg4 succession projection notes "',
+ 553 [Wref] '            "W245 A window must be CLEAN (first-clean ADMIT face, A-continuation)"',
+ 554 [bandlit,wcidx] f'        assert WAVE_CONFIGS[245]["b_exit_seed_base"] == {b_lo} == {542_000} + 1, (',
+ 555 [Wref] '            "W245 B live-seed-hop face: the naive staircase continuation "',
+ 556 [wref] f'            "{fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live "',
+ 557 [bandlit] '            "SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull (hops=1, hop chain "',
+ 562 [wref] f"        assert {b_lo} > {w244_b_tail} + 1, \\",
+ 563 [Wref] '            "W245 B first-clean base must sit above the refused naive base (live-seed hop face)"',
+ 564 [bandlit] f"        assert 542_000 in reg_ints and 542_000 not in set(range(",
+ 566 [Wref,bandlit] '            "W245 B refuser-adjacency face: the live refuser 542_000 must sit inside SEED_REGISTRY and immediately be
+ 569 [Wref] '            "W245 B window must be CLEAN (first-clean ADMIT face, post-hop forward walk)"',
+ 571 [Wref] '            "W245 A/B same-freeze mutual exclusion (seed-decoupled gap face inherited: B below own A)"',
+ 572 [Wref,perpn1] "        assert _entry_shard_of(0, 12) == (\"PERPETUAL-N1-W245-SHARD-0\",",
+ 573 [Wref,n1wref,wref] '                                          "n1w245-0of12"), "W245 entry identity"',
+ 574 [Wref,perpn1] '        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W245-SHARD-11",',
+ 575 [n1wref,wref] '                                           "n1w245-11of12")',
+ 576 [n1wref,wref] "        assert SHARD_DIR.endswith(\"n1_w245\") and OUT.endswith(",
+ 577 [Wref,n1wref,wref] '            "n1_w245_results.json"), "W245 path drift"',
+ 578 [ifwless] "        for wprev in sorted(w for w in WAVE_CONFIGS if w < 245):",
+ 582 [Wref] '                f"W245 shard dir collides with W{wprev}"',
+ 583 [Wref] "        # W245 finalize cumulative deps: W17..W244 outputs ALL PRESENT",
+ 584 [wref] f"        # (landed net chain head {w243_total} machine-read at freeze time)",
+ 589 [range17] "        for _depw in range(17, 245):",
+ 592 [Wref] '                f"W245 finalize cumulative dep (W{_depw} output) missing"',
+ 594 [below] "        # registered wave below 245 composes; wave 15 excluded by",
+ 595 [Wref] "        # design; SINGLE STATE (W2..W244 all registered -- no",
+ 597 [ifwless] "        assert sorted(w for w in WAVE_CONFIGS if w < 245) == \\",
+ 599 [range16] "            [w for w in range(16, 245)], \\",
+ 600 [Wref] '            "W245 prior-wave set must derive from registry keys (no 15; " \\',
+ 601 [Wref] '            "W2..W244 registered single state)"',
+ 603 [Wref,perpn1us] '            PATHS.root, "research", "PERPETUAL_N1_W245_PREREG.md")), \\',
+ 604 [Wref] '            "W245 per-wave prereg missing (materializer requirement)"',
+ 609 [wref] block = EOL.join(hdr) + EOL + par_sec + legs_sec + EOL.join(w243_leg) + EOL + EOL.join(tail) + EOL
+ 611 [wlt] # block's LHS w<245> / RHS range(16,244)+range(17,244) / comment below-244 MUST move together.
+ 612 [ifwless,wlt] assert block.count("if w < 245)") == 3, f"family-6 triple: w<245 count {block.count('if w < 245)')} != 3"
+ 613 [Wref,ifwless,wlt] assert block.count("if w < 244)") == 0, "family-6 triple: stale w<244 leaked into the W245 block"
+ 614 [range16,range17] assert block.count("range(16, 245)") == 1 and block.count("range(17, 245)") == 1, "family-6 triple: RHS ranges wrong"
+ 615 [below] assert block.count("registered wave below 245 composes") == 1, "family-6 triple: comment face wrong"
+ 621 [Wref] '          "+ W245 materializer face [same guard set, dep=W17..W244 "',
+ 622 [Wref,wref] f'          "outputs ALL PRESENT (landed net chain head {w243_total} = W244 bm-a finalize one-pass, K={w243_merged_n} 
+ 624 [ordinals] f'          "ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} "',
+ 625 [ordinals] '          "+ candidate) bm-a\'s one hundred and twenty-seventh owned claim per "',
+ 627 [ordinals] '          "probe leg0 bma_ordinal=127 = seat-time pre-splice faces disclosed honest, "',
+ 630 [ordinals] '          "hops=0, A_hop_chain empty + A_clean_at_naive_start=true, seed-decoupled sixth consecutive seed-gap face) "
+ 632 [bandlit] '          "hops=1, hop chain recorded, B base == live refuser 542_000+1 EXACT, B base != prior-B-tail+1, "',
+ 633 [ordinals] '          "seed-decoupled A/B gap face seventh consecutive), chain-order splice from the "',
+ 637 [Wref,wref] '          "results/_w245bma_20261015_probe_receipt.json, law sec.4 W245 row, "',
+ 645 [Wref,perpn1] assert n1_t4.count('"batch": "PERPETUAL-N1-W245"') == 1
+ 646 [Wref] assert n1_t4.count("# --- W245 materializer face") == 1     # block header
+ 647 [Wref] assert n1_t4.count('"+ W245 materializer face') == 1        # print fragment
+ 648 [Wref,dictkey,perpn1] assert n1_t4.count('245: {"batch": "PERPETUAL-N1-W245"') == 1
+ 649 [dictkey] assert pf_t2.count(ROW_I + '245: {"a"') == 1
+ 652 [Wref,perpn1] assert n1_t4.count('"PERPETUAL-N1-W245-SHARD-0"') == 1
+ 653 [nbidx] assert n1_t4.count(f'assert pf.N1_BANDS[244] == {{"a": ({fmt(pf_mod.N1_BANDS[244]["a"][0])}, {fmt(pf_mod.N1_BANDS[244]
+ 654 [nbidx] assert n1_t4.count(f'assert pf.N1_BANDS[243] == {{"a": ({fmt(pf_mod.N1_BANDS[243]["a"][0])}, {fmt(pf_mod.N1_BANDS[243]
+ 655 [Wref] # the W244 leg lives ONLY in the new W245 block (1); the W241 leg lives in the kept
+ 656 [Wref] # W244 block + the new W245 block (2); the W240 leg lives in kept W241 + W244 + new
+ 657 [Wref] # W245 (3); the W239 leg in kept W240 + W241 + W244 + new (4); the W238 leg in
+ 658 [Wref] # kept W239..W244+new (5); the W237 leg in kept W238..W244+new (6); the W236 leg
+ 659 [Wref] # in kept W237..W244+new (7); the W235 leg in kept W236..W244+new (8)
+ 660 [nbidx] assert n1_t4.count(f'assert pf.N1_BANDS[242] == {{"a": ({fmt(pf_mod.N1_BANDS[242]["a"][0])}, {fmt(pf_mod.N1_BANDS[242]
+ 661 [nbidx] assert n1_t4.count(f'assert pf.N1_BANDS[241] == {{"a": ({fmt(pf_mod.N1_BANDS[241]["a"][0])}, {fmt(pf_mod.N1_BANDS[241]
+ 662 [nbidx] assert n1_t4.count(f'assert pf.N1_BANDS[240] == {{"a": ({fmt(pf_mod.N1_BANDS[240]["a"][0])}, {fmt(pf_mod.N1_BANDS[240]
+ 667 [range24x] for _b in range(209, 246):
+ 692 [wref] "admit_receipt": "results/_w245bma_20261015_probe_receipt.json",
+ 695 [ordinals] "band_semantics": {"A": "FIRST-CLEAN arithmetic continuation of prior-wave A tail (hops=0, A_hop_chain empty + A_clean
+ 696 [bandlit,ordinals] "B": "FIRST-CLEAN post-hop forward walk (the naive continuation is REFUSED by the live SEED_REGISTRY point 542_000 per
+ 697 [wref] "w243_upstream": {"freeze_sha": w243_freeze_sha, "prereg_sha": w243_prereg_sha,
+ 698 [wref] "ledger_total": w243_total, "merged_n": w243_merged_n,
+ 700 [Wref,roundref,wref] "repair_chain_note": "W244 bm-a own-wave closeout r1008 (five-face splice " + w243_freeze_sha[:10] + " + engine self-b
+ 703 [Wref,ordinals,roundref,wref] "note": "seat published=reserved by bm-a itself (MSG-20261015-0844-bma-w245-seat pushed to origin " + SEAT_ORIGIN + " 
+ 705 [Wref,bandlit] "downstream_seat": "W246 seat NOT YET PUBLISHED at this freeze window (next freezer must seat-first publish per O-2026
+ 707 [wref] "prereg_bundle": {"prereg_sha": w244_prereg_sha, "probe_receipt_sha": w244_receipt_sha,
+ 708 [Wref,ordinals,roundref,sha16ish,wref] "note": "prereg derived by the absorbed r1010 window and committed by r1011 (machine-SUB from the frozen W245 tpl 260f
+ 709 [ordinals] "ordinal_faces": {"owner_rows_live": len(owner_rows_live), "bma_rows_live": len(bma_rows_live),
+ 711 [ordinals] "engine_owned_ordinal": len(owner_rows_live) + 1,
+ 712 [ordinals] "bma_own_ordinal": len(bma_rows_live) + 1,
+ 713 [ordinals] "probe_receipt_bma_ordinal_face": 126,
+ 714 [Wref,ordinals,roundref] "note": "post-W244 registration: bm-a rows 126 + candidate = 127th owned (live derive at freeze time governs per r587/
+ 715 [Wref,roundref] "parity_section": {"source": "OWN W244 block physical bytes (bm-a splice generation r1007 window, structure known exac
+ 719 [Wref,parityspan,wref] "note": "full-span estate W138..W206 (69 rows, r858 absorb generation) + W211..W231 legs (estate 90) + W232..W243 legs
+ 721 [Wref,wlt] "note": "W244 editor family-6 gate carried forward: new block LHS w<245 x3 / RHS range(16,244)+range(17,244) / comment
+ 723 [range24x] "liveness_anchors": {f"w{_b}_block_kept": 1 for _b in range(209, 246)},
+ 729 [wref] "w243_upstream", "own_seat_face")}, indent=1))
+ 730 [Wref] print("SPLICE OK -- py_compile both green; NEXT: selftest (default wave, r522 law) -> pathspec commit+push -> engine s
+---COUNTS---
+'W245'                                     94
+'W244'                                     115
+'W243'                                     7
+'w245bma'                                  11
+'w244bma'                                  1
+'w243bma'                                  0
+'n1_w245'                                  4
+'n1_w244'                                  3
+'n1w245'                                   2
+'245: {"batch"'                            2
+'244: {"batch"'                            2
+'243: {"batch"'                            0
+'245: {"a"'                                1
+'244: {"a"'                                3
+'243: {"a"'                                0
+'245: {{"batch"'                           1
+'245: {{"a"'                               2
+'_set_wave(245)'                           1
+'WAVE_CONFIGS[245]'                        2
+'WAVE_CONFIGS[244]'                        3
+'WAVE_CONFIGS[243]'                        0
+'N1_BANDS.get(244)'                        1
+'N1_BANDS[244]'                            11
+'N1_BANDS.get(243)'                        0
+'N1_BANDS[243]'                            3
+'range(209, 246)'                          2
+'range(16, 245)'                           2
+'range(17, 245)'                           3
+'range(232, 244)'                          1
+'list(range(232, 244))'                    1
+'w<245'                                    4
+'w<244'                                    3
+'if w < 245)'                              5
+'if w < 244)'                              1
+'below 245'                                2
+'w244_a_tail'                              18
+'w244_b_tail'                              18
+'w245_a_tail'                              0
+'w245_b_tail'                              0
+'arith_a245'                               3
+'arith_b245'                               3
+'arith_a244'                               3
+'arith_b244'                               3
+'PERPETUAL-N1-W245'                        7
+'PERPETUAL_N1_W245'                        8
+'n1_w245_results'                          2
+'n1_w246_results'                          0
+'542_000'                                  19
+'542_001'                                  3
+'542_200'                                  3
+'541_901'                                  2
+'542_100'                                  2
+'555_501'                                  1
+'557_500'                                  1
+'bma_ordinal=127'                          7
+'bma_ordinal=128'                          0
+'127th'                                    6
+'128th'                                    0
+'235th'                                    2
+'236th'                                    0
+'rows 234'                                 2
+'rows 235'                                 0
+'rows 126'                                 3
+'rows 127'                                 0
+'233/125'                                  0
+'234/126'                                  1
+'963,335'                                  0
+'536,920'                                  0
+'961,135'                                  6
+'534,720'                                  6
+'6473fb7f8'                                1
+'260ffd3f8'                                2
+'2b0947947'                                2
+'785936d84'                                0
+'29d3ab761'                                0
+'MSG-20261015-0844'                        7
+'MSG-20261015-1328'                        0
+'W246p_'                                   6
+'W247p_'                                   0
+'twelfth'                                  0
+'twelve legs'                              1
+'thirteen'                                 0
+'estate 90'                                3
+'== 102'                                   1
+'!= 102'                                   1
+'-> 103'                                   1
+'103 parity'                               1
+'104'                                      0
+'TWO HUNDRED AND FORTY-FIFTH'              3
+'one hundred and twenty-seventh'           2
+'r1013'                                    1
+'r1015'                                    0
+'r1016'                                    0
+'r1007'                                    6
+'r1008'                                    5
+'r1010'                                    10
+'r1011'                                    2
+'12:4x'                                    1
+'13:2x'                                    0
+'14:1x'                                    0
