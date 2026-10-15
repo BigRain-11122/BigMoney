@@ -1,20 +1,23 @@
 {
- "ts": "2026-10-12 22:34:52",
- "generated": "2026-10-12T22:34:52+0800",
+ "ts": "2026-10-15 11:00:27",
+ "generated": "2026-10-15T11:00:27+0800",
  "first_date": "2026-10-08",
  "days_checked": [
   "2026-10-08",
-  "2026-10-09"
+  "2026-10-09",
+  "2026-10-12",
+  "2026-10-13",
+  "2026-10-14"
  ],
  "per_endpoint_rows": {
-  "zt": 112,
-  "zbgc": 46,
-  "dtgc": 21,
-  "strong": 370
+  "zt": 261,
+  "zbgc": 114,
+  "dtgc": 59,
+  "strong": 905
  },
- "calendar_window_days": 3,
+ "calendar_window_days": 5,
  "findings_n": 0,
- "soft_warns_n": 2,
+ "soft_warns_n": 5,
  "findings": [],
  "soft_warns": [
   {
@@ -26,8 +29,23 @@
    "check": "C/strong_x_dtgc",
    "date": "2026-10-09",
    "detail": "same-day overlap codes: ['002487', '605366']"
+  },
+  {
+   "check": "C/strong_x_dtgc",
+   "date": "2026-10-12",
+   "detail": "same-day overlap codes: ['000678', '605303']"
+  },
+  {
+   "check": "C/strong_x_dtgc",
+   "date": "2026-10-13",
+   "detail": "same-day overlap codes: ['001336', '002058', '002866', '600812', '603230']"
+  },
+  {
+   "check": "C/strong_x_dtgc",
+   "date": "2026-10-14",
+   "detail": "same-day overlap codes: ['001231', '002692']"
   }
  ],
  "verdict": "CLEAN",
- "elapsed_sec": 0.1
+ "elapsed_sec": 0.3
 }
