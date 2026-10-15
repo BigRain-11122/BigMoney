@@ -55,9 +55,17 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-a r1015 W245 §7 范式）
+- 账本恒等式：prev **963,335** + 2,200 = **965,535 EXACT**（voids LOWAMP-P1/P2 同法应用·append_one_pass）。
+- 合并池：**K=539120 EXACT**（536,920+2,200）；merged mu **-0.09282**（-0.09281716）/ sigma **0.24505**（0.2450498）/ **se_mu@K=539,120=0.000334**（W245 键 0.000334 → 收窄链续）；W246-only mu -0.09245 / sigma 0.24800。
+- §5 五预键机证件（results/_r1017bma_w246_fivekeys.json·ALL PASS）：①W246-only vs merged mu gap **0.0004**<0.02 ✓（merged vs W245 键差 0.0000015 ✓）②sigma rel **0.0048%**<±10% ✓ ③A 档 p95 **0.3072** vs 键 0.3020 差 **+0.0052**<0.05 ✓ ④K-lift 线移 **+0.0000**（line_pre 1.1935→line_merged 1.1935 @n_eff held 963335）≤±0.02 ✓ ⑤se_mu **0.000334**≤0.000334 收窄 ✓。
+- canon flip 态：**NOT PERFORMED BY THIS WAVE -- GOVERNANCE PROPOSAL FACE ONLY (K2200 SAME LAW)**（governance proposal face only·K2200 同法）。
+- 引擎烧录：engine self-burn **12/12**（shard 0-11·引擎车道·常驻引擎 materializer 自见 auto-ignite·claim exempt law sec.2·冻结编辑 15:5x 落工作树后引擎 mtime-watch 自见点火·freeze commit 650953086 落地=引擎所读工作树字节恒等·r1017 收口）。
+- audit 段：machine=bm-a·finalize_only=true·shards_consumed 12/12 文件名全录。
+- 诚实披露：K-lift **+0.0000**=W136..W245 先例链三次连续负移段（W244 首负·W245 −0.0001·±0.0003 先例带内·零机制含义·nulls-deepening 测量面）；A p95 0.3072 较 W245 键 0.3020 差 +0.0052（2,000 试 A 切片抽样波动·测量面非注册收益）；W246-only vs merged gap 0.0004（W245 先例 0.0034 同量级·带内）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W246+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-a r1015 W245 §8 范式）
+- §5.5 W247+ 投影承接机证：冻结面 downstream_seat 注记——**W247 席未发布**——下一位 freezer 必须 seat-first publish（O-20261010-2350 §2）+post-W246 universe live re-derive（禁转录 r587）+derive B 时预留本波 A 窗（W246 face：A naive 559_501..561_500 预投影 CLEAN（hops=0）/ B naive 542_401..542_600 撞注册 W239 A 带 → first-clean 544_501..544_700 hops=1 staircase band-hop 形态首披露·B_hop_lands_inside_A=false leg 在场；W246 A 557_501..559_500 高悬于 B 542_201..542_400 之上·seed-gap face 连续第八波·禁假设 staircase A-base==prior-B-tail+1 恒等）。
+- 宝藏与方法论捕获问：**零新方法**（finalize one-pass=r1015/W245 管线 verbatim 复用·sixgate/fivekeys/backfill 脚本克隆血统注明）→ METHODOLOGY_ASSETS 零 append；宝藏登记零新条（既有链法覆盖）。
+- 诚实披露面：本窗收养死 14:11-15:13 窗 estate 链（W246 gen 调试至 L406 quote-tail 修复窗死于编辑器运行前→r1017 继承窗：fix4 修复 gen L406 三引号尾+gen a2-closer 缺尾 `)`×2 修复→editor regen 739 行→五面 splice AST 门首跑拦（L61007 tuple 缺闭合）→回滚→修复→重跑 SPLICE OK）；序列诚实=r1016 闭轮后死窗·canonical face=round_reports+git log 判例 r961/r1006/r1008·序列续 r1017。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。
