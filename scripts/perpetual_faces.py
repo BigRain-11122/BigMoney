@@ -8093,6 +8093,50 @@ N1_BANDS = {
     # equality); never transcribe r587.
     246: {"a": (557_501, 559_500), "b_exit": (542_201, 542_400),
          "engine_owner": "bm-a"},
+    # W247 (bm-a loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261015-1608-bma-w247-seat published=reserved by bm-a itself @
+    # origin e06f4ee2a (r1018, queue-depth supply depth-1 at publish, own-seat continuity (bm-a landed the W246 chain same-window r1018 finalize: freeze 650953086 + engine self-burn 12/12 + finalize one-pass ledger 965,535 / K=539,120; no takeover lane this wave, no declared external turn, origin vacancy four-check green at publish)); prereg + ADMIT probe
+    # receipt frozen commit 4c403cb16e (prereg research/PERPETUAL_N1_W247_PREREG.md
+    # r1019 window machine-SUB derive landed pre-freeze, probe
+    # results/_w247bma_20261015_probe_receipt.json @ e06f4ee2a5);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-a W246 five-face (freeze 650953086c) + W246
+    # finalize product landed (n1_w246_results.json present, ledger
+    # head 965535 machine-read at freeze time); zero --no-verify;
+    # the W247 seat MSG sits in fleet/inbox/processed/MSG-20261015-1608-bma-w247-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w247bma_20261015_probe_receipt.json: A = FIRST-CLEAN
+    # arithmetic continuation of the prior-wave A tail (559_501..561_500 CLEAN
+    # at naive start on the registered universe, hops=0, A_hop_chain empty +
+    # A_clean_at_naive_start=true -- seed-decoupled A-continuation face,
+    # ninth consecutive seed-gap face per the W246 seat leg4 anticipation
+    # confirmed live; A base == prior-wave A tail+1 (559_500+1) machine-checkable;
+    # B = FIRST-CLEAN honest forward walk past a REGISTERED refusal
+    # (naive continuation 542_401..542_600 REFUSED by the
+    # registered W239 A band 542_501..544_500 -> hop 1 lands at
+    # 544_501..544_700 (hops=1, B_naive_hops=1, B base == refuser-band-end+1 EXACT;
+    # fc_b == fc_b_naive: the hop refuser is the registered band, not the own-A
+    # reservation) -- B lands OUTSIDE the own-A window 559_501..561_500: seed-decoupled A/B gap face ninth;
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=559501 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=544501 span=200 checked=200 verdict=FREE.
+    # W248+ projection (gate-derived pre-seat probe leg4, pre-W247
+    # universe): A naive first-clean 561501..563500 hops=0 (this window's gate: CLEAN, zero live
+    # seed refusers) / B naive 544701..544900 CLEAN (staircase continuation, hops=0,
+    # B base == prior-B-tail+1 EXACT, lands OUTSIDE the projection A window;
+    # B_hop lands-inside-A=false leg present); W248 freezer MUST
+    # re-derive on the post-W247 universe AND reserve the own-wave A window
+    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1
+    # equality); never transcribe r587.
+    247: {"a": (559_501, 561_500), "b_exit": (544_501, 544_700),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
