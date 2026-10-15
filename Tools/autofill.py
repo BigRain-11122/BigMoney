@@ -780,13 +780,28 @@ def _tick_owned_dirt():
     pool lane is the claim/keepalive authority record post-r388 pool
     retirement, the fuse lane is a dual-track mirror -- they ride the
     same commit or every inter-round pull --rebase would refuse on
-    them exactly the way the r290 live case refused on STATE."""
+    them exactly the way the r290 live case refused on STATE.
+
+    D-20261015-02 + r1044 fix: faces moved out-of-repo by .gitignore
+    (per-machine live-tick state, e.g. results/autofill_state.bm-c.json)
+    must NOT be git-added -- `git add` on an ignored path faults and
+    strands EVERY claim (r1044 live: W20 SCREEN SHARD-2 claim_lost_yield
+    every tick, runner never fired). check-ignore filtered: ignored
+    faces stay disk-live-wins, they just never enter the commit set."""
     dirt = [STATE, FUSE]
     for lp in (_lane_path_for(STATE), _lane_path_for(POOL),
                _lane_path_for(FUSE)):
         if lp is not None:
             dirt.append(lp)
-    return [p for p in dirt if os.path.exists(p)]
+    out = []
+    for p in dirt:
+        if not os.path.exists(p):
+            continue
+        rc_ign, _ = _git(("check-ignore", "-q", p))
+        if rc_ign == 0:
+            continue
+        out.append(p)
+    return out
 
 
 def _staged_foreign_block(dirt):
