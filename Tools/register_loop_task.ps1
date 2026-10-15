@@ -81,6 +81,25 @@ if ($exists -and -not $disabledHeal -and $pin -ge 0) {
     } catch {}
 }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 10) -RepetitionDuration (New-TimeSpan -Days 3650)
-$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 35)
-Register-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -Action $a -Trigger $t -Settings $s -Force | Out-Null
-Write-Output "registered Bigmoney-IterationLoop (project=$Project, machine=$mid, pin=$pin), first fire $start"
+# S4U LAW (2026-10-15 09:16 re-adjudication of the 2026-09-29 CEO order):
+# lane tasks register S4U; InteractiveToken is the regression face (desktop
+# black-window root cause; loop regressed via this recipe's default
+# principal, recaptured 10-15 09:16, recipe itself was still default at
+# r981 = the sister pit). This host's Register-ScheduledTask has no
+# -LogonType parameter (WinPS 5.1 PSScheduledTask module face, r981
+# live-fire), so S4U is applied via the proven XML flip (register default,
+# export, patch LogonType + SWA=false, re-register from XML). Flip failure
+# leaves the task alive at default principal and reports the regression
+# honestly (no false success, r521; self-heal never leaves the task dead,
+# D-20261002-02 honest-fail concern survives). SWA=false = anti-herd
+# (09:16 batch face).
+$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 35)
+Register-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
+try {
+    $x = Export-ScheduledTask -TaskName 'Bigmoney-IterationLoop'
+    $x2 = $x -replace '<LogonType>[^<]*</LogonType>','<LogonType>S4U</LogonType>' -replace '<StartWhenAvailable>true</StartWhenAvailable>','<StartWhenAvailable>false</StartWhenAvailable>'
+    Register-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -Xml $x2 -Force -ErrorAction Stop | Out-Null
+    Write-Output "registered Bigmoney-IterationLoop (project=$Project, machine=$mid, pin=$pin, logon=S4U via XML flip, SWA=false), first fire $start"
+} catch {
+    Write-Output "WARN: S4U XML flip failed ($($_.Exception.Message)) -> task left at default principal (LogonType regression face: manual S4U re-pass needed from elevated host), first fire $start"
+}
