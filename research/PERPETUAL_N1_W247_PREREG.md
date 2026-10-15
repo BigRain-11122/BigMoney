@@ -55,9 +55,18 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-a r1018 W246 §7 范式）
+- 账本恒等式：prev **965,535** + 2,200 = **967,735 EXACT**（voids LOWAMP-P1/P2 同法应用·append_one_pass）。
+- 合并池：**K=541,320 EXACT**（539,120+2,200）；merged mu **-0.09280**（-0.09279753）/ sigma **0.24505**（0.24505084）/ **se_mu@K=541,320=0.000333**（W246 键 0.000334 → 收窄链续）；W247-only mu **-0.08799** / sigma **0.24532**。
+- §5 五预键机证件（results/_r1022bma_w247_fivekeys.json·ALL PASS）：①W247-only vs merged mu gap **0.0048**<0.02 ✓（merged vs W246 键差 0.0000196 ✓）②sigma rel **0.0004%**<±10% ✓ ③A 档 p95 **0.3292** vs 键 0.3072 差 **+0.0220**<0.05 ✓ ④K-lift 线移 **+0.0000**（line_pre 1.1937→line_merged 1.1937 @n_eff held 965,535）≤±0.02 ✓ ⑤se_mu **0.000333**≤0.000334 收窄 ✓。
+- 六门探针：results/_r1022bma_w247_sixgate.json **ALL PASS**（splice sha16 双恒等 pf 55969ba3e767640b/n1 be8a69862eb05922 + wave-row faces==freeze bands + banned rc0 + pf selftest 9/9 + n1 selftest + shards 12/12 + seed_admit FREE verbatim base=559501 span=2000 / base=544501 span=200 + W246 boundary 557501/542201 kept）。
+- canon flip 态：**NOT PERFORMED BY THIS WAVE -- GOVERNANCE PROPOSAL FACE ONLY (K2200 SAME LAW)**（governance proposal face only·K2200 同法）。
+- 引擎烧录：engine self-burn **12/12**（shard 0-11·18:40:44-18:51:44·引擎车道·常驻引擎 materializer mtime-watch 自见 auto-ignite·claim exempt law sec.2·冻结编辑 r1021 窗落工作树后引擎自见点火·本窗 r1022 收口）。
+- audit 段：machine=bm-a·finalize_only=true·shards_consumed 12/12 文件名全录。
+- 诚实披露：K-lift **+0.0000**=连续零移段（W136..W246 先例链带内·零机制含义·nulls-deepening 测量面）；A p95 0.3292 较 W246 键 0.3072 差 +0.0220（2,000 试 A 切片抽样波动·测量面非注册收益）；W247-only vs merged gap 0.0048（单波切片 mu 上偏·带内 0.02·W246 先例 0.0004 更小同向）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W247+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-a r1018 W246 §8 范式）
+- §5.5 W248+ 投影承接机证：W247 席位已发布（MSG-20261015-1608-bma-w247-seat·r1018 窗·origin 送达验证 PASS）+本波 finalize 落地=**W248 席开放**——下一位 freezer 必须 seat-first publish（O-20261010-2350 §2）+post-W247 universe live re-derive（禁转录 r587 律）+derive B 时预留本波 A 窗（W247 face：A naive 561_501..563_500 预投影 CLEAN（hops=0）/ B naive 544_701..544_900 CLEAN（hops=0·B base==544_700+1 EXACT·B_hop_lands_inside_A=false 腿在场）；W247 A 559_501..561_500 高悬于 B 544_501..544_700 之上·seed-gap face 连续第九波·禁假设 staircase A-base==prior-B-tail+1 恒等）。
+- 宝藏与方法论捕获问：**零新方法**（finalize one-pass=r1018/W246 管线 verbatim 复用·sixgate/fivekeys/backfill 脚本克隆血统注明）→ METHODOLOGY_ASSETS 零 append；宝藏登记零新条（既有链法覆盖）。
+- 诚实披露面：本窗收养死窗序列（state/report 停在 r1018·r1019-r1021 三窗提交在 origin 无 state 写——r962/r1006 序列修复先例·r1022 本窗=canonical 续接）；W247 烧录 18:40-18:51=常驻引擎 mtime-watch 自见 auto-ignite（r535 律·引擎车道自主点火·r1021 窗 >=19:00 注记非引擎约束）；让路 pause 面 BigMoney-* 任务=值守保留面（10-08 律）+烧录 CPU-only 单分片串行 12 分钟——白天窗口径如实注记候 GM/委员会复核。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。

@@ -1,0 +1,81 @@
+{
+ "machine": "bm-a",
+ "wave": 247,
+ "phase": "PRE-FINALIZE six-gate (r1022 bm-a own-wave window; standing law -- engine self-burn 12/12 landed 18:40-18:51 by resident engine auto-ignite, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "55969ba3e767640b",
+   "n1_sha16_now": "be8a69862eb05922",
+   "pf_sha16_freeze_post": "55969ba3e767640b",
+   "n1_sha16_freeze_post": "be8a69862eb05922",
+   "family_seed_face_counts": {
+    "seed_admit_gate rc0 base=559501 span=2000 checked=2000 verdict=FREE": 1,
+    "seed_admit_gate rc0 base=544501 span=200 checked=200 verdict=FREE": 1
+   },
+   "prior_wave_246_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W247_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": " row, bm-a loop CEO fill-order RE-ISSUE 23:1x] + T-141 s2 engine-lane claim exemption [law sec.2 pre-claim exempt face])"
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=559501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=544501 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w247bma_freeze_receipt.json; post-registration self-collision BLOCKED would be the fresh-run positive (W237.. pattern)"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-a",
+   "a_seed_base": 559501,
+   "b_exit_seed_base": 544501,
+   "shard_subdir": "n1_w247",
+   "out_name": "n1_w247_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_559501": true,
+    "b_exit_seed_base_544501": true,
+    "shard_subdir_n1_w247": true,
+    "out_name_n1_w247_results": true,
+    "engine_owner_bm_a": true
+   }
+  }
+ },
+ "ledger_pre": {
+  "prev_total": 965535,
+  "prev_merged_n": 539120,
+  "expect_total": 967735,
+  "expect_merged": 541320,
+  "anchor": "W246 finalize (bm-a r1018 one-pass, 965,535/K=539,120) per freeze receipt w243_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
