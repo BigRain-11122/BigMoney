@@ -29,7 +29,7 @@
  "updated": "2026-10-15T19:09:48+08:00",
  "updated_at": "2026-10-15T19:09:48+08:00",
  "cpu_idle_pct": 100.0,
- "verify": "receipts: smoke 49/49 + spawn-gate selftest 3/3 (PROBE live=1/GO rc0/DEFER rc3+ledger row) + stagger audit PASS (sole igniter pin :X5) + S6 43/43 rc0 log + group CAS receipt tip-verified 1746e925 + ORD own-row byte-equation + DEC raw-blob hold + epoch int readback + attrition 4 CLEAN + quad green",
+ "verify": "receipts: smoke 49/49 + spawn-gate selftest 3/3 (PROBE live=1/GO rc0/DEFER rc3+ledger row) + stagger audit PASS (sole igniter pin :X5) + S6 43/43 rc0 log + group CAS receipt tip-verified 1746e925 + ORD own-row byte-equation + DEC raw-blob hold + epoch int readback + attrition 4 CLEAN + quad green ; PUSH-HONESTY: raced x2 hot window, branch fallback landed + verified, r1035 S0 rebases+pushes main",
  "activity_now": "2026-10-15T19:09:48+08:00",
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
  "ord_sha_method": "git rev-parse origin/main:docs/orders.md blob SHA-1 (ALGORITHM PIN per r537 law; r867 fresh probe rc0 via standing composer Tools/s05_probe.py: ORD delta FALSE f90233c7==f90233c7 zero-delta, post-r865 healed real blob holds; facts results/_s05_probe.bm-c.json, 40hex shape-asserted, zero literal constants (r583 law)",
@@ -53,13 +53,13 @@
  "gpu_idle_mib": 2012,
  "gpu_vram_free_mb": 1547,
  "cpu_util_pct": "57",
- "last_pulled_at": "2026-10-14T06:35:57+08:00",
- "head_sha": "bigmoney closeout commit rides this window",
+ "last_pulled_at": "2026-10-15T19:14:34+08:00",
+ "head_sha": "9fdf36ba5 (r1034 local; origin/main c1f67faba; branch machine/bm-c-r1034 = same, verified)",
  "health": "ok",
  "sync": {
-  "origin_tip": "2760810bb (this window push, r1008-bm-c estate rebased+landed)",
-  "ts": "2026-10-14T21:24:43+08:00",
-  "ahead_behind": "0/0 post-push (fetch-verified)"
+  "origin_tip": "c1f67faba (r1034 push raced x2 in hot window: first rejection -> pull --rebase retry lawfully consumed [daily_report conflict resolved newer-mine, rebase clean] -> second rejection mid-rebase by c1f67faba -> branch fallback per law)",
+  "ts": "2026-10-15T19:14:34+08:00",
+  "ahead_behind": "local-ahead-1: r1034 = 9fdf36ba5 (base 5e71102e2) not yet on origin/main; durable backup branch machine/bm-c-r1034 = 9fdf36ba5 pushed + ls-remote verified; r1035 S0 = fetch + rebase onto origin/main + closeout push (r1009 precedent self-heal)"
  },
  "total_ram_gb": 23.9,
  "cores": 32,
@@ -419,5 +419,6 @@
  "r1033_absorb_note": "r1033 absorb note: dead window 18:0x-18:3x (self-labeled r1033, zero commits, state counter was 1033 at open) executed: S0.5 probe 18:09:57 (ORD watermark cb605015 written to state, superseded by this window's advance to 54cf6cb9) + jayredo runner recovery chain (_r1033bmc_recover1-3.py from dead-session chat jsonl + _r1033bmc_patch_runner.py patch v3: atomic timeout 1200 non-fatal + r1033 handover disclosure) + re-ignited jayredo_v4_r1032.py pid 78884 (r1032 predecessor pid 70040 died at Phase C 600s atomic timeout -- root cause disclosed) + S6 chain 43 legs rc0 18:26-18:32 (driver Tools/_r1033bmc_s6.py, faces on disk) + xingqing T1 prep faces (t1_gate/pack/playbook/promptspec/shotlist + fidelity/lexicon/tp113/bone_anchor/id_const readouts) -- died pre-commit; this window (per bm-c absorb precedent lineage r894..r1032, 34th instance) machine-verified the estate BEFORE landing (S6 log 43x rc=0 + runner alive pid 78884 + precheck faces + probe facts), consumed the ORD rows the predecessor left (cb605015 tail-face re-judged zero double-count: 18:00 xingqing gate row ACTIONABLE executed as T1-unlock consumption, zero KF burned pre-GPU-release per serial law), advanced watermark to 54cf6cb9, and closed out",
  "r1033_closeout_note": "r1033: 34th absorb window (dead predecessor estate landed + xingqing T1 unlock consumed) + ORD 3-row consumption (18:00 gate row = bm-c ACTIONABLE) + S6 absorbed 43/43 rc0 (bars 10-15 sina-lag 5th window) + S7 quad green | 2026-10-15T18:41:45+08:00",
  "codely_live_count": 1,
- "r1034_closeout_note": "r1034: clean continuation window (state round_no=1034 at open, executed r1034, advanced 1034->1035 so next=r1035); zero absorb owed (r1033 closeout 580ff1b42 landed clean); O-20261015-1834 spawn-gate duty executed same-window before 24:00 deadline; group-tree CAS receipt row landed 1746e9250207 (zero tree touch; stale staged-deletion face disclosed in row); bars 10-15 sina-lag 6th window papers debt=0; watchdog S4U flip access-denied = adjudicated default-principal face"
+ "r1034_closeout_note": "r1034: clean continuation window (state round_no=1034 at open, executed r1034, advanced 1034->1035 so next=r1035); zero absorb owed (r1033 closeout 580ff1b42 landed clean); O-20261015-1834 spawn-gate duty executed same-window before 24:00 deadline; group-tree CAS receipt row landed 1746e9250207 (zero tree touch; stale staged-deletion face disclosed in row); bars 10-15 sina-lag 6th window papers debt=0; watchdog S4U flip access-denied = adjudicated default-principal face",
+ "r1034_push_note": "r1034 push saga: first push rejected (origin advanced 5e71102e2/024388e2f) -> pull --rebase hit r784 multi-branch pit -> direct rebase origin/main (r1000 path) -> stash-bridge -> rebase clean 9fdf36ba5 (one conflict docs/daily_report/REPORT-2026-10-15.json resolved newer-mine = my 19:03 S6 regeneration vs bm-a 18:40 re-derive, idempotent same-day regenerable) -> push rejected AGAIN (c1f67faba landed mid-flight) -> branch fallback origin machine/bm-c-r1034 = 9fdf36ba5 PUSHED + ls-remote VERIFIED; stash bridges x2 dropped identity-verified live-wins (runnable_pool daemon face + watermark_red probe face, both regenerable, committed snapshots ride in 9fdf36ba5); r1008 legacy stash protected intact; tail dual-scan ORD/DEC FALSE vs self-advanced watermark f48fdb82 = zero double-count risk for r1035"
 }
