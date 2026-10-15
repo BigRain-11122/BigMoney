@@ -269,7 +269,7 @@
  "last_run_at": "2026-10-14T04:20:27+08:00",
  "last_ts": 1791971993,
  "gpu_idle_mib": 15063,
- "verify": "receipts: smoke 49/49 + spawn-gate selftest 3/3 (PROBE live=1/GO rc0/DEFER rc3+ledger row) + stagger audit PASS (sole igniter pin :X5) + S6 43/43 rc0 log + group CAS receipt tip-verified 1746e925 + ORD own-row byte-equation + DEC raw-blob hold + epoch int readback + attrition 4 CLEAN + quad green",
+ "verify": "receipts: smoke 49/49 + spawn-gate selftest 3/3 (PROBE live=1/GO rc0/DEFER rc3+ledger row) + stagger audit PASS (sole igniter pin :X5) + S6 43/43 rc0 log + group CAS receipt tip-verified 1746e925 + ORD own-row byte-equation + DEC raw-blob hold + epoch int readback + attrition 4 CLEAN + quad green ; PUSH-HONESTY: raced x2 hot window, branch fallback landed + verified, r1035 S0 rebases+pushes main",
  "next_pointer": "r1035: (1) jayredo harvest watch: 11 i2v INT8 768P -> bmc/i2v/jayredo/ + Phase C push receipt verify + poke bm-a assembly on all-11; (2) XINGQING T1 POOL-0015 IGNITION = FIRST ACTION on GPU release (33-frame 8-block template + lint + Krea2 672x384 seeds + ladder early-stop 8-first + N>=16/32/50 + two-tier sea-review); (3) W247 finalize watch -> W248 prereg derive = first action on landing (waits-upstream law); (4) bars 10-15 recheck 7th window (sina governs; if landed -> papers full chain); (5) performance-trio night trials 10-16/17/18; (6) W20 SCREEN autofill night-window; (7) U256 w001/w003 RAM gate deferred; (8) group-tree stale staged-deletion face = stewards' call (disclosed in receipt row)",
  "last_decisions_sha": "ab3f0cc9f4cb9bbb1f23c5e5a98bd5bed540a272b0b111bb481120ea7e0ba8fd",
  "last_decisions_read_at": "2026-10-15T19:09:48+08:00",
@@ -280,13 +280,13 @@
  "ord_sha_method": "python content-bytes sha1 of git show origin/main:docs/orders.md (r977 ROOT-CAUSE FIX pin: watermark MUST use probe method content-bytes sha1 for ORD; heartbeat previously held stale r537 blob-sha face 53582389 -- normalized r986, both methods were FALSE vs live so zero rows owed/lost; raw-blob sha256 for DEC unchanged)",
  "last_decisions_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r865 ERRATUM: S0.5 first read used PS line-join reconstruction -> false delta 46316774; canonical raw-blob recheck = 68d13893 UNCHANGED since r843 consumption (raw bytes 194,574, sha256 68d13893), zero new DEC rows, zero action; METHOD PIN: DEC watermark = python subprocess raw-blob bytes SHA-256 ONLY, PS line-join reconstruction FORBIDDEN (r583 zero-literal + raw-blob law); ORD watermark = git rev-parse blob SHA-1 ONLY)",
  "last_orders_sha_method": "python subprocess raw-blob bytes SHA-256 (canonical, group-tree origin/main git show; r955 consumed r954's own track-2 dispatch row 0bd5cb9; PS line-join FORBIDDEN per r583/r865 -- one line-join attempt caught+discarded this window)",
- "last_pulled_at": "2026-10-14T06:35:57+08:00",
- "head_sha": "bigmoney closeout commit rides this window",
+ "last_pulled_at": "2026-10-15T19:14:34+08:00",
+ "head_sha": "9fdf36ba5 (r1034 local; origin/main c1f67faba; branch machine/bm-c-r1034 = same, verified)",
  "last_round_ts": "2026-10-15T19:09:48+08:00",
  "sync": {
-  "origin_tip": "closeout commit+push rides this window",
-  "ts": "2026-10-15T19:09:48+08:00",
-  "ahead_behind": "0/0 pre-closeout"
+  "origin_tip": "c1f67faba (r1034 push raced x2 in hot window: first rejection -> pull --rebase retry lawfully consumed [daily_report conflict resolved newer-mine, rebase clean] -> second rejection mid-rebase by c1f67faba -> branch fallback per law)",
+  "ts": "2026-10-15T19:14:34+08:00",
+  "ahead_behind": "local-ahead-1: r1034 = 9fdf36ba5 (base 5e71102e2) not yet on origin/main; durable backup branch machine/bm-c-r1034 = 9fdf36ba5 pushed + ls-remote verified; r1035 S0 = fetch + rebase onto origin/main + closeout push (r1009 precedent self-heal)"
  },
  "last_round_summary_at": "2026-10-15T19:09:48+08:00",
  "loop_round": 1025,
@@ -347,5 +347,6 @@
   "队列水位": "池 ready=W20 screen（lane bm-c·RAM 门 park-honest）·N1 W247 bm-a 在飞 finalize watch·W248 waits-upstream·U256 候 RAM 门·P2/P3 空·jobs 0"
  },
  "r1025_absorb_note": "r1025 absorb note: dead window (10:55 firing, self-labeled r1025) executed the FULL MV V4 Jay-redo POOL-0014 leg (KF 14/14 burn 10:51-11:07 pid 69760 + LOOKBOARD + group-tree atomic push LANDED d9f4c53 + 3 bm-b order receipts + S6 43/43 rc0 10:58-11:02) then died pre-closeout; this session absorbed per bm-c absorb precedent lineage: delivery verified landed, in-repo estate committed via targeted add (foreign sentinel_bm-c.py excluded), counter advanced 1025->1026 so next session = r1026; zero double-count: S0.5 ORD delta consumed THIS window (e2423fef->46c60d47), DEC hold 6910a9ed; evidence results/_r1025bmc_estate_audit.json",
- "codely_live_count": 1
+ "codely_live_count": 1,
+ "r1034_push_note": "r1034 push saga: first push rejected (origin advanced 5e71102e2/024388e2f) -> pull --rebase hit r784 multi-branch pit -> direct rebase origin/main (r1000 path) -> stash-bridge -> rebase clean 9fdf36ba5 (one conflict docs/daily_report/REPORT-2026-10-15.json resolved newer-mine = my 19:03 S6 regeneration vs bm-a 18:40 re-derive, idempotent same-day regenerable) -> push rejected AGAIN (c1f67faba landed mid-flight) -> branch fallback origin machine/bm-c-r1034 = 9fdf36ba5 PUSHED + ls-remote VERIFIED; stash bridges x2 dropped identity-verified live-wins (runnable_pool daemon face + watermark_red probe face, both regenerable, committed snapshots ride in 9fdf36ba5); r1008 legacy stash protected intact; tail dual-scan ORD/DEC FALSE vs self-advanced watermark f48fdb82 = zero double-count risk for r1035"
 }
