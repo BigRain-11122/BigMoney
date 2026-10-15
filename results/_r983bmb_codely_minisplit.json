@@ -1,0 +1,66 @@
+{
+ "law": "D-20260924-01 + D-20261002-06 (r444/r812/r829 paradigms)",
+ "pre_main_bytes": 78033,
+ "pre_arch_bytes": 45608,
+ "post_main_bytes": 17577,
+ "post_arch_bytes": 78737,
+ "dedup": {
+  "blockA_len": 31014,
+  "dup_start": 31014,
+  "dup_region_len": 31065,
+  "byte_identical": false,
+  "cr_normalized_identical": true,
+  "blockA_sha16": "f24792b302c6c755",
+  "dup_region_sha16": "ed9c0bd7936e7d44",
+  "blockA_norm_sha16": "f24792b302c6c755",
+  "dup_norm_sha16": "2a61f4b7c1d1e5f6"
+ },
+ "blocks": [
+  {
+   "tag": "M1_mini_split_rows",
+   "bytes": 14630,
+   "sha16": "7f955b24ca583eae"
+  },
+  {
+   "tag": "M2_old_merge_ptrs_r812_r779",
+   "bytes": 1100,
+   "sha16": "b2c9deec49ed9918"
+  },
+  {
+   "tag": "M3_old_cold_ptrs_r829",
+   "bytes": 547,
+   "sha16": "75b17a91240cbb2d"
+  },
+  {
+   "tag": "M4_dated_flow_r947_r982",
+   "bytes": 15954,
+   "sha16": "45f96da4fc954794"
+  }
+ ],
+ "assertions": {
+  "M4_verbatim_in_arch": true,
+  "M1_verbatim_in_arch": true,
+  "M2_verbatim_in_arch": true,
+  "M3_verbatim_in_arch": true,
+  "arch_size_identity": true,
+  "main_utf8_strict": true,
+  "main_le_cap_30720": true,
+  "main_le_watermark_50KB": true,
+  "P1_in_main": true,
+  "P2_in_main": true,
+  "P3_in_main": true,
+  "dup_gone": true,
+  "dated_gone": true,
+  "retained_rows_verbatim": true,
+  "byte_math_identity": true
+ },
+ "retained_ok": true,
+ "errors": [],
+ "byte_math": {
+  "removed_bytes": 63296,
+  "added_bytes": 2840,
+  "expected_post": 17577,
+  "identity": true
+ },
+ "verdict": "PASS"
+}
