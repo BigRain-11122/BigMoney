@@ -29,6 +29,11 @@ POLICY (fail-closed): deletions = files present in the OLD tree
     faces that carry no machine field inside the blob are exactly
     the faces whose ownership lives in the name (r1011 live-fire:
     --no-verify escape hatch was the only path).
+  * no owner evidence + underscore family `_bm-<id>` anywhere in
+    the path (fourth channel, D-20261016-02: legacy tick faces
+    like _sentinel_bm-a.json / history_bm-a.jsonl -- blob carries
+    no machine field, the name is the only ownership fact; self ==
+    allowed, any other id == foreign, still blocked);
   * qa/ deletion + same-push treasure_guard quarantine manifest
     whose moved[] lists the exact path with sha256 -> allowed
     (D-20261010-07 fourth release category: manifest = the deletion's
@@ -82,6 +87,11 @@ POOL_PATH = "results/runnable_pool.json"
 # a dot-sandwich before the final extension so plain dash forms
 # (state-bm-c.json) and prose stay outside this evidence channel.
 _FILENAME_OWNER_RE = re.compile(r"\.(bm-[a-z0-9]+)\.[A-Za-z0-9]+$")
+# D-20261016-02 fourth channel: underscore family `_bm-<id>` anywhere
+# in the path (legacy tick faces -- _sentinel_bm-a.json,
+# saturation_engine/history_bm-a.jsonl -- carry no machine field in
+# the blob; the name is the only ownership fact).
+_U_FILENAME_OWNER_RE = re.compile(r"_bm-([a-z0-9]+)")
 
 _ZERO = "0" * 40
 _NO_WINDOW = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW
@@ -154,14 +164,18 @@ def blob_owner(path, sha, repo):
 
 def filename_owner(path):
     """Owner evidence from the per-machine daemon naming convention
-    `<stem>.bm-<id>.<ext>` (T27, D-20261015-02): daemon faces (probe
-    reports, per-machine status mirrors) carry zero machine field in
-    the blob -- their name is the only ownership fact. Returns the
-    parsed machine id, or None when the face is not per-machine
-    named. Inverse of the blob leg: this NEVER invents evidence for
-    unnamed faces."""
-    m = _FILENAME_OWNER_RE.search(path.replace("\\", "/"))
-    return m.group(1) if m else None
+    `<stem>.bm-<id>.<ext>` (T27, D-20261015-02) plus the underscore
+    family `_bm-<id>` (fourth channel, D-20261016-02: legacy tick
+    faces carry zero machine field in the blob -- their name is the
+    only ownership fact). Returns the parsed machine id, or None
+    when the face is not per-machine named. Inverse of the blob leg:
+    this NEVER invents evidence for unnamed faces."""
+    norm = path.replace("\\", "/")
+    m = _FILENAME_OWNER_RE.search(norm)
+    if m:
+        return m.group(1)
+    m = _U_FILENAME_OWNER_RE.search(norm)
+    return ("bm-" + m.group(1)) if m else None
 
 
 def quarantined_src_paths(new_sha, repo):
@@ -382,6 +396,10 @@ def selftest():
             "results/daemon_self.bm-z.json": '{"py_cpu": 0.5}',
             "results/daemon_other.bm-a.json": '{"py_cpu": 0.5}',
             "results/dashform-bm-a.md": "# dash form, not dot-sandwich\n",
+            # D-20261016-02 fourth channel fixtures (underscore family)
+            "results/_sentinel_self_bm-z.json": '{"launches": []}',
+            "results/_sentinel_foreign_bm-a.json": '{"launches": []}',
+            "results/_tick_nosuffix.json": '{"launches": []}',
         }
         for rel, text in base.items():
             fp = os.path.join(repo, *rel.split("/"))
@@ -411,7 +429,10 @@ def selftest():
                     "fleet/inbox/MSG-1.md",
                     "results/daemon_self.bm-z.json",
                     "results/daemon_other.bm-a.json",
-                    "results/dashform-bm-a.md"):
+                    "results/dashform-bm-a.md",
+                    "results/_sentinel_self_bm-z.json",
+                    "results/_sentinel_foreign_bm-a.json",
+                    "results/_tick_nosuffix.json"):
             _git(["rm", "-q", "--", rel], repo)
         _git(["-c", "user.name=st", "-c", "user.email=st@t",
               "commit", "-q", "-m", "deletions"], repo)
@@ -440,6 +461,17 @@ def selftest():
         leg("dash-form per-machine name NOT filename evidence (T27)",
             "results/dashform-bm-a.md" in vpaths
             and vreason.get("results/dashform-bm-a.md", "")
+            == "no owner evidence")
+        # D-20261016-02 fourth channel legs (underscore family)
+        leg("underscore-family self face allowed (D-20261016-02)",
+            "results/_sentinel_self_bm-z.json" not in vpaths)
+        leg("underscore-family foreign face blocked (D-20261016-02)",
+            "results/_sentinel_foreign_bm-a.json" in vpaths
+            and vreason.get("results/_sentinel_foreign_bm-a.json",
+                            "").startswith("foreign owner"))
+        leg("no-suffix no-field tick face still blocked (D-20261016-02)",
+            "results/_tick_nosuffix.json" in vpaths
+            and vreason.get("results/_tick_nosuffix.json", "")
             == "no owner evidence")
 
         # staged-deletion face

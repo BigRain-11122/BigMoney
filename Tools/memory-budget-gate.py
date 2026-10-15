@@ -187,8 +187,8 @@ def main():
     for sec, txt in entries:
         sec = sec or "Reference"
         body = txt.strip()
-        if body.startswith("- [memory-gate]"):  # 索引块=派生面·重建时再生·禁保留禁迁移（r1027 bm-c 实锚：块头命中 KEEP 白名单被当 Reference 条目保留→重建再追加→每执法轮 +814B 复利泄漏·幂等修复）
-            continue
+        if body.startswith("- [memory-gate]"):
+            continue  # 索引块=派生面·重建再生·禁保留禁迁移（幂等律 v1.2·bigmoney F-20261015-02 bm-c r1027 三轮实弹同款·防每轮 +814B 复利泄漏）
         if sec == "User" or is_keep(body, fresh_days):  # User 节=CEO 硬法节·禁自动迁（防新硬法第 fresh_days+1 天被夜审误迁·gate v1.1）
             keep[sec].append(body)
         else:
