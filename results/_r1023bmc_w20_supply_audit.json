@@ -1,0 +1,57 @@
+{
+ "round": "r1023",
+ "machine": "bm-c",
+ "ts": "2026-10-15T10:12:21",
+ "probe": "results/_r1023bmc_w20_supply_audit.py",
+ "evidence_cutoff": "panel 2026-10-14 (bars 10-15 due 15:30)",
+ "law": "TRIAL_LABOR_LAW sec.1 standing-supply + W19 CEO report sec.4 route table",
+ "routes": {
+  "b1_refine": {
+   "source": "REFINE_BENCH surviving variants (rev_p2)",
+   "rev_p2_cells_faces": 20,
+   "top_face": "D-15|raw|base|time|h20 x1 sharpe_full=1.1551 (results/refine_bench_stock/rev_p2/cells_summary.csv)",
+   "ledger_row_present": true,
+   "rerun_forbidden": true,
+   "upgrade_path_consumed_by": "LOWAMP-DEEP-P1 (ledger row: census->judged upgrade, O-2115)",
+   "verdict": "CONSUMED-JUDGED -- no pending refine survivors; new refine output required before this source re-opens"
+  },
+  "b2_external": {
+   "source": "external TA harvest (tick-stock-panel 45 faces)",
+   "census": "results/_r937bmb_w20_census.json",
+   "survivors": 0,
+   "verdict": "CLOSED-ZERO-SURVIVOR (r937) -- family-collision pre-filter law now standing for any future external source"
+  },
+  "b3_t86": {
+   "source": "T-86 surviving factor legs (census-fusion W2-A/W2-B)",
+   "state": "W2-A 32 faces + W2-B 9-face chain burned; fusion tournament (T-85) consumed survivors",
+   "verdict": "CONSUMED -- no unconsumed factor legs pending"
+  },
+  "b4_generate": {
+   "source": "GENERATE wave on entry x filter space",
+   "axes_fixed_by_triaxis_verdicts": {
+    "X_exit": "template_default (W17: 7 faces paired median diff all 0.0, wilcoxon p 0.966-1.0)",
+    "S_sizing": "as-burned (W18: 4 faces paired median diff ~0)",
+    "T_timing": "daily_signal (W19: weekly->daily +0.0942 p=0.01 directional; below registration line 1.1512)"
+   },
+   "generation_space": "entry x filter only -- grammar search space cut by three axes",
+   "dedup_face": "TRIAL_GRAMMAR_LEDGER 77 burned functions + SEED_REGISTRY disjoint admission (next-window draft leg)",
+   "verdict": "LIVE-ROUTE -- W20 candidate draft (funnel 1/5) target for next window"
+  },
+  "a_stock_universe": {
+   "source": "stock-universe face (9 zt-mechanism families on T-87 stock panel)",
+   "gate": "P1-level new direction -- requires CEO-signed task order (W19 report sec.4 route (a)); standing, not claimable by loop sessions",
+   "verdict": "CEO-GATED-STANDING"
+  }
+ },
+ "funnel_verdict": "W20 = GENERATE-type wave (entry x filter, X/S/T fixed per W17/W18/W19). Route (b) has no cheaper pending survivor set: refine/external/T-86 all consumed or closed. Next window first action = W20 candidate draft per TRIAL_LABOR prereg template with seed-admit probe + banned-direction gate + grammar-ledger dedup leg (r924 bm-b W19-draft precedent).",
+ "receipts": {
+  "ledger_rows_verified": [
+   "REFINE_BENCH_STOCK_REV_P2 present",
+   "same-grammar rerun FORBIDDEN present",
+   "LOWAMP-DEEP-P1 upgrade-citation present"
+  ],
+  "rev_p2_json_prereg_pointer": "research/REFINE_BENCH_STOCK_REV_P2.md",
+  "zero_burn": true,
+  "zero_network": true
+ }
+}

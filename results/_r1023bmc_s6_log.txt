@@ -1,0 +1,38 @@
+LEG 01 pool_dualrun           rc=0   0.2s | [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 456 entries, drift-free streak 51, cutoff 2026-10-11 20
+LEG 02 compute_audit          rc=0   8.3s | {"ts": "2026-10-15 10:09:51", "audit_version": "v2.4.2", "cpu_total_pct": 3.0, "py_cpu_pct": 1.9, "cores": 32,
+LEG 03 py_watermark           rc=0   6.3s | {"ts": "2026-10-15 10:09:57", "epoch": 1792030191.0, "machine": "bm-c", "cpu_total_pct": 5.0, "cores": 32, "py
+LEG 04 update_daily           rc=0   2.4s | status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+LEG 05 market_regime          rc=0   0.9s |   trigger: breadth 0.77>=65%
+LEG 06 strategy_scorecard     rc=0   0.2s | lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin commit fresh (16min, heartbeats 
+LEG 07 market_clock_call      rc=0   6.6s | call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-14.md cell=ORANGE_COOL s
+LEG 08 update_lhb             rc=0   0.8s | no-op: cutoff 2026-10-14 covers latest disclosure window (2026-10-14)
+LEG 09 update_zt_pool         rc=0   0.6s | no-op: zt_pool lane owned by bm-a, not this machine (bm-c)
+LEG 10 update_heat            rc=0   0.6s | no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+LEG 11 update_futures         rc=0   0.3s | no-op: local cutoff 2026-10-14 covers expected complete-bar date 2026-10-14 -> zero network
+LEG 12 update_repo            rc=0   0.1s | no-op: repo rates lane owned by bm-a, not this machine (bm-c)
+LEG 13 update_options         rc=0   0.2s | [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch onl
+LEG 14 update_moneyflow       rc=0   0.1s | no-op: moneyflow lane owned by bm-a, not this machine (bm-c)
+LEG 15 update_sina_mf         rc=0   0.1s | no-op: sina_mf lane owned by bm-a, not this machine (bm-c)
+LEG 16 update_astock_daily    rc=0   1.3s | no-op: astock_daily lane owned by bm-b, not this machine (bm-c)
+LEG 17 update_etf_daily       rc=0   0.1s | no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)
+LEG 18 regime_thermo_build    rc=0   0.6s | regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+LEG 19 regime_gate_dualarm    rc=0   0.1s | regime_gate_dualarm: not lane owner (bm-b), honest no-op
+LEG 20 rev_osc_signal_export  rc=0   0.6s | rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG 21 update_minute_feed     rc=0   0.1s | update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+LEG 22 update_ths_panel       rc=0   0.5s | no-op: ths panel lane owned by bm-a, not this machine (bm-c)
+LEG 23 ah_panel_puller        rc=0   0.1s | no-op: ah panel lane owned by bm-a, not this machine (bm-c)
+LEG 24 update_fund_premium    rc=0   0.1s | no-op: before 15:30:00 (close-data alignment, update_heat precedent)
+LEG 25 update_fundamental     rc=0   0.6s | snapshot fresh (12.9h < 24h) -> skip
+LEG 26 b_layer_filter         rc=0   0.8s | verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+LEG 27 update_fund_statements rc=0   0.1s | no-op: fund statements lane owned by bm-a, not this machine (bm-c)
+LEG 28 aggressive_lab         rc=0  33.3s | aggr paper: marks already at panel cutoff 2026-10-14 -- no-op (idempotent)
+LEG 29 alloc_paper            rc=0   0.8s | no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+LEG 30 grid_paper             rc=0   0.7s | grid paper: marks already at panel cutoff 2026-10-14 -- no-op (idempotent)
+LEG 31 system_v1_paper        rc=0   0.6s | system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+LEG 32 t24_prospect_paper     rc=0   0.8s | lane_io single-writer guard: results/prospect_paper/* host=bm-a origin commit fresh (17min, heartbeats stale) 
+LEG 33 t24_prospect_promotion rc=0   0.3s | lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin commit fresh (17min, heartbeats sta
+LEG 34 t35_paper_export       rc=0   0.3s | lane_io single-writer guard: results/paper_export/* host=bm-a origin commit fresh (17min, heartbeats stale) ->
+LEG 35 daily_report           rc=0   1.0s | daily report written: REPORT-2026-10-15.md/.json faces=5 token=1
+LEG 36 ceo_live_usage         rc=0   0.1s | ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-15.md (+ .json twin + LIVE-
+LEG 37 token_meter            rc=0   0.1s | L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review':
+TOTAL 70.7s FAILS=0 []
