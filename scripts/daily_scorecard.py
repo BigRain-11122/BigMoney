@@ -250,10 +250,14 @@ def build():
                     act = op.get("action")
                     a_cls = "pos" if act == "entry" else "neg"
                     a_txt = "买入" if act == "entry" else ("卖出" if act == "exit" else act)
+                    # exit ops carry quantity_prior only (t35 diff-chain contract)
+                    q = op.get("quantity", op.get("quantity_prior"))
+                    q_txt = "—" if q is None else f"{q:,.0f}"
+                    cp = op.get("cost_price")
                     A(f"<tr><td>{op.get('symbol')}</td>"
                       f"<td class='{a_cls}'><b>{a_txt}</b></td>"
-                      f"<td>{op.get('quantity'):,.0f}</td>"
-                      f"<td>{op.get('cost_price')}</td></tr>")
+                      f"<td>{q_txt}</td>"
+                      f"<td>{'—' if cp is None else cp}</td></tr>")
                 A("</table>")
             A("</div>")
 

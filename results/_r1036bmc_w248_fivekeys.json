@@ -1,0 +1,72 @@
+{
+ "machine": "bm-c",
+ "wave": 248,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w248_results.json",
+ "merged": {
+  "k": 543520,
+  "mu": -0.09279163379452458,
+  "sigma": 0.24503930031458296,
+  "se_mu_k543520": 0.000332
+ },
+ "w248_only": {
+  "mu": -0.09133977272727273,
+  "sigma": 0.24223336459704453
+ },
+ "skill_line": {
+  "n_eff_held": 967735,
+  "line_pre_w248": 1.1938,
+  "line_merged_543520": 1.1937,
+  "k_lift_delta": -0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3154,
+  "full_sharpe_p99": 0.4351
+ },
+ "checks": [
+  {
+   "name": "key1_w248_vs_merged_mu_gap",
+   "value": 0.0014518610672518556,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w247_key",
+   "value": 5.896205475419691e-06,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": -4.6927761170559715e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": -0.013799999999999979,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": -0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000332,
+   "band": 0.000333,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 967735,
+  "batch_trials": 2200,
+  "total": 969935,
+  "exact": true
+ },
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}

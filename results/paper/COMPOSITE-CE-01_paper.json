@@ -27,7 +27,7 @@
   "bars": 11,
   "months_tracked": 0,
   "monthly_returns": [],
-  "current_dd": -0.0072,
+  "current_dd": -0.0089,
   "months_detail": [
     {
       "month": "2026-09",
@@ -39,7 +39,7 @@
     },
     {
       "month": "2026-10",
-      "return": -0.0028,
+      "return": -0.0046,
       "bars": 6,
       "month_ended": false,
       "full_from_hire": true,
@@ -48,11 +48,11 @@
   ],
   "window_metrics": {
     "win_rate": 0.0,
-    "num_trades": 0,
-    "avg_hold_days": 0.0,
+    "num_trades": 1,
+    "avg_hold_days": 9.0,
     "win_rate_full": 0.0,
     "profit_factor_full": 0.0,
-    "avg_pnl_full": 0.0,
+    "avg_pnl_full": -5822.24,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -81,7 +81,7 @@
     "source": "registration_x2_seed"
   },
   "cutoff": "2026-10-15",
-  "updated": "2026-10-15 20:55:41",
+  "updated": "2026-10-15 22:12:50",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
@@ -124,7 +124,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-15 20:55:41",
+    "as_of": "2026-10-15 22:12:50",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
@@ -141,16 +141,6 @@
     }
   },
   "open_positions": [
-    {
-      "symbol": "159980",
-      "quantity": 87436.72,
-      "cost_price": 2.173,
-      "high_watermark": 2.173,
-      "hold_days": 10,
-      "last_close": 2.129,
-      "market_value_cny": 186152.78,
-      "unrealized_pnl_cny": -3847.22
-    },
     {
       "symbol": "511010",
       "quantity": 1350.55,
@@ -194,11 +184,17 @@
   ],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 998180.56,
-    "positions_value_cny": 949419.44,
-    "cash_cny": 48761.12,
+    "equity_cny": 996453.31,
+    "positions_value_cny": 763266.66,
+    "cash_cny": 233186.65,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },
-  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)",
+  "pending_entries": [
+    {
+      "symbol": "513500",
+      "queued_date": "2026-10-15"
+    }
+  ]
 }
