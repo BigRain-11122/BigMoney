@@ -1,0 +1,1151 @@
+{
+ "wave": "TRIAL_LABOR_W20",
+ "grammar_kind": "w20-entry-grammar-generate-census",
+ "prereg": "research/TRIAL_LABOR_W20_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "ff00b0896b088b5a",
+ "seeds": {
+  "gen_held": 20650000,
+  "scrnull": 20650500,
+  "unc": 20651000,
+  "band": [
+   20650000,
+   20652500
+  ],
+  "note": "gen 20650000 HELD zero-consumption this wave (census full-enumeration, zero sampling, zero selection degrees of freedom -- berth kept for family-band continuity + future W20-derived generation faces); scrnull rng([20650500,i]) i<200; unc rng([20651000,cell_idx]) cell_idx<31"
+ },
+ "fn_families": {
+  "dd_rung_entry": {
+   "module": "w20_mr",
+   "mech_line": "mean_reversion line (shareholder averaging-down impulse mechanized)",
+   "definition": "dd(t)=close/rolling_max(close,high_n)-1; mask = dd <= -depth",
+   "source": "kin-probe verbatim (results/_r1027bmc_w20_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 13
+  },
+  "near_52w_high": {
+   "module": "w20_mo",
+   "mech_line": "momentum line (breakout-confirmation attention mechanized)",
+   "definition": "mask = close >= (1-pct) * rolling_max(close,lookback)",
+   "source": "kin-probe verbatim (results/_r1027bmc_w20_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 6
+  },
+  "turnover_regime": {
+   "module": "w20_st",
+   "mech_line": "sentiment line (volume-episode entry impulse mechanized)",
+   "definition": "q(t)=self-relative quantile rank of today volume in trailing n-day window; hysteresis state machine (HIGH if q>=q_hi / LOW if q<q_lo / band carries); mask = episode onset (prev LOW & now HIGH)",
+   "source": "kin-probe verbatim (results/_r1027bmc_w20_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 12
+  }
+ },
+ "roster": [
+  {
+   "cell_id": "W20-B-0001",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 60,
+    "depth": 0.1
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0002",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 60,
+    "depth": 0.15
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0003",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 60,
+    "depth": 0.2
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0004",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 120,
+    "depth": 0.1
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0005",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 120,
+    "depth": 0.15
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-A-0001",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 120,
+    "depth": 0.2
+   },
+   "module": "w20_mr",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0006",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 120,
+    "depth": 0.25
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0007",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 120,
+    "depth": 0.3
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0008",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 240,
+    "depth": 0.1
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0009",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 240,
+    "depth": 0.15
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0010",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 240,
+    "depth": 0.2
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0011",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 240,
+    "depth": 0.25
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0012",
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "high_n": 240,
+    "depth": 0.3
+   },
+   "module": "w20_mr",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0013",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 126,
+    "pct": 0.02
+   },
+   "module": "w20_mo",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0014",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 126,
+    "pct": 0.05
+   },
+   "module": "w20_mo",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0015",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 126,
+    "pct": 0.08
+   },
+   "module": "w20_mo",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0016",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 252,
+    "pct": 0.02
+   },
+   "module": "w20_mo",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-A-0002",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 252,
+    "pct": 0.05
+   },
+   "module": "w20_mo",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0017",
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 252,
+    "pct": 0.08
+   },
+   "module": "w20_mo",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0018",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.5,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0019",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.5,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0020",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.6,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0021",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.6,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0022",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.7,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0023",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 60,
+    "q_lo": 0.7,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0024",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.5,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0025",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.5,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-A-0003",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.6,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0026",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.6,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0027",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.7,
+    "q_hi": 0.9
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W20-B-0028",
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_lo": 0.7,
+    "q_hi": 0.95
+   },
+   "module": "w20_st",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  }
+ ],
+ "a_side_anchors": [
+  {
+   "fn": "dd_rung_entry",
+   "sig_params": {
+    "depth": 0.2,
+    "high_n": 120
+   }
+  },
+  {
+   "fn": "near_52w_high",
+   "sig_params": {
+    "lookback": 252,
+    "pct": 0.05
+   }
+  },
+  {
+   "fn": "turnover_regime",
+   "sig_params": {
+    "n": 120,
+    "q_hi": 0.9,
+    "q_lo": 0.6
+   }
+  }
+ ],
+ "fixed_execution_config": {
+  "axis": [
+   "none",
+   "template_default",
+   "equal_weight",
+   "daily_signal",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "x_consumed": {
+   "face": "template_default",
+   "basis": "W17 sec.0 consumer (3): W17-JUDGE 344 all-negative + 7 exit faces paired median delta 0.0"
+  },
+  "s_consumed": {
+   "face": "equal_weight",
+   "basis": "W18 sec.0 consumer (2): W18-JUDGE 188 lawful-zero + 4 sizing faces paired median delta ~0 = cell-native for census cells = equal_weight"
+  },
+  "t_consumed": {
+   "face": "daily_signal",
+   "basis": "W19 sec.0 consumer (2): W19-JUDGE 112 lawful-zero + weekly->daily paired direction +0.0942 p=0.01 below registration line"
+  },
+  "note": "single execution config, identical across all 31 cells + 200 nulls -- the entry mask is the ONLY tested dimension (three-axis consumption dividend, zero axis-crossing)"
+ },
+ "k_nulls": 200,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "judge_cap_cells": 90,
+ "control_source": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n": 173,
+  "role": "G-ENTRY lineage anchor ONLY -- W16 cell-expansion pairing face explicitly NOT enabled (sec.2 frozen; reuse = re-burning judged negatives violates the negative-true-close line)"
+ },
+ "w14_lineage": {
+  "grammar_sha16": "a231bf10940e7878",
+  "file": "results/trial_labor_w14/w14_grammar.json"
+ },
+ "w16_grammar_ref": {
+  "file": "results/trial_labor_w16/w16_grammar.json",
+  "grammar_sha16": "ebf15822d2c8472e"
+ },
+ "w17_grammar_ref": {
+  "file": "results/trial_labor_w17/w17_grammar.json",
+  "grammar_sha16": "09476ecc5beb2304"
+ },
+ "w18_grammar_ref": {
+  "file": "results/trial_labor_w18/w18_grammar.json",
+  "grammar_sha16": "724b6135a5fdb6ae"
+ },
+ "kin_probe_ref": {
+  "file": "results/_r1027bmc_w20_kin_orthogonality.json",
+  "role": "G-MASKDAYS alignment source (31/31 cell mask_days readings, probe face)"
+ },
+ "closed_family_check": {
+  "family_key": "TRIAL_LABOR",
+  "in_closed": false,
+  "note": "M3: TRIAL_LABOR not in CLOSED_FAMILIES = open; lowamp/n2/perpetual family keys disjoint (sec.3)"
+ },
+ "cell_key": "cell_id (single execution config -- no face dim)",
+ "n_cells": 31,
+ "family_split": {
+  "A": 3,
+  "B": 28
+ },
+ "screen_trials": 231
+}
