@@ -1,0 +1,17 @@
+ID_M_2001 = ("a 20-year-old Taiwanese student with heavy-lidded monolid eyes, "
+             "a thick lower lip, softly rounded cheeks and a thick black fringe "
+             "lying flat over his eyebrows")
+FACE_M_2001 = ("his bare face has natural matte skin with visible pores, "
+               "his black hair plain and slightly messy")
+
+VIDEO_DISCIPLINE = "Single continuous take at 24fps. "  # v1.1: 移除 no cuts（机制自杀修复）
+
+# ================= 2. 三名单 lint（词边界正则） =================
+
+_NEG = r"\b(not|no|don'?t|without|avoid|never|non-?)\b"
+VAGUE_BANNED = [
+    "beautiful", "gorgeous", "stunning", "aesthetic", "masterpiece", "best quality",
+    "amazing", "atmospheric", "dreamy", "dreamlike", "charming", "nostalgic feel",
+    "premium", "high quality", "8k", "hyperdetailed", "highly detailed", "intricate",
+    "ethereal", "whimsical", "cozy", "surreal", "artistic", "stylish", "elegant",
+    "cut

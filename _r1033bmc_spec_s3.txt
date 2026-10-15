@@ -1,0 +1,42 @@
+三连令**：O-20261009-1815「自媒体公司好好去研究一下提示词的撰写，你现在写的很有问题，AI识别肯定做不出来好的结果」· O-20261009-1830「多写专业词汇，要具体到某个颜色某个运镜等等，好好去调研开源社区的分享案例什么的，形成机制，不要用模糊的人类自然语言！」+「大量使用成熟的相关skill，并派出专家指导和审查」
+> **CEO 令 v1.3（2026-10-15）**：「好好去调研，提示词的各种技巧和规则，你现在写的提示词，还是容易误导AI。好好看官方文档。摸清规则，每次提示词都要过1遍提示词专家审才能开始生产。」——**专家审闸已立法（PROMPT-EXPERT-GATE-v1·本目录）**，本规范=闸的规则正身。
+> 适用：mv0001《爱在西元前》全管线（Krea 2 Turbo t2i / Qwen-Image-Edit-2511 / MiniMax-H3 本地 / Seedance 云端）+ 41 曲全产线
+> 状态：v1.2（2026-10-12）：运镜章升格五槽语法（正典=mv0001-handover/canon/CAMERA-DIRECTION-v1.md）→ **v1.3（2026-10-15）：新增 §十 V3 四型病灶律（官方归因版）+ 专家审闸挂接**——官方规则调研全档=cph4/research/R-20261015-prompt-rules-official.md（四路波·A 级源）
+
+---
+
+## 卷首·总律
+
+**可检测性原则（本规范一切条款的母法）**：
+> **一个词如果不能被摄影机、麦克风、测光表或秒表检测到，就改写它。**
+
+- 可执行词：光源方位/色温值/光比、相机焦段/光圈/f 值行为、运镜类型+幅度+速度、胶片型号/滤镜/颗粒、调色方向+具体色名、秒级时间轴。
+- 不可执行词（全禁）：电影感/大片感/史诗感/唯美/震撼/氛围感/高级感/意境/好看/8K/杰作/超写实——情绪标签让模型回归训练先验，产出=「模型那天的心情」（cineprompt.io 实证：'cinematic lighting' 可能给一盏背景灯，也可能给一整套 Storaro 布光）。
+- **零否定律（Qwen 系管线）**：负面=ConditioningZeroOut 死通道，一切 NOT/no/without 全部注入正面条件。官方改写器规则 8 原文：「改写之后的prompt中不应该出现任何否定词。」
+- **约束词分家律**：Seedance 官方约束句（「保持无字幕，不要生成Logo水印」）与 Qwen-Edit 官方后缀（「，超清，4K，电影级构图」）是各自官方口径的**例外授权位**——仅限该位使用，画面内容描述区仍零否定。
+
+---
+
+## 一、病灶诊断（官方背书定谳）
+
+| # | 病灶 | 证据 |
+|---|---|---|
+| 1 | **否定词大墙**：NOT Korean idol / no K-pop / no makeup / NO_TEXT 墙 → 把 K-pop/makeup/watermark 概念注入每张图的正面条件 =「太韩化」顽疾总根源 | 官方改写器规则 8（QwenLM/Qwen-Image prompt_utils.py）；社区实证（r/comfyui/Civitai/知乎三源） |
+| 2 | 跨图无效指令：`The same young man in every image`（t2i 无跨图机制） | 机制事实 |
+| 3 | 编辑指令与画面描述混写（fastface 一句塞 11 层） | 官方口径：一句直接具体改动 |
+| 4 | 结构松散/景别缺失/权重稀释（60–120 词堆砌无主线） | 官方公式未按序 |
+| 5 | **年代错位词**（图面「干净现代感」来源）：Vision3 5219/5207=2007/09 型号、teal 阴影/变宽耀斑/2383=2010s 审美、85mm f/1.8 奶油焦外=现代 | 摄影指导专家审查 |
+| 6 | **视频面根因**：H3 质量依赖 Context-IR 预处理（官方原话 critical）——该模块未开源，本地直跑没有 → 必须自己写官方结构化长文自担预处理 | MiniMax-H3 README |
+
+---
+
+## 二、词表与禁词机制（lint 三名单）
+
+**机制件**：`scratch/mv-carve-bma/prompt_lexicon.py`（产线唯一 prompt 来源，禁手写散文）。
+
+1. **NEG 名单**（Qwen 系零否定）：not/no/without/avoid/never/non- + 缩写（don't/can't/won't/isn't/doesn't）——词边界正则+撇号归一捕捉（子串法误伤 piano/casino、漏网 nothing/can't 的坑已修）。
+2. **VAGUE 名单**（模糊词全禁）：beautiful/stunning/aesthetic/masterpiece/8k/dreamy/ethereal/whimsical/cozy/glass skin/porcelain skin/airbrushed/vibrant/epic/photorealistic 等 40+ 词；`cinematic` 灰名单=仅首句 1 次合法。
+3. **CONCEPT 名单**（概念注入词，写进条件=注入该概念）：korean/K-pop/idol/salon/makeup/watermark/typography/logo——**反韩化的正确姿势=全词消失，不是否定它**。
+4. **FIX_MAP 否定改写器**：`no makeup→bare face, natural matte skin` 等 25 条对照表代码化，lint 命中自动替换复检。
+5. **长度闸**：40–200 词（官方上限 200）；**ID 块逐字复用律**：同一人所有镜头引用同一 ID 常量，禁止改写（文本身份漂移）。
+6. **f 值行为写法**：不写「浅景深」，写 `f/1.4, only the e
