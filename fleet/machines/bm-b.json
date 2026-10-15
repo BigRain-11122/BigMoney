@@ -1,17 +1,17 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T09:40:41+08:00",
- "task": "r970: recovery monitor round (eleventh beat, absorbs dead lane attempt-1 09:02-09:27) - v5 restore driver alive (pid 3672, receipt 1106/1804 dead-window probe cadence, ok=716 flat); salvage alive (pid 2800); backfill relay 18788->24468 alive; HANDOVER 5x r970 entry (estate) delivered to origin this round; C-r969 consumed PUSHED_VERIFIED (2314c74e, tip=2b09479474f8); C-r970 closeout push",
- "did": "r970: (a) dead lane attempt-1 adjudicated + absorbed: HANDOVER r970 5x entry verified intact on disk -> delivered as 4th own face this round; s05 re-run fresh; backfill relay pid 18788->24468 alive=True no-touch (b) v5 driver liveness (pid 3672 via cmdline-discovery, tasklist=True; receipt 1106/1804 fails=390 dead-window face ok=716 flat, anchor 1086@09:30:17 stagnant=False; judge by done-climb r960) (c) C-r969 receipt consumed PUSHED_VERIFIED 2314c74e, ancestor-verified (tip=2b09479474f8) (d) CEO order O-20261015-0025 delivery face: present on origin (zero touch per max-merge law MSG-0612; receipt-section face belongs to acking machines); unknown-order diff: none; MSG-20261015-0825: present on origin (zero touch, max-merge law; consumption = bm-a face) (e) lane face: schtasks 3/3 + idempotent quad (f) engine alive idle queue 0 (g) watermark red=False (2026-10-15 09:40:02 face) (h) sentinel NORMAL no flags (i) s05 fresh probe NO_DELTA_ZERO_ACTION (j) idle/S8 green_idle=false (RAM 26.0%<40%) honest no-claim; sentinel work=PENDING_ROUND open=6 waits green window (k) CODELY pending-union identical=False <50KB pass (l) S0 pull/S1 smoke/S6/attrition deferred per cold-index r950 law (ALL_RESTORED completion package)",
+ "last_seen": "2026-10-15T10:05:12+08:00",
+ "task": "r971: CEO-order execution round - O-0952 (1200W PSU full-power unlock) + O-0915 executed: i2v batch RE-IGNITED (was dead since 10-13 power-cut; runner pid 28900 lane bmb 53 orders SKIP-resume, clips 27/53) + bili line retired (task disabled, W001-W004 registry retired); delivery: O-0915+O-0952+MSG-0952 ride C-r971",
+ "did": "r971: (a) O-20261015-0952 executed: cap-lift verified (220W default wall, PowerCap Boot/Hourly disabled), i2v full-power re-ignition (first_unit=[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src) running=True, VRAM face 7920/8192 MiB), bili retired (task disabled verified + W001-W004 registry retired per s1-3); O-20261015-0915 receipt appended (first-unit self-cert); orders+MSG delivered add-only via C-r971 (r959 law) (b) C-r970 (ea6d5ae) + C-r970b (92fd0a5e) receipts consumed ancestor-verified (c) v5 monitor: 1146/1804 done, remaining=1088, anchor 1116@09:45:17 stagnant=False, rate=2.00/min eta=19:10 (d) salvage alive-running (json pending) (e) backfill alive=True no-touch (f) s05 fresh probe=NO_DELTA_ZERO_ACTION (g) lane quad registered; engine alive=True queue=0 (h) watermark red=False; idle/S8 green_idle=False honest no-claim (i) unknown-order diff: none",
  "cpu_cores": 16,
- "free_ram_gb": 0.0,
- "gpu_free_vram_mb": 3491,
- "verdict": "AMBER-recovering: v5 restore driver alive (pid 3672, 1106/1804 pass1, remaining=1088, fails=390 dead-window probe cadence; ok=716 flat honest face); salvage worker detached (pid 2800); completion package gated on ALL_RESTORED; zero origin-side loss",
+ "free_ram_gb": 2.24,
+ "gpu_free_vram_mb": 272,
+ "verdict": "AMBER-recovering->GREEN-batch: i2v production line RE-IGNITED at full power (1200W PSU per CEO; batch in flight, first unit [KN_KN28] SUBMITTED frame=KN_KN28.png le); v5 restore 1146/1804 remaining=1088 (salvage+backfill alive); zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792028441,
- "clock_read": "2026-10-15T09:40:41+08:00",
- "ts": "2026-10-15T09:40:41+08:00",
- "orders_ack": "r970: NO_DELTA (s05 fresh re-run in closeout; estate scan 09:07:39 same verdict) - ord/dec watermarks unchanged; C-r969 landed (2314c74e); unknown-order diff face: none; CEO order O-20261015-0025 delivery face: present on origin (zero touch per max-merge law MSG-0612; receipt-section face belongs to acking machines); outgoing MSG-20261015-0825 delivery face: present on origin (zero touch, max-merge law; consumption = bm-a face)",
- "note": "monitor round (eleventh beat): dead lane attempt-1 absorbed not duplicated (HANDOVER estate delivered, no rework); no rm on any repo face; group-tree zero-touch (origin reads only); S8 no-claim honest (green_idle=false)"
+ "heartbeat_epoch_utc": 1792029912,
+ "clock_read": "2026-10-15T10:05:12+08:00",
+ "ts": "2026-10-15T10:05:12+08:00",
+ "orders_ack": "r971: O-20261015-0915 EXECUTED (i2v re-ignition receipt in order file); O-20261015-0952 EXECUTED (full-power unlock verified + i2v ignited + bili retired + delivery); O-20261015-0025 + O-20261015-0906 on origin presence verified (False/False); unknown-order diff: none; s05 fresh=NO_DELTA_ZERO_ACTION",
+ "note": "CEO-order execution round: no rm on any repo face; group-tree reads only except canonical runner trio materialization (origin verbatim, execution material); S8 no-claim honest (green_idle=false)"
 }
