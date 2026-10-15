@@ -1,0 +1,21 @@
+{
+ "receipt": "bm-c U256 local self-driven work-registry landing (C-20261015-01 sec.3.1 obligation, passed bill, bm-c seat vote Y at r1023)",
+ "round": "r1024 bm-c",
+ "ts": "2026-10-15T10:5x+08:00",
+ "registry_path": "K:\\Fluxgroup\\.codely-cli\\sentinel\\bmc-work-registry.json",
+ "registry_ledger": "K:\\Fluxgroup\\.codely-cli\\sentinel\\bmc-work-ledger.jsonl",
+ "gate_tool": "Tools/bmc-work-registry-gate.py",
+ "gate_selftest": "9/9 PASS (offline, 3-check coverage: hardfields/lane/source+meaning)",
+ "check_registry": "4/4 PASS (admission gate on all stocked items)",
+ "items": [
+  {"id": "bmc-w001", "status": "ready", "target": "W20 supply funnel-1 audit beat"},
+  {"id": "bmc-w002", "status": "waiting-input", "target": "W-chain bm-c-turn next-wave prereg skeleton derive", "waiting": "chain turn release (current: bm-a W245)"},
+  {"id": "bmc-w003", "status": "ready", "target": "blocked-collector recovery verify beat"},
+  {"id": "bmc-w004", "status": "ready", "target": "dead-window estate audit beat"}
+ ],
+ "claim_this_round": "none",
+ "claim_deferred_reason": "GREEN-IDLE gate closed: ram_free_pct=6.5 (<40) per results/idle_trigger.bm-c.json 09:35 beat; claim-time RAM gate stays enforced per bm-c seat risk-note 1 (bill sec.5 bm-c row)",
+ "s8_prompt_wiring": "deferred one round: shared Tools/iteration_prompt.txt is mid-flight on bm-b S8 edit (O-20261015-0906 sec.2.2 claims S8 woven; not yet visible in origin copy) - avoid two-window edit conflict on the 51KB shared prompt; bm-c S8 wiring next round after bm-b edit lands or coordinates",
+ "lane_compliance": "all items cpu-only + zero-cloud + ram_mb<=1500 (bm-c GPU = generation-visual lane per CEO 2026-10-14 lane law, not poolable)",
+ "law_refs": ["C-20261015-01 sec.3.1", "O-20261015-0906-bm-b sec.2.1", "O-20260928-1820 (meaningfulness)", "C-20261012-03 (lane)"]
+}
