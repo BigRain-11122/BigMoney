@@ -1,6 +1,6 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-15T10:05:12+08:00",
+ "last_seen": "2026-10-15T10:09:04+08:00",
  "task": "r971: CEO-order execution round - O-0952 (1200W PSU full-power unlock) + O-0915 executed: i2v batch RE-IGNITED (was dead since 10-13 power-cut; runner pid 28900 lane bmb 53 orders SKIP-resume, clips 27/53) + bili line retired (task disabled, W001-W004 registry retired); delivery: O-0915+O-0952+MSG-0952 ride C-r971",
  "did": "r971: (a) O-20261015-0952 executed: cap-lift verified (220W default wall, PowerCap Boot/Hourly disabled), i2v full-power re-ignition (first_unit=[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src) running=True, VRAM face 7920/8192 MiB), bili retired (task disabled verified + W001-W004 registry retired per s1-3); O-20261015-0915 receipt appended (first-unit self-cert); orders+MSG delivered add-only via C-r971 (r959 law) (b) C-r970 (ea6d5ae) + C-r970b (92fd0a5e) receipts consumed ancestor-verified (c) v5 monitor: 1146/1804 done, remaining=1088, anchor 1116@09:45:17 stagnant=False, rate=2.00/min eta=19:10 (d) salvage alive-running (json pending) (e) backfill alive=True no-touch (f) s05 fresh probe=NO_DELTA_ZERO_ACTION (g) lane quad registered; engine alive=True queue=0 (h) watermark red=False; idle/S8 green_idle=False honest no-claim (i) unknown-order diff: none",
  "cpu_cores": 16,
@@ -9,9 +9,9 @@
  "verdict": "AMBER-recovering->GREEN-batch: i2v production line RE-IGNITED at full power (1200W PSU per CEO; batch in flight, first unit [KN_KN28] SUBMITTED frame=KN_KN28.png le); v5 restore 1146/1804 remaining=1088 (salvage+backfill alive); zero origin-side loss",
  "idle_rounds": 0,
  "agenda_starved": false,
- "heartbeat_epoch_utc": 1792029912,
- "clock_read": "2026-10-15T10:05:12+08:00",
- "ts": "2026-10-15T10:05:12+08:00",
- "orders_ack": "r971: O-20261015-0915 EXECUTED (i2v re-ignition receipt in order file); O-20261015-0952 EXECUTED (full-power unlock verified + i2v ignited + bili retired + delivery); O-20261015-0025 + O-20261015-0906 on origin presence verified (False/False); unknown-order diff: none; s05 fresh=NO_DELTA_ZERO_ACTION",
- "note": "CEO-order execution round: no rm on any repo face; group-tree reads only except canonical runner trio materialization (origin verbatim, execution material); S8 no-claim honest (green_idle=false)"
+ "heartbeat_epoch_utc": 1792030144,
+ "clock_read": "2026-10-15T10:09:04+08:00",
+ "ts": "2026-10-15T10:09:04+08:00",
+ "orders_ack": "r971: O-20261015-0915 EXECUTED (i2v re-ignition receipt in order file); O-20261015-0952 EXECUTED (full-power unlock verified + i2v ignited + bili retired + delivery); origin presence re-verified correct-method (fix1): O-0025=True O-0906=True O-0915=True O-0952=True; unknown-order delta since r970 = 94-92=2 (the two bm-b deliveries themselves) -> zero unknown; s05 fresh=NO_DELTA_ZERO_ACTION",
+ "note": "fix1 (r971 in-window, r964 precedent): presence check method corrected (list-membership on prefixed ls-tree lines -> substring on raw text); prior '(False/False)' face in r971 closeout was a false negative - all four orders verified on origin; i2v batch burning continues"
 }
