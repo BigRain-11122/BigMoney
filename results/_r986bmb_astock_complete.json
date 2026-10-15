@@ -1,0 +1,61 @@
+{
+ "captured_at": "2026-10-15T19:02:50",
+ "rebuild_cycle": "tree-loss recovery full-universe re-pull, closed after 3 gate segments (r985 17:38, r986 18:25, r986 19:0x)",
+ "complete": true,
+ "status_face": {
+  "ts": "2026-10-15T19:02:04",
+  "mode": "refresh complete",
+  "panel": {
+   "complete": true,
+   "cutoff": "2026-10-15",
+   "universe_n": 5229,
+   "per_files": 5221
+  },
+  "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
+  "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
+  "universe_skip_buckets": {
+   "0": 1496,
+   "2": 38,
+   "3": 1412,
+   "4": 532,
+   "6": 2320,
+   "8": 5436,
+   "9": 392
+  },
+  "last_refresh": {
+   "todo": 11,
+   "fetched": 11,
+   "appended": 0,
+   "readjusted": 0,
+   "readjusted_tail": [],
+   "failures_tail": [],
+   "failures_n": 0,
+   "conn_stopped": false,
+   "elapsed_min": 0.7,
+   "vwap_anchor_max": 0.119501,
+   "repull": false
+  },
+  "quarantined_n": 8,
+  "last_spawn_attempt": "2026-10-15T19:01:19",
+  "spawn_reason": "no panel cutoff (first pull / empty panel)",
+  "spawn_mode": "continuation/first-pull",
+  "settled_n": 11,
+  "settled": [
+   "000016",
+   "002388",
+   "002717",
+   "002731",
+   "300773",
+   "301314",
+   "600293",
+   "600825",
+   "601059",
+   "601198",
+   "688496"
+  ],
+  "no_op_reason": "panel fresh (cutoff 2026-10-13 >= expected 2026-10-13)",
+  "per_files_on_disk": 5221,
+  "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5219) -> disk face wins, rebuild (P0 r834-kin guard)"
+ },
+ "disclosure": "8 symbols quarantined at 3-strike (attempts=3: 000019/001235/001381/301718/688089/688143/688173/689009); 11 suspended-settled at exp=2026-10-14 (n=3 settle law r305); universe 5229; per_files on disk counted"
+}

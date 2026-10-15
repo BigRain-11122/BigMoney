@@ -115,6 +115,22 @@ try {
     $prompt = (Get-Content -Raw -Encoding UTF8 $promptFile).Trim()
     if ($prompt.Length -lt 50) { Log 'FATAL: iteration_prompt.txt too short'; Beat 'error prompt file empty'; exit 2 }
 
+    # C-20261015-03 sec.3 spawn-gate preflight (cloud concurrency cap v1.0,
+    # O-20261015-1800/1834): before igniting a cloud LLM session, count live
+    # codely.exe (all faces incl. headless rounds + background subagents).
+    # >=2 live => this tick yields with a ledger line; next grid slot
+    # auto-retries. Fail-open per spec: probe crash never blocks the line.
+    try {
+        $live = @(Get-CimInstance Win32_Process -Filter "Name='codely.exe'").Count
+        if ($live -ge 2) {
+            Log "CLOUD_CAP_DEFER live=$live (cloud cap v1.0 C-20261015-03 sec.2)"
+            Add-Content -Path (Join-Path $logDir 'cloud_cap_defer.log') -Value ("$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') | CLOUD_CAP_DEFER live=$live") -Encoding ASCII
+            Beat "cloud cap defer live=$live"
+            exit 0
+        }
+        Log "cloud-cap preflight OK live=$live"
+    } catch { Log "cloud-cap preflight probe failed (fail-open): $_" }
+
     # Single-line prompt, no embedded double quotes (Start-Process argument passing).
     if ($prompt.Contains('"')) { $prompt = $prompt.Replace('"', "'") }
     $argLine = '-y -p "' + $prompt + '"'
