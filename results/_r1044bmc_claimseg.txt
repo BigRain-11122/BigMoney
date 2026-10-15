@@ -1,0 +1,16 @@
+icted --
+                    # ours to abort; claim commit kept for session S0
+                    _git(("rebase", "--abort"))
+                    _log(f"claim rebase-retry conflicted (ours) -> "
+                         f"aborted, yield keeps claim commit")
+                else:
+                    # refused without starting one (dirty tree) or a
+                    # session rebase appeared mid-window ("already a
+                    # rebase") -> nothing of ours to abort
+                    _log(f"claim rebase-retry refused "
+                         f"({(err2 or '').strip()[-100:]}) -> yield "
+                         f"keeps claim commit")
+            # L54 fetch-once + recheck defer: push lost + recovery
+            # exhausted -> either the session delivered our claim
+            # (fire) or record the strand cooldown so the next tick
+          
