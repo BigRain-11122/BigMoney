@@ -118,6 +118,21 @@ try {
     # Single-line prompt, no embedded double quotes (Start-Process argument passing).
     if ($prompt.Contains('"')) { $prompt = $prompt.Replace('"', "'") }
     $argLine = '-y -p "' + $prompt + '"'
+
+    # O-20261015-1834 spawn-gate preflight (C-20261015-03 sec.3 spec): cloud
+    # concurrency cap check BEFORE igniting this round's codely session.
+    # DEFER (rc=3) = yield this grid slot to the per-machine cap (<=2 live
+    # autonomous cloud sessions); the next PT10M fire retries automatically.
+    # Fail-open: probe faults never skip a round (gate exits 0 = GO).
+    $gate = & (Join-Path $PSScriptRoot 'spawn_gate.ps1') -Lane 'bigmoney-loop'
+    $gateRc = $LASTEXITCODE
+    Log "spawn_gate: rc=$gateRc $gate"
+    if ($gateRc -eq 3) {
+        Log 'skip: cloud concurrency cap defer - next grid slot retries'
+        Beat 'skip (cloud cap defer)'
+        exit 0
+    }
+
     Log "spawning headless round (budget ${RoundTimeoutMinutes}min, prompt_chars=$($prompt.Length), out=$roundOut)"
     $p = Start-Process -FilePath $codelyPath -ArgumentList $argLine -WorkingDirectory $Project -PassThru -NoNewWindow -RedirectStandardOutput $roundOut -RedirectStandardError $roundErr
     $null = $p.Handle   # materialize handle so ExitCode is readable
