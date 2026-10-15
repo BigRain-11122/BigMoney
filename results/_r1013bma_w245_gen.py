@@ -23,15 +23,30 @@ OLD_DIR = os.path.join(REPO, "results", "_r1012bma_w245_oldblocks")
 T0 = io.open(SRC, encoding="utf-8", newline="").read()
 
 # ---------- ordered vmap (placeholder-safe; applied to full text AND old blocks) ----------
-P1, P2, P3, P4 = "\x01A\x01", "\x01B\x01", "\x01C\x01", "\x01D\x01"
+P1, P2, P3, P4, P5 = "\x01A\x01", "\x01B\x01", "\x01C\x01", "\x01D\x01", "\x01E\x01"
 VMAP = [
     ("W244", P1), ("W243", "W244"), (P1, "W245"),
     ("w244bma", "w245bma"),
     ('244: {"batch"', P2), ('243: {"batch"', '244: {"batch"'), (P2, '245: {"batch"'),
     ('244: {"a"', P3), ('243: {"a"', '244: {"a"'), (P3, '245: {"a"'),
+    # r1014 repair: double-brace f-string source forms (the chained single-brace
+    # legs above only own the rendered/plain-string faces; the f-string
+    # builders need their own direct legs) -- pf_row builder + canon assert + cfg opener
+    ('244: {{"batch"', '245: {{"batch"'),
+    ('244: {{"a"', '245: {{"a"'),
+    # r1014 repair: bare-number call form -- the materializer block's wave
+    # activation _set_wave(244) must become _set_wave(245) (selftest fired
+    # "W245 A hits W244" via the un-shifted activation loading W244 bands)
+    ("_set_wave(244)", "_set_wave(245)"),
     ("WAVE_CONFIGS[244]", "WAVE_CONFIGS[245]"),
     ("N1_BANDS.get(243)", "N1_BANDS.get(244)"),
     ("N1_BANDS[243]", "N1_BANDS[244]"),
+    # r1014 repair legs (dead-window author gaps, count-verified vs 10bdb987b):
+    # upstream WAVE_CONFIGS[243] asserts (3x) must become [244]; lowercase
+    # own/upstream result-file tokens shift with the same chained pattern.
+    ("WAVE_CONFIGS[243]", "WAVE_CONFIGS[244]"),
+    ("n1_w244", P5), ("n1_w243", "n1_w244"), (P5, "n1_w245"),
+    ("n1w244", "n1w245"),
     ("555_500", "557_500"), ("553_501", "555_501"),
     ("541_701", "542_001"), ("541_900", "542_200"),
     ("958,935", "961,135"), ("532,520", "534,720"),
@@ -68,6 +83,23 @@ VMAP = [
     ("w<244", "w<245"), ("range(16, 244)", "range(16, 245)"),
     ("range(17, 244)", "range(17, 245)"),
     ("below 244", "below 245"),
+    # r1014 repair: family-6 boundary shift legs (spaced + contiguous + lineage)
+    ("if w < 244)", "if w < 245)"),
+    ("if w < 243)", "if w < 244)"),
+    ("w<243", "w<244"),
+    ("w243bma", "w244bma"),
+    # r1014 repair: bare-int ordinal gate legs (leg0 assert + receipt comments)
+    ("owner_rows=233", "owner_rows=234"),
+    ("bma_rows=125", "bma_rows=126"),
+    ("len(owner_rows_live) == 233", "len(owner_rows_live) == 234"),
+    ("len(bma_rows_live) == 125", "len(bma_rows_live) == 126"),
+    ("expect 233/125/67", "expect 234/126/67"),
+    ("bm-a rows 124", "bm-a rows 125"),
+    # r1014 repair: upstream-tail variable rename legs -- the NEW a2/a5/a7/a8/a9
+    # blocks reference fresh names w244_a_tail/w244_b_tail; the carried editor
+    # body still uses the one-behind names, so roll the whole editor to fresh.
+    ("w243_a_tail", "w244_a_tail"),
+    ("w243_b_tail", "w244_b_tail"),
     ("fifth consecutive seed-gap", "sixth consecutive seed-gap"),
     ("gap face sixth consecutive", "gap face seventh consecutive"),
     ("thirty-third consecutive window", "thirty-fourth consecutive window"),
@@ -75,17 +107,26 @@ VMAP = [
 ]
 # expected hit floors on the FULL text (count-asserted; 0 = optional)
 VMAP_FLOORS = {
-    "w244bma": 3, '244: {"batch"': 1, '243: {"batch"': 1, '244: {"a"': 1, '243: {"a"': 2,
+    "w244bma": 3, '244: {"batch"': 1, '243: {"batch"': 1,     '244: {"a"': 1, '243: {"a"': 2,
+    '244: {{"batch"': 1, '244: {{"a"': 2, "_set_wave(244)": 1,
     "WAVE_CONFIGS[244]": 2, "N1_BANDS.get(243)": 1, "N1_BANDS[243]": 2,
     "958,935": 2, "532,520": 2, "958_935": 1, "532_520": 1,
     "08df387e0": 1, "MSG-20261015-0206-bma-w244-seat": 1, "01:4x": 2,
     "r1002": 3, "r1003": 3, "r1005": 2, "r1006": 2, "r1004": 3,
     "TWO HUNDRED AND FORTY-FOURTH": 1, "one hundred and twenty-sixth": 1,
     "bma_ordinal=126": 2, "126th": 2, "rows 125": 3, "234th": 1, "rows 233": 1,
-    "!= 101 (90 estate": 1, "== 101": 1, "W232..W242 legs 11": 2,
-    "W232..W242 fresh legs": 2, "-> 101 rows": 1, "102 rows ending": 1,
+    "!= 101 (90 estate": 1, "== 101": 1,     "W232..W242 legs 11": 2, "WAVE_CONFIGS[243]": 3, "n1_w243": 3,
+    "n1_w244": 4, "n1w244": 2,
+    # floor 1 (not 2): the second concept occurrence lives line-split inside
+    # the OLD a1 comment block, which the NEW["a1"] block replacement covers
+    # wholesale -- vmap only owns the single contiguous L229 comment hit.
+    "W232..W242 fresh legs": 1, "-> 101 rows": 1, "102 rows ending": 1,
     "list(range(232, 243))": 1, "range(209, 245)": 2,
     "w<244": 2, "range(16, 244)": 2, "range(17, 244)": 2, "below 244": 2,
+    "if w < 244)": 5, "if w < 243)": 1, "w<243": 3, "w243bma": 1,
+    "owner_rows=233": 1, "bma_rows=125": 1, "len(owner_rows_live) == 233": 1,
+    "len(bma_rows_live) == 125": 1, "expect 233/125/67": 1, "bm-a rows 124": 1,
+    "w243_a_tail": 18, "w243_b_tail": 18,
     "fifth consecutive seed-gap": 2, "zero takeover": 5,
     "(242, 241, 240, 239, 238, 237, 236, 235, 234, 233)": 2,
 }
@@ -230,35 +271,37 @@ NEW["a9"] = "\"        # band facts (law sec.4 W245 row): A = FIRST-CLEAN arithm
 "  \"        # the W244 seat leg4 succession projection notes -- all\",\n" \
 "  \"        # MANDATORY notes honored (post-W244 universe\",\n" \
 "  \"        # re-derive + live-trace re-read, no staircase-equality assumption);\",\n" \
-" f'        assert WAVE_CONFIGS[245][\"a_seed_base\"] == {a_lo} == {w244_a_tail} + 1, ('\n" \
-" '            \"W245 A must be the first-clean arithmetic continuation of the \"'\n" \
-" '            \"prior-wave A tail (hops=0, A_hop_chain empty + A_clean_at_naive_start=true -- \"'\n" \
-" '            \"seed-decoupled A-continuation face, sixth consecutive seed-gap face, \"'\n" \
-" '            \"exactly as the W244 seat leg4 succession projection notes \"'\n" \
-" '            \"anticipated; A base == prior-wave A tail+1 machine-checkable)\")'\n" \
-" f\"        arith_a245 = set(range({a_lo}, {a_hi + 1}))\"\n" \
-" \"        assert not (arith_a245 & reg_ints), \\\\\"\n" \
-" '            \"W245 A window must be CLEAN (first-clean ADMIT face, A-continuation)\"'\n" \
-" f'        assert WAVE_CONFIGS[245][\"b_exit_seed_base\"] == {b_lo} == {542_000} + 1, ('\n" \
-" '            \"W245 B live-seed-hop face: the naive staircase continuation \"'\n" \
-" f'            \"{fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live \"'\n" \
-" '            \"SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull (hops=1, hop chain \"'\n" \
-" '            \"recorded) -- honest forward walk lands first-clean \"'\n" \
-" f'            \"{fmt(b_lo)}..{fmt(b_hi)}; B base == refuser+1 EXACT, B base != prior-B-tail+1 \"'\n" \
-" '            \"in this face (B_base_above_priorB_tail + B_live_seed_hop face relation \"'\n" \
-" '            \"asserts, probe receipt leg1 mirrored exactly; B_no_ownA_jump=true)\")'\n" \
-" f\"        assert {b_lo} > {w244_b_tail} + 1, \\\\\"\n" \
-" '            \"W245 B first-clean base must sit above the refused naive base (live-seed hop face)\"'\n" \
-" f\"        assert 542_000 in reg_ints and 542_000 not in set(range(\"\n" \
-" f\"{b_lo}, {b_hi + 1})), \\\\\"\n" \
-" '            \"W245 B refuser-adjacency face: the live refuser 542_000 must sit inside SEED_REGISTRY and immediately below the B window\"'\n" \
-" f\"        arith_b245 = set(range({b_lo}, {b_hi + 1}))\"\n" \
-" \"        assert not (arith_b245 & reg_ints), \\\\\"\n" \
-" '            \"W245 B window must be CLEAN (first-clean ADMIT face, post-hop forward walk)\"'\n" \
-" \"        assert not (arith_b245 & arith_a245), \\\\\"\n" \
-" '            \"W245 A/B same-freeze mutual exclusion (seed-decoupled gap face inherited: B below own A)\"'\n" \
-" \"        assert _entry_shard_of(0, 12) == (\\\"PERPETUAL-N1-W245-SHARD-0\\\",\n" \
-" '                                          \"n1w245-0of12\"), \"W245 entry identity\"'\n"
+" f'        assert WAVE_CONFIGS[245][\"a_seed_base\"] == {a_lo} == {w244_a_tail} + 1, (',\n" \
+" '            \"W245 A must be the first-clean arithmetic continuation of the \"',\n" \
+" '            \"prior-wave A tail (hops=0, A_hop_chain empty + A_clean_at_naive_start=true -- \"',\n" \
+" '            \"seed-decoupled A-continuation face, sixth consecutive seed-gap face, \"',\n" \
+" '            \"exactly as the W244 seat leg4 succession projection notes \"',\n" \
+" '            \"anticipated; A base == prior-wave A tail+1 machine-checkable)\")',\n" \
+" f\"        arith_a245 = set(range({a_lo}, {a_hi + 1}))\",\n" \
+" \"        assert not (arith_a245 & reg_ints), \\\\\",\n" \
+" '            \"W245 A window must be CLEAN (first-clean ADMIT face, A-continuation)\"',\n" \
+" f'        assert WAVE_CONFIGS[245][\"b_exit_seed_base\"] == {b_lo} == {542_000} + 1, (',\n" \
+" '            \"W245 B live-seed-hop face: the naive staircase continuation \"',\n" \
+" f'            \"{fmt(w244_b_tail + 1)}..{fmt(w244_b_tail + 200)} is REFUSED by the live \"',\n" \
+" '            \"SEED_REGISTRY point 542_000 perpetual_n2_w15_scrnull (hops=1, hop chain \"',\n" \
+" '            \"recorded) -- honest forward walk lands first-clean \"',\n" \
+" f'            \"{fmt(b_lo)}..{fmt(b_hi)}; B base == refuser+1 EXACT, B base != prior-B-tail+1 \"',\n" \
+" '            \"in this face (B_base_above_priorB_tail + B_live_seed_hop face relation \"',\n" \
+" '            \"asserts, probe receipt leg1 mirrored exactly; B_no_ownA_jump=true)\")',\n" \
+" f\"        assert {b_lo} > {w244_b_tail} + 1, \\\\\",\n" \
+" '            \"W245 B first-clean base must sit above the refused naive base (live-seed hop face)\"',\n" \
+" f\"        assert 542_000 in reg_ints and 542_000 not in set(range(\",\n" \
+" f\"{b_lo}, {b_hi + 1})), \\\\\",\n" \
+" '            \"W245 B refuser-adjacency face: the live refuser 542_000 must sit inside SEED_REGISTRY and immediately below the B window\"',\n" \
+" f\"        arith_b245 = set(range({b_lo}, {b_hi + 1}))\",\n" \
+" \"        assert not (arith_b245 & reg_ints), \\\\\",\n" \
+" '            \"W245 B window must be CLEAN (first-clean ADMIT face, post-hop forward walk)\"',\n" \
+" \"        assert not (arith_b245 & arith_a245), \\\\\",\n" \
+" '            \"W245 A/B same-freeze mutual exclusion (seed-decoupled gap face inherited: B below own A)\"',\n" \
+" \"        assert _entry_shard_of(0, 12) == (\\\"PERPETUAL-N1-W245-SHARD-0\\\",\",\n"
+# r1014 repair: identity line DELETED from the block tail -- it sits OUTSIDE the
+# a9 span (a9.txt ends at the SHARD-0 line) and is already rolled by the
+# n1w244->n1w245 vmap leg; keeping it here duplicated the list item.
 
 NEW["a12"] = """ '          \"+ B=FIRST-CLEAN post-hop forward walk (live-seed-hop face, \"',
  '          \"hops=1, hop chain recorded, B base == live refuser 542_000+1 EXACT, B base != prior-B-tail+1, \"',
@@ -306,17 +349,35 @@ MUST = ["WAVE_CONFIGS[245]", "PERPETUAL-N1-W245-SHARD-0", "n1w245-0of12",
         "one hundred and twenty-seventh", "W246p_A_naive", "n1_w245_results.json" ]
 for s in MUST:
     assert s in T2, "MUST-HAVE missing: %r" % s
-MUST_NOT = ["W243", "WAVE_CONFIGS[244]", "N1_BANDS.get(243)", "N1_BANDS[243]",
-            "PERPETUAL_N1_W243", "w243bma", "w244bma", "r1002", "r1003", "r1005",
+# r1014 repair: "W243" over-broad ban removed -- the W245 editor legitimately
+# spells the extracted parity span as "W232..W243" (see NEW a1 + vmap legs);
+# stale upstream guards stay via the specific entries below. "WAVE_CONFIGS[244]"
+# ban flipped to [243]: the upstream asserts legitimately become [244].
+# r1014 repair: blanket "N1_BANDS[243]" ban removed -- the count-gate _ins
+# line legitimately carries 3x "N1_BANDS[243]" (the [243]==2 post-splice count
+# assert). Precise guard instead: "pf.N1_BANDS[243]" (mirror-assert form)
+# must appear exactly ONCE (the _ins count target); more = stale upstream
+# mirror asserts that the vmap failed to roll to [244].
+MUST_NOT = ["WAVE_CONFIGS[243]", "N1_BANDS.get(243)",
+            "PERPETUAL_N1_W243", "w243bma", "r1002", "r1003", "r1005",
             "r1006", "r1004", "958,935", "532,520", "553_501", "541_701",
             "08df387e0", "70141bc22", "126th", "234th", "TWO HUNDRED AND FORTY-FOURTH",
             "one hundred and twenty-sixth", "W245p_", "range(16, 244)",
             "range(17, 244)", "range(209, 245)", "bma_ordinal=126",
-            "MSG-20261015-0206", "list(range(232, 243))"]
+            "MSG-20261015-0206", "list(range(232, 243))",
+            # r1014 repair: "w244bma" blanket ban refined -- the lineage
+            # comment legitimately names the _w244bma_freeze_edits.py template;
+            # the stale risks are the own probe/receipt paths (all -> _w245bma).
+            "_w244bma_20261015_probe_receipt", "_w244bma_freeze_receipt"]
 for s in MUST_NOT:
     assert s not in T2, "MUST-NOT-HAVE present: %r (count=%d)" % (s, T2.count(s))
-# known legitimate exception: prior-block boundary note keeps ONE w<244 face
-assert T2.count("w<244") == 1, "w<244 prior-boundary note count=%d (expect 1)" % T2.count("w<244")
+# precise stale-mirror guard (r1014 repair, replaces the blanket ban)
+assert T2.count("pf.N1_BANDS[243]") == 1, \
+    "pf.N1_BANDS[243] count=%d (expect 1: the count-gate _ins target only)" % T2.count("pf.N1_BANDS[243]")
+# known legitimate exceptions (r1014 repair: count 3, not 1 -- the lineage
+# comment, the family-6 stale-gate message, and the receipt note each
+# legitimately carry ONE contiguous w<244 prior-boundary face)
+assert T2.count("w<244") == 3, "w<244 prior-boundary note count=%d (expect 3)" % T2.count("w<244")
 
 # no malformed windows in NEW prose (r773 law)
 for m in re.finditer(r"(\d{3}_\d{3})\.\.(\d{3}_\d{3})", T2):
