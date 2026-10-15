@@ -2204,6 +2204,29 @@ SEED_REGISTRY = {
         "trial_labor_w19_gen": 20_640_000,
         "trial_labor_w19_scrnull": 20_640_500,
         "trial_labor_w19_unc": 20_641_000,
+        # TRIAL_LABOR_W20 (entry-syntax GENERATE regression batch, X/S/T
+        # three-axis all-consumed first burn; bm-c r1027 freeze window,
+        # dead-window probe absorbed): berth trio 20650000/20650500/
+        # 20651000 = W17/W18/W19 trio structure mirror (role spacing
+        # 500/1000). Freeze-window live gate re-run ALL FREE per
+        # recheck_law (probe receipt = evidence not reservation):
+        # seed_admit_gate rc0 base=20650000 span=1001 checked=1001
+        # verdict=FREE; scrnull rng([20650500,i]) i<200
+        # -> [20650500,20650700); unc rng([20651000,cell_idx])
+        # cell_idx<31 -> [20651000,20651031); gen 20650000 held
+        # zero-consumption (census full-enumeration of the 31-cell
+        # param space, zero random draw); family band [20650000,
+        # 20652500) zero-hit on 221-key live registry + repo text-scan
+        # foreign seed claims zero (self-lineage faces disclosed, W18/
+        # W19 same classification law); registered at prereg freeze
+        # BEFORE any burn, one-step R250 law; prereg research/
+        # TRIAL_LABOR_W20_PREREG.md (draft bm-c r1026, probe facts
+        # results/_r1026bmc_w20_probe_facts.json + freeze probe
+        # results/_r1027bmc_w20_freeze_facts.json L1-L10 + absorb
+        # verify results/_r1027bmc_w20_absorb_verify.json PASS)
+        "trial_labor_w20_gen": 20_650_000,
+        "trial_labor_w20_scrnull": 20_650_500,
+        "trial_labor_w20_unc": 20_651_000,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
