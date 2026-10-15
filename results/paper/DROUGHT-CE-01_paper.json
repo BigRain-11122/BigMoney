@@ -24,10 +24,10 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 10,
+  "bars": 11,
   "months_tracked": 0,
   "monthly_returns": [],
-  "current_dd": -0.0024,
+  "current_dd": -0.0041,
   "months_detail": [
     {
       "month": "2026-09",
@@ -39,8 +39,8 @@
     },
     {
       "month": "2026-10",
-      "return": -0.0024,
-      "bars": 5,
+      "return": -0.0041,
+      "bars": 6,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
@@ -64,13 +64,13 @@
     },
     "scaled_entries": 1,
     "status": "insufficient_data",
-    "bars": 10,
+    "bars": 11,
     "floor": 20,
     "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "cost_x2_check": {
     "status": "insufficient_data",
-    "bars": 10,
+    "bars": 11,
     "min_bars": 20
   },
   "x2_watch": {
@@ -80,12 +80,12 @@
     "survive": true,
     "source": "registration_x2_seed"
   },
-  "cutoff": "2026-10-14",
-  "updated": "2026-10-15 18:30:40",
+  "cutoff": "2026-10-15",
+  "updated": "2026-10-15 20:55:44",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-14"
+    "as_of": "2026-10-15"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -93,7 +93,6 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-09-23": "GREEN",
       "2026-09-24": "YELLOW",
       "2026-09-28": "YELLOW",
       "2026-09-29": "YELLOW",
@@ -102,17 +101,18 @@
       "2026-10-09": "YELLOW",
       "2026-10-12": "YELLOW",
       "2026-10-13": "YELLOW",
-      "2026-10-14": "YELLOW"
+      "2026-10-14": "YELLOW",
+      "2026-10-15": "YELLOW"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 5,
+      "days_enforced": 6,
       "entries_blocked": 0,
       "entries_halved": 1
     },
     "shadow_ref": {
       "state": "ORANGE",
-      "asof": "2026-10-14"
+      "asof": "2026-10-15"
     },
     "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
@@ -124,7 +124,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-15 18:30:40",
+    "as_of": "2026-10-15 20:55:44",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
@@ -146,16 +146,16 @@
       "quantity": 30376.67,
       "cost_price": 1.646,
       "high_watermark": 1.646,
-      "hold_days": 3,
-      "last_close": 1.57,
-      "market_value_cny": 47691.37,
-      "unrealized_pnl_cny": -2308.63
+      "hold_days": 4,
+      "last_close": 1.513,
+      "market_value_cny": 45959.9,
+      "unrealized_pnl_cny": -4040.1
     }
   ],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 997626.17,
-    "positions_value_cny": 47691.37,
+    "equity_cny": 995894.7,
+    "positions_value_cny": 45959.9,
     "cash_cny": 949934.8,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"

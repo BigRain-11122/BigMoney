@@ -1,0 +1,316 @@
+# -*- coding: utf-8 -*-
+# r1035 bm-c: W248 prereg derive (count-asserted ordered transform + marker-extracted block replaces).
+# Source = committed frozen W247 prereg (git 4c403cb16:research/PERPETUAL_N1_W247_PREREG.md, 32377 bytes
+# -- the frozen pre-run face; sec7/8 placeholders intact).
+# W248 facts (all machine-derived, never transcribed):
+#   - seat probe ADMIT receipt results/_w248bmc_20261015_probe_receipt.json
+#     (A 561_501..563_500 CLEAN hops=0 tenth consecutive seed-gap A-continuation /
+#      B 544_701..544_900 CLEAN hops=0 past the W239 staircase landing,
+#      B base == W247-candidate B tail 544_700+1 EXACT; seed_admit FREE x2;
+#      waits-upstream ARMED seat published 86819ad77, MSG-20261015-164x-bmc-w248-seat)
+#   - upstream W247 finalize landed (bm-a r1022 98c3b9cb7): ledger 967,735 EXACT /
+#     K=541,320 / merged mu -0.09279753 / sigma 0.2450508 / se_mu 0.000333 /
+#     W247-only mu -0.08799 / key1 gap 0.0048 / A p95 0.3292 / K-lift +0.0000 /
+#     line_pre_w247 1.1937 / line_merged@K541,320 1.1937 / n_eff_held_equal 965,535
+#     (results/perpetual_faces/n1_w247_results.json + results/_r1022bma_w247_fivekeys.json)
+#   - W247 chain: prereg derive r1019 4c403cb16 (tpl fbfb7b43f @ 4a001a96d) +
+#     five-face freeze splice r1021 2fcca7711 + engine self-burn 12/12 18:40-18:51 +
+#     sixgate PRE-FINALIZE + finalize one-pass r1022
+#   - W249+ projection (probe leg4): A 563_501..565_500 / B 544_901..545_100 both CLEAN hops=0
+import io, os, sys
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(REPO, "results", "_w248bmc_w247_frozen_face.txt")
+OUT = os.path.join(REPO, "research", "PERPETUAL_N1_W248_PREREG.md")
+
+T0 = io.open(SRC, encoding="utf-8", newline="").read()
+
+P1, P2, P3 = "\x01W\x01", "\x01N\x01", "\x01B\x01"
+
+VMAP = [
+    # ledger chain (projection first, then prior-K bare, then ledger head bare) -- r1019 order
+    ("541,320 投影", "543,520 投影"),
+    ("539,120", "541,320"),
+    ("965,535", "967,735"),
+    # sec5 measured keys -> W247 measured faces
+    ("−0.09281716", "−0.09279753"),
+    ("−0.09245", "−0.08799"),
+    ("0.2450498", "0.2450508"),
+    ("实差 0.0004 在带内", "实差 0.0048 在带内"),
+    ("（**0.3072** 实测锚）", "（**0.3292** 实测锚）"),
+    ("n_eff_held_equal 963,335", "n_eff_held_equal 965,535"),
+    ("**1.1935**", "**1.1937**"),
+    ("line_pre_w246 1.1935", "line_pre_w247 1.1937"),
+    # band values (A chained: hi 561_500 -> 563_500, base 559_501 -> 561_501, prior tail 559_500 -> 561_500)
+    ("561_500", "563_500"),
+    ("559_501", "561_501"),
+    ("559_500", "561_500"),
+    # band values (B chained: hi 544_700 -> 544_900, base 544_501 -> 544_701)
+    ("544_700", "544_900"),
+    ("544_501", "544_701"),
+    # seed_admit_gate bare-number forms
+    ("A base=559501 span=2000 checked=2000 verdict=FREE", "A base=561501 span=2000 checked=2000 verdict=FREE"),
+    ("B base=544501 span=200 checked=200 verdict=FREE", "B base=544701 span=200 checked=200 verdict=FREE"),
+    # wave-number roll (chained placeholders)
+    ("W247", P1), ("W246", "W247"), (P1, "W248"),
+    # result-file names (chained)
+    ("n1_w247", P2), ("n1_w246", "n1_w247"), (P2, "n1_w248"),
+    # probe/freeze script basenames (chained; current face bm-a -> bm-c owner)
+    ("_w247bma", P3), ("_w246bma", "_w247bma"), (P3, "_w248bmc"),
+    # runner CLI wave
+    ("--wave 247", "--wave 248"),
+    ("波号 247", "波号 248"),
+    # seed-gap ordinal (probe A_semantics: tenth consecutive)
+    ("连续第九个 seed-gap face", "连续第十个 seed-gap face"),
+    # ordinals
+    ("第 245 枚", "第 246 枚"),
+    ("第 237 波", "第 238 波"),
+    ("bm-a 第一百二十九枚自有波", "bm-c 第六十八枚自有波"),
+    ("probe leg0 bma_rows=128 attempt-continuity face（r1018 窗算法·bm-a own seat+bma live rows 128 实读）",
+     "probe leg0 bmc_rows=67 attempt-continuity face（r1030 窗算法·bm-c own seat+bmc live rows 67 实读）"),
+    ("bma rows 128+候选=第 129 枚 EXACT", "bmc rows 67+候选=第 68 枚 EXACT"),
+    ("engine_owner==bm-a 128 行注册", "engine_owner==bm-c 67 行注册"),
+    ("engine_owner 行 236 注册在册", "engine_owner 行 237 注册在册"),
+    # registry scan face (post-chain corrections)
+    ("全二百四十四行注册 N1 带表", "全二百四十五行注册 N1 带表"),
+    ("freeze 窗 live derive 244 行单态 owner rows 236", "freeze 窗 live derive 245 行单态 owner rows 237"),
+    ("共二百四十四面实测", "共二百四十五面实测"),
+    # seat / provenance faces
+    ("MSG-20261015-1608-bma-w247-seat", "MSG-20261015-164x-bmc-w248-seat"),
+    ("e06f4ee2a", "86819ad77"),
+    ("（bm-a r1018 席·own-seat continuity 承接）", "（bm-c r1030 席·waits-upstream ARMED 发布）"),
+    ("（bm-a r1018 席位", "（bm-c r1030 席位"),
+    ("own-seat continuity lane）", "waits-upstream ARMED lane）"),
+    ("（r1018 席位窗实跑", "（r1030 席位窗实跑"),
+    ("perpetual_faces.py 零 245 行", "perpetual_faces.py 零 246 行"),
+    # finalize window faces (pre-chain forms)
+    ("·16:0x finalize one-pass】", "·19:0x finalize one-pass】"),
+    ("已落账键·16:0x", "已落账键·19:0x"),
+    # freeze window + engine live-read
+    ("bm-a 循环班 r1019 freeze 窗 2026-10-15 17:3x", "bm-c 循环班 r1035 freeze 窗 2026-10-15 19:4x"),
+    ("saturation_engine.py status live-read r1019", "saturation_engine.py status live-read r1035"),
+    # RAM head face (bm-c current window honest)
+    ("本窗 free RAM ~60.8GB（bm-a 底盘常驻·94G 物理内存机·MV V3 终剪线=CEO 夜令 O-20261014-1855 在飞〔MV 优先级最高·导演席窗〕+CPU 车道独立如实注记）",
+     "本窗 free RAM ~1.9GB（bm-c 底盘常驻·24G 物理内存机·MV V4 Jay 化 i2v 批=CEO 令 O-20261015-1040 在飞〔MV 优先级最高·GPU 车〕+CPU 车道独立如实注记）"),
+]
+
+VMAP_FLOORS = {
+    "541,320 投影": 1, "539,120": 7, "965,535": 3,
+    "−0.09281716": 1, "−0.09245": 1, "0.2450498": 1, "实差 0.0004 在带内": 1,
+    "（**0.3072** 实测锚）": 1, "n_eff_held_equal 963,335": 1, "**1.1935**": 1,
+    "line_pre_w246 1.1935": 1,
+    "561_500": 8, "559_501": 10, "559_500": 4,
+    "544_700": 10, "544_501": 12,
+    "A base=559501 span=2000 checked=2000 verdict=FREE": 1,
+    "B base=544501 span=200 checked=200 verdict=FREE": 1,
+    "n1_w247": 4, "n1_w246": 3, "_w247bma": 4, "_w246bma": 1,
+    "--wave 247": 2, "波号 247": 1,
+    "连续第九个 seed-gap face": 2,
+    "第 245 枚": 1, "第 237 波": 1,
+    "bm-a 第一百二十九枚自有波": 1,
+    "probe leg0 bma_rows=128 attempt-continuity face（r1018 窗算法·bm-a own seat+bma live rows 128 实读）": 1,
+    "bma rows 128+候选=第 129 枚 EXACT": 2,
+    "engine_owner==bm-a 128 行注册": 1,
+    "engine_owner 行 236 注册在册": 1,
+    "全二百四十四行注册 N1 带表": 1,
+    "freeze 窗 live derive 244 行单态 owner rows 236": 1,
+    "共二百四十四面实测": 1,
+    "MSG-20261015-1608-bma-w247-seat": 4, "e06f4ee2a": 3,
+    "（bm-a r1018 席·own-seat continuity 承接）": 1,
+    "（bm-a r1018 席位": 1, "own-seat continuity lane）": 1,
+    "（r1018 席位窗实跑": 1,
+    "perpetual_faces.py 零 245 行": 1,
+    "·16:0x finalize one-pass】": 1, "已落账键·16:0x": 1,
+    "bm-a 循环班 r1019 freeze 窗 2026-10-15 17:3x": 1,
+    "saturation_engine.py status live-read r1019": 1,
+    "本窗 free RAM ~60.8GB（bm-a 底盘常驻·94G 物理内存机·MV V3 终剪线=CEO 夜令 O-20261014-1855 在飞〔MV 优先级最高·导演席窗〕+CPU 车道独立如实注记）": 1,
+    "W247": 26, "W246": 56,
+}
+
+# floors for POST-chain correction legs (needles exist only in T1 after the pre-chain legs run)
+VMAP_POST_LEGS = [
+    ("席位窗 probe leg0 实测 244 行〔W247 splice 先于席位窗已落地·零 +1〕如实注记",
+     "席位窗 probe leg0 实测 244 行〔W247 splice 后于席位窗落地·+1 如实注记〕", 1),
+    ("probe leg0 机证 244 行〔W247 splice 先于席位窗已落地〕live 单态如实注记",
+     "probe leg0 机证 244 行〔W247 splice 后于席位窗落地·+1 如实注记〕live 单态如实注记", 1),
+    ("W247 finalize one-pass bm-a r1018 窗 16:0x", "W247 finalize one-pass bm-a r1022 窗 19:0x", 1),
+    ("bm-a r1018 W247 §7 范式", "bm-a r1022 W247 §7 范式", 1),
+    ("bm-a r1018 W247 §8 范式", "bm-a r1022 W247 §8 范式", 1),
+    ("r1017/W247 先例 freeze-prep 同式", "r1019/W247 先例 freeze-prep 同式", 1),
+    ("W243/W247 低 RAM 实烧先例", "W243/W246 低 RAM 实烧先例", 1),
+    ("在 post-W247 注册宇宙上起点即 CLEAN 零活点拒",
+     "在席位窗宇宙（post-W246 注册+W247 候选保留拒面·waits-upstream ARMED）起点即 CLEAN 零活点拒", 2),
+    ("→W245 **0.000334**→W247 **0.000334**】", "→W245 **0.000334**→W246 **0.000334**→W247 **0.000333**】", 1),
+]
+
+def xf(t):
+    for o, n in VMAP:
+        t = t.replace(o, n)
+    return t
+
+for o, f in VMAP_FLOORS.items():
+    if T0.count(o) < f:
+        raise SystemExit("VMAP FLOOR FAIL: %r count=%d floor=%d" % (o, T0.count(o), f))
+
+T1 = xf(T0)
+
+# post-chain correction legs: needles exist only in T1 (post chained rolls); floors checked on T1
+for o, n, f in VMAP_POST_LEGS:
+    if T1.count(o) < f:
+        raise SystemExit("VMAP POST FLOOR FAIL: %r count=%d floor=%d" % (o, T1.count(o), f))
+    T1 = T1.replace(o, n)
+
+# ---------------- block replacements (needles marker-extracted from T1; NEW = final) ----------------
+NEW = {}
+
+NEW["b1_chain_tail"] = (
+    "+W246=bm-a r1016 prereg derive（machine-SUB from frozen W245 tpl 6473fb7f8）"
+    "+五面冻结 splice（r1017 650953086 pushed·editor gen a2-closer 修复×2 收口）"
+    "+引擎自燃 12/12（15:44 done claim-exempt engine lane）"
+    "+bm-a r1018 finalize one-pass 已落（K=539,120·账本头 965,535 机读·n1_w246_results.json·16:0x·fivekeys 6/6 ALL PASS）"
+    "+W247=bm-a r1019 prereg derive（machine-SUB from frozen W246 tpl fbfb7b43f @ commit 4a001a96d）"
+    "+五面冻结 splice（r1021 2fcca7711 pushed·splice editor compiled+run clean after gen repair x3·engine self-burn DEFERRED >=19:00 AutoYield 工作日白天边界如实注记）"
+    "+引擎自燃 12/12（18:40-18:51 auto-ignite claim-exempt engine lane）"
+    "+bm-a r1022 finalize one-pass 已落（K=541,320·账本头 967,735 机读·n1_w247_results.json·19:0x·fivekeys ALL PASS·sixgate PRE-FINALIZE 18:5x 正相）"
+    "——本波上游链=W1..W247 finalize 全落地·零在飞上游席·干净前置**；"
+    "席位公示=MSG-20261015-164x-bmc-w248-seat 已推 origin 86819ad77 先于本冻结"
+    "【r565 律·席位先行·bm-c r1030 窗发布·waits-upstream ARMED 承接·W247 finalize 落地=本窗解锁】；"
+    "下游 W249+ 投影见 §5.5（probe 机证 leg4·W249 freezer 承接面）】。"
+)
+
+NEW["b2_band_face"] = (
+    "（**B 面=CLEAN·hops=0 算术续带承袭形态**：B 面 naive 续带 544_701..544_900（自注册 W247 B 尾 544_700 续）"
+    "在席位窗宇宙（post-W246 注册+W247 候选保留拒面·waits-upstream ARMED）起点即 CLEAN 零活点拒"
+    "（W247 席位 leg4 投影兑现·probe leg1 B_semantics 机证·W239 staircase band-hop landing 已过——注册 W239 A 带 542_501..544_500 "
+    "与 W247 B 候选带 544_501..544_700 均低于走带起点）"
+    "且**不落本波 A 窗 561_501..563_500 内**（本波 A 高悬于 B 阶梯之上→**seed-decoupled A/B gap 承袭面**：同窗互斥面 leg2 律·W141 先例·B 无需 own-A reservation jump）"
+    "→ B 保留 naive 落位 544_701..544_900·**hops=0**·**B base==前波 B 尾+1（544_700+1）EXACT 机检关系**"
+    "（fc_b==fc_b_naive·B_hop_chain=[] 空集 leg1 机证·B_no_ownA_jump=true·B_semantics clean arithmetic continuation 回执在场·W247 splice 后于席位窗落地=freeze 窗 post-W247 重 derive 复核面在场）；"
+    "**W247 席位 leg4 投影承接面注记兑现**：投影预言 W248 须在 post-W247 宇宙重 derive 且 A/B 双面 CLEAN hops=0 落位如投影所期"
+    "——本窗如实兑现·A 零活点拒=投影所期·B 零活点拒=投影所期·已如实披露非分叉）"
+)
+
+NEW["b3_bandface_s3"] = (
+    "（法典 §4 W248 行 B=544_701..544_900·**CLEAN·hops=0 算术续带承袭形态**：B naive 续带 544_701..544_900（自注册 W247 B 尾 544_700 续）"
+    "在席位窗宇宙（post-W246 注册+W247 候选保留拒面）起点即 CLEAN 零活点拒（W247 席位 leg4 投影兑现·probe leg1 B_semantics 机证·W239 staircase landing 已过）"
+    "且不落本波 A 窗 561_501..563_500 内（本波 A 高悬于 B 阶梯之上→同窗互斥面 leg2 律·W141 先例·B 无需 own-A reservation jump）"
+    "→保留 naive 落位 544_701..544_900·hops=0·**B base==前波 B 尾+1（544_700+1）EXACT 机检关系**"
+    "（fc_b==fc_b_naive·B_hop_chain=[] 空集 leg1 机证·B_no_ownA_jump=true·B_semantics clean arithmetic continuation 回执在场）"
+    "·非转录 r587·与 W247 席位 leg4 投影承接面注记兑现收敛·ADMIT 回执在场）"
+)
+
+NEW["b5_projection"] = (
+    "5. **W249+ 投影（probe 机证 leg4·下波冻结方复核非转抄 r587 律）**：A naive first-clean 563_501..565_500 **CLEAN**（hops=0·pre-W248 宇宙零活点拒）；"
+    "B naive **544_901..545_100 CLEAN**（hops=0·B base==前波 B 尾+1（544_900+1）EXACT·**不落投影 A 窗内**——B_hop lands-inside-A=false 腿在场）；"
+    "**W248 B 带 544_701..544_900 注册后将拒 naive W249 A 窗仅当重叠**"
+    "（**seed-gap 承袭 face：W248 A/B 仍 decoupled〔A 561_501..563_500 高悬于 B 544_701..544_900 之上〕·W249 冻结方禁假设 staircase A-base==prior-B-tail+1 恒等·须重读 live trace**）"
+    "——W249 冻结方必须在 post-W248 注册宇宙重 derive 且 derive B 时预留本波 A 窗——leg2 律/E36 卡·W141 先例；verify at W249 prereg，hop 链逐跳在 probe 回执。"
+)
+
+NEW["b6_ram"] = (
+    "·W247 冻结窗 60.8G bm-a 实锚·W246 冻结窗 RAM 未记录（r1017 死窗 estate 收口·省锚如实注记）"
+    "·W245 冻结窗 RAM 未记录（r1015 estate-absorb 窗·省锚如实注记）"
+    "·W244 冻结窗 41.9G bm-a 实锚·W243 冻结窗 64.0G bm-a 实锚·W242 冻结窗 17.6G bm-a 实锚"
+    "·W241 冻结窗 1.8G bm-c 实锚·W240 冻结窗 33.2G bm-a 实锚·W239 冻结窗 1.0G bm-c 实锚）"
+)
+
+NEW["b7_claim_projection"] = (
+    "·probe W249+ 投影 A 563_501..565_500 / B 544_901..545_100 **双面 CLEAN hops=0 预披露+seed-gap 承袭注记**"
+    "（投影 A naive 563_501..565_500 CLEAN 零活点拒·hops=0；投影 B naive 544_901..545_100 CLEAN hops=0 不落投影 A 窗内"
+    "——**seed-gap 承袭 face：W248 A/B 仍 decoupled〔A 561_501..563_500 高悬于 B 544_701..544_900 之上〕·"
+    "W249 冻结方禁假设 staircase A-base==prior-B-tail+1 恒等·须重读 live trace·W248 B 带将拒 naive W249 A 窗仅当重叠"
+    "——**W249 freezer 承接面强制注记：须在 post-W248 宇宙重 derive 且 derive B 时预留本波 A 窗·W141 先例·never transcribe r587**）"
+)
+
+NEW["b8_selftest"] = (
+    "selftest W248 face（A=first-clean A-continuation past prior-wave A tail+live-seeds 恒等"
+    "·B=clean arithmetic continuation past prior-wave B tail+own-A 同窗互斥断言·W247 行 parity 腿"
+)
+
+NEW["b9_estate"] = (
+    "——W247 块的自有 W236..W246 legs（11 行）不入 estate 路径·提取后新增 W236..W247 leg（12 行）构成 W248 块 parity 106 行"
+    "（W138..W206+W211+W212+W213+W214+W215+W216+W217+W218+W219+W220+W221+W222+W223+W224+W225+W226+W227+W228+W229"
+    "+W230+W231+W232+W233+W234+W235+W236+W237+W238+W239+W240+W241+W242+W243+W244+W245+W246+W247）·零假设零风险。"
+)
+
+# marker pairs: (block, start_marker, end_marker) -- needles extracted from T1 at runtime (zero transcription)
+BLOCKS = [
+    ("b1_chain_tail", "+W247=bm-a r1016 prereg derive", "W248 freezer 承接面）】。"),
+    ("b2_band_face", "（**B 面=REGISTERED-REFUSAL", "已如实披露非分叉）"),
+    ("b3_bandface_s3", "（法典 §4 W248 行 B=544_701..544_900·**REGISTERED-REFUSAL", "兑现收敛·ADMIT 回执在场）"),
+    ("b5_projection", "5. **W248+ 投影（probe 机证 leg4", "verify at W248 prereg，hop 链逐跳在 probe 回执。"),
+    ("b6_ram", "·W247 冻结窗 RAM 未记录（r1017 死窗", "W239 冻结窗 1.0G bm-c 实锚）"),
+    ("b7_claim_projection", "·probe W248+ 投影 A 561_501..563_500 / B 544_701..544_900 **双面 CLEAN hops=0 预披露", "never transcribe r587**）"),
+    ("b8_selftest", "selftest W248 face（A=first-clean A-continuation past prior-wave A tail+live-seeds 恒等·B=registered-refusal staircase band-hop first-clean past own-wave A 同窗互斥断言·W247 行 parity 腿", "随五面冻结落地。"),
+    ("b9_estate", "——W247 块的自有 W235..W245 legs（11 行）不入 estate 路径", "零假设零风险。"),
+]
+
+T2 = T1
+for name, sm, em in BLOCKS:
+    c = T2.count(sm)
+    assert c == 1, "BLOCK %s start-marker count=%d (expect 1)" % (name, c)
+    i = T2.index(sm)
+    j = T2.find(em, i)
+    assert j > i, "BLOCK %s end-marker not found after start" % name
+    j += len(em)
+    needle = T2[i:j]
+    T2 = T2[:i] + NEW[name] + T2[j:]
+    assert NEW[name] in T2, "BLOCK %s NEW not inserted" % name
+
+# ---------------- post gates ----------------
+MUST = [
+    "PERPETUAL-N1-W248", "research/PERPETUAL_N1_W248_PREREG.md",
+    "561_501..563_500", "544_701..544_900", "967,735", "541,320", "543,520",
+    "n1_w248_results.json", "MSG-20261015-164x-bmc-w248-seat", "86819ad77",
+    "第 68 枚", "第六十八枚", "第 246 枚", "CLEAN·hops=0",
+    "连续第十个 seed-gap face", "563_501..565_500", "544_901..545_100",
+    "_w248bmc_20261015_probe_receipt.json", "--wave 248", "波号 248",
+    "W247=bm-a r1019 prereg derive", "2fcca7711", "r1022 finalize one-pass",
+    "n_eff_held_equal 965,535", "−0.09279753", "0.2450508", "−0.08799",
+    "（**0.3292** 实测锚）", "bm-c 循环班 r1035 freeze 窗", "本窗 free RAM ~1.9GB",
+    "→W246 **0.000334**→W247 **0.000333**】", "waits-upstream ARMED lane",
+    "第 238 波", "seed_admit_gate rc0 双带 FREE", "A base=561501", "B base=544701",
+    "bm-a r1022 W247 §7 范式", "bm-a r1022 W247 §8 范式",
+    "W249 freezer 承接面", "verify at W249 prereg",
+    "selftest W248 face", "W236..W247 leg（12 行）构成 W248 块 parity 106 行",
+    "W247 实测 K-lift **+0.0000**", "line_merged@K541,320 **1.1937**", "line_pre_w247",
+    "实差 0.0048 在带内", "已落账键·19:0x", "bm-a r1022 窗 19:0x",
+    "r1019/W247 先例 freeze-prep 同式", "245 行单态", "probe leg0 机证 244 行",
+    "_w247bma_freeze_edits", "本波上游链=W1..W247 finalize 全落地",
+    "engine_owner==bm-c 67 行注册", "bmc rows 67", "bmc_rows=67",
+    "waits-upstream ARMED 承接", "A base==前波 A 尾+1（561_500+1）",
+    "B base==前波 B 尾+1（544_700+1）",
+]
+for s in MUST:
+    assert s in T2, "MUST-HAVE missing: %r" % s
+
+MUST_NOT = [
+    "559_501", "559_500", "542_401", "542_600", "542_400",
+    "REGISTERED-REFUSAL", "staircase band-hop face FIRST-MATERIALIZED", "hops=1",
+    "−0.09281716", "0.2450498", "−0.09245", "**0.3072**", "e06f4ee2a",
+    "MSG-20261015-1608", "第 129 枚", "第一百二十九枚", "池第 245 枚",
+    "engine_owner 行 236", "owner rows 236", "bma rows 128", "bma_rows=128",
+    "engine_owner==bm-a 128", "连续第九个 seed-gap face", "--wave 247", "波号 247",
+    "539,120+2,200", "实差 0.0004 在带内", "r1018 窗算法", "第 237 波",
+    "W248 freezer 承接面强制注记", "verify at W248 prereg",
+    "line_merged@K539,120", "已落账键·16:0x", "bm-a r1018 窗 16:0x",
+    "本波上游链=W1..W246 finalize 全落地", "第 128 枚", "A base=559501", "B base=544501",
+    "own-seat continuity lane", "（bm-a r1018 席",
+]
+for s in MUST_NOT:
+    assert s not in T2, "MUST-NOT-HAVE present: %r (count=%d)" % (s, T2.count(s))
+
+# projection-fulfillment count gates: exactly one "W248+ 投影" = the sec8 placeholder
+assert T2.count("W248+ 投影") == 1, "W248+ 投影 count=%d (expect 1 = sec8 placeholder)" % T2.count("W248+ 投影")
+assert T2.count("W249+ 投影") == 3, "W249+ 投影 count=%d (expect 3 = b1 tail + b5 title + b7 claim)" % T2.count("W249+ 投影")
+
+# residue scan: all X_Y..X_Y windows well-formed
+import re
+for m in re.finditer(r"(\d{3}_\d{3})\.\.(\d{3}_\d{3})", T2):
+    lo = int(m.group(1).replace("_", "")); hi = int(m.group(2).replace("_", ""))
+    assert lo <= hi, "malformed window %s" % m.group(0)
+
+io.open(OUT, "w", encoding="utf-8", newline="").write(T2)
+print("W248 PREREG DERIVE OK -> %s (%d bytes, %d lines)" % (OUT, len(T2.encode("utf-8")), T2.count("\n") + 1))
+print("blocks replaced: %s" % ", ".join(n for n, _, _ in BLOCKS))
+print("vmap legs: %d floors: %d MUST: %d MUST_NOT: %d" % (len(VMAP), len(VMAP_FLOORS), len(MUST), len(MUST_NOT)))

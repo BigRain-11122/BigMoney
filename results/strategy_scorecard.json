@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-10-15T18:30:01",
+ "generated": "2026-10-15T20:54:48",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -71,7 +71,7 @@
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 0.862,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3407,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": -0.3408,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -189,13 +189,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 67.06,
+      "score": 67.05,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.5605,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5422,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": -0.5423,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -319,7 +319,7 @@
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.2407,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4281,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": -0.4282,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -437,13 +437,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 47.13,
+      "score": 47.12,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.1686,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6129,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": -0.613,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -524,7 +524,7 @@
    },
    "NEEDLE-DE-01": {
     "grade": "A",
-    "total": 77.2,
+    "total": 77.19,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -562,13 +562,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 56.67,
+      "score": 56.66,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.1927,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4897,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": -0.4898,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 1.7166,
-       "skill_line_v2": 1.1521,
+       "skill_line_v2": 1.1522,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.1057,
-       "ledger_head_total": 965535
+       "null_margin_vs_skill_line": 0.1056,
+       "ledger_head_total": 967735
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -796,11 +796,11 @@
     "state": "tested",
     "months_tracked": 0,
     "n_monthly_returns": 0,
-    "current_dd": -0.0029,
+    "current_dd": -0.0072,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 1004145.12,
-     "positions_value_cny": 955384.0,
+     "equity_cny": 998180.56,
+     "positions_value_cny": 949419.44,
      "cash_cny": 48761.12,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -811,7 +811,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -852,7 +852,7 @@
     "grade": "S",
     "face_scores": {
      "inherited": 77.5,
-     "live_paper": 29.8,
+     "live_paper": 29.6,
      "progress": 0.0,
      "profile": 88.3
     },
@@ -881,7 +881,7 @@
     "veto_clean": true,
     "dims": {
      "1": 83.93,
-     "2": 67.06,
+     "2": 67.05,
      "3": 46.09,
      "4": 100.0,
      "5": 24.0,
@@ -895,12 +895,12 @@
     "state": "tested",
     "months_tracked": 0,
     "n_monthly_returns": 0,
-    "current_dd": -0.0047,
+    "current_dd": -0.01,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 1004017.62,
-     "positions_value_cny": 954856.13,
-     "cash_cny": 49161.49,
+     "equity_cny": 996445.68,
+     "positions_value_cny": 947284.21,
+     "cash_cny": 49161.47,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -910,7 +910,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -951,7 +951,7 @@
     "grade": "S",
     "face_scores": {
      "inherited": 72.9,
-     "live_paper": 29.7,
+     "live_paper": 29.4,
      "progress": 0.0,
      "profile": 86.1
     },
@@ -994,11 +994,11 @@
     "state": "tested",
     "months_tracked": 0,
     "n_monthly_returns": 0,
-    "current_dd": -0.0024,
+    "current_dd": -0.0041,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 997626.17,
-     "positions_value_cny": 47691.37,
+     "equity_cny": 995894.7,
+     "positions_value_cny": 45959.9,
      "cash_cny": 949934.8,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -1009,7 +1009,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -1050,7 +1050,7 @@
     "grade": "S",
     "face_scores": {
      "inherited": 86.6,
-     "live_paper": 29.9,
+     "live_paper": 29.8,
      "progress": 0.0,
      "profile": 83.3
     },
@@ -1079,7 +1079,7 @@
     "veto_clean": true,
     "dims": {
      "1": 82.68,
-     "2": 47.13,
+     "2": 47.12,
      "3": 33.67,
      "4": 79.28,
      "5": 45.52,
@@ -1108,7 +1108,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -1173,12 +1173,12 @@
    "trader": "NEEDLE-DE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 77.2,
+    "total": 77.19,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 78.38,
-     "2": 56.67,
+     "2": 56.66,
      "3": 95.51,
      "4": 84.69,
      "5": 45.52,
@@ -1207,7 +1207,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -1291,11 +1291,11 @@
     "state": "tested",
     "months_tracked": 0,
     "n_monthly_returns": 0,
-    "current_dd": -0.0051,
+    "current_dd": -0.0054,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 994896.59,
-     "positions_value_cny": 495549.21,
+     "equity_cny": 994568.71,
+     "positions_value_cny": 495221.33,
      "cash_cny": 499347.38,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -1306,7 +1306,7 @@
     },
     "cost_x2_check": {
      "status": "insufficient_data",
-     "bars": 10,
+     "bars": 11,
      "min_bars": 20
     }
    },
@@ -8356,7 +8356,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 168.5,
+  "elapsed_sec": 136.6,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
