@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: snapshot for 2026-10-15 already collected",
       "l1_snapshots": 16,
-      "l1_updated": "2026-10-15 17:31:18",
+      "l1_updated": "2026-10-15 18:45:24",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -434,7 +434,7 @@
         "TRIAL-LABOR-W20-SCREEN-SHARD-2",
         "TRIAL-LABOR-W20-SCREEN-SHARD-3"
       ],
-      "load_state": "pool-supply-gap",
+      "load_state": "burning-healthy",
       "starvation_flag": false,
       "starvation_candidate": false,
       "audit_ts": "2026-10-15 18:26:37",
@@ -473,32 +473,13 @@
     },
     "engine_wave": {
       "present": true,
-      "last_registered": 246,
+      "last_registered": 247,
       "last_owner": "bm-a",
-      "next_registration": 247,
+      "next_registration": 248,
       "next_seatable": 249,
       "chain_head": 965535,
       "k": 539120,
       "waves": [
-        {
-          "wave": 244,
-          "owner": "bm-a",
-          "a": [
-            553501,
-            555500
-          ],
-          "b_exit": [
-            541701,
-            541900
-          ],
-          "shards_done": 12,
-          "shards_total": 12,
-          "finalize_landed": true,
-          "ledger_total": 961135,
-          "merged_mu": -0.09280470732345901,
-          "merged_sigma": 0.24505387799755757,
-          "k": 534720
-        },
         {
           "wave": 245,
           "owner": "bm-a",
@@ -536,13 +517,24 @@
           "merged_mu": -0.09281715851758421,
           "merged_sigma": 0.245049782003279,
           "k": 539120
+        },
+        {
+          "wave": 247,
+          "owner": "bm-a",
+          "a": [
+            559501,
+            561500
+          ],
+          "b_exit": [
+            544501,
+            544700
+          ],
+          "shards_done": 9,
+          "shards_total": 12,
+          "finalize_landed": false
         }
       ],
       "seats": [
-        {
-          "wave": 247,
-          "machine": "bm-a"
-        },
         {
           "wave": 248,
           "machine": "bm-c"
@@ -3320,7 +3312,7 @@
       "ts": "2026-10-15 18:26:37",
       "verdict": "FLAG:supply_gap,ignition_sla",
       "flags": [
-        "supply_gap",
+        "cap_violation",
         "ignition_sla"
       ],
       "cpu_total_pct": 11.0,
@@ -3926,7 +3918,7 @@
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-10-14"
     },
     {
-      "time": "2026-10-15 17:31:18",
+      "time": "2026-10-15 18:45:24",
       "text": "热度链 · L1 人气榜快照 16 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
@@ -3934,7 +3926,7 @@
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-10-14 · 刚跑"
     },
     {
-      "time": "2026-10-15T17:31:19",
+      "time": "2026-10-15T18:45:29",
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 5222/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {

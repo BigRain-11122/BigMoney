@@ -10,12 +10,12 @@
     "fleet_open_tasks": 0,
     "pool_ready_count": 4,
     "pool_ready_unclaimed": 3,
-    "load_state": "pool-supply-gap",
+    "load_state": "burning-healthy",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
-      "reason": "pool-supply-gap"
+      "reason": "burning-healthy"
     },
-    "supply_gap_candidate": true,
+    "supply_gap_candidate": false,
     "supply_gap_detail": {
       "run_samples": 5,
       "span_min": 169.8
@@ -43,20 +43,20 @@
     "single_core_hog_detail": null,
     "parallel_efficiency": {
       "window_min": 60.0,
-      "batches_judged": 0,
-      "core_seconds": 0.0,
-      "wall_seconds": 0.0,
-      "effective_cores": null,
-      "multicore_burn": 0,
+      "batches_judged": 2,
+      "core_seconds": 1566.71,
+      "wall_seconds": 82.0,
+      "effective_cores": 19.11,
+      "multicore_burn": 2,
       "single_core_burn": 0,
       "too_short_to_sample": 0,
       "readable": true
     },
     "flags": [
-      "supply_gap",
+      "cap_violation",
       "ignition_sla"
     ],
-    "verdict": "FLAG:supply_gap,ignition_sla"
+    "verdict": "FLAG:cap_violation,ignition_sla"
   },
   "history": [
     {
