@@ -1,4 +1,10 @@
-# r982 closeout segment C: r957 tree surgery + push + receipt (differ-checked own faces, verified facts only)
+# r982 closeout segment C v2: ancestor-inclusive tree surgery + push + receipt.
+# v1 PIT (caught live this round): dirs list built ONLY from dirs directly holding a
+# face -> parent dirs (fleet/logs/data) never rebuilt -> nested faces rode stale origin
+# trees; -e existence checks false-passed (old files exist at same paths); the NEW-file
+# face (MSG-1608) failed -e and exposed it. r980/r981 pushes carried the same gap
+# (origin heartbeat/round-report stuck at r979 face). v2 fix: need-set = ALL ancestor
+# dirs of every face; delivery check = CONTENT (rev-parse blob sha vs hash-object).
 import subprocess, json, time, datetime, os
 
 def run(args, inp=None, cap=None):
@@ -24,16 +30,10 @@ print("fetch:", (run(["git", "fetch", "origin"], cap=120) or b"").decode().strip
 BASE = run(["git", "rev-parse", "origin/main"]).decode().strip()
 print("base(origin/main):", BASE)
 
-# S7-close S0.5 double-scan (anti mid-round sink): fleet faces on fresh tip
-for d in ("fleet/orders", "fleet/inbox"):
-    names = run(["git", "ls-tree", "--name-only", "%s:%s" % (BASE, d)]).decode().strip().splitlines()
-    print("S0.5-rescan %s: %d faces, last3=%s" % (d, len(names), names[-3:]))
-
 def origin_sha(path):
     r = subprocess.run(["git", "rev-parse", "%s:%s" % (BASE, path)], capture_output=True)
     return r.stdout.decode().strip() if r.returncode == 0 else None
 
-# fixed own faces (always in payload)
 FACES = [
     "state.json",
     "fleet/machines/bm-b.json",
@@ -60,7 +60,6 @@ FACES = [
 if os.path.exists("results/_r982bmb_s6chain_console.err"):
     FACES.append("results/_r982bmb_s6chain_console.err")
 
-# diff-checked tracked candidates (include only if in origin tree AND disk bytes differ)
 CANDIDATES = [
     "results/update_status.json",
     "results/market_clock/call_latest.json",
@@ -120,11 +119,22 @@ for p, sha in blob.items():
     name = parts[-1]
     tree_map.setdefault(d, {})[name] = B(sha)
 
-dirs = sorted([d for d in tree_map if d], key=lambda d: -d.count("/"))
+# v2 FIX: need-set = every ancestor dir of every face dir (root "" excluded)
+need = set()
+for d0 in list(tree_map.keys()):
+    if not d0:
+        continue
+    parts = d0.split("/")
+    for i in range(1, len(parts) + 1):
+        need.add("/".join(parts[:i]))
+dirs = sorted(need, key=lambda d: -d.count("/"))
+print("dirs to rebuild (ancestor-inclusive):", dirs)
+
 for d in dirs:
     treeish = BASE + ":" + d
     merged = {name: (mode, typ, sha) for mode, typ, sha, name in ls_entries(treeish)}
-    merged.update(tree_map[d])
+    for name, ent in tree_map.get(d, {}).items():
+        merged[name] = ent
     lines = []
     for name in sorted(merged, key=lambda n: n + ("/" if merged[n][1] == "tree" else "")):
         mode, typ, sha = merged[name]
@@ -137,9 +147,11 @@ for d in dirs:
     else:
         parent, base = "", d
     tree_map.setdefault(parent, {})[base] = T(new)
-# root last: merges all injected subtrees + root-level face blobs
+
+# root last
 merged_root = {name: (mode, typ, sha) for mode, typ, sha, name in ls_entries(BASE)}
-merged_root.update(tree_map.get("", {}))
+for name, ent in tree_map.get("", {}).items():
+    merged_root[name] = ent
 lines = []
 for name in sorted(merged_root, key=lambda n: n + ("/" if merged_root[n][1] == "tree" else "")):
     mode, typ, sha = merged_root[name]
@@ -149,7 +161,8 @@ root_tree = run(["git", "mktree", "--missing"], inp=("\n".join(lines) + "\n").en
 print("tree <root> -> %s (%d entries)" % (root_tree[:12], len(merged_root)))
 assert root_tree, "root tree not built"
 
-MSG = "round 982: i2v 53/53 COMPLETE + valve-out (XQ05 467s clean-context fix, clips verified 53/53) + D-19 orders delta consumed (zero bm-b action) + S6 39 legs green [via bm-b r982]"
+MSG = ("round 982: i2v 53/53 COMPLETE + valve-out (XQ05 467s clean-context fix) + surgery ancestor-tree gap fixed "
+       "(nested faces r980-r982 re-delivered: heartbeat/round-report/minute_feed) + MSG-1608 receipt [via bm-b r982]")
 NEW = run(["git", "commit-tree", root_tree, "-p", BASE, "-m", MSG]).decode().strip()
 print("commit-tree:", NEW)
 run(["git", "update-ref", "refs/heads/main", NEW])
@@ -160,15 +173,18 @@ remote_tip = run(["git", "ls-remote", "origin", "refs/heads/main"]).decode().spl
 assert remote_tip == NEW, "remote tip mismatch: %s vs %s" % (remote_tip, NEW)
 print("REMOTE VERIFIED:", remote_tip)
 
-missing = []
-for p in FACES:
-    r = subprocess.run(["git", "cat-file", "-e", remote_tip + ":" + p], capture_output=True)
+# v2 delivery check = CONTENT (rev-parse blob sha vs local hash-object) for EVERY face
+missing, stale = [], []
+for p, sha in blob.items():
+    r = subprocess.run(["git", "rev-parse", "%s:%s" % (remote_tip, p)], capture_output=True)
     if r.returncode != 0:
         missing.append(p)
+    elif r.stdout.decode().strip() != sha:
+        stale.append(p)
 assert not missing, "delivery face missing: %s" % missing
-print("delivery face: %d/%d present on new tip" % (len(FACES), len(FACES)))
+assert not stale, "delivery face STALE (content mismatch): %s" % stale
+print("delivery face: %d/%d CONTENT-VERIFIED on new tip" % (len(blob), len(blob)))
 
-# r968/r974 delivery law: own orders + own MSGs (incl. NEW MSG-1608) presence on new tip
 own_delivery = ["fleet/orders/O-20261015-0025-bm-b.md", "fleet/orders/O-20261015-0906-bm-b.md",
                 "fleet/orders/O-20261015-0915-bm-b.md", "fleet/orders/O-20261015-0952-bm-b.md",
                 "fleet/inbox/MSG-20261015-0104-bmb-P1B-G5-done.md", "fleet/inbox/MSG-20261015-0825-bm-b-cpu-pool-restock.md",
@@ -182,13 +198,19 @@ receipt = {
     "base": BASE,
     "commit": NEW,
     "root_tree": root_tree,
-    "face": len(FACES),
+    "face": len(blob),
     "ts": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S+0800"),
     "status": "PUSHED_VERIFIED",
     "remote_tip": remote_tip,
     "faces": FACES,
     "own_delivery_verified": own_delivery,
-    "note": "C-r982 own-face surgery push (differ-checked: tracked candidates included only when disk!=origin); deletion set empty; completion MSG-1608 delivered (i2v 53/53 receipt, delivery law r959/r974); docs faces intentionally excluded (anti-regression vs bm-a fresh-host derive); data churn (data/daily + astock per-files) held local pending refresh completion package; state face carries PENDING_AT_HASH_TIME marker (local state gets PUSHED_VERIFIED touch-up post-receipt, lands next round)",
+    "v1_incident": {
+        "commit": "281f2ceb7fb79fd8a7e8cc700e1f2e9ca3395f51",
+        "bug": "ancestor dirs (fleet/logs/data) never rebuilt -> nested faces rode stale origin trees; -e existence checks false-passed; caught by NEW-file face (MSG-1608) failing -e",
+        "damage_window": "r980/r981/r982-attempt pushes carried same gap: origin heartbeat + round_reports stuck at r979 faces, minute_feed 5 codes at r979 bytes; cumulative files re-delivered whole in this push",
+        "landed_ok_in_v1": "state.json + results/* + Tools/* (depth<=1 dirs injected to root correctly)",
+    },
+    "note": "C-r982 v2 own-face surgery push (ancestor-inclusive dirs + CONTENT-level delivery verification); deletion set empty; completion MSG-1608 delivered; docs faces intentionally excluded (anti-regression); data churn (data/daily + astock per-files) held local pending refresh completion package; state face carries PENDING_AT_HASH_TIME marker (local touch-up post-receipt, lands next round)",
 }
 with open("results/_r982bmb_push_receipt.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(receipt, f, ensure_ascii=False, indent=1)
@@ -200,14 +222,15 @@ s["sync"]["r982_main_push"].update({
     "pushed_sha": NEW,
     "consumed_at": "pending r983",
     "behind_origin_main": 0,
+    "note": receipt["note"] + " | v1 incident recorded (ancestor-tree gap, nested faces re-delivered)",
 })
 s["sync"]["behind_origin_main"] = 0
-s["latest_artifact"] = "origin main %s (C-r982) + results/_r982bmb_push_receipt.json" % NEW[:10]
-s["last_artifact"] = "origin main %s (C-r982) + results/_r982bmb_push_receipt.json" % NEW[:10]
+s["latest_artifact"] = "origin main %s (C-r982 v2) + results/_r982bmb_push_receipt.json" % NEW[:10]
+s["last_artifact"] = "origin main %s (C-r982 v2) + results/_r982bmb_push_receipt.json" % NEW[:10]
 with open("state.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(s, f, ensure_ascii=False, indent=1)
 h = json.load(open(r"fleet\machines\bm-b.json", encoding="utf-8"))
-h["latest_artifact"] = "origin main %s (C-r982) + results/_r982bmb_push_receipt.json" % NEW[:10]
+h["latest_artifact"] = "origin main %s (C-r982 v2) + results/_r982bmb_push_receipt.json" % NEW[:10]
 with open(r"fleet\machines\bm-b.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(h, f, ensure_ascii=False, indent=1)
 print("local touch-up done (PUSHED_VERIFIED %s)" % NEW[:10])
