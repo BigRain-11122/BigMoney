@@ -1,0 +1,119 @@
+{
+ "round": "r965",
+ "ts": "2026-10-15T07:00:30+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (sixth beat) + HANDOVER 5x duty",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_external_check": "2026-10-15T06:52:40+08:00 (Get-Process pythonw start 05:24:04)",
+  "alive_driver_time_tasklist": true,
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T06:59:57+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 786,
+   "of": 1804,
+   "fails_in_pass": 70,
+   "retried_ok_in_pass": 557,
+   "remaining": 1088
+  },
+  "rate_face": "~2.00 files/min from exact anchor (766@06:49:56); ETA ~16:05",
+  "fails_reading": "fails_in_pass=70 cumulative double-fails (scattered); breaker = 10-CONSECUTIVE only, tripped night window = designed 300s probe cadence (r960/r964 correction law); pass-2 retries the fail set",
+  "breaker_in_log_tail": true,
+  "driver_log_tail": [
+   "2026-10-15T06:59:57 FAIL(pass-both) data/daily/sz159720.csv",
+   "2026-10-15T06:59:57 FAIL(pass-both) data/daily/sz159721.csv",
+   "2026-10-15T06:59:57 FAIL(pass-both) data/daily/sz159723.csv",
+   "2026-10-15T06:59:57 FAIL(pass-both) data/daily/sz159725.csv",
+   "2026-10-15T06:59:57 FAIL(pass-both) data/daily/sz159726.csv",
+   "2026-10-15T06:59:57 circuit breaker: 10 consecutive double-fails -> sleep 300"
+  ]
+ },
+ "handover_5x_face": {
+  "pre_size": 1081572,
+  "post_size": 1087298,
+  "appended_bytes": 5726,
+  "tail_verbatim_verified": true,
+  "entry_covers": "r911-r965 window, stamps r915..r960 OVERDUE-DISCLOSED"
+ },
+ "c964_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "c7bf840cf6704a7b72b5f54efd92e833d1085562",
+  "ancestor_rc_on_origin": 0,
+  "origin_tip_after": "71ac3a8857218f36a10ed095012894c3fbbe9558",
+  "behind_origin_main": 0
+ },
+ "peer_tip_log": "71ac3a885 round 1007 (bm-a): estate part 2 - D-19 orders watermark 41960bc5->58b9ee88 consumed (both new rows non-BigMoney: POOL-0011 done bm-b r957 + xq-wave3 bm-c r1016, zero action) + W244 editor gen-comma repair (7 AST-precise trailing commas; dead 06:15 window run aborted at editor AST gate with n1 splice SyntaxError, engine files restored to HEAD for clean re-run) + r1008 diagnostics\n50dfc18",
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r965bmb_s05_scan.json"
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "b00d2ebf6884cc6fc301396b44dfe1f8998321ed",
+  "identical": false,
+  "disposition": "union merge rides completion package"
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 07:00:02",
+  "zombies_killed": []
+ },
+ "sentinel": {
+  "tail_last": "2026-10-15 06:58:01 ollama=OK healed=False hbAge=15 afAge=2 vram=[4505 MiB, 2 %] state=NORMAL",
+  "flags": "IDLE/CRIT both absent (checked r965 session 06:52 + this face)"
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 07:02:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "job_list": "empty (no claimable pending; restore in flight = active work)",
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG moves (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (ETA ~16:05; <=24h commitment from r957) -> completion package",
+ "engine_status": {
+  "source": "saturation_engine.py status (driver re-run)",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "heartbeat_age_sec": 40.0
+ }
+}

@@ -19,11 +19,11 @@
  "last_action_at": "2026-10-15T11:21:46+08:00",
  "last_decisions_at": "2026-10-15T05:29:06+08:00",
  "last_decisions_read_at": "2026-10-15T11:21:46+08:00",
- "last_decisions_sha": "6910a9ed7d1a99044b607c6307d2e6f9e44b8e9f3dd0d7c301e5ea57cd5c2cb9",
+ "last_decisions_sha": "578804c1",
  "last_decisions_sha_method": "r957: origin blob hash via git show (group fetch 2026-10-15T04:00:33+08:00); fresh view results/_r957bmb_decisions_fresh.md; delta scan in _r957bmb_closeout.log",
  "last_orders_at": "2026-10-15T11:21:46+08:00",
  "last_orders_read_at": "2026-10-15T11:21:46+08:00",
- "last_orders_sha": "46c60d47911c3f4ac94beef90ba5e2841501129b",
+ "last_orders_sha": "0d7b4fe2",
  "last_orders_sha_note": "r975 consumed: 4 delta rows (Jay-redo @bm-c zero-action / 24h chain-audit committee domain / O-20261015-1055 CEO order @bm-b executed this round / bm-c r1025 KF receipt noted); fresh view=results/_r975bmb_orders_fresh.md; delta=results/_r975bmb_orders_delta.txt",
  "last_round_at": "2026-10-15T11:21:46+08:00",
  "last_round_ts": "2026-10-15T11:21:46+08:00",
@@ -38,7 +38,7 @@
  "orphan_face_note": "r975 round-zero probe: 18 py faces, 2 flagged (v5 driver 3672 + i2v runner 28900 = sleep/IO-wait false positives, receipts/log actively updating; r974 standing note)",
  "orphan_faces": 2,
  "round": 975,
- "round_no": 976,
+ "round_no": 977,
  "round_no_label": "r975",
  "sync": {
   "last_push_ts": "2026-10-15T10:21:46+08:00",
@@ -144,6 +144,13 @@
    "consumed_at": "2026-10-15T11:07:30+08:00",
    "behind_origin_main": 0,
    "note": "C-r974 verified in-window (r951 segment B): payload = 5 own faces (state + heartbeat + round report + MSG-0825/0952 delivery); base=origin tip 85be61aa (bm-a r1012 estate-absorb landed mid-round - surgery rebuilt on fresh tip, zero foreign faces in it, fleet/orders+docs diff empty = D-19 zero-delta holds); delivery face on new tip: both MSGs + 4 own orders all present (r968 law); receipt=results/_r974bmb_push_receipt.json; state sync note in pushed r974 face said base=1a39aeabc (stale at push time) - this local block is the correction face (r964 pattern), reaches origin via r975 state push"
+  },
+  "r975_main_push": {
+   "status": "PUSHED_VERIFIED",
+   "pushed_sha": "e9e9059f694a6b01df97c3619e2ff52808a6fb13",
+   "consumed_at": "pending r976",
+   "behind_origin_main": 0,
+   "note": "C-r975 verified in-window (r951 segment B): payload = 4 own faces (state + heartbeat + round report + HANDOVER 5x entry); base=origin tip 11ce7c1db2bc0d7d4666c0752c252d6bfa05712a (fresh); delivery face on new tip: own 4 orders + 2 MSGs all present (r968 law); receipt=results/_r975bmb_push_receipt.json"
   }
  },
  "task": "r974: (a) C-r973 receipt consumed PUSHED_VERIFIED behind=0 (b) monitoring beat 15: i2v 31/53 XQ05 hang-family watch + backfill szse march ~24s/month + v5 933/1804 accelerated (c) MSG-0825/0952 delivery gap root-fixed via C-r974 (d) GPU 220W stock face verified (e) S7 chain green + heartbeat/state/round-report + C-r974 5-face surgery push",

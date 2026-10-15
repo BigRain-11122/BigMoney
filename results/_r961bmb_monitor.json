@@ -1,0 +1,75 @@
+{
+ "round": "r961",
+ "ts": "2026-10-15T05:43:01+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_at_check": "2026-10-15T05:33:26+08:00",
+  "created": "2026-10-15T05:24:04",
+  "cmdline": "pythonw results/_r960bmb_restore_driver.py",
+  "receipt_snapshot_0532": {
+   "ts": "2026-10-15T05:32:02+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 325,
+   "of": 1804,
+   "fails_in_pass": 0,
+   "retried_ok_in_pass": 166,
+   "remaining": 1479
+  },
+  "closeout_snapshot": {
+   "status": "RUNNING",
+   "done_in_pass": 325,
+   "remaining": 1479,
+   "fails": 0,
+   "retried_ok": 166
+  }
+ },
+ "backfill_worker": {
+  "pid": 25076,
+  "alive_at_check": "2026-10-15T05:33:26+08:00",
+  "created": "2026-10-15T05:29:05",
+  "cmdline": "pythonw scripts/backfill_ext_slots.py all",
+  "lane": "own-lane"
+ },
+ "engine_status": {
+  "source": "scripts/saturation_engine.py status run r961",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "last_verdict": "idle",
+  "heartbeat_age_sec": 57.0,
+  "py_cpu_pct": 0.7
+ },
+ "watermark": {
+  "ts": "2026-10-15T05:36:02",
+  "red": false,
+  "lane": "healthy",
+  "py_series_tail": [
+   "0.5",
+   "0.9",
+   "0.6"
+  ]
+ },
+ "c960_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "76b19be6418abf1d37964b1a218f29d894c45740",
+  "behind_origin_main": 0
+ },
+ "sentinel": {
+  "tail_0533": "ollama=OK state=NORMAL",
+  "flags": "none (IDLE/CRIT both absent)"
+ },
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r961bmb_s05_scan.json"
+ },
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG-20261014-2015 move (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (ETA ~06:30-07:00 at ~30 files/min zero-fail rate; <=24h commitment stands from r957) -> completion package"
+}

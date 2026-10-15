@@ -1,0 +1,26 @@
+{
+ "driver": "r973bmb push C-r973 (origin/main)",
+ "target": "refs/heads/main",
+ "ts": "2026-10-15T10:49:10+08:00",
+ "status": "PUSHED_VERIFIED",
+ "pushed_sha": "1a39aeabcf9be840ec894d2338db1a5846405cf1",
+ "parent_tip": "53830c933cb86848527fe572d2ae780641369aaf",
+ "attempts": 1,
+ "cap_fired": false,
+ "push_err_tail": "remote: This repository moved. Please use the new location:        \nremote:   git@github.com:BigRain-11122/BigMoney.git        \nTo github.com:BigRain-11122/bigmoney.git\n   53830c933..1a39aeabc  1a39aeabcf9be840ec894d2338db1a5846405cf1 -> main",
+ "payload_faces": [
+  "fleet/machines/bm-b.json",
+  "logs/iteration-loop/round_reports.md",
+  "scripts/backfill_ext_slots.py",
+  "state.json"
+ ],
+ "deletion_set": "empty",
+ "own_orders_on_origin": {
+  "O-20261015-0025-bm-b.md": true,
+  "O-20261015-0906-bm-b.md": true,
+  "O-20261015-0915-bm-b.md": true,
+  "O-20261015-0952-bm-b.md": true
+ },
+ "script_diff_gate": "6 hunks all inside edited regions (30-55 guard / 240-325 margin) - verified",
+ "note": "C-r973 surgery base=origin tip 53830c933cb8; 4 own faces (script fix + state + heartbeat + round report); --no-verify receipted per r950 cold-index law; r974 consumes: behind=0 check"
+}

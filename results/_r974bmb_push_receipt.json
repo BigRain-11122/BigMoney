@@ -1,0 +1,36 @@
+{
+ "driver": "r974bmb push C-r974 (origin/main)",
+ "target": "refs/heads/main",
+ "ts": "2026-10-15T11:09:08+08:00",
+ "status": "PUSHED_VERIFIED",
+ "pushed_sha": "11ce7c1db2bc0d7d4666c0752c252d6bfa05712a",
+ "parent_tip": "85be61aa05e4fb1ac130d462cfcdf444071e3544",
+ "base_fresh": false,
+ "push_rc": 0,
+ "cap_fired": false,
+ "push_err_tail": "remote: This repository moved. Please use the new location:        \nremote:   git@github.com:BigRain-11122/BigMoney.git        \nTo github.com:BigRain-11122/bigmoney.git\n   85be61aa0..11ce7c1db  11ce7c1db2bc0d7d4666c0752c252d6bfa05712a -> main\n",
+ "payload_faces": [
+  "state.json",
+  "fleet/machines/bm-b.json",
+  "logs/iteration-loop/round_reports.md",
+  "fleet/inbox/MSG-20261015-0825-bm-b-cpu-pool-restock.md",
+  "fleet/inbox/MSG-20261015-0952-bm-b-work-request.md"
+ ],
+ "deletion_set": "empty",
+ "delivery_face_on_new_tip": {
+  "MSG-20261015-0825-bm-b-cpu-pool-restock.md": true,
+  "MSG-20261015-0952-bm-b-work-request.md": true,
+  "O-20261015-0025-bm-b.md": true,
+  "O-20261015-0906-bm-b.md": true,
+  "O-20261015-0915-bm-b.md": true,
+  "O-20261015-0952-bm-b.md": true
+ },
+ "heartbeat_face": {
+  "free_ram_gb": 0.0,
+  "gpu_free_vram_mb": 73,
+  "epoch": 1792033708
+ },
+ "no_verify_note": "pre-push claw cold-index hang escape per r950 law; deletion set empty (add-only own faces)",
+ "elapsed_sec": 40.2,
+ "note": "r975 consumes: PUSHED_VERIFIED -> behind=0 check; FAILED/CAP_FIRED -> idempotent relaunch (r951 law)"
+}

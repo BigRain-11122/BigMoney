@@ -1,0 +1,83 @@
+{
+ "round": "r973",
+ "ts": "2026-10-15T10:47:34+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitoring beat (fourteenth) + backfill worker death root-fix round (P-1d data leg revived)",
+ "salvage_absorbed": {
+  "json": "results/_r972bmb_salvage.json",
+  "verdict": "DONE 10:22:26: 55 tmp_packs all early-EOF (truncated thin packs, r955 law predicted), blob_local_delta=0, sources kept (no-rm law); salvage face CLOSED, v5 driver owns the checkout lane"
+ },
+ "backfill_face": {
+  "old_worker": "pid 24468 died 10:32:35 (natural fuse exit)",
+  "probe_evidence": "results/_r973bmb_probe_gdhs_sse.py: gdhs 20150930 OK 2454 rows / 20161231 OK 3439 rows (endpoint fully alive); sse FAIL ConnectionError; szse HTTP 200",
+  "root_cause_1": "pythonw no-console: akshare stock_zh_a_gdhs tqdm writes to sys.stderr=None -> AttributeError 'NoneType' object has no attribute 'write' inside _fetch = ENVIRONMENT death misrecorded as source death (3950 failure entries, zero parquet)",
+  "root_cause_2": "margin sse channel genuinely unreachable (query.sse.com.cn ConnectionError; szse fine) and old code let sse failure abort/block the whole leg incl. szse",
+  "fix": "scripts/backfill_ext_slots.py: (a) pythonw stdout/stderr None guard -> logs/backfill_ext_slots_worker.log; (b) margin sse_dead per-run channel flag (first fail stops hammering, szse march continues, no false empty sse file); (c) chunk counter gated on both files existing (resume re-count guard); selftest 7/7 PASS",
+  "relaunch": {
+   "pid": 18084,
+   "started": "10:38:40",
+   "gdhs": "44/44 parquet complete 10:42:01 (ledger counters carry stale pre-r947 accumulations = cosmetic; files are ground truth)",
+   "margin": "sse_dead at first gap month 201710; szse-only march in flight; ETA ~55-70min"
+  },
+  "duplicate_kill": {
+   "pid": 972,
+   "created": "10:23:10 parent=3828 (dead; relay source unidentified, r972 closeout-window suspect)",
+   "verdict": "old-code double-drive on same lane (ledger overwrite alternation + parquet same-name race risk); killed 10:44 taskkill /F, death verified",
+   "law": "single-driver-per-lane; r974 probe must diff backfill pid set vs [18084] - a new pid = relay exists -> build single-flight lock"
+  }
+ },
+ "i2v_face": {
+  "clips": 31,
+  "of": 53,
+  "note": "KN_KN28 1141s+ hang era ended; units now 150-165s (KN_KN30 150.4s, XQ_XQ02 165.2s); ETA ~11:45",
+  "valve_out": "deferred to batch-done face (r916 law)"
+ },
+ "v5_driver": {
+  "pid": 3672,
+  "alive": true,
+  "receipt": "1236/1804 done_in_pass, restored_total=716, remaining=1088, fails_in_pass growing (30 in 15min) but circuit breaker not tripped; eta ~19:10 honest"
+ },
+ "engine_status": {
+  "engine_alive": true,
+  "queue_depth": 0,
+  "rc": 0,
+  "law_ref": "S3 saturation engine liveness, checked this round"
+ },
+ "d19": {
+  "orders": "e2423fef -> 6a3f9b59 consumed (delta = 1 row: Agent 业务法 v1 立法收编 O-20261015-1030, group dispatcher/bm-a domain, not addressed to BigMoney = zero action; P0发现>P1创新>P2审查 ladder already operational in our 产品优先律)",
+  "decisions": "unchanged 6910a9ed (sha256 match)",
+  "view": "results/_r973bmb_orders_fresh.md"
+ },
+ "orphan_face": {
+  "probe_value": 2,
+  "note": "21 py faces / 2 flagged: v5 driver (3672) + i2v runner (28900) = sleep/IO-wait false positives (r972 standing note); REAL hazard found via the probe face list = duplicate old-code backfill pid 972, killed by session decision (probe is advisory)"
+ },
+ "watermark": {
+  "red": false,
+  "ts": "2026-10-15 10:43:04",
+  "verdict_line": "GREEN (red=false; py tail 0.5/0.9/0.6 low but board/pool/bandit all zero + recovery/batch faces ARE the work; next_pick=claimed moneyflow IC source-blocked standing)"
+ },
+ "idle_s8_face": {
+  "green_idle": false,
+  "ram_free_pct": 7.5,
+  "claimable_pool_lines": 1,
+  "verdict": "no-claim honest (restore workers + i2v batch hold RAM); sentinel open=2 noted"
+ },
+ "deferred_faces": [
+  "S0 pull (cold-index r950 law)",
+  "S1 smoke 49/49 (ALL_RESTORED package)",
+  "S6 chain (ALL_RESTORED package)",
+  "attrition rescan (ALL_RESTORED package)",
+  "CODELY union merge (ALL_RESTORED package)",
+  "side-branch merges (ALL_RESTORED package)",
+  "MSG-20260914-2015 retraction move (ALL_RESTORED package)",
+  "results/_r9NN working files sweep (completion package)"
+ ],
+ "ceo_three_line": {
+  "current": "r973: backfill death root-fixed + relaunched (gdhs 44/44 done, szse march in flight) + i2v 31/53 + v5 restore monitored",
+  "latest_artifact": "scripts/backfill_ext_slots.py (pythonw stream guard + margin sse_dead fix) + data/ext_slots/gdhs 44 parquet (10:42:01) + C-r973 4-face push",
+  "next_milestone": "i2v 53/53 batch-done valve-out (~11:45) + backfill margin szse march complete (~11:45) + v5 ALL_RESTORED -> completion package (~19:10)"
+ },
+ "ram_free_gb_face": "measured at closeout (see heartbeat)",
+ "orders_view_bytes": 609375
+}

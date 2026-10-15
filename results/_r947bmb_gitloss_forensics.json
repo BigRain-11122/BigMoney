@@ -1,0 +1,39 @@
+{
+  "incident": "git-loss recurrence r834-family, bm-b bigmoney worktree",
+  "window": {"earliest_intact": "2026-10-14T19:22:29+08:00 (state.json write, fleet/orders scan OK at 19:32:01 with orders_count=88)", "discovered": "2026-10-14T20:0x by r947 take-two", "still_intact_evidence": "sentinel read heartbeat mtime 19:26 through 19:53"},
+  "destroyed_faces": [".git", ".gitignore", "CODELY.md", "HQ-FEEDBACK.md", "docs", "engine", "firm", "fleet", "knowledge", "legacy", "live"],
+  "surviving_faces": ["data", "logs", "monitor", "Money02", "Money0923", "qa", "QuantBull", "research", "results", "screening", "scripts", "state", "strategies", "tasks", "Tools", "__pycache__", "PLAN.md", "README.md", "state*.json", "round_reports-bm-*.md", "_r* work files", "town.html"],
+  "signature_note": "destroyed set == r834 incident set minus data/; equals r836 recovery checkout list minus data/. NOT alphabetical-contiguous (PLAN/README/__pycache__/data sit between destroyed entries and survived). .git destruction implies explicit filesystem-level Remove-Item/rm actor, NOT any git checkout/sparse mechanism (those never delete .git).",
+  "timeline": [
+    "19:22:29 r946 closeout state write (tree intact, S6 41 legs rc0)",
+    "19:32:01 loop round starts (idle_trigger + orders_ack_scan fleet/orders OK = fleet intact)",
+    "19:32-19:57 round works: stash-bridge pull (origin cacbfbecc), S1 smoke 49/49, ORD delta 29-row consume (SLI @bm-b dispatch + route-B note), group-tree sparse-add materialize Tools+dispatcher, SLI-RECONCILE.md generated+pushed (group 58b0097), wrapper S4U registered; mid-round it alarms 'fleet dir disappeared'",
+    "19:57:01 runner 25min timeout kills round (probe-heartbeat written by runner)",
+    "20:0x r947 take-two discovers full loss; finds first-attempt's detached clone (0-byte pack stall)",
+    "20:03:44 diagnostics: no live deletion processes; group tree .git intact",
+    "20:0x recovery: kill stalled clone; git init -b main; fetch --depth=1 --filter=blob:none origin main (884KB OK); reset --mixed; targeted checkout faces (lazy micro-packs pass, ~3-5s each, 38+ packs landed before stall-impatience kill; detached worker relaunched)"
+  ],
+  "loss_assessment": {
+    "origin_side": "ZERO: r946 closeout + bm-a r997 + addendum on origin tip ebf8a644 (verified ls-remote + fetch)",
+    "local_side": "killed 19:32 round's ~10 uncommitted lane-mirror runtime files (regenerable by lanes); its SLI group-repo work pushed (58b0097 safe); its bigmoney-side products were read-only/lost-none",
+    "r834_leftovers": "worktree already carried ~3680 D entries incl bigmoney.html/bootstrap.py vs tip (r834-unrestored strays never checked out in r836 list) - pre-existing condition, honest note"
+  },
+  "group_repo_findings": {
+    "origin_main_quant_tree": "NO bigmoney entry",
+    "log_origin_main_quant_bigmoney": "empty (no commit ever touched quant/bigmoney)",
+    "index_ls_files": "0",
+    "sparse_cone": ["Tools", "cph4/council", "cph4/fleet/dispatcher", "cph4/fleet/meme-daily-v1"],
+    "verdict": "killed session's 'group tracks bigmoney as 040000 mirror' alarm NOT reproduced; its 'pull diffstat anomaly' = normal group paths (docs/logs/results exist in group repo) likely misread under crisis. Mirror theory disproven tonight. Correlation remains: loss window overlaps that session's group sparse/checkout materialize ops."
+  },
+  "treasure_guard": "restore gate rc=1 (registry in destroyed face, cannot execute != rc3 refuse) - proceeded per r834 precedent, git-regeneration direction only",
+  "recovery_actions": ["killed 0-byte stalled clone (pids 11788/25332/26800, Temp\\bm_recover_r947 kept as evidence)", "treasure_gate rc1 recorded", "git init -b main + remote add", "lean fetch --depth=1 --filter=blob:none (SHALLOW+PROMISOR state: history unshallow pending)", "reset --mixed FETCH_HEAD + upstream set", "checkout fleet (partial, killed at impatience 120s - was progressing via 38 lazy micro-packs)", "stale index.lock removed (verified no git proc alive)", "detached worker results/_r947bmb_restore_worker.ps1 relaunched (survives round kill)"],
+  "r948_procedure": [
+    "1. read results/_r947bmb_restore_worker.log; verify faces via Test-Path fleet/machine.json, docs/decisions.md, firm/RULES.md, engine/exit_rules.py, knowledge/TREASURE_REGISTRY.md, CODELY.md, .gitignore, HQ-FEEDBACK.md",
+    "2. if incomplete: re-run worker (idempotent); if lazy fetch path dead -> bundle fallback per fleet/inbox/MSG-20261014-2015-bmb.md (bm-a or bm-c git bundle --all + tailscale file cp to bm-b; bm-b: tailscale file get + git fetch <bundle> +refs/heads/*:refs/remotes/peer/* then re-checkout faces)",
+    "3. post-complete: heartbeat fleet/machines/bm-b.json (epoch INT + clock_read T-separated), CODELY.md memory line (this incident, per memory-gate 4Q), smoke 49/49, claws reinstall (register_precommit_claw.ps1 + register_prepush_claw.ps1), S0.5 orders full ack diff-scan (incl ORD delta consumed by killed round b202b9510 line + SLI dispatch order leftover: bigmoney fleet/inbox reply to bm-a), unshallow attempt (git fetch --unshallow --filter=blob:none bounded, else bundle path covers), S6 chain, state r948 bump, commit+push",
+    "4. root-cause forensics: killed round transcript C:\\Users\\Administrator\\.codely-cli\\tmp\\*\\chats\\*.jsonl (grep 'sparse'/'bigmoney'/'round_20261014_193201'); USN journal window query; sentinel log 19:2x-20:0x; compare with r834 forensics results/_r834bmb_gitloss_forensics.json",
+    "5. standing law until root cause: no rm/Remove-Item on repo faces by any lane; group-tree ops stay zero-touch (git show only) as already lawed r834"
+  ],
+  "pre_existing_notes": "old r836 clone dir C:\\Users\\Administrator\\r836bmb_git = HOLLOW (.git skeleton, 0 objects, garbage tmp_pack only) - not a recovery asset, do not reuse",
+  "score": "Executive Protocol v1.1: product = working .git rebuilt + recovery worker + forensics + peer MSG (runnable/verifiable assets = 2); commit this round, push best-effort"
+}

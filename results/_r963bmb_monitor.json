@@ -1,0 +1,80 @@
+{
+ "round": "r963",
+ "ts": "2026-10-15T06:28:01+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (fourth beat)",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_external_check": "2026-10-15T06:15:10+08:00 (Get-Process, start 2026-10-15T05:24:04)",
+  "alive_driver_time_tasklist": true,
+  "no_restart_since_r961_check": true,
+  "cmdline": "pythonw results/_r960bmb_restore_driver.py",
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T06:26:24+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 700,
+   "of": 1804,
+   "fails_in_pass": 0,
+   "retried_ok_in_pass": 541,
+   "remaining": 1104
+  },
+  "rate_face": "~8.29 files/min from exact anchors (575@06:11:19) ; ETA ~08:41",
+  "zero_fails": true
+ },
+ "backfill_worker": {
+  "pid": 25076,
+  "settle_verdict": "DISPOSED by watchdog C7 zombie sweep",
+  "kill_evidence": "logs/watchdog.log 2026-10-15 06:16:02 \"C7 ZOMBIE KILL pid=25076 lane=backfill_ext_slots age=47min cpu_delta=0.02s (3-check passed) resume=existing-healers(S6/C4/C5)\"",
+  "red_face_evidence": "results/watermark_red.json 06:16:02 zombies_killed=[pid=25076 lane=backfill_ext_slots]",
+  "by_design": true,
+  "resume_routing": "existing healers (S6 gates re-spawn / C4 chain owner); C4 leg says \"ext-slots pull chain ALIVE\" at 06:22:02 - chain state healthy, only the stuck worker process was cleared; checkpoint machinery takes over on next supply window"
+ },
+ "engine_status": {
+  "source": "scripts/saturation_engine.py status (driver re-run)",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "last_verdict": "idle",
+  "heartbeat_age_sec": 11.0
+ },
+ "watermark": {
+  "ts": "2026-10-15T06:16:02 face",
+  "red": false,
+  "lane": "healthy",
+  "py_series_tail": [
+   "0.5",
+   "0.9",
+   "0.6"
+  ]
+ },
+ "sentinel": {
+  "tail": "2026-10-15 06:13:02 ollama=OK state=NORMAL vram=[4502 MiB, 1%]",
+  "flags": "none (IDLE/CRIT both absent at 06:15 check)"
+ },
+ "lane_tasks": {
+  "check": "schtasks via Tools/Invoke-SilentExe.ps1 (R49 law) 06:15 + watchdog.log beats",
+  "iteration_loop": "in registry, next run 2026-10-15 06:22:00 (pinned :x2 stagger)",
+  "watchdog": "in registry, fired 06:16:00 (C7 kill) + beats 06:20:02/06:22:01 in log"
+ },
+ "c962_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
+  "ancestor_rc_on_origin": 0,
+  "origin_tip_after": "0aab3849062c060d0e56d53e3842f1f9bda5ba30",
+  "behind_origin_main": 0
+ },
+ "peer_tip_log": "0aab38490 round 1016 (bm-c): T27 git_claw filename-suffix owner-evidence leg (selftest 31/31 + realfire PASS; pre-push claw inherited) + interrupted-r1016 estate absorb (XQ wave3 deposit receipts + S6 faces) + S6 light green (dualrun streak 51/attrition CLEAN/py_low_board_clear) + S7 quad green\nca485e068 round 962 (bm-b): recovery monitor third beat - C-r961 consumed PUSHED_VERIFIED, v5 restore co",
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r963bmb_s05_scan.json"
+ },
+ "job_list": "empty (checked r963 session start)",
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG-20261014-2015 move (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (ETA ~08:41 at ~8.3 files/min; <=24h commitment stands from r957) -> completion package"
+}

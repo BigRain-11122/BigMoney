@@ -1,0 +1,75 @@
+{
+ "round": "r962",
+ "ts": "2026-10-15T05:58:03+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (third beat)",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_at_check": "2026-10-15T05:54:40+08:00 (CIM process table)",
+  "created": "2026-10-15T05:24:05",
+  "no_restart_since_r961_check": true,
+  "cmdline": "pythonw results/_r960bmb_restore_driver.py",
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T05:56:50+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 450,
+   "of": 1804,
+   "fails_in_pass": 0,
+   "retried_ok_in_pass": 291,
+   "remaining": 1354
+  },
+  "rate_face": "175 files / 19.1 min (05:32 225 -> 05:51 400) = ~9.2 files/min rc255 double-time phase; zero fails; retried_ok 66 -> 241 climbing = healthy conversion per r960 law"
+ },
+ "backfill_worker": {
+  "pid": 25076,
+  "alive_at_check": "2026-10-15T05:54:40+08:00",
+  "created": "2026-10-15T05:29:06",
+  "cmdline": "pythonw scripts/backfill_ext_slots.py all",
+  "lane": "own-lane"
+ },
+ "engine_status": {
+  "source": "scripts/saturation_engine.py status run r962 (05:54)",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "last_verdict": "idle",
+  "heartbeat_age_sec": 36.0,
+  "py_cpu_pct": 1.2
+ },
+ "watermark": {
+  "ts": "2026-10-15T05:52:02",
+  "red": false,
+  "lane": "healthy",
+  "py_series_tail": [
+   "0.5",
+   "0.9",
+   "0.6"
+  ]
+ },
+ "lane_tasks": {
+  "check": "schtasks via Tools/Invoke-SilentExe.ps1 (R49 law) 05:54",
+  "iteration_loop": "in registry, next run 2026-10-15 06:02",
+  "watchdog": "in registry, next run 2026-10-15 05:56"
+ },
+ "sentinel": {
+  "tail_0553": "ollama=OK state=NORMAL",
+  "flags": "none (IDLE/CRIT both absent)"
+ },
+ "c961_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "042c1c8956192af786aeb21646da6714d246a471",
+  "behind_origin_main": 0
+ },
+ "s05_probe": {
+  "verdict": "DELTA_PRESENT",
+  "receipt": "results/_r962bmb_s05_scan.json"
+ },
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG-20260914-2015 move (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (honest ETA ~08:30 +/- 1h at rc255 double-time ~9 files/min, daytime may accelerate; <=24h commitment stands from r957) -> completion package"
+}

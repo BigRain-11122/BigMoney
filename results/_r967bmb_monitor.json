@@ -1,0 +1,118 @@
+{
+ "round": "r967",
+ "ts": "2026-10-15T07:31:15+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (eighth beat)",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_external_check": "session Get-Process ~07:27: pid 3672 pythonw start 05:24:04 verified",
+  "alive_driver_time_tasklist": true,
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T07:30:01+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 846,
+   "of": 1804,
+   "fails_in_pass": 130,
+   "retried_ok_in_pass": 557,
+   "ok_in_pass": 716,
+   "remaining": 1088
+  },
+  "rate_face": "~2.00 files/min from exact anchor (826@07:20:00); ETA ~16:36",
+  "stagnant_vs_anchor": false,
+  "dead_window_face": "ok/restored_total flat at 716 since ~06:29 (log face: 100% double-fail cycles, 10 per 300s breaker cadence) - honest dead-channel disclosure; pass-2 owns the fail set; channel revival = instant materialize per r960 retry-once law",
+  "fails_reading": "fails_in_pass=130 cumulative double-fails (scattered); breaker = 10-CONSECUTIVE only, tripped window = designed 300s probe cadence (r960/r964 correction law); pass-2 retries the fail set",
+  "breaker_in_log_tail": true,
+  "driver_log_tail": [
+   "2026-10-15T07:30:01 FAIL(pass-both) data/daily/sz159807.csv",
+   "2026-10-15T07:30:01 FAIL(pass-both) data/daily/sz159808.csv",
+   "2026-10-15T07:30:01 FAIL(pass-both) data/daily/sz159810.csv",
+   "2026-10-15T07:30:01 FAIL(pass-both) data/daily/sz159811.csv",
+   "2026-10-15T07:30:01 FAIL(pass-both) data/daily/sz159812.csv",
+   "2026-10-15T07:30:01 circuit breaker: 10 consecutive double-fails -> sleep 300"
+  ]
+ },
+ "c966_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "9105e25145bab75dbcbb300bdc5616a2081c9ad0",
+  "ancestor_rc_on_origin": 0,
+  "origin_tip_after": "9105e25145bab75dbcbb300bdc5616a2081c9ad0",
+  "peer_tip_log": "9105e2514 round 966 (bm-b): recovery monitor seventh beat - C-r965 consumed (ancestor-verified), v5 restore alive (816/1804, breaker cycling)\n59f699771 round 1019 bm-c: D-20261015-02 bm-c leg closed - evidence trio (selftest 6/6 + live probe + F-20261014-01 note), gitignore history generic gap closed, dual-source consumption verified live; ORD/DEC dual-scan consumed (D-15-01/02); S6 chain all rc0 ",
+  "behind_origin_main": 0
+ },
+ "inbox_face": "2 known pending completion-package faces (MSG-20261014-2015 retraction move + MSG-20261015-0104 G5 receipt via machine/bm-b-r954 side-branch merge); zero new unreads",
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r967bmb_s05_scan.json"
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "b00d2ebf6884cc6fc301396b44dfe1f8998321ed",
+  "identical": false,
+  "local_bytes": 42157,
+  "size_law": "41KB < 50KB threshold (pass)",
+  "disposition": "union merge rides completion package"
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 07:31:02",
+  "zombies_killed": []
+ },
+ "sentinel": {
+  "tail_last": "2026-10-15 07:28:01 ollama=OK healed=False hbAge=10 afAge=2 vram=[4502 MiB, 2 %] state=NORMAL",
+  "flags": "IDLE/CRIT both absent (checked r967 session start + this face)"
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 07:32:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "job_list": "empty (no claimable pending; restore in flight = active work)",
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG moves (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (honest ETA ~16:36 at anchor rate; breaker-dead windows extend; <=24h commitment stands from r957) -> completion package",
+ "engine_status": {
+  "source": "saturation_engine.py status (driver re-run)",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "heartbeat_age_sec": 28.0
+ }
+}

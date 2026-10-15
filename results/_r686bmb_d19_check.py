@@ -96,11 +96,7 @@ def main() -> int:
         k = r"K:\Fluxgroup\FluxGroup"
         if os.path.isdir(k):
             trees.append(("k-tree", k))
-        # D-20261004-02(3): any machine-local group-tree real path before
-        # sparse clone; bm-a nests bigmoney inside the HQ tree itself
-        # (ROOT\..\.. == FluxGroup HQ working tree, r1006 real-path precedent).
-        for cand in (r"C:\Fluxgroup\FluxGroup",
-                     os.path.dirname(os.path.dirname(ROOT))):
+        for cand in (r"C:\Fluxgroup\FluxGroup",):
             if os.path.isdir(os.path.join(cand, ".git")):
                 trees.append(("local-tree", cand))
         blob_d = None

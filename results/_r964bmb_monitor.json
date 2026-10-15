@@ -1,0 +1,119 @@
+{
+ "round": "r964",
+ "ts": "2026-10-15T06:40:30+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (fifth beat)",
+ "v5_driver": {
+  "pid": 3672,
+  "alive_external_check": "2026-10-15T06:33:10+08:00 (Get-Process cpu=2.6 start 05:24:04)",
+  "alive_driver_time_tasklist": true,
+  "no_restart_since_r961_check": true,
+  "cmdline": "pythonw results/_r960bmb_restore_driver.py",
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T06:39:55+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 746,
+   "of": 1804,
+   "fails_in_pass": 30,
+   "retried_ok_in_pass": 557,
+   "remaining": 1088
+  },
+  "rate_face": "~2.00 files/min from exact anchor (726@06:29:54); ETA ~15:45",
+  "fails_reading": "fails_in_pass=30 = cumulative double-fails (scattered, retried_ok=557 interleaved); breaker = 10-CONSECUTIVE only (driver L77-L98 verified), consec counter resets on every success; pass-2 retries the fail set",
+  "breaker_in_log_tail": true,
+  "driver_log_tail": [
+   "2026-10-15T06:39:55 FAIL(pass-both) data/daily/sz159670.csv",
+   "2026-10-15T06:39:55 FAIL(pass-both) data/daily/sz159671.csv",
+   "2026-10-15T06:39:55 FAIL(pass-both) data/daily/sz159672.csv",
+   "2026-10-15T06:39:55 FAIL(pass-both) data/daily/sz159673.csv",
+   "2026-10-15T06:39:55 FAIL(pass-both) data/daily/sz159675.csv",
+   "2026-10-15T06:39:55 circuit breaker: 10 consecutive double-fails -> sleep 300"
+  ]
+ },
+ "engine_status": {
+  "source": "scripts/saturation_engine.py status (driver re-run)",
+  "engine_alive": true,
+  "queue_depth": 0,
+  "last_verdict": "idle",
+  "heartbeat_age_sec": 42.0
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 06:40:02",
+  "zombies_killed": []
+ },
+ "sentinel": {
+  "tail_last": "2026-10-15 06:38:01 ollama=OK healed=False hbAge=6 afAge=2 vram=[4502 MiB, 2 %] state=NORMAL",
+  "flags": "IDLE/CRIT both absent (checked r964 session start 06:33 + this face)"
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 06:42:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "c963_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "17b4090edda526410bdb9c2771fe148ac91e01f1",
+  "ancestor_rc_on_origin": 0,
+  "origin_tip_after": "bb7cc2640c4e3d305c15f77247d2b6a80f0ed069",
+  "behind_origin_main": 0
+ },
+ "peer_tip_log": "bb7cc2640 round 1017: watch+maintain - laggard face closed 48/48 core48, S6 daily faces 10-15, ORD advance, S7 quad green\n17b4090ed round 963 (bm-b): recovery monitor fourth beat - C-r962 consumed PUSHED_VERIFIED, v5 restore converging (700/1804 zero-fail), backfill worker settled via C7, C-r963 closeout push\n0aab38490 round 1016 (bm-c): T27 git_claw filename-suffix owner-evidence leg (selftest 31",
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r964bmb_s05_scan.json"
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "b00d2ebf6884cc6fc301396b44dfe1f8998321ed",
+  "identical": false,
+  "disposition": "union merge rides completion package (origin has peer-era content; local carries r947-r963 pit rows)"
+ },
+ "job_list": "empty (checked r964 session start)",
+ "inbox_face": {
+  "unread_for_bm_b": "none new (two own outgoing MSGs pending delivery/move rides completion package: MSG-20261014-2015-bmb retraction move + MSG-20261015-0104 G5 receipt via machine/bm-b-r954 side-branch merge)"
+ },
+ "backfill_worker": "settled r963 (C7 disposal, watchdog.log 06:16:02) - NOT re-scanned this round (awaiting-state economy); resume owned by existing healers",
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG moves (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (ETA ~15:45 at ~2.0 files/min; <=24h commitment stands from r957) -> completion package"
+}

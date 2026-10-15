@@ -1,0 +1,195 @@
+{
+ "round": "r970",
+ "ts": "2026-10-15T09:40:41+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitor round (eleventh beat) - absorbs dead prior-attempt #1 (lane round 09:02-09:27, 25min-watchdog kill at 09:27:02, pre-closeout)",
+ "dead_prior_attempt_face": {
+  "verdict": "attempt-1 killed by 25min watchdog at 09:27:02 (probe-heartbeat tail line); no heartbeat/state/round-report/push changes; estate = HANDOVER r970 5x entry (on disk), _r970bmb_* helper files 17, s05 scan 09:07:39 NO_DELTA, backfill relay 18788->24468",
+  "absorption": [
+   "HANDOVER r970 entry verified intact (tail, r965 entry preserved) -> delivered this round as 4th own face",
+   "s05 re-run fresh in this closeout (attempt-1 scan superseded)",
+   "backfill worker pid reference updated to 24468 alive=True (no-touch law)"
+  ]
+ },
+ "v5_driver": {
+  "pid": 3672,
+  "pid_source": "cmdline-discovery",
+  "alive_driver_time_tasklist": true,
+  "receipt_snapshot_closeout": {
+   "receipt_ts": "2026-10-15T09:40:18+08:00",
+   "status": "RUNNING",
+   "pass_no": 1,
+   "done_in_pass": 1106,
+   "of": 1804,
+   "fails_in_pass": 390,
+   "retried_ok_in_pass": 557,
+   "ok_in_pass": 716,
+   "remaining": 1088
+  },
+  "rate_face": "~2.00 files/min from exact anchor (1086@09:30:17); ETA ~18:45",
+  "stagnant_vs_anchor": false,
+  "dead_window_face": "ok/restored_total flat at 716 - honest dead-channel disclosure; pass-2 owns the fail set; salvage may materialize fail-set blobs locally (rc=0 instant, no network)",
+  "breaker_in_log_tail": true,
+  "driver_log_tail": [
+   "2026-10-15T09:40:18 FAIL(pass-both) data/options/daily/10011545.csv",
+   "2026-10-15T09:40:18 FAIL(pass-both) data/options/daily/10011546.csv",
+   "2026-10-15T09:40:18 FAIL(pass-both) data/options/daily/10011547.csv",
+   "2026-10-15T09:40:18 FAIL(pass-both) data/options/daily/10011548.csv",
+   "2026-10-15T09:40:18 FAIL(pass-both) data/options/daily/10011589.csv",
+   "2026-10-15T09:40:18 circuit breaker: 10 consecutive double-fails -> sleep 300"
+  ]
+ },
+ "salvage_face": {
+  "pid": 2800,
+  "alive": true,
+  "json_done": false,
+  "log_tail": [
+   "2026-10-15T08:11:49 salvage start",
+   "2026-10-15T08:48:53 salvage start"
+  ],
+  "law": "r955 zero-network tmp_pack salvage; driver owns checkout",
+  "next_face": "r971: verify liveness; dead+json -> absorbed; dead+no-json -> relaunch detached"
+ },
+ "backfill_face": {
+  "pid": 24468,
+  "alive": true,
+  "prior_pid": "18788 (dead)",
+  "script": "scripts/backfill_ext_slots.py all (P-1d ext-slot raw pulls)",
+  "status_ledger": {
+   "bytes": 530411,
+   "legs_seen_head": [
+    "dzjy",
+    "gdhs",
+    "legs"
+   ]
+  },
+  "note": "relay happened in dead-attempt-1 window; status consumption via results/ext_slots_pull_status.json; no touch"
+ },
+ "c969_receipt_consumed": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "2314c74eb7fa1ccab8909a83083bba225f6ee530",
+  "ancestor_rc_on_origin": 0,
+  "origin_tip_after": "2b09479474f8fc6794410034bacba3d23ecba675",
+  "behind_origin_main": 0
+ },
+ "order_delivery_face": {
+  "order": "fleet/orders/O-20261015-0025-bm-b.md",
+  "on_origin": true,
+  "payload_add_this_round": false,
+  "unknown_orders": [],
+  "note": "present on origin (zero touch per max-merge law MSG-0612; receipt-section face belongs to acking machines)"
+ },
+ "msg_delivery_face": {
+  "msg": "fleet/inbox/MSG-20261015-0825-bm-b-cpu-pool-restock.md",
+  "on_origin": true,
+  "payload_add_this_round": false,
+  "origin_inbox_all": [
+   "fleet/inbox/MSG-20261015-0825-bm-b-cpu-pool-restock.md",
+   "fleet/inbox/MSG-20261015-0844-bma-w245-seat.md",
+   "fleet/inbox/processed"
+  ],
+  "local_inbox": [
+   "MSG-20261014-2015-bmb.md",
+   "MSG-20261015-0104-bmb-P1B-G5-done.md",
+   "MSG-20261015-0825-bm-b-cpu-pool-restock.md",
+   "MSG-20261015-0906-bm-b-never-idle-cure.md"
+  ],
+  "note": "present on origin (zero touch, max-merge law; consumption = bm-a face)"
+ },
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r970bmb_s05_scan.json",
+  "estate_scan_ts": "2026-10-15T09:07:39+08:00 NO_DELTA (attempt-1)"
+ },
+ "handover_5x_face": {
+  "local_bytes": 1089857,
+  "r970_entry_present": true,
+  "r965_entry_present": true,
+  "r970_entry_is_tail": true,
+  "attempt1_verify_origin_bytes": 1087298,
+  "net_growth_vs_origin": 2559,
+  "disposition": "estate absorbed: attempt-1 wrote the r970 5x entry (binary append r962 law); this round delivers it to origin as 4th own face"
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "c2b25c9e83a105a4186b823df249fdb234abc9a6",
+  "identical": false,
+  "local_bytes": 43168,
+  "size_law": "42KB < 50KB threshold (pass)",
+  "disposition": "union merge rides completion package"
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 09:40:02"
+ },
+ "sentinel": {
+  "tail_last": "2026-10-15 09:38:02 ollama=OK healed=False hbAge=11 afAge=2 vram=[4531 MiB, 2 %] state=NORMAL pyCpu=1.4 pool=pool_empty_or_busy ram=5.8 work=PENDING_ROUND wStreak=7 open=6",
+  "flags": "IDLE/CRIT both absent (checked session start + this face)"
+ },
+ "idle_s8_face": {
+  "green_idle": false,
+  "ram_free_pct": 26.0,
+  "claimable_pool_lines": 1,
+  "sentinel_work_face": "PENDING_ROUND open=6 (consumption waits green window per S8 gate)",
+  "verdict": "no-claim honest: green_idle=false (RAM 26.0%<40% gate) - S8 claim step not triggered; sentinel work=PENDING_ROUND face noted"
+ },
+ "ram_pressure_face": {
+  "free_ram_gb": 0.0
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "registered": true,
+    "status_line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 09:42:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "job_list": "empty (no claimable pending; restore + salvage + backfill in flight = active work)",
+ "orphan_face": {
+  "value": 0,
+  "note": "recovery-epoch non-round-zero not re-probed; r959 reading 0/18 stands; v5 + salvage + backfill = own-lane legit bodies (pids 3672/2800/24468)"
+ },
+ "deferred_faces": [
+  "S0 git pull (cold-index r950 law; warm-window catch-up post-restore)",
+  "S1 smoke 49/49 (completion package, gated on ALL_RESTORED)",
+  "S6 chain (completion package; data faces still restoring)",
+  "attrition rescan (completion package)",
+  "origin catch-up + side-branch merges + CODELY union + MSG moves (completion package)"
+ ],
+ "next_milestone": "v5 ALL_RESTORED (salvage may accelerate; honest ETA ~18:45 at dead-channel rate; <=24h commitment stands from r957) -> completion package",
+ "engine_status": {
+  "engine_alive": true,
+  "queue_depth": 0,
+  "heartbeat_age_sec": 56.0
+ }
+}

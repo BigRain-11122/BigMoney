@@ -1,0 +1,277 @@
+{
+ "round": "r972",
+ "ts": "2026-10-15T10:20:58+08:00",
+ "machine": "bm-b",
+ "kind": "recovery monitoring beat (thirteenth) + P0 salvage pipe-deadlock fix: r969/r971 driver deadlocked 84min (two-pipe), tree-killed, r972 communicate()-fix relaunched, verified past deadlock point; i2v batch + v5 restore + backfill all in flight",
+ "receipts_consumed": {
+  "C-r971": {
+   "sha": "2a95c9c13c78f22f291ef46a54cbfaa4726faf1c",
+   "ancestor_rc": 0
+  },
+  "C-r971b_fix1": {
+   "sha": "e9c293240ac41105a608b67d75aaf58ff1337246",
+   "ancestor_rc": 0
+  },
+  "origin_tip": "8972bba096aa61b48ecdcfdee6e5201f8cd8ba32"
+ },
+ "salvage_face": {
+  "pid": 26376,
+  "alive": true,
+  "json": false,
+  "action": "r972 pipe-fix instance alive-running (json pending; pre-phase bounded by 600s cap)",
+  "log_tail": [
+   "2026-10-15T10:16:21 salvage start (r972 pipe-fix relaunch)",
+   "2026-10-15T10:16:24 pre: ls-files -d -> 1087 missing"
+  ],
+  "old_pair_evidence": {
+   "killed_pids": [
+    2800,
+    6996,
+    13340,
+    9464
+   ],
+   "deadlock_min": 84,
+   "old_log_tail": [
+    "2026-10-15T08:11:49 salvage start",
+    "2026-10-15T08:48:53 salvage start"
+   ],
+   "fix": "communicate(input) concurrent drain, 600s tree-kill caps"
+  }
+ },
+ "v5_driver": {
+  "pid": 3672,
+  "alive": true,
+  "receipt": {
+   "status": "RUNNING",
+   "done_in_pass": 1186,
+   "of": 1804,
+   "remaining": 1088,
+   "fails": 470,
+   "retried_ok": 557,
+   "ok": 716,
+   "ts": "2026-10-15T10:20:25+08:00"
+  },
+  "anchor": "1176@10:15:25",
+  "rate_min": 2.0,
+  "eta": "19:24",
+  "stagnant_vs_anchor": false
+ },
+ "i2v_face": {
+  "clips": 27,
+  "of": 53,
+  "current_unit": "KN_KN28",
+  "runner_log_tail": [
+   "[KN_KN28]  601s running...",
+   "[KN_KN28]  661s running...",
+   "[KN_KN28]  721s running...",
+   "[KN_KN28]  781s running...",
+   "[KN_KN28]  841s running...",
+   "[KN_KN28]  901s running...",
+   "[KN_KN28]  961s running...",
+   "[KN_KN28] 1021s running...",
+   "[KN_KN28] 1081s running...",
+   "[KN_KN28] 1141s running..."
+  ],
+  "gpu": {
+   "vram_used_mib": "7533",
+   "vram_total_mib": "8192",
+   "util_pct": "100",
+   "power_draw_w": "81.31",
+   "power_limit_w": "220.00",
+   "temp_c": "54"
+  },
+  "valve_out": "deferred to batch-done face (r916 law)"
+ },
+ "backfill_face": {
+  "pid": 24468,
+  "alive": true,
+  "law": "no-touch, status ledger only"
+ },
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "orders_sha": "e2423fefcae0e9f9f0b54e9375dd11f4d51dd14c",
+  "decisions_sha": "6910a9ed7d1a99044b607c6307d2e6f9e44b8e9f3dd0d7c301e5ea57cd5c2cb9",
+  "unknown_order_diff": [
+   "O-2026-09-26-2335-bm-a.md",
+   "O-2026-09-26-2340-bm-a.md",
+   "O-2026-09-27-2245-bm-a.md",
+   "O-2026-09-27-2250-bm-a.md",
+   "O-2026-09-27-2255-bm-a.md",
+   "O-2026-09-28-2210-bm-a.md",
+   "O-2026-09-30-2230-bm-a.md",
+   "O-2026-09-30-2340-bm-a.md",
+   "O-2026-09-30-2355-bm-a.md",
+   "O-2026-10-01-1035-bm-a.md",
+   "O-20261001-1058-bm-c.md",
+   "O-20261001-1108-bm-c.md",
+   "O-20261001-1332-bm-c.md",
+   "O-20261001-1410-bm-c.md",
+   "O-20261001-1420-bm-c.md",
+   "O-20261001-2103-bm-a.md",
+   "O-20261001-2106-bm-a.md",
+   "O-20261001-2355-bm-c.md",
+   "O-20261002-0040-bm-c.md",
+   "O-20261002-2100-bm-c.md",
+   "O-20261002-2115-bm-c.md",
+   "O-20261002-2124-bm-c.md",
+   "O-20261002-2135-bm-c.md",
+   "O-20261002-2150-bm-c.md",
+   "O-20261002-2155-bm-c.md",
+   "O-20261002-2158-bm-c.md",
+   "O-20261003-1210-bm-c.md",
+   "O-20261003-2030-bm-c.md",
+   "O-20261004-0808-bm-a.md",
+   "O-20261004-1440-bm-c.md",
+   "O-20261006-1207-bm-a.md",
+   "O-20261006-1215-bm-a.md",
+   "O-20261006-1218-bm-a.md",
+   "O-20261006-1410-bm-a.md",
+   "O-20261006-1845-bm-c.md",
+   "O-20261006-2110-bm-c.md",
+   "O-20261006-2250-bm-c.md",
+   "O-20261006-2257-bm-c.md",
+   "O-20261007-1157-bm-c.md",
+   "O-20261007-1240-bm-c.md",
+   "O-20261007-1850-bm-c.md",
+   "O-20261007-2145-bm-c.md",
+   "O-20261007-2215-bm-c.md",
+   "O-20261007-2230-bm-c.md",
+   "O-20261007-2240-bm-c.md",
+   "O-20261007-2245-bm-c.md",
+   "O-20261007-2255-bm-c.md",
+   "O-20261007-2315-bm-c.md",
+   "O-20261008-1300-bm-c.md",
+   "O-20261008-2315-bm-c.md",
+   "O-20261008-2323-bm-b.md",
+   "O-20261009-0024-bm-b.md",
+   "O-20261009-1105-bm-a.md",
+   "O-20261009-2334-bm-b.md",
+   "O-20261009-2340-bm-a.md",
+   "O-20261009-2359-bm-b.md",
+   "O-20261010-0010-bm-c.md",
+   "O-20261010-0058-bm-b.md",
+   "O-20261010-1645-bm-a.md",
+   "O-20261010-1725-bm-a.md",
+   "O-20261010-1825-bm-a.md",
+   "O-20261010-1906-bm-c.md",
+   "O-20261010-1945-bm-a.md",
+   "O-20261010-2325-bm-b.md",
+   "O-20261010-2350-bm-c.md",
+   "O-20261011-0012-bm-a.md",
+   "O-20261011-1105-bm-c.md",
+   "O-20261011-1254-bm-c.md",
+   "O-20261011-1436-bm-c.md",
+   "O-20261011-1811-bm-c.md",
+   "O-20261011-1917-bm-c.md",
+   "O-20261011-2126-bm-c.md",
+   "O-20261011-2147-bm-c.md",
+   "O-20261011-2215-bm-c.md",
+   "O-20261011-2333-bm-c.md",
+   "O-20261012-0739-bm-c.md",
+   "O-20261012-0940-bm-a.md",
+   "O-20261013-0930-bm-b.md",
+   "O-20261013-0951-bm-b.md",
+   "O-20261014-0030-bm-b.md",
+   "O-20261014-0040-bm-b.md",
+   "O-20261014-0312-bm-c.md",
+   "O-20261014-0925-bm-b.md",
+   "O-20261014-0942-bm-b.md",
+   "O-20261014-0948-bm-b.md",
+   "O-20261014-0949-bm-b.md",
+   "O-20261015-0915-bm-b.md",
+   "O-20261015-0952-bm-b.md"
+  ],
+  "own_order_presence": {
+   "O-20261015-0025-bm-b.md": true,
+   "O-20261015-0906-bm-b.md": true,
+   "O-20261015-0915-bm-b.md": true,
+   "O-20261015-0952-bm-b.md": true
+  }
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 10:21:05"
+ },
+ "sentinel_tail": "2026-10-15 10:18:02 ollama=PAUSED(valve) healed=False hbAge=8 afAge=2 vram=[7533 MiB, 100 %] state=NORMAL pyCpu=9.4 pool=pool_empty_or_busy ram=8 work=NONE wStreak=0 open=2",
+ "idle_s8_face": {
+  "green_idle": false,
+  "ram_free_pct": 31.7,
+  "claimable_pool_lines": 1,
+  "verdict": "no-claim: green_idle=false (restore workers RAM + i2v batch GPU) - S8 gate honest"
+ },
+ "orphan_face": {
+  "probe_value": 3,
+  "note": "round-zero probe 18 faces / 3 flagged: salvage=REAL deadlock (fixed this round); v5+backfill=sleep/IO-wait false-positive faces (receipts+logs actively updating); own-lane recovery bodies"
+ },
+ "engine_status": {
+  "engine_alive": true,
+  "queue_depth": 0,
+  "heartbeat_age_sec": 19.0
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "947c9816312f13f6f769ad82a116974a7a22211a",
+  "identical": false,
+  "local_bytes": 43978,
+  "size_law": "42KB < 50KB (pass)",
+  "note": "pending-union deferred to completion package (pre-existing face)"
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "line": ""
+   },
+   "GPU-PowerCap-180W-Boot": {
+    "rc": 0,
+    "line": ""
+   },
+   "GPU-PowerCap-180W-Hourly": {
+    "rc": 0,
+    "line": ""
+   },
+   "bm-b-BiliAutoReply": {
+    "rc": 0,
+    "line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 10:22:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "ram_free_gb": 0.0,
+ "deferred_faces": [
+  "S0 pull (cold-index r950 law)",
+  "S1 smoke 49/49 (ALL_RESTORED package)",
+  "S6 chain (ALL_RESTORED package)",
+  "attrition rescan (ALL_RESTORED package)",
+  "CODELY union merge (ALL_RESTORED package)",
+  "side-branch merges (ALL_RESTORED package)",
+  "MSG-20260914-2015 retraction move (ALL_RESTORED package)"
+ ],
+ "next_milestone": "i2v 53/53 full-power (in flight) + v5 ALL_RESTORED (honest eta ~19:10; salvage may accelerate) -> completion package"
+}

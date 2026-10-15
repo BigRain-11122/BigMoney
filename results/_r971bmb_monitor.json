@@ -1,0 +1,228 @@
+{
+ "round": "r971",
+ "ts": "2026-10-15T10:05:12+08:00",
+ "machine": "bm-b",
+ "kind": "CEO-order execution round (twelfth recovery beat): O-20261015-0915 + O-20261015-0952 executed - i2v re-ignition (batch was dead: 09:52 MSG claim did not hold; 10-13 power-cut killed it mid-KN_KN28) + bili line retirement (W001-W004 registry) + delivery of 2 orders + 1 MSG",
+ "ceo_orders": {
+  "O-20261015-0915": {
+   "status": "EXECUTED this round (i2v re-ignition)",
+   "receipt": "appended into order file (first-unit self-cert line)",
+   "s1-2_cap_clause": "REPEALED by O-0952 (later order wins)"
+  },
+  "O-20261015-0952": {
+   "status": "EXECUTED this round",
+   "s1-1_cap_lift": "verified: power.limit 220W default, PowerCap Boot/Hourly disabled",
+   "s1-2_i2v_full_power": "ignition IGNITED; first_unit=[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src)",
+   "s1-3_bili_retired": "verified task disabled; W001-W004 registry retired r971",
+   "s1-4_loop_trigger": "this round IS the manual trigger (no grid-slot wait)"
+  },
+  "delivery": {
+   "O-0915_on_origin_before": false,
+   "O-0952_on_origin_before": false,
+   "MSG-0952_on_origin_before": false,
+   "rides": "C-r971 add-only faces",
+   "o25_o06_presence": {
+    "O-0025": false,
+    "O-0906": false
+   },
+   "unknown_order_diff": []
+  }
+ },
+ "ignition_face": {
+  "evidence_json": {
+   "driver": "r971bmb i2v re-ignition (O-20261015-0915+0952 executor)",
+   "ts": "2026-10-15T10:01:10+08:00",
+   "registry_retired": [],
+   "ram_free_gb_start": 4.67,
+   "keepwarm_pause": "created",
+   "vram_after_valve_mib": "811",
+   "vram_total_mib": "8192",
+   "power_limit_w": "220.00",
+   "materialized": {
+    "h3_i2v_album.py": 11189,
+    "assignment-album-v1.json": 1107,
+    "wf_h3_i2v_480p_int4.json": 2174
+   },
+   "comfy_server_pid": 28848,
+   "comfy_up": true,
+   "runner_pid": 28900,
+   "first_unit_line": "[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src)",
+   "first_unit_running_seen": true,
+   "vram_used_mib_burn": "4034",
+   "gpu_util_pct": "7",
+   "power_draw_w": "107.34",
+   "power_limit_w_final": "220.00",
+   "gpu_temp_c": "38",
+   "ram_free_gb_end": 1.5,
+   "status": "IGNITED"
+  },
+  "first_unit_line": "[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src)",
+  "running_seen": true,
+  "runner_log_tail": [
+   "[KN_KN22b] SKIP (exists 733KB)",
+   "[KN_KN23] SKIP (exists 258KB)",
+   "[KN_KN25] SKIP (exists 576KB)",
+   "[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8.9s src)",
+   "[KN_KN28]   15s running...",
+   "[KN_KN28]   61s running...",
+   "[KN_KN28]  121s running...",
+   "[KN_KN28]  181s running..."
+  ],
+  "ignition_log_tail": [
+   "2026-10-15T10:01:15 after valve: VRAM used=811/total=8192 power_limit=220.00W",
+   "2026-10-15T10:01:15 materialize h3_i2v_album.py -> 11189 bytes",
+   "2026-10-15T10:01:15 materialize assignment-album-v1.json -> 1107 bytes",
+   "2026-10-15T10:01:15 materialize wf_h3_i2v_480p_int4.json -> 2174 bytes",
+   "2026-10-15T10:01:15 ComfyUI server started pid=28848 (port 8188, out-dir comfy-out-480)",
+   "2026-10-15T10:01:34 comfy poll up=True after 15s",
+   "2026-10-15T10:01:34 runner started pid=28900 (lane bmb, 53 orders, SKIP-resume)",
+   "2026-10-15T10:01:55 ignition verdict=IGNITED first_unit=[KN_KN28] SUBMITTED frame=KN_KN28.png len=226 seed=591929 (8 vram=4034 util=7% draw=107.34W limit=220.00W"
+  ],
+  "gpu_at_closeout": {
+   "vram_used_mib": "7920",
+   "vram_total_mib": "8192",
+   "util_pct": "62",
+   "power_draw_w": "65.80",
+   "power_limit_w": "220.00",
+   "temp_c": "60"
+  },
+  "clips_count_now": 27
+ },
+ "gpu_face": {
+  "psu": "1200W installed per CEO O-0952",
+  "power_limit_w": "220.00",
+  "power_cap_tasks": "disabled (verified)",
+  "keepwarm_valve": "created",
+  "note": "valve-out (keepwarm.pause removal + model re-pin) at batch-done face (later round per r916 law)"
+ },
+ "v5_driver": {
+  "pid": 3672,
+  "alive": true,
+  "receipt": {
+   "status": "RUNNING",
+   "done_in_pass": 1146,
+   "of": 1804,
+   "remaining": 1088,
+   "fails": 430,
+   "retried_ok": 557,
+   "ok": 716,
+   "ts": "2026-10-15T10:00:21+08:00"
+  },
+  "anchor": "1116@09:45:19",
+  "rate_min": 2.0,
+  "eta": "19:10",
+  "stagnant_vs_anchor": false
+ },
+ "salvage_face": {
+  "pid": 2800,
+  "alive": true,
+  "json": false,
+  "action": "alive-running (json pending)",
+  "log_tail": [
+   "2026-10-15T08:11:49 salvage start",
+   "2026-10-15T08:48:53 salvage start"
+  ]
+ },
+ "backfill_face": {
+  "pid": 24468,
+  "alive": true,
+  "law": "no-touch, status ledger only"
+ },
+ "receipts_consumed": {
+  "C-r970": {
+   "sha": "ea6d5ae4ddf3aba97effe831394a7d2a9b5ec31e",
+   "ancestor_rc": 0
+  },
+  "C-r970b": {
+   "sha": "92fd0a5e68597175ba49a6047083f9dc64955dfa",
+   "ancestor_rc": 0
+  },
+  "origin_tip": "40fca2c5b967cc3e3c7c1c5b9af444991fa181b5"
+ },
+ "s05_probe": {
+  "verdict": "NO_DELTA_ZERO_ACTION",
+  "receipt": "results/_r971bmb_s05_scan.json"
+ },
+ "watermark": {
+  "source": "results/watermark_red.json",
+  "red": false,
+  "ts": "2026-10-15 10:05:02"
+ },
+ "sentinel_tail": "2026-10-15 10:03:02 ollama=PAUSED(valve) healed=False hbAge=14 afAge=1 vram=[7838 MiB, 100 %] state=NORMAL pyCpu=12.4 pool=pool_empty_or_busy ram=1.4 work=NONE wStreak=0 open=2",
+ "idle_s8_face": {
+  "green_idle": false,
+  "ram_free_pct": 20.5,
+  "claimable_pool_lines": 1,
+  "verdict": "no-claim: green_idle=false (restore workers RAM) - S8 gate honest"
+ },
+ "engine_status": {
+  "engine_alive": true,
+  "queue_depth": 0,
+  "heartbeat_age_sec": 34.0
+ },
+ "codely_pending_union_face": {
+  "origin_blob": "912d107b2309e2b545e61e93221e322b1e27ee97",
+  "local_blob": "c2b25c9e83a105a4186b823df249fdb234abc9a6",
+  "identical": false,
+  "local_bytes": 43168,
+  "size_law": "42KB < 50KB (pass)"
+ },
+ "lane_face": {
+  "schtasks_query": {
+   "Bigmoney-IterationLoop": {
+    "rc": 0,
+    "line": ""
+   },
+   "Bigmoney-LoopWatchdog": {
+    "rc": 0,
+    "line": ""
+   },
+   "Bigmoney-SatEngine-bm-b": {
+    "rc": 0,
+    "line": ""
+   },
+   "GPU-PowerCap-180W-Boot": {
+    "rc": 0,
+    "line": ""
+   },
+   "GPU-PowerCap-180W-Hourly": {
+    "rc": 0,
+    "line": ""
+   },
+   "bm-b-BiliAutoReply": {
+    "rc": 0,
+    "line": ""
+   }
+  },
+  "register_quad": {
+   "register_loop_task.ps1": {
+    "rc": 0,
+    "tail": "phase ok: machine=bm-b pin=2 current=2 (no-op, first fire stays 10/15/2026 10:12:00)"
+   },
+   "register_watchdog_task.ps1": {
+    "rc": 0,
+    "tail": "registered Bigmoney-LoopWatchdog (project=C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney, logon=default per D"
+   },
+   "register_precommit_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-commit claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-commit (LF-normali"
+   },
+   "register_prepush_claw.ps1": {
+    "rc": 0,
+    "tail": "pre-push claw installed -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.git\\hooks\\pre-push (LF-normalized)"
+   }
+  }
+ },
+ "ram_free_gb": 2.24,
+ "orphan_face": {
+  "value": 0,
+  "note": "recovery-epoch non-round-zero not re-probed; r959 reading 0/18 stands; v5+salvage+backfill+i2v(server/runner) = own-lane legit bodies"
+ },
+ "deferred_faces": [
+  "S0 pull (cold-index r950 law)",
+  "S1 smoke 49/49 (ALL_RESTORED package)",
+  "S6 chain (ALL_RESTORED package)",
+  "attrition rescan (ALL_RESTORED package)"
+ ],
+ "next_milestone": "i2v 53/53 at full power (in flight now) + v5 ALL_RESTORED (eta ~19:10) -> completion package (smoke+S6+attrition+catch-up+merges)"
+}
