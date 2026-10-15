@@ -34,6 +34,17 @@ DATA_DIR = os.path.join(ROOT, "data", "ext_slots")
 STATUS_PATH = os.path.join(ROOT, "results", "ext_slots_pull_status.json")
 BARS_CALENDAR = os.path.join(ROOT, "Money02", "data", "bars", "600000.parquet")
 
+# r973 pythonw no-console guard: akshare tqdm (stock_zh_a_gdhs et al.) writes to
+# sys.stderr, which is None under pythonw -> "'NoneType' object has no attribute
+# 'write'" killed every gdhs quarter (3950 ledger entries, zero parquet on disk
+# after r947 data loss). Redirect both streams to a worker log file instead.
+if sys.stdout is None or sys.stderr is None:
+    os.makedirs(os.path.join(ROOT, "logs"), exist_ok=True)
+    _worker_log = open(os.path.join(ROOT, "logs", "backfill_ext_slots_worker.log"),
+                       "a", encoding="utf-8")
+    sys.stdout = sys.stdout or _worker_log
+    sys.stderr = sys.stderr or _worker_log
+
 THROTTLE_SEC = 2.5
 MAX_CONSEC_FAIL = 5
 RETRY_BACKOFF = [2.0, 8.0, 20.0]
@@ -240,6 +251,7 @@ def pull_margin(ak, st, log):
     for d in cal:
         by_month.setdefault(d[:6], []).append(d)
     consec_fail = 0
+    sse_dead = False  # r973 per-run flag: sse channel unreachable -> stop hammering, march szse
     leg["done"] = False   # r47 false-green fix (see pull_dzjy note)
     _save_status(st)
     for ym, days in sorted(by_month.items()):
@@ -251,27 +263,28 @@ def pull_margin(ak, st, log):
             continue
         month_ok = True
         for d in days:
-            if not os.path.exists(path_sse):
+            # r973: query.sse.com.cn ConnectionError from this box (szse HTTP 200)
+            # -> first sse failure marks the channel dead for this run (r960
+            # no-hammer law); szse march continues, sse file stays missing so the
+            # next run retries the channel honestly.
+            if sse_dead:
+                pass
+            elif not os.path.exists(path_sse):
                 df, err = _fetch(ak, "stock_margin_detail_sse", date=d)
                 if df is None:
                     leg["failures"].append({"date": d, "ex": "sse", "error": err})
-                    consec_fail += 1
-                    if consec_fail >= MAX_CONSEC_FAIL:
-                        leg["done"] = False
-                        _save_status(st)
-                        log("FUSE: aborting margin leg at %s (sse)" % d)
-                        return 2
-                    month_ok = False
-                    break
-                consec_fail = 0
-                if len(df) == 0:
-                    leg["empty_days"] += 1
-                    if len(leg["empty_days_list"]) < 400:
-                        leg["empty_days_list"].append(d)
+                    sse_dead = True
+                    log("SSE channel dead for this run at %s; szse march continues" % d)
                 else:
-                    df = df.copy()
-                    df["trade_date"] = d
-                    buf_sse.append(df)
+                    consec_fail = 0
+                    if len(df) == 0:
+                        leg["empty_days"] += 1
+                        if len(leg["empty_days_list"]) < 400:
+                            leg["empty_days_list"].append(d)
+                    else:
+                        df = df.copy()
+                        df["trade_date"] = d
+                        buf_sse.append(df)
             if not os.path.exists(path_szse):
                 df, err = _fetch(ak, "stock_margin_detail_szse", date=d)
                 if df is None:
@@ -293,14 +306,22 @@ def pull_margin(ak, st, log):
             continue  # month retried next resume
         if buf_sse:
             pd.concat(buf_sse, ignore_index=True).to_parquet(path_sse)
-        elif not os.path.exists(path_sse):
+        elif not sse_dead and not os.path.exists(path_sse):
             pd.DataFrame({"trade_date": days}).to_parquet(path_sse)  # honest empty month
+            # (sse_dead months must NOT get an empty sse file: channel was never
+            #  asked, absence stays honest so future runs retry)
         if buf_szse:
             pd.concat(buf_szse, ignore_index=True).to_parquet(path_szse)
         elif not os.path.exists(path_szse):
             pd.DataFrame({"trade_date": days}).to_parquet(path_szse)
-        leg["chunks"] += 1
-        leg["rows"] += sum(len(x) for x in buf_sse) + sum(len(x) for x in buf_szse)
+        # r973: bank rows for whatever was written this pass; chunk (= complete
+        # month) only when both exchange files exist, else a sse-dead month would
+        # re-increment chunks on every resume pass.
+        banked = sum(len(x) for x in buf_sse) + sum(len(x) for x in buf_szse)
+        if banked:
+            leg["rows"] += banked
+        if os.path.exists(path_sse) and os.path.exists(path_szse):
+            leg["chunks"] += 1
         _save_status(st)
     log("margin leg complete: %d months, %d rows" % (leg["chunks"], leg["rows"]))
     leg["done"] = True
