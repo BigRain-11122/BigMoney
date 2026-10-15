@@ -1,0 +1,128 @@
+{
+ "probe": "W249 pre-seat probe (bm-c loop r1037 window, 2026-10-15 23:0x, queue-head supply lane: upstream W248 = bm-c OWN registered+FINALIZED complete chain (r1036 absorb finalize ledger 969,935 / K=543,520); NO in-flight seat upstream -- W249 FREEZE UNBLOCKED at seat time; seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + CEO fill-order standing + O-20261015-0025 full mobilization; universe = post-W248-REGISTERED 238 owner rows)",
+ "legs": {
+  "leg0": {
+   "rows": 246,
+   "tail": "W248-registered+FINALIZED (bm-c own-wave complete)",
+   "w248_splice_landed": true,
+   "w248_bands": {
+    "A": [
+     561501,
+     563500
+    ],
+    "B": [
+     544701,
+     544900
+    ]
+   },
+   "w247_bands": {
+    "A": [
+     559501,
+     561500
+    ],
+    "B": [
+     544501,
+     544700
+    ]
+   },
+   "w248_finalize_landed": true,
+   "w248_finalize_anchors": {
+    "ledger_total": 969935,
+    "merged_n": 543520,
+    "skill_line_delta_k_lift": -0.0001
+   },
+   "chain_relation": {
+    "w247_total": 967735,
+    "w248_total": 969935,
+    "ledger_delta": 2200,
+    "k_delta": 2200
+   },
+   "inflight_upstream": false,
+   "waits_upstream": "NONE (W248 complete: registered+FINALIZED; the W249 FREEZE is UNBLOCKED at seat time -- prereg derive = next window FIRST ACTION on the post-W248 universe)",
+   "owner_rows": 238,
+   "bmc_rows": 68,
+   "bma_rows": 129,
+   "bmb_rows": 41,
+   "ordinal": 239,
+   "bmc_ordinal": 69,
+   "bmc_ordinal_note": "bm-c 69th owned [W241, W248, now W249 -- attempt-continuity: the superseded W245-bmc seat claim (quarantined 20261015T0924) left the live rows intact; live derive governs r359]; engine wave ordinal = 238 registry owner rows + this candidate = 239th",
+   "anchor": "W248 registered+FINALIZED own-wave (bm-c r1035 prereg + dead-window splice 21:36 + r1036 absorb finalize: ledger 969,935 EXACT (967,735+2,200) / K=543,520 (541,320+2,200) / fivekeys ALL PASS results/_r1036bmc_w248_fivekeys.json / sixgate dual-sha16 pf fd8b95810b45c48c + n1 72e95889017708ba) -- this W249 SEAT = queue-head supply per seat-first law O-20261010-2350 sec.2 (seats never queue behind freeze windows; standing CEO fill-order + O-20261013 22:1x CPU standing-open + O-20261015-0025 full mobilization + never-dry O-1819); the W249 FREEZE is UNBLOCKED (no in-flight seat upstream): the freezer proceeds prereg derive + five-face splice re-derived on the post-W248 universe"
+  },
+  "leg1": {
+   "ARITH_A": [
+    563501,
+    565500
+   ],
+   "ARITH_B": [
+    544901,
+    545100
+   ],
+   "A": [
+    563501,
+    565500
+   ],
+   "hops_A": 0,
+   "A_hop_chain": [],
+   "B": [
+    544901,
+    545100
+   ],
+   "hops_B": 0,
+   "B_hop_chain": [],
+   "B_naive_first_clean": [
+    544901,
+    545100
+   ],
+   "B_naive_hops": 0,
+   "B_hop_lands_inside_A": false,
+   "A_semantics": "A arithmetic continuation from the REGISTERED W248 A tail 563_500+1 = 563_501..565_500 is CLEAN at naive start on the post-W248-REGISTERED universe (twelfth consecutive seed-gap A-continuation face, anticipated by the W248 probe leg4 and confirmed live; never transcribe r587); A base = first clean window, forward-monotone non-rotational r587 enforced in-walk; A base >= registered prior-wave B tail+1 floor relation",
+   "B_semantics": "B arithmetic continuation from the REGISTERED W248 B tail 544_900+1 = 544_901..545_100 is CLEAN at naive start (hops=0, clean arithmetic continuation past the W239 staircase band-hop landing; the registered W239 A band 542_501..544_500 and the W247/W248 B bands all sit below the walk start); B_hop lands-inside-A=false leg; B_no_ownA_jump=true (the clean B window is below the own-A window)",
+   "relation_asserts": {
+    "A_clean_at_naive_start": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_clean_at_naive_start": true,
+    "B_base_above_W248_tail": true,
+    "AB_mutual_exclusion": true,
+    "B_hop_lands_inside_A": false,
+    "W247_W248_bands_respected_A": true,
+    "W247_W248_bands_respected_B": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=563501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=544901 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W250p_A_naive": "565501..567500",
+   "W250p_A_first_clean": "565501..567500",
+   "hops_A": 0,
+   "W250p_A_naive_refusers_seeds": [],
+   "W250p_B_naive": "545101..545300",
+   "W250p_B_first_clean": "545101..545300",
+   "hops_B": 0,
+   "W250p_B_lands_inside_W250p_A_naive": false,
+   "note": "W250+ projection on the pre-W249 universe (assuming the W249 seat bands declared here register verbatim). The W250 freezer MUST re-derive on the post-W249 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; seed-gap face inherited from W239..W248: A/B decoupled, re-read the live trace, do NOT assume the staircase A-base==prior-B-tail+1 equality."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   563501,
+   565500
+  ],
+  "B": [
+   544901,
+   545100
+  ],
+  "a_lo": 563501,
+  "a_hi": 565500,
+  "b_lo": 544901,
+  "b_hi": 545100
+ }
+}
