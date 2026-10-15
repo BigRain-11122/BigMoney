@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+# r1027 bm-c: append F-20261015-02 to HQ-FEEDBACK.md (O-20261015-1250 leg-5 deployment defect report)
+import io, os
+
+ROW = (
+    "- F-20261015-02 [bm-c r1027 2026-10-15T13:4x+08:00\u00b7\u8bb0\u5fc6\u5b88\u95e8\u4ef6\u7f3a\u9677\u9762\u00b7O-20261015-1250 \u2464\u673a\u961f\u63a8\u5e7f\u6267\u884c\u53d1\u73b0] "
+    "**Tools/memory-budget-gate.py v1.1 \u7d22\u5f15\u5757\u975e\u5e42\u7b49\u590d\u5229\u6cc4\u6f0f\uff08\u6bcf\u6267\u6cd5\u8f6e +814B \u6c38\u4e0d\u6536\u655f\uff09**\uff1a"
+    "\u73b0\u8c61=parse \u628a\u4e0a\u4e00\u8f6e\u91cd\u5efa\u5199\u5165\u7684\u300c- [memory-gate] \u8bb0\u5fc6\u5206\u5c42\u4e3b\u9898\u7d22\u5f15\u300d\u5934\u884c+9 \u6761\u7d22\u5f15\u7eed\u884c\u89c6\u4e3a\u4e00\u4e2a Reference \u6761\u76ee\uff0c"
+    "\u4e14\u5176\u547d\u4e2d KEEP_RULES \u767d\u540d\u5355\uff08\u201c\u8bb0\u5fc6\u5206\u5c42\u4e3b\u9898\u7d22\u5f15\u201d\uff09\u88ab\u4fdd\u7559\uff0c\u800c rebuild \u53c8\u65e0\u6761\u4ef6\u518d\u8ffd\u52a0\u65b0\u7d22\u5f15\u5757\u2192\u6bcf\u6b21\u8d85\u9650\u6267\u6cd5\u8f6e\u6ce8\u5165\u9762 +1 \u5757\uff08+814B/+10 \u884c\uff09\u590d\u5229\u589e\u957f\uff1b"
+    "\u73b0 steady-state \u4efb\u4f55\u673a\u5904\u4e8e\u9884\u7b97\u5916\u6001\uff08\u5982 bm-c User \u786c\u6cd5\u8282+\u70ed\u5c42\u9762 119KB>40KB\uff09=HQ-MemoryBudgetGate \u6bc4 4h \u4e00\u8f6e\u8fde\u7eed\u6cc4\u6f0f\uff08\u2248+4.9KB/\u65e5\uff09\uff1bbm-a \u73b0 20KB \u9884\u7b97\u5185\u8d70 GATE-OK \u65e9\u9000=\u6682\u4e0d\u89e6\u53d1\uff0c\u4efb\u4f55\u673a\u8fc7\u9650\u6001\u5373\u4e2d\u62db\u3002"
+    "\u8bc1\u636e=bm-c \u5b9e\u5f39\u4e09\u8f6e\uff0813:42 /run +814B\u300113:43 in-process +814B\u3001\u8865\u4e01\u540e dedupe -1710B+\u4e8c\u6b21\u8fd0\u884c delta=0B \u5e42\u7b49\uff09+C:\\Users\\Dasheng\\.codely-cli\\memory\\gate-log.txt \u4e09\u884c+diff \u65e0\u65b0\u589e\u552f\u4e00\u884c\u5b9e\u951a\uff08\u5757\u6574\u4f53\u590d\u5236\uff09\u3002"
+    "\u5efa\u8bae\u65b9\u5411=keep \u5faa\u73af\u52a0\u4e00\u884c `if body.startswith(\"- [memory-gate]\"): continue`\uff08\u7d22\u5f15\u5757=\u6d3e\u751f\u9762\u7981\u4fdd\u7559\u7981\u8fc1\u79fb\u00b7\u91cd\u5efa\u518d\u751f\uff09\u2014\u2014"
+    "bm-c \u90e8\u7f72\u526f\u672c\u5df2\u6309\u6b64\u4fee\u590d\u5e76\u5e45\u7b49\u9a8c\u8bc1\uff08Tools/memory-budget-gate.py \u672c commit\uff09\uff1b**origin \u6b63\u5178\u4ef6\u5f85\u540c\u6b3e\u8865\u4e01\uff0c\u5404\u673a\u63a8\u5e7f\u526f\u672c\u91cd\u540c\u6b65\u524d\u5fc5\u4fee\uff0c\u5426\u5219\u6cc4\u6f0f\u56de\u5f52**\u3002\u72b6\u6001=open\uff08\u96c6\u56e2\u5468\u8fdb\u5316\u8f6e\u6536\u53d6\uff1b\u5f53\u7a97\u7d27\u6025\u5ea6=P1\uff0c\u6cc4\u6f0f\u968f\u6bcf 4h \u590d\u5229\uff09"
+)
+
+path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "HQ-FEEDBACK.md")
+with io.open(path, "r", encoding="utf-8-sig") as f:
+    text = f.read()
+assert "F-20261015-02" not in text, "row already present"
+if not text.endswith("\n"):
+    text += "\n"
+text += ROW + "\n"
+with io.open(path, "w", encoding="utf-8", newline="") as f:
+    f.write(text)
+with io.open(path, "r", encoding="utf-8-sig") as f:
+    back = f.read()
+assert ROW in back, "read-back mismatch"
+print("HQ-FB-APPEND-OK bytes=%d" % len(back.encode("utf-8")))
