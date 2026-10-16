@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 04:21:26",
+ "generated_at": "2026-10-17 05:16:57",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,18 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 77,
-  "result_jsons_landed_24h": 105,
+  "commits_24h": 75,
+  "result_jsons_landed_24h": 108,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 10,
+  "prereg_md_touched_24h": 11,
   "compute_audit_latest": {
-   "ts": "2026-10-17 04:18:59",
-   "py_cpu_pct": 1.4,
+   "ts": "2026-10-17 05:13:22",
+   "py_cpu_pct": 0.6,
    "flags": [
+    "cap_violation",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:cap_violation,pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -669,7 +670,7 @@
   "total_state_tokens_est": 2630,
   "total_report_tokens_est": 2110848,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-17 02:39:17",
+   "prev_generated": "2026-10-17 03:06:18",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -682,37 +683,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 01:04:23",
+    "latest_ts": "2026-10-17 05:13:22",
     "py_pct": 0.6,
-    "cpu_pct": 26.0,
+    "cpu_pct": 99.0,
     "ready": 0,
-    "streak_min": 904.3,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 1153.3,
+    "verdict": "FLAG:cap_violation,pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "00:38",
-      0.3
-     ],
-     [
-      "02:37",
-      0.0
-     ],
-     [
-      "05:58",
-      0.1
-     ],
-     [
-      "07:32",
-      0.9
-     ],
-     [
-      "08:30",
-      0.2
-     ],
-     [
-      "09:02",
-      0.4
-     ],
      [
       "09:37",
       100.0
@@ -734,11 +711,35 @@
       0.3
      ],
      [
-      "01:04",
+      "21:56",
+      0.0
+     ],
+     [
+      "22:02",
+      1.8
+     ],
+     [
+      "01:39",
+      0.2
+     ],
+     [
+      "02:36",
+      0.3
+     ],
+     [
+      "03:03",
+      0.0
+     ],
+     [
+      "04:18",
+      1.4
+     ],
+     [
+      "05:13",
       0.6
      ]
     ],
-    "today_samples": 1,
+    "today_samples": 5,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -887,7 +888,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-17 01:04:23"
+     "audit_ts": "2026-10-17 05:13:22"
     }
    },
    "bm-b": {
