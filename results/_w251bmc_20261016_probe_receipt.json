@@ -1,0 +1,322 @@
+{
+ "probe": "W251 pre-seat probe (bm-c loop r1046 window, 2026-10-16 08:5x, queue-head supply lane: upstream W250 = bm-c OWN registered+FINALIZED complete chain (r1046 continuation finalize ledger 974,335 / K=547,920); NO in-flight seat upstream -- W251 FREEZE UNBLOCKED at seat time; seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + CEO fill-order standing + O-20261015-0025 full mobilization; universe = post-W250-REGISTERED 240 owner rows)",
+ "legs": {
+  "leg0": {
+   "rows": 248,
+   "tail": "W250-registered+FINALIZED (bm-c own-wave complete)",
+   "w250_splice_landed": true,
+   "w250_bands": {
+    "A": [
+     565501,
+     567500
+    ],
+    "B": [
+     545101,
+     545300
+    ]
+   },
+   "w249_bands": {
+    "A": [
+     563501,
+     565500
+    ],
+    "B": [
+     544901,
+     545100
+    ]
+   },
+   "w250_finalize_landed": true,
+   "w250_finalize_anchors": {
+    "ledger_total": 974335,
+    "merged_n": 547920,
+    "skill_line_delta_k_lift": 0.0
+   },
+   "chain_relation": {
+    "w249_total": 972135,
+    "w250_total": 974335,
+    "ledger_delta": 2200,
+    "k_delta": 2200
+   },
+   "inflight_upstream": false,
+   "waits_upstream": "NONE (W250 complete: registered+FINALIZED; the W251 FREEZE is UNBLOCKED at seat time -- prereg derive = next window FIRST ACTION on the post-W250 universe)",
+   "owner_rows": 240,
+   "bmc_rows": 70,
+   "bma_rows": 129,
+   "bmb_rows": 41,
+   "ordinal": 241,
+   "bmc_ordinal": 71,
+   "bmc_ordinal_note": "bm-c 71st owned [W248, W249, W250, now W251 -- attempt-continuity: live derive governs r359]; engine wave ordinal = 240 registry owner rows + this candidate = 241st",
+   "anchor": "W250 registered+FINALIZED own-wave (bm-c seat r1043-window origin cc06f1f4a + prereg 4f7a130ff + r1046 splice 29930f489 (incl disclosed print-face heal rows 68->69) + engine self-burn 12/12 (ledger appends 486458150+77a4f529a) + r1046 continuation finalize: ledger 974,335 EXACT (972,135+2,200) / K=547,920 (545,720+2,200) / fivekeys ALL PASS results/_r1046bmc_w250_fivekeys.json / sixgate ALL PASS results/_r1046bmc_w250_sixgate.json PRE-FINALIZE phase, gate-1 anchored to landed git blob n1 22a957f851fd3adc / pf 40b0befe37ebbe2c) -- this W251 SEAT = queue-head supply per seat-first law O-20261010-2350 sec.2 (seats never queue behind freeze windows; standing CEO fill-order + O-20261013 22:1x CPU standing-open + O-20261015-0025 full mobilization + never-dry O-1819); the W251 FREEZE is UNBLOCKED (no in-flight seat upstream): the freezer proceeds prereg derive + five-face splice re-derived on the post-W250 universe"
+  },
+  "leg1": {
+   "ARITH_A": [
+    567501,
+    569500
+   ],
+   "ARITH_B": [
+    545301,
+    545500
+   ],
+   "A": [
+    567501,
+    569500
+   ],
+   "hops_A": 0,
+   "A_hop_chain": [],
+   "B": [
+    569501,
+    569700
+   ],
+   "hops_B": 13,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      545301,
+      545500
+     ],
+     "jump_to": 545501,
+     "refuser_pts": [
+      545500
+     ],
+     "refuser_bands": []
+    },
+    {
+     "hop": 2,
+     "window": [
+      545501,
+      545700
+     ],
+     "jump_to": 547501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       545501,
+       547500
+      ]
+     ]
+    },
+    {
+     "hop": 3,
+     "window": [
+      547501,
+      547700
+     ],
+     "jump_to": 549501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       547501,
+       549500
+      ]
+     ]
+    },
+    {
+     "hop": 4,
+     "window": [
+      549501,
+      549700
+     ],
+     "jump_to": 551501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       549501,
+       551500
+      ]
+     ]
+    },
+    {
+     "hop": 5,
+     "window": [
+      551501,
+      551700
+     ],
+     "jump_to": 553501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       551501,
+       553500
+      ]
+     ]
+    },
+    {
+     "hop": 6,
+     "window": [
+      553501,
+      553700
+     ],
+     "jump_to": 555501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       553501,
+       555500
+      ]
+     ]
+    },
+    {
+     "hop": 7,
+     "window": [
+      555501,
+      555700
+     ],
+     "jump_to": 557501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       555501,
+       557500
+      ]
+     ]
+    },
+    {
+     "hop": 8,
+     "window": [
+      557501,
+      557700
+     ],
+     "jump_to": 559501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       557501,
+       559500
+      ]
+     ]
+    },
+    {
+     "hop": 9,
+     "window": [
+      559501,
+      559700
+     ],
+     "jump_to": 561501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       559501,
+       561500
+      ]
+     ]
+    },
+    {
+     "hop": 10,
+     "window": [
+      561501,
+      561700
+     ],
+     "jump_to": 563501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       561501,
+       563500
+      ]
+     ]
+    },
+    {
+     "hop": 11,
+     "window": [
+      563501,
+      563700
+     ],
+     "jump_to": 565501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       563501,
+       565500
+      ]
+     ]
+    },
+    {
+     "hop": 12,
+     "window": [
+      565501,
+      565700
+     ],
+     "jump_to": 567501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       565501,
+       567500
+      ]
+     ]
+    },
+    {
+     "hop": 13,
+     "window": [
+      567501,
+      567700
+     ],
+     "jump_to": 569501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       567501,
+       569500
+      ]
+     ]
+    }
+   ],
+   "B_naive": [
+    545301,
+    545500
+   ],
+   "B_naive_refused_at_start": true,
+   "B_hop_lands_inside_A": false,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation from the REGISTERED W250 A tail 567_500+1 = 567_501..569_500 is CLEAN at naive start on the post-W250-REGISTERED universe (fourteenth consecutive seed-gap A-continuation face, anticipated by the W250 prereg sec.5 item5 + W250 probe leg4 and confirmed live; never transcribe r587); A base = first clean window, forward-monotone non-rotational r587 enforced in-walk; A base >= registered prior-wave B tail+1 floor relation",
+   "B_semantics": "B walk from the REGISTERED W250 B tail 545_300+1 = 545_301 is REFUSED at naive start (SEED_REGISTRY seed 545_500 + the W240..W249 A-ladder bands, per the W250 prereg sec.5 item5 projection) -- the pre-W250 projected first-clean 565_501..565_700 is now INSIDE the registered W250 A band 565_501..567_500, so the post-W250 walk hops past it AND past the own-wave A window (own-A reservation standard leg); B_hop lands-inside-A=false leg; live trace recorded verbatim",
+   "relation_asserts": {
+    "A_clean_at_naive_start": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_clean_at_naive_start": false,
+    "B_base_above_W250_tail": true,
+    "AB_mutual_exclusion": true,
+    "B_hop_lands_inside_A": false,
+    "W249_W250_bands_respected_A": true,
+    "W249_W250_bands_respected_B": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=567501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=569501 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W252p_A_naive": "569501..571500",
+   "W252p_A_first_clean": "569501..571500",
+   "hops_A": 0,
+   "W252p_A_naive_refusers_seeds": [],
+   "W252p_B_naive": "569701..569900",
+   "W252p_B_first_clean": "569701..569900",
+   "hops_B": 0,
+   "W252p_B_lands_inside_W252p_A_naive": true,
+   "note": "W252+ projection on the pre-W251 universe (assuming the W251 seat bands declared here register verbatim). The W252 freezer MUST re-derive on the post-W251 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; seed-gap face inherited from W239..W250: A/B decoupled, re-read the live trace, do NOT assume the staircase A-base==prior-B-tail+1 equality."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   567501,
+   569500
+  ],
+  "B": [
+   569501,
+   569700
+  ],
+  "a_lo": 567501,
+  "a_hi": 569500,
+  "b_lo": 569501,
+  "b_hi": 569700
+ }
+}

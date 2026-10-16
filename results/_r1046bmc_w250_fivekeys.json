@@ -1,0 +1,73 @@
+{
+ "machine": "bm-c",
+ "wave": 250,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w250_results.json",
+ "merged": {
+  "k": 547920,
+  "mu": -0.09276995893561103,
+  "sigma": 0.24503505666354172,
+  "se_mu_k547920": 0.000331
+ },
+ "w250_only": {
+  "mu": -0.09225881818181819,
+  "sigma": 0.24673742606476917
+ },
+ "skill_line": {
+  "n_eff_held": 972135,
+  "line_pre_w250": 1.1939,
+  "line_merged_547920": 1.1939,
+  "k_lift_delta": 0.0
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3235,
+  "full_sharpe_p99": 0.4857
+ },
+ "checks": [
+  {
+   "name": "key1_w250_vs_merged_mu_gap",
+   "value": 0.0005111407537928409,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w249_key",
+   "value": 2.061064388964029e-06,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 2.7166906128903204e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": 0.007699999999999985,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000331,
+   "band": 0.000332,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 972135,
+  "batch_trials": 2200,
+  "total": 974335,
+  "exact": true
+ },
+ "sec5_item5_projection_note": "W251+ projection key (A naive 567_501..569_500 CLEAN / B first-clean 565_501..565_700 hops=11 lands-inside-A=false) = freeze-side face consumed by the W251 freeze party probe leg4 re-derive (r587 law), NOT a finalize-face key; recorded here for chain visibility only",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
