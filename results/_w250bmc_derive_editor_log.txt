@@ -1,0 +1,179 @@
+P1-transitive-deps: 2x '(245, 244, 243, 242, 241, 240, 239, 238, 237, 23'
+P1-liveness-range: 2x 'range(209, 250)'
+P1-kept-list: 1x '[232, 233, 234, 235, 236]'
+P1-fresh/legcount-loop: 2x 'range(237, 249)'
+P1-kept-err: 1x 'kept segment not W232..W236 five legs'
+P1-fresh-firstline: 1x "assert fresh_leg_lines[0].startswith('        as"
+P1-estate-count: 1x 'assert par_sec.count("assert pf.N1_BANDS[") == 9'
+P1-estate-decomp: 1x '    and int(_estate_ws[89]) == 231, \\'
+P1-estate-err: 1x 'estate segment not W138..W206 full-span 69 rows '
+P1-parfull-count: 1x 'assert par_full.count("assert pf.N1_BANDS[") == '
+P1-fmt-comment: 1x 'def fmt(n):  # 563501 -> "563_501"'
+P2-downstream: 13x 'W250'
+P3-self: 178x '249'
+P3 consumed 178 '249' substrings
+P4-upstream: 249x '248'
+P4 consumed 249 '248' substrings
+P5a-ledger-int: 1x '969_935'
+P5a-k-int: 1x '543_520'
+P5a-ledger-prose: 8x '969,935'
+P5a-k-prose: 8x '543,520'
+P5a-seedgap: 13x 'TWELFTH consecutive'
+P5a-seedgap-lc1: 1x 'tenth consecutive seed-gap face per'
+P5a-seedgap-lc2: 1x '(seed-decoupled A/B gap,\n# tenth consecutive); m'
+P5a-gapface-tenth: 1x 'seed-decoupled A/B gap face tenth;'
+P5a-seat-msg: 7x 'MSG-20261015-225x-bmc-w250-seat'
+P5a-seat-origin: 2x '8949e0aef'
+P5a-ordinal69: 7x 'bmc_ordinal=69'
+P5a-receipt-date: 10x '_w250bmc_20261015'
+P5a-finface: 1x 'thirty-seventh consecutive fully-clean freeze wi'
+P5a-prereg-note: 1x 'clean-precondition thirty-seventh consecutive wi'
+P5a-sixtyninth: 3x 'SIXTY-NINTH'
+P5a-249th: 3x 'TWO HUNDRED AND FORTY-NINTH'
+P5b-legs-range: 1x '== list(range(232, 249))'
+P5b-legs-err: 1x 'legs segment not W232..W247 sixteen legs'
+P5b-parfull-fstr: 1x '!= 106 (90 estate + W232..W247 legs 16)'
+P5b-dropped-range: 1x '== list(range(237, 249))'
+P5b-dropped-err: 1x 'dropped segment not W237..W247 eleven legs'
+P5b-m233-def: 1x 'm232 = re.search(r" *assert pf\\.N1_BANDS\\[232\\] '
+P5b-m233-assert: 1x 'assert m232, "upstream W232 row leg not found in'
+P5b-m233-parsec: 1x 'par_sec = par_full[:m232.start()]'
+P5b-m233-legssec: 1x 'legs_sec = par_full[m232.start():]'
+P5b-m238-def: 1x 'm237 = re.search(r" *assert pf\\.N1_BANDS\\[237\\] '
+P5b-m238-assert: 1x 'assert m237, "W237 leg boundary not found inside'
+P5b-m238-kept: 1x 'legs_kept = legs_sec[:m237.start()]'
+P5b-m238-dropped: 1x 'legs_dropped = legs_sec[m237.start():]'
+P5b-split-cmt1: 1x '# prereg sec.3 mandate split: keep W232..W236 ve'
+P5b-split-cmt2: 1x "# block's own W237..W247 legs (11) are excluded "
+P5b-ext-90: 1x '# STRUCTURAL CHOICE (frozen W250 prereg sec.3 ma'
+P5b-ext-estate: 1x '# estate (W138..W206 full-span 69 rows + W211..W'
+P5b-ext-kept: 1x '# legs (4) from the OWN W249 block physical byte'
+P5b-ext-dropped: 1x '# W237..W247 legs (11) are EXCLUDED from the est'
+P5b-ext-fresh: 1x '# mandate; the W250 block appends fresh W237..W2'
+P5b-ext-parity: 1x '# from the LIVE pf registry at freeze time) -> 1'
+P5b-hdr-dropped: 1x "the W249\n# block's own W237..W247 legs (11 rows)"
+P5b-hdr-fresh: 1x '# after extraction, fresh W237..W249 legs (12 ro'
+P5b-hdr-parity: 1x '# parity = 107 rows (W138..W206 + W211..W249). Z'
+P5b-emit-estate: 1x '"    #     estate 90 rows (W138..W206 full-span '
+P5b-emit-kept: 1x '"    #     W232..W236 legs (5) extracted verbati'
+P5b-emit-dropped: 1x '"    #     physical bytes; the W249 block\'s own '
+P5b-emit-fresh: 1x '"    #     W237..W249 legs (12) added, machine-d'
+P5b-emit-parity: 1x '"    #     registry at freeze time -> 107 parity'
+P5b-rcpt-estate: 1x '+ W211..W231 legs (estate 90) + W232..W236 legs '
+P5b-rcpt-dropped: 1x "the W249 block's own W237..W247 legs (11) EXCLUD"
+P5b-rcpt-fresh: 1x 'fresh W237..W249 legs (12) machine-derived'
+P5b-rcpt-total: 1x '-> W250 block = 107 rows (W138..W206 + W211..W24'
+P5b-e63-note: 1x '(d) E63 heal 2nd instance this window: derived l'
+P5b-rcpt-source: 1x '"OWN W249 block physical bytes (bm-c splice gene'
+P5c-band-drift: 1x 'assert (a_lo, a_hi) == (563_501, 565_500) and (b'
+P5c-band-ahdr: 1x '# arithmetic continuation of the prior-wave A ta'
+P5c-band-bhdr: 1x 'prior-wave B tail (544_901..545_100, hops=0, B_n'
+P5c-band-owna: 1x '# OUTSIDE the own-A window 563_501..565_500; B b'
+P5c-band-bbase: 1x '# (544_700+1) EXACT; B_no_ownA_jump=true; B_hop_'
+P5c-hdr-staircase: 1x '# W249 B band 544_501..544_700 both sit below th'
+P5c-leg1-staircase: 1x '# registered W239 A band and the registered W249'
+P5c-pfcmt-staircase: 1x 'and the registered W249 B band",'
+P5c-pfcmt-bothall: 1x ' + " both sit below the walk start) -- B lands O'
+P5c-rcpt-staircase: 1x 'the registered W247/W249 B bands 544_501..544_70'
+P5c-fstr-staircase: 2x "and the registered W249 B band {fmt(W249['b_exit"
+P5d-rsv-keys: 2x 'W247_W249_bands_respected'
+P5d-ord-gate: 1x '== 238 and len(bma_rows_live) == 129 and len(bmc'
+P5d-ord-err: 1x '(expect 238/129/68 PRE-splice post-W249 registra'
+P5d-leg0-prose: 1x '# receipt leg0 face owner_rows=236 / bmc_rows=67'
+P5d-leg0-universe: 1x '# = seat-time PRE-W250-splice live faces (post-W'
+P5d-leg0-inflight: 1x '# the W249 seat in-flight); live derive at freez'
+P5d-ord-owner-prose: 1x '# W249 splice LANDED (finalize adds no registry '
+P5d-ord-bmc-prose: 1x '# candidate = 68th EXACT -- bm-c own-seat contin'
+P5d-seat-lane: 1x '# W250 seat itself r1030; waits-upstream ARMED l'
+P5d-seat-lane2: 1x '# landing bm-c r1036)'
+P5d-print-lane: 1x 'waits-upstream DISARMED face), "'
+P5d-print-deps: 1x 'f"W249+W244..W235 finalize products present "'
+P5d-print-69th: 1x '(69th own wave per live derive; "'
+P5d-rcpt-69th: 1x "bm-c's 69th own wave per live derive"
+P5d-rcpt-ordface: 1x '"probe_receipt_bmc_ordinal_face": 69,'
+P5d-rcpt-68th: 1x 'post-W249 registration: bm-c rows 68 + candidate'
+P5d-rcpt-lane: 1x 'waits-upstream disarmed by W249 landing)'
+P5d-rcpt-238th: 1x 'freeze-time live face owner rows 238 + candidate'
+P5d-bundle-68th: 1x 'freeze-time live derive bmc rows 68 + candidate '
+P5d-hdr-window: 1x '# 2026-10-15 21:2x bm-c r1041 freeze window (ups'
+P5d-hdr-precond: 1x '# precondition -- W249 finalize one-pass bm-c r1'
+P5d-hdr-seat: 1x '@ origin cc06f1f4a r1030, pre-seat probe'
+P5d-hdr-seat-lane: 1x "# the W250 seat's waits-upstream ARMED on the W2"
+P5d-hdr-prereg: 1x '# PERPETUAL_N1_W250_PREREG.md derived by the r10'
+P5d-hdr-authored: 1x '# (authored 04:04:22, banned_direction_gate rc0,'
+P5d-hdr-lineage: 1x '# Lineage: _w249bmc_freeze_edits.py template (pr'
+P5d-hdr-universe: 1x '# post-W246-REGISTERED universe with the W249 ca'
+P5d-pfcmt-seat: 1x '"    # origin " + SEAT_ORIGIN + " (r1030, queue-'
+P5d-pfcmt-upstream: 1x 'bm-c r1036 absorb-window freeze + finalize one-p'
+P5d-pfcmt-prereg: 1x '"    # r1040-dead window (absorbed+committed r10'
+P5d-cfg-prereg: 1x '"r1040-dead window (absorbed+committed r1041) ma'
+P5d-hdr-emit-prereg: 1x 'r1040-dead window (absorbed+committed r1041) der'
+P5d-hdr-emit-upstream1: 1x '"    #     the bm-c r1036 absorb window; engine"'
+P5d-hdr-emit-upstream2: 1x '"    #     self-burn 12/12 + finalize one-pass b'
+P5d-hdr-emit-seat: 1x '"    #     (r1030 MSG-20261016-055x-bmc-w250-sea'
+P5d-cfg-upstream: 1x 'bm-c own seat executed at the bm-c r1036 absorb '
+P5d-rcpt-repair: 1x '"repair_chain_note": "W249 bm-c own-wave closeou'
+P5d-rcpt-seat-r: 1x ' r1037 BEFORE this freeze per r565 law'
+P5d-rcpt-seat-lane: 1x "the W250 freeze's waits-upstream on the W249 cha"
+P5d-rcpt-bundle: 1x '"note": "prereg derived by the r1040-dead window'
+P5d-pfcmt-leg4B: 1x '"    # seed refusers) / B naive " + rec["legs"]['
+P5d-pfcmt-leg4C: 1x '"    # B base == prior-B-tail+1 EXACT, lands OUT'
+P5d-rcpt-downstream: 1x "W251p face per this window's probe leg4: A naive"
+P5d-cfg-leg4B: 1x 'f"{rec[\'legs\'][\'leg4\'][\'W251p_B_naive\']} CLEAN ('
+OUT '# --- W250 materializer face' = 2
+OUT '# --- W249 materializer face' = 1
+OUT '"+ W250 materializer face' = 2
+OUT 'range(16, 250)' = 2
+OUT 'range(17, 250)' = 3
+OUT 'range(238, 250)' = 2
+OUT 'range(233, 249)' = 1
+OUT 'list(range(238, 249))' = 1
+OUT 'range(209, 251)' = 2
+OUT 'if w < 250)' = 5
+OUT 'if w < 249)' = 1
+OUT '_w250bmc_20261016_probe_receipt.json' = 10
+OUT '_w250bmc_freeze_receipt.json' = 1
+OUT 'MSG-20261016-055x-bmc-w250-seat' = 7
+OUT 'cc06f1f4a' = 2
+OUT '972_135' = 1
+OUT '545_720' = 1
+OUT '(565_501, 567_500)' = 1
+OUT '(545_101, 545_300)' = 1
+OUT 'B_base_above_W249_tail' = 1
+OUT 'W248_W249_bands_respected_A' = 1
+OUT 'W248_W249_bands_respected_B' = 1
+OUT 'W251p_A_naive' = 2
+OUT 'W251p_B_first_clean' = 2
+OUT 'arith_a250' = 6
+OUT 'arith_b250' = 6
+OUT '"PERPETUAL-N1-W250-SHARD-0"' = 1
+OUT 'n1_w250_results.json' = 2
+OUT 'THIRTEENTH consecutive' = 13
+OUT 'thirteenth consecutive' = 2
+OUT 'SEVENTIETH' = 3
+OUT 'TWO HUNDRED AND FIFTIETH' = 3
+OUT 'thirty-eighth consecutive' = 2
+OUT 'bmc_ordinal=70' = 7
+OUT 'r1042 splice window' = 3
+OUT 'r1043' = 14
+OUT 'r1036' = 0
+OUT 'r1030' = 0
+OUT 'r1040-dead' = 0
+OUT 'r1037' = 0
+OUT 'r1041' = 0
+OUT '8949e0aef' = 0
+OUT '969,935' = 0
+OUT '543,520' = 0
+OUT '969_935' = 0
+OUT '543_520' = 0
+OUT 'TWELFTH' = 0
+OUT 'tenth consecutive' = 0
+OUT 'face tenth' = 0
+OUT 'W247_W249_bands_respected' = 0
+OUT 'MSG-20261015-225x' = 0
+OUT 'bmc_ordinal=69' = 0
+OUT '68th' = 0
+OUT '69th' = 0
+OUT '238th' = 0
+OUT 'thirty-seventh' = 0
+OUT '20261015_probe_receipt' = 0
