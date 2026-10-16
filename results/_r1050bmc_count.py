@@ -1,0 +1,53 @@
+import io
+t = io.open(r'K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_w251bmc_freeze_edits.py', encoding='utf-8').read()
+needles = [
+ 'seed-gap', 'seed-decoupled', 'FIRST-CLEAN', 'A-continuation', 'first-clean',
+ 'staircase', 'eleven legs', 'sixteen legs', 'five legs', 'twelve',
+ '== (567_501, 569_500)', 'w250_a_tail + 1 == a_lo', 'a_lo > w250_b_tail + 1',
+ 'b_exit"][1] < W250', 'hops_A") == 0', 'A_hop_chain") == []',
+ 'len(leg1.get("B_hop_chain") or []) == 13', 'B_naive") == [w250_b_tail + 1',
+ 'ra.get("A_clean_at_naive_start")', 'B_clean_at_naive_start") is False',
+ 'WAVE_CONFIGS[251]["a_seed_base"] == {a_lo}', 'WAVE_CONFIGS[251]["b_exit_seed_base"]',
+ '{b_lo} > {w250_b_tail}', 'not (arith_b251 & arith_a251)', 'leg1.get("hops_B") == 13',
+ 'assert leg1.get("hops_A") == 0', 'm234', 'm239',
+ 'par_sec.count("assert pf.N1_BANDS[") == 92',
+ 'par_full.count("assert pf.N1_BANDS[") == 108',
+ 'legs_sec.count("assert pf.N1_BANDS[") == 16',
+ 'legs_kept.count("assert pf.N1_BANDS[") == 5',
+ 'legs_dropped.count("assert pf.N1_BANDS[") == 11',
+ 'fresh_legs_row_asserts', 'total_parity_rows',
+ 'A_clean_at_naive_start=true', 'B_hop_lands_inside_A=false', 'B_lands_above_own_A=true',
+ 'hops=0', 'hops=1', 'n1_w251', 'n1w251', 'PERPETUAL-N1-W251', '_w251bmc',
+ '251: {"batch"', '250: {"batch"', 'W250 materializer', 'W251 materializer',
+ 'range(16, 251)', 'range(17, 251)', 'if w < 251)', 'if w < 250)',
+ 'w244_a', 'w244_b', 'n3r1_used245',
+ 'r1046', '08:3x', '974_335', '547_920',
+ 'thirty-ninth', '39th',
+ 'estate (W138..W206 full-span 69 rows + W211..W233 legs) AND the W234..W238',
+ 'legs (5) from the OWN W250 block',
+ "W239..W249 legs (11) are EXCLUDED",
+ 'fresh W239..W250 legs (12, machine-derived',
+ '-> 109 parity rows.',
+ 'fresh W239..W250 legs (12 rows) are added',
+ 'parity = 109 rows (W138..W206 + W211..W250)',
+ "W234..W238 legs (5) extracted verbatim from the OWN W250 block",
+ "W250 block's own W239..W249 legs (11) are",
+ 'W239..W250 legs (12) added, machine-derived from the live pf',
+ 'registry at freeze time -> 109 parity rows (W138..W206+W211..W250).',
+ 'estate 92 rows (W138..W206 full-span 69 + W211..W233 legs) +',
+ 'estate W138..W206 (69 rows, r858 absorb generation) + W211..W233 legs (estate 92) + W234..W238 legs extracted verbatim (5)',
+ "-> W251 block = 109 rows (W138..W206 + W211..W250)",
+ 'estate 69',
+ 'kept segment not W234..W238 five legs',
+ 'legs segment not W234..W249 sixteen legs',
+ 'dropped segment not W239..W249 eleven legs',
+ '!= 108 (92 estate + W234..W249 legs 16)',
+ 'estate segment not W138..W206 full-span 69 rows + W211..W232 legs + W233 leg',
+ 'upstream W234 row leg not found inside',
+ 'W239 leg boundary not found inside',
+]
+out = io.open(r'K:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r1050bmc_counts.txt', 'w', encoding='utf-8')
+for n in needles:
+    out.write(f'{t.count(n)}\t{n!r}\n')
+out.close()
+print('done', len(needles))
