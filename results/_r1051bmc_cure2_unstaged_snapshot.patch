@@ -1,0 +1,859 @@
+warning: in the working copy of 'gaming/.codely-cli/settings.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'quant/.codely-cli/settings.json', LF will be replaced by CRLF the next time Git touches it
+diff --git a/Tools/l1-client.py b/Tools/l1-client.py
+deleted file mode 100644
+index 4836495..0000000
+--- a/Tools/l1-client.py
++++ /dev/null
+@@ -1,106 +0,0 @@
+-#!/usr/bin/env python3
+-# -*- coding: utf-8 -*-
+-"""l1-client.py - minimal OpenAI-compatible client for the local 35B lane (bm-a :8090).
+-
+-Phase 1-alpha L1 wiring (BLUEPRINT v2 G3): makes cheap local capacity consumable by any
+-window/batch, and logs every call into the SLI-4 counter ledger
+-(media/logs/l1-consumption-ledger.jsonl).
+-
+-Usage:
+-  python Tools/l1-client.py --task <name> --prompt "<text>"
+-  python Tools/l1-client.py --task <name> --prompt-file <path> [--out <path>]
+-  python Tools/l1-client.py --task pool-triage --pool-file cph4/fleet/dispatcher/POOL.json [--out <path>]
+-Env: L1_ENDPOINT (default http://127.0.0.1:8090)
+-"""
+-import argparse
+-import datetime
+-import json
+-import os
+-import sys
+-import urllib.request
+-
+-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+-ENDPOINT = os.environ.get("L1_ENDPOINT", "http://127.0.0.1:8090")
+-LEDGER = os.path.join(ROOT, "media", "logs", "l1-consumption-ledger.jsonl")
+-
+-
+-def build_pool_prompt(path):
+-    with open(path, encoding="utf-8") as f:
+-        cards = json.load(f)
+-    lines = [
+-        "你是集团调度池的本地分类助手（L1 小脑）。对下面每张 open 任务卡输出一行，格式："
+-        "卡ID | 车道 | 优先级合理性（一句话：合理/建议升降级+理由）| 一句话执行要点。"
+-        "最后输出一行总结：各车道负载与补卡建议。不要客套与重复卡面文字。",
+-    ]
+-    n = 0
+-    for c in cards:
+-        if c.get("status") != "open":
+-            continue
+-        n += 1
+-        lines.append("- {id} | {prio} | lane={lane} | {title} | spec={spec}".format(
+-            id=c.get("id", "?"), prio=c.get("priority", "?"),
+-            lane=c.get("lane", "?"), title=c.get("title", "?"),
+-            spec=c.get("spec", "?")))
+-    lines.append("(共 %d 张 open 卡)" % n)
+-    return "\n".join(lines)
+-
+-
+-def main():
+-    ap = argparse.ArgumentParser()
+-    ap.add_argument("--task", required=True)
+-    ap.add_argument("--prompt")
+-    ap.add_argument("--prompt-file")
+-    ap.add_argument("--pool-file")
+-    ap.add_argument("--out")
+-    ap.add_argument("--max-tokens", type=int, default=2048)
+-    ap.add_argument("--temperature", type=float, default=0.3)
+-    a = ap.parse_args()
+-
+-    if a.pool_file:
+-        prompt = build_pool_prompt(a.pool_file)
+-    elif a.prompt_file:
+-        with open(a.prompt_file, encoding="utf-8") as f:
+-            prompt = f.read()
+-    elif a.prompt:
+-        prompt = a.prompt
+-    else:
+-        print("need one of --prompt/--prompt-file/--pool-file", file=sys.stderr)
+-        sys.exit(2)
+-
+-    body = {
+-        "model": "qwen3.6-35b",
+-        "messages": [{"role": "user", "content": prompt}],
+-        "max_tokens": a.max_tokens,
+-        "temperature": a.temperature,
+-        "chat_template_kwargs": {"enable_thinking": False},
+-    }
+-    req = urllib.request.Request(
+-        ENDPOINT + "/v1/chat/completions",
+-        data=json.dumps(body).encode("utf-8"),
+-        method="POST",
+-        headers={"Content-Type": "application/json"},
+-    )
+-    with urllib.request.urlopen(req, timeout=300) as r:
+-        resp = json.loads(r.read().decode("utf-8"))
+-    content = resp["choices"][0]["message"]["content"]
+-    usage = resp.get("usage", {}) or {}
+-    os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
+-    line = {"ts": datetime.datetime.now().isoformat(timespec="seconds"), "task": a.task,
+-            "prompt_tokens": usage.get("prompt_tokens"), "completion_tokens": usage.get("completion_tokens")}
+-    with open(LEDGER, "a", encoding="utf-8") as f:
+-        f.write(json.dumps(line, ensure_ascii=False) + "\n")
+-
+-    if a.out:
+-        head = ("# L1 %s（SLI-4 计数器数据点）\n\n> 产出=本地 35B %s 经 Tools/l1-client.py（零云端 token·"
+-                "用量已入 media/logs/l1-consumption-ledger.jsonl）\n\n```\n" % (a.task, a.task))
+-        with open(a.out, "w", encoding="utf-8") as f:
+-            f.write(head + content + "\n```\n")
+-        print("WROTE %s (tokens: prompt=%s completion=%s)" %
+-              (a.out, line["prompt_tokens"], line["completion_tokens"]))
+-    else:
+-        print(content)
+-    print("LEDGER-APPENDED: " + json.dumps(line, ensure_ascii=False))
+-
+-
+-if __name__ == "__main__":
+-    main()
+diff --git a/Tools/proxy-event-carrier.ps1 b/Tools/proxy-event-carrier.ps1
+deleted file mode 100644
+index 4ea6309..0000000
+--- a/Tools/proxy-event-carrier.ps1
++++ /dev/null
+@@ -1,86 +0,0 @@
+-﻿# proxy-event-carrier.ps1 - HQ-CEOProxyEventCarrier action body (G1 night-window L2 gap fix)
+-# Phase 1-alpha of MASTER-AGENT BLUEPRINT v2 (O-20261014-1745). Registered ONLY via Tools/task-register.ps1 (U060).
+-# Design: scans L0 outputs ONLY (sensor-reuse law, never re-probes machines); on red flags fires a
+-# hidden headless codely event shift. Gates: patrol lock / 40min debounce / 90min same-signature / daily cap 6.
+-$ErrorActionPreference = 'Stop'
+-$root   = 'C:\Users\sjs20\Desktop\FluxGroup'
+-$nj     = Join-Path $root 'cph4\fleet\dispatcher\NEED-JUDGMENT.md'
+-$dl     = Join-Path $root 'cph4\fleet\dispatcher\DISPATCH-LOG.md'
+-$probeJ = Join-Path $root 'media\logs\proxy-probe-current.json'
+-$lock   = Join-Path $root 'media\logs\ceo-proxy-patrol.lock'
+-$hb     = Join-Path $root 'media\logs\event-carrier-heartbeat.txt'
+-$stateF = Join-Path $root 'media\logs\event-carrier-state.json'
+-$clog   = Join-Path $root 'media\logs\event-carrier.log'
+-$stamp  = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+-$today  = Get-Date -Format 'yyyy-MM-dd'
+-Set-Content -Path $hb -Value "alive $stamp" -Encoding UTF8
+-
+-function LogLine($msg) { Add-Content -Path $clog -Value "$stamp $msg" -Encoding UTF8 }
+-
+-# 1) collect flags from L0 + probe outputs only
+-$flags = @()
+-if (Test-Path $nj) {
+-    foreach ($l in (Get-Content $nj -Encoding UTF8)) {
+-        $t = $l.Trim()
+-        if ($t -and -not $t.StartsWith('#')) { $flags += ('NJ: ' + $t) }
+-    }
+-}
+-if (Test-Path $dl) {
+-    foreach ($l in (Get-Content $dl -Tail 30 -Encoding UTF8)) {
+-        if ($l -match 'STARVED|LANE-DOWN|CHASE|OFFLINE|HB-STALE|E0-RED|PROXY-SILENT-DEATH|L0-DOWN|EVENT-CARRIER-DOWN') {
+-            if ($l -notmatch 'QUEUE-LOW') { $flags += ('DL: ' + $l) }
+-        }
+-    }
+-}
+-if (Test-Path $probeJ) {
+-    $pjAge = ((Get-Date) - (Get-Item $probeJ).LastWriteTime).TotalHours
+-    if ($pjAge -gt 2) {
+-        $flags += 'PROBE-DOWN: probe-current.json stale >2h'
+-    } else {
+-        try {
+-            $pj = Get-Content $probeJ -Raw -Encoding UTF8 | ConvertFrom-Json
+-            foreach ($a in @($pj.alarms)) { if ($a) { $flags += ('PROBE: ' + $a) } }
+-        } catch { LogLine ('probe-json-parse-fail: ' + $_.Exception.Message) }
+-    }
+-} else {
+-    LogLine 'probe-current.json missing (probe never ran or first boot) - log only'
+-}
+-if ($flags.Count -eq 0) { exit 0 }
+-
+-# 2) gates
+-$lockAge = 999
+-if (Test-Path $lock) { $lockAge = ((Get-Date) - (Get-Item $lock).LastWriteTime).TotalMinutes }
+-if ($lockAge -lt 10) { LogLine ('SKIP patrol-lock age={0:N1}min' -f $lockAge); exit 0 }
+-
+-$sig = ((($flags | Sort-Object -Unique) -join ' || ') -replace '"', '')
+-$lastLaunch = [datetime]'2000-01-01'; $launchesToday = 0; $lastSig = ''
+-if (Test-Path $stateF) {
+-    try {
+-        $st = Get-Content $stateF -Raw -Encoding UTF8 | ConvertFrom-Json
+-        if ($st.launch_date -eq $today) { $launchesToday = [int]$st.launches_today }
+-        $lastSig = [string]$st.last_signature
+-        if ($st.last_launch) { $lastLaunch = [datetime]$st.last_launch }
+-    } catch { LogLine ('state-parse-fail: ' + $_.Exception.Message) }
+-}
+-if (((Get-Date) - $lastLaunch).TotalMinutes -lt 40) { LogLine 'SKIP debounce <40min'; exit 0 }
+-if (($sig -eq $lastSig) -and (((Get-Date) - $lastLaunch).TotalMinutes -lt 90)) { LogLine 'SKIP same-signature <90min'; exit 0 }
+-if ($launchesToday -ge 6) { LogLine ('CAP daily-6 reached - alarm only: ' + $sig); exit 0 }
+-
+-# 3) launch hidden headless codely event shift
+-$codely = 'C:\Users\sjs20\AppData\Local\Programs\Tuanjie Cowork\cli\bin\win32-x64\codely.exe'
+-if (-not (Test-Path $codely)) {
+-    $g = Get-Command codely -ErrorAction SilentlyContinue
+-    if ($g) { $codely = $g.Source } else { LogLine 'FATAL codely.exe not found'; exit 1 }
+-}
+-$flagText = ($sig -replace "`r|`n", ' ')
+-if ($flagText.Length -gt 600) { $flagText = $flagText.Substring(0, 600) }
+-$prompt = '【CEO 总调度代理席·事件班·承载件触发】你是集团 CEO 总调度代理席。按 C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\dispatcher\CEO-PROXY\ROUND.md 事件班协议执行本班。触发现：' + $flagText + ' 。步0 锁门同守（media/logs/ceo-proxy-patrol.lock mtime <10min=他窗在执·本窗跳班记 LOG）；全力深挖触发现→落单+poke 唤醒（tasks 白名单=Tools/fleet-nodes.json 的 wake_tasks）→3 分钟复探验 BURNING→NEED-JUDGMENT 件裁决并更新→LOG 记事件班全程（班型=事件班·标注承载件触发）。纪律：进程内调用禁 spawn 控制台；台账追加走 python 尾锚正法+原子推正法（Tools/git-atomic-push.py）+推前反转闸；物理件/保留面零催办只登记。'
+-$outF = Join-Path $root ('media\logs\event-carrier-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.out.log')
+-$errF = ($outF -replace '\.out\.log$', '.err.log')
+-$p = Start-Process -FilePath $codely -ArgumentList ('-p "' + $prompt + '" --approval-mode yolo --collaboration-mode default') -WorkingDirectory $root -WindowStyle Hidden -RedirectStandardOutput $outF -RedirectStandardError $errF -PassThru
+-$stateObj = @{ last_launch = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'); launch_date = $today; launches_today = ($launchesToday + 1); last_signature = $sig } | ConvertTo-Json
+-Set-Content -Path $stateF -Value $stateObj -Encoding UTF8
+-$sigHead = $sig
+-if ($sigHead.Length -gt 120) { $sigHead = $sigHead.Substring(0, 120) }
+-LogLine ('LAUNCHED pid=' + $p.Id + ' sig=' + $sigHead)
+-exit 0
+diff --git a/Tools/proxy-probe.ps1 b/Tools/proxy-probe.ps1
+deleted file mode 100644
+index 3fc3644..0000000
+--- a/Tools/proxy-probe.ps1
++++ /dev/null
+@@ -1,43 +0,0 @@
+-# proxy-probe.ps1 - HQ-MA-ProxyProbe action body (G13 monitor-the-monitor)
+-# Phase 1-alpha of MASTER-AGENT BLUEPRINT v2 (O-20261014-1745). Registered ONLY via Tools/task-register.ps1 (U060).
+-# Watches: proxy shift log freshness (26h), L0 dispatch log freshness (3h), event-carrier heartbeat (2h).
+-# Alarms -> proxy-probe-alarms.log (append) + proxy-probe-current.json (overwrite snapshot, consumed by the
+-# carrier) + NEED-JUDGMENT.md (best-effort, L0 may regenerate it). Own heartbeat for the morning shift check.
+-$ErrorActionPreference = 'Stop'
+-$root  = 'C:\Users\sjs20\Desktop\FluxGroup'
+-$pmlog = Join-Path $root 'cph4\fleet\dispatcher\CEO-PROXY\LOG.md'
+-$dl    = Join-Path $root 'cph4\fleet\dispatcher\DISPATCH-LOG.md'
+-$cb    = Join-Path $root 'media\logs\event-carrier-heartbeat.txt'
+-$hb    = Join-Path $root 'media\logs\proxy-probe-heartbeat.txt'
+-$alarms = Join-Path $root 'media\logs\proxy-probe-alarms.log'
+-$current = Join-Path $root 'media\logs\proxy-probe-current.json'
+-$nj    = Join-Path $root 'cph4\fleet\dispatcher\NEED-JUDGMENT.md'
+-$stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+-$found = @()
+-
+-if (Test-Path $pmlog) {
+-    $age = ((Get-Date) - (Get-Item $pmlog).LastWriteTime).TotalHours
+-    if ($age -gt 26) { $found += ('PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age {0:N1}h (>26h)' -f $age) }
+-} else { $found += 'PROXY-SILENT-DEATH: CEO-PROXY/LOG.md missing' }
+-
+-if (Test-Path $dl) {
+-    $age2 = ((Get-Date) - (Get-Item $dl).LastWriteTime).TotalHours
+-    if ($age2 -gt 3) { $found += ('L0-DOWN: DISPATCH-LOG.md age {0:N1}h (>3h)' -f $age2) }
+-} else { $found += 'L0-DOWN: DISPATCH-LOG.md missing' }
+-
+-if (Test-Path $cb) {
+-    $age3 = ((Get-Date) - (Get-Item $cb).LastWriteTime).TotalMinutes
+-    if ($age3 -gt 120) { $found += ('EVENT-CARRIER-DOWN: heartbeat age {0:N0}min (>120)' -f $age3) }
+-} else {
+-    # first-boot artifact: carrier never ran yet != carrier down (v1.1 - log only, no alarm)
+-    Add-Content -Path $alarms -Value ("$stamp | INFO carrier heartbeat not present yet (first boot - no alarm)") -Encoding UTF8
+-}
+-
+-foreach ($a in $found) {
+-    Add-Content -Path $alarms -Value ("$stamp | $a") -Encoding UTF8
+-    Add-Content -Path $nj -Value ("[$stamp][PROBE] $a (probe alarm -> carrier/patrol revive path)") -Encoding UTF8
+-}
+-$snap = @{ stamp = $stamp; alarms = $found } | ConvertTo-Json
+-Set-Content -Path $current -Value $snap -Encoding UTF8
+-Set-Content -Path $hb -Value "alive $stamp alarms=$($found.Count)" -Encoding UTF8
+-exit 0
+diff --git a/Tools/sli-reconcile-wrapper.ps1 b/Tools/sli-reconcile-wrapper.ps1
+deleted file mode 100644
+index 3916333..0000000
+--- a/Tools/sli-reconcile-wrapper.ps1
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# sli-reconcile-wrapper.ps1 - HQ-B-ProxySLI daily carrier (MASTER-AGENT BLUEPRINT v2 Phase 1-alpha G4)
+-# O-20261014-1745 Phase 1-alpha dispatch row 4 (@bm-b external seat).
+-# Pull the group repo first (git = sole data channel), then run the external-seat
+-# SLI reconcile which writes + commits + pushes SLI-RECONCILE.md (bm-b lane).
+-$ErrorActionPreference = 'Continue'
+-$Root = 'C:\Fluxgroup\FluxGroup'
+-$git = 'C:\Program Files\Git\cmd\git.exe'
+-if (Test-Path $git) { & $git -C $Root pull --ff-only 2>&1 | Out-Null }
+-& (Join-Path $Root 'Tools\sli-reconcile.ps1') @args
+diff --git a/Tools/sli-reconcile.ps1 b/Tools/sli-reconcile.ps1
+deleted file mode 100644
+index 1f26281..0000000
+--- a/Tools/sli-reconcile.ps1
++++ /dev/null
+@@ -1,82 +0,0 @@
+-﻿# sli-reconcile.ps1 - external-seat SLI reconciliation (G4: audit OUTSIDE the proxy seat)
+-# Phase 1-alpha of MASTER-AGENT BLUEPRINT v2 (O-20261014-1745). Deployed on bm-b via task-register
+-# (daily run), per the @bm-b orders row. Reads the group repo AFTER pull (git = sole data channel),
+-# computes the seat's SLI evidence lines, writes SLI-RECONCILE.md, and commits+pushes it (bm-b lane).
+-# Report format follows CHARTER section 6 (green-rate, avg calls per shift, freshness lines).
+-param([string]$Root = 'C:\Fluxgroup\FluxGroup')
+-
+-$ErrorActionPreference = 'Stop'
+-$today  = Get-Date -Format 'yyyy-MM-dd'
+-$stamp  = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+-$logMd  = Join-Path $Root 'cph4\fleet\dispatcher\CEO-PROXY\LOG.md'
+-$dlMd   = Join-Path $Root 'cph4\fleet\dispatcher\DISPATCH-LOG.md'
+-$njMd   = Join-Path $Root 'cph4\fleet\dispatcher\NEED-JUDGMENT.md'
+-$outMd  = Join-Path $Root 'cph4\fleet\dispatcher\SLI-RECONCILE.md'
+-$probeHb = Join-Path $Root 'media\logs\proxy-probe-heartbeat.txt'
+-$carrierHb = Join-Path $Root 'media\logs\event-carrier-heartbeat.txt'
+-
+-$shiftsToday = 0; $green = 0; $standard = 0; $event = 0; $callSum = 0
+-if (Test-Path $logMd) {
+-    foreach ($l in (Get-Content $logMd -Encoding UTF8)) {
+-        if ($l -match '## Round.*' + [regex]::Escape($today)) { $shiftsToday++ }
+-        if ($l -match '\|') {
+-            if ($l -match '绿') { $green++ } elseif ($l -match '标准') { $standard++ } elseif ($l -match '事件') { $event++ }
+-            if ($l -match '(\d+)\s*调用|调用数[:=]\s*(\d+)') {
+-                $n = $Matches[1]; if (-not $n) { $n = $Matches[2] }
+-                if ($n) { $callSum += [int]$n }
+-        }
+-    }
+-}
+-}
+-$typedTotal = $green + $standard + $event
+-$avgCalls = 0
+-if ($typedTotal -gt 0) { $avgCalls = [math]::Round($callSum / $typedTotal, 1) }
+-$greenRate = 0
+-if ($typedTotal -gt 0) { $greenRate = [math]::Round(100 * $green / $typedTotal, 0) }
+-
+-$logAge = -1
+-if (Test-Path $logMd) { $logAge = [math]::Round(((Get-Date) - (Get-Item $logMd).LastWriteTime).TotalHours, 1) }
+-$dlAge = -1
+-if (Test-Path $dlMd) { $dlAge = [math]::Round(((Get-Date) - (Get-Item $dlMd).LastWriteTime).TotalHours, 1) }
+-$njItems = 0
+-if (Test-Path $njMd) {
+-    foreach ($l in (Get-Content $njMd -Encoding UTF8)) { $t = $l.Trim(); if ($t -and -not $t.StartsWith('#')) { $njItems++ } }
+-}
+-$probeAge = 'n/a'
+-if (Test-Path $probeHb) { $probeAge = ([math]::Round(((Get-Date) - (Get-Item $probeHb).LastWriteTime).TotalHours,1)).ToString() + 'h' }
+-$carrierAge = 'n/a'
+-if (Test-Path $carrierHb) { $carrierAge = ([math]::Round(((Get-Date) - (Get-Item $carrierHb).LastWriteTime).TotalMinutes,0)).ToString() + 'min' }
+-
+-$lines = @()
+-$lines += '# SLI-RECONCILE (external seat)'
+-$lines += ''
+-$lines += ('> Generated ' + $stamp + ' by bm-b external reconciliation task (BLUEPRINT v2 Phase 1-alpha, G4).')
+-$lines += ('> Data source: group repo after pull. Parser is best-effort v1 - the seat step-9 loop refines it.')
+-$lines += ''
+-$lines += ('- Date: ' + $today)
+-$lines += ('- SLI-1 proxy LOG.md age: ' + $logAge + 'h (alarm >26h)')
+-$lines += ('- SLI-1b L0 DISPATCH-LOG.md age: ' + $dlAge + 'h (alarm >3h)')
+-$lines += ('- Shift lines typed today: green=' + $green + ' standard=' + $standard + ' event=' + $event + ' total=' + $typedTotal)
+-$lines += ('- Green rate: ' + $greenRate + '% (health band 40-70)')
+-$lines += ('- Avg calls per typed shift: ' + $avgCalls + ' (target <=12)')
+-$lines += ('- NEED-JUDGMENT open items: ' + $njItems)
+-$lines += ('- Probe heartbeat age: ' + $probeAge + ' | Carrier heartbeat age: ' + $carrierAge)
+-$lines += ''
+-$lines += '## Verdict line'
+-if ($logAge -gt 26) { $lines += '- RED: proxy silent death suspected (>26h)' }
+-elseif ($dlAge -gt 3) { $lines += '- RED: L0 down suspected (>3h)' }
+-else { $lines += '- GREEN (freshness lines ok)' }
+-
+-[IO.File]::WriteAllLines($outMd, $lines)
+-
+-# commit + push from bm-b lane (git push handled by bm-b session policy; scheduled task only writes + commits)
+-$g = 'C:\Program Files\Git\cmd\git.exe'
+-if (Test-Path $g) {
+-    & $g -C $Root add cph4/fleet/dispatcher/SLI-RECONCILE.md | Out-Null
+-    & $g -C $Root commit -m ('sli-reconcile: external seat report ' + $today + ' (BLUEPRINT v2 G4)') -- cph4/fleet/dispatcher/SLI-RECONCILE.md | Out-Null
+-    & $g -C $Root push origin HEAD:refs/heads/main | Out-Null
+-    Write-Output 'COMMIT+PUSH attempted (bm-b lane policy: push may be deferred to bm-b session)'
+-} else {
+-    Write-Output 'git not found - report written only'
+-}
+-Write-Output ('REPORT: ' + $outMd)
+diff --git a/cph4/fleet/dispatcher/CEO-PROXY/LOG.md b/cph4/fleet/dispatcher/CEO-PROXY/LOG.md
+index e8b1305..daa73c7 100644
+--- a/cph4/fleet/dispatcher/CEO-PROXY/LOG.md
++++ b/cph4/fleet/dispatcher/CEO-PROXY/LOG.md
+@@ -34,10 +34,3 @@
+ - **三机快照（fleet-reality 2026-10-14T12:06:48 实测戳）**：bm-a=:8790 活·心跳 9m 新鲜·本机树 behind origin（多窗常态·worktree 正法域）；bm-b=:8790 活·心跳 34m·pull .:fail=树脏（owner 自理已知面）·POOL open=2（QUEUE-LOW 旗·下轮从真实 backlog 补卡）；bm-c=:8790 探针 N（**11:49 心跳 GPU=MV V3 BURNING·波1 i2v 在飞**——监听打盹已知面·下轮复核勿判死）·POOL open=4。
+ - **在轨 P0**：MV V3（13:00 预览剪→今晚深夜全本地终剪）=全车道让位序·10:3x/11:5x 窗已派单·不重派（同活禁双开）。
+ - **移交下轮（首班 15:43）**：①bm-c 监听复核+波1 收片进度核（wave1_r996_progress）②bm-b POOL 补卡（Speech-02 装机验证批过门后解锁音频批=真实 backlog 面）③死线雷达首扫（DEADLINES.md §一 13 行对 orders 最新回执翻新）④cron_list 自检本席班次在位。
+-## Round 1.1（2026-10-14 19:13-19:26·事件班·承载件触发=首弹实证）
+-- **触发现**：NJ×2（19:10:05/19:11:04 探针两报）+PROBE 快照×1=EVENT-CARRIER-DOWN: heartbeat file missing。
+-- **归因（全力深挖）**：NJ=NEED-JUDGMENT 行前缀（非节点名·零机队涉）——缺的是承载器自身心跳 media/logs/event-carrier-heartbeat.txt；承载器 HQ-CEOProxyEventCarrier 首扫（19:11:06）早于自身心跳存在=「鸡生蛋」首启假窗，旧版探针把缺文件判 DOWN；**三重自愈实证**：①承载器 19:13:17 拉起本班=端到端链路（探针→NJ→承载器→codely -p 无头事件班）首验通过 ②探针 v1.1（19:12:40 落盘）：缺文件=首启 INFO 不报警·根除复发面 ③心跳每扫必刷（PT15M）——19:26:06 定扫实测 HB 19:26:07 刷新·零旗零重发（防抖 40min/同签名 90min/日帽 6/锁门共享四闸在位）。
+-- **裁决**：假警已结·零机队动作（传感复用律：L0 19:01 pools bm-a=4/bm-b=2/bm-c=4 全开无 STARVED·零 poke·POOL 不动）。
+-- **行动**：①NJ 两行裁决注记（盘面·L0 下轮重生成自清）②current.json 陈旧报警快照裁决清空（堵 19:56 防抖到期后对陈旧警报重发第二次事件班的重发源·探针 20:11:03 下轮自刷）③19:26:06 定扫复探验 BURNING=PASS ④+90min 回访探针 cron（一次性 durable·20:47 触发）。
+-- **移交晨班 08:43**：DEADLINES「事件班 schtasks 承载件升级位」行=已 LIVE 首弹（queued 可翻新·归部署窗/晨班）；proxy-probe.ps1/proxy-event-carrier.ps1/NEED-JUDGMENT.md 三件未入 git=部署窗收口须 commit（他窗在飞件·本班不代提交）。
+-- 判据法：SLI L2 饥饿驻留 PASS（本旗 19:10 升→19:13 落=3min·SLO ≤90min）；本班调用数 ≈30（事件班无帽）。
+diff --git a/cph4/fleet/dispatcher/L1-POOL-TRIAGE.md b/cph4/fleet/dispatcher/L1-POOL-TRIAGE.md
+deleted file mode 100644
+index 607858a..0000000
+--- a/cph4/fleet/dispatcher/L1-POOL-TRIAGE.md
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# L1 pool-triage（SLI-4 计数器数据点）
+-
+-> 产出=本地 35B pool-triage 经 Tools/l1-client.py（零云端 token·用量已入 media/logs/l1-consumption-ledger.jsonl）
+-
+-```
+-POOL-0001 | bm-c | 合理：依赖白名单扩容，属阻塞性前置任务，P1 优先级恰当 | 确认 FRAME-GATE 白名单状态，解除排队后启动 i2v 渲染
+-POOL-0002 | bm-b | 合理：装机验证为硬门，P1 确保音源按时解锁以支撑短视频部 | 跟进装机验证进度，验证通过后立即解锁 Speech-02 母带制作
+-POOL-0003 | bm-a | 合理：复用基线且为 CPU 夜间任务，P2 符合资源错峰利用策略 | 利用夜窗执行词级锚点复核，复用 mv0001 基线加速处理
+-POOL-0004 | bm-c | 建议降级至 P2：需先核现况，存在不确定性，P1 易造成资源空等 | 优先执行 X2349 巡扫台账核对，确认资产现状后再启动重制
+-POOL-0005 | bm-c | 合理：占位换正式需严格质检，P2 配合美术批①节奏，流程正确 | 执行 AA-001..003 占位，同步进行尺寸规格核对与抠图门机检
+-POOL-0006 | bm-c | 合理：八仓全面开工涉及多值校验，P2 确保质量底线，避免返工 | 落实 TOP1 差异宣言实装，完成门禁全绿及包体四值冒烟测试
+-POOL-0007 | bm-b | 合理：依赖 Speech-02 过门，P1 确保音频批在解锁后即刻响应 | 监控 Speech-02 解锁状态，过门后立即启动 BGM 及音效母带制作
+-POOL-0008 | bm-a | 合理：十款工程填充为大规模并行任务，P1 确保夜窗连续烧机效率 | 按 G 系包落点全量填充工程，利用夜窗连续执行 P03 母版构建
+-POOL-0009 | bm-a | 合理：收尾批涉及多系统审查，P1 确保版本按时收敛 | 并行处理新手切片重制、档案放行及数值调优，完成升格审查
+-POOL-0010 | bm-a | 建议降级至 P2：尾项与清账属收尾工作，P1 优先级过高挤占核心开发资源 | 梳理 13 项资产清账进度，配合提审硬门链完成发布材料准备
+-
+-各车道负载与补卡建议：bm-a 车道负载极高（5 张卡，含 3 张 P1），建议将 POOL-0010 降级以释放 P1 资源，或协调临时人力支援收尾工作；bm-b 车道负载中等（2 张卡，均为 P1），需重点监控 Speech-02 解锁进度以保障两条线并行；bm-c 车道负载适中（3 张卡，1 张 P1 2 张 P2），建议优先处理 POOL-0001 的阻塞点，并将 POOL-0004 降级以避免资源浪费。
+-```
+diff --git a/cph4/fleet/dispatcher/POOL.json b/cph4/fleet/dispatcher/POOL.json
+index 02ac7b0..1f30094 100644
+--- a/cph4/fleet/dispatcher/POOL.json
++++ b/cph4/fleet/dispatcher/POOL.json
+@@ -1,174 +1,122 @@
+ [
+- {
+-  "id": "POOL-0001",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-c",
+-  "title": "MV i2v 后续波（波B+）——FRAME-GATE 白名单扩容签章后排队，INT8 768P",
+-  "spec": "cph4/fleet/mv-album-001-jay/local-i2v/ + FRAME-GATE-WHITELIST-v1.md（单一事实源·换帧改该文件）",
+-  "created_by": "HQ-Dispatcher-seed 2026-10-12",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0002",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-b",
+-  "title": "Speech-02 TTS 首批旁白母带 5 条——装机验证批过门后解锁（短视频/切片部共用音源）",
+-  "spec": "cph4/fleet/shortvideo-dept/ + O-20261012-1505 @bm-b 满载包承接",
+-  "created_by": "HQ-Dispatcher-seed 2026-10-12",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0003",
+-  "priority": "P2",
+-  "status": "open",
+-  "lane": "bm-a",
+-  "title": "whisper 词级锚点复核批——全曲装配前 CPU 活·夜窗优先·复用 mv0001_full_words.json 基线",
+-  "spec": "cph4/fleet/mv-album-001-jay/anchors/",
+-  "created_by": "HQ-Dispatcher-seed 2026-10-12",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0004",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-c",
+-  "title": "波5 美术批①：吸嘟嘟 L2 十四族怪物重制续位（GPU Krea2）——X2349 巡扫台账接续·先核现况",
+-  "spec": "MiniGame Design/evidence/uiforge/U360LevelTour/TOUR-R1-LEDGER.md §五 + 资产标准化 SOP",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0005",
+-  "priority": "P2",
+-  "status": "open",
+-  "lane": "bm-c",
+-  "title": "波5 美术批②：P 系/G 系占位→正式美术批（资源库 AA-001..003 先占位后换·尺寸规格表+抠图门机检）",
+-  "spec": "各款美术资产需求文档 + Design/configs/GLOBAL 资产标准化 SOP",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0006",
+-  "priority": "P2",
+-  "status": "open",
+-  "lane": "bm-c",
+-  "title": "波4 C 机八仓全面开工：TOP1 差异宣言实装+门禁全绿+包体四值+真包冒烟（CPU/编辑器副道）",
+-  "spec": "K:/Fluxgroup/projects 八仓 + Design/submit/top1-opt-20261010/G系包一/二 差异宣言",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0007",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-b",
+-  "title": "波6 游戏音频批：吸嘟嘟地域 BGM v3+音效母带；P/G 系每款主题 BGM+核心音效占位（Speech-02 过门后解锁）",
+-  "spec": "U326 接续 + 排产总表-2026-10-13 波6",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0008",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-a",
+-  "title": "波2 G 系 doc→工程全量填充十款：G26→G20→G04→G05→G13→G14→G07→G08→G23→G28（P03 母版·夜窗连续烧）",
+-  "spec": "MiniGame Design/submit/游戏全面并行开工排产总表-2026-10-13.md 波2 + 各款需求文档/数值包/G系包落点",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0009",
+-  "priority": "P1",
+-  "status": "open",
+-  "lane": "bm-a",
+-  "title": "波1 P 系收尾批：P04 新手切片 TD 重制+P08 档案 20 卡 conscious 放行+数值调优批+P01/P02/P06 升格审查",
+-  "spec": "P系五款全量系统填充收口-2026-10-10.md §三 + P系八款包",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0010",
+-  "priority": "P2",
+-  "status": "open",
+-  "lane": "bm-a",
+-  "title": "波7 吸嘟嘟 r2 尾项+13 项资产清账+提审硬门链（真包/包体四值/软著 G01/提交材料夹）——发布动作卡 CEO 物理件",
+-  "spec": "排产总表-2026-10-13 波7 + U360 r2 清单",
+-  "created_by": "O-20261013-1500 games-parallel",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": ""
+- },
+- {
+-  "id": "POOL-0011",
+-  "priority": "P1",
+-  "status": "done",
+-  "lane": "bm-b",
+-  "title": "软著B机10款源程序复跑批（G04/G05/G07/G08/G13/G14/G20/G23/G26/G28）",
+-  "spec": "软著申请材料/generate_copyright.py PROJECTS 表正身 + O-20261014-1035 B10 段",
+-  "card": "[交接卡 POOL-0011]\n①@机+lane：@bm-b·cpu-sound\n②回执窗：12h（夜窗 CPU 面即窗执行·约 30 分钟批）\n③验收物+证据指针：软著申请材料/ B机10款源程序 txt/pdf+各款 CCPC 提交材料源程序 PDF+报审台账§四 B10 行销账+orders 回执行（逐款行数/页数）+commit/push sha\n④spec 指针：spec=软著申请材料/generate_copyright.py（PROJECTS 表=CEO 定名正典）+正典 cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md 软著行\n⑤溯源令号：O-20261014-1035（B10 段执行件）+NJ biggame R2 2026-10-15 00:31\n⑥输入/输出：输入=bm-b 盘 G 系源码（九根跨机解析）+生成器；输出=软著申请材料/B10 三件+CCPC+报审台账§四\n⑦依赖：无依赖（CPU 面独立·G26 以现盘最新代码幂等复跑）\n⑧卡 ID：POOL-0011\n⑨provenance：转述（patrol biggame ROUND-2 NJ 窗口转单·承 O-20261014-1035 原令 B 机款段）",
+-  "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2）",
+-  "claimed_by": "bm-b",
+-  "claimed_at": "2026-10-15T02:36:32+08:00",
+-  "result_ref": "r956 receipt face: results/_r956bmb_rz_driver.py + _r956bmb_rz_driver.log + _r956bmb_rz_receipt.json (GEN_DONE face = r957 commit round; heartbeat 2026-10-15T02:36:32) + 2026-10-15T09:06:18 receipt GEN_DONE_OK (bm-b session driver re-run: missing_src=[], 10/10 keys green, tip 736d75c1; O-20261015-0906-bm-b)",
+-  "depends_on": []
+- },
+- {
+-  "id": "POOL-0012",
+-  "priority": "P1",
+-  "status": "assigned",
+-  "lane": "bm-c",
+-  "title": "V3 终剪缺件补产 7 镜（INT1-5/D03b/E01c·INT8 768P）",
+-  "spec": "mv_full_shots.py 行正身 + V3-NEWKF-PACK §i2v 六段式 + 七帧 CDN（orders 10-15 01:3x 行）",
+-  "card": "[交接卡 POOL-0012]\n①@机+lane：@bm-c·gpu-production\n②回执窗：12h（V3 终剪缺件优先序·INT8 768P 7 件约 2h）\n③验收物+证据指针：7 件 <镜id>.mp4（INT1_desk_breath/INT2_paper_fight/INT3_photo_stare/INT4_rubbing_glow/INT5_head_bow/D03b_direct_gaze/E01c_first_line）CDN URL+字节数回执行+I2V-URL-INDEX.md 追加行\n④spec 指针：mv_full_shots.py 行正身+V3-NEWKF-PACK §i2v 六段式（cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/）+七帧 CDN 直链=orders 10-15 01:3x 行\n⑤溯源令号：O-20261013-2200（全本地令）+NJ bigstream R2 2026-10-15 00:33\n⑥输入/输出：输入=七帧 CDN PNG+提示词正身；输出=7 件 768P mp4 CDN URL\n⑦依赖：无依赖（帧不符可按 mv_full_shots.py 帧提示词正文本机重渲·672×384 试构图先行照律）\n⑧卡 ID：POOL-0012\n⑨provenance：转述（patrol bigstream ROUND-2 NJ 装配缺口面·事件班 asm_preflight 终判清单）",
+-  "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ bigstream R2）",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": "",
+-  "depends_on": []
+- },
+- {
+-  "id": "POOL-0013",
+-  "priority": "P2",
+-  "status": "open",
+-  "lane": "bm-a",
+-  "title": "软著A机14款刷新批产物收编上链（L1018 勘正实收口：staged M 107+untracked 12）",
+-  "spec": "软著申请材料/README.md 刷新台账 + 正典律/引用在档律",
+-  "card": "[交接卡 POOL-0013]\n①@机+lane：@bm-a·hq-central-night-gpu（CPU 面即可）\n②回执窗：48h（P2 非死线件）\n③验收物+证据指针：软著 A机14款刷新批产物收编上链——staged M 约 107 件+untracked 12 件（GimmeAll 三件+_报审提交区第1-5批+报审台账.md）pathspec/原子推上链+orders 回执行（L1018 勘正实收口）+commit sha\n④spec 指针：软著申请材料/README.md 刷新台账+正典律/引用在档律（cph4/registry/law-registry.md）\n⑤溯源令号：O-20261014-1035（A机段·orders L1018 宣称失实勘正件）\n⑥输入/输出：输入=bm-a 本地 index staged M+untracked 件；输出=origin 全量软著材料+回执行\n⑦依赖：无依赖（防回退雷已拆 01:0x·暂存删除清零·推前反转闸照跑）\n⑧卡 ID：POOL-0013\n⑨provenance：推断（NJ biggame R2 ④ L1018 勘正衍生的实收口件·事件班开卡）",
+-  "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2 ④）",
+-  "claimed_by": "",
+-  "claimed_at": "",
+-  "result_ref": "",
+-  "depends_on": []
+- },
+- {
+-  "id": "POOL-0014",
+-  "title": "MV V4 male-lead Jay redo batch (JAY-REDO-PACK-v1, 17 shots)",
+-  "lane": "bm-c-gen",
+-  "priority": "P0",
+-  "status": "open",
+-  "created_by": "bm-a-mv-director",
+-  "spec": "@bm-c 执行 cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/JAY-REDO-PACK-v1.py：①KF 全烧 17 件（Krea2 turbo 8步 1344x768 + LoraLoaderModelOnly jman_v1_rank32 strength=0.80 + JAY_BONE 反韩骨相锚 v2·ID 块逐字复用·零否定词·3 校验件先比对现帧达标免烧）；②jayredo LOOKBOARD q88 拼板上链（bmc/jayredo/）；③poke bm-a 导演席过目（批前抽检律）；④过线件 i2v INT8 768P 5s 单镜单运镜（音轨禁令剥 audio）→ bmc/i2v/jayredo/<正典名>.mp4 + 字节校验表 + receipt；⑤git push + orders 回执行。CEO 令链=P0（MV 死线件）。软死线：KF LOOKBOARD 10-15 14:00 前上链·i2v 全回采 18:00 前→bm-a V4 重装+群审。让路律照旧。",
+-  "result_ref": ""
+- }
+-]
+\ No newline at end of file
++  {
++    "id": "POOL-0001",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-c",
++    "title": "MV i2v 后续波（波B+）——FRAME-GATE 白名单扩容签章后排队，INT8 768P",
++    "spec": "cph4/fleet/mv-album-001-jay/local-i2v/ + FRAME-GATE-WHITELIST-v1.md（单一事实源·换帧改该文件）",
++    "created_by": "HQ-Dispatcher-seed 2026-10-12",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0002",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-b",
++    "title": "Speech-02 TTS 首批旁白母带 5 条——装机验证批过门后解锁（短视频/切片部共用音源）",
++    "spec": "cph4/fleet/shortvideo-dept/ + O-20261012-1505 @bm-b 满载包承接",
++    "created_by": "HQ-Dispatcher-seed 2026-10-12",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0003",
++    "priority": "P2",
++    "status": "open",
++    "lane": "bm-a",
++    "title": "whisper 词级锚点复核批——全曲装配前 CPU 活·夜窗优先·复用 mv0001_full_words.json 基线",
++    "spec": "cph4/fleet/mv-album-001-jay/anchors/",
++    "created_by": "HQ-Dispatcher-seed 2026-10-12",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0004",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-c",
++    "title": "波5 美术批①：吸嘟嘟 L2 十四族怪物重制续位（GPU Krea2）——X2349 巡扫台账接续·先核现况",
++    "spec": "MiniGame Design/evidence/uiforge/U360LevelTour/TOUR-R1-LEDGER.md §五 + 资产标准化 SOP",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0005",
++    "priority": "P2",
++    "status": "open",
++    "lane": "bm-c",
++    "title": "波5 美术批②：P 系/G 系占位→正式美术批（资源库 AA-001..003 先占位后换·尺寸规格表+抠图门机检）",
++    "spec": "各款美术资产需求文档 + Design/configs/GLOBAL 资产标准化 SOP",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0006",
++    "priority": "P2",
++    "status": "open",
++    "lane": "bm-c",
++    "title": "波4 C 机八仓全面开工：TOP1 差异宣言实装+门禁全绿+包体四值+真包冒烟（CPU/编辑器副道）",
++    "spec": "K:/Fluxgroup/projects 八仓 + Design/submit/top1-opt-20261010/G系包一/二 差异宣言",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0007",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-b",
++    "title": "波6 游戏音频批：吸嘟嘟地域 BGM v3+音效母带；P/G 系每款主题 BGM+核心音效占位（Speech-02 过门后解锁）",
++    "spec": "U326 接续 + 排产总表-2026-10-13 波6",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0008",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-a",
++    "title": "波2 G 系 doc→工程全量填充十款：G26→G20→G04→G05→G13→G14→G07→G08→G23→G28（P03 母版·夜窗连续烧）",
++    "spec": "MiniGame Design/submit/游戏全面并行开工排产总表-2026-10-13.md 波2 + 各款需求文档/数值包/G系包落点",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0009",
++    "priority": "P1",
++    "status": "open",
++    "lane": "bm-a",
++    "title": "波1 P 系收尾批：P04 新手切片 TD 重制+P08 档案 20 卡 conscious 放行+数值调优批+P01/P02/P06 升格审查",
++    "spec": "P系五款全量系统填充收口-2026-10-10.md §三 + P系八款包",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  },
++  {
++    "id": "POOL-0010",
++    "priority": "P2",
++    "status": "open",
++    "lane": "bm-a",
++    "title": "波7 吸嘟嘟 r2 尾项+13 项资产清账+提审硬门链（真包/包体四值/软著 G01/提交材料夹）——发布动作卡 CEO 物理件",
++    "spec": "排产总表-2026-10-13 波7 + U360 r2 清单",
++    "created_by": "O-20261013-1500 games-parallel",
++    "claimed_by": "",
++    "claimed_at": "",
++    "result_ref": ""
++  }
++]
+diff --git a/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md b/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md
+index 0fb6bb4..1343b98 100644
+--- a/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md
++++ b/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md
+@@ -93,3 +93,46 @@
+ | R04_river_dry_w2r1008 | 2.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e11a1fc21a354ff830f9b501964dab81/R04_river_dry.mp4 |
+ | R05_gold_threads_w2r1008 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f4fe5627237b511e396e0cf3b5c94a5f/R05_gold_threads.mp4 |
+ | R06_museum_verse_w2r1008 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5755679152fbf3bb3f0501091e9e8dfe/R06_museum_verse.mp4 |
++| D05_words_warm | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/3984e6d59c1ea65622570aa647edca46/D05_words_warm.mp4 |
++| D06_chisel_fingertip | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/3ac444bcf50c8b08d6cd70108a3ccc7f/D06_chisel_fingertip.mp4 |
++| D07_oath_river | 1.3MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f711b6e8b3d8407a9eea5b70c8836a64/D07_oath_river.mp4 |
++| D08_world_flip | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/cf95648d4134b6b21e6582b82665ed02/D08_world_flip.mp4 |
++| B02_far_home | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/33b2ad8476e86b24e46279fa754b0c7b/B02_far_home.mp4 |
++| B03_last_look | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/01751c19df28e0fc7899ccd8df1dea78/B03_last_look.mp4 |
++| B04_embers | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/aa27f4e5458f46311719b9ddc190125b/B04_embers.mp4 |
++| E04_replay_faces | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e7a0361ecc39da692ea96131ff2ae8e1/E04_replay_faces.mp4 |
++| Z01_words_alone | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8fbb2cba4f53cea9336f78a65165a0de/Z01_words_alone.mp4 |
++| Z03_lights_out | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/bdf9601d0aab022fb7fe984909fa3dd4/Z03_lights_out.mp4 |
++| Z04_glyph_remains | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/659cf900a7bd06f99a88341faff23a2b/Z04_glyph_remains.mp4 |
++| B01_weary_w2r1010 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/d908f532cfb55edd9826ebcc9ac8501b/B01_weary.mp4 |
++| C02_sand_bury_w2r1010 | 2.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4af3a333f43a47842a2866c4c665284e/C02_sand_bury.mp4 |
++| C03_dig_reveal_w2r1010 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/3b20dee81299e8c1e371ececcc5e48a6/C03_dig_reveal.mp4 |
++| C04_words_alive_w2r1010 | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6c44b7c6d07004ea3f3dee5e1ad8e452/C04_words_alive.mp4 |
++| C05_flame_gap_w2r1010 | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2fece47b0b2a76620a582cbf8ee9e15e/C05_flame_gap.mp4 |
++| C06_forever_cut_w2r1010 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/29dab4e123cda5df692bbf637140c6f8/C06_forever_cut.mp4 |
++| C07_stele_sink_w2r1010 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/10426018f4500edc0ed809e50652a3c1/C07_stele_sink.mp4 |
++| C08_strike_burst_w2r1010 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7e8bf5f613aa70752704c8a1551b7863/C08_strike_burst.mp4 |
++| C09_oath_weather_w2r1010 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b7fe24b24c075ad7ab1d470d60f32dca/C09_oath_weather.mp4 |
++| D02_she_reads_w2r1010 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a8aa8c78bbf469b69b7f86c2e19af4f3/D02_she_reads.mp4 |
++| D03_two_worlds_w2r1010 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2b4cc0c1dc3dc7ec39fc3a84e402c5d2/D03_two_worlds.mp4 |
++| N01_war_relief_w2r1010 | 1.2MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a67358c4bb001c00f393d02f64082bce/N01_war_relief.mp4 |
++| N02_crowd_her_w2r1010 | 1.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e2007fc04b16e84d226bc7c7eb59e62d/N02_crowd_her.mp4 |
++| N03_goddess_pass_w2r1010 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7e17e13b52b451507a28cefaf0d24bdf/N03_goddess_pass.mp4 |
++| N04_river_marks_w2r1010 | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e55203546644a3f75a98e027775f2347/N04_river_marks.mp4 |
++| N05_dead_language_w2r1010 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f444bdc6114cbfd8172f900a423fa42c/N05_dead_language.mp4 |
++| N06_poem_light_w2r1010 | 2.3MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/03753e5e3deb15e244aa0c801957ec50/N06_poem_light.mp4 |
++| N07_fire_breath_w2r1010 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/46bc43852010c868d1da497727c9ebef/N07_fire_breath.mp4 |
++| R01_war_later_w2r1010 | 1.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/d2603e87e45a9a0ac7f0c953949c2c50/R01_war_later.mp4 |
++| R02_she_turns_w2r1010 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/daa0587159eae0a27bd441d30d85aad0/R02_she_turns.mp4 |
++| R03_goddess_dim_w2r1010 | 1.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f41195b46087bd548ea28bf4ffa37bc0/R03_goddess_dim.mp4 |
++| R04_river_dry_w2r1010 | 2.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e11a1fc21a354ff830f9b501964dab81/R04_river_dry.mp4 |
++| R05_gold_threads_w2r1010 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f4fe5627237b511e396e0cf3b5c94a5f/R05_gold_threads.mp4 |
++| R06_museum_verse_w2r1010 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5755679152fbf3bb3f0501091e9e8dfe/R06_museum_verse.mp4 |
++| E03_gaze_meet_w2r1010 | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f2944368f791632232b281405af80551/E03_gaze_meet.mp4 |
++| INT1_desk_breath | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6a65edfcaed565ccc188ba953b4f0822/INT1_desk_breath.mp4 |
++| INT2_paper_fight | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/94cdd95a05043f5a0bde4654025dd7ce/INT2_paper_fight.mp4 |
++| INT3_photo_stare | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b6779270f0ff8ce9e4ec4243351be8bd/INT3_photo_stare.mp4 |
++| INT4_rubbing_glow | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c795e5db4db9a85a6c2c7fa4811dc1e9/INT4_rubbing_glow.mp4 |
++| INT5_head_bow | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/850177e91dbf90c5dd9cb7462860bb92/INT5_head_bow.mp4 |
++| D03b_direct_gaze | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8af34f72871de71e17f1b5fa551017e3/D03b_direct_gaze.mp4 |
++| E01c_first_line | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c6b46f32fbc6f1d0bfe80b0f3c67aef3/E01c_first_line.mp4 |
+diff --git a/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_verify_r1008.json b/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_verify_r1008.json
+index de9d82f..b3283af 100644
+--- a/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_verify_r1008.json
++++ b/cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/wave2_cdn_verify_r1008.json
+@@ -1,8 +1,14 @@
+ {
+- "ts": "2026-10-14T20:28:39",
+- "checked": 26,
+- "match": 3,
++ "ts": "2026-10-14T22:17:09",
++ "checked": 39,
++ "match": 14,
+  "mismatch": [
++  {
++   "sid": "B01_weary",
++   "cdn_bytes": 640853,
++   "local_bytes": 912170,
++   "url": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/ff7f35536f2b9958891e8e7cc9744659/B01_weary.mp4"
++  },
+   {
+    "sid": "C02_sand_bury",
+    "cdn_bytes": 2165233,
+@@ -63,6 +69,12 @@
+    "local_bytes": 1182377,
+    "url": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6da3d2bc29525cb9eda5167e63934df0/D03_two_worlds.mp4"
+   },
++  {
++   "sid": "E03_gaze_meet",
++   "cdn_bytes": 504984,
++   "local_bytes": 454864,
++   "url": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8a344e2a8e670ea4c9c2ae5ce48eb8c2/E03_gaze_meet.mp4"
++  },
+   {
+    "sid": "N01_war_relief",
+    "cdn_bytes": 1548767,
+diff --git a/cph4/registry/law-registry.md b/cph4/registry/law-registry.md
+index ab54296..fa37175 100644
+--- a/cph4/registry/law-registry.md
++++ b/cph4/registry/law-registry.md
+@@ -30,9 +30,6 @@
+ | docs/master-plan.md / self-drive.md / executive-protocol.md / research-dept-charter.md / qa-smoke-test-charter.md / architecture.md / ceo-review.md | ~90 | 活跃簇 | 商业/自驱/协议/调研/QA/架构/CEO 决策日志 |
+ | cph4/fleet/dispatcher/CEO-PROXY/（5 件）+ DISPATCHER-CHARTER.md | ~25 | 活跃 | CEO 命令发布台+巡班（10-14 立） |
+ | cph4/fleet/dispatcher/MASTER-AGENT/（BLUEPRINT v2+PANEL-REVIEW+reviews×13） | ~47 | 活跃 | 主AGENT 架构正典+两波群审档案（10-14 立·O-20261014-1745·13 席 37 修法定版） |
+-| cph4/fleet/dispatcher/PATROL-FLEET/（BLUEPRINT+CHARTERS+LOG+reviews） | ~30 | 活跃 | 子公司巡视席舰队正典（10-14 立·O-20261014-2250·十域章程·首战真发现 5 例·v1.1 晨波在排） |
+-| cph4/registry/mechanism-map.md | ~9 | 活跃 | 机制总图（从上往下一条线·O-20261014-2345·只描述不立新法·三件互指：cadence/law-registry/本件） |
+-| cph4/fleet/dispatcher/AGENT-BUSINESS-LAW-v1.md | ~9 | 活跃 | Agent 业务法（发现＞创新＞审查·O-20261015-1030·并档收编件零新法条·失败分类学五类 28 项+判读四律+处置矩阵+SLI-6/7 预注册+三补件·与 mechanism-map/cadence/本表四件互指） |
+ 
+ ## 二、L1 司规层（各司 BLUEPRINT/CODEX/CHARTER——按司归口，此处只登记不入册）
+ 
+@@ -66,8 +63,6 @@ docs/orders.md 550.8KB｜docs/decisions.md 215.7KB｜orders-archive×2+decisions
+ - 指针存根 8 件改判保留（候选池ⓐ 结案）。
+ - 净法熵：新增 2 vs 废止 2 制度+6 勘注 = **净负** ✓。
+ - 2026-10-14 二批（主AGENT 群审定版批·O-20261014-1745）：新增 1 册=MASTER-AGENT 蓝图 v2（L0 架构正典登记·非法条·同修法包案卷判定）+伴随勘注 5 处（DISPATCHER-CHARTER 班表指针化/ROUND 步9 受保护件例外/AI.md 指针化+雷达数勘正+代理席行勘正×3/本表本行）——蓝图内 8 项拟法全部走 Phase 1-β governance §9 通道生效（本批只登记不生效）；AI.md 10.1→11.1KB/ROUND.md~11.6KB 随勘正批漂移备案（必读三件合计 ~21.7KB ≤30KB 线仍 ✓）。
+-- 2026-10-14 三批（巡视舰队+机制总图批·O-20261014-2250/2345）：新增 2 册=PATROL-FLEET 巡视舰队正典（十域章程·L0 架构族·5 真 bug+5 红旗当窗修·轻审波 v1.1 晨波在排）+mechanism-map 机制总图（顶层结构族·只描述不立新法）；伴随登记=cadence.md 指挥链族入账（14 新任务/班次）+AI.md 舰队/总图指针行+governance §0.1 一页图升 v1.1。
+-- 2026-10-15 一批（Agent 业务法批·O-20261015-1030·CEO 直令「弄全面且科学」）：新增 1 册=AGENT-BUSINESS-LAW v1（业务框架族·并档收编件·零新法条）；伴随登记=SLI-6 产出线/SLI-7 令执行线预注册（10-19 回访判据⑯⑰）+三补件挂账（产出账本/引擎心跳/令执行率）。
+ 
+ ## 七、瘦身候池（季度瘦身日面·首跑 2026-10-19·owner=进化轮）
+ 
+diff --git a/docs/orders.md b/docs/orders.md
+index 07aee17..3e60822 100644
+--- a/docs/orders.md
++++ b/docs/orders.md
+@@ -1044,19 +1044,3 @@
+ | 10-14 17:0x | **CEO 机制全链条审查令（O-20261014-1705·原话「把新的机制全链条审查一次，确保高效科学」·委员会同窗收口）** | **定谳=链条成立·无冗余无断链**（底层承载全验活：L0/IdleWatch/35B 看门狗三任务 Ready·:8090 健康 200·三令行经 14428b2/c250b50 存活=丢行修复有效）；**当窗修复 5 缺口**：①cron prompt 正身漂移→CHARTER §四块同步（补步8 丢行守望+08:43 radar 快充）+cron 重建 v3.1；②原子推模板驻可清扫 tmp→晋升 Tools/git-atomic-push.py（tracked·本批首推即实弹）；③versioning §4.4 补录原子推正道；④BRIEF §二「15 项·每轮抽 5 项」→「16 项·确定性轮转切片」+全链条审查令织入科学决策关注点；⑤DEADLINES 13:00 V3.5 预览剪过窗未翻新=L3 活案→延误如实披露+21:43 死线班跟核。审查档=cph4/fleet/dispatcher/CEO-PROXY/LOG.md Round 1.0 |
+ | 10-14 17:4x | CEO 令：「主AGNET的搭建，帮我拉齐专家群审评估，要做到各方面都完美 科学 高效 创新」（**主AGENT 搭建+十三席两波群审令**·O-20261014-1745·快车道全云端子代理执行） | **同窗收口六件**：①**主AGENT 统一蓝图**（现役 CEO-PROXY+L0/L1/L2+自领引擎收拢成体系正典+诚实缺口账）；②轮子调研=R-20261014-master-agent-frameworks-01.md（17 框架核验·防线二双验〔Dify 158k★+附加条件许可判负/LangGraph 43k★MIT 借模式〕）——**定谳=直接采用 0 框架·借模式 7·判负 7·待证 3**（集成成本>借模式·现役三层已覆盖编排核心）；③**波1 七席技术面全 FAIL**（architect 7.75/distributed 7.5/orchestration 8.0/SRE 8.375/security 7.25/efficiency 8.0/audit 7.75）→24 修法织入 v1.5（受保护件/交接卡九要素/POOL 写手制/SLI 双轨/外部探针/路由硬映射表/锁原子化/丢行机核）；④**波2 六席业务面**（CEO 视角 8.5 PASS+成本 8.625 PASS+治理 8.0/运维 7.1/创新 8.125/交接 7.4 FAIL）→13 修法织入 **v2 定版·37 修法零遗留**（兜底终点=CEO 出声/元宇宙三件套上锁/SLI-5 令转单 ≤30min/周真金帽/sleep-time 判例蒸馏+replay 回归闸/签章降提名面·CEO 令唯定谳/砍行级哈希链〔两席同判过度工程〕/主脑自身月度成本账/Phase 1-αβ=ROI 序+授权通道标注）；⑤**当窗 4 正典实缺陷修复**（DISPATCHER-CHARTER 班表分叉→指针化/ROUND 步9 受保护件例外勘正/AI.md 版本漂移+雷达数 15→16+主AGENT 指针行/law-registry L0 入册+熵账）——全部为群审席独立实锚非自查；⑥正典位=cph4/fleet/dispatcher/MASTER-AGENT/（BLUEPRINT v2+PANEL-REVIEW-20261014.md+reviews 13 件原件封存）·席位运转异常 3 例如实披露（预算中断→分析回收+记分员代录范式）·10-19 回访新增判据⑨-⑭（红旗复发=0/哈希锚基线/事件班活/replay 组/蒸馏件/SLI-4·5 首测） | executed（本窗·13 席全独立子代理） |
+ | 10-14 18:5x | 「我下班了，全面开工，MV优先级最高，明天我要看到成品！」 | **全面开工夜令·MV 最高优先·明晨成品死线（O-20261014-1855·bm-a CEO 问诊窗落令+三机广播）**：①全面开工=三机全夜窗满速（CEO 下班离机=bm-a 让路解除态·bm-b/bm-c 满负荷·CPU 车道 24/7 照旧）；②**MV 优先级最高**=mv0001 V3 全本地链今夜冲刺——装配站 66/66 源就绪态（16:4x wave1 六镜已落）→V3.5 预览剪→QC/盲评→全本地终剪 768P→成片闸（三律+三病清零+年代体裁检+J-M19 平台检）→**死线=10-15 晨呈 CEO 成品+验收数据（08:43 班承交）**·零卡点令执法（导演席定稿即产·中间态零打扰）·O-20261013-2200 全本地源律照旧；③云端并行车道照常（配额窗不闲置·>500 积分闸不变）；④41 曲长跑/G 系开发/回测各道按既令并行；⑤让路律待机（CEO 回机即让）。 | dispatched（三机 poke 已发+19:15 加班巡班点火·代理席接力执行） |
+-| 10-14 19:2x | **主AGENT Phase 1-α 速效件部署批**（CEO 令「agent还是太慢，我要求尽可能的高效，但要机队消化的料」+「继续」·O-20261014-1745 续行·CEO 直令例外通道） | **①②③ executed（本窗）④ dispatched（@bm-b）**：①**HQ-CEOProxyEventCarrier PT15M 静默在役**=Tools/proxy-event-carrier.ps1（L0 旗+探针警报扫描→锁门同守+40min 防抖+90min 同签+日帽 6→无头 codely 事件班·夜窗红旗响应 9h→≤15min·**实弹毕**：19:13 真发射 pid33592·事件班自主归因「首启鸡生蛋警报+v1.1 修复验证」=端到端自愈链全通）；②**HQ-MA-ProxyProbe PT1H 静默在役**=Tools/proxy-probe.ps1（LOG>26h/L0>3h/承载件心跳>2h 三探+current.json 快照=G13 监控者有监控）；③**L1 接线首笔**=Tools/l1-client.py 通用客户端（--prompt/--prompt-file/--pool-file 三模+SLI-4 计数器 media/logs/l1-consumption-ledger.jsonl）·POOL 10 卡经本地 35B 分诊（1053+694 tokens 零云端）=SLI-4 第一数据点·产出=cph4/fleet/dispatcher/L1-POOL-TRIAGE.md；④**@bm-b SLI 对账席外承载单**（lane=cpu-sound·回执窗 24h·验收物=git pull 后 task-register 注册 HQ-B-ProxySLI daily:08:35+即窗跑一次 Tools/sli-reconcile.ps1+SLI-RECONCILE.md commit+push+fleet/inbox 回执）；⑤坑录：**.ps1 含 CJK 必带 UTF-8 BOM**（PS5.1 无 BOM 按 GBK 解析炸·承载件首跑实录·已修）；⑥api-key 加固+防火墙提权两件按 Phase 1-α 序排代理席接续 |
+-| 10-14 22:3x | **MV V3 wave2 39/39 收割交付面**（O-20261014-1855 夜令执行件·bm-c r1010·死线 10-15 晨） | **39/39 SAVED+CDN 交付面 39/39 字节恒等 PASS——装配站可开**：①runner 22:08 自然收工（39 槽 INT8 768P 全落·最新 22:08:05）；②收割验证 25/39 CDN 行=陈旧旧片字节（今夜重烧撞 INDEX-SKIP 未上船·旧片进终剪风险位）→**修复 25/25**：裸 PUT 重传当前字节+新标签 _w2r1010+HEAD 逐件字节验证（E03_gaze_meet 444KB 合法小镜地板豁免件）；③终验 wave2_delivery_final_verify_r1010.json=**39/39 PASS**（14 原行 match+25 修复行）；④**@bm-a 装配站消费面：repaired 25 槽 URL 以回执 wave2_cdn_repair_r1010.json 为准（禁用旧原行·旧字节=旧片）+14 槽原行即最新**；⑤装配链接续：V3.5 预览剪→QC/盲评→全本地终剪 768P→成片闸（三律+三病+年代体裁+J-M19）→10-15 晨 08:43 班呈 CEO 成品。执行司=bm-c（收割毕·本行）+bm-a（装配接续） |
+-| 10-14 22:5x | **主AGENT Phase 1-β 修典批（O-20261014-1745 续行「继续」令·governance §9/CEO 令通道·修 L0 正典）** | **①-④⑥ executed（本窗）·⑤ dispatched（@bm-b/@bm-c·poke 已发）**：①**交接卡+POOL 写手制成文化（β-④）**：CHARTER v1.1 新增 §七=多机转单唯一正身（九要素表+Tools/card-lint.py 缺字段打回闸〔三案实弹：PASS 9/9/REJECT exit 2/--min 4/4〕+填法范例卡〔实锚=@bm-b SLI 单〕+POOL 五态迁移 open→assigned→claimed→done→verified·核销双勾+写手制〔开卡/改派/状态迁移=本席独占·认领=执行机回执面登记〕+各机回执面路径表〔正身=fleet-nodes status_files〕）——BLUEPRINT §四降指针+ROUND 步6 织入（跨机转单一律九要素+lint 过闸）；②**受保护件哈希锚基线（β-①·三定程序齐）**：Tools/protected-hash-register.ps1（谁算）+protected-hash-registry.json（存哪·18 件：CHARTER/ROUND+核心四件+L0 链+执法三件 carrier/probe/sli-reconcile+元宇宙源四件 generate/canonical/strings/sync-template+三件套）——22:38 基线 18/18·Verify 实弹正反路全过（人为漂移 DRIFT exit1 拦→还原复验 PASS）·strict 16+dynamic 2（硅基 html/-data.js 每 5min 再生=报告面·generate.ps1「每次生成留哈希档」集成=MiniGame 车道后续件）；③**council.md 引原文勘注并档（β-⑦·只读只议·正本零改）**：COUNCIL-DIVISION-ANNOTATION-20261014.md——引 §一.5.1 常设定分/§一.5.3 复盘行/§四.4 记名投票/v2.3 changelog 原文+勘注（台账写手=CEO-PROXY 席独占·委员会 00:00/12:00 轮对三台账只读只议·reflection-journal 复盘行照旧·根因=多写手竞态三丢行案·成文化走 governance §9 委员会未来案）；④**G12 BP+pre-push 提案（β-③·候 CEO 同意·未同意零执行）**：G12-BP-PREPUSH-PROPOSAL.md（branch protection 轻档 10 仓〔禁 force-push+禁删+enforce_admins=false·不开 required-PR=护机队直推工作流〕+三机 core.hooksPath=.githooks pre-push〔反转闸+哈希闸双道·PROTECTED_ALLOW_DRIFT 应急通道〕·命令级实施稿）——DEADLINES §二 waiting-CEO 区已登记（零催办）；⑤**G5 转单协议织入单（POOL-P1B-G5·九要素全·card-lint PASS 9/9）**：@bm-b·cpu-sound 与 @bm-c·gpu-production（双机同卡·回执窗 24h·软死线 10-15 12:00·夜窗让位 MV V3）——织入内容=各自 OS loop 的 orders 行处理段三件（交接卡九要素识别+card-lint 过闸+回执行带卡 ID）·验收物=织入 commit+一行回执·POOL.json 状态迁移归代理席收卡；⑥**前置核验毕**：事件班收口（Round 1.1=origin 75ac965·NJ 清零+锁收口 19:28:21）+bm-b SLI 回执闭环（SLI-RECONCILE GREEN 19:49·HQ-B-ProxySLI 注册 8f088d7·bm-b 自修我脚本两 bug 7538459/f7018d0+出口加固 58b0097·本地已同步 origin 修复版）+DEADLINES 承载件行翻 done-在役（08:43 班勿重派防双注册）；⑦10-19 回访判据⑨-⑭补齐面：哈希基线在位✓+交接协议成文✓+G12 待 CEO 同意·generate.ps1 哈希档集成待 MiniGame 车道 |
+-| 10-14 23:3x | CEO 令：「我这个主 Agent 之外，还要搭建各个子公司的 Agent 作为一个巡视。他们的频率要更频繁一点，然后更专业一点，就针对他们那家子公司，或者实验室，或者集团，或者别的」（**子公司巡视席舰队令**·O-20261014-2250·同窗建成+部署+首战） | **v1 建制+部署+首战毕**：①**架构=MASTER-AGENT v2 域级同构降维**（零新权面/零新台账/零新常驻）：L0' 域传感 PT30M 零 token→L1' 本地 35B 日 digest 零云端→L2' 旗触发域巡视班（域锁<10min+防抖40min+同签360min+日帽4+snooze负反馈）→hub 台账单写手→CEO 兜底——**频率=48扫/日+旗即应 vs 枢纽8班/日·专业=十域章程雷达面**；②**十席编制**=8司+FluxVerse城+CPH4实验室+集团横切（元资产面·与枢纽运营面/值守轮三面互不重叠·「别的」=config一行+章程一节即扩）；③**部署实弹**=Tools/patrol-fleet-carrier.ps1+patrol-fleet-config.json+HQ-Patrol-* 十任务 every:30m 正门注册（隐形链回读验毕）——**首战 23:13-23:14 十域齐发**：10 digest 全成（L1 本地 35B·零云 token）+9 域旗班（pid 在册）+锁门双跳验证；④**域班首轮专业战果（专业价值正证）**：bigmoney 席=origin 分诊定谳 bm-b 循环班真停摆 3.9h（非拉取滞后·backlog 交叉印证）→按即决清单 poke 唤醒；**bigstream 席=黄旗 MV V3 装配接力悬空**（bm-c 39/39 22:30 交付解锁而装配面 ≥60min 零活动·CEO 夜令头号死线）→NJ 顶位登记候 23:43 夜移交班点火；bigcompute 席=风险台账零 V100 条目（今晚 SXM2 采购后未更）+P0 已过闸实证；bigdomain 席=waiting-CEO 软著定名行陈旧（6 款实已定名 C-20261010-03）；biggame 席=枢纽 18:43/21:43 班未落 LOG 实锚；⑤**载体 5 处真 bug 当窗修**（W2 运维席红旗 3：同签闸缺位/state 损毁永久崩溃环+心跳说谎/digest 假 done——全修实证；+standing/scheduled 常设行误旗+绝对路径传感 Join-Path 炸）；⑥**轻审波实况**（如实披露）：W2 完成（预算中断→分析回收记分员代录=reviews/W2-sre.md）·W1/W3 读档期请求超时终止·W4 未收卷→三席并 v1.1 晨波（reviews/WAVE1-STATUS.md·10-15 08:43 窗承接）；⑦保护扩容=4 件舰队正典入哈希锚（基线重注册 22/22·meta.order 记本令）；⑧10-19 回访新增判据⑮：载体 Ready 100%/旗响应 ≤30min 实测/digest 产出率 ≥90%/越权直写台账=0/**域席发现 hub 漏报 ≥1 例**（首夜已 5 例真发现） | deployed+first-battle（本窗·v1.1 晨波补审+digest 错峰+域班升级件持久通道正典化） |
+-| 10-14 23:4x | **PATROL-FLEET v1 轻审波 W4 域适配席收卷+红旗折叠批**（O-20261014-2250 续行·W4=四席唯一满程完成〔36 工具调用〕·评 6.5/10·6 红旗·PASS 有条件） | **五红旗当窗全折叠**：①§3 B站线安全面盲区→雷达⑧+知识面 bili-ops/AGENT-SPEC-v3 指针；②§8「搬家前先活一遍」过时判据→锚改 BLUEPRINT §二「在硅基城市，安一个家」三句（旧句已停用禁引用）；③§3 即决「orders 行」直写台账自相矛盾→改 NEED-JUDGMENT 行（台账单写手=枢纽）；⑤bigmoney 传感缺 bm-a.json→补挂（三源归一）；⑥BigLife 保留面噪声烧班（census 唯 CEO 行永久旗 23:14 实弹烧班+digest 跨域错判）→**载体死线扫描跳过 §二 waiting-CEO 区**（biglife/bighouse 复验 0 旗根治）+fluxverse html 传感 45→30min 归一章程判据；**④config 传感类型错配族（size 型水位/门禁日志/saturation/memory-slim LEDGER 补挂）+biglife 真传感=v1.1 晨波修法单**（08:43 窗）；审档=reviews/W4-domainfit.md+WAVE1-STATUS.md 翻新；哈希基线重注册 22/22（23:41） | folded（本窗·W1/W3 两席明晨补审照旧） |
+-| 10-15 00:0x | CEO 令：「所以你再按照这个架构去帮我梳理一下机制，从上往下梳理，一定要顺畅高效。有效、科学、理性。」（**机制从上往下梳理令**·O-20261014-2345） | **机制总图+堵点修复批**：①**机制总图 v1**=cph4/registry/mechanism-map.md（从 CEO 往下一条线：一条升级线〔全链 7min 实测锚=23:34 域黄旗→23:41 事件班〕+七层流水线〔CEO→委员会→主AGENT→巡视舰队→L1→L0→执行·每层输入→动作→输出→消费〕+节律一览+防线五链+SLI/SLO 总表十线+已知张力六项诚实面+在途件不藏账+用法三则——只描述不立新法·与 governance §0.1/cadence/law-registry 三件互指不复制）；②**governance §0.1 一页图升 v1.1**（织入主AGENT+巡视舰队层·委员会对三台账只读只议·E3 否决窗勘注〔图内残留 24h 否决窗字样一并清〕·外审三班→日一班勘正——原始定谳承 C-20261008-04）；③**登记缺口三修**=cadence.md 指挥链族入账（14 新任务/班次：8 班 durable cron+记忆周审 21:47+事件承载 PT15M+探针 PT1H+看门狗 PT10M+巡视十席 PT30M）+law-registry 新增 2 册+三批账+AI.md 舰队/总图指针行；④**顺畅化三修**：升级件双面律成文（NJ=加速面·持久正身=域 shiftlog+舰队 LOG+域状态件——CHARTERS 通用纪律）+digest_only 假旗豁免型入载体（bigmoney 席自荐修法当窗采纳：backlog.md 事件驱动文件不再起旗只入 digest）+哈希基线重注册 22/22（00:00） | mapped（本窗·v1.1 晨波照旧） |
+-| 10-15 00:1x | **MV V3 wave2 q88 板+装配站 poke 回执（O-20261014-1855 承接·bm-c r1010 死窗遗产收口窗执行）** | ①wave2_qc_sheet_r1010.jpg=39/39 接触板落库（中帧 2.5s·七列网格·q88 490KB·死窗续窗已目检全格有画零破格·琥珀火光影片语言一致）——@bm-a 装配站 QC 面按板逐槽过帧级检；②bm-a FleetLink poke 22:54:16 受理（死窗记录·本窗 00:1x 复探 bm-a listener 活跃 last_pull 23:59:52 佐证）——收割交付面 39/39+回执三件+索引新行·装配站解锁令已达；③r1010 死窗链全闭合=39/39 SAVED+25 修复+39/39 终验+estates a3628d0 上链+本板落库。执行司=bm-c（本行收口）+bm-a（装配接续至晨） |
+-| 10-15 01:3x | **@bm-b 软著B机10款源程序复跑批**（O-20261014-1035 B10 段执行件·事件班 NJ biggame R2 00:31 落单·lane=cpu-sound·CPU 面约 30 分钟·回执窗 12h） | ①git pull 后进 软著申请材料 目录跑 python generate_copyright.py（无参=全 32 键自动跳缺源码款·B 机源码在 bm-b 盘·九根跨机解析）→ 产出 B机10款（G04 螺丝仙人/G05 爆护/G07 人从众/G08 开学啦/G13 我想有个农场/G14 大不了开饭馆/G20 夜聊斋/G23 这张牌有诈/G26 归园田居/G28 这一箭稳了）源程序 txt/pdf+指南源程序量自动回写（G26 以现盘波2填充最新代码为准·生成器幂等可复跑）；②完成 git add 软著申请材料+pathspec commit+push+orders 回执行（各款实测行数/页数清单）→ 报审台账§四 B机10款行销账；③各款位内 CCPC 提交材料 源程序 PDF 一并重出归拢；④验收物=软著申请材料/ B10 源程序三件+CCPC 源程序 PDF+orders 回执行+报审台账§四销账行+commit/push sha（证据指针）；POOL-0011 已开卡——认领回执面登记格式=POOL-0011+动作（claimed/done）+证据指针 | dispatched（候 bm-b 回执） |
+-| 10-15 01:3x | **@bm-c V3 终剪缺件补产 7 镜**（O-20261013-2200 全本地令执行件·事件班 NJ bigstream R2 00:33 落单·lane=gpu-production·INT8 768P·V3 终剪缺口面优先序·回执窗 12h） | ①asm_preflight 终判 7 独立源缺产=INT1_desk_breath/INT2_paper_fight/INT3_photo_stare/INT4_rubbing_glow/INT5_head_bow/D03b_direct_gaze/E01c_first_line——七帧 CDN 直链：INT1=mcp-upload/43110f772161a006b5cb7212343cdaf5/KF4_INT1_desk_breath.png·INT2=mcp-upload/0a2b255859d43d1c4839ffd0242e4f75/INT2v1_paper_fight_s9025.png·INT3=mcp-upload/79b498ead70478a51059d23c7a6de676/KF2_INT3_photo_stare_s9013.png·INT4=mcp-upload/74d7a4333cd7ba26ae3bcb408c01aeb7/INT4v2_reflection_s9029.png·INT5=mcp-upload/85ddd3441997b70bcfaff84dabe4a88f/INT5v1_head_bow_s9025.png·D03b=mcp-upload/c52c7553cfb6e5b1fbfb69be46a4744e/KF1_D03b_direct_gaze_s9013.png·E01c=mcp-upload/3554c6722516ec1dcdfec8d5928110b5/E01c_first_line_s9013.png（域头 https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/）；②i2v 提示词正身=mv_full_shots.py 行+V3-NEWKF-PACK §i2v 六段式（HOLD 句+慢放插值行照旧·音轨禁令剥除）；帧不符可按 mv_full_shots.py 帧提示词正文本机重渲（672×384 试构图先行照律）；③产物=7 件 <镜id>.mp4（文件名照单逐字）→ CDN 上传+URL 追加 bmc/I2V-URL-INDEX.md→orders 回执行（7 URL+字节数）；④装配站（bm-a）下载落 DL 段→asm_preflight 云引用=0 过闸→768P 终剪；⑤验收物=7 件 CDN URL+字节+I2V-URL-INDEX 行（证据指针）；wave3（星晴 A 批 34 KF+选角板 16）排本批后接续；POOL-0012 已开卡 | dispatched（候 bm-c 回执） |
+-| 10-15 03:1x | **MV V3 gap7 七镜补产收割交付回执（POOL-0012 done·O-20261013-2200 全本地令执行件·bm-c r1012 死窗遗产收口）** | ①7/7 DELIVERED（gap7 runner 02:53:28 自然收工·v3gap7_r1011_receipt.json）：INT1_desk_breath 821469B/INT2_paper_fight 905283B/INT3_photo_stare 755567B/INT4_rubbing_glow 748653B/INT5_head_bow 897269B/D03b_direct_gaze 751856B/E01c_first_line 605510B——七 CDN URL 全行见 bmc/I2V-URL-INDEX.md 七新行；②字节终验（INDEX-SKIP 律合规收割）=_r1012bmc_gap7_byteverify.json **7/7 ALL-MATCH**（本地 mp4=CDN HEAD Content-Length=declared 三方恒等）；③q88 看板 v3gap7_qc_sheet_r1012.jpg 板检 PASS：7/7 有画零破格零 HUD 零浮空·六格琥珀暖调统一·INT2_paper_fight 单格冷蓝调=装配站 fin 统一调色单镜修法面（非重烧面·导演席裁定）；④7 mp4+progress+receipt+board+INDEX 七新行全上链（本 commit 原子推）；⑤**@bm-a 装配站**：七槽落位即 asm_preflight 66 槽全解析·云引用=0 过闸律达成→V3.5 预览剪→768P 全本地终剪→成片闸（10-15 晨 CEO 成品死线·O-20261014-1855）；⑥POOL-0012 done 三元组=POOL-0012+done+证据指针（本行+byteverify json+board）·五态迁移归 CEO-PROXY 收卡 | done（bm-c 收口·poke bm-a 装配站） |
+-| 10-15 03:5x | **软著B机10款源程序复跑批交付回执（POOL-0011 done·O-20261014-1035 B10 段执行件·bm-b r957）** | ①B机10款源程序全产出（源程序 txt/pdf+指南源程序量自动回写）：G04 螺丝仙人 2869行/24文件/58页·G05 爆护 5235行/30文件/60页·G07 人从众 3073行/20文件/60页·G08 开学啦 5725行/29文件/60页·G13 我想有个农场 3910行/24文件/60页·G14 大不了开饭馆 3535行/19文件/60页·G20 夜聊斋 2385行/21文件/48页·G23 这张牌有诈 1862行/13文件/38页·G26 归园田居 3121行/17文件/60页（现盘波2填充最新代码）·G28 这一箭稳了 2592行/12文件/52页——不足60页四款（G04/G20/G23/G28）全部提交诚实标注；②r956 FAIL 根因定谳=bm-b 盘源码目录为裸名（ScrewOut/... 无 G 前缀·九根零命中）→修复=generate_copyright.py B机10款 src_rel 双候选（C机 G09Y/G10 先例范式）+SRC_ROOTS 第十根 C:\Fluxgroup\MiniGame；③CCPC 提交材料 源程序 PDF 10/10 归拢（_r957bmb_rz_receipt.json GEN_DONE_OK）；④报审台账§四 B机10款行销账（软著申请材料/README.md）；⑤组仓树手术 commit+push（本 commit sha）+证据=bigmoney results/_r957bmb_rz_receipt.json+_r957bmb_group_commit_receipt.json | done（bm-b 收口·POOL-0011+done+本行+双 receipt 证据指针） |
+-| 10-15 05:4x | **星晴 wave3 A 批试构图 29/29 + 女主选角板 16/16 交付回执（DEADLINES 波 3 队头·O-20261013-1530 V3 排产链·bm-c r1016 收口）** | ①A 批 29/29 试构图 COMPLETE（672x384 · Krea2 turbo fp8 + jman_v1@0.6 · seeds 9301-9329 · 零 LINT_FAIL · 行级三联单烧=装配站 REUSE 法）+ 选角 16/16 COMPLETE（4 型×4 种子·两光位·零 jman 污染 · seeds 9401-9416）——双板+双 receipt 落 outbound/xq-wave3/（XQ-A-TRIAL-BOARD_q88 + XQ-CASTING-TRIAL-BOARD_q88 + XQ-A-TRIAL-RECEIPT-r1015 + XQ-CASTING-RECEIPT-r1015）；②bm-c 板级自检（呈前自挑）：A 批 0 破格 0 世界漂移 0 克隆脸·男主 9 出场格一致性过·夜戏亮度梯度=叙事性非事故·三 advisory 全=设计内（S1-07 云人=超现实①镜头正身/S2-15 悬浮手=虚扶留白正身/S2-11-12-13 三联=行级单烧律）+S0-06 低清下摩托/单车观感待高清复核；选角板 0 破格·行内一致性 B 85-90% 最稳/A 75-80% 最弱（s9404 疑换脸）·妆感 3 格 flag（s9404 网红妆/s9406 韩系卧蚕水光唇/s9412 夜拍高光唇釉）供拍板参考·B 型最贴 2000 台湾校园清新感；③反向测试=多模态门检红线拒答（拒做真人联想点名·10-09 判例同面）→如实记「未验证」·定脸锁/发布前走专用人脸相似度工具+人工复核补档；④**@bm-a 导演席**：构图对审按板逐格过→白名单签章→A 批正档 1344x768（另窗）+选角 2 型升正档 x3 种子→定脸拍板→十席帧审；B 批 12 帧候定脸解锁；⑤执行司=bm-c（生成+自检+上链）·bm-a（对审+拍板+接产） | done（bm-c 收口·poke bm-a 导演席） |
+-| 10-15 10:38x | **Agent 业务法 v1 立法收编（O-20261015-1030·CEO 问诊窗原话收编）** | ①CEO 定谳业务优先级=**P0 发现（机器没干活/任务没排满/没产出/方向不对+系统级病）＞P1 创新＞P2 审查**；②正典=cph4/fleet/dispatcher/AGENT-BUSINESS-LAW-v1.md（失败分类学五类 28 项+判读四律+处置矩阵+SLI-6 产出线/SLI-7 令执行线预注册+三补件执行序列·并档收编件零新法条）；③law-registry L0 登记+法熵账本一批入账；④10-19 回访新增判据⑯产出线/⑰令执行线；⑤三补件=产出账本 Tools/agent-output-ledger.ps1（bm-a 主窗·软死线 10-16 夜窗·MV 08:43 死线让路）+自领引擎心跳（巡视舰队窗·10-17）+令执行率（补件①同件）；⑥四件互指=本件+mechanism-map+cadence+law-registry |
+-| 10-15 10:5x | **MV V4 男主 Jay 化重做包派单（O-20261015-1040·CEO 原话「算了，男主还是要像周杰伦！包括神态和发型，涉及的镜头改一下，然后剪辑等专家好好群审一下，我觉得大部分不错了，好好打磨字幕啊什么的」）** | ①取证=JAY-BEFORE-BOARD 18 格定谳（media/MV/mv0001/lyricwork/）：可见脸 6 镜=泛AI帅哥（只发型在演周杰伦·KF 未挂 jman LoRA）+剪影/背影镜=身份零信息→CEO 裁决撤剪影方案；②正典=JAY-REDO-PACK-v1.py（17 件=14 重烧+3 校验：jman_v1@0.80+反韩骨相锚 v2+2001 发压眉+唱腔神态+HOLD 槽律·lint OK）；③@bm-c 车道=KF 全烧→LOOKBOARD 上链→poke bm-a 导演席批→过线件 i2v INT8 768P→bmc/i2v/jayredo/ 交付（POOL 卡 POOL-0014）；④字幕线=词锚点重产毕（47 行/491 词·media/MV/mv0001/lyricwork/mv0001_words.json）→官方词面行级对齐+SimSun 年代字幕轨建制中；⑤V3 终剪=装配中（72 段全齐 234.25s·云引用 0·全本地）→出片即 QC+呈 CEO；Jay 件回采后 V4 重装→剪辑等专家十席群审（tw-mv-director+bigstream-expert-panel）→CEO 终审 | open（@bm-c 受理） |
+-| 10-15 10:49x | **24 小时全链贯通审计案立令（O-20261015-1040·委员会牵头）** | ①CEO 原话「从顶层到最后的执行，委员会牵头梳理所有的规则和机制，务必保证24小时不间断运转，方向正确，创新且科学」；②案卷=C-20261015-01（cph4/council/C-20261015-01-24h全链梳理案.md·**今天 12:00 常务轮接案**）；③查重定位=10-14/15 三批梳理已毕（mechanism-map/业务法/修法包/主AGENT/PATROL）→本案=贯通审计+四柱验收+断点补缺，**非重建**；④四柱判据预注册=七层×24h 覆盖表 100% 有主/SLI-6·7 落地/自迭代四件面/判据⑦-⑰齐备；⑤走查种子=夜窗 REPL 依赖/cron 7 天到期/L1 消费率止损/三补件/物理件离线/法熵守恒 八项；⑥时间表=18:00 层卡齐→10-16 00:00 常务轮拍板→回执 24h→10-19 总验收；⑦立法产出走 governance §9+法熵守恒（防梳理变膨胀） |
+-| 10-15 11:0x | **MV 全速令+金融 CPU 排满令（O-20261015-1055·CEO 原话「自媒体公司要加紧生产MV所有相关的，所有机队能力全部用起来，其他本地可以让路,金融公司把机队CPU能力用满排满」）** | ①MV 全速=@bm-c Jay KF 批烧中（POOL-0014·jman@0.80）→LOOKBOARD 上链→导演席批→i2v INT8 768P 全批→V4 重装+十席群审；星晴 wave3 A 批正档排队（导演席对审承接中）——一切 GPU 生成单优先 MV；@bm-b=MV 备援待命（INT4 480P animatic 线·装机态+能力回执）；bm-a 夜窗 GPU=KF 备援+词锚点批（W4/W5 四曲 320k 转档+whisper 锚点——音乐库在 bm-a 本地）；云端=风景镜 H3 波可用（人脸镜=本地 INT8 铁律不变）；**其他本地 GPU 生产让路 MV**；②金融 CPU 排满=@bm-b/@bm-c Bigmoney 波链连续性核查（W243 后 W244+ 席位注册·停摆即 poke 唤醒）+千人题库/矩阵线补位+三机 CPU 满载线盯守（IdleWatch 判据照旧·py≥70% 留余量律不变）；③勘误=本日 O-20261015-1040 双号并存（-MV 男主 Jay 化令 10:47 c8ec973f0 vs -24h 全链梳理案 10:51 489c7a8a3——后续引用以 -MV/-24h 后缀区分） | open（@bm-b/@bm-c 受理） |
+diff --git a/gaming/.codely-cli/settings.json b/gaming/.codely-cli/settings.json
+index 3fec5a3..0748ba7 100644
+--- a/gaming/.codely-cli/settings.json
++++ b/gaming/.codely-cli/settings.json
+@@ -4,6 +4,5 @@
+     "TJGenerators": {
+       "httpUrl": "https://ai-generator.tuanjie.cn/mcp"
+     }
+-  },
+-  "model": "codely-core"
+-}
+\ No newline at end of file
++  }
++}
+diff --git a/quant/.codely-cli/settings.json b/quant/.codely-cli/settings.json
+index 3fec5a3..0748ba7 100644
+--- a/quant/.codely-cli/settings.json
++++ b/quant/.codely-cli/settings.json
+@@ -4,6 +4,5 @@
+     "TJGenerators": {
+       "httpUrl": "https://ai-generator.tuanjie.cn/mcp"
+     }
+-  },
+-  "model": "codely-core"
+-}
+\ No newline at end of file
++  }
++}
