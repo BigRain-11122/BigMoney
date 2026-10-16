@@ -1,0 +1,158 @@
+P1-transitive-deps: 2x '(249, 248, 247, 246, 245, 244, 243, 242, 241, 24'
+P1-liveness-range: 2x 'range(209, 254)'
+P1-fmt-comment: 1x 'def fmt(n):  # 571901 -> "571_901"'
+P2-downstream: 26x 'W254'
+P3-self: 187x '253'
+P3 consumed 187 '253' substrings
+P4-upstream: 279x '252'
+P4 consumed 279 '252' substrings
+P5a-ledger-int: 1x '978_735'
+P5a-k-int: 1x '552_320'
+P5a-ledger-prose: 8x '978,735'
+P5a-k-prose: 8x '552,320'
+P5a-ordinal72: 7x 'bmc_ordinal=73'
+P5a-seventysecond: 3x 'SEVENTY-THIRD'
+P5a-250th: 3x 'TWO HUNDRED AND FIFTY-THIRD'
+P5a-finface: 2x 'forty-first consecutive'
+P5a-72nd-ownwave: 3x '73rd own wave'
+P5a-seat-msg: 7x 'MSG-20261016-12xx-bmc-w254-seat'
+P5a-seat-origin: 2x 'f6433ee61'
+P5a-prereg-commit: 1x '741371846'
+P5a-header-window: 1x '2026-10-16 14:2x bm-c r1053 freeze window'
+P5a-closeout-window: 1x 'W253 finalize one-pass bm-c r1050 window closeou'
+P5a-splice-window: 3x 'r1050 splice window'
+P5a-splice-window-rest: 19x 'r1050'
+P5a-prereg-window: 7x 'r1052'
+P5a-authored-time: 2x 'authored 13:2x'
+P5a-aging-deps-cmt: 1x 'transitive window W240..W249 checked'
+P5a-aging-rows71-heal: 1x 'engine_owner==bm-c rows 72 + candidate'
+P5b-hdr-ownlegs: 1x "# block's own W239..W251 legs (13 rows) do NOT e"
+P5b-hdr-freshlegs: 1x '# after extraction, fresh W239..W253 legs (14 ro'
+P5b-hdr-parity-count: 1x '# parity = 111 rows (W138..W206 + W211..W253). Z'
+P5b-ext-excl: 1x "# block's own W239..W251 legs (13) are EXCLUDED "
+P5b-ext-fresh: 1x '# prereg mandate; the W254 block appends fresh W'
+P5b-ext-parcount: 1x '# machine-derived from the LIVE pf registry at f'
+P5b-parfull: 1x 'assert par_full.count("assert pf.N1_BANDS[") == '
+P5b-legs-assert: 1x 'assert legs_sec.count("assert pf.N1_BANDS[") == '
+P5b-split-cmt: 1x '# prereg sec.3 mandate split: keep W211..W238 ve'
+P5b-dropped-assert: 1x 'assert legs_dropped.count("assert pf.N1_BANDS[")'
+P5b-rcpt-fresh13: 1x '"fresh_legs_row_asserts": 14,'
+P5b-rcpt-total13: 1x '+ legs_kept.count("assert pf.N1_BANDS[") + 14,'
+P5b-hdr-ownlegs-mat: 1x '"    #     physical bytes; the W253 block\'s own '
+P5b-hdr-freshlegs-mat: 1x '"    #     W239..W253 legs (14) added, machine-d'
+P5b-hdr-parcount-mat: 1x '"    #     registry at freeze time -> 111 parity'
+P5b-rcpt-note: chunk 1x (1146 -> 1146 chars)
+P5c-band-drift: 1x 'assert (a_lo, a_hi) == (571_901, 573_900) and (b'
+P5d-ord-gate: 1x 'assert len(owner_rows_live) == 242 and len(bma_r'
+P5d-ord-err: 1x '(expect 242/129/72 PRE-splice post-W253 registra'
+P5d-leg0-prose: 1x '# receipt leg0 face owner_rows=242 / bmc_rows=72'
+P5d-ord-owner-prose: 1x '-> owner rows 242 + candidate = 243rd EXACT; bm-'
+P5d-ord-bmc-prose: 1x '# candidate = 73rd EXACT -- bm-c own-seat contin'
+P5d-rcpt-242nd: 1x 'freeze-time live face owner rows 242 + candidate'
+P5d-bundle-72nd: 1x 'freeze-time live derive bmc rows 72 + candidate '
+P5d-rcpt-72nd-owned: 1x 'post-W253 registration: bm-c rows 72 + candidate'
+P5d-rcpt-ordface: 1x '"probe_receipt_bmc_ordinal_face": 73,'
+P5d-print-deps: 1x 'f"W253+W248..W239 finalize products present "'
+P5e-hdr: chunk 1x (1329 -> 1329 chars)
+P5e-bandfacts: chunk 1x (1218 -> 1217 chars)
+P5e-a-base: 1x 'assert w253_b_tail + 1 == a_lo, "A staircase-hop'
+P5e-a-floor: 1x 'assert a_lo >= w253_b_tail + 1, "A staircase lan'
+P5e-b-base: 1x 'assert b_lo == a_hi + 1, "B base == own-A tail+1'
+P5e-ra-gate: 1x 'ra = leg1.get("relation_asserts") or {}\nassert r'
+P5e-pfcmt: chunk 1x (1245 -> 1245 chars)
+P5e-pre: chunk 1x (1640 -> 1638 chars)
+P5e-mem-a: 1x ' f\'{MEM_I}"a_seed_base": {a_lo},        # law se'
+P5e-mem-b: 1x ' f\'{MEM_I}"b_exit_seed_base": {b_lo},   # law se'
+P5e-tailcmt: chunk 1x (1923 -> 1922 chars)
+P5e-tail-amsg: 1x '            "W254 A staircase-affects-A walk SEC'
+P5e-tail-bassert2: 1x '\'            "W254 B 1-HOP own-A RESERVATION CAS'
+P5e-tail-bclean: 1x '\'            "W254 B window must be CLEAN (first'
+P5e-tail-excl: 1x '\'            "W254 A/B same-freeze mutual exclus'
+P5e-pr: chunk 1x (666 -> 666 chars)
+P5e-rcpt-semantics-A: 1x '"A": "1-HOP STAIRCASE-AFFECTS-A walk SECOND cons'
+P5e-rcpt-semantics-B: 1x '"B": "1-HOP own-A RESERVATION CASCADE above own-'
+P5e-rcpt-downstream: 1x "W255p face per this window's probe leg4 (pre-W25"
+OUT '# --- W254 materializer face' = 2
+OUT '# --- W253 materializer face' = 1
+OUT '"+ W254 materializer face' = 2
+OUT 'range(16, 254)' = 2
+OUT 'range(17, 254)' = 3
+OUT 'range(239, 254)' = 2
+OUT 'list(range(211, 253))' = 1
+OUT 'list(range(211, 239))' = 1
+OUT 'list(range(239, 253))' = 1
+OUT 'range(209, 255)' = 2
+OUT 'if w < 254)' = 5
+OUT 'if w < 253)' = 1
+OUT '_w254bmc_20261016_probe_receipt.json' = 10
+OUT '_w254bmc_freeze_receipt.json' = 1
+OUT 'MSG-20261016-14xx-bmc-w254-seat' = 7
+OUT 'fa70f3765' = 2
+OUT '980_935' = 1
+OUT '554_520' = 1
+OUT '(574_101, 576_100)' = 1
+OUT '(576_101, 576_300)' = 1
+OUT 'W251_W252_W253_bands_respected_A' = 1
+OUT 'W251_W252_W253_bands_respected_B' = 1
+OUT 'B_base_above_W253_tail' = 2
+OUT 'A_staircase_hop_past_W253_B' = 8
+OUT 'W255p_A_naive' = 5
+OUT 'W255p_B_first_clean' = 2
+OUT 'arith_a254' = 6
+OUT 'arith_b254' = 6
+OUT '"PERPETUAL-N1-W254-SHARD-0"' = 1
+OUT 'n1_w254_results.json' = 2
+OUT 'n1_w254' = 4
+OUT 'n1w254' = 2
+OUT 'PERPETUAL-N1-W254' = 7
+OUT '_w254bmc' = 11
+OUT 'w244_a' = 12
+OUT 'SEVENTY-FOURTH' = 3
+OUT 'TWO HUNDRED AND FIFTY-FOURTH' = 3
+OUT 'forty-second consecutive' = 2
+OUT 'bmc_ordinal=74' = 7
+OUT '74th own wave' = 3
+OUT 'r1053 splice window' = 3
+OUT 'r1053' = 23
+OUT 'r1054' = 7
+OUT 'r1055 freeze window' = 1
+OUT 'estate 69' = 1
+OUT '= 112 rows' = 2
+OUT '112 parity' = 2
+OUT 'hops=1' = 23
+OUT '1-HOP' = 17
+OUT 'THIRD consecutive A-hop' = 14
+OUT 'FOURTH consecutive above-own-A' = 5
+OUT 'r1050' = 0
+OUT 'r1052' = 0
+OUT '741371846' = 0
+OUT 'f6433ee61' = 0
+OUT '978,735' = 0
+OUT '552,320' = 0
+OUT '978_735' = 0
+OUT '552_320' = 0
+OUT 'SEVENTY-THIRD' = 0
+OUT 'TWO HUNDRED AND FIFTY-THIRD' = 0
+OUT 'forty-first consecutive' = 0
+OUT 'MSG-20261016-12xx' = 0
+OUT 'authored 13:2x' = 0
+OUT 'bmc_ordinal=73' = 0
+OUT '73rd own wave' = 0
+OUT '243rd' = 0
+OUT '242/129/72' = 0
+OUT 'THIRD consecutive above-own-A' = 0
+OUT 'FIRST A-hop' = 0
+OUT 'seed-gap face ENDS' = 0
+OUT '571_701..573_700' = 0
+OUT '571_701..571_900' = 0
+OUT '571_901..572_100' = 0
+OUT '571_901..573_900' = 0
+OUT '~573_701..573_900' = 0
+OUT '(571_901, 573_900)' = 0
+OUT '(573_901, 574_100)' = 0
+OUT '== 110' = 0
+OUT 'forty-one legs' = 0
+OUT 'thirteen legs' = 0
+OUT '110 parity' = 0
+OUT 'm234' = 0
+OUT 'list(range(234, 251))' = 0

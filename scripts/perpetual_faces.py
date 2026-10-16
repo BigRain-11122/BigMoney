@@ -8411,6 +8411,53 @@ N1_BANDS = {
     # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
     253: {"a": (571_901, 573_900), "b_exit": (573_901, 574_100),
          "engine_owner": "bm-c"},
+    # W254 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261016-14xx-bmc-w254-seat published=reserved by bm-c itself @
+    # origin fa70f3765 (r1053, queue-head supply -- W253 complete -> freeze UNBLOCKED at publish, ZERO waits-upstream face; the W254 seat was published AFTER the W253 five-face + finalize landing (zero waits-upstream face) -- bm-c r1053 freeze + r1053 finalize one-pass ledger 980,935 / K=554,520); prereg + ADMIT probe
+    # receipt frozen commit e2c4b543ef (prereg research/PERPETUAL_N1_W254_PREREG.md
+    # bm-c r1054 window machine-SUB derive landed pre-freeze, probe
+    # results/_w254bmc_20261016_probe_receipt.json @ fa70f3765d);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W253 five-face (freeze c9b4fd8550) + W253
+    # finalize product landed (n1_w253_results.json present, ledger
+    # head 980935 machine-read at freeze time); zero --no-verify;
+    # the W254 seat MSG sits in fleet/inbox/processed/MSG-20261016-14xx-bmc-w254-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w254bmc_20261016_probe_receipt.json: A = 1-HOP
+    # STAIRCASE-AFFECTS-A walk THIRD consecutive A-hop (the naive continuation 573_901..575_900 is REFUSED
+    # at naive start -- the registered W253 B band sits INSIDE the naive A window;
+    # the walk hops past the W253 B tail -> A first-clean, hops=1 -- SECOND
+    # consecutive A-hop of the staircase era, the fourteen-wave seed-gap face
+    # ENDED at W253;
+    # A base == registered prior-wave B tail+1 (574_100+1) machine-checkable; A_clean_at_naive_start=false;
+    # A_staircase_hop_past_W253_B=true)
+    # B = 1-HOP own-A RESERVATION CASCADE above own-A (the naive continuation
+    # 574_101..574_300 lands INSIDE the own-wave A first-clean window --
+    # own-A reservation cascade standard leg; hops=1,
+    # B_hop_chain verbatim in the probe receipt; the walk hops past the own-A
+    # tail -> B lands ABOVE own-A -- FOURTH consecutive above-own-A;
+    # B base == own-A tail+1 (576_100+1) EXACT; B_lands_above_own_A=true;
+    # B_hop_lands_inside_A=false; B_naive_refused_at_start=true)
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=574101 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=576101 span=200 checked=200 verdict=FREE.
+    # W255+ projection (gate-derived pre-seat probe leg4, pre-W254
+    # universe): A naive first-clean 576101..578100 hops=0 (this window's gate: CLEAN, zero live
+    # seed refusers) / B naive 576301..576500 hops=0 CLEAN at naive -- first-clean 576301..576500 BUT lands INSIDE the projection A window,
+    # (W255p_B_lands_inside_W255p_A_naive=true -- staircase re-emergence face: the W255 walk MUST hop past own-A reservation);
+    # the W255 freezer MUST
+    # re-derive on the post-W254 universe AND reserve the own-wave A window
+    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1
+    # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
+    254: {"a": (574_101, 576_100), "b_exit": (576_101, 576_300),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
