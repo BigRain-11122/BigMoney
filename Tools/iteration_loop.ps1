@@ -117,11 +117,14 @@ try {
 
     # C-20261015-03 sec.3 spawn-gate preflight (cloud concurrency cap v1.0,
     # O-20261015-1800/1834): before igniting a cloud LLM session, count live
-    # codely.exe (all faces incl. headless rounds + background subagents).
-    # >=2 live => this tick yields with a ledger line; next grid slot
-    # auto-retries. Fail-open per spec: probe crash never blocks the line.
+    # AUTONOMOUS codely faces only (headless -p prompt rounds). C-20261016-05
+    # exemption fix: interactive Cowork windows (--experimental-acp) are
+    # exempt per O-20261015-1800 sec.2 - counting them starved every round
+    # whenever two chat windows were open. >=2 live => this tick yields with
+    # a ledger line; next grid slot auto-retries. Fail-open per spec: probe
+    # crash never blocks the line.
     try {
-        $live = @(Get-CimInstance Win32_Process -Filter "Name='codely.exe'").Count
+        $live = @((Get-CimInstance Win32_Process -Filter "Name='codely.exe'" -ErrorAction SilentlyContinue) | Where-Object { $_.CommandLine -match ' -p "' }).Count
         if ($live -ge 2) {
             Log "CLOUD_CAP_DEFER live=$live (cloud cap v1.0 C-20261015-03 sec.2)"
             Add-Content -Path (Join-Path $logDir 'cloud_cap_defer.log') -Value ("$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') | CLOUD_CAP_DEFER live=$live") -Encoding ASCII

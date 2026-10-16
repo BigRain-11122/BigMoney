@@ -20,7 +20,13 @@ $ErrorActionPreference = 'Continue'
 if (-not $Ledger) { $Ledger = Join-Path (Split-Path -Parent $PSScriptRoot) 'results\cloud_cap_ledger.jsonl' }
 $live = -1
 try {
-    $live = @(Get-CimInstance Win32_Process -Filter "Name='codely.exe'" -ErrorAction Stop).Count
+    # C-20261016-05 exemption fix: count AUTONOMOUS faces only (headless
+    # prompt rounds, cmdline carries ' -p "'). Interactive Cowork windows
+    # (--experimental-acp) are exempt per O-20261015-1800 sec.2; counting
+    # them starved every loop round while two chat windows were open
+    # (live=5 with 4 interactive, 10-16 23:35-00:45 all-round defer).
+    $all = @(Get-CimInstance Win32_Process -Filter "Name='codely.exe'" -ErrorAction Stop)
+    $live = @($all | Where-Object { $_.CommandLine -match ' -p "' }).Count
 } catch {
     Write-Output "SPAWN-GATE GO live=probe-fault fail-open lane=$Lane ($($_.Exception.Message))"
     exit 0
