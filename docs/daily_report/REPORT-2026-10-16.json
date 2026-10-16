@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-16",
- "generated_at": "2026-10-16 09:04:12",
+ "generated_at": "2026-10-16 10:03:13",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-16.md"
  },
  "rd": {
-  "commits_24h": 96,
-  "result_jsons_landed_24h": 186,
+  "commits_24h": 97,
+  "result_jsons_landed_24h": 187,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 11,
   "compute_audit_latest": {
-   "ts": "2026-10-16 09:02:04",
+   "ts": "2026-10-16 10:00:05",
    "py_cpu_pct": 0.4,
    "flags": [
-    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "loaded_ok",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -669,7 +668,7 @@
   "total_state_tokens_est": 2630,
   "total_report_tokens_est": 2110848,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-16 07:34:53",
+   "prev_generated": "2026-10-16 09:04:35",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -806,21 +805,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-16 09:02:04",
+    "latest_ts": "2026-10-16 10:00:05",
     "py_pct": 0.4,
-    "cpu_pct": 3.0,
+    "cpu_pct": 23.0,
     "ready": 0,
-    "streak_min": 3220.8,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "19:03",
-      4.0
-     ],
-     [
-      "20:11",
-      2.7
-     ],
      [
       "20:50",
       27.0
@@ -860,9 +851,17 @@
      [
       "09:02",
       0.4
+     ],
+     [
+      "09:37",
+      100.0
+     ],
+     [
+      "10:00",
+      0.4
      ]
     ],
-    "today_samples": 6,
+    "today_samples": 8,
     "today_floor_ok": 3,
     "today_sla_flags": 3,
     "today_supply_gap_flags": 3
@@ -919,7 +918,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-16 09:02:04"
+     "audit_ts": "2026-10-16 10:00:05"
     }
    }
   },
@@ -927,32 +926,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 250,
+  "last_registered": 251,
   "last_owner": "bm-c",
-  "next_registration": 251,
-  "next_seatable": 252,
-  "chain_head": 974335,
-  "k": 547920,
+  "next_registration": 252,
+  "next_seatable": 253,
+  "chain_head": 976535,
+  "k": 550120,
   "waves": [
-   {
-    "wave": 248,
-    "owner": "bm-c",
-    "a": [
-     561501,
-     563500
-    ],
-    "b_exit": [
-     544701,
-     544900
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 969935,
-    "merged_mu": -0.09279163379452458,
-    "merged_sigma": 0.24503930031458296,
-    "k": 543520
-   },
    {
     "wave": 249,
     "owner": "bm-c",
@@ -990,11 +970,30 @@
     "merged_mu": -0.09276995893561103,
     "merged_sigma": 0.24503505666354172,
     "k": 547920
+   },
+   {
+    "wave": 251,
+    "owner": "bm-c",
+    "a": [
+     567501,
+     569500
+    ],
+    "b_exit": [
+     569501,
+     569700
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 976535,
+    "merged_mu": -0.09274993928597397,
+    "merged_sigma": 0.24503622147677206,
+    "k": 550120
    }
   ],
   "seats": [
    {
-    "wave": 251,
+    "wave": 252,
     "machine": "bm-c"
    }
   ]
