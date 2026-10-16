@@ -1,0 +1,73 @@
+{
+ "machine": "bm-c",
+ "wave": 251,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w251_results.json",
+ "merged": {
+  "k": 550120,
+  "mu": -0.09274993928597397,
+  "sigma": 0.24503622147677206,
+  "se_mu_k550120": 0.00033
+ },
+ "w251_only": {
+  "mu": -0.08776395454545455,
+  "sigma": 0.2453310381077469
+ },
+ "skill_line": {
+  "n_eff_held": 974335,
+  "line_pre_w251": 1.194,
+  "line_merged_550120": 1.1941,
+  "k_lift_delta": 0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3153,
+  "full_sharpe_p99": 0.4328
+ },
+ "checks": [
+  {
+   "name": "key1_w251_vs_merged_mu_gap",
+   "value": 0.004985984740519422,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w250_key",
+   "value": 2.002071402602834e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 4.576800515759144e-06,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": -0.008199999999999985,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.00033,
+   "band": 0.000331,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 974335,
+  "batch_trials": 2200,
+  "total": 976535,
+  "exact": true
+ },
+ "sec5_item5_projection_note": "W252+ projection key (A naive 569_501..571_500 CLEAN hops=0 / B naive 569_701..569_900 CLEAN-at-naive BUT lands INSIDE W252 A window = staircase re-emergence face; live re-derive governs r587) = freeze-side face consumed by the W252 freeze party probe leg4 re-derive (r587 law), NOT a finalize-face key; recorded here for chain visibility only",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
