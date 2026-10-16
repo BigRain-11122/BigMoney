@@ -1,0 +1,87 @@
+{
+ "probe": "r1027bma_mf_source_diag",
+ "ts": "2026-10-17T05:35:38",
+ "context": "source-blocked since 2026-10-14T19:46; panel cutoff 2026-10-13 complete=false",
+ "legs": [
+  {
+   "leg": "rank-exact",
+   "url": "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=100&po=1&np=1&fltt=2&invt=2&fid=f62&fs=m:0+t:6,m:0+t:80,m",
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 123,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
+  },
+  {
+   "leg": "fflow-exact",
+   "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
+   "ok": true,
+   "status": 200,
+   "bytes": 14583,
+   "ms": 236,
+   "err": null,
+   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617932,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+  },
+  {
+   "leg": "rank-no-referer",
+   "url": "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=100&po=1&np=1&fltt=2&invt=2&fid=f62&fs=m:0+t:6,m:0+t:80,m",
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 45,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
+  },
+  {
+   "leg": "rank-modern-ua",
+   "url": "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=100&po=1&np=1&fltt=2&invt=2&fid=f62&fs=m:0+t:6,m:0+t:80,m",
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 55,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
+  },
+  {
+   "leg": "fflow-modern-ua",
+   "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
+   "ok": true,
+   "status": 200,
+   "bytes": 14583,
+   "ms": 65,
+   "err": null,
+   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617932,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+  },
+  {
+   "leg": "fflow-no-ut",
+   "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
+   "ok": true,
+   "status": 200,
+   "bytes": 14583,
+   "ms": 65,
+   "err": null,
+   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617939,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+  },
+  {
+   "leg": "ctrl-quote",
+   "url": "https://push2.eastmoney.com/api/qt/stock/get?secid=1.510300&fields=f43,f57,f58&ut=b2884a393a59ad64002292a3e90d",
+   "ok": true,
+   "status": 200,
+   "bytes": 137,
+   "ms": 39,
+   "err": null,
+   "sample": "{\"rc\":0,\"rt\":4,\"svr\":180606312,\"lt\":1,\"full\":1,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"f43\":4236,\"f57\":\"510300\",\"f58\":\"沪深300ETF华泰"
+  },
+  {
+   "leg": "ctrl-push2his-root",
+   "url": "https://push2his.eastmoney.com/",
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 43,
+   "err": "HTTPError: HTTP Error 404: Not Found",
+   "sample": null
+  }
+ ]
+}

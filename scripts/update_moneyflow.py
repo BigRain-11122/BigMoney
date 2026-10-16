@@ -943,6 +943,17 @@ def spawn_detached(arg):
     # detached refresh -- r977 chain-park root cause, E64 card
 
 
+def _rank_source_blocked(st):
+    """True when the last rank pass failed at the source (connection) level.
+
+    r1027 (T23): EM clist path blocked per-IP (3-day live evidence, probe
+    results/_r1027bma_mf_source_diag.py: clist all-variants FAIL while fflow
+    daykline endpoint healthy on the same host family). A source-blocked rank
+    lane must not starve the legacy daykline lane behind the rank 30-min
+    spawn throttle -- gate() uses this to fall through instead of no-op."""
+    return str((st.get("rank") or {}).get("mode") or "").startswith("fetch_failed")
+
+
 def gate():
     """S6 step: v2 rank lane first (daily-forward, T-39), then the legacy
     daykline opportunistic-backfill gate (stale_gate + spawn, unchanged)."""
@@ -969,20 +980,33 @@ def gate():
                 age = None if not last else (now - dt.datetime.fromisoformat(last)).total_seconds()
             except Exception:
                 age = None
+            skip_rank_spawn = False
             if age is not None and age < MIN_SPAWN_S:
-                print(f"throttle: rank spawn {last} ({age / 60:.1f}min ago) < 30min -> no-op")
+                if _rank_source_blocked(st):
+                    # T23 r1027: last rank pass died at the source (clist path
+                    # blocked per-IP) while the fflow daykline endpoint stays
+                    # healthy -- do not let the blocked lane's throttle starve
+                    # the daykline lane; skip the whole rank-lane block and
+                    # fall through to the legacy lane with its own guards
+                    # (stale_gate + throttle + lock, unchanged).
+                    skip_rank_spawn = True
+                    print("rank throttled + last pass source-failed -> "
+                          "fall through to daykline lane")
+                else:
+                    print(f"throttle: rank spawn {last} ({age / 60:.1f}min ago) < 30min -> no-op")
+                    return 0
+            if not skip_rank_spawn:
+                if _lock_alive():
+                    print("panel lock alive (daykline refresh or rank pass running) -> no-op")
+                    return 0
+                st["rank"] = dict(rank,
+                                  last_spawn_attempt=now.isoformat(timespec="seconds"),
+                                  mode="spawn: detached rank pass", spawn_reason=reason)
+                st["ts"] = now.isoformat(timespec="seconds")
+                write_status(st)
+                spawn_detached("rank")
+                print(f"spawned detached rank pass: {reason}")
                 return 0
-            if _lock_alive():
-                print("panel lock alive (daykline refresh or rank pass running) -> no-op")
-                return 0
-            st["rank"] = dict(rank,
-                              last_spawn_attempt=now.isoformat(timespec="seconds"),
-                              mode="spawn: detached rank pass", spawn_reason=reason)
-            st["ts"] = now.isoformat(timespec="seconds")
-            write_status(st)
-            spawn_detached("rank")
-            print(f"spawned detached rank pass: {reason}")
-            return 0
     panel = st.get("panel") or {}
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
@@ -1237,6 +1261,16 @@ def _selftest():
             assert n3                                                    # never fired
         finally:
             STATUS = old_status
+    # S20 T23 r1027: source-blocked rank lane must not starve daykline lane
+    assert _rank_source_blocked({"rank": {"mode":
+        "fetch_failed: page 1: RemoteDisconnected: Remote end closed"}})
+    assert not _rank_source_blocked({"rank": {"mode": "ok"}})
+    assert not _rank_source_blocked({"rank": {"mode": "ok_with_mismatches"}})
+    assert not _rank_source_blocked({"rank": {"mode": "spawn: detached rank pass"}})
+    assert not _rank_source_blocked({"rank": {"mode": "no-op: intraday window"}})
+    assert not _rank_source_blocked({"rank": {"mode": "deferred: daykline refresh holds the panel lock"}})
+    assert not _rank_source_blocked({})
+    assert not _rank_source_blocked({"rank": {}})
     # S19 v2 pagination (stop conditions + all-or-nothing page error)
     def fake_pages(pn):
         data = {1: [dict(f12=f"{600000 + i}") for i in range(100)],
