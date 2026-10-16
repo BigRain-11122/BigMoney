@@ -1,25 +1,27 @@
 {
  "tool": "s05_probe",
- "ts": "2026-10-16T19:26:37+08:00",
+ "ts": "2026-10-16T22:04:10+08:00",
  "machine_id": "bm-c",
  "watermark_face": {
   "tool": "d19_watermark.py probe",
   "rc": 0,
   "timed_out": false,
   "decisions_changed": false,
-  "orders_changed": false,
+  "orders_changed": true,
   "decisions_sha": "d9940c44b06b73bb930412cc499de5dfad00d5a6cddcbd64be0e419db286a906",
   "wm_decisions": "d9940c44b06b73bb930412cc499de5dfad00d5a6cddcbd64be0e419db286a906",
-  "orders_sha": "1d3538f9a821c9821b08f0ead47922e28c000666",
+  "orders_sha": "d1f4a923b80ed181f680df7e506802bbfcbc35d1",
   "wm_orders": "1d3538f9a821c9821b08f0ead47922e28c000666",
   "decisions_method": "sha256",
   "orders_method": "sha1"
  },
  "ack_face": {
   "machine_id": "bm-c",
-  "orders_count": 93,
+  "orders_count": 94,
   "ack_count": 218,
-  "unacked": [],
+  "unacked": [
+   "O-20261016-1950-bm-a.md"
+  ],
   "stale_acks": [
    "O-20260923-1514-bm-a.md",
    "O-20260923-1533-bm-a.md",
@@ -147,8 +149,10 @@
    "O-20260930-2054-bm-a.md"
   ]
  },
- "orders_delta": false,
+ "orders_delta": true,
  "decisions_delta": false,
- "unacked": [],
- "exit": 0
+ "unacked": [
+  "O-20261016-1950-bm-a.md"
+ ],
+ "exit": 3
 }
