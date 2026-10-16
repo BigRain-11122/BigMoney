@@ -1,0 +1,134 @@
+2	(253, 252, 251, 250, 249, 248, 247, 246, 245, 244)
+2	range(209, 258)
+1	def fmt(n):  # 580701 -> "580_701"
+1	2026-10-17 04:4x bm-c r1060 freeze window
+7	r1059
+23	r1058
+1	r1060
+1	W256 finalize one-pass bm-c r1058 window closeout 04:0x
+3	r1058 splice window
+2	authored 04:1x
+1	987_535
+1	561_120
+8	987,535
+8	561,120
+7	bmc_ordinal=77
+3	SEVENTY-SEVENTH
+3	TWO HUNDRED AND FIFTY-SEVENTH
+2	forty-fifth consecutive
+3	77th own wave
+7	MSG-20261017-03xx-bmc-w257-seat
+2	27ee6e95a
+1	c7fbc443c
+1	transitive window W244..W253 checked
+1	engine_owner==bm-c rows 76 + candidate
+0	saturation_engine.py status live-read r1059
+1	# block's own W239..W255 legs (17 rows) do NOT enter the estate path;
+1	# after extraction, fresh W239..W256 legs (18 rows) are added,
+1	# parity = 115 rows (W138..W206 + W211..W256). Zero assumption zero risk.
+1	# block's own W239..W255 legs (17) are EXCLUDED from the estate path per the
+1	# prereg mandate; the W257 block appends fresh W239..W256 legs (18,
+1	# machine-derived from the LIVE pf registry at freeze time) -> 115 parity
+4	m239
+1	W239 leg boundary
+2	range(239, 257)
+0	"    #     physical bytes; the W257 block's own W239..W255 legs (17) are",
+1	"    #     W239..W256 legs (18) added, machine-derived from the live pf",
+1	"    #     registry at freeze time -> 115 parity rows (W138..W206+W211..W256).",
+1	assert (a_lo, a_hi) == (580_701, 582_700) and (b_lo, b_hi) == (582_701, 582_900), \
+1	assert len(owner_rows_live) == 246 and len(bma_rows_live) == 129 and len(bmc_rows_live) == 76, \
+1	(expect 246/129/76 PRE-splice post-W256 registration
+1	# receipt leg0 face owner_rows=246 / bmc_rows=76 /
+1	-> owner rows 246 + candidate = 247th EXACT; bm-c rows 76 +
+1	# candidate = 77th EXACT -- bm-c own-seat continuity face (bm-c published the
+1	freeze-time live face owner rows 246 + candidate = 247th EXACT
+1	freeze-time live derive bmc rows 76 + candidate 77th EXACT per r587/r359
+1	post-W256 registration: bm-c rows 76 + candidate = 77th owned
+1	"probe_receipt_bmc_ordinal_face": 77,
+1	f"W257+W252..W243 finalize products present "
+10	_w257bmc_20261017_probe_receipt.json
+0	_w258bmc_20261017_probe_receipt.json
+0	range(16, 258)
+0	range(17, 258)
+0	if w < 258)
+5	if w < 257)
+0	list(range(211, 257)),
+1	list(range(211, 239))
+1	list(range(239, 256)),
+6	arith_a257
+6	arith_b257
+4	n1_w257
+2	n1w257
+7	PERPETUAL-N1-W257
+11	_w257bmc
+12	w244_a
+1	estate 69
+2	= 115 rows
+2	115 parity
+5	SEVENTH consecutive above-own-A
+14	SIXTH consecutive A-hop
+0	EIGHTH consecutive above-own-A
+0	SEVENTH consecutive A-hop
+5	W258p_A_naive
+2	W258p_B_first_clean
+0	W259p_A_naive
+1	W254_W255_W256_bands_respected_A
+0	W255_W256_W257_bands_respected_A
+2	B_base_above_W256_tail
+0	B_base_above_W257_tail
+8	A_staircase_hop_past_W256_B
+0	A_staircase_hop_past_W257_B
+4	hashlib.sha256
+0	hashlib.sha257
+0	SEVENTY-EIGHTH
+0	TWO HUNDRED AND FIFTY-EIGHTH
+0	bmc_ordinal=78
+0	78th own wave
+2	247th
+0	248th
+1	246/129/76
+0	247/129/77
+0	989,735
+0	563,320
+0	989_735
+0	563_120
+0	d0d0d04a4
+0	824b46d31
+0	MSG-20261017-0517-bmc-w258-seat
+0	116 parity
+0	= 116 rows
+0	116 rows
+0	m240
+0	list(range(211, 240))
+0	list(range(240, 257)),
+0	range(240, 258)
+1	kept segment not W211..W238 twenty-eight legs
+0	kept segment not W211..W239 twenty-nine legs
+1	dropped segment not W239..W255 seventeen legs
+0	dropped segment not W240..W256 seventeen legs
+1	legs segment not W211..W255 forty-five legs
+0	legs segment not W211..W256 forty-six legs
+1	full parity span
+1	!= 114 (69 estate + W211..W255 legs 45)
+0	!= 115 (69 estate + W211..W256 legs 46)
+1	fresh_legs_row_asserts
+1	+ legs_kept.count(
+4	580_701..582_700
+3	582_701..582_900
+2	580_501..582_500
+2	580_501..580_700
+2	580_701..580_900
+6	580_700
+9	582_700
+0	582_901..584_900
+0	584_901..585_100
+0	582_701..584_700
+0	582_901..583_100
+4	582_900
+0	584_900
+1	A naive 582701..584700 CLEAN
+1	B naive 582901..583100 hops=0 CLEAN at naive, first-clean 582901..583100 BUT
+1	naive A window start 582_701 lands INSIDE the registered W257 B band 582_701..582_900
+0	A naive 584901..586900 CLEAN
+0	B naive 585101..585300 hops=0 CLEAN at naive, first-clean 585101..585300 BUT
+0	naive A window start 584_901 lands INSIDE the registered W258 B band 584_901..585_100
