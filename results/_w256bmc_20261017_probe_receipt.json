@@ -1,0 +1,159 @@
+{
+ "probe": "W256 pre-seat probe (bm-c loop r1057 window, 2026-10-17 0x:xx, queue-head supply lane: upstream W255 = bm-c OWN registered+FINALIZED complete chain (r1057 48th-gen absorb-continuation finalize ledger 985,335 / K=558,920); NO in-flight seat upstream -- W256 FREEZE UNBLOCKED at seat time; seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + CEO fill-order standing; universe = post-W255-REGISTERED 245 owner rows)",
+ "legs": {
+  "leg0": {
+   "rows": 253,
+   "tail": "W255-registered+FINALIZED (bm-c own-wave complete)",
+   "w255_bands": {
+    "A": [
+     576301,
+     578300
+    ],
+    "B": [
+     578301,
+     578500
+    ]
+   },
+   "w254_bands": {
+    "A": [
+     574101,
+     576100
+    ],
+    "B": [
+     576101,
+     576300
+    ]
+   },
+   "w255_finalize_landed": true,
+   "w255_finalize_anchors": {
+    "ledger_total": 985335,
+    "merged_n": 558920,
+    "skill_line_delta_k_lift": 0.0001
+   },
+   "chain_relation": {
+    "w254_total": 983135,
+    "w255_total": 985335,
+    "ledger_delta": 2200,
+    "k_delta": 2200
+   },
+   "inflight_upstream": false,
+   "waits_upstream": "NONE (W255 complete: registered+FINALIZED; the W256 FREEZE is UNBLOCKED at seat time -- prereg derive = next window FIRST ACTION on the post-W255 universe)",
+   "owner_rows": 245,
+   "bmc_rows": 75,
+   "bma_rows": 129,
+   "bmb_rows": 41,
+   "ordinal": 246
+  },
+  "leg1": {
+   "ARITH_A": [
+    578301,
+    580300
+   ],
+   "ARITH_B": [
+    578501,
+    578700
+   ],
+   "A": [
+    578501,
+    580500
+   ],
+   "hops_A": 1,
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      578301,
+      580300
+     ],
+     "jump_to": 578501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       578301,
+       578500
+      ]
+     ]
+    }
+   ],
+   "B": [
+    580501,
+    580700
+   ],
+   "hops_B": 1,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      578501,
+      578700
+     ],
+     "jump_to": 580501,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       578501,
+       580500
+      ]
+     ]
+    }
+   ],
+   "B_naive": [
+    578501,
+    578700
+   ],
+   "B_naive_refused_at_start": true,
+   "B_hop_lands_inside_A": false,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation from the REGISTERED W255 A tail 578_300+1 = 578_301..580_300 is REFUSED at naive start on the post-W255-REGISTERED universe (the REGISTERED W255 B band 578_301..578_500 sits INSIDE the naive A window: staircase-affects-A FIFTH consecutive A-hop, superseding the W255 prereg sec.5 item5 A-naive-CLEAN pre-W255-universe projection per r587); the walk hops past the W255 B tail 578_500 -> A first-clean 578_501..580_500 (hops=1); forward-monotone non-rotational r587 enforced in-walk; A base >= registered prior-wave B tail+1 floor",
+   "B_semantics": "B walk from the REGISTERED W255 B tail 578_500+1 = 578_501 is CLEAN at naive start but the naive window 578_501..578_700 lands INSIDE the own-wave W256 A first-clean window 578_501..580_500 (own-A reservation cascade face, per the W255 probe leg4 + prereg sec.5 item5 projection faces superseded live) -- the own-A reservation standard leg hops B past the own-wave A tail 580_500 -> first-clean 580_501..580_700 (B lands above own-A, base==own-A tail+1 face, SIXTH consecutive above-own-A); B_hop lands-inside-A=false leg; live trace recorded verbatim",
+   "relation_asserts": {
+    "A_clean_at_naive_start": false,
+    "A_staircase_hop_past_W255_B": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_clean_at_naive_start": false,
+    "B_base_above_W255_tail": true,
+    "AB_mutual_exclusion": true,
+    "B_hop_lands_inside_A": false,
+    "B_lands_above_own_A": true,
+    "W253_W254_W255_bands_respected_A": true,
+    "W253_W254_W255_bands_respected_B": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=578501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=580501 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W257p_A_naive": "580501..582500",
+   "W257p_A_first_clean": "580501..582500",
+   "hops_A": 0,
+   "W257p_A_naive_refusers_seeds": [],
+   "W257p_B_naive": "580701..580900",
+   "W257p_B_first_clean": "580701..580900",
+   "hops_B": 0,
+   "W257p_B_lands_inside_W257p_A_naive": true,
+   "note": "W257+ projection on the pre-W256 universe (assuming the W256 seat bands declared here register verbatim). ONCE W256 REGISTERS, the naive W257 A start 580_501 is REFUSED by the registered W256 B band 580_501..580_700 (staircase-affects-A SIXTH consecutive A-hop expected) AND the W257 B naive start lands inside the own-A reservation face; the W257 freezer MUST re-derive on the post-W256 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; staircase face continuing since W251 (A hops over prior B; B lands above own-A): re-read the live trace, do NOT assume the A-base==prior-B-tail+1 or B-base==own-A-tail+1 equalities."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   578501,
+   580500
+  ],
+  "B": [
+   580501,
+   580700
+  ],
+  "a_lo": 578501,
+  "a_hi": 580500,
+  "b_lo": 580501,
+  "b_hi": 580700
+ }
+}
