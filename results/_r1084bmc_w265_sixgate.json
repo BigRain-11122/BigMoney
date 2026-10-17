@@ -1,0 +1,89 @@
+{
+ "machine": "bm-c",
+ "wave": 265,
+ "phase": "PRE-FINALIZE six-gate (r1084-continuation bm-c own-seat window, 27th consecutive correct-phase; standing law -- engine self-burn 12/12 landed post-W265 splice a47517f792, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "a7a4d34d0f0acbb5",
+   "n1_sha16_now": "a15a79b6a44e1e62",
+   "pf_sha16_freeze_post": "a7a4d34d0f0acbb5",
+   "n1_sha16_freeze_post": "a15a79b6a44e1e62",
+   "n1_sha16_landed_commit": "266f7a3dca240c03",
+   "n1_crnorm_equal_worktree_vs_landed": true,
+   "pf_crnorm_equal_worktree_vs_landed": true,
+   "pf_landed_diff_empty": true,
+   "pre_splice_heal_note": "PRE-SPLICE heal face (W264 r1076 H1/H2/H3 defect family caught one generation earlier): results/_r1084bmc_dst_heal.py applied 4 faces to the DST BEFORE the splice (E2 _set_wave 263->265, E3/E4 self-check WAVE_CONFIGS [264]->[265], E1 receipt wave field) -- canon born clean, n1 selftest passed FIRST-TRY in the splice window, zero post-splice heal needed (contrast: W264 required the r1076 post-splice heal with minimality proof after n1 selftest died \"W264 A hits W263\").",
+   "family_seed_faces": {
+    "base=598301 span=2000": 1,
+    "base=600301 span=200": 1
+   },
+   "prior_wave_264_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W265_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": ""
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=598301 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=600301 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w265bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 598301,
+   "b_exit_seed_base": 600301,
+   "shard_subdir": "n1_w265",
+   "out_name": "n1_w265_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_598301": true,
+    "b_exit_seed_base_600301": true,
+    "shard_subdir_n1_w265": true,
+    "out_name_n1_w265_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w264_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1005135,
+  "prev_merged_n": 578720,
+  "expect_total": 1007335,
+  "expect_merged": 580920,
+  "source": "W264 finalize actuals machine-read from n1_w264_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W264 finalize (bm-c r1076/r1077 one-pass 1,005,135/K=578,720) honored per freeze receipt w264_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
