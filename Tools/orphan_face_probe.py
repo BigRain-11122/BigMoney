@@ -33,7 +33,19 @@ live-fire collateral family: idle MCP servers + serve_forever daemons
 falsely match all three faces; belt = never orphan-verdict, report-only
 idle_servers bucket). bm-a's separate v1.1 auto-kill design (WATCH-only +
 persistence gate) is superseded by this read-only-default canon per
-single-source law; the auto-kill idea lives on only as knife-3 tracking."""
+single-source law; the auto-kill idea lives on only as knife-3 tracking.
+
+v1.2.0 (bm-a r1036, T28): listening-socket belt. TCP serve daemons
+(resident_qa_server.py serve live case, 44h idle, dead spawner chain,
+zero clients) match all three faces BY DESIGN-LIFECYCLE, not by being
+garbage: a serve process outlives its launcher and idles at zero CPU
+while holding a port. A pid owning at least one LISTEN tcp socket is
+therefore never orphan-verdicted (fail-closed: the port may have live
+domain consumers the process tree cannot see, per the
+BigCompute-ResidentQA task-holder live case); it is reported in a
+separate resident_servers bucket for GM/domain adjudication, never
+auto-killed. Hermetic: the belt is a pure function over (orphans,
+listen-map) so selftest exercises it with fake maps (r629 law)."""
 import argparse
 import datetime
 import json
@@ -73,6 +85,42 @@ STDIO_SERVER_RE = re.compile(
     r"--transport\s+stdio|mcp-for-unity|duckduckgo-mcp|mcpserver|mcp-server"
     r"|\\uv\\tools\\", re.I)
 PY_NAMES = ("python.exe", "pythonw.exe", "python3.exe", "python313.exe")
+
+
+def _listening_pid_ports():
+    """Map {pid: [listen ports]} for pids owning >=1 LISTEN tcp socket.
+
+    v1.2.0 belt face. Fail-open to {} on any error (never block the probe,
+    never widen the exemption without proof). One syscall per probe run.
+    """
+    lmap = {}
+    try:
+        import psutil
+        for c in psutil.net_connections(kind="tcp"):
+            if c.status == psutil.CONN_LISTEN and c.pid:
+                lmap.setdefault(c.pid, []).append(
+                    getattr(c.laddr, "port", None))
+    except Exception:
+        return {}
+    return lmap
+
+
+def _apply_socket_belt(orphans, lmap):
+    """v1.2.0 pure belt: split orphans into (true_orphans, resident_servers).
+
+    Faces whose pid owns a LISTEN socket move to the report-only
+    resident_servers bucket (ports recorded); the rest keep the orphan
+    verdict. Pure over (list, map) for hermetic selftest (r629 law).
+    """
+    resident, keep = [], []
+    for f in orphans:
+        ports = lmap.get(f["pid"])
+        if ports:
+            f["listen_ports"] = [p for p in ports[:6] if p]
+            resident.append(f)
+        else:
+            keep.append(f)
+    return keep, resident
 
 
 def _walk_chain(pid, table):
@@ -179,6 +227,10 @@ def run(mode="probe"):
     idle_servers = [f for f in orphans if STDIO_SERVER_RE.search(f["cmd"])]
     orphan_pids = {f["pid"] for f in idle_servers}
     orphans = [f for f in orphans if f["pid"] not in orphan_pids]
+    # v1.2.0 belt: listening serve daemons exempt (fail-closed; the
+    # resident_qa_server live case). Report-only resident_servers bucket.
+    orphans, resident_servers = _apply_socket_belt(
+        orphans, _listening_pid_ports())
     killed = []
     if mode == "kill" and orphans:
         import psutil
@@ -192,17 +244,22 @@ def run(mode="probe"):
         "ts": t0, "mode": mode, "py_faces_seen": len(faces),
         "orphans": len(orphans), "killed": killed,
         "idle_servers_exempt": len(idle_servers),
+        "resident_servers_exempt": len(resident_servers),
         "faces": faces, "orphan_details": orphans,
         "idle_server_details": idle_servers,
+        "resident_server_details": resident_servers,
         "sample_sec": SAMPLE_SEC, "stall_cpu_sec": STALL_CPU_SEC,
         "grace_min": GRACE_MIN,
         "law": "O-20261008-1300 knife-2 three-face (parent-dead + "
                "no-hidden-host + cpu-stalled); knife-3 bound subsumed "
-               "(probe cadence ~10min << 12h)",
+               "(probe cadence ~10min << 12h); v1.1.1 stdio belt + "
+               "v1.2.0 listening-socket belt (T28, never auto-kill "
+               "a serving socket)",
     }
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(report, fh, ensure_ascii=False, indent=1)
     print(json.dumps({"py_faces": len(faces), "orphans": len(orphans),
+                      "resident_servers": len(resident_servers),
                       "killed": killed, "report": OUT},
                      ensure_ascii=False))
     return 0
@@ -252,8 +309,29 @@ def selftest():
        and STDIO_SERVER_RE.search(
            "uv\\tools\\duckduckgo-mcp-server\\Scripts\\python.exe")
        and not STDIO_SERVER_RE.search("judge.py --batch w14"))
-    allp = okc[0] == 5
-    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/5)")
+    # v1.2.0 socket-belt legs (T28 live case): fake orphan faces, one
+    # owning a LISTEN socket (resident_qa_server serve pattern) -> exempt
+    # with ports recorded; the other -> keeps the orphan verdict.
+    serv = {"pid": 5, "name": "pythonw.exe",
+            "cmd": "pythonw.exe resident_qa_server.py serve",
+            "face1_parent_dead": True,
+            "face2_no_hidden_host_ancestor": True,
+            "face3_cpu_stalled": True}
+    batch = {"pid": 6, "name": "python.exe",
+             "cmd": "python.exe burn_shard.py --w 99",
+             "face1_parent_dead": True,
+             "face2_no_hidden_host_ancestor": True,
+             "face3_cpu_stalled": True}
+    keep, resident = _apply_socket_belt([serv, batch], {5: [8792, None]})
+    ok("socket belt: serve daemon owning LISTEN 8792 exempted with port",
+       len(resident) == 1 and resident[0]["pid"] == 5
+       and resident[0]["listen_ports"] == [8792])
+    ok("socket belt: non-listening batch orphan keeps kill verdict",
+       len(keep) == 1 and keep[0]["pid"] == 6)
+    ok("socket belt: empty listen-map = zero exemptions (fail-closed)",
+       _apply_socket_belt([serv], {}) == ([serv], []))
+    allp = okc[0] == 8
+    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/8)")
     return 0 if allp else 2
 
 
