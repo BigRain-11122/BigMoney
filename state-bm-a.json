@@ -17,7 +17,7 @@
  "last_heartbeat_epoch_utc": 1792263096,
  "last_orders_at": "2026-10-18T05:34:20+08:00",
  "last_orders_seen": "r1045: ORD delta consumed (4 rows, zero BigMoney action) + advanced eae5ac55 (probe relay fix live)",
- "last_orders_sha": "eae5ac55af94d790a2ed9f040343fe7bf501f6df1a624afbebae682e24c935f4",
+ "last_orders_sha": "bcfadcfa029521f0970866281606701b1394e2eccf50840bb8c51cdd2e67bcf4",
  "last_orders_ts": "2026-10-17T14:14:16+08:00",
  "last_round": "r1046",
  "last_round_at": "2026-10-18T05:34:20+08:00",
@@ -38,7 +38,7 @@
  "push_verified": "r1046 closeout push follows this write",
  "recent_artifact": "fleet/backlog.md row13 (bm-b unlock) + O-0348 escalation note (commit 0782e21b4) + results/_r1046bma_s6chain_rc.log (43/43 rc0)",
  "round": 1046,
- "round_no": 1047,
+ "round_no": 1048,
  "round_no_label": "r1046",
  "sync": {
   "ts": "2026-10-18T05:34:20+08:00",
@@ -52,8 +52,8 @@
  "updated_at": "2026-10-18T05:34:20+08:00",
  "verdict": "green: r1046 = bm-b idle fast-path deadlock UNLOCKED (backlog row13 + force-pull poke delivered, repo_heads verified 0782e21b4; MSG-0216 landing = bm-b next full round, O-0137 closes) + D-19 zero-delta hold + orders scan CLEAN + S6 43/43 rc0 + smoke 49/49 + WM green + satengine ALIVE + orphan 0 + idle cleared",
  "verify": "results/_r1046bma_s6chain_rc.log 43/43 rc0 + smoke 49/49 + poke receipt {accepted:true 05:27:52} + bm-b /status repo_heads=0782e21b4 + pulls=updated-kept-local + orders_ack_scan CLEAN (101/110/0) + claws match x2 + loop pin=8 no-op + watchdog Running (S4U flip access-denied carried face) + idle_trigger --worked rc=0",
- "last_decisions_read_at": "2026-10-18T05:34:20+08:00",
- "last_orders_read_at": "2026-10-18T05:34:20+08:00",
+ "last_decisions_read_at": "2026-10-18T07:10:34+08:00",
+ "last_orders_read_at": "2026-10-18T07:10:34+08:00",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -62,8 +62,8 @@
   "method_orders": "sha256",
   "verbatim": true,
   "advance": true,
-  "round_ref": 1046,
-  "ts": "2026-10-18T05:34:20+08:00"
+  "round_ref": 1047,
+  "ts": "2026-10-18T07:10:34+08:00"
  },
  "notes_seq_r962": "r959/r960 died mid-replay, r961 committed but report line absent (estate absorbed in commit 99e4456dc on origin); sequence resumes honestly at r962 per round_reports canonical face",
  "notes_seq_repair_r1006": "state round_no found stale at 1000 (r1000-era partial write; dead r1001-r1005 windows landed no state S7 writes -- estate commits 8d928ae53/08df387e0/5c30d8dad governs); sequence repaired per r962 precedent: canonical face = round_reports + git log -> this round = r1006, round_no next = 1007",

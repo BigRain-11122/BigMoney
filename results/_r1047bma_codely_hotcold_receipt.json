@@ -1,0 +1,34 @@
+{
+ "ts": "2026-10-18T07:1x+08:00",
+ "machine": "bm-a",
+ "round": "r1047",
+ "action": "CODELY.md hot-cold migration (13 flow/pit rows verbatim -> archive 202610.md window-batch)",
+ "paradigm": "D-20260924-01 / O-20260927-0230 / TREASURE_PROTECTION_LAW s2 migration entry; precedents r800 bm-a / r983 bm-b",
+ "prescan": "rc3 redline recorded (registry hit CODELY.md) — expected first leg of migration paradigm",
+ "authorization_chain": "O-20260927-0230 (<=10KB hard line, same-window obligation) + CEO memory-governance direct order 2026-10-18 00:2x (orders L1188) + O-20261015-1230/1235 lineage",
+ "codely": {
+  "pre_bytes": 28720,
+  "post_bytes": 18895,
+  "pre_sha256": "77553f7cc54e53f3fae5478eb3952b6b997c39f5ef5f92264cce1ca89473ca55",
+  "post_sha256": "07d3d424da01f2868dd670c8bf1e0253f8e070ab93ddc0e5a6d825bbf3a4fdd8",
+  "rows_migrated": 13,
+  "migrated_bytes": 11111,
+  "header_dedup_removed_bytes": 93,
+  "dropped_blank_bytes": 6,
+  "pointer_row_bytes": 1385
+ },
+ "archive": {
+  "pre_bytes": 78737,
+  "post_bytes": 90065,
+  "pre_sha256": "69a2cb5bacb82eee3bc33b1268abd20a0e17006206a70e3655be2baafa1c71dc",
+  "post_sha256": "d3d607d6c2183d7830ea0c985e3fcb65dcb57e0abfaa04f33b94e01465466a97",
+  "appended_bytes": 11328
+ },
+ "equation": {
+  "removed_from_codely": 9825,
+  "expected": 9825,
+  "match": true
+ },
+ "verbatim_assertions": "13/13 PASS (each migrated line byte-identical inside post_archive)",
+ "registry_append_bytes": 753
+}
