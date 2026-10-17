@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1067 W261 §7 范式）
+- 账本恒等式：prev 1,000,735 + batch 2,200 = **1,002,935 EXACT**（science_gates.ledger 机读恒等断言过）；合并池 K：574,320 + 2,200 = **576,520 EXACT**。
+- merged mu = -0.09275356 / merged sigma = 0.24503704 / **se_mu@K576,520 = 0.000323**（对照本波冻结键 W261 0.000324，窄化并行续行）；W263-only mu = -0.09496455 / sigma = 0.24672277。
+- K-lift 对照：line_pre_w263 = line_merged@576,520 = 1.1953，delta = **0.0**（n_eff held 1,000,735）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同律）。
+- §5 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.002211 / key1b merged-vs-W261键 0.0000175 / key2 sigma rel +0.0016% / key3 A p95 delta +0.0214〔0.2994→0.3208，双向带内〕/ key4 K-lift 0.0 held-flat / key5 se_mu 0.000323≤0.000324 窄化并行）——收据 results/_r1039bma_w263_fivekeys.json（键=n1_w261_results.json 机读 r587 律·本波预测键冻结于 W261 实测——W262 finalize 起草窗 PENDING 如实注记·活链头免疫披露）。
+- 六门探针：PRE-FINALIZE **ALL PASS 第 25 连续正确相位**（results/_r1039bma_w263_sixgate.json——splice 完整性 **CR-normalized 恒等** worktree==落链 git blob @ f499817fa【clean-filter EOL 表示面披露：提交经 CRLF→LF 清洗·零内容差·如实注记】；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2〔base=593901 span=2000 / base=595901 span=200〕；wave_configs 行四面对齐）。
+- audit 段：machine=bm-a，finalize_only；shards_consumed 12/12；preregistered_doc=research/PERPETUAL_N1_W263_PREREG.md；evidence_cutoff=2026-09-22（P-5C 冻结窗同窗律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W264+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1067 W261 §8 范式）
+- §5.5 W264+ 投影承机证（finalize 产物 preregistered_doc 面机读）：W263 注册字宙已落地（A 593_901..595_900 + B 595_901..596_100，本波冻结收据_w263bma_freeze_receipt.json）——W264 A naive 起点 595_901 将被注册 W263 B 带拒（staircase-affects-A 第十三次连续 A-hop 预期承现）；B naive 596_101..596_300 落投影 A 窗内——**W264 冻结方必须在 post-W263 宇宙上重 derive 且派生时预留本波 A 窗 593_901..595_900 + 本波 B 带 595_901..596_100**（勿假设 staircase A-base==prior-B-tail+1 或 B-base==own-A-tail+1 相等式·E36 卡/W141 先例）；**W264 seat = bm-c 窗口**（链条序·W262=bm-c/W263=bm-a 交替如册）。
+- 宝藏与方法论捕获问：本批零新宝藏入册零新方法论卡——staircase A/B 双 1-hop 形态连续第十三波如预期复现（已在册形态延续非新发现）；五锁/六门首跑全过零返工。
+- 诚实披露面：(1) splice 提交经 clean-filter CRLF→LF——六门 gate-1 以 CR-normalized 恒等断言（EOL 表示面差异·零内容差·收据与披露见 sixgate json）；(2) r1038 own-seat 窗口 splice 落链后退出未写 state/心跳——幸存者窗 r1039 收口全周期（burn 引擎自然完成 12/12 → sixgate → finalize one-pass → 五锁→ 回填）零遗留；(3) 本波 预测键冻结于 W261 实测（起草窗 W262 finalize PENDING 如实注记·披露免疫面）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W263 五面 splice（法典 §4 注册行+WAVE_CONFIGS）GATED on W262 finalize 落地（gate0.5 loud abort 律）——splice 未执行前本件=候选冻结件·引擎不烧。**
