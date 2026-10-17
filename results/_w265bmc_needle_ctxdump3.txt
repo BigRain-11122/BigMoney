@@ -1,0 +1,26 @@
+w263bma_paths = 0
+w262bmc_paths = 1
+n1w263dash = 0
+w262lc = 0
+GATE L78: r = git("rev-parse", "HEAD"); head = r.stdout.decode().strip()
+GATE L79: ro = git("rev-parse", "origin/main"); omain = ro.stdout.decode().strip()
+OWNSEAT FULL: "number law after the REGISTERED W263 row five-face freeze (bm-a own seat executed at the bm-a r1038 splice window; engine self-burn 12/12; finalize one-pass bm-a r1039 closeout, ledger 1,002,935 / K=576,520 machine-read), ",
+OWNSEAT FULL: "    #     REGISTERED W263 row (five-face freeze " + w263_freeze_sha[:10] + "; bm-a own seat executed at",
+FIN L441: "number law after the REGISTERED W263 row five-face freeze (bm-a own seat executed at the bm-a r1038 splice window; engine self-burn 12/12; finalize one-pass bm-a r1039 closeout, ledger
+FIN L529: "    #     self-burn 12/12 + finalize one-pass bm-a r1039 closeout ledger 1,002,935 / K=576,520",
+NOTE L262: # W211..W262 legs (52) from the OWN W263 block physical bytes (bm-a r1038
+NOTE L781: "parity_section": {"source": "OWN W263 block physical bytes (bm-a splice generation r1038 window, structure known exactly)",
+VAR L116: w263_freeze_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+VAR L118: w263_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+VAR L120: w264_prereg_sha = (r.stdout.decode().strip().splitlines() or ["n/a"])[0]
+VAR L140: print(f"gate0.5 OK: W263 landed (freeze {w263_freeze_sha[:10]}, owner=bm-a seat honored (upstream W263), chain complete incl finalize, clean precondition), "
+VAR L365: "    # receipt frozen commit " + w264_prereg_sha[:10] + " (prereg research/PERPETUAL_N1_W264_PREREG.md",
+VAR L370: "    # splice AFTER the bm-c W263 five-face (freeze " + w263_freeze_sha[:10] + ") + W263",
+VAR L442: f"{w263_freeze_sha[:10]} (prereg {w263_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W263 all ",
+VAR L450: f"prereg {w264_prereg_sha[:10]} @ receipt {w264_receipt_sha[:10]}) -- this freeze splice editor derived from the committed W263 freeze-edits template in this same freeze window; ",
+VAR L527: "    #     REGISTERED W263 row (five-face freeze " + w263_freeze_sha[:10] + "; bm-a own seat executed at",
+VAR L534: f"    #     bm-c r1076 window derive landed pre-freeze commit {w264_prereg_sha[:10]}; this freeze splice editor",
+VAR L763: "w263_upstream": {"freeze_sha": w263_freeze_sha, "prereg_sha": w263_prereg_sha,
+VAR L766: "repair_chain_note": "W263 bm-a own-wave full cycle r1038 (five-face splice " + w263_freeze_sha[:10] + " + engine self-burn 12/12 + finalize one-pass ledger 1,002,935 / K=576,520)"},
+VAR L773: "prereg_bundle": {"prereg_sha": w264_prereg_sha, "probe_receipt_sha": w264_receipt_sha,
+VAR L774: "note": "prereg derived by the bm-c r1076 window (authored 20:1x, banned gate ADMIT rc0, committed+pushed r1076 commit " + w264_prereg_sha[:10] + "; facts live-derived ledger anchors W2
