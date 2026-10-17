@@ -1,0 +1,151 @@
+{
+ "machine": "bm-a",
+ "wave": 263,
+ "phase": "five-face freeze chain-order splice (bm-a own-seat freeze window, upstream ALL LANDED clean precondition incl W262 finalize)",
+ "origin_base": "aba6247ec2559f70b1ba15999a7cb7694fd06a88",
+ "pf_sha16_pre": "dac9399376bec4f3",
+ "n1_sha16_pre": "e0d5205cdf382412",
+ "pf_sha16_post": "9a586bffc610cfc8",
+ "n1_sha16_post": "57068d07f0ef73fe",
+ "bands": {
+  "A": [
+   593901,
+   595900
+  ],
+  "B": [
+   595901,
+   596100
+  ],
+  "a_lo": 593901,
+  "a_hi": 595900,
+  "b_lo": 595901,
+  "b_hi": 596100
+ },
+ "admit_receipt": "results/_w263bma_20261017_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=593901 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=595901 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk TWELFTH consecutive A-hop (hops=1, A_hop_chain verbatim in the probe receipt; the naive continuation 593_701..595_700 refused at start -- the registered W262 B band 593_701..593_900 sits INSIDE the naive A window (staircase re-emergence continues; the W262 prereg sec.5 item5 post-W262-REGISTERED pre-disclosure confirmed live r587, zero divergence disclosed); the walk hops past the W262 B tail 593_900 -> A first-clean 593_901..595_900 -- TWELFTH consecutive A-hop of the staircase era, the fourteen-wave seed-gap face ENDED at W252; A_clean_at_naive_start=false; A_staircase_hop_past_W262_B=true; A base == registered prior-wave B tail+1 (593_900+1) EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (hops=1, B_naive_refused_at_start=true, B_hop_chain verbatim in the probe receipt; the naive continuation 593_901..594_100 is refused at start -- the naive window lands INSIDE the own-wave W263 A first-clean window 593_901..595_900 (own-A reservation cascade standard leg; the W262 prereg sec.5 item5 + probe leg4 projected landing confirmed live -- zero divergence per r587); the walk hops past the own-A tail 595_900 -> B landing 595_901..596_100; B lands ABOVE own-A -- THIRTEENTH consecutive above-own-A landing; B_lands_above_own_A=true; B_hop_lands_inside_A=false; B base == own-A tail+1 (595_900+1) EXACT)"
+ },
+ "w262_upstream": {
+  "freeze_sha": "e1a94b33578e85942eabc17a4f93c2939e485b3c",
+  "prereg_sha": "32d28ffb30b5b3d34f94e70d0c3242cb6fa8b092",
+  "ledger_total": 1000735,
+  "merged_n": 574320,
+  "engine_owner": "bm-c (upstream seat honored)",
+  "repair_chain_note": "W262 bm-c own-wave full cycle r1068 (five-face splice e1a94b3357 + engine self-burn 12/12 + finalize one-pass ledger 1,000,735 / K=574,320)"
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261017-1740-bma-w263-seat.md",
+  "seat_origin": "fb0c962b5",
+  "inherited": false,
+  "note": "seat published=reserved by bm-a itself (MSG-20261017-1740-bma-w263-seat pushed to origin fb0c962b5 r1037 BEFORE this freeze per r565 law, queue-head seat-first supply -- W262 registered + 12/12 burned at publish, W262 finalize PENDING at seat (waits-upstream face disclosed honest; seats never queue behind freeze windows per O-20261010-2350 sec.2); the SPLICE was GATED on the W262 finalize landing per gate0.5, now GREEN (W262 row + n1_w262_results.json both in-place) -- wave 263 engine_owner=bm-a, bm-a's 130th own wave per live derive (probe leg0 bma_ordinal=130 = seat-time pre-splice faces disclosed honest, live derive governs r587/r359; freeze-time live face owner rows 252 + candidate = 253rd EXACT)"
+ },
+ "transitive_deps": {
+  "W259": "results/perpetual_faces/n1_w259_results.json present (belt-and-braces gate)",
+  "W258": "results/perpetual_faces/n1_w258_results.json present (belt-and-braces gate)",
+  "W257": "results/perpetual_faces/n1_w257_results.json present (belt-and-braces gate)",
+  "W256": "results/perpetual_faces/n1_w256_results.json present (belt-and-braces gate)",
+  "W255": "results/perpetual_faces/n1_w255_results.json present (belt-and-braces gate)",
+  "W254": "results/perpetual_faces/n1_w254_results.json present (belt-and-braces gate)",
+  "W253": "results/perpetual_faces/n1_w253_results.json present (belt-and-braces gate)",
+  "W252": "results/perpetual_faces/n1_w252_results.json present (belt-and-braces gate)",
+  "W251": "results/perpetual_faces/n1_w251_results.json present (belt-and-braces gate)",
+  "W250": "results/perpetual_faces/n1_w250_results.json present (belt-and-braces gate)"
+ },
+ "downstream_seat": "W264 = next free number, next freezer must seat-first publish per O-20261010-2350 sec.2 queue-depth supply; the W264 freezer MUST re-derive live on the post-W263 universe + reserve the own-wave A window when deriving B per the W263 seat leg4 mandate, never transcribe r587 -- W264p face per this window's probe leg4 (pre-W263 universe): A naive 595901..597900 CLEAN (hops=0, zero live refusers -- pre-W263-universe face) / B naive 596101..596300 hops=0 CLEAN at naive, first-clean 596101..596300 BUT lands INSIDE the W264 projection A window (W264p_B_lands_inside_W264p_A_naive=true staircase face continuation since W251: A hops over prior B, B lands above own-A; on the post-W263 universe the W264 naive A window start 595_901 lands INSIDE the registered W263 B band 595_901..596_100 -- staircase affects A inherited (thirteenth consecutive A-hop expected), the A first-clean and the B own-A reservation cascade landing both move up, live re-derive governs); re-read the live trace at W264 derive time, do NOT assume the staircase A-base==prior-B-tail+1 or B-base==own-A-tail+1 equalities",
+ "seat": "fleet/inbox/processed/MSG-20261017-1740-bma-w263-seat.md (origin fb0c962b5)",
+ "prereg_bundle": {
+  "prereg_sha": "b32f6bf1c8ce99ad4a1a352512d02ff06d5dc89e",
+  "probe_receipt_sha": "0d2fa8c133077f4652611ee749d546ff19fe6289",
+  "note": "prereg derived by the bm-a r1037 window (authored 17:4x, banned gate ADMIT rc0, committed+pushed r1037 commit b32f6bf1c8; facts live-derived ledger anchors W261 998,535 / K=572,120 at draft (W262 finalize pending disclosed honest); freeze-time live derive bma rows 129 + candidate 130th EXACT per r587/r359; splice editor derived from the committed W262 editor template by count-asserted ordered transform in this same freeze window (E63 heal lineage: arith_a263/arith_b263 define+assert consistent; band-set variable aging face w244_a holds wave-263 bands, disclosed); upstream W262 already landed incl finalize (clean-precondition fifty-first consecutive window); zero transcription"
+ },
+ "ordinal_faces": {
+  "owner_rows_live": 252,
+  "bma_rows_live": 129,
+  "bmc_rows_live": 82,
+  "engine_owned_ordinal": 253,
+  "bma_own_ordinal": 130,
+  "probe_receipt_bma_ordinal_face": 130,
+  "note": "post-W262 registration: bm-a rows 129 + candidate = 130th owned (live derive at freeze time governs per r587/r359; probe leg0 bma_ordinal=130 = seat-time faces -- bm-a own-seat continuity, waits-upstream face disclosed honest)"
+ },
+ "parity_section": {
+  "source": "OWN W262 block physical bytes (bm-c splice generation r1068 window, structure known exactly)",
+  "bytes": 28396,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 33,
+  "dropped_legs_row_asserts": 18,
+  "fresh_legs_row_asserts": 19,
+  "total_parity_rows": 121,
+  "note": "estate W138..W206 (69 rows, r858 absorb generation) + W211..W243 legs (33) extracted verbatim per the W262 template lineage mandate; the W262 block's own W244..W261 legs (18) EXCLUDED from the estate path per the same mandate; fresh W244..W262 legs (19) machine-derived from the live pf registry -> W263 block = 121 rows (W138..W206 + W211..W262); disclosed: (a) inherited estate/legs error-string faces preserved verbatim per extraction law (assert targets correct, zero functional impact); (b) band-set variable one-behind naming face (w244_a holds wave-263 bands) = lineage mechanical aging face, zero functional impact; (c) fresh-leg error strings are own-generation text (assert targets identical, first-line format identical, disclosed); (d) E63 15th-gen prevention this window: the W263 derive editor kept the P1-blanket-immune pass ordering and the extraction-restructure legs/kept/dropped wave-identity asserts fixed post-blanket (list(range(211,263))/list(range(211,244))/list(range(244,262)) live-structure exact) -- zero heal needed, zero splice executed pre-verify"
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "note": "W262 editor family-6 gate carried forward: new block LHS w<263 x3 / RHS range(16,263)+range(17,263) / comment below-263 count-asserted ATOMICALLY before splice; W262 block's own w<262 face = legitimate prior-wave boundary (not stale); E63 heal lineage applied (arith define/assert consistent)"
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "liveness_anchors": {
+  "w209_block_kept": 1,
+  "w210_block_kept": 1,
+  "w211_block_kept": 1,
+  "w212_block_kept": 1,
+  "w213_block_kept": 1,
+  "w214_block_kept": 1,
+  "w215_block_kept": 1,
+  "w216_block_kept": 1,
+  "w217_block_kept": 1,
+  "w218_block_kept": 1,
+  "w219_block_kept": 1,
+  "w220_block_kept": 1,
+  "w221_block_kept": 1,
+  "w222_block_kept": 1,
+  "w223_block_kept": 1,
+  "w224_block_kept": 1,
+  "w225_block_kept": 1,
+  "w226_block_kept": 1,
+  "w227_block_kept": 1,
+  "w228_block_kept": 1,
+  "w229_block_kept": 1,
+  "w230_block_kept": 1,
+  "w231_block_kept": 1,
+  "w232_block_kept": 1,
+  "w233_block_kept": 1,
+  "w234_block_kept": 1,
+  "w235_block_kept": 1,
+  "w236_block_kept": 1,
+  "w237_block_kept": 1,
+  "w238_block_kept": 1,
+  "w239_block_kept": 1,
+  "w240_block_kept": 1,
+  "w241_block_kept": 1,
+  "w242_block_kept": 1,
+  "w243_block_kept": 1,
+  "w244_block_kept": 1,
+  "w245_block_kept": 1,
+  "w246_block_kept": 1,
+  "w247_block_kept": 1,
+  "w248_block_kept": 1,
+  "w249_block_kept": 1,
+  "w250_block_kept": 1,
+  "w251_block_kept": 1,
+  "w252_block_kept": 1,
+  "w253_block_kept": 1,
+  "w254_block_kept": 1,
+  "w255_block_kept": 1,
+  "w256_block_kept": 1,
+  "w257_block_kept": 1,
+  "w258_block_kept": 1,
+  "w259_block_kept": 1,
+  "w260_block_kept": 1,
+  "w261_block_kept": 1,
+  "w262_block_kept": 1,
+  "w263_block_kept": 1
+ }
+}
