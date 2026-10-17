@@ -1,0 +1,108 @@
+LINES 107
+1 # -*- coding: utf-8 -*-
+2 # r1036 bm-c: W248 PRE-FINALIZE six-gate receipt (standing law since W217 debt;
+3 # clone lineage _r1022bma_w247_sixgate.py W247 pattern). Burn landed 21:36-21:44
+4 # by resident engine auto-ignite (12/12 shards self-committed d3d87cf11+f90e4db17
+5 # via dead-window absorb); finalize not yet run. Gates: 1 splice integrity sha16 x2
+6 # + 2 wave-row faces==freeze receipt bands + 3 banned ADMIT + 4 pf selftest 9/9
+7 # + 5 n1 selftest + 6 shards 12/12 + seed_admit FREE-verbatim.
+8 import hashlib
+9 import io
+10 import json
+11 import os
+12 import re
+13 import subprocess
+14 import sys
+15 
+16 
+17 def sha16(p):
+18     return hashlib.sha256(io.open(p, 'rb').read()).hexdigest()[:16]
+19 
+20 
+21 fr = json.load(io.open('results/_w248bmc_freeze_receipt.json', encoding='utf-8'))
+22 pf_now = sha16('scripts/perpetual_faces.py')
+23 n1_now = sha16('scripts/perpetual_faces_n1.py')
+24 
+25 n1t = io.open('scripts/perpetual_faces_n1.py', encoding='utf-8').read()
+26 i = n1t.find('248: {"batch": "PERPETUAL-N1-W248"')
+27 assert i >= 0, 'W248 wave row missing'
+28 seg = n1t[i:i + 9000]
+29 if '249: {' in seg:
+30     seg = seg[:seg.find('249: {')]
+31 row_faces = {
+32     'a_seed_base_561501': '561501' in seg,
+33     'b_exit_seed_base_544701': '544701' in seg,
+34     'shard_subdir_n1_w248': 'n1_w248' in seg,
+35     'out_name_n1_w248_results': 'n1_w248_results.json' in seg,
+36     'engine_owner_bm_c': 'engine_owner": "bm-c"' in seg,
+37 }
+38 f1 = 'seed_admit_gate rc0 base=561501 span=2000 checked=2000 verdict=FREE'
+39 f2 = 'seed_admit_gate rc0 base=544701 span=200 checked=200 verdict=FREE'
+40 fam = {f1: n1t.count(f1), f2: n1t.count(f2)}
+41 m247 = re.search(r'247: \{"batch": "PERPETUAL-N1-W247"', n1t)
+42 w247_seg = n1t[m247.start():m247.start() + 8000] if m247 else ''
+43 if '248: {' in w247_seg:
+44     w247_seg = w247_seg[:w247_seg.find('248: {')]
+45 boundary = bool(m247) and '559501' in w247_seg and '544501' in w247_seg
+46 
+47 sd = 'results/p2cal_ext/n1_w248'
+48 shards = sorted(f for f in os.listdir(sd) if f.startswith('shard-') and f.endswith('.json'))
+49 sizes_ok = all(os.path.getsize(os.path.join(sd, f)) > 100000 for f in shards)
+50 
+51 r_banned = subprocess.run([sys.executable, 'Tools/banned_direction_gate.py',
+52                            '--prereg', 'research/PERPETUAL_N1_W248_PREREG.md'],
+53                           capture_output=True, text=True)
+54 r_pf = subprocess.run([sys.executable, 'scripts/perpetual_faces.py', 'selftest'],
+55                       capture_output=True, text=True)
+56 r_n1 = subprocess.run([sys.executable, 'scripts/perpetual_faces_n1.py', 'selftest'],
+57                       capture_output=True, text=True)
+58 
+59 out = {
+60  "machine": "bm-c",
+61  "wave": 248,
+62  "phase": "PRE-FINALIZE six-gate (r1036 bm-c own-wave window; standing law -- engine self-burn 12/12 landed 21:36-21:44 by resident engine auto-ignite, finalize not yet run)",
+63  "gates": {
+64   "splice_integrity": {
+65    "bands_facts_match_freeze_receipt": all(row_faces.values()),
+66    "pf_sha16_now": pf_now, "n1_sha16_now": n1_now,
+67    "pf_sha16_freeze_post": fr['pf_sha16_post'],
+68    "n1_sha16_freeze_post": fr['n1_sha16_post'],
+69    "family_seed_face_counts": fam,
+70    "prior_wave_247_boundary_kept": boundary,
+71   },
+72   "banned": {"rc": r_banned.returncode, "stdout_tail": (r_banned.stdout or '').strip()[-200:]},
+73   "pf_selftest": {"rc": r_pf.returncode, "stdout_tail": (r_pf.stdout or '').strip()[-120:]},
+74   "n1_selftest": {"rc": r_n1.returncode, "stdout_tail": (r_n1.stdout or '').strip()[-120:]},
+75   "shards": {"present": len(shards), "of": 12, "sizes_above_100k": sizes_ok,
+76              "files": shards},
+77   "seed_admit": {
+78    "freeze_gate_lines": fr.get('seed_admit_gate'),
+79    "note": "freeze-time FREE evidence consumed verbatim from _w248bmc_freeze_receipt.json; post-registration self-collision BLOCKED would be the fresh-run positive (W237.. pattern)",
+80   },
+81   "wave_configs_row": {
+82    "present": True, "engine_owner": "bm-c",
+83    "a_seed_base": 561501, "b_exit_seed_base": 544701,
+84    "shard_subdir": "n1_w248", "out_name": "n1_w248_results.json",
+85    "seed_bases_match_freeze_bands": fr['bands']['A'] == [561501, 563500] and fr['bands']['B'] == [544701, 544900],
+86    "row_faces_detail": row_faces,
+87   },
+88  },
+89  "ledger_pre": {
+90   "prev_total": 967735, "prev_merged_n": 541320,
+91   "expect_total": 969935, "expect_merged": 543520,
+92   "anchor": "W247 finalize (bm-a r1022 one-pass, 967,735/K=541,320) per freeze receipt w247_upstream face",
+93  },
+94 }
+95 
+96 ok = (all(row_faces.values()) and all(v >= 1 for v in fam.values()) and boundary
+97       and pf_now == fr['pf_sha16_post'] and n1_now == fr['n1_sha16_post']
+98       and len(shards) == 12 and sizes_ok
+99       and r_banned.returncode == 0 and r_pf.returncode == 0 and r_n1.returncode == 0)
+100 out['verdict'] = 'ALL PASS' if ok else 'FAIL'
+101 io.open('results/_r1036bmc_w248_sixgate.json', 'w', encoding='utf-8').write(
+102     json.dumps(out, indent=1, ensure_ascii=False))
+103 print(json.dumps({'verdict': out['verdict'], 'row_faces': row_faces, 'fam': fam,
+104                   'boundary': boundary, 'shards': len(shards), 'pf': pf_now, 'n1': n1_now,
+105                   'banned_rc': r_banned.returncode, 'pf_rc': r_pf.returncode,
+106                   'n1_rc': r_n1.returncode}, indent=1))
+107 raise SystemExit(0 if ok else 1)
