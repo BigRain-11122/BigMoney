@@ -1,6 +1,6 @@
 {
  "active": true,
- "agenda_starved": false,
+ "agenda_starved": true,
  "clock_read": "2026-10-18T04:48:15+08:00",
  "cores": 32,
  "cpu_cores": 32,
@@ -23,7 +23,7 @@
  "hostname": "DASHENG",
  "idle_ram_gb": 59.4,
  "idle_ram_mb": 59385,
- "idle_rounds": 0,
+ "idle_rounds": 2,
  "last_action": "r1045: S0 absorb+rebase (runtime faces; watermark_red UU r1028 newer-wins; behind-0) + O-20261018-0348-bm-a receipted (r998 git-face closeout escalation order, @bm-b P0 first-action, MSG-0216 not yet on origin = O-0137 account stays open, bm-a watch1) + D-19 orders delta CONSUMED (4 rows since e0dcbd80: V5.3-C01 deliver / O-2110 bookkeeping / bm-c resume receipt / @bm-c BM-repo unblock -- zero new BigMoney action; dec 1d4741e4 hold) + watermark ADVANCED ord=eae5ac55 (d19 update --advance, read-back OK) + D19 PROBE SILENT-RC0 DEFECT FIXED (cmd_probe pass-through child stdout swallowed on this Win/Py3.14 host -> loop read silence as hold and missed real delta r1044; fix=capture+relay _relay_child_streams; selftest 15->17/17 PASS; live probe now prints orders_changed=true) + orders_ack LIST REGRESSION HEALED (r1041 incident rebuild dropped 107->1; rebuilt from r1040 git face +3 = 110; scanner unacked 99->0 expected) + S6 42/42 rc0 (driver _r1045bma_s6chain.ps1) + smoke 49/49 + WM green healthy + satengine ALIVE idle + loop pin=8 no-op + watchdog running (S4U flip access-denied = carried face C-20261016-04) + claws match x2 + idle --worked rc0 (9->0) + orphan face=0 (19 py faces)",
  "last_artifact": "scripts/d19_watermark.py (probe relay fix, selftest 17/17) + results/_r1045bma_s6chain_rc.log (42/42 rc0)",
  "last_decisions_at": "2026-10-18T04:48:15+08:00",
