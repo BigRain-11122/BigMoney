@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 21:57:12",
+ "generated_at": "2026-10-17 22:37:52",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 101,
-  "result_jsons_landed_24h": 3108,
-  "digests_landed_24h": 134,
-  "prereg_md_touched_24h": 588,
+  "commits_24h": 129,
+  "result_jsons_landed_24h": 116,
+  "digests_landed_24h": 0,
+  "prereg_md_touched_24h": 11,
   "compute_audit_latest": {
-   "ts": "2026-10-17 21:55:20",
-   "py_cpu_pct": 0.4,
+   "ts": "2026-10-17 22:35:00",
+   "py_cpu_pct": 1.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -667,12 +667,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2447,
-  "total_report_tokens_est": 2112643,
+  "total_report_tokens_est": 2113017,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-17 17:48:23",
+   "prev_generated": "2026-10-17 21:27:10",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -679,
-   "mandate_growth": -6
+   "report_tokens_growth": 374,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -682,25 +682,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 17:43:06",
-    "py_pct": 2.9,
-    "cpu_pct": 66.0,
+    "latest_ts": "2026-10-17 22:35:00",
+    "py_pct": 1.1,
+    "cpu_pct": 78.0,
     "ready": 0,
-    "streak_min": 1903.0,
+    "streak_min": 2194.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "10:36",
-      0.6
-     ],
-     [
-      "11:04",
-      1.6
-     ],
-     [
-      "11:27",
-      0.7
-     ],
      [
       "13:12",
       0.2
@@ -736,9 +724,21 @@
      [
       "17:43",
       2.9
+     ],
+     [
+      "21:24",
+      0.2
+     ],
+     [
+      "21:55",
+      0.4
+     ],
+     [
+      "22:35",
+      1.1
      ]
     ],
-    "today_samples": 21,
+    "today_samples": 24,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -806,45 +806,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-17 17:41:11",
-    "py_pct": 1.9,
-    "cpu_pct": 35.0,
+    "latest_ts": "2026-10-17 20:21:45",
+    "py_pct": 0.3,
+    "cpu_pct": 43.0,
     "ready": 0,
-    "streak_min": 1901.1,
+    "streak_min": 2061.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "10:36",
-      0.6
-     ],
-     [
-      "11:04",
-      1.6
-     ],
-     [
-      "11:27",
-      0.7
-     ],
-     [
-      "13:12",
-      0.2
-     ],
-     [
-      "13:44",
-      1.2
-     ],
-     [
-      "14:05",
-      63.5
-     ],
-     [
-      "14:10",
-      1.1
-     ],
-     [
-      "15:40",
-      1.4
-     ],
      [
       "15:58",
       6.3
@@ -854,15 +822,47 @@
       2.0
      ],
      [
-      "17:30",
-      0.2
+      "17:19",
+      3.3
      ],
      [
-      "17:41",
-      1.9
+      "17:43",
+      2.9
+     ],
+     [
+      "18:06",
+      2.3
+     ],
+     [
+      "18:22",
+      8.7
+     ],
+     [
+      "18:41",
+      7.1
+     ],
+     [
+      "18:59",
+      10.9
+     ],
+     [
+      "19:09",
+      3.0
+     ],
+     [
+      "19:32",
+      0.0
+     ],
+     [
+      "19:52",
+      3.1
+     ],
+     [
+      "20:21",
+      0.3
      ]
     ],
-    "today_samples": 21,
+    "today_samples": 29,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -875,19 +875,19 @@
   "day": "2026-10-17",
   "machines": {
    "bm-a": {
-    "batches_judged": 0,
-    "core_seconds": 0.0,
-    "wall_seconds": 0.0,
-    "effective_cores": null,
+    "batches_judged": 12,
+    "core_seconds": 9216.2,
+    "wall_seconds": 667.0,
+    "effective_cores": 13.82,
     "single_core_burn": 0,
-    "multicore_burn": 0,
+    "multicore_burn": 12,
     "too_short": 0,
-    "last_ts": null,
+    "last_ts": "2026-10-17T18:38:59+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-17 17:43:06"
+     "audit_ts": "2026-10-17 22:35:00"
     }
    },
    "bm-b": {
@@ -919,7 +919,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-17 17:41:11"
+     "audit_ts": "2026-10-17 20:21:45"
     }
    }
   },
@@ -927,51 +927,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 262,
+  "last_registered": 264,
   "last_owner": "bm-c",
-  "next_registration": 263,
-  "next_seatable": 264,
-  "chain_head": 1000735,
-  "k": 574320,
+  "next_registration": 265,
+  "next_seatable": 265,
+  "chain_head": 1002935,
+  "k": 576520,
   "waves": [
-   {
-    "wave": 260,
-    "owner": "bm-c",
-    "a": [
-     587301,
-     589300
-    ],
-    "b_exit": [
-     589301,
-     589500
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 996335,
-    "merged_mu": -0.0927307283478383,
-    "merged_sigma": 0.2450393458614433,
-    "k": 569920
-   },
-   {
-    "wave": 261,
-    "owner": "bm-c",
-    "a": [
-     589501,
-     591500
-    ],
-    "b_exit": [
-     591501,
-     591700
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 998535,
-    "merged_mu": -0.09273606970565615,
-    "merged_sigma": 0.24503320458531583,
-    "k": 572120
-   },
    {
     "wave": 262,
     "owner": "bm-c",
@@ -990,14 +952,43 @@
     "merged_mu": -0.09274509454659423,
     "merged_sigma": 0.24503073717325877,
     "k": 574320
-   }
-  ],
-  "seats": [
+   },
    {
     "wave": 263,
-    "machine": "bm-a"
+    "owner": "bm-a",
+    "a": [
+     593901,
+     595900
+    ],
+    "b_exit": [
+     595901,
+     596100
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 1002935,
+    "merged_mu": -0.09275356397002706,
+    "merged_sigma": 0.2450370389545185,
+    "k": 576520
+   },
+   {
+    "wave": 264,
+    "owner": "bm-c",
+    "a": [
+     596101,
+     598100
+    ],
+    "b_exit": [
+     598101,
+     598300
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": false
    }
-  ]
+  ],
+  "seats": []
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
