@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-17T21:57:58",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-10-17T23:05:31",
+  "mode": "refresh complete",
   "panel": {
-    "complete": false,
+    "complete": true,
     "cutoff": "2026-10-16",
     "universe_n": 5229,
     "per_files": 5221
@@ -19,33 +19,35 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 18,
-    "fetched": 14,
+    "todo": 10,
+    "fetched": 10,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [
-      "000019:RuntimeError:validation_fail:sanity_defects=1/7880",
-      "001235:KeyError:'date'",
-      "001381:KeyError:'date'",
-      "301718:KeyError:'date'",
-      "688089:RuntimeError:validation_fail:sanity_defects=1/1642",
-      "688143:RuntimeError:validation_fail:sanity_defects=1/919",
-      "688173:RuntimeError:validation_fail:sanity_defects=1/1136",
-      "689009:JSONDecodeError:No value to decode"
-    ],
-    "failures_n": 8,
+    "failures_tail": [],
+    "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 1.1,
+    "elapsed_min": 0.7,
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 8,
-  "last_spawn_attempt": "2026-10-17T21:56:46",
+  "last_spawn_attempt": "2026-10-17T23:04:48",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 0,
-  "settled": [],
+  "settled_n": 10,
+  "settled": [
+    "000016",
+    "002388",
+    "002717",
+    "002731",
+    "300773",
+    "301314",
+    "600293",
+    "601059",
+    "601198",
+    "688496"
+  ],
   "no_op_reason": "panel fresh (cutoff 2026-10-13 >= expected 2026-10-13)",
   "per_files_on_disk": 5221,
   "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5221) -> disk face wins, rebuild (P0 r834-kin guard)"
