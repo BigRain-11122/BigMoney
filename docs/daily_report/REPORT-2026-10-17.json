@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 19:50:50",
+ "generated_at": "2026-10-17 19:54:14",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 121,
-  "result_jsons_landed_24h": 156,
+  "commits_24h": 120,
+  "result_jsons_landed_24h": 122,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 17,
+  "prereg_md_touched_24h": 11,
   "compute_audit_latest": {
-   "ts": "2026-10-17 19:47:24",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-10-17 19:52:14",
+   "py_cpu_pct": 3.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -682,13 +682,21 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 19:47:24",
-    "py_pct": 0.1,
-    "cpu_pct": 45.0,
+    "latest_ts": "2026-10-17 19:30:25",
+    "py_pct": 0.5,
+    "cpu_pct": 99.0,
     "ready": 0,
-    "streak_min": 2027.3,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 2010.3,
+    "verdict": "FLAG:cap_violation,pool_starvation,supply_floor",
     "py_series_tail": [
+     [
+      "14:05",
+      63.5
+     ],
+     [
+      "14:10",
+      1.1
+     ],
      [
       "15:40",
       1.4
@@ -726,19 +734,11 @@
       10.9
      ],
      [
-      "19:09",
-      3.0
-     ],
-     [
-      "19:32",
-      0.0
-     ],
-     [
-      "19:47",
-      0.1
+      "19:30",
+      0.5
      ]
     ],
-    "today_samples": 28,
+    "today_samples": 26,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -806,17 +806,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-17 19:32:48",
-    "py_pct": 0.0,
-    "cpu_pct": 57.0,
+    "latest_ts": "2026-10-17 19:52:14",
+    "py_pct": 3.1,
+    "cpu_pct": 53.0,
     "ready": 0,
-    "streak_min": 2012.7,
+    "streak_min": 2032.2,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "14:10",
-      1.1
-     ],
      [
       "15:40",
       1.4
@@ -860,9 +856,13 @@
      [
       "19:32",
       0.0
+     ],
+     [
+      "19:52",
+      3.1
      ]
     ],
-    "today_samples": 27,
+    "today_samples": 28,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -886,8 +886,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-17 19:47:24"
+     "audit_batches": 10,
+     "audit_ts": "2026-10-17 19:30:25"
     }
    },
    "bm-b": {
@@ -918,8 +918,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 8,
-     "audit_ts": "2026-10-17 19:32:48"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-17 19:52:14"
     }
    }
   },
@@ -930,7 +930,7 @@
   "last_registered": 263,
   "last_owner": "bm-a",
   "next_registration": 264,
-  "next_seatable": 264,
+  "next_seatable": 265,
   "chain_head": 1002935,
   "k": 576520,
   "waves": [
@@ -992,7 +992,12 @@
     "k": 576520
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 264,
+    "machine": "bm-c"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

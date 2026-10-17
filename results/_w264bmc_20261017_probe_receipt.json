@@ -1,0 +1,159 @@
+{
+ "probe": "W264 pre-seat probe (bm-c loop r1075 window, 2026-10-17 19:xx, queue-head supply lane: upstream W263 = bm-a REGISTERED+FINALIZED complete chain (finalize ledger 1,002,935 / K=576,520 landed via bm-a r1040 estate absorb 91da16c86); NO in-flight seat upstream -- W264 FREEZE UNBLOCKED at seat time; seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + CEO fill-order standing; universe = post-W263-REGISTERED 253 owner rows)",
+ "legs": {
+  "leg0": {
+   "rows": 261,
+   "tail": "W263-registered+FINALIZED (bm-a own-wave complete)",
+   "w263_bands": {
+    "A": [
+     593901,
+     595900
+    ],
+    "B": [
+     595901,
+     596100
+    ]
+   },
+   "w262_bands": {
+    "A": [
+     591701,
+     593700
+    ],
+    "B": [
+     593701,
+     593900
+    ]
+   },
+   "w263_finalize_landed": true,
+   "w263_finalize_anchors": {
+    "ledger_total": 1002935,
+    "merged_n": 576520,
+    "skill_line_delta_k_lift": 0.0
+   },
+   "chain_relation": {
+    "w262_total": 1000735,
+    "w263_total": 1002935,
+    "ledger_delta": 2200,
+    "k_delta": 2200
+   },
+   "inflight_upstream": false,
+   "waits_upstream": "NONE (W263 complete: registered+FINALIZED; the W264 FREEZE is UNBLOCKED at seat time -- prereg derive = next window FIRST ACTION on the post-W263 universe)",
+   "owner_rows": 253,
+   "bmc_rows": 82,
+   "bma_rows": 130,
+   "bmb_rows": 41,
+   "ordinal": 254
+  },
+  "leg1": {
+   "ARITH_A": [
+    595901,
+    597900
+   ],
+   "ARITH_B": [
+    596101,
+    596300
+   ],
+   "A": [
+    596101,
+    598100
+   ],
+   "hops_A": 1,
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      595901,
+      597900
+     ],
+     "jump_to": 596101,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       595901,
+       596100
+      ]
+     ]
+    }
+   ],
+   "B": [
+    598101,
+    598300
+   ],
+   "hops_B": 1,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      596101,
+      596300
+     ],
+     "jump_to": 598101,
+     "refuser_pts": [],
+     "refuser_bands": [
+      [
+       596101,
+       598100
+      ]
+     ]
+    }
+   ],
+   "B_naive": [
+    596101,
+    596300
+   ],
+   "B_naive_refused_at_start": true,
+   "B_hop_lands_inside_A": false,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation from the REGISTERED W263 A tail 595_900+1 = 595_901..597_900 is REFUSED at naive start on the post-W263-REGISTERED universe (the REGISTERED W263 B band 595_901..596_100 sits INSIDE the naive A window: staircase-affects-A THIRTEENTH consecutive A-hop, superseding the W263 seat MSG forward-face pre-W263-universe projection per r587); the walk hops past the W263 B tail 596_100 -> A first-clean 596_101..598_100 (hops=1); forward-monotone non-rotational r587 enforced in-walk; A base >= registered prior-wave B tail+1 floor",
+   "B_semantics": "B walk from the REGISTERED W263 B tail 596_100+1 = 596_101 is CLEAN at naive start but the naive window 596_101..596_300 lands INSIDE the own-wave W264 A first-clean window 596_101..598_100 (own-A reservation cascade face, per the W263 probe leg4 + prereg sec.5 item5 projection faces superseded live) -- the own-A reservation standard leg hops B past the own-wave A tail 598_100 -> first-clean 598_101..598_300 (B lands above own-A, base==own-A tail+1 face, FOURTEENTH consecutive above-own-A); B_hop lands-inside-A=false leg; live trace recorded verbatim",
+   "relation_asserts": {
+    "A_clean_at_naive_start": false,
+    "A_staircase_hop_past_W263_B": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_clean_at_naive_start": false,
+    "B_base_above_W263_tail": true,
+    "AB_mutual_exclusion": true,
+    "B_hop_lands_inside_A": false,
+    "B_lands_above_own_A": true,
+    "W261_W262_W263_bands_respected_A": true,
+    "W261_W262_W263_bands_respected_B": true
+   }
+  },
+  "leg2": {
+   "conflicts": 0,
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=596101 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=598101 span=200 checked=200 verdict=FREE"
+   ]
+  },
+  "leg3": {
+   "origin_vacancy": true
+  },
+  "leg4": {
+   "W265p_A_naive": "598101..600100",
+   "W265p_A_first_clean": "598101..600100",
+   "hops_A": 0,
+   "W265p_A_naive_refusers_seeds": [],
+   "W265p_B_naive": "598301..598500",
+   "W265p_B_first_clean": "598301..598500",
+   "hops_B": 0,
+   "W265p_B_lands_inside_W265p_A_naive": true,
+   "note": "W265+ projection on the pre-W264 universe (assuming the W264 seat bands declared here register verbatim). ONCE W264 REGISTERS, the naive W265 A start 598_101 is REFUSED by the registered W264 B band 598_101..598_300 (staircase-affects-A FOURTEENTH consecutive A-hop expected) AND the W265 B naive start lands inside the own-A reservation face; the W265 freezer MUST re-derive on the post-W264 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; staircase face continuing since W251 (A hops over prior B; B lands above own-A): re-read the live trace, do NOT assume the A-base==prior-B-tail+1 or B-base==own-A-tail+1 equalities."
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   596101,
+   598100
+  ],
+  "B": [
+   598101,
+   598300
+  ],
+  "a_lo": 596101,
+  "a_hi": 598100,
+  "b_lo": 598101,
+  "b_hi": 598300
+ }
+}
