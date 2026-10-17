@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 19:35:01",
+ "generated_at": "2026-10-17 19:50:50",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 118,
-  "result_jsons_landed_24h": 119,
+  "commits_24h": 121,
+  "result_jsons_landed_24h": 156,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 11,
+  "prereg_md_touched_24h": 17,
   "compute_audit_latest": {
-   "ts": "2026-10-17 19:32:48",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-17 19:47:24",
+   "py_cpu_pct": 0.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -682,33 +682,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 18:29:28",
-    "py_pct": 100.0,
-    "cpu_pct": 100.0,
+    "latest_ts": "2026-10-17 19:47:24",
+    "py_pct": 0.1,
+    "cpu_pct": 45.0,
     "ready": 0,
-    "streak_min": null,
-    "verdict": "FLAG:cap_violation",
+    "streak_min": 2027.3,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "11:27",
-      0.7
-     ],
-     [
-      "13:12",
-      0.2
-     ],
-     [
-      "13:44",
-      1.2
-     ],
-     [
-      "14:05",
-      63.5
-     ],
-     [
-      "14:10",
-      1.1
-     ],
      [
       "15:40",
       1.4
@@ -734,11 +714,31 @@
       2.3
      ],
      [
-      "18:29",
-      100.0
+      "18:22",
+      8.7
+     ],
+     [
+      "18:41",
+      7.1
+     ],
+     [
+      "18:59",
+      10.9
+     ],
+     [
+      "19:09",
+      3.0
+     ],
+     [
+      "19:32",
+      0.0
+     ],
+     [
+      "19:47",
+      0.1
      ]
     ],
-    "today_samples": 23,
+    "today_samples": 28,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -886,8 +886,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 2,
-     "audit_ts": "2026-10-17 18:29:28"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-17 19:47:24"
     }
    },
    "bm-b": {
@@ -931,8 +931,8 @@
   "last_owner": "bm-a",
   "next_registration": 264,
   "next_seatable": 264,
-  "chain_head": 1000735,
-  "k": 574320,
+  "chain_head": 1002935,
+  "k": 576520,
   "waves": [
    {
     "wave": 261,
@@ -985,7 +985,11 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
-    "finalize_landed": false
+    "finalize_landed": true,
+    "ledger_total": 1002935,
+    "merged_mu": -0.09275356397002706,
+    "merged_sigma": 0.2450370389545185,
+    "k": 576520
    }
   ],
   "seats": []
