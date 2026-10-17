@@ -262,11 +262,38 @@ def cmd_verify(opts):
     return rc
 
 
+def _relay_child_streams(r):
+    """r1045 pit fix: on this Win/Py3.14 host a pass-through subprocess child
+    (stdout=None) never reaches the parent's inherited handle -- the child's
+    print vanishes even under `> file` redirect (empirical: parent prints
+    land, child prints do not; 0-byte capture face). cmd_probe relied on that
+    pass-through, so the loop read silence+rc0 as 'hold' while a real orders
+    delta existed (r1044 missed 4 group orders commits for 2+ hours). All
+    child summaries must be captured and re-printed by the parent."""
+    out = getattr(r, "stdout", None) or ""
+    err = getattr(r, "stderr", None) or ""
+    if not isinstance(out, str):
+        out = out.decode("utf-8", "replace")
+    if not isinstance(err, str):
+        err = err.decode("utf-8", "replace")
+    if out:
+        sys.stdout.write(out)
+        sys.stdout.flush()
+    if err:
+        sys.stderr.write(err)
+        sys.stderr.flush()
+
+
 def cmd_probe(opts):
     # T22: inject the machine-aware state path so the probe reads
     # state-<id>.json, never a legacy/wrong-machine watermark.
     _, state = resolve_state_path(MACHINE_JSON, ROOT)
-    r = subprocess.run([sys.executable, PROBE, "--state", state], cwd=ROOT)
+    # r1045: capture + relay (pass-through face is swallowed on this host;
+    # see _relay_child_streams docstring). rc semantics unchanged.
+    r = subprocess.run([sys.executable, PROBE, "--state", state],
+                       cwd=ROOT, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace")
+    _relay_child_streams(r)
     return r.returncode
 
 
@@ -481,6 +508,39 @@ def selftest():
         assert err is None and p.endswith("state-bm-a.json"), "explicit ok"
     leg("L15 T22 probe reads state-<id>.json (machine derive + mismatch gate)",
         l15)
+
+    # L16/L17 r1045 relay face: captured child stdout/stderr must reach the
+    # parent's streams (pass-through spawn is swallowed on this Win/Py3.14
+    # host; loop read silence as 'hold' and missed a real orders delta)
+    def l16():
+        import io
+        fake = type("R", (), {"stdout": '{"orders_changed": true}\n',
+                              "stderr": ""})()
+        buf = io.StringIO()
+        old = sys.stdout
+        sys.stdout = buf
+        try:
+            _relay_child_streams(fake)
+        finally:
+            sys.stdout = old
+        assert buf.getvalue() == '{"orders_changed": true}\n', \
+            "relay lost child stdout: %r" % buf.getvalue()
+    leg("L16 r1045 relay reprints captured child stdout", l16)
+
+    def l17():
+        import io
+        fake = type("R", (), {"stdout": b'{"ok": 1}\n\xff\xfe',
+                              "stderr": b"warn\n"})()
+        bufo, bufe = io.StringIO(), io.StringIO()
+        so, se = sys.stdout, sys.stderr
+        sys.stdout, sys.stderr = bufo, bufe
+        try:
+            _relay_child_streams(fake)
+        finally:
+            sys.stdout, sys.stderr = so, se
+        assert bufo.getvalue().startswith('{"ok": 1}'), "bytes stdout lost"
+        assert bufe.getvalue() == "warn\n", "bytes stderr lost"
+    leg("L17 r1045 relay decodes bytes face", l17)
 
     fails = [l for l in legs if not l[1]]
     for name, ok, why in legs:
