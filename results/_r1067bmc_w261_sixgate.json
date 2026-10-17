@@ -1,0 +1,85 @@
+{
+ "machine": "bm-c",
+ "wave": 261,
+ "phase": "PRE-FINALIZE six-gate (r1067 bm-c 57th-gen absorb-continuation window, 23rd consecutive correct-phase; standing law -- engine self-burn 12/12 landed post-W261 splice 68aad04b6 via batched ledger appends, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "34a5a2c68a20e3e4",
+   "n1_sha16_now": "6df7875e7f9312cc",
+   "pf_sha16_freeze_post": "34a5a2c68a20e3e4",
+   "n1_sha16_freeze_post": "6df7875e7f9312cc",
+   "n1_sha16_landed_commit": "6df7875e7f9312cc",
+   "pf_landed_diff_empty": true,
+   "n1_vs_receipt_disclosure": "r1067 window: splice commit 68aad04b6 = worktree bytes directly (zero post-splice heal) -> gate-1 asserts TRIPLE identity worktree == receipt n1_sha16_post == landed git blob; engine self-burn commits touch shard files only (ad2aa9322 6 + b88dc8fcd 5 + shard-7 pending engine next batched tick, disclosed honest)",
+   "family_seed_faces": {
+    "base=589501 span=2000": 1,
+    "base=591501 span=200": 1
+   },
+   "prior_wave_260_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W261_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": ""
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=589501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=591501 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w261bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 589501,
+   "b_exit_seed_base": 591501,
+   "shard_subdir": "n1_w261",
+   "out_name": "n1_w261_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_589501": true,
+    "b_exit_seed_base_591501": true,
+    "shard_subdir_n1_w261": true,
+    "out_name_n1_w261_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w260_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 996335,
+  "prev_merged_n": 569920,
+  "expect_total": 998535,
+  "expect_merged": 572120,
+  "anchor": "W260 finalize (r1065 55th-gen absorb-continuation one-pass 996,335/K=569,920) per freeze receipt w260_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
