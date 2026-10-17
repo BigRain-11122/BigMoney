@@ -1,4 +1,4 @@
-"""r1067 bm-c S6 chain driver (canon clone of r1066): standing-leg canon clone (r838 canon lineage; r871/r936/r1037/r1045/r1052/r1055/r1056/r1057/r1058/r1059/r1060/r1061/r1063/r1066 canon clone -- identical leg list, leg count derived at runtime honest count). Full log to results/_r1067bmc_s6_log.txt. MUST run under the SYSTEM python (Python313): embedded ComfyUI python has no pandas/akshare (r516 lesson). Every leg subprocess passes CREATE_NO_WINDOW (U060 silence law). Saturday 14:1x run -- bars 10-16 cutoff current, papers fired r1055; next trading day Monday 10-19 15:30 => update_daily/papers legs expected honest weekend no-ops; bm-a/bm-b-owned lanes honest no-op on this machine per R31 lane guards. r1067 window = 57th-gen absorb continuation: dead r1067 window built the W261 editor estate (build_editor + derive_editor + needle preflight 149 faces + freeze_edits bundle; 1 comment needle healed same-window: W211..W238 legs (28) -> W211..W242 legs (32), W257-editor-era stale inherited face, code asserts govern); splice executed THIS window: pf 31d5dc07->34a5a2c68a20e3e4 / n1 f40a82c4->6df7875e7f9312cc LANDED 68aad04b6 pushed first-try; engine mtime-watch self-burn W261 12 shards IN FLIGHT (3 done at S6 start); sixgate PRE-FINALIZE + finalize = post-burn chain; ORD 1-row consumed (13:2x CEO idle-fill MV order, BigStream-lane in-flight by interactive window, zero BigMoney action)."""
+"""r1067 bm-c S6 chain driver (canon clone of r1063; 57th-gen absorb continuation window: W262 PREREG FREEZE landed 32d28ffb3; S6 debt run): standing-leg canon clone (r838 canon lineage; r871/r936/r1037/r1045/r1052/r1055/r1056/r1057/r1058/r1059/r1060/r1061 canon clone -- identical leg list, leg count derived at runtime honest count). Full log to results/_r1067bmc_s6_log.txt. MUST run under the SYSTEM python (Python313): embedded ComfyUI python has no pandas/akshare (r516 lesson). Every leg subprocess passes CREATE_NO_WINDOW (U060 silence law). Saturday 07:5x run -- bars 10-16 landed and consumed by r1055 (papers fired there); next trading day Monday 10-19 15:30 => update_daily/papers legs expected honest weekend no-ops (cutoff 10-16 current); bm-a/bm-b-owned lanes honest no-op on this machine per R31 lane guards. r1063 window = 53rd-gen absorb continuation: dead r1063 window landed W259 PREREG FREEZE b709bc2cc (estate machine-verified this window: worktree==blob 45,806B sha16 ca4805af + banned ADMIT rc0 + probe receipt ADMIT re-read); W259 five-face splice = THIS window product target (builder canon _w258bmc_derive_editor @ 3367a967); ORD 1-row consumed (CEO-PROXY R2.8 P1 bigstream lane zero BigMoney action, watermark 29a77086)."""
 
 import datetime
 import os
@@ -64,7 +64,7 @@ def main():
     started = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
     results = []
     with open(LOG, "w", encoding="utf-8") as log:
-        log.write("r1067 bm-c S6 chain run %s legs=%d\n" % (started, len(LEGS)))
+        log.write("r1062 bm-c S6 chain run %s legs=%d\n" % (started, len(LEGS)))
         for entry in LEGS:
             name, cmd = entry[0], entry[1]
             leg_env = env
@@ -93,4 +93,3 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
