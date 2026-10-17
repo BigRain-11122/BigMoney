@@ -1,6 +1,6 @@
 {
  "probe": "r1027bma_mf_source_diag",
- "ts": "2026-10-17T05:35:38",
+ "ts": "2026-10-17T11:03:52",
  "context": "source-blocked since 2026-10-14T19:46; panel cutoff 2026-10-13 complete=false",
  "legs": [
   {
@@ -9,19 +9,19 @@
    "ok": false,
    "status": null,
    "bytes": 0,
-   "ms": 123,
+   "ms": 219,
    "err": "RemoteDisconnected: Remote end closed connection without response",
    "sample": null
   },
   {
    "leg": "fflow-exact",
    "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
-   "ok": true,
-   "status": 200,
-   "bytes": 14583,
-   "ms": 236,
-   "err": null,
-   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617932,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 186,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
   },
   {
    "leg": "rank-no-referer",
@@ -29,7 +29,7 @@
    "ok": false,
    "status": null,
    "bytes": 0,
-   "ms": 45,
+   "ms": 80,
    "err": "RemoteDisconnected: Remote end closed connection without response",
    "sample": null
   },
@@ -39,39 +39,39 @@
    "ok": false,
    "status": null,
    "bytes": 0,
-   "ms": 55,
+   "ms": 63,
    "err": "RemoteDisconnected: Remote end closed connection without response",
    "sample": null
   },
   {
    "leg": "fflow-modern-ua",
    "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
-   "ok": true,
-   "status": 200,
-   "bytes": 14583,
-   "ms": 65,
-   "err": null,
-   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617932,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 64,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
   },
   {
    "leg": "fflow-no-ut",
    "url": "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=0.000001&fields1=f1,f2,f3,f",
-   "ok": true,
-   "status": 200,
-   "bytes": 14583,
+   "ok": false,
+   "status": null,
+   "bytes": 0,
    "ms": 65,
-   "err": null,
-   "sample": "{\"rc\":0,\"rt\":22,\"svr\":177617939,\"lt\":1,\"full\":0,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"code\":\"000001\",\"market\":0,\"name\":\"平安银行\",\""
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
   },
   {
    "leg": "ctrl-quote",
    "url": "https://push2.eastmoney.com/api/qt/stock/get?secid=1.510300&fields=f43,f57,f58&ut=b2884a393a59ad64002292a3e90d",
-   "ok": true,
-   "status": 200,
-   "bytes": 137,
-   "ms": 39,
-   "err": null,
-   "sample": "{\"rc\":0,\"rt\":4,\"svr\":180606312,\"lt\":1,\"full\":1,\"dlmkts\":\"\",\"dsc\":\"0\",\"data\":{\"f43\":4236,\"f57\":\"510300\",\"f58\":\"沪深300ETF华泰"
+   "ok": false,
+   "status": null,
+   "bytes": 0,
+   "ms": 59,
+   "err": "RemoteDisconnected: Remote end closed connection without response",
+   "sample": null
   },
   {
    "leg": "ctrl-push2his-root",
@@ -79,7 +79,7 @@
    "ok": false,
    "status": null,
    "bytes": 0,
-   "ms": 43,
+   "ms": 57,
    "err": "HTTPError: HTTP Error 404: Not Found",
    "sample": null
   }

@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 10:40:36",
+ "generated_at": "2026-10-17 11:09:33",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 73,
+  "commits_24h": 78,
   "result_jsons_landed_24h": 125,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 13,
+  "prereg_md_touched_24h": 14,
   "compute_audit_latest": {
-   "ts": "2026-10-17 10:36:49",
-   "py_cpu_pct": 0.6,
+   "ts": "2026-10-17 11:04:33",
+   "py_cpu_pct": 1.6,
    "flags": [
     "cap_violation",
     "pool_starvation",
@@ -311,7 +311,7 @@
    ],
    "verdict": "FLAG:cap_violation,pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -667,12 +667,12 @@
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 2630,
-  "total_report_tokens_est": 2110848,
+  "total_state_tokens_est": 2460,
+  "total_report_tokens_est": 2111275,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-17 07:10:25",
-   "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "prev_generated": "2026-10-17 07:49:10",
+   "state_tokens_growth": -170,
+   "report_tokens_growth": 427,
    "mandate_growth": 0
   },
   "method": {
@@ -683,17 +683,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 10:36:49",
-    "py_pct": 0.6,
-    "cpu_pct": 90.0,
+    "latest_ts": "2026-10-17 11:04:33",
+    "py_pct": 1.6,
+    "cpu_pct": 86.0,
     "ready": 0,
-    "streak_min": 1476.7,
+    "streak_min": 1504.5,
     "verdict": "FLAG:cap_violation,pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "21:56",
-      0.0
-     ],
      [
       "22:02",
       1.8
@@ -737,9 +733,13 @@
      [
       "10:36",
       0.6
+     ],
+     [
+      "11:04",
+      1.6
      ]
     ],
-    "today_samples": 10,
+    "today_samples": 11,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -888,7 +888,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-17 10:36:49"
+     "audit_ts": "2026-10-17 11:04:33"
     }
    },
    "bm-b": {
