@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17 07:49:10",
+  "generated": "2026-10-17 10:41:05",
   "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
   "method": {
     "bpe_proxy": 3.5,
@@ -7,7 +7,7 @@
   },
   "per_round_context": {
     "mandate_read_tokens_est": 15176,
-    "codely_read_tokens_est": 6006,
+    "codely_read_tokens_est": 6453,
     "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
   },
   "machines": {
@@ -36,10 +36,10 @@
       "report_tokens_est": 0
     },
     "default": {
-      "state_bytes": 3604,
-      "state_tokens_est": 1029,
-      "report_bytes": 2680354,
-      "report_tokens_est": 765815
+      "state_bytes": 3007,
+      "state_tokens_est": 859,
+      "report_bytes": 2681850,
+      "report_tokens_est": 766242
     }
   },
   "l2_local_llm": {
@@ -61,12 +61,12 @@
       "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
     }
   },
-  "total_state_tokens_est": 2630,
-  "total_report_tokens_est": 2110848,
+  "total_state_tokens_est": 2460,
+  "total_report_tokens_est": 2111275,
   "delta_vs_prev": {
-    "prev_generated": "2026-10-17 07:10:25",
-    "state_tokens_growth": 0,
-    "report_tokens_growth": 0,
+    "prev_generated": "2026-10-17 07:49:10",
+    "state_tokens_growth": -170,
+    "report_tokens_growth": 427,
     "mandate_growth": 0
   }
 }
