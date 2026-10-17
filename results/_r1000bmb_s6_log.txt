@@ -1,0 +1,49 @@
+﻿chain start 06:08:31 (r1000)
+rc=0 orphan_probe :: {"py_faces": 7, "orphans": 0, "resident_servers": 0, "killed": [], "report": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_orphan_face_probe.bm-b.json"}
+rc=0 smoke_test :: == Bigmoney smoke test 2026-10-18 06:08:53 ==
+rc=0 sat_engine_status :: {
+rc=0 idle_worked :: {"ts": "2026-10-18T06:09:07+08:00", "machine": "bm-b", "declared": "worked", "idle_rounds": 0, "agenda_starved": false}
+rc=0 pool_dualrun :: [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 461 entries, drift-free streak 48, cutoff 2026-10-15 14:34:35)
+rc=0 compute_audit :: {"ts": "2026-10-18 06:09:15", "audit_version": "v2.4.2", "cpu_total_pct": 3.0, "py_cpu_pct": 0.7, "cores": 16, "py_procs": 10, "result_stale_min": 0.1, "fleet_open_tasks": 0, "pool_ready_count": 0, "pool_ready_unclaimed": 0, "load_state": "idle-starvation", "pool_starvation_candidate": true, "pool_starvation_detail": {"run_samples": 35, "span_min": 2649.2}, "supply_gap_candidate": false, "supply_gap_detail": {"reason": "idle-starvation"}, "supply_floor": {"ready": 0, "floor": 3, "breach": true}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 2649.2, "gpu": {"present": true, "util_pct": 6.0, "mem_used_mb": 4138.0, "compute_apps_count": 26, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0, "effective_cores": null, "multicore_burn": 0, "single_core_burn": 0, "too_short_to_sample": 0, "readable": true}, "flags": ["pool_starvation", "supply_floor"], "verdict": "FLAG:pool_starvation,supply_floor"}
+rc=0 py_watermark :: {"ts": "2026-10-18 06:09:21", "epoch": 1792274955.0, "machine": "bm-b", "cpu_total_pct": 8.0, "cores": 16, "py_cpu_pct": 0.0, "py_procs": 10, "top_proc_cores": 0.01, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": [], "pool_ready_count": 0, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 0, "board_open": 0, "board_inflight": 0, "local_batch": 0}, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 10}
+rc=0 d19_probe :: {"decisions_changed": false, "orders_changed": true, "decisions_sha": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1", "wm_decisions": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1", "orders_sha": "eae5ac55af94d790a2ed9f040343fe7bf501f6df1a624afbebae682e24c935f4", "wm_orders": "0b991d78bf4505ca6a9b27908f160e9ae9e51adf1ed96c5eec511ceccb42cc22", "decisions_method": "sha256", "orders_method": "sha256"}
+rc=0 update_daily :: === Bigmoney daily update 2026-10-18 06:09:25 ===
+rc=0 market_regime :: regime state -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+rc=0 strategy_scorecard :: lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 35min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+rc=0 market_clock_call :: call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-16.md cell=ORANGE_COOL sleeves=4 activated=0
+rc=0 update_lhb :: cutoff=2026-10-16 quarter=2026Q4 today=2026-10-18
+rc=0 update_zt_pool :: no-op: zt_pool lane owned by bm-a, not this machine (bm-b)
+rc=0 update_heat :: no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+rc=0 update_futures :: no-op: local cutoff 2026-10-16 covers expected complete-bar date 2026-10-16 -> zero network
+rc=0 update_repo_panel :: no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+rc=0 update_options :: [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste law) -- honest no-op, no collection.
+rc=0 update_moneyflow :: no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+rc=0 update_sina_mf :: no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+rc=0 update_astock_daily :: no-op: panel fresh (cutoff 2026-10-16 >= expected 2026-10-16) -> zero network
+rc=0 update_etf_daily :: no-op: panel cutoff 2026-10-16 covers expected complete-bar date 2026-10-16 -> zero network
+rc=0 regime_thermo :: regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+rc=0 regime_gate_dualarm :: regime_gate_dualarm: wrote C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_gate_dualarm\DUALARM-2026-09-30.json (index=BEAR @2026-09-30, emotion @2026-09-22)
+rc=0 rev_osc_signal :: rev_osc_signal_export: SIG/BARS already at cutoff 2026-10-16 & panel bytes unchanged -- no-op (idempotent)
+rc=0 update_minute_feed :: update_minute_feed: non-workday -- no-op
+rc=0 update_ths_panel :: no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+rc=0 ah_panel_puller :: no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+rc=0 update_fund_premium :: no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+rc=0 update_fundamental :: snapshot fresh (3.0h < 24h) -> skip
+rc=0 b_layer_filter :: mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+rc=0 update_fund_statements :: no-op: fund statements lane owned by bm-a, not this machine (bm-b)
+SKIP live.paper (Sunday no new bar)
+SKIP t35_open_fill_verify (Sunday no new bar)
+SKIP t24_prospect_paper (Sunday no new bar)
+SKIP t24_prospect_promotion (Sunday no new bar)
+rc=0 aggressive_lab :: aggr paper: marks already at panel cutoff 2026-10-16 -- no-op (idempotent)
+rc=0 alloc_paper :: ALLOC-P1: byte-identical (no new bar / no change), no-op
+rc=0 grid_paper :: grid paper: marks already at panel cutoff 2026-10-16 -- no-op (idempotent)
+rc=0 system_v1_paper :: system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+rc=0 t35_paper_export :: lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 37min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+rc=0 daily_scorecard :: lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 37min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+rc=0 daily_report :: daily report written: REPORT-2026-10-18.md/.json faces=5 token=1
+rc=0 ceo_live_usage :: ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-18.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+rc=0 build_status :: lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 37min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+rc=0 token_meter :: saved: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+rc=0 attrition_scan :: [gate_attrition.bm-a.json] shrink 2 rows at ded3d7588 (after 188b304f8) [healed]
+chain end 06:12:03 elapsed=3.5min
