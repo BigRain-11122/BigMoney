@@ -1,0 +1,73 @@
+{
+ "machine": "bm-c",
+ "wave": 259,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w259_results.json",
+ "merged": {
+  "k": 567720,
+  "mu": -0.09273526298175157,
+  "sigma": 0.24503750022170157,
+  "se_mu_k567720": 0.000325
+ },
+ "w259_only": {
+  "mu": -0.08462,
+  "sigma": 0.2459453776097889
+ },
+ "skill_line": {
+  "n_eff_held": 991935,
+  "line_pre_w259": 1.1949,
+  "line_merged_567720": 1.1949,
+  "k_lift_delta": 0.0
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3234,
+  "full_sharpe_p99": 0.4752
+ },
+ "checks": [
+  {
+   "name": "key1_w259_vs_merged_mu_gap",
+   "value": 0.008115262981751567,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w258_key",
+   "value": 3.156701824842678e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 1.5672221120880766e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": 0.0126,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000325,
+   "band": 0.000326,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 991935,
+  "batch_trials": 2200,
+  "total": 994135,
+  "exact": true
+ },
+ "sec5_item5_projection_note": "W260+ projection key (A naive first-clean 587_101..589_100 pre-W259 universe; post-W259-REGISTERED naive W260 A start 587_101 refused at registered W259 B band 587_101..587_300 = staircase-affects-A NINTH consecutive A-hop expected; B own-A reservation cascade moves up accordingly) = freeze-side face consumed by the W260 freeze party probe leg4 re-derive (r587 law), NOT a finalize-face key; recorded here for chain visibility only",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
