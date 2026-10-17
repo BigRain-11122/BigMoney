@@ -230,3 +230,8 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 2026-10-16 08:4x：bm-c r1046（W250 finalize 收口步·捕获律 O-20261002-2100 依法生成：sixgate gate-1 锚面改法入卡·stale receipt sha 首案定谳）。
 
 - **E71 EM 源封锁双差分判型法 + gate 优先车道节流饿死律（T23 r1027 bm-a）**：proven，工程面。EM 源封锁判型=双差分探针：①同主机跨路径差分（push2 /api/qt/clist/get FAIL 而 /api/qt/stock/get OK=路径级 per-IP 封锁非 IP 全封）②同请求跨时窗差分（000001 fflow 05:35 OK→05:50 FAIL=波动性封锁窗〔r40/r46 族〕·禁单次探针定谳封锁面）。结构性饿死律：gate 内优先车道（rank）源封锁时其 30min 节流早退 return 0 会把健康的后备车道（daykline）饿死在身后——修法=节流分支遇 lane.mode fetch_failed 改 skip 整车道块（skip_rank_spawn 旗）落穿到后备车道自有守卫；**Python fall-through 陷阱：只绕过 return 不跳出块=控制流仍流入本块后续 spawn 路径（首版实弹自纠：fall-through 打印后 spawn 了 rank 而非 refresh）**。live 实证：moneyflow panel 10-14 起 3 天停摆双根因（clist 路径封+节流饿死）·r1027 修复后 panel 首次挣脱（refresh spawn 成功·撞波动窗 3 连断诚实停·30min 自愈武装）。证据=results/_r1027bma_mf_source_diag.py+json 八腿+state/queue/tech.md T23 行+scripts/update_moneyflow.py T23 注记。
+
+## E43 环 idle fast-path 死锁解锁配方（r1046 bm-a·bm-b 5.5h 实弹首烧）
+- 病理：git 面收口失败+state 视为已毕→fast-path 轮不触 git 不扫令→令/遗产永滞。
+- 配方：backlog 编号可领行（破 claimable_pool_lines=0 门）→push；POST /poke {tasks:[轮转体],repos:[白名单仓]} force-pull+唤醒；/status repo_heads 验交付。
+- 边界：poke 只载信号（数据走 git）；kept-local 探针面下轮自愈；行内容须真实待办（本例=对端盘面专属 r998 遗产收口·物理面锁车道）。
