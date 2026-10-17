@@ -1,0 +1,19 @@
+{
+ "probe": "r1043bma_mf_reprobe_adjudication",
+ "ts": "2026-10-17T23:25:30+08:00",
+ "round": "r1043 (bm-a)",
+ "deadline_ref": "state next-mandate: MF push2 Monday re-probe adjudication (<=2026-10-19); executed early Sat 23:2x",
+ "diagnostic": "results/_r1027bma_mf_source_diag.py (8-leg read-only network probe, r1027 lineage, OUT=results/_r1027bma_mf_source_diag.json ts 2026-10-17T23:24:14)",
+ "legs_result": "8/8 FAIL: rank-exact/clist FAIL, fflow-exact/daykline FAIL, rank-no-referer FAIL, rank-modern-ua FAIL, fflow-modern-ua FAIL, fflow-no-ut FAIL, ctrl-quote (push2 /api/qt/stock/get, was OK at r1027 05:5x baseline per r1027 memory) FAIL, ctrl-push2his-root 404 (host alive, TLS+HTTP responds)",
+ "baseline_delta": "r1027 05:5x: path-level (clist FAIL, stock/get OK) + fflow volatility window; r1043 23:2x: BOTH push2.eastmoney.com api paths (clist + stock/get ctrl) disconnect AND push2his fflow daykline disconnects while push2his root serves 404 -> block WIDENED from clist-path-level to push2-family API-path-level across both hosts",
+ "classification": "per-IP server-side selective connection-reset on EM push2 API family (not UA/param/referer/token-specific: all variants identical ~150ms disconnect); duration since 2026-10-14T19:46 = 4+ days = longest observed window in r40/r46 blockade family",
+ "panel_state": "cutoff 2026-10-13 frozen, complete=false, n_symbols 5222; rank face stamp 2026-10-13; last_refresh 2026-10-17T19:49 3x RemoteDisconnected conn_stopped=true; rank lane fetch_failed page1 22:36:44",
+ "adjudication": "STILL BLOCKED, WIDENED. No local fix available (source-side block). Self-heal stays armed: conn fuse + 30-min spawn throttle + r1027 rank-fall-through fix (no backup-lane starvation). MF-IC-P1 batch stays legally waiting on panel complete=true.",
+ "alternative_face": "sina MF panel (T-72 SINA_MF_PREREG) is a separate lane with own collector; EM-panel-registered MF-IC-P1 does not consume it",
+ "next_face": "auto re-attempt via S6 update_moneyflow leg every round window (fuse self-heal); next adjudication checkpoint only if a fresh classification signal appears (e.g. any leg turns OK); deadline <=2026-10-19 SATISFIED by this receipt",
+ "evidence_files": [
+  "results/_r1027bma_mf_source_diag.json (this run ts 23:24:14)",
+  "results/moneyflow_update_status.json (ts 2026-10-17T22:36:34)",
+  "r1027 baseline: git history results/_r1027bma_mf_source_diag.json @ r1027 commit + memory row r1027"
+ ]
+}

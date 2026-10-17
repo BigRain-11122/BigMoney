@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-17",
- "generated_at": "2026-10-17 22:37:52",
+ "generated_at": "2026-10-17 23:29:38",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-17.md"
  },
  "rd": {
-  "commits_24h": 129,
-  "result_jsons_landed_24h": 116,
+  "commits_24h": 132,
+  "result_jsons_landed_24h": 119,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 11,
   "compute_audit_latest": {
-   "ts": "2026-10-17 22:35:00",
-   "py_cpu_pct": 1.1,
+   "ts": "2026-10-17 23:27:20",
+   "py_cpu_pct": 0.4,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -667,12 +667,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2447,
-  "total_report_tokens_est": 2113017,
+  "total_report_tokens_est": 2114104,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-17 21:27:10",
+   "prev_generated": "2026-10-17 21:57:37",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 374,
-   "mandate_growth": 0
+   "report_tokens_growth": 1087,
+   "mandate_growth": 6
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -682,17 +682,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-17 22:35:00",
-    "py_pct": 1.1,
-    "cpu_pct": 78.0,
+    "latest_ts": "2026-10-17 23:27:20",
+    "py_pct": 0.4,
+    "cpu_pct": 44.0,
     "ready": 0,
-    "streak_min": 2194.9,
+    "streak_min": 2247.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "13:12",
-      0.2
-     ],
      [
       "13:44",
       1.2
@@ -736,9 +732,13 @@
      [
       "22:35",
       1.1
+     ],
+     [
+      "23:27",
+      0.4
      ]
     ],
-    "today_samples": 24,
+    "today_samples": 25,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -887,7 +887,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-17 22:35:00"
+     "audit_ts": "2026-10-17 23:27:20"
     }
    },
    "bm-b": {
@@ -930,9 +930,9 @@
   "last_registered": 264,
   "last_owner": "bm-c",
   "next_registration": 265,
-  "next_seatable": 265,
-  "chain_head": 1002935,
-  "k": 576520,
+  "next_seatable": 266,
+  "chain_head": 1005135,
+  "k": 578720,
   "waves": [
    {
     "wave": 262,
@@ -985,10 +985,19 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
-    "finalize_landed": false
+    "finalize_landed": true,
+    "ledger_total": 1005135,
+    "merged_mu": -0.09272765534282555,
+    "merged_sigma": 0.2450429696990889,
+    "k": 578720
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 265,
+    "machine": "bm-c"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
