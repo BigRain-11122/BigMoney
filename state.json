@@ -1,5 +1,5 @@
 {
- "clock_read": "2026-10-18T07:27:36+08:00",
+ "clock_read": "2026-10-18T07:30:47+08:00",
  "current_task": "r1001: closeout (state/heartbeat/round-report/push)",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
@@ -16,7 +16,7 @@
  "did": "r1001: (a) BigHouse T-3 CLEARED (due 10-20): design/first-resident-flow-v1.md (parameterized default pick Mudu x ridge-view home + six-beat move-in line + resident card three faces) + design/first-resident-card.html (viewable No.001 card page, render-verified 2 rounds, word-gate CLEAN, evidence JPEG) -> BigHouse commit 3634120 pushed+ls-remote verified; TASKS T-3 done. (b) GPU valve RESTORED per MSG-0216 declared condition (voicegen 51/51 DONE + zero TTS/kohya + GPU baseline): MiniGameOllamaServe/KeepWarm enabled + INDEXTTS-LANE-CLAIM released. (c) S0 ff-sync to origin tip 3bc40c84d; D-19 double-unchanged; orders diff 101/0. (d) smoke 49/49; S6 core evidence legs 4/4 (reconcile streak49 zero-drift; audit flags=known pool-starvation W265-inflight; watermark insufficient_history honest; token delta=0); S7 5/5 green; idle --worked cleared streak58.",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
  "last_action": "r1001: BigHouse T-3 delivered (flow design + resident-card page @ 3634120) + GPU valve restored (Ollama tasks re-enabled, lane claim released)",
- "last_action_at": "2026-10-18T07:27:36+08:00",
+ "last_action_at": "2026-10-18T07:30:47+08:00",
  "last_decisions_at": "2026-10-18T02:26:54+08:00",
  "last_decisions_read_at": "2026-10-18T06:18:39+08:00",
  "last_decisions_sha": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1",
@@ -41,7 +41,7 @@
  "round_no": 1001,
  "round_no_label": "r1001",
  "sync": {
-  "last_push_ts": "2026-10-18T07:27:36+08:00",
+  "last_push_ts": "2026-10-18T07:30:47+08:00",
   "r962_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
@@ -270,6 +270,13 @@
    "consumed_at": "pending r1001",
    "behind_origin_main": 0,
    "note": "r1000 payload = 34 own faces (O-0137 receipt + CODELY B.7 row + state/heartbeat/round-report + S6 log/work files + bm-b-suffixed regen); claw block 1x correct (stale base); d19 probe UU resolved mine-side (bm-b owner face, newer sha256 read-back); rebase-continue deadloop bypassed per r1032; rebase-autostash dropped per daemon live-wins (pure regen faces)"
+  },
+  "r1001_main_push": {
+   "status": "PUSHED_VERIFIED",
+   "pushed_sha": "a8568c55dce999598143ab745ef058b4309322e5",
+   "consumed_at": "2026-10-18T07:30:47+08:00",
+   "behind_origin_main": 0,
+   "note": "first push rejected non-ff (origin advanced 2 bm-c commits mid-round); claw check-push re-verified zero violations on range; clean rebase replay (zero file intersection); redelivered ace19ba85b..a8568c55dc"
   }
  },
  "task": "r1000: closeout (state/heartbeat/round-report/push)",
