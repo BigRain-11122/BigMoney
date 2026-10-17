@@ -1,0 +1,167 @@
+canon blob 28851dd42f3ccd8a bytes 62149 (HEAD twin verified)
+p1_proj_prefix	13 OK	'W265p'
+p1_proj_plain_raw_incl_p	26 OK	'W265'
+p1_band_Blo_naiveAlo	5 OK	'598_101'
+p1_band_Bhi	4 OK	'598_300'
+p1_band_Alo_Bnaivelo	8 OK	'596_101'
+p1_band_Ahi	9 OK	'598_100'
+p1_band_Bnaivehi	2 OK	'596_300'
+p1_band_naiveAhi	2 OK	'597_900'
+p1_band_priorBlo_W263	4 OK	'595_901'
+p1_band_priorBhi_W263	6 OK	'596_100'
+p1_ledger_prose_W263fin	5 OK	'1,002,935'
+p1_k_prose_W263fin	5 OK	'576,520'
+p1_ledger_code	1 OK	'1_002_935'
+p1_k_code	1 OK	'576_520'
+p1_ledger_W264fin_present_check	0	'1,005,135'
+p1_k_W264fin_present_check	0	'578,720'
+p1_n1w264	4 OK	'n1_w264'
+p1_n1w264dash	2 OK	'n1w264-'
+p1_n1w263	4 OK	'n1_w263'
+p1_lc_w264_raw	12 OK	'w264_'
+p1_lc_w263_	93 **EXPECT 89**	'w263_'
+p1_receiptpath	11 OK	'_w264bmc_'
+p1_seat_msg	7 OK	'MSG-20261017-1950-bmc-w264-seat'
+p1_seat_msg_next_present_check	0	'MSG-20261017-2241-bmc-w265-seat'
+p1_seat_origin_W264	2 OK	'dd5fd438e'
+p1_seat_origin_W265_present_check	0	'7343e3650'
+p1_lineage_sha_W263splice	1 OK	'f499817fa'
+p1_prereg_sha_W265_present_check	0	'e57215a2c'
+p1_prereg_sha_W264	1 OK	'f4ffdb34e'
+p2_own_wave_raw_incl_paths	92 **EXPECT 98**	'W264'
+p2_upstream_wave_raw	162 **EXPECT 167**	'W263'
+p3_relkey	2 OK	'W261_W262_W263_bands_respected'
+p3_kept_narr	2 OK	'W211..W244 legs (34)'
+p3_legs_narr	1 OK	'W211..W262 legs (52)'
+p3_dropped_narr	4 OK	'W245..W262 legs (18)'
+p3_dropped_split_hdr	5 **EXPECT 1**	'own W245..W262'
+p3_dropped_fstring	1 OK	'W245..W262 eighteen legs'
+p3_fullspan_fstring	1 OK	'W211..W263 legs 52'
+p3_range_kept	1 OK	'range(211, 245)'
+p3_range_dropped	1 OK	'range(245, 263)'
+p3_range_fresh	2 OK	'range(245, 264)'
+p3_range16	2 OK	'range(16, 264)'
+p3_range17	3 OK	'range(17, 264)'
+p3_range209	2 OK	'range(209, 265)'
+p3_wlt264	5 OK	'if w < 264)'
+p3_wlt263_antigate	1 OK	'if w < 263)'
+p3_legcount	2 OK	'264 - _lw'
+p3_regex245	1 OK	'N1_BANDS\\[245\\]'
+p3_m245	4 OK	'm245'
+p3_startswith245	1 OK	'N1_BANDS[245] == {'
+p3_wavecfg263	5 **EXPECT 3**	'WAVE_CONFIGS[263]'
+p3_n1bands263	5 OK	'N1_BANDS[263]'
+p3_get263	1 OK	'get(263)'
+p3_c263var	5 OK	'_c263'
+p3_cfg264	2 OK	'264: {"batch"'
+p3_cfg264_fstring	1 OK	'264: {{"batch"'
+p3_cfg263	2 OK	'263: {"batch"'
+p3_row264_fstring	2 OK	'264: {{"a"'
+p3_row264_postgate	1 OK	'264: {"a"'
+p3_row263	3 OK	'263: {"a"'
+p3_arith_a	6 OK	'arith_a264'
+p3_arith_b	6 OK	'arith_b264'
+p3_transitive_list	2 OK	'(260, 259, 258, 257, 256, 255, 254, 253, 252, 251)'
+p3_transitive_window	1 OK	'W251..W260'
+p3_ordinal_assert	1 OK	'len(owner_rows_live) == 253 and len(bma_rows_live) == 130'
+p3_ordinal_expect	1 OK	'253/130/82'
+p3_leg0_face	1 OK	'owner_rows=253 / bma_rows=130'
+p3_owner254	2 OK	'rows 253 + candidate = 254th'
+p3_bmc82	2	'bm-c rows 82 + candidate'
+p3_bmc83_check	0	'bm-c rows 83'
+p3_83rd_caps	3 OK	'EIGHTY-THIRD owned'
+p3_84th_check	0	'EIGHTY-FOURTH'
+p3_83rd_own	3 **EXPECT 2**	'83rd own wave'
+p3_84th_own_check	0	'84th own'
+p3_wave264_caps	3 OK	'TWO HUNDRED AND SIXTY-FOURTH'
+p3_wave265_caps_check	0	'TWO HUNDRED AND SIXTY-FIFTH'
+p3_14_caps_B_ordinal	7	'FOURTEENTH'
+p3_13_caps_A_ordinal	15 **EXPECT 7**	'THIRTEENTH'
+p3_15_check	0	'FIFTEENTH'
+p3_14_lc	4	'fourteenth'
+p3_13_lc	3 **EXPECT 4**	'thirteenth'
+p3_15_lc_check	0	'fifteenth'
+p3_52nd	2 OK	'fifty-second'
+p3_53rd_check	0	'fifty-third'
+p3_255th_check	0	'255th'
+p3_254th	2	'254th'
+p3_ownowner_bm_c	3 OK	'"engine_owner": "bm-c"}'
+p3_gate05_owner_W262_bma	0 **EXPECT 1**	'W262.get("engine_owner") == "bm-a"'
+p3_mirror_owner_W262_bma	0 **EXPECT 1**	'N1_BANDS[262].get("engine_owner") == "bm-a"'
+p3_gate05_W263_check	1	'W263.get("engine_owner")'
+p3_mirror_W263_check	1	'N1_BANDS[263].get("engine_owner")'
+p3_waits_honest_resid	0 OK	'waits-upstream face disclosed honest'
+p3_unblocked_narr	4	'W264 FREEZE UNBLOCKED'
+p3_unblocked_W265_check	0	'W265 FREEZE UNBLOCKED'
+p3_pub_after	1	'was published AFTER'
+p3_authored_stamp	2 OK	'authored 20:1x'
+p3_r1076_window	5	'r1076 window'
+p3_r1075_refs	5	'r1075'
+p3_r1083_check	0 OK	'r1083'
+p1_lineage_sha_full	0 **EXPECT 1**	'f499817fac26786ca3c8b0726aa54c0aa31c2bd2'
+p1_w264_origin_base	0	'29276fbfb30abcfd0e3edff0941e0d145789fabe'
+p1_w265_seat_origin_ref	0	'7343e3650'
+
+=== CTDUMP: engine_owner gate/mirror/owner lines ===
+L96: assert W263.get("engine_owner") == "bm-a", \
+L135: owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
+L136: bma_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-a"]
+L137: bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
+L316: _owner = _row["engine_owner"]
+L320: _msg = f'"registered W{_w} row parity drift (r307; engine_owner={_owner}; W264 freeze fresh-derive from live registry)"'
+L324: f'                                    "engine_owner": "{_owner}"}}, \\',
+L356: assert '"engine_owner": "bm-a"' in w263_own_line, \
+L411: + PF_EOL + f'{ROWC_I}"engine_owner": "bm-c"}},' + PF_EOL)
+L439: f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
+L458: "engine_owner=bm-a (bm-c OWN-SEAT face -- bm-a's EIGHTY-THIRD owned claim per machine-derive (engine_owner==bm-c rows ",
+L501: f'{MEM_I}"engine_owner": "bm-c"}},',
+L519: "    #     bm-a's EIGHTY-THIRD owned per machine-derive (engine_owner==bm-a",
+L544: f"    #     MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate; gate",
+L567: "        assert WAVE_CONFIGS[263].get(\"engine_owner\") == \\",
+L568: '            pf.N1_BANDS[263].get("engine_owner") == "bm-a", \\',
+L569: '            "W264 upstream W263 engine_owner mirror drift (law-mirror parity; bm-c upstream seat face)"',
+L695: f'          "ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} "',
+L697: '          "machine-derive (engine_owner==bm-c rows 82 + candidate; OWN-SEAT face: seat published by bm-c itself, "',
+L723: assert pf_t2.count('"engine_owner": "bm-c"},' + PF_EOL + '}') == 1
+L765: "engine_owner": "bm-a (upstream seat honored)",
+L769: "note": "seat published=reserved by bm-c itself (MSG-20261017-1950-bmc-w264-seat pushed to origin " + SEAT_ORIGIN + " r1075 BEFORE this freeze per r565 law, queue-head seat-first supply -- W263 regist
+
+=== CTDUMP: authored/stamp lines ===
+L14: # (authored 20:1x, banned_direction_gate ADMIT rc0, committed+pushed same
+L774: "note": "prereg derived by the bm-c r1076 window (authored 20:1x, banned gate ADMIT rc0, committed+pushed r1076 commit " + w264_prereg_sha[:10] + "; facts live-derived ledger anchors W261 998,535 / K=
+
+=== CTDUMP: rows/ordinal assert lines ===
+L126: # live ordinal derive (r359 law: gate machine output governs; the pre-seat probe
+L127: # receipt leg0 face owner_rows=253 / bma_rows=130 / bmc_rows=82
+L131: # W263 splice LANDED (finalize adds no registry rows) -> owner rows 253 + candidate = 254th EXACT; bm-c rows 82 +
+L132: # candidate = 83rd EXACT -- bm-c own-seat continuity face (bm-c published the
+L135: owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
+L136: bma_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-a"]
+L137: bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
+L138: assert len(owner_rows_live) == 253 and len(bma_rows_live) == 130 and len(bmc_rows_live) == 82, \
+L139: f"leg0 ordinal drift at freeze time: owner={len(owner_rows_live)} bma={len(bma_rows_live)} bmc={len(bmc_rows_live)} (expect 253/130/82 PRE-splice post-W263 registration; this candidate = bm-c's 83rd o
+L142: f"(W263 ledger head {w263_total}, merged n={w263_merged_n}); owner rows {len(owner_rows_live)} + candidate, "
+L143: f"bm-c rows {len(bmc_rows_live)} + candidate (83rd own wave per live derive; "
+L439: f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
+L459: f"{len(bmc_rows_live)} + candidate; probe receipt leg0 bmc_rows=82 = seat-time pre-splice ",
+L520: f"    #     rows {len(bmc_rows_live)} + candidate; own-seat face: seat published=reserved by bm-c itself",
+L544: f"    #     MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate; gate",
+L695: f'          "ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} "',
+L769: "note": "seat published=reserved by bm-c itself (MSG-20261017-1950-bmc-w264-seat pushed to origin " + SEAT_ORIGIN + " r1075 BEFORE this freeze per r565 law, queue-head seat-first supply -- W263 regist
+L775: "ordinal_faces": {"owner_rows_live": len(owner_rows_live), "bma_rows_live": len(bma_rows_live),
+L776: "bmc_rows_live": len(bmc_rows_live),
+L777: "engine_owned_ordinal": len(owner_rows_live) + 1,
+L778: "bmc_own_ordinal": len(bmc_rows_live) + 1,
+L779: "probe_receipt_bmc_ordinal_face": 82,
+L780: "note": "post-W263 registration: bm-c rows 82 + candidate = 83rd owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_rows=82 = seat-time faces -- bm-c own-seat continuity, zero wai
+
+=== CTDUMP: 40-hex sha tokens in canon ===
+
+=== CTDUMP: UNBLOCKED/waits narrative lines ===
+L9: # UNBLOCKED at seat time, zero waits-upstream face -- seat-first law
+L129: # W263 finalize LANDED at seat -- W264 FREEZE UNBLOCKED at seat time (zero waits-upstream face);
+L364: "    # origin " + SEAT_ORIGIN + " (r1075, queue-head seat-first supply -- W263 registered+FINALIZED complete at publish, W264 FREEZE UNBLOCKED at seat time (zero waits-upstream face; seats never queue
+L523: "    #     W263 finalize LANDED at seat -- W264 FREEZE UNBLOCKED at seat time, zero waits-upstream face;",
+L769: "note": "seat published=reserved by bm-c itself (MSG-20261017-1950-bmc-w264-seat pushed to origin " + SEAT_ORIGIN + " r1075 BEFORE this freeze per r565 law, queue-head seat-first supply -- W263 regist
+L780: "note": "post-W263 registration: bm-c rows 82 + candidate = 83rd owned (live derive at freeze time governs per r587/r359; probe leg0 bmc_rows=82 = seat-time faces -- bm-c own-seat continuity, zero wai
+PREFLIGHT DONE (r1083 splice-prep; counts measured, derive asserts against these)
