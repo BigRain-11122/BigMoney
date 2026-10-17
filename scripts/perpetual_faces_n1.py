@@ -72564,7 +72564,7 @@ def selftest() -> int:
     #     EXCLUDED from the estate path per the template mandate; fresh
     #     W245..W263 legs (19) added, machine-derived from the live pf
     #     registry at freeze time -> 122 parity rows (W138..W206+W211..W263).
-    _set_wave(263)
+    _set_wave(264)
     try:
         assert WAVE_CONFIGS[263]["a_seed_base"] == pf.N1_BANDS[263]["a"][0], \
             "W264 upstream W263 mirror drift (a)"
@@ -73107,7 +73107,7 @@ def selftest() -> int:
         # the W263 prereg sec.5 item5 + W263 probe leg4 + seat leg4 succession projection notes -- all
         # MANDATORY notes honored (post-W263 universe
         # re-derive + live-trace re-read, no staircase-equality assumption);
-        assert WAVE_CONFIGS[263]["a_seed_base"] == 596101 == 596100 + 1, (
+        assert WAVE_CONFIGS[264]["a_seed_base"] == 596101 == 596100 + 1, (
             "W264 A staircase-affects-A walk THIRTEENTH consecutive A-hop: the naive "
             "continuation is REFUSED at its own start (the registered W263 B band sits INSIDE "
             "the naive A window -- staircase re-emergence continues; hops=1, A_hop_chain verbatim in the probe receipt, "
@@ -73118,7 +73118,7 @@ def selftest() -> int:
         arith_a264 = set(range(596101, 598101))
         assert not (arith_a264 & reg_ints), \
             "W264 A window must be CLEAN (first-clean ADMIT face, staircase walk landing)"
-        assert WAVE_CONFIGS[263]["b_exit_seed_base"] == 598101 == 598100 + 1, (
+        assert WAVE_CONFIGS[264]["b_exit_seed_base"] == 598101 == 598100 + 1, (
             "W264 B 1-HOP own-A RESERVATION CASCADE face: the naive continuation "
             "596_101..596_300 is REFUSED at its own start "
             "(hops=1, B_naive_refused_at_start=true, B_hop_chain verbatim in the probe receipt; "

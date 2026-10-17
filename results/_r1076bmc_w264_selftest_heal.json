@@ -1,0 +1,38 @@
+{
+ "machine": "bm-c",
+ "round": "r1076",
+ "wave": 264,
+ "phase": "post-splice post-burn PRE-finalize selftest token heal",
+ "file": "scripts/perpetual_faces_n1.py",
+ "old_sha16_crlf": "c72e02c2c4f43f44",
+ "new_sha16_crlf": "41caba66c293d851",
+ "bytes_before": 5549522,
+ "bytes_after": 5549522,
+ "splice_commit": "216b578b095b653728a5c18d6835d4e0b968b1dc",
+ "freeze_receipt_n1_sha16_post_preheal": "c72e02c2c4f43f44",
+ "defect_runtime_proof": "selftest AssertionError: W264 A hits W263 (w244_a held W263 bands via _set_wave(263))",
+ "heals": [
+  {
+   "name": "H1_set_wave",
+   "offset": 5174766,
+   "occurrences": 2,
+   "replaced": "second (W264 section)",
+   "anchor": "W138..W206+W211..W263) within 400B before"
+  },
+  {
+   "name": "H2_bandfacts_a",
+   "offset": 5213320,
+   "count": 1,
+   "from": "WAVE_CONFIGS[263][\"a_seed_base\"] == 596101",
+   "to": "WAVE_CONFIGS[264][\"a_seed_base\"] == 596101"
+  },
+  {
+   "name": "H3_bandfacts_b",
+   "offset": 5214257,
+   "count": 1,
+   "from": "WAVE_CONFIGS[263][\"b_exit_seed_base\"] == 598101",
+   "to": "WAVE_CONFIGS[264][\"b_exit_seed_base\"] == 598101"
+  }
+ ],
+ "verdict": "HEALED 3 same-length tokens; engine mechanics untouched"
+}
