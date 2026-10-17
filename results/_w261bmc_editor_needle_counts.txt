@@ -1,0 +1,149 @@
+2	(256, 255, 254, 253, 252, 251, 250, 249, 248, 247)
+2	range(209, 261)
+1	def fmt(n):  # 587301 -> "587_301"
+1	2026-10-17 11:3x bm-c r1065 freeze window
+8	r1065
+23	r1064
+0	r1066
+0	r1063
+0	r1062
+1	W259 finalize one-pass bm-c r1064 window closeout 09:1x
+3	r1064 splice window
+2	authored 10:2x
+1	994_135
+1	567_720
+8	994,135
+8	567,720
+7	bmc_ordinal=80
+3	EIGHTIETH
+3	TWO HUNDRED AND SIXTIETH
+2	forty-eighth consecutive
+3	80th own wave
+7	MSG-20261017-0910-bmc-w260-seat
+2	9fa2c8aed
+1	0f33f9abc
+1	transitive window W247..W256 checked
+1	engine_owner==bm-c rows 79 + candidate
+0	saturation_engine.py status live-read r1065
+1	# block's own W242..W258 legs (17 rows) do NOT enter the estate path;
+1	# after extraction, fresh W242..W259 legs (18 rows) are added,
+1	# parity = 118 rows (W138..W206 + W211..W259). Zero assumption zero risk.
+1	# block's own W242..W258 legs (17) are EXCLUDED from the estate path per the
+1	# prereg mandate; the W260 block appends fresh W242..W259 legs (18,
+1	# machine-derived from the LIVE pf registry at freeze time) -> 118 parity
+4	m242
+1	W242 leg boundary
+2	range(242, 260)
+1	"    #     physical bytes; the W260 block's own W242..W258 legs (17) are",
+1	"    #     W242..W259 legs (18) added, machine-derived from the live pf",
+1	"    #     registry at freeze time -> 118 parity rows (W138..W206+W211..W259).",
+1	"    #     W211..W241 legs (31) extracted verbatim from the OWN W259 block",
+1	kept segment not W211..W241 thirty-one legs
+1	dropped segment not W242..W258 seventeen legs
+1	legs segment not W211..W258 forty-eight legs
+1	!= 117 (69 estate + W211..W258 legs 48)
+0	!= 116 (69 estate + W211..W257 legs 47)
+1	fresh_legs_row_asserts
+1	+ legs_kept.count("assert pf.N1_BANDS[") + 18,
+1	"fresh_legs_row_asserts": 18,
+1	assert (a_lo, a_hi) == (587_301, 589_300) and (b_lo, b_hi) == (589_301, 589_500), \
+1	assert len(owner_rows_live) == 249 and len(bma_rows_live) == 129 and len(bmc_rows_live) == 79, \
+1	(expect 249/129/79 PRE-splice post-W259 registration
+1	# receipt leg0 face owner_rows=249 / bmc_rows=79 /
+1	-> owner rows 249 + candidate = 250th EXACT; bm-c rows 79 +
+1	# candidate = 80th EXACT -- bm-c own-seat continuity face (bm-c published the
+1	freeze-time live face owner rows 249 + candidate = 250th EXACT
+1	freeze-time live derive bmc rows 79 + candidate 80th EXACT per r587/r359
+1	post-W259 registration: bm-c rows 79 + candidate = 80th owned
+1	"probe_receipt_bmc_ordinal_face": 80,
+1	f"W260+W255..W246 finalize products present "
+10	_w260bmc_20261017_probe_receipt.json
+0	_w261bmc_20261017_probe_receipt.json
+2	range(16, 260)
+3	range(17, 260)
+5	if w < 260)
+1	if w < 259)
+1	list(range(211, 259)),
+1	list(range(211, 242))
+1	list(range(242, 259)),
+6	arith_a260
+6	arith_b260
+4	n1_w260
+2	n1w260
+7	PERPETUAL-N1-W260
+11	_w260bmc
+12	w244_a
+0	w245_a
+1	estate 69
+2	= 118 rows
+2	118 parity
+5	TENTH consecutive above-own-A
+14	NINTH consecutive A-hop
+0	ELEVENTH consecutive above-own-A
+0	TENTH consecutive A-hop
+5	W261p_A_naive
+2	W261p_B_first_clean
+0	W262p_A_naive
+1	W257_W258_W259_bands_respected_A
+0	W258_W259_W260_bands_respected_A
+2	B_base_above_W259_tail
+0	B_base_above_W260_tail
+8	A_staircase_hop_past_W259_B
+0	A_staircase_hop_past_W260_B
+4	hashlib.sha256
+0	hashlib.sha259
+0	hashlib.sha260
+3	EIGHTIETH
+3	TWO HUNDRED AND SIXTIETH
+7	bmc_ordinal=80
+3	80th own wave
+2	250th
+0	251st
+1	249/129/79
+0	250/129/80
+0	996,335
+0	569,920
+0	996_335
+0	569_920
+0	cf23c4553
+0	03ab504d7
+0	MSG-20261017-1225-bmc-w261-seat
+0	119 parity
+0	= 119 rows
+0	m243
+0	list(range(211, 243))
+0	list(range(243, 260)),
+0	range(243, 261)
+0	kept segment not W211..W242 thirty-two legs
+0	dropped segment not W243..W259 seventeen legs
+0	legs segment not W211..W259 forty-nine legs
+0	!= 118 (69 estate + W211..W259 legs 49)
+4	587_301..589_300
+3	589_301..589_500
+2	587_101..589_100
+2	587_301..587_500
+6	587_300
+9	589_300
+0	585_101..587_100
+2	587_101..587_300
+0	584_901..586_900
+0	584_901..585_100
+0	585_101..585_300
+0	585_100
+0	587_100
+0	584_901
+0	585_101
+0	589_501..591_500
+0	591_501..591_700
+0	589_501..589_700
+4	589_500
+0	591_500
+1	A naive 589301..591300 CLEAN
+1	B naive 589501..589700 hops=0 CLEAN at naive, first-clean 589501..589700 BUT
+1	naive A window start 589_301 lands INSIDE the registered W260 B band 589_301..589_500
+0	A naive 587101..589100 CLEAN
+0	B naive 587301..587500 hops=0 CLEAN at naive, first-clean 587301..587500 BUT
+0	naive A window start 587_101 lands INSIDE the registered W259 B band 587_101..587_300
+0	A naive 591501..593500 CLEAN
+0	B naive 591701..591900 hops=0 CLEAN at naive, first-clean 591701..591900 BUT
+0	naive A window start 591_501 lands INSIDE the registered W261 B band 591_501..591_700

@@ -1,0 +1,194 @@
+S0 src blob verified d15b53af21cff0ec == HEAD twin (worktree clean face)
+P1-transitive-deps: 2x '(256, 255, 254, 253, 252, 251, 250, 249, 248, 24'
+P1-liveness-range: 2x 'range(209, 261)'
+P1-fmt-comment: 1x 'def fmt(n):  # 587301 -> "587_301"'
+P2-downstream: 26x 'W261'
+P3-self: 192x '260'
+P3 consumed 192 '260' substrings
+P4-upstream: 269x '259'
+P4 consumed 269 '259' substrings
+P5a-header-window: 1x '2026-10-17 11:3x bm-c r1065 freeze window'
+P5a-prereg-window: 7x 'r1065'
+P5a-closeout-window: 1x 'W260 finalize one-pass bm-c r1064 window closeou'
+P5a-splice-window: 3x 'r1064 splice window'
+P5a-splice-window-rest: 19x 'r1064'
+P5a-authored-time: 2x 'authored 10:2x'
+P5a-ledger-int: 1x '994_135'
+P5a-k-int: 1x '567_720'
+P5a-ledger-prose: 8x '994,135'
+P5a-k-prose: 8x '567,720'
+P5a-ordinal80: 7x 'bmc_ordinal=80'
+P5a-eightieth: 3x 'EIGHTIETH'
+P5a-261st: 3x 'TWO HUNDRED AND SIXTIETH'
+P5a-finface: 2x 'forty-eighth consecutive'
+P5a-80th-ownwave: 3x '80th own wave'
+P5a-seat-msg: 7x 'MSG-20261017-0910-bmc-w261-seat'
+P5a-seat-origin: 2x '9fa2c8aed'
+P5a-prereg-commit: 1x '0f33f9abc'
+P5a-aging-deps-cmt: 1x 'transitive window W247..W256 checked'
+P5a-aging-rows-heal: 1x 'engine_owner==bm-c rows 79 + candidate'
+P5b-hdr-ownlegs: 1x "# block's own W242..W258 legs (17 rows) do NOT e"
+P5b-hdr-freshlegs: 1x '# after extraction, fresh W242..W260 legs (18 ro'
+P5b-hdr-parity-count: 1x '# parity = 118 rows (W138..W206 + W211..W260). Z'
+P5b-ext-excl: 1x "# block's own W242..W258 legs (17) are EXCLUDED "
+P5b-ext-fresh: 1x '# prereg mandate; the W261 block appends fresh W'
+P5b-ext-parcount: 1x '# machine-derived from the LIVE pf registry at f'
+P5b-parfull: 1x 'assert par_full.count("assert pf.N1_BANDS[") == '
+P5b-legs-assert: 1x 'assert legs_sec.count("assert pf.N1_BANDS[") == '
+P5b-dropped-assert: 1x 'assert legs_dropped.count("assert pf.N1_BANDS[")'
+P5b-split-cmt: 1x '# prereg sec.3 mandate split: keep W211..W241 ve'
+P5b-split-mvar: 1x 'm242 = re.search(r" *assert pf\\.N1_BANDS\\[242\\] '
+P5b-split-assert: 1x 'assert m242, "W242 leg boundary not found inside'
+P5b-split-kept: 1x 'legs_kept = legs_sec[:m242.start()]'
+P5b-split-dropped: 1x 'legs_dropped = legs_sec[m242.start():]'
+P5b-kept-assert: 1x 'assert legs_kept.count("assert pf.N1_BANDS[") =='
+P5b-fresh-loop: 1x 'for _w in range(242, 261):'
+P5b-legcount-loop: 1x 'for _lw in range(242, 261):'
+P5b-fresh-firstline: 1x "assert fresh_leg_lines[0].startswith('        as"
+P5b-rcpt-fresh18-identity: 1x '"fresh_legs_row_asserts": 18,'
+P5b-rcpt-total18-identity: 1x '+ legs_kept.count("assert pf.N1_BANDS[") + 18,'
+P5b-hdr-kept-mat: 1x '"    #     W211..W241 legs (31) extracted verbat'
+P5b-hdr-ownlegs-mat: 1x '"    #     physical bytes; the W261 block\'s own '
+P5b-hdr-freshlegs-mat: 1x '"    #     W242..W260 legs (18) added, machine-d'
+P5b-hdr-parcount-mat: 1x '"    #     registry at freeze time -> 118 parity'
+P5b-rcpt-note: 1x '                     "note": "estate W138..W206 '
+P5c-band-drift: 1x 'assert (a_lo, a_hi) == (587_301, 589_300) and (b'
+P5d-ord-gate: 1x 'assert len(owner_rows_live) == 249 and len(bma_r'
+P5d-ord-err: 1x '(expect 249/129/79 PRE-splice post-W260 registra'
+P5d-leg0-prose: 1x '# receipt leg0 face owner_rows=249 / bmc_rows=79'
+P5d-ord-owner-prose: 1x '-> owner rows 249 + candidate = 250th EXACT; bm-'
+P5d-ord-bmc-prose: 1x '# candidate = 80th EXACT -- bm-c own-seat contin'
+P5d-rcpt-251st: 1x 'freeze-time live face owner rows 249 + candidate'
+P5d-bundle-81st: 1x 'freeze-time live derive bmc rows 79 + candidate '
+P5d-rcpt-81st-owned: 1x 'post-W260 registration: bm-c rows 79 + candidate'
+P5d-rcpt-ordface: 1x '"probe_receipt_bmc_ordinal_face": 80,'
+P5d-print-deps: 1x 'f"W261+W255..W246 finalize products present "'
+P5e-hdr: chunk 1x (1326 -> 1329 chars)
+P5e-bandfacts: chunk 1x (1214 -> 1217 chars)
+P5e-a-base: 1x 'assert w260_b_tail + 1 == a_lo, "A staircase-hop'
+P5e-a-floor: 1x 'assert a_lo >= w260_b_tail + 1, "A staircase lan'
+P5e-b-base: 1x 'assert b_lo == a_hi + 1, "B base == own-A tail+1'
+P5e-ra-gate: 1x 'ra = leg1.get("relation_asserts") or {}\nassert r'
+P5e-pfcmt: chunk 1x (1242 -> 1244 chars)
+P5e-pre: chunk 1x (1634 -> 1637 chars)
+P5e-mem-a: 1x ' f\'{MEM_I}"a_seed_base": {a_lo},        # law se'
+P5e-mem-b: 1x ' f\'{MEM_I}"b_exit_seed_base": {b_lo},   # law se'
+P5e-tailcmt: chunk 1x (1919 -> 1922 chars)
+P5e-tail-amsg: 1x '            "W261 A staircase-affects-A walk NIN'
+P5e-tail-bassert2: 1x '            "W261 B 1-HOP own-A RESERVATION CASC'
+P5e-tail-bclean: 1x '            "W261 B window must be CLEAN (first-'
+P5e-tail-excl: 1x '            "W261 A/B same-freeze mutual exclusi'
+P5e-pr: chunk 1x (665 -> 668 chars)
+P5e-rcpt-semantics-A: 1x '"A": "1-HOP STAIRCASE-AFFECTS-A walk NINTH conse'
+P5e-rcpt-semantics-B: 1x '"B": "1-HOP own-A RESERVATION CASCADE above own-'
+P5e-rcpt-downstream: 1x 'W262 = next free number, next freezer must seat-'
+P5f-probe-receipt-date-stable: 10x '_w261bmc_20261017_probe_receipt.json'
+OUT '# --- W261 materializer face' = 2
+OUT '# --- W260 materializer face' = 1
+OUT '"+ W261 materializer face' = 2
+OUT 'range(16, 261)' = 2
+OUT 'range(17, 261)' = 3
+OUT 'range(243, 261)' = 2
+OUT 'range(242, 261)' = 0
+OUT 'list(range(211, 260)),' = 1
+OUT 'list(range(211, 243))' = 1
+OUT 'list(range(211, 242))' = 0
+OUT 'list(range(243, 260)),' = 1
+OUT 'list(range(242, 260)),' = 0
+OUT 'range(209, 262)' = 2
+OUT 'if w < 261)' = 5
+OUT 'if w < 260)' = 1
+OUT 'm243' = 4
+OUT 'm242' = 0
+OUT '_w261bmc_20261017_probe_receipt.json' = 10
+OUT '_w261bmc_freeze_receipt.json' = 1
+OUT 'MSG-20261017-1225-bmc-w261-seat' = 7
+OUT 'cf23c4553' = 2
+OUT '03ab504d7' = 1
+OUT '996_335' = 1
+OUT '569_920' = 1
+OUT '996,335' = 8
+OUT '569,920' = 8
+OUT '(589_501, 591_500)' = 1
+OUT '(591_501, 591_700)' = 1
+OUT 'W258_W259_W260_bands_respected_A' = 1
+OUT 'W258_W259_W260_bands_respected_B' = 1
+OUT 'B_base_above_W260_tail' = 2
+OUT 'A_staircase_hop_past_W260_B' = 8
+OUT 'W262p_A_naive' = 5
+OUT 'W262p_B_first_clean' = 2
+OUT 'arith_a261' = 6
+OUT 'arith_b261' = 6
+OUT '"PERPETUAL-N1-W261-SHARD-0"' = 1
+OUT 'n1_w261_results.json' = 2
+OUT 'n1_w261' = 4
+OUT 'n1w261' = 2
+OUT 'PERPETUAL-N1-W261' = 7
+OUT '_w261bmc' = 11
+OUT 'w244_a' = 12
+OUT 'EIGHTY-FIRST' = 3
+OUT 'TWO HUNDRED AND SIXTY-FIRST' = 3
+OUT 'forty-ninth consecutive' = 2
+OUT 'bmc_ordinal=81' = 7
+OUT '81st own wave' = 3
+OUT 'r1065 splice window' = 3
+OUT 'r1065' = 23
+OUT 'r1066' = 7
+OUT 'r1067 freeze window' = 1
+OUT 'W260 finalize one-pass bm-c r1065 window closeout 12:2x' = 1
+OUT 'authored 12:5x' = 2
+OUT 'estate 69' = 1
+OUT '= 119 rows' = 2
+OUT '119 parity' = 2
+OUT 'hops=1' = 23
+OUT '1-HOP' = 17
+OUT 'TENTH consecutive A-hop' = 14
+OUT 'ELEVENTH consecutive above-own-A' = 5
+OUT '250/129/80' = 1
+OUT '251st' = 2
+OUT '81st EXACT' = 2
+OUT 'thirty-two legs' = 1
+OUT 'forty-nine legs' = 1
+OUT '== 49' = 1
+OUT 'r1063' = 0
+OUT 'r1064' = 0
+OUT '9fa2c8aed' = 0
+OUT '0f33f9abc' = 0
+OUT '994,135' = 0
+OUT '567,720' = 0
+OUT '994_135' = 0
+OUT '567_720' = 0
+OUT 'EIGHTIETH' = 0
+OUT 'TWO HUNDRED AND SIXTIETH' = 0
+OUT 'forty-eighth consecutive' = 0
+OUT 'MSG-20261017-0910' = 0
+OUT 'authored 10:2x' = 0
+OUT '11:3x' = 0
+OUT 'bmc_ordinal=80' = 0
+OUT '80th own wave' = 0
+OUT '250th' = 0
+OUT '249/129/79' = 0
+OUT 'TENTH consecutive above-own-A' = 0
+OUT 'FIRST A-hop' = 0
+OUT 'seed-gap face ENDS' = 0
+OUT '587_301..589_300' = 0
+OUT '589_301..589_500' = 2
+OUT '587_101..589_100' = 0
+OUT '587_301..587_500' = 0
+OUT '587_300' = 0
+OUT '589_300' = 0
+OUT '587_101..587_300' = 0
+OUT '585_101..587_100' = 0
+OUT '585_100' = 0
+OUT '587_100' = 0
+OUT '584_901' = 0
+OUT '585_101' = 0
+OUT '~589_301..589_900' = 0
+OUT '(587_301, 589_300)' = 0
+OUT '(589_301, 589_500)' = 0
+OUT '== 117' = 0
+OUT 'forty-eight legs' = 0
+OUT '117 parity' = 0
+OUT '118 parity' = 0
+OUT 'list(range(242, 258))' = 0
+OUT 'w245_a' = 0
