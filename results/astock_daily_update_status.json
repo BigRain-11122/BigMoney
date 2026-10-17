@@ -1,9 +1,9 @@
 {
-  "ts": "2026-10-17T17:20:38",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-17T21:27:27",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-15",
+    "cutoff": "2026-10-16",
     "universe_n": 5229,
     "per_files": 5221
   },
@@ -19,37 +19,34 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 11,
-    "fetched": 11,
+    "todo": 18,
+    "fetched": 14,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "failures_tail": [
+      "000019:RuntimeError:validation_fail:sanity_defects=1/7880",
+      "001235:KeyError:'date'",
+      "001381:KeyError:'date'",
+      "301718:KeyError:'date'",
+      "688089:RuntimeError:validation_fail:sanity_defects=1/1642",
+      "688143:RuntimeError:validation_fail:sanity_defects=1/919",
+      "688173:RuntimeError:validation_fail:sanity_defects=1/1136",
+      "689009:JSONDecodeError:No value to decode"
+    ],
+    "failures_n": 8,
     "conn_stopped": false,
-    "elapsed_min": 0.7,
+    "elapsed_min": 1.2,
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
-  "quarantined_n": 8,
-  "last_spawn_attempt": "2026-10-17T14:06:06",
+  "quarantined_n": 0,
+  "last_spawn_attempt": "2026-10-17T21:26:13",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 11,
-  "settled": [
-    "000016",
-    "002388",
-    "002717",
-    "002731",
-    "300773",
-    "301314",
-    "600293",
-    "600825",
-    "601059",
-    "601198",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-10-13 >= expected 2026-10-13)",
-  "per_files_on_disk": 3098,
+  "per_files_on_disk": 5221,
   "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5221) -> disk face wins, rebuild (P0 r834-kin guard)"
 }
