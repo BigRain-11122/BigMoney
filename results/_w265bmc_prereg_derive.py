@@ -187,8 +187,11 @@ VMAP_FLOORS = {
     "--wave 264/finalize --wave 264": 1,
     "§5.5 W265+ 投影承接机证": 1,
     "n1_w264": 4, "n1_w263": 6, "_w264bmc": 4, "_w263bma": 1,
-    # measured live on T0 (results/_w265bmc_needle_counts.txt, this window)
-    "W264": 35, "W263": 63, "W262": 3, "W261": 2, "W260": 2, "W259": 2,
+    # measured live on T0 (results/_w265bmc_needle_counts.txt; r1081 re-measure backs this face --
+    # dead r1080 window authored floors but died pre-evidence; heal (7) r1081: "W259" 2->1 live-audit
+    # correction [pattern-assumed floor; T0 holds 1 occurrence; chained roll consumes it; zero content
+    # impact -- output still fully gated by MUST/MUST_NOT/pinned-counts below])
+    "W264": 35, "W263": 63, "W262": 3, "W261": 2, "W260": 2, "W259": 1,
     "W258": 1, "W257": 1, "W256": 1, "W255": 1,
     # block-marker stability floors (raw template face)
     "engine_owner 行 253 注册在册（表尾": 1,
@@ -246,8 +249,12 @@ VMAP_POST_LEGS = [
     # sec.4 merged-pool anchor face (W264 finalize landed)
     ("（起草窗实流 W1..W264 已落账 576,520 实测〔n1_w264_results.json 机读·W264 finalize 已落〕）",
      "（起草窗实流 W1..W264 已落账 578,720 实测〔n1_w264_results.json 机读·W264 finalize 已落〕）", 1),
-    # sec.5 item1 K face (rolled 576,520 -> 578,720)
-    ("·K=576,520 合并池·W264-only 实测", "·K=578,720 合并池·W264-only 实测", 1),
+    # r1081 heal (8): REMOVED duplicate K-face leg ("·K=576,520 合并池·W264-only 实测" -> 578,720) --
+    # blanket-duplication defect (W255-gen disclosed family): the parenthetical leg above ALREADY
+    # consumed the only "合并池·W-only 实测" occurrence in T0 (verified: T0 grep count=1, inside the
+    # §5 item1 parenthetical); the standalone needle could never match post-leg-2 (count=0 fail-closed
+    # as designed). W264-gen canon has NO such standalone leg. Zero content impact: K=578,720 lands
+    # via the parenthetical leg; MUST "578,720" + MUST_NOT "576,520" both enforce.
     # sec.7/8 backfill paradigm rows -> the W264 cycle (bm-c r1077)
     ("bm-a r1039 W264 §7 范式", "bm-c r1077 W264 §7 范式", 1),
     ("bm-a r1039 W264 §8 范式", "bm-c r1077 W264 §8 范式", 1),
@@ -407,7 +414,10 @@ MUST = [
     "probe leg0 bmc_rows=83 attempt-continuity face（r1077 窗算法·bm-c own seat+bmc live rows 83 实读）",
     "bm-c 循环班 r1077 席位窗", "本窗 free RAM ~3GB", "本机 bm-c 实例",
     "W265=bm-c own-wave window per chain-order law",
-    "f4ffdb34e", "216b578b0", "964148797", "17dd06323", "dd5fd438e",
+    # r1081 heal (9): "dd5fd438e" REMOVED from MUST (clone residue -- dead window left the W264-gen's
+    # own-seat origin in MUST while the correctly-shifted MUST_NOT also demands its absence; the W265
+    # seat rides origin 7343e3650 per the seat VMAP legs, T2 legitimately carries ZERO dd5fd438e).
+    "f4ffdb34e", "216b578b0", "964148797", "17dd06323",
     "W266+ 投影", "W266p_B_lands_inside_W266p_A_naive", "verify at W266 prereg",
     "_w265bmc_freeze_edits.py", "_w264bmc_freeze_edits.py 模板派生",
     "bm-c r1077 W264 §7 范式", "bm-c r1077 W264 §8 范式",
@@ -442,7 +452,11 @@ MUST_NOT = [
     "W265+ 投影", "W264+ 投影",
     "第十三次连续 A-hop", "第十四次连续 above-own-A", "连续十三波", "共二百六十一面",
     "_w263bma", "_w264bmc_freeze_edits.py 模板派生·gate0.5 自查 W263",
-    "n1_w263_results.json", "n1_w264_results.json 机读·净账本锚头",
+    # r1081 heal (10): "n1_w264_results.json 机读·净账本锚头" REMOVED from MUST_NOT (dead-window
+    # non-canon addition -- W264-gen MUST_NOT bans stale NUMBERS only, never this n1_ prefix; the
+    # NEW b_title block legitimately carries it with true numbers 1,005,135; stale faces already
+    # banned via the "1,002,935" + "576,520" entries below).
+    "n1_w263_results.json",
     "W2..W263", "W136..W263",
 ]
 for s in MUST_NOT:
