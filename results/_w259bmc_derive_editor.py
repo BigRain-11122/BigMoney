@@ -225,7 +225,12 @@ log.append(f"P4 consumed {n257} '257' substrings")
 # lands), prereg-window second, closeout/splice/rest after. Counts
 # pre-flight-verified on the committed W258 script: r1061=7 / r1060=23
 # (1 closeout + 3 splice-window + 19 rest) / r1062=1 (header stamp only).
-rep(age("2026-10-17 06:2x bm-c r1062 freeze window"), "2026-10-17 07:3x bm-c r1063 freeze window", 1, "P5a-header-window")
+# needle-heal r1064: freeze-window stamp healed r1063->r1064 (actual splice window;
+# the build_editor collapsed prereg-window refs AND the freeze stamp onto r1063,
+# an internally-inconsistent gate pair [7+1=8 vs gate 7]; per exec-grounded honesty
+# law + state next_pointer (splice = r1064 FIRST ACTION) the stamp names the window
+# that actually runs the freeze -- prereg refs stay r1063 x7, disclosed)
+rep(age("2026-10-17 06:2x bm-c r1062 freeze window"), "2026-10-17 08:4x bm-c r1064 freeze window", 1, "P5a-header-window")
 rep(age("r1061"), "r1063", 7, "P5a-prereg-window")
 rep(age("W257 finalize one-pass bm-c r1060 window closeout 05:1x"),
     "W258 finalize one-pass bm-c r1062 window closeout 07:0x", 1, "P5a-closeout-window")
@@ -1002,7 +1007,7 @@ for needle, want in [
     ("n1w259", 2),
     ("PERPETUAL-N1-W259", 7),
     ("_w259bmc", 11),
-    ("w245_a", 12),
+    ("w244_a", 12),  # needle-heal r1064: band-set var is FROZEN-verbatim lineage (W255..W258 4-gen canon, "one-behind naming face, zero functional impact" per W255 receipt note); the build_editor gate-list composition wrongly rolled this frozen token +1 -> healed back, disclosed
     ("SEVENTY-NINTH", 3),
     ("TWO HUNDRED AND FIFTY-NINTH", 3),
     ("forty-seventh consecutive", 2),
@@ -1011,7 +1016,7 @@ for needle, want in [
     ("r1062 splice window", 3),
     ("r1062", 23),
     ("r1063", 7),
-    ("r1063 freeze window", 1),
+    ("r1064 freeze window", 1),  # needle-heal r1064: stamp = actual freeze window (see P5a-header-window heal)
     ("estate 69", 1),
     ("= 117 rows", 2),
     ("117 parity", 2),
@@ -1035,8 +1040,8 @@ for needle, want in [
     ("authored 05:5x", 0),
     ("bmc_ordinal=78", 0),
     ("78th own wave", 0),
-    ("249th", 0),
-    ("248/129/78", 0),
+    ("248th", 0),  # needle-heal r1064: anti-gate must target the CONSUMED old ordinal face (W258 canon precedent: anti-gate "247th"); the build_editor wrongly rolled the anti-gate onto the NEW face that P5d-ord-owner-prose reps legitimately create x2
+    ("247/129/77", 0),  # needle-heal r1064: anti-gate must target the CONSUMED old error-string face (P5d-ord-err rep legitimately creates "248/129/78 PRE-splice post-W258" x1 as the CURRENT face); build_editor wrongly rolled the anti-gate onto the new face
     ("EIGHTH consecutive above-own-A", 0),
     ("FIRST A-hop", 0),
     ("seed-gap face ENDS", 0),
