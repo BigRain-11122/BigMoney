@@ -187,12 +187,26 @@ def e4_daily_evolution():
             os.path.getmtime(reports[-1])).astimezone()
         latest_age_days = (_now() - mtime).total_seconds() / 86400.0
     fresh = latest_age_days is not None and latest_age_days <= DAILY_STALE_DAYS
+    # G4 PnL-attribution ledger streak (A2, additive evidence only --
+    # verdict semantics unchanged): consecutive latest REPORT-*.md twins
+    # carrying the attribution section marker, counted back from newest.
+    attr_streak = 0
+    for path in reversed(reports):
+        try:
+            txt = open(path, "r", encoding="utf-8", errors="replace").read()
+        except Exception:
+            break
+        if "七、盈亏归因日账（A2 · G4 · 按 sleeve/腿）" in txt:
+            attr_streak += 1
+        else:
+            break
     return {
         "element": "E4_daily_evolution",
         "verdict": "OK" if fresh else "PARTIAL",
         "evidence": {"latest_report": os.path.basename(reports[-1]) if reports else None,
                      "latest_report_age_days": latest_age_days,
-                     "stale_line_days": DAILY_STALE_DAYS},
+                     "stale_line_days": DAILY_STALE_DAYS,
+                     "pnl_attribution_streak_days": attr_streak},
     }
 
 

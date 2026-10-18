@@ -312,6 +312,205 @@ def _core_spread_face(day):
                      "compute_audit parallel_efficiency window merge (r503)"}
 
 
+# --------------------------------------- PnL attribution face (A2 / G4)
+def _series_tail_delta(series):
+    """Day-over-day tail delta from an account's own daily series.
+    Aggregation only (zero new judgments): accepts dict mark rows
+    ({date, equity_cny[, daily_ret]}) or [date, nav] pairs; honest degrade
+    (no_data / first_day) when the series cannot yield a delta."""
+    rows = []
+    last_dict = None
+    for r in series or []:
+        if isinstance(r, dict):
+            d, v = r.get("date"), r.get("equity_cny")
+            if d is not None and v is not None:
+                rows.append((str(d), float(v)))
+                last_dict = r
+        elif isinstance(r, (list, tuple)) and len(r) >= 2:
+            d, v = r[0], r[1]
+            if d is not None and v is not None:
+                rows.append((str(d), float(v)))
+    if not rows:
+        return {"status": "no_data"}
+    asof, eq = rows[-1]
+    if len(rows) < 2:
+        return {"status": "first_day", "asof": asof, "prior": None,
+                "day_pnl_cny": None, "day_ret": None,
+                "equity_cny": round(eq, 2)}
+    pasof, peq = rows[-2]
+    day_ret = None
+    if isinstance(last_dict, dict) and last_dict.get("daily_ret") is not None:
+        day_ret = last_dict.get("daily_ret")
+    elif peq:
+        day_ret = eq / peq - 1.0
+    return {"status": "ok", "asof": asof, "prior": pasof,
+            "day_pnl_cny": round(eq - peq, 2),
+            "day_ret": (round(float(day_ret), 6)
+                        if day_ret is not None else None),
+            "equity_cny": round(eq, 2)}
+
+
+def _top_position(t):
+    """Top |unrealized PnL| open position (existing cumulative face,
+    since-entry -- explicitly NOT a daily figure)."""
+    best = None
+    for p in t.get("open_positions") or []:
+        u = p.get("unrealized_pnl_cny")
+        if u is None:
+            continue
+        if best is None or abs(float(u)) > abs(float(best[1])):
+            best = (p.get("symbol"), float(u))
+    if best is None:
+        return None
+    return {"symbol": best[0], "unrealized_pnl_cny": round(best[1], 2)}
+
+
+_P6_STATUS_LABEL = {"first_day": "首日无前值", "no_data": "缺数据",
+                    "no_prior_export": "前值 export 件缺", "no_equity": "权益面缺"}
+
+
+def _paper6_attribution():
+    """Six in-register paper traders (one trader = one leg): day-over-day
+    equity delta from the dated export chain results/paper_export/export-*
+    .json (T-35 d3 daily twins); honest degrade when the chain is absent."""
+    files = sorted(glob.glob(os.path.join(
+        ROOT, "results", "paper_export", "export-*.json")))
+    if not files:
+        d = _read_json(os.path.join(
+            ROOT, "results", "paper_export", "latest.json")) or {}
+        rows = [{"trader": t.get("trader"),
+                 "equity_cny": ((t.get("capital_cny") or {}).get("equity")),
+                 "day_pnl_cny": None, "day_ret": None, "status": "no_prior_export",
+                 "top_position": _top_position(t)}
+                for t in d.get("traders", [])]
+        return {"rows": rows, "asof": d.get("export_date") or d.get("evidence_cutoff"),
+                "prior": None, "family_day_pnl_cny": None,
+                "note": "无逐日 export 件——前值面缺，如实标注"}
+    latest = _read_json(files[-1]) or {}
+    prior = _read_json(files[-2]) if len(files) >= 2 else None
+    prior_eq = {}
+    if prior:
+        for t in prior.get("traders", []):
+            prior_eq[t.get("trader")] = (t.get("capital_cny") or {}).get("equity")
+    asof = latest.get("export_date") or os.path.basename(files[-1])[7:-5]
+    rows, total = [], 0.0
+    for t in latest.get("traders", []):
+        name = t.get("trader")
+        eq = (t.get("capital_cny") or {}).get("equity")
+        pe = prior_eq.get(name)
+        if eq is None:
+            rows.append({"trader": name, "status": "no_equity",
+                         "status_label": _P6_STATUS_LABEL["no_equity"]})
+            continue
+        if pe is None:
+            rows.append({"trader": name, "equity_cny": round(float(eq), 2),
+                         "day_pnl_cny": None, "day_ret": None,
+                         "status": "no_prior_export",
+                         "status_label": _P6_STATUS_LABEL["no_prior_export"],
+                         "top_position": _top_position(t)})
+            continue
+        pnl = float(eq) - float(pe)
+        total += pnl
+        rows.append({"trader": name, "equity_cny": round(float(eq), 2),
+                     "day_pnl_cny": round(pnl, 2),
+                     "day_ret": (round(float(eq) / float(pe) - 1.0, 6)
+                                 if pe else None),
+                     "status": "ok", "top_position": _top_position(t)})
+    return {"rows": rows, "asof": str(asof),
+            "prior": (prior or {}).get("export_date"),
+            "family_day_pnl_cny": (round(total, 2) if prior else None)}
+
+
+def _marks_family(pattern, family, label):
+    """One account = one leg: per-account day delta from each account file's
+    own marks/nav series; SYSV1 rows additionally carry the frozen route
+    weight face (rev_osc/trend/lowvol/cash) + state from the last mark."""
+    rows, total, asof, missing = [], 0.0, None, 0
+    for f in sorted(glob.glob(pattern)):
+        d = _read_json(f) or {}
+        account = d.get("account") or os.path.basename(f)
+        series = d.get("marks")
+        if series is None:
+            series = d.get("nav_series")
+        info = _series_tail_delta(series)
+        info["account"] = account
+        if family == "SYSV1":
+            last = None
+            for r in (d.get("marks") or []):
+                if isinstance(r, dict):
+                    last = r
+            if last:
+                info["state"] = last.get("state")
+                info["route"] = last.get("route")
+                info["w_eff"] = last.get("w_eff")
+                info["pure_sleeve"] = bool(
+                    last.get("ret") is not None
+                    and last.get("series") is not None
+                    and abs(float(last.get("ret")) - float(last.get("series"))) < 1e-12)
+        if info.get("status") != "ok":
+            missing += 1
+        else:
+            total += info["day_pnl_cny"]
+            if asof is None or str(info.get("asof")) > asof:
+                asof = str(info.get("asof"))
+        rows.append(info)
+    return {"family": family, "label": label, "n": len(rows), "rows": rows,
+            "asof": asof, "family_day_pnl_cny": (round(total, 2)
+                                                 if any(r.get("status") == "ok"
+                                                        for r in rows) else None),
+            "missing_n": missing}
+
+
+def _attribution_face(now):
+    """G4 daily PnL attribution ledger (AUTOMATION-LINE-PLAN-v1 batch A2):
+    which leg made/lost money today. Aggregation only -- day-over-day deltas
+    come from each face's own series (paper-6 export chain, AGGR/GRID/SYSV1
+    marks, ALLOC nav_series); missing data gets honest labels, never
+    fabricated. Marks asof is data-driven (pre-15:30 = prior trading day)."""
+    p6 = _paper6_attribution()
+    families = [
+        _marks_family(os.path.join(ROOT, "results", "aggr_paper", "*_paper.json"),
+                      "AGGR", "进攻族"),
+        _marks_family(os.path.join(ROOT, "results", "alloc_paper", "ALLOC-*.json"),
+                      "ALLOC", "配置族"),
+        _marks_family(os.path.join(ROOT, "results", "grid_paper", "*.json"),
+                      "GRID", "网格族"),
+        _marks_family(os.path.join(ROOT, "results", "system_v1_paper", "*_paper.json"),
+                      "SYSV1", "路由族"),
+    ]
+    grand, n_ok, n_missing = 0.0, 0, 0
+    if p6.get("family_day_pnl_cny") is not None:
+        grand += p6["family_day_pnl_cny"]
+    n_ok += sum(1 for r in p6.get("rows", []) if r.get("status") == "ok")
+    n_missing += sum(1 for r in p6.get("rows", []) if r.get("status") != "ok")
+    asof = p6.get("asof")
+    for fam in families:
+        if fam.get("family_day_pnl_cny") is not None:
+            grand += fam["family_day_pnl_cny"]
+        n_ok += sum(1 for r in fam.get("rows", []) if r.get("status") == "ok")
+        n_missing += fam.get("missing_n") or 0
+        if fam.get("asof") and (asof is None or str(fam["asof"]) > str(asof)):
+            asof = fam["asof"]
+    today = now.strftime("%Y-%m-%d")
+    return {
+        "status": "ok" if (p6.get("rows") or any(f.get("rows") for f in families)) else "no_data",
+        "asof": asof, "report_day": today,
+        "asof_note": (None if asof == today else
+                      "面板 marks asof=%s（当日 bar 未出=前交易日口径，如实标注）" % asof),
+        "paper6": p6,
+        "families": families,
+        "grand_day_pnl_cny": round(grand, 2),
+        "accounts_attributed": n_ok,
+        "accounts_missing": n_missing,
+        "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
+        "leg_note": "六员=一员一腿；AGGR/ALLOC/GRID=一账户一腿；SYSV1=route 腿权重面"
+                    "（rev_osc/trend/lowvol/cash·逐腿收益序列未单列=如实标注）；"
+                    "持仓浮盈 top=自入场累计（非当日）",
+        "canon": "research/AUTOMATION-LINE-PLAN-v1.md batch A2 (G4) · "
+                 "acceptance V2: REPORT 归因节连续 ≥5 交易日（缺数据如实标注合法）",
+    }
+
+
 # ------------------------------------------------ engine-wave face (r594 bm-b)
 def _engine_wave_face():
     """Perpetual N1 engine-wave chain face (J10 line, r594 bm-b): the main
@@ -341,13 +540,15 @@ def build_report(now):
         "token_line": _token_face(),
         "utilization": _utilization_face(now),
         "core_spread": _core_spread_face(now.strftime("%Y-%m-%d")),
+        "pnl_attribution": _attribution_face(now),
         "engine_wave": _engine_wave_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
                        "O-20260928-1614 sec.6 utilization face (T-107)",
                        "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)",
-                       "perpetual N1 engine-wave chain face (J10 r593/r594, monitor/build_status._engine_wave_state)"],
+                       "perpetual N1 engine-wave chain face (J10 r593/r594, monitor/build_status._engine_wave_state)",
+                       "G4 PnL-attribution daily ledger (AUTOMATION-LINE-PLAN-v1 batch A2, <=10-23)"],
     }
 
 
@@ -451,6 +652,68 @@ def render_md(rep):
         L.append(f"- **核分布/并行效率三机对照（T-134 s4 · {cs.get('day')}）**：" + "；".join(parts))
     if cs.get("note"):
         L.append(f"  - {cs.get('note')}")
+    # ---- section 7: PnL attribution daily ledger (A2 / G4)
+    at = rep.get("pnl_attribution") or {}
+
+    def _fm(v):
+        return f"{v:,.2f}" if isinstance(v, (int, float)) else "N/A(缺数据)"
+
+    def _fr(v):
+        return f"{v:+.4%}" if isinstance(v, (int, float)) else "N/A"
+
+    L.append("")
+    L.append("## 七、盈亏归因日账（A2 · G4 · 按 sleeve/腿）")
+    if at.get("status") != "ok":
+        L.append(f"- 归因面未产出：{at.get('asof_note') or '数据面缺——如实标注，禁编数'}")
+    else:
+        if at.get("asof_note"):
+            L.append(f"- **口径**：{at.get('method_note')} · {at.get('asof_note')}")
+        else:
+            L.append(f"- **口径**：{at.get('method_note')}")
+        p6 = at.get("paper6") or {}
+        if p6.get("rows"):
+            seg6 = (f"- **纸盘六员**（asof {p6.get('asof')} · 前值 {p6.get('prior') or '—'}）："
+                    f"日 PnL 合计 {_fm(p6.get('family_day_pnl_cny'))} CNY")
+            note6 = p6.get("note")
+            L.append(seg6 + (f" · {note6}" if note6 else ""))
+            for r in p6.get("rows", []):
+                seg = (f"  - {r.get('trader')}: 日 PnL {_fm(r.get('day_pnl_cny'))}"
+                       f"（{_fr(r.get('day_ret'))}）· 权益 {_fm(r.get('equity_cny'))}")
+                tp = r.get("top_position") or {}
+                if tp.get("symbol"):
+                    seg += (f" · 持仓浮盈 top {tp.get('symbol')} "
+                            f"{_fm(tp.get('unrealized_pnl_cny'))}（自入场累计）")
+                if r.get("status") != "ok":
+                    seg += f" · {r.get('status_label') or '前值缺'}"
+                L.append(seg)
+        for fam in at.get("families") or []:
+            if not fam.get("rows"):
+                continue
+            segf = (f"- **{fam.get('family')} {fam.get('label')}**（{fam.get('n')} 账户 · "
+                    f"asof {fam.get('asof') or '—'}）：日 PnL 合计 "
+                    f"{_fm(fam.get('family_day_pnl_cny'))} CNY")
+            if fam.get("missing_n"):
+                segf += f" · 缺数据 {fam.get('missing_n')} 账户"
+            L.append(segf)
+            for r in fam.get("rows", []):
+                seg = (f"  - {r.get('account')}: 日 PnL {_fm(r.get('day_pnl_cny'))}"
+                       f"（{_fr(r.get('day_ret'))}）· 权益 {_fm(r.get('equity_cny'))}")
+                if r.get("status") != "ok":
+                    seg += " · 首日无前值" if r.get("status") == "first_day" else " · 缺数据"
+                if fam.get("family") == "SYSV1" and r.get("status") == "ok":
+                    rt = r.get("route") or {}
+                    legs = "/".join(f"{k} {v:.0%}" for k, v in rt.items()
+                                    if isinstance(v, (int, float)))
+                    seg += f" · 政体 {r.get('state')} · 路由 {legs}"
+                    if r.get("pure_sleeve"):
+                        seg += "（纯 rev_osc 袖：ret=series）"
+                    if r.get("w_eff") is not None:
+                        seg += f" · w_eff {r.get('w_eff')}"
+                L.append(seg)
+        L.append(f"- **跨族日 PnL 总计**：{_fm(at.get('grand_day_pnl_cny'))} CNY"
+                 f"（可归因账户 {at.get('accounts_attributed')} · 缺数据 {at.get('accounts_missing')}）")
+        if at.get("leg_note"):
+            L.append(f"- 腿级注记：{at.get('leg_note')}")
     L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
@@ -478,6 +741,23 @@ def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
+    global _attribution_face
+    # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
+    d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
+                            {"date": "2026-09-02", "equity_cny": 101.0}])
+    assert d["status"] == "ok" and abs(d["day_pnl_cny"] - 1.0) < 1e-9, d
+    assert d["prior"] == "2026-09-01" and d["asof"] == "2026-09-02"
+    d2 = _series_tail_delta([["2026-09-01", 200.0], ["2026-09-02", 198.0]])
+    assert d2["status"] == "ok" and abs(d2["day_pnl_cny"] - (-2.0)) < 1e-9, d2
+    d3 = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0}])
+    assert d3["status"] == "first_day" and d3["day_pnl_cny"] is None, d3
+    d4 = _series_tail_delta([])
+    assert d4["status"] == "no_data", d4
+    d5 = _series_tail_delta([{"date": "2026-09-02", "equity_cny": 101.0,
+                              "daily_ret": 0.01},
+                             {"date": "2026-09-03", "equity_cny": 102.0,
+                              "daily_ret": 0.0099}])
+    assert abs(d5["day_ret"] - 0.0099) < 1e-9, d5  # stored face preferred
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -545,6 +825,41 @@ def selftest():
                    "shards_done": 12, "shards_total": 12,
                    "finalize_landed": False}],
         "seats": [{"wave": 114, "machine": "bm-a"}]}
+    _attribution_face = lambda now: {
+        "status": "ok", "asof": "2026-09-26", "report_day": "2026-09-26",
+        "asof_note": "面板 marks asof=2026-09-26（当日 bar 未出=前交易日口径，如实标注）",
+        "paper6": {"rows": [
+            {"trader": "T1", "equity_cny": 1001000.0, "day_pnl_cny": 1000.0,
+             "day_ret": 0.001, "status": "ok",
+             "top_position": {"symbol": "511010", "unrealized_pnl_cny": 390.31}},
+            {"trader": "T2", "equity_cny": 999000.0, "day_pnl_cny": None,
+             "day_ret": None, "status": "no_prior_export",
+             "status_label": "前值 export 件缺"}],
+            "asof": "2026-09-26", "prior": "2026-09-25",
+            "family_day_pnl_cny": 1000.0},
+        "families": [
+            {"family": "AGGR", "label": "进攻族", "n": 2, "asof": "2026-09-26",
+             "family_day_pnl_cny": -500.0, "missing_n": 1, "rows": [
+                 {"account": "AGGR-X", "status": "ok", "asof": "2026-09-26",
+                  "prior": "2026-09-25", "day_pnl_cny": -500.0, "day_ret": -0.005,
+                  "equity_cny": 995000.0},
+                 {"account": "AGGR-Y", "status": "first_day", "asof": "2026-09-26",
+                  "prior": None, "day_pnl_cny": None, "day_ret": None,
+                  "equity_cny": 1000000.0}]},
+            {"family": "SYSV1", "label": "路由族", "n": 1, "asof": "2026-09-26",
+             "family_day_pnl_cny": 117.0, "missing_n": 0, "rows": [
+                 {"account": "SYSTEM-V1", "status": "ok", "asof": "2026-09-26",
+                  "prior": "2026-09-25", "day_pnl_cny": 117.0, "day_ret": 0.000117,
+                  "equity_cny": 1000117.0, "state": "ORANGE", "w_eff": 0.3,
+                  "pure_sleeve": False,
+                  "route": {"rev_osc": 0.3, "trend": 0.1, "lowvol": 0.1, "cash": 0.5}}]},
+            {"family": "ALLOC", "label": "配置族", "n": 0, "asof": None,
+             "family_day_pnl_cny": None, "missing_n": 0, "rows": []}],
+        "grand_day_pnl_cny": 617.0, "accounts_attributed": 3,
+        "accounts_missing": 2,
+        "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
+        "leg_note": "六员=一员一腿；AGGR/ALLOC/GRID=一账户一腿；SYSV1=route 腿权重面",
+    }
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -557,12 +872,26 @@ def selftest():
                    "候选产线 · 常青 N1 波链", "链头 610948 runs",
                    "合并池 K 244320", "注册尾 W113（bm-c）",
                    "W111 bm-b 12/12 账落", "W113 bm-c 12/12 账待落",
-                   "已占席 W114（bm-a）", "下一可席 W115"):
+                   "已占席 W114（bm-a）", "下一可席 W115",
+                   "七、盈亏归因日账（A2 · G4 · 按 sleeve/腿）",
+                   "面板 marks asof=2026-09-26（当日 bar 未出=前交易日口径，如实标注）",
+                   "纸盘六员", "日 PnL 合计 1,000.00 CNY",
+                   "T1: 日 PnL 1,000.00（+0.1000%）",
+                   "持仓浮盈 top 511010 390.31（自入场累计）",
+                   "前值 export 件缺",
+                   "AGGR 进攻族", "AGGR-X: 日 PnL -500.00（-0.5000%）",
+                   "AGGR-Y: 日 PnL N/A(缺数据)", "首日无前值", "缺数据 1 账户",
+                   "SYSV1 路由族", "SYSTEM-V1: 日 PnL 117.00",
+                   "路由 rev_osc 30%/trend 10%/lowvol 10%/cash 50%",
+                   "w_eff 0.3", "跨族日 PnL 总计", "617.00 CNY",
+                   "可归因账户 3 · 缺数据 2", "腿级注记"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
     assert rep["live_usage"]["status"] == "ok"
-    print("daily_report selftest: PASS (5 faces + token line + clock cell render)")
+    assert rep["pnl_attribution"]["grand_day_pnl_cny"] == 617.0
+    print("daily_report selftest: PASS (5 faces + token line + clock cell "
+          "+ A2/G4 attribution ledger legs)")
     return 0
 
 
