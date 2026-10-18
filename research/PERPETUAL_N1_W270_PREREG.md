@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1093 W269 §7 范式）
+- 账本恒等式：prev 1,016,135 + batch 2,200 = **1,018,335 EXACT**（science_gates.ledger 机读恒等断言过）；合并池 K：589,720 + 2,200 = **591,920 EXACT**。
+- merged mu = -0.09272692 / merged sigma = 0.24507005 / **se_mu@K591,920 = 0.000319**（对照本波冻结键 W269 0.000319，持平微窄）；W270-only mu = -0.09170727 / sigma = 0.24733906。
+- K-lift 对照：line_pre_w270 = 1.1962 → line_merged@591,920 = 1.1962，delta = **+0.0000**（n_eff held 1,016,135）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同例）。
+- §5 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0010196 / key1b merged-vs-W269键 0.0000038 / key2 sigma rel 3.39e-05 / key3 A p95 delta +0.0110【0.3158→0.3268，双向带内】/ key4 K-lift +0.0000 / key5 se_mu 0.000319≤0.000319 持平微窄）——收据 results/_r1095bmc_w270_fivekeys.json（键=n1_w269_results.json 机读 r587 律·本波预测键冻结于 W269 实测——W269 finalize 起草窗前已落地·活链头基准）。
+- 六门探针：PRE-FINALIZE **ALL PASS 第 33 连续正确相位**（results/_r1095bmc_w270_sixgate.json——splice 完整性 **CR-normalized 恒等** worktree==落链 git blob @ 1c814343e【r1095 bm-c 窗落的 splice·CLEAN-AT-BIRTH 第 3 代：r1076 家族 setwave 缺陷在出生站被 derive editor p3_setwave_rootcure rep + phase5 presence gates 预防（_set_wave(270):1/_set_wave(269):0/_set_wave(268):0 段内过闸）·零外科愈合·零 post_splice_heals 面——r1088 根治律代际持守第 3 证】；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2【base=609301 span=2000 / base=611301 span=200】；wave_configs 行四面【对齐·engine_owner=bm-c】）。
+- audit 段：machine=bm-c，finalize_only；shards_consumed=["shard-0-of-12.json", "shard-1-of-12.json", "shard-10-of-12.json", "shard-11-of-12.json", "shard-2-of-12.json", "shard-3-of-12.json", "shard-4-of-12.json", "shard-5-of-12.json", "shard-6-of-12.json", "shard-7-of-12.json", "shard-8-of-12.json", "shard-9-of-12.json"]；preregistered_doc=research/PERPETUAL_N1_W270_PREREG.md；evidence_cutoff=2026-09-22（P-5C 冻结窗同窗律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W271+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1093 W269 §8 范式）
+- §5.5 W271+ 投影承接机证（finalize 产物 preregistered_doc 面机读）：W270 注册宇宙已落地（A 609_301..611_300 + B 611_301..611_500，本波冻结收据_w270bmc_freeze_receipt.json）——W271 A naive 起点 611_301 落在注册 W270 B 带 611_301..611_500 内（staircase-affects-A 承接延续·收据 downstream_seat 面预投影·20th/19th 计数以活链重 derive 为准勿转录）；B own-A reservation cascade 预期同样上移（post-W270 宇宙活链重 derive 决定·勿假设 A-base==prior-B-tail+1 或 B-base==own-A-tail+1 相等式·E36 卡/W141 先例）；**W271 seat=next free number·下一冻结方必须 seat-first 发布且在 post-W270 宇宙上重 derive**（勿转录 r587）。
+- 宝藏与方法论捕获问：本批零新宝藏入册零新方法论卡——setwave CLEAN-AT-BIRTH 面（r1076 家族缺陷在出生站被 derive editor 闸预防·零愈合·代际持守第 3 证）属 r1088 根治律（CEO 缺陷出生地律 2026-10-16 执法）的持守验证，非新方法论卡；本窗 derive editor 1 项披露 heal（gone 清单同族 1 面：_w269bmc_ 生产者新值=谱系模板 rep 再生产面——由 fail-closed 计数闸在编辑器期拦截·写盘前·零盘污零内容缺陷）为携带面出生站修正（零功能影响·editor 头注 + commit message 双面承载）。
+- 诚实披露面：(1) W270 splice 由 r1095 窗执行落链 1c814343e（本窗六门在 clean-at-birth 面上全绿+finalize one-pass+fivekeys 6/6 同窗正确相位执行——六门 PRE-FINALIZE 相位律继续成立）；(2) r1095 derive editor 1 项同族 gone-list heal 已披露（编辑器期 fail-closed 拦截·零盘污·头注+commit message 双面承载）；(3) 本波预测键冻结于 W269 实测（起草窗前 W269 finalize 已落地·活链头基准·§5 头注记）；(4) 引擎 dedup W270 local/remote 12/12 完备（本窗六门 shards 12/12 实测+splice 推送 1c814343e 落链）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W270 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W269 own-wave finalize 已落地=席位时即解锁（n1_w269_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
