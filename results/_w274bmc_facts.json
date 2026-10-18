@@ -1,0 +1,179 @@
+{
+ "w273_prereg_commit": "839441a547",
+ "w273_prereg_blob": "9b56779c8ec9ae54d41aeca862b7d18d94f479d1",
+ "w273_prereg_ts": "2026-10-18 23:21:12 +0800",
+ "w273_prereg_subject": "round 1102: W273 PREREG FREEZE (bm-c) -- E63 canon-clone builder _r1102bmc_build_w273_derive.py (dead-r1102-predecessor facts script _r1102bmc_facts_gather.py r",
+ "head_tpl_blob": "7a57ab1f3d3368ca9150f602274d921f5ef318d7",
+ "w273_prereg_size": 23449,
+ "w273_prereg_sha256_16": "2f289446a93fa102",
+ "w273_prereg_sha256_full": "2f289446a93fa102ab3bc7fcd5230d954bbaf689d7587ef66595b9c7d258cb68",
+ "frozen_face_written": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_w274bmc_w273_frozen_face.txt",
+ "ts_w273_splice": "2026-10-19 00:20:20 +0800",
+ "ts_w273_burn1": "2026-10-19 00:18:30 +0800",
+ "ts_w273_burn2": "2026-10-19 00:23:09 +0800",
+ "ts_w273_finalize_estate": "2026-10-19 00:39:01 +0800",
+ "ts_w274_seat": "2026-10-19 01:03:27 +0800",
+ "ts_r1102_closeout": "2026-10-19 01:09:18 +0800",
+ "n1_w273_landed_by": "6659a0e362",
+ "w274_prereg_on_origin": "",
+ "w275_prereg_on_origin": "",
+ "w274_prereg_worktree_exists": false,
+ "seat_files": [
+  "fleet/inbox/MSG-20261019-012x-bmc-w274-seat.md",
+  "results/_r1102bmc_build_w274_probe.py",
+  "results/_w274bmc_20261019_probe.py",
+  "results/_w274bmc_20261019_probe_receipt.json"
+ ],
+ "seat_msg_initial_path": "fleet/inbox/MSG-20261019-012x-bmc-w274-seat.md",
+ "seat_msg_name": "MSG-20261019-012x-bmc-w274-seat.md",
+ "seat_msg_current_path": "fleet/inbox/MSG-20261019-012x-bmc-w274-seat.md",
+ "seat_msg_landed_by": "70b21a0264",
+ "rcp_verdict": "ADMIT",
+ "rcp_bands": {
+  "A": [
+   618101,
+   620100
+  ],
+  "B": [
+   620101,
+   620300
+  ],
+  "a_lo": 618101,
+  "a_hi": 620100,
+  "b_lo": 620101,
+  "b_hi": 620300
+ },
+ "rcp_seed_admit": null,
+ "rcp_hops": {},
+ "rcp_relation_asserts": null,
+ "rcp_projection_leg4": null,
+ "fk_top_keys": [
+  "machine",
+  "wave",
+  "phase",
+  "results_file",
+  "keys_anchor",
+  "merged",
+  "w273_only",
+  "skill_line",
+  "a_band",
+  "checks",
+  "all_pass",
+  "ledger_identity",
+  "merged_k_identity",
+  "keys_source",
+  "canon_flip"
+ ],
+ "fk_merged": {
+  "k": 598520,
+  "mu": -0.09278821626679142,
+  "sigma": 0.24510974987645237,
+  "se_mu_k598520": 0.000317
+ },
+ "fk_a_band": {
+  "full_sharpe_p95": 0.3124,
+  "full_sharpe_p99": 0.4822
+ },
+ "fk_skill_line": {
+  "n_eff_held": 1022735,
+  "line_pre_w273": 1.1966,
+  "line_merged_598520": 1.1967,
+  "k_lift_delta": 0.0001
+ },
+ "fk_ledger_identity": {
+  "prev_total": 1022735,
+  "batch_trials": 2200,
+  "total": 1024935,
+  "exact": true
+ },
+ "fk_checks": [
+  {
+   "name": "key1_w273_vs_merged_mu_gap",
+   "value": 0.0022327837332085793,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w272_key",
+   "value": 8.237396386265305e-06,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 5.6856233562616234e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": -0.0014000000000000123,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000317,
+   "band": 0.000317,
+   "pass": true
+  }
+ ],
+ "fk_all_pass": true,
+ "fk_only_face_w273_only": {
+  "mu": -0.095021,
+  "sigma": 0.24890470222793665
+ },
+ "res_top_keys": [
+  "batch",
+  "generated",
+  "preregistered_doc",
+  "law_ref",
+  "evidence_cutoff",
+  "science_gates",
+  "universe",
+  "families",
+  "null_pool_cumulative",
+  "skill_line_v2_k_lift",
+  "shards_consumed",
+  "audit"
+ ],
+ "res_skill_line_v2_k_lift": {
+  "n_eff_held_equal": 1022735,
+  "line_pre_w273": 1.1966,
+  "line_merged_598520": 1.1967,
+  "line_delta_k_lift": 0.0001,
+  "passive_term": null,
+  "formula": "max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))",
+  "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+ },
+ "res_null_pool_keys": [
+  "canon",
+  "pre_w273_cumulative",
+  "w273_only",
+  "merged",
+  "mu_delta_w273_vs_w272ext",
+  "se_mu_at_k598520"
+ ],
+ "res_se_mu_faces": {
+  "se_mu_at_k598520": 0.000317
+ },
+ "res_w272_se_mu_at_k596320": 0.000317,
+ "sg_top_keys": [
+  "machine",
+  "wave",
+  "phase",
+  "gates",
+  "ledger_pre",
+  "verdict"
+ ],
+ "sg_all_pass": null,
+ "engine_rc": 0,
+ "engine_stdout_head": "{\n \"machine_id\": \"bm-c\",\n \"state_present\": true,\n \"alive_flag\": true,\n \"heartbeat_epoch\": 1792344042,\n \"heartbeat_age_s\": 57.681227684020996,\n \"burns_active\": [],\n \"queue_next\": [],\n \"wave_shards_done\": {\n  \"2\": 12,\n  \"3\": 12,\n  \"4\": 12,\n  \"5\": 12,\n  \"6\": 12,\n  \"7\": 12,\n  \"8\": 12,\n  \"9\": 12,\n  \"10\": 12,\n  \"11\": 12,\n  \"12\": 12,\n  \"13\": 12,\n  \"14\": 12,\n  \"16\": 12,\n  \"17\": 12,\n  \"18\": 12,\n  \"19\": 12,",
+ "ram_available_gb": 4.8
+}
