@@ -7,6 +7,13 @@
 # receipt-closure automation; loop wiring = Tools/iteration_loop.ps1
 # round-start leg, best-effort).
 #
+# r1053 bm-a extension: two-face parity gate (exit 4) -- reads the state
+# ledger face (state.json for bm-b / state-<id>.json otherwise, S5 law)
+# in addition to the heartbeat and fails on O-*.md acks present in only
+# one face. Birth defect = r1052 pit: a closeout appended the state face
+# but missed the heartbeat, planting a false P0 debt at next round start.
+# Canonical two-face writer = Tools/orders_ack_append.py (same window).
+#
 # Law map:
 #   - FLEET-OPS.md sec.3: receipt closure = heartbeat orders_ack records the
 #     newest processed O file; unacked orders are P0 dispatch debt.
@@ -26,10 +33,17 @@
 #               renamed/retired upstream, not a missed dispatch.
 #   README.md / non-O entries in the ack list are ignored (the diff face
 #   is O-*.md only).
+#   face_divergence = O-*.md acks present in exactly one of the two ack
+#               faces (state ledger vs heartbeat) -- the r1052 pit face:
+#               a closeout that appends one face but misses the other
+#               plants a false P0 debt (or a false CLEAN). Gate since
+#               r1053: exit 4 when the two faces disagree (canonical
+#               append tool = Tools/orders_ack_append.py).
 #
 # Exit codes:
-#   0 = zero unacked (stale acks disclosed as soft notes)
+#   0 = zero unacked, faces agree (stale acks disclosed as soft notes)
 #   3 = unacked orders found (names printed + JSON face for the session)
+#   4 = two-face asymmetry (face_divergence nonempty / state face fault)
 #   2 = mechanism fault (machine.json / heartbeat / orders dir missing)
 #
 # selftest: offline fixtures (temp trees) for all legs, no writes to the
@@ -101,8 +115,41 @@ def scan(base_dir):
     v["unacked"] = [f for f in files if f not in ack_set]
     v["stale_acks"] = sorted(a for a in ack
                             if O_NAME_RE.match(a) and a not in set(files))
+    # two-face parity gate (r1053): O-*.md acks must sit in BOTH the
+    # state ledger face and the heartbeat face (r1052 pit law; canonical
+    # writer = Tools/orders_ack_append.py). Divergence -> exit 4.
+    spath = os.path.join(base_dir, "state.json") \
+        if v["machine_id"] == "bm-b" \
+        else os.path.join(base_dir, "state-%s.json" % v["machine_id"])
+    v["state_face"] = os.path.basename(spath)
+    if not os.path.isfile(spath):
+        v["face_divergence_error"] = "state face missing: %s" % spath
+        if v["unacked"]:
+            return v, 3
+        return v, 4
+    try:
+        with open(spath, encoding="utf-8") as fh:
+            sack = json.load(fh).get("orders_ack", [])
+    except Exception as ex:
+        v["face_divergence_error"] = "state face unreadable: %s" % ex
+        if v["unacked"]:
+            return v, 3
+        return v, 4
+    if not isinstance(sack, list):
+        v["face_divergence_error"] = "state face orders_ack is not a list"
+        if v["unacked"]:
+            return v, 3
+        return v, 4
+    heart_o = set(a for a in ack if O_NAME_RE.match(a))
+    state_o = set(a for a in sack if O_NAME_RE.match(a))
+    v["state_ack_count"] = len(sack)
+    div = {"heart_only": sorted(heart_o - state_o),
+           "state_only": sorted(state_o - heart_o)}
+    v["face_divergence"] = div
     if v["unacked"]:
         return v, 3
+    if div["heart_only"] or div["state_only"]:
+        return v, 4
     return v, 0
 
 
@@ -122,20 +169,35 @@ def main(argv):
         v["face_write_error"] = str(ex)
     print(json.dumps({k: v[k] for k in
                       ("machine_id", "orders_count", "ack_count",
-                       "unacked", "stale_acks", "error")
+                       "unacked", "stale_acks", "state_ack_count",
+                       "face_divergence", "face_divergence_error",
+                       "error")
                       if k in v}, ensure_ascii=False))
     if rc == 3:
         print("UNACKED ORDERS (P0 dispatch debt, FLEET-OPS sec.3):")
         for f in v["unacked"]:
             print("  " + f)
+    elif rc == 4:
+        print("FACE DIVERGENCE (r1052 pit face; canonical writer = "
+              "Tools/orders_ack_append.py):")
+        for k in ("face_divergence_error",):
+            if k in v:
+                print("  %s: %s" % (k, v[k]))
+        div = v.get("face_divergence") or {}
+        for f in div.get("heart_only", []):
+            print("  heart_only: " + f)
+        for f in div.get("state_only", []):
+            print("  state_only: " + f)
     elif rc == 0:
         print("orders_ack scan CLEAN (%d orders, %d acks, %d stale notes)"
               % (v["orders_count"], v["ack_count"], len(v["stale_acks"])))
     return rc
 
 
-def _mk_fixture(root, machine_id, orders, ack):
-    """Build a minimal fleet tree for offline legs."""
+def _mk_fixture(root, machine_id, orders, ack, state_ack=None,
+                 state_name=None):
+    """Build a minimal fleet tree for offline legs. state_ack defaults to
+    ack (faces agree); state_name defaults to the S5 per-machine face."""
     os.makedirs(os.path.join(root, "fleet", "machines"), exist_ok=True)
     os.makedirs(os.path.join(root, "fleet", "orders"), exist_ok=True)
     with open(os.path.join(root, "fleet", "machine.json"), "w",
@@ -145,6 +207,13 @@ def _mk_fixture(root, machine_id, orders, ack):
                            machine_id + ".json"), "w",
               encoding="utf-8") as fh:
         json.dump({"orders_ack": ack}, fh)
+    if state_name is None:
+        state_name = "state.json" if machine_id == "bm-b" \
+            else "state-%s.json" % machine_id
+    if state_name != ":absent:":
+        with open(os.path.join(root, state_name), "w", encoding="utf-8") as fh:
+            json.dump({"orders_ack": ack if state_ack is None else state_ack},
+                      fh)
     for name in orders:
         with open(os.path.join(root, "fleet", "orders", name), "w",
                   encoding="utf-8") as fh:
@@ -222,6 +291,50 @@ def selftest():
             not bool(O_NAME_RE.match("PO-1.md"))
         legs.append(("L8 name regex boundary", ok))
         print("%-58s %s" % ("L8 name regex boundary", "PASS" if ok else "FAIL"))
+        # L9 (r1053 gate): heartbeat-only ack -> face divergence, exit 4.
+        f9 = os.path.join(tmp, "L9")
+        _mk_fixture(f9, "bm-x", ["O-1.md"],
+                    ["O-1.md", "O-3.md"], state_ack=["O-1.md"])
+        v, rc = scan(f9)
+        leg("L9 heart-only ack -> exit 4 divergence", 4, rc,
+            "div=%s" % (v.get("face_divergence"),))
+        ok = v.get("face_divergence") == {"heart_only": ["O-3.md"],
+                                          "state_only": []}
+        legs.append(("L9b exact divergence set", ok))
+        print("%-58s %s heart_only==[O-3.md]"
+              % ("L9b exact divergence set", "PASS" if ok else "FAIL"))
+        # L10 (r1053 gate): state-only ack -> exit 4 (false-CLEAN face).
+        f10 = os.path.join(tmp, "L10")
+        _mk_fixture(f10, "bm-x", ["O-1.md"],
+                    ["O-1.md"], state_ack=["O-1.md", "O-4.md"])
+        v, rc = scan(f10)
+        leg("L10 state-only ack -> exit 4 divergence", 4, rc,
+            "div=%s" % (v.get("face_divergence"),))
+        ok = v.get("face_divergence") == {"heart_only": [],
+                                          "state_only": ["O-4.md"]}
+        legs.append(("L10b exact divergence set", ok))
+        print("%-58s %s state_only==[O-4.md]"
+              % ("L10b exact divergence set", "PASS" if ok else "FAIL"))
+        # L11: unacked beats divergence (P0 debt face first, exit 3).
+        f11 = os.path.join(tmp, "L11")
+        _mk_fixture(f11, "bm-x", ["O-1.md", "O-2.md"],
+                    ["O-1.md"], state_ack=["O-1.md", "O-9.md"])
+        v, rc = scan(f11)
+        leg("L11 unacked precedence over divergence", 3, rc,
+            "unacked=%s" % v["unacked"])
+        # L12: state face absent -> exit 4 with disclosure.
+        f12 = os.path.join(tmp, "L12")
+        _mk_fixture(f12, "bm-x", ["O-1.md"], ["O-1.md"],
+                    state_name=":absent:")
+        v, rc = scan(f12)
+        leg("L12 state face absent -> exit 4", 4, rc,
+            "err=%s" % v.get("face_divergence_error"))
+        # L13: bm-b naming law (state face = state.json).
+        f13 = os.path.join(tmp, "L13")
+        _mk_fixture(f13, "bm-b", ["O-1.md"], ["O-1.md"])
+        v, rc = scan(f13)
+        leg("L13 bm-b state face = state.json, clean", 0, rc,
+            "state_face=%s" % v.get("state_face"))
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
