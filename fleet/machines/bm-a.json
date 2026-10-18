@@ -18,7 +18,7 @@
  "gpu_source_note": "idle_trigger face 2026-10-18 (CEO weekend machine, llm-mode resident honest)",
  "gpu_total_vram_mb": 12282,
  "health": "green",
- "heartbeat_epoch_utc": 1792303353,
+ "heartbeat_epoch_utc": 1792303479,
  "heartbeat_epoch_utc_type_int": true,
  "hostname": "DASHENG",
  "idle_ram_gb": 51.5,
@@ -42,7 +42,7 @@
  "last_round_closed": "2026-10-18T14:02:33+08:00",
  "last_round_ts": "2026-10-18T14:02:33+08:00",
  "last_run": "2026-10-18T14:02:33+08:00",
- "last_seen": "2026-10-18T14:02:33+08:00",
+ "last_seen": "2026-10-18T14:04:39+08:00",
  "latest_artifact": "scripts/dual_thermo_probe.py + results/dual_thermo/{dual_thermo.csv,dual_thermo.json} + research/digests/DIGEST-20261018-e19-dual-thermo.md + state/queue/explore.md E19 行 + results/_r1057bma_s6chain_rc.log + _r1057bma_s6chain.ps1 + results/_r1057bma_e19_append.py",
  "loop_round": 1052,
  "machine_id": "bm-a",
@@ -176,10 +176,10 @@
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
  "push_verified": {
-  "ts": "2026-10-18T12:20:18+08:00",
-  "origin_tip": "7d515de7bc15b212ee3f74491c5212a019f1a996",
+  "ts": "2026-10-18T14:04:39+08:00",
+  "origin_tip": "6b956f2498",
   "ahead_behind": "0/0",
-  "note": "r1055 closeout delivered (7d515de7bc); ls-tree 4/5 key origin artifacts; rc.log=gitignored local evidence (*.log rule); postscript report line + sync faces ride next push (next-round S0 re-verify)"
+  "note": "r1057 push race-resolved: origin advanced mid-window (bm-c r1091 W268 five-face splice 8bc7ac759e + 2 satengine ledger appends) -> rebase clean zero-UU -> delivered 6b956f2498; fetch+ls-tree 11/11 origin-eligible artifacts verified (12th = results/_r1057bma_s6chain_rc.log blanket-*.log gitignored local evidence per r1054 face); local-unpushed=0; W269 stays GATED on W268 finalize (bm-c next)"
  },
  "ram_acceptance_note": "ram accept per free_gb face",
  "ram_free_gb": 47.2,
@@ -191,16 +191,16 @@
  "round": 1055,
  "round_no": 1057,
  "sync": {
-  "ts": "2026-10-18T12:20:18+08:00",
-  "origin_tip": "7d515de7bc15b212ee3f74491c5212a019f1a996",
+  "ts": "2026-10-18T14:04:39+08:00",
+  "origin_tip": "6b956f2498",
   "ahead_behind": "0/0",
-  "note": "r1055 closeout push 7d515de7bc delivered; fetch+ls-tree self-verified (4/5 origin artifacts; 5th=results/_r1055bma_s6chain_rc.log blanket-*.log gitignored local evidence per r1053/r1054 face); report-line commit follows"
+  "note": "r1057 push race-resolved: origin advanced mid-window (bm-c r1091 W268 five-face splice 8bc7ac759e + 2 satengine ledger appends) -> rebase clean zero-UU -> delivered 6b956f2498; fetch+ls-tree 11/11 origin-eligible artifacts verified (12th = results/_r1057bma_s6chain_rc.log blanket-*.log gitignored local evidence per r1054 face); local-unpushed=0; W269 stays GATED on W268 finalize (bm-c next)"
  },
  "tailnet_ip": "100.110.185.62",
  "tailnet_note": "in-tailnet since 09-29 (O-1815); re-verified r799 per O-20261006-2358 P0; C endpoint 100.123.74.104:11434/api/tags HTTP 200",
  "task": "r1057: E19 dual-thermo probe landed (2-point product) + W269 GATED held + D-19 advanced",
  "total_ram_gb": 93.6,
- "ts": "2026-10-18T14:02:33+08:00",
+ "ts": "2026-10-18T14:04:39+08:00",
  "updated": "2026-10-18T14:02:33+08:00",
  "updated_at": "2026-10-18T14:02:33+08:00",
  "verdict": "GREEN: r1057: 产出轮全绿——E19 双温度计对照探针实物落地（探针+22 行证据+digest+队列出列=产品增量 2 分）+D-19 orders advance 恒等+W269 GATED 零抢跑+S6 43 腿全绿+smoke 49/49+idle --worked",
