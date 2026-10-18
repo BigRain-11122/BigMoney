@@ -72,7 +72,15 @@ def now_iso():
 
 def log(msg):
     line = '%s %s' % (now_iso(), msg)
-    print(line, flush=True)  # -u + flush law (r680)
+    try:
+        print(line, flush=True)  # -u + flush law (r680)
+    except UnicodeEncodeError:
+        # inherited-stdout GBK face (detached carrier without PYTHONIOENCODING):
+        # never let a print kill the phase; the file write below is the truth face
+        try:
+            print(line.encode('gbk', errors='replace').decode('gbk'), flush=True)
+        except Exception:
+            pass
     try:
         with io.open(LOG, 'a', encoding='utf-8') as f:
             f.write(line + '\n')
@@ -371,6 +379,11 @@ PHASE_FN = {'venv': phase_venv, 'torch': phase_torch, 'deps': phase_deps,
 
 
 def do_run():
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
     prior = rd_status()
     st = wr_status({'schema': 'gpt-sovits-env-v1', 'state': 'running', 'pid': os.getpid(),
                    'started_at': now_iso(), 'phases_done': prior.get('phases_done', []),

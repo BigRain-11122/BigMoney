@@ -1,0 +1,88 @@
+2026-10-19T03:51:31 === PHASE deps ===
+2026-10-19T03:51:31 RUN C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Scripts\python.exe -m pip install --disable-pip-version-check -r ...
+2026-10-19T03:51:32   | Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+2026-10-19T03:51:32   | Requirement already satisfied: faster-whisper in c:\fluxgroup\fluxgroup\media\drama-tools\gpt-sovits\runtime\lib\site-packages (from -r C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\extra-req.txt (line 1)) (1.2.1)
+2026-10-19T03:51:32 RC=0
+2026-10-19T03:51:32 requirements directive dropped (source-build needs MSVC): ['--no-binary=opencc']
+2026-10-19T03:51:32 RUN C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Scripts\python.exe -m pip install --disable-pip-version-check -r ...
+2026-10-19T03:51:48   |     No CMAKE_CXX_COMPILER could be found.
+2026-10-19T03:51:48   |   
+2026-10-19T03:51:48   |   
+2026-10-19T03:51:48   |   
+2026-10-19T03:51:48   |   -- Configuring incomplete, errors occurred!
+2026-10-19T03:51:48   |   CMake is in the system path. Version:               cmake version 4.4.4
+2026-10-19T03:51:48   |   
+2026-10-19T03:51:48   |   CMake suite maintained and supported by Kitware (kitware.com/cmake).
+2026-10-19T03:51:48   |   Traceback (most recent call last):
+2026-10-19T03:51:48   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 353, in <module>
+2026-10-19T03:51:48   |       main()
+2026-10-19T03:51:48   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 335, in main
+2026-10-19T03:51:48   |       json_out['return_val'] = hook(**hook_input['kwargs'])
+2026-10-19T03:51:48   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:51:48   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 118, in get_requires_for_build_wheel
+2026-10-19T03:51:48   |       return hook(config_settings)
+2026-10-19T03:51:48   |              ^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:51:48   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-s0cdp81c\overlay\Lib\site-packages\setuptools\build_meta.py", line 333, in get_requires_for_build_wheel
+2026-10-19T03:51:48   |       return self._get_build_requires(config_settings, requirements=[])
+2026-10-19T03:51:48   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:51:48   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-s0cdp81c\overlay\Lib\site-packages\setuptools\build_meta.py", line 301, in _get_build_requires
+2026-10-19T03:51:48   |       self.run_setup()
+2026-10-19T03:51:48   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-s0cdp81c\overlay\Lib\site-packages\setuptools\build_meta.py", line 317, in run_setup
+2026-10-19T03:51:48   |       exec(code, locals())  # noqa: S102 # exec is intentional here
+2026-10-19T03:51:48   |       ^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:51:48   |     File "<string>", line 105, in <module>
+2026-10-19T03:51:48   |     File "C:\Program Files\Python311\Lib\subprocess.py", line 502, in check_returncode
+2026-10-19T03:51:48   |       raise CalledProcessError(self.returncode, self.args, self.stdout,
+2026-10-19T03:51:48   |   subprocess.CalledProcessError: Command '['cmake', '..']' returned non-zero exit status 1.
+2026-10-19T03:51:48   |   [end of output]
+2026-10-19T03:51:48   |   
+2026-10-19T03:51:48   |   note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-10-19T03:51:48   | error: subprocess-exited-with-error
+2026-10-19T03:51:48   | 
+2026-10-19T03:51:48   | Getting requirements to build wheel did not run successfully.
+2026-10-19T03:51:48   | exit code: 1
+2026-10-19T03:51:48   | 
+2026-10-19T03:51:48   | See above for output.
+2026-10-19T03:51:48   | 
+2026-10-19T03:51:48   | note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-10-19T03:51:48 RC=1 (fail)
+2026-10-19T03:51:48 stripped failing pkg (will note in receipt): pyopenjtalk
+2026-10-19T03:51:48 RUN C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Scripts\python.exe -m pip install --disable-pip-version-check -r ...
+2026-10-19T03:53:09   |   Building wheel for antlr4-python3-runtime (pyproject.toml): finished with status 'done'
+2026-10-19T03:53:09   |   Created wheel for antlr4-python3-runtime: filename=antlr4_python3_runtime-4.9.3-py3-none-any.whl size=144613 sha256=8e2951427b1dbee44d8305bad25cbc7ea981cc0bf85a57cc9f5418cb7974b056
+2026-10-19T03:53:09   |   Stored in directory: c:\users\administrator\appdata\local\pip\cache\wheels\b7\1a\64\f0dc37c50c3c337e906abf4eb29393c3f72add010ab48881b5
+2026-10-19T03:53:09   |   Building wheel for oss2 (pyproject.toml): started
+2026-10-19T03:53:09   |   Building wheel for oss2 (pyproject.toml): finished with status 'done'
+2026-10-19T03:53:09   |   Created wheel for oss2: filename=oss2-2.19.1-py3-none-any.whl size=124053 sha256=754354b38fbbebdcf4ea7a11689087e04cb4c40b78ce6eb2d62d3f2dac859a40
+2026-10-19T03:53:09   |   Stored in directory: c:\users\administrator\appdata\local\pip\cache\wheels\7d\5d\8b\d7b4b43a92cedb7f177914e7d49bc0597ed82e4b9b2be28019
+2026-10-19T03:53:09   |   Building wheel for crcmod (pyproject.toml): started
+2026-10-19T03:53:09   |   Building wheel for crcmod (pyproject.toml): finished with status 'done'
+2026-10-19T03:53:09   |   Created wheel for crcmod: filename=crcmod-1.7-py3-none-any.whl size=18948 sha256=dfae25e5d914fbbf82a5c34ff0aa9942e8e2327c0b9bee9fa7ffe918f72d06dd
+2026-10-19T03:53:09   |   Stored in directory: c:\users\administrator\appdata\local\pip\cache\wheels\47\4c\3b\5666b51fd4c25aec36c428ecf7368ea0a90f1cfcc82d4bd0ba
+2026-10-19T03:53:09   | Successfully built jieba distance antlr4-python3-runtime oss2 crcmod
+2026-10-19T03:53:09   | Failed to build jieba_fast
+2026-10-19T03:53:09   |   error: subprocess-exited-with-error
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |   Building wheel for jieba_fast (pyproject.toml) did not run successfully.
+2026-10-19T03:53:09   |   exit code: 1
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |   [16 lines of output]
+2026-10-19T03:53:09   |   C:\Users\Administrator\AppData\Local\Temp\pip-build-env-6vsbos55\overlay\Lib\site-packages\setuptools\dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2026-10-19T03:53:09   |   !!
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |           ********************************************************************************
+2026-10-19T03:53:09   |           Please consider removing the following classifiers in favor of a SPDX license expression:
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |           License :: OSI Approved :: MIT License
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2026-10-19T03:53:09   |           ********************************************************************************
+2026-10-19T03:53:09   |   
+2026-10-19T03:53:09   |   !!
+2026-10-19T03:53:09   |     self._finalize_license_expression()
+2026-10-19T03:53:09   |   jieba_fast_functions_wrap_py3_wrap.c
+2026-10-19T03:53:09 PHASE deps EXC 'gbk' codec can't encode character '\ufffd' in position 96: illegal multibyte sequence
+2026-10-19T03:53:09 DRIVER STOP at phase deps (honest fail; status face carries state)
+a_fast_functions_wrap_py3_wrap.c
+2026-10-19T03:53:09 PHASE deps EXC 'gbk' codec can't encode character '\ufffd' in position 96: illegal multibyte sequence
+2026-10-19T03:53:09 DRIVER STOP at phase deps (honest fail; status face carries state)
