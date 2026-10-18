@@ -1,12 +1,12 @@
 {
- "ts": "2026-10-18T13:49:53+08:00",
+ "ts": "2026-10-18T14:21:25+08:00",
  "cmd": "update",
  "advance": true,
  "state_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\state-bm-a.json",
- "action": "advanced",
+ "action": "noop",
  "changed": {
   "decisions": false,
-  "orders": true
+  "orders": false
  },
  "reasons": [],
  "err": null,
@@ -17,37 +17,17 @@
  "heartbeat_sync": {
   "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-a.json",
   "synced": {
-   "last_orders_sha": {
-    "from": "af206ff3084af3445506585f5a3c7501af46b6a574c0a926f5426631c39a6a6a",
-    "to": "5d871243e9e85a6b543ba156a790fe5613e64fdfd7332c740e2176ee4ff1e58a"
-   },
-   "last_decisions_sha": {
-    "from": "0ad85a305830dc2f43c8be7db1ccecf2ef2078a3b55224cf7aecca74db51340c",
-    "to": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0"
-   },
    "last_orders_read_at": {
-    "from": "2026-10-18T10:22:05+08:00",
-    "to": "2026-10-18T13:49:53+08:00"
+    "from": "2026-10-18T14:02:33+08:00",
+    "to": "2026-10-18T14:21:25+08:00"
    },
    "last_decisions_read_at": {
-    "from": "2026-10-18T10:22:05+08:00",
-    "to": "2026-10-18T13:49:53+08:00"
-   },
-   "last_orders_at": {
-    "from": "2026-10-18T10:22:05+08:00",
-    "to": "2026-10-18T13:25:30+08:00"
-   },
-   "last_decisions_at": {
-    "from": "2026-10-18T10:22:05+08:00",
-    "to": "2026-10-18T13:25:30+08:00"
+    "from": "2026-10-18T14:02:33+08:00",
+    "to": "2026-10-18T14:21:25+08:00"
    },
    "last_orders_seen": {
-    "from": "r1052: ord af206ff3->a62af296 advance consumed (10:04 memory-gov CEO-order-2 supplemental row: CEO-DIRECTION-BRIEF continuity package; executed(bm-a memory-gov seat) + dispatched(@bm-b/@bm-c receipts<=2026-10-25); zero new BigMoney-loop obligation)",
-    "to": "r1056: ord 9a1771f3->7e21f211 advance consumed (V5.5/V5.6 row + 12:4x self-audit order; zero BigMoney loop obligation)"
-   },
-   "last_decisions_seen": {
-    "from": "r1052: dec 0ad85a30 hold (probe zero-delta; advance read-back agree)",
-    "to": "r1056: dec 4cfdd17c hold (probe zero-delta)"
+    "from": "r1057: ord 7e21f211->5d871243 advance consumed (both rows BigStream lane, zero BigMoney obligation)",
+    "to": "r1057: ord 7e21f211->5d871243 advance consumed (41-curve accel re-link + 13:5x local-compute-first order; both BigStream lane zero BigMoney loop obligation)"
    }
   },
   "readback_ok": true,
