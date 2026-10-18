@@ -1,0 +1,6 @@
+- 依据：CEO 今晚亲令「我已经换好1200W电源了，把我这台电脑显卡CPU什么的都设置的激进一点」；O-20261015-0906-bm-b §4（换电源装机后自动恢复满性能）；C-20261014-01-fleet-fullload-bill §3（换 750W 金牌电源后自动恢复——1200W 已超线）。
+  1. PSU：550W→1200W（CEO 实装；断电案物理根因闭环，C-20261014-01 §1 表 bm-b 行 🟦安全停车→解除）。
+  2. GPU 功耗墙：239.80 W（=240 上限-0.2，nvidia-smi 实证；180W 时代结束）。GPU-PowerCap-180W-Boot/Hourly 任务已不存在（前任会话清理），本会话幂等重申。
+  3. 新增 GPU-PowerMax-Boot：S4U + wscript //B 隐藏链开机任务，跑 Tools\gpu-powercap\power_max.cmd（重试 5 次），防重启后驱动回滚 220W 默认；LastTaskResult=0 实测过链路。
+  4. Windows 电源计划：高性能→卓越性能（Ultimate Performance；min processor state=100%，交流/直流双面实证 0x64）。
+- 产线实况：**mv-album animatic 480P 线 53/53 收官**（29 KN + 24 XQ 全部 >100KB、fails-bmb.txt 空、progress 台账 2026-10-15 15:55 XQ05 为末单）——换电后批烧已由前任自动恢复并于今日收官，无需复燃。bm-b GPU 容量现已全空 + 新电源 + 239.80W 帽，**可接新派工**（车道分配候 CEO/委员会令，不越权自领）。

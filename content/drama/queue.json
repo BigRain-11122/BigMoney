@@ -1,0 +1,66 @@
+{
+ "schema": "drama-content-queue-v0.1",
+ "host": "bm-b",
+ "created": "2026-10-18T23:5x+08:00",
+ "law_refs": [
+  "cph4/fleet/CONTENT-OS-LOOP-BLUEPRINT-v1.md sec.3",
+  "fleet/orders/O-20261018-2144-bm-c.md sec.2.1",
+  "fleet/orders/O-20261018-2236-bm-c.md",
+  "cph4/fleet/drama-dept-v1/DRAMA-PRODUCTION-SYSTEM-v1.md",
+  "cph4/fleet/DIRECTOR-STEP-GATE-v1.md"
+ ],
+ "gates": {
+  "ceo-direction-gate-v1-pilot3x20": {
+   "state": "closed",
+   "note": "PILOT-001 3x20s rough samples delivered 10-16; CEO direction-gate receipt NOT yet on ledger. v1->v2 upgrade trigger (PRODUCTION-SYSTEM sec.8.3) requires this gate open. Flip only with CEO/committee receipt evidence.",
+   "opened_at": null
+  }
+ },
+ "stations": [
+  {
+   "id": "ST-001",
+   "title": "J-D0-1 taildrop SLA violation root-cause self-cert (LEDGER pending backfill row)",
+   "state": "done",
+   "lane": "cpu",
+   "runner": "st001_rootcause_gather",
+   "require": "none",
+   "product": "content/drama/outbox/J-D0-1-rootcause.md + group LEDGER backfill row (group push pending)",
+   "source": "cph4/fleet/drama-dept-v1/LEDGER.md row J-D0-1 (2026-10-16, drama-pilot-taildrop-bmb OVERDUE hit=0/1, bm-b-side self-cert pending)",
+   "claim": "claimed@bm-b@2026-10-18T23:50:27",
+   "done_at": "2026-10-18T23:50:27"
+  },
+  {
+   "id": "ST-002",
+   "title": "v1.1 voice grade: IndexTTS-2 environment install (modelscope morning window) + 2-3 fixed character voices bootstrap",
+   "state": "open",
+   "lane": "cpu+gpu-light",
+   "runner": "v0.2-pending",
+   "require": "manual-gate:ceo-direction-gate-v1-pilot3x20",
+   "product": "IndexTTS-2 runnable env + first character voice bank entries",
+   "source": "PRODUCTION-SYSTEM v1 sec.8.3 v2 voice-grade upgrade item; RECIPE-EPBURN-v1 sec.5 (dubbing = v1.1 upgrade face)",
+   "claim": null
+  },
+  {
+   "id": "ST-003",
+   "title": "voice-library lane first batch: GPT-SoVITS (63k stars) / OpenVoice (37k stars) clone + evaluation + fixed-voice pipeline skeleton (P1 <=10-22)",
+   "state": "open",
+   "lane": "cpu",
+   "runner": "v0.2-pending",
+   "require": "none",
+   "product": "cloned repos under media/drama-tools/ + evaluation face + pipeline skeleton doc",
+   "source": "O-20261018-2144-bm-c sec.2.1 voice-library lane P1 <=10-22; W6 sourcing scan (r1011 receipt)",
+   "claim": null
+  },
+  {
+   "id": "ST-004",
+   "title": "CSA anchor-cleaning discipline into production: id-bank anchor consistency pre-check + ANCHOR triple hard-constraint in drama_ep_burn.py (CSA smoke verdict v1.1 item 2)",
+   "state": "open",
+   "lane": "cpu-code",
+   "runner": "v0.2-pending",
+   "require": "none",
+   "product": "drama_ep_burn.py anchor-clean patch + anchor pre-check util + selftest",
+   "source": "cph4/fleet/drama-dept-v1/epburn-handover/CSA-SMOKE-VERDICT-20261017.md sec.v1.1 items 1-2 (workorders 2/5 technically GO); toolchain canonical body = MiniGame/Tools/comfy (bm-b owner)",
+   "claim": null
+  }
+ ]
+}
