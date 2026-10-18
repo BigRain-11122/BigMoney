@@ -1,0 +1,106 @@
+{
+ "machine": "bm-c",
+ "wave": 268,
+ "phase": "PRE-FINALIZE six-gate (r1091 bm-c own-seat window, 31st consecutive correct-phase target; standing law -- engine self-burn 12/12 landed post-W268 splice 8bc7ac759e clean-at-birth, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "9a7f3a14c6899a72",
+   "n1_sha16_now": "1fd82f1d5ad28e36",
+   "pf_sha16_freeze_post": "9a7f3a14c6899a72",
+   "n1_sha16_freeze_post": "1fd82f1d5ad28e36",
+   "n1_sha16_landed_commit_lf_face": "4e315ddcf07648be",
+   "pf_sha16_landed_commit_lf_face": "5b6a740e935c7a42",
+   "clean_at_birth": {
+    "source": "freeze receipt post faces (zero post-splice heals this generation; setwave root cure held at the birth station)",
+    "n1_sha16_now": "1fd82f1d5ad28e36",
+    "receipt_sha16_post": "1fd82f1d5ad28e36",
+    "clean_state_ok": true,
+    "crnorm_worktree_eq_landed": true,
+    "birth_station_presence_gates": {
+     "w268_block_has_268": true,
+     "w268_block_has_267": false,
+     "w268_block_has_266": false,
+     "whole_file_268_count": 1,
+     "whole_file_267_count": 1,
+     "whole_file_266_count": 1
+    },
+    "evidence_files_present": true,
+    "phase": "post-splice post-burn PRE-finalize (engine mechanics untouched; r1076-family recurrence prevented at birth, zero heal face)"
+   },
+   "pf_crnorm_equal_worktree_vs_landed": true,
+   "pf_landed_diff_empty": true,
+   "n1_vs_receipt_disclosure": "r1091 GATE-1 CLEAN-AT-BIRTH FACE: the W268 splice carried ZERO surgical heals -- the r1076-family setwave defect was PREVENTED at the birth station by the derive editor p3_setwave_rootcure rep + phase5 presence gates (r1088 root cure held; 1st clean-from-birth generation). Gate asserts worktree sha16 == freeze-receipt post faces (pf 9a7f3a14c6899a72 / n1 1fd82f1d5ad28e36), CR-normalized worktree == CR-normalized landed blob @ splice commit 8bc7ac759e (landed = LF storage face, raw sha16 recorded), segment-scoped birth-station presence gates green, editor/preflight/log evidence files present.",
+   "family_seed_faces": {
+    "base=604901 span=2000": 1,
+    "base=606901 span=200": 1
+   },
+   "prior_wave_267_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W268_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": ""
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=604901 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=606901 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w268bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 604901,
+   "b_exit_seed_base": 606901,
+   "shard_subdir": "n1_w268",
+   "out_name": "n1_w268_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_604901": true,
+    "b_exit_seed_base_606901": true,
+    "shard_subdir_n1_w268": true,
+    "out_name_n1_w268_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w267_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1011735,
+  "prev_merged_n": 585320,
+  "expect_total": 1013935,
+  "expect_merged": 587520,
+  "source": "W267 finalize actuals machine-read from n1_w267_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W267 finalize (bm-c r1089 one-pass 1,011,735/K=585,320) honored per freeze receipt w267_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
