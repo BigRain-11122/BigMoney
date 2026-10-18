@@ -1,0 +1,105 @@
+{
+ "machine": "bm-c",
+ "wave": 267,
+ "phase": "PRE-FINALIZE six-gate (r1089 bm-c own-seat window, 30th consecutive correct-phase target; standing law -- engine self-burn 12/12 landed post-W267 splice 7b9e9377 + setwave root cure at the birth station, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "3a1817edfeb5c0ff",
+   "n1_sha16_now": "4262450a0e33b2ee",
+   "pf_sha16_freeze_post": "3a1817edfeb5c0ff",
+   "n1_sha16_freeze_post_postheal": "4262450a0e33b2ee",
+   "n1_sha16_landed_commit_lf_face": "7b0601c81cee3d2c",
+   "pf_sha16_landed_commit_lf_face": "0d97321125eb1ba1",
+   "post_splice_heal": {
+    "source": "freeze receipt post_splice_heals.setwave_rootcure (healed at the birth station r1088, estate commit carries healed face)",
+    "n1_sha16_now": "4262450a0e33b2ee",
+    "heal_receipt_sha16": "4262450a0e33b2ee",
+    "heal_state_ok": true,
+    "crnorm_worktree_eq_landed": true,
+    "birth_station_presence_gates": {
+     "w267_block_has_267": true,
+     "w267_block_has_265": false,
+     "w267_block_has_266": false,
+     "whole_file_267_count": 1,
+     "whole_file_265_count": 1
+    },
+    "evidence_files_present": true,
+    "phase": "post-splice post-burn PRE-finalize (engine mechanics untouched; r1076-family 4th recurrence closed at the birth station)"
+   },
+   "pf_crnorm_equal_worktree_vs_landed": true,
+   "pf_landed_diff_empty": true,
+   "n1_vs_receipt_disclosure": "r1089 GATE-1 HEAL FACE: W267 splice initially carried the 2-stale canon hdr face _set_wave(265) in the W267 block (r1076-family 4th recurrence); ROOT CURE executed at the birth station in the r1088 window per CEO defect-birthplace law 2026-10-16: derive-editor p3_setwave_rootcure rep + phase5 presence gates, surgical heal of spliced live n1 L74709 only (W265 L73397 / W266 L74051 preserved, splice NOT re-run), estate commit 7b9e937 carries the HEALED n1 face directly. Gate asserts worktree == freeze-receipt post-heal face == post_splice_heals.n1_sha16_healed == 4262450a0e33b2ee, CR-normalized worktree == CR-normalized landed blob (landed = LF storage face, raw sha16 recorded), segment-scoped presence gates green, heal evidence files present.",
+   "family_seed_faces": {
+    "base=602701 span=2000": 1,
+    "base=604701 span=200": 1
+   },
+   "prior_wave_266_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W267_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": ""
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=602701 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=604701 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w267bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 602701,
+   "b_exit_seed_base": 604701,
+   "shard_subdir": "n1_w267",
+   "out_name": "n1_w267_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_602701": true,
+    "b_exit_seed_base_604701": true,
+    "shard_subdir_n1_w267": true,
+    "out_name_n1_w267_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w266_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1009535,
+  "prev_merged_n": 583120,
+  "expect_total": 1011735,
+  "expect_merged": 585320,
+  "source": "W266 finalize actuals machine-read from n1_w266_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W266 finalize (bm-c r1086 one-pass 1,009,535/K=583,120) honored per freeze receipt w266_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
