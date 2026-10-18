@@ -1,0 +1,210 @@
+{
+ "round": "r1003",
+ "machine": "bm-b",
+ "ts": "2026-10-18T08:39:24+08:00",
+ "order": "O-20261017-1751 dec.3 @bm-b leg (three-layer mix sample)",
+ "pipeline": "numpy procedural synth (CPU) + ffmpeg amix/alimiter (CPU); zero GPU/network/credits",
+ "sfx_source_note": "procedural one-shots for pipeline validation; production pass swaps in CC0/freesound library per R-20261016-drama-sfx-tts-deploy-01 Part A when audio-lib channel authorized",
+ "eps": {
+  "EP001": {
+   "lines": 18,
+   "timeline_s": 74.59,
+   "out_duration_s": 74.59,
+   "dial_rms_db": -21.2,
+   "amb_rms_db": -29.7,
+   "sfx_rms_db": -29.3,
+   "mixed_rms_db": -20.1,
+   "mixed_peak": 0.891,
+   "bed_spans": [
+    {
+     "recipe": "rain_hall",
+     "gain": 1.0,
+     "lines": "1-1"
+    },
+    {
+     "recipe": "rain_low",
+     "gain": 0.62,
+     "lines": "2-2"
+    },
+    {
+     "recipe": "city_day",
+     "gain": 0.95,
+     "lines": "5-5"
+    },
+    {
+     "recipe": "hall_faint",
+     "gain": 1.0,
+     "lines": "6-6"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.9,
+     "lines": "7-13"
+    },
+    {
+     "recipe": "crowd_hot",
+     "gain": 1.0,
+     "lines": "14-17"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.85,
+     "lines": "18-18"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.12,
+     "lines": "19-19"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.8,
+     "lines": "20-22"
+    }
+   ],
+   "sfx_placed": 13
+  },
+  "EP002": {
+   "lines": 16,
+   "timeline_s": 63.85,
+   "out_duration_s": 63.85,
+   "dial_rms_db": -20.7,
+   "amb_rms_db": -31.1,
+   "sfx_rms_db": -29.0,
+   "mixed_rms_db": -19.8,
+   "mixed_peak": 0.891,
+   "bed_spans": [
+    {
+     "recipe": "hall_faint",
+     "gain": 0.9,
+     "lines": "1-1"
+    },
+    {
+     "recipe": "hall_active",
+     "gain": 1.0,
+     "lines": "2-8"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.6,
+     "lines": "9-11"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.9,
+     "lines": "12-14"
+    },
+    {
+     "recipe": "silence",
+     "gain": 0.0,
+     "lines": "15-15"
+    },
+    {
+     "recipe": "hall_faint",
+     "gain": 0.8,
+     "lines": "16-16"
+    },
+    {
+     "recipe": "hall",
+     "gain": 0.12,
+     "lines": "18-18"
+    },
+    {
+     "recipe": "city_night",
+     "gain": 0.9,
+     "lines": "19-19"
+    }
+   ],
+   "sfx_placed": 15
+  },
+  "EP003": {
+   "lines": 17,
+   "timeline_s": 67.52,
+   "out_duration_s": 67.52,
+   "dial_rms_db": -20.9,
+   "amb_rms_db": -31.2,
+   "sfx_rms_db": -31.1,
+   "mixed_rms_db": -20.2,
+   "mixed_peak": 0.891,
+   "bed_spans": [
+    {
+     "recipe": "hall",
+     "gain": 0.9,
+     "lines": "1-1"
+    },
+    {
+     "recipe": "crowd_hot",
+     "gain": 1.05,
+     "lines": "2-2"
+    },
+    {
+     "recipe": "interview",
+     "gain": 0.9,
+     "lines": "3-5"
+    },
+    {
+     "recipe": "hall_faint",
+     "gain": 0.85,
+     "lines": "6-7"
+    },
+    {
+     "recipe": "fan_room",
+     "gain": 0.95,
+     "lines": "9-10"
+    },
+    {
+     "recipe": "crowd_hot",
+     "gain": 1.0,
+     "lines": "11-11"
+    },
+    {
+     "recipe": "hall_faint",
+     "gain": 0.4,
+     "lines": "12-12"
+    },
+    {
+     "recipe": "tea_room",
+     "gain": 1.0,
+     "lines": "15-16"
+    },
+    {
+     "recipe": "silence",
+     "gain": 0.0,
+     "lines": "17-17"
+    },
+    {
+     "recipe": "tea_room",
+     "gain": 0.9,
+     "lines": "18-20"
+    }
+   ],
+   "sfx_placed": 20
+  }
+ },
+ "outputs": [
+  {
+   "path": "C:\\Fluxgroup\\FluxGroup\\media\\drama-mix-out\\r1003_3layer\\EP001_MIX_r1003.wav",
+   "bytes": 13157754
+  },
+  {
+   "path": "C:\\Fluxgroup\\FluxGroup\\media\\drama-mix-out\\r1003_3layer\\EP002_MIX_r1003.wav",
+   "bytes": 11263218
+  },
+  {
+   "path": "C:\\Fluxgroup\\FluxGroup\\media\\drama-mix-out\\r1003_3layer\\EP003_MIX_r1003.wav",
+   "bytes": 11910606
+  },
+  {
+   "path": "C:\\Fluxgroup\\FluxGroup\\media\\drama-mix-out\\r1003_3layer\\DRAMA-3LAYER-SAMPLE-r1003.mp3",
+   "bytes": 4991729,
+   "duration_s": 207.91
+  }
+ ],
+ "asserts": [
+  "dialogue RMS > ambient RMS + 6dB (all EPs)",
+  "mixed peak <= 0.95 (all EPs)",
+  "no NaN",
+  "duration >= timeline-0.5s",
+  "49/49 smoke pre-pass; layers source-separated wavs kept in _work/"
+ ]
+}
