@@ -18,7 +18,7 @@
 |---|---|---|---|---|---|---|
 | ST-001 | done | cpu | st001_rootcause_gather | none | J-D0-1 taildrop SLA violation root-cause self-cert (LEDGER pending backfill row) | claimed@bm-b@2026-10-18T23:50:27 |
 | ST-002 | open | cpu+gpu-light | v0.2-pending | manual-gate:ceo-direction-gate-v1-pilot3x20 | v1.1 voice grade: IndexTTS-2 environment install (modelscope morning window) + 2 | - |
-| ST-003 | open | cpu | v0.2-pending | none | voice-library lane first batch: GPT-SoVITS (63k stars) / OpenVoice (37k stars) c | - |
-| ST-004 | open | cpu-code | v0.2-pending | none | CSA anchor-cleaning discipline into production: id-bank anchor consistency pre-c | - |
+| ST-003 | done | cpu | st003_voice_library_first_batch | none | voice-library lane first batch: GPT-SoVITS (63k stars) / OpenVoice (37k stars) c | claimed@bm-b@2026-10-19T02:37:11 |
+| ST-004 | done | cpu-code | st004_csa_anchor_precheck | none | CSA anchor-cleaning discipline into production: id-bank anchor consistency pre-c | claimed@bm-b@2026-10-19T02:37:31 |
 
-Loop state: rounds=7 last=2026-10-19T01:32:01
+Loop state: rounds=12 last=2026-10-19T02:37:25
