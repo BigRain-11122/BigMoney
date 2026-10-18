@@ -235,3 +235,10 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 病理：git 面收口失败+state 视为已毕→fast-path 轮不触 git 不扫令→令/遗产永滞。
 - 配方：backlog 编号可领行（破 claimable_pool_lines=0 门）→push；POST /poke {tasks:[轮转体],repos:[白名单仓]} force-pull+唤醒；/status repo_heads 验交付。
 - 边界：poke 只载信号（数据走 git）；kept-local 探针面下轮自愈；行内容须真实待办（本例=对端盘面专属 r998 遗产收口·物理面锁车道）。
+
+## E72 死窗 staged 遗产+孤儿 UU 组合提交吞面配方（r1061 bm-a 集团仓实弹首案）
+- 病理：死窗（pull --rebase --autostash 撞 pop-UU 死锁族）遗留两层：工作树 UU 件 + index 内 staged 遗产面（本例 126 件）。后到窗口若先解 UU 再裸 `git commit`，git「index 有 unmerged 禁 commit」门在 UU add 后放行=staged 遗产随 commit 全量吞入（826+/773- 单 commit）——半成品上链+误归属，幸未 push。
+- 配方：①解 UU 前先 `git status --porcelain` 点首列（M/A 非空=遗产在场）；②UU 解完后提交一律 pathspec 式 `git commit -m msg -- <本窗产出件>`——遗产 staged 面保原位零丢失，留属主/吸收窗机器验证后处置；③已吞=`reset --soft HEAD~1` + pathspec 重提交（本窗 e2ab2ca→soft reset→a695c06 两件外科实证）。
+- 连带（append-only 台账 UU 正法）：孤儿 UU 的死窗解体常取单侧丢行——正法=三 stage 行集比对（:2:/:3: vs worktree 按行键差分），缺行字节精确回插后再 add，union 零丢失断言过才提交（本窗 LEDGER.md 补齐 BIGMONEY 记忆治理席 10:30 双回执行·16 行 union）。
+- 证据：集团仓 commit a695c06（ruling+LEDGER 两件 60 行）+ 被撤 fat commit e2ab2ca（reflog 留痕）+ state notes r1061。
+- 2026-10-18 16:5x：bm-a r1061（S5-27 导演裁窗连带实弹·捕获律 O-20261002-2100 依法生成）
