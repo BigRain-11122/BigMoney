@@ -41,7 +41,7 @@
  "round_no": 1019,
  "round_no_label": "r1019",
  "sync": {
-  "last_push_ts": "2026-10-19T07:50:07+08:00",
+  "last_push_ts": "2026-10-19T07:54:44+08:00",
   "r962_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
@@ -377,11 +377,11 @@
    "note": "r1018 payload delivered pre-r1019; state face had stayed PENDING, closed by r1019"
   },
   "r1019_main_push": {
-   "status": "PENDING (this commit)",
-   "pushed_sha": "pending",
+   "status": "PUSHED_VERIFIED (rebase replay e3ec062b76 after claw-block; fetch+rev-parse+behind/ahead+ls-tree four-way verified)",
+   "pushed_sha": "e3ec062b76271d7b9ee6d01c3399dfc63ffcf967",
    "consumed_at": "pending r1020",
    "behind_origin_main": 0,
-   "note": "r1019 payload = ST-009 differentiation station (versioned driver + receipt + status face + engine runner registration + seed script) + drama queue/claims/round-log/loop-state faces + state/heartbeat/round-report + S6 own regen/product faces (daily_report/live_usage docs + compute_audit/regime_state/b_layer/dualarm/orphan/attrition faces + collector bm-b-lane status faces) + r1019 work files; shared daemon faces (machine-health/watermark_red/token_usage.json + unsuffixed lhb/futures/astock/etf status) intentionally NOT added (r982/r1015/r1018 policy); base = 627c4e10f2 origin tip fresh at S0 FF"
+   "note": "r1019 saga: first push claw-BLOCKED correct (origin advanced bm-c r1111 closeout e781164e41 mid-window; my 82ea37a4c1 base-tree would drop _r1111bmc_w276_sixgate/sec78 faces = stale-base revert, r1000 disease) -> stash 6 daemon faces -> rebase replay: 7 shared regen UU resolved ts-newer-wins ALL-MINE (my chain 07:46-48 > bm-c light 07:43-44: REPORT x2 / attrition / compute_audit / b_layer / regime_state / update_status) -> rebase --continue clean (core.editor=true, r1048 law) -> stash pop 2 UU per laws (token_usage origin-base r1008 / watermark_red stash 07:53 newer r1028) -> delivered e781164e41..e3ec062b76, claw zero blocks; bm-c sixgate face verified present post-push (claw protection target intact)"
   }
  },
  "task": "r1019: ST-009 voice differentiation eval seeded+registered+engine-claimed+done (debt 3 pairs + tier 0/+3/-1st) + S6 41 rc0 + push",

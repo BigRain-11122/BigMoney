@@ -31,3 +31,4 @@
 2026-10-19T07:12:01 | round 31 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T07:32:01 | round 32 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T07:45:35 | round 33 | claimable | ST-009 | {"runner": "st009_voice_differentiation_eval", "verdict": "done-early", "same_voice_band_pairs": 3, "pitch_tier": {"voice_07.wav": {"offsets": {"FATHER": -1, "XIONG": 0, "XIONGWEI": 3}, "projected_f0": {"FATHER": 142.5, 
+2026-10-19T07:52:01 | round 34 | no-station | - | "all stations blocked/pending/done"
