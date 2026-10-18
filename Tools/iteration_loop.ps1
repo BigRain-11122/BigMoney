@@ -4,8 +4,20 @@
 # The durable session cron only fires while a Codely CLI window is open - proven
 # dead overnight (8.8h, zero beats). This OS task is the only 10-min channel that
 # survives closed windows. Every beat: guards -> spawn ONE headless codely round
-# (Tools\iteration_prompt.txt driven) -> heartbeat. Round budget 25 min; overlap
-# prevented by round.lock + task-level MultipleInstances=IgnoreNew.
+# (Tools\iteration_prompt.txt driven) -> heartbeat. Round budget v2 = liveness-
+# gated: hard cap $RoundTimeoutMinutes (240) + silence kill $RoundSilenceMinutes
+# (25 min of ZERO output = hang); overlap prevented by round.lock + task-level
+# MultipleInstances=IgnoreNew.
+#
+# v2 (2026-10-18 liveness-budget surgery, bm-a fleet-ops seat, CEO order
+# "solve it at the root"): the 2026-09-23 port carried a 25-min wall-clock
+# kill from the MiniGame short-round pattern. Every legitimate long round
+# (absorb chains, W-cycle splices, TTS batches) that crossed 25 min was
+# tree-killed mid-flight -> the fleet-wide "dead window" epidemic (50+
+# absorb generations on bm-c, r995/996/998 on bm-b, r1047 on bm-a; evidence
+# run_20261018_064801.log 07:13:02 ROUND TIMEOUT). v2 kills only on
+# EVIDENCE: $RoundSilenceMinutes of zero output activity (true hang) or the
+# $RoundTimeoutMinutes hard cap. Productive long rounds survive.
 #
 # ENCODING RULE: this file must stay PURE ASCII. powershell.exe 5.1 decodes
 # BOM-less .ps1 as ANSI/GBK and swallows quote bytes after multibyte sequences.
@@ -18,7 +30,8 @@
 param(
     [string]$Project = (Split-Path -Parent $PSScriptRoot),
     [int]$LockMaxAgeMinutes = 40,
-    [int]$RoundTimeoutMinutes = 25,
+    [int]$RoundTimeoutMinutes = 240,
+    [int]$RoundSilenceMinutes = 25,
     [switch]$LockProbeOnly
 )
 $ErrorActionPreference = 'Continue'
@@ -152,21 +165,49 @@ try {
         exit 0
     }
 
-    Log "spawning headless round (budget ${RoundTimeoutMinutes}min, prompt_chars=$($prompt.Length), out=$roundOut)"
+    Log "spawning headless round (hard-cap ${RoundTimeoutMinutes}min, silence-kill ${RoundSilenceMinutes}min, prompt_chars=$($prompt.Length), out=$roundOut)"
     $p = Start-Process -FilePath $codelyPath -ArgumentList $argLine -WorkingDirectory $Project -PassThru -NoNewWindow -RedirectStandardOutput $roundOut -RedirectStandardError $roundErr
     $null = $p.Handle   # materialize handle so ExitCode is readable
-    if (-not $p.WaitForExit($RoundTimeoutMinutes * 60 * 1000)) {
-        Log "ROUND TIMEOUT after ${RoundTimeoutMinutes}min - killing headless process tree"
-        try {
-            Get-CimInstance Win32_Process -Filter "ParentProcessId=$($p.Id)" -ErrorAction SilentlyContinue |
-                ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
-        } catch { Log "kill failed: $_" }
-        Beat "round timeout killed (age over ${RoundTimeoutMinutes}min)"
-        exit 3
+    # v2 liveness budget: poll in 30s slices. "Activity" = the round's stdout/stderr
+    # redirect files gaining bytes. Kill ONLY on evidence of a hang (silent for
+    # $RoundSilenceMinutes) or the $RoundTimeoutMinutes hard cap. A productive
+    # long round streams tool output continuously and is never killed by wall
+    # clock alone (the 25-min guillotine that caused the dead-window epidemic
+    # is gone; see v2 header note).
+    $startAt = Get-Date
+    $lastMove = Get-Date
+    $lastSize = -1L
+    while (-not $p.WaitForExit(30000)) {
+        $size = 0L
+        foreach ($f in @($roundOut, $roundErr)) {
+            try { $fi = Get-Item $f -ErrorAction SilentlyContinue; if ($fi) { $size += $fi.Length } } catch { }
+        }
+        if ($size -ne $lastSize) { $lastSize = $size; $lastMove = Get-Date }
+        $silentMin = ((Get-Date) - $lastMove).TotalMinutes
+        $totalMin = ((Get-Date) - $startAt).TotalMinutes
+        if ($silentMin -ge $RoundSilenceMinutes) {
+            Log "ROUND SILENCE-KILL: no output for $([int]$silentMin)min (total $([int]$totalMin)min) - killing headless process tree"
+            try {
+                Get-CimInstance Win32_Process -Filter "ParentProcessId=$($p.Id)" -ErrorAction SilentlyContinue |
+                    ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+                Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            } catch { Log "kill failed: $_" }
+            Beat "round silence-killed (no output $([int]$silentMin)min, total $([int]$totalMin)min)"
+            exit 3
+        }
+        if ($totalMin -ge $RoundTimeoutMinutes) {
+            Log "ROUND HARD-CAP after ${RoundTimeoutMinutes}min - killing headless process tree"
+            try {
+                Get-CimInstance Win32_Process -Filter "ParentProcessId=$($p.Id)" -ErrorAction SilentlyContinue |
+                    ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+                Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            } catch { Log "kill failed: $_" }
+            Beat "round hard-cap killed (age over ${RoundTimeoutMinutes}min)"
+            exit 3
+        }
     }
     $p.Refresh()
-    Log "headless round finished exit=$($p.ExitCode)"
+    Log "headless round finished exit=$($p.ExitCode) (ran $([int]((Get-Date) - $startAt).TotalMinutes)min)"
 
     # T6 (tech queue r812, bm-c): structural idle_trigger --auto declare leg.
     # Deterministic same-round clear of the two-read idle streak: pool shard
