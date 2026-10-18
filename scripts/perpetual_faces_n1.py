@@ -73988,7 +73988,7 @@ def selftest() -> int:
     #     EXCLUDED from the estate path per the template mandate; fresh
     #     W247..W265 legs (19) added, machine-derived from the live pf
     #     registry at freeze time -> 124 parity rows (W138..W206+W211..W265).
-    _set_wave(265)
+    _set_wave(266)
     try:
         assert WAVE_CONFIGS[265]["a_seed_base"] == pf.N1_BANDS[265]["a"][0], \
             "W266 upstream W265 mirror drift (a)"

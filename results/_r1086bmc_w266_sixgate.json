@@ -1,0 +1,101 @@
+{
+ "machine": "bm-c",
+ "wave": 266,
+ "phase": "PRE-FINALIZE six-gate (r1086-continuation bm-c own-seat window, 29th consecutive correct-phase target; standing law -- engine self-burn 12/12 landed post-W266 splice dc71ecc3f9, single-token post-splice heal applied PRE-finalize, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "00bcaf26a3a7c60c",
+   "n1_sha16_now": "2f6e8f09b4b789d8",
+   "pf_sha16_freeze_post": "00bcaf26a3a7c60c",
+   "n1_sha16_freeze_post": "992f2f3b7b380bf6",
+   "n1_sha16_landed_commit_lf_clean": "ffd5d5b8c8a49cad",
+   "post_splice_heal": {
+    "receipt": "results/_r1086bmc_w266_selftest_heal.json",
+    "n1_sha16_now": "2f6e8f09b4b789d8",
+    "heal_receipt_new_sha16": "2f6e8f09b4b789d8",
+    "heal_state_ok": true,
+    "minimality_proof_crnorm_healed_landed_eq_worktree": true,
+    "preheal_receipt_sha16_post": "992f2f3b7b380bf6",
+    "preheal_receipt_eq_landed_face": true,
+    "tokens": [
+     "H1 _set_wave(265)->(266) (W266 section, 2nd occurrence, same length)"
+    ],
+    "phase": "post-splice post-burn PRE-finalize (engine mechanics untouched)"
+   },
+   "pf_crnorm_equal_worktree_vs_landed": true,
+   "pf_landed_diff_empty": true,
+   "n1_vs_receipt_disclosure": "r1086 POST-SPLICE HEAL DISCLOSURE: splice (absorb commit dc71ecc3f9) carried ONE un-rolled roll token in the NEW W266 selftest section (H1 _set_wave(265)->(266), W266-section 2nd occurrence; dead 09:25-09:50 splice-window editor authoring defect; r1076 W264 H1 family 3rd recurrence) -- runtime proof: n1 selftest died \"W266 A hits W265\" pre-heal (prereheal FAIL evidence preserved at results/_r1086bmc_w266_sixgate_prereheal_FAIL.json). Healed THIS window PRE-finalize by a single same-length token (results/_r1086bmc_w266_selftest_heal.{py,json}; post-heal selftest rc=0 live in the heal receipt). Engine mechanics untouched: registry rows / shard dir / burn arithmetic verified green by the other gates; the engine already self-burned 12/12 from the correct W266 rows. Gate-1 asserts healed-worktree == heal-receipt and landed-blob+heal == healed-worktree (CR-normalized minimality proof).",
+   "family_seed_faces": {
+    "base=600501 span=2000": 1,
+    "base=602501 span=200": 1
+   },
+   "prior_wave_265_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W266_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": ""
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=600501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=602501 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w266bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 600501,
+   "b_exit_seed_base": 602501,
+   "shard_subdir": "n1_w266",
+   "out_name": "n1_w266_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_600501": true,
+    "b_exit_seed_base_602501": true,
+    "shard_subdir_n1_w266": true,
+    "out_name_n1_w266_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w265_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1007335,
+  "prev_merged_n": 580920,
+  "expect_total": 1009535,
+  "expect_merged": 583120,
+  "source": "W265 finalize actuals machine-read from n1_w265_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W265 finalize (bm-c r1084 one-pass 1,007,335/K=580,920) honored per freeze receipt w265_upstream face"
+ },
+ "verdict": "ALL PASS"
+}
