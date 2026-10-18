@@ -1,0 +1,32 @@
+{
+  "adjudication": "MF-PANEL-FREEZE-RETAIN (Monday 2026-10-19 per r1063 armed plan)",
+  "round": "r1073 bm-a",
+  "ts": "2026-10-19T07:12:00+08:00",
+  "verdict": "blockade ALIVE day-13 (both lanes, fresh same-day faces)",
+  "day13_evidence": {
+    "main_lane": {
+      "started": "2026-10-19T02:04:44",
+      "failures": 3,
+      "failure_head": ["300706:conn:RemoteDisconnected", "300707:conn:RemoteDisconnected", "300708:conn:RemoteDisconnected"],
+      "appended": 0,
+      "conn_stopped": true,
+      "elapsed_min": 0.2
+    },
+    "rank_lane": {
+      "ts": "2026-10-19T07:05:56",
+      "mode": "fetch_failed: page 1: RemoteDisconnected: Remote end closed connection without response",
+      "last_run_elapsed_s": 158.2
+    }
+  },
+  "chain": "day-8..day-13 consecutive blockade (r1043..r1073 evidence chain: 300706-08 RemoteDisconnected xN fuse-stops + rank fetch_failed family)",
+  "panel_state": {"cutoff": "2026-10-13", "complete": false, "n_symbols": 5222, "universe_n": 5222},
+  "disposition": [
+    "panel stays FROZEN at cutoff 2026-10-13 (source-blocked terminal-honest face, zero fabrication)",
+    "conn-fuse (3-fail stop) + 30-min spawn throttle + rank-lane per-round probe RETAINED as designed self-heal (recovery auto-detected, zero manual intervention)",
+    "moneyflow IC reference batch stays PARKED (watermark next_pick) until panel completes",
+    "next re-adjudication trigger = source recovery (any lane success) or GM directive"
+  ],
+  "evidence_pointers": ["results/moneyflow_update_status.json", "results/_r1073bma_s6chain_rc.log (update_moneyflow rc=0 honest no-op face)"],
+  "dept": "data",
+  "machine": "bm-a"
+}
