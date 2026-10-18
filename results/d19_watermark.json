@@ -1,12 +1,12 @@
 {
- "ts": "2026-10-19T01:44:52+08:00",
+ "ts": "2026-10-19T01:55:01+08:00",
  "cmd": "update",
  "advance": true,
- "state_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state.json",
+ "state_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\state-bm-a.json",
  "action": "advanced",
  "changed": {
   "decisions": true,
-  "orders": false
+  "orders": true
  },
  "reasons": [],
  "err": null,
@@ -15,23 +15,39 @@
   "last_orders_sha": "e695556bb8c0df1d512eefac52213d5fd827059e9780c6593a37dae129a1feb6"
  },
  "heartbeat_sync": {
-  "path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-b.json",
+  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-a.json",
   "synced": {
+   "last_orders_sha": {
+    "from": "243d0ab993316f5b4a1dd1870ca799f4c2f172621a1d7ece6d312a87088ba0bc",
+    "to": "e695556bb8c0df1d512eefac52213d5fd827059e9780c6593a37dae129a1feb6"
+   },
    "last_decisions_sha": {
     "from": "786587317ba7bfb9d9538cbc9384e3b4549fa52339a1f17bb6a9983b2af0db4d",
     "to": "8706acd8a7b65441f23c9813f62a25fdecbd9da0df10994e5915b5742a40a3fd"
    },
    "last_orders_read_at": {
-    "from": "2026-10-18T23:55:14+08:00",
-    "to": "2026-10-19T01:44:52+08:00"
+    "from": "2026-10-18T23:37:49+08:00",
+    "to": "2026-10-19T01:55:01+08:00"
    },
    "last_decisions_read_at": {
-    "from": "2026-10-18T23:55:14+08:00",
-    "to": "2026-10-19T01:44:52+08:00"
+    "from": "2026-10-18T23:37:49+08:00",
+    "to": "2026-10-19T01:55:01+08:00"
+   },
+   "last_orders_at": {
+    "from": "2026-10-18T23:37:49+08:00",
+    "to": "2026-10-18T23:14:09+08:00"
    },
    "last_decisions_at": {
-    "from": "2026-10-18T23:55:14+08:00",
-    "to": "2026-10-19T01:44:52+08:00"
+    "from": "2026-10-18T23:37:49+08:00",
+    "to": "2026-10-19T01:55:01+08:00"
+   },
+   "last_orders_seen": {
+    "from": "r1069: D-19 ord delta consumed 6bfe7815 -> 243d0ab9; 4 new rows (22:32 48G/V100 ruling + 22:41 P-card workforce + 22:51 slot dispatch @bm-b/@bm-c = hardware domain executed elsewhere; 23:1x CEO command-decode C-20261018-06 = committee-executed) -- zero BigMoney obligation, zero-action receipt",
+    "to": "r1068: D-19 ord delta consumed (1261d272 -> 6bfe7815; 6 rows = three group automation-line orders 20:48/20:54/21:11 [BigMoney construction-plan <=10-25 dispatched GM-layer 20:48, zero loop duplication] + three bm-d hardware/P-card rows [other-window executed]; zero new BigMoney-loop obligation beyond visibility) + O-2144/O-2236 fleet orders consumed same-round with receipts; dec 4cfdd17c hold"
+   },
+   "last_decisions_seen": {
+    "from": "r1069: D-19 dec delta consumed 4cfdd17c -> 78658731 (subprocess-raw; pipe-hash 3c80adab artifact discarded); new faces = group automation-line orders 20:48/21:11 -> BigMoney seat obligation (construction case <=10-25) advanced this round with deliverable v1",
+    "to": "r1068: D-19 zero-delta hold (dec 4cfdd17c, zero new group rows consumed)"
    }
   },
   "readback_ok": true,

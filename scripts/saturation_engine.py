@@ -345,6 +345,42 @@ def _pre_ignition_checks(item, cfg, prereg_path, daily_dir, done_probe,
     return (not reasons), reasons
 
 
+def _claimable_crossface(queue, families, done_probe, crash_counts,
+                         root=None, daily_dir=None):
+    """A1 (G3 false-green fix, AUTOMATION-LINE-PLAN-v1 sec.III A1 / V1):
+    structural wait is NOT ignitable work. Pure read-only crossface over
+    the materialized queue -- each item passes through the SAME
+    PreIgnitionChecks the ignite loop uses; claimable = would fire if
+    resource gates allowed, struct_wait = blocked behind a door (prereg
+    missing/draft, panel short, presence=done, crash quarantine, owner).
+    Consumers must read the DUAL face: queue_depth alone overstates load
+    (SLI-RECONCILE precedent 2026-10-15: gated pool cards counted as
+    'has work' -> false busy -> false green)."""
+    root = PATHS.root if root is None else root
+    daily = PATHS.daily_dir if daily_dir is None else daily_dir
+    claimable, struct_wait, reasons = 0, 0, {}
+    for item in queue:
+        fam = families.get(item.get("face", "N1"))
+        if fam is None:
+            struct_wait += 1
+            reasons[item["key"]] = ["family not registered"]
+            continue
+        ok, why = _pre_ignition_checks(
+            item, fam["module"].WAVE_CONFIGS[item["wave"]],
+            os.path.join(root, "research",
+                         fam["prereg_fmt"].format(wave=item["wave"])),
+            daily, done_probe, crash_counts)
+        if ok:
+            claimable += 1
+        else:
+            struct_wait += 1
+            reasons[item["key"]] = why
+    return {"queue_depth": len(queue), "claimable_n": claimable,
+            "struct_wait_n": struct_wait,
+            "struct_wait_idle": bool(queue) and claimable == 0,
+            "struct_wait_reasons": reasons}
+
+
 # --- sec.2 ledger batching (pure gate) --------------------------------------
 
 def _flush_due(n_buffer, minutes_since_flush):
@@ -497,6 +533,9 @@ def _write_face(st, py_pct, ram_free, verdict):
                              "started_at": b.get("started_at")}
                             for b in st.get("active", [])],
            "queue_depth": len(st.get("queue", [])),
+           "claimable_n": (st.get("last_tick") or {}).get("claimable_n"),
+           "struct_wait_n": (st.get("last_tick") or {}).get("struct_wait_n"),
+           "struct_wait_idle": (st.get("last_tick") or {}).get("struct_wait_idle"),
            "families": {fam: sum(1 for i in st.get("queue", [])
                                  if i.get("face", "N1") == fam)
                         for fam in FAMILIES},
@@ -581,6 +620,16 @@ def tick(dry=False):
     active_keys = {b["key"] for b in st["active"]}
     st["queue"] = _queue_items(FAMILIES, done_probe, active_keys,
                                MACHINE_ID)
+
+    # A1 (G3 false-green fix, plan sec.III A1): claimable crossface
+    # measured on the FULL materialized queue BEFORE the ignite loop --
+    # the loop pops struct-blocked heads into skips, so a post-loop
+    # depth would hide the struct-wait face. Dual read: queue_depth
+    # (supply) vs claimable_n (ignitable); struct_wait_idle=True means
+    # the machine is effectively idle for scheduling despite a
+    # non-empty queue (SLI-RECONCILE precedent 2026-10-15).
+    crossface = _claimable_crossface(st["queue"], FAMILIES, done_probe,
+                                     st.get("crashes", {}))
 
     # sec.4 telemetry completeness: orphan-product reconciliation (r522
     # live case W25 shard-0: igniting tick died pre-persist -> burn record
@@ -693,6 +742,9 @@ def tick(dry=False):
                        "verdict": verdict,
                        "active_n": len(st["active"]),
                        "queue_depth": len(st.get("queue", [])),
+                       "claimable_n": crossface["claimable_n"],
+                       "struct_wait_n": crossface["struct_wait_n"],
+                       "struct_wait_idle": crossface["struct_wait_idle"],
                        "elapsed_sec": round(time.time() - t0, 1)}
     if not _save_state(st, base_tick_ts):
         # CAS retreat: fresher writer owns state+face (both skipped here);
@@ -740,6 +792,9 @@ def status():
            "active_burns": [f"{b['batch']}/{b['key']} pid={b.get('pid')}"
                             for b in st.get("active", [])],
            "queue_depth": len(st.get("queue", [])),
+           "claimable_n": lt.get("claimable_n"),
+           "struct_wait_n": lt.get("struct_wait_n"),
+           "struct_wait_idle": lt.get("struct_wait_idle"),
            "shards_done_total": st.get("shards_done_total", 0),
            "last_verdict": lt.get("verdict"),
            "law_ref": LAW_REF}
@@ -984,6 +1039,41 @@ def selftest():
     finally:
         STATE_PATH = real_state
 
+    # 8b. A1 G3 claimable crossface (AUTOMATION-LINE-PLAN-v1 sec.III A1 /
+    #     V1; SLI-RECONCILE precedent 2026-10-15): structural wait is NOT
+    #     ignitable work -- a materialized queue whose every item sits
+    #     behind a door must read struct_wait_idle, never as loaded work
+    #     (the false-green counterexample); dual face = queue_depth
+    #     (supply) vs claimable_n (ignitable). Positive control: the same
+    #     queue with the door open reads fully claimable.
+    a1_res = os.path.join(tmp, "research")
+    os.makedirs(a1_res, exist_ok=True)
+    a1_q = [{"face": "N1", "wave": 10, "shard": i, "nshards": 12,
+             "key": "n1w10-%dof12" % i, "batch": "PERPETUAL-N1-W10"}
+            for i in range(3)]
+    a1_fam = {"N1": {"module": types.SimpleNamespace(
+                       WAVE_CONFIGS={10: own_cfg}),
+                  "runner": "scripts/perpetual_faces_n1.py",
+                  "prereg_fmt": "A1_MISSING_W{wave}_PREREG.md",
+                  "key_fmt": "n1w{wave}-{shard}of{nshards}"}}
+    xf = _claimable_crossface(a1_q, a1_fam, lambda *a: False, {},
+                              root=tmp, daily_dir=daily)
+    assert xf["queue_depth"] == 3 and xf["claimable_n"] == 0 \
+        and xf["struct_wait_n"] == 3 and xf["struct_wait_idle"] is True, \
+        "G3 false-green counterexample: all-door-blocked queue must NOT read as loaded"
+    assert all("prereg missing" in r[0]
+               for r in xf["struct_wait_reasons"].values()), \
+        "struct-wait reasons must carry the door name (prereg missing)"
+    open(os.path.join(a1_res, "PERPETUAL_N1_W10_PREREG.md"), "w",
+         encoding="utf-8").write("prereg")   # frozen face, no DRAFT marker
+    a1_fam["N1"]["prereg_fmt"] = "PERPETUAL_N1_W{wave}_PREREG.md"
+    xf2 = _claimable_crossface(a1_q, a1_fam, lambda *a: False, {},
+                               root=tmp, daily_dir=daily)
+    assert xf2["queue_depth"] == 3 and xf2["claimable_n"] == 3 \
+        and xf2["struct_wait_n"] == 0 \
+        and xf2["struct_wait_idle"] is False, \
+        "positive control: door-open queue must read fully claimable"
+
     # 9. family registry (O-20261002-2155 bm-a seat (b)): N1 byte-identity
     #    vs the pre-registry literals + N4 real registration (T-151
     #    deliverable (5): six-member shard space, B1 wave face) + multi-
@@ -1132,7 +1222,7 @@ def selftest():
         sys.modules.pop(_fam_modname, None)
         sys.path.remove(tmp)
 
-    print("selftest: PASS (11 legs: queue generator owner/done/active "
+    print("selftest: PASS (12 legs: queue generator owner/done/active "
           "exclusions + orphan-product reconciliation [r522 telemetry "
           "completeness: present product + no ledger row -> one "
           "reconstructed row, idempotent] + PreIgnitionChecks fail-closed "
@@ -1150,7 +1240,10 @@ def selftest():
           "module-view re-read watch [D-20261002-03 leg-1 scripts-face "
           "port: first-load records / unchanged not stale / changed "
           "stale / missing-file safe + reload rebinds FAMILIES with "
-          "new WAVE_CONFIGS visible] + law/prereg presence)")
+          "new WAVE_CONFIGS visible] + A1 claimable crossface [G3 "
+          "false-green: all-struct-blocked queue reads struct_wait_idle "
+          "not loaded; door-open positive control reads fully claimable] "
+          "+ law/prereg presence)")
     return 0
 
 
