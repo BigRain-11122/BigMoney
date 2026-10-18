@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-18",
- "generated_at": "2026-10-18 11:51:15",
+ "generated_at": "2026-10-18 12:16:20",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-18.md"
  },
  "rd": {
-  "commits_24h": 148,
-  "result_jsons_landed_24h": 116,
+  "commits_24h": 149,
+  "result_jsons_landed_24h": 114,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 9,
   "compute_audit_latest": {
-   "ts": "2026-10-18 11:50:35",
-   "py_cpu_pct": 5.6,
+   "ts": "2026-10-18 12:13:37",
+   "py_cpu_pct": 0.5,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -667,12 +667,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2447,
-  "total_report_tokens_est": 2117248,
+  "total_report_tokens_est": 2118811,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-18 10:59:53",
+   "prev_generated": "2026-10-18 11:23:51",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -17,
-   "mandate_growth": -6
+   "report_tokens_growth": 1563,
+   "mandate_growth": 6
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -682,29 +682,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-18 10:41:57",
-    "py_pct": 0.2,
-    "cpu_pct": 11.0,
+    "latest_ts": "2026-10-18 12:13:37",
+    "py_pct": 0.5,
+    "cpu_pct": 68.0,
     "ready": 0,
-    "streak_min": 2921.9,
+    "streak_min": 3013.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "23:27",
-      0.4
-     ],
-     [
-      "02:42",
-      0.6
-     ],
-     [
-      "04:07",
-      1.6
-     ],
-     [
-      "05:28",
-      0.4
-     ],
      [
       "07:23",
       0.4
@@ -736,9 +720,25 @@
      [
       "10:41",
       0.2
+     ],
+     [
+      "10:59",
+      0.0
+     ],
+     [
+      "11:21",
+      1.5
+     ],
+     [
+      "11:50",
+      5.6
+     ],
+     [
+      "12:13",
+      0.5
      ]
     ],
-    "today_samples": 11,
+    "today_samples": 15,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -887,7 +887,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-18 10:41:57"
+     "audit_ts": "2026-10-18 12:13:37"
     }
    },
    "bm-b": {
