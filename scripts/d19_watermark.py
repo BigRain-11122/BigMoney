@@ -62,6 +62,13 @@ DEC_KEY = "last_decisions_sha"
 ORD_KEY = "last_orders_sha"
 READ_KEYS = ("last_decisions_read_at", "last_orders_read_at")
 PROV_KEY = "d19_watermark_guard"
+# r1090 two-face patch (r1051 lineage recurring face / r1052 连带律 mechanized): update --advance
+# wrote the STATE face only; the heartbeat mirror fields went stale every advance and needed a
+# manual same-window sync script (r1089 receipt _r1089bmc_heart_wm_sync). Law now welded in-tool:
+# BOTH faces are written in the SAME update, with read-back assertions on each.
+HEART_KEYS = ("last_orders_sha", "last_decisions_sha", "last_orders_read_at",
+              "last_decisions_read_at", "last_orders_at", "last_decisions_at",
+              "last_orders_seen", "last_decisions_seen")
 HEX_CHARS = set("0123456789abcdefABCDEF")
 VALID_LENS = (40, 64)
 
@@ -109,6 +116,37 @@ def _atomic_json_write(obj, path, ascii_mode):
 def _load_json(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def sync_heartbeat(state, machine_id, heartbeat_path, receipt):
+    """r1090 two-face patch: mirror the watermark fields from the state canonical
+    face into the heartbeat (fleet/machines/<id>.json) in the SAME update, with
+    read-back assertion. Only keys present in state are mirrored (zero
+    fabrication); heartbeat keys absent from state are left untouched. Missing
+    heartbeat file = honest skip (receipt-noted), never a fault -- sandboxes
+    and exotic hosts may legitimately have no heartbeat."""
+    receipt["heartbeat_sync"] = {"path": heartbeat_path, "synced": {},
+                                 "readback_ok": None, "note": None}
+    if not os.path.isfile(heartbeat_path):
+        receipt["heartbeat_sync"]["note"] = "heartbeat file absent -> skipped (honest)"
+        return
+    hb = _load_json(heartbeat_path)
+    synced = {}
+    for k in HEART_KEYS:
+        if k in state and state[k] != hb.get(k):
+            synced[k] = {"from": hb.get(k), "to": state[k]}
+            hb[k] = state[k]
+    if not synced:
+        receipt["heartbeat_sync"]["note"] = "mirrors already equal (no-op)"
+        receipt["heartbeat_sync"]["readback_ok"] = True
+        return
+    _atomic_json_write(hb, heartbeat_path, False)
+    hb2 = _load_json(heartbeat_path)
+    ok = all(hb2.get(k) == state.get(k) for k in synced)
+    if not ok:
+        raise AssertionError("heartbeat mirror read-back equality failed")
+    receipt["heartbeat_sync"]["synced"] = synced
+    receipt["heartbeat_sync"]["readback_ok"] = ok
 
 
 def _changed(cur, cand):
@@ -215,9 +253,30 @@ def cmd_update(opts):
             return 2
         receipt["action"] = "advanced" if (ch_dec or ch_ord) else "noop"
         receipt["written"] = {DEC_KEY: cand_dec, ORD_KEY: cand_ord}
+        # r1090 two-face law: heartbeat mirrors ride the SAME update (r1052 连带律 in-tool)
+        try:
+            _mj = getattr(opts, "machine_json", None) or MACHINE_JSON
+            with open(_mj, encoding="utf-8") as _f:
+                mid = json.load(_f)["machine_id"]
+            hb_path = getattr(opts, "heartbeat", None) or os.path.join(
+                ROOT, "fleet", "machines", "%s.json" % mid)
+            sync_heartbeat(st2, mid, hb_path, receipt)
+        except Exception as e:
+            # heartbeat sync failure must NOT silently pass (r1052 family: a stale
+            # mirror = next-round false P0 debt); restore state bytes + fail loud
+            with open(opts.state, "wb") as f:
+                f.write(before_bytes)
+            receipt["action"] = "heartbeat_sync_failed"
+            receipt["err"] = "heartbeat sync: %r" % e
+            _atomic_json_write(receipt, opts.receipt, True)
+            print("FAULT: heartbeat mirror sync failed (state rolled back): %r" % e)
+            return 2
         _atomic_json_write(receipt, opts.receipt, True)
-        print("%s: dec=%s ord=%s (read-back full-string equality OK)"
-              % (receipt["action"].upper(), cand_dec, cand_ord))
+        _hs = receipt.get("heartbeat_sync", {})
+        print("%s: dec=%s ord=%s (read-back full-string equality OK; heartbeat mirrors %s)"
+              % (receipt["action"].upper(), cand_dec, cand_ord,
+                 "synced %d" % len(_hs.get("synced", {})) if _hs.get("readback_ok")
+                 else _hs.get("note") or "unclear"))
         return 0
     except Exception as e:
         receipt["action"] = "fault"
@@ -319,7 +378,7 @@ def selftest():
     SPLICED = "a3ea37bd" + "7c856e4b649f52b77212c57a2abe3776"
     PHANTOM = "b148d0ad" + "1111111111111111111111111111111"
 
-    def mkfix(state=None, machine="bm-b", mkstate=True):
+    def mkfix(state=None, machine="bm-b", mkstate=True, mkheartbeat=True):
         d = os.path.join(tmp, "fix%d" % len(os.listdir(tmp)))
         os.makedirs(d)
         mj = os.path.join(d, "machine.json")
@@ -330,15 +389,27 @@ def selftest():
         pj = os.path.join(d, "probe.json")
         json.dump({}, open(pj, "w"))
         rec = os.path.join(d, "receipt.json")
-        return mid, sp, pj, rec
+        # r1090 two-face fixtures: heartbeat with STALE mirrors + a foreign key
+        hb = os.path.join(d, "fleet", "machines", "%s.json" % mid)
+        if mkheartbeat:
+            os.makedirs(os.path.dirname(hb))
+            json.dump({"machine_id": mid, "last_orders_sha": OLD_ORD,
+                       "last_decisions_sha": OLD_DEC, "last_orders_seen": "stale",
+                       "extra_foreign_key": "keep-me"}, open(hb, "w", encoding="utf-8"))
+        return mid, sp, pj, rec, mj, hb
 
-    def upd(ev_dict, advance=False, state=None, machine="bm-b", mkstate=True):
-        mid, sp, pj, rec = mkfix(state=state, machine=machine, mkstate=mkstate)
+    def upd(ev_dict, advance=False, state=None, machine="bm-b", mkstate=True,
+            mkheartbeat=True, heartbeat_override="USE_FIXTURE"):
+        mid, sp, pj, rec, mj, hb = mkfix(state=state, machine=machine,
+                                         mkstate=mkstate, mkheartbeat=mkheartbeat)
         if ev_dict is not None:
             json.dump(ev_dict, open(pj, "w"))
         o = argparse.Namespace(state=sp, probe_json=pj, receipt=rec,
-                               advance=advance, probe_evidence=pj)
-        return cmd_update(o), sp, rec
+                               advance=advance, probe_evidence=pj,
+                               machine_json=mj,
+                               heartbeat=hb if heartbeat_override == "USE_FIXTURE"
+                               else heartbeat_override)
+        return cmd_update(o), sp, rec, hb
 
     base_state = {DEC_KEY: OLD_DEC, ORD_KEY: OLD_ORD, "round_no": 999,
                   "note": "CJK-note-\u6c34\u4f4d", "other": [1, 2, 3]}
@@ -348,7 +419,7 @@ def selftest():
 
     # L1 advance happy path: whole-string swap, fields preserved
     def l1():
-        rc, sp, rec = upd(new_ev, advance=True, state=dict(base_state))
+        rc, sp, rec, _hb = upd(new_ev, advance=True, state=dict(base_state))
         assert rc == 0, "rc=%s" % rc
         st = _load_json(sp)
         assert st[DEC_KEY] == TRUE_DEC and st[ORD_KEY] == TRUE_ORD
@@ -360,7 +431,7 @@ def selftest():
 
     # L2 idempotent no-op: content unchanged -> no --advance, keys stay canonical
     def l2():
-        rc, sp, _ = upd(new_ev, advance=False,
+        rc, sp, _, _hb = upd(new_ev, advance=False,
                         state={**base_state, DEC_KEY: TRUE_DEC, ORD_KEY: TRUE_ORD})
         assert rc == 0, "rc=%s" % rc
         st = _load_json(sp)
@@ -370,7 +441,7 @@ def selftest():
 
     # L3 delta without --advance -> refusal, state untouched (r585)
     def l3():
-        rc, sp, _ = upd(new_ev, advance=False, state=dict(base_state))
+        rc, sp, _, _hb = upd(new_ev, advance=False, state=dict(base_state))
         assert rc == 3, "rc=%s" % rc
         st = _load_json(sp)
         assert st[DEC_KEY] == OLD_DEC and st[ORD_KEY] == OLD_ORD
@@ -379,7 +450,7 @@ def selftest():
 
     # L4 malformed candidate: 8-hex prefix (r811 splice-family write face)
     def l4():
-        rc, sp, _ = upd({"decisions_sha": "a3ea37bd", "orders_sha": TRUE_ORD},
+        rc, sp, _, _hb = upd({"decisions_sha": "a3ea37bd", "orders_sha": TRUE_ORD},
                         advance=True, state=dict(base_state))
         assert rc == 3, "rc=%s" % rc
         st = _load_json(sp)
@@ -388,7 +459,7 @@ def selftest():
 
     # L5 non-hex candidate
     def l5():
-        rc, sp, _ = upd({"decisions_sha": "z" * 40, "orders_sha": TRUE_ORD},
+        rc, sp, _, _hb = upd({"decisions_sha": "z" * 40, "orders_sha": TRUE_ORD},
                         advance=True, state=dict(base_state))
         assert rc == 3, "rc=%s" % rc
         assert _load_json(sp)[DEC_KEY] == OLD_DEC
@@ -396,7 +467,7 @@ def selftest():
 
     # L6 probe err -> mechanism fault
     def l6():
-        rc, sp, _ = upd({"err": "synthetic fault"}, advance=True,
+        rc, sp, _, _hb = upd({"err": "synthetic fault"}, advance=True,
                         state=dict(base_state))
         assert rc == 2, "rc=%s" % rc
         assert _load_json(sp)[DEC_KEY] == OLD_DEC
@@ -404,17 +475,18 @@ def selftest():
 
     # L7 missing evidence file -> mechanism fault
     def l7():
-        mid, sp, pj, rec = mkfix(state=dict(base_state))
+        mid, sp, pj, rec, _mj, _hb = mkfix(state=dict(base_state))
         os.unlink(pj)
         o = argparse.Namespace(state=sp, probe_json=pj, receipt=rec,
-                               advance=True, probe_evidence=pj)
+                               advance=True, probe_evidence=pj,
+                               machine_json=_mj, heartbeat=_hb)
         rc = cmd_update(o)
         assert rc == 2, "rc=%s" % rc
     leg("L7 missing probe evidence -> exit 2", l7)
 
     # L8 state file missing -> mechanism fault
     def l8():
-        rc, sp, _ = upd(new_ev, advance=True, state=None, mkstate=False)
+        rc, sp, _, _hb = upd(new_ev, advance=True, state=None, mkstate=False)
         assert rc == 2, "rc=%s" % rc
         assert not os.path.isfile(sp)
     leg("L8 missing state file -> exit 2 (never auto-create)", l8)
@@ -433,7 +505,7 @@ def selftest():
 
     # L10 verify healthy -> 0
     def l10():
-        mid, sp, pj, rec = mkfix(state={**base_state, DEC_KEY: TRUE_DEC,
+        mid, sp, pj, rec, _mj, _hb = mkfix(state={**base_state, DEC_KEY: TRUE_DEC,
                                         ORD_KEY: TRUE_ORD})
         json.dump(new_ev, open(pj, "w"))
         o = argparse.Namespace(state=sp, receipt=rec, probe_evidence=pj)
@@ -442,7 +514,7 @@ def selftest():
 
     # L11 verify: splice passes shape, fails full-string equality (r812 core)
     def l11():
-        mid, sp, pj, rec = mkfix(state={**base_state, DEC_KEY: SPLICED,
+        mid, sp, pj, rec, _mj, _hb = mkfix(state={**base_state, DEC_KEY: SPLICED,
                                         ORD_KEY: TRUE_ORD})
         json.dump(new_ev, open(pj, "w"))
         o = argparse.Namespace(state=sp, receipt=rec, probe_evidence=pj)
@@ -454,7 +526,7 @@ def selftest():
 
     # L12 splice heal via update: WHOLE string swapped, not the head
     def l12():
-        rc, sp, _ = upd(new_ev, advance=True,
+        rc, sp, _, _hb = upd(new_ev, advance=True,
                         state={**base_state, DEC_KEY: SPLICED, ORD_KEY: PHANTOM})
         assert rc == 0, "rc=%s" % rc
         st = _load_json(sp)
@@ -465,7 +537,7 @@ def selftest():
     # L13 case-normalized compare: uppercase stored == lowercase probe ->
     #     no --advance needed (r503/r711); write normalizes to canonical form
     def l13():
-        rc, sp, _ = upd(new_ev, advance=False,
+        rc, sp, _, _hb = upd(new_ev, advance=False,
                         state={**base_state, DEC_KEY: TRUE_DEC.upper(),
                                ORD_KEY: TRUE_ORD.upper()})
         assert rc == 0, "rc=%s (case-only delta must not demand --advance)" % rc
@@ -476,7 +548,7 @@ def selftest():
 
     # L14 tampered stored key -> verify structural refusal
     def l14():
-        mid, sp, pj, rec = mkfix(state={**base_state, DEC_KEY: "short",
+        mid, sp, pj, rec, _mj, _hb = mkfix(state={**base_state, DEC_KEY: "short",
                                         ORD_KEY: TRUE_ORD})
         json.dump(new_ev, open(pj, "w"))
         o = argparse.Namespace(state=sp, receipt=rec, probe_evidence=pj)
@@ -542,6 +614,48 @@ def selftest():
         assert bufe.getvalue() == "warn\n", "bytes stderr lost"
     leg("L17 r1045 relay decodes bytes face", l17)
 
+
+    # L18/L19/L20 r1090 two-face law: heartbeat mirrors ride the same update,
+    # read-back asserted; absent heartbeat = honest skip; zero fabrication
+    def l18():
+        rc, sp, rec, hb = upd(new_ev, advance=True, state=dict(base_state))
+        assert rc == 0, "rc=%s" % rc
+        h2 = _load_json(hb)
+        assert h2["last_orders_sha"] == TRUE_ORD and h2["last_decisions_sha"] == TRUE_DEC, \
+            "heartbeat mirrors not synced"
+        assert h2["extra_foreign_key"] == "keep-me", "foreign key must be preserved"
+        r = _load_json(rec)
+        assert r["heartbeat_sync"]["readback_ok"] is True
+        assert r["heartbeat_sync"]["synced"]["last_orders_sha"]["to"] == TRUE_ORD
+    leg("L18 heartbeat mirrors synced in same update + read-back (r1052 in-tool)", l18)
+
+    def l19():
+        rc, sp, rec, hb = upd(new_ev, advance=True, state=dict(base_state),
+                              mkheartbeat=False)
+        assert rc == 0, "absent heartbeat must not fault: rc=%s" % rc
+        assert not os.path.isfile(hb)
+        r = _load_json(rec)
+        assert "skipped" in (r["heartbeat_sync"]["note"] or ""), \
+            "expected honest skip note, got %r" % r["heartbeat_sync"]
+    leg("L19 absent heartbeat = honest skip (never a fault)", l19)
+
+    def l20():
+        st_min = {DEC_KEY: OLD_DEC, ORD_KEY: OLD_ORD, "round_no": 7,
+                  "last_orders_read_at": "t0", "last_decisions_read_at": "t0",
+                  "last_decisions_at": "t0"}  # NO last_orders_at/*_seen keys in state
+        rc, sp, rec, hb = upd(new_ev, advance=True, state=st_min)
+        assert rc == 0, "rc=%s" % rc
+        h2 = _load_json(hb)
+        assert h2["last_orders_seen"] == "stale", \
+            "keys absent from state must not be fabricated/overwritten in heartbeat"
+        s2 = _load_json(sp)
+        assert h2["last_orders_read_at"] == s2["last_orders_read_at"], \
+            "present state keys must mirror state post-write truth"
+        r = _load_json(rec)
+        assert "last_orders_seen" not in r["heartbeat_sync"]["synced"], \
+            "absent-in-state key must not appear in synced map"
+    leg("L20 zero fabrication: only state-present keys mirrored", l20)
+
     fails = [l for l in legs if not l[1]]
     for name, ok, why in legs:
         print("%s %s%s" % ("PASS" if ok else "FAIL", name,
@@ -567,6 +681,11 @@ def main(argv=None):
     p_u.add_argument("--receipt", default=RECEIPT,
                      help="receipt evidence FILE PATH (not text; default "
                           "results/d19_watermark.json)")
+    p_u.add_argument("--heartbeat", default=None,
+                     help="heartbeat file for the two-face mirror write "
+                          "(default fleet/machines/<machine_id>.json; r1090 "
+                          "two-face law: state + heartbeat written in the "
+                          "SAME update with read-back assertions)")
 
     p_v = sub.add_parser("verify")
     p_v.add_argument("--state", default=None)
