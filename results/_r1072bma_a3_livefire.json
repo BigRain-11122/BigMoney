@@ -1,0 +1,146 @@
+{
+ "g1": {
+  "gate_events": [
+   {
+    "action": "refuse_ignite",
+    "entry": "LIVEFIRE-G1-微盘因子reburn",
+    "families": [
+     "microcap_2024_crash"
+    ],
+    "gate": "closed_family",
+    "machine": "bm-a",
+    "reopen_rules": {
+     "microcap_2024_crash": "ceo_one_line_reopen"
+    },
+    "shard": "s0",
+    "ts": "2026-10-19 05:05:17"
+   }
+  ],
+  "launched_entry": "LIVEFIRE-G1-clean",
+  "rc": 0,
+  "refused": [
+   {
+    "entry": "LIVEFIRE-G1-微盘因子reburn",
+    "families": [
+     "microcap_2024_crash"
+    ],
+    "hits": [
+     {
+      "face": "微盘",
+      "family": "microcap_2024_crash"
+     }
+    ],
+    "reopen_rules": {
+     "microcap_2024_crash": "ceo_one_line_reopen"
+    },
+    "shard": "s0"
+   }
+  ],
+  "verdict": "dry_launch"
+ },
+ "g2": {
+  "budget_disabled_rec": [
+   {
+    "action": "auto_disabled",
+    "budget_cap": 5,
+    "consumed": 5,
+    "entry": "LIVEFIRE-G2-cap",
+    "gate": "budget_cap",
+    "machine": "bm-a",
+    "ts": "2026-10-19 05:05:17"
+   }
+  ],
+  "consumed_unit": 5,
+  "gate_events": [
+   {
+    "action": "auto_disabled",
+    "budget_cap": 5,
+    "consumed": 5,
+    "entry": "LIVEFIRE-G2-cap",
+    "gate": "budget_cap",
+    "machine": "bm-a",
+    "ts": "2026-10-19 05:05:17"
+   }
+  ],
+  "lane_entry": [
+   {
+    "budget_cap": 5,
+    "disabled_at": "2026-10-19 05:05:17",
+    "disabled_by": "bm-a",
+    "disabled_reason": "budget_cap 5 reached (consumed 5 burn units = attempted shards + confirmed crashes) -- A3 G2 runtime auto-stop, no new ignite",
+    "entered_at": "2026-10-19 04:00:00",
+    "id": "LIVEFIRE-G2-cap",
+    "lane_owner": null,
+    "priority": 1,
+    "runner": "scripts/fake_runner.py",
+    "runner_args": [
+     "run"
+    ],
+    "shards": [
+     {
+      "key": "s0",
+      "owner": "bm-z",
+      "status": "done"
+     },
+     {
+      "key": "s1",
+      "owner": "bm-b",
+      "status": "ready"
+     },
+     {
+      "key": "s2",
+      "owner": null,
+      "status": "ready"
+     }
+    ],
+    "status": "disabled",
+    "workers_plan": {
+     "priority": "BelowNormal",
+     "workers": 12
+    }
+   }
+  ],
+  "rc": 0,
+  "shared_entry": [
+   {
+    "budget_cap": 5,
+    "disabled_at": "2026-10-19 05:05:17",
+    "disabled_by": "bm-a",
+    "disabled_reason": "budget_cap 5 reached (consumed 5 burn units = attempted shards + confirmed crashes) -- A3 G2 runtime auto-stop, no new ignite",
+    "entered_at": "2026-10-19 04:00:00",
+    "id": "LIVEFIRE-G2-cap",
+    "lane_owner": null,
+    "priority": 1,
+    "runner": "scripts/fake_runner.py",
+    "runner_args": [
+     "run"
+    ],
+    "shards": [
+     {
+      "key": "s0",
+      "owner": "bm-z",
+      "status": "done"
+     },
+     {
+      "key": "s1",
+      "owner": "bm-b",
+      "status": "ready"
+     },
+     {
+      "key": "s2",
+      "owner": null,
+      "status": "ready"
+     }
+    ],
+    "status": "disabled",
+    "workers_plan": {
+     "priority": "BelowNormal",
+     "workers": 12
+    }
+   }
+  ],
+  "verdict": "pool_empty_or_busy"
+ },
+ "probe": "r1072bma_a3_livefire",
+ "tmp": "C:\\Users\\sjs20\\AppData\\Local\\Temp\\a3_livefire_1dr3urnw"
+}

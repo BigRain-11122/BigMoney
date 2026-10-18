@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-19T03:58:05+08:00",
+ "ts": "2026-10-19T05:05:17+08:00",
  "machine": "bm-a",
  "law_ref": "cph4/fleet/GROUP-AUTOMATION-PLAN-v1.md five elements; construction case research/AUTOMATION-LINE-PLAN-v1.md",
  "elements": [
@@ -7,8 +7,8 @@
    "element": "E1_loop_driven_24x7",
    "verdict": "GAP",
    "evidence": {
-    "heartbeat_age_min": 98.08225206666665,
-    "round_report_age_min": 108.79911443333334,
+    "heartbeat_age_min": 47.383733,
+    "round_report_age_min": 55.93387418333334,
     "stale_line_min": 30.0
    }
   },
@@ -25,13 +25,13 @@
   },
   {
    "element": "E3_quality_gates_in_loop",
-   "verdict": "PARTIAL",
+   "verdict": "OK",
    "evidence": {
     "kill_line_registry": true,
     "kill_line_registration_block": true,
-    "kill_line_runtime_auto_stop": false,
+    "kill_line_runtime_auto_stop": true,
     "prereg_budget_frozen_face": true,
-    "prereg_budget_auto_stop": false,
+    "prereg_budget_auto_stop": true,
     "false_green_claimable_crosscheck": true,
     "precommit_claw_present": true
    }
@@ -41,7 +41,7 @@
    "verdict": "OK",
    "evidence": {
     "latest_report": "REPORT-2026-10-19.md",
-    "latest_report_age_days": 0.00032841104166666667,
+    "latest_report_age_days": 0.010524968761574074,
     "stale_line_days": 2.0,
     "pnl_attribution_streak_days": 1
    }
@@ -51,15 +51,13 @@
    "verdict": "OK",
    "evidence": {
     "window_rounds": 5,
-    "waiting_rounds": 2,
-    "product_rounds": 3,
-    "waiting_share": 0.4
+    "waiting_rounds": 1,
+    "product_rounds": 4,
+    "waiting_share": 0.2
    }
   }
  ],
  "gaps": [
-  "G1 判负关线运行侧自动执法缺位（注册侧已闸·烧批续燃面无 CLOSED_FAMILIES 硬拒）",
-  "G2 预注册预算运行时自动停缺位（冻结面在·超限靠人宣合法停）",
   "E1_loop_driven_24x7 分项 GAP（证据见 JSON）"
  ],
  "lane_machine": "bm-a"

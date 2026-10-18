@@ -249,3 +249,11 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 连带（本窗三连叠加教训）：孤儿 stash 污染与「多写者共享 regen 面 rebase 冲突」（22 面处置三律=普通面 ts newer-wins / per-machine 键面深 UNION 保他机行 / md-js 孪生随 json 同侧）+「push 竞速被拒」同窗——每层先验血统再动手，勿按序惯性 pop/continue。
 - 证据：bigmoney commit c02682967e（r1070 主件）+ reset 前后 0/0 双证 + stash@{0} 孤儿条目在库 + state notes r1070 (5)。
 - 2026-10-19 02:2x：bm-a r1070（无人值守轮 closeout 后窗实弹·捕获律 O-20261002-2100 依法生成）
+
+
+## E74 tick 侧终态 hold 双轨外科写配方（r1072 bm-a A3 G2 实弹·r504 权威律吞面定谳）
+- 面定谳：lane-primary 时代 tick 写「lane-strict + union settle」对 ENTRY-STATUS 翻面（非 done / 非 shard-ts 面）结构性脆弱——r504 权威律（marked-vs-bare 冲突 shared 面恒胜）把 lane 侧新写的 waiting/disabled 终态吞回陈旧 shared 的 bare-ready；r491 park 在产线存活靠 crash-fuse 同席拒燃托底（park 被吞也每 tick 重确认=churn 自愈）。r1072 A3 G2 budget auto-disable 首烧 live-fire 探针实弹抓出（shared+lane 双面 ready 回弹=吞面铁证，results/_r1072bma_a3_livefire.json 吞面前证在档）。
+- 正法三件：①tick 侧终态写=双轨（lane-strict 权威记录 + shared 外科可见性写）——shared 写走「新鲜读共享面→只套用本扫描的 disable 突变域→写回」（MSG-20261003-0612 per-face surgical-merge 律：并发 session 他处编辑零丢失）；②merger deliberate-hold 族扩第三面（disabled+disabled_reason 入 marker 测试 + rank disabled=3>ready——lane-vs-lane 与 rank 路均吞不动）；③shared 权威律保持不动=裁决后 un-disable（session 写 shared bare-ready）恒胜陈旧 lane disabled 面（r504 EITHER-direction 保护不破）。
+- 吞面余留（fail-soft 文档化）：lane 写成、shared 写败的 crash 窗=disable 被吞→幂等扫描下 tick 重确认自愈（r491 同族）；done 吸收律不动（disabled 全 shard done 仍恒 disabled=预算停终态正确）。
+- 证据：Tools/autofill.py _budget_cap_scan 双轨段 + scripts/merge_lane_views.py _merge_pool_entry 扩面 + merger selftest 5e 四腿（0 FAIL）+ autofill selftest S24b/S24f PASS（SELFTEST ALL PASS）+ A3 实弹探针前后双证据。
+- 2026-10-19 05:1x：bm-a r1072（A3 G1+G2 运行侧执法批收口·捕获律 O-20261002-2100 工程净路）

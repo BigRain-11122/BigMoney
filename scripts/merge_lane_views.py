@@ -375,22 +375,29 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
     # claimed the fake-ready and burned into a governance hold (kill
     # at dedup 7750/10000, zero product, N=0 held). Marker test now
     # covers BOTH deliberate-hold notes (defer_note, park_note).
+    # A3 G2 (AUTOMATION-LINE-PLAN-v1 sec.II G2, r1072 bm-a): the
+    # budget_cap runtime auto-stop (status disabled + disabled_reason)
+    # is the THIRD deliberate-hold face -- a swallowed disable = the
+    # daemon re-ignites an over-budget batch, the exact r504 hazard
+    # class. Marker + authority + rank laws extended accordingly.
     # Authority rule (writer-model, r378 canon: session one-offs touch
     # ONLY the shared face; dual-track ticks write both sides): in a
     # marked-vs-bare conflict the side carrying the shared face's
     # verdict wins -- protects the park AND the un-park (a stale lane
     # mirror must never outvote the face a session just wrote, in
     # EITHER direction). Lane-vs-lane (no shared input in this pair)
-    # falls back to the risk-asymmetric marker law (marked-waiting
-    # beats bare-ready: a swallowed park = daemon burns a
-    # deliberately-held batch). Both sides marked (or neither) ->
-    # legacy rank. This branch also merges governance and shards
-    # across sides regardless of the winning side (the old
-    # take-one-side-wholesale dropped the losing side's annotations).
-    a_note = bool(a.get("defer_note") or a.get("park_note"))
-    b_note = bool(b.get("defer_note") or b.get("park_note"))
-    a_mw = a.get("status") == "waiting" and a_note
-    b_mw = b.get("status") == "waiting" and b_note
+    # falls back to the risk-asymmetric marker law (marked-hold beats
+    # bare-ready: a swallowed park = daemon burns a deliberately-held
+    # batch). Both sides marked (or neither) -> legacy rank. This
+    # branch also merges governance and shards across sides regardless
+    # of the winning side (the old take-one-side-wholesale dropped the
+    # losing side's annotations).
+    a_note = bool(a.get("defer_note") or a.get("park_note")
+                  or a.get("disabled_reason"))
+    b_note = bool(b.get("defer_note") or b.get("park_note")
+                  or b.get("disabled_reason"))
+    a_mw = a.get("status") in ("waiting", "disabled") and a_note
+    b_mw = b.get("status") in ("waiting", "disabled") and b_note
     bare_ready = ((a.get("status") == "ready" and not a_note)
                   or (b.get("status") == "ready" and not b_note))
     if (a_mw or b_mw) and bare_ready:
@@ -404,10 +411,11 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
         else:
             win, lose = (a, b) if a_mw else (b, a)
             notes.append(f"entry {a.get('id')}: deliberate-hold marker "
-                         f"(waiting+defer_note/park_note, r378 catch #4 "
-                         f"+ r504) beats bare ready from a stale mirror")
+                         f"(waiting/disabled + defer_note/park_note/"
+                         f"disabled_reason, r378 catch #4 + r504 + A3 G2) "
+                         f"beats bare ready from a stale mirror")
     else:
-        rank = {"ready": 2, "waiting": 1}
+        rank = {"ready": 2, "waiting": 1, "disabled": 3}
         win = a if rank.get(a.get("status"), 0) >= \
             rank.get(b.get("status"), 0) else b
         lose = b if win is a else a
@@ -1485,6 +1493,52 @@ def _selftest():
     pk2 = next(e for e in rearm[0]["entries"] if e["id"] == "PK2")
     check("pool:rearm-retaining-park-note-still-wins",
           pk2["status"] == "ready")
+
+    # 5e. A3 G2 disabled face (AUTOMATION-LINE-PLAN-v1 sec.II G2,
+    # r1072 bm-a): the budget_cap runtime auto-stop (status disabled +
+    # disabled_reason) is the third deliberate-hold face -- marked
+    # disabled beats a stale lane's bare ready lane-vs-lane; the
+    # shared-face verdict still wins marked-vs-bare in EITHER
+    # direction (post-adjudication un-disable holds); a reason-less
+    # disabled still outranks ready in the rank path.
+    dis_shared = {"updated_at": "2026-10-19 05:00:00", "entries": [
+        {"id": "BCAP", "status": "disabled",
+         "disabled_reason": "budget_cap 5 reached (consumed 5) -- A3 G2"}]}
+    m, _n = merge_runnable_pool([
+        ("legacy", dis_shared),
+        ("bm-b", {"updated_at": "2026-10-19 04:00:00", "entries": [
+            {"id": "BCAP", "status": "ready"}]})])
+    ebc = next(e for e in m["entries"] if e["id"] == "BCAP")
+    check("pool:budget-disable-survives-stale-ready-lane",
+          ebc["status"] == "disabled"
+          and ebc.get("disabled_reason", "").startswith("budget_cap"))
+    m, _n = merge_runnable_pool([
+        ("bm-a", {"updated_at": "2026-10-19 05:00:00", "entries": [
+            {"id": "BCAP2", "status": "disabled",
+             "disabled_reason": "budget_cap 1 reached"}]}),
+        ("bm-b", {"updated_at": "2026-10-19 04:00:00", "entries": [
+            {"id": "BCAP2", "status": "ready"}]})])
+    ebc2 = next(e for e in m["entries"] if e["id"] == "BCAP2")
+    check("pool:lane-vs-lane-marked-disabled-beats-bare-ready",
+          ebc2["status"] == "disabled")
+    undis_shared = {"updated_at": "2026-10-19 06:00:00", "entries": [
+        {"id": "BCAP3", "status": "ready"}]}
+    stale_dis_lane = {"updated_at": "2026-10-19 05:00:00", "entries": [
+        {"id": "BCAP3", "status": "disabled",
+         "disabled_reason": "stale budget stop mirror"}]}
+    m, _n = merge_runnable_pool([("legacy", undis_shared),
+                                 ("bm-a", stale_dis_lane)])
+    ebc3 = next(e for e in m["entries"] if e["id"] == "BCAP3")
+    check("pool:post-adjudication-un-disable-shared-verdict-holds",
+          ebc3["status"] == "ready")
+    m, _n = merge_runnable_pool([
+        ("bm-a", {"updated_at": "2026-10-19 05:00:00", "entries": [
+            {"id": "BCAP4", "status": "disabled"}]}),
+        ("bm-b", {"updated_at": "2026-10-19 04:00:00", "entries": [
+            {"id": "BCAP4", "status": "ready"}]})])
+    ebc4 = next(e for e in m["entries"] if e["id"] == "BCAP4")
+    check("pool:reason-less-disabled-outranks-ready-rank-path",
+          ebc4["status"] == "disabled")
 
     # 6. gate_attrition full-volume union (47 consumers need every row)
     a = {"schema": "v1", "entries": [{"batch": "B", "ts": "01"}],

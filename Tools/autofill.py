@@ -80,6 +80,19 @@ Contract:
       ticks (a same-second claim-write race is possible but the window is
       seconds and self-commit r290 keeps tick dirt recoverable).
 
+  * A3 G1 closed-family ignite gate (research/AUTOMATION-LINE-PLAN-v1.md
+    sec.II G1, <=10-24): before any claim/launch write the tick consults
+    science_gates.CLOSED_FAMILIES via the T19 queue_seed_gate word-face
+    single source; an identity hit without a declared reopen channel
+    (entry reopen_evidence, O-20260925-1105) is hard-refused -- skip +
+    named verdict + gate-event ledger (a judged-dead family never
+    reignites on autopilot). submit() refuses the same face at the door.
+  * A3 G2 budget_cap runtime auto-stop (plan sec.II G2, <=10-24): an
+    in-pool entry carrying budget_cap (positive int, burn units = 1 per
+    attempted shard + 1 per confirmed crash) is auto-DISABLED and
+    exposed the moment consumption reaches the cap -- the prereg budget
+    stops being a human-declared 'raise-the-flag lawful stop'.
+
 Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
 (pool unreadable / sampler failure) -- report honestly, never mask.
 selftest = offline decision matrix, no real launches.
@@ -135,6 +148,11 @@ RED_FLAGS = os.path.join(ROOT, "results", "pool_red_flags.jsonl")
 # commit dirt (_tick_owned_dirt stays STATE/FUSE/lanes only) -- losing
 # it costs at most one extra claim attempt (fail-open by design).
 STRAND = os.path.join(ROOT, "results", "claim_strand.json")
+# A3 G1+G2 (construction plan research/AUTOMATION-LINE-PLAN-v1.md
+# sec.III, <=10-24): append-only ignite-gate event ledger -- closed-
+# family refusals (G1) and budget_cap auto-disables (G2) land here as
+# the live-fire intercept evidence face for V3/V4 acceptance.
+GATE_EVENTS = os.path.join(ROOT, "results", "pool_gate_events.jsonl")
 CLAIM_STRAND_MIN = 15
 
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
@@ -1364,6 +1382,169 @@ def _data_deps_missing(e):
     return miss
 
 
+def _gate_event(evt):
+    """A3 G1+G2 evidence ledger: append-only ignite-gate events (closed-
+    family refusals + budget_cap auto-disables) -- the live-fire intercept
+    face consumed by the V3/V4 acceptance audit (plan sec.IV). Fail-soft:
+    a lost append never blocks the gate action itself."""
+    try:
+        os.makedirs(os.path.dirname(GATE_EVENTS), exist_ok=True)
+        with open(GATE_EVENTS, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(evt, ensure_ascii=False) + "\n")
+    except Exception as ex:
+        _log(f"gate-event append fault (non-fatal): {ex}")
+
+
+def _entry_family_text(e):
+    """Identity-DECLARATION text of a pool entry: only the fields that
+    NAME the batch (id / refs / runner / runner_args / family), never
+    free prose -- the same face set the E6-style registration catches
+    ride on (queue_seed_gate work-column law). Pure function."""
+    args = " ".join(str(a) for a in (e.get("runner_args") or [])
+                    if a is not None)
+    return " ".join(str(p) for p in (
+        e.get("id"), e.get("ticket_ref"), e.get("prereg_ref"),
+        e.get("runner"), args, e.get("family")) if p)
+
+
+def _closed_family_verdict(e):
+    """A3 G1 closed-family ignite verdict for one pool entry
+    (research/AUTOMATION-LINE-PLAN-v1.md sec.II G1, <=10-24 deadline):
+    the registration side already blocks NEW queue seeds (T19
+    queue_seed_gate); the RUNTIME side -- this gate -- makes the
+    burn-continuation face consult science_gates.CLOSED_FAMILIES
+    before auto-igniting anything, so a judged-dead family can never
+    reignite on a stale registration or a hand-planted entry (the
+    'judged-negative close relied on human-round declared stop' gap).
+    Single-source law: word-faces + verdict semantics imported from
+    queue_seed_gate (T19 row) -- zero re-declaration; statuses mirror
+    science_gates.closed_family_check (open / rejected /
+    reopen_channel_declared, O-20260925-1105 reopen law: the entry's
+    reopen_evidence field is the declared channel). Import fault =
+    fail-open with a loud honest log -- a broken registry import must
+    never wedge the burner lane (degraded face is visible, not
+    silent)."""
+    try:
+        scripts_dir = os.path.join(ROOT, "scripts")
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+        from queue_seed_gate import check_seed
+    except Exception as ex:
+        _log(f"closed-family gate DEGRADED (registry import fault, "
+             f"fail-open honest log): {ex}")
+        return {"status": "open", "hits": [], "degraded": True}
+    return check_seed(_entry_family_text(e),
+                      reopen=e.get("reopen_evidence"))
+
+
+def _budget_consumed(e, fuse):
+    """A3 G2 burn units already consumed by an entry: 1 per attempted
+    shard (ever-claimed or done -- both are fleet faces union-merged by
+    construction, no new bookkeeping) + 1 per confirmed crash on the
+    entry's fuse sig (a crash burns a unit without advancing a shard).
+    Pure function over pool + fuse-gate faces."""
+    attempted = sum(1 for s in (e.get("shards") or [])
+                    if s.get("owner") or s.get("status") == "done")
+    reg = ((fuse.get("sigs") or {}).get(_sig(e)) or {})
+    return attempted + int(reg.get("count", 0) or 0)
+
+
+def _budget_cap_scan(pool, fuse, myid):
+    """A3 G2 runtime budget enforcement (plan sec.II G2 / sec.III A3,
+    <=10-24): in-pool batches carrying budget_cap are auto-DISABLED the
+    moment their consumed burn units reach the cap -- over-limit stops
+    being a human-declared 'raise-the-flag lawful stop' and becomes a
+    runtime fact the tick enforces on itself. Disable write = r491 park
+    pattern (lane-strict authority + union settle, fail-soft retry next
+    tick); the picker never touches non-ready entries, so a disabled
+    batch is structurally un-ignitable fleet-wide once the union lands.
+    Exposure = gate-events ledger line + named log + tick-record face.
+    Schema-additive: entries without a positive int budget_cap are
+    untouched (legacy entries unchanged)."""
+    disabled = []
+    for e in pool.get("entries", []):
+        cap = e.get("budget_cap")
+        if (not isinstance(cap, int) or cap <= 0
+                or e.get("status") != "ready"):
+            continue
+        consumed = _budget_consumed(e, fuse)
+        if consumed < cap:
+            continue
+        e["status"] = "disabled"
+        e["disabled_by"] = myid
+        e["disabled_at"] = _now()
+        e["disabled_reason"] = (
+            f"budget_cap {cap} reached (consumed {consumed} burn units "
+            f"= attempted shards + confirmed crashes) -- A3 G2 runtime "
+            f"auto-stop, no new ignite")
+        evt = {"ts": _now(), "gate": "budget_cap",
+               "action": "auto_disabled", "entry": e.get("id"),
+               "budget_cap": cap, "consumed": consumed,
+               "machine": myid}
+        disabled.append(evt)
+        _gate_event(evt)
+        _log(f"budget_cap AUTO-DISABLE {e.get('id')}: consumed "
+             f"{consumed} >= cap {cap} (A3 G2 runtime auto-stop) -- "
+             f"entry disabled, never re-ignited")
+    if disabled:
+        try:
+            if _POOL_LANE_PRIMARY:
+                _write_lane_file_strict(POOL, pool)
+                # A3 G2 dual-track visibility write (r384 family + the
+                # MSG-0612 per-face surgical-merge law): fresh-read the
+                # SHARED face and apply ONLY this scan's disable
+                # mutations -- a concurrent session edit elsewhere in
+                # the pool survives, while the disable becomes
+                # fleet-visible immediately. A lane-only island
+                # disable would resolve marked-vs-bare toward the
+                # stale shared bare-ready at the next union (r504
+                # authority law, live-proven by the r1072 live-fire
+                # probe) and re-open an over-budget batch to rival
+                # claims -- the exact hazard this gate kills.
+                try:
+                    with open(POOL, encoding="utf-8") as fh:
+                        cur = json.load(fh)
+                    hit_n = 0
+                    for ce in cur.get("entries", []):
+                        if ce.get("id") not in {d["entry"]
+                                                for d in disabled}:
+                            continue
+                        for e in pool.get("entries", []):
+                            if e.get("id") != ce.get("id"):
+                                continue
+                            for k in ("status", "disabled_by",
+                                      "disabled_at", "disabled_reason"):
+                                if k in e:
+                                    ce[k] = e[k]
+                            hit_n += 1
+                            break
+                    if hit_n == len(disabled):
+                        tmp = POOL + ".tmp"
+                        with open(tmp, "w", encoding="utf-8") as fh:
+                            json.dump(cur, fh, ensure_ascii=False, indent=1)
+                        os.replace(tmp, POOL)
+                    else:
+                        _log(f"budget disable shared-write skipped: "
+                             f"{hit_n}/{len(disabled)} ids on fresh "
+                             f"face -- lane authority holds, settle-"
+                             f"only, next tick re-confirms")
+                except Exception as ex:
+                    _log(f"budget disable shared-write fault ({ex}) -- "
+                         f"lane authority holds, settle-only, next "
+                         f"tick re-confirms (fail-soft)")
+            else:
+                tmp = POOL + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as fh:
+                    json.dump(pool, fh, ensure_ascii=False, indent=1)
+                os.replace(tmp, POOL)
+            _pool_settle()
+        except Exception as ex:
+            _log(f"budget disable persist fault ({ex}) -- lane-local "
+                 f"only, next tick re-confirms and retries (fail-soft, "
+                 f"r491 park law)")
+    return disabled
+
+
 def _pick(pool, myid, skip=None):
     """Highest-priority ready, lane-legal, not-running entry + shard.
     skip (set of entry ids): candidates already refused by the caller
@@ -1962,6 +2143,17 @@ def tick(dry=False, _saturate_depth=0):
     # post-flip for the crash-confirter, r496/r488 families)
     if _confirm_crashes(state, pool, rec["machine"], fuse):
         _save_fuse(fuse)
+    # A3 G2 (plan sec.III A3, <=10-24): in-pool budget_cap runtime
+    # auto-DISABLE with exposure -- runs on EVERY tick (dry included:
+    # it is a control-plane measurement + disable action, same law as
+    # the harvest/park legs, never a launch decision) and BEFORE the
+    # pick loop so a disabled entry is structurally never a candidate.
+    try:
+        _budget_dis = _budget_cap_scan(pool, fuse, rec["machine"])
+        if _budget_dis:
+            rec["budget_disabled"] = _budget_dis
+    except Exception as ex:
+        _log(f"budget-cap scan fault (non-fatal): {ex}")
     if not dry:
         # r288 claim-keepalive: refresh owner_since on self-owned shards
         # whose runner burns locally (proof-of-life vs remote STALE_MIN
@@ -1981,6 +2173,7 @@ def tick(dry=False, _saturate_depth=0):
     cooldown_head = None
     mc_refused = []
     dn_refused = []
+    cf_refused = []
     e = sh = cur = sig = reg = None
     while True:
         cand_e, cand_sh = _pick(pool, rec["machine"], skip=skip)
@@ -1999,6 +2192,36 @@ def tick(dry=False, _saturate_depth=0):
             dn_refused.append({"entry": cand_e["id"],
                                "shard": cand_sh.get("key"),
                                "data_missing": miss})
+            skip.add(cand_e["id"])
+            continue
+        # A3 G1 closed-family ignite gate (plan sec.II G1, <=10-24): a
+        # judged-dead family is hard-REFUSED before any claim/launch
+        # write -- the runtime backstop behind the T19 registration
+        # gate (stale registrations + hand-planted entries can no
+        # longer reignite a closed line on autopilot). Refusal is
+        # recorded + exposed, never silent; the declared reopen
+        # channel (reopen_evidence, O-20260925-1105) passes.
+        cf = _closed_family_verdict(cand_e)
+        if cf.get("status") == "rejected":
+            cf_hits = cf.get("hits", [])
+            cf_fams = sorted({h.get("family") for h in cf_hits})
+            _log(f"closed-family REFUSE {cand_e['id']}/"
+                 f"{cand_sh.get('key')}: identity faces hit "
+                 f"CLOSED_FAMILIES {cf_fams} (A3 G1 runtime hard-reject, "
+                 f"no reopen_evidence declared) -> skip, try next entry")
+            cf_rec = {"entry": cand_e["id"],
+                      "shard": cand_sh.get("key"),
+                      "families": cf_fams,
+                      "hits": cf_hits,
+                      "reopen_rules": cf.get("reopen_rules", {})}
+            cf_refused.append(cf_rec)
+            _gate_event({"ts": _now(), "gate": "closed_family",
+                         "action": "refuse_ignite",
+                         "entry": cand_e["id"],
+                         "shard": cand_sh.get("key"),
+                         "families": cf_fams,
+                         "machine": rec["machine"],
+                         "reopen_rules": cf.get("reopen_rules", {})})
             skip.add(cand_e["id"])
             continue
         cur = _sha16(os.path.join(ROOT, cand_e["runner"]))
@@ -2122,6 +2345,20 @@ def tick(dry=False, _saturate_depth=0):
                  "(D-20261004-02, data must be on the burn host)")
             print(json.dumps(rec, ensure_ascii=False))
             return 0
+        if cf_refused:
+            # A3 G1: every takeable candidate hit a CLOSED_FAMILIES
+            # word-face -- named verdict so the audit face can tell a
+            # closed-line refusal (kill-line enforced at runtime) from
+            # an empty pool; the intercept ledger carries the evidence.
+            rec["verdict"] = "closed_family_refused"
+            rec["closed_family_refused"] = cf_refused
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% every takeable entry refused by "
+                 f"closed-family gate x{len(cf_refused)} "
+                 f"(A3 G1 runtime kill-line enforcement)")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
         rec["verdict"] = "pool_empty_or_busy"
         state["last_tick"] = rec
         _save_state(state)
@@ -2144,6 +2381,11 @@ def tick(dry=False, _saturate_depth=0):
         # (data-local) entry launches (anti-starvation law keeps the
         # loop moving to a claimable entry)
         rec["data_not_local"] = dn_refused
+    if cf_refused:
+        # A3 G1 same: head refused by the closed-family gate while a
+        # later (open-family) entry launches -- refusal trace stays
+        # visible on the tick record without polluting entry/shard
+        rec["closed_family_refused"] = cf_refused
     if reg:
         # D-03(2) cleared-tombstone: record the clear so the lane-union
         # cannot resurrect this sig from another machine's stale lane
@@ -2316,6 +2558,31 @@ def submit(a):
                    "name the consuming face of its products -- judged "
                    "verdict / STRATEGY_LIBRARY / paper account / scorecard "
                    "/ dashboard / research digest; 宁亮牌不造活)")
+    # A3 G1 registration-side mirror (plan sec.II G1): a closed-family
+    # batch without a declared reopen channel never ENTERS the pool --
+    # the tick gate stays the runtime backstop, this is the door. Same
+    # identity fields the tick gate reads, so door and backstop can
+    # never disagree on a face the entry actually carries.
+    cf = _closed_family_verdict({
+        "id": a_id, "ticket_ref": a.ticket_ref,
+        "prereg_ref": a.prereg_ref, "runner": runner,
+        "runner_args": (a.runner_args or "run").split(),
+        "family": getattr(a, "family", None),
+        "reopen_evidence": getattr(a, "reopen_evidence", None)})
+    if cf.get("status") == "rejected":
+        fams = sorted({h.get("family") for h in cf.get("hits", [])})
+        bad.append(f"closed-family collision {fams} (A3 G1, "
+                   "science_gates.CLOSED_FAMILIES word-face hit on the "
+                   "entry identity; declare --reopen-evidence with the "
+                   "new-evidence delta vs the archived verdict "
+                   "(O-20260925-1105) or cite the family's reopen "
+                   "channel before registering)")
+    # A3 G2 budget_cap shape gate: positive int or absent (schema-
+    # additive; a malformed cap must never silently ride the entry).
+    bcap = getattr(a, "budget_cap", None)
+    if bcap is not None and (not isinstance(bcap, int) or bcap <= 0):
+        bad.append(f"budget_cap must be a positive int (got {bcap!r}) "
+                   "-- A3 G2 runtime auto-stop face")
     if bad:
         for b in bad:
             print(f"REFUSED: {b}")
@@ -2406,6 +2673,15 @@ def submit(a):
         # D-20261004-02(1): runner-data locality contract -- claiming
         # machines assert presence before any claim write.
         entry["data_deps"] = deps
+    # A3 G1+G2 additive schema: family / reopen_evidence feed the
+    # closed-family ignite gate; budget_cap arms the runtime auto-stop
+    # (absent = no assertion, legacy entries unchanged).
+    if (getattr(a, "family", None) or "").strip():
+        entry["family"] = a.family.strip()
+    if (getattr(a, "reopen_evidence", None) or "").strip():
+        entry["reopen_evidence"] = a.reopen_evidence.strip()
+    if getattr(a, "budget_cap", None):
+        entry["budget_cap"] = a.budget_cap
     pool.setdefault("entries", []).append(entry)
     pool["updated_at"] = _now()
     tmp = POOL + ".tmp"
@@ -2426,7 +2702,8 @@ def selftest():
     import tempfile
     global POOL, STATE, FUSE, MACHINES, LOG, LOGS_DIR, _GIT_DIR, \
         _py_cpu_pct, _runner_alive, _fuse_gate_view, _pool_settle, \
-        CLAIMS, CORE_SAMPLES, RED_FLAGS, _runner_core_verdict, STRAND
+        CLAIMS, CORE_SAMPLES, RED_FLAGS, _runner_core_verdict, STRAND, \
+        GATE_EVENTS
     ok_all = True
 
     def ok(name, cond):
@@ -2458,6 +2735,7 @@ def selftest():
         CORE_SAMPLES = os.path.join(tmp, "pool_core_samples.jsonl")
         RED_FLAGS = os.path.join(tmp, "pool_red_flags.jsonl")
         STRAND = os.path.join(tmp, "claim_strand.json")
+        GATE_EVENTS = os.path.join(tmp, "pool_gate_events.jsonl")
         _mcv_orig = _runner_core_verdict
         _runner_core_verdict = \
             lambda r: ("multiproc", "fixture-passthrough")
@@ -2734,6 +3012,13 @@ def selftest():
                 git_seq.append(args[0])   # write stages only -- r351
                 #                            fetch/diff probes stay off
                 #                            the sequence assertions
+            if args[0] == "check-ignore":
+                # r1044 tick-dirt filter probe: production rc0 = path
+                # IS gitignored (excluded from the add set), rc1 = not
+                # ignored (kept). The default-0 stub silently excluded
+                # ALL tick dirt and red-woke S15i/S15i2/S17e the day
+                # the filter landed -- stub emulates NOT-ignored.
+                return 1, ""
             if args[0] == "diff" and behind_sim["on"]:
                 return 1, ""               # r351 pool-behind-origin face
             if (args[0] == "diff" and "--diff-filter=D" in args
@@ -4124,6 +4409,197 @@ def selftest():
             _ORIGIN_POOL_BLOB = None
         ok("S22k6 helper fail-soft with no origin (prior gates govern)",
            _origin_shard_state("E22-oa", "s0") is None)
+        # S23 A3 G1 closed-family ignite gate (construction plan
+        # research/AUTOMATION-LINE-PLAN-v1.md sec.II G1 / sec.III A3,
+        # <=10-24): the registration side is T19 queue_seed_gate; THIS
+        # is the runtime side -- a closed-family pool entry is hard-
+        # refused BEFORE any claim/launch write (named verdict +
+        # gate-event ledger), the declared reopen channel passes
+        # (O-20260925-1105), and anti-starvation keeps later open-
+        # family entries moving.
+        _py23 = _py_cpu_pct
+        _py_cpu_pct = lambda w=SAMPLE_S: 5.0
+        try:
+            with open(FUSE, "w", encoding="utf-8") as fh:
+                json.dump({"sigs": {}}, fh)
+            _clear_fuse_lanes()
+            # S23a unit: microcap word-face identity -> rejected
+            v23a = _closed_family_verdict({
+                "id": "E23-MICROCAP-微盘reburn",
+                "runner": "scripts/x.py", "runner_args": ["run"]})
+            ok("S23a closed-family verdict rejected on 微盘 face",
+               v23a["status"] == "rejected"
+               and any(h.get("family") == "microcap_2024_crash"
+                       for h in v23a["hits"]))
+            # S23b declared reopen channel -> passes (1105 law)
+            v23b = _closed_family_verdict({
+                "id": "E23-MICROCAP-微盘reburn",
+                "runner": "scripts/x.py", "runner_args": ["run"],
+                "reopen_evidence": "fresh prereg delta vs archived "
+                                   "microcap verdict (CEO one-liner "
+                                   "reopen 2026-10-19)"})
+            ok("S23b reopen_evidence -> reopen_channel_declared",
+               v23b["status"] == "reopen_channel_declared")
+            # S23c clean identity -> open (no over-block)
+            v23c = _closed_family_verdict({
+                "id": "E23-plain", "runner": "scripts/rev_osc_probe.py",
+                "runner_args": ["run"]})
+            ok("S23c clean identity -> open (no over-block)",
+               v23c["status"] == "open" and v23c["hits"] == [])
+            # S23d tick-level: closed-family head refused + clean later
+            # entry launches (anti-starvation); intercept ledgered
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [
+                    dict(entry, id="E23-CF-微盘因子reburn", priority=1),
+                    dict(entry, id="E23-clean", priority=2)]}, fh)
+            _pool_lane_clear()
+            rc = tick(dry=True)
+            st23d = _load_state()["last_tick"]
+            ev23d = [json.loads(l) for l in
+                     open(GATE_EVENTS, encoding="utf-8")
+                     .read().splitlines() if l.strip()]
+            ok("S23d closed-family head refused, clean later entry "
+               "launches (no starvation)",
+               rc == 0 and st23d["verdict"] == "dry_launch"
+               and st23d["entry"] == "E23-clean"
+               and st23d["closed_family_refused"][0]["entry"]
+               == "E23-CF-微盘因子reburn"
+               and any(x.get("gate") == "closed_family"
+                       and x.get("entry") == "E23-CF-微盘因子reburn"
+                       and x.get("action") == "refuse_ignite"
+                       for x in ev23d))
+            # S23e every candidate closed-family -> named verdict
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [
+                    dict(entry, id="E23-ALLCF-低振幅lowamp-reburn")]}, fh)
+            _pool_lane_clear()
+            rc = tick(dry=True)
+            st23e = _load_state()["last_tick"]
+            ok("S23e every candidate closed-family -> "
+               "closed_family_refused verdict",
+               rc == 0 and st23e["verdict"] == "closed_family_refused"
+               and st23e["closed_family_refused"][0]["entry"]
+               == "E23-ALLCF-低振幅lowamp-reburn")
+            # S23f submit refuses a closed-family id at the door; the
+            # declared reopen channel lands the entry (door == backstop)
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": []}, fh)
+            _pool_lane_clear()
+            rc23f = submit(_sa(id="E23-SUB-小市值扫描",
+                              prereg_ref="research/x.md"))
+            n23f = len(json.load(open(POOL, encoding="utf-8"))
+                       ["entries"])
+            rc23f2 = submit(_sa(
+                id="E23-SUB-小市值扫描", prereg_ref="research/x.md",
+                reopen_evidence="fresh prereg delta: new cost caliber "
+                "vs archived microcap verdict (O-20260925-1105)"))
+            p23f = json.load(open(POOL, encoding="utf-8"))["entries"]
+            ok("S23f submit refuses closed-family door / reopen lands",
+               rc23f == 2 and n23f == 0 and rc23f2 == 0
+               and len(p23f) == 1
+               and (p23f[0].get("reopen_evidence") or "")
+               .startswith("fresh prereg delta"))
+        finally:
+            _py_cpu_pct = _py23
+        # S24 A3 G2 budget_cap runtime auto-stop (plan sec.II G2 /
+        # sec.III A3, <=10-24): an in-pool entry carrying budget_cap is
+        # auto-DISABLED the moment consumed burn units (attempted
+        # shards + confirmed crashes) reach the cap, exposed on the
+        # gate-event ledger; under-cap and legacy no-cap entries are
+        # untouched (no over-block).
+        _py24 = _py_cpu_pct
+        _py_cpu_pct = lambda w=SAMPLE_S: 5.0
+        try:
+            # S24a unit: consumption = attempted shards + crash count
+            fu24 = {"sigs": {"scripts/fake_runner.py|run": {"count": 3}}}
+            e24a = dict(entry, id="E24-cap", budget_cap=5,
+                        shards=[{"key": "s0", "status": "done",
+                                 "owner": "bm-z"},
+                                {"key": "s1", "status": "ready",
+                                 "owner": "bm-b"},
+                                {"key": "s2", "status": "ready",
+                                 "owner": None}])
+            ok("S24a consumption = attempted shards + confirmed crashes",
+               _budget_consumed(e24a, fu24) == 5
+               and _budget_consumed(dict(entry), {"sigs": {}}) == 0)
+            # S24b tick-level: cap reached -> auto-DISABLE + exposure,
+            # entry structurally never ignitable (picker skips non-ready)
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(e24a)]}, fh)
+            _pool_lane_clear()
+            with open(FUSE, "w", encoding="utf-8") as fh:
+                json.dump(fu24, fh)
+            _clear_fuse_lanes()
+            rc = tick(dry=True)
+            st24b = _load_state()["last_tick"]
+            p24b = json.load(open(POOL, encoding="utf-8"))["entries"][0]
+            ev24 = [json.loads(l) for l in
+                    open(GATE_EVENTS, encoding="utf-8")
+                    .read().splitlines() if l.strip()]
+            ok("S24b cap reached -> auto-DISABLE + exposed + never "
+               "picked",
+               rc == 0 and p24b["status"] == "disabled"
+               and (p24b.get("disabled_reason") or "").startswith(
+                   "budget_cap 5 reached")
+               and st24b.get("budget_disabled", [{}])[0].get("entry")
+               == "E24-cap"
+               and st24b["verdict"] == "pool_empty_or_busy"
+               and any(x.get("gate") == "budget_cap"
+                       and x.get("action") == "auto_disabled"
+                       and x.get("consumed") == 5 for x in ev24))
+            # S24c under-cap -> dry_launch proceeds (no over-block)
+            with open(FUSE, "w", encoding="utf-8") as fh:
+                json.dump({"sigs": {}}, fh)
+            _clear_fuse_lanes()
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(e24a, budget_cap=6)]}, fh)
+            _pool_lane_clear()
+            rc = tick(dry=True)
+            ok("S24c under-cap -> dry_launch proceeds (no over-block)",
+               rc == 0 and _load_state()["last_tick"]["verdict"]
+               == "dry_launch")
+            # S24d legacy no-cap entry untouched (schema-additive law)
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(entry)]}, fh)
+            _pool_lane_clear()
+            rc = tick(dry=True)
+            ok("S24d legacy no-cap entry untouched (dry_launch)",
+               rc == 0 and _load_state()["last_tick"]["verdict"]
+               == "dry_launch"
+               and "budget_cap" not in json.load(
+                   open(POOL, encoding="utf-8"))["entries"][0])
+            # S24e submit budget_cap shape gate (positive int or absent)
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": []}, fh)
+            _pool_lane_clear()
+            rc24e = submit(_sa(id="E24-SUB", budget_cap=0))
+            rc24e2 = submit(_sa(id="E24-SUB", budget_cap=-3))
+            rc24e3 = submit(_sa(id="E24-SUB", budget_cap=4))
+            p24e = json.load(open(POOL, encoding="utf-8"))["entries"]
+            ok("S24e submit budget_cap shape gate (positive int)",
+               rc24e == 2 and rc24e2 == 2 and rc24e3 == 0
+               and len(p24e) == 1 and p24e[0].get("budget_cap") == 4)
+            # S24f crash-only burn unit: cap 1 + 1 confirmed crash,
+            # zero attempted shards -> still auto-disabled (a crash
+            # burns a unit without advancing a shard)
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(
+                    entry, id="E24-crash", budget_cap=1,
+                    shards=[{"key": "s0", "status": "ready",
+                             "owner": None}])]}, fh)
+            _pool_lane_clear()
+            with open(FUSE, "w", encoding="utf-8") as fh:
+                json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                    "count": 1, "code_sha256": None}}}, fh)
+            _clear_fuse_lanes()
+            rc = tick(dry=True)
+            p24f = json.load(open(POOL, encoding="utf-8"))["entries"][0]
+            ok("S24f crash-only burn unit reaches cap -> auto-disabled",
+               rc == 0 and p24f["status"] == "disabled"
+               and "consumed 1 burn units" in
+               (p24f.get("disabled_reason") or ""))
+        finally:
+            _py_cpu_pct = _py24
     # S21 O-20260930-1858 sec.1 holiday full-burn window: pure date face
     ok("S21 fullburn closed before 10-01",
        not _fullburn_active(datetime(2026, 9, 30, 23, 59, 59)))
@@ -4173,6 +4649,21 @@ def main():
                          'machine probes presence, fail-closed')
     ap.add_argument("--shard-checkpoint", dest="shard_checkpoint")
     ap.add_argument("--shard-note", dest="shard_note")
+    ap.add_argument("--family",
+                    help="A3 G1: explicit family identity of the batch "
+                         "(checked against science_gates.CLOSED_FAMILIES "
+                         "word-faces at submit AND at every ignite tick)")
+    ap.add_argument("--reopen-evidence", dest="reopen_evidence",
+                    help="A3 G1: declared reopen channel for a "
+                         "CLOSED_FAMILIES hit -- the new-evidence delta "
+                         "vs the archived verdict (O-20260925-1105) or "
+                         "the family's scheduled/CEO reopen citation")
+    ap.add_argument("--budget-cap", dest="budget_cap", type=int,
+                    help="A3 G2: max burn units for this entry (1 per "
+                         "attempted shard + 1 per confirmed crash); the "
+                         "runtime tick auto-DISABLES the entry at the "
+                         "cap and exposes the event (no human stop "
+                         "declaration needed)")
     ap.add_argument("--consumer-plan", dest="consumer_plan",
                     help="O-1820 meaning law (required): consuming face "
                          "of the batch products")
