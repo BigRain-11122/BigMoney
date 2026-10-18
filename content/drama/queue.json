@@ -63,6 +63,30 @@
    "source": "cph4/fleet/drama-dept-v1/epburn-handover/CSA-SMOKE-VERDICT-20261017.md sec.v1.1 items 1-2 (workorders 2/5 technically GO); toolchain canonical body = MiniGame/Tools/comfy (bm-b owner)",
    "claim": "claimed@bm-b@2026-10-19T02:37:31",
    "done_at": "2026-10-19T02:37:31"
+  },
+  {
+   "id": "ST-005",
+   "title": "voice-library env bootstrap: GPT-SoVITS phased install driver (venv+torch-cpu+deps+modelscope weights+smoke, detached carrier, idempotent phases)",
+   "state": "done",
+   "lane": "cpu-code",
+   "runner": "st005_gpt_sovits_env_ignite",
+   "require": "none",
+   "product": "detached driver live-or-done + status face results/drama_env/gpt_sovits_env_status.json + install log (media area)",
+   "source": "ST-003 eval next-batch item (env install, <=10-22 window); O-20261018-2144-bm-c sec.2.1 voice-library lane",
+   "claim": "claimed@bm-b@2026-10-19T03:41:40",
+   "done_at": "2026-10-19T03:41:44"
+  },
+  {
+   "id": "ST-006",
+   "title": "voice-bank manifest v0.1: 7 canon character voice entries (schema+descriptors+ref-clip sourcing shortlist+consistency gate spec)",
+   "state": "done",
+   "lane": "cpu-code",
+   "runner": "st006_voice_bank_manifest",
+   "require": "none",
+   "product": "content/drama/voice_bank/manifest.json + outbox receipt VOICE-BANK-MANIFEST-v0.1.md",
+   "source": "VOICE-PIPELINE-SKELETON-v1 sec.2 (voice bank schema); ST-003 eval next-batch item (first voice-bank entries)",
+   "claim": "claimed@bm-b@2026-10-19T03:52:01",
+   "done_at": "2026-10-19T03:52:01"
   }
  ]
 }

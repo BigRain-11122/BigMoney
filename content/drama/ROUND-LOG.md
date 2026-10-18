@@ -11,3 +11,8 @@
 2026-10-19T02:36:17 | round 11 | claimable | ST-003 | {"runner": "st003_voice_library_first_batch", "verdict": "runner-error", "err": "clone-failed GPT-SoVITS: Cloning into 'C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS'...\nfatal: unable to access 'https://githu
 2026-10-19T02:37:25 | round 12 | claimable | ST-003 | {"runner": "st003_voice_library_first_batch", "cloned": ["GPT-SoVITS", "OpenVoice"], "present": [], "products": ["C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\content\\drama\\outbox\\VOICE-LIBRARY-EVAL-20261019.md", "C:\\F
 2026-10-19T02:37:31 | round 13 | claimable | ST-004 | {"runner": "st004_csa_anchor_precheck", "util": "C:\\Fluxgroup\\MiniGame\\Tools\\comfy\\anchor_precheck.py", "burn_patched": true, "selftest_rc": 0, "probe": "canon-7/7-pass", "product": "C:\\Fluxgroup\\FluxGroup\\quant\
+2026-10-19T02:52:01 | round 14 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T03:12:01 | round 15 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T03:32:01 | round 16 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T03:41:44 | round 17 | claimable | ST-005 | {"runner": "st005_gpt_sovits_env_ignite", "verdict": "ignited", "pid": 27128, "phase": "torch", "status_face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\drama_env\\gpt_sovits_env_status.json", "log": "C:\\Flux
+2026-10-19T03:52:01 | round 18 | claimable | ST-006 | {"runner": "st006_voice_bank_manifest", "manifest": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\content\\drama\\voice_bank\\manifest.json", "receipt": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\content\\drama\\outbox\\V

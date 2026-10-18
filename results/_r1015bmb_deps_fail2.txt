@@ -1,0 +1,54 @@
+2026-10-19T03:49:16 === PHASE deps ===
+2026-10-19T03:49:16 RUN C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Scripts\python.exe -m pip install --disable-pip-version-check -r ...
+2026-10-19T03:49:16   | Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+2026-10-19T03:49:16   | Requirement already satisfied: faster-whisper in c:\fluxgroup\fluxgroup\media\drama-tools\gpt-sovits\runtime\lib\site-packages (from -r C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\extra-req.txt (line 1)) (1.2.1)
+2026-10-19T03:49:16 RC=0
+2026-10-19T03:49:16 requirements directive dropped (source-build needs MSVC): ['--no-binary=opencc']
+2026-10-19T03:49:16 RUN C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Scripts\python.exe -m pip install --disable-pip-version-check -r ...
+2026-10-19T03:49:33   |     No CMAKE_CXX_COMPILER could be found.
+2026-10-19T03:49:33   |   
+2026-10-19T03:49:33   |   
+2026-10-19T03:49:33   |   
+2026-10-19T03:49:33   |   -- Configuring incomplete, errors occurred!
+2026-10-19T03:49:33   |   CMake is in the system path. Version:               cmake version 4.4.4
+2026-10-19T03:49:33   |   
+2026-10-19T03:49:33   |   CMake suite maintained and supported by Kitware (kitware.com/cmake).
+2026-10-19T03:49:33   |   Traceback (most recent call last):
+2026-10-19T03:49:33   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 353, in <module>
+2026-10-19T03:49:33   |       main()
+2026-10-19T03:49:33   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 335, in main
+2026-10-19T03:49:33   |       json_out['return_val'] = hook(**hook_input['kwargs'])
+2026-10-19T03:49:33   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:49:33   |     File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 118, in get_requires_for_build_wheel
+2026-10-19T03:49:33   |       return hook(config_settings)
+2026-10-19T03:49:33   |              ^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:49:33   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-0ozcljuy\overlay\Lib\site-packages\setuptools\build_meta.py", line 333, in get_requires_for_build_wheel
+2026-10-19T03:49:33   |       return self._get_build_requires(config_settings, requirements=[])
+2026-10-19T03:49:33   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:49:33   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-0ozcljuy\overlay\Lib\site-packages\setuptools\build_meta.py", line 301, in _get_build_requires
+2026-10-19T03:49:33   |       self.run_setup()
+2026-10-19T03:49:33   |     File "C:\Users\Administrator\AppData\Local\Temp\pip-build-env-0ozcljuy\overlay\Lib\site-packages\setuptools\build_meta.py", line 317, in run_setup
+2026-10-19T03:49:33   |       exec(code, locals())  # noqa: S102 # exec is intentional here
+2026-10-19T03:49:33   |       ^^^^^^^^^^^^^^^^^^^^
+2026-10-19T03:49:33   |     File "<string>", line 105, in <module>
+2026-10-19T03:49:33   |     File "C:\Program Files\Python311\Lib\subprocess.py", line 502, in check_returncode
+2026-10-19T03:49:33   |       raise CalledProcessError(self.returncode, self.args, self.stdout,
+2026-10-19T03:49:33   |   subprocess.CalledProcessError: Command '['cmake', '..']' returned non-zero exit status 1.
+2026-10-19T03:49:33   |   [end of output]
+2026-10-19T03:49:33   |   
+2026-10-19T03:49:33   |   note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-10-19T03:49:33   | error: subprocess-exited-with-error
+2026-10-19T03:49:33   | 
+2026-10-19T03:49:33   | Getting requirements to build wheel did not run successfully.
+2026-10-19T03:49:33   | exit code: 1
+2026-10-19T03:49:33   | 
+2026-10-19T03:49:33   | See above for output.
+2026-10-19T03:49:33   | 
+2026-10-19T03:49:33   | note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-10-19T03:49:33 RC=1 (fail)
+2026-10-19T03:49:33 deps failed, cannot strip pyopenjtalk
+2026-10-19T03:49:33 DRIVER STOP at phase deps (honest fail; status face carries state)
+inates from a subprocess, and is likely not a problem with pip.
+2026-10-19T03:49:33 RC=1 (fail)
+2026-10-19T03:49:33 deps failed, cannot strip pyopenjtalk
+2026-10-19T03:49:33 DRIVER STOP at phase deps (honest fail; status face carries state)

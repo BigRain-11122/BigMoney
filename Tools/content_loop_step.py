@@ -516,10 +516,183 @@ def st004_csa_anchor_precheck(st):
 
 
 
+# ---------------- runners (v0.2 registry: ST-005 env bootstrap + ST-006 voice bank) ----------------
+
+ENV_DRIVER = os.path.join(QDIR, 'runner_assets', 'gpt_sovits_env_driver.py')
+ENV_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'gpt_sovits_env_status.json')
+ENV_LOG = os.path.join(GRP, 'media', 'drama-tools', '.gpt_sovits_env_install.log')
+_DETACHED_FLAGS = (0x00000008 | 0x00000200 | 0x08000000)  # DETACHED|NEW_PROCESS_GROUP|NO_WINDOW
+
+
+def _driver_status():
+    try:
+        with io.open(ENV_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _pid_alive(pid):
+    if not pid:
+        return False
+    try:
+        r = subprocess.run(['powershell.exe', '-NoProfile', '-Command',
+                            '(Get-Process -Id %d -ErrorAction SilentlyContinue) -ne $null' % int(pid)],
+                           capture_output=True, text=True, timeout=30,
+                           creationflags=_NO_WINDOW)
+        return r.stdout.strip().lower() == 'true'
+    except Exception:
+        return False
+
+
+def st005_gpt_sovits_env_ignite(st):
+    """ST-005: voice-library env bootstrap (GPT-SoVITS main engine per ST-003
+    eval). Idempotent ensure-ignited: live driver -> already-running; finished
+    -> done-early; else detached ignition (astock spawn_detached precedent,
+    r317 close_fds law) + post-ignition liveness probe. Product = driver
+    live-or-done + status face + log; the phased install itself completes
+    over subsequent loop rounds (phases venv/torch/deps/weights/extras/smoke,
+    each idempotent + checkpointed)."""
+    ds = _driver_status()
+    if ds.get('state') == 'done':
+        return {'runner': 'st005_gpt_sovits_env_ignite', 'verdict': 'done-early',
+                'phases_done': ds.get('phases_done'), 'status_face': ENV_STATUS}
+    if ds.get('state') == 'running' and _pid_alive(ds.get('pid')):
+        return {'runner': 'st005_gpt_sovits_env_ignite', 'verdict': 'already-running',
+                'pid': ds.get('pid'), 'phase': ds.get('phase'), 'status_face': ENV_STATUS}
+    if ds.get('state') == 'failed':
+        # prior attempt failed honestly -- re-ignite is legal (idempotent phases
+        # checkpoint); failed-phase errors ride the status face
+        pass
+    r = subprocess.run([sys.executable, ENV_DRIVER, 'selftest'],
+                        capture_output=True, timeout=120, creationflags=_NO_WINDOW)
+    if r.returncode != 0:
+        raise RuntimeError('driver selftest FAIL pre-ignition: ' +
+                           r.stdout.decode('utf-8', 'replace').strip()[-160:])
+    os.makedirs(os.path.dirname(ENV_LOG), exist_ok=True)
+    with io.open(ENV_LOG, 'a', encoding='utf-8') as lf:
+        subprocess.Popen([sys.executable, ENV_DRIVER, 'run'],
+                         stdout=lf, stderr=subprocess.STDOUT,
+                         stdin=subprocess.DEVNULL, creationflags=_DETACHED_FLAGS,
+                         close_fds=True)  # r317 law: explicit std redirect => close_fds=True
+    time.sleep(4)
+    ds = _driver_status()
+    if ds.get('state') != 'running' or not _pid_alive(ds.get('pid')):
+        raise RuntimeError('post-ignition probe FAIL: state=%s live=%s (log: %s)' % (
+            ds.get('state'), _pid_alive(ds.get('pid')), ENV_LOG))
+    return {'runner': 'st005_gpt_sovits_env_ignite', 'verdict': 'ignited',
+            'pid': ds.get('pid'), 'phase': ds.get('phase'),
+            'status_face': ENV_STATUS, 'log': ENV_LOG}
+
+
+CANON_VOICE_META = {
+    'CH':       {'gender': 'male', 'age_feel': 'early-20s', 'texture': 'calm, restrained, quietly intense young man'},
+    'XIONG':    {'gender': 'male', 'age_feel': '50s', 'texture': 'deep, unhurried, authoritative magnate'},
+    'RED':      {'gender': 'female', 'age_feel': 'early-20s', 'texture': 'bright, crisp, professional office voice'},
+    'MANCANG':  {'gender': 'male', 'age_feel': 'mid-20s', 'texture': 'loud, cheerful, plump-market-vendor warmth'},
+    'XIONGWEI': {'gender': 'male', 'age_feel': 'mid-20s', 'texture': 'cold, sharp, clipped, minimal words'},
+    'FATHER':   {'gender': 'male', 'age_feel': '50s', 'texture': 'weary, kind, low and worn'},
+    'BOY':      {'gender': 'male', 'age_feel': 'child ~12', 'texture': 'thin, frightened, high-pitched'},
+}
+
+
+def st006_voice_bank_manifest(st):
+    """ST-006: voice-bank manifest v0.1 (VOICE-PIPELINE-SKELETON-v1 sec.2 first
+    entries). 7 canon character entries per drama-001-stockera id bank; entry
+    schema carries voice_manifest descriptors + empty ref_clips (honest: clip
+    sourcing is the NEXT station, gated on env ready) + consistency-gate spec
+    (声音面移植 of the ST-004 anchor discipline: entry admission requires the
+    音色一致检). Sourcing shortlist = offline facts only, license caveat honest.
+    Products: content/drama/voice_bank/manifest.json + outbox receipt."""
+    vb_dir = os.path.join(QDIR, 'voice_bank')
+    os.makedirs(vb_dir, exist_ok=True)
+    entries = []
+    for cid, meta in CANON_VOICE_META.items():
+        entries.append({
+            'id': cid,
+            'voice_manifest': meta,
+            'engine': 'gpt-sovits',
+            'ref_clips': [],
+            'params': {},
+            'entry_state': 'awaiting-ref-clips',
+            'added_ts': None,
+        })
+    manifest = {
+        'schema': 'drama-voice-bank-v0.1',
+        'created': now_iso(),
+        'characters': entries,
+        'consistency_gate': {
+            'name': '音色一致检 (voice-face analog of ST-004 anchor precheck)',
+            'rule': 'entry admission requires 1-3 ref clips passing cross-clip '
+                    'consistency check; intra-bank drift across episodes = reject',
+            'pinned_by': 'VOICE-PIPELINE-SKELETON-v1 sec.2 + 人物一致性律 (voice face)',
+        },
+        'ref_clip_sourcing_shortlist': [
+            {'corpus': 'AISHELL-3 (SLR93)', 'face': 'multi-speaker Mandarin, ~8k speakers; '
+             'license = research-use caveats -- commercial drama use needs license review (honest gap)'},
+            {'corpus': 'aidatatang_200zh (SLR29)', 'face': 'Mandarin, license review needed'},
+            {'corpus': 'self-recorded / CEO-provided clips', 'face': 'zero license risk, '
+             'physical-domain action; highest tone-fit ceiling'},
+            {'corpus': 'zero-shot bootstrap from a stock base voice + cross-check',
+             'face': 'possible after env ready; consistency gate still applies'},
+        ],
+        'honest_gaps': [
+            'no ref clips yet (clip acquisition = next station, gated on ST-005 env)',
+            'corpus licenses not yet reviewed for commercial use',
+            'engine params pinned at the first synthesis station, not here',
+        ],
+        'law_refs': ['O-20261018-2144-bm-c sec.2.1', 'VOICE-PIPELINE-SKELETON-v1 sec.2/7',
+                     'DIRECTOR-STEP-GATE-v1'],
+    }
+    mpath = os.path.join(vb_dir, 'manifest.json')
+    with io.open(mpath, 'w', encoding='utf-8') as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=1)
+    out_dir = os.path.join(QDIR, 'outbox')
+    os.makedirs(out_dir, exist_ok=True)
+    md = []
+    md.append('# 声银行清单 v0.1（voice-bank manifest · ST-006）')
+    md.append('')
+    md.append('> 站点=CONTENT-LOOP v0.1 ST-006；承=ST-003 评估件「后续批次：环境安装+首批声银行条目」；')
+    md.append('> 正身=content/drama/voice_bank/manifest.json（本件=回执面）。生成时点=%s。' % now_iso())
+    md.append('')
+    md.append('## 7 正典角色声音条目（voice_manifest 描述档）')
+    md.append('')
+    md.append('| id | 性别 | 年龄感 | 质感 | 状态 |')
+    md.append('|---|---|---|---|---|')
+    for e in entries:
+        m = e['voice_manifest']
+        md.append('| %s | %s | %s | %s | %s |' % (e['id'], m['gender'], m['age_feel'],
+                                                 m['texture'], e['entry_state']))
+    md.append('')
+    md.append('## 入行门（锚清洗纪律的声音面移植）')
+    md.append('')
+    md.append('- 每角色 1-3 条参考音入行前过「音色一致检」；跨集音色漂移=判负打回（行内零漂移）。')
+    md.append('- 与视觉面 ANCHOR 三元组硬约束（ST-004）同构：入行前过检，行内零漂移。')
+    md.append('')
+    md.append('## 参考音寻源短线（离线事实·未复核许可面）')
+    md.append('')
+    for s in manifest['ref_clip_sourcing_shortlist']:
+        md.append('- **%s**：%s' % (s['corpus'], s['face']))
+    md.append('')
+    md.append('## 诚实缺口')
+    md.append('')
+    for g in manifest['honest_gaps']:
+        md.append('- %s' % g)
+    rcp = os.path.join(out_dir, 'VOICE-BANK-MANIFEST-v0.1.md')
+    with io.open(rcp, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(md) + '\n')
+    return {'runner': 'st006_voice_bank_manifest', 'manifest': mpath,
+            'receipt': rcp, 'characters': len(entries), 'verdict': 'manifest-v0.1-drafted'}
+
+
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
     'st004_csa_anchor_precheck': st004_csa_anchor_precheck,
+    'st005_gpt_sovits_env_ignite': st005_gpt_sovits_env_ignite,
+    'st006_voice_bank_manifest': st006_voice_bank_manifest,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the

@@ -20,5 +20,7 @@
 | ST-002 | open | cpu+gpu-light | v0.2-pending | manual-gate:ceo-direction-gate-v1-pilot3x20 | v1.1 voice grade: IndexTTS-2 environment install (modelscope morning window) + 2 | - |
 | ST-003 | done | cpu | st003_voice_library_first_batch | none | voice-library lane first batch: GPT-SoVITS (63k stars) / OpenVoice (37k stars) c | claimed@bm-b@2026-10-19T02:37:11 |
 | ST-004 | done | cpu-code | st004_csa_anchor_precheck | none | CSA anchor-cleaning discipline into production: id-bank anchor consistency pre-c | claimed@bm-b@2026-10-19T02:37:31 |
+| ST-005 | done | cpu-code | st005_gpt_sovits_env_ignite | none | voice-library env bootstrap: GPT-SoVITS phased install driver (venv+torch-cpu+de | claimed@bm-b@2026-10-19T03:41:40 |
+| ST-006 | done | cpu-code | st006_voice_bank_manifest | none | voice-bank manifest v0.1: 7 canon character voice entries (schema+descriptors+re | claimed@bm-b@2026-10-19T03:52:01 |
 
-Loop state: rounds=12 last=2026-10-19T02:37:25
+Loop state: rounds=17 last=2026-10-19T03:41:44
