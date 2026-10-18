@@ -1,6 +1,6 @@
 {
- "clock_read": "2026-10-18T07:54:30+08:00",
- "current_task": "r1002: closeout (state/heartbeat/round-report/push)",
+ "clock_read": "2026-10-18T10:36:30+08:00",
+ "current_task": "r1004: closeout (state/heartbeat/round-report/push)",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -13,10 +13,10 @@
   "ts": "2026-10-18T07:27:36+08:00"
  },
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1002: (a) CEO 记忆治理四件套全执行：agent-library-sync 24 skills + gate v2 首跑 375,794->95,853B/322->102 (220 verbatim 入 9 主题·快照) + L0 手术 ->66,374B/78 条 (25 他机污染/旧版 verbatim 迁主题 + bm-b 身份元组 User 首位·零丢失断言) + 任务换代 bm-b-MemoryBudgetGate S4U PT4H (v2 参数 51200/120·组 Tools 正身·旧 InteractiveToken 任务删除·备份 %TEMP%\\bmb-s4u-backup-r1002)。(b) 根因执法拆联合回灌：fleet-memory-sync 退役 no-op (origin f9a7fb9) + 正本冻结 archive/ (origin a62c1d8)——gate-log 02:30/06:30/07:40 三轮同源 375,794B + worker last-pull 07:01 REPLACE-DOWN 实锚。(c) 两枚 origin 缺口发现已 MSG-0753 @bm-a (worker v1.9 union 块未上链 + memory-curator canon 缺)。(d) S0 behind=0 干净；orders 101/0；D-19 双不变；smoke 49/49；S6 43 步全绿 (streak50 零漂移·py_low_board_clear·attrition healed)；S7 5/5；孤儿面 0/7；MSG-0719 W266 席广播处理入 processed。",
+ "did": "r1004: (a) r1003 孤儿轮遗产全吸收上链（撞号让路 r992 判例·r1003 号=08:22 发火被 v1 墙钟 08:47:02 击杀零收口）：drama 三层混音样件 5 件实证（media/drama-mix-out/r1003_3layer/·字节与回执一致）+ MSG-0845 投递件入 inbox + S6 全链日志（08:44 死窗轮 43 步 rc0）+ MSG-0725 归档 processed；r1002 PENDING push 由锚定提交 423c33ba82 接续。(b) O-20261018-0948 死窗根治令 @bm-b 三腿全执行：v2 拉取落盘验证（hard cap 240/silence 25 双行原文）+ 本窗 10:12:01 发火于拉取前=v1 承载诚实披露 + TIMEOUT 清账 13 例（最近 08:47:02）+ MiniGame 零适配 + 24h 观察窗开启；回执正身=MSG-20261018-1035-bmb-rootfix.md。(c) S0 rebase 撞 2 UU（attrition 探针面 newer-wins 取 origin 09:55 + d19-check 取本机面）+ rebase --continue 死循环→r1032 律 quit+就地重放=423c33ba82 落 origin tip dc71ecc3f9 上。(d) 晨盘推送窗 5min 挂死×1（已知 bm-b 判例域）+ origin 窗中再进 5f6c14ef=非 ff；N=1 候 r1005 重推（暂存即活律）。(e) smoke 49/49；孤儿面 7/0；水位绿 red=false；MSG-0849 已读：bm-a 三缺口全收口（canon eb8e09748 上链）→补装排 r1005。",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
- "last_action": "r1002: 记忆治理四件套 + 拆联合回灌落地（L0 375,794B→66,374B / 322→78 条·gate 4h S4U·sync no-op+正本冻结 origin）",
- "last_action_at": "2026-10-18T07:54:30+08:00",
+ "last_action": "r1004: r1003 孤儿遗产吸收上链 (drama 三层混音样件 5 件实证) + O-20261018-0948 根治令三腿回执 + S0 死循环 quit 重放 423c33ba82",
+ "last_action_at": "2026-10-18T10:36:30+08:00",
  "last_decisions_at": "2026-10-18T02:26:54+08:00",
  "last_decisions_read_at": "2026-10-18T06:18:39+08:00",
  "last_decisions_sha": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1",
@@ -25,23 +25,23 @@
  "last_orders_read_at": "2026-10-18T06:18:39+08:00",
  "last_orders_sha": "bcfadcfa029521f0970866281606701b1394e2eccf50840bb8c51cdd2e67bcf4",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
- "last_round_at": "2026-10-18T07:54:30+08:00",
- "last_round_ts": "2026-10-18T07:54:30+08:00",
- "last_seen": "2026-10-18T07:54:30+08:00",
- "latest_artifact": "bm-b L0 = C:\\Users\\Administrator\\.codely-cli\\CODELY.md 66,374B/78 条 (身份元组 User 首位) + bm-b-MemoryBudgetGate S4U PT4H + group origin a62c1d8/f9a7fb9 (冻结+no-op+LEDGER bm-b 行)",
+ "last_round_at": "2026-10-18T10:36:30+08:00",
+ "last_round_ts": "2026-10-18T10:36:30+08:00",
+ "last_seen": "2026-10-18T10:36:30+08:00",
+ "latest_artifact": "drama 三层混音样件 5 件实证在盘 (media/drama-mix-out/r1003_3layer/·r1003 遗产) + MSG-20261018-1035-bmb-rootfix.md + 锚定提交 423c33ba82 (本地 N=1 候重推)",
  "machine_id": "bm-b",
- "next": "r1003: 1) drama 三层混音样件 (对白+环境+音效·O-20261017-1751 B.4-III·CPU ffmpeg·不阻塞声线反馈) 2) 4h 闸首拍 10:30 观察窗 (gate 与 L0 手术面兼容再验) 3) memory-curator canon 到位后补装 (次会话生效) 4) MSG-0319/0216 bm-a 取件跟催观察窗 5) S6+D-19",
- "next_milestone": "drama 三层混音样件当日出 (CPU ffmpeg) + 10-25 治理窗回访 (三机 L0 ≤50KB/120 连续 7 日判据·bm-b 首跑回执已落)",
- "note": "r1002: 记忆治理四件套=CEO 直令 (2026-10-18 00:2x R2.16 派单 bm-b:pending→本窗全执行)；联合回灌=拆件落地源 (bm-a 宣称件未上 origin·bm-b 按令文语义盘上执行+MSG 请求 bm-a 推送本地版收尾)；foreign dirty faces held untouched (explicit-faces-only policy)",
- "now_active": "r1002 closing",
+ "next": "r1005: 1) push 送达重试 (423c33ba82+本轮收口提交·rebase onto 5f6c14ef+·N 清零) 2) O-0948 ①补腿=v2 spawning 新话术行引用回执 3) memory-curator canon 补装 (bm-a eb8e09748·blob fbffe9d1·agent-library-sync 跑+回执) 4) D-19 双 delta 消费推进 (bm-a 实测 orders af206ff3/dec 0ad85a30·消费机判读均零 bm-b 义务行·d19_watermark.py update --advance) 5) CODELY.md 19,631B 超 ≤10KB 硬线热冷整编 6) S6 fresh run + bm-b-MemoryBudgetGate 首拍观察 (NextRun 10:30·LastRun 1999 未起拍)",
+ "next_milestone": "push 送达 N 清零 + canon 装机生效 (次会话) + 10-25 治理窗回访 (三机 L0 ≤50KB/120 判据·bm-b 首跑回执已落)",
+ "note": "r1004: 本窗=v1 旧发射器最后承载窗 (10:12:01 发火于 v2 拉取前·25min 墙钟)·死窗瘟疫根治令 O-20261018-0948 已回执·24h 观察窗开启；r1003 孤儿轮遗产全吸收",
+ "now_active": "r1004 closing",
  "orphan_face": 7,
- "orphan_face_note": "r1002 round-start probe (07:33 + chain 07:49): 7 py faces / 0 orphans",
+ "orphan_face_note": "r1004 round-start probe (10:12:45): 7 py faces / 0 orphans",
  "orphan_faces": 7,
- "round": 1002,
- "round_no": 1002,
- "round_no_label": "r1002",
+ "round": 1004,
+ "round_no": 1004,
+ "round_no_label": "r1004",
  "sync": {
-  "last_push_ts": "2026-10-18T07:54:30+08:00",
+  "last_push_ts": "2026-10-18T10:36:30+08:00",
   "r962_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
@@ -57,13 +57,13 @@
   },
   "r960_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "76b19be6418abf1d37964b1a218b29d894c45d40",
+   "pushed_sha": "76b19be6418abf1d37664b1a218b29d894c45d40",
    "consumed_at": "2026-10-15T05:43:01+08:00",
    "behind_origin_main": 0
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "behind_origin_main": 0,
-  "note": "C-r979: 20-face own payload via r957 tree surgery on fresh origin tip (docs faces excluded per anti-regression note); deletion set empty (add/replace own faces only)",
+  "behind_origin_main": 1,
+  "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r963_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "17b4090edda526410bdb9c2717fe148ac91e01c1",
@@ -72,85 +72,85 @@
   },
   "r964_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "c7bf840cf6704a7b72b5f54efd92e833d1084562",
+   "pushed_sha": "c7bf840cf6704a7b72b5f54efd92d833d1084562",
    "consumed_at": "2026-10-15T06:41:03+08:00",
    "behind_origin_main": 0
   },
   "r965_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "c6d9fa3af8e2c47401a24358183022672f9c00ca",
+   "pushed_sha": "c6d9fa3af8e2c47401a24358183022772f9c00ca",
    "consumed_at": "2026-10-15T07:01:27+08:00",
    "behind_origin_main": 0
   },
   "r966_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "910e525145bab75dbc022b300bdc56a6a2081c9ad",
+   "pushed_sha": "910e525145bab75dbc022b300bdc56a6a2080c9ad",
    "consumed_at": "2026-10-15T07:18:10+08:00",
    "behind_origin_main": 0
   },
   "r967_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "3c546509a0213755a7d7c67d161b562035607c5e",
+   "pushed_sha": "3c546509a0213755d7c673d161b562035607c5e",
    "consumed_at": "2026-10-15T07:31:49+08:00",
    "behind_origin_main": 0
   },
   "r968_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "a159bd5d4f5ff7a4013f264add951b93efdc5130",
+   "pushed_sha": "a159db5950df9f7a403f264add9b93e65d513c0",
    "consumed_at": "2026-10-15T07:51:30+08:00",
    "behind_origin_main": 0
   },
   "r969_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "2314c74eb7fa1ccab8909a83083bba225f6ee530",
+   "pushed_sha": "2314c74eb7a1ccab8909a83083bba2536e5f25430",
    "consumed_at": "2026-10-15T08:53:28+08:00",
    "behind_origin_main": 0
   },
   "r970_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "ea6d5ae4ddf3aba97effe831392a7d2a9b5ec31e",
+   "pushed_sha": "ea6d5ae4ddf4aba97eff83139ef361e8306e7ce",
    "consumed_at": "2026-10-15T09:41:18+08:00",
    "behind_origin_main": 0
   },
   "r970_delivery_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "92fd0a5e68597175ba49a6047083f9dc64955dfa",
+   "pushed_sha": "92fd0a5e68597175ba49a604708f9dc94955dfa",
    "consumed_at": "2026-10-15T09:48:21+08:00",
    "behind_origin_main": 0,
    "note": "C-r970b add-only: fleet/orders/O-20261015-0906-bm-b.md + fleet/inbox/MSG-20261015-0906-bm-b-never-idle-cure.md (r959/r968 delivery law); r974 verified: MSG-0906 consumed by bm-a r1011 (db40e16a8); receipt=results/_r970bmb_delivery_receipt.json"
   },
   "r971_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "2a95c9c13c78f22f291ef46a54cbfaa4726faf1c",
+   "pushed_sha": "2a95c9c13c78f22f291ef46a54bbaa47a6faf1c1",
    "consumed_at": "2026-10-15T10:06:03+08:00",
    "behind_origin_main": 0
   },
   "r972_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "f27a5226ff04af00d63ec0913a133b27f258522a",
+   "pushed_sha": "f27a5226ff04af00d63d0913a133b27f258522f",
    "consumed_at": "2026-10-15T10:21:46+08:00",
    "behind_origin_main": 0
   },
   "r973_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "1a39aeabcf9be840ec894d2338db1a5846405cf1",
+   "pushed_sha": "1a39aeabce7e840cf8948d2383db1a5846405cf1",
    "consumed_at": "2026-10-15T11:05:42+08:00",
    "behind_origin_main": 0,
    "note": "r974 consumed: fetch+ls-remote double-verified; payload = 4 own faces (scripts/backfill_ext_slots.py + state.json + heartbeat + round report)"
   },
   "r974_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "11ce7c1db2bc0d7d4666c0752c252d6bfa05712a",
+   "pushed_sha": "11ce7c1db2bc0d7f4666c0752c252d6bfa05712a",
    "consumed_at": "2026-10-15T11:07:30+08:00",
    "behind_origin_main": 0,
    "note": "C-r974 verified in-window (r951 segment B): payload = 5 own faces (state + heartbeat + round report + MSG-0825/0952 delivery); base=origin tip 85be61aa (bm-a r1012 estate-absorb landed mid-round - surgery rebuilt on fresh tip, zero foreign faces in it, fleet/orders+docs diff empty = D-19 zero-delta holds); delivery face on new tip: both MSGs + 4 own orders all present (r968 law); receipt=results/_r974bmb_push_receipt.json; state sync note in pushed r974 face said base=1a39aeabc (stale at push time) - this local block is the correction face (r964 pattern), reaches origin via r975 state push"
   },
   "r975_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "e9e9059f694a6b01df97c3619e2ff52808a6fb13",
+   "pushed_sha": "e9e9059f694b6a01df97c3619e2ff52808a6fb13",
    "consumed_at": "pending r976",
    "behind_origin_main": 0,
-   "note": "C-r975 verified in-window (r951 segment B): payload = 4 own faces (state + heartbeat + round report + HANDOVER 5x entry); base=origin tip 11ce7c1db2bc0d7d4666c0752c252d6bfa05712a (fresh); delivery face on new tip: own 4 orders + 2 MSGs all present (r968 law); receipt=results/_r975bmb_push_receipt.json"
+   "note": "C-r975 verified in-window (r951 segment B): payload = 4 own faces (state + heartbeat + round report + HANDOVER 5x entry); base=origin tip 11ce7c1db2bc0d7f4666c0752c252d6bfa05712a (fresh); delivery face on new tip: own 4 orders + 2 MSGs all present (r968 law); receipt=results/_r975bmb_push_receipt.json"
   },
   "r978_main_push": {
    "status": "PUSHED_VERIFIED",
@@ -178,7 +178,7 @@
    "consumed_at": "2026-10-15T16:07:45+08:00",
    "behind_origin_main": 0,
    "note": "C-r981 payload = own faces (state/heartbeat/round report + S7 LogonType recipe fix 2 faces + s6chain work files + d19 probe + orphan probe + astock status + attrition scan + market_clock/thermo/dualarm/minute_feed diff faces); base = origin tip fresh at surgery; docs faces intentionally excluded (anti-regression); receipt = results/_r981bmb_push_receipt.json",
-   "pushed_sha": "c108b6b6111193ac0a2d8b4a90f834cbb26207ec"
+   "pushed_sha": "c108b6b6111193ac3d8b4a90f834cbb26207ec"
   },
   "r982_main_push": {
    "status": "PUSHED_VERIFIED",
@@ -196,14 +196,14 @@
   },
   "r984_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "c171bb4b161794f78f9c5eba2d59d67e2ff30ef5",
+   "pushed_sha": "c171bb4b161794f785c9e5eba2d59d67e2ff30ef5",
    "consumed_at": "2026-10-15T17:49:46+08:00",
    "behind_origin_main": 0,
    "note": "C-r984 own-face surgery push (r982 v2 bloodline); CODELY.md intentionally EXCLUDED (origin face ahead: bm-c r1031 append - union merge next round, mirror-revert prevention); astock data churn (per-files) held local pending refresh completion package r985 (worker 8380 final stretch); docs faces excluded (anti-regression, r982 policy); shared pool faces excluded (max-merge law MSG-0612); dead-session estate (S6 chain log + driver + W006 evidence) rides this push; r983 push receipt rides this push"
   },
   "r985_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "f50979df330d25c2e008b99a6d8f712ffd6f9f63",
+   "pushed_sha": "f50979df330d25c2e008b99d6d8f712ffd5f9f63",
    "consumed_at": "pending r986",
    "behind_origin_main": 0,
    "note": "C-r985 own-face surgery push (r982 v2 bloodline); explicit-faces-only policy (no CANDIDATES auto-include; bm-a r1019 17:29 S6-derived faces = stale-local revert risk avoided); CODELY.md INCLUDED (union landed: bm-c r1031 + local r983 rows both preserved); HANDOVER 5x r981-r985 entry rides (1,100,199B post zero-loss truncation recovery); astock data churn (per-files) held local pending completion package (worker final convergence, 18:08 gate window); docs faces excluded (anti-regression, r982 policy); shared pool faces excluded (max-merge law MSG-0612); r984 push receipt rides this push"
@@ -259,7 +259,7 @@
   },
   "r999_main_push": {
    "status": "PUSHED_VERIFIED",
-   "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41f",
+   "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "consumed_at": "pending r1000",
    "behind_origin_main": 0,
    "note": "r999 payload = r998-estate absorb commit (40 files incl MSG-0216 + r999 audition estate + post_review marker surgery) replayed on fresh tip via temp-index tree surgery after rebase sequencer deadloop; local main healed zero-worktree-change; delivery fetch+rev-parse verified"
@@ -279,37 +279,45 @@
    "note": "first push rejected non-ff (origin advanced 2 bm-c commits mid-round); claw check-push re-verified zero violations on range; clean rebase replay (zero file intersection); redelivered ace19ba85b..a8568c55dc"
   },
   "r1002_main_push": {
-   "status": "PENDING (this commit)",
+   "status": "PENDING_MARKER_SUPERSEDED",
    "pushed_sha": "pending",
-   "consumed_at": "pending r1003",
+   "consumed_at": "pending r1004/r1005 network window",
    "behind_origin_main": 0,
-   "note": "r1002 payload = own faces (state/heartbeat/round-report + MSG-0753 + MSG-0719 processed move + CODELY git-add-after-mv pit row + r1002 work files + S6 log + bm-b-suffixed regen faces); shared non-suffixed faces excluded (r982 policy)"
+   "note": "r1002 session killed by v1 25min wall at 07:57:02 pre-push (O-20261018-0948 census); its payload (incl. this PENDING marker face) rides r1004 anchor 423c33ba82 estate absorb; final delivery deferred to r1005 retry window (morning promisor hang 10-15 precedent)"
+  },
+  "r1004_main_push": {
+   "status": "PUSH_ATTEMPTED (10:19 attempt hung 5min in morning promisor window, CLI auto-cancel; origin advanced 5f6c14ef = non-ff)",
+   "pushed_sha": "pending",
+   "consumed_at": "pending r1005",
+   "behind_origin_main": 1,
+   "note": "r1004 payload = anchor 423c33ba82 (r1003 estate absorb: drama receipt + MSG-0845 + s6 log + own live faces) + closeout commit (state/heartbeat/round-report + MSG-1035 rootfix + O-0948 receipt section + MSG-0849 processed move); rebase onto 5f6c14ef+ then push per r1001 pattern at r1005"
   }
  },
- "task": "r1002: closeout (state/heartbeat/round-report/push)",
- "ts": "2026-10-18T07:54:30+08:00",
- "updated": "2026-10-18T07:54:30+08:00",
- "updated_at": "2026-10-18T07:54:30+08:00",
- "verdict": "GREEN: CEO 记忆治理四件套同轮全执行 (LEDGER 回执已落 origin) + 根因拆联合回灌盘上落地 (no-op+冻结·gate-log 三轮回灌实锚) + S6 43 步全绿 + smoke 49/49 + D-19 双不变 + orders 101/0；pool_starvation=已知波间态 (W266 席已发布 bm-c 滚动)",
+ "task": "r1004: closeout (state/heartbeat/round-report/push)",
+ "ts": "2026-10-18T10:36:30+08:00",
+ "updated": "2026-10-18T10:36:30+08:00",
+ "updated_at": "2026-10-18T10:36:30+08:00",
+ "verdict": "GREEN: r1003 孤儿遗产吸收上链 (drama 三层混音样件 5 件实证) + O-20261018-0948 死窗根治令三腿回执全执行 + smoke 49/49 + 孤儿面 7/0 + 水位绿 red=false；遗留=push N=1 (晨盘挂死·候 r1005 重推) + D-19 双 delta 候 r1005 消费 (SLA ≤2 轮 intact) + CODELY.md 19.6KB 超线候整编",
  "current": "r1000: 3-stash content-level recovery + S6 full chain + smoke + D-19 consume",
- "last_artifact": "media/drama-tts-out/r998_ep001_003/ (51 wavs) + MANIFEST-r998.json + MSG-20261018-0216-bm-b-taskaudit.md",
+ "last_artifact": "media/drama-mix-out/r1003_3layer/ (3 EP wavs + merged mp3) + MANIFEST in results/_r1003bmb_drama3layer_receipt.json",
  "sat_engine": {
   "status": "alive (r1000 S6 status rc0, idle verdict)",
   "checked_at": "2026-10-18T06:20:06+08:00"
  },
  "last_decisions_sha_probe": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1",
  "last_decisions_probe_at": "2026-10-17T22:00:51+08:00",
- "decisions_delta_pending": false,
+ "decisions_delta_pending": true,
  "last_orders_sha_probe": "bcfadcfa029521f0970866281606701b1394e2eccf50840bb8c51cdd2e67bcf4",
- "orders_delta_pending": false,
- "d19_probe_due": false,
- "d19_probe_due_note": "r997: local watermark advanced (orders 0b991d78) ahead of origin (e0dcbd80); landed via r997 push",
+ "orders_delta_pending": true,
+ "d19_probe_due": true,
+ "d19_probe_due_note": "r1004: bm-a r1051 probe measured group orders sha af206ff3 (dec 0ad85a30 per bm-c r1050 advance) - both delta rows characterized zero-bm-b-obligation by consuming machines; bm-b watermark advance deferred to r1005 (v1 wall-clock budget + promisor network window); SLA <=2 rounds intact",
  "last_orders_probe_at": "2026-10-18T06:20:06+08:00",
+ "last_orders_probe_at_note": null,
+ "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
- "last_orders_probe_at_note": null,
- "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
- "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)"
+ "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
+ "r1003_collision_note": "r1003 number taken by the 08:22 firing killed at 08:47:02 by v1 25-min wall (O-20261018-0948 census most recent); zero closeout; estate (drama 3-layer receipt + MSG-0845 + s6 log) absorbed by r1004 per r992 yield law"
 }
