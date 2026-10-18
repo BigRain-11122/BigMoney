@@ -1,0 +1,40 @@
+{
+ "schema": "first-synthesis-smoke-v1",
+ "state": "done",
+ "errors": [],
+ "ref_clip": {
+  "source": "in-house r998 audition ep002_line04 (speaker=长)",
+  "text": "我在上班。你到底想干嘛？",
+  "audio_s": 3.42
+ },
+ "target_text": "成交量不会说谎，人心才会。",
+ "updated_at": "2026-10-19T05:58:13",
+ "inference_rc": 0,
+ "inference_wall_s": 26.2,
+ "env_shim": "jieba_fast->jieba alias (already-present)",
+ "audio_loader_patch": {
+  "patched": [],
+  "skipped": [
+   "GPT_SoVITS/inference_webui.py:already",
+   "GPT_SoVITS/TTS_infer_pack/TTS.py:already",
+   "api.py:already",
+   "tools/audio_sr.py:already",
+   "GPT_SoVITS/prepare_datasets/2-get-sv.py:already"
+  ]
+ },
+ "env_pip": {
+  "resampy": "installed"
+ },
+ "ts": "2026-10-19T05:58:13",
+ "env_gate": "gpt_sovits_env done 6/6 @2026-10-19T04:11:25",
+ "models": {
+  "gpt": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\GPT_SoVITS\\pretrained_models\\s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+  "sovits": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\GPT_SoVITS\\pretrained_models\\s2G488k.pth"
+ },
+ "output_wav": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_smoke\\st007\\out\\output.wav",
+ "output_s": 4.42,
+ "output_sr": 32000,
+ "output_rms": 0.010533,
+ "output_bytes": 282924,
+ "receipt": "content/drama/outbox/ST-007-FIRST-SYNTHESIS-SMOKE-RECEIPT.md"
+}

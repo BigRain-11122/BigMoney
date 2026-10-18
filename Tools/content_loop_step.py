@@ -105,7 +105,7 @@ def require_ok(q, st):
         if gate and gate.get('state') == 'open':
             return True, 'gate-open'
         return False, 'gate-closed:' + req.split(':', 1)[1]
-    if req.startswith('st') and len(req) == 6:
+    if req.lower().startswith('st') and len(req) == 6:
         for s in q['stations']:
             if s['id'] == req and s['state'] == 'done':
                 return True, 'dep-done'
@@ -687,12 +687,56 @@ def st006_voice_bank_manifest(st):
 
 
 
+# ---------------- runners (v0.2 registry: ST-007 first-synthesis smoke) ----------------
+
+FIRST_SYNTH_DRIVER = os.path.join(QDIR, 'runner_assets', 'first_synth_smoke.py')
+FIRST_SYNTH_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'first_synthesis_smoke.json')
+
+
+def _first_synth_status():
+    try:
+        with io.open(FIRST_SYNTH_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def st007_first_synthesis_smoke(st):
+    """ST-007: first-synthesis smoke (GPT-SoVITS zero-shot chain validation,
+    r1016-promoted r1017 FIRST ACTION). Idempotent ensure-done: completed smoke
+    (status face state=done + product wav present) -> done-early with evidence;
+    else execute the versioned driver synchronously (bounded 540s < 600s lock
+    stale guard, CREATE_NO_WINDOW). Driver chain: in-house r998 audition ref
+    clip + MANIFEST text -> inference_cli v1 pretrained pair -> output.wav ->
+    duration/RMS/sr verify -> status face + outbox receipt. No voice_bank
+    writes (chain validation only)."""
+    ds = _first_synth_status()
+    if ds.get('state') == 'done' and os.path.exists(ds.get('output_wav') or ''):
+        return {'runner': 'st007_first_synthesis_smoke', 'verdict': 'done-early',
+                'output_wav': ds.get('output_wav'), 'output_s': ds.get('output_s'),
+                'ref_clip': (ds.get('ref_clip') or {}).get('source'),
+                'status_face': FIRST_SYNTH_STATUS, 'receipt': ds.get('receipt')}
+    r = subprocess.run([sys.executable, FIRST_SYNTH_DRIVER, 'run'],
+                       capture_output=True, timeout=540, creationflags=_NO_WINDOW)
+    tail = ((r.stdout or b'').decode('utf-8', 'replace') +
+            (r.stderr or b'').decode('utf-8', 'replace')).strip()[-300:]
+    ds = _first_synth_status()
+    if r.returncode != 0 or ds.get('state') != 'done':
+        raise RuntimeError('first-synthesis smoke FAIL rc=%s state=%s tail=%s' % (
+            r.returncode, ds.get('state'), tail))
+    return {'runner': 'st007_first_synthesis_smoke', 'verdict': 'smoke-done',
+            'output_wav': ds.get('output_wav'), 'output_s': ds.get('output_s'),
+            'ref_clip': (ds.get('ref_clip') or {}).get('source'),
+            'status_face': FIRST_SYNTH_STATUS, 'receipt': ds.get('receipt')}
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
     'st004_csa_anchor_precheck': st004_csa_anchor_precheck,
     'st005_gpt_sovits_env_ignite': st005_gpt_sovits_env_ignite,
     'st006_voice_bank_manifest': st006_voice_bank_manifest,
+    'st007_first_synthesis_smoke': st007_first_synthesis_smoke,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the

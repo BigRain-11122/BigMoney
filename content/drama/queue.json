@@ -87,6 +87,18 @@
    "source": "VOICE-PIPELINE-SKELETON-v1 sec.2 (voice bank schema); ST-003 eval next-batch item (first voice-bank entries)",
    "claim": "claimed@bm-b@2026-10-19T03:52:01",
    "done_at": "2026-10-19T03:52:01"
+  },
+  {
+   "id": "ST-007",
+   "title": "first-synthesis smoke: GPT-SoVITS v1 zero-shot chain validation (in-house r998 audition ref + manifest text -> clone -> synth -> wav verify)",
+   "state": "done",
+   "lane": "cpu",
+   "runner": "st007_first_synthesis_smoke",
+   "require": "ST-005",
+   "product": "media/drama-tools/voice_smoke/st007/out/output.wav (smoke, media area) + status face results/drama_env/first_synthesis_smoke.json + outbox receipt ST-007-FIRST-SYNTHESIS-SMOKE-RECEIPT.md",
+   "source": "r1016 next-pointer FIRST ACTION (env all-phases DONE 04:11:25); VOICE-PIPELINE-SKELETON-v1 sec.3 TTS lane; O-20261018-2144-bm-c sec.2.1 voice-library P1 <=10-22",
+   "claim": "claimed@bm-b@2026-10-19T05:58:21",
+   "done_at": "2026-10-19T05:58:21"
   }
  ]
 }

@@ -16,3 +16,10 @@
 2026-10-19T03:32:01 | round 16 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T03:41:44 | round 17 | claimable | ST-005 | {"runner": "st005_gpt_sovits_env_ignite", "verdict": "ignited", "pid": 27128, "phase": "torch", "status_face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\drama_env\\gpt_sovits_env_status.json", "log": "C:\\Flux
 2026-10-19T03:52:01 | round 18 | claimable | ST-006 | {"runner": "st006_voice_bank_manifest", "manifest": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\content\\drama\\voice_bank\\manifest.json", "receipt": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\content\\drama\\outbox\\V
+2026-10-19T04:12:01 | round 19 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T04:32:01 | round 20 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T04:52:01 | round 21 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T05:12:01 | round 22 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T05:32:01 | round 23 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T05:52:01 | round 24 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T05:58:21 | round 25 | claimable | ST-007 | {"runner": "st007_first_synthesis_smoke", "verdict": "done-early", "output_wav": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_smoke\\st007\\out\\output.wav", "output_s": 4.42, "ref_clip": "in-house r998 audition 
