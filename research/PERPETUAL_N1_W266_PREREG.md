@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1084 W265 §7 范式）
+- 账本恒等式：prev 1,007,335 + batch 2,200 = **1,009,535 EXACT**（science_gates.ledger 机读恒等断言过）；合并池 K：580,920 + 2,200 = **583,120 EXACT**。
+- merged mu = -0.09273858 / merged sigma = 0.24507392 / **se_mu@K583,120 = 0.000321**（对照本波冻结键 W265 0.000321，持平微窄）；W266-only mu = -0.09878527 / sigma = 0.25355803。
+- K-lift 对照：line_pre_w266 = 1.1957 → line_merged@583,120 = 1.1958，delta = **+0.0001**（n_eff held 1,007,335）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同例）。
+- §5 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0060467 / key1b merged-vs-W265键 0.0000229 / key2 sigma rel 1.34e-04 / key3 A p95 delta +0.0119【0.3149→0.3268，双向带内】/ key4 K-lift +0.0001 / key5 se_mu 0.000321≤0.000321 持平微窄）——收据 results/_r1086bmc_w266_fivekeys.json（键=n1_w265_results.json 机读 r587 律·本波预测键冻结于 W265 实测——W265 finalize 起草窗前已落地·活链头基准）。
+- 六门探针：PRE-FINALIZE **ALL PASS 第 29 连续正确相位**（results/_r1086bmc_w266_sixgate.json——splice 完整性 **CR-normalized 恒等** worktree==落链 git blob @ dc71ecc3f9【58 代吸收窗落的死窗 splice 遗产·落前 pf/n1 sha256-16==冻结收据 post 零漂移】；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0【**post-splice 单 token heal**：死窗编辑器遗留 W266 块 _set_wave(265) 未滚——H1 r1076 W264 家族第 3 代复发；runtime 证据=术前 selftest 死「W266 A hits W265」·收据 _r1086bmc_w266_selftest_heal.json·最小性证明=landed blob+同 token==愈合工作树 CR 归一恒等·术前 FAIL 面存证 _r1086bmc_w266_sixgate_prereheal_FAIL.json】；shards 12/12 全 >100KB；seed_admit_gate FREE x2【base=600501 span=2000 / base=602501 span=200】；wave_configs 行四面【对齐·engine_owner=bm-c】）。
+- audit 段：machine=bm-c，finalize_only；shards_consumed=["shard-0-of-12.json", "shard-1-of-12.json", "shard-10-of-12.json", "shard-11-of-12.json", "shard-2-of-12.json", "shard-3-of-12.json", "shard-4-of-12.json", "shard-5-of-12.json", "shard-6-of-12.json", "shard-7-of-12.json", "shard-8-of-12.json", "shard-9-of-12.json"]；preregistered_doc=research/PERPETUAL_N1_W266_PREREG.md；evidence_cutoff=2026-09-22（P-5C 冻结窗同窗律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W267+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1084 W265 §8 范式）
+- §5.5 W267+ 投影承接机证（finalize 产物 preregistered_doc 面机读）：W266 注册宇宙已落地（A 600_501..602_500 + B 602_501..602_700，本波冻结收据_w266bmc_freeze_receipt.json）——W267 A naive 起点 602_501 将被注册 W266 B 带拒（staircase-affects-A 第十六次连续 A-hop 预期承接兑现·收据 downstream_seat 面预投影）；B own-A reservation cascade 预期同样上移（post-W266 宇宙活链重 derive 决定·勿假设 A-base==prior-B-tail+1 或 B-base==own-A-tail+1 相等式·E36 卡/W141 先例）；**W267 seat=next free number·下一冻结方必须 seat-first 发布且在 post-W266 宇宙上重 derive**（勿转录 r587）。
+- 宝藏与方法论捕获问：本批零新宝藏入册零新方法论卡——post-splice 单 token heal 面（H1 r1076 W264 家族第 3 代复发·死窗编辑器失职面）属 E63 既有家族的披露改进（六门+heal 双收据承载·术前 FAIL 证据存档），非新方法论卡。
+- 诚实披露面：(1) W266 splice 由 09:25-09:50 死窗执行（O-20261018-0948 病根定谳=v1 发射器 25 分钟墙钟击杀·09:50 顶格命中最新实锚）、58 代吸收窗哈希验证后落链 dc71ecc3f9（引掣 12/12 自烧先于落链·burn-ahead disclosed honest——引掣读工作树字节==落链字节）；(2) post-splice 单 token heal（H1 家族第 3 代复发·最小性证明过闸·术前 FAIL 面存证）；(3) 本波预测键冻结于 W265 实测（起草窗前 W265 finalize 已落地·活链头基准·§5 头注记）；(4) 引擎 dedup W266 remote_done=0 面如实披露（两批 append 已随本窗 dc71ecc3f9 推送上 origin 实证·remote 面归引掣自愈域候下一拍重评·非本波债）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W266 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W265 own-wave finalize 已落地=席位时即解锁（n1_w265_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

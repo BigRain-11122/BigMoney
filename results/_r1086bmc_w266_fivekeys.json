@@ -1,0 +1,80 @@
+{
+ "machine": "bm-c",
+ "wave": 266,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w266_results.json",
+ "keys_anchor": "W265 finalize actuals machine-read from n1_w265_results.json (r587 law) -- W266 prereg froze sec.5 keys on W265 actuals (live-chain-head basis; W265 finalize landed pre-draft r1084)",
+ "merged": {
+  "k": 583120,
+  "mu": -0.09273858056660722,
+  "sigma": 0.24507392133976638,
+  "se_mu_k583120": 0.000321
+ },
+ "w266_only": {
+  "mu": -0.09878527272727272,
+  "sigma": 0.25355802760296964
+ },
+ "skill_line": {
+  "n_eff_held": 1007335,
+  "line_pre_w266": 1.1957,
+  "line_merged_583120": 1.1958,
+  "k_lift_delta": 0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3268,
+  "full_sharpe_p99": 0.4781
+ },
+ "checks": [
+  {
+   "name": "key1_w266_vs_merged_mu_gap",
+   "value": 0.006046692160665501,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w265_key",
+   "value": 2.2899405690057772e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 0.00013363588927265346,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": 0.011899999999999966,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000321,
+   "band": 0.000321,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 1007335,
+  "batch_trials": 2200,
+  "total": 1009535,
+  "exact": true
+ },
+ "merged_k_identity": {
+  "prev_k": 580920,
+  "batch": 2200,
+  "merged_k": 583120,
+  "exact": true
+ },
+ "keys_source": "W265 finalize actuals machine-read from n1_w265_results.json (r587 law)",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
