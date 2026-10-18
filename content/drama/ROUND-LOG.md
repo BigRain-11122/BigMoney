@@ -23,3 +23,6 @@
 2026-10-19T05:32:01 | round 23 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T05:52:01 | round 24 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T05:58:21 | round 25 | claimable | ST-007 | {"runner": "st007_first_synthesis_smoke", "verdict": "done-early", "output_wav": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_smoke\\st007\\out\\output.wav", "output_s": 4.42, "ref_clip": "in-house r998 audition 
+2026-10-19T06:12:00 | round 26 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T06:18:08 | round 27 | claimable | ST-008 | {"runner": "st008_voice_bank_entries", "verdict": "runner-error", "err": "voice-bank entries FAIL rc=1 state=None tail=ent\\drama\\runner_assets\\voice_bank_entries.py\", line 416\r\n    asserts.append(('r998-manifest-re
+2026-10-19T06:18:16 | round 28 | claimable | ST-008 | {"runner": "st008_voice_bank_entries", "verdict": "entries-admitted", "admitted_n": 5, "admitted": ["CH", "XIONG", "RED", "XIONGWEI", "FATHER"], "single_clip": ["FATHER"], "no_material": ["MANCANG", "BOY"], "status_face"

@@ -730,6 +730,49 @@ def st007_first_synthesis_smoke(st):
             'status_face': FIRST_SYNTH_STATUS, 'receipt': ds.get('receipt')}
 
 
+# ---------------- runners (v0.2 registry: ST-008 voice-bank entries) ----------------
+
+VB_DRIVER = os.path.join(QDIR, 'runner_assets', 'voice_bank_entries.py')
+VB_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'voice_bank_entries.json')
+
+
+def _vb_status():
+    try:
+        with io.open(VB_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def st008_voice_bank_entries(st):
+    """ST-008: canon voice-bank entries v0.1 (r1017 next-pointer item 2, voice
+    P1 <=10-22). Idempotent ensure-done: completed admission (status face
+    state=done + admitted_n>=1) -> done-early with evidence; else execute the
+    versioned driver synchronously (bounded 420s < 600s lock stale guard,
+    CREATE_NO_WINDOW). Driver: role-aligned 1-3 ref clips per canon character
+    from in-house r998 audition assets + 音色一致检 v0.1 deterministic proxy
+    gate -> manifest ref_clips admitted + status face + outbox receipt."""
+    ds = _vb_status()
+    if ds.get('state') == 'done' and int(ds.get('admitted_n', 0)) >= 1:
+        return {'runner': 'st008_voice_bank_entries', 'verdict': 'done-early',
+                'admitted_n': ds.get('admitted_n'),
+                'no_material': ds.get('no_material'),
+                'status_face': VB_STATUS, 'receipt': ds.get('receipt')}
+    r = subprocess.run([sys.executable, VB_DRIVER, 'run'],
+                       capture_output=True, timeout=420, creationflags=_NO_WINDOW)
+    tail = ((r.stdout or b'').decode('utf-8', 'replace') +
+            (r.stderr or b'').decode('utf-8', 'replace')).strip()[-300:]
+    ds = _vb_status()
+    if r.returncode != 0 or ds.get('state') != 'done':
+        raise RuntimeError('voice-bank entries FAIL rc=%s state=%s tail=%s' % (
+            r.returncode, ds.get('state'), tail))
+    return {'runner': 'st008_voice_bank_entries', 'verdict': 'entries-admitted',
+            'admitted_n': ds.get('admitted_n'), 'admitted': ds.get('admitted'),
+            'single_clip': ds.get('single_clip'),
+            'no_material': ds.get('no_material'),
+            'status_face': VB_STATUS, 'receipt': ds.get('receipt')}
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
@@ -737,6 +780,7 @@ RUNNERS = {
     'st005_gpt_sovits_env_ignite': st005_gpt_sovits_env_ignite,
     'st006_voice_bank_manifest': st006_voice_bank_manifest,
     'st007_first_synthesis_smoke': st007_first_synthesis_smoke,
+    'st008_voice_bank_entries': st008_voice_bank_entries,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the
