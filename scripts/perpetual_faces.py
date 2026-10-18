@@ -9362,6 +9362,54 @@ N1_BANDS = {
     # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
     273: {"a": (615_901, 617_900), "b_exit": (617_901, 618_100),
          "engine_owner": "bm-c"},
+    # W274 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261019-012x-bmc-w274-seat published=reserved by bm-c itself @
+    # origin 70b21a0264 (r1102, queue-head seat-first supply -- W273 registered+FINALIZED complete at publish, W274 FREEZE UNBLOCKED at seat time (zero waits-upstream face; seats never queue behind freeze windows per O-20261010-2350 sec.2); the SPLICE gate0.5 = GREEN at seat (W273 five-face + finalize product both in-place; prereg + ADMIT probe
+    # receipt frozen commit 6f31f6e073 (prereg research/PERPETUAL_N1_W274_PREREG.md
+    # bm-c r1104 window E63 canon-clone builder derive landed pre-freeze, probe
+    # results/_w274bmc_20261019_probe_receipt.json @ 70b21a0264);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W273 five-face (freeze 04f2127db9) + W273
+    # finalize product landed (n1_w273_results.json present, ledger
+    # head 1024935 machine-read at freeze time); zero --no-verify;
+    # the W274 seat MSG sits in fleet/inbox/processed/MSG-20261019-012x-bmc-w274-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w274bmc_20261019_probe_receipt.json: A = 1-HOP
+    # STAIRCASE-AFFECTS-A walk TWENTY-THIRD consecutive A-hop (the naive continuation 617_901..619_900 is REFUSED
+    # at naive start -- the registered W273 B band sits INSIDE the naive A window;
+    # the walk hops past the W273 B tail -> A first-clean, hops=1 -- TWENTY-THIRD
+    # consecutive A-hop of the staircase era, the fourteen-wave seed-gap face
+    # ENDED at W252;
+    # A base == registered prior-wave B tail+1 (618_100+1) machine-checkable; A_clean_at_naive_start=false;
+    # A_staircase_hop_past_W273_B=true)
+    # B = 1-HOP own-A RESERVATION CASCADE above own-A (the naive continuation
+    # 618_101..618_300 is REFUSED at its own start -- the naive window lands
+    # INSIDE the own-wave A first-clean window --
+    # own-A reservation cascade standard leg; hops=1,
+    # B_hop_chain verbatim in the probe receipt; the walk hops past the own-A
+    # tail -> B lands ABOVE own-A -- TWENTY-FOURTH consecutive above-own-A;
+    # B base == own-A tail+1 (620_100+1) EXACT; B_lands_above_own_A=true;
+    # B_hop_lands_inside_A=false; B_naive_refused_at_start=true)
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=618101 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=620101 span=200 checked=200 verdict=FREE.
+    # W275+ projection (gate-derived pre-seat probe leg4, pre-W274
+    # universe): A naive first-clean 620101..622100 hops=0 (this window's gate: CLEAN, zero live
+    # seed refusers) / B naive 620301..620500 hops=0 CLEAN at naive -- first-clean 620301..620500 BUT lands INSIDE the projection A window,
+    # (W275p_B_lands_inside_W275p_A_naive=true -- staircase re-emergence face: the W275 walk MUST hop past own-A reservation);
+    # the W275 freezer MUST
+    # re-derive on the post-W274 universe AND reserve the own-wave A window
+    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1
+    # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
+    274: {"a": (618_101, 620_100), "b_exit": (620_101, 620_300),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
