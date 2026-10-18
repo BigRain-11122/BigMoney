@@ -1,0 +1,48 @@
+{
+ "round": "r1098",
+ "ts": "2026-10-18T19:2x+08:00",
+ "purpose": "W272 prereg derive PREP facts machine-frozen for r1099 FIRST ACTION (r971/r1026 prep precedent; honest split per r1096 multi-step window-budget law: _w271bmc_prereg_derive.py = 48,523B full-window clone job)",
+ "sub_source": {
+  "path": "research/PERPETUAL_N1_W271_PREREG.md",
+  "commit": "f75b18c862",
+  "face": "PRE-backfill (r1049/r1052 law; HEAD twin = post-backfill NOT used)",
+  "bytes": 23336,
+  "sha256_16": "f8b4a755d81bfbe5",
+  "blob": "a5aad2251d04d082c031b61d67dc3d5b0f39b06f",
+  "extracted_to": "results/_w272bmc_w271_frozen_face.txt"
+ },
+ "seat": {
+  "commit": "f608ff1cee",
+  "msg": "fleet/inbox/MSG-20261018-191x-bmc-w272-seat.md",
+  "probe_receipt": "results/_w272bmc_20261018_probe_receipt.json",
+  "A": [613701, 615700],
+  "B": [615701, 615900],
+  "A_hops": 1,
+  "B_hops": 1,
+  "A_semantics": "staircase-affects-A TWENTY-FIRST consecutive A-hop (naive 613_501..615_500 refused at registered W271 B 613_501..613_700 -> first-clean past 613_700)",
+  "B_semantics": "own-A reservation cascade TWENTY-SECOND consecutive above-own-A (naive 613_701..613_900 inside own-A 613_701..615_700 -> first-clean past 615_700; B base==own-A tail+1)",
+  "seed_admit": "FREE x2 (A base=613701 span=2000 / B base=615701 span=200)"
+ },
+ "anchors_source": {
+  "file": "results/perpetual_faces/n1_w271_results.json",
+  "law": "FULL-PRECISION machine-read at derive time (r1093 pit law; prereg sec.5 8-decimal faces are narrative-only)",
+  "key_paths": {
+   "ledger_total": "science_gates.ledger.total (live-read 1,020,535)",
+   "merged_n": "null_pool_cumulative.merged.n_values (live-read 594,120)",
+   "merged_mu": "null_pool_cumulative.merged.mu (live-read -0.09276411835992728)",
+   "merged_sigma": "null_pool_cumulative.merged.sigma (live-read 0.24509039950538597)",
+   "k_lift": "skill_line_v2_k_lift.line_delta_k_lift (live-read 0.0001)",
+   "line_pre_w271": "skill_line_v2_k_lift.line_pre_w271",
+   "line_merged": "skill_line_v2_k_lift.line_merged_594120",
+   "n_eff_held_equal": "skill_line_v2_k_lift.n_eff_held_equal"
+  },
+  "chain_relation": "W269->W270->W271 ledger 1,016,135->1,018,335->1,020,535 (+2,200/+2,200) / K 589,720->591,920->594,120 (+2,200/+2,200)",
+  "w271_only_mu_note": "w271-only mu face read from finalize product by the derive window (fivekeys r1097 receipt carries -0.1028 rounded narrative; live product governs)"
+ },
+ "derive_handoff": {
+  "first_action_r1099": "W272 PREREG DERIVE: canon-clone _w271bmc_prereg_derive.py (needle probe MEASURED r1077 law first; anchors live machine-read r1093; bands from seat receipt verbatim; banned_direction_gate ADMIT; freeze research/PERPETUAL_N1_W272_PREREG.md + push)",
+  "needle_probe_source": "results/_w271bmc_needle_probe.py (13,354B clone base)",
+  "derive_script_source": "results/_w271bmc_prereg_derive.py (48,523B clone base)",
+  "window_stamp_note": "pre-author consumed-label forms per r1059 canon-embed advice; W271-freeze needle heals to expect: %h prose-label widths, leg4 format, count-gate floors (r1096 family)"
+ }
+}
