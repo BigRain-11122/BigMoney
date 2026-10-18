@@ -1,0 +1,209 @@
+=== W266 prereg needle probe (T0 = frozen W265 face @ e57215a2c, r1085 window) ===
+T0 bytes=22927 sha256_16=d36c29cf048d299d
+
+--- explicit VMAP needle counts (planned legs, measured on T0) ---
+count=1 'A-ext seed=598_301..600_300'
+count=1 'B-ext exit seed=600_301..600_500'
+count=1 'entry rng=**598_301+j**（与 A[j] 同源配对语义逐字'
+count=1 '席位公示=MSG-20261017-2241-bmc-w265-seat 已推 origin 7343e3650 r565 律（bm-c r1077 席·queue-head seat-first lane）'
+count=1 '席位公示 MSG-20261017-2241-bmc-w265-seat 先推 origin 7343e3650 r565 律'
+count=1 '波号 265'
+count=1 'r1077 席位窗实跑：origin inbox 零 W265 席位外机命中'
+count=1 '零 265 行'
+count=1 '零 skip-ahead W266/W267 席位声明'
+count=1 '池第 263 枚'
+count=1 '第 255 波'
+count=1 'bm-c 第八十四枚自有波'
+count=1 'probe leg0 bmc_rows=83 attempt-continuity face（r1077 窗算法·bm-c own seat+bmc live rows 83 实读）——freeze 时 live derive bmc rows 83+候选=第 84 枚 EXACT'
+count=1 'engine_owner==bm-c 83 行注册'
+count=1 'saturation_engine.py status live-read r1080：burns_active=[] queue_next=[] 实读·heartbeat 新鲜'
+count=1 '本机 bm-c 实例·heartbeat 新鲜实读 r1080 窗·队列空转 idle'
+count=1 '引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1080 窗实读'
+count=1 '--wave 265/finalize --wave 265'
+count=1 '§5.5 W266+ 投影承接机证'
+count=1 '本窗 free RAM ~3GB（bm-c 底盘常驻·24G 物理内存机·CEO 周末用机态·GPU=gen-only 车道空窗（nvidia-smi 实读 3%·3.2G VRAM 常驻·POOL-0016 候件冻结态）·LLM 态已退役 gen 专用车道·引擎队列空转·CPU 车道独立如实注记）'
+
+--- chained roll token counts (T0) ---
+count=4 'n1_w265'
+count=6 'n1_w264'
+count=0 'n1_w263'
+count=4 '_w265bmc'
+count=1 '_w264bmc'
+count=0 '_w263bma'
+count=35 'W265'
+count=62 'W264'
+count=4 'W263'
+count=2 'W262'
+count=2 'W261'
+count=1 'W260'
+count=1 'W259'
+count=1 'W258'
+count=1 'W257'
+count=1 'W256'
+count=1 'W255'
+
+--- block-marker counts (T0 raw + post-VMAP simulation) ---
+block=b_title start(T0)=1 start(T1)=1 end(T1)=0
+block=b_prev start(T0)=1 start(T1)=1 end(T1)=1
+block=b_band start(T0)=1 start(T1)=1 end(T1)=1
+block=b3_a start(T0)=1 start(T1)=1 end(T1)=1
+block=b3_b start(T0)=1 start(T1)=1 end(T1)=1
+block=b_claim_proj start(T0)=1 start(T1)=1 end(T1)=1
+block=b5_projection start(T0)=1 start(T1)=1 end(T1)=1
+block=b_gated start(T0)=1 start(T1)=1 end(T1)=1
+
+--- POST-leg needle candidates (measured on T1 post-VMAP simulation) ---
+T0=4 T1=4 '22:3x'
+T0=0 T1=0 '19:2x'
+T0=0 T1=0 '07:0x'
+T0=0 T1=1 '（W265 实测键 **−0.09272766**·K=578,720 合并池·W265-only 实测 **−0.08593818**）'
+T0=1 T1=0 '（W264 实测键 **−0.09272766**·K=578,720 合并池·W264-only 实测 **−0.08593818**）'
+T0=0 T1=1 'W2..W265 共二百六十三面实测 mu 稳定先例'
+T0=0 T1=1 'W265-only vs merged 实差 0.0068 在带内'
+T0=0 T1=1 '键 **0.24504297**=W265 合并池实测'
+T0=0 T1=1 '与 W265 A 档 p95（**0.3046** 实测锚）'
+T0=0 T1=0 '键 W265 实测 K-lift **0.0001**·line_merged@K578,720 **1.1955**·line_pre_w265 1.1954·n_eff_held_equal 996,335'
+T0=0 T1=1 '→W262 **0.000324**→W263 **0.000323**→W264 **0.000323**→W265 **0.000322**→W266 投影 0.000322】'
+T0=1 T1=0 '→W261 **0.000324**→W262 **0.000323**→W263 **0.000323**→W264 **0.000322**→W265 投影 0.000322】'
+T0=0 T1=1 '（起草窗实流 W1..W265 已落账 578,720 实测〔n1_w265_results.json 机读·W265 finalize 已落〕）'
+T0=0 T1=1 'bm-c r1077 W265 §7 范式'
+T0=0 T1=1 'bm-c r1077 W265 §8 范式'
+T0=0 T1=0 'bm-c r1084 W265 §7 范式'
+T0=1 T1=0 '·W244 冻结窗 41.9G bm-a 实锚·W263 冻结窗 26G bm-a 实锚·W264 冻结窗 7G bm-c 实锚）'
+T0=1 T1=1 'estate absorb r1077 7343e3650'
+T0=0 T1=2 'W265 finalize one-pass bm-c r1077 窗 22:3x'
+T0=1 T1=1 'n_eff_held_equal 996,335'
+T0=2 T1=2 '1,005,135'
+T0=0 T1=0 '1,007,335'
+T0=6 T1=6 '578,720'
+T0=1 T1=1 '580,920'
+T0=0 T1=0 '583,120'
+T0=0 T1=0 '1,009,535'
+T0=1 T1=1 '共二百六十三面'
+T0=0 T1=0 '共二百六十四面'
+T0=0 T1=1 'W206/W211..W265 低 RAM 实烧先例'
+T0=1 T1=0 'probe receipt _w265bmc_20261017 机证'
+T0=2 T1=2 'W266p_'
+T0=0 T1=0 'W265p_'
+T0=0 T1=0 'W267p_'
+T0=0 T1=0 'line_pre_w265 1.1954'
+T0=1 T1=1 'line_pre_w264 1.1954'
+T0=0 T1=0 '键 W263 实测 K-lift'
+T0=1 T1=0 '键 W264 实测 K-lift'
+T0=0 T1=1 '键 W265 实测 K-lift'
+T0=1 T1=1 'verify at W266 prereg'
+T0=0 T1=0 'verify at W265 prereg'
+T0=0 T1=0 'verify at W267 prereg'
+T0=3 T1=2 'W266+ 投影'
+T0=0 T1=1 'W267+ 投影'
+T0=0 T1=0 'W265+ 投影'
+T0=3 T1=3 '第十四次连续 A-hop'
+T0=3 T1=3 '第十五次连续 A-hop'
+T0=0 T1=0 '第十六次连续 A-hop'
+T0=2 T1=2 '第十五次连续 above-own-A'
+T0=0 T1=0 '第十六次连续 above-own-A'
+T0=1 T1=1 '连续十四波'
+T0=0 T1=0 '连续十五波'
+T0=2 T1=2 'hops=1'
+T0=5 T1=5 'hops=0'
+T0=5 T1=5 '600_301..602_300'
+T0=0 T1=1 '600_501..602_500'
+T0=0 T1=1 '602_501..602_700'
+T0=0 T1=0 '602_501..604_500'
+T0=0 T1=0 '602_701..602_900'
+T0=2 T1=2 '席位时即解锁'
+T0=11 T1=10 '598_301..600_300'
+T0=10 T1=9 '600_301..600_500'
+T0=2 T1=2 '600_300+1'
+T0=0 T1=0 '600_500+1'
+T0=0 T1=0 '602_500+1'
+T0=0 T1=2 'A_staircase_hop_past_W265_B=true'
+T0=2 T1=0 'A_staircase_hop_past_W264_B=true'
+T0=2 T1=2 'B_lands_above_own_A=true'
+T0=1 T1=1 'seed_admit_gate rc0 双带 FREE'
+T0=0 T1=0 'waits-upstream ARMED'
+T0=1 T1=1 '−0.09272766'
+T0=1 T1=1 '0.24504297'
+T0=1 T1=1 '−0.08593818'
+T0=1 T1=1 '0.3046'
+T0=0 T1=0 '−0.09271568'
+T0=0 T1=0 '0.24504118'
+T0=0 T1=0 '−0.08956582'
+T0=0 T1=0 '0.3149'
+T0=1 T1=1 '实差 0.0068 在带内'
+T0=0 T1=0 '实差 0.0031 在带内'
+T0=3 T1=1 'MSG-20261017-2241'
+T0=0 T1=2 'MSG-20261018-0719'
+T0=0 T1=0 'MSG-20261017-1950'
+T0=4 T1=2 '7343e3650'
+T0=0 T1=2 'ace19ba85b'
+T0=0 T1=0 'dd5fd438e'
+T0=1 T1=1 'f4ffdb34e'
+T0=2 T1=2 '216b578b0'
+T0=1 T1=1 '964148797'
+T0=1 T1=1 '17dd06323'
+T0=0 T1=0 'b32f6bf1c'
+T0=0 T1=0 'f499817fa'
+T0=0 T1=0 '355c716b7'
+T0=0 T1=0 '91da16c86'
+T0=0 T1=0 'e57215a2c'
+T0=0 T1=0 'a47517f792'
+T0=0 T1=0 '93298b7e33'
+T0=0 T1=0 'c72805837c'
+T0=0 T1=0 '2e622ee447'
+T0=1 T1=0 'bmc_rows=83'
+T0=0 T1=0 'bmc_rows=82'
+T0=2 T1=1 '第 84 枚'
+T0=0 T1=1 '第 85 枚'
+T0=1 T1=0 '第 255 波'
+T0=0 T1=1 '第 256 波'
+T0=1 T1=0 '第八十四枚'
+T0=0 T1=1 '第八十五枚'
+T0=1 T1=0 'engine_owner==bm-c 83 行注册'
+T0=0 T1=1 'engine_owner==bm-c 84 行注册'
+T0=0 T1=0 'engine_owner==bm-c 82 行注册'
+T0=4 T1=2 'r1077 席'
+T0=0 T1=2 'r1084 席'
+T0=1 T1=1 '本窗 free RAM ~3GB'
+T0=0 T1=0 '本窗 free RAM ~7GB'
+T0=5 T1=0 'n1_w264_results.json'
+T0=0 T1=0 'n1_w263_results.json'
+T0=2 T1=5 'n1_w265_results.json'
+T0=0 T1=2 'n1_w266_results.json'
+T0=4 T1=0 'W2..W264'
+T0=0 T1=4 'W2..W265'
+T0=1 T1=0 'W136..W264'
+T0=0 T1=1 'W136..W265'
+T0=0 T1=0 'queue_depth'
+T0=0 T1=0 'GATED on'
+T0=0 T1=0 'finalize PENDING'
+T0=1 T1=0 'R266：W265 带'
+T0=0 T1=0 'R267：W266 带'
+T0=0 T1=1 'W266=bm-c own-wave window per chain-order law'
+T0=1 T1=0 'W265=bm-c own-wave window per chain-order law'
+T0=0 T1=0 'perpetual_faces/n1_w265/'
+T0=1 T1=1 'p2cal_ext/n1_w265/'
+
+--- verbatim T1 face extracts (POST-leg authoring inputs) ---
+[sec5_item1 @12106] ...try 键 derive 免疫·本键为起草窗活链头如面）。\n1. W266-only mu 与累计池 merged mu（W265 实测键 **−0.09272766**·K=578,720 合并池·W265-only 实测 **−0.08593818**）差异 **|Δ|<0.02**（W2..W265 共二百六十三面实测 mu 稳定先例·单波跨键微；W265-only vs merged 实差 0.0068 在带内）。\n2. sigma 相对变化 **<±10%**（同设计同窗·纯抽样波动；键 **0.24504297**=W265 合并池实测）。\n3. A 档 full_sharpe_p95 与 W265 A 档 p95（**...
+[sec5_mu_stable @12200] ...0 合并池·W265-only 实测 **−0.08593818**）差异 **|Δ|<0.02**（W2..W265 共二百六十三面实测 mu 稳定先例·单波跨键微；W265-only vs merged 实差 0.0068 在带内）。\n2. sigma 相对变化 **<±10%**（同设计同窗·纯抽样波动；键 **0.24504297**=W265 合并池实测）。\n3. A 档 full_sharpe_p95 与 W265 A 档 p95（**0.3046** 实测锚）差 **<0.05**（门标注法 W5..W265 先例：结果知情面仅作机器断言之用·测量面非注册收益）。\n4. K-lift 线移动幅度 **≤±0.02**（...
+[sec5_gap @12234] ...）差异 **|Δ|<0.02**（W2..W265 共二百六十三面实测 mu 稳定先例·单波跨键微；W265-only vs merged 实差 0.0068 在带内）。\n2. sigma 相对变化 **<±10%**（同设计同窗·纯抽样波动；键 **0.24504297**=W265 合并池实测）。\n3. A 档 full_sharpe_p95 与 W265 A 档 p95（**0.3046** 实测锚）差 **<0.05**（门标注法 W5..W265 先例：结果知情面仅作机器断言之用·测量面非注册收益）。\n4. K-lift 线移动幅度 **≤±0.02**（累计池加深零 se_mu 收窄线自 mu/sigma 微调面非质变—...
+[sec5_item2_sigma @12296] ... merged 实差 0.0068 在带内）。\n2. sigma 相对变化 **<±10%**（同设计同窗·纯抽样波动；键 **0.24504297**=W265 合并池实测）。\n3. A 档 full_sharpe_p95 与 W265 A 档 p95（**0.3046** 实测锚）差 **<0.05**（门标注法 W5..W265 先例：结果知情面仅作机器断言之用·测量面非注册收益）。\n4. K-lift 线移动幅度 **≤±0.02**（累计池加深零 se_mu 收窄线自 mu/sigma 微调面非质变——W136..W265 先例链披露【各波 K-lift 全在 ±0.0003 内·机读可复核·键 W265 实测 K-lif...
+[sec5_item3_p95 @12356] ...键 **0.24504297**=W265 合并池实测）。\n3. A 档 full_sharpe_p95 与 W265 A 档 p95（**0.3046** 实测锚）差 **<0.05**（门标注法 W5..W265 先例：结果知情面仅作机器断言之用·测量面非注册收益）。\n4. K-lift 线移动幅度 **≤±0.02**（累计池加深零 se_mu 收窄线自 mu/sigma 微调面非质变——W136..W265 先例链披露【各波 K-lift 全在 ±0.0003 内·机读可复核·键 W265 实测 K-lift **0.0001**·line_merged@K578,720 **1.1955**·line_pre_w264 1...
+[sec5_item4_klift @12541] ...sigma 微调面非质变——W136..W265 先例链披露【各波 K-lift 全在 ±0.0003 内·机读可复核·键 W265 实测 K-lift **0.0001**·line_merged@K578,720 **1.1955**·line_pre_w264 1.1954·n_eff_held_equal 996,335；se_mu 收窄链 …→W262 **0.000324**→W263 **0.000323**→W264 **0.000323**→W265 **0.000322**→W266 投影 0.000322】）。\n5. **W266+ 投影（probe 机证 leg4·下波冻结方复核非转抄 r587 律）**：A...
+[se_mu_chain @12658] ...**·line_pre_w264 1.1954·n_eff_held_equal 996,335；se_mu 收窄链 …→W262 **0.000324**→W263 **0.000323**→W264 **0.000323**→W265 **0.000322**→W266 投影 0.000322】）。\n5. **W266+ 投影（probe 机证 leg4·下波冻结方复核非转抄 r587 律）**：A naive first-clean 600_301..602_300 **CLEAN**（hops=0·pre-W266 宇宙零 live refusers）——**post-W266-REGISTERED 预披露：naive W2...
+[sec4_pool @11231] ...n**）。\n\n## §4 判据/读出面（测量面·数字读出·零注册问题）\n- 合并池 `canon 120 + 已落账净值（起草窗实流 W1..W265 已落账 578,720 实测〔n1_w265_results.json 机读·W265 finalize 已落〕）+本波 2,200`；`skill_line_v2` **自 n_eff K-lift**（旧线届时空窗前 K derive·v2 归因律逐字·禁手抄 prev）；mu/sigma/p95/p99 新旧对照面与 se_mu 收窄链逐列披露。\n- 账本：finalize 止 `science_gates.append_ledger(batch_name="PERPETUAL...
+[paradigm7 @14770] ...ift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1077 W265 §7 范式）\n\n## §8 批后复盘。【finalize 同窗回填】\n- （占位·finalize 同窗回填：§5.5 W267+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1077 W265 §8 范式）\n\n- **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W266 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W265 own-wave finalize 已落地=席位时即解锁（n1_...
+[paradigm8 @14876] ...ize 同窗回填：§5.5 W267+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1077 W265 §8 范式）\n\n- **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W266 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W265 own-wave finalize 已落地=席位时即解锁（n1_w265_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**\n...
+[ram_ledger_tail @7265] ...8G bm-a 实锚·W244 冻结窗 41.9G bm-a 实锚·W264 冻结窗 26G bm-a 实锚·W265 冻结窗 7G bm-c 实锚）·burn 由引擎 RAM 面随 cycle 上报自判·本件不代引擎决策。**\n- 物化条件（法典冻结标签行·runner 落地与批产物一批）：本波**引擎生成器物化**（N1_BANDS 单源 derive·engine_owner==bm-c 波的未烧分片=本地队列项；per-wave prereg 在场=物化前置条件）；池面 supply 生成器对 engine_owner 波群跳过物化【cmd_supply owner 跳过闸防零号双烧面】；**引擎实况注记（本机 bm-c 实...
+[stamp_faces @372] ...1,005,135·K=578,720 合并池·W265 finalize one-pass bm-c r1077 窗 22:3x·estate absorb r1077 7343e3650】）+本候选=bm-c 自有席自有波【live-derive face：席面 own-seat face（bm-c r1077 席位 MSG-20261017-2241-bmc-w265-seat 已推 origin 7343e3650·probe receipt _w266bmc_20261017 机证·bands ADMIT verbatim·queue-head seat-first lane）→freeze 时 live derive b...
+[stamp_faces @4925] ...n1_w265_results.json 机读·W265 finalize one-pass bm-c r1077 窗 22:3x】】；**零在飞上游席——「零在飞上游链前」断言适用且干净前置成立**（上游 W265 席位已闭链=注册+烧录+finalize 全落地·零在飞）；finalize 键序前置=届时按 registry 键 derive 复核 FAIL-CLOSED r307 两态例恒在；累计 null 池=578,720+2,200（本波）=**580,920 投影**（机械算·投影面仅披露·finalize 运行时按 registry 键 derive 免疫）。\n- 认领：never-dry 常供给例波（TRIAL_L...
+[stamp_faces @11914] ...【必填】写死于跑前\n（起草窗实况注记：**W1..W265 N1 注册全部落地**（W265 finalize 已落地 22:3x）——**本波 §5 预测键=**W265 实测值**【results/perpetual_faces/n1_w265_results.json·N1 面最新已 finalize 键·22:3x finalize one-pass】（运行时按 registry 键 derive 免疫·本键为起草窗活链头如面）。\n1. W266-only mu 与累计池 merged mu（W265 实测键 **−0.09272766**·K=578,720 合并池·W265-only 实测 **−0.08593818**...
+[bgated_timeline @4344] ...件在场=已绿·未落即 loud abort 兜底）=**splice 执行窗派生落地（r1076/r1077 W265 先例实时间线：prereg f4ffdb34e 落于 r1076 窗·splice 216b578b0 落于 r1076 absorb 执行窗 21:2x——**W266 freeze 面：W265 own-wave finalize 已落地=席位时即解锁——席位+prereg 本窗落地 per seat-first law O-20261010-2350 §2·splice 执行窗开门（gate0.5 绿·编辑器 loud abort 兜底）**。\n\n## §0 批件身份。【必填·跑前】\n- 批名=**PERPE...
+[btitle_finalize @262] ...cal_ext/n1_w265/ 12/12·ledger append 964148797+17dd06323】·**W265 finalize 已落地**【n1_w265_results.json 机读·净账本锚头 1,005,135·K=578,720 合并池·W265 finalize one-pass bm-c r1077 窗 22:3x·estate absorb r1077 7343e3650】）+本候选=bm-c 自有席自有波【live-derive face：席面 own-seat face（bm-c r1077 席位 MSG-20261017-2241-bmc-w265-seat 已推 origin 7343e3...
+[btitle_finalize @11896] ... 同例）。\n\n## §5 跑前预测。【必填】写死于跑前\n（起草窗实况注记：**W1..W265 N1 注册全部落地**（W265 finalize 已落地 22:3x）——**本波 §5 预测键=**W265 实测值**【results/perpetual_faces/n1_w265_results.json·N1 面最新已 finalize 键·22:3x finalize one-pass】（运行时按 registry 键 derive 免疫·本键为起草窗活链头如面）。\n1. W266-only mu 与累计池 merged mu（W265 实测键 **−0.09272766**·K=578,720 合并池·W265-only ...
+[bprev_head @4807] ...**W1..W265 N1 注册全部落地**【W265=注册+12/12 分片已烧·**finalize 已落地**——最新已 finalize 锚=**W265**【净账本锚头 **1,005,135**·K=578,720 合并池·n1_w265_results.json 机读·W265 finalize one-pass bm-c r1077 窗 22:3x】】；**零在飞上游席——「零在飞上游链前」断言适用且干净前置成立**（上游 W265 席位已闭链=注册+烧录+finalize 全落地·零在飞）；finalize 键序前置=届时按 registry 键 derive 复核 FAIL-CLOSED r307 两态例恒在；累...
+
+--- RAM/engine live faces measured THIS window (r1085) ---
+psutil free_ram_gb=2.11 avail_gb=2.11 total_gb=25.7
+nvidia-smi: 3 %, 3268 MiB, 16384 MiB
