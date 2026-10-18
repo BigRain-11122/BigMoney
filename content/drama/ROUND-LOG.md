@@ -26,3 +26,8 @@
 2026-10-19T06:12:00 | round 26 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T06:18:08 | round 27 | claimable | ST-008 | {"runner": "st008_voice_bank_entries", "verdict": "runner-error", "err": "voice-bank entries FAIL rc=1 state=None tail=ent\\drama\\runner_assets\\voice_bank_entries.py\", line 416\r\n    asserts.append(('r998-manifest-re
 2026-10-19T06:18:16 | round 28 | claimable | ST-008 | {"runner": "st008_voice_bank_entries", "verdict": "entries-admitted", "admitted_n": 5, "admitted": ["CH", "XIONG", "RED", "XIONGWEI", "FATHER"], "single_clip": ["FATHER"], "no_material": ["MANCANG", "BOY"], "status_face"
+2026-10-19T06:32:01 | round 29 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T06:52:01 | round 30 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T07:12:01 | round 31 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T07:32:01 | round 32 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T07:45:35 | round 33 | claimable | ST-009 | {"runner": "st009_voice_differentiation_eval", "verdict": "done-early", "same_voice_band_pairs": 3, "pitch_tier": {"voice_07.wav": {"offsets": {"FATHER": -1, "XIONG": 0, "XIONGWEI": 3}, "projected_f0": {"FATHER": 142.5, 

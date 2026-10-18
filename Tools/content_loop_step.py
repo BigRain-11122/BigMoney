@@ -773,6 +773,52 @@ def st008_voice_bank_entries(st):
             'status_face': VB_STATUS, 'receipt': ds.get('receipt')}
 
 
+# ---------------- runners (v0.2 registry: ST-009 voice differentiation eval) ----------------
+
+VD_DRIVER = os.path.join(QDIR, 'runner_assets', 'voice_differentiation_eval.py')
+VD_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'voice_differentiation_eval.json')
+
+
+def _vd_status():
+    try:
+        with io.open(VD_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def st009_voice_differentiation_eval(st):
+    """ST-009: character voice differentiation eval v0.1 (ST-008 receipt
+    shared-base-debt face; r1018 next-pointer item 3). Idempotent ensure-done:
+    completed eval (status face state=done + same_voice_band_pairs list +
+    receipt on disk) -> done-early with evidence; else execute the versioned
+    driver synchronously (bounded 300s < 600s lock stale guard,
+    CREATE_NO_WINDOW). Driver: manifest ref-clip F0/RMS/centroid medians ->
+    cross-character same-voice-band matrix + deterministic pitch-tier search
+    (semantic direction constraints, min total shift, family pairs F0 rel
+    >= 0.15) + method-feasibility receipt. Eval only: no voice_bank writes."""
+    ds = _vd_status()
+    if (ds.get('state') == 'done'
+            and isinstance(ds.get('same_voice_band_pairs'), list)
+            and os.path.exists(os.path.join(ROOT, ds.get('receipt') or '_'))):
+        return {'runner': 'st009_voice_differentiation_eval', 'verdict': 'done-early',
+                'same_voice_band_pairs': len(ds.get('same_voice_band_pairs') or []),
+                'pitch_tier': ds.get('pitch_tier'),
+                'status_face': VD_STATUS, 'receipt': ds.get('receipt')}
+    r = subprocess.run([sys.executable, VD_DRIVER, 'run'],
+                       capture_output=True, timeout=300, creationflags=_NO_WINDOW)
+    tail = ((r.stdout or b'').decode('utf-8', 'replace') +
+            (r.stderr or b'').decode('utf-8', 'replace')).strip()[-300:]
+    ds = _vd_status()
+    if r.returncode != 0 or ds.get('state') != 'done':
+        raise RuntimeError('voice differentiation eval FAIL rc=%s state=%s tail=%s' % (
+            r.returncode, ds.get('state'), tail))
+    return {'runner': 'st009_voice_differentiation_eval', 'verdict': 'eval-done',
+            'same_voice_band_pairs': len(ds.get('same_voice_band_pairs') or []),
+            'pitch_tier': ds.get('pitch_tier'),
+            'status_face': VD_STATUS, 'receipt': ds.get('receipt')}
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
@@ -781,6 +827,7 @@ RUNNERS = {
     'st006_voice_bank_manifest': st006_voice_bank_manifest,
     'st007_first_synthesis_smoke': st007_first_synthesis_smoke,
     'st008_voice_bank_entries': st008_voice_bank_entries,
+    'st009_voice_differentiation_eval': st009_voice_differentiation_eval,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the

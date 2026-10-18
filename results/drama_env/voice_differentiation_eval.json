@@ -1,0 +1,187 @@
+{
+ "schema": "voice-differentiation-eval-v1",
+ "state": "done",
+ "ts": "2026-10-19T07:44:42+08:00",
+ "elapsed_s": 0.0,
+ "admitted": [
+  "CH",
+  "FATHER",
+  "RED",
+  "XIONG",
+  "XIONGWEI"
+ ],
+ "families": {
+  "voice_12.wav": [
+   "CH"
+  ],
+  "voice_07.wav": [
+   "FATHER",
+   "XIONG",
+   "XIONGWEI"
+  ],
+  "voice_04.wav": [
+   "RED"
+  ]
+ },
+ "pairwise": [
+  {
+   "a": "CH",
+   "b": "FATHER",
+   "f0_rel": 0.3238,
+   "centroid_rel": 0.0196,
+   "rms_db": 5.42,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "CH",
+   "b": "RED",
+   "f0_rel": 0.5835,
+   "centroid_rel": 0.1976,
+   "rms_db": 1.69,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "CH",
+   "b": "XIONG",
+   "f0_rel": 0.4026,
+   "centroid_rel": 0.1237,
+   "rms_db": 7.22,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "CH",
+   "b": "XIONGWEI",
+   "f0_rel": 0.4043,
+   "centroid_rel": 0.0657,
+   "rms_db": 8.2,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "FATHER",
+   "b": "RED",
+   "f0_rel": 0.3841,
+   "centroid_rel": 0.2134,
+   "rms_db": 3.73,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "FATHER",
+   "b": "XIONG",
+   "f0_rel": 0.1164,
+   "centroid_rel": 0.1062,
+   "rms_db": 1.8,
+   "same_family": true,
+   "class": "same-voice-band"
+  },
+  {
+   "a": "FATHER",
+   "b": "XIONGWEI",
+   "f0_rel": 0.119,
+   "centroid_rel": 0.047,
+   "rms_db": 2.78,
+   "same_family": true,
+   "class": "same-voice-band"
+  },
+  {
+   "a": "RED",
+   "b": "XIONG",
+   "f0_rel": 0.3029,
+   "centroid_rel": 0.2969,
+   "rms_db": 5.53,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "RED",
+   "b": "XIONGWEI",
+   "f0_rel": 0.3008,
+   "centroid_rel": 0.2504,
+   "rms_db": 6.51,
+   "same_family": false,
+   "class": "distinct"
+  },
+  {
+   "a": "XIONG",
+   "b": "XIONGWEI",
+   "f0_rel": 0.0029,
+   "centroid_rel": 0.0621,
+   "rms_db": 0.98,
+   "same_family": true,
+   "class": "same-voice-band"
+  }
+ ],
+ "same_voice_band_pairs": [
+  {
+   "a": "FATHER",
+   "b": "XIONG",
+   "f0_rel": 0.1164,
+   "centroid_rel": 0.1062,
+   "rms_db": 1.8,
+   "same_family": true,
+   "class": "same-voice-band"
+  },
+  {
+   "a": "FATHER",
+   "b": "XIONGWEI",
+   "f0_rel": 0.119,
+   "centroid_rel": 0.047,
+   "rms_db": 2.78,
+   "same_family": true,
+   "class": "same-voice-band"
+  },
+  {
+   "a": "XIONG",
+   "b": "XIONGWEI",
+   "f0_rel": 0.0029,
+   "centroid_rel": 0.0621,
+   "rms_db": 0.98,
+   "same_family": true,
+   "class": "same-voice-band"
+  }
+ ],
+ "pitch_tier": {
+  "voice_07.wav": {
+   "offsets": {
+    "FATHER": -1,
+    "XIONG": 0,
+    "XIONGWEI": 3
+   },
+   "projected_f0": {
+    "FATHER": 142.5,
+    "XIONG": 170.9,
+    "XIONGWEI": 203.8
+   },
+   "projected_pairs": [
+    {
+     "a": "FATHER",
+     "b": "XIONG",
+     "f0_rel": 0.166
+    },
+    {
+     "a": "FATHER",
+     "b": "XIONGWEI",
+     "f0_rel": 0.3008
+    },
+    {
+     "a": "XIONG",
+     "b": "XIONGWEI",
+     "f0_rel": 0.1616
+    }
+   ],
+   "total_st": 4
+  }
+ },
+ "honest_limits": [
+  "F0/RMS/centroid proxy only; embedding-level timbre identity = future station",
+  "FATHER median from a single clip (fragile; re-supply station pending)",
+  "formant-preserving DSP moves F0 only; centroid band stays (F0 band is the separating axis)",
+  "fine-tune on same-base (voice_07) material cannot separate the family -- root fix is distinct source voices",
+  "RMS loudness re-match required after DSP shift at the synthesis station"
+ ],
+ "receipt": "content/drama/outbox/VOICE-DIFFERENTIATION-EVAL-v0.1.md"
+}
