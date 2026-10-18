@@ -1,0 +1,54 @@
+=== VMAP_FLOORS L254-L324 (RAM/GPU-relevant keys) ===
+L268: "probe leg0 bmc_rows=93 attempt-continuity face（r1106 窗算法·bm-c own seat+bmc live rows 93 实读）——freeze 时 live derive bmc rows 93+候选=第 94 枚 EXACT": 1,
+L313: "MSG-20261019-055x": 0, "键 W275 实测 K-lift": 0, "本窗 free RAM ~4.4GB": 0,
+=== VMAP_POST_LEGS L343-L389 (all entries) ===
+L343: VMAP_POST_LEGS = [
+L344: # finalize-window stamp roll (heal (1)): W275 finalize one-pass landed 05:3x (fc01636095
+L345: # 05:31:54); T1 carries the W274-era 03:2x stamps x4 (MEASURED live THIS build, r1077 law)
+L346: ("03:2x", "05:3x", 4),
+L347: # date-cross N/A this generation (heal (2), disclosed): W276 seat receipt same-date 20261019
+L348: # with the W275 seat receipt -- lowercase prefix chain rolls the receipt date correctly with
+L349: # NO date-cross leg (the r1104 build needed one only because the W273 seat receipt was 10-18).
+L350: # sec.5 item1 measured keys -> W275 actuals (n1_w275_results + fivekeys machine values)
+L351: ("（W275 实测键 **−0.09280110**·K=600,720 合并池·W275-only 实测 **−0.09630486**）",
+L352: "（W275 实测键 **−0.09280541**·K=602,920 合并池·W275-only 实测 **−0.09398255**）", 1),
+L353: ("W2..W275 共二百七十三面实测 mu 稳定先例", "W2..W275 共二百七十四面实测 mu 稳定先例", 1),
+L354: # sec.5 item1 diff face (heal (4)): TRUE W275 diff = 0.0012 @4dp (measured
+L355: # 0.0011771392646695022 full), in-band
+L356: ("W275-only vs merged 实差 0.0035 在带内", "W275-only vs merged 实差 0.0012 在带内", 1),
+L357: # sec.5 item2 sigma key (heal (5))
+L358: ("键 **0.24508947**=W275 合并池实测", "键 **0.24507989**=W275 合并池实测", 1),
+L359: # sec.5 item3 p95 anchor (heal (6))
+L360: ("与 W275 A 档 p95（**0.3009** 实测锚）", "与 W275 A 档 p95（**0.3088** 实测锚）", 1),
+L361: # sec.5 item4 K-lift chain + line faces (heal (7): lowercase line_pre_w274 NOT rolled by the
+L362: # W-roll; true W275 anchors K-lift -0.0001 + line_merged@K602,920 1.1967 +
+L363: # line_pre_w275 1.1968 + n_eff_held 1,027,135)
+L364: ("键 W275 实测 K-lift **−0.0001**·line_merged@K600,720 **1.1967**·line_pre_w274 1.1968·n_eff_held_equal 1,024,935",
+L365: "键 W275 实测 K-lift **−0.0001**·line_merged@K602,920 **1.1967**·line_pre_w275 1.1968·n_eff_held_equal 1,027,135", 1),
+L366: # se_mu chain true-history correction (heal (8); W275 fivekeys key5 measured 0.000316
+L367: # held-flat from W274 0.000316)
+L368: ("→W270 **0.000319**→W271 **0.000319**→W272 **0.000318**→W273 **0.000317**→W274 **0.000317**→W275 **0.000316**→W276 投影 0.000316】",
+L369: "→W270 **0.000319**→W271 **0.000319**→W272 **0.000318**→W273 **0.000317**→W274 **0.000316**→W275 **0.000316**→W276 投影 0.000316】", 1),
+L370: # sec.4 merged-pool anchor face (heal (9): W275 finalize landed)
+L371: ("W1..W275 已落账 600,720 实测", "W1..W275 已落账 602,920 实测", 1),
+L372: # sec.7/8 backfill paradigm rows -> the W275 cycle (heal (10): bm-c r1108; OLD faces are
+L373: # POST-VMAP faces -- the generated VMAP carries the canon's bare W-chain, so the raw T0'
+L374: # W274-cycle rows already shifted W274->W275 before this leg fires; the leg fixes the
+L375: # window number r1105->r1108, measured post-VMAP count=1)
+L376: ("bm-c r1105 W275 §7 范式", "bm-c r1108 W275 §7 范式", 1),
+L377: ("bm-c r1105 W275 §8 范式", "bm-c r1108 W275 §8 范式", 1),
+L378: # RAM face live-measured THIS window (heal (11)): psutil 4.0 available (~4.0GB) + nvidia-smi 实读 3%·2.7G VRAM 占用·MV 车道已收官 GPU idle 回释
+L379: # -- GPU=gen-only lane idle (MV lane drained, loop CPU-only); honest window face
+L380: # updated from the r1107 ~4.0GB face; %-format doubling healed at birth
+L381: ("本窗 free RAM ~4.0GB（bm-c 底盘常驻·24G 物理内存机·CEO 周末用机态·RAM 面=空闲回释实测·GPU=gen-only 车道 idle（nvidia-smi 实读 4%·2.8G VRAM 占用·MV 车道已收官 GPU idle 回释·MV 车道已收官 GPU idle 回释）·LLM 态已退役 gen 专用车道·引擎队列空转·CPU 车道独立如实注记）",
+L382: "本窗 free RAM ~4.0GB（bm-c 底盘常驻·24G 物理内存机·CEO 周末用机态·RAM 面=空闲回释实测·GPU=gen-only 车道 idle（nvidia-smi 实读 3%·2.7G VRAM 占用·MV 车道已收官 GPU idle 回释）·LLM 态已退役 gen 专用车道·引擎队列空转·CPU 车道独立如实注记）", 1),
+L383: # low-RAM precedent ledger append (heal (12)): true W275 anchor appended (chain
+L384: # convention: label = just-completed wave, value = live measure at THIS derive window;
+L385: # ram-squeeze face) -- the wave-roll had shifted the W263 26G bm-a anchor onto the W264
+L386: # label and the W273 ~4.4G onto W274; both restored + true W275 anchor appended
+L387: ("W264 冻结窗 26G bm-a 实锚·W265 冻结窗 7G bm-c 实锚·W266 冻结窗 3G bm-c 实锚·W267 冻结窗 ~5G bm-c 实锚·W268 冻结窗 ~0.1G bm-c 实锚·W269 冻结窗 ~1.4G bm-c 实锚·W270 冻结窗 ~2.1G bm-c 实锚·W271 冻结窗 ~3.3G bm-c 实锚·W272 冻结窗 ~1.4G bm-c 实锚·W273 冻结窗 ~0.3G bm-c 实锚·W274 冻结窗 ~4.4G bm-c 实锚·W275 冻结窗 ~4.0G bm-c 实锚）",
+L388: "W263 冻结窗 26G bm-a 实锚·W264 冻结窗 7G bm-c 实锚·W265 冻结窗 3G bm-c 实锚·W266 冻结窗 ~5G bm-c 实锚·W267 冻结窗 ~0.1G bm-c 实锚·W268 冻结窗 ~1.4G bm-c 实锚·W269 冻结窗 ~2.1G bm-c 实锚·W270 冻结窗 ~3.3G bm-c 实锚·W271 冻结窗 ~1.4G bm-c 实锚·W272 冻结窗 ~0.3G bm-c 实锚·W273 冻结窗 ~4.4G bm-c 实锚·W274 冻结窗 ~4.0G bm-c 实锚·W275 冻结窗 ~4.0G bm-c 实锚）", 1),
+L389: ]
+=== producer needles for prior-GPU/prior-RAM faces ===
+L381: ("本窗 free RAM ~4.0GB（bm-c 底盘常驻·24G 物理内存机·CEO 周末用机态·RAM 面=空闲回释实测·GPU=gen-only 车道 idle（nvidia-smi 实读 4%·2.8G VRAM 占用·MV 车道已收官 GPU idle 回释·MV 车道已收官 GPU idle 回释）·LLM 态已退役 gen 专用车道·引擎队列空转·CPU 车道独立如实注记）",
+L382: "本窗 free RAM ~4.0GB（bm-c 底盘常驻·24G 物理内存机·CEO 周末用机态·RAM 面=空闲回释实测·GPU=gen-only 车道 idle（nvidia-smi 实读 3%·2.7G VRAM 占用·MV 车道已收官 GPU idle 回释）·LLM 态已退役 gen 专用车道·引擎队列空转·CPU 车道独立如实注记）", 1),
