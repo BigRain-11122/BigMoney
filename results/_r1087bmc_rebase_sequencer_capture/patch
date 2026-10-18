@@ -1,0 +1,435 @@
+diff --git a/_r1087bmc_closeout.py b/_r1087bmc_closeout.py
+new file mode 100644
+index 0000000000..3c3bbb8667
+--- /dev/null
++++ b/_r1087bmc_closeout.py
+@@ -0,0 +1,224 @@
++# -*- coding: utf-8 -*-
++# _r1087bmc_closeout.py - r1087 closeout: state 1087->1088 + heartbeat (epoch int)
++# + ledger path-split heal (r1086 row union logs->root verbatim per r750/r985 family)
++# + canonical round-row append to ROOT round_reports-bm-c.md. Fresh read-modify-write.
++import io, json, datetime
++
++REPO = r"K:\Fluxgroup\FluxGroup\quant\bigmoney"
++now = datetime.datetime.now().astimezone()
++ts = now.isoformat(timespec="seconds")
++epoch = int(now.timestamp())
++STATE = REPO + r"\state-bm-c.json"
++HEART = REPO + r"\fleet\machines\bm-c.json"
++ROOT_LEDGER = REPO + r"\round_reports-bm-c.md"
++LOGS_LEDGER = REPO + r"\logs\iteration-loop\round_reports-bm-c.md"
++
++did = ("r1087: O-20261018-0948 bm-c receipt duties FULL same-window (v2 adoption verified: own spawning line "
++       "'10:35:02 spawning headless round (hard-cap 240min, silence-kill 25min, prompt_chars=31210...)'; TIMEOUT census "
++       "432 total most-recent 09:50:02; MiniGame-family audit 7 runners + watchdog: SAME DISEASE x2 fixed in place "
++       "(EngineTick.ps1 20-min wall + ModeTick.ps1 HardKillSeconds wall -> liveness-gated budget: per-lane silence "
++       "gates on stdout+stderr byte growth + 240-min hard cap + whole-tree kill; task args/locks untouched; "
++       "TIMEOUT_KILLED/EXIT_254 substrings preserved; PS Parser 0 errors; pure ASCII) = MiniGame commit df88bb98a; "
++       "zero-adaptation x3 TickWatchdog/ComfyDraftWorker_C/siliconwatch-generate; receipts MSG-20261018-1047-bmc-rootfix "
++       "+ order-file receipt section) + ORD delta consumed 8f6162d9->aaba08bb (two 09:5x rows; mem-gate --report "
++       "87,546B/95) + W267 PREREG FREEZE LANDED origin df55e3fab9 (ALL GATES PASS 3rd-try, 2 needle heals, banned ADMIT "
++       "rc0, 23,008B sha256_16 0918b8990154a23b; bands A 602_701..604_700 16th A-hop / B 604_701..604_900 17th "
++       "above-own-A) + smoke 49/49 + S6 10/10 rc0 (dualrun streak 44 / fundprem weekend no-op / clock ORANGE_COOL / "
++       "dreport faces=5 / token 0) + push non-FF stash-bridge rebase clean (receipt bff1822597 + freeze df55e3fab9)")
++
++next_pointer = ("r1088: (1) W267 SPLICE CHAIN = FIRST ACTION per frozen prereg df55e3fab9: needle preflight (MEASURED "
++                "counts on the W267 prereg face per r1077 law) + editor derive canon-clone of the W266 editor "
++                "(_w266bmc_derive_editor.py family, age() machine-needle law) -> freeze_edits -> five-face splice -> "
++                "engine mtime-watch self-burn 12/12 -> sixgate PRE-FINALIZE (30th consecutive target) -> finalize "
++                "one-pass -> fivekeys 6/6 -> sec.7/8 backfill -> W268 seat publish (W268p projection A naive "
++                "604_701..606_700 / B 604_901..605_100 on the pre-W267 universe; live re-derive governs r587 never "
++                "transcribe); (2) Monday 10-20 15:30 bars window: full papers chain fires (weekend 10-18/19 no bars, "
++                "cutoff 10-16, papers debt=0); (3) 24h died-pre-closeout incident-review watch standing per "
++                "O-20261018-0948 sec.3.4 (v2 live since the 10:35 firing; recurrence = gate-failure review law); "
++                "(4) next 5x HANDOVER row due at r1090; (5) GPU lane = gen-only (CEO weekend-use standing, loop "
++                "CPU-only); short-video lane DISABLED standing per O-20261017-1741")
++
++latest_artifact = ("research/PERPETUAL_N1_W267_PREREG.md (23,008B/64 lines, sha256_16 0918b8990154a23b, origin "
++                   "df55e3fab9, frozen 2026-10-18 10:5x) + fleet/inbox/MSG-20261018-1047-bmc-rootfix.md + MiniGame "
++                   "repo commit df88bb98a (EngineTick+ModeTick v2 liveness fix)")
++
++prod_lanes = ("CPU=engine W267 supply chain armed (prereg frozen df55e3fab9; splice chain = r1088 FIRST ACTION) ; "
++              "GPU=gen-only lane (CEO weekend-use standing: GPU 6% idle window, loop CPU-only); short-video lane "
++              "DISABLED standing per O-20261017-1741")
++
++verify = ("smoke 49/49 + satengine ALIVE rc0 (burns/queue idle; W267 prereg frozen) + attrition 4 CLEAN + dualrun "
++          "ZERO-DRIFT streak 44 + W267 freeze origin-landed df55e3fab9 + receipt bff1822597 + d19 advance read-back "
++          "aaba08bb + canonical orders_ack BOTH faces 227 (O-20261018-0948 acked; --help probe-pollution healed "
++          "same-window) + orphan face=0 zero-kill + idle --worked rc0 + epoch int readback + ledger path-split heal "
++          "(r1086 row union logs->root verbatim) + behind-origin=0 (closeout push rides this window)")
++
++closeout_note = ("r1087: (1) S0-1 anchor bm-c + probe py_faces=3 orphans=0 zero-kill + S0 discard-5-regenerables + "
++                 "pull (bm-a r1052 W267-seat race YIELD chain: bm-c MSG-1025 10:25 on origin beats bm-a local "
++                 "10:28:55, W267 = bm-c 86th own wave) + group fetch bda53c2..90cc777; (2) S0.5 probe rc3: ORD delta "
++                 "TRUE consumed 8f6162d9->aaba08bb via d19 update --advance (rows = O-20261018-0948 root-cure "
++                 "[bm-c ACTIONABLE executed same-window per CEO-ticket law] + CEO order-2 memory/continuity [bm-c "
++                 "legs: gate --report 87,546B/95 entries + zero local cleanup owed; snapshot-before-clean law "
++                 "standing]); dec delta FALSE hold 0ad85a30; unacked=[O-20261018-0948-bm-a] -> acked via canonical "
++                 "orders_ack_append BOTH faces (r1052-bma two-face law; --help probe-pollution healed same-window "
++                 "zero residue); (3) S1 smoke 49/49 (r1086 deferred debt cleared); (4) P0 CEO-TICKET O-20261018-0948 "
++                 "receipt duties FULL execution incl. MiniGame cross-repo fix (commit df88bb98a, push/sync stays in "
++                 "the EngineTick lane self-heal domain, repo intentionally behind origin per the 10-18 00:3x "
++                 "alignment row); (5) P0 PRODUCT W267 PREREG FREEZE: frozen face triple byte-verified + needle probe "
++                 "+ block-classification ctx-dumps (18 raw W267 = 2 non-block leg-covered + 16 block-interior; 07:0x "
++                 "2 non-block + 2 block-interior; bands/shas classified) + derive ALL GATES PASS 3rd-try with 2 "
++                 "disclosed heals + banned ADMIT; push non-FF -> stash-bridge (state d19 advance preserved through "
++                 "bridge; watermark_red UU resolved origin-face regenerable live-wins) -> rebase clean -> LANDED; "
++                 "(6) S6 10 legs rc0 weekend-honest; (7) S7: attrition 4 CLEAN + idle --worked rc0 + ledger "
++                 "path-split heal (r1086 row logs->root verbatim union, r985 family 5th instance disclosed) + this "
++                 "closeout writes the CANONICAL root path per r750 law; counter 1087->1088")
++
++# --- ledger path-split heal: union the r1086 row from logs -> root (verbatim) ---
++logs_txt = io.open(LOGS_LEDGER, encoding="utf-8", newline="").read()
++root_txt = io.open(ROOT_LEDGER, encoding="utf-8", newline="").read()
++marker = "2026-10-18T10:28:15+08:00 | r1086 | "
++healed = False
++for line in logs_txt.split("\n"):
++    if line.startswith(marker):
++        if line not in root_txt:
++            if not root_txt.endswith("\n"):
++                root_txt += "\n"
++            root_txt += line + "\n"
++            healed = True
++        break
++assert any(l.startswith(marker) for l in logs_txt.split("\n")), "r1086 row not found in logs ledger"
++
++row = (ts + " | r1087 | bm-c | watermark verdict=green (red=false / satengine ALIVE rc0 W267 prereg frozen + "
++       "receipt duties done / dualrun streak 44) | r1087 (clean continuation window, counter at open 1087, advanced "
++       "1087->1088 so next=r1088): (1) S0-1 anchor bm-c + probe py_faces=3 orphans=0 zero-kill; S0 discard-5-"
++       "regenerables + pull (bm-a r1052 W267-seat race YIELD) + group fetch; (2) S0.5 probe rc3 -> ORD delta TRUE "
++       "consumed 8f6162d9->aaba08bb (rows = O-20261018-0948 root-cure [ACTIONABLE executed same-window] + CEO "
++       "order-2 [bm-c legs --report 87,546B/95]); dec hold; unacked [O-20261018-0948] -> canonical orders_ack_append "
++       "BOTH faces 227 (two-face law; --help pollution healed); (3) smoke 49/49 (r1086 debt cleared); (4) P0 "
++       "CEO-TICKET O-20261018-0948 receipt duties FULL: v2 adoption verified (own spawning line hard-cap 240min / "
++       "silence-kill 25min), TIMEOUT census 432/most-recent 09:50:02, MiniGame audit: SAME DISEASE x2 fixed in place "
++       "(EngineTick 20-min wall + ModeTick HardKillSeconds wall -> liveness-gated, task args/locks untouched, "
++       "consumer substrings intact, PS Parser 0, pure ASCII) = MiniGame commit df88bb98a; zero-adaptation x3; "
++       "receipts MSG-1047 + order receipt section; (5) P0 PRODUCT W267 PREREG FREEZE origin df55e3fab9: frozen face "
++       "triple byte-verified (22,970B sha256_16 a273485226cbeefa == blob 417bc0b8 @ 595433d63c pre-backfill; HEAD "
++       "twin a9b453235f disclosed NOT used), ALL GATES PASS 3rd-try (2 disclosed needle heals: se_mu chain trailing "
++       "label P1-captured->W267 + W264 0.000323->0.000322 true-history), banned ADMIT rc0, out 23,008B sha256_16 "
++       "0918b8990154a23b; bands A 602_701..604_700 SIXTEENTH A-hop / B 604_701..604_900 SEVENTEENTH above-own-A; "
++       "push non-FF -> stash-bridge -> rebase -> LANDED receipt bff1822597 + freeze df55e3fab9 behind=0; (6) S6 10 "
++       "legs rc0 (dualrun streak 44 [461] / update_daily weekend no-op cutoff 10-16 / clock CALL-2026-10-16 "
++       "ORANGE_COOL / fundprem weekend no-op bm-c lane / dreport faces=5 / token 0); (7) S7: attrition 4 CLEAN + "
++       "idle --worked + ledger path-split heal (r1086 row union logs->root verbatim, r985 family) | verify: smoke "
++       "49/49 + freeze df55e3fab9 + receipt bff1822597 + d19 read-back aaba08bb + ack both faces 227 + attrition "
++       "CLEAN + behind-origin=0 | orphan face=0 | next r1088: W267 SPLICE CHAIN FIRST ACTION (editor canon-clone + "
++       "needle preflight MEASURED + five-face splice -> burn 12/12 -> sixgate 30th -> finalize -> fivekeys -> "
++       "sec.7/8 -> W268 seat) + Monday 10-20 15:30 papers chain + 24h died-pre-closeout watch standing")
++if not root_txt.endswith("\n"):
++    root_txt += "\n"
++root_txt += row + "\n"
++io.open(ROOT_LEDGER, "w", encoding="utf-8", newline="").write(root_txt)
++print("ledger: r1086-row healed=%s ; r1087 row appended to ROOT canonical (%d bytes)" % (healed, len(row.encode("utf-8"))))
++
++# --- state ---
++d = json.load(io.open(STATE, encoding="utf-8"))
++d["round_no"] = 1088
++d["round_no_label"] = "r1087 closeout -> counter 1088"
++d["last_round"] = "r1087"
++d["last_round_at"] = ts
++d["last_round_ts"] = ts
++d["last_seen"] = ts
++d["last_round_label"] = "r1087"
++d["last_round_closed"] = ts
++d["clock_read"] = ts
++d["ts"] = ts
++d["updated"] = ts
++d["updated_at"] = ts
++d["now_active"] = ts
++d["activity_now"] = ts
++d["current_task"] = "r1087 closeout: O-20261018-0948 receipt + W267 prereg freeze; next = W267 splice chain r1088 FIRST ACTION"
++d["current_task_at"] = ts
++d["did"] = did
++d["last_round_summary"] = did
++d["last_round_summary_at"] = ts
++d["last_action"] = "r1087 closeout (O-20261018-0948 bm-c receipt + W267 PREREG FREEZE df55e3fab9 + S6 10/10 + ledger path-split heal; counter 1087->1088)"
++d["last_action_at"] = ts
++d["verdict"] = "green: r1087 = clean continuation product window (counter 1087 at open, executed r1087, advanced 1087->1088); product = O-20261018-0948 bm-c receipt duties FULL (v2 adoption + 432 TIMEOUT census + MiniGame cross-repo liveness fix df88bb98a) + W267 PREREG FREEZE origin df55e3fab9 (ALL GATES PASS, banned ADMIT, 16th A-hop / 17th above-own-A staircase continues); engine daemon alive; CEO weekend-use standing (loop CPU-only); short-video lane DISABLED standing per O-20261017-1741"
++d["next"] = next_pointer
++d["next_pointer"] = next_pointer
++d["next_milestone"] = "W267 splice chain -> burn -> sixgate 30th -> finalize (r1088-r1089, within 48h); Monday 10-20 15:30 bars papers chain; 24h dead-window watch (O-20261018-0948)"
++d["latest_artifact"] = latest_artifact
++d["last_artifact"] = latest_artifact
++d["recent_artifact"] = latest_artifact
++d["head_sha"] = "r1087 closeout (O-20261018-0948 receipt bff1822597 + W267 PREREG FREEZE df55e3fab9; counter 1087->1088)"
++d["prod_lanes"] = prod_lanes
++d["full_load_selfproof"] = {"占用一行": prod_lanes}
++d["verify"] = verify
++d["orphan_face"] = 0
++d["orphan_faces"] = 0
++d["idle_rounds"] = 0
++d["agenda_starved"] = False
++d["r1087_closeout_note"] = closeout_note
++d["orders_ack_ts"] = ts
++d["orders_ack_receipt"] = ("r1087: O-20261018-0948-bm-a acked via canonical orders_ack_append BOTH faces (count 227 "
++                           "state+heartbeat; --help probe-pollution healed same-window zero residue); ORD delta "
++                           "consumed 8f6162d9->aaba08bb (rows: root-cure [ACTIONABLE executed same-window] + CEO "
++                           "order-2 [--report leg done 87,546B/95]); dec hold 0ad85a30; unacked=0")
++d["last_orders_sha_note"] = "r1087: ORD 8f6162d9->aaba08bb consumed via d19 update --advance (pinned content-sha1 method r977), read-back full-string equality"
++d["last_decisions_read_note"] = "r1087: DEC delta FALSE hold (raw-blob sha256 0ad85a30 pinned-probe, zero rows owed)"
++io.open(STATE, "w", encoding="utf-8", newline="").write(json.dumps(d, ensure_ascii=False, indent=1))
++
++# --- heartbeat (mirror core faces; epoch MUST be int) ---
++h = json.load(io.open(HEART, encoding="utf-8"))
++h["clock_read"] = ts
++h["ts"] = ts
++h["updated"] = ts
++h["updated_at"] = ts
++h["last_seen"] = ts
++h["last_seen_at"] = ts
++h["now_active"] = ts
++h["activity_now"] = ts
++h["current_task"] = d["current_task"]
++h["current_task_at"] = ts
++h["current_task_ts"] = epoch
++h["did"] = did
++h["last_round_summary"] = did
++h["last_round_summary_at"] = ts
++h["last_round"] = "r1087"
++h["last_round_at"] = ts
++h["last_round_ts"] = ts
++h["last_round_closed"] = ts
++h["round_no"] = 1088
++h["round_no_label"] = d["round_no_label"]
++h["last_action"] = d["last_action"]
++h["last_action_at"] = ts
++h["verdict"] = d["verdict"]
++h["next"] = next_pointer
++h["next_pointer"] = next_pointer
++h["next_milestone"] = d["next_milestone"]
++h["latest_artifact"] = latest_artifact
++h["last_artifact"] = latest_artifact
++h["recent_artifact"] = latest_artifact
++h["head_sha"] = d["head_sha"]
++h["prod_lanes"] = prod_lanes
++h["full_load_selfproof"] = {"占用一行": prod_lanes}
++h["verify"] = verify
++h["heartbeat_epoch_utc"] = epoch
++h["heartbeat_epoch_utc_type"] = "int (assert)"
++h["orphan_face"] = 0
++h["orphan_faces"] = 0
++h["idle_rounds"] = 0
++h["agenda_starved"] = False
++h["orders_ack_ts"] = ts
++h["r1087_closeout_note"] = closeout_note
++h["health"] = "ok"
++h["sync"] = {"origin_tip": "r1087 closeout commit rides this window (push + fetch-verify same window)", "ts": ts}
++io.open(HEART, "w", encoding="utf-8", newline="").write(json.dumps(h, ensure_ascii=False, indent=1))
++
++# --- self-verify: epoch int + ack closure + json validity ---
++d2 = json.load(io.open(STATE, encoding="utf-8"))
++h2 = json.load(io.open(HEART, encoding="utf-8"))
++assert isinstance(h2["heartbeat_epoch_utc"], int), "epoch not int"
++assert d2["round_no"] == 1088 and h2["round_no"] == 1088
++assert "O-20261018-0948-bm-a.md" in d2["orders_ack"] and "O-20261018-0948-bm-a.md" in h2["orders_ack"]
++assert "--help" not in d2["orders_ack"] and "--help" not in h2["orders_ack"]
++assert d2["last_orders_sha"] == "aaba08bb506addbff0c5f731315ff04941dc2fde"
++print("state: round_no=1088 epoch=%d (int) ack=%d orders_sha=%s" % (h2["heartbeat_epoch_utc"], len(h2["orders_ack"]), d2["last_orders_sha"]))
++print("closeout OK @ " + ts)
+diff --git a/round_reports-bm-c.md b/round_reports-bm-c.md
+index c92ac17432..5a53143318 100644
+--- a/round_reports-bm-c.md
++++ b/round_reports-bm-c.md
+@@ -887,3 +887,5 @@ S7-tail dual-scan: O-20261015-1834 consumed (spawn-gate preflight = next-window
+ 2026-10-18T05:00:53+08:00 | r1083 | bm-c | watermark verdict=green (red=false / satengine ALIVE rc0 W264 dedup 12/12 complete / jobs 0 / tickets 0) | r1083 (51st-gen absorb continuation, recovery window per O-20261018-0137): (1) S0-1 anchor bm-c + round-zero probe py_faces=4 orphans=0 zero-kill; S0 estate landed+PUSHED origin f2a4b0255 (r1082 dead-window estate: O-20261018-0137 bm-c receipt trio + taskaudit 40-row MSG/JSON + S6 43/43 rc0 log 04:09 absorbed per same-round law) + rebase over bm-a db6871dc2/d70897134 (11 shared same-day idempotent face conflicts resolved replay-side live-wins) behind=0; (2) S0.5 group-tree FETCH + pinned-probe dual FALSE (ord 018ba8b2 / dec 1d4741e4 both == current content, zero rows owed; bm-a eae5ac55 = its own method face, zero bm-c debt) + 3 unacked repo orders acked (O-20261017-2207 UU-remote bm-a receipted 22:16 / O-20261018-0137 own receipt landed / O-20261018-0348 bm-b-only); (3) S1 smoke 49/49; S3 satengine ALIVE rc0 (W264 dedup 12/12 complete; W265 prereg frozen e57215a2c = chain head, splice GATED-off prep); (4) P0 PRODUCT = W265 SPLICE PREP LANDED (large-task split law r971/r1066): results/_w265bmc_splice_needle_preflight.py + counts results/_w265bmc_splice_needle_counts.txt 167 lines -- core needles ALL MATCH (projections W265p/plain 13/13; bands 598_101x5, 598_300x4, 596_101x8, 598_100x9, 596_300x2, 597_900x2, 595_901x4, 596_100x6; ledger 1,002,935/576,520 x5; code 1_002_935/576_520; n1/w-token family; MSG-20261017-1950-bmc-w264-seat x7; dd5fd438e x2; f499817fa x1; f4ffdb34e x1; receiptpath _w264bmc_ x11) + DIVERGENT faces machine-disclosed (W264 raw 92 = own-wave 81 + paths 11 not 87+11; W263 162 not 167; w263_ 93 not 89; THIRTEENTH 15 not 7; fourteenth x?; gate05/mirror owner text moved -- canon carries r1077-era spotcheck heal edits, derive author MUST use MEASURED counts not pattern-assumed, r1066 heal#5 family law) + ctxdumps (engine_owner lines, authored stamps, ordinal rows, 40-hex shas, UNBLOCKED narrative) for the derive author; W265 facts frozen in counts file header: A 598_301..600_300 14th A-hop / B 600_301..600_500 15th above-own-A / W264 finalize 1,005,135 / K 578,720 / seat origin 7343e3650 / prereg e57215a2c / 255th candidate bm-c 84th own; (5) S6 absorbed not rerun (dead-window 04:09:54 chain 43x rc0, same-round law; bars cutoff 10-16 weekend honest); (6) 5x DUTY = HANDOVER row r1083 landed (window r1076-r1083 eight frames; r1080 stamp missed-dead disclosed+discharged); (7) S7: attrition scan + claws x2 + loop pin=5 + watchdog checks + counter 1076->1084 | verify: smoke 49/49 + preflight core needles all-OK + estate on origin f2a4b0255 (push verified) + dual-FALSE probes post-fetch | behind-origin=0 (closeout push rides this window) | orphan face=0 | next r1084: W265 SPLICE DERIVE FIRST ACTION (derive from _r1076bmc_derive_freeze.py template + counts-file needles + post-D-swap recomputation law; consume-before-produce band order; ordinal FOURTEENTH->FIFTEENTH before THIRTEENTH->FOURTEENTH; then freeze edits -> five-face splice -> engine self-burn -> sixgate PRE-FINALIZE -> finalize -> fivekeys -> sec.7/8 -> W266 seat); Monday 10-19 15:30 bars papers chain re-arm; next 5x=bm-c r1085
+ 2026-10-18T08:29:05+08:00 | r1084 | bm-c | watermark verdict=green (red=false / satengine ALIVE rc0 W265 12/12 burned+finalized / tail dual-scan FALSE both) | r1084 (continuation window #2 of label, counter held): (1) S0-1 anchor bm-c + probe py_faces=4 orphans=0 zero-kill; S0 ff-merge 4f63a705dc (bm-b r1002, zero shared-face overlap) behind=0; (2) W265 CYCLE ABSORB-VERIFIED (dead-chain landed on origin: five-face splice a47517f792 06:49 + engine self-burn 12/12 93298b7e33+c72805837c + sixgate PRE-FINALIZE 27th consecutive 3bc40c84d9 + finalize one-pass ledger 1,007,335/K=580,920 EXACT 2e622ee447 + fivekeys 6/6 + sec.7/8 + W266 SEAT ace19ba85b probe ADMIT A 600_501..602_500 15th A-hop / B 602_501..602_700 16th above-own-A, 256th wave / bm-c 85th own -- zero re-derive owed); (3) S0.5 ORD delta TRUE consumed 018ba8b2->8f6162d9 (new row = 00:2x CEO memory-gov order amended 06:13, the @bm-c four-piece dispatch; d19 --advance read-back full-string OK) / DEC 1d4741e4 hold / unacked=0 both scans; (4) P0 PRODUCT = CEO 记忆治理四件套 @bm-c 全执行收口: ①agent-library-sync 幂等确认 24/24 unchanged ②gate v2 首跑 377,015->97,121B / 324->104 (moved=220 topics=9 snapshot=cleanup-gate-2026-10-18) ③L0 终态 87,547B/95 条 (身份元组 User 首位[死窗 07:59 piece-3 首扫 11.4KB 迁 cross-machine-quarantine]+本窗术后清扫 10 条 verbatim 迁隔离档+canon KEEP 4 条留存+CEO 云端恢复律 SIGS 路径误伤回迁) ④闸任务换代收口 (旧 21:47 cron 已于 10-17 全清零复活; HQ-MemoryBudgetGate PT4H LastRun 05:41 rc=0; 本地闸脚本升级 origin v2 正身 hash MATCH f10cf352; Interactive=已裁决默认主体面·任务定义零触碰); (5) 回灌事故实锚+止血: 08:06:35 L0 被 worker-poke 联合重建 REPLACE-DOWN 重胀回 377,015B (死窗 07:59 术后被覆写·已迁 HMI 条目复活实锚) -> Tools/fleet-memory-sync.ps1 盘上 checkout origin no-op 正身 (bm-b 先例同法) -> 调用者无害化; 根治遗项=集团树 [ahead3/behind12+2 daemon dirty] 拉平归 S0 车道活; (6) 回执链: LEDGER bm-c 行 CAS 外科上链集团 origin f9a7fb9->cd06053 (零树触) + MSG-20261018-0831-bmc @bm-a (四件套回执+第三枚 origin 缺口=R-20261018-memory-control-01 正身缺失 ls-tree 实锚); (7) S6 absorbed not rerun (dead-window 07:21 chain 43x rc=0 same-day law, bars cutoff 10-16 weekend honest); (8) S1 smoke 49/49 + S7 quad green (loop pin=5 no-op / watchdog S4U-flip access-denied=已裁决面 / claws x2 installed / attrition 4 CLEAN healed-note 照录 / idle --worked rc0) | verify: smoke 49/49 + gate GATE-EXEC receipts + L0 终态 87,547B/95 + identity tuple x1 + residual SIGS=4 canon-KEEP only + gate script hash MATCH f10cf352 + LEDGER push range f9a7fb9..cd06053 + ORD advance read-back + tail dual-scan FALSE both + satengine ALIVE | behind-origin=0 (closeout push rides this window) | orphan face=0 | next r1085: W266 PREREG DERIVE FIRST ACTION (per seat ace19ba85b + seat-first law; W265 frozen tpl e57215a2c generation; then freeze->splice->burn->sixgate->finalize->W267 seat) + 集团树拉平车道活 + 5x HANDOVER row due (round 1085 %5==0) + Monday 10-19 15:30 bars papers chain re-arm
+ 2026-10-18T09:20:30+08:00 | r1085 | bm-c | watermark verdict=green (red=false / satengine ALIVE rc0 W265 dedup 12/12 complete + W266 prereg frozen / jobs 0 / post_review today 0 X in 200) | r1085 (clean continuation window, counter at open 1085, advanced 1085->1086 so next=r1086): (1) S0-1 anchor bm-c + round-zero probe py_faces=3 orphans=0 zero-kill (resident ComfyUI 8188 + satengine daemon PID 38392 + resident_dispatcher = legal faces); process census = sole Bigmoney executor (08:39-08:58 W266-derive dead window confirmed dead, no codely residue; minigame tick 09:06 foreign lane); S0 rebase over bm-a r1049 (ad940c0ec6+af5d9afe80) with 1 UU conflict results/watermark_red.json resolved live-wins (mine=09:04-09:06 fresh local probe face vs bm-a 08:47 stale-copy; pre-existing '<<<<<<< HEAD' marker hits in CODELY.md/_r505bmc_merge_resolve.py verified pre-existing at af5d9afe80, zero introduced) -> W266 PREREG FREEZE 595433d63c + checkpoint 63b7140d2a PUSHED behind=0 ahead=0; (2) S0.5 pinned-probe dual-delta FALSE both (ord 8f6162d9 content-sha1 / dec 1d4741e4 raw-blob sha256, zero rows owed, unacked=0 -- 101 repo order files all in 226-ack set); inbox 3 MSGs: 0725 voicegen-pickup=@bm-b zero bm-c debt / 0753 memory-gov-fourpiece=@bm-a zero bm-c debt (its 2 origin-gap findings consistent with own MSG-0831 3rd-gap) / 0831 own outbound swept processed; (3) S1 smoke 49/49; (4) P0 PRODUCT = W266 PREREG FREEZE origin 595433d63c: dead-window estate absorbed verbatim per absorb lineage (frozen-face extract results/_w266bmc_w265_frozen_face.txt byte-identical 22,927B sha256_16 d36c29cf048d299d == blob @ e57215a2c pre-backfill face per r1052/r1049 law + needle probe re-run 209 lines rc0 + derive script machine-gated), derive ALL GATES PASS; SAME-WINDOW HEAL#8 disclosed: count-gate '600_301..602_300' expect 3->4 -- dead-window gate pattern-assumed b_band x2, MEASURED T0 source needle '598_101..600_100' x4 (line5 x3: 算术续带+A_hop_chain leg1 机证+投影兑现注记 + line31 x1: §3 A档) per r1077 measured-counts-not-assumed law, all 4 contexts verified legitimate naive-A faces zero stale residue, dbg evidence results/_w266bmc_dbg_derive.py+dbg_t2 committed; banned_direction_gate ADMIT rc0; out 22,970B/64 lines sha256_16 a273485226cbeefa; bands A 600_501..602_500 FIFTEENTH consecutive A-hop (naive 600_301..602_300 REFUSED at registered W265 B 600_301..600_500 per W265 prereg sec.5 item5 pre-disclosure fulfilled) / B 602_501..602_700 SIXTEENTH consecutive above-own-A (own-A reservation cascade); upstream W265 finalize anchors machine-verified (ledger 1,007,335 EXACT / K=580,920 EXACT / mu -0.09271568 / sigma 0.24504118 / se_mu 0.000321 / W265-only -0.08956582 / A p95 0.3149 / K-lift 0.0000 held-flat); sec.7/8 placeholders intact; 8 same-window needle heals total disclosed in-script header; (5) S6 43/43 rc=0 (driver Tools/_r1085bmc_s6.py canon-clone r1084, log results/_r1085bmc_s6_log.txt 09:15:04): dualrun ZERO-DRIFT streak 43 (461 entries) / compute_audit cpu 73% py 2.1% ok / py_watermark probe fresh / update_daily 0 rows cutoff 10-16 weekend honest (Monday 10-19 15:30 bars window) / lane no-ops honest per R31 (zt/heat/futures/repo/options-retired/moneyflow/sina_mf/astock/etf/minute_feed/ths/ah/fund_statements) / fund_premium weekend no-op (bm-c own lane, NAV trading days only) / r701 third-signal veto faces on scorecard+market_clock+papers legs (host=bm-a origin commit 1-2min fresh + heartbeats stale) honest skip / regime_gate evidence no-op content-hash / daily_report REPORT-2026-10-18 faces=5 / ceo_live_usage ORANGE cap 50% heat COOL 6 members / token delta=0; (6) S7: attrition 4 CLEAN (healed notes as-is) + loop pin=5 no-op (first fire 09:25) + watchdog registered (S4U XML flip access-denied = adjudicated default-principal standing face) + claws x2 installed + idle_trigger --worked rc0 (window has actual work) + HANDOVER 5x row r1085 on-time (window r1084-r1085); counter 1085->1086
++2026-10-18T10:28:15+08:00 | r1086 | 58th-gen absorb + W266 FULL CYCLE (splice estate landed dc71ecc3f9 / sixgate 29th PRE-FINALIZE ALL PASS + single-token H1 heal / finalize 1,009,535 + K 583,120 EXACT / fivekeys 6/6 / sec.7-8 placeholders=0) + W267 SEAT (A 602_701..604_700 16th A-hop / B 604_701..604_900 17th above-own-A) + iteration_loop v2 root-cure pulled | evidence: n1_w266_results.json + _r1086bmc_w266_sixgate.json + _r1086bmc_w266_selftest_heal.json + _w267bmc_20261018_probe_receipt.json (origin 942ebd5885, all pushed 0/0) | next: W267 prereg derive FIRST ACTION + O-20261018-0948 receipt (adoption-verify/TIMEOUT census/MiniGame audit) + d19 watermarks + S6/smoke deferred-to-r1087
++2026-10-18T11:02:27+08:00 | r1087 | bm-c | watermark verdict=green (red=false / satengine ALIVE rc0 W267 prereg frozen + receipt duties done / dualrun streak 44) | r1087 (clean continuation window, counter at open 1087, advanced 1087->1088 so next=r1088): (1) S0-1 anchor bm-c + probe py_faces=3 orphans=0 zero-kill; S0 discard-5-regenerables + pull (bm-a r1052 W267-seat race YIELD) + group fetch; (2) S0.5 probe rc3 -> ORD delta TRUE consumed 8f6162d9->aaba08bb (rows = O-20261018-0948 root-cure [ACTIONABLE executed same-window] + CEO order-2 [bm-c legs --report 87,546B/95]); dec hold; unacked [O-20261018-0948] -> canonical orders_ack_append BOTH faces 227 (two-face law; --help pollution healed); (3) smoke 49/49 (r1086 debt cleared); (4) P0 CEO-TICKET O-20261018-0948 receipt duties FULL: v2 adoption verified (own spawning line hard-cap 240min / silence-kill 25min), TIMEOUT census 432/most-recent 09:50:02, MiniGame audit: SAME DISEASE x2 fixed in place (EngineTick 20-min wall + ModeTick HardKillSeconds wall -> liveness-gated, task args/locks untouched, consumer substrings intact, PS Parser 0, pure ASCII) = MiniGame commit df88bb98a; zero-adaptation x3; receipts MSG-1047 + order receipt section; (5) P0 PRODUCT W267 PREREG FREEZE origin df55e3fab9: frozen face triple byte-verified (22,970B sha256_16 a273485226cbeefa == blob 417bc0b8 @ 595433d63c pre-backfill; HEAD twin a9b453235f disclosed NOT used), ALL GATES PASS 3rd-try (2 disclosed needle heals: se_mu chain trailing label P1-captured->W267 + W264 0.000323->0.000322 true-history), banned ADMIT rc0, out 23,008B sha256_16 0918b8990154a23b; bands A 602_701..604_700 SIXTEENTH A-hop / B 604_701..604_900 SEVENTEENTH above-own-A; push non-FF -> stash-bridge -> rebase -> LANDED receipt bff1822597 + freeze df55e3fab9 behind=0; (6) S6 10 legs rc0 (dualrun streak 44 [461] / update_daily weekend no-op cutoff 10-16 / clock CALL-2026-10-16 ORANGE_COOL / fundprem weekend no-op bm-c lane / dreport faces=5 / token 0); (7) S7: attrition 4 CLEAN + idle --worked + ledger path-split heal (r1086 row union logs->root verbatim, r985 family) | verify: smoke 49/49 + freeze df55e3fab9 + receipt bff1822597 + d19 read-back aaba08bb + ack both faces 227 + attrition CLEAN + behind-origin=0 | orphan face=0 | next r1088: W267 SPLICE CHAIN FIRST ACTION (editor canon-clone + needle preflight MEASURED + five-face splice -> burn 12/12 -> sixgate 30th -> finalize -> fivekeys -> sec.7/8 -> W268 seat) + Monday 10-20 15:30 papers chain + 24h died-pre-closeout watch standing
+diff --git a/state-bm-c.json b/state-bm-c.json
+index 791ab9a06b..fdb0c3197f 100644
+--- a/state-bm-c.json
++++ b/state-bm-c.json
+@@ -1,51 +1,51 @@
+ {
+  "machine_id": "bm-c",
+- "clock_read": "2026-10-18T10:28:15+08:00",
++ "clock_read": "2026-10-18T11:02:27+08:00",
+  "cpu_pct": 2.4,
+- "current_task": "r1086 closeout: W266 CYCLE COMPLETE + W267 seat published; next = W267 prereg derive r1087 FIRST ACTION",
+- "current_task_at": "2026-10-18T10:28:15+08:00",
+- "did": "r1086: 58th-gen absorb + W266 FULL CYCLE COMPLETE + W267 SEAT: dead 09:25-09:50 window estate (W266 five-face splice + engine self-burn 12/12, killed by the v1 25-min wall clock per O-20261018-0948 root-cure diagnosis) hash-verified then landed dc71ecc3f9 + iteration_loop v2 root-cure pulled same window; sixgate PRE-FINALIZE 29th consecutive ALL PASS with single-token post-splice heal (H1 _set_wave(265)->(266) W266 section -- r1076-family 3rd recurrence; minimality proof landed-blob+heal==healed-worktree CR-normalized; prereheal FAIL evidence preserved) 839bf365f; finalize one-pass ledger 1,007,335+2,200=1,009,535 EXACT / K 580,920+2,200=583,120 EXACT (n1_w266_results.json, w266 mu -0.0988/sigma 0.2536, K-lift +0.0001); fivekeys 6/6 ALL PASS (key3 A p95 0.3149->0.3268 in-band / key4 K-lift +0.0001 / key5 se_mu held-flat 0.000321); sec.7/8 backfilled placeholders=0; W267 SEAT published 942ebd5885 (probe live ADMIT A 602_701..604_700 SIXTEENTH consecutive A-hop / B 604_701..604_900 SEVENTEENTH above-own-A, seed_admit FREE x2, origin vacancy four-check)",
++ "current_task": "r1087 closeout: O-20261018-0948 receipt + W267 prereg freeze; next = W267 splice chain r1088 FIRST ACTION",
++ "current_task_at": "2026-10-18T11:02:27+08:00",
++ "did": "r1087: O-20261018-0948 bm-c receipt duties FULL same-window (v2 adoption verified: own spawning line '10:35:02 spawning headless round (hard-cap 240min, silence-kill 25min, prompt_chars=31210...)'; TIMEOUT census 432 total most-recent 09:50:02; MiniGame-family audit 7 runners + watchdog: SAME DISEASE x2 fixed in place (EngineTick.ps1 20-min wall + ModeTick.ps1 HardKillSeconds wall -> liveness-gated budget: per-lane silence gates on stdout+stderr byte growth + 240-min hard cap + whole-tree kill; task args/locks untouched; TIMEOUT_KILLED/EXIT_254 substrings preserved; PS Parser 0 errors; pure ASCII) = MiniGame commit df88bb98a; zero-adaptation x3 TickWatchdog/ComfyDraftWorker_C/siliconwatch-generate; receipts MSG-20261018-1047-bmc-rootfix + order-file receipt section) + ORD delta consumed 8f6162d9->aaba08bb (two 09:5x rows; mem-gate --report 87,546B/95) + W267 PREREG FREEZE LANDED origin df55e3fab9 (ALL GATES PASS 3rd-try, 2 needle heals, banned ADMIT rc0, 23,008B sha256_16 0918b8990154a23b; bands A 602_701..604_700 16th A-hop / B 604_701..604_900 17th above-own-A) + smoke 49/49 + S6 10/10 rc0 (dualrun streak 44 / fundprem weekend no-op / clock ORANGE_COOL / dreport faces=5 / token 0) + push non-FF stash-bridge rebase clean (receipt bff1822597 + freeze df55e3fab9)",
+  "free_ram_gb": 1.88,
+  "gpu_free_vram_mib": 12914,
+  "gpu_free_vram_mb": 12914,
+  "heartbeat_epoch_utc": 1792286430,
+  "idle_ram_gb": 1.88,
+- "last_decisions_read_at": "2026-10-18T09:22:34+08:00",
++ "last_decisions_read_at": "2026-10-18T10:44:14+08:00",
+  "last_decisions_sha": "0ad85a305830dc2f43c8be7db1ccecf2ef2078a3b55224cf7aecca74db51340c",
+  "last_decisions_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r976 fresh consume 2bf2a0ef via PS UTF8 bytes; METHOD PIN: DEC watermark = raw-blob bytes SHA-256 ONLY, PS line-join reconstruction FORBIDDEN (r583 zero-literal + raw-blob law)",
+- "last_orders_sha": "8f6162d967421a28c198d0cda2758589b7f43686",
++ "last_orders_sha": "aaba08bb506addbff0c5f731315ff04941dc2fde",
+  "last_orders_sha_method": "content-bytes sha1 of git show origin/main:docs/orders.md (r977 ROOT-CAUSE FIX: dual-method saga ended -- live probe scripts/d19_watermark.py+_r686bmb_d19_check.py compute sha1 of CONTENT BYTES, NOT rev-parse blob sha; r974 a20281ea=content-sha1 of 6851396b485a (LEGIT, never phantom -- my interim rev-parse heal 861eaeca was method-INCONSISTENT with probe, corrected same window); prior phantom diagnoses r902/r967/r971 = sessions alternating between the two sha1 methods, each misreading the other as corrupt; PIN: watermark MUST use probe method (content-bytes sha1) for ORD, raw-blob sha256 for DEC -- both match scripts/d19_watermark.py machinery)",
+- "last_round": "r1086",
+- "last_round_at": "2026-10-18T10:28:15+08:00",
+- "last_round_ts": "2026-10-18T09:20:30+08:00",
+- "last_seen": "2026-10-18T10:28:15+08:00",
++ "last_round": "r1087",
++ "last_round_at": "2026-10-18T11:02:27+08:00",
++ "last_round_ts": "2026-10-18T11:02:27+08:00",
++ "last_seen": "2026-10-18T11:02:27+08:00",
+  "last_seen_at": "2026-10-18T09:20:30+08:00",
+  "last_ts": "2026-10-17T19:56:49+08:00",
+  "note": "r1075: clean continuation window became P0 product window on W263-finalize landing (bm-a r1040 estate absorb 91da16c86 landed behind=2 at open: W263 finalize 1,002,935/K=576,520 EXACT + fivekeys 6/6 + sixgate 25th consecutive + n1_w263_results.json on origin) -- executed as r1075 per counter (state round_no=1075 at open), advanced 1075->1076 so next session = r1076; zero double-count: S0.5 ORD/DEC dual FALSE both scans (ord 085559d2 / dec 1d4741e4 pinned-probe, zero rows owed), unacked=0; P0 product = W264 SEAT (probe authored+run live THIS window ADMIT first-try, bands A 596_101..598_100 THIRTEENTH consecutive A-hop / B 598_101..598_300 FOURTEENTH consecutive above-own-A, seed_admit FREE x2, origin vacancy four-check, zero W265/W266 skip-claims; seat MSG-20261017-1950-bmc-w264-seat.md; bm-c 83rd own wave candidate; W264 FREEZE UNBLOCKED = prereg derive r1076 FIRST ACTION); 5x DUTY HANDOVER row r1075 landed (window r1071-r1075); idle face: window has actual work (W264 seat + S6 43 + 5x + closeout) -> --worked rc0; orphan face=1 (user Doubao pythonw PID 32692 r1001 precedent family legal-user-process zero-kill); CEO gaming yield face 17:3x standing (GPU frozen, loop CPU-only legal bookkeeping lane)",
+  "ram_free_gb": 1.88,
+- "round_no": 1087,
+- "round_no_label": "r1086 closeout -> counter 1087",
+- "ts": "2026-10-18T10:28:15+08:00",
+- "updated": "2026-10-18T10:28:15+08:00",
+- "updated_at": "2026-10-18T09:22:34+08:00",
++ "round_no": 1088,
++ "round_no_label": "r1087 closeout -> counter 1088",
++ "ts": "2026-10-18T11:02:27+08:00",
++ "updated": "2026-10-18T11:02:27+08:00",
++ "updated_at": "2026-10-18T11:02:27+08:00",
+  "cpu_idle_pct": 97.6,
+- "verify": "S6 log 43x rc=0 read-back + d19 pinned-probe dual FALSE at open (ord 8f6162d9 / dec 1d4741e4) + smoke 49/49 + satengine ALIVE rc0 (daemon PID 38362 00:53 recovery lineage; W265 dedup 12/12) + attrition 4 CLEAN + loop pin=5 no-op + watchdog registered (S4U flip access-denied adjudicated standing) + claws x2 installed + idle worked rc0 + epoch int readback + report line +1 asserted + HANDOVER 5x row r1085 on-time + W266 freeze receipt live-verifiable (origin 595433d63c sha256_16 a273485226cbeefa) + closeout commit rides this window || addendum: dec sha read-back full-equality 0ad85a305830dc2f. via pinned raw-blob sha256 method",
+- "activity_now": "2026-10-18T05:00:53+08:00",
++ "verify": "smoke 49/49 + satengine ALIVE rc0 (burns/queue idle; W267 prereg frozen) + attrition 4 CLEAN + dualrun ZERO-DRIFT streak 44 + W267 freeze origin-landed df55e3fab9 + receipt bff1822597 + d19 advance read-back aaba08bb + canonical orders_ack BOTH faces 227 (O-20261018-0948 acked; --help probe-pollution healed same-window) + orphan face=0 zero-kill + idle --worked rc0 + epoch int readback + ledger path-split heal (r1086 row union logs->root verbatim) + behind-origin=0 (closeout push rides this window)",
++ "activity_now": "2026-10-18T11:02:27+08:00",
+  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
+  "ord_sha_method": "git rev-parse origin/main:docs/orders.md blob SHA-1 (ALGORITHM PIN per r537 law; r867 fresh probe rc0 via standing composer Tools/s05_probe.py: ORD delta FALSE f90233c7==f90233c7 zero-delta, post-r865 healed real blob holds; facts results/_s05_probe.bm-c.json, 40hex shape-asserted, zero literal constants (r583 law)",
+  "gpu_free_mib": 1138,
+  "last_decisions_at": "2026-10-18T09:22:34+08:00",
+  "last_run_at": "2026-10-14T04:47:54+08:00",
+- "last_round_summary": "r1086: 58th-gen absorb + W266 FULL CYCLE COMPLETE + W267 SEAT: dead 09:25-09:50 window estate (W266 five-face splice + engine self-burn 12/12, killed by the v1 25-min wall clock per O-20261018-0948 root-cure diagnosis) hash-verified then landed dc71ecc3f9 + iteration_loop v2 root-cure pulled same window; sixgate PRE-FINALIZE 29th consecutive ALL PASS with single-token post-splice heal (H1 _set_wave(265)->(266) W266 section -- r1076-family 3rd recurrence; minimality proof landed-blob+heal==healed-worktree CR-normalized; prereheal FAIL evidence preserved) 839bf365f; finalize one-pass ledger 1,007,335+2,200=1,009,535 EXACT / K 580,920+2,200=583,120 EXACT (n1_w266_results.json, w266 mu -0.0988/sigma 0.2536, K-lift +0.0001); fivekeys 6/6 ALL PASS (key3 A p95 0.3149->0.3268 in-band / key4 K-lift +0.0001 / key5 se_mu held-flat 0.000321); sec.7/8 backfilled placeholders=0; W267 SEAT published 942ebd5885 (probe live ADMIT A 602_701..604_700 SIXTEENTH consecutive A-hop / B 604_701..604_900 SEVENTEENTH above-own-A, seed_admit FREE x2, origin vacancy four-check)",
+- "last_action": "r1085 closeout (W266 prereg freeze landed + dead-window estate absorbed + S6 43/43 + counter 1085->1086)",
+- "verdict": "green: r1086 = 58th-gen absorb continuation window (counter 1086 at open per state, executed r1086, advanced 1086->1087 so next=r1087); product = W266 FULL CYCLE (splice absorbed+landed / burn 12/12 / sixgate 29th PRE-FINALIZE + single-token heal / finalize EXACT / fivekeys 6/6 / sec.7-8 backfill) + W267 seat published; engine daemon alive; v2 root-cure on disk (O-20261018-0948); CEO gaming yield standing (loop CPU-only, GPU gen-only); short-video lane DISABLED standing per O-20261017-1741",
+- "next_pointer": "r1087: (1) W267 PREREG DERIVE = FIRST ACTION per seat MSG-20261018-1025-bmc-w267-seat.md (bands A 602_701..604_700 / B 604_701..604_900; post-W266 universe; frozen tpl = W266 prereg 595433d63c pre-backfill face per r1052/r1049 law); then splice -> burn -> sixgate (30th target) -> finalize -> fivekeys -> sec.7/8 -> W268 seat; (2) O-20261018-0948-bm-a receipt duties (P0, SLA <=2 rounds): adoption-verify = NEXT firing spawning line must show 'hard-cap 240min, silence-kill 25min' (v2 on disk since this window's rebase) + local TIMEOUT census (grep logs/iteration-loop/run_*.log ROUND TIMEOUT; count + most-recent) + MiniGame-family same-pattern audit (EngineTick/ComfyDraftTick/AuditTick/GateTick/RadarTick/RadarDeepTick/SiliconWatchTick runners: grep WaitForExit / $RoundTimeoutMinutes / '= 25'; found=same v2 recipe in-place fix; none=zero-adaptation note) -> fleet/inbox/MSG-20261018-<HHMM>-bmc-rootfix.md + order-file receipt-section append; (3) d19 ORD/DEC watermark advance owed (state still holds ord 8f6162d9 / dec 0ad85a30; rows since = O-20261018-0948 root-cure row + memory-gov row, committee/bm-a-executed, zero bm-c action beyond receipt duties); (4) S6 chain + smoke 49/49 deferred to r1087 honest (absorb-window product priority); (5) Monday 10-20 15:30 bars window: full papers chain (weekend 10-18/19 no bars, cutoff 10-16, papers debt=0)",
+- "latest_artifact": "results/perpetual_faces/n1_w266_results.json (ledger 1,009,535 / K 583,120) + results/_w267bmc_20261018_probe_receipt.json (W267 seat ADMIT) + research/PERPETUAL_N1_W266_PREREG.md sec.7/8 backfilled (origin 942ebd5885)",
+- "next_milestone": "W267 prereg derive + freeze (r1087, within 48h); O-20261018-0948 receipt (r1087, SLA 2 rounds); Monday 10-20 15:30 bars papers chain",
++ "last_round_summary": "r1087: O-20261018-0948 bm-c receipt duties FULL same-window (v2 adoption verified: own spawning line '10:35:02 spawning headless round (hard-cap 240min, silence-kill 25min, prompt_chars=31210...)'; TIMEOUT census 432 total most-recent 09:50:02; MiniGame-family audit 7 runners + watchdog: SAME DISEASE x2 fixed in place (EngineTick.ps1 20-min wall + ModeTick.ps1 HardKillSeconds wall -> liveness-gated budget: per-lane silence gates on stdout+stderr byte growth + 240-min hard cap + whole-tree kill; task args/locks untouched; TIMEOUT_KILLED/EXIT_254 substrings preserved; PS Parser 0 errors; pure ASCII) = MiniGame commit df88bb98a; zero-adaptation x3 TickWatchdog/ComfyDraftWorker_C/siliconwatch-generate; receipts MSG-20261018-1047-bmc-rootfix + order-file receipt section) + ORD delta consumed 8f6162d9->aaba08bb (two 09:5x rows; mem-gate --report 87,546B/95) + W267 PREREG FREEZE LANDED origin df55e3fab9 (ALL GATES PASS 3rd-try, 2 needle heals, banned ADMIT rc0, 23,008B sha256_16 0918b8990154a23b; bands A 602_701..604_700 16th A-hop / B 604_701..604_900 17th above-own-A) + smoke 49/49 + S6 10/10 rc0 (dualrun streak 44 / fundprem weekend no-op / clock ORANGE_COOL / dreport faces=5 / token 0) + push non-FF stash-bridge rebase clean (receipt bff1822597 + freeze df55e3fab9)",
++ "last_action": "r1087 closeout (O-20261018-0948 bm-c receipt + W267 PREREG FREEZE df55e3fab9 + S6 10/10 + ledger path-split heal; counter 1087->1088)",
++ "verdict": "green: r1087 = clean continuation product window (counter 1087 at open, executed r1087, advanced 1087->1088); product = O-20261018-0948 bm-c receipt duties FULL (v2 adoption + 432 TIMEOUT census + MiniGame cross-repo liveness fix df88bb98a) + W267 PREREG FREEZE origin df55e3fab9 (ALL GATES PASS, banned ADMIT, 16th A-hop / 17th above-own-A staircase continues); engine daemon alive; CEO weekend-use standing (loop CPU-only); short-video lane DISABLED standing per O-20261017-1741",
++ "next_pointer": "r1088: (1) W267 SPLICE CHAIN = FIRST ACTION per frozen prereg df55e3fab9: needle preflight (MEASURED counts on the W267 prereg face per r1077 law) + editor derive canon-clone of the W266 editor (_w266bmc_derive_editor.py family, age() machine-needle law) -> freeze_edits -> five-face splice -> engine mtime-watch self-burn 12/12 -> sixgate PRE-FINALIZE (30th consecutive target) -> finalize one-pass -> fivekeys 6/6 -> sec.7/8 backfill -> W268 seat publish (W268p projection A naive 604_701..606_700 / B 604_901..605_100 on the pre-W267 universe; live re-derive governs r587 never transcribe); (2) Monday 10-20 15:30 bars window: full papers chain fires (weekend 10-18/19 no bars, cutoff 10-16, papers debt=0); (3) 24h died-pre-closeout incident-review watch standing per O-20261018-0948 sec.3.4 (v2 live since the 10:35 firing; recurrence = gate-failure review law); (4) next 5x HANDOVER row due at r1090; (5) GPU lane = gen-only (CEO weekend-use standing, loop CPU-only); short-video lane DISABLED standing per O-20261017-1741",
++ "latest_artifact": "research/PERPETUAL_N1_W267_PREREG.md (23,008B/64 lines, sha256_16 0918b8990154a23b, origin df55e3fab9, frozen 2026-10-18 10:5x) + fleet/inbox/MSG-20261018-1047-bmc-rootfix.md + MiniGame repo commit df88bb98a (EngineTick+ModeTick v2 liveness fix)",
++ "next_milestone": "W267 splice chain -> burn -> sixgate 30th -> finalize (r1088-r1089, within 48h); Monday 10-20 15:30 bars papers chain; 24h dead-window watch (O-20261018-0948)",
+  "gpu_free_mb": 3275,
+  "idle_rounds": 0,
+  "agenda_starved": false,
+- "next": "r1087: (1) W267 PREREG DERIVE = FIRST ACTION per seat MSG-20261018-1025-bmc-w267-seat.md (bands A 602_701..604_700 / B 604_701..604_900; post-W266 universe; frozen tpl = W266 prereg 595433d63c pre-backfill face per r1052/r1049 law); then splice -> burn -> sixgate (30th target) -> finalize -> fivekeys -> sec.7/8 -> W268 seat; (2) O-20261018-0948-bm-a receipt duties (P0, SLA <=2 rounds): adoption-verify = NEXT firing spawning line must show 'hard-cap 240min, silence-kill 25min' (v2 on disk since this window's rebase) + local TIMEOUT census (grep logs/iteration-loop/run_*.log ROUND TIMEOUT; count + most-recent) + MiniGame-family same-pattern audit (EngineTick/ComfyDraftTick/AuditTick/GateTick/RadarTick/RadarDeepTick/SiliconWatchTick runners: grep WaitForExit / $RoundTimeoutMinutes / '= 25'; found=same v2 recipe in-place fix; none=zero-adaptation note) -> fleet/inbox/MSG-20261018-<HHMM>-bmc-rootfix.md + order-file receipt-section append; (3) d19 ORD/DEC watermark advance owed (state still holds ord 8f6162d9 / dec 0ad85a30; rows since = O-20261018-0948 root-cure row + memory-gov row, committee/bm-a-executed, zero bm-c action beyond receipt duties); (4) S6 chain + smoke 49/49 deferred to r1087 honest (absorb-window product priority); (5) Monday 10-20 15:30 bars window: full papers chain (weekend 10-18/19 no bars, cutoff 10-16, papers debt=0)",
++ "next": "r1088: (1) W267 SPLICE CHAIN = FIRST ACTION per frozen prereg df55e3fab9: needle preflight (MEASURED counts on the W267 prereg face per r1077 law) + editor derive canon-clone of the W266 editor (_w266bmc_derive_editor.py family, age() machine-needle law) -> freeze_edits -> five-face splice -> engine mtime-watch self-burn 12/12 -> sixgate PRE-FINALIZE (30th consecutive target) -> finalize one-pass -> fivekeys 6/6 -> sec.7/8 backfill -> W268 seat publish (W268p projection A naive 604_701..606_700 / B 604_901..605_100 on the pre-W267 universe; live re-derive governs r587 never transcribe); (2) Monday 10-20 15:30 bars window: full papers chain fires (weekend 10-18/19 no bars, cutoff 10-16, papers debt=0); (3) 24h died-pre-closeout incident-review watch standing per O-20261018-0948 sec.3.4 (v2 live since the 10:35 firing; recurrence = gate-failure review law); (4) next 5x HANDOVER row due at r1090; (5) GPU lane = gen-only (CEO weekend-use standing, loop CPU-only); short-video lane DISABLED standing per O-20261017-1741",
+  "last_orders_at": "2026-10-17T19:02:52+08:00",
+  "gpu_idle_vram_mb": 3275,
+  "gpu_idle_vram_mib": 1138,
+@@ -54,7 +54,7 @@
+  "gpu_vram_free_mb": 1138,
+  "cpu_util_pct": 2.4,
+  "last_pulled_at": "2026-10-18T09:20:30+08:00",
+- "head_sha": "r1075 closeout (P0 W264 seat published; ORD/DEC dual hold; S6 43/43; 5x HANDOVER row; counter 1075->1076)",
++ "head_sha": "r1087 closeout (O-20261018-0948 receipt bff1822597 + W267 PREREG FREEZE df55e3fab9; counter 1087->1088)",
+  "health": "ok",
+  "sync": {
+   "origin_tip": "r1072 closeout commit rides this window (push lands this window; post-push behind=0 verified same window)",
+@@ -64,8 +64,8 @@
+  "cores": 32,
+  "cpu_cores": 32,
+  "current_task_ts": 1792286430,
+- "last_round_summary_at": "2026-10-18T09:20:30+08:00",
+- "last_orders_read_at": "2026-10-18T09:20:30+08:00",
++ "last_round_summary_at": "2026-10-18T11:02:27+08:00",
++ "last_orders_read_at": "2026-10-18T10:44:14+08:00",
+  "d19_watermark_guard": {
+   "tool": "scripts/d19_watermark.py",
+   "probe": "results/_r686bmb_d19_check.py",
+@@ -74,19 +74,19 @@
+   "method_orders": "sha1",
+   "verbatim": true,
+   "advance": true,
+-  "round_ref": 1084,
+-  "ts": "2026-10-18T08:18:01+08:00"
++  "round_ref": 1087,
++  "ts": "2026-10-18T10:44:14+08:00"
+  },
+  "loop_round": 998,
+- "last_round_closed": "2026-10-18T09:20:30+08:00",
+- "last_artifact": "results/perpetual_faces/n1_w266_results.json (ledger 1,009,535 / K 583,120) + results/_w267bmc_20261018_probe_receipt.json (W267 seat ADMIT) + research/PERPETUAL_N1_W266_PREREG.md sec.7/8 backfilled (origin 942ebd5885)",
+- "recent_artifact": "research/PERPETUAL_N1_W266_PREREG.md (22,970B/64 lines, sha256_16 a273485226cbeefa, origin 595433d63c, frozen 2026-10-18 09:0x) + estate evidence results/_w266bmc_{needle_probe.py,needle_counts.txt,w265_frozen_face.txt,prereg_derive.py,dbg_derive.py,dbg_t2.txt}",
++ "last_round_closed": "2026-10-18T11:02:27+08:00",
++ "last_artifact": "research/PERPETUAL_N1_W267_PREREG.md (23,008B/64 lines, sha256_16 0918b8990154a23b, origin df55e3fab9, frozen 2026-10-18 10:5x) + fleet/inbox/MSG-20261018-1047-bmc-rootfix.md + MiniGame repo commit df88bb98a (EngineTick+ModeTick v2 liveness fix)",
++ "recent_artifact": "research/PERPETUAL_N1_W267_PREREG.md (23,008B/64 lines, sha256_16 0918b8990154a23b, origin df55e3fab9, frozen 2026-10-18 10:5x) + fleet/inbox/MSG-20261018-1047-bmc-rootfix.md + MiniGame repo commit df88bb98a (EngineTick+ModeTick v2 liveness fix)",
+  "orphan_face": 0,
+  "orphan_faces": 0,
+  "last_round_at_legacy": "2026-10-17T19:56:49+08:00",
+- "last_action_at": "2026-10-17T19:02:52+08:00",
+- "last_orders_sha_note": "r1074: ORD 313c8c0f->f6d580cf (1 row = 19:2x bm-c r1058 receipt own-lane) ->085559d2 (720542d own blank-line removal) both consumed via d19 guard advance read-back OK (content-sha1 pinned method r977)",
+- "now_active": "2026-10-18T09:22:34+08:00",
++ "last_action_at": "2026-10-18T11:02:27+08:00",
++ "last_orders_sha_note": "r1087: ORD 8f6162d9->aaba08bb consumed via d19 update --advance (pinned content-sha1 method r977), read-back full-string equality",
++ "now_active": "2026-10-18T11:02:27+08:00",
+  "gpu_free_vram_gb": 1.1,
+  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
+  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
+@@ -98,7 +98,7 @@
+  "r915_absorb_note": "r915 absorb: prior session r914 executed a FULL W216 cycle body with commits+pushes (per-wave prereg 7d565ee67 + five-face freeze splice 0b3c489f0 + engine self-burn 12/12 ledger appends 4f998b352/9f99cecf6) plus uncommitted finalize product (n1_w216_results.json 06:51:45) + six-gate receipt + S6 chain 38/38, then died pre-closeout (state frozen at 913) -- this session absorbed per bm-b r898 / bm-c r894/r897/r907/r911 precedent; executed as r915 (next after highest committed r914) and advanced counter 913->916 so next session = r916; zero double-count: S0.5 dual-delta FALSE this window (dec 67403afa / ord 33aee170 both current, zero consumption owed); W216 finalize product machine-verified (ledger identity + five-key) before landing",
+  "r917_absorb_note": "r917 absorb: prior session r916 executed the W217 freeze-splice + engine self-burn body with commits+pushes (five-face freeze splice ad011fee2 + engine ledger appends 60c0799cd/ca9f9f616 12/12) plus S6 chain (panels 08:03-08:07) and uncommitted finalize product (n1_w217_results.json 08:10:30), then died pre-closeout (state frozen at 916) -- this session absorbed per bm-b r898 / bm-c r894/r897/r907/r911/r915 precedent; executed as r917 (next after highest committed r916) and advanced counter 916->918 so next session = r918; zero double-count: finalize product machine-verified (ledger identity + five-key) before landing; six-gate pre-finalize window was MISSED by the dead session (W212 pattern 2nd recurrence) -- healed post-hoc this window with disclosure, W218 must run pre-finalize",
+  "r919_absorb_note": "r919 absorb: prior session r918 executed the W218 freeze-splice body with commit+push (five-face freeze splice 9afb0b1d7 landed 08:58:39) after which the engine daemon self-burned 12/12 (ledger appends 3c58e0e77/6afa2661f, last 09:03:25), then the session died pre-closeout (state frozen at 918) -- this session absorbed per bm-b r898 / bm-c r894/r897/r907/r911/r915/r917 precedent; executed as r919 (next after highest committed r918) and advanced counter 918->920 so next session = r920; zero double-count: six-gate ran PRE-FINALIZE in the burn window (first correct-phase after three W212-pattern recurrences -- the standing law from W217 debt is now executed), finalize product machine-verified (ledger identity + five-key) before landing",
+- "last_decisions_read_note": "r1075: DEC delta FALSE hold (raw-blob sha256 1d4741e4 pinned-probe, zero rows owed)",
++ "last_decisions_read_note": "r1087: DEC delta FALSE hold (raw-blob sha256 0ad85a30 pinned-probe, zero rows owed)",
+  "r921_absorb_note": "r921 absorb: prior session r920 executed the W219 freeze-splice body with commit+push (five-face freeze splice 0dae35332 landed, prereg derived three-level replay chain 46 pairs machine-verified) after which the engine daemon self-burned 12/12 (ledger appends 3ed16f9eb/223fc71cb, last ~09:5x), then the session died pre-closeout (state frozen at 920) -- this session absorbed per bm-b r898 / bm-c r894/r897/r907/r911/r915/r917/r919 precedent; executed as r921 (next after highest committed r920) and advanced counter 920->922 so next session = r922; zero double-count: six-gate ran PRE-FINALIZE in the burn window (second consecutive correct-phase wave), finalize product machine-verified (ledger identity + five-key) before landing",
+  "r928_absorb_note": "r928 absorb: r925 (prereg derive, committed 2e251d084, died pre-closeout) / r926 (zero-commit scratch window, absorbed by r927 cf0b51d21) / r927 (absorb r925+r926 + prereg prose fix, committed+pushed cf0b51d21, died pre-closeout with state frozen at 924) / splice-continuation 13:4x-13:56 (five-face freeze splice executed on disk + freeze receipt 13:56:26, zero-commit zero-round-number death; engine daemon mtime-watch self-burned 12/12 13:57-14:01, ledger appends 01ac36bad+1461e9f22 self-committed) -- this session executed as r928 (next after highest committed label r927) per bm-b r898 / bm-c r894/r897/r907/r911/r915/r917/r919/r921 absorb precedent and advanced counter 924->929 so next session = r929; zero double-count: S0.5 dual-delta FALSE this window (dec 94c93393 / ord 794fd5f5 both current), splice estate landed by this window (98da27a40) with six-gate post-hoc + n1 selftest bound repair disclosed; finalize product machine-verified (ledger identity + five-key) before landing",
+  "r930_absorb_note": "r930 absorb note: prior session r929 executed the full W222 seat body with commits+push (probe 87ee1055d + closeout 1a69c7cea incl round-report line + heartbeat + state ts ride) but died before advancing the state counter face (round_no stayed 929, last_round stayed r928) -- this session executed as r930 (next after highest committed r929) per the bm-c r894/r897/r907/r911/r915/r917/r919/r921/r928 absorb precedent and advanced counter 929->931 so next session = r931; zero double-count: S0.5 dual-delta FALSE this window (dec 94c93393 / ord 794fd5f5 both current), r929's body debts were handled by r929 itself (closeout commit landed)",
+@@ -112,9 +112,9 @@
+  "gpu_used_vram_mib": 15246,
+  "gpu_total_vram_mib": 16384,
+  "r947_absorb_note": "r947 absorb note: prior sessions r942-r946 (FIVE) plus a 00:0x-00:15 dead window each ran full/partial bodies with commits+pushes (r943 splice 9b44d37d1 + engine self-burn batched 9f41cf5be/eed45a825 + finalize one-pass 22:41:33; r944 six-gate heal + fivekey receipt + sec.7/8 backfill + S6 Monday chain; r945 closeout estate bd50be730 incl W226 re-verify + ORD 2215/2225/2240/2305 consumed; r946 S0 pre-rebase checkpoint 03a9e291d incl W227 probe derive unrun; 00:0x window ran post_review + s05 probe + idle_trigger) -- ALL died pre-closeout (state frozen at 942/round_no 942); this session executed as r947 (next after highest committed label r946) per the bm-c r894/r897/r907/r911/r915/r917/r919/r921/r928/r930/r933/r941 absorb precedent and advanced counter 942->948 so next session = r948; zero double-count: S0.5 dual-delta consumed THIS window (dec 94c93393->fb5825cb / ord 7351cf2f->a8d9efaf, watermarks advanced by this session), r942-r946 body debts were handled by their own commits; the 00:0x dead-window products (post_review report) landed by this window",
+- "orders_ack_receipt": "r1085: repo-order unacked=0 (101 files all in 226-ack set, last=O-20261018-0348-bm-a); group-tree ORD/DEC dual FALSE pinned-probe both scans (ord 8f6162d9 / dec 1d4741e4); inbox: MSG-0725 @bm-b + MSG-0753 @bm-a zero bm-c debt (left for addressees), MSG-0831 own outbound swept processed || r1085 addendum: DEC delta consumed same-window (beda8d2 receipt-backfill on consumed D-20261016-06, zero new obligation, watermark advanced 1d4741e4->0ad85a305830dc2f.)",
++ "orders_ack_receipt": "r1087: O-20261018-0948-bm-a acked via canonical orders_ack_append BOTH faces (count 227 state+heartbeat; --help probe-pollution healed same-window zero residue); ORD delta consumed 8f6162d9->aaba08bb (rows: root-cure [ACTIONABLE executed same-window] + CEO order-2 [--report leg done 87,546B/95]); dec hold 0ad85a30; unacked=0",
+  "r948_rebase_surgery_note": "r948 surgery note: r947 session died at 00:37:59 mid pull --rebase (onto=b98de9b32, orig-head=54f8fe48b), leaving .git/rebase-merge in place with pick#1 (03a9e291d r946 checkpoint) replayed as 1419f7b57 and pick#2 (19caa949c r947 closeout) APPLIED TO INDEX but uncommitted; state/heartbeat/round-report writes had landed (r947 closeout script ran) but commit/push never happened. This session found the staged estate, committed it as 375f9334a ON THE DETACHED HEAD (before detecting the rebase state -- push then failed non-FF x2 because (a) local main ref=54f8fe48b stale = the pushed ref, (b) after surgery, real race with bm-b round 909 push 66658ccbf). Resolution: treasure_guard rc0 on affected faces -> rebase --abort (autostash applied, all reproducible-class) -> reset --hard 375f9334a after content-supersession verification (state-bm-c.json + round_reports-bm-c.md byte-identical across tips = r947 products fully preserved) -> worktree add @66658ccbf -> cherry-pick 1419f7b57 (clean) + 375f9334a (3 shared-face conflicts: token_usage.json = mine 00:52:22 wholesale + bm-a mirror keys from bm-b view; compute_audit.json = latest mine 00:52:15 + history union-by-ts 63; _attrition_guard_scan.json = bm-b 00:49:57 newer wholesale) -> cb43255bb -> push LANDED 66658ccbf..cb43255bb -> worktree removed -> main reset --hard origin/main behind 0. Old chain (54f8fe48b/19caa949c/03a9e291d) content-fully-preserved, reachable via reflog. E61 methodology card appended.",
+- "prod_lanes": "CPU=engine waits-upstream (W263 = bm-a window: SPLICE LANDED f499817fa, burn/finalize pending on bm-a; bm-c next turn = W264 seat) ; GPU=gen-only lane (V5.3 reburn in flight protected per O-20261017-1741 sec.3; LLM face retired per O-20261017-0953; loop CPU-only); short-video lane DISABLED standing per O-20261017-1741",
++ "prod_lanes": "CPU=engine W267 supply chain armed (prereg frozen df55e3fab9; splice chain = r1088 FIRST ACTION) ; GPU=gen-only lane (CEO weekend-use standing: GPU 6% idle window, loop CPU-only); short-video lane DISABLED standing per O-20261017-1741",
+  "r951_absorb_note": "r951 absorb note: prior dead session (labeled r951, died ~02:2x post-QC pre-closeout; heartbeat still r950, counter still 951) executed: C02_v2 + C03 video QC verdicts (QC-r951.json), 12-frame pre-burn sweep of C04-C09+R01-R06 vs PROPS cuneiform canon (0 hard fails, 3 ADVISORY), C02_v3 reshake submission 02:09:53 (landed), and PLANNED a bm-a MSG (never landed in any inbox) + C03 dual-track; this session absorbed per bm-c r894/r897/r907 absorb precedent: executed as r951 continuation, advanced counter 951->952; zero double-count: S0.5 dual-delta FALSE this window (dec fb5825cb / ord a8d9efaf both current)",
+  "r952_closeout_note": "r952: (1) S0-1 anchor bm-c + round-zero probe py_faces=10 orphans=2 zero-kill; state-sync commit 0087dcf85 + pull --rebase up-to-date; (2) S0.5 ORD delta TRUE consumed (a8d9efaf->ce3cfa1d single row = MiniMax midnight-jam verdict + Seedance rescue wave 15/15, cloud-lane bm-a director exec, bm-c local line 15/21 face confirmed, zero new bm-c action; dec fb5825cb FALSE hold; unacked=0); (3) S1 smoke 49/49; S2 boards clear (jobs 0); (4) harvest QC: R01 8.0 PASS locked / C02_v4 7.3 FAIL disclosed (translucent gauze persists over carving, gold hairline, curly pseudo-cuneiform; trajectory 5.5/5.5/6.4/7.3; per QC-r951b pre-decision no v5, director falls back) / C09 3.5 FAIL CRITICAL (zero humans all frames; source frame verified 0 people; pre-burn meander-decor ADVISORY materialized; same class as C03); (5) C09 merged into track-2 regen batch (post-drain swap H3->Krea2 + C09 two-person oath frame + C03 PROPS wedge frame + i2v both; deathline discipline shared); (6) QC-r952.json + 2 contact sheets + extract script landed; (7) S6 light: dualrun streak 45 + audit FLAG structural + wm py_low_with_work_cands legal; (8) S7 quad green; attrition 4 CLEAN; counter 952->953",
+  "r952_addon_note": "r952 addendum: S7 收尾双扫 caught mid-round ORD row 10-13 03:4x (@bm-c 追加 4 镜改本地·Seedance content_moderation 拒人脸近景 4/15=D02/E03/B01/D03·引擎矩阵新行=云端人脸镜死路·本地 INT8 唯一活路) -> consumed + executed same-window: bmc_addon_r952.py (reuses bmc_night_factory verbatim, sequential self-interleave, full-name tags per 收片命名律, seeds 9213-9216, life-pulse positive phrasing on face shots); assembly clock acknowledged: 06:43 first assembly + 4 镜落位即重装配 -> 08:30 deathline; watermark orders sha ce3cfa1d->4aebbfc3 consumed this window",
+@@ -127,7 +127,7 @@
+  "r959_closeout_note": "r959: (1) S0-1 anchor bm-c + probe py_faces=5 orphans=2 zero-kill + fetch 0/0 (no rebase needed); (2) S0.5 dual-delta FALSE both + S7 double-scan same; (3) smoke 49/49; (4) W228 full cycle (see r959_absorb_note + did); (5) W229 seat (probe derive + ADMIT + MSG pre-freeze); (6) S6 light streak 51 + FLAG structural answered-by-seat; (7) S7 quad green + attrition 4 CLEAN + idle_trigger green_idle=false RAM-gate honest; pitfall same-window: none new (backfill self-check needle comma-format false-fail fixed in-script idempotent guard)",
+  "r962_absorb_note": "r962 absorb note: prior sessions r960 (committed W229 prereg e485a0b3f, died pre-closeout) and r961 (ran editor derive + five-face freeze splice on disk 09:38:18 receipt pf 04433c68/n1 51ac5362 + engine mtime-watch self-burn 12/12 batched ledger appends e3665b334+b5d62792d self-committed, died pre-commit with zero own commits) -- this session absorbed both per the bm-c absorb precedent lineage (17th instance): splice estate machine-verified before landing (2ae8553e6), six-gate + finalize + five-key + sec.7/8 executed THIS window correct-phase (fourth consecutive), W230 seat published same-window; counter advanced 960->963 so next session = r963; zero double-count: S0.5 dual-delta FALSE this window (dec fb5825cb / ord d559e530 both current), r960 body debts handled by its own commit, r961 estate landed by this window; CEO order O-20261013-0930-bm-b arrived mid-window (origin 00b7a6bcf) and was consumed+executed+acked THIS window per FLEET-OPS sec.3 same-round law",
+  "r962_closeout_note": "r962: (1) S0-1 anchor bm-c + probe py_faces=5 orphans=2 zero-kill + fetch behind=1 ff-merge 00b7a6bcf; (2) S0.5 dual-delta FALSE both + unacked=1 consumed same-window (O-20261013-0930 CEO full mobilization: resume done + stack proof + O-file receipt); (3) smoke 49/49; (4) W229 full cycle (see r962_absorb_note + did); (5) W230 seat (probe derive + ADMIT + MSG pre-freeze); (6) S6 light streak 51 + FLAG structural answered-by-seat; (7) S7 quad green + attrition 4 CLEAN; pitfall same-window: verify-script literal-clone assertion shape drift (three false-fails) -> E63 methodology card (live-import derive law), estate itself zero-defect",
+- "orders_ack_ts": "2026-10-18T09:20:30+08:00",
++ "orders_ack_ts": "2026-10-18T11:02:27+08:00",
+  "r963_absorb_note": "r963 absorb note: prior session (labeled r963) committed the W230 prereg (91de0ae83, fourteen-level replay 46/46) then ran editor derive + five-face freeze splice on disk 11:39:25 (receipt pf 04433c68->e1401e62 / n1 51ac5362->1932f439) + engine mtime-watch self-burn 12/12 (batched ledger appends 0ef11a120+aec41c57c self-committed), then died pre-commit -- this session absorbed per the bm-c absorb precedent lineage (18th instance): splice estate machine-verified before landing (24e12fa5e, _r963bmc_splice_verify.py VERIFY-PASS zero false-fails), six-gate + finalize + five-key + sec.7/8 executed THIS window correct-phase (fifth consecutive), W231 seat published same-window; counter advanced 963->964 so next session = r964; zero double-count: S0.5 ORD delta consumed THIS window (d559e530->29c2ba65, both rows BigStream-lane), DEC delta FALSE (fb5825cb), dead-r963 body debts handled by its own commits + this absorb",
+  "r963_closeout_note": "r963: (1) S0-1 anchor bm-c + probe py_faces=5 orphans=2 zero-kill + fetch 0/0; (2) S0.5 ORD delta TRUE consumed (d559e530->29c2ba65, 2 rows both BigStream-lane zero BigMoney action) + DEC FALSE hold + unacked=0 + S7 double-scan same (zero new rows since 11:17 face); (3) smoke 49/49; (4) W230 full cycle (see r963_absorb_note + did); (5) W231 seat (probe derive + ADMIT + MSG pre-freeze); (6) S6 light streak 51 + FLAG structural answered-by-seat; (7) S7 quad green + attrition 4 CLEAN; pitfall same-window: schtasks zh-CN localized labels ('TaskName' label face) vs Select-String 'TaskName' pattern = false-MISSING (both quad tasks verified PRESENT via Start-Process redirect; wrapper output = single GBK-mojibake String unsuitable for label matching) -- S7 quad probe must match on task-path line or use redirect",
+  "r967_absorb_note": "r967 absorb note: prior windows -- dead 12:5x window (labeled r965, derived the W231 splice editor, zero commits) and the 13:0x-13:25 session (labeled r966, committed+pushed W231 five-face freeze splice estate aee0bd9fa + engine self-burn 492972ee7/4e373b743 + six-gate PRE-FINALIZE sixth consecutive correct-phase + finalize one-pass 931,989/K 506,120 five-key ALL PASS + sec.7/8 backfilled 0636c1d12 + W232 seat published 8d3a1b78a incl MSG-20261013-1345) died pre-closeout with state frozen at round_no=965 -- this session executed as r967 (next after highest committed label r966) per the bm-c absorb precedent lineage (19th instance) and advanced counter 965->968 so next session = r968; zero double-count: r966 body debts were handled by its own commits+pushes (origin 0/0 at open), the dead r965 editor was landed via r966's splice estate commit, S0.5 ORD/DEC consumption was handled by r966 (through 13:1x rows; DEC fb5825cb unchanged) -- this window's probe TRUE-verdicts were phantom-watermark artifacts (state keys c7d3ee65/f41caf26 NOT in blob history, corrupt-face 5th/6th per r966 heal evidence) and were healed programmatically this window; dead-session S6-light estate + inbox processed-moves landed by this closeout",
+@@ -145,7 +145,7 @@
+  "r977_wm_heal_note": "r977 heal: corrupt-face 9th(ORD a20281ea not-in-store cat-file fatal) + 10th(DEC 2bf2a0ef PS-UTF8-bytes method violation vs raw-blob pin) both healed-by-evidence: ORD->861eaeca2c2a (rev-parse ground truth, last-touch d27407b 17:50 rows already row-verified 205-ack by r976, zero commits since, unacked=[]) / DEC->86187eff5985 (raw-blob sha256, content unchanged since 83f0fca 00:07, D-20261013-01/02 consumed by r976) -- ZERO rows owed both faces, zero double-count",
+  "r977_closeout_note": "r977: 3rd-session continuation window; zero double-count: ORD/DEC rows consumed THIS window with watermarks healed-by-evidence (8 ORD rows + 1 DEC row, dead-session 22:38 dumps verified vs commit-level ground truth d27407b/83f0fca/98e67de); MV fix-batch executed by dead session (not this window), this window = verify+QC+relay only",
+  "r980_closeout_note": "r980 closeout note: state was frozen at round_no 978 across two absorb generations (fa2e1b2d3 r978-continuation absorb + 3261168c9 r979 absorb, both landed their own commits but died pre-state-write) plus the dead r979-continuation editor window (03:59, authored _w235bmc_freeze_edits.py which fail-closed post-bm-a-splice); this session executed as r980 (next after highest committed label r979) per bm-c absorb precedent lineage (r894..r974, 22nd-generation continuation) and advanced counter 978->981 so next session = r981; zero double-count: ORD/DEC dual-delta FALSE both scans (ord 348eaf34 / dec 86187eff hold, 4 repo-local order files acked this window), W235 consumption debts handled by bm-a takeover commits themselves; dead-window editor estate committed this window as evidence (fail-closed gate face)",
+- "last_round_label": "r1083",
++ "last_round_label": "r1087",
+  "r981_closeout_note": "r981: clean continuation window (state round_no=981 at open, executed r981, advanced 981->982 so next session=r982); zero absorb owed (r980 closeout fb4941a6f landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both windows (ord 348eaf34 / dec 86187eff current, unacked=0); W236 chain face correctly yielded to bm-a (declared intent + in-flight window); S0 stash-bridge supersession drop disclosed (daemon live-faces rewrites blocked pop -> stale snapshots dropped live-wins)",
+  "heartbeat_epoch_utc_type": "int (assert)",
+  "r983_closeout_note": "r983: clean continuation window (state round_no=983 at open, executed r983, advanced 983->984 so next=r984); zero absorb owed (r982 closeout landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both scans (opening + S7 tail); wait-state window honestly declared per one-line law",
+@@ -389,14 +389,15 @@
+   "O-20261017-0131-bm-c.md",
+   "O-20261017-2207-bm-c.md",
+   "O-20261018-0137-bm-a.md",
+-  "O-20261018-0348-bm-a.md"
++  "O-20261018-0348-bm-a.md",
++  "O-20261018-0948-bm-a.md"
+  ],
+  "orders_ack_count": 226,
+- "orders_ack_last": "O-20261018-0348-bm-a.md",
++ "orders_ack_last": "O-20261018-0948-bm-a.md",
+  "r991_addendum_note": "r991 addendum: (1) O-20261014-0925-bm-b CEO fleet-idleness order landed MID-WINDOW (origin 281f5b562, after S7 tail scan) -> consumed same-window per CEO immediate law: receipt flipped in-order-file (sec.4 bm-c line: CPU backfill ACCEPTED, RAM-light <=1G/items constraint honest [0.2G free, MV V3 burn window protected], one-line occupancy, window product = W239 seat) + heartbeat ack appended (209->210); (2) push saga: bm-a 51fb88b87 + bm-b 281f5b562 advanced mid-push -> stash->pull --rebase -> single conflict results/token_usage.json (resolved theirs=newer 09:16:48 face) -> rebase --continue PHANTOM-REJECT x2 with ZERO unmerged (r863 family 4th+5th instances) -> per r990 pit mandate sequencer files CAPTURED FIRST (results/_r991bmc_rebase_sequencer_capture/, 9 files, committed as evidence for root-cause analysis) -> manual commit -C + rebase --skip clean heal (603ff65d9) -> stash superseded snapshot dropped live-wins (r986 precedent); counter stays 992 (same window)",
+  "r992_closeout_note": "r992: clean continuation wait-state window (state round_no=992 at open, executed r992, advanced 992->993 so next=r993); zero absorb owed (r991 closeout + addendum landed clean); zero double-count: S0.5 dual-delta FALSE both scans (opening + S7 tail); W19 SCREEN pool face: bm-b enrolled 8 shards 09:27 (dual-file +288), shard-0 claimed by bm-b autofill 09:33, bm-c honest-refuse RAM-gate 3.3G<4G r354, autofill watchdog = standing claim path",
+  "full_load_selfproof": {
+-  "占用一行": "CPU=engine W264 supply chain armed (seat published; prereg derive r1076 FIRST ACTION) ; GPU=gen-only lane (CEO gaming yield window standing: GPU frozen, loop CPU-only); short-video lane DISABLED standing per O-20261017-1741"
++  "占用一行": "CPU=engine W267 supply chain armed (prereg frozen df55e3fab9; splice chain = r1088 FIRST ACTION) ; GPU=gen-only lane (CEO weekend-use standing: GPU 6% idle window, loop CPU-only); short-video lane DISABLED standing per O-20261017-1741"
+  },
+  "r993_closeout_note": "r993: clean continuation wait-state window (state round_no=993 at open, executed r993, advanced 993->994 so next=r994); zero absorb owed (r992 addendum landed clean); S0 landed bm-a r978/r979 estate (W237 finalize MSG processed + W238 prereg derive 40/47 re-anchor P0); zero double-count: S0.5 dual-delta FALSE both scans; sentinel v1.0 first-day live-verified (5 ticks 09:53-10:10 all NORMAL, task Ready next 10:15)",
+  "r996_closeout_note": "r996: 三死窗吸收窗（MV V3 会话+收尾准备会话+W239 周期会话·11:27-13:59 三体全死于收尾前）-- 本窗按 bm-c absorb 先例链（r894..r993 第 23 代）收口：W239 全周期 estate 验证后落地（死窗已上链 splice c85e806c9+burn·本窗补 sixgate 收据+finalize 产物+fivekey+sec78 回填→commit 0fbf34dbc+push a82bd3025）；MV V3 波 1 6/6 签章镜回执落组树 orders be32c1f+poke bm-a；波 1.5 runner 灭失=波 2 自链断链面如实披露（r997 首动作=runner 重建）；O-1230 探测 200 通；软著 18 款复跑批已跑待 r997 核验收口；lineage-B 13:40 收口宣称（d9d8aa72/179ac0f4）未落任何账面=死窗宣称勘误入档·零双计（本窗重算 origin 实测 sha 推进水位）；counter 996->997 so next=r997",
+@@ -484,5 +485,6 @@
+  "r1083_closeout_note": "r1083: (1) S0-1 anchor bm-c + round-zero probe py_faces=4 orphans=0 zero-kill; (2) S0 estate commit-all + rebase over bm-a db6871dc2/d70897134 (11 conflicts = same-day idempotent shared faces, resolved replay-side mine live-wins) + PUSH f2a4b0255 behind=0; (3) S0.5 group fetch + dual FALSE (ord 018ba8b2 / dec 1d4741e4) + 3 orders acked; (4) smoke 49/49; (5) satengine ALIVE rc0; (6) P0 PRODUCT = W265 splice preflight prep landed; (7) S6 43/43 absorbed (dead-window 04:09:54); (8) 5x HANDOVER row r1083; (9) S7 quad + counter 1076->1084",
+  "r1084_closeout_note": "r1084: continuation window #2 of the label (counter held 1084): W265 cycle absorb-verified (finalize ledger 1,007,335/K=580,920 landed by dead-chain 2e622ee447 + W266 seat ace19ba85b; zero re-derive owed) + CEO memory-gov four-piece @bm-c fully executed same-round (sync 24/24 idempotent-confirmed / gate v2 first-run 377,015->97,121B / L0 final 87,547B-95 via dead-window piece-3 07:59 + post-gate sweep + law restore / gate-task v2 script upgrade hash MATCH, definition untouched) + union REPLACE-DOWN incident 08:06:35 (worker-poke union rebuild re-inflated L0 to 377,015B over dead-window 07:59 surgery; hemostat = fleet-memory-sync.ps1 disk checkout to origin no-op face; root-cause = group worktree 12-behind; full pull = S0 lane) + LEDGER receipt CAS-landed group origin cd06053 + MSG-0831 @bm-a with 3rd origin gap (R-20261018-memory-control-01 absent on origin) + ORD 018ba8b2->8f6162d9 consumed (00:2x CEO four-piece row) / DEC hold / S6 absorbed 43x rc0 / smoke 49/49 / quad green; counter 1084->1085 so next = r1085 (5x HANDOVER row due)",
+  "r1085_closeout_note": "r1085: clean continuation window (state round_no=1085 at open, executed r1085, advanced 1085->1086 so next=r1086); zero absorb owed by counter law -- 08:39-08:58 W266-derive dead window left ZERO commits (estate = 4 untracked files), absorbed product-side THIS window verbatim per absorb lineage (frozen-face byte-identity + needle probe re-run rc0 + derive re-run ALL GATES PASS + banned ADMIT before freeze); heal#8 disclosed: count-gate '600_301..602_300' expect 3->4 (dead-window pattern-assumed b_band x2; MEASURED T0 source needle 598_101..600_100 x4 = line5 x3 + line31 x1; r1077 law; dbg evidence committed); zero double-count: S0.5 dual-delta FALSE both scans (ord 8f6162d9 / dec 1d4741e4 pinned-probe) || ADDENDUM: S7 tail dual-scan caught DEC DELTA (1d4741e4->0ad85a305830dc2f...): group commit beda8d2 09:08:51 (bm-a CEO-PROXY R2.17 晨检双销) = receipt-column BACKFILL on the already-consumed D-20261016-06 row (三任务 pause 复开缺口复测: \\Bigmoney-Autofill/\\Bigmoney-ResidentDispatcher/\\HQ-OllamaOrphanWatch all-Disabled 10-16 12:01 实测记录) -- judged ZERO new bm-c obligation: historical audit face; current live state consistent with the 10-18 00:3x CEO selective-restore order (ResidentDispatcher alive PID 40972; Ollama 族 not-restored per O-20261017-0953 LLM retirement); ORD tail FALSE-hold unchanged (8f6162d9); watermark advanced same-window read-back verified",
+- "r1086_closeout_note": "r1086: 58th-gen absorb + W266 FULL CYCLE COMPLETE + W267 SEAT: dead 09:25-09:50 window estate (W266 five-face splice + engine self-burn 12/12, killed by the v1 25-min wall clock per O-20261018-0948 root-cure diagnosis) hash-verified then landed dc71ecc3f9 + iteration_loop v2 root-cure pulled same window; sixgate PRE-FINALIZE 29th consecutive ALL PASS with single-token post-splice heal (H1 _set_wave(265)->(266) W266 section -- r1076-family 3rd recurrence; minimality proof landed-blob+heal==healed-worktree CR-normalized; prereheal FAIL evidence preserved) 839bf365f; finalize one-pass ledger 1,007,335+2,200=1,009,535 EXACT / K 580,920+2,200=583,120 EXACT (n1_w266_results.json, w266 mu -0.0988/sigma 0.2536, K-lift +0.0001); fivekeys 6/6 ALL PASS (key3 A p95 0.3149->0.3268 in-band / key4 K-lift +0.0001 / key5 se_mu held-flat 0.000321); sec.7/8 backfilled placeholders=0; W267 SEAT published 942ebd5885 (probe live ADMIT A 602_701..604_700 SIXTEENTH consecutive A-hop / B 604_701..604_900 SEVENTEENTH above-own-A, seed_admit FREE x2, origin vacancy four-check) | counter 1086->1087 | deferrals honest: d19 watermark advance + S6 chain + smoke + 0948-receipt census/audit -> r1087"
++ "r1086_closeout_note": "r1086: 58th-gen absorb + W266 FULL CYCLE COMPLETE + W267 SEAT: dead 09:25-09:50 window estate (W266 five-face splice + engine self-burn 12/12, killed by the v1 25-min wall clock per O-20261018-0948 root-cure diagnosis) hash-verified then landed dc71ecc3f9 + iteration_loop v2 root-cure pulled same window; sixgate PRE-FINALIZE 29th consecutive ALL PASS with single-token post-splice heal (H1 _set_wave(265)->(266) W266 section -- r1076-family 3rd recurrence; minimality proof landed-blob+heal==healed-worktree CR-normalized; prereheal FAIL evidence preserved) 839bf365f; finalize one-pass ledger 1,007,335+2,200=1,009,535 EXACT / K 580,920+2,200=583,120 EXACT (n1_w266_results.json, w266 mu -0.0988/sigma 0.2536, K-lift +0.0001); fivekeys 6/6 ALL PASS (key3 A p95 0.3149->0.3268 in-band / key4 K-lift +0.0001 / key5 se_mu held-flat 0.000321); sec.7/8 backfilled placeholders=0; W267 SEAT published 942ebd5885 (probe live ADMIT A 602_701..604_700 SIXTEENTH consecutive A-hop / B 604_701..604_900 SEVENTEENTH above-own-A, seed_admit FREE x2, origin vacancy four-check) | counter 1086->1087 | deferrals honest: d19 watermark advance + S6 chain + smoke + 0948-receipt census/audit -> r1087",
++ "r1087_closeout_note": "r1087: (1) S0-1 anchor bm-c + probe py_faces=3 orphans=0 zero-kill + S0 discard-5-regenerables + pull (bm-a r1052 W267-seat race YIELD chain: bm-c MSG-1025 10:25 on origin beats bm-a local 10:28:55, W267 = bm-c 86th own wave) + group fetch bda53c2..90cc777; (2) S0.5 probe rc3: ORD delta TRUE consumed 8f6162d9->aaba08bb via d19 update --advance (rows = O-20261018-0948 root-cure [bm-c ACTIONABLE executed same-window per CEO-ticket law] + CEO order-2 memory/continuity [bm-c legs: gate --report 87,546B/95 entries + zero local cleanup owed; snapshot-before-clean law standing]); dec delta FALSE hold 0ad85a30; unacked=[O-20261018-0948-bm-a] -> acked via canonical orders_ack_append BOTH faces (r1052-bma two-face law; --help probe-pollution healed same-window zero residue); (3) S1 smoke 49/49 (r1086 deferred debt cleared); (4) P0 CEO-TICKET O-20261018-0948 receipt duties FULL execution incl. MiniGame cross-repo fix (commit df88bb98a, push/sync stays in the EngineTick lane self-heal domain, repo intentionally behind origin per the 10-18 00:3x alignment row); (5) P0 PRODUCT W267 PREREG FREEZE: frozen face triple byte-verified + needle probe + block-classification ctx-dumps (18 raw W267 = 2 non-block leg-covered + 16 block-interior; 07:0x 2 non-block + 2 block-interior; bands/shas classified) + derive ALL GATES PASS 3rd-try with 2 disclosed heals + banned ADMIT; push non-FF -> stash-bridge (state d19 advance preserved through bridge; watermark_red UU resolved origin-face regenerable live-wins) -> rebase clean -> LANDED; (6) S6 10 legs rc0 weekend-honest; (7) S7: attrition 4 CLEAN + idle --worked rc0 + ledger path-split heal (r1086 row logs->root verbatim union, r985 family 5th instance disclosed) + this closeout writes the CANONICAL root path per r750 law; counter 1087->1088"
+ }
+\ No newline at end of file
