@@ -36,7 +36,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:50",
+    "as_of": "2026-10-18 07:44:22",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -85,7 +85,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:51",
+    "as_of": "2026-10-18 07:44:22",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -134,7 +134,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:52",
+    "as_of": "2026-10-18 07:44:23",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -183,7 +183,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:54",
+    "as_of": "2026-10-18 07:44:24",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -232,7 +232,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:55",
+    "as_of": "2026-10-18 07:44:25",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -281,7 +281,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-18 07:23:56",
+    "as_of": "2026-10-18 07:44:25",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -455,23 +455,23 @@
    {
     "account": "REV-OSC-STD",
     "face": "standalone sleeve face (same engine replay, no route overlay): ret = series",
-    "equity_cny": 981486.85,
+    "equity_cny": 958437.69,
     "initial_cash_cny": 1000000.0,
     "marks_summary": {
-     "bars": 9,
+     "bars": 10,
      "first_date": "2026-09-28",
-     "last_date": "2026-10-15",
-     "cumulative_ret": -0.01851315,
-     "current_dd": -0.028205,
-     "active_days": 7,
+     "last_date": "2026-10-16",
+     "cumulative_ret": -0.04156231,
+     "current_dd": -0.04517,
+     "active_days": 10,
      "fail_closed_route_days": 0
     },
     "entries": 20,
     "exits": {
-     "time": 0,
+     "time": 5,
      "tp": 2,
      "tp_gap": 1,
-     "sl": 4
+     "sl": 7
     },
     "skips": {
      "awaiting_signal": 0,
@@ -479,34 +479,34 @@
      "thin_market": 0,
      "empty_fill": 0
     },
-    "pending_cohorts": 0,
-    "open_positions": 13,
+    "pending_cohorts": 1,
+    "open_positions": 5,
     "l1_state": {},
     "route_row": null,
     "anchor_grid": "2026-09-24",
-    "panel_cutoff": "2026-10-15",
-    "updated": "2026-10-17 17:47:47"
+    "panel_cutoff": "2026-10-16",
+    "updated": "2026-10-18 07:00:36"
    },
    {
     "account": "SYSTEM-V1",
     "face": "decision-chain LIVE face: L1 clock state -> L2 route -> deployed sleeve = rev_osc only (v1.0 stubs); allocation semantics (w_eff x series; no mid-hold forced liquidation; glide law + transition cost)",
-    "equity_cny": 994127.17,
+    "equity_cny": 987105.74,
     "initial_cash_cny": 1000000.0,
     "marks_summary": {
-     "bars": 9,
+     "bars": 10,
      "first_date": "2026-09-28",
-     "last_date": "2026-10-15",
-     "cumulative_ret": -0.00587283,
-     "current_dd": -0.008838,
-     "active_days": 7,
+     "last_date": "2026-10-16",
+     "cumulative_ret": -0.01289426,
+     "current_dd": -0.014012,
+     "active_days": 10,
      "fail_closed_route_days": 0
     },
     "entries": 20,
     "exits": {
-     "time": 0,
+     "time": 5,
      "tp": 2,
      "tp_gap": 1,
-     "sl": 4
+     "sl": 7
     },
     "skips": {
      "awaiting_signal": 0,
@@ -514,8 +514,8 @@
      "thin_market": 0,
      "empty_fill": 0
     },
-    "pending_cohorts": 0,
-    "open_positions": 13,
+    "pending_cohorts": 1,
+    "open_positions": 5,
     "l1_state": {
      "asof": "2026-10-16",
      "state": "ORANGE",
@@ -529,8 +529,8 @@
      "cap": 0.5
     },
     "anchor_grid": "2026-09-24",
-    "panel_cutoff": "2026-10-15",
-    "updated": "2026-10-17 17:47:47"
+    "panel_cutoff": "2026-10-16",
+    "updated": "2026-10-18 07:00:36"
    }
   ],
   "bench_2026_10_31": {
