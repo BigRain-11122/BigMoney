@@ -156,20 +156,21 @@ def _pkg_of(line):
 
 
 def failing_pkg(full_text):
-    """Build-failure-aware: the failing sdist is the last 'Collecting X' line
-    before the first 'subprocess-exited-with-error' block (pip aborts there);
-    fallback patterns for resolution failures. Takes FULL pip output."""
+    """Precise patterns first (pip prints 'Failed to build X' / 'Building
+    wheel for X' at the exact failure site); the last-Collecting heuristic is
+    a FALLBACK only (transitive deps pollute it -- mdurl misfire r1015)."""
+    for pat in (r'Failed to build ([A-Za-z0-9_.\-]{2,40})',
+                r'Building wheel for ([A-Za-z0-9_.\-]{2,40})',
+                r'satisfies the requirement ([A-Za-z0-9_.\-]{2,40})',
+                r'No matching distribution found for ([A-Za-z0-9_.\-]{2,40})'):
+        m = re.search(pat, full_text)
+        if m:
+            return m.group(1)
     i = full_text.find('subprocess-exited-with-error')
     if i >= 0:
         cands = re.findall(r'Collecting ([A-Za-z0-9_.\-]+)', full_text[:i])
         if cands:
             return cands[-1]
-    for pat in (r'satisfies the requirement ([A-Za-z0-9_.\-]{2,40})',
-                r'No matching distribution found for ([A-Za-z0-9_.\-]{2,40})',
-                r'Failed to build ([A-Za-z0-9_.\-]{2,40})'):
-        m = re.search(pat, full_text)
-        if m:
-            return m.group(1)
     return None
 
 
@@ -469,6 +470,11 @@ def selftest():
               'error: subprocess-exited-with-error\n'
               'Getting requirements to build wheel did not run successfully.')
     asserts.append(('failing-pkg-buildblock', failing_pkg(sample) == 'pyopenjtalk'))
+    sample2 = ('Collecting mdurl (from markdown-it-py)\n'
+               'Failed to build jieba_fast\n'
+               'error: subprocess-exited-with-error\n'
+               'Building wheel for jieba_fast (pyproject.toml) did not run successfully.')
+    asserts.append(('failing-pkg-precise-wins', failing_pkg(sample2) == 'jieba_fast'))
     asserts.append(('status-face-path-in-repo', STATUS.startswith(ROOT)))
     rc = 0 if all(ok for _, ok in asserts) else 1
     print(json.dumps({'selftest': 'PASS' if rc == 0 else 'FAIL',
