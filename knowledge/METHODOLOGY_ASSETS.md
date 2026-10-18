@@ -242,3 +242,10 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 连带（append-only 台账 UU 正法）：孤儿 UU 的死窗解体常取单侧丢行——正法=三 stage 行集比对（:2:/:3: vs worktree 按行键差分），缺行字节精确回插后再 add，union 零丢失断言过才提交（本窗 LEDGER.md 补齐 BIGMONEY 记忆治理席 10:30 双回执行·16 行 union）。
 - 证据：集团仓 commit a695c06（ruling+LEDGER 两件 60 行）+ 被撤 fat commit e2ab2ca（reflog 留痕）+ state notes r1061。
 - 2026-10-18 16:5x：bm-a r1061（S5-27 导演裁窗连带实弹·捕获律 O-20261002-2100 依法生成）
+
+## E73 孤儿陈旧 stash 血统查验律（r1070 bm-a 实弹·r1032 族扩展）
+- 病理：死窗遗留孤儿 stash（本例 2026-10-17 01:50「r1026 s0 pre-ff residual face」·基座=round-1025 提交）在 stash list 存活 2 日；本轮 rebase --autostash 的自生条目在 rebase 收口时正常应用移除后，孤儿浮上 stash@{0}——盲 `git stash pop` 即 94 面陈旧内容污染已推送工作树（33 UU·watermark 10-17 陈旧面 vs 现值 10-19 面）。
+- 配方：①pop 前必验血统= `git stash list`（消息自带出处窗号）+ `git log -1 'stash@{0}^'`（基座提交时间戳）——孤儿/陈旧条目一律禁 pop，留库标注勿清；②已污染处置=先自证前置态（污染前 porcelain 空+HEAD 已推送 0/0）→ `git reset --hard HEAD` 回推送态零损失（唯一被弃=陈旧污染·孤儿 stash 本体留库保全）→ 复扫 0/0+标记 rc0。
+- 连带（本窗三连叠加教训）：孤儿 stash 污染与「多写者共享 regen 面 rebase 冲突」（22 面处置三律=普通面 ts newer-wins / per-machine 键面深 UNION 保他机行 / md-js 孪生随 json 同侧）+「push 竞速被拒」同窗——每层先验血统再动手，勿按序惯性 pop/continue。
+- 证据：bigmoney commit c02682967e（r1070 主件）+ reset 前后 0/0 双证 + stash@{0} 孤儿条目在库 + state notes r1070 (5)。
+- 2026-10-19 02:2x：bm-a r1070（无人值守轮 closeout 后窗实弹·捕获律 O-20261002-2100 依法生成）
