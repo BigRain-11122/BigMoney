@@ -19,6 +19,16 @@
 # EVIDENCE: $RoundSilenceMinutes of zero output activity (true hang) or the
 # $RoundTimeoutMinutes hard cap. Productive long rounds survive.
 #
+# F-20261017-01 fix batch (2026-10-18 r1089 bm-c, D-20261018-01 assigned
+# BigMoney self-fix; 2026-10-17 18:22-21:02 lane-starvation root cause):
+# (1) kills are RECURSIVE TREE kills (old code stopped one level deep --
+# grandchildren survived, kept counting into the cloud cap and starved the
+# lane 3h) + post-kill self-check logs ZOMBIE_SURVIVOR rows; (2) the
+# cloud-cap probes (here + spawn_gate.ps1) apply an AGE FILTER: headless
+# -p faces older than the round budget x2 are HUNG, excluded from the cap
+# and logged as ZOMBIE_HEADLESS_FACE rows -- cap slots stay with real live
+# rounds.
+#
 # ENCODING RULE: this file must stay PURE ASCII. powershell.exe 5.1 decodes
 # BOM-less .ps1 as ANSI/GBK and swallows quote bytes after multibyte sequences.
 # All Chinese content lives in Tools\iteration_prompt.txt (UTF-8, read at runtime
@@ -51,6 +61,50 @@ function Log([string]$m) {
 }
 function Beat([string]$m) {
     Add-Content -Path $heart -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') iteration: $m" -Encoding UTF8
+}
+
+# F-20261017-01 fix 1 (recursive tree kill) + fix 3 (post-kill self-check).
+# The 2026-10-17 starvation: one-level kill left deep-tree survivors which
+# kept counting into the cloud cap. Collect the descendant chain
+# breadth-first (seen-set guards PID-reuse cycles, 256-node bound), kill
+# deepest-first, then re-scan: any survivor logs a ZOMBIE_SURVIVOR row for
+# the audit lane (fix 3 -- child-clear verification, never silent).
+function Kill-RoundTree([int]$rootPid) {
+    $seen = @{}
+    $frontier = @($rootPid)
+    $ordered = @()
+    while ($frontier.Count -gt 0 -and $ordered.Count -lt 256) {
+        $next = @()
+        foreach ($pp in $frontier) {
+            $kids = @(Get-CimInstance Win32_Process -Filter "ParentProcessId=$pp" -ErrorAction SilentlyContinue)
+            foreach ($k in $kids) {
+                if (-not $seen.ContainsKey($k.ProcessId)) {
+                    $seen[$k.ProcessId] = $true
+                    $ordered += $k.ProcessId
+                    $next += $k.ProcessId
+                }
+            }
+        }
+        $frontier = $next
+    }
+    if ($ordered.Count -gt 1) { [array]::Reverse($ordered) }
+    foreach ($procId in $ordered) { Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue }
+    Stop-Process -Id $rootPid -Force -ErrorAction SilentlyContinue
+    return ,$ordered
+}
+function Stop-RoundTreeChecked([int]$rootPid, [string]$why) {
+    $killed = Kill-RoundTree $rootPid
+    Log "kill tree ($why): root=$rootPid descendants_killed=$($killed.Count)"
+    Start-Sleep -Seconds 2
+    $survivors = 0
+    foreach ($procId in $killed) {
+        if (Get-Process -Id $procId -ErrorAction SilentlyContinue) {
+            $survivors++
+            Log "ZOMBIE_SURVIVOR pid=$procId survived tree-kill ($why) -- audit lane face"
+        }
+    }
+    if ($survivors -eq 0) { Log "kill tree self-check ($why): 0 survivors (child-clear verified)" }
+    return $survivors
 }
 
 # ---- single-instance: previous headless round still alive? ----
@@ -136,15 +190,31 @@ try {
     # whenever two chat windows were open. >=2 live => this tick yields with
     # a ledger line; next grid slot auto-retries. Fail-open per spec: probe
     # crash never blocks the line.
+    # F-20261017-01 fix 2 (age filter): headless -p faces older than the
+    # round budget x2 ($RoundTimeoutMinutes x2 = 480min default) are HUNG,
+    # not workload: excluded from the cap + logged as ZOMBIE_HEADLESS_FACE
+    # rows (2026-10-17 root cause: timeout-surviving faces ate the cap and
+    # starved the lane ~3h; cap slots stay with real live rounds).
     try {
-        $live = @((Get-CimInstance Win32_Process -Filter "Name='codely.exe'" -ErrorAction SilentlyContinue) | Where-Object { $_.CommandLine -match ' -p "' }).Count
+        $capBudgetMin = 2 * $RoundTimeoutMinutes
+        $faces = @(Get-CimInstance Win32_Process -Filter "Name='codely.exe'" -ErrorAction SilentlyContinue |
+            Where-Object { $_.CommandLine -match ' -p "' })
+        $zombies = @($faces | Where-Object { $_.CreationDate -and ((Get-Date) - $_.CreationDate).TotalMinutes -gt $capBudgetMin })
+        $live = $faces.Count - $zombies.Count
+        foreach ($z in $zombies) {
+            $ageMin = [int]((Get-Date) - $z.CreationDate).TotalMinutes
+            Log "ZOMBIE_HEADLESS_FACE pid=$($z.ProcessId) age_min=$ageMin over_budget_x2=${capBudgetMin}min -- excluded from cloud cap (F-20261017-01 fix 2)"
+        }
+        if ($zombies.Count -gt 0) {
+            Add-Content -Path (Join-Path $logDir 'zombie_faces.log') -Value ("$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') | ZOMBIE_HEADLESS_FACES excluded=$($zombies.Count) counted_live=$live") -Encoding ASCII
+        }
         if ($live -ge 2) {
-            Log "CLOUD_CAP_DEFER live=$live (cloud cap v1.0 C-20261015-03 sec.2)"
-            Add-Content -Path (Join-Path $logDir 'cloud_cap_defer.log') -Value ("$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') | CLOUD_CAP_DEFER live=$live") -Encoding ASCII
+            Log "CLOUD_CAP_DEFER live=$live zombies_excluded=$($zombies.Count) (cloud cap v1.0 C-20261015-03 sec.2)"
+            Add-Content -Path (Join-Path $logDir 'cloud_cap_defer.log') -Value ("$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') | CLOUD_CAP_DEFER live=$live zombies_excluded=$($zombies.Count)") -Encoding ASCII
             Beat "cloud cap defer live=$live"
             exit 0
         }
-        Log "cloud-cap preflight OK live=$live"
+        Log "cloud-cap preflight OK live=$live zombies_excluded=$($zombies.Count)"
     } catch { Log "cloud-cap preflight probe failed (fail-open): $_" }
 
     # Single-line prompt, no embedded double quotes (Start-Process argument passing).
@@ -187,21 +257,13 @@ try {
         $totalMin = ((Get-Date) - $startAt).TotalMinutes
         if ($silentMin -ge $RoundSilenceMinutes) {
             Log "ROUND SILENCE-KILL: no output for $([int]$silentMin)min (total $([int]$totalMin)min) - killing headless process tree"
-            try {
-                Get-CimInstance Win32_Process -Filter "ParentProcessId=$($p.Id)" -ErrorAction SilentlyContinue |
-                    ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-                Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
-            } catch { Log "kill failed: $_" }
+            try { $null = Stop-RoundTreeChecked $p.Id 'silence-kill' } catch { Log "kill failed: $_" }
             Beat "round silence-killed (no output $([int]$silentMin)min, total $([int]$totalMin)min)"
             exit 3
         }
         if ($totalMin -ge $RoundTimeoutMinutes) {
             Log "ROUND HARD-CAP after ${RoundTimeoutMinutes}min - killing headless process tree"
-            try {
-                Get-CimInstance Win32_Process -Filter "ParentProcessId=$($p.Id)" -ErrorAction SilentlyContinue |
-                    ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-                Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
-            } catch { Log "kill failed: $_" }
+            try { $null = Stop-RoundTreeChecked $p.Id 'hard-cap' } catch { Log "kill failed: $_" }
             Beat "round hard-cap killed (age over ${RoundTimeoutMinutes}min)"
             exit 3
         }
