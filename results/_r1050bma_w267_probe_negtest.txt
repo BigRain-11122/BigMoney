@@ -1,0 +1,31 @@
+W267 pre-seat probe authored-gate-closed negative test (r1050 bm-a window, 2026-10-18 09:5x)
+================================================================================
+artifact: results/_w267bma_20261018_probe.py (bm-a own-seat bloodline:
+  _w266bmc_20261018_probe.py derive machinery verbatim, W267 facts
+  live-registry-driven; expected bands per the W266 seat MSG leg4 forward face
+  + W266 prereg sec.5 item5 pre-disclosure: A 602_701..604_700 SIXTEENTH
+  consecutive A-hop / B 604_701..604_900 SEVENTEENTH consecutive above-own-A;
+  live re-derive governs r587, never transcribed)
+gate state at authoring: W266 prereg freeze LANDED (595433d63c bm-c r1085
+  09:13) but five-face splice NOT landed -> W267 seat GATED, zero skip-claim
+  held; W266 owner = bm-c (own-wave); W267 owner naming rides the W266 sec.7/8
+  backfill (chain-order law; bm-a seat plan per r1049 state next face)
+
+verification (this window):
+1. python -m py_compile results/_w267bma_20261018_probe.py -> rc=0
+2. negative test (gate closed, live run):
+   AssertionError: leg0 failed: W266 splice not landed (registry row absent --
+   the W267 gate is CLOSED: run this probe ONLY at the W267 seat window AFTER
+   the W266 complete chain lands; authored-gate-closed r1050 guard fired honestly)
+   -> exit 1, no ADMIT receipt written (receipt write is last-leg gated)
+3. origin vacancy verified: zero w267/W267 artifacts on origin + local
+   (ls-tree + glob double-read, anti-dup law)
+
+next-window FIRST ACTION (when W266 registration+finalize lands):
+  1. fetch + verify W266 five-face splice landed (266 in N1_BANDS,
+     bands A 600_501..602_500 / B 602_501..602_700, engine_owner=bm-c)
+     + n1_w266_results.json finalize machine-read
+  2. confirm W267 owner naming in the W266 sec.7/8 backfill (chain-order law;
+     yield per fleet README sec.4 if named otherwise)
+  3. run this probe live -> ADMIT receipt (results/_w267bma_20261018_probe_receipt.json)
+  4. seat MSG publish (seat-first law O-20261010-2350 sec.2) -> prereg derive+freeze
