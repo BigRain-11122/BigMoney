@@ -157,7 +157,7 @@ assert _ra["A_clean_at_naive_start"] is False and _ra["A_staircase_hop_past_W271
 assert _ra["A_base_ge_priorB_tail_plus1"] is True and _ra["B_base_above_W271_tail"] is True
 assert _ra["B_hop_lands_inside_A"] is False and _ra["B_lands_above_own_A"] is True
 assert _ra["AB_mutual_exclusion"] is True
-assert _ra["W268_W269_W270_bands_respected_A"] is True and _ra["W268_W269_W270_bands_respected_B"] is True
+assert _ra["W269_W270_W271_bands_respected_A"] is True and _ra["W269_W270_W271_bands_respected_B"] is True  # r1100 heal: labels rolled one triple forward (seat-time clone stale-label defect; receipt healed in-kind, git f608ff1cee preserves the seat-time original)
 _l0 = pr["legs"]["leg0"]
 assert _l0["rows"] == 269 and _l0["owner_rows"] == 261 and _l0["bmc_rows"] == 90
 assert _l0["ordinal"] == 262 and _l0["w271_finalize_landed"] is True

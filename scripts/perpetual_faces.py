@@ -9266,6 +9266,54 @@ N1_BANDS = {
     # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
     271: {"a": (611_501, 613_500), "b_exit": (613_501, 613_700),
          "engine_owner": "bm-c"},
+    # W272 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261018-191x-bmc-w272-seat published=reserved by bm-c itself @
+    # origin f608ff1cee (r1098, queue-head seat-first supply -- W271 registered+FINALIZED complete at publish, W272 FREEZE UNBLOCKED at seat time (zero waits-upstream face; seats never queue behind freeze windows per O-20261010-2350 sec.2); the SPLICE gate0.5 = GREEN at seat (W271 five-face + finalize product both in-place; prereg + ADMIT probe
+    # receipt frozen commit c049a57623 (prereg research/PERPETUAL_N1_W272_PREREG.md
+    # bm-c r1099 window machine-SUB derive landed pre-freeze, probe
+    # results/_w272bmc_20261018_probe_receipt.json @ f608ff1cee);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W271 five-face (freeze 7dd091eef1) + W271
+    # finalize product landed (n1_w271_results.json present, ledger
+    # head 1020535 machine-read at freeze time); zero --no-verify;
+    # the W272 seat MSG sits in fleet/inbox/processed/MSG-20261018-191x-bmc-w272-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w272bmc_20261018_probe_receipt.json: A = 1-HOP
+    # STAIRCASE-AFFECTS-A walk TWENTY-FIRST consecutive A-hop (the naive continuation 613_501..615_500 is REFUSED
+    # at naive start -- the registered W271 B band sits INSIDE the naive A window;
+    # the walk hops past the W271 B tail -> A first-clean, hops=1 -- TWENTY-FIRST
+    # consecutive A-hop of the staircase era, the fourteen-wave seed-gap face
+    # ENDED at W252;
+    # A base == registered prior-wave B tail+1 (613_700+1) machine-checkable; A_clean_at_naive_start=false;
+    # A_staircase_hop_past_W271_B=true)
+    # B = 1-HOP own-A RESERVATION CASCADE above own-A (the naive continuation
+    # 613_701..613_900 is REFUSED at its own start -- the naive window lands
+    # INSIDE the own-wave A first-clean window --
+    # own-A reservation cascade standard leg; hops=1,
+    # B_hop_chain verbatim in the probe receipt; the walk hops past the own-A
+    # tail -> B lands ABOVE own-A -- TWENTY-SECOND consecutive above-own-A;
+    # B base == own-A tail+1 (615_700+1) EXACT; B_lands_above_own_A=true;
+    # B_hop_lands_inside_A=false; B_naive_refused_at_start=true)
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=613701 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=615701 span=200 checked=200 verdict=FREE.
+    # W273+ projection (gate-derived pre-seat probe leg4, pre-W272
+    # universe): A naive first-clean 615701..617700 hops=0 (this window's gate: CLEAN, zero live
+    # seed refusers) / B naive 615901..616100 hops=0 CLEAN at naive -- first-clean 615901..616100 BUT lands INSIDE the projection A window,
+    # (W273p_B_lands_inside_W273p_A_naive=true -- staircase re-emergence face: the W273 walk MUST hop past own-A reservation);
+    # the W273 freezer MUST
+    # re-derive on the post-W272 universe AND reserve the own-wave A window
+    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1
+    # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
+    272: {"a": (613_701, 615_700), "b_exit": (615_701, 615_900),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))

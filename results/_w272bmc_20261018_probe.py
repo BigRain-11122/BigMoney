@@ -289,8 +289,13 @@ receipt["legs"]["leg1"] = {
                           "AB_mutual_exclusion": True,
                           "B_hop_lands_inside_A": False,
                           "B_lands_above_own_A": True,
-                          "W268_W269_W270_bands_respected_A": True,
-                          "W268_W269_W270_bands_respected_B": True}}
+                          # r1100 heal: the seat-time clone left these two labels
+                          # one triple stale; the overlap checks above were already
+                          # vs W269/W270/W271 registered bands (correct) -- labels
+                          # rolled to the candidate-below triple, disclosed in the
+                          # W272 freeze receipt + round report.
+                          "W269_W270_W271_bands_respected_A": True,
+                          "W269_W270_W271_bands_respected_B": True}}
 print(f"leg1: A {fc_a} hops={hops_a} (hop chain {[(t['window'], t['jump_to']) for t in a_trace]}) | B {fc_b} hops={hops_b} (refusal trace {[(t['window'], t['jump_to'], t['refuser_bands']) for t in b_trace_own]})")
 
 # --- leg 2: seed_admit_gate rc0 ADMIT both bands (O-20261010-1945-bm-a convention) --
