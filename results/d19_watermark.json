@@ -1,36 +1,27 @@
 {
- "ts": "2026-10-19T11:58:23+08:00",
- "cmd": "update",
- "advance": true,
- "state_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\state-bm-a.json",
- "action": "advanced",
- "changed": {
-  "decisions": false,
-  "orders": true
- },
- "reasons": [],
- "err": null,
- "written": {
-  "last_decisions_sha": "8706acd8a7b65441f23c9813f62a25fdecbd9da0df10994e5915b5742a40a3fd",
-  "last_orders_sha": "d181d4a8344f2695c48084b422f0be8e24035169032d50f78f848efcc76aa64f"
- },
- "heartbeat_sync": {
-  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-a.json",
-  "synced": {
-   "last_orders_sha": {
-    "from": "84fb3ea99a7e5dcf5a673a03df343453fbea818d1e9b5748f11e22e05bd8976e",
-    "to": "d181d4a8344f2695c48084b422f0be8e24035169032d50f78f848efcc76aa64f"
-   },
-   "last_orders_read_at": {
-    "from": "2026-10-19T11:48:41+08:00",
-    "to": "2026-10-19T11:58:23+08:00"
-   },
-   "last_decisions_read_at": {
-    "from": "2026-10-19T11:48:41+08:00",
-    "to": "2026-10-19T11:58:23+08:00"
-   }
+ "ts": "2026-10-19T12:53:32+08:00",
+ "cmd": "verify",
+ "state_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state-bm-c.json",
+ "structural": {
+  "last_decisions_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 64
   },
-  "readback_ok": true,
-  "note": null
+  "last_orders_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 40
+  }
+ },
+ "probe_equality": {
+  "last_decisions_sha": {
+   "equal": true,
+   "fresh": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db"
+  },
+  "last_orders_sha": {
+   "equal": true,
+   "fresh": "cac54c8f86ef74a453551948789496471c1a8d4b"
+  }
  }
 }
