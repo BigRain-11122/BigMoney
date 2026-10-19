@@ -1,0 +1,62 @@
+{
+  "machine": "bm-c",
+  "round": 1137,
+  "wave": 282,
+  "phase": "W282 per-wave prereg FREEZE (derive from the frozen W281 pre-run face, count-gated, no transcription)",
+  "prereg": "research/PERPETUAL_N1_W282_PREREG.md",
+  "prereg_bytes": 23985,
+  "prereg_lines": 64,
+  "prereg_sha256_16": "121ce3cb76359e7f",
+  "src_face": "results/_w282bmc_w281_frozen_face.txt",
+  "src_face_provenance": "git show f51afd09ad:research/PERPETUAL_N1_W281_PREREG.md (pre-run face, sec.7/sec.8 placeholders; HEAD twin post-backfill NOT used -- r1049/r1052 law)",
+  "src_blob_assert": "git hash-object SRC == git rev-parse f51afd09ad:research/PERPETUAL_N1_W281_PREREG.md (bit-identical)",
+  "derive_tool": "results/_r1137bmc_prereg_derive_w282.py",
+  "derive_rules": 59,
+  "bands": {
+    "A": [635701, 637700],
+    "B": [637701, 637900],
+    "A_semantics": "32nd consecutive A-hop (STAIRCASE-AFFECTS-A, 1 hop): naive A 635_501..637_500 refused at start by REGISTERED W281 B band 635_501..635_700; base == registered W281 B tail 635_700 + 1",
+    "B_semantics": "33rd consecutive above-own-A (own-A RESERVATION CASCADE, 1 hop): naive B 635_701..635_900 clean vs registered universe but lands inside own-wave A window; base == own-A tail 637_700 + 1"
+  },
+  "seat_receipt": "results/_w282bmc_20261020_probe_receipt.json (verdict ADMIT, leg0 rows 271 / owner 271 / bmc 100 / ordinal 272)",
+  "seat_msg": "MSG-20261020-0345-bmc-w282-seat",
+  "seat_msg_commit": "9d321472eb",
+  "chain_anchors": {
+    "w281_freeze_prereg_commit": "f51afd09ad",
+    "w281_splice_commit": "aa376549cd",
+    "w281_finalize_commit": "fbd1511689",
+    "w281_ledger_total": 1042535,
+    "w281_merged_k": 616120,
+    "w281_n_eff_held": 1040335,
+    "w281_merged_mu": -0.09283133,
+    "w281_merged_sigma": 0.24507389,
+    "w281_only_mu": -0.08854614,
+    "w281_a_p95": 0.3228,
+    "w281_se_mu": 0.000312,
+    "projection_w282_ledger_total": 1044735,
+    "projection_w282_merged_k": 618320,
+    "projection_w282_n_eff": 1042535
+  },
+  "gates": {
+    "src_blob_identity": true,
+    "fivekeys_all_pass": true,
+    "seat_receipt_admit": true,
+    "rule_zero_hit_fail_closed": true,
+    "residual_token_scan_clean": true,
+    "must_have_all_present": true,
+    "must_not_have_all_absent": true,
+    "banned_direction_gate": {"decision": "ADMIT", "rc": 0}
+  },
+  "live_faces": {
+    "engine_status": "saturation_engine.py status rc0 alive, burns_active=[] queue_next=[] (idle)",
+    "free_ram_gb_at_freeze": 1.7,
+    "vram_used_g": 2.0,
+    "clock_read": "2026-10-20T03:5x+08:00"
+  },
+  "notes": [
+    "W282 freeze is UNBLOCKED: upstream W281 own-wave chain complete (prereg f51afd09ad / splice aa376549cd / finalize fbd1511689, ledger 1,042,535, K 616,120).",
+    "Vacancy re-verified live this window: origin perpetual_faces.py has no 282 row, perpetual_faces_n1.py has no PERPETUAL-N1-W282 WAVE_CONFIGS, origin has no research/PERPETUAL_N1_W282_PREREG.md.",
+    "sec.7/sec.8 remain placeholders (finalize backfill); @@SEAT_HHMM@@/@@SEAT_SHA@@ backfill uses the W282 seat window (0345 / 9d321472eb).",
+    "Next: W282 five-face splice (registry row + WAVE_CONFIGS + materializer + print block) then engine self-burn 12/12 then sixgate -> finalize 1,044,735 / K 618,320."
+  ]
+}
