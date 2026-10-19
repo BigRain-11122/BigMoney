@@ -1,0 +1,581 @@
+2026-10-20T00:46:15 bootstrap: 7 train lines + 3 held-out, base=voice_09.wav emo=happy
+2026-10-20T00:46:15   | >> All auxiliary models ready.
+2026-10-20T00:46:28   | >> Low-VRAM mode enabled (8.0 GB < 10 GB), long text will be split into chunks
+2026-10-20T00:46:28   | >> QwenEmotion not loaded (use_qwen_emo=False)
+2026-10-20T00:46:47   | >> GPT weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\gpt.pth
+2026-10-20T00:46:47   | GPT2InferenceModel has generative capabilities, as `prepare_inputs_for_generation` is explicitly overwritten. However, it doesn't directly inherit from `GenerationMixin`. From 👉v4.50👈 onwards, `PreTrainedModel` will NOT 
+2026-10-20T00:46:47   |   - If you're using `trust_remote_code=True`, you can get rid of this warning by loading the model with an auto class. See https://huggingface.co/docs/transformers/en/model_doc/auto#auto-classes
+2026-10-20T00:46:47   |   - If you are the owner of the model architecture code, please modify your model class such that it inherits from `GenerationMixin` (after `PreTrainedModel`, otherwise you'll get an exception).
+2026-10-20T00:46:47   |   - If you are not the owner of the model architecture class, please contact the model code owner to update it.
+2026-10-20T00:46:56   | >> semantic_codec weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\codec.pth
+2026-10-20T00:46:56   | >> semantic_codec weights restored cost:  2.27367589995265
+2026-10-20T00:46:59   | cfm loaded
+2026-10-20T00:46:59   | length_regulator loaded
+2026-10-20T00:46:59   | >> s2mel weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\s2mel.pth
+2026-10-20T00:47:00   | >> campplus_model weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\hf_cache\campplus_cn_common.bin
+2026-10-20T00:47:00   | Loading config.json from local directory
+2026-10-20T00:47:02   | Loading weights from local directory
+2026-10-20T00:47:03   | Removing weight norm...
+2026-10-20T00:47:03   | >> bigvgan weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\hf_cache\bigvgan
+2026-10-20T00:47:05   | VOICEGEN_LOAD done load_s=36.8 bf16=True low_vram=True
+2026-10-20T00:47:05   | >> starting inference...
+2026-10-20T00:47:09   | text after normalization: 完了!我全仓啊!全部身家!
+2026-10-20T00:47:10   | Use the specified emotion vector
+2026-10-20T00:47:11   | Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.53.0. You should pass an instance of `Cache` instead, e.g. `past_key_values=DynamicCache.from_legacy_cache(past_key_values)`.
+2026-10-20T00:47:18   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:09,  2.66it/s] 12%|█▏        | 3/25 [00:00<00:03,  7.00it/s] 20%|██        | 5/25 [00:00<00:02,  9.15it/s] 28%|██▊       | 7/25 [00:00<00:01, 10.
+2026-10-20T00:47:18   | torch.Size([1, 59648])
+2026-10-20T00:47:18   | >> gpt_gen_time: 6.39 seconds
+2026-10-20T00:47:18   | >> s2mel_time: 2.01 seconds
+2026-10-20T00:47:18   | >> bigvgan_time: 0.48 seconds
+2026-10-20T00:47:18   | >> Total inference time: 13.71 seconds
+2026-10-20T00:47:18   | >> Generated audio length: 2.71 seconds
+2026-10-20T00:47:18   | >> RTF: 5.0674
+2026-10-20T00:47:18   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep001_l12.wav
+2026-10-20T00:47:18   | VOICEGEN_OK name=ep001_l12 chars=13 audio_s=2.71 gen_s=13.72 rtf=5.072
+2026-10-20T00:47:18   | >> starting inference...
+2026-10-20T00:47:18   | text after normalization: 股神…你是股神!
+2026-10-20T00:47:18   | Use the specified emotion vector
+2026-10-20T00:47:23   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:03,  6.39it/s] 12%|█▏        | 3/25 [00:00<00:01, 11.37it/s] 20%|██        | 5/25 [00:00<00:01, 12.27it/s] 28%|██▊       | 7/25 [00:00<00:01, 13.
+2026-10-20T00:47:24   | torch.Size([1, 43008])
+2026-10-20T00:47:24   | >> gpt_gen_time: 3.36 seconds
+2026-10-20T00:47:24   | >> s2mel_time: 1.73 seconds
+2026-10-20T00:47:24   | >> bigvgan_time: 0.33 seconds
+2026-10-20T00:47:24   | >> Total inference time: 5.43 seconds
+2026-10-20T00:47:24   | >> Generated audio length: 1.95 seconds
+2026-10-20T00:47:24   | >> RTF: 2.7844
+2026-10-20T00:47:24   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep001_l15.wav
+2026-10-20T00:47:24   | VOICEGEN_OK name=ep001_l15 chars=9 audio_s=1.95 gen_s=5.44 rtf=2.787
+2026-10-20T00:47:24   | >> starting inference...
+2026-10-20T00:47:24   | text after normalization: 股神!我找你三天了!
+2026-10-20T00:47:24   | Use the specified emotion vector
+2026-10-20T00:47:30   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:13,  1.75it/s] 12%|█▏        | 3/25 [00:00<00:04,  5.11it/s] 20%|██        | 5/25 [00:00<00:02,  7.55it/s] 28%|██▊       | 7/25 [00:00<00:01,  9.
+2026-10-20T00:47:30   | torch.Size([1, 51712])
+2026-10-20T00:47:30   | >> gpt_gen_time: 3.87 seconds
+2026-10-20T00:47:30   | >> s2mel_time: 2.10 seconds
+2026-10-20T00:47:30   | >> bigvgan_time: 0.30 seconds
+2026-10-20T00:47:30   | >> Total inference time: 6.28 seconds
+2026-10-20T00:47:30   | >> Generated audio length: 2.35 seconds
+2026-10-20T00:47:30   | >> RTF: 2.6788
+2026-10-20T00:47:30   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep002_l03.wav
+2026-10-20T00:47:30   | VOICEGEN_OK name=ep002_l03 chars=10 audio_s=2.35 gen_s=6.29 rtf=2.681
+2026-10-20T00:47:30   | >> starting inference...
+2026-10-20T00:47:30   | text after normalization: 十万,全给你!条件--带我发财!
+2026-10-20T00:47:30   | Use the specified emotion vector
+2026-10-20T00:47:36   |   0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:02, 11.17it/s] 16%|█▌        | 4/25 [00:00<00:02,  9.82it/s] 24%|██▍       | 6/25 [00:00<00:01, 12.12it/s] 32%|███▏      | 8/25 [00:00<00:01, 13.
+2026-10-20T00:47:37   | torch.Size([1, 61440])
+2026-10-20T00:47:37   | >> gpt_gen_time: 4.63 seconds
+2026-10-20T00:47:37   | >> s2mel_time: 1.79 seconds
+2026-10-20T00:47:37   | >> bigvgan_time: 0.36 seconds
+2026-10-20T00:47:37   | >> Total inference time: 6.78 seconds
+2026-10-20T00:47:37   | >> Generated audio length: 2.79 seconds
+2026-10-20T00:47:37   | >> RTF: 2.4330
+2026-10-20T00:47:37   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep002_l07.wav
+2026-10-20T00:47:37   | VOICEGEN_OK name=ep002_l07 chars=16 audio_s=2.79 gen_s=6.79 rtf=2.435
+2026-10-20T00:47:37   | >> starting inference...
+2026-10-20T00:47:37   | text after normalization: 没…没了?又回来了?!
+2026-10-20T00:47:37   | Use the specified emotion vector
+2026-10-20T00:47:43   |   0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:02, 10.39it/s] 16%|█▌        | 4/25 [00:00<00:01, 12.65it/s] 24%|██▍       | 6/25 [00:00<00:01, 13.84it/s] 32%|███▏      | 8/25 [00:00<00:01, 13.
+2026-10-20T00:47:43   | torch.Size([1, 60672])
+2026-10-20T00:47:43   | >> gpt_gen_time: 4.55 seconds
+2026-10-20T00:47:43   | >> s2mel_time: 1.74 seconds
+2026-10-20T00:47:43   | >> bigvgan_time: 0.31 seconds
+2026-10-20T00:47:43   | >> Total inference time: 6.61 seconds
+2026-10-20T00:47:43   | >> Generated audio length: 2.75 seconds
+2026-10-20T00:47:43   | >> RTF: 2.4039
+2026-10-20T00:47:43   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep002_l11.wav
+2026-10-20T00:47:43   | VOICEGEN_OK name=ep002_l11 chars=12 audio_s=2.75 gen_s=6.62 rtf=2.406
+2026-10-20T00:47:43   | >> starting inference...
+2026-10-20T00:47:43   | text after normalization: 翻倍了!闺女的嫁妆翻倍了!
+2026-10-20T00:47:44   | Use the specified emotion vector
+2026-10-20T00:47:51   |   0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:02,  9.94it/s] 12%|█▏        | 3/25 [00:00<00:02,  9.16it/s] 20%|██        | 5/25 [00:00<00:01, 10.99it/s] 28%|██▊       | 7/25 [00:00<00:01, 12.
+2026-10-20T00:47:51   | torch.Size([1, 70400])
+2026-10-20T00:47:51   | >> gpt_gen_time: 5.62 seconds
+2026-10-20T00:47:51   | >> s2mel_time: 1.81 seconds
+2026-10-20T00:47:51   | >> bigvgan_time: 0.16 seconds
+2026-10-20T00:47:51   | >> Total inference time: 7.64 seconds
+2026-10-20T00:47:51   | >> Generated audio length: 3.19 seconds
+2026-10-20T00:47:51   | >> RTF: 2.3932
+2026-10-20T00:47:51   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep003_l02.wav
+2026-10-20T00:47:51   | VOICEGEN_OK name=ep003_l02 chars=13 audio_s=3.19 gen_s=7.65 rtf=2.395
+2026-10-20T00:47:51   | >> starting inference...
+2026-10-20T00:47:51   | text after normalization: 他就是股神!我是他唯一的合伙人--
+2026-10-20T00:47:51   | Use the specified emotion vector
+2026-10-20T00:47:56   |   0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:01, 16.65it/s] 16%|█▌        | 4/25 [00:00<00:01, 13.24it/s] 24%|██▍       | 6/25 [00:00<00:01, 13.88it/s] 32%|███▏      | 8/25 [00:00<00:01, 14.
+2026-10-20T00:47:57   | torch.Size([1, 76544])
+2026-10-20T00:47:57   | >> gpt_gen_time: 3.48 seconds
+2026-10-20T00:47:57   | >> s2mel_time: 1.68 seconds
+2026-10-20T00:47:57   | >> bigvgan_time: 0.29 seconds
+2026-10-20T00:47:57   | >> Total inference time: 5.45 seconds
+2026-10-20T00:47:57   | >> Generated audio length: 3.47 seconds
+2026-10-20T00:47:57   | >> RTF: 1.5712
+2026-10-20T00:47:57   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\ep003_l05.wav
+2026-10-20T00:47:57   | VOICEGEN_OK name=ep003_l05 chars=17 audio_s=3.47 gen_s=5.46 rtf=1.573
+2026-10-20T00:47:57   | VOICEGEN_SUMMARY lines=7 audio_s=19.20 gen_s=51.96 rtf_avg=2.706 lang=zhen emo=happy dur=1.00
+2026-10-20T00:47:59 PHASE_DONE bootstrap (1/7)
+2026-10-20T00:48:27 bootstrap already done (idempotent)
+2026-10-20T00:48:35 bootstrap: 6/13 missing + 3 held-out planned, base=voice_09.wav emo=happy
+2026-10-20T00:48:36   | >> All auxiliary models ready.
+2026-10-20T00:48:45   | >> Low-VRAM mode enabled (8.0 GB < 10 GB), long text will be split into chunks
+2026-10-20T00:48:45   | >> QwenEmotion not loaded (use_qwen_emo=False)
+2026-10-20T00:49:03   | >> GPT weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\gpt.pth
+2026-10-20T00:49:03   | GPT2InferenceModel has generative capabilities, as `prepare_inputs_for_generation` is explicitly overwritten. However, it doesn't directly inherit from `GenerationMixin`. From 👉v4.50👈 onwards, `PreTrainedModel` will NOT 
+2026-10-20T00:49:03   |   - If you're using `trust_remote_code=True`, you can get rid of this warning by loading the model with an auto class. See https://huggingface.co/docs/transformers/en/model_doc/auto#auto-classes
+2026-10-20T00:49:03   |   - If you are the owner of the model architecture code, please modify your model class such that it inherits from `GenerationMixin` (after `PreTrainedModel`, otherwise you'll get an exception).
+2026-10-20T00:49:03   |   - If you are not the owner of the model architecture class, please contact the model code owner to update it.
+2026-10-20T00:49:12   | >> semantic_codec weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\codec.pth
+2026-10-20T00:49:12   | >> semantic_codec weights restored cost:  2.5589963999809697
+2026-10-20T00:49:15   | cfm loaded
+2026-10-20T00:49:15   | length_regulator loaded
+2026-10-20T00:49:15   | >> s2mel weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\s2mel.pth
+2026-10-20T00:49:16   | >> campplus_model weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\hf_cache\campplus_cn_common.bin
+2026-10-20T00:49:16   | Loading config.json from local directory
+2026-10-20T00:49:17   | Loading weights from local directory
+2026-10-20T00:49:18   | Removing weight norm...
+2026-10-20T00:49:18   | >> bigvgan weights restored from: C:\Fluxgroup\FluxGroup\media\drama-tools\repos\index-tts\checkpoints\hf_cache\bigvgan
+2026-10-20T00:49:19   | VOICEGEN_LOAD done load_s=34.2 bf16=True low_vram=True
+2026-10-20T00:49:19   | >> starting inference...
+2026-10-20T00:49:22   | text after normalization: 我跟你们讲,这股票啊,就跟媳妇的脸一样,说变就变.
+2026-10-20T00:49:22   | Use the specified emotion vector
+2026-10-20T00:49:23   | Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.53.0. You should pass an instance of `Cache` instead, e.g. `past_key_values=DynamicCache.from_legacy_cache(past_key_values)`.
+2026-10-20T00:49:30   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:08,  2.92it/s] 12%|█▏        | 3/25 [00:00<00:03,  6.52it/s] 16%|█▌        | 4/25 [00:00<00:03,  6.46it/s] 24%|██▍       | 6/25 [00:00<00:02,  8.
+2026-10-20T00:49:30   | torch.Size([1, 105472])
+2026-10-20T00:49:30   | >> gpt_gen_time: 5.50 seconds
+2026-10-20T00:49:30   | >> s2mel_time: 2.34 seconds
+2026-10-20T00:49:30   | >> bigvgan_time: 0.58 seconds
+2026-10-20T00:49:30   | >> Total inference time: 11.11 seconds
+2026-10-20T00:49:30   | >> Generated audio length: 4.78 seconds
+2026-10-20T00:49:30   | >> RTF: 2.3218
+2026-10-20T00:49:30   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_04.wav
+2026-10-20T00:49:30   | VOICEGEN_OK name=train_04 chars=25 audio_s=4.78 gen_s=11.12 rtf=2.324
+2026-10-20T00:49:30   | >> starting inference...
+2026-10-20T00:49:30   | text after normalization: 大户室那帮人天天喝茶看报,喝茶看报,挣的钱比我一年都多?
+2026-10-20T00:49:30   | Use the specified emotion vector
+2026-10-20T00:49:43   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:04,  5.96it/s] 12%|█▏        | 3/25 [00:00<00:01, 11.02it/s] 20%|██        | 5/25 [00:00<00:01, 12.93it/s] 28%|██▊       | 7/25 [00:00<00:01, 13.
+2026-10-20T00:49:43   | torch.Size([1, 129280])
+2026-10-20T00:49:43   | >> gpt_gen_time: 10.39 seconds
+2026-10-20T00:49:43   | >> s2mel_time: 2.07 seconds
+2026-10-20T00:49:43   | >> bigvgan_time: 0.35 seconds
+2026-10-20T00:49:43   | >> Total inference time: 12.82 seconds
+2026-10-20T00:49:43   | >> Generated audio length: 5.86 seconds
+2026-10-20T00:49:43   | >> RTF: 2.1872
+2026-10-20T00:49:43   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_05.wav
+2026-10-20T00:49:43   | VOICEGEN_OK name=train_05 chars=28 audio_s=5.86 gen_s=12.83 rtf=2.188
+2026-10-20T00:49:43   | >> starting inference...
+2026-10-20T00:49:43   | text after normalization: 哎哟我的亲娘诶,这根绿线怎么又长出来了!
+2026-10-20T00:49:43   | Use the specified emotion vector
+2026-10-20T00:49:53   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:14,  1.61it/s] 12%|█▏        | 3/25 [00:00<00:05,  4.18it/s] 20%|██        | 5/25 [00:01<00:03,  6.18it/s] 28%|██▊       | 7/25 [00:01<00:02,  7.
+2026-10-20T00:49:53   | torch.Size([1, 88832])
+2026-10-20T00:49:53   | >> gpt_gen_time: 7.44 seconds
+2026-10-20T00:49:53   | >> s2mel_time: 2.47 seconds
+2026-10-20T00:49:53   | >> bigvgan_time: 0.36 seconds
+2026-10-20T00:49:53   | >> Total inference time: 10.28 seconds
+2026-10-20T00:49:53   | >> Generated audio length: 4.03 seconds
+2026-10-20T00:49:53   | >> RTF: 2.5526
+2026-10-20T00:49:53   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_06.wav
+2026-10-20T00:49:53   | VOICEGEN_OK name=train_06 chars=20 audio_s=4.03 gen_s=10.29 rtf=2.554
+2026-10-20T00:49:53   | >> starting inference...
+2026-10-20T00:49:53   | text after normalization: 股神您受累,您受累,这份儿心意您千万收下!
+2026-10-20T00:49:53   | Use the specified emotion vector
+2026-10-20T00:50:03   |   0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:02,  8.43it/s] 16%|█▌        | 4/25 [00:00<00:01, 10.62it/s] 24%|██▍       | 6/25 [00:00<00:01, 11.06it/s] 32%|███▏      | 8/25 [00:00<00:01, 11.
+2026-10-20T00:50:03   | torch.Size([1, 91392])
+2026-10-20T00:50:03   | >> gpt_gen_time: 7.58 seconds
+2026-10-20T00:50:03   | >> s2mel_time: 2.05 seconds
+2026-10-20T00:50:03   | >> bigvgan_time: 0.40 seconds
+2026-10-20T00:50:03   | >> Total inference time: 10.04 seconds
+2026-10-20T00:50:03   | >> Generated audio length: 4.14 seconds
+2026-10-20T00:50:03   | >> RTF: 2.4221
+2026-10-20T00:50:03   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_07.wav
+2026-10-20T00:50:03   | VOICEGEN_OK name=train_07 chars=21 audio_s=4.14 gen_s=10.05 rtf=2.424
+2026-10-20T00:50:03   | >> starting inference...
+2026-10-20T00:50:03   | text after normalization: 我这辈子就信一句话--满仓不怕跌,跌了也不卖,卖了就认命.
+2026-10-20T00:50:03   | Use the specified emotion vector
+2026-10-20T00:50:38   |   0%|          | 0/25 [00:00<?, ?it/s] 12%|█▏        | 3/25 [00:00<00:01, 19.12it/s] 20%|██        | 5/25 [00:00<00:01, 14.91it/s] 28%|██▊       | 7/25 [00:00<00:01, 14.47it/s] 36%|███▌      | 9/25 [00:00<00:01, 14.
+2026-10-20T00:50:38   | torch.Size([1, 110080])
+2026-10-20T00:50:38   | >> gpt_gen_time: 6.91 seconds
+2026-10-20T00:50:38   | >> s2mel_time: 27.28 seconds
+2026-10-20T00:50:38   | >> bigvgan_time: 0.36 seconds
+2026-10-20T00:50:38   | >> Total inference time: 34.56 seconds
+2026-10-20T00:50:38   | >> Generated audio length: 4.99 seconds
+2026-10-20T00:50:38   | >> RTF: 6.9231
+2026-10-20T00:50:38   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_08.wav
+2026-10-20T00:50:38   | VOICEGEN_OK name=train_08 chars=29 audio_s=4.99 gen_s=34.57 rtf=6.924
+2026-10-20T00:50:38   | >> starting inference...
+2026-10-20T00:50:38   | text after normalization: 大屏幕上的数字跳一下,我的心就跟着跳一下,一上午跳八百回.
+2026-10-20T00:50:38   | Use the specified emotion vector
+2026-10-20T00:51:04   |   0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:00<00:19,  1.20it/s]  8%|▊         | 2/25 [00:01<00:18,  1.21it/s] 12%|█▏        | 3/25 [00:02<00:17,  1.26it/s] 16%|█▌        | 4/25 [00:03<00:17,  1.
+2026-10-20T00:51:04   | torch.Size([1, 124160])
+2026-10-20T00:51:04   | >> gpt_gen_time: 5.24 seconds
+2026-10-20T00:51:04   | >> s2mel_time: 20.63 seconds
+2026-10-20T00:51:04   | >> bigvgan_time: 0.43 seconds
+2026-10-20T00:51:04   | >> Total inference time: 26.30 seconds
+2026-10-20T00:51:04   | >> Generated audio length: 5.63 seconds
+2026-10-20T00:51:04   | >> RTF: 4.6713
+2026-10-20T00:51:04   | >> wav file saved to: C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\bootstrap\train_09.wav
+2026-10-20T00:51:04   | VOICEGEN_OK name=train_09 chars=29 audio_s=5.63 gen_s=26.31 rtf=4.672
+2026-10-20T00:51:04   | VOICEGEN_SUMMARY lines=6 audio_s=29.44 gen_s=105.16 rtf_avg=3.572 lang=zhen emo=happy dur=1.00
+2026-10-20T00:51:07 PHASE_DONE bootstrap (1/7)
+2026-10-20T00:51:17 corpus: 13 clips 48.6s -> C:\Fluxgroup\FluxGroup\media\drama-tools\voice_train\st012\corpus\train.list
+2026-10-20T00:51:17 PHASE_DONE data (2/7)
+2026-10-20T00:51:25 cuda phase: installing torch/torchaudio +cu130 (probe said: CUDA False dev=-)
+2026-10-20T00:51:25   | Using Python 3.11.9 environment at: C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime
+2026-10-20T00:51:26   | Resolved 11 packages in 855ms
+2026-10-20T00:51:27   | Downloading torch (1.9GiB)
+2026-10-20T00:51:27   | Downloading torchaudio (1.6MiB)
+2026-10-20T00:51:30   |  Downloaded torchaudio
+2026-10-20T00:56:17 cuda phase: installing torch/torchaudio +cu130 (probe said: CUDA False dev=-)
+2026-10-20T00:56:17 cuda phase: trying https://mirrors.aliyun.com/pytorch-wheels/cu130
+2026-10-20T00:56:17   | Using Python 3.11.9 environment at: C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\runtime
+2026-10-20T00:58:16   | Resolved 11 packages in 1m 56s
+2026-10-20T00:58:16   | Downloading torchaudio (1.6MiB)
+2026-10-20T00:58:16   | Downloading torch (1.9GiB)
+2026-10-20T00:58:16   |  Downloaded torchaudio
+2026-10-20T01:01:16   |  Downloaded torch
+2026-10-20T01:01:16   | Prepared 2 packages in 2m 59s
+2026-10-20T01:01:19   | Uninstalled 2 packages in 3.57s
+2026-10-20T01:01:21   | Installed 2 packages in 2.09s
+2026-10-20T01:01:21   |  - torch==2.14.1
+2026-10-20T01:01:21   |  + torch==2.14.1+cu130
+2026-10-20T01:01:21   |  - torchaudio==2.11.0
+2026-10-20T01:01:21   |  + torchaudio==2.11.0+cu130
+2026-10-20T01:01:25 PHASE_DONE cuda (3/7)
+2026-10-20T01:02:40   | Traceback (most recent call last):
+2026-10-20T01:02:40   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 20, in <module>
+2026-10-20T01:02:40   |     from text.cleaner import clean_text
+2026-10-20T01:02:40   | ModuleNotFoundError: No module named 'text'
+2026-10-20T01:02:47   | C:\Program Files\Python311\python.exe: can't open file 'C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\GPT_SoVITS\\GPT_SoVITS\\prepare_datasets\\1-get-text.py': [Errno 2] No such file or directory
+2026-10-20T01:02:57   | Traceback (most recent call last):
+2026-10-20T01:02:57   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 20, in <module>
+2026-10-20T01:02:57   |     from text.cleaner import clean_text
+2026-10-20T01:02:57   | ModuleNotFoundError: No module named 'text'
+2026-10-20T01:03:25   | ep001_l12.wav
+2026-10-20T01:03:26   | Skip loading CUDA and cuDNN DLLs since torch is imported.
+2026-10-20T01:03:26   | Downloading g2pw model...
+2026-10-20T01:03:27   | ep001_l12.wav 完了！我全仓啊！全部身家！ Traceback (most recent call last):
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:27   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:27   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:27   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:27   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:27   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:27   |            ^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:27   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:27   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:27   |     super().__init__(
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:27   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:27   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:27   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:27   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:27   | 
+2026-10-20T01:03:27   | ep001_l15.wav
+2026-10-20T01:03:27   | Downloading g2pw model...
+2026-10-20T01:03:27   | ep001_l15.wav 股神……你是股神！ Traceback (most recent call last):
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:27   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:27   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:27   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:27   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:27   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:27   |            ^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:27   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:27   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:27   |     super().__init__(
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:27   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:27   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:27   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:27   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:27   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:27   | 
+2026-10-20T01:03:27   | ep002_l03.wav
+2026-10-20T01:03:27   | Downloading g2pw model...
+2026-10-20T01:03:28   | ep002_l03.wav 股神！我找你三天了！ Traceback (most recent call last):
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:28   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:28   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:28   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:28   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:28   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:28   |            ^^^^^^^^^^^
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:28   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:28   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:28   |     super().__init__(
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:28   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:28   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:28   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:28   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:28   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:28   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:28   | 
+2026-10-20T01:03:28   | ep002_l07.wav
+2026-10-20T01:03:28   | Downloading g2pw model...
+2026-10-20T01:03:29   | ep002_l07.wav 十万，全给你！条件——带我发财！ Traceback (most recent call last):
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:29   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:29   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:29   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:29   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:29   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:29   |            ^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:29   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:29   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:29   |     super().__init__(
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:29   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:29   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:29   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:29   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:29   | 
+2026-10-20T01:03:29   | ep002_l11.wav
+2026-10-20T01:03:29   | Downloading g2pw model...
+2026-10-20T01:03:29   | ep002_l11.wav 没……没了？又回来了？！ Traceback (most recent call last):
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:29   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:29   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:29   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:29   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:29   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:29   |            ^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:29   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:29   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:29   |     super().__init__(
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:29   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:29   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:29   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:29   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:29   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:29   | 
+2026-10-20T01:03:29   | ep003_l02.wav
+2026-10-20T01:03:29   | Downloading g2pw model...
+2026-10-20T01:03:30   | ep003_l02.wav 翻倍了！闺女的嫁妆翻倍了！ Traceback (most recent call last):
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:30   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:30   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:30   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:30   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:30   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:30   |            ^^^^^^^^^^^
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:30   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:30   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:30   |     super().__init__(
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:30   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:30   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:30   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:30   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:30   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:30   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:30   | 
+2026-10-20T01:03:30   | ep003_l05.wav
+2026-10-20T01:03:30   | Downloading g2pw model...
+2026-10-20T01:03:31   | ep003_l05.wav 他就是股神！我是他唯一的合伙人—— Traceback (most recent call last):
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:31   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:31   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:31   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:31   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:31   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:31   |            ^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:31   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:31   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:31   |     super().__init__(
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:31   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:31   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:31   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:31   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:31   | 
+2026-10-20T01:03:31   | train_04.wav
+2026-10-20T01:03:31   | Downloading g2pw model...
+2026-10-20T01:03:31   | train_04.wav 我跟你们讲，这股票啊，就跟媳妇的脸一样，说变就变。 Traceback (most recent call last):
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:31   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:31   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:31   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:31   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:31   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:31   |            ^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:31   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:31   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:31   |     super().__init__(
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:31   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:31   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:31   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:31   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:31   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:31   | 
+2026-10-20T01:03:31   | train_05.wav
+2026-10-20T01:03:31   | Downloading g2pw model...
+2026-10-20T01:03:32   | train_05.wav 大户室那帮人天天喝茶看报，喝茶看报，挣的钱比我一年都多？ Traceback (most recent call last):
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:32   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:32   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:32   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:32   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:32   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:32   |            ^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:32   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:32   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:32   |     super().__init__(
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:32   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:32   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:32   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:32   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:32   | 
+2026-10-20T01:03:32   | train_06.wav
+2026-10-20T01:03:32   | Downloading g2pw model...
+2026-10-20T01:03:32   | train_06.wav 哎哟我的亲娘诶，这根绿线怎么又长出来了！ Traceback (most recent call last):
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:32   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:32   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:32   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:32   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:32   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:32   |            ^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:32   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:32   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:32   |     super().__init__(
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:32   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:32   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:32   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:32   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:32   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:32   | 
+2026-10-20T01:03:32   | train_07.wav
+2026-10-20T01:03:32   | Downloading g2pw model...
+2026-10-20T01:03:33   | train_07.wav 股神您受累，您受累，这份儿心意您千万收下！ Traceback (most recent call last):
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:33   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:33   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:33   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:33   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:33   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:33   |            ^^^^^^^^^^^
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:33   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:33   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:33   |     super().__init__(
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:33   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:33   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:33   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:33   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:33   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:33   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:33   | 
+2026-10-20T01:03:33   | train_08.wav
+2026-10-20T01:03:33   | Downloading g2pw model...
+2026-10-20T01:03:34   | train_08.wav 我这辈子就信一句话——满仓不怕跌，跌了也不卖，卖了就认命。 Traceback (most recent call last):
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:34   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:34   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:34   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:34   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:34   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:34   |            ^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:34   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:34   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:34   |     super().__init__(
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:34   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:34   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:34   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:34   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:34   | 
+2026-10-20T01:03:34   | train_09.wav
+2026-10-20T01:03:34   | Downloading g2pw model...
+2026-10-20T01:03:34   | train_09.wav 大屏幕上的数字跳一下，我的心就跟着跳一下，一上午跳八百回。 Traceback (most recent call last):
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\1-get-text.py", line 92, in process
+2026-10-20T01:03:34   |     phones, word2ph, norm_text = clean_text(text.replace("%", "-").replace("￥", ","), lan, version)
+2026-10-20T01:03:34   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\cleaner.py", line 37, in clean_text
+2026-10-20T01:03:34   |     language_module = __import__("text." + language_module_map[language], fromlist=[language_module_map[language]])
+2026-10-20T01:03:34   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\chinese2.py", line 34, in <module>
+2026-10-20T01:03:34   |     g2pw = G2PWPinyin(
+2026-10-20T01:03:34   |            ^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\g2pw.py", line 41, in __init__
+2026-10-20T01:03:34   |     self._g2pw = G2PWOnnxConverter(
+2026-10-20T01:03:34   |                  ^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 326, in __init__
+2026-10-20T01:03:34   |     super().__init__(
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 106, in __init__
+2026-10-20T01:03:34   |     self.model_dir = download_and_decompress(model_dir)
+2026-10-20T01:03:34   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\text\g2pw\onnx_api.py", line 84, in download_and_decompress
+2026-10-20T01:03:34   |     with open(zip_dir, "wb") as f:
+2026-10-20T01:03:34   |          ^^^^^^^^^^^^^^^^^^^
+2026-10-20T01:03:34   | FileNotFoundError: [Errno 2] No such file or directory: 'GPT_SoVITS/text\\G2PWModel_1.1.zip'
+2026-10-20T01:03:34   | 
+2026-10-20T01:03:36 prep 1-text ok
+2026-10-20T01:03:49 prep 2-hubert ok
+2026-10-20T01:03:54   | Traceback (most recent call last):
+2026-10-20T01:03:54   |   File "C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS\GPT_SoVITS\prepare_datasets\2-get-sv.py", line 41, in <module>
+2026-10-20T01:03:54   |     from ERes2NetV2 import ERes2NetV2
+2026-10-20T01:03:54   | ModuleNotFoundError: No module named 'ERes2NetV2'
