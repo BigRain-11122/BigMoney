@@ -1,0 +1,112 @@
+﻿chain start 20:58:20 (r1035)
+rc=0 sat_engine_status :: {
+ "engine_alive": true,
+ "machine_id": "bm-b",
+ "heartbeat_age_sec": 19.0,
+ "py_cpu_pct": 2.4,
+ "active_burns": [],
+ "queue_depth": 0,
+ "claimable_n": 0,
+ "struct_wait_n": 0,
+ "struct_wait_idle": false,
+ "shards_done_total": 0,
+ "last_verdict": "idle",
+ "law_ref": "firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, O-20261001-1410 CEO direct order)"
+}
+rc=0 pool_dualrun :: [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 461 entries, drift-free streak 51, cutoff 2026-10-15 14:34:35)
+rc=0 compute_audit :: {"ts": "2026-10-19 20:58:28", "audit_version": "v2.4.2", "cpu_total_pct": 11.0, "py_cpu_pct": 9.7, "cores": 16, "py_procs": 13, "result_stale_min": 0.4, "fleet_open_tasks": 0, "pool_ready_count": 0, "pool_ready_unclaimed": 0, "load_state": "idle-starvation", "pool_starvation_candidate": true, "pool_starvation_detail": {"run_samples": 31, "span_min": 1040.1}, "supply_gap_candidate": false, "supply_gap_detail": {"reason": "idle-starvation"}, "supply_floor": {"ready": 0, "floor": 3, "breach": true}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 1040.1, "gpu": {"present": true, "util_pct": 6.0, "mem_used_mb": 4198.0, "compute_apps_count": 25, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0, "effective_cores": null, "multicore_burn": 0, "single_core_burn": 0, "too_short_to_sample": 0, "readable": true}, "flags": ["pool_starvation", "supply_floor"], "verdict": "FLAG:pool_starvation,supply_floor"}
+rc=0 py_watermark :: {"ts": "2026-10-19 20:58:35", "epoch": 1792414709.0, "machine": "bm-b", "cpu_total_pct": 4.0, "cores": 16, "py_cpu_pct": 0.4, "py_procs": 13, "top_proc_cores": 0.06, "local_batch_running": false, "refresh_lock_lanes": [], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "pool_ready_ids": [], "pool_ready_count": 0, "board_inflight_ids": [], "work_cand_buckets": {"pool_batch": 0, "board_open": 0, "board_inflight": 0, "local_batch": 0}, "bars_present": false, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 25}
+rc=0 d19_probe :: {"decisions_changed": false, "orders_changed": false, "decisions_sha": "60a98a02a1a6410ca3c862bc07d7237d31269d6d986adb20bcf2a9e8f4d97cb6", "wm_decisions": "60a98a02a1a6410ca3c862bc07d7237d31269d6d986adb20bcf2a9e8f4d97cb6", "orders_sha": "dda073d1c69cf8e500e21752970707aaed7c9759fbad60deb7b75acc1ce40de7", "wm_orders": "dda073d1c69cf8e500e21752970707aaed7c9759fbad60deb7b75acc1ce40de7", "decisions_method": "sha256", "orders_method": "sha256"}
+rc=0 d19_advance :: NOOP: dec=60a98a02a1a6410ca3c862bc07d7237d31269d6d986adb20bcf2a9e8f4d97cb6 ord=dda073d1c69cf8e500e21752970707aaed7c9759fbad60deb7b75acc1ce40de7 (read-back full-string equality OK; heartbeat mirrors synced 2)
+rc=0 update_daily :: lane_io single-writer guard: results/paper/* host=bm-a heartbeat stale 37min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+=== Bigmoney paper tracking 2026-10-19 20:59:45 ===
+regime_guard: ENFORCE active from 2026-10-01 (window masked exec days: blocked=0, yellow=8)
+universe: 48 ETFs, data through 2026-10-19
+forward_guard: t14_rules_fidelity.build_guard wired (board-seal up=24 dn=42 susp=10)
+forward_guard: +T-19 consolidation mask (events=21 in-universe=21 blocked-days=21 skipped-non-panel=0)
+regime: major_bear=False cap=0.8 (close<MA250=True, dd=-0.1672)
+regime_guard: enforce active_from=2026-10-01 active=True
+COMPOSITE-CE-01: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=-0.0089 | x2: insufficient_data | x2 watch: ok | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\COMPOSITE-CE-01_paper.json
+COMPOSITE-CE-02: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=-0.0139 | x2: insufficient_data | x2 watch: probation margin 0.0491 [PROBATION] | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\COMPOSITE-CE-02_paper.json
+DROUGHT-CE-01: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=-0.0041 | x2: insufficient_data | x2 watch: ok | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\DROUGHT-CE-01_paper.json
+ENGULF-CE-01: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: probation margin 0.0143 [PROBATION] | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\ENGULF-CE-01_paper.json
+NEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\NEEDLE-DE-01_paper.json
+VOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 13 bars since 2026-09-23 | months_tracked=0 dd=-0.0071 | x2: insufficient_data | x2 watch: ok | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\VOLATILITY-CE-01_paper.json
+paper tracking: OK
+=== Bigmoney daily update 2026-10-19 20:58:44 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 36 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-10-19
+[hook] new bars landed -> python -m live.paper
+status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+rc=0 papers_gate :: SKIP live.paper family (r1035 20:58: 10-19 bar not landed, tail=2026-10-16,4.2550,4.2820,4.2000,4.2360,3799508474,16092791436, evening window retry r1036)
+rc=0 market_regime :: regime state -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-10-19 state=ORANGE (橙·高危) raw=ORANGE days_in_state=2 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.79>=65%
+rc=0 strategy_scorecard :: lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat stale 37min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)
+scorecard: 6 traders -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\scorecard_v1.json (S=2 A=4 B=0 C=0, best VOLATILITY-CE-01 87.0)
+  VOLATILITY-CE-01   S  total= 87.0  d1=86 d2=100 d3=76 d4=98 d5=51 d6=100 d7=100  veto=clean
+  DROUGHT-CE-01      S  total= 86.6  d1=86 d2=74 d3=100 d4=97 d5=62 d6=100 d7=100  veto=clean
+  COMPOSITE-CE-01    A  total= 77.4  d1=85 d2=79 d3=73 d4=78 d5=24 d6=100 d7=100  veto=clean
+  NEEDLE-DE-01       A  total= 77.2  d1=78 d2=57 d3=96 d4=85 d5=46 d6=100 d7=100  veto=clean
+  COMPOSITE-CE-02    A  total= 72.9  d1=84 d2=67 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean
+  ENGULF-CE-01       A  total= 66.7  d1=83 d2=47 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean
+strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\strategy_scorecard.json (94.8s)
+rc=0 market_clock_call :: call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-16.md cell=ORANGE_COOL sleeves=4 activated=0
+rc=0 update_lhb :: cutoff=2026-10-16 quarter=2026Q4 today=2026-10-19
+fetch: cutoff 2026-10-16 behind expected disclosure 2026-10-19
+python.exe : 
+所在位置 C:\Fluxgroup\FluxGroup\quant\bigmoney\results\_r1035bmb_s6chain.ps1:8 字符: 10
++   $out = & $cmd[0] @($cmd[1..($cmd.Length-1)]) 2>&1 | Out-String
++          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:00<00:00,  2.76it/s]
+100%|██████████| 2/2 [00:00<00:00,  2.92it/s]
+refetched rows=602 quarters=1 (2026Q4) new_beyond_cutoff=80
+updated: +80 rows, cutoff 2026-10-16 -> 2026-10-19, total 266887 (3s)
+rc=0 update_zt_pool :: no-op: zt_pool lane owned by bm-a, not this machine (bm-b)
+rc=0 update_heat :: no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+rc=0 update_futures :: update_futures -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\futures_update_status.json
+  IF: +1 rows -> 2364 total 2017-01-17..2026-10-19
+  IC: +1 rows -> 2364 total 2017-01-17..2026-10-19
+  IM: +1 rows -> 1026 total 2022-07-22..2026-10-19
+  IH: +1 rows -> 2364 total 2017-01-17..2026-10-19
+  T: +1 rows -> 2364 total 2017-01-17..2026-10-19
+  TF: +1 rows -> 2364 total 2017-01-17..2026-10-19
+  RB: +1 rows -> 4262 total 2009-03-27..2026-10-19
+  AU: +1 rows -> 4571 total 2008-01-09..2026-10-19
+  SC: +1 rows -> 2076 total 2018-03-26..2026-10-19
+rc=0 update_repo_panel :: no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+rc=0 update_options :: [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero forward consumers; anti-waste law) -- honest no-op, no collection.
+rc=0 update_moneyflow :: no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+rc=0 update_sina_mf :: no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+rc=0 update_astock_daily :: spawned detached refresh: panel lags expected bar date (2026-10-16 < 2026-10-19) (mode=continuation/first-pull)
+rc=0 update_etf_daily :: update_etf_daily -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_daily_pull_status.json
+  510300 (tier1-HS300): +1 rows -> 3496 total 2012-05-28..2026-10-19 [written]
+  510050 (tier1-SSE50): +1 rows -> 5261 total 2005-02-23..2026-10-19 [written]
+  510500 (tier2-CSI500): +1 rows -> 3299 total 2013-03-15..2026-10-19 [written]
+  512100 (tier2-CSI1000): +1 rows -> 2415 total 2016-11-04..2026-10-19 [written]
+  588000 (tier2-STAR50-20cm): +1 rows -> 1435 total 2020-11-16..2026-10-19 [written]
+rc=0 regime_thermo :: regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+rc=0 regime_gate_dualarm :: regime_gate_dualarm: wrote C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_gate_dualarm\DUALARM-2026-09-30.json (index=BEAR @2026-09-30, emotion @2026-09-22)
+rc=0 rev_osc_signal :: rev_osc_signal_export: panel incomplete (cutoff=2026-10-16) -- no-op, harness waits
+rc=0 update_minute_feed :: update_minute_feed: 510300 +0 rows (total 4350)
+update_minute_feed: 510050 +0 rows (total 4350)
+update_minute_feed: 510500 +0 rows (total 4350)
+update_minute_feed: 512100 +0 rows (total 4350)
+update_minute_feed: 588000 +0 rows (total 4350)
+update_minute_feed: done, +0 rows across 5 symbols (kind=gated)
+rc=0 update_ths_panel :: no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+rc=0 ah_panel_puller :: no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+rc=0 update_fund_premium :: no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+rc=0 update_fundamental :: snapshot fresh (17.1h < 24h) -> skip
+rc=0 b_layer_filter :: mask: 5222 codes | ok_static 3515 | excluded 1707 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 2}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}
+mask -> C:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv
+verdict -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+rc=0 update_fund_statements :: no-op: fund statements lane owned by bm-a, not this machine (bm-b)
+rc=0 papers_family :: honest SKIP x4 (live.paper + t35_open_fill_verify + t24_prospect_paper + t24_prospect_promotion; bar gate closed)

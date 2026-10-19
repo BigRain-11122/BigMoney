@@ -1,6 +1,6 @@
 {
- "clock_read": "2026-10-19T20:28:32+08:00",
- "current_task": "r1034: supply-line claim round (POOL-0018/0019) + D-19 ORD consume + S6 42 rc0 + W279/W280 absorb",
+ "clock_read": "2026-10-19T21:08:20+08:00",
+ "current_task": "r1035: S0 estate replay + POOL env bootstrap ignition + S6 partial chain + lean closeout",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -9,37 +9,37 @@
   "method_orders": "sha256",
   "verbatim": true,
   "advance": true,
-  "round_ref": 1033,
-  "ts": "2026-10-19T20:24:01+08:00"
+  "round_ref": 1034,
+  "ts": "2026-10-19T20:58:39+08:00"
  },
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1034: (a) S0: fetch behind=3 (bm-c r1123+r1124: W279 five-face splice CLEAN-AT-BIRTH + W279 CYCLE COMPLETE [sixgate 42nd ALL PASS, finalize 1,038,135/611,720 EXACT, fivekeys 6/6, sec78 zero-placeholder, n1_w279_results.json landed] + W280 SEAT published [bm-c 99th own-wave candidate, A 631_301..633_300 hop / B 633_301..633_500, probe ADMIT first-try, zero W281/W282 skip-claims] + MSG-20261019-200x-bmc-w280-seat) -> FF absorb via machine-health daemon-live-wins dance (backup -> checkout -> ff-only -> restore), behind=0/ahead=0; dirty = expected 4 faces (drama x3 other-lane yielded + machine-health daemon steady state). (b) r1033 estate verified on origin (closeout ec60e564d + postscripts 422b68de0; state PENDING marker closed this round). (c) D-19 FIRST ACTION probe: ORD delta 662a6c86->dda073d1 = 1 new row (19:35 O-20261019-1935 B/C full-load order), DEC hold 60a98a02; consumed same-round + chain advance read-back OK, mirrors synced 3. (d) CEO ORDER EXECUTED SAME-ROUND: POOL-0018/POOL-0019 card-lint 9/9 PASS x2 -> CLAIMED @20:2x (G5 three-piece law; receipts = round report + heartbeat + commit message; POOL.json untouched by bm-b per agent-seat law); audio Taildrop staging 2/7 (可爱女人 19:53 + 晴天 20:11 -> C:\\Fluxgroup\\Tools\\mv-audio-bmb\\), 5 streaming; toolchain probe: whisperx/allin1/torch ALL absent -> env bootstrap deferred to r1035 FIRST ACTION (25min wall discipline; pip CPU-torch install > round window), first-batch-7 receipt window <=24h from 20:2x claim. (e) dedup check: cadence-v2 (11:53 row) bm-b leg = r1023 receipts MSG-1315/1327 already delivered; repo-slim (12:21 row) bm-b leg = r1031 862997eec already executed; RepoSlim 09:03 task first-run verify = tomorrow. (f) supply face: W279 cycle complete absorbed; W280 seat = bm-c candidate -> bm-b yields; W281 seat lane gated on W280 REGISTER (post-W280 universe re-derive law per seat MSG); supply_floor 0/3 + pool_starvation standing flags now carry POOL-0018/0019 as the active supply line. (g) S1 smoke 49/49 PASS; orphan probe 7 py faces / 0 orphans. (h) S6 chain 42 legs rc0 3.2min: papers gate honest SKIP (10-19 bar not landed at 20:26, tail=10-16, evening ~20:4x retry wired); stale-takeover derives x4 (bm-a hb stale 88-90min: scorecard/paper_export/daily_scorecard/build_status); REPORT/LIVE-2026-10-19 regen (ORANGE cap 50%, market_clock ORANGE_COOL sleeves=4 activated=0); DUALARM regen; b_layer gates pass; attrition healed 2-row bm-a shrink rc0; pool_dualrun streak 51. (i) idle: --worked declared @20:23 (claim + product start) -> idle_rounds 0, agenda_starved false. (j) S7: IterationLoop/Watchdog/SatEngine/ContentLoop alive, claws match.",
+ "did": "r1035: (a) S0 estate delivery: fetch behind=4 -> rebase --autostash replay of r1034 2-commit payload (e4dc0861f6 + postscript) onto 34cc60a24 tip; 12 UU same-day regen faces resolved per-face ts-probe ours(bm-b)-newer-wins 12/12 (r1035bmb_rebase_probe.py); autostash pop 6 UU resolved (5 newer-wins bm-b + token_usage per-machine UNION r1008 law, -bm-a/-bm-c keys = tool's own naming both sides identical); drama x3 + machine-health unstaged per daemon-live-wins; push attempt-1 hung 5min zero-output (promisor window family, legal in-flight fetch+index-pack 76,782-obj left untouched per poll-to-complete law), origin advanced to 9cc7061b7 mid-window -> r1034 estate STILL undelivered, rides r1035 closeout commit, r1036 S0 replay if blocked again (r1026 wall-risk law). (b) POOL-0018/0019 env bootstrap FIRST ACTION: anchor_env_bootstrap.py spawned DETACHED (pid 15928, collector pattern DETACHED_PROCESS|NEW_PROCESS_GROUP|NO_WINDOW), isolated venv C:\\Fluxgroup\\Tools\\mv-audio-bmb\\venv-anchor, tsinghua mirror, Windows pypi torch=CPU build; status face anchor_env_status.json stage=torch_cpu RUN at 20:58; anchor generation (words.json/structure.json for staged 2/7: 晴天+可爱女人) = r1036+ after status=OK; HF_ENDPOINT=hf-mirror note in face. (c) S6 chain partial: 33 legs rc0 before 5min zero-output auto-cancel killed child ps (zero-window law VIOLATION noted: spawned powershell.exe child -- r1036 note: run chain IN-PROCESS & only); legs done incl sat_engine alive-idle / dualrun streak 51 / d19 dual-probe ZERO-DELTA (dec 60a98a02 ord dda073d1 hold, advance NOOP read-back OK) / update_daily +36 rows cutoff 10-19 / lhb +80 rows cutoff -> 10-19 / futures +9 / etf_daily 5/5 through 10-19 / b_layer gates all_pass / scorecard 6 cards S2A4 (94.8s) / market_clock ORANGE_COOL / DUALARM BEAR@09-30; papers gate probe at 20:58 honest SKIP (bar tail 10-16 at probe) -- BUT bars landed ~21:0x in-window right after (update_etf_daily wrote through 10-19; sh510300 tail now 10-19) -> papers family + marks legs (aggr/alloc/grid/system_v1/export/scorecard/report/live_usage/build_status/token/attrition/idle) DEFERRED to r1036 first legs (bar on disk, conditional retry law); S7-critical legs re-run standalone: attrition CLEAN(healed 4+1 rows) / idle green_idle then --worked (idle_rounds 1->0, agenda_starved false) / token_meter delta=0. (d) S1 smoke 49/49 PASS + orphan probe 0/9. (e) D-19 zero-delta both faces (no new CEO orders since r1034 consumption of O-20261019-1935).",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
- "last_action": "r1034: POOL-0018+0019 claimed (O-20261019-1935 consumed same-round, card-lint 9/9 x2) + D-19 ORD delta consumed + S6 42 rc0 + W279-complete/W280-seat absorbed | postscript: push attempt-1 claw fail-close (promisor timeout family), delivery deferred r1035 S0 per r1026 wall-risk law",
- "last_action_at": "2026-10-19T20:28:32",
+ "last_action": "r1035: S0 replay r1034 estate (12 UU ts-probe bm-b-newer 12/12, push hung promisor -> deferred) + POOL-0018/0019 env bootstrap spawned DETACHED (torch_cpu RUN) + S6 chain 33 legs rc0 partial (bars landed 21:0x post-probe -> papers family deferred r1036) + S1 49/49 + attrition CLEAN + --worked declared",
+ "last_action_at": "2026-10-19T21:08:20+08:00",
  "last_decisions_at": "2026-10-19T18:37:27+08:00",
- "last_decisions_read_at": "2026-10-19T20:24:01+08:00",
+ "last_decisions_read_at": "2026-10-19T20:58:39+08:00",
  "last_decisions_sha": "60a98a02a1a6410ca3c862bc07d7237d31269d6d986adb20bcf2a9e8f4d97cb6",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_orders_at": "2026-10-18T16:35:49+08:00",
- "last_orders_read_at": "2026-10-19T20:24:01+08:00",
+ "last_orders_read_at": "2026-10-19T20:58:39+08:00",
  "last_orders_sha": "dda073d1c69cf8e500e21752970707aaed7c9759fbad60deb7b75acc1ce40de7",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
- "last_round_at": "2026-10-19T20:28:32",
- "last_round_ts": "2026-10-19T20:28:32",
- "last_seen": "2026-10-19T20:28:32",
- "latest_artifact": "POOL-0018/0019 claim receipts (card-lint 9/9 x2 PASS + card faces _r1034bmb_pool_cards.json / _r1034bmb_card0018.txt / _r1034bmb_card0019.txt) + audio staged 2/7 at C:\\Fluxgroup\\Tools\\mv-audio-bmb\\ (320k mp3, 大件不入 git 律) + S6 regen faces (REPORT/LIVE-2026-10-19 ORANGE cap 50% + stale-takeover derives x4 + market_clock ORANGE_COOL + DUALARM) + r1034 work files (_r1034bmb_s6chain.ps1 / s6_log.txt / closeout.py / ord_tail.txt)",
+ "last_round_at": "2026-10-19T21:08:20+08:00",
+ "last_round_ts": "2026-10-19T21:08:20+08:00",
+ "last_seen": "2026-10-19T21:08:20+08:00",
+ "latest_artifact": "r1035: anchor env bootstrap chain (C:\\Fluxgroup\\Tools\\mv-audio-bmb\\anchor_env_bootstrap.py + anchor_env_status.json stage=torch_cpu RUN + anchor_env_install.log + venv-anchor/) + data faces (lhb +80 rows cutoff 10-19 / daily panel +36 rows through 10-19 / futures +9 / ETF 5/5 through 10-19) + r1035 work files (_r1035bmb_rebase_probe.py / stashpop_probe.py / kick_anchor_env.py / s6chain.ps1 / s6_log.txt) + S7 evidence (attrition CLEAN / idle green_idle->worked / token delta=0)",
  "machine_id": "bm-b",
- "next": "r1035: 1) POOL-0018/0019 env bootstrap FIRST ACTION (pip install CPU torch + whisperx + allin1, time-boxed; then first words.json + structure.json for 晴天+可爱女人) 2) papers chain conditional retry when 10-19 bar lands (evening ~20:4x-21:xx: live.paper family + marks + export) 3) audio Taildrop remaining 5 件 receive + staging scan 4) ST-012 night 22:0x drama lane (yield - drama executor owns; REBUILD-PLAN-v2 v2Pro pre-read tonight per O-20261019-1935) 5) W280 prereg derive (bm-c r1125) -> W281 seat lane watch post-W280-REGISTER 6) RepoSlim first daily run tomorrow 09:03 verify 7) first-batch-7 receipt <=24h (due 2026-10-20 20:2x)",
- "next_milestone": "POOL-0018/0019 first-batch 7 曲 <=24h (due 2026-10-20 20:2x) + full 41 曲 <=72h + papers evening-window rounds + W280 prereg (bm-c) -> W281 seat post-REGISTER + voice P1 <=10-22 (ST-012 night 22:0x LoRA first train) + BigMoney seat automation plan <=10-25 + month-boundary 10-31",
+ "next": "r1036: 1) FIRST: papers family + marks legs re-run (10-19 bar ON DISK now: live.paper REGIME_GUARD enforce + t35_open_fill_verify + t24 x2 + aggr/alloc/grid/system_v1/t35_export/scorecard/report/live_usage/build_status/token/attrition/idle) 2) S0: fetch + replay r1034 estate + r1035 closeout onto fresh tip + push + verify (r1034 estate 2 windows undelivered = red-flag line, MUST land) 3) anchor generation if anchor_env_status.json=OK (words.json+structure.json for 晴天+可爱女人, HF_ENDPOINT=hf-mirror.com for whisperx model) 4) audio remaining 5 件 Taildrop receive + staging scan 5) ST-012 22:0x drama yield (drama executor owns) 6) RepoSlim 09:03 first daily run verify 7) W280 prereg (bm-c r1125+) watch -> W281 seat post-REGISTER 8) S6 chain IN-PROCESS & (zero-window law)",
+ "next_milestone": "POOL-0018/0019 first-batch 7 曲 <=24h (due 2026-10-20 20:2x) + full 41 曲 <=72h + papers evening chain r1036 + r1034/1035 estate delivery r1036 S0 + voice P1 <=10-22 + BigMoney seat plan <=10-25 + month-boundary 10-31",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
- "now_active": "r1034 closed",
+ "now_active": "r1035 closed",
  "orphan_face": 0,
- "orphan_face_note": "r1034 S1 probe (20:2x): 7 py faces / 0 orphans",
+ "orphan_face_note": "r1035 S1 probe (21:0x): 9 py faces / 0 orphans (incl. legal detached: anchor_env_bootstrap pid 15928 + astock refresh)",
  "orphan_faces": "n/a",
- "round": 1034,
- "round_no": 1034,
- "round_no_label": "r1034",
+ "round": 1035,
+ "round_no": 1035,
+ "round_no_label": "r1035",
  "sync": {
   "last_push_ts": "2026-10-19T19:22:15+08:00",
   "r962_main_push": {
@@ -465,16 +465,16 @@
    "note": "r1033 payload = closeout faces (state/heartbeat/round-report) + r1033 work files (s6chain driver + s6 log + closeout script) + own regen/product faces (docs daily_report/live_usage regen + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives + market_clock/regime_state/DUALARM faces + bm-b evidence faces _orphan/_attrition/d19_probe json); EXCLUDED per r982/r1015/r1020/r1028/r1032 policy: drama lane 3 daemon faces (other-lane in-flight), machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf/update_status/compute_audit/fundamental_b_layer status faces, watermark_red machine-local (D-20261019-02); base = ffeee6fe3 origin tip fresh at S0 (behind=0/ahead=0)"
   }
  },
- "task": "r1034: supply-line claim round (POOL-0018/0019) + D-19 ORD consume + S6 42 rc0 + W279/W280 absorb",
- "ts": "2026-10-19T20:28:32+08:00",
- "updated": "2026-10-19T20:28:32",
- "updated_at": "2026-10-19T20:28:32",
- "verdict": "GREEN: r1034 供给线开垦轮——CEO 令 O-20261019-1935（机队 B/C 满负荷）当轮消费：POOL-0018（whisperX 词锚 41 曲）+POOL-0019（allin1 结构锚 41 曲）双卡 card-lint 9/9×2 过闸→当轮认领（bm-b CPU 24/7 双轴剪辑锚车道·10-15 开卡以来首次供给真活·回执三通道=轮报告+心跳+commit message·POOL.json 状态迁移归代理席）；音源 Taildrop 2/7 到位（可爱女人 19:53+晴天 20:11→仓外工作区 Tools\\mv-audio-bmb\\）·余 5 件流式中；工具链探针=whisperx/allin1/torch 三件全缺→env bootstrap 排 r1035 首动作（25min 墙纪律·不自欺内联长装）；首批 7 曲回执窗 ≤24h 起算（20:2x）；W279 CYCLE COMPLETE+W280 席位（bm-c 99th own-wave）吸收→W281 席位带 post-W280-REGISTER 重 derive 门（bm-b 诚实等待面·seat MSG 原文为准）；D-19 ORD 增量消费（662a6c86→dda073d1 单行=19:35 满负荷令·advance 读回绿 mirrors synced 3·dec 60a98a02 hold）；cadence-v2/repo-slim @bm-b 腿查重=r1023 MSG-1315/1327+r1031 862997eec 已执行不重跑；S1 smoke 49/49+孤儿 0/7；S6 42 腿 rc0 3.2min（papers 门诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·stale-takeover x4 bm-a hb stale 88-90min·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 2 行治愈 rc0）；--worked 申报=idle_rounds 归零·agenda_starved=false（供给线信号转绿）；下窗=r1035 env bootstrap（CPU torch+whisperx+allin1）+首批 2 曲锚点出件+papers 晚间窗+ST-012 22:0x drama 让路",
- "current": "GREEN: r1034 供给线开垦轮——CEO 令 O-20261019-1935（机队 B/C 满负荷）当轮消费：POOL-0018（whisperX 词锚 41 曲）+POOL-0019（allin1 结构锚 41 曲）双卡 card-lint 9/9×2 过闸→当轮认领（bm-b CPU 24/7 双轴剪辑锚车道·10-15 开卡以来首次供给真活·回执三通道=轮报告+心跳+commit message·POOL.json 状态迁移归代理席）；音源 Taildrop 2/7 到位（可爱女人 19:53+晴天 20:11→仓外工作区 Tools\\mv-audio-bmb\\）·余 5 件流式中；工具链探针=whisperx/allin1/torch 三件全缺→env bootstrap 排 r1035 首动作（25min 墙纪律·不自欺内联长装）；首批 7 曲回执窗 ≤24h 起算（20:2x）；W279 CYCLE COMPLETE+W280 席位（bm-c 99th own-wave）吸收→W281 席位带 post-W280-REGISTER 重 derive 门（bm-b 诚实等待面·seat MSG 原文为准）；D-19 ORD 增量消费（662a6c86→dda073d1 单行=19:35 满负荷令·advance 读回绿 mirrors synced 3·dec 60a98a02 hold）；cadence-v2/repo-slim @bm-b 腿查重=r1023 MSG-1315/1327+r1031 862997eec 已执行不重跑；S1 smoke 49/49+孤儿 0/7；S6 42 腿 rc0 3.2min（papers 门诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·stale-takeover x4 bm-a hb stale 88-90min·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 2 行治愈 rc0）；--worked 申报=idle_rounds 归零·agenda_starved=false（供给线信号转绿）；下窗=r1035 env bootstrap（CPU torch+whisperx+allin1）+首批 2 曲锚点出件+papers 晚间窗+ST-012 22:0x drama 让路",
- "last_artifact": "POOL-0018/0019 claim receipts (card-lint 9/9 x2 PASS + card faces _r1034bmb_pool_cards.json / _r1034bmb_card0018.txt / _r1034bmb_card0019.txt) + audio staged 2/7 at C:\\Fluxgroup\\Tools\\mv-audio-bmb\\ (320k mp3, 大件不入 git 律) + S6 regen faces (REPORT/LIVE-2026-10-19 ORANGE cap 50% + stale-takeover derives x4 + market_clock ORANGE_COOL + DUALARM) + r1034 work files (_r1034bmb_s6chain.ps1 / s6_log.txt / closeout.py / ord_tail.txt)",
+ "task": "r1035: S0 estate replay + POOL env bootstrap ignition + S6 partial chain + lean closeout",
+ "ts": "2026-10-19T21:08:20+08:00",
+ "updated": "2026-10-19T21:08:20+08:00",
+ "updated_at": "2026-10-19T21:08:20+08:00",
+ "verdict": "GREEN: r1035 供给线点火轮——POOL-0018/0019 环境靴带分离进程已活（venv-anchor pid 15928·torch_cpu 阶段 RUN·清华镜像·Windows pypi torch=CPU 版零 CUDA 负担·anchor_env_status.json 阶段面；锚点出件（晴天+可爱女人 words/structure）排 r1036+ status=OK 后·首批 7 曲回执窗 ≤24h 从 20:2x 起算不变）；S0=r1034 双 commit 重放落位（12 UU 同日 regen 面 per-face ts 探针 bm-b-newer-wins 12/12·autostash pop 6 UU 含 token_usage per-machine UNION·推送 5min 挂死=promisor 窗族+合法在途 fetch 不碰·origin 又进 9cc7061b7→送达骑 r1035 closeout commit·r1036 S0 重放兜底）；S6 链 33 腿 rc0 后被 5min 零输出自动取消杀（子 powershell 零窗违例自记·下轮链改进程内跑）——update_daily +36 行 cutoff 10-19·LHB +80 行→10-19·futures +9·ETF 5/5 至 10-19·b_layer all_pass·scorecard S2A4·market_clock ORANGE_COOL·DUALARM BEAR@09-30；papers 门探针 20:58 诚实跳过（bar 未落）→21:0x bar 落地（探针后窗内）→papers 族+marks 族顺延 r1036 首腿（bar 在盘·条件重试律）；S7 三关键腿独立补跑绿（attrition CLEAN·idle green_idle→--worked 归零·token delta=0）；S1 smoke 49/49+孤儿 0/9；D-19 双面零增量（dec 60a98a02/ord dda073d1 hold·advance NOOP 读回 OK）；下窗=r1036 papers+marks 族（bar 已在盘）+S0 estate 重放推送+anchor 出件（status=OK 后）+RepoSlim 09:03 验证+ST-012 22:0x drama 让路保持",
+ "current": "GREEN: r1035 供给线点火轮——POOL-0018/0019 环境靴带分离进程已活（venv-anchor pid 15928·torch_cpu 阶段 RUN·清华镜像·Windows pypi torch=CPU 版零 CUDA 负担·anchor_env_status.json 阶段面；锚点出件（晴天+可爱女人 words/structure）排 r1036+ status=OK 后·首批 7 曲回执窗 ≤24h 从 20:2x 起算不变）；S0=r1034 双 commit 重放落位（12 UU 同日 regen 面 per-face ts 探针 bm-b-newer-wins 12/12·autostash pop 6 UU 含 token_usage per-machine UNION·推送 5min 挂死=promisor 窗族+合法在途 fetch 不碰·origin 又进 9cc7061b7→送达骑 r1035 closeout commit·r1036 S0 重放兜底）；S6 链 33 腿 rc0 后被 5min 零输出自动取消杀（子 powershell 零窗违例自记·下轮链改进程内跑）——update_daily +36 行 cutoff 10-19·LHB +80 行→10-19·futures +9·ETF 5/5 至 10-19·b_layer all_pass·scorecard S2A4·market_clock ORANGE_COOL·DUALARM BEAR@09-30；papers 门探针 20:58 诚实跳过（bar 未落）→21:0x bar 落地（探针后窗内）→papers 族+marks 族顺延 r1036 首腿（bar 在盘·条件重试律）；S7 三关键腿独立补跑绿（attrition CLEAN·idle green_idle→--worked 归零·token delta=0）；S1 smoke 49/49+孤儿 0/9；D-19 双面零增量（dec 60a98a02/ord dda073d1 hold·advance NOOP 读回 OK）；下窗=r1036 papers+marks 族（bar 已在盘）+S0 estate 重放推送+anchor 出件（status=OK 后）+RepoSlim 09:03 验证+ST-012 22:0x drama 让路保持",
+ "last_artifact": "r1035: anchor env bootstrap chain (C:\\Fluxgroup\\Tools\\mv-audio-bmb\\anchor_env_bootstrap.py + anchor_env_status.json stage=torch_cpu RUN + anchor_env_install.log + venv-anchor/) + data faces (lhb +80 rows cutoff 10-19 / daily panel +36 rows through 10-19 / futures +9 / ETF 5/5 through 10-19) + r1035 work files (_r1035bmb_rebase_probe.py / stashpop_probe.py / kick_anchor_env.py / s6chain.ps1 / s6_log.txt) + S7 evidence (attrition CLEAN / idle green_idle->worked / token delta=0)",
  "sat_engine": {
-  "status": "alive (r1034 chain status leg rc0; idle verdict; honest quant-pool starvation pool_ready=0 queue_depth=0 -- BUT supply line ACTIVE: POOL-0018/0019 claimed 20:2x (dispatcher-POOL cards, not quant runnable_pool; compute_audit counters count quant pool only) -- env bootstrap r1035 first action)",
-  "checked_at": "2026-10-19T20:28:32"
+  "status": "alive (r1035 chain status leg rc0; idle verdict honest; supply line ACTIVE: POOL-0018/0019 claimed r1034, env bootstrap running detached, anchor outputs r1036+)",
+  "checked_at": "2026-10-19T21:08:20+08:00"
  },
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
  "last_decisions_probe_at": "2026-10-18T22:08:55+08:00",
@@ -651,10 +651,10 @@
   "behind_origin_main": 0
  },
  "r1034_main_push": {
-  "status": "PUSH_ATTEMPTED (claw promisor lazy-blob 60s TimeoutExpired fail-close + origin advanced 4 mid-window behind=4 -> DEFERRED to r1035 S0 replay per r1026 wall-risk law)",
-  "pushed_sha": "6f947cccd (local, reflog-safe)",
-  "consumed_at": "pending r1035",
-  "behind_origin_main": 4
+  "status": "PUSH_DEFERRED_2WINDOWS (r1035 S0: replayed onto 34cc60a24 as e4dc76-e4dc0861f6 + postscript, push attempt-1 hung 5min promisor family + origin advanced 9cc7061b7; rides r1035 closeout commit -> r1036 S0 replay law r1026)",
+  "pushed_sha": "e4dc0861f6 (replayed local, reflog-safe)",
+  "consumed_at": "pending r1036",
+  "behind_origin_main": 0
  },
  "r1034_pool_claim": {
   "POOL-0018": {
@@ -676,5 +676,15 @@
  },
  "r1034_ord_note": "r1034: ORD delta 662a6c86->dda073d1 = 1 new row (19:35 O-20261019-1935 机队 B/C 满负荷执行令) consumed same-round: @bm-b legs = POOL-0018/0019 claim (DONE 20:2x, card-lint 9/9 x2) + audio Taildrop receive (2/7 done, 5 streaming) + ST-012 22:0x yield (drama lane owns) + papers/N1 cadence as usual; @bm-c legs out of bm-b scope; cadence-v2 (11:53) + repo-slim (12:21) rows dedup-verified already executed (r1023 MSG-1315/1327 + r1031 862997eec); dec 60a98a02 hold; advance read-back OK, mirrors synced 3 (r1090 dual-face)",
  "r1035_first_action_note": "r1035: 1) POOL-0018/0019 env bootstrap FIRST ACTION (pip CPU torch + whisperx + allin1, time-boxed) then first anchor outputs for staged 2 曲 2) papers conditional retry on 10-19 bar landing (evening window) 3) audio remaining 5 件 Taildrop receive 4) ST-012 22:0x drama yield 5) W280 prereg (bm-c r1125) watch -> W281 seat post-REGISTER 6) RepoSlim 09:03 verify tomorrow",
- "r1034_push_saga": "r1034 push saga: commit 6f947cccd (24 own faces) landed locally; pre-push claw diff-tree deletion-check hit promisor lazy-blob 60s TimeoutExpired (range 34cc60a24..6f947cccd, zero-deletion payload, fail-close family r1033 precedent); post-fetch behind=4 ahead=1 (origin advanced during round); 25min wall risk -> no second attempt this window per r1026 law; r1035 FIRST ACTION = surgery replay on fresh tip + per-face newer-wins on shared regen + push + verify"
+ "r1034_push_saga": "r1034 push saga: commit 6f947cccd (24 own faces) landed locally; pre-push claw diff-tree deletion-check hit promisor lazy-blob 60s TimeoutExpired (range 34cc60a24..6f947cccd, zero-deletion payload, fail-close family r1033 precedent); post-fetch behind=4 ahead=1 (origin advanced during round); 25min wall risk -> no second attempt this window per r1026 law; r1035 FIRST ACTION = surgery replay on fresh tip + per-face newer-wins on shared regen + push + verify",
+ "r1035_main_push": {
+  "status": "PENDING (this commit)",
+  "pushed_sha": "pending",
+  "consumed_at": "pending r1036",
+  "behind_origin_main": 0,
+  "note": "r1035 payload = closeout faces (state/heartbeat/round-report) + r1035 work files (rebase_probe / stashpop_probe / kick_anchor_env / s6chain / s6_log) + own product/data faces (lhb chunks+detail +80 rows / daily panel csvs through 10-19 / futures +9 / ETF 5/5 / firm traders marks x6 / paper faces x6 / scorecard_v1+strategy_scorecard / regime_state / market_clock CALL+call_latest x2 / x2_watch_log / bm-b-suffixed evidence faces) + _attrition + _orphan.bm-b; EXCLUDED per r982/r1015/r1020/r1028/r1034 policy: drama x3, machine-health, token_usage.json shared union, unsuffixed lhb/futures/astock/etf/update_status/compute_audit/fundamental_b_layer status faces, watermark_red machine-local"
+ },
+ "r1036_first_action_note": "r1036: 1) papers+marks family FIRST (bar on disk 10-19) 2) S0 replay+push (r1034 estate 2 windows undelivered) 3) anchor gen if env OK 4) drama yield 5) RepoSlim verify 6) W281 seat watch post-W280-REGISTER",
+ "r1035_chain_kill_note": "r1035: S6 chain child powershell killed by 5min zero-output auto-cancel at papers-SKIP position; violation noted: spawned powershell.exe child from session (zero-window law) -- r1036 chain runs IN-PROCESS via & only; post-kill leg re-runs: S7-critical trio done standalone, papers+marks deferred (bar landed 21:0x after gate probe)",
+ "r1035_env_bootstrap_note": "r1035: anchor_env_bootstrap.py DETACHED pid 15928; venv-anchor; tsinghua mirror; status face stage=torch_cpu RUN 20:58; whisperx model pulls need HF_ENDPOINT=https://hf-mirror.com (set at generation time)"
 }
