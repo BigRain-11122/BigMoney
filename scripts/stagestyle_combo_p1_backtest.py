@@ -77,6 +77,10 @@ BENCH = os.path.join(ROOT, "data", "daily", "sh510300.csv")
 
 PANEL_FIELDS = ("open", "high", "low", "close", "volume", "amount")
 META_NAME = "meta.json"
+# r1056 bm-b: persist the column axis. Re-deriving it from a directory glob at
+# read time silently re-labels every column when a CSV is added or removed, so
+# a stale panel keeps "working" with wrong stock attribution.
+SYMBOLS_NAME = "symbols.json"
 STATES = ("BULL", "CHOP", "GRIND", "BEAR", "SUPPORT")
 
 # ---- prereg sec.3 mapping v1 (frozen enumeration; never extended at run time)
@@ -157,9 +161,20 @@ def cmd_materialize(args) -> int:
         files = files[: args.limit_symbols]
     os.makedirs(LOCAL_CACHE, exist_ok=True)
     meta_path = os.path.join(LOCAL_CACHE, META_NAME)
+    sym_path = os.path.join(LOCAL_CACHE, SYMBOLS_NAME)
     if os.path.exists(meta_path) and not args.force:
         meta = json.load(open(meta_path, encoding="utf-8"))
         if meta.get("n_symbols") == len(files) and not args.limit_symbols:
+            if not os.path.exists(sym_path):
+                ncols = int(meta["shape"][1])
+                if ncols != len(files):
+                    print(f"symbol axis missing and column count {ncols} != "
+                          f"{len(files)} CSVs -> rerun with --force")
+                    return 3
+                with open(sym_path, "w", encoding="utf-8") as fh:
+                    json.dump([os.path.basename(p)[:-4] for p in files], fh,
+                              ensure_ascii=False)
+                print(f"symbol axis backfilled -> {sym_path}")
             print(f"panel cache present: {meta['shape']} "
                   f"cutoff={meta['cutoff']} -> {LOCAL_CACHE} (use --force "
                   f"to rebuild)")
@@ -196,7 +211,10 @@ def cmd_materialize(args) -> int:
         np.save(os.path.join(LOCAL_CACHE, f + ".npy"), arr)
     np.save(os.path.join(LOCAL_CACHE, "dates.npy"),
             pd.to_datetime(days).astype("int64").to_numpy())
+    with open(sym_path, "w", encoding="utf-8") as fh:
+        json.dump(codes, fh, ensure_ascii=False)
     meta = {"shape": [n_days, n_sym], "n_symbols": len(files),
+            "n_syms": n_sym, "symbols_file": SYMBOLS_NAME,
             "cutoff": days[-1], "start": days[0], "source": "data/astock_daily/per",
             "fields": list(arrays), "built_ts": pd.Timestamp.now().isoformat()}
     with open(meta_path, "w", encoding="utf-8") as fh:
@@ -217,7 +235,19 @@ def load_local_panel():
               for f in PANEL_FIELDS + ("pct_chg",)}
     syms = sorted(os.path.basename(p)[:-4]
                   for p in glob.glob(os.path.join(ASTOCK_DIR, "*.csv")))
-    syms = syms[: arrays["close"].shape[1]]
+    ncols = int(arrays["close"].shape[1])
+    sym_path = os.path.join(LOCAL_CACHE, SYMBOLS_NAME)
+    if os.path.exists(sym_path):
+        syms = [str(s) for s in json.load(open(sym_path, encoding="utf-8"))]
+        if len(syms) != ncols:
+            print(f"panel symbol axis mismatch: {len(syms)} codes vs {ncols} "
+                  f"columns -> refusing (run materialize --force)")
+            return None
+        return idx, syms, arrays, meta
+    if len(syms) != ncols:
+        print(f"panel column count {ncols} != {len(syms)} symbol CSVs and no "
+              f"{SYMBOLS_NAME} -> refusing (run materialize --force)")
+        return None
     return idx, syms, arrays, meta
 
 
@@ -727,6 +757,86 @@ def cmd_selftest(args) -> int:
     return 0 if ok == len(legs) else 2
 
 
+def cmd_verify(args) -> int:
+    """Panel integrity receipt: symbol axis + column alignment spot check.
+
+    The axis check is the load-bearing leg -- a panel whose columns are not
+    provably the codes they claim is unusable no matter how fresh it is.
+    """
+    out_path = os.path.join(ROOT, "results", "p1c_local_panel_verify.json")
+    panel = load_local_panel()
+    facts = {"generated": pd.Timestamp.now().isoformat(), "cache": LOCAL_CACHE,
+             "checks": {}}
+    if panel is None:
+        facts["verdict"] = "PANEL_OR_AXIS_MISSING"
+        with open(out_path, "w", encoding="utf-8") as fh:
+            json.dump(facts, fh, ensure_ascii=False, indent=1)
+        print(json.dumps({"verdict": facts["verdict"]}, ensure_ascii=False))
+        return 3
+    idx, syms, arrays, meta = panel
+    close = arrays["close"]
+    n_days, ncols = int(close.shape[0]), int(close.shape[1])
+    facts["panel"] = {"shape": [n_days, ncols], "cutoff": str(idx[-1].date()),
+                      "start": str(idx[0].date()),
+                      "n_symbols": len(syms)}
+    checks = facts["checks"]
+    checks["axis_len_matches_ncols"] = (len(syms) == ncols)
+    checks["axis_unique"] = (len(set(syms)) == len(syms))
+    checks["axis_6digit"] = all(s.isdigit() and len(s) == 6 for s in syms)
+    didx = {str(d.date()): i for i, d in enumerate(idx)}
+    n_sample = max(1, int(args.sample))
+    step = max(1, ncols // n_sample)
+    probes = syms[::step][:n_sample]
+    mismatches, checked_vals = [], 0
+    for code in probes:
+        path = os.path.join(ASTOCK_DIR, f"{code}.csv")
+        if not os.path.exists(path):
+            mismatches.append({"code": code, "reason": "csv_missing"})
+            continue
+        j = syms.index(code)
+        with open(path, "r", encoding="utf-8", errors="ignore") as fh:
+            rd = csv.reader(fh)
+            next(rd, None)
+            for rec in rd:
+                if len(rec) < 5:
+                    continue
+                p = didx.get(rec[0])
+                if p is None:
+                    continue
+                try:
+                    want = float(rec[4])
+                except (TypeError, ValueError):
+                    continue
+                got = float(close[p, j])
+                if not np.isfinite(got):
+                    mismatches.append({"code": code, "date": rec[0],
+                                       "reason": "panel_nan"})
+                    continue
+                checked_vals += 1
+                if abs(got - want) > 1e-4 * max(1.0, abs(want)):
+                    mismatches.append({"code": code, "date": rec[0],
+                                       "panel": got, "csv": want})
+                    if len(mismatches) > 10:
+                        break
+        if len(mismatches) > 10:
+            break
+    checks["column_alignment"] = (len(mismatches) == 0)
+    facts["probe"] = {"sampled": probes, "values_checked": checked_vals,
+                      "mismatches": mismatches[:10]}
+    checks["values_checked"] = checked_vals
+    ok = (checks["axis_len_matches_ncols"] and checks["axis_unique"]
+          and checks["axis_6digit"] and checks["column_alignment"]
+          and checked_vals > 0)
+    facts["verdict"] = "PASS" if ok else "FAIL"
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(facts, fh, ensure_ascii=False, indent=1)
+    print(json.dumps({"verdict": facts["verdict"],
+                      "checked_vals": checked_vals,
+                      "mismatches": len(mismatches),
+                      "out": out_path}, ensure_ascii=False))
+    return 0 if ok else 2
+
+
 def cmd_status(args) -> int:
     panel = load_local_panel()
     doc = {"panel": None, "labels": None, "outputs": []}
@@ -761,6 +871,9 @@ def main(argv=None) -> int:
     r.set_defaults(fn=cmd_run)
 
     sub.add_parser("selftest").set_defaults(fn=cmd_selftest)
+    v = sub.add_parser("verify")
+    v.add_argument("--sample", type=int, default=25)
+    v.set_defaults(fn=cmd_verify)
     sub.add_parser("status").set_defaults(fn=cmd_status)
 
     args = ap.parse_args(argv)
