@@ -57,9 +57,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1130 W280 §7 范式）
+- 账本恒等式：prev 1,038,135 + batch 2,200 = **1,040,335 EXACT**（science_gates.ledger 机读恒等断言过）；合并池 K：611,720 + 2,200 = **613,920 EXACT**。
+- merged mu = -0.09284669 / merged sigma = 0.24507971 / **se_mu@K613,920 = 0.000313**（对照本波冻结键 W279 0.000313，持平微窄）；W280-only mu = -0.09925886 / sigma = 0.25040471。
+- K-lift 对照：line_pre_w280 = 1.1971 → line_merged@613,920 = 1.1972，delta = **+0.0001**（n_eff held 1,038,135）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同例）。
+- §5 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0064122 / key1b merged-vs-W279键 0.0000231 / key2 sigma rel 7.94e-05 / key3 A p95 delta +0.0190【0.3104→0.3294，双向带内】/ key4 K-lift +0.0001 / key5 se_mu 0.000313≤0.000313 持平微窄）——收据 results/_r1132bmc_w280_fivekeys.json（键=n1_w279_results.json 机读 r587 律·本波预测键冻结于 W279 实测——W279 finalize 起草窗前已落地·活链头基准）。
+- 六门探针：PRE-FINALIZE **ALL PASS 第 43 连续正确相位**（results/_r1132bmc_w280_sixgate.json——splice 完整性 **CR-normalized 恒等** worktree==落链 git blob @ 7a5b47ff94【r1131 窗落的 splice·落链后 pf/n1 零愈合（本窗实测面）·setwave 出生站闸持守（_set_wave(280):1/_set_wave(279):1/_set_wave(278):1 全文件计数·段内 280 在/279 与 278 不在）·derive 证据件在位】；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2【base=631301 span=2000 / base=633301 span=200】；wave_configs 行四面【对齐·engine_owner=bm-c】）。
+- audit 段：machine=bm-c，finalize_only；shards_consumed=["shard-0-of-12.json", "shard-1-of-12.json", "shard-10-of-12.json", "shard-11-of-12.json", "shard-2-of-12.json", "shard-3-of-12.json", "shard-4-of-12.json", "shard-5-of-12.json", "shard-6-of-12.json", "shard-7-of-12.json", "shard-8-of-12.json", "shard-9-of-12.json"]；preregistered_doc=research/PERPETUAL_N1_W280_PREREG.md；evidence_cutoff=2026-09-22（P-5C 冻结窗同窗律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W280+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1130 W280 §8 范式）
+- §5.5 W281+ 投影承接机证（finalize 产物 preregistered_doc 面机读）：W280 注册宇宙已落地（A 631_301..633_300 + B 633_301..633_500，本波冻结收据_w280bmc_freeze_receipt.json）——W281 A naive 起点 633_301 在 post-W280 注册宇宙上实测 CLEAN hops=0（收据 downstream_seat 面预投影）；B naive 633_501..633_700 hops=0 但落投影 A 窗内（own-A reservation cascade 继续·收据 downstream_seat 面）——计数以活链重 derive 为准勿转录；勿假设 A-base==prior-B-tail+1 或 B-base==own-A-tail+1 相等式（E36 卡/W141 先例）；**W281 seat=next free number·下一冻结方必须 seat-first 发布且在 post-W280 宇宙上重 derive**（勿转录 r587）。
+- 宝藏与方法论捕获问：本批零新宝藏入册零新方法论卡——r1130 derive 重建（70 measured pairs 单遍左到右扫描·r1129 roller 缺陷族按设计关闭）属 r1088 根治律（CEO 缺陷出生地律 2026-10-16 执法）的持守验证；本窗六门 clone 全 count-asserted（行面/边界/出生站/账本面逐项断言）+fivekeys 6 针首跑全中，非新方法论卡。
+- 诚实披露面：(1) W280 splice 由 r1131 窗执行落链 7a5b47ff94（本窗实测 CR-normalized 恒等·pf/n1 落链后零愈合）；(2) 引擎 mtime-watch 自点火 W280 12/12（batched 自提交 a4cf451113 六件 + 982058016c 六件·两批均自推上 origin）；(3) 本波预测键冻结于 W279 实测（起草窗前 W279 finalize 已落地 r1124 窗 20:0x·活链头基准·§5 头注记）；(4) 引擎 dedup W280 local 12/12 完备（remote_done 面按对端账本口径·本窗六门 shards 12/12 实测+splice 推送落链）；(5) prereg freeze 件 pushed（frozen sha256_16 3d590681228210e5 → origin 5f279e44fc·r1130 窗）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W280 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W279 own-wave finalize 已落地=席位时即解锁（n1_w279_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
