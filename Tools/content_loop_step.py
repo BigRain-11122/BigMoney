@@ -867,6 +867,40 @@ def st010_pitch_tier_test_synth(st):
             'status_face': PTT_STATUS, 'receipt': ds.get('receipt')}
 
 
+ST013_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'st013_dubbing_sheet.json')
+DUBBING_SHEET_PREP = os.path.join(QDIR, 'runner_assets', 'dubbing_sheet_prep.py')
+
+
+def st013_dubbing_sheet_prep(st):
+    """ST-013 (13:2x fleet-fill order @bm-b): dubbing sheet preprocessing
+    EP001-003 -- per-line speaker->voice-bank mapping / rule-based emotion
+    v0.1 / est-sec vs shot-window fit flags from group-origin episode JSONs
+    (fresh-blob law). CPU lane, zero cloud. Products: voice_sheets
+    EP001-003-VO-SHEET.md + json twin + outbox receipt."""
+    r = subprocess.run([sys.executable, DUBBING_SHEET_PREP, 'selftest'],
+                       capture_output=True, timeout=120, creationflags=_NO_WINDOW)
+    if r.returncode != 0:
+        raise RuntimeError('dubbing-sheet selftest FAIL: ' +
+                           r.stdout.decode('utf-8', 'replace').strip()[-200:])
+    r = subprocess.run([sys.executable, DUBBING_SHEET_PREP, 'run'],
+                       capture_output=True, timeout=300, creationflags=_NO_WINDOW)
+    if r.returncode != 0:
+        raise RuntimeError('dubbing-sheet prep FAIL rc=%s tail=%s' % (
+            r.returncode, r.stdout.decode('utf-8', 'replace').strip()[-200:] +
+            r.stderr.decode('utf-8', 'replace').strip()[-200:]))
+    ds = rd_json(ST013_STATUS, None) or {}
+    if ds.get('state') != 'done':
+        raise RuntimeError('dubbing-sheet prep FAIL rc=%s state=%s' % (
+            r.returncode, ds.get('state')))
+    return {'runner': 'st013_dubbing_sheet_prep',
+            'verdict': 'sheet-done rows=%s gap=%s overflow=%s' % (
+                (ds.get('stats') or {}).get('rows'),
+                (ds.get('stats') or {}).get('gap_rows'),
+                ((ds.get('stats') or {}).get('by_fit') or {}).get('OVERFLOW', 0)),
+            'status_face': ST013_STATUS, 'receipt':
+            os.path.join(QDIR, 'outbox', 'ST-013-DUBBING-SHEET-RECEIPT.md')}
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
@@ -877,6 +911,7 @@ RUNNERS = {
     'st008_voice_bank_entries': st008_voice_bank_entries,
     'st009_voice_differentiation_eval': st009_voice_differentiation_eval,
     'st010_pitch_tier_test_synth': st010_pitch_tier_test_synth,
+    'st013_dubbing_sheet_prep': st013_dubbing_sheet_prep,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the
@@ -884,6 +919,7 @@ RUNNERS = {
 RUNNER_ADOPT = {
     'ST-003': 'st003_voice_library_first_batch',
     'ST-004': 'st004_csa_anchor_precheck',
+    'ST-013': 'st013_dubbing_sheet_prep',
 }
 
 
@@ -999,8 +1035,11 @@ def selftest():
     asserts.append(('ids-unique', len(ids) == len(set(ids))))
     v, st, why = station_plan(q)
     asserts.append(('plan-verdict-valid', v in ('claimable', 'held', 'no-station')))
+    # done stations' runner names are historical labels (r1022 ST-011 was
+    # direct-executed with an ad-hoc script, no registry wrapper) -- the
+    # known-runner assert targets future-executable stations only
     known = all((s.get('runner') or 'none') in list(RUNNERS) + ['none', 'v0.2-pending']
-                for s in q.get('stations', []))
+                for s in q.get('stations', []) if s.get('state') != 'done')
     asserts.append(('runners-known-or-pending', known))
     rc = 0 if all(ok for _, ok in asserts) else 1
     print(json.dumps({'selftest': 'PASS' if rc == 0 else 'FAIL', 'asserts':

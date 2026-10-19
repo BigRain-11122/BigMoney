@@ -162,13 +162,14 @@
   {
    "id": "ST-013",
    "title": "dubbing sheet preprocessing EP001-003 (一路长虹): per-line character/emotion/est-duration voice-cast sheets from episode JSONs + voice_bank manifest mapping (CPU lane, daytime fill per 2026-10-19 13:2x CEO fleet-fill order v2 @bm-b leg)",
-   "state": "open",
+   "state": "done",
    "lane": "cpu",
-   "runner": "v0.2-pending",
+   "runner": "st013_dubbing_sheet_prep",
    "require": "none",
    "product": "content/drama/voice_sheets/EP001-003-VO-SHEET.md + machine-readable json twin (per-line rows: speaker/line/emotion-tag/est-sec/voice_bank ref) + outbox receipt",
    "source": "2026-10-19 13:2x group orders row @bm-b (机队排满令 v2: 漫剧《一路长虹》配音台本预处理不等分批); scripts = cph4/fleet/drama-001-stockera/episodes/EP001-003.json; ST-011 receipt next-station row",
-   "claim": null
+   "claim": "claimed@bm-b@2026-10-19T14:11:15",
+   "done_at": "2026-10-19T14:11:15"
   }
  ]
 }
