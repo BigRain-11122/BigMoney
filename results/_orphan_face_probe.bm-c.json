@@ -1,18 +1,60 @@
 {
- "ts": "2026-10-20T02:50:31",
+ "ts": "2026-10-20T03:10:39",
  "mode": "probe",
- "py_faces_seen": 5,
+ "py_faces_seen": 6,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 2,
+ "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 16836,
+   "pid": 16844,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
+   "age_min": 2098.1,
+   "cpu_delta_20s": 2.25,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 35124,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 1984.1,
+   "cpu_delta_20s": 17.344,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 43812,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
+   "age_min": 86.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "listen_ports": [
+    8199
+   ]
+  },
+  {
+   "pid": 46720,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.312,
+   "cpu_delta_20s": 0.328,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -24,11 +66,11 @@
    ]
   },
   {
-   "pid": 16844,
+   "pid": 49496,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 2078.0,
-   "cpu_delta_20s": 2.141,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
+   "age_min": 0.1,
+   "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -37,51 +79,16 @@
    ]
   },
   {
-   "pid": 35124,
+   "pid": 49632,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 1964.0,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  },
-  {
-   "pid": 42720,
-   "name": "pythonw.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\bmc_idleguard.py",
-   "age_min": 0.0,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py --repo",
+   "age_min": 0.1,
    "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
+   "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "svchost.exe",
-    "services.exe",
-    "wininit.exe",
     "DEAD"
-   ]
-  },
-  {
-   "pid": 43812,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 66.3,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8199
    ]
   }
  ],
@@ -89,26 +96,10 @@
  "idle_server_details": [],
  "resident_server_details": [
   {
-   "pid": 35124,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 1964.0,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  },
-  {
    "pid": 43812,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 66.3,
+   "age_min": 86.5,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,

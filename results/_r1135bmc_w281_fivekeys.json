@@ -1,0 +1,80 @@
+{
+ "machine": "bm-c",
+ "wave": 281,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w281_results.json",
+ "keys_anchor": "W280 finalize actuals machine-read from n1_w280_results.json (r587 law) -- W281 prereg froze sec.5 keys on W280 actuals (live-chain-head basis; W280 finalize landed pre-draft r1131)",
+ "merged": {
+  "k": 616120,
+  "mu": -0.0928313317210933,
+  "sigma": 0.24507388867528027,
+  "se_mu_k616120": 0.000312
+ },
+ "w281_only": {
+  "mu": -0.08854613636363637,
+  "sigma": 0.24346276409775422
+ },
+ "skill_line": {
+  "n_eff_held": 1040335,
+  "line_pre_w281": 1.1973,
+  "line_merged_616120": 1.1972,
+  "k_lift_delta": -0.0001
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3228,
+  "full_sharpe_p99": 0.4685
+ },
+ "checks": [
+  {
+   "name": "key1_w281_vs_merged_mu_gap",
+   "value": 0.004285195357456931,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w280_key",
+   "value": 1.535612097081085e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": -2.3733999342248047e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta",
+   "value": -0.00660000000000005,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": -0.0001,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000312,
+   "band": 0.000313,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 1040335,
+  "batch_trials": 2200,
+  "total": 1042535,
+  "exact": true
+ },
+ "merged_k_identity": {
+  "prev_k": 613920,
+  "batch": 2200,
+  "merged_k": 616120,
+  "exact": true
+ },
+ "keys_source": "W280 finalize actuals machine-read from n1_w280_results.json (r587 law)",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
