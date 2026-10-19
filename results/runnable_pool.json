@@ -18499,7 +18499,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-20T05:2x+08:00",
    "entered_by": "bm-b r1051",
    "data_gates": "in-runner fail-closed: local panel data/cache/p1c_local (cutoff 2026-10-19) + sidecar face data/cache/p1c_sidecars (qfq-inversion-v1, 5,123 files) + REGIME5 label face (cutoff 2026-10-19); divlowvol clamped to frozen t0 2006-02-06; no network",
@@ -18516,12 +18516,18 @@
    "shards": [
     {
      "key": "sscombo-readout-full",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/stagestyle_combo_p1/SSCOMBO-P1-*.json",
      "note": "one shard = whole readout (jobs share the same panel and pick faces)",
-     "owner": null
+     "owner": "bm-b",
+     "done_at": "2026-10-20T05:24:09+08:00",
+     "result_ref": "results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json"
     }
-   ]
+   ],
+   "done_by": "bm-b r1052",
+   "done_at": "2026-10-20T05:24:09+08:00",
+   "result_ref": "results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json",
+   "result_note": "full readout C1/C2/C3 x1+x2 over 2013-04-01..2026-10-19 (3,290 bars); C1 1.083 / C2 0.942 / C3 0.977 vs unconditional divlowvol 1.209 -> P4 combo claim NOT supported; CEO matrix face docs/stagestyle/REPORT-STAGESTYLE-v1.md"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18536,6 +18542,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20T05:2x+08:00",
+ "updated_at": "2026-10-20T05:24:09+08:00",
  "version": 1
 }

@@ -87,6 +87,14 @@
 ## §6 产物
 - runner：`scripts/stagestyle_combo_p1_backtest.py`（新·三族 P1 runner 骨架 import 复用律·阶段标签加载器新写）；结果件：`results/stagestyle_combo_p1/`（顶层 `science_gates.cutoff_meta` 必带）+**CEO 矩阵 REPORT 面**（`REPORT-STAGESTYLE-v1.md`+JSON 孪生·O-2230 §三 首版载体）；本件 §7/§8 回填；daily_report 股票域段消费接线=另票。
 
-## §7 跑后实证【跑前占位】
+## §7 跑后实证【r1052 bm-b 回填·证据截止 2026-10-19·readout=READOUT_ONLY】
+
+> 读数面原件：`results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json`；CEO 矩阵面：`docs/stagestyle/REPORT-STAGESTYLE-v1.md`（由 `scripts/stagestyle_combo_p1_report.py` 确定性再生成）。窗口 2013-04-01..2026-10-19（3,290 bars），面板 `data/astock_daily/per` 8745×5225，x1=13.041bp/边、x2=双倍成本。
+
+- **主表（x1 夏普／累计收益／最大回撤）**：C1 1.083／246.9%／-19.4%；C2 0.942／211.0%／-20.3%；C3 0.977／218.7%／-22.4%；U-divlowvol 1.209／346.5%／-15.8%；U-EW 0.712／171.6%／-23.4%；U-value 0.437／103.8%／-31.6%；U-quality 0.331／81.8%／-47.2%。x2 面全体小幅降档（夏普降 0.03-0.05），换手脆性不是主因。
+- **P4（组合主张门）判读**：C1 1.083 ≥ 阈值 0.994（0.894+0.10）=过阈值；C2 0.942、C3 0.977 未过。**但同轮无条件 divlowvol 读 1.209 > 一切组合** → 「阶段条件化相对无条件持有有增益」这一层主张**未获支持**；组合的增益全部来自映射表里本来就持有的 divlowvol 袖面，阶段切换净贡献为负（换手税 + 现金腿错失）。D6 与 divlowvol 相关 0.836（C1）印证同源。
+- **P1/P2/P3 格级归因**：本批未拆格读数（组合主张门已判负，格级归因转 finalize 批；`nulls` 面同批未跑，如实披露）。
+- **诚实边界**：prereg 仍为 DRAFT-NOT-FROZEN；G1'/G2/DSR/M1 全未跑；SUPPORT 格仅 104 日未单设专格；divlowvol 前 27 个月被冻结 t0 clamp、侧录 5,123 件 qfq 反演面。
+- **结论（研究面，非判决）**：stage×style 条件化在 v1 映射下不创造价值；下一批要动的是**风格面**（divlowvol 本身的强化/组合），不是阶段择时。
 
 ## §8 批后复盘【跑前占位】

@@ -286,9 +286,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1051,
- "round_no": 1052,
- "round_no_label": "r1051",
+ "round": 1052,
+ "round_no": 1053,
+ "round_no_label": "r1052",
  "sat_engine": {
   "checked_at": "2026-10-20T00:29:25+08:00",
   "status": "alive (r1041 chain status leg rc0; idle verdict; P2 burn feed = freeze-window gate: panel legs awaiting p1c re-delivery window-2, execution ticket after freeze commit)"
@@ -759,11 +759,19 @@
    "note": "r1051 payload = sidecar materializer + runner wiring (local sidecar loader + frozen-t0 clamp) + prereg sec.2c disclosure + pool entry SSCOMBO-P1-READOUT-BMB + smoke readout receipt + evidence script + closeout trio + S6 evidence faces (bm-b suffixed); gitignored: data/cache/p1c_sidecars (5,123 json) per r1031 slim governance | push saga: first push non-ff (origin +3); pull --rebase --autostash hit 2 shared regen UU (_attrition_guard_scan 05:06:11 vs origin 05:03:56 / compute_audit latest 05:06:04 vs 05:03:11) -> ours-newer-wins per r1028; rebase applied autostash clean; delivered 5a2091f7a..d06227bc8, ls-remote==HEAD, ls-tree blob present.",
    "pushed_sha": "d06227bc8",
    "status": "PUSHED_VERIFIED"
+  },
+  "r1052_main_push": {
+   "behind_origin_main": 0,
+   "consumed_at": "pending r1053",
+   "note": "r1052 payload = readout JSON + CEO matrix face (md+json) + renderer + prereg sec.7 backfill + pool entry done + state/heartbeat/round-report + bm-b evidence faces (orphan/attrition/dualrun/compute_audit/watermark d19); EXCLUDED per r982/r1015/r1033 policy: drama lane 3 faces (other-lane in-flight), machine-health, token_usage.json union face, unsuffixed collector status faces",
+   "pushed_sha": "pending",
+   "status": "PENDING (this commit)"
   }
  },
- "task": "r1051",
- "ts": "2026-10-20T05:07:48+08:00",
- "updated": "2026-10-20T05:07:48+08:00",
- "updated_at": "2026-10-20T05:07:48+08:00",
- "verdict": "GREEN: divlowvol 侧录缺口闭合（5,123 件本地侧录面），三族袖面全可算；未完=全窗读数在池、D6 probe/freeze commit 未落。"
+ "task": "r1052",
+ "ts": "2026-10-20T05:24:09+08:00",
+ "updated": "2026-10-20T05:24:09+08:00",
+ "updated_at": "2026-10-20T05:24:09+08:00",
+ "verdict": "GREEN: SS-COMBO P1 full readout delivered (C1 1.083 / C2 0.942 / C3 0.977 x1 vs unconditional divlowvol 1.209 -> stage-conditioning adds no value), CEO matrix face landed; next = D6/null probe + finalize judgment batch (or re-aim at style face per readout).",
+ "r1052_note": "r1052: pool SSCOMBO-P1-READOUT-BMB executed to completion (detached BelowNormal-equivalent hidden process, 462s CPU, panel 8745x5225); readout JSON 809KB + CEO matrix docs/stagestyle/REPORT-STAGESTYLE-v1.md/.json via deterministic _r1052bmb_sscombo_report.py; prereg sec.7 backfilled (P4: C1 clears 0.994 threshold but LOSES to same-run unconditional divlowvol 1.209 -> combo claim unsupported, honest negative); D-19 dual probe zero-delta (dec d5336c87 / ord 9da3cb04 hold); smoke 49/49; attrition CLEAN (4 ledgers, 3 healed shrinks); pool dualrun ZERO-DRIFT streak 51; compute_audit FLAG supply_floor (ready 1<3, now 0 after completion); watermark py_low_with_work_cands (the readout itself = the work); orphan 0/8; update_daily no-op cutoff 2026-10-19."
 }
