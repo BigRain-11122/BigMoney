@@ -257,3 +257,10 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 吞面余留（fail-soft 文档化）：lane 写成、shared 写败的 crash 窗=disable 被吞→幂等扫描下 tick 重确认自愈（r491 同族）；done 吸收律不动（disabled 全 shard done 仍恒 disabled=预算停终态正确）。
 - 证据：Tools/autofill.py _budget_cap_scan 双轨段 + scripts/merge_lane_views.py _merge_pool_entry 扩面 + merger selftest 5e 四腿（0 FAIL）+ autofill selftest S24b/S24f PASS（SELFTEST ALL PASS）+ A3 实弹探针前后双证据。
 - 2026-10-19 05:1x：bm-a r1072（A3 G1+G2 运行侧执法批收口·捕获律 O-20261002-2100 工程净路）
+
+## E75 stash-pop DU @ gitignored-takeover 面=rm --cached keep-disk 配方（r1080 bm-a 实弹·D-20261019-02 + r419 + E73 联合作战面）
+- 病理：pull --rebase --autostash 的自生 stash 携带本地 live-writer 面，而 origin 侧同窗已按 D-20261019-02 类「blob 退库+gitignore machine-local 接管」法删除该 tracked 件——pop 落 DU（deleted-by-us/updated-by-stash）：整取 stash 侧=复活已退库 tracked 件（违 in-force 法·下轮重弹同 DU）；整取 ours 侧=丢盘上最新 derive。
+- 配方：①DU 单件勿按侧取舍——`git rm --cached <path>`（index 承 origin 删除=法面合规）+盘面照留（stash 侧=最新 derive·.gitignore 已覆盖则自动转 machine-local untracked-ignored）；②验三件=git check-ignore 命中该路径+盘面可读+status 无 UU 残留；③同窗伴生 UU（append-only 账本）照 r419 行级 union 独立处置（assert-first add-second·r1073 律）；④合并后 autostash 用引号 ref drop（r1058 直调律）·孤儿陈旧 stash 永不 pop（E73）。
+- 边界：若该路径未被 gitignore 覆盖（法尚未接管）而 origin 删除=真删除事件，禁套本卡（须人工裁定是否复活件）。
+- 证据：results/_r1080bma_popuu_resolve.py（marks union 19 行 0 invalid+rm --cached+check-ignore .gitignore:84+disk ts 15:05）+state notes r1080·2026-10-19 15:2x：bm-a r1080（S0 收口实弹·捕获律 O-20261002-2100 工程净路）
+
