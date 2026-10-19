@@ -1,0 +1,184 @@
+{
+ "face": "DIVLOWVOL-LIVE-PICKS",
+ "status": "RESEARCH_READOUT_ZERO_JUDGED_CLAIMS",
+ "as_of": "2026-10-19",
+ "panel": {
+  "path": "data/cache/p1c_local",
+  "shape": [
+   8745,
+   5225
+  ]
+ },
+ "prereg": "research\\FUND-DIVLOWVOL-P1.md",
+ "nulls_evidence": "results\\divlowvol_nulls\\NULLS-CONSUME-2026-09-22.json",
+ "rule": "Top-20 by yield_ttm desc within low-vol half, EW, monthly",
+ "census_window_frozen": "1992-09-01..2026-03-02 (FUND-DIVLOWVOL-P1 §2)",
+ "signal_window": "1990-12-19..2026-10-19 (forward extension, live only)",
+ "t0_date": "2003-11-03",
+ "n_firing_months": 276,
+ "n_holdings": 20,
+ "holdings": [
+  {
+   "code": "000915",
+   "weight": 0.05,
+   "yield_ttm": 0.104384,
+   "sigma_daily_pct": 1.4984
+  },
+  {
+   "code": "002027",
+   "weight": 0.05,
+   "yield_ttm": 0.082278,
+   "sigma_daily_pct": 1.6355
+  },
+  {
+   "code": "002170",
+   "weight": 0.05,
+   "yield_ttm": 0.086754,
+   "sigma_daily_pct": 2.3395
+  },
+  {
+   "code": "002233",
+   "weight": 0.05,
+   "yield_ttm": 0.085915,
+   "sigma_daily_pct": 1.7847
+  },
+  {
+   "code": "002441",
+   "weight": 0.05,
+   "yield_ttm": 0.083832,
+   "sigma_daily_pct": 2.0756
+  },
+  {
+   "code": "002572",
+   "weight": 0.05,
+   "yield_ttm": 0.106809,
+   "sigma_daily_pct": 1.8917
+  },
+  {
+   "code": "002749",
+   "weight": 0.05,
+   "yield_ttm": 0.088132,
+   "sigma_daily_pct": 1.7015
+  },
+  {
+   "code": "002763",
+   "weight": 0.05,
+   "yield_ttm": 0.107383,
+   "sigma_daily_pct": 2.3118
+  },
+  {
+   "code": "002867",
+   "weight": 0.05,
+   "yield_ttm": 0.088322,
+   "sigma_daily_pct": 1.7479
+  },
+  {
+   "code": "300406",
+   "weight": 0.05,
+   "yield_ttm": 0.08794,
+   "sigma_daily_pct": 1.7301
+  },
+  {
+   "code": "300770",
+   "weight": 0.05,
+   "yield_ttm": 0.112161,
+   "sigma_daily_pct": 1.7578
+  },
+  {
+   "code": "300994",
+   "weight": 0.05,
+   "yield_ttm": 0.084433,
+   "sigma_daily_pct": 2.0946
+  },
+  {
+   "code": "600329",
+   "weight": 0.05,
+   "yield_ttm": 0.134778,
+   "sigma_daily_pct": 1.7752
+  },
+  {
+   "code": "600742",
+   "weight": 0.05,
+   "yield_ttm": 0.087013,
+   "sigma_daily_pct": 1.8281
+  },
+  {
+   "code": "600750",
+   "weight": 0.05,
+   "yield_ttm": 0.083186,
+   "sigma_daily_pct": 1.7465
+  },
+  {
+   "code": "600866",
+   "weight": 0.05,
+   "yield_ttm": 0.089412,
+   "sigma_daily_pct": 1.8605
+  },
+  {
+   "code": "601717",
+   "weight": 0.05,
+   "yield_ttm": 0.093633,
+   "sigma_daily_pct": 2.2214
+  },
+  {
+   "code": "603165",
+   "weight": 0.05,
+   "yield_ttm": 0.193084,
+   "sigma_daily_pct": 2.7277
+  },
+  {
+   "code": "603551",
+   "weight": 0.05,
+   "yield_ttm": 0.089586,
+   "sigma_daily_pct": 1.8457
+  },
+  {
+   "code": "603569",
+   "weight": 0.05,
+   "yield_ttm": 0.109797,
+   "sigma_daily_pct": 1.762
+  }
+ ],
+ "weight": 0.05,
+ "entry_date": "2026-10-08",
+ "next_entry_date": null,
+ "turnover": {
+  "added": [
+   "002027",
+   "002170",
+   "002233",
+   "002441",
+   "300770",
+   "600742",
+   "600750"
+  ],
+  "removed": [
+   "000423",
+   "000913",
+   "002004",
+   "600153",
+   "600983",
+   "603167",
+   "603508"
+  ],
+  "n_held": 20,
+  "n_changed": 14,
+  "one_way_turnover": 0.35
+ },
+ "universe": {
+  "n_active": 5208,
+  "n_base": 5094,
+  "n_cand": 3424,
+  "floor_skipped": false
+ },
+ "disclosures": [
+  "面板=本地重建 qfq 面板（data/cache/p1c_local），非 P1 判决批所用的 Money02 宿主面板；同一冻结规则、不同面板基座，如实并列不做等价宣称。",
+  "规则冻结自 research\\FUND-DIVLOWVOL-P1.md §2/§3：基础资格掩码→股息门 yield_ttm>0→可筛波幅→低波半区（sigma<=截面中位）→按 yield_ttm 降序取 Top-20 等权。",
+  "零成本模型（此处不扣费）：judged 面另载 x1/x2 双边成本；本表只给换手只数供成本自算。",
+  "月度换仓（T-22 census 月起点枚举）；非发射月不动作、原持仓延续。",
+  "信号窗向前延伸至面板末 bar（census 冻结窗止于 2026-03-02）：延伸只去掉「起点需 63 个前向 bar」的测量要求，不改规则、不重判任何 census 月。",
+  "零收益宣称：本件是研究读数，不构成投资建议；公司自动实盘开闸仍须月界窗 + CEO 唯一门。",
+  "零空头、T+1 成交口径与 P1 一致；一字板/停牌不可成交面不在此剔除。"
+ ],
+ "sha16": "86542e2580b62276"
+}
