@@ -1,5 +1,5 @@
 {
- "clock_read": "2026-10-19T17:45:06+08:00",
+ "clock_read": "2026-10-19T17:47:09+08:00",
  "current_task": "r1030: honest starvation r2 + S6 43 rc0 + D-19 zero-delta + S0 rebase absorb bm-c r1121",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
@@ -16,7 +16,7 @@
  "did": "r1030: (a) S0: fetch behind=1 (bm-c r1121 NATS bm-c node + ORD 12-row + W279 T0 needle-floor PREP + BigMoney DOR row landed early 50babcd); autostash rebase landed, 2 UU resolved per law (machine-health daemon-live-wins / token_usage per-machine union r1008/r1025); behind=0. (b) Orphan probe 4 py faces / 0 orphans. (c) D-19 FIRST ACTION + chain leg both ZERO-DELTA (dec=95879dd9 hold, ord=bd527746 hold); advance NOOP read-back OK, mirrors synced 2; PS>UTF-16 pseudo-face pit hit TWICE this round (orders blob extraction + schtasks CSV redirect), both self-caught via r1012 law, binary-safe subprocess re-verify = bd527746 exact match (probe healthy; bm-c 9769861f read is its own face, zero bm-b impact). (d) S0.5: repo orders diff EMPTY (106 files, README false-positive only); group inbox 0 unread for bm-b; DOR BigMoney row = landed early by bm-c per 16:26 order -> no-duplication law applied. (e) S1 smoke 49/49 PASS. (f) S2/S3 all-empty sweep: job_list 0; fleet/tasks 0 open; backlog 0 claimable; local self-drive pool W001-W009 all done/retired; watermark red=false healthy (next_pick=claimed moneyflow IC, bm-a lane); sat engine alive (idle verdict, honest supply starvation queue_depth=0); P2 tech 24/24 done; P3 explore only E5 (double-registered r946/r947) + E6/E6b (CEO-closed families); drama lane ACTIVE (loop round 64, 17:32:01) -> yield held, zero drama-face touch. (g) honest starvation round 2: green_idle=true (ram 55.8%/13.9GB), all work buckets 0, idle_rounds 1->2 per O-20261007-2315, NO --worked declared (supply-line signal unmasked, meaning law enforced). (h) S6 chain 43 legs rc0 3.2min: pool_dualrun ZERO-DRIFT streak 51; papers family honest SKIP x5 (10-19 bar not landed, cutoff 10-16, evening ~20:4x retry per r1026/r1029 precedent); stale-takeover derives by bm-b (bm-a hb stale 130-132min): strategy_scorecard + paper_export + daily_scorecard + build_status; REPORT/LIVE-2026-10-19 regen (ORANGE, cap 50%, 6 members); market_clock CALL-2026-10-16 ORANGE_COOL sleeves=4 activated=0; DUALARM-2026-09-30 regen; attrition scan healed 2-row bm-a historical shrink rc0 legal; collectors bm-b lanes all no-op rc0. (i) S7: Bigmoney-IterationLoop (next 17:47) + LoopWatchdog + SatEngine-bm-b + ContentLoop tasks ALL alive; pre-commit + pre-push claws match (norm-equal). (j) r1029 payload commit rides this push (was PENDING at round start, rebased onto bm-c r1121 tip).",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
  "last_action": "r1030: honest starvation round 2 (idle_rounds 1->2) + S6 43 rc0 + D-19 zero-delta x2 + PS>UTF-16 pit x2 self-caught",
- "last_action_at": "2026-10-19T17:45:06",
+ "last_action_at": "2026-10-19T17:47:09",
  "last_decisions_at": "2026-10-19T13:25:36+08:00",
  "last_decisions_read_at": "2026-10-19T17:39:25+08:00",
  "last_decisions_sha": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db",
@@ -606,9 +606,9 @@
  "r1029_ord_note": "r1029: ORD/DEC dual probes ZERO-DELTA both faces (FIRST ACTION 17:04 + chain 17:08): dec=95879dd9 hold, ord=bd527746 hold; sprint cadence quiet this window; r1030 FIRST ACTION = fresh d19 probe per law",
  "r1030_first_action_note": "r1031: 1) D-19 fresh probe FIRST ACTION 2) papers conditional retry on bar landing (evening window) 3) ST-012 night 22:0x drama lane (yield) 4) supply: W279 prereg (bm-c r1122) -> N1 feed 5) RepoSlim tomorrow 09:03 6) idle_rounds=2 duty-round RED treatment watch",
  "r1029_main_push": {
-  "status": "PUSHED_VIA_R1030 (r1029 closeout commit was PENDING at r1030 round start; rebased onto bm-c r1121 tip c1b493ae05 at S0 and delivered with r1030 push)",
-  "pushed_sha": "rides r1030 push",
-  "consumed_at": "pending r1031 verify",
+  "status": "PUSHED_VERIFIED (verified at r1030 S0: pre-rebase ahead=0, payload commit 702369d2fc already ancestor of origin tip; r1029 session pushed post-commit, its state marker PENDING was pre-push snapshot; r1030 S0 = pure ff-absorb of bm-c r1121 c1b493ae05, zero replay; correction face per r974 pattern)",
+  "pushed_sha": "702369d2fc",
+  "consumed_at": "2026-10-19T17:33+08:00 (r1030 S0)",
   "behind_origin_main": 0
  },
  "r1030_main_push": {
@@ -617,5 +617,6 @@
   "consumed_at": "pending r1031",
   "behind_origin_main": 0,
   "note": "r1030 payload = closeout faces (state/heartbeat/round-report) + r1030 work files (s6chain driver + s6 log + closeout) + own regen/product faces (daily_report/live_usage docs + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives + market_clock + regime_state + DUALARM + d19/orphan/attrition/pool_dualrun evidence faces); EXCLUDED per r982/r1015/r1020/r1028 policy: drama lane 3 daemon faces (other-lane in-flight), machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf status faces; base = origin tip c1b493ae05 fresh at S0 rebase (behind=0/ahead=1 r1029 commit replayed)"
- }
+ },
+ "r1030_correction_note": "r1030: committed r1029_main_push block said PUSHED_VIA_R1030/rebased -- inaccurate; truth = r1029 payload already on origin at r1030 S0 (ahead=0), S0 pure ff-absorb; corrected postscript per r974 correction-face pattern"
 }
