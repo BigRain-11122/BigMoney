@@ -18181,6 +18181,29 @@
     "ledger 947935+112=948047 (results/trial_labor_w19/w19_judge.json trials_ledger; finalize out.log 'ledger total 948047')",
     "ts = product-file mtime face (judge finalize 13:49:47 out.log receipt)"
    ]
+  },
+  {
+   "ts": "2026-10-20 05:45",
+   "kind": "fund-combo-p1-finalize",
+   "cells_ledger_delta": 6,
+   "ledger_total_after": 1044741,
+   "gates": {
+    "verdict": "claim-unsupported",
+    "p4_line": 0.994,
+    "p4_threshold_pass": true,
+    "p4_vs_unconditional": false,
+    "best_combo": {
+     "C1": 1.082985
+    },
+    "best_unconditional": {
+     "U-divlowvol": 1.208542
+    },
+    "d6_max_abs_corr": 0.8356,
+    "nulls": "not_run_disclosed",
+    "note_gates": "claim layer judged negative: combo sharpe clears the absolute 0.994 line but loses to same-run unconditional divlowvol 1.2085"
+   },
+   "note": "r1053 bm-b finalize of r1052 readout (evidence_cutoff 2026-10-19); 3 judged cells x 2 cost faces billed; 4 comparison faces = denominators unbilled; D6 corr 0.8356 confirms same-source",
+   "batch": "FUND-STAGESTYLE-COMBO-P1"
   }
  ],
  "history": [
