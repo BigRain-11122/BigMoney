@@ -2,6 +2,7 @@
 
 > **状态=草案**：本件 r1085 开立（O-20261019-2230-bm-b §二.4 同轮开动面·bm-a 席）；**§2 探针四元组/阶段面 PIT 审计/D6 probe/种子注册/禁向闸=r1086 冻结窗跑齐后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
 > 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
+> **r1086 冻结窗接管（bm-b r1048·2026-10-20T04:1x）**：bm-a 心跳停滞 281min>20min（S3 stale-takeover 律）→ 冻结窗只读探针腿由 bm-b 接管跑；`scripts/sscombo_freeze_probe.py` 六腿 **GREEN**（receipt=`results/_r1048bmb_sscombo_freeze_probe.json`·MSG-20261020-0415-bmb-bma）。同窗两处阻断修复=§0.5 例外字段补齐（BAN-04 词面假阳性对号＋不可能看见 statement·闸 rc0 ADMIT）＋空对照种子带改 **20531000/20531500**（原拟 20530000 撞带 rc1·SEED_REGISTRY 登记待冻结窗）。**未完成=§5 预测/§3 映射候选集定稿/D6 probe/PIT 重述漂移审计/runner——冻结 commit 未落，本件仍 DRAFT-NOT-FROZEN。**
 > **CEO 授权（O-20261019-2230-bm-b §二.4 原文）**：「**阶段×风格组合族批**：MARKET_STAGE_TABLE（RED/YELLOW/ORANGE/GREEN×HOT）× 风格（红利低波/价值/质量/成长/中小盘等）股票域组合回测——禁向门以新机制例外承载（阶段条件化=新命题·例外理由随 prereg 落档）·判据面=science_gates 冻结口径」＋§三「**阶段×风格组合面首版 ≤2026-10-26 呈 CEO**（各阶段态×各风格的活/判负矩阵+最优组合建议+组合回测证据链）」。
 > **防运气门不拆**（O-2230 §二 末条原文）：技能线/DSR/PBO/种子登记/预注册冻结全照旧。
 > 血统：三风格族 P1 判决在册（fund_value_p1 headline sharpe 0.381 insufficient-sample／fund_quality_p1 x2 0.391／fund_divlowvol_p1 0.89 vs 基准 1.0025·DSR 0.675——全=无条件下全窗判决）；P2 复活批在飞（FUND-DIVLOWVOL-P2·bm-b r1038 开批）。**本批命题=阶段条件化组合——P1 族否证未检验的维度**（P1 判的全是无条件持有；「某阶段态下某风格活/判负」从未被判决过）。
@@ -16,6 +17,8 @@
 ## §0.5 禁开方向硬闸【冻结窗跑闸】
 - 跑前过闸：`python Tools/banned_direction_gate.py --prereg research/FUND-STAGESTYLE-COMBO-P1.md`（rc0 放行·fail-closed）。
 - **新机制例外申报（O-20261019-2230 §二.4 CEO 授权面）**：例外类型=**new_mechanism**（阶段条件化=新命题）：三族 P1 的否证判面=**无条件全窗持有**（P1 prereg 无阶段维度·判决读数不分段）；「阶段态→风格选择」的条件化组合命题从未进入任何在册判决——原否证不覆盖本命题。CEO 授权=O-20261019-2230-bm-b §二.4 原文在案。
+- **命中方向对号（BAN-04）**：闸报 BAN-04（grid trading）唯一命中行=§3「映射网格」——该词在本件语义=**阶段→风格映射候选集（有限枚举设计面·冻结窗定稿）**，非网格交易下单机制/非加仓减仓网格策略；本件无任何 grid trading 机制成分，申报为词面假阳性对号，裁定权归冻结窗闸。
+- **不可能看见**：原三族 P1 否证（value/quality/divlowvol）只看**无条件全窗持有**的单一读数，看不见「某一阶段态下某一风格袖面」的条件化命题——原判据在阶段维度上无对应格，故其否证不能覆盖本件所测命题（机器闸 key=不可能看见·本句即该字段值）。
 
 ## §1 α 机制段【D6·风险溢价时变面】
 - 机制勾选：**风险溢价**（主）——风格风险溢价时变：市场阶段态（风险偏好/流动性/政策周期）决定当下哪类风格的风险溢价被支付（RED 态=现金确定性溢价·GREEN×HOT 态=成长/动量溢价·ORANGE 态=低波防御溢价）；**行为偏差**（辅）——资金流阶段性追逐风格业绩（风格动量），阶段切换点=风格轮动行为锚。
