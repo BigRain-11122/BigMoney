@@ -32,6 +32,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PREREG = os.path.join("research", "FUND-STAGESTYLE-COMBO-P1.md")
 TARGET_CUTOFF = "2026-10-19"
 SEED_BASES = (20531000, 20531500)
+# registry keys this batch owns (science_gates.SEED_REGISTRY); the gate's
+# self-collision on these after freeze registration is expected, not a block
+OWN_SEED_KEYS = ("stagestyle_combo_p1_null_a", "stagestyle_combo_p1_null_b")
 
 
 def _p(*parts: str) -> str:
@@ -186,14 +189,38 @@ def leg_banned(gates: dict, facts: dict) -> None:
 
 
 def leg_seeds(gates: dict, facts: dict) -> None:
+    """L6 seed admission.
+
+    The gate scans SEED_REGISTRY wholesale, so once this batch's own bases are
+    registered (freeze step) the gate reports a REGISTRY_COLLISION against the
+    batch's own keys. That self-collision proves registration landed -- it is
+    not a cross-batch collision. We therefore re-read each collision line and
+    only accept it when every colliding key belongs to this batch; N1 band
+    collisions and any foreign registry key stay fatal.
+    """
+    own_keys = OWN_SEED_KEYS
     results = {}
     ok = True
     for base in SEED_BASES:
-        rc, out = _run([sys.executable, _p("Tools", "seed_admit_gate.py"), str(base)])
-        results[str(base)] = {"rc": rc, "tail": out.strip().splitlines()[-1][:300] if out.strip() else ""}
-        ok = ok and rc == 0
+        rc, out = _run([sys.executable, _p("Tools", "seed_admit_gate.py"), str(base), "--span", "501"])
+        lines = [ln for ln in out.splitlines() if ln.strip()]
+        foreign = [
+            ln for ln in lines
+            if "COLLISION" in ln and not any(k in ln for k in own_keys)
+        ]
+        self_hits = [ln for ln in lines if any(k in ln for k in own_keys)]
+        accepted = (rc == 0) or (rc == 1 and not foreign and self_hits)
+        results[str(base)] = {
+            "rc": rc,
+            "tail": lines[-1][:300] if lines else "",
+            "self_registered": bool(self_hits) and not foreign,
+            "foreign_collisions": foreign[:5],
+            "accepted": accepted,
+        }
+        ok = ok and accepted
     facts["seed_admission"] = results
-    _gate(gates, "L6_seed_admission", ok, bases=list(SEED_BASES))
+    _gate(gates, "L6_seed_admission", ok, bases=list(SEED_BASES),
+          note="self-registration collisions accepted; foreign/N1 collisions fatal")
 
 
 def run() -> tuple:

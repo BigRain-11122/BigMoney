@@ -32,11 +32,12 @@
 ### 2a 阶段标签面（候选四元·冻结窗裁定唯一主面+PIT 审计）
 | 面 | 路径 | r1085 实测 | 状态 |
 |---|---|---|---|
-| REGIME-5 标签序列 | `results/regime5_labels/REGIME5-2026-09-30.json` | 3,289 日·2013-03-21→2026-09-30·日级 state（CHOP/BEAR…全谱=冻结窗探针补录） | ✅ LOCAL |
+| REGIME-5 标签序列 | `results/regime5_labels/REGIME5-2026-10-19.json` | **r1049 重推：3,297 日·2013-03-21→2026-10-19（cutoff 与价格面 10-19 对齐·8 新日）**；旧 asof 件 REGIME5-2026-09-30.json 3,289 日留档 | ✅ LOCAL（cutoff 10-19） |
 | REGIME_GUARD v3 4-state | `scripts/market_regime.py`→`results/regime_state.json` | asof 2026-10-19·shadow·当前 ORANGE；历史深回放能力在册（2015 救市/2016 熔断 12 极端日回放在案） | ✅ LOCAL |
 | 3-way MA200 代理 | core48 daily face·P1 族 reporting 段先例（date-keyed·全史） | 三族 P1 runner 在用（verbatim import 面） | ✅ LOCAL |
 | Thermo 三轴情绪面（P-5C 冻结）+HOT 复合 | `results/regime_thermo/thermo_daily.csv`＋LHB heat composite | 7,216 行·1996-12-16→2026-09-22（P-5C 冻结面·asof 失配诚实披露） | ✅ LOCAL（cutoff 09-22） |
 - **PIT 安全律（冻结窗审计必过）**：label(t) 只可用 ≤t-1 收盘（或 t 收盘·约定冻结窗写死）可算数据；**重述漂移审计**=历史序列 asof 快照 vs 当前重推 diff（REGIME5 09-30 件 vs 重推=冻结窗跑）；阶段面证据窗必须覆盖袖面评估窗（不足=诚实缺口披露禁编造）。
+- **PIT 重述漂移审计 r1049 已跑（本腿闭合）**：`python scripts/sscombo_pit_drift_audit.py run --asof results/regime5_labels/REGIME5-2026-09-30.json --fresh results/regime5_labels/REGIME5-2026-10-19.json` → **verdict=NO_DRIFT**（共享 3,289 日 2013-03-21..2026-09-30·flips=0·rate=0.0·fresh_only 8 日），selftest 5/5；receipt=`results/_r1049bmb_sscombo_pit_drift.json`（本机件）+ 上链汇总件 `results/_r1049bmb_sscombo_freeze_receipt.json`（三腿 content-hash 打包·`!*_receipt.json` 追踪类）。旧 asof 标签在新面板上逐日可复现=标签面非结果拟合、无重述漂移。
 - **MARKET_STAGE_TABLE 阶梯（O-2230 §二.4 命名面）**：RED/YELLOW/ORANGE/GREEN×HOT 五态=CEO live_usage LADDER 同源（cap 20/65/50/80/95）；本批=股票域研究面（读数矩阵+组合回测·非仓位阶梯执法面——cap 表归 live_usage 执法面·两不混）。
 ### 2b 风格袖面（成分族）
 - 在册：三族 P1（value/quality/divlowvol·判决 JSON 在册可复算）＋P2 复活批在飞（FUND-DIVLOWVOL-P2）＋O-2230 §二.2 价值/质量 P2（阶段条件化重试·候开批）＋§二.5 基本面族滚动（成长/回购/股东行为/季节性·每族五步制+数据可达性审计先行）。
@@ -50,6 +51,17 @@
 ## §3 方法学【冻结窗定稿·组合规格预置】
 - **逐格条件读数面（CEO 矩阵正身）**：每个（阶段态 s × 风格袖面 f）格=该袖面在 s 态日集上的条件统计（年化/Sharpe/回撤/胜率）——产出=活/判负矩阵（描述面+judged 面）。
 - **组合格（judged 正身）**：阶段→风格映射候选格（含 RED→现金/低波防御候选·现金腿=映射候选之一如实申报）；映射网格=冻结窗设计定稿（禁跑后改映射）；对照面=无条件持有单风格袖面（P1 判决面）+等权全风格——**组合主张判据=条件化组合 vs 最优无条件袖面**。
+- **映射候选集 v1 定稿（r1049·有限枚举·跑前写死·禁跑后增删）**：状态面只用 REGIME5 五态；SUPPORT 按 §5-P3 并入 CHOP 行为（不设专格——样本 104 日/极端日占比最高 6.73%）。judged 候选格共 **3 格**：
+  | 候选 | BEAR | GRIND | CHOP+SUPPORT | BULL |
+  |---|---|---|---|---|
+  | C1 divlowvol-tilt | cash | cash | divlowvol | divlowvol |
+  | C2 value-tilt | cash | cash | divlowvol | value |
+  | C3 quality-tilt | cash | cash | divlowvol | quality |
+  对照面（非 judged·判据分母）4 格：U-value / U-quality / U-divlowvol（无条件全窗持有三族 P1 headline 面）+ U-EW（等权三风格）。
+  - 现金腿=cash 态零收益零成本（如实申报：现金腿不产生 alpha，只消除该态的风格 beta）。
+  - 状态切换换手=成本面如实计（V2 三层滑点+往返成本申报）；同态不出手=零换手。
+  - 映射为月份级判定（月频再平衡时读上一交易日收盘标签·PIT 安全律同 §2a）。
+  - 禁跑后改映射/增删候选格；若需新映射=另开预注册批（D6 增量 probe 同批）。
 - null 对照：K=冻结窗定稿（same-mask 随机阶段标签 shuffle 族·label-timing null——阶段信息置零·换手成本保留·seed 带=科学种子带律·`seed_admit_gate` rc0 先行+SEED_REGISTRY 登记）。
 - 成本口径：V2（ADV20 三层滑点+1%ADV 帽）×2 face 恒开；**CN-C7 往返成本 bp 申报**：股票面按 `knowledge/rules.py fee_schedule_for` 前缀路由（印花税仅卖边 5bp+过户费双边 0.1bp·¥5 最低佣金临界名义 ¥20,000 档位必附）；月频换手+阶段切换换手=成本面如实计（条件化组合的换手税=本批诚实读数面）。
 - 出场轴显式门三选一：**候选=②持有到底声明+runner 显式禁用引擎缺省出场栈**（月频再平衡=唯一出场·承三族 P1 verbatim 双通道禁用面）——冻结窗定稿声明；缺省栈双通道逐键申报+出场原因普查第二件门（CENSUS_BLOCK_SHARE=0.20）。
@@ -61,7 +73,13 @@
 - 条件读数矩阵=描述面（CEO 呈报正身）；judged 面=组合格判决——两不混报（三态语言律）。
 
 ## §5 跑前预测【冻结窗写死·≥3 条+极端日先验】
-（冻结窗定稿——占位纪律：写数字即造假）
+> 基准先验已算（非占位）：`python scripts/sscombo_stage_priors.py run` → receipt=`results/_r1049bmb_sscombo_stage_priors.json`（面=REGIME5-2026-10-19 标签 × sh510300 日收，窗口 2012-05-29..2026-10-19，bars 3,496 / return_days 3,495 / 已标 3,297 / 预热未标 198）。**本段只引阶段标签的基准率，不含任何条件化组合读数**（跑前不看结果）。
+- **极端日先验（tail_q=1%）**：全窗极端日 70 日，阈值 日收益 ≤ −393.35bp 或 ≥ +387.10bp；分态极端日占比 SUPPORT 6.73% > BULL 3.48% > BEAR 3.18% > CHOP 1.33% > GRIND 0.00%。
+- **预测 P1（BULL 格=主收益源）**：BULL 态 201 日（占 6.10%）基准日均 +32.17bp、年化波动 26.12%——预测组合相对无条件持有的增益主要由 BULL 格贡献，且 BULL 格条件 Sharpe > 全窗无条件 Sharpe。
+- **预测 P2（BEAR 格=回避可回收）**：BEAR 态 786 日（23.84%）基准日均 −15.85bp、极端日 3.18%——预测 BEAR 格映射到现金/低波防御可回收 ≥50% 的 BEAR 日均损失（换手成本已计）。
+- **预测 P3（SUPPORT 不设专格）**：SUPPORT 态仅 104 日（3.15%）但极端日占比最高 6.73%、年化波动 34.59%——样本少且尾部集中，预测专格读数不稳定；v1 映射表将 SUPPORT 并入 CHOP 行为，若强行设专格则判负风险最高。
+- **预测 P4（组合主张门）**：条件化组合年化 Sharpe ≥ 最优无条件 P1 袖面 headline（divlowvol 0.894，r1048 probe 实读）+0.10，否则组合主张判负（条件化白付换手税）。
+- 判定口径：P1-P4 为跑前写死的读数预测，§7 跑后实证逐条对照，**禁跑后改预测**。
 
 ## §6 产物
 - runner：`scripts/stagestyle_combo_p1_backtest.py`（新·三族 P1 runner 骨架 import 复用律·阶段标签加载器新写）；结果件：`results/stagestyle_combo_p1/`（顶层 `science_gates.cutoff_meta` 必带）+**CEO 矩阵 REPORT 面**（`REPORT-STAGESTYLE-v1.md`+JSON 孪生·O-2230 §三 首版载体）；本件 §7/§8 回填；daily_report 股票域段消费接线=另票。

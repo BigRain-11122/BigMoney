@@ -2229,6 +2229,22 @@ SEED_REGISTRY = {
         "trial_labor_w20_gen": 20_650_000,
         "trial_labor_w20_scrnull": 20_650_500,
         "trial_labor_w20_unc": 20_651_000,
+        # FUND-STAGESTYLE-COMBO-P1 (stage x style conditional-combo family
+        # batch; open ticket bm-a r1085, freeze-window takeover bm-b
+        # r1048/r1049): null pair 20531000 (default random same-mask stage
+        # label shuffle) / 20531500 (ce, label-timing null). Original pick
+        # 20530000 was BLOCKED rc1 (N1 band collision) during the r1048
+        # probe; re-picked one step up per the P1 sibling layout
+        # 20520000/20520500 precedent. Freeze-window live gate re-run ALL
+        # FREE (probe = evidence, not reservation): seed_admit_gate rc0
+        # base=20531000 span=501 checked=501 verdict=FREE; rc0
+        # base=20531500 span=501 checked=501 verdict=FREE; rg full-repo
+        # scan (data/Money02 excluded) 2026-10-20 04:2x = zero RNG hits
+        # (only this batch's own prereg/MSG/probe faces). Registered at
+        # prereg freeze BEFORE any burn, one-step R250 law; prereg
+        # research/FUND-STAGESTYLE-COMBO-P1.md sec.3.
+        "stagestyle_combo_p1_null_a": 20_531_000,
+        "stagestyle_combo_p1_null_b": 20_531_500,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

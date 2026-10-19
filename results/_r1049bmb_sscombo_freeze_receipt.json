@@ -1,0 +1,153 @@
+{
+ "batch": "FUND-STAGESTYLE-COMBO-P1",
+ "leg": "freeze-window evidence pack (bm-b takeover of bm-a r1086 window)",
+ "host": "bm-b",
+ "round": "r1049",
+ "generated": "2026-10-20T04:31:59+08:00",
+ "evidence_cutoff": "2026-10-19",
+ "prereg": "research/FUND-STAGESTYLE-COMBO-P1.md",
+ "verdict": "FREEZE_LEGS_PARTIAL",
+ "closed_legs": [
+  "L1 price panel (complete, cutoff 2026-10-19, per_files 5225)",
+  "L2 stage labels (REGIME5-2026-10-19, 3,297 days, ascending, unique)",
+  "L3 thermo face present (P-5C, cutoff 2026-09-22 disclosed)",
+  "L4 sleeve faces (value/quality/divlowvol cells+d6 present)",
+  "L5 banned-direction gate rc0 ADMIT",
+  "L6 seed admission (20531000/20531500 registered, self-collision exempted, foreign/N1 fatal)",
+  "PIT restatement drift audit: NO_DRIFT over 3,289 shared days, flips=0",
+  "sec.5 pre-run predictions P1-P4 written with machine-read numbers",
+  "sec.3 mapping candidate set v1 (C1/C2/C3 judged + 4 control cells)"
+ ],
+ "open_legs": [
+  "D6 probe (needs the combo return face from the runner)",
+  "runner scripts/stagestyle_combo_p1_backtest.py (not built yet)",
+  "freeze commit therefore NOT landed; prereg stays DRAFT-NOT-FROZEN"
+ ],
+ "legs": {
+  "freeze_probe": {
+   "path": "results/_r1048bmb_sscombo_freeze_probe.json",
+   "present": true,
+   "sha256": "3732f163bdd8b552e3549a11307e5942b8eb4ebc2e38c643d09d450ab2046e0c",
+   "verdict": "GREEN",
+   "summary": {
+    "red_gates": [],
+    "gates": {
+     "L1_price_panel": {
+      "ok": true,
+      "complete": true,
+      "cutoff": "2026-10-19",
+      "per_files": 5225,
+      "target_cutoff": "2026-10-19"
+     },
+     "L2_stage_labels": {
+      "ok": true,
+      "n_labels": 3297,
+      "ascending": true,
+      "unknown_states": []
+     },
+     "L3_thermo_face": {
+      "ok": true,
+      "rows": 7216,
+      "last": "2026-09-22"
+     },
+     "L4_sleeve_faces": {
+      "ok": true,
+      "families": [
+       "divlowvol",
+       "quality",
+       "value"
+      ]
+     },
+     "L5_banned_direction_gate": {
+      "ok": true,
+      "rc": 0
+     },
+     "L6_seed_admission": {
+      "ok": true,
+      "bases": [
+       20531000,
+       20531500
+      ],
+      "note": "self-registration collisions accepted; foreign/N1 collisions fatal"
+     }
+    }
+   }
+  },
+  "pit_drift": {
+   "path": "results/_r1049bmb_sscombo_pit_drift.json",
+   "present": true,
+   "sha256": "ad25eaf526062d1549a110f778c509e54ee1ca7fa4c56598ad57119884993f91",
+   "verdict": "NO_DRIFT",
+   "summary": {
+    "shared_days": 3289,
+    "flips": 0,
+    "flip_rate": 0.0
+   }
+  },
+  "stage_priors": {
+   "path": "results/_r1049bmb_sscombo_stage_priors.json",
+   "present": true,
+   "sha256": "5730e405627d7a383d5f7434a399dc3ce8b578fe400ed82b65ad58279cb6ed4f",
+   "verdict": null,
+   "summary": {
+    "states": [
+     {
+      "state": "BULL",
+      "days": 201,
+      "day_share_pct": 6.1,
+      "mean_bp": 32.17,
+      "ann_vol_pct": 26.12,
+      "share_pos": 0.5821,
+      "extreme_days": 7,
+      "extreme_share_of_state_pct": 3.48
+     },
+     {
+      "state": "CHOP",
+      "days": 2103,
+      "day_share_pct": 63.79,
+      "mean_bp": 7.35,
+      "ann_vol_pct": 20.02,
+      "share_pos": 0.5155,
+      "extreme_days": 28,
+      "extreme_share_of_state_pct": 1.33
+     },
+     {
+      "state": "GRIND",
+      "days": 103,
+      "day_share_pct": 3.12,
+      "mean_bp": -5.43,
+      "ann_vol_pct": 12.16,
+      "share_pos": 0.4369,
+      "extreme_days": 0,
+      "extreme_share_of_state_pct": 0.0
+     },
+     {
+      "state": "BEAR",
+      "days": 786,
+      "day_share_pct": 23.84,
+      "mean_bp": -15.85,
+      "ann_vol_pct": 25.38,
+      "share_pos": 0.4262,
+      "extreme_days": 25,
+      "extreme_share_of_state_pct": 3.18
+     },
+     {
+      "state": "SUPPORT",
+      "days": 104,
+      "day_share_pct": 3.15,
+      "mean_bp": -7.22,
+      "ann_vol_pct": 34.59,
+      "share_pos": 0.5096,
+      "extreme_days": 7,
+      "extreme_share_of_state_pct": 6.73
+     }
+    ],
+    "extreme_days_total": 70,
+    "extreme_thresholds_bp": {
+     "low": -393.35,
+     "high": 387.1
+    }
+   }
+  }
+ }
+}
