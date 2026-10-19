@@ -1,14 +1,14 @@
 {
- "activity_now": "W284 prereg FROZEN (research/PERPETUAL_N1_W284_PREREG.md; K 622,720 proj / ledger 1,049,141 proj); next = W284 five-face splice then engine self-burn 12/12",
+ "activity_now": "W284 five-face FROZEN (A 640_101..642_100 / B 642_101..642_300); engine self-burn 9/12 shards at 07:09; next = sixgate + finalize one-pass",
  "agenda_starved": false,
- "clock_read": "2026-10-20T06:48:57+08:00",
+ "clock_read": "2026-10-20T07:10:26+08:00",
  "codely_live_count": 2,
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 97.2,
  "cpu_pct": 2.8,
  "cpu_util_pct": 2.8,
- "current_task": "r1145 W284 prereg freeze (68-rule derive)",
+ "current_task": "W284 five-face freeze landed; engine self-burn 9/12; next sixgate+finalize",
  "current_task_at": "2026-10-20T06:48:57+08:00",
  "current_task_ts": "2026-10-20T06:48:57+08:00",
  "d19_watermark_guard": {
@@ -50,7 +50,7 @@
  "gpu_vram_free_mb": 14276,
  "head_sha": "fbd1511689",
  "health": "green",
- "heartbeat_epoch_utc": 1792450137,
+ "heartbeat_epoch_utc": 1792451426,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 2.75,
  "idle_rounds": 0,
@@ -82,7 +82,7 @@
  "last_round_summary_at": "2026-10-20T03:25:23+08:00",
  "last_round_ts": 1792436814,
  "last_run_at": "2026-10-19T22:15:38+08:00",
- "last_seen": "2026-10-20T06:48:57+08:00",
+ "last_seen": "2026-10-20T07:10:26+08:00",
  "last_seen_at": "2026-10-20T03:25:23+08:00",
  "last_ts": "2026-10-19T22:15:38+08:00",
  "latest_artifact": "results/perpetual_faces/n1_w281_results.json",
@@ -525,7 +525,8 @@
  "r999_closeout_note": "r999: continuation window after dead-r998 + absorb-window (77132634b): executed as r999 (next after highest committed label r998), counter 998->1000 so next=r1000; zero absorb owed (dead-r998 body debts handled by its own estate commits + bm-a 16:00 closeout); zero double-count: S0.5 dual-delta FALSE both scans (dec d9d8aa72 / ord a7bb50ea); pit same-window: queue probe uppercase .Count on lowercase json keys returned misleading 0/0 first read -- always index exact lowercase keys (queue_running/queue_pending)",
  "ram_critical_face": "none (loop CPU-only, GPU idle)",
  "ram_free_gb": 3.0,
- "recent_artifact": "results/_w282bmc_20261020_probe_receipt.json",
+ "recent_artifact": "results/_w284bmc_freeze_receipt.json",
+ "round": "r1146",
  "round_no": 1145,
  "round_no_label": "r1136 closeout -> counter 1137",
  "sync": {
@@ -533,9 +534,9 @@
   "ts": "2026-10-19T15:07:19+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-20T06:48:57+08:00",
+ "ts": "2026-10-20T07:10:26+08:00",
  "updated": "2026-10-20T03:41:05+08:00",
- "updated_at": "2026-10-20T03:41:05+08:00",
- "verdict": "green r1145 product window: W284 PREREG FREEZE (A 640_101-642_100 / B 642_101-642_300, 274th wave, 282nd pool slot)",
- "verify": "smoke 49/49 | satengine rc0 | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0 | seed_admit_gate FREE x2 | 271-row mutual exclusion | decisions watermark consumed"
+ "updated_at": "2026-10-20T07:10:26+08:00",
+ "verdict": "green r1146 product window: W284 five-face FREEZE SPLICE (142 parity rows) + engine self-ignite 12/12 in flight",
+ "verify": "splice gates OK | seed_admit FREE x2 | banned ADMIT rc0 | pf 9/9 | n1 PASS | smoke 49/49 | satengine rc0 burning | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0"
 }
