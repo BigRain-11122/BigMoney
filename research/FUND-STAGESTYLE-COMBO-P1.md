@@ -1,0 +1,68 @@
+# FUND-STAGESTYLE-COMBO-P1 预注册【DRAFT-NOT-FROZEN·r1085 开批票】· 阶段×风格组合族批（股票域）
+
+> **状态=草案**：本件 r1085 开立（O-20261019-2230-bm-b §二.4 同轮开动面·bm-a 席）；**§2 探针四元组/阶段面 PIT 审计/D6 probe/种子注册/禁向闸=r1086 冻结窗跑齐后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
+> 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
+> **CEO 授权（O-20261019-2230-bm-b §二.4 原文）**：「**阶段×风格组合族批**：MARKET_STAGE_TABLE（RED/YELLOW/ORANGE/GREEN×HOT）× 风格（红利低波/价值/质量/成长/中小盘等）股票域组合回测——禁向门以新机制例外承载（阶段条件化=新命题·例外理由随 prereg 落档）·判据面=science_gates 冻结口径」＋§三「**阶段×风格组合面首版 ≤2026-10-26 呈 CEO**（各阶段态×各风格的活/判负矩阵+最优组合建议+组合回测证据链）」。
+> **防运气门不拆**（O-2230 §二 末条原文）：技能线/DSR/PBO/种子登记/预注册冻结全照旧。
+> 血统：三风格族 P1 判决在册（fund_value_p1 headline sharpe 0.381 insufficient-sample／fund_quality_p1 x2 0.391／fund_divlowvol_p1 0.89 vs 基准 1.0025·DSR 0.675——全=无条件下全窗判决）；P2 复活批在飞（FUND-DIVLOWVOL-P2·bm-b r1038 开批）。**本批命题=阶段条件化组合——P1 族否证未检验的维度**（P1 判的全是无条件持有；「某阶段态下某风格活/判负」从未被判决过）。
+
+## §0 批件身份【跑前·冻结窗定稿】
+- 批名/批号：**FUND-STAGESTYLE-COMBO-P1**（组合族批·N_eff=冻结窗定稿：judged combination cells×成本 face＋K null 族——扩容即买单）。
+- 认领（F-04 先行）：**本件=r1085 开批票**（bm-a 席·fleet/inbox/MSG 声明同窗落）；跑批开批执行票=冻结 commit 后按链式开票律另立；**与 bm-b FUND-DIVLOWVOL-P2 零撞车**（不同族面：P2=单族复活批·本批=跨族组合批；bm-b/bm-c 若开同批=commit 时间序后到让路）。
+- 部门归属：dept:策略（组合规格）＋研究（judgment 面）。
+- 算力预算：长活入池（runnable_pool·池单元领烧·O-20261019-2230 §二·workers_plan 冻结窗定稿·CEO 10% 余量律·22:38 修订=全并行零让位）。
+- **CEO 呈报死线（O-2230 §三）**：组合面首版 ≤2026-10-26（活/判负矩阵+最优组合建议+证据链）——本批 finalize 后由 runner 产 REPORT 面＋daily_report 股票域段消费（wiring 另票）。
+
+## §0.5 禁开方向硬闸【冻结窗跑闸】
+- 跑前过闸：`python Tools/banned_direction_gate.py --prereg research/FUND-STAGESTYLE-COMBO-P1.md`（rc0 放行·fail-closed）。
+- **新机制例外申报（O-20261019-2230 §二.4 CEO 授权面）**：例外类型=**new_mechanism**（阶段条件化=新命题）：三族 P1 的否证判面=**无条件全窗持有**（P1 prereg 无阶段维度·判决读数不分段）；「阶段态→风格选择」的条件化组合命题从未进入任何在册判决——原否证不覆盖本命题。CEO 授权=O-20261019-2230-bm-b §二.4 原文在案。
+
+## §1 α 机制段【D6·风险溢价时变面】
+- 机制勾选：**风险溢价**（主）——风格风险溢价时变：市场阶段态（风险偏好/流动性/政策周期）决定当下哪类风格的风险溢价被支付（RED 态=现金确定性溢价·GREEN×HOT 态=成长/动量溢价·ORANGE 态=低波防御溢价）；**行为偏差**（辅）——资金流阶段性追逐风格业绩（风格动量），阶段切换点=风格轮动行为锚。
+- **组合主张（由 burn 检验）**：阶段→风格映射的条件化组合跑赢无条件持有单风格——阶段变量携带「当下哪类溢价在支付」的信息；若阶段标签不含该信息，条件化=白付换手成本，判负。
+- 散户凭什么赢【M0.2】：月频 Top-N 股票袖面（承三族 P1 容量面·¥1M 账户容量无限）。
+- 同族相关性准入【D6】：probe 冻结窗跑（headline 日收益 vs 在册成员+同批全格 max|corr|≤0.7 fail-closed）。**组合结构性披露预置**：本批格面由三族 P1 袖面成分构成，与袖面成员的相关性**构造性偏高**（组合=成分的分配器）——D6 判面按组合族先例处理：判据面=组合 vs 在册成员的增量信息主张（阶段条件化 alpha），组合-成分相关性作为**披露面**随 D6 probe 落档不拒收（拒收面=组合 vs 其他组合/在册成员的无关性主张）；冻结窗若判需另开论证=照 D6 律另行预注册。
+- M1 t 面申报【必填】：`science_gates.t_from_sharpe` 派生＋`m1_t_value_gate`（t≥2.0）冻结窗接线。
+- M3 闭合族对号：family_key=**stagestyle_combo_stock_xs**（新组合族·开放键·CLOSED_FAMILIES 零命中=freeze 窗 selftest 断言）。
+
+## §2 数据与面板【r1085 阶段面/价格面实况（本窗已探）＋冻结窗补齐】
+### 2a 阶段标签面（候选四元·冻结窗裁定唯一主面+PIT 审计）
+| 面 | 路径 | r1085 实测 | 状态 |
+|---|---|---|---|
+| REGIME-5 标签序列 | `results/regime5_labels/REGIME5-2026-09-30.json` | 3,289 日·2013-03-21→2026-09-30·日级 state（CHOP/BEAR…全谱=冻结窗探针补录） | ✅ LOCAL |
+| REGIME_GUARD v3 4-state | `scripts/market_regime.py`→`results/regime_state.json` | asof 2026-10-19·shadow·当前 ORANGE；历史深回放能力在册（2015 救市/2016 熔断 12 极端日回放在案） | ✅ LOCAL |
+| 3-way MA200 代理 | core48 daily face·P1 族 reporting 段先例（date-keyed·全史） | 三族 P1 runner 在用（verbatim import 面） | ✅ LOCAL |
+| Thermo 三轴情绪面（P-5C 冻结）+HOT 复合 | `results/regime_thermo/thermo_daily.csv`＋LHB heat composite | 7,216 行·1996-12-16→2026-09-22（P-5C 冻结面·asof 失配诚实披露） | ✅ LOCAL（cutoff 09-22） |
+- **PIT 安全律（冻结窗审计必过）**：label(t) 只可用 ≤t-1 收盘（或 t 收盘·约定冻结窗写死）可算数据；**重述漂移审计**=历史序列 asof 快照 vs 当前重推 diff（REGIME5 09-30 件 vs 重推=冻结窗跑）；阶段面证据窗必须覆盖袖面评估窗（不足=诚实缺口披露禁编造）。
+- **MARKET_STAGE_TABLE 阶梯（O-2230 §二.4 命名面）**：RED/YELLOW/ORANGE/GREEN×HOT 五态=CEO live_usage LADDER 同源（cap 20/65/50/80/95）；本批=股票域研究面（读数矩阵+组合回测·非仓位阶梯执法面——cap 表归 live_usage 执法面·两不混）。
+### 2b 风格袖面（成分族）
+- 在册：三族 P1（value/quality/divlowvol·判决 JSON 在册可复算）＋P2 复活批在飞（FUND-DIVLOWVOL-P2）＋O-2230 §二.2 价值/质量 P2（阶段条件化重试·候开批）＋§二.5 基本面族滚动（成长/回购/股东行为/季节性·每族五步制+数据可达性审计先行）。
+- **冻结窗袖面锁定**：v1 首版=在册三族袖面（P1 冻结面复算）起步；P2/v2 增量袖面=finalize 后滚动并入（滚动并入律=每次并入过 §0.5 闸+D6 增量 probe）。
+### 2c 价格面板（与 P2 同裁定·bm-a r1085 探针实证）
+- `results/_r1085bma_p1c_panel_probe.py` 实测：Money02 p1c_stock 冻结面板=15 件 2,020.2MB·float32·T=8,792×N=5,222·**cutoff 2026-09-22**（陈旧 vs 新锚 2026-10-19 约 19 交易日·Money02 铁律禁动）→ **本地重建（astock_daily per 面·cutoff≥10-19）主路**（bm-b r1038 审计 complete）；TRANSFER 对齐件=陈旧+2GB 重载=备选弃用面（若冻结窗改判=TRANSFER 协议取数）。
+- **数据锚面定义四元组【G-ANCHOR-FACE】**：每数字探针锚冻结窗逐锚补齐（面路径+加载函数+起算窗+预热窗）；探针-锚同面断言 fail-closed。
+- **evidence_cutoff（D2 前向锁定）**：冻结窗定稿（候选=2026-10-19·新批新锚默认；阶段面 cutoff 失配=分层披露：袖面价格面 cutoff vs 阶段标签面 asof 各自落 cutoff_meta）。
+- 数据完备门：冻结窗跑（NaN/停牌/拆分断点普查=承三族 P1 §2 门族）。
+
+## §3 方法学【冻结窗定稿·组合规格预置】
+- **逐格条件读数面（CEO 矩阵正身）**：每个（阶段态 s × 风格袖面 f）格=该袖面在 s 态日集上的条件统计（年化/Sharpe/回撤/胜率）——产出=活/判负矩阵（描述面+judged 面）。
+- **组合格（judged 正身）**：阶段→风格映射候选格（含 RED→现金/低波防御候选·现金腿=映射候选之一如实申报）；映射网格=冻结窗设计定稿（禁跑后改映射）；对照面=无条件持有单风格袖面（P1 判决面）+等权全风格——**组合主张判据=条件化组合 vs 最优无条件袖面**。
+- null 对照：K=冻结窗定稿（same-mask 随机阶段标签 shuffle 族·label-timing null——阶段信息置零·换手成本保留·seed 带=科学种子带律·`seed_admit_gate` rc0 先行+SEED_REGISTRY 登记）。
+- 成本口径：V2（ADV20 三层滑点+1%ADV 帽）×2 face 恒开；**CN-C7 往返成本 bp 申报**：股票面按 `knowledge/rules.py fee_schedule_for` 前缀路由（印花税仅卖边 5bp+过户费双边 0.1bp·¥5 最低佣金临界名义 ¥20,000 档位必附）；月频换手+阶段切换换手=成本面如实计（条件化组合的换手税=本批诚实读数面）。
+- 出场轴显式门三选一：**候选=②持有到底声明+runner 显式禁用引擎缺省出场栈**（月频再平衡=唯一出场·承三族 P1 verbatim 双通道禁用面）——冻结窗定稿声明；缺省栈双通道逐键申报+出场原因普查第二件门（CENSUS_BLOCK_SHARE=0.20）。
+- 账本：finalize `science_gates.append_ledger`（dict schema 唯一）。
+
+## §4 判据【冻结窗写死·共享库禁手抄】
+- G1' v2=`science_gates.g1_prime_v2`（skill_line_v2 数据驱动·bootstrap CI 下界>0·F6 双口径）；G2=`science_gates.g2_registration_v2`（DSR≥0.95·家族 PBO≤0.25）；M1 t≥2.0；批报告逐列披露 skill_line/bootstrap_ci/trade_gate 全输入。
+- 防运气门全保留（O-2230 §二 末条「防运气门不拆」）。
+- 条件读数矩阵=描述面（CEO 呈报正身）；judged 面=组合格判决——两不混报（三态语言律）。
+
+## §5 跑前预测【冻结窗写死·≥3 条+极端日先验】
+（冻结窗定稿——占位纪律：写数字即造假）
+
+## §6 产物
+- runner：`scripts/stagestyle_combo_p1_backtest.py`（新·三族 P1 runner 骨架 import 复用律·阶段标签加载器新写）；结果件：`results/stagestyle_combo_p1/`（顶层 `science_gates.cutoff_meta` 必带）+**CEO 矩阵 REPORT 面**（`REPORT-STAGESTYLE-v1.md`+JSON 孪生·O-2230 §三 首版载体）；本件 §7/§8 回填；daily_report 股票域段消费接线=另票。
+
+## §7 跑后实证【跑前占位】
+
+## §8 批后复盘【跑前占位】
