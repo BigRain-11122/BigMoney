@@ -1875,6 +1875,8 @@ SEED_REGISTRY = {
         # -- exact-hit zero vs 167 registered bases, outside furnace band
         # [20333000, 20445400), proximity >=2000 all-pass, gap 20000 to
         # fund_value block and 8000 to fund_quality block (sibling families).
+    "fund_divlowvol_p2_nulls": 20_523_000,  # FUND-DIVLOWVOL-P2 revival-batch same-mask nulls (rng([20523000, k]) K=2000; 2026-10-19 bm-b r1039 freeze-window registration per O-20261019-2230-bm-b -- band [20523000,20525000) disjoint, net gap 2500 above p1_sens 20520500, 7000 below g2_slot_old 20530000, outside furnace band, full-registry collision+proximity scan re-runs at P2 probe leg5 fail-closed)
+    "fund_divlowvol_p2_sens": 20_523_500,   # FUND-DIVLOWVOL-P2 sensitivity/bootstrap descriptive draws (rng([20523500, k]) K=500)
     "g2_slot_old_p1_nulls": 20_530_000,  # T-159 G2-SLOT-OLD-P1 core48 census nulls (rng([20530000, k]) K=20)
     "g2_slot_stock_p1_nulls": 20_540_000,  # T-160 G2-SLOT-STOCK-P1 core48 census nulls (rng([20540000, k]) K=20; 2026-10-03 bm-a r642 freeze-window registration, band [20540000,20540020) disjoint, net gap 10000 above old-family base 20530000, collision scan zero hit)
     "g2_slot_tail_p1_nulls": 20_550_000,  # T-161 G2-SLOT-TAIL-P1 core48 merged-tail census nulls (rng([20550000, k]) K=20; 2026-10-03 bm-a r644 freeze-window registration, band [20550000,20550020) disjoint, net gap 10000 above stock-family base 20540000, collision scan zero hit)
