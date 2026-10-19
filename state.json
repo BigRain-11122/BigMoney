@@ -15,7 +15,7 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1035: (a) S0 estate delivery: fetch behind=4 -> rebase --autostash replay of r1034 2-commit payload (e4dc0861f6 + postscript) onto 34cc60a24 tip; 12 UU same-day regen faces resolved per-face ts-probe ours(bm-b)-newer-wins 12/12 (r1035bmb_rebase_probe.py); autostash pop 6 UU resolved (5 newer-wins bm-b + token_usage per-machine UNION r1008 law, -bm-a/-bm-c keys = tool's own naming both sides identical); drama x3 + machine-health unstaged per daemon-live-wins; push attempt-1 hung 5min zero-output (promisor window family, legal in-flight fetch+index-pack 76,782-obj left untouched per poll-to-complete law), origin advanced to 9cc7061b7 mid-window -> r1034 estate STILL undelivered, rides r1035 closeout commit, r1036 S0 replay if blocked again (r1026 wall-risk law). (b) POOL-0018/0019 env bootstrap FIRST ACTION: anchor_env_bootstrap.py spawned DETACHED (pid 15928, collector pattern DETACHED_PROCESS|NEW_PROCESS_GROUP|NO_WINDOW), isolated venv C:\\Fluxgroup\\Tools\\mv-audio-bmb\\venv-anchor, tsinghua mirror, Windows pypi torch=CPU build; status face anchor_env_status.json stage=torch_cpu RUN at 20:58; anchor generation (words.json/structure.json for staged 2/7: 晴天+可爱女人) = r1036+ after status=OK; HF_ENDPOINT=hf-mirror note in face. (c) S6 chain partial: 33 legs rc0 before 5min zero-output auto-cancel killed child ps (zero-window law VIOLATION noted: spawned powershell.exe child -- r1036 note: run chain IN-PROCESS & only); legs done incl sat_engine alive-idle / dualrun streak 51 / d19 dual-probe ZERO-DELTA (dec 60a98a02 ord dda073d1 hold, advance NOOP read-back OK) / update_daily +36 rows cutoff 10-19 / lhb +80 rows cutoff -> 10-19 / futures +9 / etf_daily 5/5 through 10-19 / b_layer gates all_pass / scorecard 6 cards S2A4 (94.8s) / market_clock ORANGE_COOL / DUALARM BEAR@09-30; papers gate probe at 20:58 honest SKIP (bar tail 10-16 at probe) -- BUT bars landed ~21:0x in-window right after (update_etf_daily wrote through 10-19; sh510300 tail now 10-19) -> papers family + marks legs (aggr/alloc/grid/system_v1/export/scorecard/report/live_usage/build_status/token/attrition/idle) DEFERRED to r1036 first legs (bar on disk, conditional retry law); S7-critical legs re-run standalone: attrition CLEAN(healed 4+1 rows) / idle green_idle then --worked (idle_rounds 1->0, agenda_starved false) / token_meter delta=0. (d) S1 smoke 49/49 PASS + orphan probe 0/9. (e) D-19 zero-delta both faces (no new CEO orders since r1034 consumption of O-20261019-1935).",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
- "last_action": "r1035: S0 replay r1034 estate (12 UU ts-probe bm-b-newer 12/12, push hung promisor -> deferred) + POOL-0018/0019 env bootstrap spawned DETACHED (torch_cpu RUN) + S6 chain 33 legs rc0 partial (bars landed 21:0x post-probe -> papers family deferred r1036) + S1 49/49 + attrition CLEAN + --worked declared",
+ "last_action": "r1035: S0 replay r1034 estate (12 UU ts-probe bm-b-newer 12/12, push hung promisor -> deferred) + POOL-0018/0019 env bootstrap spawned DETACHED (torch_cpu RUN) + S6 chain 33 legs rc0 partial (bars landed 21:0x post-probe -> papers family deferred r1036) + S1 49/49 + attrition CLEAN + --worked declared | postscript: BOTH r1034 estate + r1035 closeout PUSHED_VERIFIED 756c11218e (behind=0 four-way)",
  "last_action_at": "2026-10-19T21:08:20+08:00",
  "last_decisions_at": "2026-10-19T18:37:27+08:00",
  "last_decisions_read_at": "2026-10-19T20:58:39+08:00",
@@ -41,7 +41,7 @@
  "round_no": 1035,
  "round_no_label": "r1035",
  "sync": {
-  "last_push_ts": "2026-10-19T19:22:15+08:00",
+  "last_push_ts": "2026-10-19T21:10:42+08:00",
   "r962_main_push": {
    "status": "PUSHED_VERIFIED",
    "pushed_sha": "ca485e068651f64af1fa084578a9b25678f65299",
@@ -651,9 +651,9 @@
   "behind_origin_main": 0
  },
  "r1034_main_push": {
-  "status": "PUSH_DEFERRED_2WINDOWS (r1035 S0: replayed onto 34cc60a24 as e4dc76-e4dc0861f6 + postscript, push attempt-1 hung 5min promisor family + origin advanced 9cc7061b7; rides r1035 closeout commit -> r1036 S0 replay law r1026)",
-  "pushed_sha": "e4dc0861f6 (replayed local, reflog-safe)",
-  "consumed_at": "pending r1036",
+  "status": "PUSHED_VERIFIED (delivered by r1035 closeout push 756c11218e line, after r1035 S0 replay + r1035-end rebase onto 9cc7061b7; original claw-timeout deferral closed)",
+  "pushed_sha": "e4dc0861f6 (replayed, ancestor of origin 756c11218e)",
+  "consumed_at": "2026-10-19T21:10:42+08:00",
   "behind_origin_main": 0
  },
  "r1034_pool_claim": {
@@ -678,11 +678,11 @@
  "r1035_first_action_note": "r1035: 1) POOL-0018/0019 env bootstrap FIRST ACTION (pip CPU torch + whisperx + allin1, time-boxed) then first anchor outputs for staged 2 曲 2) papers conditional retry on 10-19 bar landing (evening window) 3) audio remaining 5 件 Taildrop receive 4) ST-012 22:0x drama yield 5) W280 prereg (bm-c r1125) watch -> W281 seat post-REGISTER 6) RepoSlim 09:03 verify tomorrow",
  "r1034_push_saga": "r1034 push saga: commit 6f947cccd (24 own faces) landed locally; pre-push claw diff-tree deletion-check hit promisor lazy-blob 60s TimeoutExpired (range 34cc60a24..6f947cccd, zero-deletion payload, fail-close family r1033 precedent); post-fetch behind=4 ahead=1 (origin advanced during round); 25min wall risk -> no second attempt this window per r1026 law; r1035 FIRST ACTION = surgery replay on fresh tip + per-face newer-wins on shared regen + push + verify",
  "r1035_main_push": {
-  "status": "PENDING (this commit)",
-  "pushed_sha": "pending",
-  "consumed_at": "pending r1036",
+  "status": "PUSHED_VERIFIED (r1035 postscript second push; four-way: fetch behind=0 ahead=0, origin tip 756c11218e)",
+  "pushed_sha": "756c11218e",
+  "consumed_at": "2026-10-19T21:10:42+08:00",
   "behind_origin_main": 0,
-  "note": "r1035 payload = closeout faces (state/heartbeat/round-report) + r1035 work files (rebase_probe / stashpop_probe / kick_anchor_env / s6chain / s6_log) + own product/data faces (lhb chunks+detail +80 rows / daily panel csvs through 10-19 / futures +9 / ETF 5/5 / firm traders marks x6 / paper faces x6 / scorecard_v1+strategy_scorecard / regime_state / market_clock CALL+call_latest x2 / x2_watch_log / bm-b-suffixed evidence faces) + _attrition + _orphan.bm-b; EXCLUDED per r982/r1015/r1020/r1028/r1034 policy: drama x3, machine-health, token_usage.json shared union, unsuffixed lhb/futures/astock/etf/update_status/compute_audit/fundamental_b_layer status faces, watermark_red machine-local"
+  "note": "r1035 payload = r1034 estate (replayed e4dc0861f6+postscript) + r1035 closeout (90 own faces: state/heartbeat/report + work files x6 + data faces lhb +80/daily +36/futures +9/ETF 5/5 through 10-19 + traders marks x6 + paper x6 + scorecard/regime/market_clock + bm-b suffixed evidence + _attrition + _orphan) delivered 9cc7061b7..756c11218e after clean 3/3 rebase replay (pull --rebase law single retry, zero conflicts)"
  },
  "r1036_first_action_note": "r1036: 1) papers+marks family FIRST (bar on disk 10-19) 2) S0 replay+push (r1034 estate 2 windows undelivered) 3) anchor gen if env OK 4) drama yield 5) RepoSlim verify 6) W281 seat watch post-W280-REGISTER",
  "r1035_chain_kill_note": "r1035: S6 chain child powershell killed by 5min zero-output auto-cancel at papers-SKIP position; violation noted: spawned powershell.exe child from session (zero-window law) -- r1036 chain runs IN-PROCESS via & only; post-kill leg re-runs: S7-critical trio done standalone, papers+marks deferred (bar landed 21:0x after gate probe)",
