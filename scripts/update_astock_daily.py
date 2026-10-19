@@ -749,6 +749,20 @@ def spawn_detached(arg):
                          close_fds=True)
 
 
+def _count_per_files(retries=3, delay=1.0):
+    """Count per/*.csv, retrying briefly on zero: a running refresh stages
+    the per dir by atomic swap, so a gate firing mid-swap reads 0 and must
+    not launch a redundant full rebuild (r1047 live: status 5221 vs disk 0)."""
+    pat = os.path.join(PER_DIR, "*.csv")
+    n = len(_glob.glob(pat))
+    for _ in range(retries):
+        if n:
+            break
+        time.sleep(delay)
+        n = len(_glob.glob(pat))
+    return n
+
+
 def _disk_truth_override(complete, panel, per_on_disk):
     """P0 r834-kin guard: gitignored per/*.csv are un-restorable from git,
     so a tracked status face may keep claiming a complete panel that no
@@ -771,7 +785,7 @@ def gate():
     panel = st.get("panel") or {}
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
-    per_on_disk = len(_glob.glob(os.path.join(PER_DIR, "*.csv")))
+    per_on_disk = _count_per_files()
     st["per_files_on_disk"] = per_on_disk
     if _disk_truth_override(complete, panel, per_on_disk):
         st["disk_truth_override"] = (
@@ -780,12 +794,17 @@ def gate():
             f"wins, rebuild (P0 r834-kin guard)")
         complete = False
         cutoff = None
+    else:
+        # a healed panel must not keep reporting an old rebuild verdict
+        st.pop("disk_truth_override", None)
     needs, reason = stale_gate(cutoff, now)
     if not needs:
         st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "no-op: panel fresh"
         st["no_op_reason"] = reason
         st["panel"] = panel
+        st.pop("spawn_reason", None)
+        st.pop("spawn_mode", None)
         write_status(st)
         print(f"no-op: {reason} -> zero network")
         return 0
@@ -953,6 +972,9 @@ def _selftest():
             assert todo == ["600519", "000001"]
             todo = _todo_for(["600519"], None)
             assert todo == ["600519"]
+            # swap-window guard (r1047): a zero read retries instead of
+            # declaring the panel missing on a healthy disk face
+            assert _count_per_files(retries=2, delay=0) == 2
             # settled face (r305 law): excluded from continuation, INCLUDED
             # in repull; settle only valid at the SAME expected cutoff
             todo = _todo_for(["600519", "000001", "300750"], "2026-09-24",
