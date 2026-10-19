@@ -34,6 +34,12 @@ POLICY (fail-closed): deletions = files present in the OLD tree
     like _sentinel_bm-a.json / history_bm-a.jsonl -- blob carries
     no machine field, the name is the only ownership fact; self ==
     allowed, any other id == foreign, still blocked);
+  * no owner evidence + round-script scratch family
+    `_r<digits>bm<x>_<desc>` (fifth channel, r1081, CEO 16:04
+    repo-slim order L1275: results/_r1080bma_s6chain.ps1 etc. --
+    scratch blobs carry no machine field, the name is the only
+    ownership fact; self == allowed, any other id == foreign,
+    untagged scratch stays blocked, fail-closed intact);
   * qa/ deletion + same-push treasure_guard quarantine manifest
     whose moved[] lists the exact path with sha256 -> allowed
     (D-20261010-07 fourth release category: manifest = the deletion's
@@ -92,6 +98,13 @@ _FILENAME_OWNER_RE = re.compile(r"\.(bm-[a-z0-9]+)\.[A-Za-z0-9]+$")
 # saturation_engine/history_bm-a.jsonl -- carry no machine field in
 # the blob; the name is the only ownership fact).
 _U_FILENAME_OWNER_RE = re.compile(r"_bm-([a-z0-9]+)")
+# r1081 fifth channel (CEO 16:04 order, group orders.md L1275,
+# BM-repo REPO-SLIM face): round-script scratch family
+# `_r<digits>bm<x>_<desc>` (e.g. results/_r1080bma_s6chain.ps1) --
+# scratch code carries no machine field in the blob; the name is the
+# only ownership fact. Single-char id keeps untagged faces
+# (`_r999_tool.py`) outside this channel, fail-closed intact.
+_R_SCRIPT_OWNER_RE = re.compile(r"_r\d+bm([a-z])_")
 
 _ZERO = "0" * 40
 _NO_WINDOW = 0x08000000 if os.name == "nt" else 0  # CREATE_NO_WINDOW
@@ -175,6 +188,9 @@ def filename_owner(path):
     if m:
         return m.group(1)
     m = _U_FILENAME_OWNER_RE.search(norm)
+    if m:
+        return "bm-" + m.group(1)
+    m = _R_SCRIPT_OWNER_RE.search(norm)
     return ("bm-" + m.group(1)) if m else None
 
 
@@ -400,6 +416,10 @@ def selftest():
             "results/_sentinel_self_bm-z.json": '{"launches": []}',
             "results/_sentinel_foreign_bm-a.json": '{"launches": []}',
             "results/_tick_nosuffix.json": '{"launches": []}',
+            # r1081 fifth channel fixtures (round-script scratch family)
+            "results/_r999bmz_tool.py": "# scratch\n",
+            "results/_r1000bmb_s6.py": "# scratch\n",
+            "results/_r999_tool.py": "# untagged scratch\n",
         }
         for rel, text in base.items():
             fp = os.path.join(repo, *rel.split("/"))
@@ -432,7 +452,10 @@ def selftest():
                     "results/dashform-bm-a.md",
                     "results/_sentinel_self_bm-z.json",
                     "results/_sentinel_foreign_bm-a.json",
-                    "results/_tick_nosuffix.json"):
+                    "results/_tick_nosuffix.json",
+                    "results/_r999bmz_tool.py",
+                    "results/_r1000bmb_s6.py",
+                    "results/_r999_tool.py"):
             _git(["rm", "-q", "--", rel], repo)
         _git(["-c", "user.name=st", "-c", "user.email=st@t",
               "commit", "-q", "-m", "deletions"], repo)
@@ -472,6 +495,17 @@ def selftest():
         leg("no-suffix no-field tick face still blocked (D-20261016-02)",
             "results/_tick_nosuffix.json" in vpaths
             and vreason.get("results/_tick_nosuffix.json", "")
+            == "no owner evidence")
+        # r1081 fifth channel legs (round-script scratch family)
+        leg("round-script self face allowed (r1081)",
+            "results/_r999bmz_tool.py" not in vpaths)
+        leg("round-script foreign face blocked (r1081)",
+            "results/_r1000bmb_s6.py" in vpaths
+            and vreason.get("results/_r1000bmb_s6.py", "").startswith(
+                "foreign owner"))
+        leg("untagged round scratch still blocked (r1081)",
+            "results/_r999_tool.py" in vpaths
+            and vreason.get("results/_r999_tool.py", "")
             == "no owner evidence")
 
         # staged-deletion face
