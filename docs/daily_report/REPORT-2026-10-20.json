@@ -1,10 +1,10 @@
 {
  "report_date": "2026-10-20",
- "generated_at": "2026-10-20 03:39:42",
+ "generated_at": "2026-10-20 03:51:00",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5985268.08,
+   "total_equity_cny": 5980935.76,
    "total_positions": 19,
    "entries_today": 1,
    "exits_today": 0,
@@ -15,48 +15,48 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 997786.54,
-     "positions_value": 859723.77,
-     "cash": 138062.77,
+     "equity": 997520.91,
+     "positions_value": 954582.04,
+     "cash": 42938.87,
      "denomination": "CNY"
     },
     "positions": 5,
     "dd": -0.0089,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 996978.65,
-     "positions_value": 894731.33,
-     "cash": 102247.32,
+     "equity": 996456.78,
+     "positions_value": 953636.87,
+     "cash": 42819.91,
      "denomination": "CNY"
     },
     "positions": 8,
     "dd": -0.0139,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "DROUGHT-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 996455.18,
-     "positions_value": 50230.57,
-     "cash": 946224.61,
+     "equity": 992910.36,
+     "positions_value": 100461.13,
+     "cash": 892449.23,
      "denomination": "CNY"
     },
     "positions": 1,
-    "dd": -0.0041,
+    "dd": -0.0082,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0071,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -298,11 +298,11 @@
  },
  "rd": {
   "commits_24h": 177,
-  "result_jsons_landed_24h": 156,
+  "result_jsons_landed_24h": 151,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 12,
   "compute_audit_latest": {
-   "ts": "2026-10-20 03:38:43",
+   "ts": "2026-10-20 03:49:23",
    "py_cpu_pct": 0.2,
    "flags": [
     "supply_floor"
@@ -743,29 +743,11 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-20 02:25:18",
-    "py_pct": 2.2,
-    "cpu_pct": 16.0,
-    "ready": 0,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_floor",
-    "py_series_tail": [
-     [
-      "02:25",
-      2.2
-     ]
-    ],
-    "today_samples": 1,
-    "today_floor_ok": 0,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 0
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-20 03:38:43",
+    "latest_ts": "2026-10-20 03:49:23",
     "py_pct": 0.2,
-    "cpu_pct": 73.0,
+    "cpu_pct": 6.0,
     "ready": 0,
-    "streak_min": 17.2,
+    "streak_min": 27.9,
     "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
@@ -813,11 +795,73 @@
       69.6
      ],
      [
-      "03:38",
+      "03:49",
       0.2
      ]
     ],
     "today_samples": 7,
+    "today_floor_ok": 0,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 0
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-20 03:21:31",
+    "py_pct": 69.6,
+    "cpu_pct": 20.0,
+    "ready": 0,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_floor",
+    "py_series_tail": [
+     [
+      "20:58",
+      9.7
+     ],
+     [
+      "21:16",
+      4.3
+     ],
+     [
+      "21:38",
+      3.2
+     ],
+     [
+      "22:19",
+      3.6
+     ],
+     [
+      "23:08",
+      2.6
+     ],
+     [
+      "23:15",
+      0.8
+     ],
+     [
+      "01:56",
+      100.0
+     ],
+     [
+      "02:11",
+      0.0
+     ],
+     [
+      "02:25",
+      0.0
+     ],
+     [
+      "02:43",
+      0.2
+     ],
+     [
+      "03:00",
+      100.0
+     ],
+     [
+      "03:21",
+      69.6
+     ]
+    ],
+    "today_samples": 6,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -858,7 +902,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 02:25:18"
+     "audit_ts": "2026-10-20 03:49:23"
     }
    },
    "bm-c": {
@@ -874,7 +918,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 03:38:43"
+     "audit_ts": "2026-10-20 03:21:31"
     }
    }
   },
@@ -889,9 +933,9 @@
    "rows": [
     {
      "trader": "COMPOSITE-CE-01",
-     "equity_cny": 997786.54,
-     "day_pnl_cny": -1425.61,
-     "day_ret": -0.001427,
+     "equity_cny": 997520.91,
+     "day_pnl_cny": -1691.24,
+     "day_ret": -0.001693,
      "status": "ok",
      "top_position": {
       "symbol": "513100",
@@ -900,9 +944,9 @@
     },
     {
      "trader": "COMPOSITE-CE-02",
-     "equity_cny": 996978.65,
-     "day_pnl_cny": 925.29,
-     "day_ret": 0.000929,
+     "equity_cny": 996456.78,
+     "day_pnl_cny": 403.42,
+     "day_ret": 0.000405,
      "status": "ok",
      "top_position": {
       "symbol": "512800",
@@ -911,13 +955,13 @@
     },
     {
      "trader": "DROUGHT-CE-01",
-     "equity_cny": 996455.18,
-     "day_pnl_cny": 165.36,
-     "day_ret": 0.000166,
+     "equity_cny": 992910.36,
+     "day_pnl_cny": -3379.46,
+     "day_ret": -0.003392,
      "status": "ok",
      "top_position": {
       "symbol": "512400",
-      "unrealized_pnl_cny": 230.57
+      "unrealized_pnl_cny": 461.13
      }
     },
     {
@@ -950,7 +994,7 @@
    ],
    "asof": "2026-10-19",
    "prior": "2026-10-16",
-   "family_day_pnl_cny": 281.14
+   "family_day_pnl_cny": -4051.18
   },
   "families": [
    {
@@ -1318,7 +1362,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": 6349.21,
+  "grand_day_pnl_cny": 2016.89,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
@@ -1330,7 +1374,7 @@
   "last_registered": 281,
   "last_owner": "bm-c",
   "next_registration": 282,
-  "next_seatable": 283,
+  "next_seatable": 282,
   "chain_head": 1042535,
   "k": 616120,
   "waves": [
@@ -1392,12 +1436,7 @@
     "k": 616120
    }
   ],
-  "seats": [
-   {
-    "wave": 282,
-    "machine": "bm-c"
-   }
-  ]
+  "seats": []
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

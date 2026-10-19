@@ -1,5 +1,5 @@
 {
- "clock_read": "2026-10-20T03:37:14+08:00",
+ "clock_read": "2026-10-20T03:54:16+08:00",
  "current_task": "r1045 closed: MSG-2351 delivery-gap fix + papers chain to 10-19 bar",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
@@ -14,9 +14,9 @@
  },
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1043: (a) S0 fetch behind=9 -> autostash rebase 到 origin tip 341a90637a（9 提交全 bm-c W280 域；autostash 回放冲突面=docs/daily_report/REPORT-2026-10-20 两件=可再生面，取 HEAD 版交 S6 重生成，reset 后其余 50 个机本地面原样保留）；D-19 双水位平（ord 59c280ce/dec d5336c87 均未变·orders 目录 107/107 ack 零新增·零义务）；S1 smoke 49/49；orphan probe 0/9；sat engine alive(idle, queue 0)；WM red=false；本地未达 origin commit 数=0. (b) S8 闲置自驱：idle green_idle 且 claimable=0 -> 本地池 W012（唯一 open cpu-only）原子认领点火（IGNITED pid=30536·runner exit 0·done_file 非空）-> idle --worked 清零. (c) S6 40 腿 rc0 3.6min（papers 家族诚实 SKIP=10-20 bar 未落·tail 2026-10-19·attrition CLEAN）. (d) S7 自愈：loop task pin 2 no-op·watchdog 重注册 S4U SWA=false·pre-commit/pre-push 双爪 MATCH.",
- "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
- "last_action": "r1045: MSG-2351 delivery gap fixed + papers chain advanced + S6 product faces regen",
- "last_action_at": "2026-10-20T03:37:14+08:00",
+ "heartbeat_epoch_utc_face": 1792439656,
+ "last_action": "r1046: bm-a-hosted faces stale-takeover (t35_open_fill_verify+ daily_scorecard) + papers/export/report/live products regenerated; MSG-20261020-0400 sent on bm-a 4.5h stale heartbeat",
+ "last_action_at": "2026-10-20T03:54:16+08:00",
  "last_decisions_at": "2026-10-20T00:16:41+08:00",
  "last_decisions_read_at": "2026-10-20T03:37:14+08:00",
  "last_decisions_sha": "d5336c87c1d161aaa4dd55315e8fb906b1e874de484a880fd7e93fcf735c2b6a",
@@ -38,7 +38,7 @@
  "orphan_face_note": "r1041 S0 probe: 5 py faces / 0 orphans (astock refresh worker = legal resident; beats gen runs under S4U task, not session tree)",
  "orphan_faces": "0/4",
  "round": 1045,
- "round_no": 1046,
+ "round_no": 1047,
  "round_no_label": "r1043",
  "sync": {
   "last_push_ts": "2026-10-20T03:37:14+08:00",
