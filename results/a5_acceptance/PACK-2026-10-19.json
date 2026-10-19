@@ -1,0 +1,62 @@
+{
+ "date": "2026-10-19",
+ "ts": "2026-10-19T08:05:13+08:00",
+ "machine": "bm-a",
+ "overall_verdict": "PENDING",
+ "deadline": "2026-10-31",
+ "items": [
+  {
+   "item": "V1_false_green_fix",
+   "verdict": "PASS",
+   "evidence": {
+    "claimable_crossface_wired": true,
+    "selftest_counter_assertion": true,
+    "law_ref": "AUTOMATION-LINE-PLAN-v1 sec.IV V1; A1 batch (r1070)"
+   }
+  },
+  {
+   "item": "V2_attribution_daily_ledger",
+   "verdict": "PENDING",
+   "evidence": {
+    "pnl_attribution_streak_days": 1,
+    "target_days": 5,
+    "latest_report": "REPORT-2026-10-19.md",
+    "honest_annotation_legal": true,
+    "law_ref": "AUTOMATION-LINE-PLAN-v1 sec.IV V2; A2 batch (r1071)"
+   }
+  },
+  {
+   "item": "V3_kill_line_auto_enforcement",
+   "verdict": "PASS",
+   "evidence": {
+    "livefire_refuse_event": true,
+    "livefire_named_refusal": true,
+    "evidence_file": "results/_r1072bma_a3_livefire.json",
+    "selftest_legs": "Tools/autofill.py S23d/S23e (r1072)",
+    "law_ref": "AUTOMATION-LINE-PLAN-v1 sec.IV V3; A3 batch (r1072)"
+   }
+  },
+  {
+   "item": "V4_budget_auto_stop",
+   "verdict": "PASS",
+   "evidence": {
+    "livefire_auto_disabled": true,
+    "disabled_reason_exposed": true,
+    "evidence_file": "results/_r1072bma_a3_livefire.json",
+    "selftest_legs": "Tools/autofill.py S24b/S24f (r1072)",
+    "law_ref": "AUTOMATION-LINE-PLAN-v1 sec.IV V4; A3 batch (r1072)"
+   }
+  },
+  {
+   "item": "V5_five_element_audit_streak",
+   "verdict": "PENDING",
+   "evidence": {
+    "today_all_no_gap": true,
+    "consecutive_days": 1,
+    "target_days": 3,
+    "ledger": "results/a5_acceptance/streak.jsonl",
+    "law_ref": "AUTOMATION-LINE-PLAN-v1 sec.IV V5 (WAVE_LOOP_LAW sec.4 standing audit leg)"
+   }
+  }
+ ]
+}
