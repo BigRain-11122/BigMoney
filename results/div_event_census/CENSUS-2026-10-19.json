@@ -1,0 +1,440 @@
+{
+ "face": "DIV-EVENT-CENSUS",
+ "status": "EXPLORATORY_ZERO_JUDGED_CLAIMS",
+ "evidence_cutoff": "2026-10-19",
+ "panel": {
+  "path": "data/cache/p1c_local",
+  "shape": [
+   8745,
+   5225
+  ],
+  "start": "1990-12-19",
+  "end": "2026-10-19"
+ },
+ "dividend_face": "data/fund_history_export/div_events_faces.parquet",
+ "windows": {
+  "pre10": [
+   -10,
+   -1
+  ],
+  "ex_date": [
+   0,
+   0
+  ],
+  "post5": [
+   1,
+   5
+  ],
+  "post20": [
+   1,
+   20
+  ]
+ },
+ "method": "qfq close (dividend drop neutralised) minus same-window cross-sectional median return; any missing day drops the event",
+ "disclosures": [
+  "yield proxy uses qfq close -> overstates yield for older events; quintiles are relative buckets only",
+  "no cost model applied (census descriptive, not a tradeable edge)",
+  "zero prereg gates / zero pool writes; judged face requires research/PREREG_TEMPLATE.md"
+ ],
+ "elapsed_sec": 12.9,
+ "generated_at": "2026-10-20T06:47:39",
+ "results": {
+  "n_events": 50968,
+  "windows": {
+   "pre10": {
+    "n": 48203,
+    "mean": 0.035403,
+    "sd": 0.0866,
+    "t": 89.756,
+    "win_rate": 0.6825
+   },
+   "ex_date": {
+    "n": 50873,
+    "mean": 0.001063,
+    "sd": 0.026371,
+    "t": 9.093,
+    "win_rate": 0.4811
+   },
+   "post5": {
+    "n": 50240,
+    "mean": 0.014392,
+    "sd": 0.061245,
+    "t": 52.67,
+    "win_rate": 0.5792
+   },
+   "post20": {
+    "n": 48306,
+    "mean": 0.054382,
+    "sd": 0.123019,
+    "t": 97.16,
+    "win_rate": 0.6885
+   }
+  },
+  "by_era": {
+   "1990-2009": {
+    "n": 7087,
+    "windows": {
+     "pre10": {
+      "n": 5712,
+      "mean": 0.040409,
+      "sd": 0.080046,
+      "t": 38.153,
+      "win_rate": 0.726
+     },
+     "ex_date": {
+      "n": 7046,
+      "mean": 0.000453,
+      "sd": 0.02663,
+      "t": 1.429,
+      "win_rate": 0.4569
+     },
+     "post5": {
+      "n": 6780,
+      "mean": 0.013543,
+      "sd": 0.055203,
+      "t": 20.201,
+      "win_rate": 0.5773
+     },
+     "post20": {
+      "n": 6184,
+      "mean": 0.05328,
+      "sd": 0.112178,
+      "t": 37.35,
+      "win_rate": 0.6942
+     }
+    }
+   },
+   "2010-2015": {
+    "n": 8763,
+    "windows": {
+     "pre10": {
+      "n": 7537,
+      "mean": 0.043457,
+      "sd": 0.096597,
+      "t": 39.057,
+      "win_rate": 0.7021
+     },
+     "ex_date": {
+      "n": 8721,
+      "mean": 0.00011,
+      "sd": 0.028161,
+      "t": 0.365,
+      "win_rate": 0.4496
+     },
+     "post5": {
+      "n": 8475,
+      "mean": 0.013932,
+      "sd": 0.062809,
+      "t": 20.42,
+      "win_rate": 0.5645
+     },
+     "post20": {
+      "n": 7719,
+      "mean": 0.056489,
+      "sd": 0.119664,
+      "t": 41.475,
+      "win_rate": 0.6839
+     }
+    }
+   },
+   "2016-2020": {
+    "n": 11975,
+    "windows": {
+     "pre10": {
+      "n": 11848,
+      "mean": 0.03462,
+      "sd": 0.07674,
+      "t": 49.105,
+      "win_rate": 0.7032
+     },
+     "ex_date": {
+      "n": 11966,
+      "mean": -0.000625,
+      "sd": 0.024224,
+      "t": -2.823,
+      "win_rate": 0.4474
+     },
+     "post5": {
+      "n": 11898,
+      "mean": 0.012387,
+      "sd": 0.056728,
+      "t": 23.818,
+      "win_rate": 0.5756
+     },
+     "post20": {
+      "n": 11721,
+      "mean": 0.050203,
+      "sd": 0.112417,
+      "t": 48.348,
+      "win_rate": 0.6907
+     }
+    }
+   },
+   "2021-2099": {
+    "n": 23143,
+    "windows": {
+     "pre10": {
+      "n": 23106,
+      "mean": 0.031941,
+      "sd": 0.089214,
+      "t": 54.422,
+      "win_rate": 0.6548
+     },
+     "ex_date": {
+      "n": 23140,
+      "mean": 0.002481,
+      "sd": 0.026585,
+      "t": 14.197,
+      "win_rate": 0.5178
+     },
+     "post5": {
+      "n": 23087,
+      "mean": 0.015843,
+      "sd": 0.064475,
+      "t": 37.336,
+      "win_rate": 0.587
+     },
+     "post20": {
+      "n": 22682,
+      "mean": 0.056126,
+      "sd": 0.131847,
+      "t": 64.111,
+      "win_rate": 0.6875
+     }
+    }
+   }
+  },
+  "by_yield_quintile": {
+   "Q1": {
+    "n": 10194,
+    "mean_yield_proxy": 0.0029,
+    "windows": {
+     "pre10": {
+      "n": 9947,
+      "mean": 0.045205,
+      "sd": 0.118039,
+      "t": 38.195,
+      "win_rate": 0.6444
+     },
+     "ex_date": {
+      "n": 10175,
+      "mean": 0.002614,
+      "sd": 0.03057,
+      "t": 8.625,
+      "win_rate": 0.4894
+     },
+     "post5": {
+      "n": 10062,
+      "mean": 0.015635,
+      "sd": 0.073337,
+      "t": 21.385,
+      "win_rate": 0.5596
+     },
+     "post20": {
+      "n": 9640,
+      "mean": 0.058565,
+      "sd": 0.149642,
+      "t": 38.426,
+      "win_rate": 0.6627
+     }
+    }
+   },
+   "Q2": {
+    "n": 10190,
+    "mean_yield_proxy": 0.00762,
+    "windows": {
+     "pre10": {
+      "n": 9885,
+      "mean": 0.03213,
+      "sd": 0.084559,
+      "t": 37.778,
+      "win_rate": 0.6421
+     },
+     "ex_date": {
+      "n": 10173,
+      "mean": 0.00333,
+      "sd": 0.027499,
+      "t": 12.214,
+      "win_rate": 0.518
+     },
+     "post5": {
+      "n": 10070,
+      "mean": 0.016416,
+      "sd": 0.065377,
+      "t": 25.198,
+      "win_rate": 0.5832
+     },
+     "post20": {
+      "n": 9731,
+      "mean": 0.057695,
+      "sd": 0.132116,
+      "t": 43.078,
+      "win_rate": 0.6877
+     }
+    }
+   },
+   "Q3": {
+    "n": 10197,
+    "mean_yield_proxy": 0.01431,
+    "windows": {
+     "pre10": {
+      "n": 9792,
+      "mean": 0.031353,
+      "sd": 0.079836,
+      "t": 38.861,
+      "win_rate": 0.6698
+     },
+     "ex_date": {
+      "n": 10183,
+      "mean": 0.00209,
+      "sd": 0.0244,
+      "t": 8.645,
+      "win_rate": 0.5096
+     },
+     "post5": {
+      "n": 10082,
+      "mean": 0.01566,
+      "sd": 0.059402,
+      "t": 26.471,
+      "win_rate": 0.5901
+     },
+     "post20": {
+      "n": 9739,
+      "mean": 0.055729,
+      "sd": 0.116111,
+      "t": 47.366,
+      "win_rate": 0.7024
+     }
+    }
+   },
+   "Q4": {
+    "n": 10192,
+    "mean_yield_proxy": 0.02625,
+    "windows": {
+     "pre10": {
+      "n": 9613,
+      "mean": 0.031334,
+      "sd": 0.070132,
+      "t": 43.806,
+      "win_rate": 0.7033
+     },
+     "ex_date": {
+      "n": 10178,
+      "mean": 0.001035,
+      "sd": 0.023054,
+      "t": 4.528,
+      "win_rate": 0.4886
+     },
+     "post5": {
+      "n": 10053,
+      "mean": 0.013779,
+      "sd": 0.052904,
+      "t": 26.115,
+      "win_rate": 0.5997
+     },
+     "post20": {
+      "n": 9733,
+      "mean": 0.052363,
+      "sd": 0.106452,
+      "t": 48.528,
+      "win_rate": 0.7082
+     }
+    }
+   },
+   "Q5": {
+    "n": 10195,
+    "mean_yield_proxy": 0.09433,
+    "windows": {
+     "pre10": {
+      "n": 8966,
+      "mean": 0.036924,
+      "sd": 0.067755,
+      "t": 51.602,
+      "win_rate": 0.7609
+     },
+     "ex_date": {
+      "n": 10164,
+      "mean": -0.003759,
+      "sd": 0.025062,
+      "t": -15.12,
+      "win_rate": 0.3998
+     },
+     "post5": {
+      "n": 9973,
+      "mean": 0.010428,
+      "sd": 0.05238,
+      "t": 19.882,
+      "win_rate": 0.563
+     },
+     "post20": {
+      "n": 9463,
+      "mean": 0.047406,
+      "sd": 0.104329,
+      "t": 44.202,
+      "win_rate": 0.6813
+     }
+    }
+   }
+  },
+  "control_random_dates": {
+   "seed": 20261020,
+   "draws": 20000,
+   "windows": {
+    "pre10": {
+     "n": 6986,
+     "mean": 0.026807,
+     "sd": 0.086087,
+     "t": 26.027,
+     "win_rate": 0.6214
+    },
+    "ex_date": {
+     "n": 7281,
+     "mean": 0.002495,
+     "sd": 0.025647,
+     "t": 8.3,
+     "win_rate": 0.4843
+    },
+    "post5": {
+     "n": 7194,
+     "mean": 0.014378,
+     "sd": 0.061895,
+     "t": 19.702,
+     "win_rate": 0.5666
+    },
+    "post20": {
+     "n": 6800,
+     "mean": 0.053341,
+     "sd": 0.134084,
+     "t": 32.805,
+     "win_rate": 0.6779
+    }
+   }
+  },
+  "event_minus_control": {
+   "pre10": {
+    "delta_mean": 0.008596,
+    "event_t": 89.756,
+    "control_t": 26.027,
+    "se_approx": 0.001103
+   },
+   "ex_date": {
+    "delta_mean": -0.001432,
+    "event_t": 9.093,
+    "control_t": 8.3,
+    "se_approx": 0.000323
+   },
+   "post5": {
+    "delta_mean": 1.4e-05,
+    "event_t": 52.67,
+    "control_t": 19.702,
+    "se_approx": 0.000779
+   },
+   "post20": {
+    "delta_mean": 0.001041,
+    "event_t": 97.16,
+    "control_t": 32.805,
+    "se_approx": 0.00172
+   }
+  }
+ }
+}
