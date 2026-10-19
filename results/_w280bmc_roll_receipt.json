@@ -1,88 +1,63 @@
 {
- "roller": "r1129-continuation bm-c W280 derive roller",
+ "roller": "r1130 bm-c W280 derive roller (supersedes r1129)",
  "src": "_w279bmc_prereg_derive.py",
  "dst": "_w280bmc_prereg_derive.py",
- "dst_bytes": 49263,
+ "dst_bytes": 49362,
  "patches": [
   "P0_header",
   "P1_paths",
   "P2_blob_gates",
+  "P2b_blob_gates2",
+  "P2c_blob_gates3",
   "P3_t0_identity",
-  "P4_chain_gates",
-  "P5_splice_t",
-  "P6_ts_gates",
-  "P7_fk_gates",
+  "P4_chains",
+  "P5_splice_ts",
+  "P6_splice_t",
+  "P7_ts_gates",
   "P8_fk_file",
-  "P9_res_gates",
+  "P9_fk_gates",
   "P10_res_path",
-  "P11_receipt",
-  "P12_bands",
-  "P13_hop_chains",
-  "P14_relation_keys",
-  "P15_band_respect",
-  "P16_leg0",
-  "P17_seed_admit",
-  "P18_leg4",
-  "P19_print",
-  "P20_src_print",
-  "P21_order",
-  "P22_drop_second_loop",
+  "P11_res_gates",
+  "P12_receipt",
+  "P13_bands",
+  "P14_hop_chains",
+  "P15_relation",
+  "P16_band_respect",
+  "P17_leg0",
+  "P18_seed_admit",
+  "P19_leg4",
+  "P20_print",
+  "P21_print2",
+  "P22_src_print",
+  "P23_ram_print",
+  "P24_post_table_early",
+  "P25_drop_canon_post_table",
+  "P26_order",
+  "P28_block_engine",
   "BLOCK_VMAP",
   "BLOCK_VMAP_FLOORS",
-  "BLOCK_VMAP_POST_LEGS",
   "BLOCK_MUST",
   "BLOCK_MUST_NOT",
   "BLOCK_BLOCKS",
-  "BLOCK_NEW",
-  "BLOCK_APPLY"
+  "BLOCK_NEW"
  ],
- "heals": [],
+ "heals": [
+  "H1 fivekey gates key-renamed to the W279 chain head (the frozen sec.5 keys stay W278 by design, r587 live-chain-head law): field names fk[...] re-pointed to the live json",
+  "H2 block start markers re-pinned on the T0 real faces (8 of 8 single-hit, document ordered); the r1129 set pointed b_gated at b_band's tail and b3_a at the B-band line",
+  "H4 wave-roll two-phase guard: the r1129 table let a target be re-consumed as a source (batch-name legs) -- targets/sources now asserted disjoint"
+ ],
  "roll_counts": {
-  "VMAP": 61,
-  "FLOORS": 122,
-  "POST": 16,
-  "MUST": 93,
-  "MUST_NOT": 115,
+  "VMAP": 65,
+  "FLOORS": 127,
+  "POST": 14,
+  "MUST": 89,
+  "MUST_NOT": 126,
   "BLOCKS": 8
  },
- "blocks": [
-  [
-   "b_title",
-   "engine_owner 行 268 注册在册（表尾"
-  ],
-  [
-   "b_band",
-   "（**A 面=STAIRCASE-AFFECTS-A"
-  ],
-  [
-   "b_gated",
-   "R280：W279 带"
-  ],
-  [
-   "b_prev",
-   "prev=**届时空窗活链头 derive 禁手抄**"
-  ],
-  [
-   "b_claim_proj",
-   "probe W280+ 投影 A naive 631_101..633_100 CLEAN hops=0"
-  ],
-  [
-   "b3_a",
-   "- **B 档**（j=0..199）：entry rng=**629_101+j**（与 A[j] 同源配对语义逐字"
-  ],
-  [
-   "b3_b",
-   "exit rng=**631_101+j**"
-  ],
-  [
-   "b5_projection",
-   "5. **W280+ 投影（probe 机证 leg4"
-  ]
- ],
- "vmap_legs": [
+ "vmap": [
   [
    "A-ext seed=629_101..631_100",
-   "A-ext seed=633_301..635_300"
+   "A-ext seed=631_301..633_300"
   ],
   [
    "B-ext exit seed=631_101..631_300",
@@ -90,7 +65,7 @@
   ],
   [
    "entry rng=**629_101+j**（与 A[j] 同源配对语义逐字",
-   "entry rng=**633_301+j**（与 A[j] 同源配对语义逐字"
+   "entry rng=**631_301+j**（与 A[j] 同源配对语义逐字"
   ],
   [
    "席位公示=MSG-20261019-145x-bmc-w279-seat 已推 origin 900c23fe7d r565 律（bm-c r1119 席·queue-head seat-first lane）",
@@ -102,7 +77,7 @@
   ],
   [
    "波号 279",
-   "波号 281"
+   "波号 280"
   ],
   [
    "r1119 席位窗实跑：origin inbox 零 W279 席位外机命中",
@@ -130,7 +105,7 @@
   ],
   [
    "probe leg0 bmc_rows=97 attempt-continuity face（r1119 窗算法·bm-c own seat+bmc live rows 97 实读）——freeze 时 live derive bmc rows 97+候选=第 98 枚 EXACT",
-   "probe leg0 bmc_rows=99 attempt-continuity face（r1129-continuation 窗算法·bm-c own seat+bmc live rows 99 实读）——freeze 时 live derive bmc rows 99+候选=第 100 枚 EXACT"
+   "probe leg0 bmc_rows=99 attempt-continuity face（r1130 窗算法·bm-c own seat+bmc live rows 99 实读）——freeze 时 live derive bmc rows 99+候选=第 100 枚 EXACT"
   ],
   [
    "engine_owner==bm-c 97 行注册",
@@ -138,15 +113,15 @@
   ],
   [
    "saturation_engine.py status live-read r1122：burns_active=[] queue_next=[] 实读·heartbeat 新鲜",
-   "saturation_engine.py status live-read r1129：burns_active=[] queue_next=[] 实读·heartbeat 新鲜"
+   "saturation_engine.py status live-read r1130：burns_active=[] queue_next=[] 实读·heartbeat 新鲜"
   ],
   [
    "本机 bm-c 实例·heartbeat 新鲜实读 r1122 窗·队列空转 idle",
-   "本机 bm-c 实例·heartbeat 新鲜实读 r1129 窗·队列空转 idle"
+   "本机 bm-c 实例·heartbeat 新鲜实读 r1130 窗·队列空转 idle"
   ],
   [
    "引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1122 窗实读",
-   "引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1129 窗实读"
+   "引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1130 窗实读"
   ],
   [
    "--wave 279/finalize --wave 279",
@@ -154,11 +129,23 @@
   ],
   [
    "§5.5 W280+ 投影承接机证",
-   "§5.5 W282+ 投影承接机证"
+   "§5.5 W281+ 投影承接机证"
   ],
   [
-   "n1_w279",
+   "PERPETUAL-N1-W279",
+   "PERPETUAL-N1-W280"
+  ],
+  [
+   "PERPETUAL_N1_W279_PREREG.md",
+   "PERPETUAL_N1_W280_PREREG.md"
+  ],
+  [
+   "n1_w280",
    "\u0001N\u0001"
+  ],
+  [
+   "W280",
+   "W281"
   ],
   [
    "W279",
@@ -233,12 +220,12 @@
    "W263"
   ],
   [
-   "W261",
-   "W262"
+   "_w280bmc",
+   "\u0001B\u0001"
   ],
   [
-   "_w279bmc",
-   "\u0001B\u0001"
+   "_w280bmc",
+   "_w281bmc"
   ],
   [
    "_w279bmc",
@@ -309,20 +296,144 @@
    "_w264bmc"
   ],
   [
-   "_w262bmc",
-   "_w263bmc"
-  ],
-  [
    "\u0001N\u0001",
-   "n1_w280"
+   "n1_w281"
   ],
   [
    "\u0001B\u0001",
-   "_w280bmc"
+   "_w281bmc"
   ],
   [
    "\u0001W\u0001",
-   "W280"
+   "W281"
+  ],
+  [
+   "PERPETUAL-N1-W279",
+   "PERPETUAL-N1-W280"
+  ],
+  [
+   "PERPETUAL_N1_W279_PREREG.md",
+   "PERPETUAL_N1_W280_PREREG.md"
   ]
- ]
+ ],
+ "post": [
+  [
+   "15:1x",
+   "20:0x",
+   4
+  ],
+  [
+   "13:5x",
+   "19:3x",
+   2
+  ],
+  [
+   "（W278 实测键 **−0.09278576**·K=609,520 合并池·W278-only 实测 **−0.09701509**）",
+   "（W279 实测键 **−0.09282363**·K=611,720 合并池·W279-only 实测 **−0.10331555**）",
+   1
+  ],
+  [
+   "W2..W278 共二百七十七面实测 mu 稳定先例",
+   "W2..W279 共二百七十八面实测 mu 稳定先例",
+   1
+  ],
+  [
+   "W278-only vs merged 实差 0.0042 在带内",
+   "W279-only vs merged 实差 0.0105 在带内",
+   1
+  ],
+  [
+   "键 **0.24505494**=W278 合并池实测",
+   "键 **0.24506025**=W279 合并池实测",
+   1
+  ],
+  [
+   "与 W278 A 档 p95（**0.2844** 实测锚）",
+   "与 W279 A 档 p95（**0.3104** 实测锚）",
+   1
+  ],
+  [
+   "键 W278 实测 K-lift **−0.0002**·line_merged@K609,520 **1.1969**·line_pre_w278 1.1971·n_eff_held_equal 1,033,735",
+   "键 W279 实测 K-lift **+0.0000**·line_merged@K611,720 **1.197**·line_pre_w279 1.197·n_eff_held_equal 1,035,935",
+   1
+  ],
+  [
+   "→W273 **0.000319**→W274 **0.000318**→W275 **0.000317**→W276 **0.000316**→W277 **0.000314**→W278 **0.000314**→W279 投影 0.000313】",
+   "→W273 **0.000319**→W274 **0.000318**→W275 **0.000317**→W276 **0.000316**→W277 **0.000314**→W278 **0.000314**→W279 **0.000313**→W280 投影 @@W280_SE_PROJ@@】",
+   1
+  ],
+  [
+   "W1..W278 已落账 609,520 实测",
+   "W1..W279 已落账 611,720 实测",
+   1
+  ],
+  [
+   "bm-c r1119 W278 §7 范式",
+   "bm-c r1130 W280 §7 范式",
+   1
+  ],
+  [
+   "bm-c r1119 W278 §8 范式",
+   "bm-c r1130 W280 §8 范式",
+   1
+  ],
+  [
+   "本窗 free RAM ~6.4GB",
+   "本窗 free RAM ~2.6GB",
+   1
+  ],
+  [
+   "W278 冻结窗 ~6.4G bm-c 实锚）",
+   "W278 冻结窗 ~6.4G bm-c 实锚·W280 冻结窗 ~2.6G bm-c 实锚）",
+   1
+  ]
+ ],
+ "blocks": [
+  [
+   "b_title",
+   "engine_owner 行 268 注册在册（表尾"
+  ],
+  [
+   "b_band",
+   "（**A 面=STAIRCASE-AFFECTS-A"
+  ],
+  [
+   "b_gated",
+   "本件=席位窗后首窗冻结件；五面冻结拼接脚本"
+  ],
+  [
+   "b_prev",
+   "prev=**届时空窗活链头 derive 禁手抄**"
+  ],
+  [
+   "b_claim_proj",
+   "投影 A naive 631_101..633_100 CLEAN hops=0（零 live refusers）"
+  ],
+  [
+   "b3_a",
+   "entry rng seed=**629_101+j**"
+  ],
+  [
+   "b3_b",
+   "exit rng=**631_101+j**"
+  ],
+  [
+   "b5_projection",
+   "5. **W"
+  ]
+ ],
+ "anchors": {
+  "K": 611720,
+  "mu": -0.09282362698620283,
+  "sigma": 0.24506025197871714,
+  "only_mu": -0.10331554545454545,
+  "p95": 0.3104,
+  "n_eff": 1035935,
+  "ledger": 1038135,
+  "k_proj": 613920,
+  "ledger_proj": 1040335,
+  "se_proj": 0.000313,
+  "diff4": "0.0105",
+  "ram_face": "~2.6GB"
+ }
 }
