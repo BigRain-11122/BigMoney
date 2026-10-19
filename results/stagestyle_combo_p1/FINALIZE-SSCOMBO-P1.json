@@ -1,0 +1,198 @@
+{
+ "batch": "FUND-STAGESTYLE-COMBO-P1",
+ "machine": "bm-b",
+ "kind": "combo-p1-finalize",
+ "status": "FINALIZE",
+ "evidence_cutoff": "2026-10-19",
+ "cutoff_meta": {
+  "cutoff": "2026-10-19",
+  "face": "astock_daily_local"
+ },
+ "window": {
+  "lo": "2013-04-01",
+  "hi": "2026-10-19",
+  "bars": 3290
+ },
+ "prereg": "research/FUND-STAGESTYLE-COMBO-P1.md",
+ "prereg_state_note": "readout executed on DRAFT-NOT-FROZEN prereg under CEO order O-20261019-2230 sec.2.4 (new_mechanism exception, same-round start); freeze probe legs GREEN at r1048/r1053, final freeze commit superseded by this judgment closure -- disclosed, not hidden.",
+ "verdict": {
+  "claim": "stage-conditioned style selection beats unconditional single-style holding",
+  "reading": "UNSUPPORTED (honest negative)",
+  "rule": "prereg sec.3/4 P4: best combo sharpe >= U-divlowvol + 0.10",
+  "best_combo": {
+   "cell": "C1",
+   "sharpe_x1": 1.082985
+  },
+  "best_unconditional": {
+   "face": "U-divlowvol",
+   "sharpe_x1": 1.208542
+  },
+  "margin": -0.125557,
+  "passes_p4": false,
+  "attribution": "combo gains trace to the divlowvol sleeve it already holds; stage switching nets negative via turnover tax + cash legs missing the up-moves"
+ },
+ "faces": {
+  "C1": {
+   "x1": {
+    "sharpe": 1.082985,
+    "ret": 2.469224,
+    "max_dd": -0.193686,
+    "vol_ann": 0.091927,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 1.044964,
+    "ret": 2.359592,
+    "max_dd": -0.204248,
+    "vol_ann": 0.093013,
+    "n_days": 3290
+   }
+  },
+  "C2": {
+   "x1": {
+    "sharpe": 0.941619,
+    "ret": 2.10955,
+    "max_dd": -0.202601,
+    "vol_ann": 0.097374,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 0.896461,
+    "ret": 1.983135,
+    "max_dd": -0.217645,
+    "vol_ann": 0.098898,
+    "n_days": 3290
+   }
+  },
+  "C3": {
+   "x1": {
+    "sharpe": 0.976836,
+    "ret": 2.187113,
+    "max_dd": -0.223801,
+    "vol_ann": 0.09562,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 0.929325,
+    "ret": 2.059426,
+    "max_dd": -0.239649,
+    "vol_ann": 0.097313,
+    "n_days": 3290
+   }
+  },
+  "U-value": {
+   "x1": {
+    "sharpe": 0.436643,
+    "ret": 1.038351,
+    "max_dd": -0.315579,
+    "vol_ann": 0.151225,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 0.413542,
+    "ret": 0.961151,
+    "max_dd": -0.317546,
+    "vol_ann": 0.153277,
+    "n_days": 3290
+   }
+  },
+  "U-quality": {
+   "x1": {
+    "sharpe": 0.330912,
+    "ret": 0.817984,
+    "max_dd": -0.472069,
+    "vol_ann": 0.1977,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 0.314124,
+    "ret": 0.751019,
+    "max_dd": -0.487433,
+    "vol_ann": 0.201592,
+    "n_days": 3290
+   }
+  },
+  "U-divlowvol": {
+   "x1": {
+    "sharpe": 1.208542,
+    "ret": 3.465408,
+    "max_dd": -0.158415,
+    "vol_ann": 0.098941,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 1.176418,
+    "ret": 3.343377,
+    "max_dd": -0.160426,
+    "vol_ann": 0.09992,
+    "n_days": 3290
+   }
+  },
+  "U-EW": {
+   "x1": {
+    "sharpe": 0.711802,
+    "ret": 1.715567,
+    "max_dd": -0.233857,
+    "vol_ann": 0.117236,
+    "n_days": 3290
+   },
+   "x2": {
+    "sharpe": 0.685124,
+    "ret": 1.634257,
+    "max_dd": -0.235762,
+    "vol_ann": 0.118644,
+    "n_days": 3290
+   }
+  }
+ },
+ "d6_disclosure": {
+  "U-value": 0.569,
+  "U-quality": 0.5797,
+  "U-divlowvol": 0.8356,
+  "U-EW": 0.7515
+ },
+ "nulls": "pending (same-mask shuffle family not run here)",
+ "data_gaps": {},
+ "boundaries": [
+  "nulls family (same-mask shuffle) not executed in the readout run -- verdict relies on the pre-registered predictive gate vs unconditional denominator, disclosed as such",
+  "G1'/G2/DSR/M1 registration gates not run: batch judged negative at the claim layer, so registration path is moot",
+  "divlowvol sleeve t0 clamped to frozen 2006-02-06 (local sidecar floor 2003-11-03 unused, 27 months discarded conservative)",
+  "SUPPORT stage holds 104 days only, merged into CHOP behaviour per prereg sec.3"
+ ],
+ "next": "prereg sec.7.5 conclusion stands: next work goes to the style face itself (divlowvol strengthening / style combination), not stage timing",
+ "trials_ledger": {
+  "prev_total": 1044735,
+  "batch_trials": 6,
+  "total": 1044741,
+  "batch": "FUND-STAGESTYLE-COMBO-P1",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "note": "r1053 bm-b finalize: 3 judged mapping cells (C1/C2/C3, prereg sec.3 frozen enumeration) x 2 cost faces (x1/x2) = 6 trial units; 4 unconditional comparison faces (U-value/quality/divlowvol/EW) are prereg-defined denominators, not judged cells -> not billed. nulls (same-mask shuffle family) not run -> disclosed, verdict rests on the predictive gate.",
+  "evidence_cutoff": "2026-10-19"
+ },
+ "attrition_entry": {
+  "ts": "2026-10-20 05:45",
+  "kind": "fund-combo-p1-finalize",
+  "cells_ledger_delta": 6,
+  "ledger_total_after": 1044741,
+  "gates": {
+   "verdict": "claim-unsupported",
+   "p4_line": 0.994,
+   "p4_threshold_pass": true,
+   "p4_vs_unconditional": false,
+   "best_combo": {
+    "C1": 1.082985
+   },
+   "best_unconditional": {
+    "U-divlowvol": 1.208542
+   },
+   "d6_max_abs_corr": 0.8356,
+   "nulls": "not_run_disclosed",
+   "note_gates": "claim layer judged negative: combo sharpe clears the absolute 0.994 line but loses to same-run unconditional divlowvol 1.2085"
+  },
+  "note": "r1053 bm-b finalize of r1052 readout (evidence_cutoff 2026-10-19); 3 judged cells x 2 cost faces billed; 4 comparison faces = denominators unbilled; D6 corr 0.8356 confirms same-source",
+  "batch": "FUND-STAGESTYLE-COMBO-P1"
+ }
+}
