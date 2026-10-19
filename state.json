@@ -30,7 +30,7 @@
  "last_seen": "2026-10-19T21:43:22+08:00",
  "latest_artifact": "r1037: cph4/fleet/mv-album-001-jay/anchors/{安静,开不了口,晴天,简单爱}-words.json (word+line 双面) + 安静-calibrated.{json,txt} (新词锚面再生 exact9/approx39/none3) + POOL-0018-wordanchor-firstbatch7-receipt-r1037bmb.md + lyric_calibration.py SONGS 接线（+晴天·安静翻新面）+ madmom SDK 解堵链（C:\\Fluxgroup\\Tools\\mv-audio-bmb\\madmom_sdk_install_r1037.ps1 + bm-b-MadmomSDK-r1037 S4U 单发任务 + madmom_sdk_marker.txt 收成面）",
  "machine_id": "bm-b",
- "next": "r1038: 1) SDK 链收成（madmom_sdk_marker.txt sdk_rc/pip_rc 双读：pip_rc=0 → madmom smoke+结构锚首批开烧；败 → 证据+通道再决策） 2) 第 7 曲 mp3 到货 watch+words-gen 幂等补齐 3) 晴天官方词面缺口→词面供给线呈报 4) 开不了口/简单爱 映射升级=校准批派单决策件 5) ST-012 22:0x drama lane yield（drama executor owns） 6) W280 prereg (bm-c) watch → W281 seat post-REGISTER 7) RepoSlim 首日 09:03 verify 8) 首批 7 曲完整回执窗 <=2026-10-20 20:2x",
+ "next": "r1038: 1) SDK 链硬化重launch 首动作（Start-Process -Wait 修 GUI no-wait 坑·真 rc 收成 madmom_sdk_marker；S4U 拒则 in-session 提权跑·pip_rc=0 → madmom smoke+结构锚首批） 2) 第 7 曲 mp3 到货 watch+words-gen 幂等补齐 3) 晴天官方词面缺口→词面供给线呈报 4) 开不了口/简单爱 映射升级=校准批派单决策件 5) ST-012 22:0x drama lane yield（drama executor owns） 6) W280 prereg (bm-c) watch → W281 seat post-REGISTER 7) RepoSlim 首日 09:03 verify 8) 首批 7 曲完整回执窗 <=2026-10-20 20:2x",
  "next_milestone": "POOL-0018/0019 first-batch 7 曲 <=24h (due 2026-10-20 20:2x) + full 41 曲 <=72h + madmom/structure lane unblock r1037 + voice P1 <=10-22 + BigMoney seat plan <=10-25 + month-boundary 10-31",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "now_active": "r1037 closed",
@@ -473,8 +473,8 @@
   }
  },
  "task": "r1037: POOL-0018 words harvest + consumption verify + POOL-0019 SDK unblock chain ignite + closeout",
- "ts": "2026-10-19T21:43:22+08:00",
- "updated": "2026-10-19T21:43:22+08:00",
+ "ts": "2026-10-19T21:51:42+08:00",
+ "updated": "2026-10-19T21:51:42+08:00",
  "updated_at": "2026-10-19T21:43:22+08:00",
  "verdict": "GREEN r1037: POOL-0018 词锚批 ok=4 fail=0 收官（四曲 words+lines 落盘+消费验证 PASS+首批 6/7 回执）+ POOL-0019 第三通道 SDK 安装链已点火（r1038 收成 madmom_sdk_marker）+ S6 41 腿 rc0 + S1 49/49",
  "current": "GREEN r1037: POOL-0018 词锚批 ok=4 fail=0 收官（四曲 words+lines 落盘+消费验证 PASS+首批 6/7 回执）+ POOL-0019 第三通道 SDK 安装链已点火（r1038 收成 madmom_sdk_marker）+ S6 41 腿 rc0 + S1 49/49",
@@ -699,14 +699,15 @@
  "r1036_madmom_note": "r1036: madmom build attempts x2 FAIL -- attempt1 Cython missing at build-req stage (fixed by pip install cython); attempt2 --no-build-isolation reached cl.exe (MSVC 2022 Community 14.44 present) but fatal C1083 io.h missing = Windows SDK ucrt include gap; evidence madmom_err.txt/madmom_err2.txt; POOL-0019 structure lane blocked on Windows toolchain, r1037 = INCLUDE env repair probe + WSL check",
  "r1036_ord_note": "r1036: D-19 dual probe ZERO-DELTA (dec 60a98a02 / ord dda073d1 hold, advance NOOP read-back OK, mirrors synced 2); no new orders this window",
  "r1037_main_push": {
-  "status": "PENDING (this commit)",
-  "pushed_sha": "pending",
-  "consumed_at": "pending r1038",
+  "status": "PUSHED_VERIFIED (four-way: fetch behind=0 ahead=0, origin tip 7e46b9e257)",
+  "pushed_sha": "7e46b9e257",
+  "consumed_at": "2026-10-19T21:4x+08:00 (this postscript push second leg)",
   "behind_origin_main": 0,
-  "note": "r1037 payload = closeout faces (state/heartbeat/round-report) + O-2047 receipt section + Tools/register_madmom_sdk_task_r1037.ps1 + own regen/product faces (docs daily_report/live_usage regen + market_clock/DUALARM/strategy_scorecard/daily_scorecard/paper_export stale-takeover derives + bm-b evidence faces); EXCLUDED per r982/r1015/r1033 policy: machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf/update_status/compute_audit status faces; base = origin tip fresh (behind=0/ahead=0 at S0)"
+  "note": "r1037 payload = 35 own faces (closeout trio + O-2047 receipt + madmom SDK register tool + group CAS receipt + docs daily_report/live_usage regen + scorecard/dashboard/paper_export stale-takeover derives + paper marks x6 + bm-b-suffixed evidence + regime_state ours-newer-wins) delivered 3c5bd5c3c5..7e46b9e257; cph4 group face via CAS surgery 4fa68b0->c3bd206 (8 faces, diff-tree changed-set law, zero worktree/ref touch, other window's local commit intact)"
  },
  "r1037_ord_note": "r1037: O-20261019-2047 全员复工广播 consumed（bm-b=无 pause 面零恢复动作·常设任务 schtasks 全量 ready 实证；满负荷令 O-20261019-1935 照旧推进=POOL-0018 收官+POOL-0019 SDK 通道点火）；D-19 双面零增量（dec/ord hash hold·内容级 diff 零新行·watermark 不动）",
  "r1037_words_harvest_note": "r1037: words-gen batch ok=4 fail=0（21:31:37 words_gen_done；安静447/11、开不了口311/7、晴天372/8、简单爱301/5 words+lines；首跑 'str' object 瞬态崩自愈非病理性）；消费验证 CALIBRATED 安静 mode=whisper exact=9 approx=39 none=3 total=51 PASS；回执=cph4/fleet/mv-album-001-jay/POOL-0018-wordanchor-firstbatch7-receipt-r1037bmb.md（6/7 面·第 7 曲 mp3 未到）",
  "r1037_madmom_sdk_note": "r1037: madmom Windows 通道判决——INCLUDE 修补判死（Windows Kits\\10\\Include 目录空=io.h 不在盘·r1036 计划的修补探测实证不可行）+ WSL 判死（wsl.exe 文件不存在）；第三通道点火=bm-b-MadmomSDK-r1037 单发 S4U 任务（21:38:33·VS setup.exe modify --add Win11SDK.26100 --quiet --norestart + INCLUDE/LIB 动态补丁 + venv pip install madmom --no-build-isolation + madmom_sdk_marker.txt 收成面 + 任务自禁用）；r1038 首动作=marker 双 rc 收成",
- "r1037_calibration_note": "r1037: lyric_calibration.py SONGS 接线——+晴天→晴天-words（词面缺位 MISS 卡住=供给线决策件）；安静 anjing→安静-words 翻面（消费验证载体）；开不了口→kaibuliaokou、简单爱→jiandanan 仍指 10-15 legacy 拼音面（翻面即再生幂等零风险=下一次校准批派单决策）；venv 缺 zhconv=系统 Python311 执笔链实证"
+ "r1037_calibration_note": "r1037: lyric_calibration.py SONGS 接线——+晴天→晴天-words（词面缺位 MISS 卡住=供给线决策件）；安静 anjing→安静-words 翻面（消费验证载体）；开不了口→kaibuliaokou、简单爱→jiandanan 仍指 10-15 legacy 拼音面（翻面即再生幂等零风险=下一次校准批派单决策）；venv 缺 zhconv=系统 Python311 执笔链实证",
+ "r1037_sdk_chain_note": "r1037-sdk-chain-honest-face: bm-b-MadmomSDK-r1037 S4U one-shot 21:38:33 秒死链——真因双叠：①setup.exe 为 GUI 子系统应用，PS & 调用不等待不设 $LASTEXITCODE（marker sdk_rc= 空·vs log 未生成为证）；②链设计按同步 rc 流跑（INCLUDE 空判断→跳过 pip→自禁用）=GUI no-wait 竞态。S4U+RunLevel Highest 提权探针：IsInRole(Administrator)=True（S4U 令牌 admin 域在位）；首版探针 high_integrity=False 系字符串-vs-SecurityIdentifier 对比 bug 不可信。r1038 首动作=硬化重launch：Start-Process -Wait 承载 setup.exe modify --add Win11SDK.26100 --quiet --norestart（真等待真 rc）+完成后 INCLUDE/LIB 动态补丁+venv pip install madmom --no-build-isolation+marker 双 rc；若 S4U 仍拒（UAC/完整性面），降级路径=轮内 in-session 提权跑（VS modify 事务性可中断重跑）。"
 }
