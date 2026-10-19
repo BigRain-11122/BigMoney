@@ -1,6 +1,6 @@
 # FUND-DIVLOWVOL-P2 预注册【DRAFT-NOT-FROZEN·r1038 开批票】· 红利低波族复活批（盈利质量过滤强化+参数邻域扫描+出场轴优化）
 
-> **状态=冻结窗进行中（r1039）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；**余项=D6 probe＋数据完备门腿（需 p1c 面板·bm-a 宿主在位·bm-b 重投请求已发）→ 跑齐后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
+> **状态=冻结窗进行中（r1040）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；r1040 已完成=probe 模块落地（scripts/fund_divlowvol_p2_probe.py·P1 内核单源 import·selftest 17/17·本地腿绿=leg2 分红面/leg5 种子带带册校验/leg6 质量 PIT 结构门·面板腿诚实 AWAITING_PANEL exit4）；**余项=面板腿（leg1/leg3/leg4/leg6 覆盖＋d6 子命令·需 p1c 面板·MSG-2350 重投请求在途或 bm-a 宿主跑）→ 跑齐 GREEN 后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
 > 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
 > **CEO 判负线复活授权（O-20261019-2230-bm-b §二.1·三件律：本授权+新预注册+新证据）**：承 FUND-DIVLOWVOL-P1 判决（0.89 vs 基准 1.0025·DSR 0.675·results/fund_divlowvol_p1/fund_divlowvol_p1_results.json 在册），新证据三腿=①盈利质量过滤强化（eligibility np_ttm/np_annual+quality_faces 盈利质量面——P1 未用）②参数邻域扫描（Sobol/邻域格·判负面主判据邻域稳健性检验）③出场轴优化（出场轴显式门三选一显式声明·P1=②持有到底，P2 出场轴=r1039 冻结窗设计定稿）。防运气门不拆（CEO 令原文：技能线/DSR/PBO/种子登记/预注册冻结全照旧）。
 > 血统：FUND-DIVLOWVOL-P1.md（股票横截面月频族·bm-b r610 冻结·N_eff 2,002 池烧）＋ CEO 研究导向律合规（红利低波=A 股原生主流风格打法·形式化非国外框架筛国内打法）。

@@ -1,0 +1,101 @@
+{
+ "probe": "FUND-DIVLOWVOL-P2 freeze-window probes",
+ "generated": "2026-10-19T23:24:47+08:00",
+ "machine": "bm-b",
+ "prereg": "research/FUND-DIVLOWVOL-P2.md (freeze window, r1039 rulings)",
+ "evidence_cutoff": "2026-09-22",
+ "evidence_cutoff_ruling": "P1 same-anchor 2026-09-22 (revival same-window falsification-continuity, r1039 ruling 1)",
+ "panel_redelivery": "MSG-2350-bmb-p2panel.md (bm-a, receipt window <=2 rounds)",
+ "kernel_source": "fund_divlowvol_p1_probe (ttm_cash_sum/sidecar_f_at verbatim import, re-implementation zero)",
+ "frozen_design": {
+  "n_top": 20,
+  "universe_floor": 60,
+  "ttm_days": 365,
+  "vol_win": 252,
+  "vol_min_bars": 126,
+  "amt20_floor": 10000000.0,
+  "quality_cov_floor": 0.8,
+  "t0_pin": 20060206,
+  "d6_reject": 0.7
+ },
+ "panel": {
+  "status": "PANEL_MISSING_AWAITING_REDELIVERY",
+  "error": "FileNotFoundError(2, 'No such file or directory')",
+  "note": "p1c cache re-delivery pending (MSG-2350); panel legs run on bm-a host or after re-landing"
+ },
+ "div_face": {
+  "rows": 54494,
+  "n_symbols_nonempty": 5124,
+  "per_symbol_event_median": 9.0,
+  "ex_date_span": [
+   "1991-04-03",
+   "2026-10-23"
+  ],
+  "null_cash_rows": 0,
+  "unsorted_rows": 0,
+  "quarantined_present": [],
+  "sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+  "manifest_sha256": "66c67d9fd012c504327271a4e1a96bbecb542c9e9cfe47fbd403651723757b40",
+  "manifest_bytes_ok": true
+ },
+ "seed_band_scan": {
+  "own_pair": {
+   "fund_divlowvol_p2_nulls": 20523000,
+   "fund_divlowvol_p2_sens": 20523500
+  },
+  "registration_exact_ok": true,
+  "n_registry_bases": 225,
+  "exact_collisions_other": {},
+  "furnace_band": [
+   20333000,
+   20445400
+  ],
+  "in_furnace_band": {},
+  "proximity_violations_other": {},
+  "own_pair_distance": 500,
+  "own_pair_disclosure": "by-design pair-seed sub-stream layout (P1 precedent 20520000/20520500) -- disclosed, not gated",
+  "k_stretch_disclosure": {
+   "nulls": "rng([20523000, k]) k=0..1999 (pair-seed sub-stream law)",
+   "sens": "rng([20523500, k]) k=0..499 (pair-seed sub-stream law)"
+  }
+ },
+ "quality_face": {
+  "rows": 306414,
+  "n_symbols": 5223,
+  "columns": [
+   "code",
+   "period_end",
+   "avail_date",
+   "roe_q",
+   "code_s",
+   "_av"
+  ],
+  "pit_anchor": "avail_date",
+  "pit_violations": 0,
+  "null_roe_rows": 11176,
+  "avail_date_span": [
+   "2001-04-30",
+   "2026-08-31"
+  ],
+  "period_end_span": [
+   "2001-03-31",
+   "2026-06-30"
+  ],
+  "eligibility_ban": "eligibility.csv is a <24h current snapshot -- banned for historical signal days (r1039 look-ahead ruling)"
+ },
+ "_missing": {
+  "leg3_sidecar_recovery": "PANEL_MISSING_AWAITING_REDELIVERY",
+  "leg4_yield_census_t0": "PANEL_MISSING_AWAITING_REDELIVERY",
+  "leg6_quality_coverage": "PANEL_MISSING_AWAITING_REDELIVERY"
+ },
+ "gates": {
+  "leg1_price_panel": false,
+  "leg2_transfer_export": true,
+  "leg5_seed_band": true,
+  "leg6_quality_structural": true,
+  "leg3_sidecar_recovery": false,
+  "leg4_yield_census_t0": false,
+  "leg6_quality_coverage": false
+ },
+ "verdict": "AWAITING_PANEL"
+}
