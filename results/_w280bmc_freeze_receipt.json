@@ -1,0 +1,61 @@
+{
+ "machine": "bm-c",
+ "wave": 280,
+ "spliced_wave": 280,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W279 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "1db35bf70e45eca7938fef2403387aa8d18bde2a",
+ "pf_sha16_pre": "c73950bfd5e0742a",
+ "n1_sha16_pre": "db60e79f8fd4dde9",
+ "pf_sha16_post": "22f5413e21ed3de9",
+ "n1_sha16_post": "351d308fffe287c7",
+ "bands": {
+  "A": [
+   631301,
+   633300
+  ],
+  "B": [
+   633301,
+   633500
+  ]
+ },
+ "admit_receipt": "results/_w280bmc_20261021_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=631301 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=633301 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk TWENTY-NINTH consecutive A-hop (naive 631_101..633_100 refused at start by the registered W279 B band 631_101..631_300; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 631_301..631_500 lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; THIRTIETH consecutive above-own-A)"
+ },
+ "upstream_w279": {
+  "freeze_sha": "3810f4a7ac2ece994246cac557c901511bab5121",
+  "prereg_sha": "ba5c725b427723b16c65f22bc6a13dd6f5a1b4f1",
+  "ledger_total": 1038135,
+  "merged_n": 611720
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261019-200x-bmc-w280-seat.md",
+  "seat_origin": "f96272d8b9",
+  "prereg_commit": "5f279e44fc349fda9e79bd4cdf3f66fb12eec09c",
+  "probe_receipt_sha": "b18770ffb1febeb320f48c29652b45921897c86d"
+ },
+ "downstream_seat": "W281+ projection on the pre-W280 universe (assuming the W280 seat bands declared here register verbatim). ONCE W280 REGISTERS, the naive W281 A start is REFUSED by the registered W280 B band (staircase-affects-A THIRTIETH consecutive A-hop expected) AND the W281 B naive start lands inside the own-A reservation face; the W281 freezer MUST re-derive on the post-W280 universe AND reserve the own-wave A window when deriving B -- never transcribe r587; staircase face continuing since W251 (A hops over prior B; B lands above own-A): re-read the live trace, do NOT assume the A-base==prior-B-tail+1 or B-base==own-A-tail+1 equalities.",
+ "seat": "fleet/inbox/processed/MSG-20261019-200x-bmc-w280-seat.md",
+ "parity": {
+  "bytes": 29644,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 31,
+  "fresh_legs_row_asserts": 32,
+  "total_parity_rows": 138
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 280
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ }
+}
