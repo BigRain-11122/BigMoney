@@ -1,32 +1,27 @@
 {
- "ts": "2026-10-19T04:46:41+08:00",
- "cmd": "update",
- "advance": true,
+ "ts": "2026-10-19T11:06:28+08:00",
+ "cmd": "verify",
  "state_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state-bm-c.json",
- "action": "noop",
- "changed": {
-  "decisions": false,
-  "orders": false
- },
- "reasons": [],
- "err": null,
- "written": {
-  "last_decisions_sha": "8706acd8a7b65441f23c9813f62a25fdecbd9da0df10994e5915b5742a40a3fd",
-  "last_orders_sha": "57d1f5de1bc783f61a7d73224c3f3be9d3ca3583"
- },
- "heartbeat_sync": {
-  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-c.json",
-  "synced": {
-   "last_orders_read_at": {
-    "from": "2026-10-19T02:38:18+08:00",
-    "to": "2026-10-19T04:46:41+08:00"
-   },
-   "last_decisions_read_at": {
-    "from": "2026-10-19T02:38:18+08:00",
-    "to": "2026-10-19T04:46:41+08:00"
-   }
+ "structural": {
+  "last_decisions_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 64
   },
-  "readback_ok": true,
-  "note": null
+  "last_orders_sha": {
+   "ok": true,
+   "why": "ok",
+   "len": 40
+  }
+ },
+ "probe_equality": {
+  "last_decisions_sha": {
+   "equal": true,
+   "fresh": "8706acd8a7b65441f23c9813f62a25fdecbd9da0df10994e5915b5742a40a3fd"
+  },
+  "last_orders_sha": {
+   "equal": true,
+   "fresh": "0992a4ea9cc6d0e455ec8d004133124db035ecc0"
+  }
  }
 }

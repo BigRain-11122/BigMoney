@@ -1,0 +1,36 @@
+{
+ "round": "r1115",
+ "machine": "bm-c",
+ "ts": "2026-10-19T11:10:00+08:00",
+ "scan_face": "opening dual FALSE (ord 57d1f5de / dec 8706acd8 hold, unacked=0, files=105 inside ack-230) + S7 tail re-probe caught MID-ROUND ORD DELTA (exit 4) -> consumed same-round per CEO-ticket law",
+ "rows_consumed": [
+  {
+   "row_ts": "2026-10-19 10:53",
+   "kind": "CEO immediate ticket (dispatched @bm-c)",
+   "ceo_quote": "机队其他机器继续周杰伦的lora训练，要他年轻时候的",
+   "summary": "jman LoRA 年轻档续训令 -- 男主正典目标档更新 = 年轻时期 2000-2003（承 10-12 KF demo 复看定谳 / 10-15 人物一致性受众第一优先 / 10-18 23:46 角色库自训启动令）",
+   "judgment": "ACTIONABLE -- bm-c GPU gen-visual lane, consumed + claimed same-round per CEO-ticket law",
+   "claim": {
+    "lane": "bm-c GPU gen-visual（与星晴 i2v 批同队列自领·夜窗优先不打架白班正片）",
+    "standing_priority": "GPU-lane P0: jman young-era v2",
+    "spec_pointer": "cph4/fleet/mv0001-handover/outbound/krea2/jman-lora-training-spec-v1.md (v1 pipeline canon, located this window)",
+    "baseline": "现役 jman v1 (F5_seed7306_dn80 基线链) 定版前照用零断供",
+    "first_steps": [
+     "①数据集组建：年轻档官方影像优先（2000-2003《Jay》《范特西》《八度空间》《叶惠美》专辑宣传照/写真/官方 MV 截帧·年代锚白名单筛选·多角度多光照覆盖·发型照当年专辑宣传封面）",
+     "②训练：复用 jman 训练管线（F5_seed7306_dn80 基线→年轻档 v2·可吸收 peft+ms-swift 训练升级件·W6 脸相似度自动评分闸并入）",
+     "③出样：年轻档 v2 vs 现役 v1 多角度多光照对比板+自动评分",
+     "④过闸：导演席审（存疑即不呈）→CEO 眼感终判（像不像·年轻档）",
+     "⑤交付：LoRA 件对比板 CDN 直链上链+KF 试构图验证批"
+    ],
+    "this_window_start": "consumed + claimed + v1 spec located (pipeline canon pointer landed); dataset assembly + training ignition = next GPU-lane window (night-priority per ticket lane discipline; 白班正片 i2v 队列不占用)"
+   }
+  }
+ ],
+ "watermark": {
+  "ord_before": "57d1f5de1bc783f61a7d73224c3f3be9d3ca3583",
+  "ord_after": "0992a4ea9cc6d0e455ec8d004133124db035ecc0",
+  "dec": "8706acd8a7b65441f23c9813f62a25fdecbd9da0df10994e5915b5742a40a3fd (hold)",
+  "method": "scripts/d19_watermark.py update --advance (two-face r1090 law; read-back full-string equality OK; heartbeat mirrors synced 5; verify structural_ok=true probe_equality both faces equal)"
+ },
+ "unacked_after": 0
+}
