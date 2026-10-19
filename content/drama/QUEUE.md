@@ -27,7 +27,7 @@
 | ST-009 | done | cpu | st009_voice_differentiation_eval | ST-008 | character voice differentiation eval v0.1: voice_07/voice_05 shared-base debt me | claimed@bm-b@2026-10-19T07:45:35 |
 | ST-010 | done | cpu | st010_pitch_tier_test_synth | ST-009 | pitch-tier test-synthesis station: XIONG/XIONGWEI/FATHER 1 line each through GPT | claimed@bm-b@2026-10-19T10:56:10 |
 | ST-011 | done | cpu | st011_boy_mancang_sourcing | none | BOY/MANCANG sourcing station: child-voice license review FIRST (BOY) + MANCANG d | claimed@bm-b@2026-10-19T11:52:25+08:00 |
-| ST-012 | open | gpu-night | v0.2-pending | none | character-voice LoRA training lane: GPT-SoVITS base finetune (GitHub wheels scan | - |
+| ST-012 | done | gpu-night | st012_character_lora_train | none | character-voice LoRA training lane: GPT-SoVITS base finetune (GitHub wheels scan | claimed@bm-b@2026-10-20T01:12:02 |
 | ST-013 | done | cpu | st013_dubbing_sheet_prep | none | dubbing sheet preprocessing EP001-003 (一路长虹): per-line character/emotion/est-dur | claimed@bm-b@2026-10-19T14:11:15 |
 
-Loop state: rounds=64 last=2026-10-19T20:52:01
+Loop state: rounds=82 last=2026-10-20T02:52:02

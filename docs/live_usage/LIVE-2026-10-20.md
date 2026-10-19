@@ -1,10 +1,10 @@
 # CEO 实盘使用一页纸 · 2026-10-20
 
-> 自动生成 2026-10-20T00:42:33 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-10-20T02:27:40 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
-- **当前政体态：ORANGE**（shadow 探测·已连续 2 日）· asof 2026-10-19
+- **当前政体态：ORANGE**（shadow 探测·已连续 1 日）· asof 2026-10-19
 - 依据：hs300<MA200 (#10 collected); breadth 0.79>=65%
 - 沪深300ETF 收盘 4.24 vs MA200 4.7205（熔断线之下）
 - **市场时钟**：`ORANGE_COOL`（asof 2026-10-19）· 温度计 LHB 当日 80 行 · 净买 23.69 亿 vs 250日 p80=96.0 行（温度计=COOL）

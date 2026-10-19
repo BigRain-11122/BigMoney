@@ -1,11 +1,11 @@
 {
-  "ts": "2026-10-19T21:02:11",
-  "mode": "refresh in progress (todo=5219/5227, quarantined=8, settled=0)",
+  "ts": "2026-10-20T03:21:00",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-16",
+    "cutoff": "2026-10-19",
     "universe_n": 5227,
-    "per_files": 5221
+    "per_files": 5225
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -19,8 +19,8 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 10,
-    "fetched": 10,
+    "todo": 11,
+    "fetched": 11,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
@@ -31,24 +31,18 @@
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
-  "quarantined_n": 8,
-  "last_spawn_attempt": "2026-10-19T21:02:08",
-  "spawn_reason": "panel lags expected bar date (2026-10-16 < 2026-10-19)",
+  "quarantined_n": 4,
+  "last_spawn_attempt": "2026-10-20T03:20:17",
+  "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 10,
-  "settled": [
-    "000016",
-    "002388",
-    "002717",
-    "002731",
-    "300773",
-    "301314",
-    "600293",
-    "601059",
-    "601198",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-10-16 >= expected 2026-10-16)",
-  "per_files_on_disk": 5221,
-  "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5221) -> disk face wins, rebuild (P0 r834-kin guard)"
+  "per_files_on_disk": 5225,
+  "disk_truth_override": "status claims complete panel but per files on disk = 0 (status 5221) -> disk face wins, rebuild (P0 r834-kin guard)",
+  "validation": {
+    "suspended_rows": 0,
+    "bracket_tolerated_rows": 0,
+    "defect_rows": 0
+  }
 }

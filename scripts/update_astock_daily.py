@@ -279,20 +279,56 @@ def completeness_filter(rows, now=None):
     return kept, len(rows) - len(kept)
 
 
-def validate_rows(rows):
-    """OHLC sanity; return None if clean else a short defect string."""
-    bad = 0
+BRACKET_TOL = 0.01
+
+
+def _bracket_excess(o, h, l, c):
+    """Relative distance by which close sits outside [low, high] (0 = inside)."""
+    c = abs(float(c)) or 1.0
+    hi_gap = max(0.0, float(max(o, c)) - float(h))
+    lo_gap = max(0.0, float(l) - float(min(o, c)))
+    inner = max(0.0, float(l) - float(h))
+    return max(hi_gap, lo_gap, inner) / c
+
+
+def validate_rows(rows, stats=None):
+    """OHLC sanity; return None if clean else a short defect string.
+
+    Two source encodings are tolerated (counted into `stats` so receipts stay
+    honest instead of silently dropping whole symbols):
+      - suspension shape: volume==0 and open==high==low==0 -- sina carries the
+        carried-forward close with a zeroed OHLC block on suspended days
+        (e.g. 688143/688173/688089 on 2024-11-06);
+      - bracket rounding: close outside [low, high] by <= BRACKET_TOL relative
+        on pre-1993 fraction-quoted history (000019 1992-11-30, 0.53%).
+
+    r1044 bm-b: before this, a single suspension row quarantined a symbol
+    forever (3 attempts -> isolation -> excluded from todo -> panel could
+    never complete).
+    """
+    bad = suspended = tolerated = 0
     for r in rows:
         o, h, l, c = (r.get(k) for k in ("open", "high", "low", "close"))
         v, a = r.get("volume"), r.get("amount")
         if None in (o, h, l, c):
             bad += 1
             continue
-        if not (h >= max(o, c) - 1e-9 and l <= min(o, c) + 1e-9 and h >= l - 1e-9):
-            bad += 1
+        if v == 0 and o == 0 and h == 0 and l == 0:
+            suspended += 1
+            continue
+        if not (h >= max(o, c) - 1e-9 and l <= min(o, c) + 1e-9
+                and h >= l - 1e-9):
+            if _bracket_excess(o, h, l, c) <= BRACKET_TOL:
+                tolerated += 1
+            else:
+                bad += 1
             continue
         if (v is not None and v < 0) or (a is not None and a < 0):
             bad += 1
+    if stats is not None:
+        stats["suspended_rows"] = suspended
+        stats["bracket_tolerated_rows"] = tolerated
+        stats["defect_rows"] = bad
     if bad:
         return f"sanity_defects={bad}/{len(rows)}"
     return None
@@ -570,6 +606,8 @@ def refresh(limit=None, repull=False):
 
         consec_fail, consec_conn = 0, 0
         appended_total = readjusted_n = fetched_n = 0
+        val_tally = {"suspended_rows": 0, "bracket_tolerated_rows": 0,
+                     "defect_rows": 0}
         failures, readjusted = [], []
         conn_stopped = False
         panel_cutoff = None
@@ -580,7 +618,10 @@ def refresh(limit=None, repull=False):
                 rows = fetch_one(code, market_of(code))
                 fetched_n += 1
                 rows, _dropped_today = completeness_filter(rows)
-                err = validate_rows(rows)
+                _vstats = {}
+                err = validate_rows(rows, _vstats)
+                for _k in val_tally:
+                    val_tally[_k] += int(_vstats.get(_k) or 0)
                 if err:
                     raise RuntimeError(f"validation_fail:{err}")
                 face = vwap_anchor(rows)
@@ -670,6 +711,7 @@ def refresh(limit=None, repull=False):
                              "vwap_anchor_max": (max(vwap_faces) if vwap_faces
                                                  else None),
                              "repull": bool(repull)},
+            "validation": dict(val_tally),
             "quarantined_n": len(quarantine),
             "settled_n": len(settled_valid),
             "settled": sorted(settled_valid),
@@ -845,6 +887,17 @@ def _selftest():
     assert validate_rows(bad) is not None
     bad = [dict(good[0], volume=-1.0)]
     assert validate_rows(bad) is not None
+    # r1044: source encodings tolerated, counts surfaced (never silent)
+    susp = [dict(good[0], open=0.0, high=0.0, low=0.0, volume=0.0,
+                 amount=0.0)]
+    vs = {}
+    assert validate_rows(susp, vs) is None and vs["suspended_rows"] == 1
+    frac = [dict(good[0], open=10.6, low=10.6, close=10.5)]   # 0.95% overshoot
+    vs = {}
+    assert validate_rows(frac, vs) is None and vs["bracket_tolerated_rows"] == 1
+    wild = [dict(good[0], low=20.0, close=10.5)]   # 90% overshoot -> defect
+    vs = {}
+    assert validate_rows(wild, vs) is not None and vs["defect_rows"] == 1
     # vwap anchor (r262 unit-anchor diagnostic)
     assert abs(vwap_anchor(good) - abs(1050.0 / 100.0 - 10.5) / 10.5) < 1e-12
     assert vwap_anchor([dict(good[0], volume=0.0, amount=0.0)]) is None

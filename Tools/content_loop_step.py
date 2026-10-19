@@ -867,6 +867,61 @@ def st010_pitch_tier_test_synth(st):
             'status_face': PTT_STATUS, 'receipt': ds.get('receipt')}
 
 
+# ---------------- runners (v0.2 registry: ST-012 character-voice finetune) ----------------
+
+ST012_DRIVER = os.path.join(QDIR, 'runner_assets', 'st012_character_lora_train.py')
+ST012_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'st012_voice_finetune.json')
+ST012_LOG = ST012_STATUS + '.log'
+
+
+def _st012_status():
+    try:
+        with io.open(ST012_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def st012_character_lora_train(st):
+    """ST-012: character-voice finetune lane (gpu-night). Closes the shared-base
+    debt per ST-009 negative finding (same-base finetune cannot separate a
+    family -> bootstrap a NEW base first, then finetune). Phases:
+    bootstrap(IndexTTS zero-shot) / cuda(torch cu130) / data(.list) /
+    prep(bert+cnhubert+sv+semantic) / s2(SoVITS) / s1(GPT) / verify(A/B).
+    Each phase is checkpointed and idempotent; training ~minutes for a 49s
+    corpus. Detached ignition (multi-phase, may outlive one 20-min round --
+    ST-005 carrier precedent), status face polled each round; loop closes the
+    station when the face reports done."""
+    ds = _st012_status()
+    if ds.get('state') == 'done':
+        return {'runner': 'st012_character_lora_train', 'verdict': 'done-early',
+                'phases_done': ds.get('phases_done'), 'status_face': ST012_STATUS,
+                'receipt': ds.get('receipt')}
+    if ds.get('state') == 'running':
+        pid = ds.get('pid')
+        if pid and _pid_alive(pid):
+            return {'runner': 'st012_character_lora_train', 'verdict': 'already-running',
+                    'pid': pid, 'phase': ds.get('phase'),
+                    'phases_done': ds.get('phases_done'), 'status_face': ST012_STATUS}
+        # stale running face -> re-ignite (phases are idempotent)
+    r = subprocess.run([sys.executable, ST012_DRIVER, 'selftest'],
+                       capture_output=True, timeout=180, creationflags=_NO_WINDOW)
+    if r.returncode != 0:
+        raise RuntimeError('ST-012 driver selftest FAIL: ' +
+                           (r.stdout or b'').decode('utf-8', 'replace').strip()[-200:])
+    with io.open(ST012_LOG, 'a', encoding='utf-8') as lf:
+        subprocess.Popen([sys.executable, ST012_DRIVER, 'run'],
+                         stdout=lf, stderr=subprocess.STDOUT,
+                         stdin=subprocess.DEVNULL, creationflags=_DETACHED_FLAGS,
+                         close_fds=True)
+    time.sleep(5)
+    ds = _st012_status()
+    return {'runner': 'st012_character_lora_train',
+            'verdict': 'ignited' if ds.get('state') in ('running', 'done') else 'ignite-probe-warn',
+            'state': ds.get('state'), 'phase': ds.get('phase'),
+            'status_face': ST012_STATUS, 'log': ST012_LOG}
+
+
 ST013_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'st013_dubbing_sheet.json')
 DUBBING_SHEET_PREP = os.path.join(QDIR, 'runner_assets', 'dubbing_sheet_prep.py')
 
@@ -911,6 +966,7 @@ RUNNERS = {
     'st008_voice_bank_entries': st008_voice_bank_entries,
     'st009_voice_differentiation_eval': st009_voice_differentiation_eval,
     'st010_pitch_tier_test_synth': st010_pitch_tier_test_synth,
+    'st012_character_lora_train': st012_character_lora_train,
     'st013_dubbing_sheet_prep': st013_dubbing_sheet_prep,
 }
 
@@ -919,6 +975,7 @@ RUNNERS = {
 RUNNER_ADOPT = {
     'ST-003': 'st003_voice_library_first_batch',
     'ST-004': 'st004_csa_anchor_precheck',
+    'ST-012': 'st012_character_lora_train',
     'ST-013': 'st013_dubbing_sheet_prep',
 }
 
