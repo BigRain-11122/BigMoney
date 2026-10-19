@@ -1,18 +1,18 @@
 {
  "machine_id": "bm-b",
- "last_seen": "2026-10-20T02:29:41+08:00",
+ "last_seen": "2026-10-20T03:22:58+08:00",
  "task": "r1043: W012 admission evidence pack + S0 autostash rebase integration + S6 40 rc0 + S7 self-heal",
  "did": "r1043: (a) S0 fetch behind=9 -> autostash rebase 到 origin tip 341a90637a（9 提交全 bm-c W280 域；autostash 回放冲突面=docs/daily_report/REPORT-2026-10-20 两件=可再生面，取 HEAD 版交 S6 重生成，reset 后其余 50 个机本地面原样保留）；D-19 双水位平（ord 59c280ce/dec d5336c87 均未变·orders 目录 107/107 ack 零新增·零义务）；S1 smoke 49/49；orphan probe 0/9；sat engine alive(idle, queue 0)；WM red=false；本地未达 origin commit 数=0. (b) S8 闲置自驱：idle green_idle 且 claimable=0 -> 本地池 W012（唯一 open cpu-only）原子认领点火（IGNITED pid=30536·runner exit 0·done_file 非空）-> idle --worked 清零. (c) S6 40 腿 rc0 3.6min（papers 家族诚实 SKIP=10-20 bar 未落·tail 2026-10-19·attrition CLEAN）. (d) S7 自愈：loop task pin 2 no-op·watchdog 重注册 S4U SWA=false·pre-commit/pre-push 双爪 MATCH.",
  "cpu_cores": 16,
- "free_ram_gb": 11.8,
+ "free_ram_gb": 11.28,
  "gpu_free_vram_mb": 3715,
  "cpu_load_pct": 74,
- "verdict": "GREEN: r1043 主产品=W012 声银行入行证据包交付（ADMISSION-EVIDENCE-READY·三门全过·底嗓不塌 + 跨片一致 + 语料下限达标）+ W012 exec 契约缺陷同窗根治（.py 目标在 sentinel powershell -File 通道结构性不可执行 -> .ps1 wrapper 驱动）。当前活=P2 冻结窗候 bm-a 探针回执。",
- "idle_rounds": 1,
- "agenda_starved": true,
- "heartbeat_epoch_utc": 1792434581,
- "clock_read": "2026-10-20T02:29:41+08:00",
- "ts": "2026-10-20T02:29:41+08:00",
+ "verdict": "healthy",
+ "idle_rounds": 0,
+ "agenda_starved": false,
+ "heartbeat_epoch_utc": 1792437778,
+ "clock_read": "2026-10-20T03:22:58+08:00",
+ "ts": "2026-10-20T03:22:58+08:00",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -127,7 +127,7 @@
  "codely_live_count": 2,
  "round_no": 1043,
  "round": 1043,
- "current_task": "r1043: W012 admission evidence pack + S0 autostash rebase integration + S6 40 rc0 + S7 self-heal",
+ "current_task": "r1044: astock panel isolated-symbol root fix (validator tolerance + recovery leg 4/8)",
  "next": "r1044: 1) 候 bm-a 回 P2 probe 证据（MSG-2351 双命令腿）-> FREEZE commit -> 开批执行票（窗 <=10-21）2) 哨兵 v3.0 收口 W012（done_file 已就位）-> 本地池补货（须秘书处/会话 append 新真件）3) RepoSlim 每日 09:03 实锚复核 4) W280/W281 seat 观察（bm-c 域）",
  "last_action": "r1043: W012 ST-012 admission evidence pack delivered (ADMISSION-EVIDENCE-READY) + exec-contract heal + S6 40 rc0",
  "last_action_at": "2026-10-20T02:29:41+08:00",
@@ -149,5 +149,6 @@
   "POOL-0019": "claimed 2026-10-19T20:28:32+08:00"
  },
  "last_orders_probe_at": "2026-10-20T02:29:41+08:00",
- "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0"
+ "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0",
+ "gpu_free_vram_gb": 8.0
 }
