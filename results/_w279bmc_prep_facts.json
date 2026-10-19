@@ -1,0 +1,98 @@
+{
+ "prep_window": "r1120 (bm-c loop, 2026-10-19 15:2x, W279 prereg PREP per r1096/r1115 honest-split law)",
+ "target_wave": 279,
+ "prereg_freeze": {
+  "commit": "df1aaba72a",
+  "blob_sha1": "053892f61cf24d9803cb20410d4ab1163cb7897a",
+  "head_twin_sha1": "1c93e077c2b64476fb55041a7f59f7591f67db68",
+  "head_twin_size": 28082,
+  "face_bytes": 23814,
+  "face_sha256_16": "99001d3d3f337942",
+  "law": "PRE-backfill frozen face per r1049/r1052 (HEAD twin = post-sec78-backfill, disclosed NOT used)"
+ },
+ "splice": {
+  "commit": "b6f486af35",
+  "splice_t": "13:5x"
+ },
+ "engine_batches": [
+  {
+   "commit": "60e630918f"
+  },
+  {
+   "commit": "b965e2ecf0"
+  }
+ ],
+ "finalize_estate": {
+  "commit": "0a92fcc28f",
+  "ts": "2026-10-19 15:13:26 +0800"
+ },
+ "seat": {
+  "commit": "900c23fe7d",
+  "msg": "MSG-20261019-145x-bmc-w279-seat.md",
+  "ts": "2026-10-19 15:09:11 +0800"
+ },
+ "fivekeys_file": "results/_r1118bmc_w278_fivekeys.json",
+ "results_file": "results/perpetual_faces/n1_w278_results.json",
+ "w278_merged": {
+  "k": 609520,
+  "mu": -0.09278575748129675,
+  "sigma": 0.24505493584785207,
+  "se_mu_k609520": 0.000314,
+  "mu_8dp": -0.09278576,
+  "sigma_8dp": 0.24505494
+ },
+ "w278_only": {
+  "mu": -0.09701509090909091,
+  "sigma": 0.2360706807343977,
+  "mu_8dp": -0.09701509
+ },
+ "a_band": {
+  "p95": 0.2844,
+  "p99": 0.4055
+ },
+ "skill_line": {
+  "n_eff_held": 1033735,
+  "line_pre_w278": 1.1971,
+  "line_merged_609520": 1.1969,
+  "k_lift_delta": -0.0002
+ },
+ "key1": {
+  "name": "key1_w278_vs_merged_mu_gap",
+  "value": 0.004229333427794163,
+  "band": 0.02,
+  "pass": true
+ },
+ "ledger_identity": {
+  "prev_total": 1033735,
+  "batch_trials": 2200,
+  "total": 1035935,
+  "exact": true
+ },
+ "k_projection_w279": 611720,
+ "ledger_projection_w279": 1038135,
+ "n_eff_held_projection_w279": 1035935,
+ "bands": {
+  "A": [
+   629101,
+   631100
+  ],
+  "B": [
+   631101,
+   631300
+  ]
+ },
+ "seat_semantics": {
+  "A_hop": "TWENTY-EIGHTH consecutive A-hop (naive 628_901..630_900 refused at registered W278 B 628_901..629_100; live walk hops past W278 B tail 629_100 -> A first-clean 629_101..631_100, hops=1)",
+  "B_hop": "TWENTY-NINTH consecutive above-own-A (naive 629_101..629_300 refused by own-A reservation cascade -> hop past own-A tail 631_100 -> 631_101..631_300, hops=1)"
+ },
+ "seed_admit": [
+  "seed_admit_gate rc0 base=629101 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=631101 span=200 checked=200 verdict=FREE"
+ ],
+ "w280p_projection": {
+  "A_naive": "631101..633100",
+  "B_naive": "631301..631500",
+  "note": "W280+ projection on the pre-W279 universe (assuming the W279 seat bands declared here register verbatim). ONCE W279 REGISTERS, the naive W280 A start 631_101 is REFUSED by the registered W279 B band (live-derived at W279 seat time; expected 631_101..631_300) (staircase-affects-A TWENTY-NINTH consecutive A-hop expected) AND the W280 B naive start lands inside the own-A reservation face; the W280 fr"
+ },
+ "next_action": "r1121 FIRST ACTION: builder one-generation roll _r1116bmc_build_w278_derive.py -> _r1121bmc_build_w279_derive.py (E63 canon law; span OLD sides verified line-level against results/_w278bmc_prereg_derive.py ACTUAL text per heal (i) r1116 law) -> derive _w279bmc_prereg_derive.py -> research/PERPETUAL_N1_W279_PREREG.md ALL GATES PASS -> banned ADMIT -> freeze commit + push"
+}
