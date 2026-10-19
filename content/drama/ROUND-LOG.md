@@ -44,3 +44,6 @@
 2026-10-19T10:53:06 | round 44 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "runner-error", "err": "pitch-tier test-synth FAIL rc=1 state=None tail=l = synth_one(cid, clip)\r\n                                  ^^^^^^^^^^^^^^^^^^^^\r\n  File \"
 2026-10-19T10:55:02 | round 45 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "runner-error", "err": "pitch-tier test-synth FAIL rc=1 state=None tail=ynth.py\", line 462, in <module>\r\n    sys.exit(do_run())\r\n             ^^^^^^^^\r\n  File \
 2026-10-19T10:57:19 | round 46 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "tier-synth-done gate=FAIL", "gate": "FAIL", "pairs_after": [{"a": "XIONG", "b": "XIONGWEI", "f0_rel": 0.1541}, {"a": "XIONG", "b": "FATHER", "f0_rel": 0.0663}, {"a": 
+2026-10-19T11:12:01 | round 47 | held | ST-011 | "runner-pending:v0.2-pending"
+2026-10-19T11:32:01 | round 48 | held | ST-011 | "runner-pending:v0.2-pending"
+2026-10-19T11:52:01 | round 49 | held | ST-011 | "runner-pending:v0.2-pending"
