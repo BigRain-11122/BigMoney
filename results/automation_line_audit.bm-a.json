@@ -1,14 +1,14 @@
 {
- "ts": "2026-10-19T08:46:50+08:00",
+ "ts": "2026-10-19T10:50:37+08:00",
  "machine": "bm-a",
  "law_ref": "cph4/fleet/GROUP-AUTOMATION-PLAN-v1.md five elements; construction case research/AUTOMATION-LINE-PLAN-v1.md",
  "elements": [
   {
    "element": "E1_loop_driven_24x7",
-   "verdict": "OK",
+   "verdict": "GAP",
    "evidence": {
-    "heartbeat_age_min": 14.937537583333333,
-    "round_report_age_min": 14.937769333333334,
+    "heartbeat_age_min": 120.07860071666667,
+    "round_report_age_min": 120.96244856666667,
     "stale_line_min": 30.0
    }
   },
@@ -17,7 +17,7 @@
    "verdict": "OK",
    "evidence": {
     "idle_trigger_face_present": true,
-    "green_idle": false,
+    "green_idle": true,
     "claimable_pool_lines": 0,
     "backlog_open_lines": 0,
     "runnable_pool_entries": 0
@@ -41,7 +41,7 @@
    "verdict": "OK",
    "evidence": {
     "latest_report": "REPORT-2026-10-19.md",
-    "latest_report_age_days": 0.0013331687847222221,
+    "latest_report_age_days": 0.000897576099537037,
     "stale_line_days": 2.0,
     "pnl_attribution_streak_days": 1
    }
@@ -52,11 +52,13 @@
    "evidence": {
     "window_rounds": 5,
     "waiting_rounds": 0,
-    "product_rounds": 2,
+    "product_rounds": 1,
     "waiting_share": 0.0
    }
   }
  ],
- "gaps": [],
+ "gaps": [
+  "E1_loop_driven_24x7 分项 GAP（证据见 JSON）"
+ ],
  "lane_machine": "bm-a"
 }
