@@ -1,0 +1,34 @@
+# -*- coding: utf-8 -*-
+# r1118 bm-c ORD TAIL delta judgment receipt (S7 tail, r585 same-round atomicity)
+# Watermark c6aeabd1 -> fresh read boundary 86f6fcef (S7 tail probe 14:1x;
+# advance runs its own fresh probe per single-write-path law). 4 rows after
+# the consumed 13:40 boundary. DEC delta FALSE (95879dd9 hold).
+import json
+
+rows = [
+ {"ts": "13:41", "row": "MV V5.10 乱入动画复发定谳+SIL4 替换批",
+  "judgment": "zero bm-c action",
+  "basis": "BigStream mv0001 lane (bm-a 实产窗 executing SIL4@207.00-208.80 replacement + QC-MASTER 实拍感一致性闸; cloud H3 lane); quant-loop zero obligation"},
+ {"ts": "14:02", "row": "WorkBuddy Phase 3 技能生态对接 executed",
+  "judgment": "zero bm-c action",
+  "basis": "bm-a OpenClaw/WorkBuddy lane (changelog v1.4; ClawHub 五件入册全 MIT-0; cph4/skills 入仓)"},
+ {"ts": "14:09", "row": "WorkBuddy Phase 4 GitHub 连接器修复 executed",
+  "judgment": "zero bm-c action",
+  "basis": "bm-a OpenClaw/WorkBuddy lane (changelog v1.5; PAT 进程内换装; SSH+API 双通)"},
+ {"ts": "14:14", "row": "WorkBuddy Phase 5 映射正典化+权限分级 executed 工程全线收口",
+  "judgment": "zero bm-c action",
+  "basis": "bm-a OpenClaw/WorkBuddy lane (changelog v1.6; Phase 0-1-1.5-2-3-4-5 全线完结; 复访 10-26)"},
+]
+receipt = {
+ "tool": "r1118 ord tail judgment (S7)",
+ "wm_orders_pre": "c6aeabd16b7370f40ac3dd947ac0d8f658c55ec4",
+ "wm_orders_probe_fresh_read_boundary": "86f6fcef1ebab5f12697e52b70ef658d06dde213",
+ "wm_decisions": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db (FALSE hold)",
+ "rows_consumed": 4,
+ "rows": rows,
+ "decisions_consumed": 0,
+ "note": "S7 tail delta: 4 rows arrived post-advance (13:41/14:02/14:09/14:14), all zero bm-c quant-loop action (BigStream MV lane + bm-a WorkBuddy lane); consumed same-round per r585 atomicity; advance via d19 update --advance runs its own fresh probe (single-write-path law); appended-rows face re-checked at advance time if the fresh sha moved past the read boundary",
+}
+open("results/_r1118bmc_ord_tail_judgment.json", "w", encoding="utf-8", newline="\r\n").write(
+    json.dumps(receipt, ensure_ascii=False, indent=1))
+print("tail judgment receipt written: 4 rows consumed (all zero-action)")

@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+# r1118 bm-c ORD delta judgment receipt (D-19 r585 same-round atomicity law)
+# Watermark 15f5bbbf -> fresh d7f2648c (content-sha1, s05 probe 13:36:52)
+# Rows read verbatim from group-tree origin/main:docs/orders.md tail (7 new rows
+# after the r1117-consumed 12:3x kb-v1.2 row). DEC delta FALSE (95879dd9 hold).
+import json, hashlib
+
+rows = [
+ {"ts": "13:15", "row": "MV V5.10 三诉定谳+多拍选优转轨令",
+  "judgment": "zero bm-c action",
+  "basis": "BigStream mv0001 lane (bm-a 产线窗 executing; 三镜×4 takes = cloud H3 lane, not bm-c local); quant-loop zero obligation"},
+ {"ts": "13:2x", "row": "闲置复发申斥+机队排满令 v2",
+  "judgment": "bm-c standing-GPU-lane face carried, zero NEW quant-loop action this window",
+  "basis": "@bm-c leg = 星晴 XQ 单续烧 + GPU 队列常满自领 (POOL xingqing unlocked per CEO-PROXY R2.21 fix, 13:17 measured .:updated resume) — GPU production lane standing night-priority work per r1117 next_pointer; loop CPU-only daytime, lane carried in next_pointer"},
+ {"ts": "13:3x", "row": "排满令本机产出回执 (bm-a KB v1.3)",
+  "judgment": "zero bm-c action", "basis": "bm-a own receipt row"},
+ {"ts": "13:26", "row": "WorkBuddy Phase 1.5 管家换脑令",
+  "judgment": "zero bm-c action", "basis": "bm-a OpenClaw lane"},
+ {"ts": "13:30", "row": "MV 工艺规格正典令 (CRAFT-SPEC)",
+  "judgment": "zero bm-c action", "basis": "BigStream lane"},
+ {"ts": "13:33", "row": "去 AI 感实操手册 (CRAFT-SPEC §六)",
+  "judgment": "zero bm-c action", "basis": "BigStream lane"},
+ {"ts": "13:36", "row": "MV 方法论转向令 (CRAFT-SPEC §七 T0)",
+  "judgment": "zero bm-c action", "basis": "BigStream lane"},
+ {"ts": "13:38", "row": "邝盛版《爱在西元前》叙事方案 (CRAFT-SPEC §八)",
+  "judgment": "zero bm-c action", "basis": "BigStream lane; post-13:36-read pre-advance arrival, appended same-window for honest full coverage"},
+ {"ts": "13:40", "row": "WorkBuddy 工程推进令 Phase 2-5 全量授权",
+  "judgment": "zero bm-c action", "basis": "bm-a OpenClaw lane; post-13:36-read pre-advance arrival, appended same-window for honest full coverage"},
+]
+receipt = {
+ "tool": "r1118 ord judgment",
+ "wm_orders_pre": "15f5bbbf7d5cc091dd22196a624d187243350914",
+ "wm_orders_probe_fresh": "d7f2648c514d04da3914414efab39a193744d820",
+ "wm_decisions": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db (FALSE hold)",
+ "rows_consumed": 9,
+ "rows": rows,
+ "decisions_consumed": 0,
+ "wm_orders_advanced": "c6aeabd16b7370f40ac3dd947ac0d8f658c55ec4 (fresh probe at advance time, single-write-path law; judgment read boundary d7f2648c + 2 appended rows 13:38/13:40 both zero-action)",
+ "note": "9 rows: 8 zero-action (BigStream/bm-a lanes) + 1 row (13:2x 排满令 v2) with bm-c standing-GPU-lane face (XQ 续烧+队列常满自领) already standing in the r1117 next_pointer night queue; zero NEW quant-loop execution owed this window; advance via d19 update --advance same-round per r585",
+}
+open("results/_r1118bmc_ord_judgment.json", "w", encoding="utf-8", newline="\r\n").write(
+    json.dumps(receipt, ensure_ascii=False, indent=1))
+print("judgment receipt written: 9 rows consumed (8 zero-action + 1 standing-lane carry)")
