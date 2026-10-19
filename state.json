@@ -1,6 +1,6 @@
 {
- "clock_read": "2026-10-19T19:22:15+08:00",
- "current_task": "r1032: dead-window 7-UU absorb + W279 prereg-landed supply watch (splice next) + D-19 zero-delta + S6 43 rc0 + CODELY hotcold heal",
+ "clock_read": "2026-10-19T19:41:40+08:00",
+ "current_task": "r1033: standard maintenance round -- D-19 zero-delta + S6 42 rc0 + papers gate closed (10-19 bar pending evening ~20:4x) + W279 splice watch (bm-c r1123 not on origin yet) + honest idle two-read-cycle restart face",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
@@ -9,37 +9,37 @@
   "method_orders": "sha256",
   "verbatim": true,
   "advance": true,
-  "round_ref": 1032,
-  "ts": "2026-10-19T19:22:15+08:00"
+  "round_ref": 1033,
+  "ts": "2026-10-19T19:41:40+08:00"
  },
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1032: (a) S0 fetch FF absorb bm-c r1122 x2 (W279 PREREG FREEZE ba5c725b42 + closeout 148f6d6ca9; WAVE_CONFIGS tail still 278 = five-face splice = bm-c r1123 first action, upstream step 2 pending); autostash pop 7-UU resolved ts-newer-wins origin per r1028/r1005 (futures/lhb/update_status/compute_audit/fundamental_b_layer/token_usage/machine-health: upstream 18:49-52 all newer than stash 18:37-38, zero loss, per-file max-ts guard + JSON validate); root-cause forensics = r1031 postscript commit 52573dd3b1 (28 files: treasure corpus + CODELY + heartbeat/state/report) MISSED its own S6 chain 18:37-38 output faces -> never landed -> this-round collision; CODELY pit row appended (closeout status-resweep leg); stash@{0} dropped, legacy stashes 1-3 untouched. (b) D-19 dual ZERO-DELTA (dec 60a98a02 ord 662a6c86 hold, advance NOOP, mirrors synced 2). (c) S0.5 orders diff ZERO (105/105 acked), inbox 0 unread. (d) S1 smoke 49/49, orphan probe 0/8. (e) S2/S3 boards all empty (job 0/tasks 0/backlog 0/local pool W001-W009 done-retired); sat engine alive rc0 idle; watermark_red red=false; drama lane active (19:12 writes) yielded per law. (f) S6 43 legs rc0 3.1min: pool_dualrun streak 51; papers family honest SKIP x6 (bar not landed); stale-takeover derives x4 (bm-a hb stale 20-22min: scorecard/paper_export/daily_scorecard/build_status); REPORT/LIVE-2026-10-19 regen ORANGE cap 50%; market_clock ORANGE_COOL; DUALARM regen; attrition healed 2-row rc0. (g) supply honest: W279 prereg LANDED -> N1 feed now gated on five-face SPLICE (bm-c r1123; W280 seat derive needs post-W279-REGISTERED universe per W279 seat MSG) + next_pick moneyflow IC batch panel-blocked (MF FREEZE-RETAIN day-15); supply_floor 0/3 + pool_starvation standing flags; idle NO --worked -> idle_rounds 2->3 honest. (h) CODELY hotcold: 10164B pre-append line heal (r1028 NATS row verbatim -> archive 202610.md r1032 window-batch + merged pointer + new r1032 closeout-sweep pit row; prescan recorded; receipt _r1032bmb_codely_hotcold_receipt.json zero-loss asserted).",
+ "did": "r1033: (a) S0 fetch behind=0/ahead=0 -- r1032 closeout ffeee6fe3 already on origin (state PENDING marker closed); tree dirty = expected regen/daemon set (drama x3 other-lane in-flight + machine-health daemon + unsuffixed status faces excluded per r982/r1032 policy). (b) D-19 dual ZERO-DELTA (dec 60a98a02/ord 662a6c86 hold, advance NOOP, mirrors synced 2). (c) S0.5 orders diff ZERO (105/105 acked), inbox 0 unread. (d) S1 smoke 49/49, orphan probe 7 py faces / 0 orphans. (e) S2/S3 boards all empty (job 0/tasks 0 open/backlog 0 claimable/local pool W001-W009 done-retired); sat engine alive rc0 idle (queue_depth 0 honest); watermark_red red=false (next_pick moneyflow IC claimed panel-blocked, MF FREEZE-RETAIN day-15); drama lane active yielded per law. (f) S6 42 legs rc0 3.1min: pool_dualrun streak 51; papers family honest SKIP x5 (10-19 bar not landed cutoff 10-16, evening ~20:4x retry wired in chain); stale-takeover derives x4 (bm-a hb stale 40-42min: scorecard/paper_export/daily_scorecard/build_status; export-2026-10-16 + dashboard_status.js); REPORT/LIVE-2026-10-19 regen ORANGE cap 50% (market_clock ORANGE_COOL, regime ORANGE asof 10-16); DUALARM regen; b_layer gates all pass; attrition 4 ledgers CLEAN (3 shrinks healed). (g) supply honest: W279 five-face splice = bm-c r1123 first action still pending on origin -> N1 feed + W280 seat lane both gated post-REGISTER; supply_floor 0/3 + pool_starvation standing flags. (h) idle: no --worked (standard maintenance, no product increment); EngineTick 19:32 re-probe restarted two-read cycle (probe idle_rounds 1 / two_read_red false, r1032 3-phase superseded -- honest disclosure); local self-drive pool empty -> restock-request face (候秘书处补货).",
  "heartbeat_epoch_utc_face": "bm-b.json updated this round (epoch int verified)",
- "last_action": "r1032: dead-window 7-UU absorb + W279 prereg-landed supply watch (splice next) + D-19 zero-delta + S6 43 rc0 + CODELY hotcold heal",
- "last_action_at": "2026-10-19T19:22:15+08:00",
+ "last_action": "r1033: standard maintenance round -- D-19 zero-delta + S6 42 rc0 + papers gate closed (10-19 bar pending evening ~20:4x) + W279 splice watch (bm-c r1123 not on origin yet) + honest idle two-read-cycle restart face",
+ "last_action_at": "2026-10-19T19:41:40+08:00",
  "last_decisions_at": "2026-10-19T18:37:27+08:00",
- "last_decisions_read_at": "2026-10-19T19:16:10+08:00",
+ "last_decisions_read_at": "2026-10-19T19:36:13+08:00",
  "last_decisions_sha": "60a98a02a1a6410ca3c862bc07d7237d31269d6d986adb20bcf2a9e8f4d97cb6",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_orders_at": "2026-10-18T16:35:49+08:00",
- "last_orders_read_at": "2026-10-19T19:16:10+08:00",
+ "last_orders_read_at": "2026-10-19T19:36:13+08:00",
  "last_orders_sha": "662a6c861dee11dc6a18567b6fb65fe1dd6a105d0344a0ef0744568aaa64b253",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
- "last_round_at": "2026-10-19T19:22:15+08:00",
- "last_round_ts": "2026-10-19T19:22:15+08:00",
- "last_seen": "2026-10-19T19:22:15+08:00",
- "latest_artifact": "dead-window 7-UU absorb (ts-newer-wins zero-loss, root cause logged) + CODELY hotcold receipt (results/_r1032bmb_codely_hotcold_receipt.json) + S6 regen faces (REPORT/LIVE-2026-10-19 ORANGE cap 50%) + r1032 work files (_r1032bmb_s0.py / _r1032bmb_uu_fix.py / _r1032bmb_s6chain.ps1)",
+ "last_round_at": "2026-10-19T19:41:40+08:00",
+ "last_round_ts": "2026-10-19T19:41:40+08:00",
+ "last_seen": "2026-10-19T19:41:40+08:00",
+ "latest_artifact": "S6 regen faces (REPORT/LIVE-2026-10-19 + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives x4 + export-2026-10-16) + r1033 work files (_r1033bmb_s6chain.ps1/_r1033bmb_s6_log.txt/_r1033bmb_closeout.py)",
  "machine_id": "bm-b",
- "next": "r1033: 1) papers chain conditional retry when 10-19 bar lands (evening ~20:4x-21:xx: live.paper family + marks + export - trigger wired in chain) 2) W279 five-face splice watch (bm-c r1123 first action) -> after REGISTER: W280 seat lane decision (queue-head seat-first law + collision probe before any bm-b seat claim) 3) ST-012 night 22:0x drama lane (yield - drama executor owns) 4) 22:0x DOR rolling verify-only (BigMoney row landed early f082270b) 5) RepoSlim first daily run tomorrow 09:03 live-anchor verify 6) NATS bm-a P2/P3 rollout watch 7) idle_rounds=3 duty-round RED treatment: claim-or-work face carried",
+ "next": "r1034: 1) papers chain conditional retry when 10-19 bar lands (evening ~20:4x-21:xx: live.paper family + marks + export) 2) W279 five-face splice watch (bm-c r1123 first action) -> after REGISTER: W280 seat lane decision (queue-head seat-first law + collision probe before any bm-b seat claim) 3) ST-012 night 22:0x drama lane (yield - drama executor owns) 4) 22:0x DOR rolling verify-only (BigMoney row landed early f082270b) 5) RepoSlim first daily run tomorrow 09:03 live-anchor verify 6) idle face: two-read cycle restarted (EngineTick 19:32), honest watch",
  "next_milestone": "papers evening-window rounds + W279 splice (bm-c r1123) -> W280 seat lane after REGISTER + voice P1 <=10-22 (ST-012 night 22:0x LoRA first train gated on REBUILD-PLAN-v2 v2Pro read) + BigMoney seat automation plan <=10-25 + CONTENT-LOOP 10-28 continuous-run judgment + month-boundary 10-31",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
- "now_active": "r1032 closed",
+ "now_active": "r1033 closed",
  "orphan_face": 0,
- "orphan_face_note": "r1032 S0 probe (19:09): 8 py faces / 0 orphans",
+ "orphan_face_note": "r1033 S1 probe (19:33): 7 py faces / 0 orphans",
  "orphan_faces": "n/a",
- "round": 1032,
- "round_no": 1032,
- "round_no_label": "r1032",
+ "round": 1033,
+ "round_no": 1033,
+ "round_no_label": "r1033",
  "sync": {
   "last_push_ts": "2026-10-19T19:22:15+08:00",
   "r962_main_push": {
@@ -451,23 +451,30 @@
    "note": "r1029 payload = CODELY hot-cold integration (CODELY.md + archive 202610.md r1029 window-batch + receipt) + closeout faces (state/heartbeat/round-report dual-face) + r1029 work files (s6chain/hotcold/closeout + s6 log) + own regen/product faces (daily_report/live_usage docs + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives + market_clock + regime_state + DUALARM + d19/orphan/attrition evidence faces); EXCLUDED per r982/r1015/r1020/r1028 policy: drama lane 3 daemon faces, machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf status faces; base = origin tip fresh at S0 (behind=0/ahead=0)"
   },
   "r1032_main_push": {
+   "status": "PUSHED_VERIFIED (verified at r1033 S0: fetch behind=0/ahead=0, ffeee6fe3 r1032 closeout on origin)",
+   "pushed_sha": "ffeee6fe3",
+   "consumed_at": "2026-10-19T19:41:40+08:00",
+   "behind_origin_main": 0,
+   "note": "r1032 payload landed pre-r1033; state PENDING marker closed by r1033"
+  },
+  "r1033_main_push": {
    "status": "PENDING (this commit)",
    "pushed_sha": "pending",
-   "consumed_at": "pending r1033",
+   "consumed_at": "pending r1034",
    "behind_origin_main": 0,
-   "note": "r1032 payload = closeout faces (state dual + heartbeat + round-report) + CODELY hotcold (r1028 NATS row -> archive r1032 window-batch + merged pointer + new r1032 closeout-sweep pit row + receipt) + r1032 work files (s0/uu_fix/s6chain + logs) + own regen/product faces (daily_report/live_usage docs + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives + regime_state + bm-b-suffixed evidence faces + attrition/orphan); EXCLUDED per r982/r1015/r1020/r1028/r1031 policy: drama lane 3 daemon faces (other-lane in-flight), machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf/update_status/compute_audit/fundamental_b_layer status faces; base = 148f6d6ca9 origin tip fresh at S0 FF"
+   "note": "r1033 payload = closeout faces (state/heartbeat/round-report) + r1033 work files (s6chain driver + s6 log + closeout script) + own regen/product faces (docs daily_report/live_usage regen + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives + market_clock/regime_state/DUALARM faces + bm-b evidence faces _orphan/_attrition/d19_probe json); EXCLUDED per r982/r1015/r1020/r1028/r1032 policy: drama lane 3 daemon faces (other-lane in-flight), machine-health, token_usage.json shared union face, unsuffixed lhb/futures/astock/etf/update_status/compute_audit/fundamental_b_layer status faces, watermark_red machine-local (D-20261019-02); base = ffeee6fe3 origin tip fresh at S0 (behind=0/ahead=0)"
   }
  },
- "task": "r1032: dead-window 7-UU absorb + W279 prereg-landed supply watch (splice next) + D-19 zero-delta + S6 43 rc0 + CODELY hotcold heal",
- "ts": "2026-10-19T19:22:15+08:00",
- "updated": "2026-10-19T19:22:15+08:00",
- "updated_at": "2026-10-19T19:22:15+08:00",
- "verdict": "GREEN: r1032 标准维护+死窗吸收轮——S0 fetch FF 吸收 bm-c r1122 两提交（W279 PREREG FREEZE 落地 ba5c725b42+closeout 148f6d6ca9=供给上游第1步完成·五面拼接=bm-c r1123 首动作候）；autostash pop 7-UU 死窗面按律解决（七面 upstream 18:49-52 全新于 stash 18:37-38=ts-newer-wins origin 侧零丢失；根因取证=r1031 postscript 52573dd3b1 定向 add 只带 treasure/corpus+心跳+state+报告·漏带其 S6 链 18:37-38 输出面→未上链→本窗撞车；CODELY 坑行新增+收口 status 复扫腿入法）；stash@{0} 已弃（遗留 stash 1-3 未动）；D-19 双探零增量（dec 60a98a02/ord 662a6c86 hold·advance NOOP·mirrors synced 2）；S0.5 orders 差集零（105/105）+inbox 0；smoke 49/49+孤儿 0/8；S6 43 腿 rc0 3.1min（pool_dualrun 51 连绿·papers 族诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·bm-a hb stale 20-22min 接管 derive x4·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 治愈 2 行 rc0）；供给诚实面：W279 prereg 已落地→N1 喂单改堵五面拼接（bm-c r1123·W280 席位 derive 需 post-W279-REGISTERED 宇宙）+watermark_red next_pick=moneyflow IC 批面板堵（MF FREEZE-RETAIN day-15）；supply_floor 0/3+pool_starvation 常设旗照录；idle 无 --worked（标准维护轮无产品增量）→idle_rounds 2→3 诚实（O-20261007-2315）；CODELY 热冷整编（10164B 近线→r1028 NATS 行 verbatim 迁 archive r1032 窗批+合并指针+新 r1032 收口漏带坑行·receipt 零丢失断言）；下窗=r1033 papers 晚间窗重试+W279 splice 观察→W280 席位线+ST-012 22:0x drama 道（让路）+DOR 22:0x verify-only+RepoSlim 明 09:03",
- "current": "GREEN: r1032 标准维护+死窗吸收轮——S0 fetch FF 吸收 bm-c r1122 两提交（W279 PREREG FREEZE 落地 ba5c725b42+closeout 148f6d6ca9=供给上游第1步完成·五面拼接=bm-c r1123 首动作候）；autostash pop 7-UU 死窗面按律解决（七面 upstream 18:49-52 全新于 stash 18:37-38=ts-newer-wins origin 侧零丢失；根因取证=r1031 postscript 52573dd3b1 定向 add 只带 treasure/corpus+心跳+state+报告·漏带其 S6 链 18:37-38 输出面→未上链→本窗撞车；CODELY 坑行新增+收口 status 复扫腿入法）；stash@{0} 已弃（遗留 stash 1-3 未动）；D-19 双探零增量（dec 60a98a02/ord 662a6c86 hold·advance NOOP·mirrors synced 2）；S0.5 orders 差集零（105/105）+inbox 0；smoke 49/49+孤儿 0/8；S6 43 腿 rc0 3.1min（pool_dualrun 51 连绿·papers 族诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·bm-a hb stale 20-22min 接管 derive x4·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 治愈 2 行 rc0）；供给诚实面：W279 prereg 已落地→N1 喂单改堵五面拼接（bm-c r1123·W280 席位 derive 需 post-W279-REGISTERED 宇宙）+watermark_red next_pick=moneyflow IC 批面板堵（MF FREEZE-RETAIN day-15）；supply_floor 0/3+pool_starvation 常设旗照录；idle 无 --worked（标准维护轮无产品增量）→idle_rounds 2→3 诚实（O-20261007-2315）；CODELY 热冷整编（10164B 近线→r1028 NATS 行 verbatim 迁 archive r1032 窗批+合并指针+新 r1032 收口漏带坑行·receipt 零丢失断言）；下窗=r1033 papers 晚间窗重试+W279 splice 观察→W280 席位线+ST-012 22:0x drama 道（让路）+DOR 22:0x verify-only+RepoSlim 明 09:03",
- "last_artifact": "dead-window 7-UU absorb (ts-newer-wins zero-loss, root cause logged) + CODELY hotcold receipt (results/_r1032bmb_codely_hotcold_receipt.json) + S6 regen faces (REPORT/LIVE-2026-10-19 ORANGE cap 50%) + r1032 work files (_r1032bmb_s0.py / _r1032bmb_uu_fix.py / _r1032bmb_s6chain.ps1)",
+ "task": "r1033: standard maintenance round -- D-19 zero-delta + S6 42 rc0 + papers gate closed (10-19 bar pending evening ~20:4x) + W279 splice watch (bm-c r1123 not on origin yet) + honest idle two-read-cycle restart face",
+ "ts": "2026-10-19T19:41:40+08:00",
+ "updated": "2026-10-19T19:41:40+08:00",
+ "updated_at": "2026-10-19T19:41:40+08:00",
+ "verdict": "GREEN: r1033 标准维护轮——S0 fetch behind=0（r1032 closeout ffeee6fe3 已在 origin·PENDING 标记收口）；D-19 双探零增量（dec 60a98a02/ord 662a6c86 hold·advance NOOP·mirrors synced 2）；S0.5 orders 差集零（105/105）+inbox 0；smoke 49/49+孤儿 0/7；S6 42 腿 rc0 3.1min（pool_dualrun 51 连绿·papers 族诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·bm-a hb stale 40-42min 接管 derive x4·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 4 台账 CLEAN 3 shrink 治愈）；供给诚实面：W279 五面拼接=bm-c r1123 首动作仍在途（origin 未落）→N1 喂单+W280 席位线均堵 post-REGISTER；supply_floor 0/3+pool_starvation 常设旗照录；idle 无 --worked（标准维护轮）·EngineTick 19:32 再探针重启 two-read 周期（idle_rounds 1·r1032 3 相位被新周期取代=诚实披露）；下窗=r1034 papers 晚间窗重试+W279 splice 观察→W280 席位线+ST-012 22:0x drama 道（让路）+DOR 22:0x verify-only+RepoSlim 明 09:03",
+ "current": "GREEN: r1033 标准维护轮——S0 fetch behind=0（r1032 closeout ffeee6fe3 已在 origin·PENDING 标记收口）；D-19 双探零增量（dec 60a98a02/ord 662a6c86 hold·advance NOOP·mirrors synced 2）；S0.5 orders 差集零（105/105）+inbox 0；smoke 49/49+孤儿 0/7；S6 42 腿 rc0 3.1min（pool_dualrun 51 连绿·papers 族诚实跳过=10-19 bar 未落 cutoff 10-16·晚间 ~20:4x 重试线在链内·bm-a hb stale 40-42min 接管 derive x4·REPORT/LIVE 再生 ORANGE cap 50%·market_clock ORANGE_COOL·attrition 4 台账 CLEAN 3 shrink 治愈）；供给诚实面：W279 五面拼接=bm-c r1123 首动作仍在途（origin 未落）→N1 喂单+W280 席位线均堵 post-REGISTER；supply_floor 0/3+pool_starvation 常设旗照录；idle 无 --worked（标准维护轮）·EngineTick 19:32 再探针重启 two-read 周期（idle_rounds 1·r1032 3 相位被新周期取代=诚实披露）；下窗=r1034 papers 晚间窗重试+W279 splice 观察→W280 席位线+ST-012 22:0x drama 道（让路）+DOR 22:0x verify-only+RepoSlim 明 09:03",
+ "last_artifact": "S6 regen faces (REPORT/LIVE-2026-10-19 + scorecard/paper_export/daily_scorecard/dashboard stale-takeover derives x4 + export-2026-10-16) + r1033 work files (_r1033bmb_s6chain.ps1/_r1033bmb_s6_log.txt/_r1033bmb_closeout.py)",
  "sat_engine": {
-  "status": "alive (r1032 chain status leg rc0; idle verdict; honest supply starvation pool_ready=0 queue_depth=0 -- W279 prereg LANDED at bm-c r1122; N1 feed now gated on five-face splice bm-c r1123; idle_rounds honest 3 no --worked per O-20261007-2315)",
-  "checked_at": "2026-10-19T19:22:15+08:00"
+  "status": "alive (r1033 chain status leg rc0; idle verdict; honest supply starvation pool_ready=0 queue_depth=0 -- W279 splice still pending at bm-c r1123; N1 feed + W280 seat lane gated post-REGISTER; no --worked this maintenance round)",
+  "checked_at": "2026-10-19T19:41:40+08:00"
  },
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
  "last_decisions_probe_at": "2026-10-18T22:08:55+08:00",
@@ -596,7 +603,7 @@
  "r1008_push_saga": "r1008 push saga: attempt-1 hung 5min zero-output (auto-cancel, O-0948-window promisor family); ls-remote probe = origin advanced 9f480646f->44f39a0b8 (bm-c r1094 continuation window raced mid-flight, W270 seat+prereg); attempt-2 rebase replay hit 9 shared regen faces (REPORT-2026-10-18 x2 / _attrition / _r686bmb_d19_check / compute_audit / fundamental_b_layer / regime_state / token_usage / update_status -- bm-c dead-window S6-light 16:08 vs my chain 16:29-16:33); resolution = newer-wins whole-file for 8 + token_usage.json per-machine UNION (origin-side rows kept for non-bm-b machines, machines keys have no ts field -- union not newer-wins, whole-file would delete bm-c rows and trip pre-push claw); mid-rebase stash pop poisoned the index ('could not write index') -> git rebase --continue entered GHOST-REFUSAL deadloop ('You must edit all merge conflicts' with ZERO unmerged entries, ls-files --unmerged empty); recovery = r1032-family tree surgery straight-through: write-tree on fully-resolved index -> commit-tree -p 44f39a0b8 -F msgfile -> rebase --quit -> update-ref main -> reset --mixed (reflog guard first: local main had zero foreign commits, zero orphan risk); attempt-3 delivered 44f39a0b8..c80a274bf5, fetch+rev-parse+behind/ahead+ls-tree four-way verified, claw zero blocks.",
  "r1015_state_gap_note": "r1013/r1014 died pre-state-write (push sagas); origin state face had stayed r1012; r1015 closes gap, numbering follows round_reports.md",
  "r1022_post_chain_ord_note": "r1024: ORD bridge consumed through ord=c1ed040c (rows 13:26 WorkBuddy / 13:30 craft-spec / 13:33 anti-AI / 13:36 methodology / 13:38 kuang-narrative / 13:40 Phase2 / 13:41 SIL4 / 14:02 Phase3 / 14:09 Phase4 -- all MV/WorkBuddy domains via bm-a, zero bm-b dispatch); r1025 FIRST ACTION = fresh d19 probe per law",
- "state_face_note": "r1032: mirror-written per r1020 dual-face law. authoritative face.",
+ "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "r1025_ord_note": "r1025: ORD consumed rows 14:14/14:48/15:07 (WorkBuddy Phase5 final / science-borrowing law / drama-full-rebuild order -> drama-lane alignment receipt); advance ord=5dd145a659 read-back OK, heartbeat mirrors synced 3 (r1090 dual-face)",
  "r1025_push_saga": "r1025 push saga: attempt-1 hung 5min zero-output (auto-cancel, promisor-window family; concurrent in-flight promisor fetch pack 76,491 objects = legal live processes untouched); ls-remote probe = origin advanced a23a5441d2..0a92fcc28f (bm-c r1118/r1119 W278-CYCLE-COMPLETE window, finalize 1,035,935/609,520 EXACT + W279 seat published same-window); rebase --autostash onto tip: 4 UU shared evidence faces (_attrition_guard_scan / _r686bmb_d19_check / _r686bmb_orders_fresh / d19_watermark) resolved ours-newer-wins per r1028 (bm-b 15:16-15:19 > bm-c 15:13); autostash pop single UU fleet/machine-health.json resolved daemon-live-wins (unstaged dirty steady state, daemon self-heals next write); attempt-2 delivered 0a92fcc28f..421cdb4056, fetch behind=0 + ls-remote==HEAD four-way verified.",
  "r1026_first_action_note": "r1026: 1) papers chain if new bar landed (post-15:30; live.paper family + marks + export) 2) fresh d19 probe per law (r1025 consumed through 15:07 row, ord=5dd145a659) 3) supply_floor: W279 prereg derive = bm-c r1120 FIRST ACTION -> bm-b N1 pool feed after prereg lands 4) ST-012 night 22:0x = REBUILD-PLAN-v2 read + v2Pro gate first",
@@ -635,5 +642,6 @@
  },
  "r1031_first_action_note": "r1032: 1) D-19 fresh probe FIRST ACTION 2) papers conditional retry on bar landing (evening window) 3) ST-012 22:0x drama lane (yield) 4) supply: W279 prereg (bm-c r1122) -> N1 feed 5) RepoSlim tomorrow 09:03 verify 6) 22:0x DOR rolling (self-audit delivered early - verify-only)",
  "r1031_slim_note": "r1031 repo-slim bmb leg: 3860 faces untracked (root 132 + results 3728), disk kept, birth-gate covered; 650 json/md evidence + live d19 tool stay tracked; 9 foreign-owned excluded; claw fail-closed honored 8 keeps (2 hyphen-tag + 4 nonstandard-name + 2 promisor-lazy CJK), zero escape hatch; commit 862997eec delivered; DOR row f082270b group-side; external audit \"results 8207 py\" face closed for bmb share (bm-a L1275 474 first)",
- "r1032_first_action_note": "r1033: 1) D-19 fresh probe FIRST ACTION 2) papers conditional retry on bar landing (evening window) 3) W279 splice watch -> W280 seat lane after REGISTER 4) ST-012 22:0x drama yield 5) RepoSlim 09:03 verify 6) idle_rounds=3 RED treatment face"
+ "r1032_first_action_note": "r1033: 1) D-19 fresh probe FIRST ACTION 2) papers conditional retry on bar landing (evening window) 3) W279 splice watch -> W280 seat lane after REGISTER 4) ST-012 22:0x drama yield 5) RepoSlim 09:03 verify 6) idle_rounds=3 RED treatment face",
+ "r1034_first_action_note": "r1034: 1) papers chain conditional retry when 10-19 bar lands (evening ~20:4x-21:xx: live.paper family + marks + export) 2) W279 five-face splice watch (bm-c r1123 first action) -> after REGISTER: W280 seat lane decision (queue-head seat-first law + collision probe before any bm-b seat claim) 3) ST-012 night 22:0x drama lane (yield - drama executor owns) 4) 22:0x DOR rolling verify-only (BigMoney row landed early f082270b) 5) RepoSlim first daily run tomorrow 09:03 live-anchor verify 6) idle face: two-read cycle restarted (EngineTick 19:32), honest watch"
 }
