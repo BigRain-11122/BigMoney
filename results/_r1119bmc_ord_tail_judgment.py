@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+# r1119 bm-c ORD TAIL delta judgment receipt (S7 tail, r585 same-round atomicity)
+# Watermark 86f6fcef -> fresh read boundary b97cb656 (S7 tail probe 14:5x;
+# advance runs its own fresh probe per single-write-path law). 1 row after
+# the consumed 14:14 boundary. DEC delta FALSE (95879dd9 hold).
+import json
+
+rows = [
+ {"ts": "14:48", "row": "CEO 令「科学的借鉴，不是一味的抄袭，然后要适配我们的业务和方向，并做到比他更好」（科学借鉴律·集团一切对标/借力面长期法）",
+  "judgment": "zero bm-c action",
+  "basis": "集团立法面（bm-a 窗三处落位：oss-harvest §一 能抄就抄注记增第三段 + WORKBUDDY-UPGRADE-PLAN-v1 §四 第7条 + 超越面盘点定谳）；quant-loop zero obligation（W279 seat 已发布、无对标类工单在 bm-c 队列）"},
+]
+receipt = {
+ "tool": "r1119 ord tail judgment (S7)",
+ "wm_orders_pre": "86f6fcef1ebab5f12697e52b70ef658d06dde213",
+ "wm_orders_probe_fresh_read_boundary": "b97cb656b9420d4011c56a3c999aec756e0bc6df",
+ "wm_decisions": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db (FALSE hold)",
+ "rows_consumed": 1,
+ "rows": rows,
+ "decisions_consumed": 0,
+ "note": "S7 tail delta: 1 row arrived post-advance (14:48 科学借鉴律, zero bm-c quant-loop action -- bm-a governance/adoption lanes); consumed same-round per r585 atomicity; advance via d19 update --advance runs its own fresh probe (single-write-path law); appended-rows face re-checked at advance time",
+}
+open("results/_r1119bmc_ord_tail_judgment.json", "w", encoding="utf-8", newline="\r\n").write(
+    json.dumps(receipt, ensure_ascii=False, indent=1))
+print("r1119 tail judgment receipt written: 1 row consumed (zero-action)")
