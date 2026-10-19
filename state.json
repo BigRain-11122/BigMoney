@@ -1,7 +1,7 @@
 {
 "clock_read": "2026-10-20T04:34:36+08:00",
-"current": "r1053 | dept:研究+工程 | SS-COMBO P1 判决收口（承接 r1052 读数）：新建 FINALIZE-SSCOMBO-P1.json —— 3 judged 映射格(C1/C2/C3)×2 成本面(x1/x2)=6 trial units 入链(1044735->1044741)，判词=CLAIM-UNSUPPORTED （C1 1.0830 > 绝对线 0.994 但 < 同轮无条件 divlowvol 1.2085，差 -0.1256；D6 相关 0.8356 印证同源）；gate_attrition 双面(shared+bm-b lane)追加 finalize 行且 guard CLEAN(4 账)；nulls 族未跑如实披露；freeze probe 六腿复跑 GREEN。S6：smoke 49/49、dualrun 观察到 updated_at 漂移(streak 重置·非故障)、compute_audit FLAG supply_floor(ready 0<3)、watermark py_low_board_clear、orphan 0/7、D-19 双面零增量（dec d5336c87 / ord 9da3cb04 hold）。",
-"current_task": "r1053 closed: SS-COMBO P1 finalize (claim-unsupported) + attrition ledger row",
+"current": "r1054 | dept:研究+工程 | DIVLOWVOL same-mask null 面收口（承接 r1053 指针「风格面补料」）：①新建 scripts/divlowvol_nulls_face.py（consume/run/status/selftest · 空定义 import 冻结族 fund_divlowvol_p1._null_task 零重实现·selftest 7/7 PASS）②consume 读数=库内冻结 null 面 results/fund_divlowvol_p1/nulls.jsonl K=2000 已烧好从未被消费→x1 连续面 sharpe_full 0.894092 vs null mean 0.717753/sd 0.054626/p95 0.8069 → z=+3.228、经验 p=0.001（2000 抽中 1 抽≥实证）→ SUPPORT_ABOVE_NULL，产物 results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json（关闭 combo finalize r1053 的 nulls=pending 披露）③本地重建面板交叉验证腿 run --k 6（6 进程并行·t0 2003-11-03..cutoff 2026-10-19·5576 bars）：实证 1.11113 vs 6 抽 null 0.5604-0.7076（mean 0.6397）→ z=+8.93·p=1/7 K 下限 → SUPPORT_DIRECTIONAL_K_FLOOR（K=6 无法达 0.05，如实标注不做结论）→ NULLS-2026-10-19.json④prereg §7 回填 nulls 补记段（含边界：只证袖面非随机伪影，不改段阶段化判负结论）。S6：smoke 49/49·dualrun ZERO-DRIFT·compute_audit FLAG:supply_floor(ready 0<3)·watermark py_low_with_work_cands(本地批在飞)·orphan 0/4·attrition CLEAN(4 账·2 历史 shrink healed)·D-19 双面零增量(dec d5336c87/ord 9da3cb04)·orders 全 ack 零缺口·sat engine alive(idle)。FLEET 观察：bm-a 心跳 age=388min（≈6.5h 停滞）·scorecard/dashboard 双面按 stale-takeover 由 bm-b 代 derive。",
+"current_task": "r1054 closed: divlowvol same-mask null face consumed (z=+3.23, p=0.001)",
 "d19_probe_due": false,
 "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
 "d19_watermark_guard": {
@@ -17,11 +17,11 @@
 },
 "decisions_delta_pending": false,
 "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
-"did": "r1053 | dept:研究+工程 | SS-COMBO P1 判决收口（承接 r1052 读数）：新建 FINALIZE-SSCOMBO-P1.json —— 3 judged 映射格(C1/C2/C3)×2 成本面(x1/x2)=6 trial units 入链(1044735->1044741)，判词=CLAIM-UNSUPPORTED （C1 1.0830 > 绝对线 0.994 但 < 同轮无条件 divlowvol 1.2085，差 -0.1256；D6 相关 0.8356 印证同源）；gate_attrition 双面(shared+bm-b lane)追加 finalize 行且 guard CLEAN(4 账)；nulls 族未跑如实披露；freeze probe 六腿复跑 GREEN。S6：smoke 49/49、dualrun 观察到 updated_at 漂移(streak 重置·非故障)、compute_audit FLAG supply_floor(ready 0<3)、watermark py_low_board_clear、orphan 0/7、D-19 双面零增量（dec d5336c87 / ord 9da3cb04 hold）。",
+"did": "r1054 | dept:研究+工程 | DIVLOWVOL same-mask null 面收口（承接 r1053 指针「风格面补料」）：①新建 scripts/divlowvol_nulls_face.py（consume/run/status/selftest · 空定义 import 冻结族 fund_divlowvol_p1._null_task 零重实现·selftest 7/7 PASS）②consume 读数=库内冻结 null 面 results/fund_divlowvol_p1/nulls.jsonl K=2000 已烧好从未被消费→x1 连续面 sharpe_full 0.894092 vs null mean 0.717753/sd 0.054626/p95 0.8069 → z=+3.228、经验 p=0.001（2000 抽中 1 抽≥实证）→ SUPPORT_ABOVE_NULL，产物 results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json（关闭 combo finalize r1053 的 nulls=pending 披露）③本地重建面板交叉验证腿 run --k 6（6 进程并行·t0 2003-11-03..cutoff 2026-10-19·5576 bars）：实证 1.11113 vs 6 抽 null 0.5604-0.7076（mean 0.6397）→ z=+8.93·p=1/7 K 下限 → SUPPORT_DIRECTIONAL_K_FLOOR（K=6 无法达 0.05，如实标注不做结论）→ NULLS-2026-10-19.json④prereg §7 回填 nulls 补记段（含边界：只证袖面非随机伪影，不改段阶段化判负结论）。S6：smoke 49/49·dualrun ZERO-DRIFT·compute_audit FLAG:supply_floor(ready 0<3)·watermark py_low_with_work_cands(本地批在飞)·orphan 0/4·attrition CLEAN(4 账·2 历史 shrink healed)·D-19 双面零增量(dec d5336c87/ord 9da3cb04)·orders 全 ack 零缺口·sat engine alive(idle)。FLEET 观察：bm-a 心跳 age=388min（≈6.5h 停滞）·scorecard/dashboard 双面按 stale-takeover 由 bm-b 代 derive。",
 "heartbeat_epoch_utc_face": 1792441825,
-"last_action": "r1053: SS-COMBO P1 finalize + attrition row",
-"last_action_at": "2026-10-20T05:50:00+08:00",
-"last_artifact": "results/stagestyle_combo_p1/FINALIZE-SSCOMBO-P1.json + results/gate_attrition.json row (FUND-STAGESTYLE-COMBO-P1, ledger 1044741)",
+"last_action": "r1054: divlowvol nulls face (consume frozen K=2000 + local pilot K=6)",
+"last_action_at": "2026-10-20T06:10:51+08:00",
+"last_artifact": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json + NULLS-2026-10-19.json + scripts/divlowvol_nulls_face.py",
 "last_decisions_at": "2026-10-20T00:16:41+08:00",
 "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
 "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -287,9 +287,9 @@
 "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
 "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
 "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
-"round": 1053,
+"round": 1054,
 "round_no": 1054,
-"round_no_label": "r1053",
+"round_no_label": "r1054",
 "sat_engine": {
 "checked_at": "2026-10-20T00:29:25+08:00",
 "status": "alive (r1041 chain status leg rc0; idle verdict; P2 burn feed = freeze-window gate: panel legs awaiting p1c re-delivery window-2, execution ticket after freeze commit)"
@@ -777,8 +777,8 @@
 "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
 },
 "task": "r1053",
-"ts": "2026-10-20T05:50:00+08:00",
-"updated": "2026-10-20T05:50:00+08:00",
-"updated_at": "2026-10-20T05:50:00+08:00",
+"ts": "2026-10-20T06:10:51+08:00",
+"updated": "2026-10-20T06:10:51+08:00",
+"updated_at": "2026-10-20T06:10:51+08:00",
 "verdict": "GREEN: SS-COMBO P1 判负收口入账（组合 1.083 vs 无条件 divlowvol 1.209，阶段择时净贡献 -0.126），证据链=readout+FINALIZE+attrition 三件；supply_floor 0<3 连续第二轮 -> 下轮必须补料"
 }

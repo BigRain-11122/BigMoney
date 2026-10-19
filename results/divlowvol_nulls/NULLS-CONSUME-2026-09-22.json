@@ -1,0 +1,44 @@
+{
+ "batch": "DIVLOWVOL-NULLS-SUPPORT",
+ "kind": "same-mask-null-consumption",
+ "machine": "bm-b",
+ "cell": "DIVLOWVOL-YIELDVOL",
+ "status": "CONSUMED_FROZEN_NULL_FACE",
+ "evidence_cutoff": "2026-09-22",
+ "cutoff_meta": {
+  "cutoff": "2026-09-22",
+  "face": "money02_p1c_stock"
+ },
+ "nulls_source": {
+  "path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fund_divlowvol_p1\\nulls.jsonl",
+  "k": 2000,
+  "definition": "frozen family _null_task (same rank universe / firing months / eq-weight / engine cost x1)"
+ },
+ "realized": {
+  "face": "x1",
+  "sharpe_full": 0.894092,
+  "ret_full": 4.441766,
+  "n_days": 5018,
+  "n_trades": 1401,
+  "source": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fund_divlowvol_p1\\cont_DIVLOWVOL-YIELDVOL_x1.json"
+ },
+ "realized_x2_descriptive": {
+  "sharpe_full": 0.868297,
+  "ret_full": 4.25191,
+  "nulls_note": "nulls leg is x1-only; x2 carried descriptively"
+ },
+ "stats": {
+  "k": 2000,
+  "n_ge": 1,
+  "p_value": 0.001,
+  "mean": 0.717753,
+  "sd": 0.054626,
+  "z": 3.2281,
+  "p95": 0.806925,
+  "max": 0.928521,
+  "min": 0.52972
+ },
+ "verdict": "SUPPORT_ABOVE_NULL",
+ "closes": "combo finalize r1053 'nulls: pending' declaration for the U-divlowvol control face",
+ "judged_note": "supporting readout only -- G1'/G2/DSR/M1 stay with the family finalize over frozen gates"
+}

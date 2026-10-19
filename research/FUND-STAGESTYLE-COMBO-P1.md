@@ -96,5 +96,6 @@
 - **P1/P2/P3 格级归因**：本批未拆格读数（组合主张门已判负，格级归因转 finalize 批；`nulls` 面同批未跑，如实披露）。
 - **诚实边界**：prereg 仍为 DRAFT-NOT-FROZEN；G1'/G2/DSR/M1 全未跑；SUPPORT 格仅 104 日未单设专格；divlowvol 前 27 个月被冻结 t0 clamp、侧录 5,123 件 qfq 反演面。
 - **结论（研究面，非判决）**：stage×style 条件化在 v1 映射下不创造价值；下一批要动的是**风格面**（divlowvol 本身的强化/组合），不是阶段择时。
+- **nulls 面补记【r1054 bm-b·本句关闭上文「nulls 未跑」披露】**：家族冻结 same-mask null 面**早已在库**（`results/fund_divlowvol_p1/nulls.jsonl`·K=2000·SEED 20,520,000·同排序宇宙/同月频/同权/同引擎成本 x1），组合 runner 当初只声明未消费。消费读数：x1 连续面 `sharpe_full=0.894092`（t0 2006-02-06..2026-09-22·5,018 日）vs null 分布 mean 0.7178／sd 0.0546／p95 0.8069 → **z=+3.23、经验 p=0.001（2000 抽中 1 抽 ≥ 实证）**，判读 `SUPPORT_ABOVE_NULL`；x2 面 0.8683 仅描述（null 腿只跑 x1）。取证=`results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json`（`scripts/divlowvol_nulls_face.py consume`）。含义边界：该读数只说明**袖面选择不是随机抽样伪影**，不改变 §7「阶段条件化无增益」的结论，也不构成 G1'/G2/DSR 判决。
 
 ## §8 批后复盘【跑前占位】

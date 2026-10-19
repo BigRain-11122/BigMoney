@@ -1,0 +1,105 @@
+{
+ "batch": "DIVLOWVOL-NULLS-SUPPORT",
+ "kind": "same-mask-null-face",
+ "machine": "bm-b",
+ "cell": "DIVLOWVOL-YIELDVOL",
+ "face": "x1",
+ "status": "PILOT_SUPPORT_READOUT",
+ "evidence_cutoff": "2026-10-19",
+ "cutoff_meta": {
+  "cutoff": "2026-10-19",
+  "face": "astock_daily_local"
+ },
+ "window": {
+  "lo": "2003-11-03",
+  "hi": "2026-10-19",
+  "bars": 5576
+ },
+ "realized": {
+  "sharpe": 1.11113,
+  "ret": 7.012141,
+  "max_dd": -0.268308,
+  "n_days": 5576,
+  "n_trades": 1475,
+  "n_entries": 1496
+ },
+ "nulls": {
+  "k_requested": 6,
+  "k_start": 0,
+  "seed": 20520000,
+  "definition": "frozen family _null_task (same rank universe / firing months / eq-weight / engine cost x1)",
+  "sharpe": [
+   0.634653,
+   0.707649,
+   0.560465,
+   0.620124,
+   0.689157,
+   0.626377
+  ],
+  "draws": [
+   {
+    "k": 0,
+    "sharpe": 0.634653,
+    "ret": 3.672609,
+    "max_dd": -0.399529,
+    "n_selected_days": 269,
+    "n_engine_syms": 2028
+   },
+   {
+    "k": 1,
+    "sharpe": 0.707649,
+    "ret": 4.098127,
+    "max_dd": -0.371598,
+    "n_selected_days": 269,
+    "n_engine_syms": 2050
+   },
+   {
+    "k": 2,
+    "sharpe": 0.560465,
+    "ret": 3.069574,
+    "max_dd": -0.461111,
+    "n_selected_days": 269,
+    "n_engine_syms": 2042
+   },
+   {
+    "k": 3,
+    "sharpe": 0.620124,
+    "ret": 3.449989,
+    "max_dd": -0.382692,
+    "n_selected_days": 269,
+    "n_engine_syms": 2022
+   },
+   {
+    "k": 4,
+    "sharpe": 0.689157,
+    "ret": 3.964859,
+    "max_dd": -0.370581,
+    "n_selected_days": 269,
+    "n_engine_syms": 2038
+   },
+   {
+    "k": 5,
+    "sharpe": 0.626377,
+    "ret": 3.718622,
+    "max_dd": -0.435186,
+    "n_selected_days": 269,
+    "n_engine_syms": 2000
+   }
+  ]
+ },
+ "stats": {
+  "k": 6,
+  "n_ge": 0,
+  "p_value": 0.142857,
+  "mean": 0.639737,
+  "sd": 0.052778,
+  "z": 8.9317,
+  "p95": 0.703026,
+  "max": 0.707649,
+  "min": 0.560465
+ },
+ "verdict": "SUPPORT_DIRECTIONAL_K_FLOOR",
+ "judged_note": "supporting readout only -- G1'/G2/DSR/M1 stay with the family finalize over frozen gates",
+ "single_source": "null definition imported from scripts/fund_divlowvol_p1.py::_null_task; panel wired by stagestyle_combo_p1_backtest",
+ "verdict_note": "K=6 pilot: p is floored at 1/(K+1)=0.1429, so an all-below-null pilot is DIRECTIONAL, not indistinct; the K=2000 frozen face is priced separately in NULLS-CONSUME-2026-09-22.json"
+}
