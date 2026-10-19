@@ -1,5 +1,5 @@
-# Registers the Bigmoney OS iteration loop (cadence v2: 5-minute repetition,
-# CEO 全面提速令 2026-10-19 11:53 / cadence.md §8; interval was 10-min before).
+# Registers the Bigmoney 5-minute OS iteration loop (cadence v2, 2026-10-19
+# 11:53 CEO full-speedup order: 10min->5min; pin minutes unchanged).
 # PATH-AGNOSTIC (any machine, any folder): every path is derived from this
 # script's own location - zero edits needed on a new machine.
 # Pure ASCII (see iteration_loop.ps1 ENCODING RULE). Idempotent via -Force.
@@ -38,7 +38,7 @@ if ($pinMap.ContainsKey($mid)) { $pin = [int]$pinMap[$mid] }
 if ($pin -ge 0) {
     $start = Get-Date -Minute 0 -Second 0
     while ($start.Minute % 10 -ne $pin) { $start = $start.AddMinutes(1) }
-    while ($start -le (Get-Date)) { $start = $start.AddMinutes(10) }
+    while ($start -le (Get-Date)) { $start = $start.AddMinutes(5) }
 } else {
     $start = Get-Date -Minute 0 -Second 0
     while ($start -le (Get-Date)) { $start = $start.AddMinutes(8) }

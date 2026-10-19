@@ -47,3 +47,6 @@
 2026-10-19T11:12:01 | round 47 | held | ST-011 | "runner-pending:v0.2-pending"
 2026-10-19T11:32:01 | round 48 | held | ST-011 | "runner-pending:v0.2-pending"
 2026-10-19T11:52:01 | round 49 | held | ST-011 | "runner-pending:v0.2-pending"
+2026-10-19T12:12:01 | round 50 | held | ST-012 | "runner-pending:v0.2-pending"
+2026-10-19T12:32:01 | round 51 | held | ST-012 | "runner-pending:v0.2-pending"
+2026-10-19T12:52:01 | round 52 | held | ST-012 | "runner-pending:v0.2-pending"

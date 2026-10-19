@@ -1,4 +1,4 @@
-﻿# Registers BmaIdleGuard (10-min idle guard, O-20261018-2236-bm-c sec.3.1 bm-a leg).
+﻿# Registers BmaIdleGuard (5-min idle guard per cadence v2 2026-10-19 11:53 CEO order; was 10-min, O-20261018-2236-bm-c sec.3.1 bm-a leg).
 # Runs Tools\bma_idleguard.pyw via SYS_PY pythonw (windowless). Idempotent via -Force,
 # pure ASCII, S4U via proven XML flip (see register_watchdog_task.ps1 S4U LAW note).
 $Project = Split-Path -Parent $PSScriptRoot
@@ -8,8 +8,8 @@ if (-not (Test-Path $pyw)) { Write-Output "FATAL: $pyw missing"; exit 1 }
 if (-not (Test-Path $syspy)) { Write-Output "FATAL: $syspy missing"; exit 1 }
 $a = New-ScheduledTaskAction -Execute $syspy -Argument ('"' + $pyw + '"') -WorkingDirectory $Project
 $start = Get-Date -Second 0
-while ($start -le (Get-Date)) { $start = $start.AddMinutes(10) }
-$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 10) -RepetitionDuration (New-TimeSpan -Days 3650)
+while ($start -le (Get-Date)) { $start = $start.AddMinutes(5) }
+$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
 Register-ScheduledTask -TaskName 'BmaIdleGuard' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
 try {
