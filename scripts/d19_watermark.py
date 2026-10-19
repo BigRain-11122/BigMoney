@@ -54,9 +54,21 @@ from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROBE = os.path.join(ROOT, "results", "_r686bmb_d19_check.py")
-PROBE_OUT = os.path.join(ROOT, "results", "_r686bmb_d19_check.json")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
-RECEIPT = os.path.join(ROOT, "results", "d19_watermark.json")
+# r1081: probe evidence + run receipt are per-machine daemon live-tick faces
+# (D-20261015-02 family). Live-fire: shared tracked path _r686bmb_d19_check.json
+# was a three-machine overwrite race (bm-a rebase pop-UU vs bm-c r1121 same
+# window; every round's S0.5 probe rewrote one tracked path). Shared-name
+# legacy files stay tracked-but-dormant on origin (claw-clean, no writer).
+
+
+def _mid(machine_json=MACHINE_JSON):
+    with open(machine_json, encoding="utf-8") as f:
+        return json.load(f)["machine_id"]
+
+
+PROBE_OUT = os.path.join(ROOT, "results", "_r686bmb_d19_check.%s.json" % _mid())
+RECEIPT = os.path.join(ROOT, "results", "d19_watermark.%s.json" % _mid())
 
 DEC_KEY = "last_decisions_sha"
 ORD_KEY = "last_orders_sha"

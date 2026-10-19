@@ -264,3 +264,7 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 边界：若该路径未被 gitignore 覆盖（法尚未接管）而 origin 删除=真删除事件，禁套本卡（须人工裁定是否复活件）。
 - 证据：results/_r1080bma_popuu_resolve.py（marks union 19 行 0 invalid+rm --cached+check-ignore .gitignore:84+disk ts 15:05）+state notes r1080·2026-10-19 15:2x：bm-a r1080（S0 收口实弹·捕获律 O-20261002-2100 工程净路）
 
+
+## E76 三机共享 tracked 活写面根治=per-machine 命名+存量 untrack 双轨（r1081 bm-a 双实弹·D-20261015-02 家族扩展+CEO 16:04 L1275 repo-slim 面）
+
+proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活写的面必须 per-machine 命名**（`.bm-<id>.<ext>` 点夹心）——共享 tracked 路径+N 机写手=N 路覆写竞速，症状=每轮 rebase pop-UU 复发（d19 探针证据 `_r686bmb_d19_check.json`：bm-a 17:19 面 vs bm-c r1121 同窗面）；正法=写路径 per-machine 化+共享旧名件转 tracked-but-dormant（零写手=零竞速；claw-clean 不需删除=零跨机属主摩擦）。②**untrack 战役按令面划界**（L1275 点名 `_r1*`=2016 件；全族 `_r\d+`=17,539 件）——静默扩面禁；扩面=委员会裁定面。③**证据类白名单**：scratch 扩展名（py/ps1/txt/log/err/out）才 untrack；receipt/json/md/png 留 tracked——rebase checkout 撞 5 件 receipt=探测器实弹（首版切片含 receipt=过滤太粗的实证）；treasure_guard prescan 登记簿命中件同批排除（r1047 hotcold receipt）。④**claw 文件名证据通道扩展**：`_r\d+bm([a-z])_` 单字符机号=轮次脚本命名约法——self==放行/foreign==拦/untagged==fail-closed 不变；selftest 三腿强制（37/37）。⑤**check-push 位置参数必须完整 ref**（`origin/main main`）——裸 `origin` 经 origin/HEAD 解析=误诊面。live 证据：Tools/git_claw.py r1081（selftest 37/37 含三新腿）+ scripts/d19_watermark.py + results/_r686bmb_d19_check.py per-machine 面（selftest 20/20+活探针验）+ 512-件 untrack commit 面 + state notes_r1081。

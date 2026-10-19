@@ -3,7 +3,9 @@
 Group tree read path (D-20261004-02③): prefer K: group tree; fallback any
 local group tree real path; else temp sparse clone of origin blob. All
 hashing on git-show original bytes via subprocess capture (r660 law).
-Writes results/_r686bmb_d19_check.json; exit 0 = checked, 2 = mechanism fault.
+Writes results/_r686bmb_d19_check.<machine>.json (r1081 per-machine law:
+shared tracked path was a three-machine overwrite race, live-fire pop-UU
+bm-a vs bm-c r1121); exit 0 = checked, 2 = mechanism fault.
 
 T22 (2026-10-10 r954 bm-a): state read is machine-context aware -- resolve
 from fleet/machine.json (bm-b -> state.json legacy, others -> state-<id>.json,
@@ -85,7 +87,7 @@ def main() -> int:
         if s_err:
             out["err"] = s_err
             json.dump(out, open(os.path.join(
-                REPO, "_r686bmb_d19_check.json"), "w", encoding="utf-8"),
+                REPO, "_r686bmb_d19_check.%s.json" % mid), "w", encoding="utf-8"),
                 ensure_ascii=True, indent=1)
             print("FAULT: %s" % s_err)
             return 2
@@ -130,7 +132,7 @@ def main() -> int:
             if not ok:
                 out["err"] = "all clone urls failed"
                 json.dump(out, open(os.path.join(
-                    REPO, "_r686bmb_d19_check.json"), "w", encoding="utf-8"),
+                    REPO, "_r686bmb_d19_check.%s.json" % mid), "w", encoding="utf-8"),
                     ensure_ascii=True, indent=1)
                 return 2
             subprocess.run(["git", "-C", tw, "sparse-checkout", "set",
@@ -153,18 +155,18 @@ def main() -> int:
         if blob_d is not None:
             # dump full decision text for consumption if changed
             if out["decisions_changed"]:
-                open(os.path.join(REPO, "_r686bmb_decisions_fresh.md"),
+                open(os.path.join(REPO, "_r686bmb_decisions_fresh.%s.md" % mid),
                      "wb").write(blob_d)
             if out["orders_changed"] and blob_o is not None:
-                open(os.path.join(REPO, "_r686bmb_orders_fresh.md"),
+                open(os.path.join(REPO, "_r686bmb_orders_fresh.%s.md" % mid),
                      "wb").write(blob_o)
     except Exception as e:  # mechanism fault -> report honestly
         out["err"] = repr(e)
-        json.dump(out, open(os.path.join(REPO, "_r686bmb_d19_check.json"),
+        json.dump(out, open(os.path.join(REPO, "_r686bmb_d19_check.%s.json" % mid),
                             "w", encoding="utf-8"),
                   ensure_ascii=True, indent=1)
         return 2
-    json.dump(out, open(os.path.join(REPO, "_r686bmb_d19_check.json"), "w",
+    json.dump(out, open(os.path.join(REPO, "_r686bmb_d19_check.%s.json" % mid), "w",
                         encoding="utf-8"), ensure_ascii=True, indent=1)
     print(json.dumps({k: out[k] for k in
                       ("decisions_changed", "orders_changed",
