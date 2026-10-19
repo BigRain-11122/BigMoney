@@ -28,5 +28,5 @@
 
 - 冷层指针：r1032 closeout 定向 add 漏带自有链面坑（定向 add 后必 git status 复扫断言零残留）+ r1033 rebase --quit 复制 autostash+python 子进程 GBK 解码坑（stash 重锚定/CJK blob text=False 显式 utf-8）两行全文 verbatim=archive 202610.md『热冷整编 2026-10-19 r1037 bm-b 窗批』节。
 - 冷层指针：r1038 VS setup.exe 引导器 rc87=--log 参数拒收（单串预引号+去掉 --log·modify --quiet 真跑 ~4min exit 0）+madmom py3.11/numpy2.4 三族兼容补丁（setuptools<81+collections.abc.MutableSequence+np 别名正则 19 文件·import+STFT smoke 绿）全文 verbatim=archive 202610.md『热冷整编 2026-10-19 r1040 bm-b 窗批』节。
-- [2026-10-19 23:5x r1039 bm-b] **PS 函数内 Write-Output 污染返回流**：S6 驱动 Leg 函数内 `Write-Output` 回显与 `return $rc` 同流——`$r +=` 收到「字符串+rc」混合数组，`nonzero_rc` 计数把回显字符串当非零=42 假非零（逐腿实况全 rc0）；正法=函数内回显一律 `Write-Host`/`[Console]::WriteLine`，返回值走唯一 `return`；r1038 同病已两轮误报面。正身=results/_r1039bmb_s6chain.ps1。
-- [2026-10-19 23:3x r1040 bm-b] **madmom 下拍处理器名址**：RNNDownBeatProcessor/DBNDownBeatTrackingProcessor 实居 `madmom.features.downbeats`（`features.beats` 不导出下拍族·ImportError 实证）——r1038 smoke 只验 import madmom+STFT 未及处理器名；生成器导入面一律 downbeats 优先+beats 兜底（anchor_beats_gen.py 已焊）。
+- 冷层指针：r1039 Write-Output 污染返回流（42 假非零·回显一律 [Console]::WriteLine）+ r1040 madmom 下拍名址（downbeats 非 beats）两行 verbatim=archive 202610.md『r1041 bm-b 窗批』节。
+- [2026-10-20 00:2x r1041 bm-b] **madmom×numpy2.4 编译面双坑（beats 0/6→6/6 根因）**：①hmm.pyx→.pyd 残留 np.int 族=.py 文本补丁不可及·正法=入口运行时恢复 numpy legacy 别名；②downbeats.py L287 ragged asarray 抛 inhomogeneous·正法=venv 补丁标量列 argmax 恒等替换；③processor 构造一律进 try+日志（pythonw 无声死防）。正身=POOL-0019-beatsanchor-firstbatch-receipt-r1041bmb.md §2。
