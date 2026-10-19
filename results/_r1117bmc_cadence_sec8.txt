@@ -1,0 +1,31 @@
+## 8. 全面提速令 v2（CEO 令 2026-10-19「把各种频率都要加快到最高效的，我等不起了」·T1·正身=本节+orders 同日行）
+
+**提速分层五原则**（「最高效」≠「最快」——各机制类拉到各自效率前沿）：
+1. 探针/哨兵类（零 LLM·成本≈0）→ 拉满（1-5min 档）；
+2. 工作轮族（单实例锁防重入+空转快路径在册）→ 2× 提频（10min→5min：领活等待减半·总工作量不变·秒退轮兜底）；
+3. LLM 班次类（token 有价）→ 适度加密（×2）；
+4. **平台写操作类保持不动**（B站族 15min 档——账号安全令：平台频控=外部频率天花板·提速=封号风险·宁慢不可险）；
+5. 立法/梳理观察窗保持（进化轮已日频·记忆治理日班·周立法质量需观察窗）。
+
+**频率变更表 v2**（bm-a 本窗实弹 34 件改频+4 件日班加密·读回全绿；5 件让路暂停态照改〔状态不动〕）：
+
+| 族 | 任务 | 旧→新 |
+|---|---|---|
+| 令流 | FluxGroup-OrderSentinel | 2min→**1min**（令→动工 ≤1-2min） |
+| 交付哨 | bm-a-DeliveryWatch | 5min→**2min** |
+| 10min 轮族→5min 族 | BigDomain/BigLife/Bigmoney-IterationLoop/BigStream-OSLoop/FluxVerse-DevLoop/FluxVerseTick/MiniGameEngineTick/MiniGameOllamaKeepWarm/QuantAuditProbe/BmaIdleGuard/bm-a-CoderServe（停用态照改） | 10min→**5min**（错峰分钟位=原位 mod 5·共享资源对重查归各轮自报） |
+| 调度/巡哨 | HQ-FleetDispatcher 30→**10min**·HQ-FleetIdleWatch 15→**5min**·HQ-CEOProxyEventCarrier 15→**5min**·HQ-MA-ProxyProbe 60→**15min**·FluxGroup-FleetOversight 60→**30min** | — |
+| 十域巡视 | HQ-Patrol-×10 | 30min→**15min** |
+| 记忆闸 | HQ-MemoryBudgetGate | 4h→**2h** |
+| 回测/算力池 | Bigmoney-PoolWorker 15→**5min**·BigCompute-GPU-IdleWatch/OrderSentinel/CleanWindowProbe 15→**5min**（让路暂停态照改·状态不动）·QuantOversightDigest 12h→**6h** | — |
+| 日班加密 | 值守轮 2→**4 班**（03:07/09:07/15:07/21:07）·决策轮 2→**4 班**（00:00/06:00/12:00/18:00）·MiniGameRadarTick 1→**2 班**（09:52/21:52）·MiniGameAuditTick 1→**2 班**（05:52/17:52） | — |
+| CEO-PROXY 班表 | 8 班/日→**12 班/日**（每 2h）——班内步8 自检重建吸收（不直改他席会话 cron·次班生效） | — |
+| **保持不动** | B站族（BiliAutoReply/BiliDM/BiliSlowDel 等·账号安全天花板）·AutoYield 让路律（09:00/19:00）·TjcloudSync（云配额）·BigLife-PoolGenLoop（census 冻结）·SatEngine/ResidentDispatcher/LoopWatchdog/SilenceGuard-Lane/WT-Park（已 1-2min）·进化轮 09:17（已日频）·记忆治理日班 21:47 | — |
+
+**SLA 同步收紧**（§3 提交周期律职权）：快速件 24h→**12h**·CEO 可见交付 ≤5 天→**≤3 天**·跨司 ack 30min→**15min**（1min 哨兵后常态 ≤5min）——governance §11 同窗勘正。
+
+**B/C 机执行令**：照本表对各自同族任务 Set-ScheduledTask 单字段改频（保 S4U+VBS 链不动·读回验证·停用态照改状态不动）——回执=fleet/inbox/MSG-<HHMM>-<机>-cadence-v2.md·回执窗=今日 22:0x 日进化班前。
+
+**正典勘正清单**：本窗已改=AI.md §3 机制表+AGENT-LIBRARY §一 节律列+governance §11+cadence §0 注；归承席位=council.md 双班→4 班（委员会窗）+各司 mandate 内 10min 字样（各司自报窗）。
+
+**诚实边界**（频率≠吞吐）：本令改善的是响应/领取延迟（轮询等待减半）；产线吞吐瓶颈（GPU 工时/云配额 100 滚动/bm-d 物理）不受触发频率影响——吞吐根治=三车道并行+夜窗满载+bm-d 上线（在飞件），本令与之互补非替代。

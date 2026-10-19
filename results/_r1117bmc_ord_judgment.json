@@ -1,0 +1,29 @@
+{
+ "round": "r1117",
+ "machine": "bm-c",
+ "ts": "2026-10-19T13:20:00+08:00",
+ "scan_face": "opening D-19 probe 13:1x: ORD delta TRUE cac54c8f->15f5bbbf (exactly 1 new row = 12:3x kb-v1.2, the r1116-closeout-disclosed r1117 opening debt) / DEC delta FALSE 95879dd9 hold (D-20261019-01..06 all consumed by r1116, tail re-verified no D-07+)",
+ "rows_consumed": [
+  {
+   "row_ts": "2026-10-19 12:3x",
+   "kind": "CEO follow-up ticket (知识库 v1.2 调度域回灌令)",
+   "ceo_quote": "还有针对机队算力调度，分配等经验",
+   "summary": "知识库新增 F 机队调度与算力分配域·回灌 20 卡·在册 138 卡（三车道定岗/抢单三律/防闲置根因/让路律/CPU-GPU 分道/意义门四闸/云端快车道/本地故障切云/poke 唤醒正法/心跳断更自愈等·源=调度正典蒸馏）",
+   "judgment": "consumed -- bm-a 交互窗当窗收口（executed [via bm-a]·worktree wt-kbv12）·零 bm-c 动作"
+  }
+ ],
+ "decisions_consumed": [],
+ "watermark": {
+  "ord_before": "cac54c8f86ef74a453551948789496471c1a8d4b",
+  "ord_after": "15f5bbbf7d5cc091dd22196a624d187243350914",
+  "dec_before": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db",
+  "dec_after": "95879dd945a05117610cc8e85dc61481957b387d86d2a717e66156de0b5cd0db",
+  "method": "scripts/d19_watermark.py update --advance (single-write-path law; two-face r1090; read-back full-string equality)"
+ },
+ "unacked_after": 0,
+ "orders_ack_action": "NONE REQUIRED -- no new O-*.md files in fleet/orders (r1116 scan CLEAN 105/230 stands; S7 tail rescan closes the window)",
+ "ceo_ticket_claims_in_flight": [
+  "cadence-v2 腿⑧ (11:53 row) = THIS WINDOW P0 execution (8-task re-freq + 2 shift additions per cph4/cadence.md sec.8 v2 table)",
+  "REPO-SLIM 腿⑦ (12:21 row) = THIS WINDOW P0 execution (hooksPath gate + RepoSlim sentinel daily:09:03 + gc.auto=0 verified-keep)"
+ ]
+}
