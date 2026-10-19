@@ -1,0 +1,61 @@
+{
+ "schema": "st012-voice-finetune-v1",
+ "state": "done",
+ "phases_done": [
+  "bootstrap",
+  "data",
+  "cuda",
+  "prep",
+  "s2",
+  "s1",
+  "verify"
+ ],
+ "errors": [],
+ "evidence": {
+  "base_voice": "voice_09.wav",
+  "train_rows": 13,
+  "clips": 13,
+  "seconds": 48.6,
+  "list": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\corpus\\train.list",
+  "wav_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\corpus\\wavs",
+  "cuda": "CUDA True dev=NVIDIA GeForce RTX 3070",
+  "source": "https://mirrors.aliyun.com/pytorch-wheels/cu130",
+  "opt_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\exp\\mancang-v1",
+  "rows_text": 13,
+  "rows_semantic": 13,
+  "steps": [
+   "1-text",
+   "2-hubert:cached",
+   "2-sv",
+   "3-semantic"
+  ],
+  "ckpt_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\exp\\mancang-v1\\logs_s2_v2Pro",
+  "ckpt": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\GPT_weights_v2Pro\\mancang-v1-e15.ckpt",
+  "weights_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\GPT_weights_v2Pro",
+  "ab_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\ab",
+  "facts": {
+   "holdout_01": {
+    "dur": 5.18,
+    "sr": 32000,
+    "frames": 165760
+   },
+   "holdout_02": {
+    "dur": 3.22,
+    "sr": 32000,
+    "frames": 103040
+   },
+   "holdout_03": {
+    "dur": 4.06,
+    "sr": 32000,
+    "frames": 129920
+   }
+  }
+ },
+ "updated_at": "2026-10-20T01:25:54",
+ "started_at": "2026-10-20T01:12:02",
+ "pid": 30204,
+ "phase": "all",
+ "phase_state": "done",
+ "finished_at": "2026-10-20T01:25:54",
+ "receipt": "content\\drama\\outbox\\ST-012-VOICE-FINETUNE-RECEIPT.md"
+}

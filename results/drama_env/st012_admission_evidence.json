@@ -1,0 +1,108 @@
+{
+ "schema": "st012-admission-evidence-v1",
+ "station": "W012 / ST-012 follow-on",
+ "machine": "bm-b",
+ "verdict": "ADMISSION-EVIDENCE-READY",
+ "gates": {
+  "cross_clip_consistency": {
+   "verdict": "pass",
+   "f0_dev_max": 0.0067,
+   "rms_spread_db": 0.34,
+   "centroid_dev_max": 0.0317,
+   "tol": {
+    "f0_rel": 0.15,
+    "rms_spread_db": 8.0,
+    "centroid_rel": 0.2
+   }
+  },
+  "base_relative": {
+   "verdict": "pass",
+   "f0_rel_max": 0.0303,
+   "centroid_rel_max": 0.0956,
+   "rms_delta_db_max": 7.71,
+   "rows": [
+    {
+     "clip": "holdout_01_ft.wav",
+     "f0_rel_dev": 0.0303,
+     "centroid_rel_dev": 0.0366,
+     "rms_delta_db": -7.65
+    },
+    {
+     "clip": "holdout_02_ft.wav",
+     "f0_rel_dev": 0.02,
+     "centroid_rel_dev": 0.0956,
+     "rms_delta_db": -7.37
+    },
+    {
+     "clip": "holdout_03_ft.wav",
+     "f0_rel_dev": 0.0303,
+     "centroid_rel_dev": 0.0657,
+     "rms_delta_db": -7.71
+    }
+   ]
+  },
+  "corpus_floor": {
+   "verdict": "pass-minimum",
+   "train_rows": 13,
+   "train_seconds": 48.6,
+   "floor_seconds": 45.0
+  }
+ },
+ "heldout_f0_spread_pct": 1.0,
+ "base": {
+  "sr": 22050,
+  "dur_s": 3.193,
+  "rms_dbfs": -20.78,
+  "f0_hz": 310.6,
+  "centroid_hz": 1678.0,
+  "n_voiced_frames": 110
+ },
+ "holdouts": {
+  "holdout_01_ft.wav": {
+   "sr": 32000,
+   "dur_s": 5.18,
+   "rms_dbfs": -28.43,
+   "f0_hz": 320.0,
+   "centroid_hz": 1616.6,
+   "n_voiced_frames": 211
+  },
+  "holdout_02_ft.wav": {
+   "sr": 32000,
+   "dur_s": 3.22,
+   "rms_dbfs": -28.15,
+   "f0_hz": 316.8,
+   "centroid_hz": 1517.6,
+   "n_voiced_frames": 138
+  },
+  "holdout_03_ft.wav": {
+   "sr": 32000,
+   "dur_s": 4.06,
+   "rms_dbfs": -28.49,
+   "f0_hz": 320.0,
+   "centroid_hz": 1567.8,
+   "n_voiced_frames": 187
+  }
+ },
+ "inputs": {
+  "base_wav": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\bootstrap\\ep003_l02.wav",
+  "ab_dir": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\ab",
+  "clips": [
+   "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\ab\\holdout_01_ft.wav",
+   "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\ab\\holdout_02_ft.wav",
+   "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\ab\\holdout_03_ft.wav"
+  ]
+ },
+ "artifacts": {
+  "checkpoint": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT_weights_v2Pro\\mancang-v1-e15.ckpt",
+  "s2_weights": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voice_train\\st012\\exp\\mancang-v1\\logs_s2_v2Pro\\G_233333333333.pth"
+ },
+ "honest_edges": [
+  "training corpus is synthetic (IndexTTS bootstrap), not human-recorded",
+  "no human listening gate in this station (deterministic proxies only)",
+  "proxy-level consistency, NOT embedding-level speaker identity",
+  "voice_bank/manifest.json untouched: admission execution is a separate station",
+  "corpus sits just above the 45s floor (48.6s): enough to validate the chain, not to ship tone",
+  "finetuned output is 7.7 dB below the bootstrap base -- downstream mixing must normalise gain (level gate is NOT covered by this pack)"
+ ],
+ "next_station": "ST-009 timbre-consistency recheck (with the finetuned voice) -> voice_bank manifest admission"
+}
