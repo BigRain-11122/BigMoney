@@ -18483,6 +18483,45 @@
    "entered_by": "bm-c r1028 (absorb-window enrollment, W19 8-shard precedent scaled 231/4)",
    "done_by": "bm-c",
    "done_at": "2026-10-16 06:08:03"
+  },
+  {
+   "id": "SSCOMBO-P1-READOUT-BMB",
+   "ticket_ref": "O-20261019-2230 sec.2.1 first-batch ticket (STAGE-STYLE combo P1)",
+   "prereg_ref": "research/FUND-STAGESTYLE-COMBO-P1.md (mapping v1 + sec.5 predictions written run-before; DRAFT-NOT-FROZEN)",
+   "consumer_plan": "readout matrix -> D6 probe + freeze probe re-run -> FREEZE commit -> judged G1'/G2/DSR/M1 at finalize",
+   "runner": "scripts/stagestyle_combo_p1_backtest.py",
+   "runner_args": [
+    "run",
+    "--faces",
+    "x1,x2",
+    "--candidates",
+    "C1,C2,C3"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-20T05:2x+08:00",
+   "entered_by": "bm-b r1051",
+   "data_gates": "in-runner fail-closed: local panel data/cache/p1c_local (cutoff 2026-10-19) + sidecar face data/cache/p1c_sidecars (qfq-inversion-v1, 5,123 files) + REGIME5 label face (cutoff 2026-10-19); divlowvol clamped to frozen t0 2006-02-06; no network",
+   "data_deps": [
+    "data/cache/p1c_local/meta.json",
+    "data/cache/p1c_sidecars/_index.json",
+    "results/regime5_labels/REGIME5-2026-10-19.json"
+   ],
+   "workers_plan": {
+    "workers": "single process (numpy engine, RAM ~1.5GB)",
+    "priority": "BelowNormal",
+    "note": "r1051: memory-bound panel reads; multiproc would duplicate the 8,745x5,225 panel"
+   },
+   "shards": [
+    {
+     "key": "sscombo-readout-full",
+     "status": "ready",
+     "checkpoint": "results/stagestyle_combo_p1/SSCOMBO-P1-*.json",
+     "note": "one shard = whole readout (jobs share the same panel and pick faces)",
+     "owner": null
+    }
+   ]
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18497,7 +18536,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-15 14:34:35",
+ "updated_at": "2026-10-20T05:2x+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

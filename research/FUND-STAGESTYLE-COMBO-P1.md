@@ -47,6 +47,9 @@
 - **数据锚面定义四元组【G-ANCHOR-FACE】**：每数字探针锚冻结窗逐锚补齐（面路径+加载函数+起算窗+预热窗）；探针-锚同面断言 fail-closed。
 - **evidence_cutoff（D2 前向锁定）**：冻结窗定稿（候选=2026-10-19·新批新锚默认；阶段面 cutoff 失配=分层披露：袖面价格面 cutoff vs 阶段标签面 asof 各自落 cutoff_meta）。
 - 数据完备门：冻结窗跑（NaN/停牌/拆分断点普查=承三族 P1 §2 门族）。
+- **divlowvol 因子侧录面本地重建（r1051·本路面已闭合）**：`fund_divlowvol_p1` 的 `Money02/data/bars/<sym>.factor.json` 在 bm-b 缺席（Money02 他机铁律禁动）→ 冻结核在 `sc is None` 处逐员跳过 → 预筛宇宙恒达不到 UNIVERSE_FLOOR=60 → r1050 的 `no clean-tail t0` fail-closed。本地重建=**qfq 反演族**：`f(t)=raw/qfq`，用 T-154 分红导出（`data/fund_history_export/div_events_faces.parquet`）沿事件**反向递推** `raw_prev = qfq_prev/acc + cps`、`r = 1 - cps/raw_prev`、`f = 1/acc`，f(最新)=1.0，cutoff 之后事件跳过（PIT：qfq 不可能反映未除权事件）。产物=`data/cache/p1c_sidecars/*.factor.json`（5,123 件 / 59,555 事件步·gitignored），工具=`scripts/sscombo_sidecar_local.py`（selftest 10/10）；消费面=runner 内 `_load_local_sidecars` 按 `_load_sidecars` 同形喂冻结核，`sidecar_f_at`/`ttm_cash_sum` 仍单源 import。
+  - 诚实边界：仅建模现金分红（拆分/配股不在分红面内）；比值越出 (0.5,1.0] 的 3 员（002005/600602/600839·全为 1990 年代大比例事件）在 `_index.json` 旗标留痕，其收益率面=近似。
+  - **t0 分歧披露**：本地面板+重建侧录把 floor 满足时点提前到 2003-11-03，而族冻结常量 `T0_FROZEN=2006-02-06`（Money02 probe leg4）。t0 是设计常量非结果，**组合器一律钳到 2006-02-06**（多出 27 个月不用=保守），runner 内 `DIV_T0_FROZEN` + selftest `div_t0_clamp` 断言，回执落 `sleeve_notes.divlowvol`。
 
 ## §3 方法学【冻结窗定稿·组合规格预置】
 - **逐格条件读数面（CEO 矩阵正身）**：每个（阶段态 s × 风格袖面 f）格=该袖面在 s 态日集上的条件统计（年化/Sharpe/回撤/胜率）——产出=活/判负矩阵（描述面+judged 面）。

@@ -70,6 +70,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 ASTOCK_DIR = os.path.join(ROOT, "data", "astock_daily", "per")
 LOCAL_CACHE = os.path.join(ROOT, "data", "cache", "p1c_local")
+SIDECAR_DIR = os.path.join(ROOT, "data", "cache", "p1c_sidecars")
 OUT_DIR = os.path.join(ROOT, "results", "stagestyle_combo_p1")
 LABEL_DIR = os.path.join(ROOT, "results", "regime5_labels")
 BENCH = os.path.join(ROOT, "data", "daily", "sh510300.csv")
@@ -97,6 +98,10 @@ CONTROLS = {
 }
 FAMILIES = ("value", "quality", "divlowvol")
 TOPN = 20                      # family headline Top-N (prereg sec.3)
+# frozen family t0 (fund_divlowvol_p1.T0_FROZEN, pinned from the Money02 probe
+# leg4). The local panel + rebuilt sidecar face reach the floor earlier, so the
+# composer clamps to this design constant instead of adopting the local t0.
+DIV_T0_FROZEN = "2006-02-06"
 
 
 # --------------------------------------------------------------------- panel
@@ -222,6 +227,30 @@ def _import_family(name: str):
     return importlib.import_module(f"fund_{name}_p1")
 
 
+def _load_local_sidecars(codes):
+    """Local qfq->raw factor face (r1051): Money02/data/bars/*.factor.json is
+    absent on bm-b, and the frozen divlowvol kernel drops every candidate
+    without a sidecar (floor never met -> fail-closed t0). The face is
+    rebuilt from the in-repo dividend export by
+    scripts/sscombo_sidecar_local.py and read here in the exact shape
+    fund_divlowvol_p1._load_sidecars expects, so sidecar_f_at and
+    ttm_cash_sum stay single-source imports. Absent face -> {} (the kernel
+    then fails closed exactly as before, never silently degrades)."""
+    out = {}
+    if not os.path.isdir(SIDECAR_DIR):
+        return out
+    for code in sorted(codes):
+        p = os.path.join(SIDECAR_DIR, f"{code}.factor.json")
+        if not os.path.exists(p):
+            continue
+        sd = json.load(open(p, encoding="utf-8"))
+        out[str(code)] = (
+            np.array([int(x.replace("-", "")) for x in sd["d"]],
+                     dtype=np.int64),
+            np.array(sd["f"], dtype=np.float64))
+    return out
+
+
 def _family_faces(mod) -> dict:
     for fn in ("_load_value_faces", "_load_quality_faces",
                "_load_div_events"):
@@ -252,9 +281,13 @@ def wire_family(name: str, panel):
         "month_pos": mod.enumerate_starts_monthly(idx, arrays["close"]),
     }
     if name == "divlowvol":
-        sidecars = getattr(mod, "_load_sidecars", None)
-        if sidecars:
-            g["sidecars"] = sidecars(g["by_sym"].keys())
+        sc = _load_local_sidecars(g["by_sym"].keys())
+        if sc:
+            g["sidecars"] = sc
+        else:
+            sidecars = getattr(mod, "_load_sidecars", None)
+            if sidecars:
+                g["sidecars"] = sidecars(g["by_sym"].keys())
     elif name == "quality":
         # quality family keeps its statement faces beside by_sym
         extra = getattr(mod, "_load_quality_faces", None)
@@ -400,9 +433,11 @@ def cmd_run(args) -> int:
     gaps = {}
     month_pos = None
     host = None
+    mods = {}
     for name in FAMILIES:
         try:
             mod = wire_family(name, panel)
+            mods[name] = mod
             pick_faces[name] = mod._cell_picks(
                 {"value": "pe", "quality": "roe"}.get(name), TOPN)
         except Exception as exc:            # noqa: BLE001 - honest gap face
@@ -418,6 +453,30 @@ def cmd_run(args) -> int:
 
     states = label_at_month_start(idx, month_pos, labels)
     unlabeled = sum(1 for s in states if s is None)
+    sleeve_notes = {}
+    if "divlowvol" in pick_faces:
+        # r1051: with the locally rebuilt sidecar face the divlowvol floor is
+        # met 27 months earlier than the frozen family t0. That t0 is a frozen
+        # DESIGN constant (Money02 probe leg4), not a result, so the composer
+        # never fires before it: extra months stay unused (conservative) and
+        # the divergence is disclosed in the receipt.
+        dm = mods.get("divlowvol")
+        t0_pos = dm._G.get("_t0_pos") if dm is not None else None
+        local_t0 = str(idx[int(t0_pos)].date()) if t0_pos is not None else None
+        frozen = pd.Timestamp(DIV_T0_FROZEN)
+        before = len(pick_faces["divlowvol"])
+        pick_faces["divlowvol"] = [p for p in pick_faces["divlowvol"]
+                                   if idx[p[0]] >= frozen]
+        sleeve_notes["divlowvol"] = {
+            "local_t0": local_t0, "frozen_t0": DIV_T0_FROZEN,
+            "months_clamped": before - len(pick_faces["divlowvol"]),
+            "sidecar_face": "data/cache/p1c_sidecars (qfq-inversion-v1, "
+                            "cash-dividend inversion of the T-154 export)",
+            "sidecar_files": len(glob.glob(os.path.join(SIDECAR_DIR,
+                                                        "*.factor.json"))),
+            "sidecar_law": "Money02/data/bars/*.factor.json absent on bm-b; "
+                           "f(latest)=1.0; events past cutoff skipped",
+        }
     sleeve_cells = {"value": "VALUE-PE", "quality": "QUALITY-ROE",
                     "divlowvol": "DIVLOWVOL-YIELDVOL"}
     sleeve_picks = {sleeve_cells[k]: v for k, v in pick_faces.items()}
@@ -529,6 +588,7 @@ def cmd_run(args) -> int:
         "results": results,
         "data_gaps": gaps,
         "blocked_candidates": blocked,
+        "sleeve_notes": sleeve_notes,
         "single_source": ("family selection kernels imported from "
                           "scripts/fund_*_p1.py (zero re-implementation); "
                           "local panel = data/astock_daily per-symbol qfq"),
@@ -644,10 +704,21 @@ def cmd_selftest(args) -> int:
         m = nav_metrics(s)
         assert m["sharpe"] > 0 and abs(m["ret"] - 0.2) < 1e-9, m
 
+    def l9():
+        # r1051: the divlowvol pre-t0 clamp is a date comparison, not a
+        # result-driven edit -- a pick before the frozen t0 never survives.
+        idx = pd.date_range("2006-01-01", periods=60, freq="D")
+        frozen = pd.Timestamp(DIV_T0_FROZEN)
+        picks = [(0, 5, np.array([1]), 1.0), (59, 60, np.array([2]), 1.0)]
+        kept = [p for p in picks if idx[p[0]] >= frozen]
+        assert len(kept) == 1 and kept[0][0] == 59, kept
+        assert DIV_T0_FROZEN == "2006-02-06"
+
     for n, fnn in [("label_pit_prev_bar", l1), ("label_pit_exact", l2),
                    ("compose_cash_months", l3), ("compose_sleeve_miss", l4),
                    ("compose_window_clip", l5), ("ew_weight_split", l6),
-                   ("mapping_frozen", l7), ("metrics_known_answer", l8)]:
+                   ("mapping_frozen", l7), ("metrics_known_answer", l8),
+                   ("div_t0_clamp", l9)]:
         leg(n, fnn)
     ok = sum(1 for _n, p, _e in legs if p)
     for n, p, e in legs:

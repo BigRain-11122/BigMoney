@@ -1,7 +1,7 @@
 {
  "clock_read": "2026-10-20T04:34:36+08:00",
- "current": "r1049 | dept:研究+工程 | FUND-STAGESTYLE-COMBO-P1 冻结窗续跑（bm-a 心跳 291min 停滞·S3 stale-takeover 律）：(a) 新脚本 scripts/sscombo_pit_drift_audit.py（asof 快照 vs 当前重推 diff·selftest 5/5）→ 跑出 verdict=NO_DRIFT（共享 3,289 日 2013-03-21..2026-09-30·flips=0·rate=0.0·fresh_only 8 日），receipt=results/_r1049bmb_sscombo_pit_drift.json —— PIT 重述漂移审计腿闭合（标签面非结果拟合）。(b) REGIME5 标签面重推进到 cutoff 2026-10-19（3,297 日·+8 日），阶段面 cutoff 与价格面 10-19 对齐，冻结探针披露缺口从 2 条缩到 1 条（thermo 09-22 仍诚实披露）。(c) 新脚本 scripts/sscombo_stage_priors.py（阶段基准率·selftest 6/6）→ receipt=results/_r1049bmb_sscombo_stage_priors.json：BULL 201 日 +32.17bp/极端日 3.48%；BEAR 786 日 -15.85bp/3.18%；SUPPORT 104 日 极端日 6.73% 最高；全窗极端日阈值 -393.35/+387.10bp 共 70 日。(d) prereg 三处定稿：§5 跑前预测 P1-P4（数字全部机读 receipt·零占位）、§3 映射候选集 v1 三格 C1 divlowvol-tilt/C2 value-tilt/C3 quality-tilt + 四对照格（SUPPORT 按 P3 并入 CHOP）、§2a PIT 审计回执。(e) SEED_REGISTRY 登记 stagestyle_combo_p1_null_a/b=20_531_000/20_531_500（登记前 gate rc0 FREE span=501 ×2·rg 全库零 RNG 命中）；sscombo_freeze_probe L6 加自注册自碰撞豁免（own keys 非跨批碰撞·N1 带/外来键仍 fatal），探针复跑 GREEN 6/6 + selftest 4/4；M3 closed_family_check(stagestyle_combo_stock_xs)=open。(f) S6：dualrun ZERO-DRIFT streak 51、compute_audit FLAG pool_starvation+supply_floor（结构性 0<3）、watermark py_low_board_clear 合法 idle、smoke 49/49、orphan 0/7、D-19 双面零增量、orders_ack 107/107 无缺口。未完：D6 probe（需组合收益面）+ runner scripts/stagestyle_combo_p1_backtest.py → 冻结 commit 仍未落。",
- "current_task": "r1048 closed: SS-COMBO freeze probe GREEN (bm-a stale takeover)",
+ "current": "r1051 | dept:研究+工程 | divlowvol 侧录面本地重建=scripts/sscombo_sidecar_local.py（qfq 反演族 f=raw/qfq·T-154 分红面反向递推·selftest 10/10）→ data/cache/p1c_sidecars 5,123 件/59,555 事件步（cutoff 2026-10-19·旗标 3 员1990 年代大比例事件·689009 面板缺席）；runner 接线 _load_local_sidecars（同形喂冻结核·sidecar_f_at/ttm_cash_sum 仍单源 import）→ divlowvol sleeve 从 r1050 的 [BLOCKED] 翻面：picks 269 月仓/5,380 holds（floor 满足时点 2003-11-03 vs 族冻结 T0 2006-02-06 → 组合器钳到冻结 t0·多出 27 月不用·selftest 9/9）；6 月窗冒烟 run 全链绿（C1/C2/C3 1.6318 / U-value -0.3037 / U-quality 0.7337 / U-divlowvol 2.5961 / U-EW 1.1954·receipt results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json）；全窗读数（x1+x2·C1/C2/C3+4 对照）入池 SSCOMBO-P1-READOUT-BMB（status=ready·pool ready 0→1·supply_floor 仍 1<3 如实）；prereg §2c 补侧录面重建/t0 分歧披露。S6：dualrun ZERO-DRIFT streak 51·compute_audit FLAG supply_floor(ready 1<3)·watermark py_low_board_clear·attrition CLEAN(4 账/2 历史 shrink healed)·orphan 0/7·smoke 49/49·D-19 双面零增量（dec d5336c87/ord 9da3cb04 hold）。",
+ "current_task": "r1051 closed: divlowvol sidecar face rebuilt + sleeve unblocked",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -17,22 +17,22 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1049 | dept:研究+工程 | FUND-STAGESTYLE-COMBO-P1 冻结窗续跑（bm-a 心跳 291min 停滞·S3 stale-takeover 律）：(a) 新脚本 scripts/sscombo_pit_drift_audit.py（asof 快照 vs 当前重推 diff·selftest 5/5）→ 跑出 verdict=NO_DRIFT（共享 3,289 日 2013-03-21..2026-09-30·flips=0·rate=0.0·fresh_only 8 日），receipt=results/_r1049bmb_sscombo_pit_drift.json —— PIT 重述漂移审计腿闭合（标签面非结果拟合）。(b) REGIME5 标签面重推进到 cutoff 2026-10-19（3,297 日·+8 日），阶段面 cutoff 与价格面 10-19 对齐，冻结探针披露缺口从 2 条缩到 1 条（thermo 09-22 仍诚实披露）。(c) 新脚本 scripts/sscombo_stage_priors.py（阶段基准率·selftest 6/6）→ receipt=results/_r1049bmb_sscombo_stage_priors.json：BULL 201 日 +32.17bp/极端日 3.48%；BEAR 786 日 -15.85bp/3.18%；SUPPORT 104 日 极端日 6.73% 最高；全窗极端日阈值 -393.35/+387.10bp 共 70 日。(d) prereg 三处定稿：§5 跑前预测 P1-P4（数字全部机读 receipt·零占位）、§3 映射候选集 v1 三格 C1 divlowvol-tilt/C2 value-tilt/C3 quality-tilt + 四对照格（SUPPORT 按 P3 并入 CHOP）、§2a PIT 审计回执。(e) SEED_REGISTRY 登记 stagestyle_combo_p1_null_a/b=20_531_000/20_531_500（登记前 gate rc0 FREE span=501 ×2·rg 全库零 RNG 命中）；sscombo_freeze_probe L6 加自注册自碰撞豁免（own keys 非跨批碰撞·N1 带/外来键仍 fatal），探针复跑 GREEN 6/6 + selftest 4/4；M3 closed_family_check(stagestyle_combo_stock_xs)=open。(f) S6：dualrun ZERO-DRIFT streak 51、compute_audit FLAG pool_starvation+supply_floor（结构性 0<3）、watermark py_low_board_clear 合法 idle、smoke 49/49、orphan 0/7、D-19 双面零增量、orders_ack 107/107 无缺口。未完：D6 probe（需组合收益面）+ runner scripts/stagestyle_combo_p1_backtest.py → 冻结 commit 仍未落。",
+ "did": "r1051 | dept:研究+工程 | divlowvol 侧录面本地重建=scripts/sscombo_sidecar_local.py（qfq 反演族 f=raw/qfq·T-154 分红面反向递推·selftest 10/10）→ data/cache/p1c_sidecars 5,123 件/59,555 事件步（cutoff 2026-10-19·旗标 3 员1990 年代大比例事件·689009 面板缺席）；runner 接线 _load_local_sidecars（同形喂冻结核·sidecar_f_at/ttm_cash_sum 仍单源 import）→ divlowvol sleeve 从 r1050 的 [BLOCKED] 翻面：picks 269 月仓/5,380 holds（floor 满足时点 2003-11-03 vs 族冻结 T0 2006-02-06 → 组合器钳到冻结 t0·多出 27 月不用·selftest 9/9）；6 月窗冒烟 run 全链绿（C1/C2/C3 1.6318 / U-value -0.3037 / U-quality 0.7337 / U-divlowvol 2.5961 / U-EW 1.1954·receipt results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json）；全窗读数（x1+x2·C1/C2/C3+4 对照）入池 SSCOMBO-P1-READOUT-BMB（status=ready·pool ready 0→1·supply_floor 仍 1<3 如实）；prereg §2c 补侧录面重建/t0 分歧披露。S6：dualrun ZERO-DRIFT streak 51·compute_audit FLAG supply_floor(ready 1<3)·watermark py_low_board_clear·attrition CLEAN(4 账/2 历史 shrink healed)·orphan 0/7·smoke 49/49·D-19 双面零增量（dec d5336c87/ord 9da3cb04 hold）。",
  "heartbeat_epoch_utc_face": 1792441825,
- "last_action": "r1050: FUND-STAGESTYLE-COMBO-P1 runner delivered (local astock panel materializer + frozen-kernel wiring + stage mapping composition); divlowvol sleeve blocked on missing Money02 factor sidecars",
- "last_action_at": "2026-10-20T04:50:31+08:00",
- "last_artifact": "scripts/stagestyle_combo_p1_backtest.py + data/cache/p1c_local (8745x5225, cutoff 2026-10-19) + results/stagestyle_combo_p1/SSCOMBO-P1-2014-04-18.json",
+ "last_action": "r1051: divlowvol factor sidecar face rebuilt locally; sleeve unblocked; full readout pooled",
+ "last_action_at": "2026-10-20T05:07:48+08:00",
+ "last_artifact": "scripts/sscombo_sidecar_local.py + data/cache/p1c_sidecars (5,123 files, cutoff 2026-10-19) + results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json",
  "last_decisions_at": "2026-10-20T00:16:41+08:00",
- "last_decisions_probe_at": "2026-10-18T22:08:55+08:00",
+ "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
- "last_decisions_read_at": "2026-10-20T04:30:25+08:00",
+ "last_decisions_read_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_sha": "d5336c87c1d161aaa4dd55315e8fb906b1e874de484a880fd7e93fcf735c2b6a",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
  "last_orders_at": "2026-10-18T16:35:49+08:00",
- "last_orders_probe_at": "2026-10-20T02:29:41+08:00",
+ "last_orders_probe_at": "2026-10-20T05:07:48+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
- "last_orders_read_at": "2026-10-20T04:30:25+08:00",
+ "last_orders_read_at": "2026-10-20T05:07:48+08:00",
  "last_orders_sha": "9da3cb04fcf6008b14329fdbdd39f23f013b6e10b2c3ddf1bdbee067ddea0a68",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
@@ -40,13 +40,13 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_round_at": "2026-10-20T04:50:31+08:00",
  "last_round_ts": "2026-10-20T04:50:31+08:00",
- "last_seen": "2026-10-20T04:34:36+08:00",
- "latest_artifact": "results/_r1049bmb_sscombo_pit_drift.json + results/_r1049bmb_sscombo_stage_priors.json",
+ "last_seen": "2026-10-20T05:07:48+08:00",
+ "latest_artifact": "results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json + results/runnable_pool.json (SSCOMBO-P1-READOUT-BMB)",
  "machine_id": "bm-b",
- "next": "r1050: 1) SS-COMBO runner scripts/stagestyle_combo_p1_backtest.py 建面（三族 P1 runner 骨架 import 复用+阶段标签加载器）+ D6 probe（组合 vs 在册成员 max|corr|·结构性披露口径）→ 冻结 commit；2) 冻结后 execution ticket + entry 入池补 supply_floor 3 缺口；3) bm-a 复活回收面观察（MSG-0415 已留）；4) S8 本地自驱池空=候秘书处补货",
- "next_milestone": "P2 FREEZE commit after runner + D6 probe (window <=10-21)",
+ "next": "r1052: 1) 池内 SSCOMBO-P1-READOUT-BMB 全窗读数到齐 → D6 probe + freeze probe 复跑 → FREEZE commit → 执行票；2) 689009 CDR 源缺口换源候选；3) papers 条件重试（10-20 bar 15:30 后）；4) RepoSlim 09:03 实锚验证；5) bm-a 复活观察（MSG-0415 未回）",
+ "next_milestone": "FREEZE commit after full readout + D6 probe (window <=10-21)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
- "now_active": "r1049 closed",
+ "now_active": "r1051 closed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -286,9 +286,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1050,
- "round_no": 1051,
- "round_no_label": "r1050",
+ "round": 1051,
+ "round_no": 1052,
+ "round_no_label": "r1051",
  "sat_engine": {
   "checked_at": "2026-10-20T00:29:25+08:00",
   "status": "alive (r1041 chain status leg rc0; idle verdict; P2 burn feed = freeze-window gate: panel legs awaiting p1c re-delivery window-2, execution ticket after freeze commit)"
@@ -296,7 +296,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-20T04:34:36+08:00",
+  "last_push_ts": "2026-10-20T05:07:48+08:00",
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
    "behind_origin_main": 0,
@@ -752,11 +752,18 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "r1051_main_push": {
+   "behind_origin_main": 0,
+   "consumed_at": "pending r1052",
+   "note": "r1051 payload = sidecar materializer + runner wiring (local sidecar loader + frozen-t0 clamp) + prereg sec.2c disclosure + pool entry SSCOMBO-P1-READOUT-BMB + smoke readout receipt + evidence script + closeout trio + S6 evidence faces (bm-b suffixed); gitignored: data/cache/p1c_sidecars (5,123 json) per r1031 slim governance",
+   "pushed_sha": "pending",
+   "status": "PENDING (this commit)"
+  }
  },
- "task": "r1049",
- "ts": "2026-10-20T04:34:36+08:00",
- "updated": "2026-10-20T04:30:25+08:00",
- "updated_at": "2026-10-20T04:30:25+08:00",
- "verdict": "GREEN: SS-COMBO 冻结窗三腿闭合（PIT NO_DRIFT 3,289 日零翻面 / 阶段基准率先验机读 / 映射候选集 v1 三格定稿 / 种子双登记）+ REGIME5 cutoff 推进到 10-19；未完=D6 probe+runner。"
+ "task": "r1051",
+ "ts": "2026-10-20T05:07:48+08:00",
+ "updated": "2026-10-20T05:07:48+08:00",
+ "updated_at": "2026-10-20T05:07:48+08:00",
+ "verdict": "GREEN: divlowvol 侧录缺口闭合（5,123 件本地侧录面），三族袖面全可算；未完=全窗读数在池、D6 probe/freeze commit 未落。"
 }
