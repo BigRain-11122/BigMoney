@@ -47,7 +47,7 @@
  "gpu_used_vram_mib": 1874,
  "gpu_util_pct": 0.0,
  "gpu_vram_free_mb": 14522,
- "head_sha": "r1120 closeout (W279 prereg PREP: frozen face 99001d3d3f337942 + prep facts + 5x HANDOVER; D-19 ord ec502bf6; W279 prereg derive = r1121 first)",
+ "head_sha": "r1120 closeout d94072a681 (W279 prereg PREP + 5x HANDOVER; D-19 ord 11c172b3; W279 prereg derive = r1121 first)",
  "health": "ok",
  "heartbeat_epoch_utc": 1792395261,
  "heartbeat_epoch_utc_type": "int (assert)",
@@ -519,7 +519,7 @@
  "round_no": 1121,
  "round_no_label": "r1120 closeout -> counter 1121",
  "sync": {
-  "origin_tip": "r1120 closeout commit rides this window (push + fetch behind-0 self-proof)",
+  "origin_tip": "r1120 closeout LANDED d94072a681 (post-rebase; push first-try after claw-block + rebase saga disclosed in r1120_closeout_note)",
   "ts": "2026-10-19T15:34:21+08:00"
  },
  "total_ram_gb": 23.9,
@@ -529,5 +529,5 @@
  "verdict": "green r1120 W279 prereg PREP + 5x HANDOVER window (frozen face byte-verified + prep facts machine-frozen + ORD 2-row consumed dual-clean + quad green; W279 prereg derive = r1121 first action; papers chain waits 10-19 bar on sina)",
  "verify": "smoke 49/49 + frozen-face byte-identity dual (23,814B / 99001d3d3f337942 == blob 053892f6) + prep-facts in-script asserts ALL green + d19 advance read-back full-string equality + S7-tail 3-row catch consumed (final dual FALSE ord 11c172b3 / dec 95879dd9) + S6 log 10x rc=0 + attrition CLEAN + quad green x4 + idle --worked rc0 + orphan 0 + epoch int + report row +1 asserted + closeout push rides this window (push+fetch+behind-0 self-proof)",
  "last_artifact_at": "2026-10-19T15:34:21+08:00",
- "r1120_closeout_note": "r1120: clean continuation PREP window (state round_no=1120 at open, executed r1120, advanced 1120->1121 so next=r1121); zero absorb owed (r1119 closeout 0a92fcc28f landed clean, zero dead window between); zero double-count: S0.5 dual-delta opening TRUE consumed THIS window (b97cb656->ec502bf6, 2 rows both bm-a lane zero bm-c action), DEC 95879dd9 FALSE hold both scans; honest-split per r1096: the full builder roll + derive = full-window job = r1121 FIRST ACTION (anchors machine-frozen THIS window, zero re-derive owed); 5x HANDOVER stamp on-time || ADDENDUM: S7-tail dual-scan caught 3 mid-round ORD rows (15:25/15:28/15:32, all bm-a lanes zero bm-c action) -> consumed + advanced ec502bf6->11c172b3 same-window (d19 two-face, read-back equality, mirrors synced 3); zero double-count risk for r1121 (final dual FALSE)"
+ "r1120_closeout_note": "r1120: clean continuation PREP window (state round_no=1120 at open, executed r1120, advanced 1120->1121 so next=r1121); zero absorb owed (r1119 closeout 0a92fcc28f landed clean, zero dead window between); zero double-count: S0.5 dual-delta opening TRUE consumed THIS window (b97cb656->ec502bf6, 2 rows both bm-a lane zero bm-c action), DEC 95879dd9 FALSE hold both scans; honest-split per r1096: the full builder roll + derive = full-window job = r1121 FIRST ACTION (anchors machine-frozen THIS window, zero re-derive owed); 5x HANDOVER stamp on-time || ADDENDUM: S7-tail dual-scan caught 3 mid-round ORD rows (15:25/15:28/15:32, all bm-a lanes zero bm-c action) -> consumed + advanced ec502bf6->11c172b3 same-window (d19 two-face, read-back equality, mirrors synced 3); zero double-count risk for r1121 (final dual FALSE) || PUSH SAGA addendum: first push claw-BLOCKED (deletion face results/_r1025bmb_s6_log.txt = bm-b re-landed their r1025 log in mid-window origin advance 421cdb4056 15:34:59; my tree pre-dated it) -> discard-1 regenerable daemon live-face (machine-health, live-wins law) -> pull --rebase onto 421cdb4056 -> 5 UU shared same-day idempotent S6 faces (daily_report x2 / update_status / compute_audit / fundamental_b_layer_filter / regime_state) resolved via checkout --theirs = MY side under rebase semantics (DISCLOSED: r1028 newer-wins would prefer bm-b 15:34 regen over my 15:30; both same-day idempotent regenerable, bm-b versions preserved in their own commit 421cdb4056, next S6 cycle regenerates fresh) -> rebase clean -> push LANDED 421cdb4056..d94072a681 first-try post-rebase, claw passed (bm-b file in-tree), fetch self-proof behind=0/ahead=0; closeout sha 8dbdc5253b(pre-rebase)->d94072a681(post-rebase) both preserved"
 }
