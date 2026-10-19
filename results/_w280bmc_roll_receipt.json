@@ -1,0 +1,328 @@
+{
+ "roller": "r1129-continuation bm-c W280 derive roller",
+ "src": "_w279bmc_prereg_derive.py",
+ "dst": "_w280bmc_prereg_derive.py",
+ "dst_bytes": 49263,
+ "patches": [
+  "P0_header",
+  "P1_paths",
+  "P2_blob_gates",
+  "P3_t0_identity",
+  "P4_chain_gates",
+  "P5_splice_t",
+  "P6_ts_gates",
+  "P7_fk_gates",
+  "P8_fk_file",
+  "P9_res_gates",
+  "P10_res_path",
+  "P11_receipt",
+  "P12_bands",
+  "P13_hop_chains",
+  "P14_relation_keys",
+  "P15_band_respect",
+  "P16_leg0",
+  "P17_seed_admit",
+  "P18_leg4",
+  "P19_print",
+  "P20_src_print",
+  "P21_order",
+  "P22_drop_second_loop",
+  "BLOCK_VMAP",
+  "BLOCK_VMAP_FLOORS",
+  "BLOCK_VMAP_POST_LEGS",
+  "BLOCK_MUST",
+  "BLOCK_MUST_NOT",
+  "BLOCK_BLOCKS",
+  "BLOCK_NEW",
+  "BLOCK_APPLY"
+ ],
+ "heals": [],
+ "roll_counts": {
+  "VMAP": 61,
+  "FLOORS": 122,
+  "POST": 16,
+  "MUST": 93,
+  "MUST_NOT": 115,
+  "BLOCKS": 8
+ },
+ "blocks": [
+  [
+   "b_title",
+   "engine_owner 行 268 注册在册（表尾"
+  ],
+  [
+   "b_band",
+   "（**A 面=STAIRCASE-AFFECTS-A"
+  ],
+  [
+   "b_gated",
+   "R280：W279 带"
+  ],
+  [
+   "b_prev",
+   "prev=**届时空窗活链头 derive 禁手抄**"
+  ],
+  [
+   "b_claim_proj",
+   "probe W280+ 投影 A naive 631_101..633_100 CLEAN hops=0"
+  ],
+  [
+   "b3_a",
+   "- **B 档**（j=0..199）：entry rng=**629_101+j**（与 A[j] 同源配对语义逐字"
+  ],
+  [
+   "b3_b",
+   "exit rng=**631_101+j**"
+  ],
+  [
+   "b5_projection",
+   "5. **W280+ 投影（probe 机证 leg4"
+  ]
+ ],
+ "vmap_legs": [
+  [
+   "A-ext seed=629_101..631_100",
+   "A-ext seed=633_301..635_300"
+  ],
+  [
+   "B-ext exit seed=631_101..631_300",
+   "B-ext exit seed=633_301..633_500"
+  ],
+  [
+   "entry rng=**629_101+j**（与 A[j] 同源配对语义逐字",
+   "entry rng=**633_301+j**（与 A[j] 同源配对语义逐字"
+  ],
+  [
+   "席位公示=MSG-20261019-145x-bmc-w279-seat 已推 origin 900c23fe7d r565 律（bm-c r1119 席·queue-head seat-first lane）",
+   "席位公示=MSG-20261020-@@SEAT_HHMM@@-bmc-w281-seat 已推 origin @@SEAT_SHA@@ r565 律（bm-c r1130 席·queue-head seat-first lane）"
+  ],
+  [
+   "席位公示 MSG-20261019-145x-bmc-w279-seat 先推 origin 900c23fe7d r565 律",
+   "席位公示 MSG-20261020-@@SEAT_HHMM@@-bmc-w281-seat 先推 origin @@SEAT_SHA@@ r565 律"
+  ],
+  [
+   "波号 279",
+   "波号 281"
+  ],
+  [
+   "r1119 席位窗实跑：origin inbox 零 W279 席位外机命中",
+   "r1130 席位窗实跑：origin inbox 零 W281 席位外机命中"
+  ],
+  [
+   "零 279 行",
+   "零 281 行"
+  ],
+  [
+   "零 skip-ahead W280/W281 席位声明",
+   "零 skip-ahead W282/W283 席位声明"
+  ],
+  [
+   "池第 277 枚",
+   "池第 279 枚"
+  ],
+  [
+   "第 269 波",
+   "第 271 波"
+  ],
+  [
+   "bm-c 第九十八枚自有波",
+   "bm-c 第一百枚自有波"
+  ],
+  [
+   "probe leg0 bmc_rows=97 attempt-continuity face（r1119 窗算法·bm-c own seat+bmc live rows 97 实读）——freeze 时 live derive bmc rows 97+候选=第 98 枚 EXACT",
+   "probe leg0 bmc_rows=99 attempt-continuity face（r1129-continuation 窗算法·bm-c own seat+bmc live rows 99 实读）——freeze 时 live derive bmc rows 99+候选=第 100 枚 EXACT"
+  ],
+  [
+   "engine_owner==bm-c 97 行注册",
+   "engine_owner==bm-c 99 行注册"
+  ],
+  [
+   "saturation_engine.py status live-read r1122：burns_active=[] queue_next=[] 实读·heartbeat 新鲜",
+   "saturation_engine.py status live-read r1129：burns_active=[] queue_next=[] 实读·heartbeat 新鲜"
+  ],
+  [
+   "本机 bm-c 实例·heartbeat 新鲜实读 r1122 窗·队列空转 idle",
+   "本机 bm-c 实例·heartbeat 新鲜实读 r1129 窗·队列空转 idle"
+  ],
+  [
+   "引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1122 窗实读",
+   "引擎实况注记（本机 bm-c 实例 heartbeat 新鲜 r1129 窗实读"
+  ],
+  [
+   "--wave 279/finalize --wave 279",
+   "--wave 281/finalize --wave 281"
+  ],
+  [
+   "§5.5 W280+ 投影承接机证",
+   "§5.5 W282+ 投影承接机证"
+  ],
+  [
+   "n1_w279",
+   "\u0001N\u0001"
+  ],
+  [
+   "W279",
+   "W280"
+  ],
+  [
+   "W278",
+   "W279"
+  ],
+  [
+   "W277",
+   "W278"
+  ],
+  [
+   "W276",
+   "W277"
+  ],
+  [
+   "W275",
+   "W276"
+  ],
+  [
+   "W274",
+   "W275"
+  ],
+  [
+   "W273",
+   "W274"
+  ],
+  [
+   "W272",
+   "W273"
+  ],
+  [
+   "W271",
+   "W272"
+  ],
+  [
+   "W270",
+   "W271"
+  ],
+  [
+   "W269",
+   "W270"
+  ],
+  [
+   "W268",
+   "W269"
+  ],
+  [
+   "W267",
+   "W268"
+  ],
+  [
+   "W266",
+   "W267"
+  ],
+  [
+   "W265",
+   "W266"
+  ],
+  [
+   "W264",
+   "W265"
+  ],
+  [
+   "W263",
+   "W264"
+  ],
+  [
+   "W262",
+   "W263"
+  ],
+  [
+   "W261",
+   "W262"
+  ],
+  [
+   "_w279bmc",
+   "\u0001B\u0001"
+  ],
+  [
+   "_w279bmc",
+   "_w280bmc"
+  ],
+  [
+   "_w278bmc",
+   "_w279bmc"
+  ],
+  [
+   "_w277bmc",
+   "_w278bmc"
+  ],
+  [
+   "_w276bmc",
+   "_w277bmc"
+  ],
+  [
+   "_w275bmc",
+   "_w276bmc"
+  ],
+  [
+   "_w274bmc",
+   "_w275bmc"
+  ],
+  [
+   "_w273bmc",
+   "_w274bmc"
+  ],
+  [
+   "_w272bmc",
+   "_w273bmc"
+  ],
+  [
+   "_w271bmc",
+   "_w272bmc"
+  ],
+  [
+   "_w270bmc",
+   "_w271bmc"
+  ],
+  [
+   "_w269bmc",
+   "_w270bmc"
+  ],
+  [
+   "_w268bmc",
+   "_w269bmc"
+  ],
+  [
+   "_w267bmc",
+   "_w268bmc"
+  ],
+  [
+   "_w266bmc",
+   "_w267bmc"
+  ],
+  [
+   "_w265bmc",
+   "_w266bmc"
+  ],
+  [
+   "_w264bmc",
+   "_w265bmc"
+  ],
+  [
+   "_w263bmc",
+   "_w264bmc"
+  ],
+  [
+   "_w262bmc",
+   "_w263bmc"
+  ],
+  [
+   "\u0001N\u0001",
+   "n1_w280"
+  ],
+  [
+   "\u0001B\u0001",
+   "_w280bmc"
+  ],
+  [
+   "\u0001W\u0001",
+   "W280"
+  ]
+ ]
+}
