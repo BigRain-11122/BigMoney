@@ -538,18 +538,19 @@
  "r999_closeout_note": "r999: continuation window after dead-r998 + absorb-window (77132634b): executed as r999 (next after highest committed label r998), counter 998->1000 so next=r1000; zero absorb owed (dead-r998 body debts handled by its own estate commits + bm-a 16:00 closeout); zero double-count: S0.5 dual-delta FALSE both scans (dec d9d8aa72 / ord a7bb50ea); pit same-window: queue probe uppercase .Count on lowercase json keys returned misleading 0/0 first read -- always index exact lowercase keys (queue_running/queue_pending)",
  "ram_critical_face": "none (loop CPU-only, GPU idle day)",
  "ram_free_gb": 2.9,
- "recent_artifact": "results/_w284bmc_freeze_receipt.json",
- "round": "r1146",
- "round_no": 1147,
- "round_no_label": "r1146 closeout -> counter 1147",
+ "recent_artifact": "results/perpetual_faces/n1_w284_results.json",
+ "round": "r1147",
+ "round_no": 1148,
+ "round_no_label": "r1147 closeout -> counter 1148",
  "sync": {
-  "origin_tip": "3f209a0ebfefc3ce1b3064477ffa3b5ec2df9ff4",
-  "ts": "2026-10-20T06:16:21+08:00"
+  "origin_tip": "64b0d4afa1b14f413a7156a78c7d3d7723db0842",
+  "ts": "2026-10-20T07:32:17+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-20T07:10:26+08:00",
- "updated": "2026-10-20T07:10:26+08:00",
- "updated_at": "2026-10-20T07:10:26+08:00",
- "verdict": "green r1146 product window: W284 five-face FREEZE SPLICE (142 parity rows) + engine self-ignite 12/12 in flight",
- "verify": "splice gates OK | seed_admit FREE x2 | banned ADMIT rc0 | pf 9/9 | n1 PASS | smoke 49/49 | satengine rc0 burning | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0"
+ "ts": "2026-10-20T07:32:17+08:00",
+ "updated": "2026-10-20T07:32:17+08:00",
+ "updated_at": "2026-10-20T07:32:17+08:00",
+ "verdict": "green r1147 product window: W284 finalize one-pass EXACT 1,049,141 / K=622,720 + fivekeys 6/6 + sixgate 47th consecutive ALL PASS",
+ "verify": "sixgate ALL PASS | finalize exact | fivekeys 6/6 | sec78 backfilled | smoke 49/49 | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0",
+ "round_t147_closeout_note": "r1147: clean continuation window (state round_no=1147 at open, executed r1147, advanced 1147->1148 so next=r1148); zero absorb owed (r1146 closeout bdf0478c1a landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both scans (dec 715e4134 / ord 9da3cb04 hold), unacked=0 (107 files vs 232 acks); PRODUCT = W284 cycle CLOSED: sixgate PRE-FINALIZE ALL PASS 47th consecutive (results/_r1147bmc_w284_sixgate.json: splice CR-normalized identity @ a8e5ddfd65, setwave birth-station gates, banned ADMIT rc0, pf/n1 selftest rc0, 12/12 shards >100KB, seed_admit FREE x2) + finalize one-pass EXACT ledger 1,049,141 (prev 1,046,941 + 2,200) / merged K=622,720 (620,520 + 2,200) + fivekeys 6/6 ALL PASS (results/_r1147bmc_w284_fivekeys.json) + prereg sec.7/sec.8 backfilled (zero residual placeholders); engine idle after 284/284 waves complete (burns=[] queue=[], disk_done 3384, alive heartbeat 68s); S6 10/10 rc0 (dualrun ZERO-DRIFT 462 entries streak 5 / compute_audit FLAG supply_floor ready 0<floor 3 structural answered-by-chain / watermark loaded_ok / update_daily cutoff 2026-10-19 / regime ORANGE_COOL breadth 0.79 / clock CALL-2026-10-19 cell=ORANGE_COOL / fund_premium pre-15:30 no-op / b_layer rc0 / REPORT-2026-10-20 / token delta 0); S7 attrition 4 ledger files CLEAN (historical shrinks healed) / loop pin=5 no-op / watchdog re-registered (S4U flip access-denied standing face) / both claws installed / orphan face=0"
 }

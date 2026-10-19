@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1145 W284 §7 范式）
+- 账本恒等式：prev 1,046,941 + batch 2,200 = **1,049,141 EXACT**（science_gates.ledger 机读恒等断言过；prev == N1 子链 W283 finalize 尾 1,046,941 逐字节相等·零夹批外源试验单元；合并池 K：620,520 + 2,200 = **622,720 EXACT**）。
+- merged mu = -0.09278629 / merged sigma = 0.24505609 / **se_mu@K622,720 = 0.000311**（对照本波冻结键 W283 0.000311，持平微窄）；W284-only mu = -0.08587991 / sigma = 0.24514908。
+- K-lift 对照：line_pre_w284 = 1.1975 → line_merged@622,720 = 1.1975，delta = **+0.0000**（n_eff held 1,046,941）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同例）。
+- §5 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0069064 / key1b merged-vs-W283键 0.0000245 / key2 sigma rel 1.95e-06 / key3 A p95 delta +0.0002【0.3185→0.3187，双向带内】/ key4 K-lift +0.0000 / key5 se_mu 0.000311≤0.000311 持平微窄）——收据 results/_r1147bmc_w284_fivekeys.json（键=n1_w283_results.json 机读 r587 律·本波预测键冻结于 W283 实测——W283 finalize 起草窗前已落地·活链头基准）。
+- 六门探针：PRE-FINALIZE **ALL PASS 第 47 连续正确相位**（results/_r1147bmc_w284_sixgate.json——splice 完整性 **CR-normalized 恒等** worktree==落链 git blob @ a8e5ddfd65【r1146 窗落的 splice·落链后 pf/n1 零愈合（本窗实测面）·setwave 出生站闸持守（_set_wave(284):1/_set_wave(283):1/_set_wave(282):1 全文件计数·段内 284 在/283 与 282 不在）·derive 证据件在位】；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2【base=640101 span=2000 / base=642101 span=200】；wave_configs 行四面【对齐·engine_owner=bm-c】）。
+- audit 段：machine=bm-c，finalize_only；shards_consumed=["shard-0-of-12.json", "shard-1-of-12.json", "shard-10-of-12.json", "shard-11-of-12.json", "shard-2-of-12.json", "shard-3-of-12.json", "shard-4-of-12.json", "shard-5-of-12.json", "shard-6-of-12.json", "shard-7-of-12.json", "shard-8-of-12.json", "shard-9-of-12.json"]；preregistered_doc=research/PERPETUAL_N1_W284_PREREG.md；evidence_cutoff=2026-09-22（P-5C 冻结窗同窗律）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W285+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1145 W284 §8 范式）
+- §5.5 W285+ 投影承接机证（finalize 产物 preregistered_doc 面机读）：W284 注册宇宙已落地（A 640_101..642_100 + B 642_101..642_300，本波冻结收据_w284bmc_freeze_receipt.json）——W285 A naive 起点 642_101 在 post-W284 注册宇宙上撞 W284 B 窗（staircase 第三十四次连续 A-hop 预期）；B naive 642_301..642_500 落投影 A 窗内（own-A reservation cascade 继续）——计数以活链重 derive 为准勿转录；勿假设 A-base==prior-B-tail+1 或 B-base==own-A-tail+1 相等式（E36 卡/W141 先例）；**W285 seat=next free number·下一冻结方必须 seat-first 发布且在 post-W284 宇宙上重 derive**（勿转录 r587）。
+- 宝藏与方法论捕获问：本批零新宝藏入册零新方法论卡——本窗六门全 count-asserted（行面/边界/出生站/账本面逐项断言）+fivekeys 6 针首跑全中，属既有机制持守验证，非新方法论卡。
+- 诚实披露面：(1) W284 splice 由 r1146 窗执行落链 a8e5ddfd65（本窗实测 CR-normalized 恒等·pf/n1 落链后零愈合）；(2) 引擎 mtime-watch 自点火 W284 12/12（自提交 batches 落 origin）；(3) 本波预测键冻结于 W283 实测（起草窗前 W283 finalize 已落地 r1143 窗·活链头基准·§5 头注记）；(4) 本波零夹批外源单元：prev 1,046,941 == W283 finalize 尾；(5) prereg freeze 件 push 留痕于 r1145 窗；本窗回填仅动 §7/§8 两行。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W284 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W283 own-wave finalize 已落地=席位时即解锁（n1_w283_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

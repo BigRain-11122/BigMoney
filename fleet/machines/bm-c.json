@@ -1,14 +1,14 @@
 {
  "activity_now": "W284 five-face FROZEN (A 640_101..642_100 / B 642_101..642_300); engine self-burn 9/12 shards at 07:09; next = sixgate + finalize one-pass",
  "agenda_starved": false,
- "clock_read": "2026-10-20T07:10:26+08:00",
+ "clock_read": "2026-10-20T07:32:17+08:00",
  "codely_live_count": 2,
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 97.2,
  "cpu_pct": 2.8,
  "cpu_util_pct": 2.8,
- "current_task": "W284 five-face freeze landed; engine self-burn 9/12; next sixgate+finalize",
+ "current_task": "r1147 closeout: W284 cycle complete (finalize exact 1,049,141 / K=622,720, fivekeys 6/6); engine idle 284/284 waves; next=r1148 W285 seat probe",
  "current_task_at": "2026-10-20T06:48:57+08:00",
  "current_task_ts": "2026-10-20T06:48:57+08:00",
  "d19_watermark_guard": {
@@ -50,7 +50,7 @@
  "gpu_vram_free_mb": 14276,
  "head_sha": "fbd1511689",
  "health": "green",
- "heartbeat_epoch_utc": 1792451426,
+ "heartbeat_epoch_utc": 1792452737,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 2.75,
  "idle_rounds": 0,
@@ -82,7 +82,7 @@
  "last_round_summary_at": "2026-10-20T03:25:23+08:00",
  "last_round_ts": 1792436814,
  "last_run_at": "2026-10-19T22:15:38+08:00",
- "last_seen": "2026-10-20T07:10:26+08:00",
+ "last_seen": "2026-10-20T07:32:17+08:00",
  "last_seen_at": "2026-10-20T03:25:23+08:00",
  "last_ts": "2026-10-19T22:15:38+08:00",
  "latest_artifact": "results/perpetual_faces/n1_w281_results.json",
@@ -524,9 +524,9 @@
  "r996_closeout_note": "r996: 三死窗吸收窗（MV V3 会话+收尾准备会话+W239 周期会话·11:27-13:59 三体全死于收尾前）-- 本窗按 bm-c absorb 先例链（r894..r993 第 23 代）收口：W239 全周期 estate 验证后落地（死窗已上链 splice c85e806c9+burn·本窗补 sixgate 收据+finalize 产物+fivekey+sec78 回填→commit 0fbf34dbc+push a82bd3025）；MV V3 波 1 6/6 签章镜回执落组树 orders be32c1f+poke bm-a；波 1.5 runner 灭失=波 2 自链断链面如实披露（r997 首动作=runner 重建）；O-1230 探测 200 通；软著 18 款复跑批已跑待 r997 核验收口；lineage-B 13:40 收口宣称（d9d8aa72/179ac0f4）未落任何账面=死窗宣称勘误入档·零双计（本窗重算 origin 实测 sha 推进水位）；counter 996->997 so next=r997",
  "r999_closeout_note": "r999: continuation window after dead-r998 + absorb-window (77132634b): executed as r999 (next after highest committed label r998), counter 998->1000 so next=r1000; zero absorb owed (dead-r998 body debts handled by its own estate commits + bm-a 16:00 closeout); zero double-count: S0.5 dual-delta FALSE both scans (dec d9d8aa72 / ord a7bb50ea); pit same-window: queue probe uppercase .Count on lowercase json keys returned misleading 0/0 first read -- always index exact lowercase keys (queue_running/queue_pending)",
  "ram_critical_face": "none (loop CPU-only, GPU idle)",
- "ram_free_gb": 3.0,
+ "ram_free_gb": 4.42,
  "recent_artifact": "results/_w284bmc_freeze_receipt.json",
- "round": "r1146",
+ "round": "r1147",
  "round_no": 1145,
  "round_no_label": "r1136 closeout -> counter 1137",
  "sync": {
@@ -534,9 +534,9 @@
   "ts": "2026-10-19T15:07:19+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-20T07:10:26+08:00",
+ "ts": "2026-10-20T07:32:17+08:00",
  "updated": "2026-10-20T03:41:05+08:00",
  "updated_at": "2026-10-20T07:10:26+08:00",
- "verdict": "green r1146 product window: W284 five-face FREEZE SPLICE (142 parity rows) + engine self-ignite 12/12 in flight",
+ "verdict": "green r1147 product window: W284 finalize one-pass EXACT 1,049,141 / K=622,720 + fivekeys 6/6 + sixgate 47th consecutive ALL PASS",
  "verify": "splice gates OK | seed_admit FREE x2 | banned ADMIT rc0 | pf 9/9 | n1 PASS | smoke 49/49 | satengine rc0 burning | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0"
 }
