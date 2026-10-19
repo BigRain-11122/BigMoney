@@ -55,7 +55,7 @@
  "idle_rounds": 0,
  "last_action": "r1135 closeout",
  "last_action_at": "2026-10-20T03:25:23+08:00",
- "last_artifact": "results/perpetual_faces/n1_w281_results.json",
+ "last_artifact": "results/perpetual_faces/n1_w282_results.json",
  "last_artifact_at": "2026-10-20T03:25:23+08:00",
  "last_decisions_at": "2026-10-20T01:01:12+08:00",
  "last_decisions_read_at": "2026-10-20T01:01:12+08:00",
@@ -532,18 +532,19 @@
  "r999_closeout_note": "r999: continuation window after dead-r998 + absorb-window (77132634b): executed as r999 (next after highest committed label r998), counter 998->1000 so next=r1000; zero absorb owed (dead-r998 body debts handled by its own estate commits + bm-a 16:00 closeout); zero double-count: S0.5 dual-delta FALSE both scans (dec d9d8aa72 / ord a7bb50ea); pit same-window: queue probe uppercase .Count on lowercase json keys returned misleading 0/0 first read -- always index exact lowercase keys (queue_running/queue_pending)",
  "ram_critical_face": "none (loop CPU-only, GPU idle day)",
  "ram_free_gb": 2.75,
- "recent_artifact": "results/_w282bmc_freeze_receipt.json",
- "round_no": 1139,
+ "recent_artifact": "results/perpetual_faces/n1_w282_results.json",
+ "round_no": 1140,
  "round_no_label": "r1136 closeout -> counter 1137",
  "sync": {
-  "origin_tip": "01fe28eec227d66e8c4fa8d14994d18174602e74",
-  "ts": "2026-10-20T04:26:07+08:00"
+  "origin_tip": "8b5730bec405c8af074712528d3d170d703d6e8f",
+  "ts": "2026-10-20T04:41:42+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-20T04:26:07+08:00",
- "updated": "2026-10-20T04:26:07+08:00",
- "updated_at": "2026-10-20T04:26:07+08:00",
- "verdict": "green: W282 five-face splice + engine self-burn 12/12; finalize deferred to r1139",
- "verify": "smoke 49/49 | satengine rc0 | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0 | seed_admit_gate FREE x2 | 271-row mutual exclusion | decisions watermark consumed",
- "r1138_closeout_note": "r1138: (1) S0-1 anchor bm-c + round-zero probe py_faces=5 orphans=0 zero-kill; S0 pull picked up bm-b r1047/r1048 (0 conflict); (2) S0.5 dual-delta FALSE both scans (ord 6cec19c3 / dec d5336c87 hold; unacked=0); (3) S1 smoke 49/49; (4) PRODUCT: W282 five-face freeze SPLICE -- results/_w282bmc_freeze_edits.py generated from the proven W281 editor (results/_r1138bmc_gen_w282_edits.py, 6-digit band map + wave cascade; every replacement count-asserted) -> pf/n1 edited, 140 parity rows (69 estate + 37 kept + 34 fresh W248..W281), pf selftest 9/9 + n1 selftest PASS, seed_admit_gate FREE x2 (base=635701 span=2000 / base=637701 span=200), banned gate ADMIT rc0; prereg seat placeholders healed (0345/9d321472eb, mislabelled w283->w282 seat) per r1134 splice-window precedent; (5) ENGINE SELF-IGNITE: W282 12/12 shards burned (results/p2cal_ext/n1_w282/shard-0..11-of-12.json, engine ledger self-commits) -- FINALIZE deferred to r1139 first action (honest split per r1134/r1135 lineage); (6) S6 light 10/10 rc0 (dualrun ZERO-DRIFT streak 51; audit FLAG cap_violation transient during own engine burn; watermark loaded_ok py 71.3%; update_daily no-op; regime/clock/fund_premium/b_layer/daily_report/token all rc0, token delta=0 L2 legs); (7) S7: pin=5 no-op; watchdog re-registered but S4U flip DENIED (access denied) -> task left interactive, elevation needed (LogonType regression face disclosed); both claws MATCH; attrition 4 CLEAN (3 historical heals noted); inbox MSG-2351-bmb addressed to bm-a, not ours (left in place)"
+ "ts": "2026-10-20T04:41:42+08:00",
+ "updated": "2026-10-20T04:41:42+08:00",
+ "updated_at": "2026-10-20T04:41:42+08:00",
+ "verdict": "green r1139 product window: W282 CYCLE COMPLETE (sixgate 45th ALL PASS / finalize 1,044,735 / K 618,320 EXACT / fivekeys 6/6 / sec.7+8 backfilled)",
+ "verify": "sixgate ALL PASS 45th | finalize ledger 1,044,735 K 618,320 exact | fivekeys 6/6 | smoke 49/49 | satengine rc0 burns=[] queue=[] | S6 10/10 rc0 | attrition 4 CLEAN | orphan face=0 | S0.5 dual-delta FALSE both scans | local-not-origin commits=0",
+ "r1138_closeout_note": "r1138: (1) S0-1 anchor bm-c + round-zero probe py_faces=5 orphans=0 zero-kill; S0 pull picked up bm-b r1047/r1048 (0 conflict); (2) S0.5 dual-delta FALSE both scans (ord 6cec19c3 / dec d5336c87 hold; unacked=0); (3) S1 smoke 49/49; (4) PRODUCT: W282 five-face freeze SPLICE -- results/_w282bmc_freeze_edits.py generated from the proven W281 editor (results/_r1138bmc_gen_w282_edits.py, 6-digit band map + wave cascade; every replacement count-asserted) -> pf/n1 edited, 140 parity rows (69 estate + 37 kept + 34 fresh W248..W281), pf selftest 9/9 + n1 selftest PASS, seed_admit_gate FREE x2 (base=635701 span=2000 / base=637701 span=200), banned gate ADMIT rc0; prereg seat placeholders healed (0345/9d321472eb, mislabelled w283->w282 seat) per r1134 splice-window precedent; (5) ENGINE SELF-IGNITE: W282 12/12 shards burned (results/p2cal_ext/n1_w282/shard-0..11-of-12.json, engine ledger self-commits) -- FINALIZE deferred to r1139 first action (honest split per r1134/r1135 lineage); (6) S6 light 10/10 rc0 (dualrun ZERO-DRIFT streak 51; audit FLAG cap_violation transient during own engine burn; watermark loaded_ok py 71.3%; update_daily no-op; regime/clock/fund_premium/b_layer/daily_report/token all rc0, token delta=0 L2 legs); (7) S7: pin=5 no-op; watchdog re-registered but S4U flip DENIED (access denied) -> task left interactive, elevation needed (LogonType regression face disclosed); both claws MATCH; attrition 4 CLEAN (3 historical heals noted); inbox MSG-2351-bmb addressed to bm-a, not ours (left in place)",
+ "r1139_closeout_note": "r1139: (1) S0-1 anchor bm-c + round-zero probe py_faces=4 orphans=0 zero-kill; S0 fetch clean (no rebase owed at open); (2) S0.5 dual-delta FALSE both scans (ord 6cec19c3 / dec d5336c87 hold per state keys; unacked=0, 232 acks; inbox MSG-0415-bmb-bma + MSG-2351-bmb both addressed @bm-a, left in place); (3) S1 smoke 49/49; (4) PRODUCT = W282 CYCLE COMPLETE: sixgate 45th consecutive PRE-FINALIZE ALL PASS (results/_r1139bmc_w282_sixgate.json -- splice 01fe28eec2 CR-normalized worktree==landed blob, setwave 282:1/281:1/280:1 segment-scoped birth-station gates, shards 12/12 all >100KB, banned ADMIT rc0, pf/n1 selftest rc0, seed_admit FREE x2) -> finalize one-pass EXACT ledger 1,042,535+2,200=1,044,735 / K 616,120+2,200=618,320 (merged mu -0.09281590, sigma 0.24506546, se_mu 0.000312) -> fivekeys 6/6 PASS (results/_r1139bmc_w282_fivekeys.json; key3 A p95 0.3228->0.3075, key4 K-lift +0.0000, n_eff held 1,042,535) -> prereg sec.7/8 placeholders backfilled machine-read (zero transcription); (5) S6 light 10/10 rc0 (dualrun ZERO-DRIFT streak 51; watermark loaded_ok py 17.2% window avg 44.2%; update_daily no-op bars_present=false; regime/clock/fund_premium/b_layer/report/token rc0, token delta=0); (6) S7: attrition 4 CLEAN (3 historical heals noted); pin=5 no-op; watchdog re-registered (S4U flip access-denied -> default principal, exact same regression face as r1138, elevation needed); both claws reinstalled MATCH; (7) same-window PIT: sixgate subprocess text=True under GBK console threw reader-thread UnicodeDecodeError on child stderr byte 0xa0 -- verdict unaffected but evidence tails were empty; healed by explicit encoding='utf-8', errors='replace' (results/_r1139bmc_patch_sixgate_enc.py) and re-ran to clean tails -- pit-encoding family, generalize to every new subprocess text capture"
 }
