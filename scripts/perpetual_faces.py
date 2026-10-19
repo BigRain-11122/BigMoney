@@ -9554,6 +9554,54 @@ N1_BANDS = {
     # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
     277: {"a": (624_701, 626_700), "b_exit": (626_701, 626_900),
          "engine_owner": "bm-c"},
+    # W278 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261019-102x-bmc-w278-seat published=reserved by bm-c itself @
+    # origin b187aa6214 (r1114-continuation, queue-head seat-first supply -- W277 registered+FINALIZED complete at publish, W278 FREEZE UNBLOCKED at seat time (zero waits-upstream face; seats never queue behind freeze windows per O-20261010-2350 sec.2); the SPLICE gate0.5 = GREEN at seat (W277 five-face + finalize product both in-place; prereg + ADMIT probe
+    # receipt frozen commit df1aaba72a (prereg research/PERPETUAL_N1_W278_PREREG.md
+    # bm-c r1116 window E63 canon-clone builder derive landed pre-freeze, probe
+    # results/_w278bmc_20261019_probe_receipt.json @ b187aa6214);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; delivery window = chain-order
+    # splice AFTER the bm-c W277 five-face (freeze 9e53371814) + W277
+    # finalize product landed (n1_w277_results.json present, ledger
+    # head 1033735 machine-read at freeze time); zero --no-verify;
+    # the W278 seat MSG sits in fleet/inbox/processed/MSG-20261019-102x-bmc-w278-seat.md at freeze
+    # time, honest archived per S7 law);
+    # band gate ADMIT results/_w278bmc_20261019_probe_receipt.json: A = 1-HOP
+    # STAIRCASE-AFFECTS-A walk TWENTY-SEVENTH consecutive A-hop (the naive continuation 626_701..628_700 is REFUSED
+    # at naive start -- the registered W277 B band sits INSIDE the naive A window;
+    # the walk hops past the W277 B tail -> A first-clean, hops=1 -- TWENTY-SEVENTH
+    # consecutive A-hop of the staircase era, the fourteen-wave seed-gap face
+    # ENDED at W252;
+    # A base == registered prior-wave B tail+1 (626_900+1) machine-checkable; A_clean_at_naive_start=false;
+    # A_staircase_hop_past_W277_B=true)
+    # B = 1-HOP own-A RESERVATION CASCADE above own-A (the naive continuation
+    # 626_901..627_100 is REFUSED at its own start -- the naive window lands
+    # INSIDE the own-wave A first-clean window --
+    # own-A reservation cascade standard leg; hops=1,
+    # B_hop_chain verbatim in the probe receipt; the walk hops past the own-A
+    # tail -> B lands ABOVE own-A -- TWENTY-EIGHTH consecutive above-own-A;
+    # B base == own-A tail+1 (628_900+1) EXACT; B_lands_above_own_A=true;
+    # B_hop_lands_inside_A=false; B_naive_refused_at_start=true)
+    # single-window derive (r812 merged the gate legs INTO the
+    # pre-seat probe; dual-window parity N/A honest); scan face =
+    # SEED_REGISTRY live int values + v1/W1 ext bands + N3-R1
+    # used-seed band + probe cluster 95_000..95_003 + cross-face
+    # probe points 95_004/95_006 + lfc/options actuals + N2/N4/
+    # N2-W15 probe points.
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=626901 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=628901 span=200 checked=200 verdict=FREE.
+    # W279+ projection (gate-derived pre-seat probe leg4, pre-W278
+    # universe): A naive first-clean 628901..630900 hops=0 (this window's gate: CLEAN, zero live
+    # seed refusers) / B naive 629101..629300 hops=0 CLEAN at naive -- first-clean 629101..629300 BUT lands INSIDE the projection A window,
+    # (W279p_B_lands_inside_W279p_A_naive=true -- staircase re-emergence face: the W279 walk MUST hop past own-A reservation);
+    # the W279 freezer MUST
+    # re-derive on the post-W278 universe AND reserve the own-wave A window
+    # when deriving B (do NOT assume the staircase A-base==prior-B-tail+1
+    # equality or the B-base==own-A-tail+1 equality); never transcribe r587.
+    278: {"a": (626_901, 628_900), "b_exit": (628_901, 629_100),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
