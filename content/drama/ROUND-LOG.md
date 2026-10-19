@@ -39,3 +39,8 @@
 2026-10-19T09:32:01 | round 39 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T09:52:01 | round 40 | no-station | - | "all stations blocked/pending/done"
 2026-10-19T10:12:01 | round 41 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T10:32:01 | round 42 | no-station | - | "all stations blocked/pending/done"
+2026-10-19T10:50:29 | round 43 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "runner-error", "err": "pitch-tier test-synth FAIL rc=1 state=None tail=ine 208, in dsp_one\r\n    raise RuntimeError('dsp helper FAIL: %s' %\r\nRuntimeError: dsp help
+2026-10-19T10:53:06 | round 44 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "runner-error", "err": "pitch-tier test-synth FAIL rc=1 state=None tail=l = synth_one(cid, clip)\r\n                                  ^^^^^^^^^^^^^^^^^^^^\r\n  File \"
+2026-10-19T10:55:02 | round 45 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "runner-error", "err": "pitch-tier test-synth FAIL rc=1 state=None tail=ynth.py\", line 462, in <module>\r\n    sys.exit(do_run())\r\n             ^^^^^^^^\r\n  File \
+2026-10-19T10:57:19 | round 46 | claimable | ST-010 | {"runner": "st010_pitch_tier_test_synth", "verdict": "tier-synth-done gate=FAIL", "gate": "FAIL", "pairs_after": [{"a": "XIONG", "b": "XIONGWEI", "f0_rel": 0.1541}, {"a": "XIONG", "b": "FATHER", "f0_rel": 0.0663}, {"a": 

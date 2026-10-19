@@ -123,6 +123,29 @@
    "source": "ST-008 receipt next-station row (shared-base debt disclosed: XIONG/XIONGWEI/FATHER=voice_07, MANCANG=voice_05); r1018 next-pointer item 3; VOICE-PIPELINE-SKELETON-v1 sec.2",
    "claim": "claimed@bm-b@2026-10-19T07:45:35",
    "done_at": "2026-10-19T07:45:35"
+  },
+  {
+   "id": "ST-010",
+   "title": "pitch-tier test-synthesis station: XIONG/XIONGWEI/FATHER 1 line each through GPT-SoVITS + tier DSP (0/+3/-1 st machine-read from ST-009 face) + RMS re-match -> re-measure F0 separation >=15% gate",
+   "state": "done",
+   "lane": "cpu",
+   "runner": "st010_pitch_tier_test_synth",
+   "require": "ST-009",
+   "product": "media/drama-tools/voice_smoke/st010/<CID>/tier.wav x3 (media area) + status face results/drama_env/pitch_tier_test_synth.json + outbox receipt ST-010-PITCH-TIER-TEST-SYNTH-RECEIPT.md",
+   "source": "r1020 next-pointer item 1 (r1019 debt, first action); ST-009 receipt next-station row; O-20261018-2144-bm-c sec.2.1 voice P1 <=10-22",
+   "claim": "claimed@bm-b@2026-10-19T10:56:10",
+   "done_at": "2026-10-19T10:57:19"
+  },
+  {
+   "id": "ST-011",
+   "title": "BOY/MANCANG sourcing station: child-voice license review FIRST (BOY) + MANCANG de-clip re-production or new-source pick (voice_05 narrator-shared-base avoidance = root fix per ST-009 sec.3)",
+   "state": "open",
+   "lane": "cpu",
+   "runner": "v0.2-pending",
+   "require": "none",
+   "product": "sourced+admitted BOY ref clips (license-cleared or in-house) + MANCANG clean re-production entries + manifest update + receipt",
+   "source": "r1020 next-pointer item 2; ST-009 receipt next-station row; ST-008 honest gaps (BOY zero material / MANCANG all-CLIPPED)",
+   "claim": null
   }
  ]
 }

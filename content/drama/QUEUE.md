@@ -25,5 +25,7 @@
 | ST-007 | done | cpu | st007_first_synthesis_smoke | ST-005 | first-synthesis smoke: GPT-SoVITS v1 zero-shot chain validation (in-house r998 a | claimed@bm-b@2026-10-19T05:58:21 |
 | ST-008 | done | cpu | st008_voice_bank_entries | ST-007 | canon voice-bank entries v0.1: role-aligned ref clips 1-3/char from r998 in-hous | claimed@bm-b@2026-10-19T06:18:16 |
 | ST-009 | done | cpu | st009_voice_differentiation_eval | ST-008 | character voice differentiation eval v0.1: voice_07/voice_05 shared-base debt me | claimed@bm-b@2026-10-19T07:45:35 |
+| ST-010 | done | cpu | st010_pitch_tier_test_synth | ST-009 | pitch-tier test-synthesis station: XIONG/XIONGWEI/FATHER 1 line each through GPT | claimed@bm-b@2026-10-19T10:56:10 |
+| ST-011 | open | cpu | v0.2-pending | none | BOY/MANCANG sourcing station: child-voice license review FIRST (BOY) + MANCANG d | - |
 
-Loop state: rounds=40 last=2026-10-19T09:52:01
+Loop state: rounds=45 last=2026-10-19T10:55:02

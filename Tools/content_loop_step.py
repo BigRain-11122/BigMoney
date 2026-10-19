@@ -819,6 +819,54 @@ def st009_voice_differentiation_eval(st):
             'status_face': VD_STATUS, 'receipt': ds.get('receipt')}
 
 
+# ---------------- runners (v0.2 registry: ST-010 pitch-tier test synthesis) ----------------
+
+PTT_DRIVER = os.path.join(QDIR, 'runner_assets', 'pitch_tier_test_synth.py')
+PTT_STATUS = os.path.join(ROOT, 'results', 'drama_env', 'pitch_tier_test_synth.json')
+
+
+def _ptt_status():
+    try:
+        with io.open(PTT_STATUS, 'r', encoding='utf-8-sig') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def st010_pitch_tier_test_synth(st):
+    """ST-010: pitch-tier test-synthesis station (r1020 next-pointer item 1 /
+    r1019 debt; ST-009 receipt next-station row). Idempotent ensure-done:
+    completed run (status face state=done + all three tier wavs on disk) ->
+    done-early with evidence; else execute the versioned driver synchronously
+    (bounded 480s < 600s lock stale guard, CREATE_NO_WINDOW). Driver chain:
+    XIONG/XIONGWEI/FATHER 1 line each through GPT-SoVITS zero-shot (admitted
+    manifest ref clips, same fixed target text) + tier DSP (offsets
+    machine-read from the ST-009 face) + RMS re-match + deterministic F0
+    separation re-measure + gate (every family pair F0 rel >= 0.15).
+    Products: st010 wavs (media area) + status face + outbox receipt."""
+    ds = _ptt_status()
+    if ds.get('state') == 'done':
+        missing = [c for c in ('XIONG', 'XIONGWEI', 'FATHER')
+                   if not os.path.exists(os.path.join(
+                       GRP, 'media', 'drama-tools', 'voice_smoke', 'st010', c, 'tier.wav'))]
+        if not missing:
+            return {'runner': 'st010_pitch_tier_test_synth', 'verdict': 'done-early',
+                    'gate': ds.get('gate'), 'pairs_after': ds.get('pairs_after_tier'),
+                    'status_face': PTT_STATUS, 'receipt': ds.get('receipt')}
+    r = subprocess.run([sys.executable, PTT_DRIVER, 'run'],
+                       capture_output=True, timeout=480, creationflags=_NO_WINDOW)
+    tail = ((r.stdout or b'').decode('utf-8', 'replace') +
+            (r.stderr or b'').decode('utf-8', 'replace')).strip()[-300:]
+    ds = _ptt_status()
+    if ds.get('state') != 'done':
+        raise RuntimeError('pitch-tier test-synth FAIL rc=%s state=%s tail=%s' % (
+            r.returncode, ds.get('state'), tail))
+    return {'runner': 'st010_pitch_tier_test_synth',
+            'verdict': 'tier-synth-done gate=%s' % ds.get('gate'),
+            'gate': ds.get('gate'), 'pairs_after': ds.get('pairs_after_tier'),
+            'status_face': PTT_STATUS, 'receipt': ds.get('receipt')}
+
+
 RUNNERS = {
     'st001_rootcause_gather': st001_rootcause_gather,
     'st003_voice_library_first_batch': st003_voice_library_first_batch,
@@ -828,6 +876,7 @@ RUNNERS = {
     'st007_first_synthesis_smoke': st007_first_synthesis_smoke,
     'st008_voice_bank_entries': st008_voice_bank_entries,
     'st009_voice_differentiation_eval': st009_voice_differentiation_eval,
+    'st010_pitch_tier_test_synth': st010_pitch_tier_test_synth,
 }
 
 # developer-seat maintenance map: station -> runner for stations still on the
