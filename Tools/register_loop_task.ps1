@@ -1,4 +1,5 @@
-# Registers the Bigmoney 10-minute OS iteration loop.
+# Registers the Bigmoney OS iteration loop (cadence v2: 5-minute repetition,
+# CEO 全面提速令 2026-10-19 11:53 / cadence.md §8; interval was 10-min before).
 # PATH-AGNOSTIC (any machine, any folder): every path is derived from this
 # script's own location - zero edits needed on a new machine.
 # Pure ASCII (see iteration_loop.ps1 ENCODING RULE). Idempotent via -Force.
@@ -80,7 +81,7 @@ if ($exists -and -not $disabledHeal -and $pin -ge 0) {
         }
     } catch {}
 }
-$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 10) -RepetitionDuration (New-TimeSpan -Days 3650)
+$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 3650)
 # S4U LAW (2026-10-15 09:16 re-adjudication of the 2026-09-29 CEO order):
 # lane tasks register S4U; InteractiveToken is the regression face (desktop
 # black-window root cause; loop regressed via this recipe's default
