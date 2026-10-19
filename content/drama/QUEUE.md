@@ -26,4 +26,4 @@
 | ST-008 | done | cpu | st008_voice_bank_entries | ST-007 | canon voice-bank entries v0.1: role-aligned ref clips 1-3/char from r998 in-hous | claimed@bm-b@2026-10-19T06:18:16 |
 | ST-009 | done | cpu | st009_voice_differentiation_eval | ST-008 | character voice differentiation eval v0.1: voice_07/voice_05 shared-base debt me | claimed@bm-b@2026-10-19T07:45:35 |
 
-Loop state: rounds=33 last=2026-10-19T07:45:35
+Loop state: rounds=40 last=2026-10-19T09:52:01
