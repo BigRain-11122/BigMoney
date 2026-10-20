@@ -18750,7 +18750,7 @@
   },
   {
    "id": "TRIAL-LABOR-W21-JUDGE-SHARD-0",
-   "status": "claimed",
+   "status": "done",
    "runner": "scripts/trial_labor_w21.py judge 0 1",
    "lane_owner": "bm-b",
    "claimed_by": "bm-b",
@@ -18759,16 +18759,21 @@
    "shards": [
     {
      "key": "w21-judge-0of1",
-     "status": "claimed",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-10-20 18:14:18",
      "claimed_since": "2026-10-20 18:14:18",
      "checkpoint": "results/trial_labor_w21/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL; lane bm-b)",
-     "note": "10 judged cells (2 family blocks); burn under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; detached by design (r1079 session-tree-kill lesson)"
+     "note": "10 judged cells (2 family blocks); burn under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; detached by design (r1079 session-tree-kill lesson)",
+     "done_at": "2026-10-20 18:37:00",
+     "harvested_by": "bm-b",
+     "harvest_note": "10/10 cells, g1_pass_n=0, eligible_v2=0; judge-finalize wrote w21_judge.json + w21_reform_face.json"
     }
    ],
    "host_gate": null,
-   "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step"
+   "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step",
+   "finished_at": "2026-10-20 18:37:00",
+   "result_ref": "results/trial_labor_w21/w21_judge.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18783,6 +18788,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20 18:14:18",
+ "updated_at": "2026-10-20 18:37:00",
  "version": 1
 }
