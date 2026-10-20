@@ -1,0 +1,65 @@
+{
+ "wave": 286,
+ "machine": "bm-c",
+ "round": "r1152",
+ "phase": "prereg freeze",
+ "window": "2026-10-20 09:0x (+08:00)",
+ "prereg": "research/PERPETUAL_N1_W286_PREREG.md",
+ "derive_script": "results/_r1152bmc_prereg_derive_w286.py",
+ "src_face": "results/_w286bmc_w285_frozen_face.txt",
+ "src_face_provenance": "git show 3c12829cf9:research/PERPETUAL_N1_W285_PREREG.md (r1149 freeze-commit pre-run face; hash-object identity asserted in-script)",
+ "seat_receipt": "results/_w286bmc_20261020_probe_receipt.json",
+ "seat_msg": "fleet/inbox/MSG-20261020-0855-bmc-w286-seat.md",
+ "bands": {
+  "A": [644501, 646500],
+  "B": [646501, 646700],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 644_301..646_300 refused at start by REGISTERED W285 B 644_301..644_500)",
+  "B_form": "own-A reservation cascade 1-hop (naive 644_501..644_700 lands inside own-wave A window)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1051341,
+  "merged_k": 624920,
+  "n_eff_held": 1049141,
+  "source": "results/_r1150bmc_w285_fivekeys.json (all_pass=true)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 627120,
+  "ledger_total": 1053541,
+  "n_eff": 1051341
+ },
+ "universe": {
+  "owner_rows": 275,
+  "bmc_rows": 104,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 276,
+  "own_wave_ordinal": 105
+ },
+ "gates": {
+  "derive_rule_count": 37,
+  "residual_scan": "empty",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "61bce15329f8c3e3",
+ "out_bytes": 24108,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "stale bare wave numbers inherited from the W285 derive: '波号 284=注册表 W284' -> '波号 286=注册表 W285' and probe-vacancy '零 284 行' -> '零 286 行' (r1149 derive missed the bare numerals; numeric behavior unchanged)",
+  "stale materialization-window label 'heartbeat 新鲜 r1145 窗实读' inherited since the W284 face -> pinned to r1152 (this freeze window) instead of the r-map's r1149",
+  "sec.5 parenthetical claimed this wave's finalize had landed; corrected to the true upstream fact 'W285 finalize 已落地 08:3x'",
+  "ordinal face shifted +2 (37th consecutive A-hop / 38th above-own-A) to align with the r1151 seat MSG; the prereg chain had run one behind the seat chain since W284 (W285 prereg 35/36 vs W285 seat 36/37) -- numeric behavior unchanged"
+ ],
+ "next": "five-face freeze splice (editor derive off results/_w285bmc_freeze_edits.py template) -> engine self-burn 12/12 -> PRE-FINALIZE six-gate -> finalize one-pass"
+}
