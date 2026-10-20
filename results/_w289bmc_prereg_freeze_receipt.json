@@ -1,0 +1,78 @@
+{
+ "wave": 289,
+ "machine": "bm-c",
+ "round": "r1161",
+ "phase": "prereg freeze",
+ "window": "2026-10-20 15:3x (+08:00)",
+ "prereg": "research/PERPETUAL_N1_W289_PREREG.md",
+ "derive_script": "results/_r1161bmc_prereg_derive_w289.py",
+ "src_face": "results/_w289bmc_w288_frozen_face.txt",
+ "src_face_provenance": "git show 22ffa74b01:research/PERPETUAL_N1_W288_PREREG.md (r1158 freeze-commit pre-run face; hash-object identity asserted in-script)",
+ "seat_receipt": "results/_w289bmc_20261020_probe_receipt.json",
+ "seat_msg": "fleet/inbox/MSG-20261020-1535-bmc-w289-seat.md",
+ "bands": {
+  "A": [
+   651101,
+   653100
+  ],
+  "B": [
+   653101,
+   653300
+  ],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 650_901..652_900 refused at start by REGISTERED W288 B 650_901..651_100)",
+  "B_form": "own-A reservation cascade 1-hop (naive 651_101..651_300 lands inside own-wave A window)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1057941,
+  "merged_k": 631520,
+  "n_eff_held": 1055741,
+  "source": "results/_r1159bmc_w288_fivekeys.json (all_pass=true)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 633720,
+  "ledger_total": 1060141,
+  "n_eff": 1057941
+ },
+ "universe": {
+  "owner_rows": 278,
+  "bmc_rows": 107,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 279,
+  "own_wave_ordinal": 108
+ },
+ "gates": {
+  "derive_rule_count": 34,
+  "post_shift_repair_count": 1,
+  "residual_scan": "empty",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "46d9e8fbddec1e48",
+ "out_bytes": 24182,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "GPU face restated from this window's live nvidia-smi read: the W288 caption 'GPU idle 回释 / 2.0G VRAM' is false this window (a ComfyUI job holds the card), so the face now reads the measured VRAM occupancy and states explicitly that it is not this wave's claim and that the N1 CPU lane is independent",
+  "se_mu narrowing chain restored verbatim with the true W288 actual 0.000308 + one W289 projection: the inherited chain carried W287 actual 0.000309 labelled as the projection head, which the +1 wave pass would have mislabelled as a W289 actual",
+  "§5 key captions carry W288 ACTUALS machine-read from the W288 fivekeys receipt (mu -0.09277584 / sigma 0.24510025 / p95 0.3222 / line 1.1981 / K-lift 0.0000 / gap 0.0027); the +1 label shift lands them on W288 exactly, so this wave needs no relabel repair (contrast W288, which overshot by one)",
+  "own-wave ordinal captions aligned to the r1160 seat receipt: W289 A = 42nd consecutive A-hop, W289 B = 43rd above-own-A; the forward-projection ordinal span keeps the 'W290 seat live trace 为准 r587' form instead of a guessed numeral",
+  "band tokens shifted by the uniform +2,200 arithmetic map with a registered-token whitelist: any unregistered 3-digit_digit token aborts the derive instead of passing through silently"
+ ],
+ "notes": [
+  "derive is count-asserted on every rule (34 rules) and fail-closed: any count drift aborts before writing",
+  "frozen == this commit's file face; sec.7/sec.8 remain placeholders until finalize (backfill is the only permitted post-freeze edit)",
+  "the W289 five-face splice (codex sec.4 registry row + WAVE_CONFIGS) is the next window's action; engine does not burn before splice lands",
+  "engine face at freeze time was busy (W288 shards 7/9/10 re-ignited, 9/12 accounted in the engine state while 12/12 shard files are on disk); recorded honestly rather than asserted idle -- the prereg derive does not depend on engine idleness"
+ ]
+}
