@@ -64,3 +64,23 @@
    只换 `_load_growth_faces()` + 排名方向（growth 为降序）。
 2. 冻结窗口五条件：probe GREEN / D6 / SEED_REGISTRY 行 / banned_direction_gate ADMIT / 冻结 commit。
 3. T27：核查 income/cashflow/balance 三面板 avail_date 偏移，修采集器并重导出（bm-a 车道）。
+## 六、T27 结案（r1093 本轮实测·三面 avail_date 缺陷图谱）
+
+`scripts/fund_avail_audit_t27.py`（确定性·零网络·只读）对三面逐做「面板 avail_date − 法定披露截止日」距离分布，
+按报告期类型拆分。回执=`results/_r1093bma_t27_avail_audit.json`。
+
+| 面 | 行数 | 区间 | 中位偏移(天) | 年报外一年化占比（Q1 / H1 / Q3 / 年报） |
+|---|---|---|---|---|
+| income | 461,679 | 2005-03-31..2026-06-30 | +360 | 87.6% / 88.5% / 87.3% / 75.1% |
+| cashflow | 292,537 | 2005-03-31..2026-06-30 | +360 | 88.5% / 87.9% / 88.1% / 73.4% |
+| balance | 283,955 | 2005-03-31..2026-06-30 | −2 | 0.4% / 0.2% / 0.1% / **72.9%** |
+
+定谳三条：
+1. **income / cashflow 全线坏**（四类报告期皆 ~75-89% 被推后约一年），2015-2025 年段最重（93-99%），2026 年段正常。
+2. **balance 只有年报坏**（12-31 行 72.9% 被推后约一年），季报面（0.1-0.4%）可用。三面缺陷形态不同=不是同一个全局 ffill 错，更可能是「年报 announce 列取到了下一财年」的取列/取行口径问题。
+3. **消费面安全边界已核**：`quality_faces.parquet`（32 面 PIT 消费主源）实测 avail_date 与法定日均值偏移 0 天、≥300 天占比 0.0%，即法定日烘焙正确；`fund_divlowvol_p2_*` / `fund_trio_p1_diagnostics` / `fund_vq_p2_probe` 全部吃 quality 面，无越界风险。**本轮零消费者受害**，缺陷只在 statement 三面本体。
+
+处置：
+- 本面（growth/quality）继续只用法定日烘焙 PIT，禁用面板 avail_date（growth builder 已是此口径）。
+- 三面 avail_date 列为**已知坏列**：任何新 prereg 若要消费 statement 面，必须自行按法定日重算 PIT；修复采集器（更新 `update_fund_statements.py` 的年报 announce 列取法）排在 T27 修法切片，需重导出全史并过 overlap 校验。
+- 该发现不改任何判线与账本：本面仍未 prereg、未烧录、未判负判正。
