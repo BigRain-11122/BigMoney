@@ -207,6 +207,17 @@ def default_stack_share(exit_reasons: dict, n_trades: int) -> float:
     return round(off / max(1, n_trades), 6)
 
 
+def daily_returns(nav) -> list:
+    """Cell payload returns series (fund_value_p1 convention).
+
+    G1'v2 needs >=20 returns for the stationary-bootstrap CI, and finalize
+    reads them back from the per-cell checkpoint -- so every burned cell must
+    carry them (r1071 bm-b: payloads written without returns made
+    finalize raise ValueError('bootstrap needs >= 20 returns')).
+    """
+    return [round(float(v), 8) for v in nav.pct_change().dropna().to_numpy()]
+
+
 def status_payload(cell_dir: str, cells: dict) -> dict:
     done = {}
     if os.path.isdir(cell_dir):
@@ -240,19 +251,28 @@ def finalize_payload(plan: dict, cell_dir: str, batch: str, family_key: str,
     burns = {k: v for k, v in rows.items() if v.get("mode") != "dry-run"}
     head = burns.get("MAIN-x1")
     g1 = None
-    if head and head.get("metrics", {}).get("sharpe_ann") is not None:
-        g1 = g1_prime_v2(head["metrics"]["sharpe_ann"], [], n_eff,
+    head_rets = list((head or {}).get("returns") or [])
+    if (head and head.get("metrics", {}).get("sharpe_ann") is not None
+            and len(head_rets) >= 20):
+        g1 = g1_prime_v2(head["metrics"]["sharpe_ann"], head_rets, n_eff,
                          n_trades=head.get("n_trades"),
                          n_entries=head.get("n_entries"))
+    if g1:
+        note = ("g1 computed on headline cell; registration columns "
+                "require the batch null family")
+    elif head and len(head_rets) < 20:
+        note = ("headline cell carries no returns series (<20) -- cell "
+                "predates the r1071 returns-in-payload fix; re-burn before "
+                "judging")
+    else:
+        note = "judged face incomplete"
     return {
         "batch": batch, "family_key": family_key,
         "n_eff": n_eff, "nulls": k_nulls,
         "cells_burned": len(burns), "cells_expected": n_cells,
         "headline_cell": "MAIN-x1",
         "g1_prime_v2": g1,
-        "verdict_note": ("judged face incomplete" if not g1 else
-                         "g1 computed on headline cell; registration columns "
-                         "require the batch null family"),
+        "verdict_note": note,
         "rows": {k: {"metrics": v.get("metrics"),
                      "n_trades": v.get("n_trades"),
                      "default_stack_share": v.get("default_stack_share")}

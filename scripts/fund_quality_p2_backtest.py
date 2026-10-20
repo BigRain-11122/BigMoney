@@ -273,6 +273,7 @@ def cmd_run(args):
         "basis": _G["basis"],
         "window": [str(_G["idx"][lo].date()), str(CUTOFF.date())],
         "metrics": C.metrics(run["nav"]), "n_trades": run["n_trades"],
+        "returns": C.daily_returns(run["nav"]),
         "n_entries": run["n_entries"], "exit_reasons": run["exit_reasons"],
         "default_stack_share": C.default_stack_share(run["exit_reasons"],
                                                      run["n_trades"]),
@@ -281,6 +282,21 @@ def cmd_run(args):
     C.dump(payload, path)
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
     return 0
+
+
+def _parse_shard(spec):
+    """'k/n' -> (k, n) disjoint cell slice; None/'' -> whole set.
+
+    Parallel workers must take provably disjoint slices (index modulo on the
+    sorted cell list) so no cell ever has two writers; per-cell JSON
+    checkpoints stay single-writer and resume is unchanged.
+    """
+    if not spec:
+        return None
+    k, n = (int(x) for x in str(spec).split("/"))
+    if n < 1 or not 0 <= k < n:
+        raise SystemExit("bad --shard %r (expect k/n with 0<=k<n)" % (spec,))
+    return k, n
 
 
 def cmd_run_cells(args):
@@ -292,12 +308,16 @@ def cmd_run_cells(args):
     hi = int(_G["cut_pos"])
     import fund_quality_p1 as F1
     done = skipped = failed = 0
-    for cid in sorted(cells):
+    shard = _parse_shard(getattr(args, "shard", None))
+    for idx, cid in enumerate(sorted(cells)):
+        if shard and idx % shard[1] != shard[0]:
+            continue
         path = os.path.join(CELL_DIR, f"{cid}.json")
         if os.path.exists(path):
             try:
                 with open(path, encoding="utf-8") as fh:
-                    if json.load(fh).get("mode") != "dry-run":
+                    if (json.load(fh).get("mode") != "dry-run"
+                            and json.load(fh).get("returns")):
                         skipped += 1
                         continue
             except Exception:
@@ -316,6 +336,7 @@ def cmd_run_cells(args):
             "basis": _G["basis"],
             "window": [str(_G["idx"][lo].date()), str(CUTOFF.date())],
             "metrics": C.metrics(run["nav"]), "n_trades": run["n_trades"],
+            "returns": C.daily_returns(run["nav"]),
             "n_entries": run["n_entries"], "exit_reasons": run["exit_reasons"],
             "default_stack_share": C.default_stack_share(run["exit_reasons"],
                                                          run["n_trades"]),
@@ -428,6 +449,8 @@ def main(argv=None):
     p.set_defaults(fn=cmd_run)
     q = sub.add_parser("run-cells")
     q.add_argument("--basis", default="auto", choices=["auto", "local", "p1c"])
+    q.add_argument("--shard", default=None,
+                   help="k/n disjoint slice for parallel workers (default: all)")
     q.set_defaults(fn=cmd_run_cells)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     sub.add_parser("finalize").set_defaults(fn=cmd_finalize)
