@@ -126,9 +126,14 @@ def _rank(idx, universe, prices, amounts, cache=None):
 
 
 def simulate(cal, prices, amounts, universe, cash=None, pick_n=None, cost_mult=1.0,
-             rank_cache=None):
-    """Simulate one scheme. pick_n=None -> equal-weight the given universe."""
-    rebal = set(base.month_end_indices(cal))
+             rank_cache=None, rebal=None):
+    """Simulate one scheme. pick_n=None -> equal-weight the given universe.
+
+    rebal: explicit set of calendar indices whose close is the decision point;
+    None keeps the E24 default (every month end). E33 uses this for cadence.
+    """
+    if rebal is None:
+        rebal = set(base.month_end_indices(cal))
     port = 1.0
     weights = {}
     curve = []

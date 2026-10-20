@@ -1,0 +1,315 @@
+{
+ "bars": 2420,
+ "benchmark": "sh510300",
+ "cash_leg": {
+  "covered_days": 2420,
+  "ffilled_days": 1,
+  "last_rate_date": "2026-10-19",
+  "source": "data/repo_daily/GC001.csv close (annualised %)"
+ },
+ "cost_bp_per_side": 13.041,
+ "cost_mult": 1.0,
+ "evidence_cutoff": "2026-10-20",
+ "honest": [
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed",
+  "ETF population is today's surviving listing set (listing survivorship); the frozen five are the desk's own book, so Q3 compares a hindsight set against a causal rule",
+  "buy-and-hold benchmark pays one side of cost at entry; the ladder pays turnover cost each rebalance",
+  "13.041bp/side on turnover; un-invested share accrues at the GC001 repo close",
+  "quarterly/semiannual/annual clocks rebalance on the last trading day of the 3rd/6th/12th month"
+ ],
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "question": "rebalance clock: monthly vs quarterly vs semiannual vs annual",
+ "result_x1": {
+  "annual": {
+   "aux": {
+    "cost_paid_frac": 0.0022585587736810805,
+    "cost_per_year_bp": 2.4,
+    "rebalances": 9,
+    "turnover_per_year": 0.18,
+    "turnover_total": 1.7318907857381183
+   },
+   "metrics": {
+    "ann_return_pct": 1.49,
+    "ann_vol_pct": 19.77,
+    "bars": 2418,
+    "sharpe": 0.173,
+    "total_return_pct": 15.21
+   },
+   "rebalance_days": 10,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -2.68,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 1.26,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": -7.23,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": -2.74,
+    "months": 120,
+    "t": -1.04
+   },
+   "vs_monthly_bp_annualised": -34.2
+  },
+  "monthly": {
+   "aux": {
+    "cost_paid_frac": 0.0036848578293776015,
+    "cost_per_year_bp": 3.8,
+    "rebalances": 107,
+    "turnover_per_year": 0.294,
+    "turnover_total": 2.8255945321506033
+   },
+   "metrics": {
+    "ann_return_pct": 1.84,
+    "ann_vol_pct": 19.77,
+    "bars": 2418,
+    "sharpe": 0.191,
+    "total_return_pct": 19.12
+   },
+   "rebalance_days": 120
+  },
+  "quarterly": {
+   "aux": {
+    "cost_paid_frac": 0.0028924924804946245,
+    "cost_per_year_bp": 3.0,
+    "rebalances": 36,
+    "turnover_per_year": 0.231,
+    "turnover_total": 2.2179989881869675
+   },
+   "metrics": {
+    "ann_return_pct": 1.87,
+    "ann_vol_pct": 19.72,
+    "bars": 2418,
+    "sharpe": 0.193,
+    "total_return_pct": 19.52
+   },
+   "rebalance_days": 40,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -1.6,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 1.4,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": 1.83,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": 0.3,
+    "months": 120,
+    "t": 0.15
+   },
+   "vs_monthly_bp_annualised": 3.5
+  },
+  "semiannual": {
+   "aux": {
+    "cost_paid_frac": 0.002537486281932854,
+    "cost_per_year_bp": 2.6,
+    "rebalances": 18,
+    "turnover_per_year": 0.203,
+    "turnover_total": 1.9457758468927642
+   },
+   "metrics": {
+    "ann_return_pct": 1.78,
+    "ann_vol_pct": 19.74,
+    "bars": 2418,
+    "sharpe": 0.188,
+    "total_return_pct": 18.42
+   },
+   "rebalance_days": 20,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -2.24,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 0.51,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": 1.01,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": -0.46,
+    "months": 120,
+    "t": -0.19
+   },
+   "vs_monthly_bp_annualised": -6.1
+  }
+ },
+ "result_x3": {
+  "annual": {
+   "aux": {
+    "cost_paid_frac": 0.006775676321043242,
+    "cost_per_year_bp": 7.1,
+    "rebalances": 9,
+    "turnover_per_year": 0.18,
+    "turnover_total": 1.7318907857381183
+   },
+   "metrics": {
+    "ann_return_pct": 1.44,
+    "ann_vol_pct": 19.77,
+    "bars": 2418,
+    "sharpe": 0.171,
+    "total_return_pct": 14.69
+   },
+   "rebalance_days": 10,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -2.49,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 1.67,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": -7.06,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": -2.5,
+    "months": 120,
+    "t": -0.89
+   },
+   "vs_monthly_bp_annualised": -31.3
+  },
+  "monthly": {
+   "aux": {
+    "cost_paid_frac": 0.011054573488132812,
+    "cost_per_year_bp": 11.5,
+    "rebalances": 107,
+    "turnover_per_year": 0.294,
+    "turnover_total": 2.8255945321506033
+   },
+   "metrics": {
+    "ann_return_pct": 1.76,
+    "ann_vol_pct": 19.77,
+    "bars": 2418,
+    "sharpe": 0.187,
+    "total_return_pct": 18.25
+   },
+   "rebalance_days": 120
+  },
+  "quarterly": {
+   "aux": {
+    "cost_paid_frac": 0.008677477441483873,
+    "cost_per_year_bp": 9.0,
+    "rebalances": 36,
+    "turnover_per_year": 0.231,
+    "turnover_total": 2.2179989881869675
+   },
+   "metrics": {
+    "ann_return_pct": 1.81,
+    "ann_vol_pct": 19.72,
+    "bars": 2418,
+    "sharpe": 0.19,
+    "total_return_pct": 18.83
+   },
+   "rebalance_days": 40,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -1.47,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 1.57,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": 1.96,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": 0.44,
+    "months": 120,
+    "t": 0.2
+   },
+   "vs_monthly_bp_annualised": 5.1
+  },
+  "semiannual": {
+   "aux": {
+    "cost_paid_frac": 0.00761245884579856,
+    "cost_per_year_bp": 7.9,
+    "rebalances": 18,
+    "turnover_per_year": 0.203,
+    "turnover_total": 1.9457758468927642
+   },
+   "metrics": {
+    "ann_return_pct": 1.72,
+    "ann_vol_pct": 19.74,
+    "bars": 2418,
+    "sharpe": 0.185,
+    "total_return_pct": 17.82
+   },
+   "rebalance_days": 20,
+   "vs_monthly": {
+    "by_era": {
+     "2017-2020": {
+      "mean_bp": -2.08,
+      "months": 48
+     },
+     "2021-2023": {
+      "mean_bp": 0.88,
+      "months": 36
+     },
+     "2024-now": {
+      "mean_bp": 1.09,
+      "months": 34
+     },
+     "pre2017": {
+      "mean_bp": 0.0,
+      "months": 2
+     }
+    },
+    "mean_bp": -0.26,
+    "months": 120,
+    "t": -0.1
+   },
+   "vs_monthly_bp_annualised": -3.7
+  }
+ },
+ "start": "2016-11-01",
+ "study": "e33_ladder_baseline",
+ "years": 9.6
+}

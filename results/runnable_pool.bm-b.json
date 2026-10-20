@@ -19671,12 +19671,15 @@
    "priority": 3,
    "runner": "TBD: extend e24_ladder_weighting.py with a --benchmark 510300 leg (buy-and-hold, cash leg identical)",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "result_ref": "results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json"
   },
   {
    "entered_at": "2026-10-21T01:50:00+0800",
@@ -19687,12 +19690,15 @@
    "priority": 3,
    "runner": "TBD: e24_ladder_weighting.py --cadence monthly,quarterly,annual (cost x1 and x3)",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "result_ref": "results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json"
   },
   {
    "entered_at": "2026-10-21T01:50:00+0800",
@@ -19702,6 +19708,57 @@
    "note": "r1103: the ladder's five members are frozen by construction. Re-select the top-5 by liquidity each quarter out of the 1,221-code panel and compare against the frozen five -- does membership choice add anything, or is the fixed set a free lunch of hindsight?",
    "priority": 3,
    "runner": "TBD: e27_universe_expansion.py --select-top 5 --cadence quarterly vs frozen (sh510300,sh510050,sh510500,sh512100,sh588000)",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "result_ref": "results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL.json"
+  },
+  {
+   "entered_at": "2026-10-21T02:20:00+08:00",
+   "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "id": "E34-LADDER-VS-BROAD-EQ",
+   "lane_owner": null,
+   "note": "r1104: Q1 says the ladder's 2018+ excess may be a mid/small tilt, not a ladder effect. Compare the frozen five against equal-weight ALL eligible equity ETFs (sh511 money/bond block excluded) on the same accounting.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --out results/e34_broad_eq",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:20:00+08:00",
+   "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "id": "E34-LADDER-VS-510300-X3",
+   "lane_owner": null,
+   "note": "r1104: Q1's ladder-vs-benchmark delta is cost-sensitive only through ladder turnover (4.2bp/yr at x1). Re-read the whole Q1 comparison at cost x3 so the 640bp 2018+ point estimate cannot be a fee artefact.",
+   "priority": 3,
+   "runner": "python scripts/e33_ladder_baseline.py run --cost-mult 3 --tag WIN-FULL-X3",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:20:00+08:00",
+   "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "id": "E34-CADENCE-ROLLING-3Y",
+   "lane_owner": null,
+   "note": "r1104: cadence is a wash across windows, but the sign flips. Read monthly vs quarterly as a rolling 3-year relative so the flips are dated instead of averaged away.",
+   "priority": 3,
+   "runner": "TBD: rolling-window overlay on scripts/e33_ladder_baseline.py cadence curves",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19723,7 +19780,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T01:44:00+0800",
+ "updated_at": "2026-10-21T02:20:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
