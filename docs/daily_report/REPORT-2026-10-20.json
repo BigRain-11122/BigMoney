@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-20",
- "generated_at": "2026-10-20 12:26:34",
+ "generated_at": "2026-10-20 12:47:13",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-20.md"
  },
  "rd": {
-  "commits_24h": 206,
-  "result_jsons_landed_24h": 154,
+  "commits_24h": 213,
+  "result_jsons_landed_24h": 155,
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 17,
   "compute_audit_latest": {
-   "ts": "2026-10-20 12:25:05",
-   "py_cpu_pct": 6.9,
+   "ts": "2026-10-20 12:46:19",
+   "py_cpu_pct": 0.1,
    "flags": [
-    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -682,21 +681,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-20 09:27:01",
-    "py_pct": 0.1,
+    "latest_ts": "2026-10-20 12:30:41",
+    "py_pct": 0.2,
     "cpu_pct": 20.0,
-    "ready": 0,
-    "streak_min": 36.0,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "ready": 2,
+    "streak_min": 219.6,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "05:46",
-      100.0
-     ],
-     [
-      "06:13",
-      0.1
-     ],
      [
       "06:24",
       0.3
@@ -736,21 +727,33 @@
      [
       "09:27",
       0.1
+     ],
+     [
+      "09:50",
+      0.9
+     ],
+     [
+      "12:30",
+      0.2
      ]
     ],
-    "today_samples": 23,
+    "today_samples": 25,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-20 12:25:05",
-    "py_pct": 6.9,
-    "cpu_pct": 32.0,
-    "ready": 0,
-    "streak_min": 214.0,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "latest_ts": "2026-10-20 12:46:19",
+    "py_pct": 0.1,
+    "cpu_pct": 5.0,
+    "ready": 2,
+    "streak_min": 235.3,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
+     [
+      "06:45",
+      0.0
+     ],
      [
       "07:05",
       100.0
@@ -788,19 +791,15 @@
       0.9
      ],
      [
-      "11:11",
-      2.2
+      "12:30",
+      0.2
      ],
      [
-      "12:05",
+      "12:46",
       0.1
-     ],
-     [
-      "12:25",
-      6.9
      ]
     ],
-    "today_samples": 27,
+    "today_samples": 26,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -887,7 +886,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 09:27:01"
+     "audit_ts": "2026-10-20 12:30:41"
     }
    },
    "bm-b": {
@@ -903,7 +902,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 12:25:05"
+     "audit_ts": "2026-10-20 12:46:19"
     }
    },
    "bm-c": {
@@ -1372,32 +1371,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 286,
+  "last_registered": 287,
   "last_owner": "bm-c",
-  "next_registration": 287,
+  "next_registration": 288,
   "next_seatable": 288,
   "chain_head": 1053541,
   "k": 627120,
   "waves": [
-   {
-    "wave": 284,
-    "owner": "bm-c",
-    "a": [
-     640101,
-     642100
-    ],
-    "b_exit": [
-     642101,
-     642300
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 1049141,
-    "merged_mu": -0.09278629127055499,
-    "merged_sigma": 0.24505609203847162,
-    "k": 622720
-   },
    {
     "wave": 285,
     "owner": "bm-c",
@@ -1435,14 +1415,24 @@
     "merged_mu": -0.09276121045413957,
     "merged_sigma": 0.24508361815532023,
     "k": 627120
-   }
-  ],
-  "seats": [
+   },
    {
     "wave": 287,
-    "machine": "bm-c"
+    "owner": "bm-c",
+    "a": [
+     646701,
+     648700
+    ],
+    "b_exit": [
+     648701,
+     648900
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": false
    }
-  ]
+  ],
+  "seats": []
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
