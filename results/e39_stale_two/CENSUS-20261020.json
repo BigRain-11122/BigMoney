@@ -1,0 +1,110 @@
+{
+ "study": "e39_stale_two_census",
+ "evidence_cutoff": "2026-10-20",
+ "calendar_bars": 3497,
+ "thresholds": {
+  "stale_if_bars_behind_calendar": ">=1 (strictly behind the panel cutoff)",
+  "bulk_import_date": "2026-09-22"
+ },
+ "panel_files": 1725,
+ "stale_panels": 2,
+ "findings": [
+  {
+   "file": "510880_t73.csv",
+   "bars_behind_calendar": 14,
+   "class": "PINNED_SLOT_COPY",
+   "why": "filename carries a '_tag' slot suffix",
+   "rows": 4784,
+   "first_bar": "2007-01-18",
+   "last_bar": "2026-09-22",
+   "calendar_days_missing_after_last_bar": 14,
+   "tail20_volume_median": 135758040.0,
+   "tail20_amount_median": 465124301.0,
+   "tail5": [
+    {
+     "date": "2026-09-16",
+     "close": 3.367,
+     "volume": 146125066.0
+    },
+    {
+     "date": "2026-09-17",
+     "close": 3.347,
+     "volume": 103146804.0
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3.339,
+     "volume": 125286929.0
+    },
+    {
+     "date": "2026-09-21",
+     "close": 3.385,
+     "volume": 149766800.0
+    },
+    {
+     "date": "2026-09-22",
+     "close": 3.38,
+     "volume": 164414522.0
+    }
+   ],
+   "last_bar_vs_cutoff_days": 28
+  },
+  {
+   "file": "sh512390.csv",
+   "bars_behind_calendar": 26,
+   "class": "SOURCE_SIDE_GAP",
+   "why": "last bars still traded, so the source never offered rows after it",
+   "rows": 1877,
+   "first_bar": "2018-07-13",
+   "last_bar": "2026-09-04",
+   "calendar_days_missing_after_last_bar": 26,
+   "tail20_volume_median": 33500.0,
+   "tail20_amount_median": 41657.0,
+   "tail5": [
+    {
+     "date": "2026-08-31",
+     "close": 1.237,
+     "volume": 411000.0
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1.239,
+     "volume": 434600.0
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1.233,
+     "volume": 236400.0
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1.227,
+     "volume": 318600.0
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1.227,
+     "volume": 344200.0
+    }
+   ],
+   "last_bar_vs_cutoff_days": 46
+  }
+ ],
+ "pinned_copy_crosscheck": {
+  "live_panel": "sh510880.csv",
+  "common_dates": 4784,
+  "identical_closes": 4784,
+  "live_last_bar": "2026-10-20",
+  "copy_last_bar": "2026-09-22"
+ },
+ "denominator_advice": [
+  "PINNED_SLOT_COPY is not a universe member: drop it from any coverage denominator.",
+  "SOURCE_SIDE_GAP is a listing that stopped printing: keep it in the universe file, but never count it as a refresh obligation.",
+  "REFRESH_FAILURE is the only class that is our own defect."
+ ],
+ "honest": [
+  "classification reads rows on disk only; no vendor metadata, no listing notices",
+  "a SOURCE_SIDE_GAP verdict is an inference from turnover, not a confirmed delisting",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

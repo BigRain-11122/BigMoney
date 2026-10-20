@@ -368,15 +368,18 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-21T02:08:46+08:00"
  },
+ "r1112_note": "E39 triad burned in one script (selftest 10/10): stale-two resolved (slot copy vs source-side gap), refresh wave sized (1,725 files / 24,116 bars after the 2026-09-22 bulk import), ladder5 denominator described (maxDD -42.72%, 1046 sessions underwater, cash leg 12.71%), plus a same-round July attribution proving the worst month is a real small-cap move. Pool floor refilled to 3 (E40 pair drawdown / cash-leg drag / size tilt).",
+ "r1113_first_action_note": "r1113: 1) D-19 fresh probe FIRST ACTION 2) burn E40-PAIR-DRAWDOWN (needs a 'pair' leg in e39_panel_census.py) 3) then cash-drag + tilt legs 4) papers chain conditional on a new bar 5) RepoSlim daily verify",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1110,
- "round_no": 1110,
- "round_no_label": "r1110",
+ "ram_free_pct": 52.4,
+ "round": 1112,
+ "round_no": 1112,
+ "round_no_label": "r1112",
  "sat_engine": {
-  "checked_at": "2026-10-21T03:37:14+08:00",
-  "status": "alive (exit 0 at round start; queue_depth 0)"
+  "checked_at": "2026-10-21T04:04:13+08:00",
+  "status": "alive (exit 0 at round start; 3 ready units after refill)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
@@ -660,6 +663,18 @@
    "status": "FALLBACK_BRANCH_DELIVERED_VERIFIED",
    "ts": "2026-10-20T20:58:00+08:00"
   },
+  "r1110_main_push": {
+   "behind_origin_main": 0,
+   "note": "clean ff 2f8d2f053..8171eb7c7; four-way verified (fetch behind=0 ahead=0, HEAD==origin/main==8171eb7c7); payload = 16 own faces (5 new E37/E38 product faces + digest + pool shared/lane 3 closed 3 seeded + state/heartbeat/round-report + bm-b evidence faces); targeted add only -- drama lane 3 faces, machine-health, post_review, unsuffixed shared status faces and the E29 panel writes left untouched per r982/r1015/r1033 policy; pit: state.json is the only CRLF-tracked JSON face here, so it must be written with CRLF or the whole file churns (+889/-887)",
+   "pushed_sha": "8171eb7c7",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-21T03:38:28+08:00"
+  },
+  "r1112_main_push": {
+   "consumed_at": "pending r1113",
+   "payload": "E39 census triad products (e39_panel_census.py + 3 result faces + month attribution + digest) + pool 3 closed 1 executed 4 seeded + closeout trio + bm-b evidence faces",
+   "status": "PENDING (this commit)"
+  },
   "r960_main_push": {
    "behind_origin_main": 0,
    "consumed_at": "2026-10-15T05:43:01+08:00",
@@ -879,19 +894,11 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "r1110_main_push": {
-   "behind_origin_main": 0,
-   "pushed_sha": "8171eb7c7",
-   "status": "PUSHED_VERIFIED",
-   "ts": "2026-10-21T03:38:28+08:00",
-   "note": "clean ff 2f8d2f053..8171eb7c7; four-way verified (fetch behind=0 ahead=0, HEAD==origin/main==8171eb7c7); payload = 16 own faces (5 new E37/E38 product faces + digest + pool shared/lane 3 closed 3 seeded + state/heartbeat/round-report + bm-b evidence faces); targeted add only -- drama lane 3 faces, machine-health, post_review, unsuffixed shared status faces and the E29 panel writes left untouched per r982/r1015/r1033 policy; pit: state.json is the only CRLF-tracked JSON face here, so it must be written with CRLF or the whole file churns (+889/-887)"
-  }
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1110 closed: breadth program answered -- non-monotone gradient, cost not binding, magnitude is panel noise",
- "ts": "2026-10-21T03:37:14+08:00",
- "updated": "2026-10-21T02:26:16+08:00",
- "updated_at": "2026-10-21T02:26:16+08:00",
- "verdict": "product+maintenance",
- "ram_free_pct": 52.4
+ "task": "r1112: E39 census triad closed -- the two non-current panels are a pinned slot copy and a source-side gap (zero refresh defects); the 2026-10-21 refresh wave carried 24,116 bars; the ladder5 denominator has a -42.72% drawdown and 1,046 underwater sessions; its worst month is a real small-cap move, not a data defect",
+ "ts": "2026-10-21T04:04:13+08:00",
+ "updated": "2026-10-21T04:04:13+08:00",
+ "updated_at": "2026-10-21T04:04:13+08:00",
+ "verdict": "product+maintenance"
 }

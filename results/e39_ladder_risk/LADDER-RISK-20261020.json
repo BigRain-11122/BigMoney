@@ -1,0 +1,124 @@
+{
+ "study": "e39_ladder_risk_profile",
+ "evidence_cutoff": "2026-10-20",
+ "baseline": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cost_bp_per_side": 13.041,
+ "windows": {
+  "2020-01-01": {
+   "years": 6.53,
+   "ann_return_pct": -0.43,
+   "max_drawdown_pct": -42.72,
+   "max_drawdown_span": [
+    "2021-09-10",
+    "2024-02-05"
+   ],
+   "longest_underwater_sessions": 1046,
+   "worst_month": {
+    "month": "2026-07",
+    "return_pct": -14.82
+   },
+   "best_month": {
+    "month": "2024-09",
+    "return_pct": 25.88
+   },
+   "months": 81,
+   "negative_months": 36,
+   "monthly_win_rate_pct": 55.6,
+   "start": "2020-01-01",
+   "bars": 1645,
+   "metrics_engine": {
+    "total_return_pct": -2.76,
+    "ann_return_pct": -0.43,
+    "ann_vol_pct": 18.75,
+    "sharpe": 0.071,
+    "bars": 1643
+   },
+   "turnover_per_year": 0.37393428761971487,
+   "cost_per_year_bp": 4.876477044848701,
+   "cash_leg": {
+    "bars_with_a_missing_member": 209,
+    "missing_member_bars": {
+     "sh510300": 0,
+     "sh510050": 0,
+     "sh510500": 0,
+     "sh512100": 1,
+     "sh588000": 209
+    },
+    "cash_leg_share_pct": 12.71,
+    "mean_daily_cash_return_bp": 0.7875,
+    "mean_annual_cash_rate_pct": 1.98
+   },
+   "last_holdings": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ]
+  },
+  "2018-01-01": {
+   "years": 8.46,
+   "ann_return_pct": 5.48,
+   "max_drawdown_pct": -42.72,
+   "max_drawdown_span": [
+    "2021-09-10",
+    "2024-02-05"
+   ],
+   "longest_underwater_sessions": 1046,
+   "worst_month": {
+    "month": "2026-07",
+    "return_pct": -14.82
+   },
+   "best_month": {
+    "month": "2024-09",
+    "return_pct": 25.88
+   },
+   "months": 105,
+   "negative_months": 44,
+   "monthly_win_rate_pct": 58.1,
+   "start": "2018-01-01",
+   "bars": 2132,
+   "metrics_engine": {
+    "total_return_pct": 57.04,
+    "ann_return_pct": 5.48,
+    "ann_vol_pct": 19.64,
+    "sharpe": 0.37,
+    "bars": 2130
+   },
+   "turnover_per_year": 0.31429889402498756,
+   "cost_per_year_bp": 4.098771876979861,
+   "cash_leg": {
+    "bars_with_a_missing_member": 696,
+    "missing_member_bars": {
+     "sh510300": 0,
+     "sh510050": 0,
+     "sh510500": 0,
+     "sh512100": 1,
+     "sh588000": 696
+    },
+    "cash_leg_share_pct": 32.66,
+    "mean_daily_cash_return_bp": 0.8738,
+    "mean_annual_cash_rate_pct": 2.2
+   },
+   "last_holdings": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ]
+  }
+ },
+ "honest": [
+  "the curve is the E24/E27 engine's own curve (module import), not a re-implementation",
+  "drawdown is measured on the daily equity curve; months are month-end marks",
+  "cash-leg share is the fraction of bars with a missing ladder member price, not a discretionary cash position",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

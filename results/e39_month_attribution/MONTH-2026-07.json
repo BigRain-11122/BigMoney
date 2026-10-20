@@ -1,0 +1,73 @@
+{
+ "study": "e39_month_attribution",
+ "evidence_cutoff": "2026-07-31",
+ "month": "2026-07",
+ "entry_mark": "2026-06-30",
+ "bars_in_month": 23,
+ "members": {
+  "sh510300": {
+   "status": "OK",
+   "month_return_pct": -7.29,
+   "bars": 23,
+   "missing_bars": 0,
+   "zero_volume_days": 0,
+   "first_close": 5.019,
+   "last_close": 4.653,
+   "single_bar_jumps_over_10pct": []
+  },
+  "sh510050": {
+   "status": "OK",
+   "month_return_pct": -1.62,
+   "bars": 23,
+   "missing_bars": 0,
+   "zero_volume_days": 0,
+   "first_close": 3.083,
+   "last_close": 3.033,
+   "single_bar_jumps_over_10pct": []
+  },
+  "sh510500": {
+   "status": "OK",
+   "month_return_pct": -18.43,
+   "bars": 23,
+   "missing_bars": 0,
+   "zero_volume_days": 0,
+   "first_close": 9.194,
+   "last_close": 7.5,
+   "single_bar_jumps_over_10pct": []
+  },
+  "sh512100": {
+   "status": "OK",
+   "month_return_pct": -19.93,
+   "bars": 23,
+   "missing_bars": 0,
+   "zero_volume_days": 0,
+   "first_close": 3.577,
+   "last_close": 2.864,
+   "single_bar_jumps_over_10pct": []
+  },
+  "sh588000": {
+   "status": "OK",
+   "month_return_pct": -26.28,
+   "bars": 23,
+   "missing_bars": 0,
+   "zero_volume_days": 0,
+   "first_close": 2.344,
+   "last_close": 1.728,
+   "single_bar_jumps_over_10pct": [
+    {
+     "date": "2026-07-21",
+     "ret_pct": 11.07
+    }
+   ]
+  }
+ },
+ "equal_weight_month_return_pct": -14.71,
+ "anomaly_flags": [
+  "sh588000:jump"
+ ],
+ "honest": [
+  "equal weight at entry mark, no rebalance inside the month: a contribution view, not the engine curve",
+  "anomaly flags are mechanical (zero volume, >10% single-bar moves), not proof of a data defect",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}
