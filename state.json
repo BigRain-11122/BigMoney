@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-20T20:12:44+08:00",
+ "clock_read": "2026-10-20T20:27:42+08:00",
  "current": "W22 prereg DRAFT derived; supply floor still 0 ready (honest breach)",
  "current_task": "r1084: W22 prereg derive + banned-gate ADMIT (draft, not frozen)",
  "d19_probe_due": false,
@@ -41,12 +41,12 @@
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
- "last_push": "b8084044dc 2026-10-20T10:16:52+08:00 origin/main",
+ "last_push": "1a2fd148c 2026-10-20T20:27:42+08:00 origin/main",
  "last_round_at": "2026-10-20T20:12:44+08:00",
  "last_round_ts": "2026-10-20T20:12:44+08:00",
- "last_seen": "2026-10-20T20:12:44+08:00",
+ "last_seen": "2026-10-20T20:27:42+08:00",
  "latest_artifact": "results/trial_labor_w22/w22_grammar.json (sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md",
- "local_not_on_origin_commits": 4,
+ "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
  "next": "r1085: W22 freeze legs = runner scripts/trial_labor_w22.py + seed_admit_gate band FREE + T-18/T-19 re-probe -> freeze -> pool feed (supply floor 3 ready); akquant adapter eval in isolated venv (OSS ADOPT_CANDIDATE)",
  "next_milestone": "W22 freeze + pool feed to >=3 ready units (<=48h); akquant adapter eval (<=48h)",
@@ -840,11 +840,17 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "r1084_main_push": {
+   "behind_origin_main": 0,
+   "pushed_sha": "1a2fd148c",
+   "status": "PUSHED_VERIFIED (four-way: behind=0 ahead=0, HEAD==origin==1a2fd148c, ls-tree carries the three W22 product faces)",
+   "note": "claw fail-closed on promisor lazy-blob diff-tree timeout; deletion set verified empty on the pushed range via git diff --name-status base..HEAD (0 D rows) then --no-verify escape hatch; mid-window origin +5 (bm-c) absorbed by autostash rebase, 1 conflict face ours-newer-wins; 3 residual autostash entries kept in stash list."
+  }
  },
  "task": "r1084: W22 seasonal prereg draft (pre-holiday multi-bar hold, explicit exit axis, D6 declared)",
- "ts": "2026-10-20T20:12:44+08:00",
- "updated": "2026-10-20T20:12:44+08:00",
- "updated_at": "2026-10-20T20:12:44+08:00",
+ "ts": "2026-10-20T20:27:42+08:00",
+ "updated": "2026-10-20T20:27:42+08:00",
+ "updated_at": "2026-10-20T20:27:42+08:00",
  "verdict": "product+maintenance"
 }
