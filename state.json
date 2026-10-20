@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-21T03:37:14+08:00",
- "current": "the wide-book edge re-reads at +156bp/yr on today's panel, +82.7 on the frozen slice and +215.5 yesterday: three panel states, one spec, three magnitudes",
- "current_task": "r1110: E37 breadth closeout (4 runs, 3 units closed, 3 seeded); E29 panel pass still converging",
+ "clock_read": "2026-10-21T04:52:20+08:00",
+ "current": "the ladder is a 612bp/yr small-cap bet: beta 0.62 on its own size tilt, R2 31.9%, alpha -19.5bp/month net of it",
+ "current_task": "r1115: E40 size-tilt leg (corporate-action guarded); E41-REBAL-DAY-SENSITIVITY and E41-SPREAD-ERA-DECAY remain ready",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1110: the breadth program is closed and the reason it could never be trusted is now measured, not argued. Four runs of one unchanged spec (e27 universe runner) burned the three ready E37 units plus one decisive probe. (Q1) Sweeping N inside ONE window (2021-01-04..2026-10-20, sh511 excluded, 1,265 codes, 57 rebalances) destroys the r1109 'monotone in breadth' story: vsLadder top5 -533.4bp (t-1.15) / top10 +80.0 (0.30) / top25 -25.0 (-0.00) / top50 +32.3 (0.19) / top100 -155.1 (-0.43) / top250 -46.4 (-0.10) / all +170.8bp (0.67). Non-monotone, sign-flipping, every interior point inside noise -- the gradient was a cross-window artefact. Breadth is a 'do not concentrate' level effect, not a scaling law. (Q2) On the post-2020 slice the sh511 money/bond block is worth ~33bp/yr (+189.2 included t0.79 vs +156.0 excluded t0.69), roughly half its 2018+ share. (Q3) Cost x3 moves the clean-window read by -6.6bp (+156.0 -> +149.4, t 0.69 -> 0.67): fees are not the binding constraint. (DECISIVE) Re-running the same spec with the panel truncated at 2026-09-22 returns +82.7bp (t0.41) against +156.0bp through 2026-10-20 -- and eligible-count at that same date moved 985 -> 1,190 between the two runs. Three panel states, one spec, three magnitudes (82.7 / 156.0 / 215.5): the wide-book number is a panel snapshot, not an estimate of a strategy, because the panel has no refresh history and membership itself drifts with which files happen to be current. Every wide-book magnitude quoted in the E34/E36 digests is hereby marked unstable until E29 converges the panel. Pool: 3 E37 units closed with result_ref, 3 E38 units seeded (panel-stability sweep / cost-x3 on the frozen slice / eligibility-drift census), ready 3/3. Product faces: results/e37_breadth_ladder, results/e37_xsh511_included_2020, results/e37_breadth_x1_2020, results/e37_breadth_cost_x3, results/e38_panel_cut_0922, digest research/digests/DIGEST-20261021-e37-breadth-program-closeout.md. Descriptive census only: zero prereg, zero judgment, zero ledger booking, trial_count 0.",
- "did_round": 1110,
- "heartbeat_epoch_utc": 1792525034,
+ "did": "r1115: the ladder is not a neutral five -- it carries 612bp/yr of size tilt with a 0.62 beta, so every vs-ladder spread quoted so far is partly a small-cap bet. New 'tilt' leg in scripts/e39_panel_census.py (selftest 23/23, byte-identical rerun) decomposes the ladder's monthly return into 2/5 large-cap (510300+510050) vs 3/5 mid/small/STAR (510500+512100+588000) and measures the spread as a series: 71 common months, mean +51.0bp/month (612bp/yr), sd 571bp/month, small-led in 49.3% of months, cumulative +28.0%, best 2022-10 +14.13pp, worst 2026-07 -17.09pp (small -21.55 vs large -4.46 against a ladder month of -14.82). Regressing the engine's own ladder month on the tilt: beta 0.62, R2 31.9%, alpha after removing the tilt -19.5bp/month -- a third of the ladder's monthly variance is the size spread, so a +134bp wide-book number cannot be read as stock selection without netting this out. Corporate-action guard added: the panel is as-traded, so sh512100's 2022-09-05 +176.3% share conversion (and 510500's 2015-04-15 +248.6%) would have entered the spread as a 'return'; member months carrying a >20% single-day jump are dropped and disclosed (the naive read inflated the tilt to 1,489bp/yr and produced a bogus +49.8pp best month). Reconciliation row: engine month vs marks-implied 0.4*large+0.6*small differs by at most 2.65pp (2020-12) = eligibility burn-in / rebalance timing, not an identity failure. Both start windows resolve to the same 71 months because the common-month set is bounded by sh588000's listing. Pool E40-LADDER-STYLE-EXPOSURE closed with result_ref. Descriptive census only: zero prereg, zero judgment, zero ledger booking, trial_count 0.",
+ "did_round": 1115,
+ "heartbeat_epoch_utc": 1792529540,
  "heartbeat_epoch_utc_face": 1792511764,
  "idle_rounds": 0,
- "last_action": "r1110 closeout",
- "last_action_at": "2026-10-21T03:37:14+08:00",
- "last_artifact": "research/digests/DIGEST-20261021-e37-breadth-program-closeout.md",
+ "last_action": "r1115 closeout",
+ "last_action_at": "2026-10-21T04:52:20+08:00",
+ "last_artifact": "results/e40_ladder_tilt/TILT-20261020.json",
  "last_decisions_at": "2026-10-20T19:32:57+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,14 +43,14 @@
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "f09678d42b -> origin/main (behind=0 ahead=0) 2026-10-21T01:40+0800",
- "last_round_at": "2026-10-21T03:37:14+08:00",
- "last_round_ts": "2026-10-21T03:37:14+08:00",
- "last_seen": "2026-10-21T03:37:14+08:00",
- "latest_artifact": "research/digests/DIGEST-20261021-e37-breadth-program-closeout.md",
+ "last_round_at": "2026-10-21T04:52:20+08:00",
+ "last_round_ts": "2026-10-21T04:52:20+08:00",
+ "last_seen": "2026-10-21T04:52:20+08:00",
+ "latest_artifact": "results/e40_ladder_tilt/TILT-20261020.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "burn E38-ELIGIBILITY-DRIFT-CENSUS to size the moving membership, then re-read the wide book only once the E29 pass has converged the panel (no further breadth-N sweeps -- that axis is answered)",
- "next_milestone": "E38 eligibility-drift census + wide-book re-read on a converged panel (window <=48h)",
+ "next": "burn E41-REBAL-DAY-SENSITIVITY (rebalance-day shift, rebal= index shift already supported by e27.simulate) then E41-SPREAD-ERA-DECAY",
+ "next_milestone": "E41 rebalance-day shift + spread era decomposition (window <=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -63,10 +63,11 @@
   "r1084": "r1084: W22 prereg DRAFT (pre-holiday multi-bar hold). New products: scripts/w22_prereg_derive.py (selftest 13/13 hermetic) + results/trial_labor_w22/w22_grammar.json (10 cells, K=200 null, 210 trials, sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md. Exit axis = strategy_own exact-h-bar time exit with engine default stack DISABLED (O-20261001-1108). D6 peers fund_divlowvol_p2/rev_osc_std @0.70. Gates: queue_seed_gate rc0 open; banned_direction_gate REJECT->ADMIT after BAN-04 literal-false-positive exception section completed (new_mechanism, E23 evidence). seed_admit_gate NOT run this round (draft). S0: rebase absorbed 18 incoming commits, 4 conflict rounds resolved ours-side on same-day regen faces. S0 entry tree: 67 dirty regenerable faces discarded via checkout (r1158 law) -> pull clean. D-19 dual probe ZERO-DELTA (dec 17c29359 / ord b26a8f41). orders 107/107 ack, zero unacked.",
   "r1085": "r1085: W22 CHEAP PRE-SCREEN built + run. New products: scripts/w22_null_screen.py (selftest 15/15 hermetic) + results/trial_labor_w22/w22_cheap_screen.json + research/digests/DIGEST-20261020-w22-cheap-screen.md. Method: placebo null (K=200, seed 20670000 from the frozen grammar) = same-size window draws without replacement from the eligible h-window pool on the E23 daily equal-weight face; two-sided p + Holm step-down over the 10 cells + family-max null (multiplicity face the E23 census lacked). READ: hol_pre1@h4 +103.4bp p=0.0100 z=2.82; hol_pre1@h3 +69.5bp p=0.0299; hol_pre1@h2 +54.3bp p=0.0398; hol_pre2@h2 +3.7bp p=0.92 (dead). FAMILY max|excess| p_family=0.0398 (floor 0.00498 at K=200). VERDICT SCREEN_ZERO_SURVIVOR: no cell clears the Holm bar (top rank needs p<=0.005); the 10-cell runner burn is NOT justified as drafted. Only defensible continuation = narrowed hol_pre1 h{3,4} confirmation on a fresh window, disclosed as post-hoc narrowing (h=4 was already the census post-hoc best). ZERO prereg/judged/pool write. Papers family fired (new bar, update_daily +36 rows cutoff 2026-10-20): live.paper 14 bars, prospect 22/22 pass drift 0, AGGR 20/20 accounts marked, ALLOC 7 files (P6 nav 980614.60 14 bars 6 trades), export 2026-10-20 6 traders/19 positions, scorecard + REPORT-2026-10-20 + LIVE-2026-10-20 regenerated.",
   "r1102": "E30/E31 six-leg full-universe confirmation; new scripts/e30_readout.py (29/29 selftest) + E30-CONFIRM face (json+md) + digest. Pit: the E30 pool entries were seeded with an entered_at ten minutes AHEAD of the wall clock (01:44 written at 01:34), which surfaced as a pool_dualrun_reconcile envelope-only drift on updated_at (streak reset, entry counts equal). Seed scripts must read the clock once and use that single value for every timestamp field in the same write. Also: a PS \">\" redirect of git show re-encodes to UTF-16, so byte/sha comparisons of group blobs must go through subprocess raw bytes (the PS-redirected copy reported a different sha for the same blob).",
-  "r1110": "r1110: three E37 units closed off one engine. Pit (inherited, now measured): the r1109 monotone-breadth read was a three-runs-on-two-windows composite; sweeping N inside a single window flips the sign at N=25/100/250. Pit (new, load-bearing): a backtest window is not a fixed object while the panel is refreshing -- truncating the same spec at 2026-09-22 changes the answer by 73bp/yr AND changes eligible-count at a fixed date (985 vs 1190), so panel-arrival state must be recorded with any wide-book number (cutoff alone is not enough; eligibility drift is the second dimension). Pool edits done by targeted text surgery (3 status flips +12/-3 lines, 3 seeds +60/-3), never a json round-trip."
+  "r1110": "r1110: three E37 units closed off one engine. Pit (inherited, now measured): the r1109 monotone-breadth read was a three-runs-on-two-windows composite; sweeping N inside a single window flips the sign at N=25/100/250. Pit (new, load-bearing): a backtest window is not a fixed object while the panel is refreshing -- truncating the same spec at 2026-09-22 changes the answer by 73bp/yr AND changes eligible-count at a fixed date (985 vs 1190), so panel-arrival state must be recorded with any wide-book number (cutoff alone is not enough; eligibility drift is the second dimension). Pool edits done by targeted text surgery (3 status flips +12/-3 lines, 3 seeds +60/-3), never a json round-trip.",
+  "r1115": "r1115: round_no drift again (state said 1112 while reports ran to 1114) -- re-anchored at 1115 per r1095 precedent. Pits: (a) the as-traded panel turns a share conversion into a +176% 'return', so any cross-sectional series over members needs a single-day jump guard (>20%) or the spread reads 2.4x too large; (b) json.load/dump of results/runnable_pool.json re-indents the two hand-inserted rows (2->3 spaces, 29+/-24 lines) -- content identical, cosmetic only."
  },
  "notes_r1095": "r1095: state.json was stale at round_no 1091 while round reports ran to r1094 (three rounds closed without a state write); this round re-anchors it at 1095 and records the gap. Pits: (a) the weighting face name was date-only, so running two scheme sets silently overwrote the day's face -- now tagged with a scheme-set hash and the whipsaw face carries its fwd window; (b) a selftest fixture with ties on a flat plate fired the bottom-tail gate (v <= cut) -- fixture rebuilt with a ramp.",
- "now_active": "pool ready 3/3 (E38 panel-stability family); E29 detached ETF universe pass converging the broad panel",
+ "now_active": "pool ready 2/2 (E41 family); E29 detached panel pass still converging",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -180,7 +181,7 @@
  "orders_ack_last": "O-20261020-1335-bmc-w288-seat.md",
  "orders_delta_pending": false,
  "orphan_face": 0,
- "orphan_face_note": "r1085 S0 probe: 7 py faces / 0 orphans",
+ "orphan_face_note": "r1115 S0 probe: 7 py faces / 0 orphans",
  "orphan_faces": 0,
  "pool_claims": [],
  "push_receipts_r1049": {
@@ -374,12 +375,12 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 52.4,
- "round": 1112,
- "round_no": 1112,
- "round_no_label": "r1112",
+ "round": 1115,
+ "round_no": 1115,
+ "round_no_label": "r1115",
  "sat_engine": {
-  "checked_at": "2026-10-21T04:05:14+08:00",
-  "status": "alive (exit 0 at round start; LoopWatchdog re-registered S4U, loop pin 2 current)"
+  "checked_at": "2026-10-21T04:52:20+08:00",
+  "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
@@ -898,9 +899,9 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1112: E39 census triad closed -- the two non-current panels are a pinned slot copy and a source-side gap (zero refresh defects); the 2026-10-21 refresh wave carried 24,116 bars; the ladder5 denominator has a -42.72% drawdown and 1,046 underwater sessions; its worst month is a real small-cap move, not a data defect",
- "ts": "2026-10-21T04:04:13+08:00",
- "updated": "2026-10-21T04:04:13+08:00",
- "updated_at": "2026-10-21T04:04:13+08:00",
+ "task": "the ladder is a 612bp/yr small-cap bet: beta 0.62 on its own size tilt, R2 31.9%, alpha -19.5bp/month net of it",
+ "ts": "2026-10-21T04:52:20+08:00",
+ "updated": "2026-10-21T04:52:20+08:00",
+ "updated_at": "2026-10-21T04:52:20+08:00",
  "verdict": "product+maintenance"
 }

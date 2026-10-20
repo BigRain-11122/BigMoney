@@ -293,3 +293,10 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 判据：写 runner 前先跑覆盖度探针（逐码末 bar 日期分布）；末段覆盖率 <90% 即判覆盖崖。正法=显式截断到均匀覆盖日，face 里落 `truncated_at` + 逐年代 `live_marks`（eligible/liquid 双列）供入数复核，并把崖写进 honest 段。
 - 同族第二锁：宇宙排名会把「名义宽基」研究变成风格敞口研究——ETF 流动性 top-N 的持仓全是 5110xx/5111xx 货币与债券 ETF，波动率下降（21.5%→16.6%）是债性倾斜不是分散化。凡 top-N/排名类 face 必须把 last_holdings 落盘并做编码家族分桶披露，否则「β 变化」会被误读成「广度收益」。
 - 证据：scripts/e27_universe_expansion.py selftest 9/9 + results/e27_universe_expansion/UNIV-e20260922{,-xsh511}-20261021.json + research/pit-data.md 2026-10-21 条
+
+## E79 as-traded 面板的公司行动断点：单日跳变守卫 + 断点月剔除披露（r1115 bm-b 实弹）
+- 病理：ETF 面板是 as-traded 未复权收盘——份额折算/拆分在日线上是一条 100%+ 的「收益」。sh512100 2022-09-05 +176.3%、sh510500 2015-04-15 +248.6%，跑任何跨成员的月度序列（大小盘价差、风格敞口、成员贡献分解）时会被当成真收益平均进去。
+- 后果量化：不设守卫时 ladder 大小盘价差年化 1,489bp、最佳月 +49.8pp（假）；>20% 单日跳变月剔除后为 612bp/yr、最佳月 +14.1pp，且回归 beta 0.62 / R2 31.9% 才与其它面自洽（3.5 倍误差）。
+- 正法：成员级「单日 |ret| > 20% → 该月标记 break」→ 当月该成员从腿均值剔除并落 reak_guard（阈值+事件清单+被剔月），引擎曲线与标记面分账；引擎侧不受影响（持仓资格另算），但任何 mark 派生序列必须过闸。
+- 自证：selftest 23/23 + 幂等字节恒等重跑 + 引擎月与标记面 0.4*large+0.6*small 的对账行（最大差 2.65pp = 建仓 burn-in/调仓时点，非恒等失败）。
+- 证据：scripts/e39_panel_census.py tilt leg + results/e40_ladder_tilt/TILT-20261020.json

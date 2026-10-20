@@ -650,6 +650,217 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
     }
 
 
+# ------------------------------------------------------- leg: size tilt (E40)
+
+TILT_LARGE = ("sh510300", "sh510050")
+TILT_SMALL = ("sh510500", "sh512100", "sh588000")
+
+
+def _month_rets(curve):
+    """[(YYYY-MM, return)] from month-end marks of an equity curve."""
+    me = _month_ends(curve)
+    return [(me[k][0][:7], me[k][1] / me[k - 1][1] - 1.0) for k in range(1, len(me))]
+
+
+def _member_monthly(cal, sym, raw):
+    """{YYYY-MM: return} for one member, from its own month-end closes."""
+    c = raw.get(sym, ({}, {}))[0] if sym in raw else {}
+    if not c:
+        c = {}
+    marks = []
+    for i, d in enumerate(cal):
+        if i == len(cal) - 1 or cal[i + 1][:7] != d[:7]:
+            marks.append((d[:7], c.get(d)))
+    out = {}
+    for k in range(1, len(marks)):
+        prev, cur = marks[k - 1][1], marks[k][1]
+        if prev and cur and prev > 0:
+            out[marks[k][0]] = cur / prev - 1.0
+    return out
+
+
+def _moments(xs):
+    n = len(xs)
+    if n < 2:
+        return {"n": n, "mean": (xs[0] if xs else None), "sd": None}
+    m = sum(xs) / n
+    var = sum((x - m) ** 2 for x in xs) / (n - 1)
+    return {"n": n, "mean": m, "sd": var ** 0.5}
+
+
+def _member_break_months(cal, sym, raw, thresh=0.20):
+    """{YYYY-MM} where the member's own rows carry a >thresh single-day jump.
+
+    The panel is as-traded: a share split / unit conversion shows up as a one-day
+    scale change (e.g. sh510500 2015-04-15 +248.6%, sh512100 2022-09-05 +176.3%).
+    Those months are not a size move, so they are excluded from the spread and
+    disclosed instead of being silently averaged in.
+    """
+    c = raw.get(sym, ({}, {}))[0] if sym in raw else {}
+    out = set()
+    prev = None
+    for d in cal:
+        v = c.get(d)
+        if v and prev and prev > 0 and abs(v / prev - 1.0) > thresh:
+            out.add(d[:7])
+        if v:
+            prev = v
+    return out
+
+
+def run_tilt(outdir, starts=("2020-01-01", "2018-01-01")):
+    """Measure the ladder's size tilt, so a vs-ladder spread can be read net of it.
+
+    The ladder is five equal weights across the size ladder, so it is not a
+    neutral baseline: it carries 3/5 mid/small/STAR and 2/5 large-cap. This leg
+    decomposes its monthly return into the size legs, measures the monthly
+    large-vs-small spread as a series, and reports how much of the ladder's
+    monthly variance that spread explains. The ladder curve itself is the
+    E24/E27 engine's (module import), the members' monthly returns are marks
+    from the panel rows.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    w_large = len(TILT_LARGE) / float(len(base.LADDER))
+    w_small = len(TILT_SMALL) / float(len(base.LADDER))
+    windows = {}
+    for start in starts:
+        cal = [d for d in cal_full if d >= start]
+        years = len(cal) / 252.0
+        prices = {}
+        for s in base.LADDER:
+            c = raw.get(s, ({}, {}))[0] if s in raw else {}
+            if not c:
+                c = base.load_panel(s)[1].get(s, {})
+            prices[s] = [c.get(d) for d in cal]
+        cash = base.load_cash_series(cal)
+        curve, aux, _hold = e27.simulate(cal, prices, {}, base.LADDER, cash, None, 1.0, {})
+        eng = dict(_month_rets(curve))
+        mem = {s: _member_monthly(cal, s, raw) for s in base.LADDER}
+        brk = {s: _member_break_months(cal, s, raw) for s in base.LADDER}
+        months = sorted(m for m in eng if all(m in mem[s] for s in base.LADDER))
+        used, dropped = [], []
+        large_m, small_m = [], []
+        for m in months:
+            lg = [mem[s][m] for s in TILT_LARGE if m not in brk[s]]
+            sm = [mem[s][m] for s in TILT_SMALL if m not in brk[s]]
+            if lg and sm:
+                used.append(m)
+                large_m.append(sum(lg) / len(lg))
+                small_m.append(sum(sm) / len(sm))
+            else:
+                dropped.append({"month": m,
+                                "members_with_break": [s for s in base.LADDER if m in brk[s]]})
+        months = used
+        break_events = [{"member": s, "months": sorted(brk[s])}
+                        for s in base.LADDER if brk[s]]
+        tilt_m = [sm - lm for lm, sm in zip(large_m, small_m)]
+        ladder_m = [w_large * lm + w_small * sm for lm, sm in zip(large_m, small_m)]
+        eng_m = [eng[m] for m in months]
+        recon = max((abs(a - b) for a, b in zip(eng_m, ladder_m)), default=None)
+        tl = _moments(tilt_m)
+        lv = _moments(eng_m)
+        beta = None
+        alpha = None
+        r2 = None
+        if tl["sd"] and lv["sd"] and len(months) > 2:
+            cov = sum((t - tl["mean"]) * (l - lv["mean"])
+                      for t, l in zip(tilt_m, eng_m)) / (len(months) - 1)
+            beta = cov / (tl["sd"] ** 2)
+            alpha = lv["mean"] - beta * tl["mean"]
+            r2 = (cov ** 2) / (tl["sd"] ** 2 * lv["sd"] ** 2)
+        worst_i = min(range(len(eng_m)), key=lambda i: eng_m[i]) if eng_m else None
+        best_i = max(range(len(eng_m)), key=lambda i: eng_m[i]) if eng_m else None
+        cum = 1.0
+        for t in tilt_m:
+            cum *= 1.0 + t
+        windows[start] = {
+            "bars": len(cal), "years": round(years, 2), "months": len(months),
+            "size_weights": {"large": round(w_large, 4), "small": round(w_small, 4),
+                             "large_legs": list(TILT_LARGE), "small_legs": list(TILT_SMALL)},
+            "break_guard": {"single_day_threshold_pct": 20.0,
+                            "member_break_events": break_events,
+                            "excluded_months": dropped},
+            "monthly": {
+                "ladder_mean_pct": round(lv["mean"] * 100, 4) if lv["mean"] is not None else None,
+                "ladder_sd_pct": round(lv["sd"] * 100, 4) if lv["sd"] is not None else None,
+                "tilt_mean_bp": round(tl["mean"] * 1e4, 2) if tl["mean"] is not None else None,
+                "tilt_sd_bp": round(tl["sd"] * 1e4, 2) if tl["sd"] is not None else None,
+                "tilt_annualised_bp": round(tl["mean"] * 12 * 1e4, 2) if tl["mean"] is not None else None,
+                "tilt_share_positive_pct": round(
+                    sum(1 for t in tilt_m if t > 0) / len(tilt_m) * 100, 1) if tilt_m else None,
+                "tilt_cumulative_pct": round((cum - 1.0) * 100, 2) if months else None,
+                "tilt_best_month": ({"month": months[max(range(len(tilt_m)), key=lambda i: tilt_m[i])],
+                                     "spread_pct": round(tilt_m[max(range(len(tilt_m)), key=lambda i: tilt_m[i])] * 100, 2)}
+                                    if tilt_m else None),
+                "tilt_worst_month": ({"month": months[min(range(len(tilt_m)), key=lambda i: tilt_m[i])],
+                                      "spread_pct": round(tilt_m[min(range(len(tilt_m)), key=lambda i: tilt_m[i])] * 100, 2)}
+                                     if tilt_m else None),
+            },
+            "exposure_regression": {
+                "beta_ladder_on_tilt": round(beta, 3) if beta is not None else None,
+                "alpha_monthly_bp": round(alpha * 1e4, 2) if alpha is not None else None,
+                "r_squared": round(r2, 4) if r2 is not None else None,
+                "tilt_explains_ladder_var_pct": round(r2 * 100, 2) if r2 is not None else None,
+                "identity_reconciliation_max_abs_diff": (round(recon, 12)
+                                                         if recon is not None else None),
+                "reconciliation_note": ("largest gap between the engine's monthly curve and the "
+                                        "marks-implied 0.4*large+0.6*small month; a non-zero gap is "
+                                        "eligibility burn-in / rebalance-timing, not an identity "
+                                        "failure"),
+            },
+            "worst_month_diagnostic": ({
+                "month": months[worst_i],
+                "ladder_pct": round(eng_m[worst_i] * 100, 2),
+                "large_leg_pct": round(large_m[worst_i] * 100, 2),
+                "small_leg_pct": round(small_m[worst_i] * 100, 2),
+                "tilt_spread_pct": round(tilt_m[worst_i] * 100, 2),
+                "members": {s: round(mem[s][months[worst_i]] * 100, 2) for s in base.LADDER},
+            } if worst_i is not None else None),
+            "best_month_diagnostic": ({
+                "month": months[best_i],
+                "ladder_pct": round(eng_m[best_i] * 100, 2),
+                "tilt_spread_pct": round(tilt_m[best_i] * 100, 2),
+            } if best_i is not None else None),
+            "engine_metrics": base.metrics(curve, years),
+            "turnover_per_year": aux["turnover_total"] / years if years else None,
+        }
+    return {
+        "study": "e40_ladder_size_tilt",
+        "evidence_cutoff": cutoff,
+        "spec": {"ladder": base.LADDER, "large": list(TILT_LARGE), "small": list(TILT_SMALL),
+                 "decomposition": "ladder_monthly = 0.4*large_mean + 0.6*small_mean",
+                 "starts": list(starts), "cost_bp_per_side": base.COST_BP_SIDE},
+        "windows": windows,
+        "answers": {k: {
+            "tilt_annualised_bp": v["monthly"]["tilt_annualised_bp"],
+            "tilt_sd_bp": v["monthly"]["tilt_sd_bp"],
+            "beta_ladder_on_tilt": v["exposure_regression"]["beta_ladder_on_tilt"],
+            "tilt_explains_ladder_var_pct": v["exposure_regression"]["tilt_explains_ladder_var_pct"],
+            "worst_month": v["worst_month_diagnostic"]["month"] if v["worst_month_diagnostic"] else None,
+        } for k, v in windows.items()},
+        "honest": [
+            "the ladder curve is the E24/E27 engine's own (module import); members' monthly "
+            "returns are month-end marks from panel rows, so the reconciliation row prices the gap",
+            "large/small split is a naming choice (two broad-cap legs vs mid/small/STAR), not a "
+            "factor-model exposure estimate",
+            "the regression is descriptive: it says how much monthly variance moves with the "
+            "spread, not that the spread causes anything",
+            "corporate-action guard: a member month carrying a >20% single-day jump on its own "
+            "rows is dropped from that month's leg mean (the panel is as-traded, so a share "
+            "split or unit conversion reads as a 100%+ return)",
+            "both start windows resolve to the same member months: the common-month set is "
+            "bounded by sh588000's first bar, so the 2018 window adds engine months that carry "
+            "no member marks and cannot enter the spread",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -725,6 +936,22 @@ def selftest():
     chk(round((rows["x1"]["ann_return_pct"] - rows["x0"]["ann_return_pct"]) * 100, 2) == 55.0,
         "attribution is the ann column difference in bp")
 
+    # size tilt legs: month marks, the 2/5+3/5 identity, and the spread in bp
+    mr = _month_rets([("2020-01-31", 1.0), ("2020-02-28", 1.1), ("2020-03-31", 1.21)])
+    chk(len(mr) == 2 and abs(mr[0][1] - 0.10) < 1e-12 and mr[1][0] == "2020-03",
+        "month returns come off month-end marks")
+    chk(abs((0.4 * 0.01 + 0.6 * 0.03) - 0.022) < 1e-12,
+        "equal-weight ladder month decomposes into 2/5 large + 3/5 small")
+    chk(abs((0.03 - 0.01) * 1e4 - 200.0) < 1e-9,
+        "tilt spread is the large-vs-small monthly gap in bp")
+    mom = _moments([0.01, 0.03, 0.05])
+    chk(abs(mom["mean"] - 0.03) < 1e-12 and abs(mom["sd"] - 0.02) < 1e-9,
+        "sample moments use the n-1 denominator")
+    mem_raw = {"shX": ({"2020-01-31": 1.0, "2020-02-28": 1.2, "2020-03-31": 0.9}, {})}
+    mem = _member_monthly(["2020-01-31", "2020-02-28", "2020-03-31"], "shX", mem_raw)
+    chk(abs(mem["2020-02"] - 0.2) < 1e-12 and abs(mem["2020-03"] + 0.25) < 1e-12,
+        "member monthly returns read their own month-end closes")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -733,7 +960,7 @@ def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
-                             "all", "selftest"])
+                             "tilt", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -793,6 +1020,19 @@ def main(argv):
                                           "ann": {n: {kk: r.get("ann_return_pct")
                                                       for kk, r in rows.items()}
                                                   for n, rows in v["schemes"].items()}}
+                                      for k, v in f["windows"].items()}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt":
+        f = run_tilt(None)
+        outdir = os.path.join(ROOT, "results", "e40_ladder_tilt")
+        p = write_json(outdir, "TILT-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt", "file": os.path.relpath(p, ROOT),
+                          "windows": {k: {"tilt_annualised_bp": v["monthly"]["tilt_annualised_bp"],
+                                          "tilt_sd_bp": v["monthly"]["tilt_sd_bp"],
+                                          "beta": v["exposure_regression"]["beta_ladder_on_tilt"],
+                                          "r2_pct": v["exposure_regression"]["tilt_explains_ladder_var_pct"],
+                                          "worst_month": (v["worst_month_diagnostic"] or {}).get("month")}
                                       for k, v in f["windows"].items()}},
                          ensure_ascii=False))
         return 0

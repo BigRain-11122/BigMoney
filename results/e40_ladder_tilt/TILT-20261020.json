@@ -1,0 +1,218 @@
+{
+ "study": "e40_ladder_size_tilt",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "ladder": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "decomposition": "ladder_monthly = 0.4*large_mean + 0.6*small_mean",
+  "starts": [
+   "2020-01-01",
+   "2018-01-01"
+  ],
+  "cost_bp_per_side": 13.041
+ },
+ "windows": {
+  "2020-01-01": {
+   "bars": 1645,
+   "years": 6.53,
+   "months": 71,
+   "size_weights": {
+    "large": 0.4,
+    "small": 0.6,
+    "large_legs": [
+     "sh510300",
+     "sh510050"
+    ],
+    "small_legs": [
+     "sh510500",
+     "sh512100",
+     "sh588000"
+    ]
+   },
+   "break_guard": {
+    "single_day_threshold_pct": 20.0,
+    "member_break_events": [
+     {
+      "member": "sh512100",
+      "months": [
+       "2022-09"
+      ]
+     }
+    ],
+    "excluded_months": []
+   },
+   "monthly": {
+    "ladder_mean_pct": 0.1215,
+    "ladder_sd_pct": 6.2637,
+    "tilt_mean_bp": 51.0,
+    "tilt_sd_bp": 571.12,
+    "tilt_annualised_bp": 611.95,
+    "tilt_share_positive_pct": 49.3,
+    "tilt_cumulative_pct": 28.01,
+    "tilt_best_month": {
+     "month": "2022-10",
+     "spread_pct": 14.13
+    },
+    "tilt_worst_month": {
+     "month": "2026-07",
+     "spread_pct": -17.09
+    }
+   },
+   "exposure_regression": {
+    "beta_ladder_on_tilt": 0.62,
+    "alpha_monthly_bp": -19.45,
+    "r_squared": 0.3193,
+    "tilt_explains_ladder_var_pct": 31.93,
+    "identity_reconciliation_max_abs_diff": 0.026510608543,
+    "reconciliation_note": "largest gap between the engine's monthly curve and the marks-implied 0.4*large+0.6*small month; a non-zero gap is eligibility burn-in / rebalance-timing, not an identity failure"
+   },
+   "worst_month_diagnostic": {
+    "month": "2026-07",
+    "ladder_pct": -14.82,
+    "large_leg_pct": -4.46,
+    "small_leg_pct": -21.55,
+    "tilt_spread_pct": -17.09,
+    "members": {
+     "sh510300": -7.29,
+     "sh510050": -1.62,
+     "sh510500": -18.43,
+     "sh512100": -19.93,
+     "sh588000": -26.28
+    }
+   },
+   "best_month_diagnostic": {
+    "month": "2024-09",
+    "ladder_pct": 25.88,
+    "tilt_spread_pct": 5.94
+   },
+   "engine_metrics": {
+    "total_return_pct": -2.76,
+    "ann_return_pct": -0.43,
+    "ann_vol_pct": 18.75,
+    "sharpe": 0.071,
+    "bars": 1643
+   },
+   "turnover_per_year": 0.37393428761971487
+  },
+  "2018-01-01": {
+   "bars": 2132,
+   "years": 8.46,
+   "months": 71,
+   "size_weights": {
+    "large": 0.4,
+    "small": 0.6,
+    "large_legs": [
+     "sh510300",
+     "sh510050"
+    ],
+    "small_legs": [
+     "sh510500",
+     "sh512100",
+     "sh588000"
+    ]
+   },
+   "break_guard": {
+    "single_day_threshold_pct": 20.0,
+    "member_break_events": [
+     {
+      "member": "sh512100",
+      "months": [
+       "2022-09"
+      ]
+     }
+    ],
+    "excluded_months": []
+   },
+   "monthly": {
+    "ladder_mean_pct": 0.1615,
+    "ladder_sd_pct": 6.272,
+    "tilt_mean_bp": 51.0,
+    "tilt_sd_bp": 571.12,
+    "tilt_annualised_bp": 611.95,
+    "tilt_share_positive_pct": 49.3,
+    "tilt_cumulative_pct": 28.01,
+    "tilt_best_month": {
+     "month": "2022-10",
+     "spread_pct": 14.13
+    },
+    "tilt_worst_month": {
+     "month": "2026-07",
+     "spread_pct": -17.09
+    }
+   },
+   "exposure_regression": {
+    "beta_ladder_on_tilt": 0.615,
+    "alpha_monthly_bp": -15.22,
+    "r_squared": 0.3138,
+    "tilt_explains_ladder_var_pct": 31.38,
+    "identity_reconciliation_max_abs_diff": 0.025813940234,
+    "reconciliation_note": "largest gap between the engine's monthly curve and the marks-implied 0.4*large+0.6*small month; a non-zero gap is eligibility burn-in / rebalance-timing, not an identity failure"
+   },
+   "worst_month_diagnostic": {
+    "month": "2026-07",
+    "ladder_pct": -14.82,
+    "large_leg_pct": -4.46,
+    "small_leg_pct": -21.55,
+    "tilt_spread_pct": -17.09,
+    "members": {
+     "sh510300": -7.29,
+     "sh510050": -1.62,
+     "sh510500": -18.43,
+     "sh512100": -19.93,
+     "sh588000": -26.28
+    }
+   },
+   "best_month_diagnostic": {
+    "month": "2024-09",
+    "ladder_pct": 25.88,
+    "tilt_spread_pct": 5.94
+   },
+   "engine_metrics": {
+    "total_return_pct": 57.04,
+    "ann_return_pct": 5.48,
+    "ann_vol_pct": 19.64,
+    "sharpe": 0.37,
+    "bars": 2130
+   },
+   "turnover_per_year": 0.31429889402498756
+  }
+ },
+ "answers": {
+  "2020-01-01": {
+   "tilt_annualised_bp": 611.95,
+   "tilt_sd_bp": 571.12,
+   "beta_ladder_on_tilt": 0.62,
+   "tilt_explains_ladder_var_pct": 31.93,
+   "worst_month": "2026-07"
+  },
+  "2018-01-01": {
+   "tilt_annualised_bp": 611.95,
+   "tilt_sd_bp": 571.12,
+   "beta_ladder_on_tilt": 0.615,
+   "tilt_explains_ladder_var_pct": 31.38,
+   "worst_month": "2026-07"
+  }
+ },
+ "honest": [
+  "the ladder curve is the E24/E27 engine's own (module import); members' monthly returns are month-end marks from panel rows, so the reconciliation row prices the gap",
+  "large/small split is a naming choice (two broad-cap legs vs mid/small/STAR), not a factor-model exposure estimate",
+  "the regression is descriptive: it says how much monthly variance moves with the spread, not that the spread causes anything",
+  "corporate-action guard: a member month carrying a >20% single-day jump on its own rows is dropped from that month's leg mean (the panel is as-traded, so a share split or unit conversion reads as a 100%+ return)",
+  "both start windows resolve to the same member months: the common-month set is bounded by sh588000's first bar, so the 2018 window adds engine months that carry no member marks and cannot enter the spread",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}
