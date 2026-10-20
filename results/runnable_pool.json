@@ -20470,7 +20470,9 @@
   },
   {
    "id": "E51-PARTS-P6",
-   "status": "ready",
+   "status": "done",
+   "closed_at": "2026-10-21T07:38:00+08:00",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x0-p6.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Sixths at zero cost. Quarters and fifths agree on the flip set {pre2017,2017_2020,2024_now} while thirds disagrees; one more cut tests whether that agreement is convergence or a two-point coincidence, and whether the band-vs-granularity curve stays non-monotone (2021_2023 read 195/637/512/346 at halves/thirds/quarters/fifths).",
@@ -20483,7 +20485,9 @@
   },
   {
    "id": "E51-PARTS-P6-COST-X3",
-   "status": "ready",
+   "status": "done",
+   "closed_at": "2026-10-21T07:38:00+08:00",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x3-p6.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Sixths at cost x3. At every finer cut so far x3 has moved parts by <=15bp and never changed a sign; a sign that only appears at one cost level would be a fee-scale artefact of a 1-4bp part, which the grid now has several of.",
@@ -20493,6 +20497,32 @@
    "entered_by": "bm-b r1126",
    "evidence_cutoff": "2026-10-20",
    "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 6"
+  },
+  {
+   "id": "E52-PARTS-P7",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Sevenths at zero cost. Sixths is the first cut where all four eras flip; P7 tests whether that is saturation (the sign pattern cannot get denser) or one more count step, and pre2017's dead first part is now 1/6 of the era so its share of the band shrinks again.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p7.json",
+   "source": "r1127 x0-p6: 4 of 4 eras flip, first saturation point",
+   "entered_at": "2026-10-21T07:38:00+08:00",
+   "entered_by": "bm-b r1127",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 7"
+  },
+  {
+   "id": "E52-PARTS-P7-COST-X3",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Sevenths at cost x3. x3 has moved parts by <=13bp at five cuts in a row; the honest question is whether the sixths all-flip set survives the fee axis or whether one flip sits on a part small enough that fees erase it.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p7.json",
+   "source": "r1127 x3-p6: identical flip set, parts move <=13bp",
+   "entered_at": "2026-10-21T07:38:00+08:00",
+   "entered_by": "bm-b r1127",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 7"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
