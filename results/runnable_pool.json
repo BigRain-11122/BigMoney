@@ -19492,12 +19492,15 @@
    }
   },
   {
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:44:00+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
    "id": "E30-ALL-X3",
    "lane_owner": null,
    "note": "r1101: the all-universe baseline at cost x3. The +261.8bp/yr point estimate pays only 7.5bp/yr of cost, so x3 (22.5bp/yr) should leave it nearly intact; this asks whether the diversity advantage is a return edge or merely lower realised vol with the same drift.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
    "shards": [],
    "status": "done",
@@ -19505,18 +19508,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:32:51+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:44:00+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
    "id": "E30-ALL-2018",
    "lane_owner": null,
    "note": "r1101: era stability of the all-universe baseline. Full-sample is +260.0bp/yr (t 1.64) and 2018+ is +158.0bp/yr (t 0.86) with the bond blocks IN; the 2018+ read with bonds excluded (the honest era-definition used by the ladder N tests) is the cell that decides whether the effect decays with the sample.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-s20180101-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
    "status": "done",
@@ -19524,18 +19527,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:32:51+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-s20180101-e20260922-xsh511-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:44:00+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
    "id": "E30-ALL-DOMESTIC",
    "lane_owner": null,
    "note": "r1101: drop cross-border equity blocks (sh513 family: QDII/HK/US index ETFs) from the all-universe baseline. If the advantage is concentrated in offshore beta the domestic-only read collapses; if it holds, the edge is domestic breadth.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh513sh518sz159001sz159003-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sh513,sz159001,sz159003",
    "shards": [],
    "status": "done",
@@ -19543,18 +19546,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:32:51+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh513sh518sz159001sz159003-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:34:24+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
    "id": "E31-LIQ-NLADDER-FULL",
    "lane_owner": null,
    "note": "r1101: E30 showed equal-weighting the whole universe beats the 5-rung ladder, but a 1,221-name book is not tradeable. This re-tests the size ladder (N=10..200) ON the full universe, where N is no longer degenerate (r1100 collapsed only because the pre-2018 universe held 56 ETFs).",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-edd226-e20260922-xsh511sh518sz159001sz159003-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003",
    "shards": [],
    "status": "done",
@@ -19562,18 +19565,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:35:35+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-edd226-e20260922-xsh511sh518sz159001sz159003-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:34:24+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
    "id": "E31-LIQ-NLADDER-2018",
    "lane_owner": null,
    "note": "r1101: same N ladder on the 2018+ window, where the E30 equal-weight excess weakened to +160bp / t=0.86. If the ladder shape is monotone in N here, tradeable breadth survives the weaker window.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-edd226-s20180101-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
    "status": "done",
@@ -19581,18 +19584,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:35:35+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-edd226-s20180101-e20260922-xsh511-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:34:24+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
    "id": "E31-LIQ-TOP200-X3",
    "lane_owner": null,
    "note": "r1101: cost stress on the tradeable-width book (top200 equal-weight, 200 names is feasible), tripled cost. This is the candidate that would actually be carried into a prereg if the ladder holds.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-9f9af0-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --ns 200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
    "shards": [],
    "status": "done",
@@ -19600,18 +19603,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:35:35+08:00",
-   "result_ref": "results/e27_universe_expansion/UNIV-9f9af0-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:37:18+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
    "id": "E32-TREND-TILT-X3",
    "lane_owner": null,
    "note": "r1101: breadth is closed, so the next open question is the weighting tilts that survived E25. Cost stress (x3) on the trend150h tilt against the equal-weight ladder -- E25 ran it only at x1, and a tilt that lives on turnover must clear cost.",
    "priority": 3,
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-x3-20261021.json/TREND-e884de-x3-20261021.json",
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --cost-mult 3",
    "shards": [],
    "status": "done",
@@ -19619,18 +19622,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:50:00+08:00",
-   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-x3-20261021.json/TREND-e884de-x3-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:37:18+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
    "id": "E32-TREND-TILT-2018",
    "lane_owner": null,
    "note": "r1101: the same tilt on the 2018+ window. E30/E31 showed long-sample excesses die in the recent window; this applies the same window test to the weighting tilt.",
    "priority": 3,
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-2018-20261021.json/TREND-e884de-20261021.json",
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --start 2018-01-01",
    "shards": [],
    "status": "done",
@@ -19638,18 +19641,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:50:00+08:00",
-   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-2018-20261021.json/TREND-e884de-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:37:18+0800",
    "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
    "id": "E32-LADDER-TILT-MIX-2018",
    "lane_owner": null,
    "note": "r1101: the four default tilts on the 2018+ window, so the tilt family gets the same recent-window screen in one burn instead of one at a time.",
    "priority": 3,
+   "result_ref": "results/e32_tilt_robustness/TILT-mix-2018-20261021.json/WEIGHTING-1f182a-20261021.json",
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,invvol,liq,momtilt --out results/e25_tilt_mix --start 2018-01-01",
    "shards": [],
    "status": "done",
@@ -19657,18 +19660,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T01:50:00+08:00",
-   "result_ref": "results/e32_tilt_robustness/TILT-mix-2018-20261021.json/WEIGHTING-1f182a-20261021.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:50:00+0800",
    "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
    "id": "E33-LADDER-VS-510300",
    "lane_owner": null,
    "note": "r1103: every weighting tilt lost to equal weight on 2018+, so the open question is no longer HOW to weight the five-rung desk ladder but WHETHER it earns anything over simply holding 510300. Buy-and-hold CSI300 is the comparison a live book actually faces.",
    "priority": 3,
+   "result_ref": "results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json",
    "runner": "TBD: extend e24_ladder_weighting.py with a --benchmark 510300 leg (buy-and-hold, cash leg identical)",
    "shards": [],
    "status": "done",
@@ -19676,18 +19679,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T02:20:00+08:00",
-   "result_ref": "results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:50:00+0800",
    "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
    "id": "E33-LADDER-CADENCE",
    "lane_owner": null,
    "note": "r1103: the tilt family is closed, so the only remaining free axis on the ladder is the rebalance clock itself -- monthly vs quarterly vs annual, cost paid against drift given up. Monthly is an assumption nobody has tested.",
    "priority": 3,
+   "result_ref": "results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json",
    "runner": "TBD: e24_ladder_weighting.py --cadence monthly,quarterly,annual (cost x1 and x3)",
    "shards": [],
    "status": "done",
@@ -19695,18 +19698,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T02:20:00+08:00",
-   "result_ref": "results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json"
+   }
   },
   {
+   "claimed_at": "2026-10-21T02:20:00+08:00",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-21T01:50:00+0800",
    "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
    "id": "E33-LADDER-MEMBERSHIP",
    "lane_owner": null,
    "note": "r1103: the ladder's five members are frozen by construction. Re-select the top-5 by liquidity each quarter out of the 1,221-code panel and compare against the frozen five -- does membership choice add anything, or is the fixed set a free lunch of hindsight?",
    "priority": 3,
+   "result_ref": "results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL.json",
    "runner": "TBD: e27_universe_expansion.py --select-top 5 --cadence quarterly vs frozen (sh510300,sh510050,sh510500,sh512100,sh588000)",
    "shards": [],
    "status": "done",
@@ -19714,10 +19717,7 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-21T02:20:00+08:00",
-   "result_ref": "results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL.json"
+   }
   },
   {
    "entered_at": "2026-10-21T02:20:00+08:00",
@@ -19776,13 +19776,15 @@
   {
    "entered_at": "2026-10-21T02:04:20+08:00",
    "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "finished_at": "2026-10-21T02:15:02+08:00",
    "id": "E35-BROAD-EQ-2018",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1105: equal weight across all 1,231 eligible equity ETFs beats the frozen five by +338.7bp/yr full sample (t 1.97). Re-read the same comparison on 2018+ and 2020+ -- the ladder family has never survived a recent window, and this is now the widest book we can build.",
    "priority": 3,
+   "result_ref": "results/e35_broad_eq_2018/UNIV-4170ac-s20180101-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2018-01-01 --out results/e35_broad_eq_2018",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19792,11 +19794,47 @@
   {
    "entered_at": "2026-10-21T02:04:20+08:00",
    "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "finished_at": "2026-10-21T02:15:02+08:00",
    "id": "E35-BROAD-EQ-X3",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1105: the broad-book cost is 8.3bp/yr vs the ladder's 4.2bp/yr at x1. Triple it to prove the +338.7bp gap is not a fee artefact.",
    "priority": 3,
+   "result_ref": "results/e35_broad_eq_x3/UNIV-4170ac-xsh511-x3-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --cost-mult 3 --out results/e35_broad_eq_x3",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:04:20+08:00",
+   "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "finished_at": "2026-10-21T02:15:02+08:00",
+   "id": "E35-CADENCE-ROLLING-X3",
+   "lane_owner": "bm-b",
+   "note": "r1105: the rolling 3y monthly-vs-quarterly read flips to a coin flip after 2024. Rerun at cost x3 so the 2024+ window cannot be a fee artefact (fees are 3-4bp/yr, so the expectation is 'no change').",
+   "priority": 3,
+   "result_ref": "results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json",
+   "runner": "python scripts/e34_cadence_rolling.py run --cost-mult 3 --tag X3",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:16:28+08:00",
+   "entered_by": "bm-b r1106 (supply floor refill after E35 close)",
+   "id": "E36-BROAD-EQ-2020",
+   "lane_owner": null,
+   "note": "r1106: 2018+ gave +265.9bp at t=1.29. Post-2020 is the cleanest recent test of the broad-book sign; 1.5y of the 2018+ window is the 2018 drawdown.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2020-01-01 --out results/e36_broad_eq_2020",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19806,13 +19844,47 @@
    }
   },
   {
-   "entered_at": "2026-10-21T02:04:20+08:00",
-   "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
-   "id": "E35-CADENCE-ROLLING-X3",
+   "entered_at": "2026-10-21T02:16:28+08:00",
+   "entered_by": "bm-b r1106 (supply floor refill after E35 close)",
+   "id": "E36-CONCENTRATION-N",
    "lane_owner": null,
-   "note": "r1105: the rolling 3y monthly-vs-quarterly read flips to a coin flip after 2024. Rerun at cost x3 so the 2024+ window cannot be a fee artefact (fees are 3-4bp/yr, so the expectation is 'no change').",
+   "note": "r1106: is the +227..+339bp a breadth effect or a handful of names? Re-read 2018+ at N=10 (the tightest book the engine allows) against the 1231-name book. Sign consistency across N is the honest test, single N is a multiple-comparison surface.",
    "priority": 3,
-   "runner": "python scripts/e34_cadence_rolling.py run --cost-mult 3 --tag X3",
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 10 --start 2018-01-01 --out results/e36_concentration_n10",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:16:28+08:00",
+   "entered_by": "bm-b r1106 (supply floor refill after E35 close)",
+   "finished_at": "2026-10-21T02:17:01+08:00",
+   "id": "E36-PANEL-DECAY",
+   "lane_owner": "bm-b",
+   "note": "r1106: panels froze 2026-09-22 for 1,671 of 1,725 codes. Truncate at 2024-12-31 (before any decay) to measure whether the post-2018 broad-book delta was ever stable on clean coverage — this calibrates how much of the tail read is panel decay.",
+   "priority": 3,
+   "result_ref": "results/e36_broad_eq_trunc_2024/UNIV-4170ac-s20180101-e20241231-xsh511-20261021.json",
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2018-01-01 --end 2024-12-31 --out results/e36_broad_eq_trunc_2024",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:17:01+08:00",
+   "entered_by": "bm-b r1106 (supply floor refill after E36 close)",
+   "id": "E36-XSH511-SENS",
+   "lane_owner": null,
+   "note": "r1106: every broad-book read so far drops the sh511 money/bond ETF block by design. Run the same 2018+ comparison with it INCLUDED to price that choice -- a 300bp/yr gap that shrinks or dies here was a bond-leg artefact, not breadth.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --start 2018-01-01 --out results/e36_xsh511_included",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19834,6 +19906,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T02:20:00+08:00",
+ "updated_at": "2026-10-21T02:17:01+08:00",
  "version": 1
 }
