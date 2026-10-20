@@ -123,3 +123,24 @@
 口径收口：growth/quality 消费面本就用法定日烘焙（growth builder 的 PIT 锚即法定日），
 故本修法与既有消费者口径一致、零冲突；statement 三面本体 `avail_date` 列继续标注为**已知坏列**，
 新消费一律走 `data/fund_statement_export/pit_avail/<face>_avail.parquet`。未改任何判线/账本，本面仍未 prereg、未烧录。
+
+## 八、T27 结案（r1095 本轮·修法接线落地）
+
+上一节交付了 PIT 派生面与工具，但**未入采集链**——面板推进时派生面会静默过期，属「缺陷出生地未拦截」。
+本轮补齐三处接线（`scripts/update_fund_statements.py`）：
+
+1. `refresh_pit_faces()`：refresh 收口（完整/部分完成）后重建三面 PIT 派生面；异常**非阻塞**打印，
+   绝不回滚或判败一次已完成的采集 pass（采集与派生解耦）。
+2. `pit_faces_stale()`：gate 的 no-op 分支检测派生面缺失或比源面旧（新克隆 / 他机推进面板），
+   命中才重建——常态零成本，不引入每轮重算。
+3. `smoke_test.py` 新增 `fund_avail_pit selftest` 腿（50/50 PASS，原 49）——派生面离线自检进主闸，
+   谁改坏 `avail_pit` 语义当轮即红。
+
+本轮实测：
+- `update_fund_statements.py gate` → `no-op: panel complete: 86 periods x 3 faces`（零网络），派生面未重建（mtime 已新）
+- `update_fund_statements.py selftest` PASS / `fund_avail_pit_t27.py selftest` 17/17 PASS
+- `build_growth_faces.py verify` 六项恒等全 True（含 `avail_ge_statutory`），selftest 19/19
+- 派生面在位：income 461,679 / balance 283,955 / cashflow 292,537 行，`avail_pit` 上界 2026-08-31
+
+消费口径不变：statement 三面 `avail_date` 仍是已知坏列，任何消费一律走 `pit_avail/<face>_avail.parquet`。
+本轮未改任何判线/账本，未 prereg、未烧录。T27 队列行据此置 done（三面核查 + PIT 修法 + 接线 + 闸腿四件齐）。
