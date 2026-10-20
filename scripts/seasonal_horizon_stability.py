@@ -21,8 +21,10 @@ Consumer plan (TRIAL_LABOR_LAW sec.4 meaning gate -- named consumers):
       one is the same claim measured where the independence assumption holds.
 
 Scope discipline: ZERO prereg, ZERO judged face, ZERO pool write, ZERO
-network, ZERO engine touch. L1 deterministic; rerun byte-identical. Reads the
-same local panel build as E22 (data/cache/p1c_local, T-87 forward lineage).
+network, ZERO engine touch. L1 deterministic; rerun byte-identical except the
+top-level "generated" wall-clock field (verified: all other fields hash equal
+across reruns). Reads the same local panel build as E22
+(data/cache/p1c_local, T-87 forward lineage).
 
 Measurement rules (frozen here, descriptive only):
   * panel = same loader as scripts/seasonal_calendar_census.py (single source).

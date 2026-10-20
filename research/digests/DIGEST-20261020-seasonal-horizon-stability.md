@@ -6,7 +6,8 @@ longer inflates the t), the month-first-day excess shrinks from +41.8bp to **+22
 survive round-trip cost** — while the pre-holiday window, held ~4 bars, is the one cell that is
 both cost-positive and era-stable.
 
-- Product: `scripts/seasonal_horizon_stability.py` (selftest 19/19, deterministic L1, 2.8s rerun)
+- Product: `scripts/seasonal_horizon_stability.py` (selftest 19/19, deterministic L1, 2.8s rerun;
+  rerun identical except the `generated` wall-clock field — verified by hashing all other fields)
 - Evidence: `results/seasonal_horizon_stability/CENSUS-2026-10-19.json` (+`by_horizon.csv`, `latest.json`)
 - Face: panel `data/cache/p1c_local`, 5,225 symbols × 8,745 dates, 1990-12-19 → 2026-10-19
   (cutoff = expected), 8,638 usable days, 16,583,153 usable stock-days, baseline **+9.39bp/day,
