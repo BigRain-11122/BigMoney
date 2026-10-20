@@ -12434,6 +12434,49 @@ WAVE_CONFIGS = {
                             "b_exit_seed_base": 653101,   # law sec.4 W289 B: 653_101..653_300 (1-HOP own-A RESERVATION CASCADE above own-A; naive 651_101..651_300 CLEAN vs registered BUT lands inside own-wave A -- hops=1; B lands ABOVE own-A at tail+1 EXACT -- forty-second consecutive above-own-A)
                             "shard_subdir": "n1_w289", "out_name": "n1_w289_results.json",
                             "engine_owner": "bm-c"},
+                       290: {"batch": "PERPETUAL-N1-W290",
+                            "prereg": ("research/PERPETUAL_N1_W290_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only; TWO HUNDRED AND NINETIETH ENGINE-OWNED WAVE "
+                   "BY MACHINE-DERIVE (engine_owner rows 279 + candidate), "
+                   "own-series continuation per O-20260101-2355 sec.2 (first-free-"
+                   "number law after the REGISTERED W289 row five-face freeze (bm-c own seat executed at the bm-c r1162 splice window; engine self-burn 12/12; finalize one-pass ledger 1,060,141 / K=633,720 machine-read), "
+                   "b539333a57 (prereg c97b8308ec), SINGLE STATE zero seat gap W2..W289 all "
+                   "registered; W1..W289 finalize ALL LANDED (W289 finalize product present at splice, net chain head 1060141 machine-read, merged pool K=633720 machine-read) -- ZERO in-flight upstream seats at splice time, clean precondition; downstream W290 seat NOT YET PUBLISHED at this freeze window (the next freezer must seat-first publish per O-20261010-2350 sec.2; the W290 freezer MUST re-derive live on the post-W290 universe + reserve the own-wave A window when deriving B, never transcribe r587); "
+                   "seat published=reserved "
+                   "MSG-20261020-1720-bmc-w290-seat PUSHED to origin 43eba4c179 "
+                   "BEFORE this freeze per r565 early-visibility law; per-wave prereg "
+                   "research/PERPETUAL_N1_W290_PREREG.md derived by the bm-c r1164 window, "
+                   "freeze-time commit 1981248022 @ probe receipt 43eba4c179; "
+                   "deletion-set EMPTY; delivery window = chain-order splice "
+                   "after the W289 five-face + W289 finalize product landed "
+                   "(CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10 ~23:1x); "
+                   "zero merge at freeze delivery, zero --no-verify; single-window derive), "
+                   "engine_owner=bm-c (bm-c's HUNDRED-AND-NINTH owned claim per machine-derive "
+                   "(engine_owner==bm-c rows 108 + candidate), own-seat continuity)), "
+                   "wave 290: "
+                   "A = 1-HOP STAIRCASE-AFFECTS-A walk FORTY-THIRD consecutive A-hop (naive continuation "
+                   "653_101..655_100 REFUSED at own start -- hops=1, "
+                   "A_hop_chain verbatim in the probe receipt, A_clean_at_naive_start=false; the walk hops "
+                   "past the W289 B tail -> A first-clean; A base == registered prior-wave B tail+1 ("
+                   "653_300+1) machine-checkable) "
+                   "+ B = 1-HOP own-A RESERVATION CASCADE above own-A (naive continuation "
+                   "653_301..653_500 CLEAN vs the registered universe BUT lands "
+                   "INSIDE the own-wave A first-clean window; hops=1, "
+                   "B_naive_refused_at_start=true, B_hop_chain verbatim; the walk hops past the own-wave A "
+                   "tail -> B lands ABOVE own-A 653_301..655_300 at tail+1 EXACT; FORTY-FOURTH consecutive "
+                   "above-own-A landing; B base == own-A tail+1 (655_300+1) machine-checkable; ADMIT receipt "
+                   "results/_w290bmc_20261020_probe_receipt.json + seed_admit_gate rc0 both bands FREE "
+                   "(O-20261010-1945-bm-a ADMIT convention); W291+ projection per this window gate: "
+                   "A naive first-clean 655_301..657_300 CLEAN (hops=0) / B naive "
+                   "655_501..655_700 hops=0 BUT lands INSIDE the projection A window; "
+                   "W290 freezer MUST re-derive on the post-W290 universe AND reserve the own-wave A window "
+                   "when deriving B (the finalize merge loop still derives the wave set from registry keys "
+                   "at run time, FAIL-CLOSED r307 always on)"),
+                            "a_seed_base": 653301,        # law sec.4 W290 A: 653_301..655_300 (1-HOP STAIRCASE-AFFECTS-A walk FORTY-THIRD consecutive A-hop; naive 653_101..655_100 REFUSED at start -- hops=1; A base == registered prior-wave B tail+1)
+                            "b_exit_seed_base": 655301,   # law sec.4 W290 B: 655_301..655_500 (1-HOP own-A RESERVATION CASCADE above own-A; naive 653_301..653_500 CLEAN vs registered BUT lands inside own-wave A -- hops=1; B lands ABOVE own-A at tail+1 EXACT -- forty-third consecutive above-own-A)
+                            "shard_subdir": "n1_w290", "out_name": "n1_w290_results.json",
+                            "engine_owner": "bm-c"},
                        }
 PREREG = WAVE_CONFIGS[2]["prereg"]
 A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
@@ -91547,6 +91590,710 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W290 materializer face (bm-c loop splice -- OWN-SEAT face, seat
+    #     MSG-20261020-1720-bmc-w290-seat published=reserved by bm-c
+    #     itself @ origin 43eba4c179 r1163 BEFORE the freeze (r565 law);
+    #     upstream W289 complete incl finalize: bm-c five-face splice
+    #     b539333a57 + engine self-burn 12/12 + finalize one-pass (ledger
+    #     1060141 / K=633720 machine-read at freeze). Chatty
+    #     chain-order splice from the committed ADMIT receipt
+    #     results/_w290bmc_20261020_probe_receipt.json + seed_admit_gate rc0
+    #     both bands FREE (O-20261010-1945-bm-a ADMIT convention);
+    #     banned gate ADMIT 0 (re-run at freeze window);
+    #     not a re-pick (W290 bands were never assigned).
+    #     PARITY STRUCTURAL CHOICE (W289 template lineage):
+    #     estate 69 rows (W138..W206 full-span, r858 absorb generation) +
+    #     W211..W247 legs (37) extracted verbatim from the OWN W289 block
+    #     physical bytes; the W289 block's own W248..W288 legs (41) are
+    #     EXCLUDED from the estate path per the template mandate; fresh
+    #     W248..W289 legs (42) added, machine-derived from the live pf
+    #     registry at freeze time -> 148 parity rows.
+    _set_wave(290)
+    try:
+        assert WAVE_CONFIGS[289]["a_seed_base"] == pf.N1_BANDS[289]["a"][0], \
+            "W290 upstream W289 mirror drift (a)"
+        assert WAVE_CONFIGS[289]["b_exit_seed_base"] == \
+            pf.N1_BANDS[289]["b_exit"][0], "W290 upstream W289 mirror drift (b)"
+        assert WAVE_CONFIGS[289].get("engine_owner") == \
+            pf.N1_BANDS[289].get("engine_owner") == "bm-c", \
+            "W290 upstream W289 engine_owner mirror drift"
+        wnew_a = {A_SEED_BASE + j for j in range(A_N)}
+        wnew_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (wnew_a & wnew_b), "W290 A/B band overlap"
+        assert not (wnew_a & reg_ints) and not (wnew_b & reg_ints), \
+            "W290 hits SEED_REGISTRY"
+        for nm, band in (("A", wnew_a), ("B", wnew_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W290 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W290 {nm} hits W1"
+            assert not (band & probes), f"W290 {nm} hits probe seeds"
+        assert pf.N1_BANDS[138] == {"a": (319004, 321003),
+                                    "b_exit": (94201, 94400),
+                                    "engine_owner": "bm-a"}, \
+            "registered W138 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[139] == {"a": (321004, 323003),
+                                    "b_exit": (94401, 94600),
+                                    "engine_owner": "bm-a"}, \
+            "registered W139 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[140] == {"a": (323004, 325003),
+                                    "b_exit": (94601, 94800),
+                                    "engine_owner": "bm-a"}, \
+            "registered W140 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[141] == {"a": (325004, 327003),
+                                    "b_exit": (327004, 327203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W141 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[142] == {"a": (327204, 329203),
+                                    "b_exit": (329204, 329403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W142 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[143] == {"a": (329404, 331403),
+                                    "b_exit": (331404, 331603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W143 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[144] == {"a": (331604, 333603),
+                                    "b_exit": (333604, 333803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W144 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[145] == {"a": (333804, 335803),
+                                    "b_exit": (335804, 336003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W145 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[146] == {"a": (336004, 338003),
+                                    "b_exit": (338004, 338203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W146 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[147] == {"a": (338204, 340203),
+                                    "b_exit": (340204, 340403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W147 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[148] == {"a": (340404, 342403),
+                                    "b_exit": (342404, 342603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W148 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[149] == {"a": (342604, 344603),
+                                    "b_exit": (344604, 344803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W149 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[150] == {"a": (344804, 346803),
+                                    "b_exit": (346804, 347003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W150 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[151] == {"a": (347004, 349003),
+                                    "b_exit": (349004, 349203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W151 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[152] == {"a": (349204, 351203),
+                                    "b_exit": (351204, 351403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W152 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[153] == {"a": (351404, 353403),
+                                    "b_exit": (353404, 353603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W153 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[154] == {"a": (353604, 355603),
+                                    "b_exit": (355604, 355803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W154 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[155] == {"a": (355804, 357803),
+                                    "b_exit": (357804, 358003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W155 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[156] == {"a": (358004, 360003),
+                                    "b_exit": (360004, 360203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W156 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[157] == {"a": (360204, 362203),
+                                    "b_exit": (362204, 362403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W157 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[158] == {"a": (362404, 364403),
+                                    "b_exit": (364404, 364603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W158 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[159] == {"a": (364604, 366603),
+                                    "b_exit": (366604, 366803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W159 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[160] == {"a": (366804, 368803),
+                                    "b_exit": (368804, 369003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W160 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[161] == {"a": (369004, 371003),
+                                    "b_exit": (371004, 371203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W161 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[162] == {"a": (371204, 373203),
+                                    "b_exit": (373204, 373403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W162 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[163] == {"a": (373404, 375403),
+                                    "b_exit": (375404, 375603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W163 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[164] == {"a": (375604, 377603),
+                                    "b_exit": (377604, 377803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W164 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[165] == {"a": (377804, 379803),
+                                    "b_exit": (379804, 380003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W165 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[166] == {"a": (380004, 382003),
+                                    "b_exit": (382004, 382203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W166 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[167] == {"a": (382204, 384203),
+                                    "b_exit": (384204, 384403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W167 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[168] == {"a": (384404, 386403),
+                                    "b_exit": (386404, 386603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W168 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[169] == {"a": (386604, 388603),
+                                    "b_exit": (388604, 388803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W169 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[170] == {"a": (388804, 390803),
+                                    "b_exit": (390804, 391003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W170 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[171] == {"a": (391004, 393003),
+                                    "b_exit": (393004, 393203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W171 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[172] == {"a": (393204, 395203),
+                                    "b_exit": (395204, 395403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W172 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[173] == {"a": (395404, 397403),
+                                    "b_exit": (397404, 397603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W173 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[174] == {"a": (397604, 399603),
+                                    "b_exit": (399604, 399803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W174 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[175] == {"a": (399804, 401803),
+                                    "b_exit": (401804, 402003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W175 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[176] == {"a": (402004, 404003),
+                                    "b_exit": (404004, 404203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W176 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[177] == {"a": (404204, 406203),
+                                    "b_exit": (406204, 406403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W177 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[178] == {"a": (406404, 408403),
+                                    "b_exit": (408404, 408603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W178 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[179] == {"a": (408604, 410603),
+                                    "b_exit": (410604, 410803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W179 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[180] == {"a": (410804, 412803),
+                                    "b_exit": (412804, 413003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W180 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[181] == {"a": (413004, 415003),
+                                    "b_exit": (415004, 415203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W181 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[182] == {"a": (415204, 417203),
+                                    "b_exit": (417204, 417403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W182 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[183] == {"a": (417404, 419403),
+                                    "b_exit": (419404, 419603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W183 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[184] == {"a": (419604, 421603),
+                                    "b_exit": (421604, 421803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W184 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[185] == {"a": (421804, 423803),
+                                    "b_exit": (423804, 424003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W185 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[186] == {"a": (424004, 426003),
+                                    "b_exit": (426004, 426203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W186 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[187] == {"a": (426204, 428203),
+                                    "b_exit": (428204, 428403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W187 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[188] == {"a": (428404, 430403),
+                                    "b_exit": (430404, 430603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W188 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[189] == {"a": (430604, 432603),
+                                    "b_exit": (432604, 432803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W189 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[190] == {"a": (432804, 434803),
+                                    "b_exit": (434804, 435003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W190 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[191] == {"a": (435004, 437003),
+                                    "b_exit": (437004, 437203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W191 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[192] == {"a": (437204, 439203),
+                                    "b_exit": (439204, 439403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W192 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[193] == {"a": (439404, 441403),
+                                    "b_exit": (441404, 441603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W193 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[194] == {"a": (441604, 443603),
+                                    "b_exit": (443604, 443803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W194 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[195] == {"a": (443804, 445803),
+                                    "b_exit": (445804, 446003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W195 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[196] == {"a": (446004, 448003),
+                                    "b_exit": (448004, 448203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W196 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[197] == {"a": (448204, 450203),
+                                    "b_exit": (450204, 450403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W197 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[198] == {"a": (450404, 452403),
+                                    "b_exit": (452404, 452603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W198 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[199] == {"a": (452604, 454603),
+                                    "b_exit": (454604, 454803),
+                                    "engine_owner": "bm-a"}, \
+            "registered W199 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[200] == {"a": (454804, 456803),
+                                    "b_exit": (456804, 457003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W200 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[201] == {"a": (457004, 459003),
+                                    "b_exit": (459004, 459203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W201 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[202] == {"a": (459204, 461203),
+                                    "b_exit": (461204, 461403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W202 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[203] == {"a": (461404, 463403),
+                                    "b_exit": (463404, 463603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W203 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[204] == {"a": (463604, 465603),
+                                    "b_exit": (465604, 465803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W204 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[205] == {"a": (465804, 467803),
+                                    "b_exit": (467804, 468003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W205 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[206] == {"a": (468004, 470003),
+                                    "b_exit": (470004, 470203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W206 row parity drift (r307 live-registry-generated)"
+        assert pf.N1_BANDS[211] == {"a": (479_004, 481_003),
+                                    "b_exit": (481_004, 481_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W211 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[212] == {"a": (481_204, 483_203),
+                                    "b_exit": (483_204, 483_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W212 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[213] == {"a": (483_404, 485_403),
+                                    "b_exit": (485_404, 485_603),
+                                    "engine_owner": "bm-c"}, \
+            "registered W212 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[214] == {"a": (485_604, 487_603),
+                                    "b_exit": (487_604, 487_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W214 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[215] == {"a": (487_804, 489_803),
+                                    "b_exit": (489_804, 490_003),
+                                    "engine_owner": "bm-c"}, \
+            "registered W215 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[216] == {"a": (490_004, 492_003),
+                                    "b_exit": (492_004, 492_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W216 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[217] == {"a": (492_204, 494_203),
+                                    "b_exit": (494_204, 494_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W217 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[218] == {"a": (494_404, 496_403),
+                                    "b_exit": (496_404, 496_603),
+                                    "engine_owner": "bm-c"}, \
+            "registered W218 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[219] == {"a": (496_604, 498_603),
+                                    "b_exit": (498_604, 498_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W219 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[220] == {"a": (498_804, 500_803),
+                                    "b_exit": (500_804, 501_003),
+                                    "engine_owner": "bm-c"}, \
+            "registered W220 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[221] == {"a": (501_004, 503_003),
+                                    "b_exit": (503_004, 503_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W221 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[222] == {"a": (503_204, 505_203),
+                                    "b_exit": (505_204, 505_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W222 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[223] == {"a": (505_404, 507_403),
+                                    "b_exit": (507_404, 507_603),
+                                    "engine_owner": "bm-c"}, \
+            "registered W223 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[224] == {"a": (507_604, 509_603),
+                                    "b_exit": (509_604, 509_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W224 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[225] == {"a": (509_804, 511_803),
+                                    "b_exit": (511_804, 512_003),
+                                    "engine_owner": "bm-c"}, \
+            "registered W225 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[226] == {"a": (512_004, 514_003),
+                                    "b_exit": (514_004, 514_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W226 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[227] == {"a": (514_204, 516_203),
+                                    "b_exit": (516_204, 516_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W227 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[228] == {"a": (516_404, 518_403),
+                                    "b_exit": (518_404, 518_603),
+                                    "engine_owner": "bm-c"}, \
+            "registered W228 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[229] == {"a": (518_604, 520_603),
+                                    "b_exit": (520_604, 520_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W229 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[230] == {"a": (520_804, 522_803),
+                                    "b_exit": (522_804, 523_003),
+                                    "engine_owner": "bm-c"}, \
+            "registered W230 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[231] == {"a": (523_004, 525_003),
+                                    "b_exit": (525_004, 525_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W231 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[232] == {"a": (525_204, 527_203),
+                                    "b_exit": (527_204, 527_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W232 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[233] == {"a": (527_404, 529_403),
+                                    "b_exit": (529_404, 529_603),
+                                    "engine_owner": "bm-c"}, \
+            "registered W233 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[234] == {"a": (529_604, 531_603),
+                                    "b_exit": (531_604, 531_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W234 row parity drift (r307; bm-c five-face freeze; own-seat face disclosed)"
+        assert pf.N1_BANDS[235] == {"a": (531_804, 533_803),
+                                    "b_exit": (533_804, 534_003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W235 row parity drift (r307; bm-a five-face freeze; takeover-window splice face disclosed)"
+        assert pf.N1_BANDS[236] == {"a": (534_004, 536_003),
+                                    "b_exit": (536_004, 536_203),
+                                    "engine_owner": "bm-a"}, \
+            "registered W236 row parity drift (r307; engine_owner=bm-a; W248 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[237] == {"a": (536_204, 538_203),
+                                    "b_exit": (538_204, 538_403),
+                                    "engine_owner": "bm-c"}, \
+            "registered W237 row parity drift (r307; engine_owner=bm-c; W249 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[238] == {"a": (538_404, 540_403),
+                                    "b_exit": (540_404, 540_603),
+                                    "engine_owner": "bm-a"}, \
+            "registered W238 row parity drift (r307; engine_owner=bm-a; W250 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[239] == {"a": (542_501, 544_500),
+                                    "b_exit": (540_604, 540_803),
+                                    "engine_owner": "bm-c"}, \
+            "registered W239 row parity drift (r307; engine_owner=bm-c; W257 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[240] == {"a": (545_501, 547_500),
+                                    "b_exit": (540_804, 541_003),
+                                    "engine_owner": "bm-a"}, \
+            "registered W240 row parity drift (r307; engine_owner=bm-a; W258 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[241] == {"a": (547_501, 549_500),
+                                    "b_exit": (541_004, 541_203),
+                                    "engine_owner": "bm-c"}, \
+            "registered W241 row parity drift (r307; engine_owner=bm-c; W259 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[242] == {"a": (549_501, 551_500),
+                                    "b_exit": (541_204, 541_403),
+                                    "engine_owner": "bm-a"}, \
+            "registered W242 row parity drift (r307; engine_owner=bm-a; W260 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[243] == {"a": (551_501, 553_500),
+                                    "b_exit": (541_501, 541_700),
+                                    "engine_owner": "bm-a"}, \
+            "registered W243 row parity drift (r307; engine_owner=bm-a; W261 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[244] == {"a": (553_501, 555_500),
+                                    "b_exit": (541_701, 541_900),
+                                    "engine_owner": "bm-a"}, \
+            "registered W244 row parity drift (r307; engine_owner=bm-a; W263 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[245] == {"a": (555_501, 557_500),
+                                    "b_exit": (542_001, 542_200),
+                                    "engine_owner": "bm-a"}, \
+            "registered W245 row parity drift (r307; engine_owner=bm-a; W264 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[246] == {"a": (557_501, 559_500),
+                                    "b_exit": (542_201, 542_400),
+                                    "engine_owner": "bm-a"}, \
+            "registered W246 row parity drift (r307; engine_owner=bm-a; W265 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[247] == {"a": (559_501, 561_500),
+                                    "b_exit": (544_501, 544_700),
+                                    "engine_owner": "bm-a"}, \
+            "registered W247 row parity drift (r307; engine_owner=bm-a; W266 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[248] == {"a": (561_501, 563_500),
+                                    "b_exit": (544_701, 544_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W248 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[249] == {"a": (563_501, 565_500),
+                                    "b_exit": (544_901, 545_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W249 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[250] == {"a": (565_501, 567_500),
+                                    "b_exit": (545_101, 545_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W250 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[251] == {"a": (567_501, 569_500),
+                                    "b_exit": (569_501, 569_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W251 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[252] == {"a": (569_701, 571_700),
+                                    "b_exit": (571_701, 571_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W252 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[253] == {"a": (571_901, 573_900),
+                                    "b_exit": (573_901, 574_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W253 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[254] == {"a": (574_101, 576_100),
+                                    "b_exit": (576_101, 576_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W254 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[255] == {"a": (576_301, 578_300),
+                                    "b_exit": (578_301, 578_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W255 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[256] == {"a": (578_501, 580_500),
+                                    "b_exit": (580_501, 580_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W256 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[257] == {"a": (580_701, 582_700),
+                                    "b_exit": (582_701, 582_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W257 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[258] == {"a": (582_901, 584_900),
+                                    "b_exit": (584_901, 585_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W258 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[259] == {"a": (585_101, 587_100),
+                                    "b_exit": (587_101, 587_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W259 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[260] == {"a": (587_301, 589_300),
+                                    "b_exit": (589_301, 589_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W260 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[261] == {"a": (589_501, 591_500),
+                                    "b_exit": (591_501, 591_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W261 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[262] == {"a": (591_701, 593_700),
+                                    "b_exit": (593_701, 593_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W262 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[263] == {"a": (593_901, 595_900),
+                                    "b_exit": (595_901, 596_100),
+                                    "engine_owner": "bm-a"}, \
+            "registered W263 row parity drift (r307; engine_owner=bm-a; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[264] == {"a": (596_101, 598_100),
+                                    "b_exit": (598_101, 598_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W264 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[265] == {"a": (598_301, 600_300),
+                                    "b_exit": (600_301, 600_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W265 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[266] == {"a": (600_501, 602_500),
+                                    "b_exit": (602_501, 602_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W266 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[267] == {"a": (602_701, 604_700),
+                                    "b_exit": (604_701, 604_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W267 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[268] == {"a": (604_901, 606_900),
+                                    "b_exit": (606_901, 607_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W268 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[269] == {"a": (607_101, 609_100),
+                                    "b_exit": (609_101, 609_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W269 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[270] == {"a": (609_301, 611_300),
+                                    "b_exit": (611_301, 611_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W270 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[271] == {"a": (611_501, 613_500),
+                                    "b_exit": (613_501, 613_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W271 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[272] == {"a": (613_701, 615_700),
+                                    "b_exit": (615_701, 615_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W272 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[273] == {"a": (615_901, 617_900),
+                                    "b_exit": (617_901, 618_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W273 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[274] == {"a": (618_101, 620_100),
+                                    "b_exit": (620_101, 620_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W274 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[275] == {"a": (620_301, 622_300),
+                                    "b_exit": (622_301, 622_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W275 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[276] == {"a": (622_501, 624_500),
+                                    "b_exit": (624_501, 624_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W276 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[277] == {"a": (624_701, 626_700),
+                                    "b_exit": (626_701, 626_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W277 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[278] == {"a": (626_901, 628_900),
+                                    "b_exit": (628_901, 629_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W278 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[279] == {"a": (629_101, 631_100),
+                                    "b_exit": (631_101, 631_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W279 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[280] == {"a": (631_301, 633_300),
+                                    "b_exit": (633_301, 633_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W280 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[281] == {"a": (633_501, 635_500),
+                                    "b_exit": (635_501, 635_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W281 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[282] == {"a": (635_701, 637_700),
+                                    "b_exit": (637_701, 637_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W282 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[283] == {"a": (637_901, 639_900),
+                                    "b_exit": (639_901, 640_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W283 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[284] == {"a": (640_101, 642_100),
+                                    "b_exit": (642_101, 642_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W284 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[285] == {"a": (642_301, 644_300),
+                                    "b_exit": (644_301, 644_500),
+                                    "engine_owner": "bm-c"}, \
+            "registered W285 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[286] == {"a": (644_501, 646_500),
+                                    "b_exit": (646_501, 646_700),
+                                    "engine_owner": "bm-c"}, \
+            "registered W286 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[287] == {"a": (646_701, 648_700),
+                                    "b_exit": (648_701, 648_900),
+                                    "engine_owner": "bm-c"}, \
+            "registered W287 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[288] == {"a": (648_901, 650_900),
+                                    "b_exit": (650_901, 651_100),
+                                    "engine_owner": "bm-c"}, \
+            "registered W288 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        assert pf.N1_BANDS[289] == {"a": (651_101, 653_100),
+                                    "b_exit": (653_101, 653_300),
+                                    "engine_owner": "bm-c"}, \
+            "registered W289 row parity drift (r307; engine_owner=bm-c; W290 freeze fresh-derive from live registry)"
+        # prior-wave disjointness W2..W289 (single state: all
+        # registered, dynamic registry derive, r511 law)
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 290):
+            assert not (wnew_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W290 A hits W" + str(wprev)
+            assert not (wnew_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                  for j in range(B_N)}), f"W290 B hits W" + str(wprev)
+        n3r1_used = set(range(70_000, 70_006))
+        assert not (wnew_a & n3r1_used) and not (wnew_b & n3r1_used), \
+            "W290 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        assert not (wnew_a & lfc_actual12) and not (wnew_b & lfc_actual12), \
+            "W290 bands must clear the lfc actual draw range"
+        assert not (wnew_a & options_actual12) and \
+            not (wnew_b & options_actual12), \
+            "W290 bands must clear the options_wave2 actual draw range"
+        # band facts (law sec.4 W290 row): A = 1-HOP STAIRCASE-AFFECTS-A
+        # walk FORTY-THIRD consecutive A-hop (naive continuation
+        # 653_101..655_100 REFUSED at naive start by the registered W289 B band;
+        # hops=1, A_clean_at_naive_start=false; A base ==
+        # registered prior-wave B tail+1 (653_300+1) machine-checkable;
+        # B = 1-HOP own-A RESERVATION CASCADE above own-A (naive continuation
+        # 653_301..653_500 CLEAN vs registered but lands INSIDE the own-wave A first-clean window);
+        # B base == own-A tail+1 (655_300+1) EXACT; FORTY-FOURTH consecutive above-own-A landing.
+        assert WAVE_CONFIGS[290]["a_seed_base"] == 653301 == 653300 + 1, (
+            "W290 A staircase-affects-A walk FORTY-THIRD consecutive A-hop: naive "
+            "continuation REFUSED at own start (the registered W289 B band sits INSIDE "
+            "the naive A window; hops=1, A_clean_at_naive_start=false); A base == "
+            "registered prior-wave B tail+1 machine-checkable")
+        arith_new_a = set(range(653301, 655301))
+        assert not (arith_new_a & reg_ints), \
+            "W290 A window must be CLEAN (first-clean ADMIT face)"
+        assert WAVE_CONFIGS[290]["b_exit_seed_base"] == 655301 == 655300 + 1, (
+            "W290 B 1-HOP own-A RESERVATION CASCADE face: naive continuation lands "
+            "INSIDE the own-wave A first-clean window -- B hops past the own-wave A tail; "
+            "B base == own-A tail+1 EXACT; B_hop_lands_inside_A=false")
+        assert 655301 > 653300, \
+            "W290 B walk base must sit above the prior-wave B tail"
+        arith_new_b = set(range(655301, 655501))
+        assert not (arith_new_b & reg_ints), \
+            "W290 B window must be CLEAN (first-clean ADMIT face)"
+        assert not (arith_new_b & arith_new_a), \
+            "W290 A/B same-freeze mutual exclusion (zero overlap)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W290-SHARD-0",
+                                          "n1w290-0of12"), "W290 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W290-SHARD-11",
+                                           "n1w290-11of12")
+        assert SHARD_DIR.endswith("n1_w290") and OUT.endswith(
+            "n1_w290_results.json"), "W290 path drift"
+        for wprev in sorted(w for w in WAVE_CONFIGS if w < 290):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W290 shard dir collides with W{wprev}"
+        # W290 finalize cumulative deps: W17..W289 outputs ALL PRESENT
+        # (landed net chain head 1060141 machine-read at freeze time)
+        # -- ZERO in-flight upstream seats at splice, clean precondition
+        # freeze window; the finalize merge loop derives the wave
+        # set from registry keys at run time and stays
+        # FAIL-CLOSED, r307 two-state law).
+        for _depw in range(17, 290):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W290 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): every
+        # registered wave below 290 composes; wave 15 excluded by
+        # design; SINGLE STATE (W2..W289 all registered).
+        assert sorted(w for w in WAVE_CONFIGS if w < 290) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] + \
+            [w for w in range(16, 290)], \
+            "W290 prior-wave set must derive from registry keys (no 15)"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W290_PREREG.md")), \
+            "W290 per-wave prereg missing (materializer requirement)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -96697,6 +97444,14 @@ def selftest() -> int:
           "+ B=1-HOP own-A RESERVATION CASCADE above own-A (hops=1, FORTY-THIRD consecutive), "
           "chain-order splice from the committed ADMIT receipt + seed_admit_gate rc0 both bands FREE, "
           "law sec.4 W289 row, bm-c loop CEO fill-order RE-ISSUE 23:1x] "
+          "+ W290 materializer face [same guard set, dep=W17..W289 "
+          "outputs ALL PRESENT (landed net chain head 1060141 = W289 bm-c finalize one-pass, K=633720) -- "
+          "TWO HUNDRED AND NINETIETH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows 279 + candidate) "
+          "bm-c's HUNDRED-AND-NINTH owned claim per machine-derive (engine_owner==bm-c rows 108 + candidate), "
+          "A=1-HOP STAIRCASE-AFFECTS-A walk (hops=1, FORTY-THIRD consecutive) "
+          "+ B=1-HOP own-A RESERVATION CASCADE above own-A (hops=1, FORTY-FOURTH consecutive), "
+          "chain-order splice from the committed ADMIT receipt + seed_admit_gate rc0 both bands FREE, "
+          "law sec.4 W290 row, bm-c loop CEO fill-order RE-ISSUE 23:1x] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
