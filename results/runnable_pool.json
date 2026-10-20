@@ -19342,12 +19342,15 @@
    }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-X3",
    "lane_owner": null,
    "note": "r1099: the equity-breadth point estimate (top50 +154.6bp/yr at 12.0bp/yr of cost) is only ~13x its own cost, while turnover is 3x the ladder. Cost x3 asks whether the sign survives when costs are the only thing that scales.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x3-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 3",
    "shards": [],
    "status": "done",
@@ -19355,18 +19358,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x3-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-N100",
    "lane_owner": null,
    "note": "r1099: monotonicity probe -- if breadth is real, N=100 should not be worse than N=50; if it decays, N=50 was the tail of a multiple-comparison surface.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-310b86-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --ns 100",
    "shards": [],
    "status": "done",
@@ -19374,18 +19377,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-310b86-e20260922-xsh511-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-START2018",
    "lane_owner": null,
    "note": "r1099: era stability of the equity-breadth point estimate (pre-2017 the universe is 56 liquid ETFs, so top50 is nearly the whole universe and the comparison is degenerate there).",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-s20180101-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
    "status": "done",
@@ -19393,10 +19396,7 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-s20180101-e20260922-xsh511-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
    "entered_at": "2026-10-21T00:50:20+0800",
@@ -19413,54 +19413,133 @@
     "priority": "BelowNormal",
     "workers": 1
    }
-  }
- ,
-  {
-     "id": "E28-EO-BREADTH-X10",
-     "status": "ready",
-     "priority": 3,
-     "lane_owner": null,
-     "shards": [],
-     "note": "r1100: cost-ceiling read. Equity-breadth top50 is +154.6bp/yr at x1 (12.0bp/yr cost) and +136.9bp/yr at x3 (34.8, t 0.90); x10 asks where the sign actually dies, i.e. how much cost slack the point estimate has.",
-     "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 10",
-     "workers_plan": {
-        "note": "in-repo data/daily only, single-process numpy engine",
-        "priority": "BelowNormal"
-     },
-     "entered_at": "2026-10-21T01:15:00+0800",
-     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
   },
   {
-     "id": "E28-EO-BREADTH-ERA-N",
-     "status": "ready",
-     "priority": 3,
-     "lane_owner": null,
-     "shards": [],
-     "note": "r1100: monotonicity in the honest era. Full-sample top50 (+154.6bp/yr) collapses to +28.9bp/yr (t 0.22) from 2018, where the universe stops being degenerate; re-run the whole N ladder on 2018+ to see whether the monotone shape survives.",
-     "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511 --ns 10,20,50",
-     "workers_plan": {
-        "note": "in-repo data/daily only, single-process numpy engine",
-        "priority": "BelowNormal"
-     },
-     "entered_at": "2026-10-21T01:15:00+0800",
-     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
+   "done_at": "2026-10-21T01:44:00+0800",
+   "done_by": "bm-b r1101",
+   "entered_at": "2026-10-21T01:15:00+0800",
+   "entered_by": "bm-b r1100 (supply floor refill after E28 close)",
+   "id": "E28-EO-BREADTH-X10",
+   "lane_owner": null,
+   "note": "r1100: cost-ceiling read. Equity-breadth top50 is +154.6bp/yr at x1 (12.0bp/yr cost) and +136.9bp/yr at x3 (34.8, t 0.90); x10 asks where the sign actually dies, i.e. how much cost slack the point estimate has.",
+   "priority": 3,
+   "result_note": "r1101: cost x10 ceiling. top50 +77.4bp/yr (t 0.57, cost 116.0bp/yr) -- the sign survives the cost ceiling (cost is not the killer), but the point estimate decays monotonically 154.6 (x1) -> 136.9 (x3) -> 77.4 (x10) so the whole cell lives inside its own noise band.",
+   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x10-20261021.json",
+   "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 10",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal"
+   }
   },
   {
-     "id": "E28-EO-BREADTH-N50-2020",
-     "status": "ready",
-     "priority": 3,
-     "lane_owner": null,
-     "shards": [],
-     "note": "r1100: last-decade read of the only positive cell. If top50 is still positive on 2020+ alone it is at least current-era stable; if it flips, the universe-expansion line is an artefact of the 2018-2019 ETF expansion.",
-     "runner": "python scripts/e27_universe_expansion.py run --start 2020-01-01 --end 2026-09-22 --exclude sh511 --ns 50",
-     "workers_plan": {
-        "note": "in-repo data/daily only, single-process numpy engine",
-        "priority": "BelowNormal"
-     },
-     "entered_at": "2026-10-21T01:15:00+0800",
-     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
+   "done_at": "2026-10-21T01:44:00+0800",
+   "done_by": "bm-b r1101",
+   "entered_at": "2026-10-21T01:15:00+0800",
+   "entered_by": "bm-b r1100 (supply floor refill after E28 close)",
+   "id": "E28-EO-BREADTH-ERA-N",
+   "lane_owner": null,
+   "note": "r1100: monotonicity in the honest era. Full-sample top50 (+154.6bp/yr) collapses to +28.9bp/yr (t 0.22) from 2018, where the universe stops being degenerate; re-run the whole N ladder on 2018+ to see whether the monotone shape survives.",
+   "priority": 3,
+   "result_note": "r1101: the N ladder re-run on 2018+ (the era where the universe stops being degenerate) INVERTS: top10 -215.5bp/yr (t -0.65), top20 -146.6 (-0.56), top50 +28.9 (0.22). No dose-response, so the full-sample monotone shape was an artefact of a 56-ETF pre-2018 universe.",
+   "result_ref": "results/e27_universe_expansion/UNIV-7a923b-s20180101-e20260922-xsh511-20261021.json",
+   "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511 --ns 10,20,50",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "done_at": "2026-10-21T01:44:00+0800",
+   "done_by": "bm-b r1101",
+   "entered_at": "2026-10-21T01:15:00+0800",
+   "entered_by": "bm-b r1100 (supply floor refill after E28 close)",
+   "id": "E28-EO-BREADTH-N50-2020",
+   "lane_owner": null,
+   "note": "r1100: last-decade read of the only positive cell. If top50 is still positive on 2020+ alone it is at least current-era stable; if it flips, the universe-expansion line is an artefact of the 2018-2019 ETF expansion.",
+   "priority": 3,
+   "result_note": "r1101: 2020-2026 (491-1190 liquid ETFs, the only era with a real selection surface): top50 -6.1bp/yr (t 0.07) vs ladder. The equity-breadth edge is exactly zero where the universe is genuinely wide. E27/E28 family CLOSED as an early-sample artefact.",
+   "result_ref": "results/e27_universe_expansion/UNIV-e1822d-s20200101-e20260922-xsh511-20261021.json",
+   "runner": "python scripts/e27_universe_expansion.py run --start 2020-01-01 --end 2026-09-22 --exclude sh511 --ns 50",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "done_at": "2026-10-21T01:44:00+0800",
+   "done_by": "bm-b r1101",
+   "entered_at": "2026-10-21T01:44:00+0800",
+   "entered_by": "bm-b r1101 (universe-baseline family opened this window)",
+   "id": "E30-ALL-UNIVERSE",
+   "lane_owner": null,
+   "note": "r1101: opened because the E27/E28 breadth family closed as an early-sample artefact; the missing comparison was never top-N but the whole universe.",
+   "priority": 3,
+   "result_note": "r1101 (NEW FAMILY): hold the ENTIRE liquid ETF universe equal-weight, monthly, same accounting vs the five-member ladder. Excluding bond/money/gold (sh511/sh518/sz159001/sz159003) it is +261.8bp/yr (t 1.73), vol 19.44% vs 21.54%, Sharpe 0.524 vs 0.389, cost 7.5 vs 4.2bp/yr -- so it is NOT a bond tilt. With bond blocks left in the same comparison is +260.0bp (t 1.64, Sharpe 0.535). Concentration in five names is therefore a bet, not a diversification win.",
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh518sz159001sz159003-20261021.json",
+   "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:44:00+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
+   "id": "E30-ALL-X3",
+   "lane_owner": null,
+   "note": "r1101: the all-universe baseline at cost x3. The +261.8bp/yr point estimate pays only 7.5bp/yr of cost, so x3 (22.5bp/yr) should leave it nearly intact; this asks whether the diversity advantage is a return edge or merely lower realised vol with the same drift.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:44:00+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
+   "id": "E30-ALL-2018",
+   "lane_owner": null,
+   "note": "r1101: era stability of the all-universe baseline. Full-sample is +260.0bp/yr (t 1.64) and 2018+ is +158.0bp/yr (t 0.86) with the bond blocks IN; the 2018+ read with bonds excluded (the honest era-definition used by the ladder N tests) is the cell that decides whether the effect decays with the sample.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:44:00+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E28 close)",
+   "id": "E30-ALL-DOMESTIC",
+   "lane_owner": null,
+   "note": "r1101: drop cross-border equity blocks (sh513 family: QDII/HK/US index ETFs) from the all-universe baseline. If the advantage is concentrated in offshore beta the domestic-only read collapses; if it holds, the edge is domestic breadth.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sh513,sz159001,sz159003",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
-],
+ ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {
   "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)",
@@ -19473,6 +19552,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T00:55:00+08:00",
+ "updated_at": "2026-10-21T01:44:00+0800",
  "version": 1
 }
