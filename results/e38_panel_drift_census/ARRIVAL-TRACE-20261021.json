@@ -1,0 +1,63 @@
+{
+ "study": "e38_panel_arrival_trace",
+ "claim_under_test": "the wide-book magnitude is a panel snapshot, not an estimate of a strategy",
+ "observations": [
+  {
+   "ts_local": "2026-10-21T03:44:17+08:00",
+   "probe": "panel_coverage_report run",
+   "at_max": 1670,
+   "files": 1725,
+   "stale": 55,
+   "face_max": "2026-10-20"
+  },
+  {
+   "ts_local": "2026-10-21T03:45:0x+08:00",
+   "probe": "e27 run --end 2026-10-20 (x1)",
+   "vs_ladder_bp": 138.9,
+   "vs_ladder_t": 0.63,
+   "eligible_at_2026-10-20": 1183
+  },
+  {
+   "ts_local": "2026-10-21T03:47:5x+08:00",
+   "probe": "panel_coverage_report run",
+   "at_max": 1723,
+   "files": 1725,
+   "stale": 2,
+   "face_max": "2026-10-20"
+  },
+  {
+   "ts_local": "2026-10-21T03:48:1x+08:00",
+   "probe": "e27 run --end 2026-10-20 (x1)",
+   "vs_ladder_bp": 133.7,
+   "vs_ladder_t": 0.61,
+   "eligible_at_2026-10-20": 1223
+  },
+  {
+   "ts_local": "2026-10-21T03:49:2x+08:00",
+   "probe": "e38_panel_drift_census run (1st)",
+   "vs_ladder_bp_at_cut_2026_10_20": 133.7,
+   "eligible_at_ref_2026_09_22": 1190
+  },
+  {
+   "ts_local": "2026-10-21T03:54:5x+08:00",
+   "probe": "e38_panel_drift_census run (2nd, repeat)",
+   "vs_ladder_bp_at_cut_2026_10_20": 133.7,
+   "eligible_at_ref_2026_09_22": 1190
+  }
+ ],
+ "delta_over_two_minutes": {
+  "files_became_current": 53,
+  "vs_ladder_bp_move": -5.2,
+  "eligible_at_fixed_date_move": 40
+ },
+ "conclusions": [
+  "panel arrival moves BOTH the eligible count at a fixed date and the annualised vsLadder spread, with an unchanged spec and an unchanged cut date",
+  "the move is first-order (5.2bp/yr and 40 members in ~2 minutes), not second-order noise",
+  "once the panel stops arriving (1723/1725 current) the identical command reproduces the identical numbers byte-for-byte (two census runs agree exactly)",
+  "therefore: a wide-book magnitude is quotable ONLY together with panel coverage state, and 2026-10-21T03:47 coverage=1723 is the first converged state worth quoting"
+ ],
+ "honest": [
+  "no gate, no verdict, no prereg, no trial count consumed",
+  "the r1110 legacy numbers (985 / 156.0 / 215.5) were taken on unconverged panel states and are superseded by this trace, not corrected by it"
+ ]
+}

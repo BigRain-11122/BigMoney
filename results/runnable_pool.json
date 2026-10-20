@@ -19974,8 +19974,8 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done", "result_ref": "results/e38_panel_drift_census/CENSUS-20261020.json",
+   "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
    "shards": []
@@ -19990,8 +19990,8 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done", "result_ref": "results/e38_panel_drift_census/cuts.csv",
+   "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
    "shards": []
@@ -20006,10 +20006,46 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done", "result_ref": "results/e38_panel_drift_census/ARRIVAL-TRACE-20261021.json",
+   "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
+   "shards": []
+  },
+  {
+   "id": "E39-STALE-TWO-CENSUS",
+   "note": "r1111: the panel reached 1,723/1,725 current; the last two files are sh512390 (last bar 2026-09-04) and the specialist slot copy 510880_t73 (2026-09-22). Decide, from rows on disk, whether each is a delisted/untraded listing or a refresh failure -- the coverage face currently cannot tell those apart.",
+   "priority": 3,
+   "runner": "python scripts/panel_coverage_report.py run",
+   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily scan only, I/O bound single process"},
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:50:39+08:00",
+   "entered_by": "bm-b r1111 (supply floor refill after E38 close)",
+   "shards": []
+  },
+  {
+   "id": "E39-PANEL-MTIME-CENSUS",
+   "note": "r1111: the drift was caused by 53 files becoming current mid-round. Size the refresh that did it: count panel files whose mtime is after 2026-09-22 and the bar delta each one carries, so \"the panel moved\" becomes a byte/row figure instead of a claim.",
+   "priority": 3,
+   "runner": "python scripts/panel_coverage_report.py run",
+   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily scan only, I/O bound single process"},
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:50:39+08:00",
+   "entered_by": "bm-b r1111 (supply floor refill after E38 close)",
+   "shards": []
+  },
+  {
+   "id": "E39-LADDER-RISK-PROFILE",
+   "note": "r1111: every wide-book comparison is \"vs ladder5\", yet the ladder itself is ann -0.43% at 18.75% vol (Sharpe 0.071) on the converged panel. Document that baseline properly -- max drawdown, worst month, cash-leg share -- so a +134bp spread is read against a described denominator, not an implied one.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2020-01-01 --end 2026-10-20 --out results/e39_ladder_baseline",
+   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily only, single-process numpy engine"},
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:50:39+08:00",
+   "entered_by": "bm-b r1111 (supply floor refill after E38 close)",
    "shards": []
   }
  ],
