@@ -76,7 +76,8 @@
   "r1110": "r1110: three E37 units closed off one engine. Pit (inherited, now measured): the r1109 monotone-breadth read was a three-runs-on-two-windows composite; sweeping N inside a single window flips the sign at N=25/100/250. Pit (new, load-bearing): a backtest window is not a fixed object while the panel is refreshing -- truncating the same spec at 2026-09-22 changes the answer by 73bp/yr AND changes eligible-count at a fixed date (985 vs 1190), so panel-arrival state must be recorded with any wide-book number (cutoff alone is not enough; eligibility drift is the second dimension). Pool edits done by targeted text surgery (3 status flips +12/-3 lines, 3 seeds +60/-3), never a json round-trip.",
   "r1111": "r1111: pit -- the panel can be mid-arrival while coverage looks 'converged' at the face level; the only reliable check is running the same spec twice a few minutes apart (eligible-at-fixed-date is the tell). Pit -- pool seeding: appending before the entries array's '\\n ]' line needs the joined blocks to carry NO trailing comma; json.loads validation in the surgery script caught it before write (file untouched).",
   "r1113_pair": "E40 pair leg added to scripts/e39_panel_census.py (selftest 13/13): ladder5 vs wide_top9999 from one rank cache. 2020+ ladder5 -0.43%/yr maxDD -42.72% uw 1,046 worst 2026-07 -14.82%; wide +0.86% maxDD -36.55% uw 1,094 worst 2024-01 -11.53%; spread ratio ann +1.29% maxDD -13.04% (2025-07-24 -> 2026-06-30) uw 298 worst 2026-06 -7.49% = a different month from the ladder worst. 2018 window only lifts the ann column (+5.48/+7.44/+1.86) -- the dominant dd event sits after 2020, so the path read is not a window artefact.",
-  "r1114": "r1114: pit -- the equal weight is taken over LIVE names, so a missing member price never creates cash weight; the only cash in e27.simulate is the un-invested weight before the first TRADING rebalance (eligibility burn-in pushes it to index 262 = 263 cash bars, 16.0% of the 2020+ window, first invested 2021-02-01). Reading the engine's cash_leg_share_pct (12.71%, bars with a missing member) as 'cash' double-counts nothing but names the wrong mechanism. Cash attributable: ladder +36.0bp/yr, wide +37.0bp/yr; maxDD delta 0.00pp at x1 vs x0 for both schemes, so repo never cushioned the -42.72% ladder drawdown."
+  "r1114": "r1114: pit -- the equal weight is taken over LIVE names, so a missing member price never creates cash weight; the only cash in e27.simulate is the un-invested weight before the first TRADING rebalance (eligibility burn-in pushes it to index 262 = 263 cash bars, 16.0% of the 2020+ window, first invested 2021-02-01). Reading the engine's cash_leg_share_pct (12.71%, bars with a missing member) as 'cash' double-counts nothing but names the wrong mechanism. Cash attributable: ladder +36.0bp/yr, wide +37.0bp/yr; maxDD delta 0.00pp at x1 vs x0 for both schemes, so repo never cushioned the -42.72% ladder drawdown.",
+  "r1114_push": "cb138451d (payload) + 89e65ad36 (closeout pit row); both delivered, four-way verified behind=0 ahead=0"
  },
  "now_active": "pool ready 3/3 (E39 census family); broad ETF panel converged 1,723/1,725 at 2026-10-20",
  "orders_ack": [
@@ -394,7 +395,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-21T01:57:00+08:00",
+  "last_push_ts": "2026-10-21T04:27:55+08:00",
   "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
@@ -941,7 +942,8 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "last_push": "89e65ad361 -> origin/main (behind=0 ahead=0)"
  },
  "task": "r1114: cash-leg drag measured -- 263/1,645 bars (16.0%) of the 2020+ ladder are pure repo, first invested 2021-02-01, worth +36bp/yr and 0.00pp of drawdown",
  "ts": "2026-10-21T04:25:23+08:00",
