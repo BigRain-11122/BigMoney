@@ -20500,7 +20500,7 @@
   },
   {
    "id": "E52-PARTS-P7",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Sevenths at zero cost. Sixths is the first cut where all four eras flip; P7 tests whether that is saturation (the sign pattern cannot get denser) or one more count step, and pre2017's dead first part is now 1/6 of the era so its share of the band shrinks again.",
@@ -20509,11 +20509,37 @@
    "entered_at": "2026-10-21T07:38:00+08:00",
    "entered_by": "bm-b r1127",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 7"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 7",
+   "lane_owner": "bm-b",
+   "shards": [
+    {
+     "key": "e52-p7-x0",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-10-21T07:35:00+08:00"
+    }
+   ],
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "0",
+    "--parts",
+    "7"
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan parts census, single-process vectorized; 4 workers cap for CEO 10% headroom"
+   },
+   "priority": 1,
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x0-p7.json",
+   "done_at": "2026-10-21T07:35:30+08:00",
+   "done_by": "bm-b r1128",
+   "runner_note": "r1128: single-core census (<6s) -- burned inline by the round, not autofill (multicore_gate_refuses any single_core runner by design). shards/workers_plan left registered so a re-run stays claimable."
   },
   {
    "id": "E52-PARTS-P7-COST-X3",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Sevenths at cost x3. x3 has moved parts by <=13bp at five cuts in a row; the honest question is whether the sixths all-flip set survives the fee axis or whether one flip sits on a part small enough that fees erase it.",
@@ -20522,7 +20548,103 @@
    "entered_at": "2026-10-21T07:38:00+08:00",
    "entered_by": "bm-b r1127",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 7"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 7",
+   "lane_owner": "bm-b",
+   "shards": [
+    {
+     "key": "e52-p7-x3",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-10-21T07:35:00+08:00"
+    }
+   ],
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "3",
+    "--parts",
+    "7"
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan parts census, single-process vectorized; 4 workers cap for CEO 10% headroom"
+   },
+   "priority": 1,
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x3-p7.json",
+   "done_at": "2026-10-21T07:35:30+08:00",
+   "done_by": "bm-b r1128",
+   "runner_note": "r1128: single-core census (<6s) -- burned inline by the round, not autofill (multicore_gate_refuses any single_core runner by design). shards/workers_plan left registered so a re-run stays claimable."
+  },
+  {
+   "id": "E53-PARTS-P8",
+   "status": "inline",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "runner": "scripts/e39_panel_census.py",
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "0",
+    "--parts",
+    "8"
+   ],
+   "shards": [
+    {
+     "key": "e53-p8-x0",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan census runs in ~6s single-process; executed inline by a round, never by autofill (multicore gate refuses single_core runners by design). status=inline keeps it out of the ready floor."
+   },
+   "priority": 1,
+   "title": "Eighths at cost x0. Sevenths held the 4-of-4 flip set while the band widened to the broadest cut at three of four eras; eighths tests whether the band keeps widening and whether any era drops out of the flip set once a part holds only ~11% of the era.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p8.json",
+   "source": "r1128 x0-p7: 4 of 4 eras flip, bands widened (2503/1737/1191/2651bp at x0)",
+   "entered_at": "2026-10-21T07:36:00+08:00",
+   "entered_by": "bm-b r1128",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E53-PARTS-P8-COST-X3",
+   "status": "inline",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "runner": "scripts/e39_panel_census.py",
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "3",
+    "--parts",
+    "8"
+   ],
+   "shards": [
+    {
+     "key": "e53-p8-x3",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan census runs in ~6s single-process; executed inline by a round, never by autofill (multicore gate refuses single_core runners by design). status=inline keeps it out of the ready floor."
+   },
+   "priority": 1,
+   "title": "Eighths at cost x3. Sevenths held the 4-of-4 flip set while the band widened to the broadest cut at three of four eras; eighths tests whether the band keeps widening and whether any era drops out of the flip set once a part holds only ~11% of the era.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p8.json",
+   "source": "r1128 x3-p7: 4 of 4 eras flip, bands widened (2503/1737/1191/2651bp at x0)",
+   "entered_at": "2026-10-21T07:36:00+08:00",
+   "entered_by": "bm-b r1128",
+   "evidence_cutoff": "2026-10-20"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
