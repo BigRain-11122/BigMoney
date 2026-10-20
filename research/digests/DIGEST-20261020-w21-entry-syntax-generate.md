@@ -1,6 +1,6 @@
 # DIGEST 2026-10-20 — TRIAL-LABOR-W21 供料批（条件化入场语法 GENERATE）
 
-**轮次**：bm-b r1077（2026-10-20T17:0x–17:3x+08:00）
+**轮次**：bm-b r1077（2026-10-20T17:02–17:28+08:00）
 **队列出处**：`state/queue/explore.md` E18（r1076 登记）→ 本轮 done-flip
 **上游供给面**：E21 leg-3 条件化隔夜普查 `results/overnight_gap_census/LEG3-2026-10-19.json`（sha16 `c3eecf0facec0c85`）
 **判据**：`science_gates.g1_prime_v2` / `g2_registration_v2` / `deflated_sharpe_ratio` / `m1_t_value_gate`（禁手抄）
