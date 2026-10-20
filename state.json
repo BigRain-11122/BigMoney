@@ -1,30 +1,30 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-20T13:55:27+08:00",
- "current": "GREEN: r1073 P2 revival pair closed (VALUE 0.4076 / QUALITY 0.4537 vs skill line 1.1562, both G1 not passed)",
+ "clock_read": "2026-10-20T14:20:40+08:00",
+ "current": "オーバーナイト/日中收益分解普查 (overnight-gap census leg-1) landed: 16.56M obs, 5225 stocks, cutoff 2026-10-19",
  "current_task": "r1073: fund P2 pair finalize + pool closeout + S6 legs",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
   "round_ref": 1069,
-  "ts": "2026-10-20T12:49:23+08:00"
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-10-20T12:49:23+08:00",
+  "verbatim": true
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1073 | dept:研究+策略+工程 | FUND-VALUE-P2 20/20 cells burned then finalized: headline MAIN-x1 sharpe_ann 0.4076 vs frozen skill line 1.1562 -> g1_prime_v2 pass_v2=false (honest negative, same verdict shape as QUALITY-P2 0.4537 from r1072). Both fund P2 revival units marked done in runnable_pool (result_ref to results JSON), dualrun ZERO-DRIFT streak 19. S6 legs: dualrun/audit/watermark/daily(cutoff 10-19 no-op)/regime(ORANGE)/clock(CALL-2026-10-19 ORANGE_COOL)/thermo(no Money02 panel)/dualarm(DUALARM-2026-10-19)/revosc(no-op)/minute_feed(+200 rows)/fundamental(fresh)/b_layer(all_pass)/collectors(bm-a lanes honest no-op)/papers(no new bar, no-op). smoke 49/49, attrition CLEAN, orphans 0.",
- "did_round": "r1073",
- "heartbeat_epoch_utc_face": 1792475105,
+ "did": "r1074: E21 overnight gap census (selftest 12/12, run rc0, overnight -0.0891%/bar vs intraday +0.1409%/bar every year 2005-2026) + queue refill & S6/S7 maintenance",
+ "did_round": 1074,
+ "heartbeat_epoch_utc_face": 1792477240,
  "idle_rounds": 0,
  "last_action": "r1073: VALUE-P2 finalize verdict (negative) + pool closeout of both P2 units",
  "last_action_at": "2026-10-20T13:45:05+08:00",
- "last_artifact": "results/fund_value_p2/fund_value_p2_results.json (G1 not passed) + results/fund_p2_burn_progress.json 40/40",
+ "last_artifact": "results/overnight_gap_census/CENSUS-2026-10-19.json",
  "last_decisions_at": "2026-10-20T08:55:54+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,14 +43,19 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "b8084044dc 2026-10-20T10:16:52+08:00 origin/main 0/0 tree-surgery replay",
  "last_round_at": "2026-10-20T13:45:05+08:00",
- "last_round_ts": "2026-10-20T13:45:05+08:00",
+ "last_round_ts": "2026-10-20T14:20:40+08:00",
  "last_seen": "2026-10-20T13:45:05+08:00",
- "latest_artifact": "results/fund_value_p2/fund_value_p2_results.json + results/fund_quality_p2/fund_quality_p2_results.json",
+ "latest_artifact": "results/overnight_gap_census/CENSUS-2026-10-19.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1074: supply floor replenish (next trial-labor wave / W-seat) after P2 pair closure; papers chain fires on 10-20 bar landing (>=15:30)",
- "next_milestone": "supply floor >=3 ready units + first post-P2 trial batch seat (<=48h)",
+ "next": "r1075: overnight-gap leg-2 (held-position bridge: does the split hold for 5/20d holds?) OR launch TRIAL-LABOR-W21 generate now that E21 supplied a new axis; paper legs fire on the 2026-10-20 bar",
+ "next_milestone": "r1075 (<=48h): E21 digest consumption note in the E14/E18/E20 open-entry legs + supply floor replenish to >=3 ready units",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
+ "notes": {
+  "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
+  "r1070_note": "r1070: 1) watermark RED lane pool-batch-runnable-idle-low-cpu (2 ready units) -> claimed both fund P2 units in runnable_pool.json (lane_owner=bm-b, shards claimed) and ignited detached; 2) anchors: anchor_shotgrid.py consumes beats+calibrated -> shot grid (snap 0.10s/max 3.0s), 6/7 ready; 晴天 blocked on official lyrics (no repo copy, whisper may not substitute), 34 tracks lack audio (K: tree absent); 3) S0 pull --rebase --autostash: 2 UU regen faces (compute_audit/update_status) resolved origin-side then regenerated by chain; 4 autostash entries from dead sessions left in stash list (not dropped this round).",
+  "r1072_note": "r1072: push saga = two rebases (first onto bm-c r1156, second onto r1157 mid-window); results/_attrition_guard_scan.json UU ours-newer-wins; 7 daemon faces (machine-health/compute_audit/futures/lhb/regime_state/token_usage/update_status) origin-side per live-wins; delivered a39681d61 four-way verified. QUALITY-P2 finalize = first real judged face of the P2 revival pair."
+ },
  "now_active": "r1070 closed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -306,12 +311,21 @@
  },
  "r1065_note": "tree dirty at S0 entry (drama lane + other-machine heartbeats + fund P2 research deletions owned by other lanes) -> targeted add only per r1058/r982 policy; D-19 dual probe consumed dec=715e4134 ord=9da3cb04 advanced via update --advance, read-back full-string equality OK; zero bm-b dispatch rows in the new group batch",
  "r1066_notes": "tree dirty at start = stale worktree (tree-surgery replays left disk behind HEAD), not foreign in-progress edits; bm-c attrition ledger union-repaired to HEAD bytes (1 row), guard CLEAN rc0",
+ "r1073_main_push": {
+  "behind_origin_main": 0,
+  "consumed_at": "pending r1074",
+  "note": "payload = fund_value_p2_results.json (G1 not passed) + burn progress 40/40 + runnable_pool done-flip x2 + dualrun streak 19 + minute_feed +200 rows + daily_report/live_usage regen + closeout trio; first push hung 5min zero-output (promisor-window family, live index-pack left untouched) while origin advanced to 69d0fe69d (bm-c r1091 stamp); rebase --autostash replay, 8 nested UU regen faces origin-newer-wins (bm-c 13:46:51 > mine 13:41-13:45); delivered 69d0fe69d..f11a45d34 four-way verified (HEAD==origin, behind=0, ls-tree product present)",
+  "pushed_sha": "f11a45d34",
+  "status": "PUSHED_VERIFIED"
+ },
+ "r1073_note": "r1073: VALUE-P2 finalize = second and last judged face of the P2 revival pair. Both honest negatives (0.4076/0.4537 vs 1.1562). Pool entries FUND-VALUE-P2-CELLS/FUND-QUALITY-P2-CELLS flipped done with result_ref; merge_lane_views sync_face + dualrun re-run ZERO-DRIFT streak 19. papers family honest no-op (10-20 bar not landed at 13:4x).",
+ "r1074_note": "E21 census product; orders 107/107 ack; D-19 ZERO-DELTA; dualrun ZERO-DRIFT streak 20; audit FLAG supply_floor (ready 0 < 3, this round starts the refill); attrition CLEAN 4 ledgers",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1073,
- "round_no": 1073,
- "round_no_label": "r1073",
+ "round": 1074,
+ "round_no": 1074,
+ "round_no_label": "r1074",
  "sat_engine": {
   "checked_at": "2026-10-20T13:45:05+08:00",
   "status": "alive (r1073 status face; fund P2 pair closed, supply floor next)"
@@ -799,21 +813,8 @@
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
  "task": "r1073: FUND-VALUE-P2 finalize (honest negative) + pool closeout + S6 chain",
- "ts": "2026-10-20T13:55:27+08:00",
+ "ts": "2026-10-20T14:20:40+08:00",
  "updated": "2026-10-20T13:55:27+08:00",
  "updated_at": "2026-10-20T13:55:27+08:00",
- "verdict": "GREEN r1073: FUND-VALUE-P2 20/20 judged (honest negative sharpe 0.4076 vs 1.1562) -> P2 revival pair both closed; pool units done; smoke 49/49",
- "notes": {
-  "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
-  "r1070_note": "r1070: 1) watermark RED lane pool-batch-runnable-idle-low-cpu (2 ready units) -> claimed both fund P2 units in runnable_pool.json (lane_owner=bm-b, shards claimed) and ignited detached; 2) anchors: anchor_shotgrid.py consumes beats+calibrated -> shot grid (snap 0.10s/max 3.0s), 6/7 ready; 晴天 blocked on official lyrics (no repo copy, whisper may not substitute), 34 tracks lack audio (K: tree absent); 3) S0 pull --rebase --autostash: 2 UU regen faces (compute_audit/update_status) resolved origin-side then regenerated by chain; 4 autostash entries from dead sessions left in stash list (not dropped this round).",
-  "r1072_note": "r1072: push saga = two rebases (first onto bm-c r1156, second onto r1157 mid-window); results/_attrition_guard_scan.json UU ours-newer-wins; 7 daemon faces (machine-health/compute_audit/futures/lhb/regime_state/token_usage/update_status) origin-side per live-wins; delivered a39681d61 four-way verified. QUALITY-P2 finalize = first real judged face of the P2 revival pair."
- },
- "r1073_note": "r1073: VALUE-P2 finalize = second and last judged face of the P2 revival pair. Both honest negatives (0.4076/0.4537 vs 1.1562). Pool entries FUND-VALUE-P2-CELLS/FUND-QUALITY-P2-CELLS flipped done with result_ref; merge_lane_views sync_face + dualrun re-run ZERO-DRIFT streak 19. papers family honest no-op (10-20 bar not landed at 13:4x).",
- "r1073_main_push": {
-  "pushed_sha": "f11a45d34",
-  "status": "PUSHED_VERIFIED",
-  "behind_origin_main": 0,
-  "consumed_at": "pending r1074",
-  "note": "payload = fund_value_p2_results.json (G1 not passed) + burn progress 40/40 + runnable_pool done-flip x2 + dualrun streak 19 + minute_feed +200 rows + daily_report/live_usage regen + closeout trio; first push hung 5min zero-output (promisor-window family, live index-pack left untouched) while origin advanced to 69d0fe69d (bm-c r1091 stamp); rebase --autostash replay, 8 nested UU regen faces origin-newer-wins (bm-c 13:46:51 > mine 13:41-13:45); delivered 69d0fe69d..f11a45d34 four-way verified (HEAD==origin, behind=0, ls-tree product present)"
- }
+ "verdict": "product+maintenance"
 }

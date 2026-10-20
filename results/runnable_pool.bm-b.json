@@ -18546,16 +18546,19 @@
      "key": "cells-all",
      "owner": "bm-b",
      "owner_since": "2026-10-20T12:47:53+08:00",
-     "status": "claimed"
+     "status": "done",
+     "done_at": "2026-10-20T13:47:00+08:00"
     }
    ],
-   "status": "ready",
+   "status": "done",
    "ticket_ref": "FUND-VALUE-P2 prereg freeze (2026-10-20 bm-a r1089) + O-20261019-2230-bm-b sec.2 supply floor",
    "workers_plan": {
     "note": "one unit = one process; per-cell JSON is the resume checkpoint (killed run restarts where it stopped); bm-a workday daytime zero scheduling (machine iron law) -> night/weekend window",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/fund_value_p2/fund_value_p2_results.json",
+   "done_at": "2026-10-20T13:47:00+08:00"
   },
   {
    "consumer_plan": "20 judged cells -> finalize -> results/fund_quality_p2/fund_quality_p2_results.json; headline MAIN-x1; null family K=2000 is a separate batch, not part of this unit",
@@ -18574,16 +18577,19 @@
      "key": "cells-all",
      "owner": "bm-b",
      "owner_since": "2026-10-20T12:47:53+08:00",
-     "status": "claimed"
+     "status": "done",
+     "done_at": "2026-10-20T13:47:00+08:00"
     }
    ],
-   "status": "ready",
+   "status": "done",
    "ticket_ref": "FUND-QUALITY-P2 prereg freeze (2026-10-20 bm-a r1089) + O-20261019-2230-bm-b sec.2 supply floor",
    "workers_plan": {
     "note": "one unit = one process; per-cell JSON is the resume checkpoint (killed run restarts where it stopped); bm-a workday daytime zero scheduling (machine iron law) -> night/weekend window",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/fund_quality_p2/fund_quality_p2_results.json",
+   "done_at": "2026-10-20T13:47:00+08:00"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18598,7 +18604,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20T05:2x+08:00",
+ "updated_at": "2026-10-20T13:47:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
