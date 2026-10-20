@@ -1,0 +1,35 @@
+{
+ "leg": "split_adequacy",
+ "batch": "FUND-DIVLOWVOL-P2",
+ "evidence_cutoff": "2026-09-22",
+ "method": "rho = close_qfq / (amount/volume) / f_cash; monthly medians; step test",
+ "basis_notice": "panel close=qfq, amount/volume=raw; rho=(close_q/vwap)*f_cash",
+ "thresholds": {
+  "step_up": 1.15,
+  "step_down": 0.869565,
+  "min_months": 24
+ },
+ "panel": {
+  "symbols": 5225,
+  "months": 430,
+  "first_month": "19901231",
+  "last_month": "20260922"
+ },
+ "judged_symbols": 5007,
+ "skipped_no_sidecar": 102,
+ "skipped_thin": 116,
+ "split_events": 13076,
+ "affected_symbols": 3649,
+ "affected_share": 0.72878,
+ "level_test": {
+  "rho_median": 0.989818,
+  "tolerance": 0.05,
+  "symbols_off_level": 1702,
+  "off_level_share": 0.339924
+ },
+ "candidate_face": "results\\fund_divlowvol_p2\\split_events_candidate.json",
+ "verdict": "INADEQUATE_FOR_CASH_ONLY_SIDECAR",
+ "recommended_route": "vwap_raw_proxy",
+ "reading": "rho level far from 1.0 and/or split steps present: the panel qfq was reversed with a larger factor than cash dividends (song-zhuan missing). Do NOT reconstruct P_raw as qfq*f_cash. Use the raw-price proxy P_raw = amount/volume on signal dates (option B with vwap route), or take option A (p1c re-delivery) which carries the provider's full adjustment factor.",
+ "machine": "bm-b"
+}
