@@ -19342,12 +19342,15 @@
    }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-X3",
    "lane_owner": null,
    "note": "r1099: the equity-breadth point estimate (top50 +154.6bp/yr at 12.0bp/yr of cost) is only ~13x its own cost, while turnover is 3x the ladder. Cost x3 asks whether the sign survives when costs are the only thing that scales.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x3-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 3",
    "shards": [],
    "status": "done",
@@ -19355,18 +19358,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x3-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-N100",
    "lane_owner": null,
    "note": "r1099: monotonicity probe -- if breadth is real, N=100 should not be worse than N=50; if it decays, N=50 was the tail of a multiple-comparison surface.",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-310b86-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --ns 100",
    "shards": [],
    "status": "done",
@@ -19374,18 +19377,18 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-310b86-e20260922-xsh511-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100",
    "entered_at": "2026-10-21T00:43:25+0800",
    "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
    "id": "E28-EO-BREADTH-START2018",
    "lane_owner": null,
    "note": "r1099: era stability of the equity-breadth point estimate (pre-2017 the universe is 56 liquid ETFs, so top50 is nearly the whole universe and the comparison is degenerate there).",
    "priority": 3,
+   "result_ref": "results/e27_universe_expansion/UNIV-s20180101-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
    "status": "done",
@@ -19393,10 +19396,7 @@
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/e27_universe_expansion/UNIV-s20180101-e20260922-xsh511-20261021.json",
-   "done_at": "2026-10-21T01:14:00+0800",
-   "done_by": "bm-b r1100"
+   }
   },
   {
    "entered_at": "2026-10-21T00:50:20+0800",
@@ -19500,12 +19500,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:44:00+0800",
@@ -19516,12 +19519,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-s20180101-e20260922-xsh511-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:44:00+0800",
@@ -19531,6 +19537,57 @@
    "note": "r1101: drop cross-border equity blocks (sh513 family: QDII/HK/US index ETFs) from the all-universe baseline. If the advantage is concentrated in offshore beta the domestic-only read collapses; if it holds, the edge is domestic breadth.",
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 9999 --end 2026-09-22 --exclude sh511,sh518,sh513,sz159001,sz159003",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:32:51+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh513sh518sz159001sz159003-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:34:24+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
+   "id": "E31-LIQ-NLADDER-FULL",
+   "lane_owner": null,
+   "note": "r1101: E30 showed equal-weighting the whole universe beats the 5-rung ladder, but a 1,221-name book is not tradeable. This re-tests the size ladder (N=10..200) ON the full universe, where N is no longer degenerate (r1100 collapsed only because the pre-2018 universe held 56 ETFs).",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:34:24+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
+   "id": "E31-LIQ-NLADDER-2018",
+   "lane_owner": null,
+   "note": "r1101: same N ladder on the 2018+ window, where the E30 equal-weight excess weakened to +160bp / t=0.86. If the ladder shape is monotone in N here, tradeable breadth survives the weaker window.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:34:24+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E30 close)",
+   "id": "E31-LIQ-TOP200-X3",
+   "lane_owner": null,
+   "note": "r1101: cost stress on the tradeable-width book (top200 equal-weight, 200 names is feasible), tripled cost. This is the candidate that would actually be carried into a prereg if the ladder holds.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --ns 200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
    "shards": [],
    "status": "ready",
    "workers_plan": {
