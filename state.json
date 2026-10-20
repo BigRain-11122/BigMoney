@@ -378,8 +378,8 @@
  "round_no": 1112,
  "round_no_label": "r1112",
  "sat_engine": {
-  "checked_at": "2026-10-21T04:04:13+08:00",
-  "status": "alive (exit 0 at round start; 3 ready units after refill)"
+  "checked_at": "2026-10-21T04:05:14+08:00",
+  "status": "alive (exit 0 at round start; LoopWatchdog re-registered S4U, loop pin 2 current)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
@@ -671,9 +671,11 @@
    "ts": "2026-10-21T03:38:28+08:00"
   },
   "r1112_main_push": {
-   "consumed_at": "pending r1113",
-   "payload": "E39 census triad products (e39_panel_census.py + 3 result faces + month attribution + digest) + pool 3 closed 1 executed 4 seeded + closeout trio + bm-b evidence faces",
-   "status": "PENDING (this commit)"
+   "behind_origin_main": 0,
+   "note": "clean ff 9a6277453..60d9daef7; four-way verified (HEAD==origin==60d9daef7, behind=0 ahead=0, ls-tree carries scripts/e39_panel_census.py + results/e39_ladder_risk); payload = 15 faces (census script + 4 result faces + digest + pool 3 closed 1 executed 4 seeded + closeout trio + bm-b evidence); targeted add only -- 1,670 data/daily rewrites from the refresh wave and the drama lane left untouched per r982/r1015/r1033 policy",
+   "pushed_sha": "60d9daef7",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-21T04:05:14+08:00"
   },
   "r960_main_push": {
    "behind_origin_main": 0,
