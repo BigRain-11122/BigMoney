@@ -1,0 +1,125 @@
+{
+ "study": "e27_universe_expansion",
+ "evidence_cutoff": "2026-10-20",
+ "start": "2018-01-02",
+ "bars": 2132,
+ "years": 8.46,
+ "universe_size": 1243,
+ "excluded_prefixes": [
+  "sh511"
+ ],
+ "truncated_at": null,
+ "universe_live_marks": {
+  "2018-01-02": {
+   "eligible": 0,
+   "liquid": 0
+  },
+  "2020-01-02": {
+   "eligible": 96,
+   "liquid": 96
+  },
+  "2023-01-03": {
+   "eligible": 491,
+   "liquid": 491
+  },
+  "2026-10-20": {
+   "eligible": 490,
+   "liquid": 490
+  }
+ },
+ "cost_bp_per_side": 13.041,
+ "cost_mult": 1.0,
+ "schemes": {
+  "ladder5": {
+   "pick_n": null,
+   "metrics": {
+    "total_return_pct": 57.04,
+    "ann_return_pct": 5.48,
+    "ann_vol_pct": 19.64,
+    "sharpe": 0.37,
+    "bars": 2130
+   },
+   "aux": {
+    "rebalances": 93,
+    "turnover_total": 2.6590684208780693,
+    "cost_paid_frac": 0.0034676911276670893,
+    "turnover_per_year": 0.314,
+    "cost_per_year_bp": 4.1
+   },
+   "last_holdings": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "last_holdings_n": 5
+  },
+  "top10": {
+   "pick_n": 10,
+   "metrics": {
+    "total_return_pct": 33.96,
+    "ann_return_pct": 3.52,
+    "ann_vol_pct": 20.0,
+    "sharpe": 0.273,
+    "bars": 2130
+   },
+   "aux": {
+    "rebalances": 93,
+    "turnover_total": 11.891690275193653,
+    "cost_paid_frac": 0.015507953287880044,
+    "turnover_per_year": 1.406,
+    "cost_per_year_bp": 18.3
+   },
+   "last_holdings": [
+    "sh510300",
+    "sh512100",
+    "sh513120",
+    "sh513310",
+    "sh515880",
+    "sh518880",
+    "sh551030",
+    "sh551500",
+    "sh551550",
+    "sh588000"
+   ],
+   "last_holdings_n": 10,
+   "vs_ladder_bp_annualised": -173.7,
+   "vs_ladder": {
+    "months": 106,
+    "mean_bp": -11.81,
+    "t": -0.48,
+    "by_era": {
+     "2017-2020": {
+      "months": 36,
+      "mean_bp": -44.91
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 1.25
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": 9.39
+     }
+    }
+   }
+  }
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv close (annualised %)",
+  "units_per_year": 252.0,
+  "covered_days": 2132,
+  "ffilled_days": 1,
+  "first_rate_date": "2011-05-13",
+  "last_rate_date": "2026-10-19"
+ },
+ "honest": [
+  "selection reads trailing 60d turnover by volume, never future prices",
+  "the ETF population is today's surviving listing set (listing survivorship)",
+  "N = 10/20/50 is a multiple-comparison surface; only a consistent sign across N counts",
+  "liquidity is a turnover proxy, not shares outstanding; no cap-weight face is claimed",
+  "13.041bp/side charged on turnover; idle share accrues at the GC001 repo close",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed"
+ ]
+}
