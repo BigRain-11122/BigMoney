@@ -18774,6 +18774,36 @@
    "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step",
    "finished_at": "2026-10-20 18:37:00",
    "result_ref": "results/trial_labor_w21/w21_judge.json"
+  },
+  {
+   "id": "E24-LADDER-H3",
+   "status": "ready",
+   "runner": "scripts/e24_regime_census.py ladder --horizon 3",
+   "lane_owner": null,
+   "entered_at": "2026-10-20 22:36:55",
+   "host_gate": null,
+   "shards": [],
+   "note": "r1090 bm-b supply-floor refill: descriptive E24 ladder census at h=3 (h=5/10 already burned); in-repo data/daily only, zero forward-window gate, no prereg required (descriptive, no judgment)"
+  },
+  {
+   "id": "E24-BREADTH-H10",
+   "status": "ready",
+   "runner": "scripts/e24_regime_census.py breadth --horizon 10",
+   "lane_owner": null,
+   "entered_at": "2026-10-20 22:36:55",
+   "host_gate": null,
+   "shards": [],
+   "note": "r1090 bm-b supply-floor refill: descriptive breadth census at h=10 (h=5 burned); zero forward-window gate"
+  },
+  {
+   "id": "E24-DISPERSION-H10",
+   "status": "ready",
+   "runner": "scripts/e24_regime_census.py dispersion --horizon 10",
+   "lane_owner": null,
+   "entered_at": "2026-10-20 22:36:55",
+   "host_gate": null,
+   "shards": [],
+   "note": "r1090 bm-b supply-floor refill: descriptive dispersion census at h=10 (h=5 burned); zero forward-window gate"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18788,7 +18818,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20 18:37:00",
+ "updated_at": "2026-10-20 22:36:55",
  "version": 1,
  "lane_machine": "bm-b"
 }
