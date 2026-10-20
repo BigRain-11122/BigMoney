@@ -1223,6 +1223,9 @@ def _monthly_core(pick_n=9999, exclude=("sh511",)):
             "lad_m": lad_m, "wide_m": wide_m, "months": months, "tilt": tilt,
             "months4": months4, "tilt4": tilt4, "dropped4": dropped4,
             "dropped": dropped, "universe": len(universe),
+            # per-member monthly returns + break months, so a leg can rebuild any
+            # sub-skin without a second panel pass (E44 leave-one-out)
+            "mem": mem, "brk": brk,
             "years": len(cal) / 252.0}
 
 
@@ -1847,6 +1850,140 @@ def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
     }
 
 
+# ------------------------------------- leg: E44 leave-one-out skin decomposition
+
+def _skin_sets(drop=None):
+    """(large, small) member legs after dropping one member (None = full skin)."""
+    large = tuple(s for s in TILT_LARGE if s != drop)
+    small = tuple(s for s in TILT_SMALL if s != drop)
+    return large, small
+
+
+def run_skinloo(outdir, core=None, eras=ERAS, members=None):
+    """Price the size-neutral spread on every leave-one-out skin, per era.
+
+    E43's four-member reach-back is itself one leave-one-out skin (STAR dropped),
+    and it moved the newest-era size-neutral spread from +181.2bp to +38.5bp. A
+    number that moves 4.7x on a naming decision cannot be quoted without the
+    skin being disclosed, so every one-member drop is priced here on the same
+    engine curves and the same months. The delta column is the answer to "which
+    member carries the sign flip", not a new spread estimate.
+    """
+    core = core or _monthly_core()
+    mem, brk = core["mem"], core["brk"]
+    lad_m, wide_m = core["lad_m"], core["wide_m"]
+    months_all = [m for m in sorted(lad_m) if m in wide_m]
+    members = list(members or (TILT_LARGE + TILT_SMALL))
+
+    def read_skin(large, small):
+        used, tilt, dropped = _tilt_series(mem, brk, months_all, large, small)
+        rows = {}
+        for name, lo, hi in list(eras) + [("full", None, None)]:
+            ms = [m for m in used if _in_era(m, lo, hi)]
+            if len(ms) < 3:
+                rows[name] = {"months": len(ms), "skipped": "fewer than 3 usable months"}
+                continue
+            t = [tilt[m] for m in ms]
+            spread = [wide_m[m] - lad_m[m] for m in ms]
+            tm = _moments(t)
+            beta, alpha, r2 = _ols(spread, t)
+            tilt_ann = tm["mean"] * 12.0 * 1e4
+            rows[name] = {
+                "months": len(ms), "from": ms[0], "to": ms[-1],
+                "tilt_annualised_bp": round(tilt_ann, 1),
+                "tilt_sd_bp": round(tm["sd"] * 1e4, 1) if tm["sd"] is not None else None,
+                "spread_raw_ann_bp": round(sum(spread) / len(spread) * 12.0 * 1e4, 1),
+                "spread_size_neutral_ann_bp": (round(alpha * 12.0 * 1e4, 1)
+                                               if alpha is not None else None),
+                "beta_spread_on_tilt": round(beta, 3) if beta is not None else None,
+                "r_squared_spread": round(r2, 4) if r2 is not None else None,
+            }
+        return rows, dropped
+
+    base_rows, base_dropped = read_skin(TILT_LARGE, TILT_SMALL)
+    skins = {"full_5": {"drop": None, "skin": "5-member", "members": list(TILT_LARGE + TILT_SMALL),
+                        "eras": base_rows}}
+    for drop in members:
+        large, small = _skin_sets(drop)
+        if not large or not small:
+            continue
+        rows, dropped = read_skin(large, small)
+        skins["drop_" + drop] = {
+            "drop": drop,
+            "skin": "%d-member" % (len(large) + len(small)),
+            "members": list(large + small),
+            "eras": rows,
+            "dropped_months": len(dropped),
+        }
+
+    # per-era delta against the full skin: which member moves the number, and by how much
+    delta = {}
+    for name in skins:
+        if name == "full_5":
+            continue
+        d = {}
+        for era in ("2017_2020", "2021_2023", "2024_now", "full"):
+            a = skins[name]["eras"].get(era, {}).get("spread_size_neutral_ann_bp")
+            b = base_rows.get(era, {}).get("spread_size_neutral_ann_bp")
+            d[era] = round(a - b, 1) if (a is not None and b is not None) else None
+        delta[skins[name]["drop"]] = d
+
+    def sign(x):
+        if x is None:
+            return None
+        return 1 if x > 0 else (-1 if x < 0 else 0)
+
+    flips = {}
+    for era in ("2021_2023", "2024_now"):
+        b = base_rows.get(era, {}).get("spread_size_neutral_ann_bp")
+        flips[era] = {
+            "full_skin_bp": b,
+            "members_whose_removal_flips_sign": [
+                m for m, d in delta.items()
+                if d.get(era) is not None and sign(d[era] + (b or 0)) != sign(b)
+            ],
+            "largest_removal_effect": (
+                sorted(((abs(d[era]), m) for m, d in delta.items() if d.get(era) is not None),
+                       reverse=True) or [(None, None)])[0][1],
+        }
+
+    return {
+        "leg": "e44_skin_loo",
+        "evidence_cutoff": core["cutoff"],
+        "engine": {"wide_book": core["wide_name"], "ladder": "ladder5",
+                   "cost_bp_per_side": 13.041, "convention": "monthly additive bp"},
+        "eras": [{"name": n, "lo": lo, "hi": hi} for n, lo, hi in eras],
+        "skins": skins,
+        "delta_vs_full_skin_bp": delta,
+        "sign_flip_attribution": flips,
+        "answers": {
+            "which_member_carries_the_2021_2023_vs_2024_now_flip":
+                flips["2024_now"]["largest_removal_effect"],
+            "spread_range_across_skins_2024_now_bp": [
+                min(r["eras"]["2024_now"]["spread_size_neutral_ann_bp"]
+                    for r in skins.values()
+                    if r["eras"].get("2024_now", {}).get("spread_size_neutral_ann_bp") is not None),
+                max(r["eras"]["2024_now"]["spread_size_neutral_ann_bp"]
+                    for r in skins.values()
+                    if r["eras"].get("2024_now", {}).get("spread_size_neutral_ann_bp") is not None),
+            ],
+            "four_member_row_matches_e43": (
+                "drop_sh588000 is exactly the E43 four-member skin; its 2024_now "
+                "size-neutral number is the one E43 headlines"),
+        },
+        "honest": [
+            "every skin is priced on the same engine curves, the same months and the same "
+            "13.041bp/side constant -- only the tilt regressor changes",
+            "a leave-one-out skin is not an alternative portfolio: it is the same wide book "
+            "measured against a narrower size reference, so the spread levels are not tradeable "
+            "alternatives to each other",
+            "the sign-flip attribution is a decomposition, not a forecast; the newest era is the "
+            "shortest and carries the widest error",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -1995,6 +2132,19 @@ def selftest():
     chk(_compose_counts([], TILT_LARGE, TILT_SMALL) == {"n": 0},
         "an empty book has no composition to report")
 
+    # E44: every leave-one-out skin drops exactly one member and keeps both legs alive
+    lg5, sm5 = _skin_sets(None)
+    chk(lg5 == TILT_LARGE and sm5 == TILT_SMALL,
+        "the full skin is the untouched five-member set")
+    lg4, sm4 = _skin_sets("sh588000")
+    chk(lg4 == TILT_LARGE and sm4 == TILT4_SMALL,
+        "dropping STAR reproduces the E43 four-member skin exactly")
+    lg1, sm1 = _skin_sets("sh510050")
+    chk(len(lg1) == 1 and sm1 == TILT_SMALL,
+        "dropping a large-cap leaves a one-name large leg, not an empty one")
+    chk(all(_skin_sets(d)[0] and _skin_sets(d)[1] for d in (TILT_LARGE + TILT_SMALL)),
+        "no single-member drop empties either size leg")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -2005,7 +2155,7 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "all", "selftest"])
+                             "e44", "skinloo", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -2161,6 +2311,23 @@ def main(argv):
             p = write_json(outdir, "ROBUST-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
             print(json.dumps({"leg": "neutralrob", "file": os.path.relpath(p, ROOT),
                               "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode in ("e44", "skinloo"):
+        core = _monthly_core()
+        f = run_skinloo(None, core=core)
+        outdir = os.path.join(ROOT, "results", "e44_skin")
+        p = write_json(outdir, "LOO-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "skinloo", "file": os.path.relpath(p, ROOT),
+                          "skins": {k: {"skin": v["skin"],
+                                        "neutral_2024_now_bp":
+                                            v["eras"].get("2024_now", {}).get(
+                                                "spread_size_neutral_ann_bp"),
+                                        "neutral_2021_2023_bp":
+                                            v["eras"].get("2021_2023", {}).get(
+                                                "spread_size_neutral_ann_bp")}
+                                    for k, v in f["skins"].items()},
+                          "delta": f["delta_vs_full_skin_bp"],
+                          "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:
