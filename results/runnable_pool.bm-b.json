@@ -19917,7 +19917,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e37_breadth_ladder/UNIV-72e908-s20210101-xsh511-20261021.json",
+   "closed_by": "bm-b r1110",
+   "closed_note": "r1110: breadth gradient absent -- non-monotone across N=5..all on one window (top5 -533.4bp t-1.15, top10 +80.0, top25 -25.0, top50 +32.3, top100 -155.1, top250 -46.4, all +170.8 t0.67 vs ladder); the r1109 monotone read was a cross-window artefact.",
    "lane_owner": null,
    "entered_at": "2026-10-21T03:03:02+08:00",
    "entered_by": "bm-b r1109 (supply floor refill after E36 close)",
@@ -19933,7 +19936,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e37_xsh511_included_2020/UNIV-4170ac-s20200101-20261021.json",
+   "closed_by": "bm-b r1110",
+   "closed_note": "r1110: bond/money block worth ~33bp/yr on the post-2020 slice (+189.2bp t0.79 incl vs +156.0bp t0.69 excl), about half its 2018+ share.",
    "lane_owner": null,
    "entered_at": "2026-10-21T03:03:02+08:00",
    "entered_by": "bm-b r1109 (supply floor refill after E36 close)",
@@ -19949,10 +19955,61 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e37_breadth_cost_x3/UNIV-4170ac-s20200101-xsh511-x3-20261021.json",
+   "closed_by": "bm-b r1110",
+   "closed_note": "r1110: cost x3 moves the clean-window read by -6.6bp/yr (+156.0 -> +149.4, t 0.69 -> 0.67); fees are not the binding constraint.",
    "lane_owner": null,
    "entered_at": "2026-10-21T03:03:02+08:00",
    "entered_by": "bm-b r1109 (supply floor refill after E36 close)",
+   "shards": []
+  },
+  {
+   "id": "E38-PANEL-STABILITY-SWEEP",
+   "note": "r1110: one spec (2020 start, sh511 excluded, N=all) read +82.7bp/yr on a panel cut at 2026-09-22, +156.0 through 2026-10-20 and +215.5 at r1109 -- three panel states, three magnitudes. Map the revision curve: the same spec truncated at several month ends, so panel-freshness noise is measured rather than asserted.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2020-01-01 --end 2026-06-30 --out results/e38_panel_cut_0630",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:52:00+08:00",
+   "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
+   "shards": []
+  },
+  {
+   "id": "E38-COST-X3-0922",
+   "note": "r1110: on the current panel, cost x3 moves the wide-book read by only -6.6bp/yr. Re-check that on the frozen-panel slice (+82.7bp/yr at x1) -- if cost is not binding there either, the fragility lives in the data, not in fees.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2020-01-01 --end 2026-09-22 --cost-mult 3 --out results/e38_cost_x3_0922",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:52:00+08:00",
+   "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
+   "shards": []
+  },
+  {
+   "id": "E38-ELIGIBILITY-DRIFT-CENSUS",
+   "note": "r1110: eligible-count at a FIXED date moved 985 -> 1,190 between two runs, so wide-book membership depends on which panel files were current. Census the drift directly from the E30 coverage report so the size of the moving membership is a number instead of an inference.",
+   "priority": 3,
+   "runner": "python scripts/panel_coverage_report.py run",
+   "workers_plan": {
+    "note": "in-repo data/daily scan only, I/O bound single process",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T03:52:00+08:00",
+   "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
    "shards": []
   }
  ],
