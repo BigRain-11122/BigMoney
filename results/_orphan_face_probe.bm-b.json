@@ -1,50 +1,72 @@
 {
- "ts": "2026-10-20T16:08:40",
+ "ts": "2026-10-20T17:57:32",
  "mode": "probe",
- "py_faces_seen": 7,
+ "py_faces_seen": 16,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 296,
+   "pid": 948,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 15.0,
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 1.1,
+   "cpu_delta_20s": 1.234,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 2336,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 2.6,
+   "cpu_delta_20s": 1.484,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 2724,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 2.2,
+   "cpu_delta_20s": 1.469,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 7456,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/trial_labor_w21.py screen 2 4",
+   "age_min": 3.4,
    "cpu_delta_20s": 0.016,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
+    "DEAD"
    ]
   },
   {
-   "pid": 3592,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 15.0,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 4428,
+   "pid": 10180,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 17.0,
+   "age_min": 3.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -58,26 +80,38 @@
    ]
   },
   {
-   "pid": 7420,
+   "pid": 14256,
    "name": "python.exe",
-   "cmd": "python Tools\\orphan_face_probe.py",
-   "age_min": 0.4,
-   "cpu_delta_20s": 0.047,
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 1.5,
+   "cpu_delta_20s": 1.312,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
+   "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "powershell.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
+    "python.exe",
+    "DEAD"
    ]
   },
   {
-   "pid": 22740,
+   "pid": 15796,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 1.8,
+   "cpu_delta_20s": 2.312,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 15920,
    "name": "python.exe",
    "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 17.0,
+   "age_min": 0.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -90,10 +124,38 @@
    ]
   },
   {
-   "pid": 24812,
+   "pid": 16640,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 0.7,
+   "cpu_delta_20s": 2.422,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 17136,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 0.3,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 20144,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 17.0,
+   "age_min": 0.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -106,16 +168,79 @@
    ]
   },
   {
-   "pid": 27304,
+   "pid": 20744,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 3.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 22276,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=7456, pipe_",
+   "age_min": 3.0,
+   "cpu_delta_20s": 1.297,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 22564,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 15.0,
+   "age_min": 3.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "blender-mcp.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 23332,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.062,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "powershell.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 24784,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
+   "age_min": 0.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "mcp-for-unity.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
