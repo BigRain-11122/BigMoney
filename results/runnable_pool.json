@@ -39,7 +39,8 @@
    "source": "r1118 neutralrob face: mid15 cells weakest at both cost levels",
    "entered_at": "2026-10-21T05:40:00+08:00",
    "entered_by": "bm-b r1118",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "r1121: still no runner -- these two need legs that do not exist yet (mid-month name-level diff, warm-slice era re-pricing); autofill cannot ignite them until authored."
   },
   {
    "data_gates": "in-runner: s2 gates re-check (P-1c census 8792/5222 r105 law + ok-universe 5129+/-1 + pct_chg agreement + high/low finite + cutoff lockbox 2026-09-22) + nulls-first refusal + per-factor checkpoints; panel=P-1c Stage-A cache",
@@ -20307,11 +20308,12 @@
    "source": "r1120 burnin face: cold starts carry 259-265 dead sessions each",
    "entered_at": "2026-10-21T06:22:00+08:00",
    "entered_by": "bm-b r1120",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "r1121: still no runner -- these two need legs that do not exist yet (mid-month name-level diff, warm-slice era re-pricing); autofill cannot ignite them until authored."
   },
   {
    "id": "E45-BURNIN-KNIFE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The 250-bar eligibility rule costs 259-265 sessions in every window and 6pp/yr on a cold 2013 start. That is a deliberate rule (no thin-history listings), but nobody has priced the knife edge: rerun the same three windows at MIN_BARS 60/120/250 and measure the annualised return and the eligible-set size at the first trade. If 120 buys most of the return back without letting one-month-old listings in, the 250 is a 6-month tax rather than a safety margin; if the early bars are trash at 60, the 250 is earning its keep.",
@@ -20319,7 +20321,13 @@
    "source": "r1120 burnin face: gate binds exactly at the earliest possible decision",
    "entered_at": "2026-10-21T06:22:00+08:00",
    "entered_by": "bm-b r1120",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py knife",
+   "runner_note": "r1121: knife leg added to the E44 census code path (MIN_BARS 60/120/250, per-knife checkpoints, resumable).",
+   "result_ref": "results/e45_burnin_knife/KNIFE-20261020.json",
+   "done_at": "2026-10-21T06:22:00+08:00",
+   "done_by": "bm-b r1121",
+   "answer": "Not a tax. Lowering the gate to 120 does NOT buy the return back: wide ann gap 120-vs-250 = -0.21 / -0.07 / -1.22 / +0.91 pp on 2013/2016/2018/2020 starts, while the eligible set grows only +5/+6/+6/+13 names. The ordering is not monotone either -- at 60 bars 2013 and 2018 get WORSE (6.78 vs 7.61, 4.80 vs 7.02) but 2020 gets much BETTER (4.66 vs 0.49). So the 250 is neither a pure safety margin nor a uniform tax: it is a window-dependent filter, and the only window where the cheap gate clearly wins is the newest one."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -20334,6 +20342,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T06:22:00+08:00",
+ "updated_at": "2026-10-21T06:22:30",
  "version": 1
 }

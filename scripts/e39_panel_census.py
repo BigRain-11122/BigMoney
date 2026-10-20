@@ -2017,7 +2017,7 @@ def _annual_rets(marks):
 
 
 def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
-               pick_n=9999, exclude=("sh511",)):
+               pick_n=9999, exclude=("sh511",), min_bars=None):
     """Attribute the missing pre-2017 years to the eligibility gate, not to mystery.
 
     E40 measured that the book sits in repo for 263 of its first 1,645 bars and
@@ -2032,7 +2032,9 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    min_bars = base.MIN_BARS
+    min_bars = int(min_bars or base.MIN_BARS)
+    prev_min_bars = base.MIN_BARS
+    base.MIN_BARS = min_bars   # e27.load_universe and base.elig both read this global
     raw_all = e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
@@ -2163,6 +2165,7 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
             block["%s..%s" % (lo, hi or "now")][name] = face
         span.update(block)
 
+    base.MIN_BARS = prev_min_bars
     return {
         "study": "e44_eligibility_burnin",
         "evidence_cutoff": cutoff,
@@ -2198,6 +2201,100 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
             "symbols_in_universe counts de-duplicated panels; eligibility arrival is per "
             "window because the rule is window-relative",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def run_knife(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
+              knives=(60, 120, 250), pick_n=9999, exclude=("sh511",), resume=True):
+    """E45: price the knife edge of the MIN_BARS eligibility rule.
+
+    The 250-bar gate is a deliberate no-thin-history-listing rule, but nobody has
+    measured what it buys against what it costs. Rerun the identical spec at
+    MIN_BARS 60/120/250 and read two things per window: the annualised return the
+    book earns once it is finally allowed to trade, and the size of the eligible
+    set on that first trade. A cheaper gate that buys most of the return back
+    without flooding the book with one-month-old listings means the 250 is a
+    six-month tax; early bars that read as junk at 60 mean it is earning its keep.
+
+    Per-knife checkpoints land as ``KNIFE-<cutoff>-mb<n>.json`` so a killed pass
+    resumes instead of restarting; the assembled face is written once all knives
+    are on disk. Descriptive only: no gate, no verdict, no prereg, no trials.
+    """
+    per_knife = {}
+    for mb in knives:
+        cached = None
+        if resume:
+            hit = [p for p in sorted(os.listdir(outdir) or [])
+                   if p.startswith("KNIFE-") and p.endswith("-mb%d.json" % mb)] \
+                if os.path.isdir(outdir) else []
+            if hit:
+                try:
+                    with open(os.path.join(outdir, hit[-1]), encoding="utf-8") as fh:
+                        cached = json.load(fh)
+                except Exception:
+                    cached = None
+        if cached is None:
+            cached = run_burnin(None, starts=starts, pick_n=pick_n,
+                                exclude=exclude, min_bars=mb)
+            write_json(outdir, "KNIFE-%s-mb%d.json"
+                       % (cached["evidence_cutoff"].replace("-", ""), mb), cached)
+        per_knife[mb] = cached
+
+    cutoff = per_knife[knives[0]]["evidence_cutoff"]
+    rows = {}
+    for start in starts:
+        rows[start] = {}
+        for mb in knives:
+            w = per_knife[mb]["windows"].get(start)
+            if not w:
+                continue
+            rows[start][mb] = {
+                "min_bars": mb,
+                "sessions_uninvested": w["sessions_uninvested"],
+                "sessions_uninvested_share_pct": w["sessions_uninvested_share_pct"],
+                "first_invested_bar": w["first_invested_bar"],
+                "eligible_at_first_invested": w["eligible_at_first_invested"],
+                "symbols_in_universe": w["symbols_in_universe"],
+                "wide_ann_return_pct": (w["naive_start_curves"]["wide"] or {}).get(
+                    "ann_return_pct"),
+                "ladder_ann_return_pct": (w["naive_start_curves"]["ladder5"] or {}).get(
+                    "ann_return_pct"),
+                "eligible_set_at_first_trade": w["eligible_at_first_invested"],
+            }
+
+    # the two questions the batch asks, answered off the same grid
+    answers = {}
+    for start, by_mb in rows.items():
+        base_face = by_mb.get(250) or {}
+        cheap = by_mb.get(120) or by_mb.get(60) or {}
+        if not base_face or not cheap:
+            continue
+        answers[start] = {
+            "return_gap_120_vs_250_pp": (
+                round(cheap["wide_ann_return_pct"] - base_face["wide_ann_return_pct"], 2)
+                if (cheap.get("wide_ann_return_pct") is not None
+                    and base_face.get("wide_ann_return_pct") is not None) else None),
+            "eligible_gap_120_vs_250": (
+                cheap["eligible_at_first_invested"] - base_face["eligible_at_first_invested"]
+                if (cheap.get("eligible_at_first_invested") is not None
+                    and base_face.get("eligible_at_first_invested") is not None) else None),
+        }
+
+    return {
+        "study": "e45_burnin_knife",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "starts": list(starts), "knives": list(knives),
+                 "cost_bp_per_side": per_knife[knives[0]]["spec"]["cost_bp_per_side"]},
+        "grid": rows,
+        "answers": answers,
+        "honest": [
+            "the same spec runs at each knife; only the membership rule moves, so any "
+            "return difference is the gate's price, not a different strategy",
+            "a bigger eligible set at a cheaper gate is not automatically good: the "
+            "question is whether the extra names are tradeable or one-month-old listings",
+            "descriptive census only: no gate, no verdict, no prereg, no trials consumed",
         ],
     }
 
@@ -2391,7 +2488,7 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "e44", "burnin", "skinloo", "all", "selftest"])
+                             "e44", "burnin", "knife", "skinloo", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -2548,7 +2645,7 @@ def main(argv):
             print(json.dumps({"leg": "neutralrob", "file": os.path.relpath(p, ROOT),
                               "answers": f["answers"]}, ensure_ascii=False))
         return 0
-    if args.mode in ("e44", "burnin", "skinloo"):
+    if args.mode in ("e44", "burnin", "knife", "skinloo"):
         if args.mode in ("e44", "burnin"):
             f = run_burnin(None)
             outdir = os.path.join(ROOT, "results", "e44_burnin")
@@ -2560,6 +2657,14 @@ def main(argv):
                               "spans": {k: {kk: (vv or {}).get("ann_return_pct")
                                             for kk, vv in v.items()}
                                         for k, v in f["era_spans_warm"].items()},
+                              "answers": f["answers"]}, ensure_ascii=False))
+        if args.mode == "knife":
+            outdir = os.path.join(ROOT, "results", "e45_burnin_knife")
+            os.makedirs(outdir, exist_ok=True)
+            f = run_knife(outdir)
+            p = write_json(outdir, "KNIFE-%s.json"
+                           % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "knife", "file": os.path.relpath(p, ROOT),
                               "answers": f["answers"]}, ensure_ascii=False))
         if args.mode in ("e44", "skinloo"):
             core = _monthly_core()
