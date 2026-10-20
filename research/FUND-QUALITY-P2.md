@@ -1,5 +1,7 @@
 # FUND-QUALITY-P2 预注册【DRAFT-NOT-FROZEN·r1087 开批票】· 质量族复活批（质量定义邻域＋参数邻域＋出场轴）
 
+> **r1088 bm-a 进展注记**：judged-cell 计划已机械化落地 —— `scripts/fund_vq_p2_plan.py`（selftest 14/14）→ `results/fund_quality_p2/PLAN.json`（20 格·N_eff 2,020·种子 20517500/20518000 登记校验通过·定义邻域定稿=稳定性单秩 vs 水平×稳定复合秩·双通道缺省栈禁用 4+2 键申报）＋闸回执 `results/_quality_plan_gate.json` verdict=GREEN。余项=burn runner `scripts/fund_quality_p2_backtest.py` 引擎接线 → 冻结 commit → 入池起烧。
+
 > **状态=冻结窗进行中（r1087 bm-a）**：本件 r1087 开立。已完成=禁向闸 ADMIT（§0.5）＋数据可达性六腿探针全绿（`results/_fund_quality_p2_freeze_probe.json`·2026-10-20T08:18:47+08:00·selftest 全 PASS）＋种子带 SEED_REGISTRY 登记（20517500/20518000·probe leg5 实弹扫描零碰撞）＋§2 四元组锚定＋§3 三腿规格写死＋§5 预测定稿。**余项=runner 落地（`scripts/fund_quality_p2_backtest.py`·承 P1 runner 骨架 import 复用）→ 跑齐后 commit 冻结；冻结前禁烧。** §7/§8 占位纪律（写数字即造假）。
 > 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
 > **CEO 判负线复活授权（O-20261019-2230-bm-b §二.2·三件律：本授权+新预注册+新证据）**：承 FUND-QUALITY-P1 判决（headline skill 0.33 无条件面·2026-10-14 在册·sharpe_full **−0.318** 强负），新证据三腿=①质量定义邻域（ROE 水平-only vs ROE 水平×稳定性复合——P1 只判 ROE 水平单定义）②Top-N 参数邻域（邻域稳健性=P2 判负面主判据）③出场轴优化（P1=②持有到底；P2 显式声明①策略自有出场族）。防运气门不拆（技能线/DSR/PBO/种子登记/预注册冻结全照旧）。

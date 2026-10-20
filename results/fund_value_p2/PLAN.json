@@ -1,0 +1,368 @@
+{
+ "batch": "FUND-VALUE-P2",
+ "burn_discipline": {
+  "bm_a_weekday_daytime": "zero scheduling (machine iron law)",
+  "frozen_before_burn": true,
+  "pool_claim": true
+ },
+ "cost_caliber": {
+  "faces": [
+   "x1",
+   "x2"
+  ],
+  "spec": "V2 (ADV20 three-layer slippage + 1% ADV cap), always-on",
+  "x1_side_bp": 26.082,
+  "x2_rt_bp": 52.164
+ },
+ "data_face": "data/fund_history_export/value_faces.parquet",
+ "exit_axis_declaration": {
+  "census_block_share": 0.2,
+  "control": "hold_through_with_engine_default_stack_disabled",
+  "default_stack_disable": {
+   "exitpatch_channel": {
+    "global_hard_limit": 1000000000.0,
+    "loss_time_days": 1000000000.0
+   },
+   "params_channel": {
+    "initial_stop": -1.0,
+    "take_profit_levels": [],
+    "time_decay_period": 1000000000.0,
+    "trailing_stop_activate": 1000000000000.0
+   }
+  },
+  "main_judge": "strategy_signal_reversal_plus_stop_family",
+  "template_default": "zero cells (not adopted)"
+ },
+ "family_key": "fund_value_stock_xs",
+ "gates": {
+  "G1_prime_v2": "science_gates.g1_prime_v2 (shared library, never copied)",
+  "G2_registration_v2": "science_gates.g2_registration_v2 (DSR>=0.95, PBO<=0.25)",
+  "M1_t": "science_gates.m1_t_value_gate (t>=2.0)"
+ },
+ "generated_by": "scripts/fund_vq_p2_plan.py",
+ "judged_cells": [
+  {
+   "cell_id": "MAIN-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg1_main",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "MAIN-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg1_main",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-10-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 10,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-10-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 10,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-15-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 15,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-15-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 15,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-25-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 25,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-25-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 25,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-30-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 30,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "NN-30-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg2_n_neighborhood",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 30,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "DEF-pb_only-x1",
+   "cost_face": "x1",
+   "definition": "pb_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg3_definition_ablation",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "DEF-pb_only-x2",
+   "cost_face": "x2",
+   "definition": "pb_only",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg3_definition_ablation",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "DEF-pe_x_pb_rank-x1",
+   "cost_face": "x1",
+   "definition": "pe_x_pb_rank",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg3b_composite",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "DEF-pe_x_pb_rank-x2",
+   "cost_face": "x2",
+   "definition": "pe_x_pb_rank",
+   "exit_axis": {
+    "engine_default_stack": "DISABLED_TWO_CHANNEL",
+    "kind": "hold_through"
+   },
+   "leg": "leg3b_composite",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-hard_stop_-15pct-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "id": "hard_stop_-15pct",
+    "kind": "hard_stop",
+    "level": -0.15
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-hard_stop_-15pct-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "id": "hard_stop_-15pct",
+    "kind": "hard_stop",
+    "level": -0.15
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-hard_stop_-20pct-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "id": "hard_stop_-20pct",
+    "kind": "hard_stop",
+    "level": -0.2
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-hard_stop_-20pct-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "id": "hard_stop_-20pct",
+    "kind": "hard_stop",
+    "level": -0.2
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-trailing_12_8-x1",
+   "cost_face": "x1",
+   "definition": "pe_only",
+   "exit_axis": {
+    "activate": 0.12,
+    "drawdown": 0.08,
+    "id": "trailing_12_8",
+    "kind": "trailing"
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  },
+  {
+   "cell_id": "EX-trailing_12_8-x2",
+   "cost_face": "x2",
+   "definition": "pe_only",
+   "exit_axis": {
+    "activate": 0.12,
+    "drawdown": 0.08,
+    "id": "trailing_12_8",
+    "kind": "trailing"
+   },
+   "leg": "leg4_exit_axis",
+   "rebalance": "monthly_rotation",
+   "signal_day": "month_first_trading_day",
+   "strategy_owned_exit": true,
+   "top_n": 20,
+   "weighting": "equal"
+  }
+ ],
+ "judged_strategy_cells": 20,
+ "leg_counts": {
+  "leg1_main": 2,
+  "leg2_n_neighborhood": 8,
+  "leg3_definition_ablation": 2,
+  "leg3b_composite": 2,
+  "leg4_exit_axis": 6
+ },
+ "n_eff": 2020,
+ "nulls": {
+  "family": "same_mask_random_spans",
+  "k": 2000,
+  "rng": "default_rng([null_seed, k]) k=0..k-1 (pair-seed sub-stream)",
+  "seed_base": 20515000
+ },
+ "prereg": "research/FUND-VALUE-P2.md",
+ "sensitivity": {
+  "k": 500,
+  "note": "descriptive bootstrap axis, zero judged weight",
+  "seed_base": 20515500
+ },
+ "signal_skeleton": {
+  "monthly_starts": 401,
+  "signal_day": "month_first_trading_day",
+  "t0": "1994-05-03",
+  "universe_floor": 60,
+  "weighting": "equal"
+ },
+ "status": "PLAN_ONLY__NOT_FROZEN__NOT_BURNED"
+}
