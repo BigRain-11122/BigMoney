@@ -29,7 +29,7 @@
  "last_orders_sha": "63a2988a18f35483976a34219f90b206b1c1fcac8cacf3232dd5ed150d1557a2",
  "last_seen": "2026-10-20T18:22:35+08:00",
  "latest_artifact": "results/trial_labor_w21/w21_screen.json (+ w21_screen_cells.csv, docs/daily_report/REPORT-2026-10-20.md)",
- "local_not_on_origin_commits": 0,
+ "local_not_on_origin_commits": 2,
  "machine_id": "bm-b",
  "next": "r1081: W21 judge-finalize harvest (verdicts + reform face + family axe + ledger) -> intake; supply floor refill to >=3 ready units",
  "next_milestone": "W21 judge verdict face + family axe (<=48h)",
@@ -167,5 +167,12 @@
  "updated": "2026-10-20T15:09:44+08:00",
  "updated_at": "2026-10-20T15:09:44+08:00",
  "verdict": "product+maintenance",
- "orphan_faces": 0
+ "orphan_faces": 0,
+ "r1080_main_push": {
+  "status": "PUSH_ATTEMPTED_HUNG",
+  "pushed_sha": "pending",
+  "behind_origin_main": 4,
+  "note": "r1080 push: main push to origin hung in the promisor-window family (zero output, backgrounded by the host); per r1026 law no second attempt this window. Payload = b47b5f230 (W21 screen finalize + judge/dep-panel unblock + closeout) + 03b55efb7 (pit-spawn row); both carried locally, fallback branch machine/bm-b-r1080 if main stays blocked next round.",
+  "head": "03b55efb7"
+ }
 }
