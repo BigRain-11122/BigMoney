@@ -19350,12 +19350,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 3",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-x3-20261021.json",
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100"
   },
   {
    "entered_at": "2026-10-21T00:43:25+0800",
@@ -19366,12 +19369,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --ns 100",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/e27_universe_expansion/UNIV-310b86-e20260922-xsh511-20261021.json",
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100"
   },
   {
    "entered_at": "2026-10-21T00:43:25+0800",
@@ -19382,12 +19388,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/e27_universe_expansion/UNIV-s20180101-e20260922-xsh511-20261021.json",
+   "done_at": "2026-10-21T01:14:00+0800",
+   "done_by": "bm-b r1100"
   },
   {
    "entered_at": "2026-10-21T00:50:20+0800",
@@ -19405,7 +19414,53 @@
     "workers": 1
    }
   }
- ],
+ ,
+  {
+     "id": "E28-EO-BREADTH-X10",
+     "status": "ready",
+     "priority": 3,
+     "lane_owner": null,
+     "shards": [],
+     "note": "r1100: cost-ceiling read. Equity-breadth top50 is +154.6bp/yr at x1 (12.0bp/yr cost) and +136.9bp/yr at x3 (34.8, t 0.90); x10 asks where the sign actually dies, i.e. how much cost slack the point estimate has.",
+     "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 10",
+     "workers_plan": {
+        "note": "in-repo data/daily only, single-process numpy engine",
+        "priority": "BelowNormal"
+     },
+     "entered_at": "2026-10-21T01:15:00+0800",
+     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
+  },
+  {
+     "id": "E28-EO-BREADTH-ERA-N",
+     "status": "ready",
+     "priority": 3,
+     "lane_owner": null,
+     "shards": [],
+     "note": "r1100: monotonicity in the honest era. Full-sample top50 (+154.6bp/yr) collapses to +28.9bp/yr (t 0.22) from 2018, where the universe stops being degenerate; re-run the whole N ladder on 2018+ to see whether the monotone shape survives.",
+     "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511 --ns 10,20,50",
+     "workers_plan": {
+        "note": "in-repo data/daily only, single-process numpy engine",
+        "priority": "BelowNormal"
+     },
+     "entered_at": "2026-10-21T01:15:00+0800",
+     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
+  },
+  {
+     "id": "E28-EO-BREADTH-N50-2020",
+     "status": "ready",
+     "priority": 3,
+     "lane_owner": null,
+     "shards": [],
+     "note": "r1100: last-decade read of the only positive cell. If top50 is still positive on 2020+ alone it is at least current-era stable; if it flips, the universe-expansion line is an artefact of the 2018-2019 ETF expansion.",
+     "runner": "python scripts/e27_universe_expansion.py run --start 2020-01-01 --end 2026-09-22 --exclude sh511 --ns 50",
+     "workers_plan": {
+        "note": "in-repo data/daily only, single-process numpy engine",
+        "priority": "BelowNormal"
+     },
+     "entered_at": "2026-10-21T01:15:00+0800",
+     "entered_by": "bm-b r1100 (supply floor refill after E28 close)"
+  }
+],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {
   "entries[].adapt_status": "O-20261007-2245 适配管线态: scanning->adapting->adapted(可入池)->rejected(必附 negative_ref 登记负结果库; MOM/时钟/野路子在案族禁借引进复燃)",
@@ -19418,6 +19473,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T00:50:20+0800",
+ "updated_at": "2026-10-21T00:55:00+08:00",
  "version": 1
 }
