@@ -46,7 +46,7 @@
  },
  "last_round_at": "2026-10-20T07:58:02+08:00",
  "last_round_ts": "2026-10-20T07:58:02+08:00",
- "last_seen": "2026-10-20T07:58:02+08:00",
+ "last_seen": "2026-10-20T08:01:58+08:00",
  "latest_artifact": "docs/susp_resume_forward/WATCH-2026-10-19.md",
  "machine_id": "bm-b",
  "next": "r1062: (1) short-halt judged prereg draft -> freeze -> pool entry (supply_floor); (2) papers on 10-20 bar (15:30+); (3) forward watch refresh per new bar",
@@ -291,6 +291,13 @@
  },
  "r1052_note": "r1052: pool SSCOMBO-P1-READOUT-BMB executed to completion (detached BelowNormal-equivalent hidden process, 462s CPU, panel 8745x5225); readout JSON 809KB + CEO matrix docs/stagestyle/REPORT-STAGESTYLE-v1.md/.json via deterministic _r1052bmb_sscombo_report.py; prereg sec.7 backfilled (P4: C1 clears 0.994 threshold but LOSES to same-run unconditional divlowvol 1.209 -> combo claim unsupported, honest negative); D-19 dual probe zero-delta (dec d5336c87 / ord 9da3cb04 hold); smoke 49/49; attrition CLEAN (4 ledgers, 3 healed shrinks); pool dualrun ZERO-DRIFT streak 51; compute_audit FLAG supply_floor (ready 1<3, now 0 after completion); watermark py_low_with_work_cands (the readout itself = the work); orphan 0/8; update_daily no-op cutoff 2026-10-19.",
  "r1058_push": "r1058 push receipt: commit f2495ae7cc pushed to origin fallback branch machine/bm-b-r1058 (ls-remote verified); origin/main push blocked by pre-push claw (stale base would delete bm-c shards results/p2cal_ext/n1_w284/shard-*.json - foreign owner fail-closed, expected while 5 commits behind). Local-not-on-origin-main commit count=6 (r1055..r1058 + 2 postscripts), all preserved on the fallback branch; rebase deferred to a clean-tree round.",
+ "r1061_main_push": {
+  "behind_origin_main": 0,
+  "note": "first push claw-blocked (stale base would delete bm-c _w285bmc_* — correct fail-closed); second attempt non-ff (origin advanced to 49d16c526a mid-window, bm-c r1148); resolved by r1032-family tree surgery replay of the 15-face changed set + inbox-move deletion; delivery four-way verified (behind=0 ahead=0, ls-tree product faces present)",
+  "pushed_sha": "00a94da34b",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-20T08:01:58+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -784,8 +791,8 @@
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
  "task": "r1061",
- "ts": "2026-10-20T07:58:02+08:00",
- "updated": "2026-10-20T07:58:02+08:00",
- "updated_at": "2026-10-20T07:58:02+08:00",
+ "ts": "2026-10-20T08:01:58+08:00",
+ "updated": "2026-10-20T08:01:58+08:00",
+ "updated_at": "2026-10-20T08:01:58+08:00",
  "verdict": "GREEN"
 }
