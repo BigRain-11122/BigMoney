@@ -1,0 +1,75 @@
+{
+ "wave": 291,
+ "machine": "bm-c",
+ "round": "r1167",
+ "phase": "prereg freeze",
+ "prereg": "research/PERPETUAL_N1_W291_PREREG.md",
+ "derive_script": "results/_r1167bmc_prereg_derive_w291.py",
+ "src_face": "results/_w291bmc_w290_frozen_face.txt",
+ "src_face_provenance": "git show 1981248022:research/PERPETUAL_N1_W290_PREREG.md (r1164 freeze-commit pre-run face; hash-object identity asserted in-script)",
+ "seat_receipt": "results/_w291bmc_20261020_probe_receipt.json",
+ "seat_msg": "MSG-20261020-1815-bmc-w291-seat",
+ "seat_commit": "1ca0298ca5",
+ "bands": {
+  "A": [
+   655501,
+   657500
+  ],
+  "B": [
+   657501,
+   657700
+  ],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 655_301..657_300 refused at start by REGISTERED W290 B 655_301..655_500)",
+  "B_form": "own-A reservation cascade 1-hop (naive 655_501..655_700 lands inside own-wave A window)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1062341,
+  "merged_k": 635920,
+  "n_eff_held": 1060141,
+  "merged_mu": -0.09280102717322933,
+  "merged_sigma": 0.2451266782105646,
+  "se_mu": 0.000307,
+  "source": "results/_r1165bmc_w290_fivekeys.json (all_pass=True)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 638120,
+  "ledger_total": 1064541,
+  "n_eff": 1062341
+ },
+ "universe": {
+  "owner_rows": 280,
+  "bmc_rows": 109,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 281,
+  "own_wave_ordinal": 110
+ },
+ "gates": {
+  "derive_rule_count": 32,
+  "post_shift_repair_count": 5,
+  "residual_scan": "empty",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "2256bac4b86023ce",
+ "out_bytes": 24611,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "engine face restated: the inherited W288/now-W289 adopted residue (shards 7/9/10, PIDs 12280/51352/55932 all dead) was collected this window with one engine `run --once` cycle -- wave 288 closed 12/12 and zero new git paths appeared (idempotent re-burn, dedup face), so the caption now states burns_active=[] queue_next=[] honestly",
+  "GPU face restated from this window's live nvidia-smi read (no job on the card)",
+  "se_mu narrowing chain: W288's 0.000308 actual folded into the W289 entry (same value); W290 actual 0.000307 appended with one W291 projection",
+  "RAM walk rebuilt: W288 ~3.5G / W289 ~0.2G / W290 ~4.0G actuals + this window's live reading",
+  "K-lift caption label repaired post-shift: it names the W290 actual, so the +1 wave pass must not relabel it as W291"
+ ]
+}
