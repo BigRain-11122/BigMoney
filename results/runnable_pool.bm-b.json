@@ -20129,11 +20129,16 @@
    "note": "r1112: the ladder's worst month (-14.71% in 2026-07) was driven by its small-cap legs -- 510500 -18.4%, 512100 -19.9%, 588000 -26.3% against 510050 -1.6%. Five equal weights across the size ladder are not a neutral baseline: measure the ladder's size tilt (monthly spread of the large-cap vs small-cap legs) so any vs-ladder spread can be read net of that exposure.",
    "priority": 3,
    "runner": "python scripts/e39_panel_census.py tilt",
-   "status": "ready",
+   "status": "done",
    "lane_owner": null,
    "entered_at": "2026-10-21T04:28:00+08:00",
    "entered_by": "bm-b r1112 (after July attribution)",
-   "shards": []
+   "shards": [],
+   "closed_at": "2026-10-21T04:51:52+08:00",
+   "closed_by": "bm-b r1115 (executed same round)",
+   "runner_actual": "python scripts/e39_panel_census.py tilt",
+   "result_ref": "results/e40_ladder_tilt/TILT-20261020.json",
+   "result_note": "ladder size tilt = 612bp/yr (sd 571bp/month, 49.3% of months small-led); beta of ladder monthly on the tilt 0.62, R2 31.9% so a third of ladder monthly variance is the size spread; ladder alpha after removing tilt -19.5bp/month; worst month 2026-07 tilt -17.09pp (small -21.6 vs large -4.5). vs-ladder spreads must be read net of this exposure."
   },
   {
    "id": "E41-REBAL-DAY-SENSITIVITY",

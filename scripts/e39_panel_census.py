@@ -861,6 +861,240 @@ def run_tilt(outdir, starts=("2020-01-01", "2018-01-01")):
     }
 
 
+# ------------------------------------------------ leg: rebalance-day shift
+
+def _shift_indices(idxs, k, n):
+    """Shift rebalance indices by k sessions, clamped into [0, n-1], deduped."""
+    return sorted({min(max(i + k, 0), n - 1) for i in idxs})
+
+
+def _mid_month_indices(cal, day=15):
+    """First trading index of each month whose day-of-month is >= day."""
+    out, seen = [], set()
+    for i, d in enumerate(cal):
+        m = d[:7]
+        if m in seen or int(d[8:10]) < day:
+            continue
+        seen.add(m)
+        out.append(i)
+    return out
+
+
+def run_rebalday(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
+                 exclude=("sh511",), mid_day=15):
+    """Does the verdict survive moving the decision calendar by one session?
+
+    Every number in E34-E40 rests on one decision calendar: month-end. This leg
+    re-runs the identical spec (same universe, same rank cache, same cost) on
+    month-end-1 / month-end / month-end+1 and on a mid-month date, for the
+    ladder and the wide book alike, so a day-of-month artefact cannot hide
+    inside a quoted spread. The engine's own semantics apply: it reads the
+    rebalance set as "the close of index (i-1) is the decision", so a shift of
+    k sessions moves decision and trade together.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    wide_name = "wide_top%d" % pick_n
+    windows = {}
+    for start in starts:
+        cal = [d for d in cal_full if d >= start]
+        years = len(cal) / 252.0
+        all_syms = sorted(set(base.LADDER) | set(raw_all))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in raw_all]
+        cash = base.load_cash_series(cal)
+        rank_cache = {}
+        month_ends = base.month_end_indices(cal)
+        variants = [
+            ("me_m1", _shift_indices(month_ends, -1, len(cal))),
+            ("me", sorted(set(month_ends))),
+            ("me_p1", _shift_indices(month_ends, 1, len(cal))),
+            ("mid%d" % mid_day, _mid_month_indices(cal, mid_day)),
+        ]
+        rows = {}
+        for vname, idxs in variants:
+            rebal = set(idxs)
+            rows[vname] = {"rebalances": len(rebal)}
+            for scheme, univ, n in (("ladder5", base.LADDER, None),
+                                    (wide_name, universe, pick_n)):
+                curve, aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
+                                                 n, 1.0, rank_cache, rebal)
+                prof = risk_profile(curve, years)
+                rows[vname][scheme] = {
+                    "ann_return_pct": prof["ann_return_pct"],
+                    "max_drawdown_pct": prof["max_drawdown_pct"],
+                    "monthly_win_rate_pct": prof["monthly_win_rate_pct"],
+                    "rebalances": aux["rebalances"],
+                    "turnover_per_year": round(aux["turnover_total"] / years, 3) if years else None,
+                }
+            rows[vname]["vs_ladder_spread_bp"] = round(
+                (rows[vname][wide_name]["ann_return_pct"]
+                 - rows[vname]["ladder5"]["ann_return_pct"]) * 100, 1)
+        lad = [r["ladder5"]["ann_return_pct"] for r in rows.values()]
+        wid = [r[wide_name]["ann_return_pct"] for r in rows.values()]
+        spr = [r["vs_ladder_spread_bp"] for r in rows.values()]
+        windows[start] = {
+            "bars": len(cal), "years": round(years, 2),
+            "variants": rows,
+            "answers": {
+                "ladder_ann_range_bp": round((max(lad) - min(lad)) * 100, 1),
+                "wide_ann_range_bp": round((max(wid) - min(wid)) * 100, 1),
+                "spread_range_bp": round(max(spr) - min(spr), 1),
+                "spread_all_positive": all(x > 0 for x in spr),
+                "spread_min_bp": min(spr), "spread_max_bp": max(spr),
+                "spread_at_month_end_bp": rows["me"]["vs_ladder_spread_bp"],
+                "universe_members": len(universe),
+            },
+        }
+    return {
+        "study": "e41_rebalance_day_sensitivity",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": 1.0, "cost_bp_per_side": base.COST_BP_SIDE,
+                 "starts": list(starts), "mid_month_day": mid_day,
+                 "variants": ["me_m1", "me", "me_p1", "mid%d" % mid_day]},
+        "windows": windows,
+        "answers": {k: v["answers"] for k, v in windows.items()},
+        "honest": [
+            "the engine reads the rebalance set as a decision at the close of index (i-1), so a "
+            "one-session shift moves decision and trade together; this leg does not test a "
+            "decision-only shift",
+            "all four variants share one calendar, one universe and one rank cache, so the only "
+            "moving part is the set of decision sessions",
+            "mid-month is a single fixed date (day %d), not a sweep: it prices a wrong-calendar "
+            "cost, it does not search for a better one" % mid_day,
+            "spread is the annualised column difference in bp, the same convention as E34-E40; "
+            "the ratio curve's path is not re-measured here",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+# ---------------------------------------------------- leg: spread era decay
+
+def _slice_curve(curve, lo, hi):
+    return [(d, v) for d, v in curve if (lo is None or d >= lo) and (hi is None or d <= hi)]
+
+
+def _rebase(curve):
+    if not curve:
+        return []
+    base = curve[0][1]
+    return [(d, v / base) for d, v in curve] if base else []
+
+
+def run_era(outdir, pick_n=9999, exclude=("sh511",),
+            eras=(("pre2017", None, "2016-12-31"),
+                  ("2017_2020", "2017-01-01", "2020-12-31"),
+                  ("2021_2023", "2021-01-01", "2023-12-31"),
+                  ("2024_now", "2024-01-01", None))):
+    """Is the vs-ladder spread a regime or a constant?
+
+    The 2020+ pair leg measured the spread's own -13.04% drawdown, which already
+    says it is not a constant. This leg splits the same ratio curve by era and
+    profiles each slice on its own (re-based at the era's first bar), so a
+    single full-sample number cannot stand in for a path.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal = base.load_panel()[0]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    cash = base.load_cash_series(cal)
+    rank_cache = {}
+    curves = {}
+    for name, univ, n in (("ladder5", base.LADDER, None),
+                          ("wide_top%d" % pick_n, universe, pick_n)):
+        curves[name], _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
+                                                 n, 1.0, rank_cache)
+    lad = curves["ladder5"]
+    lmap = dict(lad)
+    wide_name = "wide_top%d" % pick_n
+    ratio = [(d, v / lmap[d]) for d, v in curves[wide_name] if d in lmap and lmap[d] > 0]
+    rows = {}
+    for name, lo, hi in eras:
+        seg_l = _rebase(_slice_curve(lad, lo, hi))
+        seg_w = _rebase(_slice_curve(curves[wide_name], lo, hi))
+        seg_r = _rebase(_slice_curve(ratio, lo, hi))
+        if len(seg_l) < 2 or len(seg_w) < 2 or len(seg_r) < 2:
+            rows[name] = {"bars": len(seg_l), "skipped": "fewer than 2 bars in this era"}
+            continue
+        yrs = len(seg_l) / 252.0
+        pl = risk_profile(seg_l, yrs)
+        pw = risk_profile(seg_w, yrs)
+        pr = risk_profile(seg_r, yrs)
+        rows[name] = {
+            "from": seg_l[0][0], "to": seg_l[-1][0], "bars": len(seg_l),
+            "years": round(yrs, 2),
+            "ladder_ann_pct": pl["ann_return_pct"],
+            "wide_ann_pct": pw["ann_return_pct"],
+            "spread_ann_bp": round((pw["ann_return_pct"] - pl["ann_return_pct"]) * 100, 1),
+            "spread_positive": (pw["ann_return_pct"] - pl["ann_return_pct"]) > 0,
+            "ratio_path": {
+                "ann_pct": pr["ann_return_pct"],
+                "max_drawdown_pct": pr["max_drawdown_pct"],
+                "max_drawdown_span": pr["max_drawdown_span"],
+                "longest_underwater_sessions": pr["longest_underwater_sessions"],
+                "worst_month": pr["worst_month"],
+                "monthly_win_rate_pct": pr["monthly_win_rate_pct"],
+                "months": pr["months"],
+            },
+            "ladder_max_drawdown_pct": pl["max_drawdown_pct"],
+            "wide_max_drawdown_pct": pw["max_drawdown_pct"],
+        }
+    spreads = [r["spread_ann_bp"] for r in rows.values() if "spread_ann_bp" in r]
+    return {
+        "study": "e41_spread_era_decay",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": 1.0, "cost_bp_per_side": base.COST_BP_SIDE,
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "calendar_from": cal[0]},
+        "eras": rows,
+        "answers": {
+            "spread_positive_eras": sum(1 for r in rows.values() if r.get("spread_positive")),
+            "eras_with_data": len(spreads),
+            "spread_range_bp": (round(max(spreads) - min(spreads), 1) if spreads else None),
+            "spread_min_bp": min(spreads) if spreads else None,
+            "spread_max_bp": max(spreads) if spreads else None,
+            "era_of_worst_ratio_drawdown": min(
+                (r for r in rows.values() if "ratio_path" in r),
+                key=lambda r: r["ratio_path"]["max_drawdown_pct"])["from"]
+            if any("ratio_path" in r for r in rows.values()) else None,
+        },
+        "honest": [
+            "eras are calendar partitions of one continuous curve; each slice is re-based at its "
+            "own first bar, so era ann% are not additive and do not compound to the full-sample number",
+            "the last era is open-ended (2024-01-01 to the cutoff) and is therefore the shortest "
+            "and the least stable",
+            "the ratio curve is a ratio of equity curves, not a tradable sleeve",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -952,6 +1186,19 @@ def selftest():
     chk(abs(mem["2020-02"] - 0.2) < 1e-12 and abs(mem["2020-03"] + 0.25) < 1e-12,
         "member monthly returns read their own month-end closes")
 
+    # rebalance-day shift: clamping, dedupe, and the mid-month pick
+    chk(_shift_indices([0, 5, 9], -1, 10) == [0, 4, 8], "shift -1 clamps at index 0")
+    chk(_shift_indices([8, 9], 1, 10) == [9], "shift +1 clamps and dedupes at the last bar")
+    chk(_shift_indices([3], 0, 10) == [3], "zero shift is the identity")
+    cal_mid = ["2020-01-02", "2020-01-15", "2020-01-31",
+               "2020-02-03", "2020-02-14", "2020-02-28"]
+    chk(_mid_month_indices(cal_mid, 15) == [1, 5],
+        "mid-month picks the first session on/after the 15th, once per month")
+    chk(_mid_month_indices(cal_mid, 1) == [0, 3],
+        "mid-month day 1 reads as the first session of each month")
+    chk(_shift_indices(_mid_month_indices(cal_mid, 15), -1, len(cal_mid)) == [0, 4],
+        "shifting the mid-month set moves every decision one session earlier")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -960,7 +1207,7 @@ def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
-                             "tilt", "all", "selftest"])
+                             "tilt", "rebalday", "era", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -1035,6 +1282,24 @@ def main(argv):
                                           "worst_month": (v["worst_month_diagnostic"] or {}).get("month")}
                                       for k, v in f["windows"].items()}},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "rebalday":
+        f = run_rebalday(None)
+        outdir = os.path.join(ROOT, "results", "e41_rebal_day")
+        p = write_json(outdir, "SHIFT-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "rebalday", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "era":
+        f = run_era(None)
+        outdir = os.path.join(ROOT, "results", "e41_spread_era")
+        p = write_json(outdir, "ERA-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "era", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "eras": {k: {"bars": v["bars"],
+                                       "spread_bp": v.get("spread_ann_bp"),
+                                       "ratio_dd": (v.get("ratio_path") or {}).get("max_drawdown_pct")}
+                                   for k, v in f["eras"].items()}}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:

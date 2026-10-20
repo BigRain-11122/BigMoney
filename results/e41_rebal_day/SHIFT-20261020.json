@@ -1,0 +1,230 @@
+{
+ "study": "e41_rebalance_day_sensitivity",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0,
+  "cost_bp_per_side": 13.041,
+  "starts": [
+   "2020-01-01",
+   "2018-01-01"
+  ],
+  "mid_month_day": 15,
+  "variants": [
+   "me_m1",
+   "me",
+   "me_p1",
+   "mid15"
+  ]
+ },
+ "windows": {
+  "2020-01-01": {
+   "bars": 1645,
+   "years": 6.53,
+   "variants": {
+    "me_m1": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -0.41,
+      "max_drawdown_pct": -42.89,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 70,
+      "turnover_per_year": 0.375
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.94,
+      "max_drawdown_pct": -36.4,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 70,
+      "turnover_per_year": 0.592
+     },
+     "vs_ladder_spread_bp": 135.0
+    },
+    "me": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -0.43,
+      "max_drawdown_pct": -42.72,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 69,
+      "turnover_per_year": 0.374
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.86,
+      "max_drawdown_pct": -36.55,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 69,
+      "turnover_per_year": 0.591
+     },
+     "vs_ladder_spread_bp": 129.0
+    },
+    "me_p1": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -0.55,
+      "max_drawdown_pct": -42.49,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 69,
+      "turnover_per_year": 0.375
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.59,
+      "max_drawdown_pct": -36.25,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 69,
+      "turnover_per_year": 0.589
+     },
+     "vs_ladder_spread_bp": 114.0
+    },
+    "mid15": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -0.93,
+      "max_drawdown_pct": -42.27,
+      "monthly_win_rate_pct": 54.3,
+      "rebalances": 70,
+      "turnover_per_year": 0.361
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.16,
+      "max_drawdown_pct": -36.29,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 70,
+      "turnover_per_year": 0.594
+     },
+     "vs_ladder_spread_bp": 109.0
+    }
+   },
+   "answers": {
+    "ladder_ann_range_bp": 52.0,
+    "wide_ann_range_bp": 78.0,
+    "spread_range_bp": 26.0,
+    "spread_all_positive": true,
+    "spread_min_bp": 109.0,
+    "spread_max_bp": 135.0,
+    "spread_at_month_end_bp": 129.0,
+    "universe_members": 1265
+   }
+  },
+  "2018-01-01": {
+   "bars": 2132,
+   "years": 8.46,
+   "variants": {
+    "me_m1": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.63,
+      "max_drawdown_pct": -42.89,
+      "monthly_win_rate_pct": 57.1,
+      "rebalances": 94,
+      "turnover_per_year": 0.311
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.55,
+      "max_drawdown_pct": -36.4,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 94,
+      "turnover_per_year": 0.583
+     },
+     "vs_ladder_spread_bp": 192.0
+    },
+    "me": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.48,
+      "max_drawdown_pct": -42.72,
+      "monthly_win_rate_pct": 58.1,
+      "rebalances": 93,
+      "turnover_per_year": 0.314
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.44,
+      "max_drawdown_pct": -36.55,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 93,
+      "turnover_per_year": 0.585
+     },
+     "vs_ladder_spread_bp": 196.0
+    },
+    "me_p1": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.27,
+      "max_drawdown_pct": -42.49,
+      "monthly_win_rate_pct": 58.1,
+      "rebalances": 93,
+      "turnover_per_year": 0.314
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.17,
+      "max_drawdown_pct": -36.25,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 93,
+      "turnover_per_year": 0.582
+     },
+     "vs_ladder_spread_bp": 190.0
+    },
+    "mid15": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.54,
+      "max_drawdown_pct": -42.27,
+      "monthly_win_rate_pct": 56.2,
+      "rebalances": 94,
+      "turnover_per_year": 0.301
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.29,
+      "max_drawdown_pct": -36.29,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 94,
+      "turnover_per_year": 0.587
+     },
+     "vs_ladder_spread_bp": 175.0
+    }
+   },
+   "answers": {
+    "ladder_ann_range_bp": 36.0,
+    "wide_ann_range_bp": 38.0,
+    "spread_range_bp": 21.0,
+    "spread_all_positive": true,
+    "spread_min_bp": 175.0,
+    "spread_max_bp": 196.0,
+    "spread_at_month_end_bp": 196.0,
+    "universe_members": 1265
+   }
+  }
+ },
+ "answers": {
+  "2020-01-01": {
+   "ladder_ann_range_bp": 52.0,
+   "wide_ann_range_bp": 78.0,
+   "spread_range_bp": 26.0,
+   "spread_all_positive": true,
+   "spread_min_bp": 109.0,
+   "spread_max_bp": 135.0,
+   "spread_at_month_end_bp": 129.0,
+   "universe_members": 1265
+  },
+  "2018-01-01": {
+   "ladder_ann_range_bp": 36.0,
+   "wide_ann_range_bp": 38.0,
+   "spread_range_bp": 21.0,
+   "spread_all_positive": true,
+   "spread_min_bp": 175.0,
+   "spread_max_bp": 196.0,
+   "spread_at_month_end_bp": 196.0,
+   "universe_members": 1265
+  }
+ },
+ "honest": [
+  "the engine reads the rebalance set as a decision at the close of index (i-1), so a one-session shift moves decision and trade together; this leg does not test a decision-only shift",
+  "all four variants share one calendar, one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "mid-month is a single fixed date (day 15), not a sweep: it prices a wrong-calendar cost, it does not search for a better one",
+  "spread is the annualised column difference in bp, the same convention as E34-E40; the ratio curve's path is not re-measured here",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

@@ -20142,7 +20142,7 @@
   },
   {
    "id": "E41-REBAL-DAY-SENSITIVITY",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Does the ladder verdict survive a rebalance-day shift? Same spec rebalanced on month-end-1 / month-end / month-end+1 and on a mid-month date, both windows, so a day-of-month artefact cannot hide inside a +134bp spread.",
@@ -20150,11 +20150,14 @@
    "source": "r1114 cash-leg leg: maxdd is untouched by the repo leg, so the next fragility axis is the decision calendar itself",
    "entered_at": "2026-10-21T04:38:00+08:00",
    "entered_by": "bm-b r1114",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": "results/e41_rebal_day/SHIFT-20261020.json",
+   "closed_at": "2026-10-21T05:10:00+08:00",
+   "closed_by": "bm-b r1116"
   },
   {
    "id": "E41-SPREAD-ERA-DECAY",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Is the vs-ladder spread a regime or a constant? Decompose the wide-vs-ladder ratio curve by era (pre2017 / 2017-2020 / 2021-2023 / 2024-now) and by the two drawdown spans already measured, so a single 2020+ number cannot stand in for it.",
@@ -20162,6 +20165,45 @@
    "source": "r1113 pair leg: the spread's own maxDD is -13.04% and its worst month is a different month from the denominator's",
    "entered_at": "2026-10-21T04:40:00+08:00",
    "entered_by": "bm-b r1114",
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": "results/e41_spread_era/ERA-20261020.json",
+   "closed_at": "2026-10-21T05:10:00+08:00",
+   "closed_by": "bm-b r1116"
+  },
+  {
+   "id": "E42-SPREAD-SIZE-NEUTRAL",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Read the vs-ladder spread net of the size tilt E40 measured (beta 0.62, -19.5bp/month alpha): re-derive the ladder/wide spread after removing the small-minus-large month, per era, so the +89..+419bp era band is restated in size-neutral terms.",
+   "deliverable": "results/e42_spread_size_neutral/NEUTRAL-<cutoff>.json",
+   "source": "r1115 tilt leg + r1116 era leg: the newest era has both the thinnest spread and the strongest beta, so the two effects are not separated yet",
+   "entered_at": "2026-10-21T05:10:00+08:00",
+   "entered_by": "bm-b r1116",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E42-CALENDAR-COST-X3",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Is the 26bp calendar band in the spread a fee artefact? Re-run the four decision calendars at cost x3 and compare the band width, so a turnover-driven explanation can be ruled in or out instead of assumed second-order.",
+   "deliverable": "results/e42_calendar_cost/COST-<cutoff>.json",
+   "source": "r1116 rebalday leg: ladder level moves 52bp on a one-session shift while the spread moves 26bp, and nothing yet says whether that is pricing or turnover",
+   "entered_at": "2026-10-21T05:10:00+08:00",
+   "entered_by": "bm-b r1116",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E42-LADDER-TILT-BY-ERA",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Does the ladder's 612bp/yr size tilt decay like the spread does? Split the tilt series and its beta/R2 by the same four eras, so a single full-sample exposure number cannot stand in for a regime.",
+   "deliverable": "results/e42_tilt_era/TILT-ERA-<cutoff>.json",
+   "source": "r1115 tilt leg (full-sample only) + r1116 era leg (spread decays 4.7x from peak to newest era)",
+   "entered_at": "2026-10-21T05:10:00+08:00",
+   "entered_by": "bm-b r1116",
    "evidence_cutoff": "2026-10-20"
   }
  ],
