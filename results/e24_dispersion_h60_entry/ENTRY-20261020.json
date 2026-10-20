@@ -1,0 +1,134 @@
+{
+ "decision": {
+  "binding_failures": [
+   "edge -3061.3 < 200.0 bp/yr",
+   "paired_t -1.31 < 2.0",
+   "positive eras 0 < 2",
+   "positive cutoffs 0 < 2"
+  ],
+  "positive_cutoffs": 0,
+  "positive_eras": 0,
+  "verdict": "HONEST_CLOSE_NEGATIVE"
+ },
+ "decision_rule": {
+  "cut_levels": [
+   0.2,
+   0.33,
+   0.5
+  ],
+  "edge_min_bp_per_year": 200.0,
+  "era_min": 2,
+  "paired_t_min": 2.0,
+  "side": "low (signal <= expanding q cutoff)"
+ },
+ "diagnostics": {
+  "expanding_cut_range": {
+   "max": 0.014645,
+   "min": 0.010095
+  },
+  "fire_years": {
+   "2017": 1,
+   "2019": 1
+  },
+  "fires": 2,
+  "reading": "an expanding bottom-tail cutoff on a trending signal can only fire in the era where the signal was still low; a small exposure share is structural, not a threshold choice",
+  "signal_on_decision_days": {
+   "max": 0.096944,
+   "median": 0.022904,
+   "min": 0.008772,
+   "n": 47
+  }
+ },
+ "evidence_cutoff": "2026-10-20",
+ "face": "dispersion60-bottom-tail monthly entry on the five-member ladder",
+ "generated_at": "2026-10-20T23:48:02",
+ "horizon_bars": 60,
+ "labels": {
+  "cost": "2 * 13.041bp per active window; cash windows earn 0%",
+  "descriptive": true,
+  "execution": "T+1 (decision at close i, exposure i+1..i+60, non-overlapping windows)",
+  "multiplicity": "cell chosen post hoc from the 15-cell E24 grid; no correction applied",
+  "prereg": null,
+  "trial_count": 0,
+  "verdict": "none (feasibility face; admission needs a frozen prereg)"
+ },
+ "primary": {
+  "active_windows": 2,
+  "always_on_ladder": {
+   "mean_gross_bp_per_window": 262.79,
+   "mean_net_bp_per_window": 262.24,
+   "net_bp_per_year": 3146.8,
+   "t_gross": 1.35
+  },
+  "edge_vs_always_on_bp_per_year": -3061.3,
+  "era": {
+   "2017-2020": {
+    "active_windows": 2,
+    "edge_vs_always_bp_per_yr": -2859.7,
+    "net_bp_per_window": 23.9,
+    "windows": 14
+   },
+   "2021-2023": {
+    "active_windows": 0,
+    "edge_vs_always_bp_per_yr": -3146.8,
+    "net_bp_per_window": 0.0,
+    "windows": 11
+   },
+   "2024-now": {
+    "active_windows": 0,
+    "edge_vs_always_bp_per_yr": -3146.8,
+    "net_bp_per_window": 0.0,
+    "windows": 9
+   },
+   "pre2017": {
+    "active_windows": 0,
+    "edge_vs_always_bp_per_yr": -3146.8,
+    "net_bp_per_window": 0.0,
+    "windows": 13
+   }
+  },
+  "exposure_share": 0.0426,
+  "gated": {
+   "cost_bp_per_year": 13.3,
+   "cost_bp_total": 52.2,
+   "mean_gross_bp_active": 193.6,
+   "mean_net_bp_per_window": 7.13,
+   "net_bp_per_year": 85.5,
+   "t_net": 0.65
+  },
+  "paired_t": -1.31,
+  "windows": 47,
+  "years": 3.92
+ },
+ "sensitivity": {
+  "offset10": {
+   "active_windows": 2,
+   "edge_vs_always_on_bp_per_year": -3660.3,
+   "exposure_share": 0.0426,
+   "paired_t": -1.65,
+   "windows": 47
+  },
+  "q20": {
+   "active_windows": 2,
+   "edge_vs_always_on_bp_per_year": -3061.3,
+   "exposure_share": 0.0426,
+   "paired_t": -1.31,
+   "windows": 47
+  },
+  "q33": {
+   "active_windows": 6,
+   "edge_vs_always_on_bp_per_year": -3012.5,
+   "exposure_share": 0.1277,
+   "paired_t": -1.31,
+   "windows": 47
+  },
+  "q50": {
+   "active_windows": 13,
+   "edge_vs_always_on_bp_per_year": -3559.7,
+   "exposure_share": 0.2766,
+   "paired_t": -1.62,
+   "windows": 47
+  }
+ },
+ "window_start": "2012-05-28"
+}

@@ -122,6 +122,40 @@ def scheme_weights(scheme, idx, prices, amounts):
     if scheme == "equal":
         w = 1.0 / len(live)
         return {s: w for s in live}
+    if scheme.startswith("trend"):
+        # per-member trend filter: hold a member only while its close sits above
+        # its own win-day moving average (causal, read at the rebalance day).
+        # "trendNr" renormalises the survivors to full investment; "trendN"
+        # leaves the filtered-out share in cash (0%).
+        renorm = scheme.endswith("r")
+        half = scheme.endswith("h")
+        win_s = scheme[5:-1] if (renorm or half) else scheme[5:]
+        try:
+            win = int(win_s)
+        except ValueError:
+            raise SystemExit("unknown scheme %s" % scheme)
+        keep, drop = [], []
+        for s in live:
+            m = trailing_mean(prices[s], idx, win)
+            a = prices[s][idx]
+            if m is None or a is None or m <= 0:
+                continue
+            (keep if a > m else drop).append(s)
+        if not keep and not drop:
+            return {}
+        if half:
+            # soft filter: a member below its MA keeps a half share (partial cash)
+            w0 = 1.0 / len(live)
+            out = {s: w0 for s in keep}
+            out.update({s: 0.5 * w0 for s in drop})
+            return out
+        if not keep:
+            return {}
+        if renorm:
+            w = 1.0 / len(keep)
+            return {s: w for s in keep}
+        w = 1.0 / len(live)
+        return {s: w for s in keep}
     raw = {}
     for s in live:
         if scheme == "invvol":
@@ -398,6 +432,29 @@ def selftest():
     assert aux["rebalances"] >= 1 and 0 < aux["cost_paid_frac"] < 1
     assert curve[-1][1] > 0
     ok += 1; tot += 1
+    # 12. trend filter drops members trading below their own MA
+    up = [10.0 * (1.002 ** k) for k in range(300)]
+    down = [10.0 * (0.998 ** k) for k in range(300)]
+    prices = {s: up for s in LADDER}
+    prices["sh510050"] = down
+    w = scheme_weights("trend200r", 260, prices, amounts)
+    assert "sh510050" not in w and abs(sum(w.values()) - 1.0) < 1e-12
+    ok += 1; tot += 1
+    # 13. cash variant keeps the nominal share (exposure < 1) instead of renormalising
+    w = scheme_weights("trend200", 260, prices, amounts)
+    assert "sh510050" not in w and sum(w.values()) < 1.0
+    ok += 1; tot += 1
+    # 14. all members below their MA -> fully in cash
+    prices = {s: down for s in LADDER}
+    assert scheme_weights("trend200r", 260, prices, amounts) == {}
+    ok += 1; tot += 1
+    # 15. soft filter halves a filtered-out member instead of zeroing it
+    prices = {s: up for s in LADDER}
+    prices["sh510050"] = down
+    wh = scheme_weights("trend200h", 260, prices, amounts)
+    assert abs(wh["sh510050"] - 0.5 / len(LADDER)) < 1e-12
+    assert abs(sum(wh.values()) - (len(LADDER) - 0.5) / len(LADDER)) < 1e-12
+    ok += 1; tot += 1
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -407,14 +464,23 @@ def main(argv):
     ap.add_argument("mode", nargs="?", default="run", choices=["run", "selftest"])
     ap.add_argument("--start", default=None)
     ap.add_argument("--schemes", default="equal,invvol,liq,momtilt")
+    ap.add_argument("--out", default=None,
+                    help="optional output dir (e.g. results/e25_trend_tilt) for a named sub-face")
     args = ap.parse_args(argv)
     if args.mode == "selftest":
         return selftest()
     schemes = [s.strip() for s in args.schemes.split(",") if s.strip()]
     face = run(schemes, args.start)
-    os.makedirs(OUTDIR, exist_ok=True)
+    outdir = os.path.join(ROOT, args.out) if args.out else OUTDIR
+    os.makedirs(outdir, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d")
-    path = os.path.join(OUTDIR, "WEIGHTING-%s.json" % stamp)
+    tag = "TREND" if any(s.startswith("trend") for s in schemes) else "WEIGHTING"
+    if args.out:
+        # a named sub-face may be run several times with different scheme sets;
+        # keep one file per set instead of overwriting the same day's face
+        import hashlib
+        tag += "-" + hashlib.sha1(",".join(schemes).encode()).hexdigest()[:6]
+    path = os.path.join(outdir, "%s-%s.json" % (tag, stamp))
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1)
     print(json.dumps({"start": face["start"], "cutoff": face["evidence_cutoff"],
