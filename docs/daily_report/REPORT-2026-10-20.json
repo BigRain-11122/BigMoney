@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-20",
- "generated_at": "2026-10-20 09:51:46",
+ "generated_at": "2026-10-20 11:13:52",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-20.md"
  },
  "rd": {
-  "commits_24h": 221,
-  "result_jsons_landed_24h": 170,
+  "commits_24h": 205,
+  "result_jsons_landed_24h": 163,
   "digests_landed_24h": 4,
-  "prereg_md_touched_24h": 17,
+  "prereg_md_touched_24h": 16,
   "compute_audit_latest": {
-   "ts": "2026-10-20 09:50:48",
-   "py_cpu_pct": 0.9,
+   "ts": "2026-10-20 11:11:46",
+   "py_cpu_pct": 2.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -667,11 +667,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 16274,
-  "total_report_tokens_est": 2157959,
+  "total_report_tokens_est": 2158373,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-20 09:07:51",
+   "prev_generated": "2026-10-20 09:31:28",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1502,
+   "report_tokens_growth": 414,
    "mandate_growth": 0
   },
   "method": {
@@ -806,17 +806,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-20 09:50:48",
-    "py_pct": 0.9,
-    "cpu_pct": 83.0,
+    "latest_ts": "2026-10-20 11:11:46",
+    "py_pct": 2.2,
+    "cpu_pct": 48.0,
     "ready": 0,
-    "streak_min": 59.7,
+    "streak_min": 140.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "06:13",
-      0.1
-     ],
      [
       "06:24",
       0.3
@@ -860,9 +856,13 @@
      [
       "09:50",
       0.9
+     ],
+     [
+      "11:11",
+      2.2
      ]
     ],
-    "today_samples": 24,
+    "today_samples": 25,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -919,7 +919,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 09:50:48"
+     "audit_ts": "2026-10-20 11:11:46"
     }
    }
   },
@@ -1375,7 +1375,7 @@
   "last_registered": 286,
   "last_owner": "bm-c",
   "next_registration": 287,
-  "next_seatable": 287,
+  "next_seatable": 288,
   "chain_head": 1053541,
   "k": 627120,
   "waves": [
@@ -1437,7 +1437,12 @@
     "k": 627120
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 287,
+    "machine": "bm-c"
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
