@@ -1,0 +1,123 @@
+{
+ "study": "e40_cashleg_drag",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "rate_mults": [
+   0.0,
+   1.0,
+   3.0
+  ],
+  "starts": [
+   "2020-01-01"
+  ],
+  "cost_bp_per_side": 13.041
+ },
+ "windows": {
+  "2020-01-01": {
+   "bars": 1645,
+   "years": 6.53,
+   "schemes": {
+    "ladder5": {
+     "x0": {
+      "ann_return_pct": -0.79,
+      "ann_vs_x0_bp": 0.0,
+      "vol_pct": 18.75,
+      "sharpe": 0.051,
+      "max_drawdown_pct": -42.72,
+      "cost_per_year_bp": 4.876477044848701,
+      "curve_first": 1.0,
+      "curve_last": 0.9493120058305268
+     },
+     "x1": {
+      "ann_return_pct": -0.43,
+      "ann_vs_x0_bp": 36.0,
+      "vol_pct": 18.75,
+      "sharpe": 0.071,
+      "max_drawdown_pct": -42.72,
+      "cost_per_year_bp": 4.876477044848701,
+      "curve_first": 1.0001224206349206,
+      "curve_last": 0.9724792992407547
+     },
+     "x3": {
+      "ann_return_pct": 0.31,
+      "ann_vs_x0_bp": 110.0,
+      "vol_pct": 18.75,
+      "sharpe": 0.11,
+      "max_drawdown_pct": -42.72,
+      "cost_per_year_bp": 4.876477044848701,
+      "curve_first": 1.0003672619047619,
+      "curve_last": 1.0205163066549001
+     }
+    },
+    "wide_top9999": {
+     "x0": {
+      "ann_return_pct": 0.49,
+      "ann_vs_x0_bp": 0.0,
+      "vol_pct": 16.61,
+      "sharpe": 0.112,
+      "max_drawdown_pct": -36.55,
+      "cost_per_year_bp": 7.701401980837695,
+      "curve_first": 1.0,
+      "curve_last": 1.0321827100388807
+     },
+     "x1": {
+      "ann_return_pct": 0.86,
+      "ann_vs_x0_bp": 37.0,
+      "vol_pct": 16.61,
+      "sharpe": 0.134,
+      "max_drawdown_pct": -36.55,
+      "cost_per_year_bp": 7.701401980837695,
+      "curve_first": 1.0001224206349206,
+      "curve_last": 1.05737240483845
+     },
+     "x3": {
+      "ann_return_pct": 1.6,
+      "ann_vs_x0_bp": 111.0,
+      "vol_pct": 16.61,
+      "sharpe": 0.179,
+      "max_drawdown_pct": -36.55,
+      "cost_per_year_bp": 7.701401980837695,
+      "curve_first": 1.0003672619047619,
+      "curve_last": 1.109602828756357
+     }
+    }
+   },
+   "cash_mechanism": {
+    "first_rebalance_index": 15,
+    "first_trading_rebalance_index": 262,
+    "first_invested_bar": "2021-02-01",
+    "cash_bars": 263,
+    "cash_bar_share_pct": 16.0,
+    "rebalance_decisions": 82,
+    "panel_covered_days": 1645,
+    "panel_ffilled_days": 1,
+    "panel_first": "2011-05-13",
+    "panel_last": "2026-10-19",
+    "mean_daily_cash_bp": 0.7875,
+    "mean_annual_cash_rate_pct": 1.98,
+    "cash_is_discretionary": false,
+    "why": "the engine holds cash only for the un-invested weight: 1.0 until the first rebalance whose live set is non-empty (eligibility needs a burn-in, so that is far later than the first month end), then 0.0 after an equal-weight rebalance, because the weight is taken over the live names only"
+   },
+   "answers": {
+    "ladder_cash_attributable_bp": 36.0,
+    "wide_cash_attributable_bp": 37.0,
+    "ladder_x3_delta_bp": 110.0,
+    "wide_x3_delta_bp": 111.0,
+    "maxdd_moves_with_cash": {
+     "ladder5": 0.0,
+     "wide_top9999": 0.0
+    }
+   }
+  }
+ },
+ "honest": [
+  "the repo leg is not a discretionary allocation: it is the un-invested weight of the same engine, so 'cash drag' here means the accrual rate on dead weight",
+  "x0 reproduces the historical zero-cash convention (cash=None -> 0.0 daily return)",
+  "a multiplier is a counterfactual rate, not a rate that ever existed",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

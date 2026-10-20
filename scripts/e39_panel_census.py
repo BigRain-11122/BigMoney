@@ -515,6 +515,141 @@ def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
     }
 
 
+# ------------------------------------------------------- leg: cash-leg drag
+
+def _scale_cash(cash, mult):
+    """Scale a load_cash_series payload's daily returns. None stays None (0%)."""
+    if cash is None or not mult:
+        return None if cash is None else {"series": {}}
+    return {"series": {d: r * mult for d, r in cash["series"].items()}}
+
+
+def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",),
+                 rate_mults=(0.0, 1.0, 3.0)):
+    """How much of the ladder/wide verdict is the repo leg actually paying for?
+
+    The engine accrues cash only on the un-invested weight: it is 1.0 before the
+    first monthly decision and (1 - sum(weights)) afterwards, which is zero for
+    an equal-weight book that rebalanced into a non-empty live set. So this leg
+    re-runs the identical spec at repo multipliers 0x / 1x / 3x and reads the
+    annualised column, which bounds the cash leg's contribution to the verdict
+    instead of asserting it.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    wide_name = "wide_top%d" % pick_n
+    windows = {}
+    for start in starts:
+        cal = [d for d in cal_full if d >= start]
+        years = len(cal) / 252.0
+        all_syms = sorted(set(base.LADDER) | set(raw_all))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in raw_all]
+        cash_panel = base.load_cash_series(cal)
+        rebal = base.month_end_indices(cal)
+        # The cash weight is the un-invested weight, and the first rebalance that
+        # actually trades is NOT the first month end: eligibility needs a burn-in,
+        # so empty live sets keep the book in repo for far longer. Measure it.
+        first_trade_idx = None
+        for ri in rebal:
+            if any(base.elig(prices[s], ri) for s in base.LADDER):
+                first_trade_idx = ri
+                break
+        cash_bars = (first_trade_idx + 1) if first_trade_idx is not None else len(cal) - 1
+        rank_cache = {}
+        table = {}
+        for name, univ, n in (("ladder5", base.LADDER, None),
+                              (wide_name, universe, pick_n)):
+            rows = {}
+            for k in rate_mults:
+                cash = _scale_cash(cash_panel, k)
+                curve, aux, holdings = e27.simulate(
+                    cal, prices, amounts, univ, cash, n, 1.0, rank_cache)
+                prof = risk_profile(curve, years)
+                m = base.metrics(curve, years)
+                rows["x%g" % k] = {
+                    "ann_return_pct": prof["ann_return_pct"],
+                    "ann_vs_x0_bp": None,  # filled below
+                    "vol_pct": m.get("ann_vol_pct"),
+                    "sharpe": m.get("sharpe"),
+                    "max_drawdown_pct": prof["max_drawdown_pct"],
+                    "cost_per_year_bp": (aux["cost_paid_frac"] / years * 1e4
+                                         if years else None),
+                    "curve_first": curve[0][1],
+                    "curve_last": curve[-1][1],
+                }
+            zero = rows.get("x0", {}).get("ann_return_pct")
+            for key, row in rows.items():
+                if zero is not None and row["ann_return_pct"] is not None:
+                    row["ann_vs_x0_bp"] = round((row["ann_return_pct"] - zero) * 100, 2)
+            table[name] = rows
+        cash_map = (cash_panel or {}).get("series", {})
+        rates = [cash_map[d] for d in cal if d in cash_map]
+        windows[start] = {
+            "bars": len(cal),
+            "years": round(years, 2),
+            "schemes": table,
+            "cash_mechanism": {
+                "first_rebalance_index": rebal[0] if rebal else None,
+                "first_trading_rebalance_index": first_trade_idx,
+                "first_invested_bar": (cal[first_trade_idx + 1]
+                                       if first_trade_idx is not None else None),
+                "cash_bars": cash_bars,
+                "cash_bar_share_pct": round(cash_bars / max(1, len(cal) - 1) * 100, 2),
+                "rebalance_decisions": len(rebal),
+                "panel_covered_days": (cash_panel or {}).get("covered_days"),
+                "panel_ffilled_days": (cash_panel or {}).get("ffilled_days"),
+                "panel_first": (cash_panel or {}).get("first"),
+                "panel_last": (cash_panel or {}).get("last"),
+                "mean_daily_cash_bp": round(sum(rates) / len(rates) * 1e4, 4) if rates else None,
+                "mean_annual_cash_rate_pct": (round(sum(rates) / len(rates) * 252 * 100, 2)
+                                              if rates else None),
+                "cash_is_discretionary": False,
+                "why": ("the engine holds cash only for the un-invested weight: 1.0 until the first "
+                        "rebalance whose live set is non-empty (eligibility needs a burn-in, "
+                        "so that is far later than the first month end), then 0.0 after an "
+                        "equal-weight rebalance, because the weight is taken over the live "
+                        "names only"),
+            },
+            "answers": {
+                "ladder_cash_attributable_bp": table["ladder5"].get("x1", {}).get("ann_vs_x0_bp"),
+                "wide_cash_attributable_bp": table[wide_name].get("x1", {}).get("ann_vs_x0_bp"),
+                "ladder_x3_delta_bp": table["ladder5"].get("x3", {}).get("ann_vs_x0_bp"),
+                "wide_x3_delta_bp": table[wide_name].get("x3", {}).get("ann_vs_x0_bp"),
+                "maxdd_moves_with_cash": {
+                    name: round((table[name].get("x1", {}).get("max_drawdown_pct") or 0)
+                                - (table[name].get("x0", {}).get("max_drawdown_pct") or 0), 2)
+                    for name in table},
+            },
+        }
+    return {
+        "study": "e40_cashleg_drag",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "rate_mults": list(rate_mults), "starts": list(starts),
+                 "cost_bp_per_side": base.COST_BP_SIDE},
+        "windows": windows,
+        "honest": [
+            "the repo leg is not a discretionary allocation: it is the un-invested weight of "
+            "the same engine, so 'cash drag' here means the accrual rate on dead weight",
+            "x0 reproduces the historical zero-cash convention (cash=None -> 0.0 daily return)",
+            "a multiplier is a counterfactual rate, not a rate that ever existed",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -577,6 +712,19 @@ def selftest():
     chk(risk_profile(ratio, 0.25)["max_drawdown_pct"] == -10.0,
         "ratio curve dd is the spread (-10%), not either leg")
 
+    # cash-leg scaling: None stays the zero-cash convention, x0 empties the series
+    chk(_scale_cash(None, 2.0) is None, "no cash panel stays no cash panel")
+    sc = _scale_cash({"series": {"2020-01-02": 0.001}}, 3.0)
+    chk(abs(sc["series"]["2020-01-02"] - 0.003) < 1e-15, "multiplier scales daily returns")
+    chk(_scale_cash({"series": {"2020-01-02": 0.001}}, 0.0)["series"] == {},
+        "x0 empties the series so the engine reads 0.0")
+    chk(_scale_cash({"series": {}}, 1.0)["series"] == {}, "empty series survives scaling")
+
+    # cash attribution arithmetic on a synthetic table
+    rows = {"x0": {"ann_return_pct": -0.43}, "x1": {"ann_return_pct": 0.12}}
+    chk(round((rows["x1"]["ann_return_pct"] - rows["x0"]["ann_return_pct"]) * 100, 2) == 55.0,
+        "attribution is the ann column difference in bp")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -584,7 +732,8 @@ def selftest():
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
-                    choices=["stale", "mtime", "ladder", "month", "pair", "all", "selftest"])
+                    choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -631,6 +780,19 @@ def main(argv):
                                           "maxdd": {kk: vv["max_drawdown_pct"]
                                                     for kk, vv in v["profiles"].items()},
                                           "answers": v["answers"]}
+                                      for k, v in f["windows"].items()}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "cashdrag":
+        f = run_cashdrag(None)
+        outdir = os.path.join(ROOT, "results", "e40_cashleg_drag")
+        p = write_json(outdir, "CASHLeg-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "cashdrag", "file": os.path.relpath(p, ROOT),
+                          "windows": {k: {"answers": v["answers"],
+                                          "cash": v["cash_mechanism"],
+                                          "ann": {n: {kk: r.get("ann_return_pct")
+                                                      for kk, r in rows.items()}
+                                                  for n, rows in v["schemes"].items()}}
                                       for k, v in f["windows"].items()}},
                          ensure_ascii=False))
         return 0

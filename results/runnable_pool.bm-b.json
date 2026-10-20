@@ -20083,11 +20083,16 @@
    "note": "r1112: the ladder5 denominator is now described (2020+ ann -0.43%, maxDD -42.72%, 1046 sessions underwater). Every wide-book claim is a spread over it, so re-read the pair on the drawdown path: same spec, both curves, report maxDD, underwater run and worst month for ladder5 AND the wide book side by side.",
    "priority": 3,
    "runner": "python scripts/e39_panel_census.py pair",
-   "status": "ready",
+   "status": "done",
    "lane_owner": null,
    "entered_at": "2026-10-21T04:20:00+08:00",
    "entered_by": "bm-b r1112 (E39 closeout supply refill)",
-   "shards": []
+   "shards": [],
+   "result_ref": "results/e40_pair_drawdown/PAIR-20261020.json",
+   "result_note": "wide book is shallower (-36.55 vs -42.72 maxDD) but 48 sessions slower to recover (1094 vs 1046 underwater); the spread ratio itself draws down -13.04% over 298 sessions with worst month 2026-06 -7.49%, a different month from the ladder worst (2026-07 -14.82%)",
+   "closed_at": "2026-10-21T04:15:00+08:00",
+   "closed_by": "bm-b r1113 (executed same round)",
+   "runner_actual": "python scripts/e39_panel_census.py pair"
   },
   {
    "id": "E40-WORST-MONTH-ATTRIB",
@@ -20110,7 +20115,10 @@
    "note": "r1112: the ladder held cash on 12.71% of 2020-window bars (32.66% from 2018) only because sh588000 has no price before 2020-11-13. Size that drag: same window with the pre-listing share held at repo vs at the equal-weight of the four live members, so the cash leg stops being an unmeasured convention.",
    "priority": 3,
    "runner": "python scripts/e39_panel_census.py cashdrag",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e40_cashleg_drag/CASHLeg-20261020.json",
+   "closed_by": "bm-b r1114",
+   "closed_at": "2026-10-21T04:38:00+08:00",
    "lane_owner": null,
    "entered_at": "2026-10-21T04:20:00+08:00",
    "entered_by": "bm-b r1112 (E39 closeout supply refill)",
@@ -20126,6 +20134,30 @@
    "entered_at": "2026-10-21T04:28:00+08:00",
    "entered_by": "bm-b r1112 (after July attribution)",
    "shards": []
+  },
+  {
+   "id": "E41-REBAL-DAY-SENSITIVITY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Does the ladder verdict survive a rebalance-day shift? Same spec rebalanced on month-end-1 / month-end / month-end+1 and on a mid-month date, both windows, so a day-of-month artefact cannot hide inside a +134bp spread.",
+   "deliverable": "results/e41_rebal_day/SHIFT-<cutoff>.json",
+   "source": "r1114 cash-leg leg: maxdd is untouched by the repo leg, so the next fragility axis is the decision calendar itself",
+   "entered_at": "2026-10-21T04:38:00+08:00",
+   "entered_by": "bm-b r1114",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E41-SPREAD-ERA-DECAY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Is the vs-ladder spread a regime or a constant? Decompose the wide-vs-ladder ratio curve by era (pre2017 / 2017-2020 / 2021-2023 / 2024-now) and by the two drawdown spans already measured, so a single 2020+ number cannot stand in for it.",
+   "deliverable": "results/e41_spread_era/ERA-<cutoff>.json",
+   "source": "r1113 pair leg: the spread's own maxDD is -13.04% and its worst month is a different month from the denominator's",
+   "entered_at": "2026-10-21T04:40:00+08:00",
+   "entered_by": "bm-b r1114",
+   "evidence_cutoff": "2026-10-20"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
