@@ -452,39 +452,6 @@ def assemble_faces():
     return summary
 
 
-def refresh_pit_faces():
-    """T27: rebuild the derived PIT availability faces after the source
-    faces advance.
-
-    The stored ``avail_date`` column is a LATEST-REVISION date, so consumers
-    must never use it as a PIT anchor; ``data/fund_statement_export/pit_avail``
-    (min(latest_revision, statutory_deadline)) is the consumer-grade face.
-    Keeping the derive in the collector chain means the fix cannot drift out
-    of date when new periods land. Non-blocking: a derive failure must never
-    roll back or fail a completed collection pass.
-    """
-    try:
-        import fund_avail_pit_t27 as pit  # lazy: pit module imports back here
-        return pit.run()
-    except Exception as exc:  # noqa: BLE001 - collection must survive
-        print(f"pit face refresh failed (non-blocking): {exc}")
-        return None
-
-
-def pit_faces_stale():
-    """True when the derived PIT faces are missing or older than the source
-    face they were derived from (fresh clone / panel advanced elsewhere)."""
-    for face, face_path in FACE_PATH.items():
-        derived = os.path.join(DATA_DIR, "pit_avail", f"{face}_avail.parquet")
-        if not os.path.exists(face_path):
-            continue
-        if not os.path.exists(derived):
-            return True
-        if os.path.getmtime(derived) < os.path.getmtime(face_path):
-            return True
-    return False
-
-
 # --------------------------------------------------------------- gate
 def gate_verdict(now, done_blocked, cov, expected):
     """Pure decision core (hermetic selftest face).
@@ -540,9 +507,6 @@ def gate(now_fn=None, spawn_fn=None):
                   last_refresh_exit=st.get("last_refresh_exit", 0))
         write_status(st)
         print(f"no-op: {reason} -> zero network")
-        if pit_faces_stale():
-            print("pit_avail stale/missing -> rebuilding derived PIT faces")
-            refresh_pit_faces()
         return 0
     # spawn path: 30-min throttle + lock liveness (mirror BEFORE acting, r18)
     last = st.get("last_spawn_attempt")
@@ -603,7 +567,6 @@ def refresh(now_fn=None, fetch=None, sleep_fn=None):
                   last_refresh_exit=0)
         write_status(st)
         print(f"no-op: all periods done; faces re-assembled {summary}")
-        refresh_pit_faces()
         return 0
     # strip proxies for direct EM path (R118 直连铁律, family precedent)
     for k in ("http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY",
@@ -694,7 +657,6 @@ def refresh(now_fn=None, fetch=None, sleep_fn=None):
         save_progress({"done": done})
         print(("complete" if complete else f"incomplete ({n_missing} missing)")
               + f": requests={requests_used} zero_row_periods={len(zero_rows)}")
-        refresh_pit_faces()
         return 0 if complete else 2
     finally:
         _clear_lock()
