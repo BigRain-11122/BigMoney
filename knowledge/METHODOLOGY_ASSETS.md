@@ -287,3 +287,9 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 账本类陈旧（本例 results/gate_attrition.bm-c.json：HEAD 121 行/盘上 120 行，ATTrition guard rc=1 ACTIVE LOSS 堵全仓 commit）：**禁整文件 restore（treasure_guard rc3 账本类）**，正法=行级 union——载 HEAD 与盘面按规范 JSON 比对，确认「盘面 ⊂ HEAD 且 disk_only=0」后以 HEAD 行为准回写；写完再判 git diff --numstat，若为全文件 20144+/20144- = 序列化格式漂移（indent/key 序），此时解析面已恒等 → 改写成 **HEAD 原始字节**（git show 落盘，不加尾换行），diff 归零才算修复完成（一次写回后 numstat 1/1 即尾换行差，属假阳性，须清零）。
 - 自证链：attrition scan rc0 CLEAN + git diff --numstat 空 + smoke 49/49；轮报告写明「树脏=陈旧工作树非他人在途」以免后窗误判。
 - 证据：state.json r1066_notes + 轮报告 r1066 行；本轮产品面=results/_fund_divlowvol_p2_freeze_probe_local.json（GREEN 7/7）
+
+## E78 横截面研究的面板覆盖崖：均匀覆盖日截断 + 宇宙构成披露（r1099 bm-b 实弹）
+- 病理：本仓 data/daily 的 1,725 件 ETF 面板里 1,671 件末 bar=2026-09-22（一次性批量导入·无刷新腿），1,276 员可投宇宙里只有 ~16 员吃到最后一根 bar。任何「跑到面板末端」的排名/资格类研究（top-N 流动性、宇宙普查、覆盖率），在覆盖崖之后会被 250bar 连窗资格门静默读成「不达标」——宇宙从 1,224 员坍到 16 员，而换手/成本等审计读数一切正常，face 上看不出异常。
+- 判据：写 runner 前先跑覆盖度探针（逐码末 bar 日期分布）；末段覆盖率 <90% 即判覆盖崖。正法=显式截断到均匀覆盖日，face 里落 `truncated_at` + 逐年代 `live_marks`（eligible/liquid 双列）供入数复核，并把崖写进 honest 段。
+- 同族第二锁：宇宙排名会把「名义宽基」研究变成风格敞口研究——ETF 流动性 top-N 的持仓全是 5110xx/5111xx 货币与债券 ETF，波动率下降（21.5%→16.6%）是债性倾斜不是分散化。凡 top-N/排名类 face 必须把 last_holdings 落盘并做编码家族分桶披露，否则「β 变化」会被误读成「广度收益」。
+- 证据：scripts/e27_universe_expansion.py selftest 9/9 + results/e27_universe_expansion/UNIV-e20260922{,-xsh511}-20261021.json + research/pit-data.md 2026-10-21 条

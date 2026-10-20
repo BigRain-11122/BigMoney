@@ -19256,15 +19256,21 @@
    "status": "done"
   },
   {
+   "claimed_at": "2026-10-21T00:39:16+0800",
+   "claimed_by": "bm-b r1099",
+   "done_at": "2026-10-21T00:43:25+0800",
+   "done_by": "bm-b r1099",
    "entered_at": "2026-10-21T00:55:00+08:00",
    "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
    "id": "E26-BAND-X3",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1098: the band grid under cost x3. The family is a wash at x1 with 4.2bp/yr of cost -- x3 raises the monthly scheme to 12.6bp/yr and the wide bands to 8.4bp/yr, so it asks whether the cheapest-band advantage stays inside noise when costs are the only thing that scales.",
    "priority": 3,
+   "result_note": "r1099: cost x3 does not rescue the band family -- every band is within -10.5..+0.4bp/yr (|t|<=0.63) of monthly while saving only 4.2bp/yr of cost. Wash confirmed under 3x costs.",
+   "result_ref": "results/e26_band/BAND-X3-20261021.json",
    "runner": "python scripts/e26_band_rebalance.py run --cost-mult 3",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19272,15 +19278,21 @@
    }
   },
   {
+   "claimed_at": "2026-10-21T00:39:16+0800",
+   "claimed_by": "bm-b r1099",
+   "done_at": "2026-10-21T00:43:25+0800",
+   "done_by": "bm-b r1099",
    "entered_at": "2026-10-21T00:55:00+08:00",
    "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
    "id": "E26-BAND-START2018",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1098: era stability of the band wash. The x1 face is flat overall but 2017-2020 is -1.1bp/mo and 2021-2023 +0.8bp/mo; a 2018-start run isolates the second half of the sample where the universe is complete (all five members) and tells whether the wash is an early-universe artifact.",
    "priority": 3,
+   "result_note": "r1099: 2018-start (all five members present) -- band family still a wash (-4.3..+19.6bp/yr, |t|<=0.71). The flat result is not an early-universe artefact.",
+   "result_ref": "results/e26_band/BAND-START2018-20261021.json",
    "runner": "python scripts/e26_band_rebalance.py run --start 2018-01-01",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19288,15 +19300,21 @@
    }
   },
   {
+   "claimed_at": "2026-10-21T00:39:16+0800",
+   "claimed_by": "bm-b r1099",
+   "done_at": "2026-10-21T00:43:25+0800",
+   "done_by": "bm-b r1099",
    "entered_at": "2026-10-21T00:55:00+08:00",
    "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
    "id": "E26-BAND-20PP",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1098: both ends of the trigger axis -- 0.25pp (near-monthly churn) and 20/50pp (near buy-and-hold). If return is monotone decreasing in band width the ladder pays a rebalancing premium and the width merely measures how much of it is captured; if it is flat, rebalancing timing is irrelevant and the monthly rule is arbitrary rather than optimal.",
    "priority": 3,
+   "result_note": "r1099: both ends of the axis -- 0.25pp churns 952 times for -8.2bp/yr, 20/50pp is buy-and-hold for -36.8bp/yr (t -1.35). Return is NOT monotone in band width: letting weights drift to 20pp costs ~1.5x the rebalancing saving, so the monthly rule is neither arbitrary nor strictly optimal -- it is inside the noise band and the only width that pays is \"no band at all\".",
+   "result_ref": "results/e26_band/BAND-ENDS-20261021.json",
    "runner": "python scripts/e26_band_rebalance.py run --bands 0.25,20,50",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19304,15 +19322,67 @@
    }
   },
   {
+   "done_at": "2026-10-21T00:43:25+0800",
+   "done_by": "bm-b r1099",
    "entered_at": "2026-10-21T00:55:00+08:00",
    "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
    "id": "E27-UNIVERSE-EXPANSION",
    "lane_owner": "bm-b",
    "note": "r1098: next family -- is the five-member ladder even the right expression? Equal-weight the top-N most liquid eligible ETFs (N=10/20/50) with the same accounting (monthly rebalance, 13.041bp/side, repo cash leg) and compare to the ladder. Runner NOT built yet (status waiting, honest) -- building it is the next round's product increment.",
    "priority": 3,
+   "result_note": "r1099: built scripts/e27_universe_expansion.py (selftest 9/9) and burned 1276-ETF universe + 1231-ETF equity block. Headline: liquidity-ranked top-N is NOT a better expression of the ladder. Bond-inclusive top50 = +17.2bp/yr (t 0.23) but its whole vol advantage comes from the sh511 money/bond block (holdings are 5110xx/5111xx). Excluding that block, breadth is monotone positive in N -- top10 -109.6bp, top20 +2.8bp, top50 +154.6bp/yr (t 0.99), vol 19.3% vs 21.5% -- i.e. a real-looking but still insignificant equity-breadth premium. Also found a data-coverage cliff: 1671 of 1725 panel files end 2026-09-22, so any study that runs to the last ladder bar silently collapses the universe to the 53 fresh symbols; the face is truncated at the uniform-coverage date and discloses it.",
+   "result_ref": "results/e27_universe_expansion/UNIV-e20260922-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run",
    "shards": [],
-   "status": "waiting",
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:43:25+0800",
+   "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
+   "id": "E28-EO-BREADTH-X3",
+   "lane_owner": null,
+   "note": "r1099: the equity-breadth point estimate (top50 +154.6bp/yr at 12.0bp/yr of cost) is only ~13x its own cost, while turnover is 3x the ladder. Cost x3 asks whether the sign survives when costs are the only thing that scales.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --cost-mult 3",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:43:25+0800",
+   "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
+   "id": "E28-EO-BREADTH-N100",
+   "lane_owner": null,
+   "note": "r1099: monotonicity probe -- if breadth is real, N=100 should not be worse than N=50; if it decays, N=50 was the tail of a multiple-comparison surface.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --end 2026-09-22 --exclude sh511 --ns 100",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:43:25+0800",
+   "entered_by": "bm-b r1099 (supply floor: 3 E26 units + the E27 waiting cell closed)",
+   "id": "E28-EO-BREADTH-START2018",
+   "lane_owner": null,
+   "note": "r1099: era stability of the equity-breadth point estimate (pre-2017 the universe is 56 liquid ETFs, so top50 is nearly the whole universe and the comparison is degenerate there).",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --start 2018-01-01 --end 2026-09-22 --exclude sh511",
+   "shards": [],
+   "status": "ready",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
