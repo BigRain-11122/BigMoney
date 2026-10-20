@@ -1,0 +1,46 @@
+{
+ "batch": "W22_CONFIRM_P1",
+ "cells": {
+  "hol_pre1@h3": {
+   "excess_to_date": null,
+   "first_forward_window": null,
+   "forward_pool_days": 0,
+   "forward_windows": 0,
+   "h": 3,
+   "last_forward_window": null,
+   "variant": "hol_pre1"
+  },
+  "hol_pre1@h4": {
+   "excess_to_date": null,
+   "first_forward_window": null,
+   "forward_pool_days": 0,
+   "forward_windows": 0,
+   "h": 4,
+   "last_forward_window": null,
+   "variant": "hol_pre1"
+  }
+ },
+ "elapsed_sec": 1.85,
+ "exit_axis": "strategy_own: exact-h-bar close; engine default exit stack disabled",
+ "fence": "2026-10-19",
+ "generated": "2026-10-20T21:32:07+0800",
+ "holm_alpha": 0.05,
+ "honest": [
+  "narrowing (hol_pre1, h in {3,4}) is POST-HOC (screen zero-survivor at p_family 0.0398); confirmation-only, never a discovery claim",
+  "fence is inclusive-exclusion: every evidence day has date > 2026-10-19",
+  "screen statistics are NOT carried forward: only forward windows count towards the stop rule",
+  "no cost model in this face; cost is adjudicated by the E23 cost face and the runner exit axis",
+  "a zero-window face is honest awaiting state, not a failure"
+ ],
+ "min_forward_windows": 12,
+ "null": {
+  "k": 1000,
+  "method": "placebo same-size draw from the forward pool, two-sided",
+  "seed": 20670500
+ },
+ "panel": "data/cache/p1c_local",
+ "panel_last_day": "2026-10-19",
+ "spec_sha16": "fc473527df112376",
+ "spec_source": "cells=[('hol_pre1', 3), ('hol_pre1', 4)]|fence=2026-10-19|k=1000|seed=20670500|alpha=0.050|min=12",
+ "verdict": "AWAITING_FORWARD_WINDOWS"
+}

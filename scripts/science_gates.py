@@ -2267,6 +2267,11 @@ SEED_REGISTRY = {
         # registered at prereg freeze BEFORE any burn. Prereg:
         # research/SUSP_RESUME_P1_PREREG.md sec.3.
         "susp_resume_p1_null": 94_801,
+        # W22-CONFIRM-P1 (r1086 bm-b): narrowed forward-only confirmation of
+        # the pre-holiday family (hol_pre1, h in {3,4}) after the W22 cheap
+        # screen returned zero Holm survivor. Registered at prereg freeze
+        # BEFORE any burn. Prereg: research/W22-CONFIRM-P1.md sec.3.
+        "w22_confirm_p1_nulls": 20_670_500,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
