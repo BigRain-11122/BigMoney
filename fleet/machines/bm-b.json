@@ -5,9 +5,9 @@
  "cpu_cores": 16,
  "cpu_load_pct": 12,
  "cpu_util_pct": 74,
- "current": "W21 judge-finalize running detached (S4U); screen closed 6/18",
- "current_task": "r1080: W21 screen-finalize + judge burn + judge-finalize launch",
- "did": "r1080: W21 screen-finalize (6/18 survivors + family axe + sec.5.1 prediction HIT) + t18 deep-panel rebuild (48 members/114,142 rows) -> judge-prep PASS (2 blocks/10 cells) + judge 10/10 cells burned under S4U one-shot -> judge-finalize launched detached + S6 product regen (REPORT/LIVE/clock/DUALARM) + pool hygiene",
+ "current": "W21 closed: 6/18 screen survivors, 0/10 G1 pass (honest negative)",
+ "current_task": "r1080: W21 judge-finalize harvested (0 onboard)",
+ "did": "r1080: W21 closed end-to-end -- screen 6/18 survivors + judge-finalize 0/10 G1 pass (honest negative, zero onboard; sec.5.1 prediction HIT) + deep-panel rebuild unblocked P5C",
  "did_round": "r1080",
  "free_ram_gb": 11.2,
  "gpu_free_mb": 3681,
@@ -17,9 +17,9 @@
  "idle_ram_gb": 8.8,
  "idle_ram_pct": 53.1,
  "idle_rounds": 0,
- "last_action": "r1080: W21 screen-finalize (6/18 survivors + family axe + sec.5.1 prediction HIT) + t18 deep-panel rebuild (48 members/114,142 rows) -> judge-prep PASS (2 blocks/10 cells) + judge 10/10 cells burned under S4U one-shot -> judge-finalize launched detached + S6 product regen (REPORT/LIVE/clock/DUALARM) + pool hygiene",
- "last_action_at": "2026-10-20T18:22:35+08:00",
- "last_artifact": "results/trial_labor_w21/w21_screen.json",
+ "last_action": "r1080: W21 closed end-to-end -- screen 6/18 survivors + judge-finalize 0/10 G1 pass (honest negative, zero onboard; sec.5.1 prediction HIT) + deep-panel rebuild unblocked P5C",
+ "last_action_at": "2026-10-20 18:37:00+08:00",
+ "last_artifact": "results/trial_labor_w21/w21_judge.json + w21_reform_face.json (0/10 G1, zero onboard)",
  "last_decisions_at": "2026-10-20T08:55:54+08:00",
  "last_decisions_read_at": "2026-10-20T18:00:06+08:00",
  "last_decisions_sha": "715e4134b1c871278d96e0e443cc1d91dd151a7019a18b5369bc1313a6996837",
@@ -28,11 +28,11 @@
  "last_orders_read_at": "2026-10-20T18:00:06+08:00",
  "last_orders_sha": "63a2988a18f35483976a34219f90b206b1c1fcac8cacf3232dd5ed150d1557a2",
  "last_seen": "2026-10-20T18:22:35+08:00",
- "latest_artifact": "results/trial_labor_w21/w21_screen.json (+ w21_screen_cells.csv, docs/daily_report/REPORT-2026-10-20.md)",
- "local_not_on_origin_commits": 3,
+ "latest_artifact": "results/trial_labor_w21/w21_judge.json + w21_reform_face.json (0/10 G1, zero onboard)",
+ "local_not_on_origin_commits": 4,
  "machine_id": "bm-b",
- "next": "r1081: W21 judge-finalize harvest (verdicts + reform face + family axe + ledger) -> intake; supply floor refill to >=3 ready units",
- "next_milestone": "W21 judge verdict face + family axe (<=48h)",
+ "next": "r1081: W21 intake face + ledger close; supply floor refill to >=3 ready units",
+ "next_milestone": "W21 intake + ledger close (<=24h); supply floor refill",
  "note": "r1073: fund P2 revival pair complete (40/40 cells, two judged faces).",
  "now_active": "idle - awaiting r1078 (W21 screen shards)",
  "orders_ack": [
@@ -175,5 +175,8 @@
   "behind_origin_main": 4,
   "no_verify_reason": "pre-push claw diff-tree timed out on promisor lazy blobs (fail-closed); deletion set re-verified empty via git log --name-status",
   "note": "r1080 delivery: main push claw-blocked by promisor lazy-blob diff-tree 60s TimeoutExpired (fail-closed r1033/r1034 family); deletion set verified EMPTY by 'git log --name-status' on all three local commits (pure add/modify), so the --no-verify escape hatch was used on the FALLBACK branch only: machine/bm-b-r1080 = d5c30de7d (ls-remote verified). origin/main left untouched (still 4 behind = non-ff; rebase of the shared daily faces deferred to the next clean-network round per r1026 law)."
+ },
+ "notes": {
+  "r1080_judge": "W21 judge-finalize: n_judged=10, g1_pass_n=0, eligible_v2=[] eligible_reform=[], onboard_list=[]; family axe = gap_reversal_gate 4 cells / on_share_rank 6 cells both zero pass, liq_rank_gate 0 cells (dropped at screen, lawful_zero=false -- recorded honestly); sec.5.1 predicted reform band [0,3], observed 0 -> HIT. judge-finalize ran detached (S4U) because it is a >5min nulls battery; wall 15min, log is UTF-16 (PS *>> redirect) -- read with -Encoding Unicode."
  }
 }
