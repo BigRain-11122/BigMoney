@@ -1,0 +1,460 @@
+{
+ "probe": "BASIS_VOL_PROBE",
+ "mode": "descriptive",
+ "judged": false,
+ "pool_entry": false,
+ "generated_by": "scripts/basis_vol_probe.py",
+ "question": "does the futures basis add volatility information beyond the index's own trailing realized vol?",
+ "frozen_definitions": {
+  "lr": "log(fut_close)-log(spot_close) (scale-free)",
+  "basis": "lr - mean252(lr), min_periods=120",
+  "chg5": "lr(t)-lr(t-5)",
+  "z20": "(lr-mean20)/std20(lr), min_periods=20, inclusive",
+  "pv20": "stdev of spot log-return over [t-19..t]",
+  "rv20": "stdev of spot log-return over strictly [t+1..t+20]",
+  "ols": "rank-OLS: rank(rv20) ~ rank(pv20) + rank(feature)"
+ },
+ "honest_boundaries": [
+  "main-continuous roll jumps move the futures level; change/z faces reported alongside",
+  "ETF tracking error / premium-discount sits inside every basis number",
+  "rv20 needs 20 future bars: the tail is excluded, never imputed",
+  "rank-OLS delta-R2 is an in-sample descriptive increment, not an OOS claim",
+  "descriptive only: no verdict, no judged cells, no pool entry"
+ ],
+ "pairs": {
+  "IF/510300": {
+   "label": "hs300",
+   "fut": "IF",
+   "spot": "510300",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_target_date": "2026-09-11",
+   "n_targets": 1624,
+   "tests": [
+    {
+     "feature": "basis",
+     "status": "ok",
+     "n": 1505,
+     "spearman": 0.003869802126643812,
+     "r2_base": 0.15397659987511725,
+     "r2_full": 0.15397707585201248,
+     "delta_r2": 4.7597689523115605e-07,
+     "feature_t": 0.029069451461253355
+    },
+    {
+     "feature": "chg5",
+     "status": "ok",
+     "n": 1604,
+     "spearman": -0.020574841908131043,
+     "r2_base": 0.1496143524283674,
+     "r2_full": 0.15115214147022193,
+     "delta_r2": 0.0015377890418545315,
+     "feature_t": -1.7030567431204988
+    },
+    {
+     "feature": "z20",
+     "status": "ok",
+     "n": 1604,
+     "spearman": -0.06563522809631843,
+     "r2_base": 0.1496143524283674,
+     "r2_full": 0.15650628796304966,
+     "delta_r2": 0.006891935534682259,
+     "feature_t": -3.6168070828385463
+    }
+   ],
+   "quintile_delta_basis": [
+    {
+     "quintile": 1,
+     "n": 301,
+     "delta_r2": 0.0016938282453319298,
+     "feature_t": -0.735094767997152
+    },
+    {
+     "quintile": 2,
+     "n": 301,
+     "delta_r2": 0.0014083319240156822,
+     "feature_t": -0.6493516594890713
+    },
+    {
+     "quintile": 3,
+     "n": 301,
+     "delta_r2": 0.007994031807949775,
+     "feature_t": -1.5499240393715177
+    },
+    {
+     "quintile": 4,
+     "n": 301,
+     "delta_r2": 0.007275989010341877,
+     "feature_t": 1.533638751930729
+    },
+    {
+     "quintile": 5,
+     "n": 301,
+     "delta_r2": 0.06528133958534854,
+     "feature_t": 4.740165630806146
+    }
+   ],
+   "yearly_delta_basis": {
+    "2020": {
+     "n": 124,
+     "delta_r2": 0.0016717389910705371
+    },
+    "2021": {
+     "n": 243,
+     "delta_r2": 0.038263179721466756
+    },
+    "2022": {
+     "n": 242,
+     "delta_r2": 0.03507103628882624
+    },
+    "2023": {
+     "n": 242,
+     "delta_r2": 0.00021260161704328429
+    },
+    "2024": {
+     "n": 242,
+     "delta_r2": 0.18726234278633214
+    },
+    "2025": {
+     "n": 243,
+     "delta_r2": 0.06891095849771822
+    },
+    "2026": {
+     "n": 169,
+     "delta_r2": 0.06360266679592574
+    }
+   },
+   "current": {
+    "basis": -0.009610139146777996,
+    "basis_pct_3y": 0.252,
+    "pv20": 0.0077685926408448845
+   }
+  },
+  "IH/510050": {
+   "label": "sse50",
+   "fut": "IH",
+   "spot": "510050",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_target_date": "2026-09-11",
+   "n_targets": 1624,
+   "tests": [
+    {
+     "feature": "basis",
+     "status": "ok",
+     "n": 1505,
+     "spearman": 0.127784947718844,
+     "r2_base": 0.17972526407854927,
+     "r2_full": 0.1883212408592374,
+     "delta_r2": 0.00859597678068813,
+     "feature_t": 3.988324557966544
+    },
+    {
+     "feature": "chg5",
+     "status": "ok",
+     "n": 1604,
+     "spearman": -0.02362957061262109,
+     "r2_base": 0.16934060824730524,
+     "r2_full": 0.17126297893888764,
+     "delta_r2": 0.001922370691582409,
+     "feature_t": -1.9271071568941185
+    },
+    {
+     "feature": "z20",
+     "status": "ok",
+     "n": 1604,
+     "spearman": -0.014679263734542527,
+     "r2_base": 0.16934060824730524,
+     "r2_full": 0.17093253870709513,
+     "delta_r2": 0.001591930459789892,
+     "feature_t": -1.753326419717466
+    }
+   ],
+   "quintile_delta_basis": [
+    {
+     "quintile": 1,
+     "n": 301,
+     "delta_r2": 0.0011484121496188049,
+     "feature_t": -0.6004566428505498
+    },
+    {
+     "quintile": 2,
+     "n": 301,
+     "delta_r2": 0.03989225650391215,
+     "feature_t": 3.5445621681176007
+    },
+    {
+     "quintile": 3,
+     "n": 301,
+     "delta_r2": 0.026171703154961645,
+     "feature_t": 2.836037317110828
+    },
+    {
+     "quintile": 4,
+     "n": 301,
+     "delta_r2": 0.06246053639351734,
+     "feature_t": 4.518245256606328
+    },
+    {
+     "quintile": 5,
+     "n": 301,
+     "delta_r2": 0.001295810012119647,
+     "feature_t": 0.6750924850293114
+    }
+   ],
+   "yearly_delta_basis": {
+    "2020": {
+     "n": 124,
+     "delta_r2": 2.393349957663382e-06
+    },
+    "2021": {
+     "n": 243,
+     "delta_r2": 0.02904921229645363
+    },
+    "2022": {
+     "n": 242,
+     "delta_r2": 0.020127711427521233
+    },
+    "2023": {
+     "n": 242,
+     "delta_r2": 0.0016178253967018552
+    },
+    "2024": {
+     "n": 242,
+     "delta_r2": 0.1340718958589141
+    },
+    "2025": {
+     "n": 243,
+     "delta_r2": 0.03987309166106845
+    },
+    "2026": {
+     "n": 169,
+     "delta_r2": 0.02326690388272945
+    }
+   },
+   "current": {
+    "basis": -0.014486065686401872,
+    "basis_pct_3y": 0.2,
+    "pv20": 0.006679765950726117
+   }
+  },
+  "IC/510500": {
+   "label": "csi500",
+   "fut": "IC",
+   "spot": "510500",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_target_date": "2026-09-11",
+   "n_targets": 1624,
+   "tests": [
+    {
+     "feature": "basis",
+     "status": "ok",
+     "n": 1505,
+     "spearman": -0.09383128755917167,
+     "r2_base": 0.27739075241015754,
+     "r2_full": 0.2836800445353018,
+     "delta_r2": 0.006289292125144286,
+     "feature_t": -3.631468864618806
+    },
+    {
+     "feature": "chg5",
+     "status": "ok",
+     "n": 1604,
+     "spearman": 0.010234626468966139,
+     "r2_base": 0.2733194462837071,
+     "r2_full": 0.27420957389940914,
+     "delta_r2": 0.0008901276157020632,
+     "feature_t": -1.401251807763354
+    },
+    {
+     "feature": "z20",
+     "status": "ok",
+     "n": 1604,
+     "spearman": 0.004384832020961466,
+     "r2_base": 0.2733194462837071,
+     "r2_full": 0.27631303122701056,
+     "delta_r2": 0.0029935849433034845,
+     "feature_t": -2.573452061745662
+    }
+   ],
+   "quintile_delta_basis": [
+    {
+     "quintile": 1,
+     "n": 301,
+     "delta_r2": 0.008921349668098877,
+     "feature_t": -1.6477148124858956
+    },
+    {
+     "quintile": 2,
+     "n": 301,
+     "delta_r2": 0.035751541017084665,
+     "feature_t": -3.651509291930809
+    },
+    {
+     "quintile": 3,
+     "n": 301,
+     "delta_r2": 0.011364340642910364,
+     "feature_t": 1.8574946251963496
+    },
+    {
+     "quintile": 4,
+     "n": 301,
+     "delta_r2": 0.011310671173544784,
+     "feature_t": -1.8619873904912088
+    },
+    {
+     "quintile": 5,
+     "n": 301,
+     "delta_r2": 0.00124731659290378,
+     "feature_t": 0.6140730674616515
+    }
+   ],
+   "yearly_delta_basis": {
+    "2020": {
+     "n": 124,
+     "delta_r2": 0.003034287584471107
+    },
+    "2021": {
+     "n": 243,
+     "delta_r2": 0.2771826866838528
+    },
+    "2022": {
+     "n": 242,
+     "delta_r2": 0.08804579363304388
+    },
+    "2023": {
+     "n": 242,
+     "delta_r2": 0.23528604850443702
+    },
+    "2024": {
+     "n": 242,
+     "delta_r2": 0.11892396331912858
+    },
+    "2025": {
+     "n": 243,
+     "delta_r2": 0.0008159820616708835
+    },
+    "2026": {
+     "n": 169,
+     "delta_r2": 0.1288539197934777
+    }
+   },
+   "current": {
+    "basis": 0.006485759253129331,
+    "basis_pct_3y": 0.8093333333333333,
+    "pv20": 0.013669708109967474
+   }
+  },
+  "IM/512100": {
+   "label": "csi1000",
+   "fut": "IM",
+   "spot": "512100",
+   "status": "ok",
+   "overlap_bars": 1025,
+   "first_date": "2022-07-22",
+   "last_target_date": "2026-09-11",
+   "n_targets": 1005,
+   "tests": [
+    {
+     "feature": "basis",
+     "status": "ok",
+     "n": 886,
+     "spearman": 0.42856961447483455,
+     "r2_base": 0.28491719403074367,
+     "r2_full": 0.3383771151728442,
+     "delta_r2": 0.05345992114210052,
+     "feature_t": 8.446742393672968
+    },
+    {
+     "feature": "chg5",
+     "status": "ok",
+     "n": 985,
+     "spearman": 0.004468175353801809,
+     "r2_base": 0.27696345255809685,
+     "r2_full": 0.27718717028391726,
+     "delta_r2": 0.00022371772582041594,
+     "feature_t": -0.5513063764196595
+    },
+    {
+     "feature": "z20",
+     "status": "ok",
+     "n": 985,
+     "spearman": -0.017980135917956004,
+     "r2_base": 0.27696345255809685,
+     "r2_full": 0.277243489669294,
+     "delta_r2": 0.00028003711119717334,
+     "feature_t": -0.6168329036534791
+    }
+   ],
+   "quintile_delta_basis": [
+    {
+     "quintile": 1,
+     "n": 178,
+     "delta_r2": 0.40080234904914835,
+     "feature_t": 11.044820588316359
+    },
+    {
+     "quintile": 2,
+     "n": 177,
+     "delta_r2": 0.16448076605843387,
+     "feature_t": 7.018629797765203
+    },
+    {
+     "quintile": 3,
+     "n": 177,
+     "delta_r2": 0.05118742101598761,
+     "feature_t": 3.4018763287586347
+    },
+    {
+     "quintile": 4,
+     "n": 177,
+     "delta_r2": 0.029934159248340086,
+     "feature_t": -2.4344538276099503
+    },
+    {
+     "quintile": 5,
+     "n": 177,
+     "delta_r2": 0.00937924380788624,
+     "feature_t": 1.3251966288029322
+    }
+   ],
+   "yearly_delta_basis": {
+    "2023": {
+     "n": 232,
+     "delta_r2": 0.5037400690810316
+    },
+    "2024": {
+     "n": 242,
+     "delta_r2": 0.013565828476577946
+    },
+    "2025": {
+     "n": 243,
+     "delta_r2": 0.02561722189325022
+    },
+    "2026": {
+     "n": 169,
+     "delta_r2": 0.07124763091776876
+    }
+   },
+   "current": {
+    "basis": -0.0028300507990337564,
+    "basis_pct_3y": 0.6266666666666667,
+    "pv20": 0.015444169507465237
+   }
+  }
+ },
+ "evidence_cutoff": "2026-09-11",
+ "cutoff_meta": {
+  "rule": "max over pairs of last bar with a complete 20-bar forward target",
+  "per_pair_last_dates": {
+   "IF/510300": "2026-09-11",
+   "IH/510050": "2026-09-11",
+   "IC/510500": "2026-09-11",
+   "IM/512100": "2026-09-11"
+  }
+ }
+}
