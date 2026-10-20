@@ -1,0 +1,255 @@
+{
+ "study": "e26_band_rebalance",
+ "evidence_cutoff": "2026-10-20",
+ "start": "2012-05-28",
+ "bars": 3497,
+ "years": 13.88,
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cost_bp_per_side": 13.041,
+ "cost_mult": 1.0,
+ "schemes": {
+  "monthly": {
+   "band_pp": null,
+   "metrics": {
+    "total_return_pct": 104.04,
+    "ann_return_pct": 5.27,
+    "ann_vol_pct": 21.54,
+    "sharpe": 0.347,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 160,
+    "turnover_total": 4.463560030554044,
+    "cost_paid_frac": 0.005820928635845533,
+    "turnover_per_year": 0.322,
+    "cost_per_year_bp": 4.2
+   }
+  },
+  "band_0.5pp": {
+   "band_pp": 0.5,
+   "metrics": {
+    "total_return_pct": 102.45,
+    "ann_return_pct": 5.21,
+    "ann_vol_pct": 21.57,
+    "sharpe": 0.344,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 376,
+    "turnover_total": 5.737936883069069,
+    "cost_paid_frac": 0.007482843489210369,
+    "turnover_per_year": 0.413,
+    "cost_per_year_bp": 5.4
+   },
+   "vs_monthly_bp_annualised": -5.6,
+   "vs_monthly": {
+    "months": 174,
+    "mean_bp": -0.44,
+    "t": -0.47,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -1.12
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 0.78
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -1.97
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": 0.28
+     }
+    }
+   }
+  },
+  "band_1pp": {
+   "band_pp": 1.0,
+   "metrics": {
+    "total_return_pct": 104.34,
+    "ann_return_pct": 5.28,
+    "ann_vol_pct": 21.56,
+    "sharpe": 0.347,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 152,
+    "turnover_total": 4.836594935365109,
+    "cost_paid_frac": 0.006307403455209635,
+    "turnover_per_year": 0.349,
+    "cost_per_year_bp": 4.5
+   },
+   "vs_monthly_bp_annualised": 1.1,
+   "vs_monthly": {
+    "months": 174,
+    "mean_bp": 0.09,
+    "t": 0.1,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -0.83
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 1.79
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -0.53
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": 0.17
+     }
+    }
+   }
+  },
+  "band_2pp": {
+   "band_pp": 2.0,
+   "metrics": {
+    "total_return_pct": 103.25,
+    "ann_return_pct": 5.24,
+    "ann_vol_pct": 21.56,
+    "sharpe": 0.345,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 47,
+    "turnover_total": 3.8487977569433838,
+    "cost_paid_frac": 0.005019217154829869,
+    "turnover_per_year": 0.277,
+    "cost_per_year_bp": 3.6
+   },
+   "vs_monthly_bp_annualised": -2.8,
+   "vs_monthly": {
+    "months": 174,
+    "mean_bp": -0.22,
+    "t": -0.21,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -1.09
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 1.22
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -1.72
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": 0.53
+     }
+    }
+   }
+  },
+  "band_5pp": {
+   "band_pp": 5.0,
+   "metrics": {
+    "total_return_pct": 101.89,
+    "ann_return_pct": 5.19,
+    "ann_vol_pct": 21.56,
+    "sharpe": 0.343,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 12,
+    "turnover_total": 3.1124136938932523,
+    "cost_paid_frac": 0.00405889869820619,
+    "turnover_per_year": 0.224,
+    "cost_per_year_bp": 2.9
+   },
+   "vs_monthly_bp_annualised": -7.6,
+   "vs_monthly": {
+    "months": 174,
+    "mean_bp": -0.59,
+    "t": -0.47,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": 1.5
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": -2.09
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -0.32
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": -1.59
+     }
+    }
+   }
+  },
+  "band_10pp": {
+   "band_pp": 10.0,
+   "metrics": {
+    "total_return_pct": 100.29,
+    "ann_return_pct": 5.13,
+    "ann_vol_pct": 21.57,
+    "sharpe": 0.34,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 9,
+    "turnover_total": 2.9770132081127234,
+    "cost_paid_frac": 0.003882322924699803,
+    "turnover_per_year": 0.215,
+    "cost_per_year_bp": 2.8
+   },
+   "vs_monthly_bp_annualised": -13.2,
+   "vs_monthly": {
+    "months": 174,
+    "mean_bp": -1.04,
+    "t": -0.65,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -2.45
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": -2.77
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": 3.67
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": -1.59
+     }
+    }
+   }
+  }
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv close (annualised %)",
+  "units_per_year": 252.0,
+  "covered_days": 3497,
+  "ffilled_days": 1,
+  "first_rate_date": "2011-05-13",
+  "last_rate_date": "2026-10-19"
+ },
+ "honest": [
+  "all schemes hold the same five members; only the rebalance trigger differs",
+  "universe grows over time -- membership changes force a rebalance in every band scheme",
+  "13.041bp/side charged on turnover; the un-invested share accrues at the GC001 repo close",
+  "the band grid (0.5/1/2/5/10pp) is a multiple-comparison surface; a single winning band is not evidence, a band family with a consistent sign would be",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed"
+ ]
+}

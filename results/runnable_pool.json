@@ -19148,15 +19148,19 @@
    }
   },
   {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
    "entered_at": "2026-10-21T00:16:00+08:00",
    "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
    "id": "E25-WHIPSAW-H120",
    "lane_owner": null,
    "note": "r1096: extend the crossing diagnostic to a 120-bar horizon -- 20 bars was -42.7bp and 60 bars +40.4bp for the 200d window, so the sign is horizon-sensitive; 120 settles whether the spread converges or keeps drifting.",
    "priority": 3,
+   "result_note": "r1098: 120-bar forward window. Spreads stay positive and grow with the horizon: 200d +54.5bp (entry +606.0 / exit +551.4), 100d +32.4bp, 50d +27.1bp -- the filter does not sell before gains at any horizon.",
+   "result_ref": "results/e25_whipsaw/WHIPSAW-f120-20261020.json",
    "runner": "python scripts/e25_whipsaw_diag.py run --fwd 120",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19164,13 +19168,101 @@
    }
   },
   {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
    "entered_at": "2026-10-21T00:16:00+08:00",
    "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
    "id": "E25-WHIPSAW-H5",
    "lane_owner": null,
    "note": "r1096: the short end of the same horizon sweep (5 bars), completing a 5/20/60/120 ladder so the crossover timing claim is measured rather than assumed.",
    "priority": 3,
+   "result_note": "r1098: 5-bar forward window. 200d spread +28.3bp (entry +34.7 / exit +6.4), 50d +39.0bp, 100d -8.7bp.",
+   "result_ref": "results/e25_whipsaw/WHIPSAW-f5-20261020.json",
    "runner": "python scripts/e25_whipsaw_diag.py run --fwd 5",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
+   "entered_at": "2026-10-21T00:16:00+08:00",
+   "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
+   "id": "E26-REBAL-BAND",
+   "lane_owner": "bm-b",
+   "note": "r1096: next family -- rebalance the ladder only when a member weight drifts beyond a band (e.g. 2/5/10pp) instead of monthly. Motivated by the E25 turnover arithmetic (1.7-2.4/yr costing 22-38bp/yr buys nothing) and the 0.32/yr equal-weight baseline: does suppressing small rebalances keep the same exposure at lower cost? Runner not built yet (status waiting, honest).",
+   "priority": 3,
+   "result_note": "r1098: built the runner (selftest 10/10) and burned the 0.5/1/2/5/10pp band grid. Every band is within -13.2..+1.1bp/yr of monthly rebalancing (|t| <= 1.0) while saving only 0.4-1.4bp/yr of cost: a complete wash. Monthly equal-weight already turns over 0.32x/yr (4.2bp/yr), so there is nothing for a band to save. HONEST NEGATIVE.",
+   "result_ref": "results/e26_band_rebalance/BAND-20261021.json",
+   "runner": "python scripts/e26_band_rebalance.py run",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "host_gate": null,
+   "id": "E25-HALF-GRID",
+   "lane_owner": null,
+   "note": "r1097: window sensitivity of the only positive variant (half-weight 150d, +72.6bp/yr t 0.48 with the repo cash leg). Is 150 the peak or one lucky window? Reuses the extended weighting runner.",
+   "priority": 3,
+   "result_note": "r1098: half-weight window grid 120/150/180/200d vs equal on the repo cash leg. 120h +0.6bp/yr (t 0.13), 150h +72.6 (0.48), 180h +96.6 (0.59), 200h +69.5 (0.47); every window is negative in 2024-now (-27.9/-32.4/-18.7/-14.8); the Sharpe gain (0.347 -> 0.386-0.439) is a vol effect (21.5% -> 17.1-17.4%), not a return edge.",
+   "result_ref": "results/e25_half_grid/TREND-759871-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid",
+   "shards": [],
+   "status": "done"
+  },
+  {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "host_gate": null,
+   "id": "E25-HALF-GRID-X3",
+   "lane_owner": null,
+   "note": "r1097: the same half-weight window grid under cost x3 (the standard robustness read). 150h survived x3 alone; do its neighbours?",
+   "priority": 3,
+   "result_note": "r1098: same grid at cost x3 -- 120h -12.2bp, 150h +60.9, 180h +87.3, 200h +60.8; the family survives tripled costs only because its turnover is low (8-32bp/yr), which is also why it cannot be an edge.",
+   "result_ref": "results/e25_half_grid/TREND-759871-x3-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid --cost-mult 3",
+   "shards": [],
+   "status": "done"
+  },
+  {
+   "done_at": "2026-10-21T00:55:00+08:00",
+   "done_by": "bm-b r1098",
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "host_gate": null,
+   "id": "E25-HARD150-RENORM",
+   "lane_owner": null,
+   "note": "r1097: with the cash leg now real, is the HALF share the reason trend150h wins, or would a hard 0/1 filter renormalised to full investment (trend150r) do better? Same runner, same cash leg.",
+   "priority": 3,
+   "result_note": "r1098: hard 150d filter renormalised to full investment = -132.7bp/yr (t -0.76) at 1.95 turnover/yr costing 25.4bp/yr, vs the half-weight variant +72.6bp at 0.73 turnover/yr. The partial-cash structure, not the trend signal, is what the positive variant earns.",
+   "result_ref": "results/e25_cash_leg/TREND-9ea870-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150r,trend150h --out results/e25_cash_leg",
+   "shards": [],
+   "status": "done"
+  },
+  {
+   "entered_at": "2026-10-21T00:55:00+08:00",
+   "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
+   "id": "E26-BAND-X3",
+   "lane_owner": null,
+   "note": "r1098: the band grid under cost x3. The family is a wash at x1 with 4.2bp/yr of cost -- x3 raises the monthly scheme to 12.6bp/yr and the wide bands to 8.4bp/yr, so it asks whether the cheapest-band advantage stays inside noise when costs are the only thing that scales.",
+   "priority": 3,
+   "runner": "python scripts/e26_band_rebalance.py run --cost-mult 3",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19180,13 +19272,45 @@
    }
   },
   {
-   "entered_at": "2026-10-21T00:16:00+08:00",
-   "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
-   "id": "E26-REBAL-BAND",
-   "lane_owner": "bm-b",
-   "note": "r1096: next family -- rebalance the ladder only when a member weight drifts beyond a band (e.g. 2/5/10pp) instead of monthly. Motivated by the E25 turnover arithmetic (1.7-2.4/yr costing 22-38bp/yr buys nothing) and the 0.32/yr equal-weight baseline: does suppressing small rebalances keep the same exposure at lower cost? Runner not built yet (status waiting, honest).",
+   "entered_at": "2026-10-21T00:55:00+08:00",
+   "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
+   "id": "E26-BAND-START2018",
+   "lane_owner": null,
+   "note": "r1098: era stability of the band wash. The x1 face is flat overall but 2017-2020 is -1.1bp/mo and 2021-2023 +0.8bp/mo; a 2018-start run isolates the second half of the sample where the universe is complete (all five members) and tells whether the wash is an early-universe artifact.",
    "priority": 3,
-   "runner": "python scripts/e26_band_rebalance.py run",
+   "runner": "python scripts/e26_band_rebalance.py run --start 2018-01-01",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:55:00+08:00",
+   "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
+   "id": "E26-BAND-20PP",
+   "lane_owner": null,
+   "note": "r1098: both ends of the trigger axis -- 0.25pp (near-monthly churn) and 20/50pp (near buy-and-hold). If return is monotone decreasing in band width the ladder pays a rebalancing premium and the width merely measures how much of it is captured; if it is flat, rebalancing timing is irrelevant and the monthly rule is arbitrary rather than optimal.",
+   "priority": 3,
+   "runner": "python scripts/e26_band_rebalance.py run --bands 0.25,20,50",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:55:00+08:00",
+   "entered_by": "bm-b r1098 (supply floor: 5 E25 units + the E26 waiting cell closed)",
+   "id": "E27-UNIVERSE-EXPANSION",
+   "lane_owner": "bm-b",
+   "note": "r1098: next family -- is the five-member ladder even the right expression? Equal-weight the top-N most liquid eligible ETFs (N=10/20/50) with the same accounting (monthly rebalance, 13.041bp/side, repo cash leg) and compare to the ladder. Runner NOT built yet (status waiting, honest) -- building it is the next round's product increment.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run",
    "shards": [],
    "status": "waiting",
    "workers_plan": {
@@ -19194,42 +19318,6 @@
     "priority": "BelowNormal",
     "workers": 1
    }
-  },
-  {
-   "status": "ready",
-   "lane_owner": null,
-   "shards": [],
-   "host_gate": null,
-   "entered_at": "2026-10-21 00:32:00",
-   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
-   "id": "E25-HALF-GRID",
-   "note": "r1097: window sensitivity of the only positive variant (half-weight 150d, +72.6bp/yr t 0.48 with the repo cash leg). Is 150 the peak or one lucky window? Reuses the extended weighting runner.",
-   "priority": 3,
-   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid"
-  },
-  {
-   "status": "ready",
-   "lane_owner": null,
-   "shards": [],
-   "host_gate": null,
-   "entered_at": "2026-10-21 00:32:00",
-   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
-   "id": "E25-HALF-GRID-X3",
-   "note": "r1097: the same half-weight window grid under cost x3 (the standard robustness read). 150h survived x3 alone; do its neighbours?",
-   "priority": 3,
-   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid --cost-mult 3"
-  },
-  {
-   "status": "ready",
-   "lane_owner": null,
-   "shards": [],
-   "host_gate": null,
-   "entered_at": "2026-10-21 00:32:00",
-   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
-   "id": "E25-HARD150-RENORM",
-   "note": "r1097: with the cash leg now real, is the HALF share the reason trend150h wins, or would a hard 0/1 filter renormalised to full investment (trend150r) do better? Same runner, same cash leg.",
-   "priority": 3,
-   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150r,trend150h --out results/e25_cash_leg"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -19244,6 +19332,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T00:26:00+08:00",
+ "updated_at": "2026-10-21T00:55:00+08:00",
  "version": 1
 }
