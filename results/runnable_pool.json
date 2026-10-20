@@ -19046,37 +19046,154 @@
    "status": "done"
   },
   {
+   "done_at": "2026-10-21T00:06:00+08:00",
+   "done_by": "bm-b r1096",
    "entered_at": "2026-10-21 00:26:00",
    "entered_by": "bm-b r1095 (E25 supply floor)",
    "id": "E25-SOFT-150",
    "lane_owner": null,
    "note": "r1095: soft (half-weight) filter at 150d -- unrun config of the family opened this round; script already in repo, descriptive only",
    "priority": 3,
+   "result_note": "honest negative / wash as recorded in round report r1096",
+   "result_ref": "results/e25_trend_tilt/TREND-835a06-20261021.json",
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt",
    "shards": [],
-   "status": "ready"
+   "status": "done"
   },
   {
+   "done_at": "2026-10-21T00:06:00+08:00",
+   "done_by": "bm-b r1096",
    "entered_at": "2026-10-21 00:26:00",
    "entered_by": "bm-b r1095 (E25 supply floor)",
    "id": "E25-TREND-50CASH",
    "lane_owner": null,
    "note": "r1095: 50d filter with the filtered share left in cash (unrenormalised) -- unrun config; tests whether exposure loss rather than whipsaw drives the 50d loss",
    "priority": 3,
+   "result_note": "honest negative / wash as recorded in round report r1096",
+   "result_ref": "results/e25_trend_tilt/TREND-21bd70-20261021.json",
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend50 --out results/e25_trend_tilt",
    "shards": [],
-   "status": "ready"
+   "status": "done"
   },
   {
+   "done_at": "2026-10-21T00:06:00+08:00",
+   "done_by": "bm-b r1096",
    "entered_at": "2026-10-21 00:26:00",
    "entered_by": "bm-b r1095 (E25 supply floor)",
    "id": "E25-WHIPSAW-H60",
    "lane_owner": null,
    "note": "r1095: re-read the crossing diagnostic at a 60-bar forward window -- the 200d entry/exit spread was negative at 20 bars; does it persist at 60?",
    "priority": 3,
+   "result_note": "honest negative / wash as recorded in round report r1096",
+   "result_ref": "results/e25_whipsaw/WHIPSAW-f60-20261020.json",
    "runner": "python scripts/e25_whipsaw_diag.py run --fwd 60",
    "shards": [],
-   "status": "ready"
+   "status": "done"
+  },
+  {
+   "done_at": "2026-10-21T00:16:00+08:00",
+   "done_by": "bm-b r1096",
+   "entered_at": "2026-10-21T00:13:00+08:00",
+   "entered_by": "bm-b r1096 (E25 mode x window matrix completion)",
+   "id": "E25-TREND-50H",
+   "lane_owner": "bm-b",
+   "priority": 3,
+   "result_note": "r1096: half-weight 50d filter (mode matrix cell). -115.1bp/yr vs equal, paired t -2.36, turnover 1.82/yr costing 23.7bp/yr.",
+   "result_ref": "results/e25_trend_tilt/TREND-b364fb-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,50h --out results/e25_trend_tilt",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-10-21T00:16:00+08:00",
+   "done_by": "bm-b r1096",
+   "entered_at": "2026-10-21T00:13:00+08:00",
+   "entered_by": "bm-b r1096 (E25 mode x window matrix completion)",
+   "id": "E25-TREND-100CASH",
+   "lane_owner": "bm-b",
+   "priority": 3,
+   "result_note": "r1096: 100d filter with filtered share in cash. +2.6bp/yr, t 0.14 = the only wash cell; era signs flip (2017-20 +31.5bp/mo, 2021-23 -23.2bp/mo).",
+   "result_ref": "results/e25_trend_tilt/TREND-2b3a78-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,100cash --out results/e25_trend_tilt",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-10-21T00:16:00+08:00",
+   "done_by": "bm-b r1096",
+   "entered_at": "2026-10-21T00:13:00+08:00",
+   "entered_by": "bm-b r1096 (E25 mode x window matrix completion)",
+   "id": "E25-TREND-150CASH",
+   "lane_owner": "bm-b",
+   "priority": 3,
+   "result_note": "r1096: 150d filter with filtered share in cash. -135.6bp/yr, t -0.77.",
+   "result_ref": "results/e25_trend_tilt/TREND-3d16fa-20261021.json",
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,150cash --out results/e25_trend_tilt",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:16:00+08:00",
+   "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
+   "id": "E25-WHIPSAW-H120",
+   "lane_owner": null,
+   "note": "r1096: extend the crossing diagnostic to a 120-bar horizon -- 20 bars was -42.7bp and 60 bars +40.4bp for the 200d window, so the sign is horizon-sensitive; 120 settles whether the spread converges or keeps drifting.",
+   "priority": 3,
+   "runner": "python scripts/e25_whipsaw_diag.py run --fwd 120",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:16:00+08:00",
+   "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
+   "id": "E25-WHIPSAW-H5",
+   "lane_owner": null,
+   "note": "r1096: the short end of the same horizon sweep (5 bars), completing a 5/20/60/120 ladder so the crossover timing claim is measured rather than assumed.",
+   "priority": 3,
+   "runner": "python scripts/e25_whipsaw_diag.py run --fwd 5",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T00:16:00+08:00",
+   "entered_by": "bm-b r1096 (supply floor: E25 matrix closed, floor was 0/3)",
+   "id": "E26-REBAL-BAND",
+   "lane_owner": "bm-b",
+   "note": "r1096: next family -- rebalance the ladder only when a member weight drifts beyond a band (e.g. 2/5/10pp) instead of monthly. Motivated by the E25 turnover arithmetic (1.7-2.4/yr costing 22-38bp/yr buys nothing) and the 0.32/yr equal-weight baseline: does suppressing small rebalances keep the same exposure at lower cost? Runner not built yet (status waiting, honest).",
+   "priority": 3,
+   "runner": "python scripts/e26_band_rebalance.py run",
+   "shards": [],
+   "status": "waiting",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -19091,6 +19208,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T00:26:00+08:00",
+ "updated_at": "2026-10-21T00:16:00+08:00",
  "version": 1
 }

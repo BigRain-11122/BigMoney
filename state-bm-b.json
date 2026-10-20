@@ -349,12 +349,13 @@
   "pushed_sha": "22bd4eebf1",
   "status": "FALLBACK_BRANCH_DELIVERED_VERIFIED"
  },
+ "r1096_note": "E25 closed: soft(150h) -91.3bp/yr t -1.81; cash(50) -210.1bp/yr; whipsaw 60-bar read flips the 200d spread from -42.7bp to +40.4bp (horizon artefact, not late exits); mode x window matrix completed with 50h -115.1bp (t -2.36) / 100cash +2.6bp (t 0.14, wash) / 150cash -135.6bp. Pool: 3 units closed, 3 added (2 ready whipsaw 120/5, 1 waiting E26 band-rebalance runner not built). Dualrun drift = envelope-only updated_at (491 vs 491 entries) -> streak reset to 0 honestly.",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1094,
- "round_no": 1094,
- "round_no_label": "r1094",
+ "round": 1095,
+ "round_no": 1096,
+ "round_no_label": "r1096",
  "sat_engine": {
   "checked_at": "2026-10-20T23:36:06+08:00",
   "status": "alive (exit 0 at round start; queue_depth 0)"
@@ -647,6 +648,20 @@
    "status": "PUSHED_VERIFIED",
    "ts": "2026-10-20T23:14:00+08:00"
   },
+  "r1093_main_push": {
+   "behind_origin_main": 0,
+   "note": "ed21ea68c7..0c55edd7f0 clean ff; four-way verified (behind=0 ahead=0, HEAD==origin/main==0c55edd7f0, ls-tree confirms e24_ladder_weighting/WEIGHTING-20261020.json + scripts/e24_ladder_weighting.py on origin); payload = 26 own faces (new weighting census script + face + 5 census faces + pool shared/lane + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed status faces left untouched per r982/r1015/r1033 policy)",
+   "pushed_sha": "0c55edd7f0",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-20T23:22:50+08:00"
+  },
+  "r1094_main_push": {
+   "behind_origin_main": 0,
+   "note": "c8d795b111..4b8cd45083 clean ff; four-way verified (fetch behind=0 ahead=0, HEAD==origin/main==4b8cd45083, ls-tree origin confirms results/e24_breadth_h20_entry/ENTRY-20261020.json + scripts/e24_breadth_h20_entry.py); payload = 26 own faces (new monthly-entry script + face + latest pointer + 3 h=1 census faces + pool shared/lane 3 closed 3 seeded + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed/update_status/compute_audit/regime_state status faces left untouched per r982/r1015/r1033 policy). S7: loop task pin 2 no-op, watchdog re-registered S4U SWA=false, pre-commit/pre-push claws OK.",
+   "pushed_sha": "4b8cd45083",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-20T23:37:20+08:00"
+  },
   "r960_main_push": {
    "behind_origin_main": 0,
    "consumed_at": "2026-10-15T05:43:01+08:00",
@@ -866,25 +881,11 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "r1093_main_push": {
-   "behind_origin_main": 0,
-   "pushed_sha": "0c55edd7f0",
-   "status": "PUSHED_VERIFIED",
-   "ts": "2026-10-20T23:22:50+08:00",
-   "note": "ed21ea68c7..0c55edd7f0 clean ff; four-way verified (behind=0 ahead=0, HEAD==origin/main==0c55edd7f0, ls-tree confirms e24_ladder_weighting/WEIGHTING-20261020.json + scripts/e24_ladder_weighting.py on origin); payload = 26 own faces (new weighting census script + face + 5 census faces + pool shared/lane + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed status faces left untouched per r982/r1015/r1033 policy)"
-  },
-  "r1094_main_push": {
-   "behind_origin_main": 0,
-   "pushed_sha": "4b8cd45083",
-   "status": "PUSHED_VERIFIED",
-   "ts": "2026-10-20T23:37:20+08:00",
-   "note": "c8d795b111..4b8cd45083 clean ff; four-way verified (fetch behind=0 ahead=0, HEAD==origin/main==4b8cd45083, ls-tree origin confirms results/e24_breadth_h20_entry/ENTRY-20261020.json + scripts/e24_breadth_h20_entry.py); payload = 26 own faces (new monthly-entry script + face + latest pointer + 3 h=1 census faces + pool shared/lane 3 closed 3 seeded + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed/update_status/compute_audit/regime_state status faces left untouched per r982/r1015/r1033 policy). S7: loop task pin 2 no-op, watchdog re-registered S4U SWA=false, pre-commit/pre-push claws OK."
-  }
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1094: breadth-h20 monthly entry test (honest close) + h=1 census burns",
- "ts": "2026-10-20T23:36:06+08:00",
- "updated": "2026-10-20 23:36:06",
- "updated_at": "2026-10-20T23:36:06+08:00",
+ "task": "r1096: E25 mode x window matrix closed (12 cells, all non-100d cells lose; 100d is a wash)",
+ "ts": "2026-10-21T00:06:44+08:00",
+ "updated": "2026-10-21 00:06:44",
+ "updated_at": "2026-10-21T00:06:44+08:00",
  "verdict": "product+maintenance"
 }

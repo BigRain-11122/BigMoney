@@ -1,0 +1,79 @@
+{
+ "study": "e24_ladder_weighting",
+ "evidence_cutoff": "2026-10-20",
+ "start": "2012-05-28",
+ "bars": 3497,
+ "years": 13.88,
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cost_bp_per_side": 13.041,
+ "schemes": {
+  "equal": {
+   "metrics": {
+    "total_return_pct": 96.8,
+    "ann_return_pct": 5.0,
+    "ann_vol_pct": 21.54,
+    "sharpe": 0.335,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 160,
+    "turnover_total": 4.463560030554044,
+    "turnover_per_year": 0.322,
+    "cost_paid_frac": 0.005820928635845533,
+    "cost_per_year_bp": 4.2
+   }
+  },
+  "trend50h": {
+   "metrics": {
+    "total_return_pct": 65.38,
+    "ann_return_pct": 3.69,
+    "ann_vol_pct": 21.38,
+    "sharpe": 0.277,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 160,
+    "turnover_total": 25.190607682824947,
+    "turnover_per_year": 1.815,
+    "cost_paid_frac": 0.03285107147917203,
+    "cost_per_year_bp": 23.7
+   },
+   "vs_equal_bp_annualised": -115.1,
+   "vs_equal_monthly": {
+    "months": 174,
+    "mean_bp": -9.84,
+    "t": -2.36,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -16.84
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": -11.08
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": 3.9
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": -11.39
+     }
+    }
+   }
+  }
+ },
+ "honest": [
+  "universe grows over time (510300 2012-05 / 510500 2013-03 / 512100 2016-11 / 588000 2020-11); membership rule is identical across schemes so the comparison is within-universe",
+  "liq is a turnover(amount)-share proxy, NOT cap-weight: the panel carries no shares outstanding",
+  "weights drift with returns inside the month; 13.041bp/side charged on turnover at each monthly rebalance",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed"
+ ]
+}
