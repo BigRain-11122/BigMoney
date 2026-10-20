@@ -24,10 +24,10 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 13,
+  "bars": 14,
   "months_tracked": 0,
   "monthly_returns": [],
-  "current_dd": -0.0082,
+  "current_dd": -0.0042,
   "months_detail": [
     {
       "month": "2026-09",
@@ -39,8 +39,8 @@
     },
     {
       "month": "2026-10",
-      "return": -0.0071,
-      "bars": 8,
+      "return": -0.0042,
+      "bars": 9,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
@@ -52,7 +52,7 @@
     "avg_hold_days": 4.0,
     "win_rate_full": 0.0,
     "profit_factor_full": 0.0,
-    "avg_pnl_full": -7420.37,
+    "avg_pnl_full": -3710.18,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -62,14 +62,15 @@
       "sell_deferred": 0,
       "violations": 0
     },
+    "scaled_entries": 2,
     "status": "insufficient_data",
-    "bars": 13,
+    "bars": 14,
     "floor": 20,
     "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "cost_x2_check": {
     "status": "insufficient_data",
-    "bars": 13,
+    "bars": 14,
     "min_bars": 20
   },
   "x2_watch": {
@@ -79,21 +80,41 @@
     "survive": true,
     "source": "registration_x2_seed"
   },
-  "cutoff": "2026-10-19",
-  "updated": "2026-10-20 08:54:31",
+  "cutoff": "2026-10-20",
+  "updated": "2026-10-20 20:42:50",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-19"
+    "as_of": "2026-10-20"
   },
   "regime_guard": {
-    "mode": "shadow",
-    "state": "ORANGE",
-    "state_cn": "橙·高危",
-    "asof": "2026-10-19",
-    "raw_level": "ORANGE",
-    "days_in_state": 2,
-    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
+    "mode": "enforce",
+    "active": true,
+    "active_from": "2026-10-01",
+    "gate_note": null,
+    "v3_state_tail": {
+      "2026-09-30": "YELLOW",
+      "2026-10-08": "YELLOW",
+      "2026-10-09": "YELLOW",
+      "2026-10-12": "YELLOW",
+      "2026-10-13": "YELLOW",
+      "2026-10-14": "YELLOW",
+      "2026-10-15": "YELLOW",
+      "2026-10-16": "YELLOW",
+      "2026-10-19": "YELLOW",
+      "2026-10-20": "YELLOW"
+    },
+    "enforced": {
+      "active_from": "2026-10-01",
+      "days_enforced": 9,
+      "entries_blocked": 0,
+      "entries_halved": 2
+    },
+    "shadow_ref": {
+      "state": "ORANGE",
+      "asof": "2026-10-19"
+    },
+    "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
   "forward_guard": {
     "enabled": true,
@@ -103,7 +124,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-20 08:54:31",
+    "as_of": "2026-10-20 20:42:50",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
       "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -121,20 +143,20 @@
   "open_positions": [
     {
       "symbol": "512400",
-      "quantity": 65876.15,
+      "quantity": 32938.08,
       "cost_price": 1.518,
       "high_watermark": 1.518,
-      "hold_days": 1,
-      "last_close": 1.525,
-      "market_value_cny": 100461.13,
-      "unrealized_pnl_cny": 461.13
+      "hold_days": 2,
+      "last_close": 1.506,
+      "market_value_cny": 49604.75,
+      "unrealized_pnl_cny": -395.26
     }
   ],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 992910.36,
-    "positions_value_cny": 100461.13,
-    "cash_cny": 892449.23,
+    "equity_cny": 995829.36,
+    "positions_value_cny": 49604.75,
+    "cash_cny": 946224.61,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },

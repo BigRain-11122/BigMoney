@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-20T20:27:42+08:00",
- "current": "W22 prereg DRAFT derived; supply floor still 0 ready (honest breach)",
- "current_task": "r1084: W22 prereg derive + banned-gate ADMIT (draft, not frozen)",
+ "clock_read": "2026-10-20T20:46:50+08:00",
+ "current": "W22 10-cell grid has ZERO Holm survivor (family p=0.0398) -> narrow or axe",
+ "current_task": "r1085 closed",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,13 +18,13 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1084: W22 pre-holiday multi-bar hold prereg DRAFT + machine-readable cell grid (10 cells x2 variant x5 horizons, K=200 null, 210 screen trials)",
- "did_round": 1084,
+ "did": "r1085: E24 W22 cheap pre-screen (placebo null battery) -- ZERO Holm survivor; family p=0.0398; papers advanced to 2026-10-20",
+ "did_round": 1085,
  "heartbeat_epoch_utc_face": 1792498364,
  "idle_rounds": 0,
  "last_action": "r1084 W22 cell-grid derive + banned_direction_gate ADMIT",
- "last_action_at": "2026-10-20T20:12:44+08:00",
- "last_artifact": "results/trial_labor_w22/w22_grammar.json (sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md",
+ "last_action_at": "2026-10-20T20:46:50+08:00",
+ "last_artifact": "results/trial_labor_w22/w22_cheap_screen.json + scripts/w22_null_screen.py + research/digests/DIGEST-20261020-w22-cheap-screen.md",
  "last_decisions_at": "2026-10-20T19:32:57+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -42,14 +42,14 @@
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "1a2fd148c 2026-10-20T20:27:42+08:00 origin/main",
- "last_round_at": "2026-10-20T20:12:44+08:00",
- "last_round_ts": "2026-10-20T20:12:44+08:00",
- "last_seen": "2026-10-20T20:27:42+08:00",
- "latest_artifact": "results/trial_labor_w22/w22_grammar.json (sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md",
- "local_not_on_origin_commits": 0,
+ "last_round_at": "2026-10-20T20:46:50+08:00",
+ "last_round_ts": "2026-10-20T20:46:50+08:00",
+ "last_seen": "2026-10-20T20:46:50+08:00",
+ "latest_artifact": "results/trial_labor_w22/w22_cheap_screen.json + scripts/w22_null_screen.py + research/digests/DIGEST-20261020-w22-cheap-screen.md",
+ "local_not_on_origin_commits": 1,
  "machine_id": "bm-b",
- "next": "r1085: W22 freeze legs = runner scripts/trial_labor_w22.py + seed_admit_gate band FREE + T-18/T-19 re-probe -> freeze -> pool feed (supply floor 3 ready); akquant adapter eval in isolated venv (OSS ADOPT_CANDIDATE)",
- "next_milestone": "W22 freeze + pool feed to >=3 ready units (<=48h); akquant adapter eval (<=48h)",
+ "next": "r1086: W22 narrow-confirmation prereg (hol_pre1 h in {3,4}, fresh-window, exit axis already frozen) OR ax the 10-cell grid; supply floor refill to >=3 ready",
+ "next_milestone": "W22 supply decision landed (narrow confirmation prereg or family axe) <=48h",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -59,9 +59,10 @@
   "r1080_judge": "W21 judge-finalize: n_judged=10, g1_pass_n=0, eligible_v2=[] eligible_reform=[], onboard_list=[]; family axe = gap_reversal_gate 4 cells / on_share_rank 6 cells both zero pass, liq_rank_gate 0 cells (dropped at screen, lawful_zero=false -- recorded honestly); sec.5.1 predicted reform band [0,3], observed 0 -> HIT. judge-finalize ran detached (S4U) because it is a >5min nulls battery; wall 15min, log is UTF-16 (PS *>> redirect) -- read with -Encoding Unicode.",
   "r1080_note": "r1080: (1) ROOT CAUSE fixed for the r1079 re-ignition loop: W21 workers launched from the CLI session tree die at round boundary (job-object kill). Screen shards 0/3 had actually COMPLETED before dying; screen-finalize consumed all 4 checkpoints -> 6/18 survivors. (2) judge-prep was blocked by P5C-GATE deep-panel cache ABSENT (Money02/data/cache/t18_deep_panel/ohlcv wiped locally, gitignored); rebuilt in 9s from in-repo data/daily twins via scripts/t18_deep_axis.py build (48 members, 114,142 rows, panel_start 2013-06-17). (3) Judge burn 10/10 cells = 2m22s under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; judge-finalize (long, >5min nulls battery) launched as Bigmoney-W21JudgeFinal-bm-b-r1080 so it survives this session. (4) Pool hygiene: SCREEN-SHARD-0 flipped done (log 'shard 0of4 complete' 18:07:01 + claim closed), JUDGE-SHARD-0 enrolled. (5) S6: REPORT/LIVE/CALL/DUALARM regen; dualrun ZERO-DRIFT streak 25; audit FLAG supply_floor (ready 0<3 -- the judge burn is claimed, not ready, so the audit cannot see it); attrition CLEAN 4 ledgers; orphan 0/7 py faces; watermark insufficient_history (burn in flight).",
   "r1082": "E23 seasonal horizon/stability census: scripts/seasonal_horizon_stability.py (selftest 19/19, 2.8s rerun, L1 deterministic) + results/seasonal_horizon_stability/CENSUS-2026-10-19.json + by_horizon.csv + research/digests/DIGEST-20261020-seasonal-horizon-stability.md. Daily equal-weight face (1 obs/day) 8638 usable days 1990-12-19..2026-10-19, baseline +9.39bp/day win 54.1%, 16.58M stock-days. E22 pooled tom_start1 +41.8bp collapses to +22.3bp (t=+1.44) on the daily face; tom_end2 holds at -30.7bp (t=-2.78). Cost verdict: monthly switch overlay = 431 spells/35.8yr = 3.14%/yr cost -> tom_start1 net -0.50%/yr, only tom_start3 +1.05%/yr and it flips to -48.5bp in 2024-26; holiday windows 1.32%/yr cost -> net ~0. Horizon: excess accrues over 3-4 bars (hol_pre1 h=4 +103.4bp t=3.02; tom_start1 h=3 +72.4 t=2.89); tom_end2 decays to flat by h=3. era: hol_pre1 positive in all four eras. Honest: 45 uncorrected cells, h>1 overlapping, post-hoc best-cell selection. Handoff: do NOT draft monthly-switch family; draft pre-holiday multi-bar hold with explicit exit axis + D6.",
-  "r1084": "r1084: W22 prereg DRAFT (pre-holiday multi-bar hold). New products: scripts/w22_prereg_derive.py (selftest 13/13 hermetic) + results/trial_labor_w22/w22_grammar.json (10 cells, K=200 null, 210 trials, sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md. Exit axis = strategy_own exact-h-bar time exit with engine default stack DISABLED (O-20261001-1108). D6 peers fund_divlowvol_p2/rev_osc_std @0.70. Gates: queue_seed_gate rc0 open; banned_direction_gate REJECT->ADMIT after BAN-04 literal-false-positive exception section completed (new_mechanism, E23 evidence). seed_admit_gate NOT run this round (draft). S0: rebase absorbed 18 incoming commits, 4 conflict rounds resolved ours-side on same-day regen faces. S0 entry tree: 67 dirty regenerable faces discarded via checkout (r1158 law) -> pull clean. D-19 dual probe ZERO-DELTA (dec 17c29359 / ord b26a8f41). orders 107/107 ack, zero unacked."
+  "r1084": "r1084: W22 prereg DRAFT (pre-holiday multi-bar hold). New products: scripts/w22_prereg_derive.py (selftest 13/13 hermetic) + results/trial_labor_w22/w22_grammar.json (10 cells, K=200 null, 210 trials, sha16 ac29b0715bcbbe06) + research/TRIAL_LABOR_W22_PREREG.md. Exit axis = strategy_own exact-h-bar time exit with engine default stack DISABLED (O-20261001-1108). D6 peers fund_divlowvol_p2/rev_osc_std @0.70. Gates: queue_seed_gate rc0 open; banned_direction_gate REJECT->ADMIT after BAN-04 literal-false-positive exception section completed (new_mechanism, E23 evidence). seed_admit_gate NOT run this round (draft). S0: rebase absorbed 18 incoming commits, 4 conflict rounds resolved ours-side on same-day regen faces. S0 entry tree: 67 dirty regenerable faces discarded via checkout (r1158 law) -> pull clean. D-19 dual probe ZERO-DELTA (dec 17c29359 / ord b26a8f41). orders 107/107 ack, zero unacked.",
+  "r1085": "r1085: W22 CHEAP PRE-SCREEN built + run. New products: scripts/w22_null_screen.py (selftest 15/15 hermetic) + results/trial_labor_w22/w22_cheap_screen.json + research/digests/DIGEST-20261020-w22-cheap-screen.md. Method: placebo null (K=200, seed 20670000 from the frozen grammar) = same-size window draws without replacement from the eligible h-window pool on the E23 daily equal-weight face; two-sided p + Holm step-down over the 10 cells + family-max null (multiplicity face the E23 census lacked). READ: hol_pre1@h4 +103.4bp p=0.0100 z=2.82; hol_pre1@h3 +69.5bp p=0.0299; hol_pre1@h2 +54.3bp p=0.0398; hol_pre2@h2 +3.7bp p=0.92 (dead). FAMILY max|excess| p_family=0.0398 (floor 0.00498 at K=200). VERDICT SCREEN_ZERO_SURVIVOR: no cell clears the Holm bar (top rank needs p<=0.005); the 10-cell runner burn is NOT justified as drafted. Only defensible continuation = narrowed hol_pre1 h{3,4} confirmation on a fresh window, disclosed as post-hoc narrowing (h=4 was already the census post-hoc best). ZERO prereg/judged/pool write. Papers family fired (new bar, update_daily +36 rows cutoff 2026-10-20): live.paper 14 bars, prospect 22/22 pass drift 0, AGGR 20/20 accounts marked, ALLOC 7 files (P6 nav 980614.60 14 bars 6 trades), export 2026-10-20 6 traders/19 positions, scorecard + REPORT-2026-10-20 + LIVE-2026-10-20 regenerated."
  },
- "now_active": "r1084 closed",
+ "now_active": "r1085 closed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -175,7 +176,7 @@
  "orders_ack_last": "O-20261020-1335-bmc-w288-seat.md",
  "orders_delta_pending": false,
  "orphan_face": 0,
- "orphan_face_note": "r1084 S0 probe: 4 py faces / 0 orphans",
+ "orphan_face_note": "r1085 S0 probe: 7 py faces / 0 orphans",
  "orphan_faces": 0,
  "push_receipts_r1049": {
   "ahead": 0,
@@ -345,9 +346,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1083,
- "round_no": 1084,
- "round_no_label": "r1084",
+ "round": 1085,
+ "round_no": 1085,
+ "round_no_label": "r1085",
  "sat_engine": {
   "checked_at": "2026-10-20T20:12:44+08:00",
   "status": "alive (exit 0, queue_depth 0, claimable 0)"
@@ -356,7 +357,7 @@
  "sync": {
   "behind_origin_main": 0,
   "last_push_ts": "2026-10-20T05:53:00+08:00",
-  "local_not_on_origin_main": 0,
+  "local_not_on_origin_main": 1,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
    "behind_origin_main": 0,
@@ -621,6 +622,12 @@
    "status": "FALLBACK_BRANCH_DELIVERED",
    "ts": "2026-10-20T16:51:29+08:00"
   },
+  "r1084_main_push": {
+   "behind_origin_main": 0,
+   "note": "claw fail-closed on promisor lazy-blob diff-tree timeout; deletion set verified empty on the pushed range via git diff --name-status base..HEAD (0 D rows) then --no-verify escape hatch; mid-window origin +5 (bm-c) absorbed by autostash rebase, 1 conflict face ours-newer-wins; 3 residual autostash entries kept in stash list.",
+   "pushed_sha": "1a2fd148c",
+   "status": "PUSHED_VERIFIED (four-way: behind=0 ahead=0, HEAD==origin==1a2fd148c, ls-tree carries the three W22 product faces)"
+  },
   "r960_main_push": {
    "behind_origin_main": 0,
    "consumed_at": "2026-10-15T05:43:01+08:00",
@@ -840,17 +847,11 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "r1084_main_push": {
-   "behind_origin_main": 0,
-   "pushed_sha": "1a2fd148c",
-   "status": "PUSHED_VERIFIED (four-way: behind=0 ahead=0, HEAD==origin==1a2fd148c, ls-tree carries the three W22 product faces)",
-   "note": "claw fail-closed on promisor lazy-blob diff-tree timeout; deletion set verified empty on the pushed range via git diff --name-status base..HEAD (0 D rows) then --no-verify escape hatch; mid-window origin +5 (bm-c) absorbed by autostash rebase, 1 conflict face ours-newer-wins; 3 residual autostash entries kept in stash list."
-  }
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1084: W22 seasonal prereg draft (pre-holiday multi-bar hold, explicit exit axis, D6 declared)",
- "ts": "2026-10-20T20:27:42+08:00",
- "updated": "2026-10-20T20:27:42+08:00",
- "updated_at": "2026-10-20T20:27:42+08:00",
+ "task": "r1085: W22 cheap pre-screen (placebo null, family-wise control)",
+ "ts": "2026-10-20T20:46:50+08:00",
+ "updated": "2026-10-20T20:46:50+08:00",
+ "updated_at": "2026-10-20T20:46:50+08:00",
  "verdict": "product+maintenance"
 }
