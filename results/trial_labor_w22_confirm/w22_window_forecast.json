@@ -1,0 +1,52 @@
+{
+ "assumptions": [
+  "pre-holiday window = last trading day before a >=4 calendar-day market break (imported definition, E23 lineage)",
+  "forward accrual rate = recent observed windows/year; holiday schedule varies, so the estimate is a band centre, not a promise",
+  "both cells accrue on the same hol_pre1 days, so the binding constraint is the per-cell window count",
+  "estimate only: no return claim, no prereg edit, no stop-rule change"
+ ],
+ "batch": "W22_WINDOW_FORECAST",
+ "binding_remaining_windows": 12,
+ "calendar_days": 3497,
+ "calendar_start": "2012-05-28",
+ "cells": {
+  "hol_pre1@h3": {
+   "forward_windows": 0,
+   "remaining": 12
+  },
+  "hol_pre1@h4": {
+   "forward_windows": 0,
+   "remaining": 12
+  }
+ },
+ "evidence_cutoff": "2026-10-20",
+ "expected_completion_estimate": "2028-10-19",
+ "fence": "2026-10-19",
+ "forward_windows_observed": 0,
+ "generated": "2026-10-20T21:49:34",
+ "holiday_gap_days": 4,
+ "min_forward_windows": 12,
+ "role": "descriptive supply forecast for W22_CONFIRM_P1 (no judgement)",
+ "windows_per_year": {
+  "by_year": {
+   "2012": 3,
+   "2013": 6,
+   "2014": 7,
+   "2015": 7,
+   "2016": 7,
+   "2017": 6,
+   "2018": 7,
+   "2019": 6,
+   "2020": 6,
+   "2021": 7,
+   "2022": 7,
+   "2023": 5,
+   "2024": 6,
+   "2025": 6,
+   "2026": 6
+  },
+  "full_history": 6.133,
+  "recent_5y": 6.0
+ },
+ "years_needed_estimate": 2.0
+}
