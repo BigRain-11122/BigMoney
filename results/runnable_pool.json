@@ -19974,7 +19974,8 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "done", "result_ref": "results/e38_panel_drift_census/CENSUS-20261020.json",
+   "status": "done",
+   "result_ref": "results/e38_panel_drift_census/CENSUS-20261020.json",
    "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
@@ -19990,7 +19991,8 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "done", "result_ref": "results/e38_panel_drift_census/cuts.csv",
+   "status": "done",
+   "result_ref": "results/e38_panel_drift_census/cuts.csv",
    "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
@@ -20006,7 +20008,8 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "status": "done", "result_ref": "results/e38_panel_drift_census/ARRIVAL-TRACE-20261021.json",
+   "status": "done",
+   "result_ref": "results/e38_panel_drift_census/ARRIVAL-TRACE-20261021.json",
    "lane_owner": "bm-b",
    "entered_at": "2026-10-21T03:52:00+08:00",
    "entered_by": "bm-b r1110 (supply floor refill after E37 close)",
@@ -20017,7 +20020,11 @@
    "note": "r1111: the panel reached 1,723/1,725 current; the last two files are sh512390 (last bar 2026-09-04) and the specialist slot copy 510880_t73 (2026-09-22). Decide, from rows on disk, whether each is a delisted/untraded listing or a refresh failure -- the coverage face currently cannot tell those apart.",
    "priority": 3,
    "runner": "python scripts/panel_coverage_report.py run",
-   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily scan only, I/O bound single process"},
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "in-repo data/daily scan only, I/O bound single process"
+   },
    "status": "done",
    "result_ref": "results/e39_stale_two/CENSUS-20261020.json",
    "result_note": "two non-current panels resolved: 510880_t73 = pinned slot copy (4784 identical closes to sh510880, frozen 2026-09-22), sh512390 = source-side gap (tail still traded, printing stopped before the bulk import); neither is a refresh defect",
@@ -20034,7 +20041,11 @@
    "note": "r1111: the drift was caused by 53 files becoming current mid-round. Size the refresh that did it: count panel files whose mtime is after 2026-09-22 and the bar delta each one carries, so \"the panel moved\" becomes a byte/row figure instead of a claim.",
    "priority": 3,
    "runner": "python scripts/panel_coverage_report.py run",
-   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily scan only, I/O bound single process"},
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "in-repo data/daily scan only, I/O bound single process"
+   },
    "status": "done",
    "result_ref": "results/e39_panel_mtime/CENSUS-20261020.json + results/e39_panel_mtime/data_face.csv",
    "result_note": "1,725 files rewritten since 2026-10-17 (2 / 53 / 1,670 by day) carrying 24,116 bars dated after the 2026-09-22 bulk import",
@@ -20051,7 +20062,11 @@
    "note": "r1111: every wide-book comparison is \"vs ladder5\", yet the ladder itself is ann -0.43% at 18.75% vol (Sharpe 0.071) on the converged panel. Document that baseline properly -- max drawdown, worst month, cash-leg share -- so a +134bp spread is read against a described denominator, not an implied one.",
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2020-01-01 --end 2026-10-20 --out results/e39_ladder_baseline",
-   "workers_plan": {"workers": 1, "priority": "BelowNormal", "note": "in-repo data/daily only, single-process numpy engine"},
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "in-repo data/daily only, single-process numpy engine"
+   },
    "status": "done",
    "result_ref": "results/e39_ladder_risk/LADDER-RISK-20261020.json",
    "result_note": "ladder5 denominator described: 2020+ ann -0.43% vol 18.75% Sharpe 0.071, maxDD -42.72% (2021-09-10..2024-02-05), 1046 sessions underwater, worst month 2026-07 -14.82%, 12.7% of bars in cash at a 1.98% repo",
@@ -20063,55 +20078,60 @@
    "entered_by": "bm-b r1111 (supply floor refill after E38 close)",
    "shards": []
   },
-{
-  "id": "E40-PAIR-DRAWDOWN",
-  "note": "r1112: the ladder5 denominator is now described (2020+ ann -0.43%, maxDD -42.72%, 1046 sessions underwater). Every wide-book claim is a spread over it, so re-read the pair on the drawdown path: same spec, both curves, report maxDD, underwater run and worst month for ladder5 AND the wide book side by side.",
-  "priority": 3,
-  "runner": "python scripts/e39_panel_census.py pair",
-  "status": "ready",
-  "lane_owner": null,
-  "entered_at": "2026-10-21T04:20:00+08:00",
-  "entered_by": "bm-b r1112 (E39 closeout supply refill)",
-  "shards": []
- },
-{
-  "id": "E40-WORST-MONTH-ATTRIB",
-  "note": "r1112: the ladder denominator's worst month is 2026-07 at -14.82%, far outside its own distribution. Attribute it from rows: which members moved, was it a single-ETF gap/error or a real broad move, and does the same month hurt the wide book equally. If it is a data artefact, every 2020+ ladder number needs the fix.",
-  "priority": 3,
-  "runner": "python scripts/e39_panel_census.py month --month 2026-07",
-  "status": "done",
+  {
+   "id": "E40-PAIR-DRAWDOWN",
+   "note": "r1112: the ladder5 denominator is now described (2020+ ann -0.43%, maxDD -42.72%, 1046 sessions underwater). Every wide-book claim is a spread over it, so re-read the pair on the drawdown path: same spec, both curves, report maxDD, underwater run and worst month for ladder5 AND the wide book side by side.",
+   "priority": 3,
+   "runner": "python scripts/e39_panel_census.py pair",
+   "status": "done",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T04:20:00+08:00",
+   "entered_by": "bm-b r1112 (E39 closeout supply refill)",
+   "shards": [],
+   "result_ref": "results/e40_pair_drawdown/PAIR-20261020.json",
+   "result_note": "wide book is shallower (-36.55 vs -42.72 maxDD) but 48 sessions slower to recover (1094 vs 1046 underwater); the spread ratio itself draws down -13.04% over 298 sessions with worst month 2026-06 -7.49%, a different month from the ladder worst (2026-07 -14.82%)",
+   "closed_at": "2026-10-21T04:15:00+08:00",
+   "closed_by": "bm-b r1113 (executed same round)",
+   "runner_actual": "python scripts/e39_panel_census.py pair"
+  },
+  {
+   "id": "E40-WORST-MONTH-ATTRIB",
+   "note": "r1112: the ladder denominator's worst month is 2026-07 at -14.82%, far outside its own distribution. Attribute it from rows: which members moved, was it a single-ETF gap/error or a real broad move, and does the same month hurt the wide book equally. If it is a data artefact, every 2020+ ladder number needs the fix.",
+   "priority": 3,
+   "runner": "python scripts/e39_panel_census.py month --month 2026-07",
+   "status": "done",
    "result_ref": "results/e39_month_attribution/MONTH-2026-07.json",
    "result_note": "July 2026 -14.71% equal weight is a real broad move, not a panel defect: sh510300 -7.29 / sh510050 -1.62 / sh510500 -18.43 / sh512100 -19.93 / sh588000 -26.28, zero zero-volume days, no missing bars, only one >10% single-bar move (a +11.07% bounce on 07-21, i.e. inside the loss not causing it)",
    "closed_at": "2026-10-21T04:28:00+08:00",
    "closed_by": "bm-b r1112 (executed same round)",
    "runner_actual": "python scripts/e39_panel_census.py month --month 2026-07",
-  "lane_owner": null,
-  "entered_at": "2026-10-21T04:20:00+08:00",
-  "entered_by": "bm-b r1112 (E39 closeout supply refill)",
-  "shards": []
- },
-{
-  "id": "E40-CASHLEG-DRAG",
-  "note": "r1112: the ladder held cash on 12.71% of 2020-window bars (32.66% from 2018) only because sh588000 has no price before 2020-11-13. Size that drag: same window with the pre-listing share held at repo vs at the equal-weight of the four live members, so the cash leg stops being an unmeasured convention.",
-  "priority": 3,
-  "runner": "python scripts/e39_panel_census.py cashdrag",
-  "status": "ready",
-  "lane_owner": null,
-  "entered_at": "2026-10-21T04:20:00+08:00",
-  "entered_by": "bm-b r1112 (E39 closeout supply refill)",
-  "shards": []
- },
-{
-  "id": "E40-LADDER-STYLE-EXPOSURE",
-  "note": "r1112: the ladder's worst month (-14.71% in 2026-07) was driven by its small-cap legs -- 510500 -18.4%, 512100 -19.9%, 588000 -26.3% against 510050 -1.6%. Five equal weights across the size ladder are not a neutral baseline: measure the ladder's size tilt (monthly spread of the large-cap vs small-cap legs) so any vs-ladder spread can be read net of that exposure.",
-  "priority": 3,
-  "runner": "python scripts/e39_panel_census.py tilt",
-  "status": "ready",
-  "lane_owner": null,
-  "entered_at": "2026-10-21T04:28:00+08:00",
-  "entered_by": "bm-b r1112 (after July attribution)",
-  "shards": []
- }
+   "lane_owner": null,
+   "entered_at": "2026-10-21T04:20:00+08:00",
+   "entered_by": "bm-b r1112 (E39 closeout supply refill)",
+   "shards": []
+  },
+  {
+   "id": "E40-CASHLEG-DRAG",
+   "note": "r1112: the ladder held cash on 12.71% of 2020-window bars (32.66% from 2018) only because sh588000 has no price before 2020-11-13. Size that drag: same window with the pre-listing share held at repo vs at the equal-weight of the four live members, so the cash leg stops being an unmeasured convention.",
+   "priority": 3,
+   "runner": "python scripts/e39_panel_census.py cashdrag",
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T04:20:00+08:00",
+   "entered_by": "bm-b r1112 (E39 closeout supply refill)",
+   "shards": []
+  },
+  {
+   "id": "E40-LADDER-STYLE-EXPOSURE",
+   "note": "r1112: the ladder's worst month (-14.71% in 2026-07) was driven by its small-cap legs -- 510500 -18.4%, 512100 -19.9%, 588000 -26.3% against 510050 -1.6%. Five equal weights across the size ladder are not a neutral baseline: measure the ladder's size tilt (monthly spread of the large-cap vs small-cap legs) so any vs-ladder spread can be read net of that exposure.",
+   "priority": 3,
+   "runner": "python scripts/e39_panel_census.py tilt",
+   "status": "ready",
+   "lane_owner": null,
+   "entered_at": "2026-10-21T04:28:00+08:00",
+   "entered_by": "bm-b r1112 (after July attribution)",
+   "shards": []
+  }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

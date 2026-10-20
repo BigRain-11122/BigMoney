@@ -429,6 +429,92 @@ def run_month(outdir, month):
     }
 
 
+# ----------------------------------------------------- leg: pair drawdown path
+
+def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
+             exclude=("sh511",)):
+    """Read the E34-E38 wide-book spread on the drawdown path, not on its mean.
+
+    Same calendar, same cost, same spec, one shared rank cache: ladder5 and the
+    wide book (top-N of the eligible universe) are simulated side by side and
+    then profiled by the identical function, so max drawdown, underwater run
+    and worst month are comparable line for line. A third profile is taken on
+    the ratio of the two equity curves -- the spread itself, which every
+    vs-ladder number quotes but never measures.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    wide_name = "wide_top%d" % pick_n
+    windows = {}
+    for start in starts:
+        cal = [d for d in cal_full if d >= start]
+        years = len(cal) / 252.0
+        all_syms = sorted(set(base.LADDER) | set(raw_all))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in raw_all]
+        cash = base.load_cash_series(cal)
+        rank_cache = {}
+        curves = {}
+        for name, univ, n in (("ladder5", base.LADDER, None),
+                              (wide_name, universe, pick_n)):
+            curve, _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
+                                              n, 1.0, rank_cache)
+            curves[name] = curve
+        lad = curves["ladder5"]
+        lmap = dict(lad)
+        ratio = [(d, v / lmap[d]) for d, v in curves[wide_name]
+                 if d in lmap and lmap[d] > 0]
+        prof = {k: risk_profile(c, years) for k, c in
+                (("ladder5", lad), (wide_name, curves[wide_name]),
+                 ("spread_ratio", ratio))}
+        prof["ladder5"]["engine_metrics"] = base.metrics(lad, years)
+        prof[wide_name]["engine_metrics"] = base.metrics(curves[wide_name], years)
+        answers = {
+            "ann_spread_pct": round(prof[wide_name]["ann_return_pct"]
+                                    - prof["ladder5"]["ann_return_pct"], 2),
+            "maxdd_delta_pct": round(prof[wide_name]["max_drawdown_pct"]
+                                     - prof["ladder5"]["max_drawdown_pct"], 2),
+            "underwater_delta_sessions": (
+                prof[wide_name]["longest_underwater_sessions"]
+                - prof["ladder5"]["longest_underwater_sessions"]),
+            "worst_month_same_month": (
+                (prof[wide_name]["worst_month"] or {}).get("month")
+                == (prof["ladder5"]["worst_month"] or {}).get("month")),
+            "spread_maxdd_pct": prof["spread_ratio"]["max_drawdown_pct"],
+            "spread_longest_underwater_sessions":
+                prof["spread_ratio"]["longest_underwater_sessions"],
+            "spread_worst_month": prof["spread_ratio"]["worst_month"],
+        }
+        windows[start] = {"bars": len(cal), "years": round(years, 2),
+                          "profiles": prof, "answers": answers}
+    return {
+        "study": "e40_pair_drawdown",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": 1.0, "cost_bp_per_side": base.COST_BP_SIDE,
+                 "starts": list(starts)},
+        "windows": windows,
+        "honest": [
+            "both curves come from the E24/E27 engine (module import), one calendar, one rank cache",
+            "spread_ratio is a ratio of equity curves, not a tradable sleeve: it prices the "
+            "vs-ladder claim, it does not add a portfolio",
+            "drawdown is measured on daily equity; months are month-end marks",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -481,6 +567,16 @@ def selftest():
     me = _month_ends([("2020-01-02", 1.0), ("2020-01-31", 2.0), ("2020-02-03", 3.0)])
     chk(me == [("2020-01-31", 2.0), ("2020-02-03", 3.0)], "month-end collapse")
 
+    # pair leg: a ratio curve carries the spread's own drawdown, not the legs'
+    lad = [("2020-01-02", 1.0), ("2020-02-03", 0.80), ("2020-03-31", 1.0)]
+    wide = [("2020-01-02", 1.0), ("2020-02-03", 0.72), ("2020-03-31", 1.0)]
+    lm = dict(lad)
+    ratio = [(d, v / lm[d]) for d, v in wide if d in lm and lm[d] > 0]
+    chk(risk_profile(lad, 0.25)["max_drawdown_pct"] == -20.0, "ladder leg dd -20%")
+    chk(risk_profile(wide, 0.25)["max_drawdown_pct"] == -28.0, "wide leg dd -28%")
+    chk(risk_profile(ratio, 0.25)["max_drawdown_pct"] == -10.0,
+        "ratio curve dd is the spread (-10%), not either leg")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -488,7 +584,7 @@ def selftest():
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
-                    choices=["stale", "mtime", "ladder", "month", "all", "selftest"])
+                    choices=["stale", "mtime", "ladder", "month", "pair", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -525,6 +621,19 @@ def main(argv):
                                           "maxdd": v["max_drawdown_pct"],
                                           "worst_month": v["worst_month"]}
                                       for k, v in f["windows"].items()}}, ensure_ascii=False))
+    if args.mode == "pair":
+        f = run_pair(None)
+        outdir = os.path.join(ROOT, "results", "e40_pair_drawdown")
+        p = write_json(outdir, "PAIR-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "pair", "file": os.path.relpath(p, ROOT),
+                          "windows": {k: {"ann": {kk: vv["ann_return_pct"]
+                                                  for kk, vv in v["profiles"].items()},
+                                          "maxdd": {kk: vv["max_drawdown_pct"]
+                                                    for kk, vv in v["profiles"].items()},
+                                          "answers": v["answers"]}
+                                      for k, v in f["windows"].items()}},
+                         ensure_ascii=False))
+        return 0
     if args.mode == "month":
         if not args.month:
             print("--month YYYY-MM required")
