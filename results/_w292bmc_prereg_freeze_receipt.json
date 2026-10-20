@@ -1,0 +1,70 @@
+{
+ "wave": 292,
+ "machine": "bm-c",
+ "round": "r1170",
+ "phase": "prereg freeze",
+ "prereg": "research/PERPETUAL_N1_W292_PREREG.md",
+ "derive_script": "results/_r1170bmc_prereg_derive_w292.py",
+ "src_face": "results/_w292bmc_w291_frozen_face.txt",
+ "src_face_provenance": "git show 009c2f8e55:research/PERPETUAL_N1_W291_PREREG.md (r1167 freeze-commit pre-run face; hash-object identity asserted in-script)",
+ "seat_receipt": "results/_w292bmc_20261020_probe_receipt.json",
+ "seat_msg": "MSG-20261020-1912-bmc-w292-seat",
+ "seat_commit": "5eac2d5a8e",
+ "bands": {
+  "A": [657701, 659700],
+  "B": [659701, 659900],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 657_501..659_500 refused at start by REGISTERED W291 B 657_501..657_700)",
+  "B_form": "own-A reservation cascade 1-hop (naive 657_701..657_900 lands inside own-wave A window 657_701..659_700)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1064541,
+  "merged_k": 638120,
+  "n_eff_held": 1062341,
+  "merged_mu": -0.09278644345891056,
+  "merged_sigma": 0.24512620177909342,
+  "se_mu": 0.000307,
+  "source": "results/_r1168bmc_w291_fivekeys.json (all_pass=True)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 640320,
+  "ledger_total": 1066741,
+  "n_eff": 1064541
+ },
+ "universe": {
+  "owner_rows": 281,
+  "bmc_rows": 110,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 282,
+  "own_wave_ordinal": 111
+ },
+ "gates": {
+  "derive_rule_count": 31,
+  "post_shift_repair_count": 5,
+  "residual_scan": "clean (only W288 historical predecessor label retained by design, count==2 asserted)",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "a30f07cd1ef7a5b3",
+ "out_bytes": 24639,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "engine face restated live: inherited caption named W288 adopted residue; the actual heal was this window's r1169 cycle clearing 3 stale adopted W291 burn PIDs (42800/55792/59500, all dead) -- caption now states W291 adopted residue collected and burns_active=[] queue_next=[]",
+  "GPU face restated from this window's live nvidia-smi read (2.0G VRAM, no job on the card)",
+  "se_mu narrowing chain: the +1 wave pass relabels W289's 0.000308 entry as W290 (whose actual is 0.000307), so the chain was rebuilt with true labels and the W291 actual 0.000307 + W292 projection appended",
+  "RAM walk rebuilt: W288 ~3.5G / W289 ~0.2G / W290 ~4.0G / W291 ~3.8G actuals + this window's live reading",
+  "K-lift caption label repaired post-shift: it names the W291 actual, so the +1 wave pass must not relabel it as W292",
+  "ORDINAL CORRECTION (disclosed, not normalized): the prereg body lineage says W292 = 45th consecutive A-hop / 46th above-own-A (W288 41 -> W289 42 -> W290 43 -> W291 44, verified across the three frozen faces). The r1169 seat report caption said 47th/48th, inheriting a +2 drift that entered at the ROUND-COMMIT captions (W290 commit 1981248022 said 44th vs body 43rd; W291 commit said 46th vs body 44th). Body lineage governs; commit-caption drift left unmodified in the history, flagged here."
+ ]
+}
