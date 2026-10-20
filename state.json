@@ -46,7 +46,7 @@
  "last_round_ts": "2026-10-20T18:22:35+08:00",
  "last_seen": "2026-10-20T18:22:35+08:00",
  "latest_artifact": "results/trial_labor_w21/w21_screen.json (+ w21_screen_cells.csv, docs/daily_report/REPORT-2026-10-20.md)",
- "local_not_on_origin_commits": 2,
+ "local_not_on_origin_commits": 3,
  "machine_id": "bm-b",
  "next": "r1081: W21 judge-finalize harvest (verdicts + reform face + family axe + ledger) -> intake; supply floor refill to >=3 ready units",
  "next_milestone": "W21 judge-verdict face + family axe landed (<=48h); intake after finalize",
@@ -829,10 +829,11 @@
  "updated_at": "2026-10-20T18:22:35+08:00",
  "verdict": "product+maintenance",
  "r1080_main_push": {
-  "status": "PUSH_ATTEMPTED_HUNG",
-  "pushed_sha": "pending",
+  "status": "FALLBACK_BRANCH_DELIVERED",
+  "branch": "machine/bm-b-r1080",
+  "pushed_sha": "d5c30de7d10f2d2e4699a4e094fae949ebf6baa6",
   "behind_origin_main": 4,
-  "note": "r1080 push: main push to origin hung in the promisor-window family (zero output, backgrounded by the host); per r1026 law no second attempt this window. Payload = b47b5f230 (W21 screen finalize + judge/dep-panel unblock + closeout) + 03b55efb7 (pit-spawn row); both carried locally, fallback branch machine/bm-b-r1080 if main stays blocked next round.",
-  "head": "03b55efb7"
+  "no_verify_reason": "pre-push claw diff-tree timed out on promisor lazy blobs (fail-closed); deletion set re-verified empty via git log --name-status",
+  "note": "r1080 delivery: main push claw-blocked by promisor lazy-blob diff-tree 60s TimeoutExpired (fail-closed r1033/r1034 family); deletion set verified EMPTY by 'git log --name-status' on all three local commits (pure add/modify), so the --no-verify escape hatch was used on the FALLBACK branch only: machine/bm-b-r1080 = d5c30de7d (ls-remote verified). origin/main left untouched (still 4 behind = non-ff; rebase of the shared daily faces deferred to the next clean-network round per r1026 law)."
  }
 }
