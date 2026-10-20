@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-21T01:52:00+08:00",
+ "clock_read": "2026-10-21T01:57:00+08:00",
  "current": "no weighting scheme beats plain equal weight on the 5-rung ladder once the window starts in 2018",
  "current_task": "r1103 closed: E32 tilt triad burned; E33 ladder-baseline family seeded",
  "d19_probe_due": false,
@@ -20,7 +20,7 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1103: the ladder weighting-tilt family is CLOSED as a wash-to-loss on the recent window. Three units burned on the existing e24_ladder_weighting.py engine (5-rung ladder, monthly close rebalance, 13.041bp per side, GC001 cash leg, panel cutoff 2026-10-20). (1) E32-TREND-TILT-X3: trend150h at cost x3 full sample = +60.9bp/yr (t 0.43, cost 28.6bp/yr, vol 17.08%, Sharpe 0.416 vs equal 0.343) -- tripling cost only costs ~12bp/yr off the x1 read, so turnover cost is not what decides this family. (2) E32-TREND-TILT-2018: the same tilt on 2018+ = -156.8bp/yr (t -0.59); by-era month means pre-2017 +17.3, 2017-2020 +8.6, 2021-2023 +27.2, 2024-now -33.7 -- the positive cell lives entirely before 2024. (3) E32-LADDER-TILT-MIX-2018: invvol -25.2bp/yr (t -0.30, Sharpe 0.365 vs equal 0.370), liq -147.0 (t -1.33), momtilt -90.1 (t -0.81) -- every default tilt loses to plain equal weight once the window starts in 2018. Verdict: the weighting axis is exhausted; equal weight remains the reference book, no tilt adopted, no prereg drafted, zero ledger booking, trial_count 0. Digest: research/digests/DIGEST-20261021-e32-ladder-tilt-robustness.md. Pool: 3 E32 units closed with result_ref, 3 E33 units seeded (ladder vs 510300 buy-and-hold / rebalance cadence / membership re-selection) -> ready 3/3.",
  "did_round": 1103,
- "heartbeat_epoch_utc": 1792518437,
+ "heartbeat_epoch_utc": 1792518577,
  "heartbeat_epoch_utc_face": 1792513386,
  "idle_rounds": 0,
  "last_action": "r1103 closeout",
@@ -42,10 +42,10 @@
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
- "last_push": "595b3c2f02 -> origin/main (behind=0 ahead=0)",
+ "last_push": "841544725e -> origin/main (behind=0 ahead=0)",
  "last_round_at": "2026-10-21T01:52:00+0800",
  "last_round_ts": "2026-10-21T01:52:00+0800",
- "last_seen": "2026-10-21T01:52:00+08:00",
+ "last_seen": "2026-10-21T01:57:00+08:00",
  "latest_artifact": "results/e32_tilt_robustness/TILT-mix-2018-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -70,7 +70,8 @@
   "r1094": "r1094: e24_breadth_h20_entry.py is a NEW product face (monthly non-overlapping windows, T+1, 2x13.041bp per active window, expanding 0.80 cut, 250-day burn-in, 123 windows). Also fixed a near-miss: a json.dump round-trip over results/runnable_pool*.json (1.2MB, CRLF, keys NOT sorted) rewrote 19k lines; reverted and used a string-aware brace scanner for the 3 status flips (18+/6- lines).",
   "r1097": "r1097: extended e24_ladder_weighting.py with a repo cash leg (data/repo_daily/GC001.csv close, annualised %/252, ffilled) applied to EVERY scheme including the pre-eligibility idle year, plus --cost-mult. Selftest 19/19 (2 wrong fixtures caught: scheme-flag parsing only stripped ONE trailing flag so trend150hc failed, and an equality test assumed a fully-invested scheme is cash-identical which is false because the first ~250 bars ARE cash). Numbers: equal 5.27%/yr Sharpe 0.347; trend50 -54.1bp/yr t -0.05 (was -210.1); trend150h +72.6bp/yr t 0.48 Sharpe 0.427 (was -91.3); trend200r -178.1. Cost x3: trend150h +60.9bp/yr t 0.43. Pool: 3 E25 units closed, 3 seeded (ready 5). PIT: the first pool seed appended inside a legend STRING because rfind(']') matched a bracket inside the schema legend -- restored from git and reseeded with a brace scanner over the entries array; never locate a JSON array by rfind on the closing bracket in this file.",
   "r1102_state_gap": "r1102 (01:22-01:38) delivered its estate to origin but left state-bm-b.json at round 1101; healed at r1103.",
-  "r1103_note": "r1103: E32 tilt triad burned. Pit 1: pools cannot be bracket-scanned -- the schema legend strings in results/runnable_pool.json carry unbalanced '[' text, so locate the entries array by the unique bare '\\n ]' closing line. Pit 2: state-bm-b.json lagged one round (r1102 closed heartbeat only); the round number is taken from round_reports.md, and the state face is healed in the same commit."
+  "r1103_note": "r1103: E32 tilt triad burned. Pit 1: pools cannot be bracket-scanned -- the schema legend strings in results/runnable_pool.json carry unbalanced '[' text, so locate the entries array by the unique bare '\\n ]' closing line. Pit 2: state-bm-b.json lagged one round (r1102 closed heartbeat only); the round number is taken from round_reports.md, and the state face is healed in the same commit.",
+  "r1103_push": "841544725e delivered (9cdb5077e2..841544725e), four-way verified behind=0 ahead=0, ls-tree origin confirms the three E32 faces; targeted add only."
  },
  "now_active": "r1103 closed; pool ready 3/3 (E33 units, unclaimed, autofill lane)",
  "orders_ack": [
@@ -377,7 +378,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-21T00:12:00+08:00",
+  "last_push_ts": "2026-10-21T01:57:00+08:00",
   "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
@@ -913,7 +914,7 @@
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
  "task": "r1103: ladder weighting-tilt family closed (cost x3 not binding, 2018+ kills every tilt)",
- "ts": "2026-10-21T01:52:00+08:00",
+ "ts": "2026-10-21T01:57:00+08:00",
  "updated": "2026-10-21 01:52:00",
  "updated_at": "2026-10-21T01:52:00+08:00",
  "verdict": "product+maintenance"
