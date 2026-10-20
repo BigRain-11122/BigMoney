@@ -41,7 +41,7 @@
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
- "last_push": "b114d50cd4 2026-10-20T23:14:00+08:00 origin/main",
+ "last_push": "0c55edd7f0 2026-10-20T23:22:50+08:00 origin/main",
  "last_round_at": "2026-10-20T23:21:49+08:00",
  "last_round_ts": "2026-10-20T23:21:49+08:00",
  "last_seen": "2026-10-20T23:21:49+08:00",
@@ -361,7 +361,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-20T22:38:39+08:00",
+  "last_push_ts": "2026-10-20T23:22:50+08:00",
   "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
@@ -865,7 +865,14 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "r1093_main_push": {
+   "behind_origin_main": 0,
+   "pushed_sha": "0c55edd7f0",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-20T23:22:50+08:00",
+   "note": "ed21ea68c7..0c55edd7f0 clean ff; four-way verified (behind=0 ahead=0, HEAD==origin/main==0c55edd7f0, ls-tree confirms e24_ladder_weighting/WEIGHTING-20261020.json + scripts/e24_ladder_weighting.py on origin); payload = 26 own faces (new weighting census script + face + 5 census faces + pool shared/lane + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed status faces left untouched per r982/r1015/r1033 policy)"
+  }
  },
  "task": "r1093: ladder weighting-scheme census + E24 grid closure",
  "ts": "2026-10-20T23:21:49+08:00",
