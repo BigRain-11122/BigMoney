@@ -1,42 +1,42 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-20T14:20:40+08:00",
+ "clock_read": "2026-10-20T17:55:03+08:00",
  "current": "オーバーナイト/日中收益分解普查 (overnight-gap census leg-1) landed: 16.56M obs, 5225 stocks, cutoff 2026-10-19",
- "current_task": "r1073: fund P2 pair finalize + pool closeout + S6 legs",
+ "current_task": "r1078: W21 screen supply unblocked; 1/4 shard burned (55 cells), 3 queued behind L54 cooldown",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
-  "round_ref": 1075,
-  "ts": "2026-10-20T16:26:11+08:00"
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "round_ref": 1076,
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-10-20T17:24:11+08:00",
+  "verbatim": true
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1074: E21 overnight gap census (selftest 12/12, run rc0, overnight -0.0891%/bar vs intraday +0.1409%/bar every year 2005-2026) + queue refill & S6/S7 maintenance",
- "did_round": 1074,
+ "did_round": 1078,
  "heartbeat_epoch_utc_face": 1792477240,
  "idle_rounds": 0,
- "last_action": "r1073: VALUE-P2 finalize verdict (negative) + pool closeout of both P2 units",
- "last_action_at": "2026-10-20T13:45:05+08:00",
- "last_artifact": "results/overnight_gap_census/CENSUS-2026-10-19.json",
+ "last_action": "r1078: P0 watermark-red rootfix -- W21 screen shards landed on origin main (CAS union) + plumbing merge of 11 origin commits + 17 foreign faces re-materialized",
+ "last_action_at": "2026-10-20T17:55:03+08:00",
+ "last_artifact": "results/trial_labor_w21/checkpoint/screen_shard_1of4.jsonl",
  "last_decisions_at": "2026-10-20T08:55:54+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
- "last_decisions_read_at": "2026-10-20T16:26:11+08:00",
+ "last_decisions_read_at": "2026-10-20T17:24:11+08:00",
  "last_decisions_sha": "715e4134b1c871278d96e0e443cc1d91dd151a7019a18b5369bc1313a6996837",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
  "last_orders_at": "2026-10-18T16:35:49+08:00",
  "last_orders_probe_at": "2026-10-20T08:45:12+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
- "last_orders_read_at": "2026-10-20T16:26:11+08:00",
- "last_orders_sha": "7c237daf3d55bb9dc5439d085d0fcc9971490f886f3ea9b467e683b6b93e5610",
+ "last_orders_read_at": "2026-10-20T17:24:11+08:00",
+ "last_orders_sha": "d8ca22056f084549a7002de8f37f50d9f841dcd3df1f328183d3a68d52771803",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
@@ -325,7 +325,7 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1074,
- "round_no": 1076,
+ "round_no": 1078,
  "round_no_label": "r1075",
  "sat_engine": {
   "checked_at": "2026-10-20T13:45:05+08:00",
@@ -335,6 +335,7 @@
  "sync": {
   "behind_origin_main": 0,
   "last_push_ts": "2026-10-20T05:53:00+08:00",
+  "local_not_on_origin_main": 2,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
    "behind_origin_main": 0,
@@ -592,6 +593,13 @@
    "pushed_sha": "d97b24415",
    "status": "PUSHED_VERIFIED (push 7fdc43067..d97b24415, fetch behind=0 ahead=0, HEAD==origin/main)"
   },
+  "r1076_push": {
+   "branch": "machine/bm-b-r1076",
+   "note": "main push blocked twice by promisor catch-up on dead parent (orphan chain killed per r1005); fallback branch ls-remote verified",
+   "pushed_sha": "266e970b0f",
+   "status": "FALLBACK_BRANCH_DELIVERED",
+   "ts": "2026-10-20T16:51:29+08:00"
+  },
   "r960_main_push": {
    "behind_origin_main": 0,
    "consumed_at": "2026-10-15T05:43:01+08:00",
@@ -811,15 +819,7 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "local_not_on_origin_main": 2,
-  "r1076_push": {
-   "status": "FALLBACK_BRANCH_DELIVERED",
-   "pushed_sha": "266e970b0f",
-   "branch": "machine/bm-b-r1076",
-   "note": "main push blocked twice by promisor catch-up on dead parent (orphan chain killed per r1005); fallback branch ls-remote verified",
-   "ts": "2026-10-20T16:51:29+08:00"
-  }
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
  "task": "r1075: overnight-gap leg-2 held-position bridge (split is horizon-invariant) + S6/S7 maintenance",
  "ts": "2026-10-20T15:10:00+08:00",
