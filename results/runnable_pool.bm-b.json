@@ -20220,7 +20220,8 @@
   },
   {
    "id": "E43-TILT-4MEMBER-HISTORY",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_tilt_4member/HIST-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The member-month set only reaches 2021 because sh588000 has no bars before 2020-11-13, so pre2017 and 2017-2020 carry 0 and 1 usable months and the era band is measured on two eras out of four. Rebuild the tilt and the size-neutral spread on the four-member sub-ladder (510300/510050/510500/512100) and report the era table it can actually reach, so the 2013-2020 leg is measured instead of silently skipped.",
@@ -20232,7 +20233,8 @@
   },
   {
    "id": "E43-WIDE-SIZE-COMPOSITION",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_wide_composition/COMP-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The spread's beta on the small-minus-large month is -0.216 full-sample and -0.289 in 2024-now: the wide book loses ground exactly when small caps lead. Measure that tilt instead of inferring it -- per rebalance, the holdings' share of turnover falling in the ladder's own small-cap legs (510500/512100/588000) versus the two broad legs, so the sign of the beta is explained by composition and not by the regression alone.",
@@ -20244,7 +20246,8 @@
   },
   {
    "id": "E43-NEUTRAL-ROBUSTNESS",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_neutral_robust/ROBUST-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "+181.2bp of size-neutral spread in the newest era is the number the E42 face leaves standing, and it has survived neither a fee stress nor a calendar shift. Re-run the size-neutral regression on all four decision calendars at cost x3, so the only surviving claim is the one that clears both axes at once.",

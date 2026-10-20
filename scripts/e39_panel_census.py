@@ -654,6 +654,50 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
 
 TILT_LARGE = ("sh510300", "sh510050")
 TILT_SMALL = ("sh510500", "sh512100", "sh588000")
+# four-member reach-back skin: sh588000 has no bars before 2020-11-13, so the
+# five-member tilt cannot be measured on pre-2021 months (E43-TILT-4MEMBER-HISTORY)
+TILT4_SMALL = ("sh510500", "sh512100")
+
+
+def _tilt_series(mem, brk, months, large, small):
+    """Monthly (small_mean - large_mean) on the months both legs can be priced.
+
+    Returns (used_months, {month: tilt}, dropped) where a dropped month is one
+    whose legs are missing a member or carry a >20% single-day corporate action
+    on a member's own rows. Shared by the five-member and four-member skins so
+    the two faces cannot drift apart.
+    """
+    used, tilt, dropped = [], {}, []
+    for m in months:
+        lg = [mem[s][m] for s in large if m in mem[s] and m not in brk[s]]
+        sm = [mem[s][m] for s in small if m in mem[s] and m not in brk[s]]
+        if not lg or not sm:
+            dropped.append({
+                "month": m,
+                "members_with_break": [s for s in list(large) + list(small) if m in brk[s]],
+                "members_missing": [s for s in list(large) + list(small) if m not in mem[s]],
+            })
+            continue
+        used.append(m)
+        tilt[m] = sum(sm) / len(sm) - sum(lg) / len(lg)
+    return used, tilt, dropped
+
+
+def _compose_counts(live, large, small):
+    """Weight shares of one equal-weight book by the ladder's own size legs."""
+    n = len(live)
+    if not n:
+        return {"n": 0}
+    ns = sum(1 for s in live if s in small)
+    nl = sum(1 for s in live if s in large)
+    return {
+        "n": n,
+        "ladder_small_names": ns,
+        "ladder_large_names": nl,
+        "ladder_small_weight_pct": round(ns / n * 100, 4),
+        "ladder_large_weight_pct": round(nl / n * 100, 4),
+        "other_weight_pct": round((n - ns - nl) / n * 100, 4),
+    }
 
 
 def _month_rets(curve):
@@ -1169,20 +1213,15 @@ def _monthly_core(pick_n=9999, exclude=("sh511",)):
     wide_m = dict(_month_rets(curves[wide_name]))
     mem = {s: _member_monthly(cal, s, raw_all) for s in base.LADDER}
     brk = {s: _member_break_months(cal, s, raw_all) for s in base.LADDER}
-    months, tilt, dropped = [], {}, []
-    for m in sorted(lad_m):
-        if m not in wide_m or any(m not in mem[s] for s in base.LADDER):
-            continue
-        lg = [mem[s][m] for s in TILT_LARGE if m not in brk[s]]
-        sm = [mem[s][m] for s in TILT_SMALL if m not in brk[s]]
-        if not lg or not sm:
-            dropped.append({"month": m,
-                            "members_with_break": [s for s in base.LADDER if m in brk[s]]})
-            continue
-        months.append(m)
-        tilt[m] = sum(sm) / len(sm) - sum(lg) / len(lg)
+    five_ok = [m for m in sorted(lad_m)
+               if m in wide_m and all(m in mem[s] for s in base.LADDER)]
+    months, tilt, dropped = _tilt_series(mem, brk, five_ok, TILT_LARGE, TILT_SMALL)
+    four_ok = [m for m in sorted(lad_m)
+               if m in wide_m and all(m in mem[s] for s in TILT_LARGE + TILT4_SMALL)]
+    months4, tilt4, dropped4 = _tilt_series(mem, brk, four_ok, TILT_LARGE, TILT4_SMALL)
     return {"cutoff": cutoff, "cal": cal, "curves": curves, "wide_name": wide_name,
             "lad_m": lad_m, "wide_m": wide_m, "months": months, "tilt": tilt,
+            "months4": months4, "tilt4": tilt4, "dropped4": dropped4,
             "dropped": dropped, "universe": len(universe),
             "years": len(cal) / 252.0}
 
@@ -1449,6 +1488,365 @@ def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------- leg: E43 four-member reach-back (tilt + neutral spread)
+
+def run_tilt4(outdir, core=None, eras=ERAS):
+    """Rebuild the tilt and the size-neutral spread on the four-member sub-ladder.
+
+    E42 measured the era band on two of four eras: the five-member tilt needs
+    sh588000, whose first bar is 2020-11-13, so pre2017 had 0 usable months and
+    2017-2020 had 1. Dropping the STAR leg (2 broad-cap vs 2 mid/small) reaches
+    back to 2013 while keeping the same identity, so the 2013-2020 leg is
+    measured instead of skipped. The five-member rows are reported beside it
+    wherever both skins can price the same era.
+    """
+    core = core or _monthly_core()
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = [m for m in core["months4"] if _in_era(m, lo, hi)]
+        if len(ms) < 3:
+            rows[name] = {"months": len(ms), "skipped": "fewer than 3 usable months"}
+            continue
+        tilt = [core["tilt4"][m] for m in ms]
+        lad = [core["lad_m"][m] for m in ms]
+        spread = [core["wide_m"][m] - core["lad_m"][m] for m in ms]
+        tm = _moments(tilt)
+        beta_l, alpha_l, r2_l = _ols(lad, tilt)
+        beta_s, alpha_s, r2_s = _ols(spread, tilt)
+        tilt_ann = tm["mean"] * 12.0 * 1e4 if tm["mean"] is not None else None
+        raw_ann = sum(spread) / len(spread) * 12.0 * 1e4
+        seg_l = _rebase(_slice_curve(core["curves"]["ladder5"], lo, hi))
+        seg_w = _rebase(_slice_curve(core["curves"][core["wide_name"]], lo, hi))
+        eng_diff = None
+        if len(seg_l) > 1 and len(seg_w) > 1:
+            yrs = len(seg_l) / 252.0
+            eng_diff = round((risk_profile(seg_w, yrs)["ann_return_pct"]
+                              - risk_profile(seg_l, yrs)["ann_return_pct"]) * 100, 1)
+        pos = sum(1 for t in tilt if t > 0)
+        i_max = max(range(len(tilt)), key=lambda i: tilt[i])
+        i_min = min(range(len(tilt)), key=lambda i: tilt[i])
+        rows[name] = {
+            "months": len(ms), "from": ms[0], "to": ms[-1],
+            "skin": "4-member (2 broad vs 510500/512100)",
+            "tilt_annualised_bp": round(tilt_ann, 1) if tilt_ann is not None else None,
+            "tilt_sd_bp": round(tm["sd"] * 1e4, 1) if tm["sd"] is not None else None,
+            "tilt_positive_share_pct": round(pos / len(tilt) * 100, 1),
+            "tilt_best_month": {"month": ms[i_max], "spread_pct": round(tilt[i_max] * 100, 2)},
+            "tilt_worst_month": {"month": ms[i_min], "spread_pct": round(tilt[i_min] * 100, 2)},
+            "beta_ladder_on_tilt": round(beta_l, 3) if beta_l is not None else None,
+            "alpha_monthly_bp": round(alpha_l * 1e4, 2) if alpha_l is not None else None,
+            "r_squared": round(r2_l, 4) if r2_l is not None else None,
+            "tilt_explains_ladder_var_pct": round(r2_l * 100, 2) if r2_l is not None else None,
+            "ladder_mean_month_pct": round(_moments(lad)["mean"] * 100, 4),
+            "spread_raw_ann_bp": round(raw_ann, 1),
+            "spread_size_neutral_ann_bp": (round(alpha_s * 12.0 * 1e4, 1)
+                                           if alpha_s is not None else None),
+            "spread_size_component_ann_bp": (round(beta_s * tilt_ann, 1)
+                                             if beta_s is not None and tilt_ann is not None else None),
+            "beta_spread_on_tilt": round(beta_s, 3) if beta_s is not None else None,
+            "r_squared_spread": round(r2_s, 4) if r2_s is not None else None,
+            "engine_ann_diff_bp": eng_diff,
+            "arithmetic_vs_geometric_gap_bp": (
+                round(raw_ann - eng_diff, 1) if eng_diff is not None else None),
+        }
+    # the same eras read on the five-member skin where it can be priced at all
+    compare = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms5 = [m for m in core["months"] if _in_era(m, lo, hi)]
+        if len(ms5) < 3:
+            compare[name] = {"months_5member": len(ms5), "note": "not measurable on 5-member skin"}
+            continue
+        t5 = [core["tilt"][m] for m in ms5]
+        compare[name] = {
+            "months_5member": len(ms5),
+            "tilt_5member_ann_bp": round(_moments(t5)["mean"] * 12 * 1e4, 1),
+            "tilt_4member_ann_bp_same_months": round(
+                _moments([core["tilt4"][m] for m in ms5])["mean"] * 12 * 1e4, 1),
+            "note": "same months, two skins -- the gap is the STAR leg, not a window effect",
+        }
+    measured = {k: v for k, v in rows.items() if k != "full" and "tilt_annualised_bp" in v}
+    neutral4 = [v["spread_size_neutral_ann_bp"] for v in measured.values()
+                if v.get("spread_size_neutral_ann_bp") is not None]
+    return {
+        "study": "e43_tilt_4member_history",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {"large": list(TILT_LARGE), "small": list(TILT4_SMALL),
+                 "five_member_small": list(TILT_SMALL),
+                 "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean), "
+                                  "equal weight 0.5/0.5 on the four-member skin",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0},
+        "eras": rows,
+        "skin_comparison": compare,
+        "answers": {
+            "eras_measured_4member": len(measured),
+            "eras_measured_5member": sum(
+                1 for v in compare.values() if v.get("months_5member", 0) >= 3),
+            "era_names_measured_4member": sorted(measured),
+            "eras_positive_tilt": sum(1 for v in measured.values() if v["tilt_annualised_bp"] > 0),
+            "eras_positive_size_neutral": sum(1 for x in neutral4 if x > 0),
+            "size_neutral_range_bp": (round(max(neutral4) - min(neutral4), 1) if neutral4 else None),
+            "pre2021_eras_newly_measured": [
+                k for k, v in measured.items() if v["to"] < "2021-01"][:8],
+        },
+        "honest": [
+            "the four-member skin drops the STAR leg, so its tilt is a broad-vs-mid/small read, "
+            "not the E40 five-member identity; the skin_comparison rows price that difference on "
+            "the months both skins can see",
+            "the ladder and wide curves are the E24/E27 engine's own (module import), unchanged by "
+            "the skin choice -- only the tilt regressor changes, so any movement in the neutral "
+            "column is the size adjustment, not a different book",
+            "eras remain calendar partitions of one continuous monthly series and do not add up",
+            "corporate-action guard as in E40 (drops >20% single-day member months)",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+        "dropped_months_4member": core["dropped4"],
+    }
+
+
+# ---------------------- leg: E43 wide-book size composition
+
+def run_widecomp(outdir, core=None, pick_n=9999, exclude=("sh511",), eras=ERAS):
+    """Explain the sign of the wide book's tilt beta from its own holdings.
+
+    E42's regression says the wide book loses ground when small caps lead
+    (beta -0.216 full, -0.289 in 2024-now). This leg measures the composition
+    instead of inferring it: at every decision point, the holdings' weight share
+    falling in the ladder's own small-cap legs, its two broad legs, and the rest
+    of the book; then the same monthly regression run on the residual bucket
+    (universe minus the five ladder members) so the sign is attributable.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    core = core or _monthly_core()
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal = base.load_panel()[0]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    cash = base.load_cash_series(cal)
+    rank_cache = {}
+    wide_name = "wide_top%d" % pick_n
+    curve, aux, _hold = e27.simulate(cal, prices, amounts, universe, cash,
+                                     pick_n, 1.0, rank_cache)
+    resid_univ = [s for s in universe if s not in base.LADDER]
+    rcurve, raux, _rhold = e27.simulate(cal, prices, amounts, resid_univ, cash,
+                                        None, 1.0, rank_cache)
+    comp = []
+    for idx in sorted(set(base.month_end_indices(cal))):
+        live = e27._rank(idx, universe, prices, amounts, rank_cache)[:pick_n]
+        row = {"date": cal[idx]}
+        row.update(_compose_counts(live, TILT_LARGE, TILT_SMALL))
+        comp.append(row)
+    wide_m = dict(_month_rets(curve))
+    resid_m = dict(_month_rets(rcurve))
+    lad_m = core["lad_m"]
+
+    def _reg(series, name):
+        rows = {}
+        for era, lo, hi in list(eras) + [("full", None, None)]:
+            ms = [m for m in core["months4"] if _in_era(m, lo, hi) and m in series]
+            if len(ms) < 3:
+                rows[era] = {"months": len(ms), "skipped": "fewer than 3 usable months"}
+                continue
+            y = [series[m] for m in ms]
+            x = [core["tilt4"][m] for m in ms]
+            b, a, r2 = _ols(y, x)
+            rows[era] = {
+                "months": len(ms), "from": ms[0], "to": ms[-1],
+                "mean_month_pct": round(_moments(y)["mean"] * 100, 4),
+                "beta_on_tilt": round(b, 3) if b is not None else None,
+                "r_squared": round(r2, 4) if r2 is not None else None,
+                "ann_bp": round(_moments(y)["mean"] * 12 * 1e4, 1),
+            }
+        return rows
+
+    spread_m = {m: wide_m[m] - lad_m[m] for m in wide_m if m in lad_m}
+    shares = [c for c in comp if c.get("n")]
+    avg = (lambda k: round(sum(c[k] for c in shares) / len(shares), 4)) if shares else (lambda k: None)
+    return {
+        "study": "e43_wide_size_composition",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "ladder_large_legs": list(TILT_LARGE),
+                 "ladder_small_legs": list(TILT_SMALL),
+                 "residual_bucket": "universe minus the five ladder members, equal weight",
+                 "rebalances": len(shares), "holdings": wide_name},
+        "composition": comp,
+        "composition_summary": {
+            "mean_holdings": avg("n"),
+            "mean_ladder_small_weight_pct": avg("ladder_small_weight_pct"),
+            "mean_ladder_large_weight_pct": avg("ladder_large_weight_pct"),
+            "mean_other_weight_pct": avg("other_weight_pct"),
+            "min_ladder_all_weight_pct": round(min(
+                c["ladder_small_weight_pct"] + c["ladder_large_weight_pct"]
+                for c in shares), 4) if shares else None,
+            "max_ladder_all_weight_pct": round(max(
+                c["ladder_small_weight_pct"] + c["ladder_large_weight_pct"]
+                for c in shares), 4) if shares else None,
+        },
+        "regressions": {"wide_book": _reg(wide_m, "wide"),
+                        "residual_bucket": _reg(resid_m, "resid"),
+                        "spread_vs_ladder": _reg(spread_m, "spread")},
+        "engine": {"wide": {"rebalances": aux["rebalances"],
+                            "turnover_per_year": round(aux["turnover_total"] / core["years"], 3),
+                            "cost_per_year_bp": round(aux["cost_paid_frac"] / core["years"] * 1e4, 1)},
+                   "residual": {"rebalances": raux["rebalances"],
+                                "turnover_per_year": round(raux["turnover_total"] / core["years"], 3)}},
+        "answers": {
+            "mean_ladder_all_weight_pct": (round(avg("ladder_small_weight_pct")
+                                                 + avg("ladder_large_weight_pct"), 4)
+                                           if shares else None),
+            "beta_wide_full": _reg(wide_m, "wide")["full"].get("beta_on_tilt"),
+            "beta_residual_full": _reg(resid_m, "resid")["full"].get("beta_on_tilt"),
+            "beta_wide_2024_now": _reg(wide_m, "wide").get("2024_now", {}).get("beta_on_tilt"),
+            "beta_residual_2024_now": _reg(resid_m, "resid").get("2024_now", {}).get("beta_on_tilt"),
+            "sign_explained_by_residual": (
+                abs((_reg(wide_m, "wide")["full"].get("beta_on_tilt") or 0)
+                    - (_reg(resid_m, "resid")["full"].get("beta_on_tilt") or 0)) < 0.05),
+        },
+        "honest": [
+            "the wide book is every eligible member at equal weight, so the ladder's five legs are "
+            "a rounding error in it by construction; the beta therefore cannot come from holding "
+            "them, and the residual-bucket regression is the direct measurement of where it does",
+            "holdings are read with the engine's own ranking function on the engine's own rank "
+            "cache at each decision index, so the composition rows and the simulated curve cannot "
+            "disagree about which names were eligible",
+            "the residual bucket re-ranks in its own universe, so it is a clean equal-weight "
+            "read of non-ladder members, not a subtraction of two curves",
+            "the tilt regressor is the four-member skin (E43 reach-back) wherever the five-member "
+            "skin cannot be priced; both are reported in the E43 history face",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+# ---------------------- leg: E43 size-neutral robustness (calendar x cost)
+
+def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
+                      exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0)):
+    """Re-run the size-neutral spread on all four decision calendars at cost x3.
+
+    E42's +181bp newest-era figure has survived neither a fee stress nor a
+    calendar shift: E41 moved the calendar and the spread band moved 26bp, and
+    E42's cost x3 moved the fee 3x. This leg crosses both axes and reports the
+    size-neutral number per cell, so the only surviving claim is the one that
+    clears both at once.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    core = core or _monthly_core()
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+    years = len(cal) / 252.0
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    cash = base.load_cash_series(cal)
+    rank_cache = {}
+    wide_name = "wide_top%d" % pick_n
+    month_ends = base.month_end_indices(cal)
+    variants = [("me_m1", _shift_indices(month_ends, -1, len(cal))),
+                ("me", sorted(set(month_ends))),
+                ("me_p1", _shift_indices(month_ends, 1, len(cal))),
+                ("mid%d" % mid_day, _mid_month_indices(cal, mid_day))]
+    cells = {}
+    for mult in cost_mults:
+        for vname, idxs in variants:
+            rebal = set(idxs)
+            curves = {}
+            for scheme, univ, n in (("ladder5", base.LADDER, None),
+                                    (wide_name, universe, pick_n)):
+                curves[scheme], _aux, _h = e27.simulate(cal, prices, amounts, univ, cash,
+                                                        n, mult, rank_cache, rebal)
+            lm = dict(_month_rets(curves["ladder5"]))
+            wm = dict(_month_rets(curves[wide_name]))
+            cell = {"rebalances": len(rebal), "era": {}}
+            for era, lo, hi in list(ERAS) + [("full", None, None)]:
+                ms = [m for m in core["months4"]
+                      if _in_era(m, lo, hi) and m in lm and m in wm]
+                if len(ms) < 3:
+                    cell["era"][era] = {"months": len(ms),
+                                        "skipped": "fewer than 3 usable months"}
+                    continue
+                spread = [wm[m] - lm[m] for m in ms]
+                tilt = [core["tilt4"][m] for m in ms]
+                b, a, r2 = _ols(spread, tilt)
+                raw_ann = sum(spread) / len(spread) * 12 * 1e4
+                cell["era"][era] = {
+                    "months": len(ms), "from": ms[0], "to": ms[-1],
+                    "raw_spread_ann_bp": round(raw_ann, 1),
+                    "size_neutral_ann_bp": (round(a * 12 * 1e4, 1) if a is not None else None),
+                    "size_component_ann_bp": (round(b * _moments(tilt)["mean"] * 12 * 1e4, 1)
+                                              if b is not None else None),
+                    "beta_spread_on_tilt": round(b, 3) if b is not None else None,
+                    "r_squared": round(r2, 4) if r2 is not None else None,
+                }
+            cells["cost_x%g|%s" % (mult, vname)] = cell
+    newest = {k: v["era"].get("2024_now", {}).get("size_neutral_ann_bp")
+              for k, v in cells.items()}
+    newest_ok = {k: x for k, x in newest.items() if x is not None}
+    full = {k: v["era"].get("full", {}).get("size_neutral_ann_bp") for k, v in cells.items()}
+    full_ok = {k: x for k, x in full.items() if x is not None}
+    return {
+        "study": "e43_size_neutral_robustness",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "bars": len(cal), "years": round(years, 2),
+                 "pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_bp_per_side": base.COST_BP_SIDE, "cost_mults": list(cost_mults),
+                 "calendars": [v for v, _ in variants], "mid_month_day": mid_day,
+                 "tilt_skin": "4-member (2 broad vs 510500/512100)",
+                 "universe_members": len(universe)},
+        "cells": cells,
+        "answers": {
+            "newest_era_size_neutral_by_cell_bp": newest,
+            "newest_era_all_positive": (all(x > 0 for x in newest_ok.values())
+                                        if newest_ok else None),
+            "newest_era_min_bp": min(newest_ok.values()) if newest_ok else None,
+            "newest_era_max_bp": max(newest_ok.values()) if newest_ok else None,
+            "newest_era_range_bp": (round(max(newest_ok.values()) - min(newest_ok.values()), 1)
+                                    if newest_ok else None),
+            "full_size_neutral_all_positive": (all(x > 0 for x in full_ok.values())
+                                               if full_ok else None),
+            "full_min_bp": min(full_ok.values()) if full_ok else None,
+            "at_cost_x3_all_positive": (
+                all(x > 0 for k, x in newest_ok.items() if k.startswith("cost_x3"))
+                if newest_ok else None),
+            "cells_measured": len(newest_ok),
+        },
+        "honest": [
+            "cost x3 scales the engine's own 13.041bp/side constant; it is a stress multiplier, "
+            "not a measured fee schedule",
+            "the calendars differ in session choice only -- universe, ranking and cost model are "
+            "shared, so a surviving number is robust to decision timing, not to a different book",
+            "the newest era is the shortest and open-ended, so its per-cell regression rests on "
+            "the fewest months and carries the widest error",
+            "the tilt regressor is the four-member skin; the five-member skin cannot price the "
+            "pre-2021 months (E43 reach-back face)",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -1572,6 +1970,31 @@ def selftest():
     chk(abs((neutral + size_part) - raw) < 1e-12,
         "additive identity: raw spread = size-neutral intercept + size component")
 
+    # E43: four-member skin is a strict subset, and the tilt builder drops only the
+    # months a leg cannot be priced on
+    chk(set(TILT4_SMALL) < set(TILT_SMALL) and len(TILT4_SMALL) == 2,
+        "four-member small leg is a two-name subset of the five-member skin")
+    chk(abs((2 / 4.0) - 0.5) < 1e-12 and abs((2 / 4.0 + 2 / 4.0) - 1.0) < 1e-12,
+        "four-member skin weights 0.5/0.5 so the identity still closes")
+    f_mem = {"L1": {"m1": 0.01, "m2": 0.01}, "L2": {"m1": 0.01},
+             "S1": {"m1": 0.03, "m2": 0.05}, "S2": {"m1": 0.03}}
+    f_brk = {"L1": set(), "L2": set(), "S1": set(), "S2": {"m2"}}
+    used, tilts, drops = _tilt_series(f_mem, f_brk, ["m1", "m2", "m3"],
+                                      ("L1", "L2"), ("S1", "S2"))
+    chk(used == ["m1", "m2"], "tilt builder keeps only months both legs can price")
+    chk(abs(tilts["m1"] - 0.02) < 1e-12, "two-name legs average before the spread")
+    chk(abs(tilts["m2"] - 0.04) < 1e-12,
+        "a broken member drops out of the leg mean, it does not drop the month")
+    chk(len(drops) == 1 and drops[0]["month"] == "m3"
+        and "S1" in drops[0]["members_missing"],
+        "an unpriced month is disclosed, never silently averaged")
+    comp = _compose_counts(["sh510300", "sh510500", "sh512880"], TILT_LARGE, TILT_SMALL)
+    chk(comp["n"] == 3 and comp["ladder_small_names"] == 1
+        and comp["ladder_large_names"] == 1 and comp["other_weight_pct"] == round(100 / 3.0, 4),
+        "composition counts split holdings into ladder small / ladder large / other")
+    chk(_compose_counts([], TILT_LARGE, TILT_SMALL) == {"n": 0},
+        "an empty book has no composition to report")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -1581,7 +2004,8 @@ def main(argv):
     ap.add_argument("mode", nargs="?", default="all",
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
-                             "calcost", "e42", "all", "selftest"])
+                             "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -1706,6 +2130,37 @@ def main(argv):
         p = write_json(outdir, "COST-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "calcost", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode in ("e43", "tilt4", "widecomp", "neutralrob"):
+        core = _monthly_core()
+        if args.mode in ("e43", "tilt4"):
+            f = run_tilt4(None, core=core)
+            outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+            p = write_json(outdir, "HIST-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "tilt4", "file": os.path.relpath(p, ROOT),
+                              "eras": {k: {"months": v.get("months"),
+                                           "tilt_bp": v.get("tilt_annualised_bp"),
+                                           "beta": v.get("beta_ladder_on_tilt"),
+                                           "neutral_bp": v.get("spread_size_neutral_ann_bp")}
+                                       for k, v in f["eras"].items()},
+                              "answers": f["answers"]}, ensure_ascii=False))
+        if args.mode in ("e43", "widecomp"):
+            f = run_widecomp(None, core=core)
+            outdir = os.path.join(ROOT, "results", "e43_wide_composition")
+            p = write_json(outdir, "COMP-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "widecomp", "file": os.path.relpath(p, ROOT),
+                              "composition_summary": f["composition_summary"],
+                              "regressions": {k: {e: {kk: vv.get(kk) for kk in
+                                                     ("months", "beta_on_tilt", "r_squared", "ann_bp")}
+                                                 for e, vv in v.items()}
+                                             for k, v in f["regressions"].items()},
+                              "answers": f["answers"]}, ensure_ascii=False))
+        if args.mode in ("e43", "neutralrob"):
+            f = run_neutralrobust(None, core=core)
+            outdir = os.path.join(ROOT, "results", "e43_neutral_robust")
+            p = write_json(outdir, "ROBUST-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "neutralrob", "file": os.path.relpath(p, ROOT),
+                              "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:

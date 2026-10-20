@@ -2,6 +2,42 @@
  "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
  "entries": [
   {
+   "id": "E44-BURNIN-WINDOW",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E43's four-member reach-back unlocked 2017-2020 (48 months from 1) but left pre2017 at exactly 1 month, and the binding constraint is the engine curve's own start (the wide book's monthly series begins 2016-12), not the member bars. Measure that gate: how many sessions the wide book spends un-invested before its first trading rebalance, why the first eligible set arrives so late, and what the 2013-2016 years would be worth on the same spec -- so the missing years are attributable to eligibility burn-in rather than left as a mystery.",
+   "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
+   "source": "r1118 tilt4 face: pre2017 still 1 usable month after the skin swap",
+   "entered_at": "2026-10-21T05:40:00+08:00",
+   "entered_by": "bm-b r1118",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E44-SKIN-SENSITIVITY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The newest-era size-neutral spread reads +181.2bp on the five-member skin and +38.5bp on the four-member skin: a 4.7x cut from a naming decision. Run the leave-one-out decomposition (drop each of 510300/510050/510500/512100/588000 in turn, per era) so no future spread number depends on an undisclosed skin, and report which member carries the sign flip between 2021-2023 (STAR a drag) and 2024-now (STAR the story).",
+   "deliverable": "results/e44_skin/LOO-<cutoff>.json",
+   "source": "r1118 tilt4 skin_comparison: 609.2 vs 953.6 and 748.1 vs 246.5",
+   "entered_at": "2026-10-21T05:40:00+08:00",
+   "entered_by": "bm-b r1118",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
+   "id": "E44-MIDMONTH-WEAKNESS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "In the E43 robustness grid the mid-month calendar is the weakest cell at every cost level (newest-era size-neutral +3.8bp at x1 and -3.3bp at x3, against +38.5bp for month-end). Explain the gap at name level: which holdings differ between the mid-month and month-end decisions, how much of the 30bp is membership churn versus the extra holding turn, and whether the weakness is confined to the newest era or is a general calendar property.",
+   "deliverable": "results/e44_midmonth/MID-<cutoff>.json",
+   "source": "r1118 neutralrob face: mid15 cells weakest at both cost levels",
+   "entered_at": "2026-10-21T05:40:00+08:00",
+   "entered_by": "bm-b r1118",
+   "evidence_cutoff": "2026-10-20"
+  },
+  {
    "data_gates": "in-runner: s2 gates re-check (P-1c census 8792/5222 r105 law + ok-universe 5129+/-1 + pct_chg agreement + high/low finite + cutoff lockbox 2026-09-22) + nulls-first refusal + per-factor checkpoints; panel=P-1c Stage-A cache",
    "entered_at": "2026-09-24 23:10:41",
    "finished_at": "2026-09-24 23:37:05",
@@ -20220,7 +20256,8 @@
   },
   {
    "id": "E43-TILT-4MEMBER-HISTORY",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_tilt_4member/HIST-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The member-month set only reaches 2021 because sh588000 has no bars before 2020-11-13, so pre2017 and 2017-2020 carry 0 and 1 usable months and the era band is measured on two eras out of four. Rebuild the tilt and the size-neutral spread on the four-member sub-ladder (510300/510050/510500/512100) and report the era table it can actually reach, so the 2013-2020 leg is measured instead of silently skipped.",
@@ -20232,7 +20269,8 @@
   },
   {
    "id": "E43-WIDE-SIZE-COMPOSITION",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_wide_composition/COMP-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The spread's beta on the small-minus-large month is -0.216 full-sample and -0.289 in 2024-now: the wide book loses ground exactly when small caps lead. Measure that tilt instead of inferring it -- per rebalance, the holdings' share of turnover falling in the ladder's own small-cap legs (510500/512100/588000) versus the two broad legs, so the sign of the beta is explained by composition and not by the regression alone.",
@@ -20244,7 +20282,8 @@
   },
   {
    "id": "E43-NEUTRAL-ROBUSTNESS",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e43_neutral_robust/ROBUST-20261020.json",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "+181.2bp of size-neutral spread in the newest era is the number the E42 face leaves standing, and it has survived neither a fee stress nor a calendar shift. Re-run the size-neutral regression on all four decision calendars at cost x3, so the only surviving claim is the one that clears both axes at once.",
