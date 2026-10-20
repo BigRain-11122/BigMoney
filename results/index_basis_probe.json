@@ -1,0 +1,518 @@
+{
+ "probe": "INDEX_BASIS_PROBE",
+ "mode": "descriptive",
+ "judged": false,
+ "pool_entry": false,
+ "generated_by": "scripts/index_basis_probe.py",
+ "frozen_definitions": {
+  "lr": "log(fut_close) - log(spot_close) (scale-free; raw fut/spot is a unit mismatch)",
+  "basis_norm": "lr(t) - mean252(lr), min_periods=120",
+  "chg5": "lr(t) - lr(t-5)",
+  "z20": "(lr(t) - mean20(lr)) / std20(lr), min_periods=20, inclusive",
+  "fwd_k": "spot_close(t+k)/spot_close(t) - 1",
+  "deciles": 5
+ },
+ "honest_boundaries": [
+  "main-continuous roll jumps move the futures level: change/z faces are contaminated at switch dates, disclosed not smoothed",
+  "index futures quote index points while the ETF quotes ~index/1000: only log-ratio (scale-free) faces are reported",
+  "signal uses close(t); executable entry is not assumed (T+1 conservatism for any later prereg)",
+  "ETF tracking error / premium-discount sits inside every basis number",
+  "descriptive only: no verdict, no judged cells, no admission claim"
+ ],
+ "pairs": {
+  "IF/510300": {
+   "label": "hs300",
+   "fut": "IF",
+   "spot": "510300",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_date": "2026-10-19",
+   "ic": [
+    {
+     "feature": "basis",
+     "fwd_bars": 5,
+     "n": 1505,
+     "spearman": -0.01958749280064166
+    },
+    {
+     "feature": "basis",
+     "fwd_bars": 20,
+     "n": 1505,
+     "spearman": -0.01958749280064166
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 5,
+     "n": 1619,
+     "spearman": 0.029064245468543956
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 20,
+     "n": 1619,
+     "spearman": 0.029064245468543956
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 5,
+     "n": 1605,
+     "spearman": 0.010471670676073094
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 20,
+     "n": 1605,
+     "spearman": 0.010471670676073094
+    }
+   ],
+   "yearly_ic_chg5_fwd5": {
+    "2020": {
+     "n": 238,
+     "spearman": -0.05993353328832195
+    },
+    "2021": {
+     "n": 243,
+     "spearman": 0.0782732106626791
+    },
+    "2022": {
+     "n": 242,
+     "spearman": 0.024368332302445214
+    },
+    "2023": {
+     "n": 242,
+     "spearman": -0.2696520233247543
+    },
+    "2024": {
+     "n": 242,
+     "spearman": 0.18890400293644352
+    },
+    "2025": {
+     "n": 243,
+     "spearman": 0.004189937125853667
+    },
+    "2026": {
+     "n": 169,
+     "spearman": -0.035658368342187996
+    }
+   },
+   "deciles_z20_fwd5": [
+    {
+     "bin": 1,
+     "n": 321,
+     "mean_fwd": 0.0019241389796891308,
+     "hit_rate": 0.46417445482866043
+    },
+    {
+     "bin": 2,
+     "n": 321,
+     "mean_fwd": 0.006529243713917954,
+     "hit_rate": 0.48286604361370716
+    },
+    {
+     "bin": 3,
+     "n": 321,
+     "mean_fwd": -0.0002813959276188059,
+     "hit_rate": 0.45794392523364486
+    },
+    {
+     "bin": 4,
+     "n": 321,
+     "mean_fwd": -0.0003840837454339784,
+     "hit_rate": 0.5046728971962616
+    },
+    {
+     "bin": 5,
+     "n": 321,
+     "mean_fwd": 0.0047847806999093,
+     "hit_rate": 0.5109034267912772
+    }
+   ],
+   "current": {
+    "basis_norm": {
+     "value": -0.009610139146777996,
+     "pct_3y": 0.25166444740346205
+    },
+    "chg5": {
+     "value": -0.001623559447939904,
+     "pct_3y": 0.23568575233022637
+    },
+    "z20": {
+     "value": 0.5649499183998365,
+     "pct_3y": 0.6884154460719041
+    }
+   }
+  },
+  "IH/510050": {
+   "label": "sse50",
+   "fut": "IH",
+   "spot": "510050",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_date": "2026-10-19",
+   "ic": [
+    {
+     "feature": "basis",
+     "fwd_bars": 5,
+     "n": 1505,
+     "spearman": -0.10830874103620965
+    },
+    {
+     "feature": "basis",
+     "fwd_bars": 20,
+     "n": 1505,
+     "spearman": -0.10830874103620965
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 5,
+     "n": 1619,
+     "spearman": -0.022515964663551276
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 20,
+     "n": 1619,
+     "spearman": -0.022515964663551276
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 5,
+     "n": 1605,
+     "spearman": -0.06472086799580673
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 20,
+     "n": 1605,
+     "spearman": -0.06472086799580673
+    }
+   ],
+   "yearly_ic_chg5_fwd5": {
+    "2020": {
+     "n": 238,
+     "spearman": -0.016043428122798294
+    },
+    "2021": {
+     "n": 243,
+     "spearman": 0.09783965207624813
+    },
+    "2022": {
+     "n": 242,
+     "spearman": -0.003910601043758343
+    },
+    "2023": {
+     "n": 242,
+     "spearman": -0.30701372245443664
+    },
+    "2024": {
+     "n": 242,
+     "spearman": 0.06662502188256447
+    },
+    "2025": {
+     "n": 243,
+     "spearman": -0.04292971108669071
+    },
+    "2026": {
+     "n": 169,
+     "spearman": -0.11311719954253889
+    }
+   },
+   "deciles_z20_fwd5": [
+    {
+     "bin": 1,
+     "n": 321,
+     "mean_fwd": 0.004967114225931325,
+     "hit_rate": 0.48598130841121495
+    },
+    {
+     "bin": 2,
+     "n": 321,
+     "mean_fwd": -0.0008925079535758624,
+     "hit_rate": 0.470404984423676
+    },
+    {
+     "bin": 3,
+     "n": 321,
+     "mean_fwd": 0.00600917337175347,
+     "hit_rate": 0.5358255451713395
+    },
+    {
+     "bin": 4,
+     "n": 321,
+     "mean_fwd": -0.0007449267145301068,
+     "hit_rate": 0.43613707165109034
+    },
+    {
+     "bin": 5,
+     "n": 321,
+     "mean_fwd": -0.002949390364262185,
+     "hit_rate": 0.46105919003115264
+    }
+   ],
+   "current": {
+    "basis_norm": {
+     "value": -0.014486065686401872,
+     "pct_3y": 0.2010652463382157
+    },
+    "chg5": {
+     "value": 0.0006576730085656735,
+     "pct_3y": 0.6804260985352862
+    },
+    "z20": {
+     "value": 0.28066196183733544,
+     "pct_3y": 0.6644474034620506
+    }
+   }
+  },
+  "IC/510500": {
+   "label": "csi500",
+   "fut": "IC",
+   "spot": "510500",
+   "status": "ok",
+   "overlap_bars": 1644,
+   "first_date": "2020-01-02",
+   "last_date": "2026-10-19",
+   "ic": [
+    {
+     "feature": "basis",
+     "fwd_bars": 5,
+     "n": 1505,
+     "spearman": -0.04744354036409985
+    },
+    {
+     "feature": "basis",
+     "fwd_bars": 20,
+     "n": 1505,
+     "spearman": -0.04744354036409985
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 5,
+     "n": 1619,
+     "spearman": 0.06592853937820722
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 20,
+     "n": 1619,
+     "spearman": 0.06592853937820722
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 5,
+     "n": 1605,
+     "spearman": 0.039071459309175945
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 20,
+     "n": 1605,
+     "spearman": 0.039071459309175945
+    }
+   ],
+   "yearly_ic_chg5_fwd5": {
+    "2020": {
+     "n": 238,
+     "spearman": 0.010169397985347415
+    },
+    "2021": {
+     "n": 243,
+     "spearman": -0.02923589262387076
+    },
+    "2022": {
+     "n": 242,
+     "spearman": -0.005205244108802514
+    },
+    "2023": {
+     "n": 242,
+     "spearman": -0.1953949994940816
+    },
+    "2024": {
+     "n": 242,
+     "spearman": 0.04624137477744453
+    },
+    "2025": {
+     "n": 243,
+     "spearman": 0.044448458755463216
+    },
+    "2026": {
+     "n": 169,
+     "spearman": 0.22455869921933266
+    }
+   },
+   "deciles_z20_fwd5": [
+    {
+     "bin": 1,
+     "n": 321,
+     "mean_fwd": -0.0029542415910086503,
+     "hit_rate": 0.5109034267912772
+    },
+    {
+     "bin": 2,
+     "n": 321,
+     "mean_fwd": 0.00013392533471142916,
+     "hit_rate": 0.4766355140186916
+    },
+    {
+     "bin": 3,
+     "n": 321,
+     "mean_fwd": 0.010004221538253368,
+     "hit_rate": 0.5420560747663551
+    },
+    {
+     "bin": 4,
+     "n": 321,
+     "mean_fwd": 0.006931847670100551,
+     "hit_rate": 0.5607476635514018
+    },
+    {
+     "bin": 5,
+     "n": 321,
+     "mean_fwd": 0.009021889850230233,
+     "hit_rate": 0.5327102803738317
+    }
+   ],
+   "current": {
+    "basis_norm": {
+     "value": 0.006485759253129331,
+     "pct_3y": 0.8095872170439414
+    },
+    "chg5": {
+     "value": 0.003435298374777851,
+     "pct_3y": 0.7762982689747004
+    },
+    "z20": {
+     "value": 1.117910505238561,
+     "pct_3y": 0.748335552596538
+    }
+   }
+  },
+  "IM/512100": {
+   "label": "csi1000",
+   "fut": "IM",
+   "spot": "512100",
+   "status": "ok",
+   "overlap_bars": 1025,
+   "first_date": "2022-07-22",
+   "last_date": "2026-10-19",
+   "ic": [
+    {
+     "feature": "basis",
+     "fwd_bars": 5,
+     "n": 886,
+     "spearman": 0.10091915770388075
+    },
+    {
+     "feature": "basis",
+     "fwd_bars": 20,
+     "n": 886,
+     "spearman": 0.10091915770388075
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 5,
+     "n": 1000,
+     "spearman": 0.11454836523565541
+    },
+    {
+     "feature": "chg5",
+     "fwd_bars": 20,
+     "n": 1000,
+     "spearman": 0.11454836523565541
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 5,
+     "n": 986,
+     "spearman": 0.1259461855949697
+    },
+    {
+     "feature": "z20",
+     "fwd_bars": 20,
+     "n": 986,
+     "spearman": 0.1259461855949697
+    }
+   ],
+   "yearly_ic_chg5_fwd5": {
+    "2022": {
+     "n": 104,
+     "spearman": 0.18192681105302463
+    },
+    "2023": {
+     "n": 242,
+     "spearman": -0.1087716319851441
+    },
+    "2024": {
+     "n": 242,
+     "spearman": 0.015249100248471556
+    },
+    "2025": {
+     "n": 243,
+     "spearman": 0.08353446704167021
+    },
+    "2026": {
+     "n": 169,
+     "spearman": 0.19722539903535377
+    }
+   },
+   "deciles_z20_fwd5": [
+    {
+     "bin": 1,
+     "n": 198,
+     "mean_fwd": 0.020500731488775008,
+     "hit_rate": 0.40404040404040403
+    },
+    {
+     "bin": 2,
+     "n": 197,
+     "mean_fwd": 0.030864926140896812,
+     "hit_rate": 0.467005076142132
+    },
+    {
+     "bin": 3,
+     "n": 197,
+     "mean_fwd": 0.019478663412916333,
+     "hit_rate": 0.4467005076142132
+    },
+    {
+     "bin": 4,
+     "n": 197,
+     "mean_fwd": 0.005965488101060862,
+     "hit_rate": 0.5076142131979695
+    },
+    {
+     "bin": 5,
+     "n": 197,
+     "mean_fwd": 0.029798865797714798,
+     "hit_rate": 0.6345177664974619
+    }
+   ],
+   "current": {
+    "basis_norm": {
+     "value": -0.0028300507990337564,
+     "pct_3y": 0.6271637816245007
+    },
+    "chg5": {
+     "value": 0.003862108701508049,
+     "pct_3y": 0.7270306258322237
+    },
+    "z20": {
+     "value": 1.2000580377301016,
+     "pct_3y": 0.7709720372836218
+    }
+   }
+  }
+ },
+ "evidence_cutoff": "2026-10-19",
+ "cutoff_meta": {
+  "rule": "min over pairs of last common futures/ETF bar date",
+  "per_pair_last_dates": {
+   "IF/510300": "2026-10-19",
+   "IH/510050": "2026-10-19",
+   "IC/510500": "2026-10-19",
+   "IM/512100": "2026-10-19"
+  }
+ }
+}
