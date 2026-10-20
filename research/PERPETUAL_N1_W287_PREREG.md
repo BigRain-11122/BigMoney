@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1155 W287 §7 范式）
+- 账本恒等式：prev 1,053,541 + batch 2,200 = **1,055,741 EXACT**（science_gates.ledger 机读·prev == N1 链 W286 finalize 尾 1,053,541 字节级取用·零转录）；合并池 K：627,120 + 2,200 = **629,320 EXACT**。
+- merged mu = -0.09278516 / merged sigma = 0.24509732 / **se_mu@K629,320 = 0.000309**（持平）；W287-only mu = -0.09961141 / sigma = 0.24893525；A 档 full_sharpe p95 = 0.3126 / p99 = 0.4666。
+- K-lift 对照：line_pre_w287 = 1.1980 → line_merged@629,320 = 1.1980，delta = **+0.0000**（n_eff held 1,053,541）；canon flip = NOT performed by this wave（治理提案面 only·K2200 同例）。
+- 五预键机证：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0068263 / key1b merged-vs-W286 键 0.0000239 / key2 sigma rel 5.59e-05 / key3 A p95 delta -0.0071 / key4 K-lift +0.0000 / key5 se_mu 0.000309≤0.000309）——机证件 results/_r1156bmc_w287_fivekeys.json，锚=W286 finalize 实测（r587 律）。
+- 六门探针：PRE-FINALIZE **ALL PASS（第 50 连续正确相位）**（results/_r1156bmc_w287_sixgate.json：splice 面 CR-normalized 恒等 worktree==落盘 git blob @ 0b5adf2a6b；setwave 出生站闸 W287 块在场 / W286+W285 块缺席；bands A 646_701..648_700 / B 648_701..648_900；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2 base=646701 span=2000 / base=648701 span=200）。
+- audit 段：machine=bm-c / finalize_only / shards_consumed 12/12；preregistered_doc=research/PERPETUAL_N1_W287_PREREG.md；evidence_cutoff=2026-09-22（P-5C 同窗例·cutoff_meta 双写）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W288+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1155 W287 §8 范式）
+- §5.5 W288+ 投影承接机证：finalize 后 preregistered_doc 注册带（A 646_701..648_700 + B 648_701..648_900）与五面 splice 一致；机证件 _w287bmc_freeze_receipt.json 在册——W288 A naive 起 648_701 将被注册 W287 B 带拒（staircase-affects-A 第三十九次连续 A-hop 预期），B naive 648_901..649_100 落投影 A 窗内（own-A reservation cascade 承袭）；一切以 live re-derive 为准，禁转录投影（W288 冻结方强制重 derive 且 derive B 时预留本波 A 窗；W141 先例/E36 卡）。
+- 宝藏与方法论捕获问：本批零新方法论、零新宝藏（机制面=五面 splice + 引擎自燃 + finalize 全链复用既有）；TREASURE_REGISTRY 与 METHODOLOGY_ASSETS 均 +0 如实注记。
+- 诚实披露面：(1) W287 splice r1156 执行窗落于 0b5adf2a6b，finalize 产物 7ec7b20d23 上链；(2) 引擎 mtime-watch 自点火 12/12 全部落盘并经 ledger append 批次上链；(3) 预注册冻结件锚 W286 实测键，以起草窗活链头为准；(4) 净账本源单元 prev 1,053,541 == W286 finalize 尾（断链零）；(5) 本回填=熄火吸收窗补齐（原 fire 于 finalize 产物落地后、closeout 前被 silence-kill）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W287 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W286 own-wave finalize 已落地=席位时即解锁（n1_w286_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
