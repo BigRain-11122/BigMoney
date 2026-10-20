@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-21T02:26:16+08:00",
+ "clock_read": "2026-10-21T02:41:58+08:00",
  "current": "the broad ETF panel had no refresh leg; E29 now refreshes it append-only with per-code checkpoints and overlap guards",
- "current_task": "r1107: update_etf_universe.py built (selftest 4/4) + detached full pass running; E29 pool entry claimed in_progress",
+ "current_task": "r1108 E30 panel coverage reporter built; detached ETF universe pass still converging the broad panel",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -20,7 +20,7 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1107: E29 built and running -- the broad ETF panel finally has a refresh leg. New scripts/update_etf_universe.py (selftest 4/4 PASS, reuses update_etf_daily.py merge/validate/fetch primitives rather than re-implementing): universe discovered from disk by the e27 prefix rule = 1,676 canonical ETF symbols, 1,671 of them stale behind the expected complete bar 2026-10-20 -- exactly the coverage hole r1106 dated. Live slice: 4 codes refreshed, +56 rows, zero overlap mismatch, zero failures. Full pass spawned detached (pid 24784, results/logs/etf_universe_pass.log), per-code checkpoint in results/etf_universe_pull_status.json, 2.5s pacing, conn-fuse 3, 30min spawn throttle, append-only overlap-verified writes (a mismatched code is left untouched and counted, never silently re-anchored). Resumable: run/status/refresh subcommands, so a killed session loses at most the in-flight code. Pool E29-ETF-UNIVERSE-REFRESH claimed in_progress with progress block. S6: dualrun DRIFT envelope-only updated_at (entries 534 vs 534, observation data, streak reset), compute_audit CLEAN (supply_floor ready 3/floor 3), py_watermark py_low_with_work_cands (3 ready + the detached pass = lawful local batch), update_daily no new rows cutoff 2026-10-20, attrition CLEAN 4 ledgers 2 shrinks healed. Descriptive collection only: zero prereg, zero judgment, zero ledger booking, trial_count 0.",
  "did_round": 1107,
- "heartbeat_epoch_utc": 1792520776,
+ "heartbeat_epoch_utc": 1792521718,
  "heartbeat_epoch_utc_face": 1792511764,
  "idle_rounds": 0,
  "last_action": "r1107 closeout",
@@ -371,7 +371,7 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1107,
- "round_no": 1107,
+ "round_no": 1108,
  "round_no_label": "r1107",
  "sat_engine": {
   "checked_at": "2026-10-21T02:26:16+08:00",
@@ -881,7 +881,7 @@
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
  "task": "r1107 opened: E29 broad ETF refresh leg built and burning the 1,671-code stale panel",
- "ts": "2026-10-21T02:26:16+08:00",
+ "ts": "2026-10-21T02:41:58+08:00",
  "updated": "2026-10-21T02:26:16+08:00",
  "updated_at": "2026-10-21T02:26:16+08:00",
  "verdict": "product+maintenance"
