@@ -29,7 +29,7 @@
  "last_orders_sha": "b26a8f41ab4531b85b59d4107e5002c4c05274292ab952002b571d1db4f55cc0",
  "last_seen": "2026-10-20T19:36:30+08:00",
  "latest_artifact": "results/seasonal_horizon_stability/CENSUS-2026-10-19.json",
- "local_not_on_origin_commits": 4,
+ "local_not_on_origin_commits": 9,
  "machine_id": "bm-b",
  "next": "r1083: W22 seasonal prereg draft (pre-holiday multi-bar hold, explicit exit axis, D6) + supply floor refill",
  "next_milestone": "W22 seasonal prereg frozen + 3 ready pool units <=48h",
@@ -166,6 +166,13 @@
   "no_verify_reason": "pre-push claw diff-tree timed out on promisor lazy blobs (fail-closed); deletion set re-verified empty via git log --name-status",
   "note": "r1080 delivery: main push claw-blocked by promisor lazy-blob diff-tree 60s TimeoutExpired (fail-closed r1033/r1034 family); deletion set verified EMPTY by 'git log --name-status' on all three local commits (pure add/modify), so the --no-verify escape hatch was used on the FALLBACK branch only: machine/bm-b-r1080 = d5c30de7d (ls-remote verified). origin/main left untouched (still 4 behind = non-ff; rebase of the shared daily faces deferred to the next clean-network round per r1026 law).",
   "pushed_sha": "d5c30de7d10f2d2e4699a4e094fae949ebf6baa6",
+  "status": "FALLBACK_BRANCH_DELIVERED"
+ },
+ "r1082_main_push": {
+  "behind_origin_main": 13,
+  "branch": "machine/bm-b-r1082",
+  "note": "origin/main attempt issued after fallback delivery and left running on a legal live promisor catch-up (git index-pack on BigMoney, pack_header 78,441 objects) -- per poll-to-complete law it was not killed; if the window closes the estate is already preserved on machine/bm-b-r1082 (new branch, ls-remote implicit by push output). Main rebase (13 incoming bm-c/bm-a commits incl shared daily faces) deferred to the next clean-network round per r1026/r1081 law.",
+  "pushed_sha": "660e199246",
   "status": "FALLBACK_BRANCH_DELIVERED"
  },
  "ram_free_gb": 6.5,
