@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-20T23:21:49+08:00",
- "current": "equal-weight holds on the five-member ladder: no tilt clears cost (inverse-vol +27bp/yr t 0.54, momentum tilt -82bp/yr)",
- "current_task": "r1093: breadth-h20 top-bucket robustness decision next round",
+ "current": "breadth-h20 monthly gate is an honest negative: holding the ladder beats every entry rule",
+ "current_task": "r1094 closed: non-overlapping monthly cost-aware entry test + 3 h=1 census burns + h=60 refill",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,13 +18,13 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1093: weighting-scheme census (equal / inverse-vol / turnover-share / momentum tilt) on the five-member ladder: equal 5.74%/yr vs invvol 6.02% (+26.6bp, t 0.54, negative in 2024-now), liq 5.59% (t -0.04), momtilt 4.82% (-82.2bp, t -1.12); weighting is a wash -> no prereg. E24 census grid closed 15/15 cells (breadth h20 top quintile +245.2bp stride t 4.90 = strongest cell); supply refilled to 3 h1 cells",
- "did_round": 1093,
+ "did": "r1094: breadth-h20 question CLOSED as an honest negative -- monthly non-overlapping, cost-aware entry test on the five-member ladder (123 windows, 17 active, 13.8% exposure): gated net +437.9bp/yr (t 1.79) vs always-on +606.9bp/yr -> edge -168.9bp/yr, paired t -0.26; sensitivity q67 +121.8 (t 0.19) / q90 -586.9 / mid-month grid -438.9 -> only 1 of 3 cutoffs and 1 of 3 eras positive, all four pre-declared rule criteria fail. The +245.2bp stride-t 4.90 census cell was overlap inflation, not an edge. Burned the three h=1 census cells (dispersion/breadth/ladder, all stride-t <= 1.71 = not robust) and refilled the supply floor with three h=60 cells.",
+ "did_round": 1094,
  "heartbeat_epoch_utc_face": 1792509709,
  "idle_rounds": 0,
- "last_action": "r1093: weighting census + grid closure",
- "last_action_at": "2026-10-20T23:21:49+08:00",
- "last_artifact": "scripts/e24_ladder_weighting.py (selftest 11/11) + results/e24_ladder_weighting/WEIGHTING-20261020.json + 5 census faces + pool updates",
+ "last_action": "r1094: breadth-h20 monthly entry test (honest close) + h=1 census burns",
+ "last_action_at": "2026-10-20T23:36:06+08:00",
+ "last_artifact": "scripts/e24_breadth_h20_entry.py (selftest 18/18) + results/e24_breadth_h20_entry/ENTRY-20261020.json + 3 h1 census faces + pool (3 closed, 3 h60 seeded)",
  "last_decisions_at": "2026-10-20T19:32:57+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -42,14 +42,14 @@
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "0c55edd7f0 2026-10-20T23:22:50+08:00 origin/main",
- "last_round_at": "2026-10-20T23:21:49+08:00",
- "last_round_ts": "2026-10-20T23:21:49+08:00",
- "last_seen": "2026-10-20T23:21:49+08:00",
- "latest_artifact": "scripts/e24_ladder_weighting.py (selftest 11/11) + results/e24_ladder_weighting/WEIGHTING-20261020.json + 5 census faces + pool updates",
+ "last_round_at": "2026-10-20T23:36:06+08:00",
+ "last_round_ts": "2026-10-20T23:36:06+08:00",
+ "last_seen": "2026-10-20T23:36:06+08:00",
+ "latest_artifact": "results/e24_breadth_h20_entry/ENTRY-20261020.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "decide the breadth-h20 top-bucket question: non-overlapping monthly cost-aware entry test on the ladder -> frozen prereg draft or honest close; burn the three h1 census cells",
- "next_milestone": "breadth-h20 robustness verdict or prereg draft (<=48h)",
+ "next": "burn E24-DISPERSION-H60 / E24-BREADTH-H60 / E24-LADDER-H60 (closes the mode x horizon grid at the long end); then choose the next non-E24 family for the supply floor",
+ "next_milestone": "h=60 census burns + next-family supply decision (<=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -65,9 +65,10 @@
   "r1089_push": "r1089 push receipt: cdaee6193b..e08bbfff95 delivered on origin/main; fetch behind=0 ahead=0; HEAD==origin/main==e08bbfff95; loop task pin 2 re-registered idempotent (no-op).",
   "r1090": "r1090: E24 descriptive census (dispersion/breadth/ladder) over in-repo ETF panel; ladder momentum robust at stride-5 (h5 +67.8bp t2.68; h10 +111.6bp t2.64), breadth marginal (stride t1.90), dispersion not robust (t0.81). Supply floor refilled to 3 ready units that need no forward window. Audit flag single_core_hog pid 9584 left untouched (not a burn).",
   "r1092": "r1092: timing family closed. Added --signal {breadth,ladder,both} to e24_overlay_feasibility.py (selftest 13/13, 4 new hermetic checks: ladder/both causality + both-subset property). Results vs always-on ladder (787bp/yr gross): ladder gate q67 exp 30.8% edge -233.3bp/yr (t 0.27), q80 exp 18.2% edge -74.1 (t -0.26), q90 exp 9.3% edge -451.3 (t 0.70), both q80 exp 8.2% edge -252.6 (t 0.43). Cost drag falls with tighter gates (253->100bp/yr) but the lost beta dwarfs it: no threshold beats holding. Combined with r1091 breadth-gate (-266..-597bp/yr) the whole timing-overlay direction is answered NEGATIVE -- the ladder edge is a hold effect, not a timing effect. Registry refill = 3 new descriptive grid cells (dispersion-h20/breadth-h20/ladder-h2).",
-  "r1093": "r1093: e24_ladder_weighting.py is a NEW product face (equal/invvol/liq/momtilt, monthly close rebalance, causal weights, drift inside month, 13.041bp/side turnover cost, monthly relative t vs equal + era split). Two selftest fixtures were wrong first (zero-variance series -> None vol because stdev=0; monthly_relative originally compounded the cumulative ratio LEVEL instead of per-bar ratio returns -> 13,404bp/mo nonsense caught by eyeballing, fixed to per-bar ratio returns). Pool: 5 units flipped done with result_ref, E24 grid now 15/15, 3 h1 cells entered; lane face results/runnable_pool.bm-b.json synced by hand (merge_lane_views.sync_face returned no_sources for the pool face, dualrun still ZERO-DRIFT streak 38 at 483 entries)."
+  "r1093": "r1093: e24_ladder_weighting.py is a NEW product face (equal/invvol/liq/momtilt, monthly close rebalance, causal weights, drift inside month, 13.041bp/side turnover cost, monthly relative t vs equal + era split). Two selftest fixtures were wrong first (zero-variance series -> None vol because stdev=0; monthly_relative originally compounded the cumulative ratio LEVEL instead of per-bar ratio returns -> 13,404bp/mo nonsense caught by eyeballing, fixed to per-bar ratio returns). Pool: 5 units flipped done with result_ref, E24 grid now 15/15, 3 h1 cells entered; lane face results/runnable_pool.bm-b.json synced by hand (merge_lane_views.sync_face returned no_sources for the pool face, dualrun still ZERO-DRIFT streak 38 at 483 entries).",
+  "r1094": "r1094: e24_breadth_h20_entry.py is a NEW product face (monthly non-overlapping windows, T+1, 2x13.041bp per active window, expanding 0.80 cut, 250-day burn-in, 123 windows). Also fixed a near-miss: a json.dump round-trip over results/runnable_pool*.json (1.2MB, CRLF, keys NOT sorted) rewrote 19k lines; reverted and used a string-aware brace scanner for the 3 status flips (18+/6- lines)."
  },
- "now_active": "r1093 closed",
+ "now_active": "r1094 closed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -351,12 +352,12 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1093,
- "round_no": 1093,
- "round_no_label": "r1093",
+ "round": 1094,
+ "round_no": 1094,
+ "round_no_label": "r1094",
  "sat_engine": {
-  "checked_at": "2026-10-20T23:21:49+08:00",
-  "status": "alive (exit 0 at round start)"
+  "checked_at": "2026-10-20T23:36:06+08:00",
+  "status": "alive (exit 0 at round start; queue_depth 0)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
@@ -874,9 +875,9 @@
    "note": "ed21ea68c7..0c55edd7f0 clean ff; four-way verified (behind=0 ahead=0, HEAD==origin/main==0c55edd7f0, ls-tree confirms e24_ladder_weighting/WEIGHTING-20261020.json + scripts/e24_ladder_weighting.py on origin); payload = 26 own faces (new weighting census script + face + 5 census faces + pool shared/lane + closeout trio + docs REPORT/LIVE-2026-10-20 + bm-b evidence faces); targeted add only (drama lane 3 faces, machine-health, token_usage.json, unsuffixed astock/etf/minute_feed status faces left untouched per r982/r1015/r1033 policy)"
   }
  },
- "task": "r1093: ladder weighting-scheme census + E24 grid closure",
- "ts": "2026-10-20T23:21:49+08:00",
- "updated": "2026-10-20T23:21:49+08:00",
- "updated_at": "2026-10-20T23:21:49+08:00",
+ "task": "r1094: breadth-h20 monthly entry test (honest close) + h=1 census burns",
+ "ts": "2026-10-20T23:36:06+08:00",
+ "updated": "2026-10-20 23:36:06",
+ "updated_at": "2026-10-20T23:36:06+08:00",
  "verdict": "product+maintenance"
 }

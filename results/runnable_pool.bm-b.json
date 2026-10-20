@@ -18940,36 +18940,81 @@
   },
   {
    "id": "E24-DISPERSION-H1",
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done",
+   "lane_owner": "bm-b",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py dispersion --horizon 1",
    "shards": [],
    "entered_at": "2026-10-20 23:18:11",
    "entered_by": "bm-b r1093 (supply floor refill after closing the E24 15-cell grid)",
    "note": "r1093 bm-b supply-floor refill: h=1 dispersion cell (grid h=2..20 closed); zero forward-window dependency"
+  ,
+   "result_ref": "results/e24_regime_census/CENSUS-dispersion-h1-20261020.json",
+   "done_at": "2026-10-20 23:33:39",
+   "done_by": "bm-b"
   },
   {
    "id": "E24-BREADTH-H1",
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done",
+   "lane_owner": "bm-b",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py breadth --horizon 1",
    "shards": [],
    "entered_at": "2026-10-20 23:18:11",
    "entered_by": "bm-b r1093 (supply floor refill after closing the E24 15-cell grid)",
    "note": "r1093 bm-b supply-floor refill: h=1 breadth cell (grid h=2..20 closed); zero forward-window dependency"
+  ,
+   "result_ref": "results/e24_regime_census/CENSUS-breadth-h1-20261020.json",
+   "done_at": "2026-10-20 23:33:39",
+   "done_by": "bm-b"
   },
   {
    "id": "E24-LADDER-H1",
-   "status": "ready",
-   "lane_owner": null,
+   "status": "done",
+   "lane_owner": "bm-b",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py ladder --horizon 1",
    "shards": [],
    "entered_at": "2026-10-20 23:18:11",
    "entered_by": "bm-b r1093 (supply floor refill after closing the E24 15-cell grid)",
    "note": "r1093 bm-b supply-floor refill: h=1 ladder cell (grid h=2..20 closed); zero forward-window dependency"
+  ,
+   "result_ref": "results/e24_regime_census/CENSUS-ladder-h1-20261020.json",
+   "done_at": "2026-10-20 23:33:39",
+   "done_by": "bm-b"
+  },
+  {
+   "id": "E24-DISPERSION-H60",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py dispersion --horizon 60",
+   "shards": [],
+   "entered_at": "2026-10-20 23:40:00",
+   "entered_by": "bm-b r1094 (supply floor refill after closing the three h=1 cells)",
+   "note": "r1094 bm-b supply-floor refill: h=60 dispersion cell -- the only uncovered horizon of the E24 mode x horizon grid; zero forward-window dependency, descriptive only"
+  },
+  {
+   "id": "E24-BREADTH-H60",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py breadth --horizon 60",
+   "shards": [],
+   "entered_at": "2026-10-20 23:40:00",
+   "entered_by": "bm-b r1094 (supply floor refill after closing the three h=1 cells)",
+   "note": "r1094 bm-b supply-floor refill: h=60 breadth cell -- the only uncovered horizon of the E24 mode x horizon grid; zero forward-window dependency, descriptive only"
+  },
+  {
+   "id": "E24-LADDER-H60",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py ladder --horizon 60",
+   "shards": [],
+   "entered_at": "2026-10-20 23:40:00",
+   "entered_by": "bm-b r1094 (supply floor refill after closing the three h=1 cells)",
+   "note": "r1094 bm-b supply-floor refill: h=60 ladder cell -- the only uncovered horizon of the E24 mode x horizon grid; zero forward-window dependency, descriptive only"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

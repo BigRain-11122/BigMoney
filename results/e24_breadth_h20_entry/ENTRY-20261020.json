@@ -1,0 +1,115 @@
+{
+ "decision": {
+  "binding_failures": [
+   "edge -168.9 < 200.0 bp/yr",
+   "paired_t -0.26 < 2.0",
+   "positive eras 1 < 2",
+   "positive cutoffs 1 < 2"
+  ],
+  "positive_cutoffs": 1,
+  "positive_eras": 1,
+  "verdict": "HONEST_CLOSE_NEGATIVE"
+ },
+ "decision_rule": {
+  "cut_levels": [
+   0.67,
+   0.8,
+   0.9
+  ],
+  "edge_min_bp_per_year": 200.0,
+  "era_min": 2,
+  "paired_t_min": 2.0
+ },
+ "evidence_cutoff": "2026-10-20",
+ "face": "breadth20-top-quintile monthly entry on the five-member ladder",
+ "generated_at": "2026-10-20T23:30:59",
+ "horizon_bars": 20,
+ "labels": {
+  "cost": "2 * 13.041bp per active window; cash windows earn 0%",
+  "descriptive": true,
+  "execution": "T+1 (decision at close i, exposure i+1..i+20, non-overlapping windows)",
+  "multiplicity": "cell chosen post hoc from the 15-cell E24 grid; no correction applied",
+  "prereg": null,
+  "trial_count": 0,
+  "verdict": "none (feasibility face; admission needs a frozen prereg)"
+ },
+ "primary": {
+  "active_windows": 17,
+  "always_on_ladder": {
+   "mean_gross_bp_per_window": 50.78,
+   "mean_net_bp_per_window": 50.57,
+   "net_bp_per_year": 606.9,
+   "t_gross": 0.85
+  },
+  "edge_vs_always_on_bp_per_year": -168.9,
+  "era": {
+   "2017-2020": {
+    "active_windows": 6,
+    "edge_vs_always_bp_per_yr": 226.0,
+    "net_bp_per_window": 69.4,
+    "windows": 36
+   },
+   "2021-2023": {
+    "active_windows": 3,
+    "edge_vs_always_bp_per_yr": -381.7,
+    "net_bp_per_window": 18.8,
+    "windows": 27
+   },
+   "2024-now": {
+    "active_windows": 5,
+    "edge_vs_always_bp_per_yr": -391.1,
+    "net_bp_per_window": 18.0,
+    "windows": 25
+   },
+   "pre2017": {
+    "active_windows": 3,
+    "edge_vs_always_bp_per_yr": -252.3,
+    "net_bp_per_window": 29.5,
+    "windows": 35
+   }
+  },
+  "exposure_share": 0.1382,
+  "gated": {
+   "cost_bp_per_year": 43.3,
+   "cost_bp_total": 443.4,
+   "mean_gross_bp_active": 290.1,
+   "mean_net_bp_per_window": 36.49,
+   "net_bp_per_year": 437.9,
+   "t_net": 1.79
+  },
+  "paired_t": -0.26,
+  "windows": 123,
+  "years": 10.25
+ },
+ "sensitivity": {
+  "offset10": {
+   "active_windows": 17,
+   "edge_vs_always_on_bp_per_year": -438.9,
+   "exposure_share": 0.1393,
+   "paired_t": -0.66,
+   "windows": 122
+  },
+  "q67": {
+   "active_windows": 30,
+   "edge_vs_always_on_bp_per_year": 121.8,
+   "exposure_share": 0.2439,
+   "paired_t": 0.19,
+   "windows": 123
+  },
+  "q80": {
+   "active_windows": 17,
+   "edge_vs_always_on_bp_per_year": -168.9,
+   "exposure_share": 0.1382,
+   "paired_t": -0.26,
+   "windows": 123
+  },
+  "q90": {
+   "active_windows": 3,
+   "edge_vs_always_on_bp_per_year": -586.9,
+   "exposure_share": 0.0244,
+   "paired_t": -0.83,
+   "windows": 123
+  }
+ },
+ "window_start": "2012-05-28"
+}
