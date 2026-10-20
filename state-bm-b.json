@@ -672,9 +672,10 @@
   },
   "r1097_main_push": {
    "behind_origin_main": 0,
-   "note": "payload = cash-leg extension (scripts/e24_ladder_weighting.py) + 3 new E25 faces + pool shared/lane (3 closed, 3 seeded) + closeout trio + bm-b evidence faces (orphan/attrition/dualrun/compute_audit.bm-b); targeted add only (drama lane, machine-health, post_review, unsuffixed compute_audit.json left untouched per r982/r1015/r1033 policy); intermediate 5-scheme face TREND-a0653f dropped next commit (superseded semantics: cash accrual gated on the c suffix before the uniform-cash fix)",
+   "note": "payload = cash-leg extension (scripts/e24_ladder_weighting.py) + 3 new E25 faces + pool shared/lane (3 closed, 3 seeded) + closeout trio + bm-b evidence faces (orphan/attrition/dualrun/compute_audit.bm-b); targeted add only (drama lane, machine-health, post_review, unsuffixed compute_audit.json left untouched per r982/r1015/r1033 policy); intermediate 5-scheme face TREND-a0653f KEPT (superseded semantics: cash accrual was gated on the c suffix there; attempt to delete it tripped the ownership claw with no owner evidence, so it stays as an honest intermediate face)",
+   "postscript_sha": "d0a2ec20b7",
    "pushed_sha": "e629ca9d73",
-   "status": "PUSHED_VERIFIED (9f748caa57..e629ca9d73, fetch behind=0 ahead=0, HEAD==origin/main, ls-tree confirms results/e25_cash_leg/TREND-e45205 + TREND-6af765-x3)",
+   "status": "PUSHED_VERIFIED (e629ca9d73 + postscript d0a2ec20b7; fetch behind=0 ahead=0, HEAD==origin/main; TREND-a0653f restored)",
    "ts": "2026-10-21T00:24:00+08:00"
   },
   "r960_main_push": {
