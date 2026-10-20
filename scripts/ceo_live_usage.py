@@ -53,6 +53,17 @@ v1.5 (r642 bm-b, in-flight judgment-batch visibility slice -- CEO anchor
   finalize hard gate (have == 2000) is the frozen prereg face, not a new
   line.  Disclaimers renumbered to section 6.
 
+v1.6 (r1065 bm-b, recommendation-face surfacing -- CEO anchor "product
+  first / the one-pager should carry the answer"): section 3 gains a
+  "配置参考" subsection that consumes the landed PORTFOLIO-RECOMMENDATION
+  face (docs/portfolio_recommendation/REC-latest.json, r1064).  Readout
+  only: recommendation sentence + basis + current stage + live sleeve
+  holdings (count / EW weight / entry date / turnover) + full-page pointer
+  and sha16.  ZERO new judgment, zero new hypothesis, zero ledger; the
+  source face is itself a zero-judged-claims aggregation, and its
+  insufficient-sample verdicts travel verbatim.  Missing face = honest
+  absent disclosure (page still renders, exit 0 unchanged).
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -100,6 +111,10 @@ FUND_NULLS_FACES = (
     ("FUND-DIVLOWVOL-P1", os.path.join(ROOT, "results",
                                        "fund_divlowvol_p1", "nulls.jsonl")),
 )
+# v1.6: landed portfolio-recommendation face (pure readout, zero judgment)
+REC_JSON = os.path.join(ROOT, "docs", "portfolio_recommendation",
+                        "REC-latest.json")
+REC_REL = "docs/portfolio_recommendation/REC-latest.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -342,6 +357,44 @@ def _judgment_burn_face() -> dict:
     }
 
 
+def _recommendation_face() -> dict:
+    """v1.6: pure projection of the landed portfolio-recommendation face.
+    Read-only; a missing/unreadable face degrades to an honest absent row
+    (the one-pager must never fail because a research face is absent)."""
+    try:
+        rec = _read_json(REC_JSON)
+    except (OSError, ValueError) as exc:
+        return {"present": False, "path": REC_REL,
+                "note": f"研究面未生成（{type(exc).__name__}）= 诚实缺省，"
+                        "本页其余各节不受影响"}
+    dec = rec.get("decision") or {}
+    live = rec.get("live_holdings") or {}
+    stage = rec.get("stage_view") or {}
+    best_combo = dec.get("best_combo") or {}
+    best_unc = dec.get("best_unconditional") or {}
+    return {
+        "present": True,
+        "path": REC_REL,
+        "as_of": rec.get("as_of"),
+        "status": rec.get("status"),
+        "recommendation": dec.get("recommendation"),
+        "basis": dec.get("basis"),
+        "current_stage": stage.get("current_stage"),
+        "best_combo": best_combo.get("cell"),
+        "best_combo_sharpe": best_combo.get("sharpe_x1"),
+        "best_unconditional": best_unc.get("face"),
+        "best_unconditional_sharpe": best_unc.get("sharpe_x1"),
+        "margin_sharpe": dec.get("margin_sharpe"),
+        "p4_pass": dec.get("p4_pass"),
+        "n_holdings": live.get("n_holdings"),
+        "entry_date": live.get("entry_date"),
+        "weight": live.get("weight"),
+        "turnover": live.get("one_way_turnover"),
+        "codes": live.get("codes") or [],
+        "sha16": rec.get("sha16"),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -389,7 +442,7 @@ def build_payload(day: str) -> dict:
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_5",
+        "schema": "ceo_live_usage_v1_6",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -427,6 +480,7 @@ def build_payload(day: str) -> dict:
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
         "intraday": _intraday_face(held, day),
+        "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -540,6 +594,32 @@ def render_md(p: dict) -> str:
                      f"{r['status']}·bar {r['latest_bar']}"
                      f"·lag {r['age_min']}min）")
     L.append("")
+    rec = p["recommendation"]
+    L.append("### 配置参考（研究面·v1.6 接线·零新判据）")
+    if not rec["present"]:
+        L.append(f"- {rec['note']}（指针 {rec['path']}）")
+    else:
+        L.append(f"- **结论**（as_of {rec['as_of']}·"
+                 f"{rec['status']}）：{rec['recommendation']}")
+        L.append(f"  - 依据：{rec['basis']}")
+        if rec.get("best_combo_sharpe") is not None:
+            L.append(f"  - 读数：最优阶段组合 {rec['best_combo']} Sharpe "
+                     f"{rec['best_combo_sharpe']:.4f} vs 无条件 "
+                     f"{rec['best_unconditional']} "
+                     f"{rec['best_unconditional_sharpe']:.4f}"
+                     f"（差 {rec['margin_sharpe']:+.4f}·P4 过线="
+                     f"{'是' if rec['p4_pass'] else '否（诚实判负）'}）")
+        L.append(f"  - 当前阶段：{rec['current_stage']}（阶段表=描述性读数，"
+                 "不含判决线）")
+        L.append(f"  - 在册持仓：{rec['n_holdings']} 员等权 "
+                 f"{rec['weight']:.0%}·入场 {rec['entry_date']}·单边换手 "
+                 f"{rec['turnover']:.2f}")
+        if rec["codes"]:
+            L.append(f"  - 名单：{' '.join(rec['codes'])}")
+        L.append(f"  - 全页指针：`{rec['path']}`（sha16 "
+                 f"{rec['sha16']}）——三族 P1 判决 verdict 均 "
+                 "insufficient-sample，如实随源携带")
+    L.append("")
     L.append("## ④ 决策链版本横幅")
     L.append("")
     for v in p["chain_versions"]:
@@ -637,7 +717,27 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.5", p1["schema"] == "ceo_live_usage_v1_5")
+    check("schema v1.6", p1["schema"] == "ceo_live_usage_v1_6")
+    rc = p1["recommendation"]
+    check("recommendation face wired (v1.6)",
+          rc["path"].endswith("REC-latest.json")
+          and (not rc["present"]
+               or (bool(rc["recommendation"]) and bool(rc["basis"])
+                   and isinstance(rc["n_holdings"], int)
+                   and rc["n_holdings"] == len(rc["codes"])
+                   and isinstance(rc["sha16"], str)
+                   and len(rc["sha16"]) == 16)))
+    deg = json.loads(json.dumps(p1))
+    deg["recommendation"] = {"present": False, "path": REC_REL,
+                             "note": "研究面未生成=诚实缺省"}
+    try:
+        deg_md = render_md(deg)
+        check("recommendation absent-face degrades honestly (no raise)",
+              "诚实缺省" in deg_md and "④ 决策链版本横幅" in deg_md)
+    except Exception as exc:                                 # noqa: BLE001
+        print(f"  degrade render raised: {exc}")
+        check("recommendation absent-face degrades honestly (no raise)",
+              False)
     jb = p1["judgment_burns"]
     check("judgment-burn face present (v1.5)",
           jb["feed"].startswith("results/fund_*_p1/nulls.jsonl")
@@ -736,6 +836,11 @@ def selftest() -> int:
                or "满热档未触发" in md1))
     check("intraday block rendered in md (v1.4)",
           "盘中档（T-104 分钟源·v1.4）" in md1)
+    check("recommendation block rendered in md (v1.6)",
+          "配置参考（研究面·v1.6 接线·零新判据）" in md1
+          and (not rc["present"]
+               or (rc["recommendation"][:12] in md1
+                   and "全页指针" in md1)))
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

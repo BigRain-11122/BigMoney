@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-20
 
-> 自动生成 2026-10-20T07:30:00 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-10-20T08:55:08 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
@@ -74,6 +74,15 @@
   - 513100：上一场收盘 2.304（上一场收盘档（今日 09:15 起随源点亮））
   - 513500：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 513520：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
+
+### 配置参考（研究面·v1.6 接线·零新判据）
+- **结论**（as_of 2026-10-19·RESEARCH_READOUT_ZERO_JUDGED_CLAIMS）：unconditional DIVLOWVOL-YIELDVOL sleeve (Top-20 by yield_ttm, low-vol half, EW, monthly)
+  - 依据：stage-conditioned selection was judged UNSUPPORTED; the unconditional sleeve dominates every combo cell
+  - 读数：最优阶段组合 C1 Sharpe 1.0830 vs 无条件 U-divlowvol 1.2085（差 -0.1256·P4 过线=否（诚实判负））
+  - 当前阶段：SUPPORT（阶段表=描述性读数，不含判决线）
+  - 在册持仓：20 员等权 5%·入场 2026-10-08·单边换手 0.35
+  - 名单：000915 002027 002170 002233 002441 002572 002749 002763 002867 300406 300770 300994 600329 600742 600750 600866 601717 603165 603551 603569
+  - 全页指针：`docs/portfolio_recommendation/REC-latest.json`（sha16 04f8fce9856cb2e1）——三族 P1 判决 verdict 均 insufficient-sample，如实随源携带
 
 ## ④ 决策链版本横幅
 

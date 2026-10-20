@@ -1,8 +1,8 @@
 {
- "schema": "ceo_live_usage_v1_5",
+ "schema": "ceo_live_usage_v1_6",
  "ticket": "T-202609-28-105",
  "day": "2026-10-20",
- "generated": "2026-10-20T07:30:00",
+ "generated": "2026-10-20T08:55:08",
  "market": {
   "state": "ORANGE",
   "asof": "2026-10-19",
@@ -333,6 +333,48 @@
    }
   ]
  },
+ "recommendation": {
+  "present": true,
+  "path": "docs/portfolio_recommendation/REC-latest.json",
+  "as_of": "2026-10-19",
+  "status": "RESEARCH_READOUT_ZERO_JUDGED_CLAIMS",
+  "recommendation": "unconditional DIVLOWVOL-YIELDVOL sleeve (Top-20 by yield_ttm, low-vol half, EW, monthly)",
+  "basis": "stage-conditioned selection was judged UNSUPPORTED; the unconditional sleeve dominates every combo cell",
+  "current_stage": "SUPPORT",
+  "best_combo": "C1",
+  "best_combo_sharpe": 1.082985,
+  "best_unconditional": "U-divlowvol",
+  "best_unconditional_sharpe": 1.208542,
+  "margin_sharpe": -0.125557,
+  "p4_pass": false,
+  "n_holdings": 20,
+  "entry_date": "2026-10-08",
+  "weight": 0.05,
+  "turnover": 0.35,
+  "codes": [
+   "000915",
+   "002027",
+   "002170",
+   "002233",
+   "002441",
+   "002572",
+   "002749",
+   "002763",
+   "002867",
+   "300406",
+   "300770",
+   "300994",
+   "600329",
+   "600742",
+   "600750",
+   "600866",
+   "601717",
+   "603165",
+   "603551",
+   "603569"
+  ],
+  "sha16": "04f8fce9856cb2e1"
+ },
  "judgment_burns": {
   "feed": "results/fund_*_p1/nulls.jsonl append-only counters",
   "target": 2000,
@@ -344,7 +386,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 18608.2
+    "last_append_age_min": 4306.4
    },
    {
     "family": "FUND-VALUE-P1",
@@ -352,7 +394,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 19452.7
+    "last_append_age_min": 4306.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -360,7 +402,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 16246.0
+    "last_append_age_min": 4306.4
    }
   ]
  },
