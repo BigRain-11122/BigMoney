@@ -50,6 +50,7 @@
  "last_round_ts": "2026-10-20T08:56:31",
  "last_seen": "2026-10-20T08:56:31",
  "latest_artifact": "docs/live_usage/LIVE-2026-10-20.md",
+ "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
  "next": "r1066: (1) 15:30+ bar landing -> papers chain + LIVE/T-105 refresh on new bar; (2) supply-floor next candidate (E21 judged-node or new census) <=48h; (3) keep one-pager recommendation block in sync as new REC faces land",
  "next_milestone": "supply-floor next candidate frozen <=48h; one-pager recommendation block consumed daily",
@@ -299,6 +300,13 @@
   "pushed_sha": "00a94da34b",
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-20T08:01:58+08:00"
+ },
+ "r1065_main_push": {
+  "behind_origin_main": 0,
+  "consumed_at": "2026-10-20T09:01:28+08:00",
+  "note": "first push claw-blocked by promisor lazy-blob diff-tree timeout (fail-closed, r1033/r1034 family); origin 6 ahead (bm-c r1151/r1152) -> tree-surgery replay of 17 own faces onto dac82e5228; delivered dac82e5228..feaf7b81ce; local main realigned by reset --mixed, worktree untouched; aa0237b601 duplicate twin dropped (r1064 content already at origin 16cf117e07)",
+  "pushed_sha": "feaf7b81cead8c6d57d59fa305604b44188f1ef3",
+  "status": "PUSHED_VERIFIED"
  },
  "r1065_note": "tree dirty at S0 entry (drama lane + other-machine heartbeats + fund P2 research deletions owned by other lanes) -> targeted add only per r1058/r982 policy; D-19 dual probe consumed dec=715e4134 ord=9da3cb04 advanced via update --advance, read-back full-string equality OK; zero bm-b dispatch rows in the new group batch",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
