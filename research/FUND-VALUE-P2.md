@@ -1,4 +1,6 @@
-# FUND-VALUE-P2 预注册【DRAFT-NOT-FROZEN·r1087 开批票】· 价值族复活批（定义邻域扫描＋参数邻域＋出场轴）
+# FUND-VALUE-P2 预注册【FROZEN 2026-10-20 r1089 bm-a】· 价值族复活批（定义邻域扫描＋参数邻域＋出场轴）
+
+> **r1089 bm-a 冻结注记**：runner 落地并实弹验证 —— `scripts/fund_vq_p2_common.py`（共享核心：格表读自 PLAN.json·成本 face·出场参数族·引擎环·metrics/finalize 封套）＋ `scripts/fund_value_p2_backtest.py`（selftest 18/18），姊妹件 `scripts/fund_quality_p2_backtest.py`（selftest 20/20）。真数据干跑两腿全 rc0：MAIN-x1 383 信号月／t0 1994-05-03、DEF-pe_x_pb_rank-x1 同锚。本件自此 **FROZEN**：§2/§3/§5 全部数字冻结，此后只准 §7/§8 回填。
 
 > **r1088 bm-a 进展注记**：judged-cell 计划已机械化落地 —— `scripts/fund_vq_p2_plan.py`（selftest 14/14）→ `results/fund_value_p2/PLAN.json`（20 格·N_eff 2,020·种子 20515000/20515500 登记校验通过·双通道缺省栈禁用 4+2 键申报）＋闸回执 `results/_value_plan_gate.json` verdict=GREEN。余项=burn runner `scripts/fund_value_p2_backtest.py` 引擎接线（承 P1 runner import 复用）→ 冻结 commit → 入池起烧（bm-a 工作日白天零排单）。
 
