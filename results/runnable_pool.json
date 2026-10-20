@@ -18528,6 +18528,62 @@
    "done_at": "2026-10-20T05:24:09+08:00",
    "result_ref": "results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json",
    "result_note": "full readout C1/C2/C3 x1+x2 over 2013-04-01..2026-10-19 (3,290 bars); C1 1.083 / C2 0.942 / C3 0.977 vs unconditional divlowvol 1.209 -> P4 combo claim NOT supported; CEO matrix face docs/stagestyle/REPORT-STAGESTYLE-v1.md"
+  },
+{
+   "consumer_plan": "20 judged cells -> finalize -> results/fund_value_p2/fund_value_p2_results.json; headline MAIN-x1; null family K=2000 is a separate batch, not part of this unit",
+   "data_gates": "in-runner fail-closed: p1c price panel cache present + prereg FROZEN + freeze probe GREEN + plan 20 cells; panel unavailable = exit 2 with zero partial writes; evidence_cutoff=2026-09-22",
+   "id": "FUND-VALUE-P2-CELLS",
+   "lane_owner": null,
+   "prereg_ref": "research/FUND-VALUE-P2.md (FROZEN 2026-10-20 bm-a r1089)",
+   "priority": 1,
+   "runner": "scripts/fund_value_p2_backtest.py",
+   "runner_args": [
+    "run-cells"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/fund_value_p2/cells/<cell>.json (20 per-cell checkpoints, single-writer, machine-local, gitignored)",
+     "key": "cells-all",
+     "owner": null,
+     "owner_since": null,
+     "status": "open"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "FUND-VALUE-P2 prereg freeze (2026-10-20 bm-a r1089) + O-20261019-2230-bm-b sec.2 supply floor",
+   "workers_plan": {
+    "note": "one unit = one process; per-cell JSON is the resume checkpoint (killed run restarts where it stopped); bm-a workday daytime zero scheduling (machine iron law) -> night/weekend window",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+{
+   "consumer_plan": "20 judged cells -> finalize -> results/fund_quality_p2/fund_quality_p2_results.json; headline MAIN-x1; null family K=2000 is a separate batch, not part of this unit",
+   "data_gates": "in-runner fail-closed: p1c price panel cache present + prereg FROZEN + freeze probe GREEN + plan 20 cells; panel unavailable = exit 2 with zero partial writes; evidence_cutoff=2026-09-22",
+   "id": "FUND-QUALITY-P2-CELLS",
+   "lane_owner": null,
+   "prereg_ref": "research/FUND-QUALITY-P2.md (FROZEN 2026-10-20 bm-a r1089)",
+   "priority": 1,
+   "runner": "scripts/fund_quality_p2_backtest.py",
+   "runner_args": [
+    "run-cells"
+   ],
+   "shards": [
+    {
+     "checkpoint": "results/fund_quality_p2/cells/<cell>.json (20 per-cell checkpoints, single-writer, machine-local, gitignored)",
+     "key": "cells-all",
+     "owner": null,
+     "owner_since": null,
+     "status": "open"
+    }
+   ],
+   "status": "ready",
+   "ticket_ref": "FUND-QUALITY-P2 prereg freeze (2026-10-20 bm-a r1089) + O-20261019-2230-bm-b sec.2 supply floor",
+   "workers_plan": {
+    "note": "one unit = one process; per-cell JSON is the resume checkpoint (killed run restarts where it stopped); bm-a workday daytime zero scheduling (machine iron law) -> night/weekend window",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
