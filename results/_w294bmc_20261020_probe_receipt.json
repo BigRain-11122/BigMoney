@@ -1,0 +1,173 @@
+{
+ "probe": "W294 pre-seat probe (bm-c loop r1175 window, 2026-10-20 ~21:3x, queue-head supply lane: upstream W293 = bm-c OWN WAVE complete chain (finalize ledger 1,068,941 / K=642,520 landed r1174); NO in-flight seat upstream -- W294 FREEZE UNBLOCKED at seat time; seat-first law O-20261010-2350 sec.2 + never-dry O-1819 + CEO fill-order standing; universe = post-W293-REGISTERED 283 owner rows)",
+ "legs": {
+  "leg0": {
+   "rows": 283,
+   "tail": "W293-registered+FINALIZED (bm-c own-wave complete r1174 chain)",
+   "wprev_bands": {
+    "A": [
+     659901,
+     661900
+    ],
+    "B": [
+     661901,
+     662100
+    ]
+   },
+   "wprev_minus1_bands": {
+    "A": [
+     657701,
+     659700
+    ],
+    "B": [
+     659701,
+     659900
+    ]
+   },
+   "wprev_finalize_landed": true,
+   "wprev_finalize_anchors": {
+    "ledger_total": 1068941,
+    "merged_n": 642520,
+    "skill_line_delta_k_lift": null
+   },
+   "inflight_upstream": false,
+   "waits_upstream": "NONE (W293 complete: registered+FINALIZED r1174 chain; the W294 FREEZE is UNBLOCKED at seat time -- prereg derive = next-window FIRST ACTION on the post-W293 universe)",
+   "owner_rows": 283,
+   "bmc_rows": 112,
+   "bma_rows": 130,
+   "bmb_rows": 41,
+   "ordinal": 284
+  },
+  "leg1": {
+   "ARITH_A": [
+    661901,
+    663900
+   ],
+   "ARITH_B": [
+    662101,
+    662300
+   ],
+   "A": [
+    662101,
+    664100
+   ],
+   "hops_A": 1,
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      661901,
+      663900
+     ],
+     "jump_to": 662101,
+     "refuser_bands": [
+      [
+       661901,
+       662100
+      ]
+     ],
+     "refuser_pts_sample": [
+      661901
+     ]
+    }
+   ],
+   "B": [
+    664101,
+    664300
+   ],
+   "hops_B": 1,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      662101,
+      662300
+     ],
+     "jump_to": 664101,
+     "refuser_bands": [
+      [
+       662101,
+       664100
+      ]
+     ],
+     "refuser_pts_sample": [],
+     "kind": "own-A reservation cascade"
+    }
+   ],
+   "B_naive": [
+    662101,
+    662300
+   ],
+   "B_naive_refused_at_start": true,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation from the REGISTERED W293 A tail 661900+1 = 661901..663900 is REFUSED at naive start (the REGISTERED W293 B band 661901..662100 sits INSIDE the naive A window: staircase-affects-A next consecutive A-hop); the walk hops past the W293 B tail 662100 -> A first-clean 662101..664100 (hops=1); forward-monotone non-rotational r587",
+   "B_semantics": "B walk from the REGISTERED W293 B tail 662100+1 = 662101 is CLEAN at naive start vs the registered universe but the naive window 662101..662300 lands INSIDE the own-wave W294 A first-clean window 662101..664100 (own-A reservation cascade) -- B hops past the own-wave A tail 664100 -> first-clean 664101..664300 (base==own-A tail+1); live trace verbatim",
+   "relation_asserts": {
+    "A_staircase_hop_past_registered_prior_B": true,
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_naive_clean_vs_registered": true,
+    "B_hop_lands_inside_A": true,
+    "B_lands_above_own_A": true,
+    "AB_mutual_exclusion": true,
+    "B_base_eq_own_A_tail_plus1": true
+   }
+  },
+  "leg2": {
+   "AB_mutual_exclusion": true,
+   "A": [
+    662101,
+    664100
+   ],
+   "B": [
+    664101,
+    664300
+   ],
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=662101 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=664101 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "both bands FREE per seed_admit_gate (O-20261010-1945-bm-a ADMIT convention); zero overlap"
+  },
+  "leg3": {
+   "universe": "post-W293-REGISTERED",
+   "owner_rows": 283,
+   "bands_clear": true,
+   "note": "live registered universe scanned point-wise; both landing windows carry zero refusers"
+  },
+  "leg4": {
+   "W295p_A_naive": "664_101..666_100",
+   "W295p_A_first_clean": "664_101..666_100",
+   "hops_A": 0,
+   "W295p_B_naive": "664_301..664_500",
+   "W295p_B_first_clean": "664_301..664_500",
+   "hops_B": 0,
+   "W295p_B_lands_inside_W295p_A_naive": true,
+   "note": "W295+ projection on the pre-W295 universe (assuming the W294 seat bands declared here register verbatim). ONCE W294 REGISTERS, the naive W295 A start is REFUSED by the registered W294 B band (staircase-affects-A next consecutive A-hop expected) AND the W295 B naive start lands inside the own-A reservation face; the W295 freezer MUST re-derive on the post-W294 universe AND reserve the own-wave A window when deriving B -- never transcribe r587.",
+   "candidate_bands": {
+    "A": [
+     662101,
+     664100
+    ],
+    "B": [
+     664101,
+     664300
+    ]
+   }
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   662101,
+   664100
+  ],
+  "B": [
+   664101,
+   664300
+  ],
+  "a_lo": 662101,
+  "a_hi": 664100,
+  "b_lo": 664101,
+  "b_hi": 664300
+ }
+}
