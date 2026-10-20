@@ -1,0 +1,381 @@
+{
+ "study": "e46_live_span_split",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 0.0,
+  "cost_bp_per_side": 13.041,
+  "parts": 3,
+  "curve": "one warm pair on the full calendar, sliced per era then split",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "universe_members": 1265
+ },
+ "eras": {
+  "pre2017": {
+   "from": "2012-05-29",
+   "to": "2016-12-30",
+   "bars": 1120,
+   "era_spread_bp": 239.0,
+   "parts": [
+    {
+     "part": 1,
+     "from": "2012-05-29",
+     "to": "2013-12-11",
+     "bars": 373,
+     "ladder": {
+      "from": "2012-05-29",
+      "to": "2013-12-11",
+      "bars": 373,
+      "ann_return_pct": 7.35,
+      "max_drawdown_pct": -10.16
+     },
+     "wide": {
+      "from": "2012-05-29",
+      "to": "2013-12-11",
+      "bars": 373,
+      "ann_return_pct": 9.34,
+      "max_drawdown_pct": -7.65
+     },
+     "spread_bp": 199.0
+    },
+    {
+     "part": 2,
+     "from": "2013-12-12",
+     "to": "2015-06-23",
+     "bars": 373,
+     "ladder": {
+      "from": "2013-12-12",
+      "to": "2015-06-23",
+      "bars": 373,
+      "ann_return_pct": 55.49,
+      "max_drawdown_pct": -14.71
+     },
+     "wide": {
+      "from": "2013-12-12",
+      "to": "2015-06-23",
+      "bars": 373,
+      "ann_return_pct": 55.26,
+      "max_drawdown_pct": -10.51
+     },
+     "spread_bp": -23.0
+    },
+    {
+     "part": 3,
+     "from": "2015-06-24",
+     "to": "2016-12-30",
+     "bars": 374,
+     "ladder": {
+      "from": "2015-06-24",
+      "to": "2016-12-30",
+      "bars": 374,
+      "ann_return_pct": -20.12,
+      "max_drawdown_pct": -39.05
+     },
+     "wide": {
+      "from": "2015-06-24",
+      "to": "2016-12-30",
+      "bars": 374,
+      "ann_return_pct": -16.32,
+      "max_drawdown_pct": -35.53
+     },
+     "spread_bp": 380.0
+    }
+   ],
+   "part_spreads_bp": [
+    199.0,
+    -23.0,
+    380.0
+   ],
+   "sign_flips_inside_era": true,
+   "widest_part": 3,
+   "part_band_bp": 403.0
+  },
+  "2017_2020": {
+   "from": "2017-01-03",
+   "to": "2020-12-31",
+   "bars": 974,
+   "era_spread_bp": 423.0,
+   "parts": [
+    {
+     "part": 1,
+     "from": "2017-01-03",
+     "to": "2018-05-04",
+     "bars": 324,
+     "ladder": {
+      "from": "2017-01-03",
+      "to": "2018-05-04",
+      "bars": 324,
+      "ann_return_pct": 4.93,
+      "max_drawdown_pct": -13.11
+     },
+     "wide": {
+      "from": "2017-01-03",
+      "to": "2018-05-04",
+      "bars": 324,
+      "ann_return_pct": 6.99,
+      "max_drawdown_pct": -11.67
+     },
+     "spread_bp": 206.0
+    },
+    {
+     "part": 2,
+     "from": "2018-05-07",
+     "to": "2019-08-28",
+     "bars": 324,
+     "ladder": {
+      "from": "2018-05-07",
+      "to": "2019-08-28",
+      "bars": 324,
+      "ann_return_pct": -4.22,
+      "max_drawdown_pct": -26.42
+     },
+     "wide": {
+      "from": "2018-05-07",
+      "to": "2019-08-28",
+      "bars": 324,
+      "ann_return_pct": 1.08,
+      "max_drawdown_pct": -21.39
+     },
+     "spread_bp": 530.0
+    },
+    {
+     "part": 3,
+     "from": "2019-08-29",
+     "to": "2020-12-31",
+     "bars": 326,
+     "ladder": {
+      "from": "2019-08-29",
+      "to": "2020-12-31",
+      "bars": 326,
+      "ann_return_pct": 25.49,
+      "max_drawdown_pct": -14.67
+     },
+     "wide": {
+      "from": "2019-08-29",
+      "to": "2020-12-31",
+      "bars": 326,
+      "ann_return_pct": 31.08,
+      "max_drawdown_pct": -14.77
+     },
+     "spread_bp": 559.0
+    }
+   ],
+   "part_spreads_bp": [
+    206.0,
+    530.0,
+    559.0
+   ],
+   "sign_flips_inside_era": false,
+   "widest_part": 3,
+   "part_band_bp": 353.0
+  },
+  "2021_2023": {
+   "from": "2021-01-04",
+   "to": "2023-12-29",
+   "bars": 727,
+   "era_spread_bp": 247.0,
+   "parts": [
+    {
+     "part": 1,
+     "from": "2021-01-04",
+     "to": "2021-12-30",
+     "bars": 242,
+     "ladder": {
+      "from": "2021-01-04",
+      "to": "2021-12-30",
+      "bars": 242,
+      "ann_return_pct": 3.11,
+      "max_drawdown_pct": -10.75
+     },
+     "wide": {
+      "from": "2021-01-04",
+      "to": "2021-12-30",
+      "bars": 242,
+      "ann_return_pct": 2.65,
+      "max_drawdown_pct": -11.49
+     },
+     "spread_bp": -46.0
+    },
+    {
+     "part": 2,
+     "from": "2021-12-31",
+     "to": "2022-12-29",
+     "bars": 242,
+     "ladder": {
+      "from": "2021-12-31",
+      "to": "2022-12-29",
+      "bars": 242,
+      "ann_return_pct": -24.93,
+      "max_drawdown_pct": -28.64
+     },
+     "wide": {
+      "from": "2021-12-31",
+      "to": "2022-12-29",
+      "bars": 242,
+      "ann_return_pct": -19.02,
+      "max_drawdown_pct": -23.79
+     },
+     "spread_bp": 591.0
+    },
+    {
+     "part": 3,
+     "from": "2022-12-30",
+     "to": "2023-12-29",
+     "bars": 243,
+     "ladder": {
+      "from": "2022-12-30",
+      "to": "2023-12-29",
+      "bars": 243,
+      "ann_return_pct": -9.15,
+      "max_drawdown_pct": -19.14
+     },
+     "wide": {
+      "from": "2022-12-30",
+      "to": "2023-12-29",
+      "bars": 243,
+      "ann_return_pct": -7.95,
+      "max_drawdown_pct": -18.15
+     },
+     "spread_bp": 120.0
+    }
+   ],
+   "part_spreads_bp": [
+    -46.0,
+    591.0,
+    120.0
+   ],
+   "sign_flips_inside_era": true,
+   "widest_part": 2,
+   "part_band_bp": 637.0
+  },
+  "2024_now": {
+   "from": "2024-01-02",
+   "to": "2026-10-20",
+   "bars": 675,
+   "era_spread_bp": 93.0,
+   "parts": [
+    {
+     "part": 1,
+     "from": "2024-01-02",
+     "to": "2024-12-06",
+     "bars": 225,
+     "ladder": {
+      "from": "2024-01-02",
+      "to": "2024-12-06",
+      "bars": 225,
+      "ann_return_pct": 18.09,
+      "max_drawdown_pct": -15.88
+     },
+     "wide": {
+      "from": "2024-01-02",
+      "to": "2024-12-06",
+      "bars": 225,
+      "ann_return_pct": 21.04,
+      "max_drawdown_pct": -13.56
+     },
+     "spread_bp": 295.0
+    },
+    {
+     "part": 2,
+     "from": "2024-12-09",
+     "to": "2025-11-12",
+     "bars": 225,
+     "ladder": {
+      "from": "2024-12-09",
+      "to": "2025-11-12",
+      "bars": 225,
+      "ann_return_pct": 26.08,
+      "max_drawdown_pct": -12.59
+     },
+     "wide": {
+      "from": "2024-12-09",
+      "to": "2025-11-12",
+      "bars": 225,
+      "ann_return_pct": 29.86,
+      "max_drawdown_pct": -12.7
+     },
+     "spread_bp": 378.0
+    },
+    {
+     "part": 3,
+     "from": "2025-11-13",
+     "to": "2026-10-20",
+     "bars": 225,
+     "ladder": {
+      "from": "2025-11-13",
+      "to": "2026-10-20",
+      "bars": 225,
+      "ann_return_pct": -8.55,
+      "max_drawdown_pct": -22.68
+     },
+     "wide": {
+      "from": "2025-11-13",
+      "to": "2026-10-20",
+      "bars": 225,
+      "ann_return_pct": -11.47,
+      "max_drawdown_pct": -17.29
+     },
+     "spread_bp": -292.0
+    }
+   ],
+   "part_spreads_bp": [
+    295.0,
+    378.0,
+    -292.0
+   ],
+   "sign_flips_inside_era": true,
+   "widest_part": 2,
+   "part_band_bp": 670.0
+  }
+ },
+ "answers": {
+  "eras_split": 4,
+  "eras_with_internal_sign_flip": [
+   "pre2017",
+   "2021_2023",
+   "2024_now"
+  ],
+  "era_count_with_internal_sign_flip": 3,
+  "widest_part_by_era": {
+   "pre2017": 3,
+   "2017_2020": 3,
+   "2021_2023": 2,
+   "2024_now": 2
+  },
+  "part_band_bp_by_era": {
+   "pre2017": 403.0,
+   "2017_2020": 353.0,
+   "2021_2023": 637.0,
+   "2024_now": 670.0
+  }
+ },
+ "honest": [
+  "the split is by bar count, not by calendar year, so the halves are equal in sessions and unequal in spans only by trading density",
+  "an internal sign flip does not say which half is the future; it says the era's single number is an average of two different markets and must be quoted as such",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

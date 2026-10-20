@@ -13,8 +13,8 @@
   "method_orders": "sha256",
   "verbatim": true,
   "advance": true,
-  "round_ref": 1119,
-  "ts": "2026-10-21T06:09:27+08:00"
+  "round_ref": 1121,
+  "ts": "2026-10-21T06:51:39+08:00"
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
@@ -29,14 +29,14 @@
  "last_decisions_at": "2026-10-20T19:32:57+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
- "last_decisions_read_at": "2026-10-21T06:09:27+08:00",
+ "last_decisions_read_at": "2026-10-21T06:51:39+08:00",
  "last_decisions_sha": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
  "last_orders_at": "2026-10-18T16:35:49+08:00",
  "last_orders_probe_at": "2026-10-20T08:45:12+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
- "last_orders_read_at": "2026-10-21T06:09:27+08:00",
+ "last_orders_read_at": "2026-10-21T06:51:39+08:00",
  "last_orders_sha": "929199b0c5f642c10ad9967cbef1f95f8cbc61c78339df9b720fa4c619cf17b4",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
@@ -377,11 +377,11 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 52.4,
- "round": 1119,
- "round_no": 1121,
- "round_no_label": "r1119",
+ "round": 1124,
+ "round_no": 1124,
+ "round_no_label": "r1124",
  "sat_engine": {
-  "checked_at": "2026-10-21T05:53:24+08:00",
+  "checked_at": "2026-10-21T07:05:36+08:00",
   "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -901,9 +901,10 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "E44 skin leave-one-out burned: one member carries the era flip, so no spread number may be quoted without its skin",
- "ts": "2026-10-21T06:17:59+08:00",
- "updated": "2026-10-21T05:53:24+08:00",
- "updated_at": "2026-10-21T05:53:24+08:00",
- "verdict": "product+maintenance"
+ "task": "E48 pair burned: zero cost at thirds flips 3/4 eras too, so the halves-era stability was granularity smoothing and the x1 thirds flips are not fee granularity",
+ "ts": "2026-10-21T07:05:36+08:00",
+ "updated": "2026-10-21T07:05:36+08:00",
+ "updated_at": "2026-10-21T07:05:36+08:00",
+ "verdict": "product+maintenance",
+ "r1124_note": "x0-p3 pre2017 199/-23/380, 2017-2020 206/530/559, 2021-2023 -46/591/120, 2024-now 295/378/-292 (3/4 flip, bands 353-670bp); x3-p3 same flip set, era levels only -8..-13bp (239->230, 423->410, 247->237, 93->81) => r1123 \"fee-times-granularity\" reading superseded: the internal flips are a third-level shape that survives real fees"
 }
