@@ -20340,7 +20340,7 @@
   },
   {
    "id": "E47-LIVESPAN-THIRDS",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "E46 split each era in halves and found the newest era is the only one with an internal sign flip (+380bp then -215bp, band 595bp) while pre2017 and 2017-2020 vary by 30-41bp. Two halves is the bluntest possible cut, and a flip could be one stretch rather than a shape. Cut the same warm curve into thirds per era and report each third's spread: does the newest era decay monotonically (a trend), invert (one reversal), or is the flip simply the boundary landing on one bad stretch?",
@@ -20349,11 +20349,15 @@
    "entered_at": "2026-10-21T06:55:00+08:00",
    "entered_by": "bm-b r1122",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --parts 3"
+   "runner": "python scripts/e39_panel_census.py livespan --parts 3",
+   "done_at": "2026-10-21T07:00:00+08:00",
+   "done_by": "bm-b r1123",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x1-p3.json",
+   "answer": "thirds at cost x1: 3 of 4 eras carry an internal sign flip (pre2017 198/-26/377, 2021-2023 -50/585/119, 2024-now 291/375/-295); only 2017-2020 holds (205/526/551), part bands 346-670bp"
   },
   {
    "id": "E47-LIVESPAN-ZERO-COST",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "The newest era's second half reads -215bp at cost x1 and -224bp at cost x3, so the sign is not a cost artefact -- but both are charged for the wide book's churn. Run the same split at cost x0: if the negative half survives with zero fees the wide book simply underperformed; if it disappears, the era's edge was eaten by turnover rather than by selection.",
@@ -20362,8 +20366,38 @@
    "entered_at": "2026-10-21T06:55:00+08:00",
    "entered_by": "bm-b r1122",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 0"
-  }
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0",
+   "done_at": "2026-10-21T07:00:00+08:00",
+   "done_by": "bm-b r1123",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x0-p2.json",
+   "answer": "zero cost, halves: the three older eras are internally stable (no flip, bands 41/24/190bp) while 2024-now still flips 383/-210 (band 593bp) -- the newest-era instability is selection, not fees, and the x1 mid-era flips are a cost artefact"
+  },
+   {
+    "id": "E48-ZEROCOST-THIRDS",
+    "status": "ready",
+    "lane": "cpu-only",
+    "target": "scripts/e39_panel_census.py",
+    "title": "The zero-cost halves cleared the three older eras of internal sign flips, but halves are the coarsest split -- run the zero-cost pass at thirds so the stability claim is tested at the same granularity that produced three flips at cost x1. A flip that survives zero cost at thirds is selection; one that disappears is fee granularity.",
+    "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p3.json",
+    "source": "r1123 livespan pair: x0-p2 stable on 3/4 eras vs x1-p3 flipping on 3/4",
+    "entered_at": "2026-10-21T07:00:00+08:00",
+    "entered_by": "bm-b r1123",
+    "evidence_cutoff": "2026-10-20",
+    "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 3"
+   },
+   {
+    "id": "E48-PARTS-COST-X3",
+    "status": "ready",
+    "lane": "cpu-only",
+    "target": "scripts/e39_panel_census.py",
+    "title": "Completes the cost x parts grid at x3/p3: the newest era's second half moved only 9bp between x1 and x3 on halves, so the fee axis is claimed to be small -- price it on thirds, where the turnover of the worst part is highest, before the newest-era flip is called selection-only.",
+    "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p3.json",
+    "source": "r1122 x1 -215 vs x3 -224 on the newest era's second half; r1123 x1-p3 flips 3/4 eras",
+    "entered_at": "2026-10-21T07:00:00+08:00",
+    "entered_by": "bm-b r1123",
+    "evidence_cutoff": "2026-10-20",
+    "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 3"
+   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {
