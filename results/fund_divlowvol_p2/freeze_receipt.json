@@ -1,0 +1,76 @@
+{
+ "kind": "fund_divlowvol_p2_freeze_receipt",
+ "batch": "FUND-DIVLOWVOL-P2",
+ "generated": "2026-10-20T12:24:27+08:00",
+ "machine": "bm-b",
+ "round": "r1069",
+ "status": "FROZEN",
+ "evidence_cutoff": "2026-09-22",
+ "N_eff": 2018,
+ "burn_face": "ROUTE_A_P1C_REDELIVERY_ONLY",
+ "burn_face_ruling": "route B rejected on signal fidelity (Jaccard median 0.4286 < 0.90 floor, tail share 63.2% > 5% cap) -- prereg sec.2.3",
+ "burn_gate": "p1c_stock panel re-delivery from bm-a host (external supply); frozen-not-burning until arrival; B may not substitute",
+ "freeze_legs": {
+  "banned_direction_gate": "ADMIT (BAN-04 declared exception, O-20261019-2230-bm-b sec.2.1)",
+  "anchor_quadruple": "pinned sec.2 (div_events / quality_faces PIT / p1c panel / sidecar_f_at)",
+  "cutoff": "2026-09-22 (P1 same anchor, D2 lockbox)",
+  "d6_admission": "ADMIT max|corr|=0.2588 < 0.70",
+  "probe_local": "GREEN 7/7 (results/_fund_divlowvol_p2_freeze_probe_local.json)",
+  "runner": "scripts/fund_divlowvol_p2_backtest.py selftest 20/20, 18 judged cell-faces, N_eff 2018 identical",
+  "split_adequacy": "INADEQUATE_FOR_CASH_ONLY_SIDECAR",
+  "route_b_fidelity": "REJECT_ROUTE_B_USE_ROUTE_A"
+ },
+ "faces": {
+  "prereg": {
+   "path": "research/FUND-DIVLOWVOL-P2.md",
+   "sha256": "2e17034437b66539799751ca43c131b8688a1005e059b11f7325d13929a4f944",
+   "exists": true
+  },
+  "probe": {
+   "path": "scripts/fund_divlowvol_p2_probe.py",
+   "sha256": "4d6da2d0d37b2f7ec2702ac725a8284225ed3dd28dc83b37b22444c2c09fcaa2",
+   "exists": true
+  },
+  "runner": {
+   "path": "scripts/fund_divlowvol_p2_backtest.py",
+   "sha256": "4f900a6191415533bbff0c36c71737059728eb76cd77281ff5271e6048f3ce76",
+   "exists": true
+  },
+  "split_adequacy": {
+   "path": "scripts/fund_divlowvol_p2_split_adequacy.py",
+   "sha256": "d677e5b105a10be7706e6e220295df6f753118969d3f9401e4a731918fe31466",
+   "exists": true
+  },
+  "route_b_fidelity": {
+   "path": "scripts/fund_divlowvol_p2_route_b_fidelity.py",
+   "sha256": "3b33210375a5d5d1cbdef291e6c828165bbd500db85c708129a612d44e677660",
+   "exists": true
+  },
+  "probe_receipt": {
+   "path": "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "sha256": "c503a2a7a3a07feb68afb54841b6db4c5411d630b40f9fddb743e8005d694b56",
+   "exists": true
+  },
+  "d6": {
+   "path": "results/fund_divlowvol_p2/d6.json",
+   "sha256": "01dbc4e7b0308c931b168890f682bcdd1d95991e032af56270e3b9f94e898f68",
+   "exists": true
+  },
+  "split_adequacy_receipt": {
+   "path": "results/fund_divlowvol_p2/split_adequacy.json",
+   "sha256": "3e172b08781613a9c3b5a5abd7211ca8aea1c1fa31d990555e57f6cb0bcf8e8a",
+   "exists": true
+  },
+  "route_b_receipt": {
+   "path": "results/fund_divlowvol_p2/route_b_fidelity.json",
+   "sha256": "fd057aea00c61a24eeb9a8359e47f895f4812ef3949dc07b82ee183ee4f6dc7a",
+   "exists": true
+  },
+  "dryrun_receipt": {
+   "path": "results/fund_divlowvol_p2/cells/TN20__x1.json",
+   "sha256": "eaeab4e463af1c203b5b33078afdf23f6744361b2ad7f5d910a7c4d53c58b168",
+   "exists": true
+  }
+ },
+ "post_freeze_rule": "judged criteria frozen: any change requires a new prereg batch"
+}
