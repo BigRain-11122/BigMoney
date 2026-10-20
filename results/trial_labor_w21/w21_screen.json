@@ -1,0 +1,81 @@
+{
+ "wave": "TRIAL_LABOR_W21",
+ "stage": "screen-finalize",
+ "prereg": "research/TRIAL_LABOR_W21_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "08259059b9302e69",
+ "n_cells": 18,
+ "k_nulls": 200,
+ "survival_rule": "beat6m_rate > null_p95 (prereg sec.4, frozen W2 math, zero hand-picked)",
+ "null_p95": 0.407861,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "null_p95_band_hit": false,
+ "n_survivors": 6,
+ "survivors": [
+  "W21-B-0014",
+  "W21-B-0015",
+  "W21-A-0002",
+  "W21-B-0012",
+  "W21-B-0010",
+  "W21-B-0013"
+ ],
+ "family_axe": {
+  "liq_rank_gate": {
+   "n_cells": 8,
+   "n_survivors": 0,
+   "survival_rate": 0.0,
+   "lawful_zero": true
+  },
+  "gap_reversal_gate": {
+   "n_cells": 4,
+   "n_survivors": 2,
+   "survival_rate": 0.5,
+   "lawful_zero": false
+  },
+  "on_share_rank": {
+   "n_cells": 6,
+   "n_survivors": 4,
+   "survival_rate": 0.666667,
+   "lawful_zero": false
+  }
+ },
+ "g_face_battery": {
+  "G-ENTRY": {
+   "sha256_16": "22179881b7537193"
+  },
+  "G-EXITCFG": {
+   "pass": true
+  },
+  "G-LEG3ANCHOR": {
+   "pass": true
+  }
+ },
+ "sec51_prediction_accounting": {
+  "predicted_family_band": [
+   1,
+   3
+  ],
+  "observed_family_survivors": 2,
+  "verdict": "HIT",
+  "cell_rate_band": [
+   0.15,
+   0.4
+  ],
+  "observed_cell_rate": 0.333333
+ },
+ "trials_ledger": {
+  "prev_total": 1060141,
+  "batch_trials": 218,
+  "total": 1060359,
+  "batch": "TRIAL_LAB_W21_SCREEN",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ],
+  "file": "results/trial_labor_w21/w21_screen.json",
+  "evidence_cutoff": "2026-09-22"
+ }
+}

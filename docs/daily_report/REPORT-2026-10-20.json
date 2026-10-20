@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-20",
- "generated_at": "2026-10-20 18:02:55",
+ "generated_at": "2026-10-20 18:14:58",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-20.md"
  },
  "rd": {
-  "commits_24h": 245,
+  "commits_24h": 247,
   "result_jsons_landed_24h": 149,
   "digests_landed_24h": 11,
   "prereg_md_touched_24h": 23,
   "compute_audit_latest": {
-   "ts": "2026-10-20 17:18:52",
-   "py_cpu_pct": 0.1,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-20 18:14:32",
+   "py_cpu_pct": 19.5,
+   "flags": [
+    "supply_floor"
+   ],
+   "verdict": "FLAG:supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -741,21 +743,13 @@
     "today_supply_gap_flags": 5
    },
    "bm-b": {
-    "latest_ts": "2026-10-20 17:18:52",
-    "py_pct": 0.1,
-    "cpu_pct": 17.0,
-    "ready": 4,
-    "streak_min": null,
-    "verdict": "CLEAN",
+    "latest_ts": "2026-10-20 18:14:32",
+    "py_pct": 19.5,
+    "cpu_pct": 12.0,
+    "ready": 0,
+    "streak_min": 11.3,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "12:30",
-      0.2
-     ],
-     [
-      "12:44",
-      0.1
-     ],
      [
       "12:55",
       6.4
@@ -795,9 +789,17 @@
      [
       "17:18",
       0.1
+     ],
+     [
+      "18:03",
+      9.4
+     ],
+     [
+      "18:14",
+      19.5
      ]
     ],
-    "today_samples": 36,
+    "today_samples": 38,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 5
@@ -899,8 +901,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-20 17:18:52"
+     "audit_batches": 3,
+     "audit_ts": "2026-10-20 18:14:32"
     }
    },
    "bm-c": {

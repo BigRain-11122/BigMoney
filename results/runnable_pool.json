@@ -18611,18 +18611,25 @@
      "checkpoint": "results/trial_labor_w21/checkpoint/screen_shard_0of4.jsonl (MACHINE-LOCAL r429 gitignored; lane bm-b)",
      "key": "w21-screen-0of4",
      "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
-     "owner_since": "2026-10-20 17:58:06"
+     "owner_since": "2026-10-20 18:08:04",
+     "claimed_since": "2026-10-20 17:58:06",
+     "done_at": "2026-10-20 18:08:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "w21-screen-0of4.bm-b.json",
+     "harvest_note": "log line 'shard 0of4 complete' at 18:07:01 + claim closed; consumed by screen-finalize r1080"
     }
    ],
-   "status": "ready",
+   "status": "done",
    "ticket_ref": "r1077 bm-b round ticket (W21 frozen prereg; E18 explore row TRIAL-LABOR-W21 supply batch; W20 T-2026-10-15-187 lineage)",
    "workers_plan": {
     "note": "W17-W20 screen machinery precedent (run_cells_parallel multiproc; prep_state passive_6m shared read)",
     "priority": "BelowNormal",
     "workers": "worker_cap() pool BelowNormal"
-   }
+   },
+   "result_ref": "results/trial_labor_w21/w21_screen.json",
+   "finished_at": "2026-10-20 18:14:18"
   },
   {
    "consumer_plan": "4 screen shards -> screen-finalize (readers need all 18 cand rows + 200 nulls in CKPT_DIR) -> w21_screen.json + survivors + family axe -> judge-prep/judge/judge-finalize (family blocks, dual-nulls B=2000/P=2000) -> intake; negative = supply-line demotion basis for the overnight-conditioning entry axis; positive = judged supply into the pool",
@@ -18740,6 +18747,28 @@
    },
    "done_by": "bm-b",
    "done_at": "2026-10-20 18:06:04"
+  },
+  {
+   "id": "TRIAL-LABOR-W21-JUDGE-SHARD-0",
+   "status": "claimed",
+   "runner": "scripts/trial_labor_w21.py judge 0 1",
+   "lane_owner": "bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-20 18:14:18",
+   "entered_at": "2026-10-20 18:14:18",
+   "shards": [
+    {
+     "key": "w21-judge-0of1",
+     "status": "claimed",
+     "owner": "bm-b",
+     "owner_since": "2026-10-20 18:14:18",
+     "claimed_since": "2026-10-20 18:14:18",
+     "checkpoint": "results/trial_labor_w21/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL; lane bm-b)",
+     "note": "10 judged cells (2 family blocks); burn under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; detached by design (r1079 session-tree-kill lesson)"
+    }
+   ],
+   "host_gate": null,
+   "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18754,6 +18783,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20T17:18:32+08:00",
+ "updated_at": "2026-10-20 18:14:18",
  "version": 1
 }
