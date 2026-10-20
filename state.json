@@ -46,9 +46,9 @@
  "last_round_ts": "2026-10-20T14:20:40+08:00",
  "last_seen": "2026-10-20T13:45:05+08:00",
  "latest_artifact": "results/overnight_gap_census/CENSUS-2026-10-19.json",
- "local_not_on_origin_commits": 0,
+ "local_not_on_origin_commits": 2,
  "machine_id": "bm-b",
- "next": "r1076: TRIAL-LABOR-W21 generate batch seeded by the E21 + overnight axes (supply floor back to >=3 ready units); papers fire on the 2026-10-20 bar",
+ "next": "r1077: S0 rebase onto origin (deliver the 2 local commits to main on a clear-network window), then TRIAL-LABOR-W21 prereg from the E18 queue row",
  "next_milestone": "r1075 (<=48h): E21 digest consumption note in the E14/E18/E20 open-entry legs + supply floor replenish to >=3 ready units",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
@@ -811,7 +811,15 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "local_not_on_origin_main": 2,
+  "r1076_push": {
+   "status": "FALLBACK_BRANCH_DELIVERED",
+   "pushed_sha": "266e970b0f",
+   "branch": "machine/bm-b-r1076",
+   "note": "main push blocked twice by promisor catch-up on dead parent (orphan chain killed per r1005); fallback branch ls-remote verified",
+   "ts": "2026-10-20T16:51:29+08:00"
+  }
  },
  "task": "r1075: overnight-gap leg-2 held-position bridge (split is horizon-invariant) + S6/S7 maintenance",
  "ts": "2026-10-20T15:10:00+08:00",
