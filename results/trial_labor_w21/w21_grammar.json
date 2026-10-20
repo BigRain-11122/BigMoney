@@ -1,0 +1,722 @@
+{
+ "wave": "TRIAL_LABOR_W21",
+ "grammar_kind": "w21-entry-grammar-generate-census",
+ "prereg": "research/TRIAL_LABOR_W21_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "08259059b9302e69",
+ "seeds": {
+  "gen_held": 20660000,
+  "scrnull": 20660500,
+  "unc": 20661000,
+  "band": [
+   20660000,
+   20662500
+  ],
+  "note": "gen 20660000 HELD zero-consumption this wave (census full-enumeration, zero sampling, zero selection degrees of freedom -- berth kept for family-band continuity + future W21-derived generation faces); scrnull rng([20660500,i]) i<200; unc rng([20661000,cell_idx]) cell_idx<18"
+ },
+ "fn_families": {
+  "liq_rank_gate": {
+   "module": "w21_lq",
+   "mech_line": "liquidity-state line (attention/participation episode mechanized; leg-3 q5 toll = 10x q1)",
+   "definition": "liq_pct(t)=pct-rank of amount(t) in own trailing 250 bars (min 60); mask = liq_pct >= thr (mode=level) or its strict onset (mode=onset)",
+   "source": "kin-probe verbatim (results/_r1027bmc_w21_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 8
+  },
+  "gap_reversal_gate": {
+   "module": "w21_gp",
+   "mech_line": "reversal line (deep overnight gap == forced-seller overhang; leg-3 gap<-2% next-day overnight -44.6bp)",
+   "definition": "gap(t)=open(t)/close(t-1)-1; mask = gap <= -depth",
+   "source": "kin-probe verbatim (results/_r1027bmc_w21_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 4
+  },
+  "on_share_rank": {
+   "module": "w21_on",
+   "mech_line": "name-level toll-avoidance line (trailing overnight share of the return; leg-1/leg-2 bleed is linear in hold length)",
+   "definition": "share(t)=mean_n(on)/(mean_n|on|+mean_n|in|); rank in own trailing 250 bars; mask = rank <= thr",
+   "source": "kin-probe verbatim (results/_r1027bmc_w21_kin_ortho-gonality.py same-form; r1027 freeze-window measured face)",
+   "n_cells": 6
+  }
+ },
+ "roster": [
+  {
+   "cell_id": "W21-B-0001",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.6,
+    "mode": "level"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0002",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.7,
+    "mode": "level"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-A-0001",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.8,
+    "mode": "level"
+   },
+   "module": "w21_lq",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0003",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.9,
+    "mode": "level"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0004",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.6,
+    "mode": "onset"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0005",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.7,
+    "mode": "onset"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0006",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.8,
+    "mode": "onset"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0007",
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "thr": 0.9,
+    "mode": "onset"
+   },
+   "module": "w21_lq",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0008",
+   "fn": "gap_reversal_gate",
+   "sig_params": {
+    "depth": 0.005
+   },
+   "module": "w21_gp",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0009",
+   "fn": "gap_reversal_gate",
+   "sig_params": {
+    "depth": 0.01
+   },
+   "module": "w21_gp",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-A-0002",
+   "fn": "gap_reversal_gate",
+   "sig_params": {
+    "depth": 0.02
+   },
+   "module": "w21_gp",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0010",
+   "fn": "gap_reversal_gate",
+   "sig_params": {
+    "depth": 0.03
+   },
+   "module": "w21_gp",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0011",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 20,
+    "thr": 0.2
+   },
+   "module": "w21_on",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-A-0003",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 20,
+    "thr": 0.35
+   },
+   "module": "w21_on",
+   "family": "A",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0012",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 20,
+    "thr": 0.5
+   },
+   "module": "w21_on",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0013",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 60,
+    "thr": 0.2
+   },
+   "module": "w21_on",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0014",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 60,
+    "thr": 0.35
+   },
+   "module": "w21_on",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  },
+  {
+   "cell_id": "W21-B-0015",
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 60,
+    "thr": 0.5
+   },
+   "module": "w21_on",
+   "family": "B",
+   "axis": [
+    "none",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none"
+   ]
+  }
+ ],
+ "a_side_anchors": [
+  {
+   "fn": "gap_reversal_gate",
+   "sig_params": {
+    "depth": 0.02
+   }
+  },
+  {
+   "fn": "liq_rank_gate",
+   "sig_params": {
+    "mode": "level",
+    "thr": 0.8
+   }
+  },
+  {
+   "fn": "on_share_rank",
+   "sig_params": {
+    "n": 20,
+    "thr": 0.35
+   }
+  }
+ ],
+ "fixed_execution_config": {
+  "axis": [
+   "none",
+   "template_default",
+   "equal_weight",
+   "daily_signal",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "x_consumed": {
+   "face": "template_default",
+   "basis": "W17 sec.0 consumer (3): W17-JUDGE 344 all-negative + 7 exit faces paired median delta 0.0"
+  },
+  "s_consumed": {
+   "face": "equal_weight",
+   "basis": "W18 sec.0 consumer (2): W18-JUDGE 188 lawful-zero + 4 sizing faces paired median delta ~0 = cell-native for census cells = equal_weight"
+  },
+  "t_consumed": {
+   "face": "daily_signal",
+   "basis": "W19 sec.0 consumer (2): W19-JUDGE 112 lawful-zero + weekly->daily paired direction +0.0942 p=0.01 below registration line"
+  },
+  "note": "single execution config, identical across all 18 cells + 200 nulls -- the entry mask is the ONLY tested dimension (three-axis consumption dividend, zero axis-crossing)"
+ },
+ "k_nulls": 200,
+ "null_p95_band": [
+  0.5,
+  0.53
+ ],
+ "judge_cap_cells": 90,
+ "control_source": {
+  "file": "results/trial_labor_w16/w16_candidates.json",
+  "sha256_16": "22179881b7537193",
+  "n": 173,
+  "role": "G-ENTRY lineage anchor ONLY -- W16 cell-expansion pairing face explicitly NOT enabled (sec.2 frozen; reuse = re-burning judged negatives violates the negative-true-close line)"
+ },
+ "w14_lineage": {
+  "grammar_sha16": "a231bf10940e7878",
+  "file": "results/trial_labor_w14/w14_grammar.json"
+ },
+ "w16_grammar_ref": {
+  "file": "results/trial_labor_w16/w16_grammar.json",
+  "grammar_sha16": "ebf15822d2c8472e"
+ },
+ "w17_grammar_ref": {
+  "file": "results/trial_labor_w17/w17_grammar.json",
+  "grammar_sha16": "09476ecc5beb2304"
+ },
+ "w18_grammar_ref": {
+  "file": "results/trial_labor_w18/w18_grammar.json",
+  "grammar_sha16": "724b6135a5fdb6ae"
+ },
+ "w20_grammar_ref": {
+  "file": "results/trial_labor_w20/w20_grammar.json",
+  "grammar_sha16": "ff00b0896b088b5a"
+ },
+ "leg3_ref": {
+  "file": "results/overnight_gap_census/LEG3-2026-10-19.json",
+  "sha16": "c3eecf0facec0c85",
+  "role": "G-LEG3ANCHOR provenance + mask math parity source (18/18 cell mask_days readings, probe face)"
+ },
+ "closed_family_check": {
+  "family_key": "TRIAL_LABOR",
+  "in_closed": false,
+  "note": "M3: TRIAL_LABOR not in CLOSED_FAMILIES = open; lowamp/n2/perpetual family keys disjoint (sec.3)"
+ },
+ "cell_key": "cell_id (single execution config -- no face dim)",
+ "n_cells": 18,
+ "family_split": {
+  "A": 3,
+  "B": 15
+ },
+ "screen_trials": 218
+}

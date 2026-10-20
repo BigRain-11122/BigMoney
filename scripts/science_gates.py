@@ -2233,6 +2233,18 @@ SEED_REGISTRY = {
         "trial_labor_w20_gen": 20_650_000,
         "trial_labor_w20_scrnull": 20_650_500,
         "trial_labor_w20_unc": 20_651_000,
+        # TRIAL_LABOR_W21 (conditioned entry-syntax GENERATE batch: three
+        # new mask families derived from the E21 leg-3 overnight
+        # conditioning census -- liquidity-rank gate / gap-reversal gate /
+        # overnight-share rank gate; bm-b r1077 freeze window): berth trio
+        # 20660000/20660500/20661000. Band scanned free by
+        # Tools/seed_admit_gate.py rc0 base=20660000 span=1500
+        # (registry+rg scanned free). Registered at prereg freeze BEFORE
+        # any burn, one-step R250 law; prereg
+        # research/TRIAL_LABOR_W21_PREREG.md
+        "trial_labor_w21_gen": 20_660_000,
+        "trial_labor_w21_scrnull": 20_660_500,
+        "trial_labor_w21_unc": 20_661_000,
         # FUND-STAGESTYLE-COMBO-P1 (stage x style conditional-combo family
         # batch; open ticket bm-a r1085, freeze-window takeover bm-b
         # r1048/r1049): null pair 20531000 (default random same-mask stage
