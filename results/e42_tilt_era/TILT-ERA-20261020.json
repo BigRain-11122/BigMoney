@@ -1,0 +1,138 @@
+{
+ "study": "e42_ladder_tilt_by_era",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "ladder": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean)",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ]
+ },
+ "eras": {
+  "pre2017": {
+   "months": 0,
+   "skipped": "fewer than 3 usable months"
+  },
+  "2017_2020": {
+   "months": 1,
+   "skipped": "fewer than 3 usable months"
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "tilt_annualised_bp": 609.2,
+   "tilt_sd_bp": 538.4,
+   "tilt_positive_share_pct": 50.0,
+   "tilt_cumulative_pct": 14.17,
+   "tilt_best_month": {
+    "month": "2022-10",
+    "spread_pct": 14.13
+   },
+   "tilt_worst_month": {
+    "month": "2022-04",
+    "spread_pct": -9.15
+   },
+   "beta_ladder_on_tilt": 0.116,
+   "alpha_monthly_bp": -84.4,
+   "r_squared": 0.0199,
+   "tilt_explains_ladder_var_pct": 1.99,
+   "ladder_mean_month_pct": -0.7849
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "tilt_annualised_bp": 748.1,
+   "tilt_sd_bp": 616.4,
+   "tilt_positive_share_pct": 50.0,
+   "tilt_cumulative_pct": 15.91,
+   "tilt_best_month": {
+    "month": "2026-06",
+    "spread_pct": 11.51
+   },
+   "tilt_worst_month": {
+    "month": "2026-07",
+    "spread_pct": -17.09
+   },
+   "beta_ladder_on_tilt": 1.031,
+   "alpha_monthly_bp": 44.14,
+   "r_squared": 0.6688,
+   "tilt_explains_ladder_var_pct": 66.88,
+   "ladder_mean_month_pct": 1.0843
+  },
+  "full": {
+   "months": 71,
+   "from": "2020-12",
+   "to": "2026-10",
+   "tilt_annualised_bp": 611.9,
+   "tilt_sd_bp": 571.1,
+   "tilt_positive_share_pct": 49.3,
+   "tilt_cumulative_pct": 28.01,
+   "tilt_best_month": {
+    "month": "2022-10",
+    "spread_pct": 14.13
+   },
+   "tilt_worst_month": {
+    "month": "2026-07",
+    "spread_pct": -17.09
+   },
+   "beta_ladder_on_tilt": 0.615,
+   "alpha_monthly_bp": -15.22,
+   "r_squared": 0.3138,
+   "tilt_explains_ladder_var_pct": 31.38,
+   "ladder_mean_month_pct": 0.1615
+  }
+ },
+ "answers": {
+  "tilt_range_bp": 138.9,
+  "tilt_min_bp": 609.2,
+  "tilt_max_bp": 748.1,
+  "eras_positive_tilt": 2,
+  "eras_with_data": 2,
+  "peak_era": "2024_now",
+  "newest_era_tilt_vs_peak_pct": 100.0
+ },
+ "honest": [
+  "eras are calendar partitions of one continuous monthly series; each row is measured on its own months, so the era tilt bp do not add up to the full-sample number",
+  "the decomposition is the E40 identity (2/5 large + 3/5 small) applied per era; the regression is descriptive, not a factor-model estimate",
+  "the newest era is open-ended and the shortest, so its beta carries the widest error",
+  "corporate-action guard as in E40: months with a >20% single-day member jump are dropped",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months": []
+}
