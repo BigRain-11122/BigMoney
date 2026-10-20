@@ -1,0 +1,85 @@
+{
+ "study": "e24_ladder_weighting",
+ "evidence_cutoff": "2026-10-20",
+ "start": "2018-01-02",
+ "bars": 2132,
+ "years": 8.46,
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cost_bp_per_side": 13.041,
+ "cost_mult": 1.0,
+ "schemes": {
+  "equal": {
+   "metrics": {
+    "total_return_pct": 57.04,
+    "ann_return_pct": 5.48,
+    "ann_vol_pct": 19.64,
+    "sharpe": 0.37,
+    "bars": 2130
+   },
+   "aux": {
+    "rebalances": 93,
+    "turnover_total": 2.6590684208780693,
+    "turnover_per_year": 0.314,
+    "cost_paid_frac": 0.0034676911276670893,
+    "cost_per_year_bp": 4.1
+   }
+  },
+  "trend150hc": {
+   "metrics": {
+    "total_return_pct": 36.22,
+    "ann_return_pct": 3.72,
+    "ann_vol_pct": 16.12,
+    "sharpe": 0.308,
+    "bars": 2130
+   },
+   "aux": {
+    "rebalances": 93,
+    "turnover_total": 6.888385593664963,
+    "turnover_per_year": 0.814,
+    "cost_paid_frac": 0.008983143652698481,
+    "cost_per_year_bp": 10.6
+   },
+   "vs_equal_bp_annualised": -156.8,
+   "vs_equal_monthly": {
+    "months": 106,
+    "mean_bp": -11.39,
+    "t": -0.59,
+    "by_era": {
+     "2017-2020": {
+      "months": 36,
+      "mean_bp": -31.27
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 28.34
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -32.41
+     }
+    }
+   }
+  }
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv close (annualised %)",
+  "units_per_year": 252.0,
+  "covered_days": 2132,
+  "ffilled_days": 1,
+  "first_rate_date": "2011-05-13",
+  "last_rate_date": "2026-10-19"
+ },
+ "honest": [
+  "universe grows over time (510300 2012-05 / 510500 2013-03 / 512100 2016-11 / 588000 2020-11); membership rule is identical across schemes so the comparison is within-universe",
+  "liq is a turnover(amount)-share proxy, NOT cap-weight: the panel carries no shares outstanding",
+  "weights drift with returns inside the month; 13.041bp/side charged on turnover at each monthly rebalance",
+  "`c` schemes accrue the cash share at the daily GC001 close (annualised %, /252, ffilled over non-repo days); the repo rate is the SAME series a live account would earn, but it is not a traded return and carries no cost",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed"
+ ]
+}

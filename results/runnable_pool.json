@@ -19614,12 +19614,15 @@
    "priority": 3,
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --cost-mult 3",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-x3-20261021.json/TREND-e884de-x3-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:37:18+0800",
@@ -19630,12 +19633,15 @@
    "priority": 3,
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --start 2018-01-01",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-2018-20261021.json/TREND-e884de-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:37:18+0800",
@@ -19645,6 +19651,57 @@
    "note": "r1101: the four default tilts on the 2018+ window, so the tilt family gets the same recent-window screen in one burn instead of one at a time.",
    "priority": 3,
    "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,invvol,liq,momtilt --out results/e25_tilt_mix --start 2018-01-01",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-mix-2018-20261021.json/WEIGHTING-1f182a-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-VS-510300",
+   "lane_owner": null,
+   "note": "r1103: every weighting tilt lost to equal weight on 2018+, so the open question is no longer HOW to weight the five-rung desk ladder but WHETHER it earns anything over simply holding 510300. Buy-and-hold CSI300 is the comparison a live book actually faces.",
+   "priority": 3,
+   "runner": "TBD: extend e24_ladder_weighting.py with a --benchmark 510300 leg (buy-and-hold, cash leg identical)",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-CADENCE",
+   "lane_owner": null,
+   "note": "r1103: the tilt family is closed, so the only remaining free axis on the ladder is the rebalance clock itself -- monthly vs quarterly vs annual, cost paid against drift given up. Monthly is an assumption nobody has tested.",
+   "priority": 3,
+   "runner": "TBD: e24_ladder_weighting.py --cadence monthly,quarterly,annual (cost x1 and x3)",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-MEMBERSHIP",
+   "lane_owner": null,
+   "note": "r1103: the ladder's five members are frozen by construction. Re-select the top-5 by liquidity each quarter out of the 1,221-code panel and compare against the frozen five -- does membership choice add anything, or is the fixed set a free lunch of hindsight?",
+   "priority": 3,
+   "runner": "TBD: e27_universe_expansion.py --select-top 5 --cadence quarterly vs frozen (sh510300,sh510050,sh510500,sh512100,sh588000)",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19666,6 +19723,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T01:37:18+0800",
+ "updated_at": "2026-10-21T01:44:00+0800",
  "version": 1
 }

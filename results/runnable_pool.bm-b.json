@@ -19557,12 +19557,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-edd226-e20260922-xsh511sh518sz159001sz159003-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:34:24+0800",
@@ -19573,12 +19576,15 @@
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 10,20,50,100,200 --start 2018-01-01 --end 2026-09-22 --exclude sh511",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-edd226-s20180101-e20260922-xsh511-20261021.json"
   },
   {
    "entered_at": "2026-10-21T01:34:24+0800",
@@ -19588,6 +19594,114 @@
    "note": "r1101: cost stress on the tradeable-width book (top200 equal-weight, 200 names is feasible), tripled cost. This is the candidate that would actually be carried into a prereg if the ladder holds.",
    "priority": 3,
    "runner": "python scripts/e27_universe_expansion.py run --ns 200 --end 2026-09-22 --exclude sh511,sh518,sz159001,sz159003 --cost-mult 3",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:35:35+08:00",
+   "result_ref": "results/e27_universe_expansion/UNIV-9f9af0-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:37:18+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
+   "id": "E32-TREND-TILT-X3",
+   "lane_owner": null,
+   "note": "r1101: breadth is closed, so the next open question is the weighting tilts that survived E25. Cost stress (x3) on the trend150h tilt against the equal-weight ladder -- E25 ran it only at x1, and a tilt that lives on turnover must clear cost.",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --cost-mult 3",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-x3-20261021.json/TREND-e884de-x3-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:37:18+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
+   "id": "E32-TREND-TILT-2018",
+   "lane_owner": null,
+   "note": "r1101: the same tilt on the 2018+ window. E30/E31 showed long-sample excesses die in the recent window; this applies the same window test to the weighting tilt.",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150h --out results/e25_trend_tilt --start 2018-01-01",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-trend150h-2018-20261021.json/TREND-e884de-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:37:18+0800",
+   "entered_by": "bm-b r1101 (supply floor refill after E31 close)",
+   "id": "E32-LADDER-TILT-MIX-2018",
+   "lane_owner": null,
+   "note": "r1101: the four default tilts on the 2018+ window, so the tilt family gets the same recent-window screen in one burn instead of one at a time.",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,invvol,liq,momtilt --out results/e25_tilt_mix --start 2018-01-01",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-21T01:50:00+08:00",
+   "result_ref": "results/e32_tilt_robustness/TILT-mix-2018-20261021.json/WEIGHTING-1f182a-20261021.json"
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-VS-510300",
+   "lane_owner": null,
+   "note": "r1103: every weighting tilt lost to equal weight on 2018+, so the open question is no longer HOW to weight the five-rung desk ladder but WHETHER it earns anything over simply holding 510300. Buy-and-hold CSI300 is the comparison a live book actually faces.",
+   "priority": 3,
+   "runner": "TBD: extend e24_ladder_weighting.py with a --benchmark 510300 leg (buy-and-hold, cash leg identical)",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-CADENCE",
+   "lane_owner": null,
+   "note": "r1103: the tilt family is closed, so the only remaining free axis on the ladder is the rebalance clock itself -- monthly vs quarterly vs annual, cost paid against drift given up. Monthly is an assumption nobody has tested.",
+   "priority": 3,
+   "runner": "TBD: e24_ladder_weighting.py --cadence monthly,quarterly,annual (cost x1 and x3)",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T01:50:00+0800",
+   "entered_by": "bm-b r1103 (supply floor refill after E32 close)",
+   "id": "E33-LADDER-MEMBERSHIP",
+   "lane_owner": null,
+   "note": "r1103: the ladder's five members are frozen by construction. Re-select the top-5 by liquidity each quarter out of the 1,221-code panel and compare against the frozen five -- does membership choice add anything, or is the fixed set a free lunch of hindsight?",
+   "priority": 3,
+   "runner": "TBD: e27_universe_expansion.py --select-top 5 --cadence quarterly vs frozen (sh510300,sh510050,sh510500,sh512100,sh588000)",
    "shards": [],
    "status": "ready",
    "workers_plan": {
