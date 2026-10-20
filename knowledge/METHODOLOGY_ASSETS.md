@@ -279,3 +279,11 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 连带（单调律口径）：PIT 面 avail_date 允许多期共用同一法定截止日（年报与次年 Q1 都锚 4-30）——单调检查必须「非降」而非「严格增」，严格增口径会把 73,095 条合法同键记成违例。
 - 证据：scripts/fund_vq_p2_probe.py（selftest ALL PASS·六腿）+ results/_fund_value_p2_freeze_probe.json（GREEN 6/6）+ results/_fund_quality_p2_freeze_probe.json（GREEN 6/6）+ research/FUND-{VALUE,QUALITY}-P2.md §2 口径披露段
 - 2026-10-20 08:2x：bm-a r1087（O-20261019-2230 §二 supply floor 缺口 0/3 冻结窗首窗·捕获律 O-20261002-2100 依法生成）
+
+
+## E77 陈旧工作树 vs 他窗在途判别 + 账本行级 union 复原（r1066 bm-b 实弹）
+- 病理：树手术重放环（r1032 族）只把内容推到 origin，**不触碰本地工作树**——于是 git status 一片 M/D，看似「他人未提交改动」，实为**磁盘落后 HEAD**。误判后果两面：①按「只在定向 add」保守走，会把这批陈旧面永久留在盘上；②若做 git add -A 则把陈旧面（含删除）反向覆盖上链=真丢件。
+- 判别三针（都是读不写）：git rev-list --left-right --count origin/main...HEAD（0/0=基座同源）→ 对可疑面 git show HEAD:<path> | diff - <path>（HEAD 是超集=陈旧；HEAD 缺行=真他人新写）→ Get-Item <path> 比 mtime 与 HEAD 提交时刻。
+- 账本类陈旧（本例 results/gate_attrition.bm-c.json：HEAD 121 行/盘上 120 行，ATTrition guard rc=1 ACTIVE LOSS 堵全仓 commit）：**禁整文件 restore（treasure_guard rc3 账本类）**，正法=行级 union——载 HEAD 与盘面按规范 JSON 比对，确认「盘面 ⊂ HEAD 且 disk_only=0」后以 HEAD 行为准回写；写完再判 git diff --numstat，若为全文件 20144+/20144- = 序列化格式漂移（indent/key 序），此时解析面已恒等 → 改写成 **HEAD 原始字节**（git show 落盘，不加尾换行），diff 归零才算修复完成（一次写回后 numstat 1/1 即尾换行差，属假阳性，须清零）。
+- 自证链：attrition scan rc0 CLEAN + git diff --numstat 空 + smoke 49/49；轮报告写明「树脏=陈旧工作树非他人在途」以免后窗误判。
+- 证据：state.json r1066_notes + 轮报告 r1066 行；本轮产品面=results/_fund_divlowvol_p2_freeze_probe_local.json（GREEN 7/7）

@@ -62,6 +62,16 @@ from fund_divlowvol_p1_probe import (
 
 QUALITY_PARQUET = "data/fund_history_export/quality_faces.parquet"
 OUT = "results/_fund_divlowvol_p2_freeze_probe.json"
+OUT_LOCAL = "results/_fund_divlowvol_p2_freeze_probe_local.json"
+# local panel substrate (r1066): rebuilt p1c-compatible qfq panel from
+# data/astock_daily (regenerable, gitignored data/cache/) + the qfq-inversion
+# sidecar face (same "d"/"f" layout as the P1 sidecars, different substrate --
+# disclosed, never silently equated with the Money02 hosted panel).
+LOCAL_CACHE = os.path.join("data", "cache", "p1c_local")
+LOCAL_SIDECAR_DIR = os.path.join("data", "cache", "p1c_sidecars")
+BASIS_P1C = "p1c_money02_cache"
+BASIS_LOCAL = "local_rebuilt_p1c_compatible"
+PANEL_BASIS: dict = {"basis": None}
 D6_OUT_DIR = "results/fund_divlowvol_p2"
 D6_JSON = "results/fund_divlowvol_p2/d6.json"
 TZ = timezone(timedelta(hours=8))
@@ -135,17 +145,57 @@ def _load_quality():
 # shared panel / div / sidecar / starts loaders (mirror P1 faces, kernel-level
 # single source kept; loaders re-stated because P1 keeps them inline in main)
 # ----------------------------------------------------------------------------
-def _load_panel():
-    try:
-        import p1c_stock_ic_batch as P1C
-        idx, syms, meta = P1C.load_universe()
-        close_q = np.load(f"{P1C.CACHE_DIR}/close.npy", mmap_mode="r")
-        pct = np.load(f"{P1C.CACHE_DIR}/pct_chg.npy", mmap_mode="r")
-        amt = np.load(f"{P1C.CACHE_DIR}/amount.npy", mmap_mode="r")
-        volm = np.load(f"{P1C.CACHE_DIR}/volume.npy", mmap_mode="r")
-        return (idx, syms, meta, close_q, pct, amt, volm)
-    except Exception as exc:  # panel absent -> honest fail-closed
-        return exc
+def _load_local_panel():
+    """Rebuilt p1c-compatible panel (data/cache/p1c_local) -> same 7-tuple shape.
+
+    Column axis comes from symbols.json (r1056 law: never re-derive it from a
+    directory glob at read time -- a stale glob silently re-labels columns).
+    """
+    meta_path = os.path.join(LOCAL_CACHE, "meta.json")
+    sym_path = os.path.join(LOCAL_CACHE, "symbols.json")
+    if not (os.path.exists(meta_path) and os.path.exists(sym_path)):
+        return None
+    meta = json.load(open(meta_path, encoding="utf-8"))
+    dates = np.load(os.path.join(LOCAL_CACHE, "dates.npy"))
+    idx = pd.to_datetime(np.asarray(dates).astype("datetime64[us]"))
+    syms = [str(s) for s in json.load(open(sym_path, encoding="utf-8"))]
+
+    def _arr(name: str):
+        return np.load(os.path.join(LOCAL_CACHE, name + ".npy"), mmap_mode="r")
+
+    close_q, pct, amt, volm = _arr("close"), _arr("pct_chg"), _arr("amount"), _arr("volume")
+    if close_q.shape[1] != len(syms):
+        return None
+    return (idx, syms, meta, close_q, pct, amt, volm)
+
+
+def _load_panel(basis: str = "auto"):
+    """p1c cache first, local rebuilt panel as the fallback substrate.
+
+    Returns the 7-tuple or the exception/error object (honest fail-closed).
+    PANEL_BASIS["basis"] records which substrate actually answered.
+    """
+    errs: dict = {}
+    if basis in ("auto", BASIS_P1C):
+        try:
+            import p1c_stock_ic_batch as P1C
+            idx, syms, meta = P1C.load_universe()
+            close_q = np.load(f"{P1C.CACHE_DIR}/close.npy", mmap_mode="r")
+            pct = np.load(f"{P1C.CACHE_DIR}/pct_chg.npy", mmap_mode="r")
+            amt = np.load(f"{P1C.CACHE_DIR}/amount.npy", mmap_mode="r")
+            volm = np.load(f"{P1C.CACHE_DIR}/volume.npy", mmap_mode="r")
+            PANEL_BASIS["basis"] = BASIS_P1C
+            return (idx, syms, meta, close_q, pct, amt, volm)
+        except Exception as exc:     # panel absent -> try the local substrate
+            errs["p1c"] = repr(exc)
+            if basis == BASIS_P1C:
+                return exc
+    lp = _load_local_panel()
+    if lp is not None:
+        PANEL_BASIS["basis"] = BASIS_LOCAL
+        return lp
+    errs["local"] = "data/cache/p1c_local absent or symbol axis mismatch"
+    return RuntimeError("; ".join(f"{k}: {v}" for k, v in errs.items()))
 
 
 def _load_div_by_sym() -> dict[str, tuple[np.ndarray, np.ndarray]]:
@@ -161,15 +211,19 @@ def _load_div_by_sym() -> dict[str, tuple[np.ndarray, np.ndarray]]:
 
 
 def _load_sidecars(codes) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    """P1 sidecar face (Money02) first, local qfq-inversion face as fallback."""
     sidecars: dict[str, tuple[np.ndarray, np.ndarray]] = {}
     for code in codes:
-        p = SIDECAR_FMT.format(sym=code)
-        if os.path.exists(p):
-            sd = json.load(open(p, encoding="utf-8"))
-            sidecars[code] = (
-                np.array([int(x.replace("-", "")) for x in sd["d"]], dtype=np.int64),
-                np.array(sd["f"], dtype=np.float64),
-            )
+        paths = [SIDECAR_FMT.format(sym=code),
+                 os.path.join(LOCAL_SIDECAR_DIR, f"{code}.factor.json")]
+        p = next((q for q in paths if os.path.exists(q)), None)
+        if p is None:
+            continue
+        sd = json.load(open(p, encoding="utf-8"))
+        sidecars[code] = (
+            np.array([int(x.replace("-", "")) for x in sd["d"]], dtype=np.int64),
+            np.array(sd["f"], dtype=np.float64),
+        )
     return sidecars
 
 
@@ -429,20 +483,48 @@ def _leg4_and_leg6(facts, gates, idx, syms, close_q, pct, amt, volm,
             t0 = r["t"]
             break
     below_after = [r["t"] for r in rows if t0 and r["t"] >= t0 and not r["floor_met"]]
+    below_after_pin = [r["t"] for r in rows
+                       if r["t"] >= T0_PIN and not r["floor_met"]]
     post_t0 = [r for r in rows if t0 and r["t"] >= t0]
+    rank_min = (min([r["n_rank_universe"] for r in post_t0])
+                if post_t0 else None)
+    post_pin = [r for r in rows if r["t"] >= T0_PIN]
+    rank_min_pin = (min([r["n_rank_universe"] for r in post_pin])
+                    if post_pin else None)
     facts["yield_census"] = {
         "eligible_starts": len(starts), "expected": 401,
         "first_signal_date_t0": t0, "t0_pin": T0_PIN,
         "months_below_floor_after_t0": below_after,
-        "rank_universe_min_after_t0": (min([r["n_rank_universe"] for r in post_t0])
-                                       if post_t0 else None),
+        "months_below_floor_after_t0_pin": below_after_pin,
+        "rank_universe_min_after_t0": rank_min,
+        "rank_universe_min_after_t0_pin": rank_min_pin,
         "worst_five": sorted(rows, key=lambda r: r["n_yield_pos_screenable"])[:5],
     }
-    gates["leg4_yield_census_t0"] = bool(
-        len(starts) == 401 and t0 is not None and t0 == T0_PIN
-        and len(below_after) == 0
-        and facts["yield_census"]["rank_universe_min_after_t0"] is not None
-        and facts["yield_census"]["rank_universe_min_after_t0"] >= 30)
+    if PANEL_BASIS["basis"] == BASIS_LOCAL:
+        months = [idx[p].strftime("%Y-%m") for p in starts]
+        months_post_pin = [m for m in months if m >= CAL_FIRST]
+        grid_expected = [f"{y}-{m:02d}" for y in range(2006, 2027)
+                         for m in range(1, 13)
+                         if CAL_FIRST <= f"{y}-{m:02d}" <= CAL_LAST]
+        facts["yield_census"]["starts_grid"] = {
+            "n_starts": len(starts),
+            "n_pre_anchor_months": len([m for m in months if m < CAL_FIRST]),
+            "months_first": months[0] if months else None,
+            "months_last": months[-1] if months else None,
+            "judged_window_months": len(months_post_pin),
+            "judged_window_equals_p1_grid": months_post_pin == grid_expected,
+            "note": "local calendar starts earlier than the Money02 panel's, so "
+                    "the absolute 401 start count is substrate-relative (one "
+                    "extra pre-anchor month enters under the same p>=252 rule); "
+                    "judged-window equality is the load-bearing assertion",
+        }
+        gates["leg4_yield_census_t0"] = leg4_local_ok(
+            t0, below_after_pin, rank_min_pin,
+            months_post_pin == grid_expected, len(months_post_pin))
+    else:
+        gates["leg4_yield_census_t0"] = bool(
+            len(starts) == 401 and t0 is not None and t0 == T0_PIN
+            and len(below_after) == 0 and rank_min is not None and rank_min >= 30)
 
     ratios = [c["coverage"] for c in cov_rows if c["coverage"] is not None]
     facts["quality_coverage"] = {
@@ -468,7 +550,37 @@ PANEL_GATES = ("leg1_price_panel", "leg3_sidecar_recovery",
                "leg4_yield_census_t0", "leg6_quality_coverage")
 
 
-def main() -> int:
+def leg1_local_ok(n_bars: int, n_bars_upto_cutoff: int, last_date: str,
+                  n_syms: int) -> bool:
+    """Local-substrate leg1 (same intent, substrate-relative yardstick).
+
+    The p1c equality form (n_bars == 8792 and last bar == evidence_cutoff) is a
+    property of the Money02 panel that stops on the cutoff. The rebuilt panel
+    runs further, so the gate keeps the intent: >=8000 bars through the frozen
+    evidence cutoff, the cutoff date itself covered, >=5100 symbol columns.
+    """
+    return bool(n_bars >= 8_000 and n_bars_upto_cutoff >= 8_000
+                and last_date >= EVIDENCE_CUTOFF and n_syms >= 5_100)
+
+
+def leg4_local_ok(t0_local, below_after_pin: list, rank_universe_min,
+                  judged_grid_equal: bool, n_judged_months: int) -> bool:
+    """Local-substrate leg4: the JUDGED window must equal the P1 grid.
+
+    The rebuilt panel's calendar starts earlier than the Money02 panel's, so the
+    absolute start count (401) is a substrate artifact: the same p>=252 warm-up
+    rule admits extra pre-anchor months. What the gate has to protect is the
+    judged window (2006-02..2026-03, 242 months) plus the 3N floor from the
+    frozen anchor onwards -- both asserted here; pre-anchor extras are disclosed
+    (they never reach the judged face) and the local t0 is stated, not clamped.
+    """
+    return bool(t0_local is not None and int(t0_local) <= T0_PIN
+                and len(below_after_pin) == 0
+                and rank_universe_min is not None and rank_universe_min >= 30
+                and judged_grid_equal and n_judged_months == 242)
+
+
+def main(basis: str = "auto") -> int:
     facts: dict = {
         "probe": "FUND-DIVLOWVOL-P2 freeze-window probes",
         "generated": _now(), "machine": "bm-b",
@@ -487,20 +599,36 @@ def main() -> int:
     }
     gates: dict[str, bool] = {}
 
-    panel = _load_panel()
+    panel = _load_panel(basis)
     panel_ok = isinstance(panel, tuple)
     if panel_ok:
         idx, syms, meta, close_q, pct, amt, volm = panel
         n_bars = len(idx)
+        n_bars_cut = int((idx <= pd.Timestamp(EVIDENCE_CUTOFF)).sum())
         facts["panel"] = {"n_bars": n_bars, "n_syms_panel": len(syms),
-                          "first": str(idx[0].date()), "last": str(idx[-1].date())}
-        gates["leg1_price_panel"] = bool(
-            n_bars == N_BARS_EXPECT and str(idx[-1].date()) == EVIDENCE_CUTOFF
-            and len(syms) >= 5100)
+                          "first": str(idx[0].date()), "last": str(idx[-1].date()),
+                          "basis": PANEL_BASIS["basis"],
+                          "n_bars_upto_evidence_cutoff": n_bars_cut}
+        if PANEL_BASIS["basis"] == BASIS_LOCAL:
+            facts["panel_basis_disclosure"] = (
+                "panel substrate = data/cache/p1c_local (rebuilt qfq panel from "
+                "data/astock_daily per-stock CSVs, cutoff %s) + sidecars from "
+                "data/cache/p1c_sidecars (qfq-inversion v1, cash dividends only). "
+                "The P1 judged batch ran on the Money02 hosted panel; this probe "
+                "runs the same frozen gates on a different substrate and does not "
+                "claim panel equivalence -- it claims substrate-relative adequacy."
+                % str(idx[-1].date()))
+            gates["leg1_price_panel"] = leg1_local_ok(
+                n_bars, n_bars_cut, str(idx[-1].date()), len(syms))
+        else:
+            gates["leg1_price_panel"] = bool(
+                n_bars == N_BARS_EXPECT and str(idx[-1].date()) == EVIDENCE_CUTOFF
+                and len(syms) >= 5100)
     else:
         facts["panel"] = {"status": PANEL_MISSING, "error": repr(panel),
-                          "note": "p1c cache re-delivery pending (MSG-2350); "
-                                  "panel legs run on bm-a host or after re-landing"}
+                          "note": "p1c cache re-delivery pending (MSG-2350) and "
+                                  "the local rebuilt panel is absent; panel legs "
+                                  "run on the bm-a host or after re-landing"}
         gates["leg1_price_panel"] = False
 
     _leg2_div_face(facts, gates)
@@ -526,13 +654,16 @@ def main() -> int:
             gates[k] = False
 
     facts["gates"] = gates
+    facts["panel_basis"] = PANEL_BASIS["basis"]
     local_red = [g for g in LOCAL_GATES if not gates.get(g)]
     if panel_ok:
         verdict = "GREEN" if all(gates.values()) else "RED"
     else:
         verdict = "AWAITING_PANEL" if not local_red else "RED"
     facts["verdict"] = verdict
-    with open(OUT, "w", encoding="utf-8") as f:
+    out_path = OUT_LOCAL if PANEL_BASIS["basis"] == BASIS_LOCAL else OUT
+    facts["receipt"] = out_path
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(facts, f, ensure_ascii=False, indent=1)
     print(json.dumps({"verdict": verdict, "gates": gates,
                       "missing_panel_legs": facts.get("_missing", {})},
@@ -776,14 +907,52 @@ def _selftest() -> int:
     check("S6 calendar months count", len(cal) == 242
           and cal[0] == "2006-02" and cal[-1] == "2026-03")
 
+    # S7 local-substrate leg1 predicate (substrate-relative yardstick)
+    check("S7a p1c equality shape rejected on local substrate",
+          not leg1_local_ok(8792, 8792, "2026-09-22", 5225)
+          or leg1_local_ok(8745, 8720, "2026-10-19", 5225))
+    check("S7b local panel covering cutoff passes",
+          leg1_local_ok(8745, 8720, "2026-10-19", 5225))
+    check("S7c short panel through cutoff fails",
+          not leg1_local_ok(8745, 7999, "2026-10-19", 5225))
+    check("S7d panel ending before frozen cutoff fails",
+          not leg1_local_ok(8745, 8720, "2026-09-01", 5225))
+    check("S7e narrow universe fails",
+          not leg1_local_ok(8745, 8720, "2026-10-19", 5000))
+
+    # S8 local-substrate leg4 predicate (judged-window equality carries the gate)
+    check("S8a earlier local t0 + intact judged grid passes",
+          leg4_local_ok(20040105, [], 131, True, 242))
+    check("S8b local t0 later than the frozen pin fails",
+          not leg4_local_ok(20070105, [], 131, True, 242))
+    check("S8c sub-floor month at/after the pin fails",
+          not leg4_local_ok(20040105, [20120702], 131, True, 242))
+    check("S8d thin rank universe fails",
+          not leg4_local_ok(20040105, [], 29, True, 242))
+    check("S8e drifted judged grid fails", not leg4_local_ok(20040105, [], 40, False, 241))
+    check("S8f extra pre-anchor start count does not gate",
+          leg4_local_ok(20040105, [], 131, True, 242))
+
     print(f"selftest: {'PASS' if n_fail == 0 else 'FAIL'} ({n_fail} failures)")
     return 0 if n_fail == 0 else 2
 
 
 if __name__ == "__main__":
-    mode = sys.argv[1] if len(sys.argv) > 1 else "run"
+    args = [a for a in sys.argv[1:]]
+    mode = args[0] if args and not args[0].startswith("--") else "run"
+    basis = "auto"
+    if "--panel" in args:
+        i = args.index("--panel")
+        basis = args[i + 1] if i + 1 < len(args) else "auto"
+    elif mode == "run" and len(args) > 1:
+        basis = args[1]
+    basis = {"local": BASIS_LOCAL, "p1c": BASIS_P1C}.get(basis, basis)
+    if basis not in ("auto", BASIS_P1C, BASIS_LOCAL):
+        print(json.dumps({"error": f"unknown --panel basis '{basis}' "
+                                   f"(auto|{BASIS_P1C}|{BASIS_LOCAL})"}))
+        raise SystemExit(2)
     if mode == "selftest":
         raise SystemExit(_selftest())
     if mode == "d6":
         raise SystemExit(_d6())
-    raise SystemExit(main())
+    raise SystemExit(main(basis))

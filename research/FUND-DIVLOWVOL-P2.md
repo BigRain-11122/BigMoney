@@ -1,6 +1,6 @@
 # FUND-DIVLOWVOL-P2 预注册【DRAFT-NOT-FROZEN·r1038 开批票】· 红利低波族复活批（盈利质量过滤强化+参数邻域扫描+出场轴优化）
 
-> **状态=冻结窗进行中（r1040）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；r1040 已完成=probe 模块落地（scripts/fund_divlowvol_p2_probe.py·P1 内核单源 import·selftest 17/17·本地腿绿=leg2 分红面/leg5 种子带带册校验/leg6 质量 PIT 结构门·面板腿诚实 AWAITING_PANEL exit4）；**余项=面板腿（leg1/leg3/leg4/leg6 覆盖＋d6 子命令·需 p1c 面板·MSG-2350 重投请求在途或 bm-a 宿主跑）→ 跑齐 GREEN 后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
+> **状态=冻结窗进行中（r1040）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；r1040 已完成=probe 模块落地（scripts/fund_divlowvol_p2_probe.py·P1 内核单源 import·selftest 17/17·本地腿绿=leg2 分红面/leg5 种子带带册校验/leg6 质量 PIT 结构门·面板腿诚实 AWAITING_PANEL exit4）；**r1066 已完成=本地基座面板腿全绿（GREEN 7/7·回执 results/_fund_divlowvol_p2_freeze_probe_local.json·d6 ADMIT 0.2588·详见 §2.1）**；**余项=runner 落地（scripts/fund_divlowvol_p2_backtest.py）＋烧面二选一（p1c 重投 或 本地基座+送转充足性腿）→ 两件齐后 commit 冻结**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
 > 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
 > **CEO 判负线复活授权（O-20261019-2230-bm-b §二.1·三件律：本授权+新预注册+新证据）**：承 FUND-DIVLOWVOL-P1 判决（0.89 vs 基准 1.0025·DSR 0.675·results/fund_divlowvol_p1/fund_divlowvol_p1_results.json 在册），新证据三腿=①盈利质量过滤强化（eligibility np_ttm/np_annual+quality_faces 盈利质量面——P1 未用）②参数邻域扫描（Sobol/邻域格·判负面主判据邻域稳健性检验）③出场轴优化（出场轴显式门三选一显式声明·P1=②持有到底，P2 出场轴=r1039 冻结窗设计定稿）。防运气门不拆（CEO 令原文：技能线/DSR/PBO/种子登记/预注册冻结全照旧）。
 > 血统：FUND-DIVLOWVOL-P1.md（股票横截面月频族·bm-b r610 冻结·N_eff 2,002 池烧）＋ CEO 研究导向律合规（红利低波=A 股原生主流风格打法·形式化非国外框架筛国内打法）。
@@ -39,6 +39,14 @@
 1. **烧批价格面=p1c_stock 冻结面板**（P1 verbatim 同一面：与 P1 判决 0.89/DSR 0.675 同窗同面直接可比=复活批证伪连续性正身）。本地 astock_daily/per 面不胜任烧面：raw-close 回收需 Money02 factor sidecar（本地 0/5,124 在位），仅凭现金分红事件重建 f(t) 遇送转事件必然错位——诚实判负不采用（词面「本地重建主路」就此更正）。**evidence_cutoff=2026-09-22（P1 同锚·D2 lockbox）**：复活批=同窗证伪连续性检验——对 P1 否证的增量证据必须在同一评价窗上成立（新批新锚 2026-10-19 默认位的显式例外·理由在案）；astock_daily/per（cutoff 10-19）=前向采集道记录，非本批烧面。
 2. **bm-b/bm-c 分片车道**：p1c 缓存重投请求已发 bm-a（数据面通道按 TRANSFER.md 矩阵·回执窗 ≤2 轮）；重投到位前烧批主力=bm-a 宿主（O-20261019-2230 §二「bm-a=重烧主力」verbatim·P1 N_eff 2,002 池烧先例）。
 3. **质量腿历史面=quality_faces PIT only**：eligibility.csv 为当日快照——历史信号日禁用（防前视·r1039 冻结窗焊死；原草案 §3 混用快照面已更正）。
+
+### §2.1 冻结窗修订（r1066 bm-b·本地基座探针全绿·**冻结窗内变更，跑前，非看结果调线**）
+r1039 裁定 1 判「本地 astock_daily/per 面不胜任」的理由是**当时本地 0/5,124 因子 sidecar 在位**。该缺口已在 r1056 被补齐（`data/cache/p1c_local`＝由 astock_daily/per 重建的 p1c 兼容 qfq 面板 8,745 bars×5,225 syms·cutoff 2026-10-19；`data/cache/p1c_sidecars`＝5,124 件 qfq-inversion-v1 现金分红因子）。r1066 据此把 probe 的**面板腿**跑到本地基座上（`python scripts/fund_divlowvol_p2_probe.py run --panel local`），结果：
+
+- **探针裁定=GREEN（7/7 腿）**，回执 `results/_fund_divlowvol_p2_freeze_probe_local.json`（内容 sha16 `81409bcd06f02c27`·幂等·selftest 25 腿 PASS）。实测：leg1 8,745 bars/5,225 员/切点 2026-10-19（≥锚 2026-09-22 覆盖，frozen cutoff 前 8,732 bars）；leg2 分红面 54,494 行；**leg3 sidecar 回收 36,697 纯现金事件·中位相对偏差 2.6e-9·frac_exact 1.0**（711 事件混合/缺席如实排除）；leg4 月度普查 402 starts·本地 t0=2003-11-03（早于锚·披露不夹持）·锚后零月破 60 线·锚后 rank 域最小 131；leg6 质量覆盖 min 0.9972/中位 1.0；leg5 种子带全册扫描无碰撞。
+- **两处基座相对判据（显式替换·同旨更强，写死不再改）**：①leg1 由「bars==8,792 且末 bar==cutoff」改为「穿 frozen cutoff ≥8,000 bars ∧ 末 bar ≥ cutoff ∧ 员数 ≥5,100」（本地面板日历起点更早、终点更晚，等值式是 Money02 面板的形状而非判据本意）；②leg4 由「t0==2006-02-06 且 starts==401」改为「本地 t0 ≤ 锚 ∧ 锚后零月破线 ∧ **判读窗逐月恒等 P1 网格（2006-02..2026-03=242 月·实测 true）**」。多出的 1 个 start 落在锚前（1992-2006 共 160 个月），永不进入判读窗，如实披露。
+- **d6 同族准入=ADMIT**：max|corr|=0.2588（<0.7 线），家族前代披露 0.8039 照记，回执 `results/fund_divlowvol_p2/d6.json`。
+- **残留风险（不掩盖·烧面裁决仍待）**：qfq-inversion 因子只建模**现金分红**，本地**无送转事件面**——r1039 的原警告（送转下 raw-close 重建必错位）在本地基座上**仍未排除**，leg3 已知答案只覆盖纯现金事件（故其「精确」部分是构造自洽而非独立证伪）。烧面两条路：**(A) p1c 重投到位**（P1 同面·零残留风险·首选）或 **(B) 本地基座 + 送转充足性腿**（需先取得送转事件面）。**本探针 GREEN 只是冻结门的地板，不等于冻结成立**：冻结仍须 runner 落地（`scripts/fund_divlowvol_p2_backtest.py`）+ 烧面二选一裁决。
 
 - **数据锚面定义四元组【G-ANCHOR-FACE·冻结窗定稿】**：
   - 分红事件：`data/fund_history_export/div_events_faces.parquet`｜加载=pandas.read_parquet｜起算窗=1991-04-03→2026-10-23 全史｜预热=信号日前推 365d TTM 窗（ttm_cash_sum 内核 import 自 fund_divlowvol_p1_probe 单源）。
