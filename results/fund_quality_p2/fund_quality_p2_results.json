@@ -1,0 +1,284 @@
+{
+  "batch": "FUND-QUALITY-P2",
+  "cells_burned": 20,
+  "cells_expected": 20,
+  "evidence_cutoff": "2026-09-22",
+  "family_key": "fund_quality_stock_xs",
+  "g1_prime_v2": {
+    "bootstrap_ci": {
+      "block_days": 10.0,
+      "ci95_high": 0.856,
+      "ci95_low": 0.078,
+      "ci_lower_bound_positive": true,
+      "n_resamples": 1000,
+      "point": 0.4537,
+      "seed": 20260923
+    },
+    "ci_lower_bound_positive": true,
+    "gate": "g1_prime_v2",
+    "line_ok": false,
+    "pass_v2": false,
+    "sharpe_full": 0.4537,
+    "skill_line": {
+      "ledger_head": {
+        "file": "n1_w287_results.json",
+        "note": "perpetual N1 nulls-deepening wave 287 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+        "total": 1055741,
+        "voided": [
+          {
+            "batch": "LOWAMP-P1",
+            "voided_trials": 2008
+          },
+          {
+            "batch": "LOWAMP-P2",
+            "voided_trials": 2008
+          }
+        ]
+      },
+      "line": 1.1562,
+      "mu_null": -0.0912,
+      "n_eff": 1057761,
+      "null_pool_source": "p2_calibration_v2.json:families[random*].runs[].full.sharpe (RW-6 engine-effect recompute, preferred)",
+      "null_term": 1.1562,
+      "passive_source": "pool:core48",
+      "passive_term": 0.4792,
+      "pool": "core48",
+      "sigma_null": 0.2368
+    },
+    "trade_gate": {
+      "dual_ok": true,
+      "entries_ok": true,
+      "min": 30,
+      "n_entries": 1260,
+      "n_trades": 1239,
+      "trades_ok": true
+    }
+  },
+  "headline_cell": "MAIN-x1",
+  "n_eff": 2020,
+  "nulls": 2000,
+  "rows": {
+    "DEF-roe_level_x_stability_rank-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.08996,
+        "max_dd": -0.714846,
+        "n_days": 6078,
+        "sharpe_ann": 0.421257,
+        "total_ret": 3.836722
+      },
+      "n_trades": 1541
+    },
+    "DEF-roe_level_x_stability_rank-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.090795,
+        "max_dd": -0.742886,
+        "n_days": 6078,
+        "sharpe_ann": 0.400651,
+        "total_ret": 3.62933
+      },
+      "n_trades": 1541
+    },
+    "DEF-roe_stability_only-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.100294,
+        "max_dd": -0.792357,
+        "n_days": 6078,
+        "sharpe_ann": 0.373768,
+        "total_ret": 3.587956
+      },
+      "n_trades": 1053
+    },
+    "DEF-roe_stability_only-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.104185,
+        "max_dd": -0.817607,
+        "n_days": 6078,
+        "sharpe_ann": 0.361013,
+        "total_ret": 3.44383
+      },
+      "n_trades": 1053
+    },
+    "EX-hard_stop_-15pct-x1": {
+      "default_stack_share": 0.373408,
+      "metrics": {
+        "ann_ret": 0.070601,
+        "max_dd": -0.478228,
+        "n_days": 6078,
+        "sharpe_ann": 0.502866,
+        "total_ret": 3.154052
+      },
+      "n_trades": 1963
+    },
+    "EX-hard_stop_-15pct-x2": {
+      "default_stack_share": 0.373408,
+      "metrics": {
+        "ann_ret": 0.069618,
+        "max_dd": -0.511071,
+        "n_days": 6078,
+        "sharpe_ann": 0.475715,
+        "total_ret": 2.985179
+      },
+      "n_trades": 1963
+    },
+    "EX-hard_stop_-20pct-x1": {
+      "default_stack_share": 0.267221,
+      "metrics": {
+        "ann_ret": 0.071814,
+        "max_dd": -0.488345,
+        "n_days": 6078,
+        "sharpe_ann": 0.49322,
+        "total_ret": 3.199793
+      },
+      "n_trades": 1684
+    },
+    "EX-hard_stop_-20pct-x2": {
+      "default_stack_share": 0.267221,
+      "metrics": {
+        "ann_ret": 0.070881,
+        "max_dd": -0.519523,
+        "n_days": 6078,
+        "sharpe_ann": 0.467939,
+        "total_ret": 3.031965
+      },
+      "n_trades": 1684
+    },
+    "EX-trailing_12_8-x1": {
+      "default_stack_share": 0.463755,
+      "metrics": {
+        "ann_ret": 0.055184,
+        "max_dd": -0.470793,
+        "n_days": 6078,
+        "sharpe_ann": 0.42448,
+        "total_ret": 2.014725
+      },
+      "n_trades": 2290
+    },
+    "EX-trailing_12_8-x2": {
+      "default_stack_share": 0.463755,
+      "metrics": {
+        "ann_ret": 0.053482,
+        "max_dd": -0.496817,
+        "n_days": 6078,
+        "sharpe_ann": 0.39214,
+        "total_ret": 1.843122
+      },
+      "n_trades": 2290
+    },
+    "MAIN-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.077361,
+        "max_dd": -0.547192,
+        "n_days": 6078,
+        "sharpe_ann": 0.453662,
+        "total_ret": 3.365763
+      },
+      "n_trades": 1239
+    },
+    "MAIN-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.076915,
+        "max_dd": -0.574816,
+        "n_days": 6078,
+        "sharpe_ann": 0.432234,
+        "total_ret": 3.199964
+      },
+      "n_trades": 1239
+    },
+    "NN-10-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.071376,
+        "max_dd": -0.630368,
+        "n_days": 6078,
+        "sharpe_ann": 0.360706,
+        "total_ret": 2.403477
+      },
+      "n_trades": 683
+    },
+    "NN-10-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.071324,
+        "max_dd": -0.668935,
+        "n_days": 6078,
+        "sharpe_ann": 0.340125,
+        "total_ret": 2.222034
+      },
+      "n_trades": 683
+    },
+    "NN-15-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.073687,
+        "max_dd": -0.581988,
+        "n_days": 6078,
+        "sharpe_ann": 0.412316,
+        "total_ret": 2.889837
+      },
+      "n_trades": 956
+    },
+    "NN-15-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.073286,
+        "max_dd": -0.616369,
+        "n_days": 6078,
+        "sharpe_ann": 0.390896,
+        "total_ret": 2.719697
+      },
+      "n_trades": 956
+    },
+    "NN-25-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.076354,
+        "max_dd": -0.566857,
+        "n_days": 6078,
+        "sharpe_ann": 0.424161,
+        "total_ret": 3.112083
+      },
+      "n_trades": 1507
+    },
+    "NN-25-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.076039,
+        "max_dd": -0.595301,
+        "n_days": 6078,
+        "sharpe_ann": 0.404253,
+        "total_ret": 2.950581
+      },
+      "n_trades": 1507
+    },
+    "NN-30-x1": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.077043,
+        "max_dd": -0.565824,
+        "n_days": 6078,
+        "sharpe_ann": 0.432969,
+        "total_ret": 3.212087
+      },
+      "n_trades": 1787
+    },
+    "NN-30-x2": {
+      "default_stack_share": 0.0,
+      "metrics": {
+        "ann_ret": 0.076742,
+        "max_dd": -0.594639,
+        "n_days": 6078,
+        "sharpe_ann": 0.412875,
+        "total_ret": 3.052182
+      },
+      "n_trades": 1787
+    }
+  },
+  "ts": "2026-10-20T13:34:28+08:00",
+  "verdict_note": "g1 computed on headline cell; registration columns require the batch null family"
+}
