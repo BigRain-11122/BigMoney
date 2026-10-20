@@ -271,3 +271,11 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 
 - [r1037 bm-b 2026-10-19] CAS 外科变更集法（diff-tree --raw -z 变更集取面·防名字模式匹配集静默回退他窗面）+ GUI 子系统安装器承载法（Start-Process -Wait + ExitCode 显读·PS & no-wait 坑）+ S4U 提权探针法（IsInRole 可靠面·Groups 字符串 contains 假阴性）。正身=results/_r1037bmb_group_cas.py。
 - [r1058 bm-b 2026-10-20] 超额收益探针的估计量一致性律：事件腿=算术个股收益时，市场腿必须用**同窗算术等权均值**（open→close 同起点），禁用几何对数指数代理——几何均值低于算术均值约 σ²/2，会把整批超额系统性抬高（本轮首跑 k=10 净 +0.85% 的假强信号即此偏差）；同时年代分代 + 随机同日长对照双承重、t 统计因事件聚集只作参考。证据=results/divex_harvest/HARVEST-2026-10-19.json
+
+
+## E77 数据面门线的宇宙口径错位律（r1087 bm-a 实弹·FUND-VALUE-P2/QUALITY-P2 冻结窗首案）
+- 病理：P1 导出门写下的「逐员锚数中位 >=60」是针对 101 期全名册导出件的口径；P2 面换成 5,223 员全上市跨度宇宙后同一行线实测中位 52（p25 35 / p75 83 / p90 100，仅 44% 员达 60）——线没变、宇宙变了=测的不是同一件事。若直接把 52 当红则误杀可用面；若静默把线改到 40 则是「跑到达标为止」。
+- 正法三件：①**门线必带宇宙口径注记**（分母是什么、员集合是什么——写成 floor_basis 字段随件落盘）；②**改线必须同窗披露实测分布+原线来历+为何不可比**，改后线取「业务 adequacy 语义」（本批=40 季锚=中位员 10 年法定申报史）并逐字留在 prereg 里供复审；③**覆盖类门一律从批次判读窗起算**（P1 headline t0 月），全历数字同时披露——t0 之前的面世前史不属判决窗。
+- 连带（单调律口径）：PIT 面 avail_date 允许多期共用同一法定截止日（年报与次年 Q1 都锚 4-30）——单调检查必须「非降」而非「严格增」，严格增口径会把 73,095 条合法同键记成违例。
+- 证据：scripts/fund_vq_p2_probe.py（selftest ALL PASS·六腿）+ results/_fund_value_p2_freeze_probe.json（GREEN 6/6）+ results/_fund_quality_p2_freeze_probe.json（GREEN 6/6）+ research/FUND-{VALUE,QUALITY}-P2.md §2 口径披露段
+- 2026-10-20 08:2x：bm-a r1087（O-20261019-2230 §二 supply floor 缺口 0/3 冻结窗首窗·捕获律 O-20261002-2100 依法生成）

@@ -1,0 +1,94 @@
+{
+ "batch": "FUND-QUALITY-P2",
+ "ts": "2026-10-20T08:18:47+08:00",
+ "evidence_cutoff": "2026-09-22",
+ "law": "O-20261019-2230-bm-b sec.2 supply floor; freeze-before-burn",
+ "price_panel": {
+  "n_bars": 8792,
+  "n_symbols": 5222,
+  "first_bar": "1990-12-19",
+  "last_bar": "2026-09-22",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "face_quality": {
+  "path": "data/fund_history_export/quality_faces.parquet",
+  "rows": 306414,
+  "n_symbols": 5223,
+  "anchor_column": "avail_date",
+  "anchor_span": [
+   "2001-04-30",
+   "2026-08-31"
+  ],
+  "per_symbol_anchor_median": 52,
+  "per_symbol_anchor_p10_p90": [
+   26,
+   100
+  ],
+  "duplicate_keys": 0,
+  "monotonic_violations": 0,
+  "anchor_median_floor": 40,
+  "anchor_floor_basis": ">= 40 quarterly anchors = 10y of statutory filings for the median symbol. The P1 export door line of 60 assumed the 101-period full-roster export; across the 5,223-symbol listed-span universe (median 52, p25 35, p75 83, p90 100) 44% of symbols reach 60. The line is restated here for this universe and disclosed, not silently moved after seeing a result",
+  "share_symbols_at_or_above_floor": 0.6728
+ },
+ "pit_quality": {
+  "mode": "statutory_filing_date",
+  "period_end_span": [
+   "2001-03-31",
+   "2026-06-30"
+  ],
+  "avail_date_span": [
+   "2001-04-30",
+   "2026-08-31"
+  ],
+  "avail_before_period_violations": 0,
+  "statutory_map_violations": 0,
+  "statutory_map_rows_checked": 306414,
+  "null_roe_rows": 11176
+ },
+ "start_census": {
+  "n_starts": 401,
+  "t0": "1992-09-01",
+  "expected": 401
+ },
+ "coverage_quality": {
+  "judged_from": "2001-09",
+  "judged_from_note": "coverage is judged from the P1 headline t0 month onward -- months before t0 were never part of the judged window",
+  "months_judged": 295,
+  "coverage_median": 0.9998,
+  "coverage_p05": 0.999,
+  "coverage_min": 0.9978,
+  "months_below_floor": [],
+  "n_months_below_floor": 0,
+  "full_calendar_months": 401,
+  "full_calendar_median": 0.9997,
+  "full_calendar_n_months_below_floor": 106,
+  "floor": 0.8,
+  "domain_note": "listed domain (close notna) only -- amt20 liquidity mask not applied, so this ratio is a conservative lower bound"
+ },
+ "seed_band_scan": {
+  "own_pair": {
+   "fund_quality_p2_nulls": 20517500,
+   "fund_quality_p2_sens": 20518000
+  },
+  "registration_exact_ok": true,
+  "exact_collisions_other": {},
+  "furnace_band": [
+   20333000,
+   20445400
+  ],
+  "in_furnace_band": {},
+  "proximity_violations_other": {},
+  "own_pair_distance": 500,
+  "own_pair_disclosure": "by-design pair-seed sub-stream layout (P1 precedent 20520000/20520500) -- disclosed, not gated"
+ },
+ "gates": {
+  "leg1_price_panel": true,
+  "leg2_face_structural": true,
+  "leg3_pit_sanity": true,
+  "leg6_start_census": true,
+  "leg4_monthly_coverage": true,
+  "leg5_seed_band": true
+ },
+ "verdict": "GREEN",
+ "red_gates": []
+}

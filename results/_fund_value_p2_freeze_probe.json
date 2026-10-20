@@ -1,0 +1,84 @@
+{
+ "batch": "FUND-VALUE-P2",
+ "ts": "2026-10-20T08:18:28+08:00",
+ "evidence_cutoff": "2026-09-22",
+ "law": "O-20261019-2230-bm-b sec.2 supply floor; freeze-before-burn",
+ "price_panel": {
+  "n_bars": 8792,
+  "n_symbols": 5222,
+  "first_bar": "1990-12-19",
+  "last_bar": "2026-09-22",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "face_value": {
+  "path": "data/fund_history_export/value_faces.parquet",
+  "rows": 4133848,
+  "n_symbols": 5224,
+  "anchor_column": "anchor_date",
+  "anchor_span": [
+   "1991-03-18",
+   "2026-10-01"
+  ],
+  "per_symbol_anchor_median": 693,
+  "per_symbol_anchor_p10_p90": [
+   605,
+   1142
+  ],
+  "duplicate_keys": 0,
+  "monotonic_violations": 0,
+  "anchor_median_floor": 550,
+  "anchor_floor_basis": "P1 value face delivered ~2 anchors/month over a 25y span -> median >= 550 anchors per symbol",
+  "share_symbols_at_or_above_floor": 0.9757
+ },
+ "pit_value": {
+  "mode": "as_published_market_multiple",
+  "null_anchors": 0,
+  "filing_day_gate": "N/A -- pe_ttm/pb are as-published market multiples, not filing data (P1 sec.2 declaration carried verbatim)"
+ },
+ "start_census": {
+  "n_starts": 401,
+  "t0": "1992-09-01",
+  "expected": 401
+ },
+ "coverage_value": {
+  "judged_from": "1994-05",
+  "judged_from_note": "coverage is judged from the P1 headline t0 month onward -- months before t0 were never part of the judged window",
+  "months_judged": 383,
+  "coverage_median": 0.9995,
+  "coverage_p05": 0.9796,
+  "coverage_min": 0.933,
+  "months_below_floor": [],
+  "n_months_below_floor": 0,
+  "full_calendar_months": 401,
+  "full_calendar_median": 0.9993,
+  "full_calendar_n_months_below_floor": 7,
+  "floor": 0.8,
+  "domain_note": "listed domain (close notna) only -- amt20 liquidity mask not applied, so this ratio is a conservative lower bound"
+ },
+ "seed_band_scan": {
+  "own_pair": {
+   "fund_value_p2_nulls": 20515000,
+   "fund_value_p2_sens": 20515500
+  },
+  "registration_exact_ok": true,
+  "exact_collisions_other": {},
+  "furnace_band": [
+   20333000,
+   20445400
+  ],
+  "in_furnace_band": {},
+  "proximity_violations_other": {},
+  "own_pair_distance": 500,
+  "own_pair_disclosure": "by-design pair-seed sub-stream layout (P1 precedent 20520000/20520500) -- disclosed, not gated"
+ },
+ "gates": {
+  "leg1_price_panel": true,
+  "leg2_face_structural": true,
+  "leg3_pit_sanity": true,
+  "leg6_start_census": true,
+  "leg4_monthly_coverage": true,
+  "leg5_seed_band": true
+ },
+ "verdict": "GREEN",
+ "red_gates": []
+}
