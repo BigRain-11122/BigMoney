@@ -1,0 +1,36 @@
+{
+  "ts": "2026-10-20T16:50:45+0800",
+  "audit": "T27 PIT availability repair (min(latest_revision, deadline))",
+  "faces": {
+    "income": {
+      "rows": 461679,
+      "avail_date_present": 461629,
+      "median_lag_days_before": 418.0,
+      "median_lag_days_after": 62.0,
+      "p90_lag_days_after": 120.0,
+      "rows_tightened": 423145,
+      "invalid_early_avail": 0,
+      "out": "data\\fund_statement_export\\pit_avail\\income_avail.parquet"
+    },
+    "balance": {
+      "rows": 283955,
+      "avail_date_present": 283523,
+      "median_lag_days_before": 50.0,
+      "median_lag_days_after": 46.0,
+      "p90_lag_days_after": 120.0,
+      "rows_tightened": 93470,
+      "invalid_early_avail": 43,
+      "out": "data\\fund_statement_export\\pit_avail\\balance_avail.parquet"
+    },
+    "cashflow": {
+      "rows": 292537,
+      "avail_date_present": 292207,
+      "median_lag_days_before": 396.0,
+      "median_lag_days_after": 62.0,
+      "p90_lag_days_after": 120.0,
+      "rows_tightened": 265876,
+      "invalid_early_avail": 8,
+      "out": "data\\fund_statement_export\\pit_avail\\cashflow_avail.parquet"
+    }
+  }
+}

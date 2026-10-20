@@ -1,0 +1,71 @@
+{
+ "wave": 290,
+ "machine": "bm-c",
+ "round": "r1164",
+ "phase": "prereg freeze",
+ "prereg": "research/PERPETUAL_N1_W290_PREREG.md",
+ "derive_script": "results/_r1164bmc_prereg_derive_w290.py",
+ "src_face": "results/_w290bmc_w289_frozen_face.txt",
+ "src_face_provenance": "git show c97b8308ec:research/PERPETUAL_N1_W289_PREREG.md (r1161 freeze-commit pre-run face; hash-object identity asserted in-script)",
+ "seat_receipt": "results/_w290bmc_20261020_probe_receipt.json",
+ "seat_msg": "fleet/inbox/MSG-20261020-1720-bmc-w290-seat.md",
+ "bands": {
+  "A": [
+   653301,
+   655300
+  ],
+  "B": [
+   655301,
+   655500
+  ],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 653_101..655_100 refused at start by REGISTERED W289 B 653_101..653_300)",
+  "B_form": "own-A reservation cascade 1-hop (naive 653_301..653_500 lands inside own-wave A window)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1060141,
+  "merged_k": 633720,
+  "n_eff_held": 1057941,
+  "source": "results/_r1162bmc_w289_fivekeys.json (all_pass=true)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 635920,
+  "ledger_total": 1062341,
+  "n_eff": 1060141
+ },
+ "universe": {
+  "owner_rows": 279,
+  "bmc_rows": 108,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 280,
+  "own_wave_ordinal": 109
+ },
+ "gates": {
+  "derive_rule_count": 32,
+  "post_shift_repair_count": 6,
+  "residual_scan": "empty",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "08022dc52d1e2f6e",
+ "out_bytes": 24499,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "GPU face restated from this window's live nvidia-smi read (2.0G VRAM, no job on the card): the inherited W289 caption claimed a ComfyUI job was burning, which is false this window",
+  "engine face restated: saturation_engine status reports 3 adopted W288 shard burns (7/9/10) whose PIDs 12280/51352/55932 are all dead, so the inherited 'idle queue' caption would have been false; the face now states the measured queue and flags the residue as not this wave's",
+  "se_mu narrowing chain carries true W288 (0.000308) + W289 (0.000308) actuals with one W290 projection",
+  "RAM walk rebuilt: W288 ~3.5G / W289 ~0.2G actuals + this window's live reading appended",
+  "line_pre_w289 1.1982 is a post-shift repair (the +1 label pass would have relabelled it w290)"
+ ]
+}
