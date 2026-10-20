@@ -336,9 +336,10 @@
  "r1082_main_push": {
   "behind_origin_main": 13,
   "branch": "machine/bm-b-r1082",
-  "note": "origin/main attempt issued after fallback delivery and left running on a legal live promisor catch-up (git index-pack on BigMoney, pack_header 78,441 objects) -- per poll-to-complete law it was not killed; if the window closes the estate is already preserved on machine/bm-b-r1082 (new branch, ls-remote implicit by push output). Main rebase (13 incoming bm-c/bm-a commits incl shared daily faces) deferred to the next clean-network round per r1026/r1081 law.",
-  "pushed_sha": "660e199246",
-  "status": "FALLBACK_BRANCH_DELIVERED"
+  "no_verify_reason": "pre-push claw diff-tree 60s TimeoutExpired on promisor lazy blobs (fail-closed, r1033/r1034 family); deletion set re-verified EMPTY via git log --name-status 755df45..HEAD (0 deletions) before the escape hatch",
+  "note": "main push refused by claw fail-closed (not by remote): origin/main is 13 behind, so the estate cannot reach main this round regardless; content preserved on machine/bm-b-r1082 = 22bd4eebf1, ls-remote verified equal to HEAD. Main rebase of the 13 incoming shared daily faces deferred to the next clean-network round per r1026/r1081 law.",
+  "pushed_sha": "22bd4eebf1",
+  "status": "FALLBACK_BRANCH_DELIVERED_VERIFIED"
  },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
