@@ -19446,9 +19446,13 @@
    "lane_owner": "bm-b",
    "note": "r1099: the 1,276-code ETF panel behind the E24-E27 research line has NO live updater -- 1,671 of 1,725 files end at 2026-09-22 (a one-off 2026-10-17 bulk import) while only the 5 pinned ladder members + ~48 others reach 2026-10-20. Every cross-sectional study must now be hand-truncated at the coverage cliff. Build the refresh leg so the family can run to the real cutoff. Lane=bm-b (same lineage as update_astock_daily/update_etf_daily bm-b lanes).",
    "priority": 2,
-   "runner": "python scripts/update_etf_universe.py refresh  (NOT BUILT YET -- this is the next round product increment)",
+   "runner": "python scripts/update_etf_universe.py refresh",
+   "done_at": "2026-10-21T06:20:00+08:00",
+   "done_by": "bm-b r1121",
+   "result_ref": "results/etf_universe_pull_status.json + data/daily (1,671 files, +20,854 rows)",
+   "done_note": "coverage cliff closed: tail-date histogram 53/1,725 current -> 1,723/1,725 at 2026-10-20 (1,667 attempted / 1,572 ok / 95 file-lock failures / 20,854 rows / zero overlap mismatch); 510880_t73.csv is a specialist copy outside the universe name rule and sh512390.csv has no sina bars after 2026-09-04 (delisted at source, not a refresh defect)",
    "shards": [],
-   "status": "waiting",
+   "status": "done",
    "workers_plan": {
     "note": "sina klc_kl.js direct + MiniRacer decode (update_etf_daily legacy); 2.5s pacing, per-symbol checkpoint, conn-fuse 3, atomic write",
     "priority": "BelowNormal",
@@ -20300,7 +20304,7 @@
   },
   {
    "id": "E45-WARM-SPREAD",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Every E34-E44 spread is quoted off a cold-started window, and r1120 measured that the 250-bar gate deletes the first ~12.3 months of every window (6.07pp/yr of wide-book annualised return on a 2013 start). Both legs share the start, so the spread should be immune -- but the cash leg is not: it accrues 1.0 weight during the dead block for both books, and the block is 16.0% of the 2020 window against 7.7% of a 2013 one. Re-price the era spreads on warm slices (same spec run on the full calendar, sliced afterwards) and say whether the newest-era-weakest ordering survives once the dead block is outside the measurement.",
@@ -20309,7 +20313,12 @@
    "entered_at": "2026-10-21T06:22:00+08:00",
    "entered_by": "bm-b r1120",
    "evidence_cutoff": "2026-10-20",
-   "runner_note": "r1121: still no runner -- these two need legs that do not exist yet (mid-month name-level diff, warm-slice era re-pricing); autofill cannot ignite them until authored."
+   "runner_note": "r1121: still no runner -- these two need legs that do not exist yet (mid-month name-level diff, warm-slice era re-pricing); autofill cannot ignite them until authored.",
+   "runner": "python scripts/e39_panel_census.py warmspread",
+   "done_at": "2026-10-21T06:40:00+08:00",
+   "done_by": "bm-b r1122",
+   "result_ref": "results/e45_warm_spread/WARMSPREAD-20261020.json + research/digests/DIGEST-20261021-e45-warm-spread.md",
+   "done_note": "warm reproduces E41 to 0.1bp (236/419/243/89); cold 236/404/179/-77; newest era is thinnest in both readings but ordering_preserved=false, and the live window from 2025-02-05 is -129bp/yr against the warm era face"
   },
   {
    "id": "E45-BURNIN-KNIFE",
@@ -20328,6 +20337,32 @@
    "done_at": "2026-10-21T06:22:00+08:00",
    "done_by": "bm-b r1121",
    "answer": "Not a tax. Lowering the gate to 120 does NOT buy the return back: wide ann gap 120-vs-250 = -0.21 / -0.07 / -1.22 / +0.91 pp on 2013/2016/2018/2020 starts, while the eligible set grows only +5/+6/+6/+13 names. The ordering is not monotone either -- at 60 bars 2013 and 2018 get WORSE (6.78 vs 7.61, 4.80 vs 7.02) but 2020 gets much BETTER (4.66 vs 0.49). So the 250 is neither a pure safety margin nor a uniform tax: it is a window-dependent filter, and the only window where the cheap gate clearly wins is the newest one."
+  },
+  {
+   "id": "E47-LIVESPAN-THIRDS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E46 split each era in halves and found the newest era is the only one with an internal sign flip (+380bp then -215bp, band 595bp) while pre2017 and 2017-2020 vary by 30-41bp. Two halves is the bluntest possible cut, and a flip could be one stretch rather than a shape. Cut the same warm curve into thirds per era and report each third's spread: does the newest era decay monotonically (a trend), invert (one reversal), or is the flip simply the boundary landing on one bad stretch?",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x1-p3.json",
+   "source": "r1122 livespan face: 2024_now halves 380 / -215, the only sign flip in four eras",
+   "entered_at": "2026-10-21T06:55:00+08:00",
+   "entered_by": "bm-b r1122",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --parts 3"
+  },
+  {
+   "id": "E47-LIVESPAN-ZERO-COST",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The newest era's second half reads -215bp at cost x1 and -224bp at cost x3, so the sign is not a cost artefact -- but both are charged for the wide book's churn. Run the same split at cost x0: if the negative half survives with zero fees the wide book simply underperformed; if it disappears, the era's edge was eaten by turnover rather than by selection.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p2.json",
+   "source": "r1122 livespan face: x1 -215bp vs x3 -224bp on the newest era's second half",
+   "entered_at": "2026-10-21T06:55:00+08:00",
+   "entered_by": "bm-b r1122",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

@@ -2299,6 +2299,313 @@ def run_knife(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01
     }
 
 
+# ---------------------------- leg: E45 warm slices vs cold-start windows
+#
+# Every era spread since E41 is quoted off the E24/E27 engine, and r1120 measured
+# that the 250-bar rule deletes 259-265 sessions (12.3 months) from the front of
+# ANY start window. Both books share that dead block, so the spread itself should
+# be immune -- but the block is not free: while the book holds nothing the engine
+# carries cash at weight 1.0, so the dead block accrues at the repo rate for both
+# books and it is a very different share of a 2024 window than of a 2013 one.
+# This leg puts the two quotes side by side per era -- the warm slice (one curve
+# on the full calendar, sliced afterwards, so the burn-in is paid outside the
+# measured span) against the cold start (a fresh curve from the era's own start)
+# -- and reports the dead block's size and what it accrued in each case.
+
+def _bars_before(curve, date):
+    """Bars in ``curve`` strictly before ``date``; 0 when ``date`` is unknown."""
+    if not date:
+        return 0
+    return sum(1 for d, _v in curve if d < date)
+
+
+def _curve_faces(curve):
+    """Rebased annualised face of one slice; None when the slice is too short."""
+    seg = _rebase(curve)
+    if len(seg) < 3:
+        return None
+    prof = risk_profile(seg, len(seg) / 252.0)
+    return {"from": seg[0][0], "to": seg[-1][0], "bars": len(seg),
+            "ann_return_pct": prof["ann_return_pct"],
+            "max_drawdown_pct": prof["max_drawdown_pct"]}
+
+
+def _spread_bp(ladder_face, wide_face):
+    """wide minus ladder in bp on the annualised column; None if either is missing."""
+    if not ladder_face or not wide_face:
+        return None
+    return round((wide_face["ann_return_pct"] - ladder_face["ann_return_pct"]) * 100, 1)
+
+
+def _cash_accrual_pct(cash, cal_x, upto_date):
+    """Compounded cash return over the bars before ``upto_date``, in pct."""
+    if not cash or not upto_date:
+        return 0.0
+    tot = 1.0
+    for d in cal_x:
+        if d >= upto_date:
+            break
+        tot *= (1.0 + cash["series"].get(d, 0.0))
+    return round((tot - 1.0) * 100.0, 3)
+
+
+def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",)):
+    """E45: does the era ordering survive once the dead block is outside the window?"""
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal = base.load_panel()[0]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    wide_name = "wide_top%d" % pick_n
+    books = (("ladder5", list(base.LADDER), None), (wide_name, universe, pick_n))
+
+    def build(cal_x):
+        px, ax = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            px[s] = [c.get(d) for d in cal_x]
+            ax[s] = [a.get(d) for d in cal_x]
+        return px, ax
+
+    def first_invested(cal_x, px, book_univ):
+        """First bar the book can actually hold something on this calendar."""
+        rebal = base.month_end_indices(cal_x)
+        idx = next((ri for ri in rebal
+                    if any(base.elig(px[s], ri) for s in book_univ)), None)
+        if idx is None:
+            return None
+        return cal_x[idx + 1] if idx + 1 < len(cal_x) else None
+
+    # warm: one pair of curves on the whole calendar, sliced per era afterwards
+    warm, warm_first = {}, {}
+    for name, univ, n in books:
+        curve, _aux, _hold = e27.simulate(cal, prices, amounts, univ,
+                                          base.load_cash_series(cal), n, 1.0, {})
+        warm[name] = curve
+        warm_first[name] = first_invested(cal, prices, univ)
+
+    rows = {}
+    for era_name, lo, hi in eras:
+        cold_cal = [d for d in cal if lo is None or d >= lo]
+        cpx, cax = build(cold_cal)
+        ccash = base.load_cash_series(cold_cal)
+        cold, cold_first = {}, {}
+        for name, univ, n in books:
+            curve, _aux, _hold = e27.simulate(cold_cal, cpx, cax, univ, ccash, n, 1.0, {})
+            cold[name] = [pt for pt in curve if hi is None or pt[0] <= hi]
+            cold_first[name] = first_invested(cold_cal, cpx, univ)
+        warm_slice = {name: [pt for pt in warm[name]
+                             if (lo is None or pt[0] >= lo) and (hi is None or pt[0] <= hi)]
+                      for name, _u, _n in books}
+        wl = _curve_faces(warm_slice["ladder5"])
+        ww = _curve_faces(warm_slice[wide_name])
+        cl = _curve_faces(cold["ladder5"])
+        cw = _curve_faces(cold[wide_name])
+        bars = max(len(warm_slice["ladder5"]), 1)
+        warm_dead = _bars_before(warm_slice["ladder5"], warm_first["ladder5"])
+        cold_dead = _bars_before(cold["ladder5"], cold_first["ladder5"])
+        rows[era_name] = {
+            "from": (wl or cl or {}).get("from"), "to": (wl or cl or {}).get("to"),
+            "bars": bars,
+            "warm": {"ladder": wl, "wide": ww, "spread_bp": _spread_bp(wl, ww),
+                     "first_invested_bar": warm_first["ladder5"],
+                     "dead_block_bars": warm_dead,
+                     "dead_block_share_pct": round(warm_dead / max(1, bars - 1) * 100, 2)},
+            "cold": {"ladder": cl, "wide": cw, "spread_bp": _spread_bp(cl, cw),
+                     "first_invested_bar": cold_first["ladder5"],
+                     "dead_block_bars": cold_dead,
+                     "dead_block_share_pct": round(cold_dead / max(1, bars - 1) * 100, 2),
+                     "cash_accrued_in_dead_block_pct": _cash_accrual_pct(
+                         ccash, cold_cal, cold_first["ladder5"])},
+        }
+        if rows[era_name]["warm"]["spread_bp"] is not None \
+                and rows[era_name]["cold"]["spread_bp"] is not None:
+            rows[era_name]["warm_minus_cold_bp"] = round(
+                rows[era_name]["warm"]["spread_bp"] - rows[era_name]["cold"]["spread_bp"], 1)
+
+    # the cold newest-era number is the same market as a warm forward slice: from the
+    # first allowed decision onward both books hold identical weights, so a warm slice
+    # started at that bar must reproduce the cold reading -- if it does, the gap is the
+    # skipped bars and nothing else.
+    newest = eras[-1][0] if eras else None
+    live_from = (rows.get(newest) or {}).get("cold", {}).get("first_invested_bar")
+    live = {}
+    if live_from:
+        ls = [pt for pt in warm["ladder5"] if pt[0] >= live_from]
+        ws = [pt for pt in warm[wide_name] if pt[0] >= live_from]
+        lf, wf = _curve_faces(ls), _curve_faces(ws)
+        live = {"from": live_from, "to": (lf or {}).get("to"), "bars": len(ls),
+                "ladder": lf, "wide": wf, "spread_bp": _spread_bp(lf, wf)}
+        if newest and "warm_live_window" not in rows[newest]:
+            rows[newest]["warm_live_window"] = live
+
+    warm_order = [(k, v["warm"]["spread_bp"]) for k, v in rows.items()
+                  if v["warm"]["spread_bp"] is not None]
+    cold_order = [(k, v["cold"]["spread_bp"]) for k, v in rows.items()
+                  if v["cold"]["spread_bp"] is not None]
+    warm_sorted = sorted(warm_order, key=lambda kv: kv[1])
+    cold_sorted = sorted(cold_order, key=lambda kv: kv[1])
+    return {
+        "study": "e45_warm_spread",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": 1.0, "cost_bp_per_side": base.COST_BP_SIDE,
+                 "calendar_from": cal[0], "min_bars": base.MIN_BARS,
+                 "warm": "one pair of curves on the full calendar, sliced per era",
+                 "cold": "a fresh pair started at the era's own first bar, "
+                         "measured over the same era span",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "universe_members": len(universe)},
+        "eras": rows,
+        "answers": {
+            "warm_order_thinnest_to_widest": warm_sorted,
+            "cold_order_thinnest_to_widest": cold_sorted,
+            "newest_era_is_thinnest_warm": bool(warm_sorted) and warm_sorted[0][0] == "2024_now",
+            "newest_era_is_thinnest_cold": bool(cold_sorted) and cold_sorted[0][0] == "2024_now",
+            "ordering_preserved": [k for k, _v in warm_sorted] == [k for k, _v in cold_sorted],
+            "newest_era_live_window": live,
+            "cold_minus_live_bp": (
+                round(rows[newest]["cold"]["spread_bp"] - live["spread_bp"], 1)
+                if newest and live.get("spread_bp") is not None
+                and rows[newest]["cold"]["spread_bp"] is not None else None),
+            "max_warm_minus_cold_bp": max(
+                (abs(v["warm_minus_cold_bp"]) for v in rows.values()
+                 if "warm_minus_cold_bp" in v), default=None),
+            "cold_dead_block_share_pct_by_era": {
+                k: v["cold"]["dead_block_share_pct"] for k, v in rows.items()},
+            "cold_cash_accrued_in_dead_block_pct_by_era": {
+                k: v["cold"]["cash_accrued_in_dead_block_pct"] for k, v in rows.items()},
+        },
+        "honest": [
+            "the warm slice pays the burn-in on bars before the measured span, so it prices the "
+            "spec; the cold window is the same spec started at the era's own first bar, and the "
+            "gap is the gate plus whatever the dead block accrued at the repo rate",
+            "the pre2017 era starts where the panel starts, so its warm and cold quotes are the "
+            "same curve by construction -- that is a disclosure, not a measurement",
+            "the dead block is identified by the first decision the 250-bar rule allows, not by "
+            "inspecting weights; no rebalance before it can hold a name",
+            "the ratio of two rebased ann% is not a tradable sleeve, and era slices are not "
+            "additive across eras",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+# ---------------------------- leg: E46 is the era edge front-loaded?
+#
+# E45 found the newest era's whole edge earned before the eligibility gate would
+# let a cold book hold anything (2024-01..2025-01), with the live span negative.
+# That is one era observed once. This leg asks the same question of every era and
+# without any gate argument: split each era's slice of the same warm curve into
+# halves and see whether the spread lives in one half or is spread through the
+# era. A sign flip inside an era means the era's single number is an average of
+# two different markets; a flat split means the number is a property of the era.
+
+def _split_curve(curve, parts):
+    """``parts`` contiguous chunks of a curve, the last one taking the remainder."""
+    n = len(curve)
+    if parts < 1 or n < parts * 2:
+        return []
+    step = n // parts
+    return [curve[i * step:(i + 1) * step] for i in range(parts - 1)] + \
+           [curve[(parts - 1) * step:]]
+
+
+def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
+                 cost_mult=1.0):
+    """E46: split every era in halves and read where its spread is earned."""
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal = base.load_panel()[0]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    wide_name = "wide_top%d" % pick_n
+    curves = {}
+    for name, univ, n in (("ladder5", list(base.LADDER), None), (wide_name, universe, pick_n)):
+        curve, _aux, _hold = e27.simulate(cal, prices, amounts, univ,
+                                          base.load_cash_series(cal), n, cost_mult, {})
+        curves[name] = curve
+
+    rows = {}
+    for era_name, lo, hi in eras:
+        lad = [pt for pt in curves["ladder5"]
+               if (lo is None or pt[0] >= lo) and (hi is None or pt[0] <= hi)]
+        wid = [pt for pt in curves[wide_name]
+               if (lo is None or pt[0] >= lo) and (hi is None or pt[0] <= hi)]
+        if len(lad) < 2 * parts or len(wid) != len(lad):
+            rows[era_name] = {"bars": len(lad), "skipped": "too few bars to split"}
+            continue
+        chunks = []
+        for k, (lc, wc) in enumerate(zip(_split_curve(lad, parts),
+                                         _split_curve(wid, parts))):
+            lf, wf = _curve_faces(lc), _curve_faces(wc)
+            chunks.append({"part": k + 1, "from": (lf or {}).get("from"),
+                           "to": (lf or {}).get("to"), "bars": len(lc),
+                           "ladder": lf, "wide": wf, "spread_bp": _spread_bp(lf, wf)})
+        whole = _spread_bp(_curve_faces(lad), _curve_faces(wid))
+        spreads = [c["spread_bp"] for c in chunks if c["spread_bp"] is not None]
+        rows[era_name] = {
+            "from": lad[0][0], "to": lad[-1][0], "bars": len(lad),
+            "era_spread_bp": whole, "parts": chunks,
+            "part_spreads_bp": spreads,
+            "sign_flips_inside_era": (len(spreads) > 1
+                                      and min(spreads) < 0 < max(spreads)),
+            "widest_part": (max(chunks, key=lambda c: c["spread_bp"] or -1e9)["part"]
+                            if spreads else None),
+            "part_band_bp": (round(max(spreads) - min(spreads), 1) if spreads else None),
+        }
+    flipped = [k for k, v in rows.items() if v.get("sign_flips_inside_era")]
+    return {
+        "study": "e46_live_span_split",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": cost_mult, "cost_bp_per_side": base.COST_BP_SIDE,
+                 "parts": parts,
+                 "curve": "one warm pair on the full calendar, sliced per era then split",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "universe_members": len(universe)},
+        "eras": rows,
+        "answers": {
+            "eras_split": len([v for v in rows.values() if v.get("parts")]),
+            "eras_with_internal_sign_flip": flipped,
+            "era_count_with_internal_sign_flip": len(flipped),
+            "widest_part_by_era": {k: v.get("widest_part") for k, v in rows.items()
+                                   if v.get("widest_part") is not None},
+            "part_band_bp_by_era": {k: v.get("part_band_bp") for k, v in rows.items()
+                                    if v.get("part_band_bp") is not None},
+        },
+        "honest": [
+            "the split is by bar count, not by calendar year, so the halves are equal in "
+            "sessions and unequal in spans only by trading density",
+            "an internal sign flip does not say which half is the future; it says the era's "
+            "single number is an average of two different markets and must be quoted as such",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -2478,6 +2785,38 @@ def selftest():
     chk(_annual_rets([("2021-06-30", 2.0)]) == {}, 
         "a single year has no prior close to chain from")
 
+    # E45 warm vs cold: dead-block counting, slice faces, spread arithmetic
+    cur = [("2020-01-02", 1.0), ("2020-01-03", 1.1), ("2020-02-03", 1.2)]
+    chk(_bars_before(cur, "2020-02-03") == 2, "bars before a date excludes the date itself")
+    chk(_bars_before(cur, None) == 0, "an unknown first-invested date counts no dead bars")
+    chk(_bars_before(cur, "2019-01-01") == 0, "a date before the curve counts nothing")
+    chk(_curve_faces(cur[:2]) is None, "a slice under 3 bars has no annualised face")
+    face = _curve_faces(cur)
+    chk(face["bars"] == 3 and face["from"] == "2020-01-02" and face["ann_return_pct"] > 0,
+        "a 3-bar slice reports from/to/bars/ann")
+    chk(_curve_faces(cur)["ann_return_pct"] == _curve_faces(cur)["ann_return_pct"],
+        "the face is deterministic on the same slice")
+    chk(_spread_bp({"ann_return_pct": 1.0}, {"ann_return_pct": 2.5}) == 150.0,
+        "spread is the wide-minus-ladder ann gap in bp")
+    chk(_spread_bp(None, {"ann_return_pct": 2.5}) is None,
+        "a missing leg has no spread")
+    csh = {"series": {"2020-01-02": 0.001, "2020-01-03": 0.001, "2020-02-03": 0.001}}
+    ccal = [d for d, _v in cur]
+    chk(abs(_cash_accrual_pct(csh, ccal, "2020-02-03") - 0.2) < 1e-9,
+        "cash accrual compounds the daily repo returns before the first invested bar")
+    chk(_cash_accrual_pct(None, ccal, "2020-02-03") == 0.0,
+        "no cash panel accrues nothing")
+    chk(_cash_accrual_pct(csh, ccal, None) == 0.0,
+        "a book with no first-invested bar accrues nothing")
+
+    # E46 era splitting: contiguous halves that keep the whole slice
+    spl = _split_curve([("d%d" % i, 1.0 + i) for i in range(10)], 2)
+    chk([len(s) for s in spl] == [5, 5], "two parts of ten bars split five and five")
+    chk(spl[0][0][0] == "d0" and spl[-1][-1][0] == "d9",
+        "the split keeps the first and last bar of the slice")
+    chk(_split_curve([("d%d" % i, 1.0) for i in range(3)], 2) == [],
+        "a slice too short to split is refused, not half-split")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -2488,8 +2827,11 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "e44", "burnin", "knife", "skinloo", "all", "selftest"])
+                             "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
+                             "e46", "livespan", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
+    ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
+    ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -2682,6 +3024,33 @@ def main(argv):
                                         for k, v in f["skins"].items()},
                               "delta": f["delta_vs_full_skin_bp"],
                               "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode in ("e45", "warmspread"):
+        f = run_warmspread(None)
+        outdir = os.path.join(ROOT, "results", "e45_warm_spread")
+        p = write_json(outdir, "WARMSPREAD-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "warmspread", "file": os.path.relpath(p, ROOT),
+                          "eras": {k: {"warm_bp": v["warm"]["spread_bp"],
+                                       "cold_bp": v["cold"]["spread_bp"],
+                                       "cold_dead_share_pct": v["cold"]["dead_block_share_pct"],
+                                       "cold_cash_dead_pct":
+                                           v["cold"]["cash_accrued_in_dead_block_pct"]}
+                                   for k, v in f["eras"].items()},
+                          "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode in ("e46", "livespan"):
+        f = run_livespan(None, parts=args.parts, cost_mult=args.cost)
+        outdir = os.path.join(ROOT, "results", "e46_live_span")
+        p = write_json(outdir, "LIVESPAN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""),
+                          "" if (args.cost == 1.0 and args.parts == 2)
+                          else "-x%g-p%d" % (args.cost, args.parts)), f)
+        print(json.dumps({"leg": "livespan", "file": os.path.relpath(p, ROOT),
+                          "eras": {k: {"era_bp": v.get("era_spread_bp"),
+                                       "parts_bp": v.get("part_spreads_bp"),
+                                       "flip": v.get("sign_flips_inside_era")}
+                                   for k, v in f["eras"].items()},
+                          "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:

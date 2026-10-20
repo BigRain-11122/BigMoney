@@ -388,7 +388,7 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1119,
- "round_no": 1120,
+ "round_no": 1122,
  "round_no_label": "r1119",
  "sat_engine": {
   "checked_at": "2026-10-21T05:53:24+08:00",
@@ -953,5 +953,7 @@
  "updated_at": "2026-10-21T05:53:24+08:00",
  "verdict": "product+maintenance",
  "r1117_note": "E42 triad closed in one pass (shared _monthly_core, 3 faces). Size-neutral spread +326.4bp (2021-2023) / +181.2bp (2024-now) against raw +251.1 / -35.1: the newest era's thin spread is the size leg (-216.3bp, beta -0.289, R2 59.5%), not selection. Tilt by era peaks in the newest era (+748.1bp/yr, ladder beta 1.031, R2 66.9%) so E41's 4.7x decay is a denominator effect. Calendar band 26.0 -> 25.0bp at cost x3 while fees triple: not turnover-driven. Pool: E42 x3 closed, E43 x3 seeded (ready 3/3).",
- "r1117_pit": "pt: _moments on a constant series returns sd ~1.7e-17 (float rounding), so an OLS guard written as `if not sd` passes a flat y and returns a garbage beta; use a tolerance. Caught by the E42 selftest on its first run (35/36) before any face was written."
+ "r1117_pit": "pt: _moments on a constant series returns sd ~1.7e-17 (float rounding), so an OLS guard written as `if not sd` passes a flat y and returns a garbage beta; use a tolerance. Caught by the E42 selftest on its first run (35/36) before any face was written.",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1122",
+ "round_pit": "r1122 heals a one-round lag left by r1121 (state was 1120 when the report said 1121); round number taken from round_reports.md"
 }
