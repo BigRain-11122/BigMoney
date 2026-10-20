@@ -1984,6 +1984,224 @@ def run_skinloo(outdir, core=None, eras=ERAS, members=None):
     }
 
 
+# -------------------------------- leg: E44 eligibility burn-in / missing years
+
+def _first_eligible_idx(series, min_bars):
+    """First index whose trailing ``min_bars`` window is fully priced.
+
+    Mirrors ``e24_ladder_weighting.elig`` exactly: eligibility needs MIN_BARS of
+    *consecutive, non-missing, in-window* closes, so it is window-relative -- the
+    first ~250 sessions of any start window are structurally un-investable no
+    matter how long the symbol's own history is.
+    """
+    run = 0
+    for i, v in enumerate(series):
+        run = run + 1 if v is not None else 0
+        if run >= min_bars:
+            return i
+    return None
+
+
+def _annual_rets(marks):
+    """{year: pct} from month-end marks, each year chained off the prior year-end."""
+    by_year = {}
+    for m, v in marks:
+        by_year[m[:4]] = v
+    out = {}
+    prev = None
+    for y in sorted(by_year):
+        if prev:
+            out[y] = round((by_year[y] / prev - 1.0) * 100, 2)
+        prev = by_year[y]
+    return out
+
+
+def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
+               pick_n=9999, exclude=("sh511",)):
+    """Attribute the missing pre-2017 years to the eligibility gate, not to mystery.
+
+    E40 measured that the book sits in repo for 263 of its first 1,645 bars and
+    that the first invested bar is 2021-02-01 on a 2020 start. This leg measures
+    the gate itself: how many sessions each start window spends un-invested, when
+    the first eligible set actually arrives (and how many names it holds), how
+    much of that is the 250-bar rule being window-relative versus the panel's own
+    symbol start dates, and what 2013-2016 is worth on the same spec once the
+    burn-in is paid outside the measured window (a warm run on the full calendar,
+    sliced afterwards).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    min_bars = base.MIN_BARS
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    universe = [s for s in all_syms if s in raw_all]
+
+    def build(cal):
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        return prices, amounts
+
+    # one warm pair of curves on the whole calendar: the burn-in is paid before
+    # the measured slice begins, so the slice prices the spec, not the gate.
+    warm_prices, warm_amounts = build(cal_full)
+    warm = {}
+    for name, univ, n in (("ladder5", base.LADDER, None), ("wide", universe, pick_n)):
+        curve, aux, _ = e27.simulate(cal_full, warm_prices, warm_amounts, univ,
+                                     None, n, 1.0, {})
+        warm[name] = curve
+
+    def slice_faces(curve, lo, hi=None):
+        part = [pt for pt in curve if pt[0] >= lo and (hi is None or pt[0] <= hi)]
+        if len(part) < 3:
+            return None
+        me = _month_ends(part)
+        if len(me) < 2:
+            return None
+        yrs = len(part) / 252.0
+        return {
+            "bars": len(part),
+            "from": part[0][0], "to": part[-1][0],
+            "ann_return_pct": round((part[-1][1] / part[0][1]) ** (1.0 / yrs) * 100 - 100, 2),
+            "max_drawdown_pct": risk_profile(part, yrs)["max_drawdown_pct"],
+            "annual_returns_pct": _annual_rets(me),
+            "monthly_marks": len(me),
+        }
+
+    # calendar-year returns on the warm curve itself: a year's return chains off
+    # the prior year-end mark, which a slice starting inside the year cannot see.
+    warm_annual = {name: _annual_rets(_month_ends(warm[name])) for name in warm}
+
+    windows = {}
+    for start in starts:
+        cal = [d for d in cal_full if d >= start]
+        years = len(cal) / 252.0
+        prices, amounts = build(cal)
+        rebal = base.month_end_indices(cal)
+        elig_series = []
+        for ri in rebal:
+            elig_series.append({
+                "date": cal[ri], "idx": ri,
+                "n_priced": sum(1 for s in universe if prices[s][ri] is not None),
+                "n_eligible": sum(1 for s in universe if base.elig(prices[s], ri)),
+            })
+        first_trade_idx = next((ri for ri in rebal
+                                if any(base.elig(prices[s], ri) for s in universe)), None)
+        first_ladder_idx = next((ri for ri in rebal
+                                 if any(base.elig(prices[s], ri) for s in base.LADDER)), None)
+        # earliest decision the 250-bar rule can possibly allow in this window
+        allowed = [ri for ri in rebal if ri >= min_bars]
+        # per-symbol arrival of eligibility inside the window
+        arrival = {}
+        for s in universe:
+            i = _first_eligible_idx(prices[s], min_bars)
+            if i is not None:
+                arrival[s] = cal[i]
+        hist = {}
+        for d in arrival.values():
+            hist[d[:4]] = hist.get(d[:4], 0) + 1
+        first_invested = (cal[first_trade_idx + 1] if first_trade_idx is not None else None)
+        uninv = (first_trade_idx + 1) if first_trade_idx is not None else len(cal) - 1
+
+        naive = {}
+        for name, univ, n in (("ladder5", base.LADDER, None), ("wide", universe, pick_n)):
+            curve, aux, _ = e27.simulate(cal, prices, amounts, univ, None, n, 1.0, {})
+            naive[name] = {
+                "ann_return_pct": risk_profile(curve, years)["ann_return_pct"],
+                "first_curve_bar": curve[0][0],
+            }
+        windows[start] = {
+            "bars": len(cal),
+            "years": round(years, 2),
+            "min_bars_gate": min_bars,
+            "rebalance_decisions": len(rebal),
+            "first_rebalance": cal[rebal[0]] if rebal else None,
+            "earliest_possible_trading_decision": cal[allowed[0]] if allowed else None,
+            "earliest_possible_gate_date": cal[min_bars] if len(cal) > min_bars else None,
+            "first_trading_rebalance": cal[first_trade_idx] if first_trade_idx is not None else None,
+            "first_invested_bar": first_invested,
+            "sessions_uninvested": uninv,
+            "sessions_uninvested_share_pct": round(uninv / max(1, len(cal) - 1) * 100, 2),
+            "months_uninvested": round(uninv / 21.0, 1),
+            "first_trading_rebalance_ladder5": (cal[first_ladder_idx]
+                                                if first_ladder_idx is not None else None),
+            "eligible_at_first_invested": next(
+                (r["n_eligible"] for r in elig_series
+                 if first_trade_idx is not None and r["idx"] == first_trade_idx), None),
+            "first_rebalance_with_elig_ge_5": next(
+                (r["date"] for r in elig_series if r["n_eligible"] >= 5), None),
+            "first_rebalance_with_elig_ge_20": next(
+                (r["date"] for r in elig_series if r["n_eligible"] >= 20), None),
+            "eligibility_at_rebalances": elig_series,
+            "symbol_first_eligible_hist_by_year": dict(sorted(hist.items())),
+            "symbols_eligible": len(arrival),
+            "symbols_in_universe": len(universe),
+            "naive_start_curves": naive,
+            "warm_slice": {name: slice_faces(warm[name], start) for name in warm},
+        }
+
+    # the question the E43/E44 line actually leaves open: is 2013-2016 worth
+    # anything on the same spec, and how much of it does the gate eat?
+    span = {}
+    for lo, hi in (("2013-01-01", "2016-12-31"), ("2017-01-01", "2020-12-31"),
+                   ("2021-01-01", None)):
+        block = {"%s..%s" % (lo, hi or "now"): {}}
+        for name in warm:
+            face = slice_faces(warm[name], lo, hi)
+            if face is not None:
+                y0, y1 = lo[:4], (hi or "9999")[:4]
+                face["calendar_year_returns_pct"] = {
+                    y: v for y, v in warm_annual[name].items() if y0 <= y <= y1}
+            block["%s..%s" % (lo, hi or "now")][name] = face
+        span.update(block)
+
+    return {
+        "study": "e44_eligibility_burnin",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "starts": list(starts), "min_bars": min_bars,
+                 "cost_bp_per_side": base.COST_BP_SIDE,
+                 "calendar_first": cal_full[0], "calendar_last": cal_full[-1]},
+        "windows": windows,
+        "era_spans_warm": span,
+        "answers": {
+            "gate_is_window_relative": True,
+            "why_first_set_is_late": (
+                "elig() needs %d consecutive non-missing closes measured inside the start "
+                "window, so no decision before index %d can hold anything: the first "
+                "possible invested bar is the session after the first month end at or "
+                "past index %d" % (min_bars, min_bars, min_bars)),
+            "sessions_uninvested_by_start": {
+                s: windows[s]["sessions_uninvested"] for s in windows},
+            "first_invested_bar_by_start": {
+                s: windows[s]["first_invested_bar"] for s in windows},
+            "warm_2013_2016_wide_ann_pct": (
+                span["2013-01-01..2016-12-31"].get("wide") or {}).get("ann_return_pct"),
+            "warm_2013_2016_ladder_ann_pct": (
+                span["2013-01-01..2016-12-31"].get("ladder5") or {}).get("ann_return_pct"),
+            "naive_2013_start_wide_ann_pct":
+                windows["2013-01-01"]["naive_start_curves"]["wide"]["ann_return_pct"],
+        },
+        "honest": [
+            "the burn-in is a property of the engine's membership rule, not a data defect: "
+            "the same %d-bar rule gates every scheme" % min_bars,
+            "warm slices pay the burn-in on bars outside the measured span; the naive "
+            "columns are the same spec started cold, and the difference is the gate",
+            "symbols_in_universe counts de-duplicated panels; eligibility arrival is per "
+            "window because the rule is window-relative",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -2145,6 +2363,24 @@ def selftest():
     chk(all(_skin_sets(d)[0] and _skin_sets(d)[1] for d in (TILT_LARGE + TILT_SMALL)),
         "no single-member drop empties either size leg")
 
+    # E44 burn-in: the gate is window-relative, and the arrival index is the
+    # first bar whose trailing window is fully priced (a gap restarts the run)
+    chk(_first_eligible_idx([None] * 10, 3) is None,
+        "a series with no priced closes never becomes eligible")
+    chk(_first_eligible_idx([1.0] * 300, 250) == 249,
+        "a fully priced series clears the 250-bar gate on its 250th bar")
+    gap = [1.0] * 249 + [None] + [1.0] * 250
+    chk(_first_eligible_idx(gap, 250) == 499,
+        "a single missing close restarts the burn-in inside the window")
+    chk(_first_eligible_idx([None] * 100 + [1.0] * 250, 250) == 349,
+        "eligibility is window-relative: the first 100 sessions are dead for everyone")
+    # annual chaining off month-end marks
+    chk(_annual_rets([("2020-12-31", 1.0), ("2021-12-31", 1.10),
+                      ("2022-12-31", 0.99)]) == {"2021": 10.0, "2022": -10.0},
+        "annual returns chain each year off the prior year-end mark")
+    chk(_annual_rets([("2021-06-30", 2.0)]) == {}, 
+        "a single year has no prior close to chain from")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -2155,7 +2391,7 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "e44", "skinloo", "all", "selftest"])
+                             "e44", "burnin", "skinloo", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     args = ap.parse_args(argv)
 
@@ -2312,22 +2548,35 @@ def main(argv):
             print(json.dumps({"leg": "neutralrob", "file": os.path.relpath(p, ROOT),
                               "answers": f["answers"]}, ensure_ascii=False))
         return 0
-    if args.mode in ("e44", "skinloo"):
-        core = _monthly_core()
-        f = run_skinloo(None, core=core)
-        outdir = os.path.join(ROOT, "results", "e44_skin")
-        p = write_json(outdir, "LOO-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
-        print(json.dumps({"leg": "skinloo", "file": os.path.relpath(p, ROOT),
-                          "skins": {k: {"skin": v["skin"],
-                                        "neutral_2024_now_bp":
-                                            v["eras"].get("2024_now", {}).get(
-                                                "spread_size_neutral_ann_bp"),
-                                        "neutral_2021_2023_bp":
-                                            v["eras"].get("2021_2023", {}).get(
-                                                "spread_size_neutral_ann_bp")}
-                                    for k, v in f["skins"].items()},
-                          "delta": f["delta_vs_full_skin_bp"],
-                          "answers": f["answers"]}, ensure_ascii=False))
+    if args.mode in ("e44", "burnin", "skinloo"):
+        if args.mode in ("e44", "burnin"):
+            f = run_burnin(None)
+            outdir = os.path.join(ROOT, "results", "e44_burnin")
+            p = write_json(outdir, "BURNIN-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "burnin", "file": os.path.relpath(p, ROOT),
+                              "sessions_uninvested":
+                                  f["answers"]["sessions_uninvested_by_start"],
+                              "first_invested": f["answers"]["first_invested_bar_by_start"],
+                              "spans": {k: {kk: (vv or {}).get("ann_return_pct")
+                                            for kk, vv in v.items()}
+                                        for k, v in f["era_spans_warm"].items()},
+                              "answers": f["answers"]}, ensure_ascii=False))
+        if args.mode in ("e44", "skinloo"):
+            core = _monthly_core()
+            f = run_skinloo(None, core=core)
+            outdir = os.path.join(ROOT, "results", "e44_skin")
+            p = write_json(outdir, "LOO-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+            print(json.dumps({"leg": "skinloo", "file": os.path.relpath(p, ROOT),
+                              "skins": {k: {"skin": v["skin"],
+                                            "neutral_2024_now_bp":
+                                                v["eras"].get("2024_now", {}).get(
+                                                    "spread_size_neutral_ann_bp"),
+                                            "neutral_2021_2023_bp":
+                                                v["eras"].get("2021_2023", {}).get(
+                                                    "spread_size_neutral_ann_bp")}
+                                        for k, v in f["skins"].items()},
+                              "delta": f["delta_vs_full_skin_bp"],
+                              "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:
