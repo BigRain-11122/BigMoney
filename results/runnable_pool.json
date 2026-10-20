@@ -20439,7 +20439,7 @@
    "result_ref": "results/e46_live_span/LIVESPAN-20261020-x3-p4.json"
   },
   {
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "entered_at": "2026-10-21T07:27:00+08:00",
@@ -20449,10 +20449,12 @@
    "title": "E49 quarters kept the thirds flip count at 3 of 4 eras but swapped one member (2021_2023 flipped at thirds, 2017_2020 at quarters). Cut the zero-cost curve into fifths: if the count keeps sitting at 3 while the membership keeps moving, the '3 of 4 eras flip' reading is a cut artefact and only era-level spreads are real.",
    "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p5.json",
    "source": "r1125 x0-p4: flips 3/4 but set != p3 set",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 5"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 5",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x0-p5.json",
+   "answer": "fifths at x0: flip set {pre2017,2017_2020,2024_now} == quarters set; era bands 1569/847/346/1139bp; pre2017 first fifth is 224 dead bars (both legs +3.21%/yr, maxDD 0.0) that neither creates the flip nor widens the band; r1125's monotone-band claim refuted (2021_2023 195/637/512/346)"
   },
   {
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "entered_at": "2026-10-21T07:27:00+08:00",
@@ -20462,7 +20464,35 @@
    "title": "Pair the fifths cut at cost x3. At thirds and quarters x3 moved era levels by only 8-13bp and never changed the flip count, so any flip that appears only at x0/p5 is a fee-scale wobble we would not have been paid for.",
    "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p5.json",
    "source": "r1125 x3-p4: era levels -8..-12bp vs x0, same flip set and count",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 5"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 5",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x3-p5.json",
+   "answer": "fifths at x3: identical flip set and no sign change, every part moves <=15bp, bands move <=28bp (1569->1597, 847->860, 346->351, 1139->1134), era levels -8..-12bp -- fees are not what decides a flip"
+  },
+  {
+   "id": "E51-PARTS-P6",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Sixths at zero cost. Quarters and fifths agree on the flip set {pre2017,2017_2020,2024_now} while thirds disagrees; one more cut tests whether that agreement is convergence or a two-point coincidence, and whether the band-vs-granularity curve stays non-monotone (2021_2023 read 195/637/512/346 at halves/thirds/quarters/fifths).",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p6.json",
+   "source": "r1126 x0-p5: p4 and p5 flip set identical; 2021_2023 band inverted-U",
+   "entered_at": "2026-10-21T07:30:00+08:00",
+   "entered_by": "bm-b r1126",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 6"
+  },
+  {
+   "id": "E51-PARTS-P6-COST-X3",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Sixths at cost x3. At every finer cut so far x3 has moved parts by <=15bp and never changed a sign; a sign that only appears at one cost level would be a fee-scale artefact of a 1-4bp part, which the grid now has several of.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p6.json",
+   "source": "r1126 x3-p5: no sign change, bands move <=28bp",
+   "entered_at": "2026-10-21T07:30:00+08:00",
+   "entered_by": "bm-b r1126",
+   "evidence_cutoff": "2026-10-20",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 6"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
