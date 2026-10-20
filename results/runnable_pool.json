@@ -19194,6 +19194,42 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "status": "ready",
+   "lane_owner": null,
+   "shards": [],
+   "host_gate": null,
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "id": "E25-HALF-GRID",
+   "note": "r1097: window sensitivity of the only positive variant (half-weight 150d, +72.6bp/yr t 0.48 with the repo cash leg). Is 150 the peak or one lucky window? Reuses the extended weighting runner.",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid"
+  },
+  {
+   "status": "ready",
+   "lane_owner": null,
+   "shards": [],
+   "host_gate": null,
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "id": "E25-HALF-GRID-X3",
+   "note": "r1097: the same half-weight window grid under cost x3 (the standard robustness read). 150h survived x3 alone; do its neighbours?",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend120h,trend150h,trend180h,trend200h --out results/e25_half_grid --cost-mult 3"
+  },
+  {
+   "status": "ready",
+   "lane_owner": null,
+   "shards": [],
+   "host_gate": null,
+   "entered_at": "2026-10-21 00:32:00",
+   "entered_by": "bm-b r1097 (E25 supply floor after the cash-leg re-read)",
+   "id": "E25-HARD150-RENORM",
+   "note": "r1097: with the cash leg now real, is the HALF share the reason trend150h wins, or would a hard 0/1 filter renormalised to full investment (trend150r) do better? Same runner, same cash leg.",
+   "priority": 3,
+   "runner": "python scripts/e24_ladder_weighting.py run --schemes equal,trend150r,trend150h --out results/e25_cash_leg"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -19208,6 +19244,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T00:16:00+08:00",
+ "updated_at": "2026-10-21T00:26:00+08:00",
  "version": 1
 }

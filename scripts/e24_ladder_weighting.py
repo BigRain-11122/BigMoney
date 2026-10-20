@@ -12,6 +12,12 @@ month, weights from data through that day only):
   liq      : trailing 60d mean turnover (amount) share, normalised
   momtilt  : max(120d return, 0) + 0.10 floor, normalised (momentum tilt)
 
+Cash-leg treatment (E25 r1097): `trendN` parks the filtered-out share in cash.
+That cash now accrues at the daily GC001 repo close (annualised percent, 252-day
+convention, ffilled over non-repo days) for EVERY scheme, including the idle
+capital before a member clears the 250-bar eligibility gate -- so the comparison
+is against a real account, not against cash that earns nothing.
+
 Honest notes baked into the face:
   * universe grows over time (510300 from 2012, 512100 from 2016-11,
     588000 from 2020-11) -- the same membership rule applies to every scheme,
@@ -41,6 +47,8 @@ COST_BP_SIDE = 13.041
 MIN_BARS = 250
 VOL_WIN = 60
 MOM_WIN = 120
+CASH_FILE = os.path.join(ROOT, "data", "repo_daily", "GC001.csv")
+CASH_UNITS_PER_YEAR = 252.0
 
 
 def load_panel(symbols=LADDER):
@@ -72,6 +80,46 @@ def load_panel(symbols=LADDER):
     primary = LADDER[0]
     cal = sorted(closes.get(primary) or sorted({d for c in closes.values() for d in c}))
     return cal, closes, amounts
+
+
+def rate_daily(ann_pct):
+    """annualised repo percent -> per-trading-day decimal return."""
+    return float(ann_pct) / 100.0 / CASH_UNITS_PER_YEAR
+
+
+def load_cash_series(cal):
+    """GC001 close (annualised %) aligned to cal, ffilled; missing tail = None.
+
+    Returns {date: daily decimal return} plus coverage counters, or None when the
+    panel is absent (callers then fall back to the 0% cash convention).
+    """
+    if not os.path.exists(CASH_FILE):
+        return None
+    raw = {}
+    with open(CASH_FILE, "r", encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh):
+            d = (row.get("date") or "").strip()
+            v = (row.get("close") or "").strip()
+            if not d or not v:
+                continue
+            try:
+                raw[d] = float(v)
+            except ValueError:
+                continue
+    if not raw:
+        return None
+    out = {}
+    last = None
+    filled = 0
+    for d in cal:
+        if d in raw:
+            last = raw[d]
+        elif last is not None:
+            filled += 1
+        if last is not None:
+            out[d] = rate_daily(last)
+    return {"series": out, "ffilled_days": filled, "covered_days": len(out),
+            "first": next(iter(sorted(raw))), "last": max(raw)}
 
 
 def trailing_vol(prices, i, win=VOL_WIN):
@@ -127,9 +175,12 @@ def scheme_weights(scheme, idx, prices, amounts):
         # its own win-day moving average (causal, read at the rebalance day).
         # "trendNr" renormalises the survivors to full investment; "trendN"
         # leaves the filtered-out share in cash (0%).
+        body = scheme[5:]
+        while body and body[-1] in ("r", "h", "c"):
+            body = body[:-1]
         renorm = scheme.endswith("r")
-        half = scheme.endswith("h")
-        win_s = scheme[5:-1] if (renorm or half) else scheme[5:]
+        half = "h" in scheme[5:].replace(body, "")
+        win_s = body
         try:
             win = int(win_s)
         except ValueError:
@@ -191,7 +242,7 @@ def month_end_indices(cal):
     return out
 
 
-def simulate(scheme, cal, closes, amounts):
+def simulate(scheme, cal, closes, amounts, cash=None, cost_mult=1.0):
     prices = {s: [closes[s].get(d) for d in cal] for s in closes}
     vol_proxy = {s: [amounts[s].get(d) for d in cal] for s in closes}
     rebal = set(month_end_indices(cal))
@@ -201,9 +252,10 @@ def simulate(scheme, cal, closes, amounts):
     cost_paid = 0.0
     turnover_total = 0.0
     n_rebal = 0
+    cash_series = cash["series"] if cash else None
     for i in range(1, len(cal)):
         # drift existing weights with today's returns
-        if weights:
+        if weights or cash_series is not None:
             growth = 0.0
             neww = {}
             for s, w in weights.items():
@@ -214,9 +266,22 @@ def simulate(scheme, cal, closes, amounts):
                 r = a / b - 1.0
                 neww[s] = w * (1.0 + r)
                 growth += w * r
-            tot = sum(neww.values())
-            weights = {s: v / tot for s, v in neww.items()} if tot > 0 else weights
-            port *= (1.0 + growth)
+            if cash_series is None:
+                tot = sum(neww.values())
+                weights = {s: v / tot for s, v in neww.items()} if tot > 0 else weights
+                port *= (1.0 + growth)
+            else:
+                # the filtered share is real cash: it accrues at the repo rate
+                # instead of sitting at 0%, and stock weights are normalised by
+                # the WHOLE portfolio value so the cash share survives drift.
+                cw = 1.0 - sum(weights.values())
+                if cw < 1e-12:
+                    cw = 0.0
+                rc = cash_series.get(cal[i], 0.0)
+                growth += cw * rc
+                tv = sum(neww.values()) + cw * (1.0 + rc)
+                weights = {s: v / tv for s, v in neww.items()} if tv > 0 else weights
+                port *= (1.0 + growth)
         # rebalance on the LAST trading day of the month: weights are set from
         # data through that day and take effect from the next bar (causal).
         if (i - 1) in rebal:
@@ -227,7 +292,7 @@ def simulate(scheme, cal, closes, amounts):
                                    for s in set(target) | set(weights)) / 2.0
                 else:
                     turnover = 1.0
-                fee = turnover * COST_BP_SIDE / 1e4
+                fee = turnover * COST_BP_SIDE * cost_mult / 1e4
                 port *= (1.0 - fee)
                 cost_paid += fee
                 turnover_total += turnover
@@ -313,7 +378,7 @@ def monthly_relative(curve, base_curve):
             "t": round(t, 2) if t is not None else None, "by_era": eras}
 
 
-def run(schemes, start=None):
+def run(schemes, start=None, cost_mult=1.0):
     cal, closes, amounts = load_panel()
     if start:
         cal = [d for d in cal if d >= start]
@@ -322,8 +387,9 @@ def run(schemes, start=None):
     years = len(cal) / 252.0
     faces = {}
     base_curve = None
+    cash = load_cash_series(cal)  # idle cash earns the repo rate for EVERY scheme
     for sch in schemes:
-        curve, aux = simulate(sch, cal, closes, amounts)
+        curve, aux = simulate(sch, cal, closes, amounts, cash, cost_mult)
         m = metrics(curve, years)
         aux["turnover_per_year"] = round(aux["turnover_total"] / years, 3) if years else None
         aux["cost_per_year_bp"] = round(aux["cost_paid_frac"] / years * 1e4, 1) if years else None
@@ -336,7 +402,7 @@ def run(schemes, start=None):
         for sch, f in faces.items():
             if sch == "equal":
                 continue
-            curve, _ = simulate(sch, cal, closes, amounts)
+            curve, _ = simulate(sch, cal, closes, amounts, cash, cost_mult)
             d = []
             for d0, v in curve:
                 if d0 in bmap and bmap[d0] > 0:
@@ -351,12 +417,22 @@ def run(schemes, start=None):
         "years": round(years, 2),
         "members": LADDER,
         "cost_bp_per_side": COST_BP_SIDE,
+        "cost_mult": cost_mult,
         "schemes": faces,
+        "cash_leg": ({"source": "data/repo_daily/GC001.csv close (annualised %)",
+                      "units_per_year": CASH_UNITS_PER_YEAR,
+                      "covered_days": cash["covered_days"],
+                      "ffilled_days": cash["ffilled_days"],
+                      "first_rate_date": cash["first"],
+                      "last_rate_date": cash["last"]}
+                     if cash else None),
         "honest": [
             "universe grows over time (510300 2012-05 / 510500 2013-03 / 512100 2016-11 / 588000 2020-11); "
             "membership rule is identical across schemes so the comparison is within-universe",
             "liq is a turnover(amount)-share proxy, NOT cap-weight: the panel carries no shares outstanding",
             "weights drift with returns inside the month; 13.041bp/side charged on turnover at each monthly rebalance",
+            "`c` schemes accrue the cash share at the daily GC001 close (annualised %, /252, ffilled over non-repo days); "
+            "the repo rate is the SAME series a live account would earn, but it is not a traded return and carries no cost",
             "descriptive census only: no gate, no verdict, no prereg, no trial count consumed",
         ],
     }
@@ -455,6 +531,33 @@ def selftest():
     assert abs(wh["sh510050"] - 0.5 / len(LADDER)) < 1e-12
     assert abs(sum(wh.values()) - (len(LADDER) - 0.5) / len(LADDER)) < 1e-12
     ok += 1; tot += 1
+    # 16. annualised percent -> per-day decimal (252-unit convention)
+    assert abs(rate_daily(2.52) - 0.0001) < 1e-15
+    ok += 1; tot += 1
+    # 17. cash-only window accrues at the repo rate (all members below MA)
+    down = [10.0 * (0.998 ** k) for k in range(300)]
+    prices = {s: down for s in LADDER}
+    cal = ["%d-%02d-%02d" % (2020 + k // 300, (k % 12) + 1, (k % 25) + 1) for k in range(300)]
+    closes = {s: {d: down[k] for k, d in enumerate(cal)} for s in LADDER}
+    amounts = {s: {d: 1e6 for d in cal} for s in LADDER}
+    cash = {"series": {d: rate_daily(2.52) for d in cal}, "ffilled_days": 0,
+            "covered_days": len(cal), "first": cal[0], "last": cal[-1]}
+    curve, _ = simulate("trend200c", cal, closes, amounts, cash)
+    assert curve[-1][1] > 1.0 + 0.0001 * (len(cal) - 5)
+    ok += 1; tot += 1
+    # 18. a zero-rate cash panel leaves every scheme's numbers bit-identical
+    flat = {s: {d: 10.0 + 0.001 * k for k, d in enumerate(cal)} for s in LADDER}
+    zero = dict(cash)
+    zero["series"] = {d: 0.0 for d in cal}
+    c0, _ = simulate("equal", cal, flat, amounts)
+    c1, _ = simulate("equal", cal, flat, amounts, zero)
+    assert all(abs(a[1] - b[1]) < 1e-12 for a, b in zip(c0, c1))
+    ok += 1; tot += 1
+    # 19. cost_mult scales the paid fee linearly (x3 costs 3x)
+    _, a1 = simulate("equal", cal, flat, amounts, None, 1.0)
+    _, a3 = simulate("equal", cal, flat, amounts, None, 3.0)
+    assert abs(a3["cost_paid_frac"] - 3.0 * a1["cost_paid_frac"]) < 1e-12
+    ok += 1; tot += 1
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -466,11 +569,13 @@ def main(argv):
     ap.add_argument("--schemes", default="equal,invvol,liq,momtilt")
     ap.add_argument("--out", default=None,
                     help="optional output dir (e.g. results/e25_trend_tilt) for a named sub-face")
+    ap.add_argument("--cost-mult", type=float, default=1.0,
+                    help="scale the per-side cost (3.0 = the standard cost x3 robustness read)")
     args = ap.parse_args(argv)
     if args.mode == "selftest":
         return selftest()
     schemes = [s.strip() for s in args.schemes.split(",") if s.strip()]
-    face = run(schemes, args.start)
+    face = run(schemes, args.start, args.cost_mult)
     outdir = os.path.join(ROOT, args.out) if args.out else OUTDIR
     os.makedirs(outdir, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d")
@@ -480,6 +585,8 @@ def main(argv):
         # keep one file per set instead of overwriting the same day's face
         import hashlib
         tag += "-" + hashlib.sha1(",".join(schemes).encode()).hexdigest()[:6]
+    if args.cost_mult != 1.0:
+        tag += "-x%s" % ("%g" % args.cost_mult).replace(".", "p")
     path = os.path.join(outdir, "%s-%s.json" % (tag, stamp))
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1)

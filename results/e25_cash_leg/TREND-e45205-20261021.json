@@ -1,0 +1,168 @@
+{
+ "study": "e24_ladder_weighting",
+ "evidence_cutoff": "2026-10-20",
+ "start": "2012-05-28",
+ "bars": 3497,
+ "years": 13.88,
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cost_bp_per_side": 13.041,
+ "schemes": {
+  "equal": {
+   "metrics": {
+    "total_return_pct": 104.04,
+    "ann_return_pct": 5.27,
+    "ann_vol_pct": 21.54,
+    "sharpe": 0.347,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 160,
+    "turnover_total": 4.463560030554044,
+    "turnover_per_year": 0.322,
+    "cost_paid_frac": 0.005820928635845533,
+    "cost_per_year_bp": 4.2
+   }
+  },
+  "trend50": {
+   "metrics": {
+    "total_return_pct": 88.72,
+    "ann_return_pct": 4.68,
+    "ann_vol_pct": 17.51,
+    "sharpe": 0.35,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 109,
+    "turnover_total": 19.952575406107776,
+    "turnover_per_year": 1.438,
+    "cost_paid_frac": 0.026020153587105167,
+    "cost_per_year_bp": 18.8
+   },
+   "vs_equal_bp_annualised": -54.1,
+   "vs_equal_monthly": {
+    "months": 174,
+    "mean_bp": -1.07,
+    "t": -0.05,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": -8.06
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 12.72
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -15.55
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": 4.85
+     }
+    }
+   }
+  },
+  "trend150h": {
+   "metrics": {
+    "total_return_pct": 124.59,
+    "ann_return_pct": 6.0,
+    "ann_vol_pct": 17.09,
+    "sharpe": 0.427,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 160,
+    "turnover_total": 10.153481476466402,
+    "turnover_per_year": 0.732,
+    "cost_paid_frac": 0.013241155193459832,
+    "cost_per_year_bp": 9.5
+   },
+   "vs_equal_bp_annualised": 72.6,
+   "vs_equal_monthly": {
+    "months": 174,
+    "mean_bp": 7.82,
+    "t": 0.48,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": 9.4
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": 28.34
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -32.41
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": 17.69
+     }
+    }
+   }
+  },
+  "trend200r": {
+   "metrics": {
+    "total_return_pct": 53.61,
+    "ann_return_pct": 3.14,
+    "ann_vol_pct": 22.08,
+    "sharpe": 0.251,
+    "bars": 3495
+   },
+   "aux": {
+    "rebalances": 109,
+    "turnover_total": 23.101451436745148,
+    "turnover_per_year": 1.665,
+    "cost_paid_frac": 0.030126602818659358,
+    "cost_per_year_bp": 21.7
+   },
+   "vs_equal_bp_annualised": -178.1,
+   "vs_equal_monthly": {
+    "months": 174,
+    "mean_bp": -14.52,
+    "t": -1.02,
+    "by_era": {
+     "2017-2020": {
+      "months": 48,
+      "mean_bp": 23.87
+     },
+     "2021-2023": {
+      "months": 36,
+      "mean_bp": -54.76
+     },
+     "2024-now": {
+      "months": 34,
+      "mean_bp": -12.9
+     },
+     "pre2017": {
+      "months": 56,
+      "mean_bp": -22.53
+     }
+    }
+   }
+  }
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv close (annualised %)",
+  "units_per_year": 252.0,
+  "covered_days": 3497,
+  "ffilled_days": 1,
+  "first_rate_date": "2011-05-13",
+  "last_rate_date": "2026-10-19"
+ },
+ "honest": [
+  "universe grows over time (510300 2012-05 / 510500 2013-03 / 512100 2016-11 / 588000 2020-11); membership rule is identical across schemes so the comparison is within-universe",
+  "liq is a turnover(amount)-share proxy, NOT cap-weight: the panel carries no shares outstanding",
+  "weights drift with returns inside the month; 13.041bp/side charged on turnover at each monthly rebalance",
+  "`c` schemes accrue the cash share at the daily GC001 close (annualised %, /252, ffilled over non-repo days); the repo rate is the SAME series a live account would earn, but it is not a traded return and carries no cost",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count consumed"
+ ]
+}
