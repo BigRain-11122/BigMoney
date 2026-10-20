@@ -1,6 +1,6 @@
 # FUND-DIVLOWVOL-P2 预注册【DRAFT-NOT-FROZEN·r1038 开批票】· 红利低波族复活批（盈利质量过滤强化+参数邻域扫描+出场轴优化）
 
-> **状态=冻结窗进行中（r1040）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；r1040 已完成=probe 模块落地（scripts/fund_divlowvol_p2_probe.py·P1 内核单源 import·selftest 17/17·本地腿绿=leg2 分红面/leg5 种子带带册校验/leg6 质量 PIT 结构门·面板腿诚实 AWAITING_PANEL exit4）；**r1066 已完成=本地基座面板腿全绿（GREEN 7/7·回执 results/_fund_divlowvol_p2_freeze_probe_local.json·d6 ADMIT 0.2588·详见 §2.1）**；**余项=runner 落地（scripts/fund_divlowvol_p2_backtest.py）＋烧面二选一（p1c 重投 或 本地基座+送转充足性腿）→ 两件齐后 commit 冻结**；**r1067 已完成=送转充足性腿落地实跑（INADEQUATE_FOR_CASH_ONLY_SIDECAR·裁 A>B·B 条件化走 vwap_raw_proxy·详见 §2.2）——烧面裁决一件已毕，余 runner 一件**；**r1068 已完成=runner 落地（`scripts/fund_divlowvol_p2_backtest.py`·selftest 20/20 PASS·9 格×2 face=18 判读 cell-faces 与 N_eff 2,018 机检恒等·dry-run 实跑回执 `results/fund_divlowvol_p2/cells/TN20__x1.json`〔local 基座·t0 2003-11-03·269 发射月·691 员·与 P1 选股平均重叠 0.984·末月 1.0〕）——冻结窗余项清零，下步=冻结 commit（runner 落地即冻结件齐）**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
+> **状态=冻结窗进行中（r1040）**：本件 r1038 开立；r1039 已完成=禁向闸 ADMIT（BAN-04 例外申报逐字过闸）＋§2 四元组锚定稿＋cutoff 裁定（P1 同锚 2026-09-22）＋§3 三腿规格写死＋§5 预测定稿＋种子带 SEED_REGISTRY 登记；r1040 已完成=probe 模块落地（scripts/fund_divlowvol_p2_probe.py·P1 内核单源 import·selftest 17/17·本地腿绿=leg2 分红面/leg5 种子带带册校验/leg6 质量 PIT 结构门·面板腿诚实 AWAITING_PANEL exit4）；**r1066 已完成=本地基座面板腿全绿（GREEN 7/7·回执 results/_fund_divlowvol_p2_freeze_probe_local.json·d6 ADMIT 0.2588·详见 §2.1）**；**余项=runner 落地（scripts/fund_divlowvol_p2_backtest.py）＋烧面二选一（p1c 重投 或 本地基座+送转充足性腿）→ 两件齐后 commit 冻结**；**r1067 已完成=送转充足性腿落地实跑（INADEQUATE_FOR_CASH_ONLY_SIDECAR·裁 A>B·B 条件化走 vwap_raw_proxy·详见 §2.2）——烧面裁决一件已毕，余 runner 一件**；**r1068 已完成=runner 落地（`scripts/fund_divlowvol_p2_backtest.py`·selftest 20/20 PASS·9 格×2 face=18 判读 cell-faces 与 N_eff 2,018 机检恒等·dry-run 实跑回执 `results/fund_divlowvol_p2/cells/TN20__x1.json`〔local 基座·t0 2003-11-03·269 发射月·691 员·与 P1 选股平均重叠 0.984·末月 1.0〕）——冻结窗余项清零，下步=冻结 commit（runner 落地即冻结件齐）**；**r1069 已完成=路线 B 信号保真度腿（`REJECT_ROUTE_B_USE_ROUTE_A`·269 月 Jaccard 中位 0.4286·尾部分位 63.2%·§2.3）→ **烧面定谳=路线 A 唯一**（p1c 重投到位才烧·A 未到=冻结不烧·禁 B 顶替）**；**冻结生效（r1069·§2 冻结窗余项全清：禁向闸 ADMIT／四元组锚定／cutoff／d6 ADMIT／本地基座 probe 7/7／runner 20/20／烧面裁决）——本件判据自此禁改，改即新批**；冻结前禁烧；§7/§8 占位纪律（写数字即造假）。
 > 模板=`research/PREREG_TEMPLATE.md`（T-02 6/7）；判据权威=`research/BACKTEST_SCIENCE.md` v2＋共享库 `scripts/science_gates.py`（禁手抄判线）。
 > **CEO 判负线复活授权（O-20261019-2230-bm-b §二.1·三件律：本授权+新预注册+新证据）**：承 FUND-DIVLOWVOL-P1 判决（0.89 vs 基准 1.0025·DSR 0.675·results/fund_divlowvol_p1/fund_divlowvol_p1_results.json 在册），新证据三腿=①盈利质量过滤强化（eligibility np_ttm/np_annual+quality_faces 盈利质量面——P1 未用）②参数邻域扫描（Sobol/邻域格·判负面主判据邻域稳健性检验）③出场轴优化（出场轴显式门三选一显式声明·P1=②持有到底，P2 出场轴=r1039 冻结窗设计定稿）。防运气门不拆（CEO 令原文：技能线/DSR/PBO/种子登记/预注册冻结全照旧）。
 > 血统：FUND-DIVLOWVOL-P1.md（股票横截面月频族·bm-b r610 冻结·N_eff 2,002 池烧）＋ CEO 研究导向律合规（红利低波=A 股原生主流风格打法·形式化非国外框架筛国内打法）。
@@ -65,6 +65,14 @@ r1039 裁定 1 判「本地 astock_daily/per 面不胜任」的理由是**当时
 2. **路线 B（备用·条件化）= 本地基座 + `vwap_raw_proxy`**——若 A 在冻结窗内未到，B **必须**以信号日的 `amount/volume` 作 `P_raw`（原始价位天然含送转，无需送转事件面）；**禁止**以 `qfq × f_cash` 反推 raw close（本 leg 已实证其错位，且 33.99% 成员个体层面超 ±5% 容差）。
 3. 送转事件候选面 `results/fund_divlowvol_p2/split_events_candidate.json`（13,326 条·逐条含 sym/日期/隐含比例）仅作**审计留痕与候选修正面**，本批**不并入**判据（并入须另批预注册）。
 4. 判据不变：两条路线共用同一 evidence_cutoff=2026-09-22 与同一 judged 格表；路线差异须在 §7 逐格标注（A/B 标签）。
+
+### §2.3 路线 B 信号保真度腿（r1069 bm-b·**冻结窗内裁决，跑前，非看结果调线**）
+§2.2 只证了「现金面因子还原不了 raw close」，未回答**决策相关问题**：送转错位到底改不改选股？本腿在冻结基座上直接测：
+
+- 工具 `scripts/fund_divlowvol_p2_route_b_fidelity.py`（selftest 12/12），回执 `results/fund_divlowvol_p2/route_b_fidelity.json`；内核全 import 单源（P1 骨架＋p2_probe），零重实现，只换「把现金折成收益率的价格」：A 面 `ttm_cash/(close_qfq·f_cash)`，B 面 `ttm_cash/(amount/volume)`；同基座掩码/同 σ 屏/同 PIT 质量腿/同 Top-N/同 tie-break。
+- **预声明规则（跑前写死三条同时满足才收 B）**：①月度 Top-20 Jaccard 中位 ≥0.90；②Jaccard<0.50 的月份占比 ≤5%；③UNIVERSE_FLOOR 判定一致率 ≥95%。
+- 实测（269 个月·cutoff 2026-09-22·vwap 缺失 0·候选集两面恒等）：Jaccard 中位 **0.4286**（均值 0.4475·p10 0.1765）、尾部分位 **63.20%** 的月份 <0.50、floor 一致率 1.0；最差 2008-03/2011-12 仅重叠 3/20。收益比值中位 1.469（原始价位 vs qfq·1 元现金在不同价位上折出的收益率不同·且个体送转幅度不均）。
+- **裁定=`REJECT_ROUTE_B_USE_ROUTE_A`**（写死，不再改）：B 面选股与 A 面实质不同（近三分之二月份重叠不足一半），以 B 面烧出的判读结果**不能**用于复活批对 P1 的同窗证伪连续性检验。**烧面=路线 A（p1c 重投）唯一可行**；A 未到位则本批冻结但不烧（诚实 supply-blocked，禁以 B 顶替）。
 
 - **数据锚面定义四元组【G-ANCHOR-FACE·冻结窗定稿】**：
   - 分红事件：`data/fund_history_export/div_events_faces.parquet`｜加载=pandas.read_parquet｜起算窗=1991-04-03→2026-10-23 全史｜预热=信号日前推 365d TTM 窗（ttm_cash_sum 内核 import 自 fund_divlowvol_p1_probe 单源）。

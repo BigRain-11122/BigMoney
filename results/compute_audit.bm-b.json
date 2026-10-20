@@ -1,20 +1,20 @@
 {
   "latest": {
-    "ts": "2026-10-20 08:51:11",
+    "ts": "2026-10-20 12:25:05",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 4.0,
-    "py_cpu_pct": 0.0,
+    "cpu_total_pct": 32.0,
+    "py_cpu_pct": 6.9,
     "cores": 16,
-    "py_procs": 10,
-    "result_stale_min": 0.1,
+    "py_procs": 14,
+    "result_stale_min": 0.0,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "pool_ready_unclaimed": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 6,
-      "span_min": 84.1
+      "run_samples": 7,
+      "span_min": 214.0
     },
     "supply_gap_candidate": false,
     "supply_gap_detail": {
@@ -26,11 +26,11 @@
       "breach": true
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 84.1,
+    "supply_family_streak_min": 214.0,
     "gpu": {
       "present": true,
-      "util_pct": 12.0,
-      "mem_used_mb": 4302.0,
+      "util_pct": 13.0,
+      "mem_used_mb": 4330.0,
       "compute_apps_count": 28,
       "rogue_apps": []
     },
@@ -55,280 +55,6 @@
     "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "history": [
-    {
-      "ts": "2026-10-14 03:21:19",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 91.0,
-      "py_cpu_pct": 0.6,
-      "cores": 32,
-      "py_procs": 34,
-      "result_stale_min": 0.2,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 1,
-        "span_min": null
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 0.0,
-      "gpu": {
-        "present": true,
-        "util_pct": 45.0,
-        "mem_used_mb": 11502.0,
-        "compute_apps_count": 47,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "wall_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "cap_violation",
-        "supply_floor"
-      ],
-      "verdict": "FLAG:cap_violation,supply_floor"
-    },
-    {
-      "ts": "2026-10-14 04:14:56",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 19.0,
-      "py_cpu_pct": 0.0,
-      "cores": 32,
-      "py_procs": 11,
-      "result_stale_min": 0.5,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 2,
-        "span_min": null
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 53.6,
-      "gpu": {
-        "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 14579.0,
-        "compute_apps_count": 20,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 12,
-        "core_seconds": 6618.39,
-        "wall_seconds": 733.5,
-        "effective_cores": 9.02,
-        "multicore_burn": 12,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_floor"
-      ],
-      "verdict": "FLAG:supply_floor"
-    },
-    {
-      "ts": "2026-10-14 04:43:08",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 0.0,
-      "py_cpu_pct": 0.1,
-      "cores": 32,
-      "py_procs": 12,
-      "result_stale_min": 0.1,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 3,
-        "span_min": 81.8
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 81.8,
-      "gpu": {
-        "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 14584.0,
-        "compute_apps_count": 20,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 12,
-        "core_seconds": 6618.39,
-        "wall_seconds": 733.5,
-        "effective_cores": 9.02,
-        "multicore_burn": 12,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_gap",
-        "supply_floor"
-      ],
-      "verdict": "FLAG:supply_gap,supply_floor"
-    },
-    {
-      "ts": "2026-10-14 05:03:31",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 3.0,
-      "py_cpu_pct": 0.0,
-      "cores": 32,
-      "py_procs": 11,
-      "result_stale_min": 0.5,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 4,
-        "span_min": 102.2
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 102.2,
-      "gpu": {
-        "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 14584.0,
-        "compute_apps_count": 20,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "wall_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_gap",
-        "supply_floor"
-      ],
-      "verdict": "FLAG:supply_gap,supply_floor"
-    },
-    {
-      "ts": "2026-10-14 05:19:09",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 14.0,
-      "py_cpu_pct": 1.6,
-      "cores": 32,
-      "py_procs": 11,
-      "result_stale_min": 0.1,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 5,
-        "span_min": 117.8
-      },
-      "supply_floor": {
-        "ready": 1,
-        "floor": 3,
-        "breach": true
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 117.8,
-      "gpu": {
-        "present": true,
-        "util_pct": 1.0,
-        "mem_used_mb": 14584.0,
-        "compute_apps_count": 20,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "wall_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_gap",
-        "supply_floor"
-      ],
-      "verdict": "FLAG:supply_gap,supply_floor"
-    },
     {
       "ts": "2026-10-14 05:19:54",
       "audit_version": "v2.4.2",
@@ -10933,13 +10659,13 @@
       "verdict": "FLAG:supply_floor"
     },
     {
-      "ts": "2026-10-20 07:56:56",
+      "ts": "2026-10-20 07:56:23",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 10.0,
-      "py_cpu_pct": 0.0,
-      "cores": 16,
-      "py_procs": 6,
-      "result_stale_min": 0.1,
+      "cpu_total_pct": 63.0,
+      "py_cpu_pct": 2.1,
+      "cores": 32,
+      "py_procs": 8,
+      "result_stale_min": 0.3,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
       "pool_ready_unclaimed": 0,
@@ -10959,12 +10685,12 @@
         "breach": true
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 29.9,
+      "supply_family_streak_min": 29.3,
       "gpu": {
         "present": true,
-        "util_pct": 13.0,
-        "mem_used_mb": 4302.0,
-        "compute_apps_count": 28,
+        "util_pct": 1.0,
+        "mem_used_mb": 2020.0,
+        "compute_apps_count": 21,
         "rogue_apps": []
       },
       "zombies": [],
@@ -10987,13 +10713,13 @@
       "verdict": "FLAG:supply_floor"
     },
     {
-      "ts": "2026-10-20 08:18:55",
+      "ts": "2026-10-20 08:09:08",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 7.0,
-      "py_cpu_pct": 0.4,
-      "cores": 16,
-      "py_procs": 10,
-      "result_stale_min": 0.2,
+      "cpu_total_pct": 60.0,
+      "py_cpu_pct": 0.2,
+      "cores": 32,
+      "py_procs": 7,
+      "result_stale_min": 0.6,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
       "pool_ready_unclaimed": 0,
@@ -11001,7 +10727,7 @@
       "pool_starvation_candidate": true,
       "pool_starvation_detail": {
         "run_samples": 3,
-        "span_min": 51.9
+        "span_min": 42.1
       },
       "supply_gap_candidate": false,
       "supply_gap_detail": {
@@ -11013,12 +10739,12 @@
         "breach": true
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 51.9,
+      "supply_family_streak_min": 42.1,
       "gpu": {
         "present": true,
-        "util_pct": 8.0,
-        "mem_used_mb": 4302.0,
-        "compute_apps_count": 28,
+        "util_pct": 1.0,
+        "mem_used_mb": 2007.0,
+        "compute_apps_count": 21,
         "rogue_apps": []
       },
       "zombies": [],
@@ -11042,12 +10768,228 @@
       "verdict": "FLAG:pool_starvation,supply_floor"
     },
     {
-      "ts": "2026-10-20 08:29:59",
+      "ts": "2026-10-20 08:27:01",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 6.0,
+      "cpu_total_pct": 100.0,
+      "py_cpu_pct": 100.0,
+      "cores": 32,
+      "py_procs": 34,
+      "result_stale_min": 0.0,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "burning-healthy",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "burning-healthy"
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "burning-healthy"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": null,
+      "gpu": {
+        "present": true,
+        "util_pct": 10.0,
+        "mem_used_mb": 2024.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "cap_violation"
+      ],
+      "verdict": "FLAG:cap_violation"
+    },
+    {
+      "ts": "2026-10-20 08:51:04",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 64.0,
+      "py_cpu_pct": 0.1,
+      "cores": 32,
+      "py_procs": 8,
+      "result_stale_min": 0.0,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 1,
+        "span_min": null
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 0.0,
+      "gpu": {
+        "present": true,
+        "util_pct": 3.0,
+        "mem_used_mb": 14822.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
+    },
+    {
+      "ts": "2026-10-20 09:07:33",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 21.0,
       "py_cpu_pct": 0.0,
-      "cores": 16,
-      "py_procs": 6,
+      "cores": 32,
+      "py_procs": 7,
+      "result_stale_min": 0.3,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 2,
+        "span_min": null
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 16.5,
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 2019.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
+    },
+    {
+      "ts": "2026-10-20 09:27:01",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 20.0,
+      "py_cpu_pct": 0.1,
+      "cores": 32,
+      "py_procs": 18,
+      "result_stale_min": 0.6,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 3,
+        "span_min": 36.0
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 36.0,
+      "gpu": {
+        "present": true,
+        "util_pct": 2.0,
+        "mem_used_mb": 8293.0,
+        "compute_apps_count": 41,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "pool_starvation",
+        "supply_floor"
+      ],
+      "verdict": "FLAG:pool_starvation,supply_floor"
+    },
+    {
+      "ts": "2026-10-20 09:50:48",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 83.0,
+      "py_cpu_pct": 0.9,
+      "cores": 32,
+      "py_procs": 8,
       "result_stale_min": 0.5,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
@@ -11056,7 +10998,7 @@
       "pool_starvation_candidate": true,
       "pool_starvation_detail": {
         "run_samples": 4,
-        "span_min": 62.9
+        "span_min": 59.7
       },
       "supply_gap_candidate": false,
       "supply_gap_detail": {
@@ -11068,12 +11010,12 @@
         "breach": true
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 62.9,
+      "supply_family_streak_min": 59.7,
       "gpu": {
         "present": true,
-        "util_pct": 14.0,
-        "mem_used_mb": 4302.0,
-        "compute_apps_count": 28,
+        "util_pct": 1.0,
+        "mem_used_mb": 2017.0,
+        "compute_apps_count": 21,
         "rogue_apps": []
       },
       "zombies": [],
@@ -11097,13 +11039,13 @@
       "verdict": "FLAG:pool_starvation,supply_floor"
     },
     {
-      "ts": "2026-10-20 08:42:49",
+      "ts": "2026-10-20 11:11:46",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 9.0,
-      "py_cpu_pct": 0.1,
-      "cores": 16,
-      "py_procs": 10,
-      "result_stale_min": 0.7,
+      "cpu_total_pct": 48.0,
+      "py_cpu_pct": 2.2,
+      "cores": 32,
+      "py_procs": 7,
+      "result_stale_min": 0.6,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
       "pool_ready_unclaimed": 0,
@@ -11111,7 +11053,7 @@
       "pool_starvation_candidate": true,
       "pool_starvation_detail": {
         "run_samples": 5,
-        "span_min": 75.8
+        "span_min": 140.7
       },
       "supply_gap_candidate": false,
       "supply_gap_detail": {
@@ -11123,12 +11065,12 @@
         "breach": true
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 75.8,
+      "supply_family_streak_min": 140.7,
       "gpu": {
         "present": true,
-        "util_pct": 9.0,
-        "mem_used_mb": 4302.0,
-        "compute_apps_count": 28,
+        "util_pct": 1.0,
+        "mem_used_mb": 2031.0,
+        "compute_apps_count": 21,
         "rogue_apps": []
       },
       "zombies": [],
@@ -11152,13 +11094,13 @@
       "verdict": "FLAG:pool_starvation,supply_floor"
     },
     {
-      "ts": "2026-10-20 08:51:11",
+      "ts": "2026-10-20 12:05:17",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 4.0,
-      "py_cpu_pct": 0.0,
-      "cores": 16,
+      "cpu_total_pct": 40.0,
+      "py_cpu_pct": 0.1,
+      "cores": 32,
       "py_procs": 10,
-      "result_stale_min": 0.1,
+      "result_stale_min": 0.5,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
       "pool_ready_unclaimed": 0,
@@ -11166,7 +11108,7 @@
       "pool_starvation_candidate": true,
       "pool_starvation_detail": {
         "run_samples": 6,
-        "span_min": 84.1
+        "span_min": 194.2
       },
       "supply_gap_candidate": false,
       "supply_gap_detail": {
@@ -11178,11 +11120,66 @@
         "breach": true
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 84.1,
+      "supply_family_streak_min": 194.2,
       "gpu": {
         "present": true,
-        "util_pct": 12.0,
-        "mem_used_mb": 4302.0,
+        "util_pct": 2.0,
+        "mem_used_mb": 2067.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "pool_starvation",
+        "supply_floor"
+      ],
+      "verdict": "FLAG:pool_starvation,supply_floor"
+    },
+    {
+      "ts": "2026-10-20 12:25:05",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 32.0,
+      "py_cpu_pct": 6.9,
+      "cores": 16,
+      "py_procs": 14,
+      "result_stale_min": 0.0,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 7,
+        "span_min": 214.0
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 214.0,
+      "gpu": {
+        "present": true,
+        "util_pct": 13.0,
+        "mem_used_mb": 4330.0,
         "compute_apps_count": 28,
         "rogue_apps": []
       },

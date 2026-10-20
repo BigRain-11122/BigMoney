@@ -309,9 +309,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1068,
- "round_no": 1068,
- "round_no_label": "r1068",
+ "round": 1069,
+ "round_no": 1069,
+ "round_no_label": "r1069",
  "sat_engine": {
   "checked_at": "2026-10-20T00:29:25+08:00",
   "status": "alive (r1041 chain status leg rc0; idle verdict; P2 burn feed = freeze-window gate: panel legs awaiting p1c re-delivery window-2, execution ticket after freeze commit)"
@@ -798,9 +798,12 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1067",
- "ts": "2026-10-20T10:12:48+08:00",
+ "task": "r1069",
+ "ts": "2026-10-20T12:26:49+08:00",
  "updated": "2026-10-20T09:42:14",
- "updated_at": "2026-10-20T10:12:48+08:00",
- "verdict": "GREEN: runner landed, smoke 49/49, freeze window complete (burn still gated)"
+ "updated_at": "2026-10-20T12:26:49+08:00",
+ "verdict": "GREEN: FUND-DIVLOWVOL-P2 FROZEN (route B rejected on signal fidelity; burn face = route A p1c re-delivery only)",
+ "notes": {
+  "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round."
+ }
 }
