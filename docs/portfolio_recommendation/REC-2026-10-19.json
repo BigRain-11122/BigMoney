@@ -1,0 +1,192 @@
+{
+ "face": "PORTFOLIO-RECOMMENDATION",
+ "status": "RESEARCH_READOUT_ZERO_JUDGED_CLAIMS",
+ "as_of": "2026-10-19",
+ "decision": {
+  "recommendation": "unconditional DIVLOWVOL-YIELDVOL sleeve (Top-20 by yield_ttm, low-vol half, EW, monthly)",
+  "basis": "stage-conditioned selection was judged UNSUPPORTED; the unconditional sleeve dominates every combo cell",
+  "best_combo": {
+   "cell": "C1",
+   "sharpe_x1": 1.082985
+  },
+  "best_unconditional": {
+   "face": "U-divlowvol",
+   "sharpe_x1": 1.208542
+  },
+  "margin_sharpe": -0.125557,
+  "p4_pass": false,
+  "rule": "prereg sec.3/4 P4: best combo sharpe >= U-divlowvol + 0.10",
+  "attribution": "combo gains trace to the divlowvol sleeve it already holds; stage switching nets negative via turnover tax + cash legs missing the up-moves"
+ },
+ "stage_view": {
+  "label_face": "results/regime5_labels/REGIME5-2026-10-19.json",
+  "current_stage": "SUPPORT",
+  "last_20_sessions": [
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "GRIND",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "BEAR",
+   "SUPPORT",
+   "SUPPORT"
+  ],
+  "per_stage_best_descriptive": {
+   "BEAR": {
+    "cell": "U-divlowvol",
+    "sharpe_ann": 0.9821,
+    "ann_ret_eq": 0.102,
+    "state_dd": -0.1006,
+    "n_days": 859
+   },
+   "GRIND": {
+    "cell": "U-divlowvol",
+    "sharpe_ann": 1.1247,
+    "ann_ret_eq": 0.0499,
+    "state_dd": -0.0297,
+    "n_days": 83
+   },
+   "CHOP": {
+    "cell": "U-divlowvol",
+    "sharpe_ann": 1.2761,
+    "ann_ret_eq": 0.1314,
+    "state_dd": -0.1584,
+    "n_days": 2004
+   },
+   "SUPPORT": {
+    "cell": "C1",
+    "sharpe_ann": 1.4297,
+    "ann_ret_eq": 0.0932,
+    "state_dd": -0.0444,
+    "n_days": 171
+   },
+   "BULL": {
+    "cell": "U-divlowvol",
+    "sharpe_ann": 1.8332,
+    "ann_ret_eq": 0.2072,
+    "state_dd": -0.0352,
+    "n_days": 172
+   }
+  },
+  "caveat": "descriptive readout on the allocation-regime view (label that governed each month's allocation); no judgment line is asserted by this table"
+ },
+ "family_view": {
+  "divlowvol": {
+   "batch": "FUND-DIVLOWVOL-P1",
+   "verdict": "insufficient-sample",
+   "headline_sharpe": 0.894092,
+   "passive_sharpe": 0.448455,
+   "dsr": 0.675103,
+   "evidence_cutoff": "2026-09-22"
+  },
+  "value": {
+   "batch": "FUND-VALUE-P1",
+   "verdict": "insufficient-sample",
+   "headline_sharpe": 0.380859,
+   "passive_sharpe": 0.299119,
+   "dsr": 0.093495,
+   "evidence_cutoff": "2026-09-22"
+  },
+  "quality": {
+   "batch": "FUND-QUALITY-P1",
+   "verdict": "insufficient-sample",
+   "headline_sharpe": -0.317674,
+   "passive_sharpe": 0.219901,
+   "dsr": 0.0,
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "nulls_evidence": {
+  "path": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json",
+  "verdict": "SUPPORT_ABOVE_NULL",
+  "z": 3.2281,
+  "p": 0.001,
+  "k": 2000,
+  "p95": 0.806925
+ },
+ "live_holdings": {
+  "path": "results/divlowvol_live/latest.json",
+  "as_of": "2026-10-19",
+  "entry_date": "2026-10-08",
+  "n_holdings": 20,
+  "weight": 0.05,
+  "one_way_turnover": 0.35,
+  "codes": [
+   "000915",
+   "002027",
+   "002170",
+   "002233",
+   "002441",
+   "002572",
+   "002749",
+   "002763",
+   "002867",
+   "300406",
+   "300770",
+   "300994",
+   "600329",
+   "600742",
+   "600750",
+   "600866",
+   "601717",
+   "603165",
+   "603551",
+   "603569"
+  ]
+ },
+ "evidence_chain": [
+  {
+   "path": "results/stagestyle_combo_p1/FINALIZE-SSCOMBO-P1.json",
+   "sha16": "59af2b6215a5ccf3"
+  },
+  {
+   "path": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+   "sha16": "5a3940c87777a494"
+  },
+  {
+   "path": "results/fund_value_p1/fund_value_p1_results.json",
+   "sha16": "94f1552af1280381"
+  },
+  {
+   "path": "results/fund_quality_p1/fund_quality_p1_results.json",
+   "sha16": "7b4484bb00bd0122"
+  },
+  {
+   "path": "results/divlowvol_live/latest.json",
+   "sha16": "0df6316af5c809ae"
+  },
+  {
+   "path": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json",
+   "sha16": "40077b280f8d7613"
+  },
+  {
+   "path": "results/regime5_labels/REGIME5-2026-10-19.json",
+   "sha16": "4058160df3373a73"
+  },
+  {
+   "path": "results/stagestyle_combo_p1/STAGE-STYLE-MATRIX-v1.json",
+   "note": "matrix json face",
+   "sha16": "c568e968f32e9b36"
+  }
+ ],
+ "honesty": [
+  "本页是已冻结判决产物的汇总面：零新检验、零新判据、零 ledger 记账。",
+  "最优组合建议 = 判决面读数（无条件 divlowvol 优于三格阶段组合），不构成投资建议；公司自动实盘开闸仍须月界窗 + CEO 唯一门。",
+  "阶段表为描述性读数（格内日收益统计），不含活/判负判决线。",
+  "三族 P1 判决 verdict 均为 insufficient-sample，如实携带。",
+  "P2 复活批（盈利质量过滤+出场轴）仍在冻结窗，面板重投为结构等待；本页不预设其结论。"
+ ],
+ "sha16": "04f8fce9856cb2e1"
+}
