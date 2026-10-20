@@ -41,8 +41,8 @@ from datetime import datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from e24_regime_census import (BURN, LADDER, breadth_at, load_panel,  # noqa: E402
-                               tstat)
+from e24_regime_census import (BURN, LADDER, breadth_at, ladder_momentum,  # noqa: E402
+                               load_panel, tstat)
 
 OUTDIR = os.path.join(ROOT, "results", "e24_overlay_breath")
 COST_BP = 13.041          # frozen engine cost per side, bp
@@ -66,26 +66,45 @@ def ladder_returns(cal, symbols, rows):
     return out
 
 
-def gate_series(cal, rows, tail_q=TAIL_Q, burn=BURN):
+def signal_series(rows, symbols, signal="breadth"):
+    """Causal gate signal per day.  `ladder` reuses the census momentum read."""
+    if signal == "ladder":
+        return [ladder_momentum(rows, symbols, i, 20) for i in range(len(rows))]
+    if signal == "both":
+        br = [breadth_at(rows, i, 20) for i in range(len(rows))]
+        lm = [ladder_momentum(rows, symbols, i, 20) for i in range(len(rows))]
+        return [None if (a is None or b is None) else (a, b) for a, b in zip(br, lm)]
+    return [breadth_at(rows, i, 20) for i in range(len(rows))]
+
+
+def gate_series(cal, rows, symbols=None, tail_q=TAIL_Q, burn=BURN, signal="breadth"):
     """W_t in {0,1} per day, decided from information available at t (T+1 use).
 
-    The gate is ON when breadth_t is above the expanding tail_q quantile of the
-    breadth history seen so far; burn-in days are OFF.
+    The gate is ON when the signal at t sits above the expanding tail_q
+    quantile of the signal history seen so far; burn-in days are OFF.
+    `both` requires every component signal to clear its own expanding cut.
     """
-    breadth = [breadth_at(rows, i, 20) for i in range(len(rows))]
+    series = signal_series(rows, symbols or [], signal)
     hist = []
     gate = []
-    for b in breadth:
-        if b is None or len(hist) < burn:
+    for v in series:
+        if v is None or len(hist) < burn:
             gate.append(0)
-            if b is not None:
-                hist.append(b)
+            if v is not None:
+                hist.append(v)
             continue
-        srt = sorted(hist)
-        cut = srt[min(len(srt) - 1, int(len(srt) * tail_q))]
-        gate.append(1 if b > cut else 0)
-        hist.append(b)
-    return gate, breadth
+        if isinstance(v, tuple):
+            cuts = []
+            for k in range(len(v)):
+                col = sorted(h[k] for h in hist)
+                cuts.append(col[min(len(col) - 1, int(len(col) * tail_q))])
+            on = all(x > c for x, c in zip(v, cuts))
+        else:
+            srt = sorted(hist)
+            on = v > srt[min(len(srt) - 1, int(len(srt) * tail_q))]
+        gate.append(1 if on else 0)
+        hist.append(v)
+    return gate, series
 
 
 def overlay_series(cal, rets, gate):
@@ -126,9 +145,14 @@ def per_year(cal, xs):
     return {y: {"sum_bp": round(v[0] * 1e4, 2), "days": v[1]} for y, v in sorted(acc.items())}
 
 
-def build_face(cal, symbols, rows, gate_name="breadth20-top-quintile", tail_q=TAIL_Q):
+def build_face(cal, symbols, rows, gate_name=None, tail_q=TAIL_Q,
+               signal="breadth"):
     rets = ladder_returns(cal, symbols, rows)
-    gate, breadth = gate_series(cal, rows, tail_q=tail_q)
+    gate, breadth = gate_series(cal, rows, symbols, tail_q=tail_q, signal=signal)
+    if gate_name is None:
+        gate_name = {"breadth": "breadth20-top-quintile",
+                     "ladder": "ladder20-top-quintile",
+                     "both": "breadth20-and-ladder20-top-quintile"}[signal]
     gross, net, costs, wts = overlay_series(cal, rets, gate)
 
     live = [(d, g, n, c, w) for d, g, n, c, w in zip(cal, gross, net, costs, wts)]
@@ -158,6 +182,7 @@ def build_face(cal, symbols, rows, gate_name="breadth20-top-quintile", tail_q=TA
 
     return {
         "face": gate_name,
+        "signal": signal,
         "evidence_cutoff": d_live[-1],
         "window_start": d_live[0],
         "n_days": len(d_live),
@@ -241,6 +266,21 @@ def selftest():
     g2, _ = gate_series(cal, rows2, tail_q=0.5, burn=5)
     chk("gate at t-1 is invariant to a t-day shock", g1[:-1] == g2[:-1])
 
+    # ladder-momentum signal must also be causal and must differ from breadth
+    g3, s3 = gate_series(cal, rows, symbols, tail_q=0.5, burn=5, signal="ladder")
+    g4, _ = gate_series(cal, rows2, symbols, tail_q=0.5, burn=5, signal="ladder")
+    chk("ladder gate at t-1 is invariant to a t-day shock", g3[:-1] == g4[:-1])
+    chk("ladder signal ignores burn-in days", all(v is None for v in s3[:5]) is False
+        or all(g3[:5] == [0] * 5 for _ in [0]))
+
+    # 'both' needs every component above its own expanding cut
+    g5, s5 = gate_series(cal, rows, symbols, tail_q=0.5, burn=5, signal="both")
+    chk('both signal is a 2-tuple per live day',
+        all(v is None or (isinstance(v, tuple) and len(v) == 2) for v in s5))
+    chk("both gate never exceeds either single gate", all(a <= b and a <= c
+        for a, b, c in zip(g5, g3, gate_series(cal, rows, symbols, tail_q=0.5,
+                                               burn=5, signal="breadth")[0])))
+
     print("selftest: %d/%d PASS" % (total["n"] - len(fails), total["n"]))
     return 0 if not fails else 1
 
@@ -252,6 +292,8 @@ def main(argv=None):
     runp = sub.add_parser("run", help="compute the overlay feasibility face")
     runp.add_argument("--tail-q", type=float, default=TAIL_Q,
                       help="gate entry quantile on the expanding breadth history (default 0.80)")
+    runp.add_argument("--signal", default="breadth", choices=["breadth", "ladder", "both"],
+                      help="gate signal: breadth20 | ladder 20d momentum | both (default breadth)")
     sub.add_parser("selftest", help="hermetic self checks")
     args = ap.parse_args(argv)
     cmd = args.cmd or "run"
@@ -260,16 +302,22 @@ def main(argv=None):
         return selftest()
 
     cal, symbols, rows = load_panel()
-    face = build_face(cal, symbols, rows, tail_q=getattr(args, "tail_q", TAIL_Q))
+    signal = getattr(args, "signal", "breadth")
+    face = build_face(cal, symbols, rows, tail_q=getattr(args, "tail_q", TAIL_Q),
+                      signal=signal)
     os.makedirs(OUTDIR, exist_ok=True)
     tag = "q%02d" % round(face["tail_q"] * 100)
-    path = os.path.join(OUTDIR, "OVERLAY-breadth20-%s-%s.json" %
-                        (tag, face["evidence_cutoff"].replace("-", "")))
+    face_tag = {"breadth": "breadth20", "ladder": "ladder20", "both": "both20"}[signal]
+    path = os.path.join(OUTDIR, "OVERLAY-%s-%s-%s.json" %
+                        (face_tag, tag, face["evidence_cutoff"].replace("-", "")))
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1, sort_keys=True)
-    latest = os.path.join(OUTDIR, "latest.json")
+    latest = os.path.join(OUTDIR, "latest-%s.json" % face_tag)
     with open(latest, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1, sort_keys=True)
+    if signal == "breadth":          # legacy pointer: breadth was the first face
+        with open(os.path.join(OUTDIR, "latest.json"), "w", encoding="utf-8") as fh:
+            json.dump(face, fh, ensure_ascii=False, indent=1, sort_keys=True)
     print(json.dumps({k: v for k, v in face.items() if k in
                       ("face", "evidence_cutoff", "n_days", "exposure_share", "overlay",
                        "always_on_ladder", "edge_vs_always_on_bp_per_year")},

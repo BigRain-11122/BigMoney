@@ -1,0 +1,68 @@
+{
+ "mode": "ladder",
+ "evidence_cutoff": "2026-10-20",
+ "horizon_bars": 20,
+ "burn_in_days": 250,
+ "universe_files": 1278,
+ "calendar_days": 3497,
+ "samples": 3227,
+ "buckets": [
+  {
+   "bucket": 0,
+   "n": 574,
+   "mean_bp": 91.95,
+   "t_naive_overlap": 3.86,
+   "n_stride": 115,
+   "mean_bp_stride": 99.83,
+   "t_stride": 1.75
+  },
+  {
+   "bucket": 1,
+   "n": 709,
+   "mean_bp": 37.24,
+   "t_naive_overlap": 1.94,
+   "n_stride": 142,
+   "mean_bp_stride": 38.42,
+   "t_stride": 0.83
+  },
+  {
+   "bucket": 2,
+   "n": 620,
+   "mean_bp": 36.55,
+   "t_naive_overlap": 1.94,
+   "n_stride": 124,
+   "mean_bp_stride": 30.55,
+   "t_stride": 0.74
+  },
+  {
+   "bucket": 3,
+   "n": 519,
+   "mean_bp": 91.62,
+   "t_naive_overlap": 3.76,
+   "n_stride": 104,
+   "mean_bp_stride": 89.59,
+   "t_stride": 1.76
+  },
+  {
+   "bucket": 4,
+   "n": 555,
+   "mean_bp": 168.83,
+   "t_naive_overlap": 5.89,
+   "n_stride": 111,
+   "mean_bp_stride": 157.89,
+   "t_stride": 2.5
+  }
+ ],
+ "era_split_top_bucket": {
+  "2024-now": {
+   "n": 555,
+   "mean_bp": 147.47,
+   "t": 5.71
+  }
+ },
+ "honest": [
+  "overlapping forward windows (step 1d): naive t inflated, stride-5 t reported",
+  "expanding causal quintiles, 250-day burn-in",
+  "descriptive census: no gate, no verdict, no trial count consumed"
+ ]
+}

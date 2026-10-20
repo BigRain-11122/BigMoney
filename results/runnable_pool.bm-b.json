@@ -18596,10 +18596,12 @@
    "data_gates": "in-runner fail-closed: prep+candidates presence + grammar sha == frozen 08259059b9302e69 + RAM gate 4GB + checkpoint resume (screen_shard_kofN.jsonl append-per-cell); evidence_cutoff=2026-09-22 (P-5C binding)",
    "entered_at": "2026-10-20T17:18:32+08:00",
    "entered_by": "bm-b r1077 (supply floor refill: ready 0<3)",
+   "finished_at": "2026-10-20 18:14:18",
    "id": "TRIAL-LABOR-W21-SCREEN-SHARD-0",
    "lane_owner": "bm-b",
    "prereg_ref": "research/TRIAL_LABOR_W21_PREREG.md (FROZEN 2026-10-20 bm-b r1077; banned gate ADMIT rc0 receipt results/_r1077bmb_banned_gate.json)",
    "priority": 1,
+   "result_ref": "results/trial_labor_w21/w21_screen.json",
    "runner": "scripts/trial_labor_w21.py",
    "runner_args": [
     "screen",
@@ -18609,16 +18611,16 @@
    "shards": [
     {
      "checkpoint": "results/trial_labor_w21/checkpoint/screen_shard_0of4.jsonl (MACHINE-LOCAL r429 gitignored; lane bm-b)",
-     "key": "w21-screen-0of4",
-     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-10-20 18:08:04",
      "claimed_since": "2026-10-20 17:58:06",
      "done_at": "2026-10-20 18:08:04",
-     "harvested_by": "bm-b",
      "harvest_claim": "w21-screen-0of4.bm-b.json",
-     "harvest_note": "log line 'shard 0of4 complete' at 18:07:01 + claim closed; consumed by screen-finalize r1080"
+     "harvest_note": "log line 'shard 0of4 complete' at 18:07:01 + claim closed; consumed by screen-finalize r1080",
+     "harvested_by": "bm-b",
+     "key": "w21-screen-0of4",
+     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-20 18:08:04",
+     "status": "done"
     }
    ],
    "status": "done",
@@ -18627,13 +18629,13 @@
     "note": "W17-W20 screen machinery precedent (run_cells_parallel multiproc; prep_state passive_6m shared read)",
     "priority": "BelowNormal",
     "workers": "worker_cap() pool BelowNormal"
-   },
-   "result_ref": "results/trial_labor_w21/w21_screen.json",
-   "finished_at": "2026-10-20 18:14:18"
+   }
   },
   {
    "consumer_plan": "4 screen shards -> screen-finalize (readers need all 18 cand rows + 200 nulls in CKPT_DIR) -> w21_screen.json + survivors + family axe -> judge-prep/judge/judge-finalize (family blocks, dual-nulls B=2000/P=2000) -> intake; negative = supply-line demotion basis for the overnight-conditioning entry axis; positive = judged supply into the pool",
    "data_gates": "in-runner fail-closed: prep+candidates presence + grammar sha == frozen 08259059b9302e69 + RAM gate 4GB + checkpoint resume (screen_shard_kofN.jsonl append-per-cell); evidence_cutoff=2026-09-22 (P-5C binding)",
+   "done_at": "2026-10-20 17:54:04",
+   "done_by": "bm-b",
    "entered_at": "2026-10-20T17:18:32+08:00",
    "entered_by": "bm-b r1077 (supply floor refill: ready 0<3)",
    "id": "TRIAL-LABOR-W21-SCREEN-SHARD-1",
@@ -18649,15 +18651,15 @@
    "shards": [
     {
      "checkpoint": "results/trial_labor_w21/checkpoint/screen_shard_1of4.jsonl (MACHINE-LOCAL r429 gitignored; lane bm-b)",
-     "key": "w21-screen-1of4",
-     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-10-20 17:54:04",
      "claimed_since": "2026-10-20 17:48:11",
      "done_at": "2026-10-20 17:54:04",
+     "harvest_claim": "w21-screen-1of4.bm-b.json",
      "harvested_by": "bm-b",
-     "harvest_claim": "w21-screen-1of4.bm-b.json"
+     "key": "w21-screen-1of4",
+     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-20 17:54:04",
+     "status": "done"
     }
    ],
    "status": "done",
@@ -18666,13 +18668,13 @@
     "note": "W17-W20 screen machinery precedent (run_cells_parallel multiproc; prep_state passive_6m shared read)",
     "priority": "BelowNormal",
     "workers": "worker_cap() pool BelowNormal"
-   },
-   "done_by": "bm-b",
-   "done_at": "2026-10-20 17:54:04"
+   }
   },
   {
    "consumer_plan": "4 screen shards -> screen-finalize (readers need all 18 cand rows + 200 nulls in CKPT_DIR) -> w21_screen.json + survivors + family axe -> judge-prep/judge/judge-finalize (family blocks, dual-nulls B=2000/P=2000) -> intake; negative = supply-line demotion basis for the overnight-conditioning entry axis; positive = judged supply into the pool",
    "data_gates": "in-runner fail-closed: prep+candidates presence + grammar sha == frozen 08259059b9302e69 + RAM gate 4GB + checkpoint resume (screen_shard_kofN.jsonl append-per-cell); evidence_cutoff=2026-09-22 (P-5C binding)",
+   "done_at": "2026-10-20 18:00:04",
+   "done_by": "bm-b",
    "entered_at": "2026-10-20T17:18:32+08:00",
    "entered_by": "bm-b r1077 (supply floor refill: ready 0<3)",
    "id": "TRIAL-LABOR-W21-SCREEN-SHARD-2",
@@ -18688,15 +18690,15 @@
    "shards": [
     {
      "checkpoint": "results/trial_labor_w21/checkpoint/screen_shard_2of4.jsonl (MACHINE-LOCAL r429 gitignored; lane bm-b)",
-     "key": "w21-screen-2of4",
-     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-10-20 18:00:04",
      "claimed_since": "2026-10-20 17:54:22",
      "done_at": "2026-10-20 18:00:04",
+     "harvest_claim": "w21-screen-2of4.bm-b.json",
      "harvested_by": "bm-b",
-     "harvest_claim": "w21-screen-2of4.bm-b.json"
+     "key": "w21-screen-2of4",
+     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-20 18:00:04",
+     "status": "done"
     }
    ],
    "status": "done",
@@ -18705,13 +18707,13 @@
     "note": "W17-W20 screen machinery precedent (run_cells_parallel multiproc; prep_state passive_6m shared read)",
     "priority": "BelowNormal",
     "workers": "worker_cap() pool BelowNormal"
-   },
-   "done_by": "bm-b",
-   "done_at": "2026-10-20 18:00:04"
+   }
   },
   {
    "consumer_plan": "4 screen shards -> screen-finalize (readers need all 18 cand rows + 200 nulls in CKPT_DIR) -> w21_screen.json + survivors + family axe -> judge-prep/judge/judge-finalize (family blocks, dual-nulls B=2000/P=2000) -> intake; negative = supply-line demotion basis for the overnight-conditioning entry axis; positive = judged supply into the pool",
    "data_gates": "in-runner fail-closed: prep+candidates presence + grammar sha == frozen 08259059b9302e69 + RAM gate 4GB + checkpoint resume (screen_shard_kofN.jsonl append-per-cell); evidence_cutoff=2026-09-22 (P-5C binding)",
+   "done_at": "2026-10-20 18:06:04",
+   "done_by": "bm-b",
    "entered_at": "2026-10-20T17:18:32+08:00",
    "entered_by": "bm-b r1077 (supply floor refill: ready 0<3)",
    "id": "TRIAL-LABOR-W21-SCREEN-SHARD-3",
@@ -18727,15 +18729,15 @@
    "shards": [
     {
      "checkpoint": "results/trial_labor_w21/checkpoint/screen_shard_3of4.jsonl (MACHINE-LOCAL r429 gitignored; lane bm-b)",
-     "key": "w21-screen-3of4",
-     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-10-20 18:06:04",
      "claimed_since": "2026-10-20 18:00:23",
      "done_at": "2026-10-20 18:06:04",
+     "harvest_claim": "w21-screen-3of4.bm-b.json",
      "harvested_by": "bm-b",
-     "harvest_claim": "w21-screen-3of4.bm-b.json"
+     "key": "w21-screen-3of4",
+     "note": "stride i%%4 of 218 cells (18 cand + 200 screen nulls)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-20 18:06:04",
+     "status": "done"
     }
    ],
    "status": "done",
@@ -18744,36 +18746,34 @@
     "note": "W17-W20 screen machinery precedent (run_cells_parallel multiproc; prep_state passive_6m shared read)",
     "priority": "BelowNormal",
     "workers": "worker_cap() pool BelowNormal"
-   },
-   "done_by": "bm-b",
-   "done_at": "2026-10-20 18:06:04"
+   }
   },
   {
-   "id": "TRIAL-LABOR-W21-JUDGE-SHARD-0",
-   "status": "done",
-   "runner": "scripts/trial_labor_w21.py judge 0 1",
-   "lane_owner": "bm-b",
-   "claimed_by": "bm-b",
    "claimed_at": "2026-10-20 18:14:18",
+   "claimed_by": "bm-b",
    "entered_at": "2026-10-20 18:14:18",
+   "finished_at": "2026-10-20 18:37:00",
+   "host_gate": null,
+   "id": "TRIAL-LABOR-W21-JUDGE-SHARD-0",
+   "lane_owner": "bm-b",
+   "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step",
+   "result_ref": "results/trial_labor_w21/w21_judge.json",
+   "runner": "scripts/trial_labor_w21.py judge 0 1",
    "shards": [
     {
+     "checkpoint": "results/trial_labor_w21/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL; lane bm-b)",
+     "claimed_since": "2026-10-20 18:14:18",
+     "done_at": "2026-10-20 18:37:00",
+     "harvest_note": "10/10 cells, g1_pass_n=0, eligible_v2=0; judge-finalize wrote w21_judge.json + w21_reform_face.json",
+     "harvested_by": "bm-b",
      "key": "w21-judge-0of1",
-     "status": "done",
+     "note": "10 judged cells (2 family blocks); burn under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; detached by design (r1079 session-tree-kill lesson)",
      "owner": "bm-b",
      "owner_since": "2026-10-20 18:14:18",
-     "claimed_since": "2026-10-20 18:14:18",
-     "checkpoint": "results/trial_labor_w21/checkpoint/judge_shard_0of1.jsonl (MACHINE-LOCAL; lane bm-b)",
-     "note": "10 judged cells (2 family blocks); burn under S4U one-shot task Bigmoney-W21Judge-bm-b-r1080; detached by design (r1079 session-tree-kill lesson)",
-     "done_at": "2026-10-20 18:37:00",
-     "harvested_by": "bm-b",
-     "harvest_note": "10/10 cells, g1_pass_n=0, eligible_v2=0; judge-finalize wrote w21_judge.json + w21_reform_face.json"
+     "status": "done"
     }
    ],
-   "host_gate": null,
-   "note": "r1080 bm-b: judge-prep PASS after t18 deep-panel cache rebuild (48 members, 114142 rows, panel_start 2013-06-17); judge-finalize is next round's product step",
-   "finished_at": "2026-10-20 18:37:00",
-   "result_ref": "results/trial_labor_w21/w21_judge.json"
+   "status": "done"
   },
   {
    "done_at": "2026-10-20 22:48:20",
@@ -18819,36 +18819,87 @@
    "entered_by": "bm-b r1091 (supply floor refill after burning 3 ready units)",
    "host_gate": null,
    "id": "E24-DISPERSION-H3",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1091 bm-b supply-floor refill: descriptive dispersion census at h=3 (closes the mode x horizon grid at the short end); in-repo data/daily only, zero forward-window gate, no prereg required (descriptive, no judgment)",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py dispersion --horizon 3",
    "shards": [],
-   "status": "ready"
+   "status": "done",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-20 23:0x",
+   "result_ref": "results/e24_regime_census/CENSUS-dispersion-h3-20261020.json",
+   "completed_at": "2026-10-20 23:12",
+   "completed_by": "bm-b"
   },
   {
    "entered_at": "2026-10-20 22:48:20",
    "entered_by": "bm-b r1091 (supply floor refill after burning 3 ready units)",
    "host_gate": null,
    "id": "E24-BREADTH-H3",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1091 bm-b supply-floor refill: descriptive breadth census at h=3 (h=5/10 already burned); zero forward-window gate",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py breadth --horizon 3",
    "shards": [],
-   "status": "ready"
+   "status": "done",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-20 23:0x",
+   "result_ref": "results/e24_regime_census/CENSUS-breadth-h3-20261020.json",
+   "completed_at": "2026-10-20 23:12",
+   "completed_by": "bm-b"
   },
   {
    "entered_at": "2026-10-20 22:48:20",
    "entered_by": "bm-b r1091 (supply floor refill after burning 3 ready units)",
    "host_gate": null,
    "id": "E24-LADDER-H20",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1091 bm-b supply-floor refill: descriptive ladder-momentum census at h=20 (tests whether the h=10 ladder edge decays at the long end); zero forward-window gate",
    "priority": 3,
    "runner": "scripts/e24_regime_census.py ladder --horizon 20",
    "shards": [],
-   "status": "ready"
+   "status": "done",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-20 23:0x",
+   "result_ref": "results/e24_regime_census/CENSUS-ladder-h20-20261020.json",
+   "completed_at": "2026-10-20 23:12",
+   "completed_by": "bm-b"
+  },
+  {
+   "id": "E24-DISPERSION-H20",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py dispersion --horizon 20",
+   "shards": [],
+   "note": "r1092 bm-b supply-floor refill: descriptive dispersion census at h=20 (closes the mode x horizon grid; deadline-free, in-repo data/daily only)",
+   "entered_at": "2026-10-20 23:12",
+   "entered_by": "bm-b r1092 (supply floor refill after burning 3 ready units)",
+   "host_gate": null
+  },
+  {
+   "id": "E24-BREADTH-H20",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py breadth --horizon 20",
+   "shards": [],
+   "note": "r1092 bm-b supply-floor refill: descriptive breadth census at h=20 (h=3/5/10 already burned)",
+   "entered_at": "2026-10-20 23:12",
+   "entered_by": "bm-b r1092 (supply floor refill after burning 3 ready units)",
+   "host_gate": null
+  },
+  {
+   "id": "E24-LADDER-H2",
+   "status": "ready",
+   "lane_owner": null,
+   "priority": 3,
+   "runner": "scripts/e24_regime_census.py ladder --horizon 2",
+   "shards": [],
+   "note": "r1092 bm-b supply-floor refill: descriptive ladder-momentum census at h=2 (shortest horizon, tests whether the bucket-4 read is horizon-monotone)",
+   "entered_at": "2026-10-20 23:12",
+   "entered_by": "bm-b r1092 (supply floor refill after burning 3 ready units)",
+   "host_gate": null
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -18863,7 +18914,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-20 22:48:20",
+ "updated_at": "2026-10-20 23:12",
  "version": 1,
  "lane_machine": "bm-b"
 }
