@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-20",
- "generated_at": "2026-10-20 21:37:43",
+ "generated_at": "2026-10-20 22:17:20",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,10 +297,10 @@
   "md_link": "../live_usage/LIVE-2026-10-20.md"
  },
  "rd": {
-  "commits_24h": 263,
-  "result_jsons_landed_24h": 168,
-  "digests_landed_24h": 13,
-  "prereg_md_touched_24h": 27,
+  "commits_24h": 268,
+  "result_jsons_landed_24h": 146,
+  "digests_landed_24h": 14,
+  "prereg_md_touched_24h": 28,
   "compute_audit_latest": {
    "ts": "2026-10-20 21:35:27",
    "py_cpu_pct": 0.0,
@@ -310,7 +310,7 @@
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -669,9 +669,9 @@
   "total_state_tokens_est": 16256,
   "total_report_tokens_est": 2170820,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-20 20:33:09",
+   "prev_generated": "2026-10-20 21:25:37",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 3994,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -744,25 +744,13 @@
     "today_supply_gap_flags": 5
    },
    "bm-b": {
-    "latest_ts": "2026-10-20 20:11:25",
-    "py_pct": 0.7,
-    "cpu_pct": 22.0,
+    "latest_ts": "2026-10-20 21:32:42",
+    "py_pct": 0.6,
+    "cpu_pct": 12.0,
     "ready": 0,
-    "streak_min": 116.6,
+    "streak_min": 73.7,
     "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "13:32",
-      0.1
-     ],
-     [
-      "13:45",
-      0.2
-     ],
-     [
-      "13:57",
-      1.7
-     ],
      [
       "14:29",
       0.2
@@ -796,11 +784,23 @@
       1.6
      ],
      [
-      "20:11",
-      0.7
+      "19:51",
+      100.0
+     ],
+     [
+      "20:18",
+      0.1
+     ],
+     [
+      "20:30",
+      0.1
+     ],
+     [
+      "21:32",
+      0.6
      ]
     ],
-    "today_samples": 41,
+    "today_samples": 44,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 8
@@ -903,7 +903,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 20:11:25"
+     "audit_ts": "2026-10-20 21:32:42"
     }
    },
    "bm-c": {
@@ -1195,70 +1195,70 @@
     "rows": [
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 300.81,
-      "day_ret": 0.00031,
-      "equity_cny": 971817.74,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -2463.89,
+      "day_ret": -0.002535,
+      "equity_cny": 969353.85,
       "account": "ALLOC-P1"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 257.55,
-      "day_ret": 0.000267,
-      "equity_cny": 963518.34,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -3118.45,
+      "day_ret": -0.003237,
+      "equity_cny": 960399.89,
       "account": "ALLOC-P2"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 573.75,
-      "day_ret": 0.000602,
-      "equity_cny": 954407.36,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -2133.85,
+      "day_ret": -0.002236,
+      "equity_cny": 952273.51,
       "account": "ALLOC-P3"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 564.39,
-      "day_ret": 0.000591,
-      "equity_cny": 954792.14,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -2083.21,
+      "day_ret": -0.002182,
+      "equity_cny": 952708.94,
       "account": "ALLOC-P3B"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 264.7,
-      "day_ret": 0.000269,
-      "equity_cny": 985905.08,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": 151.1,
+      "day_ret": 0.000153,
+      "equity_cny": 986056.18,
       "account": "ALLOC-P4"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 30.56,
-      "day_ret": 3.1e-05,
-      "equity_cny": 997533.12,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -596.54,
+      "day_ret": -0.000598,
+      "equity_cny": 996936.58,
       "account": "ALLOC-P5"
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": -572.01,
-      "day_ret": -0.000581,
-      "equity_cny": 983217.02,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": -2602.41,
+      "day_ret": -0.002647,
+      "equity_cny": 980614.6,
       "account": "ALLOC-P6"
      }
     ],
-    "asof": "2026-10-19",
-    "family_day_pnl_cny": 1419.75,
+    "asof": "2026-10-20",
+    "family_day_pnl_cny": -12847.25,
     "missing_n": 0
    },
    {
@@ -1363,7 +1363,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -6767.36,
+  "grand_day_pnl_cny": -21034.36,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
@@ -1444,6 +1444,71 @@
    }
   ]
  },
+ "stage_style": {
+  "present": true,
+  "cutoff": "2026-10-19",
+  "window": {
+   "lo": "2013-04-01",
+   "hi": "2026-10-19",
+   "bars": 3290
+  },
+  "reading": "UNSUPPORTED (honest negative)",
+  "rule": "prereg sec.3/4 P4: best combo sharpe >= U-divlowvol + 0.10",
+  "best_combo": {
+   "cell": "C1",
+   "sharpe_x1": 1.082985
+  },
+  "best_unconditional": {
+   "face": "U-divlowvol",
+   "sharpe_x1": 1.208542
+  },
+  "margin": -0.125557,
+  "attribution": "combo gains trace to the divlowvol sleeve it already holds; stage switching nets negative via turnover tax + cash legs missing the up-moves",
+  "cells": [
+   "C1",
+   "C2",
+   "C3",
+   "U-divlowvol",
+   "U-value",
+   "U-quality",
+   "U-EW"
+  ],
+  "state_days": {
+   "BEAR": 786,
+   "GRIND": 103,
+   "CHOP": 2095,
+   "SUPPORT": 104,
+   "BULL": 201
+  },
+  "best_by_state": {
+   "BEAR": {
+    "cell": "U-divlowvol",
+    "sharpe": -0.2991,
+    "n_days": 786
+   },
+   "GRIND": {
+    "cell": "U-divlowvol",
+    "sharpe": 0.9799,
+    "n_days": 103
+   },
+   "CHOP": {
+    "cell": "U-divlowvol",
+    "sharpe": 1.7486,
+    "n_days": 2095
+   },
+   "SUPPORT": {
+    "cell": "U-value",
+    "sharpe": 1.0761,
+    "n_days": 104
+   },
+   "BULL": {
+    "cell": "U-EW",
+    "sharpe": 3.0497,
+    "n_days": 201
+   }
+  },
+  "source": "results/stagestyle_combo_p1/{FINALIZE-SSCOMBO-P1,STAGE-STYLE-MATRIX-v1}.json"
+ },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
   "results/paper_export/latest.json",
@@ -1453,6 +1518,7 @@
   "O-20260928-1614 sec.6 utilization face (T-107)",
   "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)",
   "perpetual N1 engine-wave chain face (J10 r593/r594, monitor/build_status._engine_wave_state)",
-  "G4 PnL-attribution daily ledger (AUTOMATION-LINE-PLAN-v1 batch A2, <=10-23)"
+  "G4 PnL-attribution daily ledger (AUTOMATION-LINE-PLAN-v1 batch A2, <=10-23)",
+  "stage x style combo face (O-20261019-2230 sec.2.4, due 2026-10-26)"
  ]
 }

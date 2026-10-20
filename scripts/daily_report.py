@@ -528,6 +528,51 @@ def _engine_wave_face():
     return st
 
 
+# ------------------------------------- stage x style matrix face (r1088 bm-b)
+def _stage_style_face():
+    """Stage x style combo face (CEO order O-20261019-2230 sec.2.4, due 2026-10-26).
+
+    Pure aggregation of the two frozen readout faces -- the P4 verdict from
+    FINALIZE-SSCOMBO-P1.json and the descriptive stage x style matrix.  No new
+    judgment line, no ledger booking, no threshold invented here: the pass/fail
+    reading is carried verbatim from the batch finalize face.
+    Missing sources degrade to an honest label (never fabricated numbers)."""
+    base = os.path.join(ROOT, "results", "stagestyle_combo_p1")
+    fin = _read_json(os.path.join(base, "FINALIZE-SSCOMBO-P1.json"))
+    mat = _read_json(os.path.join(base, "STAGE-STYLE-MATRIX-v1.json"))
+    if not fin or not mat:
+        return {"present": False,
+                "note": "阶段×风格面未产出（readout 件缺）——如实标注，禁编数"}
+    v = fin.get("verdict") or {}
+    cells = list(mat.get("cells") or [])
+    states = ("BEAR", "GRIND", "CHOP", "SUPPORT", "BULL")
+    best_by_state = {}
+    for st in states:
+        cand = [(c, ((mat.get("matrix") or {}).get(c) or {}).get(st) or {})
+                for c in cells]
+        cand = [(c, d) for c, d in cand if isinstance(d.get("sharpe_ann"), (int, float))]
+        if not cand:
+            continue
+        c, d = max(cand, key=lambda kv: kv[1]["sharpe_ann"])
+        best_by_state[st] = {"cell": c, "sharpe": round(d["sharpe_ann"], 4),
+                             "n_days": d.get("n_days")}
+    return {
+        "present": True,
+        "cutoff": fin.get("evidence_cutoff") or mat.get("source_evidence_cutoff"),
+        "window": fin.get("window") or mat.get("window"),
+        "reading": v.get("reading"),
+        "rule": v.get("rule"),
+        "best_combo": v.get("best_combo"),
+        "best_unconditional": v.get("best_unconditional"),
+        "margin": v.get("margin"),
+        "attribution": v.get("attribution"),
+        "cells": cells,
+        "state_days": mat.get("state_days"),
+        "best_by_state": best_by_state,
+        "source": "results/stagestyle_combo_p1/{FINALIZE-SSCOMBO-P1,STAGE-STYLE-MATRIX-v1}.json",
+    }
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -542,13 +587,15 @@ def build_report(now):
         "core_spread": _core_spread_face(now.strftime("%Y-%m-%d")),
         "pnl_attribution": _attribution_face(now),
         "engine_wave": _engine_wave_face(),
+        "stage_style": _stage_style_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
                        "O-20260928-1614 sec.6 utilization face (T-107)",
                        "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)",
                        "perpetual N1 engine-wave chain face (J10 r593/r594, monitor/build_status._engine_wave_state)",
-                       "G4 PnL-attribution daily ledger (AUTOMATION-LINE-PLAN-v1 batch A2, <=10-23)"],
+                       "G4 PnL-attribution daily ledger (AUTOMATION-LINE-PLAN-v1 batch A2, <=10-23)",
+                       "stage x style combo face (O-20261019-2230 sec.2.4, due 2026-10-26)"],
     }
 
 
@@ -714,6 +761,33 @@ def render_md(rep):
                  f"（可归因账户 {at.get('accounts_attributed')} · 缺数据 {at.get('accounts_missing')}）")
         if at.get("leg_note"):
             L.append(f"- 腿级注记：{at.get('leg_note')}")
+    # ---- section 8: stage x style combo face (O-20261019-2230 sec.2.4)
+    ss = rep.get("stage_style") or {}
+    L.append("")
+    L.append("## 八、阶段×风格组合面（CEO 终面 2026-10-26 交付面）")
+    if not ss.get("present"):
+        L.append(f"- {ss.get('note') or '面未产出——如实标注'}")
+    else:
+        L.append(f"- **证据截止** {ss.get('cutoff')} · 窗 {(ss.get('window') or {}).get('lo')}"
+                 f"..{(ss.get('window') or {}).get('hi')}（{(ss.get('window') or {}).get('bars')} bar）"
+                 f" · 纯描述读出面（零新判据 · 禁在此改判线）")
+        bc = ss.get("best_combo") or {}
+        bu = ss.get("best_unconditional") or {}
+        L.append(f"- **判决（P4 原判据）**：{ss.get('reading')} — 最佳组合 "
+                 f"{bc.get('cell')} sharpe {bc.get('sharpe_x1')} vs 无条件 "
+                 f"{bu.get('face')} {bu.get('sharpe_x1')}"
+                 f"（margin {ss.get('margin'):+.4f}）" if isinstance(ss.get("margin"), (int, float))
+                 else f"- **判决（P4 原判据）**：{ss.get('reading')}")
+        L.append(f"  - 判据：{ss.get('rule')}")
+        if ss.get("attribution"):
+            L.append(f"  - 归因：{ss.get('attribution')}")
+        bbs = ss.get("best_by_state") or {}
+        sd = ss.get("state_days") or {}
+        seg = " · ".join(
+            f"{st} **{d.get('cell')}** {d.get('sharpe'):+.2f}（{sd.get(st, d.get('n_days'))}d）"
+            for st, d in bbs.items() if isinstance(d.get("sharpe"), (int, float)))
+        if seg:
+            L.append(f"- **各阶段态最优袖**（state 内 sharpe 排序，{len(ss.get('cells') or [])} 袖面）：{seg}")
     L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
@@ -741,7 +815,7 @@ def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
-    global _attribution_face
+    global _attribution_face, _stage_style_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -860,6 +934,20 @@ def selftest():
         "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
         "leg_note": "六员=一员一腿；AGGR/ALLOC/GRID=一账户一腿；SYSV1=route 腿权重面",
     }
+    _stage_style_face = lambda: {
+        "present": True, "cutoff": "2026-10-19",
+        "window": {"lo": "2013-04-01", "hi": "2026-10-19", "bars": 3290},
+        "reading": "UNSUPPORTED (honest negative)",
+        "rule": "prereg sec.3/4 P4: best combo sharpe >= U-divlowvol + 0.10",
+        "best_combo": {"cell": "C1", "sharpe_x1": 1.082985},
+        "best_unconditional": {"face": "U-divlowvol", "sharpe_x1": 1.208542},
+        "margin": -0.125557,
+        "attribution": "combo gains trace to the divlowvol sleeve it already holds",
+        "cells": ["C1", "C2", "U-divlowvol"],
+        "state_days": {"BEAR": 786, "BULL": 201},
+        "best_by_state": {"BEAR": {"cell": "U-EW", "sharpe": 0.11, "n_days": 786},
+                          "BULL": {"cell": "C1", "sharpe": 2.98, "n_days": 201}},
+    }
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -884,7 +972,10 @@ def selftest():
                    "SYSV1 路由族", "SYSTEM-V1: 日 PnL 117.00",
                    "路由 rev_osc 30%/trend 10%/lowvol 10%/cash 50%",
                    "w_eff 0.3", "跨族日 PnL 总计", "617.00 CNY",
-                   "可归因账户 3 · 缺数据 2", "腿级注记"):
+                   "可归因账户 3 · 缺数据 2", "腿级注记",
+                   "八、阶段×风格组合面", "UNSUPPORTED (honest negative)",
+                   "C1 sharpe 1.082985 vs 无条件 U-divlowvol 1.208542",
+                   "margin -0.1256", "各阶段态最优袖", "BULL **C1** +2.98（201d）"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
