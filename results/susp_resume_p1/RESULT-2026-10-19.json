@@ -1,0 +1,330 @@
+{
+ "evidence_cutoff": "2026-10-19",
+ "batch": "SUSP_RESUME_P1",
+ "generated": "2026-10-20T08:17:41+0800",
+ "panel": "data/cache/p1c_local",
+ "panel_shape": [
+  8745,
+  5225
+ ],
+ "window": {
+  "start_year": 2021,
+  "end": "2026-10-19"
+ },
+ "event_definition": "resume bar after 5-19 missing sessions (halt proxy)",
+ "entry": "T+1 open",
+ "exit_axis": "own exit: close of entry+5-1 (primary); engine default stack not used",
+ "cost": {
+  "buy_bp": 13.141,
+  "sell_bp": 18.141,
+  "roundtrip_bp": 31.282,
+  "caliber": "V1 legacy 13.041bp/side + stock transfer 0.1bp both sides + 5bp sell stamp",
+  "min_commission_note": "¥5 floor == 2.5bp at ¥20,000 ticket; smaller tickets pay more"
+ },
+ "n_events_total_window": 805,
+ "cells": [
+  {
+   "hold": 3,
+   "n_events": 800,
+   "mean_net": 0.0042968414967536886,
+   "median_net": -0.013201146548461915,
+   "win_rate": 0.4425,
+   "mean_net_ex_top1": 0.003730286332493543,
+   "n_days": 559,
+   "sharpe_annualized": 0.543675,
+   "t_event_level": 1.0069
+  },
+  {
+   "hold": 5,
+   "n_events": 794,
+   "mean_net": 0.012558613094453781,
+   "median_net": -0.020891069596481324,
+   "win_rate": 0.4256926952141058,
+   "mean_net_ex_top1": 0.011230246922759247,
+   "n_days": 555,
+   "sharpe_annualized": 1.154393,
+   "t_event_level": 1.9542
+  },
+  {
+   "hold": 10,
+   "n_events": 784,
+   "mean_net": 0.03404815267851305,
+   "median_net": -0.028381168072891236,
+   "win_rate": 0.41836734693877553,
+   "mean_net_ex_top1": 0.02882515703639085,
+   "n_days": 550,
+   "sharpe_annualized": 1.799611,
+   "t_event_level": 3.037
+  }
+ ],
+ "primary_cell": 5,
+ "null": {
+  "k": 2000,
+  "seed": 94801,
+  "n_finite": 747,
+  "mean": 0.89063,
+  "sd": 0.612382,
+  "p95": 1.848114,
+  "p_value": 0.343583
+ },
+ "passive_equal_weight_sharpe": 0.499218,
+ "g1_prime_v2": {
+  "gate": "g1_prime_v2",
+  "sharpe_full": 1.1544,
+  "skill_line": {
+   "n_eff": 1049144,
+   "line": 1.1558,
+   "passive_term": 0.5992,
+   "null_term": 1.1558,
+   "mu_null": -0.0912,
+   "sigma_null": 0.2368,
+   "pool": "core48",
+   "null_pool_source": "p2_calibration_v2.json:families[random*].runs[].full.sharpe (RW-6 engine-effect recompute, preferred)",
+   "passive_source": "batch_own_per_cell",
+   "ledger_head": {
+    "total": 1049141,
+    "file": "n1_w284_results.json",
+    "note": "perpetual N1 nulls-deepening wave 284 (law PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed null trials, frozen v1 design, window 2026-09-22",
+    "voided": [
+     {
+      "batch": "LOWAMP-P1",
+      "voided_trials": 2008
+     },
+     {
+      "batch": "LOWAMP-P2",
+      "voided_trials": 2008
+     }
+    ]
+   }
+  },
+  "line_ok": false,
+  "bootstrap_ci": {
+   "ci95_low": -0.1383,
+   "ci95_high": 2.3306,
+   "point": 1.1544,
+   "ci_lower_bound_positive": false,
+   "n_resamples": 1000,
+   "block_days": 10.0,
+   "seed": 20260923
+  },
+  "ci_lower_bound_positive": false,
+  "pass_v2": false,
+  "trade_gate": {
+   "n_trades": 794,
+   "n_entries": 794,
+   "min": 30,
+   "trades_ok": true,
+   "entries_ok": true,
+   "dual_ok": true
+  }
+ },
+ "dsr": {
+  "dsr": 0.0,
+  "sr_annualized": 1.1544,
+  "sr_star": 2.986804,
+  "sigma_sr": 0.039252,
+  "n_trials": 1049144,
+  "T": 555,
+  "skew": 2.1904,
+  "kurtosis": 10.7088
+ },
+ "pbo": {
+  "status": "computed",
+  "pbo": 0.0,
+  "verdict": "register_eligible",
+  "n_days": 560
+ },
+ "g2_registration_v2": {
+  "gate": "g2_registration_v2",
+  "g1_pass": false,
+  "dsr": 0.0,
+  "dsr_gate": 0.95,
+  "dsr_ok": false,
+  "family_pbo": 0.0,
+  "pbo_gate": 0.25,
+  "pbo_ok": true,
+  "missing_inputs": [
+   "g1_prime_v2"
+  ],
+  "eligible_v2": false
+ },
+ "m1_t": {
+  "t": 1.7132,
+  "gate": {
+   "gate": "m1_t_value",
+   "claim_class": "new_factor",
+   "hurdle": 3.0,
+   "t": 1.713168,
+   "pass": false,
+   "missing_input": false
+  }
+ },
+ "d6": {
+  "status": "computed",
+  "pairs": {
+   "COMPOSITE-CE-01": {
+    "corr": 0.0012,
+    "n_overlap": 552
+   },
+   "COMPOSITE-CE-02": {
+    "corr": 0.0016,
+    "n_overlap": 552
+   },
+   "DROUGHT-CE-01": {
+    "corr": -0.0143,
+    "n_overlap": 552
+   },
+   "ENGULF-CE-01": {
+    "corr": -0.0488,
+    "n_overlap": 552
+   },
+   "NEEDLE-DE-01": {
+    "corr": -0.0305,
+    "n_overlap": 552
+   },
+   "PROS-ANTS-01": {
+    "corr": 0.0617,
+    "n_overlap": 552
+   },
+   "PROS-ANTS-CE-01": {
+    "corr": 0.07,
+    "n_overlap": 552
+   },
+   "PROS-BBS-01": {
+    "corr": 0.041,
+    "n_overlap": 552
+   },
+   "PROS-BBS-CE-01": {
+    "corr": 0.0147,
+    "n_overlap": 552
+   },
+   "PROS-DOJI-01": {
+    "corr": 0.0541,
+    "n_overlap": 552
+   },
+   "PROS-DOJI-CE-01": {
+    "corr": 0.0528,
+    "n_overlap": 552
+   },
+   "PROS-DUCK-01": {
+    "corr": 0.0222,
+    "n_overlap": 552
+   },
+   "PROS-DUCK-CE-01": {
+    "corr": 0.0228,
+    "n_overlap": 552
+   },
+   "PROS-HAM-01": {
+    "corr": -0.0052,
+    "n_overlap": 552
+   },
+   "PROS-HAM-CE-01": {
+    "corr": -0.0084,
+    "n_overlap": 552
+   },
+   "PROS-IBB-01": {
+    "corr": -0.0505,
+    "n_overlap": 552
+   },
+   "PROS-IBB-CE-01": {
+    "corr": -0.0645,
+    "n_overlap": 552
+   },
+   "PROS-IMM-01": {
+    "corr": -0.0022,
+    "n_overlap": 552
+   },
+   "PROS-IMM-CE-01": {
+    "corr": -0.006,
+    "n_overlap": 552
+   },
+   "PROS-MCB-01": {
+    "corr": -0.041,
+    "n_overlap": 552
+   },
+   "PROS-MCB-CE-01": {
+    "corr": -0.0419,
+    "n_overlap": 552
+   },
+   "PROS-OVB-01": {
+    "corr": -0.0066,
+    "n_overlap": 552
+   },
+   "PROS-OVB-CE-01": {
+    "corr": -0.0075,
+    "n_overlap": 552
+   },
+   "PROS-RSRS-CE-01": {
+    "corr": 0.0093,
+    "n_overlap": 552
+   },
+   "PROS-TMU-01": {
+    "corr": -0.052,
+    "n_overlap": 552
+   },
+   "PROS-TMU-CE-01": {
+    "corr": -0.0377,
+    "n_overlap": 552
+   },
+   "PROS-VOB-CE-01": {
+    "corr": 0.0114,
+    "n_overlap": 552
+   },
+   "VOLATILITY-CE-01": {
+    "corr": 0.0339,
+    "n_overlap": 552
+   }
+  },
+  "max_abs_corr": 0.07,
+  "max_abs_member": "PROS-ANTS-CE-01",
+  "reject_line": 0.7,
+  "verdict": "ADMIT"
+ },
+ "ledger": {
+  "prev_total": 1049141,
+  "batch_trials": 3,
+  "total": 1049144,
+  "batch": "SUSP_RESUME_P1",
+  "file": "results\\susp_resume_p1\\RESULT-2026-10-19.json",
+  "note": "short-halt (5-19 sessions) resume event long, 2021+; 3 hold cells",
+  "evidence_cutoff": "2026-10-19"
+ },
+ "disclosures": [
+  "missing bar is a proxy for a halt: the panel carries no official suspension flag",
+  "survivorship: symbols that never resumed are absent; delisting-resume rows unmeasurable",
+  "limit-sealed resume bars are not tradable in reality but are kept here; the bias direction is unknown and disclosed",
+  "qfq back-adjustment makes pre-2010 absolute levels not comparable across corporate-action regimes",
+  "episodic event exposure: D6 overlap with always-on members is small by construction; corr read is disclosure, not a mechanism gate override",
+  "non-event days carry zero exposure; Sharpe is computed on event days only (day count disclosed as n_days)"
+ ],
+ "runtime_sec": 113.8,
+ "primary_distribution": {
+  "n": 794,
+  "min": -0.322836,
+  "p5": -0.196884,
+  "p25": -0.098026,
+  "p50": -0.020891,
+  "p75": 0.0625,
+  "p95": 0.410615,
+  "max": 1.065953,
+  "mean": 0.012559,
+  "mean_cost_x2": 0.00943,
+  "note": "mean is right-tail driven; median is negative -> single-event lottery, not a stable carry"
+ },
+ "by_year_mean_net": {
+  "2021": 0.011807,
+  "2022": -0.005851,
+  "2023": -0.001211,
+  "2024": 0.052496,
+  "2025": 0.010465,
+  "2026": 0.019587
+ },
+ "rolling_3y_mean": {
+  "2021-2023": 0.001582,
+  "2022-2024": 0.015145,
+  "2023-2025": 0.020583,
+  "2024-2026": 0.027516
+ },
+ "verdict": "NOT_REGISTERED",
+ "verdict_note": "G1' narrow fail (sharpe 1.1544 vs line 1.1558), bootstrap CI lower bound <=0, null p=0.344 (2000 draws seed 94801) = event Sharpe NOT separable from random same-window cells; M1 t=1.713<3.0; DSR=0.0; G2 ineligible. Honest negative: the r1059 census prior (short-halt 2021+ positive mean) does not survive a cost-bearing, market-adjusted, null-calibrated portfolio read -- the mean is right-tail driven (median -2.09%%, p95 +41%%). No registration, no live/paper wiring."
+}

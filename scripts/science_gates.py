@@ -2245,6 +2245,12 @@ SEED_REGISTRY = {
         # research/FUND-STAGESTYLE-COMBO-P1.md sec.3.
         "stagestyle_combo_p1_null_a": 20_531_000,
         "stagestyle_combo_p1_null_b": 20_531_500,
+        # SUSP-RESUME-P1 (r1062 bm-b): short-halt resume event null family.
+        # seed_admit_gate rc0 base=94801 span=1 checked=1 verdict=FREE
+        # (first free base above the N1 wave-137 band 94001-94200);
+        # registered at prereg freeze BEFORE any burn. Prereg:
+        # research/SUSP_RESUME_P1_PREREG.md sec.3.
+        "susp_resume_p1_null": 94_801,
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
