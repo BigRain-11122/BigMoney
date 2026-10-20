@@ -25,7 +25,7 @@
  "idle_rounds": 0,
  "last_action": "r1123 closeout",
  "last_action_at": "2026-10-21T06:50:24+08:00",
- "last_artifact": "results/e46_live_span/LIVESPAN-20261020-x1-p3.json",
+ "last_artifact": "research/digests/DIGEST-20261021-e49-flip-granularity.md",
  "last_decisions_at": "2026-10-21T01:22:37+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -388,9 +388,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1123,
- "round_no": 1124,
- "round_no_label": "r1123",
+ "round": 1125,
+ "round_no": 1125,
+ "round_no_label": "r1125",
  "sat_engine": {
   "checked_at": "2026-10-21T05:53:24+08:00",
   "status": "alive (exit 0 at round start)"
@@ -948,13 +948,14 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1123: E47 livespan grid (thirds at x1, zero-cost halves)",
- "ts": "2026-10-21T06:50:24+08:00",
- "updated": "2026-10-21T06:50:24+08:00",
- "updated_at": "2026-10-21T06:50:24+08:00",
- "verdict": "green_idle (pool refilled 3 ready, 2 runnable with runners)",
+ "task": "r1125: E49 livespan quarters (x0/x3) -- flip count 3 at both thirds and quarters but the flipped SET swaps; fees move era levels only 8-13bp",
+ "ts": "2026-10-21T07:16:08+08:00",
+ "updated": "2026-10-21T07:16:08+08:00",
+ "updated_at": "2026-10-21T07:16:08+08:00",
+ "verdict": "product+maintenance",
  "r1117_note": "E42 triad closed in one pass (shared _monthly_core, 3 faces). Size-neutral spread +326.4bp (2021-2023) / +181.2bp (2024-now) against raw +251.1 / -35.1: the newest era's thin spread is the size leg (-216.3bp, beta -0.289, R2 59.5%), not selection. Tilt by era peaks in the newest era (+748.1bp/yr, ladder beta 1.031, R2 66.9%) so E41's 4.7x decay is a denominator effect. Calendar band 26.0 -> 25.0bp at cost x3 while fees triple: not turnover-driven. Pool: E42 x3 closed, E43 x3 seeded (ready 3/3).",
  "r1117_pit": "pt: _moments on a constant series returns sd ~1.7e-17 (float rounding), so an OLS guard written as `if not sd` passes a flat y and returns a garbage beta; use a tolerance. Caught by the E42 selftest on its first run (35/36) before any face was written.",
- "last_round_report": "logs/iteration-loop/round_reports.md r1122",
- "round_pit": "r1122 heals a one-round lag left by r1121 (state was 1120 when the report said 1121); round number taken from round_reports.md"
+ "last_round_report": "logs/iteration-loop/round_reports.md r1125",
+ "round_pit": "r1122 heals a one-round lag left by r1121 (state was 1120 when the report said 1121); round number taken from round_reports.md",
+ "r1125_note": "E49 closed: quarters at x0 give 211/366/-398/533, -27/734/196/586, 78/267/579/67, 555/47/-196/-161 (3 of 4 eras flip); x3 gives the same flip set with era levels -8..-12bp. Thirds (r1124) also gave 3 of 4 but flipped 2021_2023 instead of 2017_2020 -> flip count is cut-artefactual, membership moves. Part bands grow with granularity (41/403/931bp pre2017 through halves/thirds/quarters) so stability claims must name their cut. Pool: E49 pair done with result_ref, E50-PARTS-P5 pair seeded (ready 3 == floor). S6: dualrun ZERO-DRIFT streak 21; audit FLAG supply_gap (breach false); watermark py_low_board_clear; attrition CLEAN; smoke 49/49; orphan 0; D-19 zero delta; zero unacked orders (107/107)."
 }

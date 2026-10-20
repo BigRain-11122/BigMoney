@@ -20408,7 +20408,7 @@
   },
   {
    "id": "E49-FLIP-GRANULARITY-P4",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Thirds at zero cost flipped 3 of 4 eras, so the flip count may simply track the number of cuts taken. Cut the same zero-cost curve into quarters: if the flipped-era count rises with parts the internal flips are sampling noise inside a drifting era, and only the era-level spread is real; if it saturates at 3 the third-level shape is structural and the halves-era stability was smoothing.",
@@ -20417,11 +20417,14 @@
    "entered_at": "2026-10-21T07:15:00+08:00",
    "entered_by": "bm-b r1124",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 4"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 4",
+   "done_at": "2026-10-21T07:25:00+08:00",
+   "done_by": "bm-b r1125",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x0-p4.json"
   },
   {
    "id": "E49-FLIP-GRANULARITY-P4-X3",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "Pair the quarters cut at cost x3: x3 moved era levels by only 8-13bp on thirds, so at quarters it tests whether the negative stretch in each era survives real fees -- a flip that vanishes under x3 at quarters is a fee-scale wobble, one that survives is a tradable regime we would actually have paid for.",
@@ -20430,7 +20433,36 @@
    "entered_at": "2026-10-21T07:15:00+08:00",
    "entered_by": "bm-b r1124",
    "evidence_cutoff": "2026-10-20",
-   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 4"
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 4",
+   "done_at": "2026-10-21T07:25:00+08:00",
+   "done_by": "bm-b r1125",
+   "result_ref": "results/e46_live_span/LIVESPAN-20261020-x3-p4.json"
+  },
+  {
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "entered_at": "2026-10-21T07:27:00+08:00",
+   "entered_by": "bm-b r1125",
+   "evidence_cutoff": "2026-10-20",
+   "id": "E50-PARTS-P5",
+   "title": "E49 quarters kept the thirds flip count at 3 of 4 eras but swapped one member (2021_2023 flipped at thirds, 2017_2020 at quarters). Cut the zero-cost curve into fifths: if the count keeps sitting at 3 while the membership keeps moving, the '3 of 4 eras flip' reading is a cut artefact and only era-level spreads are real.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p5.json",
+   "source": "r1125 x0-p4: flips 3/4 but set != p3 set",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 0 --parts 5"
+  },
+  {
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "entered_at": "2026-10-21T07:27:00+08:00",
+   "entered_by": "bm-b r1125",
+   "evidence_cutoff": "2026-10-20",
+   "id": "E50-PARTS-P5-COST-X3",
+   "title": "Pair the fifths cut at cost x3. At thirds and quarters x3 moved era levels by only 8-13bp and never changed the flip count, so any flip that appears only at x0/p5 is a fee-scale wobble we would not have been paid for.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p5.json",
+   "source": "r1125 x3-p4: era levels -8..-12bp vs x0, same flip set and count",
+   "runner": "python scripts/e39_panel_census.py livespan --cost 3 --parts 5"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -20445,6 +20477,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T07:15:00+08:00",
+ "updated_at": "2026-10-21T07:27:00+08:00",
  "version": 1
 }
