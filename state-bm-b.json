@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-21T01:59:50+08:00",
- "current": "the ladder's edge over 510300 is not demonstrated; cadence and membership re-selection add nothing",
- "current_task": "r1104 closed: E33 family burned (3 units), E34 follow-ups seeded",
+ "clock_read": "2026-10-21T02:07:20+08:00",
+ "current": "equal weight across every eligible equity ETF beats the frozen five by 338.7bp/yr at lower vol; fees are irrelevant to every window read",
+ "current_task": "r1105 closed: E34 follow-ups burned (broad-eq, cost x3, rolling cadence); E35 seeded",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1104: the E33 ladder-baseline family burned (three units, one new runner). scripts/e33_ladder_baseline.py (selftest 7/7) imports the accounting from e24_ladder_weighting and e27_universe_expansion -- nothing re-implemented -- and answers three questions the ladder family had never asked. (1) Q1 LADDER-VS-510300: full sample ladder 5.27%/yr vs 510300 buy-and-hold 3.43% = +187.9bp/yr (monthly-rel t 0.83); on 2016-11+ (the only window where all five members are listed) the ladder is 1.84% vs 2.29% = **-35.6bp/yr (t -0.02)**; on 2018+ it is +640bp/yr (t 1.61). No window clears |t|=2 and the sign flips with whether 2017's large-cap year is inside the window, so the ladder's edge over simply holding CSI300 is NOT demonstrated. (2) Q2 CADENCE: monthly/quarterly/semiannual/annual cost 2.6-4.2bp/yr at x1 and 7.1-12.6 at x3 -- fees are immaterial, drift is not. Full-sample annual is +92.0bp/yr vs monthly (t 0.84) but that collapses to -34.2bp on 2016+ and quarterly turns -236.9bp on 2018+ (t -1.48): a wash with a window-dependent sign, monthly stays default by default not by evidence. (3) Q3 MEMBERSHIP: causal top-5-by-trailing-liquidity out of 1,276 codes (1,231 equity-only) lands -378/-290bp/yr on full sample and -510/-559bp/yr on 2018+ (equity-only t -1.95) versus the frozen five; cost is only 13-24bp/yr so the gap is selection. The frozen five are not reproducible by any causal rule we can run, which is a statement about hindsight, not skill. Digest: research/digests/DIGEST-20261021-e33-ladder-baseline.md. Pool: 3 E33 units closed with result_ref, 3 E34 units seeded (ladder vs equal-weight-all-equity, cost x3 on Q1, rolling 3-year cadence) -> ready 3/3. Descriptive census only: zero prereg, zero judgment, zero ledger booking, trial_count 0.",
- "did_round": 1104,
- "heartbeat_epoch_utc": 1792519190,
+ "did": "r1105: the E34 follow-ups burned (three units, one new runner, zero new accounting). (A) LADDER-VS-BROAD-EQ: equal weight across all 1,231 eligible equity ETFs (sh511 money/bond block excluded) returns 8.24%/yr vs the frozen five's 5.27% = +338.7bp/yr (monthly-rel t=1.97) at LOWER vol (18.77% vs 21.54%, Sharpe 0.516 vs 0.347) for 8.3 vs 4.2bp/yr cost -- the five-name ladder is a concentrated mid/small tilt, not a diversified expression of the idea. (B) LADDER-VS-510300-X3: tripling cost moves the ladder-vs-benchmark delta by ~8bp in every window (full sample 187.9 -> 179.8bp/yr t=0.80; 2018+ 640 -> 632.1bp/yr t=1.59), so fees are not the binding constraint and the Q1 read stands unchanged: the ladder's edge over simply holding CSI300 is not demonstrated, and the 2018+ number is 510300's flat path (0.18%/yr), not ladder skill. (C) CADENCE-ROLLING-3Y (new scripts/e34_cadence_rolling.py, selftest 6/6): 138 rolling 36-month windows, 10 dated sign flips. Quarterly's advantage is entirely pre-2018 (era means -189.5bp/yr pre-2016, -164.5 in 2016-17, 0 positive windows) and collapses to -17.9/-18.5bp in 2018-2023 and +5.8bp (18/34 positive) after 2024 -- the freqency axis is a coin flip where the book is real, so monthly stays default by default. Desk corollary: weighting, timing, breadth, cadence and membership axes are all closed; book WIDTH is the only surviving positive. Product faces: results/e34_broad_eq/UNIV-4170ac-xsh511-20261021.json, results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-{FULL-X3,2018-X3}.json, results/e34_cadence_rolling/CADENCE-ROLLING-3Y-20261020.json, digest research/digests/DIGEST-20261021-e34-ladder-followups.md. Pool: 3 E34 units closed with result_ref, 3 E35 units seeded (broad-eq 2018+, broad-eq x3, cadence-rolling x3) -> ready 3/3. Descriptive census only: zero prereg, zero judgment, zero ledger booking, trial_count 0.",
+ "did_round": 1105,
+ "heartbeat_epoch_utc": 1792519640,
  "heartbeat_epoch_utc_face": 1792513386,
  "idle_rounds": 0,
- "last_action": "r1104 closeout",
- "last_action_at": "2026-10-21T01:59:50+0800",
- "last_artifact": "results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json (+5 sibling faces)",
+ "last_action": "r1105 closeout",
+ "last_action_at": "2026-10-21T02:07:20+08:00",
+ "last_artifact": "research/digests/DIGEST-20261021-e34-ladder-followups.md",
  "last_decisions_at": "2026-10-21T01:22:37+08:00",
  "last_decisions_probe_at": "2026-10-21T00:50:20+0800",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,14 +43,14 @@
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "841544725e -> origin/main (behind=0 ahead=0)",
- "last_round_at": "2026-10-21T01:59:50+0800",
- "last_round_ts": "2026-10-21T01:59:50+0800",
- "last_seen": "2026-10-21T01:59:50+08:00",
- "latest_artifact": "results/e33_ladder_baseline/latest.json",
+ "last_round_at": "2026-10-21T02:07:20+08:00",
+ "last_round_ts": "2026-10-21T02:07:20+08:00",
+ "last_seen": "2026-10-21T02:07:20+08:00",
+ "latest_artifact": "results/e34_broad_eq/UNIV-4170ac-xsh511-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "answer the seeded E34 follow-ups (is the ladder just a mid/small tilt vs equal-weight all equity ETFs; does the Q1 read survive cost x3; date the cadence flips with a rolling 3y window), then E29 update_etf_universe.py (the 1,276-code ETF refresh leg) (<=48h)",
- "next_milestone": "E34 follow-ups answered (mid-cap tilt? cost x3? cadence flips dated) + E29 ETF refresh leg live (<=48h)",
+ "next": "burn the three E35 units (broad-eq 2018+, broad-eq x3, cadence-rolling x3) to put the only two surviving positives through the recent-window and cost screens; then build E29 update_etf_universe.py, the refresh leg for the 1,276-code ETF panel (<=48h)",
+ "next_milestone": "E35 broad-book screen burned + E29 ETF refresh leg running (window <=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -71,9 +71,10 @@
   "r1097": "r1097: extended e24_ladder_weighting.py with a repo cash leg (data/repo_daily/GC001.csv close, annualised %/252, ffilled) applied to EVERY scheme including the pre-eligibility idle year, plus --cost-mult. Selftest 19/19 (2 wrong fixtures caught: scheme-flag parsing only stripped ONE trailing flag so trend150hc failed, and an equality test assumed a fully-invested scheme is cash-identical which is false because the first ~250 bars ARE cash). Numbers: equal 5.27%/yr Sharpe 0.347; trend50 -54.1bp/yr t -0.05 (was -210.1); trend150h +72.6bp/yr t 0.48 Sharpe 0.427 (was -91.3); trend200r -178.1. Cost x3: trend150h +60.9bp/yr t 0.43. Pool: 3 E25 units closed, 3 seeded (ready 5). PIT: the first pool seed appended inside a legend STRING because rfind(']') matched a bracket inside the schema legend -- restored from git and reseeded with a brace scanner over the entries array; never locate a JSON array by rfind on the closing bracket in this file.",
   "r1102_state_gap": "r1102 (01:22-01:38) delivered its estate to origin but left state-bm-b.json at round 1101; healed at r1103.",
   "r1103_note": "r1103: E32 tilt triad burned. Pit 1: pools cannot be bracket-scanned -- the schema legend strings in results/runnable_pool.json carry unbalanced '[' text, so locate the entries array by the unique bare '\\n ]' closing line. Pit 2: state-bm-b.json lagged one round (r1102 closed heartbeat only); the round number is taken from round_reports.md, and the state face is healed in the same commit.",
-  "r1103_push": "841544725e delivered (9cdb5077e2..841544725e), four-way verified behind=0 ahead=0, ls-tree origin confirms the three E32 faces; targeted add only."
+  "r1103_push": "841544725e delivered (9cdb5077e2..841544725e), four-way verified behind=0 ahead=0, ls-tree origin confirms the three E32 faces; targeted add only.",
+  "r1105": "r1105: three E34 units burned off existing engines (e27 universe runner, e33 ladder baseline, new e34_cadence_rolling). Pool 3 closed / 3 seeded, ready 3. S6: dualrun DRIFT envelope-only updated_at (entries equal 530 vs 530, inherited r1104 future seed stamp) -> observation data, streak reset; compute_audit FLAG supply_gap (ready 3, floor not breached); py_watermark py_low_with_work_cands (py 1.8%, the 3 seeded units + astock refresh lock = lawful local batch); update_daily 0 new rows cutoff 2026-10-20; market_regime breadth 0.79 trigger + hs300<MA200; market_clock CALL-2026-10-20 ORANGE_COOL sleeves=4; attrition CLEAN 4 ledgers (1 shrink healed); orphan 0/5 py faces; smoke 49/49; sat_engine alive. D-19 zero delta both faces (dec 17c2935984bd / ord 929199b0c5f6). S7 loop pin 2 no-op, watchdog + both claws re-migrated. Pit: rolling-window annualisation must use the realised bar span and the geometric form -- 36 month ends span up to 3.1 calendar years, and the linear form overstates by ~2% (selftest leg 2 pins a synthetic 2%/yr alpha to exactly 200bp/yr). Pit: pool seed timestamps written ahead of the clock (r1104 entered_at 02:20:00 at 02:04) surface as an updated_at envelope-only dualrun drift."
  },
- "now_active": "r1104 closed; pool ready 3/3 (E34 follow-ups, unclaimed, autofill lane)",
+ "now_active": "pool ready 3/3 (E35 broad-book screen units, autofill lane)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -365,12 +366,16 @@
   "status": "PUSHED_VERIFIED"
  },
  "r1101_note": "pool seeded E30-{ALL-X3,ALL-2018,ALL-DOMESTIC}; E28 family closed. Group-tree probe path: C:\\Fluxgroup\\FluxGroup (K:/E: both absent on this box).",
+ "r1105_push": {
+  "behind_origin_main": 0,
+  "status": "PENDING (this commit)"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1104,
- "round_no": 1104,
- "round_no_label": "r1104",
+ "round": 1105,
+ "round_no": 1105,
+ "round_no_label": "r1105",
  "sat_engine": {
   "checked_at": "2026-10-21T01:44:30+08:00",
   "status": "alive (exit 0 at round start; queue_depth 0)"
@@ -913,9 +918,9 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1104: E33 ladder-baseline closed -- no ladder edge over 510300, cadence wash, causal membership loses",
- "ts": "2026-10-21T01:57:00+08:00",
- "updated": "2026-10-21 01:52:00",
- "updated_at": "2026-10-21T01:52:00+08:00",
+ "task": "r1105 closed: E34 follow-ups burned; book width is the only surviving positive in the ladder family",
+ "ts": "2026-10-21T02:07:20+08:00",
+ "updated": "2026-10-21T02:07:20+08:00",
+ "updated_at": "2026-10-21T02:07:20+08:00",
  "verdict": "product+maintenance"
 }

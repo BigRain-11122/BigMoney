@@ -19722,13 +19722,15 @@
   {
    "entered_at": "2026-10-21T02:20:00+08:00",
    "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "finished_at": "2026-10-21T02:04:20+08:00",
    "id": "E34-LADDER-VS-BROAD-EQ",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1104: Q1 says the ladder's 2018+ excess may be a mid/small tilt, not a ladder effect. Compare the frozen five against equal-weight ALL eligible equity ETFs (sh511 money/bond block excluded) on the same accounting.",
    "priority": 3,
+   "result_ref": "results/e34_broad_eq/UNIV-4170ac-xsh511-20261021.json",
    "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --out results/e34_broad_eq",
    "shards": [],
-   "status": "ready",
+   "status": "done",
    "workers_plan": {
     "note": "in-repo data/daily only, single-process numpy engine",
     "priority": "BelowNormal",
@@ -19738,11 +19740,47 @@
   {
    "entered_at": "2026-10-21T02:20:00+08:00",
    "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "finished_at": "2026-10-21T02:04:20+08:00",
    "id": "E34-LADDER-VS-510300-X3",
-   "lane_owner": null,
+   "lane_owner": "bm-b",
    "note": "r1104: Q1's ladder-vs-benchmark delta is cost-sensitive only through ladder turnover (4.2bp/yr at x1). Re-read the whole Q1 comparison at cost x3 so the 640bp 2018+ point estimate cannot be a fee artefact.",
    "priority": 3,
+   "result_ref": "results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL-X3.json",
    "runner": "python scripts/e33_ladder_baseline.py run --cost-mult 3 --tag WIN-FULL-X3",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:20:00+08:00",
+   "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
+   "finished_at": "2026-10-21T02:04:20+08:00",
+   "id": "E34-CADENCE-ROLLING-3Y",
+   "lane_owner": "bm-b",
+   "note": "r1104: cadence is a wash across windows, but the sign flips. Read monthly vs quarterly as a rolling 3-year relative so the flips are dated instead of averaged away.",
+   "priority": 3,
+   "result_ref": "results/e34_cadence_rolling/CADENCE-ROLLING-3Y-20261020.json",
+   "runner": "TBD: rolling-window overlay on scripts/e33_ladder_baseline.py cadence curves",
+   "shards": [],
+   "status": "done",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:04:20+08:00",
+   "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "id": "E35-BROAD-EQ-2018",
+   "lane_owner": null,
+   "note": "r1105: equal weight across all 1,231 eligible equity ETFs beats the frozen five by +338.7bp/yr full sample (t 1.97). Re-read the same comparison on 2018+ and 2020+ -- the ladder family has never survived a recent window, and this is now the widest book we can build.",
+   "priority": 3,
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --start 2018-01-01 --out results/e35_broad_eq_2018",
    "shards": [],
    "status": "ready",
    "workers_plan": {
@@ -19752,13 +19790,29 @@
    }
   },
   {
-   "entered_at": "2026-10-21T02:20:00+08:00",
-   "entered_by": "bm-b r1104 (supply floor refill after E33 close)",
-   "id": "E34-CADENCE-ROLLING-3Y",
+   "entered_at": "2026-10-21T02:04:20+08:00",
+   "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "id": "E35-BROAD-EQ-X3",
    "lane_owner": null,
-   "note": "r1104: cadence is a wash across windows, but the sign flips. Read monthly vs quarterly as a rolling 3-year relative so the flips are dated instead of averaged away.",
+   "note": "r1105: the broad-book cost is 8.3bp/yr vs the ladder's 4.2bp/yr at x1. Triple it to prove the +338.7bp gap is not a fee artefact.",
    "priority": 3,
-   "runner": "TBD: rolling-window overlay on scripts/e33_ladder_baseline.py cadence curves",
+   "runner": "python scripts/e27_universe_expansion.py run --exclude sh511 --ns 9999 --cost-mult 3 --out results/e35_broad_eq_x3",
+   "shards": [],
+   "status": "ready",
+   "workers_plan": {
+    "note": "in-repo data/daily only, single-process numpy engine",
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "entered_at": "2026-10-21T02:04:20+08:00",
+   "entered_by": "bm-b r1105 (supply floor refill after E34 close)",
+   "id": "E35-CADENCE-ROLLING-X3",
+   "lane_owner": null,
+   "note": "r1105: the rolling 3y monthly-vs-quarterly read flips to a coin flip after 2024. Rerun at cost x3 so the 2024+ window cannot be a fee artefact (fees are 3-4bp/yr, so the expectation is 'no change').",
+   "priority": 3,
+   "runner": "python scripts/e34_cadence_rolling.py run --cost-mult 3 --tag X3",
    "shards": [],
    "status": "ready",
    "workers_plan": {
