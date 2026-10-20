@@ -1,0 +1,62 @@
+{
+ "machine": "bm-c",
+ "wave": 286,
+ "spliced_wave": 287,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W286 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "fd5b6e60e11b48681c49daa084c4642f1b55b00a",
+ "pf_sha16_pre": "28dea1f454858c5d",
+ "n1_sha16_pre": "a2c4ce8255babde1",
+ "pf_sha16_post": "12e3607cee211265",
+ "n1_sha16_post": "e4186a86567095f1",
+ "bands": {
+  "A": [
+   646701,
+   648700
+  ],
+  "B": [
+   648701,
+   648900
+  ]
+ },
+ "admit_receipt": "results/_w287bmc_20261020_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=646701 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=648701 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk THIRTY-NINTH consecutive A-hop (naive 646_501..648_500 refused at start by the registered W286 B band 646_501..646_700; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 646_701..646_901 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; FORTIETH consecutive above-own-A)"
+ },
+ "upstream_w286": {
+  "freeze_sha": "96cfcf71254bb1af90d1e922356baa1116815576",
+  "prereg_sha": "beb10feab811c2c2a5c7126a230950d6d5f2b456",
+  "ledger_total": 1053541,
+  "merged_n": 627120
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261020-1027-bmc-w287-seat.md",
+  "seat_origin": "63236cf485",
+  "prereg_commit": "f138546d085ac9856011a7665596797050bec797",
+  "probe_receipt_sha": "63236cf48518ac93ed6db54c014138ee556309cd"
+ },
+ "downstream_seat": "W288+ projection on the pre-W287 universe (assuming the W287 seat bands declared here register verbatim). ONCE W287 REGISTERS, the naive W288 A start is REFUSED by the registered W287 B band (staircase-affects-A next consecutive A-hop expected) AND the W288 B naive start lands inside the own-A reservation face; the W288 freezer MUST re-derive on the post-W287 universe AND reserve the own-wave A window when deriving B -- never transcribe r587.",
+ "seat": "fleet/inbox/MSG-20261020-1027-bmc-w287-seat.md",
+ "parity": {
+  "bytes": 29644,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 38,
+  "fresh_legs_row_asserts": 39,
+  "total_parity_rows": 145
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 287
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "prereg_placeholder_heal": "research/PERPETUAL_N1_W287_PREREG.md froze complete at the r1155 derive window (sec.7/sec.8 backfilled, zero @@SEAT placeholders at gate0.5) -- zero heal needed at this splice window; judging criteria untouched"
+}
