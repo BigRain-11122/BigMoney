@@ -1,0 +1,441 @@
+{
+ "study": "e65_entrydelay_ladder",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2013-01-01",
+  "cost_bp_per_side": 13.041,
+  "cost_mult_list": [
+   1.0
+  ],
+  "sweep_days": [],
+  "delay_lags": [
+   1,
+   3,
+   5,
+   10
+  ],
+  "calendars": [
+   "me",
+   "me_lag1",
+   "me_lag3",
+   "me_lag5",
+   "me_lag10"
+  ],
+  "universe_members": 1265
+ },
+ "books": {
+  "me": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 0.0,
+    "min_sessions": 0,
+    "max_sessions": 0
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.569,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.95,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.72,
+       "max_drawdown_pct": -40.27
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.68,
+       "max_drawdown_pct": -26.08
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.38,
+       "max_drawdown_pct": -28.75
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.97,
+       "max_drawdown_pct": -17.32
+      }
+     }
+    }
+   }
+  },
+  "me_lag1": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 19.05,
+    "min_sessions": 0,
+    "max_sessions": 22
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.569,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.77,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.12,
+       "max_drawdown_pct": -40.3
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.75,
+       "max_drawdown_pct": -26.05
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.21,
+       "max_drawdown_pct": -28.45
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.54,
+       "max_drawdown_pct": -18.09
+      }
+     }
+    }
+   }
+  },
+  "me_lag3": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 17.06,
+    "min_sessions": 0,
+    "max_sessions": 20
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.57,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.61,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.6,
+       "max_drawdown_pct": -40.47
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.84,
+       "max_drawdown_pct": -25.84
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.12,
+       "max_drawdown_pct": -28.32
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.23,
+       "max_drawdown_pct": -18.52
+      }
+     }
+    }
+   }
+  },
+  "me_lag5": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 15.07,
+    "min_sessions": 0,
+    "max_sessions": 18
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.576,
+     "cost_per_year_bp": 7.5,
+     "full_window_ann_pct": 7.6,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.91,
+       "max_drawdown_pct": -39.59
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.57,
+       "max_drawdown_pct": -26.1
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.23,
+       "max_drawdown_pct": -28.44
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.23,
+       "max_drawdown_pct": -18.49
+      }
+     }
+    }
+   }
+  },
+  "me_lag10": {
+   "decision_days": 165,
+   "offset": {
+    "decisions": 165,
+    "mean_sessions_to_month_end": 10.17,
+    "min_sessions": 0,
+    "max_sessions": 13
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 152,
+     "turnover_per_year": 0.57,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.48,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.83,
+       "max_drawdown_pct": -40.04
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.53,
+       "max_drawdown_pct": -25.75
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.43,
+       "max_drawdown_pct": -28.41
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.06,
+       "max_drawdown_pct": -18.56
+      }
+     }
+    }
+   }
+  }
+ },
+ "gaps": {
+  "x1": {
+   "me_lag1": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 19.05,
+     "min_sessions": 0,
+     "max_sessions": 22
+    },
+    "turnover_per_year": 0.569,
+    "cost_per_year_bp": 7.4,
+    "full_window_ann_pct": 7.77,
+    "full_window_gap_bp": -18.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 13.12,
+      "gap_bp": -60.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.75,
+      "gap_bp": 7.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.21,
+      "gap_bp": 17.0
+     },
+     "2024_now": {
+      "ann_pct": 11.54,
+      "gap_bp": -43.0
+     }
+    }
+   },
+   "me_lag10": {
+    "offset": {
+     "decisions": 165,
+     "mean_sessions_to_month_end": 10.17,
+     "min_sessions": 0,
+     "max_sessions": 13
+    },
+    "turnover_per_year": 0.57,
+    "cost_per_year_bp": 7.4,
+    "full_window_ann_pct": 7.48,
+    "full_window_gap_bp": -47.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.83,
+      "gap_bp": -89.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.53,
+      "gap_bp": -15.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.43,
+      "gap_bp": -5.0
+     },
+     "2024_now": {
+      "ann_pct": 11.06,
+      "gap_bp": -91.0
+     }
+    }
+   },
+   "me_lag3": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 17.06,
+     "min_sessions": 0,
+     "max_sessions": 20
+    },
+    "turnover_per_year": 0.57,
+    "cost_per_year_bp": 7.4,
+    "full_window_ann_pct": 7.61,
+    "full_window_gap_bp": -34.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.6,
+      "gap_bp": -112.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.84,
+      "gap_bp": 16.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.12,
+      "gap_bp": 26.0
+     },
+     "2024_now": {
+      "ann_pct": 11.23,
+      "gap_bp": -74.0
+     }
+    }
+   },
+   "me_lag5": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 15.07,
+     "min_sessions": 0,
+     "max_sessions": 18
+    },
+    "turnover_per_year": 0.576,
+    "cost_per_year_bp": 7.5,
+    "full_window_ann_pct": 7.6,
+    "full_window_gap_bp": -35.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.91,
+      "gap_bp": -81.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.57,
+      "gap_bp": -11.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.23,
+      "gap_bp": 15.0
+     },
+     "2024_now": {
+      "ann_pct": 11.23,
+      "gap_bp": -74.0
+     }
+    }
+   }
+  }
+ },
+ "cost_face": null,
+ "answers": {
+  "baseline_calendar": "me",
+  "sweep_days": [],
+  "delay_lags": [
+   1,
+   3,
+   5,
+   10
+  ],
+  "cost_levels": [
+   1.0
+  ],
+  "full_window_gap_bp": {
+   "me_lag1": -18.0,
+   "me_lag10": -47.0,
+   "me_lag3": -34.0,
+   "me_lag5": -35.0
+  },
+  "newest_era_gap_bp": {
+   "me_lag1": -43.0,
+   "me_lag10": -91.0,
+   "me_lag3": -74.0,
+   "me_lag5": -74.0
+  },
+  "newest_era_gap_spread_bp": 48.0,
+  "offset_sessions": {
+   "me_lag1": 19.05,
+   "me_lag10": 10.17,
+   "me_lag3": 17.06,
+   "me_lag5": 15.07
+  },
+  "cost_gap_shift_bp": null,
+  "delay_rows": {
+   "me_lag1": {
+    "full_window_gap_bp": -18.0,
+    "turnover_per_year": 0.569,
+    "eras": {
+     "pre2017": -60.0,
+     "2017_2020": 7.0,
+     "2021_2023": 17.0,
+     "2024_now": -43.0
+    }
+   },
+   "me_lag3": {
+    "full_window_gap_bp": -34.0,
+    "turnover_per_year": 0.57,
+    "eras": {
+     "pre2017": -112.0,
+     "2017_2020": 16.0,
+     "2021_2023": 26.0,
+     "2024_now": -74.0
+    }
+   },
+   "me_lag5": {
+    "full_window_gap_bp": -35.0,
+    "turnover_per_year": 0.576,
+    "eras": {
+     "pre2017": -81.0,
+     "2017_2020": -11.0,
+     "2021_2023": 15.0,
+     "2024_now": -74.0
+    }
+   },
+   "me_lag10": {
+    "full_window_gap_bp": -47.0,
+    "turnover_per_year": 0.57,
+    "eras": {
+     "pre2017": -89.0,
+     "2017_2020": -15.0,
+     "2021_2023": -5.0,
+     "2024_now": -91.0
+    }
+   }
+  },
+  "delay_gap_bp": {
+   "me_lag1": -18.0,
+   "me_lag3": -34.0,
+   "me_lag5": -35.0,
+   "me_lag10": -47.0
+  }
+ },
+ "honest": [
+  "one cost level by default: the sweep is about the calendar axis, and the cost signature of these cuts has been the same -8..-13bp since thirds",
+  "the five days are fixed dates, not a fitted optimum: no date here is searched for and none may be read as a recommendation",
+  "both calendars share one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "gap spread across days is a range statistic over five points, not a test",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count",
+  "the lag moves the decision session as well as the entry, so the delayed book is re-ranked on the delayed date; an entry-only lag would need an execution-lag hook the engine does not have"
+ ]
+}

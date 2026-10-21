@@ -3277,7 +3277,7 @@ def _cost_face(gaps, lo_tag, hi_tag, eras=ERAS):
 
 
 def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                 days=MID_SWEEP_DAYS, costs=(1.0,)):
+                 days=MID_SWEEP_DAYS, costs=(1.0,), lags=()):
     """E59: is the off-cycle penalty day 15's, or any off-cycle date's?
 
     E44 priced one mid-month date against month-end and E57 showed the two
@@ -3313,6 +3313,8 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     calendars = [("me", me_idxs)]
     for d in days:
         calendars.append(("mid%d" % d, _mid_month_indices(cal, d)))
+    for k in lags:
+        calendars.append(("me_lag%d" % k, _shift_indices(me_idxs, k, len(cal))))
 
     books = {}
     for label, idxs in calendars:
@@ -3357,7 +3359,8 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "evidence_cutoff": cutoff,
         "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
                  "cost_bp_per_side": base.COST_BP_SIDE, "cost_mult_list": list(costs),
-                 "sweep_days": list(days), "calendars": [c[0] for c in calendars],
+                 "sweep_days": list(days), "delay_lags": list(lags),
+                 "calendars": [c[0] for c in calendars],
                  "universe_members": len(universe)},
         "books": {lab: {"decision_days": b["decision_days"], "offset": b["offset"],
                         "arms": b["arms"]} for lab, b in books.items()},
@@ -3366,6 +3369,7 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "answers": {
             "baseline_calendar": "me",
             "sweep_days": list(days),
+            "delay_lags": list(lags),
             "cost_levels": list(costs),
             "full_window_gap_bp": {lab: g["full_window_gap_bp"]
                                    for lab, g in gaps[("x%g" % costs[0])].items()},
@@ -3393,6 +3397,43 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
+
+
+# --------------------------------- leg: delay the month-end decision (E65)
+
+def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                   lags=(1, 3, 5, 10), costs=(1.0,)):
+    """E65: is the off-cycle penalty the calendar, or simply being late?
+
+    E59/E63 showed every off-cycle date loses 60-90bp and that the fee cannot
+    explain it, so the remaining candidate is lateness itself. This leg holds
+    the spec, universe and rank cache fixed and only moves the month-end
+    decision forward by 1/3/5/10 sessions. The lag moves the DECISION session
+    as well as the entry, so the delayed book is re-ranked on the delayed date:
+    this prices "decided and bought k sessions later", not "the same names
+    bought later".
+    """
+    face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                        days=(), costs=costs, lags=tuple(lags))
+    rows = {}
+    for k in lags:
+        lab = "me_lag%d" % k
+        arm = face["gaps"].get("x%g" % costs[0], {}).get(lab)
+        if arm is None:
+            continue
+        rows[lab] = {"full_window_gap_bp": arm.get("full_window_gap_bp"),
+                     "turnover_per_year": arm.get("turnover_per_year"),
+                     "eras": {name: v.get("gap_bp")
+                              for name, v in (arm.get("eras") or {}).items()}}
+    face["study"] = "e65_entrydelay_ladder"
+    face["answers"]["delay_rows"] = rows
+    face["answers"]["delay_gap_bp"] = {lab: r["full_window_gap_bp"]
+                                       for lab, r in rows.items()}
+    face["honest"].append(
+        "the lag moves the decision session as well as the entry, so the delayed "
+        "book is re-ranked on the delayed date; an entry-only lag would need an "
+        "execution-lag hook the engine does not have")
+    return face
 
 
 # ------------------------------------------------------------------- plumbing
@@ -3701,6 +3742,13 @@ def selftest():
         ["mid10"]["full_window_shift_bp"] is None,
         "an unpriced cost arm leaves the shift unknown, not zero")
 
+    # E65 delay ladder: a +k lag moves every decision k sessions later, and the
+    # tail clamps into the last bar instead of inventing future sessions
+    chk(_shift_indices([3, 6], 1, 10) == [4, 7],
+        "a one-session lag moves each decision exactly one session later")
+    chk(_shift_indices([8, 9], 3, 10) == [9],
+        "a lag past the calendar end clamps to the last bar and dedupes")
+
     # era attribution follows the decision date, not the next date
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
@@ -3717,13 +3765,15 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
-                             "midsweep", "all", "selftest"])
+                             "midsweep", "entrydelay", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
     ap.add_argument("--start", default="2020-01-01", help="window start (midmonth leg)")
     ap.add_argument("--costs", default="",
                     help="comma-separated cost multiples (midsweep leg, e.g. 0,3)")
+    ap.add_argument("--lags", default="1,3,5,10",
+                    help="comma-separated decision lags in sessions (entrydelay leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -3993,6 +4043,21 @@ def main(argv):
                        % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
         print(json.dumps({"leg": "midsweep", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "entrydelay":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        lags = tuple(int(x) for x in args.lags.split(",") if x.strip())
+        f = run_entrydelay(None, start=args.start, lags=lags, costs=costs)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        cost_tag = "" if costs == (1.0,) else "-c%s" % "_".join("%g" % c for c in costs)
+        p = write_json(outdir, "ENTRYDELAY-%s%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
+        print(json.dumps({"leg": "entrydelay", "file": os.path.relpath(p, ROOT),
+                          "delay_gap_bp": f["answers"]["delay_gap_bp"],
+                          "newest_era_gap_bp": f["answers"]["newest_era_gap_bp"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:
