@@ -394,7 +394,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-21T21:52:00+08:00",
+  "last_push_ts": "2026-10-22T00:11:00+08:00",
   "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
@@ -907,7 +907,7 @@
    "status": "PUSHED_VERIFIED"
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
-  "last_push": "c6bd76814 -> origin/main (behind=0 ahead=0)",
+  "last_push": "06bbe61c1 -> origin/main (behind=0 ahead=0)",
   "r1136_main_push": {
    "pushed_sha": "1143daa84",
    "behind_origin_main": 0,
@@ -927,6 +927,13 @@
    "behind_origin_main": 0,
    "status": "PENDING (this commit)",
    "note": "r1144 payload = lane-host config face + lane_io resolver + 9 wired collectors + closeout trio; targeted add only per r982/r1015/r1033"
+  },
+  "r1146_main_push": {
+   "pushed_sha": "06bbe61c1",
+   "behind_origin_main": 0,
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-22T00:11:00+08:00",
+   "note": "clean ff 27bc1c285..06bbe61c1 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==06bbe61c1, behind=0 ahead=0, ls-tree carries PANELSPLIT-20261021.json + DIGEST-20261021-e75-panelsplit.md). Payload = 15 faces: panelsplit leg in scripts/e39_panel_census.py (selftest 145/145) + 2 PANELSPLIT faces + digest + pool shared/lane (E75+E73 closed, E76 seeded) + closeout trio + bm-b evidence faces. Targeted add only per r982/r1015/r1033: drama lane, Money02 lhb, machine-health, token_usage union face, unsuffixed collector status faces left untouched."
   }
  },
  "task": "r1146 E75 panel split audit",
