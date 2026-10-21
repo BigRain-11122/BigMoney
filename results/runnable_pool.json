@@ -21149,7 +21149,7 @@
   },
   {
    "id": "E71-WEEKLYCLASH-NAMES",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21159,7 +21159,38 @@
    "entered_at": "2026-10-21T23:20:00+08:00",
    "entered_by": "bm-b r1142",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "new weeklynames leg: reuse the weeklyclash books at x0 and census held-name overlap (share of names in common at the same or nearest session, entrant/exit counts)"
+   "runner_note": "new weeklynames leg: reuse the weeklyclash books at x0 and census held-name overlap (share of names in common at the same or nearest session, entrant/exit counts)",
+   "closed_at": "2026-10-21T23:55:00+08:00",
+   "closed_by": "bm-b r1143",
+   "result_ref": "results/e44_midmonth/WEEKNAMES-20261021.json + WEEKNAMES-20261021-s20130101.json + research/digests/DIGEST-20261021-e71-weeknames.md"
+  },
+  {
+   "id": "E72-STALE-HOLD-PRICE",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E71 censused the names and found the books identical (mean overlap 0.9993), so the only membership channel left is the stale hold: a monthly book carries an ineligible name ~20.7 sessions against the weekly book's 4.9. Price that tail -- the return each exiting name earns over the sessions a monthly book still holds it after the weekly book has dropped it.",
+   "deliverable": "results/e44_midmonth/STALEHOLD-<cutoff>.json",
+   "source": "r1143 E71: name overlap 0.9993/0.9994, stale hold 20.68 vs 4.85 sessions",
+   "entered_at": "2026-10-21T23:55:00+08:00",
+   "entered_by": "bm-b r1143",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold"
+  },
+  {
+   "id": "E73-LANE-FLIP-AKSHARE-TO-BMB",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/update_zt_pool.py + update_heat.py + update_repo.py + update_options.py + update_moneyflow.py + update_sina_mf.py + update_ths_panel.py + ah_panel_puller.py + update_fund_statements.py",
+   "title": "CEO order 2026-10-21 13:5x: bm-a is barred from all financial/sensitive work; BigMoney compute and the akshare data-pull lane move OFF bm-a ONTO bm-b. Every collector above still carries a hard lane guard 'only bm-a acts, others honest no-op', so on this machine they are all silent and the panels have no refresh leg. Flip the guards to this machine (R31 precedent), run each selftest, and verify one collector actually pulls.",
+   "deliverable": "lane-guard flip + per-collector selftest green + one live pull evidence",
+   "source": "group orders 2026-10-21 13:5x (via bm-a qianwen seat) + r1138 round report note",
+   "entered_at": "2026-10-21T23:32:00+08:00",
+   "entered_by": "bm-b r1143",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "each collector keeps its provenance/overlap/fuse machinery; only the host constant changes. Land in one commit with a selftest matrix, not one script per round."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

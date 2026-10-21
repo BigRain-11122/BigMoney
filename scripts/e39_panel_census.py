@@ -3837,6 +3837,278 @@ def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return face
 
 
+# --------------------------- leg: what each calendar actually holds (E71)
+
+def _overlap_stats(base_names, other_names):
+    """(E71) name overlap of two held sets, with the entrant/exit split.
+
+    Directional on purpose: entrants are names the OTHER book holds and the
+    base book does not, exits the reverse, so a row reads as "what the second
+    book does differently", not as a symmetric distance.
+    """
+    a, b = set(base_names or ()), set(other_names or ())
+    inter, union = a & b, a | b
+    return {"held_base": len(a), "held_other": len(b), "common": len(inter),
+            "entrants": len(b - a), "exits": len(a - b),
+            "share_of_base": round(len(inter) / float(len(a)), 4) if a else None,
+            "share_of_other": round(len(inter) / float(len(b)), 4) if b else None,
+            "jaccard": round(len(inter) / float(len(union)), 4) if union else None}
+
+
+def _pair_to_grid(targets, grid):
+    """(E71) map each decision to the nearest session of another grid."""
+    g = sorted(set(grid or ()))
+    if not g:
+        return {}
+    return {t: min(g, key=lambda x: (abs(x - t), x))
+            for t in sorted(set(targets or ()))}
+
+
+def _name_churn_stats(held_sets):
+    """(E71) how much a book's own membership moves between its decisions."""
+    if not held_sets or len(held_sets) < 2:
+        return {"steps": 0, "mean_names_kept_share": None,
+                "mean_names_changed": None, "max_names_changed": None}
+    kept, changed = [], []
+    for prev, cur in zip(held_sets, held_sets[1:]):
+        a, b = set(prev or ()), set(cur or ())
+        if not a and not b:
+            continue
+        u = a | b
+        kept.append(len(a & b) / float(len(u)) if u else None)
+        changed.append(len(a ^ b))
+    if not kept:
+        return {"steps": 0, "mean_names_kept_share": None,
+                "mean_names_changed": None, "max_names_changed": None}
+    vals = [k for k in kept if k is not None]
+    return {"steps": len(kept),
+            "mean_names_kept_share": round(sum(vals) / len(vals), 4) if vals else None,
+            "mean_names_changed": round(sum(changed) / float(len(changed)), 2),
+            "max_names_changed": max(changed)}
+
+
+def _stale_hold_stats(idxs, held_sets):
+    """(E71) how long a dropped name is still held before the next decision.
+
+    A book can only drop a name when it rebalances, so the sessions a dead name
+    lingers is exactly the gap between two decisions. That is the membership
+    channel a monthly book carries and a weekly book does not, and a per-date
+    name overlap cannot see it.
+    """
+    if not idxs or len(idxs) != len(held_sets) or len(idxs) < 2:
+        return {"exits": 0, "mean_sessions_held_after_exit": None,
+                "max_sessions_held_after_exit": None}
+    tot, n, worst = 0, 0, 0
+    for k in range(1, len(idxs)):
+        gone = len(set(held_sets[k - 1]) - set(held_sets[k]))
+        gap = idxs[k] - idxs[k - 1]
+        tot += gone * gap
+        n += gone
+        if gone:
+            worst = max(worst, gap)
+    return {"exits": n,
+            "mean_sessions_held_after_exit": round(tot / float(n), 2) if n else None,
+            "max_sessions_held_after_exit": worst or None}
+
+
+def _pair_summary(pairs):
+    """(E71) aggregate a list of per-pair overlap rows."""
+    if not pairs:
+        return {"n_pairs": 0, "same_session_pairs": 0, "mean_share_of_base": None,
+                "min_share_of_base": None, "max_share_of_base": None,
+                "mean_entrants": None, "mean_exits": None,
+                "total_entrants": 0, "total_exits": 0}
+    shares = [p.get("share_of_base") for p in pairs
+              if p.get("share_of_base") is not None]
+    return {"n_pairs": len(pairs),
+            "same_session_pairs": len([p for p in pairs if p.get("same_session")]),
+            "mean_share_of_base": round(sum(shares) / len(shares), 4) if shares else None,
+            "min_share_of_base": min(shares) if shares else None,
+            "max_share_of_base": max(shares) if shares else None,
+            "mean_entrants": round(sum(p.get("entrants", 0) for p in pairs)
+                                   / float(len(pairs)), 2),
+            "mean_exits": round(sum(p.get("exits", 0) for p in pairs)
+                                / float(len(pairs)), 2),
+            "total_entrants": sum(p.get("entrants", 0) for p in pairs),
+            "total_exits": sum(p.get("exits", 0) for p in pairs)}
+
+
+def _tail_guard(counts, flat=0.5):
+    """(E71) decide which book decisions are priced on a complete panel bar.
+
+    The panel can be mid-arrival: on the day's unfinished bar only a handful of
+    members carry a close, so a decision taken there holds a stub book and reads
+    as a name explosion against any other calendar. The test is LOCAL -- a
+    decision is dropped when its live count collapses against its neighbours --
+    because the live universe legitimately grows through the window and a
+    global-median test would throw away the early burn-in instead.
+    """
+    n = len(counts)
+    if not n:
+        return []
+    out = []
+    for i, c in enumerate(counts):
+        if c is None:
+            out.append(True)
+            continue
+        ref = max([c] + [counts[j] for j in (i - 1, i + 1)
+                         if 0 <= j < n and counts[j] is not None])
+        out.append(c >= flat * ref)
+    return out
+
+
+def _membership_reading(share, same_flat=0.95):
+    """(E71) label a per-date name overlap: same book or diverging books."""
+    if share is None:
+        return "insufficient"
+    return "same_names" if share >= same_flat else "diverging_names"
+
+
+def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
+    """E71: the weekly book's -45bp price-path residual -- timing or names?
+
+    E70 switched the fee off and left a -45bp residual on the full weekly grid
+    against month-end. Two channels fit that number: WHEN the book trades, or
+    WHAT it holds. Both books here equal-weight the whole live universe, so
+    membership can only diverge through the eligibility flow -- names that
+    appear or drop out between one decision and the next. This census measures
+    both: name overlap at paired sessions (the timing question) and the
+    sessions a dropped name is still held (the membership question).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    rank_cache = {}
+    me_idxs = sorted(set(base.month_end_indices(cal)))
+    wk_idxs = sorted(set(_weekly_indices(cal)))
+    wnm_idxs = sorted(set(_nearest_weekly_to_month_end(wk_idxs, me_idxs)))
+
+    def held(idx):
+        return e27._rank(idx, universe, prices, amounts, rank_cache)[:pick_n]
+
+    # a mid-arrival tail bar holds a stub book; drop those decisions instead of
+    # letting one incomplete session read as a name explosion
+    raw_me = {i: held(i) for i in me_idxs}
+    raw_wk = {i: held(i) for i in wk_idxs}
+    keep_me = _tail_guard([len(raw_me[i]) for i in me_idxs])
+    keep_wk = _tail_guard([len(raw_wk[i]) for i in wk_idxs])
+    me_idxs = [i for i, k in zip(me_idxs, keep_me) if k]
+    wk_idxs = [i for i, k in zip(wk_idxs, keep_wk) if k]
+    dropped = {"me": keep_me.count(False), "week": keep_wk.count(False)}
+    wnm_idxs = sorted(set(i for i in wnm_idxs if i in set(wk_idxs)))
+    books = {"me": me_idxs, "week": wk_idxs, "week_near_me": wnm_idxs}
+
+    held_by_book = {lab: [held(i) for i in idxs] for lab, idxs in books.items()}
+
+    nearest = _pair_to_grid(me_idxs, wk_idxs)
+    pairs_week, pairs_wnm, seen_partner = [], [], set()
+    for me_i in me_idxs:
+        wk_i = nearest.get(me_i)
+        if wk_i is None:
+            continue
+        base_names = held_by_book["me"][me_idxs.index(me_i)]
+        week_names = held_by_book["week"][wk_idxs.index(wk_i)]
+        row = _overlap_stats(base_names, week_names)
+        row.update({"date": cal[me_i], "partner_date": cal[wk_i],
+                    "session_offset": wk_i - me_i,
+                    "same_session": wk_i == me_i})
+        pairs_week.append(row)
+        if wk_i not in seen_partner:
+            seen_partner.add(wk_i)
+            row2 = dict(row)
+            row2["wnm_index"] = wnm_idxs.index(wk_i) if wk_i in wnm_idxs else None
+            pairs_wnm.append(row2)
+
+    def _by_era(pairs):
+        out = {}
+        for name, lo, hi in ERAS:
+            rows = [p for p in pairs if _in_era(p["date"][:7], lo, hi)]
+            if rows:
+                out[name] = _pair_summary(rows)
+        return out
+
+    churn = {lab: _name_churn_stats(held_by_book[lab]) for lab in books}
+    stale = {lab: _stale_hold_stats(books[lab], held_by_book[lab]) for lab in books}
+    unions = {lab: sorted(set().union(*[set(h) for h in sets]))
+              if sets else [] for lab, sets in held_by_book.items()}
+
+    summ_week = _pair_summary(pairs_week)
+    summ_wnm = _pair_summary(pairs_wnm)
+    face = {
+        "study": "e71_monthend_weekly_names",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "start": start, "universe_members": len(universe),
+                 "dropped_decisions": dropped,
+                 "calendars": {lab: len(idxs) for lab, idxs in books.items()}},
+        "books": {lab: {"decision_days": len(books[lab]),
+                        "union_names_ever_held": len(unions[lab]),
+                        "self_churn": churn[lab],
+                        "stale_hold": stale[lab]} for lab in books},
+        "pairs": {"me_vs_week_nearest": {"summary": summ_week,
+                                         "eras": _by_era(pairs_week)},
+                  "me_vs_week_near_me": {"summary": summ_wnm,
+                                         "eras": _by_era(pairs_wnm)}},
+        "exclusive_names": {
+            "week_only": len(set(unions["week"]) - set(unions["me"])),
+            "me_only": len(set(unions["me"]) - set(unions["week"])),
+            "both": len(set(unions["week"]) & set(unions["me"])),
+        },
+        "answers": {
+            "share_me_vs_week_nearest": summ_week["mean_share_of_base"],
+            "share_me_vs_week_near_me": summ_wnm["mean_share_of_base"],
+            "membership_reading": _membership_reading(summ_week["mean_share_of_base"]),
+            "names_changed_per_week_step": churn["week"]["mean_names_changed"],
+            "names_changed_per_me_step": churn["me"]["mean_names_changed"],
+            "stale_hold_sessions_week": stale["week"]["mean_sessions_held_after_exit"],
+            "stale_hold_sessions_near_me":
+                stale["week_near_me"]["mean_sessions_held_after_exit"],
+            "stale_hold_sessions_me": stale["me"]["mean_sessions_held_after_exit"],
+            "mean_entrants_per_pair": summ_week["mean_entrants"],
+            "mean_exits_per_pair": summ_week["mean_exits"],
+            "same_session_pairs": summ_week["same_session_pairs"],
+        },
+        "honest": [
+            "both books equal-weight the entire live universe (pick_n=%d), so this "
+            "census measures the eligibility flow and not a top-N selection rule"
+            % pick_n,
+            "the overlap rows compare each month-end decision with the nearest weekly "
+            "session; where those coincide the overlap is exact by construction and "
+            "the coincident pairs are counted separately, not averaged away",
+            "stale_hold is truncated at the window ends -- the last exit of the series "
+            "has no following decision and is never counted",
+            "`week_near_me` reuses the same pairing as the nearest-weekly read, deduped "
+            "on the weekly session, because that is exactly how its calendar is built",
+            "membership_reading is a 0.95 flat threshold on the mean overlap: a label, "
+            "not a test, and no prereg covers it",
+            "decisions priced on a mid-arrival bar or on an empty cash book (live count "
+            "collapsing against its neighbours) are dropped and counted in "
+            "spec.dropped_decisions -- without that guard one unfinished session "
+            "reads as a +1200-name entrant wave",
+            "an era missing from the pair table was dropped as a cash/stub block, not "
+            "censused as perfect agreement: the eligibility burn-in leaves the early "
+            "window in cash, the same cash-slice signature E59/E64 print as an exact "
+            "0.0bp gap",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
+        ],
+    }
+    return face
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -4229,6 +4501,48 @@ def selftest():
         chk(_face is None and _path.endswith("ENTRYDELAY-20261020-s20130101.json"),
             "a missing late face reads as absent with the expected path")
 
+    # E71 name census: overlap splits into entrants/exits, pairing snaps to the
+    # nearest session, churn counts the book's own drift, and a stale hold is
+    # exactly the gap between two decisions
+    _ov = _overlap_stats(["a", "b", "c"], ["b", "c", "d"])
+    chk(_ov["common"] == 2 and _ov["entrants"] == 1 and _ov["exits"] == 1
+        and _ov["share_of_base"] == 0.6667 and _ov["jaccard"] == 0.5,
+        "overlap splits common names into directional entrants and exits")
+    chk(_overlap_stats([], ["a"])["share_of_base"] is None
+        and _overlap_stats([], [])["jaccard"] is None,
+        "an empty held set reports None instead of dividing by zero")
+    chk(_pair_to_grid([0, 5, 10], [1, 6, 11]) == {0: 1, 5: 6, 10: 11}
+        and _pair_to_grid([4, 6], [5]) == {4: 5, 6: 5}
+        and _pair_to_grid([0], []) == {},
+        "each decision pairs to its nearest session and an empty grid pairs nothing")
+    _ch = _name_churn_stats([["a", "b"], ["a", "b"], ["c"]])
+    chk(_ch["steps"] == 2 and _ch["mean_names_kept_share"] == 0.5
+        and _ch["mean_names_changed"] == 1.5 and _ch["max_names_changed"] == 3,
+        "churn counts how far a book's own membership moves per decision")
+    chk(_name_churn_stats([["a"]])["steps"] == 0,
+        "a single decision has no churn step")
+    _st = _stale_hold_stats([0, 5, 21], [["a", "b"], ["a", "c"], ["d"]])
+    chk(_st["exits"] == 3 and _st["mean_sessions_held_after_exit"] == 12.33
+        and _st["max_sessions_held_after_exit"] == 16,
+        "a stale hold is the gap to the next decision, averaged over every exit")
+    chk(_stale_hold_stats([0], [["a"]])["mean_sessions_held_after_exit"] is None,
+        "a book with one decision reports no stale hold")
+    _sm = _pair_summary([{"share_of_base": 1.0, "entrants": 0, "exits": 0,
+                         "same_session": True},
+                        {"share_of_base": 0.5, "entrants": 4, "exits": 2,
+                         "same_session": False}])
+    chk(_sm["n_pairs"] == 2 and _sm["same_session_pairs"] == 1
+        and _sm["mean_share_of_base"] == 0.75 and _sm["mean_entrants"] == 2.0,
+        "pair summary averages overlap and counts coincident sessions separately")
+    chk(_membership_reading(0.99) == "same_names"
+        and _membership_reading(0.60) == "diverging_names"
+        and _membership_reading(None) == "insufficient",
+        "the membership label reads same/diverging/insufficient off the overlap")
+    chk(_tail_guard([100, 110, 12]) == [True, True, False]
+        and _tail_guard([0, 40, 60, 80]) == [False, True, True, True]
+        and _tail_guard([]) == [],
+        "a mid-arrival stub bar and an empty cash bar are dropped, growth is kept")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -4242,7 +4556,7 @@ def main(argv):
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
-                             "weeklyclash", "all", "selftest"])
+                             "weeklyclash", "weeknames", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -4587,6 +4901,17 @@ def main(argv):
                           "calendar_rows": f["answers"]["calendar_rows"],
                           "turnover_ratio_vs_me": f["answers"]["turnover_ratio_vs_me"],
                           "week_overlap": f["answers"].get("week_overlap")},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "weeknames":
+        f = run_weeknames(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "WEEKNAMES-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "weeknames", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "pairs": {k: v["summary"] for k, v in f["pairs"].items()}},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

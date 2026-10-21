@@ -21127,7 +21127,7 @@
   },
   {
    "id": "E70-WEEKLYCLASH-COSTFACE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21137,7 +21137,46 @@
    "entered_at": "2026-10-21T22:58:04+08:00",
    "entered_by": "bm-b r1141",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "python scripts\\e39_panel_census.py weeklyclash --costs 0,3 (both starts)"
+   "runner_note": "python scripts\\e39_panel_census.py weeklyclash --costs 0,3 (both starts)",
+   "result_ref": [
+    "results/e44_midmonth/WEEKLYCLASH-20261021-c0_3.json",
+    "results/e44_midmonth/WEEKLYCLASH-20261021-s20130101-c0_3.json",
+    "research/digests/DIGEST-20261021-e70-weeklyclash-costface.md"
+   ],
+   "closed_at": "2026-10-21T23:20:00+08:00",
+   "closed_by": "bm-b",
+   "outcome": "the fee channel is closed and it closes with the right magnitude: switching x0->x3 moves the full weekly grid's gap by -8.0bp (2020 start) / -9.0bp (2013) against a 7.8 / 8.6bp/yr fee difference from its extra turnover (0.789 vs 0.590 turns/yr), while the monthly-cadence retiming book is fee-neutral (-1.0 / 0.0bp shift against a 0.2bp fee difference). Residual weekly gap is price path (-45bp at 2020, +4bp at 2013). Turnover and turnover ratio are bit-identical across cost levels, so the multiplier acts on fees only. Absolute ann x0->x3: me 0.93->0.70, week 0.40->0.09, week_near_me 0.82->0.58 (2020); 8.03->7.79 / 7.98->7.65 / 7.88->7.64 (2013) -- book ordering unchanged, so E69 does not depend on the fee assumption."
+  },
+  {
+   "id": "E71-WEEKLYCLASH-NAMES",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E70 leaves one unexplained number: the full weekly grid's -45bp price-path residual at the 2020 start (fee removed by the x0 arm). Census the HELD NAMES of week / week_near_me / me at matching decision dates -- overlap share plus entrant/exit classification in the E57 style. Same names => the residual is timing; diverging names => it is membership.",
+   "deliverable": "results/e44_midmonth/WEEKNAMES-<cutoff>.json",
+   "source": "r1142 E70: weekly gap x0 -53bp vs retiming -11bp, fee channel excluded",
+   "entered_at": "2026-10-21T23:20:00+08:00",
+   "entered_by": "bm-b r1142",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "new weeklynames leg: reuse the weeklyclash books at x0 and census held-name overlap (share of names in common at the same or nearest session, entrant/exit counts)",
+   "closed_at": "2026-10-21T23:55:00+08:00",
+   "closed_by": "bm-b r1143",
+   "result_ref": "results/e44_midmonth/WEEKNAMES-20261021.json + WEEKNAMES-20261021-s20130101.json + research/digests/DIGEST-20261021-e71-weeknames.md"
+  },
+  {
+   "id": "E72-STALE-HOLD-PRICE",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E71 censused the names and found the books identical (mean overlap 0.9993), so the only membership channel left is the stale hold: a monthly book carries an ineligible name ~20.7 sessions against the weekly book's 4.9. Price that tail -- the return each exiting name earns over the sessions a monthly book still holds it after the weekly book has dropped it.",
+   "deliverable": "results/e44_midmonth/STALEHOLD-<cutoff>.json",
+   "source": "r1143 E71: name overlap 0.9993/0.9994, stale hold 20.68 vs 4.85 sessions",
+   "entered_at": "2026-10-21T23:55:00+08:00",
+   "entered_by": "bm-b r1143",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

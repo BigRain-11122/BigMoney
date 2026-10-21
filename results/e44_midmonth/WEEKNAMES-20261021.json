@@ -1,0 +1,194 @@
+{
+ "study": "e71_monthend_weekly_names",
+ "evidence_cutoff": "2026-10-21",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2020-01-01",
+  "universe_members": 1265,
+  "dropped_decisions": {
+   "me": 2,
+   "week": 1
+  },
+  "calendars": {
+   "me": 80,
+   "week": 348,
+   "week_near_me": 82
+  }
+ },
+ "books": {
+  "me": {
+   "decision_days": 80,
+   "union_names_ever_held": 1225,
+   "self_churn": {
+    "steps": 69,
+    "mean_names_kept_share": 0.9502,
+    "mean_names_changed": 21.36,
+    "max_names_changed": 184
+   },
+   "stale_hold": {
+    "exits": 138,
+    "mean_sessions_held_after_exit": 20.68,
+    "max_sessions_held_after_exit": 23
+   }
+  },
+  "week": {
+   "decision_days": 348,
+   "union_names_ever_held": 1252,
+   "self_churn": {
+    "steps": 295,
+    "mean_names_kept_share": 0.9879,
+    "mean_names_changed": 5.13,
+    "max_names_changed": 177
+   },
+   "stale_hold": {
+    "exits": 145,
+    "mean_sessions_held_after_exit": 4.85,
+    "max_sessions_held_after_exit": 5
+   }
+  },
+  "week_near_me": {
+   "decision_days": 82,
+   "union_names_ever_held": 1252,
+   "self_churn": {
+    "steps": 70,
+    "mean_names_kept_share": 0.9505,
+    "mean_names_changed": 21.51,
+    "max_names_changed": 184
+   },
+   "stale_hold": {
+    "exits": 142,
+    "mean_sessions_held_after_exit": 20.61,
+    "max_sessions_held_after_exit": 25
+   }
+  }
+ },
+ "pairs": {
+  "me_vs_week_nearest": {
+   "summary": {
+    "n_pairs": 80,
+    "same_session_pairs": 11,
+    "mean_share_of_base": 0.9993,
+    "min_share_of_base": 0.9849,
+    "max_share_of_base": 1.0,
+    "mean_entrants": 0.49,
+    "mean_exits": 0.21,
+    "total_entrants": 39,
+    "total_exits": 17
+   },
+   "eras": {
+    "2017_2020": {
+     "n_pairs": 11,
+     "same_session_pairs": 2,
+     "mean_share_of_base": null,
+     "min_share_of_base": null,
+     "max_share_of_base": null,
+     "mean_entrants": 0.0,
+     "mean_exits": 0.0,
+     "total_entrants": 0,
+     "total_exits": 0
+    },
+    "2021_2023": {
+     "n_pairs": 36,
+     "same_session_pairs": 4,
+     "mean_share_of_base": 0.9988,
+     "min_share_of_base": 0.9849,
+     "max_share_of_base": 1.0,
+     "mean_entrants": 0.56,
+     "mean_exits": 0.39,
+     "total_entrants": 20,
+     "total_exits": 14
+    },
+    "2024_now": {
+     "n_pairs": 33,
+     "same_session_pairs": 5,
+     "mean_share_of_base": 0.9999,
+     "min_share_of_base": 0.9982,
+     "max_share_of_base": 1.0,
+     "mean_entrants": 0.58,
+     "mean_exits": 0.09,
+     "total_entrants": 19,
+     "total_exits": 3
+    }
+   }
+  },
+  "me_vs_week_near_me": {
+   "summary": {
+    "n_pairs": 80,
+    "same_session_pairs": 11,
+    "mean_share_of_base": 0.9993,
+    "min_share_of_base": 0.9849,
+    "max_share_of_base": 1.0,
+    "mean_entrants": 0.49,
+    "mean_exits": 0.21,
+    "total_entrants": 39,
+    "total_exits": 17
+   },
+   "eras": {
+    "2017_2020": {
+     "n_pairs": 11,
+     "same_session_pairs": 2,
+     "mean_share_of_base": null,
+     "min_share_of_base": null,
+     "max_share_of_base": null,
+     "mean_entrants": 0.0,
+     "mean_exits": 0.0,
+     "total_entrants": 0,
+     "total_exits": 0
+    },
+    "2021_2023": {
+     "n_pairs": 36,
+     "same_session_pairs": 4,
+     "mean_share_of_base": 0.9988,
+     "min_share_of_base": 0.9849,
+     "max_share_of_base": 1.0,
+     "mean_entrants": 0.56,
+     "mean_exits": 0.39,
+     "total_entrants": 20,
+     "total_exits": 14
+    },
+    "2024_now": {
+     "n_pairs": 33,
+     "same_session_pairs": 5,
+     "mean_share_of_base": 0.9999,
+     "min_share_of_base": 0.9982,
+     "max_share_of_base": 1.0,
+     "mean_entrants": 0.58,
+     "mean_exits": 0.09,
+     "total_entrants": 19,
+     "total_exits": 3
+    }
+   }
+  }
+ },
+ "exclusive_names": {
+  "week_only": 27,
+  "me_only": 0,
+  "both": 1225
+ },
+ "answers": {
+  "share_me_vs_week_nearest": 0.9993,
+  "share_me_vs_week_near_me": 0.9993,
+  "membership_reading": "same_names",
+  "names_changed_per_week_step": 5.13,
+  "names_changed_per_me_step": 21.36,
+  "stale_hold_sessions_week": 4.85,
+  "stale_hold_sessions_near_me": 20.61,
+  "stale_hold_sessions_me": 20.68,
+  "mean_entrants_per_pair": 0.49,
+  "mean_exits_per_pair": 0.21,
+  "same_session_pairs": 11
+ },
+ "honest": [
+  "both books equal-weight the entire live universe (pick_n=9999), so this census measures the eligibility flow and not a top-N selection rule",
+  "the overlap rows compare each month-end decision with the nearest weekly session; where those coincide the overlap is exact by construction and the coincident pairs are counted separately, not averaged away",
+  "stale_hold is truncated at the window ends -- the last exit of the series has no following decision and is never counted",
+  "`week_near_me` reuses the same pairing as the nearest-weekly read, deduped on the weekly session, because that is exactly how its calendar is built",
+  "membership_reading is a 0.95 flat threshold on the mean overlap: a label, not a test, and no prereg covers it",
+  "decisions priced on a mid-arrival bar or on an empty cash book (live count collapsing against its neighbours) are dropped and counted in spec.dropped_decisions -- without that guard one unfinished session reads as a +1200-name entrant wave",
+  "an era missing from the pair table was dropped as a cash/stub block, not censused as perfect agreement: the eligibility burn-in leaves the early window in cash, the same cash-slice signature E59/E64 print as an exact 0.0bp gap",
+  "descriptive census only: no gate, no verdict, no ledger booking, trial 0"
+ ]
+}
