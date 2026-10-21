@@ -20903,17 +20903,23 @@
   },
   {
    "id": "E57-MIDMONTH-CHASE-NAMES",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
    "title": "Newest era: the mid-month book buys names that then lag the names it drops (-123.7bp per swap against +95.6bp at month-end; 48.1% vs 42.9% of swaps negative). Name the swaps: top-10 swapped-in symbols per era for both calendars, and whether mid-month's entrants are symbols month-end later drops (chase evidence) or a disjoint set (a different universe slice).",
    "deliverable": "results/e44_midmonth/CHASE-<cutoff>.json",
    "source": "r1132 E44 churn sleeve: turnover identical (0.591 vs 0.594/yr, fee gap ~2bp) while churn alpha gaps -219.3bp per swap",
-   "entered_at": "%s",
+   "entered_at": "2026-10-21T08:44:00+08:00",
    "entered_by": "bm-b r1132",
    "evidence_cutoff": "2026-10-20",
-   "runner_note": "needs a --detail leg in scripts/e39_panel_census.py dumping the per-transition entrant/exit symbol lists (the churn rows carry counts and sleeves, not names)"
+   "runner_note": "r1134: chase leg added to scripts/e39_panel_census.py (entrant-level symbol lists, bucketed against the other calendar's next book); selftest 85/85. Answer: chase is dead (0.15% of entrants), the gap is entirely in the off-book slice (+0.67% vs +2.30% per swap) and it flips sign by era",
+   "result_ref": [
+    "results/e44_midmonth/CHASE-20261020.json",
+    "research/digests/DIGEST-20261021-e57-chase-names.md"
+   ],
+   "closed_at": "2026-10-21T09:05:00+08:00",
+   "closed_by": "bm-b"
   },
   {
    "id": "E58-PARTS-CUT-CURVE",
@@ -20933,6 +20939,48 @@
    ],
    "closed_at": "2026-10-21T08:36:18+08:00",
    "closed_by": "bm-b"
+  },
+  {
+   "id": "E59-MIDDAY-SWEEP",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E57 says the mid-month penalty lives in the off-book slice and flips sign by era. Is that a property of day 15 or of any off-cycle date? Sweep mid_day in {5, 10, 15, 20, 25} on one identical universe and rank cache, and report the disjoint-bucket per-swap spread against month-end for each day and era.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-<cutoff>.json",
+   "source": "r1134 E57 chase face: mid disjoint +0.67%/swap vs me disjoint +2.30% in 2024_now, sign reversed in 2021_2023; chase bucket 0.15%",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a midsweep leg reusing _chase_rows over several mid_day values; one rank cache shared across all days (the E57 leg already caches by bar index)"
+  },
+  {
+   "id": "E60-OFFBOOK-LIQUIDITY",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Is the off-book penalty a liquidity story? Bucket the disjoint entrants by trailing 60-session amount at the decision bar and report the per-swap spread per liquidity tercile for both calendars, so a thin-name reading can be separated from a timing reading.",
+   "deliverable": "results/e44_midmonth/OFFBOOK-<cutoff>.json",
+   "source": "r1134 E57 chase face: the whole 2024_now gap sits in the disjoint slice (+0.67% vs +2.30% per swap)",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs an offbook leg; amounts are already loaded by run_chase, so the only new work is the trailing-60 median and the tercile split"
+  },
+  {
+   "id": "E61-SHARED-SUBSET-BOOK",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E57 shows the two calendars agree on half their entrants and earn the same on them. Ask the engine the portfolio question the name-level leg cannot: restrict the candidate set to names both calendars hold at the same session and re-run the mid-month arm, so the calendar cost can be split into a selection part and a timing part.",
+   "deliverable": "results/e44_midmonth/SHAREDBOOK-<cutoff>.json",
+   "source": "r1134 E57: other_still_holds bucket is 50.4% of mid entrants at +0.96% vs +0.89% for month-end",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a sharedbook leg: intersect the two calendars' books at each session, hand the intersection to e27.simulate as the universe slice, and compare x0 arms only (cost is already answered)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

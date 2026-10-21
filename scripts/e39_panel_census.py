@@ -2970,6 +2970,226 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# --------------------------------- leg: name the mid-month swaps (E57 detail)
+
+CHASE_BUCKETS = ("other_drops_next", "other_still_holds", "disjoint")
+
+
+def _next_decision_idx(decisions, bar_idx):
+    """Index of the first decision taken strictly after ``bar_idx``, or None.
+
+    Strictly-after matters: the two calendars can decide on the same session, and
+    the question here is what the other book does *next*, not what it did at the
+    same instant.
+    """
+    for j, (i, _hold) in enumerate(decisions):
+        if i > bar_idx:
+            return j
+    return None
+
+
+def _classify_entrants(entrants, next_hold, drop_next):
+    """Bucket one decision's entrants against the other calendar's next book.
+
+    other_drops_next -- the other calendar sheds the name at its very next
+        rebalance, so this book bought what the other was about to give up
+    other_still_holds      -- the other calendar still holds it, so this book is
+        early on a name rather than wrong about it
+    disjoint    -- the name is in neither the other book's next holdings
+        nor its next drop set: the two calendars read different slices
+    """
+    nxt = set(next_hold or ())
+    drop = set(drop_next or ())
+    out = {k: [] for k in CHASE_BUCKETS}
+    for s in entrants:
+        if s in drop:
+            out["other_drops_next"].append(s)
+        elif s in nxt:
+            out["other_still_holds"].append(s)
+        else:
+            out["disjoint"].append(s)
+    return out
+
+
+def _chase_rows(cal, prices, decisions, other, eras=ERAS):
+    """Per-transition entrants with their forward return and their bucket.
+
+    ``other`` is the same-calendar decision list of the other rebalance timing.
+    The bucketing reads that book's next two decisions, which is the only
+    counterfactual available without re-pricing a portfolio.
+    """
+    rows = []
+    for k in range(1, len(decisions)):
+        i0, prev = decisions[k - 1]
+        i1, cur = decisions[k]
+        pset = set(prev)
+        ent = [s for s in cur if s not in pset]
+        ext = [s for s in prev if s not in set(cur)]
+        j = _next_decision_idx(other, i0)
+        next_hold = other[j][1] if j is not None else None
+        drop_next = None
+        if j is not None and j + 1 < len(other):
+            drop_next = sorted(set(other[j][1]) - set(other[j + 1][1]))
+        buckets = _classify_entrants(ent, next_hold, drop_next)
+
+        def fwd(s):
+            series = prices.get(s)
+            if not series:
+                return None
+            p0, p1 = series[i0], series[i1]
+            if p0 is None or p1 is None or p0 <= 0:
+                return None
+            return p1 / p0 - 1.0
+
+        bucket_of = {}
+        for b, syms in buckets.items():
+            for s in syms:
+                bucket_of[s] = b
+        entrants = []
+        for s in ent:
+            r = fwd(s)
+            entrants.append({"symbol": s, "bucket": bucket_of.get(s),
+                             "fwd_pct": None if r is None else round(100 * r, 3)})
+        exits = [{"symbol": s, "fwd_pct": (None if fwd(s) is None
+                                           else round(100 * fwd(s), 3))} for s in ext]
+        rows.append({
+            "date": cal[i0], "next": cal[i1], "era": _era_of(cal[i0], eras),
+            "members": len(cur), "entrants": entrants, "exits": exits,
+            "other_next": (cal[other[j][0]] if j is not None else None),
+            "other_drop_next_size": len(drop_next) if drop_next is not None else None,
+        })
+    return rows
+
+
+def _chase_era(rows, eras=ERAS):
+    """Per-era bucket shares and the return of each bucket, plus named swaps."""
+    out = {}
+    for name, _lo, _hi in eras:
+        sub = [r for r in rows if r["era"] == name]
+        if not sub:
+            continue
+        flat = [(r["date"], e) for r in sub for e in r["entrants"]]
+        per_bucket = {}
+        for b in CHASE_BUCKETS:
+            vals = [e["fwd_pct"] for _d, e in flat
+                    if e["bucket"] == b and e["fwd_pct"] is not None]
+            per_bucket[b] = {
+                "entrants": sum(1 for _d, e in flat if e["bucket"] == b),
+                "share_pct": (round(100.0 * sum(1 for _d, e in flat if e["bucket"] == b)
+                                    / len(flat), 2) if flat else None),
+                "priced": len(vals),
+                "fwd_pct_mean": round(sum(vals) / len(vals), 3) if vals else None,
+                "negative_share_pct": (round(100.0 * sum(1 for v in vals if v < 0) / len(vals), 1)
+                                       if vals else None),
+            }
+        priced = [(d, e) for d, e in flat if e["fwd_pct"] is not None]
+        priced.sort(key=lambda x: (-x[1]["fwd_pct"], x[0], x[1]["symbol"]))
+        named = lambda seq: [{"date": d, "symbol": e["symbol"], "bucket": e["bucket"],
+                              "fwd_pct": e["fwd_pct"]} for d, e in seq]
+        uniq = set(e["symbol"] for _d, e in flat)
+        out[name] = {
+            "transitions": len(sub),
+            "entrant_slots": len(flat),
+            "unique_entrants": len(uniq),
+            "repeat_entrant_share_pct": (round(100.0 * (len(flat) - len(uniq)) / len(flat), 1)
+                                         if flat else None),
+            "buckets": per_bucket,
+            "top10_entrants": named(priced[:10]),
+            "bottom10_entrants": named(priced[-10:]),
+        }
+    return out
+
+
+def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15):
+    """E57: name the mid-month swaps and test the chase reading.
+
+    r1132 showed the calendars turn over the same amount and that the mid-month
+    book's swaps lose -123.7bp while the month-end book's swaps earn +95.6bp.
+    Counts cannot say whether those entrants are names the month-end book sheds
+    at its next rebalance (a chase into what is being given up), names it keeps
+    anyway (being early), or a different slice of the universe. This leg emits
+    the symbol lists themselves for both calendars and buckets every entrant
+    against the other calendar's next book.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    rank_cache = {}
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid%d" % mid_day, _mid_month_indices(cal, mid_day))]
+    decisions = {}
+    for label, idxs in calendars:
+        decisions[label] = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                          idxs, rank_cache)
+    mid_label = "mid%d" % mid_day
+    rows_me = _chase_rows(cal, prices, decisions["me"], decisions[mid_label])
+    rows_mid = _chase_rows(cal, prices, decisions[mid_label], decisions["me"])
+    era_me = _chase_era(rows_me)
+    era_mid = _chase_era(rows_mid)
+    newest = "2024_now"
+    return {
+        "study": "e57_midmonth_chase_names",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+                 "mid_month_day": mid_day, "calendars": [c[0] for c in calendars],
+                 "universe_members": len(universe),
+                 "bucket_definition": {
+                     "other_drops_next": "entrant is in the other calendar's drop set at its next rebalance",
+                     "other_still_holds": "entrant is still held by the other calendar at its next rebalance",
+                     "disjoint": "entrant is in neither the other book's next holdings nor its next drop set"}},
+        "decision_days": {"me": len(decisions["me"]), mid_label: len(decisions[mid_label])},
+        "eras": {"me": era_me, mid_label: era_mid},
+        "recent_transitions": {mid_label: rows_mid[-3:], "me": rows_me[-2:]},
+        "answers": {
+            "newest_era_mid_bucket_share_pct": {
+                b: era_mid.get(newest, {}).get("buckets", {}).get(b, {}).get("share_pct")
+                for b in CHASE_BUCKETS},
+            "newest_era_mid_bucket_fwd_pct": {
+                b: era_mid.get(newest, {}).get("buckets", {}).get(b, {}).get("fwd_pct_mean")
+                for b in CHASE_BUCKETS},
+            "newest_era_me_bucket_share_pct": {
+                b: era_me.get(newest, {}).get("buckets", {}).get(b, {}).get("share_pct")
+                for b in CHASE_BUCKETS},
+            "newest_era_me_bucket_fwd_pct": {
+                b: era_me.get(newest, {}).get("buckets", {}).get(b, {}).get("fwd_pct_mean")
+                for b in CHASE_BUCKETS},
+            "newest_era_mid_unique_entrants": era_mid.get(newest, {}).get("unique_entrants"),
+            "newest_era_me_unique_entrants": era_me.get(newest, {}).get("unique_entrants"),
+            "newest_era_mid_repeat_entrant_share_pct":
+                era_mid.get(newest, {}).get("repeat_entrant_share_pct"),
+            "newest_era_me_repeat_entrant_share_pct":
+                era_me.get(newest, {}).get("repeat_entrant_share_pct"),
+        },
+        "honest": [
+            "bucket membership is decided on the other calendar's book, not on a "
+            "re-priced counterfactual: it says what the other book did with the name, "
+            "not what the money would have done",
+            "fwd_pct is the raw decision-to-decision return of the name, before any "
+            "weighting, cost or cash leg",
+            "one mid-month date (day %d) against one month-end date: the calendars are "
+            "fixed, not swept" % mid_day,
+            "the last transition of each calendar has no full forward window if the "
+            "panel ends mid-window; those rows carry null returns rather than zeros",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -3223,6 +3443,19 @@ def selftest():
         "churn alpha is entrant forward return minus exit forward return in bp "
         "(-10%% entrant vs +10%% exit -> -2000bp)")
 
+    # E57: the other calendar's next book decides the bucket, and the "next"
+    # decision is strictly after the one being classified
+    dec = [(0, ["a"]), (5, ["a", "b"]), (9, ["b", "c"])]
+    chk(_next_decision_idx(dec, 0) == 1, "next decision skips a same-session twin")
+    chk(_next_decision_idx(dec, 5) == 2 and _next_decision_idx(dec, 9) is None,
+        "next decision is strictly after the bar index")
+    bk = _classify_entrants(["a", "b", "c", "d"], next_hold=["a", "b"], drop_next=["b"])
+    chk(bk["other_drops_next"] == ["b"], "a name the other book sheds is chase")
+    chk(bk["other_still_holds"] == ["a"], "a name the other book keeps is being early")
+    chk(bk["disjoint"] == ["c", "d"], "names in neither book are a different slice")
+    chk(_classify_entrants(["a"], None, None)["disjoint"] == ["a"],
+        "a missing other book buckets everything as disjoint, not as a silent pass")
+
     # era attribution follows the decision date, not the next date
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
@@ -3238,7 +3471,8 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
-                             "e46", "livespan", "cutcurve", "midmonth", "all", "selftest"])
+                             "e46", "livespan", "cutcurve", "midmonth", "chase",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -3488,6 +3722,17 @@ def main(argv):
                                        "me_churn_alpha_bp": v["me"]["churn_alpha_bp_mean"],
                                        "mid_churn_alpha_bp": v["mid"]["churn_alpha_bp_mean"]}
                                    for k, v in f["eras"].items()}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "chase":
+        f = run_chase(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "CHASE-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "chase", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "mid_buckets": {k: {b: v["buckets"][b]["fwd_pct_mean"]
+                                              for b in CHASE_BUCKETS}
+                                          for k, v in f["eras"]["mid15"].items()}},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
