@@ -1,0 +1,449 @@
+{
+ "study": "e74_stale_hold_relative",
+ "evidence_cutoff": "2026-10-21",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2013-01-01",
+  "universe_members": 1265,
+  "dropped_decisions": {
+   "me": 2,
+   "week": 1
+  },
+  "calendars": {
+   "me": 164,
+   "week": 707
+  },
+  "sessions_span": 3318,
+  "years": 13.661875427789186,
+  "wide_book": "equal weight of every universe member priced at both t-1 and t, compounded over the event span",
+  "charge": "1/n_held_before of the monthly book, name's own return minus the wide book's return over the same sessions",
+  "artefact_guard": "event excluded from the priced tail when the largest single-session move inside its span exceeds 30% (a corporate action printed on an unadjusted series)"
+ },
+ "tail": {
+  "raw_all_events": {
+   "events": 172,
+   "total_bp": 24.438,
+   "bp_per_year": 1.789,
+   "mean_return_pct": -5.7291,
+   "negative_share": 0.5756,
+   "mean_extra_sessions": 12.33,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2020-08-31",
+    "name": "sh510230",
+    "extra_sessions": 15,
+    "return_pct": -79.9062,
+    "bp_contrib": -62.427
+   }
+  },
+  "raw_clean": {
+   "events": 149,
+   "total_bp": -8.282,
+   "bp_per_year": -0.606,
+   "mean_return_pct": 0.0011,
+   "negative_share": 0.5235,
+   "mean_extra_sessions": 12.38,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2016-01-29",
+    "name": "sz159923",
+    "extra_sessions": 19,
+    "return_pct": -16.1509,
+    "bp_contrib": -32.961
+   }
+  },
+  "relative_all_events": {
+   "events": 172,
+   "total_bp": 29.289,
+   "bp_per_year": 2.144,
+   "mean_return_pct": -6.091,
+   "negative_share": 0.5988,
+   "mean_extra_sessions": 12.33,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2020-08-31",
+    "name": "sh510230",
+    "extra_sessions": 15,
+    "return_pct": -80.7451,
+    "bp_contrib": -63.082
+   }
+  },
+  "relative_clean": {
+   "events": 149,
+   "total_bp": 10.956,
+   "bp_per_year": 0.802,
+   "mean_return_pct": -0.474,
+   "negative_share": 0.5503,
+   "mean_extra_sessions": 12.38,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2019-01-31",
+    "name": "sz159919",
+    "extra_sessions": 18,
+    "return_pct": -7.9857,
+    "bp_contrib": -10.238
+   }
+  }
+ },
+ "artefacts": {
+  "excluded_events": 23,
+  "jump_threshold_pct": 30.0,
+  "events": [
+   {
+    "date": "2015-04-30",
+    "name": "sh510500",
+    "return_pct": 283.1906,
+    "max_session_jump_pct": 248.551,
+    "bp_contrib": 690.709
+   },
+   {
+    "date": "2020-08-31",
+    "name": "sh510230",
+    "return_pct": -79.9062,
+    "max_session_jump_pct": 78.796,
+    "bp_contrib": -62.427
+   },
+   {
+    "date": "2020-09-30",
+    "name": "sh512760",
+    "return_pct": -52.1194,
+    "max_session_jump_pct": 53.104,
+    "bp_contrib": -38.895
+   },
+   {
+    "date": "2021-01-29",
+    "name": "sh510210",
+    "return_pct": -80.6484,
+    "max_session_jump_pct": 79.956,
+    "bp_contrib": -48.292
+   },
+   {
+    "date": "2021-02-26",
+    "name": "sh512170",
+    "return_pct": -69.3282,
+    "max_session_jump_pct": 68.097,
+    "bp_contrib": -37.678
+   },
+   {
+    "date": "2021-03-31",
+    "name": "sh512480",
+    "return_pct": -49.3477,
+    "max_session_jump_pct": 48.904,
+    "bp_contrib": -26.11
+   },
+   {
+    "date": "2021-03-31",
+    "name": "sh512710",
+    "return_pct": -48.3045,
+    "max_session_jump_pct": 49.629,
+    "bp_contrib": -25.558
+   },
+   {
+    "date": "2021-04-30",
+    "name": "sh510630",
+    "return_pct": -74.1749,
+    "max_session_jump_pct": 75.225,
+    "bp_contrib": -37.274
+   },
+   {
+    "date": "2021-05-31",
+    "name": "sh512690",
+    "return_pct": -40.7984,
+    "max_session_jump_pct": 47.995,
+    "bp_contrib": -19.805
+   },
+   {
+    "date": "2021-05-31",
+    "name": "sh510150",
+    "return_pct": -91.3295,
+    "max_session_jump_pct": 91.646,
+    "bp_contrib": -44.335
+   },
+   {
+    "date": "2021-06-30",
+    "name": "sh512010",
+    "return_pct": -73.8035,
+    "max_session_jump_pct": 73.924,
+    "bp_contrib": -35.145
+   },
+   {
+    "date": "2021-06-30",
+    "name": "sh510030",
+    "return_pct": -87.4346,
+    "max_session_jump_pct": 87.668,
+    "bp_contrib": -41.636
+   },
+   {
+    "date": "2021-07-30",
+    "name": "sh510580",
+    "return_pct": -90.1247,
+    "max_session_jump_pct": 90.054,
+    "bp_contrib": -41.342
+   },
+   {
+    "date": "2021-08-31",
+    "name": "sh512670",
+    "return_pct": -46.4004,
+    "max_session_jump_pct": 47.847,
+    "bp_contrib": -20.996
+   },
+   {
+    "date": "2021-08-31",
+    "name": "sh512600",
+    "return_pct": -81.6867,
+    "max_session_jump_pct": 79.853,
+    "bp_contrib": -36.962
+   },
+   {
+    "date": "2021-09-30",
+    "name": "sh512070",
+    "return_pct": -68.3544,
+    "max_session_jump_pct": 66.221,
+    "bp_contrib": -30.38
+   },
+   {
+    "date": "2021-10-29",
+    "name": "sh512890",
+    "return_pct": -54.1033,
+    "max_session_jump_pct": 51.129,
+    "bp_contrib": -23.94
+   },
+   {
+    "date": "2021-11-30",
+    "name": "sh512560",
+    "return_pct": -45.3569,
+    "max_session_jump_pct": 48.965,
+    "bp_contrib": -19.893
+   },
+   {
+    "date": "2022-01-28",
+    "name": "sh513100",
+    "return_pct": -82.1276,
+    "max_session_jump_pct": 80.451,
+    "bp_contrib": -34.507
+   },
+   {
+    "date": "2022-03-31",
+    "name": "sh513500",
+    "return_pct": -49.287,
+    "max_session_jump_pct": 49.177,
+    "bp_contrib": -19.03
+   },
+   {
+    "date": "2022-03-31",
+    "name": "sh512120",
+    "return_pct": -66.5749,
+    "max_session_jump_pct": 68.017,
+    "bp_contrib": -25.705
+   },
+   {
+    "date": "2022-07-29",
+    "name": "sh510170",
+    "return_pct": -76.1967,
+    "max_session_jump_pct": 75.872,
+    "bp_contrib": -21.647
+   },
+   {
+    "date": "2022-09-30",
+    "name": "sh512100",
+    "return_pct": 138.6341,
+    "max_session_jump_pct": 176.273,
+    "bp_contrib": 33.568
+   }
+  ]
+ },
+ "by_era": {
+  "pre2017": {
+   "events": 18,
+   "total_bp": 9.67,
+   "bp_per_year": 3.995,
+   "mean_return_pct": -0.0303,
+   "negative_share": 0.5556,
+   "mean_extra_sessions": 13.61,
+   "max_extra_sessions": 22,
+   "worst_event": {
+    "date": "2016-04-29",
+    "name": "sh510190",
+    "extra_sessions": 9,
+    "return_pct": -2.5767,
+    "bp_contrib": -5.368
+   },
+   "reading": "collapsed",
+   "artefacts_excluded": 1
+  },
+  "2017_2020": {
+   "events": 22,
+   "total_bp": 16.64,
+   "bp_per_year": 4.235,
+   "mean_return_pct": 0.4731,
+   "negative_share": 0.2727,
+   "mean_extra_sessions": 12.27,
+   "max_extra_sessions": 23,
+   "worst_event": {
+    "date": "2019-01-31",
+    "name": "sz159919",
+    "extra_sessions": 18,
+    "return_pct": -7.9857,
+    "bp_contrib": -10.238
+   },
+   "reading": "collapsed",
+   "artefacts_excluded": 2
+  },
+  "2021_2023": {
+   "events": 39,
+   "total_bp": -5.939,
+   "bp_per_year": -2.451,
+   "mean_return_pct": -0.156,
+   "negative_share": 0.5897,
+   "mean_extra_sessions": 13.54,
+   "max_extra_sessions": 24,
+   "worst_event": {
+    "date": "2021-02-26",
+    "name": "sz159915",
+    "extra_sessions": 14,
+    "return_pct": -6.0683,
+    "bp_contrib": -3.298
+   },
+   "reading": "collapsed",
+   "artefacts_excluded": 20
+  },
+  "2024_now": {
+   "events": 70,
+   "total_bp": -9.415,
+   "bp_per_year": -3.534,
+   "mean_return_pct": -1.0629,
+   "negative_share": 0.6143,
+   "mean_extra_sessions": 11.44,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2025-01-27",
+    "name": "sz159518",
+    "extra_sessions": 10,
+    "return_pct": -11.0062,
+    "bp_contrib": -1.442
+   },
+   "reading": "collapsed",
+   "artefacts_excluded": 0
+  }
+ },
+ "by_era_raw": {
+  "pre2017": {
+   "events": 19,
+   "total_bp": 682.962,
+   "bp_per_year": 282.185,
+   "mean_return_pct": 14.2996,
+   "negative_share": 0.5263,
+   "mean_extra_sessions": 13.79,
+   "max_extra_sessions": 22,
+   "worst_event": {
+    "date": "2016-01-29",
+    "name": "sz159923",
+    "extra_sessions": 19,
+    "return_pct": -16.1509,
+    "bp_contrib": -32.961
+   }
+  },
+  "2017_2020": {
+   "events": 24,
+   "total_bp": -97.625,
+   "bp_per_year": -24.848,
+   "mean_return_pct": -5.4536,
+   "negative_share": 0.5,
+   "mean_extra_sessions": 12.58,
+   "max_extra_sessions": 23,
+   "worst_event": {
+    "date": "2020-08-31",
+    "name": "sh510230",
+    "extra_sessions": 15,
+    "return_pct": -79.9062,
+    "bp_contrib": -62.427
+   }
+  },
+  "2021_2023": {
+   "events": 59,
+   "total_bp": -565.201,
+   "bp_per_year": -233.265,
+   "mean_return_pct": -19.4559,
+   "negative_share": 0.7288,
+   "mean_extra_sessions": 12.81,
+   "max_extra_sessions": 24,
+   "worst_event": {
+    "date": "2021-01-29",
+    "name": "sh510210",
+    "extra_sessions": 9,
+    "return_pct": -80.6484,
+    "bp_contrib": -48.292
+   }
+  },
+  "2024_now": {
+   "events": 70,
+   "total_bp": 4.302,
+   "bp_per_year": 1.615,
+   "mean_return_pct": 0.3097,
+   "negative_share": 0.4857,
+   "mean_extra_sessions": 11.44,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2024-01-31",
+    "name": "sz159877",
+    "extra_sessions": 21,
+    "return_pct": -15.5689,
+    "bp_contrib": -2.467
+   }
+  }
+ },
+ "skipped": {
+  "unpriced": 16,
+  "never_in_weekly_book": 0,
+  "unpriced_book": 0
+ },
+ "answers": {
+  "stale_events": 149,
+  "stale_events_all": 172,
+  "artefacts_excluded": 23,
+  "raw_total_bp": -8.282,
+  "raw_bp_per_year": -0.606,
+  "raw_all_events_total_bp": 24.438,
+  "raw_all_events_bp_per_year": 1.789,
+  "relative_total_bp": 10.956,
+  "relative_bp_per_year": 0.802,
+  "relative_negative_share": 0.5503,
+  "relative_share_of_raw": -1.3234,
+  "relative_reading": "collapsed",
+  "relative_all_events_bp_per_year": 2.144,
+  "era_relative_reading": {
+   "pre2017": "collapsed",
+   "2017_2020": "collapsed",
+   "2021_2023": "collapsed",
+   "2024_now": "collapsed"
+  },
+  "era_relative_bp_per_year": {
+   "pre2017": 3.995,
+   "2017_2020": 4.235,
+   "2021_2023": -2.451,
+   "2024_now": -3.534
+  },
+  "era_raw_bp_per_year": {
+   "pre2017": 282.185,
+   "2017_2020": -24.848,
+   "2021_2023": -233.265,
+   "2024_now": 1.615
+  },
+  "newest_era_relative_bp": -9.415,
+  "residual_to_explain_bp": -45.0,
+  "residual_source": "E70 weeklyclash cost face (full weekly grid vs month-end, x0/x3 residual, 2020 start)"
+ },
+ "honest": [
+  "the wide book is the whole live universe equal weight, which is the same book both calendars hold here (pick_n=9999); the relative face therefore measures the cross-sectional excess of the exiting names, not a size or style mismatch",
+  "relative bp = name return minus the wide book's compounded return over the identical sessions, still charged at 1/n of the dropping book; it is an arithmetic difference, not a hedged P&L",
+  "events whose span contains a session with no priced universe member are counted in skipped.unpriced_book and excluded from the relative columns only -- the raw columns keep them",
+  "reading labels come from a 0.25 shrink share with a 5bp floor and are published as labels, not as a test; no prereg covers them",
+  "an era with a handful of events (pre2017 rests on ~19) gives a bp/yr that divides a small total by a short span -- read the event count beside any era rate",
+  "the -45bp residual is quoted from the E70 face as published; the relative tail is reported in its own bp/yr and is never added to it",
+  "the artefact guard is a daily-limit screen, not an adjustment: a name whose series is unadjusted prints a split as a -90% tail, and such an event is excluded from the priced columns and listed in `artefacts` with its largest single-session move -- the all-events columns are kept beside the guarded ones so nothing is silently dropped",
+  "descriptive census only: no gate, no verdict, no ledger booking, trial 0"
+ ]
+}

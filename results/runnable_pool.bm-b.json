@@ -21166,7 +21166,7 @@
   },
   {
    "id": "E72-STALE-HOLD-PRICE",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21176,7 +21176,57 @@
    "entered_at": "2026-10-21T23:55:00+08:00",
    "entered_by": "bm-b r1143",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold"
+   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold",
+   "closed_at": "2026-10-21T23:50:00+08:00",
+   "closed_by": "bm-b r1144",
+   "result_ref": "results/e44_midmonth/STALEHOLD-20261021.json + STALEHOLD-20261021-s20130101.json + research/digests/DIGEST-20261021-e72-stalehold.md",
+   "outcome": "tail is era-local and sign-flipping: 2021_2023 -213/-226bp/yr, pre2017 +282bp/yr, 2024_now +1.6bp/yr BIT-IDENTICAL across starts -> explains 3.6% of the -45bp residual with the wrong sign; timing stays the only open channel"
+  },
+  {
+   "id": "E73-LANE-FLIP-AKSHARE-TO-BMB",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/update_zt_pool.py + update_heat.py + update_repo.py + update_options.py + update_moneyflow.py + update_sina_mf.py + update_ths_panel.py + ah_panel_puller.py + update_fund_statements.py",
+   "title": "CEO order 2026-10-21 13:5x: bm-a is barred from all financial/sensitive work; BigMoney compute and the akshare data-pull lane move OFF bm-a ONTO bm-b. Every collector above still carries a hard lane guard 'only bm-a acts, others honest no-op', so on this machine they are all silent and the panels have no refresh leg. Flip the guards to this machine (R31 precedent), run each selftest, and verify one collector actually pulls.",
+   "deliverable": "lane-guard flip + per-collector selftest green + one live pull evidence",
+   "source": "group orders 2026-10-21 13:5x (via bm-a qianwen seat) + r1138 round report note",
+   "entered_at": "2026-10-21T23:32:00+08:00",
+   "entered_by": "bm-b r1143",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "each collector keeps its provenance/overlap/fuse machinery; only the host constant changes. Land in one commit with a selftest matrix, not one script per round."
+  },
+  {
+   "id": "E74-STALE-TAIL-VS-BOOK",
+   "status": "done",
+   "lane_owner": "bm-b",
+   "result_ref": "results/e44_midmonth/STALETAIL-20261021.json + STALETAIL-20261021-s20130101.json",
+   "closed_at": "2026-10-21T23:59:00+08:00",
+   "closed_by": "bm-b r1145",
+   "result_note": "the channel closes: 19/128 (2020) and 23/172 (2013) events are unadjusted split prints, and once screened out the tail is -0.6bp/yr raw / -2.3bp/yr relative at the 2020 start and -0.6 / +0.8 at 2013, all four eras reading collapsed",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E72 prices the stale-exit tail raw and finds its sign flips by era (+282bp/yr pre2017, -226bp/yr 2021_2023, +1.6bp/yr 2024_now), which is a beta signature rather than a membership mechanism. Recharge the same events RELATIVE to the wide book over the identical sessions: if the relative tail collapses toward 0 in every era the channel is null in both directions and closes for good; if an era keeps a relative tail, name it.",
+   "deliverable": "results/e44_midmonth/STALETAIL-<cutoff>.json",
+   "source": "r1144 E72: raw tail 2021_2023 -516.9bp total vs 2024_now +4.3bp",
+   "entered_at": "2026-10-21T23:50:00+08:00",
+   "entered_by": "bm-b r1144",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "extend the stalehold leg with a relative mode: same event list, but charge (name return - wide-book return) over the same session span; emit raw and relative bp side by side per era plus the beta implied by their difference"
+  },
+  {
+   "id": "E75-PANEL-SPLIT-AUDIT",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E74 found 19 of 128 stale-exit events are unadjusted share splits (-90% prints) that were dominating a published bp column. Screen the whole in-repo panel for single-session moves beyond any A-share/ETF daily limit, list the names and dates, and say which already-published census legs can be contaminated by them (ladder/wide book returns average names, so one -90% print moves a 200-name equal-weight book by 45bp).",
+   "deliverable": "results/e44_midmonth/PANELJUMP-<cutoff>.json",
+   "source": "r1145 E74: 19/128 events artefacts at the 2020 start, 23/172 at 2013",
+   "entered_at": "2026-10-22T00:02:00+08:00",
+   "entered_by": "bm-b r1145",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse _max_session_jump per name over the full calendar; report the jump histogram, the list beyond the limit, and whether the affected dates fall inside any published era"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21191,7 +21241,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T22:58:04+08:00",
+ "updated_at": "2026-10-22T00:02:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

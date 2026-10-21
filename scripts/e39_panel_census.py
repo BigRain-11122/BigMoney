@@ -1155,6 +1155,11 @@ ERAS = (("pre2017", None, "2016-12-31"),
         ("2021_2023", "2021-01-01", "2023-12-31"),
         ("2024_now", "2024-01-01", None))
 
+# E74: the panel carries some names unadjusted, so a share split prints as a
+# -90% "return". Any single-session move beyond any A-share/ETF daily limit is
+# treated as a corporate-action artefact and excluded from the priced tail.
+ARTEFACT_JUMP = 0.30
+
 
 def _in_era(month, lo, hi):
     """Month (YYYY-MM) inside an era whose bounds are dates (YYYY-MM-DD) or None."""
@@ -4000,16 +4005,21 @@ def _last_hold_at_or_before(positions, target_idx, wk_idxs):
     return best
 
 
-def _stale_hold_events(me_idxs, me_books, wk_idxs, wk_books, ret_fn):
+def _stale_hold_events(me_idxs, me_books, wk_idxs, wk_books, ret_fn,
+                       book_ret_fn=None):
     """(E72) price every stale exit: sessions held past the weekly drop, and bp.
 
     A monthly book can only drop an ineligible name at its next decision, so a
     name the weekly book already sold keeps a weight for weeks. Each event is
     charged at the book's equal weight (1/n_held_before) times the name's own
     return over the extra sessions, i.e. the bp a weekly drop would have saved.
+
+    E74 adds the RELATIVE face: when `book_ret_fn` is supplied the same span is
+    also charged against the wide book's own return, so an event that simply
+    moved with the market nets to ~0 instead of reading as a name effect.
     """
     pos = _week_hold_positions(wk_idxs, wk_books)
-    events, unpriced, no_weekly = [], 0, 0
+    events, unpriced, no_weekly, unpriced_book = [], 0, 0, 0
     for k in range(1, len(me_idxs or ())):
         prev, cur = list(me_books[k - 1]), set(me_books[k])
         exits = [s for s in prev if s not in cur]
@@ -4035,7 +4045,16 @@ def _stale_hold_events(me_idxs, me_books, wk_idxs, wk_books, ret_fn):
                            "return_pct": round(r * 100.0, 4),
                            "weight_pct": round(w * 100.0, 4),
                            "bp_contrib": round(10000.0 * w * r, 3)})
-    return events, {"unpriced": unpriced, "never_in_weekly_book": no_weekly}
+            if book_ret_fn is not None:
+                b = book_ret_fn(wk_idxs[p], me_idxs[k])
+                if b is None:
+                    unpriced_book += 1
+                    continue
+                events[-1]["book_return_pct"] = round(b * 100.0, 4)
+                events[-1]["excess_return_pct"] = round((r - b) * 100.0, 4)
+                events[-1]["relative_bp_contrib"] = round(10000.0 * w * (r - b), 3)
+    return events, {"unpriced": unpriced, "never_in_weekly_book": no_weekly,
+                    "unpriced_book": unpriced_book}
 
 
 def _years_between(d0, d1):
@@ -4049,30 +4068,36 @@ def _years_between(d0, d1):
     return days / 365.25 if days > 0 else None
 
 
-def _stale_aggregate(events, years):
-    """(E72) summarise stale-exit events into total bp and per-event stats."""
-    if not events:
+def _stale_aggregate(events, years, key="bp_contrib", ret_key="return_pct"):
+    """(E72/E74) summarise stale-exit events into total bp and per-event stats.
+
+    E74 re-reads the same events on the relative key (`relative_bp_contrib`), so
+    the key and the return column are parameters; events missing that key are
+    dropped rather than silently counted as a zero excess.
+    """
+    rows = [e for e in events if key in e] if key != "bp_contrib" else list(events)
+    if not rows:
         return {"events": 0, "total_bp": 0.0, "bp_per_year": None,
                 "mean_return_pct": None, "negative_share": None,
                 "mean_extra_sessions": None, "max_extra_sessions": None,
                 "worst_event": None}
-    tot = sum(e["bp_contrib"] for e in events)
-    neg = len([e for e in events if e["return_pct"] < 0])
-    worst = min(events, key=lambda e: e["bp_contrib"])
-    return {"events": len(events),
+    tot = sum(e[key] for e in rows)
+    neg = len([e for e in rows if e[ret_key] < 0])
+    worst = min(rows, key=lambda e: e[key])
+    return {"events": len(rows),
             "total_bp": round(tot, 3),
             "bp_per_year": round(tot / years, 3) if years else None,
-            "mean_return_pct": round(sum(e["return_pct"] for e in events)
-                                     / float(len(events)), 4),
-            "negative_share": round(neg / float(len(events)), 4),
-            "mean_extra_sessions": round(sum(e["extra_sessions"] for e in events)
-                                         / float(len(events)), 2),
-            "max_extra_sessions": max(e["extra_sessions"] for e in events),
+            "mean_return_pct": round(sum(e[ret_key] for e in rows)
+                                     / float(len(rows)), 4),
+            "negative_share": round(neg / float(len(rows)), 4),
+            "mean_extra_sessions": round(sum(e["extra_sessions"] for e in rows)
+                                         / float(len(rows)), 2),
+            "max_extra_sessions": max(e["extra_sessions"] for e in rows),
             "worst_event": {"date": worst.get("date"),
                             "name": worst["name"],
                             "extra_sessions": worst["extra_sessions"],
-                            "return_pct": worst["return_pct"],
-                            "bp_contrib": worst["bp_contrib"]}}
+                            "return_pct": worst.get(ret_key),
+                            "bp_contrib": worst[key]}}
 
 
 def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
@@ -4220,16 +4245,11 @@ def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     return face
 
 
-def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
-    """E72: what is the stale-hold tail actually worth, in bp?
+def _stale_hold_inputs(start, pick_n, exclude):
+    """(E72/E74) shared panel, calendars and books for both stale legs.
 
-    E71 found the last membership channel left between the month-end and weekly
-    books: a name dropped by the weekly book lingers in the monthly book for the
-    rest of the month (20.7 vs 4.9 sessions). This leg prices that tail instead
-    of counting it -- for every exit event it compounds the name's own return
-    over the sessions the monthly book still holds it after the weekly book has
-    sold, charged at the book's equal weight, and reports the total in bp and
-    bp/yr against the -45bp residual E70 left on the full weekly grid.
+    Factored out so the absolute (E72) and relative (E74) reads cannot drift
+    onto two different panels or two different decision calendars.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
@@ -4261,9 +4281,30 @@ def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     keep_wk = _tail_guard([len(raw_wk[i]) for i in wk_idxs])
     me_idxs = [i for i, k in zip(me_idxs, keep_me) if k]
     wk_idxs = [i for i, k in zip(wk_idxs, keep_wk) if k]
-    dropped = {"me": keep_me.count(False), "week": keep_wk.count(False)}
-    me_books = [raw_me[i] for i in me_idxs]
-    wk_books = [raw_wk[i] for i in wk_idxs]
+    return {"cal": cal, "cutoff": cutoff, "prices": prices,
+            "universe": universe, "me_idxs": me_idxs, "wk_idxs": wk_idxs,
+            "dropped": {"me": keep_me.count(False),
+                        "week": keep_wk.count(False)},
+            "me_books": [raw_me[i] for i in me_idxs],
+            "wk_books": [raw_wk[i] for i in wk_idxs]}
+
+
+def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
+    """E72: what is the stale-hold tail actually worth, in bp?
+
+    E71 found the last membership channel left between the month-end and weekly
+    books: a name dropped by the weekly book lingers in the monthly book for the
+    rest of the month (20.7 vs 4.9 sessions). This leg prices that tail instead
+    of counting it -- for every exit event it compounds the name's own return
+    over the sessions the monthly book still holds it after the weekly book has
+    sold, charged at the book's equal weight, and reports the total in bp and
+    bp/yr against the -45bp residual E70 left on the full weekly grid.
+    """
+    ds = _stale_hold_inputs(start, pick_n, exclude)
+    cal, cutoff, prices = ds["cal"], ds["cutoff"], ds["prices"]
+    me_idxs, me_books = ds["me_idxs"], ds["me_books"]
+    wk_idxs, wk_books = ds["wk_idxs"], ds["wk_books"]
+    universe, dropped = ds["universe"], ds["dropped"]
 
     events, skipped = _stale_hold_events(
         me_idxs, me_books, wk_idxs, wk_books,
@@ -4337,6 +4378,226 @@ def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
             "tail diluted over a long one -- read it beside per-era totals",
             "the -45bp residual is quoted from the E70 face as published; no "
             "attempt is made here to recompute it",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
+        ],
+    }
+    return face
+
+
+def _wide_session_returns(prices, universe, n_sessions):
+    """(E74) equal-weight return of the live universe at every session.
+
+    The reference book for the relative stale tail: for session t it averages
+    the close-to-close return of every universe member priced at both t-1 and t.
+    A session with no priced member is None, and a None anywhere in a span makes
+    the compounded span None -- a gap is disclosed, never filled with zero.
+    """
+    out = [None] * int(n_sessions)
+    for t in range(1, int(n_sessions)):
+        vals = []
+        for s in universe:
+            r = _cum_return(prices.get(s), t - 1, t)
+            if r is not None:
+                vals.append(r)
+        if vals:
+            out[t] = sum(vals) / float(len(vals))
+    return out
+
+
+def _compound_between(rets, i0, i1):
+    """(E74) compound the wide book from session i0 to i1 (exclusive of i0)."""
+    if not rets or i0 is None or i1 is None or i1 <= i0:
+        return None
+    if i0 < 0 or i1 >= len(rets):
+        return None
+    acc = 1.0
+    for t in range(i0 + 1, i1 + 1):
+        if rets[t] is None:
+            return None
+        acc *= (1.0 + rets[t])
+    return acc - 1.0
+
+
+def _max_session_jump(series, i0, i1):
+    """(E74) largest absolute move between two consecutive PRICED closes.
+
+    The panel carries some names unadjusted, so a share split prints as a -90%
+    "return" and a stale-tail total can be one corporate action. Missing bars
+    are skipped rather than aborting the screen: the split itself often hides a
+    suspension gap (a None session sits right beside it), so a None-blind scan
+    would miss the very artefact it is looking for. Fewer than two priced closes
+    in the span leaves the event unjudged (None), never clean.
+    """
+    if series is None or i0 is None or i1 is None or i1 <= i0:
+        return None
+    if i0 < 0 or i1 >= len(series):
+        return None
+    worst, last, n_priced = 0.0, None, 0
+    for t in range(i0, i1 + 1):
+        v = series[t]
+        if v is None or v <= 0:
+            continue
+        n_priced += 1
+        if last is not None:
+            r = v / float(last) - 1.0
+            if abs(r) > worst:
+                worst = abs(r)
+        last = v
+    return worst if n_priced >= 2 else None
+
+
+def _relative_reading(raw_bp, rel_bp, shrink_share=0.25, floor_bp=5.0):
+    """(E74) label whether a raw tail collapses once the book is subtracted.
+
+    A label, not a test: 'collapsed' when the relative number is inside
+    max(floor_bp, shrink_share * |raw|), 'survives' when it keeps at least half
+    the raw magnitude with the same sign, 'partial' otherwise.
+    """
+    if raw_bp is None or rel_bp is None:
+        return "insufficient"
+    mag = max(floor_bp, shrink_share * abs(raw_bp))
+    if abs(rel_bp) <= mag:
+        return "collapsed"
+    if (raw_bp > 0) == (rel_bp > 0) and abs(rel_bp) >= 0.5 * abs(raw_bp):
+        return "survives"
+    return "partial"
+
+
+def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
+    """E74: is the stale tail a name effect, or the market's own path?
+
+    E72 priced the tail raw and its sign flipped era to era (+282bp/yr pre2017,
+    -226bp/yr 2021_2023, +1.6bp/yr 2024_now), which is the signature of beta
+    rather than a membership mechanism. This leg re-charges the SAME events
+    against the wide book over the identical sessions: an event that merely
+    moved with the market nets to ~0, and only a surviving excess is a name
+    effect worth naming.
+    """
+    ds = _stale_hold_inputs(start, pick_n, exclude)
+    cal, cutoff, prices = ds["cal"], ds["cutoff"], ds["prices"]
+    me_idxs, me_books = ds["me_idxs"], ds["me_books"]
+    wk_idxs, wk_books = ds["wk_idxs"], ds["wk_books"]
+    universe, dropped = ds["universe"], ds["dropped"]
+    rets = _wide_session_returns(prices, universe, len(cal))
+
+    events, skipped = _stale_hold_events(
+        me_idxs, me_books, wk_idxs, wk_books,
+        lambda s, a, b: _cum_return(prices.get(s), a, b),
+        book_ret_fn=lambda a, b: _compound_between(rets, a, b))
+    for e in events:
+        e["date"] = cal[e["me_session"]]
+        e["weekly_exit_date"] = cal[e["weekly_session"]]
+        jump = _max_session_jump(prices.get(e["name"]), e["weekly_session"],
+                                 e["me_session"])
+        e["max_session_jump_pct"] = (round(jump * 100.0, 3)
+                                     if jump is not None else None)
+        e["artefact"] = jump is not None and jump > ARTEFACT_JUMP
+    n_artefact = len([e for e in events if e["artefact"]])
+
+    years = _years_between(cal[me_idxs[0]], cal[me_idxs[-1]]) if me_idxs else None
+    raw_all = _stale_aggregate(events, years)
+    rel_all = _stale_aggregate(events, years, key="relative_bp_contrib",
+                               ret_key="excess_return_pct")
+    clean = [e for e in events if not e.get("artefact")]
+    raw_clean = _stale_aggregate(clean, years)
+    rel_clean = _stale_aggregate(clean, years, key="relative_bp_contrib",
+                                 ret_key="excess_return_pct")
+    raw_overall, rel_overall = raw_clean, rel_clean
+    by_era, by_era_raw = {}, {}
+    for name, lo, hi in ERAS:
+        rows_all = [e for e in events if _in_era(e["date"][:7], lo, hi)]
+        rows = [e for e in rows_all if not e.get("artefact")]
+        era_years = (_years_between(rows[0]["date"], rows[-1]["date"])
+                     if len(rows) > 1 else None)
+        by_era_raw[name] = _stale_aggregate(rows_all, era_years)
+        rel = _stale_aggregate(rows, era_years, key="relative_bp_contrib",
+                               ret_key="excess_return_pct")
+        rel["reading"] = _relative_reading(
+            _stale_aggregate(rows, era_years)["bp_per_year"],
+            rel["bp_per_year"])
+        rel["artefacts_excluded"] = len(rows_all) - len(rows)
+        by_era[name] = rel
+
+    sessions_span = (me_idxs[-1] - me_idxs[0]) if len(me_idxs) > 1 else 0
+    face = {
+        "study": "e74_stale_hold_relative",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "start": start, "universe_members": len(universe),
+                 "dropped_decisions": dropped,
+                 "calendars": {"me": len(me_idxs), "week": len(wk_idxs)},
+                 "sessions_span": sessions_span, "years": years,
+                 "wide_book": "equal weight of every universe member priced at "
+                              "both t-1 and t, compounded over the event span",
+                 "charge": "1/n_held_before of the monthly book, name's own "
+                           "return minus the wide book's return over the same "
+                           "sessions",
+                 "artefact_guard": "event excluded from the priced tail when the "
+                                   "largest single-session move inside its span "
+                                   "exceeds %.0f%% (a corporate action printed on "
+                                   "an unadjusted series)" % (100.0 * ARTEFACT_JUMP)},
+        "tail": {"raw_all_events": raw_all, "raw_clean": raw_clean,
+                 "relative_all_events": rel_all, "relative_clean": rel_clean},
+        "artefacts": {"excluded_events": n_artefact,
+                      "jump_threshold_pct": round(100.0 * ARTEFACT_JUMP, 2),
+                      "events": [{"date": e["date"], "name": e["name"],
+                                  "return_pct": e["return_pct"],
+                                  "max_session_jump_pct": e["max_session_jump_pct"],
+                                  "bp_contrib": e["bp_contrib"]}
+                                 for e in events if e["artefact"]]},
+        "by_era": by_era,
+        "by_era_raw": by_era_raw,
+        "skipped": skipped,
+        "answers": {
+            "stale_events": raw_clean["events"],
+            "stale_events_all": raw_all["events"],
+            "artefacts_excluded": n_artefact,
+            "raw_total_bp": raw_clean["total_bp"],
+            "raw_bp_per_year": raw_clean["bp_per_year"],
+            "raw_all_events_total_bp": raw_all["total_bp"],
+            "raw_all_events_bp_per_year": raw_all["bp_per_year"],
+            "relative_total_bp": rel_clean["total_bp"],
+            "relative_bp_per_year": rel_clean["bp_per_year"],
+            "relative_negative_share": rel_clean["negative_share"],
+            "relative_share_of_raw": (
+                round(rel_clean["bp_per_year"] / raw_clean["bp_per_year"], 4)
+                if raw_clean["bp_per_year"] else None),
+            "relative_reading": _relative_reading(raw_clean["bp_per_year"],
+                                                  rel_clean["bp_per_year"]),
+            "relative_all_events_bp_per_year": rel_all["bp_per_year"],
+            "era_relative_reading": {k: v["reading"] for k, v in by_era.items()},
+            "era_relative_bp_per_year": {k: v["bp_per_year"]
+                                         for k, v in by_era.items()},
+            "era_raw_bp_per_year": {k: v["bp_per_year"]
+                                    for k, v in by_era_raw.items()},
+            "newest_era_relative_bp": by_era.get("2024_now", {}).get("total_bp"),
+            "residual_to_explain_bp": -45.0,
+            "residual_source": "E70 weeklyclash cost face (full weekly grid vs "
+                               "month-end, x0/x3 residual, 2020 start)",
+        },
+        "honest": [
+            "the wide book is the whole live universe equal weight, which is the "
+            "same book both calendars hold here (pick_n=%d); the relative face "
+            "therefore measures the cross-sectional excess of the exiting names, "
+            "not a size or style mismatch" % pick_n,
+            "relative bp = name return minus the wide book's compounded return "
+            "over the identical sessions, still charged at 1/n of the dropping "
+            "book; it is an arithmetic difference, not a hedged P&L",
+            "events whose span contains a session with no priced universe member "
+            "are counted in skipped.unpriced_book and excluded from the relative "
+            "columns only -- the raw columns keep them",
+            "reading labels come from a 0.25 shrink share with a 5bp floor and "
+            "are published as labels, not as a test; no prereg covers them",
+            "an era with a handful of events (pre2017 rests on ~19) gives a "
+            "bp/yr that divides a small total by a short span -- read the event "
+            "count beside any era rate",
+            "the -45bp residual is quoted from the E70 face as published; the "
+            "relative tail is reported in its own bp/yr and is never added to it",
+            "the artefact guard is a daily-limit screen, not an adjustment: a name "
+            "whose series is unadjusted prints a split as a -90% tail, and such an "
+            "event is excluded from the priced columns and listed in `artefacts` "
+            "with its largest single-session move -- the all-events columns are "
+            "kept beside the guarded ones so nothing is silently dropped",
             "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
         ],
     }
@@ -4821,6 +5082,54 @@ def selftest():
         and _years_between(None, "2020-01-01") is None,
         "a zero-length or malformed span has no year rate")
 
+    # E74 relative stale tail: the same events charged against the wide book so
+    # a market-wide move nets out and only a name effect can survive
+    _px2 = {"a": [1.0] * 6, "b": [1.0] * 6}
+    _wr = _wide_session_returns(_px2, ["a", "b"], 6)
+    chk(len(_wr) == 6 and _wr[0] is None and abs(_wr[3]) < 1e-15,
+        "the wide book return starts empty and averages flat names to zero")
+    chk(_wide_session_returns({"a": [1.0, 1.2, None]}, ["a"], 3)[2] is None,
+        "a session with no priced member reads None, not a flat zero")
+    chk(abs(_compound_between([None, 0.1, 0.1], 0, 2) - 0.21) < 1e-12,
+        "the wide book compounds its per-session returns over the span")
+    chk(_compound_between([None, 0.1, None, 0.1], 0, 3) is None
+        and _compound_between([None, 0.1], 1, 1) is None,
+        "a gap inside the span and a zero-length span are both None")
+    _ev2, _sk2 = _stale_hold_events(
+        _me_i, _me_b, _wk_i, _wk_b,
+        lambda s, a, b: _cum_return(_px[s], a, b),
+        book_ret_fn=lambda a, b: -0.10)
+    chk(len(_ev2) == 1 and abs(_ev2[0]["bp_contrib"] + 500.0) < 1e-9
+        and abs(_ev2[0]["relative_bp_contrib"]) < 1e-9
+        and abs(_ev2[0]["excess_return_pct"]) < 1e-9,
+        "a tail that is exactly the book's move nets to zero relative bp")
+    _ev3, _sk3 = _stale_hold_events(
+        _me_i, _me_b, _wk_i, _wk_b,
+        lambda s, a, b: _cum_return(_px[s], a, b),
+        book_ret_fn=lambda a, b: None)
+    chk(_sk3["unpriced_book"] == 1 and "relative_bp_contrib" not in _ev3[0],
+        "an unpriceable reference span is disclosed beside the raw event")
+    chk(_stale_aggregate(_ev2, 1.0, key="relative_bp_contrib",
+                         ret_key="excess_return_pct")["events"] == 1
+        and _stale_aggregate(_ev, 1.0, key="relative_bp_contrib")["events"] == 0,
+        "the relative aggregate counts only events that carry a relative charge")
+    chk(_relative_reading(-500.0, 0.0) == "collapsed"
+        and _relative_reading(-100.0, -90.0) == "survives"
+        and _relative_reading(-100.0, 120.0) == "partial"
+        and _relative_reading(-3.0, 4.0) == "collapsed"
+        and _relative_reading(None, 5.0) == "insufficient",
+        "the collapse label uses the shrink share with a small-raw floor")
+    chk(abs(_max_session_jump(_px["b"], 2, 5) - 0.10) < 1e-9
+        and _max_session_jump([1.0, 10.4, 0.87], 0, 2) > ARTEFACT_JUMP,
+        "a split prints as a jump past the daily-limit screen, a normal move does not")
+    chk(_max_session_jump([1.0, None, 0.9], 0, 2) is not None
+        and abs(_max_session_jump([1.0, None, 0.9], 0, 2) - 0.10) < 1e-9
+        and _max_session_jump([1.0, 10.4, None, 0.87], 0, 3) > ARTEFACT_JUMP,
+        "a missing bar does not hide the split behind it -- priced pairs are compared")
+    chk(_max_session_jump([1.0, 1.0], 1, 1) is None
+        and _max_session_jump([None, 1.0], 0, 1) is None,
+        "a zero-length span and a single priced close leave the jump unjudged")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -4834,7 +5143,8 @@ def main(argv):
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
-                             "weeklyclash", "weeknames", "stalehold", "all", "selftest"])
+                             "weeklyclash", "weeknames", "stalehold", "staletail",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -5203,6 +5513,22 @@ def main(argv):
                           "by_era": {k: {"events": v["events"],
                                          "total_bp": v["total_bp"],
                                          "bp_per_year": v["bp_per_year"]}
+                                     for k, v in f["by_era"].items()},
+                          "skipped": f["skipped"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "staletail":
+        f = run_staletail(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "STALETAIL-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "staletail", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "by_era": {k: {"events": v["events"],
+                                         "total_bp": v["total_bp"],
+                                         "bp_per_year": v["bp_per_year"],
+                                         "reading": v["reading"]}
                                      for k, v in f["by_era"].items()},
                           "skipped": f["skipped"]},
                          ensure_ascii=False))
