@@ -20989,7 +20989,14 @@
   },
   {
    "id": "E63-MIDSWEEP-COSTFACE",
-   "status": "inline",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSWEEP-20261020-c0_3.json",
+    "results/e44_midmonth/MIDSWEEP-20261020-s20130101-c0_3.json"
+   ],
+   "closed_at": "2026-10-21T09:45:00+08:00",
+   "closed_by": "bm-b",
+   "outcome": "cost-invariant: every sweep day shifts 0.0bp between x0 and x3 on both windows, while the fee itself is 22.1-23.2bp/yr across all six calendars (0.5bp spread) -> the off-cycle penalty is a price-path effect, not a trading-cost effect",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21014,8 +21021,21 @@
    "entered_by": "bm-b r1135",
    "evidence_cutoff": "2026-10-20",
    "runner_note": "needs the engine's first-invested index (e27 aux / curve faces) exposed per era slice beside the ann gap"
+  },
+  {
+   "id": "E65-MIDSWEEP-ENTRY-DELAY",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E63 removed the fee channel, so the off-cycle penalty is a path effect. Separate WHEN the book is struck from WHICH names it holds: keep the month-end book but delay the entry by 1/3/5/10 sessions (_shift_indices already exists). If a delayed month-end book loses the same 60-90bp, the effect is pure timing and membership is irrelevant; if it does not, the loss arrives with the names.",
+   "deliverable": "results/e44_midmonth/ENTRYDELAY-<cutoff>.json",
+   "source": "r1136 E63: full-window and era gap shifts are 0.0bp between x0 and x3 at all five days on both windows; fee parity 22.1-23.2bp/yr",
+   "entered_at": "2026-10-21T09:45:00+08:00",
+   "entered_by": "bm-b r1136",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "add an entrydelay leg: me_idxs shifted by k in (1,3,5,10) against me_idxs unshifted, x0 cost only (the fee axis is closed), one rank cache; tag each face with the shift so a k=1 run cannot overwrite k=3"
   }
-
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

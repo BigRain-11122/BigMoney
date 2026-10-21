@@ -20903,31 +20903,138 @@
   },
   {
    "id": "E57-MIDMONTH-CHASE-NAMES",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
    "title": "Newest era: the mid-month book buys names that then lag the names it drops (-123.7bp per swap against +95.6bp at month-end; 48.1% vs 42.9% of swaps negative). Name the swaps: top-10 swapped-in symbols per era for both calendars, and whether mid-month's entrants are symbols month-end later drops (chase evidence) or a disjoint set (a different universe slice).",
    "deliverable": "results/e44_midmonth/CHASE-<cutoff>.json",
    "source": "r1132 E44 churn sleeve: turnover identical (0.591 vs 0.594/yr, fee gap ~2bp) while churn alpha gaps -219.3bp per swap",
-   "entered_at": "%s",
+   "entered_at": "2026-10-21T08:44:00+08:00",
    "entered_by": "bm-b r1132",
    "evidence_cutoff": "2026-10-20",
-   "runner_note": "needs a --detail leg in scripts/e39_panel_census.py dumping the per-transition entrant/exit symbol lists (the churn rows carry counts and sleeves, not names)"
+   "runner_note": "r1134: chase leg added to scripts/e39_panel_census.py (entrant-level symbol lists, bucketed against the other calendar's next book); selftest 85/85. Answer: chase is dead (0.15% of entrants), the gap is entirely in the off-book slice (+0.67% vs +2.30% per swap) and it flips sign by era",
+   "result_ref": [
+    "results/e44_midmonth/CHASE-20261020.json",
+    "research/digests/DIGEST-20261021-e57-chase-names.md"
+   ],
+   "closed_at": "2026-10-21T09:05:00+08:00",
+   "closed_by": "bm-b"
   },
   {
    "id": "E58-PARTS-CUT-CURVE",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
    "title": "The E46 band series is a claim about the cut, not the strategy: eleven cuts exist as eleven single faces and the owning part moves with the cut (pre2017 3007bp at tenths -> 8393bp at elevenths). Emit one face that sweeps parts 2..12 and reports band-vs-cut plus the widest part's window per cut, so the family can be quoted with its own error bar or closed.",
    "deliverable": "results/e46_live_span/CUTCURVE-<cutoff>.json",
    "source": "r1131/r1132 band boundary-mobility (same rally leg: -4241bp at ninths, -5745 at tenths, -7182 at elevenths)",
-   "entered_at": "%s",
+   "entered_at": "2026-10-21T08:44:00+08:00",
    "entered_by": "bm-b r1132",
    "evidence_cutoff": "2026-10-20",
-   "runner_note": "needs a loop leg reusing run_livespan(parts=k) for k=2..12 (~8s per cut); it closes the family, it does not seed a twelfth cut"
+   "runner_note": "r1133: cutcurve leg added to scripts/e39_panel_census.py (one warm pair per cost level, sliced k=2..12); selftest 79/79",
+   "result_ref": [
+    "results/e46_live_span/CUTCURVE-20261020.json"
+   ],
+   "closed_at": "2026-10-21T08:36:18+08:00",
+   "closed_by": "bm-b"
+  },
+  {
+   "id": "E59-MIDDAY-SWEEP",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSWEEP-20261020.json"
+   ],
+   "closed_at": "2026-10-21T09:12:00+08:00",
+   "closed_by": "bm-b",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E57 says the mid-month penalty lives in the off-book slice and flips sign by era. Is that a property of day 15 or of any off-cycle date? Sweep mid_day in {5, 10, 15, 20, 25} on one identical universe and rank cache, and report the disjoint-bucket per-swap spread against month-end for each day and era.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-<cutoff>.json",
+   "source": "r1134 E57 chase face: mid disjoint +0.67%/swap vs me disjoint +2.30% in 2024_now, sign reversed in 2021_2023; chase bucket 0.15%",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a midsweep leg reusing _chase_rows over several mid_day values; one rank cache shared across all days (the E57 leg already caches by bar index)"
+  },
+  {
+   "id": "E60-OFFBOOK-LIQUIDITY",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Is the off-book penalty a liquidity story? Bucket the disjoint entrants by trailing 60-session amount at the decision bar and report the per-swap spread per liquidity tercile for both calendars, so a thin-name reading can be separated from a timing reading.",
+   "deliverable": "results/e44_midmonth/OFFBOOK-<cutoff>.json",
+   "source": "r1134 E57 chase face: the whole 2024_now gap sits in the disjoint slice (+0.67% vs +2.30% per swap)",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs an offbook leg; amounts are already loaded by run_chase, so the only new work is the trailing-60 median and the tercile split"
+  },
+  {
+   "id": "E61-SHARED-SUBSET-BOOK",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E57 shows the two calendars agree on half their entrants and earn the same on them. Ask the engine the portfolio question the name-level leg cannot: restrict the candidate set to names both calendars hold at the same session and re-run the mid-month arm, so the calendar cost can be split into a selection part and a timing part.",
+   "deliverable": "results/e44_midmonth/SHAREDBOOK-<cutoff>.json",
+   "source": "r1134 E57: other_still_holds bucket is 50.4% of mid entrants at +0.96% vs +0.89% for month-end",
+   "entered_at": "2026-10-21T09:05:00+08:00",
+   "entered_by": "bm-b r1134",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a sharedbook leg: intersect the two calendars' books at each session, hand the intersection to e27.simulate as the universe slice, and compare x0 arms only (cost is already answered)"
+  },
+  {
+   "id": "E63-MIDSWEEP-COSTFACE",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSWEEP-20261020-c0_3.json",
+    "results/e44_midmonth/MIDSWEEP-20261020-s20130101-c0_3.json"
+   ],
+   "closed_at": "2026-10-21T09:45:00+08:00",
+   "closed_by": "bm-b",
+   "outcome": "cost-invariant: every sweep day shifts 0.0bp between x0 and x3 on both windows, while the fee itself is 22.1-23.2bp/yr across all six calendars (0.5bp spread) -> the off-cycle penalty is a price-path effect, not a trading-cost effect",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E59 put every off-cycle decision date below month-end at the same turnover (0.565-0.594 turns/yr), so the -55..-87bp newest-era penalty is not fees. Burn the sweep at zero cost: if the gap survives x0 it is a price-path effect of when the book is struck, not a trading-cost effect; x3 bounds the cost channel from the other side.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-C-<cutoff>.json",
+   "source": "r1135 E59: newest-era gaps mid5 -71 / mid10 -85 / mid15 -87 / mid20 -55 / mid25 -64bp with identical turnover",
+   "entered_at": "2026-10-21T09:12:00+08:00",
+   "entered_by": "bm-b r1135",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "run_midsweep(days=(5,15,25), costs=(0.0,1.0,3.0)) on the existing leg -- ~12 sims, single core, ~40s; needs a filename that carries the cost field so the x0 face cannot overwrite x1"
+  },
+  {
+   "id": "E64-MIDSWEEP-BURNIN-FACE",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The start-2020 sweep prints an EXACT 0.0bp gap in every older era because that slice is entirely inside the eligibility burn-in cash block, so the full-window gap is a cash artefact of the window. Make the leg report the first invested bar and the cash share of each era slice beside the gap so a degenerate slice cannot read as calendar robustness.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-<cutoff>.json (cash_share_pct per era)",
+   "source": "r1135 E59: 2017_2020 gap 0.0bp for all five days at start 2020, and the same era reads -26..+1bp at start 2013",
+   "entered_at": "2026-10-21T09:12:00+08:00",
+   "entered_by": "bm-b r1135",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs the engine's first-invested index (e27 aux / curve faces) exposed per era slice beside the ann gap"
+  },
+  {
+   "id": "E65-MIDSWEEP-ENTRY-DELAY",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E63 removed the fee channel, so the off-cycle penalty is a path effect. Separate WHEN the book is struck from WHICH names it holds: keep the month-end book but delay the entry by 1/3/5/10 sessions (_shift_indices already exists). If a delayed month-end book loses the same 60-90bp, the effect is pure timing and membership is irrelevant; if it does not, the loss arrives with the names.",
+   "deliverable": "results/e44_midmonth/ENTRYDELAY-<cutoff>.json",
+   "source": "r1136 E63: full-window and era gap shifts are 0.0bp between x0 and x3 at all five days on both windows; fee parity 22.1-23.2bp/yr",
+   "entered_at": "2026-10-21T09:45:00+08:00",
+   "entered_by": "bm-b r1136",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "add an entrydelay leg: me_idxs shifted by k in (1,3,5,10) against me_idxs unshifted, x0 cost only (the fee axis is closed), one rank cache; tag each face with the shift so a k=1 run cannot overwrite k=3"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -20942,7 +21049,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T08:10:13+08:00",
+ "updated_at": "2026-10-21T08:36:18+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

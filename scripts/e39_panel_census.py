@@ -3236,11 +3236,43 @@ def _sweep_gaps(books, cost="x1", eras=ERAS):
         out[label] = {
             "offset": books[label].get("offset", {}),
             "turnover_per_year": arm.get("turnover_per_year"),
+            "cost_per_year_bp": arm.get("cost_per_year_bp"),
             "full_window_ann_pct": full,
             "full_window_gap_bp": round((full - me_full) * 100, 1)
             if full is not None and me_full is not None else None,
             "eras": row_eras,
         }
+    return out
+
+
+def _cost_face(gaps, lo_tag, hi_tag, eras=ERAS):
+    """E63: does the off-cycle gap survive when the fee is switched off?
+
+    A gap that is unchanged between cost levels is a price-path effect -- the
+    off-cycle book holds different names over the same months. A gap that moves
+    with the fee is the trading cost of the date. Both faces of every sweep day
+    are reported; nothing here decides which reading is right.
+    """
+    out = {}
+    for label in sorted(gaps.get(hi_tag, {})):
+        a = gaps.get(lo_tag, {}).get(label, {})
+        b = gaps.get(hi_tag, {}).get(label, {})
+        fa, fb = a.get("full_window_gap_bp"), b.get("full_window_gap_bp")
+        row = {"full_window_gap_bp": {lo_tag: fa, hi_tag: fb},
+               "full_window_shift_bp": round(fb - fa, 1)
+               if fa is not None and fb is not None else None,
+               "turnover_per_year": {lo_tag: a.get("turnover_per_year"),
+                                     hi_tag: b.get("turnover_per_year")},
+               "cost_per_year_bp": {lo_tag: a.get("cost_per_year_bp"),
+                                    hi_tag: b.get("cost_per_year_bp")},
+               "eras": {}}
+        for name, _lo, _hi in eras:
+            ea = a.get("eras", {}).get(name, {}).get("gap_bp")
+            eb = b.get("eras", {}).get(name, {}).get("gap_bp")
+            row["eras"][name] = {lo_tag: ea, hi_tag: eb,
+                                 "shift_bp": round(eb - ea, 1)
+                                 if ea is not None and eb is not None else None}
+        out[label] = row
     return out
 
 
@@ -3301,6 +3333,8 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             arms["x%g" % cm] = {
                 "rebalances": aux["rebalances"],
                 "turnover_per_year": round(aux["turnover_total"] / years, 3) if years else None,
+                "cost_per_year_bp": round(aux["cost_paid_frac"] / years * 1e4, 1)
+                if years else None,
                 "full_window_ann_pct": risk_profile(curve, years)["ann_return_pct"],
                 "eras": era_rows,
             }
@@ -3316,6 +3350,8 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     pts = [(gaps[("x%g" % costs[0])][lab]["offset"]["mean_sessions_to_month_end"], v)
            for lab, v in newest_gap.items() if v is not None]
     spread = (max(v for _o, v in pts) - min(v for _o, v in pts)) if len(pts) > 1 else None
+    cost_face = (_cost_face(gaps, "x%g" % costs[0], "x%g" % costs[-1])
+                 if len(costs) > 1 else None)
     return {
         "study": "e59_midday_sweep",
         "evidence_cutoff": cutoff,
@@ -3326,19 +3362,29 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "books": {lab: {"decision_days": b["decision_days"], "offset": b["offset"],
                         "arms": b["arms"]} for lab, b in books.items()},
         "gaps": gaps,
+        "cost_face": cost_face,
         "answers": {
             "baseline_calendar": "me",
             "sweep_days": list(days),
+            "cost_levels": list(costs),
             "full_window_gap_bp": {lab: g["full_window_gap_bp"]
                                    for lab, g in gaps[("x%g" % costs[0])].items()},
             "newest_era_gap_bp": newest_gap,
             "newest_era_gap_spread_bp": round(spread, 1) if spread is not None else None,
             "offset_sessions": {lab: g["offset"]["mean_sessions_to_month_end"]
                                 for lab, g in gaps[("x%g" % costs[0])].items()},
+            "cost_gap_shift_bp": ({lab: v["full_window_shift_bp"]
+                                   for lab, v in cost_face.items()}
+                                  if cost_face else None),
         },
         "honest": [
-            "one cost level by default: the sweep is about the calendar axis, and the "
-            "cost signature of these cuts has been the same -8..-13bp since thirds",
+            ("one cost level by default: the sweep is about the calendar axis, and the "
+             "cost signature of these cuts has been the same -8..-13bp since thirds")
+            if len(costs) == 1 else
+            ("two cost levels: x%g switches the engine fee off entirely, so a gap that "
+             "survives x%g is a price-path effect and not the cost of trading on that "
+             "date; the x%g column is the same sweep with the fee switched back on"
+             % (costs[0], costs[0], costs[-1])),
             "the five days are fixed dates, not a fitted optimum: no date here is "
             "searched for and none may be read as a recommendation",
             "both calendars share one universe and one rank cache, so the only moving "
@@ -3636,6 +3682,25 @@ def selftest():
     chk(_sweep_gaps(sbook, "x3", eras=(("A", "a", "b"),))["mid10"]["full_window_gap_bp"] is None,
         "a cost level with no arm reports no gap instead of a zero")
 
+    # E63 cost face: the shift is the fee signature of a sweep day, and a
+    # missing arm reports None instead of a silent zero shift
+    cg = {"x0": {"mid10": {"full_window_gap_bp": -60.0, "turnover_per_year": 0.58,
+                           "eras": {"A": {"gap_bp": -70.0}}}},
+          "x3": {"mid10": {"full_window_gap_bp": -68.0, "turnover_per_year": 0.58,
+                           "eras": {"A": {"gap_bp": -66.0}}}}}
+    face = _cost_face(cg, "x0", "x3", eras=(("A", "a", "b"),))
+    chk(face["mid10"]["full_window_shift_bp"] == -8.0,
+        "cost shift is x3 minus x0 on the same sweep day")
+    chk(face["mid10"]["eras"]["A"]["shift_bp"] == 4.0,
+        "era shift is signed per era, not folded into the full window")
+    chk(face["mid10"]["turnover_per_year"]["x0"] == 0.58,
+        "the cost face carries turnover beside the gap it is pricing")
+    cg_missing = {"x0": {"mid10": {"full_window_gap_bp": -60.0, "eras": {}}},
+                  "x3": {"mid10": {"full_window_gap_bp": None, "eras": {}}}}
+    chk(_cost_face(cg_missing, "x0", "x3", eras=(("A", "a", "b"),))
+        ["mid10"]["full_window_shift_bp"] is None,
+        "an unpriced cost arm leaves the shift unknown, not zero")
+
     # era attribution follows the decision date, not the next date
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
@@ -3657,6 +3722,8 @@ def main(argv):
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
     ap.add_argument("--start", default="2020-01-01", help="window start (midmonth leg)")
+    ap.add_argument("--costs", default="",
+                    help="comma-separated cost multiples (midsweep leg, e.g. 0,3)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -3916,11 +3983,14 @@ def main(argv):
                          ensure_ascii=False))
         return 0
     if args.mode == "midsweep":
-        f = run_midsweep(None, start=args.start)
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        f = run_midsweep(None, start=args.start, costs=costs)
         outdir = os.path.join(ROOT, "results", "e44_midmonth")
-        p = write_json(outdir, "MIDSWEEP-%s%s.json"
-                       % (f["evidence_cutoff"].replace("-", ""),
-                          "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")), f)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        cost_tag = "" if costs == (1.0,) else "-c%s" % "_".join("%g" % c for c in costs)
+        p = write_json(outdir, "MIDSWEEP-%s%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
         print(json.dumps({"leg": "midsweep", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
         return 0
