@@ -2522,9 +2522,13 @@ def _split_curve(curve, parts):
            [curve[(parts - 1) * step:]]
 
 
-def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
-                 cost_mult=1.0):
-    """E46: split every era in halves and read where its spread is earned."""
+def _livespan_setup(exclude=("sh511",), pick_n=9999, cost_mult=1.0):
+    """Warm pair (ladder vs wide book) on the full calendar, computed once.
+
+    Shared by run_livespan (one cut per call) and run_cutcurve (parts 2..12
+    over the same curves), so a cut sweep pays for the simulation once per
+    cost level instead of once per cut.
+    """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
@@ -2547,7 +2551,12 @@ def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
         curve, _aux, _hold = e27.simulate(cal, prices, amounts, univ,
                                           base.load_cash_series(cal), n, cost_mult, {})
         curves[name] = curve
+    return {"cutoff": cutoff, "curves": curves, "universe": universe,
+            "wide_name": wide_name}
 
+
+def _livespan_rows(curves, eras, parts, wide_name):
+    """Per-era part rows for one cut (the E46 split body)."""
     rows = {}
     for era_name, lo, hi in eras:
         lad = [pt for pt in curves["ladder5"]
@@ -2576,6 +2585,20 @@ def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
                             if spreads else None),
             "part_band_bp": (round(max(spreads) - min(spreads), 1) if spreads else None),
         }
+    return rows
+
+
+def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
+                 cost_mult=1.0):
+    """E46: split every era in `parts` chunks and read where its spread is earned."""
+    import e24_ladder_weighting as base
+
+    setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost_mult)
+    cutoff = setup["cutoff"]
+    curves = setup["curves"]
+    universe = setup["universe"]
+    wide_name = setup["wide_name"]
+    rows = _livespan_rows(curves, eras, parts, wide_name)
     flipped = [k for k, v in rows.items() if v.get("sign_flips_inside_era")]
     return {
         "study": "e46_live_span_split",
@@ -2601,6 +2624,116 @@ def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
             "sessions and unequal in spans only by trading density",
             "an internal sign flip does not say which half is the future; it says the era's "
             "single number is an average of two different markets and must be quoted as such",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _cut_summary(rows):
+    """Cut-level roll-up of _livespan_rows: who flips, how wide, which parts are dead.
+
+    Pure function so the sweep's arithmetic is testable without a panel.
+    """
+    flips = sorted(k for k, v in rows.items() if v.get("sign_flips_inside_era"))
+    bands = {k: v.get("part_band_bp") for k, v in rows.items()
+             if v.get("part_band_bp") is not None}
+    dead = {}
+    for k, v in rows.items():
+        spreads = [s for s in (v.get("part_spreads_bp") or []) if s is not None]
+        n_dead = sum(1 for s in spreads if abs(s) < 0.05)
+        if n_dead:
+            dead[k] = n_dead
+    vals = sorted(bands.values())
+    med = None
+    if vals:
+        n = len(vals)
+        med = round(vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2.0, 1)
+    return {"eras_flipping": flips,
+            "flip_count": len(flips),
+            "bands_bp": bands,
+            "band_mean_bp": round(sum(vals) / len(vals), 1) if vals else None,
+            "band_median_bp": med,
+            "band_widest_era": max(bands, key=lambda k: bands[k]) if bands else None,
+            "zero_spread_parts_by_era": dead}
+
+
+def _widest_window(row):
+    """'from..to' of an era's widest part, or None when the part is missing."""
+    wid = row.get("widest_part")
+    for p in (row.get("parts") or []):
+        if p.get("part") == wid:
+            return "%s..%s" % (p.get("from"), p.get("to"))
+    return None
+
+
+def run_cutcurve(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
+                 costs=(1.0, 3.0), parts_range=range(2, 13)):
+    """E58: one face over the whole cut axis (parts 2..12 at each cost level).
+
+    The eleven cuts exist as eleven single faces, so any claim about the band
+    is a claim about which cut it was cut at. This leg replays the same warm
+    pair once per cost level and slices it at every cut, so band-vs-cut,
+    flip-vs-cut and the widest part's window are readable side by side.
+    """
+    import e24_ladder_weighting as base
+
+    grid = {}
+    cutoffs = set()
+    for cost in costs:
+        setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost)
+        cutoffs.add(setup["cutoff"])
+        per_cut = {}
+        for parts in parts_range:
+            rows = _livespan_rows(setup["curves"], eras, parts, setup["wide_name"])
+            per_cut[str(parts)] = {
+                "summary": _cut_summary(rows),
+                "eras": {k: {"era_spread_bp": v.get("era_spread_bp"),
+                             "part_band_bp": v.get("part_band_bp"),
+                             "widest_part": v.get("widest_part"),
+                             "widest_window": _widest_window(v),
+                             "part_spreads_bp": v.get("part_spreads_bp")}
+                         for k, v in rows.items()},
+            }
+        grid["x%g" % cost] = per_cut
+
+    era_names = [n for n, _lo, _hi in eras]
+    levels = {}
+    drift = {}
+    for key, cuts in grid.items():
+        levels[key] = {e: sorted({c["eras"].get(e, {}).get("era_spread_bp")
+                                  for c in cuts.values()}) for e in era_names}
+        drift[key] = {}
+        for e in era_names:
+            vals = [c["eras"].get(e, {}).get("era_spread_bp") for c in cuts.values()]
+            vals = [v for v in vals if v is not None]
+            drift[key][e] = round(max(vals) - min(vals), 1) if vals else None
+
+    series = {key: {f: {p: cuts[p]["summary"][f] for p in cuts}
+                    for f in ("flip_count", "band_mean_bp", "band_median_bp",
+                              "band_widest_era")}
+              for key, cuts in grid.items()}
+    return {
+        "study": "e58_parts_cut_curve",
+        "evidence_cutoff": sorted(cutoffs)[-1],
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult": list(costs), "cost_bp_per_side": base.COST_BP_SIDE,
+                 "parts_swept": [min(parts_range), max(parts_range)],
+                 "curve": "one warm pair per cost level, sliced at every cut",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras]},
+        "cuts": grid,
+        "answers": {
+            "era_level_by_cost": levels,
+            "era_level_drift_bp": drift,
+            "series_by_cost": series,
+            "cuts_swept": len(list(parts_range)),
+        },
+        "honest": [
+            "the cuts are bar-count splits of one warm curve, not separate books: the "
+            "simulation is run once per cost level, so no cut can differ by engine state",
+            "a band is max(part spread) - min(part spread); the sweep shows how that range "
+            "moves with the cut, it does not convert a band into a risk or an error bar",
+            "widest_window names the window at that cut and can move when the cut moves, "
+            "so a window quoted without its cut is not reproducible",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
@@ -3048,6 +3181,29 @@ def selftest():
     chk(_split_curve([("d%d" % i, 1.0) for i in range(3)], 2) == [],
         "a slice too short to split is refused, not half-split")
 
+    # E58 cut roll-up: flip set, band stats and dead parts are read per cut
+    fake = {"A": {"part_spreads_bp": [10.0, -20.0, 0.0], "part_band_bp": 30.0,
+                  "sign_flips_inside_era": True, "widest_part": 1,
+                  "parts": [{"part": 1, "from": "2020-01-01", "to": "2020-02-01"},
+                            {"part": 2, "from": "2020-02-02", "to": "2020-03-01"}]},
+            "B": {"part_spreads_bp": [5.0, 7.0], "part_band_bp": 2.0,
+                  "sign_flips_inside_era": False, "widest_part": 2,
+                  "parts": [{"part": 1, "from": "2020-01-01", "to": "2020-02-01"},
+                            {"part": 2, "from": "2020-02-02", "to": "2020-03-01"}]}}
+    cup = _cut_summary(fake)
+    chk(cup["flip_count"] == 1 and cup["eras_flipping"] == ["A"],
+        "cut summary names exactly the eras that flip")
+    chk(cup["bands_bp"] == {"A": 30.0, "B": 2.0} and cup["band_widest_era"] == "A",
+        "cut summary keeps the per-era band and the widest era")
+    chk(cup["band_mean_bp"] == 16.0 and cup["band_median_bp"] == 16.0,
+        "band mean and median agree on a two-era cut")
+    chk(cup["zero_spread_parts_by_era"] == {"A": 1},
+        "a part with spread exactly 0 is counted as a dead band slot")
+    chk(_widest_window(fake["A"]) == "2020-01-01..2020-02-01",
+        "the widest part is reported with the window of that cut")
+    chk(_widest_window({"widest_part": 9, "parts": []}) is None,
+        "a missing widest part reports no window instead of guessing one")
+
     # E44 churn sleeve: identical books swap nothing
     ccal = ["2020-01-%02d" % d for d in (2, 3, 6, 7)]
     cpx = {"a": [1.0, 1.0, 1.0, 1.0], "b": [1.0, 1.0, 1.0, 1.0]}
@@ -3082,7 +3238,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
-                             "e46", "livespan", "midmonth", "all", "selftest"])
+                             "e46", "livespan", "cutcurve", "midmonth", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -3306,6 +3462,17 @@ def main(argv):
                                        "flip": v.get("sign_flips_inside_era")}
                                    for k, v in f["eras"].items()},
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "cutcurve":
+        f = run_cutcurve(None)
+        outdir = os.path.join(ROOT, "results", "e46_live_span")
+        p = write_json(outdir, "CUTCURVE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "cutcurve", "file": os.path.relpath(p, ROOT),
+                          "cuts_swept": f["answers"]["cuts_swept"],
+                          "series": f["answers"]["series_by_cost"],
+                          "era_level_drift_bp": f["answers"]["era_level_drift_bp"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "midmonth":
         f = run_midmonth(None, start=args.start)
