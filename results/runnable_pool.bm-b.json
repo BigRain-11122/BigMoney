@@ -21184,7 +21184,7 @@
   },
   {
    "id": "E73-LANE-FLIP-AKSHARE-TO-BMB",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/update_zt_pool.py + update_heat.py + update_repo.py + update_options.py + update_moneyflow.py + update_sina_mf.py + update_ths_panel.py + ah_panel_puller.py + update_fund_statements.py",
@@ -21194,7 +21194,10 @@
    "entered_at": "2026-10-21T23:32:00+08:00",
    "entered_by": "bm-b r1143",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "each collector keeps its provenance/overlap/fuse machinery; only the host constant changes. Land in one commit with a selftest matrix, not one script per round."
+   "runner_note": "each collector keeps its provenance/overlap/fuse machinery; only the host constant changes. Land in one commit with a selftest matrix, not one script per round.",
+   "result_ref": "config/lane_hosts.json + config/lane_io.py lane_host() + 9 collectors wired; selftest 30/30; live evidence: update_heat host no-op, update_zt_pool bm-b overlap flag (r1144 lane-flip round)",
+   "done_at": "2026-10-22T00:00:21+08:00",
+   "done_by": "bm-b r1144(flip row)"
   },
   {
    "id": "E74-STALE-TAIL-VS-BOOK",
@@ -21216,7 +21219,7 @@
   },
   {
    "id": "E75-PANEL-SPLIT-AUDIT",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21226,7 +21229,46 @@
    "entered_at": "2026-10-22T00:02:00+08:00",
    "entered_by": "bm-b r1145",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "reuse _max_session_jump per name over the full calendar; report the jump histogram, the list beyond the limit, and whether the affected dates fall inside any published era"
+   "runner_note": "reuse _max_session_jump per name over the full calendar; report the jump histogram, the list beyond the limit, and whether the affected dates fall inside any published era",
+   "result_ref": "results/e44_midmonth/PANELSPLIT-20261021.json + PANELSPLIT-20261021-s20130101.json + research/digests/DIGEST-20261021-e75-panelsplit.md",
+   "done_at": "2026-10-22T00:1x+08:00",
+   "done_by": "bm-b r1146",
+   "answers": {
+    "events": 161,
+    "names": 152,
+    "adjacent": 135,
+    "gapped": 26,
+    "down": 142,
+    "up": 19,
+    "integer_ratio_events": 74,
+    "non_integer_events": 87,
+    "total_book_bp": 1469.8,
+    "bp_per_year": 216.12,
+    "max_event_bp": 31.91,
+    "median_event_bp": 5.16,
+    "years": 6.80082135523614,
+    "panel_names": 1265,
+    "top_event": {
+     "name": "sh510580",
+     "date": "2024-09-02",
+     "ret_pct": 295.49,
+     "book_impact_bp": 31.91
+    }
+   }
+  },
+  {
+   "id": "E76-PANELSCREEN-REGRADE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E75 found 135 adjacent-session moves past the 30% screen on 152 ETF names, worth 216bp/yr of book impact -- 4.8x the -45bp residual the chain has been chasing, and 3 pre2017 prints worth 1607bp on a 14-name book. Add an opt-in screened loader (neutralise or drop the adjacent-impossibility prints) and re-derive one headline leg (ladder + era spread) screened vs unscreened so the correction is measured, not asserted.",
+   "deliverable": "results/e44_midmonth/SCREENREG-20261021.json + a screened/unscreened delta table on ladder + era spread",
+   "source": "r1146 E75 (161 events / 135 adjacent / 74 integer-ratio, 2020 start)",
+   "entered_at": "2026-10-22T00:1x+08:00",
+   "entered_by": "bm-b r1146",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "keep the unscreened face published beside the screened one; the screened loader must be opt-in so no existing face silently changes"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

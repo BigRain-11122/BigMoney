@@ -4604,6 +4604,212 @@ def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     return face
 
 
+# --------------------------------------------------------------- E75 panel splits
+
+def _panel_inputs(start, exclude):
+    """(E75) raw closes on the decision calendar -- no book, no rank, nothing dropped.
+
+    The split audit must see every name a census leg could ever charge, so it
+    skips the monthly/weekly book machinery and reads the closes directly.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items()
+               if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    prices = {}
+    for s in sorted(raw):
+        closes = raw[s][0]
+        prices[s] = [closes.get(d) for d in cal]
+    return cal, prices, sorted(raw), cal[-1]
+
+
+def _breadth(prices, universe, n_sessions):
+    """(E75) priced-member count per session -- the equal-weight book's divisor."""
+    out = [0] * int(n_sessions)
+    for s in universe:
+        for i, v in enumerate(prices.get(s) or []):
+            if v is not None and v > 0 and i < len(out):
+                out[i] += 1
+    return out
+
+
+def _split_ratio(ret):
+    """(E75) implied share ratio of a flagged move and its distance to an integer.
+
+    A 12:1 split prints as -91.7% and 1/(1+r) recovers the 12.0, so a move that
+    lands near an integer is a corporate action. One that does not is a
+    resumption, a restatement or a misprint -- a different thing to disclose.
+    """
+    if ret is None or ret <= -1.0:
+        return None
+    ratio = 1.0 / (1.0 + ret)
+    if ratio < 1.0:
+        ratio = 1.0 / ratio
+    nearest = int(round(ratio))
+    if nearest < 1:
+        nearest = 1
+    resid = abs(ratio / float(nearest) - 1.0)
+    return {"ratio": round(ratio, 4), "nearest_int": nearest,
+            "resid_pct": round(100.0 * resid, 3),
+            "integer_like": nearest >= 2 and resid <= 0.02}
+
+
+def _split_events(cal, prices, universe, breadth, thresh=ARTEFACT_JUMP):
+    """(E75) every panel-wide single-session move past the daily-limit screen.
+
+    Bars are compared against the previous PRICED close (a split frequently sits
+    next to a suspension bar, so a None-abort scan misses it -- the E74 lesson),
+    and the gap is carried on the event: an adjacent-session move past the limit
+    cannot be a real A-share print, while a gapped one can be a resumption.
+    """
+    events = []
+    for s in universe:
+        last, last_i = None, None
+        for i, v in enumerate(prices.get(s) or []):
+            if v is None or v <= 0:
+                continue
+            if last is not None:
+                r = v / float(last) - 1.0
+                if abs(r) > thresh:
+                    n = breadth[i] if i < len(breadth) else 0
+                    events.append({
+                        "name": s,
+                        "date": cal[i],
+                        "prev_date": cal[last_i],
+                        "prev_close": round(last, 4),
+                        "close": round(v, 4),
+                        "ret_pct": round(100.0 * r, 2),
+                        "direction": "down" if r < 0 else "up",
+                        "gap_sessions": i - last_i,
+                        "adjacent": (i - last_i) == 1,
+                        "era": _era_of(cal[i]),
+                        "breadth": n,
+                        "book_impact_bp": (round(10000.0 * abs(r) / n, 2)
+                                           if n else None),
+                        "implied_ratio": _split_ratio(r),
+                    })
+            last, last_i = v, i
+    return events
+
+
+def _split_summary(events, years):
+    """(E75) book-level cost of the flagged prints: one name in an n-name book."""
+    rows = [e for e in events if e.get("book_impact_bp") is not None]
+    impacts = [e["book_impact_bp"] for e in rows]
+    total = sum(impacts)
+    integer_like = [e for e in rows
+                    if (e.get("implied_ratio") or {}).get("integer_like")]
+    return {
+        "events": len(rows),
+        "names": len(set(e["name"] for e in rows)),
+        "adjacent": len([e for e in rows if e["adjacent"]]),
+        "gapped": len([e for e in rows if not e["adjacent"]]),
+        "down": len([e for e in rows if e["direction"] == "down"]),
+        "up": len([e for e in rows if e["direction"] == "up"]),
+        "integer_ratio_events": len(integer_like),
+        "non_integer_events": len(rows) - len(integer_like),
+        "total_book_bp": round(total, 2),
+        "bp_per_year": (round(total / years, 2) if years and years > 0 else None),
+        "max_event_bp": (round(max(impacts), 2) if impacts else None),
+        "median_event_bp": (round(_quant(impacts, 0.5), 2) if impacts else None),
+        "years": years,
+    }
+
+
+def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                   top_n=15):
+    """E75: how many published census numbers sit on unadjusted corporate actions?
+
+    E74 found 19 of 128 stale-tail events were unadjusted splits and that they
+    alone flipped an era column's sign. This leg asks the panel-wide version:
+    every single-session move past the 30% daily-limit screen, who it belongs to,
+    whether it lands on an integer share ratio, and what it costs an equal-weight
+    book (one name charges |r|/n).
+    """
+    cal, prices, universe, cutoff = _panel_inputs(start, exclude)
+    breadth = _breadth(prices, universe, len(cal))
+    events = _split_events(cal, prices, universe, breadth)
+    years = _years_between(cal[0], cal[-1]) if cal else None
+
+    by_era = {}
+    for name, lo, hi in ERAS:
+        rows = sorted([e for e in events if e.get("era") == name],
+                      key=lambda e: e["date"])
+        era_years = (_years_between(rows[0]["date"], rows[-1]["date"])
+                     if len(rows) > 1 else None)
+        by_era[name] = _split_summary(rows, era_years)
+    by_year = {}
+    for e in events:
+        y = e["date"][:4]
+        by_year[y] = by_year.get(y, 0) + 1
+
+    ranked = sorted([e for e in events if e.get("book_impact_bp") is not None],
+                    key=lambda e: -e["book_impact_bp"])
+    live_breadth = [b for b in breadth if b > 0]
+    face = {
+        "study": "e75_panel_split_audit",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "exclude_prefixes": list(exclude),
+                 "panel_names": len(universe), "sessions": len(cal),
+                 "years": years,
+                 "screen": "consecutive PRICED closes, missing bars skipped and "
+                           "never filled; flag |return| > %.0f%%"
+                           % (100.0 * ARTEFACT_JUMP),
+                 "charge": "an equal-weight book of n live names absorbs one "
+                           "name's move as |r|/n; breadth is the priced-member "
+                           "count at that session",
+                 "pick_n": "accepted for CLI parity and unused -- this leg "
+                           "audits every panel name"},
+        "panel": {"events": len(events),
+                  "names": len(set(e["name"] for e in events)),
+                  "breadth_median": _quant(live_breadth, 0.5),
+                  "breadth_min": min(live_breadth) if live_breadth else None,
+                  "breadth_max": max(live_breadth) if live_breadth else None},
+        "summary": _split_summary(events, years),
+        "by_era": by_era,
+        "events_per_year": dict(sorted(by_year.items())),
+        "top_events": ranked[:top_n],
+        "screening": {
+            "screened_legs": ["staletail (E74: events inside the stale tail)"],
+            "unscreened_rule": "every census leg in this file charges per-name "
+                               "returns out of the same e27.load_universe() "
+                               "closes, so an unadjusted print enters any "
+                               "equal-weight number at weight 1/n; only staletail "
+                               "screens for it",
+            "selection_channel": "rank/_rank sorts on traded amount, and a split "
+                                 "re-prices the share, so the amount leg is "
+                                 "distorted on the same date as the return leg"},
+        "answers": dict(_split_summary(events, years), **{
+            "panel_names": len(universe),
+            "top_event": ({"name": ranked[0]["name"], "date": ranked[0]["date"],
+                           "ret_pct": ranked[0]["ret_pct"],
+                           "book_impact_bp": ranked[0]["book_impact_bp"]}
+                          if ranked else None)}),
+        "honest": [
+            "the screen flags arithmetic impossibilities, not confirmed corporate "
+            "actions: an adjacent-session move past 30% cannot be a real A-share "
+            "return under the 10%/20% limits, but the panel also carries ETFs and "
+            "bonds whose daily limits differ, so a flagged ETF print may be genuine",
+            "the integer-ratio fingerprint is inferred from the price ratio alone "
+            "with a 2% band and no announcement feed; non-integer events are listed "
+            "as unclassified, never as clean",
+            "book impact assumes equal weight at 1/n of the live breadth: it sizes "
+            "the distortion, it is not a correction to any published number",
+            "gapped events (a resumption after suspension) can be real; the "
+            "adjacent flag is the hard screen and the gap is published on every row",
+            "pick_n is unused here by design -- the audit covers the whole panel so "
+            "no book construction can hide a print",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
+        ],
+    }
+    return face
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -5130,6 +5336,32 @@ def selftest():
         and _max_session_jump([None, 1.0], 0, 1) is None,
         "a zero-length span and a single priced close leave the jump unjudged")
 
+    # E75 panel-wide split audit: consecutive PRICED closes + integer-ratio fingerprint
+    _pcal = ["2020-01-0%d" % i for i in range(1, 6)]
+    _ppx = {"a": [10.414, None, 0.87, 0.88, 0.89],
+            "b": [1.0, 1.01, 1.02, 1.03, 1.04]}
+    _pbr = _breadth(_ppx, ["a", "b"], 5)
+    chk(_pbr == [2, 1, 2, 2, 2],
+        "breadth counts priced members per session and a missing bar is not a member")
+    _pev = _split_events(_pcal, _ppx, ["a", "b"], _pbr)
+    chk(len(_pev) == 1 and _pev[0]["name"] == "a"
+        and _pev[0]["date"] == "2020-01-03" and _pev[0]["gap_sessions"] == 2
+        and not _pev[0]["adjacent"],
+        "a split behind a suspension bar is flagged once and marked gapped, not adjacent")
+    chk(abs(_pev[0]["ret_pct"] + 91.65) < 0.5 and _pev[0]["direction"] == "down",
+        "the flagged move carries its direction and size")
+    chk(abs(_pev[0]["book_impact_bp"] - 4582.3) < 1.0,
+        "one name in a two-name book charges |r|/n in bp")
+    _rs = _split_ratio(-0.9167)
+    chk(_rs["nearest_int"] == 12 and _rs["integer_like"],
+        "a 12:1 split print recovers an integer ratio inside the 2% band")
+    chk(not _split_ratio(-0.05)["integer_like"] and _split_ratio(-1.0) is None,
+        "an ordinary move is not integer-like and a -100% print has no ratio")
+    _ps = _split_summary(_pev, 1.0)
+    chk(_ps["events"] == 1 and _ps["names"] == 1 and _ps["gapped"] == 1
+        and abs(_ps["total_book_bp"] - _pev[0]["book_impact_bp"]) < 1e-9,
+        "the split summary totals the book impacts and counts names and gaps")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -5144,7 +5376,7 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "all", "selftest"])
+                             "panelsplit", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -5531,6 +5763,25 @@ def main(argv):
                                          "reading": v["reading"]}
                                      for k, v in f["by_era"].items()},
                           "skipped": f["skipped"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "panelsplit":
+        f = run_panelsplit(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "PANELSPLIT-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "panelsplit", "file": os.path.relpath(p, ROOT),
+                          "panel": f["panel"], "summary": f["summary"],
+                          "by_era": {k: {"events": v["events"],
+                                         "total_book_bp": v["total_book_bp"],
+                                         "bp_per_year": v["bp_per_year"]}
+                                     for k, v in f["by_era"].items()},
+                          "top": [{"name": e["name"], "date": e["date"],
+                                   "ret_pct": e["ret_pct"],
+                                   "bp": e["book_impact_bp"],
+                                   "ratio": (e.get("implied_ratio") or {}).get("ratio")}
+                                  for e in f["top_events"][:5]]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
