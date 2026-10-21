@@ -20942,7 +20942,12 @@
   },
   {
    "id": "E59-MIDDAY-SWEEP",
-   "status": "waiting",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSWEEP-20261020.json"
+   ],
+   "closed_at": "2026-10-21T09:12:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -20981,7 +20986,36 @@
    "entered_by": "bm-b r1134",
    "evidence_cutoff": "2026-10-20",
    "runner_note": "needs a sharedbook leg: intersect the two calendars' books at each session, hand the intersection to e27.simulate as the universe slice, and compare x0 arms only (cost is already answered)"
+  },
+  {
+   "id": "E63-MIDSWEEP-COSTFACE",
+   "status": "inline",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E59 put every off-cycle decision date below month-end at the same turnover (0.565-0.594 turns/yr), so the -55..-87bp newest-era penalty is not fees. Burn the sweep at zero cost: if the gap survives x0 it is a price-path effect of when the book is struck, not a trading-cost effect; x3 bounds the cost channel from the other side.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-C-<cutoff>.json",
+   "source": "r1135 E59: newest-era gaps mid5 -71 / mid10 -85 / mid15 -87 / mid20 -55 / mid25 -64bp with identical turnover",
+   "entered_at": "2026-10-21T09:12:00+08:00",
+   "entered_by": "bm-b r1135",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "run_midsweep(days=(5,15,25), costs=(0.0,1.0,3.0)) on the existing leg -- ~12 sims, single core, ~40s; needs a filename that carries the cost field so the x0 face cannot overwrite x1"
+  },
+  {
+   "id": "E64-MIDSWEEP-BURNIN-FACE",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The start-2020 sweep prints an EXACT 0.0bp gap in every older era because that slice is entirely inside the eligibility burn-in cash block, so the full-window gap is a cash artefact of the window. Make the leg report the first invested bar and the cash share of each era slice beside the gap so a degenerate slice cannot read as calendar robustness.",
+   "deliverable": "results/e44_midmonth/MIDSWEEP-<cutoff>.json (cash_share_pct per era)",
+   "source": "r1135 E59: 2017_2020 gap 0.0bp for all five days at start 2020, and the same era reads -26..+1bp at start 2013",
+   "entered_at": "2026-10-21T09:12:00+08:00",
+   "entered_by": "bm-b r1135",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs the engine's first-invested index (e27 aux / curve faces) exposed per era slice beside the ann gap"
   }
+
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

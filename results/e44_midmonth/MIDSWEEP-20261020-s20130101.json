@@ -1,0 +1,449 @@
+{
+ "study": "e59_midday_sweep",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2013-01-01",
+  "cost_bp_per_side": 13.041,
+  "cost_mult_list": [
+   1.0
+  ],
+  "sweep_days": [
+   5,
+   10,
+   15,
+   20,
+   25
+  ],
+  "calendars": [
+   "me",
+   "mid5",
+   "mid10",
+   "mid15",
+   "mid20",
+   "mid25"
+  ],
+  "universe_members": 1265
+ },
+ "books": {
+  "me": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 0.0,
+    "min_sessions": 0,
+    "max_sessions": 0
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.569,
+     "full_window_ann_pct": 7.95,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.72,
+       "max_drawdown_pct": -40.27
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.68,
+       "max_drawdown_pct": -26.08
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.38,
+       "max_drawdown_pct": -28.75
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.97,
+       "max_drawdown_pct": -17.32
+      }
+     }
+    }
+   }
+  },
+  "mid5": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 16.95,
+    "min_sessions": 8,
+    "max_sessions": 19
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.572,
+     "full_window_ann_pct": 7.81,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.36,
+       "max_drawdown_pct": -40.02
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.69,
+       "max_drawdown_pct": -26.02
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.02,
+       "max_drawdown_pct": -28.13
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.26,
+       "max_drawdown_pct": -18.57
+      }
+     }
+    }
+   }
+  },
+  "mid10": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 13.75,
+    "min_sessions": 6,
+    "max_sessions": 15
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.571,
+     "full_window_ann_pct": 7.51,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.47,
+       "max_drawdown_pct": -40.54
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.66,
+       "max_drawdown_pct": -26.03
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.12,
+       "max_drawdown_pct": -28.22
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.12,
+       "max_drawdown_pct": -18.65
+      }
+     }
+    }
+   }
+  },
+  "mid15": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 10.3,
+    "min_sessions": 3,
+    "max_sessions": 12
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.577,
+     "full_window_ann_pct": 7.42,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.59,
+       "max_drawdown_pct": -40.28
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.57,
+       "max_drawdown_pct": -25.65
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.46,
+       "max_drawdown_pct": -28.49
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.1,
+       "max_drawdown_pct": -18.54
+      }
+     }
+    }
+   }
+  },
+  "mid20": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 6.86,
+    "min_sessions": 0,
+    "max_sessions": 9
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.568,
+     "full_window_ann_pct": 7.85,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.91,
+       "max_drawdown_pct": -40.32
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.61,
+       "max_drawdown_pct": -25.82
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.49,
+       "max_drawdown_pct": -28.62
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.42,
+       "max_drawdown_pct": -18.12
+      }
+     }
+    }
+   }
+  },
+  "mid25": {
+   "decision_days": 164,
+   "offset": {
+    "decisions": 164,
+    "mean_sessions_to_month_end": 3.46,
+    "min_sessions": 0,
+    "max_sessions": 4
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 152,
+     "turnover_per_year": 0.565,
+     "full_window_ann_pct": 7.7,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.66,
+       "max_drawdown_pct": -40.16
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.42,
+       "max_drawdown_pct": -25.99
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.51,
+       "max_drawdown_pct": -28.7
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.33,
+       "max_drawdown_pct": -17.94
+      }
+     }
+    }
+   }
+  }
+ },
+ "gaps": {
+  "x1": {
+   "mid10": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 13.75,
+     "min_sessions": 6,
+     "max_sessions": 15
+    },
+    "turnover_per_year": 0.571,
+    "full_window_ann_pct": 7.51,
+    "full_window_gap_bp": -44.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.47,
+      "gap_bp": -125.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.66,
+      "gap_bp": -2.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.12,
+      "gap_bp": 26.0
+     },
+     "2024_now": {
+      "ann_pct": 11.12,
+      "gap_bp": -85.0
+     }
+    }
+   },
+   "mid15": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 10.3,
+     "min_sessions": 3,
+     "max_sessions": 12
+    },
+    "turnover_per_year": 0.577,
+    "full_window_ann_pct": 7.42,
+    "full_window_gap_bp": -53.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.59,
+      "gap_bp": -113.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.57,
+      "gap_bp": -11.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.46,
+      "gap_bp": -8.0
+     },
+     "2024_now": {
+      "ann_pct": 11.1,
+      "gap_bp": -87.0
+     }
+    }
+   },
+   "mid20": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 6.86,
+     "min_sessions": 0,
+     "max_sessions": 9
+    },
+    "turnover_per_year": 0.568,
+    "full_window_ann_pct": 7.85,
+    "full_window_gap_bp": -10.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 13.91,
+      "gap_bp": 19.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.61,
+      "gap_bp": -7.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.49,
+      "gap_bp": -11.0
+     },
+     "2024_now": {
+      "ann_pct": 11.42,
+      "gap_bp": -55.0
+     }
+    }
+   },
+   "mid25": {
+    "offset": {
+     "decisions": 164,
+     "mean_sessions_to_month_end": 3.46,
+     "min_sessions": 0,
+     "max_sessions": 4
+    },
+    "turnover_per_year": 0.565,
+    "full_window_ann_pct": 7.7,
+    "full_window_gap_bp": -25.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 13.66,
+      "gap_bp": -6.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.42,
+      "gap_bp": -26.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.51,
+      "gap_bp": -13.0
+     },
+     "2024_now": {
+      "ann_pct": 11.33,
+      "gap_bp": -64.0
+     }
+    }
+   },
+   "mid5": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 16.95,
+     "min_sessions": 8,
+     "max_sessions": 19
+    },
+    "turnover_per_year": 0.572,
+    "full_window_ann_pct": 7.81,
+    "full_window_gap_bp": -14.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 13.36,
+      "gap_bp": -36.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.69,
+      "gap_bp": 1.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.02,
+      "gap_bp": 36.0
+     },
+     "2024_now": {
+      "ann_pct": 11.26,
+      "gap_bp": -71.0
+     }
+    }
+   }
+  }
+ },
+ "answers": {
+  "baseline_calendar": "me",
+  "sweep_days": [
+   5,
+   10,
+   15,
+   20,
+   25
+  ],
+  "full_window_gap_bp": {
+   "mid10": -44.0,
+   "mid15": -53.0,
+   "mid20": -10.0,
+   "mid25": -25.0,
+   "mid5": -14.0
+  },
+  "newest_era_gap_bp": {
+   "mid10": -85.0,
+   "mid15": -87.0,
+   "mid20": -55.0,
+   "mid25": -64.0,
+   "mid5": -71.0
+  },
+  "newest_era_gap_spread_bp": 32.0,
+  "offset_sessions": {
+   "mid10": 13.75,
+   "mid15": 10.3,
+   "mid20": 6.86,
+   "mid25": 3.46,
+   "mid5": 16.95
+  }
+ },
+ "honest": [
+  "one cost level by default: the sweep is about the calendar axis, and the cost signature of these cuts has been the same -8..-13bp since thirds",
+  "the five days are fixed dates, not a fitted optimum: no date here is searched for and none may be read as a recommendation",
+  "both calendars share one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "gap spread across days is a range statistic over five points, not a test",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

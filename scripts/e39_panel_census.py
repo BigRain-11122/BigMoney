@@ -3190,6 +3190,165 @@ def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_d
     }
 
 
+# --------------------------------- leg: sweep the off-cycle calendar (E59)
+
+MID_SWEEP_DAYS = (5, 10, 15, 20, 25)
+
+
+def _calendar_offsets(cal, idxs, me_idxs):
+    """Sessions from each decision to the next month-end decision.
+
+    An off-cycle book is not "one date", it is a distance from the boundary the
+    month-end book trades on. Recording that distance lets a gap be read against
+    the calendar offset instead of against one chosen day.
+    """
+    offs = []
+    for i in idxs:
+        nxt = next((j for j in me_idxs if j >= i), None)
+        if nxt is not None:
+            offs.append(nxt - i)
+    if not offs:
+        return {"decisions": 0, "mean_sessions_to_month_end": None,
+                "min_sessions": None, "max_sessions": None}
+    return {"decisions": len(offs),
+            "mean_sessions_to_month_end": round(sum(offs) / float(len(offs)), 2),
+            "min_sessions": min(offs), "max_sessions": max(offs)}
+
+
+def _sweep_gaps(books, cost="x1", eras=ERAS):
+    """Gap versus the month-end book, per sweep day, at one cost level."""
+    me_arm = books.get("me", {}).get("arms", {}).get(cost, {})
+    me_full = me_arm.get("full_window_ann_pct")
+    me_eras = me_arm.get("eras", {})
+    out = {}
+    for label in sorted(books):
+        if label == "me":
+            continue
+        arm = books[label].get("arms", {}).get(cost, {})
+        full = arm.get("full_window_ann_pct")
+        row_eras = {}
+        for name, _lo, _hi in eras:
+            a = me_eras.get(name, {}).get("ann_return_pct")
+            b = arm.get("eras", {}).get(name, {}).get("ann_return_pct")
+            row_eras[name] = {"ann_pct": b,
+                              "gap_bp": round((b - a) * 100, 1)
+                              if a is not None and b is not None else None}
+        out[label] = {
+            "offset": books[label].get("offset", {}),
+            "turnover_per_year": arm.get("turnover_per_year"),
+            "full_window_ann_pct": full,
+            "full_window_gap_bp": round((full - me_full) * 100, 1)
+            if full is not None and me_full is not None else None,
+            "eras": row_eras,
+        }
+    return out
+
+
+def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                 days=MID_SWEEP_DAYS, costs=(1.0,)):
+    """E59: is the off-cycle penalty day 15's, or any off-cycle date's?
+
+    E44 priced one mid-month date against month-end and E57 showed the two
+    calendars buy the same kind of name, so the remaining question is whether
+    the gap is a property of the 15th or a property of trading away from the
+    month boundary. Five dates are burned here on ONE universe, ONE rank cache
+    and ONE cost level: if the gap tracks the distance to month-end the effect
+    belongs to the boundary; if it is flat across all five, the boundary is
+    simply the right date.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    years = len(cal) / 252.0
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    cash = base.load_cash_series(cal)
+    rank_cache = {}
+    me_idxs = sorted(set(base.month_end_indices(cal)))
+
+    calendars = [("me", me_idxs)]
+    for d in days:
+        calendars.append(("mid%d" % d, _mid_month_indices(cal, d)))
+
+    books = {}
+    for label, idxs in calendars:
+        arms = {}
+        for cm in costs:
+            curve, aux, _hold = e27.simulate(cal, prices, amounts, universe, cash,
+                                            pick_n, cm, rank_cache, set(idxs))
+            era_rows = {}
+            for name, lo, hi in ERAS:
+                sub = _slice_curve(curve, lo, hi)
+                if len(sub) < 2:
+                    era_rows[name] = {"bars": len(sub), "skipped": "too few bars"}
+                    continue
+                prof = risk_profile(_rebase(sub), len(sub) / 252.0)
+                era_rows[name] = {"bars": len(sub),
+                                  "ann_return_pct": prof["ann_return_pct"],
+                                  "max_drawdown_pct": prof["max_drawdown_pct"]}
+            arms["x%g" % cm] = {
+                "rebalances": aux["rebalances"],
+                "turnover_per_year": round(aux["turnover_total"] / years, 3) if years else None,
+                "full_window_ann_pct": risk_profile(curve, years)["ann_return_pct"],
+                "eras": era_rows,
+            }
+        books[label] = {"decision_days": len(idxs),
+                        "offset": _calendar_offsets(cal, idxs, me_idxs),
+                        "arms": arms}
+
+    gaps = {("x%g" % cm): _sweep_gaps(books, "x%g" % cm) for cm in costs}
+    newest = "2024_now"
+    newest_gap = {lab: gaps[("x%g" % costs[0])][lab]["eras"].get(newest, {}).get("gap_bp")
+                  for lab in gaps[("x%g" % costs[0])]}
+    # does the gap track the calendar offset, or is it flat across off-cycle days?
+    pts = [(gaps[("x%g" % costs[0])][lab]["offset"]["mean_sessions_to_month_end"], v)
+           for lab, v in newest_gap.items() if v is not None]
+    spread = (max(v for _o, v in pts) - min(v for _o, v in pts)) if len(pts) > 1 else None
+    return {
+        "study": "e59_midday_sweep",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+                 "cost_bp_per_side": base.COST_BP_SIDE, "cost_mult_list": list(costs),
+                 "sweep_days": list(days), "calendars": [c[0] for c in calendars],
+                 "universe_members": len(universe)},
+        "books": {lab: {"decision_days": b["decision_days"], "offset": b["offset"],
+                        "arms": b["arms"]} for lab, b in books.items()},
+        "gaps": gaps,
+        "answers": {
+            "baseline_calendar": "me",
+            "sweep_days": list(days),
+            "full_window_gap_bp": {lab: g["full_window_gap_bp"]
+                                   for lab, g in gaps[("x%g" % costs[0])].items()},
+            "newest_era_gap_bp": newest_gap,
+            "newest_era_gap_spread_bp": round(spread, 1) if spread is not None else None,
+            "offset_sessions": {lab: g["offset"]["mean_sessions_to_month_end"]
+                                for lab, g in gaps[("x%g" % costs[0])].items()},
+        },
+        "honest": [
+            "one cost level by default: the sweep is about the calendar axis, and the "
+            "cost signature of these cuts has been the same -8..-13bp since thirds",
+            "the five days are fixed dates, not a fitted optimum: no date here is "
+            "searched for and none may be read as a recommendation",
+            "both calendars share one universe and one rank cache, so the only moving "
+            "part is the set of decision sessions",
+            "gap spread across days is a range statistic over five points, not a test",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -3456,6 +3615,27 @@ def selftest():
     chk(_classify_entrants(["a"], None, None)["disjoint"] == ["a"],
         "a missing other book buckets everything as disjoint, not as a silent pass")
 
+    # E59 sweep: the offset is measured to the NEXT month-end decision, and a
+    # missing arm reports None rather than a silent zero gap
+    scal = ["2020-01-%02d" % d for d in range(1, 11)]
+    chk(_calendar_offsets(scal, [3, 6], [4, 7])["mean_sessions_to_month_end"] == 1.0,
+        "a decision one session before month-end has offset 1")
+    chk(_calendar_offsets(scal, [3], [])["mean_sessions_to_month_end"] is None,
+        "no month-end decision leaves the offset unknown, not zero")
+    sbook = {"me": {"arms": {"x1": {"full_window_ann_pct": 5.0,
+                                    "eras": {"A": {"ann_return_pct": 4.0}}}}},
+             "mid10": {"offset": {"mean_sessions_to_month_end": 6.0},
+                       "arms": {"x1": {"full_window_ann_pct": 4.0,
+                                       "turnover_per_year": 0.6,
+                                       "eras": {"A": {"ann_return_pct": 3.5}}}}}}
+    sg = _sweep_gaps(sbook, "x1", eras=(("A", "a", "b"),))
+    chk(sg["mid10"]["full_window_gap_bp"] == -100.0,
+        "sweep gap is the off-cycle minus month-end ann in bp")
+    chk(sg["mid10"]["eras"]["A"]["gap_bp"] == -50.0,
+        "sweep era gap carries the same sign convention")
+    chk(_sweep_gaps(sbook, "x3", eras=(("A", "a", "b"),))["mid10"]["full_window_gap_bp"] is None,
+        "a cost level with no arm reports no gap instead of a zero")
+
     # era attribution follows the decision date, not the next date
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
@@ -3472,7 +3652,7 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
-                             "all", "selftest"])
+                             "midsweep", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -3734,6 +3914,15 @@ def main(argv):
                                               for b in CHASE_BUCKETS}
                                           for k, v in f["eras"]["mid15"].items()}},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "midsweep":
+        f = run_midsweep(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "MIDSWEEP-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""),
+                          "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")), f)
+        print(json.dumps({"leg": "midsweep", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:

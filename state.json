@@ -70,7 +70,7 @@
   "r1126": "r1126 pit: the pool surgery split the entries array on '\\n  },\\n  {\\n', which makes the LAST part carry the array close plus the whole schema -- appending a key to that part lands it after '\"version\": 1}' and only json.loads validation caught it (file untouched). Append into the entry body by splitting on the bare close marker, and remember the split already owns the opening brace."
  },
  "notes_r1095": "r1095: state.json was stale at round_no 1091 while round reports ran to r1094 (three rounds closed without a state write); this round re-anchors it at 1095 and records the gap. Pits: (a) the weighting face name was date-only, so running two scheme sets silently overwrote the day's face -- now tagged with a scheme-set hash and the whipsaw face carries its fwd window; (b) a selftest fixture with ties on a flat plate fired the bottom-tail gate (v <= cut) -- fixture rebuilt with a ramp.",
- "now_active": "pool 0 ready (floor breached, honest), 2 waiting authoring units (E57-MIDMONTH-CHASE-NAMES, E58-PARTS-CUT-CURVE)",
+ "now_active": "pool 0 ready (floor breached, honest), E63-MIDSWEEP-COSTFACE inline, E64-MIDSWEEP-BURNIN-FACE / E60-OFFBOOK-LIQUIDITY / E61-SHARED-SUBSET-BOOK waiting",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -380,11 +380,11 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 52.4,
- "round": 1134,
- "round_no": 1134,
- "round_no_label": "r1132",
+ "round": 1135,
+ "round_no": 1135,
+ "round_no_label": "r1135",
  "sat_engine": {
-  "checked_at": "2026-10-21T08:30:35+08:00",
+  "checked_at": "2026-10-21T09:02:31+08:00",
   "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -904,14 +904,16 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1132: E44 mid-month explained -- turnover identical (0.591 vs 0.594/yr, fee gap ~2bp) so the 87bp/yr newest-era gap is membership: churn sleeve +95.6bp per swap at month-end vs -123.7bp at mid-month; the effect is era-local (2017_2020 mid actually wins +50bp)",
- "ts": "2026-10-21T08:30:35+08:00",
- "updated": "2026-10-21T09:00:00+08:00",
- "updated_at": "2026-10-21T08:30:35+08:00",
+ "task": "r1135: E59 -- the off-cycle penalty is a month-BOUNDARY effect, not a day-15 effect: five off-cycle dates (5/10/15/20/25) all lose in the newest era (-55..-87bp, spread only 32bp) at identical turnover (0.565-0.594 turns/yr), with no monotone relation to the calendar offset",
+ "ts": "2026-10-21T09:02:31+08:00",
+ "updated": "2026-10-21T09:02:31+08:00",
+ "updated_at": "2026-10-21T09:02:31+08:00",
  "verdict": "product+maintenance",
- "last_round_report": "logs/iteration-loop/round_reports.md r1132",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1135",
  "r1131_note": "E55 tenths pair burned inline (7s/leg, runner unchanged): flip set 4/4 for the 5th consecutive cut; era levels bit-identical to ninths (239/423/247/93 x0, 230/410/237/81 x3) so the era split has converged while within-era dispersion has not. Bands p9->p10: pre2017 3232->3007, 2017_2020 2380->2090, 2021_2023 2426->1775 (three narrow), 2024_now 5815->6922 (widens, 2.3x the next widest). Aggregate mean 3463->3448 (plateau), median 2829->2549 (falls) -- r1130's 'grows with granularity' now holds for exactly one era. Outlier is boundary-mobile inside one rally leg: 2026-03-10..06-29 (ninths p8) spread -4241 vs 2026-03-25..07-02 (tenths p9) -5745, ladder +49.73 -> +81.19 %/yr, drawdown unchanged (-9.08/-8.48 vs -8.08). New degenerate-face note: pre2017 parts 1-2 print spread 0.0 with ladder==wide (2012 warm-up), i.e. 20% of the oldest era's parts carry no information. Pool: E55 pair closed with result_ref, E56-PARTS-P11 pair seeded inline. S6 40/40 rc0; dualrun ZERO-DRIFT streak 28; attrition CLEAN (4 ledgers, 2 healed); smoke 49/49; orphan 0/11; watermark py_low_board_clear; audit FLAG supply_gap,supply_floor (ready 1 < 3). Orders diff 0 unacked; D-19 dec/ord hash hold (zero action).",
  "r1131_pit": "a band's owning part is boundary-mobile: the same 2026 Q2/Q3 rally produced -4241bp at ninths and -5745bp at tenths with drawdown unchanged, so 'which part is exceptional' must be published with its window and cut, never as an era property; and a degenerate part (ladder==wide, spread 0.0) silently occupies a band slot -- check for zero-spread parts before reading a band as dispersion",
  "r1132_note": "E44 closed: new runner leg `midmonth` in scripts/e39_panel_census.py (selftest 73/73). Mid-month's weakness is membership, not fees -- turnover 0.591 vs 0.594/yr (fee gap ~2bp) against a -87bp/yr newest-era gap; churn sleeve me +95.6bp vs mid -123.7bp per swap (gap -219.3bp), negative swaps 42.9% vs 48.1%. Era/window locality: 2017_2020 mid WINS +50bp at the 2018 start, 2021_2023 -8bp with churn alpha actually favouring mid (+318.9bp) so a second mechanism lives there (recorded, not explained), 2024_now -87bp where churn and P&L agree. Cost face x0/x1/x3 in one pass; x1 reproduces E43's cell, so the two runners agree. Pool: 3 closed with result_ref (E44 + E56 p11 pair), 2 authored waiting (E57 chase-names needs a --detail leg, E58 parts 2..12 sweep), 0 ready -> supply_floor breach kept honest instead of seeding a twelfth cut. S6 41 legs (40 rc0 + sync_lane rc2: merge_lane_views has no sync_face verb in this revision; dualrun itself ZERO-DRIFT so the lane face is consistent). dualrun streak 29, attrition CLEAN, smoke 49/49, orphan 0, D-19 zero delta.",
- "r1132_pit": "era bounds compared as plain strings drop every era's first month: a bare 'YYYY-MM' is a PREFIX of its own first day, so '2024-01' >= '2024-01-01' is false and _era_of('2024-01-02') returned None -- truncate both bounds to YYYY-MM before comparing. Sibling crib: identical turnover with different winners is the signature of a membership effect; price the fee gap before theorising about a calendar gap."
+ "r1132_pit": "era bounds compared as plain strings drop every era's first month: a bare 'YYYY-MM' is a PREFIX of its own first day, so '2024-01' >= '2024-01-01' is false and _era_of('2024-01-02') returned None -- truncate both bounds to YYYY-MM before comparing. Sibling crib: identical turnover with different winners is the signature of a membership effect; price the fee gap before theorising about a calendar gap.",
+ "r1135_note": "E59 closed: new runner leg `midsweep` in scripts/e39_panel_census.py (selftest 90/90). Five off-cycle decision dates (mid 5/10/15/20/25) versus month-end on one universe/rank cache/cost level. Start 2020 x1 full-window gaps -26/-84/-70/-80/-61bp; newest era (2024-now) -71/-85/-87/-55/-64bp. Every off-cycle date loses, the newest-era spread across dates is only 32bp (full-window 58bp), and there is no monotone relation to the calendar offset -> the penalty belongs to the month boundary, not to day 15. Turnover 0.565-0.594 turns/yr across the five dates (same band as month-end) so the cost channel is excluded again. Start 2013: gaps shrink to -10..-53bp and 2021_2023 changes sign (mid5 +36, mid10 +26) while the 2024-now column is bit-identical between windows (start-invariant path) -> era gaps must carry their start date. Pool: E59 closed with result_ref, E63-MIDSWEEP-COSTFACE seeded inline, E64-MIDSWEEP-BURNIN-FACE seeded waiting; ready 0/3 breach kept honest. S6 rc0 throughout (dualrun streak 32, audit FLAG pool_starvation+supply_floor, watermark py_low_board_clear, attrition CLEAN, orphan 0, smoke 49/49). D-19 zero delta both faces.",
+ "r1135_pit": "a variant run whose output filename does not carry the variant key silently overwrites the base face -- the start-2013 midsweep clobbered MIDSWEEP-20261020.json until a directory listing showed one file where two were expected; suffix the file with the variant (the midmonth leg's -s<start> convention) and re-list after every variant burn. Sibling crib: an EXACT 0.0bp era gap is the signature of a cash-only (burn-in) slice, not of calendar robustness -- print the first-invested bar or cash share beside any era gap before quoting it."
 }
