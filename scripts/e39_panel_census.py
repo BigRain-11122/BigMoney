@@ -3436,6 +3436,93 @@ def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return face
 
 
+# --------------------------------- leg: decide EARLY instead (E66)
+
+def _early_label(k):
+    """Row label for a k-session EARLY decision (positive k = earlier)."""
+    return "me_m%d" % k
+
+
+def _lag_label(k):
+    """Row label for a k-session LATE decision (positive k = later)."""
+    return "me_lag%d" % k
+
+
+def _read_late_face(outdir, cutoff, start):
+    """Read the E65 late ladder for the same cutoff+start, if it was burned."""
+    tag = "" if start == "2020-01-01" else "-s%s" % start.replace("-", "")
+    p = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
+                     "ENTRYDELAY-%s%s.json" % (cutoff.replace("-", ""), tag))
+    if not os.path.exists(p):
+        return None, p
+    with open(p, encoding="utf-8") as fh:
+        return json.load(fh), p
+
+
+def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                   early=(1, 3, 5, 10), costs=(1.0,)):
+    """E66: price the other side of the month-end boundary.
+
+    E65 held the spec fixed and moved the month-end decision LATER by
+    1/3/5/10 sessions, reading a cliff in the newest era. This leg moves the
+    same decision EARLIER by the same amounts on the same universe and rank
+    cache. Early is not late with a minus sign: a name that is already
+    published at the earlier date is a different candidate set, so the two
+    sides together say whether the month boundary is a deadline (only late
+    pays) or a point (both sides pay).
+    """
+    face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                        days=(), costs=costs, lags=tuple(-k for k in early))
+    lvl = "x%g" % costs[0]
+    gaps = face["gaps"].get(lvl, {})
+    rows = {}
+    for k in early:
+        arm = gaps.get(_lag_label(-k))
+        if arm is None:
+            continue
+        rows[_early_label(k)] = {"full_window_gap_bp": arm.get("full_window_gap_bp"),
+                                 "turnover_per_year": arm.get("turnover_per_year"),
+                                 "eras": {name: v.get("gap_bp")
+                                          for name, v in (arm.get("eras") or {}).items()}}
+    late_face, late_path = _read_late_face(outdir, face["evidence_cutoff"], start)
+    late_rows = (late_face or {}).get("answers", {}).get("delay_rows") or {}
+    asym = {}
+    for k in early:
+        e_row = rows.get(_early_label(k))
+        l_row = late_rows.get(_lag_label(k))
+        if not e_row or not l_row:
+            continue
+        e_era = e_row["eras"].get("2024_now")
+        l_era = l_row["eras"].get("2024_now")
+        asym[_early_label(k)] = {
+            "full_window_early_minus_late_bp":
+                None if (e_row["full_window_gap_bp"] is None
+                         or l_row["full_window_gap_bp"] is None)
+                else round(e_row["full_window_gap_bp"] - l_row["full_window_gap_bp"], 1),
+            "newest_era_early_minus_late_bp":
+                None if (e_era is None or l_era is None) else round(e_era - l_era, 1),
+        }
+    face["study"] = "e66_earlydelay_ladder"
+    face["answers"]["early_rows"] = rows
+    face["answers"]["early_gap_bp"] = {lab: r["full_window_gap_bp"]
+                                       for lab, r in rows.items()}
+    face["answers"]["early_newest_era_gap_bp"] = {
+        lab: r["eras"].get("2024_now") for lab, r in rows.items()}
+    face["answers"]["late_rows_source"] = (os.path.relpath(late_path, ROOT)
+                                           if late_face else None)
+    face["answers"]["asymmetry_bp"] = asym
+    face["honest"].append(
+        "the early lag also moves the decision session, so the book is re-ranked on "
+        "the earlier date on names that had already published then; the late column "
+        "is read from the E65 face at the same cutoff+start (%s), not re-burned"
+        % (face["answers"]["late_rows_source"] or "absent"))
+    face["honest"].append(
+        "an early decision is not the same book one session sooner: it can only buy "
+        "what is already eligible, so a flat/or positive early side means the "
+        "boundary is a publication deadline, not a price path")
+    return face
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -3753,6 +3840,19 @@ def selftest():
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
 
+    # E66 early ladder: the two sides of the boundary must never share a label,
+    # and a negative shift stays inside the calendar
+    chk(_early_label(3) == "me_m3" and _lag_label(3) == "me_lag3"
+        and _early_label(3) != _lag_label(3),
+        "early and late rows carry distinct labels at the same magnitude")
+    chk(_lag_label(-1) == "me_lag-1" and _shift_indices([0, 5, 9], -1, 10) == [0, 4, 8],
+        "an early lag is the negative shift and clamps at the first bar")
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _td:
+        _face, _path = _read_late_face(_td, "2026-10-20", "2013-01-01")
+        chk(_face is None and _path.endswith("ENTRYDELAY-20261020-s20130101.json"),
+            "a missing late face reads as absent with the expected path")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -3765,7 +3865,7 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
-                             "midsweep", "entrydelay", "all", "selftest"])
+                             "midsweep", "entrydelay", "earlydelay", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -4057,6 +4157,23 @@ def main(argv):
         print(json.dumps({"leg": "entrydelay", "file": os.path.relpath(p, ROOT),
                           "delay_gap_bp": f["answers"]["delay_gap_bp"],
                           "newest_era_gap_bp": f["answers"]["newest_era_gap_bp"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "earlydelay":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        early = tuple(int(x) for x in args.lags.split(",") if x.strip())
+        f = run_earlydelay(None, start=args.start, early=early, costs=costs)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        cost_tag = "" if costs == (1.0,) else "-c%s" % "_".join("%g" % c for c in costs)
+        p = write_json(outdir, "EARLYDELAY-%s%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
+        print(json.dumps({"leg": "earlydelay", "file": os.path.relpath(p, ROOT),
+                          "early_gap_bp": f["answers"]["early_gap_bp"],
+                          "early_newest_era_gap_bp":
+                              f["answers"]["early_newest_era_gap_bp"],
+                          "late_rows_source": f["answers"]["late_rows_source"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
