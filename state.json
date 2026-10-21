@@ -42,7 +42,7 @@
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
- "last_push": "f09678d42b -> origin/main (behind=0 ahead=0) 2026-10-21T01:40+0800",
+ "last_push": "e515c5e70 -> origin/main (behind=0 ahead=0)",
  "last_round_at": "2026-10-21T07:21:17+08:00",
  "last_round_ts": "2026-10-21T07:21:17+08:00",
  "last_seen": "2026-10-21T07:21:17+08:00",
@@ -390,7 +390,7 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push_ts": "2026-10-20T05:53:00+08:00",
+  "last_push_ts": "2026-10-21T09:12:00+08:00",
   "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
@@ -902,7 +902,8 @@
    "pushed_sha": "b15d5e6999ef4eeb844d49ff22a0edce8928a41c",
    "status": "PUSHED_VERIFIED"
   },
-  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
+  "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package",
+  "last_push": "e515c5e70 -> origin/main (behind=0 ahead=0)"
  },
  "task": "r1135: E59 -- the off-cycle penalty is a month-BOUNDARY effect, not a day-15 effect: five off-cycle dates (5/10/15/20/25) all lose in the newest era (-55..-87bp, spread only 32bp) at identical turnover (0.565-0.594 turns/yr), with no monotone relation to the calendar offset",
  "ts": "2026-10-21T09:02:31+08:00",
@@ -915,5 +916,12 @@
  "r1132_note": "E44 closed: new runner leg `midmonth` in scripts/e39_panel_census.py (selftest 73/73). Mid-month's weakness is membership, not fees -- turnover 0.591 vs 0.594/yr (fee gap ~2bp) against a -87bp/yr newest-era gap; churn sleeve me +95.6bp vs mid -123.7bp per swap (gap -219.3bp), negative swaps 42.9% vs 48.1%. Era/window locality: 2017_2020 mid WINS +50bp at the 2018 start, 2021_2023 -8bp with churn alpha actually favouring mid (+318.9bp) so a second mechanism lives there (recorded, not explained), 2024_now -87bp where churn and P&L agree. Cost face x0/x1/x3 in one pass; x1 reproduces E43's cell, so the two runners agree. Pool: 3 closed with result_ref (E44 + E56 p11 pair), 2 authored waiting (E57 chase-names needs a --detail leg, E58 parts 2..12 sweep), 0 ready -> supply_floor breach kept honest instead of seeding a twelfth cut. S6 41 legs (40 rc0 + sync_lane rc2: merge_lane_views has no sync_face verb in this revision; dualrun itself ZERO-DRIFT so the lane face is consistent). dualrun streak 29, attrition CLEAN, smoke 49/49, orphan 0, D-19 zero delta.",
  "r1132_pit": "era bounds compared as plain strings drop every era's first month: a bare 'YYYY-MM' is a PREFIX of its own first day, so '2024-01' >= '2024-01-01' is false and _era_of('2024-01-02') returned None -- truncate both bounds to YYYY-MM before comparing. Sibling crib: identical turnover with different winners is the signature of a membership effect; price the fee gap before theorising about a calendar gap.",
  "r1135_note": "E59 closed: new runner leg `midsweep` in scripts/e39_panel_census.py (selftest 90/90). Five off-cycle decision dates (mid 5/10/15/20/25) versus month-end on one universe/rank cache/cost level. Start 2020 x1 full-window gaps -26/-84/-70/-80/-61bp; newest era (2024-now) -71/-85/-87/-55/-64bp. Every off-cycle date loses, the newest-era spread across dates is only 32bp (full-window 58bp), and there is no monotone relation to the calendar offset -> the penalty belongs to the month boundary, not to day 15. Turnover 0.565-0.594 turns/yr across the five dates (same band as month-end) so the cost channel is excluded again. Start 2013: gaps shrink to -10..-53bp and 2021_2023 changes sign (mid5 +36, mid10 +26) while the 2024-now column is bit-identical between windows (start-invariant path) -> era gaps must carry their start date. Pool: E59 closed with result_ref, E63-MIDSWEEP-COSTFACE seeded inline, E64-MIDSWEEP-BURNIN-FACE seeded waiting; ready 0/3 breach kept honest. S6 rc0 throughout (dualrun streak 32, audit FLAG pool_starvation+supply_floor, watermark py_low_board_clear, attrition CLEAN, orphan 0, smoke 49/49). D-19 zero delta both faces.",
- "r1135_pit": "a variant run whose output filename does not carry the variant key silently overwrites the base face -- the start-2013 midsweep clobbered MIDSWEEP-20261020.json until a directory listing showed one file where two were expected; suffix the file with the variant (the midmonth leg's -s<start> convention) and re-list after every variant burn. Sibling crib: an EXACT 0.0bp era gap is the signature of a cash-only (burn-in) slice, not of calendar robustness -- print the first-invested bar or cash share beside any era gap before quoting it."
+ "r1135_pit": "a variant run whose output filename does not carry the variant key silently overwrites the base face -- the start-2013 midsweep clobbered MIDSWEEP-20261020.json until a directory listing showed one file where two were expected; suffix the file with the variant (the midmonth leg's -s<start> convention) and re-list after every variant burn. Sibling crib: an EXACT 0.0bp era gap is the signature of a cash-only (burn-in) slice, not of calendar robustness -- print the first-invested bar or cash share beside any era gap before quoting it.",
+ "r1135_main_push": {
+  "pushed_sha": "e515c5e70",
+  "behind_origin_main": 0,
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-21T09:12:00+08:00",
+  "note": "clean ff 815e261d9..e515c5e70, first attempt, zero claw blocks; four-way verified (HEAD==origin/main==e515c5e70, rev-list origin/main..HEAD=0, ls-tree origin carries research/digests/DIGEST-20261021-e59-midsweep.md). Payload = 22 faces: midsweep leg in scripts/e39_panel_census.py (selftest 90/90) + 2 sweep faces + digest + pool shared (E59 closed, E63/E64 seeded) + closeout trio + bm-b-suffixed evidence + docs REPORT/LIVE-2026-10-21 regen. Targeted add only per r982/r1015/r1033 policy: drama lane faces, machine-health, token_usage union face, unsuffixed collector status faces and the shared scorecard_v1 face left untouched."
+ }
 }
