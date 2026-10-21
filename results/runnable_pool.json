@@ -21166,7 +21166,7 @@
   },
   {
    "id": "E72-STALE-HOLD-PRICE",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21176,7 +21176,11 @@
    "entered_at": "2026-10-21T23:55:00+08:00",
    "entered_by": "bm-b r1143",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold"
+   "runner_note": "new stalehold leg: reuse the weeknames held-set walk, take the exit set of each book pair, and compound the price path of those names across the linger window; report bp attributable to the extra hold",
+   "closed_at": "2026-10-21T23:50:00+08:00",
+   "closed_by": "bm-b r1144",
+   "result_ref": "results/e44_midmonth/STALEHOLD-20261021.json + STALEHOLD-20261021-s20130101.json + research/digests/DIGEST-20261021-e72-stalehold.md",
+   "outcome": "tail is era-local and sign-flipping: 2021_2023 -213/-226bp/yr, pre2017 +282bp/yr, 2024_now +1.6bp/yr BIT-IDENTICAL across starts -> explains 3.6% of the -45bp residual with the wrong sign; timing stays the only open channel"
   },
   {
    "id": "E73-LANE-FLIP-AKSHARE-TO-BMB",
@@ -21191,6 +21195,20 @@
    "entered_by": "bm-b r1143",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "each collector keeps its provenance/overlap/fuse machinery; only the host constant changes. Land in one commit with a selftest matrix, not one script per round."
+  },
+  {
+   "id": "E74-STALE-TAIL-VS-BOOK",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E72 prices the stale-exit tail raw and finds its sign flips by era (+282bp/yr pre2017, -226bp/yr 2021_2023, +1.6bp/yr 2024_now), which is a beta signature rather than a membership mechanism. Recharge the same events RELATIVE to the wide book over the identical sessions: if the relative tail collapses toward 0 in every era the channel is null in both directions and closes for good; if an era keeps a relative tail, name it.",
+   "deliverable": "results/e44_midmonth/STALETAIL-<cutoff>.json",
+   "source": "r1144 E72: raw tail 2021_2023 -516.9bp total vs 2024_now +4.3bp",
+   "entered_at": "2026-10-21T23:50:00+08:00",
+   "entered_by": "bm-b r1144",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "extend the stalehold leg with a relative mode: same event list, but charge (name return - wide-book return) over the same session span; emit raw and relative bp side by side per era plus the beta implied by their difference"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

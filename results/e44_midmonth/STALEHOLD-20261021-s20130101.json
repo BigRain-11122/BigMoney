@@ -1,0 +1,130 @@
+{
+ "study": "e72_stale_hold_price",
+ "evidence_cutoff": "2026-10-21",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2013-01-01",
+  "universe_members": 1265,
+  "dropped_decisions": {
+   "me": 2,
+   "week": 1
+  },
+  "calendars": {
+   "me": 164,
+   "week": 707
+  },
+  "sessions_span": 3318,
+  "years": 13.661875427789186,
+  "charge": "1/n_held_before of the monthly book, name's own return from the weekly drop session to the monthly drop session"
+ },
+ "tail": {
+  "events": 172,
+  "total_bp": 24.438,
+  "bp_per_year": 1.789,
+  "mean_return_pct": -5.7291,
+  "negative_share": 0.5756,
+  "mean_extra_sessions": 12.33,
+  "max_extra_sessions": 25,
+  "worst_event": {
+   "date": "2020-08-31",
+   "name": "sh510230",
+   "extra_sessions": 15,
+   "return_pct": -79.9062,
+   "bp_contrib": -62.427
+  }
+ },
+ "by_era": {
+  "pre2017": {
+   "events": 19,
+   "total_bp": 682.962,
+   "bp_per_year": 282.185,
+   "mean_return_pct": 14.2996,
+   "negative_share": 0.5263,
+   "mean_extra_sessions": 13.79,
+   "max_extra_sessions": 22,
+   "worst_event": {
+    "date": "2016-01-29",
+    "name": "sz159923",
+    "extra_sessions": 19,
+    "return_pct": -16.1509,
+    "bp_contrib": -32.961
+   }
+  },
+  "2017_2020": {
+   "events": 24,
+   "total_bp": -97.625,
+   "bp_per_year": -24.848,
+   "mean_return_pct": -5.4536,
+   "negative_share": 0.5,
+   "mean_extra_sessions": 12.58,
+   "max_extra_sessions": 23,
+   "worst_event": {
+    "date": "2020-08-31",
+    "name": "sh510230",
+    "extra_sessions": 15,
+    "return_pct": -79.9062,
+    "bp_contrib": -62.427
+   }
+  },
+  "2021_2023": {
+   "events": 59,
+   "total_bp": -565.201,
+   "bp_per_year": -226.111,
+   "mean_return_pct": -19.4559,
+   "negative_share": 0.7288,
+   "mean_extra_sessions": 12.81,
+   "max_extra_sessions": 24,
+   "worst_event": {
+    "date": "2021-01-29",
+    "name": "sh510210",
+    "extra_sessions": 9,
+    "return_pct": -80.6484,
+    "bp_contrib": -48.292
+   }
+  },
+  "2024_now": {
+   "events": 70,
+   "total_bp": 4.302,
+   "bp_per_year": 1.615,
+   "mean_return_pct": 0.3097,
+   "negative_share": 0.4857,
+   "mean_extra_sessions": 11.44,
+   "max_extra_sessions": 25,
+   "worst_event": {
+    "date": "2024-01-31",
+    "name": "sz159877",
+    "extra_sessions": 21,
+    "return_pct": -15.5689,
+    "bp_contrib": -2.467
+   }
+  }
+ },
+ "skipped": {
+  "unpriced": 16,
+  "never_in_weekly_book": 0
+ },
+ "answers": {
+  "stale_events": 172,
+  "tail_total_bp": 24.438,
+  "tail_bp_per_year": 1.789,
+  "tail_mean_return_pct": -5.7291,
+  "tail_negative_share": 0.5756,
+  "stale_sessions_mean": 12.33,
+  "newest_era_tail_bp": 4.302,
+  "newest_era_tail_bp_per_year": 1.615,
+  "residual_to_explain_bp": -45.0,
+  "residual_source": "E70 weeklyclash cost face (full weekly grid vs month-end, x0/x3 residual, 2020 start)"
+ },
+ "honest": [
+  "the tail is priced as name return x equal weight over the extra sessions; it is not a re-run of either book's P&L, so it cannot double-count the calendar gaps E65-E69 already priced",
+  "an event needs a priced base at the weekly drop session and a priced close at the monthly drop session; unpriced ends are counted in skipped.unpriced instead of being charged as a flat hold",
+  "names held by the monthly book that never appear in the weekly book are counted in skipped.never_in_weekly_book and excluded -- they are not a stale tail, they are a coverage difference",
+  "events are charged once each, at the decision that sees the exit, so a name that enters and exits repeatedly contributes several events",
+  "bp_per_year divides the window total by the calendar span, which understates a concentrated tail in a short era and overstates a tail diluted over a long one -- read it beside per-era totals",
+  "the -45bp residual is quoted from the E70 face as published; no attempt is made here to recompute it",
+  "descriptive census only: no gate, no verdict, no ledger booking, trial 0"
+ ]
+}
