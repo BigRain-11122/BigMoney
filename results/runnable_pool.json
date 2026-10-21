@@ -21258,7 +21258,7 @@
   },
   {
    "id": "E76-PANELSCREEN-REGRADE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21268,7 +21268,25 @@
    "entered_at": "2026-10-22T00:1x+08:00",
    "entered_by": "bm-b r1146",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "keep the unscreened face published beside the screened one; the screened loader must be opt-in so no existing face silently changes"
+   "runner_note": "keep the unscreened face published beside the screened one; the screened loader must be opt-in so no existing face silently changes",
+   "result_ref": "results/e44_midmonth/SCREENREG-20261021.json + scripts/panel_screen.py",
+   "closed_at": "2026-10-22T00:30:00+08:00",
+   "closed_by": "bm-b r1147",
+   "result_note": "135 adjacent prints / 65 integer-ratio on 1,265 names (33 gapped kept). Era spread: 2024_now 103bp unscreened -> 303bp integer-only -> 479bp all-adjacent -> 78bp drop; 2021_2023 243 -> 289 -> 379 -> 314; 2017_2020 419 -> 419 -> 446 -> 443; pre2017 unchanged (its 3 prints are all gapped). The ladder column moves 0.0 in every cell: both ladder5 corporate actions (sh510500 2015-04-15, sh512100 2022-09-05) sit behind a suspension bar, so the adjacent-only screen deliberately leaves them. 16 of 34 delta cells non-zero."
+  },
+  {
+   "id": "E77-SCREENED-WIDE-ERA",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E76 re-derived the era spread from the screened universe and the newest era column moves 103bp -> 303bp (integer-only) -> 479bp (all adjacent), i.e. two thirds of the \"spread collapses in the newest era\" reading is unadjusted corporate-action prints rather than a market change. Before that correction is quoted anywhere, re-derive the wide-book headline columns (the E35/E36 era legs, the 2018 and 2020 starts, and the cost-x3 face) from the screened universe so the correction is shown to survive costs and both start windows.",
+   "deliverable": "results/e44_midmonth/SCREENWIDE-20261021.json + a screened/unscreened delta table on the wide-book era columns at cost x1 and x3",
+   "source": "r1147 E76 (2024_now 103 -> 303/479bp, ladder unchanged, 65 integer-only of 135 adjacent)",
+   "entered_at": "2026-10-22T00:30:00+08:00",
+   "entered_by": "bm-b r1147",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse _era_curves + panel_screen.screen_universe with cal passed; keep the unscreened column beside every screened one and do not touch any published face"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

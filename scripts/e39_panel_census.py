@@ -1038,27 +1038,16 @@ def _rebase(curve):
     return [(d, v / base) for d, v in curve] if base else []
 
 
-def run_era(outdir, pick_n=9999, exclude=("sh511",),
-            eras=(("pre2017", None, "2016-12-31"),
-                  ("2017_2020", "2017-01-01", "2020-12-31"),
-                  ("2021_2023", "2021-01-01", "2023-12-31"),
-                  ("2024_now", "2024-01-01", None))):
-    """Is the vs-ladder spread a regime or a constant?
+def _era_curves(raw_all, cal, pick_n):
+    """(E41/E76) the ladder5 and wide-top-N curves on one calendar.
 
-    The 2020+ pair leg measured the spread's own -13.04% drawdown, which already
-    says it is not a constant. This leg splits the same ratio curve by era and
-    profiles each slice on its own (re-based at the era's first bar), so a
-    single full-sample number cannot stand in for a path.
+    Factored out of run_era so the E76 screen leg can replay the identical book
+    from a repaired universe: the two faces then differ only in the closes
+    handed in, not in any book convention.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
-    if exclude:
-        raw_all = {s: v for s, v in raw_all.items()
-                   if not s.startswith(tuple(exclude))}
-    cal = base.load_panel()[0]
-    cutoff = cal[-1]
     all_syms = sorted(set(base.LADDER) | set(raw_all))
     prices, amounts = {}, {}
     for s in all_syms:
@@ -1074,13 +1063,18 @@ def run_era(outdir, pick_n=9999, exclude=("sh511",),
         curves[name], _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
                                                  n, 1.0, rank_cache)
     lad = curves["ladder5"]
+    wide = curves["wide_top%d" % pick_n]
     lmap = dict(lad)
-    wide_name = "wide_top%d" % pick_n
-    ratio = [(d, v / lmap[d]) for d, v in curves[wide_name] if d in lmap and lmap[d] > 0]
+    ratio = [(d, v / lmap[d]) for d, v in wide if d in lmap and lmap[d] > 0]
+    return lad, wide, ratio
+
+
+def _era_rows(lad, wide, ratio, eras):
+    """Era-partitioned risk profile of the ladder, the wide book and their ratio."""
     rows = {}
     for name, lo, hi in eras:
         seg_l = _rebase(_slice_curve(lad, lo, hi))
-        seg_w = _rebase(_slice_curve(curves[wide_name], lo, hi))
+        seg_w = _rebase(_slice_curve(wide, lo, hi))
         seg_r = _rebase(_slice_curve(ratio, lo, hi))
         if len(seg_l) < 2 or len(seg_w) < 2 or len(seg_r) < 2:
             rows[name] = {"bars": len(seg_l), "skipped": "fewer than 2 bars in this era"}
@@ -1108,6 +1102,32 @@ def run_era(outdir, pick_n=9999, exclude=("sh511",),
             "ladder_max_drawdown_pct": pl["max_drawdown_pct"],
             "wide_max_drawdown_pct": pw["max_drawdown_pct"],
         }
+    return rows
+
+
+def run_era(outdir, pick_n=9999, exclude=("sh511",),
+            eras=(("pre2017", None, "2016-12-31"),
+                  ("2017_2020", "2017-01-01", "2020-12-31"),
+                  ("2021_2023", "2021-01-01", "2023-12-31"),
+                  ("2024_now", "2024-01-01", None))):
+    """Is the vs-ladder spread a regime or a constant?
+
+    The 2020+ pair leg measured the spread's own -13.04% drawdown, which already
+    says it is not a constant. This leg splits the same ratio curve by era and
+    profiles each slice on its own (re-based at the era's first bar), so a
+    single full-sample number cannot stand in for a path.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal = base.load_panel()[0]
+    cutoff = cal[-1]
+    lad, wide, ratio = _era_curves(raw_all, cal, pick_n)
+    rows = _era_rows(lad, wide, ratio, eras)
     spreads = [r["spread_ann_bp"] for r in rows.values() if "spread_ann_bp" in r]
     return {
         "study": "e41_spread_era_decay",
@@ -4810,6 +4830,213 @@ def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return face
 
 
+# ------------------------------------------- leg: E76 screen-regrade (opt-in)
+#
+# E75 sized the problem: 135 adjacent-session prints past the 30% screen on 152
+# names, ~216bp/yr of equal-weight book impact -- 4.8x the -45bp residual the
+# chain had been chasing. But E75 only *sized* it; every published ladder and
+# era-spread number still charges the unadjusted prints. This leg is the other
+# half: the same two headline faces replayed from a repaired universe, with the
+# unscreened column kept beside them so the correction is measured, not claimed.
+
+LADDER_COLUMNS = ("ann_pct", "vol_pct", "sharpe", "max_drawdown_pct",
+                  "worst_month_return_pct", "turnover_per_year",
+                  "cost_per_year_bp")
+ERA_COLUMNS = ("spread_ann_bp", "ladder_ann_pct", "wide_ann_pct")
+ERA_RATIO_COLUMNS = ("max_drawdown_pct", "ann_pct")
+
+
+def _ladder_window(raw, cal, start):
+    """One ladder5 window (the E39 columns) from an already loaded universe."""
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    years = len(cal) / 252.0
+    prices = {}
+    for s in base.LADDER:
+        c = raw.get(s, ({}, {}))[0] if s in raw else {}
+        if not c:
+            c = base.load_panel(s)[1].get(s, {})
+        prices[s] = [c.get(d) for d in cal]
+    cash = base.load_cash_series(cal)
+    curve, aux, _hold = e27.simulate(cal, prices, {}, base.LADDER, cash, None, 1.0, {})
+    m = base.metrics(curve, years)
+    prof = risk_profile(curve, years)
+    return {
+        "start": start, "bars": len(cal),
+        "ann_pct": m.get("ann_return_pct"),
+        "vol_pct": m.get("ann_vol_pct"),
+        "sharpe": m.get("sharpe"),
+        "max_drawdown_pct": prof["max_drawdown_pct"],
+        "worst_month_return_pct": (prof["worst_month"] or {}).get("return_pct"),
+        "turnover_per_year": (round(aux["turnover_total"] / years, 4) if years else None),
+        "cost_per_year_bp": (round(aux["cost_paid_frac"] / years * 1e4, 2) if years else None),
+    }
+
+
+def _screen_face(raw, cal_full, pick_n, eras, ladder_starts):
+    """The two headline faces (ladder windows + era spread) from one universe."""
+    ladder = {}
+    for start in ladder_starts:
+        cal = [d for d in cal_full if d >= start]
+        ladder[start] = _ladder_window(raw, cal, start)
+    lad, wide, ratio = _era_curves(raw, cal_full, pick_n)
+    return {"ladder": ladder, "eras": _era_rows(lad, wide, ratio, eras)}
+
+
+def _delta_rows(base_label, faces):
+    """Column-by-column unscreened vs screened table, one row per cell."""
+    rows = []
+    base_face = faces[base_label]
+    others = [k for k in faces if k != base_label]
+
+    def cell(row, key, u, v):
+        row[key] = v
+        row["delta_" + key] = (round(v - u, 4)
+                               if isinstance(v, (int, float)) and isinstance(u, (int, float))
+                               else None)
+
+    for start in sorted(base_face["ladder"]):
+        u = base_face["ladder"][start]
+        for col in LADDER_COLUMNS:
+            row = {"face": "ladder@%s" % start, "column": col,
+                   "unscreened": u.get(col)}
+            for mode in others:
+                cell(row, mode, u.get(col), faces[mode]["ladder"][start].get(col))
+            rows.append(row)
+    for era in base_face["eras"]:
+        u = base_face["eras"][era]
+        if "spread_ann_bp" not in u:
+            continue
+        for col in ERA_COLUMNS:
+            row = {"face": "era:%s" % era, "column": col, "unscreened": u.get(col)}
+            for mode in others:
+                cell(row, mode, u.get(col), faces[mode]["eras"][era].get(col))
+            rows.append(row)
+        for col in ERA_RATIO_COLUMNS:
+            ur = (u.get("ratio_path") or {}).get(col)
+            row = {"face": "era:%s" % era, "column": "ratio_" + col,
+                   "unscreened": ur}
+            for mode in others:
+                cell(row, mode, ur,
+                     (faces[mode]["eras"][era].get("ratio_path") or {}).get(col))
+            rows.append(row)
+    return rows
+
+
+def _member_print_face(closes, cal, thresh=None):
+    """(E76) how many adjacent/gapped artefact prints one series carries."""
+    import panel_screen
+    if not closes:
+        return {"adjacent": 0, "gapped": 0, "prints": []}
+    events = panel_screen.split_events(closes, cal=cal)
+    adj = [e for e in events if e["adjacent"]]
+    return {"adjacent": len(adj), "gapped": len(events) - len(adj),
+            "prints": [{"date": e["date"], "ret_pct": round(e["ret_pct"], 2),
+                        "adjacent": e["adjacent"]} for e in events]}
+
+
+def run_screenreg(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                  modes=("neutralise_int", "neutralise", "drop"), eras=ERAS,
+                  ladder_starts=("2020-01-01", "2018-01-01")):
+    """E76: re-derive the ladder + era-spread headline with the split screen on.
+
+    The loader is opt-in (``scripts/panel_screen.py``); this leg is the only
+    caller in the census chain, and it publishes the unscreened column beside
+    every screened one. A screened number without its unscreened twin would let
+    one silent repair move the whole book.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    faces = {"unscreened": _screen_face(raw, cal_full, pick_n, eras, ladder_starts)}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        faces[mode] = _screen_face(repaired, cal_full, pick_n, eras, ladder_starts)
+
+    delta = _delta_rows("unscreened", faces)
+
+    def _biggest(pred):
+        rows = [r for r in delta if pred(r)]
+        if not rows:
+            return None
+        best = max(rows, key=lambda r: max(
+            abs(r["delta_" + m]) for m in modes if r.get("delta_" + m) is not None))
+        out = {"face": best["face"], "column": best["column"],
+               "unscreened": best["unscreened"]}
+        for m in modes:
+            out[m] = best.get(m)
+            out["delta_" + m] = best.get("delta_" + m)
+        return out
+
+    flipped = sorted(era for era in faces["unscreened"]["eras"]
+                     if "spread_ann_bp" in faces["unscreened"]["eras"][era]
+                     and any((faces[m]["eras"][era].get("spread_ann_bp") or 0)
+                             * (faces["unscreened"]["eras"][era]["spread_ann_bp"] or 0) < 0
+                             for m in modes))
+
+    return {
+        "study": "e76_panelscreen_regrade",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "cost_bp_per_side": base.COST_BP_SIDE,
+            "ladder_starts": list(ladder_starts),
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "loader": "scripts/panel_screen.py (opt-in; every other leg still "
+                      "reads e27.load_universe() unmodified)",
+            "books": "ladder5 = E39 engine call on the five ladder members; era "
+                     "spread = E41 ladder5 vs wide_topN on the full calendar",
+        },
+        "screen_reports": reports,
+        "faces": faces,
+        "delta": delta,
+        "answers": {
+            "ladder_worst_correction": _biggest(
+                lambda r: r["face"].startswith("ladder@")),
+            "ladder_member_prints": {
+                s: _member_print_face(raw.get(s, ({}, {}))[0], cal_full)
+                for s in base.LADDER if s in raw},
+            "era_worst_correction": _biggest(
+                lambda r: r["face"].startswith("era:") and r["column"] == "spread_ann_bp"),
+            "eras_whose_spread_changes_sign": flipped,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([r for r in delta
+                                         if any(r.get("delta_" + m) not in (None, 0)
+                                                for m in modes)]),
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only: a flagged ETF print "
+            "may be genuine (ETF daily limits differ from the 10%/20% stock band), "
+            "so 'neutralise' is a sensitivity face, not a corrected truth",
+            "three columns are published for that reason: neutralise_int repairs only "
+            "the prints whose price ratio lands on an integer (a share ratio with no "
+            "announcement feed), neutralise repairs every adjacent print, drop removes "
+            "the name -- the range between them bounds the correction",
+            "a slashed >30% sequence may need more than one event to clear; the "
+            "loader applies every adjacent event it finds, and the report lists them",
+            "the screened book is not a pre-registration and books no trial: it is "
+            "the same descriptive face replayed from a different input",
+            "drop mode changes the universe (n and eligibility), so its delta mixes "
+            "the correction with a composition change; neutralise isolates it",
+            "gapped prints are deliberately not repaired -- a resumption after "
+            "suspension can be a real market print, and on this panel both ladder5 "
+            "corporate actions sit behind a suspension bar, which is why the ladder "
+            "column does not move at all (ladder_member_prints shows each one)",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -5362,6 +5589,40 @@ def selftest():
         and abs(_ps["total_book_bp"] - _pev[0]["book_impact_bp"]) < 1e-9,
         "the split summary totals the book impacts and counts names and gaps")
 
+    # E76 screen-regrade: the opt-in loader, the delta table, and era shortfall
+    import panel_screen
+    chk(panel_screen.selftest() == 0,
+        "the opt-in screen module passes its own selftest")
+    _cur = [("2020-01-02", 1.0), ("2020-01-31", 1.1), ("2020-02-28", 1.2)]
+    chk(_era_rows(_cur, _cur, _cur,
+                  (("short", "2020-01-01", "2020-01-31"),))["short"]["bars"] == 2,
+        "era slicing keeps the bars inside the era")
+    chk("skipped" in _era_rows(_cur, _cur, _cur,
+                               (("empty", "2019-01-01", "2019-12-31"),))["empty"],
+        "an era with no bars is skipped, not published as a zero")
+    _faces = {"unscreened": {"ladder": {"2020-01-01": {"ann_pct": 10.0, "sharpe": 1.0}},
+                             "eras": {"pre2017": {"spread_ann_bp": -40.0,
+                                                  "ladder_ann_pct": 5.0,
+                                                  "wide_ann_pct": 1.0,
+                                                  "ratio_path": {"max_drawdown_pct": -12.0,
+                                                                 "ann_pct": 1.0}}}},
+              "neutralise": {"ladder": {"2020-01-01": {"ann_pct": 12.5, "sharpe": 1.2}},
+                             "eras": {"pre2017": {"spread_ann_bp": 15.0,
+                                                  "ladder_ann_pct": 6.0,
+                                                  "wide_ann_pct": 7.5,
+                                                  "ratio_path": {"max_drawdown_pct": -9.0,
+                                                                 "ann_pct": 2.0}}}}}
+    _d = _delta_rows("unscreened", _faces)
+    _ann = [r for r in _d if r["face"] == "ladder@2020-01-01" and r["column"] == "ann_pct"][0]
+    chk(_ann["unscreened"] == 10.0 and _ann["neutralise"] == 12.5
+        and abs(_ann["delta_neutralise"] - 2.5) < 1e-12,
+        "the delta row keeps the unscreened twin and reports screened-minus-unscreened")
+    _sp = [r for r in _d if r["face"] == "era:pre2017" and r["column"] == "spread_ann_bp"][0]
+    chk(_sp["unscreened"] == -40.0 and _sp["delta_neutralise"] == 55.0,
+        "the era spread delta is the same arithmetic on the era column")
+    chk(any(r["column"] == "ratio_max_drawdown_pct" for r in _d),
+        "the ratio path is carried into the delta table, not just the levels")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -5376,7 +5637,7 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "all", "selftest"])
+                             "panelsplit", "screenreg", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -5782,6 +6043,21 @@ def main(argv):
                                    "bp": e["book_impact_bp"],
                                    "ratio": (e.get("implied_ratio") or {}).get("ratio")}
                                   for e in f["top_events"][:5]]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screenreg":
+        f = run_screenreg(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "SCREENREG-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screenreg", "file": os.path.relpath(p, ROOT),
+                          "screen": {k: {"names_touched": v["names_touched"],
+                                         "events": v["events_neutralised"],
+                                         "integer_like": v["integer_like_events"]}
+                                     for k, v in f["screen_reports"].items()},
+                          "answers": f["answers"],
+                          "moved_cells": [r for r in f["delta"]
+                                          if any(r.get("delta_" + m) not in (None, 0)
+                                                 for m in f["screen_reports"])][:12]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
