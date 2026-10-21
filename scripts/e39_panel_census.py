@@ -2606,6 +2606,237 @@ def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
     }
 
 
+# ------------------------------------------- leg: mid-month vs month-end churn
+
+def _decision_sets(cal, prices, amounts, universe, pick_n, rebal_idxs, rank_cache):
+    """[(decision_idx, holdings)] using the engine's own rank call.
+
+    The P&L is never re-implemented here: this helper only asks the same
+    function the engine asks, so the recorded book cannot drift from the
+    book that produced the curve.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    out = []
+    for i in sorted(rebal_idxs):
+        if pick_n is None:
+            live = [s for s in universe if s in prices and base.elig(prices[s], i)]
+        else:
+            live = e27._rank(i, universe, prices, amounts, rank_cache)[:pick_n]
+        if live:
+            out.append((i, sorted(live)))
+    return out
+
+
+def _era_of(date, eras=ERAS):
+    """Era of a decision date. Bounds are truncated to YYYY-MM before comparing:
+    a bare month is a string PREFIX of its own first day, so '2024-01' <
+    '2024-01-01' and every era would silently lose its first month."""
+    month = date[:7]
+    for name, lo, hi in eras:
+        lo_m = lo[:7] if lo else None
+        hi_m = hi[:7] if hi else None
+        if (lo_m is None or month >= lo_m) and (hi_m is None or month <= hi_m):
+            return name
+    return None
+
+
+def _churn_stats(cal, prices, decisions, eras=ERAS):
+    """Per-transition membership churn and the entrant-minus-exit sleeve.
+
+    churn_alpha_bp measures what the swap itself bought: the mean forward
+    return (decision to next decision) of the names brought in minus the mean
+    forward return of the names dropped. It is a name-level read of the same
+    window the book actually held, not a portfolio return.
+    """
+    rows = []
+    for k in range(1, len(decisions)):
+        i0, prev = decisions[k - 1]
+        i1, cur = decisions[k]
+        pset, cset = set(prev), set(cur)
+        ent = [s for s in cur if s not in pset]
+        ext = [s for s in prev if s not in cset]
+
+        def fwd(s):
+            series = prices.get(s)
+            if not series:
+                return None
+            p0, p1 = series[i0], series[i1]
+            if p0 is None or p1 is None or p0 <= 0:
+                return None
+            return p1 / p0 - 1.0
+
+        fe = [x for x in (fwd(s) for s in ent) if x is not None]
+        fx = [x for x in (fwd(s) for s in ext) if x is not None]
+        union = cset | pset
+        rows.append({
+            "date": cal[i0], "next": cal[i1], "era": _era_of(cal[i0], eras),
+            "members": len(cur), "entrants": len(ent), "exits": len(ext),
+            "entrant_share_pct": round(100.0 * len(ent) / len(cur), 2) if cur else None,
+            "membership_churn_pct": (round(100.0 * len(union - (cset & pset)) / len(union), 2)
+                                     if union else None),
+            "entrant_fwd_pct": round(100 * sum(fe) / len(fe), 3) if fe else None,
+            "exit_fwd_pct": round(100 * sum(fx) / len(fx), 3) if fx else None,
+            "churn_alpha_bp": (round(1e4 * (sum(fe) / len(fe) - sum(fx) / len(fx)), 1)
+                               if fe and fx else None),
+        })
+
+    agg = {}
+    for name, _lo, _hi in eras:
+        sub = [r for r in rows if r["era"] == name and r["churn_alpha_bp"] is not None]
+        if not sub:
+            continue
+        alphas = sorted(r["churn_alpha_bp"] for r in sub)
+        agg[name] = {
+            "transitions": len(sub),
+            "entrant_share_pct_mean": round(sum(r["entrant_share_pct"] for r in sub) / len(sub), 2),
+            "membership_churn_pct_mean": round(sum(r["membership_churn_pct"] for r in sub) / len(sub), 2),
+            "churn_alpha_bp_mean": round(sum(alphas) / len(alphas), 1),
+            "churn_alpha_bp_median": round(alphas[len(alphas) // 2], 1),
+            "negative_churn_share_pct": round(100.0 * sum(1 for a in alphas if a < 0) / len(alphas), 1),
+        }
+    return rows, agg
+
+
+def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                 mid_day=15, costs=(0.0, 1.0, 3.0)):
+    """E44: explain the mid-month calendar's weakness at name level.
+
+    E43's robustness grid put mid15 at the bottom of every cost column. Two
+    candidate mechanisms are separated here on one identical universe and one
+    identical rank cache: (a) the mid-month book simply turns over more, so
+    fees eat the difference; (b) it turns over the same amount but swaps into
+    worse names inside each held window. The churn sleeve answers (b) directly
+    and turnover-per-year answers (a).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    years = len(cal) / 252.0
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    cash = base.load_cash_series(cal)
+    rank_cache = {}
+    wide_name = "wide_top%d" % pick_n
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid%d" % mid_day, _mid_month_indices(cal, mid_day))]
+
+    books = {}
+    for label, idxs in calendars:
+        decisions = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                   idxs, rank_cache)
+        churn_rows, churn_agg = _churn_stats(cal, prices, decisions)
+        arms = {}
+        for cm in costs:
+            curve, aux, _hold = e27.simulate(cal, prices, amounts, universe, cash,
+                                             pick_n, cm, rank_cache, set(idxs))
+            eras = {}
+            for name, lo, hi in ERAS:
+                sub = _slice_curve(curve, lo, hi)
+                if len(sub) < 2:
+                    eras[name] = {"bars": len(sub), "skipped": "too few bars"}
+                    continue
+                prof = risk_profile(_rebase(sub), len(sub) / 252.0)
+                eras[name] = {"bars": len(sub),
+                              "ann_return_pct": prof["ann_return_pct"],
+                              "max_drawdown_pct": prof["max_drawdown_pct"],
+                              "monthly_win_rate_pct": prof["monthly_win_rate_pct"]}
+            arms["x%g" % cm] = {
+                "rebalances": aux["rebalances"],
+                "turnover_per_year": round(aux["turnover_total"] / years, 3) if years else None,
+                "full_window_ann_pct": risk_profile(curve, years)["ann_return_pct"],
+                "eras": eras,
+            }
+        books[label] = {
+            "decision_days": len(idxs),
+            "arms": arms,
+            "churn": churn_agg,
+            "churn_transitions": len(churn_rows),
+            "recent_transitions": churn_rows[-6:],
+        }
+
+    me, mid = books["me"], books["mid%d" % mid_day]
+    eras_out = {}
+    for name, _lo, _hi in ERAS:
+        row = {}
+        for label, book in (("me", me), ("mid", mid)):
+            churn = book["churn"].get(name, {})
+            row[label] = {
+                "x0_ann_pct": book["arms"]["x0"]["eras"].get(name, {}).get("ann_return_pct"),
+                "x1_ann_pct": book["arms"]["x1"]["eras"].get(name, {}).get("ann_return_pct"),
+                "x3_ann_pct": book["arms"]["x3"]["eras"].get(name, {}).get("ann_return_pct"),
+                "churn_alpha_bp_mean": churn.get("churn_alpha_bp_mean"),
+                "negative_churn_share_pct": churn.get("negative_churn_share_pct"),
+                "entrant_share_pct_mean": churn.get("entrant_share_pct_mean"),
+            }
+        for cm in ("x0", "x1", "x3"):
+            a, b = row["me"][cm + "_ann_pct"], row["mid"][cm + "_ann_pct"]
+            row["gap_%s_bp" % cm] = (round((b - a) * 100, 1)
+                                    if a is not None and b is not None else None)
+        ca, cb = row["me"]["churn_alpha_bp_mean"], row["mid"]["churn_alpha_bp_mean"]
+        row["churn_alpha_gap_bp"] = (round(cb - ca, 1)
+                                     if ca is not None and cb is not None else None)
+        eras_out[name] = row
+
+    # (a) turnover mechanism vs (b) membership mechanism, same units (bp/yr)
+    turn_gap = (mid["arms"]["x1"]["turnover_per_year"] or 0) - (me["arms"]["x1"]["turnover_per_year"] or 0)
+    fee_per_turn_bp = 2 * base.COST_BP_SIDE  # one round turn on the swapped half
+    fee_gap_bp = 100.0 * turn_gap * base.COST_BP_SIDE / 2.0  # bp/yr, half-turn convention
+    newest = eras_out.get("2024_now", {})
+    return {
+        "study": "e44_midmonth_churn",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cost_mult_list": list(costs), "cost_bp_per_side": base.COST_BP_SIDE,
+                 "start": start, "mid_month_day": mid_day,
+                 "calendars": [c[0] for c in calendars],
+                 "universe_members": len(universe)},
+        "books": books,
+        "eras": eras_out,
+        "answers": {
+            "turnover_per_year_me": me["arms"]["x1"]["turnover_per_year"],
+            "turnover_per_year_mid": mid["arms"]["x1"]["turnover_per_year"],
+            "turnover_gap_per_year": round(turn_gap, 3),
+            "fee_gap_bp_per_year_implied": round(fee_gap_bp, 1),
+            "full_window_gap_x1_bp": round(
+                (mid["arms"]["x1"]["full_window_ann_pct"]
+                 - me["arms"]["x1"]["full_window_ann_pct"]) * 100, 1),
+            "newest_era_gap_x1_bp": newest.get("gap_x1_bp"),
+            "newest_era_churn_alpha_gap_bp": newest.get("churn_alpha_gap_bp"),
+            "newest_era_me_negative_churn_share_pct":
+                eras_out.get("2024_now", {}).get("me", {}).get("negative_churn_share_pct"),
+            "newest_era_mid_negative_churn_share_pct":
+                eras_out.get("2024_now", {}).get("mid", {}).get("negative_churn_share_pct"),
+        },
+        "honest": [
+            "the churn sleeve is an equal-weight mean over the swapped names, not a portfolio "
+            "return: it says whether the names taken in beat the names given up inside that "
+            "window, not how much money the book made",
+            "both calendars share one calendar, one universe and one rank cache, so the only "
+            "moving part is the set of decision sessions",
+            "mid-month is a single fixed date (day %d), not a sweep: it prices a wrong-calendar "
+            "cost, it does not search for a better one" % mid_day,
+            "the fee_gap figure is an order-of-magnitude conversion of the turnover difference "
+            "into bp/yr, not a reconciliation of the measured gap",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -2817,6 +3048,29 @@ def selftest():
     chk(_split_curve([("d%d" % i, 1.0) for i in range(3)], 2) == [],
         "a slice too short to split is refused, not half-split")
 
+    # E44 churn sleeve: identical books swap nothing
+    ccal = ["2020-01-%02d" % d for d in (2, 3, 6, 7)]
+    cpx = {"a": [1.0, 1.0, 1.0, 1.0], "b": [1.0, 1.0, 1.0, 1.0]}
+    same = [(1, ["a", "b"]), (3, ["a", "b"])]
+    rows, agg = _churn_stats(ccal, cpx, same)
+    chk(len(rows) == 1 and rows[0]["entrants"] == 0 and rows[0]["churn_alpha_bp"] is None,
+        "identical consecutive books produce no churn and no churn alpha")
+    chk(agg == {}, "a book that never swaps contributes no era aggregate")
+
+    # one-in one-out with known forward returns: alpha == entrant minus exit
+    swap = [(1, ["a"]), (3, ["b"])]
+    cpx2 = {"a": [1.0, 1.0, 2.0, 1.1], "b": [1.0, 1.0, 2.0, 0.9]}
+    rows2, agg2 = _churn_stats(ccal, cpx2, swap)
+    chk(rows2[0]["entrants"] == 1 and rows2[0]["exits"] == 1,
+        "a full swap reports one entrant and one exit")
+    chk(abs(rows2[0]["churn_alpha_bp"] - (-2000.0)) < 1e-9,
+        "churn alpha is entrant forward return minus exit forward return in bp "
+        "(-10%% entrant vs +10%% exit -> -2000bp)")
+
+    # era attribution follows the decision date, not the next date
+    chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
+        "era boundaries key on the decision date")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -2828,10 +3082,11 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
-                             "e46", "livespan", "all", "selftest"])
+                             "e46", "livespan", "midmonth", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
+    ap.add_argument("--start", default="2020-01-01", help="window start (midmonth leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -3051,6 +3306,22 @@ def main(argv):
                                        "flip": v.get("sign_flips_inside_era")}
                                    for k, v in f["eras"].items()},
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "midmonth":
+        f = run_midmonth(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "MID-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""),
+                          "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")), f)
+        print(json.dumps({"leg": "midmonth", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "eras": {k: {"me_x1_bp": v["me"]["x1_ann_pct"],
+                                       "mid_x1_bp": v["mid"]["x1_ann_pct"],
+                                       "gap_x1_bp": v.get("gap_x1_bp"),
+                                       "me_churn_alpha_bp": v["me"]["churn_alpha_bp_mean"],
+                                       "mid_churn_alpha_bp": v["mid"]["churn_alpha_bp_mean"]}
+                                   for k, v in f["eras"].items()}},
+                         ensure_ascii=False))
         return 0
     if args.mode == "month":
         if not args.month:

@@ -1,0 +1,515 @@
+{
+ "study": "e44_midmonth_churn",
+ "evidence_cutoff": "2026-10-20",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult_list": [
+   0.0,
+   1.0,
+   3.0
+  ],
+  "cost_bp_per_side": 13.041,
+  "start": "2020-01-01",
+  "mid_month_day": 15,
+  "calendars": [
+   "me",
+   "mid15"
+  ],
+  "universe_members": 1265
+ },
+ "books": {
+  "me": {
+   "decision_days": 82,
+   "arms": {
+    "x0": {
+     "rebalances": 69,
+     "turnover_per_year": 0.591,
+     "full_window_ann_pct": 0.93,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.49,
+       "max_drawdown_pct": -28.6,
+       "monthly_win_rate_pct": 40.0
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 12.04,
+       "max_drawdown_pct": -17.29,
+       "monthly_win_rate_pct": 60.6
+      }
+     }
+    },
+    "x1": {
+     "rebalances": 69,
+     "turnover_per_year": 0.591,
+     "full_window_ann_pct": 0.86,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.6,
+       "max_drawdown_pct": -28.75,
+       "monthly_win_rate_pct": 40.0
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.97,
+       "max_drawdown_pct": -17.32,
+       "monthly_win_rate_pct": 60.6
+      }
+     }
+    },
+    "x3": {
+     "rebalances": 69,
+     "turnover_per_year": 0.591,
+     "full_window_ann_pct": 0.7,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.82,
+       "max_drawdown_pct": -29.06,
+       "monthly_win_rate_pct": 40.0
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.84,
+       "max_drawdown_pct": -17.38,
+       "monthly_win_rate_pct": 60.6
+      }
+     }
+    }
+   },
+   "churn": {
+    "2021_2023": {
+     "transitions": 27,
+     "entrant_share_pct_mean": 4.28,
+     "membership_churn_pct_mean": 5.05,
+     "churn_alpha_bp_mean": 1866.5,
+     "churn_alpha_bp_median": 682.7,
+     "negative_churn_share_pct": 22.2
+    },
+    "2024_now": {
+     "transitions": 28,
+     "entrant_share_pct_mean": 2.31,
+     "membership_churn_pct_mean": 2.61,
+     "churn_alpha_bp_mean": 95.6,
+     "churn_alpha_bp_median": 81.9,
+     "negative_churn_share_pct": 42.9
+    }
+   },
+   "churn_transitions": 69,
+   "recent_transitions": [
+    {
+     "date": "2026-04-30",
+     "next": "2026-05-29",
+     "era": "2024_now",
+     "members": 1063,
+     "entrants": 38,
+     "exits": 1,
+     "entrant_share_pct": 3.57,
+     "membership_churn_pct": 3.67,
+     "entrant_fwd_pct": -2.13,
+     "exit_fwd_pct": -8.564,
+     "churn_alpha_bp": 643.4
+    },
+    {
+     "date": "2026-05-29",
+     "next": "2026-06-30",
+     "era": "2024_now",
+     "members": 1097,
+     "entrants": 37,
+     "exits": 3,
+     "entrant_share_pct": 3.37,
+     "membership_churn_pct": 3.64,
+     "entrant_fwd_pct": 5.562,
+     "exit_fwd_pct": 0.488,
+     "churn_alpha_bp": 507.4
+    },
+    {
+     "date": "2026-06-30",
+     "next": "2026-07-31",
+     "era": "2024_now",
+     "members": 1130,
+     "entrants": 35,
+     "exits": 2,
+     "entrant_share_pct": 3.1,
+     "membership_churn_pct": 3.27,
+     "entrant_fwd_pct": -2.03,
+     "exit_fwd_pct": 0.238,
+     "churn_alpha_bp": -226.8
+    },
+    {
+     "date": "2026-07-31",
+     "next": "2026-08-31",
+     "era": "2024_now",
+     "members": 1168,
+     "entrants": 39,
+     "exits": 1,
+     "entrant_share_pct": 3.34,
+     "membership_churn_pct": 3.42,
+     "entrant_fwd_pct": 1.91,
+     "exit_fwd_pct": 0.702,
+     "churn_alpha_bp": 120.8
+    },
+    {
+     "date": "2026-08-31",
+     "next": "2026-09-30",
+     "era": "2024_now",
+     "members": 1198,
+     "entrants": 35,
+     "exits": 5,
+     "entrant_share_pct": 2.92,
+     "membership_churn_pct": 3.33,
+     "entrant_fwd_pct": -5.156,
+     "exit_fwd_pct": -4.164,
+     "churn_alpha_bp": -99.3
+    },
+    {
+     "date": "2026-09-30",
+     "next": "2026-10-20",
+     "era": "2024_now",
+     "members": 1223,
+     "entrants": 27,
+     "exits": 2,
+     "entrant_share_pct": 2.21,
+     "membership_churn_pct": 2.37,
+     "entrant_fwd_pct": -3.444,
+     "exit_fwd_pct": -6.649,
+     "churn_alpha_bp": 320.4
+    }
+   ]
+  },
+  "mid15": {
+   "decision_days": 82,
+   "arms": {
+    "x0": {
+     "rebalances": 70,
+     "turnover_per_year": 0.594,
+     "full_window_ann_pct": 0.23,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -9.26,
+       "max_drawdown_pct": -28.34,
+       "monthly_win_rate_pct": 42.9
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.16,
+       "max_drawdown_pct": -18.52,
+       "monthly_win_rate_pct": 57.6
+      }
+     }
+    },
+    "x1": {
+     "rebalances": 70,
+     "turnover_per_year": 0.594,
+     "full_window_ann_pct": 0.16,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -9.37,
+       "max_drawdown_pct": -28.49,
+       "monthly_win_rate_pct": 42.9
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 11.1,
+       "max_drawdown_pct": -18.54,
+       "monthly_win_rate_pct": 57.6
+      }
+     }
+    },
+    "x3": {
+     "rebalances": 70,
+     "turnover_per_year": 0.594,
+     "full_window_ann_pct": 0.0,
+     "eras": {
+      "pre2017": {
+       "bars": 0,
+       "skipped": "too few bars"
+      },
+      "2017_2020": {
+       "bars": 242,
+       "ann_return_pct": 2.29,
+       "max_drawdown_pct": 0.0,
+       "monthly_win_rate_pct": 100.0
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -9.59,
+       "max_drawdown_pct": -28.79,
+       "monthly_win_rate_pct": 42.9
+      },
+      "2024_now": {
+       "bars": 675,
+       "ann_return_pct": 10.97,
+       "max_drawdown_pct": -18.59,
+       "monthly_win_rate_pct": 57.6
+      }
+     }
+    }
+   },
+   "churn": {
+    "2021_2023": {
+     "transitions": 29,
+     "entrant_share_pct_mean": 4.5,
+     "membership_churn_pct_mean": 5.22,
+     "churn_alpha_bp_mean": 2185.4,
+     "churn_alpha_bp_median": 284.6,
+     "negative_churn_share_pct": 31.0
+    },
+    "2024_now": {
+     "transitions": 27,
+     "entrant_share_pct_mean": 2.18,
+     "membership_churn_pct_mean": 2.51,
+     "churn_alpha_bp_mean": -123.7,
+     "churn_alpha_bp_median": 18.1,
+     "negative_churn_share_pct": 48.1
+    }
+   },
+   "churn_transitions": 69,
+   "recent_transitions": [
+    {
+     "date": "2026-04-15",
+     "next": "2026-05-15",
+     "era": "2024_now",
+     "members": 1042,
+     "entrants": 39,
+     "exits": 0,
+     "entrant_share_pct": 3.74,
+     "membership_churn_pct": 3.74,
+     "entrant_fwd_pct": 6.263,
+     "exit_fwd_pct": null,
+     "churn_alpha_bp": null
+    },
+    {
+     "date": "2026-05-15",
+     "next": "2026-06-15",
+     "era": "2024_now",
+     "members": 1082,
+     "entrants": 42,
+     "exits": 2,
+     "entrant_share_pct": 3.88,
+     "membership_churn_pct": 4.06,
+     "entrant_fwd_pct": -3.068,
+     "exit_fwd_pct": -5.672,
+     "churn_alpha_bp": 260.4
+    },
+    {
+     "date": "2026-06-15",
+     "next": "2026-07-15",
+     "era": "2024_now",
+     "members": 1111,
+     "entrants": 32,
+     "exits": 3,
+     "entrant_share_pct": 2.88,
+     "membership_churn_pct": 3.14,
+     "entrant_fwd_pct": -1.945,
+     "exit_fwd_pct": -5.091,
+     "churn_alpha_bp": 314.7
+    },
+    {
+     "date": "2026-07-15",
+     "next": "2026-08-17",
+     "era": "2024_now",
+     "members": 1152,
+     "entrants": 43,
+     "exits": 2,
+     "entrant_share_pct": 3.73,
+     "membership_churn_pct": 3.9,
+     "entrant_fwd_pct": -0.461,
+     "exit_fwd_pct": 0.944,
+     "churn_alpha_bp": -140.4
+    },
+    {
+     "date": "2026-08-17",
+     "next": "2026-09-15",
+     "era": "2024_now",
+     "members": 1185,
+     "entrants": 35,
+     "exits": 2,
+     "entrant_share_pct": 2.95,
+     "membership_churn_pct": 3.12,
+     "entrant_fwd_pct": -7.593,
+     "exit_fwd_pct": -5.542,
+     "churn_alpha_bp": -205.1
+    },
+    {
+     "date": "2026-09-15",
+     "next": "2026-10-15",
+     "era": "2024_now",
+     "members": 1219,
+     "entrants": 38,
+     "exits": 4,
+     "entrant_share_pct": 3.12,
+     "membership_churn_pct": 3.43,
+     "entrant_fwd_pct": -5.272,
+     "exit_fwd_pct": -4.662,
+     "churn_alpha_bp": -61.0
+    }
+   ]
+  }
+ },
+ "eras": {
+  "pre2017": {
+   "me": {
+    "x0_ann_pct": null,
+    "x1_ann_pct": null,
+    "x3_ann_pct": null,
+    "churn_alpha_bp_mean": null,
+    "negative_churn_share_pct": null,
+    "entrant_share_pct_mean": null
+   },
+   "mid": {
+    "x0_ann_pct": null,
+    "x1_ann_pct": null,
+    "x3_ann_pct": null,
+    "churn_alpha_bp_mean": null,
+    "negative_churn_share_pct": null,
+    "entrant_share_pct_mean": null
+   },
+   "gap_x0_bp": null,
+   "gap_x1_bp": null,
+   "gap_x3_bp": null,
+   "churn_alpha_gap_bp": null
+  },
+  "2017_2020": {
+   "me": {
+    "x0_ann_pct": 2.29,
+    "x1_ann_pct": 2.29,
+    "x3_ann_pct": 2.29,
+    "churn_alpha_bp_mean": null,
+    "negative_churn_share_pct": null,
+    "entrant_share_pct_mean": null
+   },
+   "mid": {
+    "x0_ann_pct": 2.29,
+    "x1_ann_pct": 2.29,
+    "x3_ann_pct": 2.29,
+    "churn_alpha_bp_mean": null,
+    "negative_churn_share_pct": null,
+    "entrant_share_pct_mean": null
+   },
+   "gap_x0_bp": 0.0,
+   "gap_x1_bp": 0.0,
+   "gap_x3_bp": 0.0,
+   "churn_alpha_gap_bp": null
+  },
+  "2021_2023": {
+   "me": {
+    "x0_ann_pct": -8.49,
+    "x1_ann_pct": -8.6,
+    "x3_ann_pct": -8.82,
+    "churn_alpha_bp_mean": 1866.5,
+    "negative_churn_share_pct": 22.2,
+    "entrant_share_pct_mean": 4.28
+   },
+   "mid": {
+    "x0_ann_pct": -9.26,
+    "x1_ann_pct": -9.37,
+    "x3_ann_pct": -9.59,
+    "churn_alpha_bp_mean": 2185.4,
+    "negative_churn_share_pct": 31.0,
+    "entrant_share_pct_mean": 4.5
+   },
+   "gap_x0_bp": -77.0,
+   "gap_x1_bp": -77.0,
+   "gap_x3_bp": -77.0,
+   "churn_alpha_gap_bp": 318.9
+  },
+  "2024_now": {
+   "me": {
+    "x0_ann_pct": 12.04,
+    "x1_ann_pct": 11.97,
+    "x3_ann_pct": 11.84,
+    "churn_alpha_bp_mean": 95.6,
+    "negative_churn_share_pct": 42.9,
+    "entrant_share_pct_mean": 2.31
+   },
+   "mid": {
+    "x0_ann_pct": 11.16,
+    "x1_ann_pct": 11.1,
+    "x3_ann_pct": 10.97,
+    "churn_alpha_bp_mean": -123.7,
+    "negative_churn_share_pct": 48.1,
+    "entrant_share_pct_mean": 2.18
+   },
+   "gap_x0_bp": -88.0,
+   "gap_x1_bp": -87.0,
+   "gap_x3_bp": -87.0,
+   "churn_alpha_gap_bp": -219.3
+  }
+ },
+ "answers": {
+  "turnover_per_year_me": 0.591,
+  "turnover_per_year_mid": 0.594,
+  "turnover_gap_per_year": 0.003,
+  "fee_gap_bp_per_year_implied": 2.0,
+  "full_window_gap_x1_bp": -70.0,
+  "newest_era_gap_x1_bp": -87.0,
+  "newest_era_churn_alpha_gap_bp": -219.3,
+  "newest_era_me_negative_churn_share_pct": 42.9,
+  "newest_era_mid_negative_churn_share_pct": 48.1
+ },
+ "honest": [
+  "the churn sleeve is an equal-weight mean over the swapped names, not a portfolio return: it says whether the names taken in beat the names given up inside that window, not how much money the book made",
+  "both calendars share one calendar, one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "mid-month is a single fixed date (day 15), not a sweep: it prices a wrong-calendar cost, it does not search for a better one",
+  "the fee_gap figure is an order-of-magnitude conversion of the turnover difference into bp/yr, not a reconciliation of the measured gap",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}

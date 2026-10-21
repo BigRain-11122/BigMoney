@@ -31,7 +31,12 @@
   },
   {
    "id": "E44-MIDMONTH-WEAKNESS",
-   "status": "ready",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MID-20261020.json"
+   ],
+   "closed_at": "2026-10-21T08:44:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "In the E43 robustness grid the mid-month calendar is the weakest cell at every cost level (newest-era size-neutral +3.8bp at x1 and -3.3bp at x3, against +38.5bp for month-end). Explain the gap at name level: which holdings differ between the mid-month and month-end decisions, how much of the 30bp is membership churn versus the extra holding turn, and whether the weakness is confined to the newest era or is a general calendar property.",
@@ -20814,7 +20819,12 @@
   },
   {
    "id": "E56-PARTS-P11",
-   "status": "inline",
+   "status": "done",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x0-p11.json"
+   ],
+   "closed_at": "2026-10-21T08:44:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -20856,7 +20866,12 @@
   },
   {
    "id": "E56-PARTS-P11-COST-X3",
-   "status": "inline",
+   "status": "done",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x3-p11.json"
+   ],
+   "closed_at": "2026-10-21T08:44:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -20895,7 +20910,36 @@
    "closed_by": "bm-b",
    "seeded_at": "2026-10-21T08:10:13+08:00",
    "seeded_by": "bm-b"
+  },
+  {
+   "id": "E57-MIDMONTH-CHASE-NAMES",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Newest era: the mid-month book buys names that then lag the names it drops (-123.7bp per swap against +95.6bp at month-end; 48.1% vs 42.9% of swaps negative). Name the swaps: top-10 swapped-in symbols per era for both calendars, and whether mid-month's entrants are symbols month-end later drops (chase evidence) or a disjoint set (a different universe slice).",
+   "deliverable": "results/e44_midmonth/CHASE-<cutoff>.json",
+   "source": "r1132 E44 churn sleeve: turnover identical (0.591 vs 0.594/yr, fee gap ~2bp) while churn alpha gaps -219.3bp per swap",
+   "entered_at": "%s",
+   "entered_by": "bm-b r1132",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a --detail leg in scripts/e39_panel_census.py dumping the per-transition entrant/exit symbol lists (the churn rows carry counts and sleeves, not names)"
+  },
+  {
+   "id": "E58-PARTS-CUT-CURVE",
+   "status": "waiting",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The E46 band series is a claim about the cut, not the strategy: eleven cuts exist as eleven single faces and the owning part moves with the cut (pre2017 3007bp at tenths -> 8393bp at elevenths). Emit one face that sweeps parts 2..12 and reports band-vs-cut plus the widest part's window per cut, so the family can be quoted with its own error bar or closed.",
+   "deliverable": "results/e46_live_span/CUTCURVE-<cutoff>.json",
+   "source": "r1131/r1132 band boundary-mobility (same rally leg: -4241bp at ninths, -5745 at tenths, -7182 at elevenths)",
+   "entered_at": "%s",
+   "entered_by": "bm-b r1132",
+   "evidence_cutoff": "2026-10-20",
+   "runner_note": "needs a loop leg reusing run_livespan(parts=k) for k=2..12 (~8s per cut); it closes the family, it does not seed a twelfth cut"
   }
+
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {
