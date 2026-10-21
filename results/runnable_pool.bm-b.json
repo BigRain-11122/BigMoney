@@ -20734,7 +20734,7 @@
   },
   {
    "id": "E55-PARTS-P10",
-   "status": "inline",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -20749,8 +20749,8 @@
    "shards": [
     {
      "key": "e55-p10-x0",
-     "status": "ready",
-     "owner": null,
+     "status": "done",
+     "owner": "bm-b",
      "owner_since": null
     }
    ],
@@ -20765,11 +20765,16 @@
    "source": "r1130 x0-p9: 4/4 flip; band == |best|+|worst| exactly in all eras; 2024_now 5815bp driven by part8 2026-03-10..2026-06-29 (ladder +49.73 vs wide +7.32, maxDD -9.08 vs -8.08) and part9 (ladder -57.37 vs wide -41.63)",
    "entered_at": "2026-10-21T08:06:00+08:00",
    "entered_by": "bm-b r1130",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x0-p10.json"
+   ],
+   "closed_at": "2026-10-21T08:10:13+08:00",
+   "closed_by": "bm-b"
   },
   {
    "id": "E55-PARTS-P10-COST-X3",
-   "status": "inline",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -20784,8 +20789,8 @@
    "shards": [
     {
      "key": "e55-p10-x3",
-     "status": "ready",
-     "owner": null,
+     "status": "done",
+     "owner": "bm-b",
      "owner_since": null
     }
    ],
@@ -20800,7 +20805,96 @@
    "source": "r1130 x3-p9: 4/4 flip; band == |best|+|worst| exactly in all eras; 2024_now 5815bp driven by part8 2026-03-10..2026-06-29 (ladder +49.73 vs wide +7.32, maxDD -9.08 vs -8.08) and part9 (ladder -57.37 vs wide -41.63)",
    "entered_at": "2026-10-21T08:06:00+08:00",
    "entered_by": "bm-b r1130",
-   "evidence_cutoff": "2026-10-20"
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x3-p10.json"
+   ],
+   "closed_at": "2026-10-21T08:10:13+08:00",
+   "closed_by": "bm-b"
+  },
+  {
+   "id": "E56-PARTS-P11",
+   "status": "inline",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "runner": "scripts/e39_panel_census.py",
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "0",
+    "--parts",
+    "11"
+   ],
+   "shards": [
+    {
+     "key": "e56-p11-x0",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan census runs in ~8s single-process; executed inline by a round, never by autofill (multicore gate refuses single_core runners by design). status=inline keeps it out of the ready floor."
+   },
+   "priority": 1,
+   "title": "Elevenths at cost x0. Tenths showed the band series is NOT universal: three eras narrowed (pre2017 -7%, 2017_2020 -12%, 2021_2023 -27%) while 2024_now widened again (5815->6922bp) and the extreme part is boundary-mobile inside one rally leg (same 2026 Q2/Q3 rally: -4241bp at ninths, -5745bp at tenths). Elevenths tests whether the newest era keeps inflating as the cut is refined, or whether tenths was the peak, and whether the two degenerate pre2017 zero-spread parts persist.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x0-p11.json",
+   "source": "r1131 x0-p10: 4/4 flip (5th consecutive cut); era levels bit-identical to ninths (239/423/247/93); bands 3007/2090/1775/6922; 2024_now part9 2026-03-25..2026-07-02 ladder +81.19%/yr vs wide +23.74%/yr spread -5745; pre2017 parts 1-2 degenerate (ladder==wide, spread 0.0).",
+   "entered_at": "2026-10-21T08:06:00+08:00",
+   "entered_by": "bm-b r1130",
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x0-p10.json"
+   ],
+   "closed_at": "2026-10-21T08:10:13+08:00",
+   "closed_by": "bm-b",
+   "seeded_at": "2026-10-21T08:10:13+08:00",
+   "seeded_by": "bm-b"
+  },
+  {
+   "id": "E56-PARTS-P11-COST-X3",
+   "status": "inline",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "runner": "scripts/e39_panel_census.py",
+   "runner_args": [
+    "livespan",
+    "--cost",
+    "3",
+    "--parts",
+    "11"
+   ],
+   "shards": [
+    {
+     "key": "e56-p11-x3",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "livespan census runs in ~8s single-process; executed inline by a round, never by autofill (multicore gate refuses single_core runners by design). status=inline keeps it out of the ready floor."
+   },
+   "priority": 1,
+   "title": "Elevenths at cost x3. Tenths showed the band series is NOT universal: three eras narrowed (pre2017 -7%, 2017_2020 -12%, 2021_2023 -27%) while 2024_now widened again (5815->6922bp) and the extreme part is boundary-mobile inside one rally leg (same 2026 Q2/Q3 rally: -4241bp at ninths, -5745bp at tenths). Elevenths tests whether the newest era keeps inflating as the cut is refined, or whether tenths was the peak, and whether the two degenerate pre2017 zero-spread parts persist.",
+   "deliverable": "results/e46_live_span/LIVESPAN-<cutoff>-x3-p11.json",
+   "source": "r1131 x0-p10: 4/4 flip (5th consecutive cut); era levels bit-identical to ninths (239/423/247/93); bands 3007/2090/1775/6922; 2024_now part9 2026-03-25..2026-07-02 ladder +81.19%/yr vs wide +23.74%/yr spread -5745; pre2017 parts 1-2 degenerate (ladder==wide, spread 0.0).",
+   "entered_at": "2026-10-21T08:06:00+08:00",
+   "entered_by": "bm-b r1130",
+   "evidence_cutoff": "2026-10-20",
+   "result_ref": [
+    "results/e46_live_span/LIVESPAN-20261020-x3-p10.json"
+   ],
+   "closed_at": "2026-10-21T08:10:13+08:00",
+   "closed_by": "bm-b",
+   "seeded_at": "2026-10-21T08:10:13+08:00",
+   "seeded_by": "bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -20815,7 +20909,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T08:06:00+08:00",
+ "updated_at": "2026-10-21T08:10:13+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

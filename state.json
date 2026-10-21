@@ -380,18 +380,18 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 52.4,
- "round": 1126,
- "round_no": 1126,
- "round_no_label": "r1126",
+ "round": 1131,
+ "round_no": 1131,
+ "round_no_label": "r1131",
  "sat_engine": {
-  "checked_at": "2026-10-21T07:05:36+08:00",
+  "checked_at": "2026-10-21T08:14:10+08:00",
   "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
   "last_push_ts": "2026-10-20T05:53:00+08:00",
-  "local_not_on_origin_main": 1,
+  "local_not_on_origin_main": 0,
   "note": "r1004: origin advanced to 5f6c14ef mid-round (non-ff at retry window); local carry per 10-15 promisor-window precedent",
   "r1000_main_push": {
    "behind_origin_main": 0,
@@ -904,9 +904,12 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1126 done: E50 livespan fifths pair burned (x0/x3); flip set == quarters set, x3 moves no sign and bands by <=28bp; 2024_now's last fifth is -561bp, the worst part in the grid",
- "ts": "2026-10-21T07:21:17+08:00",
- "updated": "2026-10-21T07:05:36+08:00",
- "updated_at": "2026-10-21T07:05:36+08:00",
- "verdict": "product+maintenance"
+ "task": "r1131: E55 tenths (x0/x3) -- flip set 4/4 for a 5th consecutive cut; era levels bit-identical to ninths; the band story is not universal (3 eras narrow, 2024_now widens 5815->6922bp) and the extreme part is boundary-mobile inside one rally leg (-4241 vs -5745bp)",
+ "ts": "2026-10-21T08:14:10+08:00",
+ "updated": "2026-10-21T08:14:10+08:00",
+ "updated_at": "2026-10-21T08:14:10+08:00",
+ "verdict": "product+maintenance",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1131",
+ "r1131_note": "E55 tenths pair burned inline (7s/leg, runner unchanged): flip set 4/4 for the 5th consecutive cut; era levels bit-identical to ninths (239/423/247/93 x0, 230/410/237/81 x3) so the era split has converged while within-era dispersion has not. Bands p9->p10: pre2017 3232->3007, 2017_2020 2380->2090, 2021_2023 2426->1775 (three narrow), 2024_now 5815->6922 (widens, 2.3x the next widest). Aggregate mean 3463->3448 (plateau), median 2829->2549 (falls) -- r1130's 'grows with granularity' now holds for exactly one era. Outlier is boundary-mobile inside one rally leg: 2026-03-10..06-29 (ninths p8) spread -4241 vs 2026-03-25..07-02 (tenths p9) -5745, ladder +49.73 -> +81.19 %/yr, drawdown unchanged (-9.08/-8.48 vs -8.08). New degenerate-face note: pre2017 parts 1-2 print spread 0.0 with ladder==wide (2012 warm-up), i.e. 20% of the oldest era's parts carry no information. Pool: E55 pair closed with result_ref, E56-PARTS-P11 pair seeded inline. S6 40/40 rc0; dualrun ZERO-DRIFT streak 28; attrition CLEAN (4 ledgers, 2 healed); smoke 49/49; orphan 0/11; watermark py_low_board_clear; audit FLAG supply_gap,supply_floor (ready 1 < 3). Orders diff 0 unacked; D-19 dec/ord hash hold (zero action).",
+ "r1131_pit": "a band's owning part is boundary-mobile: the same 2026 Q2/Q3 rally produced -4241bp at ninths and -5745bp at tenths with drawdown unchanged, so 'which part is exceptional' must be published with its window and cut, never as an era property; and a degenerate part (ladder==wide, spread 0.0) silently occupies a band slot -- check for zero-spread parts before reading a band as dispersion"
 }
