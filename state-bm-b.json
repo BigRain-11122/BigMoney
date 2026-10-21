@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-21T07:30:25+08:00",
- "current": "r1128: E52 sevenths (x0/x3) burned inline -- flip set saturated at 4/4, band widened to 2503/1737/1191/2651bp; E53 eighths seeded inline",
- "current_task": "r1127: E51 sixths (x0/x3) -- all four eras flip internally for the first time; fees move parts <=13bp; r1126 \"flip set settles\" claim withdrawn",
+ "current": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
+ "current_task": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -389,9 +389,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1135,
- "round_no": 1135,
- "round_no_label": "r1135",
+ "round": 1141,
+ "round_no": 1141,
+ "round_no_label": "r1141",
  "sat_engine": {
   "checked_at": "2026-10-21T09:02:31+08:00",
   "status": "alive (exit 0 at round start)"
@@ -949,14 +949,14 @@
   },
   "side_branch": "machine/bm-b-r954 delivered (PUSHED_VERIFIED c59c94e7, G5 MSG MSG-20261015-0104 confirmed merged to origin main top face r974 ls-tree) + machine/bm-b-r958 delivered (PUSHED_VERIFIED dc0034d7); side-branch face sweeps deferred to completion package"
  },
- "task": "r1135: E59 -- the off-cycle penalty is a month-BOUNDARY effect, not a day-15 effect: five off-cycle dates (5/10/15/20/25) all lose in the newest era (-55..-87bp, spread only 32bp) at identical turnover (0.565-0.594 turns/yr), with no monotone relation to the calendar offset",
- "ts": "2026-10-21T09:02:31+08:00",
- "updated": "2026-10-21T09:02:31+08:00",
- "updated_at": "2026-10-21T09:02:31+08:00",
+ "task": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
+ "ts": "2026-10-21T22:58:25+08:00",
+ "updated": "2026-10-21T22:58:25+08:00",
+ "updated_at": "2026-10-21T22:58:25+08:00",
  "verdict": "product+maintenance",
  "r1117_note": "E42 triad closed in one pass (shared _monthly_core, 3 faces). Size-neutral spread +326.4bp (2021-2023) / +181.2bp (2024-now) against raw +251.1 / -35.1: the newest era's thin spread is the size leg (-216.3bp, beta -0.289, R2 59.5%), not selection. Tilt by era peaks in the newest era (+748.1bp/yr, ladder beta 1.031, R2 66.9%) so E41's 4.7x decay is a denominator effect. Calendar band 26.0 -> 25.0bp at cost x3 while fees triple: not turnover-driven. Pool: E42 x3 closed, E43 x3 seeded (ready 3/3).",
  "r1117_pit": "pt: _moments on a constant series returns sd ~1.7e-17 (float rounding), so an OLS guard written as `if not sd` passes a flat y and returns a garbage beta; use a tolerance. Caught by the E42 selftest on its first run (35/36) before any face was written.",
- "last_round_report": "logs/iteration-loop/round_reports.md r1135",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1141",
  "round_pit": "r1122 heals a one-round lag left by r1121 (state was 1120 when the report said 1121); round number taken from round_reports.md",
  "r1125_note": "E49 closed: quarters at x0 give 211/366/-398/533, -27/734/196/586, 78/267/579/67, 555/47/-196/-161 (3 of 4 eras flip); x3 gives the same flip set with era levels -8..-12bp. Thirds (r1124) also gave 3 of 4 but flipped 2021_2023 instead of 2017_2020 -> flip count is cut-artefactual, membership moves. Part bands grow with granularity (41/403/931bp pre2017 through halves/thirds/quarters) so stability claims must name their cut. Pool: E49 pair done with result_ref, E50-PARTS-P5 pair seeded (ready 3 == floor). S6: dualrun ZERO-DRIFT streak 21; audit FLAG supply_gap (breach false); watermark py_low_board_clear; attrition CLEAN; smoke 49/49; orphan 0; D-19 zero delta; zero unacked orders (107/107).",
  "r1129_note": "E53 pair burned inline (7s each). Flip count by cut 1/3/3/3/4/4/4 = saturated from sixths. Bands eighths x0 6332/1171/1021/2086 vs sevenths 2503/1737/1191/2651 -> three narrow, mean up only via one part; median 2120->1628.5. Outlier attributed: pre2017 part5 2014-09-16..2015-04-16 ladder +203.83%/yr vs wide +153.86%/yr (-4997bp, maxDD -8.07 vs -6.14) = bull-magnitude artefact, not risk. Pool 2 closed + 2 E54 ninths inline seeds. S6: dualrun streak 25, audit FLAG supply_gap,supply_floor (ready 1 < 3, BREACH true), watermark py_low_board_clear, smoke 49/49, orphan 0, attrition CLEAN, D-19 both faces MATCH.",

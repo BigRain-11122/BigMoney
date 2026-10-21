@@ -3276,8 +3276,43 @@ def _cost_face(gaps, lo_tag, hi_tag, eras=ERAS):
     return out
 
 
+def _weekly_indices(cal):
+    """First trading session of each ISO week.
+
+    The weekly rule is the densest calendar already in the price panel, so it
+    is the natural place to ask whether a month-end book is anything more than
+    a re-timed weekly book. Weeks are ISO (Monday-anchored), so the label does
+    not drift with the year boundary.
+    """
+    out, seen = [], set()
+    for i, d in enumerate(cal):
+        key = datetime.strptime(d, "%Y-%m-%d").isocalendar()[:2]
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(i)
+    return out
+
+
+def _nearest_weekly_to_month_end(week_idxs, me_idxs):
+    """The weekly session closest to each month-end decision, deduped.
+
+    This is the weekly grid read at monthly cadence: same names, same cost,
+    only traded once a month on the weekly date nearest the boundary. If it
+    reproduces the month-end book the calendar is a re-timing; if it loses,
+    the boundary date itself carries the information.
+    """
+    if not week_idxs or not me_idxs:
+        return []
+    wk = sorted(set(week_idxs))
+    out = set()
+    for me in sorted(set(me_idxs)):
+        out.add(min(wk, key=lambda w: (abs(w - me), w)))
+    return sorted(out)
+
+
 def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                 days=MID_SWEEP_DAYS, costs=(1.0,), lags=()):
+                 days=MID_SWEEP_DAYS, costs=(1.0,), lags=(), weekly=False):
     """E59: is the off-cycle penalty day 15's, or any off-cycle date's?
 
     E44 priced one mid-month date against month-end and E57 showed the two
@@ -3315,6 +3350,10 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         calendars.append(("mid%d" % d, _mid_month_indices(cal, d)))
     for k in lags:
         calendars.append(("me_lag%d" % k, _shift_indices(me_idxs, k, len(cal))))
+    if weekly:
+        wk_idxs = _weekly_indices(cal)
+        calendars.append(("week", wk_idxs))
+        calendars.append(("week_near_me", _nearest_weekly_to_month_end(wk_idxs, me_idxs)))
 
     books = {}
     for label, idxs in calendars:
@@ -3354,7 +3393,7 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     spread = (max(v for _o, v in pts) - min(v for _o, v in pts)) if len(pts) > 1 else None
     cost_face = (_cost_face(gaps, "x%g" % costs[0], "x%g" % costs[-1])
                  if len(costs) > 1 else None)
-    return {
+    face = {
         "study": "e59_midday_sweep",
         "evidence_cutoff": cutoff,
         "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
@@ -3397,6 +3436,25 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
+    if weekly:
+        wk = sorted(set(_weekly_indices(cal)))
+        mes = sorted(set(me_idxs))
+        face["answers"]["week_overlap"] = {
+            "weekly_days": len(wk),
+            "me_days": len(mes),
+            "exact_coincidence": len(set(wk) & set(mes)),
+            "within_1_session": len([i for i in wk
+                                     if any(abs(i - j) <= 1 for j in mes)]),
+            "within_2_sessions": len([i for i in wk
+                                      if any(abs(i - j) <= 2 for j in mes)]),
+            "within_5_sessions": len([i for i in wk
+                                      if any(abs(i - j) <= 5 for j in mes)]),
+        }
+        face["honest"].append(
+            "the weekly calendar is the ISO first-session grid (Monday-anchored); a "
+            "month-end decision and a weekly decision almost never land on the same "
+            "session, so 'overlap' here means proximity, not the same trade")
+    return face
 
 
 # --------------------------------- leg: delay the month-end decision (E65)
@@ -3683,6 +3741,65 @@ def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)
     face["honest"].append(
         "shape labels come from a +/-2bp tolerance on three points: they describe the "
         "ladder, they are not a test and no arm here is a recommendation")
+    return face
+
+
+# --------------------------------- leg: month-end vs the weekly grid (E69)
+
+def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                    costs=(1.0,)):
+    """E69: is month-end a calendar of its own, or a re-timed weekly book?
+
+    E68 put the plateau at the first week off the boundary, which is exactly
+    where a weekly rebalance sits. Two readings are priced on one universe,
+    one rank cache and one cost level: `week` (the full ISO weekly grid, the
+    densest rule in the panel) and `week_near_me` (the SAME weekly grid cut to
+    one decision per month, taken at the weekly session nearest the boundary).
+    If the monthly-cadence weekly book matches month-end, adopting month-end is
+    a re-timing; if it loses, the boundary date carries the information. The
+    turnover/cost columns answer the second half of the question directly:
+    does the month-end calendar trade more than the weekly one, or less.
+    """
+    face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                        days=(), costs=costs, lags=(), weekly=True)
+    lvl = "x%g" % costs[0]
+    gaps = face["gaps"].get(lvl, {})
+    me_arm = face["books"].get("me", {}).get("arms", {}).get(lvl, {})
+    rows = {}
+    for lab in ("week", "week_near_me"):
+        g = gaps.get(lab) or {}
+        rows[lab] = {
+            "decision_days": face["books"].get(lab, {}).get("decision_days"),
+            "full_window_gap_bp": g.get("full_window_gap_bp"),
+            "turnover_per_year": g.get("turnover_per_year"),
+            "cost_per_year_bp": g.get("cost_per_year_bp"),
+            "eras": {name: v.get("gap_bp")
+                     for name, v in (g.get("eras") or {}).items()},
+        }
+    me_turn = me_arm.get("turnover_per_year")
+
+    def _ratio(lab):
+        t = rows.get(lab, {}).get("turnover_per_year")
+        if t is None or not me_turn:
+            return None
+        return round(t / me_turn, 3)
+
+    face["study"] = "e69_monthend_weekly_clash"
+    face["answers"]["calendar_rows"] = rows
+    face["answers"]["me_turnover_per_year"] = me_turn
+    face["answers"]["turnover_ratio_vs_me"] = {"week": _ratio("week"),
+                                               "week_near_me": _ratio("week_near_me")}
+    face["answers"]["retiming_gap_bp"] = rows["week_near_me"]["full_window_gap_bp"]
+    face["answers"]["retiming_gap_bp_newest_era"] = \
+        rows["week_near_me"]["eras"].get("2024_now")
+    face["honest"].append(
+        "the weekly book rebalances ~4.3x more often than month-end, so a return gap "
+        "against it mixes calendar with trading frequency; only `week_near_me` holds "
+        "frequency fixed and prices the DATE")
+    face["honest"].append(
+        "`week_near_me` snaps each month-end to the nearest weekly session, so its "
+        "decisions sit 1-3 sessions inside the boundary rather than on it -- the "
+        "residual offset is the price of being on the weekly grid, not noise")
     return face
 
 
@@ -4011,6 +4128,19 @@ def selftest():
     chk(_lag_label(-1) == "me_lag-1" and _shift_indices([0, 5, 9], -1, 10) == [0, 4, 8],
         "an early lag is the negative shift and clamps at the first bar")
 
+    # E69 weekly clash: the weekly grid is one decision per ISO week, and the
+    # monthly-cadence reading snaps each month-end to the nearest weekly session
+    _wk_cal = ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05",
+               "2024-01-08", "2024-01-09", "2024-01-10"]
+    chk(_weekly_indices(_wk_cal) == [0, 5],
+        "the weekly grid keeps one decision per ISO week")
+    chk(_nearest_weekly_to_month_end([0, 5, 10], [3, 8]) == [5, 10]
+        and _nearest_weekly_to_month_end([0, 5, 10], [4, 6]) == [5],
+        "month-ends snap to the nearest weekly session, deduped")
+    chk(_nearest_weekly_to_month_end([], [3]) == [] and
+        _nearest_weekly_to_month_end([0], []) == [],
+        "an empty grid returns no decisions instead of raising")
+
     # E67 neighbourhood: the second-session arms keep their seeded names, and
     # the three-point bracket separates a point kick from a ramp
     import tempfile as _tf
@@ -4046,7 +4176,7 @@ def main(argv):
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
-                             "all", "selftest"])
+                             "weeklyclash", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -4376,6 +4506,21 @@ def main(argv):
                                            "newest_era_shape": v["newest_era_shape"],
                                            "newest_era_bp": v["newest_era_bp"]}
                                        for k, v in f["answers"]["brackets"].items()}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "weeklyclash":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        f = run_weeklyclash(None, start=args.start, costs=costs)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        cost_tag = "" if costs == (1.0,) else "-c%s" % "_".join("%g" % c for c in costs)
+        p = write_json(outdir, "WEEKLYCLASH-%s%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
+        print(json.dumps({"leg": "weeklyclash", "file": os.path.relpath(p, ROOT),
+                          "calendar_rows": f["answers"]["calendar_rows"],
+                          "turnover_ratio_vs_me": f["answers"]["turnover_ratio_vs_me"],
+                          "week_overlap": f["answers"].get("week_overlap")},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

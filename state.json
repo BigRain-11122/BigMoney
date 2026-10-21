@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-21T22:32:33+08:00",
- "current": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
- "current_task": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
+ "current": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
+ "current_task": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -384,9 +384,9 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 63.2,
- "round": 1140,
- "round_no": 1140,
- "round_no_label": "r1140",
+ "round": 1141,
+ "round_no": 1141,
+ "round_no_label": "r1141",
  "sat_engine": {
   "checked_at": "2026-10-21T21:45:00+08:00",
   "status": "alive (exit 0 at round start)"
@@ -923,12 +923,12 @@
    "note": "clean ff 094b6fa37..c6bd76814, first attempt, zero claw blocks; four-way verified (HEAD==origin/main==c6bd76814, behind=0 ahead=0, ls-tree origin carries DIGEST-20261021-e66-earlydelay.md + both EARLYDELAY faces). Payload = 127 faces: e39_panel_census.py earlydelay leg (selftest 99/99) + 2 EARLYDELAY faces + digest + pool shared/lane (E66 closed, E67 seeded) + closeout trio + papers family regen (paper/prospect/aggr/alloc/grid marks, traders, export, scorecards, market_clock, REPORT-2026-10-21, LIVE-2026-10-21, dashboard) + bm-b-suffixed evidence faces. Targeted add only per r982/r1015/r1033: data/daily refresh churn (48 files), drama lane, machine-health, token_usage.json union face and unsuffixed collector status faces left untouched."
   }
  },
- "task": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
- "ts": "2026-10-21T22:32:33+08:00",
- "updated": "2026-10-21T22:32:33+08:00",
- "updated_at": "2026-10-21T22:32:33+08:00",
+ "task": "r1141: E69 -- the month-end calendar is not a re-timed weekly book: the weekly grid cut to one decision per month at the session nearest the boundary (same 0.6 turns/yr) recovers -55bp -> -11bp full window and -63bp -> -11bp newest era",
+ "ts": "2026-10-21T22:58:25+08:00",
+ "updated": "2026-10-21T22:58:25+08:00",
+ "updated_at": "2026-10-21T22:58:25+08:00",
  "verdict": "watermark healthy (red=false, py low, board clear)",
- "last_round_report": "logs/iteration-loop/round_reports.md r1138",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1141",
  "r1131_note": "E55 tenths pair burned inline (7s/leg, runner unchanged): flip set 4/4 for the 5th consecutive cut; era levels bit-identical to ninths (239/423/247/93 x0, 230/410/237/81 x3) so the era split has converged while within-era dispersion has not. Bands p9->p10: pre2017 3232->3007, 2017_2020 2380->2090, 2021_2023 2426->1775 (three narrow), 2024_now 5815->6922 (widens, 2.3x the next widest). Aggregate mean 3463->3448 (plateau), median 2829->2549 (falls) -- r1130's 'grows with granularity' now holds for exactly one era. Outlier is boundary-mobile inside one rally leg: 2026-03-10..06-29 (ninths p8) spread -4241 vs 2026-03-25..07-02 (tenths p9) -5745, ladder +49.73 -> +81.19 %/yr, drawdown unchanged (-9.08/-8.48 vs -8.08). New degenerate-face note: pre2017 parts 1-2 print spread 0.0 with ladder==wide (2012 warm-up), i.e. 20% of the oldest era's parts carry no information. Pool: E55 pair closed with result_ref, E56-PARTS-P11 pair seeded inline. S6 40/40 rc0; dualrun ZERO-DRIFT streak 28; attrition CLEAN (4 ledgers, 2 healed); smoke 49/49; orphan 0/11; watermark py_low_board_clear; audit FLAG supply_gap,supply_floor (ready 1 < 3). Orders diff 0 unacked; D-19 dec/ord hash hold (zero action).",
  "r1131_pit": "a band's owning part is boundary-mobile: the same 2026 Q2/Q3 rally produced -4241bp at ninths and -5745bp at tenths with drawdown unchanged, so 'which part is exceptional' must be published with its window and cut, never as an era property; and a degenerate part (ladder==wide, spread 0.0) silently occupies a band slot -- check for zero-spread parts before reading a band as dispersion",
  "r1132_note": "E44 closed: new runner leg `midmonth` in scripts/e39_panel_census.py (selftest 73/73). Mid-month's weakness is membership, not fees -- turnover 0.591 vs 0.594/yr (fee gap ~2bp) against a -87bp/yr newest-era gap; churn sleeve me +95.6bp vs mid -123.7bp per swap (gap -219.3bp), negative swaps 42.9% vs 48.1%. Era/window locality: 2017_2020 mid WINS +50bp at the 2018 start, 2021_2023 -8bp with churn alpha actually favouring mid (+318.9bp) so a second mechanism lives there (recorded, not explained), 2024_now -87bp where churn and P&L agree. Cost face x0/x1/x3 in one pass; x1 reproduces E43's cell, so the two runners agree. Pool: 3 closed with result_ref (E44 + E56 p11 pair), 2 authored waiting (E57 chase-names needs a --detail leg, E58 parts 2..12 sweep), 0 ready -> supply_floor breach kept honest instead of seeding a twelfth cut. S6 41 legs (40 rc0 + sync_lane rc2: merge_lane_views has no sync_face verb in this revision; dualrun itself ZERO-DRIFT so the lane face is consistent). dualrun streak 29, attrition CLEAN, smoke 49/49, orphan 0, D-19 zero delta.",

@@ -21063,7 +21063,7 @@
   },
   {
    "id": "E67-MONTHEND-NEIGHBORHOOD",
-   "status": "waiting",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21073,7 +21073,71 @@
    "entered_at": "2026-10-21T21:38:00+08:00",
    "entered_by": "bm-b r1138",
    "evidence_cutoff": "2026-10-20",
-   "runner_note": "run_earlydelay/run_entrydelay with early=(2,) and lags=(2,) -- same universe, rank cache and x1 cost; two arms per start"
+   "runner_note": "run_earlydelay/run_entrydelay with early=(2,) and lags=(2,) -- same universe, rank cache and x1 cost; two arms per start",
+   "result_ref": [
+    "results/e44_midmonth/NEIGHBORHOOD-20261020.json",
+    "results/e44_midmonth/NEIGHBORHOOD-20261020-s20130101.json"
+   ],
+   "closed_at": "2026-10-21T21:45:00+08:00",
+   "closed_by": "bm-b",
+   "outcome": "the one-session penalty is the first step of a ramp, not a spike: newest era early -19/-24bp and late -43/-52bp at 1/2 sessions (both starts), so the boundary is a point with a right-weighted shoulder"
+  },
+  {
+   "id": "E68-MONTHEND-PLATEAU",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E67 showed the first two sessions off-cycle cost 5-9bp per slip and the third cost 25/22bp. Burn the fourth-session arms (me_m4/me_p4) and bracket them against the burned k=3 and k=5 faces: does the off-cycle cost plateau after the first week or keep stepping toward the E59 level of -60..-90bp?",
+   "deliverable": "results/e44_midmonth/NEIGHBORHOOD-<cutoff>.json (k=4 arms + brackets)",
+   "source": "r1139 E67: 1->2 step is 5bp early / 9bp late, 2->3 step is 25/22bp, fee band unchanged",
+   "entered_at": "2026-10-21T22:05:00+08:00",
+   "entered_by": "bm-b r1139",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "neighborhood leg with --neighbors 4; brackets re-read the burned k=3/k=5 arms",
+   "result_ref": [
+    "results/e44_midmonth/NEIGHBORHOOD-20261021.json",
+    "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json",
+    "research/digests/DIGEST-20261021-e68-plateau.md"
+   ],
+   "closed_at": "2026-10-21T22:24:00+08:00",
+   "closed_by": "bm-b",
+   "outcome": "the cost stops stepping at about the first week: newest era early -19/-24/-49/-51/-64bp and late -43/-52/-74/-78/-74bp at 1..5 sessions; the k3->k4 step is +2bp early / -4bp late against -25/-22bp at k2->k3, turnover 0.585-0.592 turns/yr and fee 7.4-7.7bp/yr unchanged -> the plateau is not a fee step"
+  },
+  {
+   "id": "E69-MONTHEND-WEEKLY-CLASH",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E68 put the plateau at the first week off the boundary, which is where a weekly rebalance sits. Price the two calendars' overlap: is a month-end book merely a re-timed weekly book, or a calendar of its own? Two readings on one universe/rank cache/cost: the full ISO weekly grid, and the SAME grid cut to one decision per month at the weekly session nearest the boundary.",
+   "deliverable": "results/e44_midmonth/WEEKLYCLASH-<cutoff>.json",
+   "source": "r1140 E68: k=4 arms plateau at -51/-78bp, turnover and fee flat vs E59/E63/E67",
+   "entered_at": "2026-10-21T22:40:00+08:00",
+   "entered_by": "bm-b r1140",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "new weeklycalch leg: _weekly_indices (ISO first session) + _nearest_weekly_to_month_end snapping, reusing the midsweep books/gaps machinery",
+   "result_ref": [
+    "results/e44_midmonth/WEEKLYCLASH-20261021.json",
+    "results/e44_midmonth/WEEKLYCLASH-20261021-s20130101.json"
+   ],
+   "closed_at": "2026-10-21T22:58:04+08:00",
+   "closed_by": "bm-b",
+   "outcome": "month-end is NOT a re-timed weekly book. Full weekly grid (349 decisions, 1.34x month-end turnover) loses -55bp full window / -63bp newest era at the 2020 start and -8bp / -63bp at 2013; the same grid cut to monthly cadence at the weekly session nearest the boundary (82 decisions, 1.008x turnover -- the same trading rate) loses only -11bp full window and -11bp newest era, BIT-IDENTICAL across both starts. So the boundary date itself carries ~80% of the weekly book's newest-era gap, and adopting month-end adds no turnover on top of the monthly-cut weekly book; fee parity (10.3 vs 7.8bp/yr, 2.5bp) cannot explain a 55bp gap. Exact session coincidence between the two grids is 11/349 (92/349 within two sessions), so the -11bp residual is the 1-3 session offset of the weekly grid, not noise"
+  },
+  {
+   "id": "E70-WEEKLYCLASH-COSTFACE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E69 priced the weekly/monthly clash at x1 only and inferred the fee channel from a 2.5bp/yr parity. Close it the way E63 closed the sweep: re-run weeklyclash at --costs 0,3. If the -55bp weekly gap and the -11bp retiming gap are unchanged at x0, both are price-path effects; if either moves with the fee, the weekly grid's extra rebalances are paying for it.",
+   "deliverable": "results/e44_midmonth/WEEKLYCLASH-<cutoff>-c0_3.json",
+   "source": "r1141 E69: week -55bp / week_near_me -11bp at x1, fee 10.3 vs 7.8bp/yr",
+   "entered_at": "2026-10-21T22:58:04+08:00",
+   "entered_by": "bm-b r1141",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "python scripts\\e39_panel_census.py weeklyclash --costs 0,3 (both starts)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21088,7 +21152,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-21T09:40:42+08:00",
+ "updated_at": "2026-10-21T22:58:04+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
