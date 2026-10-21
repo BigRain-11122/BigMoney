@@ -62,7 +62,9 @@ PANEL_PARQUET = os.path.join(DATA_DIR, "ah_premium_panel.parquet")
 STATUS = os.path.join(ROOT, "results", "ah_panel_status.json")
 LOG = os.path.join(ROOT, "logs", "ah_refresh.log")
 
-LANE_OWNER = "bm-a"            # R31 lane-ownership precedent
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("ah_panel_puller", "bm-a")            # R31 lane-ownership precedent
 WINDOW_START = "2015-01-01"
 WINDOW_START_YEAR = "2015"
 PAIR_SLEEP_S = 2.5             # citizen pace (R109 live-fire precedent)

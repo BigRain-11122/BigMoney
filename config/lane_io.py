@@ -59,6 +59,37 @@ def machine_id():
     return _MID_CACHE["v"]
 
 
+_LANE_HOSTS_CACHE = {"v": None}
+
+LANE_HOSTS_PATH = os.path.join(_REPO_ROOT, "config", "lane_hosts.json")
+
+
+def lane_host(script, default):
+    """Resolve a collector's lane owner at import time.
+
+    ``config/lane_hosts.json`` carries ``{"lane_hosts": {<script>: <mid>}}``
+    -- a tracked single face that re-points a whole collector lane without
+    editing every script (O-2026-10-21 13:5x CEO redline: bm-a is barred
+    from finance, the akshare pull family moves to bm-b).
+
+    Fail-safe by design: an absent/unreadable/corrupt file, or a script not
+    named in the map, returns ``default`` (the literal R31 precedent in the
+    calling module) so a machine without the file keeps pre-flip behavior.
+    The resolved value is stamped into the scripts' status faces via the
+    existing ``host`` field, so a flip is visible without a code read.
+    """
+    if _LANE_HOSTS_CACHE["v"] is None:
+        try:
+            with open(LANE_HOSTS_PATH, encoding="utf-8") as fh:
+                raw = json.load(fh)
+            hosts = raw.get("lane_hosts") if isinstance(raw, dict) else None
+            _LANE_HOSTS_CACHE["v"] = hosts if isinstance(hosts, dict) else {}
+        except Exception:
+            _LANE_HOSTS_CACHE["v"] = {}
+    got = _LANE_HOSTS_CACHE["v"].get(script)
+    return str(got) if got else default
+
+
 def lane_path(face, machine=None):
     """results/<face>.<machine>.json (D-03(1) structural end-state)."""
     mid = machine if machine is not None else machine_id()
@@ -659,6 +690,46 @@ def _selftest():
                           if r["batch"] == "B1")["v"] == 99
                      and len(lu4["entries"]) == 4))
         li.write_lane = _real_write
+
+        # --- lane-host override legs (config/lane_hosts.json resolver)
+        saved_hosts_path = li.LANE_HOSTS_PATH
+        saved_hosts_cache = li._LANE_HOSTS_CACHE["v"]
+        hostfile = os.path.join(tmpd, "lane_hosts.json")
+
+        def _reset_hosts(payload):
+            li._LANE_HOSTS_CACHE["v"] = None
+            li.LANE_HOSTS_PATH = hostfile
+            if payload is None:
+                try:
+                    os.remove(hostfile)
+                except OSError:
+                    pass
+            else:
+                with open(hostfile, "w", encoding="utf-8") as fh:
+                    fh.write(payload)
+
+        # LH1 override present -> resolved
+        _reset_hosts('{"lane_hosts": {"update_x": "bm-b"}}')
+        legs.append(("lane-host-override", li.lane_host("update_x", "bm-a")
+                     == "bm-b"))
+        # LH2 script absent from the map -> default (fail-safe)
+        legs.append(("lane-host-unmapped-default",
+                     li.lane_host("update_y", "bm-a") == "bm-a"))
+        # LH3 file missing -> default, no raise
+        _reset_hosts(None)
+        legs.append(("lane-host-missing-file-default",
+                     li.lane_host("update_x", "bm-a") == "bm-a"))
+        # LH4 corrupt json -> default, no raise
+        _reset_hosts("{not json")
+        legs.append(("lane-host-corrupt-default",
+                     li.lane_host("update_x", "bm-a") == "bm-a"))
+        # LH5 empty host value -> default (never resolve to '')
+        _reset_hosts('{"lane_hosts": {"update_x": ""}}')
+        legs.append(("lane-host-empty-value-default",
+                     li.lane_host("update_x", "bm-a") == "bm-a"))
+        li.LANE_HOSTS_PATH = saved_hosts_path
+        li._LANE_HOSTS_CACHE["v"] = saved_hosts_cache
+
         shutil.rmtree(tmpd, ignore_errors=True)
         li.PATHS, li.lane_path = saved_paths, saved_lane
 

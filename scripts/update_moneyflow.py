@@ -65,7 +65,9 @@ STATUS = os.path.join(ROOT, "results", "moneyflow_update_status.json")
 LOG = os.path.join(ROOT, "logs", "moneyflow_refresh.log")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
 
-LANE_OWNER = "bm-a"          # R31 lane-ownership precedent
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("update_moneyflow", "bm-a")          # R31 lane-ownership precedent
 SLEEP_S = 2.5                # EM citizenship throttle (daykline lane)
 FUSE_LIMIT = 5               # consecutive fetch failures (any kind) -> stop
 CONN_STOP = 3                # consecutive connection-level failures -> source-block stop

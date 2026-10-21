@@ -41,9 +41,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HEAT_DIR = os.path.join(ROOT, "data", "heat", "popularity")
 STATUS = os.path.join(ROOT, "results", "heat_update_status.json")
 sys.path.insert(0, ROOT)
-from config.lane_io import machine_id, write_lane  # noqa: E402
+from config.lane_io import machine_id, write_lane, lane_host# noqa: E402
 
-HEAT_LANE_HOST = "bm-a"   # R19 wiring / R31 lane-ownership precedent:
+HEAT_LANE_HOST = lane_host("update_heat", "bm-a")   # R19 wiring / R31 lane-ownership precedent:
 #   heat snapshots derive from the HOST's machine-local data/heat face
 #   (gitignored) -- non-host runs must not author a lane (ts新 != 数据权威新).
 

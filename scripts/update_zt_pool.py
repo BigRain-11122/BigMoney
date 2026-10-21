@@ -57,11 +57,11 @@ PANEL_DIR = os.path.join(ROOT, "data", "zt_pool")
 LEDGER = os.path.join(PANEL_DIR, "collected_days.json")
 STATUS = os.path.join(ROOT, "results", "zt_pool_update_status.json")
 sys.path.insert(0, ROOT)
-from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
+from config.lane_io import write_lane, lane_host# noqa: E402 -- after ROOT pin
 DAILY_DIR = os.path.join(ROOT, "data", "daily")
 CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv")
 
-LANE_OWNER = "bm-a"           # R31 lane-ownership precedent (claim line)
+LANE_OWNER = lane_host("update_zt_pool", "bm-a")           # R31 lane-ownership precedent (claim line)
 TOL = 1e-6
 MIN_ATTEMPT_INTERVAL = 30 * 60   # min seconds between network attempts
 CONN_FUSE = 3                    # consecutive connection failures -> abort

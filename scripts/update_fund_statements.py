@@ -90,7 +90,9 @@ LOCK = os.path.join(DATA_DIR, "_refresh.lock")
 LOG = os.path.join(ROOT, "logs", "fund_statements_refresh.log")
 COMMITTED_STATUS = os.path.join(ROOT, "results", "fund_statement_update_status.json")
 
-LANE_OWNER = "bm-a"                     # R31 lane-ownership precedent
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("update_fund_statements", "bm-a")                     # R31 lane-ownership precedent
 FIRST_PERIOD = "20050331"                # ticket: 2005Q1 .. latest
 INTRADAY_START = dt.time(9, 15)
 INTRADAY_END = dt.time(15, 30)           # EM-pressure band (family law)

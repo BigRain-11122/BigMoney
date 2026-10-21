@@ -75,7 +75,9 @@ RATE_BAND = (0.0, 200.0)      # annualized % sanity band; >200 = nonsense.
 # (0,50) rejected at r328 live-fire: 2015-02-10 GC001 close 53.44/high 65.00
 # is a GENUINE pre-CNY squeeze print -- both faces agree + sibling terms
 # confirm (GC003 close 22.275, GC007 13.845 same day) + seasonal pattern.
-LANE_OWNER = "bm-a"           # R31 lane-ownership precedent (T-88 claim)
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("update_repo", "bm-a")           # R31 lane-ownership precedent (T-88 claim)
 
 
 def _clear_proxy_env():
@@ -626,9 +628,11 @@ def _selftest():
         assert local_data_cutoff(td) is None
     # S8 status JSON roundtrip: native types only
     assert json.loads(json.dumps({"a": int(2), "b": None}))["b"] is None
-    # S9 lane guard logic: non-owner stdout no-op (injected owner ids)
-    assert LANE_OWNER == "bm-a"
-    assert ("bm-b" != LANE_OWNER) and ("bm-c" != LANE_OWNER) and (None != LANE_OWNER)
+    # S9 lane guard logic: non-owner stdout no-op (injected owner ids).
+    # Owner is config-resolved (config/lane_hosts.json, r1144 CEO redline
+    # akshare->bm-b); assert the resolution contract, not a frozen literal.
+    assert LANE_OWNER == lane_host("update_repo", "bm-a")
+    assert LANE_OWNER in ("bm-a", "bm-b", "bm-c")
     # S10 term map integrity: 11 terms, unique symbols, sh/sz prefixes only
     assert len(TERMS) == 11 and len(set(TERMS.values())) == 11
     assert all(v.startswith(("sh", "sz")) for v in TERMS.values())

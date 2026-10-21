@@ -60,7 +60,9 @@ STATUS = os.path.join(DATA_DIR, "status.json")
 LOCK = os.path.join(DATA_DIR, "_refresh.lock")
 LOG = os.path.join(ROOT, "logs", "ths_refresh.log")
 
-LANE_OWNER = "bm-a"          # R31 lane-ownership precedent
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("update_ths_panel", "bm-a")          # R31 lane-ownership precedent
 COMPLETE_HOUR = dt.time(15, 30)
 INTRADAY_START = dt.time(9, 15)
 

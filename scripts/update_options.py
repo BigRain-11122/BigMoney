@@ -74,7 +74,9 @@ STATUS = os.path.join(ROOT, "results", "options_update_status.json")
 CELLS_JSONL = os.path.join(ROOT, "results", "options_update_cells.jsonl")
 LOG = os.path.join(ROOT, "logs", "options_refresh.log")
 
-LANE_OWNER = "bm-a"       # R31 lane-ownership precedent (T-67/T-69 chain owner)
+sys.path.insert(0, ROOT)
+from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+LANE_OWNER = lane_host("update_options", "bm-a")       # R31 lane-ownership precedent (T-67/T-69 chain owner)
 UNDERLYINGS = {"510050": {"display": "50ETF"}, "510300": {"display": "300ETF"}}
 DIRECTIONS = {"call": "看涨期权", "put": "看跌期权"}
 OPT_COLS = ["date", "open", "high", "low", "close", "volume"]
