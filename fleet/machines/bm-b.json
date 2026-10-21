@@ -37,7 +37,7 @@
  "last_orders_probe_at": "2026-10-20T02:29:41+08:00",
  "last_orders_read_at": "2026-10-21T23:29:34+08:00",
  "last_orders_sha": "33d3f825e04012a0efec1403b8ac236786a56b1618207adab9be4d7d49476935",
- "last_push": "3cd810ba0 -> origin/main (behind=0 ahead=0)",
+ "last_push": "c005a8ed4 -> origin/main (behind=0 ahead=0)",
  "last_seen": "2026-10-21T23:29:34+08:00",
  "latest_artifact": "results/e44_midmonth/WEEKNAMES-20261021.json + WEEKNAMES-20261021-s20130101.json + research/digests/DIGEST-20261021-e71-weeknames.md + scripts/e39_panel_census.py (weeknames leg, selftest 117/117) + results/runnable_pool.json (E71 closed with result_ref, E72 seeded)",
  "local_not_on_origin_commits": 0,
@@ -246,5 +246,12 @@
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0
  },
- "d19_note": "r1143: decisions c9a139f3 / orders 33d3f825 consumed from group origin (C:\\Fluxgroup\\FluxGroup). New rows 10-19..10-21 tail: zero bm-b dispatch; CEO 2026-10-21 13:5x redline moves BigMoney compute + akshare pulls OFF bm-a onto bm-b -> lane-flip unit queued for next round"
+ "d19_note": "r1143: decisions c9a139f3 / orders 33d3f825 consumed from group origin (C:\\Fluxgroup\\FluxGroup). New rows 10-19..10-21 tail: zero bm-b dispatch; CEO 2026-10-21 13:5x redline moves BigMoney compute + akshare pulls OFF bm-a onto bm-b -> lane-flip unit queued for next round",
+ "r1143_push": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "c005a8ed4",
+  "behind_origin_main": 0,
+  "ts": "2026-10-21T23:30:50+08:00",
+  "note": "clean ff c4f37f07b..c005a8ed4, first attempt, zero claw blocks; four-way verified (HEAD==origin/main==c005a8ed4, behind=0 ahead=0, ls-tree origin carries both WEEKNAMES faces). Payload = 20 targeted faces: weeknames leg (selftest 117/117) + 2 WEEKNAMES faces + digest + pool shared/lane (E71 closed, E72+E73 seeded) + dualrun + attrition/orphan evidence + daily report and live-usage regen + dashboard + state/heartbeat/round report. Left untouched per r982/r1015/r1033: drama lane, Money02 lhb, machine-health, token_usage union face, other-lane collector status faces."
+ }
 }
