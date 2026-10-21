@@ -3448,15 +3448,74 @@ def _lag_label(k):
     return "me_lag%d" % k
 
 
-def _read_late_face(outdir, cutoff, start):
-    """Read the E65 late ladder for the same cutoff+start, if it was burned."""
+def _read_delay_face(outdir, kind, cutoff, start):
+    """Read a burned delay ladder (ENTRYDELAY/NEIGHBORHOOD) for cutoff+start."""
     tag = "" if start == "2020-01-01" else "-s%s" % start.replace("-", "")
     p = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
-                     "ENTRYDELAY-%s%s.json" % (cutoff.replace("-", ""), tag))
+                     "%s-%s%s.json" % (kind, cutoff.replace("-", ""), tag))
     if not os.path.exists(p):
         return None, p
     with open(p, encoding="utf-8") as fh:
         return json.load(fh), p
+
+
+def _read_late_face(outdir, cutoff, start):
+    """Read the E65 late ladder for the same cutoff+start, if it was burned."""
+    return _read_delay_face(outdir, "ENTRYDELAY", cutoff, start)
+
+
+def _read_early_face(outdir, cutoff, start):
+    """Read the E66 early ladder for the same cutoff+start, if it was burned."""
+    return _read_delay_face(outdir, "EARLYDELAY", cutoff, start)
+
+
+def _delay_face_any(outdir, kind, cutoff, start):
+    """Read a delay ladder face, falling back to the newest older burn.
+
+    A neighbourhood leg burned on a newer panel cutoff has no exact-cutoff
+    bounds, and refusing the bracket would throw away a burned face over one
+    extra bar. The fallback is explicit: it returns the cutoff it actually
+    used so the caller can disclose the mismatch instead of hiding it.
+    """
+    face, p = _read_delay_face(outdir, kind, cutoff, start)
+    if face is not None:
+        return face, p, cutoff
+    import glob
+    import re
+    tag = "" if start == "2020-01-01" else "-s%s" % start.replace("-", "")
+    pat = os.path.join(os.path.dirname(p), "%s-*%s.json" % (kind, tag))
+    best = None
+    rx = re.compile(r"^%s-(\d{8})%s\.json$" % (kind, re.escape(tag)))
+    for c in glob.glob(pat):
+        m = rx.match(os.path.basename(c))
+        if not m:
+            continue
+        if best is None or m.group(1) > best[0]:
+            best = (m.group(1), c)
+    if best is None:
+        return None, p, None
+    with open(best[1], encoding="utf-8") as fh:
+        return json.load(fh), best[1], best[0]
+
+
+def _bracket_shape(vals, tol=2.0):
+    """Is a three-point ladder [k1, k2, k3] a spike, a ramp, or flat?
+
+    vals are gaps in bp at increasing distance from the boundary on ONE side.
+    A spike means the middle point comes back to ~zero while both ends pay; a
+    ramp means the middle sits between the ends (monotone), i.e. the first
+    session already pays something and later sessions pay more.
+    """
+    if len(vals) != 3 or any(v is None for v in vals):
+        return "incomplete"
+    a, b, c = vals
+    if abs(a) <= tol and abs(b) <= tol and abs(c) <= tol:
+        return "flat"
+    if abs(b) <= tol and abs(a) > 2 * tol and abs(c) > 2 * tol:
+        return "spike"
+    if a - tol <= b <= c + tol or a + tol >= b >= c - tol:
+        return "ramp"
+    return "non_monotone"
 
 
 def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
@@ -3520,6 +3579,110 @@ def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "an early decision is not the same book one session sooner: it can only buy "
         "what is already eligible, so a flat/or positive early side means the "
         "boundary is a publication deadline, not a price path")
+    return face
+
+
+# --------------------------------- leg: the month-end NEIGHBOURHOOD (E67)
+
+def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                     costs=(1.0,), neighbors=(2,)):
+    """E67: is the one-session penalty a spike on one session, or a ramp?
+
+    E65 (late) and E66 (early) each priced 1/3/5/10 sessions off the boundary
+    and both read a cost at every magnitude, which leaves the shape between
+    one and three unresolved. This leg burns only the missing k-session arms
+    (early k = `me_mK`, late k = `me_pK`) on the same universe and rank cache,
+    then brackets each against the nearest already-burned magnitudes on the
+    E65/E66 faces to say whether the penalty is a point kick or a ramp.
+    """
+    neighbors = tuple(int(k) for k in neighbors)
+    lags = tuple(sorted({-k for k in neighbors} | {k for k in neighbors}))
+    face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                        days=(), costs=costs, lags=lags)
+    lvl = "x%g" % costs[0]
+    gaps = face["gaps"].get(lvl, {})
+    rows = {}
+    for k in neighbors:
+        for lab, arm_lab in ((_early_label(k), _lag_label(-k)),
+                             ("me_p%d" % k, _lag_label(k))):
+            arm = gaps.get(arm_lab)
+            if arm is None:
+                continue
+            rows[lab] = {"source_row": arm_lab,
+                         "full_window_gap_bp": arm.get("full_window_gap_bp"),
+                         "turnover_per_year": arm.get("turnover_per_year"),
+                         "eras": {name: v.get("gap_bp")
+                                  for name, v in (arm.get("eras") or {}).items()}}
+    early_face, early_path, early_cut = _delay_face_any(
+        outdir, "EARLYDELAY", face["evidence_cutoff"], start)
+    late_face, late_path, late_cut = _delay_face_any(
+        outdir, "ENTRYDELAY", face["evidence_cutoff"], start)
+    early_rows = ((early_face or {}).get("answers", {}).get("early_rows") or {})
+    late_rows = ((late_face or {}).get("answers", {}).get("delay_rows") or {})
+
+    def _pick(rowset, lab, field, era=None):
+        row = rowset.get(lab)
+        if not row:
+            return None
+        if era:
+            return (row.get("eras") or {}).get(era)
+        return row.get(field)
+
+    def _value(side, k, rowset, era=None):
+        # this leg's own rows first, then the E65/E66 faces at the same cutoff+start
+        lab = "me_m%d" % k if side == "early" else "me_p%d" % k
+        if lab in rows:
+            row = rows[lab]
+            return (row.get("eras") or {}).get(era) if era else row["full_window_gap_bp"]
+        src = "me_m%d" % k if side == "early" else _lag_label(k)
+        return _pick(rowset, src, "full_window_gap_bp", era)
+
+    brackets = {}
+    for side, rowset in (("early", early_rows), ("late", late_rows)):
+        side_src = os.path.relpath(early_path if side == "early" else late_path, ROOT) \
+            if (early_face if side == "early" else late_face) else None
+        for k in neighbors:
+            seq = (k - 1, k, k + 1)
+            brackets["%s_k%d" % (side, k)] = {
+                "labels": ["me_m%d" % s if side == "early" else "me_p%d" % s
+                           for s in seq],
+                "full_window_bp": [_value(side, s, rowset) for s in seq],
+                "newest_era_bp": [_value(side, s, rowset, "2024_now") for s in seq],
+                "full_window_shape": _bracket_shape(
+                    [_value(side, s, rowset) for s in seq]),
+                "newest_era_shape": _bracket_shape(
+                    [_value(side, s, rowset, "2024_now") for s in seq]),
+                "neighbor_rows_source": side_src,
+            }
+
+    face["study"] = "e67_monthend_neighborhood"
+    face["answers"]["neighbor_rows"] = rows
+    face["answers"]["neighbor_gap_bp"] = {lab: r["full_window_gap_bp"]
+                                          for lab, r in rows.items()}
+    face["answers"]["neighbor_newest_era_gap_bp"] = {
+        lab: r["eras"].get("2024_now") for lab, r in rows.items()}
+    face["answers"]["brackets"] = brackets
+    face["answers"]["bound_rows_cutoff"] = {"early": early_cut, "late": late_cut}
+    face["answers"]["bound_rows_source"] = {
+        "early": os.path.relpath(early_path, ROOT) if early_face else None,
+        "late": os.path.relpath(late_path, ROOT) if late_face else None}
+    face["honest"].append(
+        "the bracket bounds are read from the E65/E66 faces (%s / %s), not re-burned; "
+        "only the k-session arms here are new" % (
+            ("%s @%s" % (os.path.relpath(early_path, ROOT), early_cut)) if early_face
+            else "early absent",
+            ("%s @%s" % (os.path.relpath(late_path, ROOT), late_cut)) if late_face
+            else "late absent"))
+    if (early_face and early_cut != face["evidence_cutoff"]) or (
+            late_face and late_cut != face["evidence_cutoff"]):
+        face["honest"].append(
+            "the bracket faces were burned on an older panel cutoff (%s/%s) than this "
+            "leg (%s), so the bracket mixes one extra bar of data and is a shape "
+            "reading, not a same-cutoff comparison"
+            % (early_cut, late_cut, face["evidence_cutoff"]))
+    face["honest"].append(
+        "shape labels come from a +/-2bp tolerance on three points: they describe the "
+        "ladder, they are not a test and no arm here is a recommendation")
     return face
 
 
@@ -3847,6 +4010,23 @@ def selftest():
         "early and late rows carry distinct labels at the same magnitude")
     chk(_lag_label(-1) == "me_lag-1" and _shift_indices([0, 5, 9], -1, 10) == [0, 4, 8],
         "an early lag is the negative shift and clamps at the first bar")
+
+    # E67 neighbourhood: the second-session arms keep their seeded names, and
+    # the three-point bracket separates a point kick from a ramp
+    import tempfile as _tf
+    chk(_early_label(2) == "me_m2" and _lag_label(2) == "me_lag2"
+        and _lag_label(-2) == "me_lag-2",
+        "the two-session arms reuse the early/late label machinery")
+    chk(_bracket_shape([-19.0, 0.0, -19.0]) == "spike"
+        and _bracket_shape([-19.0, -30.0, -65.0]) == "ramp"
+        and _bracket_shape([3.0, 1.0, -5.0]) == "ramp"
+        and _bracket_shape([-19.0, 12.0, -19.0]) == "non_monotone"
+        and _bracket_shape([-19.0, None, -19.0]) == "incomplete",
+        "bracket shape reads spike/ramp/non-monotone/incomplete off three points")
+    with _tf.TemporaryDirectory() as _td:
+        _face, _path = _read_early_face(_td, "2026-10-20", "2013-01-01")
+        chk(_face is None and _path.endswith("EARLYDELAY-20261020-s20130101.json"),
+            "a missing early face reads as absent with the expected path")
     import tempfile as _tf
     with _tf.TemporaryDirectory() as _td:
         _face, _path = _read_late_face(_td, "2026-10-20", "2013-01-01")
@@ -3865,7 +4045,8 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
-                             "midsweep", "entrydelay", "earlydelay", "all", "selftest"])
+                             "midsweep", "entrydelay", "earlydelay", "neighborhood",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -3874,6 +4055,8 @@ def main(argv):
                     help="comma-separated cost multiples (midsweep leg, e.g. 0,3)")
     ap.add_argument("--lags", default="1,3,5,10",
                     help="comma-separated decision lags in sessions (entrydelay leg)")
+    ap.add_argument("--neighbors", default="2",
+                    help="comma-separated new magnitudes in sessions (neighborhood leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -4174,6 +4357,25 @@ def main(argv):
                           "early_newest_era_gap_bp":
                               f["answers"]["early_newest_era_gap_bp"],
                           "late_rows_source": f["answers"]["late_rows_source"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "neighborhood":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        f = run_neighborhood(None, start=args.start, costs=costs,
+                             neighbors=tuple(int(x) for x in args.neighbors.split(",")
+                                             if x.strip()))
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        cost_tag = "" if costs == (1.0,) else "-c%s" % "_".join("%g" % c for c in costs)
+        p = write_json(outdir, "NEIGHBORHOOD-%s%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
+        print(json.dumps({"leg": "neighborhood", "file": os.path.relpath(p, ROOT),
+                          "neighbor_gap_bp": f["answers"]["neighbor_gap_bp"],
+                          "brackets": {k: {"full_window_shape": v["full_window_shape"],
+                                           "newest_era_shape": v["newest_era_shape"],
+                                           "newest_era_bp": v["newest_era_bp"]}
+                                       for k, v in f["answers"]["brackets"].items()}},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

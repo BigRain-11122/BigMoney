@@ -1,0 +1,327 @@
+{
+ "study": "e67_monthend_neighborhood",
+ "evidence_cutoff": "2026-10-21",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2013-01-01",
+  "cost_bp_per_side": 13.041,
+  "cost_mult_list": [
+   1.0
+  ],
+  "sweep_days": [],
+  "delay_lags": [
+   -2,
+   2
+  ],
+  "calendars": [
+   "me",
+   "me_lag-2",
+   "me_lag2"
+  ],
+  "universe_members": 1265
+ },
+ "books": {
+  "me": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 0.0,
+    "min_sessions": 0,
+    "max_sessions": 0
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.569,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.95,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.72,
+       "max_drawdown_pct": -40.27
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.68,
+       "max_drawdown_pct": -26.08
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.38,
+       "max_drawdown_pct": -28.75
+      },
+      "2024_now": {
+       "bars": 676,
+       "ann_return_pct": 11.95,
+       "max_drawdown_pct": -17.32
+      }
+     }
+    }
+   }
+  },
+  "me_lag-2": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 2.0,
+    "min_sessions": 2,
+    "max_sessions": 2
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 154,
+     "turnover_per_year": 0.568,
+     "cost_per_year_bp": 7.4,
+     "full_window_ann_pct": 7.74,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 13.44,
+       "max_drawdown_pct": -40.41
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.62,
+       "max_drawdown_pct": -25.97
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.61,
+       "max_drawdown_pct": -28.9
+      },
+      "2024_now": {
+       "bars": 676,
+       "ann_return_pct": 11.71,
+       "max_drawdown_pct": -17.54
+      }
+     }
+    }
+   }
+  },
+  "me_lag2": {
+   "decision_days": 166,
+   "offset": {
+    "decisions": 166,
+    "mean_sessions_to_month_end": 18.06,
+    "min_sessions": 0,
+    "max_sessions": 21
+   },
+   "arms": {
+    "x1": {
+     "rebalances": 153,
+     "turnover_per_year": 0.571,
+     "cost_per_year_bp": 7.5,
+     "full_window_ann_pct": 7.69,
+     "eras": {
+      "pre2017": {
+       "bars": 970,
+       "ann_return_pct": 12.8,
+       "max_drawdown_pct": -40.31
+      },
+      "2017_2020": {
+       "bars": 974,
+       "ann_return_pct": 12.74,
+       "max_drawdown_pct": -26.18
+      },
+      "2021_2023": {
+       "bars": 727,
+       "ann_return_pct": -8.09,
+       "max_drawdown_pct": -28.28
+      },
+      "2024_now": {
+       "bars": 676,
+       "ann_return_pct": 11.43,
+       "max_drawdown_pct": -18.3
+      }
+     }
+    }
+   }
+  }
+ },
+ "gaps": {
+  "x1": {
+   "me_lag-2": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 2.0,
+     "min_sessions": 2,
+     "max_sessions": 2
+    },
+    "turnover_per_year": 0.568,
+    "cost_per_year_bp": 7.4,
+    "full_window_ann_pct": 7.74,
+    "full_window_gap_bp": -21.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 13.44,
+      "gap_bp": -28.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.62,
+      "gap_bp": -6.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.61,
+      "gap_bp": -23.0
+     },
+     "2024_now": {
+      "ann_pct": 11.71,
+      "gap_bp": -24.0
+     }
+    }
+   },
+   "me_lag2": {
+    "offset": {
+     "decisions": 166,
+     "mean_sessions_to_month_end": 18.06,
+     "min_sessions": 0,
+     "max_sessions": 21
+    },
+    "turnover_per_year": 0.571,
+    "cost_per_year_bp": 7.5,
+    "full_window_ann_pct": 7.69,
+    "full_window_gap_bp": -26.0,
+    "eras": {
+     "pre2017": {
+      "ann_pct": 12.8,
+      "gap_bp": -92.0
+     },
+     "2017_2020": {
+      "ann_pct": 12.74,
+      "gap_bp": 6.0
+     },
+     "2021_2023": {
+      "ann_pct": -8.09,
+      "gap_bp": 29.0
+     },
+     "2024_now": {
+      "ann_pct": 11.43,
+      "gap_bp": -52.0
+     }
+    }
+   }
+  }
+ },
+ "cost_face": null,
+ "answers": {
+  "baseline_calendar": "me",
+  "sweep_days": [],
+  "delay_lags": [
+   -2,
+   2
+  ],
+  "cost_levels": [
+   1.0
+  ],
+  "full_window_gap_bp": {
+   "me_lag-2": -21.0,
+   "me_lag2": -26.0
+  },
+  "newest_era_gap_bp": {
+   "me_lag-2": -24.0,
+   "me_lag2": -52.0
+  },
+  "newest_era_gap_spread_bp": 28.0,
+  "offset_sessions": {
+   "me_lag-2": 2.0,
+   "me_lag2": 18.06
+  },
+  "cost_gap_shift_bp": null,
+  "neighbor_rows": {
+   "me_m2": {
+    "source_row": "me_lag-2",
+    "full_window_gap_bp": -21.0,
+    "turnover_per_year": 0.568,
+    "eras": {
+     "pre2017": -28.0,
+     "2017_2020": -6.0,
+     "2021_2023": -23.0,
+     "2024_now": -24.0
+    }
+   },
+   "me_p2": {
+    "source_row": "me_lag2",
+    "full_window_gap_bp": -26.0,
+    "turnover_per_year": 0.571,
+    "eras": {
+     "pre2017": -92.0,
+     "2017_2020": 6.0,
+     "2021_2023": 29.0,
+     "2024_now": -52.0
+    }
+   }
+  },
+  "neighbor_gap_bp": {
+   "me_m2": -21.0,
+   "me_p2": -26.0
+  },
+  "neighbor_newest_era_gap_bp": {
+   "me_m2": -24.0,
+   "me_p2": -52.0
+  },
+  "brackets": {
+   "early_k2": {
+    "labels": [
+     "me_m1",
+     "me_m2",
+     "me_m3"
+    ],
+    "full_window_bp": [
+     -11.0,
+     -21.0,
+     -20.0
+    ],
+    "newest_era_bp": [
+     -19.0,
+     -24.0,
+     -49.0
+    ],
+    "full_window_shape": "ramp",
+    "newest_era_shape": "ramp",
+    "neighbor_rows_source": "results\\e44_midmonth\\EARLYDELAY-20261020-s20130101.json"
+   },
+   "late_k2": {
+    "labels": [
+     "me_p1",
+     "me_p2",
+     "me_p3"
+    ],
+    "full_window_bp": [
+     -18.0,
+     -26.0,
+     -34.0
+    ],
+    "newest_era_bp": [
+     -43.0,
+     -52.0,
+     -74.0
+    ],
+    "full_window_shape": "ramp",
+    "newest_era_shape": "ramp",
+    "neighbor_rows_source": "results\\e44_midmonth\\ENTRYDELAY-20261020-s20130101.json"
+   }
+  },
+  "bound_rows_cutoff": {
+   "early": "20261020",
+   "late": "20261020"
+  },
+  "bound_rows_source": {
+   "early": "results\\e44_midmonth\\EARLYDELAY-20261020-s20130101.json",
+   "late": "results\\e44_midmonth\\ENTRYDELAY-20261020-s20130101.json"
+  }
+ },
+ "honest": [
+  "one cost level by default: the sweep is about the calendar axis, and the cost signature of these cuts has been the same -8..-13bp since thirds",
+  "the five days are fixed dates, not a fitted optimum: no date here is searched for and none may be read as a recommendation",
+  "both calendars share one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "gap spread across days is a range statistic over five points, not a test",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count",
+  "the bracket bounds are read from the E65/E66 faces (results\\e44_midmonth\\EARLYDELAY-20261020-s20130101.json @20261020 / results\\e44_midmonth\\ENTRYDELAY-20261020-s20130101.json @20261020), not re-burned; only the k-session arms here are new",
+  "the bracket faces were burned on an older panel cutoff (20261020/20261020) than this leg (2026-10-21), so the bracket mixes one extra bar of data and is a shape reading, not a same-cutoff comparison",
+  "shape labels come from a +/-2bp tolerance on three points: they describe the ladder, they are not a test and no arm here is a recommendation"
+ ]
+}
