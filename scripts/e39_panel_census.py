@@ -3744,7 +3744,31 @@ def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)
     return face
 
 
-# --------------------------------- leg: month-end vs the weekly grid (E69)
+# --------------------------------- leg: month-end vs the weekly grid (E69/E70)
+
+def _weekly_cal_rows(face, tag, labels=("week", "week_near_me")):
+    """E70: the calendar rows of one cost level, keyed by book label.
+
+    Kept pure so the cost-level wiring is testable without a burn: the fee
+    question (does switching the multiplier move the calendar gap) needs the
+    same rows at two levels, and reading them out of one dict is the only way
+    to be sure the comparison is not two different burns.
+    """
+    gaps = (face.get("gaps") or {}).get(tag) or {}
+    books = face.get("books") or {}
+    out = {}
+    for lab in labels:
+        g = gaps.get(lab) or {}
+        out[lab] = {
+            "decision_days": (books.get(lab) or {}).get("decision_days"),
+            "full_window_gap_bp": g.get("full_window_gap_bp"),
+            "turnover_per_year": g.get("turnover_per_year"),
+            "cost_per_year_bp": g.get("cost_per_year_bp"),
+            "eras": {name: v.get("gap_bp")
+                     for name, v in (g.get("eras") or {}).items()},
+        }
+    return out
+
 
 def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     costs=(1.0,)):
@@ -3762,30 +3786,40 @@ def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     """
     face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
                         days=(), costs=costs, lags=(), weekly=True)
-    lvl = "x%g" % costs[0]
-    gaps = face["gaps"].get(lvl, {})
-    me_arm = face["books"].get("me", {}).get("arms", {}).get(lvl, {})
-    rows = {}
-    for lab in ("week", "week_near_me"):
-        g = gaps.get(lab) or {}
-        rows[lab] = {
-            "decision_days": face["books"].get(lab, {}).get("decision_days"),
-            "full_window_gap_bp": g.get("full_window_gap_bp"),
-            "turnover_per_year": g.get("turnover_per_year"),
-            "cost_per_year_bp": g.get("cost_per_year_bp"),
-            "eras": {name: v.get("gap_bp")
-                     for name, v in (g.get("eras") or {}).items()},
-        }
-    me_turn = me_arm.get("turnover_per_year")
+    tags = ["x%g" % c for c in costs]
+    lvl = tags[0]
+    # E70: every cost level keeps its own row set, so the fee question is answered
+    # inside the face instead of by hand-diffing two burns.
+    rows_by_cost = {tag: _weekly_cal_rows(face, tag) for tag in tags}
+    rows = rows_by_cost[lvl]
+    me_turn = face["books"].get("me", {}).get("arms", {}).get(lvl, {}).get(
+        "turnover_per_year")
+    me_turn_by_cost = {tag: face["books"].get("me", {}).get("arms", {}).get(
+        tag, {}).get("turnover_per_year") for tag in tags}
 
-    def _ratio(lab):
-        t = rows.get(lab, {}).get("turnover_per_year")
-        if t is None or not me_turn:
+    def _ratio(lab, ref=None, tag=lvl):
+        t = rows_by_cost.get(tag, {}).get(lab, {}).get("turnover_per_year")
+        m = me_turn if ref is None else ref
+        if t is None or not m:
             return None
-        return round(t / me_turn, 3)
+        return round(t / m, 3)
 
-    face["study"] = "e69_monthend_weekly_clash"
+    cost_face = _cost_face(face["gaps"], tags[0], tags[-1]) if len(tags) > 1 else None
+
+    face["study"] = "e70_monthend_weekly_costface" if cost_face else \
+        "e69_monthend_weekly_clash"
     face["answers"]["calendar_rows"] = rows
+    if cost_face:
+        face["answers"]["calendar_rows_by_cost"] = rows_by_cost
+        face["answers"]["cost_face"] = cost_face
+        face["answers"]["cost_shift_bp"] = {
+            lab: (cost_face.get(lab) or {}).get("full_window_shift_bp")
+            for lab in ("week", "week_near_me")}
+        face["answers"]["turnover_ratio_vs_me_by_cost"] = {
+            tag: {"week": _ratio("week", me_turn_by_cost.get(tag), tag),
+                  "week_near_me": _ratio("week_near_me",
+                                         me_turn_by_cost.get(tag), tag)}
+            for tag in tags}
     face["answers"]["me_turnover_per_year"] = me_turn
     face["answers"]["turnover_ratio_vs_me"] = {"week": _ratio("week"),
                                                "week_near_me": _ratio("week_near_me")}
@@ -4140,6 +4174,38 @@ def selftest():
     chk(_nearest_weekly_to_month_end([], [3]) == [] and
         _nearest_weekly_to_month_end([0], []) == [],
         "an empty grid returns no decisions instead of raising")
+
+    # E70 cost face on the weekly clash: the same rows at two cost levels, read
+    # out of ONE face, and a fee-only gap must move while a price-path gap does not
+    _synth = {"gaps": {"x0": {"week": {"full_window_gap_bp": -40.0,
+                                      "turnover_per_year": 0.70,
+                                      "cost_per_year_bp": 0.0,
+                                      "eras": {"2024_now": {"gap_bp": -50.0}}},
+                              "week_near_me": {"full_window_gap_bp": -8.0,
+                                               "turnover_per_year": 0.50,
+                                               "cost_per_year_bp": 0.0,
+                                               "eras": {"2024_now": {"gap_bp": -9.0}}}},
+                       "x3": {"week": {"full_window_gap_bp": -55.0,
+                                      "turnover_per_year": 0.70,
+                                      "cost_per_year_bp": 30.0,
+                                      "eras": {"2024_now": {"gap_bp": -50.0}}},
+                              "week_near_me": {"full_window_gap_bp": -8.0,
+                                               "turnover_per_year": 0.50,
+                                               "cost_per_year_bp": 30.0,
+                                               "eras": {"2024_now": {"gap_bp": -9.0}}}}},
+              "books": {"week": {"decision_days": 349},
+                        "week_near_me": {"decision_days": 82}}}
+    _rows0 = _weekly_cal_rows(_synth, "x0")
+    _rows3 = _weekly_cal_rows(_synth, "x3")
+    chk(_rows0["week"]["decision_days"] == 349 and
+        _rows3["week_near_me"]["cost_per_year_bp"] == 30.0 and
+        _rows0["week"]["eras"]["2024_now"] == -50.0,
+        "one cost level reads decision days, fee and era gaps off the same face")
+    _cf = _cost_face(_synth["gaps"], "x0", "x3")
+    chk(_cf["week"]["full_window_shift_bp"] == -15.0 and
+        _cf["week_near_me"]["full_window_shift_bp"] == 0.0 and
+        _cf["week"]["eras"]["2024_now"]["shift_bp"] == 0.0,
+        "a fee-only gap moves with the multiplier while a price-path gap holds still")
 
     # E67 neighbourhood: the second-session arms keep their seeded names, and
     # the three-point bracket separates a point kick from a ramp
