@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-21T22:22:56+08:00",
- "current": "r1139: E67 -- the month-end penalty is a step between session two and three: newest era early -19/-24/-49bp and late -43/-52/-74bp at 1/2/3 sessions, so the second slip costs 25bp/22bp while the first costs 5bp/9bp",
- "current_task": "r1139: E67 month-end neighbourhood (me_m2/me_p2 burned; bracket reads a step, not a slope)",
+ "clock_read": "2026-10-21T22:32:33+08:00",
+ "current": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
+ "current_task": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "closed E66-ONE-SESSION-EARLY: the early release side of the month-end boundary is penalised on both windows at every magnitude, the newest era is bit-identical across starts (-19/-49/-64/-76bp at m1/m3/m5/m10) against the late ladder (-43/-74/-74/-91bp), so the boundary is a point with a right-weighted shoulder (one session late costs ~2.3x one session early); seeded E67-MONTHEND-NEIGHBORHOOD",
- "did_round": 1138,
- "heartbeat_epoch_utc": 1792592576,
+ "did": "r1140 E68: me_m4/me_p4 burned on both starts (cutoff 2026-10-21) -> the month-end cost PLATEAUS at ~4 sessions: newest era early -19/-24/-49/-51/-64bp and late -43/-52/-74/-78/-74bp at 1..5 sessions; k3->k4 step is +2bp early / -4bp late, turnover 0.585-0.592 turns/yr and fee 7.6-7.7bp/yr unchanged -> the first week off the boundary is the whole cliff",
+ "did_round": 1140,
+ "heartbeat_epoch_utc": 1792593153,
  "heartbeat_epoch_utc_face": 1792511764,
  "idle_rounds": 0,
- "last_action": "r1139: E67 neighborhood leg added and burned on both window starts",
- "last_action_at": "2026-10-21T22:22:56+08:00",
- "last_artifact": "results/e44_midmonth/NEIGHBORHOOD-20261021.json + NEIGHBORHOOD-20261021-s20130101.json + research/digests/DIGEST-20261021-e67-neighborhood.md",
+ "last_action": "E68 month-end plateau legs burned + S6 chain + S7 self-heal",
+ "last_action_at": "2026-10-21T22:32:33+08:00",
+ "last_artifact": "results/e44_midmonth/NEIGHBORHOOD-20261021.json + -s20130101.json + research/digests/DIGEST-20261021-e68-plateau.md",
  "last_decisions_at": "2026-10-20T19:32:57+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,14 +43,14 @@
  "last_orders_sha_probe_at": "2026-10-17T12:45:35+08:00",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "c6bd76814 -> origin/main (behind=0 ahead=0)",
- "last_round_at": "2026-10-21T21:45:00+08:00",
- "last_round_ts": "2026-10-21T21:45:00+08:00",
- "last_seen": "2026-10-21T21:45:00+08:00",
- "latest_artifact": "research/digests/DIGEST-20261021-e66-earlydelay.md",
+ "last_round_at": "2026-10-21T22:32:33+08:00",
+ "last_round_ts": "2026-10-21T22:32:33+08:00",
+ "last_seen": "2026-10-21T22:32:33+08:00",
+ "latest_artifact": "results/e44_midmonth/NEIGHBORHOOD-20261021.json + -s20130101.json + research/digests/DIGEST-20261021-e68-plateau.md",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "burn E68: neighborhood --neighbors 4 (me_m4/me_p4) with the k=4 bracket against the k=3/5 faces",
- "next_milestone": "E67 neighbour fill -- is the one-session penalty a spike on a single session or the first step of a ramp; window <=48h",
+ "next": "E69-MONTHEND-WEEKLY-CLASH -- price the month-end calendar's overlap with the existing E44 weekly arm (re-time vs added turnover); window <=48h",
+ "next_milestone": "E69-MONTHEND-WEEKLY-CLASH -- price the month-end calendar's overlap with the existing E44 weekly arm (re-time vs added turnover); window <=48h",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -74,7 +74,7 @@
   "r1138_pit": "pit: a one-sided ladder can make a boundary look like a slope; pricing both sides turned the E65 'cliff' into a point with a right-weighted shoulder. Also: run_earlydelay reads the E65 late face for the asymmetry column, so a missing/renamed late face silently empties the asymmetry table -- the face carries late_rows_source, and the selftest pins the absent-face path."
  },
  "notes_r1095": "r1095: state.json was stale at round_no 1091 while round reports ran to r1094 (three rounds closed without a state write); this round re-anchors it at 1095 and records the gap. Pits: (a) the weighting face name was date-only, so running two scheme sets silently overwrote the day's face -- now tagged with a scheme-set hash and the whipsaw face carries its fwd window; (b) a selftest fixture with ties on a flat plate fired the bottom-tail gate (v <= cut) -- fixture rebuilt with a ramp.",
- "now_active": "pool 0 ready (floor breached, honest), E60/E61/E64/E67 waiting, E66 closed",
+ "now_active": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -384,9 +384,9 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 63.2,
- "round": 1138,
- "round_no": 1139,
- "round_no_label": "r1138",
+ "round": 1140,
+ "round_no": 1140,
+ "round_no_label": "r1140",
  "sat_engine": {
   "checked_at": "2026-10-21T21:45:00+08:00",
   "status": "alive (exit 0 at round start)"
@@ -923,11 +923,11 @@
    "note": "clean ff 094b6fa37..c6bd76814, first attempt, zero claw blocks; four-way verified (HEAD==origin/main==c6bd76814, behind=0 ahead=0, ls-tree origin carries DIGEST-20261021-e66-earlydelay.md + both EARLYDELAY faces). Payload = 127 faces: e39_panel_census.py earlydelay leg (selftest 99/99) + 2 EARLYDELAY faces + digest + pool shared/lane (E66 closed, E67 seeded) + closeout trio + papers family regen (paper/prospect/aggr/alloc/grid marks, traders, export, scorecards, market_clock, REPORT-2026-10-21, LIVE-2026-10-21, dashboard) + bm-b-suffixed evidence faces. Targeted add only per r982/r1015/r1033: data/daily refresh churn (48 files), drama lane, machine-health, token_usage.json union face and unsuffixed collector status faces left untouched."
   }
  },
- "task": "r1138: E66 -- the month-end boundary is a point, and lateness costs about twice earliness at one session (-43 vs -19bp newest era, both starts)",
- "ts": "2026-10-21T21:45:00+08:00",
- "updated": "2026-10-21T21:45:00+08:00",
- "updated_at": "2026-10-21T21:45:00+08:00",
- "verdict": "product+maintenance",
+ "task": "r1140: E68 month-end plateau -- the off-cycle cost stops stepping at about the first week (-51bp early / -78bp late at four sessions, inside the E59 band)",
+ "ts": "2026-10-21T22:32:33+08:00",
+ "updated": "2026-10-21T22:32:33+08:00",
+ "updated_at": "2026-10-21T22:32:33+08:00",
+ "verdict": "watermark healthy (red=false, py low, board clear)",
  "last_round_report": "logs/iteration-loop/round_reports.md r1138",
  "r1131_note": "E55 tenths pair burned inline (7s/leg, runner unchanged): flip set 4/4 for the 5th consecutive cut; era levels bit-identical to ninths (239/423/247/93 x0, 230/410/237/81 x3) so the era split has converged while within-era dispersion has not. Bands p9->p10: pre2017 3232->3007, 2017_2020 2380->2090, 2021_2023 2426->1775 (three narrow), 2024_now 5815->6922 (widens, 2.3x the next widest). Aggregate mean 3463->3448 (plateau), median 2829->2549 (falls) -- r1130's 'grows with granularity' now holds for exactly one era. Outlier is boundary-mobile inside one rally leg: 2026-03-10..06-29 (ninths p8) spread -4241 vs 2026-03-25..07-02 (tenths p9) -5745, ladder +49.73 -> +81.19 %/yr, drawdown unchanged (-9.08/-8.48 vs -8.08). New degenerate-face note: pre2017 parts 1-2 print spread 0.0 with ladder==wide (2012 warm-up), i.e. 20% of the oldest era's parts carry no information. Pool: E55 pair closed with result_ref, E56-PARTS-P11 pair seeded inline. S6 40/40 rc0; dualrun ZERO-DRIFT streak 28; attrition CLEAN (4 ledgers, 2 healed); smoke 49/49; orphan 0/11; watermark py_low_board_clear; audit FLAG supply_gap,supply_floor (ready 1 < 3). Orders diff 0 unacked; D-19 dec/ord hash hold (zero action).",
  "r1131_pit": "a band's owning part is boundary-mobile: the same 2026 Q2/Q3 rally produced -4241bp at ninths and -5745bp at tenths with drawdown unchanged, so 'which part is exceptional' must be published with its window and cut, never as an era property; and a degenerate part (ladder==wide, spread 0.0) silently occupies a band slot -- check for zero-spread parts before reading a band as dispersion",
@@ -943,5 +943,6 @@
   "note": "clean ff 815e261d9..e515c5e70, first attempt, zero claw blocks; four-way verified (HEAD==origin/main==e515c5e70, rev-list origin/main..HEAD=0, ls-tree origin carries research/digests/DIGEST-20261021-e59-midsweep.md). Payload = 22 faces: midsweep leg in scripts/e39_panel_census.py (selftest 90/90) + 2 sweep faces + digest + pool shared (E59 closed, E63/E64 seeded) + closeout trio + bm-b-suffixed evidence + docs REPORT/LIVE-2026-10-21 regen. Targeted add only per r982/r1015/r1033 policy: drama lane faces, machine-health, token_usage union face, unsuffixed collector status faces and the shared scorecard_v1 face left untouched."
  },
  "r1137_note": "E65 entrydelay leg added to scripts/e39_panel_census.py (selftest 96/96, +2 hermetic legs): month-end shifted +1/+3/+5/+10 sessions vs month-end, x1, one rank cache. 2024_now gaps -43/-74/-74/-91bp (bit-identical at both window starts); full window -27/-17/-35/-70 at a 2020 start and -18/-34/-35/-47 at 2013 (non-monotone); era signs disagree (start 2013: pre2017 -60/-112/-81/-89, 2017_2020 +7/+16/-11/-15, 2021_2023 +26/+17/+15/-5). Turnover 0.569-0.589 and x1 fee 7.6-7.7bp/yr stay inside the E59/E63 band. Pool: E65 closed with result_ref, E66-ONE-SESSION-EARLY seeded waiting. S6 compact: dualrun ZERO-DRIFT streak 34, compute_audit FLAG pool_starvation+supply_floor (ready 0/3 honest), watermark insufficient_history, attrition CLEAN 4 ledgers (1 healed), census selftest 96/96, smoke 49/49, orphan face=0/7.",
- "r1137_pit": "a forward-only lag ladder cannot separate a cliff from a one-sided slope: the newest era reads monotone while the full window reads non-monotone, so publish both columns or an era-local effect reads as an orderly law; and a lag that moves the decision session is not an entry delay -- without an execution-lag hook in the engine, \"same names bought later\" is a different, unmeasured experiment"
+ "r1137_pit": "a forward-only lag ladder cannot separate a cliff from a one-sided slope: the newest era reads monotone while the full window reads non-monotone, so publish both columns or an era-local effect reads as an orderly law; and a lag that moves the decision session is not an entry delay -- without an execution-lag hook in the engine, \"same names bought later\" is a different, unmeasured experiment",
+ "r1140_note": "E68: neighborhood --neighbors 4 on both window starts; bracket against k=3 (E67 arms, cutoff 2026-10-20) and k=5 (E65 face). Full-window columns not clean (early -53/-22bp, late -18/-32bp; late k=4 +22bp in 2021_2023 at both starts)."
 }
