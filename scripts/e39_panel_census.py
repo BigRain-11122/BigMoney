@@ -5883,6 +5883,385 @@ def run_churngap(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# -------------------------------------------------------------- E83 / E84
+
+def _single_print_cell(rows, eras=ERAS, event_dates=None):
+    """E83: one era cell re-read with its single most influential swap removed.
+
+    Removing transition i from a cell of n alphas moves the mean to
+    ``(n*m - a_i)/(n-1)``, so the biggest collapse is always the transition
+    farthest from the mean. A cell that keeps less than half its magnitude
+    without one transition is quoting one swap, not a period.
+    """
+    out = {}
+    for name, _lo, _hi in eras:
+        sub = [r for r in rows
+               if r.get("era") == name
+               and isinstance(r.get("churn_alpha_bp"), (int, float))]
+        if not sub:
+            continue
+        vals = [r["churn_alpha_bp"] for r in sub]
+        n = len(sub)
+        tot = sum(vals)
+        m = tot / n
+        face = {"transitions": n, "mean_bp": round(m, 1),
+                "median_bp": round(sorted(vals)[n // 2], 1),
+                "single_swap_removable": n >= 2}
+        if n >= 2:
+            best = None
+            for r, a in zip(sub, vals):
+                new = (tot - a) / (n - 1)
+                if best is None or abs(new) < abs(best["mean_without_bp"]):
+                    best = {"removed_window": [r["date"], r["next"]],
+                            "removed_alpha_bp": round(a, 1),
+                            "removed_swapped": sorted(set(r.get("entrant_names") or ())
+                                                      | set(r.get("exit_names") or ())),
+                            "mean_without_bp": round(new, 1)}
+            share = (abs(best["mean_without_bp"]) / abs(m)) if m else None
+            best["magnitude_remaining_pct"] = (round(100.0 * share, 1)
+                                               if share is not None else None)
+            best["single_print"] = bool(share is not None and share < 0.5)
+            best["sign_flip"] = bool(m * best["mean_without_bp"] < 0)
+            if event_dates is not None:
+                d0, d1 = best["removed_window"]
+                best["removed_carries_a_print"] = bool(
+                    _transition_hits(d0, d1, best["removed_swapped"], event_dates))
+            face["most_influential_removal"] = best
+        out[name] = face
+    return out
+
+
+def _single_print_gap(me_rows, mid_rows, eras=ERAS, event_dates=None):
+    """E83: the me-vs-mid churn gap re-read with one transition removed.
+
+    The two books rebalance on different dates (month-end vs mid-month), so
+    there is no matched transition to drop -- the date sets are disjoint by
+    construction. The gap is therefore perturbed the only way it can be: remove
+    the single most influential transition from ONE side and leave the other
+    intact. Both sides are tried and the larger collapse is reported together
+    with the side it came from.
+    """
+    out = {}
+    for name, _lo, _hi in eras:
+        a_rows = [r for r in me_rows
+                  if r.get("era") == name
+                  and isinstance(r.get("churn_alpha_bp"), (int, float))]
+        b_rows = [r for r in mid_rows
+                  if r.get("era") == name
+                  and isinstance(r.get("churn_alpha_bp"), (int, float))]
+        if not a_rows or not b_rows:
+            continue
+        a_vals = [r["churn_alpha_bp"] for r in a_rows]
+        b_vals = [r["churn_alpha_bp"] for r in b_rows]
+        ma = sum(a_vals) / len(a_vals)
+        mb = sum(b_vals) / len(b_vals)
+        gap = mb - ma
+        face = {"transitions_me": len(a_vals), "transitions_mid": len(b_vals),
+                "gap_bp": round(gap, 1),
+                "single_swap_removable": len(a_vals) >= 2 or len(b_vals) >= 2}
+        best = None
+        if len(a_vals) >= 2:
+            for r, a in zip(a_rows, a_vals):
+                new = mb - (sum(a_vals) - a) / (len(a_vals) - 1)
+                cand = {"removed_side": "me", "removed_window": [r["date"], r["next"]],
+                        "removed_alpha_bp": round(a, 1),
+                        "removed_swapped": sorted(set(r.get("entrant_names") or ())
+                                                  | set(r.get("exit_names") or ())),
+                        "gap_without_bp": round(new, 1)}
+                if best is None or abs(new) < abs(best["gap_without_bp"]):
+                    best = cand
+        if len(b_vals) >= 2:
+            for r, b in zip(b_rows, b_vals):
+                new = (sum(b_vals) - b) / (len(b_vals) - 1) - ma
+                cand = {"removed_side": "mid", "removed_window": [r["date"], r["next"]],
+                        "removed_alpha_bp": round(b, 1),
+                        "removed_swapped": sorted(set(r.get("entrant_names") or ())
+                                                  | set(r.get("exit_names") or ())),
+                        "gap_without_bp": round(new, 1)}
+                if abs(new) < abs(best["gap_without_bp"]):
+                    best = cand
+        if best is not None:
+            share = (abs(best["gap_without_bp"]) / abs(gap)) if gap else None
+            best["magnitude_remaining_pct"] = (round(100.0 * share, 1)
+                                               if share is not None else None)
+            best["single_print"] = bool(share is not None and share < 0.5)
+            best["sign_flip"] = bool(gap * best["gap_without_bp"] < 0)
+            if event_dates is not None:
+                d0, d1 = best["removed_window"]
+                best["removed_carries_a_print"] = bool(
+                    _transition_hits(d0, d1, best["removed_swapped"], event_dates))
+            face["most_influential_removal"] = best
+        out[name] = face
+    return out
+
+
+def _mode_universe_diff(reports, modes=("neutralise_int", "neutralise")):
+    """E84: which names one screen repairs and the other leaves alone."""
+    touched = {}
+    for mode in modes:
+        touched[mode] = {r["name"]: r for r in reports[mode]["names"]
+                         if r.get("action") != "kept-gapped-only"}
+    small, big = touched[modes[0]], touched[modes[1]]
+    extra = sorted(set(big) - set(small))
+    return {
+        "modes": list(modes),
+        "names_touched": {m: len(touched[m]) for m in modes},
+        "names_events": {m: reports[m]["events_neutralised"] for m in modes},
+        "names_only_in_%s" % modes[1]: len(extra),
+        "extra_names": extra,
+        "extra_prints": [
+            {"name": n, "events": big[n]["events"],
+             "prints": [{"date": p.get("date"), "ret_pct": p.get("ret_pct"),
+                         "ratio": p.get("ratio"),
+                         "nearest_int": p.get("nearest_int"),
+                         "resid_pct": p.get("resid_pct")}
+                        for p in big[n].get("prints", ())]}
+            for n in extra],
+        "note": "the conservative arm repairs a strict subset: every name and every "
+                "print it touches is also touched by the full arm",
+    }
+
+
+def _mode_row_diff(rows_a, rows_b):
+    """E84: exact transition-by-transition comparison of two screen modes."""
+    a = {r["date"]: r.get("churn_alpha_bp") for r in rows_a}
+    b = {r["date"]: r.get("churn_alpha_bp") for r in rows_b}
+    dates = sorted(set(a) & set(b))
+    diffs = []
+    for d in dates:
+        x, y = a[d], b[d]
+        if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+            if x != y:
+                diffs.append({"date": d, "a_bp": x, "b_bp": y})
+        elif x is not y:
+            diffs.append({"date": d, "a_bp": x, "b_bp": y})
+    return {
+        "transitions_compared": len(dates),
+        "transitions_differing": len(diffs),
+        "date_set_mismatch": len(set(a) ^ set(b)),
+        "differing_rows": diffs[:20],
+        "bit_identical": not diffs and not (set(a) ^ set(b)),
+    }
+
+
+def _extra_name_relevance(churn_row_sets, extra_names, event_dates):
+    """E84: did any transition ever swap one of the names only the wider arm fixes?"""
+    extra = set(extra_names)
+    ever_swapped = set()
+    windows_with_print = 0
+    windows_with_swap = 0
+    for rows in churn_row_sets:
+        for r in rows:
+            swapped = set(r.get("entrant_names") or ()) | set(r.get("exit_names") or ())
+            if not swapped & extra:
+                continue
+            windows_with_swap += 1
+            ever_swapped |= swapped & extra
+            if _transition_hits(r["date"], r["next"], sorted(swapped & extra),
+                                event_dates):
+                windows_with_print += 1
+    return {"extra_names": len(extra),
+            "extra_names_ever_swapped": len(ever_swapped),
+            "extra_names_ever_swapped_list": sorted(ever_swapped),
+            "windows_swapping_an_extra_name": windows_with_swap,
+            "windows_where_an_extra_name_carried_a_print": windows_with_print}
+
+
+def run_singleprint(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                    modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                    eras=ERAS):
+    """E83 + E84: is a published churn cell one swap wide, and is the second arm wasted?
+
+    E82 found the newest-era amplification of the mid-month churn gap is a
+    single transition (mid15 2024-01-15 sz159925). E83 turns that from an
+    anecdote into a screen over every published churn cell: each book, each
+    screen mode, each era, re-read with its single most influential transition
+    removed, flagged when less than half the magnitude survives. E84 audits
+    ``neutralise_int`` against ``neutralise`` -- the two arms returned identical
+    churn rows in E80/E82, and a silently duplicate arm is the shape of an
+    accounting error. Both questions are answered from ONE burn, because they
+    need the same four universes; the universe-level half of E84 is hermetic and
+    costs nothing.
+
+    Drop mode is flagged separately everywhere: it removes names, so a dropped
+    name changes the book's composition rather than repairing a bar, and its
+    cells are not comparable to the neutralise arms.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode,
+                                                       cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    book_labels = ["me", "mid%d" % mid_day]
+    cells, gaps = {}, {}
+    for book in book_labels:
+        cells[book] = {}
+        for label in universes:
+            cells[book][label] = _single_print_cell(
+                faces[label]["books"][book]["churn_rows"], eras, event_dates)
+    for label in universes:
+        gaps[label] = _single_print_gap(
+            faces[label]["books"]["me"]["churn_rows"],
+            faces[label]["books"]["mid%d" % mid_day]["churn_rows"], eras,
+            event_dates)
+
+    n_cells = sum(len(era_map) for book in cells.values()
+                  for era_map in book.values())
+    n_gaps = sum(len(v) for v in gaps.values())
+    flagged = []
+    for book in book_labels:
+        for label in universes:
+            for era, face in cells[book][label].items():
+                rm = face.get("most_influential_removal")
+                if rm and rm.get("single_print"):
+                    flagged.append({
+                        "face": "churn_alpha_bp_mean", "book": book,
+                        "universe": label, "era": era,
+                        "mean_bp": face["mean_bp"],
+                        "without_one_swap_bp": rm["mean_without_bp"],
+                        "magnitude_remaining_pct": rm["magnitude_remaining_pct"],
+                        "sign_flip": rm["sign_flip"],
+                        "removed_window": rm["removed_window"],
+                        "removed_carries_a_print": rm.get("removed_carries_a_print"),
+                    })
+    for label in universes:
+        for era, face in gaps[label].items():
+            rm = face.get("most_influential_removal")
+            if rm and rm.get("single_print"):
+                flagged.append({
+                    "face": "churn_alpha_gap_bp", "book": "mid%d-me" % mid_day,
+                    "universe": label, "era": era,
+                    "mean_bp": face["gap_bp"],
+                    "without_one_swap_bp": rm["gap_without_bp"],
+                    "magnitude_remaining_pct": rm["magnitude_remaining_pct"],
+                    "sign_flip": rm["sign_flip"],
+                    "removed_side": rm.get("removed_side"),
+                    "removed_window": rm["removed_window"],
+                    "removed_carries_a_print": rm.get("removed_carries_a_print"),
+                })
+
+    # E84: the two neutralise arms, universe half (exact) and cell half (exact)
+    universe_diff = _mode_universe_diff(reports)
+    row_diffs = {book: _mode_row_diff(
+        faces["neutralise_int"]["books"][book]["churn_rows"],
+        faces["neutralise"]["books"][book]["churn_rows"]) for book in book_labels}
+    all_rows = [faces[label]["books"][b]["churn_rows"]
+                for label in universes for b in book_labels]
+    relevance = _extra_name_relevance(all_rows,
+                                      universe_diff["extra_names"], event_dates)
+    era_cell_diffs = {}
+    for book in book_labels:
+        for era in cells[book]["neutralise_int"]:
+            a = cells[book]["neutralise_int"][era].get("mean_bp")
+            b = cells[book]["neutralise"].get(era, {}).get("mean_bp")
+            if a != b:
+                era_cell_diffs["%s:%s" % (book, era)] = {"int_bp": a, "all_bp": b}
+
+    identical = all(d["bit_identical"] for d in row_diffs.values())
+    modeeq = {
+        "study": "e84_screen_mode_equivalence",
+        "evidence_cutoff": cutoff,
+        "question": "neutralise_int and neutralise produced identical churn cells in "
+                    "E80/E82 -- is the second arm a duplicate burn?",
+        "universe_half": universe_diff,
+        "churn_row_half": row_diffs,
+        "era_cell_diffs": era_cell_diffs,
+        "relevance_to_this_book": relevance,
+        "verdict": ("identical_on_this_face" if identical else
+                    "differs_somewhere"),
+        "reading": [
+            "the conservative arm touches a strict subset of the names the full arm "
+            "repairs, so the universes are NOT the same object",
+            "the churn cells are identical here because a repaired bar can only move a "
+            "cell through a name the book actually swapped inside that window",
+            "so the right statement is 'duplicate for THIS consumer at THIS cutoff', "
+            "not 'the modes are the same screen' -- any face that prices per-name "
+            "returns over the whole universe (book returns, breadth) must still run the "
+            "full arm",
+        ],
+        "honest": [
+            "a zero row difference can also mean both arms failed to repair anything; "
+            "the touched-name counts above are the control against that",
+            "drop mode is not part of this comparison: it removes names and changes "
+            "composition, so it can never be a duplicate of a bar-repair arm",
+        ],
+    }
+
+    bond = {
+        "study": "e83_single_print_screen",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "pick_n": pick_n,
+                 "exclude_prefixes": list(exclude), "modes": list(modes),
+                 "mid_month_day": mid_day,
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "books": book_labels,
+                 "screen": "each era cell of every book/universe pair, re-read with its "
+                           "single most influential transition removed "
+                           "(mean_without = (n*m - a_i)/(n-1), pick the smallest "
+                           "|mean_without|)",
+                 "flag_rule": "single_print when less than 50% of the cell's magnitude "
+                              "survives the removal of one transition",
+                 "universe_members": len(raw),
+                 "events_indexed": len(event_dates),
+                 "runs": len(universes)},
+        "screen_reports": reports,
+        "cells": cells,
+        "gaps": gaps,
+        "flagged": flagged,
+        "flagged_count": len(flagged),
+        "cells_examined": n_cells + n_gaps,
+        "results": {
+            "cells_examined": n_cells + n_gaps,
+            "cell_breakdown": {"book_era_cells": n_cells, "gap_era_cells": n_gaps},
+            "flagged": len(flagged),
+            "flagged_unscreened": len([f for f in flagged
+                                       if f["universe"] == "unscreened"]),
+            "flagged_neutralise": len([f for f in flagged
+                                       if f["universe"].startswith("neutralise")]),
+            "flagged_drop": len([f for f in flagged if f["universe"] == "drop"]),
+            "flagged_with_a_print": len([f for f in flagged
+                                         if f["removed_carries_a_print"]]),
+        },
+        "mode_equivalence_ref": "MODEEQ-%s.json" % cutoff.replace("-", ""),
+        "honest": [
+            "the screen removes the single most influential transition; it does not "
+            "test whether a second removal matters too, so 'not single print' only "
+            "means the cell survives one swap",
+            "an era cell with two transitions cannot survive any removal by "
+            "arithmetic -- its magnitude_remaining_pct is 0 by construction, so read "
+            "the transitions count before the flag",
+            "removal is unweighted: transition alphas are an equal-weight mean over "
+            "swapped names, so a period with few transitions can be dominated by one "
+            "wide window",
+            "drop mode is flagged separately and cannot be compared to the neutralise "
+            "arms cell-for-cell",
+            "descriptive census only: no gate, no verdict, no prereg, no trial booking",
+        ],
+    }
+    return bond, modeeq
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -6648,6 +7027,101 @@ def selftest():
     chk(_churn_join(_brows, [], _ed, (("x", "2020-01", "2020-03"),))[1] == {},
         "a mode with no rows produces no era cells")
 
+    # E83: a cell is one swap wide when one removal halves its magnitude
+    _eras83 = (("x", "2020-01", "2020-12"),)
+    _crow = lambda d, a: {"date": d, "next": d, "era": "x", "churn_alpha_bp": a,
+                          "entrant_names": ["a"], "exit_names": ["z"]}
+    _one_wide = [ _crow("2020-01-31", 1000.0), _crow("2020-02-28", 100.0),
+                  _crow("2020-03-31", 90.0), _crow("2020-04-30", 110.0) ]
+    _c83 = _single_print_cell(_one_wide, _eras83)["x"]
+    chk(_c83["mean_bp"] == 325.0
+        and _c83["most_influential_removal"]["removed_alpha_bp"] == 1000.0
+        and _c83["most_influential_removal"]["single_print"] is True,
+        "a cell whose mean sits on one transition is flagged single print")
+    _flat = [ _crow("2020-01-31", 100.0), _crow("2020-02-28", 100.0),
+              _crow("2020-03-31", 100.0), _crow("2020-04-30", 100.0) ]
+    _c83b = _single_print_cell(_flat, _eras83)["x"]
+    chk(_c83b["most_influential_removal"]["magnitude_remaining_pct"] == 100.0
+        and _c83b["most_influential_removal"]["single_print"] is False,
+        "a flat cell loses nothing to the removal and is not flagged")
+    _c83c = _single_print_cell([_crow("2020-01-31", 100.0)], _eras83)["x"]
+    chk(_c83c["single_swap_removable"] is False
+        and "most_influential_removal" not in _c83c,
+        "a one-transition cell is not removable and says so")
+    _crown = [{"date": "2020-01-31", "next": "2020-02-28", "era": "x",
+               "churn_alpha_bp": 300.0, "entrant_names": ["p"], "exit_names": ["z"]},
+              {"date": "2020-02-28", "next": "2020-03-31", "era": "x",
+               "churn_alpha_bp": 10.0, "entrant_names": ["q"], "exit_names": ["z"]},
+              {"date": "2020-03-31", "next": "2020-04-30", "era": "x",
+               "churn_alpha_bp": 10.0, "entrant_names": ["r"], "exit_names": ["z"]}]
+    _c83d = _single_print_cell(_crown, _eras83, {"p": ["2020-02-10"]})["x"]
+    chk(_c83d["most_influential_removal"]["removed_carries_a_print"] is True,
+        "the removed transition is tagged when its swapped name carries a print")
+    chk(_single_print_cell(_crown, _eras83, {"q": ["2020-02-10"]})["x"]
+        ["most_influential_removal"]["removed_carries_a_print"] is False,
+        "a print on an unremoved transition does not leak into the flag")
+    chk(_single_print_cell([], _eras83) == {},
+        "no rows means no cell")
+    _grow = lambda d, a: {"date": d, "next": d, "era": "x", "churn_alpha_bp": a,
+                          "entrant_names": ["m"], "exit_names": ["z"]}
+    _g_me = [_grow("2020-01-31", 0.0), _grow("2020-02-28", 0.0),
+             _grow("2020-03-31", 0.0), _grow("2020-04-30", 0.0)]
+    _g_mid = [_grow("2020-02-10", 100.0), _grow("2020-03-10", 100.0),
+              _grow("2020-04-10", 100.0), _grow("2020-05-10", -1900.0)]
+    _g83 = _single_print_gap(_g_me, _g_mid, _eras83)["x"]
+    chk(_g83["gap_bp"] == -400.0
+        and _g83["most_influential_removal"]["gap_without_bp"] == 100.0
+        and _g83["most_influential_removal"]["single_print"] is True,
+        "a gap owned by one transition on one side is flagged with the surviving gap")
+    chk(_g83["most_influential_removal"]["removed_side"] == "mid"
+        and _g83["most_influential_removal"]["removed_window"][0] == "2020-05-10",
+        "the gap screen names WHICH book the owning transition came from")
+    _g83b = _single_print_gap(_g_me, _g_me, _eras83)["x"]
+    chk(_g83b["gap_bp"] == 0.0 and _g83b["most_influential_removal"]["single_print"] is False,
+        "a zero gap is never a single print, whatever the removal does")
+    chk("most_influential_removal" not in _single_print_gap(
+        _g_me[:1], _g_me[:1], _eras83)["x"],
+        "two single-transition books have nothing removable")
+    chk(_single_print_gap(_g_me, [], _eras83) == {},
+        "a book with no rows in the era yields no gap cell")
+
+    # E84: two screen modes are only duplicates if the universes agree
+    _rep = lambda mode, names: {"mode": mode, "events_neutralised": len(names),
+                                "names": names}
+    _ru = {"neutralise_int": _rep("neutralise_int",
+                                  [{"name": "a", "action": "neutralise", "events": 1,
+                                    "prints": [{"date": "2020-02-10", "return_pct": -50.0,
+                                                "ratio": 2.0, "resid_pct": 0.0}]}]),
+           "neutralise": _rep("neutralise",
+                              [{"name": "a", "action": "neutralise", "events": 1,
+                                "prints": [{"date": "2020-02-10", "return_pct": -50.0,
+                                            "ratio": 2.0, "resid_pct": 0.0}]},
+                               {"name": "b", "action": "neutralise", "events": 1,
+                                "prints": [{"date": "2020-03-02", "return_pct": -41.0,
+                                            "ratio": 1.69, "resid_pct": 15.0}]}])}
+    _md = _mode_universe_diff(_ru)
+    chk(_md["names_touched"] == {"neutralise_int": 1, "neutralise": 2}
+        and _md["names_only_in_neutralise"] == 1
+        and _md["extra_names"] == ["b"],
+        "the conservative arm is a strict subset and the extra name is named")
+    _r1 = [{"date": "2020-01-31", "churn_alpha_bp": 100.0},
+           {"date": "2020-02-28", "churn_alpha_bp": None}]
+    _r2 = [{"date": "2020-01-31", "churn_alpha_bp": 100.0},
+           {"date": "2020-02-28", "churn_alpha_bp": None}]
+    chk(_mode_row_diff(_r1, _r2)["bit_identical"] is True,
+        "matching rows including matching Nones are bit identical")
+    chk(_mode_row_diff(_r1, [_r2[0], {"date": "2020-02-28", "churn_alpha_bp": 0.0}])
+        ["transitions_differing"] == 1,
+        "a None versus a zero is a real difference, not a gap")
+    chk(_mode_row_diff(_r1, _r1[:1])["date_set_mismatch"] == 1,
+        "a missing transition is reported as a date-set mismatch")
+    _rel = _extra_name_relevance([_crown], ["q"], {"q": ["2020-03-15"]})
+    chk(_rel["extra_names_ever_swapped"] == 1
+        and _rel["windows_where_an_extra_name_carried_a_print"] == 1,
+        "an extra name that was swapped inside a print window is counted")
+    chk(_extra_name_relevance([_crown], ["zz"], {})["windows_swapping_an_extra_name"] == 0,
+        "a name the book never swaps contributes nothing")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -6663,7 +7137,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
-                             "midscreen", "churngap",
+                             "midscreen", "churngap", "singleprint",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -7153,6 +7627,33 @@ def main(argv):
         print(json.dumps({"leg": "churngap", "file": os.path.relpath(p, ROOT),
                           "events_indexed": f["spec"]["events_indexed"],
                           "results": f["results"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "singleprint":
+        bond, modeeq = run_singleprint(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "SINGLEPRINT-%s.json"
+                       % bond["evidence_cutoff"].replace("-", ""), bond)
+        q = write_json(outdir, "MODEEQ-%s.json"
+                       % modeeq["evidence_cutoff"].replace("-", ""), modeeq)
+        print(json.dumps({"leg": "singleprint",
+                          "file": os.path.relpath(p, ROOT),
+                          "modeeq_file": os.path.relpath(q, ROOT),
+                          "results": bond["results"],
+                          "flagged": [{"book": f["book"], "universe": f["universe"],
+                                       "era": f["era"], "face": f["face"],
+                                       "mean_bp": f["mean_bp"],
+                                       "remaining_pct": f["magnitude_remaining_pct"],
+                                       "window": f["removed_window"]}
+                                      for f in bond["flagged"]],
+                          "modeeq": {"verdict": modeeq["verdict"],
+                                     "touched": modeeq["universe_half"]["names_touched"],
+                                     "extra_names": modeeq["universe_half"]
+                                     ["names_only_in_neutralise"],
+                                     "extra_ever_swapped": modeeq["relevance_to_this_book"]
+                                     ["extra_names_ever_swapped"],
+                                     "bit_identical": modeeq["verdict"]
+                                     == "identical_on_this_face"}},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T21:58:05+08:00",
- "current": "r1151: E82 churn-gap attribution (one swap)",
- "current_task": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
+ "clock_read": "2026-10-22T22:31:45+08:00",
+ "current": "r1152: E83+E84 single-print screen and screen-mode equivalence",
+ "current_task": "r1152: E83+E84 both closed from one burn -- 13 of 24 published churn cells keep less than half their magnitude without one transition; E80's 2021_2023 'second mechanism' gap (+318.8bp) keeps 18.9% (60.3bp) and is owned by one mid15 transition (2021-05-17) in all three neutralise universes, while the month-end book survives at 62-65% in the newest era; E84: the conservative screen arm is a duplicate for this consumer (65 vs 129 names, 64 extra, 63 swapped in 201 windows, ZERO windows carrying that name's own print, churn rows 69/69 bit-identical) but not the same screen.",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
- "did_round": 1151,
- "heartbeat_epoch_utc": 1792678429,
+ "did": "r1152: E83+E84 both closed from one burn -- 13 of 24 published churn cells keep less than half their magnitude without one transition; E80's 2021_2023 'second mechanism' gap (+318.8bp) keeps 18.9% (60.3bp) and is owned by one mid15 transition (2021-05-17) in all three neutralise universes, while the month-end book survives at 62-65% in the newest era; E84: the conservative screen arm is a duplicate for this consumer (65 vs 129 names, 64 extra, 63 swapped in 201 windows, ZERO windows carrying that name's own print, churn rows 69/69 bit-identical) but not the same screen.",
+ "did_round": 1152,
+ "heartbeat_epoch_utc": 1792679505,
  "heartbeat_epoch_utc_face": 1792530408,
  "idle_rounds": 0,
- "last_action": "r1151: churngap leg (+_event_dates/_transition_hits/_churn_join, run_midmonth full_churn hook, 9 new selftest legs, 178/178) burned 4 universes; pool E82 done + E83 retargeted + E84 seeded (ready 3); S6 rc0 chain",
- "last_action_at": "2026-10-22T22:31:00+08:00",
- "last_artifact": "results/e44_midmonth/CHURNGAP-20261021.json",
+ "last_action": "r1152: E83+E84 burned (singleprint leg, 4 universes, 24 cells, 13 flagged; MODEEQ bit-identical); pool E83+E84 done + E85+E86 seeded (ready 3); S6 chain rc0",
+ "last_action_at": "2026-10-22T22:31:45+08:00",
+ "last_artifact": "results/e44_midmonth/SINGLEPRINT-20261021.json",
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,15 +43,15 @@
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "788adae83 -> origin/main (behind=0 ahead=0)",
- "last_round_at": "2026-10-22T22:31:00+08:00",
+ "last_round_at": "2026-10-22T22:31:45+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md r1151",
- "last_round_ts": "2026-10-22T22:31:00+08:00",
- "last_seen": "2026-10-22T22:31:00+08:00",
- "latest_artifact": "results/e44_midmonth/CHURNGAP-20261021.json",
+ "last_round_ts": "2026-10-22T22:31:45+08:00",
+ "last_seen": "2026-10-22T22:31:45+08:00",
+ "latest_artifact": "results/e44_midmonth/MODEEQ-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "burn E83 single-print screen over the published churn cells, then E84 neutralise_int vs neutralise equivalence",
- "next_milestone": "every published churn cell flagged as single-print or not (window <=48h)",
+ "next": "burn E85 (median + 10% trimmed mean beside the mean on every churn cell) or E81 raw hooks on the exposed runners",
+ "next_milestone": "every published churn cell carries a robust estimator beside its mean (window <=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -86,9 +86,10 @@
   "r1147_note": "decisions face read fresh: sha ff59462b differs from the stored 17c2935, but the file carries no 2026-10-21/22 row (last block is 2026-10-20 D-20261020-12); the two bigmoney-relevant rows (D-20261020-01 #40, -09 #42) are daily-execution rows already discharged -- zero action, watermark updated.",
   "r1147_pit": "a calendar-day adjacency test is wrong for this panel: sh512100 2022-09-05 (a Monday) and sh510500 2015-04-15 both read \"gapped\" under ISO day distance and \"adjacent\" only on the session calendar. panel_screen takes the panel calendar; without one it says so in the report. The count moved 68 -> 135 events once the calendar was passed, i.e. half the screen was invisible.",
   "r1150": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean.",
-  "r1151": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp)."
+  "r1151": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
+  "r1152": "r1152: E83+E84 both closed from one burn -- 13 of 24 published churn cells keep less than half their magnitude without one transition; E80's 2021_2023 'second mechanism' gap (+318.8bp) keeps 18.9% (60.3bp) and is owned by one mid15 transition (2021-05-17) in all three neutralise universes, while the month-end book survives at 62-65% in the newest era; E84: the conservative screen arm is a duplicate for this consumer (65 vs 129 names, 64 extra, 63 swapped in 201 windows, ZERO windows carrying that name's own print, churn rows 69/69 bit-identical) but not the same screen."
  },
- "now_active": "pool ready 3 (E81 + E83 + E84); astock refresh lock in flight; supply_floor met (3/3)",
+ "now_active": "pool ready 3 (E81 + E85 + E86); supply_floor met (3/3)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -205,7 +206,8 @@
  "orphan_face_note": "r1106: no orphan python faces at closeout",
  "orphan_faces": 0,
  "pool_claims": [
-  "E82-CHURN-GAP-AMPLIFICATION (done, bm-b r1151)"
+  "E83-REPAIR-CONCENTRATION (done, bm-b r1152)",
+  "E84-SCREEN-MODE-EQUIVALENCE (done, bm-b r1152)"
  ],
  "push_receipts_r1049": {
   "ahead": 0,
@@ -419,24 +421,24 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1151,
- "round_no": 1151,
- "round_no_label": "r1151",
- "round_pit": "r1151: run_midmonth reads arms['x0'/'x1'/'x3'] unconditionally, so a reduced cost list raises KeyError 'x1' then 'x3'; and the churn rows carry no tickers unless with_names=True, without which the transition join cannot exist.",
+ "round": 1152,
+ "round_no": 1152,
+ "round_no_label": "r1152",
+ "round_pit": "r1152: intersecting the two books' decision dates yields an empty gap limb (disjoint calendars), and a total-cell counter that sums universes hides it.",
  "sat_engine": {
-  "checked_at": "2026-10-22T22:31:00+08:00",
+  "checked_at": "2026-10-22T22:31:45+08:00",
   "status": "alive"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push": "pending r1151 closeout",
+  "last_push": "pending r1152 closeout",
   "local_not_on_origin_main": 0,
-  "note": "r1151 payload = census churngap leg + CHURNGAP face + digest + pool (E82 done, E83 retargeted, E84 seeded) + closeout trio + bm-b evidence; targeted add only per r982/r1015/r1033"
+  "note": "r1152 payload = singleprint leg + SINGLEPRINT/MODEEQ faces + digest + pool (E83/E84 done, E85/E86 seeded) + closeout trio + bm-b evidence; targeted add only per r982/r1015/r1033"
  },
- "task": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
- "ts": "2026-10-22T22:31:00+08:00",
- "updated": "2026-10-22T22:31:00+08:00",
- "updated_at": "2026-10-22T22:31:00+08:00",
+ "task": "r1152: E83+E84 both closed from one burn -- 13 of 24 published churn cells keep less than half their magnitude without one transition; E80's 2021_2023 'second mechanism' gap (+318.8bp) keeps 18.9% (60.3bp) and is owned by one mid15 transition (2021-05-17) in all three neutralise universes, while the month-end book survives at 62-65% in the newest era; E84: the conservative screen arm is a duplicate for this consumer (65 vs 129 names, 64 extra, 63 swapped in 201 windows, ZERO windows carrying that name's own print, churn rows 69/69 bit-identical) but not the same screen.",
+ "ts": "2026-10-22T22:31:45+08:00",
+ "updated": "2026-10-22T22:31:45+08:00",
+ "updated_at": "2026-10-22T22:31:45+08:00",
  "verdict": "product+maintenance"
 }

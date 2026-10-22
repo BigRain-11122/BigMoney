@@ -21403,7 +21403,10 @@
   },
   {
    "id": "E83-REPAIR-CONCENTRATION",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e44_midmonth/SINGLEPRINT-20261021.json",
+   "closed_by": "bm-b r1152",
+   "closed_at": "2026-10-22T22:26:00+08:00",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21417,7 +21420,10 @@
   },
   {
    "id": "E84-SCREEN-MODE-EQUIVALENCE",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e44_midmonth/MODEEQ-20261021.json",
+   "closed_by": "bm-b r1152",
+   "closed_at": "2026-10-22T22:26:00+08:00",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21428,6 +21434,34 @@
    "entered_by": "bm-b r1151",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "compare panel_screen.screen_universe outputs directly plus the existing screened faces; cheap, hermetic, no panel burn needed for the universe half"
+  },
+  {
+   "id": "E85-CHURN-GAP-ROBUST-ESTIMATOR",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E83 showed 13 of 24 published churn cells keep less than half their magnitude without one transition, and the 2021_2023 churn gap (+318.8bp, E80's 'second mechanism') keeps only 18.9%. Re-derive every churn cell with a median and a 10% trimmed mean beside the mean, per book/mode/era plus the gap, and publish which cells change sign or ordering under the robust estimator. The deliverable is a table the chain can quote without a single-swap lever, not another census of the same numbers.",
+   "deliverable": "results/e44_midmonth/CHURNROBUST-<cutoff>.json",
+   "source": "r1152 E83 (13/24 flagged; 2021_2023 gap 318.8 -> 60.3bp without one mid15 transition)",
+   "entered_at": "2026-10-22T22:26:00+08:00",
+   "entered_by": "bm-b r1152",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the singleprint burn's churn rows (full_churn=True); keep the mean column beside the robust ones so no published face is rewritten in place"
+  },
+  {
+   "id": "E86-SINGLEPRINT-SENSITIVITY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E83 reports only the single worst removal per cell. Publish the whole leave-one-window-out distribution instead: for each churn cell and gap cell, the min/max/IQR of the estimate over all single removals and the share of removals that flip the sign. That turns 'one swap wide' from a boolean into a curve, so a reader can see whether a cell sits at the edge of a cliff or on a plateau.",
+   "deliverable": "results/e44_midmonth/SINGLEPRINT-DIST-<cutoff>.json",
+   "source": "r1152 E83 (flag rule = <50% magnitude survives the worst single removal)",
+   "entered_at": "2026-10-22T22:26:00+08:00",
+   "entered_by": "bm-b r1152",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "same burn as E83/E85; cost is O(n) per cell over alphas already in memory, so no panel re-read is needed if the churn rows are cached to disk"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
