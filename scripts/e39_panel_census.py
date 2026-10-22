@@ -6262,6 +6262,172 @@ def run_singleprint(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return bond, modeeq
 
 
+def _median_sorted(s):
+    """Median of an already-sorted list (mean of the two middles when even)."""
+    n = len(s)
+    if not n:
+        return None
+    mid = n // 2
+    if n % 2:
+        return float(s[mid])
+    return 0.5 * (s[mid - 1] + s[mid])
+
+
+def _robust_stats(vals, trim_pct=10.0):
+    """Mean, median and symmetric trimmed mean of one cell's own values.
+
+    Every churn cell in E80/E82/E83 is a MEAN over per-transition numbers, and
+    those numbers are heavy-tailed by construction (one swap can own a window).
+    A mean that survives as a median is a statement about the typical
+    transition; a mean that collapses is a statement about a few.
+    """
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if not n:
+        return {"n": 0, "mean_bp": None, "median_bp": None, "trim10_bp": None,
+                "trim_dropped": 0, "median_keep_pct_of_mean": None,
+                "trim10_keep_pct_of_mean": None}
+    s = sorted(clean)
+    k = int(n * trim_pct / 100.0)
+    core = s[k:n - k] if n - 2 * k > 0 else s
+    mean = sum(clean) / n
+    med = _median_sorted(s)
+    trim = sum(core) / len(core)
+
+    def keep(x):
+        if mean == 0:
+            return None
+        return round(100.0 * x / mean, 1)
+
+    return {"n": n, "mean_bp": round(mean, 1), "median_bp": round(med, 1),
+            "trim10_bp": round(trim, 1),
+            "trim_dropped": (2 * k) if core is not s else 0,
+            "median_keep_pct_of_mean": keep(med),
+            "trim10_keep_pct_of_mean": keep(trim)}
+
+
+def _concentration(vals, k=3):
+    """How much of a cell's signed total the k largest |values| carry."""
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    if not clean:
+        return None
+    order = sorted(range(len(clean)), key=lambda i: -abs(clean[i]))[:k]
+    top = sum(clean[i] for i in order)
+    tot = sum(clean)
+    return {"k": len(order), "top_sum_bp": round(top, 1),
+            "total_sum_bp": round(tot, 1),
+            "top_share_of_total_pct": (round(100.0 * top / tot, 1)
+                                       if tot else None)}
+
+
+def run_robustchurn(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                    modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                    eras=ERAS):
+    """E85: put a robust estimator beside every published churn cell's mean.
+
+    E83 showed one transition can own a cell; that is a magnitude statement
+    about the MEAN. This leg asks the complementary question on the same burn:
+    does the cell's centre of mass move? Cells are (book, universe|mode, era)
+    and each carries mean / median / 10% trimmed mean plus the share of the
+    signed total carried by the three largest transitions. No published face is
+    rewritten and no predictor is claimed.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    books = ["me", "mid%d" % mid_day]
+    cells, delta_cells = [], []
+    for book in books:
+        base_rows = faces["unscreened"]["books"][book]["churn_rows"]
+        for label in universes:
+            rows = (base_rows if label == "unscreened"
+                    else faces[label]["books"][book]["churn_rows"])
+            for name, _lo, _hi in eras:
+                sub = [r["churn_alpha_bp"] for r in rows if r.get("era") == name]
+                st = _robust_stats(sub)
+                if not st["n"]:
+                    continue
+                cells.append({"book": book, "universe": label, "era": name,
+                              "face": "churn_alpha_bp", **st,
+                              "concentration_top3": _concentration(sub, 3)})
+        for mode in modes:
+            rows, _agg = _churn_join(base_rows,
+                                     faces[mode]["books"][book]["churn_rows"],
+                                     event_dates, eras)
+            for name, _lo, _hi in eras:
+                sub = [r["delta_bp"] for r in rows if r["era"] == name]
+                st = _robust_stats(sub)
+                if not st["n"]:
+                    continue
+                delta_cells.append({"book": book, "mode": mode, "era": name,
+                                    "face": "delta_bp", **st,
+                                    "concentration_top3": _concentration(sub, 3)})
+
+    def _tally(rows):
+        live = [c for c in rows if c["median_keep_pct_of_mean"] is not None]
+        return {
+            "cells": len(live),
+            "median_keeps_under_half_pct": len(
+                [c for c in live if abs(c["median_keep_pct_of_mean"]) < 50.0]),
+            "trim10_keeps_under_half_pct": len(
+                [c for c in live
+                 if c["trim10_keep_pct_of_mean"] is not None
+                 and abs(c["trim10_keep_pct_of_mean"]) < 50.0]),
+            "median_flips_sign": len(
+                [c for c in live
+                 if (c["median_bp"] or 0.0) * (c["mean_bp"] or 0.0) < 0]),
+            "top3_over_half_of_total_pct": len(
+                [c for c in live
+                 if c["concentration_top3"]
+                 and c["concentration_top3"]["top_share_of_total_pct"] is not None
+                 and abs(c["concentration_top3"]["top_share_of_total_pct"]) > 50.0]),
+        }
+
+    return {
+        "study": "e85_robust_churn_estimators",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "mid_month_day": mid_day,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": books,
+            "estimators": ["mean", "median", "trimmed_mean_10pct"],
+            "concentration": "sum of the 3 largest |value| transitions over the "
+                             "cell signed total; >50% means three transitions "
+                             "carry the cell",
+            "universe_members": len(raw),
+            "events_indexed": len(event_dates),
+            "descriptive_only": "no prereg, no judgement, zero ledger booking",
+        },
+        "cells": cells,
+        "delta_cells": delta_cells,
+        "summary": {"levels": _tally(cells), "deltas": _tally(delta_cells)},
+        "screen_reports": reports,
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -7122,6 +7288,27 @@ def selftest():
     chk(_extra_name_relevance([_crown], ["zz"], {})["windows_swapping_an_extra_name"] == 0,
         "a name the book never swaps contributes nothing")
 
+    # E85 robust estimators: a pure mean cell must show its tail, not hide it
+    _flat = _robust_stats([5.0] * 20)
+    chk(_flat["mean_bp"] == 5.0 and _flat["median_bp"] == 5.0
+        and _flat["trim10_bp"] == 5.0 and _flat["trim_dropped"] == 4,
+        "a constant cell reads identical under mean/median/trim and drops 2 per tail")
+    _tail = _robust_stats([1.0] * 18 + [-100.0, 1000.0])
+    chk(_tail["mean_bp"] == 45.9 and _tail["median_bp"] == 1.0,
+        "one huge positive and one huge negative leave the mean near the outlier "
+        "scale while the median stays on the body")
+    chk(abs(_tail["median_keep_pct_of_mean"] - 2.2) < 0.05,
+        "the keep-percentage is the ratio of the two, not a re-rounding of bp")
+    chk(_robust_stats([-3.0, -1.0, -2.0])["median_bp"] == -2.0,
+        "median of an even-length negative cell averages the two middles")
+    chk(_robust_stats([])["n"] == 0 and _robust_stats([None, "x"])["mean_bp"] is None,
+        "an empty or non-numeric cell reports n=0 rather than a fabricated zero")
+    _conc = _concentration([1.0, 1.0, 1.0, 1.0, 96.0], 3)
+    chk(_conc["top_sum_bp"] == 98.0 and abs(_conc["top_share_of_total_pct"] - 98.0) < 0.05,
+        "the top-3 share of a single-outlier cell is printed as a percentage")
+    chk(_concentration([5.0, -5.0], 3)["top_share_of_total_pct"] is None,
+        "a cell whose signed total is zero reports no share instead of dividing by zero")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -7137,7 +7324,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
-                             "midscreen", "churngap", "singleprint",
+                             "midscreen", "churngap", "singleprint", "robustchurn",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -7654,6 +7841,32 @@ def main(argv):
                                      ["extra_names_ever_swapped"],
                                      "bit_identical": modeeq["verdict"]
                                      == "identical_on_this_face"}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "robustchurn":
+        f = run_robustchurn(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "CHURNROBUST-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        thin = [{"book": c["book"], "universe": c["universe"], "era": c["era"],
+                 "mean_bp": c["mean_bp"], "median_bp": c["median_bp"],
+                 "trim10_bp": c["trim10_bp"],
+                 "median_keep_pct": c["median_keep_pct_of_mean"],
+                 "top3_share_pct": (c["concentration_top3"] or {})
+                 .get("top_share_of_total_pct")}
+                for c in f["cells"]
+                if c["median_keep_pct_of_mean"] is not None
+                and abs(c["median_keep_pct_of_mean"]) < 50.0]
+        print(json.dumps({"leg": "robustchurn", "file": os.path.relpath(p, ROOT),
+                          "summary": f["summary"],
+                          "thin_level_cells": thin,
+                          "delta_rows": [{"book": c["book"], "mode": c["mode"],
+                                          "era": c["era"],
+                                          "mean_bp": c["mean_bp"],
+                                          "median_bp": c["median_bp"],
+                                          "trim10_bp": c["trim10_bp"],
+                                          "median_keep_pct": c["median_keep_pct_of_mean"]}
+                                         for c in f["delta_cells"]]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

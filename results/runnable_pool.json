@@ -21437,7 +21437,10 @@
   },
   {
    "id": "E85-CHURN-GAP-ROBUST-ESTIMATOR",
-   "status": "ready",
+   "status": "done",
+  "result_ref": "results/e44_midmonth/CHURNROBUST-20261021.json + research/digests/DIGEST-20261022-e85-churn-robust.md (r1153 bm-b)",
+  "closed_at": "2026-10-22T22:52:00+08:00",
+  "closed_by": "bm-b r1153",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21462,6 +21465,34 @@
    "entered_by": "bm-b r1152",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "same burn as E83/E85; cost is O(n) per cell over alphas already in memory, so no panel re-read is needed if the churn rows are cached to disk"
+  },
+  {
+   "id": "E87-CHURN-ROBUST-START2013",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E85 read the churn cells at the 2020 start only, where n=25-29 transitions per era. Rerun the robust estimator at the 2013 start (the same leg with --start 2013-01-01) and publish whether the mean/median split and the 2021_2023 vs 2024_now shape difference are window properties or era properties; suffix the face with the start so the 2020 face cannot be overwritten (r1135 pit).",
+   "deliverable": "results/e44_midmonth/CHURNROBUST-<cutoff>-s2013.json",
+   "source": "r1153 E85 (median keeps <50% in 13/16 level cells; newest-era mid15 mean -123.7 vs median +18.1)",
+   "entered_at": "2026-10-22T22:52:00+08:00",
+   "entered_by": "bm-b r1153",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "no code change needed, --start is already wired; keep the 2020 face beside it and re-list results/e44_midmonth after the burn"
+  },
+  {
+   "id": "E88-CHURNROBUST-BURN-CONTROL",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The robust table must sit on the same burn as the published E80/E82 faces, not on a re-derived one (r1135/r1142 pit: two burns cannot be compared). Add a control leg that reads CHURNGAP-<cutoff>.json and the new CHURNROBUST-<cutoff>.json and asserts the mean columns are bit-identical cell by cell; publish the mismatch count (target 0) as the control face.",
+   "deliverable": "results/e44_midmonth/CHURNROBUST-CONTROL-<cutoff>.json",
+   "source": "r1153 E85 (new robust face) + r1152 E83 (CHURNGAP face)",
+   "entered_at": "2026-10-22T22:52:00+08:00",
+   "entered_by": "bm-b r1153",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "pure file-to-file comparison, zero panel read; a non-zero mismatch is a mechanism fault to report, never to reconcile by rewriting a face"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

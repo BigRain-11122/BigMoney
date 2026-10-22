@@ -1,10 +1,10 @@
 {
  "report_date": "2026-10-22",
- "generated_at": "2026-10-22 22:30:49",
+ "generated_at": "2026-10-22 22:44:10",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5960946.13,
+   "total_equity_cny": 5947551.68,
    "total_positions": 21,
    "entries_today": 0,
    "exits_today": 0,
@@ -15,64 +15,64 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 990468.31,
-     "positions_value": 852405.55,
-     "cash": 138062.76,
+     "equity": 988679.0,
+     "positions_value": 945740.13,
+     "cash": 42938.87,
      "denomination": "CNY"
     },
     "positions": 5,
-    "dd": -0.0149,
+    "dd": -0.0167,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 987544.2,
-     "positions_value": 823110.4,
-     "cash": 164433.8,
+     "equity": 985192.15,
+     "positions_value": 880185.77,
+     "cash": 105006.38,
      "denomination": "CNY"
     },
     "positions": 8,
-    "dd": -0.0189,
+    "dd": -0.0212,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "DROUGHT-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 994182.45,
-     "positions_value": 47957.84,
-     "cash": 946224.61,
+     "equity": 988364.9,
+     "positions_value": 95915.67,
+     "cash": 892449.23,
      "denomination": "CNY"
     },
     "positions": 1,
-    "dd": -0.0058,
+    "dd": -0.0116,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "ENGULF-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 996564.46,
-     "positions_value": 96694.86,
-     "cash": 899869.6,
+     "equity": 993128.92,
+     "positions_value": 193389.75,
+     "cash": 799739.17,
      "denomination": "CNY"
     },
     "positions": 2,
-    "dd": -0.0034,
+    "dd": -0.0069,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0078,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-22.md"
  },
  "rd": {
-  "commits_24h": 22,
+  "commits_24h": 23,
   "result_jsons_landed_24h": 37,
-  "digests_landed_24h": 13,
+  "digests_landed_24h": 14,
   "prereg_md_touched_24h": 0,
   "compute_audit_latest": {
-   "ts": "2026-10-22 22:29:57",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-10-22 22:43:19",
+   "py_cpu_pct": 0.2,
    "flags": [
     "supply_gap"
    ],
@@ -666,11 +666,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2229924,
+  "total_report_tokens_est": 2235667,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-22 00:21:10",
+   "prev_generated": "2026-10-22 22:30:51",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1322,
+   "report_tokens_growth": 1499,
    "mandate_growth": 0
   },
   "method": {
@@ -743,17 +743,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-22 22:29:57",
-    "py_pct": 0.3,
-    "cpu_pct": 40.0,
-    "ready": 3,
-    "streak_min": 2615.0,
+    "latest_ts": "2026-10-22 22:43:19",
+    "py_pct": 0.2,
+    "cpu_pct": 37.0,
+    "ready": 4,
+    "streak_min": 2628.4,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "23:05",
-      3.2
-     ],
      [
       "23:10",
       2.2
@@ -797,12 +793,16 @@
      [
       "22:29",
       0.3
+     ],
+     [
+      "22:43",
+      0.2
      ]
     ],
-    "today_samples": 7,
-    "today_floor_ok": 2,
+    "today_samples": 8,
+    "today_floor_ok": 3,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 3
+    "today_supply_gap_flags": 4
    },
    "bm-c": {
     "latest_ts": "2026-10-20 21:35:27",
@@ -902,7 +902,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-22 22:29:57"
+     "audit_ts": "2026-10-22 22:43:19"
     }
    },
    "bm-c": {
@@ -933,9 +933,9 @@
    "rows": [
     {
      "trader": "COMPOSITE-CE-01",
-     "equity_cny": 990468.31,
-     "day_pnl_cny": -5091.33,
-     "day_ret": -0.005114,
+     "equity_cny": 988679.0,
+     "day_pnl_cny": -6880.64,
+     "day_ret": -0.006911,
      "status": "ok",
      "top_position": {
       "symbol": "513100",
@@ -944,35 +944,35 @@
     },
     {
      "trader": "COMPOSITE-CE-02",
-     "equity_cny": 987544.2,
-     "day_pnl_cny": -5911.07,
-     "day_ret": -0.00595,
+     "equity_cny": 985192.15,
+     "day_pnl_cny": -8263.12,
+     "day_ret": -0.008318,
      "status": "ok",
      "top_position": {
-      "symbol": "159980",
-      "unrealized_pnl_cny": -4096.87
+      "symbol": "513520",
+      "unrealized_pnl_cny": -4549.3
      }
     },
     {
      "trader": "DROUGHT-CE-01",
-     "equity_cny": 994182.45,
-     "day_pnl_cny": -1449.28,
-     "day_ret": -0.001456,
+     "equity_cny": 988364.9,
+     "day_pnl_cny": -7266.83,
+     "day_ret": -0.007299,
      "status": "ok",
      "top_position": {
       "symbol": "512400",
-      "unrealized_pnl_cny": -2042.16
+      "unrealized_pnl_cny": -4084.32
      }
     },
     {
      "trader": "ENGULF-CE-01",
-     "equity_cny": 996564.46,
-     "day_pnl_cny": -3076.86,
-     "day_ret": -0.003078,
+     "equity_cny": 993128.92,
+     "day_pnl_cny": -6512.4,
+     "day_ret": -0.006515,
      "status": "ok",
      "top_position": {
       "symbol": "512480",
-      "unrealized_pnl_cny": -1789.98
+      "unrealized_pnl_cny": -3579.95
      }
     },
     {
@@ -997,7 +997,7 @@
    ],
    "asof": "2026-10-22",
    "prior": "2026-10-21",
-   "family_day_pnl_cny": -17263.68
+   "family_day_pnl_cny": -30658.13
   },
   "families": [
    {
@@ -1365,7 +1365,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -89528.7,
+  "grand_day_pnl_cny": -102923.15,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
