@@ -21538,7 +21538,7 @@
   },
   {
    "id": "E91-CHURN-TOP-TRANSITION-NAMES",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21548,7 +21548,41 @@
    "entered_at": "2026-10-22T23:45:00+08:00",
    "entered_by": "bm-b r1156",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "same churn_rows burn as robustchurn, no new panel read; print the name and date, never a bare share"
+   "runner_note": "same churn_rows burn as robustchurn, no new panel read; print the name and date, never a bare share",
+   "done_at": "2026-10-22T23:40:00+08:00",
+   "result_ref": "results/e44_midmonth/CHURNTOP3-20261022-s2013.json",
+   "result_note": "32 cells named, 21 with top-3 over half the signed total; the 2021_2023 mid15 top-1 is sh510150's 12:1 split behind a one-session panel gap, which no screen arm repairs"
+  },
+  {
+   "id": "E92-GAPPED-SPLIT-SCREEN",
+   "status": "done",
+   "done_at": "2026-10-23T00:4x+08:00",
+   "result_ref": "results/e44_midmonth/SCREENGAP-20261022.json",
+   "result_note": "75 events repaired at gap_limit=1 (65 adjacent + 10 gapped), 9 of the 11 gapped integer prints sit in 2021_2023; the era churn LEVELS fall 59%/51% (me 1866.5->768.2, mid15 2185.4->1068.2) while the mid-minus-me GAP keeps 94% (+318.9->+300.0), so the gap is not a split artifact and the levels partly were; the 2024_now gap widens -211.0->-457.1 (mid15 -364.7, reproducing E82 neutralise exactly)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/panel_screen.py + scripts/e39_panel_census.py",
+   "title": "E91 named the transition that owns the 2021_2023 churn gap: mid15 2021-05-17 -> 2021-06-15, where sh510150 prints 10.414 -> 0.87 on 2021-05-31 but has no bar on 2021-05-28, so E76's adjacency gate files it as gapped and both screen arms leave it unrepaired. Add a third, explicitly bounded arm that also repairs prints separated from the last priced bar by a small number of missing sessions (state the gap limit and the integer-ratio band in the spec), then re-derive the churn cells and the two era gaps with it beside the adjacent-only arm. Never overwrite the existing arms; publish whether the 2021_2023 gap survives the wider repair and how many of the gapped prints qualify.",
+   "deliverable": "results/e44_midmonth/SCREENGAP-<cutoff>.json",
+   "source": "r1157 E91 (CHURNTOP3-20261022-s2013.json: mid15 2021_2023 top-1 +9424.4bp, exit sh510150)",
+   "entered_at": "2026-10-22T23:50:00+08:00",
+   "entered_by": "bm-b r1157",
+   "evidence_cutoff": "2026-10-22",
+   "runner_note": "same burn, one extra universe: reuse the full_churn rows and the event index; report the gap-limit sweep (1, 2, 5 missing sessions) as a column, and keep the untouched + adjacent-only columns beside it so the new arm can never be read as a replacement"
+  },
+  {
+   "id": "E93-GAPSPLIT-ERA-SPREAD",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (screenreg leg + a gap_runs argument)",
+   "title": "E92 repaired 10 gapped integer prints (9 in 2021_2023) and showed the churn LEVELS move while the churn GAP does not, but the churn sleeve is a name-level mean: the ladder-vs-wide era SPREAD face, which is what the chain publishes as an edge, was never re-read under the gap-tolerant arm. Re-derive the published era spread (spread_ann_bp per era, both 2018 and 2020 ladder windows) with neutralise_gap at gap_limit 1 and 5 beside the untouched and the adjacent-only columns, and publish the delta per era, plus whether any era spread changes sign. Never overwrite the adjacent-only or unscreened arms.",
+   "deliverable": "results/e44_midmonth/SCREENGAPERA-<cutoff>.json",
+   "source": "r1158 E92 (SCREENGAP-20261022.json: 9/11 gapped integer prints in 2021_2023; churn levels -59%, gap -6%)",
+   "entered_at": "2026-10-23T00:5x+08:00",
+   "entered_by": "bm-b r1158",
+   "evidence_cutoff": "2026-10-22",
+   "runner_note": "one burn, three universes (unscreened / neutralise_int / neutralise_gap@1 / neutralise_gap@5) through _screen_face; the face must carry the E76 delta rows beside the new columns so no arm can be silently swapped"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21563,7 +21597,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-22T23:00:00+08:00",
+ "updated_at": "2026-10-22T23:50:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

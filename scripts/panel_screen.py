@@ -26,8 +26,14 @@ Two mechanisms, both reported:
     adjustment factor cannot be trusted (a non-integer ratio is not a share split;
     it is a restatement, a resumption misprint, or a bad row).
 
-Only **adjacent** prints are screened. A move across a gap is a resumption after
-a suspension, which a real market can print, so it stays as it is.
+Only **adjacent** prints are screened by default. A move across a gap is a
+resumption after a suspension, which a real market can print, so it stays as it
+is -- but a split that lands next to a *missing panel bar* also reads as a gap
+(E91: sh510150's 12:1 split sits beside a missing 2021-05-28 bar and owns a
+published era gap). ``mode="neutralise_gap"`` with ``gap_limit`` (in sessions)
+is the gap-tolerant branch: it repairs prints no more than ``gap_limit``
+sessions away from the previous priced close, and only when the implied ratio
+lands on an integer, so a resumption misprint cannot be repaired by accident.
 """
 
 from __future__ import annotations
@@ -78,11 +84,13 @@ def split_events(closes, thresh=ARTEFACT_JUMP, cal=None):
                 r = v / float(last) - 1.0
                 if abs(r) > thresh:
                     ir = implied_ratio(r)
+                    gap = _sessions_between(prev_d, d, cal)
                     events.append({
                         "date": d, "prev_date": prev_d,
                         "prev_close": last, "close": v,
                         "ret_pct": 100.0 * r,
-                        "adjacent": _sessions_between(prev_d, d, cal) == 0,
+                        "gap_sessions": gap,
+                        "adjacent": gap == 0,
                         "implied": ir,
                         "factor": (ir["ratio"] if ir else 1.0 / (1.0 + r)),
                     })
@@ -126,19 +134,23 @@ def neutralise(closes, events):
     return out
 
 
-def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None):
+def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None,
+                    gap_limit=0):
     """-> (raw_screened, report) from an ``e27.load_universe()`` mapping.
 
     ``raw`` maps symbol -> (closes{date: px}, amounts{date: value}). Untouched
     symbols are passed through by reference; repaired ones get a new dict.
     ``cal`` is the panel session calendar and should be passed so adjacency is
-    read in sessions rather than calendar days.
+    read in sessions rather than calendar days. ``gap_limit`` only applies to
+    ``mode="neutralise_gap"``: how many intervening sessions a print may skip
+    and still be repaired (always gated on an integer-ratio match).
     """
-    if mode not in ("neutralise", "neutralise_int", "drop"):
-        raise ValueError("screen mode must be 'neutralise', 'neutralise_int' or "
-                         "'drop', got %r" % (mode,))
+    if mode not in ("neutralise", "neutralise_int", "drop", "neutralise_gap"):
+        raise ValueError("screen mode must be 'neutralise', 'neutralise_int', "
+                         "'drop' or 'neutralise_gap', got %r" % (mode,))
     out = {}
     rows = []
+    gapped_eligible = 0
     for sym in sorted(raw):
         closes, amounts = raw[sym]
         events = split_events(closes, thresh, cal=cal)
@@ -152,6 +164,19 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None):
                     if (e.get("implied") or {}).get("integer_like")]
             skipped_adj = len(adjacent) - len(kept)
             adjacent = kept
+        elif mode == "neutralise_gap":
+            # gap-tolerant branch: adjacent prints first (integer-like only, same
+            # conservatism as neutralise_int), plus gapped prints inside the limit
+            # whose ratio is still an integer share change
+            kept = [e for e in adjacent
+                    if (e.get("implied") or {}).get("integer_like")]
+            within = [e for e in gapped
+                      if e["gap_sessions"] <= gap_limit
+                      and (e.get("implied") or {}).get("integer_like")]
+            gapped_eligible += len(within)
+            skipped_adj = len(adjacent) - len(kept)
+            adjacent = kept + within
+            gapped = [e for e in gapped if e not in within]
         if not adjacent:
             out[sym] = (closes, amounts)
         elif mode == "drop":
@@ -186,6 +211,8 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None):
         "skipped_noninteger_adjacent": sum(r.get("skipped_noninteger_adjacent", 0)
                                            for r in rows),
         "gapped_kept": sum(r.get("gapped_kept", 0) for r in rows),
+        "gap_limit": (gap_limit if mode == "neutralise_gap" else None),
+        "gapped_eligible": gapped_eligible,
         "names": rows,
     }
     return out, report
@@ -194,6 +221,7 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None):
 def _print_row(ev):
     im = ev.get("implied") or {}
     return {"date": ev["date"], "prev_date": ev["prev_date"],
+            "gap_sessions": ev.get("gap_sessions"),
             "ret_pct": round(ev["ret_pct"], 2),
             "ratio": round(im.get("ratio", ev["factor"]), 4),
             "nearest_int": im.get("nearest_int"),
@@ -282,6 +310,32 @@ def selftest():
         "integer-only mode repairs the split and reports the non-integer print it left")
     _o2, rep_all = screen_universe({"sh510000": (mixed, {})})
     chk(rep_all["events_neutralised"] == 2, "full mode repairs both adjacent prints")
+
+    # (E92) gap-tolerant branch: an integer print one missing bar away is repaired
+    # only when the caller asks for that gap limit, and a non-integer gapped print
+    # is never repaired even at a generous limit
+    gsplit = {"2021-05-27": 10.414, "2021-05-31": 0.87}   # 12:1 behind one missing bar
+    gcal = ["2021-05-27", "2021-05-28", "2021-05-31"]
+    gev2 = split_events(gsplit, cal=gcal)
+    chk(len(gev2) == 1 and gev2[0]["gap_sessions"] == 1,
+        "a split one missing bar away reports gap_sessions=1")
+    raw_g2 = {"sh510150": (gsplit, {})}
+    chk(screen_universe(raw_g2, cal=gcal)[1]["events_neutralised"] == 0,
+        "the default screen leaves the gapped split alone")
+    out_g2, rep_g2 = screen_universe(raw_g2, mode="neutralise_gap", cal=gcal,
+                                     gap_limit=1)
+    chk(rep_g2["events_neutralised"] == 1 and rep_g2["gapped_eligible"] == 1,
+        "gap_limit=1 repairs the gapped integer split and counts it")
+    adj_g2 = out_g2["sh510150"][0]
+    chk(abs(adj_g2["2021-05-31"] / adj_g2["2021-05-27"] - 1.0) < 1e-9,
+        "the gap-repaired split renders as a flat multi-session leg")
+    chk(screen_universe(raw_g2, mode="neutralise_gap", cal=gcal,
+                        gap_limit=0)[1]["events_neutralised"] == 0,
+        "gap_limit=0 is the default screen, not a special case")
+    nonint = {"2021-05-27": 10.0, "2021-05-31": 3.0}      # ratio 3.33, not an integer
+    chk(screen_universe({"sh510150": (nonint, {})}, mode="neutralise_gap",
+                        cal=gcal, gap_limit=5)[1]["events_neutralised"] == 0,
+        "a non-integer gapped print is never repaired, whatever the gap limit")
 
     print("panel_screen selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1

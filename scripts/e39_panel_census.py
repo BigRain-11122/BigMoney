@@ -7019,6 +7019,180 @@ def run_churnse(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------------------------------------ E92 gap-tolerant split screen
+
+def _gap_print_census(raw, cal_full, limits=(1, 2, 5)):
+    """E92: every gapped print the fixed adjacency rule leaves unrepaired.
+
+    ``panel_screen`` screens a print only when it sits on the next session. E91
+    found the 12:1 split that owns a published era gap sitting one *missing bar*
+    away from its own previous close, i.e. inside that blind spot. This census
+    lists the gapped prints per gap limit (in sessions) and keeps the integer
+    share ratios separate from the rest, because only an integer ratio is
+    evidence of a corporate action rather than a resumption misprint.
+    """
+    import panel_screen
+
+    events = []
+    for s in sorted(raw):
+        pair = raw[s]
+        closes = pair[0] if isinstance(pair, tuple) else pair
+        for e in panel_screen.split_events(closes, cal=cal_full):
+            if e["adjacent"]:
+                continue
+            im = e.get("implied") or {}
+            events.append({
+                "name": s, "date": e["date"], "prev_date": e["prev_date"],
+                "gap_sessions": e["gap_sessions"],
+                "ret_pct": round(e["ret_pct"], 2),
+                "ratio": round(im.get("ratio", e["factor"]), 4),
+                "nearest_int": im.get("nearest_int"),
+                "resid_pct": (round(im["resid_pct"], 3) if im else None),
+                "integer_like": bool(im.get("integer_like")),
+                "era": _era_of(e["date"]),
+            })
+
+    census = {}
+    for lim in limits:
+        eligible = [e for e in events
+                    if e["integer_like"] and e["gap_sessions"] <= lim]
+        by_era = {}
+        for name, _lo, _hi in ERAS:
+            sub = [e for e in eligible if e["era"] == name]
+            if sub:
+                by_era[name] = len(sub)
+        census["gap%d" % lim] = {
+            "gap_limit_sessions": lim,
+            "gapped_prints_total": len(events),
+            "eligible_integer_prints": len(eligible),
+            "eligible_names": len(set(e["name"] for e in eligible)),
+            "eligible_by_era": by_era,
+            "non_integer_gapped": len([e for e in events if not e["integer_like"]
+                                       and e["gap_sessions"] <= lim]),
+            "largest_eligible": sorted(eligible,
+                                       key=lambda e: -abs(e["ret_pct"]))[:10],
+        }
+    return {"gapped_prints": len(events), "by_gap_limit": census,
+            "events": events}
+
+
+def run_gapsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                 limits=(1, 2, 5), mid_day=15, eras=ERAS):
+    """E92: does the published churn gap survive a gap-tolerant split screen?
+
+    E91 named the defect: sh510150's unadjusted 12:1 split lands behind a missing
+    bar, so both screen arms leave it at +9424.4bp and it owns 2021_2023's churn
+    gap. Here the screen is widened one session (then two, then five) and the
+    churn gap is re-derived on the same burn, so the answer is measured rather
+    than argued. The unscreened column is kept; no published face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for lim in limits:
+        label = "gap%d" % lim
+        repaired, report = panel_screen.screen_universe(
+            raw, mode="neutralise_gap", cal=cal_full, gap_limit=lim)
+        reports[label] = report
+        universes[label] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(None, start=start, pick_n=pick_n,
+                                    exclude=exclude,
+                                    mid_day=mid_day, raw=univ,
+                                    full_churn=True)
+
+    data = {"study": "e92_gap_tolerant_split_screen",
+            "evidence_cutoff": cutoff,
+            "spec": {
+                "start": start, "pick_n": pick_n,
+                "exclude_prefixes": list(exclude),
+                "gap_limits_sessions": list(limits), "mid_month_day": mid_day,
+                "costs_run": [0.0, 1.0, 3.0],
+                "screen_modes": ["unscreened", "neutralise_gap"],
+                "why_costs": "the churn sleeve is a name-level mean over swapped "
+                             "names and no cost multiplier can move it; the standard "
+                             "triple is kept because run_midmonth publishes all three "
+                             "arms and the era spread is read off the same burn",
+                "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                "books": ["me", "mid%d" % mid_day],
+                "universe_members": len(raw),
+            },
+            "census": _gap_print_census(raw, cal_full, limits),
+            "screen_reports": reports,
+            "honest": [
+                "the gap-tolerant branch repairs only integer-ratio prints inside "
+                "the session limit, so a real resumption that happens to land on an "
+                "integer ratio would be repaired too -- the ratio test is evidence, "
+                "not proof",
+                "a wider gap limit buys more repairs and more false positives "
+                "together; the sweep is published so the reader can see what each "
+                "session costs",
+                "churn sleeve is an equal-weight mean over the swapped names, not a "
+                "portfolio return",
+                "screen reports count repairs, not book impact: a repaired print "
+                "still enters the rank cache at its adjusted level",
+                "descriptive census only: no gate, no verdict, no prereg, no trial "
+                "count",
+            ]}
+
+    book_labels = ["me", "mid%d" % mid_day]
+    gaps = {}
+    for era in [n for n, _lo, _hi in eras]:
+        row = {}
+        for label in universes:
+            me = faces[label]["eras"].get(era, {}).get("me", {})
+            mid = faces[label]["eras"].get(era, {}).get("mid", {})
+            a, b = me.get("churn_alpha_bp_mean"), mid.get("churn_alpha_bp_mean")
+            row[label] = {
+                "me_churn_alpha_bp": a, "mid_churn_alpha_bp": b,
+                "churn_gap_bp": (round(b - a, 1)
+                                 if a is not None and b is not None else None),
+            }
+        base_gap = (row.get("unscreened") or {}).get("churn_gap_bp")
+        for label in universes:
+            g = row[label].get("churn_gap_bp")
+            row[label]["delta_vs_unscreened_bp"] = (
+                round(g - base_gap, 1)
+                if isinstance(g, (int, float))
+                and isinstance(base_gap, (int, float)) else None)
+        gaps[era] = row
+    data["churn_gap_by_era"] = gaps
+
+    joins = {}
+    for book in book_labels:
+        base_rows = faces["unscreened"]["books"][book]["churn_rows"]
+        joins[book] = {}
+        for lim in limits:
+            label = "gap%d" % lim
+            rows, agg = _churn_join(base_rows,
+                                    faces[label]["books"][book]["churn_rows"],
+                                    event_dates, eras)
+            moved = [r for r in rows if r.get("hit")
+                     and isinstance(r.get("delta_bp"), (int, float))
+                     and abs(r["delta_bp"]) > 0.5]
+            joins[book][label] = {
+                "eras": agg,
+                "transitions": len(rows),
+                "transitions_moved": len(moved),
+                "top_moved": _worst_transitions(rows, n=6),
+            }
+    data["joins"] = joins
+    return data
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -7990,6 +8164,31 @@ def selftest():
         "a cell with no numeric alpha publishes no names instead of a fake row")
     chk(_top_transitions([], 3) == [], "an empty cell has no top transitions")
 
+    # (E92) the gap census counts only integer-ratio gapped prints inside the limit
+    _gcal = ["2021-05-27", "2021-05-28", "2021-05-31", "2021-06-01",
+             "2021-06-02", "2021-06-03", "2021-06-04", "2021-06-05",
+             "2021-06-07"]
+    _graw = {
+        "sh510150": ({"2021-05-27": 10.414, "2021-05-31": 0.8678}, {}),  # 12:1, gap 1
+        "sh510300": ({"2021-06-01": 10.0, "2021-06-02": 3.0}, {}),       # 3.33, adj
+        "sh510500": ({"2021-06-02": 10.0, "2021-06-07": 1.0}, {}),       # 10:1, gap 3
+        "sh512880": ({"2021-06-03": 10.0, "2021-06-05": 3.0}, {}),       # 3.33, gap 1
+    }
+    _gc = _gap_print_census(_graw, _gcal, limits=(1, 2, 5))
+    _c1, _c2, _c5 = (_gc["by_gap_limit"]["gap%d" % n] for n in (1, 2, 5))
+    chk(_gc["gapped_prints"] == 3,
+        "only gapped prints enter the census (the adjacent one is screened already)")
+    chk(_c1["eligible_integer_prints"] == 1 and _c1["eligible_names"] == 1,
+        "gap_limit=1 catches the 12:1 split one missing bar away")
+    chk(_c2["eligible_integer_prints"] == 1,
+        "gap_limit=2 adds nothing when the only other gapped print is 3 sessions out")
+    chk(_c5["eligible_integer_prints"] == 2,
+        "gap_limit=5 reaches the 10:1 print across a longer suspension")
+    chk(_c1["non_integer_gapped"] == 1 and _c5["non_integer_gapped"] == 1,
+        "the non-integer gapped print is counted as left alone, never repaired")
+    chk(_c1["eligible_by_era"] == {"2021_2023": 1},
+        "eligibility is tagged with the era of the print date")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -8097,6 +8296,7 @@ def main(argv):
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
+                             "gapsplit",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -8108,6 +8308,8 @@ def main(argv):
                     help="comma-separated decision lags in sessions (entrydelay leg)")
     ap.add_argument("--neighbors", default="2",
                     help="comma-separated new magnitudes in sessions (neighborhood leg)")
+    ap.add_argument("--gaps", default="1,2,5",
+                    help="comma-separated gap limits in sessions (gapsplit leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -8682,6 +8884,27 @@ def main(argv):
                                      "clears_zero": c["interval_clears_zero"]}
                                     for c in f["cells"]],
                           "gap_cells": f["gap_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "gapsplit":
+        lims = tuple(int(x) for x in args.gaps.split(",") if x.strip())
+        f = run_gapsplit(None, start=args.start, limits=lims)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        _sv = "" if args.start == "2020-01-01" else "-s%s" % args.start[:4]
+        p = write_json(outdir, "SCREENGAP-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), _sv), f)
+        print(json.dumps({"leg": "gapsplit", "file": os.path.relpath(p, ROOT),
+                          "census": {k: {"limit": v["gap_limit_sessions"],
+                                         "gapped_total": v["gapped_prints_total"],
+                                         "eligible": v["eligible_integer_prints"],
+                                         "names": v["eligible_names"],
+                                         "by_era": v["eligible_by_era"]}
+                                     for k, v in
+                                     f["census"]["by_gap_limit"].items()},
+                          "churn_gap_by_era": f["churn_gap_by_era"],
+                          "moved": {b: {k: v["transitions_moved"]
+                                        for k, v in f["joins"][b].items()}
+                                    for b in f["joins"]}},
                          ensure_ascii=False))
         return 0
     if args.mode == "topnames":

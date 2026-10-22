@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T23:40:44+08:00",
+ "clock_read": "2026-10-23T00:21:41+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -9,12 +9,13 @@
  "cpu_load_pct": 39.0,
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
- "current": "r1157: E91 churn top-3 transitions named (sh510150 gapped 12:1 split owns the 2021_2023 gap)",
- "current_task": "r1158 E92 gapped-split screen",
- "d19_note": "r1155: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup per D-20261004-02 fallback)",
+ "current": "r1158: E92 gap-tolerant split screen (churn levels halve, gap survives)",
+ "current_task": "r1158 E92 closed; next E93 era-spread under the same screen",
+ "cyc_round": 1158,
+ "d19_note": "r1158: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup per D-20261004-02 fallback)",
  "dept": "研究",
- "did": "closed E91: CHURNTOP3-20261022-s2013.json (32 cells, 21 with top-3 over half), digest, methodology card E82; seeded E92",
- "did_round": 1154,
+ "did": "r1158: E92 gapped-split screen -- panel_screen gains mode neutralise_gap (gap_limit in sessions, integer-ratio only) and e39 gets the gapsplit leg; 75 events repaired at gap_limit=1 (65 adjacent + 10 gapped), 9 of 11 gapped integer prints sit in 2021_2023, the era churn LEVELS fall 59%/51% while the mid-minus-me GAP keeps 94%",
+ "did_round": 1158,
  "free_ram_gb": 8.8,
  "free_ram_mb": 11673,
  "free_ram_pct": 48.0,
@@ -27,13 +28,13 @@
  "gpu_free_mb": 527,
  "gpu_free_vram_gb": 3.69,
  "gpu_free_vram_mb": 3289,
- "heartbeat_epoch_utc": 1792683644,
+ "heartbeat_epoch_utc": 1792686101,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
- "last_action": "r1155 E89 sampling intervals burned; marks lane task registered",
- "last_action_at": "2026-10-22T23:16:17+08:00",
- "last_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
+ "last_action": "burned E92 gapsplit + wrote SCREENGAP face and digest",
+ "last_action_at": "2026-10-23T00:21:41+08:00",
+ "last_artifact": "results/e44_midmonth/SCREENGAP-20261022.json",
  "last_decisions_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_read_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_sha": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -42,15 +43,15 @@
  "last_orders_read_at": "2026-10-21T23:53:18+08:00",
  "last_orders_sha": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_push": "77e313db2 -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-22T23:40:44+08:00",
- "latest_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
+ "last_seen": "2026-10-23T00:21:41+08:00",
+ "latest_artifact": "results/e44_midmonth/SCREENGAP-20261022.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1156: E90 clustered (block) interval -- width ratio blocked/iid for every cell, or E87 robust re-read at the 2013 start / E88 burn control",
- "next_milestone": "every churn number is published with an iid band AND a clustered band, so a reader can see whether the 2021_2023 levels are real after clustering (<=48h)",
+ "next": "r1159: E93 era-spread re-read under neutralise_gap@1/@5 (the churn sleeve is a name-level mean; the published ladder-vs-wide spread was never re-read), or E90 clustered interval",
+ "next_milestone": "every published churn LEVEL now says which screen arm produced it, and the 2021_2023 gap is shown to survive the wider repair (<=48h)",
  "note": "r1073: fund P2 revival pair complete (40/40 cells, two judged faces).",
  "notes": "rounds 1145-1149 close the split-screen chain: E75 audit -> E76 spread regrade -> E77 wide book -> E78 weekly residual (only the frequency-mixed book moves)",
- "now_active": "r1155 closed; next = E90 clustered interval or E87/E88",
+ "now_active": "pool ready 3 (E81 + E90 + E93)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -165,7 +166,7 @@
  "orphan_face": 0,
  "orphan_faces": 0,
  "pool_claims": [
-  "E89-CHURN-GAP-BOOTSTRAP-SE (done, bm-b r1155)"
+  "E92-GAPPED-SPLIT-SCREEN (done, bm-b r1158)"
  ],
  "py_cpu_pct": 0.0,
  "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0",
@@ -239,43 +240,42 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-22T21:17:05+08:00"
  },
+ "r1153_push": {
+  "behind_origin_main": 0,
+  "note": "clean ff 09b3d3989..d64472ee0 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==d64472ee0, behind=0 ahead=0, ls-tree origin carries CHURNROBUST-20261021.json + DIGEST-20261022-e85-churn-robust.md); payload = 34 targeted faces; unsuffixed shared status faces, data/daily churn, Money02 lhb and the drama lane left untouched per r982/r1015/r1033",
+  "pushed_sha": "d64472ee0",
+  "status": "PUSHED_VERIFIED"
+ },
+ "r1154_push": "11402ebef round 1154 committed+pushed; behind=0 ahead=0 after fetch",
+ "r1155_push": {
+  "behind_origin_main": 0,
+  "pushed_sha": "77e313db2",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-22T23:17:31+08:00"
+ },
  "ram_free_gb": 10.6,
  "ram_free_mb": 11673,
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
- "round": 1155,
- "round_no": 1155,
- "round_no_label": "r1155",
+ "round": 1158,
+ "round_no": 1158,
+ "round_no_label": "r1158",
+ "sat_engine": {
+  "checked_at": "2026-10-23T00:21:41+08:00",
+  "status": "alive"
+ },
  "status": "green",
  "sync": {
   "behind_origin_main": 0,
-  "last_push": "77e313db2 -> origin/main (behind=0 ahead=0, four-way verified)",
-  "last_push_ts": "2026-10-22T23:17:31+08:00",
+  "last_push": "pending r1158 push",
+  "last_push_ts": "2026-10-23T00:21:41+08:00",
   "local_not_on_origin_main": 0
  },
- "task": "r1156 E87 churn robust @2013 + E88 burn control",
- "task_short": "r1155 E89 sampling intervals + marks lane registered",
- "ts": "2026-10-22T23:40:44+08:00",
- "updated": "2026-10-22T22:45:42+08:00",
- "updated_at": "2026-10-22T22:45:42+08:00",
+ "task": "r1158: E92 gapped-split screen -- panel_screen gains mode neutralise_gap (gap_limit in sessions, integer-ratio only) and e39 gets the gapsplit leg; 75 events repaired at gap_limit=1 (65 adjacent + 10 gapped), 9 of 11 gapped integer prints sit in 2021_2023, the era churn LEVELS fall 59%/51% while the mid-minus-me GAP keeps 94%",
+ "task_short": "r1158 E92 gap-tolerant split screen",
+ "ts": "2026-10-23T00:21:41+08:00",
+ "updated": "2026-10-23T00:21:41+08:00",
+ "updated_at": "2026-10-23T00:21:41+08:00",
  "verdict": "green",
- "vram_free_gb": 3.44,
- "r1153_push": {
-  "pushed_sha": "d64472ee0",
-  "behind_origin_main": 0,
-  "status": "PUSHED_VERIFIED",
-  "note": "clean ff 09b3d3989..d64472ee0 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==d64472ee0, behind=0 ahead=0, ls-tree origin carries CHURNROBUST-20261021.json + DIGEST-20261022-e85-churn-robust.md); payload = 34 targeted faces; unsuffixed shared status faces, data/daily churn, Money02 lhb and the drama lane left untouched per r982/r1015/r1033"
- },
- "r1154_push": "11402ebef round 1154 committed+pushed; behind=0 ahead=0 after fetch",
- "sat_engine": {
-  "status": "alive",
-  "checked_at": "2026-10-22T23:16:17+08:00"
- },
- "r1155_push": {
-  "pushed_sha": "77e313db2",
-  "behind_origin_main": 0,
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-22T23:17:31+08:00"
- },
- "cyc_round": 1156
+ "vram_free_gb": 3.44
 }
