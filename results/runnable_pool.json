@@ -21330,7 +21330,14 @@
   },
   {
    "id": "E79-PUBLISHED-FACE-CONTAMINATION-SWEEP",
-   "status": "ready",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/FACESCREEN-20261021.json",
+    "research/digests/FACESCREEN-20261022.md",
+    "scripts/e79_face_screen_matrix.py"
+   ],
+   "closed_at": "2026-10-22T22:10:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21344,7 +21351,13 @@
   },
   {
    "id": "E80-SCREENED-MIDMONTH-CHURN",
-   "status": "ready",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSCREEN-20261021.json",
+    "research/digests/DIGEST-20261022-e80-screened-midmonth.md"
+   ],
+   "closed_at": "2026-10-22T22:20:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21355,6 +21368,34 @@
    "entered_by": "bm-b r1149",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "reuse _churn_stats + panel_screen.screen_universe through run_midmonth(raw=...) -- add the raw hook the same way run_midsweep got one; keep the unscreened churn rows beside the screened ones and never rewrite the published MIDMONTH faces"
+  },
+{
+   "id": "E81-EXPOSED-RUNNER-RAW-HOOKS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E79 matrix: 33 census modes read the per-name loader with no raw hook, so their published faces still charge the artefact prints. Add the raw hook to the highest-consumption exposed runners (era/calcost/neutralrob first, they feed the calendar and size conclusions) and publish each screened twin beside the existing face; never rewrite a published face in place.",
+   "deliverable": "results/e44_midmonth/<LEG>-<cutoff>-screened.json per leg",
+   "source": "r1150 E79 (33 exposed / 2 replayable / 4 self_screened)",
+   "entered_at": "2026-10-22T22:22:00+08:00",
+   "entered_by": "bm-b r1150",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "one leg per batch; keep the unscreened column and the turnover control beside every screened cell, and re-list the output directory after each variant burn (r1135 pit)"
+  },
+  {
+   "id": "E82-CHURN-GAP-AMPLIFICATION",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E80: the newest-era churn alpha gap widens from -211bp to -457bp per swap under neutralise (mid-month degrades -124 to -365, month-end stays near 90) and collapses to -24bp under drop. Break the amplification down per transition: which transitions carry it, and are they the ones holding a repaired print.",
+   "deliverable": "results/e44_midmonth/CHURNGAP-<cutoff>.json (per-transition rows joined to screen events + per-era attribution)",
+   "source": "r1150 E80 (amplifies under neutralise, collapses under drop) + E76 screen event list",
+   "entered_at": "2026-10-22T22:22:00+08:00",
+   "entered_by": "bm-b r1150",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the per-transition rows already emitted by _churn_stats and tag names with panel_screen.split_events; no engine change, no published face rewrite"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21369,6 +21410,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-22T21:14:59+08:00",
+ "updated_at": "2026-10-22T22:22:00+08:00",
  "version": 1
 }

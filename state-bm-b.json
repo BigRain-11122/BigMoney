@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T00:24:00+08:00",
- "current": "r1147: E76 screen-regrade (opt-in screened loader, ladder + era spread screened vs unscreened)",
- "current_task": "r1147: E76 -- the era spread moves 103bp -> 303bp (integer-only) -> 479bp (all adjacent); the newest-era \"collapse\" is two thirds to all unadjusted corporate-action prints",
+ "clock_read": "2026-10-22T21:56:57+08:00",
+ "current": "r1150: E79 face-screen matrix + E80 screened mid-month churn",
+ "current_task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1149: E78 screened weekly residual -- the -11bp weekly-vs-monthly residual SURVIVES the split screen (-12/-9/-11 at x1, -12/-9/-12 at x3, worst delta +3bp, no era flips sign) while the frequency-mixed raw weekly book moves 7-13bp of its -55bp gap.",
- "did_round": 1149,
- "heartbeat_epoch_utc": 1792676552,
+ "did": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean.",
+ "did_round": 1150,
+ "heartbeat_epoch_utc": 1792677417,
  "heartbeat_epoch_utc_face": 1792530408,
  "idle_rounds": 0,
- "last_action": "r1149: screenweek leg + _week_delta_rows + run_midsweep(raw=) hook (selftest 161/161); burn 39s; face written; pool E78 closed, E80 seeded",
- "last_action_at": "2026-10-22T21:42:32+08:00",
- "last_artifact": "results/e44_midmonth/WEEKCLASH-20261021-screened.json + research/digests/DIGEST-20261022-e78-screened-weekclash.md",
+ "last_action": "r1150: midscreen leg (+raw hook on run_midmonth, 8 new selftest legs, 169/169) burned 4 universes; e79_face_screen_matrix.py (15/15) AST matrix; pool E79/E80 closed + E81/E82 seeded; S6 49-leg chain rc0",
+ "last_action_at": "2026-10-22T21:56:57+08:00",
+ "last_artifact": "results/e44_midmonth/MIDSCREEN-20261021.json + results/e44_midmonth/FACESCREEN-20261021.json",
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,15 +43,15 @@
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "e515c5e70 -> origin/main (behind=0 ahead=0)",
- "last_round_at": "2026-10-22T21:42:32+08:00",
- "last_round_report": "logs/iteration-loop/round_reports.md r1147",
- "last_round_ts": "2026-10-22T21:42:32+08:00",
- "last_seen": "2026-10-22T21:42:32+08:00",
- "latest_artifact": "research/digests/DIGEST-20261022-e78-screened-weekclash.md",
+ "last_round_at": "2026-10-22T21:56:57+08:00",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1150",
+ "last_round_ts": "2026-10-22T21:56:57+08:00",
+ "last_seen": "2026-10-22T21:56:57+08:00",
+ "latest_artifact": "research/digests/DIGEST-20261022-e80-screened-midmonth.md",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "burn E79-PUBLISHED-FACE-CONTAMINATION-SWEEP (ready): enumerate which published census faces read per-name returns off the unscreened loader so consumers know which numbers to re-read",
- "next_milestone": "E79 published-face contamination matrix (leg x contaminated era); window <=48h",
+ "next": "burn E81-EXPOSED-RUNNER-RAW-HOOKS (ready, start with era/calcost/neutralrob) or E82-CHURN-GAP-AMPLIFICATION (ready, per-transition join to screen events)",
+ "next_milestone": "second exposed-leg screened twin landed (window <=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -84,9 +84,10 @@
   "r1123": "r1123: pit -- a variant run must be read against its own (cost, parts) cell; the same era reads 'stable' at x0 halves and '3-of-4 flipping' at x1 thirds, so one cell cannot stand in for an era's stability (r1122 suffix law kept the two variant faces apart).",
   "r1127": "r1127: pit -- a \"settles at the two finest cuts\" claim needs a third cut to be a claim at all: sixths added 2021_2023 to the flip set, so the r1126 settle sentence is withdrawn (pre2017 and 2024_now are the only eras flipping at every cut >= 2). Pit -- pool surgery marker must include the comma: the entries array closes with \"\\n ],\\n \\\"law_ref\\\"\" and a comma-less marker silently misses, so assert on the found index instead of trusting a hand-typed literal.",
   "r1147_note": "decisions face read fresh: sha ff59462b differs from the stored 17c2935, but the file carries no 2026-10-21/22 row (last block is 2026-10-20 D-20261020-12); the two bigmoney-relevant rows (D-20261020-01 #40, -09 #42) are daily-execution rows already discharged -- zero action, watermark updated.",
-  "r1147_pit": "a calendar-day adjacency test is wrong for this panel: sh512100 2022-09-05 (a Monday) and sh510500 2015-04-15 both read \"gapped\" under ISO day distance and \"adjacent\" only on the session calendar. panel_screen takes the panel calendar; without one it says so in the report. The count moved 68 -> 135 events once the calendar was passed, i.e. half the screen was invisible."
+  "r1147_pit": "a calendar-day adjacency test is wrong for this panel: sh512100 2022-09-05 (a Monday) and sh510500 2015-04-15 both read \"gapped\" under ISO day distance and \"adjacent\" only on the session calendar. panel_screen takes the panel calendar; without one it says so in the report. The count moved 68 -> 135 events once the calendar was passed, i.e. half the screen was invisible.",
+  "r1150": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean."
  },
- "now_active": "pool ready 2 (E79 + E80 seeded this round) + E73 waiting; astock refresh still in flight; supply_floor breach kept honest (2 < 3)",
+ "now_active": "pool ready 2 (E81 + E82) + E60/E61/E64 waiting; astock refresh in flight; supply_floor breach honest (2 < 3)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -203,8 +204,8 @@
  "orphan_face_note": "r1106: no orphan python faces at closeout",
  "orphan_faces": 0,
  "pool_claims": [
-  "E76-PANELSCREEN-REGRADE (done, bm-b r1147)",
-  "E78-SCREENED-WEEKCLASH-RESIDUAL (done, bm-b r1149)"
+  "E79-PUBLISHED-FACE-CONTAMINATION-SWEEP (done, bm-b r1150)",
+  "E80-SCREENED-MIDMONTH-CHURN (done, bm-b r1150)"
  ],
  "push_receipts_r1049": {
   "ahead": 0,
@@ -418,13 +419,13 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1149,
- "round_no": 1149,
- "round_no_label": "r1149",
- "round_pit": "r1149: a max() over per-mode deltas crashes when every delta is None; guard the key with the non-None subset. Numbering healed: state carried round_no 1148 with label r1147 after two lagged windows, now round_no == label == 1149 per the r1020 dual-face rule.",
+ "round": 1150,
+ "round_no": 1150,
+ "round_no_label": "r1150",
+ "round_pit": "r1150: JSON surgery on the pool must drop the trailing comma from the seed block -- a `},` followed by the array's `]` is a trailing comma and json.loads rejects the whole file ('Expecting value' at the bracket, three hops from the real cause). And the mid-month book key is `mid15`, not `mid`: reading `books[mid]` silently produced a None turnover control in the first burn.",
  "sat_engine": {
-  "checked_at": "2026-10-22T21:42:32+08:00",
-  "status": "alive"
+  "status": "alive",
+  "checked_at": "2026-10-22T21:56:57+08:00"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
@@ -1001,9 +1002,9 @@
    "ts": "2026-10-22T21:44:08+08:00"
   }
  },
- "task": "r1149: E78 screened weekly residual -- the -11bp weekly-vs-monthly residual SURVIVES the split screen (-12/-9/-11 at x1, -12/-9/-12 at x3, worst delta +3bp, no era flips sign) while the frequency-mixed raw weekly book moves 7-13bp of its -55bp gap.",
- "ts": "2026-10-22T21:42:32+08:00",
- "updated": "2026-10-22T21:42:32+08:00",
- "updated_at": "2026-10-22T21:42:32+08:00",
+ "task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
+ "ts": "2026-10-22T21:56:57+08:00",
+ "updated": "2026-10-22T21:56:57+08:00",
+ "updated_at": "2026-10-22T21:56:57+08:00",
  "verdict": "product+maintenance"
 }

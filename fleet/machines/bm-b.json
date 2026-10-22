@@ -1,17 +1,17 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T21:42:32+08:00",
+ "clock_read": "2026-10-22T21:56:57+08:00",
  "codely_live_count": 2,
  "cpu_cores": 16,
  "cpu_load_pct": 14.8,
  "cpu_pct": 14.8,
  "cpu_util_pct": 14.8,
- "current": "r1148: E77 screened wide-book -- wide@2020 x1 0.85->1.82/2.90 %/yr, era spread 2024_now 103->303/479bp, cost x3 unchanged (-0.16pp)",
- "current_task": "r1149: r1149: E78 screened weekly residual -- the -11bp weekly-vs-monthly residual SURVIVES the split screen (-12/-9/-11 at x1, -12/-9/-12 at x3, worst delta +3bp, no ",
+ "current": "r1150: E79 face-screen matrix + E80 screened mid-month churn",
+ "current_task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
  "d19_note": "r1148: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup since K: absent); no new rows for bm-b",
  "dept": "研究",
- "did": "r1149: E78 -> WEEKCLASH-20261021-screened.json + E80 seeded ready",
- "did_round": 1148,
+ "did": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean.",
+ "did_round": 1150,
  "free_ram_gb": 9.0,
  "free_ram_mb": 11673,
  "free_ram_pct": 53.0,
@@ -23,8 +23,8 @@
  },
  "gpu_free_mb": 527,
  "gpu_free_vram_gb": 3.69,
- "gpu_free_vram_mb": 3254,
- "heartbeat_epoch_utc": 1792676552,
+ "gpu_free_vram_mb": 3289,
+ "heartbeat_epoch_utc": 1792677417,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -39,7 +39,7 @@
  "last_orders_read_at": "2026-10-21T23:53:18+08:00",
  "last_orders_sha": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_push": "41bed57ea -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-22T21:42:32+08:00",
+ "last_seen": "2026-10-22T21:56:57+08:00",
  "latest_artifact": "results/e44_midmonth/SCREENWIDE-20261021.json + research/digests/DIGEST-20261022-e77-screenwide.md",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -221,7 +221,7 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-21T23:30:50+08:00"
  },
- "ram_free_gb": 13.6,
+ "ram_free_gb": 10.6,
  "ram_free_mb": 11673,
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
@@ -242,9 +242,9 @@
    "ts": "2026-10-21T21:52:00+08:00"
   }
  },
- "task": "r1149: E78 screened weekly residual (residual survives; raw weekly book partly artefact)",
+ "task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
  "task_short": "E75 panel split audit",
- "ts": "2026-10-22T21:42:32+08:00",
+ "ts": "2026-10-22T21:56:57+08:00",
  "updated": "2026-10-22T21:15:26+08:00",
  "updated_at": "2026-10-22T21:15:26+08:00",
  "verdict": "product+maintenance",
@@ -261,5 +261,8 @@
   "behind_origin_main": 0,
   "ts": "2026-10-22T21:17:05+08:00",
   "note": "clean ff 6ebc3749d..41bed57ea first attempt, zero claw blocks; payload 124 faces targeted add (E77 leg + SCREENWIDE face + digest + e27 raw= opt-in kwarg + pool shared/lane E77 closed E78/E79 seeded + papers family regen + docs REPORT/LIVE-2026-10-22); data/daily 48-file churn, Money02 lhb, drama lane, machine-health, token_usage.json union left untouched per r982/r1015/r1033"
+ },
+ "cpu": {
+  "cores": 16
  }
 }

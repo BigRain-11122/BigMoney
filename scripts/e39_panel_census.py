@@ -2858,8 +2858,12 @@ def _churn_stats(cal, prices, decisions, eras=ERAS):
 
 
 def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                 mid_day=15, costs=(0.0, 1.0, 3.0)):
+                 mid_day=15, costs=(0.0, 1.0, 3.0), raw=None):
     """E44: explain the mid-month calendar's weakness at name level.
+
+    ``raw`` lets a caller supply a repaired universe (E80 feeds the split
+    screen through here, the same opt-in hook ``run_midsweep`` got in E78);
+    the default still reads the untouched loader.
 
     E43's robustness grid put mid15 at the bottom of every cost column. Two
     candidate mechanisms are separated here on one identical universe and one
@@ -2871,7 +2875,7 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -5463,6 +5467,223 @@ def run_screenweek(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------------------------------------------ E80 screened mid-month
+
+
+def _dig(face, *path):
+    """Walk a nested dict, returning None the moment the path breaks."""
+    cur = face
+    for p in path:
+        if not isinstance(cur, dict):
+            return None
+        cur = cur.get(p)
+    return cur
+
+
+def _mid_delta_rows(base_label, faces, modes, eras, costs=(0.0, 1.0, 3.0),
+                    mid_label="mid15"):
+    """(E80) unscreened-vs-screened mid-month churn rows, one row per cell.
+
+    Pure so the delta arithmetic is testable without a burn: every screened cell
+    keeps the unscreened twin it is a delta against, at the same book, era and
+    cost column. ``mid_label`` is the book key the face actually publishes
+    (``mid15``), not a nickname -- the arms rows live under it.
+    """
+    rows = []
+    u = faces.get(base_label) or {}
+    era_names = [e[0] for e in eras]
+    books = (("me", "me"), (mid_label, "mid"))
+
+    def emit(face, column, unscreened, pick):
+        row = {"face": face, "column": column, "unscreened": unscreened}
+        for m in modes:
+            v = pick(faces.get(m) or {})
+            row[m] = v
+            row["delta_" + m] = (round(v - unscreened, 4)
+                                 if isinstance(v, (int, float))
+                                 and isinstance(unscreened, (int, float)) else None)
+        rows.append(row)
+
+    for tag in ["x%g" % c for c in costs]:
+        for key, lab in books:
+            for col in ("turnover_per_year", "full_window_ann_pct"):
+                emit("%s@%s" % (lab, tag), col,
+                     _dig(u, "books", key, "arms", tag, col),
+                     lambda f, t=tag, k=key, c=col:
+                     _dig(f, "books", k, "arms", t, c))
+            for era in era_names:
+                emit("era:%s@%s@%s" % (lab, era, tag), "ann_return_pct",
+                     _dig(u, "books", key, "arms", tag, "eras", era, "ann_return_pct"),
+                     lambda f, t=tag, k=key, e=era:
+                     _dig(f, "books", k, "arms", t, "eras", e, "ann_return_pct"))
+        for era in era_names:
+            key = "gap_%s_bp" % tag
+            emit("gap:%s@%s" % (era, tag), "gap_bp", _dig(u, "eras", era, key),
+                 lambda f, e=era, c=key: _dig(f, "eras", e, c))
+
+    for era in era_names:
+        for lab in ("me", "mid"):
+            emit("churn:%s@%s" % (lab, era), "churn_alpha_bp_mean",
+                 _dig(u, "eras", era, lab, "churn_alpha_bp_mean"),
+                 lambda f, e=era, l=lab:
+                 _dig(f, "eras", e, l, "churn_alpha_bp_mean"))
+            emit("negchurn:%s@%s" % (lab, era), "negative_churn_share_pct",
+                 _dig(u, "eras", era, lab, "negative_churn_share_pct"),
+                 lambda f, e=era, l=lab:
+                 _dig(f, "eras", e, l, "negative_churn_share_pct"))
+        emit("churngap:%s" % era, "churn_alpha_gap_bp",
+             _dig(u, "eras", era, "churn_alpha_gap_bp"),
+             lambda f, e=era: _dig(f, "eras", e, "churn_alpha_gap_bp"))
+    return rows
+
+
+def _mid_flip_eras(faces, modes, eras, pick):
+    """Eras whose unscreened value and a screened value straddle zero."""
+    out = []
+    u = faces.get("unscreened") or {}
+    for era in [e[0] for e in eras]:
+        uv = pick(u, era)
+        if not isinstance(uv, (int, float)) or uv == 0:
+            continue
+        for m in modes:
+            v = pick(faces.get(m) or {}, era)
+            if isinstance(v, (int, float)) and uv * v < 0:
+                out.append(era)
+                break
+    return sorted(out)
+
+
+def run_midscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                  modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                  costs=(0.0, 1.0, 3.0), eras=ERAS):
+    """E80: does the mid-month membership claim survive the split screen?
+
+    E44 put the 2024_now mid-month gap (-87bp/yr) on membership -- the book turns
+    over the same amount but swaps into worse names -- and E77/E78 showed the
+    split screen moves exactly that era. The churn rows are re-derived here from
+    the repaired universe, with the unscreened column kept beside every screened
+    one, so the membership claim is measured rather than assumed. No published
+    MIDMONTH face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    costs=costs, raw=univ)
+
+    delta = _mid_delta_rows("unscreened", faces, modes, eras, costs,
+                            mid_label="mid%d" % mid_day)
+
+    def _biggest(pred):
+        rows = [r for r in delta if pred(r)
+                and any(r.get("delta_" + m) is not None for m in modes)]
+        if not rows:
+            return None
+        best = max(rows, key=lambda r: max(
+            abs(r["delta_" + m]) for m in modes
+            if r.get("delta_" + m) is not None))
+        out = {"face": best["face"], "column": best["column"],
+               "unscreened": best["unscreened"]}
+        for m in modes:
+            out[m] = best.get(m)
+            out["delta_" + m] = best.get("delta_" + m)
+        return out
+
+    newest = eras[-1][0]
+    gap_by_label = {label: _dig(faces[label], "answers", "newest_era_gap_x1_bp")
+                    for label in faces}
+    churn_by_label = {label: _dig(faces[label], "eras", newest, "churn_alpha_gap_bp")
+                      for label in faces}
+    negchurn_by_label = {
+        label: {"me": _dig(faces[label], "eras", newest, "me", "negative_churn_share_pct"),
+                "mid": _dig(faces[label], "eras", newest, "mid", "negative_churn_share_pct")}
+        for label in faces}
+    turn_by_label = {label: {"me": _dig(faces[label], "books", "me", "arms", "x1",
+                                             "turnover_per_year"),
+                             "mid": _dig(faces[label], "books", "mid%d" % mid_day,
+                                         "arms", "x1", "turnover_per_year")}
+                     for label in faces}
+
+    base_gap = gap_by_label.get("unscreened")
+    surv = {}
+    for m in modes:
+        v = gap_by_label.get(m)
+        surv[m] = {
+            "unscreened_bp": base_gap, "screened_bp": v,
+            "delta_bp": (round(v - base_gap, 1)
+                         if isinstance(v, (int, float))
+                         and isinstance(base_gap, (int, float)) else None),
+            "surviving_share_pct": (round(100.0 * v / base_gap, 1)
+                                    if isinstance(v, (int, float)) and base_gap else None)}
+
+    return {
+        "study": "e80_screened_midmonth_churn",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "costs": list(costs), "mid_month_day": mid_day,
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "loader": "scripts/panel_screen.py via run_midmonth(raw=...) (opt-in)",
+            "books": "me = month-end decisions; mid%d = first session on/after the "
+                     "%dth of each month; both on one calendar, one rank cache" % (mid_day, mid_day),
+            "runs": len(universes),
+        },
+        "screen_reports": reports,
+        "eras": {label: faces[label].get("eras") for label in faces},
+        "answers": {label: faces[label].get("answers") for label in faces},
+        "delta": delta,
+        "results": {
+            "newest_era_gap_x1_bp": gap_by_label,
+            "gap_survival": surv,
+            "newest_era_churn_alpha_gap_bp": churn_by_label,
+            "newest_era_negative_churn_share_pct": negchurn_by_label,
+            "turnover_per_year_control": turn_by_label,
+            "eras_whose_gap_changes_sign": _mid_flip_eras(
+                faces, modes, eras, lambda f, e: _dig(f, "eras", e, "gap_x1_bp")),
+            "eras_whose_churn_gap_changes_sign": _mid_flip_eras(
+                faces, modes, eras, lambda f, e: _dig(f, "eras", e, "churn_alpha_gap_bp")),
+            "worst_correction": _biggest(lambda r: True),
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([r for r in delta
+                                         if any(r.get("delta_" + m) not in (None, 0)
+                                                for m in modes)]),
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only; a flagged ETF print may be "
+            "genuine, so 'neutralise' is a sensitivity face, not a corrected truth",
+            "drop mode changes the universe size, so its delta mixes the correction with a "
+            "composition change and its eligibility set differs from the twin",
+            "the churn sleeve is an equal-weight mean over the swapped names, not a "
+            "portfolio return: it prices whether the names taken in beat the names given "
+            "up inside that window",
+            "the turnover column is the control that the screen moves the return path and "
+            "not the traded book; a screened turnover that differs from its twin means the "
+            "screen changed eligibility, not the calendar",
+            "gapped prints are never repaired, so a churn carried by a behind-suspension "
+            "print reads flat here rather than corrected",
+            "descriptive census only: no gate, no verdict, no prereg, no trial booking",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -6137,6 +6358,62 @@ def selftest():
     chk(_wmiss and _wmiss[0]["drop"] is None and _wmiss[0]["delta_drop"] is None,
         "a mode that emitted no cell yields None instead of a zero delta")
 
+    # E80 screened mid-month: the churn table keeps both books and twins
+    _eras80 = (("2024_now", "2024-01-01", "2026-12-31"),)
+    _mface = {"eras": {"2024_now": {
+        "me": {"churn_alpha_bp_mean": 95.6, "negative_churn_share_pct": 42.9},
+        "mid": {"churn_alpha_bp_mean": -123.7, "negative_churn_share_pct": 48.1},
+        "gap_x0_bp": -87.0, "gap_x1_bp": -87.0, "gap_x3_bp": -89.0,
+        "churn_alpha_gap_bp": -219.3}},
+        "books": {"me": {"arms": {"x1": {"turnover_per_year": 0.594,
+                                         "full_window_ann_pct": 5.0,
+                                         "eras": {"2024_now": {"ann_return_pct": 4.0}}}}},
+                  "mid15": {"arms": {"x1": {"turnover_per_year": 0.591,
+                                            "full_window_ann_pct": 4.1,
+                                            "eras": {"2024_now": {"ann_return_pct": 3.1}}}}}}}
+    _sface = {"eras": {"2024_now": {
+        "me": {"churn_alpha_bp_mean": 95.0, "negative_churn_share_pct": 43.0},
+        "mid": {"churn_alpha_bp_mean": -100.0, "negative_churn_share_pct": 47.0},
+        "gap_x0_bp": 10.0, "gap_x1_bp": 10.0, "gap_x3_bp": 8.0,
+        "churn_alpha_gap_bp": -195.0}},
+        "books": {"me": {"arms": {"x1": {"turnover_per_year": 0.596,
+                                         "full_window_ann_pct": 5.1,
+                                         "eras": {"2024_now": {"ann_return_pct": 4.2}}}}},
+                  "mid15": {"arms": {"x1": {"turnover_per_year": 0.593,
+                                            "full_window_ann_pct": 4.3,
+                                            "eras": {"2024_now": {"ann_return_pct": 3.4}}}}}}}
+    _mrows = _mid_delta_rows("unscreened", {"unscreened": _mface, "neutralise": _sface},
+                             ("neutralise",), _eras80, (1.0,))
+    _mgap = [r for r in _mrows if r["face"] == "gap:2024_now@x1"
+             and r["column"] == "gap_bp"][0]
+    chk(_mgap["unscreened"] == -87.0 and _mgap["neutralise"] == 10.0
+        and _mgap["delta_neutralise"] == 97.0,
+        "the mid-month gap row keeps the unscreened twin beside the screened one")
+    _mchurn = [r for r in _mrows if r["face"] == "churngap:2024_now"
+               and r["column"] == "churn_alpha_gap_bp"][0]
+    chk(_mchurn["unscreened"] == -219.3 and _mchurn["delta_neutralise"] == 24.3,
+        "the churn-alpha gap enters the same table with the same arithmetic")
+    _mturn = [r for r in _mrows if r["face"] == "mid@x1"
+              and r["column"] == "turnover_per_year"][0]
+    chk(abs(_mturn["delta_neutralise"] - 0.002) < 1e-9,
+        "the turnover control is carried so the fee channel can be read beside it")
+    _mneg = [r for r in _mrows if r["face"] == "negchurn:mid@2024_now"][0]
+    chk(_mneg["unscreened"] == 48.1 and _mneg["delta_neutralise"] == -1.1,
+        "the negative-swap share travels with its own twin")
+    _mmiss = _mid_delta_rows("unscreened", {"unscreened": _mface, "drop": {}},
+                             ("drop",), _eras80, (1.0,))
+    chk(all(r["drop"] is None and r["delta_drop"] is None for r in _mmiss),
+        "a mode that emitted no cell yields None instead of a zero delta")
+    chk(_dig(_mface, "eras", "2024_now", "me") is not None
+        and _dig(_mface, "eras", "1999_missing", "me") is None,
+        "_dig returns None the moment the path breaks")
+    chk(_mid_flip_eras({"unscreened": _mface, "neutralise": _sface}, ("neutralise",),
+                       _eras80, lambda f, e: _dig(f, "eras", e, "gap_x1_bp")) == ["2024_now"],
+        "an era whose gap changes sign under the screen is named")
+    chk(_mid_flip_eras({"unscreened": _mface, "neutralise": _mface}, ("neutralise",),
+                       _eras80, lambda f, e: _dig(f, "eras", e, "gap_x1_bp")) == [],
+        "a screen that leaves the gap alone flips nothing")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -6152,6 +6429,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
+                             "midscreen",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -6608,6 +6886,29 @@ def main(argv):
                           "moved_cells": [r for r in f["delta"]
                                           if any(r.get("delta_" + m) not in (None, 0)
                                                  for m in f["screen_reports"])][:10]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "midscreen":
+        f = run_midscreen(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "MIDSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "midscreen", "file": os.path.relpath(p, ROOT),
+                          "screen": {k: {"names_touched": v["names_touched"],
+                                         "events": v["events_neutralised"]}
+                                     for k, v in f["screen_reports"].items()},
+                          "newest_era_gap_x1_bp":
+                              f["results"]["newest_era_gap_x1_bp"],
+                          "gap_survival": f["results"]["gap_survival"],
+                          "churn_alpha_gap_bp":
+                              f["results"]["newest_era_churn_alpha_gap_bp"],
+                          "negative_churn_share":
+                              f["results"]["newest_era_negative_churn_share_pct"],
+                          "turnover_control":
+                              f["results"]["turnover_per_year_control"],
+                          "flip_eras": f["results"]["eras_whose_gap_changes_sign"],
+                          "worst": f["results"]["worst_correction"],
+                          "moved_cells": f["results"]["non_zero_delta_cells"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
