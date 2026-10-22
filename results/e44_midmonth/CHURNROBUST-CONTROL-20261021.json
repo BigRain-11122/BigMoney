@@ -1,0 +1,56 @@
+{
+ "study": "e88_churnrobust_burn_control",
+ "evidence_cutoff": "2026-10-21",
+ "status": "identical_on_this_face",
+ "spec": {
+  "faces": [
+   "results\\e44_midmonth\\CHURNSE-20261021.json",
+   "results\\e44_midmonth\\CHURNROBUST-20261022-s2013.json",
+   "results\\e44_midmonth\\CHURNROBUST-20261022-s2013.json"
+  ],
+  "control": "join every cell on (book, universe|mode, era) and compare mean_bp by exact equality; a re-derived burn shows up here",
+  "note": "the 2013-start control only covers the eras both faces carry (era cells are era-local, so the shared eras must agree bit-for-bit or the earlier start changed the burn)"
+ },
+ "controls": {
+  "se_vs_robust_2020": {
+   "levels": {
+    "shared_cells": 16,
+    "matched": 16,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 16,
+    "mismatch_rows": []
+   },
+   "deltas": {
+    "shared_cells": 12,
+    "matched": 12,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 12,
+    "mismatch_rows": []
+   }
+  },
+  "se_vs_robust_2013_shared_eras": {
+   "levels": {
+    "shared_cells": 16,
+    "matched": 16,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 16,
+    "mismatch_rows": []
+   },
+   "deltas": {
+    "shared_cells": 12,
+    "matched": 12,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 12,
+    "mismatch_rows": []
+   }
+  }
+ },
+ "summary": {
+  "shared_cells": 56,
+  "mismatched": 0
+ }
+}

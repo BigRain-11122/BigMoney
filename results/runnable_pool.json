@@ -21475,7 +21475,10 @@
   },
   {
    "id": "E87-CHURN-ROBUST-START2013",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e44_midmonth/CHURNROBUST-20261022-s2013.json + research/digests/DIGEST-20261022-e87-e88-churn-burncontrol.md (bm-b r1156)",
+   "closed_at": "2026-10-22T23:45:00+08:00",
+   "closed_by": "bm-b r1156",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21489,7 +21492,10 @@
   },
   {
    "id": "E88-CHURNROBUST-BURN-CONTROL",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/e44_midmonth/CHURNROBUST-CONTROL-20261021.json (56/56 cells bit-identical, 0 mismatch) + research/digests/DIGEST-20261022-e87-e88-churn-burncontrol.md (bm-b r1156)",
+   "closed_at": "2026-10-22T23:45:00+08:00",
+   "closed_by": "bm-b r1156",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21529,7 +21535,21 @@
    "entered_by": "bm-b r1155",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "same burn, zero new panel reads: the blocks come from the transition dates already carried on each churn row; fix the block length and the seed in the spec so the face is reproducible, and report the iid band beside every clustered band for the width ratio"
-  }
+  },
+  {
+ "id": "E91-CHURN-TOP-TRANSITION-NAMES",
+ "status": "ready",
+ "lane": "cpu-only",
+ "lane_owner": "bm-b",
+ "target": "scripts/e39_panel_census.py",
+ "title": "E87 shows the two oldest churn eras are carried by three transitions (pre2017 top-3 share 108.5%/149.1% of the signed total, medians flip sign). Publish the identity, decision date and size of the three largest transitions in every older-era cell so the concentration is auditable by name and date instead of quoted as a share; keep the newest-era cells in the same face as the control.",
+ "deliverable": "results/e44_midmonth/CHURNTOP3-<cutoff>-s2013.json",
+ "source": "r1156 E87 (CHURNROBUST-20261022-s2013.json: pre2017 medians -10.7/-34.9 against means +209.1/+120.8)",
+ "entered_at": "2026-10-22T23:45:00+08:00",
+ "entered_by": "bm-b r1156",
+ "evidence_cutoff": "2026-10-21",
+ "runner_note": "same churn_rows burn as robustchurn, no new panel read; print the name and date, never a bare share"
+}
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

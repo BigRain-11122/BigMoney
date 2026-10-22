@@ -7843,6 +7843,96 @@ def selftest():
     return 0 if ok == tot else 1
 
 
+# -------------------------------------------------------------- E88
+
+def _cell_index(rows, keys):
+    out = {}
+    for r in rows or []:
+        k = tuple(r.get(x) for x in keys)
+        if k not in out:
+            out[k] = r
+    return out
+
+
+def _mean_control(a_rows, b_rows, keys):
+    """Join two faces cell by cell and count bit-identical ``mean_bp``.
+
+    A face built by a different leg is comparable only when its means were
+    read off the same per-transition rows; anything else is a re-derived burn
+    and would reintroduce the r1135/r1142 two-burn pit.
+    """
+    ia, ib = _cell_index(a_rows, keys), _cell_index(b_rows, keys)
+    shared = [k for k in ia if k in ib]
+    bad = [{"keys": list(k), "a": ia[k].get("mean_bp"),
+            "b": ib[k].get("mean_bp")}
+           for k in shared if ia[k].get("mean_bp") != ib[k].get("mean_bp")]
+    return {"shared_cells": len(shared), "matched": len(shared) - len(bad),
+            "mismatched": len(bad),
+            "only_in_a": len([k for k in ia if k not in ib]),
+            "only_in_b": len([k for k in ib if k not in ia]),
+            "mismatch_rows": bad}
+
+
+def run_burncontrol(outdir=None, dirpath=None):
+    """E88: prove the interval and robust faces sit on the published burn."""
+    import glob as _glob
+
+    d = dirpath or os.path.join(ROOT, "results", "e44_midmonth")
+
+    def _newest(pat):
+        hits = sorted(_glob.glob(os.path.join(d, pat)))
+        return hits[-1] if hits else None
+
+    se_p, rob_p, s13_p = (_newest("CHURNSE-2*.json"),
+                          _newest("CHURNROBUST-2*.json"),
+                          _newest("CHURNROBUST-2*-s2013.json"))
+
+    def _load(p):
+        if not p:
+            return None
+        with open(p, encoding="utf-8") as fh:
+            return json.load(fh)
+
+    se, rob, s13 = _load(se_p), _load(rob_p), _load(s13_p)
+    missing = [n for n, v in (("churnse", se), ("churnrobust", rob),
+                              ("churnrobust_s2013", s13)) if v is None]
+    if missing:
+        return {"study": "e88_churnrobust_burn_control",
+                "status": "awaiting_faces", "missing": missing,
+                "controls": {}}
+
+    ck = ("book", "universe", "era")
+    dk = ("book", "mode", "era")
+    controls = {}
+    if se and rob:
+        controls["se_vs_robust_2020"] = {
+            "levels": _mean_control(se.get("cells"), rob.get("cells"), ck),
+            "deltas": _mean_control(se.get("delta_cells"),
+                                    rob.get("delta_cells"), dk)}
+    if se and s13:
+        controls["se_vs_robust_2013_shared_eras"] = {
+            "levels": _mean_control(se.get("cells"), s13.get("cells"), ck),
+            "deltas": _mean_control(se.get("delta_cells"),
+                                    s13.get("delta_cells"), dk)}
+    bad = sum(v["mismatched"] for c in controls.values() for v in c.values())
+    shared = sum(v["shared_cells"] for c in controls.values() for v in c.values())
+    return {
+        "study": "e88_churnrobust_burn_control",
+        "evidence_cutoff": se.get("evidence_cutoff"),
+        "status": "identical_on_this_face" if bad == 0 else "MISMATCH",
+        "spec": {
+            "faces": [os.path.relpath(p, ROOT) for p in (se_p, rob_p, s13_p)],
+            "control": "join every cell on (book, universe|mode, era) and compare "
+                       "mean_bp by exact equality; a re-derived burn shows up here",
+            "note": "the 2013-start control only covers the eras both faces carry "
+                    "(era cells are era-local, so the shared eras must agree "
+                    "bit-for-bit or the earlier start changed the burn)",
+        },
+        "controls": controls,
+        "summary": {"shared_cells": shared, "mismatched": bad},
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -7855,7 +7945,7 @@ def main(argv):
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
-                             "loodist", "churnse", "all", "selftest"])
+                             "loodist", "churnse", "burncontrol", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -8376,8 +8466,11 @@ def main(argv):
     if args.mode == "robustchurn":
         f = run_robustchurn(None, start=args.start)
         outdir = os.path.join(ROOT, "results", "e44_midmonth")
-        p = write_json(outdir, "CHURNROBUST-%s.json"
-                       % f["evidence_cutoff"].replace("-", ""), f)
+        # r1135 pit: a variant burn must not overwrite the base face, so the
+        # filename carries the window start whenever it is not the default.
+        _sv = "" if args.start == "2020-01-01" else "-s%s" % args.start[:4]
+        p = write_json(outdir, "CHURNROBUST-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), _sv), f)
         thin = [{"book": c["book"], "universe": c["universe"], "era": c["era"],
                  "mean_bp": c["mean_bp"], "median_bp": c["median_bp"],
                  "trim10_bp": c["trim10_bp"],
@@ -8439,6 +8532,15 @@ def main(argv):
                           "gap_cells": f["gap_cells"]},
                          ensure_ascii=False))
         return 0
+    if args.mode == "burncontrol":
+        f = run_burncontrol()
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "CHURNROBUST-CONTROL-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "burncontrol", "file": os.path.relpath(p, ROOT),
+                          "status": f["status"], "summary": f["summary"]},
+                         ensure_ascii=False))
+        return 0 if f["status"] != "MISMATCH" else 1
     if args.mode == "month":
         if not args.month:
             print("--month YYYY-MM required")

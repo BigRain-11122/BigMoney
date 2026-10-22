@@ -384,11 +384,11 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_pct": 49.7,
- "round": 1146,
- "round_no": 1148,
- "round_no_label": "r1146",
+ "round": 1156,
+ "round_no": 1158,
+ "round_no_label": "r1156",
  "sat_engine": {
-  "checked_at": "2026-10-21T21:45:00+08:00",
+  "checked_at": "2026-10-22T23:28:23+08:00",
   "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -936,12 +936,12 @@
    "note": "clean ff 27bc1c285..06bbe61c1 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==06bbe61c1, behind=0 ahead=0, ls-tree carries PANELSPLIT-20261021.json + DIGEST-20261021-e75-panelsplit.md). Payload = 15 faces: panelsplit leg in scripts/e39_panel_census.py (selftest 145/145) + 2 PANELSPLIT faces + digest + pool shared/lane (E75+E73 closed, E76 seeded) + closeout trio + bm-b evidence faces. Targeted add only per r982/r1015/r1033: drama lane, Money02 lhb, machine-health, token_usage union face, unsuffixed collector status faces left untouched."
   }
  },
- "task": "r1146 E75 panel split audit",
- "ts": "2026-10-22T00:08:05+08:00",
- "updated": "2026-10-22T00:08:05+08:00",
- "updated_at": "2026-10-22T00:08:05+08:00",
- "verdict": "smoke 49/49 PASS; E75 burned both starts (161/164 events, 135 adjacent, 216/223 bp/yr book impact); pool E75+E73 closed, E76 seeded ready; orphan_face=0",
- "last_round_report": "logs/iteration-loop/round_reports.md r1146",
+ "task": "r1156 E87 churn robust re-read at the 2013 start + E88 burn control",
+ "ts": "2026-10-22T23:28:23+08:00",
+ "updated": "2026-10-22T23:28:23+08:00",
+ "updated_at": "2026-10-22T23:28:23+08:00",
+ "verdict": "smoke 49/49 PASS; E87: 2013-start re-read leaves every published 2021_2023/2024_now cell bit-identical and adds the two older eras, where both books' medians flip sign against their means (pre2017 -10.7 vs +209.1, -34.9 vs +120.8; top-3 share 108-149%) and 2017_2020 medians keep only 4-23% -> no typical month before 2021; E88 control 56/56 cells bit-identical across CHURNSE/CHURNROBUST/CHURNROBUST-s2013; pool E87+E88 closed, E91 seeded, ready 3 == floor; orphan face=0",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1156",
  "r1131_note": "E55 tenths pair burned inline (7s/leg, runner unchanged): flip set 4/4 for the 5th consecutive cut; era levels bit-identical to ninths (239/423/247/93 x0, 230/410/237/81 x3) so the era split has converged while within-era dispersion has not. Bands p9->p10: pre2017 3232->3007, 2017_2020 2380->2090, 2021_2023 2426->1775 (three narrow), 2024_now 5815->6922 (widens, 2.3x the next widest). Aggregate mean 3463->3448 (plateau), median 2829->2549 (falls) -- r1130's 'grows with granularity' now holds for exactly one era. Outlier is boundary-mobile inside one rally leg: 2026-03-10..06-29 (ninths p8) spread -4241 vs 2026-03-25..07-02 (tenths p9) -5745, ladder +49.73 -> +81.19 %/yr, drawdown unchanged (-9.08/-8.48 vs -8.08). New degenerate-face note: pre2017 parts 1-2 print spread 0.0 with ladder==wide (2012 warm-up), i.e. 20% of the oldest era's parts carry no information. Pool: E55 pair closed with result_ref, E56-PARTS-P11 pair seeded inline. S6 40/40 rc0; dualrun ZERO-DRIFT streak 28; attrition CLEAN (4 ledgers, 2 healed); smoke 49/49; orphan 0/11; watermark py_low_board_clear; audit FLAG supply_gap,supply_floor (ready 1 < 3). Orders diff 0 unacked; D-19 dec/ord hash hold (zero action).",
  "r1131_pit": "a band's owning part is boundary-mobile: the same 2026 Q2/Q3 rally produced -4241bp at ninths and -5745bp at tenths with drawdown unchanged, so 'which part is exceptional' must be published with its window and cut, never as an era property; and a degenerate part (ladder==wide, spread 0.0) silently occupies a band slot -- check for zero-spread parts before reading a band as dispersion",
  "r1132_note": "E44 closed: new runner leg `midmonth` in scripts/e39_panel_census.py (selftest 73/73). Mid-month's weakness is membership, not fees -- turnover 0.591 vs 0.594/yr (fee gap ~2bp) against a -87bp/yr newest-era gap; churn sleeve me +95.6bp vs mid -123.7bp per swap (gap -219.3bp), negative swaps 42.9% vs 48.1%. Era/window locality: 2017_2020 mid WINS +50bp at the 2018 start, 2021_2023 -8bp with churn alpha actually favouring mid (+318.9bp) so a second mechanism lives there (recorded, not explained), 2024_now -87bp where churn and P&L agree. Cost face x0/x1/x3 in one pass; x1 reproduces E43's cell, so the two runners agree. Pool: 3 closed with result_ref (E44 + E56 p11 pair), 2 authored waiting (E57 chase-names needs a --detail leg, E58 parts 2..12 sweep), 0 ready -> supply_floor breach kept honest instead of seeding a twelfth cut. S6 41 legs (40 rc0 + sync_lane rc2: merge_lane_views has no sync_face verb in this revision; dualrun itself ZERO-DRIFT so the lane face is consistent). dualrun streak 29, attrition CLEAN, smoke 49/49, orphan 0, D-19 zero delta.",
@@ -958,7 +958,7 @@
  "r1137_note": "E65 entrydelay leg added to scripts/e39_panel_census.py (selftest 96/96, +2 hermetic legs): month-end shifted +1/+3/+5/+10 sessions vs month-end, x1, one rank cache. 2024_now gaps -43/-74/-74/-91bp (bit-identical at both window starts); full window -27/-17/-35/-70 at a 2020 start and -18/-34/-35/-47 at 2013 (non-monotone); era signs disagree (start 2013: pre2017 -60/-112/-81/-89, 2017_2020 +7/+16/-11/-15, 2021_2023 +26/+17/+15/-5). Turnover 0.569-0.589 and x1 fee 7.6-7.7bp/yr stay inside the E59/E63 band. Pool: E65 closed with result_ref, E66-ONE-SESSION-EARLY seeded waiting. S6 compact: dualrun ZERO-DRIFT streak 34, compute_audit FLAG pool_starvation+supply_floor (ready 0/3 honest), watermark insufficient_history, attrition CLEAN 4 ledgers (1 healed), census selftest 96/96, smoke 49/49, orphan face=0/7.",
  "r1137_pit": "a forward-only lag ladder cannot separate a cliff from a one-sided slope: the newest era reads monotone while the full window reads non-monotone, so publish both columns or an era-local effect reads as an orderly law; and a lag that moves the decision session is not an entry delay -- without an execution-lag hook in the engine, \"same names bought later\" is a different, unmeasured experiment",
  "r1140_note": "E68: neighborhood --neighbors 4 on both window starts; bracket against k=3 (E67 arms, cutoff 2026-10-20) and k=5 (E65 face). Full-window columns not clean (early -53/-22bp, late -18/-32bp; late k=4 +22bp in 2021_2023 at both starts).",
- "task_short": "E75 panel split audit",
+ "task_short": "E87 churn robust @2013 + E88 burn control",
  "idle_ram_gb": 11.9,
  "free_ram_mb": 12184,
  "ram_free_mb": 12184,
@@ -970,5 +970,7 @@
  "py_cpu_pct": 2.1,
  "d19_note": "r1144: D-19 decisions/orders read this window; the 2026-10-21 13:5x CEO redline (bm-a barred from finance; akshare pulls -> bm-b) is EXECUTED this round via config/lane_hosts.json",
  "r1146_note": "E75 panel split audit: 161 events / 152 names / 135 adjacent / 74 integer-ratio at the 2020 start, 164/154/135/75 at 2013; book impact 216.12bp/yr (2020) and 223.06bp/yr (2013) vs the -45bp residual; pre2017 3 events = 1606.94bp on a 14-name breadth. Pool: E75 done, E73 lane-flip done, E76-PANELSCREEN-REGRADE seeded ready. S6 core green; papers family honest SKIP (no new bar since r1145).",
- "r1146_pit": "artefact impact is a function of breadth: the same 3-event pre2017 cluster is 1607bp on a 14-name book and would be ~3bp on today's 1,265-name panel -- publish bp beside the breadth at its date, never as a bare number."
+ "r1146_pit": "artefact impact is a function of breadth: the same 3-event pre2017 cluster is 1607bp on a 14-name book and would be ~3bp on today's 1,265-name panel -- publish bp beside the breadth at its date, never as a bare number.",
+ "r1156_note": "state face had been stale since the r1148 commit (r1149-r1155 wrote the round report + heartbeat but never state.json) -> healed this window: round_no realigned to 1158 on the historic +2 offset, task/ts/verdict refreshed. E87 完成面 = CHURNROBUST-20261022-s2013.json (32 level cells vs 16): older eras carry no centre of mass; E88 = CHURNROBUST-CONTROL-20261021.json 56/56 identical, 0 mismatch. Note the variant filename now carries -s2013 so the 2020 face cannot be overwritten.",
+ "r1156_pit": "an era-local cell is start-invariant BY CONSTRUCTION, so re-reading at an earlier start is not a robustness test for the newer eras -- it only adds the older ones; say which of the two answers you got, and print the spec start beside every cell count, because n=0 cells are dropped and the count is the only signal that the older eras were absent"
 }
