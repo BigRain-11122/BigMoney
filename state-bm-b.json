@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-22T22:57:28+08:00",
- "current": "r1154: E86 leave-one-out distribution (median cell is a 7-swap object; mid15 2024_now is the one k=1 cell)",
- "current_task": "E86 closed: every churn cell now carries all n leave-one-out re-reads plus a greedy breakdown count. 5/16 cells lose half their magnitude to one removal but 0/16 die on a majority of removals; median breakdown k = 7 (25.9% of the cell). mid15 2024_now is the only k=1 cell (-123.7 unscreened / -364.7 neutralise). Gap faces: 2024_now -211.0 keeps its sign under 53/54 removals (worst -86.3); 2021_2023 +318.8 keeps its sign under 55/56 but one removal reaches -60.7.",
+ "current": "r1155: E89 sampling intervals (8/16 level bands clear zero; both era gaps straddle) + Bigmoney-IntradayMarks task registered",
+ "current_task": "r1155 E89 closed -- every churn cell now carries a sampling interval: the 2021_2023 levels clear zero, all 2024_now levels straddle it, and neither published era gap survives its own band",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -18,14 +18,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1153: E85 closed -- median + 10% trimmed mean beside the mean on every churn cell. 16 level cells: 13 keep <50% of the mean under the median but only 3 do under the trimmed mean, so the cells are right-skewed, not one-outlier cells. The two eras differ in SHAPE: 2024_now mid15 mean -123.7 vs median +18.1 (sign flip, top-3 transitions = 151.6% of the signed total; -364.7 vs +18.1 under neutralise) while 2021_2023 keeps trim=mean and top-3 at 15-40% (= a diffuse era property, E80's 'second mechanism' is broad, not a few prints). 12 per-transition delta cells: the median delta is exactly 0.0 in 7 of the 8 with a defined keep, all 8 keep <50%, top-3 share 78.7-321.7% -> the repair screen moves 1-3 transitions per era and leaves the typical transition untouched.",
- "did_round": 1153,
+ "did": "r1155: E89 sampling intervals -- jackknife SE + seeded bootstrap (2000 draws, seed 20261022) beside every churn mean and both era gaps on the same burn; 8/16 level bands clear zero (all 2021_2023, median SE 606bp) and BOTH gap cells straddle zero (+318.8 +/- band to +1800.5, -211.0 band to +64.1); closed E89 in the pool, seeded E90 clustered arm; registered the missing Bigmoney-IntradayMarks lane task after t35_open_fill rc=1 with zero marks task on the box",
+ "did_round": 1154,
  "heartbeat_epoch_utc": 1792680342,
  "heartbeat_epoch_utc_face": 1792530408,
  "idle_rounds": 0,
- "last_action": "burned robustchurn leg (2 books x 4 universes x 2 eras = 16 level cells + 12 delta cells) + digest + pool E85 done / E87+E88 seeded",
- "last_action_at": "2026-10-22T22:45:42+08:00",
- "last_artifact": "results/e44_midmonth/CHURNROBUST-20261021.json",
+ "last_action": "burned E89 churnse leg + wrote the interval face and digest",
+ "last_action_at": "2026-10-22T23:16:17+08:00",
+ "last_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -43,15 +43,15 @@
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_push": "d64472ee0 -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_round_at": "2026-10-22T22:45:42+08:00",
- "last_round_report": "logs/iteration-loop/round_reports.md r1153",
- "last_round_ts": "2026-10-22T22:45:42+08:00",
- "last_seen": "2026-10-22T22:45:42+08:00",
- "latest_artifact": "results/e44_midmonth/CHURNROBUST-20261021.json",
+ "last_round_at": "2026-10-22T23:16:17+08:00",
+ "last_round_report": "logs/iteration-loop/round_reports.md r1155",
+ "last_round_ts": "2026-10-22T23:16:17+08:00",
+ "last_seen": "2026-10-22T23:16:17+08:00",
+ "latest_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1155: E89 churn-gap jackknife/bootstrap interval, or E87 robust re-read at the 2013 start / E88 burn control",
- "next_milestone": "every churn cell is quoted with a robust estimator beside its mean, and the robust table is proven to sit on the same burn as CHURNGAP (<=48h)",
+ "next": "r1156: E90 clustered (block) interval -- width ratio blocked/iid for every cell, or E87 robust re-read at the 2013 start / E88 burn control",
+ "next_milestone": "every churn number is published with an iid band AND a clustered band, so a reader can see whether the 2021_2023 levels are real after clustering (<=48h)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -88,9 +88,10 @@
   "r1150": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean.",
   "r1151": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
   "r1152": "r1152: E83+E84 both closed from one burn -- 13 of 24 published churn cells keep less than half their magnitude without one transition; E80's 2021_2023 'second mechanism' gap (+318.8bp) keeps 18.9% (60.3bp) and is owned by one mid15 transition (2021-05-17) in all three neutralise universes, while the month-end book survives at 62-65% in the newest era; E84: the conservative screen arm is a duplicate for this consumer (65 vs 129 names, 64 extra, 63 swapped in 201 windows, ZERO windows carrying that name's own print, churn rows 69/69 bit-identical) but not the same screen.",
-  "r1153": "E85 face CHURNROBUST-20261021.json (182KB) + digest; runner leg `robustchurn` in scripts/e39_panel_census.py (selftest 195 -> 202, +7 legs); pool E85 done with result_ref, E87-CHURN-ROBUST-START2013 + E88-CHURNROBUST-BURN-CONTROL seeded (ready 4). S6: dualrun ZERO-DRIFT streak 51 (611 entries) | audit FLAG supply_gap only (supply_floor 4/3, breach false) | watermark py_low_with_work_cands (pool ready 4 + astock refresh lock = lawful) | update_daily rc0 0 new rows cutoff 2026-10-22 | market_regime rc0 crash10d -6.4% + breadth 0.92 | papers family ran on the new bar (6 members, 16 bars each) | export 2026-10-22 (6 traders, 21 positions, equity 5,947,552) | REPORT-2026-10-22 + LIVE-2026-10-22 regen | attrition CLEAN (4 ledgers, 2 shrinks healed) | orphan 0/10 | smoke 49/49 | D-19 zero delta (dec 17c29359 / ord 36d96a91) | orders 107/107 ack, zero unacked | prior-window defect noted: the r1152 round-report row on disk is an unformatted template ('%s | r%d') and is left as-is for a next-round repair, not silently rewritten."
+  "r1153": "E85 face CHURNROBUST-20261021.json (182KB) + digest; runner leg `robustchurn` in scripts/e39_panel_census.py (selftest 195 -> 202, +7 legs); pool E85 done with result_ref, E87-CHURN-ROBUST-START2013 + E88-CHURNROBUST-BURN-CONTROL seeded (ready 4). S6: dualrun ZERO-DRIFT streak 51 (611 entries) | audit FLAG supply_gap only (supply_floor 4/3, breach false) | watermark py_low_with_work_cands (pool ready 4 + astock refresh lock = lawful) | update_daily rc0 0 new rows cutoff 2026-10-22 | market_regime rc0 crash10d -6.4% + breadth 0.92 | papers family ran on the new bar (6 members, 16 bars each) | export 2026-10-22 (6 traders, 21 positions, equity 5,947,552) | REPORT-2026-10-22 + LIVE-2026-10-22 regen | attrition CLEAN (4 ledgers, 2 shrinks healed) | orphan 0/10 | smoke 49/49 | D-19 zero delta (dec 17c29359 / ord 36d96a91) | orders 107/107 ack, zero unacked | prior-window defect noted: the r1152 round-report row on disk is an unformatted template ('%s | r%d') and is left as-is for a next-round repair, not silently rewritten.",
+  "r1155": "r1155: E89 churnse leg (selftest 223/223, +11 legs on _jackknife_mean / _boot_mean_ci / _gap_interval), face results/e44_midmonth/CHURNSE-20261021.json (26s burn, 4 universes x 2 books, zero extra panel reads), digest DIGEST-20261022-e89-churn-intervals.md. Level cells 8/16 clear zero, 8 straddle, and the split is exactly 2021_2023 vs 2024_now; gaps +318.8 (SE 900.8) and -211.0 (SE 167.2) both straddle. Pool: E89 done with result_ref, E90-CHURNSE-BLOCK-CLUSTER seeded (613 entries, json.loads validated surgery, no round-trip). Red fix: Bigmoney-IntradayMarks registered (Tools/register_marks_task.ps1, S4U, 10min, gated) after t35_open_fill rc=1 with no marks task on the box. S6 chain 19 legs rc0 + papers family on the new 2026-10-22 bar; strategy_scorecard 119.8s. S7: loop pin 2 no-op, watchdog re-registered, both claws re-installed."
  },
- "now_active": "pool ready 4 (E81 + E86 + E87 + E88); supply_floor met 4/3",
+ "now_active": "pool ready 4 (E81 + E87 + E88 + E90); supply_floor met 4/3",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -204,10 +205,10 @@
  "orders_ack_last": "O-20261020-1335-bmc-w288-seat.md",
  "orders_delta_pending": false,
  "orphan_face": 0,
- "orphan_face_note": "r1106: no orphan python faces at closeout",
+ "orphan_face_note": "r1155: no orphan python faces at closeout",
  "orphan_faces": 0,
  "pool_claims": [
-  "E85-CHURN-GAP-ROBUST-ESTIMATOR (done, bm-b r1153)"
+  "E89-CHURN-GAP-BOOTSTRAP-SE (done, bm-b r1155)"
  ],
  "push_receipts_r1049": {
   "ahead": 0,
@@ -421,10 +422,10 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1153,
- "round_no": 1154,
- "round_no_label": "r1154",
- "round_pit": "r1153: trim vs median must be read as a pair -- a cell can lose 87% of its mean under the median and keep 107% under a 10% trim (mid15 2021_2023), which says right skew, not one outlier; and a delta cell whose median is exactly 0.0 is a structural zero (the screen rewrote no bar in that window), so it must be reported as 'no keep percentage', never as keep=0%.",
+ "round": 1155,
+ "round_no": 1155,
+ "round_no_label": "r1155",
+ "round_pit": "r1155: an iid sampling band is a lower bound on real clustering for monthly decisions on overlapping holdings, so print the caveat with the number; a gap band from two books needs its correlation note (dates disjoint, names shared -> quadrature width is conservative); and a lane whose evidence is append-only must have its scheduler registered before the first session it covers, because a missed trading day cannot be backfilled (T-35 marks, registered r1155).",
  "sat_engine": {
   "status": "alive",
   "checked_at": "2026-10-22T22:45:42+08:00"
@@ -436,15 +437,16 @@
   "local_not_on_origin_main": 0,
   "note": "r1152 payload = singleprint leg + SINGLEPRINT/MODEEQ faces + digest + pool (E83/E84 done, E85/E86 seeded) + closeout trio + bm-b evidence; targeted add only per r982/r1015/r1033"
  },
- "task": "r1153: E85 closed -- median + 10% trimmed mean beside the mean on every churn cell. 16 level cells: 13 keep <50% of the mean under the median but only 3 do under the trimmed mean, so the cells are right-skewed, not one-outlier cells. The two eras differ in SHAPE: 2024_now mid15 mean -123.7 vs median +18.1 (sign flip, top-3 transitions = 151.6% of the signed total; -364.7 vs +18.1 under neutralise) while 2021_2023 keeps trim=mean and top-3 at 15-40% (= a diffuse era property, E80's 'second mechanism' is broad, not a few prints). 12 per-transition delta cells: the median delta is exactly 0.0 in 7 of the 8 with a defined keep, all 8 keep <50%, top-3 share 78.7-321.7% -> the repair screen moves 1-3 transitions per era and leaves the typical transition untouched.",
- "ts": "2026-10-22T22:57:28+08:00",
- "updated": "2026-10-22T22:45:42+08:00",
- "updated_at": "2026-10-22T22:57:28+08:00",
+ "task": "r1155 E89 closed -- every churn cell now carries a sampling interval: the 2021_2023 levels clear zero, all 2024_now levels straddle it, and neither published era gap survives its own band",
+ "ts": "2026-10-22T23:16:17+08:00",
+ "updated": "2026-10-22T23:16:17+08:00",
+ "updated_at": "2026-10-22T23:16:17+08:00",
  "verdict": "product+maintenance",
  "r1153_push": {
   "pushed_sha": "d64472ee0",
   "behind_origin_main": 0,
   "status": "PUSHED_VERIFIED",
   "note": "clean ff 09b3d3989..d64472ee0 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==d64472ee0, behind=0 ahead=0, ls-tree origin carries CHURNROBUST-20261021.json + DIGEST-20261022-e85-churn-robust.md); payload = 34 targeted faces; unsuffixed shared status faces, data/daily churn, Money02 lhb and the drama lane left untouched per r982/r1015/r1033"
- }
+ },
+ "task_short": "r1155 E89 sampling intervals + marks lane registered"
 }

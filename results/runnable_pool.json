@@ -21503,7 +21503,7 @@
   },
   {
    "id": "E89-CHURN-GAP-BOOTSTRAP-SE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21513,7 +21513,22 @@
    "entered_at": "2026-10-22T23:00:00+08:00",
    "entered_by": "bm-b r1154",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "same burn; jackknife is closed-form off the alphas in memory, a seeded bootstrap needs a fixed seed recorded in the spec so the face is reproducible; zero new panel reads"
+   "runner_note": "same burn; jackknife is closed-form off the alphas in memory, a seeded bootstrap needs a fixed seed recorded in the spec so the face is reproducible; zero new panel reads",
+   "result_ref": "results/e44_midmonth/CHURNSE-20261021.json"
+  },
+  {
+"id": "E90-CHURNSE-BLOCK-CLUSTER",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E89 prices each churn cell as an iid sample of transitions, but the transitions are monthly decisions on overlapping holdings inside one era, so the band is almost certainly too narrow. Add a clustered arm beside the iid arm on the same burn: block bootstrap over contiguous decision-date blocks (and a per-era jackknife that drops one block at a time) for every level cell and the two gap cells, publishing the width ratio blocked/iid and whether any band that cleared zero under iid still clears it. Never replace the iid column; the clustered arm is an added face.",
+   "deliverable": "results/e44_midmonth/CHURNSE-BLOCK-<cutoff>.json",
+   "source": "r1155 E89 (8/16 level bands clear zero; both era gaps straddle it)",
+   "entered_at": "2026-10-22T23:07:45+08:00",
+   "entered_by": "bm-b r1155",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "same burn, zero new panel reads: the blocks come from the transition dates already carried on each churn row; fix the block length and the seed in the spec so the face is reproducible, and report the iid band beside every clustered band for the width ratio"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

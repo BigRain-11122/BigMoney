@@ -1,39 +1,39 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T22:57:28+08:00",
+ "clock_read": "2026-10-22T23:16:17+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
  },
  "cpu_cores": 16,
- "cpu_load_pct": 14.8,
- "cpu_pct": 14.8,
- "cpu_util_pct": 14.8,
- "current": "r1154: E86 leave-one-out distribution (median cell is a 7-swap object; mid15 2024_now is the one k=1 cell)",
- "current_task": "r1154 E86 closed: leave-one-out distribution beside every churn cell. 0/16 cells die on a majority of removals, median breakdown k=7; mid15 2024_now is the only k=1 cell.",
- "d19_note": "r1153: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup per D-20261004-02 fallback)",
+ "cpu_load_pct": 39.0,
+ "cpu_pct": 39.0,
+ "cpu_util_pct": 39.0,
+ "current": "r1155: E89 sampling intervals (8/16 level bands clear zero; both era gaps straddle) + Bigmoney-IntradayMarks task registered",
+ "current_task": "r1155 E89 closed -- every churn cell now carries a sampling interval: the 2021_2023 levels clear zero, all 2024_now levels straddle it, and neither published era gap survives its own band",
+ "d19_note": "r1155: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup per D-20261004-02 fallback)",
  "dept": "研究",
- "did": "burned E86 (loodist leg) on the E85 burn; wrote LOODIST-20261021.json + DIGEST-20261022-e86-loodist.md; census selftest 202 -> 212; closed E86 in the pool, seeded E89; repaired the unformatted r1152 round-report row",
+ "did": "r1155: E89 sampling intervals -- jackknife SE + seeded bootstrap (2000 draws, seed 20261022) beside every churn mean and both era gaps on the same burn; 8/16 level bands clear zero (all 2021_2023, median SE 606bp) and BOTH gap cells straddle zero (+318.8 +/- band to +1800.5, -211.0 band to +64.1); closed E89 in the pool, seeded E90 clustered arm; registered the missing Bigmoney-IntradayMarks lane task after t35_open_fill rc=1 with zero marks task on the box",
  "did_round": 1154,
- "free_ram_gb": 9.0,
+ "free_ram_gb": 11.5,
  "free_ram_mb": 11673,
- "free_ram_pct": 53.0,
- "free_vram_gb": 3.69,
+ "free_ram_pct": 48.0,
+ "free_vram_gb": 0.69,
  "gpu": {
-  "util_pct": 6,
-  "vram_free_mb": 3842,
-  "vram_used_mb": 4350
+  "util_pct": 21,
+  "vram_free_mb": 704,
+  "vram_used_mb": 7488
  },
  "gpu_free_mb": 527,
  "gpu_free_vram_gb": 3.69,
  "gpu_free_vram_mb": 3289,
- "heartbeat_epoch_utc": 1792681048,
+ "heartbeat_epoch_utc": 1792682177,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
- "last_action": "r1154 E86 loodist leg burned and closed",
- "last_action_at": "2026-10-22T22:57:28+08:00",
- "last_artifact": "research/digests/DIGEST-20261022-e86-loodist.md",
+ "last_action": "r1155 E89 sampling intervals burned; marks lane task registered",
+ "last_action_at": "2026-10-22T23:16:17+08:00",
+ "last_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
  "last_decisions_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_read_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_sha": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -42,15 +42,15 @@
  "last_orders_read_at": "2026-10-21T23:53:18+08:00",
  "last_orders_sha": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_push": "d64472ee0 -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-22T22:57:28+08:00",
- "latest_artifact": "research/digests/DIGEST-20261022-e86-loodist.md",
+ "last_seen": "2026-10-22T23:16:17+08:00",
+ "latest_artifact": "results/e44_midmonth/CHURNSE-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1155: E89 churn-gap jackknife/bootstrap interval, or E87 robust re-read at the 2013 start / E88 burn control",
- "next_milestone": "E89 churn-gap jackknife/bootstrap interval + E87/E88 burn control (<=48h)",
+ "next": "r1156: E90 clustered (block) interval -- width ratio blocked/iid for every cell, or E87 robust re-read at the 2013 start / E88 burn control",
+ "next_milestone": "every churn number is published with an iid band AND a clustered band, so a reader can see whether the 2021_2023 levels are real after clustering (<=48h)",
  "note": "r1073: fund P2 revival pair complete (40/40 cells, two judged faces).",
  "notes": "rounds 1145-1149 close the split-screen chain: E75 audit -> E76 spread regrade -> E77 wide book -> E78 weekly residual (only the frequency-mixed book moves)",
- "now_active": "r1154 closed; next = E89 interval or E87 2013 re-read",
+ "now_active": "r1155 closed; next = E90 clustered interval or E87/E88",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -165,9 +165,9 @@
  "orphan_face": 0,
  "orphan_faces": 0,
  "pool_claims": [
-  "E85-CHURN-GAP-ROBUST-ESTIMATOR (done, bm-b r1153)"
+  "E89-CHURN-GAP-BOOTSTRAP-SE (done, bm-b r1155)"
  ],
- "py_cpu_pct": 6.9,
+ "py_cpu_pct": 0.0,
  "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0",
  "r1058_push": "r1058 push receipt: commit f2495ae7cc pushed to origin fallback branch machine/bm-b-r1058 (ls-remote verified); origin/main push blocked by pre-push claw (stale base would delete bm-c shards results/p2cal_ext/n1_w284/shard-*.json - foreign owner fail-closed, expected while 5 commits behind). Local-not-on-origin-main commit count=6 (r1055..r1058 + 2 postscripts), all preserved on the fallback branch; rebase deferred to a clean-tree round.",
  "r1061_push": "PUSHED_VERIFIED 00a94da34b (tree-surgery replay on 49d16c526a after claw-correct block + non-ff); count not-on-origin=0",
@@ -243,9 +243,9 @@
  "ram_free_mb": 11673,
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
- "round": 1154,
- "round_no": 1154,
- "round_no_label": "r1153",
+ "round": 1155,
+ "round_no": 1155,
+ "round_no_label": "r1155",
  "status": "green",
  "sync": {
   "behind_origin_main": 0,
@@ -260,12 +260,12 @@
    "ts": "2026-10-21T21:52:00+08:00"
   }
  },
- "task": "r1154 E86 closed: leave-one-out distribution beside every churn cell. 0/16 cells die on a majority of removals, median breakdown k=7; mid15 2024_now is the only k=1 cell.",
- "task_short": "r1154 E86 LOO distribution + breakdown k",
- "ts": "2026-10-22T22:57:28+08:00",
+ "task": "r1155 E89 closed -- every churn cell now carries a sampling interval: the 2021_2023 levels clear zero, all 2024_now levels straddle it, and neither published era gap survives its own band",
+ "task_short": "r1155 E89 sampling intervals + marks lane registered",
+ "ts": "2026-10-22T23:16:17+08:00",
  "updated": "2026-10-22T22:45:42+08:00",
  "updated_at": "2026-10-22T22:45:42+08:00",
- "verdict": "green",
+ "verdict": "product+maintenance",
  "vram_free_gb": 3.44,
  "r1153_push": {
   "pushed_sha": "d64472ee0",
@@ -273,5 +273,9 @@
   "status": "PUSHED_VERIFIED",
   "note": "clean ff 09b3d3989..d64472ee0 first attempt, zero claw blocks; four-way verified (HEAD==origin/main==d64472ee0, behind=0 ahead=0, ls-tree origin carries CHURNROBUST-20261021.json + DIGEST-20261022-e85-churn-robust.md); payload = 34 targeted faces; unsuffixed shared status faces, data/daily churn, Money02 lhb and the drama lane left untouched per r982/r1015/r1033"
  },
- "r1154_push": "11402ebef round 1154 committed+pushed; behind=0 ahead=0 after fetch"
+ "r1154_push": "11402ebef round 1154 committed+pushed; behind=0 ahead=0 after fetch",
+ "sat_engine": {
+  "status": "alive",
+  "checked_at": "2026-10-22T23:16:17+08:00"
+ }
 }

@@ -6626,6 +6626,276 @@ def run_loodist(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# -------------------------------------------------------------- E89
+
+def _sd(vals):
+    """Sample standard deviation (ddof=1); None for fewer than two points."""
+    import math
+
+    n = len(vals)
+    if n < 2:
+        return None
+    m = sum(vals) / n
+    return math.sqrt(sum((x - m) ** 2 for x in vals) / (n - 1))
+
+
+def _jackknife_mean(vals):
+    """Closed-form jackknife standard error of one cell mean.
+
+    For the mean the jackknife reduces to the textbook standard error
+    ``sqrt(sum (x_i - m)^2 / (n*(n-1)))``, so a cell's sampling noise is priced
+    from the alphas already in memory -- no resampling, no second burn.
+    """
+    import math
+
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if n < 2:
+        return {"n": n, "mean_bp": (round(clean[0], 1) if clean else None),
+                "jk_se_bp": None, "jk_lo90_bp": None, "jk_hi90_bp": None,
+                "jk_available": False}
+    m = sum(clean) / n
+    ss = sum((x - m) ** 2 for x in clean)
+    se = math.sqrt(ss / (n * (n - 1)))
+    return {"n": n, "mean_bp": round(m, 1), "jk_se_bp": round(se, 2),
+            "jk_lo90_bp": round(m - 1.6449 * se, 1),
+            "jk_hi90_bp": round(m + 1.6449 * se, 1),
+            "jk_available": True}
+
+
+def _boot_mean_ci(vals, draws=2000, seed=20261022):
+    """Seeded percentile bootstrap of one cell mean (reproducible by seed).
+
+    A fixed seed plus a stable draw order makes the face bit-reproducible; the
+    point estimate stays the plain mean, so the interval is an ADDED column and
+    never a replacement for a published number.
+    """
+    import math
+    import random
+
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if n < 2:
+        return {"boot_available": False, "draws": 0, "boot_p05_bp": None,
+                "boot_p95_bp": None, "boot_ci_straddles_zero": None,
+                "boot_signflip_pct": None, "boot_se_bp": None}
+    rng = random.Random(seed)
+    means = []
+    for _ in range(draws):
+        means.append(sum(clean[rng.randrange(n)] for _ in range(n)) / n)
+    means.sort()
+    m = sum(clean) / n
+
+    def q(p):
+        i = min(len(means) - 1, max(0, int(round(p * (len(means) - 1)))))
+        return round(means[i], 1)
+
+    lo, hi = q(0.05), q(0.95)
+    cross = len(means) if m == 0 else len([x for x in means if x * m < 0])
+    return {"boot_available": True, "draws": draws, "seed": seed,
+            "boot_p05_bp": lo, "boot_p95_bp": hi,
+            "boot_ci_straddles_zero": bool(lo <= 0.0 <= hi),
+            "boot_signflip_pct": round(100.0 * cross / len(means), 1),
+            "boot_se_bp": round(_sd(means), 2)}
+
+
+def _gap_interval(a, b, draws=2000, seed=20261022):
+    """Interval for ``mean(b) - mean(a)`` with the two books resampled apart.
+
+    The books are separate transition populations, so their standard errors add
+    in quadrature; the bootstrap draws each side independently from the same
+    seed, keeping the whole face reproducible.
+    """
+    import math
+    import random
+
+    ca = [float(v) for v in a if isinstance(v, (int, float))]
+    cb = [float(v) for v in b if isinstance(v, (int, float))]
+    na, nb = len(ca), len(cb)
+    if na < 2 or nb < 2:
+        return {"n_me": na, "n_mid": nb, "gap_bp": None,
+                "gap_available": False, "jk_available": False,
+                "jk_se_bp": None, "jk_lo90_bp": None,
+                "jk_hi90_bp": None, "boot_p05_bp": None, "boot_p95_bp": None,
+                "boot_ci_straddles_zero": None, "boot_signflip_pct": None}
+    ma, mb = sum(ca) / na, sum(cb) / nb
+    gap = mb - ma
+    sea, seb = _sd(ca) / math.sqrt(na), _sd(cb) / math.sqrt(nb)
+    se = math.sqrt(sea * sea + seb * seb)
+    rng = random.Random(seed)
+    diffs = []
+    for _ in range(draws):
+        sa = sum(ca[rng.randrange(na)] for _ in range(na)) / na
+        sb = sum(cb[rng.randrange(nb)] for _ in range(nb)) / nb
+        diffs.append(sb - sa)
+    diffs.sort()
+
+    def q(p):
+        i = min(len(diffs) - 1, max(0, int(round(p * (len(diffs) - 1)))))
+        return round(diffs[i], 1)
+
+    lo, hi = q(0.05), q(0.95)
+    cross = len(diffs) if gap == 0 else len([x for x in diffs if x * gap < 0])
+    return {"n_me": na, "n_mid": nb, "gap_bp": round(gap, 1),
+            "gap_available": True, "jk_available": True,
+            "jk_se_bp": round(se, 2),
+            "jk_lo90_bp": round(gap - 1.6449 * se, 1),
+            "jk_hi90_bp": round(gap + 1.6449 * se, 1),
+            "boot_p05_bp": lo, "boot_p95_bp": hi,
+            "boot_ci_straddles_zero": bool(lo <= 0.0 <= hi),
+            "boot_signflip_pct": round(100.0 * cross / len(diffs), 1),
+            "interval_clears_zero": bool(
+                (gap - 1.6449 * se) * (gap + 1.6449 * se) > 0)}
+
+
+def run_churnse(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                eras=ERAS, draws=2000, seed=20261022):
+    """E89: a sampling interval beside every churn cell and churn gap.
+
+    Every published churn number is a point estimate over 25-29 transitions, so
+    a reader cannot separate "+318.8bp" from zero. This leg adds, on the same
+    burn, a closed-form jackknife standard error and a seeded percentile
+    bootstrap (fixed seed recorded in the spec) beside each mean, plus the share
+    of resamples whose sign differs from the point estimate. The mean column is
+    untouched: the interval is an extra face, never a revision.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    books = ["me", "mid%d" % mid_day]
+    cells, delta_cells = [], []
+    for book in books:
+        base_rows = faces["unscreened"]["books"][book]["churn_rows"]
+        for label in universes:
+            rows = (base_rows if label == "unscreened"
+                    else faces[label]["books"][book]["churn_rows"])
+            for name, _lo, _hi in eras:
+                sub = [r["churn_alpha_bp"] for r in rows if r.get("era") == name]
+                jk = _jackknife_mean(sub)
+                if not jk["n"]:
+                    continue
+                bt = _boot_mean_ci(sub, draws=draws, seed=seed)
+                cells.append({"book": book, "universe": label, "era": name,
+                              "face": "churn_alpha_bp", **jk, **bt,
+                              "interval_clears_zero": (
+                                  None if not jk["jk_available"] or not jk["mean_bp"]
+                                  else bool(jk["jk_lo90_bp"] * jk["jk_hi90_bp"] > 0))})
+        for mode in modes:
+            rows, _agg = _churn_join(base_rows,
+                                     faces[mode]["books"][book]["churn_rows"],
+                                     event_dates, eras)
+            for name, _lo, _hi in eras:
+                sub = [r["delta_bp"] for r in rows if r["era"] == name]
+                jk = _jackknife_mean(sub)
+                if not jk["n"]:
+                    continue
+                bt = _boot_mean_ci(sub, draws=draws, seed=seed)
+                delta_cells.append({"book": book, "mode": mode, "era": name,
+                                    "face": "delta_bp", **jk, **bt,
+                                    "interval_clears_zero": (
+                                        None if not jk["jk_available"]
+                                        or not jk["mean_bp"]
+                                        else bool(jk["jk_lo90_bp"] * jk["jk_hi90_bp"] > 0))})
+
+    mid_book = "mid%d" % mid_day
+    me_rows = faces["unscreened"]["books"]["me"]["churn_rows"]
+    mid_rows = faces["unscreened"]["books"][mid_book]["churn_rows"]
+    gap_cells = []
+    for name, _lo, _hi in eras:
+        a = [r["churn_alpha_bp"] for r in me_rows if r.get("era") == name]
+        b = [r["churn_alpha_bp"] for r in mid_rows if r.get("era") == name]
+        g = _gap_interval(a, b, draws=draws, seed=seed)
+        if not g["gap_available"]:
+            continue
+        gap_cells.append({"book": "%s-me" % mid_book, "universe": "unscreened",
+                          "era": name, "face": "churn_alpha_gap_bp", **g})
+
+    def _tally(rows):
+        live = [c for c in rows if c.get("jk_available")]
+        ses = [c["jk_se_bp"] for c in live if c["jk_se_bp"] is not None]
+        return {
+            "cells": len(rows),
+            "cells_with_interval": len(live),
+            "jk_interval_clears_zero": len(
+                [c for c in live if c["interval_clears_zero"]]),
+            "jk_interval_straddles_zero": len(
+                [c for c in live if c["interval_clears_zero"] is False]),
+            "boot_interval_clears_zero": len(
+                [c for c in live if c["boot_ci_straddles_zero"] is False]),
+            "boot_interval_straddles_zero": len(
+                [c for c in live if c["boot_ci_straddles_zero"] is True]),
+            "jk_se_bp_median": (sorted(ses)[len(ses) // 2] if ses else None),
+            "mean_exceeds_own_se": len(
+                [c for c in live
+                 if c["jk_se_bp"] and (c.get("mean_bp") or c.get("gap_bp"))
+                 and abs(c.get("mean_bp") or c.get("gap_bp")) > c["jk_se_bp"]]),
+            "signflip_pct_median": (sorted(
+                [c["boot_signflip_pct"] for c in live
+                 if c["boot_signflip_pct"] is not None])[
+                len([c for c in live if c["boot_signflip_pct"] is not None]) // 2]
+                if live else None),
+        }
+
+    return {
+        "study": "e89_churn_sampling_intervals",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "mid_month_day": mid_day,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": books,
+            "jackknife": "closed-form SE of a mean, "
+                         "sqrt(sum (x_i-mean)^2 / (n*(n-1))); 90% band = "
+                         "mean +/- 1.6449*SE",
+            "bootstrap": "percentile bootstrap of the mean, %d draws, fixed "
+                         "seed %d (reproducible by seed, no panel read)"
+                         % (draws, seed),
+            "gap_interval": "mid-minus-me, books resampled independently, "
+                            "SEs added in quadrature; the two books decide on "
+                            "different calendar dates (30 me vs 29 mid15 in "
+                            "2021_2023) so nothing pairs date-to-date, but they "
+                            "hold the same names over the same era, which makes "
+                            "the true difference error SMALLER than this "
+                            "quadrature band -- the gap band is conservative",
+            "interval_meaning": "sampling noise of the transition sample only: "
+                                "cells are monthly decisions on overlapping "
+                                "holdings, not iid prints, so no significance "
+                                "claim is made and no cell is called positive or "
+                                "negative on the strength of its band",
+            "descriptive_only": "no prereg, no judgement, zero ledger booking",
+        },
+        "cells": cells,
+        "delta_cells": delta_cells,
+        "gap_cells": gap_cells,
+        "summary": {"levels": _tally(cells), "deltas": _tally(delta_cells),
+                    "gaps": _tally(gap_cells)},
+        "screen_reports": reports,
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -7533,6 +7803,42 @@ def selftest():
     chk(_bdp["k"] == 1 and _bdp["path_bp"][0] == 2.5,
         "the greedy path prints the mean after each removal, not just the endpoint")
 
+    # E89 sampling intervals: an added band, never a revised mean
+    _jkf = _jackknife_mean([5.0] * 20)
+    chk(_jkf["mean_bp"] == 5.0 and _jkf["jk_se_bp"] == 0.0
+        and _jkf["jk_lo90_bp"] == 5.0 and _jkf["jk_hi90_bp"] == 5.0,
+        "a constant cell carries zero sampling noise and a degenerate band")
+    _jk = _jackknife_mean([10.0, 20.0, 30.0])
+    chk(abs(_jk["jk_se_bp"] - 5.7735) < 0.005,
+        "jackknife SE of the mean is sqrt(sum sq dev / (n*(n-1)))")
+    chk(abs(_jk["jk_se_bp"] - round(_sd([10.0, 20.0, 30.0]) / (3 ** 0.5), 2)) < 1e-9,
+        "the closed form equals sd/sqrt(n) -- the textbook standard error")
+    chk(_jackknife_mean([4.0])["jk_available"] is False
+        and _jackknife_mean([4.0])["mean_bp"] == 4.0,
+        "a one-transition cell keeps its point estimate but reports no interval")
+    _b1 = _boot_mean_ci([10.0, 20.0, 30.0], draws=200, seed=7)
+    _b2 = _boot_mean_ci([10.0, 20.0, 30.0], draws=200, seed=7)
+    chk(_b1 == _b2 and _b1["draws"] == 200 and _b1["seed"] == 7,
+        "the bootstrap face is bit-reproducible from its recorded seed")
+    chk(_b1["boot_p05_bp"] <= 20.0 <= _b1["boot_p95_bp"],
+        "a tight positive cell keeps its point estimate inside the band")
+    _bz = _boot_mean_ci([-40.0, 30.0, 10.0, 0.0], draws=200, seed=7)
+    chk(_bz["boot_ci_straddles_zero"] is True,
+        "a sign-mixed cell has a band that crosses zero")
+    chk(_boot_mean_ci([-100.0] * 12 + [100.0] * 12,
+                      draws=200, seed=7)["boot_signflip_pct"] == 100.0,
+        "a cell whose mean is exactly zero reports every resample as a sign flip")
+    _g0 = _gap_interval([10.0, 20.0, 30.0], [10.0, 20.0, 30.0], draws=200, seed=7)
+    chk(_g0["gap_bp"] == 0.0 and _g0["jk_se_bp"] > 0
+        and _g0["interval_clears_zero"] is False,
+        "two samples of the same cell give a zero gap whose band still crosses "
+        "zero -- the difference of two draws is not itself exactly zero")
+    _g1 = _gap_interval([1.0, 2.0, 3.0], [101.0, 102.0, 103.0], draws=200, seed=7)
+    chk(abs(_g1["gap_bp"] - 100.0) < 1e-9 and _g1["interval_clears_zero"] is True,
+        "a gap equal to a pure level shift clears zero")
+    chk(_gap_interval([4.0], [1.0, 2.0], draws=50, seed=7)["gap_available"] is False,
+        "a gap needs two transitions on each side")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -7549,7 +7855,7 @@ def main(argv):
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
-                             "loodist", "all", "selftest"])
+                             "loodist", "churnse", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -8110,6 +8416,25 @@ def main(argv):
                                      "breakdown_share_pct":
                                          (c.get("breakdown") or {})
                                          .get("share_of_transitions_pct")}
+                                    for c in f["cells"]],
+                          "gap_cells": f["gap_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "churnse":
+        f = run_churnse(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "CHURNSE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "churnse", "file": os.path.relpath(p, ROOT),
+                          "summary": f["summary"],
+                          "cells": [{"book": c["book"], "universe": c["universe"],
+                                     "era": c["era"], "n": c["n"],
+                                     "mean_bp": c["mean_bp"],
+                                     "se_bp": c["jk_se_bp"],
+                                     "jk90": [c["jk_lo90_bp"], c["jk_hi90_bp"]],
+                                     "boot90": [c["boot_p05_bp"],
+                                                c["boot_p95_bp"]],
+                                     "clears_zero": c["interval_clears_zero"]}
                                     for c in f["cells"]],
                           "gap_cells": f["gap_cells"]},
                          ensure_ascii=False))
