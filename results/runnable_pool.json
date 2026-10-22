@@ -21385,7 +21385,7 @@
   },
   {
    "id": "E82-CHURN-GAP-AMPLIFICATION",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21395,7 +21395,39 @@
    "entered_at": "2026-10-22T22:22:00+08:00",
    "entered_by": "bm-b r1150",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "reuse the per-transition rows already emitted by _churn_stats and tag names with panel_screen.split_events; no engine change, no published face rewrite"
+   "runner_note": "reuse the per-transition rows already emitted by _churn_stats and tag names with panel_screen.split_events; no engine change, no published face rewrite",
+   "result_ref": "results/e44_midmonth/CHURNGAP-20261021.json",
+   "done_at": "2026-10-22T22:20:00+08:00",
+   "done_by": "bm-b r1151",
+   "result_note": "amplification is 100% carried by hit transitions: mid15 newest-era mean delta -3253bp over 15 of 69 joined transitions with clean column 0.0bp, month-end +137.2bp on the same split; drop mode moves the clean column too (-41.4bp) because it changes composition"
+  },
+  {
+   "id": "E83-REPAIR-CONCENTRATION",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E82 already showed the newest-era churn amplification is ONE transition (mid15 2024-01-15, sz159925, -6614bp against a -6507bp total). Make that a general screen over every published churn cell: recompute each era cell of the E44/E80 tables with its single worst transition removed, and flag any cell whose magnitude collapses by more than half as single-print. The deliverable is the list of published conclusions that are one swap wide, not another census.",
+   "deliverable": "results/e44_midmonth/SINGLEPRINT-<cutoff>.json (per-cell flag + the owning transition)",
+   "source": "r1151 E82 (mid15 newest era: hit bucket means -3253bp over 2 transitions, worst single transition -6614bp; clean column exactly 0.0bp)",
+   "entered_at": "2026-10-22T22:20:00+08:00",
+   "entered_by": "bm-b r1151",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the E82 join rows (hit_names + delta_bp); the flag must be reported per book, per mode and per era, and drop mode must be flagged separately because removing a name changes composition rather than repairing a bar"
+  },
+  {
+   "id": "E84-SCREEN-MODE-EQUIVALENCE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "neutralise_int and neutralise returned bit-identical churn rows on every era of both books in E80 and E82, so the second universe may be a wasted burn (a silent duplicate arm is the exact shape of an accounting error). Audit the two modes across the screened legs: compare their repaired universes name-by-name and their per-cell outputs; if they never differ, publish the collapse so later legs stop burning the second arm, and if they differ somewhere, name the cells.",
+   "deliverable": "results/e44_midmonth/MODEEQ-<cutoff>.json",
+   "source": "r1151 E82 (neutralise_int and neutralise identical on me+mid15 newest era) + r1150 E80 (same)",
+   "entered_at": "2026-10-22T22:20:00+08:00",
+   "entered_by": "bm-b r1151",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "compare panel_screen.screen_universe outputs directly plus the existing screened faces; cheap, hermetic, no panel burn needed for the universe half"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

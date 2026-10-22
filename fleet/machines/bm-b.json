@@ -1,17 +1,20 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-22T21:56:57+08:00",
+ "clock_read": "2026-10-22T22:31:00+08:00",
  "codely_live_count": 2,
+ "cpu": {
+  "cores": 16
+ },
  "cpu_cores": 16,
  "cpu_load_pct": 14.8,
  "cpu_pct": 14.8,
  "cpu_util_pct": 14.8,
- "current": "r1150: E79 face-screen matrix + E80 screened mid-month churn",
- "current_task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
- "d19_note": "r1148: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (read via C:\\Fluxgroup\\FluxGroup since K: absent); no new rows for bm-b",
+ "current": "r1151: E82 churn-gap attribution (one swap)",
+ "current_task": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
+ "d19_note": "r1151: D-19 zero delta -- decisions 17c29359 / orders 36d96a91 unchanged (scripts/d19_watermark.py probe, group tree C:\\Fluxgroup\\FluxGroup)",
  "dept": "研究",
- "did": "r1150: E79+E80 both closed. E80 (new midscreen leg): the 2024_now mid-month gap survives the split screen (-87 -> -83 int / -77 neutralise / -63 drop, 72-95% of the gap) while the churn sleeve amplifies (-211 -> -457bp per swap) and collapses under drop (-24bp); turnover parity confirms the fee channel stays out. E79 (new AST tool): 44 census modes -> 33 exposed, 2 replayable, 4 self-screened, 5 clean.",
- "did_round": 1150,
+ "did": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
+ "did_round": 1151,
  "free_ram_gb": 9.0,
  "free_ram_mb": 11673,
  "free_ram_pct": 53.0,
@@ -24,13 +27,13 @@
  "gpu_free_mb": 527,
  "gpu_free_vram_gb": 3.69,
  "gpu_free_vram_mb": 3289,
- "heartbeat_epoch_utc": 1792677417,
+ "heartbeat_epoch_utc": 1792678429,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
- "last_action": "burned E77 screendwide + closed pool row, seeded E78/E79",
- "last_action_at": "2026-10-22T21:15:26+08:00",
- "last_artifact": "results/e44_midmonth/SCREENWIDE-20261021.json + research/digests/DIGEST-20261022-e77-screenwide.md",
+ "last_action": "burned E82 churngap (4 universes, 69 transitions joined)",
+ "last_action_at": "2026-10-22T22:31:00+08:00",
+ "last_artifact": "results/e44_midmonth/CHURNGAP-20261021.json",
  "last_decisions_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_read_at": "2026-10-21T23:53:18+08:00",
  "last_decisions_sha": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -39,15 +42,15 @@
  "last_orders_read_at": "2026-10-21T23:53:18+08:00",
  "last_orders_sha": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_push": "41bed57ea -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-22T21:56:57+08:00",
- "latest_artifact": "results/e44_midmonth/SCREENWIDE-20261021.json + research/digests/DIGEST-20261022-e77-screenwide.md",
+ "last_seen": "2026-10-22T22:31:00+08:00",
+ "latest_artifact": "results/e44_midmonth/CHURNGAP-20261021.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "E78-SCREENED-WEEKCLASH-RESIDUAL then E79-PUBLISHED-FACE-CONTAMINATION-SWEEP",
- "next_milestone": "E78 residue screened vs unscreened at x1/x3, window <=48h",
+ "next": "burn E83 single-print screen over the published churn cells, then E84 neutralise_int vs neutralise equivalence",
+ "next_milestone": "every published churn cell flagged as single-print or not (window <=48h)",
  "note": "r1073: fund P2 revival pair complete (40/40 cells, two judged faces).",
  "notes": "rounds 1145-1149 close the split-screen chain: E75 audit -> E76 spread regrade -> E77 wide book -> E78 weekly residual (only the frequency-mixed book moves)",
- "now_active": "r1148: E77 screened wide-book -- wide@2020 x1 0.85->1.82/2.90 %/yr, era spread 2024_now 103->303/479bp, cost x3 unchanged (-0.16pp)",
+ "now_active": "pool ready 3 (E81 + E83 + E84); supply_floor met 3/3",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -161,7 +164,9 @@
  "orders_ack_last": "O-20261020-1335-bmc-w288-seat.md",
  "orphan_face": 0,
  "orphan_faces": 0,
- "pool_claims": [],
+ "pool_claims": [
+  "E82-CHURN-GAP-AMPLIFICATION (done, bm-b r1151)"
+ ],
  "py_cpu_pct": 6.9,
  "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0",
  "r1058_push": "r1058 push receipt: commit f2495ae7cc pushed to origin fallback branch machine/bm-b-r1058 (ls-remote verified); origin/main push blocked by pre-push claw (stale base would delete bm-c shards results/p2cal_ext/n1_w284/shard-*.json - foreign owner fail-closed, expected while 5 commits behind). Local-not-on-origin-main commit count=6 (r1055..r1058 + 2 postscripts), all preserved on the fallback branch; rebase deferred to a clean-tree round.",
@@ -221,13 +226,26 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-21T23:30:50+08:00"
  },
+ "r1146_push": {
+  "behind_origin_main": 0,
+  "pushed_sha": "06bbe61c1",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-22T00:11:00+08:00"
+ },
+ "r1148_push": {
+  "behind_origin_main": 0,
+  "note": "clean ff 6ebc3749d..41bed57ea first attempt, zero claw blocks; payload 124 faces targeted add (E77 leg + SCREENWIDE face + digest + e27 raw= opt-in kwarg + pool shared/lane E77 closed E78/E79 seeded + papers family regen + docs REPORT/LIVE-2026-10-22); data/daily 48-file churn, Money02 lhb, drama lane, machine-health, token_usage.json union left untouched per r982/r1015/r1033",
+  "pushed_sha": "41bed57ea",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-22T21:17:05+08:00"
+ },
  "ram_free_gb": 10.6,
  "ram_free_mb": 11673,
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
- "round": 1148,
- "round_no": 1149,
- "round_no_label": "r1147",
+ "round": 1151,
+ "round_no": 1151,
+ "round_no_label": "r1151",
  "status": "idle",
  "sync": {
   "behind_origin_main": 0,
@@ -242,27 +260,11 @@
    "ts": "2026-10-21T21:52:00+08:00"
   }
  },
- "task": "r1150: E79 published-face screen matrix + E80 screened mid-month churn -- the membership claim survives every repair (88-95% of the -87bp gap) but its churn magnitude is a sensitivity bound (-211..-457bp per swap).",
+ "task": "r1151: E82 closed -- the churn-gap amplification is ONE swap (mid15 2024-01-15 sz159925 -6614bp of a -6507bp hit-bucket total; the other hit transition is +107.4bp), clean transitions move exactly 0.0bp in every neutralise cell, and 2021_2023 repairs never touch a swapped name (all deltas 0.0bp).",
  "task_short": "E75 panel split audit",
- "ts": "2026-10-22T21:56:57+08:00",
- "updated": "2026-10-22T21:15:26+08:00",
- "updated_at": "2026-10-22T21:15:26+08:00",
+ "ts": "2026-10-22T22:31:00+08:00",
+ "updated": "2026-10-22T22:31:00+08:00",
+ "updated_at": "2026-10-22T22:31:00+08:00",
  "verdict": "product+maintenance",
- "vram_free_gb": 3.44,
- "r1146_push": {
-  "pushed_sha": "06bbe61c1",
-  "behind_origin_main": 0,
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-22T00:11:00+08:00"
- },
- "r1148_push": {
-  "pushed_sha": "41bed57ea",
-  "status": "PUSHED_VERIFIED",
-  "behind_origin_main": 0,
-  "ts": "2026-10-22T21:17:05+08:00",
-  "note": "clean ff 6ebc3749d..41bed57ea first attempt, zero claw blocks; payload 124 faces targeted add (E77 leg + SCREENWIDE face + digest + e27 raw= opt-in kwarg + pool shared/lane E77 closed E78/E79 seeded + papers family regen + docs REPORT/LIVE-2026-10-22); data/daily 48-file churn, Money02 lhb, drama lane, machine-health, token_usage.json union left untouched per r982/r1015/r1033"
- },
- "cpu": {
-  "cores": 16
- }
+ "vram_free_gb": 3.44
 }

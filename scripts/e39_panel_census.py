@@ -2800,8 +2800,12 @@ def _era_of(date, eras=ERAS):
     return None
 
 
-def _churn_stats(cal, prices, decisions, eras=ERAS):
+def _churn_stats(cal, prices, decisions, eras=ERAS, with_names=False):
     """Per-transition membership churn and the entrant-minus-exit sleeve.
+
+    ``with_names`` adds the swapped tickers to each row so a caller can join a
+    transition to an event list (E82 churn-gap amplification); the default drops
+    them to keep the published face small.
 
     churn_alpha_bp measures what the swap itself bought: the mean forward
     return (decision to next decision) of the names brought in minus the mean
@@ -2828,7 +2832,7 @@ def _churn_stats(cal, prices, decisions, eras=ERAS):
         fe = [x for x in (fwd(s) for s in ent) if x is not None]
         fx = [x for x in (fwd(s) for s in ext) if x is not None]
         union = cset | pset
-        rows.append({
+        row = {
             "date": cal[i0], "next": cal[i1], "era": _era_of(cal[i0], eras),
             "members": len(cur), "entrants": len(ent), "exits": len(ext),
             "entrant_share_pct": round(100.0 * len(ent) / len(cur), 2) if cur else None,
@@ -2838,7 +2842,11 @@ def _churn_stats(cal, prices, decisions, eras=ERAS):
             "exit_fwd_pct": round(100 * sum(fx) / len(fx), 3) if fx else None,
             "churn_alpha_bp": (round(1e4 * (sum(fe) / len(fe) - sum(fx) / len(fx)), 1)
                                if fe and fx else None),
-        })
+        }
+        if with_names:
+            row["entrant_names"] = sorted(ent)
+            row["exit_names"] = sorted(ext)
+        rows.append(row)
 
     agg = {}
     for name, _lo, _hi in eras:
@@ -2858,7 +2866,7 @@ def _churn_stats(cal, prices, decisions, eras=ERAS):
 
 
 def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                 mid_day=15, costs=(0.0, 1.0, 3.0), raw=None):
+                 mid_day=15, costs=(0.0, 1.0, 3.0), raw=None, full_churn=False):
     """E44: explain the mid-month calendar's weakness at name level.
 
     ``raw`` lets a caller supply a repaired universe (E80 feeds the split
@@ -2901,7 +2909,8 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     for label, idxs in calendars:
         decisions = _decision_sets(cal, prices, amounts, universe, pick_n,
                                    idxs, rank_cache)
-        churn_rows, churn_agg = _churn_stats(cal, prices, decisions)
+        churn_rows, churn_agg = _churn_stats(cal, prices, decisions,
+                                             with_names=full_churn)
         arms = {}
         for cm in costs:
             curve, aux, _hold = e27.simulate(cal, prices, amounts, universe, cash,
@@ -2930,6 +2939,8 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "churn_transitions": len(churn_rows),
             "recent_transitions": churn_rows[-6:],
         }
+        if full_churn:
+            books[label]["churn_rows"] = churn_rows
 
     me, mid = books["me"], books["mid%d" % mid_day]
     eras_out = {}
@@ -5684,6 +5695,194 @@ def run_midscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------------------- leg: who carries the churn-gap amplification (E82)
+
+
+def _event_dates(universe, cal):
+    """name -> sorted print-event dates, scanned on consecutive priced closes."""
+    import panel_screen
+
+    out = {}
+    for s, pair in universe.items():
+        closes = pair[0] if isinstance(pair, tuple) else pair
+        ev = panel_screen.split_events(closes, cal=cal)
+        if ev:
+            out[s] = sorted({e["date"] for e in ev})
+    return out
+
+
+def _transition_hits(d0, d1, swapped, event_dates):
+    """Swapped names whose print event sits inside (d0, d1] -- the priced window.
+
+    Exclusive start, inclusive end: the sleeve prices ``date -> next``, so an
+    event on the decision day itself belongs to the previous window.
+    """
+    hits = []
+    for s in swapped:
+        for d in event_dates.get(s, ()):
+            if d0 < d <= d1:
+                hits.append({"name": s, "date": d})
+                break
+    return hits
+
+
+def _churn_join(base_rows, mode_rows, event_dates, eras=ERAS):
+    """Per-transition delta (mode minus baseline) tagged hit / clean.
+
+    hit  -- at least one swapped name carried a print event inside the window
+    clean-- no swapped name did, so a repair cannot be the cause of the move
+    """
+    m_by = {r["date"]: r for r in mode_rows}
+    out = []
+    for b in base_rows:
+        m = m_by.get(b["date"])
+        if m is None:
+            continue
+        swapped = sorted(set(b.get("entrant_names") or ())
+                         | set(b.get("exit_names") or ()))
+        hits = _transition_hits(b["date"], b["next"], swapped, event_dates)
+        a0, a1 = b.get("churn_alpha_bp"), m.get("churn_alpha_bp")
+        out.append({
+            "date": b["date"], "next": b["next"], "era": b.get("era"),
+            "hit": bool(hits), "hit_names": [h["name"] for h in hits],
+            "alpha_base_bp": a0, "alpha_mode_bp": a1,
+            "delta_bp": (round(a1 - a0, 1)
+                         if isinstance(a0, (int, float))
+                         and isinstance(a1, (int, float)) else None),
+        })
+
+    agg = {}
+    for name, _lo, _hi in eras:
+        sub = [r for r in out if r["era"] == name and r["delta_bp"] is not None]
+        if not sub:
+            continue
+        hit = [r["delta_bp"] for r in sub if r["hit"]]
+        clean = [r["delta_bp"] for r in sub if not r["hit"]]
+        total = sum(r["delta_bp"] for r in sub)
+        agg[name] = {
+            "transitions": len(sub),
+            "hit_transitions": len(hit),
+            "hit_share_pct": round(100.0 * len(hit) / len(sub), 1),
+            "delta_mean_all_bp": round(total / len(sub), 1),
+            "delta_mean_hit_bp": round(sum(hit) / len(hit), 1) if hit else None,
+            "delta_mean_clean_bp": round(sum(clean) / len(clean), 1) if clean else None,
+            "delta_sum_hit_bp": round(sum(hit), 1) if hit else 0.0,
+            "delta_sum_clean_bp": round(sum(clean), 1) if clean else 0.0,
+            "hit_share_of_delta_pct": (round(100.0 * sum(hit) / total, 1)
+                                       if hit and total else None),
+        }
+    return out, agg
+
+
+def _worst_transitions(rows, n=8):
+    """The n largest |delta| transitions, kept with their hit tag and window."""
+    live = [r for r in rows if r["delta_bp"] is not None]
+    live.sort(key=lambda r: -abs(r["delta_bp"]))
+    return live[:n]
+
+
+def run_churngap(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                 modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                 eras=ERAS):
+    """E82: break the churn-gap amplification down per transition.
+
+    E80 left an asymmetry -- the newest-era churn alpha gap widens under
+    neutralise (-211 -> -457bp per swap) but collapses under drop (-24bp). If
+    the amplification lives on the transitions whose swapped names hold a print
+    event, it is a repair effect; if it is spread over clean transitions, it is
+    a composition effect of the repaired universe. Both books (month-end and
+    mid-month) are joined transition-by-transition against the raw event list;
+    no published face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    book_labels = ["me", "mid%d" % mid_day]
+    joins, summary = {}, {}
+    for book in book_labels:
+        base_rows = faces["unscreened"]["books"][book]["churn_rows"]
+        joins[book] = {}
+        summary[book] = {}
+        for mode in modes:
+            mode_rows = faces[mode]["books"][book]["churn_rows"]
+            rows, agg = _churn_join(base_rows, mode_rows, event_dates, eras)
+            joins[book][mode] = {"eras": agg,
+                                 "worst_transitions": _worst_transitions(rows),
+                                 "transitions": len(rows)}
+            newest = agg.get(eras[-1][0], {})
+            summary[book][mode] = {
+                "transitions_joined": len(rows),
+                "transitions_with_a_repair": len([r for r in rows if r["hit"]]),
+                "newest_era_delta_mean_all_bp": newest.get("delta_mean_all_bp"),
+                "newest_era_delta_mean_hit_bp": newest.get("delta_mean_hit_bp"),
+                "newest_era_delta_mean_clean_bp": newest.get("delta_mean_clean_bp"),
+                "newest_era_hit_share_of_delta_pct": newest.get("hit_share_of_delta_pct"),
+            }
+
+    # the amplification itself, re-read on the joined transitions: mode minus
+    # baseline for the same book, so the two columns cannot be two different burns
+    return {
+        "study": "e82_churn_gap_amplification",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "mid_month_day": mid_day,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": book_labels,
+            "joins": "churn rows from run_midmonth(full_churn=True) joined by "
+                     "decision date against panel_screen.split_events on the raw prints",
+            "hit_window": "event date d counts when decision date < d <= next decision date",
+            "cost_mult_list": [0.0, 1.0, 3.0],
+            "why_this_cost_set": "the churn sleeve is a name-level mean, not a "
+                                 "portfolio return, so no cost multiplier can move it; the "
+                                 "standard triple is kept so the sleeve lands beside the "
+                                 "turnover control of the same burn",
+            "universe_members": len(raw),
+            "events_indexed": len(event_dates),
+            "runs": len(universes),
+        },
+        "screen_reports": reports,
+        "events_by_name": {k: v for k, v in sorted(event_dates.items())},
+        "joins": joins,
+        "results": summary,
+        "honest": [
+            "a hit transition says a print event sits inside the priced window; it does "
+            "not say the book traded that name on that bar",
+            "the churn sleeve is an equal-weight mean over the swapped names, so a single "
+            "large print can move one transition's alpha by more than a clean year",
+            "drop mode removes names entirely, so its delta mixes repair with composition "
+            "and is not comparable cell-for-cell with the neutralise arms",
+            "transitions are counted, not weighted: a period with more rebalances "
+            "contributes more rows, and the era means are unweighted",
+            "the event index comes from the raw prints, so a name that never traded a "
+            "suspicious bar is clean by construction and cannot explain anything here",
+            "descriptive census only: no gate, no verdict, no prereg, no trial booking",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -6414,6 +6613,41 @@ def selftest():
                        _eras80, lambda f, e: _dig(f, "eras", e, "gap_x1_bp")) == [],
         "a screen that leaves the gap alone flips nothing")
 
+    # E82: the churn-gap join has to separate a repair effect from a composition one
+    _ed = {"a": ["2020-02-03"], "b": ["2020-04-01"]}
+    _h = _transition_hits("2020-01-31", "2020-02-28", ["a", "c"], _ed)
+    chk(len(_h) == 1 and _h[0]["name"] == "a",
+        "an event inside the priced window is a hit")
+    chk(_transition_hits("2020-02-03", "2020-02-28", ["a"], _ed) == [],
+        "an event on the decision day itself belongs to the previous window")
+    chk(_transition_hits("2020-03-31", "2020-04-30", ["b"], _ed)[0]["name"] == "b",
+        "a later event lands in its own window")
+    _brows = [{"date": "2020-01-31", "next": "2020-02-28", "era": "x",
+               "entrant_names": ["a"], "exit_names": ["z"], "churn_alpha_bp": 100.0},
+              {"date": "2020-02-28", "next": "2020-03-31", "era": "x",
+               "entrant_names": ["c"], "exit_names": ["z"], "churn_alpha_bp": 100.0}]
+    _mrows82 = [{"date": "2020-01-31", "churn_alpha_bp": -10.0},
+                {"date": "2020-02-28", "churn_alpha_bp": 100.0}]
+    _jrows, _jagg = _churn_join(_brows, _mrows82, _ed, (("x", "2020-01", "2020-03"),))
+    chk([r["hit"] for r in _jrows] == [True, False],
+        "only the transition holding the event is tagged")
+    chk(_jrows[0]["delta_bp"] == -110.0 and _jrows[1]["delta_bp"] == 0.0,
+        "the delta is measured transition-by-transition against its own twin")
+    chk(_jagg["x"]["transitions"] == 2 and _jagg["x"]["hit_transitions"] == 1
+        and _jagg["x"]["delta_mean_hit_bp"] == -110.0
+        and _jagg["x"]["delta_mean_clean_bp"] == 0.0,
+        "hit and clean columns are averaged separately")
+    chk(_jagg["x"]["hit_share_of_delta_pct"] == 100.0,
+        "all of the movement can be attributed to the repaired transitions")
+    _jrows2, _jagg2 = _churn_join(_brows, [{"date": "2020-01-31", "churn_alpha_bp": 100.0},
+                                          {"date": "2020-02-28", "churn_alpha_bp": 100.0}],
+                                  _ed, (("x", "2020-01", "2020-03"),))
+    chk(_jagg2["x"]["delta_mean_all_bp"] == 0.0
+        and _jagg2["x"]["hit_share_of_delta_pct"] is None,
+        "a flat join yields no attribution instead of a zero share")
+    chk(_churn_join(_brows, [], _ed, (("x", "2020-01", "2020-03"),))[1] == {},
+        "a mode with no rows produces no era cells")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -6429,7 +6663,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
-                             "midscreen",
+                             "midscreen", "churngap",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -6909,6 +7143,16 @@ def main(argv):
                           "flip_eras": f["results"]["eras_whose_gap_changes_sign"],
                           "worst": f["results"]["worst_correction"],
                           "moved_cells": f["results"]["non_zero_delta_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "churngap":
+        f = run_churngap(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "CHURNGAP-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "churngap", "file": os.path.relpath(p, ROOT),
+                          "events_indexed": f["spec"]["events_indexed"],
+                          "results": f["results"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

@@ -21330,7 +21330,14 @@
   },
   {
    "id": "E79-PUBLISHED-FACE-CONTAMINATION-SWEEP",
-   "status": "ready",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/FACESCREEN-20261021.json",
+    "research/digests/FACESCREEN-20261022.md",
+    "scripts/e79_face_screen_matrix.py"
+   ],
+   "closed_at": "2026-10-22T22:10:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21344,7 +21351,13 @@
   },
   {
    "id": "E80-SCREENED-MIDMONTH-CHURN",
-   "status": "ready",
+   "status": "done",
+   "result_ref": [
+    "results/e44_midmonth/MIDSCREEN-20261021.json",
+    "research/digests/DIGEST-20261022-e80-screened-midmonth.md"
+   ],
+   "closed_at": "2026-10-22T22:20:00+08:00",
+   "closed_by": "bm-b",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21355,6 +21368,66 @@
    "entered_by": "bm-b r1149",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "reuse _churn_stats + panel_screen.screen_universe through run_midmonth(raw=...) -- add the raw hook the same way run_midsweep got one; keep the unscreened churn rows beside the screened ones and never rewrite the published MIDMONTH faces"
+  },
+  {
+   "id": "E81-EXPOSED-RUNNER-RAW-HOOKS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E79 matrix: 33 census modes read the per-name loader with no raw hook, so their published faces still charge the artefact prints. Add the raw hook to the highest-consumption exposed runners (era/calcost/neutralrob first, they feed the calendar and size conclusions) and publish each screened twin beside the existing face; never rewrite a published face in place.",
+   "deliverable": "results/e44_midmonth/<LEG>-<cutoff>-screened.json per leg",
+   "source": "r1150 E79 (33 exposed / 2 replayable / 4 self_screened)",
+   "entered_at": "2026-10-22T22:22:00+08:00",
+   "entered_by": "bm-b r1150",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "one leg per batch; keep the unscreened column and the turnover control beside every screened cell, and re-list the output directory after each variant burn (r1135 pit)"
+  },
+  {
+   "id": "E82-CHURN-GAP-AMPLIFICATION",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E80: the newest-era churn alpha gap widens from -211bp to -457bp per swap under neutralise (mid-month degrades -124 to -365, month-end stays near 90) and collapses to -24bp under drop. Break the amplification down per transition: which transitions carry it, and are they the ones holding a repaired print.",
+   "deliverable": "results/e44_midmonth/CHURNGAP-<cutoff>.json (per-transition rows joined to screen events + per-era attribution)",
+   "source": "r1150 E80 (amplifies under neutralise, collapses under drop) + E76 screen event list",
+   "entered_at": "2026-10-22T22:22:00+08:00",
+   "entered_by": "bm-b r1150",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the per-transition rows already emitted by _churn_stats and tag names with panel_screen.split_events; no engine change, no published face rewrite",
+   "result_ref": "results/e44_midmonth/CHURNGAP-20261021.json",
+   "done_at": "2026-10-22T22:20:00+08:00",
+   "done_by": "bm-b r1151",
+   "result_note": "amplification is 100% carried by hit transitions: mid15 newest-era mean delta -3253bp over 15 of 69 joined transitions with clean column 0.0bp, month-end +137.2bp on the same split; drop mode moves the clean column too (-41.4bp) because it changes composition"
+  },
+  {
+   "id": "E83-REPAIR-CONCENTRATION",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E82 already showed the newest-era churn amplification is ONE transition (mid15 2024-01-15, sz159925, -6614bp against a -6507bp total). Make that a general screen over every published churn cell: recompute each era cell of the E44/E80 tables with its single worst transition removed, and flag any cell whose magnitude collapses by more than half as single-print. The deliverable is the list of published conclusions that are one swap wide, not another census.",
+   "deliverable": "results/e44_midmonth/SINGLEPRINT-<cutoff>.json (per-cell flag + the owning transition)",
+   "source": "r1151 E82 (mid15 newest era: hit bucket means -3253bp over 2 transitions, worst single transition -6614bp; clean column exactly 0.0bp)",
+   "entered_at": "2026-10-22T22:20:00+08:00",
+   "entered_by": "bm-b r1151",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the E82 join rows (hit_names + delta_bp); the flag must be reported per book, per mode and per era, and drop mode must be flagged separately because removing a name changes composition rather than repairing a bar"
+  },
+  {
+   "id": "E84-SCREEN-MODE-EQUIVALENCE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "neutralise_int and neutralise returned bit-identical churn rows on every era of both books in E80 and E82, so the second universe may be a wasted burn (a silent duplicate arm is the exact shape of an accounting error). Audit the two modes across the screened legs: compare their repaired universes name-by-name and their per-cell outputs; if they never differ, publish the collapse so later legs stop burning the second arm, and if they differ somewhere, name the cells.",
+   "deliverable": "results/e44_midmonth/MODEEQ-<cutoff>.json",
+   "source": "r1151 E82 (neutralise_int and neutralise identical on me+mid15 newest era) + r1150 E80 (same)",
+   "entered_at": "2026-10-22T22:20:00+08:00",
+   "entered_by": "bm-b r1151",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "compare panel_screen.screen_universe outputs directly plus the existing screened faces; cheap, hermetic, no panel burn needed for the universe half"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21369,7 +21442,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-22T21:14:59+08:00",
+ "updated_at": "2026-10-22T22:22:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
