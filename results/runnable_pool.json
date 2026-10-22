@@ -21369,7 +21369,7 @@
    "evidence_cutoff": "2026-10-21",
    "runner_note": "reuse _churn_stats + panel_screen.screen_universe through run_midmonth(raw=...) -- add the raw hook the same way run_midsweep got one; keep the unscreened churn rows beside the screened ones and never rewrite the published MIDMONTH faces"
   },
-{
+  {
    "id": "E81-EXPOSED-RUNNER-RAW-HOOKS",
    "status": "ready",
    "lane": "cpu-only",
@@ -21438,9 +21438,9 @@
   {
    "id": "E85-CHURN-GAP-ROBUST-ESTIMATOR",
    "status": "done",
-  "result_ref": "results/e44_midmonth/CHURNROBUST-20261021.json + research/digests/DIGEST-20261022-e85-churn-robust.md (r1153 bm-b)",
-  "closed_at": "2026-10-22T22:52:00+08:00",
-  "closed_by": "bm-b r1153",
+   "result_ref": "results/e44_midmonth/CHURNROBUST-20261021.json + research/digests/DIGEST-20261022-e85-churn-robust.md (r1153 bm-b)",
+   "closed_at": "2026-10-22T22:52:00+08:00",
+   "closed_by": "bm-b r1153",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21454,7 +21454,7 @@
   },
   {
    "id": "E86-SINGLEPRINT-SENSITIVITY",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21464,7 +21464,14 @@
    "entered_at": "2026-10-22T22:26:00+08:00",
    "entered_by": "bm-b r1152",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "same burn as E83/E85; cost is O(n) per cell over alphas already in memory, so no panel re-read is needed if the churn rows are cached to disk"
+   "runner_note": "same burn as E83/E85; cost is O(n) per cell over alphas already in memory, so no panel re-read is needed if the churn rows are cached to disk",
+   "done_at": "2026-10-22T23:00:00+08:00",
+   "done_by": "bm-b r1154",
+   "result_ref": [
+    "results/e44_midmonth/LOODIST-20261021.json",
+    "research/digests/DIGEST-20261022-e86-loodist.md"
+   ],
+   "result_note": "16 level cells + 2 gap cells. 5/16 lose half their magnitude to ONE removal, but in 15/16 that removal is <10% of all removals and 0/16 die on a majority of removals; median breakdown k = 7 removals (25.9% of the cell). mid15 2024_now is the only cell with k=1 (unscreened -123.7bp, neutralise -364.7bp). Gap faces: 2024_now -211.0bp survives 53/54 removals (worst -86.3); 2021_2023 +318.8bp survives with the sign in 55/56 removals but one removal drags it to -60.7bp."
   },
   {
    "id": "E87-CHURN-ROBUST-START2013",
@@ -21493,6 +21500,20 @@
    "entered_by": "bm-b r1153",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "pure file-to-file comparison, zero panel read; a non-zero mismatch is a mechanism fault to report, never to reconcile by rewriting a face"
+  },
+  {
+   "id": "E89-CHURN-GAP-BOOTSTRAP-SE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Every churn cell and churn gap is published as a point estimate with no interval, so a reader cannot tell a 318.8bp gap from zero. Add a deterministic resampling interval (jackknife first, seeded bootstrap second) beside every published mean: standard error, p05/p95, and the share of resamples that cross zero. Do not replace the mean column; the interval is an added face on the same burn.",
+   "deliverable": "results/e44_midmonth/CHURNSE-<cutoff>.json + research/digests/DIGEST-*.md",
+   "source": "r1154 E86 (LOO spread without an interval) + r1153 E85 (right-skewed cells)",
+   "entered_at": "2026-10-22T23:00:00+08:00",
+   "entered_by": "bm-b r1154",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "same burn; jackknife is closed-form off the alphas in memory, a seeded bootstrap needs a fixed seed recorded in the spec so the face is reproducible; zero new panel reads"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21507,6 +21528,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-22T22:22:00+08:00",
+ "updated_at": "2026-10-22T23:00:00+08:00",
  "version": 1
 }

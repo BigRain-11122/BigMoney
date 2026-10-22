@@ -6428,6 +6428,204 @@ def run_robustchurn(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# -------------------------------------------------------------- E86
+
+def _loo_means(vals):
+    """Every leave-one-out mean of one cell: ``(n*m - a_i)/(n-1)``.
+
+    E83 reports only ``argmin |mean_without|``; E86 asks what the WHOLE
+    removal distribution looks like, so each cell's answer is the spread of
+    all n leave-one-out re-reads, not its worst member.
+    """
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if n < 2:
+        return []
+    tot = sum(clean)
+    return [(tot - a) / (n - 1) for a in clean]
+
+
+def _breakdown_k(vals, target_frac=0.5):
+    """How many transitions must be removed before |mean| falls to target_frac.
+
+    Greedy removal of the transition farthest from the current mean (the same
+    "most influential" rule E83 applies once, iterated). k is the count of
+    removals, ``share_of_transitions_pct`` its size relative to the cell, and
+    ``path_bp`` records the mean after each removal so a reader can see whether
+    the collapse is stepwise or one cliff.
+    """
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if n < 2:
+        return {"k": None, "n": n, "share_of_transitions_pct": None,
+                "mean_after_bp": None, "path_bp": []}
+    m0 = sum(clean) / n
+    rest = list(clean)
+    k = 0
+    path = []
+    while len(rest) > 1:
+        cur = sum(rest) / len(rest)
+        idx = max(range(len(rest)), key=lambda i: abs(rest[i] - cur))
+        rest.pop(idx)
+        k += 1
+        cur = sum(rest) / len(rest)
+        path.append(round(cur, 1))
+        if abs(cur) <= abs(m0) * target_frac:
+            return {"k": k, "n": n,
+                    "share_of_transitions_pct": round(100.0 * k / n, 1),
+                    "mean_after_bp": round(cur, 1), "path_bp": path}
+    return {"k": None, "n": n, "share_of_transitions_pct": None,
+            "mean_after_bp": round(rest[0], 1), "path_bp": path}
+
+
+def _loo_stats(vals):
+    """E86: the leave-one-out distribution of one cell plus its breakdown k."""
+    clean = [float(v) for v in vals if isinstance(v, (int, float))]
+    n = len(clean)
+    if n < 2:
+        return {"n": n, "loo_available": False, "mean_bp": (round(clean[0], 1)
+                                                            if clean else None)}
+    m = sum(clean) / n
+    s = sorted(_loo_means(clean))
+
+    def q(p):
+        i = min(len(s) - 1, max(0, int(round(p * (len(s) - 1)))))
+        return round(s[i], 1)
+
+    half = abs(m) * 0.5
+    kill = len([x for x in s if abs(x) < half])
+    flip = len([x for x in s if x * m < 0])
+    return {
+        "n": n, "loo_available": True, "mean_bp": round(m, 1),
+        "loo_min_bp": round(s[0], 1), "loo_p10_bp": q(0.10),
+        "loo_median_bp": q(0.50), "loo_p90_bp": q(0.90),
+        "loo_max_bp": round(s[-1], 1),
+        "loo_kills_half_count": kill,
+        "loo_kills_half_pct": round(100.0 * kill / n, 1),
+        "loo_flips_sign_count": flip,
+        "loo_flips_sign_pct": round(100.0 * flip / n, 1),
+        "breakdown": _breakdown_k(clean),
+    }
+
+
+def run_loodist(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                eras=ERAS):
+    """E86: how wide is a churn cell -- every removal, and the breakdown count.
+
+    E83 asked "does removing ONE transition kill the cell". This leg answers the
+    size question that leaves open: over all n removals, how many kill it, how
+    wide is the leave-one-out spread, and how many removals (k, greedily) are
+    needed before the magnitude halves. A cell that dies on 1 of 27 removals is
+    a different object from a cell that dies on 20 of 27, though E83's flag is
+    identical for both.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    event_dates = _event_dates(raw, cal_full)
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    books = ["me", "mid%d" % mid_day]
+    cells, gap_cells = [], []
+    for book in books:
+        base_rows = faces["unscreened"]["books"][book]["churn_rows"]
+        for label in universes:
+            rows = (base_rows if label == "unscreened"
+                    else faces[label]["books"][book]["churn_rows"])
+            for name, _lo, _hi in eras:
+                sub = [r["churn_alpha_bp"] for r in rows if r.get("era") == name]
+                st = _loo_stats(sub)
+                if not st["n"]:
+                    continue
+                cells.append({"book": book, "universe": label, "era": name,
+                              "face": "churn_alpha_bp", **st})
+
+    mid_book = "mid%d" % mid_day
+    me_rows = faces["unscreened"]["books"]["me"]["churn_rows"]
+    mid_rows = faces["unscreened"]["books"][mid_book]["churn_rows"]
+    for name, _lo, _hi in eras:
+        a = [r["churn_alpha_bp"] for r in me_rows if r.get("era") == name]
+        b = [r["churn_alpha_bp"] for r in mid_rows if r.get("era") == name]
+        a = [v for v in a if isinstance(v, (int, float))]
+        b = [v for v in b if isinstance(v, (int, float))]
+        if not a or not b:
+            continue
+        ma, mb = sum(a) / len(a), sum(b) / len(b)
+        gap = mb - ma
+        me_loo = [mb - x for x in _loo_means(a)]
+        mid_loo = [x - ma for x in _loo_means(b)]
+        both = sorted(round(x, 1) for x in me_loo + mid_loo)
+        half = abs(gap) * 0.5
+        gap_cells.append({
+            "book": "%s-me" % mid_book, "universe": "unscreened", "era": name,
+            "face": "churn_alpha_gap_bp",
+            "n_me": len(a), "n_mid": len(b), "gap_bp": round(gap, 1),
+            "loo_both_min_bp": both[0] if both else None,
+            "loo_both_median_bp": (both[len(both) // 2] if both else None),
+            "loo_both_max_bp": both[-1] if both else None,
+            "loo_both_kills_half_count": len([x for x in both if abs(x) < half]),
+            "loo_both_flips_sign_count": len([x for x in both if x * gap < 0]),
+            "loo_draws": len(both),
+        })
+
+    live = [c for c in cells if c.get("loo_available")]
+    ks = [c["breakdown"]["k"] for c in live if c["breakdown"]["k"] is not None]
+    shares = [c["breakdown"]["share_of_transitions_pct"] for c in live
+              if c["breakdown"]["share_of_transitions_pct"] is not None]
+    return {
+        "study": "e86_loo_distribution",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "mid_month_day": mid_day,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": books,
+            "loo": "all n leave-one-out re-reads of each cell, (n*m - a_i)/(n-1)",
+            "breakdown": "greedy removal of the transition farthest from the "
+                         "current mean, repeated until |mean| <= 50% of the "
+                         "original |mean|",
+            "descriptive_only": "no prereg, no judgement, zero ledger booking",
+        },
+        "cells": cells,
+        "gap_cells": gap_cells,
+        "summary": {
+            "level_cells": len(cells),
+            "level_cells_with_loo": len(live),
+            "cells_dying_on_one_removal": len(
+                [c for c in live if c["loo_kills_half_count"] >= 1]),
+            "cells_where_one_removal_is_under_10pct_of_removals": len(
+                [c for c in live if c["loo_kills_half_pct"] < 10.0]),
+            "cells_where_majority_of_removals_kill": len(
+                [c for c in live if c["loo_kills_half_pct"] > 50.0]),
+            "breakdown_k_median": (sorted(ks)[len(ks) // 2] if ks else None),
+            "breakdown_share_pct_median": (sorted(shares)[len(shares) // 2]
+                                           if shares else None),
+            "gap_cells": len(gap_cells),
+        },
+        "screen_reports": reports,
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -7309,6 +7507,32 @@ def selftest():
     chk(_concentration([5.0, -5.0], 3)["top_share_of_total_pct"] is None,
         "a cell whose signed total is zero reports no share instead of dividing by zero")
 
+    # E86 leave-one-out distribution: all n removals, not one argmin
+    _loo = _loo_means([10.0, 20.0, 30.0])
+    chk(len(_loo) == 3, "a cell of n transitions has exactly n leave-one-out means")
+    chk(abs(_loo[0] - 25.0) < 1e-12 and abs(_loo[2] - 15.0) < 1e-12,
+        "removing a low value raises the mean and vice versa")
+    chk(abs(sum(_loo) / 3.0 - 20.0) < 1e-12,
+        "the LOO means average back to the cell mean (each value is dropped once)")
+    chk(_loo_means([4.0]) == [], "a single-transition cell has no removal to price")
+    _st = _loo_stats([10.0, 20.0, 30.0])
+    chk(_st["loo_kills_half_count"] == 0 and _st["loo_flips_sign_count"] == 0,
+        "a tight positive cell survives every single removal")
+    _st1 = _loo_stats([100.0, 1.0, 1.0])
+    chk(_st1["loo_kills_half_count"] == 1 and _st1["loo_kills_half_pct"] == 33.3,
+        "in a one-outlier cell exactly one removal (the outlier) halves the mean")
+    _bd = _breakdown_k([100.0, 1.0, 1.0])
+    chk(_bd["k"] == 1 and _bd["mean_after_bp"] == 1.0,
+        "breakdown k is the greedy removal count and the rest mean")
+    _bd3 = _breakdown_k([10.0, 10.0, -10.0, -10.0])
+    chk(_bd3["k"] is None,
+        "a cell whose mean is already 0 never falls under half of 0 -- honest None")
+    chk(_breakdown_k([7.0])["k"] is None,
+        "a one-transition cell has no breakdown count")
+    _bdp = _breakdown_k([50.0, 4.0, 3.0, 2.0, 1.0])
+    chk(_bdp["k"] == 1 and _bdp["path_bp"][0] == 2.5,
+        "the greedy path prints the mean after each removal, not just the endpoint")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -7325,7 +7549,7 @@ def main(argv):
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
-                             "all", "selftest"])
+                             "loodist", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -7867,6 +8091,27 @@ def main(argv):
                                           "trim10_bp": c["trim10_bp"],
                                           "median_keep_pct": c["median_keep_pct_of_mean"]}
                                          for c in f["delta_cells"]]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "loodist":
+        f = run_loodist(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "LOODIST-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "loodist", "file": os.path.relpath(p, ROOT),
+                          "summary": f["summary"],
+                          "cells": [{"book": c["book"], "universe": c["universe"],
+                                     "era": c["era"], "n": c["n"],
+                                     "mean_bp": c["mean_bp"],
+                                     "loo_min_bp": c.get("loo_min_bp"),
+                                     "loo_median_bp": c.get("loo_median_bp"),
+                                     "kills_half_pct": c.get("loo_kills_half_pct"),
+                                     "breakdown_k": (c.get("breakdown") or {}).get("k"),
+                                     "breakdown_share_pct":
+                                         (c.get("breakdown") or {})
+                                         .get("share_of_transitions_pct")}
+                                    for c in f["cells"]],
+                          "gap_cells": f["gap_cells"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
