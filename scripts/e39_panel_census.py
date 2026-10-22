@@ -3337,7 +3337,8 @@ def _nearest_weekly_to_month_end(week_idxs, me_idxs):
 
 
 def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                 days=MID_SWEEP_DAYS, costs=(1.0,), lags=(), weekly=False):
+                 days=MID_SWEEP_DAYS, costs=(1.0,), lags=(), weekly=False,
+                 raw=None):
     """E59: is the off-cycle penalty day 15's, or any off-cycle date's?
 
     E44 priced one mid-month date against month-end and E57 showed the two
@@ -3347,11 +3348,14 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     and ONE cost level: if the gap tracks the distance to month-end the effect
     belongs to the boundary; if it is flat across all five, the boundary is
     simply the right date.
+
+    ``raw`` lets a caller supply a repaired universe (E78 feeds the split
+    screen through here); the default still reads the untouched loader.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -5266,6 +5270,199 @@ def run_screenwide(outdir, pick_n=9999, exclude=("sh511",),
     }
 
 
+# --------------------------------------------------- E78 screened weekly residual
+
+WEEK_COLUMNS = ("full_window_gap_bp", "turnover_per_year", "cost_per_year_bp")
+
+
+def _week_delta_rows(base_label, faces, modes, costs, labels=("week", "week_near_me"),
+                     eras=ERAS):
+    """(E78) unscreened-vs-screened weekly residual, one row per cell.
+
+    Pure so the residual arithmetic is testable without a burn: the weekly
+    calendar and its month-end-near twin are the two books whose gap the
+    six-round chain has been pricing, and every screened cell keeps the
+    unscreened twin it is a delta against.
+    """
+    rows = []
+    u = faces[base_label]["calendar_rows"]
+
+    def emit(face, column, unscreened, pick):
+        row = {"face": face, "column": column, "unscreened": unscreened}
+        for m in modes:
+            v = pick(faces[m])
+            row[m] = v
+            row["delta_" + m] = (round(v - unscreened, 4)
+                                 if isinstance(v, (int, float))
+                                 and isinstance(unscreened, (int, float)) else None)
+        rows.append(row)
+
+    for cost in costs:
+        tag = "x%g" % cost
+        for lab in labels:
+            urow = (u.get(tag) or {}).get(lab) or {}
+            for col in WEEK_COLUMNS:
+                emit("%s@%s" % (lab, tag), col, urow.get(col),
+                     lambda f, t=tag, l=lab, c=col:
+                     ((f["calendar_rows"].get(t) or {}).get(l) or {}).get(c))
+            for era in eras:
+                ename = era[0]
+                uv = (urow.get("eras") or {}).get(ename)
+                emit("era:%s@%s@%s" % (lab, ename, tag), "gap_bp", uv,
+                     lambda f, t=tag, l=lab, e=ename:
+                     (((f["calendar_rows"].get(t) or {}).get(l) or {})
+                      .get("eras") or {}).get(e))
+    return rows
+
+
+def run_screenweek(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                   modes=("neutralise_int", "neutralise", "drop"),
+                   costs=(1.0, 3.0), eras=ERAS, labels=("week", "week_near_me")):
+    """E78: does the weekly-vs-monthly residual survive the split screen?
+
+    E77 showed the split screen moves the wide book exactly in 2021_2023 and
+    2024_now -- the two eras where the weekly-vs-monthly chain (E63/E69/E70)
+    priced its residual. That residual is re-derived here from the repaired
+    universe at both cost levels, through the same run_midsweep wiring, so the
+    only moving part is the input book. Every screened cell keeps its
+    unscreened twin and no published WEEKCLASH face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    tags = ["x%g" % c for c in costs]
+    faces, n_runs = {}, 0
+    for label, univ in universes.items():
+        clash = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                             days=(), costs=costs, lags=(), weekly=True, raw=univ)
+        n_runs += 1
+        rows_by_cost = {tag: _weekly_cal_rows(clash, tag, labels) for tag in tags}
+        me_turn = {}
+        for tag in tags:
+            arms = ((clash.get("books") or {}).get("me") or {}).get("arms") or {}
+            me_turn[tag] = (arms.get(tag) or {}).get("turnover_per_year")
+        faces[label] = {"calendar_rows": rows_by_cost,
+                        "me_turnover_by_cost": me_turn,
+                        "universe_size": len(univ),
+                        "week_overlap": clash["answers"].get("week_overlap")}
+
+    delta = _week_delta_rows("unscreened", faces, modes, costs, labels, eras)
+
+    def _biggest(pred):
+        rows = [r for r in delta if pred(r)
+                and any(r.get("delta_" + m) is not None for m in modes)]
+        if not rows:
+            return None
+        best = max(rows, key=lambda r: max(
+            abs(r["delta_" + m]) for m in modes
+            if r.get("delta_" + m) is not None))
+        out = {"face": best["face"], "column": best["column"],
+               "unscreened": best["unscreened"]}
+        for m in modes:
+            out[m] = best.get(m)
+            out["delta_" + m] = best.get("delta_" + m)
+        return out
+
+    # the residual itself, at every cost level, per mode
+    residual = {label: {tag: ((faces[label]["calendar_rows"].get(tag) or {})
+                              .get("week_near_me") or {}).get("full_window_gap_bp")
+                        for tag in tags} for label in faces}
+    full_gap = {label: {tag: ((faces[label]["calendar_rows"].get(tag) or {})
+                              .get("week") or {}).get("full_window_gap_bp")
+                        for tag in tags} for label in faces}
+
+    surv = {}
+    for tag in tags:
+        base_bp = residual["unscreened"].get(tag)
+        surv[tag] = {}
+        for m in modes:
+            v = residual[m].get(tag)
+            surv[tag][m] = {
+                "unscreened_bp": base_bp, "screened_bp": v,
+                "delta_bp": (round(v - base_bp, 2)
+                             if isinstance(v, (int, float))
+                             and isinstance(base_bp, (int, float)) else None),
+                "surviving_share_pct": (round(100.0 * v / base_bp, 1)
+                                        if isinstance(v, (int, float)) and base_bp
+                                        else None)}
+
+    newest = eras[-1][0]
+    era_residual = {tag: {label: ((faces[label]["calendar_rows"].get(tag) or {})
+                                  .get("week_near_me") or {}).get("eras", {})
+                             .get(newest)
+                          for label in faces} for tag in tags}
+
+    flipped = sorted(
+        era[0] for era in eras
+        if any(((((faces["unscreened"]["calendar_rows"].get(tag) or {})
+                  .get("week_near_me") or {}).get("eras") or {}).get(era[0]) or 0)
+               * ((((faces[m]["calendar_rows"].get(tag) or {})
+                    .get("week_near_me") or {}).get("eras") or {}).get(era[0]) or 0) < 0
+               for m in modes for tag in tags))
+
+    return {
+        "study": "e78_screened_weekclash_residual",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "costs": list(costs), "labels": list(labels),
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "loader": "scripts/panel_screen.py via run_midsweep(raw=...) (opt-in)",
+            "books": "week = full ISO weekly grid; week_near_me = the same grid cut "
+                     "to one decision per month at the weekly session nearest the "
+                     "boundary; the gap is each book against month-end",
+            "runs": n_runs,
+        },
+        "screen_reports": reports,
+        "faces": faces,
+        "delta": delta,
+        "answers": {
+            "residual_bp_by_cost": residual,
+            "full_week_gap_bp_by_cost": full_gap,
+            "residual_survival": surv,
+            "newest_era_residual_bp": era_residual,
+            "worst_correction": _biggest(lambda r: True),
+            "residual_worst_correction": _biggest(
+                lambda r: r["face"].startswith("week_near_me@")),
+            "eras_whose_residual_changes_sign": flipped,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([r for r in delta
+                                         if any(r.get("delta_" + m) not in (None, 0)
+                                                for m in modes)]),
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only; a flagged ETF print "
+            "may be genuine, so 'neutralise' is a sensitivity face, not a truth",
+            "drop mode changes the universe size, so its delta mixes the correction "
+            "with a composition change; the two neutralise columns isolate it",
+            "week_near_me holds the trading frequency fixed against month-end, so it "
+            "is the book that prices the DATE; the raw weekly gap mixes calendar "
+            "with a ~4.3x higher rebalance rate and is published for context only",
+            "turnover columns are the control that the screen moves the return path "
+            "and not the traded book",
+            "cost x3 is a stress face on the frozen 13.041bp/side, not a fee forecast",
+            "gapped prints are never repaired, so a residual carried by a "
+            "behind-suspension print would read flat here rather than corrected",
+            "descriptive census only: no gate, no verdict, no prereg, no trial booking",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -5905,6 +6102,41 @@ def selftest():
         and _missing[0]["delta_neutralise"] is None,
         "an era the face does not publish yields None cells, not a fabricated zero")
 
+    # E78 screened weekly residual: the residual table keeps both books and twins
+    _kfaces = {
+        "unscreened": {"calendar_rows": {"x1": {
+            "week": {"full_window_gap_bp": -53.0, "turnover_per_year": 0.789,
+                     "cost_per_year_bp": 10.0, "eras": {"2024_now": -71.0}},
+            "week_near_me": {"full_window_gap_bp": -11.0, "turnover_per_year": 0.595,
+                             "cost_per_year_bp": 7.8, "eras": {"2024_now": -15.0}}}}},
+        "neutralise": {"calendar_rows": {"x1": {
+            "week": {"full_window_gap_bp": -20.0, "turnover_per_year": 0.790,
+                     "cost_per_year_bp": 10.1, "eras": {"2024_now": -30.0}},
+            "week_near_me": {"full_window_gap_bp": 6.0, "turnover_per_year": 0.596,
+                             "cost_per_year_bp": 7.9, "eras": {"2024_now": 4.0}}}}},
+    }
+    _wd = _week_delta_rows("unscreened", _kfaces, ("neutralise",), (1.0,),
+                           ("week", "week_near_me"),
+                           (("2024_now", "2024-01-01", "2026-12-31"),))
+    _wres = [r for r in _wd if r["face"] == "week_near_me@x1"
+             and r["column"] == "full_window_gap_bp"][0]
+    chk(_wres["unscreened"] == -11.0 and _wres["neutralise"] == 6.0
+        and _wres["delta_neutralise"] == 17.0,
+        "the weekly residual row keeps the unscreened gap beside the screened one")
+    _wera = [r for r in _wd if r["face"] == "era:week@2024_now@x1"]
+    chk(_wera and _wera[0]["unscreened"] == -71.0
+        and _wera[0]["delta_neutralise"] == 41.0,
+        "era-level weekly gaps enter the same table with the same arithmetic")
+    _wturn = [r for r in _wd if r["face"] == "week@x1"
+              and r["column"] == "turnover_per_year"][0]
+    chk(abs(_wturn["delta_neutralise"] - 0.001) < 1e-9,
+        "the turnover column is carried so the fee control can be read beside it")
+    _wmiss = _week_delta_rows("unscreened", {"unscreened": _kfaces["unscreened"],
+                                             "drop": {"calendar_rows": {}}},
+                              ("drop",), (1.0,), ("week",), ())
+    chk(_wmiss and _wmiss[0]["drop"] is None and _wmiss[0]["delta_drop"] is None,
+        "a mode that emitted no cell yields None instead of a zero delta")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -5919,7 +6151,8 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "screenreg", "screenwide", "all", "selftest"])
+                             "panelsplit", "screenreg", "screenwide", "screenweek",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -6353,6 +6586,25 @@ def main(argv):
                                      for k, v in f["screen_reports"].items()},
                           "answers": f["answers"],
                           "cost_shift": f["cost_shift"],
+                          "moved_cells": [r for r in f["delta"]
+                                          if any(r.get("delta_" + m) not in (None, 0)
+                                                 for m in f["screen_reports"])][:10]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screenweek":
+        f = run_screenweek(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "WEEKCLASH-%s-screened.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screenweek", "file": os.path.relpath(p, ROOT),
+                          "screen": {k: {"names_touched": v["names_touched"],
+                                         "events": v["events_neutralised"]}
+                                     for k, v in f["screen_reports"].items()},
+                          "residual_bp_by_cost": f["answers"]["residual_bp_by_cost"],
+                          "residual_survival": f["answers"]["residual_survival"],
+                          "newest_era_residual_bp":
+                              f["answers"]["newest_era_residual_bp"],
+                          "worst": f["answers"]["residual_worst_correction"],
                           "moved_cells": [r for r in f["delta"]
                                           if any(r.get("delta_" + m) not in (None, 0)
                                                  for m in f["screen_reports"])][:10]},

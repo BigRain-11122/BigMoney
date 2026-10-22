@@ -21310,7 +21310,7 @@
   },
   {
    "id": "E78-SCREENED-WEEKCLASH-RESIDUAL",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21320,7 +21320,13 @@
    "entered_at": "2026-10-22T21:14:59+08:00",
    "entered_by": "bm-b r1148",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "reuse the screenreg/screenwide wiring (panel_screen.screen_universe -> e27 raw=) inside _weekly_cal_rows; keep the unscreened residual beside it; do not rewrite any published WEEKCLASH face"
+   "runner_note": "reuse the screenreg/screenwide wiring (panel_screen.screen_universe -> e27 raw=) inside _weekly_cal_rows; keep the unscreened residual beside it; do not rewrite any published WEEKCLASH face",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-22T21:38:00+08:00",
+   "closed_at": "2026-10-22T21:47:00+08:00",
+   "closed_by": "bm-b r1149",
+   "result_ref": "results/e44_midmonth/WEEKCLASH-20261021-screened.json + research/digests/DIGEST-20261022-e78-screened-weekclash.md",
+   "result_note": "the frequency-matched residual (week_near_me vs month-end) survives the split screen: -11bp x1 / -12bp x3 unscreened -> -12/-9/-11 (x1) and -12/-9/-12 (x3) screened, worst delta +3bp, no era flips sign (75-109% surviving). The frequency-mixed raw weekly book does move: -55 -> -48/-46/-42 at x1 and -61 -> -53/-51/-47 at x3, i.e. 7-13bp of it is corporate-action arithmetic; turnover delta <=0.005/yr proves the screen moves the return path, not the traded book."
   },
   {
    "id": "E79-PUBLISHED-FACE-CONTAMINATION-SWEEP",
@@ -21335,6 +21341,20 @@
    "entered_by": "bm-b r1148",
    "evidence_cutoff": "2026-10-21",
    "runner_note": "descriptive only: read each run_* leg from its source text and its face JSON, state screened/unscreened, never regenerate the published faces"
+  },
+  {
+   "id": "E80-SCREENED-MIDMONTH-CHURN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E44 priced mid-month membership against month-end and put the 2024_now gap (-87bp/yr) on membership rather than fees; E77/E78 show the split screen moves the wide book and the raw weekly gap exactly in that era. Re-derive the midmonth churn rows (churn vs mid per swap, negative-swap share, era gaps) from the repaired universe so the membership claim is not carried by unadjusted prints.",
+   "deliverable": "results/e44_midmonth/MIDSCREEN-<cutoff>.json + screened/unscreened churn delta by era",
+   "source": "r1149 E78 (residual survives; raw weekly -55 -> -42/-46) + r1132 E44 (midmonth -87bp newest era, turnover parity)",
+   "entered_at": "2026-10-22T21:47:00+08:00",
+   "entered_by": "bm-b r1149",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse _churn_stats + panel_screen.screen_universe through run_midmonth(raw=...) -- add the raw hook the same way run_midsweep got one; keep the unscreened churn rows beside the screened ones and never rewrite the published MIDMONTH faces"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
