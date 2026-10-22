@@ -1038,8 +1038,8 @@ def _rebase(curve):
     return [(d, v / base) for d, v in curve] if base else []
 
 
-def _era_curves(raw_all, cal, pick_n):
-    """(E41/E76) the ladder5 and wide-top-N curves on one calendar.
+def _era_curves(raw_all, cal, pick_n, cost_mult=1.0):
+    """(E41/E76/E77) the ladder5 and wide-top-N curves on one calendar.
 
     Factored out of run_era so the E76 screen leg can replay the identical book
     from a repaired universe: the two faces then differ only in the closes
@@ -1061,7 +1061,7 @@ def _era_curves(raw_all, cal, pick_n):
     for name, univ, n in (("ladder5", base.LADDER, None),
                           ("wide_top%d" % pick_n, universe, pick_n)):
         curves[name], _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
-                                                 n, 1.0, rank_cache)
+                                                 n, cost_mult, rank_cache)
     lad = curves["ladder5"]
     wide = curves["wide_top%d" % pick_n]
     lmap = dict(lad)
@@ -5037,6 +5037,235 @@ def run_screenreg(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------------------------------------------------ E77 wide screen
+
+WIDE_COLUMNS = ("wide_ann_pct", "wide_total_return_pct", "wide_vol_pct",
+                "wide_sharpe", "ladder_ann_pct", "vs_ladder_bp_annualised",
+                "turnover_per_year", "cost_per_year_bp", "mean_bp", "t")
+WIDE_ERA_COLUMNS = ("wide_ann_pct", "ladder_ann_pct", "spread_ann_bp",
+                    "ratio_ann_pct", "ratio_max_drawdown_pct")
+
+
+def _wide_headline(face, pick_n=9999):
+    """(E77) the wide-book headline columns out of one e27 universe face."""
+    w = (face.get("schemes") or {}).get("top%d" % pick_n) or {}
+    lad = (face.get("schemes") or {}).get("ladder5") or {}
+    m = w.get("metrics") or {}
+    a = w.get("aux") or {}
+    rel = w.get("vs_ladder") or {}
+    return {
+        "wide_ann_pct": m.get("ann_return_pct"),
+        "wide_total_return_pct": m.get("total_return_pct"),
+        "wide_vol_pct": m.get("ann_vol_pct"),
+        "wide_sharpe": m.get("sharpe"),
+        "ladder_ann_pct": (lad.get("metrics") or {}).get("ann_return_pct"),
+        "vs_ladder_bp_annualised": w.get("vs_ladder_bp_annualised"),
+        "turnover_per_year": a.get("turnover_per_year"),
+        "cost_per_year_bp": a.get("cost_per_year_bp"),
+        "months": rel.get("months"),
+        "mean_bp": rel.get("mean_bp"),
+        "t": rel.get("t"),
+        "universe_size": face.get("universe_size"),
+        "bars": face.get("bars"),
+    }
+
+
+def _wide_era_headline(rows):
+    """(E77) flatten _era_rows into the wide-book era column set."""
+    out = {}
+    for era, r in rows.items():
+        if "spread_ann_bp" not in r:
+            out[era] = {"skipped": r.get("skipped"), "bars": r.get("bars")}
+            continue
+        ratio = r.get("ratio_path") or {}
+        out[era] = {
+            "wide_ann_pct": r.get("wide_ann_pct"),
+            "ladder_ann_pct": r.get("ladder_ann_pct"),
+            "spread_ann_bp": r.get("spread_ann_bp"),
+            "ratio_ann_pct": ratio.get("ann_pct"),
+            "ratio_max_drawdown_pct": ratio.get("max_drawdown_pct"),
+            "from": r.get("from"), "to": r.get("to"), "bars": r.get("bars"),
+        }
+    return out
+
+
+def _wide_delta_rows(base_label, faces, modes, starts, costs, eras):
+    """(E77) one row per (window|era, cost, column) with every screen beside it."""
+    rows = []
+    u = faces[base_label]
+
+    def emit(face, column, unscreened, pick):
+        row = {"face": face, "column": column, "unscreened": unscreened}
+        for m in modes:
+            v = pick(faces[m])
+            row[m] = v
+            row["delta_" + m] = (round(v - unscreened, 4)
+                                 if isinstance(v, (int, float))
+                                 and isinstance(unscreened, (int, float)) else None)
+        rows.append(row)
+
+    for start in starts:
+        for cost in costs:
+            key = "x%g" % cost
+            uw = ((u["windows"].get(start) or {}).get(key) or {})
+            for col in WIDE_COLUMNS:
+                emit("wide@%s@%s" % (start, key), col, uw.get(col),
+                     lambda f, s=start, k=key, c=col:
+                     ((f["windows"].get(s) or {}).get(k) or {}).get(c))
+    for cost in costs:
+        key = "x%g" % cost
+        ue = u["eras"].get(key) or {}
+        for era in eras:
+            ename = era[0]
+            urow = ue.get(ename) or {}
+            for col in WIDE_ERA_COLUMNS:
+                emit("era:%s@%s" % (ename, key), col, urow.get(col),
+                     lambda f, k=key, e=ename, c=col:
+                     ((f["eras"].get(k) or {}).get(e) or {}).get(c))
+    return rows
+
+
+def run_screenwide(outdir, pick_n=9999, exclude=("sh511",),
+                   modes=("neutralise_int", "neutralise", "drop"),
+                   starts=("2020-01-01", "2018-01-01"), costs=(1.0, 3.0),
+                   eras=ERAS):
+    """E77: replay the wide-book headline from the repaired universe.
+
+    E76 showed the era *spread* moves when the split screen is on. This leg asks
+    the narrower question the pool asked: do the wide-book columns themselves
+    (both start windows, both cost levels, per era) move, and does the
+    correction survive costs. The unscreened column sits beside every screened
+    one; no published face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    universes = {"unscreened": (raw, None)}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = (repaired, mode)
+
+    faces, n_runs = {}, 0
+    for label, (univ_raw, _mode) in universes.items():
+        windows = {}
+        for start in starts:
+            windows[start] = {}
+            for cost in costs:
+                face = e27.run(ns=(pick_n,), start=start, cost_mult=cost,
+                               exclude=exclude, raw=univ_raw)
+                n_runs += 1
+                windows[start]["x%g" % cost] = _wide_headline(face, pick_n)
+        era_faces = {}
+        for cost in costs:
+            lad, wide, ratio = _era_curves(univ_raw, cal_full, pick_n, cost_mult=cost)
+            n_runs += 2
+            era_faces["x%g" % cost] = _wide_era_headline(
+                _era_rows(lad, wide, ratio, eras))
+        faces[label] = {"windows": windows, "eras": era_faces,
+                        "universe_size": len(univ_raw)}
+
+    delta = _wide_delta_rows("unscreened", faces, modes, starts, costs, eras)
+
+    def _biggest(pred):
+        rows = [r for r in delta if pred(r)]
+        if not rows:
+            return None
+        best = max(rows, key=lambda r: max(
+            abs(r["delta_" + m]) for m in modes if r.get("delta_" + m) is not None))
+        out = {"face": best["face"], "column": best["column"],
+               "unscreened": best["unscreened"]}
+        for m in modes:
+            out[m] = best.get(m)
+            out["delta_" + m] = best.get("delta_" + m)
+        return out
+
+    newest = eras[-1][0]
+    era_cells = {}
+    for label in faces:
+        era_cells[label] = {}
+        for cost in costs:
+            key = "x%g" % cost
+            row = (faces[label]["eras"].get(key) or {}).get(newest) or {}
+            era_cells[label][key] = {"wide_ann_pct": row.get("wide_ann_pct"),
+                                     "spread_ann_bp": row.get("spread_ann_bp")}
+
+    flipped = sorted(
+        era[0] for era in eras
+        if any((((faces["unscreened"]["eras"].get("x%g" % cost) or {})
+                 .get(era[0]) or {}).get("spread_ann_bp") or 0)
+               * (((faces[m]["eras"].get("x%g" % cost) or {})
+                   .get(era[0]) or {}).get("spread_ann_bp") or 0) < 0
+               for m in modes for cost in costs))
+
+    # does the correction survive the cost multiplier?
+    cost_shift = []
+    for label in ["unscreened"] + list(modes):
+        for start in starts:
+            a = (faces[label]["windows"][start].get("x1") or {}).get("wide_ann_pct")
+            b = (faces[label]["windows"][start].get("x3") or {}).get("wide_ann_pct")
+            cost_shift.append({
+                "mode": label, "start": start,
+                "x1_ann_pct": a, "x3_ann_pct": b,
+                "shift_pct": (round(b - a, 3)
+                              if isinstance(a, (int, float))
+                              and isinstance(b, (int, float)) else None)})
+
+    return {
+        "study": "e77_screened_wide_era",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "starts": list(starts), "costs": list(costs),
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "loader": "scripts/panel_screen.py via e27.run(raw=...) (opt-in)",
+            "books": "wide_topN = e27 universe book; ladder5 = the five ladder "
+                     "members; the spread/ratio read comes from _era_rows",
+            "runs": n_runs,
+        },
+        "screen_reports": reports,
+        "faces": faces,
+        "delta": delta,
+        "cost_shift": cost_shift,
+        "answers": {
+            "wide_worst_correction": _biggest(lambda r: r["face"].startswith("wide@")),
+            "era_worst_correction": _biggest(
+                lambda r: r["face"].startswith("era:") and r["column"] == "spread_ann_bp"),
+            "newest_era_cells": era_cells,
+            "eras_whose_spread_changes_sign": flipped,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([r for r in delta
+                                         if any(r.get("delta_" + m) not in (None, 0)
+                                                for m in modes)]),
+            "max_abs_delta_by_column": {
+                col: max([abs(r.get("delta_" + m) or 0) for r in delta
+                          if r["column"] == col for m in modes] or [0])
+                for col in sorted(set(WIDE_COLUMNS) | set(WIDE_ERA_COLUMNS))},
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only; a flagged ETF print "
+            "may be genuine, so 'neutralise' is a sensitivity face, not a truth",
+            "drop mode changes the universe size, so its delta mixes the correction "
+            "with a composition change; the two neutralise columns isolate it",
+            "gapped prints are never repaired, and both ladder5 corporate actions sit "
+            "behind a suspension bar, so the ladder column is expected to be flat",
+            "the wide book is a trailing-turnover top-N equal-weight book, not a "
+            "cap-weighted index; its ann% is a book return, not a market return",
+            "cost x3 is a stress face on the frozen 13.041bp/side, not a fee forecast",
+            "descriptive census only: no gate, no verdict, no prereg, no trial booking",
+        ],
+    }
+
+
 # ------------------------------------------------------------------- plumbing
 
 def write_json(outdir, name, payload):
@@ -5623,6 +5852,59 @@ def selftest():
     chk(any(r["column"] == "ratio_max_drawdown_pct" for r in _d),
         "the ratio path is carried into the delta table, not just the levels")
 
+    # E77 screened-wide: the headline extractor, the era flatten, the delta table
+    _wf = {"universe_size": 100, "bars": 50, "schemes": {
+        "ladder5": {"metrics": {"ann_return_pct": 5.0}},
+        "top9999": {"metrics": {"ann_return_pct": 8.0, "ann_vol_pct": 17.0,
+                                "sharpe": 0.5, "total_return_pct": 90.0},
+                    "aux": {"turnover_per_year": 0.7, "cost_per_year_bp": 9.1},
+                    "vs_ladder_bp_annualised": 265.9,
+                    "vs_ladder": {"months": 106, "mean_bp": 20.5, "t": 1.29}}}}
+    _wh = _wide_headline(_wf, 9999)
+    chk(_wh["wide_ann_pct"] == 8.0 and _wh["ladder_ann_pct"] == 5.0
+        and _wh["vs_ladder_bp_annualised"] == 265.9 and _wh["t"] == 1.29,
+        "the wide headline reads the wide book and keeps the ladder twin beside it")
+    chk(_wide_headline({}, 9999)["wide_ann_pct"] is None,
+        "a face without the scheme yields None, not a crash")
+    _er = _wide_era_headline({"a": {"wide_ann_pct": 7.0, "ladder_ann_pct": 5.0,
+                                    "spread_ann_bp": 200.0,
+                                    "ratio_path": {"ann_pct": 3.0,
+                                                   "max_drawdown_pct": -9.0}},
+                              "b": {"bars": 3, "skipped": "fewer than 2 bars"}})
+    chk(_er["a"]["spread_ann_bp"] == 200.0 and _er["a"]["ratio_max_drawdown_pct"] == -9.0
+        and "skipped" in _er["b"],
+        "era flatten carries the spread and the ratio path and keeps a skipped era honest")
+    _dfaces = {
+        "unscreened": {"windows": {"2020-01-01": {"x1": {"wide_ann_pct": 8.0},
+                                                  "x3": {"wide_ann_pct": 7.0}},
+                                   "2018-01-01": {"x1": {"wide_ann_pct": 8.0},
+                                                  "x3": {"wide_ann_pct": 7.5}}},
+                       "eras": {"x1": {"now": {"spread_ann_bp": 100.0}},
+                                "x3": {"now": {"spread_ann_bp": 90.0}}}},
+        "neutralise": {"windows": {"2020-01-01": {"x1": {"wide_ann_pct": 11.0},
+                                                  "x3": {"wide_ann_pct": 10.0}},
+                                   "2018-01-01": {"x1": {"wide_ann_pct": 11.0},
+                                                  "x3": {"wide_ann_pct": 10.5}}},
+                       "eras": {"x1": {"now": {"spread_ann_bp": 400.0}},
+                                "x3": {"now": {"spread_ann_bp": 380.0}}}}}
+    _drows = _wide_delta_rows("unscreened", _dfaces, ["neutralise"],
+                              ("2020-01-01", "2018-01-01"), (1.0, 3.0),
+                              (("pre2017", None, "2016-12-31"), ("now", "2024-01-01", None)))
+    _cell = [r for r in _drows if r["face"] == "wide@2020-01-01@x1"
+             and r["column"] == "wide_ann_pct"][0]
+    chk(_cell["unscreened"] == 8.0 and _cell["neutralise"] == 11.0
+        and abs(_cell["delta_neutralise"] - 3.0) < 1e-12,
+        "the window delta keeps the unscreened twin and reports screened-minus-unscreened")
+    _ecell = [r for r in _drows if r["face"] == "era:now@x3"
+              and r["column"] == "spread_ann_bp"][0]
+    chk(_ecell["unscreened"] == 90.0 and _ecell["delta_neutralise"] == 290.0,
+        "the era delta is the same arithmetic at the cost-x3 level")
+    _missing = [r for r in _drows if r["face"] == "era:pre2017@x1"
+                and r["column"] == "spread_ann_bp"]
+    chk(_missing and _missing[0]["unscreened"] is None
+        and _missing[0]["delta_neutralise"] is None,
+        "an era the face does not publish yields None cells, not a fabricated zero")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -5637,7 +5919,7 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "screenreg", "all", "selftest"])
+                             "panelsplit", "screenreg", "screenwide", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -6058,6 +6340,22 @@ def main(argv):
                           "moved_cells": [r for r in f["delta"]
                                           if any(r.get("delta_" + m) not in (None, 0)
                                                  for m in f["screen_reports"])][:12]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screenwide":
+        f = run_screenwide(None)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "SCREENWIDE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screenwide", "file": os.path.relpath(p, ROOT),
+                          "screen": {k: {"names_touched": v["names_touched"],
+                                         "events": v["events_neutralised"]}
+                                     for k, v in f["screen_reports"].items()},
+                          "answers": f["answers"],
+                          "cost_shift": f["cost_shift"],
+                          "moved_cells": [r for r in f["delta"]
+                                          if any(r.get("delta_" + m) not in (None, 0)
+                                                 for m in f["screen_reports"])][:10]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

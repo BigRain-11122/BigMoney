@@ -21276,7 +21276,7 @@
   },
   {
    "id": "E77-SCREENED-WIDE-ERA",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21286,7 +21286,55 @@
    "entered_at": "2026-10-22T00:30:00+08:00",
    "entered_by": "bm-b r1147",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "reuse _era_curves + panel_screen.screen_universe with cal passed; keep the unscreened column beside every screened one and do not touch any published face"
+   "runner_note": "reuse _era_curves + panel_screen.screen_universe with cal passed; keep the unscreened column beside every screened one and do not touch any published face",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-22T21:06:47+08:00",
+   "closed_at": "2026-10-22T21:14:59+08:00",
+   "closed_by": "bm-b r1148",
+   "result_ref": "results/e44_midmonth/SCREENWIDE-20261021.json + research/digests/DIGEST-20261022-e77-screenwide.md",
+   "result_note": "wide-book bleeds where the prints are: wide@2020 x1 0.85->1.82(int)/2.90(all) %/yr, x3 0.70->1.66/2.74; wide@2018 x1 7.44->8.23/9.24; era spread pre2017 236 flat, 2017_2020 419->419/446, 2021_2023 243->289/379, 2024_now 103->303/479; vs_ladder@2020 x1 139.3->373.2 (+233.9bp); cost x1->x3 shift -0.15..-0.17pp in every mode, turnover delta <=0.003/yr, zero era spread sign flips, 66/80 delta cells non-zero, ladder column 0.0",
+   "screen": {
+    "neutralise_int": {
+     "names": 65,
+     "events": 65
+    },
+    "neutralise": {
+     "names": 129,
+     "events": 135
+    },
+    "drop": {
+     "names": 129,
+     "events": 135
+    }
+   }
+  },
+  {
+   "id": "E78-SCREENED-WEEKCLASH-RESIDUAL",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E77 shows the wide book is contaminated by unadjusted prints exactly in 2021_2023 and 2024_now, which are the eras the weekly-vs-monthly residual chain (E63/E69/E70) has been priced in for six rounds. Re-derive the weekly/monthly residual on the screened universe at both cost levels and state how much of the -45bp residual survives the screen.",
+   "deliverable": "results/e44_midmonth/WEEKCLASH-<cutoff>-screened.json + screened/unscreened residual delta at x1 and x3",
+   "source": "r1148 E77 (2024_now spread 103->303/479bp; wide@2020 ann 0.85->2.90)",
+   "entered_at": "2026-10-22T21:14:59+08:00",
+   "entered_by": "bm-b r1148",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "reuse the screenreg/screenwide wiring (panel_screen.screen_universe -> e27 raw=) inside _weekly_cal_rows; keep the unscreened residual beside it; do not rewrite any published WEEKCLASH face"
+  },
+  {
+   "id": "E79-PUBLISHED-FACE-CONTAMINATION-SWEEP",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E74-E77 establish that 135 adjacent-impossibility prints sit in the in-repo panel and move headline columns by 0.8-3.8pp/yr. Enumerate every census leg that reads per-name returns from e27.load_universe() and mark which published faces can carry the artefact, with the era/date overlap per leg, so consumers know which numbers to re-read rather than guessing.",
+   "deliverable": "results/e44_midmonth/FACESCREEN-<cutoff>.json (leg x contaminated-era matrix + per-leg screening status)",
+   "source": "r1148 E77 (screen moves wide book 0.8-3.8pp/yr; ladder flat because its prints are gapped)",
+   "entered_at": "2026-10-22T21:14:59+08:00",
+   "entered_by": "bm-b r1148",
+   "evidence_cutoff": "2026-10-21",
+   "runner_note": "descriptive only: read each run_* leg from its source text and its face JSON, state screened/unscreened, never regenerate the published faces"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21301,6 +21349,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-22T00:02:00+08:00",
+ "updated_at": "2026-10-22T21:14:59+08:00",
  "version": 1
 }

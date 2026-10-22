@@ -211,9 +211,11 @@ def _universe_summary(universe, cal, prices, amounts):
     return marks
 
 
-def run(ns=None, start=None, cost_mult=1.0, end=None, exclude=None):
+def run(ns=None, start=None, cost_mult=1.0, end=None, exclude=None, raw=None):
     ns = DEFAULT_NS if not ns else ns
-    raw = load_universe()
+    # ``raw`` is opt-in so a caller can hand in a repaired universe (E77) while
+    # every published face keeps reading the panel exactly as before.
+    raw = load_universe() if raw is None else raw
     if exclude:
         raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
     cal = base.load_panel()[0]  # shared calendar (sh510300 close dates)
