@@ -6428,6 +6428,129 @@ def run_robustchurn(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# -------------------------------------------------------------- E91
+
+def _top_transitions(rows, k=3):
+    """The k largest |churn_alpha_bp| transitions of one cell, by name and date.
+
+    E87 showed the two oldest eras have no centre of mass (top-3 carry 108-149%
+    of the signed total). A share is not auditable, so this leg prints the
+    window, the swapped names and the two side means that produced the number;
+    the newest-era cells ride along as the control.
+    """
+    live = [r for r in (rows or []) if isinstance(r.get("churn_alpha_bp"), (int, float))]
+    if not live:
+        return []
+    tot = sum(r["churn_alpha_bp"] for r in live)
+    order = sorted(range(len(live)), key=lambda i: -abs(live[i]["churn_alpha_bp"]))[:k]
+    out = []
+    for i in order:
+        r = live[i]
+        ent, ext = r.get("entrant_fwd_pct"), r.get("exit_fwd_pct")
+        side = None
+        if isinstance(ent, (int, float)) and isinstance(ext, (int, float)):
+            side = "entrants" if ent > ext else "exits"
+        out.append({
+            "date": r.get("date"), "next": r.get("next"),
+            "churn_alpha_bp": r.get("churn_alpha_bp"),
+            "share_of_signed_total_pct": (round(100.0 * r["churn_alpha_bp"] / tot, 1)
+                                          if tot else None),
+            "entrants": r.get("entrants"), "exits": r.get("exits"),
+            "entrant_fwd_pct": ent, "exit_fwd_pct": ext,
+            "carried_by": side,
+            "entrant_names": (r.get("entrant_names") or [])[:10],
+            "exit_names": (r.get("exit_names") or [])[:10],
+        })
+    return out
+
+
+def run_topnames(outdir, start="2013-01-01", pick_n=9999, exclude=("sh511",),
+                 modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
+                 eras=ERAS, top_k=3):
+    """E91: make every concentrated churn cell auditable by name and date.
+
+    Each (book, universe|mode, era) cell publishes its top-k transitions with
+    the decision window, the swapped tickers, both side means and which side
+    carried the sign, beside the plain cell mean. Nothing is re-estimated: rows
+    are the same ``full_churn`` burn E82/E85/E86/E87 read.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        universes[mode] = repaired
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    raw=univ, full_churn=True)
+
+    books = ["me", "mid%d" % mid_day]
+    cells = []
+    for book in books:
+        for label in universes:
+            rows = faces[label]["books"][book]["churn_rows"]
+            for name, _lo, _hi in eras:
+                sub = [r for r in rows if r.get("era") == name
+                       and isinstance(r.get("churn_alpha_bp"), (int, float))]
+                if not sub:
+                    continue
+                vals = [r["churn_alpha_bp"] for r in sub]
+                mean = sum(vals) / len(vals)
+                top = _top_transitions(sub, top_k)
+                top_sum = sum(t["churn_alpha_bp"] for t in top)
+                cells.append({
+                    "book": book, "universe": label, "era": name,
+                    "transitions": len(sub),
+                    "mean_bp": round(mean, 1),
+                    "top_k": top,
+                    "top_k_share_of_signed_total_pct":
+                        (round(100.0 * top_sum / sum(vals), 1) if sum(vals) else None),
+                    "top1_is_more_than_half": (abs(top[0]["churn_alpha_bp"])
+                                               > abs(mean) * len(sub) * 0.5
+                                               if top else None),
+                })
+
+    def _tally(rows):
+        shar = [c["top_k_share_of_signed_total_pct"] for c in rows
+                if c["top_k_share_of_signed_total_pct"] is not None]
+        return {
+            "cells": len(rows),
+            "cells_with_top3_over_half_pct": len([s for s in shar if abs(s) > 50.0]),
+            "cells_named": len([c for c in rows if c["top_k"]]),
+        }
+
+    return {
+        "study": "e91_top_churn_transition_names",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "mid_month_day": mid_day, "top_k": top_k,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": books,
+            "names_truncated_to": 10,
+            "descriptive_only": "no prereg, no judgement, zero ledger booking",
+            "universe_members": len(raw),
+        },
+        "cells": cells,
+        "summary": _tally(cells),
+        "screen_reports": reports,
+    }
+
+
 # -------------------------------------------------------------- E86
 
 def _loo_means(vals):
@@ -7839,6 +7962,34 @@ def selftest():
     chk(_gap_interval([4.0], [1.0, 2.0], draws=50, seed=7)["gap_available"] is False,
         "a gap needs two transitions on each side")
 
+    # E91 top-transition names: a share becomes auditable by date and ticker
+    _tr = [{"date": "2021-05-17", "next": "2021-06-15", "era": "2021_2023",
+            "churn_alpha_bp": -900.0, "entrants": 3, "exits": 4,
+            "entrant_fwd_pct": -8.0, "exit_fwd_pct": 1.0,
+            "entrant_names": ["sz159925"], "exit_names": ["sh510300"]},
+           {"date": "2021-06-15", "next": "2021-07-15", "era": "2021_2023",
+            "churn_alpha_bp": 60.0, "entrants": 2, "exits": 2,
+            "entrant_fwd_pct": 2.0, "exit_fwd_pct": 1.4,
+            "entrant_names": ["sh512100"], "exit_names": ["sh510500"]},
+           {"date": "2021-07-15", "next": "2021-08-16", "era": "2021_2023",
+            "churn_alpha_bp": -40.0, "entrants": 1, "exits": 1,
+            "entrant_fwd_pct": 0.5, "exit_fwd_pct": 0.9,
+            "entrant_names": ["sh512880"], "exit_names": ["sh511010"]}]
+    _top = _top_transitions(_tr, 3)
+    chk(len(_top) == 3 and _top[0]["churn_alpha_bp"] == -900.0,
+        "the top transition is the largest magnitude, printed first")
+    chk(_top[0]["date"] == "2021-05-17" and _top[0]["next"] == "2021-06-15",
+        "each top transition carries its decision window, not a bare share")
+    chk(_top[0]["entrant_names"] == ["sz159925"], "the swapped names ride with the row")
+    chk(_top[0]["carried_by"] == "exits",
+        "the sign is attributed to the weaker side (exits beat entrants here)")
+    chk(_top[1]["carried_by"] == "entrants", "a rising window is carried by entrants")
+    chk(abs(_top[0]["share_of_signed_total_pct"] - 102.3) < 0.2,
+        "the share is computed against the cell signed total, so it can exceed 100%")
+    chk(_top_transitions([{"churn_alpha_bp": None}], 3) == [],
+        "a cell with no numeric alpha publishes no names instead of a fake row")
+    chk(_top_transitions([], 3) == [], "an empty cell has no top transitions")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -7945,7 +8096,8 @@ def main(argv):
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
-                             "loodist", "churnse", "burncontrol", "all", "selftest"])
+                             "loodist", "churnse", "burncontrol", "topnames",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -8530,6 +8682,29 @@ def main(argv):
                                      "clears_zero": c["interval_clears_zero"]}
                                     for c in f["cells"]],
                           "gap_cells": f["gap_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "topnames":
+        f = run_topnames(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        _sv = "" if args.start == "2020-01-01" else "-s%s" % args.start[:4]
+        p = write_json(outdir, "CHURNTOP3-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), _sv), f)
+        print(json.dumps({"leg": "topnames", "file": os.path.relpath(p, ROOT),
+                          "summary": f["summary"],
+                          "cells": [{"book": c["book"], "universe": c["universe"],
+                                     "era": c["era"], "n": c["transitions"],
+                                     "mean_bp": c["mean_bp"],
+                                     "top3_share_pct":
+                                         c["top_k_share_of_signed_total_pct"],
+                                     "top1_over_half": c["top1_is_more_than_half"],
+                                     "top": [{"date": t["date"],
+                                              "bp": t["churn_alpha_bp"],
+                                              "by": t["carried_by"],
+                                              "in": t["entrant_names"][:3],
+                                              "out": t["exit_names"][:3]}
+                                             for t in c["top_k"]]}
+                                    for c in f["cells"]]},
                          ensure_ascii=False))
         return 0
     if args.mode == "burncontrol":
