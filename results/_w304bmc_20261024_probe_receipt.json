@@ -1,0 +1,178 @@
+{
+ "probe": "W304 pre-seat probe (generic Tools/n1_seat_probe.py; live walk on the post-W303-REGISTERED 293-owner universe; seat-first law O-20261010-2350 sec.2)",
+ "legs": {
+  "leg0": {
+   "rows": 293,
+   "tail": "W303 registered+finalized",
+   "wprev_bands": {
+    "A": [
+     681901,
+     683900
+    ],
+    "B": [
+     683901,
+     684100
+    ]
+   },
+   "wprev_minus1_bands": {
+    "A": [
+     679701,
+     681700
+    ],
+    "B": [
+     681701,
+     681900
+    ]
+   },
+   "wprev_finalize_landed": true,
+   "wprev_finalize_anchors": {
+    "ledger_total": 1090941,
+    "merged_n": 664520,
+    "skill_line_delta_k_lift": null
+   },
+   "inflight_upstream": false,
+   "owner_rows": 293,
+   "bmc_rows": 122,
+   "bma_rows": 130,
+   "bmb_rows": 41,
+   "ordinal": 294,
+   "owner_row_holes": [
+    15
+   ]
+  },
+  "leg1": {
+   "ARITH_A": [
+    683901,
+    685900
+   ],
+   "ARITH_B": [
+    684101,
+    684300
+   ],
+   "A": [
+    684101,
+    686100
+   ],
+   "hops_A": 1,
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      683901,
+      685900
+     ],
+     "jump_to": 684101,
+     "refuser_bands": [
+      [
+       683901,
+       684100
+      ]
+     ],
+     "refuser_pts_sample": [
+      683901
+     ]
+    }
+   ],
+   "B": [
+    686101,
+    686300
+   ],
+   "hops_B": 1,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      684101,
+      684300
+     ],
+     "jump_to": 686101,
+     "refuser_bands": [
+      [
+       684101,
+       686100
+      ]
+     ],
+     "refuser_pts_sample": [],
+     "kind": "own-A reservation cascade"
+    }
+   ],
+   "B_naive": [
+    684101,
+    684300
+   ],
+   "B_naive_refused_at_start": true,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation 683901..685900 walked forward-monotone (hops=1, r587)",
+   "B_semantics": "B arithmetic continuation 684101..684300: own-A-reservation=True, hops=1",
+   "relation_asserts": {
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_lands_above_own_A": true,
+    "AB_mutual_exclusion": true,
+    "B_base_eq_own_A_tail_plus1": true
+   }
+  },
+  "leg2": {
+   "AB_mutual_exclusion": true,
+   "A": [
+    684101,
+    686100
+   ],
+   "B": [
+    686101,
+    686300
+   ],
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=684101 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=686101 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "both bands FREE per seed_admit_gate"
+  },
+  "leg3": {
+   "universe": "post-W303-REGISTERED",
+   "owner_rows": 293,
+   "bands_clear": true
+  },
+  "leg4": {
+   "W305p_A_naive": "686_101..688_100",
+   "W305p_A_first_clean": "686_101..688_100",
+   "W305p_B_naive": "686_301..686_500",
+   "W305p_B_first_clean": "686_301..686_500",
+   "hops_A": 0,
+   "hops_B": 0,
+   "W305p_B_lands_inside_W305p_A_naive": true,
+   "note": "projection on the PRE-W304 universe; once W304 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+   "candidate_bands": {
+    "A": [
+     684101,
+     686100
+    ],
+    "B": [
+     686101,
+     686300
+    ]
+   }
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   684101,
+   686100
+  ],
+  "B": [
+   686101,
+   686300
+  ],
+  "a_lo": 684101,
+  "a_hi": 686100,
+  "b_lo": 686101,
+  "b_hi": 686300
+ },
+ "ordinals": {
+  "a_hop": 0,
+  "a_hop_word": "0TH",
+  "above_own_a": 0,
+  "above_own_a_word": "0TH",
+  "authority": "per r1170 the prereg BODY chain is the single source of truth for ordinals; the seat window passes them in explicitly (never derived from commit messages)"
+ }
+}
