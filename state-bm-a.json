@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-24T01:21:52+0800",
+ "clock_read": "2026-10-24T01:25:16+0800",
  "codely_live_count": 3,
  "codely_live_count_note": "r1026 2026-10-17T05:24:24+08:00 census: headless-only -p count=3 (gate-fixed probe face)",
  "cpu_load_pct": 9.3,
@@ -30,7 +30,7 @@
  "gpu_mode": "llm",
  "gpu_mode_note": "诚实注记: bm-a 无双模烧制车道; gpu_mode=llm 表 35B:8090 常驻 GPU-offload + CEO 桌面共存, 无 gen 烧批在飞 (satengine 队列 0)",
  "gpu_source_note": "nvidia-smi live measure r1068 closeout (CEO weekend machine, honest free face; BmaIdleGuard deployed this round, GPU lane = BigStream MV burns domain)",
- "heartbeat_epoch_utc": 1792776112,
+ "heartbeat_epoch_utc": 1792776316,
  "heartbeat_epoch_utc_type_int": true,
  "idle_ram_gb": 3.17,
  "idle_ram_mb": 5120,
@@ -256,7 +256,7 @@
   "behind": 0,
   "note": "r1099 delivered d462048b3b, zero --no-verify",
   "origin_tip": "d462048b3b",
-  "ts": "2026-10-24T01:38:00+08:00"
+  "ts": "2026-10-24T01:25:16+08:00"
  },
  "ram_free_gb": 22.78,
  "ram_free_mb": 5120,
@@ -273,11 +273,11 @@
   "behind": 0,
   "note": "post-push fetch: behind/ahead as measured; rebase resolved 14 runtime faces (6 host-bm-a kept, 8 newer-wins, compute_audit identical)",
   "origin_tip": "d462048b3b",
-  "ts": "2026-10-24T01:38:00+08:00"
+  "ts": "2026-10-24T01:25:16+08:00"
  },
  "task": "r1099: PRODUCT -- the T27 availability repair was measured before anyone consumed it, and the measurement changed the builder. NEW scripts/fund_avail_dispersion.py (selftest 3/3) compares the published deadline-fallback face (avail_pit) with the first-announce face (avail_first) row by row over every period whose NOTICE_DATE cache exists (income 43/86 periods, 123,933 rows): 43.8% of rows become available earlier, 1.5% later, 54.7% unchanged, and the distinct announce dates in a period go from a median of 9 to 32 -- the ordering a PIT event study needs. SECOND, the finding that mattered: consuming the cache naively delayed 51% of rows by a median ~360 days. On income 2005-03-31, 1,387 of 1,437 codes carry their first NOTICE_DATE in 2006-04 because the EM income table stores old quarters as they appear in later filings -- the field is a RESTATEMENT-era stamp before ~2010. build_face now accepts a notice only inside (period_end, statutory deadline + 90d] and reports every other row as notice_status=out_of_window, falling back to the deadline bound (selftest 10/10, two new legs pin the boundary). After the gate: 2010+ rows 62.7% earlier / 35.4% unchanged / distinct dates 11.3->59.1; pre-2010 98.6% unchanged -- the repair is a 2010+ asset and the report says so. THIRD, defect search at birth: the marks lane that T-35 depends on was dead for two trading days and nobody saw it until t35_open_fill_verify exited 1; update_intraday_marks.py gained --coverage (calendar-vs-files, names every missing day, exit 3, selftest 14 legs incl. 3 new) and rides the S6 chain. LEDGER REPAIR: the r1098 round-report row was written double-encoded and was already U+FFFD-damaged at rest; rebuilt from commit fdabfad958 + the two results JSONs with a repair note (no fabricated detail).",
  "total_ram_gb": 93.6,
- "ts": "2026-10-24T01:21:52+0800",
+ "ts": "2026-10-24T01:25:16+08:00",
  "updated": "2026-10-20T09:38:00+08:00",
  "updated_at": "2026-10-20T12:32:26+08:00",
  "verdict": "green red=false (watermark insufficient_history; compute_audit CLEAN; t35 marks gap disclosed)",
