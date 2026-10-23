@@ -126,7 +126,7 @@
   "cashflow": 0,
   "income": 58
  },
- "now_active": "S7 closeout r1104 -> r1105",
+ "now_active": "idle (r1104 closed, next r1105)",
  "ord_sha_method": "python raw-bytes sha256 canonical (r814 lineage)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -254,10 +254,11 @@
  "orphan_faces": 16,
  "orphan_killed": 0,
  "push_verified": {
-  "ahead": null,
-  "behind": null,
-  "note": "pre-push: this closeout writes state then commits; delivery verify follows in a postscript line",
-  "ts": "2026-10-24T04:56:49+0800"
+  "ahead": 0,
+  "behind": 0,
+  "note": "r1104 delivered product+closeout tip a447521fd6; one rebase (5 UU = regenerable derived faces, take-mine per r1028), zero --no-verify",
+  "origin_tip": "a447521fd6",
+  "ts": "2026-10-24T04:58:00+08:00"
  },
  "ram_free_gb": 22.78,
  "ram_free_mb": 5120,
@@ -274,9 +275,8 @@
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "note": "post-push fetch: clean",
-  "origin_tip": "4fb13b20ae",
-  "ts": "2026-10-24T04:25:35+08:00"
+  "origin_tip": "a447521fd6",
+  "ts": "2026-10-24T04:58:00+08:00"
  },
  "task": "r1102: availability face rebuilt correctly + the impact question answered with numbers (month-end neutral, disclosure-window material, coverage curve inverted). Delivery tip 2ef61f302b, behind 0 / ahead 0. Textbook gap: the push path hit the pre-push ownership claw because origin advanced with a bm-c receipt file mid-window; fix was fetch + rebase (zero conflicts), not --no-verify.",
  "total_ram_gb": 93.6,
