@@ -1,11 +1,11 @@
 {
- "agenda_starved": false,
- "clock_read": "2026-10-24T03:37:25+08:00",
+ "agenda_starved": true,
+ "clock_read": "2026-10-24T04:24:18+08:00",
  "cpu_cores": 32,
  "cpu_load_pct": 9.3,
  "cpu_pct": 9.3,
  "current": "r1099: availability repair measured + era-gated; marks lane made visible",
- "current_task": "r1101: PRODUCT -- restored two dead evidence faces by giving them a declared stale-takeover path (same pure gate as the ETF panel, imported not re-implemented). (1) marks lane: its scheduler lives only on bm-b, so 2026-10-22 and 10-23 have NO intraday evidence at all and t35_open_fill_verify exits 1 on a day that can never be reconstructed; update_intraday_marks.py now allows a non-owner capture only with --takeover AND a bm-b heartbeat >=120min stale, stamped into the marks line as provenance; a marks_capture leg rides the bm-a S6 chain (clock gate keeps it a no-op outside 09:30-15:10). (2) zt_pool: LIVE takeover backfilled 4 trading days -> zt/zbgc/dtgc/strong all cutoff 2026-10-19 -> 2026-10-23, +9703 rows (zt 1429/zbgc 274/dtgc 183/strong 1676), recorded owner/by/reason in the status JSON.",
+ "current_task": "r1102: availability repair rebuilt + impact measured (month-end neutral, disclosure-window material)",
  "current_task_short": "r1099 availability dispersion + notice window gate + marks coverage",
  "did": "r1100: PRODUCT -- the five-member ETF panel (core market face) had been frozen at 2026-10-21 for two trading days because its lane owner bm-b went silent for 25.8h and the lane guard had NO stale-takeover path: every other machine was forced into an honest no-op, so the panel rotted silently. NEW in scripts/update_etf_daily.py: takeover_decision() (pure) + _owner_stale_min() -- a non-owner may refresh only with an explicit --takeover flag AND an owner heartbeat >=120min stale; the takeover is recorded in results/etf_daily_pull_status.json (owner/by/reason/ts). selftest 10/10 -> 11/11 (four negative legs pin 'flag XOR stale never enough'). LIVE-FIRE: 5/5 members +2 rows each -> 3500/5265/3303/2419/1439 rows, cutoff 2026-10-21 -> 2026-10-23. DOWNSTREAM PROPAGATED on the fresh bars: update_daily core48 cutoff 2026-10-23 (0 new rows, panel already current) -> market_regime ORANGE days_in_state=6 (hs300<MA200 + breadth 0.85) -> market_clock CALL-2026-10-23 cell=ORANGE_HOT sleeves=4 -> daily_scorecard 6 traders -> dashboard_status -> daily_report REPORT-2026-10-24. pool supply floor 0/3 -> 3/3 (compute_audit no breach, FLAG:supply_gap only); dualrun ZERO-DRIFT streak 51; attrition CLEAN.",
  "free_ram_gb": 22.78,
@@ -13,7 +13,7 @@
  "gpu_free_mb": 456,
  "gpu_free_vram_gb": 0.48,
  "gpu_free_vram_mb": 456,
- "heartbeat_epoch_utc": 1792784245,
+ "heartbeat_epoch_utc": 1792787058,
  "idle_rounds": 0,
  "last_decisions_at": "2026-10-24T01:01:57+08:00",
  "last_decisions_read_at": "2026-10-24T01:01:57+08:00",
@@ -23,7 +23,7 @@
  "last_orders_read_at": "2026-10-24T01:01:57+08:00",
  "last_orders_seen": "r1086: D-19 ord delta = 10-20 00:32 x2 BigStream MV dispatch + 00:5x bili voice rows (zero BigMoney obligation); dec D-20261020-01/02/03",
  "last_orders_sha": "00caa3452a4e83cd6b87dcc26f648bc019873b38fddfa01d1ebc82df362af660",
- "last_seen": "2026-10-24T03:37:25+08:00",
+ "last_seen": "2026-10-24T04:24:18+08:00",
  "machine_id": "bm-a",
  "next": "when the notice cache finishes (income 43/86 and running at ~1 period/25s; cashflow and balance 0/86), run fund_avail_notice.py build then re-run fund_avail_dispersion; the open question for consumers is whether restored ordering changes any headline factor cell (re-burn one with notice_status==ok only, window <=48h). Fleet finding to hand to the dispatcher: bm-b heartbeat is 25h stale and bm-c 3.4d, so every bm-b-owned data lane is frozen -- the five-member ETF panel ends 2026-10-21, which is why marks 10-22/10-23 are permanently missing.",
  "note": "r1097: t35 open-fill verify rc=1 for 2026-10-23 (intraday marks task was Disabled since 10-21) -> task re-registered+enabled, S4U flip still access-denied (carried C-20261016-04)",
@@ -158,6 +158,7 @@
  "status": "green",
  "task": "r1101: PRODUCT -- restored two dead evidence faces by giving them a declared stale-takeover path (same pure gate as the ETF panel, imported not re-implemented). (1) marks lane: its scheduler lives only on bm-b, so 2026-10-22 and 10-23 have NO intraday evidence at all and t35_open_fill_verify exits 1 on a day that can never be reconstructed; update_intraday_marks.py now allows a non-owner capture only with --takeover AND a bm-b heartbeat >=120min stale, stamped into the marks line as provenance; a marks_capture leg rides the bm-a S6 chain (clock gate keeps it a no-op outside 09:30-15:10). (2) zt_pool: LIVE takeover backfilled 4 trading days -> zt/zbgc/dtgc/strong all cutoff 2026-10-19 -> 2026-10-23, +9703 rows (zt 1429/zbgc 274/dtgc 183/strong 1676), recorded owner/by/reason in the status JSON.",
  "total_ram_gb": 93.6,
- "ts": "2026-10-24T03:37:25+08:00",
- "verdict": "green"
+ "ts": "2026-10-24T04:24:18+08:00",
+ "verdict": "green red=false",
+ "last_round": 1102
 }
