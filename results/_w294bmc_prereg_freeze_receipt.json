@@ -1,0 +1,70 @@
+{
+ "wave": 294,
+ "machine": "bm-c",
+ "round": "r1176",
+ "phase": "prereg freeze",
+ "prereg": "research/PERPETUAL_N1_W294_PREREG.md",
+ "derive_script": "results/_r1176bmc_prereg_derive_w294.py",
+ "src_face": "results/_w294bmc_w293_frozen_face.txt",
+ "src_face_provenance": "git show 2508ccd77b:research/PERPETUAL_N1_W293_PREREG.md (r1173 freeze-commit pre-run face; hash-object identity asserted in-script, blob f55b9a08e6)",
+ "seat_receipt": "results/_w294bmc_20261020_probe_receipt.json",
+ "seat_msg": "MSG-20261020-2135-bmc-w294-seat",
+ "seat_commit": "b438b02eef",
+ "bands": {
+  "A": [662101, 664100],
+  "B": [664101, 664300],
+  "hops_A": 1,
+  "hops_B": 1,
+  "A_form": "STAIRCASE-AFFECTS-A 1-hop walk (naive 661_901..663_900 refused at start by REGISTERED W293 B 661_901..662_100)",
+  "B_form": "own-A reservation cascade 1-hop (naive 662_101..662_300 lands inside own-wave A window 662_101..664_100)"
+ },
+ "upstream_anchors": {
+  "ledger_total": 1068941,
+  "merged_k": 642520,
+  "n_eff_held": 1066741,
+  "merged_mu": -0.09276992358214531,
+  "merged_sigma": 0.2451327424826835,
+  "se_mu": 0.000306,
+  "source": "results/_r1174bmc_w293_fivekeys.json (all_pass=True)",
+  "finalize_landed": true,
+  "inflight_upstream": false
+ },
+ "projections": {
+  "merged_k": 644720,
+  "ledger_total": 1071141,
+  "n_eff": 1068941
+ },
+ "universe": {
+  "owner_rows": 283,
+  "bmc_rows": 112,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 284,
+  "own_wave_ordinal": 113
+ },
+ "gates": {
+  "derive_rule_count": 35,
+  "post_shift_repair_count": 3,
+  "residual_scan": "clean (only W288 historical predecessor label retained by design, count==2 asserted)",
+  "must_all_present": true,
+  "must_not_all_absent": true,
+  "band_token_zero_hits": 0,
+  "banned_direction_gate": {
+   "decision": "ADMIT",
+   "rc": 0,
+   "matched": [],
+   "registry_version": "v1.0"
+  }
+ },
+ "out_sha256_16": "278f39cccc2f9da1",
+ "out_bytes": 24750,
+ "out_lines": 64,
+ "heals_disclosed": [
+  "se_mu narrowing chain: the +1 wave pass relabels W291's 0.000307 entry as W292 (whose actual is 0.000306), so the chain was rebuilt with true labels, the W293 actual 0.000306 inserted, and the W294 projection appended",
+  "RAM walk rebuilt: W288 ~3.5G / W289 ~0.2G / W290 ~4.0G / W291 ~3.8G / W292 ~4.2G / W293 ~5.3G actuals + this window's live reading (3.9G); unlike W293 the W289 label falls OUTSIDE the +1 wave map, so the post-shift span starts at W289 and W290 had to be re-inserted by the repair (r1176 pit note)",
+  "GPU face restated from this window's live nvidia-smi read (3.0G used at derive time; no burn on the card)",
+  "engine face restated live: saturation_engine.py status returns alive_flag=true, burns_active=[], queue_next=[] (idle) at derive time",
+  "ORDINAL CHAIN: body lineage W288 41 -> W289 42 -> W290 43 -> W291 44 -> W292 45 -> W293 46 -> W294 47 (A-hop) / 47 -> 48 (above-own-A); the r1175 seat probe receipt carries the body lineage verbatim, so no commit-chain drift re-entered this window (r1170 law applied)"
+ ],
+ "pit": "r1176: band token registry must enumerate EVERY \\d{3}_\\d{3} token in the source face (the W293 face discloses the W294 projection bands 662_101/662_300), and the se_mu/RAM repair spans must be authored against the POST-shift text, not the pre-shift text -- the predecessor script's spans assumed W289 was inside the +1 wave map, which it is not here (map starts at W290). Both fixed count-asserted; dry-run clean on the first correct pass."
+}
