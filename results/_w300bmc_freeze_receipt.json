@@ -1,0 +1,62 @@
+{
+ "admit_receipt": "results/_w300bmc_20261024_probe_receipt.json",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk FIFTY-THIRD consecutive A-hop (naive 675_101..677_100 refused at start by the registered W299 B band 675_101..675_300; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 675_301..675_500 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; FIFTY-FOURTH consecutive above-own-A)"
+ },
+ "bands": {
+  "A": [
+   675301,
+   677300
+  ],
+  "B": [
+   677301,
+   677500
+  ]
+ },
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "downstream_seat": "projection on the PRE-W300 universe; once W300 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": true
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 300
+ },
+ "machine": "bm-c",
+ "n1_sha16_post": "2da7d006b4bce566",
+ "n1_sha16_pre": "e7d63c2144a4a970",
+ "origin_base": "5973d8625aa0637c778acf1e74be3481300aa530",
+ "own_seat_face": {
+  "prereg_commit": "5973d8625aa0637c778acf1e74be3481300aa530",
+  "probe_receipt_sha": "aebf316324fe5a495b1fe9ea6e188099f378dcaf",
+  "seat_msg": "MSG-20261024-0415-bmc-w300-seat.md",
+  "seat_origin": "aebf316324"
+ },
+ "parity": {
+  "bytes": 29220,
+  "dropped_legs_row_asserts": 51,
+  "estate_row_asserts": 69,
+  "fresh_legs_row_asserts": 52,
+  "kept_legs_row_asserts": 37,
+  "total_parity_rows": 158
+ },
+ "pf_sha16_post": "9c72c41a6c3a9edd",
+ "pf_sha16_pre": "cbca2a632aa1330c",
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W299 ALL LANDED clean precondition incl finalize)",
+ "prereg_placeholder_heal": "research/PERPETUAL_N1_W300_PREREG.md froze at the r1183 derive window with sec.7/sec.8 prose placeholders still OPEN (no @@SEAT tokens -- gate0.5 placeholder assertions pass); sec.7/sec.8 mechanical backfill is this wave's own post-finalize step (same r1182 W300 precedent); judging criteria untouched",
+ "seat": "fleet/inbox/MSG-20261024-0415-bmc-w300-seat.md",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=675301 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=677301 span=200 checked=200 verdict=FREE"
+ ],
+ "spliced_wave": 300,
+ "upstream_w299": {
+  "freeze_sha": "f1b57a0e6796fd158c0336fe259fa303a4a4c795",
+  "ledger_total": 1082141,
+  "merged_n": 655720,
+  "prereg_sha": "5973d8625aa0637c778acf1e74be3481300aa530"
+ },
+ "wave": 299
+}

@@ -533,7 +533,7 @@ receipt = {
     "band_semantics": {
         "A": "1-HOP STAIRCASE-AFFECTS-A walk FIFTY-THIRD consecutive A-hop (naive 675_101..677_100 refused at start by the registered W299 B band 675_101..675_300; hops=1; A base == registered prior-wave B tail+1 EXACT)",
         "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 675_301..675_500 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; FIFTY-FOURTH consecutive above-own-A)"},
-    "upstream_w295": {"freeze_sha": w299_freeze_sha, "prereg_sha": w299_prereg_sha,
+    ("upstream_w%d" % PREV_W): {"freeze_sha": w299_freeze_sha, "prereg_sha": w299_prereg_sha,
                       "ledger_total": w299_total, "merged_n": w299_merged_n},
     "own_seat_face": {"seat_msg": SEAT_MSG, "seat_origin": SEAT_ORIGIN,
                       "prereg_commit": w300_prereg_sha, "probe_receipt_sha": w300_receipt_sha},
