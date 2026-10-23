@@ -59,6 +59,7 @@ SLEEP_S = 2.5            # citizen pace (R109 precedent)
 PAGE_SIZE = 500
 CONN_STOP = 3            # consecutive connection failures -> honest stop
 CALL_TIMEOUT_S = 40
+NOTICE_GRACE_DAYS = 90   # disclosure window past the statutory deadline
 FACES = ("income", "cashflow", "balance")
 # report + period filter column per face (probed r1098: all expose NOTICE_DATE)
 REPORTS = {
@@ -218,11 +219,22 @@ def refresh(face="income", max_periods=None, sleep_s=SLEEP_S, fetcher=None,
 
 
 # -------------------------------------------------------------------- build
-def build_face(face, frame, cache):
+def build_face(face, frame, cache, grace_days=NOTICE_GRACE_DAYS):
     """avail_first = min(source NOTICE_DATE, stored) -- both are upper bounds
     on the true announce date, so the minimum cannot be early. Rows without a
     cached notice date fall back to the statutory deadline (never fabricated
-    early)."""
+    early).
+
+    NOTICE-WINDOW GATE (r1099 bm-a, evidence results/fund_avail_dispersion.json):
+    for periods before ~2010 the earliest source NOTICE_DATE per (code, period)
+    is a RESTATEMENT-era stamp. Measured on income 2005-03-31: 1387 of 1437
+    codes carry their first notice in 2006-04, a full year after the period,
+    because the EM income table stores old quarters as they appear in later
+    filings. Consuming that directly would push ~97% of the pre-2010 rows
+    ~360 days late. A notice is therefore accepted only inside the plausible
+    disclosure window (period_end, deadline + grace_days]; anything beyond it
+    is reported as out_of_window and falls back to the deadline bound (the
+    pre-existing, already-disclosed optimism)."""
     sub = frame[["code", "period_end", "avail_date"]].copy()
     cache = cache.rename(columns={"first_notice": "first_notice"})
     cache["code"] = cache["code"].astype(str).str.zfill(6)
@@ -236,6 +248,14 @@ def build_face(face, frame, cache):
     notice = pd.to_datetime(sub["first_notice"], errors="coerce")
     # a notice before the period end is impossible -> treat as absent
     notice = notice.where(notice >= period_d)
+    # restatement-era stamps land far beyond the disclosure window -> absent
+    window_end = deadline + pd.Timedelta(days=int(grace_days))
+    in_window = notice.notna() & (notice <= window_end)
+    sub["notice_status"] = "absent"
+    sub["notice_status"] = sub["notice_status"].where(
+        notice.isna(), "out_of_window")
+    sub["notice_status"] = sub["notice_status"].mask(in_window, "ok")
+    notice = notice.where(in_window)
     stored = sub["stored"].where(sub["stored"] >= period_d)
     # with a notice date, the tighter of the two upper bounds wins; without
     # one the statutory deadline is the only honest bound (stored is a
@@ -250,7 +270,7 @@ def build_face(face, frame, cache):
     if (pd.to_datetime(sub["avail_first"]) < period_d).any():
         raise AssertionError(f"{face}: avail_first before period_end")
     return sub[["code", "period_end", "avail_first", "source_notice",
-                "deadline", "late_filer"]]
+                "deadline", "late_filer", "notice_status"]]
 
 
 def build(log=print):
@@ -386,7 +406,22 @@ def selftest():
     # 8. build_face output schema is stable
     checks.append(list(out.columns) == ["code", "period_end", "avail_first",
                                         "source_notice", "deadline",
-                                        "late_filer"])
+                                        "late_filer", "notice_status"])
+    # 9. restatement-era notice (a year late) is gated out -> deadline bound,
+    #    never a ~360d delay (the pre-2010 defect measured in r1099)
+    cache9 = pd.DataFrame({"code": ["000001"], "first_notice": ["2026-04-25"]})
+    out9 = build_face("income", frame.iloc[:1], cache9)
+    checks.append(out9["avail_first"].iloc[0] == "2025-04-30"
+                  and out9["notice_status"].iloc[0] == "out_of_window")
+    # 10. the window is inclusive at deadline+grace and closes one day later
+    edge_ok = pd.DataFrame({"code": ["000001"], "first_notice": ["2025-07-29"]})
+    edge_bad = pd.DataFrame({"code": ["000001"], "first_notice": ["2025-07-30"]})
+    o_ok = build_face("income", frame.iloc[:1], edge_ok)
+    o_bad = build_face("income", frame.iloc[:1], edge_bad)
+    checks.append(o_ok["notice_status"].iloc[0] == "ok"
+                  and o_ok["avail_first"].iloc[0] == "2025-07-29"
+                  and o_bad["notice_status"].iloc[0] == "out_of_window"
+                  and o_bad["avail_first"].iloc[0] == "2025-04-30")
     failed = [i for i, ok in enumerate(checks) if not ok]
     print(f"selftest {len(checks) - len(failed)}/{len(checks)} PASS")
     if failed:

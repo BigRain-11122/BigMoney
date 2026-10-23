@@ -412,6 +412,52 @@ def run(force: bool = False) -> int:
     return 0
 
 
+def coverage_report(cal_dates, marks_dir, days, today):
+    """Which of the last ``days`` trading days have a marks file on disk?
+
+    Purpose (r1099 bm-a): a dead marks lane used to be discovered only
+    downstream, when t35_open_fill_verify exits 1 on the day it needs the
+    evidence -- by then the day is unrecoverable (marks are append-only and
+    intraday-only). This turns that late surprise into one line at the lane
+    itself: every trading day without a file is named up front.
+    """
+    exp = [d for d in sorted(cal_dates) if d <= today][-int(days):]
+    present, missing = [], []
+    for d in exp:
+        path = os.path.join(marks_dir, f"marks-{d.replace('-', '')}.jsonl")
+        (present if os.path.exists(path) else missing).append(d)
+    return {"expected": exp, "present": present, "missing": missing,
+            "last_present": present[-1] if present else None,
+            "coverage_share": round(len(present) / len(exp), 4) if exp else None}
+
+
+def _calendar_dates(daily_dir=None):
+    """Union of dated rows across the local daily panel (the repo's
+    established ETF trading-calendar main source; sh510300.csv first)."""
+    daily_dir = daily_dir or os.path.join(PATHS.data_dir, "daily")
+    cands = [os.path.join(daily_dir, "sh510300.csv"),
+             os.path.join(daily_dir, "510300.csv")]
+    try:
+        cands += sorted(os.path.join(daily_dir, n)
+                        for n in os.listdir(daily_dir) if n.endswith(".csv"))
+    except OSError:
+        pass
+    for path in cands:
+        try:
+            dates = []
+            with open(path, encoding="utf-8-sig") as fh:
+                next(fh, None)
+                for line in fh:
+                    head = line.split(",", 1)[0].strip().strip('"')
+                    if len(head) == 10 and head[4] == "-" and head[7] == "-":
+                        dates.append(head)
+            if dates:
+                return sorted(set(dates))
+        except Exception:                                    # noqa: BLE001
+            continue
+    return []
+
+
 def _selftest() -> bool:
     ok = True
     # S1: clock gate
@@ -551,6 +597,24 @@ def _selftest() -> bool:
     ok &= _tick_redundant({"traders": {"T-Y": dict(base_tr)}},
                           prev)[0] is False                      # trader-set
     ok &= _tick_redundant(_mk(None), _mk(1000000.0))[0] is False  # anchor
+    # S14: coverage report names every trading day without a marks file
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="marks_cov_")
+    for d in ("2026-10-20", "2026-10-21"):
+        with open(os.path.join(tmp, f"marks-{d.replace('-', '')}.jsonl"),
+                  "w", encoding="utf-8") as fh:
+            fh.write("{}\n")
+    cal = ["2026-10-16", "2026-10-19", "2026-10-20", "2026-10-21"]
+    cov = coverage_report(cal, tmp, 4, "2026-10-21")
+    ok &= cov["missing"] == ["2026-10-16", "2026-10-19"]
+    ok &= cov["present"] == ["2026-10-20", "2026-10-21"]
+    ok &= cov["last_present"] == "2026-10-21" and cov["coverage_share"] == 0.5
+    # S15: future calendar rows are not expected yet; empty calendar is honest
+    ok &= coverage_report(cal, tmp, 9, "2026-10-20")["missing"] == [
+        "2026-10-16", "2026-10-19"]
+    ok &= coverage_report([], tmp, 4, "2026-10-21")["coverage_share"] is None
+    import shutil
+    shutil.rmtree(tmp, ignore_errors=True)
     return bool(ok)
 
 
@@ -560,6 +624,21 @@ def main(argv=None) -> int:
         ok = _selftest()
         print("update_intraday_marks selftest:", "PASS" if ok else "FAIL")
         return 0 if ok else 1
+    if "--coverage" in argv:
+        days = 15
+        if "--days" in argv:
+            days = int(argv[argv.index("--days") + 1])
+        cal = _calendar_dates()
+        if not cal:
+            print("coverage: no local daily calendar found", file=sys.stderr)
+            return 2
+        cov = coverage_report(cal, MARKS_DIR, days,
+                              dt.date.today().isoformat())
+        print(f"marks coverage: {len(cov['present'])}/{len(cov['expected'])} "
+              f"trading days present (last {days}), "
+              f"last_present={cov['last_present']}, "
+              f"missing={','.join(cov['missing']) or 'none'}")
+        return 3 if cov["missing"] else 0
     return run(force="--force" in argv)
 
 
