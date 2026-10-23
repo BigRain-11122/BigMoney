@@ -1,6 +1,6 @@
 {
  "ticket": "T-2026-09-24-29",
- "evidence_cutoff": "2026-10-22",
+ "evidence_cutoff": "2026-10-23",
  "generated_from": [
   "results/paper",
   "results/shortline/o1600_market_fit.json",
@@ -12,18 +12,18 @@
   {
    "trader": "COMPOSITE-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-22",
-   "bars": 16,
+   "cutoff": "2026-10-23",
+   "bars": 17,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0105,
-    "bars": 11,
+    "return": -0.0139,
+    "bars": 12,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.0149,
+   "current_dd": -0.0182,
    "num_trades": 1,
    "win_rate": 0.0,
    "fill_guard_buy_dropped": 0,
@@ -36,7 +36,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-22 23:13:34",
+    "as_of": "2026-10-24 00:24:32",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -55,26 +55,26 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-22"
+    "as_of": "2026-10-23"
    }
   },
   {
    "trader": "COMPOSITE-CE-02",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-22",
-   "bars": 16,
+   "cutoff": "2026-10-23",
+   "bars": 17,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0131,
-    "bars": 11,
+    "return": -0.0188,
+    "bars": 12,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.0189,
-   "num_trades": 2,
-   "win_rate": 0.5,
+   "current_dd": -0.0245,
+   "num_trades": 3,
+   "win_rate": 0.3333,
    "fill_guard_buy_dropped": 0,
    "fill_guard_sell_deferred": 0,
    "forward_guard": {
@@ -85,13 +85,13 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-22 23:13:35",
+    "as_of": "2026-10-24 00:24:33",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
      "events_total": 21,
-     "events_in_universe_n": 3,
+     "events_in_universe_n": 2,
      "crossing_rows_n": 0,
      "crossing_rows": [],
      "open_position_hits": 0,
@@ -104,19 +104,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-22"
+    "as_of": "2026-10-23"
    }
   },
   {
    "trader": "DROUGHT-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-22",
-   "bars": 16,
+   "cutoff": "2026-10-23",
+   "bars": 17,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0058,
-    "bars": 11,
+    "return": -0.0048,
+    "bars": 12,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
@@ -134,7 +134,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-22 23:13:37",
+    "as_of": "2026-10-24 00:24:35",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -153,7 +153,7 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-22"
+    "as_of": "2026-10-23"
    }
   },
   {
@@ -305,14 +305,14 @@
   }
  ],
  "paper_export_face": {
-  "export_date": "2026-10-22",
+  "export_date": "2026-10-23",
   "schema": "t35_paper_export_v1",
   "summary": {
    "traders": 6,
-   "total_equity_cny": 5960946.13,
-   "total_positions": 21,
+   "total_equity_cny": 5952889.83,
+   "total_positions": 20,
    "entries_today": 0,
-   "exits_today": 0,
+   "exits_today": 1,
    "exits_not_derivable_first_snapshot": false
   },
   "traders": [
@@ -320,8 +320,8 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 990468.31,
-     "positions_value": 852405.55,
+     "equity": 987081.73,
+     "positions_value": 849018.97,
      "cash": 138062.76,
      "denomination": "CNY"
     },
@@ -332,20 +332,20 @@
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 987544.2,
-     "positions_value": 823110.4,
-     "cash": 164433.8,
+     "equity": 981853.4,
+     "positions_value": 704421.58,
+     "cash": 277431.82,
      "denomination": "CNY"
     },
-    "positions_count": 8,
-    "operations_today_count": 0
+    "positions_count": 7,
+    "operations_today_count": 1
    },
    {
     "trader": "DROUGHT-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 994182.45,
-     "positions_value": 47957.84,
+     "equity": 995203.53,
+     "positions_value": 48978.92,
      "cash": 946224.61,
      "denomination": "CNY"
     },
