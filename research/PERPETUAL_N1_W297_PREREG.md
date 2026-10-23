@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1179 W297 §7 范式）
+- 账本累计式：prev 1,075,541 + batch 2,200 = **1,077,741 EXACT**（science_gates.ledger 逐字段；prev == N1 链 W296 finalize 尾 1,075,541 字节级取得·零转录）；合并后 K：649,120 + 2,200 = **651,320 EXACT**；
+- merged mu = -0.09276112 / merged sigma = 0.24514167 / **se_mu@K651,320 = 0.000304**（持平）；W297-only mu = -0.09892673 / sigma = 0.24495350；A 面 full_sharpe p95 = 0.3030 / p99 = 0.4512；
+- K-lift 收官：line_pre_w297 = 1.1992 → line_merged@651,320 = 1.1992，delta = **+0.0000**（n_eff held 1,075,541）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同律）；
+- 五键自预测验证：**6/6 ALL PASS**——key1 only-vs-merged gap 0.0061656 / key1b merged-vs-W296 键 2.09e-05 / key2 sigma rel -2.29e-06 / key3 A p95 delta -0.0161 / key4 K-lift +0.0000 / key5 se_mu 0.000304≤0.000304（证据件 results/_r1180bmc_w297_fivekeys.json；锚=W296 finalize 实测，r587 法）；
+- 剖面探针：PRE-FINALIZE **ALL PASS（第 60 次连续正确相位）**（results/_r1180bmc_w297_sixgate.json）：splice 面 CR-normalized 恒等 worktree==落盘 git blob @ 61964c8b25；setwave 出生站闸 W297 在册 / W296+W295 缺席；bands A 668_701..670_700 / B 670_701..670_900；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2（seed_admit_gate rc0 base=668701 span=2000 checked=2000 verdict=FREE / seed_admit_gate rc0 base=670701 span=200 checked=200 verdict=FREE）；
+- audit 段：machine=bm-c / finalize_only / shards_consumed 12/12；preregistered_doc=research/PERPETUAL_N1_W297_PREREG.md；evidence_cutoff=2026-09-22（P-5C 同窗窗；cutoff_meta 双写）
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W298+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1179 W297 §8 范式）
+- §5.5 W298+ 投影承接回证：finalize 产 preregistered_doc 注记面（A 668_701..670_700 + B 670_701..670_900）与 splice 一致，回证于 _w297bmc_freeze_receipt.json 内嵌——W297 A naive 起 668_501 已被本拍 W296 B 注册拒，staircase-affects-A 属第五十跳 A-hop，A first-clean 668_701..670_700；B naive 668_701..668_900 落在本波 A 窗口，own-A reservation cascade 预期；一切以 live re-derive 为准（禁转录投影）。W298 建拍方强制律：derive 在 derive B 时预留自身 A 窗口（W141 建方/E36 惯例）；
+- 宝藏与方案观察面：本批通路（五面 splice + 引擎自燃 + finalize 全链）属机制集中面，TREASURE_REGISTRY 与 METHODOLOGY_ASSETS 均 +0（如实注记）；
+- 诚实披露面：(1) W297 splice 执行面 = 61964c8b25（本窗一轮内 splice→引擎自燃 12/12→sixgate→finalize→sec78 全链闭环）；(2) 引擎 mtime-watch 自点燃 12/12 全程产物在盘，ledger append 由引擎自提交；(3) 注册冻结锚 = W296 实测值（以账本链头为准）；(4) 账本源性元 prev 1,075,541 == W296 finalize 尾（零漂移）；(5) 承接面 = 单窗闭环（无前窗遗产需吸收）；(6) 本窗修法披露：五面拼接编辑器把历史累计链（se_mu 收窄链 + RAM 历史链）整体交由波标映射移位（legacy 面：导致旧波测量被重新贴标：W293 条目消失 / W296 重复），改为整链哨兵保护后仅改写链尾，45 规则全绿；拼接器行内英文序数（engine-owned wave / owned claim）不在波标映射射程、被继承为陈旧值，本轮显式 +1 至 295th/114th 并纠正自指面（REGISTERED W296 row）；receipt 键名 upstream_w295 修为 upstream_w296（纯标注修正，零数据污染）
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W297 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W296 own-wave finalize 已落地=席位时即解锁（n1_w296_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

@@ -1,34 +1,18 @@
 {
- "ts": "2026-10-24T01:05:48",
+ "ts": "2026-10-24T02:32:00",
  "mode": "probe",
- "py_faces_seen": 6,
+ "py_faces_seen": 5,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 1,
+ "resident_servers_exempt": 2,
  "faces": [
-  {
-   "pid": 7556,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.4,
-   "cpu_delta_20s": 0.297,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pwsh.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
   {
    "pid": 11260,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 87.2,
-   "cpu_delta_20s": 1.719,
+   "age_min": 173.4,
+   "cpu_delta_20s": 1.406,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -40,20 +24,23 @@
    "pid": 20388,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 114.2,
-   "cpu_delta_20s": 23.422,
+   "age_min": 200.5,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
+   ],
+   "listen_ports": [
+    8188
    ]
   },
   {
    "pid": 24564,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 115.9,
+   "age_min": 202.1,
    "cpu_delta_20s": 0.031,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -66,10 +53,10 @@
    ]
   },
   {
-   "pid": 29840,
+   "pid": 28768,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
-   "age_min": 0.2,
+   "age_min": 0.4,
    "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -79,15 +66,17 @@
    ]
   },
   {
-   "pid": 39636,
+   "pid": 39340,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-ja",
-   "age_min": 4.9,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.188,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
     "powershell.exe",
     "wscript.exe"
    ]
@@ -97,10 +86,26 @@
  "idle_server_details": [],
  "resident_server_details": [
   {
+   "pid": 20388,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 200.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "listen_ports": [
+    8188
+   ]
+  },
+  {
    "pid": 24564,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 115.9,
+   "age_min": 202.1,
    "cpu_delta_20s": 0.031,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
