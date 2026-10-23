@@ -1,5 +1,5 @@
 {
- "last_attempt": "2026-10-21T22:30:22",
+ "last_attempt": "2026-10-24T02:07:54",
  "members_planned": [
   "510300",
   "510050",
@@ -7,63 +7,63 @@
   "512100",
   "588000"
  ],
- "ts": "2026-10-21T22:30:22",
- "mode": "no-op: panel cutoff covered",
+ "ts": "2026-10-24T02:07:54",
+ "mode": "full-history pull, append-only, overlap-verified, all-or-nothing panel write",
  "per_member": [
   {
    "code": "510300",
    "tier": "tier1-HS300",
-   "appended": 1,
-   "overlap": 3497,
+   "appended": 2,
+   "overlap": 3498,
    "mismatch": null,
    "error": null,
-   "rows_local": 3498,
+   "rows_local": 3500,
    "first": "2012-05-28",
-   "last": "2026-10-21"
+   "last": "2026-10-23"
   },
   {
    "code": "510050",
    "tier": "tier1-SSE50",
-   "appended": 1,
-   "overlap": 5262,
+   "appended": 2,
+   "overlap": 5263,
    "mismatch": null,
    "error": null,
-   "rows_local": 5263,
+   "rows_local": 5265,
    "first": "2005-02-23",
-   "last": "2026-10-21"
+   "last": "2026-10-23"
   },
   {
    "code": "510500",
    "tier": "tier2-CSI500",
-   "appended": 1,
-   "overlap": 3300,
+   "appended": 2,
+   "overlap": 3301,
    "mismatch": null,
    "error": null,
-   "rows_local": 3301,
+   "rows_local": 3303,
    "first": "2013-03-15",
-   "last": "2026-10-21"
+   "last": "2026-10-23"
   },
   {
    "code": "512100",
    "tier": "tier2-CSI1000",
-   "appended": 1,
-   "overlap": 2416,
+   "appended": 2,
+   "overlap": 2417,
    "mismatch": null,
    "error": null,
-   "rows_local": 2417,
+   "rows_local": 2419,
    "first": "2016-11-04",
-   "last": "2026-10-21"
+   "last": "2026-10-23"
   },
   {
    "code": "588000",
    "tier": "tier2-STAR50-20cm",
-   "appended": 1,
-   "overlap": 1436,
+   "appended": 2,
+   "overlap": 1437,
    "mismatch": null,
    "error": null,
-   "rows_local": 1437,
+   "rows_local": 1439,
    "first": "2020-11-16",
-   "last": "2026-10-21"
+   "last": "2026-10-23"
   }
  ],
  "files_written": 5,
@@ -71,12 +71,18 @@
   "members": 5,
   "failures": 0,
   "mismatches": 0,
-  "total_appended": 5,
-  "data_cutoff": "2026-10-21"
+  "total_appended": 10,
+  "data_cutoff": "2026-10-23"
  },
  "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
  "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox",
  "no_op_reason": "panel cutoff 2026-10-21 covers expected complete-bar date 2026-10-21",
  "expected_cutoff": "2026-10-21",
- "data_cutoff": "2026-10-21"
+ "data_cutoff": "2026-10-21",
+ "takeover": {
+  "owner": "bm-b",
+  "by": "bm-a",
+  "reason": "owner bm-b silent 25.8h >= 120min",
+  "ts": "2026-10-24T02:07:54"
+ }
 }

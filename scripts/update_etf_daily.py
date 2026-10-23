@@ -42,6 +42,10 @@ Semantics (update_repo.py canonical family, R328):
   OHLC sanity (low <= min(open,close), high >= max(open,close), > 0).
 - 30-min attempt throttle; conn-fuse 3 consecutive connection failures.
 - Lane guard: bm-b only (R31); other machines stdout-only honest no-op.
+  Stale-takeover exception (r1100): an explicit --takeover flag PLUS an
+  owner heartbeat silent for >= TAKEOVER_STALE_MIN legalises a declared
+  takeover by a healthy machine ("不许空等", O-1626 R2 / r813 precedent);
+  the takeover is recorded in the status JSON (owner/by/reason).
 
 Exit contract: 0 ok/no-op | 2 fetch/mechanism fail | 3 overlap mismatch
 (source history rewrite). selftest subcommand = offline hermetic.
@@ -71,6 +75,9 @@ SLEEP_S = 2.5                   # inter-request pace
 PRICE_TOL = 1e-6                # overlap price tolerance (abs)
 INT_TOL = 1                     # volume/amount int-round drift tolerance
 COMPLETE_HOUR = dt.time(15, 30)
+TAKEOVER_STALE_MIN = 120       # owner heartbeat silence that legalises a
+                               # declared stale takeover (no silent rot:
+                               # a dead lane must not freeze the panel)
 
 
 def _clear_proxy_env():
@@ -94,6 +101,38 @@ def _lane_owner_id():
             return json.load(f).get("machine_id")
     except Exception:
         return None
+
+
+def _owner_stale_min(owner):
+    """Minutes since the lane owner last wrote its heartbeat, or None."""
+    p = os.path.join(ROOT, "fleet", "machines", f"{owner}.json")
+    try:
+        with io.open(p, encoding="utf-8-sig") as f:
+            d = json.load(f)
+        ep = d.get("heartbeat_epoch_utc")
+        if isinstance(ep, (int, float)) and ep > 0:
+            return (time.time() - ep) / 60.0
+        ts = d.get("ts") or d.get("last_seen") or d.get("updated")
+        then = dt.datetime.fromisoformat(ts)
+        if then.tzinfo is not None:            # never subtract naive-aware
+            then = then.astimezone().replace(tzinfo=None)
+        return (dt.datetime.now() - then).total_seconds() / 60.0
+    except Exception:
+        return None
+
+
+def takeover_decision(allow, stale_min):
+    """Pure: may a non-owner refresh the panel? Explicit opt-in AND a stale
+    owner heartbeat. Returns (ok, reason)."""
+    if not allow:
+        return False, "no --takeover flag"
+    if stale_min is None:
+        return False, "owner heartbeat unreadable"
+    if stale_min < TAKEOVER_STALE_MIN:
+        return False, (f"owner heartbeat fresh ({stale_min:.0f}min < "
+                       f"{TAKEOVER_STALE_MIN}min)")
+    return True, (f"owner {LANE_OWNER} silent {stale_min/60:.1f}h >= "
+                  f"{TAKEOVER_STALE_MIN}min")
 
 
 # ---------------------------------------------------------------- guards (pure)
@@ -354,10 +393,18 @@ def fetch_member(code):
 
 def run():
     owner = _lane_owner_id()
+    takeover = None
     if owner != LANE_OWNER:
-        print(f"no-op: five-member ETF daily lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})")
-        return 0
+        ok, why = takeover_decision("--takeover" in sys.argv[1:],
+                                    _owner_stale_min(LANE_OWNER))
+        if not ok:
+            print(f"no-op: five-member ETF daily lane owned by {LANE_OWNER}, "
+                  f"not this machine ({owner or '?'}); takeover refused: {why}")
+            return 0
+        takeover = {"owner": LANE_OWNER, "by": owner, "reason": why,
+                    "ts": dt.datetime.now().isoformat(timespec="seconds")}
+        print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} lane "
+              f"by {owner} -- {why}")
     _clear_proxy_env()
     st = load_status()
     now = dt.datetime.now()
@@ -384,6 +431,8 @@ def run():
             pass
     st["last_attempt"] = now.isoformat(timespec="seconds")  # mirror FIRST
     st["members_planned"] = list(MEMBERS)
+    if takeover:
+        st["takeover"] = takeover
     write_status(st)
 
     per, failures, mismatches = [], [], []
@@ -630,7 +679,15 @@ def _selftest():
 
     # S10 status JSON native types only
     assert json.loads(json.dumps({"a": int(2), "b": None}))["b"] is None
-    print("selftest: 10/10 PASS")
+
+    # S11 stale-takeover gate: opt-in AND stale owner, never one alone
+    assert takeover_decision(False, 10_000)[0] is False    # no flag
+    assert takeover_decision(True, None)[0] is False       # no heartbeat
+    assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
+    ok, why = takeover_decision(True, TAKEOVER_STALE_MIN)
+    assert ok and "silent" in why
+    assert takeover_decision(False, TAKEOVER_STALE_MIN)[0] is False
+    print("selftest: 11/11 PASS")
     return 0
 
 
