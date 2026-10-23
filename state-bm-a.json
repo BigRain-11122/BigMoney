@@ -254,9 +254,9 @@
  "push_verified": {
   "ahead": 0,
   "behind": 0,
-  "note": "r1099 delivered d462048b3b, zero --no-verify",
-  "origin_tip": "d462048b3b",
-  "ts": "2026-10-24T01:25:16+08:00"
+  "note": "r1101 delivered 1da3ac5c37, zero --no-verify (pre-push claw refusal on a behind-origin range resolved by rebase, not escape hatch)",
+  "origin_tip": "1da3ac5c37",
+  "ts": "2026-10-24T03:38:29+08:00"
  },
  "ram_free_gb": 22.78,
  "ram_free_mb": 5120,
@@ -271,9 +271,9 @@
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "note": "post-push fetch: behind/ahead as measured; rebase resolved 14 runtime faces (6 host-bm-a kept, 8 newer-wins, compute_audit identical)",
-  "origin_tip": "d462048b3b",
-  "ts": "2026-10-24T01:25:16+08:00"
+  "note": "post-push fetch: clean",
+  "origin_tip": "1da3ac5c37",
+  "ts": "2026-10-24T03:38:29+08:00"
  },
  "task": "r1101: PRODUCT -- restored two dead evidence faces by giving them a declared stale-takeover path (same pure gate as the ETF panel, imported not re-implemented). (1) marks lane: its scheduler lives only on bm-b, so 2026-10-22 and 10-23 have NO intraday evidence at all and t35_open_fill_verify exits 1 on a day that can never be reconstructed; update_intraday_marks.py now allows a non-owner capture only with --takeover AND a bm-b heartbeat >=120min stale, stamped into the marks line as provenance; a marks_capture leg rides the bm-a S6 chain (clock gate keeps it a no-op outside 09:30-15:10). (2) zt_pool: LIVE takeover backfilled 4 trading days -> zt/zbgc/dtgc/strong all cutoff 2026-10-19 -> 2026-10-23, +9703 rows (zt 1429/zbgc 274/dtgc 183/strong 1676), recorded owner/by/reason in the status JSON.",
  "total_ram_gb": 93.6,
