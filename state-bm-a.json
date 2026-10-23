@@ -124,7 +124,7 @@
   "cashflow": 0,
   "income": 58
  },
- "now_active": "S7 closeout r1100 -> r1101",
+ "now_active": "S7 closeout r1101 -> r1102",
  "ord_sha_method": "python raw-bytes sha256 canonical (r814 lineage)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -262,11 +262,11 @@
  "ram_free_mb": 5120,
  "ram_free_pct": 24.3,
  "ram_load_pct": 95.0,
- "recent_artifact": "data/daily/sh510300.csv",
- "round": 1100,
- "round_no": 1101,
- "round_no_label": "r1100",
- "s6_face_r1086": "S6 core legs (this round, subset declared honestly): pool_dualrun_reconcile ZERO-DRIFT (462 entries, drift-free streak 51) + compute_audit v2.4.2 rc0 FLAG:cap_violation,supply_floor (supply_floor ready 0/3 breach = the real bottleneck, honest) + py_watermark probe rc0 insufficient_history (n=1 window) + update_daily rc0 + market_regime rc0 (breadth 0.79 >= 65% trigger) + attrition guard CLEAN (4 ledger files, no active loss)",
+ "recent_artifact": "data/zt_pool/collected_days.json",
+ "round": 1101,
+ "round_no": 1102,
+ "round_no_label": "r1101",
+ "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
  "status": "green",
  "sync": {
   "ahead": 0,
@@ -275,11 +275,11 @@
   "origin_tip": "d462048b3b",
   "ts": "2026-10-24T01:25:16+08:00"
  },
- "task": "r1100: PRODUCT -- the five-member ETF panel (core market face) had been frozen at 2026-10-21 for two trading days because its lane owner bm-b went silent for 25.8h and the lane guard had NO stale-takeover path: every other machine was forced into an honest no-op, so the panel rotted silently. NEW in scripts/update_etf_daily.py: takeover_decision() (pure) + _owner_stale_min() -- a non-owner may refresh only with an explicit --takeover flag AND an owner heartbeat >=120min stale; the takeover is recorded in results/etf_daily_pull_status.json (owner/by/reason/ts). selftest 10/10 -> 11/11 (four negative legs pin 'flag XOR stale never enough'). LIVE-FIRE: 5/5 members +2 rows each -> 3500/5265/3303/2419/1439 rows, cutoff 2026-10-21 -> 2026-10-23. DOWNSTREAM PROPAGATED on the fresh bars: update_daily core48 cutoff 2026-10-23 (0 new rows, panel already current) -> market_regime ORANGE days_in_state=6 (hs300<MA200 + breadth 0.85) -> market_clock CALL-2026-10-23 cell=ORANGE_HOT sleeves=4 -> daily_scorecard 6 traders -> dashboard_status -> daily_report REPORT-2026-10-24. pool supply floor 0/3 -> 3/3 (compute_audit no breach, FLAG:supply_gap only); dualrun ZERO-DRIFT streak 51; attrition CLEAN.",
+ "task": "r1101: PRODUCT -- restored two dead evidence faces by giving them a declared stale-takeover path (same pure gate as the ETF panel, imported not re-implemented). (1) marks lane: its scheduler lives only on bm-b, so 2026-10-22 and 10-23 have NO intraday evidence at all and t35_open_fill_verify exits 1 on a day that can never be reconstructed; update_intraday_marks.py now allows a non-owner capture only with --takeover AND a bm-b heartbeat >=120min stale, stamped into the marks line as provenance; a marks_capture leg rides the bm-a S6 chain (clock gate keeps it a no-op outside 09:30-15:10). (2) zt_pool: LIVE takeover backfilled 4 trading days -> zt/zbgc/dtgc/strong all cutoff 2026-10-19 -> 2026-10-23, +9703 rows (zt 1429/zbgc 274/dtgc 183/strong 1676), recorded owner/by/reason in the status JSON.",
  "total_ram_gb": 93.6,
- "ts": "2026-10-24T02:09:58+08:00",
- "updated": "2026-10-24T02:09:58+08:00",
+ "ts": "2026-10-24T03:37:25+08:00",
+ "updated": "2026-10-24T03:37:25+08:00",
  "updated_at": "2026-10-20T12:32:26+08:00",
- "verdict": "green red=false (watermark insufficient_history n=1; compute_audit rc0 FLAG:supply_gap with supply_floor 3/3 no breach; stale lane cured)",
+ "verdict": "green red=false (watermark lane healthy / py low but board clear; compute_audit rc0; two stale lanes given takeover paths, zt_pool backfilled live)",
  "verify": "fund_pit_avail selftest 16/16; fund_avail_pit_t27 selftest 18/18; overlay invariants asserted on 733k real rows; smoke 51/51; S6 14 legs rc0; attrition CLEAN; orphan 0/30"
 }

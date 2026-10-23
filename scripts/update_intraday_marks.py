@@ -33,11 +33,22 @@ Gates (script-side, safe under any scheduler cadence):
   - --force bypasses the clock gate for pipeline validation ONLY (the
     run is stamped kind="forced" and never counts as trading evidence)
 
+Stale-takeover exception (r1101 bm-a): this lane's scheduler lives on one
+host, so that host going silent silently rots the ONLY intraday evidence
+face (marks 2026-10-22/23 never existed; t35_open_fill_verify then exits 1
+on a day that can never be reconstructed). A non-owner host may therefore
+capture only with an explicit --takeover flag AND an owner heartbeat
+>= TAKEOVER_STALE_MIN stale -- the same pure decision the ETF panel uses
+(imported, not re-implemented), and the takeover is stamped into the marks
+line itself so every mark carries its own provenance.
+
 Usage:
     python scripts/update_intraday_marks.py            # gated run
+    python scripts/update_intraday_marks.py --takeover # non-owner, stale owner only
     python scripts/update_intraday_marks.py --force    # validation run
+    python scripts/update_intraday_marks.py --coverage # lane gap report
     python scripts/update_intraday_marks.py --selftest
-Exit codes: 0 = ok/no-op, 2 = source/mechanism failure (honest).
+Exit codes: 0 = ok/no-op, 2 = source/mechanism failure (honest), 3 = coverage gap.
 """
 import datetime as dt
 import json
@@ -49,6 +60,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                              takeover_decision)          # noqa: E402
+
 PAPER_DIR = os.path.join(PATHS.results_dir, "paper")
 MARKS_DIR = os.path.join(PAPER_DIR, "marks")
 OPEN_T = dt.time(9, 30)
@@ -57,10 +72,22 @@ CLOSE_GRACE_T = dt.time(15, 10)
 ATTEMPTS = 3
 BACKOFF_S = (5, 10)
 SOURCE_ORDER = ("fund_etf_category_sina", "fund_etf_spot_ths")
+LANE_OWNER = "bm-b"                 # host that carries the marks scheduler
 
 
 def _now() -> dt.datetime:
     return dt.datetime.now()
+
+
+def _machine_id(root: str | None = None) -> str:
+    """This host's machine_id (fleet/machine.json), '' when unreadable."""
+    p = os.path.join(root or os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "fleet", "machine.json")
+    try:
+        with open(p, encoding="utf-8-sig") as fh:
+            return str(json.load(fh).get("machine_id") or "")
+    except (OSError, ValueError):
+        return ""
 
 
 def _gate(now: dt.datetime) -> str:
@@ -361,7 +388,7 @@ def _last_written_tick(marks_path: str) -> dict | None:
     return last
 
 
-def run(force: bool = False) -> int:
+def run(force: bool = False, takeover_flag: bool = False) -> int:
     now = _now()
     kind = "forced" if force else _gate(now)
     if force:
@@ -369,6 +396,18 @@ def run(force: bool = False) -> int:
     elif kind == "noop":
         print(f"intraday_marks: no-op (outside trading window, {now:%H:%M})")
         return 0
+    takeover = None
+    if not force and _machine_id() != LANE_OWNER:
+        ok, why = takeover_decision(takeover_flag, _owner_stale_min(LANE_OWNER))
+        if not ok:
+            print(f"intraday_marks: no-op: marks lane owned by {LANE_OWNER}, "
+                  f"not this machine ({_machine_id() or '?'}); takeover "
+                  f"refused: {why}")
+            return 0
+        takeover = {"owner": LANE_OWNER, "by": _machine_id(), "reason": why,
+                    "ts": now.isoformat(timespec="seconds")}
+        print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} marks lane "
+              f"by {_machine_id()} -- {why}")
     if kind == "settle":
         marks_path = os.path.join(
             MARKS_DIR, f"marks-{now:%Y%m%d}.jsonl")
@@ -387,6 +426,8 @@ def run(force: bool = False) -> int:
     os.makedirs(MARKS_DIR, exist_ok=True)
     marks_path = os.path.join(MARKS_DIR, f"marks-{now:%Y%m%d}.jsonl")
     line = _compose(states, quotes, now, kind, meta)
+    if takeover:
+        line["takeover"] = takeover
     viol = _check_no_silent_zero(line)
     if viol:
         print(f"intraday_marks: MACHINE-CHECK VIOLATION (local daily quote "
@@ -615,6 +656,15 @@ def _selftest() -> bool:
     ok &= coverage_report([], tmp, 4, "2026-10-21")["coverage_share"] is None
     import shutil
     shutil.rmtree(tmp, ignore_errors=True)
+    # S16 (r1101): stale-takeover gate -- flag XOR stale never enough, and a
+    # fresh owner heartbeat always wins (embedded lane must not double-write).
+    ok &= takeover_decision(False, 10_000)[0] is False          # no flag
+    ok &= takeover_decision(True, None)[0] is False             # unreadable
+    ok &= takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
+    ok &= takeover_decision(False, TAKEOVER_STALE_MIN)[0] is False
+    ok_t, why_t = takeover_decision(True, TAKEOVER_STALE_MIN)
+    ok &= ok_t is True and "silent" in why_t
+    ok &= _machine_id() != ""                                   # identity read
     return bool(ok)
 
 
@@ -639,7 +689,7 @@ def main(argv=None) -> int:
               f"last_present={cov['last_present']}, "
               f"missing={','.join(cov['missing']) or 'none'}")
         return 3 if cov["missing"] else 0
-    return run(force="--force" in argv)
+    return run(force="--force" in argv, takeover_flag="--takeover" in argv)
 
 
 if __name__ == "__main__":

@@ -267,11 +267,26 @@ def fetch_day(ak_fn, date_compact, invariant_cols):
 def main():
     t0 = time.time()
     owner = _lane_owner_id()
+    takeover = None
     if owner != LANE_OWNER:
-        # R31 lane guard + R65 zero-shared-state law: stdout-only no-op
-        print(f"no-op: zt_pool lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})", flush=True)
-        return 0
+        # R31 lane guard + R65 zero-shared-state law: stdout-only no-op,
+        # except a DECLARED stale takeover (r1101): explicit --takeover AND
+        # an owner heartbeat >= TAKEOVER_STALE_MIN stale -- reuse the pure
+        # decision from update_etf_daily, never a second implementation.
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                      takeover_decision)
+        ok, why = takeover_decision("--takeover" in sys.argv[1:],
+                                    _owner_stale_min(LANE_OWNER))
+        if not ok:
+            print(f"no-op: zt_pool lane owned by {LANE_OWNER}, "
+                  f"not this machine ({owner or '?'}); takeover refused: "
+                  f"{why}", flush=True)
+            return 0
+        takeover = {"owner": LANE_OWNER, "by": owner, "reason": why,
+                    "ts": pd.Timestamp.now().isoformat()}
+        print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} zt_pool "
+              f"lane by {owner} -- {why}", flush=True)
 
     st = load_status()
     if st.get("blocked"):
@@ -409,9 +424,12 @@ def main():
             time.sleep(RATE_SLEEP)
 
     cutoffs = {k: (ledger[k][-1] if ledger[k] else None) for k in ENDPOINTS}
-    save_status({"cutoffs": cutoffs, "new_rows": int(total_new),
-                 "verdict": "updated",
-                 "last_attempt": now.isoformat(timespec="seconds")})
+    payload = {"cutoffs": cutoffs, "new_rows": int(total_new),
+               "verdict": "updated",
+               "last_attempt": now.isoformat(timespec="seconds")}
+    if takeover:
+        payload["takeover"] = takeover
+    save_status(payload)
     print(f"updated: +{total_new} rows, cutoffs {cutoffs} "
           f"({time.time() - t0:.0f}s)", flush=True)
     return 0
@@ -537,6 +555,15 @@ def selftest():
     # ---- lane guard: owner id resolution never guesses (r98 face)
     assert isinstance(_lane_owner_id(), str)
     print("[PASS] lane_owner_id returns str (no guess)", flush=True)
+
+    # ---- r1101: stale-takeover gate (flag XOR stale never enough)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import TAKEOVER_STALE_MIN, takeover_decision
+    assert takeover_decision(False, 10_000)[0] is False
+    assert takeover_decision(True, None)[0] is False
+    assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
+    assert takeover_decision(True, TAKEOVER_STALE_MIN)[0] is True
+    print("[PASS] stale-takeover gate: flag AND stale required", flush=True)
 
     # ---- endpoints registry sanity: akshare import-time presence
     try:

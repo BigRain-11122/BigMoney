@@ -1,0 +1,112 @@
+{
+    "generated_utc":  "2026-10-21T05:50:39Z",
+    "probe":  "quant-audit-probe-v2.ps1 v1.0",
+    "law_ref":  "docs/audit-charter.md Appendix B (B5 cadence, B7 expansion Q6..Q9)",
+    "repo":  "quant\\bigmoney",
+    "flags":  {
+                  "Q6_cost_model_missing":  0,
+                  "Q6_cost_mismatch":  1,
+                  "Q7_stale_symbols":  1672,
+                  "Q7_in_service":  53,
+                  "Q8_overread_runs":  1577,
+                  "Q9_impossible_fills":  0
+              },
+    "findings":  [
+                     {
+                         "id":  "Q6",
+                         "cost_mentions":  [
+                                               {
+                                                   "file":  "rules.py",
+                                                   "hits":  68
+                                               },
+                                               {
+                                                   "file":  "backtester.py",
+                                                   "hits":  72
+                                               },
+                                               {
+                                                   "file":  "paper.py",
+                                                   "hits":  30
+                                               }
+                                           ],
+                         "bp_like_constants":  {
+
+                                               },
+                         "expected_bp_per_side":  13,
+                         "note":  "presence/value only; whether the paper path truly charges it needs the trade log (Q9)"
+                     },
+                     {
+                         "id":  "Q7",
+                         "fresh":  53,
+                         "stale":  1672,
+                         "stale_threshold_days":  5,
+                         "newest_mtime":  "2026-10-20 22:51",
+                         "oldest_mtime":  "2026-10-01 21:56",
+                         "note":  "a symbol with no new bar inside the window must be excluded from the live panel, not silently carried"
+                     },
+                     {
+                         "id":  "Q8",
+                         "prereg_cutoffs_found":  333,
+                         "raw_hits":  1577,
+                         "overreads":  [
+                                           {
+                                               "result":  "aggressive_family.json",
+                                               "prereg":  "AGGR_FAMILY_PREREG.md",
+                                               "cutoff":  "2026-09-23",
+                                               "max_date":  "2026-09-25"
+                                           },
+                                           {
+                                               "result":  "aggressive_lab.json",
+                                               "prereg":  "AGGRESSIVE_LAB.md",
+                                               "cutoff":  "2026-09-23",
+                                               "max_date":  "2026-09-30"
+                                           },
+                                           {
+                                               "result":  "aggr_fullpool_battery.json",
+                                               "prereg":  "AGGR_FULLPOOL_BATTERY.md",
+                                               "cutoff":  "2026-09-24",
+                                               "max_date":  "2026-09-26"
+                                           },
+                                           {
+                                               "result":  "autofill_state.bm-a.json",
+                                               "prereg":  "FUND-DIVLOWVOL-P1.md",
+                                               "cutoff":  "2026-09-22",
+                                               "max_date":  "2026-10-21"
+                                           },
+                                           {
+                                               "result":  "bandit_queue.json",
+                                               "prereg":  "SINA_CONSTRUCT_P1.md",
+                                               "cutoff":  "2026-09-24",
+                                               "max_date":  "2026-10-01"
+                                           },
+                                           {
+                                               "result":  "bandit_queue.json",
+                                               "prereg":  "T33_ATTACK_WAVE.md",
+                                               "cutoff":  "2026-09-24",
+                                               "max_date":  "2026-10-01"
+                                           },
+                                           {
+                                               "result":  "bandit_queue.json",
+                                               "prereg":  "T34_EARLY_SIGNAL.md",
+                                               "cutoff":  "2026-09-23",
+                                               "max_date":  "2026-10-01"
+                                           },
+                                           {
+                                               "result":  "bandit_queue.json",
+                                               "prereg":  "P5C_VIRTUAL_TIMEPOINT.md",
+                                               "cutoff":  "2026-09-22",
+                                               "max_date":  "2026-10-01"
+                                           }
+                                       ],
+                         "note":  "INFORMATIONAL ONLY in v1.0 -- basename matching produced 701 raw hits (mostly ops/chain artifacts that legitimately carry recent dates). A usable Q8 needs the prereg to name its own result artifact; until then no one may be named on this evidence."
+                     },
+                     {
+                         "id":  "Q9",
+                         "zero_mark_rows":  0,
+                         "valid_mark_rows":  4564,
+                         "samples":  [
+
+                                     ],
+                         "note":  "a position carried in the book with mark=0 AND market_value=null is unpriced capital; it must fail an assertion, never pass silently"
+                     }
+                 ]
+}

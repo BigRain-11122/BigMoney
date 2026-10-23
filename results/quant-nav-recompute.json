@@ -1,0 +1,103 @@
+{
+    "generated_utc":  "2026-10-21T05:49:57Z",
+    "probe":  "quant-nav-recompute.ps1 v1.0",
+    "law_ref":  "docs/audit-charter.md Appendix B2 item 1 (return authenticity)",
+    "repo":  "quant\\bigmoney",
+    "traders":  [
+                    {
+                        "trader":  "COMPOSITE-CE-01",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  -0.002277,
+                        "max_drawdown_recomputed":  -0.010336,
+                        "annualised_vol":  0.04564,
+                        "annualised_return_not_meaningful":  -0.029788,
+                        "sharpe_not_meaningful":  -0.6409,
+                        "equity_last_recomputed":  1001009.96,
+                        "equity_last_reported":  1001009.96,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    },
+                    {
+                        "trader":  "COMPOSITE-CE-02",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  -0.004196,
+                        "max_drawdown_recomputed":  -0.014002,
+                        "annualised_vol":  0.057303,
+                        "annualised_return_not_meaningful":  -0.054248,
+                        "sharpe_not_meaningful":  -0.946,
+                        "equity_last_recomputed":  1000665.47,
+                        "equity_last_reported":  1000665.47,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    },
+                    {
+                        "trader":  "DROUGHT-CE-01",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  0,
+                        "max_drawdown_recomputed":  -0.008341,
+                        "annualised_vol":  0.040177,
+                        "annualised_return_not_meaningful":  0,
+                        "sharpe_not_meaningful":  0.0191,
+                        "equity_last_recomputed":  1000000,
+                        "equity_last_reported":  1000000,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    },
+                    {
+                        "trader":  "ENGULF-CE-01",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  0,
+                        "max_drawdown_recomputed":  0,
+                        "annualised_vol":  0,
+                        "annualised_return_not_meaningful":  0,
+                        "sharpe_not_meaningful":  0,
+                        "equity_last_recomputed":  1000000,
+                        "equity_last_reported":  1000000,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    },
+                    {
+                        "trader":  "NEEDLE-DE-01",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  0,
+                        "max_drawdown_recomputed":  0,
+                        "annualised_vol":  0,
+                        "annualised_return_not_meaningful":  0,
+                        "sharpe_not_meaningful":  0,
+                        "equity_last_recomputed":  1000000,
+                        "equity_last_reported":  1000000,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    },
+                    {
+                        "trader":  "VOLATILITY-CE-01",
+                        "days_observed":  20,
+                        "first_day":  "2026-10-13",
+                        "last_day":  "2026-10-02",
+                        "total_return_recomputed":  0.000498,
+                        "max_drawdown_recomputed":  -0.003964,
+                        "annualised_vol":  0.017669,
+                        "annualised_return_not_meaningful":  0.00662,
+                        "sharpe_not_meaningful":  0.3818,
+                        "equity_last_recomputed":  996820.33,
+                        "equity_last_reported":  996820.33,
+                        "recompute_vs_reported_diff":  0,
+                        "unpriced_position_days":  0
+                    }
+                ],
+    "limits":  [
+                   "annualised figures are extrapolated from a handful of days and are NOT meaningful; printed only to show how absurd the extrapolation is",
+                   "unpriced positions (mark 0 / market_value null) make recomputed equity an UNDERSTATEMENT; the affected day count is reported per trader",
+                   "reports only; this tool issues no verdict"
+               ]
+}

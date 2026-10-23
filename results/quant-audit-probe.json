@@ -1,0 +1,107 @@
+{
+    "generated_utc":  "2026-10-21T05:50:05Z",
+    "probe":  "quant-audit-probe.ps1 v1.0",
+    "law_ref":  "D-20260930-27 (external quant oversight) / audit-charter Appendix A",
+    "repo":  "quant\\bigmoney",
+    "snapshots":  250,
+    "snapshots_by_day":  {
+                             "2026-10-12":  14,
+                             "2026-10-13":  15,
+                             "2026-10-20":  14,
+                             "2026-10-16":  10,
+                             "2026-09-25":  34,
+                             "2026-10-09":  12,
+                             "2026-09-24":  1,
+                             "2026-10-07":  4,
+                             "2026-10-06":  2,
+                             "2026-10-02":  2,
+                             "2026-10-01":  3,
+                             "2026-10-19":  21,
+                             "2026-10-08":  12,
+                             "2026-10-15":  16,
+                             "2026-09-29":  1,
+                             "2026-10-05":  2,
+                             "2026-10-21":  3,
+                             "2026-09-30":  62,
+                             "2026-09-28":  3,
+                             "2026-10-14":  19
+                         },
+    "flags":  {
+                  "Q1_equity_mismatch":  0,
+                  "Q2_unmarked_positions":  0,
+                  "Q2_unmarked_weight_pct":  0,
+                  "Q3_annualization_below_floor":  6,
+                  "Q4_redundant_snapshots":  1213,
+                  "Q5_zero_activity_traders":  2
+              },
+    "equity_mismatch_rows":  {
+
+                             },
+    "findings":  [
+                     {
+                         "id":  "Q3",
+                         "trader":  "COMPOSITE-CE-01_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q3",
+                         "trader":  "COMPOSITE-CE-02_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q3",
+                         "trader":  "DROUGHT-CE-01_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q3",
+                         "trader":  "ENGULF-CE-01_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q3",
+                         "trader":  "NEEDLE-DE-01_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q3",
+                         "trader":  "VOLATILITY-CE-01_paper",
+                         "bars":  14,
+                         "floor":  20,
+                         "reported_annual_return":  null,
+                         "note":  "annualized statistic on fewer bars than the floor - mathematically meaningless, must not be quoted to CEO"
+                     },
+                     {
+                         "id":  "Q5",
+                         "trader":  "ENGULF-CE-01_paper",
+                         "closed_trades":  0,
+                         "open_positions":  0,
+                         "months_tracked":  0,
+                         "note":  "flat at initial cash - registered but not trading"
+                     },
+                     {
+                         "id":  "Q5",
+                         "trader":  "NEEDLE-DE-01_paper",
+                         "closed_trades":  0,
+                         "open_positions":  0,
+                         "months_tracked":  0,
+                         "note":  "flat at initial cash - registered but not trading"
+                     }
+                 ],
+    "note":  "Q2 unmarked weight is estimated at COST (disclosed as an estimate, not a market value). All checks are read-only."
+}
