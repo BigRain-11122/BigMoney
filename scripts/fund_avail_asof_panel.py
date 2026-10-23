@@ -29,9 +29,12 @@ DEFINITION (disclosed, one reading only):
     ``avail_event`` is <= asof, asserted on the emitted panel.
 
 Outputs:
-    data/fund_statement_export/pit_avail/asof_income_monthly.parquet (local)
+    data/fund_statement_export/pit_avail/asof_<face>_monthly.parquet (local)
     results/fund_avail_asof_panel.json
-Subcommands: run | selftest
+    Faces: income (roe/np/rev), cashflow (net cash flow / operating cash flow),
+    balance (total assets / debt ratio / equity). ``run all`` builds every face;
+    ``run <face>`` builds one (default income, backward compatible).
+Subcommands: run [face|all] | selftest
 Exit codes: 0 ok, 2 machinery, 3 availability face missing.
 """
 from __future__ import annotations
@@ -48,11 +51,43 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 AVAIL_DIR = os.path.join(ROOT, "data", "fund_statement_export", "pit_avail")
 INCOME = os.path.join(ROOT, "data", "fund_statement_export", "income_faces.parquet")
+CASHFLOW = os.path.join(ROOT, "data", "fund_statement_export", "cashflow_faces.parquet")
+BALANCE = os.path.join(ROOT, "data", "fund_statement_export", "balance_faces.parquet")
 SUMMARY = os.path.join(ROOT, "results", "fund_avail_asof_panel.json")
 
 ROE = "\u51c0\u8d44\u4ea7\u6536\u76ca\u7387"
 NP = "\u51c0\u5229\u6da6-\u51c0\u5229\u6da6"
 REV = "\u8425\u4e1a\u603b\u6536\u5165-\u8425\u4e1a\u603b\u6536\u5165"
+
+# cashflow / balance value columns (r1111: the as-of primitive is face-agnostic,
+# only the value columns and the availability file change)
+CF_NET = "\u51c0\u73b0\u91d1\u6d41-\u51c0\u73b0\u91d1\u6d41"
+CF_OPS = "\u7ecf\u8425\u6027\u73b0\u91d1\u6d41-\u73b0\u91d1\u6d41\u91cf\u51c0\u989d"
+BS_ASSETS = "\u8d44\u4ea7-\u603b\u8d44\u4ea7"
+BS_LEV = "\u8d44\u4ea7\u8d1f\u503a\u7387"
+BS_EQ = "\u80a1\u4e1c\u6743\u76ca\u5408\u8ba1"
+
+FACES = {
+    "income": {
+        "avail": "income_avail_event.parquet",
+        "values": INCOME,
+        "value_cols": (ROE, NP, REV),
+        "panel": "asof_income_monthly.parquet",
+    },
+    "cashflow": {
+        "avail": "cashflow_avail_event.parquet",
+        "values": CASHFLOW,
+        "value_cols": (CF_NET, CF_OPS),
+        "panel": "asof_cashflow_monthly.parquet",
+    },
+    "balance": {
+        "avail": "balance_avail_event.parquet",
+        "values": BALANCE,
+        "value_cols": (BS_ASSETS, BS_LEV, BS_EQ),
+        "panel": "asof_balance_monthly.parquet",
+    },
+}
+FACE_ORDER = ("income", "cashflow", "balance")
 
 GRID_START = "2010-01-31"
 PANEL_WINDOW = 24
@@ -223,55 +258,80 @@ def grid_evidence(prep, asofs):
 
 
 # --------------------------------------------------------------------- run
-def run(log=print):
-    avail_path = os.path.join(AVAIL_DIR, "income_avail_event.parquet")
-    missing = [p for p in (avail_path, INCOME) if not os.path.exists(p)]
+def _cross_face(code_sets):
+    """Code coverage across the requested faces (a cross-statement factor can
+    only be built on the intersection, so publish it rather than discovering it
+    mid-build as a silent cover shrink)."""
+    names = sorted(code_sets)
+    if len(names) < 2:
+        return {"faces": names,
+                "codes": {n: len(code_sets[n]) for n in names},
+                "note": "single face -- no cross-face join measured"}
+    inter = set.intersection(*[code_sets[n] for n in names])
+    union = set().union(*[code_sets[n] for n in names])
+    widest = max(names, key=lambda n: len(code_sets[n]))
+    return {
+        "faces": names,
+        "codes": {n: len(code_sets[n]) for n in names},
+        "intersection": len(inter),
+        "union": len(union),
+        "intersection_share_of_widest": round(
+            len(inter) / max(1, len(code_sets[widest])), 4),
+        "widest": widest,
+        "note": "a cross-statement factor is buildable only on the "
+                "intersection; the rest are single-face only",
+    }
+
+
+def _run_face(name, log=print):
+    """Build one face's as-of panel + receipt. Returns (rc, receipt|None)."""
+    spec = FACES[name]
+    avail_path = os.path.join(AVAIL_DIR, spec["avail"])
+    value_cols = list(spec["value_cols"])
+    missing = [p for p in (avail_path, spec["values"]) if not os.path.exists(p)]
     if missing:
-        log(f"MISSING INPUTS: {missing}")
-        return 3
+        log(f"{name}: MISSING INPUTS: "
+            f"{[os.path.relpath(p, ROOT) for p in missing]}")
+        return 3, None, None
     avail = pd.read_parquet(avail_path)
-    values = pd.read_parquet(INCOME)[["code", "period_end", ROE, NP, REV]]
-    prep = _prep(avail, values, (ROE, NP, REV))
+    values = pd.read_parquet(spec["values"])[["code", "period_end",
+                                              *value_cols]]
+    prep = _prep(avail, values, tuple(value_cols))
 
     last_avail = pd.Timestamp(prep["avail_event"].max())
     asofs = month_ends(GRID_START, last_avail)
     evidence = grid_evidence(prep, asofs)
 
     window = asofs[-PANEL_WINDOW:]
-    parts = [asof_slice(prep, d, (ROE, NP, REV)) for d in window]
+    parts = [asof_slice(prep, d, tuple(value_cols)) for d in window]
     panel = pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
-    target = os.path.join(AVAIL_DIR, "asof_income_monthly.parquet")
+    target_name = spec["panel"]
+    target = os.path.join(AVAIL_DIR, target_name)
     if len(panel):
         lookahead = (pd.to_datetime(panel["avail_event"])
                      > pd.to_datetime(panel["asof"]))
         if bool(lookahead.any()):
-            raise AssertionError(f"{int(lookahead.sum())} panel rows read a "
-                                 "report before it was available")
+            raise AssertionError(f"{name}: {int(lookahead.sum())} panel rows "
+                                 "read a report before it was available")
+        if not all(c in panel.columns for c in ("asof", "code", "period_end",
+                                                "avail_event", "avail_tier")):
+            raise AssertionError(f"{name}: panel lost a join/key column")
         os.makedirs(AVAIL_DIR, exist_ok=True)
         panel.to_parquet(target, index=False)
 
     latest = evidence[-1] if evidence else {}
-    receipts = {
-        "ts": dt.datetime.now().astimezone().strftime("%Y-%m-%dT%H:%M:%S%z"),
-        "audit": "strict PIT as-of read path over the income filing-event "
-                 "availability face (newest known report period per code)",
-        "face": "income",
+    receipt = {
+        "face": name,
+        "value_cols": value_cols,
+        "codes_total": int(len(prep["codes"])),
         "avail_rows": int(len(prep["frame"])),
         "avail_max_date": last_avail.strftime("%Y-%m-%d"),
         "grid": {"start": asofs[0].strftime("%Y-%m-%d"),
                  "end": asofs[-1].strftime("%Y-%m-%d"),
                  "points": len(asofs)},
-        "definition": "candidates avail_event<=asof; choice max period_end; "
-                      "tie -> earliest availability",
-        "tier_meaning": {_TIER_EVENT: "a disclosure stamp landed inside the "
-                                      "plausible window (cross-statement event "
-                                      "or own notice)",
-                         _TIER_DEADLINE: "statutory deadline bound (no usable "
-                                         "stamp) -- usable but LOW confidence"},
         "latest": latest,
         "panel_artifact": {
-            "path": "data/fund_statement_export/pit_avail/"
-                    "asof_income_monthly.parquet",
+            "path": "data/fund_statement_export/pit_avail/" + target_name,
             "rows": int(len(panel)),
             "asofs": len(window),
             "window_start": window[0].strftime("%Y-%m-%d") if window else None,
@@ -279,21 +339,70 @@ def run(log=print):
         },
         "grid_rows": evidence,
     }
+    log(f"{name}: grid {len(asofs)} month-ends; latest asof "
+        f"{latest.get('asof')}: codes={latest.get('codes')} "
+        f"deadline_bound={latest.get('deadline_bound_share')} "
+        f"median_staleness={latest.get('median_staleness_days')}d "
+        f"naive_codes_ahead={latest.get('naive_codes_ahead')}")
+    log(f"{name}: panel rows={len(panel)} asofs={len(window)} -> "
+        f"{os.path.relpath(target, ROOT)}")
+    return 0, receipt, set(prep["codes"].tolist())
+
+
+def run(faces=("income",), log=print):
+    """Build the as-of panel for one face or for all faces ("all")."""
+    if isinstance(faces, str):
+        faces = FACE_ORDER if faces == "all" else (faces,)
+    unknown = [f for f in faces if f not in FACES]
+    if unknown:
+        log(f"unknown face(s) {unknown}; known = {list(FACE_ORDER)}")
+        return 2
+    rc = 0
+    built = {}
+    code_sets = {}
+    for name in faces:
+        try:
+            one_rc, receipt, codes = _run_face(name, log)
+        except Exception as exc:                              # noqa: BLE001
+            log(f"{name}: MACHINERY FAILURE {type(exc).__name__}: {exc}")
+            rc = max(rc, 2)
+            continue
+        rc = max(rc, one_rc)
+        if receipt is not None:
+            built[name] = receipt
+            code_sets[name] = codes
+    if not built:
+        log("no face produced a receipt (all inputs missing)")
+        return rc or 3
+
+    receipts = {
+        "ts": dt.datetime.now().astimezone().strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "audit": "strict PIT as-of read path over filing-event availability "
+                 "faces (newest known report period per code)",
+        "definition": "candidates avail_event<=asof; choice max period_end; "
+                      "tie -> earliest availability",
+        "tier_meaning": {_TIER_EVENT: "a disclosure stamp landed inside the "
+                                      "plausible window (cross-statement event "
+                                      "or own notice)",
+                         _TIER_DEADLINE: "statutory deadline bound (no usable "
+                                         "stamp) -- usable but LOW confidence"},
+        "faces": {k: v for k, v in built.items()},
+        "faces_built": sorted(built),
+        "faces_requested": [f for f in faces],
+        "cross_face": _cross_face(code_sets),
+    }
+    lead = built.get("income") or built[sorted(built)[0]]
+    receipts.update({k: v for k, v in lead.items() if k != "grid_rows"})
+    receipts["grid_rows"] = lead.get("grid_rows", [])
     os.makedirs(os.path.dirname(SUMMARY), exist_ok=True)
     tmp = SUMMARY + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(receipts, fh, ensure_ascii=False, indent=2, sort_keys=True)
         fh.write("\n")
     os.replace(tmp, SUMMARY)
-    log(f"grid {len(asofs)} month-ends; latest asof {latest.get('asof')}: "
-        f"codes={latest.get('codes')} "
-        f"deadline_bound={latest.get('deadline_bound_share')} "
-        f"median_staleness={latest.get('median_staleness_days')}d "
-        f"naive_codes_ahead={latest.get('naive_codes_ahead')}")
-    log(f"panel rows={len(panel)} asofs={len(window)} -> "
-        f"{os.path.relpath(target, ROOT)}")
-    log("wrote " + os.path.relpath(SUMMARY, ROOT))
-    return 0
+    log("faces built " + ",".join(sorted(built)) + " -> "
+        + os.path.relpath(SUMMARY, ROOT))
+    return rc
 
 
 # ---------------------------------------------------------------- selftest
@@ -400,6 +509,36 @@ def selftest(log=print):
             return
         raise AssertionError("duplicate value rows were accepted")
 
+    def leg_face_registry_is_complete():
+        assert set(FACES) == set(FACE_ORDER), (set(FACES), FACE_ORDER)
+        panels = [spec["panel"] for spec in FACES.values()]
+        assert len(set(panels)) == len(panels), panels
+        for name, spec in FACES.items():
+            assert spec["value_cols"], name
+            assert spec["avail"].endswith("_avail_event.parquet"), spec["avail"]
+            assert spec["values"].endswith("_faces.parquet"), spec["values"]
+
+    def leg_unknown_face_is_refused():
+        assert run("no_such_face", log=lambda *_: None) == 2
+        assert run(("income", "balance", "nope"), log=lambda *_: None) == 2
+
+    def leg_primitive_is_face_agnostic():
+        # the same join with a cashflow-style value column must behave exactly
+        # like the income face: availability decides, values follow the pick
+        avail = pd.DataFrame({"code": ["000001", "000001"],
+                              "period_end": ["2024-03-31", "2024-06-30"],
+                              "avail_event": ["2024-04-25", "2024-08-20"],
+                              "fallback": [False, False]})
+        vals = pd.DataFrame({"code": ["000001", "000001"],
+                             "period_end": ["2024-03-31", "2024-06-30"],
+                             CF_OPS: [1.5, 2.5]})
+        prep = _prep(avail, vals, (CF_OPS,))
+        early = asof_slice(prep, "2024-08-19", (CF_OPS,))
+        late = asof_slice(prep, "2024-08-20", (CF_OPS,))
+        assert early.iloc[0][CF_OPS] == 1.5, early.iloc[0][CF_OPS]
+        assert late.iloc[0][CF_OPS] == 2.5, late.iloc[0][CF_OPS]
+        assert late.iloc[0]["avail_tier"] == _TIER_EVENT
+
     for name, fn in [
         ("newest known period wins", leg_picks_newest_period),
         ("availability, not period_end, decides", leg_availability_decides),
@@ -412,6 +551,9 @@ def selftest(log=print):
         ("values never attach across periods", leg_values_do_not_leak_across_periods),
         ("month-end grid is ascending and unique", leg_month_ends_ascending_unique),
         ("duplicate value rows are rejected", leg_duplicate_value_rows_rejected),
+        ("face registry covers every declared face", leg_face_registry_is_complete),
+        ("unknown face names are refused", leg_unknown_face_is_refused),
+        ("the as-of primitive is face-agnostic", leg_primitive_is_face_agnostic),
     ]:
         leg(name, fn)
 
@@ -429,8 +571,10 @@ def main(argv=None):
     if cmd == "selftest":
         return selftest()
     if cmd == "run":
-        return run()
-    print("usage: fund_avail_asof_panel.py [run|selftest]")
+        face = argv[1] if len(argv) > 1 else "income"
+        return run(face)
+    print("usage: fund_avail_asof_panel.py [run [income|cashflow|balance|all]"
+          "| selftest]")
     return 2
 
 

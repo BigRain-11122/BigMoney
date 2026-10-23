@@ -1,9 +1,4334 @@
 {
-  "audit": "strict PIT as-of read path over the income filing-event availability face (newest known report period per code)",
+  "audit": "strict PIT as-of read path over filing-event availability faces (newest known report period per code)",
   "avail_max_date": "2026-09-29",
   "avail_rows": 461679,
+  "codes_total": 11757,
+  "cross_face": {
+    "codes": {
+      "balance": 5257,
+      "cashflow": 5257,
+      "income": 11757
+    },
+    "faces": [
+      "balance",
+      "cashflow",
+      "income"
+    ],
+    "intersection": 5239,
+    "intersection_share_of_widest": 0.4456,
+    "note": "a cross-statement factor is buildable only on the intersection; the rest are single-face only",
+    "union": 11775,
+    "widest": "income"
+  },
   "definition": "candidates avail_event<=asof; choice max period_end; tie -> earliest availability",
   "face": "income",
+  "faces": {
+    "balance": {
+      "avail_max_date": "2026-09-23",
+      "avail_rows": 283955,
+      "codes_total": 5257,
+      "face": "balance",
+      "grid": {
+        "end": "2026-08-31",
+        "points": 200,
+        "start": "2010-01-31"
+      },
+      "grid_rows": [
+        {
+          "asof": "2010-01-31",
+          "codes": 2378,
+          "deadline_bound_share": 0.2998,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2507
+        },
+        {
+          "asof": "2010-02-28",
+          "codes": 2378,
+          "deadline_bound_share": 0.2986,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2502
+        },
+        {
+          "asof": "2010-03-31",
+          "codes": 2378,
+          "deadline_bound_share": 0.2986,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2506
+        },
+        {
+          "asof": "2010-04-30",
+          "codes": 2524,
+          "deadline_bound_share": 0.3269,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 70
+        },
+        {
+          "asof": "2010-05-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.3146,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 38
+        },
+        {
+          "asof": "2010-06-30",
+          "codes": 2524,
+          "deadline_bound_share": 0.3063,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2006
+        },
+        {
+          "asof": "2010-07-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.2916,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 1738
+        },
+        {
+          "asof": "2010-08-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.2714,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 93
+        },
+        {
+          "asof": "2010-09-30",
+          "codes": 2524,
+          "deadline_bound_share": 0.2595,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 1969
+        },
+        {
+          "asof": "2010-10-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.2488,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 111
+        },
+        {
+          "asof": "2010-11-30",
+          "codes": 2524,
+          "deadline_bound_share": 0.2357,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 75
+        },
+        {
+          "asof": "2010-12-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.225,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2525
+        },
+        {
+          "asof": "2011-01-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.2135,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2470
+        },
+        {
+          "asof": "2011-02-28",
+          "codes": 2524,
+          "deadline_bound_share": 0.2132,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2327
+        },
+        {
+          "asof": "2011-03-31",
+          "codes": 2524,
+          "deadline_bound_share": 0.2044,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2514
+        },
+        {
+          "asof": "2011-04-30",
+          "codes": 2537,
+          "deadline_bound_share": 0.2014,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 83
+        },
+        {
+          "asof": "2011-05-31",
+          "codes": 2537,
+          "deadline_bound_share": 0.1912,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2011-06-30",
+          "codes": 2537,
+          "deadline_bound_share": 0.1797,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2283
+        },
+        {
+          "asof": "2011-07-31",
+          "codes": 2538,
+          "deadline_bound_share": 0.1627,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 1981
+        },
+        {
+          "asof": "2011-08-31",
+          "codes": 2538,
+          "deadline_bound_share": 0.143,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 68
+        },
+        {
+          "asof": "2011-09-30",
+          "codes": 2538,
+          "deadline_bound_share": 0.1371,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2219
+        },
+        {
+          "asof": "2011-10-31",
+          "codes": 2539,
+          "deadline_bound_share": 0.1292,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 65
+        },
+        {
+          "asof": "2011-11-30",
+          "codes": 2539,
+          "deadline_bound_share": 0.1189,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 30
+        },
+        {
+          "asof": "2011-12-31",
+          "codes": 2539,
+          "deadline_bound_share": 0.1138,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3057
+        },
+        {
+          "asof": "2012-01-31",
+          "codes": 2539,
+          "deadline_bound_share": 0.1099,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3045
+        },
+        {
+          "asof": "2012-02-29",
+          "codes": 2539,
+          "deadline_bound_share": 0.1079,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 2857
+        },
+        {
+          "asof": "2012-03-31",
+          "codes": 2539,
+          "deadline_bound_share": 0.0969,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 3031
+        },
+        {
+          "asof": "2012-04-30",
+          "codes": 3078,
+          "deadline_bound_share": 0.2609,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 89
+        },
+        {
+          "asof": "2012-05-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2482,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 51
+        },
+        {
+          "asof": "2012-06-30",
+          "codes": 3078,
+          "deadline_bound_share": 0.2394,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2359
+        },
+        {
+          "asof": "2012-07-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2268,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2115
+        },
+        {
+          "asof": "2012-08-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2138,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 22
+        },
+        {
+          "asof": "2012-09-30",
+          "codes": 3078,
+          "deadline_bound_share": 0.2102,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2315
+        },
+        {
+          "asof": "2012-10-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2089,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 7
+        },
+        {
+          "asof": "2012-11-30",
+          "codes": 3078,
+          "deadline_bound_share": 0.2083,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 4
+        },
+        {
+          "asof": "2012-12-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2076,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3390
+        },
+        {
+          "asof": "2013-01-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.2073,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3376
+        },
+        {
+          "asof": "2013-02-28",
+          "codes": 3078,
+          "deadline_bound_share": 0.2073,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3269
+        },
+        {
+          "asof": "2013-03-31",
+          "codes": 3078,
+          "deadline_bound_share": 0.207,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 3390
+        },
+        {
+          "asof": "2013-04-30",
+          "codes": 3422,
+          "deadline_bound_share": 0.3182,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 8
+        },
+        {
+          "asof": "2013-05-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.3177,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 5
+        },
+        {
+          "asof": "2013-06-30",
+          "codes": 3422,
+          "deadline_bound_share": 0.3174,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2387
+        },
+        {
+          "asof": "2013-07-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.3147,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2178
+        },
+        {
+          "asof": "2013-08-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.3121,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 8
+        },
+        {
+          "asof": "2013-09-30",
+          "codes": 3422,
+          "deadline_bound_share": 0.3115,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2358
+        },
+        {
+          "asof": "2013-10-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.3103,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 49
+        },
+        {
+          "asof": "2013-11-30",
+          "codes": 3422,
+          "deadline_bound_share": 0.3103,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 49
+        },
+        {
+          "asof": "2013-12-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.3089,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3798
+        },
+        {
+          "asof": "2014-01-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.2963,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3770
+        },
+        {
+          "asof": "2014-02-28",
+          "codes": 3422,
+          "deadline_bound_share": 0.2963,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3646
+        },
+        {
+          "asof": "2014-03-31",
+          "codes": 3422,
+          "deadline_bound_share": 0.2963,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 3795
+        },
+        {
+          "asof": "2014-04-30",
+          "codes": 3825,
+          "deadline_bound_share": 0.3582,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 307
+        },
+        {
+          "asof": "2014-05-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.3169,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 145
+        },
+        {
+          "asof": "2014-06-30",
+          "codes": 3825,
+          "deadline_bound_share": 0.2837,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2627
+        },
+        {
+          "asof": "2014-07-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2797,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2421
+        },
+        {
+          "asof": "2014-08-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2737,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 121
+        },
+        {
+          "asof": "2014-09-30",
+          "codes": 3825,
+          "deadline_bound_share": 0.2659,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2559
+        },
+        {
+          "asof": "2014-10-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2575,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 119
+        },
+        {
+          "asof": "2014-11-30",
+          "codes": 3825,
+          "deadline_bound_share": 0.2478,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 70
+        },
+        {
+          "asof": "2014-12-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2439,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4028
+        },
+        {
+          "asof": "2015-01-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2371,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4004
+        },
+        {
+          "asof": "2015-02-28",
+          "codes": 3825,
+          "deadline_bound_share": 0.2345,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3861
+        },
+        {
+          "asof": "2015-03-31",
+          "codes": 3825,
+          "deadline_bound_share": 0.2303,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4004
+        },
+        {
+          "asof": "2015-04-30",
+          "codes": 4059,
+          "deadline_bound_share": 0.321,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 327
+        },
+        {
+          "asof": "2015-05-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.3102,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 239
+        },
+        {
+          "asof": "2015-06-30",
+          "codes": 4059,
+          "deadline_bound_share": 0.29,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3038
+        },
+        {
+          "asof": "2015-07-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2754,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2759
+        },
+        {
+          "asof": "2015-08-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2542,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 105
+        },
+        {
+          "asof": "2015-09-30",
+          "codes": 4059,
+          "deadline_bound_share": 0.2518,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2763
+        },
+        {
+          "asof": "2015-10-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2456,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 126
+        },
+        {
+          "asof": "2015-11-30",
+          "codes": 4059,
+          "deadline_bound_share": 0.2313,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 57
+        },
+        {
+          "asof": "2015-12-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2254,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4088
+        },
+        {
+          "asof": "2016-01-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2198,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4071
+        },
+        {
+          "asof": "2016-02-29",
+          "codes": 4059,
+          "deadline_bound_share": 0.2188,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 3924
+        },
+        {
+          "asof": "2016-03-31",
+          "codes": 4059,
+          "deadline_bound_share": 0.2134,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 4015
+        },
+        {
+          "asof": "2016-04-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.2944,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 198
+        },
+        {
+          "asof": "2016-05-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.2896,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 157
+        },
+        {
+          "asof": "2016-06-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.2727,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3484
+        },
+        {
+          "asof": "2016-07-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.2577,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3238
+        },
+        {
+          "asof": "2016-08-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1952,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 179
+        },
+        {
+          "asof": "2016-09-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.1857,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2993
+        },
+        {
+          "asof": "2016-10-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.171,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 163
+        },
+        {
+          "asof": "2016-11-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.1548,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 88
+        },
+        {
+          "asof": "2016-12-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1495,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4361
+        },
+        {
+          "asof": "2017-01-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1449,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4339
+        },
+        {
+          "asof": "2017-02-28",
+          "codes": 4140,
+          "deadline_bound_share": 0.1379,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4171
+        },
+        {
+          "asof": "2017-03-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1184,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4236
+        },
+        {
+          "asof": "2017-04-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1781,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 255
+        },
+        {
+          "asof": "2017-05-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1695,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 173
+        },
+        {
+          "asof": "2017-06-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1572,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3822
+        },
+        {
+          "asof": "2017-07-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1486,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3627
+        },
+        {
+          "asof": "2017-08-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1427,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 134
+        },
+        {
+          "asof": "2017-09-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1323,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3354
+        },
+        {
+          "asof": "2017-10-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1259,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 96
+        },
+        {
+          "asof": "2017-11-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1232,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 37
+        },
+        {
+          "asof": "2017-12-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1216,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4691
+        },
+        {
+          "asof": "2018-01-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1205,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4636
+        },
+        {
+          "asof": "2018-02-28",
+          "codes": 4407,
+          "deadline_bound_share": 0.1189,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4523
+        },
+        {
+          "asof": "2018-03-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1148,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4631
+        },
+        {
+          "asof": "2018-04-30",
+          "codes": 4745,
+          "deadline_bound_share": 0.2137,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 90
+        },
+        {
+          "asof": "2018-05-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2107,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2018-06-30",
+          "codes": 4745,
+          "deadline_bound_share": 0.2048,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3756
+        },
+        {
+          "asof": "2018-07-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2027,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3599
+        },
+        {
+          "asof": "2018-08-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2067,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 67
+        },
+        {
+          "asof": "2018-09-30",
+          "codes": 4745,
+          "deadline_bound_share": 0.2046,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3494
+        },
+        {
+          "asof": "2018-10-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2025,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 57
+        },
+        {
+          "asof": "2018-11-30",
+          "codes": 4745,
+          "deadline_bound_share": 0.1983,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 25
+        },
+        {
+          "asof": "2018-12-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.1966,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4990
+        },
+        {
+          "asof": "2019-01-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.1949,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4968
+        },
+        {
+          "asof": "2019-02-28",
+          "codes": 4745,
+          "deadline_bound_share": 0.1945,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4878
+        },
+        {
+          "asof": "2019-03-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.1876,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4943
+        },
+        {
+          "asof": "2019-04-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2432,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 309
+        },
+        {
+          "asof": "2019-05-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2321,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 225
+        },
+        {
+          "asof": "2019-06-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2042,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4015
+        },
+        {
+          "asof": "2019-07-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2008,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3854
+        },
+        {
+          "asof": "2019-08-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2124,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 194
+        },
+        {
+          "asof": "2019-09-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2088,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3800
+        },
+        {
+          "asof": "2019-10-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2062,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 173
+        },
+        {
+          "asof": "2019-11-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2006,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 74
+        },
+        {
+          "asof": "2019-12-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.1965,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5148
+        },
+        {
+          "asof": "2020-01-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.1939,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5137
+        },
+        {
+          "asof": "2020-02-29",
+          "codes": 5024,
+          "deadline_bound_share": 0.1933,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 5079
+        },
+        {
+          "asof": "2020-03-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.1907,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 5110
+        },
+        {
+          "asof": "2020-04-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.2193,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 506
+        },
+        {
+          "asof": "2020-05-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.2105,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 424
+        },
+        {
+          "asof": "2020-06-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.1885,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4549
+        },
+        {
+          "asof": "2020-07-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1629,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 4343
+        },
+        {
+          "asof": "2020-08-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1757,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 396
+        },
+        {
+          "asof": "2020-09-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.1687,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4379
+        },
+        {
+          "asof": "2020-10-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1687,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 374
+        },
+        {
+          "asof": "2020-11-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.1602,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 257
+        },
+        {
+          "asof": "2020-12-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1505,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5184
+        },
+        {
+          "asof": "2021-01-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1445,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5170
+        },
+        {
+          "asof": "2021-02-28",
+          "codes": 5163,
+          "deadline_bound_share": 0.1426,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5087
+        },
+        {
+          "asof": "2021-03-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.1307,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5155
+        },
+        {
+          "asof": "2021-04-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.1422,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 540
+        },
+        {
+          "asof": "2021-05-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1308,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 419
+        },
+        {
+          "asof": "2021-06-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.0964,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4906
+        },
+        {
+          "asof": "2021-07-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0879,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 4721
+        },
+        {
+          "asof": "2021-08-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1054,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 356
+        },
+        {
+          "asof": "2021-09-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.097,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4742
+        },
+        {
+          "asof": "2021-10-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0991,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 276
+        },
+        {
+          "asof": "2021-11-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.092,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 148
+        },
+        {
+          "asof": "2021-12-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0868,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5191
+        },
+        {
+          "asof": "2022-01-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0825,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5173
+        },
+        {
+          "asof": "2022-02-28",
+          "codes": 5198,
+          "deadline_bound_share": 0.081,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5107
+        },
+        {
+          "asof": "2022-03-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0716,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5146
+        },
+        {
+          "asof": "2022-04-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0767,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 373
+        },
+        {
+          "asof": "2022-05-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0663,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 285
+        },
+        {
+          "asof": "2022-06-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0438,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5107
+        },
+        {
+          "asof": "2022-07-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0367,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 4992
+        },
+        {
+          "asof": "2022-08-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.05,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 265
+        },
+        {
+          "asof": "2022-09-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0434,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4949
+        },
+        {
+          "asof": "2022-10-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0459,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 155
+        },
+        {
+          "asof": "2022-11-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0444,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 67
+        },
+        {
+          "asof": "2022-12-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0413,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5248
+        },
+        {
+          "asof": "2023-01-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0394,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5244
+        },
+        {
+          "asof": "2023-02-28",
+          "codes": 5205,
+          "deadline_bound_share": 0.0363,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5181
+        },
+        {
+          "asof": "2023-03-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0269,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5232
+        },
+        {
+          "asof": "2023-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0396,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 229
+        },
+        {
+          "asof": "2023-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0358,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 158
+        },
+        {
+          "asof": "2023-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0291,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5116
+        },
+        {
+          "asof": "2023-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0274,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5036
+        },
+        {
+          "asof": "2023-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0323,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 77
+        },
+        {
+          "asof": "2023-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0306,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5071
+        },
+        {
+          "asof": "2023-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0299,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 71
+        },
+        {
+          "asof": "2023-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0289,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 41
+        },
+        {
+          "asof": "2023-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0255,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5247
+        },
+        {
+          "asof": "2024-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0234,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5243
+        },
+        {
+          "asof": "2024-02-29",
+          "codes": 5257,
+          "deadline_bound_share": 0.0232,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 5223
+        },
+        {
+          "asof": "2024-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0221,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 5240
+        },
+        {
+          "asof": "2024-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0302,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 53
+        },
+        {
+          "asof": "2024-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0301,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 35
+        },
+        {
+          "asof": "2024-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0283,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5168
+        },
+        {
+          "asof": "2024-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.028,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5088
+        },
+        {
+          "asof": "2024-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0293,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 50
+        },
+        {
+          "asof": "2024-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0278,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5139
+        },
+        {
+          "asof": "2024-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0255,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 60
+        },
+        {
+          "asof": "2024-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0236,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 33
+        },
+        {
+          "asof": "2024-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0202,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5243
+        },
+        {
+          "asof": "2025-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0194,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5238
+        },
+        {
+          "asof": "2025-02-28",
+          "codes": 5257,
+          "deadline_bound_share": 0.0185,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5196
+        },
+        {
+          "asof": "2025-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0165,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5241
+        },
+        {
+          "asof": "2025-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0169,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 84
+        },
+        {
+          "asof": "2025-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.015,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 60
+        },
+        {
+          "asof": "2025-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0074,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5242
+        },
+        {
+          "asof": "2025-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.007,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5173
+        },
+        {
+          "asof": "2025-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0074,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 56
+        },
+        {
+          "asof": "2025-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0072,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5221
+        },
+        {
+          "asof": "2025-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0067,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 60
+        },
+        {
+          "asof": "2025-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0055,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 30
+        },
+        {
+          "asof": "2025-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0049,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5231
+        },
+        {
+          "asof": "2026-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0046,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5226
+        },
+        {
+          "asof": "2026-02-28",
+          "codes": 5257,
+          "deadline_bound_share": 0.0046,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5201
+        },
+        {
+          "asof": "2026-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0027,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5240
+        },
+        {
+          "asof": "2026-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0017,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 39
+        },
+        {
+          "asof": "2026-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0008,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 15
+        },
+        {
+          "asof": "2026-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0002,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5228
+        },
+        {
+          "asof": "2026-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0002,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5158
+        },
+        {
+          "asof": "2026-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 6
+        }
+      ],
+      "latest": {
+        "asof": "2026-08-31",
+        "codes": 5257,
+        "deadline_bound_share": 0.0,
+        "median_staleness_days": 62.0,
+        "naive_codes_ahead": 6
+      },
+      "panel_artifact": {
+        "asofs": 24,
+        "note": "gitignored data lane; regenerate with this script",
+        "path": "data/fund_statement_export/pit_avail/asof_balance_monthly.parquet",
+        "rows": 126168,
+        "window_start": "2024-09-30"
+      },
+      "value_cols": [
+        "资产-总资产",
+        "资产负债率",
+        "股东权益合计"
+      ]
+    },
+    "cashflow": {
+      "avail_max_date": "2026-09-23",
+      "avail_rows": 292537,
+      "codes_total": 5257,
+      "face": "cashflow",
+      "grid": {
+        "end": "2026-08-31",
+        "points": 200,
+        "start": "2010-01-31"
+      },
+      "grid_rows": [
+        {
+          "asof": "2010-01-31",
+          "codes": 2366,
+          "deadline_bound_share": 0.3073,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2502
+        },
+        {
+          "asof": "2010-02-28",
+          "codes": 2366,
+          "deadline_bound_share": 0.3068,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2499
+        },
+        {
+          "asof": "2010-03-31",
+          "codes": 2366,
+          "deadline_bound_share": 0.3064,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2504
+        },
+        {
+          "asof": "2010-04-30",
+          "codes": 2520,
+          "deadline_bound_share": 0.3266,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 66
+        },
+        {
+          "asof": "2010-05-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.3143,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 34
+        },
+        {
+          "asof": "2010-06-30",
+          "codes": 2520,
+          "deadline_bound_share": 0.3067,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2110
+        },
+        {
+          "asof": "2010-07-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2972,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 1866
+        },
+        {
+          "asof": "2010-08-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2754,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 93
+        },
+        {
+          "asof": "2010-09-30",
+          "codes": 2520,
+          "deadline_bound_share": 0.2635,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2162
+        },
+        {
+          "asof": "2010-10-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2556,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 102
+        },
+        {
+          "asof": "2010-11-30",
+          "codes": 2520,
+          "deadline_bound_share": 0.246,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 75
+        },
+        {
+          "asof": "2010-12-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2353,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2522
+        },
+        {
+          "asof": "2011-01-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2238,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2467
+        },
+        {
+          "asof": "2011-02-28",
+          "codes": 2520,
+          "deadline_bound_share": 0.2234,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2324
+        },
+        {
+          "asof": "2011-03-31",
+          "codes": 2520,
+          "deadline_bound_share": 0.2139,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2511
+        },
+        {
+          "asof": "2011-04-30",
+          "codes": 2533,
+          "deadline_bound_share": 0.2017,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 73
+        },
+        {
+          "asof": "2011-05-31",
+          "codes": 2534,
+          "deadline_bound_share": 0.1922,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 49
+        },
+        {
+          "asof": "2011-06-30",
+          "codes": 2534,
+          "deadline_bound_share": 0.1815,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2308
+        },
+        {
+          "asof": "2011-07-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.1724,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2029
+        },
+        {
+          "asof": "2011-08-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.1515,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 67
+        },
+        {
+          "asof": "2011-09-30",
+          "codes": 2535,
+          "deadline_bound_share": 0.1456,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2315
+        },
+        {
+          "asof": "2011-10-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.1408,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 53
+        },
+        {
+          "asof": "2011-11-30",
+          "codes": 2535,
+          "deadline_bound_share": 0.1349,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 29
+        },
+        {
+          "asof": "2011-12-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.1294,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3053
+        },
+        {
+          "asof": "2012-01-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.1254,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3041
+        },
+        {
+          "asof": "2012-02-29",
+          "codes": 2535,
+          "deadline_bound_share": 0.1235,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 2853
+        },
+        {
+          "asof": "2012-03-31",
+          "codes": 2535,
+          "deadline_bound_share": 0.112,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 3028
+        },
+        {
+          "asof": "2012-04-30",
+          "codes": 3074,
+          "deadline_bound_share": 0.2615,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 87
+        },
+        {
+          "asof": "2012-05-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2492,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 50
+        },
+        {
+          "asof": "2012-06-30",
+          "codes": 3074,
+          "deadline_bound_share": 0.2404,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2353
+        },
+        {
+          "asof": "2012-07-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2316,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2123
+        },
+        {
+          "asof": "2012-08-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.217,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 22
+        },
+        {
+          "asof": "2012-09-30",
+          "codes": 3074,
+          "deadline_bound_share": 0.2134,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2352
+        },
+        {
+          "asof": "2012-10-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2212,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 7
+        },
+        {
+          "asof": "2012-11-30",
+          "codes": 3074,
+          "deadline_bound_share": 0.2206,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 4
+        },
+        {
+          "asof": "2012-12-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2199,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3390
+        },
+        {
+          "asof": "2013-01-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2196,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3376
+        },
+        {
+          "asof": "2013-02-28",
+          "codes": 3074,
+          "deadline_bound_share": 0.2196,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3269
+        },
+        {
+          "asof": "2013-03-31",
+          "codes": 3074,
+          "deadline_bound_share": 0.2193,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 3390
+        },
+        {
+          "asof": "2013-04-30",
+          "codes": 3421,
+          "deadline_bound_share": 0.3183,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 8
+        },
+        {
+          "asof": "2013-05-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.3175,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 5
+        },
+        {
+          "asof": "2013-06-30",
+          "codes": 3421,
+          "deadline_bound_share": 0.3172,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2427
+        },
+        {
+          "asof": "2013-07-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.316,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2224
+        },
+        {
+          "asof": "2013-08-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.3134,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 8
+        },
+        {
+          "asof": "2013-09-30",
+          "codes": 3421,
+          "deadline_bound_share": 0.3128,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2446
+        },
+        {
+          "asof": "2013-10-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.3128,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 48
+        },
+        {
+          "asof": "2013-11-30",
+          "codes": 3421,
+          "deadline_bound_share": 0.3128,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 48
+        },
+        {
+          "asof": "2013-12-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.3113,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3798
+        },
+        {
+          "asof": "2014-01-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.2987,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3770
+        },
+        {
+          "asof": "2014-02-28",
+          "codes": 3421,
+          "deadline_bound_share": 0.2987,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3646
+        },
+        {
+          "asof": "2014-03-31",
+          "codes": 3421,
+          "deadline_bound_share": 0.2985,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 3795
+        },
+        {
+          "asof": "2014-04-30",
+          "codes": 3824,
+          "deadline_bound_share": 0.3687,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 250
+        },
+        {
+          "asof": "2014-05-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.3366,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 126
+        },
+        {
+          "asof": "2014-06-30",
+          "codes": 3824,
+          "deadline_bound_share": 0.3083,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2841
+        },
+        {
+          "asof": "2014-07-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.3044,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2638
+        },
+        {
+          "asof": "2014-08-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.3028,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 119
+        },
+        {
+          "asof": "2014-09-30",
+          "codes": 3824,
+          "deadline_bound_share": 0.295,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2702
+        },
+        {
+          "asof": "2014-10-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.2916,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 111
+        },
+        {
+          "asof": "2014-11-30",
+          "codes": 3824,
+          "deadline_bound_share": 0.2816,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 71
+        },
+        {
+          "asof": "2014-12-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.2759,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4031
+        },
+        {
+          "asof": "2015-01-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.2657,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4007
+        },
+        {
+          "asof": "2015-02-28",
+          "codes": 3824,
+          "deadline_bound_share": 0.2615,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 3864
+        },
+        {
+          "asof": "2015-03-31",
+          "codes": 3824,
+          "deadline_bound_share": 0.256,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4009
+        },
+        {
+          "asof": "2015-04-30",
+          "codes": 4060,
+          "deadline_bound_share": 0.351,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 250
+        },
+        {
+          "asof": "2015-05-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.3347,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 176
+        },
+        {
+          "asof": "2015-06-30",
+          "codes": 4060,
+          "deadline_bound_share": 0.3143,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3269
+        },
+        {
+          "asof": "2015-07-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2993,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3019
+        },
+        {
+          "asof": "2015-08-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2768,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 104
+        },
+        {
+          "asof": "2015-09-30",
+          "codes": 4060,
+          "deadline_bound_share": 0.2744,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2973
+        },
+        {
+          "asof": "2015-10-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2781,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 103
+        },
+        {
+          "asof": "2015-11-30",
+          "codes": 4060,
+          "deadline_bound_share": 0.268,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 57
+        },
+        {
+          "asof": "2015-12-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2621,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4088
+        },
+        {
+          "asof": "2016-01-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2562,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4071
+        },
+        {
+          "asof": "2016-02-29",
+          "codes": 4060,
+          "deadline_bound_share": 0.2532,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 3924
+        },
+        {
+          "asof": "2016-03-31",
+          "codes": 4060,
+          "deadline_bound_share": 0.2441,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 4024
+        },
+        {
+          "asof": "2016-04-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.3089,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 168
+        },
+        {
+          "asof": "2016-05-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.3034,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 135
+        },
+        {
+          "asof": "2016-06-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.286,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3690
+        },
+        {
+          "asof": "2016-07-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.2698,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3468
+        },
+        {
+          "asof": "2016-08-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.2104,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 179
+        },
+        {
+          "asof": "2016-09-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.201,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3338
+        },
+        {
+          "asof": "2016-10-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.2058,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 139
+        },
+        {
+          "asof": "2016-11-30",
+          "codes": 4140,
+          "deadline_bound_share": 0.1947,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 88
+        },
+        {
+          "asof": "2016-12-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1891,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4361
+        },
+        {
+          "asof": "2017-01-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1838,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4339
+        },
+        {
+          "asof": "2017-02-28",
+          "codes": 4140,
+          "deadline_bound_share": 0.1725,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4171
+        },
+        {
+          "asof": "2017-03-31",
+          "codes": 4140,
+          "deadline_bound_share": 0.1461,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4294
+        },
+        {
+          "asof": "2017-04-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.2153,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 185
+        },
+        {
+          "asof": "2017-05-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.209,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 124
+        },
+        {
+          "asof": "2017-06-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.2001,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3844
+        },
+        {
+          "asof": "2017-07-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.192,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3656
+        },
+        {
+          "asof": "2017-08-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1527,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 134
+        },
+        {
+          "asof": "2017-09-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1386,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3486
+        },
+        {
+          "asof": "2017-10-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1518,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 92
+        },
+        {
+          "asof": "2017-11-30",
+          "codes": 4407,
+          "deadline_bound_share": 0.1493,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 37
+        },
+        {
+          "asof": "2017-12-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1477,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4690
+        },
+        {
+          "asof": "2018-01-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1439,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4635
+        },
+        {
+          "asof": "2018-02-28",
+          "codes": 4407,
+          "deadline_bound_share": 0.1405,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4522
+        },
+        {
+          "asof": "2018-03-31",
+          "codes": 4407,
+          "deadline_bound_share": 0.1302,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4651
+        },
+        {
+          "asof": "2018-04-30",
+          "codes": 4744,
+          "deadline_bound_share": 0.2251,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 66
+        },
+        {
+          "asof": "2018-05-31",
+          "codes": 4744,
+          "deadline_bound_share": 0.2232,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 46
+        },
+        {
+          "asof": "2018-06-30",
+          "codes": 4744,
+          "deadline_bound_share": 0.2177,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3813
+        },
+        {
+          "asof": "2018-07-31",
+          "codes": 4744,
+          "deadline_bound_share": 0.2165,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3660
+        },
+        {
+          "asof": "2018-08-31",
+          "codes": 4744,
+          "deadline_bound_share": 0.2142,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 67
+        },
+        {
+          "asof": "2018-09-30",
+          "codes": 4744,
+          "deadline_bound_share": 0.2108,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3698
+        },
+        {
+          "asof": "2018-10-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2202,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 51
+        },
+        {
+          "asof": "2018-11-30",
+          "codes": 4745,
+          "deadline_bound_share": 0.2164,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 25
+        },
+        {
+          "asof": "2018-12-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2148,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4990
+        },
+        {
+          "asof": "2019-01-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2129,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4968
+        },
+        {
+          "asof": "2019-02-28",
+          "codes": 4745,
+          "deadline_bound_share": 0.2112,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4878
+        },
+        {
+          "asof": "2019-03-31",
+          "codes": 4745,
+          "deadline_bound_share": 0.2,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4974
+        },
+        {
+          "asof": "2019-04-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2661,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 252
+        },
+        {
+          "asof": "2019-05-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2586,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 195
+        },
+        {
+          "asof": "2019-06-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2351,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4147
+        },
+        {
+          "asof": "2019-07-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2303,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3987
+        },
+        {
+          "asof": "2019-08-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2395,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 194
+        },
+        {
+          "asof": "2019-09-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2331,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4236
+        },
+        {
+          "asof": "2019-10-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2532,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 132
+        },
+        {
+          "asof": "2019-11-30",
+          "codes": 5024,
+          "deadline_bound_share": 0.2474,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 74
+        },
+        {
+          "asof": "2019-12-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.243,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5148
+        },
+        {
+          "asof": "2020-01-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2398,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5137
+        },
+        {
+          "asof": "2020-02-29",
+          "codes": 5024,
+          "deadline_bound_share": 0.2385,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 5079
+        },
+        {
+          "asof": "2020-03-31",
+          "codes": 5024,
+          "deadline_bound_share": 0.2277,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 5143
+        },
+        {
+          "asof": "2020-04-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.2657,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 240
+        },
+        {
+          "asof": "2020-05-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.2593,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 201
+        },
+        {
+          "asof": "2020-06-30",
+          "codes": 5163,
+          "deadline_bound_share": 0.2475,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4609
+        },
+        {
+          "asof": "2020-07-31",
+          "codes": 5163,
+          "deadline_bound_share": 0.2351,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 4414
+        },
+        {
+          "asof": "2020-08-31",
+          "codes": 5164,
+          "deadline_bound_share": 0.2235,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 396
+        },
+        {
+          "asof": "2020-09-30",
+          "codes": 5164,
+          "deadline_bound_share": 0.1975,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4652
+        },
+        {
+          "asof": "2020-10-31",
+          "codes": 5164,
+          "deadline_bound_share": 0.2012,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 339
+        },
+        {
+          "asof": "2020-11-30",
+          "codes": 5164,
+          "deadline_bound_share": 0.1869,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 258
+        },
+        {
+          "asof": "2020-12-31",
+          "codes": 5164,
+          "deadline_bound_share": 0.1766,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5184
+        },
+        {
+          "asof": "2021-01-31",
+          "codes": 5164,
+          "deadline_bound_share": 0.1702,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5170
+        },
+        {
+          "asof": "2021-02-28",
+          "codes": 5164,
+          "deadline_bound_share": 0.1671,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5087
+        },
+        {
+          "asof": "2021-03-31",
+          "codes": 5164,
+          "deadline_bound_share": 0.1474,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5174
+        },
+        {
+          "asof": "2021-04-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.1608,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 369
+        },
+        {
+          "asof": "2021-05-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1533,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 282
+        },
+        {
+          "asof": "2021-06-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.1362,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 4939
+        },
+        {
+          "asof": "2021-07-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1293,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 4756
+        },
+        {
+          "asof": "2021-08-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1343,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 356
+        },
+        {
+          "asof": "2021-09-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.1152,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4947
+        },
+        {
+          "asof": "2021-10-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1239,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 241
+        },
+        {
+          "asof": "2021-11-30",
+          "codes": 5198,
+          "deadline_bound_share": 0.115,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 148
+        },
+        {
+          "asof": "2021-12-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1091,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5191
+        },
+        {
+          "asof": "2022-01-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.1045,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5173
+        },
+        {
+          "asof": "2022-02-28",
+          "codes": 5198,
+          "deadline_bound_share": 0.102,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5107
+        },
+        {
+          "asof": "2022-03-31",
+          "codes": 5198,
+          "deadline_bound_share": 0.0835,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5187
+        },
+        {
+          "asof": "2022-04-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0968,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 249
+        },
+        {
+          "asof": "2022-05-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0901,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 190
+        },
+        {
+          "asof": "2022-06-30",
+          "codes": 5205,
+          "deadline_bound_share": 0.0797,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5130
+        },
+        {
+          "asof": "2022-07-31",
+          "codes": 5205,
+          "deadline_bound_share": 0.0742,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5015
+        },
+        {
+          "asof": "2022-08-31",
+          "codes": 5206,
+          "deadline_bound_share": 0.0738,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 265
+        },
+        {
+          "asof": "2022-09-30",
+          "codes": 5206,
+          "deadline_bound_share": 0.058,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5092
+        },
+        {
+          "asof": "2022-10-31",
+          "codes": 5206,
+          "deadline_bound_share": 0.0688,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 146
+        },
+        {
+          "asof": "2022-11-30",
+          "codes": 5206,
+          "deadline_bound_share": 0.0628,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 66
+        },
+        {
+          "asof": "2022-12-31",
+          "codes": 5206,
+          "deadline_bound_share": 0.0597,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5248
+        },
+        {
+          "asof": "2023-01-31",
+          "codes": 5206,
+          "deadline_bound_share": 0.0578,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5244
+        },
+        {
+          "asof": "2023-02-28",
+          "codes": 5206,
+          "deadline_bound_share": 0.0534,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5181
+        },
+        {
+          "asof": "2023-03-31",
+          "codes": 5206,
+          "deadline_bound_share": 0.0376,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5236
+        },
+        {
+          "asof": "2023-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0479,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 220
+        },
+        {
+          "asof": "2023-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0399,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 153
+        },
+        {
+          "asof": "2023-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0325,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5129
+        },
+        {
+          "asof": "2023-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0302,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5049
+        },
+        {
+          "asof": "2023-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.035,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 77
+        },
+        {
+          "asof": "2023-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0327,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5137
+        },
+        {
+          "asof": "2023-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0386,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 69
+        },
+        {
+          "asof": "2023-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0375,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 40
+        },
+        {
+          "asof": "2023-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.034,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5247
+        },
+        {
+          "asof": "2024-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.032,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5243
+        },
+        {
+          "asof": "2024-02-29",
+          "codes": 5257,
+          "deadline_bound_share": 0.0316,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 5223
+        },
+        {
+          "asof": "2024-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0289,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 5245
+        },
+        {
+          "asof": "2024-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.035,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 46
+        },
+        {
+          "asof": "2024-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.034,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 30
+        },
+        {
+          "asof": "2024-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0323,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5180
+        },
+        {
+          "asof": "2024-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0312,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5100
+        },
+        {
+          "asof": "2024-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.032,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 50
+        },
+        {
+          "asof": "2024-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0293,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5207
+        },
+        {
+          "asof": "2024-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0283,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2024-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0263,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 33
+        },
+        {
+          "asof": "2024-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0226,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5243
+        },
+        {
+          "asof": "2025-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0219,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5238
+        },
+        {
+          "asof": "2025-02-28",
+          "codes": 5257,
+          "deadline_bound_share": 0.0205,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5196
+        },
+        {
+          "asof": "2025-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0173,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5246
+        },
+        {
+          "asof": "2025-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0185,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 42
+        },
+        {
+          "asof": "2025-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0177,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 24
+        },
+        {
+          "asof": "2025-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0165,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5233
+        },
+        {
+          "asof": "2025-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0158,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5164
+        },
+        {
+          "asof": "2025-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0141,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 54
+        },
+        {
+          "asof": "2025-09-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0107,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5219
+        },
+        {
+          "asof": "2025-10-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0089,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2025-11-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0055,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 27
+        },
+        {
+          "asof": "2025-12-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0049,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5241
+        },
+        {
+          "asof": "2026-01-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0046,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 5236
+        },
+        {
+          "asof": "2026-02-28",
+          "codes": 5257,
+          "deadline_bound_share": 0.0046,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 5211
+        },
+        {
+          "asof": "2026-03-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0027,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 5240
+        },
+        {
+          "asof": "2026-04-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0017,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 39
+        },
+        {
+          "asof": "2026-05-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0008,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 15
+        },
+        {
+          "asof": "2026-06-30",
+          "codes": 5257,
+          "deadline_bound_share": 0.0002,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 5228
+        },
+        {
+          "asof": "2026-07-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0002,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 5158
+        },
+        {
+          "asof": "2026-08-31",
+          "codes": 5257,
+          "deadline_bound_share": 0.0,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 6
+        }
+      ],
+      "latest": {
+        "asof": "2026-08-31",
+        "codes": 5257,
+        "deadline_bound_share": 0.0,
+        "median_staleness_days": 62.0,
+        "naive_codes_ahead": 6
+      },
+      "panel_artifact": {
+        "asofs": 24,
+        "note": "gitignored data lane; regenerate with this script",
+        "path": "data/fund_statement_export/pit_avail/asof_cashflow_monthly.parquet",
+        "rows": 126168,
+        "window_start": "2024-09-30"
+      },
+      "value_cols": [
+        "净现金流-净现金流",
+        "经营性现金流-现金流量净额"
+      ]
+    },
+    "income": {
+      "avail_max_date": "2026-09-29",
+      "avail_rows": 461679,
+      "codes_total": 11757,
+      "face": "income",
+      "grid": {
+        "end": "2026-08-31",
+        "points": 200,
+        "start": "2010-01-31"
+      },
+      "grid_rows": [
+        {
+          "asof": "2010-01-31",
+          "codes": 2771,
+          "deadline_bound_share": 0.397,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2917
+        },
+        {
+          "asof": "2010-02-28",
+          "codes": 2771,
+          "deadline_bound_share": 0.3955,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2911
+        },
+        {
+          "asof": "2010-03-31",
+          "codes": 2771,
+          "deadline_bound_share": 0.3944,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2916
+        },
+        {
+          "asof": "2010-04-30",
+          "codes": 2958,
+          "deadline_bound_share": 0.3492,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 69
+        },
+        {
+          "asof": "2010-05-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.3387,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 37
+        },
+        {
+          "asof": "2010-06-30",
+          "codes": 2958,
+          "deadline_bound_share": 0.3316,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2471
+        },
+        {
+          "asof": "2010-07-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.3188,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2184
+        },
+        {
+          "asof": "2010-08-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.2999,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 96
+        },
+        {
+          "asof": "2010-09-30",
+          "codes": 2958,
+          "deadline_bound_share": 0.2897,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2459
+        },
+        {
+          "asof": "2010-10-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.2792,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 102
+        },
+        {
+          "asof": "2010-11-30",
+          "codes": 2958,
+          "deadline_bound_share": 0.2711,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 75
+        },
+        {
+          "asof": "2010-12-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.262,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2980
+        },
+        {
+          "asof": "2011-01-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.2522,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 2922
+        },
+        {
+          "asof": "2011-02-28",
+          "codes": 2958,
+          "deadline_bound_share": 0.2515,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 2772
+        },
+        {
+          "asof": "2011-03-31",
+          "codes": 2958,
+          "deadline_bound_share": 0.2431,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 2967
+        },
+        {
+          "asof": "2011-04-30",
+          "codes": 3024,
+          "deadline_bound_share": 0.2477,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 79
+        },
+        {
+          "asof": "2011-05-31",
+          "codes": 3024,
+          "deadline_bound_share": 0.2384,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 52
+        },
+        {
+          "asof": "2011-06-30",
+          "codes": 3024,
+          "deadline_bound_share": 0.2285,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2707
+        },
+        {
+          "asof": "2011-07-31",
+          "codes": 3025,
+          "deadline_bound_share": 0.2149,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2384
+        },
+        {
+          "asof": "2011-08-31",
+          "codes": 3025,
+          "deadline_bound_share": 0.1974,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 72
+        },
+        {
+          "asof": "2011-09-30",
+          "codes": 3025,
+          "deadline_bound_share": 0.1921,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2637
+        },
+        {
+          "asof": "2011-10-31",
+          "codes": 3026,
+          "deadline_bound_share": 0.1854,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 59
+        },
+        {
+          "asof": "2011-11-30",
+          "codes": 3026,
+          "deadline_bound_share": 0.1798,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 34
+        },
+        {
+          "asof": "2011-12-31",
+          "codes": 3026,
+          "deadline_bound_share": 0.1751,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3797
+        },
+        {
+          "asof": "2012-01-31",
+          "codes": 3026,
+          "deadline_bound_share": 0.1718,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 3783
+        },
+        {
+          "asof": "2012-02-29",
+          "codes": 3026,
+          "deadline_bound_share": 0.1699,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 3576
+        },
+        {
+          "asof": "2012-03-31",
+          "codes": 3026,
+          "deadline_bound_share": 0.158,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 3767
+        },
+        {
+          "asof": "2012-04-30",
+          "codes": 3858,
+          "deadline_bound_share": 0.3393,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 99
+        },
+        {
+          "asof": "2012-05-31",
+          "codes": 3858,
+          "deadline_bound_share": 0.3292,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 61
+        },
+        {
+          "asof": "2012-06-30",
+          "codes": 3858,
+          "deadline_bound_share": 0.3206,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 2831
+        },
+        {
+          "asof": "2012-07-31",
+          "codes": 3858,
+          "deadline_bound_share": 0.3095,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 2568
+        },
+        {
+          "asof": "2012-08-31",
+          "codes": 3859,
+          "deadline_bound_share": 0.297,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 27
+        },
+        {
+          "asof": "2012-09-30",
+          "codes": 3859,
+          "deadline_bound_share": 0.2939,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2691
+        },
+        {
+          "asof": "2012-10-31",
+          "codes": 3859,
+          "deadline_bound_share": 0.2998,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 16
+        },
+        {
+          "asof": "2012-11-30",
+          "codes": 3859,
+          "deadline_bound_share": 0.2988,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 11
+        },
+        {
+          "asof": "2012-12-31",
+          "codes": 3859,
+          "deadline_bound_share": 0.2975,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4944
+        },
+        {
+          "asof": "2013-01-31",
+          "codes": 3859,
+          "deadline_bound_share": 0.2964,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 4927
+        },
+        {
+          "asof": "2013-02-28",
+          "codes": 3859,
+          "deadline_bound_share": 0.2964,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 4807
+        },
+        {
+          "asof": "2013-03-31",
+          "codes": 3859,
+          "deadline_bound_share": 0.2931,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 4943
+        },
+        {
+          "asof": "2013-04-30",
+          "codes": 5012,
+          "deadline_bound_share": 0.4783,
+          "median_staleness_days": 30.0,
+          "naive_codes_ahead": 22
+        },
+        {
+          "asof": "2013-05-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4775,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 17
+        },
+        {
+          "asof": "2013-06-30",
+          "codes": 5012,
+          "deadline_bound_share": 0.4757,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 3289
+        },
+        {
+          "asof": "2013-07-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4731,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 3063
+        },
+        {
+          "asof": "2013-08-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4727,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 8
+        },
+        {
+          "asof": "2013-09-30",
+          "codes": 5012,
+          "deadline_bound_share": 0.4723,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 2803
+        },
+        {
+          "asof": "2013-10-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4711,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2013-11-30",
+          "codes": 5012,
+          "deadline_bound_share": 0.4711,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 58
+        },
+        {
+          "asof": "2013-12-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4699,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 7034
+        },
+        {
+          "asof": "2014-01-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4597,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 7002
+        },
+        {
+          "asof": "2014-02-28",
+          "codes": 5012,
+          "deadline_bound_share": 0.4597,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 6870
+        },
+        {
+          "asof": "2014-03-31",
+          "codes": 5012,
+          "deadline_bound_share": 0.4589,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 7030
+        },
+        {
+          "asof": "2014-04-30",
+          "codes": 7089,
+          "deadline_bound_share": 0.6184,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 269
+        },
+        {
+          "asof": "2014-05-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.6006,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 142
+        },
+        {
+          "asof": "2014-06-30",
+          "codes": 7089,
+          "deadline_bound_share": 0.5847,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 4641
+        },
+        {
+          "asof": "2014-07-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5809,
+          "median_staleness_days": 212.0,
+          "naive_codes_ahead": 4419
+        },
+        {
+          "asof": "2014-08-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5775,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 137
+        },
+        {
+          "asof": "2014-09-30",
+          "codes": 7089,
+          "deadline_bound_share": 0.5726,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3123
+        },
+        {
+          "asof": "2014-10-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5686,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 168
+        },
+        {
+          "asof": "2014-11-30",
+          "codes": 7089,
+          "deadline_bound_share": 0.5624,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 121
+        },
+        {
+          "asof": "2014-12-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5569,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 8532
+        },
+        {
+          "asof": "2015-01-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5465,
+          "median_staleness_days": 215.0,
+          "naive_codes_ahead": 8500
+        },
+        {
+          "asof": "2015-02-28",
+          "codes": 7089,
+          "deadline_bound_share": 0.5441,
+          "median_staleness_days": 243.0,
+          "naive_codes_ahead": 8344
+        },
+        {
+          "asof": "2015-03-31",
+          "codes": 7089,
+          "deadline_bound_share": 0.5401,
+          "median_staleness_days": 274.0,
+          "naive_codes_ahead": 8501
+        },
+        {
+          "asof": "2015-04-30",
+          "codes": 8586,
+          "deadline_bound_share": 0.656,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 361
+        },
+        {
+          "asof": "2015-05-31",
+          "codes": 8586,
+          "deadline_bound_share": 0.6473,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 276
+        },
+        {
+          "asof": "2015-06-30",
+          "codes": 8586,
+          "deadline_bound_share": 0.6355,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 6817
+        },
+        {
+          "asof": "2015-07-31",
+          "codes": 8586,
+          "deadline_bound_share": 0.6177,
+          "median_staleness_days": 212.0,
+          "naive_codes_ahead": 6520
+        },
+        {
+          "asof": "2015-08-31",
+          "codes": 8586,
+          "deadline_bound_share": 0.6106,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 131
+        },
+        {
+          "asof": "2015-09-30",
+          "codes": 8586,
+          "deadline_bound_share": 0.609,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3516
+        },
+        {
+          "asof": "2015-10-31",
+          "codes": 8587,
+          "deadline_bound_share": 0.608,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 233
+        },
+        {
+          "asof": "2015-11-30",
+          "codes": 8587,
+          "deadline_bound_share": 0.6027,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 180
+        },
+        {
+          "asof": "2015-12-31",
+          "codes": 8587,
+          "deadline_bound_share": 0.5964,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 9044
+        },
+        {
+          "asof": "2016-01-31",
+          "codes": 8587,
+          "deadline_bound_share": 0.5826,
+          "median_staleness_days": 215.0,
+          "naive_codes_ahead": 9023
+        },
+        {
+          "asof": "2016-02-29",
+          "codes": 8587,
+          "deadline_bound_share": 0.5805,
+          "median_staleness_days": 244.0,
+          "naive_codes_ahead": 8850
+        },
+        {
+          "asof": "2016-03-31",
+          "codes": 8587,
+          "deadline_bound_share": 0.5706,
+          "median_staleness_days": 275.0,
+          "naive_codes_ahead": 8917
+        },
+        {
+          "asof": "2016-04-30",
+          "codes": 9132,
+          "deadline_bound_share": 0.6385,
+          "median_staleness_days": 121.0,
+          "naive_codes_ahead": 341
+        },
+        {
+          "asof": "2016-05-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.6356,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 302
+        },
+        {
+          "asof": "2016-06-30",
+          "codes": 9132,
+          "deadline_bound_share": 0.626,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 8285
+        },
+        {
+          "asof": "2016-07-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.5945,
+          "median_staleness_days": 213.0,
+          "naive_codes_ahead": 7969
+        },
+        {
+          "asof": "2016-08-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.2747,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 293
+        },
+        {
+          "asof": "2016-09-30",
+          "codes": 9132,
+          "deadline_bound_share": 0.2665,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 3893
+        },
+        {
+          "asof": "2016-10-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.2614,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 210
+        },
+        {
+          "asof": "2016-11-30",
+          "codes": 9132,
+          "deadline_bound_share": 0.2561,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 157
+        },
+        {
+          "asof": "2016-12-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.2522,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 9529
+        },
+        {
+          "asof": "2017-01-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.2436,
+          "median_staleness_days": 215.0,
+          "naive_codes_ahead": 9501
+        },
+        {
+          "asof": "2017-02-28",
+          "codes": 9132,
+          "deadline_bound_share": 0.2372,
+          "median_staleness_days": 243.0,
+          "naive_codes_ahead": 9286
+        },
+        {
+          "asof": "2017-03-31",
+          "codes": 9132,
+          "deadline_bound_share": 0.2087,
+          "median_staleness_days": 274.0,
+          "naive_codes_ahead": 8957
+        },
+        {
+          "asof": "2017-04-30",
+          "codes": 9624,
+          "deadline_bound_share": 0.2428,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 456
+        },
+        {
+          "asof": "2017-05-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.2358,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 308
+        },
+        {
+          "asof": "2017-06-30",
+          "codes": 9624,
+          "deadline_bound_share": 0.2243,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 8810
+        },
+        {
+          "asof": "2017-07-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.2132,
+          "median_staleness_days": 212.0,
+          "naive_codes_ahead": 8486
+        },
+        {
+          "asof": "2017-08-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.1361,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 185
+        },
+        {
+          "asof": "2017-09-30",
+          "codes": 9624,
+          "deadline_bound_share": 0.1287,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4445
+        },
+        {
+          "asof": "2017-10-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.1842,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 97
+        },
+        {
+          "asof": "2017-11-30",
+          "codes": 9624,
+          "deadline_bound_share": 0.183,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 41
+        },
+        {
+          "asof": "2017-12-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.1821,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 9943
+        },
+        {
+          "asof": "2018-01-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.1799,
+          "median_staleness_days": 215.0,
+          "naive_codes_ahead": 9882
+        },
+        {
+          "asof": "2018-02-28",
+          "codes": 9624,
+          "deadline_bound_share": 0.1776,
+          "median_staleness_days": 243.0,
+          "naive_codes_ahead": 9727
+        },
+        {
+          "asof": "2018-03-31",
+          "codes": 9624,
+          "deadline_bound_share": 0.1515,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 9478
+        },
+        {
+          "asof": "2018-04-30",
+          "codes": 10087,
+          "deadline_bound_share": 0.154,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 199
+        },
+        {
+          "asof": "2018-05-31",
+          "codes": 10087,
+          "deadline_bound_share": 0.1513,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 137
+        },
+        {
+          "asof": "2018-06-30",
+          "codes": 10087,
+          "deadline_bound_share": 0.1462,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 8934
+        },
+        {
+          "asof": "2018-07-31",
+          "codes": 10087,
+          "deadline_bound_share": 0.1443,
+          "median_staleness_days": 212.0,
+          "naive_codes_ahead": 8647
+        },
+        {
+          "asof": "2018-08-31",
+          "codes": 10088,
+          "deadline_bound_share": 0.1379,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 101
+        },
+        {
+          "asof": "2018-09-30",
+          "codes": 10088,
+          "deadline_bound_share": 0.1362,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 4660
+        },
+        {
+          "asof": "2018-10-31",
+          "codes": 10089,
+          "deadline_bound_share": 0.1412,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 65
+        },
+        {
+          "asof": "2018-11-30",
+          "codes": 10089,
+          "deadline_bound_share": 0.1393,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 37
+        },
+        {
+          "asof": "2018-12-31",
+          "codes": 10089,
+          "deadline_bound_share": 0.1381,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 10313
+        },
+        {
+          "asof": "2019-01-31",
+          "codes": 10089,
+          "deadline_bound_share": 0.1364,
+          "median_staleness_days": 215.0,
+          "naive_codes_ahead": 10285
+        },
+        {
+          "asof": "2019-02-28",
+          "codes": 10089,
+          "deadline_bound_share": 0.1354,
+          "median_staleness_days": 243.0,
+          "naive_codes_ahead": 10171
+        },
+        {
+          "asof": "2019-03-31",
+          "codes": 10089,
+          "deadline_bound_share": 0.1287,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 9856
+        },
+        {
+          "asof": "2019-04-30",
+          "codes": 10476,
+          "deadline_bound_share": 0.1608,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 333
+        },
+        {
+          "asof": "2019-05-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1564,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 258
+        },
+        {
+          "asof": "2019-06-30",
+          "codes": 10476,
+          "deadline_bound_share": 0.1447,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 9310
+        },
+        {
+          "asof": "2019-07-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1416,
+          "median_staleness_days": 212.0,
+          "naive_codes_ahead": 9018
+        },
+        {
+          "asof": "2019-08-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1431,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 217
+        },
+        {
+          "asof": "2019-09-30",
+          "codes": 10476,
+          "deadline_bound_share": 0.1396,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5288
+        },
+        {
+          "asof": "2019-10-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1628,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 139
+        },
+        {
+          "asof": "2019-11-30",
+          "codes": 10476,
+          "deadline_bound_share": 0.16,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 79
+        },
+        {
+          "asof": "2019-12-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1579,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 10583
+        },
+        {
+          "asof": "2020-01-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1561,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 10570
+        },
+        {
+          "asof": "2020-02-29",
+          "codes": 10476,
+          "deadline_bound_share": 0.1552,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 10494
+        },
+        {
+          "asof": "2020-03-31",
+          "codes": 10476,
+          "deadline_bound_share": 0.1487,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 10318
+        },
+        {
+          "asof": "2020-04-30",
+          "codes": 10746,
+          "deadline_bound_share": 0.1776,
+          "median_staleness_days": 121.0,
+          "naive_codes_ahead": 852
+        },
+        {
+          "asof": "2020-05-31",
+          "codes": 10746,
+          "deadline_bound_share": 0.1721,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 606
+        },
+        {
+          "asof": "2020-06-30",
+          "codes": 10746,
+          "deadline_bound_share": 0.1645,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 9836
+        },
+        {
+          "asof": "2020-07-31",
+          "codes": 10746,
+          "deadline_bound_share": 0.1562,
+          "median_staleness_days": 213.0,
+          "naive_codes_ahead": 9492
+        },
+        {
+          "asof": "2020-08-31",
+          "codes": 10747,
+          "deadline_bound_share": 0.1409,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 423
+        },
+        {
+          "asof": "2020-09-30",
+          "codes": 10747,
+          "deadline_bound_share": 0.1281,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5585
+        },
+        {
+          "asof": "2020-10-31",
+          "codes": 10749,
+          "deadline_bound_share": 0.1569,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 381
+        },
+        {
+          "asof": "2020-11-30",
+          "codes": 10749,
+          "deadline_bound_share": 0.1491,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 289
+        },
+        {
+          "asof": "2020-12-31",
+          "codes": 10749,
+          "deadline_bound_share": 0.1435,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 10851
+        },
+        {
+          "asof": "2021-01-31",
+          "codes": 10749,
+          "deadline_bound_share": 0.1398,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 10833
+        },
+        {
+          "asof": "2021-02-28",
+          "codes": 10749,
+          "deadline_bound_share": 0.1368,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 10695
+        },
+        {
+          "asof": "2021-03-31",
+          "codes": 10749,
+          "deadline_bound_share": 0.122,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 10426
+        },
+        {
+          "asof": "2021-04-30",
+          "codes": 11012,
+          "deadline_bound_share": 0.1514,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 473
+        },
+        {
+          "asof": "2021-05-31",
+          "codes": 11012,
+          "deadline_bound_share": 0.1462,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 362
+        },
+        {
+          "asof": "2021-06-30",
+          "codes": 11012,
+          "deadline_bound_share": 0.1366,
+          "median_staleness_days": 181.0,
+          "naive_codes_ahead": 10253
+        },
+        {
+          "asof": "2021-07-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1319,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 9913
+        },
+        {
+          "asof": "2021-08-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1166,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 398
+        },
+        {
+          "asof": "2021-09-30",
+          "codes": 11013,
+          "deadline_bound_share": 0.107,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 6049
+        },
+        {
+          "asof": "2021-10-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1326,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 358
+        },
+        {
+          "asof": "2021-11-30",
+          "codes": 11013,
+          "deadline_bound_share": 0.1275,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 226
+        },
+        {
+          "asof": "2021-12-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1238,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 11077
+        },
+        {
+          "asof": "2022-01-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1202,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 11052
+        },
+        {
+          "asof": "2022-02-28",
+          "codes": 11013,
+          "deadline_bound_share": 0.1186,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 10933
+        },
+        {
+          "asof": "2022-03-31",
+          "codes": 11013,
+          "deadline_bound_share": 0.1051,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 10691
+        },
+        {
+          "asof": "2022-04-30",
+          "codes": 11218,
+          "deadline_bound_share": 0.1241,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 783
+        },
+        {
+          "asof": "2022-05-31",
+          "codes": 11218,
+          "deadline_bound_share": 0.1148,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 577
+        },
+        {
+          "asof": "2022-06-30",
+          "codes": 11218,
+          "deadline_bound_share": 0.1062,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 10712
+        },
+        {
+          "asof": "2022-07-31",
+          "codes": 11218,
+          "deadline_bound_share": 0.1001,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 10471
+        },
+        {
+          "asof": "2022-08-31",
+          "codes": 11219,
+          "deadline_bound_share": 0.0931,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 337
+        },
+        {
+          "asof": "2022-09-30",
+          "codes": 11219,
+          "deadline_bound_share": 0.0843,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 6087
+        },
+        {
+          "asof": "2022-10-31",
+          "codes": 11219,
+          "deadline_bound_share": 0.0977,
+          "median_staleness_days": 31.0,
+          "naive_codes_ahead": 298
+        },
+        {
+          "asof": "2022-11-30",
+          "codes": 11219,
+          "deadline_bound_share": 0.0933,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 131
+        },
+        {
+          "asof": "2022-12-31",
+          "codes": 11219,
+          "deadline_bound_share": 0.0915,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 11417
+        },
+        {
+          "asof": "2023-01-31",
+          "codes": 11219,
+          "deadline_bound_share": 0.09,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 11410
+        },
+        {
+          "asof": "2023-02-28",
+          "codes": 11219,
+          "deadline_bound_share": 0.0873,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 11282
+        },
+        {
+          "asof": "2023-03-31",
+          "codes": 11219,
+          "deadline_bound_share": 0.0736,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 10998
+        },
+        {
+          "asof": "2023-04-30",
+          "codes": 11525,
+          "deadline_bound_share": 0.0912,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 544
+        },
+        {
+          "asof": "2023-05-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.0844,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 368
+        },
+        {
+          "asof": "2023-06-30",
+          "codes": 11525,
+          "deadline_bound_share": 0.0729,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 10927
+        },
+        {
+          "asof": "2023-07-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.071,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 10734
+        },
+        {
+          "asof": "2023-08-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.0757,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 115
+        },
+        {
+          "asof": "2023-09-30",
+          "codes": 11525,
+          "deadline_bound_share": 0.0739,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5955
+        },
+        {
+          "asof": "2023-10-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.0794,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 205
+        },
+        {
+          "asof": "2023-11-30",
+          "codes": 11525,
+          "deadline_bound_share": 0.078,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 99
+        },
+        {
+          "asof": "2023-12-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.0757,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 11630
+        },
+        {
+          "asof": "2024-01-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.0747,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 11613
+        },
+        {
+          "asof": "2024-02-29",
+          "codes": 11525,
+          "deadline_bound_share": 0.074,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 11535
+        },
+        {
+          "asof": "2024-03-31",
+          "codes": 11525,
+          "deadline_bound_share": 0.07,
+          "median_staleness_days": 183.0,
+          "naive_codes_ahead": 11192
+        },
+        {
+          "asof": "2024-04-30",
+          "codes": 11731,
+          "deadline_bound_share": 0.0844,
+          "median_staleness_days": 121.0,
+          "naive_codes_ahead": 332
+        },
+        {
+          "asof": "2024-05-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0823,
+          "median_staleness_days": 152.0,
+          "naive_codes_ahead": 264
+        },
+        {
+          "asof": "2024-06-30",
+          "codes": 11731,
+          "deadline_bound_share": 0.0707,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 11285
+        },
+        {
+          "asof": "2024-07-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0691,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 11103
+        },
+        {
+          "asof": "2024-08-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0737,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 75
+        },
+        {
+          "asof": "2024-09-30",
+          "codes": 11731,
+          "deadline_bound_share": 0.072,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5983
+        },
+        {
+          "asof": "2024-10-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0752,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 151
+        },
+        {
+          "asof": "2024-11-30",
+          "codes": 11731,
+          "deadline_bound_share": 0.0739,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 81
+        },
+        {
+          "asof": "2024-12-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0717,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 11638
+        },
+        {
+          "asof": "2025-01-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.0709,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 11627
+        },
+        {
+          "asof": "2025-02-28",
+          "codes": 11731,
+          "deadline_bound_share": 0.0702,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 11558
+        },
+        {
+          "asof": "2025-03-31",
+          "codes": 11731,
+          "deadline_bound_share": 0.065,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 11237
+        },
+        {
+          "asof": "2025-04-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.0535,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 356
+        },
+        {
+          "asof": "2025-05-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.051,
+          "median_staleness_days": 61.0,
+          "naive_codes_ahead": 253
+        },
+        {
+          "asof": "2025-06-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.043,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 11609
+        },
+        {
+          "asof": "2025-07-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0418,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 11434
+        },
+        {
+          "asof": "2025-08-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0379,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 74
+        },
+        {
+          "asof": "2025-09-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.036,
+          "median_staleness_days": 92.0,
+          "naive_codes_ahead": 5901
+        },
+        {
+          "asof": "2025-10-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0339,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 223
+        },
+        {
+          "asof": "2025-11-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.0321,
+          "median_staleness_days": 153.0,
+          "naive_codes_ahead": 122
+        },
+        {
+          "asof": "2025-12-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0316,
+          "median_staleness_days": 184.0,
+          "naive_codes_ahead": 11514
+        },
+        {
+          "asof": "2026-01-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0313,
+          "median_staleness_days": 123.0,
+          "naive_codes_ahead": 11491
+        },
+        {
+          "asof": "2026-02-28",
+          "codes": 11757,
+          "deadline_bound_share": 0.0311,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 11422
+        },
+        {
+          "asof": "2026-03-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0275,
+          "median_staleness_days": 182.0,
+          "naive_codes_ahead": 11099
+        },
+        {
+          "asof": "2026-04-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.0128,
+          "median_staleness_days": 120.0,
+          "naive_codes_ahead": 360
+        },
+        {
+          "asof": "2026-05-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0102,
+          "median_staleness_days": 151.0,
+          "naive_codes_ahead": 214
+        },
+        {
+          "asof": "2026-06-30",
+          "codes": 11757,
+          "deadline_bound_share": 0.006,
+          "median_staleness_days": 91.0,
+          "naive_codes_ahead": 11449
+        },
+        {
+          "asof": "2026-07-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0054,
+          "median_staleness_days": 122.0,
+          "naive_codes_ahead": 11257
+        },
+        {
+          "asof": "2026-08-31",
+          "codes": 11757,
+          "deadline_bound_share": 0.0046,
+          "median_staleness_days": 62.0,
+          "naive_codes_ahead": 7
+        }
+      ],
+      "latest": {
+        "asof": "2026-08-31",
+        "codes": 11757,
+        "deadline_bound_share": 0.0046,
+        "median_staleness_days": 62.0,
+        "naive_codes_ahead": 7
+      },
+      "panel_artifact": {
+        "asofs": 24,
+        "note": "gitignored data lane; regenerate with this script",
+        "path": "data/fund_statement_export/pit_avail/asof_income_monthly.parquet",
+        "rows": 281986,
+        "window_start": "2024-09-30"
+      },
+      "value_cols": [
+        "净资产收益率",
+        "净利润-净利润",
+        "营业总收入-营业总收入"
+      ]
+    }
+  },
+  "faces_built": [
+    "balance",
+    "cashflow",
+    "income"
+  ],
+  "faces_requested": [
+    "income",
+    "cashflow",
+    "balance"
+  ],
   "grid": {
     "end": "2026-08-31",
     "points": 200,
@@ -1429,5 +5754,10 @@
     "deadline_bound": "statutory deadline bound (no usable stamp) -- usable but LOW confidence",
     "filing_event": "a disclosure stamp landed inside the plausible window (cross-statement event or own notice)"
   },
-  "ts": "2026-10-24T06:23:33+0800"
+  "ts": "2026-10-24T07:16:53+0800",
+  "value_cols": [
+    "净资产收益率",
+    "净利润-净利润",
+    "营业总收入-营业总收入"
+  ]
 }

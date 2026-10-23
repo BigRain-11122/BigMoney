@@ -60,6 +60,21 @@ def method_for(wm: str) -> str:
     return "sha1" if len(w) == 40 else "sha256"
 
 
+def _watermark_differs(full: str, wm: str) -> bool:
+    """Prefix-aware delta test (r1111): the stored watermark is a truncation of
+    the full digest (8 hex chars in state-bm-a.json), so a plain string compare
+    reports 'changed' on EVERY round -- a false P0 that makes the whole S0.5
+    board look new. Compare the shorter string against the longer one's prefix;
+    only a real digest difference counts as a delta."""
+    a = (full or "").strip().lower()
+    b = (wm or "").strip().lower()
+    if not a or not b:
+        return True
+    if len(a) >= len(b):
+        return not a.startswith(b)
+    return not b.startswith(a)
+
+
 def git_show(tree: str, path: str):
     r = subprocess.run(["git", "-C", tree, "show", "origin/main:%s" % path],
                        capture_output=True)
@@ -147,11 +162,10 @@ def main() -> int:
         out["orders_method"] = m_o
         out["decisions_sha"] = (sha256(blob_d) if m_d == "sha256" else sha1(blob_d)) if blob_d else None
         out["orders_sha"] = (sha256(blob_o) if m_o == "sha256" else sha1(blob_o)) if blob_o else None
-        out["decisions_changed"] = (
-            (out["decisions_sha"] or "").lower()
-            != (out["wm_decisions"] or "").lower())
-        out["orders_changed"] = (
-            (out["orders_sha"] or "").lower() != (out["wm_orders"] or "").lower())
+        out["decisions_changed"] = _watermark_differs(
+            out["decisions_sha"], out["wm_decisions"])
+        out["orders_changed"] = _watermark_differs(
+            out["orders_sha"], out["wm_orders"])
         if blob_d is not None:
             # dump full decision text for consumption if changed
             if out["decisions_changed"]:
