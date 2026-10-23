@@ -1,0 +1,153 @@
+{
+ "leg0": {
+  "rows": 288,
+  "tail": "W298 registered+finalized",
+  "wprev_bands": {
+   "A": [
+    670901,
+    672900
+   ],
+   "B": [
+    672901,
+    673100
+   ]
+  },
+  "wprev_minus1_bands": {
+   "A": [
+    668701,
+    670700
+   ],
+   "B": [
+    670701,
+    670900
+   ]
+  },
+  "wprev_finalize_landed": true,
+  "wprev_finalize_anchors": {
+   "ledger_total": 1079941,
+   "merged_n": 653520,
+   "skill_line_delta_k_lift": null
+  },
+  "inflight_upstream": false,
+  "owner_rows": 288,
+  "bmc_rows": 117,
+  "bma_rows": 130,
+  "bmb_rows": 41,
+  "ordinal": 289,
+  "owner_row_holes": [
+   15
+  ]
+ },
+ "leg1": {
+  "ARITH_A": [
+   672901,
+   674900
+  ],
+  "ARITH_B": [
+   673101,
+   673300
+  ],
+  "A": [
+   673101,
+   675100
+  ],
+  "hops_A": 1,
+  "A_hop_chain": [
+   {
+    "hop": 1,
+    "window": [
+     672901,
+     674900
+    ],
+    "jump_to": 673101,
+    "refuser_bands": [
+     [
+      672901,
+      673100
+     ]
+    ],
+    "refuser_pts_sample": [
+     672901
+    ]
+   }
+  ],
+  "B": [
+   675101,
+   675300
+  ],
+  "hops_B": 1,
+  "B_hop_chain": [
+   {
+    "hop": 1,
+    "window": [
+     673101,
+     673300
+    ],
+    "jump_to": 675101,
+    "refuser_bands": [
+     [
+      673101,
+      675100
+     ]
+    ],
+    "refuser_pts_sample": [],
+    "kind": "own-A reservation cascade"
+   }
+  ],
+  "B_naive": [
+   673101,
+   673300
+  ],
+  "B_naive_refused_at_start": true,
+  "B_lands_above_own_A": true,
+  "A_semantics": "A arithmetic continuation 672901..674900 walked forward-monotone (hops=1, r587)",
+  "B_semantics": "B arithmetic continuation 673101..673300: own-A-reservation=True, hops=1",
+  "relation_asserts": {
+   "A_base_ge_priorB_tail_plus1": true,
+   "B_lands_above_own_A": true,
+   "AB_mutual_exclusion": true,
+   "B_base_eq_own_A_tail_plus1": true
+  }
+ },
+ "leg2": {
+  "AB_mutual_exclusion": true,
+  "A": [
+   673101,
+   675100
+  ],
+  "B": [
+   675101,
+   675300
+  ],
+  "seed_admit_gate": [
+   "seed_admit_gate rc0 base=673101 span=2000 checked=2000 verdict=FREE",
+   "seed_admit_gate rc0 base=675101 span=200 checked=200 verdict=FREE"
+  ],
+  "note": "both bands FREE per seed_admit_gate"
+ },
+ "leg3": {
+  "universe": "post-W298-REGISTERED",
+  "owner_rows": 288,
+  "bands_clear": true
+ },
+ "leg4": {
+  "W300p_A_naive": "675_101..677_100",
+  "W300p_A_first_clean": "675_101..677_100",
+  "W300p_B_naive": "675_301..675_500",
+  "W300p_B_first_clean": "675_301..675_500",
+  "hops_A": 0,
+  "hops_B": 0,
+  "W300p_B_lands_inside_W300p_A_naive": true,
+  "note": "projection on the PRE-W299 universe; once W299 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+  "candidate_bands": {
+   "A": [
+    673101,
+    675100
+   ],
+   "B": [
+    675101,
+    675300
+   ]
+  }
+ }
+}
