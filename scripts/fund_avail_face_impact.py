@@ -77,10 +77,18 @@ def spearman(a, b):
 
 
 def top_set(values, min_k=TOPK_MIN):
-    """Indices of the largest TOPK_SHARE share (never fewer than ``min_k``),
-    ties broken by code so both faces are ranked deterministically."""
+    """Indices of the largest TOPK_SHARE share (never fewer than ``min_k``,
+    never more than the sample), ties broken by code so both faces are ranked
+    deterministically.
+
+    The cap matters: without it a sample thinner than ``min_k`` reports
+    turnover against names that do not exist (k=10 over a 2-name sample reads
+    as 0.8 turnover between two IDENTICAL faces).
+    """
     pairs = sorted(values.items(), key=lambda kv: (-kv[1], kv[0]))
-    k = max(min_k, int(round(len(pairs) * TOPK_SHARE)))
+    if not pairs:
+        return set(), 0
+    k = min(len(pairs), max(min_k, int(round(len(pairs) * TOPK_SHARE))))
     return {c for c, _ in pairs[:k]}, k
 
 
@@ -179,6 +187,147 @@ def window_dates(periods, offsets=(-10, 0, 7, 15, 30)):
     return sorted(out), out
 
 
+def split_first_ok(first):
+    """Separate rows whose availability is a REAL first announce from rows that
+    only got the statutory-deadline fallback.
+
+    The fallback rows are not wrong, they are unsupported: nothing in the source
+    dates them. Keeping them means the measured effect is partly carried by
+    rows nobody can verify, so the sensitivity face drops them outright instead
+    of re-dating them -- re-dating would invent a stamp.
+    """
+    if "notice_status" not in first.columns:
+        return first.iloc[0:0], {"missing_notice_status": int(len(first))}
+    st = first["notice_status"]
+    by_status = {str(k): int(v) for k, v in st.value_counts().items()}
+    return first[st.eq("ok")], by_status
+
+
+def drop_bias(rows_a, rows_b, dates, min_k=TOPK_MIN):
+    """What a restriction REMOVES, not just how much it moves the answer.
+
+    ``rows_b`` is a subset of ``rows_a``. If the removed names are random with
+    respect to the factor, ``top_capture`` (share of the wide face's top decile
+    that is made of dropped names) should equal ``dropped_share``. A ratio well
+    above 1 means the restriction cuts the names that rank best, so the
+    restricted face is a biased sample rather than a cleaner estimate.
+    """
+    sa = build_samples(rows_a, dates)
+    sb = build_samples(rows_b, dates)
+    per = []
+    for d in dates:
+        a, b = sa[d], sb[d]
+        dropped = set(a) - set(b)
+        rec = {"date": d, "n": len(a), "n_restricted": len(b),
+               "dropped": len(dropped), "dropped_share": None,
+               "top_capture": None, "over_rep": None}
+        if dropped and a:
+            ta, k = top_set(a, min_k)
+            share = len(dropped) / len(a)
+            cap = (len(dropped & ta) / k) if k else None
+            rec["dropped_share"] = share
+            rec["top_capture"] = cap
+            rec["over_rep"] = (cap / share) if (cap is not None and share) else None
+        per.append(rec)
+    by_year = {}
+    for r in per:
+        by_year.setdefault(r["date"][:4], []).append(r)
+    return {
+        "per_date": per,
+        "dropped_share": _agg(r["dropped_share"] for r in per),
+        "top_capture": _agg(r["top_capture"] for r in per),
+        "over_rep": _agg(r["over_rep"] for r in per),
+        "by_year": {
+            y: {"dropped_share_med": _agg(
+                    r["dropped_share"] for r in rs).get("med"),
+                "top_capture_med": _agg(
+                    r["top_capture"] for r in rs).get("med"),
+                "over_rep_med": _agg(r["over_rep"] for r in rs).get("med")}
+            for y, rs in sorted(by_year.items())},
+    }
+
+
+def measure(rows_a, rows_b, dates, wdates, wmap, la="pit", lb="first"):
+    """Every headline statistic for one pair of availability faces.
+
+    Labels ride inside the keys so a second pair (``first`` vs ``first_ok``) can
+    be published beside the primary pair without renaming published fields.
+    """
+    samp_a = build_samples(rows_a, dates)
+    samp_b = build_samples(rows_b, dates)
+    per_date = {d: compare(samp_a[d], samp_b[d]) for d in dates}
+    by_year = {}
+    for d, r in per_date.items():
+        by_year.setdefault(d[:4], []).append(r)
+    res = {
+        f"rows_{la}": len(rows_a),
+        f"rows_{lb}": len(rows_b),
+        "coverage": {
+            f"n_{la}": _agg(r["n_pit"] for r in per_date.values()),
+            f"n_{lb}": _agg(r["n_first"] for r in per_date.values()),
+            f"only_{la}": _agg(r["only_pit"] for r in per_date.values()),
+            f"only_{lb}": _agg(r["only_first"] for r in per_date.values()),
+            "jaccard": _agg(r["jaccard"] for r in per_date.values()),
+        },
+        "ordering": {
+            "spearman": _agg(r["spearman"] for r in per_date.values()),
+            "dates_below_0_95": int(sum(
+                1 for r in per_date.values()
+                if r["spearman"] is not None and r["spearman"] < 0.95)),
+        },
+        "top_decile_turnover": _agg(
+            r["top_decile_turnover"] for r in per_date.values()),
+        "by_year": {
+            y: {"spearman_med": _agg(r["spearman"] for r in rs).get("med"),
+                "turnover_med": _agg(
+                    r["top_decile_turnover"] for r in rs).get("med"),
+                f"only_{lb}_med": _agg(r["only_first"] for r in rs).get("med")}
+            for y, rs in sorted(by_year.items())},
+    }
+    wa = build_samples(rows_a, wdates)
+    wb = build_samples(rows_b, wdates)
+    by_off = {}
+    for d in wdates:
+        r = compare(wa[d], wb[d])
+        for _iso, off in wmap[d]:
+            by_off.setdefault(off, []).append(r)
+    res["window_probe"] = {
+        str(off): {
+            "probes": len(rs),
+            f"n_{la}": _agg(x["n_pit"] for x in rs),
+            f"n_{lb}": _agg(x["n_first"] for x in rs),
+            f"only_{la}": _agg(x["only_pit"] for x in rs),
+            f"only_{lb}": _agg(x["only_first"] for x in rs),
+            "jaccard": _agg(x["jaccard"] for x in rs),
+            "spearman": _agg(x["spearman"] for x in rs),
+            "turnover": _agg(x["top_decile_turnover"] for x in rs),
+        } for off, rs in sorted(by_off.items())
+    }
+    cv_a = coverage_curve(rows_a)
+    cv_b = coverage_curve(rows_b)
+    res["coverage_curve"] = {}
+    for off in sorted({o for pairs in wmap.values() for _p, o in pairs}):
+        fa, fb = [], []
+        for d, pairs in wmap.items():
+            for iso, o in pairs:
+                if o != off:
+                    continue
+                ca = coverage_at(cv_a, iso, d)
+                cb = coverage_at(cv_b, iso, d)
+                if ca is not None and cb is not None:
+                    fa.append(ca)
+                    fb.append(cb)
+        if not fa:
+            continue
+        res["coverage_curve"][str(off)] = {
+            "probes": len(fa),
+            f"frac_{la}": _agg(fa),
+            f"frac_{lb}": _agg(fb),
+            "med_gap": float(pd.Series(fa).median() - pd.Series(fb).median()),
+        }
+    return res
+
+
 # ---------------------------------------------------------------------- run
 def run(only_factor=None, log=print):
     pit_path = os.path.join(PIT_DIR, "income_avail.parquet")
@@ -196,10 +345,13 @@ def run(only_factor=None, log=print):
     first["code"] = first["code"].astype(str).str.zfill(6)
     dates = month_ends()
     key = ["code", "period_end"]
+    first_ok, by_status = split_first_ok(first)
     fames = {
         "avail_pit": pit[key + ["avail_pit"]].rename(
             columns={"avail_pit": "avail"}),
         "avail_first": first[key + ["avail_first"]].rename(
+            columns={"avail_first": "avail"}),
+        "avail_first_ok": first_ok[key + ["avail_first"]].rename(
             columns={"avail_first": "avail"}),
     }
     out = {
@@ -211,6 +363,15 @@ def run(only_factor=None, log=print):
         "dates_n": len(dates),
         "topk_share": TOPK_SHARE,
         "topk_min": TOPK_MIN,
+        "notice_ok_face": {
+            "audit": "sensitivity face: only rows whose availability is a real "
+                     "first announce (notice_status=='ok'); the "
+                     "statutory-deadline fallback rows are dropped, not "
+                     "re-dated",
+            "rows_total": int(len(first)),
+            "rows_ok": int(len(first_ok)),
+            "rows_by_status": by_status,
+        },
         "factors": {},
     }
     if int(first["notice_status"].eq("ok").sum()) == 0:
@@ -232,84 +393,17 @@ def run(only_factor=None, log=print):
             rows[fname] = list(zip(
                 m["code"], m["period_end"],
                 m["avail"].dt.strftime("%Y-%m-%d"), m["value"].astype(float)))
-        samp_pit = build_samples(rows["avail_pit"], dates)
-        samp_first = build_samples(rows["avail_first"], dates)
-        per_date = {}
-        for d in dates:
-            per_date[d] = compare(samp_pit[d], samp_first[d])
-        by_year = {}
-        for d, r in per_date.items():
-            by_year.setdefault(d[:4], []).append(r)
-        out["factors"][name] = {
-            "rows_pit": len(rows["avail_pit"]),
-            "rows_first": len(rows["avail_first"]),
-            "coverage": {
-                "n_pit": _agg(r["n_pit"] for r in per_date.values()),
-                "n_first": _agg(r["n_first"] for r in per_date.values()),
-                "only_pit": _agg(r["only_pit"] for r in per_date.values()),
-                "only_first": _agg(r["only_first"] for r in per_date.values()),
-                "jaccard": _agg(r["jaccard"] for r in per_date.values()),
-            },
-            "ordering": {
-                "spearman": _agg(r["spearman"] for r in per_date.values()),
-                "dates_below_0_95": int(sum(
-                    1 for r in per_date.values()
-                    if r["spearman"] is not None and r["spearman"] < 0.95)),
-            },
-            "top_decile_turnover": _agg(
-                r["top_decile_turnover"] for r in per_date.values()),
-            "by_year": {
-                y: {"spearman_med": _agg(
-                        r["spearman"] for r in rs).get("med"),
-                    "turnover_med": _agg(
-                        r["top_decile_turnover"] for r in rs).get("med"),
-                    "only_first_med": _agg(
-                        r["only_first"] for r in rs).get("med")}
-                for y, rs in sorted(by_year.items())},
-        }
         wdates, wmap = window_dates(sorted(base["period_end"].unique()))
-        wpit = build_samples(rows["avail_pit"], wdates)
-        wfirst = build_samples(rows["avail_first"], wdates)
-        by_off = {}
-        for d in wdates:
-            r = compare(wpit[d], wfirst[d])
-            for _iso, off in wmap[d]:
-                by_off.setdefault(off, []).append(r)
-        f = out["factors"][name]
-        f["window_probe"] = {
-            str(off): {
-                "probes": len(rs),
-                "n_pit": _agg(x["n_pit"] for x in rs),
-                "n_first": _agg(x["n_first"] for x in rs),
-                "only_pit": _agg(x["only_pit"] for x in rs),
-                "only_first": _agg(x["only_first"] for x in rs),
-                "jaccard": _agg(x["jaccard"] for x in rs),
-                "spearman": _agg(x["spearman"] for x in rs),
-                "turnover": _agg(x["top_decile_turnover"] for x in rs),
-            } for off, rs in sorted(by_off.items())}
-        f["coverage_curve"] = {}
-        cv_pit = coverage_curve(rows["avail_pit"])
-        cv_first = coverage_curve(rows["avail_first"])
-        for off in sorted({o for pairs in wmap.values() for _p, o in pairs}):
-            pit, first = [], []
-            for d, pairs in wmap.items():
-                for iso, o in pairs:
-                    if o != off:
-                        continue
-                    cp = coverage_at(cv_pit, iso, d)
-                    cf = coverage_at(cv_first, iso, d)
-                    if cp is not None and cf is not None:
-                        pit.append(cp)
-                        first.append(cf)
-            if not pit:
-                continue
-            f["coverage_curve"][str(off)] = {
-                "probes": len(pit),
-                "frac_pit": _agg(pit),
-                "frac_first": _agg(first),
-                "med_gap": float(pd.Series(pit).median()
-                                 - pd.Series(first).median()),
-            }
+        f = measure(rows["avail_pit"], rows["avail_first"], dates,
+                    wdates, wmap, "pit", "first")
+        f["notice_ok_sensitivity"] = measure(
+            rows["avail_first"], rows["avail_first_ok"], dates,
+            wdates, wmap, "first", "first_ok")
+        f["notice_ok_sensitivity"]["drop_selection"] = drop_bias(
+            rows["avail_first"], rows["avail_first_ok"], dates)
+        out["factors"][name] = f
+        sens = f["notice_ok_sensitivity"]
+        sel = sens["drop_selection"]
         log(f"{name}: spearman med {f['ordering']['spearman'].get('med')} "
             f"| turnover med "
             f"{f['top_decile_turnover'].get('med')} "
@@ -320,7 +414,14 @@ def run(only_factor=None, log=print):
             f"n_first "
             f"{f['window_probe'].get('0', {}).get('n_first', {}).get('med')} "
             f"| deadline coverage {f['coverage_curve'].get('0', {}).get('frac_pit', {}).get('med')} "
-            f"vs {f['coverage_curve'].get('0', {}).get('frac_first', {}).get('med')}")
+            f"vs {f['coverage_curve'].get('0', {}).get('frac_first', {}).get('med')}"
+            f" | OK-ONLY turnover med "
+            f"{sens['top_decile_turnover'].get('med')} spearman med "
+            f"{sens['ordering']['spearman'].get('med')} "
+            f"n_first_ok med {sens['coverage']['n_first_ok'].get('med')} "
+            f"| drop_share {sel['dropped_share'].get('med')} "
+            f"top_capture {sel['top_capture'].get('med')} "
+            f"over_rep {sel['over_rep'].get('med')}")
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
@@ -372,6 +473,56 @@ def selftest():
     # 10. the top-k size is a floor plus a share, never fewer than requested
     ts, k = top_set({"a": 1.0, "b": 2.0}, min_k=1)
     checks.append(k == 1 and ts == {"b"})
+    # 11. measure() carries the caller's labels into every keyed field, so the
+    #     second pair can sit beside the primary one without a rename pass
+    wdates, wmap = window_dates(sorted({"2025-03-31"}))
+    m11 = measure(rows_pit, rows_first, dates, wdates, wmap, "first", "first_ok")
+    checks.append("rows_first" in m11 and "rows_first_ok" in m11
+                  and "only_first_ok" in m11["coverage"]
+                  and "n_first_ok" in m11["coverage"]
+                  and "frac_first_ok" in m11["coverage_curve"].get(
+                      "0", {"frac_first_ok": None}))
+    # 12. a pair of identical faces reports zero drift (the sign convention),
+    #     including on a sample thinner than the top-k floor
+    m12 = measure(rows_first, rows_first, dates, wdates, wmap,
+                  "first", "first_ok")
+    checks.append(m12["top_decile_turnover"].get("med") == 0.0
+                  and m12["coverage"]["only_first_ok"].get("med") == 0
+                  and m12["ordering"]["dates_below_0_95"] == 0)
+    # 12b. the top-k floor never exceeds the sample itself
+    ts12, k12 = top_set({"a": 1.0, "b": 2.0})
+    checks.append(k12 == 2 and ts12 == {"a", "b"}
+                  and top_set({}) == (set(), 0))
+    # 13. the ok-only face drops fallback rows instead of re-dating them
+    fake = pd.DataFrame({
+        "code": ["000001", "000002", "000003"],
+        "period_end": ["2024-12-31"] * 3,
+        "avail_first": ["2025-02-10", "2025-04-30", "2025-04-30"],
+        "notice_status": ["ok", "out_of_window", "absent"],
+    })
+    ok13, st13 = split_first_ok(fake)
+    checks.append(list(ok13["code"]) == ["000001"]
+                  and st13.get("ok") == 1 and st13.get("out_of_window") == 1
+                  and st13.get("absent") == 1)
+    # 14. a face with no status column yields an EMPTY ok-face, never all rows
+    bare = fake[["code", "period_end", "avail_first"]]
+    ok14, st14 = split_first_ok(bare)
+    checks.append(len(ok14) == 0 and st14 == {"missing_notice_status": 3})
+    # 15. drop_selection reports WHAT the restriction removes: dropping the
+    #     single top name out of two is a 50% cut that captures 100% of the
+    #     top decile -> over-representation 2x, not "no change"
+    wide = [("000001", "2024-12-31", "2025-01-31", 1.0),
+            ("000002", "2024-12-31", "2025-01-31", 2.0)]
+    narrow = [wide[0]]
+    db = drop_bias(wide, narrow, ["2025-02-28"], min_k=1)
+    r15 = db["per_date"][0]
+    checks.append(r15["dropped"] == 1 and r15["dropped_share"] == 0.5
+                  and r15["top_capture"] == 1.0 and r15["over_rep"] == 2.0)
+    # 16. a restriction that removes nothing reports no bias (None, not 0)
+    db16 = drop_bias(wide, wide, ["2025-02-28"], min_k=1)
+    checks.append(db16["per_date"][0]["dropped"] == 0
+                  and db16["per_date"][0]["over_rep"] is None
+                  and db16["over_rep"].get("n") == 0)
     failed = [i for i, ok in enumerate(checks, 1) if not ok]
     print(f"fund_avail_face_impact selftest {len(checks) - len(failed)}"
           f"/{len(checks)} PASS")
