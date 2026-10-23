@@ -273,11 +273,43 @@ def build_face(face, frame, cache, grace_days=NOTICE_GRACE_DAYS):
                 "deadline", "late_filer", "notice_status"]]
 
 
+def build_face_by_period(face, frame, cache_by_period):
+    """Aggregate ``build_face`` PER PERIOD.
+
+    The notice cache is keyed by code *inside one period*: ``min(NOTICE_DATE)``
+    for that quarterly report. It is therefore meaningless outside the period
+    it was fetched for. Aggregating the whole panel against a concatenation of
+    every period's cache (the first draft of ``build``) multiplies rows --
+    income 461,679 -> 24,751,774, a 53x explosion -- and, far worse, hands a
+    row the notice date of a DIFFERENT period. r1096 law applies verbatim: a
+    derived face must assert its join key and the resulting uniqueness before
+    anything is written, so both checks live here and never downstream.
+    """
+    frame = frame.copy()
+    frame["period_end"] = (pd.to_datetime(frame["period_end"])
+                           .dt.strftime("%Y-%m-%d"))
+    empty = pd.DataFrame(columns=["code", "first_notice"])
+    parts = []
+    for period in sorted(frame["period_end"].unique()):
+        part = frame[frame["period_end"] == period]
+        parts.append(build_face(face, part, cache_by_period.get(period, empty)))
+    out = (pd.concat(parts, ignore_index=True) if parts
+           else frame.iloc[0:0].copy())
+    if len(out) != len(frame):
+        raise AssertionError(
+            f"{face}: face rows {len(out)} != panel rows {len(frame)}")
+    dup = int(out.duplicated(["code", "period_end"]).sum())
+    if dup:
+        raise AssertionError(f"{face}: {dup} duplicated (code, period_end)")
+    return out
+
+
 def build(log=print):
     receipts = {"ts": dt.datetime.now().astimezone().strftime(
                     "%Y-%m-%dT%H:%M:%S%z"),
                 "audit": "T27 first-announce availability face "
-                         "(min(source NOTICE_DATE, stored) per code/period)",
+                         "(min(source NOTICE_DATE, stored) per code/period, "
+                         "aggregated period by period)",
                 "faces": {}}
     incomplete, missing_face = [], []
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -288,8 +320,9 @@ def build(log=print):
             continue
         periods = staged_periods(face)
         uncached = [p for p in periods if not os.path.exists(cache_path(face, p))]
-        frames = [pd.read_parquet(cache_path(face, p))
-                  for p in periods if os.path.exists(cache_path(face, p))]
+        cache_by_period = {
+            iso_period(p): pd.read_parquet(cache_path(face, p))
+            for p in periods if os.path.exists(cache_path(face, p))}
         frame = pd.read_parquet(path)
         entry = {"rows": int(len(frame)), "periods_staged": len(periods),
                  "periods_cached": len(periods) - len(uncached),
@@ -301,25 +334,23 @@ def build(log=print):
             receipts["faces"][face] = entry
             incomplete.append(face)
             continue
-        cache = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(
-            columns=["code", "first_notice"])
-        out = build_face(face, frame, cache)
+        out = build_face_by_period(face, frame, cache_by_period)
         target = os.path.join(OUT_DIR, f"{face}_avail_first.parquet")
         out.to_parquet(target, index=False)
-        lag_stored = (pd.to_datetime(frame.set_index(
-            ["code", "period_end"]).loc[
-                zip(out["code"], out["period_end"]), "avail_date"].values)
-            .to_numpy())
-        st = pd.to_datetime(out.set_index(["code", "period_end"]).loc[
-            list(zip(out["code"], out["period_end"])), "avail_first"].values)
-        per = pd.to_datetime(out["period_end"])
-        known_stored = pd.to_datetime(frame.set_index(
-            ["code", "period_end"]).loc[
-                list(zip(out["code"], out["period_end"])), "avail_date"].values,
-            errors="coerce")
+        ref = frame[["code", "period_end", "avail_date"]].copy()
+        ref["period_end"] = (pd.to_datetime(ref["period_end"])
+                             .dt.strftime("%Y-%m-%d"))
+        m = out.merge(ref, on=["code", "period_end"], how="left")
+        per = pd.to_datetime(m["period_end"])
+        st = pd.to_datetime(m["avail_first"])
+        known_stored = pd.to_datetime(m["avail_date"], errors="coerce")
         entry.update({
             "status": "ready",
             "rows": int(len(out)),
+            "periods_in_face": int(m["period_end"].nunique()),
+            "notice_ok_rows": int((out["notice_status"] == "ok").sum()),
+            "notice_out_of_window_rows": int(
+                (out["notice_status"] == "out_of_window").sum()),
             "late_filer_rows": int(out["late_filer"].sum()),
             "median_lag_stored_days": float(
                 (known_stored - per).dt.days.median()),
@@ -328,7 +359,6 @@ def build(log=print):
                 ((st - per).dt.days < (known_stored - per).dt.days).sum()),
             "out": os.path.relpath(target, ROOT),
         })
-        del lag_stored
         receipts["faces"][face] = entry
         log(f"{face} ready: {entry}")
     atomic_write_json(SUMMARY, receipts)
@@ -422,6 +452,27 @@ def selftest():
                   and o_ok["avail_first"].iloc[0] == "2025-07-29"
                   and o_bad["notice_status"].iloc[0] == "out_of_window"
                   and o_bad["avail_first"].iloc[0] == "2025-04-30")
+    # 11. CROSS-PERIOD ISOLATION (r1102 defect): one code's notice for period A
+    #     must never be used for period B. The naive whole-panel merge produced
+    #     4 rows for this 2-row frame and gave the Q2 row the Q1 date.
+    frame11 = pd.DataFrame({"code": ["000001", "000001"],
+                            "period_end": ["2025-03-31", "2025-06-30"],
+                            "avail_date": ["2026-04-25", "2026-08-25"]})
+    cache11 = {
+        "2025-03-31": pd.DataFrame({"code": ["000001"],
+                                    "first_notice": ["2025-04-25"]}),
+        "2025-06-30": pd.DataFrame({"code": ["000001"],
+                                    "first_notice": ["2025-08-20"]}),
+    }
+    out11 = build_face_by_period("income", frame11, cache11)
+    checks.append(len(out11) == 2
+                  and list(out11["avail_first"]) == ["2025-04-25", "2025-08-20"])
+    # 12. a period with no cache falls back to ITS OWN statutory deadline and
+    #     keeps its row (no cross-period borrow, no silent row loss)
+    out12 = build_face_by_period("income", frame11,
+                                 {"2025-03-31": cache11["2025-03-31"]})
+    checks.append(len(out12) == 2
+                  and list(out12["avail_first"]) == ["2025-04-25", "2025-08-31"])
     failed = [i for i, ok in enumerate(checks) if not ok]
     print(f"selftest {len(checks) - len(failed)}/{len(checks)} PASS")
     if failed:

@@ -1,57 +1,51 @@
 {
- "ts": "2026-10-24T01:04:08+0800",
- "audit": "T27 first-announce availability face (min(source NOTICE_DATE, stored) per code/period)",
+ "ts": "2026-10-24T04:15:05+0800",
+ "audit": "T27 first-announce availability face (min(source NOTICE_DATE, stored) per code/period, aggregated period by period)",
  "faces": {
   "income": {
    "rows": 461679,
    "periods_staged": 86,
-   "periods_cached": 26,
-   "periods_uncached_n": 60,
-   "status": "coverage_incomplete",
-   "periods_uncached_sample": [
-    "20110630",
-    "20110930",
-    "20111231",
-    "20120331",
-    "20120630",
-    "20120930",
-    "20121231",
-    "20130331"
-   ]
+   "periods_cached": 86,
+   "periods_uncached_n": 0,
+   "status": "ready",
+   "periods_in_face": 86,
+   "notice_ok_rows": 369231,
+   "notice_out_of_window_rows": 91067,
+   "late_filer_rows": 12206,
+   "median_lag_stored_days": 418.0,
+   "median_lag_first_days": 57.0,
+   "rows_tightened": 421070,
+   "out": "data\\fund_statement_export\\pit_avail\\income_avail_first.parquet"
   },
   "cashflow": {
    "rows": 292537,
    "periods_staged": 86,
-   "periods_cached": 0,
-   "periods_uncached_n": 86,
-   "status": "coverage_incomplete",
-   "periods_uncached_sample": [
-    "20050331",
-    "20050630",
-    "20050930",
-    "20051231",
-    "20060331",
-    "20060630",
-    "20060930",
-    "20061231"
-   ]
+   "periods_cached": 86,
+   "periods_uncached_n": 0,
+   "status": "ready",
+   "periods_in_face": 86,
+   "notice_ok_rows": 26514,
+   "notice_out_of_window_rows": 265685,
+   "late_filer_rows": 990,
+   "median_lag_stored_days": 396.0,
+   "median_lag_first_days": 62.0,
+   "rows_tightened": 264886,
+   "out": "data\\fund_statement_export\\pit_avail\\cashflow_avail_first.parquet"
   },
   "balance": {
    "rows": 283955,
    "periods_staged": 86,
-   "periods_cached": 0,
-   "periods_uncached_n": 86,
-   "status": "coverage_incomplete",
-   "periods_uncached_sample": [
-    "20050331",
-    "20050630",
-    "20050930",
-    "20051231",
-    "20060331",
-    "20060630",
-    "20060930",
-    "20061231"
-   ]
+   "periods_cached": 86,
+   "periods_uncached_n": 0,
+   "status": "ready",
+   "periods_in_face": 86,
+   "notice_ok_rows": 196235,
+   "notice_out_of_window_rows": 87245,
+   "late_filer_rows": 6229,
+   "median_lag_stored_days": 50.0,
+   "median_lag_first_days": 48.0,
+   "rows_tightened": 87241,
+   "out": "data\\fund_statement_export\\pit_avail\\balance_avail_first.parquet"
   }
  }
 }
