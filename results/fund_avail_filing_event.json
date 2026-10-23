@@ -1,0 +1,353 @@
+{
+ "ts": "2026-10-24T04:52:00+0800",
+ "audit": "cross-statement filing-event availability face (min in-window first_notice over income|cashflow|balance per code/period, aggregated period by period)",
+ "grace_days": 90,
+ "faces": {
+  "income": {
+   "rows": 461679,
+   "periods": 86,
+   "fallback_rows": 69166,
+   "fallback_share": 0.1498,
+   "median_lag_days": 56.0,
+   "distinct_first_median": 72.0,
+   "distinct_first_mean": 74.6,
+   "source_share": {
+    "income": 0.7997,
+    "cashflow": 0.0101,
+    "balance": 0.0404
+   },
+   "label": "income",
+   "out": "data\\fund_statement_export\\pit_avail\\income_avail_event.parquet",
+   "eras": {
+    "pre_2010": {
+     "rows": 37858,
+     "periods": 20,
+     "fallback_rows": 16036,
+     "fallback_share": 0.4236,
+     "median_lag_days": 41.0,
+     "distinct_first_median": 40.5,
+     "distinct_first_mean": 45.05,
+     "source_share": {
+      "income": 0.0251,
+      "cashflow": 0.1217,
+      "balance": 0.4296
+     },
+     "label": "pre_2010"
+    },
+    "2010_plus": {
+     "rows": 423821,
+     "periods": 66,
+     "fallback_rows": 53130,
+     "fallback_share": 0.1254,
+     "median_lag_days": 57.0,
+     "distinct_first_median": 79.0,
+     "distinct_first_mean": 83.56,
+     "source_share": {
+      "income": 0.8689,
+      "cashflow": 0.0001,
+      "balance": 0.0056
+     },
+     "label": "2010_plus"
+    }
+   },
+   "vs_avail_first": {
+    "rows": 461679,
+    "identical_share": 0.953,
+    "earlier_share": 0.0434,
+    "later_share": 0.0035,
+    "median_delta_days": 0.0,
+    "avail_first_fallback_share": 0.2002,
+    "event_fallback_share": 0.1498,
+    "note": "negative delta = the event face makes a row available EARLIER than the published face (a wrong-late stamp repaired); positive delta would mean the event face is MORE conservative"
+   },
+   "periods_staged": 86
+  },
+  "cashflow": {
+   "rows": 292537,
+   "periods": 86,
+   "fallback_rows": 31052,
+   "fallback_share": 0.1061,
+   "median_lag_days": 45.0,
+   "distinct_first_median": 64.5,
+   "distinct_first_mean": 67.64,
+   "source_share": {
+    "income": 0.8118,
+    "cashflow": 0.0162,
+    "balance": 0.0658
+   },
+   "label": "cashflow",
+   "out": "data\\fund_statement_export\\pit_avail\\cashflow_avail_event.parquet",
+   "eras": {
+    "pre_2010": {
+     "rows": 31900,
+     "periods": 20,
+     "fallback_rows": 10293,
+     "fallback_share": 0.3227,
+     "median_lag_days": 40.0,
+     "distinct_first_median": 40.0,
+     "distinct_first_mean": 43.0,
+     "source_share": {
+      "income": 0.0184,
+      "cashflow": 0.1456,
+      "balance": 0.5133
+     },
+     "label": "pre_2010"
+    },
+    "2010_plus": {
+     "rows": 260637,
+     "periods": 66,
+     "fallback_rows": 20759,
+     "fallback_share": 0.0796,
+     "median_lag_days": 46.0,
+     "distinct_first_median": 73.5,
+     "distinct_first_mean": 75.11,
+     "source_share": {
+      "income": 0.909,
+      "cashflow": 0.0004,
+      "balance": 0.011
+     },
+     "label": "2010_plus"
+    }
+   },
+   "vs_avail_first": {
+    "rows": 292537,
+    "identical_share": 0.2679,
+    "earlier_share": 0.7056,
+    "later_share": 0.0266,
+    "median_delta_days": -3.0,
+    "avail_first_fallback_share": 0.9094,
+    "event_fallback_share": 0.1061,
+    "note": "negative delta = the event face makes a row available EARLIER than the published face (a wrong-late stamp repaired); positive delta would mean the event face is MORE conservative"
+   },
+   "periods_staged": 86
+  },
+  "balance": {
+   "rows": 283955,
+   "periods": 86,
+   "fallback_rows": 22235,
+   "fallback_share": 0.0783,
+   "median_lag_days": 47.0,
+   "distinct_first_median": 64.5,
+   "distinct_first_mean": 68.02,
+   "source_share": {
+    "income": 0.8372,
+    "cashflow": 0.0167,
+    "balance": 0.0679
+   },
+   "label": "balance",
+   "out": "data\\fund_statement_export\\pit_avail\\balance_avail_event.parquet",
+   "eras": {
+    "pre_2010": {
+     "rows": 30880,
+     "periods": 20,
+     "fallback_rows": 9150,
+     "fallback_share": 0.2963,
+     "median_lag_days": 42.0,
+     "distinct_first_median": 40.0,
+     "distinct_first_mean": 43.95,
+     "source_share": {
+      "income": 0.0228,
+      "cashflow": 0.1504,
+      "balance": 0.5305
+     },
+     "label": "pre_2010"
+    },
+    "2010_plus": {
+     "rows": 253075,
+     "periods": 66,
+     "fallback_rows": 13085,
+     "fallback_share": 0.0517,
+     "median_lag_days": 48.0,
+     "distinct_first_median": 74.5,
+     "distinct_first_mean": 75.32,
+     "source_share": {
+      "income": 0.9365,
+      "cashflow": 0.0004,
+      "balance": 0.0114
+     },
+     "label": "2010_plus"
+    }
+   },
+   "vs_avail_first": {
+    "rows": 283955,
+    "identical_share": 0.7714,
+    "earlier_share": 0.2155,
+    "later_share": 0.0131,
+    "median_delta_days": 0.0,
+    "avail_first_fallback_share": 0.3089,
+    "event_fallback_share": 0.0783,
+    "note": "negative delta = the event face makes a row available EARLIER than the published face (a wrong-late stamp repaired); positive delta would mean the event face is MORE conservative"
+   },
+   "periods_staged": 86
+  }
+ },
+ "anchors": {
+  "income": {
+   "2005-03-31": {
+    "rows": 1443,
+    "fallback_share": 0.1774,
+    "median_lag_days": 27.0,
+    "distinct_first": 25
+   },
+   "2010-03-31": {
+    "rows": 2314,
+    "fallback_share": 0.1672,
+    "median_lag_days": 27.0,
+    "distinct_first": 42
+   },
+   "2020-03-31": {
+    "rows": 5095,
+    "fallback_share": 0.1604,
+    "median_lag_days": 29.0,
+    "distinct_first": 83
+   },
+   "2025-03-31": {
+    "rows": 6040,
+    "fallback_share": 0.0482,
+    "median_lag_days": 29.0,
+    "distinct_first": 71
+   },
+   "2025-09-30": {
+    "rows": 5886,
+    "fallback_share": 0.0065,
+    "median_lag_days": 29.0,
+    "distinct_first": 68
+   }
+  },
+  "cashflow": {
+   "2005-03-31": {
+    "rows": 1173,
+    "fallback_share": 0.0009,
+    "median_lag_days": 26.0,
+    "distinct_first": 23
+   },
+   "2010-03-31": {
+    "rows": 2035,
+    "fallback_share": 0.1499,
+    "median_lag_days": 27.0,
+    "distinct_first": 41
+   },
+   "2020-03-31": {
+    "rows": 4480,
+    "fallback_share": 0.1426,
+    "median_lag_days": 29.0,
+    "distinct_first": 82
+   },
+   "2025-03-31": {
+    "rows": 5243,
+    "fallback_share": 0.016,
+    "median_lag_days": 28.0,
+    "distinct_first": 48
+   },
+   "2025-09-30": {
+    "rows": 5213,
+    "fallback_share": 0.0004,
+    "median_lag_days": 29.0,
+    "distinct_first": 46
+   }
+  },
+  "balance": {
+   "2005-03-31": {
+    "rows": 1176,
+    "fallback_share": 0.0034,
+    "median_lag_days": 26.0,
+    "distinct_first": 23
+   },
+   "2010-03-31": {
+    "rows": 1741,
+    "fallback_share": 0.0063,
+    "median_lag_days": 26.0,
+    "distinct_first": 41
+   },
+   "2020-03-31": {
+    "rows": 3928,
+    "fallback_share": 0.0216,
+    "median_lag_days": 29.0,
+    "distinct_first": 82
+   },
+   "2025-03-31": {
+    "rows": 5167,
+    "fallback_share": 0.0015,
+    "median_lag_days": 28.0,
+    "distinct_first": 47
+   },
+   "2025-09-30": {
+    "rows": 5216,
+    "fallback_share": 0.0004,
+    "median_lag_days": 29.0,
+    "distinct_first": 47
+   }
+  }
+ },
+ "cross_face_agreement": {
+  "note": "per-period median absolute day-difference between the faces' own first_notice stamps, over codes present in both faces of the same period (in-window rows only)",
+  "income-balance": {
+   "pre_2010": {
+    "periods": 0,
+    "median_abs_diff_days": null,
+    "share_within_3d": null
+   },
+   "2010_plus": {
+    "periods": 50,
+    "median_abs_diff_days": 0.0,
+    "share_within_3d": 1.0
+   }
+  },
+  "income-cashflow": {
+   "pre_2010": {
+    "periods": 0,
+    "median_abs_diff_days": null,
+    "share_within_3d": null
+   },
+   "2010_plus": {
+    "periods": 17,
+    "median_abs_diff_days": 0.0,
+    "share_within_3d": 1.0
+   }
+  },
+  "cashflow-balance": {
+   "pre_2010": {
+    "periods": 3,
+    "median_abs_diff_days": 0.0,
+    "share_within_3d": 1.0
+   },
+   "2010_plus": {
+    "periods": 14,
+    "median_abs_diff_days": 0.0,
+    "share_within_3d": 1.0
+   }
+  },
+  "own_stamp_usable_share": {
+   "income": {
+    "pre_2010": {
+     "periods": 20,
+     "median_usable_share": 0.0258
+    },
+    "2010_plus": {
+     "periods": 66,
+     "median_usable_share": 0.8938
+    }
+   },
+   "cashflow": {
+    "pre_2010": {
+     "periods": 20,
+     "median_usable_share": 0.0067
+    },
+    "2010_plus": {
+     "periods": 66,
+     "median_usable_share": 0.0072
+    }
+   },
+   "balance": {
+    "pre_2010": {
+     "periods": 20,
+     "median_usable_share": 0.9896
+    },
+    "2010_plus": {
+     "periods": 66,
+     "median_usable_share": 0.9634
+    }
+   }
+  }
+ }
+}
