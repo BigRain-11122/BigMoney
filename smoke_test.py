@@ -442,6 +442,8 @@ def main() -> int:
             ("fund_avail_asof", "scripts/fund_avail_asof_panel.py",
              ["selftest"]),
             ("fund_pit_factor_panel", "scripts/fund_pit_factor_panel.py",
+             ["selftest"]),
+            ("fund_pit_crossface_factor", "scripts/fund_pit_crossface_factor.py",
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:

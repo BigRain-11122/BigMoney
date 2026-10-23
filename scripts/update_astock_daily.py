@@ -94,6 +94,12 @@ ELIG = os.path.join(ROOT, "data", "fundamental", "eligibility.csv")
 PROBE_REF = "results/_r280bmb_probe_akshare_daily.json"
 
 LANE_OWNER = "bm-b"          # T-87 progress_r279_bmb lane claim (R31 family)
+TAKEOVER_STALE_MIN = 120     # owner heartbeat silence legalising a takeover
+
+if os.path.join(ROOT, "scripts") not in sys.path:
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+# single source: the r1100 cure's pure decision, never a second implementation
+from update_etf_daily import _owner_stale_min, takeover_decision  # noqa: E402
 
 DATE_KEY = "date"
 BAR_COLS = ["open", "high", "low", "close", "volume", "amount",
@@ -778,10 +784,18 @@ def gate():
     st = load_status()
     now = dt.datetime.now()
     owner = _lane_owner_id()
+    takeover = None
     if owner != LANE_OWNER:
-        print(f"no-op: astock_daily lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})")
-        return 0
+        ok, why = takeover_decision("--takeover" in sys.argv[1:],
+                                    _owner_stale_min(LANE_OWNER))
+        if not ok:
+            print(f"no-op: astock_daily lane owned by {LANE_OWNER}, "
+                  f"not this machine ({owner or '?'}); takeover refused: {why}")
+            return 0
+        takeover = {"owner": LANE_OWNER, "by": owner, "reason": why,
+                    "ts": now.isoformat(timespec="seconds")}
+        print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} lane by "
+              f"{owner} -- {why}")
     panel = st.get("panel") or {}
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
@@ -797,6 +811,10 @@ def gate():
     else:
         # a healed panel must not keep reporting an old rebuild verdict
         st.pop("disk_truth_override", None)
+    if takeover:
+        st["takeover"] = takeover
+    else:
+        st.pop("takeover", None)
     needs, reason = stale_gate(cutoff, now)
     if not needs:
         st["ts"] = now.isoformat(timespec="seconds")
@@ -878,6 +896,14 @@ def _selftest():
     assert not _disk_truth_override(True, {"per_files": 5217}, 5217)
     assert not _disk_truth_override(True, {"per_files": 5217}, 5300)
     assert not _disk_truth_override(False, {"per_files": 5217}, 0)
+    # stale-takeover gate (r1101 family): a non-owner may only refresh with an
+    # explicit flag AND a silent owner -- either alone is a silent-rot hazard.
+    assert takeover_decision(False, 10_000)[0] is False
+    assert takeover_decision(True, None)[0] is False
+    assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
+    _ok, _why = takeover_decision(True, TAKEOVER_STALE_MIN)
+    assert _ok is True and "silent" in _why, _why
+    assert takeover_decision(False, TAKEOVER_STALE_MIN)[0] is False
     # completeness guard (family S1)
     rows = [{DATE_KEY: "2026-09-24", PRIMARY: 1.0},
             {DATE_KEY: "2026-09-25", PRIMARY: 2.0}]

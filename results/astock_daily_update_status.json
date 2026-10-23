@@ -1,6 +1,6 @@
 {
-  "ts": "2026-10-21T22:17:56",
-  "mode": "refresh in progress (todo=5224/5228, quarantined=4, settled=0)",
+  "ts": "2026-10-24T07:38:43",
+  "mode": "refresh in progress (todo=5228/5228, quarantined=0, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-20",
@@ -32,7 +32,7 @@
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-10-21T22:17:53",
+  "last_spawn_attempt": "2026-10-24T07:38:39",
   "settled_n": 7,
   "settled": [
     "000016",
@@ -44,12 +44,18 @@
     "688496"
   ],
   "no_op_reason": "panel fresh (cutoff 2026-10-20 >= expected 2026-10-20)",
-  "per_files_on_disk": 5225,
+  "per_files_on_disk": 0,
   "validation": {
     "suspended_rows": 0,
     "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "panel lags expected bar date (2026-10-20 < 2026-10-21)",
-  "spawn_mode": "continuation/first-pull"
+  "spawn_reason": "no panel cutoff (first pull / empty panel)",
+  "spawn_mode": "continuation/first-pull",
+  "takeover": {
+    "owner": "bm-b",
+    "by": "bm-a",
+    "reason": "owner bm-b silent 31.3h >= 120min",
+    "ts": "2026-10-24T07:38:39"
+  }
 }
