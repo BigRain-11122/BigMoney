@@ -1,0 +1,62 @@
+{
+ "machine": "bm-c",
+ "wave": 297,
+ "spliced_wave": 298,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W297 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "e51302d9dd0792c9c72b28ef06d5e952e5a2ed21",
+ "pf_sha16_pre": "ed2721b9569c3145",
+ "n1_sha16_pre": "ae363e1759a74614",
+ "pf_sha16_post": "ae9131c0053e1fa9",
+ "n1_sha16_post": "4c3a5cff223a49cc",
+ "bands": {
+  "A": [
+   670901,
+   672900
+  ],
+  "B": [
+   672901,
+   673100
+  ]
+ },
+ "admit_receipt": "results/_w298bmc_20261024_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=670901 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=672901 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk FIFTY-FIRST consecutive A-hop (naive 670_701..672_700 refused at start by the registered W297 B band 670_701..670_900; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 670_901..671_100 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; FIFTY-SECOND consecutive above-own-A)"
+ },
+ "upstream_w295": {
+  "freeze_sha": "61964c8b255bfb141b3d66d17f927c162ffe07a5",
+  "prereg_sha": "e51302d9dd0792c9c72b28ef06d5e952e5a2ed21",
+  "ledger_total": 1077741,
+  "merged_n": 651320
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261024-0245-bmc-w298-seat.md",
+  "seat_origin": "48ac82f228",
+  "prereg_commit": "e51302d9dd0792c9c72b28ef06d5e952e5a2ed21",
+  "probe_receipt_sha": "48ac82f2289da25a065c41c6771844c6c38ff5be"
+ },
+ "downstream_seat": "projection on the PRE-W298 universe; once W298 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+ "seat": "fleet/inbox/MSG-20261024-0245-bmc-w298-seat.md",
+ "parity": {
+  "bytes": 29220,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 49,
+  "fresh_legs_row_asserts": 50,
+  "total_parity_rows": 156
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 298
+ },
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": true
+ },
+ "prereg_placeholder_heal": "research/PERPETUAL_N1_W298_PREREG.md froze at the r1181 derive window with sec.7/sec.8 prose placeholders still OPEN (no @@SEAT tokens -- gate0.5 placeholder assertions pass); sec.7/sec.8 mechanical backfill is this wave's own post-finalize step (same r1180 W298 precedent); judging criteria untouched"
+}
