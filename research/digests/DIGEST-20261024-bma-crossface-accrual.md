@@ -96,3 +96,43 @@ current conclusion.
 2. Add the forward-return join on the astock qfq panel once that panel is fresh
    again (bm-b lane was 31h silent this round; a declared stale takeover was
    executed by bm-a to restart it).
+
+## r1113 addendum -- availability provenance and an explicit universe column
+
+The r1112 face collapsed three availability tiers into one worst-face boolean
+and published no universe context, which is exactly the shape that lets a
+downstream build assume income breadth. Both holes are closed in the artifact
+itself, not in prose:
+
+* `pit_crossface_monthly.parquet` carries `avail_tier_income` /
+  `avail_tier_cashflow` / `avail_tier_balance` and `tier_deadline_faces`
+  (0-3) next to the legacy collapsed `avail_tier`. The r1107 law is "weight,
+  do not exclude", and weighting needs to know which statement forced the
+  downgrade.
+* Every panel row carries `codes_income_asof`, `codes_all_three_asof` and
+  `coherent_share_of_income_asof`; `run` fails closed if the coverage column
+  disappears.
+* `results/fund_pit_crossface_factor.json` gains `universe_coverage` and
+  `availability_provenance` blocks.
+
+Measured over 200 month-ends (2010-01..2026-08):
+
+| quantity | median | extreme |
+|---|---|---|
+| codes, income face | 10,087 | 11,757 max |
+| codes, three faces present | 4,726 | 5,239 max |
+| codes, coherent triple | 4,407 | -- |
+| coherent share of all-three | 0.9504 | -- |
+| **coherent share of income** | **0.4462** | **0.3967 min** |
+
+So the factor is built on at most 5,239 codes and typically 44.6% of the income
+universe: any downstream correlation, breadth or coverage claim made on
+"the panel" is a claim about less than half the income cross-section.
+
+Deadline-bound rows are 0.41% of the panel window (124,681 rows), and
+`faces_deadline_mean = 0.0124` is exactly three times that share, with
+`*_sole_deadline_rows = 0` for all three faces. **The deadline fallback is a
+code-level event, not a statement-level one**: when a code has no filed report
+inside the window, none of its three statements has one either, so all three
+fall back together. Consequence worth having in writing: per-face weighting
+never has to resolve a partial downgrade in this panel.

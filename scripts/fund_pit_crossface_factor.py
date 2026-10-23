@@ -102,9 +102,21 @@ def _coherent(left, mid, right, cols):
     frame["avail_event"] = pd.to_datetime(avail)
     tiers = pd.concat([frame["avail_tier"], frame["avail_tier_cf"],
                        frame["avail_tier_bs"]], axis=1)
-    any_deadline = (tiers == _TIER_DEADLINE).any(axis=1)
-    frame["avail_tier"] = np.where(any_deadline, _TIER_DEADLINE, _TIER_EVENT)
-    keep = ["asof", "code", "period_end", "avail_event", "avail_tier", *cols]
+    tiers.columns = ["avail_tier_income", "avail_tier_cashflow",
+                     "avail_tier_balance"]
+    deadline = tiers == _TIER_DEADLINE
+    frame["avail_tier"] = np.where(deadline.any(axis=1),
+                                   _TIER_DEADLINE, _TIER_EVENT)
+    # r1107 law is "weight, do not exclude", so one collapsed worst-face tier
+    # is not enough: a consumer that wants to discount a deadline-bound
+    # statement must know WHICH face forced the downgrade. Keep the per-face
+    # tiers plus a count; the collapsed column stays for compatibility.
+    for name in tiers.columns:
+        frame[name] = tiers[name]
+    frame["tier_deadline_faces"] = deadline.sum(axis=1).astype(int)
+    keep = ["asof", "code", "period_end", "avail_event", "avail_tier",
+            "tier_deadline_faces", "avail_tier_income", "avail_tier_cashflow",
+            "avail_tier_balance", *cols]
     return frame[keep]
 
 
@@ -167,14 +179,27 @@ def add_ranks(frame):
     return frame
 
 
-def build_panel(preps, asofs):
-    """Strict as-of cross-statement factor panel over the given month-ends."""
+def build_panel(preps, asofs, coverage=None):
+    """Strict as-of cross-statement factor panel over the given month-ends.
+
+    Every row carries its own universe context (``codes_income_asof`` /
+    ``codes_all_three_asof`` / ``coherent_share_of_income_asof``) so a
+    downstream build cannot silently treat this intersection-only factor as if
+    it covered the income face.
+    """
+    cov = {r["asof"]: r for r in (coverage or [])}
     parts = []
     for d in asofs:
         frame = coherent_triple(preps, d)
         if frame.empty:
             continue
-        parts.append(add_ranks(accrual_of(frame)))
+        part = add_ranks(accrual_of(frame))
+        c = cov.get(d.strftime("%Y-%m-%d"))
+        if c is not None:
+            part["codes_income_asof"] = int(c["codes_income"])
+            part["codes_all_three_asof"] = int(c["codes_all_three_faces"])
+            part["coherent_share_of_income_asof"] = c["coherent_share_of_income"]
+        parts.append(part)
     if not parts:
         return pd.DataFrame()
     panel = pd.concat(parts, ignore_index=True)
@@ -183,9 +208,13 @@ def build_panel(preps, asofs):
         raise AssertionError(f"{int(lookahead.sum())} panel rows read a report "
                              "before it was available")
     keep = ["asof", "code", "period_end", "avail_event", "avail_tier",
-            "degenerate", "cohort_size", NP, CF_OPS, BS_ASSETS, BS_LEV,
-            "accrual", "accrual_rank_pct", "accrual_rank_pct_peer",
-            "cash_quality"]
+            "tier_deadline_faces", "avail_tier_income", "avail_tier_cashflow",
+            "avail_tier_balance", "degenerate", "cohort_size", NP, CF_OPS,
+            BS_ASSETS, BS_LEV, "accrual", "accrual_rank_pct",
+            "accrual_rank_pct_peer", "cash_quality"]
+    if parts and "codes_income_asof" in parts[0]:
+        keep += ["codes_income_asof", "codes_all_three_asof",
+                 "coherent_share_of_income_asof"]
     return panel[keep]
 
 
@@ -204,6 +233,11 @@ def coverage_rows(preps, asofs):
             "codes_coherent": coherent,
             "coherent_share_of_all_three": (round(coherent / all_three, 4)
                                             if all_three else None),
+            # income is the widest face (11,757 codes vs the 5,239 three-face
+            # intersection), so this is the number a downstream build would
+            # get wrong if it assumed the panel covers the income universe.
+            "coherent_share_of_income": (round(coherent / len(i_slice), 4)
+                                         if len(i_slice) else None),
         })
     return rows
 
@@ -302,6 +336,53 @@ def _summarise(compared, coverage, peer):
 
 
 # ----------------------------------------------------------------------- run
+def tier_provenance(panel):
+    """Which face makes a cross-statement row deadline-bound (r1107 weighting).
+
+    Published because the collapsed ``avail_tier`` says only "some face was a
+    deadline fallback"; a consumer that wants to discount cashflow less than
+    income cannot recover that from a boolean.
+    """
+    if panel is None or panel.empty:
+        return {}
+    rows = len(panel)
+    out = {
+        "panel_rows": int(rows),
+        "deadline_bound_share": round(
+            float((panel["avail_tier"] == _TIER_DEADLINE).mean()), 4),
+        "faces_deadline_mean": round(float(panel["tier_deadline_faces"].mean()), 4),
+        "faces_deadline_max": int(panel["tier_deadline_faces"].max()),
+    }
+    for face in ("income", "cashflow", "balance"):
+        col = f"avail_tier_{face}"
+        out[f"{face}_deadline_share"] = round(
+            float((panel[col] == _TIER_DEADLINE).mean()), 4)
+        # The face that forced the downgrade when exactly one face did.
+        out[f"{face}_sole_deadline_rows"] = int(
+            ((panel[col] == _TIER_DEADLINE)
+             & (panel["tier_deadline_faces"] == 1)).sum())
+    return out
+
+
+def universe_block(coverage):
+    """The 5,239-code intersection as an explicit, quantified coverage fact."""
+    if not coverage:
+        return {}
+    return {
+        "median_codes_income": _median(coverage, "codes_income"),
+        "median_codes_all_three": _median(coverage, "codes_all_three_faces"),
+        "median_codes_coherent": _median(coverage, "codes_coherent"),
+        "median_coherent_share_of_all_three": _median(
+            coverage, "coherent_share_of_all_three"),
+        "median_coherent_share_of_income": _median(
+            coverage, "coherent_share_of_income"),
+        "min_coherent_share_of_income": _worst(
+            coverage, "coherent_share_of_income", min),
+        "max_codes_all_three": _worst(coverage, "codes_all_three_faces", max),
+        "max_codes_income": _worst(coverage, "codes_income", max),
+    }
+
+
 def load_preps(log=print):
     """Read the three availability faces + value columns once."""
     preps, missing = {}, []
@@ -336,7 +417,10 @@ def run(log=print):
         asofs = month_ends(GRID_START, end)
         coverage = coverage_rows(preps, asofs)
         compared = compare_to_naive(preps, asofs)
-        panel = build_panel(preps, asofs[-PANEL_WINDOW:])
+        panel = build_panel(preps, asofs[-PANEL_WINDOW:], coverage)
+        if len(panel) and "coherent_share_of_income_asof" not in panel:
+            raise AssertionError("panel lost its universe coverage column; a "
+                                 "consumer would silently assume income breadth")
         peer = peer_vs_global(panel)
     except AssertionError as exc:
         log(f"MACHINERY: {exc}")
@@ -375,6 +459,8 @@ def run(log=print):
             "naive": "max period_end <= asof per face, availability ignored, "
                      "then the same coherence filter",
         },
+        "universe_coverage": universe_block(coverage),
+        "availability_provenance": tier_provenance(panel),
         "grid_summary": _summarise(compared, coverage, peer),
         "window_summary_across_grid": _summarise(
             [r for r in compared if r["asof"] >= asofs[-PANEL_WINDOW:]
@@ -416,6 +502,13 @@ def run(log=print):
         f"{receipts['panel_artifact']['codes']} -> "
         f"{os.path.relpath(target, ROOT)}")
     log("wrote " + os.path.relpath(SUMMARY, ROOT))
+    u, t = receipts["universe_coverage"], receipts["availability_provenance"]
+    log(f"universe: coherent share of income median {u['median_coherent_share_of_income']} "
+        f"min {u['min_coherent_share_of_income']} (all-three {u['max_codes_all_three']} "
+        f"vs income {u['max_codes_income']}); deadline-bound rows "
+        f"{t['deadline_bound_share']} across {t['faces_deadline_mean']} faces mean "
+        f"(sole-face rows i/c/b: {t['income_sole_deadline_rows']}/"
+        f"{t['cashflow_sole_deadline_rows']}/{t['balance_sole_deadline_rows']})")
     return 0
 
 
@@ -555,10 +648,42 @@ def selftest(log=print):
         assert compare_to_naive(preps, [pd.Timestamp("2000-01-31")]) == []
         assert peer_vs_global(pd.DataFrame()) == []
 
+    def leg_tier_deadline_faces_names_the_face():
+        preps = _fixture()
+        fb = preps["balance"]["fallback"]
+        preps["balance"]["fallback"] = np.ones(len(fb), dtype=bool)
+        frame = coherent_triple(preps, "2020-09-10")
+        assert (frame["tier_deadline_faces"] == 1).all(), frame["tier_deadline_faces"]
+        assert set(frame["avail_tier_balance"]) == {_TIER_DEADLINE}
+        assert set(frame["avail_tier_income"]) == {_TIER_EVENT}
+        assert set(frame["avail_tier_cashflow"]) == {_TIER_EVENT}
+        assert (frame["avail_tier"] == _TIER_DEADLINE).all()
+
+    def leg_coverage_share_of_income_is_published():
+        rows = coverage_rows(_fixture(), [pd.Timestamp("2020-09-10")])
+        assert rows[0]["codes_income"] == 4, rows[0]
+        assert rows[0]["codes_coherent"] == 4, rows[0]
+        assert rows[0]["coherent_share_of_income"] == 1.0, rows[0]
+
+    def leg_panel_rows_carry_universe_coverage():
+        asof = pd.Timestamp("2020-09-10")
+        rows = coverage_rows(_fixture(), [asof])
+        panel = build_panel(_fixture(), [asof], rows)
+        assert "coherent_share_of_income_asof" in panel.columns, panel.columns
+        assert set(panel["codes_income_asof"]) == {4}
+        assert set(panel["codes_all_three_asof"]) == {4}
+        assert set(panel["coherent_share_of_income_asof"]) == {1.0}
+
     leg("coherent triple keeps only agreeing periods",
         leg_coherent_keeps_agreeing_periods)
     leg("a single lagging face breaks coherence", leg_one_face_lag_breaks_coherence)
     leg("tier of a triple is the worst face", leg_coherent_tier_is_the_worst_face)
+    leg("tier provenance names the deadline face",
+        leg_tier_deadline_faces_names_the_face)
+    leg("coverage publishes share of the income face",
+        leg_coverage_share_of_income_is_published)
+    leg("panel rows carry their universe coverage",
+        leg_panel_rows_carry_universe_coverage)
     leg("accrual arithmetic", leg_accrual_arithmetic)
     leg("degenerate flag on non-positive assets",
         leg_degenerate_on_nonpositive_assets)
@@ -572,7 +697,7 @@ def selftest(log=print):
     leg("panel asserts no lookahead", leg_panel_asserts_no_lookahead)
     leg("empty grid is safe", leg_empty_grid_is_safe)
 
-    total = 11
+    total = 14
     if fails:
         log(f"selftest {total - len(fails)}/{total} PASS -- FAILED: {fails}")
         return 1
