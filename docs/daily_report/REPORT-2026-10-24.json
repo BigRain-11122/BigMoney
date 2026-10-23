@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-24",
- "generated_at": "2026-10-24 00:35:09",
+ "generated_at": "2026-10-24 00:59:51",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -291,25 +291,27 @@
   "state": "ORANGE",
   "rung": "ORANGE",
   "cap": 0.5,
-  "heat": "COOL",
-  "clock_cell": "ORANGE_COOL",
+  "heat": "HOT",
+  "clock_cell": "ORANGE_HOT",
   "members": 6,
   "md_link": "../live_usage/LIVE-2026-10-24.md"
  },
  "rd": {
-  "commits_24h": 6,
-  "result_jsons_landed_24h": 68,
-  "digests_landed_24h": 58,
+  "commits_24h": 10,
+  "result_jsons_landed_24h": 72,
+  "digests_landed_24h": 56,
   "prereg_md_touched_24h": 4,
   "compute_audit_latest": {
-   "ts": "2026-10-24 00:32:06",
-   "py_cpu_pct": 5.4,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-24 00:58:05",
+   "py_cpu_pct": 3.6,
+   "flags": [
+    "supply_gap"
+   ],
+   "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -666,10 +668,10 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2242881,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-21 22:31:33",
+   "prev_generated": "2026-10-24 00:23:03",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 23699,
-   "mandate_growth": 6
+   "report_tokens_growth": 0,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -679,66 +681,66 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-20 14:44:31",
-    "py_pct": 0.5,
-    "cpu_pct": 32.0,
-    "ready": 0,
-    "streak_min": 353.5,
-    "verdict": "FLAG:supply_floor",
+    "latest_ts": "2026-10-24 00:58:05",
+    "py_pct": 3.6,
+    "cpu_pct": 52.0,
+    "ready": 3,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
      [
-      "08:51",
-      0.1
+      "08:36",
+      0.6
      ],
      [
-      "09:07",
+      "08:46",
       0.0
      ],
      [
-      "09:27",
+      "08:59",
       0.1
      ],
      [
-      "09:50",
-      0.9
-     ],
-     [
-      "12:30",
-      0.2
-     ],
-     [
-      "12:44",
+      "09:30",
       0.1
      ],
      [
-      "12:55",
-      6.4
-     ],
-     [
-      "13:12",
-      1.3
-     ],
-     [
-      "13:23",
-      0.5
-     ],
-     [
-      "13:32",
+      "09:41",
       0.1
      ],
      [
-      "13:45",
-      0.2
+      "21:22",
+      0.0
      ],
      [
-      "14:44",
-      0.5
+      "22:15",
+      0.0
+     ],
+     [
+      "22:30",
+      5.1
+     ],
+     [
+      "00:07",
+      100.0
+     ],
+     [
+      "00:15",
+      15.0
+     ],
+     [
+      "00:32",
+      5.4
+     ],
+     [
+      "00:58",
+      3.6
      ]
     ],
-    "today_samples": 0,
-    "today_floor_ok": 0,
+    "today_samples": 4,
+    "today_floor_ok": 4,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 0
+    "today_supply_gap_flags": 1
    },
    "bm-b": {
     "latest_ts": "2026-10-23 00:18:27",
@@ -884,7 +886,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-20 14:44:31"
+     "audit_ts": "2026-10-24 00:58:05"
     }
    },
    "bm-b": {
@@ -1323,11 +1325,11 @@
     "rows": [
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 7365.07,
-      "day_ret": 0.007684,
-      "equity_cny": 965802.76,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": 2522.93,
+      "day_ret": 0.002612,
+      "equity_cny": 968325.69,
       "account": "REV-OSC-STD",
       "state": "ORANGE",
       "route": {
@@ -1341,11 +1343,11 @@
      },
      {
       "status": "ok",
-      "asof": "2026-10-19",
-      "prior": "2026-10-16",
-      "day_pnl_cny": 2275.61,
-      "day_ret": 0.002305,
-      "equity_cny": 989381.35,
+      "asof": "2026-10-20",
+      "prior": "2026-10-19",
+      "day_pnl_cny": 775.36,
+      "day_ret": 0.000784,
+      "equity_cny": 990156.71,
       "account": "SYSTEM-V1",
       "state": "ORANGE",
       "route": {
@@ -1358,12 +1360,12 @@
       "pure_sleeve": false
      }
     ],
-    "asof": "2026-10-19",
-    "family_day_pnl_cny": 9640.68,
+    "asof": "2026-10-20",
+    "family_day_pnl_cny": 3298.29,
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -58946.04,
+  "grand_day_pnl_cny": -65288.43,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
