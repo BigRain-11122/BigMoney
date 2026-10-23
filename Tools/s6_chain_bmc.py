@@ -1,0 +1,93 @@
+"""bm-c S6 chain runner (reusable).
+
+Runs the 39 S6 data/panel maintenance legs in the order fixed by the round
+prompt, records {leg, rc, elapsed} for each into
+results/_r<round>bmc_s6_chain.json and prints a compact tail summary.
+
+Usage: python Tools\\s6_chain_bmc.py <round_no>
+Exit 0 always (legs are recorded; non-zero legs are reported, not fatal) --
+the round report must surface any rc!=0 leg verbatim.
+
+Why a shared runner: the per-round chain used to be an ad-hoc script rebuilt
+every window (r1179..r1182 clones) which cost most of the round's wall time in
+generation rather than measurement.
+"""
+import json
+import subprocess
+import sys
+import time
+from datetime import datetime
+
+LEGS = [
+    ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
+    ("compute_audit", ["python", "scripts/compute_audit.py"]),
+    ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
+    ("update_daily", ["python", "scripts/update_daily.py"]),
+    ("market_regime", ["python", "scripts/market_regime.py"]),
+    ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
+    ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
+    ("update_lhb", ["python", "scripts/update_lhb.py"]),
+    ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
+    ("update_heat", ["python", "scripts/update_heat.py"]),
+    ("update_futures", ["python", "scripts/update_futures.py"]),
+    ("update_repo", ["python", "scripts/update_repo.py"]),
+    ("update_options", ["python", "scripts/update_options.py"]),
+    ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
+    ("update_sina_mf", ["python", "scripts/update_sina_mf.py"]),
+    ("update_astock_daily", ["python", "scripts/update_astock_daily.py"]),
+    ("update_etf_daily", ["python", "scripts/update_etf_daily.py"]),
+    ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
+    ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
+    ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
+    ("minute_feed", ["python", "scripts/update_minute_feed.py"]),
+    ("ths_panel", ["python", "scripts/update_ths_panel.py"]),
+    ("ah_panel", ["python", "scripts/ah_panel_puller.py"]),
+    ("fund_premium", ["python", "scripts/update_fund_premium.py", "snapshot"]),
+    ("fundamental", ["python", "scripts/update_fundamental.py"]),
+    ("b_layer", ["python", "-m", "firm.risk.b_layer_filter"]),
+    ("fund_statements", ["python", "scripts/update_fund_statements.py"]),
+    ("t24_paper", ["python", "scripts/t24_prospect_paper.py", "run"]),
+    ("t24_promote", ["python", "scripts/t24_prospect_promotion.py", "run"]),
+    ("aggr_paper", ["python", "scripts/aggressive_lab.py", "paper"]),
+    ("alloc_paper", ["python", "scripts/alloc_paper.py", "run"]),
+    ("grid_paper", ["python", "scripts/grid_paper.py", "run"]),
+    ("system_v1", ["python", "scripts/system_v1_paper.py", "run"]),
+    ("t35_export", ["python", "scripts/t35_paper_export.py", "run"]),
+    ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
+    ("daily_report", ["python", "scripts/daily_report.py", "run"]),
+    ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    ("build_status", ["python", "-m", "monitor.build_status"]),
+    ("token_meter", ["python", "scripts/token_meter.py"]),
+]
+
+
+def main():
+    round_no = sys.argv[1] if len(sys.argv) > 1 else "0"
+    out = []
+    for name, cmd in LEGS:
+        t0 = time.time()
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", timeout=900)
+            rc = r.returncode
+            tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
+        except subprocess.TimeoutExpired:
+            rc = 124
+            tail = ["TIMEOUT"]
+        el = round(time.time() - t0, 1)
+        out.append({"leg": name, "rc": rc, "elapsed_sec": el,
+                    "tail": tail[0][:220]})
+        print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}", flush=True)
+
+    path = f"results/_r{round_no}bmc_s6_chain.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
+    bad = [o for o in out if o["rc"] != 0]
+    print(f"chain: {len(out)-len(bad)}/{len(out)} rc0 -> {path} "
+          f"({datetime.now().isoformat(timespec='seconds')})")
+    if bad:
+        print("NONZERO: " + ", ".join(f"{o['leg']}={o['rc']}" for o in bad))
+
+
+if __name__ == "__main__":
+    main()
