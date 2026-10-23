@@ -55,9 +55,16 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1184 W302 §7 范式）
+- 账本恒等式：prev 1,086,541 + batch 2,200 = **1,088,741 EXACT**（science_gates.ledger 机读字段；prev == N1 的 W301 finalize 尾 1,086,541 字节级取得，零转录）；合并池 K：660,120 + 2,200 = **662,320 EXACT**。
+- merged mu = -0.09281641 / merged sigma = 0.24511431 / **se_mu@K662,320 = 0.000301**（较 W301 0.000301 持平）；W302-only mu = -0.09297523 / sigma = 0.24443652；A 族 full_sharpe p95 = 0.3167 / p99 = 0.4562。
+- K-lift 对照：line_pre_w302 = 1.1995 → line_merged@662,320 = 1.1995，delta = **+0.0000**（n_eff held 1,086,541）；canon flip = NOT performed by this wave（治理提案面 only，K2200 同律）。
+- §5 五预键机证件：**6/6 ALL PASS**（key1 only-vs-merged gap 0.0001588 / key1b merged-vs-W301 差 5.29e-07 / key2 sigma rel -9.96e-06 / key3 A p95 delta 0.0062 / key4 K-lift +0.0000 / key5 se_mu 0.000301→0.000301；证据件 results/_r1185bmc_w302_fivekeys.json，锚=W301 finalize 实测，r587 不转录）。
+- 六门探针：PRE-FINALIZE **ALL PASS（第 65 次连续全绿定位）**（results/_r1185bmc_w302_sixgate.json）；splice 面 CR-normalized 后 worktree==落地 git blob @ 78b4b1ce5c；setwave 存在站闸 W302 在册 / W301+W299 缺席；bands A 679_701..681_700 / B 681_701..681_900；banned_direction_gate ADMIT rc0；pf/n1 selftest rc0；shards 12/12 全 >100KB；seed_admit_gate FREE x2。
+- audit 段：machine=bm-c / finalize_only / shards_consumed 12/12；preregistered_doc=research/PERPETUAL_N1_W302_PREREG.md；evidence_cutoff=2026-09-22；P-5C 同窗口径（cutoff_meta 双写）。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W303+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1184 W302 §8 范式）
+- §5.5 W303+ 投影承接机证：finalize 的 preregistered_doc 注册面（A 679_701..681_700 + B 681_701..681_900）与 splice 一致（证据 _w302bmc_freeze_receipt.json 嵌参，upstream_w301 face 匹配）；probe leg4 预投影 = A naive 681_701..683_700（CLEAN hops=0 于 pre-W302 宇宙）/ B naive 681_901..682_100 CLEAN 但落投影 A 窗内 → W303 一定以 live re-derive 为准（derive B 必预留 own A 窗，W141 判例/E36 承接；注册后 W303 naive A 起点将被注册 W302 B 带拒，staircase 承袭预期）。
+- 宝藏与方法论捕获面：本轮仍走「splice + 引擎自适应点燃 + finalize 全链」，未产生新方法面，TREASURE_REGISTRY 与 METHODOLOGY_ASSETS 均 +0（诚实注记）。
+- 诚实披露面：(1) W302 splice 执行面 = 78b4b1ce5c（唯一一次 splice），引擎 mtime-watch 自点火 12/12 + sixgate + finalize + sec7/8 全部收口；(2) 引擎自点火全程不重启进程，ledger append 由引擎自提交；(3) 注册冻结锚 = W301 实测值（以账本头为准）；(4) 账本源三元 prev 1,086,541 == W301 finalize 尾（无漂移）；(5) 引擎侧 = 自然收口，无前期门控；(6) 累积历史面（se_mu 收窄链 + RAM 历史链）整体受哨兵保护只改链尾，派生标注面英文序数显式 +1（registry row = HUNDRED-AND-NINETEENTH owned claim per machine-derive，engine_owner==bm-c rows 120 + candidate），receipt 键名 upstream_wNNN 走动态键（本波上游键 = upstream_w301，实测在 upstream_w301）；(7) 本轮 K-lift 为 **+0.0000**，仍在 ±0.02 带内，如实披露不调线；(8) 已知继承性散文面：materializer 描述串「landed net chain head …」指代的是 dep 链头（W301 finalize），非功能闸。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W302 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W301 own-wave finalize 已落地=席位时即解锁（n1_w301_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

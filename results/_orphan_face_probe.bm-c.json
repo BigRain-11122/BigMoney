@@ -1,18 +1,18 @@
 {
- "ts": "2026-10-24T05:36:57",
+ "ts": "2026-10-24T06:29:43",
  "mode": "probe",
- "py_faces_seen": 5,
- "orphans": 0,
+ "py_faces_seen": 6,
+ "orphans": 1,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 2,
+ "resident_servers_exempt": 1,
  "faces": [
   {
    "pid": 11260,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 358.4,
-   "cpu_delta_20s": 2.078,
+   "age_min": 411.1,
+   "cpu_delta_20s": 2.953,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -24,24 +24,21 @@
    "pid": 20388,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 385.4,
-   "cpu_delta_20s": 0.031,
+   "age_min": 438.2,
+   "cpu_delta_20s": 17.688,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
+   "face3_cpu_stalled": false,
    "ancestor_chain": [
     "DEAD"
-   ],
-   "listen_ports": [
-    8188
    ]
   },
   {
    "pid": 24564,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 387.0,
-   "cpu_delta_20s": 0.031,
+   "age_min": 439.8,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -53,26 +50,39 @@
    ]
   },
   {
-   "pid": 42284,
+   "pid": 27784,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.172,
+   "cpu_delta_20s": 0.109,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
+   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "pwsh.exe",
     "codely.exe",
     "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 29056,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py --repo",
+   "age_min": 39.2,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
     "DEAD"
    ]
   },
   {
-   "pid": 43636,
+   "pid": 40836,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
-   "age_min": 0.4,
+   "age_min": 0.1,
    "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -82,31 +92,29 @@
    ]
   }
  ],
- "orphan_details": [],
- "idle_server_details": [],
- "resident_server_details": [
+ "orphan_details": [
   {
-   "pid": 20388,
+   "pid": 29056,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 385.4,
-   "cpu_delta_20s": 0.031,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py --repo",
+   "age_min": 39.2,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
-   ],
-   "listen_ports": [
-    8188
    ]
-  },
+  }
+ ],
+ "idle_server_details": [],
+ "resident_server_details": [
   {
    "pid": 24564,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 387.0,
-   "cpu_delta_20s": 0.031,
+   "age_min": 439.8,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
