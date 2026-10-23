@@ -43,7 +43,7 @@
   "last_decisions_at": "2026-10-24T04:44:19+08:00",
   "last_decisions_read_at": "2026-10-24T04:44:19+08:00",
   "last_decisions_seen": "decisions.md tail ends at the 2026-10-20 batch (D-20261020-01..12); zero rows dated 10-21..10-24, zero BigMoney obligation (D-20261020-12 already executed in its own window)",
-  "last_decisions_sha": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
+  "last_decisions_sha": "17c29359",
   "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
   "last_decisions_ts": "2026-10-19T18:56:17+08:00",
   "last_delivery_verified_at": "2026-10-20T09:38:00+08:00",
@@ -128,7 +128,7 @@
     "cashflow": 0,
     "income": 58
   },
-  "now_active": "idle (r1108 closed, next r1109)",
+  "now_active": "idle (r1109 closed, next r1110)",
   "ord_sha_method": "python raw-bytes sha256 canonical (r814 lineage)",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
@@ -266,10 +266,10 @@
   "ram_free_mb": 5120,
   "ram_free_pct": 24.3,
   "ram_load_pct": 95.0,
-  "recent_artifact": "scripts/fund_avail_asof_panel.py + results/fund_avail_asof_panel.json + data/fund_statement_export/pit_avail/asof_income_monthly.parquet",
-  "round": 1108,
-  "round_no": 1108,
-  "round_no_label": "r1108",
+  "recent_artifact": "scripts/fund_pit_factor_panel.py + results/fund_pit_factor_panel.json + data/fund_statement_export/pit_avail/pit_factor_monthly.parquet",
+  "round": 1109,
+  "round_no": 1109,
+  "round_no_label": "r1109",
   "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
   "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
   "s6_face_r1102": "S6 42-leg chain (r1102 clone of the r1099 face): dualrun ZERO-DRIFT 616 entries streak 51 | compute_audit rc0 | py_watermark rc0 | update_daily rc0 | marks_coverage rc3 + marks_capture rc0 (outside window) | market_regime ORANGE breadth 0.85 | scorecard/market_clock/lhb/zt_pool/heat/futures/repo rc0 | regime_thermo rc0 | dualarm rc0 | rev_osc rc0 | minute_feed rc0 | ths/ah/premium/fundamental/b_layer rc0 | t35_open_fill_verify rc1 (known marks gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local-LLM legs",
@@ -283,12 +283,15 @@
     "origin_tip": "a447521fd6",
     "ts": "2026-10-24T04:58:00+08:00"
   },
-  "task": "r1108: strict PIT as-of read path for the income filing-event availability face -- join primitive + tier column + panel artifact; naive period_end join measured reading 8.5k codes ahead at quarter-end month-ends",
+  "task": "r1109: monthly PIT fundamental factor panel -- first consumer of the availability face; strict-vs-naive comparison at month-end rebalancing resolution",
   "total_ram_gb": 93.6,
-  "ts": "2026-10-24T06:26:17+0800",
-  "updated": "2026-10-24T04:24:18+08:00",
+  "ts": "2026-10-24T06:38:32+0800",
+  "updated": "2026-10-24T06:38:32+08:00",
   "updated_at": "2026-10-20T12:32:26+08:00",
   "verdict": "green red=false (watermark py_low_board_clear legal idle; compute_audit rc0 FLAG:supply_gap only; smoke 55/55; attrition CLEAN; orphan 0/16)",
-  "verify": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
-  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16"
+  "verify": "fund_pit_factor_panel selftest 9/9; run rc0 over 200 month-ends (median report_differs 0.727 window, roe rho 0.896, min top-decile overlap 0.211); panel 281986 rows / 24 asofs lookahead-asserted; smoke 56/56; attrition CLEAN",
+  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
+  "verify_r1109": "fund_pit_factor_panel selftest 9/9; run rc0 over 200 month-ends (median report_differs 0.727 window, roe rho 0.896, min top-decile overlap 0.211); panel 281986 rows / 24 asofs lookahead-asserted; smoke 56/56; attrition CLEAN",
+  "s6_face_r1109": "S6 7 legs rc0 (dualrun ZERO-DRIFT 616 entries streak 51 | compute_audit rc0 FLAG:supply_gap floor 3/3 breach false | py_watermark insufficient_history n=2 | update_daily rc0 0 new rows cutoff 2026-10-23 | market_regime ORANGE breadth 0.85 | attrition CLEAN 1 historical shrink healed | smoke 56/56)",
+  "notes_r1109": "r1109: (1) NEW consumer-side measurement law instance: a data-lookahead defect must be graded on the RANKING the consumer sees, not on rows -- 0.727 of shared codes get a different report period between the naive and strict join on the last 24 month-ends, roe Spearman 0.896, and the worst month-end keeps only 21% of the strict top decile. (2) The measurement is a function of where in the disclosure cycle you sample: 2026-07-31 differs on 95.8% of codes, 2026-08-31 (after the H1 deadline) on 0.06% -- sampling only at quiet month-ends would have answered 'no lookahead' by construction (r1102 law, second confirmation). (3) Carry two confidence columns into any factor build: avail_tier (deadline bound) and degenerate (|roe|>200 or bps<=0); r1107 says weight, do not exclude."
 }
