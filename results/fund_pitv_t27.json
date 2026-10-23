@@ -1,11 +1,49 @@
 {
-  "ts": "2026-10-23T23:59:50+0800",
+  "ts": "2026-10-24T00:33:27+0800",
   "audit": "T27 PIT availability repair -- keyed anchors + consumer overlay",
-  "faces": {},
-  "consumers": {},
-  "missing": [
-    "income",
-    "balance",
-    "cashflow"
-  ]
+  "faces": {
+    "income": {
+      "rows": 461679,
+      "codes": 11757,
+      "strict_held_rows": 38534,
+      "tightened_rows": 423145,
+      "deadline_bound_share": 0.924807,
+      "out": "data\\fund_history_export\\pitv\\income_avail_keyed.parquet"
+    },
+    "balance": {
+      "rows": 283955,
+      "codes": 5257,
+      "strict_held_rows": 190485,
+      "tightened_rows": 93470,
+      "deadline_bound_share": 0.40518,
+      "out": "data\\fund_history_export\\pitv\\balance_avail_keyed.parquet"
+    },
+    "cashflow": {
+      "rows": 292537,
+      "codes": 5257,
+      "strict_held_rows": 26661,
+      "tightened_rows": 265876,
+      "deadline_bound_share": 0.920208,
+      "out": "data\\fund_history_export\\pitv\\cashflow_avail_keyed.parquet"
+    }
+  },
+  "consumers": {
+    "quality": {
+      "consumer": "quality",
+      "status": "ok",
+      "rows": 306414,
+      "matched": 289845,
+      "tightened": 18986,
+      "out": "data\\fund_history_export\\pitv\\quality_faces_pit.parquet"
+    },
+    "growth": {
+      "consumer": "growth",
+      "status": "ok",
+      "rows": 426789,
+      "matched": 426789,
+      "tightened": 34557,
+      "out": "data\\fund_history_export\\pitv\\growth_faces_pit.parquet"
+    }
+  },
+  "missing": []
 }

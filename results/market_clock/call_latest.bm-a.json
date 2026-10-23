@@ -1,109 +1,111 @@
 {
- "asof": "2026-10-19",
- "clock_cell": "ORANGE_COOL",
+ "asof": "2026-10-23",
+ "clock_cell": "ORANGE_HOT",
  "regime_v3": {
   "state": "ORANGE",
-  "asof": "2026-10-19",
-  "days_in_state": 2,
+  "asof": "2026-10-23",
+  "days_in_state": 6,
   "triggers": [
    "hs300<MA200 (#10 collected)",
-   "breadth 0.79>=65%"
+   "breadth 0.85>=65%",
+   "crash10d -0.064<=-5%",
+   "breadth 0.92>=65%"
   ]
  },
  "heat_composite": {
-  "rows_last_day": 80,
-  "net_buy_sum_yuan": 2368781116.14,
+  "rows_last_day": 101,
+  "net_buy_sum_yuan": 2639524172.9500003,
   "rolling250_p80_rows": 96.0,
-  "heat": "COOL"
+  "heat": "HOT"
  },
  "sector_board_top8": [
   {
-   "symbol": "513100",
-   "r5": -0.0229,
-   "r20": 0.0654,
-   "r60": 0.113
-  },
-  {
-   "symbol": "512800",
-   "r5": 0.0104,
-   "r20": 0.0354,
-   "r60": 0.1115
+   "symbol": "159928",
+   "r5": -0.006,
+   "r20": 0.0216,
+   "r60": -0.0104
   },
   {
    "symbol": "512690",
-   "r5": 0.0095,
-   "r20": 0.0267,
-   "r60": 0.0242
+   "r5": -0.0143,
+   "r20": 0.0172,
+   "r60": -0.0235
   },
   {
-   "symbol": "512010",
-   "r5": -0.0158,
-   "r20": 0.0219,
-   "r60": 0.0247
+   "symbol": "512800",
+   "r5": -0.0174,
+   "r20": 0.0143,
+   "r60": 0.0573
   },
   {
    "symbol": "515170",
-   "r5": 0.0043,
-   "r20": 0.0175,
-   "r60": 0.0198
+   "r5": -0.0108,
+   "r20": 0.0132,
+   "r60": -0.0129
   },
   {
    "symbol": "511090",
-   "r5": -0.0004,
-   "r20": 0.0156,
-   "r60": 0.0364
+   "r5": -0.0035,
+   "r20": 0.0126,
+   "r60": 0.0279
   },
   {
-   "symbol": "159928",
-   "r5": 0.0,
-   "r20": 0.0122,
-   "r60": 0.0199
+   "symbol": "512010",
+   "r5": 0.0245,
+   "r20": 0.0108,
+   "r60": -0.0027
   },
   {
-   "symbol": "513500",
-   "r5": -0.0212,
-   "r20": 0.006,
-   "r60": 0.0695
+   "symbol": "513100",
+   "r5": -0.048,
+   "r20": 0.0104,
+   "r60": 0.0526
+  },
+  {
+   "symbol": "511010",
+   "r5": 0.0013,
+   "r20": -0.0007,
+   "r60": 0.0021
   }
  ],
  "sector_board_bottom5": [
   {
-   "symbol": "515000",
-   "r5": -0.0611,
-   "r20": -0.1552,
-   "r60": -0.1874
+   "symbol": "512480",
+   "r5": 0.0024,
+   "r20": -0.1648,
+   "r60": -0.2441
   },
   {
    "symbol": "159995",
-   "r5": -0.0781,
-   "r20": -0.1671,
-   "r60": -0.2648
+   "r5": -0.0087,
+   "r20": -0.184,
+   "r60": -0.2797
   },
   {
    "symbol": "159915",
-   "r5": -0.0741,
-   "r20": -0.1733,
-   "r60": -0.2024
+   "r5": -0.0312,
+   "r20": -0.1859,
+   "r60": -0.2488
   },
   {
    "symbol": "159949",
-   "r5": -0.0756,
-   "r20": -0.1877,
-   "r60": -0.2239
+   "r5": -0.0451,
+   "r20": -0.2048,
+   "r60": -0.2833
   },
   {
    "symbol": "515050",
-   "r5": -0.0649,
-   "r20": -0.2292,
-   "r60": -0.2343
+   "r5": -0.0124,
+   "r20": -0.2366,
+   "r60": -0.246
   }
  ],
- "fresh_universe_n": 53,
- "breadth_r20_pos": 0.189,
+ "fresh_universe_n": 48,
+ "breadth_r20_pos": 0.146,
  "active_sleeves": [
   "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
   "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
-  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
+  "wild-theme micro-satellite (satellite) NOT activated (NOT_ACTIVATED_NO_SURVIVORS; NO_SURVIVORS (T-57 wild-route 0 survivors))",
   "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
  ],
  "l3_evidence": {
