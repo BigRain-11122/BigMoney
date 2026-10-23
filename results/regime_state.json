@@ -1,32 +1,32 @@
 {
-  "updated": "2026-10-23 00:18:41",
-  "asof": "2026-10-22",
+  "updated": "2026-10-24 00:15:26",
+  "asof": "2026-10-23",
   "mode": "shadow",
   "state": "ORANGE",
   "state_cn": "橙·高危",
   "raw_level": "ORANGE",
   "green_streak": 0,
-  "days_in_state": 5,
+  "days_in_state": 6,
   "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
-      "asof": "2026-10-22",
-      "close": 4.107,
-      "crash_10d": -0.06425153793574845,
-      "panic_1d": -0.018637992831541106,
-      "vol20": 0.008261,
+      "asof": "2026-10-23",
+      "close": 4.178,
+      "crash_10d": -0.04720638540478905,
+      "panic_1d": 0.01728755782809821,
+      "vol20": 0.00966,
       "vol_p95": 0.0173,
       "vol_p80": 0.01184,
       "vol_status": "ok",
-      "ma200": 4.7128,
+      "ma200": 4.71,
       "below_ma200": true,
       "event_fomc": false,
       "event_pre_holiday": null,
       "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
     },
     "breadth": {
-      "share_below_ma20": 0.9167,
-      "share_slope_5d": 0.0833,
+      "share_below_ma20": 0.8542,
+      "share_slope_5d": 0.0208,
       "share_5d_ago": 0.8333,
       "status": "ok",
       "n_symbols": 48,
@@ -34,10 +34,10 @@
     },
     "bear_r_pei3": {
       "status": "ok",
-      "as_of": "2026-10-22",
-      "close": 4.107,
-      "ma250": 4.7113,
-      "dd_from_250d_high": -0.1933,
+      "as_of": "2026-10-23",
+      "close": 4.178,
+      "ma250": 4.7093,
+      "dd_from_250d_high": -0.1793,
       "below_ma250": true,
       "dd_triggered": false,
       "is_major_bear": false,
@@ -47,8 +47,7 @@
   },
   "triggers": [
     "hs300<MA200 (#10 collected)",
-    "crash10d -0.064<=-5%",
-    "breadth 0.92>=65%"
+    "breadth 0.85>=65%"
   ],
   "transitions": [],
   "history": [
@@ -86,6 +85,13 @@
       "state": "ORANGE",
       "green_streak": 0,
       "days_in_state": 5
+    },
+    {
+      "asof": "2026-10-23",
+      "raw": "ORANGE",
+      "state": "ORANGE",
+      "green_streak": 0,
+      "days_in_state": 6
     }
   ],
   "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
