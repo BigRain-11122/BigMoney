@@ -534,6 +534,24 @@ def gate(now_fn=None, spawn_fn=None):
 
 
 # --------------------------------------------------------------- refresh
+def _rebuild_pit_faces():
+    """Regenerate the derived PIT availability faces after an assembly pass.
+
+    r1096 bm-a: the repair landed in r1095 was a one-shot; without a tail hook
+    the derived anchors silently rot the moment the panels advance. Best
+    effort by design -- a failure here is reported and never enters the gate's
+    exit contract (the collector's own 0/2/3 semantics stay untouched).
+    """
+    try:
+        import fund_avail_pit_t27 as keyed
+        import fund_pit_avail as pitv
+        rc_keyed = keyed.run()
+        rc_pitv = pitv.build()
+        print(f"derived PIT faces rebuilt: keyed={rc_keyed} pitv={rc_pitv}")
+    except Exception as exc:                            # noqa: BLE001
+        print(f"derived PIT face rebuild skipped (best-effort): {exc}")
+
+
 def refresh(now_fn=None, fetch=None, sleep_fn=None):
     """Detached child: collect missing (interface, period) units to staging,
     checkpoint each done-key, assemble faces at end. Injectable for selftest."""
@@ -657,6 +675,7 @@ def refresh(now_fn=None, fetch=None, sleep_fn=None):
                   requests_used=requests_used)
         write_status(st)
         save_progress({"done": done})
+        _rebuild_pit_faces()
         print(("complete" if complete else f"incomplete ({n_missing} missing)")
               + f": requests={requests_used} zero_row_periods={len(zero_rows)}")
         return 0 if complete else 2

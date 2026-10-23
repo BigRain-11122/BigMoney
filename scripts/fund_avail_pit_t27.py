@@ -83,8 +83,15 @@ def avail_pit(period_end, avail_date):
 
 
 def build_face(face: str, frame: pd.DataFrame):
-    cols = [c for c in ("股票代码", "period_end", "avail_date") if c in frame.columns]
+    """Keyed on (code, period_end): the collected panels normalise the symbol
+    to ``code``, the EM raw export calls it ``股票代码`` -- r1096: looking only
+    for the raw name silently dropped the key and made the derived face
+    unjoinable by every per-symbol consumer."""
+    cols = [c for c in ("code", "股票代码", "period_end", "avail_date")
+            if c in frame.columns]
     sub = frame[cols].copy()
+    if "股票代码" in sub.columns and "code" not in sub.columns:
+        sub = sub.rename(columns={"股票代码": "code"})
     sub["avail_pit"] = [avail_pit(p, a) for p, a in zip(sub["period_end"],
                                                         sub["avail_date"])]
     sub["deadline"] = [_deadline_date(p).isoformat() for p in sub["period_end"]]
@@ -173,6 +180,8 @@ def selftest():
                          "avail_date": ["2024-08-28", "2025-08-26"]})
     out = build_face("income", tiny)
     checks.append(list(out["avail_pit"]) == ["2024-08-28", "2024-08-31"])
+    # 7b. the symbol key survives (r1096: keyed face must stay joinable)
+    checks.append(list(out["code"]) == ["000001", "000002"])
     # 8. build_face refuses rows whose period_end is unparseable
     try:
         build_face("income", pd.DataFrame({"period_end": ["bogus"],
