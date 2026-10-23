@@ -1,0 +1,606 @@
+{
+  "generated": "2026-10-24T06:04:37",
+  "script": "scripts/fund_avail_tail_probe.py",
+  "evidence_cutoff": "2026-06-30",
+  "face": "income_avail_event (r1104 filing-event repair)",
+  "era": "2010_plus",
+  "n_rows": 423821,
+  "fallback_n": 53130,
+  "fallback_share_pct": 12.536,
+  "never_redated": true,
+  "artifact_tests": {
+    "rank_roe": {
+      "measure": "decile_by_roe",
+      "buckets": [
+        {
+          "bucket": 0,
+          "n": 40978,
+          "fallback_n": 4898,
+          "fallback_share_pct": 11.953
+        },
+        {
+          "bucket": 1,
+          "n": 40943,
+          "fallback_n": 3126,
+          "fallback_share_pct": 7.635
+        },
+        {
+          "bucket": 2,
+          "n": 40948,
+          "fallback_n": 2547,
+          "fallback_share_pct": 6.22
+        },
+        {
+          "bucket": 3,
+          "n": 40945,
+          "fallback_n": 2584,
+          "fallback_share_pct": 6.311
+        },
+        {
+          "bucket": 4,
+          "n": 40932,
+          "fallback_n": 2973,
+          "fallback_share_pct": 7.263
+        },
+        {
+          "bucket": 5,
+          "n": 40956,
+          "fallback_n": 3494,
+          "fallback_share_pct": 8.531
+        },
+        {
+          "bucket": 6,
+          "n": 40951,
+          "fallback_n": 4395,
+          "fallback_share_pct": 10.732
+        },
+        {
+          "bucket": 7,
+          "n": 40942,
+          "fallback_n": 5377,
+          "fallback_share_pct": 13.133
+        },
+        {
+          "bucket": 8,
+          "n": 40949,
+          "fallback_n": 6935,
+          "fallback_share_pct": 16.936
+        },
+        {
+          "bucket": 9,
+          "n": 40918,
+          "fallback_n": 9518,
+          "fallback_share_pct": 23.261
+        }
+      ],
+      "top_minus_bottom_pp": 11.308,
+      "rows_ranked": 409462
+    },
+    "rank_net_profit": {
+      "measure": "decile_by_net_profit",
+      "buckets": [
+        {
+          "bucket": 0,
+          "n": 42405,
+          "fallback_n": 4548,
+          "fallback_share_pct": 10.725
+        },
+        {
+          "bucket": 1,
+          "n": 42370,
+          "fallback_n": 7750,
+          "fallback_share_pct": 18.291
+        },
+        {
+          "bucket": 2,
+          "n": 42377,
+          "fallback_n": 7438,
+          "fallback_share_pct": 17.552
+        },
+        {
+          "bucket": 3,
+          "n": 42372,
+          "fallback_n": 7022,
+          "fallback_share_pct": 16.572
+        },
+        {
+          "bucket": 4,
+          "n": 42365,
+          "fallback_n": 6718,
+          "fallback_share_pct": 15.857
+        },
+        {
+          "bucket": 5,
+          "n": 42382,
+          "fallback_n": 6345,
+          "fallback_share_pct": 14.971
+        },
+        {
+          "bucket": 6,
+          "n": 42378,
+          "fallback_n": 5616,
+          "fallback_share_pct": 13.252
+        },
+        {
+          "bucket": 7,
+          "n": 42371,
+          "fallback_n": 3993,
+          "fallback_share_pct": 9.424
+        },
+        {
+          "bucket": 8,
+          "n": 42376,
+          "fallback_n": 2357,
+          "fallback_share_pct": 5.562
+        },
+        {
+          "bucket": 9,
+          "n": 42345,
+          "fallback_n": 1308,
+          "fallback_share_pct": 3.089
+        }
+      ],
+      "top_minus_bottom_pp": -7.636,
+      "rows_ranked": 423741
+    },
+    "rank_revenue": {
+      "measure": "decile_by_revenue",
+      "buckets": [
+        {
+          "bucket": 0,
+          "n": 42337,
+          "fallback_n": 9418,
+          "fallback_share_pct": 22.245
+        },
+        {
+          "bucket": 1,
+          "n": 42307,
+          "fallback_n": 8294,
+          "fallback_share_pct": 19.604
+        },
+        {
+          "bucket": 2,
+          "n": 42314,
+          "fallback_n": 7434,
+          "fallback_share_pct": 17.569
+        },
+        {
+          "bucket": 3,
+          "n": 42311,
+          "fallback_n": 6910,
+          "fallback_share_pct": 16.331
+        },
+        {
+          "bucket": 4,
+          "n": 42300,
+          "fallback_n": 6260,
+          "fallback_share_pct": 14.799
+        },
+        {
+          "bucket": 5,
+          "n": 42318,
+          "fallback_n": 5251,
+          "fallback_share_pct": 12.408
+        },
+        {
+          "bucket": 6,
+          "n": 42319,
+          "fallback_n": 4013,
+          "fallback_share_pct": 9.483
+        },
+        {
+          "bucket": 7,
+          "n": 42306,
+          "fallback_n": 2615,
+          "fallback_share_pct": 6.181
+        },
+        {
+          "bucket": 8,
+          "n": 42315,
+          "fallback_n": 1686,
+          "fallback_share_pct": 3.984
+        },
+        {
+          "bucket": 9,
+          "n": 42282,
+          "fallback_n": 997,
+          "fallback_share_pct": 2.358
+        }
+      ],
+      "top_minus_bottom_pp": -19.887,
+      "rows_ranked": 423109
+    },
+    "roe_spread_by_quarter": {
+      "03": {
+        "top_minus_bottom_pp": 8.389,
+        "n": 71036
+      },
+      "06": {
+        "top_minus_bottom_pp": 6.415,
+        "n": 131004
+      },
+      "09": {
+        "top_minus_bottom_pp": 9.576,
+        "n": 65369
+      },
+      "12": {
+        "top_minus_bottom_pp": 18.071,
+        "n": 142053
+      }
+    },
+    "degenerate_denominator": {
+      "definition": "|roe| > 200 or bps <= 0",
+      "n_degenerate": 24589,
+      "share_of_scope_pct": 5.802,
+      "fallback_share_among_degenerate_pct": 73.94,
+      "fallback_share_among_clean_pct": 8.754
+    },
+    "rank_roe_clean": {
+      "measure": "decile_by_roe_clean_universe",
+      "buckets": [
+        {
+          "bucket": 0,
+          "n": 39705,
+          "fallback_n": 3588,
+          "fallback_share_pct": 9.037
+        },
+        {
+          "bucket": 1,
+          "n": 39674,
+          "fallback_n": 2218,
+          "fallback_share_pct": 5.591
+        },
+        {
+          "bucket": 2,
+          "n": 39679,
+          "fallback_n": 1943,
+          "fallback_share_pct": 4.897
+        },
+        {
+          "bucket": 3,
+          "n": 39675,
+          "fallback_n": 2004,
+          "fallback_share_pct": 5.051
+        },
+        {
+          "bucket": 4,
+          "n": 39667,
+          "fallback_n": 2334,
+          "fallback_share_pct": 5.884
+        },
+        {
+          "bucket": 5,
+          "n": 39686,
+          "fallback_n": 2683,
+          "fallback_share_pct": 6.761
+        },
+        {
+          "bucket": 6,
+          "n": 39684,
+          "fallback_n": 3372,
+          "fallback_share_pct": 8.497
+        },
+        {
+          "bucket": 7,
+          "n": 39670,
+          "fallback_n": 4105,
+          "fallback_share_pct": 10.348
+        },
+        {
+          "bucket": 8,
+          "n": 39683,
+          "fallback_n": 5089,
+          "fallback_share_pct": 12.824
+        },
+        {
+          "bucket": 9,
+          "n": 39648,
+          "fallback_n": 6807,
+          "fallback_share_pct": 17.169
+        }
+      ],
+      "top_minus_bottom_pp": 8.132
+    },
+    "rank_roe_winsor1_99": {
+      "measure": "decile_by_winsorised_roe",
+      "buckets": [
+        {
+          "bucket": 0,
+          "n": 40978,
+          "fallback_n": 4898,
+          "fallback_share_pct": 11.953
+        },
+        {
+          "bucket": 1,
+          "n": 40943,
+          "fallback_n": 3126,
+          "fallback_share_pct": 7.635
+        },
+        {
+          "bucket": 2,
+          "n": 40948,
+          "fallback_n": 2547,
+          "fallback_share_pct": 6.22
+        },
+        {
+          "bucket": 3,
+          "n": 40945,
+          "fallback_n": 2584,
+          "fallback_share_pct": 6.311
+        },
+        {
+          "bucket": 4,
+          "n": 40932,
+          "fallback_n": 2973,
+          "fallback_share_pct": 7.263
+        },
+        {
+          "bucket": 5,
+          "n": 40956,
+          "fallback_n": 3494,
+          "fallback_share_pct": 8.531
+        },
+        {
+          "bucket": 6,
+          "n": 40951,
+          "fallback_n": 4395,
+          "fallback_share_pct": 10.732
+        },
+        {
+          "bucket": 7,
+          "n": 40942,
+          "fallback_n": 5377,
+          "fallback_share_pct": 13.133
+        },
+        {
+          "bucket": 8,
+          "n": 40949,
+          "fallback_n": 6935,
+          "fallback_share_pct": 16.936
+        },
+        {
+          "bucket": 9,
+          "n": 40918,
+          "fallback_n": 9518,
+          "fallback_share_pct": 23.261
+        }
+      ],
+      "top_minus_bottom_pp": 11.308
+    },
+    "restatement_lag": {
+      "fallback_rows": {
+        "n": 53130,
+        "median_restate_gap_days": 363.0,
+        "p90_restate_gap_days": 787.0,
+        "share_revised_gt_365d_pct": 39.021
+      },
+      "verified_rows": {
+        "n": 370691,
+        "median_restate_gap_days": 365.0,
+        "p90_restate_gap_days": 377.0,
+        "share_revised_gt_365d_pct": 40.375
+      }
+    },
+    "restatement_cut": {
+      "n_all": 423821,
+      "n_restated_dropped": 170400,
+      "spread_all_pp": 11.308,
+      "spread_drop_restated_pp": 8.837,
+      "top_decile_restated_share_pct": 40.378,
+      "top_decile_n_all": 40918,
+      "top_decile_n_after": 24421,
+      "buckets_all": [
+        {
+          "bucket": 0,
+          "n": 40978,
+          "fallback_n": 4898,
+          "fallback_share_pct": 11.953
+        },
+        {
+          "bucket": 1,
+          "n": 40943,
+          "fallback_n": 3126,
+          "fallback_share_pct": 7.635
+        },
+        {
+          "bucket": 2,
+          "n": 40948,
+          "fallback_n": 2547,
+          "fallback_share_pct": 6.22
+        },
+        {
+          "bucket": 3,
+          "n": 40945,
+          "fallback_n": 2584,
+          "fallback_share_pct": 6.311
+        },
+        {
+          "bucket": 4,
+          "n": 40932,
+          "fallback_n": 2973,
+          "fallback_share_pct": 7.263
+        },
+        {
+          "bucket": 5,
+          "n": 40956,
+          "fallback_n": 3494,
+          "fallback_share_pct": 8.531
+        },
+        {
+          "bucket": 6,
+          "n": 40951,
+          "fallback_n": 4395,
+          "fallback_share_pct": 10.732
+        },
+        {
+          "bucket": 7,
+          "n": 40942,
+          "fallback_n": 5377,
+          "fallback_share_pct": 13.133
+        },
+        {
+          "bucket": 8,
+          "n": 40949,
+          "fallback_n": 6935,
+          "fallback_share_pct": 16.936
+        },
+        {
+          "bucket": 9,
+          "n": 40918,
+          "fallback_n": 9518,
+          "fallback_share_pct": 23.261
+        }
+      ],
+      "buckets_drop_restated": [
+        {
+          "bucket": 0,
+          "n": 24481,
+          "fallback_n": 3235,
+          "fallback_share_pct": 13.214
+        },
+        {
+          "bucket": 1,
+          "n": 24460,
+          "fallback_n": 2252,
+          "fallback_share_pct": 9.207
+        },
+        {
+          "bucket": 2,
+          "n": 24456,
+          "fallback_n": 1861,
+          "fallback_share_pct": 7.61
+        },
+        {
+          "bucket": 3,
+          "n": 24450,
+          "fallback_n": 1793,
+          "fallback_share_pct": 7.333
+        },
+        {
+          "bucket": 4,
+          "n": 24446,
+          "fallback_n": 2026,
+          "fallback_share_pct": 8.288
+        },
+        {
+          "bucket": 5,
+          "n": 24468,
+          "fallback_n": 2283,
+          "fallback_share_pct": 9.331
+        },
+        {
+          "bucket": 6,
+          "n": 24454,
+          "fallback_n": 2657,
+          "fallback_share_pct": 10.865
+        },
+        {
+          "bucket": 7,
+          "n": 24452,
+          "fallback_n": 3204,
+          "fallback_share_pct": 13.103
+        },
+        {
+          "bucket": 8,
+          "n": 24464,
+          "fallback_n": 4097,
+          "fallback_share_pct": 16.747
+        },
+        {
+          "bucket": 9,
+          "n": 24421,
+          "fallback_n": 5385,
+          "fallback_share_pct": 22.051
+        }
+      ]
+    },
+    "roe_within_revenue_band": {
+      "control": "营业总收入-营业总收入",
+      "main": "净资产收益率",
+      "bands": [
+        {
+          "ctrl_band": 0,
+          "n": 78480,
+          "top_minus_bottom_pp": 17.528
+        },
+        {
+          "ctrl_band": 1,
+          "n": 81620,
+          "top_minus_bottom_pp": 17.793
+        },
+        {
+          "ctrl_band": 2,
+          "n": 82628,
+          "top_minus_bottom_pp": 19.759
+        },
+        {
+          "ctrl_band": 3,
+          "n": 83191,
+          "top_minus_bottom_pp": 15.454
+        },
+        {
+          "ctrl_band": 4,
+          "n": 83233,
+          "top_minus_bottom_pp": 2.962
+        }
+      ],
+      "spreads_sorted": [
+        2.962,
+        15.454,
+        17.528,
+        17.793,
+        19.759
+      ],
+      "median_spread_pp": 17.528
+    },
+    "roe_within_profit_band": {
+      "control": "净利润-净利润",
+      "main": "净资产收益率",
+      "bands": [
+        {
+          "ctrl_band": 0,
+          "n": 78957,
+          "top_minus_bottom_pp": 49.001
+        },
+        {
+          "ctrl_band": 1,
+          "n": 81450,
+          "top_minus_bottom_pp": 35.681
+        },
+        {
+          "ctrl_band": 2,
+          "n": 82439,
+          "top_minus_bottom_pp": 9.242
+        },
+        {
+          "ctrl_band": 3,
+          "n": 83273,
+          "top_minus_bottom_pp": 22.139
+        },
+        {
+          "ctrl_band": 4,
+          "n": 83308,
+          "top_minus_bottom_pp": 3.403
+        }
+      ],
+      "spreads_sorted": [
+        3.403,
+        9.242,
+        22.139,
+        35.681,
+        49.001
+      ],
+      "median_spread_pp": 22.139
+    }
+  },
+  "verdict": {
+    "roe_spread_replicated_pp": 11.308,
+    "survives_clean_universe": 8.132,
+    "survives_winsor": 11.308,
+    "survives_restatement_cut_pp": 8.837,
+    "net_profit_spread_pp": -7.636,
+    "revenue_spread_pp": -19.887,
+    "roe_spread_within_revenue_band_pp": 17.528,
+    "roe_spread_within_profit_band_pp": 22.139
+  }
+}
