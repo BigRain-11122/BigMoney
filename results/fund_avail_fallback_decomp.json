@@ -1,0 +1,2667 @@
+{
+ "ts": "2026-10-24T05:43:00+0800",
+ "audit": "fallback (deadline-bounded) rows of the cross-statement filing-event availability face, decomposed by year x industry and by era-internal roe decile; measurement only, no re-dating, no parquet rewrite",
+ "inputs": {
+  "avail_event": [
+   "data/fund_statement_export/pit_avail/income_avail_event.parquet",
+   "data/fund_statement_export/pit_avail/cashflow_avail_event.parquet",
+   "data/fund_statement_export/pit_avail/balance_avail_event.parquet"
+  ],
+  "industry_source": "data/fund_statement_export/income_faces.parquet :: 所处行业",
+  "industry_codes_mapped": 5658,
+  "industry_source_label_coverage_by_year": {
+   "2005": 0.878,
+   "2006": 0.887,
+   "2007": 0.8909,
+   "2008": 0.8919,
+   "2009": 0.8942,
+   "2010": 0.8939,
+   "2011": 0.8763,
+   "2012": 0.8231,
+   "2013": 0.729,
+   "2014": 0.6622,
+   "2015": 0.6111,
+   "2016": 0.6041,
+   "2017": 0.5917,
+   "2018": 0.5961,
+   "2019": 0.6139,
+   "2020": 0.6369,
+   "2021": 0.6434,
+   "2022": 0.6433,
+   "2023": 0.6434,
+   "2024": 0.6448,
+   "2025": 0.6449,
+   "2026": 0.6512
+  }
+ },
+ "era_split_year": 2010,
+ "faces": {
+  "income": {
+   "rows": 461679,
+   "fallback_n": 69166,
+   "fallback_share": 0.1498,
+   "industry_coverage": 0.6722,
+   "by_era": [
+    {
+     "key": [
+      "pre2010"
+     ],
+     "n": 37858,
+     "fallback_n": 16036,
+     "fallback_share": 0.4236,
+     "row_share": 0.082,
+     "lift": 2.827,
+     "material": true
+    },
+    {
+     "key": [
+      "2010+"
+     ],
+     "n": 423821,
+     "fallback_n": 53130,
+     "fallback_share": 0.1254,
+     "row_share": 0.918,
+     "lift": 0.837,
+     "material": true
+    }
+   ],
+   "by_year": [
+    {
+     "key": [
+      "2009"
+     ],
+     "n": 9178,
+     "fallback_n": 4468,
+     "fallback_share": 0.4868,
+     "row_share": 0.0199,
+     "lift": 3.249,
+     "material": true
+    },
+    {
+     "key": [
+      "2008"
+     ],
+     "n": 8054,
+     "fallback_n": 3632,
+     "fallback_share": 0.451,
+     "row_share": 0.0174,
+     "lift": 3.01,
+     "material": true
+    },
+    {
+     "key": [
+      "2007"
+     ],
+     "n": 7550,
+     "fallback_n": 3390,
+     "fallback_share": 0.449,
+     "row_share": 0.0164,
+     "lift": 2.997,
+     "material": true
+    },
+    {
+     "key": [
+      "2006"
+     ],
+     "n": 6797,
+     "fallback_n": 3031,
+     "fallback_share": 0.4459,
+     "row_share": 0.0147,
+     "lift": 2.977,
+     "material": true
+    },
+    {
+     "key": [
+      "2015"
+     ],
+     "n": 22530,
+     "fallback_n": 9970,
+     "fallback_share": 0.4425,
+     "row_share": 0.0488,
+     "lift": 2.954,
+     "material": true
+    },
+    {
+     "key": [
+      "2014"
+     ],
+     "n": 19201,
+     "fallback_n": 7887,
+     "fallback_share": 0.4108,
+     "row_share": 0.0416,
+     "lift": 2.742,
+     "material": true
+    },
+    {
+     "key": [
+      "2013"
+     ],
+     "n": 15828,
+     "fallback_n": 5174,
+     "fallback_share": 0.3269,
+     "row_share": 0.0343,
+     "lift": 2.182,
+     "material": true
+    },
+    {
+     "key": [
+      "2005"
+     ],
+     "n": 6279,
+     "fallback_n": 1515,
+     "fallback_share": 0.2413,
+     "row_share": 0.0136,
+     "lift": 1.611,
+     "material": true
+    },
+    {
+     "key": [
+      "2012"
+     ],
+     "n": 13077,
+     "fallback_n": 2924,
+     "fallback_share": 0.2236,
+     "row_share": 0.0283,
+     "lift": 1.493,
+     "material": true
+    },
+    {
+     "key": [
+      "2011"
+     ],
+     "n": 11662,
+     "fallback_n": 2137,
+     "fallback_share": 0.1832,
+     "row_share": 0.0253,
+     "lift": 1.223,
+     "material": true
+    },
+    {
+     "key": [
+      "2010"
+     ],
+     "n": 10216,
+     "fallback_n": 1847,
+     "fallback_share": 0.1808,
+     "row_share": 0.0221,
+     "lift": 1.207,
+     "material": true
+    },
+    {
+     "key": [
+      "2016"
+     ],
+     "n": 25275,
+     "fallback_n": 3810,
+     "fallback_share": 0.1507,
+     "row_share": 0.0547,
+     "lift": 1.006,
+     "material": true
+    },
+    {
+     "key": [
+      "2017"
+     ],
+     "n": 27602,
+     "fallback_n": 3488,
+     "fallback_share": 0.1264,
+     "row_share": 0.0598,
+     "lift": 0.843,
+     "material": true
+    },
+    {
+     "key": [
+      "2020"
+     ],
+     "n": 31341,
+     "fallback_n": 2934,
+     "fallback_share": 0.0936,
+     "row_share": 0.0679,
+     "lift": 0.625,
+     "material": true
+    },
+    {
+     "key": [
+      "2019"
+     ],
+     "n": 29974,
+     "fallback_n": 2704,
+     "fallback_share": 0.0902,
+     "row_share": 0.0649,
+     "lift": 0.602,
+     "material": true
+    },
+    {
+     "key": [
+      "2018"
+     ],
+     "n": 28510,
+     "fallback_n": 2179,
+     "fallback_share": 0.0764,
+     "row_share": 0.0618,
+     "lift": 0.51,
+     "material": true
+    },
+    {
+     "key": [
+      "2021"
+     ],
+     "n": 32926,
+     "fallback_n": 2447,
+     "fallback_share": 0.0743,
+     "row_share": 0.0713,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2022"
+     ],
+     "n": 34097,
+     "fallback_n": 2142,
+     "fallback_share": 0.0628,
+     "row_share": 0.0739,
+     "lift": 0.419,
+     "material": true
+    },
+    {
+     "key": [
+      "2023"
+     ],
+     "n": 34379,
+     "fallback_n": 1454,
+     "fallback_share": 0.0423,
+     "row_share": 0.0745,
+     "lift": 0.282,
+     "material": true
+    },
+    {
+     "key": [
+      "2024"
+     ],
+     "n": 34787,
+     "fallback_n": 1294,
+     "fallback_share": 0.0372,
+     "row_share": 0.0753,
+     "lift": 0.248,
+     "material": true
+    },
+    {
+     "key": [
+      "2025"
+     ],
+     "n": 35049,
+     "fallback_n": 714,
+     "fallback_share": 0.0204,
+     "row_share": 0.0759,
+     "lift": 0.136,
+     "material": true
+    },
+    {
+     "key": [
+      "2026"
+     ],
+     "n": 17367,
+     "fallback_n": 25,
+     "fallback_share": 0.0014,
+     "row_share": 0.0376,
+     "lift": 0.01,
+     "material": true
+    }
+   ],
+   "heavy_industry_cells": [
+    {
+     "key": [
+      "2006",
+      "银行Ⅱ"
+     ],
+     "n": 67,
+     "fallback_n": 43,
+     "fallback_share": 0.6418,
+     "row_share": 0.0001,
+     "lift": 4.284,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "家电零部件Ⅱ"
+     ],
+     "n": 39,
+     "fallback_n": 25,
+     "fallback_share": 0.641,
+     "row_share": 0.0001,
+     "lift": 4.279,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "游戏Ⅱ"
+     ],
+     "n": 43,
+     "fallback_n": 27,
+     "fallback_share": 0.6279,
+     "row_share": 0.0001,
+     "lift": 4.191,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "自动化设备"
+     ],
+     "n": 43,
+     "fallback_n": 27,
+     "fallback_share": 0.6279,
+     "row_share": 0.0001,
+     "lift": 4.191,
+     "material": true
+    },
+    {
+     "key": [
+      "2006",
+      "通信服务"
+     ],
+     "n": 32,
+     "fallback_n": 20,
+     "fallback_share": 0.625,
+     "row_share": 0.0001,
+     "lift": 4.172,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "软件开发"
+     ],
+     "n": 81,
+     "fallback_n": 50,
+     "fallback_share": 0.6173,
+     "row_share": 0.0002,
+     "lift": 4.12,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "游戏Ⅱ"
+     ],
+     "n": 31,
+     "fallback_n": 19,
+     "fallback_share": 0.6129,
+     "row_share": 0.0001,
+     "lift": 4.091,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "消费电子"
+     ],
+     "n": 67,
+     "fallback_n": 41,
+     "fallback_share": 0.6119,
+     "row_share": 0.0001,
+     "lift": 4.085,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "软件开发"
+     ],
+     "n": 131,
+     "fallback_n": 80,
+     "fallback_share": 0.6107,
+     "row_share": 0.0003,
+     "lift": 4.076,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "塑料"
+     ],
+     "n": 53,
+     "fallback_n": 31,
+     "fallback_share": 0.5849,
+     "row_share": 0.0001,
+     "lift": 3.904,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "计算机设备"
+     ],
+     "n": 67,
+     "fallback_n": 39,
+     "fallback_share": 0.5821,
+     "row_share": 0.0001,
+     "lift": 3.885,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "装修建材"
+     ],
+     "n": 43,
+     "fallback_n": 25,
+     "fallback_share": 0.5814,
+     "row_share": 0.0001,
+     "lift": 3.881,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "计算机设备"
+     ],
+     "n": 43,
+     "fallback_n": 25,
+     "fallback_share": 0.5814,
+     "row_share": 0.0001,
+     "lift": 3.881,
+     "material": true
+    },
+    {
+     "key": [
+      "2006",
+      "养殖业"
+     ],
+     "n": 31,
+     "fallback_n": 18,
+     "fallback_share": 0.5806,
+     "row_share": 0.0001,
+     "lift": 3.876,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "饰品"
+     ],
+     "n": 38,
+     "fallback_n": 22,
+     "fallback_share": 0.5789,
+     "row_share": 0.0001,
+     "lift": 3.864,
+     "material": true
+    }
+   ],
+   "light_industry_cells": [
+    {
+     "key": [
+      "2016",
+      "化学纤维"
+     ],
+     "n": 67,
+     "fallback_n": 5,
+     "fallback_share": 0.0746,
+     "row_share": 0.0001,
+     "lift": 0.498,
+     "material": true
+    },
+    {
+     "key": [
+      "2020",
+      "通信服务"
+     ],
+     "n": 148,
+     "fallback_n": 11,
+     "fallback_share": 0.0743,
+     "row_share": 0.0003,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2021",
+      "化学制药"
+     ],
+     "n": 621,
+     "fallback_n": 46,
+     "fallback_share": 0.0741,
+     "row_share": 0.0013,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2019",
+      "基础建设"
+     ],
+     "n": 162,
+     "fallback_n": 12,
+     "fallback_share": 0.0741,
+     "row_share": 0.0004,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2018",
+      "食品加工"
+     ],
+     "n": 81,
+     "fallback_n": 6,
+     "fallback_share": 0.0741,
+     "row_share": 0.0002,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2018",
+      "数字媒体"
+     ],
+     "n": 54,
+     "fallback_n": 4,
+     "fallback_share": 0.0741,
+     "row_share": 0.0001,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2019",
+      "调味发酵品Ⅱ"
+     ],
+     "n": 54,
+     "fallback_n": 4,
+     "fallback_share": 0.0741,
+     "row_share": 0.0001,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2019",
+      "饲料"
+     ],
+     "n": 54,
+     "fallback_n": 4,
+     "fallback_share": 0.0741,
+     "row_share": 0.0001,
+     "lift": 0.494,
+     "material": true
+    },
+    {
+     "key": [
+      "2014",
+      "装修建材"
+     ],
+     "n": 95,
+     "fallback_n": 7,
+     "fallback_share": 0.0737,
+     "row_share": 0.0002,
+     "lift": 0.492,
+     "material": true
+    },
+    {
+     "key": [
+      "2022",
+      "饲料"
+     ],
+     "n": 68,
+     "fallback_n": 5,
+     "fallback_share": 0.0735,
+     "row_share": 0.0001,
+     "lift": 0.491,
+     "material": true
+    }
+   ],
+   "unmapped_cells": [
+    {
+     "key": [
+      "2008",
+      "UNKNOWN"
+     ],
+     "n": 871,
+     "fallback_n": 839,
+     "fallback_share": 0.9633,
+     "row_share": 0.0019,
+     "lift": 6.43,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "UNKNOWN"
+     ],
+     "n": 971,
+     "fallback_n": 934,
+     "fallback_share": 0.9619,
+     "row_share": 0.0021,
+     "lift": 6.421,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "UNKNOWN"
+     ],
+     "n": 824,
+     "fallback_n": 781,
+     "fallback_share": 0.9478,
+     "row_share": 0.0018,
+     "lift": 6.327,
+     "material": true
+    },
+    {
+     "key": [
+      "2006",
+      "UNKNOWN"
+     ],
+     "n": 768,
+     "fallback_n": 727,
+     "fallback_share": 0.9466,
+     "row_share": 0.0017,
+     "lift": 6.319,
+     "material": true
+    },
+    {
+     "key": [
+      "2005",
+      "UNKNOWN"
+     ],
+     "n": 766,
+     "fallback_n": 701,
+     "fallback_share": 0.9151,
+     "row_share": 0.0017,
+     "lift": 6.109,
+     "material": true
+    },
+    {
+     "key": [
+      "2015",
+      "UNKNOWN"
+     ],
+     "n": 8762,
+     "fallback_n": 7620,
+     "fallback_share": 0.8697,
+     "row_share": 0.019,
+     "lift": 5.805,
+     "material": true
+    },
+    {
+     "key": [
+      "2014",
+      "UNKNOWN"
+     ],
+     "n": 6486,
+     "fallback_n": 5633,
+     "fallback_share": 0.8685,
+     "row_share": 0.014,
+     "lift": 5.797,
+     "material": true
+    },
+    {
+     "key": [
+      "2013",
+      "UNKNOWN"
+     ],
+     "n": 4289,
+     "fallback_n": 3532,
+     "fallback_share": 0.8235,
+     "row_share": 0.0093,
+     "lift": 5.497,
+     "material": true
+    }
+   ],
+   "top_industry_lift": [
+    {
+     "key": [
+      "UNKNOWN"
+     ],
+     "n": 151342,
+     "fallback_n": 34089,
+     "fallback_share": 0.2252,
+     "row_share": 0.3278,
+     "lift": 1.503,
+     "material": true
+    },
+    {
+     "key": [
+      "非金属材料Ⅱ"
+     ],
+     "n": 573,
+     "fallback_n": 109,
+     "fallback_share": 0.1902,
+     "row_share": 0.0012,
+     "lift": 1.27,
+     "material": true
+    },
+    {
+     "key": [
+      "半导体"
+     ],
+     "n": 6621,
+     "fallback_n": 1152,
+     "fallback_share": 0.174,
+     "row_share": 0.0143,
+     "lift": 1.161,
+     "material": true
+    },
+    {
+     "key": [
+      "白色家电"
+     ],
+     "n": 1024,
+     "fallback_n": 174,
+     "fallback_share": 0.1699,
+     "row_share": 0.0022,
+     "lift": 1.134,
+     "material": true
+    },
+    {
+     "key": [
+      "专业服务"
+     ],
+     "n": 1436,
+     "fallback_n": 222,
+     "fallback_share": 0.1546,
+     "row_share": 0.0031,
+     "lift": 1.032,
+     "material": true
+    },
+    {
+     "key": [
+      "文娱用品"
+     ],
+     "n": 971,
+     "fallback_n": 148,
+     "fallback_share": 0.1524,
+     "row_share": 0.0021,
+     "lift": 1.017,
+     "material": true
+    },
+    {
+     "key": [
+      "金属新材料"
+     ],
+     "n": 1546,
+     "fallback_n": 228,
+     "fallback_share": 0.1475,
+     "row_share": 0.0033,
+     "lift": 0.984,
+     "material": true
+    },
+    {
+     "key": [
+      "电子化学品Ⅱ"
+     ],
+     "n": 1576,
+     "fallback_n": 230,
+     "fallback_share": 0.1459,
+     "row_share": 0.0034,
+     "lift": 0.974,
+     "material": true
+    },
+    {
+     "key": [
+      "医疗器械"
+     ],
+     "n": 5847,
+     "fallback_n": 851,
+     "fallback_share": 0.1455,
+     "row_share": 0.0127,
+     "lift": 0.972,
+     "material": true
+    },
+    {
+     "key": [
+      "自动化设备"
+     ],
+     "n": 3715,
+     "fallback_n": 538,
+     "fallback_share": 0.1448,
+     "row_share": 0.008,
+     "lift": 0.967,
+     "material": true
+    }
+   ],
+   "recent_quarters": {
+    "from_period": "2024-09-30",
+    "rows": 70023,
+    "fallback_share": 0.0187,
+    "fallback_share_era_2010plus": 0.0187
+   },
+   "source_face_mix": {
+    "income": 369214,
+    "balance": 18648,
+    "cashflow": 4651
+   }
+  },
+  "cashflow": {
+   "rows": 292537,
+   "fallback_n": 31052,
+   "fallback_share": 0.1061,
+   "industry_coverage": 0.9954,
+   "by_era": [
+    {
+     "key": [
+      "pre2010"
+     ],
+     "n": 31900,
+     "fallback_n": 10293,
+     "fallback_share": 0.3227,
+     "row_share": 0.109,
+     "lift": 3.04,
+     "material": true
+    },
+    {
+     "key": [
+      "2010+"
+     ],
+     "n": 260637,
+     "fallback_n": 20759,
+     "fallback_share": 0.0796,
+     "row_share": 0.891,
+     "lift": 0.75,
+     "material": true
+    }
+   ],
+   "by_year": [
+    {
+     "key": [
+      "2009"
+     ],
+     "n": 7883,
+     "fallback_n": 3220,
+     "fallback_share": 0.4085,
+     "row_share": 0.0269,
+     "lift": 3.848,
+     "material": true
+    },
+    {
+     "key": [
+      "2008"
+     ],
+     "n": 6866,
+     "fallback_n": 2476,
+     "fallback_share": 0.3606,
+     "row_share": 0.0235,
+     "lift": 3.397,
+     "material": true
+    },
+    {
+     "key": [
+      "2007"
+     ],
+     "n": 6408,
+     "fallback_n": 2288,
+     "fallback_share": 0.3571,
+     "row_share": 0.0219,
+     "lift": 3.364,
+     "material": true
+    },
+    {
+     "key": [
+      "2006"
+     ],
+     "n": 5657,
+     "fallback_n": 1929,
+     "fallback_share": 0.341,
+     "row_share": 0.0193,
+     "lift": 3.212,
+     "material": true
+    },
+    {
+     "key": [
+      "2014"
+     ],
+     "n": 12099,
+     "fallback_n": 1970,
+     "fallback_share": 0.1628,
+     "row_share": 0.0414,
+     "lift": 1.534,
+     "material": true
+    },
+    {
+     "key": [
+      "2015"
+     ],
+     "n": 13022,
+     "fallback_n": 2033,
+     "fallback_share": 0.1561,
+     "row_share": 0.0445,
+     "lift": 1.471,
+     "material": true
+    },
+    {
+     "key": [
+      "2010"
+     ],
+     "n": 8824,
+     "fallback_n": 1324,
+     "fallback_share": 0.15,
+     "row_share": 0.0302,
+     "lift": 1.414,
+     "material": true
+    },
+    {
+     "key": [
+      "2011"
+     ],
+     "n": 9894,
+     "fallback_n": 1326,
+     "fallback_share": 0.134,
+     "row_share": 0.0338,
+     "lift": 1.263,
+     "material": true
+    },
+    {
+     "key": [
+      "2013"
+     ],
+     "n": 11032,
+     "fallback_n": 1429,
+     "fallback_share": 0.1295,
+     "row_share": 0.0377,
+     "lift": 1.22,
+     "material": true
+    },
+    {
+     "key": [
+      "2016"
+     ],
+     "n": 14481,
+     "fallback_n": 1840,
+     "fallback_share": 0.1271,
+     "row_share": 0.0495,
+     "lift": 1.197,
+     "material": true
+    },
+    {
+     "key": [
+      "2012"
+     ],
+     "n": 10393,
+     "fallback_n": 1270,
+     "fallback_share": 0.1222,
+     "row_share": 0.0355,
+     "lift": 1.151,
+     "material": true
+    },
+    {
+     "key": [
+      "2019"
+     ],
+     "n": 17383,
+     "fallback_n": 1965,
+     "fallback_share": 0.113,
+     "row_share": 0.0594,
+     "lift": 1.065,
+     "material": true
+    },
+    {
+     "key": [
+      "2017"
+     ],
+     "n": 15419,
+     "fallback_n": 1582,
+     "fallback_share": 0.1026,
+     "row_share": 0.0527,
+     "lift": 0.967,
+     "material": true
+    },
+    {
+     "key": [
+      "2018"
+     ],
+     "n": 16057,
+     "fallback_n": 1533,
+     "fallback_share": 0.0955,
+     "row_share": 0.0549,
+     "lift": 0.899,
+     "material": true
+    },
+    {
+     "key": [
+      "2020"
+     ],
+     "n": 18913,
+     "fallback_n": 1765,
+     "fallback_share": 0.0933,
+     "row_share": 0.0647,
+     "lift": 0.879,
+     "material": true
+    },
+    {
+     "key": [
+      "2005"
+     ],
+     "n": 5086,
+     "fallback_n": 380,
+     "fallback_share": 0.0747,
+     "row_share": 0.0174,
+     "lift": 0.704,
+     "material": true
+    },
+    {
+     "key": [
+      "2021"
+     ],
+     "n": 19843,
+     "fallback_n": 1112,
+     "fallback_share": 0.056,
+     "row_share": 0.0678,
+     "lift": 0.528,
+     "material": true
+    },
+    {
+     "key": [
+      "2022"
+     ],
+     "n": 20494,
+     "fallback_n": 851,
+     "fallback_share": 0.0415,
+     "row_share": 0.0701,
+     "lift": 0.391,
+     "material": true
+    },
+    {
+     "key": [
+      "2023"
+     ],
+     "n": 20595,
+     "fallback_n": 363,
+     "fallback_share": 0.0176,
+     "row_share": 0.0704,
+     "lift": 0.166,
+     "material": true
+    },
+    {
+     "key": [
+      "2024"
+     ],
+     "n": 20790,
+     "fallback_n": 278,
+     "fallback_share": 0.0134,
+     "row_share": 0.0711,
+     "lift": 0.126,
+     "material": true
+    },
+    {
+     "key": [
+      "2025"
+     ],
+     "n": 20930,
+     "fallback_n": 117,
+     "fallback_share": 0.0056,
+     "row_share": 0.0715,
+     "lift": 0.053,
+     "material": true
+    },
+    {
+     "key": [
+      "2026"
+     ],
+     "n": 10468,
+     "fallback_n": 1,
+     "fallback_share": 0.0001,
+     "row_share": 0.0358,
+     "lift": 0.001,
+     "material": true
+    }
+   ],
+   "heavy_industry_cells": [
+    {
+     "key": [
+      "2009",
+      "游戏Ⅱ"
+     ],
+     "n": 43,
+     "fallback_n": 27,
+     "fallback_share": 0.6279,
+     "row_share": 0.0001,
+     "lift": 5.915,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "自动化设备"
+     ],
+     "n": 43,
+     "fallback_n": 27,
+     "fallback_share": 0.6279,
+     "row_share": 0.0001,
+     "lift": 5.915,
+     "material": true
+    },
+    {
+     "key": [
+      "2006",
+      "银行Ⅱ"
+     ],
+     "n": 57,
+     "fallback_n": 35,
+     "fallback_share": 0.614,
+     "row_share": 0.0002,
+     "lift": 5.785,
+     "material": true
+    },
+    {
+     "key": [
+      "2006",
+      "通信服务"
+     ],
+     "n": 31,
+     "fallback_n": 19,
+     "fallback_share": 0.6129,
+     "row_share": 0.0001,
+     "lift": 5.774,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "游戏Ⅱ"
+     ],
+     "n": 31,
+     "fallback_n": 19,
+     "fallback_share": 0.6129,
+     "row_share": 0.0001,
+     "lift": 5.774,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "消费电子"
+     ],
+     "n": 66,
+     "fallback_n": 40,
+     "fallback_share": 0.6061,
+     "row_share": 0.0002,
+     "lift": 5.71,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "家电零部件Ⅱ"
+     ],
+     "n": 35,
+     "fallback_n": 21,
+     "fallback_share": 0.6,
+     "row_share": 0.0001,
+     "lift": 5.653,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "软件开发"
+     ],
+     "n": 127,
+     "fallback_n": 76,
+     "fallback_share": 0.5984,
+     "row_share": 0.0004,
+     "lift": 5.638,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "软件开发"
+     ],
+     "n": 77,
+     "fallback_n": 46,
+     "fallback_share": 0.5974,
+     "row_share": 0.0003,
+     "lift": 5.628,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "塑料"
+     ],
+     "n": 53,
+     "fallback_n": 31,
+     "fallback_share": 0.5849,
+     "row_share": 0.0002,
+     "lift": 5.51,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "计算机设备"
+     ],
+     "n": 43,
+     "fallback_n": 25,
+     "fallback_share": 0.5814,
+     "row_share": 0.0001,
+     "lift": 5.477,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "医疗器械"
+     ],
+     "n": 66,
+     "fallback_n": 38,
+     "fallback_share": 0.5758,
+     "row_share": 0.0002,
+     "lift": 5.424,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "计算机设备"
+     ],
+     "n": 66,
+     "fallback_n": 38,
+     "fallback_share": 0.5758,
+     "row_share": 0.0002,
+     "lift": 5.424,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "广告营销"
+     ],
+     "n": 63,
+     "fallback_n": 36,
+     "fallback_share": 0.5714,
+     "row_share": 0.0002,
+     "lift": 5.383,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "其他电源设备Ⅱ"
+     ],
+     "n": 42,
+     "fallback_n": 24,
+     "fallback_share": 0.5714,
+     "row_share": 0.0001,
+     "lift": 5.383,
+     "material": true
+    }
+   ],
+   "light_industry_cells": [
+    {
+     "key": [
+      "2022",
+      "化学制品"
+     ],
+     "n": 661,
+     "fallback_n": 35,
+     "fallback_share": 0.053,
+     "row_share": 0.0023,
+     "lift": 0.499,
+     "material": true
+    },
+    {
+     "key": [
+      "2005",
+      "环境治理"
+     ],
+     "n": 95,
+     "fallback_n": 5,
+     "fallback_share": 0.0526,
+     "row_share": 0.0003,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2010",
+      "综合Ⅱ"
+     ],
+     "n": 76,
+     "fallback_n": 4,
+     "fallback_share": 0.0526,
+     "row_share": 0.0003,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2022",
+      "玻璃玻纤"
+     ],
+     "n": 57,
+     "fallback_n": 3,
+     "fallback_share": 0.0526,
+     "row_share": 0.0002,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2015",
+      "特钢Ⅱ"
+     ],
+     "n": 38,
+     "fallback_n": 2,
+     "fallback_share": 0.0526,
+     "row_share": 0.0001,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2017",
+      "照明设备Ⅱ"
+     ],
+     "n": 38,
+     "fallback_n": 2,
+     "fallback_share": 0.0526,
+     "row_share": 0.0001,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2018",
+      "照明设备Ⅱ"
+     ],
+     "n": 38,
+     "fallback_n": 2,
+     "fallback_share": 0.0526,
+     "row_share": 0.0001,
+     "lift": 0.496,
+     "material": true
+    },
+    {
+     "key": [
+      "2019",
+      "证券Ⅱ"
+     ],
+     "n": 191,
+     "fallback_n": 10,
+     "fallback_share": 0.0524,
+     "row_share": 0.0007,
+     "lift": 0.493,
+     "material": true
+    },
+    {
+     "key": [
+      "2024",
+      "专业服务"
+     ],
+     "n": 115,
+     "fallback_n": 6,
+     "fallback_share": 0.0522,
+     "row_share": 0.0004,
+     "lift": 0.492,
+     "material": true
+    },
+    {
+     "key": [
+      "2018",
+      "农化制品"
+     ],
+     "n": 211,
+     "fallback_n": 11,
+     "fallback_share": 0.0521,
+     "row_share": 0.0007,
+     "lift": 0.491,
+     "material": true
+    }
+   ],
+   "unmapped_cells": [
+    {
+     "key": [
+      "2009",
+      "UNKNOWN"
+     ],
+     "n": 53,
+     "fallback_n": 22,
+     "fallback_share": 0.4151,
+     "row_share": 0.0002,
+     "lift": 3.911,
+     "material": true
+    },
+    {
+     "key": [
+      "2012",
+      "UNKNOWN"
+     ],
+     "n": 63,
+     "fallback_n": 25,
+     "fallback_share": 0.3968,
+     "row_share": 0.0002,
+     "lift": 3.738,
+     "material": true
+    },
+    {
+     "key": [
+      "2017",
+      "UNKNOWN"
+     ],
+     "n": 81,
+     "fallback_n": 30,
+     "fallback_share": 0.3704,
+     "row_share": 0.0003,
+     "lift": 3.489,
+     "material": true
+    },
+    {
+     "key": [
+      "2014",
+      "UNKNOWN"
+     ],
+     "n": 65,
+     "fallback_n": 24,
+     "fallback_share": 0.3692,
+     "row_share": 0.0002,
+     "lift": 3.478,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "UNKNOWN"
+     ],
+     "n": 44,
+     "fallback_n": 16,
+     "fallback_share": 0.3636,
+     "row_share": 0.0002,
+     "lift": 3.426,
+     "material": true
+    },
+    {
+     "key": [
+      "2013",
+      "UNKNOWN"
+     ],
+     "n": 69,
+     "fallback_n": 25,
+     "fallback_share": 0.3623,
+     "row_share": 0.0002,
+     "lift": 3.413,
+     "material": true
+    },
+    {
+     "key": [
+      "2015",
+      "UNKNOWN"
+     ],
+     "n": 71,
+     "fallback_n": 25,
+     "fallback_share": 0.3521,
+     "row_share": 0.0002,
+     "lift": 3.317,
+     "material": true
+    },
+    {
+     "key": [
+      "2010",
+      "UNKNOWN"
+     ],
+     "n": 52,
+     "fallback_n": 18,
+     "fallback_share": 0.3462,
+     "row_share": 0.0002,
+     "lift": 3.261,
+     "material": true
+    }
+   ],
+   "top_industry_lift": [
+    {
+     "key": [
+      "UNKNOWN"
+     ],
+     "n": 1343,
+     "fallback_n": 424,
+     "fallback_share": 0.3157,
+     "row_share": 0.0046,
+     "lift": 2.974,
+     "material": true
+    },
+    {
+     "key": [
+      "非金属材料Ⅱ"
+     ],
+     "n": 351,
+     "fallback_n": 64,
+     "fallback_share": 0.1823,
+     "row_share": 0.0012,
+     "lift": 1.718,
+     "material": true
+    },
+    {
+     "key": [
+      "半导体"
+     ],
+     "n": 6436,
+     "fallback_n": 1091,
+     "fallback_share": 0.1695,
+     "row_share": 0.022,
+     "lift": 1.597,
+     "material": true
+    },
+    {
+     "key": [
+      "文娱用品"
+     ],
+     "n": 970,
+     "fallback_n": 147,
+     "fallback_share": 0.1515,
+     "row_share": 0.0033,
+     "lift": 1.428,
+     "material": true
+    },
+    {
+     "key": [
+      "专业服务"
+     ],
+     "n": 1300,
+     "fallback_n": 193,
+     "fallback_share": 0.1485,
+     "row_share": 0.0044,
+     "lift": 1.399,
+     "material": true
+    },
+    {
+     "key": [
+      "电子化学品Ⅱ"
+     ],
+     "n": 1509,
+     "fallback_n": 213,
+     "fallback_share": 0.1412,
+     "row_share": 0.0052,
+     "lift": 1.33,
+     "material": true
+    },
+    {
+     "key": [
+      "医疗器械"
+     ],
+     "n": 5499,
+     "fallback_n": 759,
+     "fallback_share": 0.138,
+     "row_share": 0.0188,
+     "lift": 1.3,
+     "material": true
+    },
+    {
+     "key": [
+      "消费电子"
+     ],
+     "n": 4110,
+     "fallback_n": 567,
+     "fallback_share": 0.138,
+     "row_share": 0.014,
+     "lift": 1.3,
+     "material": true
+    },
+    {
+     "key": [
+      "个护用品"
+     ],
+     "n": 532,
+     "fallback_n": 73,
+     "fallback_share": 0.1372,
+     "row_share": 0.0018,
+     "lift": 1.293,
+     "material": true
+    },
+    {
+     "key": [
+      "金属新材料"
+     ],
+     "n": 1451,
+     "fallback_n": 199,
+     "fallback_share": 0.1371,
+     "row_share": 0.005,
+     "lift": 1.292,
+     "material": true
+    }
+   ],
+   "recent_quarters": {
+    "from_period": "2024-09-30",
+    "rows": 41848,
+    "fallback_share": 0.0058,
+    "fallback_share_era_2010plus": 0.0058
+   },
+   "source_face_mix": {
+    "income": 237496,
+    "balance": 19241,
+    "cashflow": 4748
+   }
+  },
+  "balance": {
+   "rows": 283955,
+   "fallback_n": 22235,
+   "fallback_share": 0.0783,
+   "industry_coverage": 0.9954,
+   "by_era": [
+    {
+     "key": [
+      "pre2010"
+     ],
+     "n": 30880,
+     "fallback_n": 9150,
+     "fallback_share": 0.2963,
+     "row_share": 0.1087,
+     "lift": 3.784,
+     "material": true
+    },
+    {
+     "key": [
+      "2010+"
+     ],
+     "n": 253075,
+     "fallback_n": 13085,
+     "fallback_share": 0.0517,
+     "row_share": 0.8913,
+     "lift": 0.66,
+     "material": true
+    }
+   ],
+   "by_year": [
+    {
+     "key": [
+      "2009"
+     ],
+     "n": 7278,
+     "fallback_n": 2583,
+     "fallback_share": 0.3549,
+     "row_share": 0.0256,
+     "lift": 4.532,
+     "material": true
+    },
+    {
+     "key": [
+      "2008"
+     ],
+     "n": 6754,
+     "fallback_n": 2338,
+     "fallback_share": 0.3462,
+     "row_share": 0.0238,
+     "lift": 4.421,
+     "material": true
+    },
+    {
+     "key": [
+      "2007"
+     ],
+     "n": 6204,
+     "fallback_n": 2062,
+     "fallback_share": 0.3324,
+     "row_share": 0.0218,
+     "lift": 4.245,
+     "material": true
+    },
+    {
+     "key": [
+      "2006"
+     ],
+     "n": 5512,
+     "fallback_n": 1764,
+     "fallback_share": 0.32,
+     "row_share": 0.0194,
+     "lift": 4.087,
+     "material": true
+    },
+    {
+     "key": [
+      "2014"
+     ],
+     "n": 11532,
+     "fallback_n": 1401,
+     "fallback_share": 0.1215,
+     "row_share": 0.0406,
+     "lift": 1.551,
+     "material": true
+    },
+    {
+     "key": [
+      "2012"
+     ],
+     "n": 10312,
+     "fallback_n": 1173,
+     "fallback_share": 0.1138,
+     "row_share": 0.0363,
+     "lift": 1.453,
+     "material": true
+    },
+    {
+     "key": [
+      "2015"
+     ],
+     "n": 12402,
+     "fallback_n": 1407,
+     "fallback_share": 0.1134,
+     "row_share": 0.0437,
+     "lift": 1.449,
+     "material": true
+    },
+    {
+     "key": [
+      "2013"
+     ],
+     "n": 10842,
+     "fallback_n": 1228,
+     "fallback_share": 0.1133,
+     "row_share": 0.0382,
+     "lift": 1.446,
+     "material": true
+    },
+    {
+     "key": [
+      "2011"
+     ],
+     "n": 9574,
+     "fallback_n": 979,
+     "fallback_share": 0.1023,
+     "row_share": 0.0337,
+     "lift": 1.306,
+     "material": true
+    },
+    {
+     "key": [
+      "2010"
+     ],
+     "n": 8224,
+     "fallback_n": 700,
+     "fallback_share": 0.0851,
+     "row_share": 0.029,
+     "lift": 1.087,
+     "material": true
+    },
+    {
+     "key": [
+      "2005"
+     ],
+     "n": 5132,
+     "fallback_n": 403,
+     "fallback_share": 0.0785,
+     "row_share": 0.0181,
+     "lift": 1.003,
+     "material": true
+    },
+    {
+     "key": [
+      "2017"
+     ],
+     "n": 14955,
+     "fallback_n": 1110,
+     "fallback_share": 0.0742,
+     "row_share": 0.0527,
+     "lift": 0.948,
+     "material": true
+    },
+    {
+     "key": [
+      "2018"
+     ],
+     "n": 15646,
+     "fallback_n": 1119,
+     "fallback_share": 0.0715,
+     "row_share": 0.0551,
+     "lift": 0.913,
+     "material": true
+    },
+    {
+     "key": [
+      "2019"
+     ],
+     "n": 16447,
+     "fallback_n": 1027,
+     "fallback_share": 0.0624,
+     "row_share": 0.0579,
+     "lift": 0.797,
+     "material": true
+    },
+    {
+     "key": [
+      "2016"
+     ],
+     "n": 13489,
+     "fallback_n": 837,
+     "fallback_share": 0.0621,
+     "row_share": 0.0475,
+     "lift": 0.792,
+     "material": true
+    },
+    {
+     "key": [
+      "2020"
+     ],
+     "n": 17945,
+     "fallback_n": 795,
+     "fallback_share": 0.0443,
+     "row_share": 0.0632,
+     "lift": 0.566,
+     "material": true
+    },
+    {
+     "key": [
+      "2021"
+     ],
+     "n": 19255,
+     "fallback_n": 524,
+     "fallback_share": 0.0272,
+     "row_share": 0.0678,
+     "lift": 0.348,
+     "material": true
+    },
+    {
+     "key": [
+      "2022"
+     ],
+     "n": 20039,
+     "fallback_n": 399,
+     "fallback_share": 0.0199,
+     "row_share": 0.0706,
+     "lift": 0.254,
+     "material": true
+    },
+    {
+     "key": [
+      "2023"
+     ],
+     "n": 20464,
+     "fallback_n": 234,
+     "fallback_share": 0.0114,
+     "row_share": 0.0721,
+     "lift": 0.146,
+     "material": true
+    },
+    {
+     "key": [
+      "2024"
+     ],
+     "n": 20625,
+     "fallback_n": 114,
+     "fallback_share": 0.0055,
+     "row_share": 0.0726,
+     "lift": 0.071,
+     "material": true
+    },
+    {
+     "key": [
+      "2025"
+     ],
+     "n": 20856,
+     "fallback_n": 37,
+     "fallback_share": 0.0018,
+     "row_share": 0.0734,
+     "lift": 0.023,
+     "material": true
+    },
+    {
+     "key": [
+      "2026"
+     ],
+     "n": 10468,
+     "fallback_n": 1,
+     "fallback_share": 0.0001,
+     "row_share": 0.0369,
+     "lift": 0.001,
+     "material": true
+    }
+   ],
+   "heavy_industry_cells": [
+    {
+     "key": [
+      "2006",
+      "银行Ⅱ"
+     ],
+     "n": 58,
+     "fallback_n": 33,
+     "fallback_share": 0.569,
+     "row_share": 0.0002,
+     "lift": 7.266,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "塑料"
+     ],
+     "n": 47,
+     "fallback_n": 25,
+     "fallback_share": 0.5319,
+     "row_share": 0.0002,
+     "lift": 6.793,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "游戏Ⅱ"
+     ],
+     "n": 34,
+     "fallback_n": 18,
+     "fallback_share": 0.5294,
+     "row_share": 0.0001,
+     "lift": 6.761,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "消费电子"
+     ],
+     "n": 55,
+     "fallback_n": 29,
+     "fallback_share": 0.5273,
+     "row_share": 0.0002,
+     "lift": 6.734,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "软件开发"
+     ],
+     "n": 65,
+     "fallback_n": 34,
+     "fallback_share": 0.5231,
+     "row_share": 0.0002,
+     "lift": 6.68,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "自动化设备"
+     ],
+     "n": 33,
+     "fallback_n": 17,
+     "fallback_share": 0.5152,
+     "row_share": 0.0001,
+     "lift": 6.579,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "医疗器械"
+     ],
+     "n": 57,
+     "fallback_n": 29,
+     "fallback_share": 0.5088,
+     "row_share": 0.0002,
+     "lift": 6.497,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "计算机设备"
+     ],
+     "n": 57,
+     "fallback_n": 29,
+     "fallback_share": 0.5088,
+     "row_share": 0.0002,
+     "lift": 6.497,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "医疗器械"
+     ],
+     "n": 48,
+     "fallback_n": 24,
+     "fallback_share": 0.5,
+     "row_share": 0.0002,
+     "lift": 6.385,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "塑料"
+     ],
+     "n": 40,
+     "fallback_n": 20,
+     "fallback_share": 0.5,
+     "row_share": 0.0001,
+     "lift": 6.385,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "其他电源设备Ⅱ"
+     ],
+     "n": 36,
+     "fallback_n": 18,
+     "fallback_share": 0.5,
+     "row_share": 0.0001,
+     "lift": 6.385,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "家居用品"
+     ],
+     "n": 30,
+     "fallback_n": 15,
+     "fallback_share": 0.5,
+     "row_share": 0.0001,
+     "lift": 6.385,
+     "material": true
+    },
+    {
+     "key": [
+      "2009",
+      "软件开发"
+     ],
+     "n": 101,
+     "fallback_n": 50,
+     "fallback_share": 0.495,
+     "row_share": 0.0004,
+     "lift": 6.322,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "消费电子"
+     ],
+     "n": 47,
+     "fallback_n": 23,
+     "fallback_share": 0.4894,
+     "row_share": 0.0002,
+     "lift": 6.249,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "计算机设备"
+     ],
+     "n": 35,
+     "fallback_n": 17,
+     "fallback_share": 0.4857,
+     "row_share": 0.0001,
+     "lift": 6.203,
+     "material": true
+    }
+   ],
+   "light_industry_cells": [
+    {
+     "key": [
+      "2013",
+      "工业金属"
+     ],
+     "n": 179,
+     "fallback_n": 7,
+     "fallback_share": 0.0391,
+     "row_share": 0.0006,
+     "lift": 0.499,
+     "material": true
+    },
+    {
+     "key": [
+      "2005",
+      "中药Ⅱ"
+     ],
+     "n": 128,
+     "fallback_n": 5,
+     "fallback_share": 0.0391,
+     "row_share": 0.0005,
+     "lift": 0.499,
+     "material": true
+    },
+    {
+     "key": [
+      "2012",
+      "小金属"
+     ],
+     "n": 77,
+     "fallback_n": 3,
+     "fallback_share": 0.039,
+     "row_share": 0.0003,
+     "lift": 0.498,
+     "material": true
+    },
+    {
+     "key": [
+      "2020",
+      "电网设备"
+     ],
+     "n": 441,
+     "fallback_n": 17,
+     "fallback_share": 0.0385,
+     "row_share": 0.0016,
+     "lift": 0.492,
+     "material": true
+    },
+    {
+     "key": [
+      "2016",
+      "装修建材"
+     ],
+     "n": 104,
+     "fallback_n": 4,
+     "fallback_share": 0.0385,
+     "row_share": 0.0004,
+     "lift": 0.491,
+     "material": true
+    },
+    {
+     "key": [
+      "2011",
+      "旅游及景区"
+     ],
+     "n": 78,
+     "fallback_n": 3,
+     "fallback_share": 0.0385,
+     "row_share": 0.0003,
+     "lift": 0.491,
+     "material": true
+    },
+    {
+     "key": [
+      "2012",
+      "水泥"
+     ],
+     "n": 78,
+     "fallback_n": 3,
+     "fallback_share": 0.0385,
+     "row_share": 0.0003,
+     "lift": 0.491,
+     "material": true
+    },
+    {
+     "key": [
+      "2014",
+      "中药Ⅱ"
+     ],
+     "n": 210,
+     "fallback_n": 8,
+     "fallback_share": 0.0381,
+     "row_share": 0.0007,
+     "lift": 0.487,
+     "material": true
+    },
+    {
+     "key": [
+      "2020",
+      "其他电子Ⅱ"
+     ],
+     "n": 105,
+     "fallback_n": 4,
+     "fallback_share": 0.0381,
+     "row_share": 0.0004,
+     "lift": 0.487,
+     "material": true
+    },
+    {
+     "key": [
+      "2021",
+      "家居用品"
+     ],
+     "n": 263,
+     "fallback_n": 10,
+     "fallback_share": 0.038,
+     "row_share": 0.0009,
+     "lift": 0.486,
+     "material": true
+    }
+   ],
+   "unmapped_cells": [
+    {
+     "key": [
+      "2009",
+      "UNKNOWN"
+     ],
+     "n": 50,
+     "fallback_n": 19,
+     "fallback_share": 0.38,
+     "row_share": 0.0002,
+     "lift": 4.853,
+     "material": true
+    },
+    {
+     "key": [
+      "2012",
+      "UNKNOWN"
+     ],
+     "n": 60,
+     "fallback_n": 22,
+     "fallback_share": 0.3667,
+     "row_share": 0.0002,
+     "lift": 4.683,
+     "material": true
+    },
+    {
+     "key": [
+      "2010",
+      "UNKNOWN"
+     ],
+     "n": 52,
+     "fallback_n": 18,
+     "fallback_share": 0.3462,
+     "row_share": 0.0002,
+     "lift": 4.421,
+     "material": true
+    },
+    {
+     "key": [
+      "2014",
+      "UNKNOWN"
+     ],
+     "n": 62,
+     "fallback_n": 21,
+     "fallback_share": 0.3387,
+     "row_share": 0.0002,
+     "lift": 4.326,
+     "material": true
+    },
+    {
+     "key": [
+      "2015",
+      "UNKNOWN"
+     ],
+     "n": 69,
+     "fallback_n": 23,
+     "fallback_share": 0.3333,
+     "row_share": 0.0002,
+     "lift": 4.257,
+     "material": true
+    },
+    {
+     "key": [
+      "2013",
+      "UNKNOWN"
+     ],
+     "n": 66,
+     "fallback_n": 22,
+     "fallback_share": 0.3333,
+     "row_share": 0.0002,
+     "lift": 4.257,
+     "material": true
+    },
+    {
+     "key": [
+      "2008",
+      "UNKNOWN"
+     ],
+     "n": 45,
+     "fallback_n": 15,
+     "fallback_share": 0.3333,
+     "row_share": 0.0002,
+     "lift": 4.257,
+     "material": true
+    },
+    {
+     "key": [
+      "2007",
+      "UNKNOWN"
+     ],
+     "n": 42,
+     "fallback_n": 14,
+     "fallback_share": 0.3333,
+     "row_share": 0.0001,
+     "lift": 4.257,
+     "material": true
+    }
+   ],
+   "top_industry_lift": [
+    {
+     "key": [
+      "UNKNOWN"
+     ],
+     "n": 1316,
+     "fallback_n": 393,
+     "fallback_share": 0.2986,
+     "row_share": 0.0046,
+     "lift": 3.814,
+     "material": true
+    },
+    {
+     "key": [
+      "非金属材料Ⅱ"
+     ],
+     "n": 331,
+     "fallback_n": 44,
+     "fallback_share": 0.1329,
+     "row_share": 0.0012,
+     "lift": 1.698,
+     "material": true
+    },
+    {
+     "key": [
+      "半导体"
+     ],
+     "n": 6066,
+     "fallback_n": 720,
+     "fallback_share": 0.1187,
+     "row_share": 0.0214,
+     "lift": 1.516,
+     "material": true
+    },
+    {
+     "key": [
+      "银行Ⅱ"
+     ],
+     "n": 2627,
+     "fallback_n": 295,
+     "fallback_share": 0.1123,
+     "row_share": 0.0093,
+     "lift": 1.434,
+     "material": true
+    },
+    {
+     "key": [
+      "专业服务"
+     ],
+     "n": 1243,
+     "fallback_n": 136,
+     "fallback_share": 0.1094,
+     "row_share": 0.0044,
+     "lift": 1.397,
+     "material": true
+    },
+    {
+     "key": [
+      "文娱用品"
+     ],
+     "n": 921,
+     "fallback_n": 98,
+     "fallback_share": 0.1064,
+     "row_share": 0.0032,
+     "lift": 1.359,
+     "material": true
+    },
+    {
+     "key": [
+      "证券Ⅱ"
+     ],
+     "n": 3386,
+     "fallback_n": 358,
+     "fallback_share": 0.1057,
+     "row_share": 0.0119,
+     "lift": 1.35,
+     "material": true
+    },
+    {
+     "key": [
+      "航天装备Ⅱ"
+     ],
+     "n": 379,
+     "fallback_n": 39,
+     "fallback_share": 0.1029,
+     "row_share": 0.0013,
+     "lift": 1.314,
+     "material": true
+    },
+    {
+     "key": [
+      "电子化学品Ⅱ"
+     ],
+     "n": 1440,
+     "fallback_n": 144,
+     "fallback_share": 0.1,
+     "row_share": 0.0051,
+     "lift": 1.277,
+     "material": true
+    },
+    {
+     "key": [
+      "金属新材料"
+     ],
+     "n": 1390,
+     "fallback_n": 139,
+     "fallback_share": 0.1,
+     "row_share": 0.0049,
+     "lift": 1.277,
+     "material": true
+    }
+   ],
+   "recent_quarters": {
+    "from_period": "2024-09-30",
+    "rows": 41701,
+    "fallback_share": 0.0022,
+    "fallback_share_era_2010plus": 0.0022
+   },
+   "source_face_mix": {
+    "income": 237713,
+    "balance": 19270,
+    "cashflow": 4737
+   }
+  }
+ },
+ "earnings_tail": {
+  "2010+": {
+   "base_share": 0.112,
+   "spread_top_minus_bottom": 0.2457,
+   "buckets": [
+    {
+     "decile": 0,
+     "roe_min": -41598.51,
+     "roe_max": -4.47,
+     "n": 40947,
+     "fallback_share": 0.0952
+    },
+    {
+     "decile": 1,
+     "roe_min": -4.464,
+     "roe_max": 0.17,
+     "n": 41213,
+     "fallback_share": 0.0672
+    },
+    {
+     "decile": 2,
+     "roe_min": 0.1706,
+     "roe_max": 1.32,
+     "n": 40806,
+     "fallback_share": 0.0449
+    },
+    {
+     "decile": 3,
+     "roe_min": 1.322,
+     "roe_max": 2.53,
+     "n": 41020,
+     "fallback_share": 0.0505
+    },
+    {
+     "decile": 4,
+     "roe_min": 2.5303,
+     "roe_max": 3.98,
+     "n": 40817,
+     "fallback_share": 0.063
+    },
+    {
+     "decile": 5,
+     "roe_min": 3.986,
+     "roe_max": 5.79,
+     "n": 40913,
+     "fallback_share": 0.0749
+    },
+    {
+     "decile": 6,
+     "roe_min": 5.796,
+     "roe_max": 8.21,
+     "n": 40970,
+     "fallback_share": 0.0907
+    },
+    {
+     "decile": 7,
+     "roe_min": 8.22,
+     "roe_max": 11.79,
+     "n": 40955,
+     "fallback_share": 0.117
+    },
+    {
+     "decile": 8,
+     "roe_min": 11.8,
+     "roe_max": 18.71,
+     "n": 40889,
+     "fallback_share": 0.1756
+    },
+    {
+     "decile": 9,
+     "roe_min": 18.72,
+     "roe_max": 14185092.68,
+     "n": 40932,
+     "fallback_share": 0.3409
+    }
+   ]
+  },
+  "pre2010": {
+   "base_share": 0.5599,
+   "spread_top_minus_bottom": 0.47,
+   "buckets": [
+    {
+     "decile": 0,
+     "roe_min": -266264.61,
+     "roe_max": -0.73,
+     "n": 1970,
+     "fallback_share": 0.4797
+    },
+    {
+     "decile": 1,
+     "roe_min": -0.72,
+     "roe_max": 1.0,
+     "n": 1984,
+     "fallback_share": 0.3281
+    },
+    {
+     "decile": 2,
+     "roe_min": 1.007,
+     "roe_max": 2.36,
+     "n": 1958,
+     "fallback_share": 0.383
+    },
+    {
+     "decile": 3,
+     "roe_min": 2.37,
+     "roe_max": 4.06,
+     "n": 1976,
+     "fallback_share": 0.3659
+    },
+    {
+     "decile": 4,
+     "roe_min": 4.069,
+     "roe_max": 6.11,
+     "n": 1965,
+     "fallback_share": 0.3873
+    },
+    {
+     "decile": 5,
+     "roe_min": 6.12,
+     "roe_max": 8.84,
+     "n": 1966,
+     "fallback_share": 0.469
+    },
+    {
+     "decile": 6,
+     "roe_min": 8.8412,
+     "roe_max": 12.78,
+     "n": 1969,
+     "fallback_share": 0.6084
+    },
+    {
+     "decile": 7,
+     "roe_min": 12.785,
+     "roe_max": 18.97,
+     "n": 1973,
+     "fallback_share": 0.744
+    },
+    {
+     "decile": 8,
+     "roe_min": 18.98,
+     "roe_max": 29.71,
+     "n": 1968,
+     "fallback_share": 0.8841
+    },
+    {
+     "decile": 9,
+     "roe_min": 29.74,
+     "roe_max": 4571.413,
+     "n": 1969,
+     "fallback_share": 0.9497
+    }
+   ]
+  }
+ },
+ "earnings_tail_controlled": {
+  "2010+-03": {
+   "n": 71036,
+   "base_share": 0.0638,
+   "bottom": 0.0771,
+   "top": 0.1758,
+   "spread_top_minus_bottom": 0.0987
+  },
+  "2010+-06": {
+   "n": 131004,
+   "base_share": 0.0885,
+   "bottom": 0.0905,
+   "top": 0.2056,
+   "spread_top_minus_bottom": 0.1152
+  },
+  "2010+-09": {
+   "n": 65369,
+   "base_share": 0.041,
+   "bottom": 0.0359,
+   "top": 0.1395,
+   "spread_top_minus_bottom": 0.1036
+  },
+  "2010+-12": {
+   "n": 142053,
+   "base_share": 0.1904,
+   "bottom": 0.1134,
+   "top": 0.4575,
+   "spread_top_minus_bottom": 0.3441
+  },
+  "pre2010-03": {
+   "n": 1099,
+   "base_share": 0.2329,
+   "bottom": 0.1909,
+   "top": 0.5273,
+   "spread_top_minus_bottom": 0.3364
+  },
+  "pre2010-06": {
+   "n": 7675,
+   "base_share": 0.1669,
+   "bottom": 0.237,
+   "top": 0.276,
+   "spread_top_minus_bottom": 0.0391
+  },
+  "pre2010-09": {
+   "n": 238,
+   "base_share": 0.2815,
+   "bottom": 0.202,
+   "top": 0.5833,
+   "spread_top_minus_bottom": 0.3813
+  },
+  "pre2010-12": {
+   "n": 10686,
+   "base_share": 0.8819,
+   "bottom": 0.7942,
+   "top": 0.985,
+   "spread_top_minus_bottom": 0.1908
+  }
+ },
+ "decision": {
+  "income": {
+   "recent_quarters_fallback_share": 0.0187,
+   "overall_fallback_share": 0.1498,
+   "needs_row_flag": false
+  },
+  "cashflow": {
+   "recent_quarters_fallback_share": 0.0058,
+   "overall_fallback_share": 0.1061,
+   "needs_row_flag": false
+  },
+  "balance": {
+   "recent_quarters_fallback_share": 0.0022,
+   "overall_fallback_share": 0.0783,
+   "needs_row_flag": false
+  }
+ },
+ "recommendation": "keep the never-early deadline bound as is; publish the existing `fallback` boolean as the confidence column instead of inventing a new score -- it is exact (row-level), already materialised in every <face>_avail_event.parquet, and needs no threshold. Only rows in the recent-quarter block with fallback=True should be down-weighted by any consumer that needs true filing dates."
+}
