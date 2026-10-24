@@ -1,0 +1,88 @@
+{
+ "machine": "bm-c",
+ "wave": 311,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w311_results.json",
+ "keys_anchor": "W310 finalize actuals machine-read from n1_w310_results.json (r587 law); W311 prereg sec.5 froze its keys on W310 actuals",
+ "prereg_prose_deviations": [
+  {
+   "key": "key5_w310_se_mu",
+   "frozen_prose": "0.000298",
+   "machine_read_actual": 0.000297,
+   "note": "sec.5 prose literal does not reproduce the W310 finalize actual; the assertion runs on the machine-read actual (r587) and the deviation is disclosed, not smoothed."
+  }
+ ],
+ "merged": {
+  "k": 682120,
+  "mu": -0.0928223394710608,
+  "sigma": 0.24514828848747955,
+  "se_mu_k682120": 0.000297
+ },
+ "w311_only": {
+  "mu": -0.10195040909090909,
+  "sigma": 0.24739515059200357
+ },
+ "skill_line": {
+  "n_eff_held": 1106341,
+  "line_pre_w311": 1.2005,
+  "line_merged_682120": 1.2005,
+  "k_lift_delta": 0.0
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3213,
+  "full_sharpe_p99": 0.4435
+ },
+ "checks": [
+  {
+   "name": "key1_w311_vs_merged_mu_gap",
+   "value": 0.009128069619848286,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w310_key",
+   "value": 2.953546470711721e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": 3.129477277087692e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta_actual_anchor",
+   "value": 0.019299999999999984,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000297,
+   "band": 0.000297,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 1106341,
+  "batch_trials": 2200,
+  "total": 1108541,
+  "exact": true
+ },
+ "merged_k_identity": {
+  "prev_k": 679920,
+  "batch": 2200,
+  "merged_k": 682120,
+  "exact": true
+ },
+ "keys_source": "W310 finalize actuals machine-read from n1_w310_results.json (r587 law)",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
