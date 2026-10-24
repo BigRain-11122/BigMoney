@@ -1,0 +1,54 @@
+{
+ "wave": 318,
+ "splice": "4a78879173fb215989fa07c5dd1ebf736ad0f855",
+ "origin_base": "87669dc1da3ca446e796e0c042e278b7c6d3c4aa",
+ "bands": {
+  "A": [
+   714901,
+   716900
+  ],
+  "B": [
+   716901,
+   717100
+  ]
+ },
+ "landed_n1_sha16": "7118a10019e91afa",
+ "landed_pf_sha16": "5421419a419d0da1",
+ "receipt_n1_sha16_post": "d8216ea7a83d54f7",
+ "receipt_n1_sha16_pre": "612a658a3bed9eff",
+ "receipt_pf_sha16_post": "c3a65af30ad9ac9c",
+ "receipt_pf_sha16_pre": "9caf18e7b65b7b62",
+ "prereg_sha16": "c77e004753fb06fc",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "post_match_mode": "direct",
+ "worktree_raw_eq_receipt_post": true,
+ "replay_lf_sha16": "7118a10019e91afa",
+ "landed_lf_sha16": "7118a10019e91afa",
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "7118a10019e91afa",
+   "landed_crlf_sha16": "d8216ea7a83d54f7",
+   "parent_crlf_sha16": "612a658a3bed9eff",
+   "worktree_raw_sha16": "d8216ea7a83d54f7",
+   "worktree_lf_sha16": "7118a10019e91afa",
+   "receipt_pre_sha16": "612a658a3bed9eff",
+   "receipt_post_sha16": "d8216ea7a83d54f7"
+  },
+  "pf": {
+   "landed_lf_sha16": "5421419a419d0da1",
+   "landed_crlf_sha16": "c3a65af30ad9ac9c",
+   "parent_crlf_sha16": "9caf18e7b65b7b62",
+   "worktree_raw_sha16": "c3a65af30ad9ac9c",
+   "worktree_lf_sha16": "5421419a419d0da1",
+   "receipt_pre_sha16": "9caf18e7b65b7b62",
+   "receipt_post_sha16": "c3a65af30ad9ac9c"
+  }
+ },
+ "heal_deltas": [],
+ "unexplained_deltas": [],
+ "reconcile_note": "direct reconciliation: parent-CRLF == receipt pre, landed-CRLF == receipt post, worktree raw == receipt post and worktree LF == landed LF on both files, with zero editor re-execution",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically, never by trusting either side (r1188 bm-c)",
+ "verdict": "PASS"
+}
