@@ -330,3 +330,11 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 正法三条：①内容面一律 CR-normalized 比较（worktree == 落地 blob）；②冻结面不信任任一侧，用隔离 clone（--shared，pin refs/remotes/origin/main 到 receipt 的 origin_base）机械重放冻结编辑器，要求 pre/post 双面逐字节复现 receipt，再把重放结果与落地 blob 做 LF 级 diff，只放行 receipt 已披露 heal 行（本例=prereg commit sha 回填 2 行），其余一律=未解释差异 → FAIL；③gate 里凡引用 commit sha 一律从 commit message 现取（rebase 后硬编码 sha 立即成为陈旧面）。
 - 自证：Tools/n1_freeze_face_adjudicate.py（PASS verdict + heal/unexplained 计数）+ results/_n1_face_adjudication_w304.json；生成器 heal 段落在波号级联之后追加（r1171/r1182 族同源）。
 - 2026-10-24 08:2x：bm-c r1188（W304 六门 heal 收口·捕获律 O-20261002-2100 依法生成）
+
+## E93 冻结回执 post 面对不上时的正法=候选重建扫描（r1232 bm-c 实证·W325）
+- 问题：post-receipt 的**单字面量 heal**（同一秒内先写 receipt 再改文件）会让 receipt 的 post 面与落地面永远不等；靠猜 prose、或一句「派生面不同」都不成立，也没法证明「只改了注释」。
+- 正法三步：①先比 per-face 四基（landed lf/crlf、parent raw/crlf）确定 receipt post 的 EOL 基；②按当窗已知候选编辑（heal 脚本、patch 脚本、provenance 字面量、注释改写）**程序化重建 top-N 变体**，两基各求 sha16 做扫描；③命中即 heal reproduced（记 edit + basis + scope=零代码面），零命中才可写 unexplained 并 FAIL。
+- 实锚：W325 pf 24 腿扫两轮命中 `(freeze n/a)` → `(freeze 9d495afdcd)`（`results/_w325bmc_patch_receipt.py` 的 provenance 字面量）逆向 CRLF 基 = receipt post `3a15feb0`；同波 n1 post 与落地面直接相等。
+- 附带坑：WAVE_CONFIGS 行与 materializer band-fact 断言相距 ~7.2MB（n1 文件 140 万 vs 863 万字节）——六门旧模板的「行后 12KB 段」覆盖不到断言面，断言门必须另走全文精确字面量计数，否则假 FAIL。
+- 验证：results/_r1232bmc_delta_sweep{,2}.py（24+5 腿·两轮命中）+ results/_n1_face_adjudication_w325.json（verdict PASS·heal_reproduced=true·unexplained=0）
+- 2026-10-25 06:5x，bm-c r1232，W325 冻结面 heal 收口。捕获律 O-20261002-2100 落卡。

@@ -122,6 +122,24 @@ def _fail(msg):
     return 2
 
 
+def b_placement(A_clean, B_naive):
+    """Law: B always lands ABOVE own A.  Returns (needs_cascade, kind).
+
+    Two naive-window faces force the own-A reservation cascade:
+    (a) the naive window lands INSIDE own A;
+    (b) A hopped above the naive window entirely -- W326 first instance: A hopped past
+        W325's own B band plus three registered seeds to 733_501..735_500, leaving the
+        naive B window 732_701..732_900 BELOW own A (r1232 bm-c).
+    """
+    a0, a1 = A_clean
+    b0, b1 = B_naive
+    if b0 > a1:
+        return False, "above own-A (no cascade)"
+    if b1 < a0:
+        return True, "own-A reservation cascade (A hopped above the naive window)"
+    return True, "own-A reservation cascade (naive window inside own A)"
+
+
 def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
           write=True):
     rows = owner_rows()
@@ -153,12 +171,14 @@ def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
     arith_b = [prev["b_exit"][1] + 1, prev["b_exit"][1] + WIDTH_B]
     B_naive, _, _ = walk(pts, arith_b[0], WIDTH_B)
     B_inside_A = not (B_naive[1] < A_clean[0] or B_naive[0] > A_clean[1])
-    if B_inside_A:
+    B_below_A = B_naive[1] < A_clean[0]
+    cascade, cascade_kind = b_placement(A_clean, B_naive)
+    if cascade:
         B_clean, _, _ = walk(pts, max(A_clean[1] + 1, arith_b[0]), WIDTH_B)
         B_chain = [{"hop": 1, "window": B_naive, "jump_to": B_clean[0],
                     "refuser_bands": [list(A_clean)],
                     "refuser_pts_sample": [],
-                    "kind": "own-A reservation cascade"}]
+                    "kind": cascade_kind}]
         hops_B = 1
     else:
         B_clean, hops_B, B_chain = walk(pts, arith_b[0], WIDTH_B)
@@ -185,6 +205,8 @@ def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
         "AB_mutual_exclusion": B0 > A1,
         "B_base_eq_own_A_tail_plus1": B0 == A1 + 1,
         "B_base_eq_first_clean_above_own_A": B0 == b_alt[0],
+        "B_naive_inside_own_A": B_inside_A,
+        "B_naive_below_own_A": B_below_A,
     }
     if not (relations["A_base_ge_priorB_tail_plus1"]
             and relations["B_lands_above_own_A"]
@@ -270,14 +292,15 @@ def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
                 "A": [A0, A1], "hops_A": hops_A, "A_hop_chain": A_chain,
                 "B": [B0, B1], "hops_B": hops_B, "B_hop_chain": B_chain,
                 "B_naive": arith_b,
-                "B_naive_refused_at_start": B_inside_A,
+                "B_naive_refused_at_start": cascade,
                 "B_lands_above_own_A": True,
                 "A_semantics": ("A arithmetic continuation %d..%d walked "
                                 "forward-monotone (hops=%d, r587)"
                                 % (arith_a[0], arith_a[1], hops_A)),
                 "B_semantics": ("B arithmetic continuation %d..%d: "
-                                "own-A-reservation=%s, hops=%d"
-                                % (arith_b[0], arith_b[1], B_inside_A, hops_B)),
+                                "cascade=%s (%s), hops=%d"
+                                % (arith_b[0], arith_b[1], cascade,
+                                   cascade_kind, hops_B)),
                 "relation_asserts": relations,
                 "B_seed_hop_disclosure": seed_hop_disclosure,
             },
@@ -343,6 +366,15 @@ def selftest():
         intvals = []
     leg("registered non-N1 seeds are walk refusers",
         all(v in rpts for v in intvals), "seeds=%d" % len(intvals))
+    # b_placement: the three naive-window faces (r1232 W326 first below-A instance)
+    leg("b_placement above own-A -> no cascade",
+        b_placement([10, 20], [25, 30]) == (False, "above own-A (no cascade)"))
+    leg("b_placement inside own-A -> cascade",
+        b_placement([10, 20], [15, 25])[0] is True
+        and "inside own A" in b_placement([10, 20], [15, 25])[1])
+    leg("b_placement below own-A -> cascade (A hopped above naive window)",
+        b_placement([30, 40], [10, 20])[0] is True
+        and "A hopped above" in b_placement([30, 40], [10, 20])[1])
     fails = [n for n, ok in legs if not ok]
     print("selftest: %d/%d PASS" % (len(legs) - len(fails), len(legs)))
     return 1 if fails else 0

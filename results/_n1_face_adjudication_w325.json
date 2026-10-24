@@ -1,0 +1,67 @@
+{
+ "wave": 325,
+ "splice": "658979c049af0e754512c74ac1d587c20690afa3",
+ "origin_base": "b6a1a9048ece4769282c120dc755cb6b4570d463",
+ "bands": {
+  "A": [
+   730301,
+   732300
+  ],
+  "B": [
+   732501,
+   732700
+  ]
+ },
+ "landed_n1_sha16": "f4b803984632186a",
+ "landed_pf_sha16": "8d77f1ff8b6cad5d",
+ "receipt_n1_sha16_post": "f44abeca682bb729",
+ "receipt_pf_sha16_post": "3a15feb0c1b00379",
+ "prereg_sha16": "14c7e5b001ea4291",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "worktree_raw_eq_receipt_post": true,
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "f4b803984632186a",
+   "landed_crlf_sha16": "f44abeca682bb729",
+   "parent_crlf_sha16": "c8b46dbded0d2190",
+   "parent_raw_sha16": "e99b098ccf326c0b",
+   "worktree_raw_sha16": "f44abeca682bb729",
+   "worktree_lf_sha16": "f4b803984632186a",
+   "receipt_pre_sha16": "c8b46dbded0d2190",
+   "receipt_post_sha16": "f44abeca682bb729",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  },
+  "pf": {
+   "landed_lf_sha16": "8d77f1ff8b6cad5d",
+   "landed_crlf_sha16": "6524cb8fd18b2759",
+   "parent_crlf_sha16": "2e9faf7a7e02238e",
+   "parent_raw_sha16": "8546f155ac6d8bbd",
+   "worktree_raw_sha16": "6524cb8fd18b2759",
+   "worktree_lf_sha16": "8d77f1ff8b6cad5d",
+   "receipt_pre_sha16": "2e9faf7a7e02238e",
+   "receipt_post_sha16": "3a15feb0c1b00379",
+   "pre_basis": "crlf",
+   "post_basis": "reverse_applied_crlf"
+  }
+ },
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [
+  {
+   "face": "pf",
+   "edit": "provenance literal \"(freeze n/a)\" -> \"(freeze 9d495afdcd)\" applied by results/_w325bmc_patch_receipt.py after the receipt was emitted",
+   "reverse_applied_basis": "crlf",
+   "reverse_applied_sha16": "3a15feb0c1b00379",
+   "receipt_post_sha16": "3a15feb0c1b00379",
+   "reproduced": true,
+   "scope": "one provenance comment literal inside the W325 block; zero code face"
+  }
+ ],
+ "heal_note": "r1231 disclosed heals: (1) plain-digit registry/config keys cloned with the prior wave numeral -> retargeted 325 (r1168/r1208 family 6th instance) and (2) the materializer band-fact assert rewritten to the registry-seed-hop law -- both applied PRE-receipt and therefore invisible here. The ONE post-receipt delta is the patch_receipt provenance literal (freeze n/a -> 9d495afdcd), proved by reverse application, zero code face, unexplained=0",
+ "heal_reproduced": true,
+ "unexplained_deltas": [],
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically (r1188 bm-c)",
+ "verdict": "PASS"
+}

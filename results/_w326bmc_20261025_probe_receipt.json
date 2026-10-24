@@ -1,0 +1,197 @@
+{
+ "probe": "W326 pre-seat probe (generic Tools/n1_seat_probe.py; live walk on the post-W325-REGISTERED 315-owner universe; seat-first law O-20261010-2350 sec.2)",
+ "legs": {
+  "leg0": {
+   "rows": 315,
+   "tail": "W325 registered+finalized",
+   "wprev_bands": {
+    "A": [
+     730301,
+     732300
+    ],
+    "B": [
+     732501,
+     732700
+    ]
+   },
+   "wprev_minus1_bands": {
+    "A": [
+     728101,
+     730100
+    ],
+    "B": [
+     730101,
+     730300
+    ]
+   },
+   "wprev_finalize_landed": true,
+   "wprev_finalize_anchors": {
+    "ledger_total": 1139341,
+    "merged_n": 712920,
+    "skill_line_delta_k_lift": null
+   },
+   "inflight_upstream": false,
+   "owner_rows": 315,
+   "bmc_rows": 144,
+   "bma_rows": 130,
+   "bmb_rows": 41,
+   "ordinal": 316,
+   "owner_row_holes": [
+    15
+   ]
+  },
+  "leg1": {
+   "ARITH_A": [
+    732301,
+    734300
+   ],
+   "ARITH_B": [
+    732701,
+    732900
+   ],
+   "A": [
+    733501,
+    735500
+   ],
+   "hops_A": 1,
+   "A_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      732301,
+      734300
+     ],
+     "jump_to": 733501,
+     "refuser_bands": [
+      [
+       732500,
+       732500
+      ],
+      [
+       732501,
+       732700
+      ],
+      [
+       733000,
+       733000
+      ],
+      [
+       733500,
+       733500
+      ]
+     ],
+     "refuser_pts_sample": [
+      732500,
+      732501,
+      733000,
+      733500
+     ]
+    }
+   ],
+   "B": [
+    735501,
+    735700
+   ],
+   "hops_B": 1,
+   "B_hop_chain": [
+    {
+     "hop": 1,
+     "window": [
+      732701,
+      732900
+     ],
+     "jump_to": 735501,
+     "refuser_bands": [
+      [
+       733501,
+       735500
+      ]
+     ],
+     "refuser_pts_sample": [],
+     "kind": "own-A reservation cascade (A hopped above the naive window)"
+    }
+   ],
+   "B_naive": [
+    732701,
+    732900
+   ],
+   "B_naive_refused_at_start": true,
+   "B_lands_above_own_A": true,
+   "A_semantics": "A arithmetic continuation 732301..734300 walked forward-monotone (hops=1, r587)",
+   "B_semantics": "B arithmetic continuation 732701..732900: cascade=True (own-A reservation cascade (A hopped above the naive window)), hops=1",
+   "relation_asserts": {
+    "A_base_ge_priorB_tail_plus1": true,
+    "B_lands_above_own_A": true,
+    "AB_mutual_exclusion": true,
+    "B_base_eq_own_A_tail_plus1": true,
+    "B_base_eq_first_clean_above_own_A": true,
+    "B_naive_inside_own_A": false,
+    "B_naive_below_own_A": true
+   },
+   "B_seed_hop_disclosure": []
+  },
+  "leg2": {
+   "AB_mutual_exclusion": true,
+   "A": [
+    733501,
+    735500
+   ],
+   "B": [
+    735501,
+    735700
+   ],
+   "seed_admit_gate": [
+    "seed_admit_gate rc0 base=733501 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=735501 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "both bands FREE per seed_admit_gate"
+  },
+  "leg3": {
+   "universe": "post-W325-REGISTERED",
+   "owner_rows": 315,
+   "bands_clear": true
+  },
+  "leg4": {
+   "W327p_A_naive": "737_001..739_000",
+   "W327p_A_first_clean": "737_001..739_000",
+   "W327p_B_naive": "735_701..735_900",
+   "W327p_B_first_clean": "735_701..735_900",
+   "hops_A": 1,
+   "hops_B": 0,
+   "W327p_B_lands_inside_W327p_A_naive": false,
+   "note": "projection on the PRE-W326 universe; once W326 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+   "candidate_bands": {
+    "A": [
+     733501,
+     735500
+    ],
+    "B": [
+     735501,
+     735700
+    ]
+   }
+  }
+ },
+ "verdict": "ADMIT",
+ "bands": {
+  "A": [
+   733501,
+   735500
+  ],
+  "B": [
+   735501,
+   735700
+  ],
+  "a_lo": 733501,
+  "a_hi": 735500,
+  "b_lo": 735501,
+  "b_hi": 735700
+ },
+ "ordinals": {
+  "a_hop": 79,
+  "a_hop_word": "79TH",
+  "above_own_a": 80,
+  "above_own_a_word": "80TH",
+  "authority": "per r1170 the prereg BODY chain is the single source of truth for ordinals; the seat window passes them in explicitly (never derived from commit messages)"
+ }
+}
