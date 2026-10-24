@@ -10642,6 +10642,38 @@ N1_BANDS = {
     # when deriving B; never transcribe r587.
     310: {"a": (697_301, 699_300), "b_exit": (699_301, 699_500),
          "engine_owner": "bm-c"},
+    # W311 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat
+    # MSG-20261024-1540-bmc-w311-seat published=reserved by bm-c itself @
+    # origin 5cbfce8417 (r1200, queue-head seat-first supply -- W311 registered+FINALIZED
+    # at publish, W311 FREEZE UNBLOCKED at seat time); the SPLICE gate0.5 = GREEN at seat
+    # (W310 five-face + finalize product both in-place; prereg
+    # research/PERPETUAL_N1_W311_PREREG.md bm-c r1200 window derive landed
+    # pre-freeze, freeze-time gate 0b0265a62d; probe receipt
+    # results/_w311bmc_20261024_probe_receipt.json @ 5cbfce8417);
+    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10
+    # ~23:1x; deletion-set EMPTY; splice AFTER the bm-c W310 five-face
+    # (freeze 897b31fc83) + W310 finalize product landed (ledger head
+    # 1106341 machine-read); zero --no-verify; the W311 seat MSG sits in
+    # fleet/inbox/MSG-20261024-1540-bmc-w311-seat.md at freeze time (honest archived per S7 law);
+    # band gate ADMIT results/_w311bmc_20261024_probe_receipt.json: A = 1-HOP
+    # STAIRCASE-AFFECTS-A walk SIXTY-FOURTH consecutive A-hop (naive 699_301..701_300 REFUSED
+    # at start by the registered W310 B band; walk past the W310 B tail ->
+    # A first-clean, hops=1; A base == registered prior-wave B tail+1 (699_500+1) EXACT)
+    # B = 1-HOP own-A RESERVATION CASCADE above own-A (naive 699_501..699_700 CLEAN vs
+    # the registered universe BUT lands INSIDE the own-wave A first-clean window;
+    # walk past the own-A tail -> B lands ABOVE own-A at tail+1 -- SIXTY-FIFTH
+    # consecutive above-own-A; B base == own-A tail+1 (701_500+1) EXACT)
+    # single-window derive (gate legs merged INTO the probe, r812);
+    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):
+    # seed_admit_gate rc0 base=699501 span=2000 checked=2000 verdict=FREE;
+    # seed_admit_gate rc0 base=701501 span=200 checked=200 verdict=FREE.
+    # W312+ projection (pre-seat probe leg4, pre-W311 universe):
+    # A naive first-clean 701_501..703_500 hops=0 / B naive 701_701..701_900 hops=0 BUT lands INSIDE the projection A window
+    # (staircase face continuing since W251); the W312 freezer MUST
+    # re-derive on the post-W311 universe AND reserve the own-wave A window
+    # when deriving B; never transcribe r587.
+    311: {"a": (699_501, 701_500), "b_exit": (701_501, 701_700),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
