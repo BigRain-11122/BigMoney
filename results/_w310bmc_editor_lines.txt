@@ -1,0 +1,55 @@
+15|# window): A 695_101..697_100 (STAIRCASE-AFFECTS-A 1-hop walk, SIXTY-SECOND
+16|# consecutive A-hop; naive 694_901..696_900 refused at start by the registered
+17|# W308 B band 694_901..695_100; A base == registered prior-wave B tail+1 EXACT)
+18|# and B 697_101..697_300 (1-hop own-A RESERVATION CASCADE above own-A, SIXTY-THIRD
+19|# consecutive above-own-A; naive 695_101..695_300 lands inside the own-wave A
+63|for _w in range(304, 296, -1):
+70|assert w307_total == 1_101_941 and w307_merged_n == 675_520, \
+101|assert (a_lo, a_hi) == (695_101, 697_100) and (b_lo, b_hi) == (697_101, 697_300), \
+170|# ---------- extract parity estate + kept legs (physical bytes) ----------
+187|assert [int(w) for w in _estate_ws] == list(range(138, 207)), "estate segment not W138..W206 (69 rows)"
+189|assert _legs_ws == list(range(211, PREV_W)), f"legs segment not W211..W{PREV_W - 1}: n={len(_legs_ws)}"
+195|assert [int(w) for w in re.findall(r"assert pf\.N1_BANDS\[(\d+)\] ==", legs_kept)] == list(range(211, 248)), \
+197|assert [int(w) for w in re.findall(r"assert pf\.N1_BANDS\[(\d+)\] ==", legs_dropped)] == list(range(248, PREV_W)), \
+201|for _w in range(248, NEW_W):
+224|CFG_I = line_indent(n1_t, f'{PREV_W}: {{"batch"', EOL)
+227|_cprev = n1_t.find(f'{PREV_W}: {{"batch"')
+256|    "    # STAIRCASE-AFFECTS-A walk SIXTY-SECOND consecutive A-hop (naive " + fmt(w307_a_tail + 1) + ".." + fmt(w307_a_tail + 2_000) + " REFUSED",
+261|    "    # walk past the own-A tail -> B lands ABOVE own-A at tail+1 -- SIXTY-THIRD",
+294|    f'{CFG_I}309: {{"batch": "PERPETUAL-N1-W309",',
+299|    "new seed bands only; THREE HUNDRED AND SEVENTH ENGINE-OWNED WAVE ",
+314|    "engine_owner=bm-c (bm-c's HUNDRED-AND-TWENTY-SIXTH owned claim per machine-derive ",
+316|    "wave 309: ",
+317|    "A = 1-HOP STAIRCASE-AFFECTS-A walk SIXTY-SECOND consecutive A-hop (naive continuation ",
+326|    f"tail -> B lands ABOVE own-A {fmt(a_lo)}..{fmt(a_hi)} at tail+1 EXACT; SIXTY-THIRD consecutive ",
+342|    f'{MEM_I}"a_seed_base": {a_lo},        # law sec.4 W309 A: {fmt(a_lo)}..{fmt(a_hi)} (1-HOP STAIRCASE-AFFECTS-A walk SIXTY-SECOND consecutive A-hop; naive {fmt(w307_a_tail + 1)}..{fmt(w307_a_tail + 2_000)} REFUSED at start -- hops=1; A base == registered prior-wave B tail+1)',
+343|    f'{MEM_I}"b_exit_seed_base": {b_lo},   # law sec.4 W309 B: {fmt(b_lo)}..{fmt(b_hi)} (1-HOP own-A RESERVATION CASCADE above own-A; naive {fmt(w307_b_tail + 1)}..{fmt(w307_b_tail + 200)} CLEAN vs registered BUT lands inside own-wave A -- hops=1; B lands ABOVE own-A at tail+1 EXACT -- SIXTY-THIRD consecutive above-own-A)',
+350|assert new_cfg.count('309: {"batch": "PERPETUAL-N1-W309"') == 1
+368|    "    #     W211..W247 legs (37) extracted verbatim from the OWN W308 block",
+369|    "    #     physical bytes; the W309 block's own W248..W308 legs (60) are",
+371|    "    #     W248..W308 legs (61) added, machine-derived from the live pf",
+372|    "    #     registry at freeze time -> 167 parity rows.",
+382|    f"        wnew_a = {{A_SEED_BASE + j for j in range(A_N)}}",
+383|    f"        wnew_b = {{B_EXIT_SEED_BASE + j for j in range(B_N)}}",
+397|    f'                                 for j in range(A_N)}}), f"W{NEW_W} A hits W" + str(wprev)',
+399|    f'                                  for j in range(B_N)}}), f"W{NEW_W} B hits W" + str(wprev)',
+400|    "        n3r1_used = set(range(70_000, 70_006))",
+409|    "        # walk SIXTY-SECOND consecutive A-hop (naive continuation",
+415|    f"        # B base == own-A tail+1 ({fmt(a_hi)}+1) EXACT; SIXTY-THIRD consecutive above-own-A landing.",
+417|    f'            "W{NEW_W} A staircase-affects-A walk SIXTY-SECOND consecutive A-hop: naive "',
+421|    f"        arith_new_a = set(range({a_lo}, {a_hi + 1}))",
+430|    f"        arith_new_b = set(range({b_lo}, {b_hi + 1}))",
+452|    f"        for _depw in range(17, {NEW_W}):",
+461|    f"            [w for w in range(16, {NEW_W})], \\",
+475|assert block.count(f"range(16, {_n})") == 1 and block.count(f"range(17, {_n})") == 1, "family-6 triple: RHS ranges wrong"
+484|    f'          "THREE HUNDRED AND SEVENTH ENGINE-OWNED WAVE BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate) "',
+485|    f'          "bm-c\'s HUNDRED-AND-TWENTY-SIXTH owned claim per machine-derive (engine_owner==bm-c rows {len(bmc_rows_live)} + candidate), "',
+486|    '          "A=1-HOP STAIRCASE-AFFECTS-A walk (hops=1, SIXTY-SECOND consecutive) "',
+487|    '          "+ B=1-HOP own-A RESERVATION CASCADE above own-A (hops=1, SIXTY-THIRD consecutive), "',
+495|assert n1_t4.count('"batch": "PERPETUAL-N1-W309"') == 1
+498|assert n1_t4.count('309: {"batch": "PERPETUAL-N1-W309"') == 1
+502|for _lw in range(248, NEW_W):
+507|for _b in range(209, NEW_W + 1):
+522|    "machine": "bm-c", "wave": 308, "spliced_wave": NEW_W,
+534|        "A": "1-HOP STAIRCASE-AFFECTS-A walk SIXTY-SECOND consecutive A-hop (naive 694_901..696_900 refused at start by the registered W308 B band 694_901..695_100; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+535|        "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 695_101..695_300 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; SIXTY-THIRD consecutive above-own-A)"},

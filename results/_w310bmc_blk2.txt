@@ -1,0 +1,60 @@
+246|    "    # (W309 five-face + finalize product both in-place; prereg",
+247|    "    # research/PERPETUAL_N1_W310_PREREG.md bm-c r1198 window derive landed",
+248|    "    # pre-freeze, freeze-time gate " + w309_prereg_sha[:10] + "; probe receipt",
+249|    "    # results/_w310bmc_20261024_probe_receipt.json @ " + w309_receipt_sha[:10] + ");",
+250|    "    # CEO fill-order standing 2026-10-08 ~23:5x RE-ISSUED 2026-10-10",
+251|    "    # ~23:1x; deletion-set EMPTY; splice AFTER the bm-c W309 five-face",
+252|    "    # (freeze " + w308_freeze_sha[:10] + ") + W309 finalize product landed (ledger head",
+253|    "    # " + str(w308_total) + " machine-read); zero --no-verify; the W310 seat MSG sits in",
+254|    "    # " + seat_found + " at freeze time (honest archived per S7 law);",
+255|    "    # band gate ADMIT results/_w310bmc_20261024_probe_receipt.json: A = 1-HOP",
+256|    "    # STAIRCASE-AFFECTS-A walk SIXTY-THIRD consecutive A-hop (naive " + fmt(w308_a_tail + 1) + ".." + fmt(w308_a_tail + 2_000) + " REFUSED",
+257|    "    # at start by the registered W309 B band; walk past the W309 B tail ->",
+258|    "    # A first-clean, hops=1; A base == registered prior-wave B tail+1 (" + fmt(w308_b_tail) + "+1) EXACT)",
+259|    "    # B = 1-HOP own-A RESERVATION CASCADE above own-A (naive " + fmt(w308_b_tail + 1) + ".." + fmt(w308_b_tail + 200) + " CLEAN vs",
+260|    "    # the registered universe BUT lands INSIDE the own-wave A first-clean window;",
+261|    "    # walk past the own-A tail -> B lands ABOVE own-A at tail+1 -- SIXTY-FOURTH",
+262|    "    # consecutive above-own-A; B base == own-A tail+1 (" + fmt(a_hi) + "+1) EXACT)",
+263|    "    # single-window derive (gate legs merged INTO the probe, r812);",
+264|    "    # seed_admit_gate (O-20261010-1945-bm-a ADMIT convention):",
+265|    "    # " + gate_lines[0] + ";",
+266|    "    # " + gate_lines[1] + ".",
+267|    "    # W311+ projection (pre-seat probe leg4, pre-W310 universe):",
+268|    "    # A naive first-clean " + rec["legs"]["leg4"]["W311p_A_naive"] + " hops=" + str(rec["legs"]["leg4"]["hops_A"]) + " / B naive "
+269|    + rec["legs"]["leg4"]["W311p_B_naive"] + " hops=" + str(rec["legs"]["leg4"]["hops_B"])
+270|    + " BUT lands INSIDE the projection A window",
+271|    "    # (staircase face continuing since W251); the W311 freezer MUST",
+272|    "    # re-derive on the post-W310 universe AND reserve the own-wave A window",
+273|    "    # when deriving B; never transcribe r587.",
+274|])
+275|pf_row = (f'{ROW_I}309: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), '
+276|          f'"b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+277|          + PF_EOL + f'{ROWC_I}"engine_owner": "bm-c"}},' + PF_EOL)
+278|assert pf_row.split(PF_EOL)[0].strip() == \
+279|    f'309: {{"a": ({fmt(a_lo)}, {fmt(a_hi)}), "b_exit": ({fmt(b_lo)}, {fmt(b_hi)}),'
+280|
+281|old_pf = must(pf_t, (w308_own_line + PF_EOL + '}' + PF_EOL + '# v1 + ext(wave-1) in-use bands'), 1, "pf_close")
+282|new_pf = (w308_own_line + PF_EOL + pf_comment + PF_EOL + pf_row
+283|          + '}' + PF_EOL + '# v1 + ext(wave-1) in-use bands')
+284|pf_t2 = pf_t.replace(old_pf, new_pf, 1)
+285|
+286|# ---------- n1 cfg entry ----------
+287|fin_face = (f"W1..W309 finalize ALL LANDED (W309 finalize product present at splice, "
+288|            f"net chain head {w308_total} machine-read, merged pool K={w308_merged_n} "
+289|            f"machine-read) -- ZERO in-flight upstream seats at splice time, clean precondition; "
+290|            f"downstream W311 seat NOT YET PUBLISHED at this freeze window (the next freezer must "
+291|            f"seat-first publish per O-20261010-2350 sec.2; the W311 freezer MUST re-derive live on "
+292|            f"the post-W310 universe + reserve the own-wave A window when deriving B, never transcribe r587)")
+293|cfg_lines = [
+294|    f'{CFG_I}310: {{"batch": "PERPETUAL-N1-W310",',
+295|    f'{PRE_KEY_I}"prereg": ("research/PERPETUAL_N1_W310_PREREG.md (wave-level frozen "',
+296|]
+297|PRE = [
+298|    "pre-run; design = frozen v1 null calibration verbatim, ",
+299|    "new seed bands only; THREE HUNDRED AND EIGHTH ENGINE-OWNED WAVE ",
+300|    f"BY MACHINE-DERIVE (engine_owner rows {len(owner_rows_live)} + candidate), ",
+301|    "own-series continuation per O-20260101-2355 sec.2 (first-free-",
+302|    "number law after the REGISTERED W309 row five-face freeze (bm-c own seat executed at the bm-c r1196 splice window; engine self-burn 12/12; finalize one-pass ledger 1,101,941 / K=675,520 machine-read), ",
+303|    f"{w308_freeze_sha[:10]} (prereg {w308_prereg_sha[:10]}), SINGLE STATE zero seat gap W2..W310 all ",
+304|    "registered; " + fin_face + "; ",
+305|    "seat published=reserved ",

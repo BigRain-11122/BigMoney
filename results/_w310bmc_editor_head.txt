@@ -1,0 +1,80 @@
+56|
+57|# ---------- gate 0.5: W308 five-face landed + W308 finalize product present ----------
+58|assert NEW_W not in pf_mod.N1_BANDS, "W309 row already registered -- not a first freeze, abort"
+59|WPREV = dict(pf_mod.N1_BANDS.get(PREV_W) or {})
+60|assert WPREV.get("engine_owner") == "bm-c", f"previous-wave row not landed as declared: {WPREV}"
+61|w307_out_path = os.path.join(REPO, "results", "perpetual_faces", "n1_w308_results.json")
+62|assert os.path.exists(w307_out_path), "W308 finalize product missing -- chain dep not met"
+63|for _w in range(304, 296, -1):
+64|    assert os.path.exists(os.path.join(REPO, "results", "perpetual_faces", f"n1_w{_w}_results.json")), \
+65|        f"W{_w} finalize product missing (transitive chain dep) -- abort"
+66|w307_out = json.load(open(w307_out_path, encoding="utf-8"))
+67|w307_led = (w307_out.get("science_gates") or {}).get("ledger") or {}
+68|w307_total = w307_led.get("total")
+69|w307_merged_n = (w307_out.get("null_pool_cumulative") or {}).get("merged", {}).get("n_values")
+70|assert w307_total == 1_101_941 and w307_merged_n == 675_520, \
+71|    f"W308 finalize anchors drift: total={w307_total} merged={w307_merged_n} (expect 1,101,941 / 675,520)"
+72|w307_freeze_sha = (git("log", "--format=%H", "-S", '307: {"a"', "--", "scripts/perpetual_faces.py")
+73|                   .stdout.decode().strip().splitlines() or ["n/a"])[0]
+74|w307_prereg_sha = (git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W308_PREREG.md")
+75|                   .stdout.decode().strip().splitlines() or ["n/a"])[0]
+76|w308_prereg_sha = (git("log", "--diff-filter=A", "--format=%H", "--", "research/PERPETUAL_N1_W309_PREREG.md")
+77|                   .stdout.decode().strip().splitlines() or ["n/a"])[0]
+78|w308_pre_path = os.path.join(REPO, "research", "PERPETUAL_N1_W309_PREREG.md")
+79|assert os.path.exists(w308_pre_path), "W309 per-wave prereg missing on disk -- abort"
+80|with open(w308_pre_path, encoding="utf-8") as _fh:
+81|    _pre_head = _fh.read(2000)
+82|assert "DRAFT-NOT-FROZEN" not in _pre_head, "W309 prereg still DRAFT -- abort"
+83|assert "@@SEAT_HHMM@@" not in _pre_head and "@@SEAT_SHA@@" not in _pre_head, \
+84|    "W309 prereg carries unfilled seat placeholders -- frozen face incomplete, abort"
+85|
+86|owner_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner")]
+87|bma_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-a"]
+88|bmc_rows_live = [w for w, c in pf_mod.N1_BANDS.items() if (c or {}).get("engine_owner") == "bm-c"]
+89|assert len(owner_rows_live) == 298 and len(bma_rows_live) == 130 and len(bmc_rows_live) == 127, \
+90|    f"leg0 ordinal drift: owner={len(owner_rows_live)} bma={len(bma_rows_live)} bmc={len(bmc_rows_live)} (expect 298/130/127)"
+91|print(f"gate0.5 OK: W309 landed (freeze {w307_freeze_sha[:10]}, finalize ledger {w307_total}, merged n={w307_merged_n}); "
+92|      f"owner rows {len(owner_rows_live)} + candidate, bm-c rows {len(bmc_rows_live)} + candidate")
+93|
+94|# ---------- band facts from the committed ADMIT receipt (never transcribed) ----------
+95|rec = json.load(open(RECEIPT_IN, encoding="utf-8"))
+96|assert rec["verdict"] == "ADMIT"
+97|bd = rec["bands"]
+98|a_lo, a_hi, b_lo, b_hi = bd["a_lo"], bd["a_hi"], bd["b_lo"], bd["b_hi"]
+99|leg1 = rec["legs"]["leg1"]
+100|assert [a_lo, a_hi] == leg1["A"] and [b_lo, b_hi] == leg1["B"], "receipt band mismatch"
+101|assert (a_lo, a_hi) == (695_101, 697_100) and (b_lo, b_hi) == (697_101, 697_300), \
+102|    f"W309 band drift vs frozen prereg/ADMIT: {(a_lo, a_hi)} {(b_lo, b_hi)}"
+103|w307_b_tail = WPREV["b_exit"][1]
+104|w307_a_tail = WPREV["a"][1]
+105|assert w307_b_tail + 1 == a_lo, "A staircase-hop landing base relation (A base == registered prior-wave B tail+1)"
+106|assert b_lo == a_hi + 1, "B base == own-A tail+1 EXACT (own-A reservation cascade)"
+107|assert WPREV["b_exit"][0] == WPREV["a"][1] + 1, "upstream previous-wave above-own-A relation broken"
+108|assert leg1.get("hops_A") == 1 and leg1.get("hops_B") == 1, "hop-count drift vs probe receipt"
+109|assert leg1.get("B_naive_refused_at_start") is True, "B naive-start refusal face drift"
+110|assert leg1.get("B_lands_above_own_A") is True, "B landing face drift"
+111|assert len(leg1.get("A_hop_chain") or []) == 1, "A hop-chain face drift"
+112|assert len(leg1.get("B_hop_chain") or []) == 1, "B hop-chain face drift"
+113|ra = leg1.get("relation_asserts") or {}
+114|# r1195 heal: the generic seat probe emits the wave-agnostic relation key set
+115|# (A_base_ge_priorB_tail_plus1 / AB_mutual_exclusion / B_base_eq_own_A_tail_plus1,
+116|# without the legacy A_staircase_hop_past_registered_prior_B alias) -- accept either name.
+117|assert (ra.get("A_staircase_hop_past_registered_prior_B") or ra.get("A_base_ge_priorB_tail_plus1")) \
+118|    and ra.get("A_base_ge_priorB_tail_plus1") \
+119|    and ra.get("B_lands_above_own_A") and ra.get("AB_mutual_exclusion") \
+120|    and ra.get("B_base_eq_own_A_tail_plus1"), f"probe receipt relation face drift: {ra}"
+121|assert [w307_a_tail + 1, w307_a_tail + 2_000] == leg1["ARITH_A"], "A naive-arithmetic drift"
+122|assert [w307_b_tail + 1, w307_b_tail + 200] == leg1["ARITH_B"], "B naive-arithmetic drift"
+123|
+124|w308_receipt_sha = (git("log", "--diff-filter=A", "--format=%H", "--",
+125|                        "results/_w309bmc_20261024_probe_receipt.json")
+126|                    .stdout.decode().strip().splitlines() or ["n/a"])[0]
+127|seat_found = None
+128|for _p in ("fleet/inbox", "fleet/inbox/processed"):
+129|    if os.path.exists(os.path.join(REPO, _p, SEAT_MSG)):
+130|        seat_found = _p + "/" + SEAT_MSG
+131|        break
+132|assert seat_found, f"W309 seat MSG missing from both inbox paths: {SEAT_MSG}"
+133|
+134|# ---------- re-run discipline gates at freeze window ----------
+135|g = subprocess.run([PY, os.path.join(REPO, "Tools", "banned_direction_gate.py"),

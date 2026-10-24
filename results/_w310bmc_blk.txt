@@ -1,0 +1,50 @@
+196|    "kept segment not W211..W247"
+197|assert [int(w) for w in re.findall(r"assert pf\.N1_BANDS\[(\d+)\] ==", legs_dropped)] == list(range(248, PREV_W)), \
+198|    "dropped segment not W248..W310"
+199|
+200|fresh_leg_lines = []
+201|for _w in range(248, NEW_W):
+202|    _row = dict(pf_mod.N1_BANDS[_w])
+203|    _owner = _row["engine_owner"]
+204|    _msg = (f'"registered W{_w} row parity drift (r310; engine_owner={_owner}; '
+205|            f'W{NEW_W} freeze fresh-derive from live registry)"')
+206|    fresh_leg_lines += [
+207|        f'        assert pf.N1_BANDS[{_w}] == {{"a": ({fmt(_row["a"][0])}, {fmt(_row["a"][1])}),',
+208|        f'                                    "b_exit": ({fmt(_row["b_exit"][0])}, {fmt(_row["b_exit"][1])}),',
+209|        f'                                    "engine_owner": "{_owner}"}}, \\',
+210|        f'            {_msg}',
+211|    ]
+212|fresh_legs = EOL.join(fresh_leg_lines)
+213|assert fresh_leg_lines[0].startswith('        assert pf.N1_BANDS[248] == {"a": (')
+214|
+215|
+216|def line_indent(t, needle, eol):
+217|    i = t.find(needle)
+218|    assert i >= 0, f"indent needle not found: {needle[:40]}"
+219|    ls = t.rfind(eol, 0, i) + len(eol)
+220|    line = t[ls:t.find(eol, ls)]
+221|    return line[:len(line) - len(line.lstrip(" "))]
+222|
+223|
+224|CFG_I = line_indent(n1_t, f'{PREV_W}: {{"batch"', EOL)
+225|PRE_KEY_I = line_indent(n1_t, f'"prereg": ("research/PERPETUAL_N1_W{PREV_W}_PREREG.md', EOL)
+226|PRE_I = line_indent(n1_t, '"pre-run; design = frozen v1 null calibration verbatim, "', EOL)
+227|_cprev = n1_t.find(f'{PREV_W}: {{"batch"')
+228|assert _cprev > 0, "W310 cfg entry not found"
+229|MEM_I = line_indent(n1_t, '"a_seed_base": ' + str(WPREV["a"][0]), EOL)
+230|ROW_I = line_indent(pf_t, f'{PREV_W}: {{"a"', PF_EOL)
+231|
+232|w308_row_start = pf_t.find(f'    {PREV_W}: {{"a"')
+233|assert w308_row_start > 0, "W310 row literal not found in pf source"
+234|_own_ls = pf_t.find(PF_EOL, w308_row_start) + len(PF_EOL)
+235|_own_le = pf_t.find(PF_EOL, _own_ls)
+236|w308_own_line = pf_t[_own_ls:_own_le]
+237|assert '"engine_owner": "bm-c"' in w308_own_line, f"W310 owner line unexpected: {w308_own_line!r}"
+238|ROWC_I = w308_own_line[:len(w308_own_line) - len(w308_own_line.lstrip(" "))]
+239|
+240|# ---------- pf comment + row ----------
+241|pf_comment = PF_EOL.join([
+242|    "    # W310 (bm-c loop five-face freeze splice -- OWN-SEAT face, seat",
+243|    "    # MSG-20261024-1500-bmc-w310-seat published=reserved by bm-c itself @",
+244|    "    # origin " + SEAT_ORIGIN + " (r1198, queue-head seat-first supply -- W310 registered+FINALIZED",
+245|    "    # at publish, W310 FREEZE UNBLOCKED at seat time); the SPLICE gate0.5 = GREEN at seat",
