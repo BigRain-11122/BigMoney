@@ -55,9 +55,19 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1196 W309 §7 范式）
+- 账本恒等式：`1,101,941 + 2,200 = 1,104,141`（exact=True）；累计池 K `675,520 + 2,200 = 677,720`（exact=True）。
+- 合并池（W1..W309）：mu **-0.09281677** / sigma **0.24513637** / se_mu@K677,720 **0.000298**；W309-only mu **-0.09261182** / sigma **0.24961207**。
+- A 档 full_sharpe p95 **0.3384** / p99 **0.4805**（锚 W308 p95 0.3234·Δ=0.0150 在 ±0.05 带内）；B 档 n=None。
+- K-lift 对照：line_pre_w309 **1.2002** → line_merged@K677,720 **1.2003**（Δ **+0.0001**·n_eff_held_equal 1,101,941）。
+- §5 五预键机证件：`results/_r1197bmc_w309_fivekeys.json` — **6/6 ALL PASS**；prose 偏差披露 1 件（key4 K-lift prose +0.0000 vs W308 实测 0.0001·仅披露不抹平）。
+- 六门探针：`results/_r1197bmc_w309_sixgate.json` — verdict **ALL PASS**（第 72 连续正确相位；splice 完整性/clean-state/禁开方向/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波零治理动作）。
+- audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W310+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1196 W309 §8 范式）
+- §5.5 W310+ 投影承接机证：本波注册后 naive W310 A 起点 697_101 落入本波 B 带 697_101..697_300（staircase-affects-A 预期兑现）→ **W310 seat 必须 live re-derive，禁转抄本件投影**（r587）；B own-A reservation cascade 相应上移。
+- 宝藏与方法论捕获问：本批仅数据面加深（nulls-deepening），**无新方法/无新宝藏**→ knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 零出入。
+- 诚实披露：§5 预测键 1 条 prose 字面量与 W308 机读实测不符（K-lift +0.0000 vs 0.0001），断言以机读值为准并已披露（不抹平、不改台账）；本波 mu/sigma 与 K-lift 均落在冻结带内，无判据触碰。
+- 引擎口径：本轮 finalize 只消费已落分片（audit.finalize_only=true），零重烧、零双烧。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W309 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W308 own-wave finalize 已落地=席位时即解锁（n1_w308_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
