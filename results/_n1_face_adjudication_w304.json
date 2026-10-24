@@ -1,0 +1,55 @@
+{
+ "wave": 304,
+ "splice": "c7b6ecd7ba01e8e4ad7e027d8565d4ded45b88ca",
+ "origin_base": "098930328c223fd5d03c9b002af63064bf170378",
+ "landed_n1_sha16": "df63480a7e3cccc6",
+ "landed_pf_sha16": "cb2fcbc4e0767f75",
+ "receipt_n1_sha16_post": "9df99ddf4ed44be5",
+ "receipt_n1_sha16_pre": "6bf851f21ee38621",
+ "receipt_pf_sha16_post": "19c99df9d607433a",
+ "receipt_pf_sha16_pre": "a76312a25891a07e",
+ "prereg_sha16": "f9336313e2ff4857",
+ "replay_n1_sha16_pre": "6bf851f21ee38621",
+ "replay_pf_sha16_pre": "a76312a25891a07e",
+ "pre_faces_match_receipt": true,
+ "editor_rc": 0,
+ "editor_stdout_tail": [
+  " }",
+  "}",
+  "SPLICE OK -- py_compile both green; NEXT: selftest -> pathspec commit+push -> engine self-ignite W304"
+ ],
+ "editor_stderr_tail": [],
+ "replay_n1_sha16_post": "9df99ddf4ed44be5",
+ "replay_pf_sha16_post": "19c99df9d607433a",
+ "post_faces_match_receipt": true,
+ "replay_lf_sha16": "81c84d1fb8c4fdfa",
+ "landed_lf_sha16": "df63480a7e3cccc6",
+ "replay_lf_eq_landed": false,
+ "heal_deltas": [
+  {
+   "tag": "replace",
+   "replay_lines": [
+    "                   \"freeze-time commit n/a @ probe receipt b438b02eef; \""
+   ],
+   "landed_lines": [
+    "                   \"freeze-time commit 94f293066f @ probe receipt b438b02eef; \""
+   ],
+   "replay_lineno": 12622,
+   "landed_lineno": 12622
+  },
+  {
+   "tag": "replace",
+   "replay_lines": [
+    "                   \"freeze-time commit n/a @ probe receipt 098930328c; \""
+   ],
+   "landed_lines": [
+    "                   \"freeze-time commit 94f293066f @ probe receipt 098930328c; \""
+   ],
+   "replay_lineno": 13052,
+   "landed_lineno": 13052
+  }
+ ],
+ "unexplained_deltas": [],
+ "verdict": "PASS",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, never by trusting either side (r1188 bm-c)"
+}

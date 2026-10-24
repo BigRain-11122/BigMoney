@@ -1,0 +1,193 @@
+# -*- coding: utf-8 -*-
+"""N1 freeze-face adjudicator (r1188 bm-c).
+
+Why this exists: a per-wave freeze receipt records the *_pre-commit* face it wrote
+(under core.autocrlf=true that face is CRLF on disk), while the landed blob in git is
+LF-normalized.  A post-commit gate that compares the worktree/landed bytes straight
+against `n1_sha16_post` therefore fails on EOL alone (W304 first live-fire, r1188).
+
+This tool reproduces the freeze face mechanically instead of trusting either side:
+  1. clone the repo (--shared, no worktree cost) at the receipt's origin_base,
+  2. pin refs/remotes/origin/main to that base so the editor's freshness assert holds,
+  3. run the wave's freeze editor inside the clone (must reproduce pre AND post faces),
+  4. diff the reproduced post face (LF-normalized) against the landed blob and classify
+     every delta, allowing ONLY the documented in-window heal pattern
+     ("freeze-time commit n/a" -> "freeze-time commit <sha>"),
+  5. emit an evidence JSON the six-gate can consume.
+
+Verdict PASS means: landed content == freeze content modulo EOL normalization plus the
+declared heal lines; no silent content drift.
+
+Usage:
+  python Tools/n1_freeze_face_adjudicate.py --wave 304 \
+      --editor results/_w304bmc_freeze_edits.py \
+      --receipt results/_w304bmc_freeze_receipt.json \
+      --probe-receipt results/_w304bmc_20261024_probe_receipt.json \
+      --prereg research/PERPETUAL_N1_W304_PREREG.md \
+      --splice <splice-commit> --out results/_r1188bmc_w304_face_adjudication.json
+"""
+import argparse
+import hashlib
+import io
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Lines the freeze editor could not know at write time: it stamps the prereg commit
+# sha into the n1 registry AFTER the prereg lands (documented as "prereg_commit_heal"
+# in the receipt).  Byte-for-byte the only admissible replay-vs-landed delta.
+HEAL_RULES = [
+    (re.compile(r'^(\s*"[^"]*?)freeze-time commit n/a( @ probe receipt [0-9a-f]+;[^"]*")$'),
+     re.compile(r'^(\s*"[^"]*?)freeze-time commit [0-9a-f]{7,40}( @ probe receipt [0-9a-f]+;[^"]*")$')),
+]
+
+
+def sha16(b):
+    return hashlib.sha256(b).hexdigest()[:16]
+
+
+def git(*args, cwd=None):
+    return subprocess.run(['git', *args], cwd=cwd or REPO, capture_output=True)
+
+
+def blob(commit, path):
+    r = git('show', f'{commit}:{path}')
+    if r.returncode != 0:
+        raise SystemExit(f'git show {commit}:{path} failed: {r.stderr[:400]!r}')
+    return r.stdout
+
+
+def heal_pair_ok(old, new):
+    """True when old/new are the same line apart from the documented heal."""
+    for old_re, new_re in HEAL_RULES:
+        mo, mn = old_re.match(old), new_re.match(new)
+        if mo and mn and mo.group(1) == mn.group(1) and mo.group(2) == mn.group(2):
+            return True
+    return False
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--wave', type=int, required=True)
+    ap.add_argument('--editor', required=True)
+    ap.add_argument('--receipt', required=True)
+    ap.add_argument('--probe-receipt', required=True)
+    ap.add_argument('--prereg', required=True)
+    ap.add_argument('--splice', required=True)
+    ap.add_argument('--out', required=True)
+    a = ap.parse_args()
+
+    wave, splice = a.wave, a.splice
+    rec = json.load(io.open(os.path.join(REPO, a.receipt), encoding='utf-8'))
+    base = rec['origin_base']
+
+    landed_n1 = blob(splice, 'scripts/perpetual_faces_n1.py')
+    landed_pf = blob(splice, 'scripts/perpetual_faces.py')
+    editor_src = blob(splice, a.editor)
+    probe_src = blob(splice, a.probe_receipt)
+    prereg_src = io.open(os.path.join(REPO, a.prereg), 'rb').read()
+
+    tmp = tempfile.mkdtemp(prefix=f'n1w{wave}face_')
+    ev = {'wave': wave, 'splice': splice, 'origin_base': base, 'tmp': tmp,
+          'landed_n1_sha16': sha16(landed_n1), 'landed_pf_sha16': sha16(landed_pf),
+          'receipt_n1_sha16_post': rec['n1_sha16_post'],
+          'receipt_n1_sha16_pre': rec['n1_sha16_pre'],
+          'receipt_pf_sha16_post': rec['pf_sha16_post'],
+          'receipt_pf_sha16_pre': rec['pf_sha16_pre'],
+          'prereg_sha16': sha16(prereg_src)}
+    try:
+        clone = os.path.join(tmp, 'r')
+        c = git('clone', '--shared', '--no-checkout', REPO, clone)
+        if c.returncode != 0:
+            raise SystemExit(f'clone failed: {c.stderr[:400]!r}')
+        git('config', 'core.autocrlf', 'true', cwd=clone)
+        git('checkout', '--detach', base, cwd=clone)
+        # pin the freshness face: the editor asserts origin/main is an ancestor of HEAD
+        git('remote', 'remove', 'origin', cwd=clone)
+        git('update-ref', 'refs/remotes/origin/main', base, cwd=clone)
+
+        def put(rel, data):
+            p = os.path.join(clone, rel)
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            io.open(p, 'wb').write(data)
+            return p
+
+        n1_pre = io.open(os.path.join(clone, 'scripts/perpetual_faces_n1.py'), 'rb').read()
+        pf_pre = io.open(os.path.join(clone, 'scripts/perpetual_faces.py'), 'rb').read()
+        ev['replay_n1_sha16_pre'] = sha16(n1_pre)
+        ev['replay_pf_sha16_pre'] = sha16(pf_pre)
+        ev['pre_faces_match_receipt'] = (ev['replay_n1_sha16_pre'] == rec['n1_sha16_pre']
+                                         and ev['replay_pf_sha16_pre'] == rec['pf_sha16_pre'])
+
+        put(a.editor, editor_src)
+        put(a.probe_receipt, probe_src)
+        put(a.prereg, prereg_src)
+        env = dict(os.environ, PYTHONIOENCODING='utf-8')
+        r = subprocess.run([sys.executable, os.path.join(clone, a.editor)],
+                           cwd=clone, capture_output=True, text=True,
+                           encoding='utf-8', errors='replace', env=env)
+        ev['editor_rc'] = r.returncode
+        ev['editor_stdout_tail'] = (r.stdout or '').strip().splitlines()[-3:]
+        ev['editor_stderr_tail'] = (r.stderr or '').strip().splitlines()[-3:]
+        if r.returncode != 0:
+            raise SystemExit('freeze editor replay failed (see evidence)')
+
+        rep_n1 = io.open(os.path.join(clone, 'scripts/perpetual_faces_n1.py'), 'rb').read()
+        rep_pf = io.open(os.path.join(clone, 'scripts/perpetual_faces.py'), 'rb').read()
+        ev['replay_n1_sha16_post'] = sha16(rep_n1)
+        ev['replay_pf_sha16_post'] = sha16(rep_pf)
+        ev['post_faces_match_receipt'] = (ev['replay_n1_sha16_post'] == rec['n1_sha16_post']
+                                          and ev['replay_pf_sha16_post'] == rec['pf_sha16_post'])
+
+        # ---- content face: replay (LF) vs landed (LF) ----
+        def lf(b):
+            return b.replace(b'\r\n', b'\n')
+
+        rep_lf, ld_lf = lf(rep_n1), lf(landed_n1)
+        ev['replay_lf_sha16'] = sha16(rep_lf)
+        ev['landed_lf_sha16'] = sha16(ld_lf)
+        ev['replay_lf_eq_landed'] = rep_lf == ld_lf
+        deltas, heals = [], []
+        if not ev['replay_lf_eq_landed']:
+            import difflib
+            A = rep_lf.decode('utf-8').split('\n')
+            B = ld_lf.decode('utf-8').split('\n')
+            sm = difflib.SequenceMatcher(None, A, B, autojunk=False)
+            for tag, i1, i2, j1, j2 in sm.get_opcodes():
+                if tag == 'equal':
+                    continue
+                old, new = A[i1:i2], B[j1:j2]
+                ok = len(old) == len(new) and all(heal_pair_ok(o, n) for o, n in zip(old, new))
+                (heals if ok else deltas).append(
+                    {'tag': tag, 'replay_lines': old[:4], 'landed_lines': new[:4],
+                     'replay_lineno': i1 + 1, 'landed_lineno': j1 + 1})
+        ev['heal_deltas'] = heals
+        ev['unexplained_deltas'] = deltas
+
+        clean = (ev['pre_faces_match_receipt'] and ev['post_faces_match_receipt']
+                 and not deltas)
+        ev['verdict'] = 'PASS' if clean else 'FAIL'
+        ev['law'] = ('worktree==landed is compared CR-normalized (autocrlf smudge face); '
+                     'receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, '
+                     'never by trusting either side (r1188 bm-c)')
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+        ev.pop('tmp', None)
+
+    out = os.path.join(REPO, a.out)
+    io.open(out, 'w', encoding='utf-8', newline='\n').write(json.dumps(ev, indent=1))
+    print(json.dumps({k: ev[k] for k in ('wave', 'verdict', 'pre_faces_match_receipt',
+                                         'post_faces_match_receipt', 'replay_lf_eq_landed',
+                                         'heal_deltas', 'unexplained_deltas')}, indent=1))
+    print('WROTE', a.out)
+    raise SystemExit(0 if ev['verdict'] == 'PASS' else 1)
+
+
+if __name__ == '__main__':
+    main()

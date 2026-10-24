@@ -325,3 +325,8 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 判据：任何「集中度/贡献度」类结论必须同时给出可点名清单，否则视为不可审计读数；邻接（adjacent）一律按面板会话日历判定，且必须与 gapped 分列——gap 内拆分是独立未定价通道，不是邻接通道的舍入。
 - 自证：scripts/e39_panel_census.py topnames leg selftest 231/231（+8 腿：窗口/名单/载体侧/份额超百/空单元）+ results/e44_midmonth/CHURNTOP3-20261022-s2013.json（32 单元全点名，21 单元 top-3 过半）+ research/digests/DIGEST-20261022-e91-churntop3.md
 - 2026-10-22 23:5x：bm-b r1157（E91-CHURN-TOP-TRANSITION-NAMES 收口·捕获律 O-20261002-2100 依法生成）
+## 冻结面核算法：receipt 面 vs 落地面必须机械重放裁定（autocrlf 仓）
+- 问题：多机/windows 仓 core.autocrlf=true 下，冻结执行体写入的 *pre-commit* 面是 CRLF（smudge 面），而 git 落地 blob 是 LF 归一。任何「post-commit 六门」拿 worktree/落地 blob 直接对 receipt 的 sha16 比字节，都会在 EOL 上假红（W304 首案 r1188 bm-c：n1 面 receipt 9df99ddf vs 落地 df63480，内容零漂移）。
+- 正法三条：①内容面一律 CR-normalized 比较（worktree == 落地 blob）；②冻结面不信任任一侧，用隔离 clone（--shared，pin refs/remotes/origin/main 到 receipt 的 origin_base）机械重放冻结编辑器，要求 pre/post 双面逐字节复现 receipt，再把重放结果与落地 blob 做 LF 级 diff，只放行 receipt 已披露 heal 行（本例=prereg commit sha 回填 2 行），其余一律=未解释差异 → FAIL；③gate 里凡引用 commit sha 一律从 commit message 现取（rebase 后硬编码 sha 立即成为陈旧面）。
+- 自证：Tools/n1_freeze_face_adjudicate.py（PASS verdict + heal/unexplained 计数）+ results/_n1_face_adjudication_w304.json；生成器 heal 段落在波号级联之后追加（r1171/r1182 族同源）。
+- 2026-10-24 08:2x：bm-c r1188（W304 六门 heal 收口·捕获律 O-20261002-2100 依法生成）
