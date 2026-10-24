@@ -55,22 +55,26 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,130,541 + 2,200 = 1,132,741`（exact=True）；累计池 K `704,120 + 2,200 = 706,320`（exact=True）。
-- 合并池（W1..W322）：mu **-0.09288523** / sigma **0.24518876** / se_mu@K706,320 **0.000292**；W322-only mu **-0.09649164** / sigma **0.24594886**。
-- A 档 full_sharpe p95 **0.3103** / p99 **0.4516**（锚 W321 p95 0.2864，差=+0.0239 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w322 **1.2017** → line_merged@K706,320 **1.2017**，差 **+0.0000**；n_eff_held_equal 1,130,541。
-- §5 五预键验证：`results/_r1226bmc_w322_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
-- 六门探针：`results/_r1226bmc_w322_sixgate.json` verdict **ALL PASS**（第 85 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,132,741 + 2,200 = 1,134,941`（exact=True）；累计池 K `706,320 + 2,200 = 708,520`（exact=True）。
+- 合并池（W1..W323）：mu **-0.09288388** / sigma **0.24519249** / se_mu@K708,520 **0.000291**；W323-only mu **-0.09244968** / sigma **0.24644216**。
+- A 档 full_sharpe p95 **0.3192** / p99 **0.4467**（锚 W322 p95 0.3103，差=+0.0089 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w323 **1.2018** → line_merged@K708,520 **1.2018**，差 **+0.0000**；n_eff_held_equal 1,132,741。
+- §5 五预键验证：`results/_r1228bmc_w323_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
+- 六门探针：`results/_r1228bmc_w323_sixgate.json` verdict **ALL PASS**（第 86 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
+
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W324+ 投影承接机证：本窗席位回执 leg4（pre-W323 宇宙）投影 W324p A naive **727_901..729_900** clean（hops=0）、B naive **728_101..728_300** clean（hops=0）但落投影 A 窗内（own-A reservation 承袭预期）——**W324 冻结方必须在 post-W323 宇宙 重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **725_901..727_900**（76th 连续 A-hop·hops=1·naive 起点 725_701 被注册 W322 B 带 725_701..725_900 拒·base==注册 W322 B 尾 725_900+1）／B **727_901..728_100**（77th 连续 above-own-A·hops=1·own-A reservation cascade ·base==本波 A 尾 727_900+1）——`results/_w323bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True·owner_rows 312 / bmc_rows 141 / ordinal 313。
-- 本波席位 live 事实：A 算术续带 725,701..727,700 在席位窗起点即被注册 W322 B 带 725,701..725,900 拒绝（hops=1 → 725,901..727,900，base==注册 W322 B 尾 725,900+1）；B 算术续带 725,901..726,100 落本波 A 窗 725,901..727,900（own-A reservation cascade·hops=1 → 727,901..728,100，base==本波 A 尾 727,900+1）。
+- §5.5 W324+ 投影承接机证（本席 receipt `results/_w323bmc_20261025_probe_receipt.json` leg4，pre-W323 宇宙）：naive W324 A `727_901..729_900` clean（hops=0），naive W324 B `728_101..728_300` clean（hops=0）但落投影 A 窗内（lands_inside=True）——**W324 冻结方必须 post-W323 活 derive**（live derive 时预留下游 A 窗，never transcribe，r587）。
+- **W324 席位 post-W323 活 derive 已实证（本窗 `results/_w324bmc_20261025_probe_receipt.json`）**：A **728,101..730,100**（77th 连续 A-hop·hops=1·base==注册 W323 B 尾 728,100+1·naive 起点 727,901 被注册 W323 B 带 727,901..728,100 拒）；B **730,101..730,300**（78th 连续 above-own-A·hops=1·own-A reservation cascade 落 728,101..730,100·base==本波 A 尾链 +1）；seed_admit_gate FREE x2，verdict **ADMIT**，universe owner_rows=313 / bmc_rows=142 / ordinal=314。
+- 本波席位 live 事实：A 算术续带 725,701..727,700 在席位窗起点即被注册 W322 B 带 725,701..725,900 拒绝（hops=1 → 725,901..727,900，base==注册 W322 B 尾 725,900+1）；B 算术续带 725,901..726,100 落本波 A 窗 725,901..727,900（own-A reservation cascade·hops=1 → 727,901..728,100，base==本波 A 尾 727,900+1）；seed_admit_gate FREE x2，relation_asserts 4/4，verdict ADMIT。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**；knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
-- 诚实披露（finalize 同窗回填）：
-  ① 本冻结时点无待披露项；回填时若发现 prose 偏差，一律以机读值为准并披露、不抹平。
-- 坑律捕获（finalize 同窗回填；本冻结窗已记录的生成器三类面律——NUM 面单趟映射/带带号面 +2200 滚动/自指面显式开关——沿用）。
+- 诚实披露（本波 1 条·面相等价性披露，判据与产物零影响）：
+  ① **冻结回执两面 post 均是 pre-heal 面**：r1227 窗在 freeze receipt 落盘（04:30:54）之后先跑 parity 计数修订（04:31:02）、再跑 plain-digit key 重指（04:32:40），故 receipt 的 n1/pf post 面（`d1fffcc94c87331e` / `3f97a80eadc55565`）早于落地面（`416f8b4a894c4ad5` / `f68eb458808f273c`）。冻结件不回改（历史面保全），等价性由 adjudication 机械证明：把两条修订逆向后逐字节复现回执 post 面，heal_delta 3 条全部 reversed=true、unexplained=0，verdict **PASS**；pf delta 范围由 splice 单 hunk numdiff 界定（`None`）。
+- 坑律捕获（本窗）：
+  ①**六门 cloned 脚本的「上一波边界」字面量必须按上一波的真实 band base 写**（本窗首跑 boundary=false 假 FAIL：照抄模板写成 723501/725501，而注册 W322 行实载 723701/725701）——边界门一律先机读上一波 registry 行再审，禁按记忆/推定填数。
+  ②**反 heal 的 prev 串必须与 heal 脚本逐字节一致**（本窗首写 pf 反 heal 的 prev 串时多带了一个尾随 ", " → pf 面复现失败假 FAIL；n1 同轮成功即定位）——reverse-apply 一律从 heal 脚本原文取串。
+  ③**PowerShell heredoc/内联 python -c 带花括号引号必炸**（r1218 同族第三现）：生成器/探针一律落 .py 文件再跑。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 

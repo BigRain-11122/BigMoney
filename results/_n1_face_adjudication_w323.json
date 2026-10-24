@@ -1,0 +1,84 @@
+{
+ "wave": 323,
+ "splice": "832cffac6421bc25bef0a8fb2117bbf204be5284",
+ "origin_base": "37e570fa4da89af2bc0d88d65108a27821befefb",
+ "bands": {
+  "A": [
+   725901,
+   727900
+  ],
+  "B": [
+   727901,
+   728100
+  ]
+ },
+ "landed_n1_sha16": "416f8b4a894c4ad5",
+ "landed_pf_sha16": "f68eb458808f273c",
+ "receipt_n1_sha16_post": "d1fffcc94c87331e",
+ "receipt_pf_sha16_post": "3f97a80eadc55565",
+ "prereg_sha16": "4abbad29eac0ad61",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "worktree_raw_eq_receipt_post": false,
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "416f8b4a894c4ad5",
+   "landed_crlf_sha16": "bab8a83b8a8fd47e",
+   "parent_crlf_sha16": "13885bf15a007ba9",
+   "parent_raw_sha16": "f9a54e6e691975ad",
+   "worktree_raw_sha16": "bab8a83b8a8fd47e",
+   "worktree_lf_sha16": "416f8b4a894c4ad5",
+   "receipt_pre_sha16": "13885bf15a007ba9",
+   "receipt_post_sha16": "d1fffcc94c87331e",
+   "pre_basis": "crlf",
+   "post_basis": "receipt post face is a PRE-HEAL face (raw basis), reproduced byte-exactly by reverse-applying the disclosed r1227 heals",
+   "pre_heal_reconstruction_sha16_raw": "d1fffcc94c87331e",
+   "pre_heal_reconstruction_sha16_crlf": "d1fffcc94c87331e",
+   "pre_heal_reconstruction_eq_receipt_post": "raw"
+  },
+  "pf": {
+   "landed_lf_sha16": "f68eb458808f273c",
+   "landed_crlf_sha16": "8d50ab2838d495f6",
+   "parent_crlf_sha16": "0e9be0403a0211a5",
+   "parent_raw_sha16": "723aa961ccf033d7",
+   "worktree_raw_sha16": "8d50ab2838d495f6",
+   "worktree_lf_sha16": "f68eb458808f273c",
+   "receipt_pre_sha16": "0e9be0403a0211a5",
+   "receipt_post_sha16": "3f97a80eadc55565",
+   "pre_basis": "crlf",
+   "post_basis": "receipt post face is a PRE-HEAL face (raw basis), reproduced byte-exactly by reverse-applying the disclosed r1227 heals",
+   "pre_heal_reconstruction_sha16_raw": "3f97a80eadc55565",
+   "pre_heal_reconstruction_sha16_crlf": "3f97a80eadc55565",
+   "pre_heal_reconstruction_eq_receipt_post": "raw"
+  }
+ },
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [
+  {
+   "tag": "pf_plain_digit_key_retarget",
+   "reversed": true,
+   "pre_heal_face": "322: {\"a\"",
+   "current_face": "323: {\"a\"",
+   "source": "r1227 heal_keys: inserted WAVE_CONFIGS key written as literal 322 -> retargeted 323"
+  },
+  {
+   "tag": "n1_plain_digit_key_retarget",
+   "reversed": true,
+   "pre_heal_face": "322: {\"batch\"",
+   "current_face": "323: {\"batch\"",
+   "source": "r1227 heal_keys: inserted registry-row key written as literal 322 -> retargeted 323"
+  },
+  {
+   "tag": "n1_parity_prose_count",
+   "reversed": true,
+   "pre_heal_face": "-> 185 parity rows.",
+   "current_face": "-> 181 parity rows.",
+   "source": "r1227 heal_parity_count: clone REPL assumed +5, real derivation 69+37+75=181"
+  }
+ ],
+ "heal_reproduced": true,
+ "unexplained_deltas": [],
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically (r1188 bm-c)",
+ "verdict": "PASS"
+}
