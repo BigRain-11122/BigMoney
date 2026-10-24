@@ -1,0 +1,88 @@
+{
+ "machine": "bm-c",
+ "wave": 313,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w313_results.json",
+ "keys_anchor": "W312 finalize actuals machine-read from n1_w312_results.json (r587 law); W313 prereg sec.5 froze its keys on W312 actuals",
+ "prereg_prose_deviations": [
+  {
+   "key": "key4_k_lift_w312",
+   "frozen_prose": "+0.0001",
+   "machine_read_actual": 0.0,
+   "note": "sec.5 prose literal does not reproduce the W312 finalize actual; the assertion runs on the machine-read actual (r587) and the deviation is disclosed, not smoothed."
+  }
+ ],
+ "merged": {
+  "k": 686520,
+  "mu": -0.09282770917089087,
+  "sigma": 0.24516098633452796,
+  "se_mu_k686520": 0.000296
+ },
+ "w313_only": {
+  "mu": -0.09864763636363637,
+  "sigma": 0.24314311747244605
+ },
+ "skill_line": {
+  "n_eff_held": 1110741,
+  "line_pre_w313": 1.2008,
+  "line_merged_686520": 1.2008,
+  "k_lift_delta": 0.0
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.3071,
+  "full_sharpe_p99": 0.4734
+ },
+ "checks": [
+  {
+   "name": "key1_w313_vs_merged_mu_gap",
+   "value": 0.005819927192745503,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w312_key",
+   "value": 1.871031070849183e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": -2.6160931690485636e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta_actual_anchor",
+   "value": -0.0267,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000296,
+   "band": 0.000296,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 1110741,
+  "batch_trials": 2200,
+  "total": 1112941,
+  "exact": true
+ },
+ "merged_k_identity": {
+  "prev_k": 684320,
+  "batch": 2200,
+  "merged_k": 686520,
+  "exact": true
+ },
+ "keys_source": "W312 finalize actuals machine-read from n1_w312_results.json (r587 law)",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}

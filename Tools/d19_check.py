@@ -5,7 +5,11 @@ Law: D-20260930-19 fresh-read = git -C <group> fetch + git show
 origin/main:docs/decisions.md RAW-BLOB bytes -> SHA-256 (r292: PS pipeline
 join = transcoding false-drift; r503: upper() case-normalize both sides).
 Zero tree touch on the group repo. Watermark lives in state-<id>.json
-last_decisions_sha (content-addressed, never line-count).
+last_decisions_sha / last_orders_sha in TRIPLE form `<sha16>@<commit7>/<bytes>`
+(D-20261024-03: compare commit+length first, then the content hash -- a bare
+hash that cannot be reproduced on origin loses its judging power, r1142/r1143/
+r1145 evidence). Legacy bare 64-hex watermarks are accepted and upgraded in
+place on --update.
 
 Usage (from repo root, any machine):
     python Tools/d19_check.py            # print MATCH/CHANGED + context
@@ -72,6 +76,26 @@ def _git(group_args, cwd):
     return r.stdout
 
 
+def _wm(sha_hex, commit, nbytes):
+    """D-20261024-03 triple watermark: <sha16>@<commit7>/<bytes>."""
+    return "%s@%s/%d" % (sha_hex[:16].lower(), (commit or "")[:7].lower(), nbytes)
+
+
+_WM_RE = re.compile(r"^([0-9a-fA-F]{16})@([0-9a-fA-F]{7,40})/(\d+)$")
+_SHA_RE = re.compile(r"^[0-9a-fA-F]{64}$")
+
+
+def _parse_wm(v):
+    """-> (sha16, commit7, bytes) or None for a legacy bare sha."""
+    v = (v or "").strip()
+    m = _WM_RE.match(v)
+    if m:
+        return (m.group(1).lower(), m.group(2)[:7].lower(), int(m.group(3)))
+    if _SHA_RE.match(v):
+        return ("", "", -1)
+    return None
+
+
 def machine_id():
     with open(os.path.join(ROOT, "fleet", "machine.json"), encoding="utf-8-sig") as fh:
         return json.load(fh)["machine_id"]
@@ -94,7 +118,8 @@ def main():
     sp = state_path(mid)
     with open(sp, encoding="utf-8-sig") as fh:
         st = json.load(fh)
-    prev = (st.get("last_decisions_sha") or "").upper()
+    prev_raw = st.get("last_decisions_sha") or ""
+    prev = _parse_wm(prev_raw)
 
     if GROUP is None:
         print("D-19 HONEST SKIP: no group worktree found in candidates %s"
@@ -102,13 +127,32 @@ def main():
         return 0
     _git(["fetch", "origin"], GROUP)
     blob = _git(["show", "origin/main:docs/decisions.md"], GROUP)
-    sha = hashlib.sha256(blob).hexdigest().upper()
+    sha = hashlib.sha256(blob).hexdigest()
+    commit = _git(["rev-parse", "origin/main"], GROUP).decode().strip()
+    wm = _wm(sha, commit, len(blob))
+    cur = (sha[:16].lower(), commit[:7].lower(), len(blob))
+    legacy_match = bool(prev) and prev[2] < 0 and prev_raw.strip().upper() == sha.upper()
 
-    if sha == prev:
-        print("D-19 MATCH (decisions watermark unchanged: %s)" % sha[:12])
+    if cur == prev or legacy_match:
+        print("D-19 MATCH (decisions watermark unchanged: %s)" % wm)
+        if args.update:
+            if legacy_match:
+                st["last_decisions_sha"] = wm
+                print("state watermark upgraded to triple form")
+            now = st.get("clock_read") or ""
+            st["last_decisions_at"] = now
+            st["last_decisions_read_at"] = now
+            try:
+                oblob = _git(["show", "origin/main:docs/orders.md"], GROUP)
+                st["last_orders_sha"] = _wm(hashlib.sha256(oblob).hexdigest(), commit,
+                                            len(oblob))
+            except SystemExit:
+                print("(orders.md watermark not refreshed -- file absent on origin)")
+            with open(sp, "w", encoding="utf-8", newline="") as fh:
+                json.dump(st, fh, ensure_ascii=False, indent=1)
         return 0
 
-    print("D-19 CHANGED: %s -> %s" % (prev[:12], sha[:12]))
+    print("D-19 CHANGED: %s -> %s" % (prev_raw[:24], wm))
     text = blob.decode("utf-8", "replace")
     lines = text.splitlines()
     # dispatch board rows + keyword rows + file tail for new-decision review
@@ -128,7 +172,14 @@ def main():
     except SystemExit:
         print("(orders.md not found on origin -- skip)")
     if args.update:
-        st["last_decisions_sha"] = sha
+        st["last_decisions_sha"] = wm
+        try:
+            oblob = _git(["show", "origin/main:docs/orders.md"], GROUP)
+            ocommit = _git(["rev-parse", "origin/main"], GROUP).decode().strip()
+            st["last_orders_sha"] = _wm(hashlib.sha256(oblob).hexdigest(), ocommit,
+                                        len(oblob))
+        except SystemExit:
+            print("(orders.md watermark not refreshed -- file absent on origin)")
         # machines disagree on the timestamp field name (bm-a/bm-b _at vs
         # bm-c _read_at) -- write both so every consumer stays satisfied.
         now = st.get("clock_read") or ""

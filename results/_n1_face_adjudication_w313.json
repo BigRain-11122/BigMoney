@@ -1,0 +1,54 @@
+{
+ "wave": 313,
+ "splice": "c44743a1ea58b8cfc7e26ba550baeab7e5786f38",
+ "origin_base": "6f4d49693569595388695da9315bdb8461a33733",
+ "landed_n1_sha16": "ae3a73cf7f3137ca",
+ "landed_pf_sha16": "2baa807d7b8156f1",
+ "receipt_n1_sha16_post": "4eb01dfba6371c9a",
+ "receipt_n1_sha16_pre": "ad2f76c655d26568",
+ "receipt_pf_sha16_post": "a2f3306474935f63",
+ "receipt_pf_sha16_pre": "d289e574b3f316aa",
+ "prereg_sha16": "5c33696ff717fee3",
+ "replay_n1_sha16_pre": "ad2f76c655d26568",
+ "replay_pf_sha16_pre": "d289e574b3f316aa",
+ "pre_faces_match_receipt": true,
+ "materialized_inputs": {
+  "fleet/inbox/MSG-20261024-1749-bmc-w313-seat.md": "5688b36f4b556826"
+ },
+ "editor_rc": 0,
+ "editor_stdout_tail": [
+  " }",
+  "}",
+  "SPLICE OK -- py_compile both green; NEXT: selftest -> pathspec commit+push -> engine self-ignite W313"
+ ],
+ "editor_stderr_tail": [],
+ "replay_n1_sha16_post": "1f3eb99bce58ea63",
+ "replay_pf_sha16_post": "64bd7082d395b4d9",
+ "post_faces_match_receipt": true,
+ "post_match_mode": "single-stamp-replay(receipt prereg sha)",
+ "replay_n1_sha16_post_stamped": "4eb01dfba6371c9a",
+ "replay_pf_sha16_post_stamped": "a2f3306474935f63",
+ "stamped_index": {
+  "n1": 0,
+  "pf": 2
+ },
+ "replay_lf_sha16": "464a9013cfb00446",
+ "landed_lf_sha16": "ae3a73cf7f3137ca",
+ "replay_lf_eq_landed": false,
+ "heal_deltas": [
+  {
+   "tag": "replace",
+   "replay_lines": [
+    "                   \"freeze-time commit n/a @ probe receipt 6f4d496935; \""
+   ],
+   "landed_lines": [
+    "                   \"freeze-time commit c110bf216e @ probe receipt 6f4d496935; \""
+   ],
+   "replay_lineno": 13439,
+   "landed_lineno": 13439
+  }
+ ],
+ "unexplained_deltas": [],
+ "verdict": "PASS",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, never by trusting either side (r1188 bm-c)"
+}
