@@ -55,22 +55,22 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,126,141 + 2,200 = 1,128,341`（exact=True）；累计池 K `699,720 + 2,200 = 701,920`（exact=True）。
-- 合并池（W1..W320）：mu **-0.09283239** / sigma **0.24517796** / se_mu@K701,920 **0.000293**；W320-only mu **-0.10421232** / sigma **0.24766094**。
-- A 档 full_sharpe p95 **0.3096** / p99 **0.458**（锚 W319 p95 0.3225，差=-0.0129 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w320 **1.2015** → line_merged@K701,920 **1.2015**，差 **+0.0000**；n_eff_held_equal 1,126,141。
-- §5 五预键验证：`results/_r1222bmc_w320_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
-- 六门探针：`results/_r1222bmc_w320_sixgate.json` verdict **ALL PASS**（第 83 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,128,341 + 2,200 = 1,130,541`（exact=True）；累计池 K `701,920 + 2,200 = 704,120`（exact=True）。
+- 合并池（W1..W321）：mu **-0.09287396** / sigma **0.24518647** / se_mu@K704,120 **0.000292**；W321-only mu **-0.10613600** / sigma **0.24758883**。
+- A 档 full_sharpe p95 **0.2864** / p99 **0.4601**（锚 W320 p95 0.3096，差=-0.0232 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w321 **1.2016** → line_merged@K704,120 **1.2016**，差 **+0.0000**；n_eff_held_equal 1,128,341。
+- §5 五预键验证：`results/_r1224bmc_w321_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
+- 六门探针：`results/_r1224bmc_w321_sixgate.json` verdict **ALL PASS**（第 84 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W322+ 投影承接机证：本窗席位回执 leg4（pre-W321 宇宙）投影 W322p A naive **723_501..725_500** clean（hops=0）、B naive **723_701..723_900** clean（hops=0）但落投影 A 窗内（own-A reservation 承袭预期）——**W322 冻结方必须在 post-W321 宇宙 重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **721_501..723_500**（74th 连续 A-hop·hops=1·base==注册 W320 B 尾 721_500+1）／B **723_501..723_700**（75th 连续 above-own-A·hops=1·base==本波 A 尾 723_500+1）——`results/_w321bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True。
+- §5.5 W322+ 投影承接机证（本席 receipt `results/_w321bmc_20261025_probe_receipt.json` leg4，pre-W321 宇宙）：naive W322 A `723_501..725_500` clean（hops=0），naive W322 B `723_701..723_900` clean（hops=0）但落投影 A 窗内（lands_inside=True）。
+- **W322 席位 post-W321 活 derive 已实证（本窗 `results/_w322bmc_20261025_probe_receipt.json`，r587 禁转抄律的正向执行）**：A **723,701..725,700**（75th 连续 A-hop·hops=1·base==注册 W321 B 尾 723,700+1·naive 起点 723,501 被注册 W321 B 带 723,501..723,700 拒）；B **725,701..725,900**（76th 连续 above-own-A·hops=1·own-A reservation cascade 落 723,701..725,700·base==本波 A 尾链 +1）；seed_admit_gate FREE x2，verdict **ADMIT**，universe owner_rows=311 / bmc_rows=140 / registered_rows=311。
+- 本波席位 live 事实：A 算术续带 721,301..723,300 在席位窗起点即被注册 W320 B 带 721,301..721,500 拒绝（hops=1 → 721,501..723,500，base==注册 W320 B 尾 721,500+1）；B 算术续带 721,501..721,700 落本波 A 窗 721,501..723,500（own-A reservation cascade·hops=1 → 723,501..723,700，base==本波 A 尾 723,500+1）；seed_admit_gate FREE x2，relation_asserts 4/4，verdict ADMIT。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**；knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
-- 诚实披露（本波 2 条·均为 prose 面，判据与产物零影响）：
-  ① §5 五预键若出现 prose 偏差（se_mu 取 3 位小数），以机读值为准并披露、不抹平。
-  ② 沿袭的两处 prose 滞后面本窗修正（不改面）：表尾行标签改为实际最后注册行 W320（splice 4f54c55538 注册的就是行 320）；§6 engine_owner 行数从陈旧的 125 更新为 probe leg0 机读 139。
-- 坑律捕获（本窗）：①canon-clone 生成器的纯数字面（注册行号前缀/切口/setwave 键后缀）直写目标波号、W token 面保留**上一波**形态交给级联推进一次；累积链（se_mu/A-B/own-turn/RAM）一律 park+延长一条，禁滚；②只存在于 §7/§8 被 park 区块内的字面量（六门序数/帐本三元类）在映射表里就是零命中陷阱，禁入映射；③带着波号的日历引用（2026-10-08/10-10 CEO 令时刻 23:5x/23:1x）不属瓦变面，禁进映射。
+- 诚实披露（本波 1 条·面相等价性披露，判据与产物零影响）：
+  ① **冻结回执 post 面是 pre-heal 面**：r1224 窗在 freeze receipt 落盘之后跑了 cfg `shard_subdir` heal（n1_w320→n1_w321，`results/_r1224bmc_heal_w321_cfg.py`），故 receipt 的 n1_sha16_post `dcb5b4c1828a4c7e` 早于落地面 `c83e46c548dff403`。冻结件不回改（历史面保全），等价性由 adjudication 机械证明：把 heal 逆向后逐字节复现回执 post 面（`dcb5b4c1828a4c7e`，eq=True），heal_delta 1 条计入 disclosed、unexplained=0，verdict **PASS**。
+- 坑律捕获（本窗）：①**吸收窗识别**——本窗开工时 `state-bm-c.json` 停在 round 1224 而 W321 splice/burn 已在链（ac509891c2 + 两条引擎账本 append），正解=先读 `git log` 与 finalize 产物、绝不重跑 splice/burn（r1219/r1181 同族第三现）。②**引擎账本 append 是分批的**——两条「6 n1 product shard(s)」提交不构成 12/12 的证据，波完成判据一律机读 finalize 产物 `shards_consumed`（本波 12/12）。③**finalize 产物已带 audit.finalize_only=true**——重跑=双烧台账，正解=先查产物与账本恒等式再决定。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 

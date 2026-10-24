@@ -1,0 +1,71 @@
+{
+ "wave": 321,
+ "splice": "ac509891c2788db0963ca09507990e2b8a07bd8e",
+ "origin_base": "d262a5534889c767292c7b3fc57bc660d2076247",
+ "bands": {
+  "A": [
+   721501,
+   723500
+  ],
+  "B": [
+   723501,
+   723700
+  ]
+ },
+ "landed_n1_sha16": "c83e46c548dff403",
+ "landed_pf_sha16": "7a07df0d06820a5a",
+ "receipt_n1_sha16_post": "dcb5b4c1828a4c7e",
+ "receipt_n1_sha16_pre": "9ef2d1f53b504dea",
+ "receipt_pf_sha16_post": "20e8f956f910fbe0",
+ "receipt_pf_sha16_pre": "5c0fbbe4e2f248fd",
+ "prereg_sha16": "4794e52e073206d0",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "post_match_mode": "pf: eol-basis direct match; n1: pre-heal receipt face reproduced byte-exactly by reverse-applying the disclosed heal",
+ "worktree_raw_eq_receipt_post": false,
+ "replay_lf_sha16": "c83e46c548dff403",
+ "landed_lf_sha16": "c83e46c548dff403",
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "c83e46c548dff403",
+   "landed_crlf_sha16": "6875232b7268fb24",
+   "parent_crlf_sha16": "4b71780e89b7fed6",
+   "parent_raw_sha16": "9ef2d1f53b504dea",
+   "worktree_raw_sha16": "c83e46c548dff403",
+   "worktree_lf_sha16": "c83e46c548dff403",
+   "receipt_pre_sha16": "9ef2d1f53b504dea",
+   "receipt_post_sha16": "dcb5b4c1828a4c7e",
+   "pre_basis": "raw_lf",
+   "post_basis": "receipt post face is a PRE-HEAL face, reproduced byte-exactly by reverse-applying the disclosed r1224 heal edit",
+   "pre_heal_reconstruction_sha16": "dcb5b4c1828a4c7e",
+   "pre_heal_reconstruction_eq_receipt_post": true
+  },
+  "pf": {
+   "landed_lf_sha16": "7a07df0d06820a5a",
+   "landed_crlf_sha16": "20e8f956f910fbe0",
+   "parent_crlf_sha16": "5c0fbbe4e2f248fd",
+   "parent_raw_sha16": "ec874f224e174343",
+   "worktree_raw_sha16": "20e8f956f910fbe0",
+   "worktree_lf_sha16": "7a07df0d06820a5a",
+   "receipt_pre_sha16": "5c0fbbe4e2f248fd",
+   "receipt_post_sha16": "20e8f956f910fbe0",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  }
+ },
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [
+  {
+   "tag": "cfg_shard_subdir",
+   "reversed": true,
+   "current_face": "\"shard_subdir\": \"n1_w321\", \"out_name\": \"n1_w321_results.json\",",
+   "pre_heal_face": "\"shard_subdir\": \"n1_w320\", \"out_name\": \"n1_w321_results.json\",",
+   "source": "results/_r1224bmc_heal_w321_cfg.py"
+  }
+ ],
+ "unexplained_deltas": [],
+ "reconcile_note": "direct reconciliation on pf (parent-CRLF == receipt pre, landed-CRLF == receipt post, worktree LF == landed LF) and on n1 worktree/landed equality; the single n1 receipt-face delta is the post-receipt heal (02:47 vs receipt 02:44) proved by byte-exact reverse application",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically, never by trusting either side (r1188 bm-c)",
+ "verdict": "PASS"
+}
