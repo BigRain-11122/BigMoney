@@ -1,7 +1,7 @@
 {
  "activity_now": "W313 seat ADMIT published; next = W313 prereg derive + freeze",
  "agenda_starved": false,
- "clock_read": "2026-10-24T21:36:29+08:00",
+ "clock_read": "2026-10-24T22:03:25+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 6.3,
  "cpu_util_pct": 0.8,
  "current": "r1211: W316 prereg frozen (canon-clone of the W315 post-run face, 43 keys, 90 bands +2200)",
- "current_task": "r1211 W316 prereg frozen; next r1212 = five-face splice (registry row 316) then engine self-ignite",
+ "current_task": "r1212 W316 five-face splice landed; engine self-burn 12/12 in flight",
  "current_task_at": "2026-10-24T16:52:39+08:00",
  "current_task_ts": "2026-10-24T16:52:39+08:00",
  "d19_watermark_guard": {
@@ -58,7 +58,7 @@
  "ground_truth_ts": "2026-10-20T21:39:44+0800",
  "head_sha": "070ba903cf3c71314e08578de6060b289e916919",
  "health": "green",
- "heartbeat_epoch_utc": 1792848989,
+ "heartbeat_epoch_utc": 1792850605,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.5,
  "idle_rounds": 0,
@@ -92,7 +92,7 @@
  "last_round_summary_at": "2026-10-24T12:27:14+08:00",
  "last_round_ts": "2026-10-24T02:34:24+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-24T21:36:29+08:00",
+ "last_seen": "2026-10-24T22:03:25+08:00",
  "last_seen_at": "2026-10-24T03:23:52+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
  "latest_artifact": "research/PERPETUAL_N1_W316_PREREG.md",
@@ -427,10 +427,10 @@
  "r991_absorb_note": "",
  "r991_addendum_note": "r991 addendum: (1) O-20261014-0925-bm-b CEO fleet-idleness order landed MID-WINDOW (origin 281f5b562, after S7 tail scan) -> consumed same-window per CEO immediate law: receipt flipped in-order-file (sec.4 bm-c line: CPU backfill ACCEPTED, RAM-light <=1G/items constraint honest [0.2G free, MV V3 burn window protected], one-line occupancy, window product = W239 seat) + heartbeat ack appended (209->210); (2) push saga: bm-a 51fb88b87 + bm-b 281f5b562 advanced mid-push -> stash->pull --rebase -> single conflict results/token_usage.json (resolved theirs=newer 09:16:48 face) -> rebase --continue PHANTOM-REJECT x2 with ZERO unmerged (r863 family 4th+5th instances) -> per r990 pit mandate sequencer files CAPTURED FIRST (results/_r991bmc_rebase_sequencer_capture/, 9 files, committed as evidence for root-cause analysis) -> manual commit -C + rebase --skip clean heal (603ff65d9) -> stash superseded snapshot dropped live-wins (r986 precedent); counter stays 992 (same window)",
  "ram_critical_face": "RAM 98.9% used (avail 0.15GB); GPU idle; loop CPU-only",
- "ram_free_gb": 1.5,
+ "ram_free_gb": 3.7,
  "recent_artifact": "research/PERPETUAL_N1_W316_PREREG.md",
  "round": 1211,
- "round_no": 1211,
+ "round_no": 1212,
  "round_no_label": "r1211 W316 prereg frozen -> next r1212 splice",
  "status": "green",
  "sync": {
@@ -438,9 +438,9 @@
   "ts": "2026-10-20T17:17:52+08:00"
  },
  "total_ram_gb": 23.9,
- "ts": "2026-10-24T21:36:29+08:00",
+ "ts": "2026-10-24T22:03:25+08:00",
  "updated": "2026-10-24 21:36:29",
  "updated_at": "2026-10-24T21:36:29+08:00",
- "verdict": "green r1211: W316 prereg frozen (28,763B sha16 640c3a2d7b78c158); smoke 57/57; attrition CLEAN; orphan 0",
+ "verdict": "green r1212: W316 row 316 spliced (A 710_501..712_500 / B 712_501..712_700, 174 parity rows, pf+n1 selftest rc0); engine self-burn 9/12 at close; smoke 57/57; attrition CLEAN; orphan 0",
  "verify": "sixgate ALL PASS | fivekeys 6/6 | ledger 1,117,341 | K 690,920 | smoke 57/57 | attrition CLEAN | orphan 0 | S6 39/39"
 }
