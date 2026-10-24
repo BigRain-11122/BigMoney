@@ -55,20 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,115,141 + 2,200 = 1,117,341`（exact=True）；累计池 K `688,720 + 2,200 = 690,920`（exact=True）。
-- 合并池（W1..W315）：mu **-0.09281228** / sigma **0.24516478** / se_mu@K690,920 **0.000295**；W315-only mu **-0.08666232** / sigma **0.24642528**。
-- A 档 full_sharpe p95 **0.3337** / p99 **0.4566**（锚 W314 p95 0.3246，差=+0.0091 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w315 **1.2009** → line_merged@K690,920 **1.201**，差 **+0.0001**；n_eff_held_equal 1,115,141。
-- §5 五预键验证：`results/_r1210bmc_w315_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key4_k_lift_w315——§5 key4 prose `+0.0000` 是 W314 锚面，W315 实测 K-lift `+0.0001` 属本波面，口径差如实披露不抹平）。
-- 六门探针：`results/_r1210bmc_w315_sixgate.json` verdict **ALL PASS**（第 78 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,117,341 + 2,200 = 1,119,541`（exact=True）；累计池 K `690,920 + 2,200 = 693,120`（exact=True）。
+- 合并池（W1..W316）：mu **-0.09280326** / sigma **0.24516431** / se_mu@K693,120 **0.000294**；W316-only mu **-0.08997064** / sigma **0.24505510**。
+- A 档 full_sharpe p95 **0.3227** / p99 **0.4737**（锚 W315 p95 0.3337，差=-0.0110 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w316 **1.2011** → line_merged@K693,120 **1.2011**，差 **+0.0000**；n_eff_held_equal 1,117,341。
+- §5 五预键验证：`results/_r1213bmc_w316_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key4_k_lift_w315——§5 key4 prose `+0.0001` 是 W315 实测锚面，W316 实测 K-lift `+0.0000` 属本波面，口径差如实披露不抹平）。
+- 六门探针：`results/_r1213bmc_w316_sixgate.json` verdict **ALL PASS**（第 79 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W317+ 投影承接机证：本窗席位回执 leg4（pre-W316 宇宙）投影 W317p A naive **712_501..714_500** clean（hops=0）、B naive **712_701..712_900** clean 但落投影 A 窗内（own-A reservation 承袭预期）——**W317 冻结方必须在 post-W316 宇宙重 live derive 且 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **710_501..712_500**（69th 连续 A-hop·hops=1·base==注册 W315 B 尾 710_500+1）／B **712_501..712_700**（70th 连续 above-own-A·hops=1·base==本波 A 尾 712_500+1）——`results/_w316bmc_20261024_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True。
+- §5.5 W317+ 投影承接机证（本席 receipt `results/_w316bmc_20261024_probe_receipt.json` leg4，pre-W316 宇宙）：naive W317 A 712_501..714_500 clean（hops=0），naive W317 B 712_701..712_900 clean 但落 W317 投影 A 窗内（lands_inside=True）；**W316 注册后**（A 710,501..712,500 / B 712,501..712,700）naive W317 A 起点即被注册 W316 B 带拒绝（staircase-affects-A 承袭预期·hops 以 W317 seat live trace 为准）——下一冻结窗必须重新 live derive，禁转抄（r587）。
+- 本波席位 live 事实：A 710,301..712,300 算术续带在席位窗起点即被注册 W315 B 带 710,301..710,500 拒绝（hops=1 → 710,501..712,500）；B 710,501..710,700 落本波 A 窗（own-A reservation → 712,501..712,700），seed_admit_gate FREE x2，leg3 bands_clear=true。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 均不追加。
-- 诚实披露：§5 五预键若出现 prose 偏差（se_mu 取 3 位小数），以机读值为准并披露、不抹平；mu/sigma/K-lift 一律按冻结带校验。
-- 坑律捕获：post-W316 finalize 同窗回填（本段属 finalize 回填面，冻结时为前波沿用文本）；本窗冻结沿用 r1208 判例：canon-clone 生成器的纯数字面（注册行号前缀/切口/setwave 键后缀）直写目标波号、W token 面保留**上一波**形态交给级联推进一次。
+- 诚实披露：§5 五预键 prose 偏差 1 条（key4_k_lift_w315）以机读值为准并披露，不抹平；其余 mu/sigma/p95/K-lift 全部落在冻结带内。
+- 坑律捕获（本窗三枚，全部在正典前拦下）：①**波号级联只吃 `W`/`w` token 与裸波号，带下划线的带号字面量（`708_301..710_300`）不在射程**——sixgate 克隆首跑两条 `law sec.4 ... A/B` count 断言直接 FAIL；正法=带号行按整串显式替换并 count-assert，禁指望级联（r1171/r1184 字面量族新实例）。②**splice commit message 的措辞属累积历史面**——W316 的提交串是 `W316 five-face splice`（无 `freeze` 字样），照抄 lineage 的 `'W%d five-face freeze splice'` grep 会解析出空 sha；正法=该 grep 串显式改写并保留 lineage 说明。③**上一波锚句里的波名与数字可能本就不同源**（W315 版 anchor 写 `W315 finalize ... 1,115,141` 而 1,115,141 实为 W314 终值）——正法=anchor 整句停靠哨兵、按机读值重写，禁让级联去"顺带修正"（否则把错位一代代传下去）。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 
