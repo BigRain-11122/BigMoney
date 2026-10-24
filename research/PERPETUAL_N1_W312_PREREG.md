@@ -55,20 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,108,541 + 2,200 = 1,108,541`（exact=True）；累计池 K `682,120 + 2,200 = 684,320`（exact=True）。
-- 合并池（W1..W312）：mu **-0.09282234** / sigma **0.24514829** / se_mu@K684,320 **0.000297**；W312-only mu **-0.10195041** / sigma **0.24739515**。
-- A 档 full_sharpe p95 **0.3213** / p99 **0.4435**（锚 W311 p95 0.3213，差=0.0193 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w312 **1.2005** → line_merged@K684,320 **1.2005**，差 **+0.0000**；n_eff_held_equal 1,108,541。
-- §5 五预键验证：`results/_r1201bmc_w311_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key5 se_mu prose 0.000298 vs W311 实测 0.000297——如实披露不抹平）。
-- 六门探针：`results/_r1201bmc_w311_sixgate.json` verdict **ALL PASS**（第 74 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,108,541 + 2,200 = 1,110,741`（exact=True）；累计池 K `682,120 + 2,200 = 684,320`（exact=True）。
+- 合并池（W1..W312）：mu **-0.09280900** / sigma **0.24516740** / se_mu@K684,320 **0.000296**；W312-only mu **-0.08867268** / sigma **0.25104576**。
+- A 档 full_sharpe p95 **0.3338** / p99 **0.4647**（锚 W311 p95 0.3213，差=0.0125 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w312 **1.2006** → line_merged@K684,320 **1.2007**，差 **+0.0001**；n_eff_held_equal 1,108,541。
+- §5 五预键验证：`results/_r1203bmc_w312_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key4_k_lift_w311——§5 key4 prose `+0.0000` 是 W311 锚面，W312 实测 K-lift `+0.0001` 属本波面，口径差如实披露不抹平）。
+- 六门探针：`results/_r1203bmc_w312_sixgate.json` verdict **ALL PASS**（第 75 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W313+ 投影承接机证：naive W313 A 703_701..705_700 被注册 W312 A 带内起点拒绝（hops=1，前移至 701,701..703,700）；naive W313 B 703_901..704_100 落本波 A 窗内（own-A reservation，jump 至 703,701..703,900）——席位已 live re-derive 并 ADMIT（`results/_w312bmc_20261024_probe_receipt.json`，seed_admit_gate FREE x2，leg3 bands_clear=true），禁转抄（r587）。
-- W314 投影（`leg4`，pre-W313 宇宙）：A naive 705_901..707_900 clean；B naive 706_101..706_300 clean 但落 W314 投影 A 窗内——下一冻结窗必须重新 live derive。
+- §5.5 W313+ 投影承接机证（本席 receipt `results/_w312bmc_20261024_probe_receipt.json` leg4，pre-W312 宇宙）：naive W313 A 703_701..705_700 clean，naive W313 B 703_901..704_100 clean 但落 W313 投影 A 窗内；**W312 注册后**（A 701,701..703,700 / B 703,701..703,900）naive W313 A 起点即被注册 W312 B 带拒绝（staircase-affects-A 承袭预期·hops 以 W313 seat live trace 为准）——下一冻结窗必须重新 live derive，禁转抄（r587）。
+- 本波席位 live 事实：A 701,501..703,500 起点被注册 W311 B 带 701,501..701,700 拒绝（hops=1 → 701,701..703,700）；B 701,701..701,900 落本波 A 窗（own-A reservation → 703,701..703,900），seed_admit_gate FREE x2，leg3 bands_clear=true。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 均不追加。
-- 诚实披露：§5 五预键 1 条 prose 偏差（key5 se_mu 0.000298 vs 0.000297），以机读值为准并披露，不抹平；其余 mu/sigma/K-lift 全部落在冻结带内。
-- 坑律捕获：本波 finalize 首跑以 `python scripts/perpetual_faces_n1.py --wave 312 finalize` 在工具内静默跑满 5 分钟被工具取消（零输出=零心跳），改 `python -u` 即正常出流——**多腿/长活驱动一律 python -u**（r1186 族第二现）；canon-clone 生成器再踩「SPECIAL 常量被波号级联二次前移」坑（`w310_seg` 被 '310'→'311' 改写致 NameError），正法=哨兵占位、级联后再落常量（r1184 族新实例）。
+- 诚实披露：§5 五预键 1 条 prose 偏差（key4_k_lift_w311）以机读值为准并披露，不抹平；其余 mu/sigma/p95/K-lift 全部落在冻结带内。
+- 坑律捕获（本窗两枚）：①`Tools/n1_freeze_face_adjudicate.py` 的 repo-relative 参数走 `git show <commit>:<path>`——**Windows 反斜杠路径一律 "exists on disk, but not in <commit>" 秒败**，正法=全正斜杠（r1188 工具面新实例）；②canon-clone 生成器的**纯数字标识面**（`k310pos`/`after310`/`whole_file_311_count`/`prior_wave_310_boundary_kept`）不含 `w31x` token，逃过波号级联而静默继承陈旧值——正法=此类键名一律列入显式 SPECIAL 计数表（r1170/r1184 字面量族新实例，本窗 count-assert 于写盘前拦下两个键面）。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 

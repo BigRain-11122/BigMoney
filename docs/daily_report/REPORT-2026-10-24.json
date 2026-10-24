@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-24",
- "generated_at": "2026-10-24 15:45:34",
+ "generated_at": "2026-10-24 17:26:07",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-24.md"
  },
  "rd": {
-  "commits_24h": 154,
-  "result_jsons_landed_24h": 205,
+  "commits_24h": 167,
+  "result_jsons_landed_24h": 215,
   "digests_landed_24h": 68,
-  "prereg_md_touched_24h": 20,
+  "prereg_md_touched_24h": 22,
   "compute_audit_latest": {
-   "ts": "2026-10-24 15:42:35",
-   "py_cpu_pct": 2.5,
+   "ts": "2026-10-24 17:15:00",
+   "py_cpu_pct": 100.0,
    "flags": [
+    "cap_violation",
     "supply_owner_silent"
    ],
-   "verdict": "FLAG:supply_owner_silent"
+   "verdict": "FLAG:cap_violation,supply_owner_silent"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -668,7 +669,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2243286,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-24 14:29:42",
+   "prev_generated": "2026-10-24 14:49:07",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -805,17 +806,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-24 15:42:35",
-    "py_pct": 2.5,
-    "cpu_pct": 63.0,
+    "latest_ts": "2026-10-24 17:15:00",
+    "py_pct": 100.0,
+    "cpu_pct": 90.0,
     "ready": 3,
     "streak_min": null,
-    "verdict": "FLAG:supply_owner_silent",
+    "verdict": "FLAG:cap_violation,supply_owner_silent",
     "py_series_tail": [
-     [
-      "08:06",
-      0.2
-     ],
      [
       "08:11",
       0.2
@@ -859,10 +856,14 @@
      [
       "15:42",
       2.5
+     ],
+     [
+      "17:15",
+      100.0
      ]
     ],
-    "today_samples": 34,
-    "today_floor_ok": 34,
+    "today_samples": 35,
+    "today_floor_ok": 35,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 28
    }
@@ -918,7 +919,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-24 15:42:35"
+     "audit_ts": "2026-10-24 17:15:00"
     }
    }
   },
@@ -1374,51 +1375,13 @@
  },
  "engine_wave": {
   "present": true,
-  "last_registered": 310,
+  "last_registered": 312,
   "last_owner": "bm-c",
-  "next_registration": 311,
-  "next_seatable": 312,
-  "chain_head": 1106341,
-  "k": 679920,
+  "next_registration": 313,
+  "next_seatable": 313,
+  "chain_head": 1108541,
+  "k": 682120,
   "waves": [
-   {
-    "wave": 308,
-    "owner": "bm-c",
-    "a": [
-     692901,
-     694900
-    ],
-    "b_exit": [
-     694901,
-     695100
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 1101941,
-    "merged_mu": -0.09281744049028896,
-    "merged_sigma": 0.24512184641505352,
-    "k": 675520
-   },
-   {
-    "wave": 309,
-    "owner": "bm-c",
-    "a": [
-     695101,
-     697100
-    ],
-    "b_exit": [
-     697101,
-     697300
-    ],
-    "shards_done": 12,
-    "shards_total": 12,
-    "finalize_landed": true,
-    "ledger_total": 1104141,
-    "merged_mu": -0.0928167730036003,
-    "merged_sigma": 0.24513636834341376,
-    "k": 677720
-   },
    {
     "wave": 310,
     "owner": "bm-c",
@@ -1437,14 +1400,43 @@
     "merged_mu": -0.09279280400635369,
     "merged_sigma": 0.24514061686757777,
     "k": 679920
-   }
-  ],
-  "seats": [
+   },
    {
     "wave": 311,
-    "machine": "bm-c"
+    "owner": "bm-c",
+    "a": [
+     699501,
+     701500
+    ],
+    "b_exit": [
+     701501,
+     701700
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": true,
+    "ledger_total": 1108541,
+    "merged_mu": -0.0928223394710608,
+    "merged_sigma": 0.24514828848747955,
+    "k": 682120
+   },
+   {
+    "wave": 312,
+    "owner": "bm-c",
+    "a": [
+     701701,
+     703700
+    ],
+    "b_exit": [
+     703701,
+     703900
+    ],
+    "shards_done": 12,
+    "shards_total": 12,
+    "finalize_landed": false
    }
-  ]
+  ],
+  "seats": []
  },
  "stage_style": {
   "present": true,
