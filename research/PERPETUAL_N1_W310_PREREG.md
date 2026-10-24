@@ -55,9 +55,19 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1198 W310 §7 范式）
-
+- 账本恒等式：`1,104,141 + 2,200 = 1,106,341`（exact=True）；累计池 K `677,720 + 2,200 = 679,920`（exact=True）。
+- 合并池（W1..W310）：mu **-0.09279280** / sigma **0.24514062** / se_mu@K679,920 **0.000297**；W310-only mu **-0.08540905** / sigma **0.24639091**。
+- A 档 full_sharpe p95 **0.302** / p99 **0.4525**（锚 W309 p95 0.3384，差=-0.0364 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w310 **1.2004** → line_merged@K679,920 **1.2004**，差 **+0.0000**；n_eff_held_equal 1,104,141。
+- §5 五预键验证：`results/_r1199bmc_w310_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key4 K-lift prose +0.0001 vs 本波实测 0.0000——如实披露不抹平）。
+- 六门探针：`results/_r1199bmc_w310_sixgate.json` verdict **ALL PASS**（第 73 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
+- audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W311+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1198 W310 §8 范式）
+- §5.5 W311+ 投影承接机证：naive W311 A 699_301..701_300 CLEAN（hops=0），但注册 W310 B 带 699_301..699_500 会拒绝该起点（staircase-affects-A 承袭预期）；naive W311 B 699_501..699_700 CLEAN 但落投影 A 窗内——**W311 seat 必须 live re-derive，禁转抄本投影**（r587）；B own-A reservation cascade 相应上移。
+- 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 均不追加。
+- 诚实披露：§5 五预键 1 条 prose 偏差（key4 K-lift +0.0001 vs 本波 0.0000），以机读值为准并披露，不抹平；其余 mu/sigma/K-lift 全部落在冻结带内。
+- 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
+
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W310 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W309 own-wave finalize 已落地=席位时即解锁（n1_w309_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
