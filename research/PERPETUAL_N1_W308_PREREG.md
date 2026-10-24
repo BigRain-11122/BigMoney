@@ -55,9 +55,17 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1193 W308 §7 范式）
+- **账本恒等式**：prev_total 1,099,741 + batch 2,200 = total 1,101,941；exact=True；W307 finalize 链头承接。
+- **合并池**：K 673,320 + 2,200 = 675,520；exact=True；merged mu **-0.09281744**、sigma **0.24512185**、se_mu@K675,520 **0.000298**（W307 0.000299 → 收窄）；W308-only mu **-0.08883464**、sigma **0.24568218**。
+- **K-lift 对照**：line_pre_w308 **1.2001** → line_merged@K675,520 **1.2001**，K-lift **+0.0000**；n_eff_held_equal 1,099,741。
+- **§5 五预键机证件**：results/_r1195bmc_w308_fivekeys.json = True / 6 ALL PASS（key1 |Δmu| 0.0039828<0.02 / key1b 1.30e-05 / key2 sigma_rel 7.16e-06 / key3 a_p95 Δ +0.0081<0.05 / key4 K-lift 0.0000≤0.02 / key5 se_mu 0.000298≤0.000299）。**诚实披露**：§5 key1 prose 的 merged mu 字面量写的是 -0.09284764（W306 值），本波机读 W307 实际为 -0.09283045，已入 receipt 的 prereg_prose_deviations，不静默抹平。
+- **六门探针**：results/_r1195bmc_w308_sixgate.json = 第 71 连 ALL PASS（clean-state = CR 归一 worktree==landed + 冻结面重放对账 PASS、unexplained delta=0）。
+- **canon flip**：NOT performed（治理提案面，K2200 同律）。
+- **audit 段**：evidence_cutoff 2026-09-22；families A n=2,000 p95 0.3234 p99 0.4468；12/12 分片齐。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W309+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1193 W308 §8 范式）
+- **§5.5 W309+ 投影承接**：W308 注册后 naive W309 A 起点 694_901 被本波 B 带 694_901..695_100 拒（staircase-affects-A 承袭），W309 冻结方必须在 post-W308 宇宙 live re-derive，禁按「prior-B tail+1／own-A tail+1」机械 +1（ordinal 以 W309 seat live trace 为准）。
+- **宝藏/方法论捕获问**：本波无新科学面（N1 null 加深波照旧）；工程面沿用 r1192 已捕获的「finalize 长时零输出 → 分离起跑 + 日志轮询」正法（本窗实证 6.5min 单腿，Start-Process 重定向存活，管道版两次被工具 5min 无输出窗杀掉）。冻结面对账器复用 Tools/n1_freeze_face_adjudicate.py 零改动。
+- **诚实披露面**：§5 五预键全部在带内；W308-only mu -0.08883464 与合并池 -0.09281744 差 0.0039828（带内）；A 档 p95 0.3234 对 W307 锚 0.3153 动 +0.0081（带内）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W308 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W307 own-wave finalize 已落地=席位时即解锁（n1_w307_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
