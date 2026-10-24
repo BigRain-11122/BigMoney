@@ -55,9 +55,17 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1191 W307 §7 范式）
+- **账本恒等式**：prev_total 1,097,541 + batch 2,200 = total 1,099,741；exact=True；W306 finalize 链头承接。
+- **合并池**：K 671,120 + 2,200 = 673,320；exact=True；merged mu **-0.09283045**、sigma **0.24512009**、se_mu@K673,320 **0.000299**（W306 0.000299 → 持平）；W307-only mu **-0.08758805**、sigma **0.24311686**。
+- **K-lift 对照**：line_pre_w307 **1.2** → line_merged@K673,320 **1.2**，K-lift **+0.0000**；n_eff_held_equal 1,097,541。
+- **§5 五预键机证件**：results/_r1192bmc_w307_fivekeys.json = True / 6 ALL PASS（key1 |Δmu| 0.0052424<0.02 / key1b 1.72e-05 / key2 sigma_rel -2.67e-05 / key3 a_p95 Δ +0.0063<0.05 / key4 K-lift 0.0000≤0.02 / key5 se_mu 0.000299≤0.000299）。**诚实披露**：§5 key4 prose 的 n_eff_held_equal 字面量写的是 1,095,341（W306 值），本波实测为 1,097,541（held-equal 随账本推进），已入 receipt 的 prereg_prose_deviations，不静默抹平。
+- **六门探针**：results/_r1192bmc_w307_sixgate.json = 第 70 连 ALL PASS（clean-state = CR 归一 worktree==landed + 冻结面重放对账 PASS、unexplained delta=0）。
+- **canon flip**：NOT performed（治理提案面，K2200 同律）。
+- **audit 段**：evidence_cutoff 2026-09-22；families A n=2,000 p95 0.3153 p99 0.4467；12/12 分片齐。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W308+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1191 W307 §8 范式）
+- **§5.5 W308+ 投影承接**：W307 注册后 naive W308 A 起点 692_701 被本波 B 带 692_701..692_900 拒（staircase-affects-A 承袭），W308 冻结方必须在 post-W307 宇宙 live re-derive，禁按「prior-B tail+1／own-A tail+1」机械 +1（ordinal 以 W308 seat live trace 为准）。
+- **宝藏/方法论捕获问**：本波无新科学面（N1 null 加深波照旧）；工程面新捕获一条=工具窗内 finalize 属「长时间零输出」家族（>5min 无 stdout 被工具杀），正法=pythonw 分离起跑 + 日志落盘轮询（本窗实证：finalize 单腿约 6.5min 才出结果）。冻结面对账器复用 Tools/n1_freeze_face_adjudicate.py 零改动（POSIX 斜杠路径律照旧）。
+- **诚实披露面**：§5 五预键全部在带内；W307-only mu -0.08758805 与合并池 -0.09283045 差 0.0052424（带内）；A 档 p95 0.3153 对 W306 锚 0.3090 动 +0.0063（带内）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W307 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W306 own-wave finalize 已落地=席位时即解锁（n1_w306_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

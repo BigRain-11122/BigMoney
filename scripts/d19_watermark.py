@@ -74,13 +74,20 @@ DEC_KEY = "last_decisions_sha"
 ORD_KEY = "last_orders_sha"
 READ_KEYS = ("last_decisions_read_at", "last_orders_read_at")
 PROV_KEY = "d19_watermark_guard"
+# D-20261024-03 triple watermark (addition, not replacement): the legacy
+# full-digest keys above stay the verbatim anchor; these carry the
+# reproducible <sha16>@<commit7>/<bytes> form so a comparison can fail on
+# commit+length before it ever hashes anything.
+TRIPLE_DEC_KEY = "last_decisions_watermark"
+TRIPLE_ORD_KEY = "last_orders_watermark"
 # r1090 two-face patch (r1051 lineage recurring face / r1052 连带律 mechanized): update --advance
 # wrote the STATE face only; the heartbeat mirror fields went stale every advance and needed a
 # manual same-window sync script (r1089 receipt _r1089bmc_heart_wm_sync). Law now welded in-tool:
 # BOTH faces are written in the SAME update, with read-back assertions on each.
 HEART_KEYS = ("last_orders_sha", "last_decisions_sha", "last_orders_read_at",
               "last_decisions_read_at", "last_orders_at", "last_decisions_at",
-              "last_orders_seen", "last_decisions_seen")
+              "last_orders_seen", "last_decisions_seen",
+              "last_orders_watermark", "last_decisions_watermark")
 HEX_CHARS = set("0123456789abcdefABCDEF")
 VALID_LENS = (40, 64)
 
@@ -108,6 +115,29 @@ def validate_candidate(v):
     if len(v) not in VALID_LENS:
         return False, "length %d not full-hash (40/64)" % len(v)
     if not all(c in HEX_CHARS for c in v):
+        return False, "non-hex chars"
+    return True, "ok"
+
+
+def validate_triple(v):
+    """D-20261024-03 shape gate: <sha16>@<commit7 or 40>/<bytes>.
+    Shape-only like validate_candidate: a well-formed but wrong triple is
+    caught by the probe's live recomputation, not by this gate."""
+    if not isinstance(v, str) or v == "":
+        return False, "missing/empty"
+    if v != v.strip():
+        return False, "whitespace-padded"
+    if "@" not in v or "/" not in v:
+        return False, "missing @ or /"
+    sha, rest = v.split("@", 1)
+    commit, _, nbytes = rest.partition("/")
+    if len(sha) != 16:
+        return False, "sha16 length %d" % len(sha)
+    if len(commit) not in (7, 40):
+        return False, "commit length %d not 7/40" % len(commit)
+    if not nbytes.isdigit():
+        return False, "bytes not numeric"
+    if not all(c in HEX_CHARS for c in sha + commit):
         return False, "non-hex chars"
     return True, "ok"
 
@@ -234,9 +264,30 @@ def cmd_update(opts):
                   "-- consume first, rerun with --advance (r585)"
                   % (ch_dec, ch_ord))
             return 3
+        # D-20261024-03: triples ride the same atomic write. Absent evidence =
+        # skip (mid-migration machines stay honest, no fabrication).
+        triples = {}
+        for key, val in ((TRIPLE_DEC_KEY, ev.get("decisions_triple")),
+                         (TRIPLE_ORD_KEY, ev.get("orders_triple"))):
+            if val is None:
+                continue
+            ok_t, why_t = validate_triple(val)
+            if not ok_t:
+                reasons.append("%s: %s" % (key, why_t))
+            else:
+                triples[key] = val
+        if reasons:
+            receipt["action"] = "refused"
+            receipt["reasons"] = reasons
+            _atomic_json_write(receipt, opts.receipt, True)
+            print("REFUSED: malformed triple -> %s" % "; ".join(reasons))
+            return 3
+        receipt["triples"] = triples
         # single-source verbatim full-string write (r812)
         st[DEC_KEY] = cand_dec
         st[ORD_KEY] = cand_ord
+        for k, v in triples.items():
+            st[k] = v
         for k in READ_KEYS:
             st[k] = ts
         if ch_dec:
@@ -254,7 +305,8 @@ def cmd_update(opts):
         _atomic_json_write(st, opts.state, False)
         # read-back full-string equality assertion (r812 heal law)
         st2 = _load_json(opts.state)
-        if st2.get(DEC_KEY) != cand_dec or st2.get(ORD_KEY) != cand_ord:
+        if (st2.get(DEC_KEY) != cand_dec or st2.get(ORD_KEY) != cand_ord
+                or any(st2.get(k) != v for k, v in triples.items())):
             # read-back failed -> byte-exact restore, honest fault report
             with open(opts.state, "wb") as f:
                 f.write(before_bytes)
@@ -318,6 +370,15 @@ def cmd_verify(opts):
         out["structural"][key] = {"ok": ok, "why": why,
                                   "len": len(st[key]) if isinstance(st.get(key), str) else None}
         if not ok:
+            rc = 3
+    for key in (TRIPLE_DEC_KEY, TRIPLE_ORD_KEY):
+        val = st.get(key)
+        if val is None:
+            out["structural"][key] = {"ok": True, "why": "absent (migrating)"}
+            continue
+        ok_t, why_t = validate_triple(val)
+        out["structural"][key] = {"ok": ok_t, "why": why_t}
+        if not ok_t:
             rc = 3
     if os.path.isfile(opts.probe_evidence):
         ev = _load_json(opts.probe_evidence)
@@ -592,6 +653,58 @@ def selftest():
         assert err is None and p.endswith("state-bm-a.json"), "explicit ok"
     leg("L15 T22 probe reads state-<id>.json (machine derive + mismatch gate)",
         l15)
+
+    # L16 D-20261024-03 triple shape gate
+    def l16():
+        assert validate_triple("3cfdec0c0a664129@67cd15d/203087")[0] is True
+        assert validate_triple("3cfdec0c0a664129@67cd15d")[0] is False, "no /bytes"
+        assert validate_triple("3cfdec0c0a66412@67cd15d/203087")[0] is False, \
+            "sha must be 16 hex"
+        assert validate_triple("3cfdec0c0a664129@67cd15/203087")[0] is False, \
+            "commit must be 7/40"
+        assert validate_triple("3cfdec0c0a664129@67cd15d/abc")[0] is False, \
+            "bytes numeric"
+        assert validate_triple(" 3cfdec0c0a664129@67cd15d/203087")[0] is False, \
+            "whitespace"
+    leg("T1 triple shape gate (D-20261024-03)", l16)
+
+    # L17 probe-side triple comparison: commit+length first, digest second,
+    #     legacy prefix fallback when no triple is stored
+    def l17():
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_d19_probe_triple", PROBE)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        t_now = "3cfdec0c0a664129@67cd15d/203087"
+        assert mod._parse_triple(t_now) == ("3cfdec0c0a664129", "67cd15d", 203087)
+        assert mod._parse_triple("not-a-triple") is None
+        assert mod._watermark_changed("f" * 64, "0123456789", t_now, t_now) is False
+        assert mod._watermark_changed(
+            "f" * 64, "0123456789",
+            "3cfdec0c0a664129@67cd15d/203088", t_now) is True, "bytes delta"
+        assert mod._watermark_changed(
+            "f" * 64, "0123456789",
+            "3cfdec0c0a664129@aaaaaaa/203087", t_now) is True, "commit delta"
+        assert mod._watermark_changed(
+            "f" * 64, "0123456789", t_now, None) is True, "legacy fallback"
+        assert mod._watermark_changed(
+            "f" * 64, "f" * 10, t_now, None) is False, "legacy prefix equal"
+    leg("T2 triple compare = commit+bytes first, digest second (probe)", l17)
+
+    # L18 update writes triples verbatim + mirrors them into the heartbeat
+    def l18():
+        ev = dict(new_ev)
+        ev["decisions_triple"] = "a3ea37bd70fd5acc@67cd15d/203087"
+        ev["orders_triple"] = "e286f84287331c99@67cd15d/370071"
+        rc, sp, rec, hb = upd(ev, advance=True, state=dict(base_state))
+        assert rc == 0, "rc=%s" % rc
+        st = _load_json(sp)
+        assert st[TRIPLE_DEC_KEY] == ev["decisions_triple"]
+        assert st[TRIPLE_ORD_KEY] == ev["orders_triple"]
+        assert _load_json(hb)[TRIPLE_DEC_KEY] == ev["decisions_triple"], \
+            "heartbeat mirror must carry the triple in the same update"
+        assert st[DEC_KEY] == TRUE_DEC, "legacy key still verbatim"
+    leg("T3 update writes triples + heartbeat mirror (same window)", l18)
 
     # L16/L17 r1045 relay face: captured child stdout/stderr must reach the
     # parent's streams (pass-through spawn is swallowed on this Win/Py3.14

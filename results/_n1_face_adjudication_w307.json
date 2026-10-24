@@ -1,0 +1,47 @@
+{
+ "wave": 307,
+ "splice": "897b31fc839ccd8d43d16c080b1386686e108b19",
+ "origin_base": "fd6b75028e7b4703c06f45256706d1708117e482",
+ "landed_n1_sha16": "6295e1ada2502f45",
+ "landed_pf_sha16": "dbe86ebe7d17f2d0",
+ "receipt_n1_sha16_post": "541b3ae57452496f",
+ "receipt_n1_sha16_pre": "74c6b79ea19cc39c",
+ "receipt_pf_sha16_post": "4e2e8cfbdbd377d5",
+ "receipt_pf_sha16_pre": "da3868ff553989ba",
+ "prereg_sha16": "3f335b23cc464c1e",
+ "replay_n1_sha16_pre": "74c6b79ea19cc39c",
+ "replay_pf_sha16_pre": "da3868ff553989ba",
+ "pre_faces_match_receipt": true,
+ "materialized_inputs": {
+  "fleet/inbox/MSG-20261024-1047-bmc-w307-seat.md": "947e3c1a8b98e968"
+ },
+ "editor_rc": 0,
+ "editor_stdout_tail": [
+  " }",
+  "}",
+  "SPLICE OK -- py_compile both green; NEXT: selftest -> pathspec commit+push -> engine self-ignite W307"
+ ],
+ "editor_stderr_tail": [],
+ "replay_n1_sha16_post": "5a840f6182e82f80",
+ "replay_pf_sha16_post": "84884039b9246e7b",
+ "post_faces_match_receipt": true,
+ "post_match_mode": "wave-block-stamp-fill(receipt own_seat_face)",
+ "replay_n1_sha16_post_stamped": null,
+ "replay_pf_sha16_post_stamped": null,
+ "stamped_index": {
+  "n1": null,
+  "pf": null
+ },
+ "stamp_fill": {
+  "prereg_commit10": "2131c78e84",
+  "seat_origin10": "d78f799608",
+  "probe_receipt_name": "_w307bmc_20261024_probe_receipt.json"
+ },
+ "replay_lf_sha16": "6295e1ada2502f45",
+ "landed_lf_sha16": "6295e1ada2502f45",
+ "replay_lf_eq_landed": true,
+ "heal_deltas": [],
+ "unexplained_deltas": [],
+ "verdict": "PASS",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, never by trusting either side (r1188 bm-c)"
+}

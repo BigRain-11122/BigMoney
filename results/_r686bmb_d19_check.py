@@ -75,6 +75,35 @@ def _watermark_differs(full: str, wm: str) -> bool:
     return not b.startswith(a)
 
 
+def _parse_triple(v):
+    """D-20261024-03 shape: <sha16>@<commit7>/<bytes>. Returns tuple or None."""
+    if not isinstance(v, str):
+        return None
+    w = v.strip()
+    if "@" not in w or "/" not in w:
+        return None
+    sha, rest = w.split("@", 1)
+    commit, _, nbytes = rest.partition("/")
+    if len(sha) != 16 or len(commit) not in (7, 40) or not nbytes.isdigit():
+        return None
+    if not all(c in "0123456789abcdefABCDEF" for c in sha + commit):
+        return None
+    return (sha.lower(), commit.lower(), int(nbytes))
+
+
+def _watermark_changed(full, wm, triple, wm_triple):
+    """Triple-first delta test (D-20261024-03): compare commit+length, then
+    digest. Falls back to the r1111 prefix test when no stored triple exists,
+    so machines mid-migration keep their zero-false-P0 behaviour."""
+    t = _parse_triple(triple)
+    wt = _parse_triple(wm_triple)
+    if t and wt:
+        if t[1] != wt[1] or t[2] != wt[2]:
+            return True
+        return not t[0].startswith(wt[0])
+    return _watermark_differs(full, wm)
+
+
 def git_show(tree: str, path: str):
     r = subprocess.run(["git", "-C", tree, "show", "origin/main:%s" % path],
                        capture_output=True)
@@ -109,6 +138,11 @@ def main() -> int:
         st = json.load(open(STATE, encoding="utf-8"))
         out["wm_decisions"] = st.get("last_decisions_sha")
         out["wm_orders"] = st.get("last_orders_sha")
+        # D-20261024-03 (triple watermark): <sha16>@<commit7>/<bytes>.
+        # Additive: legacy prefix keys keep their behaviour; when a triple is
+        # present the comparison becomes commit+length first, digest second.
+        out["wm_decisions_triple"] = st.get("last_decisions_watermark")
+        out["wm_orders_triple"] = st.get("last_orders_watermark")
         trees = []
         k = r"K:\Fluxgroup\FluxGroup"
         if os.path.isdir(k):
@@ -118,6 +152,7 @@ def main() -> int:
                 trees.append(("local-tree", cand))
         blob_d = None
         blob_o = None
+        tree_used = None
         for tag, tree in trees:
             out["trees_tried"].append(tag)
             subprocess.run(["git", "-C", tree, "fetch", "origin"],
@@ -129,6 +164,7 @@ def main() -> int:
                 blob_d = git_show(tree, "docs/decisions.md")
             if blob_d is not None:
                 blob_o = git_show(tree, "docs/orders.md")
+                tree_used = tree
                 break
         if blob_d is None:
             # sparse clone fallback (r631 recipe)
@@ -155,6 +191,7 @@ def main() -> int:
                           capture_output=True)
             blob_d = git_show(tw, "docs/decisions.md")
             blob_o = git_show(tw, "docs/orders.md")
+            tree_used = tw
             out["trees_tried"].append("sparse-clone")
         m_d = method_for(out["wm_decisions"])
         m_o = method_for(out["wm_orders"])
@@ -162,10 +199,29 @@ def main() -> int:
         out["orders_method"] = m_o
         out["decisions_sha"] = (sha256(blob_d) if m_d == "sha256" else sha1(blob_d)) if blob_d else None
         out["orders_sha"] = (sha256(blob_o) if m_o == "sha256" else sha1(blob_o)) if blob_o else None
-        out["decisions_changed"] = _watermark_differs(
-            out["decisions_sha"], out["wm_decisions"])
-        out["orders_changed"] = _watermark_differs(
-            out["orders_sha"], out["wm_orders"])
+        commit7 = None
+        if tree_used:
+            r = subprocess.run(["git", "-C", tree_used, "rev-parse",
+                                "--short=7", "origin/main"], capture_output=True)
+            if r.returncode == 0:
+                commit7 = r.stdout.decode("ascii", "replace").strip() or None
+        out["origin_commit7"] = commit7
+        out["decisions_triple"] = (
+            "%s@%s/%d" % (out["decisions_sha"][:16], commit7, len(blob_d))
+            if (out["decisions_sha"] and commit7 and blob_d is not None) else None)
+        out["orders_triple"] = (
+            "%s@%s/%d" % (out["orders_sha"][:16], commit7, len(blob_o))
+            if (out["orders_sha"] and commit7 and blob_o is not None) else None)
+        out["decisions_changed"] = _watermark_changed(
+            out["decisions_sha"], out["wm_decisions"], out["decisions_triple"],
+            out["wm_decisions_triple"])
+        out["orders_changed"] = _watermark_changed(
+            out["orders_sha"], out["wm_orders"], out["orders_triple"],
+            out["wm_orders_triple"])
+        out["decisions_compare_mode"] = (
+            "triple" if _parse_triple(out["wm_decisions_triple"]) else "prefix")
+        out["orders_compare_mode"] = (
+            "triple" if _parse_triple(out["wm_orders_triple"]) else "prefix")
         if blob_d is not None:
             # dump full decision text for consumption if changed
             if out["decisions_changed"]:
@@ -186,7 +242,9 @@ def main() -> int:
                       ("decisions_changed", "orders_changed",
                        "decisions_sha", "wm_decisions",
                        "orders_sha", "wm_orders",
-                       "decisions_method", "orders_method")}))
+                       "decisions_method", "orders_method",
+                       "decisions_triple", "orders_triple",
+                       "decisions_compare_mode", "orders_compare_mode")}))
     return 0
 
 

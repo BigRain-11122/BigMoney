@@ -105,6 +105,11 @@ def main():
     ap.add_argument('--prereg', required=True)
     ap.add_argument('--splice', required=True)
     ap.add_argument('--out', required=True)
+    ap.add_argument('--materialize', nargs='*', default=[],
+                    help=('repo-relative inputs the replay editor asserts on but which '
+                          'postdate origin_base (e.g. a seat MSG committed after the freeze '
+                          'captured its base); copied from the worktree and hashed into the '
+                          'evidence (r1192 bm-c W307 first live-fire)'))
     a = ap.parse_args()
 
     wave, splice = a.wave, a.splice
@@ -152,6 +157,13 @@ def main():
         put(a.editor, editor_src)
         put(a.probe_receipt, probe_src)
         put(a.prereg, prereg_src)
+        if a.materialize:
+            mat = {}
+            for rel in a.materialize:
+                data = io.open(os.path.join(REPO, rel), 'rb').read()
+                put(rel, data)
+                mat[rel] = sha16(data)
+            ev['materialized_inputs'] = mat
         env = dict(os.environ, PYTHONIOENCODING='utf-8')
         r = subprocess.run([sys.executable, os.path.join(clone, a.editor)],
                            cwd=clone, capture_output=True, text=True,
@@ -164,6 +176,7 @@ def main():
 
         rep_n1 = io.open(os.path.join(clone, 'scripts/perpetual_faces_n1.py'), 'rb').read()
         rep_pf = io.open(os.path.join(clone, 'scripts/perpetual_faces.py'), 'rb').read()
+        rep_n1_raw, rep_pf_raw = rep_n1, rep_pf
         ev['replay_n1_sha16_post'] = sha16(rep_n1)
         ev['replay_pf_sha16_post'] = sha16(rep_pf)
         ev['post_faces_match_receipt'] = (ev['replay_n1_sha16_post'] == rec['n1_sha16_post']
@@ -202,6 +215,43 @@ def main():
                 ev['stamped_index'] = {'n1': i_n1, 'pf': i_pf}
                 ev['post_faces_match_receipt'] = (s_n1 == rec['n1_sha16_post']
                                                   and s_pf == rec['pf_sha16_post'])
+
+        if not ev['post_faces_match_receipt']:
+            # r1192 W307: the wave block stamps the prereg commit AND the seat/probe receipt
+            # commit; the replay can reproduce neither (both postdate origin_base). The stamps
+            # appear in two shapes -- '"freeze-time commit n/a @ probe receipt n/a"' (registry
+            # row) and 'freeze-time gate n/a; probe receipt <path> @ n/a)' (prose comment).
+            # Fill both from the RECEIPT's own_seat_face; the resulting byte face must equal
+            # the receipt face, so the hash (not the fill) is the judge.
+            seat10 = ((rec.get('own_seat_face') or {}).get('seat_origin') or '')[:10]
+            receipt_name = os.path.basename(a.probe_receipt).encode()
+            if sha10 and seat10:
+                pair_pat = b'freeze-time commit n/a @ probe receipt n/a'
+                pair_fill = (b'freeze-time commit ' + sha10.encode()
+                             + b' @ probe receipt ' + seat10.encode())
+
+                def wave_fill(b):
+                    c = b.replace(pair_pat, pair_fill)
+                    lines = c.split(b'\n')
+                    for k, ln in enumerate(lines):
+                        if receipt_name in ln and b'@ n/a' in ln:
+                            lines[k] = ln.replace(b'@ n/a', b'@ ' + seat10.encode())
+                            if k and b'freeze-time gate n/a' in lines[k - 1]:
+                                lines[k - 1] = lines[k - 1].replace(
+                                    b'freeze-time gate n/a',
+                                    b'freeze-time gate ' + sha10.encode())
+                    return b'\n'.join(lines)
+
+                cand_n1 = wave_fill(rep_n1_raw)
+                cand_pf = wave_fill(rep_pf_raw)
+                if (sha16(cand_n1) == rec['n1_sha16_post']
+                        and sha16(cand_pf) == rec['pf_sha16_post']):
+                    rep_n1, rep_pf = cand_n1, cand_pf
+                    ev['post_match_mode'] = 'wave-block-stamp-fill(receipt own_seat_face)'
+                    ev['stamp_fill'] = {'prereg_commit10': sha10,
+                                        'seat_origin10': seat10,
+                                        'probe_receipt_name': receipt_name.decode()}
+                    ev['post_faces_match_receipt'] = True
 
         # ---- content face: replay (LF) vs landed (LF) ----
         def lf(b):
