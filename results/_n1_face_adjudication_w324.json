@@ -1,0 +1,57 @@
+{
+ "wave": 324,
+ "splice": "9d495afdcdce0fb3f23fbc539ad0fd6be8b89f45",
+ "origin_base": "08daa60a30fec2b6a6cfaaeec8029d1691545568",
+ "bands": {
+  "A": [
+   728101,
+   730100
+  ],
+  "B": [
+   730101,
+   730300
+  ]
+ },
+ "landed_n1_sha16": "e99b098ccf326c0b",
+ "landed_pf_sha16": "8546f155ac6d8bbd",
+ "receipt_n1_sha16_post": "c8b46dbded0d2190",
+ "receipt_pf_sha16_post": "2e9faf7a7e02238e",
+ "prereg_sha16": "9f151edf67b5335c",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "worktree_raw_eq_receipt_post": true,
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "e99b098ccf326c0b",
+   "landed_crlf_sha16": "c8b46dbded0d2190",
+   "parent_crlf_sha16": "bab8a83b8a8fd47e",
+   "parent_raw_sha16": "416f8b4a894c4ad5",
+   "worktree_raw_sha16": "c8b46dbded0d2190",
+   "worktree_lf_sha16": "e99b098ccf326c0b",
+   "receipt_pre_sha16": "bab8a83b8a8fd47e",
+   "receipt_post_sha16": "c8b46dbded0d2190",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  },
+  "pf": {
+   "landed_lf_sha16": "8546f155ac6d8bbd",
+   "landed_crlf_sha16": "2e9faf7a7e02238e",
+   "parent_crlf_sha16": "8d50ab2838d495f6",
+   "parent_raw_sha16": "f68eb458808f273c",
+   "worktree_raw_sha16": "2e9faf7a7e02238e",
+   "worktree_lf_sha16": "8546f155ac6d8bbd",
+   "receipt_pre_sha16": "8d50ab2838d495f6",
+   "receipt_post_sha16": "2e9faf7a7e02238e",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  }
+ },
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [],
+ "heal_note": "r1229 disclosed heal (plain-digit registry/config keys cloned with the prior wave numeral -> retargeted 324, r1168/r1208 family 5th instance) was applied PRE-receipt: receipt post faces equal the landed blobs, so zero post-receipt delta is owed and none is invented here",
+ "heal_reproduced": true,
+ "unexplained_deltas": [],
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically (r1188 bm-c)",
+ "verdict": "PASS"
+}

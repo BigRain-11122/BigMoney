@@ -55,27 +55,26 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,132,741 + 2,200 = 1,134,941`（exact=True）；累计池 K `706,320 + 2,200 = 708,520`（exact=True）。
-- 合并池（W1..W323）：mu **-0.09288388** / sigma **0.24519249** / se_mu@K708,520 **0.000291**；W323-only mu **-0.09244968** / sigma **0.24644216**。
-- A 档 full_sharpe p95 **0.3192** / p99 **0.4467**（锚 W322 p95 0.3103，差=+0.0089 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w323 **1.2018** → line_merged@K708,520 **1.2018**，差 **+0.0000**；n_eff_held_equal 1,132,741。
-- §5 五预键验证：`results/_r1228bmc_w323_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
-- 六门探针：`results/_r1228bmc_w323_sixgate.json` verdict **ALL PASS**（第 86 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,134,941 + 2,200 = 1,137,141`（exact=True）；累计池 K `708,520 + 2,200 = 710,720`（exact=True）。
+- 合并池（W1..W324）：mu **-0.09286165** / sigma **0.24520478** / se_mu@K710,720 **0.000291**；W324-only mu **-0.08570273** / sigma **0.24908573**。
+- A 档 full_sharpe p95 **0.3218** / p99 **0.4639**（锚 W323 p95 0.3192，差=+0.0026 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w324 **1.2019** → line_merged@K710,720 **1.202**，差 **+0.0001**；n_eff_held_equal 1,134,941。
+- §5 五预键验证：`results/_r1230bmc_w324_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 2 条（key5_w323_se_mu, n_eff_held_prose）。
+- 六门探针：`results/_r1230bmc_w324_sixgate.json` verdict **ALL PASS**（第 87 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W325+ 投影承接机证：本窗席位回执 leg4（pre-W324 宇宙）投影 W325p A naive **730_101..732_100** clean（hops=0）、B naive **730_301..730_500** clean（hops=0）但落投影 A 窗内（own-A reservation 承袭预期）——**W325 冻结方必须在 post-W324 宇宙 重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **728_101..730_100**（77th 连续 A-hop·hops=1·naive 起点 727_901 被注册 W323 B 带 727_901..728_100 拒·base==注册 W323 B 尾 728_100+1）／B **730_101..730_300**（78th 连续 above-own-A·hops=1·own-A reservation cascade ·base==本波 A 尾 730_100+1）——`results/_w324bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True·owner_rows 313 / bmc_rows 142 / ordinal 314。
-- 本波席位 live 事实：A 算术续带 727,901..729,900 在席位窗起点即被注册 W323 B 带 727,901..728,100 拒绝（hops=1 → 728,101..730,100，base==注册 W323 B 尾 728,100+1）；B 算术续带 728,101..728,300 落本波 A 窗 728,101..730,100（own-A reservation cascade·hops=1 → 730,101..730,300，base==本波 A 尾 730,100+1）。
+- §5.5 W325+ 投影承接机证（本席 receipt `results/_w324bmc_20261025_probe_receipt.json` leg4，pre-W324 宇宙）：naive W325 A `730_101..732_100` clean（hops=0），naive W325 B `730_301..730_500` clean（hops=0）但落投影 A 窗内（lands_inside=True）——**W325 冻结方必须 post-W324 活 derive**（r587）。
+- **W325 席位 post-W324 活 derive 已实证（本窗 `results/_w325bmc_20261025_probe_receipt.json`）**：A **730,301..732,300**（78th 连续 A-hop·hops=1·naive 起点 730,101 被注册 W324 B 带 730,101..730,300 拒）；B **732,501..732,700**（79th 连续 above-own-A·hops=1·own-A reservation cascade + **注册种子让位**：A 尾 732,300+1 起的首个净窗 730,301..730,500 撞注册种子 n/a（n/a）→ 让位至 732,501）；seed_admit_gate FREE x2，verdict **ADMIT**，universe owner_rows=314 / bmc_rows=143 / ordinal=315。
+- 本波席位 live 事实：A 算术续带 727,901..729,900 在席位窗起点即被注册 W323 B 带 727,901..728,100 拒绝（hops=1 → 728,101..730,100，base==注册 W323 B 尾 728,100+1）；B 算术续带 728,101..728,300 落本波 A 窗 728,101..730,100（own-A reservation cascade·hops=1 → 730,101..730,300）；seed_admit_gate FREE x2，relation_asserts 5/5，verdict ADMIT。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**；knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
-- 诚实披露（finalize 同窗回填）：
-  ① 本冻结时点无待披露项；回填时若发现 prose 偏差，一律以机读值为准并披露、不抹平。
-  ② 延续前波披露面（W323 §8 ①：freeze receipt 两面 post 为 pre-heal 面）——本波若同面重现，一律由 adjudication 逆向复现测证，不回改冻结件。
-- 坑律捕获（finalize 同窗回填）：
-  ① 生成器三类面律沿用：NUM 面单趟映射 / 带带号面 +2200 滚动 / 自指面显式开关（r1168/r1171/r1184/r1199/r1208 族）。
-  ② **序数词链的源面已是本波值——照抄上一波映射键必无命中**：本波首跑 measure 在 第七十五次 上零命中报死，为因 W323 正文链已进到 第七十六次/第七十七次——序数键一律以机读正文链当前值为基、禁按“上一波加一”推定。
-  ③ 行数守卡（冻结件结构完整性）：复建 §8 块后行数必须与源面一致，不一致=结构漂移、直接报死。
+- 诚实披露（本波 1 条·面相等价性披露，判据与产物零影响）：
+  ① **冻结回执 post 面为落地面本体**（r1229 的 plain-digit key 重指 heal 在 receipt 落盘之前完成）：receipt n1/pf post = `c8b46dbded0d2190` / `2e9faf7a7e02238e`，与落地面 `e99b098ccf326c0b` / `8546f155ac6d8bbd` 逐字节同源（CRLF 基），heal_delta 0 条、unexplained=0，adjudication verdict **PASS**。
+- 坑律捕获（本窗）：
+  ①**席位探针的 hop walk 原只看 N1_BANDS 拒绝点，注册表种子（SEED_REGISTRY）只在 leg2 末检**——w325 首跑 REFUSE（B naive 732_301..732_500 撞 perpetual_n2_w18_gen=732500）；修=把注册种子并入 walk 拒绝点（`REG:<key>` 标签），B 让位规则由「==own-A 尾+1」放宽为「==own-A 尾之上的首个净窗」并要求 intervening refuser 非空方可豁免（selftest 6/6，零转录）。
+  ②**席位 probe 的 leg1 B_hop_chain 只记 own-A cascade 一跳**，注册种子让位单列 `B_seed_hop_disclosure`——读回执者必须两面同读，勿把 B_hop_chain 当作完整让位链。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
+
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W324 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W323 own-wave finalize 已落地=席位时即解锁（n1_w323_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

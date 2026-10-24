@@ -78,6 +78,19 @@ def registry_points():
             pts.setdefault(s, "W%dA" % w)
         for s in range(b0, b1 + 1):
             pts.setdefault(s, "W%dB" % w)
+    # Registered non-N1 seeds are refusers too: the ADMIT gate refuses a band
+    # containing any SEED_REGISTRY value, so the walk must hop past them instead
+    # of walking clean and failing leg2 (r1230 W325 first REFUSE: B naive
+    # 732_301..732_500 hit perpetual_n2_w18_gen=732500).
+    try:
+        import science_gates as sg  # noqa: E402
+    except Exception:
+        return pts
+    for key, val in (getattr(sg, "SEED_REGISTRY", None) or {}).items():
+        if isinstance(val, int) and not isinstance(val, bool):
+            if not isinstance(key, str) or key.startswith("_"):
+                continue
+            pts.setdefault(val, "REG:%s" % key)
     return pts
 
 
@@ -152,13 +165,35 @@ def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
     A0, A1 = A_clean
     B0, B1 = B_clean
 
+    # B is placed as the first clean window above own A.  Historically that window
+    # starts exactly at own-A tail + 1; when a registered non-N1 seed sits directly
+    # above own A the walk hops past it and the strict +1 form is impossible -- the
+    # placement law is then "first clean window above own A", disclosed with the
+    # intervening refusers (r1230 W325: perpetual_n2_w18_gen=732500 refused the
+    # 732_301..732_500 window).
+    b_alt, _, _ = walk(pts, A1 + 1, WIDTH_B)
+    seed_hop_disclosure = []
+    if B0 != A1 + 1:
+        for s in range(A1 + 1, B0):
+            lbl = pts.get(s)
+            if lbl:
+                seed_hop_disclosure.append({"seed": s, "refuser": lbl})
+
     relations = {
         "A_base_ge_priorB_tail_plus1": A0 >= prev["b_exit"][1] + 1,
         "B_lands_above_own_A": B0 > A1,
         "AB_mutual_exclusion": B0 > A1,
         "B_base_eq_own_A_tail_plus1": B0 == A1 + 1,
+        "B_base_eq_first_clean_above_own_A": B0 == b_alt[0],
     }
-    if not all(relations.values()):
+    if not (relations["A_base_ge_priorB_tail_plus1"]
+            and relations["B_lands_above_own_A"]
+            and relations["AB_mutual_exclusion"]
+            and (relations["B_base_eq_own_A_tail_plus1"]
+                 or relations["B_base_eq_first_clean_above_own_A"])
+            and (not relations["B_base_eq_first_clean_above_own_A"]
+                 or relations["B_base_eq_own_A_tail_plus1"]
+                 or bool(seed_hop_disclosure))):
         return None, _fail("band relation broken: %r" % relations)
 
     # ---- leg3: point-wise clear of every registered wave ----
@@ -244,6 +279,7 @@ def probe(wave, a_hop_ordinal=None, above_ordinal=None, out_dir=None,
                                 "own-A-reservation=%s, hops=%d"
                                 % (arith_b[0], arith_b[1], B_inside_A, hops_B)),
                 "relation_asserts": relations,
+                "B_seed_hop_disclosure": seed_hop_disclosure,
             },
             "leg2": {"AB_mutual_exclusion": True, "A": [A0, A1],
                      "B": [B0, B1], "seed_admit_gate": gates,
@@ -298,6 +334,15 @@ def selftest():
         len(holes) <= 1, "rows=%d tail=%d holes=%r" % (len(rows), max(rows), holes))
     leg("ordinal_word(FORTY-NINTH)", ordinal_word(49) == "FORTY-NINTH")
     leg("fmt band", fmt([666301, 666500]) == "666_301..666_500")
+    rpts = registry_points()
+    try:
+        import science_gates as sg  # noqa: E402
+        intvals = sorted(v for v in (getattr(sg, "SEED_REGISTRY", None) or {}).values()
+                         if isinstance(v, int) and not isinstance(v, bool))
+    except Exception:
+        intvals = []
+    leg("registered non-N1 seeds are walk refusers",
+        all(v in rpts for v in intvals), "seeds=%d" % len(intvals))
     fails = [n for n, ok in legs if not ok]
     print("selftest: %d/%d PASS" % (len(legs) - len(fails), len(legs)))
     return 1 if fails else 0
