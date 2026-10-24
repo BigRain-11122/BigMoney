@@ -1,0 +1,122 @@
+{
+ "machine": "bm-c",
+ "wave": 315,
+ "phase": "PRE-FINALIZE six-gate (r1210 bm-c own-seat window, 78th consecutive correct-phase target; standing law -- engine self-burn 12/12 landed post-W315 splice 9152093267, finalize not yet run)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "881613232c8e2665",
+   "n1_sha16_now": "6b51963dfe87e602",
+   "pf_sha16_freeze_post": "881613232c8e2665",
+   "n1_sha16_freeze_post": "6b51963dfe87e602",
+   "n1_sha16_landed_commit_lf_face": "83197a9dc65ccd36",
+   "pf_sha16_landed_commit_lf_face": "848243d04b5937ed",
+   "clean_state": {
+    "source": "CR-normalized worktree vs landed blob + mechanical freeze-face replay adjudication (r1188 law: receipt post faces are pre-commit CRLF faces; r1189 single-stamp replay + receipt-anchored parity-count heal)",
+    "detail": {
+     "n1_crnorm_worktree_eq_landed": true,
+     "pf_crnorm_worktree_eq_landed": true,
+     "freeze_face_adjudication": {
+      "path": "results/_n1_face_adjudication_w315.json",
+      "verdict": "PASS",
+      "adj_ok": true,
+      "replay_lf_eq_landed": true,
+      "heal_delta_count": 0,
+      "unexplained_delta_count": 0
+     },
+     "raw_receipt_face_equality": {
+      "n1": true,
+      "pf": true,
+      "note": "raw face equality is EOL-invalid post-commit under autocrlf; kept for disclosure only"
+     }
+    },
+    "n1_sha16_now": "6b51963dfe87e602",
+    "receipt_sha16_post": "6b51963dfe87e602",
+    "clean_state_ok": true,
+    "crnorm_worktree_eq_landed": true,
+    "birth_station_presence_gates": {
+     "w315_block_has_315": true,
+     "w315_block_has_314": false,
+     "w315_block_has_305": false,
+     "whole_file_315_count": 1,
+     "whole_file_314_count": 1,
+     "whole_file_305_count": 1
+    },
+    "evidence_files_present": true,
+    "phase": "post-splice post-burn PRE-finalize (engine mechanics untouched)"
+   },
+   "pf_crnorm_equal_worktree_vs_landed": true,
+   "pf_landed_diff_empty": true,
+   "family_seed_faces": {
+    "law sec.4 W315 A: 708_301..710_300": 1,
+    "law sec.4 W315 B: 710_301..710_500": 1
+   },
+   "prior_wave_314_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W315_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": " row, bm-c loop CEO fill-order RE-ISSUE 23:1x] + T-141 s2 engine-lane claim exemption [law sec.2 pre-claim exempt face])"
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=708301 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=710301 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w315bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 708301,
+   "b_exit_seed_base": 710301,
+   "shard_subdir": "n1_w315",
+   "out_name": "n1_w315_results.json",
+   "seed_bases_match_freeze_bands": true,
+   "row_faces_detail": {
+    "a_seed_base_708301": true,
+    "b_exit_seed_base_710301": true,
+    "shard_subdir_n1_w315": true,
+    "out_name_n1_w315_results": true,
+    "engine_owner_bm_c": true
+   }
+  },
+  "w314_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1115141,
+  "prev_merged_n": 688720,
+  "expect_total": 1117341,
+  "expect_merged": 690920,
+  "source": "W314 finalize actuals machine-read from n1_w314_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W315 finalize (bm-c r1210 one-pass 1,115,141/K=688,720) honored per freeze receipt upstream_w314 face"
+ },
+ "verdict": "ALL PASS"
+}

@@ -55,20 +55,20 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,112,941 + 2,200 = 1,115,141`（exact=True）；累计池 K `686,520 + 2,200 = 688,720`（exact=True）。
-- 合并池（W1..W314）：mu **-0.09283192** / sigma **0.24516068** / se_mu@K688,720 **0.000295**；W314-only mu **-0.09414705** / sigma **0.24511574**。
-- A 档 full_sharpe p95 **0.3246** / p99 **0.4575**（锚 W313 p95 0.3071，差=+0.0175 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w314 **1.2008** → line_merged@K688,720 **1.2008**，差 **+0.0000**；n_eff_held_equal 1,112,941。
-- §5 五预键验证：`results/_r1208bmc_w314_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无——§5 key4 prose `+0.0000` 是 W313 锚面，W314 实测 K-lift `+0.0000` 属本波面，口径差如实披露不抹平）。
-- 六门探针：`results/_r1208bmc_w314_sixgate.json` verdict **ALL PASS**（第 77 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,115,141 + 2,200 = 1,117,341`（exact=True）；累计池 K `688,720 + 2,200 = 690,920`（exact=True）。
+- 合并池（W1..W315）：mu **-0.09281228** / sigma **0.24516478** / se_mu@K690,920 **0.000295**；W315-only mu **-0.08666232** / sigma **0.24642528**。
+- A 档 full_sharpe p95 **0.3337** / p99 **0.4566**（锚 W314 p95 0.3246，差=+0.0091 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w315 **1.2009** → line_merged@K690,920 **1.201**，差 **+0.0001**；n_eff_held_equal 1,115,141。
+- §5 五预键验证：`results/_r1210bmc_w315_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 1 条（key4_k_lift_w315——§5 key4 prose `+0.0000` 是 W314 锚面，W315 实测 K-lift `+0.0001` 属本波面，口径差如实披露不抹平）。
+- 六门探针：`results/_r1210bmc_w315_sixgate.json` verdict **ALL PASS**（第 78 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W316+ 投影承接机证：本窗席位回执 leg4（pre-W315 宇宙）投影 W316p A naive **710_301..712_300** clean（hops=0）、B naive **710_501..710_700** clean 但落投影 A 窗内（own-A reservation 承袭预期）——**W316 冻结方必须在 post-W315 宇宙重 live derive 且 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **708_301..710_300**（68th 连续 A-hop·hops=1·base==注册 W314 B 尾 708_300+1）／B **710_301..710_500**（69th 连续 above-own-A·hops=1·base==本波 A 尾 710_300+1）——`results/_w315bmc_20261024_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=true。
+- §5.5 W316+ 投影承接机证（本席 receipt `results/_w315bmc_20261024_probe_receipt.json` leg4，pre-W315 宇宙）：naive W316 A 710_301..712_300 clean（hops=0），naive W316 B 710_501..710_700 clean 但落 W316 投影 A 窗内（lands_inside=True）；**W315 注册后**（A 708,301..710,300 / B 710,301..710,500）naive W316 A 起点即被注册 W315 B 带拒绝（staircase-affects-A 承袭预期·hops 以 W316 seat live trace 为准）——下一冻结窗必须重新 live derive，禁转抄（r587）。
+- 本波席位 live 事实：A 708,101..710,100 算术续带在席位窗起点即被注册 W314 B 带 708,101..708,300 拒绝（hops=1 → 708,301..710,300）；B 708,301..708,500 落本波 A 窗（own-A reservation → 710,301..710,500），seed_admit_gate FREE x2，leg3 bands_clear=true。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 均不追加。
-- 诚实披露：§5 五预键若出现 prose 偏差（se_mu 取 3 位小数），以机读值为准并披露、不抹平；mu/sigma/K-lift 一律按冻结带校验。
-- 坑律捕获：post-W315 finalize 同窗回填（本段属 finalize 回填面，冻结时为前波沿用文本）；本窗冻结沿用 r1208 判例：canon-clone 生成器的纯数字面（注册行号前缀/切口/setwave 键后缀）直写目标波号、W token 面保留**上一波**形态交给级联推进一次。
+- 诚实披露：§5 五预键 prose 偏差 1 条（key4_k_lift_w315）以机读值为准并披露，不抹平；其余 mu/sigma/p95/K-lift 全部落在冻结带内。
+- 坑律捕获（本窗三枚，全部在正典前拦下）：①canon-clone 生成器里**同一个字面量不能既走显式替换又进波号级联**——`PREV = 314` 与 lineage 串 `_r1208bmc_w314_sixgate.py` 显式写成目标值后又被级联推进一波（0 命中双假 FAIL）；正法=这两类最终值先停靠纯字母哨兵，级联后再解开（r1168 双移位族第三实例）。②**显式替换的先后顺序本身会吃掉字面量**——`77th`→`78th` 先跑会让 `_r1206..._77th consecutive` 永不命中；正法=长串先改、短串后改并各自 count-assert。③`prereg sec.7/§8` 的模板字号沿用前波（W314 数字），回填脚本必须逐值机读覆盖且以「锚前波 p95/prev_k」显式声明，否则会把前波数字当本波实测发出去。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 
