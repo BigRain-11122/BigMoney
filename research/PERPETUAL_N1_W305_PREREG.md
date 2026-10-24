@@ -55,9 +55,17 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- （占位·finalize one-pass 后回填：账本恒等式/合并池 K/merged mu·sigma·se_mu/K-lift 对照/§5 五预键机证件/六门探针/canon flip 态/audit 段——bm-c r1187 W305 §7 范式）
+- **账本恒等式**：prev_total 1,093,141 + batch 2,200 = total 1,095,341（exact=true·W304 finalize 链头机读）。
+- **合并池**：K 666,720 + 2,200 = 668,920（exact=true）·merged mu **−0.09285818**·sigma **0.24513696**·se_mu@K668,920 **0.000300**（与 W304 同值，收窄链停在 0.000300）·W305-only mu **−0.09917732**·sigma **0.24536020**。
+- **K-lift 对照**：line_pre_w305 **1.1999** → line_merged@K668,920 **1.1999**·Δ **+0.0000**·n_eff_held_equal 1,093,141（非质变）。
+- **§5 五预键机证件**：results/_r1190bmc_w305_fivekeys.json——7/7 ALL PASS（key1 Δmu 0.0063191<0.02 / key1b 2.09e-05 / key2 sigma_rel 3.4e-06 / key3 a_p95 Δ −0.0201<0.05 / key3b 对 prose 锚 −0.017 / key4 K-lift 0.0≤0.02 / key5 se_mu 0.0003≤0.0003）。**诚实披露**：§5 冻结 prose 两处锚值取自 W303 面而非 W304 实测——key3 引 p95 0.3179（W304 实测 0.321）、key4 引 K-lift +0.0000（实测 +0.0001）；断言以机读 W304 实测为主锚，prose 锚双面同时过带，两处偏差已入回执 prereg_prose_deviations（不静默抹平）。
+- **六门探针**：results/_r1189bmc_w305_sixgate.json = 第 67 次连续 ALL PASS（本窗续跑补跑腿，见 S7）。
+- **canon flip**：NOT performed（治理提案面，K2200 同法）。
+- **audit 段**：evidence_cutoff 2026-09-22·families A n=2,000 p95 0.3009 p99 0.4625·12/12 分片消费。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- （占位·finalize 同窗回填：§5.5 W306+ 投影承接机证/宝藏与方法论捕获问/诚实披露面——bm-c r1187 W305 §8 范式）
+- **§5.5 W306+ 投影承接**：本波注册后 naive W306 A 688_301..690_300 起点将被 W305 B 带 688_301..688_500 拒（staircase-affects-A 承袭）；B naive 688_501..688_700 落投影 A 窗内（own-A reservation cascade 承袭）——**W306 冻结方必须 post-W305 宇宙 live re-derive，禁转录投影，禁假设 +1 恒等**。
+- **宝藏/方法论捕获问**：本批无新科学面（纯 null 加深波）；方法论层面捕获两条施工判例（r587 锚值机读的 prose 转录面会静默陈旧；续窗不得重烧已落地腿）——已入轮报告与记忆候选，无 TREASURE 级新物。
+- **诚实披露面**：prereg §5 prose 锚两处陈旧（上列）；另 W305 finalize 的 A 档 p95 0.3009 较 W304 0.321 下移 0.0201（带内，纯抽样波动，非设计变更）。
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W305 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W304 own-wave finalize 已落地=席位时即解锁（n1_w304_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**

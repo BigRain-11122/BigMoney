@@ -43,9 +43,23 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # sha into the n1 registry AFTER the prereg lands (documented as "prereg_commit_heal"
 # in the receipt).  Byte-for-byte the only admissible replay-vs-landed delta.
 HEAL_RULES = [
+    # (old_re, new_re, needs_parity_count)
     (re.compile(r'^(\s*"[^"]*?)freeze-time commit n/a( @ probe receipt [0-9a-f]+;[^"]*")$'),
-     re.compile(r'^(\s*"[^"]*?)freeze-time commit [0-9a-f]{7,40}( @ probe receipt [0-9a-f]+;[^"]*")$')),
+     re.compile(r'^(\s*"[^"]*?)freeze-time commit [0-9a-f]{7,40}( @ probe receipt [0-9a-f]+;[^"]*")$'),
+     False),
+    # r1189: the same stamp also appears in prose comments as "freeze-time gate n/a".
+    (re.compile(r'^(.*?)freeze-time gate n/a(;.*)$'),
+     re.compile(r'^(.*?)freeze-time gate [0-9a-f]{7,40}(;.*)$'),
+     False),
+    # r1189: a comment-only parity-count correction is admissible ONLY against the
+    # receipt's own machine-recorded count (receipt parity.total_parity_rows) -- the
+    # decision never trusts the landed text on its own.
+    (re.compile(r'^(\s*#\s+registry at freeze time -> )(\d+)( parity rows\.)$'),
+     re.compile(r'^(\s*#\s+registry at freeze time -> )(\d+)( parity rows\.)$'),
+     True),
 ]
+
+STAMP_RE = re.compile(rb'freeze-time (?:commit|gate) n/a')
 
 
 def sha16(b):
@@ -63,11 +77,21 @@ def blob(commit, path):
     return r.stdout
 
 
-def heal_pair_ok(old, new):
+def heal_pair_ok(old, new, parity_count=None):
     """True when old/new are the same line apart from the documented heal."""
-    for old_re, new_re in HEAL_RULES:
+    for old_re, new_re, needs_parity in HEAL_RULES:
         mo, mn = old_re.match(old), new_re.match(new)
-        if mo and mn and mo.group(1) == mn.group(1) and mo.group(2) == mn.group(2):
+        if not (mo and mn):
+            continue
+        if needs_parity:
+            # prefix+suffix must match and the landed number must equal the
+            # receipt's own machine-recorded count
+            if mo.group(1) != mn.group(1) or mo.group(3) != mn.group(3):
+                continue
+            if parity_count is None or int(mn.group(2)) != int(parity_count):
+                continue
+            return True
+        if mo.group(1) == mn.group(1) and mo.group(2) == mn.group(2):
             return True
     return False
 
@@ -144,6 +168,40 @@ def main():
         ev['replay_pf_sha16_post'] = sha16(rep_pf)
         ev['post_faces_match_receipt'] = (ev['replay_n1_sha16_post'] == rec['n1_sha16_post']
                                           and ev['replay_pf_sha16_post'] == rec['pf_sha16_post'])
+        def stamp_candidates(b, sha10):
+            """Yield (index, candidate) with exactly ONE n/a stamp replaced: the receipt
+            face records the stamp only for its own wave block; blanket replacement would
+            also stamp older blocks (r1189 W305 live-fire)."""
+            needle = b'freeze-time commit n/a'
+            gate = b'freeze-time gate n/a'
+            hits = [(m.start(), needle, b'freeze-time commit ' + sha10.encode())
+                    for m in re.finditer(re.escape(needle), b)]
+            hits += [(m.start(), gate, b'freeze-time gate ' + sha10.encode())
+                     for m in re.finditer(re.escape(gate), b)]
+            for i, (pos, old, new) in enumerate(sorted(hits)):
+                yield i, b[:pos] + new + b[pos + len(old):]
+
+        def stamped_match(b, target_sha16, sha10):
+            for i, cand in stamp_candidates(b, sha10):
+                if sha16(cand) == target_sha16:
+                    return i, sha16(cand)
+            return None, None
+
+        ev['post_match_mode'] = 'direct'
+        if not ev['post_faces_match_receipt']:
+            # r1189: the receipt may record a post face that already carries the prereg
+            # commit stamp while the replay (clone pinned before that commit) writes n/a.
+            # Reconcile mechanically with the RECEIPT's own prereg sha, one stamp at a time.
+            sha10 = ((rec.get('own_seat_face') or {}).get('prereg_commit') or '')[:10]
+            if sha10:
+                i_n1, s_n1 = stamped_match(rep_n1, rec['n1_sha16_post'], sha10)
+                i_pf, s_pf = stamped_match(rep_pf, rec['pf_sha16_post'], sha10)
+                ev['post_match_mode'] = 'single-stamp-replay(receipt prereg sha)'
+                ev['replay_n1_sha16_post_stamped'] = s_n1
+                ev['replay_pf_sha16_post_stamped'] = s_pf
+                ev['stamped_index'] = {'n1': i_n1, 'pf': i_pf}
+                ev['post_faces_match_receipt'] = (s_n1 == rec['n1_sha16_post']
+                                                  and s_pf == rec['pf_sha16_post'])
 
         # ---- content face: replay (LF) vs landed (LF) ----
         def lf(b):
@@ -163,7 +221,9 @@ def main():
                 if tag == 'equal':
                     continue
                 old, new = A[i1:i2], B[j1:j2]
-                ok = len(old) == len(new) and all(heal_pair_ok(o, n) for o, n in zip(old, new))
+                parity_count = (rec.get('parity') or {}).get('total_parity_rows')
+                ok = len(old) == len(new) and all(
+                    heal_pair_ok(o, n, parity_count) for o, n in zip(old, new))
                 (heals if ok else deltas).append(
                     {'tag': tag, 'replay_lines': old[:4], 'landed_lines': new[:4],
                      'replay_lineno': i1 + 1, 'landed_lineno': j1 + 1})

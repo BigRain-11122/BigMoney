@@ -1,0 +1,62 @@
+{
+ "wave": 305,
+ "splice": "318e263ee0578f4b3f7f2f89382ea0c04ef42639",
+ "origin_base": "871f187361256c92af36e0d5272535666ac4345b",
+ "landed_n1_sha16": "86ce5d75c88a1369",
+ "landed_pf_sha16": "e076bca069d3d105",
+ "receipt_n1_sha16_post": "109953c9fff2bd8e",
+ "receipt_n1_sha16_pre": "e776a3768089328b",
+ "receipt_pf_sha16_post": "ece3dc06c38cbcb2",
+ "receipt_pf_sha16_pre": "19c99df9d607433a",
+ "prereg_sha16": "a7ba89ae55b41028",
+ "replay_n1_sha16_pre": "e776a3768089328b",
+ "replay_pf_sha16_pre": "19c99df9d607433a",
+ "pre_faces_match_receipt": true,
+ "editor_rc": 0,
+ "editor_stdout_tail": [
+  " }",
+  "}",
+  "SPLICE OK -- py_compile both green; NEXT: selftest -> pathspec commit+push -> engine self-ignite W305"
+ ],
+ "editor_stderr_tail": [],
+ "replay_n1_sha16_post": "859d92d5ea3f182d",
+ "replay_pf_sha16_post": "7708daff05856c6d",
+ "post_faces_match_receipt": true,
+ "post_match_mode": "single-stamp-replay(receipt prereg sha)",
+ "replay_n1_sha16_post_stamped": "109953c9fff2bd8e",
+ "replay_pf_sha16_post_stamped": "ece3dc06c38cbcb2",
+ "stamped_index": {
+  "n1": 0,
+  "pf": 2
+ },
+ "replay_lf_sha16": "63d8e92098376f3c",
+ "landed_lf_sha16": "86ce5d75c88a1369",
+ "replay_lf_eq_landed": false,
+ "heal_deltas": [
+  {
+   "tag": "replace",
+   "replay_lines": [
+    "                   \"freeze-time commit n/a @ probe receipt 871f187361; \""
+   ],
+   "landed_lines": [
+    "                   \"freeze-time commit 5f2c19de83 @ probe receipt 871f187361; \""
+   ],
+   "replay_lineno": 13095,
+   "landed_lineno": 13095
+  },
+  {
+   "tag": "replace",
+   "replay_lines": [
+    "    #     registry at freeze time -> 164 parity rows."
+   ],
+   "landed_lines": [
+    "    #     registry at freeze time -> 163 parity rows."
+   ],
+   "replay_lineno": 103235,
+   "landed_lineno": 103235
+  }
+ ],
+ "unexplained_deltas": [],
+ "verdict": "PASS",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, never by trusting either side (r1188 bm-c)"
+}
