@@ -1,0 +1,63 @@
+{
+ "machine": "bm-c",
+ "wave": 324,
+ "spliced_wave": 325,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W324 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "4a16e4d4b741c9f57d8735739d87d9ec3a02d560",
+ "pf_sha16_pre": "2e9faf7a7e02238e",
+ "n1_sha16_pre": "c8b46dbded0d2190",
+ "pf_sha16_post": "3a15feb0c1b00379",
+ "n1_sha16_post": "f44abeca682bb729",
+ "bands": {
+  "A": [
+   730301,
+   732300
+  ],
+  "B": [
+   732501,
+   732700
+  ]
+ },
+ "admit_receipt": "results/_w325bmc_20261025_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=730301 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=732501 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk SEVENTY-EIGHTH consecutive A-hop (naive 730_101..732_100 refused at start by the registered W324 B band 730_101..730_300; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 730_301..730_500 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; SEVENTY-NINTH consecutive above-own-A)"
+ },
+ "upstream_w324": {
+  "freeze_sha": "9d495afdcdce0fb3f23fbc539ad0fd6be8b89f45",
+  "prereg_sha": "9d495afdcdce0fb3f23fbc539ad0fd6be8b89f45",
+  "ledger_total": 1137141,
+  "merged_n": 710720,
+  "freeze_sha_note": "the lineage template greps 'W{prev} five-face freeze splice'; the actual r1229 commit subject is 'W324 PREREG FROZEN + five-face freeze splice', so the first run recorded n/a -- corrected here by machine-read short sha from git log (disclosed, not smoothed)"
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261025-0556-bmc-w325-seat.md",
+  "seat_origin": "4a16e4d4b7",
+  "prereg_commit": "n/a",
+  "probe_receipt_sha": "4a16e4d4b741c9f57d8735739d87d9ec3a02d560"
+ },
+ "downstream_seat": "projection on the PRE-W325 universe; once W325 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+ "seat": "fleet/inbox/MSG-20261025-0556-bmc-w325-seat.md",
+ "parity": {
+  "bytes": 29644,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 76,
+  "fresh_legs_row_asserts": 77,
+  "total_parity_rows": 183
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 325
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "prereg_backfill_face": "research/PERPETUAL_N1_W325_PREREG.md froze with sec.7 carried VERBATIM from the post-W324-finalize face at HEAD and sec.8 pre-rebuilt for this wave (no @@SEAT placeholder tokens); the mechanical finalize-time rewrite of sec.7/sec.8 is this wave's own post-finalize step (r1207/r1208 W324 precedent); judging criteria untouched"
+}
