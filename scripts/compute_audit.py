@@ -67,6 +67,9 @@ IGNITION_SLA_MIN = 1.0        # O-20260928-1614 sec.2 acceptance line:
 SUPPLY_GAP_SUSTAIN_MIN = 15.0  # O-20260928-1614 sec.5 P0 window
 SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
                        "ignition_sla")
+OWNER_SILENT_MIN = 120.0      # r1100/r1101 takeover gate: an owner heartbeat
+                              # this stale makes its ready work un-ignitable
+                              # (reported, not auto-claimed, by the audit)
 AUDIT_VERSION = "v2.4.2"     # v2.4 standing saturation mechanism;
                               # v2.4.1 r179 bm-c: ignition_sla 10min -> 60s
                               # acceptance line (D2 live r175 + ladder
@@ -234,6 +237,127 @@ def pool_ready_count():
     if entries is None:
         return None
     return sum(1 for e in entries if e.get("status") == "ready")
+
+
+def _ts_age_min(stamp, now_epoch=None):
+    """Minutes since an ISO-8601 / 'YYYY-MM-DD HH:MM:SS' stamp; None if
+    unparseable (honest unknown, never 0)."""
+    if not stamp or not isinstance(stamp, str):
+        return None
+    now_epoch = time.time() if now_epoch is None else now_epoch
+    try:
+        import datetime as _dt
+        s = stamp.strip().replace("Z", "+00:00")
+        try:
+            dt = _dt.datetime.fromisoformat(s)
+        except ValueError:
+            dt = _dt.datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
+        if dt.tzinfo is None:
+            return (now_epoch - time.mktime(dt.timetuple())) / 60.0
+        return (now_epoch - dt.timestamp()) / 60.0
+    except Exception:
+        return None
+
+
+def heartbeat_silence(machines_dir=None, now_epoch=None):
+    """{machine_id: silence_min or None} from fleet/machines/<id>.json.
+
+    None = heartbeat exists but carries no parseable stamp (unknown age, NOT
+    proven stale). A machine with no heartbeat file at all is absent from the
+    map -- also unknown. Failure to list the directory returns {} (every
+    owner unknown) rather than pretending everyone is alive (r98 law)."""
+    mdir = machines_dir or os.path.join(ROOT, "fleet", "machines")
+    out = {}
+    try:
+        paths = sorted(glob.glob(os.path.join(mdir, "*.json")))
+    except (Exception, SystemExit):
+        return out
+    for p in paths:
+        mid = os.path.basename(p)[:-5]
+        try:
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+        except (Exception, SystemExit):
+            out[mid] = None
+            continue
+        if not isinstance(d, dict):
+            out[mid] = None
+            continue
+        out[d.get("machine_id") or mid] = _ts_age_min(
+            d.get("last_seen") or d.get("ts"), now_epoch)
+    return out
+
+
+def ignitable_face(entries, silence, machine_id, silent_min=None):
+    """Split READY pool work by whether a live machine can actually ignite it.
+
+    ready_total is the v2.4 supply-floor reading (status==ready, any owner).
+    A ready entry is IGNITABLE only when lane_owner is null/empty/ANY, is this
+    machine, or belongs to a machine whose heartbeat is fresher than
+    OWNER_SILENT_MIN. Work owned by a silent machine is structurally
+    un-ignitable: the 2026-10-24 live case read ready=3 / floor=3 /
+    breach=false while all three entries were bm-b's and bm-b had been silent
+    31.7h -- a green floor over a pool nobody could claim (the r1100/r1101
+    single-host silence family, fourth instance, and the SLI-RECONCILE
+    "structural wait != ignitable work" lesson).
+
+    takeover_candidate_ids lists ready entries whose owner is PROVEN silent
+    (>= silent_min, default OWNER_SILENT_MIN) -- the r1100/r1101 takeover gate
+    condition; unknown-age owners are reported separately and never counted as
+    takeover candidates. Returns None when entries is None (unreadable pool).
+    """
+    if entries is None:
+        return None
+    silent_min = OWNER_SILENT_MIN if silent_min is None else silent_min
+    silence = silence or {}
+    ready = [e for e in entries if e.get("status") == "ready"]
+    ignitable, foreign_silent, foreign_alive, owner_unknown = 0, 0, 0, 0
+    takeover, silent_owners, unknown_owners = [], {}, set()
+    for e in ready:
+        owner = e.get("lane_owner")
+        if owner in (None, "", "ANY", "any") or owner == machine_id:
+            ignitable += 1
+            continue
+        age = silence.get(owner)
+        if age is None:
+            owner_unknown += 1
+            unknown_owners.add(owner)
+            continue
+        if age >= silent_min:
+            foreign_silent += 1
+            takeover.append(e.get("id"))
+            silent_owners[owner] = round(age, 1)
+        else:
+            foreign_alive += 1
+    return {
+        "ready_total": len(ready),
+        "ready_ignitable": ignitable,
+        "ready_foreign_alive": foreign_alive,
+        "ready_foreign_silent": foreign_silent,
+        "ready_owner_unknown": owner_unknown,
+        "takeover_candidate_ids": takeover,
+        "takeover_needs_corroboration": True,
+        "silent_owners": silent_owners,
+        "unknown_owners": sorted(unknown_owners),
+        "owner_silent_min": silent_min,
+        "self": machine_id,
+        "corroboration_note": (
+            "heartbeat silence is NOT machine death: 2026-10-24 live case had "
+            "bm-b's heartbeat 31.8h stale while its zt_pool panel was written "
+            "4.5h earlier. Takeover of a lane or batch needs independent "
+            "liveness evidence (lane file mtimes, commit activity) before the "
+            "r1100/r1101 gate is satisfied -- these ids are candidates, not "
+            "permits."),
+    }
+
+
+def _self_machine_id():
+    try:
+        with open(os.path.join(ROOT, "fleet", "machine.json"),
+                  encoding="utf-8") as f:
+            return json.load(f).get("machine_id", "?")
+    except (Exception, SystemExit):
+        return "?"
 
 
 def load_state(py_cpu_pct, ready):
@@ -551,6 +675,16 @@ def main():
     if floor_breach and py_cpu_pct is not None \
             and py_cpu_pct < STARVATION_PY_CPU:
         flags.append("supply_floor")
+    # r1114 ignitable face: a floor read over work nobody alive can claim is a
+    # false green (2026-10-24: ready 3 / floor 3 / breach false, all three
+    # owned by a bm-b silent 31.7h). Reported beside the raw reading; the
+    # distinct flag fires only when ready work exists and NONE of it is
+    # ignitable, so the raw floor semantics stay readable for old consumers.
+    _entries, _ = _merged_pool(os.path.join(ROOT, "results"))
+    ignitable = ignitable_face(_entries, heartbeat_silence(), _self_machine_id())
+    if ignitable and ignitable["ready_total"] > 0 \
+            and ignitable["ready_ignitable"] == 0:
+        flags.append("supply_owner_silent")
     streak_min = supply_family_streak_min(hist, flags, time.time())
 
     record = {
@@ -571,7 +705,13 @@ def main():
         "supply_gap_candidate": gap_cand,
         "supply_gap_detail": gap_detail,
         "supply_floor": {"ready": ready, "floor": SUPPLY_FLOOR_READY,
-                         "breach": floor_breach},
+                         "breach": floor_breach,
+                         "ready_ignitable": (None if ignitable is None else
+                                             ignitable["ready_ignitable"]),
+                         "breach_ignitable": (None if ignitable is None else
+                                              ignitable["ready_ignitable"]
+                                              < SUPPLY_FLOOR_READY)},
+        "pool_ignitable": ignitable,
         "ignition_sla_breach_ids": sla_ids,
         "supply_family_streak_min": streak_min,
         "gpu": gpu,
@@ -815,6 +955,48 @@ def _selftest():
             f.write("{broken")
         check("fleet_open_tasks tolerates corrupt",
               fleet_open_tasks(td), 2)
+
+    # ---- r1114 legs: ignitable pool face (dead-owner false green) ----
+    _ready = [{"id": "A", "status": "ready", "lane_owner": "bm-b"},
+              {"id": "B", "status": "ready", "lane_owner": None},
+              {"id": "C", "status": "ready", "lane_owner": "ANY"},
+              {"id": "D", "status": "ready", "lane_owner": "bm-a"},
+              {"id": "E", "status": "ready", "lane_owner": "bm-c"},
+              {"id": "F", "status": "done", "lane_owner": "bm-b"}]
+    ig = ignitable_face(_ready, {"bm-b": 1900.0, "bm-c": 5.0}, "bm-a")
+    check("r1114 ready_total counts only ready", ig["ready_total"], 5)
+    check("r1114 null/ANY/self are ignitable", ig["ready_ignitable"], 3)
+    check("r1114 dead owner split out", ig["ready_foreign_silent"], 1)
+    check("r1114 live owner stays ignitable-ish (alive bucket)",
+          ig["ready_foreign_alive"], 1)
+    check("r1114 takeover ids = proven-silent owners only",
+          ig["takeover_candidate_ids"], ["A"])
+    check("r1114 silent owner age recorded", ig["silent_owners"], {"bm-b": 1900.0})
+    ig_unk = ignitable_face(_ready, {"bm-c": 5.0}, "bm-a")
+    check("r1114 missing heartbeat = unknown, never ignitable",
+          (ig_unk["ready_owner_unknown"], ig_unk["takeover_candidate_ids"]), (1, []))
+    check("r1114 unreadable pool -> None (r98)",
+          ignitable_face(None, {}, "bm-a"), None)
+    check("r1114 all dead-owned = zero ignitable (the live 10-24 shape)",
+          ignitable_face([{"id": "X", "status": "ready", "lane_owner": "bm-b"},
+                          {"id": "Y", "status": "ready", "lane_owner": "bm-b"}],
+                         {"bm-b": 1902.0}, "bm-a")["ready_ignitable"], 0)
+    # heartbeat_silence reads a real directory (hermetic temp dir)
+    import tempfile
+    with tempfile.TemporaryDirectory() as hdir:
+        doc = {"machine_id": "bm-z", "last_seen": _ts(30)}
+        with open(os.path.join(hdir, "bm-z.json"), "w", encoding="utf-8") as f:
+            json.dump(doc, f)
+        with open(os.path.join(hdir, "bm-y.json"), "w", encoding="utf-8") as f:
+            f.write("{broken")
+        sil = heartbeat_silence(hdir, now)
+        check("r1114 heartbeat silence parsed (30min +/- 1)",
+              sil.get("bm-z") is not None and abs(sil["bm-z"] - 30.0) <= 1.0,
+              True)
+        check("r1114 corrupt heartbeat -> unknown age None",
+              sil.get("bm-y", "absent"), None)
+        check("r1114 absent dir -> empty map",
+              heartbeat_silence(os.path.join(hdir, "nope"), now), {})
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

@@ -5056,6 +5056,166 @@ def run_screenreg(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+def _screengapera_rows(faces, base="unscreened", adjacent="neutralise"):
+    """(E93) One row per era: the published spread under every arm, with the
+    delta against BOTH the untouched column and the adjacent-only column.
+
+    The adjacent-only delta is the one the E92 chain needed: it isolates what
+    the gap-tolerant repair adds, because the adjacent-only arm already
+    carries the default screen. Rows only exist for eras that actually publish
+    a spread (a wide leg with no live member cannot)."""
+    rows = []
+    for era in faces[base]["eras"]:
+        u = faces[base]["eras"][era]
+        if "spread_ann_bp" not in u:
+            continue
+        adj = (faces.get(adjacent, {}).get("eras", {}).get(era) or {}).get(
+            "spread_ann_bp")
+        row = {"era": era, "unscreened_spread_ann_bp": u.get("spread_ann_bp"),
+               "adjacent_only_spread_ann_bp": adj}
+        for arm in faces:
+            if arm in (base, adjacent):
+                continue
+            v = (faces[arm]["eras"].get(era) or {}).get("spread_ann_bp")
+            row[arm + "_spread_ann_bp"] = v
+            row["delta_vs_unscreened_" + arm] = (
+                round(v - u["spread_ann_bp"], 4)
+                if isinstance(v, (int, float)) else None)
+            row["delta_vs_adjacent_only_" + arm] = (
+                round(v - adj, 4)
+                if isinstance(v, (int, float)) and isinstance(adj, (int, float))
+                else None)
+        rows.append(row)
+    return rows
+
+
+def run_screengapera(outdir, start="2020-01-01", pick_n=9999,
+                     exclude=("sh511",), eras=ERAS,
+                     ladder_starts=("2020-01-01", "2018-01-01"),
+                     gap_limits=(1, 5)):
+    """E93: re-derive the era-SPREAD face (the number the chain publishes as
+    an edge) with the gap-tolerant screen beside the untouched and the
+    adjacent-only columns.
+
+    E92 showed the churn LEVELS move while the churn GAP does not, but the
+    churn sleeve is a name-level mean -- this leg reads the ladder-vs-wide era
+    spread itself under gap_limit 1 and 5. No arm is overwritten: each arm is
+    a separately labelled column, and both the unscreened and the adjacent-only
+    spreads are carried into every row so no arm can be silently swapped.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    arms = ["unscreened", "neutralise", "neutralise_int"]
+    arms += ["neutralise_gap@%d" % g for g in gap_limits]
+    faces = {"unscreened": _screen_face(raw, cal_full, pick_n, eras,
+                                        ladder_starts)}
+    reports = {}
+    for mode in ("neutralise", "neutralise_int"):
+        repaired, report = panel_screen.screen_universe(raw, mode=mode,
+                                                        cal=cal_full)
+        reports[mode] = report
+        faces[mode] = _screen_face(repaired, cal_full, pick_n, eras,
+                                   ladder_starts)
+    for g in gap_limits:
+        repaired, report = panel_screen.screen_universe(
+            raw, mode="neutralise_gap", cal=cal_full, gap_limit=g)
+        arm = "neutralise_gap@%d" % g
+        reports[arm] = report
+        faces[arm] = _screen_face(repaired, cal_full, pick_n, eras,
+                                  ladder_starts)
+
+    rows = _screengapera_rows(faces)
+    gap_arms = [a for a in arms if a.startswith("neutralise_gap@")]
+
+    def _signs_against(col):
+        out = []
+        for r in rows:
+            u = r[col]
+            if not isinstance(u, (int, float)) or u == 0:
+                continue
+            for a in gap_arms:
+                v = r.get(a + "_spread_ann_bp")
+                if isinstance(v, (int, float)) and v * u < 0:
+                    out.append({"era": r["era"], "arm": a,
+                                col: u, "arm_spread_ann_bp": v})
+                    break
+        return out
+
+    worst = None
+    for r in rows:
+        for a in gap_arms:
+            d = r.get("delta_vs_unscreened_" + a)
+            if d is None:
+                continue
+            if worst is None or abs(d) > abs(worst["delta_vs_unscreened"]):
+                worst = {"era": r["era"], "arm": a,
+                         "unscreened": r["unscreened_spread_ann_bp"],
+                         "arm_spread_ann_bp": r.get(a + "_spread_ann_bp"),
+                         "delta_vs_unscreened": d,
+                         "delta_vs_adjacent_only":
+                             r.get("delta_vs_adjacent_only_" + a)}
+    marginal = []
+    if len(gap_limits) >= 2:
+        lo, hi = "neutralise_gap@%d" % gap_limits[0], \
+                 "neutralise_gap@%d" % gap_limits[-1]
+        for r in rows:
+            a, b = r.get(lo + "_spread_ann_bp"), r.get(hi + "_spread_ann_bp")
+            marginal.append({"era": r["era"], "arm_low": lo, "arm_high": hi,
+                             "delta": (round(b - a, 4)
+                                       if isinstance(a, (int, float))
+                                       and isinstance(b, (int, float)) else None)})
+
+    return {
+        "study": "e93_screengap_era_spread",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n,
+            "exclude_prefixes": list(exclude), "arms": arms,
+            "gap_limits_sessions": list(gap_limits),
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "ladder_starts": list(ladder_starts),
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": "era spread = E41 ladder5 vs wide_topN on the full "
+                     "calendar (same face E76 published); ladder windows "
+                     "carried for completeness",
+            "loader": "scripts/panel_screen.py (opt-in, integer-ratio gate)",
+        },
+        "screen_reports": reports,
+        "era_rows": rows,
+        "ladder_faces": {a: faces[a]["ladder"] for a in arms},
+        "answers": {
+            "eras_whose_spread_changes_sign_vs_unscreened":
+                _signs_against("unscreened_spread_ann_bp"),
+            "eras_whose_spread_changes_sign_vs_adjacent_only":
+                _signs_against("adjacent_only_spread_ann_bp"),
+            "worst_era_correction": worst,
+            "gap_limit_marginal": marginal,
+            "eras_compared": len(rows),
+            "gap_arms": gap_arms,
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict, no ledger booking, "
+            "trial 0 (a re-read of an already published face, not a new claim)",
+            "the gap-tolerant arm repairs only prints whose implied ratio lands "
+            "on an integer and that sit within gap_limit sessions of the last "
+            "priced close; everything else is left alone",
+            "the adjacent-only and unscreened arms are re-derived, never "
+            "rewritten: SCREENREG/SCREENGAP files on disk are untouched",
+            "era spread is a sleeve-level mean of a name-level book, so a "
+            "shift here is a composition-and-print effect on the same members, "
+            "not a strategy change",
+        ],
+    }
+
+
 # ------------------------------------------------------------ E77 wide screen
 
 WIDE_COLUMNS = ("wide_ann_pct", "wide_total_return_pct", "wide_vol_pct",
@@ -8189,6 +8349,34 @@ def selftest():
     chk(_c1["eligible_by_era"] == {"2021_2023": 1},
         "eligibility is tagged with the era of the print date")
 
+    # (E93) era-spread gap-arm table: every row keeps both twins and the
+    # gap-arm deltas are computed against each of them independently.
+    _faces = {
+        "unscreened": {"eras": {"A": {"spread_ann_bp": 100.0},
+                                "B": {"spread_ann_bp": -50.0},
+                                "C": {"bars": 12}}},
+        "neutralise": {"eras": {"A": {"spread_ann_bp": 90.0},
+                                "B": {"spread_ann_bp": -40.0},
+                                "C": {"spread_ann_bp": 10.0}}},
+        "neutralise_gap@1": {"eras": {"A": {"spread_ann_bp": 95.0},
+                                      "B": {"spread_ann_bp": 5.0},
+                                      "C": {"spread_ann_bp": None}}},
+        "neutralise_gap@5": {"eras": {"A": {"spread_ann_bp": 99.0},
+                                      "B": {"spread_ann_bp": -48.0},
+                                      "C": {"spread_ann_bp": None}}},
+    }
+    _rows = _screengapera_rows(_faces)
+    chk(len(_rows) == 2, "spread rows skip eras with no published spread")
+    _a = _rows[0]
+    chk(_a["delta_vs_unscreened_neutralise_gap@1"] == -5.0,
+        "gap arm delta is read against the unscreened twin")
+    chk(_a["delta_vs_adjacent_only_neutralise_gap@1"] == 5.0,
+        "the same cell's delta against the adjacent-only twin is independent")
+    chk(_a["adjacent_only_spread_ann_bp"] == 90.0,
+        "the adjacent-only arm is carried on every row, never nested")
+    chk(_rows[1]["delta_vs_adjacent_only_neutralise_gap@5"] == -8.0,
+        "a sign-carrying delta keeps its sign against the adjacent arm")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -8296,7 +8484,7 @@ def main(argv):
                              "panelsplit", "screenreg", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
-                             "gapsplit",
+                             "gapsplit", "screengapera",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -8720,6 +8908,25 @@ def main(argv):
                           "moved_cells": [r for r in f["delta"]
                                           if any(r.get("delta_" + m) not in (None, 0)
                                                  for m in f["screen_reports"])][:12]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screengapera":
+        limits = tuple(int(x) for x in str(args.gaps).split(",") if x.strip())
+        f = run_screengapera(None, start=args.start, gap_limits=limits)
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        p = write_json(outdir, "SCREENGAPERA-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screengapera",
+                          "file": os.path.relpath(p, ROOT),
+                          "arms": f["spec"]["arms"],
+                          "screen": {k: {"names_touched": v["names_touched"],
+                                         "events": v["events_neutralised"],
+                                         "gap_limit": v.get("gap_limit")}
+                                     for k, v in f["screen_reports"].items()
+                                     if k.startswith("neutralise_gap")},
+                          "answers": {k: v for k, v in f["answers"].items()
+                                      if k != "gap_limit_marginal"},
+                          "era_rows": f["era_rows"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "screenwide":
