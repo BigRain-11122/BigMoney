@@ -1,0 +1,61 @@
+{
+ "wave": 319,
+ "splice": "3b7d58a25b9af78bef86b6e6b33b2daecdee6e9d",
+ "origin_base": "29c7158b0a1a7a73e40c3b2ad79c62e020876f38",
+ "bands": {
+  "A": [
+   717101,
+   719100
+  ],
+  "B": [
+   719101,
+   719300
+  ]
+ },
+ "landed_n1_sha16": "081ee558732c629d",
+ "landed_pf_sha16": "47522ef16eb6cb9b",
+ "receipt_n1_sha16_post": "081ee558732c629d",
+ "receipt_n1_sha16_pre": "7118a10019e91afa",
+ "receipt_pf_sha16_post": "264052a13b9d5383",
+ "receipt_pf_sha16_pre": "c3a65af30ad9ac9c",
+ "prereg_sha16": "b5f98b6ee503a850",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "post_match_mode": "eol-basis recorded per face",
+ "worktree_raw_eq_receipt_post": true,
+ "replay_lf_sha16": "081ee558732c629d",
+ "landed_lf_sha16": "081ee558732c629d",
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "081ee558732c629d",
+   "landed_crlf_sha16": "3953979af704a7d2",
+   "parent_crlf_sha16": "d8216ea7a83d54f7",
+   "parent_raw_sha16": "7118a10019e91afa",
+   "worktree_raw_sha16": "081ee558732c629d",
+   "worktree_lf_sha16": "081ee558732c629d",
+   "receipt_pre_sha16": "7118a10019e91afa",
+   "receipt_post_sha16": "081ee558732c629d",
+   "pre_basis": "raw_lf",
+   "post_basis": "landed_lf"
+  },
+  "pf": {
+   "landed_lf_sha16": "47522ef16eb6cb9b",
+   "landed_crlf_sha16": "264052a13b9d5383",
+   "parent_crlf_sha16": "c3a65af30ad9ac9c",
+   "parent_raw_sha16": "5421419a419d0da1",
+   "worktree_raw_sha16": "264052a13b9d5383",
+   "worktree_lf_sha16": "47522ef16eb6cb9b",
+   "receipt_pre_sha16": "c3a65af30ad9ac9c",
+   "receipt_post_sha16": "264052a13b9d5383",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  }
+ },
+ "eol_basis_note": "n1 pre face was measured by the editor on an LF working copy (window-internal byte restore of the pre-splice blob); pf was measured on the autocrlf CRLF smudge face. Each is proved identical to its OWN parent normalization and the landed/worktree faces are byte-identical -- recorded as a basis, never smoothed (r1188/r1208)",
+ "heal_deltas": [],
+ "unexplained_deltas": [],
+ "reconcile_note": "direct reconciliation: parent-CRLF == receipt pre, landed-CRLF == receipt post, worktree raw == receipt post and worktree LF == landed LF on both files, with zero editor re-execution",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically, never by trusting either side (r1188 bm-c)",
+ "verdict": "PASS"
+}

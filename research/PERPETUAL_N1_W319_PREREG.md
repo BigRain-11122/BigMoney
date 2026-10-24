@@ -55,20 +55,22 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,121,741 + 2,200 = 1,123,941`（exact=True）；累计池 K `695,320 + 2,200 = 697,520`（exact=True）。
-- 合并池（W1..W318）：mu **-0.09282728** / sigma **0.24517158** / se_mu@K697,520 **0.000294**；W318-only mu **-0.09374523** / sigma **0.24620696**。
-- A 档 full_sharpe p95 **0.3212** / p99 **0.451**（锚 W317 p95 0.3158，差=+0.0054 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w318 **1.2013** → line_merged@K697,520 **1.2013**，差 **+0.0000**；n_eff_held_equal 1,121,741。
-- §5 五预键验证：`results/_r1218bmc_w318_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无；§5 key4 prose `+0.0000` 系 W317 实测锚，本波实测 K-lift `+0.0000` 亦为 0，口径一致）。
-- 六门探针：`results/_r1218bmc_w318_sixgate.json` verdict **ALL PASS**（第 81 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,123,941 + 2,200 = 1,126,141`（exact=True）；累计池 K `697,520 + 2,200 = 699,720`（exact=True）。
+- 合并池（W1..W319）：mu **-0.09279661** / sigma **0.24516945** / se_mu@K699,720 **0.000293**；W319-only mu **-0.08307518** / sigma **0.24435672**。
+- A 档 full_sharpe p95 **0.3225** / p99 **0.4535**（锚 W318 p95 0.3212，差=+0.0013 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w319 **1.2014** → line_merged@K699,720 **1.2014**，差 **+0.0000**；n_eff_held_equal 1,123,941。
+- §5 五预键验证：`results/_r1219bmc_w319_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
+- 六门探针：`results/_r1219bmc_w319_sixgate.json` verdict **ALL PASS**（第 82 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W320+ 投影承接机证：本窗席位回执 leg4（pre-W319 宇宙）投影 W320p A naive **719_101..721_100** clean（hops=0）、B naive **719_301..719_500** clean（hops=0）但落投影 A 窗内（own-A reservation 承袭预期）——**W320 冻结方必须在 post-W319 宇宙重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **717_101..719_100**（72nd 连续 A-hop·hops=1·base==注册 W318 B 尾 717_100+1）／B **719_101..719_300**（73rd 连续 above-own-A·hops=1·base==本波 A 尾 719_100+1）——`results/_w319bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True。
-- 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.md 均不追加。
-- 诚实披露：§5 五预键若出现 prose 偏差（se_mu 取 3 位小数），以机读值为准并披露、不抹平；mu/sigma/K-lift 一律按冻结带校验。
-- 坑律捕获：post-W318 finalize 同窗回填（本段属 finalize 回填面，冻结时为前波沿用文本）；本窗冻结沿用 r1208/r1214 判例：canon-clone 生成器的纯数字面（注册行号前缀/切口/setwave 键后缀）直写目标波号、W token 面保留**上一波**形态交给级联推进一次。
+- §5.5 W320+ 投影承接机证（本席 receipt `results/_w319bmc_20261025_probe_receipt.json` leg4，pre-W319 宇宙）：naive W320 A `719_101..721_100` clean（hops=0），naive W320 B `719_301..719_500` clean（hops=0）但落投影 A 窗内（lands_inside=True）；**W319 注册后**（A 717,101..719,100 / B 719,101..719,300）naive W320 A 起点 719,101 即被注册 W319 B 带 719,101..719,300 拒绝（staircase-affects-A 承袭预期·hops 以 W320 seat live trace 为准）——下一冻结窗必须重新 live derive，禁转抄（r587）。
+- 本波席位 live 事实：A 算术续带 716,901..718,900 在席位窗起点即被注册 W318 B 带 716,901..717,100 拒绝（hops=1 → 717,101..719,100，base==注册 W318 B 尾 717,100+1）；B 算术续带 717,101..717,300 落本波 A 窗 717,101..719,100（own-A reservation cascade·hops=1 → 719,101..719,300，base==本波 A 尾 719,100+1）；seed_admit_gate FREE x2，relation_asserts 4/4，verdict ADMIT。
+- 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
+- 诚实披露（本波 2 条·均为 prose 面，判据与产物零影响）：
+  ① §5 五预键 prose 偏差 0 条（无），以机读值为准不抹平；mu/sigma/p95/K-lift 全部落在冻结带内。
+  ② **表头沿用的前波账本字面量滞后两波**：本件首段「W318 row five-face freeze … finalize one-pass ledger 1,119,541 / K=693,120」为 W318 窗文本原样继承，该组数字实为 **W316** finalize 实测（W316=1,119,541/693,120；W317=1,121,741/695,320；W318=**1,123,941/697,520**）——属 r1170/r1182「散文标签含波号数字不在数字级联射程」同族第三现；冻结件不回改（历史面保全），此处如实披露并给出正确锚：**本波前置=W318 finalize 1,123,941 / K=697,520 机读**（`n1_w318_results.json`），本波产物自身账本恒等式 exact=True。下一冻结窗（W320）须对该段做一次显式重指并按 count-assert 核。
+- 坑律捕获（本窗）：①**吸收窗判定顺序**=先 `git log --oneline` 读已推轮标（本例 r1219 三提交在链）再读 `state-bm-c.json` round_no（停在 1218）——两面对不上=前一窗死 pre-closeout，本窗按 absorb 谱系承接，禁按 state 轮号重跑轮体（重跑=二次 splice/二次烧）。②**finalize 是被 DETACHED 拉起的子进程，不在轮体线程里**：前窗死在 commit 前而 finalize 仍在跑（PID 存活+CPU 累计+日志为空=正常态，`python -u` 日志到收尾才冲），正法=等进程退出再读 `results/perpetual_faces/n1_w3NN_results.json`，期间禁重启 finalize（=双烧台账）。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 
