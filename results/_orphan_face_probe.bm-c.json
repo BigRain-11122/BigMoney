@@ -1,44 +1,18 @@
 {
- "ts": "2026-10-25T00:43:31",
+ "ts": "2026-10-25T01:00:43",
  "mode": "probe",
- "py_faces_seen": 6,
+ "py_faces_seen": 5,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 1,
+ "resident_servers_exempt": 2,
  "faces": [
-  {
-   "pid": 2736,
-   "name": "pythonw.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\pythonw.exe h3_i2v_album.py --repo K:\\Fluxgroup\\FluxGroup --lane bmc --manifest cph4/fleet/mv-",
-   "age_min": 2.5,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 15864,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\per",
-   "age_min": 5.1,
-   "cpu_delta_20s": 17.094,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
   {
    "pid": 20368,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 59.9,
-   "cpu_delta_20s": 1.844,
+   "age_min": 77.1,
+   "cpu_delta_20s": 1.406,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -50,8 +24,8 @@
    "pid": 28164,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 53.6,
-   "cpu_delta_20s": 0.047,
+   "age_min": 70.7,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -63,11 +37,11 @@
    ]
   },
   {
-   "pid": 30840,
+   "pid": 40976,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.172,
+   "cpu_delta_20s": 0.266,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -79,16 +53,32 @@
    ]
   },
   {
+   "pid": 42036,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
+   "age_min": 0.1,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "wscript.exe"
+   ]
+  },
+  {
    "pid": 42840,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 40.8,
-   "cpu_delta_20s": 49.75,
+   "age_min": 58.0,
+   "cpu_delta_20s": 0.031,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
+   ],
+   "listen_ports": [
+    8188
    ]
   }
  ],
@@ -99,8 +89,8 @@
    "pid": 28164,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 53.6,
-   "cpu_delta_20s": 0.047,
+   "age_min": 70.7,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -109,6 +99,22 @@
    ],
    "listen_ports": [
     8199
+   ]
+  },
+  {
+   "pid": 42840,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 58.0,
+   "cpu_delta_20s": 0.031,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "listen_ports": [
+    8188
    ]
   }
  ],
