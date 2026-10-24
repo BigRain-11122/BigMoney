@@ -1,0 +1,88 @@
+{
+ "machine": "bm-c",
+ "wave": 306,
+ "phase": "finalize five-key machine assertion (prereg sec.5 frozen keys vs finalize face)",
+ "results_file": "results/perpetual_faces/n1_w306_results.json",
+ "keys_anchor": "W305 finalize actuals machine-read from n1_w305_results.json (r587 law); W306 prereg sec.5 froze its keys on W305 actuals",
+ "prereg_prose_deviations": [
+  {
+   "key": "key4_n_eff_held_equal",
+   "frozen_prose": 1093141,
+   "machine_read_w305": 1093141,
+   "note": "prose plants the W304 n_eff literal (1,093,141); W305 actual reads 1,095,341. Disclosed, not smoothed; the K-lift band is unaffected (n_eff is the held-equal carrier, recomputed live every wave)."
+  }
+ ],
+ "merged": {
+  "k": 671120,
+  "mu": -0.09284763902133747,
+  "sigma": 0.2451266254234313,
+  "se_mu_k671120": 0.000299
+ },
+ "w306_only": {
+  "mu": -0.08964145454545454,
+  "sigma": 0.24199611225059894
+ },
+ "skill_line": {
+  "n_eff_held": 1095341,
+  "line_pre_w306": 1.1999,
+  "line_merged_671120": 1.1999,
+  "k_lift_delta": 0.0
+ },
+ "a_band": {
+  "full_sharpe_p95": 0.309,
+  "full_sharpe_p99": 0.4623
+ },
+ "checks": [
+  {
+   "name": "key1_w306_vs_merged_mu_gap",
+   "value": 0.003206184475882931,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key1b_merged_vs_w305_key",
+   "value": 1.054476745641908e-05,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key2_sigma_rel",
+   "value": -4.217778364447571e-05,
+   "band": 0.1,
+   "pass": true
+  },
+  {
+   "name": "key3_a_p95_delta_actual_anchor",
+   "value": 0.008099999999999996,
+   "band": 0.05,
+   "pass": true
+  },
+  {
+   "name": "key4_k_lift_move",
+   "value": 0.0,
+   "band": 0.02,
+   "pass": true
+  },
+  {
+   "name": "key5_se_mu_narrowing",
+   "value": 0.000299,
+   "band": 0.0003,
+   "pass": true
+  }
+ ],
+ "all_pass": true,
+ "ledger_identity": {
+  "prev_total": 1095341,
+  "batch_trials": 2200,
+  "total": 1097541,
+  "exact": true
+ },
+ "merged_k_identity": {
+  "prev_k": 668920,
+  "batch": 2200,
+  "merged_k": 671120,
+  "exact": true
+ },
+ "keys_source": "W305 finalize actuals machine-read from n1_w305_results.json (r587 law)",
+ "canon_flip": "NOT performed by this wave -- governance proposal face only (K2200 same law)"
+}
