@@ -55,22 +55,22 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,123,941 + 2,200 = 1,126,141`（exact=True）；累计池 K `697,520 + 2,200 = 699,720`（exact=True）。
-- 合并池（W1..W319）：mu **-0.09279661** / sigma **0.24516945** / se_mu@K699,720 **0.000293**；W319-only mu **-0.08307518** / sigma **0.24435672**。
-- A 档 full_sharpe p95 **0.3225** / p99 **0.4535**（锚 W318 p95 0.3212，差=+0.0013 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w319 **1.2014** → line_merged@K699,720 **1.2014**，差 **+0.0000**；n_eff_held_equal 1,123,941。
-- §5 五预键验证：`results/_r1219bmc_w319_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
-- 六门探针：`results/_r1219bmc_w319_sixgate.json` verdict **ALL PASS**（第 82 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,126,141 + 2,200 = 1,128,341`（exact=True）；累计池 K `699,720 + 2,200 = 701,920`（exact=True）。
+- 合并池（W1..W320）：mu **-0.09283239** / sigma **0.24517796** / se_mu@K701,920 **0.000293**；W320-only mu **-0.10421232** / sigma **0.24766094**。
+- A 档 full_sharpe p95 **0.3096** / p99 **0.458**（锚 W319 p95 0.3225，差=-0.0129 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w320 **1.2015** → line_merged@K701,920 **1.2015**，差 **+0.0000**；n_eff_held_equal 1,126,141。
+- §5 五预键验证：`results/_r1222bmc_w320_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
+- 六门探针：`results/_r1222bmc_w320_sixgate.json` verdict **ALL PASS**（第 83 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W321+ 投影承接机证：本窗席位回执 leg4（pre-W320 宇宙）投影 W321p A naive **721_301..723_300** clean（hops=0）、B naive **721_501..721_700** clean（hops=0）但落投影 A 窗内（own-A reservation 承袭预期）——**W321 冻结方必须在 post-W320 宇宙 重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·never transcribe r587**。
-- 本窗席位实测机证：A **719_301..721_300**（73rd 连续 A-hop·hops=1·base==注册 W319 B 尾 719_300+1）／B **721_301..721_500**（74th 连续 above-own-A·hops=1·base==本波 A 尾 721_300+1）——`results/_w320bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts 4/4·seed_admit_gate FREE x2·leg3 bands_clear=True。
+- §5.5 W321+ 投影承接机证（本席 receipt `results/_w320bmc_20261025_probe_receipt.json` leg4，pre-W320 宇宙）：naive W321 A `721_301..723_300` clean（hops=0），naive W321 B `721_501..721_700` clean（hops=0）但落投影 A 窗内（lands_inside=True）；**W320 注册后**（A 719,301..721,300 / B 721,301..721,500）naive W321 A 起点 721,301 即被注册 W320 B 带 721,301..721,500 拒绝（staircase-affects-A 承袭预期·hops 以 W321 seat live trace 为准）——下一冻结窗必须重新 live derive，禁转抄（r587）。
+- 本波席位 live 事实：A 算术续带 719,101..721,100 在席位窗起点即被注册 W319 B 带 719,101..719,300 拒绝（hops=1 → 719,301..721,300，base==注册 W319 B 尾 719,300+1）；B 算术续带 719,301..719,500 落本波 A 窗 719,301..721,300（own-A reservation cascade·hops=1 → 721,301..721,500，base==本波 A 尾 721,300+1）；seed_admit_gate FREE x2，relation_asserts 4/4，verdict ADMIT。
 - 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
-- 诚实披露（本波 1 条·prose 面，判据与产物零影响）：
-  ① §5 五预键若出现 prose 偏差（se_mu 取 3 位小数），以机读值为准并披露、不抹平；mu/sigma/p95/K-lift 一律按冻结带校验。
-  ② §5 第 5 条的 W321 投影属 probe 机证面（pre-W320 宇宙），非承诺——本波实测以 post-W320 live trace 为准。
-- 坑律捕获（本窗）：①post-W319 finalize 同窗回填（本段属 finalize 回填面，冻结时为前波沿用文本）；②canon-clone 生成器的纯数字面（注册行号前缀/切口/setwave 键后缀）直写目标波号、W token 面保留**上一波**形态交给级联推进一次；累积链（se_mu/A-B/own-turn/RAM）一律 park+延长一条，禁滚。
+- 诚实披露（本波 2 条·均为面相等价性披露，判据与产物零影响）：
+  ① §5 五预键 prose 偏差 0 条（无），以机读值为准不抹平；mu/sigma/p95/K-lift 全部落在冻结带内。
+  ② **冻结回执 post 面是 pre-heal 面**：r1221 窗在 freeze receipt 落盘（01:27）之后跑了两次 bare-number heal（01:31，`results/_r1221bmc_heal_w320_cfg.py`：cfg shard_subdir n1_w319→n1_w320 + prose wave label），故 `_w320bmc_freeze_receipt.json` 的 n1_sha16_post `12b6961285eecb68` 早于落地面。冻结件不回改（历史面保全），等价性由 adjudication 机械证明：把两次 heal 逆向后逐字节复现回执 post 面（`12b6961285eecb68`），heal_delta 计入 disclosed、unexplained=0，verdict **PASS**。
+- 坑律捕获（本窗）：①**freeze 回执的后置 heal 不要当 FAIL**——r1188 口径下「receipt post ≠ land」有两种成因（EOL 基准 vs 后置 heal），正解=逐面记 EOL 基准 + 对后置 heal 做逆向字节复现，复现成功即 PASS（本轮首个实弹）。②**finalize 在管道里跑会被工具 5 分钟无输出窗取消**（本轮 `python -u ... | Select-Object -Last 25` 被取消），但脚本可能已跑完——正解=先查产物文件与账本恒等式再决定是否重跑（重跑=双烧台账，r1219 同族）。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
 
 
