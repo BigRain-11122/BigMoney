@@ -1,0 +1,72 @@
+{
+ "wave": 322,
+ "splice": "7e091e8c4a7ce92d591b148baa3a12d04ad44c73",
+ "origin_base": "eeba8eb167e723d2e5d797f585065a14f21b490f",
+ "bands": {
+  "A": [
+   723701,
+   725700
+  ],
+  "B": [
+   725701,
+   725900
+  ]
+ },
+ "landed_n1_sha16": "f9a54e6e691975ad",
+ "landed_pf_sha16": "723aa961ccf033d7",
+ "receipt_n1_sha16_post": "13885bf15a007ba9",
+ "receipt_n1_sha16_pre": "6875232b7268fb24",
+ "receipt_pf_sha16_post": "1620bf87d9e4cdcd",
+ "receipt_pf_sha16_pre": "20e8f956f910fbe0",
+ "prereg_sha16": "2b03102d72c15d02",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "post_match_mode": "n1: eol-basis direct match; pf: pre-heal receipt face reproduced byte-exactly by reverse-applying the disclosed provenance heal",
+ "worktree_raw_eq_receipt_post": false,
+ "replay_lf_sha16": "f9a54e6e691975ad",
+ "landed_lf_sha16": "f9a54e6e691975ad",
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "f9a54e6e691975ad",
+   "landed_crlf_sha16": "13885bf15a007ba9",
+   "parent_crlf_sha16": "6875232b7268fb24",
+   "parent_raw_sha16": "c83e46c548dff403",
+   "worktree_raw_sha16": "13885bf15a007ba9",
+   "worktree_lf_sha16": "f9a54e6e691975ad",
+   "receipt_pre_sha16": "6875232b7268fb24",
+   "receipt_post_sha16": "13885bf15a007ba9",
+   "pre_basis": "crlf",
+   "post_basis": "landed_crlf"
+  },
+  "pf": {
+   "landed_lf_sha16": "723aa961ccf033d7",
+   "landed_crlf_sha16": "0e9be0403a0211a5",
+   "parent_crlf_sha16": "20e8f956f910fbe0",
+   "parent_raw_sha16": "7a07df0d06820a5a",
+   "worktree_raw_sha16": "0e9be0403a0211a5",
+   "worktree_lf_sha16": "723aa961ccf033d7",
+   "receipt_pre_sha16": "20e8f956f910fbe0",
+   "receipt_post_sha16": "1620bf87d9e4cdcd",
+   "pre_basis": "crlf",
+   "post_basis": "receipt post face is a PRE-HEAL face, reproduced byte-exactly by reverse-applying the disclosed r1226 provenance fix",
+   "pre_heal_reconstruction_sha16": "1620bf87d9e4cdcd",
+   "pre_heal_reconstruction_eq_receipt_post": true
+  }
+ },
+ "pf_splice_hunk_numstat": "32\t0\tscripts/perpetual_faces.py",
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [
+  {
+   "tag": "pf_n1_bands_w322_prereg_window_provenance",
+   "reversed": true,
+   "current_face": "bm-c r1225 window derive landed",
+   "pre_heal_face": "bm-c r1224 window derive landed",
+   "source": "r1226 window inline provenance fix at 03:50:48, 55s after the freeze receipt (03:49:53)"
+  }
+ ],
+ "unexplained_deltas": [],
+ "reconcile_note": "direct reconciliation on n1 (parent-CRLF == receipt pre, worktree/landed CRLF == receipt post) and on pf pre faces; the single pf receipt-post delta is the post-receipt provenance fix, proved by byte-exact reverse application and scope-bounded to the one inserted N1_BANDS hunk (numstat above)",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically, never by trusting either side (r1188 bm-c)",
+ "verdict": "PASS"
+}
