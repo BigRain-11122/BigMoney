@@ -1,0 +1,62 @@
+{
+ "machine": "bm-c",
+ "wave": 316,
+ "spliced_wave": 317,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W316 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "a2ba09e18a160eddaaad51ff415bfdd9a521fc37",
+ "pf_sha16_pre": "a49b6ba84ae09db4",
+ "n1_sha16_pre": "c83705649995b215",
+ "pf_sha16_post": "9caf18e7b65b7b62",
+ "n1_sha16_post": "612a658a3bed9eff",
+ "bands": {
+  "A": [
+   712701,
+   714700
+  ],
+  "B": [
+   714701,
+   714900
+  ]
+ },
+ "admit_receipt": "results/_w317bmc_20261024_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=712701 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=714701 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk SEVENTIETH consecutive A-hop (naive 712_501..714_500 refused at start by the registered W316 B band 712_501..712_700; hops=1; A base == registered prior-wave B tail+1 EXACT)",
+  "B": "1-HOP own-A RESERVATION CASCADE above own-A (naive 712_701..712_900 clean vs registered but lands inside the own-wave A first-clean window; hops=1; B base == own-A tail+1 EXACT; SEVENTY-FIRST consecutive above-own-A)"
+ },
+ "upstream_w316": {
+  "freeze_sha": "9152093267758d8c136a05b3860365797be8ccdc",
+  "prereg_sha": "24d7917916e5c38741b456f70d121d119b25617f",
+  "ledger_total": 1119541,
+  "merged_n": 693120
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261024-2215-bmc-w317-seat.md",
+  "seat_origin": "a2ba09e18a",
+  "prereg_commit": "06002d41aa7c3c087e412914e0b080b33d0661c5",
+  "probe_receipt_sha": "a2ba09e18a160eddaaad51ff415bfdd9a521fc37"
+ },
+ "downstream_seat": "projection on the PRE-W317 universe; once W317 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+ "seat": "fleet/inbox/MSG-20261024-2215-bmc-w317-seat.md",
+ "parity": {
+  "bytes": 29644,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 68,
+  "fresh_legs_row_asserts": 69,
+  "total_parity_rows": 175
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 317
+ },
+ "eol": {
+  "n1_crlf": true,
+  "pf_crlf": true
+ },
+ "prereg_backfill_face": "research/PERPETUAL_N1_W317_PREREG.md froze with sec.7 carried VERBATIM from the post-W316-finalize face at HEAD and sec.8 pre-rebuilt for this wave (no @@SEAT placeholder tokens); the mechanical finalize-time rewrite of sec.7/sec.8 is this wave's own post-finalize step (r1207/r1208 W316 precedent); judging criteria untouched"
+}
