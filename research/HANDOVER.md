@@ -482,3 +482,13 @@ python -m screening.rank          # 432 组排名重建
 - 池现况：done 556 / ready 3（E44-MIDMONTH-WEAKNESS、E45-WARM-SPREAD、E45-BURNIN-KNIFE）
 - 健康面：smoke 49/49；orders 107/107 零未回执；decisions watermark NOOP；pool_dualrun ZERO-DRIFT streak 16；attrition guard CLEAN；compute_audit FLAG:supply_floor（top-up 后 ready=3=floor）
 - 下个里程碑：E44 中月弱格名级归因 → E45 warm 面重定价（窗 <=48h）
+
+
+## 5x checkpoint -- bm-c r1190 (2026-10-24 09:4x)
+
+- authority = round_reports-bm-c.md full window log + state-bm-c.json closeout notes (r1186..r1190)
+- product summary: W303 closed (r1186 resumed window), W304 FULL CYCLE closed (r1188), W305 FULL CYCLE closed (seat 871f187361 / freeze 5f2c19de83 / splice 318e263ee0 / burn 12-12 by r1189; fivekeys 7/7 + sec.7/8 + S6 39/39 + S7 by r1190)
+- chain state: ledger 1,095,341 trials / merged K 668,920 / merged mu -0.09285818 / sigma 0.24513696 / se_mu 0.000300 / skill line 1.1999 (K-lift +0.0000) / canon flip NOT performed
+- health: smoke 57/57, dualrun ZERO-DRIFT streak 51, compute_audit rc0 (cpu 26.0%%, py 9.3%%, pool_ready 3), watermark rc0, attrition 4 files CLEAN, orphan face=1 external MV lane, S6 39/39 rc0
+- honest faces: RAM 98.9%% used (avail 0.25GB) = desktop-load pressure, GPU idle; watchdog S4U XML flip access-denied (standing); bm-a heartbeat stale 81min at S6 -> daily_scorecard stale-takeover per O-2100 s2.4
+- next milestone: W306 seat probe + prereg derive (post-W305 universe, own-A window reserved) + five-face splice; <=48h
