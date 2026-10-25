@@ -135,7 +135,11 @@ def metrics(ser, label):
     if len(ser) < 30:
         return {"label": label, "bars": len(ser), "note": "too short"}
     yrs = (ser.index[-1] - ser.index[0]).days / 365.25
-    cagr = ser.iloc[-1] ** (1 / yrs) - 1
+    # Equity curves are running levels from the panel start: a sub-window slice
+    # begins at whatever level the portfolio had reached, so growth must be
+    # measured against the slice's own first level (renormalised), never against 1.0.
+    growth = float(ser.iloc[-1]) / float(ser.iloc[0])
+    cagr = growth ** (1 / yrs) - 1
     rets = ser.pct_change().dropna()
     vol = rets.std() * np.sqrt(252)
     sharpe = (rets.mean() * 252) / vol if vol > 0 else 0.0
@@ -144,7 +148,8 @@ def metrics(ser, label):
         "label": label,
         "bars": len(ser),
         "years": round(yrs, 2),
-        "total_ret": round(ser.iloc[-1] - 1, 4),
+        "start_level": round(float(ser.iloc[0]), 4),
+        "total_ret": round(growth - 1, 4),
         "cagr": round(cagr, 4),
         "vol": round(vol, 4),
         "sharpe": round(sharpe, 3),

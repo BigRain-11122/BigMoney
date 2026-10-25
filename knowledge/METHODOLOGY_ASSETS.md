@@ -365,3 +365,10 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 正法：调用一律传**正斜杠**路径（`results/_w329bmc_freeze_edits.py`）；工具侧若要根治=入参先 `p.replace(os.sep,'/')` 再拼对象名。
 - 证据：`results/_n1_face_adjudication_w329.json` verdict PASS（pre/post 双面命中、replay_lf_eq_landed=true、0 heal / 0 unexplained），同命令换成反斜杠即 rc1。
 - 2026-10-25 11:0x 由 bm-c r1240 于 W329 收口窗立。
+
+## E98 权益曲线的子窗切片必须按切片自身起点归一（r1242 bm-c 实弹·ETF/股票复合因子 PF 双面）
+- 缺陷：metrics(ser, label) 把 slice 当独立资产净值曲线处理——	otal = ser.iloc[-1] - 1、cagr = ser.iloc[-1]**(1/yrs) - 1。运行中的 equity 曲线切出 2024+ 段时首值已是 1.2056，于是「2024+」行报出的是**六年累计收益**与按此推算的年化（ETF R20 OOS 23.26% vs 真值 15.30%；bench 510300 OOS 0.25% vs 真值 7.03%——基准被低估 6.8pp，超额被夸大）。
+- 正法：growth = ser.iloc[-1] / ser.iloc[0]，cagr = growth**(1/yrs) - 1，并把 start_level 写进每行（读者可自证归一基）。sharpe/vol/maxdd 本来就按切片自身收益率/自身 cummax 计算=归一不变，**只有 total 与 cagr 会错**——所以「夏普看起来没问题」不能作为指标无罪的反证。
+- 校正纪律：旧数不静默抹平——json 里留 correction_r1242 段列新旧对照，research 笔记单列 correction 小节并重述读法变化（基准不再「走平」，超额从 ~23pp 降到 ~8.3pp/yr）。
+- 自检：切片指标算出后断言 bs(ser.iloc[0] - 1.0) < 1e-9 or 'start_level' in row；凡「full 与 oos 两行 total 完全相同」= 归一缺陷的指纹，一眼可判。
+- 2026-10-25 11:4x 由 bm-c r1242 于产品轮立。
