@@ -1100,3 +1100,44 @@ S7-tail dual-scan: O-20261015-1834 consumed (spawn-gate preflight = next-window 
 - r1267 the finding: the ledger cannot ride the production CARD's numbers, so I priced the difference instead of hiding it. `calibrate` writes `results/etf_book_forward/BASIS.json` comparing the card basis (fill at the open of the very bar whose close made the score -- one bar of lookahead) with the honest next-open basis on the SAME config: honest full CAGR 13.53% / SR 0.94 / DD -16.2% vs card 9.47% / SR 0.98 / DD -11.8%, i.e. -4.06pp full (-2.84 IS, -5.90 OOS). Turnover is identical (0.934) on both, which is the tell: this is a one-bar WINDOW ALIGNMENT difference, not two portfolios, so the gap is neither alpha nor a fraud -- it says the headline is sensitive to which single bar the holding period starts on. Consequence recorded: neither number is edge evidence, and the ledger rides the honest basis; the card keeps its number until someone re-cuts it. |
 - r1267 CEO-visible face: current = quant strategy lane (ETF production candidate: from backtest to track record); latest physical = `scripts/etf_book_forward.py` + `results/etf_book_forward/LEDGER.json` + `BASIS.json` 2026-10-26T01:10+08:00 -- readable line: the 12-name bond-free book that earns ~10-14%/yr in backtest now has a written record that starts at 2026-10-23 and can only grow forward; next milestone = first real mark on the next trading bar after 2026-10-23 (2026-10-26 close), and a ledger run wired into the S6 chain so marks accrue without a human round. |
 - r1267 S6/discipline: dualrun ZERO-DRIFT (616 entries, streak 51); compute_audit FLAG supply_gap/supply_floor/supply_owner_silent standing (bm-b silent 4366min; the pool's one ready item is bm-b's E81-EXPOSED-RUNNER-RAW-HOOKS, corroboration unmet -> science batch deliberately untouched); watermark py_low_board_clear (legal: board clear, zero local pool); update_daily 0 new rows (cutoff 2026-10-23, bar not due before 15:30); regime ORANGE asof 2026-10-23 (hs300<MA200, breadth 0.85); attrition CLEAN 4 files (5 historical shrinks healed); engine status exit 0; orphan face=0 (py_faces=6, resident_servers=2); smoke 57/57 both before and after the change; claws pre-commit/pre-push match; Bigmoney-IterationLoop + Bigmoney-LoopWatchdog present (no re-registration -- re-registering the task driving this round would interrupt it); local commits not at origin=0 at open. |
+| 2026-10-26T01:52+08:00 | r1268 | PRODUCT (quant, strategy): the ETF production book's CASH LEG, plus a real defect found in the r1267 ledger. `scripts/etf_book_forward.py` now accrues sum(w*r) over the actual vol-targeted weights (selftest 11 -> 19 legs) and parks the un-invested fraction on the repo ladder via `carry` / results/etf_book_forward/CARRY.json. |
+
+- r1268 the defect: the r1267 accrual averaged the book's per-name returns UNWEIGHTED, so the 8%% vol
+  target shrank the published `cash` field to 29%% while the return path stayed 100%% invested. Same
+  decisions, same 1648 bars: legacy 13.53%%/yr (final nav 2.371) vs correct 8.42%%/yr (1.734) -- a
+  36.8%% overstatement of the record. It survived a "maxdiff 0.00e+00" equivalence leg because that
+  leg ran with vol_target=None, where every weight is exactly 1/12 so weighted and unweighted paths
+  are the same function (r1261 family, second instance). New load-bearing leg pins
+  `r_scaled == s * r_unscaled` bar by bar against the engine-exact unscaled curve (worst 3.03e-16
+  over 1,564 non-fill bars); legacy is kept as a reproducible ruler (per-bar delta 2.22e-16, final
+  1.3678x the fixed book). Second trap: `open_to_open_equity` still prints 13.53%% because it fills
+  at the open of the deciding bar -- a one-bar basis shift can never referee a next-open accrual.
+- r1268 the cash leg: ladder3 (GC007/GC014/GC028 equal rungs, exchange commission charged) on the
+  29.3%% average cash (1,389 of 1,648 bars carry) -> 9.01%%/yr, Sharpe 0.94, DD -13.3%% vs 8.42%%/0.89/
+  -13.6%% with cash at zero: +0.55pp/yr (cumulative +3.77%%), +0.62pp under the fee-free ceiling
+  (CARRY_fee_free.json). OOS 17.88%%/1.68/-10.0%%. Ladder3 itself: 1.88%%/yr CAGR, 2.82%%/yr mean
+  (2020 3.3%%, 2025-26 ~2.0%%).
+- r1268 the correction (E123's numbers are void): r1267 published "honest next-open 13.53%% vs card
+  9.47%%, gap -4.06pp". The honest number was the defect; corrected honest is 8.42%%/0.89/-13.6%%,
+  so the card-vs-ledger gap is +1.05pp -- the SIGN FLIPS: the honest basis runs colder than the card,
+  not hotter. Turnover stays bit-identical (0.934), so it is still a one-bar window alignment, not a
+  different book. BASIS.json regenerated; research/ETF_BOOK_CASH_CARRY.md + methodology card E124
+  carry the correction so no layer keeps quoting 13.53%%.
+- r1268 CEO-visible face: current = quant strategy lane (ETF production candidate, cash leg wired);
+  latest physical = `results/etf_book_forward/CARRY.json` 2026-10-26T01:48+08:00 (+ CARRY_fee_free.json,
+  BASIS.json, research/ETF_BOOK_CASH_CARRY.md) -- readable line: the 12-name book's ~29%% idle cash is
+  no longer booked at zero, it now earns the repo ladder worth +0.55pp/yr, and the ledger that records
+  it can no longer overstate the book it describes; next milestone = first real forward mark after the
+  2026-10-26 close lands in LEDGER.json (next trading bar, <=48h).
+- r1268 S6/discipline: dualrun ZERO-DRIFT (616 entries, streak 51); compute_audit FLAG supply_gap/
+  supply_floor/supply_owner_silent standing (bm-b silent 4405min = 73h; the pool's one ready item is
+  bm-b's E81-EXPOSED-RUNNER-RAW-HOOKS with corroboration unmet -> science batch deliberately
+  untouched); watermark insufficient_history (1 sample in window); update_daily 0 new rows (cutoff
+  2026-10-23, today's bar not yet due); regime trigger breadth 0.85>=65%%; attrition CLEAN 4 files
+  (1 historical shrink healed); orphan face=0 (py_faces=6); orders unacked 0/110; D-19 dec=same/
+  repro@ff22fb0/222683 ord=same/repro@ff22fb0/371896 delta=none phantom=none; smoke 57/57. S7: no
+  scheduled-task re-registration (2026-10-17 CEO cleanup order stands; loop was already Running).
+  Ledger run = NO-OP (panel not advanced), published marks untouched.
+- r1268 next: (a) let LEDGER.json take its first real forward mark after the 2026-10-26 close and
+  confirm the carry shows up in the mark; (b) re-price the capacity ladder (r1260) with carry on --
+  the break-even NAV should move because 29% of the book now earns 1.9%/yr.

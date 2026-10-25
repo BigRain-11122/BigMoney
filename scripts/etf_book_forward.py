@@ -17,7 +17,17 @@ mechanism actually ran).
   python scripts/etf_book_forward.py seed [--capital=1000000]   # create the ledger
   python scripts/etf_book_forward.py run                        # append new bars
   python scripts/etf_book_forward.py run --rebase                # only after a disclosed drift
+  python scripts/etf_book_forward.py carry                      # price the cash leg
   python scripts/etf_book_forward.py --selftest
+
+r1268 (defect found and fixed): the accrual used to average the book's per-name returns
+UNWEIGHTED, so the 8% vol target de-levered the reported `cash` field but never the return
+path -- the ledger ran 1/scale times hotter than the book it claims to record (2.37 vs the
+engine's 1.86 for the same config, maxabs 0.55). The r1267 equivalence leg missed it
+because it compared with `vol_target=None`, where every weight is 1/12 and the two paths
+coincide. Returns are now sum(w*r) over the actual scaled weights, the vol-targeted
+equivalence is its own selftest leg, and the un-invested fraction earns repo carry
+(`carry` subcommand / CARRY.json) instead of being silently booked at zero.
 
 Gates: recorded bars are re-derived every run; if any published mark no longer reproduces
 (a repaired price flip, a re-sorted panel) the ledger FREEZES and exits 3 instead of
@@ -35,6 +45,7 @@ import numpy as np
 import pandas as pd
 
 import etf_composite_pf as E
+import etf_book_cash_ladder as REPO
 import etf_equity_alpha as A
 import etf_robust_pf as R
 import etf_book_production as P
@@ -52,13 +63,17 @@ CONFIG = {
     "vol_target": P.TARGET_VOL,
     "classes": list(P.USE_CLASSES),
     "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
-    "cash": "cash leg earns 0 in the ledger (disclosed, not modelled away)",
+    "cash": ("cash held at the start of a bar earns that bar's repo carry "
+             "(ladder3 = GC007/GC014/GC028 equal rungs, exchange commission charged, "
+             "panel from scripts/update_repo.py); --carry=0 reproduces the zero-carry book"),
 }
 CAVEATS = [
     "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
     "The seed bar begins the record; nothing before it is a track record, however good the backtest.",
     "The vol target only de-levers -- a drawdown tool, not an edge.",
-    "Cash earns 0 in the marks, so a de-levered book under-reports its true carry.",
+    ("Cash carry rides a repo ladder, not a money-market fund: it assumes the treasurer can "
+     "roll GC007/GC014/GC028 on every maturity bar, and it uses the 2026 exchange commission "
+     "table (re-derivable with RATES fee=0)."),
     "Research output, not an investment recommendation.",
 ]
 
@@ -76,19 +91,46 @@ def build_inputs():
 
 
 def _leg(book, a_ser, b_ser):
-    """Mean simple return over the book between two price faces (engine-identical).
+    """Weighted portfolio return of `book` between two price faces (engine-identical).
 
-    Missing cells are skipped, which renormalises the equal-weight book over the names
-    that actually printed -- the same approximation the research engine carries.
+    `book` maps name -> weight, and a de-levered book's weights sum to less than 1: the
+    remaining fraction is cash and earns nothing here (the caller adds carry). Names that
+    did not print both faces drop out and their weight simply earns zero for that leg --
+    the same conservative treatment the research engine applies, pinned by the selftest.
     """
-    out = []
-    for p in book:
+    tot, seen = 0.0, 0.0
+    for p, w in book.items():
         a = a_ser.get(p, np.nan)
         b = b_ser.get(p, np.nan)
         if not np.isfinite(a) or not np.isfinite(b) or a <= 0:
             continue
-        out.append(b / a - 1.0)
-    return float(np.mean(out)) if out else None
+        tot += w * (b / a - 1.0)
+        seen += w
+    if seen <= 0:
+        return None
+    return float(tot)
+
+
+def build_carry(dates, fee_free=False):
+    """Per-bar fractional return of the repo cash ladder aligned to the book's bars.
+
+    Reuses scripts/etf_book_cash_ladder.py rather than re-implementing a rolling contract:
+    ladder3 = GC007/GC014/GC028 equal rungs, each a rolling contract with the exchange
+    commission charged on every purchase. Returns None (with the reason) if the repo panel
+    is not on disk, so the ledger degrades to zero-carry and says so instead of inventing a
+    rate.
+    """
+    try:
+        rates = REPO.load_panel(bars=dates)
+    except Exception as exc:                       # pragma: no cover - panel absence only
+        return None, "repo panel unreadable: %s" % exc
+    if not rates:
+        return None, "repo panel absent (run scripts/update_repo.py)"
+    fees = {t: 0.0 for t in REPO.FEE_BP} if fee_free else None
+    ret, _per = REPO.ladder(pd.DatetimeIndex(dates), rates, REPO.LADDERS["ladder3"], fees=fees)
+    ret = ret.reindex(pd.DatetimeIndex(dates)).fillna(0.0)
+    return ret, "ladder3 (%s) commission %s" % (
+        "/".join(REPO.LADDERS["ladder3"]), "waived" if fee_free else "charged")
 
 
 class Forward:
@@ -98,10 +140,16 @@ class Forward:
     waiting for the next open; it can never be applied on the bar that produced it.
     """
 
-    def __init__(self, px, op, score, n_hold, rebal, cost, vol_target=None):
+    def __init__(self, px, op, score, n_hold, rebal, cost, vol_target=None, carry=None,
+                 legacy_mean=False):
         self.px, self.op, self.score = px, op, score
         self.n_hold, self.rebal, self.cost = n_hold, rebal, cost
         self.vol_target = vol_target
+        # per-bar fractional return of the cash ladder; None = book cash at zero (disclosed)
+        self.carry = carry
+        # legacy_mean reproduces the pre-r1268 defect (unweighted average over names, so a
+        # de-levered book still moved the whole nav). Kept as a ruler, never the default.
+        self.legacy_mean = legacy_mean
         self.nav = 1.0
         self.held = {}
         self.pending = None
@@ -128,6 +176,28 @@ class Forward:
                               "names": picks, "turnover": round(float(turn), 6)}
         self.books[str(d.date())] = self.last_decision
 
+    def _ret(self, book, a_ser, b_ser):
+        if not self.legacy_mean:
+            return _leg(book, a_ser, b_ser)
+        out = []
+        for p in book:
+            a = a_ser.get(p, np.nan)
+            b = b_ser.get(p, np.nan)
+            if not np.isfinite(a) or not np.isfinite(b) or a <= 0:
+                continue
+            out.append(b / a - 1.0)
+        return float(np.mean(out)) if out else None
+
+    def _cash_carry(self, d):
+        """Carry earned by the cash held at the start of bar d (None when carry is off)."""
+        if self.carry is None:
+            return 0.0
+        cash = max(0.0, 1.0 - float(sum(self.held.values())))
+        if cash <= 0.0:
+            return 0.0
+        v = self.carry.get(d, 0.0)
+        return cash * float(v) if np.isfinite(v) else 0.0
+
     def run(self, dates, rebal_days):
         marks = []
         for i, d in enumerate(dates):
@@ -136,30 +206,38 @@ class Forward:
                 prev = dates[i - 1]
                 raw_open = self.op.loc[d]
                 open_d = raw_open.where(np.isfinite(raw_open), self.px.loc[d])
+                cash_start = max(0.0, 1.0 - float(sum(self.held.values())))
+                carry = self._cash_carry(d)
                 if self.pending is not None:
                     # overnight gap belongs to the OLD book, then the fill is charged at
                     # the open, and only open->close is earned by the NEW book
                     if self.held:
-                        r = _leg(self.held, self.px.loc[prev], open_d)
+                        r = self._ret(self.held, self.px.loc[prev], open_d)
                         if r is not None:
-                            self.nav *= (1.0 + r)
+                            self.nav *= (1.0 + r + carry)
+                    elif carry:
+                        self.nav *= (1.0 + carry)
                     new, turn = self.pending
                     self.nav *= (1.0 - self.cost * turn)
                     self.turnover_sum += turn
                     self.n_fill += 1
                     self.held, self.pending = new, None
                     filled = True
-                    r = _leg(self.held, open_d, self.px.loc[d])
+                    r = self._ret(self.held, open_d, self.px.loc[d])
                     if r is not None:
                         self.nav *= (1.0 + r)
                 elif self.held:
-                    r = _leg(self.held, self.px.loc[prev], self.px.loc[d])
+                    r = self._ret(self.held, self.px.loc[prev], self.px.loc[d])
                     if r is not None:
-                        self.nav *= (1.0 + r)
+                        self.nav *= (1.0 + r + carry)
+                elif carry:
+                    self.nav *= (1.0 + carry)
             invested = float(sum(self.held.values()))
             marks.append((d, {
                 "nav": self.nav,
                 "cash": max(0.0, 1.0 - invested),
+                "cash_start": round(cash_start, 6) if i > 0 else 1.0,
+                "carry": round(carry, 10) if i > 0 else 0.0,
                 "n_held": len(self.held),
                 "filled": filled,
                 "turn": round(float(turn), 6),
@@ -178,13 +256,15 @@ def date_grid(px, rebal):
     return dates, set(dates[::rebal])
 
 
-def compute_marks(vol_target=CONFIG["vol_target"]):
+def compute_marks(vol_target=CONFIG["vol_target"], carry_on=True):
     close, openp, amt, feats, score, cls, n_flip = build_inputs()
     px = close.reindex(columns=close.columns).ffill()
     op = openp.reindex(columns=close.columns)
     dates, rebal_days = date_grid(px, CONFIG["rebal"])
+    carry, carry_note = (build_carry(dates) if carry_on else (None, "carry disabled"))
     fwd = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"], CONFIG["cost_per_side"],
-                  vol_target=vol_target)
+                  vol_target=vol_target, carry=carry)
+    fwd.carry_note = carry_note
     marks = fwd.run(dates, rebal_days)
     return fwd, marks, dates, cls, n_flip
 
@@ -205,11 +285,20 @@ def _indexed(marks, seed_bar):
             "nav": round(nav, 10),
             "dd": round(nav / peak - 1.0, 6),
             "cash": round(m["cash"], 6),
+            "carry": round(m.get("carry", 0.0), 10),
             "n_held": m["n_held"],
             "filled": m["filled"],
             "turn": m["turn"],
         })
     return out
+
+
+def _engine_block(fwd):
+    """Which return path and which cash leg produced these marks (re-read by a human)."""
+    return {
+        "book_return": "sum(w*r) over the actual (vol-targeted) weights",
+        "cash_leg": getattr(fwd, "carry_note", "unknown"),
+    }
 
 
 def load_ledger():
@@ -229,6 +318,10 @@ def _fresh(fwd, dates, cls, n_flip, capital):
     return {
         "schema": SCHEMA,
         "config": dict(CONFIG),
+        "engine": {
+            "book_return": "sum(w*r) over the actual (vol-targeted) weights",
+            "cash_leg": getattr(fwd, "carry_note", "unknown"),
+        },
         "seed": None,
         "bars": [],
         "books": {},
@@ -325,6 +418,7 @@ def run(rebase=False):
             "last_bar": headed.get("bar")}])[-MAX_RUNS:]
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
+        led["engine"] = _engine_block(fwd)
         led["panel"] = {"n_instruments": len(cls), "flips_repaired": n_flip}
         save_ledger(led)
         return 0
@@ -337,6 +431,7 @@ def run(rebase=False):
         b["dd"] = round(b["nav"] / peak - 1.0, 6)
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
+    led["engine"] = _engine_block(fwd)
     led["panel"] = {"n_instruments": len(cls), "flips_repaired": n_flip}
     led["status"] = "live"
     led["runs"] = (led.get("runs", []) + [{
@@ -414,6 +509,113 @@ def calibrate():
               c["full"]["cagr"] * 100, c["full"]["sharpe"] or 0, c["full"]["maxdd"] * 100,
               out["basis_delta_pp"]["full"], out["turnover_identical"]),
         flush=True)
+    return 0
+
+
+def _faces(ser, turn=None):
+    out = {}
+    if turn is not None:
+        out["turnover_per_decision"] = round(float(turn), 3)
+    for lbl, sl in (("full", ser), ("is", ser[ser.index <= R.IS_END]),
+                    ("oos", ser[ser.index > R.IS_END])):
+        m = A.stats2(sl, lbl)
+        out[lbl] = {k: m.get(k) for k in ("cagr", "sharpe", "maxdd", "vol", "years")}
+    return out
+
+
+def carry(fee_free=False):
+    """Price the two things the r1267 ledger got wrong: the de-leverage and the cash leg.
+
+    Three books, identical decisions:
+      legacy_mean   pre-r1268 accrual: unweighted mean over names, cash at zero -- the defect
+      fixed         sum(w*r) over the scaled weights, cash at zero
+      fixed_carry   the same book with the un-invested fraction earning the repo ladder
+    The research engine (etf_robust_pf.open_to_open_equity, vol target on) is the
+    independent referee for `fixed`, so the fix is not graded by its own re-derivation.
+    """
+    close, openp, amt, feats, score, cls, n_flip = build_inputs()
+    px = close.reindex(columns=close.columns).ffill()
+    op = openp.reindex(columns=close.columns)
+    dates, rebal_days = date_grid(px, CONFIG["rebal"])
+    carry_ser, carry_note = build_carry(dates, fee_free=fee_free)
+
+    def book(carry_on, legacy):
+        f = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"],
+                    CONFIG["cost_per_side"], vol_target=CONFIG["vol_target"],
+                    carry=(carry_ser if carry_on else None), legacy_mean=legacy)
+        marks = f.run(dates, rebal_days)
+        return f, pd.Series({d: m["nav"] for d, m in marks}).sort_index(), marks
+
+    f_leg, s_leg, _ = book(False, True)
+    f_fix, s_fix, m_fix = book(False, False)
+    f_car, s_car, m_car = book(True, False)
+    eng, turn_eng = R.open_to_open_equity(close, openp, amt, score, CONFIG["rebal"],
+                                          CONFIG["n_hold"], CONFIG["cost_per_side"],
+                                          vol_target=CONFIG["vol_target"])
+
+    common = eng.index.intersection(s_fix.index)
+    referee = float((s_fix.loc[common] - eng.loc[common]).abs().max()) if len(common) else None
+    cashes = [m["cash"] for _d, m in m_car]
+    invested = [1.0 - c for c in cashes]
+    yrs = (s_car.index[-1] - s_car.index[0]).days / 365.25
+    up_cum = float(s_car.iloc[-1] / s_fix.iloc[-1] - 1.0)
+    carry_bars = sum(1 for _d, m in m_car if m.get("carry", 0.0) > 0)
+
+    out = {
+        "evidence_cutoff": str(s_fix.index[-1].date()),
+        "generated_ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "config": dict(CONFIG),
+        "carry_note": carry_note,
+        "books": {
+            "legacy_mean": _faces(s_leg, f_leg.mean_turnover),
+            "fixed": _faces(s_fix, f_fix.mean_turnover),
+            "fixed_carry": _faces(s_car, f_car.mean_turnover),
+        },
+        "defect": {
+            "what": ("pre-r1268 marks averaged the book's per-name returns unweighted, so a "
+                     "vol-targeted book still moved the whole nav: the reported `cash` field "
+                     "was de-levered while the return path was not"),
+            "final_nav_legacy": round(float(s_leg.iloc[-1]), 6),
+            "final_nav_fixed": round(float(s_fix.iloc[-1]), 6),
+            "card_basis_gap_note": (
+                "the open_to_open_equity curve sits on a basis shifted by one bar (it fills "
+                "at the open of the bar whose close decided the book), so it is NOT an "
+                "equality referee for a next-open accrual; the selftest instead pins "
+                "r_scaled == s * r_unscaled against the engine-exact unscaled curve"),
+            "card_basis_final_nav": round(float(eng.iloc[-1]), 6),
+            "card_basis_bars": int(len(common)),
+            "escape": "the r1267 equivalence leg compared with vol_target=None, where every weight is 1/12",
+        },
+        "cash_leg": {
+            "mean_cash_share": round(float(np.mean(cashes)), 4),
+            "mean_invested_share": round(float(np.mean(invested)), 4),
+            "bars_with_carry": int(carry_bars),
+            "bars_total": len(m_car),
+            "carry_mean_annualised_pct": round(float(carry_ser.mean()) * 365.0 * 100, 4),
+            "carry_ladder3_cagr_pct": round(REPO.cagr_pct(carry_ser, dates), 4),
+            "cumulative_uplift_pct": round(up_cum * 100, 3),
+            "annualised_uplift_pp": round(((1.0 + up_cum) ** (1.0 / yrs) - 1.0) * 100, 3),
+            "fees": "waived" if fee_free else "charged",
+        },
+        "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
+        "note": ("fixed_carry is the config the forward ledger now accrues. The uplift is "
+                 "carry on money the vol target had already parked, not alpha."),
+    }
+    out["defect"]["cagr_pp_legacy_minus_fixed"] = round(
+        (out["books"]["legacy_mean"]["full"]["cagr"] - out["books"]["fixed"]["full"]["cagr"]) * 100, 2)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    name = "CARRY_fee_free.json" if fee_free else "CARRY.json"
+    with open(os.path.join(OUT_DIR, name), "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
+    b = out["books"]
+    print("CARRY fixed+cash CAGR=%.2f%% SR=%.2f DD=%.1f%% | fixed=%.2f%% | legacy=%.2f%% "
+          "| cash=%.0f%% carry=%.2f%%/yr uplift=%+.2fpp/yr" % (
+              b["fixed_carry"]["full"]["cagr"] * 100, b["fixed_carry"]["full"]["sharpe"] or 0,
+              b["fixed_carry"]["full"]["maxdd"] * 100, b["fixed"]["full"]["cagr"] * 100,
+              b["legacy_mean"]["full"]["cagr"] * 100,
+              out["cash_leg"]["mean_cash_share"] * 100,
+              out["cash_leg"]["carry_ladder3_cagr_pct"],
+              out["cash_leg"]["annualised_uplift_pp"]), flush=True)
     return 0
 
 
@@ -495,6 +697,77 @@ def selftest():
     d = abs(fresh[doctored["bar"]]["nav"] - doctored["nav"])
     chk("drift gate fires on a doctored mark", d > DRIFT_TOL, "delta=%.2e" % d)
 
+    # 8. THE BUG CATCHER: with the vol target ON the accrual must still be the book's
+    #    weighted return. r1267's equivalence leg ran with vol_target=None, where every
+    #    weight is 1/12 and a weighted and an unweighted path coincide -- that is exactly
+    #    why the defect below survived. The referee here is the engine-exact unscaled curve
+    #    from leg 1 plus the scaling identity r_scaled = s * r_unscaled on non-fill bars
+    #    (the picks do not depend on the scale, so both runs hold the same 12 names).
+    #    NOTE: etf_robust_pf.open_to_open_equity can NOT referee this accrual -- it fills at
+    #    the open of the bar whose close decided the book (a one-bar-shifted basis), which
+    #    r1267's `calibrate` already priced as a different window, not a different book.
+    f2 = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"], CONFIG["cost_per_side"],
+                 vol_target=CONFIG["vol_target"])
+    vtm = f2.run(dates, rebal_days)
+    vt_mine = pd.Series({d: m["nav"] for d, m in vtm}).sort_index()
+    un = pd.Series({d: m["nav"] for d, m in marks0}).sort_index()
+    rs = vt_mine.pct_change()
+    ru = un.pct_change()
+    cashmap = {d: m["cash"] for d, m in vtm}
+    fillbars = {d for d, m in vtm if m["filled"]}
+    worst = (0.0, None)
+    for i, d in enumerate(vt_mine.index):
+        if i == 0 or d in fillbars:
+            continue
+        s_i = 1.0 - cashmap[d]
+        delta = abs(rs.iloc[i] - s_i * ru.iloc[i])
+        if delta > worst[0]:
+            worst = (delta, str(d.date()))
+    chk("scaled book moves s x the engine-exact book", worst[0] < 1e-12,
+        "worst=%.2e at %s over %d non-fill bars" %
+        (worst[0], worst[1], len(rs) - 1 - len(fillbars)))
+    chk("vol target actually de-levered", 0.0 < min(b["scale"] for b in f2.books.values()) < 1.0,
+        "min_scale=%.4f" % min(b["scale"] for b in f2.books.values()))
+
+    # 9. the defect is reproducible as a ruler (unweighted mean must diverge from the engine)
+    f3 = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"], CONFIG["cost_per_side"],
+                 vol_target=CONFIG["vol_target"], legacy_mean=True)
+    leg_ser = pd.Series({d: m["nav"] for d, m in f3.run(dates, rebal_days)}).sort_index()
+    d3 = float((leg_ser - un).abs().max())
+    rl = leg_ser.pct_change()
+    worst_l = max(abs(rl.iloc[i] - ru.iloc[i]) for i, d in enumerate(leg_ser.index)
+                  if i and d not in fillbars)
+    chk("legacy_mean ignores the scale (defect, reproduced as a ruler)",
+        worst_l < 1e-15 and leg_ser.iloc[-1] / vt_mine.iloc[-1] > 1.10,
+        "worst_bar_delta=%.2e vs_unscaled=%.4f vs_fixed=%.4f" %
+        (worst_l, leg_ser.iloc[-1] / un.iloc[-1], leg_ser.iloc[-1] / vt_mine.iloc[-1]))
+
+    # 10. carry raises the book, is plausible in size, and never touches a fully invested bar
+    carry_ser, _note = build_carry(pd.DatetimeIndex(dates))
+    chk("carry series present", carry_ser is not None and len(carry_ser) == len(dates),
+        "bars=%d" % (0 if carry_ser is None else len(carry_ser)))
+    if carry_ser is not None:
+        chk("carry rate plausible", 1e-6 < float(carry_ser.mean()) < 2e-4,
+            "mean_daily=%.3e -> %.2f%%/yr" % (carry_ser.mean(), carry_ser.mean() * 365 * 100))
+        flat = pd.Series(0.0, index=pd.DatetimeIndex(dates))
+        f4 = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"], CONFIG["cost_per_side"],
+                     vol_target=CONFIG["vol_target"], carry=flat)
+        s4 = pd.Series({d: m["nav"] for d, m in f4.run(dates, rebal_days)}).sort_index()
+        chk("zero carry is an exact identity", float((s4 - vt_mine).abs().max()) < 1e-15,
+            "maxabs=%.2e" % float((s4 - vt_mine).abs().max()))
+        f5 = Forward(px, op, score, CONFIG["n_hold"], CONFIG["rebal"], CONFIG["cost_per_side"],
+                     vol_target=CONFIG["vol_target"], carry=carry_ser)
+        s5 = pd.Series({d: m["nav"] for d, m in f5.run(dates, rebal_days)}).sort_index()
+        up = float(s5.iloc[-1] / vt_mine.iloc[-1] - 1.0)
+        chk("carry lifts the book in a plausible band", 0.005 < up < 0.15,
+            "cumulative=%+.2f%% final=%.4f" % (up * 100, s5.iloc[-1]))
+        # carry must ride cash only: a fully invested bar's mark carries zero
+        marks5 = f5.run(dates, rebal_days)
+        first_bar = marks5[0][0]
+        bad = [(d, m) for d, m in marks5 if d != first_bar
+               and (m["cash_start"] <= 1e-12) != (abs(m.get("carry", 0.0)) <= 0)]
+        chk("carry rides start-of-bar cash only", not bad, "bad=%d" % len(bad))
+
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
 
@@ -513,4 +786,6 @@ if __name__ == "__main__":
         sys.exit(seed(capital=float(opts.get("capital", 1_000_000))))
     if cmd == "calibrate":
         sys.exit(calibrate())
+    if cmd == "carry":
+        sys.exit(carry(fee_free=opts.get("fees") == "0"))
     sys.exit(run(rebase="--rebase" in args))

@@ -1,6 +1,6 @@
 {
  "evidence_cutoff": "2026-10-23",
- "generated_ts": "2026-10-26T01:05:59+0800",
+ "generated_ts": "2026-10-26T01:40:36+0800",
  "config": {
   "n_hold": 12,
   "rebal": 20,
@@ -12,29 +12,29 @@
    "convertible"
   ],
   "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
-  "cash": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+  "cash": "cash held at the start of a bar earns that bar's repo carry (ladder3 = GC007/GC014/GC028 equal rungs, exchange commission charged, panel from scripts/update_repo.py); --carry=0 reproduces the zero-carry book"
  },
  "honest_next_open": {
   "turnover_per_decision": 0.934,
   "full": {
-   "cagr": 0.1353,
-   "sharpe": 0.94,
-   "maxdd": -0.1623,
-   "vol": 0.1531,
+   "cagr": 0.0842,
+   "sharpe": 0.888,
+   "maxdd": -0.1357,
+   "vol": 0.1006,
    "years": 6.81
   },
   "is": {
-   "cagr": 0.0668,
-   "sharpe": 0.512,
-   "maxdd": -0.1623,
-   "vol": 0.1547,
+   "cagr": 0.0249,
+   "sharpe": 0.312,
+   "maxdd": -0.1357,
+   "vol": 0.0967,
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.2398,
-   "sharpe": 1.566,
-   "maxdd": -0.1198,
-   "vol": 0.1507,
+   "cagr": 0.174,
+   "sharpe": 1.638,
+   "maxdd": -0.0999,
+   "vol": 0.1057,
    "years": 2.81
   }
  },
@@ -63,10 +63,10 @@
   }
  },
  "basis_delta_pp": {
-  "full": -4.06,
-  "is": -2.84,
-  "oos": -5.9,
-  "sharpe_full": 0.038
+  "full": 1.05,
+  "is": 1.35,
+  "oos": 0.68,
+  "sharpe_full": 0.09
  },
  "windows_shifted_bars": 1,
  "turnover_identical": true,

@@ -1,0 +1,22 @@
+{'label': 'book_full', 'bars': 1647, 'years': 6.8, 'start_level': 0.9975, 'total_ret': 0.8016, 'cagr': 0.0904, 'vol': np.float64(0.1068), 'sharpe': np.float64(0.898), 'maxdd': np.float64(-0.1282), 'turnover_per_rebal': 1.318}
+{'label': 'book_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 0.9975, 'total_ret': 0.211, 'cagr': 0.0492, 'vol': np.float64(0.1078), 'sharpe': np.float64(0.516), 'maxdd': np.float64(-0.1282), 'turnover_per_rebal': 1.318}
+{'label': 'book_oos_2024_plus', 'bars': 677, 'years': 2.8, 'start_level': 1.2056, 'total_ret': 0.4906, 'cagr': 0.153, 'vol': np.float64(0.1053), 'sharpe': np.float64(1.466), 'maxdd': np.float64(-0.1019), 'turnover_per_rebal': 1.318}
+mix: {'equity': {'days_held': 1280, 'day_share': 0.777, 'mean_weight_when_live': 0.394, 'avg_weight_all_days': 0.306}, 'bond': {'days_held': 1407, 'day_share': 0.854, 'mean_weight_when_live': 0.628, 'avg_weight_all_days': 0.536}, 'commodity': {'days_held': 220, 'day_share': 0.134, 'mean_weight_when_live': 0.455, 'avg_weight_all_days': 0.061}, 'crossborder': {'days_held': 340, 'day_share': 0.206, 'mean_weight_when_live': 0.435, 'avg_weight_all_days': 0.09}}
+contrib: {'bond': np.float64(0.0857), 'commodity': np.float64(0.2147), 'convertible': np.float64(-0.0069), 'crossborder': np.float64(0.0375), 'equity': np.float64(0.3804)}
+all-bond rebalance share: 0.169
+{'label': 'book_full', 'bars': 1647, 'years': 6.8, 'start_level': 0.9962, 'total_ret': 0.3267, 'cagr': 0.0424, 'vol': np.float64(0.1432), 'sharpe': np.float64(0.375), 'maxdd': np.float64(-0.2666), 'turnover_per_rebal': 1.342}
+{'label': 'book_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 0.9962, 'total_ret': 0.09, 'cagr': 0.0218, 'vol': np.float64(0.1377), 'sharpe': np.float64(0.232), 'maxdd': np.float64(-0.2076), 'turnover_per_rebal': 1.342}
+{'label': 'book_oos_2024_plus', 'bars': 677, 'years': 2.8, 'start_level': 1.09, 'total_ret': 0.2124, 'cagr': 0.0711, 'vol': np.float64(0.151), 'sharpe': np.float64(0.552), 'maxdd': np.float64(-0.1482), 'turnover_per_rebal': 1.342}
+mix: {'equity': {'days_held': 1647, 'day_share': 1.0, 'mean_weight_when_live': 1.0, 'avg_weight_all_days': 1.0}, 'bond': {'days_held': 0, 'day_share': 0.0, 'mean_weight_when_live': 0.0, 'avg_weight_all_days': 0.0}, 'commodity': {'days_held': 0, 'day_share': 0.0, 'mean_weight_when_live': 0.0, 'avg_weight_all_days': 0.0}, 'crossborder': {'days_held': 0, 'day_share': 0.0, 'mean_weight_when_live': 0.0, 'avg_weight_all_days': 0.0}}
+contrib: {'equity': np.float64(0.4357)}
+
+=== controls ===
+{'label': 'ew_all_full', 'bars': 1647, 'years': 6.8, 'start_level': 1.0009, 'total_ret': 0.1786, 'cagr': 0.0244, 'vol': np.float64(0.1808), 'sharpe': np.float64(0.23), 'maxdd': np.float64(-0.4)}
+{'label': 'ew_all_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 1.0009, 'total_ret': -0.0851, 'cagr': -0.0221, 'vol': np.float64(0.172), 'sharpe': np.float64(-0.048), 'maxdd': np.float64(-0.3303)}
+{'label': 'ew_all_oos_2024_plus', 'bars': 677, 'years': 2.8, 'start_level': 0.9111, 'total_ret': 0.2948, 'cagr': 0.0965, 'vol': np.float64(0.1929), 'sharpe': np.float64(0.596), 'maxdd': np.float64(-0.1885)}
+{'label': 'ew_equity_full', 'bars': 1647, 'years': 6.8, 'start_level': 0.9993, 'total_ret': 0.1366, 'cagr': 0.019, 'vol': np.float64(0.2108), 'sharpe': np.float64(0.198), 'maxdd': np.float64(-0.4432)}
+{'label': 'ew_equity_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 0.9993, 'total_ret': -0.0873, 'cagr': -0.0226, 'vol': np.float64(0.1942), 'sharpe': np.float64(-0.025), 'maxdd': np.float64(-0.365)}
+{'label': 'ew_equity_oos_2024_plus', 'bars': 677, 'years': 2.8, 'start_level': 0.9078, 'total_ret': 0.2513, 'cagr': 0.0832, 'vol': np.float64(0.2327), 'sharpe': np.float64(0.475), 'maxdd': np.float64(-0.2423)}
+null test on the equity-only book: 200 shuffles ...
+{'iter': 200, 'real_period_sharpe': 0.384087581122782, 'mean': 0.108, 'p95': 0.431, 'max': 0.582, 'p_value': 0.07}
+saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_composite_decomp.json

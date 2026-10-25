@@ -76,6 +76,11 @@
    "ts": "2026-10-26T01:07:03+0800",
    "new_bars": 0,
    "last_bar": "2026-10-23"
+  },
+  {
+   "ts": "2026-10-26T01:43:12+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-23"
   }
  ],
  "panel": {
@@ -88,5 +93,9 @@
   "The vol target only de-levers -- a drawdown tool, not an edge.",
   "Cash earns 0 in the marks, so a de-levered book under-reports its true carry.",
   "Research output, not an investment recommendation."
- ]
+ ],
+ "engine": {
+  "book_return": "sum(w*r) over the actual (vol-targeted) weights",
+  "cash_leg": "ladder3 (GC007/GC014/GC028) commission charged"
+ }
 }

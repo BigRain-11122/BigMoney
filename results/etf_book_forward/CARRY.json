@@ -1,0 +1,118 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "generated_ts": "2026-10-26T01:44:49+0800",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+  "cash": "cash held at the start of a bar earns that bar's repo carry (ladder3 = GC007/GC014/GC028 equal rungs, exchange commission charged, panel from scripts/update_repo.py); --carry=0 reproduces the zero-carry book"
+ },
+ "carry_note": "ladder3 (GC007/GC014/GC028) commission charged",
+ "books": {
+  "legacy_mean": {
+   "turnover_per_decision": 0.934,
+   "full": {
+    "cagr": 0.1353,
+    "sharpe": 0.94,
+    "maxdd": -0.1623,
+    "vol": 0.1531,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0668,
+    "sharpe": 0.512,
+    "maxdd": -0.1623,
+    "vol": 0.1547,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2398,
+    "sharpe": 1.566,
+    "maxdd": -0.1198,
+    "vol": 0.1507,
+    "years": 2.81
+   }
+  },
+  "fixed": {
+   "turnover_per_decision": 0.934,
+   "full": {
+    "cagr": 0.0842,
+    "sharpe": 0.888,
+    "maxdd": -0.1357,
+    "vol": 0.1006,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0249,
+    "sharpe": 0.312,
+    "maxdd": -0.1357,
+    "vol": 0.0967,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.174,
+    "sharpe": 1.638,
+    "maxdd": -0.0999,
+    "vol": 0.1057,
+    "years": 2.81
+   }
+  },
+  "fixed_carry": {
+   "turnover_per_decision": 0.934,
+   "full": {
+    "cagr": 0.0901,
+    "sharpe": 0.944,
+    "maxdd": -0.1326,
+    "vol": 0.1006,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0315,
+    "sharpe": 0.381,
+    "maxdd": -0.1326,
+    "vol": 0.0967,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1788,
+    "sharpe": 1.678,
+    "maxdd": -0.0995,
+    "vol": 0.1058,
+    "years": 2.81
+   }
+  }
+ },
+ "defect": {
+  "what": "pre-r1268 marks averaged the book's per-name returns unweighted, so a vol-targeted book still moved the whole nav: the reported `cash` field was de-levered while the return path was not",
+  "final_nav_legacy": 2.371271,
+  "final_nav_fixed": 1.733675,
+  "card_basis_gap_note": "the open_to_open_equity curve sits on a basis shifted by one bar (it fills at the open of the bar whose close decided the book), so it is NOT an equality referee for a next-open accrual; the selftest instead pins r_scaled == s * r_unscaled against the engine-exact unscaled curve",
+  "card_basis_final_nav": 1.864444,
+  "card_basis_bars": 1647,
+  "escape": "the r1267 equivalence leg compared with vol_target=None, where every weight is 1/12",
+  "cagr_pp_legacy_minus_fixed": 5.11
+ },
+ "cash_leg": {
+  "mean_cash_share": 0.2927,
+  "mean_invested_share": 0.7073,
+  "bars_with_carry": 1389,
+  "bars_total": 1648,
+  "carry_mean_annualised_pct": 2.8158,
+  "carry_ladder3_cagr_pct": 1.884,
+  "cumulative_uplift_pct": 3.774,
+  "annualised_uplift_pp": 0.546,
+  "fees": "charged"
+ },
+ "panel": {
+  "n_instruments": 1608,
+  "flips_repaired": 134
+ },
+ "note": "fixed_carry is the config the forward ledger now accrues. The uplift is carry on money the vol target had already parked, not alpha."
+}
