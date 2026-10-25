@@ -88,16 +88,21 @@ def k_schedule(rp, rm, target, step=REBAL, min_hist=MIN_HIST):
     return out
 
 
-def apply_overlay(rp, rm, sched, cash_ann, cost_bp):
+def apply_overlay(rp, rm, sched, cash_ann, cost_bp, rf=None):
     """Daily NAV series of the overlay and of the beta-matched benchmark, both cost-charged.
 
     A decision taken on the close of day d applies from day d+1 (same convention as the
     book's next-open fill), so no decision can earn the return it was made on.
+
+    `rf`, when given, is a per-date daily cash rate series that replaces the flat
+    `cash_ann / 252` accrual (used for the observed-repo cash leg); a missing date accrues
+    nothing rather than silently falling back to the flat rate.
     """
     if not sched:
         return None, None, None
     cost = cost_bp / 10000.0
     rf_d = cash_ann / 252.0
+    rf_ser = rf
     dates = rp.index
     marks = pd.Series(np.nan, index=dates, dtype=float)
     bmarks = pd.Series(np.nan, index=dates, dtype=float)
@@ -118,8 +123,9 @@ def apply_overlay(rp, rm, sched, cash_ann, cost_bp):
         # cost when a weight moves (each leg trades its own notional fraction)
         fee = 0.0 if prev is None else abs(k - prev) * cost
         fee_b = 0.0 if prev_b is None else abs(kb - prev_b) * cost
-        r_s = k * float(rp.loc[d]) + (1.0 - k) * rf_d - fee
-        r_b = kb * float(rm.loc[d]) + (1.0 - kb) * rf_d - fee_b
+        rf_day = rf_d if rf_ser is None else float(rf_ser.get(d, 0.0) or 0.0)
+        r_s = k * float(rp.loc[d]) + (1.0 - k) * rf_day - fee
+        r_b = kb * float(rm.loc[d]) + (1.0 - kb) * rf_day - fee_b
         strat.append(strat[-1] * (1.0 + r_s))
         bench.append(bench[-1] * (1.0 + r_b))
         kk.append(k)
