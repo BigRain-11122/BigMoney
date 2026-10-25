@@ -1,0 +1,518 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "generated": "2026-10-25T16:57:50",
+ "basis": "next-open fill per sub-book (decision at close t, fill at open t+1), 8bp/side on each sub-book's own turnover; the ensemble is a buy-and-hold package of the twenty NAV paths (unfunded sub-books sit in cash at 1.0)",
+ "anchor": "2020-01-01",
+ "span_phases": 20,
+ "rebal": 20,
+ "n_hold": 5,
+ "universes": {
+  "bond_removed": {
+   "full": {
+    "book": {
+     "label": "bond_removed",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.8009,
+     "cagr": 0.0903,
+     "vol": 0.1275,
+     "sharpe": 0.77,
+     "maxdd": -0.128
+    },
+    "ew": {
+     "label": "bond_removed:ew",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.001,
+     "total_ret": 0.1643,
+     "cagr": 0.0226,
+     "vol": 0.194,
+     "sharpe": 0.217,
+     "maxdd": -0.4221
+    },
+    "excess_pp": 6.77
+   },
+   "oos_2024": {
+    "book": {
+     "label": "bond_removed:oos",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.2716,
+     "total_ret": 0.4163,
+     "cagr": 0.132,
+     "vol": 0.144,
+     "sharpe": 0.972,
+     "maxdd": -0.104
+    },
+    "ew": {
+     "label": "bond_removed:oos:ew",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9143,
+     "total_ret": 0.2747,
+     "cagr": 0.0904,
+     "vol": 0.2077,
+     "sharpe": 0.54,
+     "maxdd": -0.2059
+    },
+    "excess_pp": 4.16
+   },
+   "per_year_pct": {
+    "2020": 16.99,
+    "2021": 3.24,
+    "2022": -5.37,
+    "2023": 10.99,
+    "2024": 14.14,
+    "2025": 25.63,
+    "2026": -1.01
+   },
+   "turnover_note": "each sub-book pays its own cost; the package trades nothing itself",
+   "phases": [
+    {
+     "phase": 0,
+     "start": "2020-01-02",
+     "cagr_pct": 14.3,
+     "sharpe": 0.992,
+     "maxdd_pct": -16.1,
+     "turnover_per_rebal": 1.405
+    },
+    {
+     "phase": 1,
+     "start": "2020-01-03",
+     "cagr_pct": 7.62,
+     "sharpe": 0.576,
+     "maxdd_pct": -21.77,
+     "turnover_per_rebal": 1.366
+    },
+    {
+     "phase": 2,
+     "start": "2020-01-06",
+     "cagr_pct": 11.57,
+     "sharpe": 0.759,
+     "maxdd_pct": -23.68,
+     "turnover_per_rebal": 1.482
+    },
+    {
+     "phase": 3,
+     "start": "2020-01-07",
+     "cagr_pct": 8.13,
+     "sharpe": 0.576,
+     "maxdd_pct": -21.79,
+     "turnover_per_rebal": 1.414
+    },
+    {
+     "phase": 4,
+     "start": "2020-01-08",
+     "cagr_pct": 11.11,
+     "sharpe": 0.74,
+     "maxdd_pct": -23.16,
+     "turnover_per_rebal": 1.337
+    },
+    {
+     "phase": 5,
+     "start": "2020-01-09",
+     "cagr_pct": 10.07,
+     "sharpe": 0.688,
+     "maxdd_pct": -28.72,
+     "turnover_per_rebal": 1.414
+    },
+    {
+     "phase": 6,
+     "start": "2020-01-10",
+     "cagr_pct": 7.02,
+     "sharpe": 0.498,
+     "maxdd_pct": -35.09,
+     "turnover_per_rebal": 1.506
+    },
+    {
+     "phase": 7,
+     "start": "2020-01-13",
+     "cagr_pct": 12.23,
+     "sharpe": 0.882,
+     "maxdd_pct": -18.81,
+     "turnover_per_rebal": 1.407
+    },
+    {
+     "phase": 8,
+     "start": "2020-01-14",
+     "cagr_pct": 11.16,
+     "sharpe": 0.799,
+     "maxdd_pct": -15.86,
+     "turnover_per_rebal": 1.471
+    },
+    {
+     "phase": 9,
+     "start": "2020-01-15",
+     "cagr_pct": 9.52,
+     "sharpe": 0.688,
+     "maxdd_pct": -18.85,
+     "turnover_per_rebal": 1.495
+    },
+    {
+     "phase": 10,
+     "start": "2020-01-16",
+     "cagr_pct": 7.97,
+     "sharpe": 0.619,
+     "maxdd_pct": -20.88,
+     "turnover_per_rebal": 1.432
+    },
+    {
+     "phase": 11,
+     "start": "2020-01-17",
+     "cagr_pct": 6.09,
+     "sharpe": 0.479,
+     "maxdd_pct": -25.19,
+     "turnover_per_rebal": 1.393
+    },
+    {
+     "phase": 12,
+     "start": "2020-01-20",
+     "cagr_pct": 4.95,
+     "sharpe": 0.417,
+     "maxdd_pct": -19.06,
+     "turnover_per_rebal": 1.446
+    },
+    {
+     "phase": 13,
+     "start": "2020-01-21",
+     "cagr_pct": 4.72,
+     "sharpe": 0.394,
+     "maxdd_pct": -21.54,
+     "turnover_per_rebal": 1.437
+    },
+    {
+     "phase": 14,
+     "start": "2020-01-22",
+     "cagr_pct": 4.83,
+     "sharpe": 0.407,
+     "maxdd_pct": -18.69,
+     "turnover_per_rebal": 1.359
+    },
+    {
+     "phase": 15,
+     "start": "2020-01-23",
+     "cagr_pct": 5.23,
+     "sharpe": 0.429,
+     "maxdd_pct": -21.62,
+     "turnover_per_rebal": 1.427
+    },
+    {
+     "phase": 16,
+     "start": "2020-02-03",
+     "cagr_pct": 5.61,
+     "sharpe": 0.456,
+     "maxdd_pct": -21.55,
+     "turnover_per_rebal": 1.398
+    },
+    {
+     "phase": 17,
+     "start": "2020-02-04",
+     "cagr_pct": 11.17,
+     "sharpe": 0.864,
+     "maxdd_pct": -16.31,
+     "turnover_per_rebal": 1.383
+    },
+    {
+     "phase": 18,
+     "start": "2020-02-05",
+     "cagr_pct": 12.41,
+     "sharpe": 0.932,
+     "maxdd_pct": -14.98,
+     "turnover_per_rebal": 1.407
+    },
+    {
+     "phase": 19,
+     "start": "2020-02-06",
+     "cagr_pct": 11.43,
+     "sharpe": 0.849,
+     "maxdd_pct": -14.47,
+     "turnover_per_rebal": 1.373
+    }
+   ],
+   "phase_dispersion": {
+    "cagr_pct": {
+     "min": 4.72,
+     "median": 8.82,
+     "max": 14.3,
+     "spread": 9.58,
+     "n": 20
+    },
+    "sharpe": {
+     "min": 0.39,
+     "median": 0.65,
+     "max": 0.99,
+     "spread": 0.6,
+     "n": 20
+    },
+    "maxdd_pct": {
+     "min": -35.09,
+     "median": -21.21,
+     "max": -14.47,
+     "spread": 20.62,
+     "n": 20
+    }
+   },
+   "ensemble_rank_among_phases": "10/20 better than",
+   "ensemble_minus_median_phase_pp": 0.21,
+   "secs": 38.5
+  },
+  "all_classes": {
+   "full": {
+    "book": {
+     "label": "all_classes",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.4166,
+     "cagr": 0.0525,
+     "vol": 0.0787,
+     "sharpe": 0.716,
+     "maxdd": -0.0729
+    },
+    "ew": {
+     "label": "all_classes:ew",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0009,
+     "total_ret": 0.1786,
+     "cagr": 0.0244,
+     "vol": 0.1808,
+     "sharpe": 0.23,
+     "maxdd": -0.4
+    },
+    "excess_pp": 2.81
+   },
+   "oos_2024": {
+    "book": {
+     "label": "all_classes:oos",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.0786,
+     "total_ret": 0.3134,
+     "cagr": 0.102,
+     "vol": 0.0875,
+     "sharpe": 1.203,
+     "maxdd": -0.0682
+    },
+    "ew": {
+     "label": "all_classes:oos:ew",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9111,
+     "total_ret": 0.2948,
+     "cagr": 0.0965,
+     "vol": 0.1929,
+     "sharpe": 0.596,
+     "maxdd": -0.1885
+    },
+    "excess_pp": 0.55
+   },
+   "per_year_pct": {
+    "2020": 6.16,
+    "2021": -0.14,
+    "2022": -2.02,
+    "2023": 3.76,
+    "2024": 3.41,
+    "2025": 24.07,
+    "2026": 2.43
+   },
+   "turnover_note": "each sub-book pays its own cost; the package trades nothing itself",
+   "phases": [
+    {
+     "phase": 0,
+     "start": "2020-01-02",
+     "cagr_pct": 8.57,
+     "sharpe": 0.854,
+     "maxdd_pct": -13.09,
+     "turnover_per_rebal": 1.318
+    },
+    {
+     "phase": 1,
+     "start": "2020-01-03",
+     "cagr_pct": 2.22,
+     "sharpe": 0.251,
+     "maxdd_pct": -22.07,
+     "turnover_per_rebal": 1.299
+    },
+    {
+     "phase": 2,
+     "start": "2020-01-06",
+     "cagr_pct": 8.44,
+     "sharpe": 0.849,
+     "maxdd_pct": -11.6,
+     "turnover_per_rebal": 1.361
+    },
+    {
+     "phase": 3,
+     "start": "2020-01-07",
+     "cagr_pct": 8.77,
+     "sharpe": 0.934,
+     "maxdd_pct": -13.11,
+     "turnover_per_rebal": 1.313
+    },
+    {
+     "phase": 4,
+     "start": "2020-01-08",
+     "cagr_pct": 5.93,
+     "sharpe": 0.513,
+     "maxdd_pct": -24.28,
+     "turnover_per_rebal": 1.361
+    },
+    {
+     "phase": 5,
+     "start": "2020-01-09",
+     "cagr_pct": 5.59,
+     "sharpe": 0.546,
+     "maxdd_pct": -24.26,
+     "turnover_per_rebal": 1.395
+    },
+    {
+     "phase": 6,
+     "start": "2020-01-10",
+     "cagr_pct": 6.56,
+     "sharpe": 0.759,
+     "maxdd_pct": -14.25,
+     "turnover_per_rebal": 1.323
+    },
+    {
+     "phase": 7,
+     "start": "2020-01-13",
+     "cagr_pct": 4.34,
+     "sharpe": 0.51,
+     "maxdd_pct": -13.64,
+     "turnover_per_rebal": 1.305
+    },
+    {
+     "phase": 8,
+     "start": "2020-01-14",
+     "cagr_pct": 6.92,
+     "sharpe": 0.714,
+     "maxdd_pct": -12.99,
+     "turnover_per_rebal": 1.329
+    },
+    {
+     "phase": 9,
+     "start": "2020-01-15",
+     "cagr_pct": 5.28,
+     "sharpe": 0.572,
+     "maxdd_pct": -12.4,
+     "turnover_per_rebal": 1.3
+    },
+    {
+     "phase": 10,
+     "start": "2020-01-16",
+     "cagr_pct": 3.84,
+     "sharpe": 0.422,
+     "maxdd_pct": -17.38,
+     "turnover_per_rebal": 1.237
+    },
+    {
+     "phase": 11,
+     "start": "2020-01-17",
+     "cagr_pct": 3.17,
+     "sharpe": 0.403,
+     "maxdd_pct": -11.35,
+     "turnover_per_rebal": 1.295
+    },
+    {
+     "phase": 12,
+     "start": "2020-01-20",
+     "cagr_pct": 4.13,
+     "sharpe": 0.454,
+     "maxdd_pct": -16.61,
+     "turnover_per_rebal": 1.339
+    },
+    {
+     "phase": 13,
+     "start": "2020-01-21",
+     "cagr_pct": 3.26,
+     "sharpe": 0.391,
+     "maxdd_pct": -14.57,
+     "turnover_per_rebal": 1.349
+    },
+    {
+     "phase": 14,
+     "start": "2020-01-22",
+     "cagr_pct": 4.35,
+     "sharpe": 0.529,
+     "maxdd_pct": -12.46,
+     "turnover_per_rebal": 1.329
+    },
+    {
+     "phase": 15,
+     "start": "2020-01-23",
+     "cagr_pct": 3.67,
+     "sharpe": 0.491,
+     "maxdd_pct": -11.9,
+     "turnover_per_rebal": 1.32
+    },
+    {
+     "phase": 16,
+     "start": "2020-02-03",
+     "cagr_pct": 3.15,
+     "sharpe": 0.442,
+     "maxdd_pct": -21.45,
+     "turnover_per_rebal": 1.212
+    },
+    {
+     "phase": 17,
+     "start": "2020-02-04",
+     "cagr_pct": 5.17,
+     "sharpe": 0.655,
+     "maxdd_pct": -11.04,
+     "turnover_per_rebal": 1.261
+    },
+    {
+     "phase": 18,
+     "start": "2020-02-05",
+     "cagr_pct": 6.08,
+     "sharpe": 0.704,
+     "maxdd_pct": -12.29,
+     "turnover_per_rebal": 1.3
+    },
+    {
+     "phase": 19,
+     "start": "2020-02-06",
+     "cagr_pct": 4.2,
+     "sharpe": 0.484,
+     "maxdd_pct": -11.49,
+     "turnover_per_rebal": 1.329
+    }
+   ],
+   "phase_dispersion": {
+    "cagr_pct": {
+     "min": 2.22,
+     "median": 4.76,
+     "max": 8.77,
+     "spread": 6.55,
+     "n": 20
+    },
+    "sharpe": {
+     "min": 0.25,
+     "median": 0.52,
+     "max": 0.93,
+     "spread": 0.68,
+     "n": 20
+    },
+    "maxdd_pct": {
+     "min": -24.28,
+     "median": -13.1,
+     "max": -11.04,
+     "spread": 13.24,
+     "n": 20
+    }
+   },
+   "ensemble_rank_among_phases": "11/20 better than",
+   "ensemble_minus_median_phase_pp": 0.49,
+   "secs": 35.1
+  }
+ },
+ "question": "does holding all twenty decision phases at once remove the phase lottery without killing the excess?",
+ "caveats": [
+  "survivorship: the on-disk panel holds ETFs that still exist",
+  "the control is equal-weight on the same subset (close basis, as published)",
+  "exploratory: no preregistration, no verdict, no ledger booking",
+  "sub-books are equally funded and never rebalanced back to 1/20 -- drift is left in"
+ ]
+}
