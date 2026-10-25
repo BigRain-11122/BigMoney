@@ -1,0 +1,32 @@
+{
+ "round": "r1244",
+ "machine": "bm-c",
+ "entry": "E93-GAPSPLIT-ERA-SPREAD",
+ "action": "booked_delivered_batch_as_done",
+ "deliverable": "results/e44_midmonth/SCREENGAPERA-20261023.json",
+ "deliverable_commit": "ba54f4b979 2026-10-24T08:15",
+ "arms": [
+  "neutralise_gap@1",
+  "neutralise_gap@2",
+  "neutralise_gap@5"
+ ],
+ "eras": [
+  "pre2017",
+  "2017_2020",
+  "2021_2023",
+  "2024_now"
+ ],
+ "cells_with_delta": 6,
+ "cells_total": 12,
+ "worst_cell": {
+  "era": "2024_now",
+  "arm": "neutralise_gap@5",
+  "delta_vs_unscreened_bp": 200.0,
+  "delta_vs_adjacent_only_bp": -175.0
+ },
+ "sign_changes_any_era": 0,
+ "gap1_vs_gap5_marginal_all_zero": true,
+ "reburn": false,
+ "trials": 0,
+ "evidence_cutoff": "2026-10-23"
+}

@@ -1,0 +1,597 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "basis": "close-to-close from decision close; 8bp/side on turnover; no open-fill model (slippage not represented)",
+ "caveats": [
+  "survivorship: on-disk panel lists ETFs that still exist",
+  "exploratory analysis, not a preregistered judgement",
+  "each subset is ranked and controlled on the SAME columns",
+  "subsets are static: the book cannot rotate INTO a removed sleeve"
+ ],
+ "cost_bp_per_side": 8,
+ "n_hold": 5,
+ "rebal": 20,
+ "universe_classes": {
+  "equity": 1291,
+  "crossborder": 238,
+  "bond": 104,
+  "commodity": 18,
+  "convertible": 2
+ },
+ "variants": {
+  "bond_removed": {
+   "runs": [
+    {
+     "label": "book_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 0.9975,
+     "total_ret": 1.3621,
+     "cagr": 0.1347,
+     "vol": 0.1506,
+     "sharpe": 0.95,
+     "maxdd": -0.1454,
+     "turnover_per_rebal": 1.405
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 0.9975,
+     "total_ret": 0.3979,
+     "cagr": 0.0876,
+     "vol": 0.142,
+     "sharpe": 0.685,
+     "maxdd": -0.1454,
+     "turnover_per_rebal": 1.405
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 1.3868,
+     "total_ret": 0.6991,
+     "cagr": 0.2081,
+     "vol": 0.1623,
+     "sharpe": 1.3,
+     "maxdd": -0.1348,
+     "turnover_per_rebal": 1.405
+    }
+   ],
+   "controls": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.001,
+     "total_ret": 0.1643,
+     "cagr": 0.0226,
+     "vol": 0.194,
+     "sharpe": 0.217,
+     "maxdd": -0.4221
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.001,
+     "total_ret": -0.0817,
+     "cagr": -0.0211,
+     "vol": 0.1839,
+     "sharpe": -0.028,
+     "maxdd": -0.3485
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9143,
+     "total_ret": 0.2747,
+     "cagr": 0.0904,
+     "vol": 0.2077,
+     "sharpe": 0.54,
+     "maxdd": -0.2059
+    }
+   ],
+   "mix": {
+    "equity": {
+     "days_held": 1547,
+     "day_share": 0.939,
+     "mean_weight_when_live": 0.601,
+     "avg_weight_all_days": 0.564
+    },
+    "bond": {
+     "days_held": 0,
+     "day_share": 0.0,
+     "mean_weight_when_live": 0.0,
+     "avg_weight_all_days": 0.0
+    },
+    "commodity": {
+     "days_held": 580,
+     "day_share": 0.352,
+     "mean_weight_when_live": 0.6,
+     "avg_weight_all_days": 0.211
+    },
+    "crossborder": {
+     "days_held": 747,
+     "day_share": 0.454,
+     "mean_weight_when_live": 0.495,
+     "avg_weight_all_days": 0.224
+    }
+   },
+   "contrib_arithmetic": {
+    "commodity": 0.418,
+    "crossborder": 0.1849,
+    "equity": 0.4225
+   },
+   "rebalances": 83,
+   "all_bond_share": 0.0,
+   "universe": 1547,
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 13.47,
+     "ew_cagr_pct": 2.26,
+     "cagr_pp": 11.21,
+     "book_sharpe": 0.95,
+     "ew_sharpe": 0.217,
+     "sharpe_delta": 0.733,
+     "book_maxdd_pct": -14.54,
+     "ew_maxdd_pct": -42.21,
+     "maxdd_pp": 27.67
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 8.76,
+     "ew_cagr_pct": -2.11,
+     "cagr_pp": 10.87,
+     "book_sharpe": 0.685,
+     "ew_sharpe": -0.028,
+     "sharpe_delta": 0.713,
+     "book_maxdd_pct": -14.54,
+     "ew_maxdd_pct": -34.85,
+     "maxdd_pp": 20.31
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 20.81,
+     "ew_cagr_pct": 9.04,
+     "cagr_pp": 11.77,
+     "book_sharpe": 1.3,
+     "ew_sharpe": 0.54,
+     "sharpe_delta": 0.76,
+     "book_maxdd_pct": -13.48,
+     "ew_maxdd_pct": -20.59,
+     "maxdd_pp": 7.11
+    }
+   }
+  },
+  "commodity_removed": {
+   "runs": [
+    {
+     "label": "book_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 0.9975,
+     "total_ret": 0.7526,
+     "cagr": 0.086,
+     "vol": 0.1021,
+     "sharpe": 0.893,
+     "maxdd": -0.1282,
+     "turnover_per_rebal": 1.28
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 0.9975,
+     "total_ret": 0.3351,
+     "cagr": 0.0751,
+     "vol": 0.1057,
+     "sharpe": 0.765,
+     "maxdd": -0.1282,
+     "turnover_per_rebal": 1.28
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 1.3292,
+     "total_ret": 0.3152,
+     "cagr": 0.1027,
+     "vol": 0.097,
+     "sharpe": 1.102,
+     "maxdd": -0.1019,
+     "turnover_per_rebal": 1.28
+    }
+   ],
+   "controls": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 0.9999,
+     "total_ret": 0.1529,
+     "cagr": 0.0211,
+     "vol": 0.1869,
+     "sharpe": 0.21,
+     "maxdd": -0.4166
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 0.9999,
+     "total_ret": -0.1013,
+     "cagr": -0.0264,
+     "vol": 0.1799,
+     "sharpe": -0.064,
+     "maxdd": -0.3472
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.8939,
+     "total_ret": 0.2895,
+     "cagr": 0.0949,
+     "vol": 0.1967,
+     "sharpe": 0.58,
+     "maxdd": -0.1903
+    }
+   ],
+   "mix": {
+    "equity": {
+     "days_held": 1320,
+     "day_share": 0.801,
+     "mean_weight_when_live": 0.424,
+     "avg_weight_all_days": 0.34
+    },
+    "bond": {
+     "days_held": 1427,
+     "day_share": 0.866,
+     "mean_weight_when_live": 0.647,
+     "avg_weight_all_days": 0.56
+    },
+    "commodity": {
+     "days_held": 0,
+     "day_share": 0.0,
+     "mean_weight_when_live": 0.0,
+     "avg_weight_all_days": 0.0
+    },
+    "crossborder": {
+     "days_held": 360,
+     "day_share": 0.219,
+     "mean_weight_when_live": 0.456,
+     "avg_weight_all_days": 0.1
+    }
+   },
+   "contrib_arithmetic": {
+    "bond": 0.0929,
+    "crossborder": 0.0926,
+    "equity": 0.4925
+   },
+   "rebalances": 83,
+   "all_bond_share": 0.181,
+   "universe": 1633,
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 8.6,
+     "ew_cagr_pct": 2.11,
+     "cagr_pp": 6.49,
+     "book_sharpe": 0.893,
+     "ew_sharpe": 0.21,
+     "sharpe_delta": 0.683,
+     "book_maxdd_pct": -12.82,
+     "ew_maxdd_pct": -41.66,
+     "maxdd_pp": 28.84
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 7.51,
+     "ew_cagr_pct": -2.64,
+     "cagr_pp": 10.15,
+     "book_sharpe": 0.765,
+     "ew_sharpe": -0.064,
+     "sharpe_delta": 0.829,
+     "book_maxdd_pct": -12.82,
+     "ew_maxdd_pct": -34.72,
+     "maxdd_pp": 21.9
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 10.27,
+     "ew_cagr_pct": 9.49,
+     "cagr_pp": 0.78,
+     "book_sharpe": 1.102,
+     "ew_sharpe": 0.58,
+     "sharpe_delta": 0.522,
+     "book_maxdd_pct": -10.19,
+     "ew_maxdd_pct": -19.03,
+     "maxdd_pp": 8.84
+    }
+   }
+  },
+  "crossborder_removed": {
+   "runs": [
+    {
+     "label": "book_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 0.9962,
+     "total_ret": 0.6893,
+     "cagr": 0.0801,
+     "vol": 0.1021,
+     "sharpe": 0.838,
+     "maxdd": -0.1582,
+     "turnover_per_rebal": 1.241
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 0.9962,
+     "total_ret": 0.1067,
+     "cagr": 0.0257,
+     "vol": 0.1049,
+     "sharpe": 0.305,
+     "maxdd": -0.1582,
+     "turnover_per_rebal": 1.241
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 1.1027,
+     "total_ret": 0.5261,
+     "cagr": 0.1627,
+     "vol": 0.098,
+     "sharpe": 1.658,
+     "maxdd": -0.1019,
+     "turnover_per_rebal": 1.241
+    }
+   ],
+   "controls": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0006,
+     "total_ret": 0.1791,
+     "cagr": 0.0245,
+     "vol": 0.1867,
+     "sharpe": 0.228,
+     "maxdd": -0.4026
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0006,
+     "total_ret": -0.0804,
+     "cagr": -0.0208,
+     "vol": 0.1717,
+     "sharpe": -0.041,
+     "maxdd": -0.3292
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9163,
+     "total_ret": 0.2876,
+     "cagr": 0.0944,
+     "vol": 0.2064,
+     "sharpe": 0.56,
+     "maxdd": -0.2139
+    }
+   ],
+   "mix": {
+    "equity": {
+     "days_held": 1300,
+     "day_share": 0.789,
+     "mean_weight_when_live": 0.443,
+     "avg_weight_all_days": 0.35
+    },
+    "bond": {
+     "days_held": 1507,
+     "day_share": 0.915,
+     "mean_weight_when_live": 0.644,
+     "avg_weight_all_days": 0.59
+    },
+    "commodity": {
+     "days_held": 220,
+     "day_share": 0.134,
+     "mean_weight_when_live": 0.455,
+     "avg_weight_all_days": 0.061
+    },
+    "crossborder": {
+     "days_held": 0,
+     "day_share": 0.0,
+     "mean_weight_when_live": 0.0,
+     "avg_weight_all_days": 0.0
+    }
+   },
+   "contrib_arithmetic": {
+    "bond": 0.1029,
+    "commodity": 0.2147,
+    "equity": 0.3198
+   },
+   "rebalances": 83,
+   "all_bond_share": 0.181,
+   "universe": 1413,
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 8.01,
+     "ew_cagr_pct": 2.45,
+     "cagr_pp": 5.56,
+     "book_sharpe": 0.838,
+     "ew_sharpe": 0.228,
+     "sharpe_delta": 0.61,
+     "book_maxdd_pct": -15.82,
+     "ew_maxdd_pct": -40.26,
+     "maxdd_pp": 24.44
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 2.57,
+     "ew_cagr_pct": -2.08,
+     "cagr_pp": 4.65,
+     "book_sharpe": 0.305,
+     "ew_sharpe": -0.041,
+     "sharpe_delta": 0.346,
+     "book_maxdd_pct": -15.82,
+     "ew_maxdd_pct": -32.92,
+     "maxdd_pp": 17.1
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 16.27,
+     "ew_cagr_pct": 9.44,
+     "cagr_pp": 6.83,
+     "book_sharpe": 1.658,
+     "ew_sharpe": 0.56,
+     "sharpe_delta": 1.098,
+     "book_maxdd_pct": -10.19,
+     "ew_maxdd_pct": -21.39,
+     "maxdd_pp": 11.2
+    }
+   }
+  },
+  "equity_gold_only": {
+   "runs": [
+    {
+     "label": "book_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 0.9962,
+     "total_ret": 0.7442,
+     "cagr": 0.0852,
+     "vol": 0.1452,
+     "sharpe": 0.66,
+     "maxdd": -0.1582,
+     "turnover_per_rebal": 1.41
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 0.9962,
+     "total_ret": 0.1505,
+     "cagr": 0.0358,
+     "vol": 0.1372,
+     "sharpe": 0.335,
+     "maxdd": -0.1582,
+     "turnover_per_rebal": 1.41
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 1.1456,
+     "total_ret": 0.5166,
+     "cagr": 0.1602,
+     "vol": 0.1561,
+     "sharpe": 1.074,
+     "maxdd": -0.143,
+     "turnover_per_rebal": 1.41
+    }
+   ],
+   "controls": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0007,
+     "total_ret": 0.1627,
+     "cagr": 0.0224,
+     "vol": 0.2027,
+     "sharpe": 0.215,
+     "maxdd": -0.4257
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0007,
+     "total_ret": -0.0733,
+     "cagr": -0.0189,
+     "vol": 0.1845,
+     "sharpe": -0.015,
+     "maxdd": -0.3473
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9231,
+     "total_ret": 0.2604,
+     "cagr": 0.0861,
+     "vol": 0.2264,
+     "sharpe": 0.494,
+     "maxdd": -0.2386
+    }
+   ],
+   "mix": {
+    "equity": {
+     "days_held": 1587,
+     "day_share": 0.964,
+     "mean_weight_when_live": 0.796,
+     "avg_weight_all_days": 0.767
+    },
+    "bond": {
+     "days_held": 0,
+     "day_share": 0.0,
+     "mean_weight_when_live": 0.0,
+     "avg_weight_all_days": 0.0
+    },
+    "commodity": {
+     "days_held": 640,
+     "day_share": 0.389,
+     "mean_weight_when_live": 0.6,
+     "avg_weight_all_days": 0.233
+    },
+    "crossborder": {
+     "days_held": 0,
+     "day_share": 0.0,
+     "mean_weight_when_live": 0.0,
+     "avg_weight_all_days": 0.0
+    }
+   },
+   "contrib_arithmetic": {
+    "commodity": 0.4423,
+    "equity": 0.2735
+   },
+   "rebalances": 83,
+   "all_bond_share": 0.0,
+   "universe": 1309,
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 8.52,
+     "ew_cagr_pct": 2.24,
+     "cagr_pp": 6.28,
+     "book_sharpe": 0.66,
+     "ew_sharpe": 0.215,
+     "sharpe_delta": 0.445,
+     "book_maxdd_pct": -15.82,
+     "ew_maxdd_pct": -42.57,
+     "maxdd_pp": 26.75
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 3.58,
+     "ew_cagr_pct": -1.89,
+     "cagr_pp": 5.47,
+     "book_sharpe": 0.335,
+     "ew_sharpe": -0.015,
+     "sharpe_delta": 0.35,
+     "book_maxdd_pct": -15.82,
+     "ew_maxdd_pct": -34.73,
+     "maxdd_pp": 18.91
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 16.02,
+     "ew_cagr_pct": 8.61,
+     "cagr_pp": 7.41,
+     "book_sharpe": 1.074,
+     "ew_sharpe": 0.494,
+     "sharpe_delta": 0.58,
+     "book_maxdd_pct": -14.3,
+     "ew_maxdd_pct": -23.86,
+     "maxdd_pp": 9.56
+    }
+   }
+  }
+ }
+}

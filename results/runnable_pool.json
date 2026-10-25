@@ -21572,7 +21572,7 @@
   },
   {
    "id": "E93-GAPSPLIT-ERA-SPREAD",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (screenreg leg + a gap_runs argument)",
@@ -21582,7 +21582,11 @@
    "entered_at": "2026-10-23T00:5x+08:00",
    "entered_by": "bm-b r1158",
    "evidence_cutoff": "2026-10-22",
-   "runner_note": "one burn, three universes (unscreened / neutralise_int / neutralise_gap@1 / neutralise_gap@5) through _screen_face; the face must carry the E76 delta rows beside the new columns so no arm can be silently swapped"
+   "runner_note": "one burn, three universes (unscreened / neutralise_int / neutralise_gap@1 / neutralise_gap@5) through _screen_face; the face must carry the E76 delta rows beside the new columns so no arm can be silently swapped",
+   "done_at": "2026-10-24T08:15+08:00",
+   "result_ref": "results/e44_midmonth/SCREENGAPERA-20261023.json",
+   "result_note": "delivered 2026-10-24 (commit ba54f4b979) and verified against the entry spec this round: 6 arms / 3 gap limits / 4 eras, zero era spread changes sign under any gap arm, gap@1 vs gap@5 marginal is exactly 0.0bp in all four eras, 6 of 12 era x arm cells move at all and the widest is 2024_now under neutralise_gap@5 (+200bp vs unscreened, -175bp vs adjacent-only) -- i.e. the gapped prints do not carry the published era spread; the adjacent-only arm is what moves it. No reburn: descriptive re-read only, trial 0.",
+   "booked_by": "bm-c r1244 (owner bm-b silent; delivered batch booked, not reburned)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
