@@ -1,0 +1,342 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "generated": "2026-10-25T18:09:09",
+ "anchor": "2020-01-01",
+ "rebal": 20,
+ "n_hold": 5,
+ "cost_bp_per_side": 8.0,
+ "universe": "bond_removed (equity/commodity/crossborder), 1547 instruments",
+ "market_proxy": "510300",
+ "basis": "package = buy-and-hold mean of the R=20 phase NAVs (next-open fill, 8bp per side); control = equal weight on the same subset; daily returns on the common date grid for every beta/capture/state read",
+ "question": "is the package excess a beta story (factor exposure) or selection (positive inside every market state and every rolling-beta tercile)?",
+ "headline": {
+  "package": {
+   "label": "package",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.8009,
+   "cagr": 0.0903,
+   "vol": 0.1275,
+   "sharpe": 0.77,
+   "maxdd": -0.128
+  },
+  "control_ew": {
+   "label": "ew",
+   "bars": 1647,
+   "years": 6.8,
+   "start_level": 1.001,
+   "total_ret": 0.1643,
+   "cagr": 0.0226,
+   "vol": 0.194,
+   "sharpe": 0.217,
+   "maxdd": -0.4221
+  },
+  "excess_pp": 6.77
+ },
+ "windows": {
+  "full": {
+   "start": "2020-01-03",
+   "end": "2026-10-22",
+   "beta": {
+    "market": "510300",
+    "n_days": 1646,
+    "pkg": {
+     "beta_vs_market": 0.3278,
+     "ann_ret_pct": 9.84,
+     "ann_vol_pct": 12.75,
+     "sharpe": 0.771,
+     "beta_hedged_excess_pp": 9.29,
+     "beta_hedged_sharpe": 0.836,
+     "beta_hedged_vol_pct": 11.11,
+     "capture_up": 0.37,
+     "capture_down": 0.287,
+     "n_up_days": 803,
+     "n_down_days": 824,
+     "beta_synthetic_pp": 0.55,
+     "excess_over_beta_synthetic_pp": 9.29
+    },
+    "ew": {
+     "beta_vs_market": 0.034,
+     "ann_ret_pct": 4.21,
+     "ann_vol_pct": 19.4,
+     "sharpe": 0.217,
+     "beta_hedged_excess_pp": 4.16,
+     "beta_hedged_sharpe": 0.214,
+     "beta_hedged_vol_pct": 19.39,
+     "capture_up": 0.009,
+     "capture_down": -0.034,
+     "n_up_days": 803,
+     "n_down_days": 824,
+     "beta_synthetic_pp": 0.06,
+     "excess_over_beta_synthetic_pp": 4.15
+    },
+    "beta_gap_pkg_minus_ew": 0.2938,
+    "market_beta_is_1": 1.0,
+    "market_ann_ret_pct": 1.67,
+    "pkg_beta_matched_to_ew": {
+     "scale": 0.1037,
+     "cash_share_pct": 89.63,
+     "ann_ret_pct": 1.02,
+     "ann_vol_pct": 1.32,
+     "sharpe": 0.771,
+     "excess_vs_ew_pp": -3.19
+    }
+   },
+   "market_state": {
+    "trail20_up": {
+     "label": "trail20_up",
+     "n_days": 783,
+     "pkg_pct": 25.34,
+     "ew_pct": 7.53,
+     "excess_pp": 17.81,
+     "mkt_pct": 53.91,
+     "pkg_beta": 0.3262,
+     "ew_beta": 0.0842
+    },
+    "trail20_down": {
+     "label": "trail20_down",
+     "n_days": 843,
+     "pkg_pct": -3.67,
+     "ew_pct": 1.32,
+     "excess_pp": -4.98,
+     "mkt_pct": -45.03,
+     "pkg_beta": 0.2962,
+     "ew_beta": -0.0143
+    },
+    "mkt_day_up": {
+     "label": "mkt_day_up",
+     "n_days": 803,
+     "pkg_pct": 80.85,
+     "ew_pct": 2.02,
+     "excess_pp": 78.84,
+     "mkt_pct": 218.8,
+     "pkg_beta": 0.2353,
+     "ew_beta": 0.2067
+    },
+    "mkt_day_down": {
+     "label": "mkt_day_down",
+     "n_days": 843,
+     "pkg_pct": -57.81,
+     "ew_pct": 6.3,
+     "excess_pp": -64.11,
+     "mkt_pct": -205.15,
+     "pkg_beta": 0.4195,
+     "ew_beta": -0.0513
+    }
+   },
+   "rolling_beta_terciles": {
+    "available": true,
+    "window_bars": 252,
+    "n_scored_days": 1395,
+    "assignment": "rank thirds (mergesort on trailing beta)",
+    "beta_tercile_bounds": [
+     0.1897,
+     0.3053
+    ],
+    "beta_min": 0.0432,
+    "beta_max": 0.6431,
+    "cells": {
+     "beta_low": {
+      "label": "beta_low",
+      "n_days": 465,
+      "pkg_pct": 8.74,
+      "ew_pct": 27.7,
+      "excess_pp": -18.97,
+      "mkt_pct": 17.97,
+      "pkg_beta": 0.1921,
+      "ew_beta": 0.1392,
+      "beta_median": 0.1094
+     },
+     "beta_mid": {
+      "label": "beta_mid",
+      "n_days": 465,
+      "pkg_pct": 18.49,
+      "ew_pct": -19.99,
+      "excess_pp": 38.48,
+      "mkt_pct": -17.22,
+      "pkg_beta": 0.245,
+      "ew_beta": -0.0262,
+      "beta_median": 0.2202
+     },
+     "beta_high": {
+      "label": "beta_high",
+      "n_days": 465,
+      "pkg_pct": -2.83,
+      "ew_pct": -9.62,
+      "excess_pp": 6.79,
+      "mkt_pct": -12.04,
+      "pkg_beta": 0.3676,
+      "ew_beta": -0.0742,
+      "beta_median": 0.5205
+     }
+    }
+   },
+   "span": {
+    "state_cells": 4,
+    "state_min_excess_pp": -64.11,
+    "state_max_excess_pp": 78.84,
+    "state_cells_positive": 2,
+    "beta_cells": 3,
+    "beta_cells_positive": 2,
+    "beta_min_excess_pp": -18.97,
+    "beta_max_excess_pp": 38.48
+   }
+  },
+  "oos_2024plus": {
+   "start": "2024-01-03",
+   "end": "2026-10-22",
+   "beta": {
+    "market": "510300",
+    "n_days": 676,
+    "pkg": {
+     "beta_vs_market": 0.2946,
+     "ann_ret_pct": 14.05,
+     "ann_vol_pct": 14.41,
+     "sharpe": 0.975,
+     "beta_hedged_excess_pp": 11.62,
+     "beta_hedged_sharpe": 0.875,
+     "beta_hedged_vol_pct": 13.29,
+     "capture_up": 0.428,
+     "capture_down": 0.325,
+     "n_up_days": 337,
+     "n_down_days": 329,
+     "beta_synthetic_pp": 2.43,
+     "excess_over_beta_synthetic_pp": 11.62
+    },
+    "ew": {
+     "beta_vs_market": 0.0658,
+     "ann_ret_pct": 11.2,
+     "ann_vol_pct": 20.77,
+     "sharpe": 0.54,
+     "beta_hedged_excess_pp": 10.66,
+     "beta_hedged_sharpe": 0.514,
+     "beta_hedged_vol_pct": 20.73,
+     "capture_up": -0.002,
+     "capture_down": -0.13,
+     "n_up_days": 337,
+     "n_down_days": 329,
+     "beta_synthetic_pp": 0.54,
+     "excess_over_beta_synthetic_pp": 10.66
+    },
+    "beta_gap_pkg_minus_ew": 0.2288,
+    "market_beta_is_1": 1.0,
+    "market_ann_ret_pct": 8.26,
+    "pkg_beta_matched_to_ew": {
+     "scale": 0.2234,
+     "cash_share_pct": 77.66,
+     "ann_ret_pct": 3.14,
+     "ann_vol_pct": 3.22,
+     "sharpe": 0.975,
+     "excess_vs_ew_pp": -8.07
+    }
+   },
+   "market_state": {
+    "trail20_up": {
+     "label": "trail20_up",
+     "n_days": 346,
+     "pkg_pct": 27.18,
+     "ew_pct": 15.6,
+     "excess_pp": 11.58,
+     "mkt_pct": 55.05,
+     "pkg_beta": 0.2453,
+     "ew_beta": 0.1353
+    },
+    "trail20_down": {
+     "label": "trail20_down",
+     "n_days": 310,
+     "pkg_pct": -1.53,
+     "ew_pct": 15.88,
+     "excess_pp": -17.41,
+     "mkt_pct": -38.43,
+     "pkg_beta": 0.3863,
+     "ew_beta": -0.0417
+    },
+    "mkt_day_up": {
+     "label": "mkt_day_up",
+     "n_days": 337,
+     "pkg_pct": 89.35,
+     "ew_pct": -0.49,
+     "excess_pp": 89.84,
+     "mkt_pct": 208.81,
+     "pkg_beta": 0.1284,
+     "ew_beta": 0.3384
+    },
+    "mkt_day_down": {
+     "label": "mkt_day_down",
+     "n_days": 339,
+     "pkg_pct": -60.8,
+     "ew_pct": 22.83,
+     "excess_pp": -83.63,
+     "mkt_pct": -191.1,
+     "pkg_beta": 0.3498,
+     "ew_beta": -0.0396
+    }
+   },
+   "rolling_beta_terciles": {
+    "available": true,
+    "window_bars": 252,
+    "n_scored_days": 425,
+    "assignment": "rank thirds (mergesort on trailing beta)",
+    "beta_tercile_bounds": [
+     0.2008,
+     0.5161
+    ],
+    "beta_min": 0.1018,
+    "beta_max": 0.6431,
+    "cells": {
+     "beta_low": {
+      "label": "beta_low",
+      "n_days": 141,
+      "pkg_pct": 25.87,
+      "ew_pct": 35.26,
+      "excess_pp": -9.4,
+      "mkt_pct": 19.33,
+      "pkg_beta": 0.5021,
+      "ew_beta": 0.0458,
+      "beta_median": 0.1725
+     },
+     "beta_mid": {
+      "label": "beta_mid",
+      "n_days": 143,
+      "pkg_pct": 24.11,
+      "ew_pct": 5.01,
+      "excess_pp": 19.09,
+      "mkt_pct": -8.58,
+      "pkg_beta": 0.4665,
+      "ew_beta": -0.027,
+      "beta_median": 0.4503
+     },
+     "beta_high": {
+      "label": "beta_high",
+      "n_days": 141,
+      "pkg_pct": -5.82,
+      "ew_pct": -14.07,
+      "excess_pp": 8.25,
+      "mkt_pct": 3.55,
+      "pkg_beta": 0.5093,
+      "ew_beta": -0.1963,
+      "beta_median": 0.616
+     }
+    }
+   },
+   "span": {
+    "state_cells": 4,
+    "state_min_excess_pp": -83.63,
+    "state_max_excess_pp": 89.84,
+    "state_cells_positive": 2,
+    "beta_cells": 3,
+    "beta_cells_positive": 2,
+    "beta_min_excess_pp": -9.4,
+    "beta_max_excess_pp": 19.09
+   }
+  }
+ },
+ "caveats": [
+  "survivorship: on-disk panel holds ETFs that still exist",
+  "single market proxy (510300) -- a beta read against CSI300 only, no multi-factor regression (size/value/momentum not modelled)",
+  "rolling-beta terciles are overlapping windows, so the cells are a descriptive split, not an independent-sample test",
+  "capture ratios are mean-return ratios, not downside/upside semivariance capture",
+  "exploratory: no preregistration, no verdict, no ledger booking"
+ ]
+}
