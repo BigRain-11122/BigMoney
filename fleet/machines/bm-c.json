@@ -1,7 +1,7 @@
 {
  "activity_now": "idle between rounds (round r1268 closed, next tick pending)",
  "agenda_starved": false,
- "clock_read": "2026-10-26T01:49:40+08:00",
+ "clock_read": "2026-10-26T02:17:33+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 70,
  "cpu_util_pct": 0.8,
  "current": "r1265 closed: D-19 watermark v2 four-tuple shipped",
- "current_task": "r1268: ETF book cash leg (repo ladder on idle cash) + r1267 ledger weighting defect",
+ "current_task": "r1269 product: capacity ladder re-priced with the repo cash leg",
  "current_task_at": "2026-10-26T01:49:40+08:00",
  "current_task_ts": "2026-10-26T01:49:40+08:00",
  "d19_watermark_guard": {
@@ -55,7 +55,7 @@
  "ground_truth_ts": "2026-10-25T11:44:42+08:00",
  "head_sha": "1fd4a6b2711df03906a8882af98156a9cf6741d8",
  "health": "green",
- "heartbeat_epoch_utc": 1792950580,
+ "heartbeat_epoch_utc": 1792952253,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 0.2,
  "idle_rounds": 0,
@@ -91,7 +91,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-25T17:12:35+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-26T01:49:40+08:00",
+ "last_seen": "2026-10-26T02:17:33+08:00",
  "last_seen_at": "2026-10-26T00:32:02+08:00",
  "last_task_at": "2026-10-25T17:12:35+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
@@ -448,9 +448,9 @@
   "ts": "2026-10-26T00:47:55+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-26T01:49:40+08:00",
+ "ts": "2026-10-26T02:17:33+08:00",
  "updated": "2026-10-26T01:11:37+08:00",
  "updated_at": "2026-10-26T01:11:37+08:00",
- "verdict": "green r1268: idle cash earns the repo ladder (+0.55pp/yr) and the forward ledger can no longer overstate the book it records",
+ "verdict": "green r1269: the repo ladder moves the ETF book's break-even NAV from 50M to 100M for the 12-name sleeve (+0.14pp/yr) and leaves the 5-name book at 50M",
  "verify": "etf_book_forward selftest 11/11 (equivalence w/ run_next_open maxdiff 0.00e+00, turnover 1.277108) | ledger seeded 2026-10-23 nav 1.0 12 names cash 29.9% | run NO-OP | BASIS honest 13.53%/0.94 vs card 9.47%/0.98 turnover identical | smoke 57/57 | dualrun zero-drift streak 51 | orders unacked 0/110 | attrition CLEAN 4 | orphan face=0"
 }

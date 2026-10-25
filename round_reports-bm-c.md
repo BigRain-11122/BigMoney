@@ -1141,3 +1141,5 @@ S7-tail dual-scan: O-20261015-1834 consumed (spawn-gate preflight = next-window 
 - r1268 next: (a) let LEDGER.json take its first real forward mark after the 2026-10-26 close and
   confirm the carry shows up in the mark; (b) re-price the capacity ladder (r1260) with carry on --
   the break-even NAV should move because 29% of the book now earns 1.9%/yr.
+- r1269 (2026-10-26 02:17) | round_no 1269 | RECOVERY + PRODUCT. r1268 had finished on disk but never committed (dead window): relanded verbatim as ef3b460bab. PRODUCT = capacity ladder re-priced with the cash leg (r1268's open question): 5 names carry=+0.10pp/yr, break-even stays 50M (5.3% cash); 12 names 8%-vol carry=+0.13~0.15pp/yr, break-even 50M -> 100M. Forward now accepts a callable cost model, scalar path bit-identical (0.00e+00). selftest 8/8; smoke 57/57; D-19 delta=none phantom=none; orders unacked 0/110; dualrun ZERO-DRIFT streak 51; attrition CLEAN; orphan face=0; local behind origin=0.
+- r1269 next: first real forward mark after the 2026-10-26 close (panel cutoff still 2026-10-23), and wire etf_book_capacity_carry into the S6 chain only if the carry leg survives the next panel advance.

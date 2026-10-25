@@ -218,7 +218,11 @@ class Forward:
                     elif carry:
                         self.nav *= (1.0 + carry)
                     new, turn = self.pending
-                    self.nav *= (1.0 - self.cost * turn)
+                    # cost may be a scalar rate or a callable pricing THIS decision
+                    # (prev, new, d) -- the ImpactCost contract of the capacity ladder
+                    rate = (self.cost(self.held, new, d) if callable(self.cost)
+                            else self.cost)
+                    self.nav *= (1.0 - rate * turn)
                     self.turnover_sum += turn
                     self.n_fill += 1
                     self.held, self.pending = new, None
