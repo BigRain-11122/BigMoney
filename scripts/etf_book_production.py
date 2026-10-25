@@ -73,9 +73,10 @@ def scale_for(book, op, upto, target_vol=TARGET_VOL):
     return float(min(1.0, target_vol / v)), v
 
 
-def backtest(close, openp, amt, score, n_hold, rebal, cost=COST, vol_target=None):
+def backtest(close, openp, amt, score, n_hold, rebal, cost=COST, vol_target=None,
+             vol_window=60):
     ser, turn = R.open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
-                                      vol_target=vol_target)
+                                      vol_target=vol_target, vol_window=vol_window)
     out = {}
     for lbl, sl in (("full", ser), ("is", ser[ser.index <= IS_END]),
                     ("oos", ser[ser.index > IS_END])):
@@ -105,7 +106,12 @@ def grid_position(dates, last_bar, rebal):
             "last_decision_bar": str(dates[i - off].date())}
 
 
-def run(capital=1_000_000.0, n_hold=8, rebal=20):
+def prep_panel():
+    """Panel + score exactly as the production run sees them (class filter included).
+
+    Shared by `run` and by any sweep over the configuration, so a sensitivity study can
+    never quietly price a different universe than the card.
+    """
     close, openp, amt, feats = E.build_panel()
     close, openp, n_flip = A.repair_flips(close, openp)
     cmap = A.load_class_map()
@@ -113,6 +119,11 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     cols = [c for c in close.columns if cls[c] in USE_CLASSES]
     close, openp, amt = close[cols], openp[cols], amt[cols]
     score = E.build_score(close, amt, feats)
+    return close, openp, amt, score
+
+
+def run(capital=1_000_000.0, n_hold=8, rebal=20):
+    close, openp, amt, score = prep_panel()
     names = load_names()
 
     runs = {}

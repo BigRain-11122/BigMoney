@@ -25,7 +25,7 @@ TARGET_VOL = 0.08
 
 
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
-                        vol_target=None, start=START):
+                        vol_target=None, start=START, vol_window=60):
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
@@ -40,7 +40,7 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
     def book_vol(book, upto):
         if not book:
             return np.nan
-        window = rets.loc[:upto].tail(60)[list(book)]
+        window = rets.loc[:upto].tail(vol_window)[list(book)]
         if window.shape[0] < 20:
             return np.nan
         w = np.array([book[k] for k in window.columns])
