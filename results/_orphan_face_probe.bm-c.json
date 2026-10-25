@@ -1,18 +1,18 @@
 {
- "ts": "2026-10-25T18:50:59",
+ "ts": "2026-10-25T20:47:27",
  "mode": "probe",
  "py_faces_seen": 5,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 2,
+ "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 22744,
+   "pid": 5036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 247.3,
-   "cpu_delta_20s": 1.969,
+   "age_min": 26.9,
+   "cpu_delta_20s": 1.953,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,56 +21,50 @@
    ]
   },
   {
-   "pid": 27580,
+   "pid": 11208,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 241.1,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 5.9,
    "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8199
-   ]
-  },
-  {
-   "pid": 38416,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 206.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  },
-  {
-   "pid": 41112,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
-   "age_min": 0.4,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "wscript.exe"
+    "DEAD"
    ]
   },
   {
-   "pid": 43056,
+   "pid": 26288,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
+   "age_min": 27.5,
+   "cpu_delta_20s": 0.016,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 29628,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
+   "age_min": 26.9,
+   "cpu_delta_20s": 1.953,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 39376,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.188,
+   "cpu_delta_20s": 0.062,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -84,40 +78,7 @@
  ],
  "orphan_details": [],
  "idle_server_details": [],
- "resident_server_details": [
-  {
-   "pid": 27580,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\ComfyUICore\\c2099_sidecar_boot.py --port 8199 --listen 127.0.0.1 --base-director",
-   "age_min": 241.1,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8199
-   ]
-  },
-  {
-   "pid": 38416,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 206.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  }
- ],
+ "resident_server_details": [],
  "sample_sec": 20.0,
  "stall_cpu_sec": 0.1,
  "grace_min": 30.0,

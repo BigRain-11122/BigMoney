@@ -1,7 +1,7 @@
 {
  "activity_now": "r1250 closed: cadence study landed (R10 10.77% / R20 9.03% / R40 6.01% vs EW 1.95/2.26/2.34)",
  "agenda_starved": false,
- "clock_read": "2026-10-25T20:39:21+08:00",
+ "clock_read": "2026-10-25T21:07:41+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 6.3,
  "cpu_util_pct": 0.8,
  "current": "quant product lane: ETF composite book on the full ETF universe",
- "current_task": "r1257 product: whole-ETF panel refresh leg landed (1,675/1,676 through 2026-10-23) + duplicate-instrument dedupe in the composite panel (22/83 doubled decisions -> 0/83); ticket now 0/415 stale, 1496/1498 live",
+ "current_task": "idle (r1258 closed)",
  "current_task_at": "2026-10-25T20:39:21+08:00",
  "current_task_ts": "2026-10-25T20:39:21+08:00",
  "d19_watermark_guard": {
@@ -61,7 +61,7 @@
  "ground_truth_ts": "2026-10-25T11:44:42+08:00",
  "head_sha": "1fd4a6b2711df03906a8882af98156a9cf6741d8",
  "health": "green",
- "heartbeat_epoch_utc": 1792931961,
+ "heartbeat_epoch_utc": 1792933661,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 5.9,
  "idle_rounds": 0,
@@ -95,7 +95,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-25T17:12:35+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-25T20:39:21+08:00",
+ "last_seen": "2026-10-25T21:07:41+08:00",
  "last_seen_at": "2026-10-25T11:30:54+08:00",
  "last_task_at": "2026-10-25T17:12:35+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
@@ -451,9 +451,9 @@
   "ts": "2026-10-25T19:41:50+08:00"
  },
  "total_ram_gb": 23.9,
- "ts": "2026-10-25T20:39:21+08:00",
+ "ts": "2026-10-25T21:07:41+08:00",
  "updated": "2026-10-25T19:41:50+08:00",
  "updated_at": "2026-10-25T19:41:50+08:00",
- "verdict": "green r1257: the whole ETF panel prints again -- 1,675 of 1,676 wide files now end on 2026-10-23 (was 50 of 1,547 live), so the ticket that was 5/5 unbuyable yesterday is now 0/415 stale picks with 1,496/1,498 symbols live and a 0-day worst gap; and the book was paying one ETF twice in 22 of 83 decisions (26.5%), now 0/83",
- "verify": "selftest 11/11 (|dk| cost, calendar-gap cash, idempotent accrual, whole lots) | forward ledger drift 0.0 vs engine NAV (678 bars) | 2024+ book 14.37% SR 1.41 MDD -7.31% vs same-beta 2.99% | S6 38/39 rc0 (t35 open-fill rc=1: 2026-10-23 marks missing, bm-b marks lane silent 67h -- ran it in a no-new-bar window, evidence gap is real) | smoke 57/57 | attrition CLEAN 4 files | orphan face=0 | dualrun ZERO-DRIFT streak 51 | D-19 MATCH | orders 110/110"
+ "verdict": "green r1258: the ETF book's cash sleeve is priced instead of assumed -- 1-day repo nets 1.777%/yr not r1255's 2.088% once commission is charged (0.246pp/yr), the 1-28d curve is flat (11bp over 28 days) while the fee runs 26-37bp/yr, so a 7/14/28 ladder wins on fees not yield: +0.098pp on the cash, +0.045pp on the book at beta 0.20, positive 7/7 years",
+ "verify": "selftest 12/12 (early exit refused, calendar-gap interest, prior-close quote, missing quote counted, 1-day leg byte-identical to r1255 repo_daily_cash, maturity snaps to t+k) | S6 40/40 rc0 | smoke 57/57 | attrition CLEAN 4 files | orphan face=0 | dualrun ZERO-DRIFT streak 51 | D-19 MATCH | orders 110/110"
 }

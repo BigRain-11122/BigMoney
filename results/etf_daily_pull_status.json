@@ -1,88 +1,15 @@
 {
- "last_attempt": "2026-10-24T04:38:57",
- "members_planned": [
-  "510300",
-  "510050",
-  "510500",
-  "512100",
-  "588000"
+ "ts": "2026-10-25T20:58:25",
+ "machine": "bm-c",
+ "status": "noop_fresh",
+ "panel_cutoff": "2026-10-23",
+ "expected": "2026-10-23",
+ "detail": "panel cutoff 2026-10-23 covers expected complete-bar date 2026-10-23",
+ "universe": 1724,
+ "skipped": [
+  "510880_t73"
  ],
- "ts": "2026-10-24T04:38:57",
- "mode": "no-op: panel cutoff covered",
- "per_member": [
-  {
-   "code": "510300",
-   "tier": "tier1-HS300",
-   "appended": 2,
-   "overlap": 3498,
-   "mismatch": null,
-   "error": null,
-   "rows_local": 3500,
-   "first": "2012-05-28",
-   "last": "2026-10-23"
-  },
-  {
-   "code": "510050",
-   "tier": "tier1-SSE50",
-   "appended": 2,
-   "overlap": 5263,
-   "mismatch": null,
-   "error": null,
-   "rows_local": 5265,
-   "first": "2005-02-23",
-   "last": "2026-10-23"
-  },
-  {
-   "code": "510500",
-   "tier": "tier2-CSI500",
-   "appended": 2,
-   "overlap": 3301,
-   "mismatch": null,
-   "error": null,
-   "rows_local": 3303,
-   "first": "2013-03-15",
-   "last": "2026-10-23"
-  },
-  {
-   "code": "512100",
-   "tier": "tier2-CSI1000",
-   "appended": 2,
-   "overlap": 2417,
-   "mismatch": null,
-   "error": null,
-   "rows_local": 2419,
-   "first": "2016-11-04",
-   "last": "2026-10-23"
-  },
-  {
-   "code": "588000",
-   "tier": "tier2-STAR50-20cm",
-   "appended": 2,
-   "overlap": 1437,
-   "mismatch": null,
-   "error": null,
-   "rows_local": 1439,
-   "first": "2020-11-16",
-   "last": "2026-10-23"
-  }
- ],
- "files_written": 5,
- "summary": {
-  "members": 5,
-  "failures": 0,
-  "mismatches": 0,
-  "total_appended": 10,
-  "data_cutoff": "2026-10-23"
- },
- "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
- "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox",
- "no_op_reason": "panel cutoff 2026-10-23 covers expected complete-bar date 2026-10-23",
- "expected_cutoff": "2026-10-23",
- "data_cutoff": "2026-10-23",
- "takeover": {
-  "owner": "bm-b",
-  "by": "bm-a",
-  "reason": "owner bm-b silent 25.8h >= 120min",
-  "ts": "2026-10-24T02:07:54"
- }
+ "source_ended_stems": [
+  "sh512390"
+ ]
 }

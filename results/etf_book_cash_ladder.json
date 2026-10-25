@@ -1,0 +1,518 @@
+{
+ "evidence_cutoff": "2026-10-19",
+ "generated": "2026-10-25T20:51:25",
+ "window": [
+  "2020-07-16",
+  "2026-10-19"
+ ],
+ "book_evidence_cutoff": "2026-10-23",
+ "repo_panel_stale": {
+  "behind_book_bars": 4,
+  "owner_lane": "bm-a (update_repo.py, T-88)",
+  "note": "cash leg is read off the panel as of its own last bar; a repo bar missing vs the equity panel is disclosed, never ffilled into a fake quote"
+ },
+ "commission_bp_by_tenor": {
+  "1": 0.1,
+  "2": 0.2,
+  "3": 0.3,
+  "4": 0.4,
+  "7": 0.5,
+  "14": 1.0,
+  "28": 2.0,
+  "91": 3.0,
+  "182": 3.0
+ },
+ "question": "what is the book's uninvested sleeve worth under five tenor policies, net of exchange commissions, and what does the ladder instruction look like today?",
+ "models": {
+  "gc001": {
+   "description": "single rung, always 1-day GC",
+   "net_ann_pct": 1.7767,
+   "gross_ann_pct": 2.0232,
+   "commission_drag_pp": 0.2465,
+   "n_contracts": 1515,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "1": 1515
+   },
+   "per_year_net_pct": {
+    "2020": 2.335,
+    "2021": 2.143,
+    "2022": 1.825,
+    "2023": 2.182,
+    "2024": 1.733,
+    "2025": 1.42,
+    "2026": 1.076
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.9993,
+    "longest_gap_without_any_maturity_days": 11,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 11
+   },
+   "rungs": {
+    "GC001": {
+     "weight": 1.0,
+     "n_contracts": 1515
+    }
+   }
+  },
+  "short_pick": {
+   "description": "single rung, best of GC 1/3/4/7 at each roll",
+   "net_ann_pct": 1.8506,
+   "gross_ann_pct": 2.1077,
+   "commission_drag_pp": 0.2571,
+   "n_contracts": 400,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "7": 281,
+    "1": 98,
+    "4": 13,
+    "3": 8
+   },
+   "per_year_net_pct": {
+    "2020": 2.45,
+    "2021": 2.232,
+    "2022": 1.827,
+    "2023": 2.243,
+    "2024": 1.832,
+    "2025": 1.461,
+    "2026": 1.23
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.2639,
+    "longest_gap_without_any_maturity_days": 15,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 15
+   },
+   "rungs": {}
+  },
+  "best_gc": {
+   "description": "single rung, best of all eight GC tenors at each roll",
+   "net_ann_pct": 1.9874,
+   "gross_ann_pct": 2.1193,
+   "commission_drag_pp": 0.1318,
+   "n_contracts": 41,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "91": 12,
+    "28": 14,
+    "182": 4,
+    "7": 5,
+    "1": 4,
+    "14": 2
+   },
+   "per_year_net_pct": {
+    "2020": 2.516,
+    "2021": 2.415,
+    "2022": 2.113,
+    "2023": 2.143,
+    "2024": 1.989,
+    "2025": 1.638,
+    "2026": 1.394
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.027,
+    "longest_gap_without_any_maturity_days": 182,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 182
+   },
+   "rungs": {}
+  },
+  "capped28": {
+   "description": "single rung, best of GC tenors up to 28 days (rebalance-safe)",
+   "net_ann_pct": 1.8634,
+   "gross_ann_pct": 2.125,
+   "commission_drag_pp": 0.2615,
+   "n_contracts": 133,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "28": 72,
+    "1": 42,
+    "14": 7,
+    "7": 8,
+    "4": 2,
+    "3": 2
+   },
+   "per_year_net_pct": {
+    "2020": 2.433,
+    "2021": 2.294,
+    "2022": 1.941,
+    "2023": 2.198,
+    "2024": 1.83,
+    "2025": 1.436,
+    "2026": 1.213
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.0877,
+    "longest_gap_without_any_maturity_days": 38,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 38
+   },
+   "rungs": {}
+  },
+  "best_dual": {
+   "description": "single rung, best of GC+R tenors at each roll",
+   "net_ann_pct": 1.9876,
+   "gross_ann_pct": 2.1195,
+   "commission_drag_pp": 0.1318,
+   "n_contracts": 41,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "91": 12,
+    "28": 14,
+    "182": 4,
+    "7": 5,
+    "1": 4,
+    "14": 2
+   },
+   "per_year_net_pct": {
+    "2020": 2.516,
+    "2021": 2.415,
+    "2022": 2.113,
+    "2023": 2.143,
+    "2024": 1.99,
+    "2025": 1.638,
+    "2026": 1.394
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.027,
+    "longest_gap_without_any_maturity_days": 182,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 182
+   },
+   "rungs": {}
+  },
+  "ladder3": {
+   "description": "three equal rungs GC007/GC014/GC028",
+   "net_ann_pct": 1.8755,
+   "gross_ann_pct": 2.1349,
+   "commission_drag_pp": 0.2595,
+   "n_contracts": 554,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "7": 314,
+    "14": 159,
+    "28": 81
+   },
+   "per_year_net_pct": {
+    "2020": 2.475,
+    "2021": 2.256,
+    "2022": 1.89,
+    "2023": 2.244,
+    "2024": 1.85,
+    "2025": 1.481,
+    "2026": 1.255
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.2619,
+    "longest_gap_without_any_maturity_days": 15,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 34
+   },
+   "rungs": {
+    "GC007": {
+     "weight": 0.3333,
+     "n_contracts": 314,
+     "ann_pct": 1.8834
+    },
+    "GC014": {
+     "weight": 0.3333,
+     "n_contracts": 159,
+     "ann_pct": 1.867
+    },
+    "GC028": {
+     "weight": 0.3333,
+     "n_contracts": 81,
+     "ann_pct": 1.8759
+    }
+   }
+  },
+  "ladder4": {
+   "description": "four equal rungs GC001/GC007/GC014/GC028",
+   "net_ann_pct": 1.8508,
+   "gross_ann_pct": 2.107,
+   "commission_drag_pp": 0.2562,
+   "n_contracts": 2069,
+   "missing_quotes": 0,
+   "tenor_mix": {
+    "1": 1515,
+    "7": 314,
+    "14": 159,
+    "28": 81
+   },
+   "per_year_net_pct": {
+    "2020": 2.44,
+    "2021": 2.228,
+    "2022": 1.874,
+    "2023": 2.228,
+    "2024": 1.821,
+    "2025": 1.466,
+    "2026": 1.21
+   },
+   "liquidity": {
+    "share_of_bars_with_a_maturity": 0.9993,
+    "longest_gap_without_any_maturity_days": 11,
+    "max_slice_raisable_on_one_bar": 1.0,
+    "max_locked_days": 34
+   },
+   "rungs": {
+    "GC001": {
+     "weight": 0.25,
+     "n_contracts": 1515,
+     "ann_pct": 1.7767
+    },
+    "GC007": {
+     "weight": 0.25,
+     "n_contracts": 314,
+     "ann_pct": 1.8834
+    },
+    "GC014": {
+     "weight": 0.25,
+     "n_contracts": 159,
+     "ann_pct": 1.867
+    },
+    "GC028": {
+     "weight": 0.25,
+     "n_contracts": 81,
+     "ann_pct": 1.8759
+    }
+   }
+  }
+ },
+ "quarter_end": {
+  "GC001": {
+   "tenor": 1,
+   "mean_all_pct": 1.977,
+   "mean_quarter_end_pct": 3.032,
+   "mean_other_pct": 1.92,
+   "max_single_day_pct": 7.83,
+   "max_day": "2023-03-31"
+  },
+  "GC003": {
+   "tenor": 3,
+   "mean_all_pct": 1.98,
+   "mean_quarter_end_pct": 2.955,
+   "mean_other_pct": 1.928,
+   "max_single_day_pct": 7.25,
+   "max_day": "2023-03-31"
+  },
+  "GC004": {
+   "tenor": 4,
+   "mean_all_pct": 2.005,
+   "mean_quarter_end_pct": 2.913,
+   "mean_other_pct": 1.956,
+   "max_single_day_pct": 6.17,
+   "max_day": "2021-01-28"
+  },
+  "GC007": {
+   "tenor": 7,
+   "mean_all_pct": 2.077,
+   "mean_quarter_end_pct": 2.725,
+   "mean_other_pct": 2.041,
+   "max_single_day_pct": 5.62,
+   "max_day": "2023-12-25"
+  },
+  "GC014": {
+   "tenor": 14,
+   "mean_all_pct": 2.081,
+   "mean_quarter_end_pct": 2.378,
+   "mean_other_pct": 2.065,
+   "max_single_day_pct": 4.41,
+   "max_day": "2023-09-27"
+  },
+  "GC028": {
+   "tenor": 28,
+   "mean_all_pct": 2.085,
+   "mean_quarter_end_pct": 2.166,
+   "mean_other_pct": 2.081,
+   "max_single_day_pct": 3.77,
+   "max_day": "2021-01-28"
+  },
+  "GC091": {
+   "tenor": 91,
+   "mean_all_pct": 2.066,
+   "mean_quarter_end_pct": 2.069,
+   "mean_other_pct": 2.066,
+   "max_single_day_pct": 3.17,
+   "max_day": "2020-11-13"
+  },
+  "GC182": {
+   "tenor": 182,
+   "mean_all_pct": 2.024,
+   "mean_quarter_end_pct": 2.032,
+   "mean_other_pct": 2.023,
+   "max_single_day_pct": 3.05,
+   "max_day": "2020-11-18"
+  },
+  "R-001": {
+   "tenor": 1,
+   "mean_all_pct": 1.831,
+   "mean_quarter_end_pct": 2.805,
+   "mean_other_pct": 1.778,
+   "max_single_day_pct": 7.67,
+   "max_day": "2023-03-31"
+  },
+  "R-003": {
+   "tenor": 3,
+   "mean_all_pct": 1.809,
+   "mean_quarter_end_pct": 2.691,
+   "mean_other_pct": 1.762,
+   "max_single_day_pct": 6.87,
+   "max_day": "2023-03-31"
+  },
+  "R-007": {
+   "tenor": 7,
+   "mean_all_pct": 1.989,
+   "mean_quarter_end_pct": 2.561,
+   "mean_other_pct": 1.958,
+   "max_single_day_pct": 5.59,
+   "max_day": "2023-12-25"
+  }
+ },
+ "caveats": [
+  "commission schedule is an assumption (see FEE_BP note), rerun with --fee=0 for the gross read",
+  "on-exchange repo settles T+1 and needs face-value lots; lot granularity and the 0.1% NAV residue of the equity ticket are ignored here",
+  "the interest is spread evenly inside a contract, so intra-contract daily shapes are smooth; contract totals are exact",
+  "no intraday execution model: the entry uses the previous/entry bar close",
+  "exploratory: no preregistration, no verdict, no ledger booking"
+ ],
+ "book_impact_beta020": {
+  "mean_k": 0.541,
+  "cash_share": 0.459,
+  "source": "results/etf_phase_beta_window.json grid expanding_t0.20_gc001 k.mean",
+  "uplift_pp": {
+   "gc001": 0.0,
+   "short_pick": 0.034,
+   "best_gc": 0.097,
+   "capped28": 0.04,
+   "best_dual": 0.097,
+   "ladder3": 0.045,
+   "ladder4": 0.034
+  }
+ },
+ "ticket": {
+  "as_of": "2026-10-19",
+  "book_evidence_cutoff": "2026-10-23",
+  "cash_sleeve_pct_of_nav_assumption": 45.9,
+  "rungs": [
+   {
+    "contract": "GC001",
+    "tenor_days": 1,
+    "weight_of_cash": 0.25,
+    "weight_of_nav": 0.1147,
+    "quoted_pct_at_cutoff": 0.99,
+    "holding": {
+     "name": "GC001",
+     "tenor": 1,
+     "entry": "2026-10-16",
+     "exit": "2026-10-19",
+     "days": 3,
+     "rate_pct": 0.97,
+     "open_at_cutoff": false
+    },
+    "next_action": "roll GC001 on the first bar at/after 2026-10-19"
+   },
+   {
+    "contract": "GC007",
+    "tenor_days": 7,
+    "weight_of_cash": 0.25,
+    "weight_of_nav": 0.1147,
+    "quoted_pct_at_cutoff": 1.36,
+    "holding": {
+     "name": "GC007",
+     "tenor": 7,
+     "entry": "2026-10-15",
+     "exit": "2026-10-19",
+     "days": 4,
+     "rate_pct": 1.39,
+     "open_at_cutoff": true
+    },
+    "next_action": "roll GC007 on the first bar at/after 2026-10-19"
+   },
+   {
+    "contract": "GC014",
+    "tenor_days": 14,
+    "weight_of_cash": 0.25,
+    "weight_of_nav": 0.1147,
+    "quoted_pct_at_cutoff": 1.38,
+    "holding": {
+     "name": "GC014",
+     "tenor": 14,
+     "entry": "2026-10-08",
+     "exit": "2026-10-19",
+     "days": 11,
+     "rate_pct": 1.39,
+     "open_at_cutoff": true
+    },
+    "next_action": "roll GC014 on the first bar at/after 2026-10-19"
+   },
+   {
+    "contract": "GC028",
+    "tenor_days": 28,
+    "weight_of_cash": 0.25,
+    "weight_of_nav": 0.1147,
+    "quoted_pct_at_cutoff": 1.375,
+    "holding": {
+     "name": "GC028",
+     "tenor": 28,
+     "entry": "2026-09-23",
+     "exit": "2026-10-19",
+     "days": 26,
+     "rate_pct": 1.44,
+     "open_at_cutoff": true
+    },
+    "next_action": "roll GC028 on the first bar at/after 2026-10-19"
+   }
+  ],
+  "blended_quoted_pct": 1.276
+ },
+ "curve": {
+  "by_tenor": {
+   "GC001": {
+    "tenor": 1,
+    "mean_quote_pct": 1.977,
+    "rolls_per_year": 365.0,
+    "commission_bp_per_year": 36.5
+   },
+   "GC003": {
+    "tenor": 3,
+    "mean_quote_pct": 1.98,
+    "rolls_per_year": 121.7,
+    "commission_bp_per_year": 36.5
+   },
+   "GC004": {
+    "tenor": 4,
+    "mean_quote_pct": 2.005,
+    "rolls_per_year": 91.2,
+    "commission_bp_per_year": 36.5
+   },
+   "GC007": {
+    "tenor": 7,
+    "mean_quote_pct": 2.077,
+    "rolls_per_year": 52.1,
+    "commission_bp_per_year": 26.1
+   },
+   "GC014": {
+    "tenor": 14,
+    "mean_quote_pct": 2.081,
+    "rolls_per_year": 26.1,
+    "commission_bp_per_year": 26.1
+   },
+   "GC028": {
+    "tenor": 28,
+    "mean_quote_pct": 2.085,
+    "rolls_per_year": 13.0,
+    "commission_bp_per_year": 26.1
+   }
+  },
+  "share_of_bars_where_this_is_the_best_capped_tenor": {
+   "GC001": 0.133,
+   "GC003": 0.02,
+   "GC004": 0.016,
+   "GC007": 0.187,
+   "GC014": 0.197,
+   "GC028": 0.445
+  },
+  "read": "a flat curve plus a commission that scales with the holding period means the ladder buys fee efficiency, not yield"
+ }
+}
