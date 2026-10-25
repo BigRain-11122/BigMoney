@@ -1,0 +1,69 @@
+{
+ "wave": 326,
+ "splice": "3c4ee2bc68dd235cb1bbb6eb19dced90b806c097",
+ "origin_base": "65adcf01fe7b981784bebb28c46a7f23e588b676",
+ "bands": {
+  "A": [
+   733501,
+   735500
+  ],
+  "B": [
+   735501,
+   735700
+  ]
+ },
+ "landed_n1_sha16": "69653bd0b33a7610",
+ "landed_pf_sha16": "b57b5ffb75a4a2d2",
+ "receipt_n1_sha16_post": "69653bd0b33a7610",
+ "receipt_pf_sha16_post": "b57b5ffb75a4a2d2",
+ "prereg_sha16": "97a0fb16d2ac6952",
+ "pre_faces_match_receipt": true,
+ "post_faces_match_receipt": true,
+ "worktree_raw_eq_receipt_post": true,
+ "replay_lf_eq_landed": true,
+ "faces": {
+  "n1": {
+   "landed_lf_sha16": "69653bd0b33a7610",
+   "landed_crlf_sha16": "dddd45b0fa56243d",
+   "parent_crlf_sha16": "f44abeca682bb729",
+   "parent_raw_sha16": "f4b803984632186a",
+   "worktree_raw_sha16": "9932d0ef0385c6a1",
+   "worktree_lf_sha16": "9932d0ef0385c6a1",
+   "receipt_pre_sha16": "f4b803984632186a",
+   "receipt_post_sha16": "69653bd0b33a7610",
+   "pre_basis": "raw_lf",
+   "post_basis": "reverse_applied_raw"
+  },
+  "pf": {
+   "landed_lf_sha16": "b57b5ffb75a4a2d2",
+   "landed_crlf_sha16": "8841d2d46a76f01b",
+   "parent_crlf_sha16": "6524cb8fd18b2759",
+   "parent_raw_sha16": "8d77f1ff8b6cad5d",
+   "worktree_raw_sha16": "b57b5ffb75a4a2d2",
+   "worktree_lf_sha16": "b57b5ffb75a4a2d2",
+   "receipt_pre_sha16": "8d77f1ff8b6cad5d",
+   "receipt_post_sha16": "b57b5ffb75a4a2d2",
+   "pre_basis": "raw_lf",
+   "post_basis": "landed_lf"
+  }
+ },
+ "eol_basis_note": "per-face EOL basis is recorded, never smoothed: each receipt face is proved identical to its OWN parent/landed normalization (r1188/r1208)",
+ "heal_deltas": [
+  {
+   "face": "n1",
+   "edit": "W326 registry row comment law lines restored to the machine faces: A \"registered prior-wave B tail+1\" -> \"FIRST CLEAN WINDOW 733_501, NOT prior-wave B tail+1\"; B \"lands inside own-wave A\" -> \"sits BELOW the own-wave A window (A hopped above it)\"",
+   "applied_by": "results/_r1234bmc_w326_rowprose_heal.py",
+   "reverse_applied_basis": "raw",
+   "reverse_applied_sha16": "69653bd0b33a7610",
+   "receipt_post_sha16": "69653bd0b33a7610",
+   "line_count": 2,
+   "reproduced": true,
+   "scope": "two inline comment law lines inside the W326 registry row; ZERO code face (the materializer asserts already stated the correct W326 laws)"
+  }
+ ],
+ "heal_note": "r1233 splice probe: numeric faces + materializer asserts were CORRECT for W326, but the two registry ROW-COMMENT law lines were carried over from W325 and asserted W325 laws. Those are false statements about this wave, so they were healed line-wise (r1184 law) and the post-receipt delta is proved by reverse application; zero code face touched.",
+ "heal_reproduced": true,
+ "unexplained_deltas": [],
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled mechanically (r1188 bm-c)",
+ "verdict": "PASS"
+}

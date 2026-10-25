@@ -338,3 +338,11 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 附带坑：WAVE_CONFIGS 行与 materializer band-fact 断言相距 ~7.2MB（n1 文件 140 万 vs 863 万字节）——六门旧模板的「行后 12KB 段」覆盖不到断言面，断言门必须另走全文精确字面量计数，否则假 FAIL。
 - 验证：results/_r1232bmc_delta_sweep{,2}.py（24+5 腿·两轮命中）+ results/_n1_face_adjudication_w325.json（verdict PASS·heal_reproduced=true·unexplained=0）
 - 2026-10-25 06:5x，bm-c r1232，W325 冻结面 heal 收口。捕获律 O-20261002-2100 落卡。
+
+## E94 注册行内联 law 注释是独立面——数值面 + materializer 断言双面检查覆盖不到（r1234 bm-c 实弹·W326）
+- 问题：canon-clone splice 的校验面长期只有两层——cfg 数值（a_seed_base/b_exit_seed_base）与 materializer 断言（`assert WAVE_CONFIGS[w][...]`）。W326 首现第三种面：**注册行 WAVE_CONFIGS 同一行尾的内联 `# law sec.4 Ww A: ...` 注释**。r1233 splice 把数值与断言都写对了（733_501 / 735_501 == 735_500+1，断言明写「NOT prior-wave B tail+1」「BELOW own-A」），但两行注释照抄 W325 定律（「A base == registered prior-wave B tail+1」「B ... lands inside own-wave A」）→ 注册表里同时存在互相矛盾的两种陈述，而旧六门全部通过。
+- 方法：**row-scoped stale-clause 门**——把「本行必须不出现的旧定律子句」写成断言，但切面必须限定在本波行段（`seg_row`：从行首到 `"engine_owner": "..."}`），因为同字面量在历史行里合法存在（本例 74 行真命中）。whole-file 计数会假红，row-scoped 才能区分「本波写错」与「历史正确」。
+- heal 正法：逐行 scoped 替换（禁 token 滚，r1184），随后由 adjudication **逆向替换**（new→old）byte-exact 复现 receipt post 面；零 code face。
+- 反向坑：逆向复现脚本若写成 old→new 正向替换，replay 恒等于自身→假绿（本窗首跑即自查纠出）。
+- 验证：results/_r1234bmc_w326_sixgate.py（mat_assert 含两条 row-scoped stale-clause 门，6/6 ALL PASS）+ results/_n1_face_adjudication_w326.json（heal_delta 1、reproduced、unexplained 0）
+- 2026-10-25 07:5x｜bm-c r1234｜W326 收口｜照 O-20261002-2100 常态化捕获

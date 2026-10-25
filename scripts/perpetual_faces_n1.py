@@ -14021,8 +14021,8 @@ WAVE_CONFIGS = {
                    "W327 freezer MUST re-derive on the post-W326 universe AND reserve the own-wave A window "
                    "when deriving B (the finalize merge loop still derives the wave set from registry keys "
                    "at run time, FAIL-CLOSED r308 always on)"),
-                            "a_seed_base": 733501,        # law sec.4 W326 A: 733_501..735_500 (1-HOP STAIRCASE-AFFECTS-A walk SEVENTY-NINTH consecutive A-hop; naive 732_301..734_300 REFUSED at start -- hops=1; A base == registered prior-wave B tail+1)
-                            "b_exit_seed_base": 735501,   # law sec.4 W326 B: 735_501..735_700 (1-HOP own-A RESERVATION CASCADE above own-A; naive 732_701..732_900 CLEAN vs registered BUT lands inside own-wave A -- hops=1; B lands ABOVE own-A at tail+1 EXACT -- EIGHTIETH consecutive above-own-A)
+                            "a_seed_base": 733501,        # law sec.4 W326 A: 733_501..735_500 (1-HOP STAIRCASE-AFFECTS-A walk SEVENTY-NINTH consecutive A-hop; naive 732_301..734_300 REFUSED at start by the registered W325 B band AND three registered seed POINTS 732_500/733_000/733_500 -- hops=1; A base == FIRST CLEAN WINDOW 733_501, NOT prior-wave B tail+1)
+                            "b_exit_seed_base": 735501,   # law sec.4 W326 B: 735_501..735_700 (1-HOP own-A RESERVATION CASCADE above own-A; naive 732_701..732_900 sits BELOW the own-wave A window (A hopped above it) -- hops=1; B lands ABOVE own-A at tail+1 EXACT, EMPTY seed-hop -- EIGHTIETH consecutive above-own-A)
                             "shard_subdir": "n1_w326", "out_name": "n1_w326_results.json",
                             "engine_owner": "bm-c"},
                        }

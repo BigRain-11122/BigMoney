@@ -55,26 +55,28 @@
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面基线（自动·判线共享库禁手抄）。
 
 ## §7 跑后实证。【finalize 收口机械回填】
-- 账本恒等式：`1,137,141 + 2,200 = 1,139,341`（exact=True）；累计池 K `710,720 + 2,200 = 712,920`（exact=True）。
-- 合并池（W1..W325）：mu **-0.09286797** / sigma **0.24522319** / se_mu@K712,920 **0.000290**；W325-only mu **-0.09491177** / sigma **0.25114760**。
-- A 档 full_sharpe p95 **0.3303** / p99 **0.4673**（锚 W324 p95 0.3218，差=+0.0085 在 ±0.05 带内）；B 档 n=200。
-- K-lift 对照：line_pre_w325 **1.202** → line_merged@K712,920 **1.2021**，差 **+0.0001**；n_eff_held_equal 1,137,141。
-- §5 五预键验证：`results/_r1232bmc_w325_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 2 条（key4_line_merged_w324, n_eff_held_prose）。
-- 六门探针：`results/_r1232bmc_w325_sixgate.json` verdict **ALL PASS**（第 88 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
+- 账本恒等式：`1,139,341 + 2,200 = 1,141,541`（exact=True）；累计池 K `712,920 + 2,200 = 715,120`（exact=True）。
+- 合并池（W1..W326）：mu **-0.09286986** / sigma **0.24522974** / se_mu@K715,120 **0.000290**；W326-only mu **-0.09348227** / sigma **0.24739877**。
+- A 档 full_sharpe p95 **0.3203** / p99 **0.4374**（锚 W325 p95 0.3303，差=-0.0100 在 ±0.05 带内）；B 档 n=200。
+- K-lift 对照：line_pre_w326 **1.2022** → line_merged@K715,120 **1.2023**，差 **+0.0001**；n_eff_held_equal 1,139,341。
+- §5 五预键验证：`results/_r1234bmc_w326_fivekeys.json` 共 **6/6 ALL PASS**；prose 偏差披露 0 条（无）。
+- 六门探针：`results/_r1234bmc_w326_sixgate.json` verdict **ALL PASS**（第 89 次连续正确相位；splice 完整性/clean-state/adjudication/pf+n1 selftest/12-12 分片 >100KB/seed_admit FREE 双带）。
 - canon flip：**NOT performed by this wave -- governance proposal face only (K2200 same law)**（本波不动治理面）。
 - audit 段：`{"machine": "bm-c", "finalize_only": true}`；shards_consumed 12/12；evidence_cutoff `2026-09-22`。
 
 ## §8 批后复盘。【finalize 同窗回填】
-- §5.5 W327+ 投影承接机证（本席 receipt `results/_w326bmc_20261025_probe_receipt.json` leg4，pre-W326 宇宙）：A naive **737_001..739_000** clean（hops=1·first_clean 同窗）、B naive **735_701..735_900** clean（hops=0·first_clean 同窗·lands_inside_W327p_A_naive=false）——**W327 冻结方必须在 post-W326 宇宙重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·且需按 above/inside/below 三面判读 B（W326 起的新形态）·never transcribe r587**。
-- 本窗席位实测机证（post-W325-REGISTERED 宇宙）：A **733_501..735_500**（79th 连续 A-hop·hops=1·naive 起点 732_301 被注册 W325 B 带 732_501..732_700 与三点注册种子 732_500/733_000/733_500 拒·base>=W325 B 尾+1 floor）／B **735_501..735_700**（80th 连续 above-own-A·hops=1·A 整体跳至 naive B 窗之上 → B_naive_below_own_A=true → cascade 贴 own-A 尾+1·B_seed_hop_disclosure=[]）——`results/_w326bmc_20261025_probe_receipt.json` verdict ADMIT·relation_asserts A_base_ge_priorB_tail_plus1=true / B_base_eq_own_A_tail_plus1=true / AB_mutual_exclusion=true·seed_admit_gate FREE x2·leg3 bands_clear=True·owner_rows=315 / bmc_rows=144 / ordinal=316。
-- 本波席位 live 事实：A 算术续带 732,301..734,300 在席位窗起点即被拒（注册 W325 B 带 + 三点注册种子）→ walk 至首净窗 733,501..735,500；B 算术续带 732,701..732,900 整段落 own-A 之下（本波 A 已跳至其上）→ cascade 至 own-A 尾+1 = 735,501..735,700，零种子让位。
-- 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**；除非 finalize 同窗发现新面，knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
+- §5.5 W327+ 投影承接机证（本席 receipt `results/_w326bmc_20261025_probe_receipt.json` leg4，pre-W326 宇宙）：A naive **737_001..739_000** clean（hops=1·first_clean 同窗）、B naive **735_701..735_900** clean（hops=0·first_clean 同窗·lands_inside_W327p_A_naive=False）——**W327 冻结方必须在 post-W326 宇宙重 live derive 且在 derive B 时预留本波 A 窗（W141 先例）·且需按 above/inside/below 三面判读 B（W326 起的新形态）·never transcribe r587**。
+- 本波席位实测机证（post-W325-REGISTERED 宇宙，owner_rows=315）：A **733,501..735,500**（79th 连续 A-hop·hops=1·naive 起点 732,301 被注册 W325 B 带 732_501..732_700 与三点注册种子 732_500/733_000/733_500 拒·**A base = FIRST CLEAN WINDOW**，非 prior-B 尾+1）／B **735,501..735,700**（80th 连续 above-own-A·hops=1·A 整体跳至 naive B 窗 732_701..732_900 之上 → **B_naive_below_own_A=True** → cascade 贴 own-A 尾+1·B_seed_hop_disclosure=[]）——relation_asserts 全真（A_base_ge_priorB_tail_plus1=True / B_base_eq_own_A_tail_plus1=True / AB_mutual_exclusion=True / B_naive_inside_own_A=False）·seed_admit_gate FREE x2·leg3 bands_clear=True·verdict **ADMIT**。
+- 本波席位 live 事实：A 算术续带 732,301..734,300 在席位窗起点即被拒（注册 W325 B 带 + 三点注册种子）→ walk 至首净窗 733,501..；B 算术续带 732,701..732,900 整段落 own-A 之下 → cascade 至 own-A 尾+1 = 735,501..，零种子让位。
+- 宝藏与方法论捕获问：本波=nulls-deepening 常态加深，**无新方法/无新宝藏**；knowledge/METHODOLOGY_ASSETS.md 与 TREASURE_REGISTRY.json 均不追加。
 - 诚实披露（finalize 同窗回填）：
-  ① 本冻结时点无待披露项；回填时若发现 prose 偏差，一律以机读值为准并披露、不抹平。
-  ② 延续前波披露面（W325 §8 ①：post-receipt heal 面）——本波若同面重现，一律由 adjudication 逆向复现测证。
+  ① **评分面零新披露**：§5 五预键 prose 偏差 0 条，六门/五键全部机读复现。
+  ② **冻结面探索性 heal（本窗唯一）**：r1233 splice 把 W326 数值面（733_501/735_501）与 materializer 断言都写对了，**但两行注册行内联 law 注释仍旧携带 W325 定律**（A「base == registered prior-wave B tail+1」、B「lands inside own-A」）——与机器面直接矛盾。本窗按 `results/_r1234bmc_w326_rowprose_heal.py` **逐行 scoped**修至机器面（同字面量在历史 74 行合法存在，禁 token 滚，r1184），并由 adjudication **逆向复现** byte-exact 证明：reverse basis `reverse_applied_raw`、receipt post `69653bd0b33a7610`、heal_delta 1、unexplained=0、verdict **PASS**；**零 code face 触碰**。
 - 坑律捕获（finalize 同窗回填）：
-  ① **B 落位三面化**：当 A 面整体跳至 naive B 窗之上时，B 落位形态与 W325（above/inside）不同；读回执必须同时看 B_naive_below_own_A / B_naive_inside_own_A / B_seed_hop_disclosure 三面。
-  ② 行数守卡（冻结件结构完整性）：复建 §7/§8 块后行数必须与源面一致，不一致=结构漂移、直接报死。
+  ① **注册行内联 law 注释是独立面，不受「数值面 + materializer 断言」双面检查覆盖**：splice 生成器只校验了 cfg 数字与 assert 面，行内注释照抄上波 → 定律与机器面矛盾且六门旧版看不出来。新闸=**row-scoped stale-clause 门**（本波 sixgate 新增 `stale_tail_plus_one_clause_absent_in_row` / `stale_inside_own_a_clause_absent_in_row`，whole-file 计数在历史行合法命中 74 次会假红，必须切到本行段）。
+  ② **B 落位三面化**（W326 首现）：A 整体跳至 naive B 窗之上 → B_naive_below_own_A=true / B_naive_inside_own_A=false / B_seed_hop_disclosure=[]；读回执必须三面同读，禁只看 above/inside。
+  ③ **收口脚本方向**：逆向复现必须把 new→old 替换（正向 old→new 会让 replay 恒等于自身→假绿，本窗首跑即自查纠出）。
 - 收口纪律：finalize 只消费在册分片（audit.finalize_only=true），本波零重烧、零双烧；S6 链与轮收口同窗。
+
 
 - **跑前冻结=本件 commit**（freeze hash 归窗报告与法典 §4 行；冻结后要改判据=禁（回填限 §7/§8）。**W326 五面 splice（法典 §4 注册行+WAVE_CONFIGS）——W325 own-wave finalize 已落地=席位时即解锁（n1_w325_results.json 机读在场·gate0.5 绿）·splice 未执行前本件=候选冻结件·引擎不烧。**
