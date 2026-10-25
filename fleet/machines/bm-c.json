@@ -1,7 +1,7 @@
 {
  "activity_now": "r1250 closed: cadence study landed (R10 10.77% / R20 9.03% / R40 6.01% vs EW 1.95/2.26/2.34)",
  "agenda_starved": false,
- "clock_read": "2026-10-25T19:40:06+08:00",
+ "clock_read": "2026-10-25T19:41:50+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -94,7 +94,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-25T17:12:35+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-25T19:40:06+08:00",
+ "last_seen": "2026-10-25T19:41:50+08:00",
  "last_seen_at": "2026-10-25T11:30:54+08:00",
  "last_task_at": "2026-10-25T17:12:35+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
@@ -445,13 +445,13 @@
  "round_no_label": "r1251 product (r1250 dead-window absorbed) -> counter 1252",
  "status": "green",
  "sync": {
-  "origin_tip": "e1aef41119",
-  "ts": "2026-10-25T00:58:08+08:00"
+  "origin_tip": "a8fc76102c",
+  "ts": "2026-10-25T19:41:50+08:00"
  },
  "total_ram_gb": 23.9,
- "ts": "2026-10-25T19:40:06+08:00",
- "updated": "2026-10-25T19:40:06+08:00",
- "updated_at": "2026-10-25T19:40:06+08:00",
+ "ts": "2026-10-25T19:41:50+08:00",
+ "updated": "2026-10-25T19:41:50+08:00",
+ "updated_at": "2026-10-25T19:41:50+08:00",
  "verdict": "green r1256: the ETF book now ships an executable ticket (k=0.61 at beta 0.20, 5 instruments, 61% book / 39% GC001 cash) and the zombie-holding question is answered -- 0/415 historical picks ever landed on a symbol that had already stopped printing, but the ungated ticket was 5/5 unexecutable today because only 50 of 1547 ETFs refreshed past 2026-10-20",
  "verify": "selftest 11/11 (|dk| cost, calendar-gap cash, idempotent accrual, whole lots) | forward ledger drift 0.0 vs engine NAV (678 bars) | 2024+ book 14.37% SR 1.41 MDD -7.31% vs same-beta 2.99% | S6 38/39 rc0 (t35 open-fill rc=1: 2026-10-23 marks missing, bm-b marks lane silent 67h -- ran it in a no-new-bar window, evidence gap is real) | smoke 57/57 | attrition CLEAN 4 files | orphan face=0 | dualrun ZERO-DRIFT streak 51 | D-19 MATCH | orders 110/110",
  "round_t1251_closeout_note": "r1251: PRODUCT window with a dead-window estate absorbed (state round_no=1250 at open; the r1250 window committed its product at 17:12 and died pre-closeout, so r1250's report line was already on origin and this window did NOT re-run it -- it executed r1251 and advanced 1250->1252 so next=r1252). PRODUCT = phase package under three independent stress rulers -> scripts/etf_phase_package_n.py (--selftest 12/12), results/etf_phase_package_n.json, research/ETF_PHASE_PACKAGE_N.md, methodology card E107. FINDINGS: (1) N sweep at R=20 -- the package is NOT an N=5 concentration artefact: full-window excess +6.56/+6.77/+6.76/+7.06pp and 2024+ +4.50/+4.16/+5.57/+6.57pp for N=3/5/8/10, i.e. the edge survives and even widens, at the price of a monotonically deeper drawdown (-10.6% -> -17.6%); (2) the 8% vol overlay (per sub-book, trailing 60-bar book vol, cap 1.0, turnover charged on scaled weights) buys only 1.85pp of drawdown and 2pp of phase spread while costing 2.7pp of full CAGR and 3pp of the recent excess (OOS +4.16 -> +1.21pp, Sharpe 0.770 -> 0.748, realised vol 9.09% misses the 8% target) -- on this book the overlay is not worth it; (3) permutation null on package-minus-median-phase (60 date-wise factor shuffles, 20 phases re-run each): real +0.21pp vs null mean +0.46pp, p95 +1.74pp, p=0.623 -> the gap is noise, so the package's value is exactly the removal of the phase choice, never alpha. Cross-script pin: the N=5 leg reproduces r1249/r1250 exactly (9.03% / OOS 13.20%). ENGINE PITFALL (caught by the selftest before canon): a vol scaler on an equal-weight engine is silently a no-op unless the return leg becomes weighted -- and renormalising the scaled weights undoes the scale, so the cash remainder must be carried explicitly; vol_target=None is pinned to the reference engine at 1e-12 including turnover. S6 39/39 rc0; compute_audit FLAG supply_gap/supply_floor/supply_owner_silent (bm-b heartbeat 65h stale, pool ready=2 both foreign-silent => corroboration not met, NOT taken over; the data\\astock_daily\\per write at 11:53 today is a machine-local sibling session, not bm-b liveness); dualrun ZERO-DRIFT streak 51; update_daily 0 new rows (cutoff 2026-10-23); regime ORANGE; orders unacked=0 (110/110); D-19 MATCH on both faces; smoke 57/57; attrition CLEAN 4 files; orphan face=0 (py_faces=5).",
