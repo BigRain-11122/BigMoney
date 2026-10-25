@@ -409,12 +409,36 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         drift = round(my_norm - eng, 10)
 
     asof = str(slip.index[-1].date())
+    # ---- rank on the engine's last DECISION bar, never on the panel's last bar.
+    # `run_next_open` re-decides only every REBAL bars, so ranking `slip.index[-1]` hands an
+    # operator a ticket for a book the engine does not hold. At cutoff 2026-10-23 this
+    # ticket listed the 10-23 top-5 while the book in force (and the production card, and
+    # the forward ledger) had been decided 2026-10-14 -- disjoint sets, so following the
+    # ticket would have traded five names the book never owned.
+    grid_dates = [d for d in close.index if d >= pd.Timestamp("2020-01-01")]
+    dec_bar = grid_dates[(len(grid_dates) - 1) // REBAL * REBAL] if grid_dates else None
     k_now = state.get("last_k")
     if k_now is None:
         k_now = 1.0
     cls_map = dict(zip(close.columns, classes))
-    ticket = build_ticket(score.loc[slip.index[-1]], close.loc[slip.index[-1]],
-                          k_now, nav, classes=cls_map)
+    ticket = build_ticket(score.loc[dec_bar], close.loc[dec_bar],
+                          k_now, nav, classes=cls_map) if dec_bar is not None else None
+    if ticket is None:
+        print("FATAL: no decision bar on the grid -- panel too short")
+        return 2
+    ticket_picks = [r["symbol"] for r in ticket["order"]]
+    cb = card_book()
+    agreement = None
+    if cb:
+        agreement = {"card_decided_at": cb["decided_at"],
+                     "ticket_book_decided_at": str(dec_bar.date()),
+                     "same_decision_bar": cb["decided_at"] == str(dec_bar.date()),
+                     "ticket_is_prefix_of_card": cb["symbols"][:len(ticket_picks)] == ticket_picks,
+                     "card_names": len(cb["symbols"])}
+        print("card agreement: same decision bar=%s | ticket is %d-name prefix of the card's "
+              "%d-name book=%s"
+              % (agreement["same_decision_bar"], len(ticket_picks),
+                 agreement["card_names"], agreement["ticket_is_prefix_of_card"]), flush=True)
     mk = metrics(slip, blip)
     wd = width_disclosure()
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
@@ -422,6 +446,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                "fresh_gate": bool(fresh_gate), "staleness": stale,
                "k_now": round(float(k_now), 6),
+               "book_decided_at": str(dec_bar.date()),
+               "card_agreement": agreement,
                "next_decision_bars": _next_decision(close.index, slip.index[-1]),
                "ticket": ticket, "metrics": mk,
                "book_leg": {"turnover_per_rebal": round(float(turnover), 4),
@@ -494,6 +520,28 @@ def card_width(card_dir=None):
                 doc = json.load(f)
         n = (doc.get("config") or {}).get("n_hold")
         return int(n) if n else None
+    except Exception:
+        return None
+
+
+def card_book(card_dir=None):
+    """(decided_at, ordered symbols) of the book the production card is holding.
+
+    Read off the card's own artefact -- the same pointer chain as card_width. Used to
+    assert the ticket and the card describe one book: after r1277 both rank on the same
+    decision bar, so the ticket's N names must be a prefix of the card's list.
+    """
+    d = card_dir or CARD_DIR
+    try:
+        with open(os.path.join(d, "latest.json"), encoding="utf-8") as f:
+            doc = json.load(f)
+        if doc.get("file"):
+            with open(os.path.join(d, doc["file"]), encoding="utf-8") as f:
+                doc = json.load(f)
+        sh = doc.get("sheet") or {}
+        return {"decided_at": sh.get("book_decided_at") or sh.get("last_decision_bar"),
+                "symbols": [l.get("symbol") for l in (sh.get("legs") or [])],
+                "scale": sh.get("risk_scale")}
     except Exception:
         return None
 
@@ -671,6 +719,32 @@ def selftest():
         chk("leg16 live wiring: real card x real audit produce a disclosure",
             (width_disclosure() is not None) if os.path.exists(AUDIT_PATH) else True,
             "card=%s audit=%s" % (card_width(), os.path.exists(AUDIT_PATH)))
+
+        # leg17: the ticket ranks on the engine's last DECISION bar, not the panel's last
+        # bar. Until r1277 it ranked slip.index[-1], so the ticket traded five names the
+        # book never held (2026-10-23 ticket vs the 2026-10-14 book in force: disjoint).
+        gd = list(pd.bdate_range("2021-01-04", periods=45))
+        rebal_t = 20
+        dec_bar = gd[(len(gd) - 1) // rebal_t * rebal_t]
+        chk("leg17 ticket ranks on the last grid decision bar",
+            dec_bar == gd[40] and dec_bar != gd[-1],
+            "dec=%s last=%s" % (dec_bar.date(), gd[-1].date()))
+        # leg18: card_book reads the sheet off the pointer chain and the ticket's N names
+        # are a prefix of it when both rank on the same bar (cross-artefact agreement).
+        cd3 = os.path.join(td, "prod3")
+        os.makedirs(cd3)
+        syms = ["A%03d" % i for i in range(6)]
+        with open(os.path.join(cd3, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 6},
+                       "sheet": {"book_decided_at": "2026-10-14", "risk_scale": 0.7008,
+                                 "legs": [{"symbol": s} for s in syms]}}, f)
+        cb = card_book(cd3)
+        chk("leg18 card_book reads the held book off the card",
+            bool(cb) and cb["decided_at"] == "2026-10-14" and cb["symbols"] == syms
+            and card_book(os.path.join(td, "absent")) is None,
+            "decided_at=%s n=%s" % (cb and cb["decided_at"], cb and len(cb["symbols"])))
+        chk("leg19 ticket names are a prefix of the card's book",
+            cb["symbols"][:3] == syms[:3] and cb["symbols"][:3] != syms[3:6])
 
     # leg10: a short universe yields no ticket rather than a partial one
     chk("leg10 insufficient picks -> no ticket",

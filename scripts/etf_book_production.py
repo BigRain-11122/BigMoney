@@ -168,15 +168,30 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             runs[key], _ = backtest(close, openp, amt, score, n, rebal, vol_target=vt)
             print(key, runs[key]["full"], flush=True)
 
-    # ---- today's book, computed exactly like the engine's decision step
+    # ---- the book IN FORCE, read off the engine's own decision step.
+    # The engine only re-decides every `rebal` bars, so re-ranking the panel's last bar
+    # here hands a human a sheet that trades 11 of 12 names on a bar the card itself
+    # labels "HOLD". That is what this function did until r1277: at cutoff 2026-10-23 the
+    # card listed the 10-23 top-12 while the book in force was the one decided 2026-10-14,
+    # sharing a single name (159307) -- and the forward ledger, which does decide on the
+    # grid, was tracking that other book. Consuming the diag row makes the card and the
+    # ledger the same object by construction rather than by agreement.
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     masked = score.where(elig)
     last = masked.index[-1]
-    s = masked.loc[last].dropna()
-    picks = list(s.nlargest(n_hold).index)
+    diag = []
+    R.open_to_open_equity(close, openp, amt, score, rebal, n_hold, COST,
+                          vol_target=TARGET_VOL, diag=diag)
+    if not diag:
+        raise RuntimeError("panel too short for one decision on the grid")
+    drow = diag[-1]
+    dec_bar = pd.Timestamp(drow["date"])
+    picks = list(drow["book"])
+    scale = float(drow["scale"])
+    s = masked.loc[dec_bar].dropna()          # the scores that actually picked
     book = {p: 1.0 / len(picks) for p in picks}
-    scale, realised_vol = scale_for(book, openp, last)
+    realised_vol = scale_for(book, openp, dec_bar)[1]
     weights = {p: w * scale for p, w in book.items()}
     cash = 1.0 - sum(weights.values())
 
@@ -210,7 +225,8 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                     else "HOLD: %d bars until the next decision point"
                          % grid["bars_until_next_decision"],
         "is_grid_decision_bar": grid["is_decision_bar"],
-        "last_decision_bar": grid["last_decision_bar"],
+        "last_decision_bar": str(dec_bar.date()),
+        "book_decided_at": str(dec_bar.date()),
         "bars_until_next_decision": grid["bars_until_next_decision"],
         "capital_cny": capital,
         "target_vol": TARGET_VOL,
@@ -242,6 +258,9 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "8%% label annualises near 10%% once hold-level vol dispersion is priced in -- a "
             "definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md)." % (dv.get("headline") or "no history"),
             "Order sheet is research output, not an investment recommendation.",
+            "The sheet is the book decided at book_decided_at, not a re-ranking of the "
+            "latest bar: the engine only re-decides every %d bars, so an off-grid ranking "
+            "would trade names the book never held." % rebal,
         ],
     }
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -380,6 +399,26 @@ def selftest():
         chk("card lists every leg", all(l["symbol"] in card for l in o["sheet"]["legs"]))
         chk("output carries the vol delivery block",
             (o.get("vol_delivery") or {}).get("headline") is not None)
+        # 7. the sheet must be the book IN FORCE (the last on-grid decision), not today's
+        #    ranking. Until r1277 the card re-ranked the panel's last bar and handed out a
+        #    book 11/12 apart from the one the engine -- and the forward ledger -- held.
+        sdiag = []
+        R.open_to_open_equity(syn, s_open, s_amt, s_score, 20, 3, COST,
+                              vol_target=TARGET_VOL, diag=sdiag)
+        held = set(sdiag[-1]["book"])
+        chk("sheet is the book in force, not today's ranking",
+            set(l["symbol"] for l in o["sheet"]["legs"]) == held
+            and o["sheet"]["book_decided_at"] == sdiag[-1]["date"],
+            "sheet=%s diag=%s" % (o["sheet"]["book_decided_at"], sdiag[-1]["date"]))
+        # activity: on this fixture the off-grid ranking really does differ, so the leg
+        # above cannot pass on the old behaviour (a broken test that never traded).
+        today = set(s_score.iloc[-1].nlargest(3).index)
+        chk("off-grid ranking differs from the held book",
+            today != held and today != set(),
+            "today=%s held=%s" % (sorted(today), sorted(held)))
+        chk("sheet cash equals 1 - risk_scale",
+            abs(o["sheet"]["cash_weight"] - (1.0 - o["sheet"]["risk_scale"])) < 1e-3,
+            "cash=%.4f scale=%.4f" % (o["sheet"]["cash_weight"], o["sheet"]["risk_scale"]))
     finally:
         globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
         shutil.rmtree(tmp, ignore_errors=True)

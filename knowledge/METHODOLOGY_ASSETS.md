@@ -778,3 +778,20 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
 - Evidence: `python scripts\\e39_panel_census.py screencalc` (selftest 246/246),
   results/e42_calendar_cost/COST-20261023-screened.json,
   research/digests/DIGEST-20261026-e81-calcost-screened.md.
+
+## E129 -- an order artefact may only print a book decided on the engine's grid (2026-10-26 bm-c r1277)
+
+- Situation: three faces of one ETF production book -- card, order ticket, forward ledger --
+  each printed a different set of names for the same cutoff. Two of them ranked the panel's
+  last bar; the engine only re-decides every 20 bars, so both were handing a human a
+  portfolio the book never held (card vs ledger: 1 name of 12 shared) while the card said
+  HOLD, and the scale printed on the card (1.0) was sizing a book the ledger held at 0.7008.
+- Rule: any artefact a human can order from must read its book off the engine's own decision
+  row (diag), not off a re-ranking of the latest bar. A grid that is computed only to print
+  a label is a verdict with no consumer -- the E128 shape, at the money surface.
+- Second half of the rule: prove the two faces agree on the *artefact*, not on the intent.
+  The ticket now publishes book_decided_at and card_agreement{ticket_is_prefix_of_card}.
+- Cost of the defect: an operator following the sheet trades the full round-trip of 11 names
+  every time the chain regenerates it (the chain runs every round).
+- Gates: production selftest 11->14 (decision-row identity + activity leg that the off-grid
+  ranking really differs), ticket selftest 16->19 (grid bar + card-prefix agreement).
