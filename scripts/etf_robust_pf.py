@@ -81,18 +81,25 @@ def stats(ser, label):
     if len(ser) < 40:
         return {"label": label, "note": "short"}
     yrs = (ser.index[-1] - ser.index[0]).days / 365.25
+    # Equity curves are running levels from the panel start, so a sub-window slice begins
+    # at whatever level the book had reached. Growth must be measured against the slice's
+    # own first level: `last ** (1/yrs) - 1` silently assumed start=1.0 and overstated
+    # every IS/OOS CAGR (the 2026-10-25 OOS 26.5% was really 15.2%).
+    growth = float(ser.iloc[-1]) / float(ser.iloc[0])
     r = ser.pct_change().dropna()
     vol = r.std() * np.sqrt(252)
     dd = (ser / ser.cummax() - 1)
     yearly = ser.groupby(ser.index.year).apply(lambda x: x.iloc[-1] / x.iloc[0] - 1)
     monthly = ser.resample("ME").last().pct_change().dropna()
+    cagr = growth ** (1 / yrs) - 1
     return {
         "label": label, "years": round(yrs, 2),
-        "cagr": round(float(ser.iloc[-1] ** (1 / yrs) - 1), 4),
+        "start_level": round(float(ser.iloc[0]), 4),
+        "cagr": round(float(cagr), 4),
         "vol": round(float(vol), 4),
         "sharpe": round(float(r.mean() * 252 / vol), 3) if vol > 0 else 0.0,
         "maxdd": round(float(dd.min()), 4),
-        "calmar": round(float((ser.iloc[-1] ** (1 / yrs) - 1) / abs(dd.min())), 2) if dd.min() < 0 else None,
+        "calmar": round(float(cagr / abs(dd.min())), 2) if dd.min() < 0 else None,
         "worst_year": round(float(yearly.min()), 4),
         "neg_years": int((yearly < 0).sum()),
         "worst_month": round(float(monthly.min()), 4),
