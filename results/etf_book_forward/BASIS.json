@@ -1,0 +1,78 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "generated_ts": "2026-10-26T01:05:59+0800",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+  "cash": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+ },
+ "honest_next_open": {
+  "turnover_per_decision": 0.934,
+  "full": {
+   "cagr": 0.1353,
+   "sharpe": 0.94,
+   "maxdd": -0.1623,
+   "vol": 0.1531,
+   "years": 6.81
+  },
+  "is": {
+   "cagr": 0.0668,
+   "sharpe": 0.512,
+   "maxdd": -0.1623,
+   "vol": 0.1547,
+   "years": 3.99
+  },
+  "oos": {
+   "cagr": 0.2398,
+   "sharpe": 1.566,
+   "maxdd": -0.1198,
+   "vol": 0.1507,
+   "years": 2.81
+  }
+ },
+ "card_open_to_open": {
+  "turnover_per_decision": 0.934,
+  "full": {
+   "cagr": 0.0947,
+   "sharpe": 0.978,
+   "maxdd": -0.1177,
+   "vol": 0.1018,
+   "years": 6.8
+  },
+  "is": {
+   "cagr": 0.0384,
+   "sharpe": 0.442,
+   "maxdd": -0.1177,
+   "vol": 0.0997,
+   "years": 3.99
+  },
+  "oos": {
+   "cagr": 0.1808,
+   "sharpe": 1.714,
+   "maxdd": -0.107,
+   "vol": 0.1045,
+   "years": 2.81
+  }
+ },
+ "basis_delta_pp": {
+  "full": -4.06,
+  "is": -2.84,
+  "oos": -5.9,
+  "sharpe_full": 0.038
+ },
+ "windows_shifted_bars": 1,
+ "turnover_identical": true,
+ "note": "card_open_to_open charges the fill at the open of the bar whose close produced the score (a one-bar lookahead) and therefore holds over a window shifted by exactly one bar; honest_next_open is what the forward ledger accrues. Turnover is identical on both, so this is a WINDOW ALIGNMENT difference, not two portfolios: the sign of the gap is not alpha and must not be read as one -- it says the headline is sensitive to which single bar the holding period starts on.",
+ "panel": {
+  "n_instruments": 1608,
+  "flips_repaired": 134
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "schema": "etf-book-forward/v1",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+  "cash": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+ },
+ "seed": {
+  "bar": "2026-10-23",
+  "ts": "2026-10-26T01:02:09+0800",
+  "capital_cny": 1000000.0,
+  "grid_index": 1647,
+  "bars_since_last_decision": 7,
+  "note": "marks are indexed to 1.0 at this bar; nothing before it is a track record"
+ },
+ "bars": [
+  {
+   "bar": "2026-10-23",
+   "nav": 1.0,
+   "dd": 0.0,
+   "cash": 0.299225,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0
+  }
+ ],
+ "books": {},
+ "book_in_force": {
+  "bar": "2026-10-14",
+  "scale": 0.700775,
+  "realised_vol_60d": 0.114159,
+  "names": [
+   "159501",
+   "513100",
+   "513690",
+   "159577",
+   "159263",
+   "513630",
+   "513300",
+   "513850",
+   "159207",
+   "159307",
+   "513870",
+   "159632"
+  ],
+  "turnover": 1.067364
+ },
+ "status": "live",
+ "drift": {
+  "faces": [],
+  "max_abs": 0.0,
+  "checked_bars": 1
+ },
+ "rebases": [],
+ "runs": [
+  {
+   "ts": "2026-10-26T01:02:09+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-23",
+   "first": true
+  },
+  {
+   "ts": "2026-10-26T01:03:14+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-23"
+  },
+  {
+   "ts": "2026-10-26T01:07:03+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-23"
+  }
+ ],
+ "panel": {
+  "n_instruments": 1608,
+  "flips_repaired": 134
+ },
+ "caveats": [
+  "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
+  "The seed bar begins the record; nothing before it is a track record, however good the backtest.",
+  "The vol target only de-levers -- a drawdown tool, not an edge.",
+  "Cash earns 0 in the marks, so a de-levered book under-reports its true carry.",
+  "Research output, not an investment recommendation."
+ ]
+}
