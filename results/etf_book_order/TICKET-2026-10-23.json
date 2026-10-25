@@ -84,14 +84,14 @@
  "metrics": {
   "book": {
    "cagr": 0.1105,
-   "sharpe": 1.352,
+   "sharpe": 1.353,
    "maxdd": -0.0601,
    "vol": 0.0817,
    "bars": 678
   },
   "same_beta_benchmark": {
    "cagr": 0.0299,
-   "sharpe": 0.786,
+   "sharpe": 0.787,
    "maxdd": -0.0379,
    "vol": 0.038,
    "bars": 678
@@ -104,8 +104,8 @@
  },
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
-  "mean_accrual_ann_pct": 2.088,
-  "missing_bar_steps": 3
+  "mean_accrual_ann_pct": 2.09,
+  "missing_bar_steps": 0
  },
  "ledger": {
   "bars": 678,
@@ -113,11 +113,34 @@
   "rows_added": 0,
   "engine_naive_vs_ledger": null
  },
+ "width_disclosure": {
+  "ticket_names": 5,
+  "card_names": 12,
+  "ticket": {
+   "cagr": 0.1105,
+   "sharpe": 1.353,
+   "maxdd": -0.0601
+  },
+  "card": {
+   "cagr": 0.0953,
+   "sharpe": 1.56,
+   "maxdd": -0.0417
+  },
+  "delta_ticket_minus_card": {
+   "cagr_pp": 1.52,
+   "sharpe": -0.207,
+   "maxdd_pp": -1.84
+  },
+  "same_accounting": "this ticket's own accounting (beta overlay + GC001 cash leg, next-open fills, 8bp/side); only the name count varies",
+  "source": "results/etf_book_width_audit.json",
+  "evidence_cutoff": "2026-10-23"
+ },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
-  "exploratory: no preregistration, no verdict, no ledger booking"
+  "exploratory: no preregistration, no verdict, no ledger booking",
+  "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]
 }

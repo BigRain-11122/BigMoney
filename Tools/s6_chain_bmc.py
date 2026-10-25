@@ -36,6 +36,13 @@ LEGS = [
     ("update_sina_mf", ["python", "scripts/update_sina_mf.py"]),
     ("update_astock_daily", ["python", "scripts/update_astock_daily.py"]),
     ("update_etf_daily", ["python", "scripts/update_etf_daily.py"]),
+    # The production book's two live faces ride right behind the panel leg they read.
+    # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the
+    # ledger instead of rewriting history) and etf_book_order re-emits the executable
+    # ticket. Both were hand-run only until r1275, so the accrual depended on a session
+    # remembering to call them -- r1267, r1269 and r1273 each named that as owed.
+    ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),

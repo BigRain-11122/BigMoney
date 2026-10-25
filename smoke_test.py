@@ -463,7 +463,13 @@ def main() -> int:
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",
-             "scripts/etf_vol_calibration.py", ["--selftest"])):
+             "scripts/etf_vol_calibration.py", ["--selftest"]),
+            ("product: etf_book_forward ledger (exit-code contract)",
+             "scripts/etf_book_forward.py", ["--selftest"]),
+            ("product: etf_book_order ticket (exit-code contract)",
+             "scripts/etf_book_order.py", ["--selftest"]),
+            ("product: etf_book_width_audit (exit-code contract)",
+             "scripts/etf_book_width_audit.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -471,6 +477,19 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # ... and the same lesson one level up: a green selftest does not prove the face is
+    # ever produced. r1267/r1269/r1273 each left "wire the ledger into the S6 chain" as
+    # the next pointer, and each round it silently stayed unwired because no test read
+    # the chain. Assert the legs exist in the runner that actually executes them.
+    try:
+        _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
+        _names = {n for n, _c in _legs}
+        _want = {"etf_book_forward", "etf_book_order"}
+        _miss = sorted(_want - _names)
+        check("product: ETF book legs wired into the S6 chain",
+              not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
+    except Exception as e:
+        check("product: ETF book legs wired into the S6 chain", False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:

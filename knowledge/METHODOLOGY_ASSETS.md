@@ -724,3 +724,32 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
 - Next: the label must be restated rather than tuned -- "8% per hold (annualised ~10%)" or move
   to rms sizing at the next scheduled review; that is a GM/CEO policy call on paying 0.03 Sharpe
   plus 2.2pp CAGR for a literally true risk label with 2pp less drawdown.
+
+
+## E126 -- two live faces of one book are a width dial, not a contradiction (2026-10-26 bm-c r1275)
+
+- Situation: the production book publishes two executable-looking faces -- an order ticket
+  sized at the factor default (5 names, beta 0.20 overlay + GC001 cash) and a production card
+  sized at 12 names (8% vol target). Both were labelled 'the production book', so an operator
+  had to guess which one to follow and nobody had priced the gap.
+- Method: hold the ticket's own accounting fixed (next-open fills, 10bp/side, |dk|*8bp on the
+  overlay, GC001 on the remainder, beta 0.20) and move ONLY the name count, reusing the
+  existing engine calls plus the ticket's own metrics function so the columns are comparable
+  by construction.
+- Finding: width is a monotone risk dial, not a defect -- 5/8/12/20 names give CAGR 11.05/9.73/
+  9.53/8.28%, Sharpe 1.353/1.437/1.560/1.628, maxDD -6.01/-5.04/-4.17/-2.94%. 12 names vs the
+  executable 5 costs -1.52pp/yr for +0.207 Sharpe and 1.84pp less drawdown.
+- Rule: when a repo carries two 'live' faces of the same strategy, price the parameter they
+  disagree on before reconciling them by opinion; if the disagreement is monotone, publish the
+  curve and let the operator pick the point instead of silently re-picking the default.
+- Evidence: scripts/etf_book_width_audit.py --selftest 4/4, results/etf_book_width_audit.json,
+  research/ETF_BOOK_WIDTH.md.
+- Landed (same window): the ticket now carries the comparison
+  (`etf_book_order.width_disclosure`, card width read from the card's own artefact, delta on
+  both the JSON caveats and ORDER-<asof>.md) because a measurement nobody meets at the point
+  of action is just a note; both book legs are wired into `Tools/s6_chain_bmc.py` so the
+  forward accrual no longer depends on a session remembering to call them.
+- Trap found while wiring it: the selftest fixture proved only the *pointer* shape of
+  `results/etf_book_production/latest.json`, and the live run then printed "width disclosure
+  unavailable" -- latest.json can be the card itself. Fixtures must mirror the live artefact
+  shape, and a leg that exercises the real files (leg16) is what catches the difference.

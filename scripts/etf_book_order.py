@@ -247,8 +247,27 @@ def card(ticket, mk, sched, asof, beta, extra):
                                                              b["maxdd"] * 100))
         if "excess_pp" in mk:
             L += ["", "超额 %+.2fpp/年（同 β 基准对照，成本双层已计）。" % mk["excess_pp"]]
+    wd = extra.get("width")
+    if wd:
+        L += ["", "## 这张单是 %d 名，卡片是 %d 名" % (wd["ticket_names"], wd["card_names"]),
+              "同一套账（β 目标覆盖 + GC001 现金腿、次日开盘成交、8bp/边）下只换名数：",
+              "| 账簿 | 年化 | 夏普 | 最大回撤 |", "|---|---|---|---|",
+              "| 本单 %d 名（可执行） | %.1f%% | %.2f | %.1f%% |"
+              % (wd["ticket_names"], wd["ticket"]["cagr"] * 100, wd["ticket"]["sharpe"],
+                 wd["ticket"]["maxdd"] * 100),
+              "| 卡片 %d 名 | %.1f%% | %.2f | %.1f%% |"
+              % (wd["card_names"], wd["card"]["cagr"] * 100, wd["card"]["sharpe"],
+                 wd["card"]["maxdd"] * 100),
+              "", "差值（本单 − 卡片）：年化 %+.2fpp、夏普 %+.3f、回撤 %+.2fpp——集中的代价是回撤，"
+              "不是缺陷；跟单前要知道自己站在这条斜线的哪一端。"
+              % (wd["delta_ticket_minus_card"]["cagr_pp"], wd["delta_ticket_minus_card"]["sharpe"],
+                 wd["delta_ticket_minus_card"]["maxdd_pp"]),
+              "出处：%s（cutoff %s）。" % (wd["source"], wd["evidence_cutoff"])]
     L += ["", "## 诚实面", "",
           "- 探索件：无预注册、无判决、不入成绩账本。"]
+    if not wd:
+        L += ["- **名数差未定价**：本单 %d 名而生产卡片跑不同名数，本窗未取到宽度审计"
+              "（scripts/etf_book_width_audit.py），差额未知。" % N_HOLD]
     st = extra.get("stale")
     if st:
         L += ["- **面板新鲜度**：最后 bar 全池 %d/%d 只有价；历史决策中 %.1f%% 的选票落在"
@@ -397,6 +416,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     ticket = build_ticket(score.loc[slip.index[-1]], close.loc[slip.index[-1]],
                           k_now, nav, classes=cls_map)
     mk = metrics(slip, blip)
+    wd = width_disclosure()
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -411,11 +431,18 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                             "missing_bar_steps": int(cash_missing)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
+               "width_disclosure": wd,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
-                           "exploratory: no preregistration, no verdict, no ledger booking"]}
+                           "exploratory: no preregistration, no verdict, no ledger booking"]
+                          + (["this ticket is the %d-name aggressive end of the book; the "
+                              "production card runs %d names -- see width_disclosure"
+                              % (N_HOLD, wd["card_names"])] if wd else
+                             ["width disclosure unavailable: run "
+                              "scripts/etf_book_width_audit.py run to price the %d-name ticket "
+                              "against the production card" % N_HOLD])}
 
     _write("state.json", state)
     _write("TICKET-%s.json" % asof, payload)
@@ -423,7 +450,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "beta_target": float(beta), "k_now": round(float(k_now), 6)})
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
-                     {"inception": payload["inception"], "stale": stale}))
+                     {"inception": payload["inception"], "stale": stale, "width": wd}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -435,8 +462,84 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         print("book CAGR %.2f%% vs same-beta %.2f%% | excess %+.2fpp"
               % (mk["book"]["cagr"] * 100, mk["same_beta_benchmark"]["cagr"] * 100,
                  mk.get("excess_pp", float("nan"))))
+    if wd:
+        print("width: %d names here vs %d on the card -> %+.2fpp/yr CAGR, %+.3f Sharpe, "
+              "%+.2fpp maxDD (audit cutoff %s)"
+              % (wd["ticket_names"], wd["card_names"], wd["delta_ticket_minus_card"]["cagr_pp"],
+                 wd["delta_ticket_minus_card"]["sharpe"],
+                 wd["delta_ticket_minus_card"]["maxdd_pp"], wd["evidence_cutoff"]))
+    else:
+        print("width: disclosure unavailable (width audit or card width missing)")
     print("wrote", os.path.join(OUT_DIR, "TICKET-%s.json" % asof))
     return 0
+
+
+CARD_DIR = os.path.join(PATHS.results_dir, "etf_book_production")
+AUDIT_PATH = os.path.join(PATHS.results_dir, "etf_book_width_audit.json")
+
+
+def card_width(card_dir=None):
+    """Name count the production card is actually running, read off its own artefact.
+
+    Hardcoding 12 here would rot the moment the card's config changes; the pointer
+    chain (latest.json -> PRODUCTION-<asof>.json) is the only place that knows.
+    """
+    d = card_dir or CARD_DIR
+    try:
+        with open(os.path.join(d, "latest.json"), encoding="utf-8") as f:
+            doc = json.load(f)
+        # latest.json is either a pointer to the dated card or the card itself
+        if doc.get("file"):
+            with open(os.path.join(d, doc["file"]), encoding="utf-8") as f:
+                doc = json.load(f)
+        n = (doc.get("config") or {}).get("n_hold")
+        return int(n) if n else None
+    except Exception:
+        return None
+
+
+def width_disclosure(card_n=None, audit_path=None):
+    """What this ticket's 5 names cost against the card's width, from the audit face.
+
+    Both faces are published as "the production book", so an operator following this
+    ticket buys 5 names while the card's row describes the card's own width.
+    ``scripts/etf_book_width_audit.py`` measures that difference holding accounting
+    fixed; this reads the audit back rather than re-running it. Missing audit (or a
+    width missing from it) returns None and the caller says so out loud -- silence
+    would read as "no difference".
+    """
+    p = audit_path or AUDIT_PATH
+    n_card = card_n if card_n is not None else card_width()
+    try:
+        with open(p, encoding="utf-8") as f:
+            audit = json.load(f)
+    except Exception:
+        return None
+    rows = {int(r["n_hold"]): r for r in (audit.get("rows") or [])}
+    a = rows.get(int(N_HOLD))
+    b = rows.get(int(n_card)) if n_card else None
+    if not a or not b:
+        return None
+
+    def face(r):
+        bk = r.get("book") or {}
+        return {"cagr": bk.get("cagr"), "sharpe": bk.get("sharpe"), "maxdd": bk.get("maxdd")}
+
+    ta, tb = face(a), face(b)
+    try:
+        src = os.path.relpath(p, BASE).replace("\\", "/")
+    except ValueError:            # audit path off the repo volume (selftest fixtures)
+        src = p.replace("\\", "/")
+    return {"ticket_names": int(N_HOLD), "card_names": int(n_card),
+            "ticket": ta, "card": tb,
+            "delta_ticket_minus_card": {
+                "cagr_pp": round((ta["cagr"] - tb["cagr"]) * 100, 2),
+                "sharpe": round(ta["sharpe"] - tb["sharpe"], 3),
+                "maxdd_pp": round((ta["maxdd"] - tb["maxdd"]) * 100, 2)},
+            "same_accounting": "this ticket's own accounting (beta overlay + GC001 cash leg, "
+                               "next-open fills, 8bp/side); only the name count varies",
+            "source": src,
+            "evidence_cutoff": audit.get("evidence_cutoff")}
 
 
 def _next_decision(score_dates, last_bar, rebal=REBAL, start="2020-01-01"):
@@ -525,6 +628,49 @@ def selftest():
     # leg9: whole lots only
     chk("leg9 ticket quantities are whole lots",
         all(r["shares"] is None or r["shares"] % LOT == 0 for r in tk["order"]))
+
+    # leg12/13: the width disclosure prices this ticket against the card's own width,
+    # and stays silent-and-honest (None) rather than inventing a zero when the audit or
+    # the card artefact is missing. Fixtures, not the live files.
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        audit_p = os.path.join(td, "audit.json")
+        with open(audit_p, "w", encoding="utf-8") as f:
+            json.dump({"evidence_cutoff": "2026-10-23", "rows": [
+                {"n_hold": 5, "book": {"cagr": 0.1105, "sharpe": 1.353, "maxdd": -0.0601}},
+                {"n_hold": 12, "book": {"cagr": 0.0953, "sharpe": 1.560, "maxdd": -0.0417}}]}, f)
+        wd = width_disclosure(card_n=12, audit_path=audit_p)
+        chk("leg12 width disclosure reads the two rows and their difference",
+            bool(wd) and wd["ticket_names"] == 5 and wd["card_names"] == 12
+            and abs(wd["delta_ticket_minus_card"]["cagr_pp"] - 1.52) < 1e-9
+            and abs(wd["delta_ticket_minus_card"]["sharpe"] + 0.207) < 1e-9,
+            "delta=%s" % (wd["delta_ticket_minus_card"] if wd else None))
+        chk("leg13 missing width row -> None (no silent zero)",
+            width_disclosure(card_n=99, audit_path=audit_p) is None
+            and width_disclosure(card_n=12, audit_path=os.path.join(td, "nope.json")) is None)
+
+        # leg14: the card width comes off the card's pointer chain, not a constant
+        cd = os.path.join(td, "prod")
+        os.makedirs(cd)
+        with open(os.path.join(cd, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"file": "PRODUCTION-2026-10-23.json"}, f)
+        with open(os.path.join(cd, "PRODUCTION-2026-10-23.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12}}, f)
+        chk("leg14 card width read from the card pointer chain",
+            card_width(cd) == 12 and card_width(os.path.join(td, "absent")) is None,
+            "read=%s" % card_width(cd))
+
+        # leg15: latest.json may BE the card (live shape) or point at it -- the fixture
+        # above only proved the pointer shape, and the live run then said "unavailable".
+        cd2 = os.path.join(td, "prod2")
+        os.makedirs(cd2)
+        with open(os.path.join(cd2, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12}, "sheet": {}}, f)
+        chk("leg15 latest.json holding the card itself is read too",
+            card_width(cd2) == 12, "read=%s" % card_width(cd2))
+        chk("leg16 live wiring: real card x real audit produce a disclosure",
+            (width_disclosure() is not None) if os.path.exists(AUDIT_PATH) else True,
+            "card=%s audit=%s" % (card_width(), os.path.exists(AUDIT_PATH)))
 
     # leg10: a short universe yields no ticket rather than a partial one
     chk("leg10 insufficient picks -> no ticket",
