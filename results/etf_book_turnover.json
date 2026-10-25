@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-25 22:19:00",
+ "ts": "2026-10-25 23:04:31",
  "evidence_cutoff": "2026-10-23",
  "script": "scripts/etf_book_turnover.py",
  "config": {
@@ -16,9 +16,14 @@
   ],
   "base_bp": 8.0,
   "impact_bp_per_pct": 10.0,
-  "n_hold": 5,
+  "n_hold_ladder": 5,
+  "stagger_top": 8,
+  "sleeve_top": 4,
   "start": "2020-01-01"
  },
+ "corrections_disclosed": [
+  "r1262: the r1261 stagger face graded a staggered 8-name book against the engine default 5-name single book (F.N_HOLD), so its '-X pp cost of staggering' and '+61% capacity' figures mixed a breadth change into a phasing change. Both lines are now 8 names wide."
+ ],
  "market_510300": {
   "label": "510300",
   "bars": 1648,
@@ -386,6 +391,19 @@
  ],
  "stagger": {
   "rebal": 20,
+  "breadth": {
+   "stagger_top": 8,
+   "sleeve_top": 4,
+   "sleeve_a_ranks": [
+    1,
+    4
+   ],
+   "sleeve_b_ranks": [
+    5,
+    8
+   ],
+   "single_reference_n_hold": 8
+  },
   "phase_offset_bars": 10,
   "sleeve_b_start": "2020-01-16",
   "single_flat_8bp": {
@@ -393,14 +411,14 @@
    "bars": 1648,
    "years": 6.81,
    "start_level": 1.0,
-   "total_ret": 0.6486,
-   "cagr": 0.0762,
-   "vol": 0.1034,
-   "sharpe": 0.792,
-   "maxdd": -0.1309,
-   "turnover_per_decision": 1.2506,
-   "turns_per_year": 15.7576,
-   "excess_vs_ew_pp": 5.5
+   "total_ret": 0.5728,
+   "cagr": 0.0688,
+   "vol": 0.1087,
+   "sharpe": 0.693,
+   "maxdd": -0.1394,
+   "turnover_per_decision": 1.244,
+   "turns_per_year": 15.6741,
+   "excess_vs_ew_pp": 4.76
   },
   "stagger_flat_8bp": {
    "label": "stagger flat8",
@@ -412,12 +430,12 @@
    "vol": 0.0949,
    "sharpe": 0.806,
    "maxdd": -0.1068,
-   "turnover_per_decision": 1.4973,
-   "turns_per_year": 18.8654,
+   "turnover_per_decision": 1.4939,
+   "turns_per_year": 18.8236,
    "excess_vs_ew_pp": 5.03
   },
   "sleeve_turnover_per_decision": {
-   "a": 1.2506,
+   "a": 1.244,
    "b": 1.7439
   },
   "priced": {
@@ -427,18 +445,18 @@
      "bars": 1648,
      "years": 6.81,
      "start_level": 1.0,
-     "total_ret": 0.4472,
-     "cagr": 0.0558,
-     "vol": 0.1038,
-     "sharpe": 0.597,
-     "maxdd": -0.1343,
-     "turnover_per_decision": 1.2506,
-     "turns_per_year": 15.7576,
+     "total_ret": 0.4133,
+     "cagr": 0.0521,
+     "vol": 0.109,
+     "sharpe": 0.541,
+     "maxdd": -0.1419,
+     "turnover_per_decision": 1.244,
+     "turns_per_year": 15.6741,
      "open_gapfill": 1,
      "missing_adv_legs": 0,
-     "participation_max_p50": 0.066911,
-     "participation_max_p90": 0.10627,
-     "decisions_over_1pct": 76
+     "participation_max_p50": 0.04779,
+     "participation_max_p90": 0.077913,
+     "decisions_over_1pct": 77
     },
     "stagger": {
      "label": "stagger nav=1e+07",
@@ -456,8 +474,8 @@
      "decisions_over_1pct": 139,
      "excess_vs_ew_pp": 3.14
     },
-    "delta_cagr_pp": -0.32,
-    "participation_p90_single": 0.10627,
+    "delta_cagr_pp": 0.05,
+    "participation_p90_single": 0.077913,
     "participation_p90_stagger": 0.066035
    },
    "5e+07": {
@@ -466,18 +484,18 @@
      "bars": 1648,
      "years": 6.81,
      "start_level": 1.0,
-     "total_ret": 0.2315,
-     "cagr": 0.0311,
-     "vol": 0.1048,
-     "sharpe": 0.357,
-     "maxdd": -0.1385,
-     "turnover_per_decision": 1.2506,
-     "turns_per_year": 15.7576,
+     "total_ret": 0.2381,
+     "cagr": 0.0319,
+     "vol": 0.1096,
+     "sharpe": 0.353,
+     "maxdd": -0.1593,
+     "turnover_per_decision": 1.244,
+     "turns_per_year": 15.6741,
      "open_gapfill": 1,
      "missing_adv_legs": 0,
-     "participation_max_p50": 0.334556,
-     "participation_max_p90": 0.531351,
-     "decisions_over_1pct": 83
+     "participation_max_p50": 0.238949,
+     "participation_max_p90": 0.389566,
+     "decisions_over_1pct": 82
     },
     "stagger": {
      "label": "stagger nav=5e+07",
@@ -495,8 +513,8 @@
      "decisions_over_1pct": 162,
      "excess_vs_ew_pp": 0.84
     },
-    "delta_cagr_pp": -0.15,
-    "participation_p90_single": 0.531351,
+    "delta_cagr_pp": -0.23,
+    "participation_p90_single": 0.389566,
     "participation_p90_stagger": 0.330174
    },
    "1e+08": {
@@ -505,17 +523,17 @@
      "bars": 1648,
      "years": 6.81,
      "start_level": 1.0,
-     "total_ret": 0.091,
-     "cagr": 0.0129,
-     "vol": 0.1058,
-     "sharpe": 0.179,
-     "maxdd": -0.1915,
-     "turnover_per_decision": 1.2506,
-     "turns_per_year": 15.7576,
+     "total_ret": 0.121,
+     "cagr": 0.0169,
+     "vol": 0.1103,
+     "sharpe": 0.214,
+     "maxdd": -0.2011,
+     "turnover_per_decision": 1.244,
+     "turns_per_year": 15.6741,
      "open_gapfill": 1,
      "missing_adv_legs": 0,
-     "participation_max_p50": 0.669112,
-     "participation_max_p90": 1.062701,
+     "participation_max_p50": 0.477898,
+     "participation_max_p90": 0.779133,
      "decisions_over_1pct": 83
     },
     "stagger": {
@@ -534,8 +552,8 @@
      "decisions_over_1pct": 163,
      "excess_vs_ew_pp": -0.85
     },
-    "delta_cagr_pp": -0.02,
-    "participation_p90_single": 1.062701,
+    "delta_cagr_pp": -0.42,
+    "participation_p90_single": 0.779133,
     "participation_p90_stagger": 0.660348
    }
   }
@@ -553,6 +571,16 @@
    "40": 0.0439,
    "60": 0.0286
   },
-  "stagger_vs_single_flat_pp": -0.47
+  "stagger_vs_single_flat_pp": 0.27,
+  "p90_capacity_nav": {
+   "adv_discipline_pct": 1.0,
+   "reference_nav": 10000000.0,
+   "book_5_names": 940999,
+   "single_8_names": 1283483,
+   "staggered_8_names": 1514348,
+   "single_8_names_vs_book_pct": 36.4,
+   "staggered_8_names_vs_book_pct": 60.9,
+   "stagger_vs_single_pct": 18.0
+  }
  }
 }

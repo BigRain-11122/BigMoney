@@ -53,6 +53,13 @@ REBAL_GRID = (10, 20, 40, 60)
 NAV_GRID = (1e7, 5e7, 1e8)
 START = "2020-01-01"
 BARS_PER_YEAR = 252.0
+# Breadth the stagger face is graded at. The two sleeves partition ranks 1..STAGGER_TOP,
+# so the single-sleeve reference must hold exactly STAGGER_TOP names as well -- anything
+# else grades a breadth change as if it were a phasing change. The r1261 run compared a
+# staggered 4+4 book against the engine default 5-name book (F.N_HOLD=5) and attributed
+# the whole 8-vs-5 difference to staggering.
+STAGGER_TOP = 8
+SLEEVE_TOP = STAGGER_TOP // 2
 
 
 def top_slice(score, lo, hi):
@@ -154,29 +161,37 @@ def run(start=START):
         ladder.append(row)
 
     # ---- (B) stagger -------------------------------------------------------
-    # Same top-8 selection, split into ranks 1-4 and 5-8, the second sleeve phased
-    # half a period later. Each sleeve carries half the capital.
+    # The same STAGGER_TOP-name selection, split into ranks 1..SLEEVE_TOP and
+    # SLEEVE_TOP+1..STAGGER_TOP, the second sleeve phased half a period later. Each
+    # sleeve carries half the capital. The single-sleeve reference holds STAGGER_TOP
+    # names in one sleeve, so the only difference between the two lines is phasing.
     rebal = 20
-    print("[stagger] sleeves", flush=True)
+    lo_a, hi_a = 1, SLEEVE_TOP
+    lo_b, hi_b = SLEEVE_TOP + 1, STAGGER_TOP
+    print("[stagger] sleeves ranks %d-%d / %d-%d" % (lo_a, hi_a, lo_b, hi_b), flush=True)
     ew20 = F.metrics(F.run_ew(close, amt, rebal, start=start), "ew rebal=20")
 
-    ser_a = F.run_next_open(close, openp, amt, feats, rebal, n_hold=4,
-                            cost=F.COST, start=start, score=top_slice(score, 1, 4))[0]
+    ser_a = F.run_next_open(close, openp, amt, feats, rebal, n_hold=SLEEVE_TOP,
+                            cost=F.COST, start=start, score=top_slice(score, lo_a, hi_a))[0]
     off = rebal // 2
     st_b = phase_start(close.index, start, off)
-    ser_b, turn_b, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=4,
+    ser_b, turn_b, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=SLEEVE_TOP,
                                        cost=F.COST, start=st_b,
-                                       score=top_slice(score, 5, 8))
+                                       score=top_slice(score, lo_b, hi_b))
     stagger_flat = blend([ser_a, ser_b])
     m_stag_flat = F.metrics(stagger_flat, "stagger flat8")
 
-    # single-sleeve reference at the same cadence and same flat cost
+    # single-sleeve reference: same breadth, same cadence, same flat cost
     ser_single, turn_single, _ = F.run_next_open(
-        close, openp, amt, feats, rebal, cost=F.COST, start=start, score=score)
+        close, openp, amt, feats, rebal, n_hold=STAGGER_TOP,
+        cost=F.COST, start=start, score=score)
     m_single_flat = F.metrics(ser_single, "single flat8")
 
     stagger = {
         "rebal": rebal,
+        "breadth": {"stagger_top": STAGGER_TOP, "sleeve_top": SLEEVE_TOP,
+                    "sleeve_a_ranks": [lo_a, hi_a], "sleeve_b_ranks": [lo_b, hi_b],
+                    "single_reference_n_hold": STAGGER_TOP},
         "phase_offset_bars": off,
         "sleeve_b_start": None if st_b is None else str(pd.Timestamp(st_b).date()),
         "single_flat_8bp": dict(m_single_flat,
@@ -195,11 +210,11 @@ def run(start=START):
     for nav in NAV_GRID:
         # each sleeve carries nav/2, so its own participation is priced on half the NAV
         ca = ImpactCost(amt, nav * 0.5)
-        sa, ta, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=4,
-                                    cost=ca, start=start, score=top_slice(score, 1, 4))
+        sa, ta, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=SLEEVE_TOP,
+                                    cost=ca, start=start, score=top_slice(score, lo_a, hi_a))
         cb = ImpactCost(amt, nav * 0.5)
-        sb, tb, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=4,
-                                    cost=cb, start=st_b, score=top_slice(score, 5, 8))
+        sb, tb, _ = F.run_next_open(close, openp, amt, feats, rebal, n_hold=SLEEVE_TOP,
+                                    cost=cb, start=st_b, score=top_slice(score, lo_b, hi_b))
         blended = blend([sa, sb])
         mb = F.metrics(blended, "stagger nav=%.0e" % nav)
         pmax = pd.Series([r["participation_max"] for r in (ca.rows + cb.rows)
@@ -212,7 +227,11 @@ def run(start=START):
             "excess_vs_ew_pp": (None if mb.get("cagr") is None
                                 else round(100.0 * (mb["cagr"] - ew20["cagr"]), 3)),
         })
-        m1, _, cm1 = _priced(close, openp, amt, feats, rebal, nav, score, start=start)
+        # the priced single reference must be breadth-matched too -- grading an 8-name
+        # staggered book against the 5-name ladder would repeat the r1261 mistake at
+        # a different NAV
+        m1, _, cm1 = _priced(close, openp, amt, feats, rebal, nav, score,
+                             n_hold=STAGGER_TOP, start=start)
         stagger["priced"]["%.0e" % nav] = {
             "single": m1,
             "stagger": mb,
@@ -230,7 +249,15 @@ def run(start=START):
         "script": "scripts/etf_book_turnover.py",
         "config": {"rebal_grid": list(REBAL_GRID), "nav_grid": list(NAV_GRID),
                    "base_bp": BASE_BP, "impact_bp_per_pct": IMPACT_BP_PER_PCT,
-                   "n_hold": F.N_HOLD, "start": start},
+                   "n_hold_ladder": F.N_HOLD, "stagger_top": STAGGER_TOP,
+                   "sleeve_top": SLEEVE_TOP, "start": start},
+        "corrections_disclosed": [
+            "r1262: the r1261 stagger face graded a staggered %d-name book against the "
+            "engine default %d-name single book (F.N_HOLD), so its '-X pp cost of "
+            "staggering' and '+61%% capacity' figures mixed a breadth change into a "
+            "phasing change. Both lines are now %d names wide."
+            % (STAGGER_TOP, F.N_HOLD, STAGGER_TOP),
+        ],
         "market_510300": mkt_m,
         "cadence_ladder": ladder,
         "stagger": stagger,
@@ -252,14 +279,46 @@ def _readings(ladder, stagger):
     if s["single_flat_8bp"].get("cagr") is not None and s["stagger_flat_8bp"].get("cagr"):
         out["stagger_vs_single_flat_pp"] = round(
             100.0 * (s["stagger_flat_8bp"]["cagr"] - s["single_flat_8bp"]["cagr"]), 3)
+
+    # Capacity is derived, never carried over. p = |dw| * NAV / ADV, so p is linear in
+    # NAV and the NAV at which p90 participation reaches the 1%-ADV discipline is just
+    # NAV_ref * 1% / p90(NAV_ref). Every line is computed from its own measured p90 so
+    # a breadth or phasing change cannot inherit someone else's capacity figure.
+    ref_nav = float(min(NAV_GRID))
+    ref_key = "%.0e" % ref_nav
+    cap = {"adv_discipline_pct": 1.0, "reference_nav": ref_nav}
+    ladder20 = (by.get(20) or {}).get("priced", {}).get(ref_key) or {}
+    if ladder20.get("participation_max_p90"):
+        cap["book_%d_names" % F.N_HOLD] = round(
+            ref_nav * (0.01 / ladder20["participation_max_p90"]))
+    priced_st = (s.get("priced") or {}).get(ref_key) or {}
+    if (priced_st.get("single") or {}).get("participation_max_p90"):
+        cap["single_%d_names" % STAGGER_TOP] = round(
+            ref_nav * (0.01 / priced_st["single"]["participation_max_p90"]))
+    if (priced_st.get("stagger") or {}).get("participation_max_p90"):
+        cap["staggered_%d_names" % STAGGER_TOP] = round(
+            ref_nav * (0.01 / priced_st["stagger"]["participation_max_p90"]))
+    if "book_%d_names" % F.N_HOLD in cap and "staggered_%d_names" % STAGGER_TOP in cap:
+        base_cap = cap["book_%d_names" % F.N_HOLD]
+        for k in ("single_%d_names" % STAGGER_TOP, "staggered_%d_names" % STAGGER_TOP):
+            if k in cap:
+                cap[k + "_vs_book_pct"] = round(100.0 * (cap[k] / base_cap - 1.0), 1)
+    if ("single_%d_names" % STAGGER_TOP in cap
+            and "staggered_%d_names" % STAGGER_TOP in cap):
+        cap["stagger_vs_single_pct"] = round(
+            100.0 * (cap["staggered_%d_names" % STAGGER_TOP]
+                     / cap["single_%d_names" % STAGGER_TOP] - 1.0), 1)
+    out["p90_capacity_nav"] = cap
     return out
 
 
 def selftest():
     """Offline legs -- every one of them must pass before this script's numbers count."""
     fails = []
+    ran = []
 
     def check(name, cond, detail=""):
+        ran.append(name)
         if not cond:
             fails.append("%s %s" % (name, detail))
 
@@ -336,12 +395,46 @@ def selftest():
           % (flat_turn, len(cm.rows)))
     check("L6d", cm.rows and all(r["rate_bp_per_side"] >= BASE_BP - 1e-9 for r in cm.rows))
 
+    # L7: the stagger face must be graded at matched breadth. The sleeves partition
+    # STAGGER_TOP names, so the reference sleeve has to hold the same count -- the
+    # r1261 run graded 4+4 against F.N_HOLD=5 and booked the difference as phasing.
+    check("L7a", SLEEVE_TOP * 2 == STAGGER_TOP, "top=%d sleeve=%d" % (STAGGER_TOP, SLEEVE_TOP))
+    check("L7b", STAGGER_TOP == 8 and SLEEVE_TOP == 4)
+    sc8 = pd.DataFrame(rng.rand(6, 12), index=rows, columns=cols)
+    union = (top_slice(sc8, 1, SLEEVE_TOP).notna()
+             | top_slice(sc8, SLEEVE_TOP + 1, STAGGER_TOP).notna())
+    ref = sc8.rank(axis=1, ascending=False, method="first") <= STAGGER_TOP
+    check("L7c", bool((union == ref).all().all()),
+          "union rows=%s ref rows=%s" % (union.sum(axis=1).tolist(),
+                                         ref.sum(axis=1).tolist()))
+
+    # L8: the capacity reading is derived from each line's own measured p90, so a
+    # breadth or phasing change cannot inherit another book's number. Synthetic p90s
+    # chosen so the arithmetic is checkable by hand: 10M * 1%/10.63% = 0.941M.
+    syn_lad = [{"rebal": 20, "flat_8bp": {"cagr": 0.05},
+                "priced": {"1e+07": {"cagr": 0.05, "participation_max_p90": 0.1063}}}]
+    syn_st = {"single_flat_8bp": {"cagr": 0.048}, "stagger_flat_8bp": {"cagr": 0.05},
+              "priced": {"1e+07": {
+                  "single": {"cagr": 0.04, "participation_max_p90": 0.0779},
+                  "stagger": {"cagr": 0.04, "participation_max_p90": 0.0660}}}}
+    cap = _readings(syn_lad, syn_st)["p90_capacity_nav"]
+    check("L8a", abs(cap["book_%d_names" % F.N_HOLD] - 1e7 * 0.01 / 0.1063) <= 1)
+    check("L8b", abs(cap["single_%d_names" % STAGGER_TOP] - 1e7 * 0.01 / 0.0779) <= 1)
+    check("L8c", abs(cap["staggered_%d_names" % STAGGER_TOP] - 1e7 * 0.01 / 0.0660) <= 1)
+    check("L8d", cap["stagger_vs_single_pct"] == round(
+        100.0 * ((0.01 / 0.0660) / (0.01 / 0.0779) - 1.0), 1))
+    # monotone sanity: a smaller p90 must never mean less capacity
+    check("L8e", cap["staggered_%d_names" % STAGGER_TOP]
+          >= cap["single_%d_names" % STAGGER_TOP] >= cap["book_%d_names" % F.N_HOLD])
+
     if fails:
         print("SELFTEST FAILED (%d):" % len(fails))
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest 19/19 PASS")
+    # the total is counted, never typed: a hard-coded "19/19" survives adding legs and
+    # then misreports how much was actually asserted
+    print("selftest %d/%d PASS" % (len(ran), len(ran)))
     return 0
 
 

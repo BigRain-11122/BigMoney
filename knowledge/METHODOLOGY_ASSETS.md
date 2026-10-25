@@ -628,3 +628,12 @@ esearch/ETF_BOOK_ORDER.md。
 - 证据：`scripts/etf_book_turnover.py`（`--selftest` 19/19）｜`results/etf_book_turnover.json`｜`research/ETF_BOOK_TURNOVER.md`
 - 下一站：部分成交档（>1% ADV 的腿只成交 1%、余量留旧仓吃逆回购）与分批相位数/错开幅度的单面 sweep，再把分批接回容量阶梯重出盈亏平衡 NAV。
 - 2026-10-25 22:2x bm-c r1261 探索
+
+## E119｜对照段必须宽度匹配，容量要按「谁贡献的」分解（2026-10-25 bm-c r1262）
+- 研究点：一个结构性改动（错峰分批）测出「代价 −0.32pp、容量 +61%」，但它的对照组用的是引擎默认 5 名书，被测组是 8 名（4+4）。宽度变了、相位也变了，一个数被写成另一件事的功劳。
+- 做法：①两侧钉死同一宽度（`STAGGER_TOP=8`/`SLEEVE_TOP=4`），并加 selftest 腿断言「两袖并集恰等于 top-8」与「参考段 n_hold==并集名数」，任何人改宽度都会红；②容量不手抄，按 p90 参与度线性外推逐线机 derive（`NAV_ref × 1% / p90`），并输出归因分解（相对基准书的 % 拆成「摊宽贡献」与「错峰贡献」，两者相加才是总增量）。
+- 发现：匹配宽度后错峰在零冲击口径下是 **+0.27pp**（不是 −0.32pp），只在 5,000 万以上转负；+61% 容量里 36% 来自摊宽、18% 来自错峰。同时一条反向证据：分批后单日破 1% ADV 的决策次数 77→139，p90 降 15% 不等于更容易守纪律。
+- 判据：任何 A/B 结构对比先问「两边的名称数/持仓数/样本数是否相同」；不相同就不是 A/B，是两个实验叠在一起。
+- 证据：`scripts/etf_book_turnover.py`（`--selftest` 27/27，L7 宽度腿、L8 容量 derive 腿）｜`results/etf_book_turnover.json`（`corrections_disclosed` + `readings.p90_capacity_nav`）｜`research/ETF_BOOK_TURNOVER.md` 更正节
+- 下一站：把宽度当作独立轴 sweep（5/8/12/16 名，各自错峰与否），给出「宽度-容量-收益」三维面，而不是继续在 8 名上打转。
+- 2026-10-25 23:0x bm-c r1262 探索
