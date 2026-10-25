@@ -1,0 +1,592 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "basis": "next-open fill: decision at close t, fill at open t+1; overnight leg to the OLD book, weight change charged at the fill open, NEW book earns open->close on the fill day; 8bp/side on turnover",
+ "cost_bp_per_side": 8,
+ "n_hold": 5,
+ "rebal": 20,
+ "caveats": [
+  "survivorship: the on-disk panel holds ETFs that still exist",
+  "exploratory analysis, not a preregistered judgement",
+  "each subset is ranked and controlled on the SAME columns",
+  "subsets are static: the book cannot rotate INTO a removed sleeve",
+  "control is equal-weight on the same subset, close basis"
+ ],
+ "variants": {
+  "all_classes": {
+   "universe": 1653,
+   "rebalances": null,
+   "turnover_per_rebal": 1.318,
+   "open_gapfill_cells": 16,
+   "book": [
+    {
+     "label": "book_full",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.7504,
+     "cagr": 0.0857,
+     "vol": 0.107,
+     "sharpe": 0.854,
+     "maxdd": -0.1309
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0,
+     "total_ret": 0.1954,
+     "cagr": 0.0458,
+     "vol": 0.1082,
+     "sharpe": 0.484,
+     "maxdd": -0.1309
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.1971,
+     "total_ret": 0.4622,
+     "cagr": 0.145,
+     "vol": 0.1054,
+     "sharpe": 1.395,
+     "maxdd": -0.1019
+    }
+   ],
+   "control": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0009,
+     "total_ret": 0.1786,
+     "cagr": 0.0244,
+     "vol": 0.1808,
+     "sharpe": 0.23,
+     "maxdd": -0.4
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0009,
+     "total_ret": -0.0851,
+     "cagr": -0.0221,
+     "vol": 0.172,
+     "sharpe": -0.048,
+     "maxdd": -0.3303
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9111,
+     "total_ret": 0.2948,
+     "cagr": 0.0965,
+     "vol": 0.1929,
+     "sharpe": 0.596,
+     "maxdd": -0.1885
+    }
+   ],
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 8.57,
+     "ew_cagr_pct": 2.44,
+     "cagr_pp": 6.13,
+     "book_sharpe": 0.854,
+     "book_maxdd_pct": -13.09
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 4.58,
+     "ew_cagr_pct": -2.21,
+     "cagr_pp": 6.79,
+     "book_sharpe": 0.484,
+     "book_maxdd_pct": -13.09
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 14.5,
+     "ew_cagr_pct": 9.65,
+     "cagr_pp": 4.85,
+     "book_sharpe": 1.395,
+     "book_maxdd_pct": -10.19
+    }
+   },
+   "by_year": {
+    "2020": {
+     "book_pct": 10.01,
+     "ew_pct": 28.33,
+     "excess_pp": -18.32,
+     "partial": false
+    },
+    "2021": {
+     "book_pct": 4.39,
+     "ew_pct": -5.97,
+     "excess_pp": 10.36,
+     "partial": false
+    },
+    "2022": {
+     "book_pct": 0.93,
+     "ew_pct": -15.4,
+     "excess_pp": 16.33,
+     "partial": false
+    },
+    "2023": {
+     "book_pct": 3.01,
+     "ew_pct": -10.16,
+     "excess_pp": 13.17,
+     "partial": false
+    },
+    "2024": {
+     "book_pct": 5.27,
+     "ew_pct": 12.86,
+     "excess_pp": -7.59,
+     "partial": false
+    },
+    "2025": {
+     "book_pct": 36.16,
+     "ew_pct": 34.36,
+     "excess_pp": 1.8,
+     "partial": false
+    },
+    "2026": {
+     "book_pct": 1.02,
+     "ew_pct": -14.74,
+     "excess_pp": 15.76,
+     "partial": true
+    }
+   },
+   "years_beating_own_ew": "5/7"
+  },
+  "bond_removed": {
+   "universe": 1547,
+   "rebalances": null,
+   "turnover_per_rebal": 1.405,
+   "open_gapfill_cells": 13,
+   "book": [
+    {
+     "label": "book_full",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 1.4833,
+     "cagr": 0.143,
+     "vol": 0.1521,
+     "sharpe": 0.992,
+     "maxdd": -0.161
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0,
+     "total_ret": 0.4152,
+     "cagr": 0.091,
+     "vol": 0.1436,
+     "sharpe": 0.701,
+     "maxdd": -0.161
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.4192,
+     "total_ret": 0.7498,
+     "cagr": 0.2206,
+     "vol": 0.1637,
+     "sharpe": 1.355,
+     "maxdd": -0.1236
+    }
+   ],
+   "control": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.001,
+     "total_ret": 0.1643,
+     "cagr": 0.0226,
+     "vol": 0.194,
+     "sharpe": 0.217,
+     "maxdd": -0.4221
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.001,
+     "total_ret": -0.0817,
+     "cagr": -0.0211,
+     "vol": 0.1839,
+     "sharpe": -0.028,
+     "maxdd": -0.3485
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9143,
+     "total_ret": 0.2747,
+     "cagr": 0.0904,
+     "vol": 0.2077,
+     "sharpe": 0.54,
+     "maxdd": -0.2059
+    }
+   ],
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 14.3,
+     "ew_cagr_pct": 2.26,
+     "cagr_pp": 12.04,
+     "book_sharpe": 0.992,
+     "book_maxdd_pct": -16.1
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 9.1,
+     "ew_cagr_pct": -2.11,
+     "cagr_pp": 11.21,
+     "book_sharpe": 0.701,
+     "book_maxdd_pct": -16.1
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 22.06,
+     "ew_cagr_pct": 9.04,
+     "cagr_pp": 13.02,
+     "book_sharpe": 1.355,
+     "book_maxdd_pct": -12.36
+    }
+   },
+   "by_year": {
+    "2020": {
+     "book_pct": 18.76,
+     "ew_pct": 31.85,
+     "excess_pp": -13.09,
+     "partial": false
+    },
+    "2021": {
+     "book_pct": 8.36,
+     "ew_pct": -6.62,
+     "excess_pp": 14.98,
+     "partial": false
+    },
+    "2022": {
+     "book_pct": 4.29,
+     "ew_pct": -16.21,
+     "excess_pp": 20.5,
+     "partial": false
+    },
+    "2023": {
+     "book_pct": 4.68,
+     "ew_pct": -10.76,
+     "excess_pp": 15.44,
+     "partial": false
+    },
+    "2024": {
+     "book_pct": 18.06,
+     "ew_pct": 13.38,
+     "excess_pp": 4.68,
+     "partial": false
+    },
+    "2025": {
+     "book_pct": 39.0,
+     "ew_pct": 34.11,
+     "excess_pp": 4.89,
+     "partial": false
+    },
+    "2026": {
+     "book_pct": 3.72,
+     "ew_pct": -16.28,
+     "excess_pp": 20.0,
+     "partial": true
+    }
+   },
+   "years_beating_own_ew": "6/7"
+  },
+  "equity_gold_only": {
+   "universe": 1309,
+   "rebalances": null,
+   "turnover_per_rebal": 1.414,
+   "open_gapfill_cells": 16,
+   "book": [
+    {
+     "label": "book_full",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.585,
+     "cagr": 0.07,
+     "vol": 0.1615,
+     "sharpe": 0.52,
+     "maxdd": -0.2234
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0,
+     "total_ret": 0.1631,
+     "cagr": 0.0386,
+     "vol": 0.14,
+     "sharpe": 0.351,
+     "maxdd": -0.1666
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.1657,
+     "total_ret": 0.3597,
+     "cagr": 0.1157,
+     "vol": 0.1881,
+     "sharpe": 0.708,
+     "maxdd": -0.2234
+    }
+   ],
+   "control": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0007,
+     "total_ret": 0.1627,
+     "cagr": 0.0224,
+     "vol": 0.2027,
+     "sharpe": 0.215,
+     "maxdd": -0.4257
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0007,
+     "total_ret": -0.0733,
+     "cagr": -0.0189,
+     "vol": 0.1845,
+     "sharpe": -0.015,
+     "maxdd": -0.3473
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9231,
+     "total_ret": 0.2604,
+     "cagr": 0.0861,
+     "vol": 0.2264,
+     "sharpe": 0.494,
+     "maxdd": -0.2386
+    }
+   ],
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 7.0,
+     "ew_cagr_pct": 2.24,
+     "cagr_pp": 4.76,
+     "book_sharpe": 0.52,
+     "book_maxdd_pct": -22.34
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 3.86,
+     "ew_cagr_pct": -1.89,
+     "cagr_pp": 5.75,
+     "book_sharpe": 0.351,
+     "book_maxdd_pct": -16.66
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 11.57,
+     "ew_cagr_pct": 8.61,
+     "cagr_pp": 2.96,
+     "book_sharpe": 0.708,
+     "book_maxdd_pct": -22.34
+    }
+   },
+   "by_year": {
+    "2020": {
+     "book_pct": 17.82,
+     "ew_pct": 33.26,
+     "excess_pp": -15.44,
+     "partial": false
+    },
+    "2021": {
+     "book_pct": -4.18,
+     "ew_pct": -6.18,
+     "excess_pp": 2.0,
+     "partial": false
+    },
+    "2022": {
+     "book_pct": 10.12,
+     "ew_pct": -16.34,
+     "excess_pp": 26.46,
+     "partial": false
+    },
+    "2023": {
+     "book_pct": -8.02,
+     "ew_pct": -10.94,
+     "excess_pp": 2.92,
+     "partial": false
+    },
+    "2024": {
+     "book_pct": 0.32,
+     "ew_pct": 12.1,
+     "excess_pp": -11.78,
+     "partial": false
+    },
+    "2025": {
+     "book_pct": 27.29,
+     "ew_pct": 36.43,
+     "excess_pp": -9.14,
+     "partial": false
+    },
+    "2026": {
+     "book_pct": 5.81,
+     "ew_pct": -17.52,
+     "excess_pp": 23.33,
+     "partial": true
+    }
+   },
+   "years_beating_own_ew": "4/7"
+  },
+  "crossborder_removed": {
+   "universe": 1413,
+   "rebalances": null,
+   "turnover_per_rebal": 1.251,
+   "open_gapfill_cells": 16,
+   "book": [
+    {
+     "label": "book_full",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.7182,
+     "cagr": 0.0828,
+     "vol": 0.1051,
+     "sharpe": 0.841,
+     "maxdd": -0.1582
+    },
+    {
+     "label": "book_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0,
+     "total_ret": 0.0895,
+     "cagr": 0.0217,
+     "vol": 0.1093,
+     "sharpe": 0.259,
+     "maxdd": -0.1582
+    },
+    {
+     "label": "book_oos_2024_plus",
+     "bars": 678,
+     "years": 2.81,
+     "start_level": 1.0894,
+     "total_ret": 0.5772,
+     "cagr": 0.1763,
+     "vol": 0.0987,
+     "sharpe": 1.768,
+     "maxdd": -0.0816
+    }
+   ],
+   "control": [
+    {
+     "label": "ew_full",
+     "bars": 1647,
+     "years": 6.8,
+     "start_level": 1.0006,
+     "total_ret": 0.1791,
+     "cagr": 0.0245,
+     "vol": 0.1867,
+     "sharpe": 0.228,
+     "maxdd": -0.4026
+    },
+    {
+     "label": "ew_is_2020_2023",
+     "bars": 970,
+     "years": 3.99,
+     "start_level": 1.0006,
+     "total_ret": -0.0804,
+     "cagr": -0.0208,
+     "vol": 0.1717,
+     "sharpe": -0.041,
+     "maxdd": -0.3292
+    },
+    {
+     "label": "ew_oos_2024_plus",
+     "bars": 677,
+     "years": 2.8,
+     "start_level": 0.9163,
+     "total_ret": 0.2876,
+     "cagr": 0.0944,
+     "vol": 0.2064,
+     "sharpe": 0.56,
+     "maxdd": -0.2139
+    }
+   ],
+   "vs_own_ew": {
+    "full": {
+     "book_cagr_pct": 8.28,
+     "ew_cagr_pct": 2.45,
+     "cagr_pp": 5.83,
+     "book_sharpe": 0.841,
+     "book_maxdd_pct": -15.82
+    },
+    "is_2020_2023": {
+     "book_cagr_pct": 2.17,
+     "ew_cagr_pct": -2.08,
+     "cagr_pp": 4.25,
+     "book_sharpe": 0.259,
+     "book_maxdd_pct": -15.82
+    },
+    "oos_2024_plus": {
+     "book_cagr_pct": 17.63,
+     "ew_cagr_pct": 9.44,
+     "cagr_pp": 8.19,
+     "book_sharpe": 1.768,
+     "book_maxdd_pct": -8.16
+    }
+   },
+   "by_year": {
+    "2020": {
+     "book_pct": 8.25,
+     "ew_pct": 29.22,
+     "excess_pp": -20.97,
+     "partial": false
+    },
+    "2021": {
+     "book_pct": -1.25,
+     "ew_pct": -5.69,
+     "excess_pp": 4.44,
+     "partial": false
+    },
+    "2022": {
+     "book_pct": 0.79,
+     "ew_pct": -15.5,
+     "excess_pp": 16.29,
+     "partial": false
+    },
+    "2023": {
+     "book_pct": 0.95,
+     "ew_pct": -10.25,
+     "excess_pp": 11.2,
+     "partial": false
+    },
+    "2024": {
+     "book_pct": 2.76,
+     "ew_pct": 11.53,
+     "excess_pp": -8.77,
+     "partial": false
+    },
+    "2025": {
+     "book_pct": 51.77,
+     "ew_pct": 36.69,
+     "excess_pp": 15.08,
+     "partial": false
+    },
+    "2026": {
+     "book_pct": 0.91,
+     "ew_pct": -15.48,
+     "excess_pp": 16.39,
+     "partial": true
+    }
+   },
+   "years_beating_own_ew": "5/7"
+  }
+ }
+}

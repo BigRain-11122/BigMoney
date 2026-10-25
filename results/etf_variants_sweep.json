@@ -1,0 +1,169 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "basis": "next-open fill: decision at close t, fill at open t+1; overnight leg to the OLD book, weight change charged at the fill open, NEW book earns open->close on the fill day; 8bp/side on turnover",
+ "subset": "bond_removed (equity + commodity + crossborder)",
+ "universe": 1547,
+ "caveats": [
+  "survivorship: the on-disk panel holds ETFs that still exist",
+  "exploratory analysis, not a preregistered judgement",
+  "each subset is ranked and controlled on the SAME columns",
+  "subsets are static: the book cannot rotate INTO a removed sleeve",
+  "control is equal-weight on the same subset, close basis",
+  "control rebalanced at the same R as the cell it is compared with",
+  "single panel start 2020-01-01; no walk-forward, no rolling origin"
+ ],
+ "cells": {
+  "N3_R10": {
+   "n_hold": 3,
+   "rebal": 10,
+   "full_cagr_pct": 12.57,
+   "full_sharpe": 0.911,
+   "full_maxdd_pct": -23.04,
+   "oos_cagr_pct": 16.36,
+   "oos_sharpe": 1.055,
+   "turnover_per_rebal": 1.214,
+   "full_excess_pp": 10.62,
+   "oos_excess_pp": 7.17
+  },
+  "N5_R10": {
+   "n_hold": 5,
+   "rebal": 10,
+   "full_cagr_pct": 13.88,
+   "full_sharpe": 0.987,
+   "full_maxdd_pct": -18.91,
+   "oos_cagr_pct": 16.19,
+   "oos_sharpe": 1.05,
+   "turnover_per_rebal": 1.221,
+   "full_excess_pp": 11.93,
+   "oos_excess_pp": 7.0
+  },
+  "N8_R10": {
+   "n_hold": 8,
+   "rebal": 10,
+   "full_cagr_pct": 11.3,
+   "full_sharpe": 0.76,
+   "full_maxdd_pct": -25.75,
+   "oos_cagr_pct": 20.79,
+   "oos_sharpe": 1.252,
+   "turnover_per_rebal": 1.13,
+   "full_excess_pp": 9.35,
+   "oos_excess_pp": 11.6
+  },
+  "N10_R10": {
+   "n_hold": 10,
+   "rebal": 10,
+   "full_cagr_pct": 10.79,
+   "full_sharpe": 0.751,
+   "full_maxdd_pct": -24.34,
+   "oos_cagr_pct": 19.29,
+   "oos_sharpe": 1.21,
+   "turnover_per_rebal": 1.13,
+   "full_excess_pp": 8.84,
+   "oos_excess_pp": 10.1
+  },
+  "N3_R20": {
+   "n_hold": 3,
+   "rebal": 20,
+   "full_cagr_pct": 16.53,
+   "full_sharpe": 1.138,
+   "full_maxdd_pct": -23.17,
+   "oos_cagr_pct": 28.43,
+   "oos_sharpe": 1.739,
+   "turnover_per_rebal": 1.345,
+   "full_excess_pp": 14.27,
+   "oos_excess_pp": 19.39
+  },
+  "N5_R20": {
+   "n_hold": 5,
+   "rebal": 20,
+   "full_cagr_pct": 14.3,
+   "full_sharpe": 0.992,
+   "full_maxdd_pct": -16.1,
+   "oos_cagr_pct": 22.06,
+   "oos_sharpe": 1.355,
+   "turnover_per_rebal": 1.405,
+   "full_excess_pp": 12.04,
+   "oos_excess_pp": 13.02
+  },
+  "N8_R20": {
+   "n_hold": 8,
+   "rebal": 20,
+   "full_cagr_pct": 10.8,
+   "full_sharpe": 0.742,
+   "full_maxdd_pct": -21.52,
+   "oos_cagr_pct": 22.43,
+   "oos_sharpe": 1.305,
+   "turnover_per_rebal": 1.355,
+   "full_excess_pp": 8.54,
+   "oos_excess_pp": 13.39
+  },
+  "N10_R20": {
+   "n_hold": 10,
+   "rebal": 20,
+   "full_cagr_pct": 9.59,
+   "full_sharpe": 0.689,
+   "full_maxdd_pct": -19.95,
+   "oos_cagr_pct": 20.32,
+   "oos_sharpe": 1.265,
+   "turnover_per_rebal": 1.299,
+   "full_excess_pp": 7.33,
+   "oos_excess_pp": 11.28
+  },
+  "N3_R60": {
+   "n_hold": 3,
+   "rebal": 60,
+   "full_cagr_pct": 3.76,
+   "full_sharpe": 0.336,
+   "full_maxdd_pct": -17.45,
+   "oos_cagr_pct": 10.96,
+   "oos_sharpe": 0.741,
+   "turnover_per_rebal": 1.488,
+   "full_excess_pp": 1.44,
+   "oos_excess_pp": 2.13
+  },
+  "N5_R60": {
+   "n_hold": 5,
+   "rebal": 60,
+   "full_cagr_pct": 4.21,
+   "full_sharpe": 0.352,
+   "full_maxdd_pct": -16.22,
+   "oos_cagr_pct": 6.67,
+   "oos_sharpe": 0.465,
+   "turnover_per_rebal": 1.493,
+   "full_excess_pp": 1.89,
+   "oos_excess_pp": -2.16
+  },
+  "N8_R60": {
+   "n_hold": 8,
+   "rebal": 60,
+   "full_cagr_pct": 1.33,
+   "full_sharpe": 0.168,
+   "full_maxdd_pct": -20.93,
+   "oos_cagr_pct": 5.4,
+   "oos_sharpe": 0.385,
+   "turnover_per_rebal": 1.455,
+   "full_excess_pp": -0.99,
+   "oos_excess_pp": -3.43
+  },
+  "N10_R60": {
+   "n_hold": 10,
+   "rebal": 60,
+   "full_cagr_pct": 1.27,
+   "full_sharpe": 0.163,
+   "full_maxdd_pct": -21.81,
+   "oos_cagr_pct": 4.97,
+   "oos_sharpe": 0.372,
+   "turnover_per_rebal": 1.464,
+   "full_excess_pp": -1.05,
+   "oos_excess_pp": -3.86
+  }
+ },
+ "cells_beating_control_in_both_windows": "9/12",
+ "platform": {
+  "full_cagr_pct_min": 1.27,
+  "full_cagr_pct_max": 16.53,
+  "full_cagr_pct_median": 10.8,
+  "oos_excess_pp_min": -3.86,
+  "oos_excess_pp_max": 19.39
+ }
+}

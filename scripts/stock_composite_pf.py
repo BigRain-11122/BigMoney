@@ -20,8 +20,10 @@ import pandas as pd
 from engine.factors import compute_all
 from config import PATHS
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        "Money0923", "data", "daily")
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_AS = os.path.join(BASE, "data", "astock_daily", "per")
+DATA_DIR = _AS if (os.path.isdir(_AS) and len(glob.glob(os.path.join(_AS, "*.csv"))) > 200) \
+    else os.path.join(BASE, "Money0923", "data", "daily")
 ETF_PREFIX = ("159", "510", "511", "512", "513", "515", "518", "563", "588", "501", "502")
 COST = 0.0020          # per side, stocks
 MIN_AMT = 50e6         # 20d median turnover, CNY
