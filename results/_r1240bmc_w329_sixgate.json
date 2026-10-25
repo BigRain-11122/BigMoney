@@ -1,0 +1,145 @@
+{
+ "machine": "bm-c",
+ "wave": 329,
+ "phase": "PRE-FINALIZE six-gate (r1240 bm-c continuation window closing the W329 cycle; the r1239 window froze+spliced 624c3d99a9 and the engine self-burnt 12/12, then the cycle closure is executed in this window)",
+ "gates": {
+  "splice_integrity": {
+   "bands_facts_match_freeze_receipt": true,
+   "pf_sha16_now": "298e58d558f357f9",
+   "n1_sha16_now": "2a9cedfbd7b9a7d9",
+   "pf_sha16_freeze_post": "298e58d558f357f9",
+   "n1_sha16_freeze_post": "2a9cedfbd7b9a7d9",
+   "n1_sha16_landed_commit_lf_face": "2a9cedfbd7b9a7d9",
+   "pf_sha16_landed_commit_lf_face": "298e58d558f357f9",
+   "clean_state": {
+    "source": "CR-normalized worktree vs landed blob + empty landed diff + mechanical freeze-face replay adjudication on the receipt's DECLARED EOL basis (r1188/r1236 law)",
+    "detail": {
+     "n1_worktree_eq_landed": true,
+     "pf_worktree_eq_landed": true,
+     "n1_landed_diff_empty": true,
+     "pf_landed_diff_empty": true,
+     "no_heal_this_window": true,
+     "freeze_face_adjudication": {
+      "path": "results/_n1_face_adjudication_w329.json",
+      "verdict": "PASS",
+      "adj_ok": true,
+      "pre_basis": {
+       "n1": "lf",
+       "pf": "lf",
+       "source": "receipt eol flags (r838 law), never assumed"
+      },
+      "post_basis": {
+       "n1": "lf",
+       "pf": "lf",
+       "source": "receipt eol flags (r838 law), never assumed"
+      },
+      "replay_lf_eq_landed": true,
+      "heal_delta_count": 0,
+      "unexplained_delta_count": 0
+     },
+     "raw_receipt_face_equality": {
+      "n1": true,
+      "pf": true,
+      "note": "raw face equality holds here because the W329 freeze receipt and this worktree are BOTH LF-basis (receipt eol flags false)"
+     }
+    },
+    "clean_state_ok": true,
+    "birth_station_presence_gates": {
+     "w329_block_has_329": true,
+     "w329_block_has_328": false,
+     "w329_block_has_310": false,
+     "whole_file_329_count": 1,
+     "whole_file_328_count": 1,
+     "whole_file_310_count": 1
+    },
+    "evidence_files_present": true,
+    "phase": "post-splice post-burn PRE-finalize (engine mechanics untouched)"
+   },
+   "row_faces_detail": {
+    "a_seed_base_742701": true,
+    "b_exit_seed_base_744701": true,
+    "shard_subdir_n1_w329": true,
+    "out_name_n1_w329_results": true,
+    "engine_owner_bm_c": true,
+    "band_law_line_A": true,
+    "band_law_line_B": true
+   },
+   "e94_row_law_face": {
+    "w328_a_clause_absent_in_row": true,
+    "w328_b_clause_absent_in_row": true,
+    "fresh_A_first_clean_clause": true,
+    "fresh_B_empty_seedhop_clause": true
+   },
+   "materializer_band_fact_asserts": {
+    "a_seed_assert_exact": 1,
+    "a_above_prior_b_assert": 1,
+    "b_seed_hop_assert_exact": 1,
+    "b_above_prior_b_assert": 1,
+    "ok": true
+   },
+   "family_seed_faces": {
+    "law sec.4 W329 A: 742_701..744_700": 1,
+    "law sec.4 W329 B: 744_701..744_900": 1
+   },
+   "prior_wave_328_boundary_kept": true
+  },
+  "banned": {
+   "rc": 0,
+   "stdout_tail": "{\n \"decision\": \"ADMIT\",\n \"prereg\": \"research/PERPETUAL_N1_W329_PREREG.md\",\n \"registry_version\": \"v1.0\",\n \"matched\": [],\n \"exception\": null,\n \"reason\": \"no banned direction claimed\"\n}"
+  },
+  "pf_selftest": {
+   "rc": 0,
+   "stdout_tail": "r-expansion/pool-format-probe+writer-roundtrip/skip-semantics-pin-D-20261002-05; 4b park_note + 4c ghost claimable legs)"
+  },
+  "n1_selftest": {
+   "rc": 0,
+   "stdout_tail": " row, bm-c loop CEO fill-order RE-ISSUE 23:1x] + T-141 s2 engine-lane claim exemption [law sec.2 pre-claim exempt face])"
+  },
+  "shards": {
+   "present": 12,
+   "of": 12,
+   "sizes_above_100k": true,
+   "files": [
+    "shard-0-of-12.json",
+    "shard-1-of-12.json",
+    "shard-10-of-12.json",
+    "shard-11-of-12.json",
+    "shard-2-of-12.json",
+    "shard-3-of-12.json",
+    "shard-4-of-12.json",
+    "shard-5-of-12.json",
+    "shard-6-of-12.json",
+    "shard-7-of-12.json",
+    "shard-8-of-12.json",
+    "shard-9-of-12.json"
+   ]
+  },
+  "seed_admit": {
+   "freeze_gate_lines": [
+    "seed_admit_gate rc0 base=742701 span=2000 checked=2000 verdict=FREE",
+    "seed_admit_gate rc0 base=744701 span=200 checked=200 verdict=FREE"
+   ],
+   "note": "freeze-time FREE evidence consumed verbatim from _w329bmc_freeze_receipt.json (both bands); whole-file per-span family faces count-asserted"
+  },
+  "wave_configs_row": {
+   "present": true,
+   "engine_owner": "bm-c",
+   "a_seed_base": 742701,
+   "b_exit_seed_base": 744701,
+   "shard_subdir": "n1_w329",
+   "out_name": "n1_w329_results.json",
+   "seed_bases_match_freeze_bands": true
+  },
+  "w328_finalize_product_present": true
+ },
+ "ledger_pre": {
+  "prev_total": 1145941,
+  "prev_merged_n": 719520,
+  "expect_total": 1148141,
+  "expect_merged": 721720,
+  "source": "W328 finalize actuals machine-read from n1_w328_results.json (r587 law)",
+  "freeze_receipt_upstream_face_match": true,
+  "anchor": "W328 finalize (ledger 1,145,941 / K=719,520) honored per freeze receipt upstream_w328 face"
+ },
+ "verdict": "ALL PASS"
+}
