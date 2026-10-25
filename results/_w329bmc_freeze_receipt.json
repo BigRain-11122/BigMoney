@@ -1,0 +1,67 @@
+{
+ "machine": "bm-c",
+ "wave": 328,
+ "spliced_wave": 329,
+ "phase": "five-face freeze chain-order splice (bm-c own-seat freeze window, upstream W328 ALL LANDED clean precondition incl finalize)",
+ "origin_base": "c337566e2bdc285f29aa75bd7dc5d9535202acef",
+ "pf_sha16_pre": "ae800a1094da6b5f",
+ "n1_sha16_pre": "0f220f92c45db1f4",
+ "pf_sha16_post": "298e58d558f357f9",
+ "n1_sha16_post": "2a9cedfbd7b9a7d9",
+ "bands": {
+  "A": [
+   742701,
+   744700
+  ],
+  "B": [
+   744701,
+   744900
+  ]
+ },
+ "admit_receipt": "results/_w329bmc_20261025_probe_receipt.json",
+ "seed_admit_gate": [
+  "seed_admit_gate rc0 base=742701 span=2000 checked=2000 verdict=FREE",
+  "seed_admit_gate rc0 base=744701 span=200 checked=200 verdict=FREE"
+ ],
+ "banned_gate": "ADMIT rc0 (re-run at freeze window)",
+ "band_semantics": {
+  "A": "1-HOP STAIRCASE-AFFECTS-A walk EIGHTY-SECOND consecutive A-hop (naive 742_501..744_500 refused at start by the registered W328 B band 742_501..742_700 AND the registered seed POINT 742_501; hops=1; A base == FIRST CLEAN WINDOW 742_701, coinciding with prior-B tail+1 this wave)",
+  "B": "1-HOP own-A RESERVATION CASCADE (naive 742_701..742_900 sits INSIDE the own-wave A window -- FIRST INSIDE face; hops=1; EMPTY seed-hop disclosure; B base == own-A tail+1 744_701 EXACT; EIGHTY-THIRD consecutive above-own-A)"
+ },
+ "upstream_w328": {
+  "freeze_sha": "91e318867f44f7a1d3f1df4df092fb49d93ecccf",
+  "prereg_sha": "ee00f6a9d64faa10b3d71de3480ce9e4ab87fac0",
+  "ledger_total": 1145941,
+  "merged_n": 719520
+ },
+ "own_seat_face": {
+  "seat_msg": "MSG-20261025-1005-bmc-w329-seat.md",
+  "seat_origin": "94c710026c",
+  "prereg_commit": "c337566e2bdc285f29aa75bd7dc5d9535202acef",
+  "probe_receipt_sha": "94c710026c86bd1319202b7670e0290afaf687fc"
+ },
+ "downstream_seat": "projection on the PRE-W329 universe; once W329 registers the next freezer MUST re-derive live and reserve its own-wave A window when deriving B -- never transcribe r587",
+ "seat": "fleet/inbox/MSG-20261025-1005-bmc-w329-seat.md",
+ "parity": {
+  "bytes": 29220,
+  "estate_row_asserts": 69,
+  "kept_legs_row_asserts": 37,
+  "dropped_legs_row_asserts": 80,
+  "fresh_legs_row_asserts": 81,
+  "total_parity_rows": 187
+ },
+ "family6_triple_gate": {
+  "absorbed": true,
+  "boundary": 329
+ },
+ "e94_row_law_face": {
+  "fresh_A_clause": "A base == FIRST CLEAN WINDOW 742_701 (coincides with prior-B tail+1 this wave)",
+  "fresh_B_clause": "B lands ABOVE own-A at tail+1 EXACT with an EMPTY seed-hop (naive B INSIDE own-A)",
+  "stale_clause_absent": true
+ },
+ "eol": {
+  "n1_crlf": false,
+  "pf_crlf": false
+ },
+ "prereg_backfill_face": "research/PERPETUAL_N1_W329_PREREG.md froze with sec.7 carried VERBATIM from the post-W328-finalize face at HEAD and sec.8 pre-rebuilt for this wave (no @@SEAT placeholder tokens); the mechanical finalize-time rewrite of sec.7/sec.8 is this wave's own post-finalize step; judging criteria untouched"
+}
