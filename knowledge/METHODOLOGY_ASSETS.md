@@ -753,3 +753,28 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
   `results/etf_book_production/latest.json`, and the live run then printed "width disclosure
   unavailable" -- latest.json can be the card itself. Fixtures must mirror the live artefact
   shape, and a leg that exercises the real files (leg16) is what catches the difference.
+
+
+## E127 -- a band statistic is blind to a common shift (2026-10-26 bm-c r1276)
+
+- Situation: E42 published the calendar cost as a band (max - min of the wide-vs-ladder
+  spread over four decision calendars, 24bp at cost x1) and read a 2bp widening at cost x3
+  as evidence that turnover explains it. E79 then showed the same face was still charging
+  unadjusted share-split prints at weight 1/n, because the calendar legs had no raw hook.
+- Method: extract the published face into `_calcost_face(raw, cal)` (pure extraction, proved
+  by calling both paths and comparing the full JSON -- identical), then replay the SAME face
+  from a repaired universe under two screens and publish one delta row per published cell,
+  with the untouched face left in place.
+- Finding: the repair moves every calendar up together (+96bp at the integer-ratio screen,
+  +204bp at the all-adjacent screen), so the band SHRINKS 24 -> 20 -> 17bp while the level
+  triples. The widest single cell moves 217bp. The fee-channel verdict (widening at cost x3)
+  survives in all three arms, so E42's reading was right and its magnitude was not.
+- Rule: a band (max - min across arms) cannot see a shift that hits all arms alike -- read
+  every published band beside its level column, and every screened band beside its unscreened
+  twin. "The band is small" answers "are the calendars different from each other", never
+  "is the calendar choice cheap".
+- Trap guarded in the selftest: an invariance leg (identical arm -> all-zero deltas) passes on
+  two no-ops, so the leg carries an activity arm that must produce a known non-zero delta.
+- Evidence: `python scripts\\e39_panel_census.py screencalc` (selftest 246/246),
+  results/e42_calendar_cost/COST-20261023-screened.json,
+  research/digests/DIGEST-20261026-e81-calcost-screened.md.

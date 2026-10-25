@@ -1408,24 +1408,16 @@ def run_tilt_era(outdir, core=None, eras=ERAS):
 
 # ------------------------------------ leg: E42 calendar band at cost x3
 
-def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                mid_day=15, cost_mults=(1.0, 3.0)):
-    """Is the calendar band in the spread a fee artefact? Re-run it at cost x3.
+def _calcost_face(raw_all, cal_full, start="2020-01-01", pick_n=9999,
+                  exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0)):
+    """The E42 calendar-cost face from an already loaded universe.
 
-    E41 moved the decision calendar by one session and the spread band moved
-    26bp while the ladder level moved 52bp on one shift. If the band is pricing
-    (different sessions hold different names) the fee tripling leaves the band
-    roughly where it is; if it is turnover-driven the band widens with the fee.
-    Both readings are descriptive -- nothing here decides which calendar to use.
+    Split out of ``run_calcost`` so the E81 screened twins can replay the exact
+    same face from a repaired universe without a second copy of the body.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
-    if exclude:
-        raw_all = {s: v for s, v in raw_all.items()
-                   if not s.startswith(tuple(exclude))}
-    cal_full = base.load_panel()[0]
     cutoff = cal_full[-1]
     cal = [d for d in cal_full if d >= start]
     years = len(cal) / 252.0
@@ -1512,6 +1504,177 @@ def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "a wider band at x3 is consistent with turnover explaining it, but the two readings "
             "are not exclusive and nothing here selects a calendar",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                mid_day=15, cost_mults=(1.0, 3.0)):
+    """Is the calendar band in the spread a fee artefact? Re-run it at cost x3.
+
+    E41 moved the decision calendar by one session and the spread band moved
+    26bp while the ladder level moved 52bp on one shift. If the band is pricing
+    (different sessions hold different names) the fee tripling leaves the band
+    roughly where it is; if it is turnover-driven the band widens with the fee.
+    Both readings are descriptive -- nothing here decides which calendar to use.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    return _calcost_face(raw_all, cal_full, start=start, pick_n=pick_n,
+                         exclude=exclude, mid_day=mid_day,
+                         cost_mults=cost_mults)
+
+
+CALCOST_CELL_COLUMNS = ("ann_return_pct", "max_drawdown_pct",
+                        "turnover_per_year", "cost_per_year_bp")
+
+
+def _calcost_cell(faces, arm, tag, variant, scheme, col):
+    """One published cell of one arm; scheme None reads the calendar cell."""
+    table = (faces.get(arm) or {}).get("calendars") or {}
+    cell = (table.get(tag) or {}).get(variant) or {}
+    if scheme is None:
+        return cell.get(col)
+    return (cell.get(scheme) or {}).get(col)
+
+
+def _calcost_delta_rows(faces, base="unscreened"):
+    """(E81) unscreened vs each screened arm, one row per published cell.
+
+    The spread cell and every per-scheme column are read through the same
+    accessor, so a renamed scheme shows up as a missing cell instead of a
+    silently dropped row.
+    """
+    rows = []
+    others = sorted(k for k in faces if k != base)
+    for tag in sorted((faces[base].get("calendars") or {})):
+        for variant in sorted(faces[base]["calendars"][tag]):
+            cell = faces[base]["calendars"][tag][variant]
+            pairs = [(None, "vs_ladder_spread_bp")]
+            for scheme in sorted(cell):
+                if isinstance(cell[scheme], dict):
+                    pairs.extend((scheme, c) for c in CALCOST_CELL_COLUMNS)
+            for scheme, col in pairs:
+                u = _calcost_cell(faces, base, tag, variant, scheme, col)
+                row = {"cost_tag": tag, "calendar": variant,
+                       "scheme": scheme or "spread", "column": col,
+                       "unscreened": u}
+                for arm in others:
+                    v = _calcost_cell(faces, arm, tag, variant, scheme, col)
+                    row[arm] = v
+                    row["delta_" + arm] = (
+                        round(v - u, 4)
+                        if isinstance(v, (int, float))
+                        and isinstance(u, (int, float)) else None)
+                rows.append(row)
+    return rows
+
+
+def run_calcost_screenreg(outdir, start="2020-01-01", pick_n=9999,
+                          exclude=("sh511",), mid_day=15,
+                          cost_mults=(1.0, 3.0),
+                          modes=("neutralise_int", "neutralise")):
+    """(E81) replay the E42 calendar-cost face from a screened universe.
+
+    E79's matrix found 33 census modes reading the per-name loader with no raw
+    hook, so the fee-channel reading of the calendar band was still charged by
+    unadjusted prints. The E76 twin (``run_screenreg``) covers the era spread;
+    this leg covers the calendar band. Each screened arm is published BESIDE
+    the untouched column and the published COST-<cutoff>.json is never
+    rewritten in place.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw_all = e27.load_universe()
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    faces = {"unscreened": _calcost_face(raw_all, cal_full, start=start,
+                                         pick_n=pick_n, exclude=exclude,
+                                         mid_day=mid_day, cost_mults=cost_mults)}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw_all, mode=mode,
+                                                        cal=cal_full)
+        reports[mode] = report
+        faces[mode] = _calcost_face(repaired, cal_full, start=start,
+                                    pick_n=pick_n, exclude=exclude,
+                                    mid_day=mid_day, cost_mults=cost_mults)
+
+    delta = _calcost_delta_rows(faces)
+    arms = ["unscreened"] + list(modes)
+    widest = None
+    for row in delta:
+        mag = max([abs(row["delta_" + m]) for m in modes
+                   if isinstance(row.get("delta_" + m), (int, float))] or [0])
+        if mag and (widest is None or mag > widest["abs_delta_bp"]):
+            widest = {"calendar": row["calendar"], "cost_tag": row["cost_tag"],
+                      "scheme": row["scheme"], "column": row["column"],
+                      "unscreened": row["unscreened"],
+                      "abs_delta_bp": round(mag, 4),
+                      "arms": {m: row.get(m) for m in modes}}
+
+    bands = {arm: (faces[arm]["answers"]["band_by_cost"]) for arm in arms}
+    widening = {arm: faces[arm]["answers"]["band_delta_top_vs_base_bp"]
+                for arm in arms}
+    return {
+        "study": "e81_calcost_screenreg",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "mid_day": mid_day,
+            "exclude_prefixes": list(exclude), "modes": list(modes),
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "cost_mults": list(cost_mults),
+            "loader": "scripts/panel_screen.py (opt-in; the published COST face "
+                      "still reads e27.load_universe() unmodified)",
+            "faces": "E42 calendar band: ladder5 vs wide_topN at every cost "
+                     "multiple and calendar variant",
+        },
+        "screen_reports": reports,
+        "faces": faces,
+        "delta": delta,
+        "answers": {
+            "band_by_cost": bands,
+            "band_widening_x1_to_x3_bp": widening,
+            "spread_all_positive": {arm: faces[arm]["answers"]["spread_all_positive"]
+                                    for arm in arms},
+            "level_shift_bp": {arm: faces[arm]["answers"]["level_shift_bp"]
+                               for arm in arms},
+            "fee_channel_reading": {arm: (widening.get(arm) > 0
+                                          if widening.get(arm) is not None else None)
+                                    for arm in arms},
+            "widest_correction": widest,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([
+                r for r in delta
+                if any(r.get("delta_" + m) not in (None, 0) for m in modes)]),
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only: a flagged ETF print "
+            "may be genuine (ETF daily limits differ from the 10%/20% stock band), "
+            "so every arm is a sensitivity face, not a corrected truth",
+            "neutralise_int repairs only prints whose price ratio lands on an "
+            "integer; neutralise repairs every adjacent print -- the range between "
+            "them bounds the correction",
+            "the screened book is not a pre-registration and books no trial: it is "
+            "the same descriptive face replayed from a different input",
+            "the band is a max-minus-min over four calendars, so a correction that "
+            "moves every calendar alike leaves the band untouched -- read the "
+            "level_shift_bp columns beside it",
+            "a fee-channel verdict flips only if band_widening_x1_to_x3_bp changes "
+            "sign; a smaller widening is not a refutation of the turnover reading",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
         ],
     }
 
@@ -8377,6 +8540,32 @@ def selftest():
     chk(_rows[1]["delta_vs_adjacent_only_neutralise_gap@5"] == -8.0,
         "a sign-carrying delta keeps its sign against the adjacent arm")
 
+    # E81 calcost screen twin: an identical arm moves nothing, a shifted arm does.
+    # The activity leg is mandatory -- two identical arms would otherwise pass as
+    # "the screen changes nothing" without the delta table ever being read.
+    def _calcost_arm(spread, ladder_ann):
+        return {"calendars": {"cost_x1": {"me": {
+            "rebalances": 12,
+            "ladder5": {"ann_return_pct": ladder_ann, "max_drawdown_pct": -10.0,
+                        "turnover_per_year": 0.5, "cost_per_year_bp": 13.0},
+            "wide_top9999": {"ann_return_pct": 9.0, "max_drawdown_pct": -12.0,
+                             "turnover_per_year": 0.6, "cost_per_year_bp": 15.0},
+            "vs_ladder_spread_bp": spread}}}}
+
+    _cf = {"unscreened": _calcost_arm(100.0, 8.0),
+           "neutralise_int": _calcost_arm(100.0, 8.0),
+           "neutralise": _calcost_arm(90.0, 8.5)}
+    _cr = _calcost_delta_rows(_cf)
+    chk(len(_cr) == 9, "nine cells: one spread plus four columns on two schemes")
+    chk(all(r["delta_neutralise_int"] in (None, 0) for r in _cr),
+        "an arm that repairs nothing publishes a zero delta on every cell")
+    chk(any(r["delta_neutralise"] for r in _cr) and
+        [r["delta_neutralise"] for r in _cr if r["column"] == "vs_ladder_spread_bp"] == [-10.0],
+        "a repaired arm does move the spread cell, so the zero row is a real read")
+    chk([r["delta_neutralise"] for r in _cr
+         if r["column"] == "ann_return_pct" and r["scheme"] == "ladder5"] == [0.5],
+        "per-scheme columns are compared within the same scheme, not across")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -8481,7 +8670,8 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "screenreg", "screenwide", "screenweek",
+                             "panelsplit", "screenreg", "screencalc",
+                             "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera",
@@ -8621,6 +8811,23 @@ def main(argv):
         p = write_json(outdir, "COST-%s.json" % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "calcost", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "screencalc":
+        f = run_calcost_screenreg(None, start=args.start)
+        outdir = os.path.join(ROOT, "results", "e42_calendar_cost")
+        p = write_json(outdir, "COST-%s-screened.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screencalc", "file": os.path.relpath(p, ROOT),
+                          "band_by_cost": f["answers"]["band_by_cost"],
+                          "band_widening_x1_to_x3_bp":
+                              f["answers"]["band_widening_x1_to_x3_bp"],
+                          "fee_channel_reading":
+                              f["answers"]["fee_channel_reading"],
+                          "widest_correction": f["answers"]["widest_correction"],
+                          "delta_cells": f["answers"]["delta_cells"],
+                          "non_zero_delta_cells":
+                              f["answers"]["non_zero_delta_cells"]},
+                         ensure_ascii=False))
         return 0
     if args.mode in ("e43", "tilt4", "widecomp", "neutralrob"):
         core = _monthly_core()

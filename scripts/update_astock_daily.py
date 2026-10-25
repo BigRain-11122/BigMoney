@@ -1052,11 +1052,15 @@ def _selftest():
 
 
 def main(argv):
-    cmd = argv[1] if len(argv) > 1 else "gate"
+    # --takeover is a flag, not a subcommand (r1276: passing it used to fall
+    # through to "unknown subcommand: --takeover", so the stale-takeover gate was
+    # unreachable from the CLI even though gate() already honoured the flag).
+    words = [a for a in argv[1:] if not a.startswith("--")]
+    cmd = words[0] if words else "gate"
     if cmd == "gate":
         return gate()
     if cmd == "refresh":
-        limit = argv[2] if len(argv) > 2 else None
+        limit = words[1] if len(words) > 1 else None
         return refresh(limit=limit)
     if cmd == "refresh-repull":
         return refresh(limit=None, repull=True)
@@ -1064,7 +1068,8 @@ def main(argv):
         return status_cmd()
     if cmd == "selftest":
         return _selftest()
-    print(f"unknown subcommand: {cmd} (gate|refresh|status|selftest)")
+    print(f"unknown subcommand: {cmd} (gate|refresh|status|selftest) "
+          f"[--takeover is a flag, not a subcommand]")
     return 2
 
 

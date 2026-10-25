@@ -318,6 +318,28 @@ def save_ledger(led):
         json.dump(led, f, ensure_ascii=False, indent=1)
 
 
+def _noop_stub(led, headed, day=None):
+    """One liveness record per (day, last_bar) instead of one per poll.
+
+    The leg now runs from the S6 chain every round, and a per-poll stub rewrote
+    LEDGER.json on every call, so the file was permanently dirty even when the
+    panel had not moved. Keeping one record per day preserves the liveness
+    evidence and lets repeated no-op polls leave the file byte-identical.
+    Returns True when a record was actually appended.
+    """
+    day = day or time.strftime("%Y-%m-%d")
+    runs = list(led.get("runs") or [])
+    last = runs[-1] if runs else None
+    if (last and last.get("new_bars") == 0
+            and last.get("last_bar") == headed.get("bar")
+            and str(last.get("ts", ""))[:10] == day):
+        return False
+    runs.append({"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "new_bars": 0,
+                 "last_bar": headed.get("bar")})
+    led["runs"] = runs[-MAX_RUNS:]
+    return True
+
+
 def _fresh(fwd, dates, cls, n_flip, capital):
     return {
         "schema": SCHEMA,
@@ -417,9 +439,7 @@ def run(rebase=False):
         headed = led["bars"][-1] if led["bars"] else {}
         print("NO-OP last_bar=%s nav=%s (no new panel bars)" %
               (headed.get("bar"), headed.get("nav")), flush=True)
-        led["runs"] = (led.get("runs", []) + [{
-            "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "new_bars": 0,
-            "last_bar": headed.get("bar")}])[-MAX_RUNS:]
+        _noop_stub(led, headed)
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
         led["engine"] = _engine_block(fwd)
@@ -771,6 +791,21 @@ def selftest():
         bad = [(d, m) for d, m in marks5 if d != first_bar
                and (m["cash_start"] <= 1e-12) != (abs(m.get("carry", 0.0)) <= 0)]
         chk("carry rides start-of-bar cash only", not bad, "bad=%d" % len(bad))
+
+    # (r1276) a repeated poll must not rewrite the ledger file
+    led_f = {"runs": [], "bars": [{"bar": "2026-10-23", "nav": 1.0}]}
+    chk("no-op stub", _noop_stub(led_f, {"bar": "2026-10-23"}, day="2026-10-26") is True,
+        "first poll of a day records one liveness stub")
+    _before = json.dumps(led_f, sort_keys=True)
+    chk("no-op stub quiet", _noop_stub(led_f, {"bar": "2026-10-23"},
+                                       day="2026-10-26") is False,
+        "second poll on the same day records nothing")
+    chk("no-op stub stable", json.dumps(led_f, sort_keys=True) == _before,
+        "so the ledger stays byte-identical across repeated no-ops (n=%d)"
+        % len(led_f["runs"]))
+    chk("no-op stub daily", _noop_stub(led_f, {"bar": "2026-10-23"},
+                                       day="2026-10-27") is True,
+        "a new day records again, so liveness evidence is never lost")
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

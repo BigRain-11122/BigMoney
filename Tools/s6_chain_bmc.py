@@ -34,8 +34,14 @@ LEGS = [
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
     ("update_sina_mf", ["python", "scripts/update_sina_mf.py"]),
-    ("update_astock_daily", ["python", "scripts/update_astock_daily.py"]),
-    ("update_etf_daily", ["python", "scripts/update_etf_daily.py"]),
+    # Both panel lanes are bm-b's (R31 lane law). bm-b's heartbeat has been silent
+    # for days while these legs ran, so the chain passes the standing --takeover
+    # consent r1276 established: the flag is only half the gate -- each script still
+    # refuses unless the owner heartbeat is stale by >= TAKEOVER_STALE_MIN, so a
+    # healthy bm-b keeps ownership and this machine just prints its honest no-op.
+    ("update_astock_daily", ["python", "scripts/update_astock_daily.py",
+                             "--takeover"]),
+    ("update_etf_daily", ["python", "scripts/update_etf_daily.py", "--takeover"]),
     # The production book's two live faces ride right behind the panel leg they read.
     # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the
     # ledger instead of rewriting history) and etf_book_order re-emits the executable
