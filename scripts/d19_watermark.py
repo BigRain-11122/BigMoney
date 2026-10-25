@@ -69,6 +69,9 @@ def _mid(machine_json=MACHINE_JSON):
 
 PROBE_OUT = os.path.join(ROOT, "results", "_r686bmb_d19_check.%s.json" % _mid())
 RECEIPT = os.path.join(ROOT, "results", "d19_watermark.%s.json" % _mid())
+# r1266: the one-line S0.5 report face is per-machine too (a shared file would
+# let one machine's probe overwrite another's verdict).
+LINE_RECEIPT = os.path.join(ROOT, "results", "d19_round_line.%s.json" % _mid())
 
 DEC_KEY = "last_decisions_sha"
 ORD_KEY = "last_orders_sha"
@@ -541,6 +544,108 @@ def cmd_probe(opts):
                        encoding="utf-8", errors="replace")
     _relay_child_streams(r)
     return r.returncode
+
+
+LINE_FACE_ORDER = (("decisions", "dec"), ("orders", "ord"))
+# probe -> report vocabulary. Every stored-quad state gets a short, fixed
+# token so the line can never silently drop a face (the r1265 complaint: the
+# reproducibility verdict lived inside the probe receipt and never reached
+# the round report, so a phantom watermark could pass a whole round unseen).
+REPRO_TOKENS = {
+    "reproducible": "repro",
+    "not_reproducible": "PHANTOM",
+    "absent": "absent",
+    "commit_absent": "no-commit",
+    "unverifiable": "unprovable",
+}
+
+
+def format_line(ev):
+    """One deterministic ASCII line: per-face delta verdict, its stored-quad
+    reproducibility token, and the source anchor (commit7/bytes) the verdict
+    was computed against. Pure function -- no IO, no clock -- so it is
+    reproducible byte-for-byte and can be pinned by a selftest."""
+    faces = []
+    deltas = []
+    phantoms = []
+    for face, short in LINE_FACE_ORDER:
+        changed = ev.get("%s_changed" % face)
+        verdict = "DELTA" if changed else "same"
+        if changed:
+            deltas.append(face)
+        anchor = "%s/%s" % (ev.get("origin_commit7") or "no-commit",
+                            ev.get("%s_blob_bytes" % face)
+                            if ev.get("%s_blob_bytes" % face) is not None
+                            else "?")
+        repro = REPRO_TOKENS.get(ev.get("%s_stored_repro" % face),
+                                 "unknown")
+        if repro == "PHANTOM":
+            phantoms.append(face)
+        faces.append("%s=%s/%s@%s" % (short, verdict, repro, anchor))
+    return "S0.5 D-19 %s delta=%s phantom=%s src=%s" % (
+        " ".join(faces),
+        ",".join(deltas) if deltas else "none",
+        ",".join(phantoms) if phantoms else "none",
+        ev.get("group_repo") or "no-tree")
+
+
+def cmd_line(opts):
+    """Round-report line: run the canonical probe, then emit ONE line.
+
+    Exit: 0 = line printed (a DELTA verdict is data, not an error);
+          2 = mechanism fault (probe rc != 0 / evidence missing or unreadable);
+          3 = a stored watermark is a phantom -- repair is a logged decision
+              (D-20261025-08), never a silent advance.
+    """
+    ev_path = getattr(opts, "probe_json", None)
+    if not ev_path:
+        _, state = resolve_state_path(MACHINE_JSON, ROOT)
+        r = subprocess.run([sys.executable, PROBE, "--state", state],
+                           cwd=ROOT, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode != 0:
+            # r1045 relay law applies to the fault path only: here the derived
+            # line supersedes the probe's own JSON summary, so stdout stays a
+            # single line (the r1266 ask) unless something actually broke.
+            _relay_child_streams(r)
+            print("S0.5 D-19 FAULT: canonical probe rc=%d" % r.returncode)
+            return 2
+        ev_path = PROBE_OUT
+        if not os.path.isfile(ev_path):
+            print("S0.5 D-19 FAULT: probe evidence missing %s" % ev_path)
+            return 2
+    try:
+        ev = _load_json(ev_path)
+    except Exception as e:
+        print("S0.5 D-19 FAULT: probe evidence unreadable: %r" % e)
+        return 2
+    if ev.get("err"):
+        print("S0.5 D-19 FAULT: probe reported err: %s" % ev.get("err"))
+        return 2
+    line = format_line(ev)
+    receipt = {"ts": now_iso(), "cmd": "line", "line": line,
+               "probe_evidence": os.path.abspath(ev_path),
+               "decisions_changed": ev.get("decisions_changed"),
+               "orders_changed": ev.get("orders_changed"),
+               "decisions_stored_repro": ev.get("decisions_stored_repro"),
+               "orders_stored_repro": ev.get("orders_stored_repro"),
+               "decisions_v2_status": ev.get("decisions_v2_status"),
+               "orders_v2_status": ev.get("orders_v2_status"),
+               "origin_commit7": ev.get("origin_commit7"),
+               "group_repo": ev.get("group_repo"),
+               "refetch": ev.get("refetch")}
+    try:
+        _atomic_json_write(receipt, opts.receipt, True)
+    except Exception as e:
+        print("S0.5 D-19 FAULT: line receipt unwritable: %r" % e)
+        return 2
+    print(line)
+    if "phantom=none" not in line:
+        print("S0.5 D-19 REFUSAL: stored watermark not reproducible -- repair "
+              "with update --repair-stale after a verified fresh read "
+              "(D-20261025-08)")
+        return 3
+    return 0
 
 
 def selftest():
@@ -1025,6 +1130,48 @@ def selftest():
             "the repair must stay visible in the receipt, not be swallowed"
     leg("L27 phantom watermark refused; --repair-stale is the logged escape", l27)
 
+    def _line_ev(**kw):
+        base = {"origin_commit7": "ff22fb0", "group_repo": "BigRain-11122/X",
+                "decisions_blob_bytes": 222683, "orders_blob_bytes": 371896,
+                "decisions_changed": False, "orders_changed": False,
+                "decisions_stored_repro": "reproducible",
+                "orders_stored_repro": "reproducible"}
+        base.update(kw)
+        return base
+
+    def l28():
+        # a clean round: both faces same, both reproduced -> the line must say
+        # so and must carry the anchor it was computed at (commit7/bytes).
+        ln = format_line(_line_ev())
+        assert ln == ("S0.5 D-19 dec=same/repro@ff22fb0/222683 "
+                      "ord=same/repro@ff22fb0/371896 delta=none "
+                      "phantom=none src=BigRain-11122/X"), ln
+        assert ln.count("\n") == 0, "the round line must be exactly one line"
+        assert all(ord(c) < 128 for c in ln), "line must be ASCII (GBK console)"
+
+    leg("L28 line: clean round names both faces, the anchor, and no delta", l28)
+
+    def l29():
+        # never let a face vanish: orders delta + decisions phantom must both
+        # be visible in one line, and the phantom token must be unmistakeable.
+        ln = format_line(_line_ev(orders_changed=True,
+                                  decisions_stored_repro="not_reproducible"))
+        assert "dec=same/PHANTOM@" in ln, ln
+        assert "ord=DELTA/repro@" in ln, ln
+        assert "delta=orders" in ln and "phantom=decisions" in ln, ln
+
+    leg("L29 line: delta and phantom are per-face and never collapsed", l29)
+
+    def l30():
+        # an unknown/missing repro state degrades to 'unknown', never to a
+        # clean token -- silence must not read as a healthy watermark.
+        ln = format_line({"origin_commit7": None, "group_repo": None,
+                          "decisions_changed": False, "orders_changed": True})
+        assert "dec=same/unknown@no-commit/?" in ln, ln
+        assert "src=no-tree" in ln, ln
+
+    leg("L30 line: missing evidence degrades to unknown/no-commit, not clean", l30)
+
     fails = [l for l in legs if not l[1]]
     for name, ok, why in legs:
         print("%s %s%s" % ("PASS" if ok else "FAIL", name,
@@ -1066,6 +1213,14 @@ def main(argv=None):
     p_v.add_argument("--probe-evidence", default=PROBE_OUT)
     p_v.add_argument("--receipt", default=RECEIPT)
 
+    p_l = sub.add_parser("line")
+    p_l.add_argument("--probe-json", default=None,
+                     help="offline evidence injection (tests only); the live "
+                          "path always runs the canonical probe fresh")
+    p_l.add_argument("--receipt", default=LINE_RECEIPT,
+                     help="line receipt FILE PATH (default "
+                          "results/d19_round_line.<machine_id>.json)")
+
     sub.add_parser("selftest")
 
     opts = ap.parse_args(argv)
@@ -1076,6 +1231,8 @@ def main(argv=None):
         return cmd_probe(opts)
     if opts.cmd == "selftest":
         return selftest()
+    if opts.cmd == "line":
+        return cmd_line(opts)
     # resolve machine-aware state path unless overridden
     if not opts.state:
         _, opts.state = resolve_state_path(opts.machine_json, ROOT)

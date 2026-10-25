@@ -74,3 +74,29 @@ laundered into a fresh key.
 - **Quad grammar lives in the probe, not in the tool.** `d19_watermark.py` loads the probe
   module for parsing so the read face and write face can never disagree on the format; a
   duplicated parser would drift the moment one side gains a field.
+
+## The round line (r1266) -- the verdict has to leave the receipt
+
+The v2 work above made the reproducibility check a *gate* on the write path, but nothing
+forced the verdict onto the round report: a phantom watermark could sit in a receipt no one
+reads and the round would still close clean. r1266 closes that with one command:
+
+    python scripts/d19_watermark.py line
+
+It prints exactly one ASCII line and writes `results/d19_round_line.<machine>.json`:
+
+    S0.5 D-19 dec=same/repro@ff22fb0/222683 ord=same/repro@ff22fb0/371896 delta=none phantom=none src=BigRain-11122/FluxGroup
+
+Reading it left to right: per face, the delta verdict (`same` / `DELTA`) and the stored-quad
+reproducibility token, both anchored at `commit7/bytes`; then which faces carry a delta, which
+are phantom (the token is `PHANTOM`, never a clean word), and the repo the read came from.
+
+- Tokens: `repro` / `PHANTOM` / `absent` (migrating) / `no-commit` (commit not in this clone) /
+  `unprovable` (no tree, or path absent at that commit) / `unknown` (probe said something new).
+- Exit: `0` line printed (a `DELTA` is data, not an error) / `2` probe fault / `3` phantom --
+  repair stays an explicit `update --repair-stale` with a verified fresh read.
+- The probe's own JSON summary is printed **only on the fault path**: the line supersedes it, and
+  the r1045 relay law exists so a failing child is not silent, not so a healthy one is re-printed.
+- `format_line` is a pure function of the probe evidence (no clock, no IO), so the round line is
+  byte-reproducible; selftest legs L28-L30 pin "every face present", "delta and phantom never
+  collapse into each other", and "missing evidence degrades to unknown, never to a clean token".
