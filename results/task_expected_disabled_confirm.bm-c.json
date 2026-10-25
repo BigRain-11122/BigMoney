@@ -1,0 +1,23 @@
+{
+ "decision": "D-20261025-06",
+ "obligation": "each business writes ONE line of written confirmation by 2026-10-26 06:00 on the 27 UNEXPECTED-DISABLED tasks; no confirmation = stays disabled and goes on the whitelist",
+ "owner": "BigMoney / quant lane",
+ "machine": "bm-c",
+ "ts": "2026-10-26T00:30+08:00",
+ "line": "BigMoney confirms: the quant lane's scheduled tasks are ENABLED BY DESIGN and must NOT be added to the disabled whitelist -- they are the round driver (Bigmoney-IterationLoop), the pool worker, the resident dispatcher, the 30-min watchdog, the autofill腿部 and the saturation engine, all launched through InvisibleRunner.vbs so they produce no console window (the 2026-10-25 HKCU Console delegation fix is what keeps them silent); two of the seven names in the decision no longer exist on this machine.",
+ "live_state_read": {
+  "method": "schtasks /query /tn <name> (existence, zero-window wrapper) + Get-ScheduledTask State (state)",
+  "ts": "2026-10-26T00:29+08:00",
+  "Bigmoney-Autofill": {"exists": true, "state": "Ready", "verdict": "authorized"},
+  "Bigmoney-IterationLoop": {"exists": true, "state": "Running", "verdict": "authorized (this round's driver)"},
+  "Bigmoney-LoopWatchdog": {"exists": true, "state": "Ready", "verdict": "authorized"},
+  "Bigmoney-PoolWorker": {"exists": true, "state": "Ready", "verdict": "authorized"},
+  "Bigmoney-ResidentDispatcher": {"exists": true, "state": "Running", "verdict": "authorized"},
+  "Bigmoney-SaturationEngine": {"exists": true, "state": "Running", "verdict": "authorized (renamed from Bigmoney-SatEngine-bm-b)"},
+  "Bigmoney-IntradayMarks": {"exists": false, "verdict": "absent (deleted after the 2026-10-17 cleanup; intraday marks lane has no task on this machine)"},
+  "Bigmoney-SatEngine-bm-b": {"exists": false, "verdict": "absent (renamed; the bm-b-suffixed name no longer exists)"}
+ },
+ "divergence_from_decision": "the decision read 7 Bigmoney tasks as UNEXPECTED-DISABLED; on bm-c at read time they are READY/RUNNING (6 present, 2 of the named 7 gone). The confirmation therefore resolves in the enabled direction, which is what the standing round protocol (S7: register loop + watchdog every round) requires.",
+ "whitelist_hint": "do not whitelist these as disabled; if a disabled whitelist entry is needed for audit quiet, record owner=BigMoney reason=quant round driver review=2026-11-08 and it must say EXPECTED-ENABLED",
+ "no_blind_action": "this receipt performs zero enable/disable/register operations; it is a written confirmation only"
+}

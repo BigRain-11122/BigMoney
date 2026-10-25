@@ -80,6 +80,13 @@ PROV_KEY = "d19_watermark_guard"
 # commit+length before it ever hashes anything.
 TRIPLE_DEC_KEY = "last_decisions_watermark"
 TRIPLE_ORD_KEY = "last_orders_watermark"
+# D-20261025-08 v2 four-tuple {repo, commit_sha, blob_bytes, sha256}: a content
+# digest alone cannot separate "content changed" from "read a stale branch or
+# rewritten history" -- the ghost-watermark family (bm-b r1142/r1145 hit a
+# stored DEC sha that was not reproducible at origin) is source blindness, not
+# a hashing bug. Shape: v2:<owner/name>@<commit40>/<bytes>#<sha256>.
+V2_DEC_KEY = "last_decisions_watermark_v2"
+V2_ORD_KEY = "last_orders_watermark_v2"
 # r1090 two-face patch (r1051 lineage recurring face / r1052 连带律 mechanized): update --advance
 # wrote the STATE face only; the heartbeat mirror fields went stale every advance and needed a
 # manual same-window sync script (r1089 receipt _r1089bmc_heart_wm_sync). Law now welded in-tool:
@@ -87,7 +94,8 @@ TRIPLE_ORD_KEY = "last_orders_watermark"
 HEART_KEYS = ("last_orders_sha", "last_decisions_sha", "last_orders_read_at",
               "last_decisions_read_at", "last_orders_at", "last_decisions_at",
               "last_orders_seen", "last_decisions_seen",
-              "last_orders_watermark", "last_decisions_watermark")
+              "last_orders_watermark", "last_decisions_watermark",
+              "last_orders_watermark_v2", "last_decisions_watermark_v2")
 HEX_CHARS = set("0123456789abcdefABCDEF")
 VALID_LENS = (40, 64)
 
@@ -139,6 +147,48 @@ def validate_triple(v):
         return False, "bytes not numeric"
     if not all(c in HEX_CHARS for c in sha + commit):
         return False, "non-hex chars"
+    return True, "ok"
+
+
+_PROBE_MOD = None
+
+
+def _probe_module():
+    """Load the canonical read probe as a module (single source of truth for
+    the v2 quad grammar: read face and write face must never disagree)."""
+    global _PROBE_MOD
+    if _PROBE_MOD is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_d19_probe", PROBE)
+        if spec is None or spec.loader is None:
+            raise RuntimeError("cannot load probe: %s" % PROBE)
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        _PROBE_MOD = m
+    return _PROBE_MOD
+
+
+def parse_quad(v):
+    return _probe_module()._parse_quad(v)
+
+
+def quad_status(new_quad, wm_quad):
+    return _probe_module().quad_status(new_quad, wm_quad)
+
+
+def validate_quad(v):
+    """D-20261025-08 shape gate for v2:<repo>@<commit40>/<bytes>#<sha256>.
+    Shape-only, like the other gates: a well-formed but wrong quad is caught
+    by the probe's live recomputation, not here."""
+    if not isinstance(v, str) or v == "":
+        return False, "missing/empty"
+    if v != v.strip():
+        return False, "whitespace-padded"
+    t = parse_quad(v)
+    if t is None:
+        return False, "not v2:<repo>@<commit40>/<bytes>#<sha256>"
+    if t[0].count("/") != 1:
+        return False, "repo %r not owner/name" % t[0]
     return True, "ok"
 
 
@@ -249,6 +299,22 @@ def cmd_update(opts):
             print("REFUSED: state file missing (mechanism fault)")
             return 2
         st = _load_json(opts.state)
+        # D-20261025-08: a stored watermark that its own commit cannot reproduce
+        # is a phantom (bm-b r1142/r1145 family). Never consume or advance on it
+        # -- rebuilding from a verified fresh read is an explicit, logged repair.
+        stale_wm = ev.get("stale_watermarks") or []
+        receipt["stale_watermarks"] = stale_wm
+        if stale_wm and not getattr(opts, "repair_stale", False):
+            receipt["action"] = "refused"
+            receipt["reasons"] = [
+                "stored watermark not reproducible at its own commit: %s "
+                "(verify the fresh read, then rerun with --repair-stale)"
+                % ",".join(stale_wm)]
+            _atomic_json_write(receipt, opts.receipt, True)
+            print("REFUSED: stale (phantom) watermark %s -- ghost sha, no "
+                  "consumption decision allowed (D-20261025-08)"
+                  % ",".join(stale_wm))
+            return 3
         ch_dec = _changed(st.get(DEC_KEY), cand_dec)
         ch_ord = _changed(st.get(ORD_KEY), cand_ord)
         receipt["changed"] = {"decisions": ch_dec, "orders": ch_ord}
@@ -283,10 +349,42 @@ def cmd_update(opts):
             print("REFUSED: malformed triple -> %s" % "; ".join(reasons))
             return 3
         receipt["triples"] = triples
+        # D-20261025-08: v2 quads ride the same atomic write whenever the probe
+        # supplies a reproducible source anchor. A stale anchor (repo mismatch
+        # or unparseable quad) REFUSES the advance -- an unreproducible
+        # watermark is exactly the ghost-sha failure v2 exists to kill, and
+        # silently advancing on it would launder the ghost into a fresh key.
+        quads = {}
+        v2_status = {}
+        for key, val, ekey in ((V2_DEC_KEY, ev.get("decisions_quad"), "decisions"),
+                              (V2_ORD_KEY, ev.get("orders_quad"), "orders")):
+            if val is None:
+                continue
+            ok_q, why_q = validate_quad(val)
+            if not ok_q:
+                reasons.append("%s: %s" % (key, why_q))
+                continue
+            status, why_s = quad_status(val, st.get(key))
+            v2_status[ekey] = {"status": status, "why": why_s}
+            if status == "stale":
+                reasons.append("%s: stale source anchor (%s)" % (key, why_s))
+                continue
+            quads[key] = val
+        receipt["v2_status"] = v2_status
+        if reasons:
+            receipt["action"] = "refused"
+            receipt["reasons"] = reasons
+            _atomic_json_write(receipt, opts.receipt, True)
+            print("REFUSED: v2 quad gate -> %s" % "; ".join(reasons))
+            return 3
+        receipt["quads"] = quads
+        receipt["refetch"] = ev.get("refetch")
         # single-source verbatim full-string write (r812)
         st[DEC_KEY] = cand_dec
         st[ORD_KEY] = cand_ord
         for k, v in triples.items():
+            st[k] = v
+        for k, v in quads.items():
             st[k] = v
         for k in READ_KEYS:
             st[k] = ts
@@ -306,7 +404,8 @@ def cmd_update(opts):
         # read-back full-string equality assertion (r812 heal law)
         st2 = _load_json(opts.state)
         if (st2.get(DEC_KEY) != cand_dec or st2.get(ORD_KEY) != cand_ord
-                or any(st2.get(k) != v for k, v in triples.items())):
+                or any(st2.get(k) != v for k, v in triples.items())
+                or any(st2.get(k) != v for k, v in quads.items())):
             # read-back failed -> byte-exact restore, honest fault report
             with open(opts.state, "wb") as f:
                 f.write(before_bytes)
@@ -317,6 +416,7 @@ def cmd_update(opts):
             return 2
         receipt["action"] = "advanced" if (ch_dec or ch_ord) else "noop"
         receipt["written"] = {DEC_KEY: cand_dec, ORD_KEY: cand_ord}
+        receipt["written"].update(quads)
         # r1090 two-face law: heartbeat mirrors ride the SAME update (r1052 连带律 in-tool)
         try:
             _mj = getattr(opts, "machine_json", None) or MACHINE_JSON
@@ -379,6 +479,20 @@ def cmd_verify(opts):
         ok_t, why_t = validate_triple(val)
         out["structural"][key] = {"ok": ok_t, "why": why_t}
         if not ok_t:
+            rc = 3
+    # D-20261025-08 v2 face: absent = migrating (honest), malformed = refusal.
+    for key in (V2_DEC_KEY, V2_ORD_KEY):
+        val = st.get(key)
+        if val is None:
+            out["structural"][key] = {"ok": True, "why": "absent (migrating)"}
+            continue
+        ok_q, why_q = validate_quad(val)
+        q = parse_quad(val) if ok_q else None
+        out["structural"][key] = {"ok": ok_q, "why": why_q,
+                                  "repo": q[0] if q else None,
+                                  "commit": q[1][:7] if q else None,
+                                  "bytes": q[2] if q else None}
+        if not ok_q:
             rc = 3
     if os.path.isfile(opts.probe_evidence):
         ev = _load_json(opts.probe_evidence)
@@ -781,6 +895,136 @@ def selftest():
             "absent-in-state key must not appear in synced map"
     leg("L20 zero fabrication: only state-present keys mirrored", l20)
 
+    # ---- D-20261025-08 v2 four-tuple {repo, commit_sha, blob_bytes, sha256} --
+    import hashlib as _hl
+    QREPO = "BigRain-11122/FluxGroup"
+    C1 = "0123456789abcdef0123456789abcdef01234567"
+    C2 = "fedcba9876543210fedcba9876543210fedcba98"
+    SH_D = _hl.sha256(b"decisions-bytes").hexdigest()
+    SH_O = _hl.sha256(b"orders-bytes").hexdigest()
+    Q_D = "v2:%s@%s/203087#%s" % (QREPO, C1, SH_D)
+    Q_O = "v2:%s@%s/370071#%s" % (QREPO, C1, SH_O)
+
+    def l21():
+        # grammar: accept the canonical form, reject every near-miss
+        assert validate_quad(Q_D)[0] is True, validate_quad(Q_D)
+        bad = [
+            Q_D.replace("v2:", ""),                        # no prefix
+            Q_D.replace("@", "#", 1),                      # wrong separator
+            "v2:%s@%s/203087#%s" % ("nope", C1, SH_D),     # repo not owner/name
+            "v2:%s@%s/203087#%s" % (QREPO, C1[:7], SH_D),  # short commit
+            "v2:%s@%s/203087#%s" % (QREPO, C1, SH_D[:40]),  # sha not 64
+            "v2:%s@%s/xx#%s" % (QREPO, C1, SH_D),          # bytes not numeric
+            "  " + Q_D,                                    # padded
+        ]
+        for b in bad:
+            ok, why = validate_quad(b)
+            assert ok is False, "must reject %r" % b
+        t = parse_quad(Q_D)
+        assert t[0] == QREPO and t[1] == C1 and t[2] == 203087 and t[3] == SH_D
+    leg("L21 v2 quad grammar: canonical accepted, 7 near-misses rejected", l21)
+
+    def l22():
+        assert quad_status(Q_D, Q_D)[0] == "same"
+        # same repo, same content, newer commit -> safe source-only advance
+        assert quad_status(Q_D.replace(C1, C2), Q_D)[0] == "source_ahead"
+        # same commit, different digest -> real content delta
+        assert quad_status(Q_D.replace(SH_D, SH_O), Q_D)[0] == "delta"
+        # bytes moved with the digest -> still a delta
+        assert quad_status(Q_D.replace("/203087", "/203088"), Q_D)[0] == "delta"
+        # repo moved -> stale, never auto-advance
+        assert quad_status(Q_D.replace(QREPO, "Other/Repo"), Q_D)[0] == "stale"
+        # no stored quad yet -> migrating (legacy keys rule)
+        assert quad_status(Q_D, None)[0] == "migrating"
+    leg("L22 quad_status: same/source_ahead/delta/stale/migrating", l22)
+
+    def l23():
+        ev = dict(new_ev)
+        ev["decisions_quad"], ev["orders_quad"] = Q_D, Q_O
+        ev["refetch"] = {"decisions": "git -C <tree> show %s:docs/decisions.md" % C1}
+        rc, sp, rec, hb = upd(ev, advance=True, state=dict(base_state))
+        assert rc == 0, "rc=%s" % rc
+        st = _load_json(sp)
+        assert st[V2_DEC_KEY] == Q_D and st[V2_ORD_KEY] == Q_O, "quad not verbatim"
+        assert _load_json(hb)[V2_DEC_KEY] == Q_D, "heartbeat mirror must carry v2"
+        r = _load_json(rec)
+        assert r["v2_status"]["decisions"]["status"] == "migrating", \
+            "first migration must be labelled, got %r" % r["v2_status"]
+        assert r["refetch"]["decisions"].endswith("docs/decisions.md"), \
+            "refetch command must land in the receipt (acceptance leg)"
+        assert st[DEC_KEY] == TRUE_DEC, "legacy key still verbatim"
+    leg("L23 v2 quads written verbatim + mirrored + refetch in receipt", l23)
+
+    def l24():
+        # a stored quad that the fresh read cannot reproduce must refuse the
+        # advance and leave state byte-identical (ghost-laundering gate)
+        st0 = dict(base_state)
+        st0[V2_DEC_KEY] = Q_D
+        st0[V2_ORD_KEY] = Q_O
+        ev = dict(new_ev)
+        ev["decisions_quad"] = Q_D.replace(QREPO, "Other/Repo")
+        ev["orders_quad"] = Q_O
+        rc, sp, rec, _hb = upd(ev, advance=True, state=st0)
+        assert rc == 3, "stale anchor must refuse, rc=%s" % rc
+        s2 = _load_json(sp)
+        assert s2[DEC_KEY] == OLD_DEC and s2[V2_DEC_KEY] == Q_D, "state must not move"
+        r = _load_json(rec)
+        assert r["action"] == "refused"
+        assert any("stale source anchor" in x for x in r["reasons"]), r["reasons"]
+    leg("L24 stale source anchor refuses advance (ghost laundering blocked)", l24)
+
+    def l25():
+        st0 = dict(base_state)
+        st0[V2_DEC_KEY] = Q_D.replace(C1, C1)
+        st0[V2_ORD_KEY] = Q_O.replace(C1, C1)
+        ev = dict(new_ev)
+        # identical content, origin tip moved on -> source_ahead, advance allowed
+        ev["decisions_quad"] = Q_D.replace(C1, C2)
+        ev["orders_quad"] = Q_O.replace(C1, C2)
+        rc, sp, rec, _hb = upd(ev, advance=True, state=st0)
+        assert rc == 0, "source_ahead must advance, rc=%s" % rc
+        r = _load_json(rec)
+        assert r["v2_status"]["decisions"]["status"] == "source_ahead", r["v2_status"]
+        st = _load_json(sp)
+        assert C2 in st[V2_DEC_KEY], "source trio must follow origin"
+    leg("L25 source_ahead (same content, newer commit) advances safely", l25)
+
+    def l26():
+        # absent quads in evidence = mid-migration, never fabricated
+        rc, sp, rec, _hb = upd(new_ev, advance=True, state=dict(base_state))
+        assert rc == 0, "rc=%s" % rc
+        st = _load_json(sp)
+        assert V2_DEC_KEY not in st and V2_ORD_KEY not in st, "must not fabricate"
+        r = _load_json(rec)
+        assert r["quads"] == {}
+    leg("L26 absent v2 evidence = honest skip (no fabrication)", l26)
+
+    def l27():
+        # phantom watermark: the probe reports the stored quad is not
+        # reproducible -> refuse; --repair-stale is the only way through
+        st0 = dict(base_state)
+        st0[V2_DEC_KEY] = Q_D
+        st0[V2_ORD_KEY] = Q_O
+        ev = dict(new_ev)
+        ev["decisions_quad"], ev["orders_quad"] = Q_D, Q_O
+        ev["stale_watermarks"] = ["decisions"]
+        rc, sp, rec, _hb = upd(ev, advance=True, state=st0)
+        assert rc == 3, "phantom watermark must refuse, rc=%s" % rc
+        assert _load_json(sp)[DEC_KEY] == OLD_DEC, "state must not move"
+        r = _load_json(rec)
+        assert any("phantom" in x or "not reproducible" in x
+                   for x in r["reasons"]), r["reasons"]
+        mid, sp2, pj2, rec2, mj2, hb2 = mkfix(state=dict(st0))
+        json.dump(ev, open(pj2, "w"))
+        o = argparse.Namespace(state=sp2, probe_json=pj2, receipt=rec2,
+                               advance=True, probe_evidence=pj2, machine_json=mj2,
+                               heartbeat=hb2, repair_stale=True)
+        assert cmd_update(o) == 0, "explicit repair must pass"
+        assert _load_json(sp2)[V2_DEC_KEY] == Q_D
+        assert _load_json(rec2)["stale_watermarks"] == ["decisions"], \
+            "the repair must stay visible in the receipt, not be swallowed"
+    leg("L27 phantom watermark refused; --repair-stale is the logged escape", l27)
+
     fails = [l for l in legs if not l[1]]
     for name, ok, why in legs:
         print("%s %s%s" % ("PASS" if ok else "FAIL", name,
@@ -811,6 +1055,10 @@ def main(argv=None):
                           "(default fleet/machines/<machine_id>.json; r1090 "
                           "two-face law: state + heartbeat written in the "
                           "SAME update with read-back assertions)")
+    p_u.add_argument("--repair-stale", action="store_true",
+                     help="D-20261025-08: rebuild a watermark whose own commit "
+                          "cannot reproduce it (phantom/ghost). Requires a "
+                          "verified fresh read; the repair is receipt-logged.")
 
     p_v = sub.add_parser("verify")
     p_v.add_argument("--state", default=None)
