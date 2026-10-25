@@ -143,7 +143,7 @@ def run(close, openp, amt, feats, rebal, n_hold=N_HOLD, cost=COST, start="2020-0
 
 
 def run_next_open(close, openp, amt, feats, rebal, n_hold=N_HOLD, cost=COST, start="2020-01-01",
-                  min_amt=None, min_hist=None):
+                  min_amt=None, min_hist=None, score=None):
     """Same decision grid, but the fill happens at the OPEN of the next bar.
 
     Leg decomposition per bar d (prev = previous trading bar):
@@ -156,7 +156,10 @@ def run_next_open(close, openp, amt, feats, rebal, n_hold=N_HOLD, cost=COST, sta
     Weights are held flat inside a holding period (the same implicit daily
     weight-rebalance approximation the close basis already carries).
     """
-    score = build_score(close, amt, feats, min_amt=min_amt, min_hist=min_hist)
+    # `score` lets a caller (e.g. a permutation null) supply its own honest score face
+    # and still ride this exact leg engine -- never re-implement the fill maths elsewhere.
+    if score is None:
+        score = build_score(close, amt, feats, min_amt=min_amt, min_hist=min_hist)
     cols = close.columns
     px = close.reindex(columns=cols).ffill()
     op = openp.reindex(columns=cols)
