@@ -346,3 +346,16 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 反向坑：逆向复现脚本若写成 old→new 正向替换，replay 恒等于自身→假绿（本窗首跑即自查纠出）。
 - 验证：results/_r1234bmc_w326_sixgate.py（mat_assert 含两条 row-scoped stale-clause 门，6/6 ALL PASS）+ results/_n1_face_adjudication_w326.json（heal_delta 1、reproduced、unexplained 0）
 - 2026-10-25 07:5x｜bm-c r1234｜W326 收口｜照 O-20261002-2100 常态化捕获
+
+## E95 freeze-receipt 面比较必须跑在 receipt 自己声明的 EOL 基底上（r1236 bm-c 实弹·W327）
+- 问题：`Tools/n1_freeze_face_adjudicate.py` 的回放 clone 恒以 core.autocrlf=true 检出（raw 面=CRLF），而冻结窗若在工作树 LF 基底上记账（receipt `eol.{n1,pf}_crlf=false`），工具拿 CRLF 回放面去撞 LF receipt 面 → **同一份内容被判 FAIL**（W327 首现：receipt pre 9932d0ef / replay pre 680073ce，两者是同一文件的 LF/CRLF 两面，sha 全不同）。
+- 正法：比较前按 receipt 声明的基底归一（`on_basis(bytes, declared_is_crlf(key))`），把 `pre_match_basis` / `post_match_basis` 连同 raw 面 sha 一起写进证据；**声明缺省仍按 CRLF**（保守），不做「两面都试直到成功」的宽松匹配。
+- 判定不变：所选基底上的哈希仍须与 receipt 逐字节相等；内容面另以 LF 归一恒等（`replay_lf_eq_landed`）双证。
+- 验证：`results/_n1_face_adjudication_w327.json` verdict PASS（basis lf/lf）+ `results/_r1236bmc_adj_regress_w326.json`（CRLF 声明的旧波）regress PASS——改法对旧基底零回归。
+- 2026-10-25 09:0x ｜ bm-c r1236 ｜ W327 收口。
+
+## E96 「在册≠复现」：冻结件 prose 字面量必须在场 + 数值相等双条件（r1236 bm-c 实弹·W327）
+- 问题：fivekey 断言的 `n_eff_held_prose` 腿历来只查字面量**是否出现**（`if held_literal not in t`），于是 W327 冻结件里的 `n_eff_held_equal 1,139,341`（上一波 W325 的账本总数）在 W326 收口后变成陈旧值，却照样通过——presence 挡住了 stale。
+- 正法：present && `int(literal) == int(machine_read)` 双条件；不平等=**disclosure**（写进 `prereg_prose_deviations` 并说明是起草窗照抄前窗 held 值），绝不改写冻结件正文、绝不用机读值抹平 prose。
+- 验证：`results/_r1236bmc_w327_fivekeys.json` all_pass=true + deviations=["n_eff_held_prose"]（held 1,141,541 vs prose 1,139,341）。
+- 2026-10-25 09:0x ｜ bm-c r1236 ｜ 派生 prose 面非机器校验族（r1170）第四现。

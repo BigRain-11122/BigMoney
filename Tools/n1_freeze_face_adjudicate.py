@@ -149,8 +149,34 @@ def main():
 
         n1_pre = io.open(os.path.join(clone, 'scripts/perpetual_faces_n1.py'), 'rb').read()
         pf_pre = io.open(os.path.join(clone, 'scripts/perpetual_faces.py'), 'rb').read()
-        ev['replay_n1_sha16_pre'] = sha16(n1_pre)
-        ev['replay_pf_sha16_pre'] = sha16(pf_pre)
+
+        # r1236 bm-c: the receipt DECLARES its own EOL basis (`eol.n1_crlf` / `eol.pf_crlf`,
+        # r838 law). The replay clone is always checked out under core.autocrlf=true, i.e.
+        # its raw bytes are CRLF even when the freeze window ran on an LF worktree, so a raw
+        # comparison silently compares two different bases (W327 first live-fire: receipt
+        # faces LF, replay faces CRLF, content identical). Compare on the DECLARED basis,
+        # record which basis was used, and keep the hash the judge (nothing is smoothed:
+        # the chosen candidate must still match the receipt face byte-exactly).
+        def _lf(b):
+            return b.replace(b'\r\n', b'\n')
+
+        def declared_is_crlf(key):
+            e = rec.get('eol') or {}
+            v = e.get(key)
+            return True if v is None else bool(v)
+
+        def on_basis(b, want_crlf):
+            return b if want_crlf else _lf(b)
+
+        n1_pre_cmp = on_basis(n1_pre, declared_is_crlf('n1_crlf'))
+        pf_pre_cmp = on_basis(pf_pre, declared_is_crlf('pf_crlf'))
+        ev['pre_match_basis'] = {'n1': 'crlf' if declared_is_crlf('n1_crlf') else 'lf',
+                                 'pf': 'crlf' if declared_is_crlf('pf_crlf') else 'lf',
+                                 'source': 'receipt eol flags (r838 law), never assumed'}
+        ev['replay_n1_sha16_pre'] = sha16(n1_pre_cmp)
+        ev['replay_pf_sha16_pre'] = sha16(pf_pre_cmp)
+        ev['replay_n1_sha16_pre_raw'] = sha16(n1_pre)
+        ev['replay_pf_sha16_pre_raw'] = sha16(pf_pre)
         ev['pre_faces_match_receipt'] = (ev['replay_n1_sha16_pre'] == rec['n1_sha16_pre']
                                          and ev['replay_pf_sha16_pre'] == rec['pf_sha16_pre'])
 
@@ -176,6 +202,15 @@ def main():
 
         rep_n1 = io.open(os.path.join(clone, 'scripts/perpetual_faces_n1.py'), 'rb').read()
         rep_pf = io.open(os.path.join(clone, 'scripts/perpetual_faces.py'), 'rb').read()
+        # r1236: replay post faces are compared on the receipt's DECLARED EOL basis too
+        # (same law as the pre faces above); raw faces kept in the evidence for audit.
+        ev['post_match_basis'] = {'n1': 'crlf' if declared_is_crlf('n1_crlf') else 'lf',
+                                  'pf': 'crlf' if declared_is_crlf('pf_crlf') else 'lf',
+                                  'source': 'receipt eol flags (r838 law), never assumed'}
+        ev['replay_n1_sha16_post_raw'] = sha16(rep_n1)
+        ev['replay_pf_sha16_post_raw'] = sha16(rep_pf)
+        rep_n1 = on_basis(rep_n1, declared_is_crlf('n1_crlf'))
+        rep_pf = on_basis(rep_pf, declared_is_crlf('pf_crlf'))
         rep_n1_raw, rep_pf_raw = rep_n1, rep_pf
         ev['replay_n1_sha16_post'] = sha16(rep_n1)
         ev['replay_pf_sha16_post'] = sha16(rep_pf)

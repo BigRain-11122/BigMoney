@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-25",
- "generated_at": "2026-10-25 08:34:17",
+ "generated_at": "2026-10-25 09:12:03",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-25.md"
  },
  "rd": {
-  "commits_24h": 151,
-  "result_jsons_landed_24h": 213,
+  "commits_24h": 146,
+  "result_jsons_landed_24h": 217,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 24,
   "compute_audit_latest": {
-   "ts": "2026-10-25 08:24:39",
-   "py_cpu_pct": 100.0,
+   "ts": "2026-10-25 09:08:21",
+   "py_cpu_pct": 0.3,
    "flags": [
     "supply_owner_silent"
    ],
    "verdict": "FLAG:supply_owner_silent"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -668,9 +668,9 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2258132,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-25 07:00:22",
+   "prev_generated": "2026-10-25 08:03:44",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 910,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -805,25 +805,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-25 08:24:39",
-    "py_pct": 100.0,
-    "cpu_pct": 67.0,
+    "latest_ts": "2026-10-25 09:08:21",
+    "py_pct": 0.3,
+    "cpu_pct": 59.0,
     "ready": 3,
     "streak_min": null,
     "verdict": "FLAG:supply_owner_silent",
     "py_series_tail": [
-     [
-      "02:07",
-      0.4
-     ],
-     [
-      "02:26",
-      1.2
-     ],
-     [
-      "03:15",
-      0.0
-     ],
      [
       "04:02",
       100.0
@@ -859,10 +847,22 @@
      [
       "08:24",
       100.0
+     ],
+     [
+      "08:57",
+      5.6
+     ],
+     [
+      "09:03",
+      1.9
+     ],
+     [
+      "09:08",
+      0.3
      ]
     ],
-    "today_samples": 16,
-    "today_floor_ok": 16,
+    "today_samples": 19,
+    "today_floor_ok": 19,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 6
    }
@@ -918,7 +918,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-25 08:24:39"
+     "audit_ts": "2026-10-25 09:08:21"
     }
    }
   },
@@ -1377,9 +1377,9 @@
   "last_registered": 327,
   "last_owner": "bm-c",
   "next_registration": 328,
-  "next_seatable": 328,
-  "chain_head": 1141541,
-  "k": 715120,
+  "next_seatable": 329,
+  "chain_head": 1143741,
+  "k": 717320,
   "waves": [
    {
     "wave": 325,
@@ -1432,10 +1432,19 @@
     ],
     "shards_done": 12,
     "shards_total": 12,
-    "finalize_landed": false
+    "finalize_landed": true,
+    "ledger_total": 1143741,
+    "merged_mu": -0.09287455291919924,
+    "merged_sigma": 0.2452184696100091,
+    "k": 717320
    }
   ],
-  "seats": []
+  "seats": [
+   {
+    "wave": 328,
+    "machine": "bm-c"
+   }
+  ]
  },
  "stage_style": {
   "present": true,
