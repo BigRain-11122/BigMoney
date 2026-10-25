@@ -1,0 +1,129 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "beta_target": 0.2,
+ "inception": "2024-01-02",
+ "rebal": 20,
+ "n_hold": 5,
+ "cost_bp_per_side": 8.0,
+ "fresh_gate": false,
+ "staleness": {
+  "decisions": 264,
+  "picks": 1055,
+  "stale_picks": 0,
+  "stale_share": 0.0,
+  "worst_stale_gap_days": 0,
+  "symbols_with_value_on_last_bar": 50,
+  "symbols_total": 1547,
+  "decisions_with_too_few_picks": 53
+ },
+ "k_now": 0.606379,
+ "next_decision": null,
+ "ticket": {
+  "beta_k": 0.606379,
+  "book_weight": 0.606379,
+  "cash_weight": 0.393621,
+  "nav": 1000000.0,
+  "order": [
+   {
+    "symbol": "sh511880",
+    "weight": 0.121276,
+    "price": null,
+    "lots": null,
+    "shares": null,
+    "amount": null,
+    "class": "equity",
+    "note": "no live price"
+   },
+   {
+    "symbol": "sz159003",
+    "weight": 0.121276,
+    "price": null,
+    "lots": null,
+    "shares": null,
+    "amount": null,
+    "class": "equity",
+    "note": "no live price"
+   },
+   {
+    "symbol": "sh515450",
+    "weight": 0.121276,
+    "price": null,
+    "lots": null,
+    "shares": null,
+    "amount": null,
+    "class": "equity",
+    "note": "no live price"
+   },
+   {
+    "symbol": "sh515300",
+    "weight": 0.121276,
+    "price": null,
+    "lots": null,
+    "shares": null,
+    "amount": null,
+    "class": "equity",
+    "note": "no live price"
+   },
+   {
+    "symbol": "sh510760",
+    "weight": 0.121276,
+    "price": null,
+    "lots": null,
+    "shares": null,
+    "amount": null,
+    "class": "equity",
+    "note": "no live price"
+   }
+  ],
+  "book_amount": 0.0,
+  "cash_amount": 1000000.0,
+  "cash_leg": "GC001 (1-day repo, observed close)",
+  "basket_drift": [
+   "sh511880",
+   "sz159003",
+   "sh515450",
+   "sh515300",
+   "sh510760"
+  ],
+  "underspend_pct": 60.6379
+ },
+ "metrics": {
+  "book": {
+   "cagr": 0.1437,
+   "sharpe": 1.406,
+   "maxdd": -0.0731,
+   "vol": 0.1022,
+   "bars": 678
+  },
+  "same_beta_benchmark": {
+   "cagr": 0.0299,
+   "sharpe": 0.786,
+   "maxdd": -0.0379,
+   "vol": 0.038,
+   "bars": 678
+  },
+  "excess_pp": 11.38
+ },
+ "book_leg": {
+  "turnover_per_rebal": 1.4048,
+  "open_gapfill": 13
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv",
+  "mean_accrual_ann_pct": 2.088,
+  "missing_bar_steps": 3
+ },
+ "ledger": {
+  "bars": 678,
+  "nav": 1.45986553,
+  "rows_added": 678,
+  "engine_naive_vs_ledger": 0.0
+ },
+ "caveats": [
+  "survivorship: on-disk panel holds ETFs that still exist",
+  "ticket prices are closes; no impact cost, no limit-move guard",
+  "GC001 single tenor, rolling assumed cost-free",
+  "k revised every 20 bars so delivered beta still wanders",
+  "exploratory: no preregistration, no verdict, no ledger booking"
+ ]
+}

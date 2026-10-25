@@ -1,0 +1,11 @@
+{
+ "ts": "2026-10-25T19:40:00+08:00",
+ "machine": "bm-c",
+ "round": "r1256",
+ "issue": "Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are registered with LogonType=Interactive (S4U regression face, violates the 2026-10-15 S4U law).",
+ "cause": "this window ran Tools/register_loop_task.ps1 per S7 idempotent self-heal; the pin check was a no-op but the script re-registers the task from XML and the S4U flip then failed with access-denied, leaving the default InteractiveToken principal.",
+ "attempted": "Set-ScheduledTask -Principal (New-ScheduledTaskPrincipal -LogonType S4U) -> access denied for both tasks.",
+ "needs": "an elevated session: export both tasks, patch <LogonType>S4U</LogonType> + StartWhenAvailable=false, re-register from XML (Tools/register_loop_task.ps1 does exactly this and only needs rights).",
+ "evidence_xml": "results/_r1256bmc_iterloop_current.xml",
+ "note": "CEO 2026-10-17 cleanup order was about bulk automation cleanup; the loop tasks existed at window open (schtasks listed 6 Bigmoney-* tasks), so this window did not create them -- it only re-registered the two it is ordered to check each round."
+}
