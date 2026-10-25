@@ -234,7 +234,7 @@ def selftest():
 # ---------------------------------------------------------------- run
 
 def run():
-    close, openp, amt, score = P.prep_panel()
+    close, openp, amt, score, _cls, _nflip = P.prep_panel()
     print("universe %d names, bars %d, last bar %s" % (
         close.shape[1], close.shape[0], close.index[-1].date()), flush=True)
     out = {"evidence_cutoff": str(close.index[-1].date()),

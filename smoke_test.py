@@ -453,6 +453,20 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # The production card is the only placeable deliverable (E121), and it is the one
+    # face whose failure is invisible: r1270 shipped a round where run() crashed on a
+    # name that had moved out of scope, while every other leg in this file was green --
+    # nothing here ever called the entry point. Guard the sheet path, not just the maths.
+    for _label, _script, _args in (
+            ("product: etf_book_production card (exit-code contract)",
+             "scripts/etf_book_production.py", ["--selftest"]),):
+        try:
+            _r = _sp.run([sys.executable, _script, *_args],
+                         capture_output=True, text=True, timeout=300)
+            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
+        except Exception as e:
+            check(_label, False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:

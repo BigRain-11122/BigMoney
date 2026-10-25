@@ -18,7 +18,9 @@ caveats (survivorship in the ETF pool, IS-heavy history, 2026 flat) travel on th
 """
 import json
 import os
+import shutil
 import sys
+import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
@@ -106,11 +108,43 @@ def grid_position(dates, last_bar, rebal):
             "last_decision_bar": str(dates[i - off].date())}
 
 
+def delivered_vs_target(bt_row, target):
+    """Realised vol next to the number on the label, window by window, with the ratio.
+
+    The overlay is min(1, target / v) sized on the *picked names' backward* vol, so no
+    window is guaranteed to deliver `target` -- the sleeve can run hotter than its label.
+    The ratio is reported, never corrected: a fitted multiplier on the same sample is
+    exactly the fitting that r1270's window x target sweep exists to detect.
+    """
+    out = {"target_vol": target, "windows": {}}
+    for lbl in ("full", "is", "oos"):
+        m = (bt_row or {}).get(lbl) or {}
+        v = m.get("vol")
+        if v is None:
+            continue
+        out["windows"][lbl] = {"target": target, "delivered": round(float(v), 4),
+                               "ratio": round(float(v) / target, 3) if target else None}
+    f = out["windows"].get("full")
+    if f and f["ratio"] is not None:
+        out["headline"] = ("target %.0f%% -> delivered %.1f%% over the full window (%.2fx)"
+                           % (target * 100, f["delivered"] * 100, f["ratio"]))
+    elif f:
+        out["headline"] = ("delivered %.1f%% over the full window (no target set)"
+                           % (f["delivered"] * 100))
+    else:
+        out["headline"] = None
+    return out
+
+
 def prep_panel():
     """Panel + score exactly as the production run sees them (class filter included).
 
     Shared by `run` and by any sweep over the configuration, so a sensitivity study can
     never quietly price a different universe than the card.
+
+    Returns the class map alongside the panel: the order sheet labels every leg with it,
+    and recomputing it downstream would be a second, drift-prone classification. The
+    flip count travels too -- it is printed on the card as evidence the panel was repaired.
     """
     close, openp, amt, feats = E.build_panel()
     close, openp, n_flip = A.repair_flips(close, openp)
@@ -119,11 +153,12 @@ def prep_panel():
     cols = [c for c in close.columns if cls[c] in USE_CLASSES]
     close, openp, amt = close[cols], openp[cols], amt[cols]
     score = E.build_score(close, amt, feats)
-    return close, openp, amt, score
+    return close, openp, amt, score, cls, n_flip
 
 
 def run(capital=1_000_000.0, n_hold=8, rebal=20):
-    close, openp, amt, score = prep_panel()
+    close, openp, amt, score, cls, n_flip = prep_panel()
+    cols = list(close.columns)
     names = load_names()
 
     runs = {}
@@ -186,6 +221,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "legs": legs,
     }
 
+    dv = delivered_vs_target(runs.get("n%d_vt08" % n_hold), TARGET_VOL)
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
@@ -196,11 +232,13 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                    "flips_repaired": n_flip,
                    "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"},
         "backtest": runs,
+        "vol_delivery": dv,
         "sheet": sheet,
         "caveats": [
             "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
             "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
             "The vol target only de-levers; it is a drawdown tool, not an edge.",
+            "Delivered vol is not the label: %s." % (dv.get("headline") or "no history"),
             "Order sheet is research output, not an investment recommendation.",
         ],
     }
@@ -225,16 +263,24 @@ def write_card(out):
         % (cfg["n_hold"], cfg["universe_size"], cfg["rebal"], cfg["cost_bp_per_side"],
            cfg["vol_target"] * 100),
         "",
-        "| window | CAGR | Sharpe | max drawdown |",
-        "|---|---|---|---|",
+        "| window | CAGR | Sharpe | max drawdown | realised vol | target |",
+        "|---|---|---|---|---|---|",
     ]
+    dv = out.get("vol_delivery") or {}
     for lbl in ("full", "is", "oos"):
         m = b.get(lbl) or {}
         if m.get("cagr") is None:
             continue
-        lines.append("| %s | %.1f%% | %.2f | %.1f%% |" % (
+        d = (dv.get("windows") or {}).get(lbl) or {}
+        lines.append("| %s | %.1f%% | %.2f | %.1f%% | %.1f%% | %.0f%% (%.2fx) |" % (
             {"full": "2020-01 onwards", "is": "2020-2023", "oos": "2024 onwards"}[lbl],
-            m["cagr"] * 100, m["sharpe"] or 0.0, m["maxdd"] * 100))
+            m["cagr"] * 100, m["sharpe"] or 0.0, m["maxdd"] * 100,
+            (m.get("vol") or 0.0) * 100, cfg["vol_target"] * 100, d.get("ratio") or 0.0))
+    lines += [""]
+    if dv.get("headline"):
+        lines += ["**Vol label vs delivered risk: %s.** The overlay only de-levers, so a "
+                  "sleeve sized on its own backward vol can run hotter than %.0f%%; read the "
+                  "risk column, not the label." % (dv["headline"], cfg["vol_target"] * 100), ""]
     lines += [
         "",
         "**Today (%s bar): %s** (last grid decision %s)." % (
@@ -294,6 +340,48 @@ def selftest():
     ser, _ = R.open_to_open_equity(close, openp, amt, score, 20, 5, COST)
     chk("harness actually traded", ser.notna().sum() > 10 and ser.std() > 0,
         "bars=%d std=%.6f" % (ser.notna().sum(), ser.std()))
+
+    # 5. delivered-vs-target is pure arithmetic and never invents a missing window
+    dv = delivered_vs_target({"full": {"vol": 0.1018}, "is": {"vol": 0.09}}, 0.08)
+    chk("vol delivery ratio", abs(dv["windows"]["full"]["ratio"] - 1.2725) < 5e-4, dv["headline"] or "")
+    chk("vol delivery skips absent windows", "oos" not in dv["windows"])
+    chk("vol delivery headline quotes delivered risk", "10.2%" in (dv["headline"] or ""))
+    chk("vol delivery without a target has no ratio",
+        delivered_vs_target({"full": {"vol": 0.10}}, 0)["windows"]["full"]["ratio"] is None)
+
+    # 6. end-to-end on a synthetic panel: the whole run() path (order sheet + card) must
+    #    execute. r1270's prep_panel() extraction left run() reading names that no longer
+    #    existed in its scope, and the card -- the only placeable deliverable -- crashed
+    #    for a full round with every other leg green, because no leg ever called run().
+    idx = pd.bdate_range("2021-01-04", periods=400)
+    rng = np.random.default_rng(7)
+    syn = pd.DataFrame(
+        100 * np.exp(np.cumsum(rng.normal(0, 0.01, (len(idx), 9)), axis=0)),
+        index=idx, columns=["519%03d" % i for i in range(9)])
+    s_open = syn.shift(1).bfill()
+    s_amt = pd.DataFrame(1e8, index=idx, columns=syn.columns)
+    s_score = syn.pct_change(20).fillna(0.0)
+    s_cls = {c: "equity" for c in syn.columns}
+    tmp = tempfile.mkdtemp(prefix="etf_book_prod_selftest_")
+    keep = (globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"])
+    try:
+        globals()["prep_panel"] = lambda: (syn, s_open, s_amt, s_score, s_cls, 0)
+        globals()["load_names"] = lambda: {}
+        globals()["OUT_DIR"] = tmp
+        o = run(capital=1_000_000.0, n_hold=3, rebal=20)
+        card = open(os.path.join(tmp, "CARD.md"), encoding="utf-8").read()
+        chk("run() produces a placeable sheet",
+            len(o["sheet"]["legs"]) == 3 and o["sheet"]["as_of_bar"] == str(idx[-1].date()),
+            "legs=%d as_of=%s" % (len(o["sheet"]["legs"]), o["sheet"]["as_of_bar"]))
+        chk("card states delivered vol against the label",
+            "Vol label vs delivered risk" in card and "target 8%" in card)
+        chk("card lists every leg", all(l["symbol"] in card for l in o["sheet"]["legs"]))
+        chk("output carries the vol delivery block",
+            (o.get("vol_delivery") or {}).get("headline") is not None)
+    finally:
+        globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
+        shutil.rmtree(tmp, ignore_errors=True)
+
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
 

@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-26 00:14:56",
+ "ts": "2026-10-26 02:47:15",
  "evidence_cutoff": "2026-10-23",
  "script": "scripts/etf_book_production.py",
  "config": {
@@ -181,6 +181,27 @@
    "cost_bp": 10.0
   }
  },
+ "vol_delivery": {
+  "target_vol": 0.08,
+  "windows": {
+   "full": {
+    "target": 0.08,
+    "delivered": 0.1018,
+    "ratio": 1.272
+   },
+   "is": {
+    "target": 0.08,
+    "delivered": 0.0997,
+    "ratio": 1.246
+   },
+   "oos": {
+    "target": 0.08,
+    "delivered": 0.1045,
+    "ratio": 1.306
+   }
+  },
+  "headline": "target 8% -> delivered 10.2% over the full window (1.27x)"
+ },
  "sheet": {
   "as_of_bar": "2026-10-23",
   "decision": "HOLD: 13 bars until the next decision point",
@@ -332,6 +353,7 @@
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
   "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
   "The vol target only de-levers; it is a drawdown tool, not an edge.",
+  "Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x).",
   "Order sheet is research output, not an investment recommendation."
  ]
 }
