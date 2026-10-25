@@ -1,7 +1,7 @@
 {
  "activity_now": "r1250 closed: cadence study landed (R10 10.77% / R20 9.03% / R40 6.01% vs EW 1.95/2.26/2.34)",
  "agenda_starved": false,
- "clock_read": "2026-10-25T23:54:27+08:00",
+ "clock_read": "2026-10-26T00:15:18+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 6.3,
  "cpu_util_pct": 0.8,
  "current": "quant product lane: repo-rate lane learned to take over from a silent owner; cash ladder re-derived on the refreshed panel",
- "current_task": "r1263 product: ETF book breadth surface landed (primary etf_breadth_sweep.py 36/36 + cross-check etf_book_breadth.py 11/11); 5->16 names 7.62->5.15%/yr while capacity 941k->2.39M; 12 names is the efficiency peak (+96% for 0.49pp); stagger only holds at 8",
+ "current_task": "r1264 product: ETF book production candidate landed as a PLACEABLE order sheet (scripts/etf_book_production.py, 7/7 selftest) -- bond-free 5/8/12-name ladder x 8% vol target plus today's target book, weights, yuan amounts and 100-share lots",
  "current_task_at": "2026-10-25T20:39:21+08:00",
  "current_task_ts": "2026-10-25T20:39:21+08:00",
  "d19_watermark_guard": {
@@ -42,7 +42,7 @@
  "gpu_free_mb": 14408,
  "gpu_free_mem_mib": 12821,
  "gpu_free_mib": 12821,
- "gpu_free_vram_gb": 13.0,
+ "gpu_free_vram_gb": 13,
  "gpu_free_vram_mb": 14255,
  "gpu_free_vram_mib": 12821,
  "gpu_idle_mb": 14461,
@@ -61,7 +61,7 @@
  "ground_truth_ts": "2026-10-25T11:44:42+08:00",
  "head_sha": "1fd4a6b2711df03906a8882af98156a9cf6741d8",
  "health": "green",
- "heartbeat_epoch_utc": 1792943667,
+ "heartbeat_epoch_utc": 1792944918,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 5.9,
  "idle_rounds": 0,
@@ -95,7 +95,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-25T17:12:35+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-25T23:54:27+08:00",
+ "last_seen": "2026-10-26 00:15:18",
  "last_seen_at": "2026-10-25T11:30:54+08:00",
  "last_task_at": "2026-10-25T17:12:35+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
@@ -451,9 +451,9 @@
   "ts": "2026-10-25T19:41:50+08:00"
  },
  "total_ram_gb": 23.9,
- "ts": "2026-10-25T23:54:27+08:00",
+ "ts": "2026-10-26T00:15:18+08:00",
  "updated": "2026-10-25T19:41:50+08:00",
  "updated_at": "2026-10-25T19:41:50+08:00",
- "verdict": "green r1263: width is a surface, not a lever -- 12 names is the capacity-per-return peak, 16 overshoots, stagger survives only at 8",
+ "verdict": "green r1264: the research config is now a sheet you can place -- 12 names @8% vol = 9.5%/yr SR0.98 DD-11.8%, but 5 names still beats it on Sharpe (11.5%/1.13/-10.6%), so capacity is bought at a 0.15 Sharpe cost",
  "verify": "selftest 12/12 (early exit refused, calendar-gap interest, prior-close quote, missing quote counted, 1-day leg byte-identical to r1255 repo_daily_cash, maturity snaps to t+k) | S6 40/40 rc0 | smoke 57/57 | attrition CLEAN 4 files | orphan face=0 | dualrun ZERO-DRIFT streak 51 | D-19 MATCH | orders 110/110"
 }

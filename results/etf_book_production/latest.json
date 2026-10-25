@@ -1,0 +1,337 @@
+{
+ "ts": "2026-10-26 00:14:56",
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_book_production.py",
+ "config": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "capital_cny": 1000000.0,
+  "universe_size": 1499,
+  "flips_repaired": 134,
+  "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"
+ },
+ "backtest": {
+  "n5_base": {
+   "full": {
+    "cagr": 0.1556,
+    "sharpe": 1.002,
+    "maxdd": -0.1604,
+    "vol": 0.1638,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.1022,
+    "sharpe": 0.685,
+    "maxdd": -0.1418,
+    "vol": 0.1683,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2364,
+    "sharpe": 1.489,
+    "maxdd": -0.1604,
+    "vol": 0.1572,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.53,
+   "n_hold": 5,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n5_vt08": {
+   "full": {
+    "cagr": 0.1149,
+    "sharpe": 1.132,
+    "maxdd": -0.1056,
+    "vol": 0.105,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.0581,
+    "sharpe": 0.621,
+    "maxdd": -0.088,
+    "vol": 0.1031,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2014,
+    "sharpe": 1.836,
+    "maxdd": -0.1056,
+    "vol": 0.1076,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.08,
+   "n_hold": 5,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n8_base": {
+   "full": {
+    "cagr": 0.15,
+    "sharpe": 0.995,
+    "maxdd": -0.1678,
+    "vol": 0.1591,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.0883,
+    "sharpe": 0.625,
+    "maxdd": -0.1678,
+    "vol": 0.1616,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2446,
+    "sharpe": 1.547,
+    "maxdd": -0.1494,
+    "vol": 0.1557,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.389,
+   "n_hold": 8,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n8_vt08": {
+   "full": {
+    "cagr": 0.1063,
+    "sharpe": 1.056,
+    "maxdd": -0.114,
+    "vol": 0.1049,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.0474,
+    "sharpe": 0.516,
+    "maxdd": -0.114,
+    "vol": 0.1035,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1962,
+    "sharpe": 1.808,
+    "maxdd": -0.1044,
+    "vol": 0.1067,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.018,
+   "n_hold": 8,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n12_base": {
+   "full": {
+    "cagr": 0.1403,
+    "sharpe": 0.97,
+    "maxdd": -0.1588,
+    "vol": 0.1531,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.0769,
+    "sharpe": 0.57,
+    "maxdd": -0.1588,
+    "vol": 0.1565,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2377,
+    "sharpe": 1.579,
+    "maxdd": -0.1289,
+    "vol": 0.1481,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.277,
+   "n_hold": 12,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n12_vt08": {
+   "full": {
+    "cagr": 0.0947,
+    "sharpe": 0.978,
+    "maxdd": -0.1177,
+    "vol": 0.1018,
+    "years": 6.8
+   },
+   "is": {
+    "cagr": 0.0384,
+    "sharpe": 0.442,
+    "maxdd": -0.1177,
+    "vol": 0.0997,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1808,
+    "sharpe": 1.714,
+    "maxdd": -0.107,
+    "vol": 0.1045,
+    "years": 2.81
+   },
+   "turnover_per_decision": 0.934,
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  }
+ },
+ "sheet": {
+  "as_of_bar": "2026-10-23",
+  "decision": "HOLD: 13 bars until the next decision point",
+  "is_grid_decision_bar": false,
+  "last_decision_bar": "2026-10-14",
+  "bars_until_next_decision": 13,
+  "capital_cny": 1000000.0,
+  "target_vol": 0.08,
+  "realised_book_vol_60d": 0.0603,
+  "risk_scale": 1.0,
+  "cash_weight": 0.0,
+  "cash_amount_cny": 0.0,
+  "legs": [
+   {
+    "symbol": "515450",
+    "name": "红利低波50ETF南方",
+    "class": "equity",
+    "score": 0.6891,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.4260000000000095,
+    "lots_100": 58400,
+    "actual_amount_cny": 83278.0
+   },
+   {
+    "symbol": "515300",
+    "name": "300红利低波ETF嘉实",
+    "class": "equity",
+    "score": 0.6541,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.3360000000000092,
+    "lots_100": 62300,
+    "actual_amount_cny": 83233.0
+   },
+   {
+    "symbol": "511180",
+    "name": "可转债ETF海富通",
+    "class": "convertible",
+    "score": 0.6159,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 11.798999999999914,
+    "lots_100": 7000,
+    "actual_amount_cny": 82593.0
+   },
+   {
+    "symbol": "510760",
+    "name": "上证指数ETF国泰",
+    "class": "equity",
+    "score": 0.5786,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.2780000000000018,
+    "lots_100": 65200,
+    "actual_amount_cny": 83326.0
+   },
+   {
+    "symbol": "511380",
+    "name": "可转债ETF博时",
+    "class": "convertible",
+    "score": 0.5623,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 12.719000000000005,
+    "lots_100": 6500,
+    "actual_amount_cny": 82674.0
+   },
+   {
+    "symbol": "159307",
+    "name": "红利低波100ETF博时",
+    "class": "equity",
+    "score": 0.5564,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.02,
+    "lots_100": 81600,
+    "actual_amount_cny": 83232.0
+   },
+   {
+    "symbol": "510980",
+    "name": "上证指数ETF汇添富",
+    "class": "equity",
+    "score": 0.5475,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.3230000000000028,
+    "lots_100": 62900,
+    "actual_amount_cny": 83217.0
+   },
+   {
+    "symbol": "513400",
+    "name": "道琼斯ETF鹏华",
+    "class": "equity",
+    "score": 0.5294,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.3180000000000012,
+    "lots_100": 63200,
+    "actual_amount_cny": 83298.0
+   },
+   {
+    "symbol": "512890",
+    "name": "红利低波ETF华泰柏瑞",
+    "class": "equity",
+    "score": 0.5257,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 2.4574769038701634,
+    "lots_100": 33900,
+    "actual_amount_cny": 83308.0
+   },
+   {
+    "symbol": "159980",
+    "name": "有色ETF大成",
+    "class": "commodity",
+    "score": 0.5151,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 2.107000000000001,
+    "lots_100": 39500,
+    "actual_amount_cny": 83227.0
+   },
+   {
+    "symbol": "510210",
+    "name": "上证指数ETF富国",
+    "class": "equity",
+    "score": 0.5137,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 4.755573396788455,
+    "lots_100": 17500,
+    "actual_amount_cny": 83223.0
+   },
+   {
+    "symbol": "159887",
+    "name": "银行ETF富国",
+    "class": "equity",
+    "score": 0.5127,
+    "weight": 0.0833,
+    "amount_cny": 83333.0,
+    "ref_price": 1.390999999999996,
+    "lots_100": 59900,
+    "actual_amount_cny": 83321.0
+   }
+  ]
+ },
+ "caveats": [
+  "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
+  "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
+  "The vol target only de-levers; it is a drawdown tool, not an edge.",
+  "Order sheet is research output, not an investment recommendation."
+ ]
+}
