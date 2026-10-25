@@ -81,6 +81,66 @@ def _wm(sha_hex, commit, nbytes):
     return "%s@%s/%d" % (sha_hex[:16].lower(), (commit or "")[:7].lower(), nbytes)
 
 
+def _repo_id(group):
+    """Origin URL as the machine-independent repo identity (D-20261025-08 'repo')."""
+    try:
+        return _git(["remote", "get-url", "origin"], group).decode().strip()
+    except SystemExit:
+        return group
+
+
+def _v2_entry(repo, commit, blob, path):
+    """D-20261025-08 quartet {repo, commit_sha, blob_bytes, sha256} + fetch command."""
+    return {
+        "repo": repo,
+        "commit_sha": commit,
+        "blob_bytes": len(blob),
+        "sha256": hashlib.sha256(blob).hexdigest(),
+        "path": path,
+        "fetch_command": "git -C <group-tree> show origin/main:%s" % path,
+    }
+
+
+def _v2_compare(prev, cur):
+    """D-20261025-08 (2): repo+commit_sha+blob_bytes first, then sha256.
+
+    Returns 'match' | 'stale' | 'changed'.  A content-equal blob behind a
+    different source commit is STALE (never advances, never judges).
+    """
+    if not prev:
+        return "changed"
+    if (prev.get("repo") != cur["repo"]
+            or prev.get("commit_sha") != cur["commit_sha"]
+            or prev.get("blob_bytes") != cur["blob_bytes"]):
+        return "stale" if prev.get("sha256") == cur["sha256"] else "changed"
+    return "match" if prev.get("sha256") == cur["sha256"] else "changed"
+
+
+def _persist_v2(st, group, blob, commit):
+    """Record the D-20261025-08 quartet for both faces (additive to the triple form)."""
+    repo = _repo_id(group)
+    v2 = st.get("d19_watermark_v2") or {}
+    dec = _v2_entry(repo, commit, blob, "docs/decisions.md")
+    verdict = _v2_compare(v2.get("decisions"), dec)
+    v2["decisions"] = dec
+    v2["decisions_verdict"] = verdict
+    try:
+        oblob = _git(["show", "origin/main:docs/orders.md"], group)
+        oentry = _v2_entry(repo, commit, oblob, "docs/orders.md")
+        overdict = _v2_compare(v2.get("orders"), oentry)
+        v2["orders"] = oentry
+        v2["orders_verdict"] = overdict
+    except SystemExit:
+        pass
+    v2["law"] = "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}"
+    v2["compare_order"] = "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale"
+    v2["updated_at"] = st.get("clock_read") or ""
+    st["d19_watermark_v2"] = v2
+    print("D-19 v2 quartet: decisions %s (%s B, commit %s) verdict=%s"
+          % (dec["sha256"][:16], dec["blob_bytes"], dec["commit_sha"][:7], verdict))
+    return v2
+
+
 _WM_RE = re.compile(r"^([0-9a-fA-F]{16})@([0-9a-fA-F]{7,40})/(\d+)$")
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{64}$")
 
@@ -148,6 +208,7 @@ def main():
                                             len(oblob))
             except SystemExit:
                 print("(orders.md watermark not refreshed -- file absent on origin)")
+            _persist_v2(st, GROUP, blob, commit)
             with open(sp, "w", encoding="utf-8", newline="") as fh:
                 json.dump(st, fh, ensure_ascii=False, indent=1)
         return 0
@@ -185,6 +246,7 @@ def main():
         now = st.get("clock_read") or ""
         st["last_decisions_at"] = now
         st["last_decisions_read_at"] = now
+        _persist_v2(st, GROUP, blob, commit)
         with open(sp, "w", encoding="utf-8", newline="") as fh:
             json.dump(st, fh, ensure_ascii=False, indent=1)
         print("state last_decisions_sha updated")
