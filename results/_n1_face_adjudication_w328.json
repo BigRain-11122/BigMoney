@@ -1,0 +1,47 @@
+{
+ "wave": 328,
+ "splice": "91e318867f",
+ "origin_base": "ee00f6a9d64faa10b3d71de3480ce9e4ab87fac0",
+ "landed_n1_sha16": "0f220f92c45db1f4",
+ "landed_pf_sha16": "ae800a1094da6b5f",
+ "receipt_n1_sha16_post": "0f220f92c45db1f4",
+ "receipt_n1_sha16_pre": "336962aab094b7dc",
+ "receipt_pf_sha16_post": "ae800a1094da6b5f",
+ "receipt_pf_sha16_pre": "f35cd49213dd016e",
+ "prereg_sha16": "e5d1fb91719a86c8",
+ "pre_match_basis": {
+  "n1": "lf",
+  "pf": "lf",
+  "source": "receipt eol flags (r838 law), never assumed"
+ },
+ "replay_n1_sha16_pre": "336962aab094b7dc",
+ "replay_pf_sha16_pre": "f35cd49213dd016e",
+ "replay_n1_sha16_pre_raw": "35a112ed4948e2c9",
+ "replay_pf_sha16_pre_raw": "45d9ed25b03c84fe",
+ "pre_faces_match_receipt": true,
+ "editor_rc": 0,
+ "editor_stdout_tail": [
+  " }",
+  "}",
+  "SPLICE OK -- py_compile both green; NEXT: selftest -> pathspec commit+push -> engine self-ignite W328"
+ ],
+ "editor_stderr_tail": [],
+ "post_match_basis": {
+  "n1": "lf",
+  "pf": "lf",
+  "source": "receipt eol flags (r838 law), never assumed"
+ },
+ "replay_n1_sha16_post_raw": "0ffc3b34ce9590be",
+ "replay_pf_sha16_post_raw": "73126e92b7869ff1",
+ "replay_n1_sha16_post": "0f220f92c45db1f4",
+ "replay_pf_sha16_post": "ae800a1094da6b5f",
+ "post_faces_match_receipt": true,
+ "post_match_mode": "direct",
+ "replay_lf_sha16": "0f220f92c45db1f4",
+ "landed_lf_sha16": "0f220f92c45db1f4",
+ "replay_lf_eq_landed": true,
+ "heal_deltas": [],
+ "unexplained_deltas": [],
+ "verdict": "PASS",
+ "law": "worktree==landed is compared CR-normalized (autocrlf smudge face); receipt post faces are pre-commit CRLF faces -> reconciled by mechanical replay, never by trusting either side (r1188 bm-c)"
+}
