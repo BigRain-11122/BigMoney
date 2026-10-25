@@ -1,0 +1,61 @@
+{
+ "tool": "mem_pressure_report",
+ "machine_id": "bm-c",
+ "generated": "2026-10-26T07:44:34+08:00",
+ "generated_epoch": 1792971879,
+ "metric_note": "free_physical_mb is the Win32 FreePhysicalMemory face (excludes standby) and is ~0 on any warm box; judge pressure by commit_headroom_gb + available_mb",
+ "verdict": "OK",
+ "verdict_reason": "commit headroom 7.51GB, available 2095MB",
+ "thresholds": {
+  "commit_headroom_crit_gb": 4.0,
+  "available_crit_mb": 1024.0
+ },
+ "free_physical_mb": 2094,
+ "available_mb": 2095,
+ "total_physical_gb": 23.92,
+ "committed_gb": 56.41,
+ "commit_limit_gb": 63.92,
+ "commit_headroom_gb": 7.51,
+ "procs_top": [
+  {
+   "pid": 26288,
+   "name": "python.exe",
+   "ws_mb": 3499
+  },
+  {
+   "pid": 11208,
+   "name": "python.exe",
+   "ws_mb": 1422
+  },
+  {
+   "pid": 52120,
+   "name": "codely.exe",
+   "ws_mb": 526
+  },
+  {
+   "pid": 44904,
+   "name": "codely.exe",
+   "ws_mb": 312
+  },
+  {
+   "pid": 48940,
+   "name": "node.exe",
+   "ws_mb": 192
+  },
+  {
+   "pid": 53612,
+   "name": "node.exe",
+   "ws_mb": 191
+  },
+  {
+   "pid": 46976,
+   "name": "codely.exe",
+   "ws_mb": 178
+  },
+  {
+   "pid": 7028,
+   "name": "codely.exe",
+   "ws_mb": 173
+  }
+ ]
+}
