@@ -1,13 +1,13 @@
 {
- "evidence_cutoff": "2026-10-19",
- "generated": "2026-10-25T20:51:25",
+ "evidence_cutoff": "2026-10-23",
+ "generated": "2026-10-25T21:17:44",
  "window": [
   "2020-07-16",
-  "2026-10-19"
+  "2026-10-23"
  ],
  "book_evidence_cutoff": "2026-10-23",
  "repo_panel_stale": {
-  "behind_book_bars": 4,
+  "behind_book_bars": 0,
   "owner_lane": "bm-a (update_repo.py, T-88)",
   "note": "cash leg is read off the panel as of its own last bar; a repo bar missing vs the equity panel is disclosed, never ffilled into a fake quote"
  },
@@ -26,13 +26,13 @@
  "models": {
   "gc001": {
    "description": "single rung, always 1-day GC",
-   "net_ann_pct": 1.7767,
-   "gross_ann_pct": 2.0232,
-   "commission_drag_pp": 0.2465,
-   "n_contracts": 1515,
+   "net_ann_pct": 1.775,
+   "gross_ann_pct": 2.0217,
+   "commission_drag_pp": 0.2467,
+   "n_contracts": 1519,
    "missing_quotes": 0,
    "tenor_mix": {
-    "1": 1515
+    "1": 1519
    },
    "per_year_net_pct": {
     "2020": 2.335,
@@ -41,7 +41,7 @@
     "2023": 2.182,
     "2024": 1.733,
     "2025": 1.42,
-    "2026": 1.076
+    "2026": 1.072
    },
    "liquidity": {
     "share_of_bars_with_a_maturity": 0.9993,
@@ -52,19 +52,19 @@
    "rungs": {
     "GC001": {
      "weight": 1.0,
-     "n_contracts": 1515
+     "n_contracts": 1519
     }
    }
   },
   "short_pick": {
    "description": "single rung, best of GC 1/3/4/7 at each roll",
-   "net_ann_pct": 1.8506,
-   "gross_ann_pct": 2.1077,
-   "commission_drag_pp": 0.2571,
-   "n_contracts": 400,
+   "net_ann_pct": 1.8489,
+   "gross_ann_pct": 2.1064,
+   "commission_drag_pp": 0.2574,
+   "n_contracts": 401,
    "missing_quotes": 0,
    "tenor_mix": {
-    "7": 281,
+    "7": 282,
     "1": 98,
     "4": 13,
     "3": 8
@@ -76,10 +76,10 @@
     "2023": 2.243,
     "2024": 1.832,
     "2025": 1.461,
-    "2026": 1.23
+    "2026": 1.226
    },
    "liquidity": {
-    "share_of_bars_with_a_maturity": 0.2639,
+    "share_of_bars_with_a_maturity": 0.2638,
     "longest_gap_without_any_maturity_days": 15,
     "max_slice_raisable_on_one_bar": 1.0,
     "max_locked_days": 15
@@ -88,9 +88,9 @@
   },
   "best_gc": {
    "description": "single rung, best of all eight GC tenors at each roll",
-   "net_ann_pct": 1.9874,
-   "gross_ann_pct": 2.1193,
-   "commission_drag_pp": 0.1318,
+   "net_ann_pct": 1.9864,
+   "gross_ann_pct": 2.118,
+   "commission_drag_pp": 0.1316,
    "n_contracts": 41,
    "missing_quotes": 0,
    "tenor_mix": {
@@ -120,9 +120,9 @@
   },
   "capped28": {
    "description": "single rung, best of GC tenors up to 28 days (rebalance-safe)",
-   "net_ann_pct": 1.8634,
-   "gross_ann_pct": 2.125,
-   "commission_drag_pp": 0.2615,
+   "net_ann_pct": 1.8626,
+   "gross_ann_pct": 2.1237,
+   "commission_drag_pp": 0.2611,
    "n_contracts": 133,
    "missing_quotes": 0,
    "tenor_mix": {
@@ -140,10 +140,10 @@
     "2023": 2.198,
     "2024": 1.83,
     "2025": 1.436,
-    "2026": 1.213
+    "2026": 1.215
    },
    "liquidity": {
-    "share_of_bars_with_a_maturity": 0.0877,
+    "share_of_bars_with_a_maturity": 0.0875,
     "longest_gap_without_any_maturity_days": 38,
     "max_slice_raisable_on_one_bar": 1.0,
     "max_locked_days": 38
@@ -152,9 +152,9 @@
   },
   "best_dual": {
    "description": "single rung, best of GC+R tenors at each roll",
-   "net_ann_pct": 1.9876,
-   "gross_ann_pct": 2.1195,
-   "commission_drag_pp": 0.1318,
+   "net_ann_pct": 1.9866,
+   "gross_ann_pct": 2.1182,
+   "commission_drag_pp": 0.1316,
    "n_contracts": 41,
    "missing_quotes": 0,
    "tenor_mix": {
@@ -184,15 +184,15 @@
   },
   "ladder3": {
    "description": "three equal rungs GC007/GC014/GC028",
-   "net_ann_pct": 1.8755,
-   "gross_ann_pct": 2.1349,
-   "commission_drag_pp": 0.2595,
-   "n_contracts": 554,
+   "net_ann_pct": 1.8727,
+   "gross_ann_pct": 2.1336,
+   "commission_drag_pp": 0.2609,
+   "n_contracts": 557,
    "missing_quotes": 0,
    "tenor_mix": {
-    "7": 314,
-    "14": 159,
-    "28": 81
+    "7": 315,
+    "14": 160,
+    "28": 82
    },
    "per_year_net_pct": {
     "2020": 2.475,
@@ -201,10 +201,10 @@
     "2023": 2.244,
     "2024": 1.85,
     "2025": 1.481,
-    "2026": 1.255
+    "2026": 1.242
    },
    "liquidity": {
-    "share_of_bars_with_a_maturity": 0.2619,
+    "share_of_bars_with_a_maturity": 0.2625,
     "longest_gap_without_any_maturity_days": 15,
     "max_slice_raisable_on_one_bar": 1.0,
     "max_locked_days": 34
@@ -212,33 +212,33 @@
    "rungs": {
     "GC007": {
      "weight": 0.3333,
-     "n_contracts": 314,
-     "ann_pct": 1.8834
+     "n_contracts": 315,
+     "ann_pct": 1.8817
     },
     "GC014": {
      "weight": 0.3333,
-     "n_contracts": 159,
-     "ann_pct": 1.867
+     "n_contracts": 160,
+     "ann_pct": 1.8646
     },
     "GC028": {
      "weight": 0.3333,
-     "n_contracts": 81,
-     "ann_pct": 1.8759
+     "n_contracts": 82,
+     "ann_pct": 1.8719
     }
    }
   },
   "ladder4": {
    "description": "four equal rungs GC001/GC007/GC014/GC028",
-   "net_ann_pct": 1.8508,
-   "gross_ann_pct": 2.107,
-   "commission_drag_pp": 0.2562,
-   "n_contracts": 2069,
+   "net_ann_pct": 1.8483,
+   "gross_ann_pct": 2.1056,
+   "commission_drag_pp": 0.2574,
+   "n_contracts": 2076,
    "missing_quotes": 0,
    "tenor_mix": {
-    "1": 1515,
-    "7": 314,
-    "14": 159,
-    "28": 81
+    "1": 1519,
+    "7": 315,
+    "14": 160,
+    "28": 82
    },
    "per_year_net_pct": {
     "2020": 2.44,
@@ -247,7 +247,7 @@
     "2023": 2.228,
     "2024": 1.821,
     "2025": 1.466,
-    "2026": 1.21
+    "2026": 1.199
    },
    "liquidity": {
     "share_of_bars_with_a_maturity": 0.9993,
@@ -258,23 +258,23 @@
    "rungs": {
     "GC001": {
      "weight": 0.25,
-     "n_contracts": 1515,
-     "ann_pct": 1.7767
+     "n_contracts": 1519,
+     "ann_pct": 1.775
     },
     "GC007": {
      "weight": 0.25,
-     "n_contracts": 314,
-     "ann_pct": 1.8834
+     "n_contracts": 315,
+     "ann_pct": 1.8817
     },
     "GC014": {
      "weight": 0.25,
-     "n_contracts": 159,
-     "ann_pct": 1.867
+     "n_contracts": 160,
+     "ann_pct": 1.8646
     },
     "GC028": {
      "weight": 0.25,
-     "n_contracts": 81,
-     "ann_pct": 1.8759
+     "n_contracts": 82,
+     "ann_pct": 1.8719
     }
    }
   }
@@ -282,89 +282,89 @@
  "quarter_end": {
   "GC001": {
    "tenor": 1,
-   "mean_all_pct": 1.977,
-   "mean_quarter_end_pct": 3.032,
-   "mean_other_pct": 1.92,
+   "mean_all_pct": 1.975,
+   "mean_quarter_end_pct": 3.031,
+   "mean_other_pct": 1.918,
    "max_single_day_pct": 7.83,
    "max_day": "2023-03-31"
   },
   "GC003": {
    "tenor": 3,
-   "mean_all_pct": 1.98,
-   "mean_quarter_end_pct": 2.955,
-   "mean_other_pct": 1.928,
+   "mean_all_pct": 1.978,
+   "mean_quarter_end_pct": 2.954,
+   "mean_other_pct": 1.926,
    "max_single_day_pct": 7.25,
    "max_day": "2023-03-31"
   },
   "GC004": {
    "tenor": 4,
-   "mean_all_pct": 2.005,
-   "mean_quarter_end_pct": 2.913,
-   "mean_other_pct": 1.956,
+   "mean_all_pct": 2.003,
+   "mean_quarter_end_pct": 2.91,
+   "mean_other_pct": 1.954,
    "max_single_day_pct": 6.17,
    "max_day": "2021-01-28"
   },
   "GC007": {
    "tenor": 7,
-   "mean_all_pct": 2.077,
-   "mean_quarter_end_pct": 2.725,
-   "mean_other_pct": 2.041,
+   "mean_all_pct": 2.075,
+   "mean_quarter_end_pct": 2.724,
+   "mean_other_pct": 2.04,
    "max_single_day_pct": 5.62,
    "max_day": "2023-12-25"
   },
   "GC014": {
    "tenor": 14,
-   "mean_all_pct": 2.081,
+   "mean_all_pct": 2.079,
    "mean_quarter_end_pct": 2.378,
-   "mean_other_pct": 2.065,
+   "mean_other_pct": 2.063,
    "max_single_day_pct": 4.41,
    "max_day": "2023-09-27"
   },
   "GC028": {
    "tenor": 28,
-   "mean_all_pct": 2.085,
-   "mean_quarter_end_pct": 2.166,
-   "mean_other_pct": 2.081,
+   "mean_all_pct": 2.083,
+   "mean_quarter_end_pct": 2.165,
+   "mean_other_pct": 2.079,
    "max_single_day_pct": 3.77,
    "max_day": "2021-01-28"
   },
   "GC091": {
    "tenor": 91,
-   "mean_all_pct": 2.066,
-   "mean_quarter_end_pct": 2.069,
-   "mean_other_pct": 2.066,
+   "mean_all_pct": 2.064,
+   "mean_quarter_end_pct": 2.068,
+   "mean_other_pct": 2.064,
    "max_single_day_pct": 3.17,
    "max_day": "2020-11-13"
   },
   "GC182": {
    "tenor": 182,
-   "mean_all_pct": 2.024,
-   "mean_quarter_end_pct": 2.032,
-   "mean_other_pct": 2.023,
+   "mean_all_pct": 2.022,
+   "mean_quarter_end_pct": 2.031,
+   "mean_other_pct": 2.021,
    "max_single_day_pct": 3.05,
    "max_day": "2020-11-18"
   },
   "R-001": {
    "tenor": 1,
-   "mean_all_pct": 1.831,
+   "mean_all_pct": 1.829,
    "mean_quarter_end_pct": 2.805,
-   "mean_other_pct": 1.778,
+   "mean_other_pct": 1.776,
    "max_single_day_pct": 7.67,
    "max_day": "2023-03-31"
   },
   "R-003": {
    "tenor": 3,
-   "mean_all_pct": 1.809,
-   "mean_quarter_end_pct": 2.691,
-   "mean_other_pct": 1.762,
+   "mean_all_pct": 1.808,
+   "mean_quarter_end_pct": 2.689,
+   "mean_other_pct": 1.76,
    "max_single_day_pct": 6.87,
    "max_day": "2023-03-31"
   },
   "R-007": {
    "tenor": 7,
-   "mean_all_pct": 1.989,
+   "mean_all_pct": 1.987,
    "mean_quarter_end_pct": 2.561,
-   "mean_other_pct": 1.958,
+   "mean_other_pct": 1.956,
    "max_single_day_pct": 5.59,
    "max_day": "2023-12-25"
   }
@@ -391,7 +391,7 @@
   }
  },
  "ticket": {
-  "as_of": "2026-10-19",
+  "as_of": "2026-10-23",
   "book_evidence_cutoff": "2026-10-23",
   "cash_sleeve_pct_of_nav_assumption": 45.9,
   "rungs": [
@@ -400,107 +400,107 @@
     "tenor_days": 1,
     "weight_of_cash": 0.25,
     "weight_of_nav": 0.1147,
-    "quoted_pct_at_cutoff": 0.99,
+    "quoted_pct_at_cutoff": 1.015,
     "holding": {
      "name": "GC001",
      "tenor": 1,
-     "entry": "2026-10-16",
-     "exit": "2026-10-19",
-     "days": 3,
-     "rate_pct": 0.97,
+     "entry": "2026-10-22",
+     "exit": "2026-10-23",
+     "days": 1,
+     "rate_pct": 0.89,
      "open_at_cutoff": false
     },
-    "next_action": "roll GC001 on the first bar at/after 2026-10-19"
+    "next_action": "roll GC001 on the first bar at/after 2026-10-23"
    },
    {
     "contract": "GC007",
     "tenor_days": 7,
     "weight_of_cash": 0.25,
     "weight_of_nav": 0.1147,
-    "quoted_pct_at_cutoff": 1.36,
+    "quoted_pct_at_cutoff": 1.33,
     "holding": {
      "name": "GC007",
      "tenor": 7,
-     "entry": "2026-10-15",
-     "exit": "2026-10-19",
-     "days": 4,
-     "rate_pct": 1.39,
+     "entry": "2026-10-22",
+     "exit": "2026-10-23",
+     "days": 1,
+     "rate_pct": 1.32,
      "open_at_cutoff": true
     },
-    "next_action": "roll GC007 on the first bar at/after 2026-10-19"
+    "next_action": "roll GC007 on the first bar at/after 2026-10-23"
    },
    {
     "contract": "GC014",
     "tenor_days": 14,
     "weight_of_cash": 0.25,
     "weight_of_nav": 0.1147,
-    "quoted_pct_at_cutoff": 1.38,
+    "quoted_pct_at_cutoff": 1.35,
     "holding": {
      "name": "GC014",
      "tenor": 14,
-     "entry": "2026-10-08",
-     "exit": "2026-10-19",
-     "days": 11,
-     "rate_pct": 1.39,
+     "entry": "2026-10-22",
+     "exit": "2026-10-23",
+     "days": 1,
+     "rate_pct": 1.355,
      "open_at_cutoff": true
     },
-    "next_action": "roll GC014 on the first bar at/after 2026-10-19"
+    "next_action": "roll GC014 on the first bar at/after 2026-10-23"
    },
    {
     "contract": "GC028",
     "tenor_days": 28,
     "weight_of_cash": 0.25,
     "weight_of_nav": 0.1147,
-    "quoted_pct_at_cutoff": 1.375,
+    "quoted_pct_at_cutoff": 1.35,
     "holding": {
      "name": "GC028",
      "tenor": 28,
-     "entry": "2026-09-23",
-     "exit": "2026-10-19",
-     "days": 26,
-     "rate_pct": 1.44,
+     "entry": "2026-10-21",
+     "exit": "2026-10-23",
+     "days": 2,
+     "rate_pct": 1.365,
      "open_at_cutoff": true
     },
-    "next_action": "roll GC028 on the first bar at/after 2026-10-19"
+    "next_action": "roll GC028 on the first bar at/after 2026-10-23"
    }
   ],
-  "blended_quoted_pct": 1.276
+  "blended_quoted_pct": 1.261
  },
  "curve": {
   "by_tenor": {
    "GC001": {
     "tenor": 1,
-    "mean_quote_pct": 1.977,
+    "mean_quote_pct": 1.975,
     "rolls_per_year": 365.0,
     "commission_bp_per_year": 36.5
    },
    "GC003": {
     "tenor": 3,
-    "mean_quote_pct": 1.98,
+    "mean_quote_pct": 1.978,
     "rolls_per_year": 121.7,
     "commission_bp_per_year": 36.5
    },
    "GC004": {
     "tenor": 4,
-    "mean_quote_pct": 2.005,
+    "mean_quote_pct": 2.003,
     "rolls_per_year": 91.2,
     "commission_bp_per_year": 36.5
    },
    "GC007": {
     "tenor": 7,
-    "mean_quote_pct": 2.077,
+    "mean_quote_pct": 2.075,
     "rolls_per_year": 52.1,
     "commission_bp_per_year": 26.1
    },
    "GC014": {
     "tenor": 14,
-    "mean_quote_pct": 2.081,
+    "mean_quote_pct": 2.079,
     "rolls_per_year": 26.1,
     "commission_bp_per_year": 26.1
    },
    "GC028": {
     "tenor": 28,
-    "mean_quote_pct": 2.085,
+    "mean_quote_pct": 2.083,
     "rolls_per_year": 13.0,
     "commission_bp_per_year": 26.1
    }
@@ -510,7 +510,7 @@
    "GC003": 0.02,
    "GC004": 0.016,
    "GC007": 0.187,
-   "GC014": 0.197,
+   "GC014": 0.199,
    "GC028": 0.445
   },
   "read": "a flat curve plus a commission that scales with the holding period means the ladder buys fee efficiency, not yield"

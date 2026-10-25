@@ -88,11 +88,12 @@ over quarter-end" overlay is a future note, not a free lunch already in hand.
 
 ## Today's instruction (as of the panel's last bar)
 
-`CASH-TICKET-2026-10-19.json`: four rungs of 11.5% of NAV each
-(GC001 0.99% / GC007 1.36% / GC014 1.38% / GC028 → roll at each maturity), blended quote
-≈1.28%, next roll per rung at the first bar at/after each maturity. Refresh gated on the
-repo panel, which is owned by the bm-a lane (`update_repo.py`, T-88) and currently 4 bars
-behind the equity panel.
+`CASH-TICKET-2026-10-23.json` (refreshed r1259): four rungs of 11.5% of NAV each
+(GC001 1.015% / GC007 1.33% / GC014 1.35% / GC028 1.35% → roll at each maturity), blended
+quote ≈1.261%, next roll per rung at the first bar at/after each maturity. The repo panel
+(owner `update_repo.py`, T-88) is now level with the equity book at 2026-10-23; when it
+falls behind again, refresh it with `--takeover` only if the owner heartbeat is genuinely
+stale (see the section below).
 
 ## Limits
 
@@ -104,3 +105,43 @@ behind the equity panel.
 * no intraday execution model: entry uses the entry bar's close;
 * survivorship does not apply here (repo tenors are index-like), but the equity book's
   survivorship caveat still covers everything the cash leg finances.
+
+## r1259 refresh: the lane came back, the numbers did not move
+
+The panel behind every number above was 4 bars behind the equity book (last repo bar
+2026-10-19 vs equity 2026-10-23) because `update_repo.py` had no way to act when its owner
+went silent — the r1101 silent-rot class, one lane over. That gap is closed: the script now
+carries a declared stale-takeover leg (explicit `--takeover` AND owner heartbeat >= 120 min
+stale, the decision imported from `update_etf_daily`, never re-implemented). bm-b's
+heartbeat was 68.9 h old, so the leg fired, pulled 11/11 tenors (+4 rows each, zero failures,
+zero overlap mismatches, cutoff 2026-10-19 -> 2026-10-23), and the whole ladder was
+re-derived on the extended panel.
+
+The re-derivation is the useful part, because it is a reproducibility ruler rather than a
+new result:
+
+| model | net 2026-10-19 | net 2026-10-23 | delta |
+|---|---|---|---|
+| gc001 | 1.777% | 1.775% | -0.002 |
+| short_pick | 1.851% | 1.849% | -0.002 |
+| ladder3 | 1.875% | 1.873% | -0.003 |
+| capped28 | 1.863% | 1.863% | -0.001 |
+| best_gc / best_dual | 1.988 / 1.987% | 1.986 / 1.987% | -0.001 |
+
+Four real bars move every policy by at most 0.3 bp, the ranking is unchanged, and the book
+uplift stays +0.034 / +0.040 / +0.045 / +0.097pp exactly as rounded before. The staleness
+flag `repo_panel_stale.behind_book_bars` went 4 -> 0, so the cash leg is no longer a stale
+quote riding under a fresh equity book.
+
+What the new bars do say is about the level, not the policy: overnight softened while the
+term end held. October 2026 GC001 averages 1.235% (12 bars, min 0.890 on 10-22) against
+1.325% in September, and the last four bars average 1.167% vs 1.181% for the four before,
+while GC007/014/028 gave up only 1.0-1.9 bp over the same window. Read forward, that widens
+the ladder's current edge: at October's realised quotes ladder3 nets 1.118%/yr against
+0.989% for the overnight roll (+13 bp, versus +9.8 bp on the full-sample average), i.e.
+0.513pp vs 0.454pp on NAV at the 45.9% cash share. The ladder's value is not a fixed 10 bp —
+it is whatever the overnight curve gives up, and right now it is giving up a little more.
+
+Refresh procedure (repeatable, no clock fields in the verdict): `python scripts/update_repo.py
+--takeover` then `python scripts/etf_book_cash_ladder.py`; the ticket file name follows the
+panel's last bar, so a refresh never overwrites a past ticket.

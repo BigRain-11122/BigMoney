@@ -407,12 +407,39 @@ def fetch_primary(sym):
 # ------------------------------------------------------------------------- run
 
 
+def _takeover_gate(owner):
+    """R31 lane guard + R65 zero-shared-state: a non-owner is a stdout-only
+    no-op, EXCEPT a declared stale takeover (r1101): explicit --takeover AND
+    an owner heartbeat >= TAKEOVER_STALE_MIN stale. The decision is imported
+    from update_etf_daily, never re-implemented (one pure function, one law);
+    the receipt reason is composed here so it names THIS lane's owner."""
+    if owner == LANE_OWNER:
+        return None
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                  takeover_decision)
+    stale = _owner_stale_min(LANE_OWNER)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    if not ok:
+        print(f"no-op: repo rates lane owned by {LANE_OWNER}, "
+              f"not this machine ({owner or '?'}); takeover refused: {why}",
+              flush=True)
+        return None
+    reason = (f"owner {LANE_OWNER} heartbeat silent {stale/60:.1f}h "
+              f">= {TAKEOVER_STALE_MIN}min")
+    print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} repo-rates lane "
+          f"by {owner} -- {reason}", flush=True)
+    return {"owner": LANE_OWNER, "by": owner, "reason": reason,
+            "ts": dt.datetime.now().isoformat(timespec="seconds")}
+
+
 def run():
     owner = _lane_owner_id()
+    takeover = None
     if owner != LANE_OWNER:
-        print(f"no-op: repo rates lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})")
-        return 0
+        takeover = _takeover_gate(owner)
+        if takeover is None:
+            return 0
     st = load_status()
     now = dt.datetime.now()
     local_cut = local_data_cutoff()
@@ -423,6 +450,8 @@ def run():
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = local_cut
+        if takeover:
+            st["takeover"] = takeover
         write_status(st)
         print(f"no-op: {gate_reason} -> zero network")
         return 0
@@ -511,6 +540,8 @@ def run():
                 "(M0923 pattern: amt*rate*pct*days/365, commission 1e-5, "
                 "1000-CNY multiples); collector supplies the rate series only",
     })
+    if takeover:
+        st["takeover"] = takeover
     write_status(st)
     print(f"update_repo -> {STATUS}")
     for r in per:
@@ -636,7 +667,16 @@ def _selftest():
     # S10 term map integrity: 11 terms, unique symbols, sh/sz prefixes only
     assert len(TERMS) == 11 and len(set(TERMS.values())) == 11
     assert all(v.startswith(("sh", "sz")) for v in TERMS.values())
-    print("selftest: 10/10 PASS")
+    # S11 stale-takeover gate (r1259): flag XOR stale is never enough --
+    # the pure decision is imported from update_etf_daily, never re-written.
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import TAKEOVER_STALE_MIN, takeover_decision
+    assert takeover_decision(False, 10_000)[0] is False      # no flag
+    assert takeover_decision(True, None)[0] is False         # unreadable owner
+    assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
+    assert takeover_decision(True, TAKEOVER_STALE_MIN)[0] is True
+    assert _takeover_gate(LANE_OWNER) is None and not _takeover_gate(LANE_OWNER)
+    print("selftest: 11/11 PASS")
     return 0
 
 

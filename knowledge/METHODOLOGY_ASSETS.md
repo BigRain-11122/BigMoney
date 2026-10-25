@@ -599,3 +599,12 @@ esearch/ETF_BOOK_ORDER.md。
 - 证据：`scripts/etf_book_cash_ladder.py`（`--selftest` 12/12，含「1 日腿与 r1255 repo_daily_cash 逐位恒等」的对照腿）、`results/etf_book_cash_ladder.json`、`results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json`、`research/ETF_BOOK_CASH_LADDER.md`
 - 下一站：季度末隔夜尖峰（GC001 季末日 3.03% vs 平日 1.92%）的常设 overlay——但要把锁期成本放进同一个状态机再算。
 - 2026-10-25 21:0x bm-c r1258 探索
+
+## E116 — 冻结的探索结论必须有「数据版本推进」复算腿：刷新是标尺，不是新结果（2026-10-25 bm-c r1259）
+- 研究点：r1258 的现金腿结论（GC001 净 1.777%/年、阶梯 1.875%）建立在 repo 面板 2026-10-19 上，而股票簿已到 10-23——面板落后 4 bar 而没有任何告警，因为 `update_repo.py` 的属主静默后没有接管通道（r1101 静默腐烂族，换了一条车道）。
+- 机制/做法：给车道守卫补**声明式陈旧接管腿**——显式 `--takeover` AND 属主心跳 ≥120min 陈旧双条件，判定函数从 `update_etf_daily` import 复用（不写第二套），接管事实（owner/by/reason/ts）写进状态件；补跑后把整套阶梯在延长面板上**重新 derive**，逐模型 diff 旧值。
+- 结果：11/11 期限 +4 行、零失败零重叠失配，cutoff 10-19→10-23；复算后每档政策移动 ≤0.3bp（gc001 1.777→1.775、ladder3 1.875→1.873），排序与 +0.034/0.040/0.045/0.097pp 的簿级提升**一字不改**，`behind_book_bars` 4→0。新 bar 只改水平不改政策：10 月 GC001 均值 1.235%（9 月 1.325%，10-22 最低 0.890），而 7/14/28 天只让 1.0-1.9bp → 阶梯当前优势从 +9.8bp 扩到 +13bp。
+- 心智模型：探索结论有两个维度要分开验收——**排序/幅度（政策面）**与**水平（环境面）**。数据版本推进后若只重发新数字，读者无法分辨「结论变了」还是「样本长了」；正法是同一份代码在延长面板上重算并给逐档 delta，让 ≤0.3bp 的稳定性和 13bp 的环境漂移各自可见。另：任何「某条车道没人维护」的发现，先查它的守卫有没有接管腿——缺接管=会静默烂，而不是会报错。
+- 证据：`scripts/update_repo.py`（`--selftest` 11/11，含 S11 接管门四负腿与属主自返 None 腿）、`results/repo_update_status.json`（takeover 回执）、`results/etf_book_cash_ladder.json` + `CASH-TICKET-2026-10-23.json`、`research/ETF_BOOK_CASH_LADDER.md`
+- 下一站：季度末隔夜尖峰 overlay 与阶梯放在同一状态机里算（r1258 留的下一站），以及把「刷新复算 delta」做成现金腿的常规验收行而不是一次性检查。
+- 2026-10-25 21:2x bm-c r1259 探索
