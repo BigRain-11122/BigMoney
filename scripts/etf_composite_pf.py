@@ -179,6 +179,12 @@ def run_next_open(close, openp, amt, feats, rebal, n_hold=N_HOLD, cost=COST, sta
     # and still ride this exact leg engine -- never re-implement the fill maths elsewhere.
     if score is None:
         score = build_score(close, amt, feats, min_amt=min_amt, min_hist=min_hist)
+
+    # `cost` may also be a callable cost(prev_book, new_book, d) -> per-side rate.
+    # A capacity run needs one rate per DECISION (each name carries its own ADV); the
+    # charge stays `rate * turnover`, so the scalar path is bit-identical (pinned by
+    # the selftest in scripts/etf_book_capacity.py).
+    cost_fn = cost if callable(cost) else None
     cols = close.columns
     px = close.reindex(columns=cols).ffill()
     op = openp.reindex(columns=cols)
@@ -232,7 +238,8 @@ def run_next_open(close, openp, amt, feats, rebal, n_hold=N_HOLD, cost=COST, sta
                     if r is not None:
                         equity *= (1.0 + r)
                 new, turn = pending
-                equity *= (1.0 - cost * turn)
+                rate = cost_fn(held, new, d) if cost_fn is not None else cost
+                equity *= (1.0 - rate * turn)
                 turnover_sum += turn
                 n_rebal += 1
                 held, pending = new, None

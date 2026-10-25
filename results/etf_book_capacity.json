@@ -1,0 +1,4470 @@
+{
+ "ts": "2026-10-25 21:54:14",
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_book_capacity.py",
+ "config": {
+  "nav_grid": [
+   1000000.0,
+   5000000.0,
+   10000000.0,
+   30000000.0,
+   50000000.0,
+   100000000.0,
+   200000000.0,
+   500000000.0,
+   1000000000.0
+  ],
+  "k_bp": 10.0,
+  "k_grid": [
+   5.0,
+   10.0,
+   20.0
+  ],
+  "base_bp": 8.0,
+  "rebal": 20,
+  "n_hold": 5,
+  "start": "2020-01-01",
+  "min_amt": 20000000.0,
+  "min_hist": 120
+ },
+ "flat_8bp_reference": {
+  "label": "book @ flat 8bp",
+  "bars": 1648,
+  "years": 6.81,
+  "start_level": 1.0,
+  "total_ret": 0.6486,
+  "cagr": 0.0762,
+  "vol": 0.1034,
+  "sharpe": 0.792,
+  "maxdd": -0.1309
+ },
+ "pool_equal_weight": {
+  "label": "pool equal weight",
+  "bars": 1647,
+  "years": 6.8,
+  "start_level": 1.0009,
+  "total_ret": 0.1537,
+  "cagr": 0.0212,
+  "vol": 0.1815,
+  "sharpe": 0.211,
+  "maxdd": -0.3991
+ },
+ "market_510300": {
+  "label": "510300",
+  "bars": 1648,
+  "years": 6.81,
+  "start_level": 1.0,
+  "total_ret": 0.007,
+  "cagr": 0.001,
+  "vol": 0.1912,
+  "sharpe": 0.101,
+  "maxdd": -0.451
+ },
+ "capacity_ladder": [
+  {
+   "label": "nav=1e+06",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.5821,
+   "cagr": 0.0697,
+   "vol": 0.1035,
+   "sharpe": 0.731,
+   "maxdd": -0.132,
+   "nav": 1000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 4.85,
+   "excess_vs_flat_pp": -0.65,
+   "participation_max_p90": 0.010627,
+   "decisions_over_1pct": 12
+  },
+  {
+   "label": "nav=5e+06",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.5035,
+   "cagr": 0.0617,
+   "vol": 0.1036,
+   "sharpe": 0.654,
+   "maxdd": -0.1333,
+   "nav": 5000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 4.05,
+   "excess_vs_flat_pp": -1.45,
+   "participation_max_p90": 0.053135,
+   "decisions_over_1pct": 71
+  },
+  {
+   "label": "nav=1e+07",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.4472,
+   "cagr": 0.0558,
+   "vol": 0.1038,
+   "sharpe": 0.597,
+   "maxdd": -0.1343,
+   "nav": 10000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 3.46,
+   "excess_vs_flat_pp": -2.04,
+   "participation_max_p90": 0.10627,
+   "decisions_over_1pct": 76
+  },
+  {
+   "label": "nav=3e+07",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.3153,
+   "cagr": 0.0411,
+   "vol": 0.1043,
+   "sharpe": 0.455,
+   "maxdd": -0.1368,
+   "nav": 30000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 1.99,
+   "excess_vs_flat_pp": -3.51,
+   "participation_max_p90": 0.318811,
+   "decisions_over_1pct": 82
+  },
+  {
+   "label": "nav=5e+07",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.2315,
+   "cagr": 0.0311,
+   "vol": 0.1048,
+   "sharpe": 0.357,
+   "maxdd": -0.1385,
+   "nav": 50000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 0.99,
+   "excess_vs_flat_pp": -4.51,
+   "participation_max_p90": 0.531351,
+   "decisions_over_1pct": 83
+  },
+  {
+   "label": "nav=1e+08",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.091,
+   "cagr": 0.0129,
+   "vol": 0.1058,
+   "sharpe": 0.179,
+   "maxdd": -0.1915,
+   "nav": 100000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": -0.83,
+   "excess_vs_flat_pp": -6.33,
+   "participation_max_p90": 1.062701,
+   "decisions_over_1pct": 83
+  },
+  {
+   "label": "nav=2e+08",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": -0.0812,
+   "cagr": -0.0124,
+   "vol": 0.1078,
+   "sharpe": -0.066,
+   "maxdd": -0.2738,
+   "nav": 200000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": -3.36,
+   "excess_vs_flat_pp": -8.86,
+   "participation_max_p90": 2.125402,
+   "decisions_over_1pct": 83
+  },
+  {
+   "label": "nav=5e+08",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": -0.3473,
+   "cagr": -0.0608,
+   "vol": 0.1132,
+   "sharpe": -0.519,
+   "maxdd": -0.4167,
+   "nav": 500000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": -8.2,
+   "excess_vs_flat_pp": -13.7,
+   "participation_max_p90": 5.313506,
+   "decisions_over_1pct": 83
+  },
+  {
+   "label": "nav=1e+09",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": -0.5569,
+   "cagr": -0.1127,
+   "vol": 0.1214,
+   "sharpe": -0.965,
+   "maxdd": -0.5578,
+   "nav": 1000000000.0,
+   "turnover": 1.2506,
+   "open_gapfill": 1,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": -13.39,
+   "excess_vs_flat_pp": -18.89,
+   "participation_max_p90": 10.627012,
+   "decisions_over_1pct": 83
+  }
+ ],
+ "breakeven_nav_vs_ew": 50000000.0,
+ "impact_k_band": {
+  "k=5": [
+   {
+    "nav": 10000000.0,
+    "k_bp": 5.0,
+    "cagr": 0.066,
+    "excess_vs_ew_pp": 4.48
+   },
+   {
+    "nav": 50000000.0,
+    "k_bp": 5.0,
+    "cagr": 0.0534,
+    "excess_vs_ew_pp": 3.22
+   },
+   {
+    "nav": 100000000.0,
+    "k_bp": 5.0,
+    "cagr": 0.0441,
+    "excess_vs_ew_pp": 2.29
+   },
+   {
+    "nav": 200000000.0,
+    "k_bp": 5.0,
+    "cagr": 0.0311,
+    "excess_vs_ew_pp": 0.99
+   },
+   {
+    "nav": 500000000.0,
+    "k_bp": 5.0,
+    "cagr": 0.0056,
+    "excess_vs_ew_pp": -1.56
+   }
+  ],
+  "k=10": [
+   {
+    "nav": 10000000.0,
+    "k_bp": 10.0,
+    "cagr": 0.0558,
+    "excess_vs_ew_pp": 3.46
+   },
+   {
+    "nav": 50000000.0,
+    "k_bp": 10.0,
+    "cagr": 0.0311,
+    "excess_vs_ew_pp": 0.99
+   },
+   {
+    "nav": 100000000.0,
+    "k_bp": 10.0,
+    "cagr": 0.0129,
+    "excess_vs_ew_pp": -0.83
+   },
+   {
+    "nav": 200000000.0,
+    "k_bp": 10.0,
+    "cagr": -0.0124,
+    "excess_vs_ew_pp": -3.36
+   },
+   {
+    "nav": 500000000.0,
+    "k_bp": 10.0,
+    "cagr": -0.0608,
+    "excess_vs_ew_pp": -8.2
+   }
+  ],
+  "k=20": [
+   {
+    "nav": 10000000.0,
+    "k_bp": 20.0,
+    "cagr": 0.0358,
+    "excess_vs_ew_pp": 1.46
+   },
+   {
+    "nav": 50000000.0,
+    "k_bp": 20.0,
+    "cagr": -0.0124,
+    "excess_vs_ew_pp": -3.36
+   },
+   {
+    "nav": 100000000.0,
+    "k_bp": 20.0,
+    "cagr": -0.0471,
+    "excess_vs_ew_pp": -6.83
+   },
+   {
+    "nav": 200000000.0,
+    "k_bp": 20.0,
+    "cagr": -0.0943,
+    "excess_vs_ew_pp": -11.55
+   },
+   {
+    "nav": 500000000.0,
+    "k_bp": 20.0,
+    "cagr": -0.1818,
+    "excess_vs_ew_pp": -20.3
+   }
+  ]
+ },
+ "participation_at_ref_nav": {
+  "ref_nav": 10000000.0,
+  "decisions": 83,
+  "max_participation_p50": 0.066911,
+  "max_participation_p90": 0.10627,
+  "max_participation_worst": 0.160941,
+  "median_participation_p50": 0.012417,
+  "nav_where_p90_trade_is_1pct_adv": 940995.8,
+  "rows": [
+   {
+    "date": "2020-01-03",
+    "n_legs": 5,
+    "turnover": 1.0,
+    "rate_bp_per_side": 27.782,
+    "extra_bp_avg": 19.782,
+    "participation_max": 0.052664,
+    "participation_median": 0.04222,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159905",
+      "dw": 0.2,
+      "adv": 59710903.3,
+      "participation": 0.033495
+     },
+     {
+      "sym": "510310",
+      "dw": 0.2,
+      "adv": 99152197.6,
+      "participation": 0.020171
+     },
+     {
+      "sym": "510880",
+      "dw": 0.2,
+      "adv": 37976477.8,
+      "participation": 0.052664
+     },
+     {
+      "sym": "512160",
+      "dw": 0.2,
+      "adv": 38107261.9,
+      "participation": 0.052483
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 47371082.6,
+      "participation": 0.04222
+     }
+    ]
+   },
+   {
+    "date": "2020-02-10",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 24.501,
+    "extra_bp_avg": 16.501,
+    "participation_max": 0.051351,
+    "participation_median": 0.027783,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 205725936.4,
+      "participation": 0.009722
+     },
+     {
+      "sym": "159905",
+      "dw": 0.2,
+      "adv": 50078898.7,
+      "participation": 0.039937
+     },
+     {
+      "sym": "159952",
+      "dw": 0.2,
+      "adv": 49352389.1,
+      "participation": 0.040525
+     },
+     {
+      "sym": "510310",
+      "dw": 0.2,
+      "adv": 123073271.2,
+      "participation": 0.01625
+     },
+     {
+      "sym": "510880",
+      "dw": 0.2,
+      "adv": 86559642.9,
+      "participation": 0.023105
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 61612171.9,
+      "participation": 0.032461
+     },
+     {
+      "sym": "512160",
+      "dw": 0.2,
+      "adv": 38947455.2,
+      "participation": 0.051351
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 111253150.8,
+      "participation": 0.017977
+     }
+    ]
+   },
+   {
+    "date": "2020-03-09",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 18.411,
+    "extra_bp_avg": 10.411,
+    "participation_max": 0.023818,
+    "participation_median": 0.011198,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 377350450.1,
+      "participation": 0.0053
+     },
+     {
+      "sym": "159952",
+      "dw": 0.2,
+      "adv": 83970347.2,
+      "participation": 0.023818
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 686845072.5,
+      "participation": 0.002912
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 202514490.1,
+      "participation": 0.009876
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 114300099.6,
+      "participation": 0.017498
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 159753633.5,
+      "participation": 0.012519
+     }
+    ]
+   },
+   {
+    "date": "2020-04-07",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 22.015,
+    "extra_bp_avg": 14.015,
+    "participation_max": 0.09216,
+    "participation_median": 0.016005,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 39420220.3,
+      "participation": 0.050735
+     },
+     {
+      "sym": "510710",
+      "dw": 0.2,
+      "adv": 21701404.2,
+      "participation": 0.09216
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 94934841.4,
+      "participation": 0.021067
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 882720363.7,
+      "participation": 0.002266
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 9250512658.4,
+      "participation": 0.000216
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 182750208.1,
+      "participation": 0.010944
+     }
+    ]
+   },
+   {
+    "date": "2020-05-08",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 27.143,
+    "extra_bp_avg": 19.143,
+    "participation_max": 0.086489,
+    "participation_median": 0.0401,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 395330120.0,
+      "participation": 0.005059
+     },
+     {
+      "sym": "510710",
+      "dw": 0.2,
+      "adv": 23124443.5,
+      "participation": 0.086489
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 50244165.7,
+      "participation": 0.039806
+     },
+     {
+      "sym": "512010",
+      "dw": 0.2,
+      "adv": 49512410.9,
+      "participation": 0.040394
+     }
+    ]
+   },
+   {
+    "date": "2020-06-05",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 33.898,
+    "extra_bp_avg": 25.898,
+    "participation_max": 0.139386,
+    "participation_median": 0.065967,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 14348672.8,
+      "participation": 0.139386
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 45936226.0,
+      "participation": 0.043539
+     },
+     {
+      "sym": "511800",
+      "dw": 0.2,
+      "adv": 22625374.1,
+      "participation": 0.088396
+     },
+     {
+      "sym": "512010",
+      "dw": 0.2,
+      "adv": 47213260.5,
+      "participation": 0.042361
+     },
+     {
+      "sym": "512090",
+      "dw": 0.2,
+      "adv": 20627033.5,
+      "participation": 0.09696
+     },
+     {
+      "sym": "513050",
+      "dw": 0.2,
+      "adv": 80792275.0,
+      "participation": 0.024755
+     }
+    ]
+   },
+   {
+    "date": "2020-07-07",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 21.784,
+    "extra_bp_avg": 13.784,
+    "participation_max": 0.126503,
+    "participation_median": 0.012509,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 195663365.9,
+      "participation": 0.010222
+     },
+     {
+      "sym": "159915",
+      "dw": 0.2,
+      "adv": 719574316.6,
+      "participation": 0.002779
+     },
+     {
+      "sym": "159948",
+      "dw": 0.2,
+      "adv": 45456953.5,
+      "participation": 0.043998
+     },
+     {
+      "sym": "159949",
+      "dw": 0.2,
+      "adv": 774450627.6,
+      "participation": 0.002582
+     },
+     {
+      "sym": "159952",
+      "dw": 0.2,
+      "adv": 51668060.8,
+      "participation": 0.038709
+     },
+     {
+      "sym": "511800",
+      "dw": 0.2,
+      "adv": 15809882.1,
+      "participation": 0.126503
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 9847115447.6,
+      "participation": 0.000203
+     },
+     {
+      "sym": "513050",
+      "dw": 0.2,
+      "adv": 135161535.8,
+      "participation": 0.014797
+     }
+    ]
+   },
+   {
+    "date": "2020-08-04",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 19.699,
+    "extra_bp_avg": 11.699,
+    "participation_max": 0.066156,
+    "participation_median": 0.012417,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 73273923.5,
+      "participation": 0.027295
+     },
+     {
+      "sym": "159915",
+      "dw": 0.2,
+      "adv": 1338503971.0,
+      "participation": 0.001494
+     },
+     {
+      "sym": "159948",
+      "dw": 0.2,
+      "adv": 54498398.3,
+      "participation": 0.036698
+     },
+     {
+      "sym": "159949",
+      "dw": 0.2,
+      "adv": 1853887318.6,
+      "participation": 0.001079
+     },
+     {
+      "sym": "159952",
+      "dw": 0.2,
+      "adv": 135763126.8,
+      "participation": 0.014732
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 10313378304.8,
+      "participation": 0.000194
+     },
+     {
+      "sym": "512090",
+      "dw": 0.2,
+      "adv": 30231432.7,
+      "participation": 0.066156
+     },
+     {
+      "sym": "512160",
+      "dw": 0.2,
+      "adv": 41155422.5,
+      "participation": 0.048596
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 197956545.9,
+      "participation": 0.010103
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 2514848934.0,
+      "participation": 0.000795
+     }
+    ]
+   },
+   {
+    "date": "2020-09-01",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 22.03,
+    "extra_bp_avg": 14.03,
+    "participation_max": 0.0456,
+    "participation_median": 0.026098,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 90239320.9,
+      "participation": 0.022163
+     },
+     {
+      "sym": "512160",
+      "dw": 0.2,
+      "adv": 43859343.5,
+      "participation": 0.0456
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 66594850.2,
+      "participation": 0.030032
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 61132426.8,
+      "participation": 0.032716
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 226732614.9,
+      "participation": 0.008821
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 2045083076.9,
+      "participation": 0.000978
+     }
+    ]
+   },
+   {
+    "date": "2020-09-29",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 18.716,
+    "extra_bp_avg": 10.716,
+    "participation_max": 0.026141,
+    "participation_median": 0.012819,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 801373721.1,
+      "participation": 0.002496
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 100816804.7,
+      "participation": 0.019838
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 344825864.0,
+      "participation": 0.0058
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 76509018.2,
+      "participation": 0.026141
+     }
+    ]
+   },
+   {
+    "date": "2020-11-04",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 21.333,
+    "extra_bp_avg": 13.333,
+    "participation_max": 0.053959,
+    "participation_median": 0.016367,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159901",
+      "dw": 0.2,
+      "adv": 134563720.9,
+      "participation": 0.014863
+     },
+     {
+      "sym": "159905",
+      "dw": 0.2,
+      "adv": 37064894.1,
+      "participation": 0.053959
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 968802332.2,
+      "participation": 0.002064
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 111915503.6,
+      "participation": 0.017871
+     }
+    ]
+   },
+   {
+    "date": "2020-12-02",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 28.465,
+    "extra_bp_avg": 20.465,
+    "participation_max": 0.098109,
+    "participation_median": 0.044459,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 40560169.6,
+      "participation": 0.049309
+     },
+     {
+      "sym": "159901",
+      "dw": 0.2,
+      "adv": 176365181.8,
+      "participation": 0.01134
+     },
+     {
+      "sym": "159905",
+      "dw": 0.2,
+      "adv": 50495055.5,
+      "participation": 0.039608
+     },
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 20385561.8,
+      "participation": 0.098109
+     },
+     {
+      "sym": "510310",
+      "dw": 0.2,
+      "adv": 220371750.2,
+      "participation": 0.009076
+     },
+     {
+      "sym": "512380",
+      "dw": 0.2,
+      "adv": 23477718.8,
+      "participation": 0.085187
+     }
+    ]
+   },
+   {
+    "date": "2020-12-30",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 27.388,
+    "extra_bp_avg": 19.388,
+    "participation_max": 0.127093,
+    "participation_median": 0.029666,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 413974160.8,
+      "participation": 0.004831
+     },
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 49090716.4,
+      "participation": 0.040741
+     },
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 15736460.5,
+      "participation": 0.127093
+     },
+     {
+      "sym": "510310",
+      "dw": 0.2,
+      "adv": 168080735.4,
+      "participation": 0.011899
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 71830894.3,
+      "participation": 0.027843
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 63513434.2,
+      "participation": 0.031489
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 98931266.1,
+      "participation": 0.020216
+     },
+     {
+      "sym": "512380",
+      "dw": 0.2,
+      "adv": 18638995.4,
+      "participation": 0.107302
+     }
+    ]
+   },
+   {
+    "date": "2021-01-28",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 25.394,
+    "extra_bp_avg": 17.394,
+    "participation_max": 0.091537,
+    "participation_median": 0.030921,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 184876748.7,
+      "participation": 0.010818
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 71328092.0,
+      "participation": 0.028039
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 59166813.4,
+      "participation": 0.033803
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 115869596.3,
+      "participation": 0.017261
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 11430888516.8,
+      "participation": 0.000175
+     },
+     {
+      "sym": "512090",
+      "dw": 0.2,
+      "adv": 26072399.4,
+      "participation": 0.076709
+     },
+     {
+      "sym": "512910",
+      "dw": 0.2,
+      "adv": 44481096.5,
+      "participation": 0.044963
+     },
+     {
+      "sym": "515350",
+      "dw": 0.2,
+      "adv": 21849063.0,
+      "participation": 0.091537
+     }
+    ]
+   },
+   {
+    "date": "2021-03-04",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 26.353,
+    "extra_bp_avg": 18.353,
+    "participation_max": 0.160941,
+    "participation_median": 0.041867,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 476747200.0,
+      "participation": 0.004195
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 72755355.5,
+      "participation": 0.027489
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1554854185.7,
+      "participation": 0.001286
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12368389932.1,
+      "participation": 0.000162
+     },
+     {
+      "sym": "512090",
+      "dw": 0.2,
+      "adv": 20602932.3,
+      "participation": 0.097074
+     },
+     {
+      "sym": "512910",
+      "dw": 0.2,
+      "adv": 35559556.8,
+      "participation": 0.056244
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 34960682.5,
+      "participation": 0.057207
+     },
+     {
+      "sym": "515350",
+      "dw": 0.2,
+      "adv": 12426878.3,
+      "participation": 0.160941
+     }
+    ]
+   },
+   {
+    "date": "2021-04-01",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 16.675,
+    "extra_bp_avg": 8.675,
+    "participation_max": 0.053152,
+    "participation_median": 0.003103,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 392737650.0,
+      "participation": 0.005092
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1795788627.7,
+      "participation": 0.001114
+     },
+     {
+      "sym": "511990",
+      "dw": 0.2,
+      "adv": 14573175514.7,
+      "participation": 0.000137
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 37627829.1,
+      "participation": 0.053152
+     }
+    ]
+   },
+   {
+    "date": "2021-04-30",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 25.394,
+    "extra_bp_avg": 17.394,
+    "participation_max": 0.083546,
+    "participation_median": 0.040446,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 586619518.1,
+      "participation": 0.003409
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 23938927.8,
+      "participation": 0.083546
+     },
+     {
+      "sym": "159980",
+      "dw": 0.2,
+      "adv": 24871222.9,
+      "participation": 0.080414
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 58472113.9,
+      "participation": 0.034204
+     },
+     {
+      "sym": "511990",
+      "dw": 0.2,
+      "adv": 14788212244.6,
+      "participation": 0.000135
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 42837675.3,
+      "participation": 0.046688
+     }
+    ]
+   },
+   {
+    "date": "2021-06-02",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 22.838,
+    "extra_bp_avg": 14.838,
+    "participation_max": 0.077427,
+    "participation_median": 0.027358,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 929722592.0,
+      "participation": 0.002151
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 25830885.8,
+      "participation": 0.077427
+     },
+     {
+      "sym": "159980",
+      "dw": 0.2,
+      "adv": 46642156.0,
+      "participation": 0.04288
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 45503264.4,
+      "participation": 0.043953
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 168971182.8,
+      "participation": 0.011836
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1243542681.5,
+      "participation": 0.001608
+     }
+    ]
+   },
+   {
+    "date": "2021-07-01",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 24.807,
+    "extra_bp_avg": 16.807,
+    "participation_max": 0.097586,
+    "participation_median": 0.026512,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 860763794.1,
+      "participation": 0.002324
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 20494730.2,
+      "participation": 0.097586
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 48249926.2,
+      "participation": 0.041451
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 22625735.1,
+      "participation": 0.088395
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 172817303.8,
+      "participation": 0.011573
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1292397995.4,
+      "participation": 0.001548
+     }
+    ]
+   },
+   {
+    "date": "2021-07-29",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 28.618,
+    "extra_bp_avg": 20.618,
+    "participation_max": 0.117294,
+    "participation_median": 0.033783,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 40336854.2,
+      "participation": 0.049582
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 17051224.7,
+      "participation": 0.117294
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 111213015.3,
+      "participation": 0.017984
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 127087343.0,
+      "participation": 0.015737
+     }
+    ]
+   },
+   {
+    "date": "2021-08-26",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 23.415,
+    "extra_bp_avg": 15.415,
+    "participation_max": 0.098225,
+    "participation_median": 0.018408,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "510880",
+      "dw": 0.2,
+      "adv": 284624002.4,
+      "participation": 0.007027
+     },
+     {
+      "sym": "510880_t73",
+      "dw": 0.2,
+      "adv": 284624002.4,
+      "participation": 0.007027
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 110788411.8,
+      "participation": 0.018052
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 106589019.9,
+      "participation": 0.018764
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 67199418.3,
+      "participation": 0.029762
+     },
+     {
+      "sym": "515450",
+      "dw": 0.2,
+      "adv": 20361408.8,
+      "participation": 0.098225
+     }
+    ]
+   },
+   {
+    "date": "2021-09-27",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 27.102,
+    "extra_bp_avg": 19.102,
+    "participation_max": 0.087957,
+    "participation_median": 0.044695,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 47782504.7,
+      "participation": 0.041856
+     },
+     {
+      "sym": "159968",
+      "dw": 0.2,
+      "adv": 22738316.6,
+      "participation": 0.087957
+     },
+     {
+      "sym": "510880",
+      "dw": 0.2,
+      "adv": 409132524.4,
+      "participation": 0.004888
+     },
+     {
+      "sym": "510880_t73",
+      "dw": 0.2,
+      "adv": 409132524.4,
+      "participation": 0.004888
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 42075817.5,
+      "participation": 0.047533
+     },
+     {
+      "sym": "515450",
+      "dw": 0.2,
+      "adv": 24268633.1,
+      "participation": 0.082411
+     }
+    ]
+   },
+   {
+    "date": "2021-11-01",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 29.351,
+    "extra_bp_avg": 21.351,
+    "participation_max": 0.102444,
+    "participation_median": 0.063641,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 940881616.1,
+      "participation": 0.002126
+     },
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 61978428.8,
+      "participation": 0.032269
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 21049772.1,
+      "participation": 0.095013
+     },
+     {
+      "sym": "159968",
+      "dw": 0.2,
+      "adv": 19522921.0,
+      "participation": 0.102444
+     }
+    ]
+   },
+   {
+    "date": "2021-11-29",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 24.556,
+    "extra_bp_avg": 16.556,
+    "participation_max": 0.069909,
+    "participation_median": 0.023925,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 550609850.0,
+      "participation": 0.003632
+     },
+     {
+      "sym": "159941",
+      "dw": 0.2,
+      "adv": 28608690.0,
+      "participation": 0.069909
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 81032763.4,
+      "participation": 0.024681
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 86321417.7,
+      "participation": 0.023169
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 145795381.9,
+      "participation": 0.013718
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 34082119.9,
+      "participation": 0.058682
+     }
+    ]
+   },
+   {
+    "date": "2021-12-27",
+    "n_legs": 2,
+    "turnover": 0.4,
+    "rate_bp_per_side": 25.768,
+    "extra_bp_avg": 17.768,
+    "participation_max": 0.059497,
+    "participation_median": 0.035959,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 33615000.0,
+      "participation": 0.059497
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 161022335.8,
+      "participation": 0.012421
+     }
+    ]
+   },
+   {
+    "date": "2022-01-25",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 26.147,
+    "extra_bp_avg": 18.147,
+    "participation_max": 0.106885,
+    "participation_median": 0.045004,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 23044918.6,
+      "participation": 0.086787
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 35205130.5,
+      "participation": 0.05681
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 18711769.6,
+      "participation": 0.106885
+     },
+     {
+      "sym": "511180",
+      "dw": 0.2,
+      "adv": 60244360.2,
+      "participation": 0.033198
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1740944344.5,
+      "participation": 0.001149
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12072496125.3,
+      "participation": 0.000166
+     }
+    ]
+   },
+   {
+    "date": "2022-03-01",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 21.489,
+    "extra_bp_avg": 13.489,
+    "participation_max": 0.05797,
+    "participation_median": 0.024098,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 34500511.1,
+      "participation": 0.05797
+     },
+     {
+      "sym": "159980",
+      "dw": 0.2,
+      "adv": 43781370.3,
+      "participation": 0.045682
+     },
+     {
+      "sym": "511180",
+      "dw": 0.2,
+      "adv": 62977440.1,
+      "participation": 0.031757
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 121661667.3,
+      "participation": 0.016439
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1572315836.3,
+      "participation": 0.001272
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12248657497.2,
+      "participation": 0.000163
+     }
+    ]
+   },
+   {
+    "date": "2022-03-29",
+    "n_legs": 2,
+    "turnover": 0.4,
+    "rate_bp_per_side": 28.969,
+    "extra_bp_avg": 20.969,
+    "participation_max": 0.053296,
+    "participation_median": 0.044417,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159980",
+      "dw": 0.2,
+      "adv": 56276563.6,
+      "participation": 0.035539
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 37526552.5,
+      "participation": 0.053296
+     }
+    ]
+   },
+   {
+    "date": "2022-04-28",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 32.403,
+    "extra_bp_avg": 24.403,
+    "participation_max": 0.103812,
+    "participation_median": 0.067241,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 19265558.7,
+      "participation": 0.103812
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 36489197.5,
+      "participation": 0.054811
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 25103112.0,
+      "participation": 0.079671
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 105725705.7,
+      "participation": 0.018917
+     }
+    ]
+   },
+   {
+    "date": "2022-05-31",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 23.853,
+    "extra_bp_avg": 15.853,
+    "participation_max": 0.107297,
+    "participation_median": 0.015359,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 280541318.6,
+      "participation": 0.007129
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 18639908.2,
+      "participation": 0.107297
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 120576505.4,
+      "participation": 0.016587
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 49490871.4,
+      "participation": 0.040411
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 141540649.2,
+      "participation": 0.01413
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 244224812.9,
+      "participation": 0.008189
+     }
+    ]
+   },
+   {
+    "date": "2022-06-29",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 18.967,
+    "extra_bp_avg": 10.967,
+    "participation_max": 0.05875,
+    "participation_median": 0.008682,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 291339549.7,
+      "participation": 0.006865
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 34042380.2,
+      "participation": 0.05875
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 190480706.2,
+      "participation": 0.0105
+     },
+     {
+      "sym": "511990",
+      "dw": 0.2,
+      "adv": 16668936861.7,
+      "participation": 0.00012
+     }
+    ]
+   },
+   {
+    "date": "2022-07-27",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 22.231,
+    "extra_bp_avg": 14.231,
+    "participation_max": 0.092689,
+    "participation_median": 0.015183,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 633316562.1,
+      "participation": 0.003158
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 33683641.8,
+      "participation": 0.059376
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 87876878.0,
+      "participation": 0.022759
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 21577565.4,
+      "participation": 0.092689
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 262908757.9,
+      "participation": 0.007607
+     },
+     {
+      "sym": "511990",
+      "dw": 0.2,
+      "adv": 15290600917.3,
+      "participation": 0.000131
+     }
+    ]
+   },
+   {
+    "date": "2022-08-24",
+    "n_legs": 2,
+    "turnover": 0.4,
+    "rate_bp_per_side": 15.164,
+    "extra_bp_avg": 7.164,
+    "participation_max": 0.005687,
+    "participation_median": 0.005146,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 351697716.9,
+      "participation": 0.005687
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 434262705.5,
+      "participation": 0.004606
+     }
+    ]
+   },
+   {
+    "date": "2022-09-22",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 20.734,
+    "extra_bp_avg": 12.734,
+    "participation_max": 0.072823,
+    "participation_median": 0.010177,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 290941500.0,
+      "participation": 0.006874
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 27463900.8,
+      "participation": 0.072823
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 163467513.2,
+      "participation": 0.012235
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 407538322.2,
+      "participation": 0.004908
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 246318932.7,
+      "participation": 0.00812
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 101294123.3,
+      "participation": 0.019744
+     }
+    ]
+   },
+   {
+    "date": "2022-10-27",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 21.762,
+    "extra_bp_avg": 13.762,
+    "participation_max": 0.072447,
+    "participation_median": 0.009562,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 27606460.0,
+      "participation": 0.072447
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 267449320.5,
+      "participation": 0.007478
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 252916798.9,
+      "participation": 0.007908
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 178309066.5,
+      "participation": 0.011216
+     }
+    ]
+   },
+   {
+    "date": "2022-11-24",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 16.884,
+    "extra_bp_avg": 8.884,
+    "participation_max": 0.014014,
+    "participation_median": 0.010144,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 153450282.2,
+      "participation": 0.013034
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 275725545.8,
+      "participation": 0.007254
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 142715165.3,
+      "participation": 0.014014
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1412191194.9,
+      "participation": 0.001416
+     }
+    ]
+   },
+   {
+    "date": "2022-12-22",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 18.246,
+    "extra_bp_avg": 10.246,
+    "participation_max": 0.066911,
+    "participation_median": 0.007254,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 490162675.1,
+      "participation": 0.00408
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 73335762.0,
+      "participation": 0.027272
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 29890347.5,
+      "participation": 0.066911
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 191778293.0,
+      "participation": 0.010429
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 9894642729.4,
+      "participation": 0.000202
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1615350325.3,
+      "participation": 0.001238
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 112780694.9,
+      "participation": 0.017734
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 893778979.5,
+      "participation": 0.002238
+     }
+    ]
+   },
+   {
+    "date": "2023-01-20",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 21.965,
+    "extra_bp_avg": 13.965,
+    "participation_max": 0.092584,
+    "participation_median": 0.021559,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 559496445.1,
+      "participation": 0.003575
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 21601942.4,
+      "participation": 0.092584
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 35167190.4,
+      "participation": 0.056871
+     },
+     {
+      "sym": "510580",
+      "dw": 0.2,
+      "adv": 34824935.0,
+      "participation": 0.05743
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 5648224646.7,
+      "participation": 0.000354
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1550005865.0,
+      "participation": 0.00129
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 36404016.2,
+      "participation": 0.054939
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 14057053614.4,
+      "participation": 0.000142
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 675005939.5,
+      "participation": 0.002963
+     },
+     {
+      "sym": "561350",
+      "dw": 0.2,
+      "adv": 50578037.7,
+      "participation": 0.039543
+     }
+    ]
+   },
+   {
+    "date": "2023-02-24",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 20.682,
+    "extra_bp_avg": 12.682,
+    "participation_max": 0.070216,
+    "participation_median": 0.006395,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 521207737.6,
+      "participation": 0.003837
+     },
+     {
+      "sym": "510580",
+      "dw": 0.2,
+      "adv": 28483515.9,
+      "participation": 0.070216
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 294487351.5,
+      "participation": 0.006791
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 333466802.2,
+      "participation": 0.005998
+     },
+     {
+      "sym": "511810",
+      "dw": 0.2,
+      "adv": 30139504.6,
+      "participation": 0.066358
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 13784286029.5,
+      "participation": 0.000145
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 651679150.6,
+      "participation": 0.003069
+     },
+     {
+      "sym": "561350",
+      "dw": 0.2,
+      "adv": 48665353.7,
+      "participation": 0.041097
+     }
+    ]
+   },
+   {
+    "date": "2023-03-24",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 20.079,
+    "extra_bp_avg": 12.079,
+    "participation_max": 0.066994,
+    "participation_median": 0.006333,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 29853517.0,
+      "participation": 0.066994
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 306478308.9,
+      "participation": 0.006526
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 470571038.6,
+      "participation": 0.00425
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 325719570.9,
+      "participation": 0.00614
+     }
+    ]
+   },
+   {
+    "date": "2023-04-24",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 19.149,
+    "extra_bp_avg": 11.149,
+    "participation_max": 0.068119,
+    "participation_median": 0.004291,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 29360174.5,
+      "participation": 0.068119
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 390481912.4,
+      "participation": 0.005122
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 577932649.8,
+      "participation": 0.003461
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 671657162.8,
+      "participation": 0.002978
+     }
+    ]
+   },
+   {
+    "date": "2023-05-25",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 18.843,
+    "extra_bp_avg": 10.843,
+    "participation_max": 0.075563,
+    "participation_median": 0.005377,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 444344045.2,
+      "participation": 0.004501
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 26467859.2,
+      "participation": 0.075563
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 319855429.5,
+      "participation": 0.006253
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12434964812.3,
+      "participation": 0.000161
+     }
+    ]
+   },
+   {
+    "date": "2023-06-26",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 20.259,
+    "extra_bp_avg": 12.259,
+    "participation_max": 0.076143,
+    "participation_median": 0.008388,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159612",
+      "dw": 0.2,
+      "adv": 26266202.3,
+      "participation": 0.076143
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 46524586.5,
+      "participation": 0.042988
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 55032922.1,
+      "participation": 0.036342
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 372791366.4,
+      "participation": 0.005365
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 666292343.2,
+      "participation": 0.003002
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 562941005.4,
+      "participation": 0.003553
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 13115060453.4,
+      "participation": 0.000152
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 175261895.6,
+      "participation": 0.011411
+     }
+    ]
+   },
+   {
+    "date": "2023-07-24",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 22.767,
+    "extra_bp_avg": 14.767,
+    "participation_max": 0.054967,
+    "participation_median": 0.021225,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159612",
+      "dw": 0.2,
+      "adv": 36385206.0,
+      "participation": 0.054967
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 44564119.5,
+      "participation": 0.044879
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 65957576.0,
+      "participation": 0.030323
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 247168886.8,
+      "participation": 0.008092
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 466044638.0,
+      "participation": 0.004291
+     },
+     {
+      "sym": "513500",
+      "dw": 0.2,
+      "adv": 164909956.1,
+      "participation": 0.012128
+     }
+    ]
+   },
+   {
+    "date": "2023-08-21",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 17.957,
+    "extra_bp_avg": 9.957,
+    "participation_max": 0.050552,
+    "participation_median": 0.005067,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 412433450.0,
+      "participation": 0.004849
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 39562888.0,
+      "participation": 0.050552
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 428710022.7,
+      "participation": 0.004665
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 378454169.0,
+      "participation": 0.005285
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 11996720003.0,
+      "participation": 0.000167
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 90063973.3,
+      "participation": 0.022206
+     }
+    ]
+   },
+   {
+    "date": "2023-09-18",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 19.896,
+    "extra_bp_avg": 11.896,
+    "participation_max": 0.044582,
+    "participation_median": 0.013956,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 44860748.6,
+      "participation": 0.044582
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 51220022.0,
+      "participation": 0.039047
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 441121300.2,
+      "participation": 0.004534
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1142132560.4,
+      "participation": 0.001751
+     },
+     {
+      "sym": "511850",
+      "dw": 0.2,
+      "adv": 1086250666.1,
+      "participation": 0.001841
+     },
+     {
+      "sym": "511900",
+      "dw": 0.2,
+      "adv": 85553295.5,
+      "participation": 0.023377
+     }
+    ]
+   },
+   {
+    "date": "2023-10-24",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 13.567,
+    "extra_bp_avg": 5.567,
+    "participation_max": 0.007429,
+    "participation_median": 0.003639,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 362181797.7,
+      "participation": 0.005522
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 269216116.1,
+      "participation": 0.007429
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 321140182.3,
+      "participation": 0.006228
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 1264165205.3,
+      "participation": 0.001582
+     },
+     {
+      "sym": "511850",
+      "dw": 0.2,
+      "adv": 1138936307.4,
+      "participation": 0.001756
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12018763574.9,
+      "participation": 0.000166
+     }
+    ]
+   },
+   {
+    "date": "2023-11-21",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 15.048,
+    "extra_bp_avg": 7.048,
+    "participation_max": 0.007544,
+    "participation_median": 0.006681,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 434972175.9,
+      "participation": 0.004598
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 308842409.3,
+      "participation": 0.006476
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 285602852.3,
+      "participation": 0.007003
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 265110105.1,
+      "participation": 0.007544
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 290470604.6,
+      "participation": 0.006885
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 4496781754.1,
+      "participation": 0.000445
+     }
+    ]
+   },
+   {
+    "date": "2023-12-19",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 18.818,
+    "extra_bp_avg": 10.818,
+    "participation_max": 0.097541,
+    "participation_median": 0.00642,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 360895210.8,
+      "participation": 0.005542
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 311127141.3,
+      "participation": 0.006428
+     },
+     {
+      "sym": "511260",
+      "dw": 0.2,
+      "adv": 308703366.0,
+      "participation": 0.006479
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 311961233.5,
+      "participation": 0.006411
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 4283879708.7,
+      "participation": 0.000467
+     },
+     {
+      "sym": "513030",
+      "dw": 0.2,
+      "adv": 20504215.2,
+      "participation": 0.097541
+     }
+    ]
+   },
+   {
+    "date": "2024-01-17",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 16.932,
+    "extra_bp_avg": 8.932,
+    "participation_max": 0.057242,
+    "participation_median": 0.007376,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 352052472.4,
+      "participation": 0.005681
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 234958088.0,
+      "participation": 0.008512
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 264613545.8,
+      "participation": 0.007558
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 278032039.0,
+      "participation": 0.007193
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 3643541379.2,
+      "participation": 0.000549
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 200248055.0,
+      "participation": 0.009988
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12732846845.1,
+      "participation": 0.000157
+     },
+     {
+      "sym": "513030",
+      "dw": 0.2,
+      "adv": 34939187.7,
+      "participation": 0.057242
+     }
+    ]
+   },
+   {
+    "date": "2024-02-22",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 14.528,
+    "extra_bp_avg": 6.528,
+    "participation_max": 0.006763,
+    "participation_median": 0.004927,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 1341076751.5,
+      "participation": 0.001491
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 442143756.8,
+      "participation": 0.004523
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 375135389.4,
+      "participation": 0.005331
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 295717755.1,
+      "participation": 0.006763
+     }
+    ]
+   },
+   {
+    "date": "2024-03-21",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 15.762,
+    "extra_bp_avg": 7.762,
+    "participation_max": 0.015878,
+    "participation_median": 0.006665,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 1181748910.7,
+      "participation": 0.001692
+     },
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 125958874.1,
+      "participation": 0.015878
+     },
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 148555814.9,
+      "participation": 0.013463
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 4087668967.2,
+      "participation": 0.000489
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 219908351.2,
+      "participation": 0.009095
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 472271068.5,
+      "participation": 0.004235
+     }
+    ]
+   },
+   {
+    "date": "2024-04-22",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 14.22,
+    "extra_bp_avg": 6.22,
+    "participation_max": 0.008378,
+    "participation_median": 0.003771,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159649",
+      "dw": 0.2,
+      "adv": 700697070.1,
+      "participation": 0.002854
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 929689096.8,
+      "participation": 0.002151
+     },
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 395253237.2,
+      "participation": 0.00506
+     },
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 238732861.3,
+      "participation": 0.008378
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 426608549.1,
+      "participation": 0.004688
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1121106214.2,
+      "participation": 0.001784
+     }
+    ]
+   },
+   {
+    "date": "2024-05-23",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 17.726,
+    "extra_bp_avg": 9.726,
+    "participation_max": 0.081913,
+    "participation_median": 0.003729,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159649",
+      "dw": 0.2,
+      "adv": 769403701.0,
+      "participation": 0.002599
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 612045898.5,
+      "participation": 0.003268
+     },
+     {
+      "sym": "159659",
+      "dw": 0.2,
+      "adv": 24416010.4,
+      "participation": 0.081913
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 391832520.0,
+      "participation": 0.005104
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 477212915.5,
+      "participation": 0.004191
+     },
+     {
+      "sym": "511180",
+      "dw": 0.2,
+      "adv": 229601067.4,
+      "participation": 0.008711
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 9741076348.5,
+      "participation": 0.000205
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 755187817.3,
+      "participation": 0.002648
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 11408681370.2,
+      "participation": 0.000175
+     },
+     {
+      "sym": "513650",
+      "dw": 0.2,
+      "adv": 27490007.5,
+      "participation": 0.072754
+     }
+    ]
+   },
+   {
+    "date": "2024-06-21",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 16.974,
+    "extra_bp_avg": 8.974,
+    "participation_max": 0.057769,
+    "participation_median": 0.004211,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159649",
+      "dw": 0.2,
+      "adv": 534178353.1,
+      "participation": 0.003744
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 600168655.6,
+      "participation": 0.003332
+     },
+     {
+      "sym": "159659",
+      "dw": 0.2,
+      "adv": 34620876.9,
+      "participation": 0.057769
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 427619568.0,
+      "participation": 0.004677
+     },
+     {
+      "sym": "511180",
+      "dw": 0.2,
+      "adv": 290639977.2,
+      "participation": 0.006881
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 314096579.8,
+      "participation": 0.006367
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 9915308168.3,
+      "participation": 0.000202
+     },
+     {
+      "sym": "511380",
+      "dw": 0.2,
+      "adv": 1152330359.2,
+      "participation": 0.001736
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 11033506129.1,
+      "participation": 0.000181
+     },
+     {
+      "sym": "513650",
+      "dw": 0.2,
+      "adv": 35413580.1,
+      "participation": 0.056476
+     }
+    ]
+   },
+   {
+    "date": "2024-07-19",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 18.488,
+    "extra_bp_avg": 10.488,
+    "participation_max": 0.059511,
+    "participation_median": 0.005175,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159649",
+      "dw": 0.2,
+      "adv": 449464262.0,
+      "participation": 0.00445
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 353093410.4,
+      "participation": 0.005664
+     },
+     {
+      "sym": "159887",
+      "dw": 0.2,
+      "adv": 33607313.6,
+      "participation": 0.059511
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 477112630.6,
+      "participation": 0.004192
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 426877206.8,
+      "participation": 0.004685
+     },
+     {
+      "sym": "511220",
+      "dw": 0.2,
+      "adv": 345188182.5,
+      "participation": 0.005794
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 8928202907.7,
+      "participation": 0.000224
+     },
+     {
+      "sym": "515290",
+      "dw": 0.2,
+      "adv": 38181996.7,
+      "participation": 0.052381
+     }
+    ]
+   },
+   {
+    "date": "2024-08-16",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 25.513,
+    "extra_bp_avg": 17.513,
+    "participation_max": 0.079352,
+    "participation_median": 0.033312,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 438049304.3,
+      "participation": 0.004566
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 126035746.6,
+      "participation": 0.015869
+     },
+     {
+      "sym": "159887",
+      "dw": 0.2,
+      "adv": 25204106.2,
+      "participation": 0.079352
+     },
+     {
+      "sym": "515290",
+      "dw": 0.2,
+      "adv": 39405202.0,
+      "participation": 0.050755
+     }
+    ]
+   },
+   {
+    "date": "2024-09-13",
+    "n_legs": 2,
+    "turnover": 0.4,
+    "rate_bp_per_side": 13.923,
+    "extra_bp_avg": 5.923,
+    "participation_max": 0.004521,
+    "participation_median": 0.003572,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 442373377.6,
+      "participation": 0.004521
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 762500103.2,
+      "participation": 0.002623
+     }
+    ]
+   },
+   {
+    "date": "2024-10-22",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 17.053,
+    "extra_bp_avg": 9.053,
+    "participation_max": 0.089978,
+    "participation_median": 0.004098,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 327774685.1,
+      "participation": 0.006102
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 11489676566.3,
+      "participation": 0.000174
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 955155467.8,
+      "participation": 0.002094
+     },
+     {
+      "sym": "511690",
+      "dw": 0.2,
+      "adv": 22227678.1,
+      "participation": 0.089978
+     },
+     {
+      "sym": "511850",
+      "dw": 0.2,
+      "adv": 228786409.2,
+      "participation": 0.008742
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 12522315605.4,
+      "participation": 0.00016
+     }
+    ]
+   },
+   {
+    "date": "2024-11-19",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 19.132,
+    "extra_bp_avg": 11.132,
+    "participation_max": 0.110752,
+    "participation_median": 0.008484,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 427625567.1,
+      "participation": 0.004677
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 108474879.8,
+      "participation": 0.018437
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 259990008.4,
+      "participation": 0.007693
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 300390848.6,
+      "participation": 0.006658
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 204121097.8,
+      "participation": 0.009798
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 11678452373.1,
+      "participation": 0.000171
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 89649389.8,
+      "participation": 0.022309
+     },
+     {
+      "sym": "511660",
+      "dw": 0.2,
+      "adv": 827997499.1,
+      "participation": 0.002415
+     },
+     {
+      "sym": "511690",
+      "dw": 0.2,
+      "adv": 18058426.3,
+      "participation": 0.110752
+     },
+     {
+      "sym": "511850",
+      "dw": 0.2,
+      "adv": 215642815.6,
+      "participation": 0.009275
+     }
+    ]
+   },
+   {
+    "date": "2024-12-17",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 19.272,
+    "extra_bp_avg": 11.272,
+    "participation_max": 0.062237,
+    "participation_median": 0.011098,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159612",
+      "dw": 0.2,
+      "adv": 73361489.8,
+      "participation": 0.027262
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 1409602871.9,
+      "participation": 0.001419
+     },
+     {
+      "sym": "159655",
+      "dw": 0.2,
+      "adv": 32135061.4,
+      "participation": 0.062237
+     },
+     {
+      "sym": "511010",
+      "dw": 0.2,
+      "adv": 424512145.4,
+      "participation": 0.004711
+     },
+     {
+      "sym": "511060",
+      "dw": 0.2,
+      "adv": 202100570.0,
+      "participation": 0.009896
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 21188478338.2,
+      "participation": 9.4e-05
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 46919637.3,
+      "participation": 0.042626
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 726436929.0,
+      "participation": 0.002753
+     },
+     {
+      "sym": "513650",
+      "dw": 0.2,
+      "adv": 162595112.6,
+      "participation": 0.0123
+     },
+     {
+      "sym": "513850",
+      "dw": 0.2,
+      "adv": 123554707.5,
+      "participation": 0.016187
+     }
+    ]
+   },
+   {
+    "date": "2025-01-15",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 17.747,
+    "extra_bp_avg": 9.747,
+    "participation_max": 0.046421,
+    "participation_median": 0.006938,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159612",
+      "dw": 0.2,
+      "adv": 43084073.6,
+      "participation": 0.046421
+     },
+     {
+      "sym": "159655",
+      "dw": 0.2,
+      "adv": 90627036.7,
+      "participation": 0.022068
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 323249087.3,
+      "participation": 0.006187
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 17101647311.8,
+      "participation": 0.000117
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 4608615505.2,
+      "participation": 0.000434
+     },
+     {
+      "sym": "513100",
+      "dw": 0.2,
+      "adv": 1133956351.9,
+      "participation": 0.001764
+     },
+     {
+      "sym": "513650",
+      "dw": 0.2,
+      "adv": 278297453.1,
+      "participation": 0.007187
+     },
+     {
+      "sym": "513850",
+      "dw": 0.2,
+      "adv": 298939444.0,
+      "participation": 0.00669
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 146062358.1,
+      "participation": 0.013693
+     },
+     {
+      "sym": "518850",
+      "dw": 0.2,
+      "adv": 65444223.8,
+      "participation": 0.03056
+     }
+    ]
+   },
+   {
+    "date": "2025-02-20",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 16.718,
+    "extra_bp_avg": 8.718,
+    "participation_max": 0.060066,
+    "participation_median": 0.005188,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 476430520.1,
+      "participation": 0.004198
+     },
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 165784426.0,
+      "participation": 0.012064
+     },
+     {
+      "sym": "511020",
+      "dw": 0.2,
+      "adv": 323689095.8,
+      "participation": 0.006179
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 9161382209.6,
+      "participation": 0.000218
+     },
+     {
+      "sym": "511520",
+      "dw": 0.2,
+      "adv": 4688870384.7,
+      "participation": 0.000427
+     },
+     {
+      "sym": "518600",
+      "dw": 0.2,
+      "adv": 33296731.4,
+      "participation": 0.060066
+     },
+     {
+      "sym": "518850",
+      "dw": 0.2,
+      "adv": 118892340.4,
+      "participation": 0.016822
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1731817140.5,
+      "participation": 0.001155
+     }
+    ]
+   },
+   {
+    "date": "2025-03-20",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 17.19,
+    "extra_bp_avg": 9.19,
+    "participation_max": 0.05004,
+    "participation_median": 0.007372,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159934",
+      "dw": 0.2,
+      "adv": 380246451.7,
+      "participation": 0.00526
+     },
+     {
+      "sym": "159937",
+      "dw": 0.2,
+      "adv": 210874433.3,
+      "participation": 0.009484
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 5295984794.7,
+      "participation": 0.000378
+     },
+     {
+      "sym": "513630",
+      "dw": 0.2,
+      "adv": 185939743.9,
+      "participation": 0.010756
+     },
+     {
+      "sym": "518680",
+      "dw": 0.2,
+      "adv": 39968316.6,
+      "participation": 0.05004
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1667462109.3,
+      "participation": 0.001199
+     }
+    ]
+   },
+   {
+    "date": "2025-04-18",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 21.286,
+    "extra_bp_avg": 13.286,
+    "participation_max": 0.057686,
+    "participation_median": 0.015822,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 118326944.2,
+      "participation": 0.016902
+     },
+     {
+      "sym": "159830",
+      "dw": 0.2,
+      "adv": 34924130.0,
+      "participation": 0.057267
+     },
+     {
+      "sym": "159831",
+      "dw": 0.2,
+      "adv": 34670621.8,
+      "participation": 0.057686
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 10668896736.8,
+      "participation": 0.000187
+     },
+     {
+      "sym": "513630",
+      "dw": 0.2,
+      "adv": 207755225.2,
+      "participation": 0.009627
+     },
+     {
+      "sym": "518600",
+      "dw": 0.2,
+      "adv": 104145331.7,
+      "participation": 0.019204
+     },
+     {
+      "sym": "518680",
+      "dw": 0.2,
+      "adv": 135667601.2,
+      "participation": 0.014742
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 300474258.5,
+      "participation": 0.006656
+     }
+    ]
+   },
+   {
+    "date": "2025-05-21",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 26.774,
+    "extra_bp_avg": 18.774,
+    "participation_max": 0.092138,
+    "participation_median": 0.037458,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 836354498.8,
+      "participation": 0.002391
+     },
+     {
+      "sym": "159830",
+      "dw": 0.2,
+      "adv": 51231266.4,
+      "participation": 0.039039
+     },
+     {
+      "sym": "159831",
+      "dw": 0.2,
+      "adv": 55746194.5,
+      "participation": 0.035877
+     },
+     {
+      "sym": "510980",
+      "dw": 0.2,
+      "adv": 23385384.1,
+      "participation": 0.085524
+     },
+     {
+      "sym": "513630",
+      "dw": 0.2,
+      "adv": 223727814.3,
+      "participation": 0.008939
+     },
+     {
+      "sym": "513950",
+      "dw": 0.2,
+      "adv": 21706624.2,
+      "participation": 0.092138
+     }
+    ]
+   },
+   {
+    "date": "2025-06-19",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 25.233,
+    "extra_bp_avg": 17.233,
+    "participation_max": 0.102531,
+    "participation_median": 0.038024,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 2264160426.5,
+      "participation": 0.000883
+     },
+     {
+      "sym": "510230",
+      "dw": 0.2,
+      "adv": 29790770.5,
+      "participation": 0.067135
+     },
+     {
+      "sym": "510980",
+      "dw": 0.2,
+      "adv": 19506358.4,
+      "participation": 0.102531
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 1998999464.2,
+      "participation": 0.001001
+     },
+     {
+      "sym": "513630",
+      "dw": 0.2,
+      "adv": 224372850.0,
+      "participation": 0.008914
+     },
+     {
+      "sym": "513950",
+      "dw": 0.2,
+      "adv": 22380534.8,
+      "participation": 0.089363
+     }
+    ]
+   },
+   {
+    "date": "2025-07-17",
+    "n_legs": 4,
+    "turnover": 0.8,
+    "rate_bp_per_side": 22.656,
+    "extra_bp_avg": 14.656,
+    "participation_max": 0.073528,
+    "participation_median": 0.022402,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 319310150.0,
+      "participation": 0.006264
+     },
+     {
+      "sym": "159680",
+      "dw": 0.2,
+      "adv": 27200508.1,
+      "participation": 0.073528
+     },
+     {
+      "sym": "159816",
+      "dw": 0.2,
+      "adv": 1273138237.8,
+      "participation": 0.001571
+     },
+     {
+      "sym": "510230",
+      "dw": 0.2,
+      "adv": 51894236.8,
+      "participation": 0.03854
+     }
+    ]
+   },
+   {
+    "date": "2025-08-14",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 20.6,
+    "extra_bp_avg": 12.6,
+    "participation_max": 0.068288,
+    "participation_median": 0.006264,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159001",
+      "dw": 0.2,
+      "adv": 552353527.3,
+      "participation": 0.003621
+     },
+     {
+      "sym": "159680",
+      "dw": 0.2,
+      "adv": 30968440.4,
+      "participation": 0.064582
+     },
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 224554544.1,
+      "participation": 0.008907
+     },
+     {
+      "sym": "510580",
+      "dw": 0.2,
+      "adv": 32484941.3,
+      "participation": 0.061567
+     },
+     {
+      "sym": "510980",
+      "dw": 0.2,
+      "adv": 29287913.4,
+      "participation": 0.068288
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 2003014522.0,
+      "participation": 0.000998
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 15968617372.2,
+      "participation": 0.000125
+     },
+     {
+      "sym": "588080",
+      "dw": 0.2,
+      "adv": 901661759.7,
+      "participation": 0.002218
+     }
+    ]
+   },
+   {
+    "date": "2025-09-11",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 19.509,
+    "extra_bp_avg": 11.509,
+    "participation_max": 0.046291,
+    "participation_median": 0.014955,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 412872014.3,
+      "participation": 0.004844
+     },
+     {
+      "sym": "510580",
+      "dw": 0.2,
+      "adv": 43204519.5,
+      "participation": 0.046291
+     },
+     {
+      "sym": "510980",
+      "dw": 0.2,
+      "adv": 72004530.2,
+      "participation": 0.027776
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 31655167669.9,
+      "participation": 6.3e-05
+     },
+     {
+      "sym": "518600",
+      "dw": 0.2,
+      "adv": 43243945.3,
+      "participation": 0.046249
+     },
+     {
+      "sym": "518660",
+      "dw": 0.2,
+      "adv": 115141110.9,
+      "participation": 0.01737
+     },
+     {
+      "sym": "518680",
+      "dw": 0.2,
+      "adv": 71482803.6,
+      "participation": 0.027979
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 159485947.6,
+      "participation": 0.01254
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 1950389289.9,
+      "participation": 0.001025
+     },
+     {
+      "sym": "588080",
+      "dw": 0.2,
+      "adv": 1790845595.9,
+      "participation": 0.001117
+     }
+    ]
+   },
+   {
+    "date": "2025-10-17",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 21.333,
+    "extra_bp_avg": 13.333,
+    "participation_max": 0.045496,
+    "participation_median": 0.021489,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159830",
+      "dw": 0.2,
+      "adv": 43960169.5,
+      "participation": 0.045496
+     },
+     {
+      "sym": "159834",
+      "dw": 0.2,
+      "adv": 58959627.1,
+      "participation": 0.033922
+     },
+     {
+      "sym": "518660",
+      "dw": 0.2,
+      "adv": 220847833.3,
+      "participation": 0.009056
+     },
+     {
+      "sym": "518800",
+      "dw": 0.2,
+      "adv": 382262755.1,
+      "participation": 0.005232
+     },
+     {
+      "sym": "518880",
+      "dw": 0.2,
+      "adv": 3906663117.9,
+      "participation": 0.000512
+     },
+     {
+      "sym": "518890",
+      "dw": 0.2,
+      "adv": 44331027.0,
+      "participation": 0.045115
+     }
+    ]
+   },
+   {
+    "date": "2025-11-14",
+    "n_legs": 10,
+    "turnover": 2.0,
+    "rate_bp_per_side": 22.381,
+    "extra_bp_avg": 14.381,
+    "participation_max": 0.091071,
+    "participation_median": 0.018303,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159333",
+      "dw": 0.2,
+      "adv": 25788786.6,
+      "participation": 0.077553
+     },
+     {
+      "sym": "159519",
+      "dw": 0.2,
+      "adv": 21960857.6,
+      "participation": 0.091071
+     },
+     {
+      "sym": "159830",
+      "dw": 0.2,
+      "adv": 71202711.4,
+      "participation": 0.028089
+     },
+     {
+      "sym": "159834",
+      "dw": 0.2,
+      "adv": 175950757.6,
+      "participation": 0.011367
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 2158241789.4,
+      "participation": 0.000927
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 37415698651.8,
+      "participation": 5.3e-05
+     },
+     {
+      "sym": "513140",
+      "dw": 0.2,
+      "adv": 79243724.4,
+      "participation": 0.025239
+     },
+     {
+      "sym": "518600",
+      "dw": 0.2,
+      "adv": 180844172.7,
+      "participation": 0.011059
+     },
+     {
+      "sym": "518680",
+      "dw": 0.2,
+      "adv": 305816438.2,
+      "participation": 0.00654
+     },
+     {
+      "sym": "518890",
+      "dw": 0.2,
+      "adv": 49495883.5,
+      "participation": 0.040407
+     }
+    ]
+   },
+   {
+    "date": "2025-12-12",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 25.79,
+    "extra_bp_avg": 17.79,
+    "participation_max": 0.132107,
+    "participation_median": 0.021891,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159333",
+      "dw": 0.2,
+      "adv": 17419969.2,
+      "participation": 0.114811
+     },
+     {
+      "sym": "159519",
+      "dw": 0.2,
+      "adv": 15139249.6,
+      "participation": 0.132107
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 548018203.8,
+      "participation": 0.00365
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 129343182.1,
+      "participation": 0.015463
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 13769337553.4,
+      "participation": 0.000145
+     },
+     {
+      "sym": "513140",
+      "dw": 0.2,
+      "adv": 70623041.5,
+      "participation": 0.028319
+     }
+    ]
+   },
+   {
+    "date": "2026-01-13",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 18.4,
+    "extra_bp_avg": 10.4,
+    "participation_max": 0.04865,
+    "participation_median": 0.00941,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 368794390.0,
+      "participation": 0.005423
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 161717697.9,
+      "participation": 0.012367
+     },
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 309970183.6,
+      "participation": 0.006452
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 124527324.5,
+      "participation": 0.016061
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 15003310622.5,
+      "participation": 0.000133
+     },
+     {
+      "sym": "512040",
+      "dw": 0.2,
+      "adv": 41109590.2,
+      "participation": 0.04865
+     }
+    ]
+   },
+   {
+    "date": "2026-02-10",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 19.522,
+    "extra_bp_avg": 11.522,
+    "participation_max": 0.033596,
+    "participation_median": 0.016439,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 122472274.2,
+      "participation": 0.01633
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 120856930.4,
+      "participation": 0.016548
+     },
+     {
+      "sym": "510210",
+      "dw": 0.2,
+      "adv": 328824219.0,
+      "participation": 0.006082
+     },
+     {
+      "sym": "510760",
+      "dw": 0.2,
+      "adv": 100060957.8,
+      "participation": 0.019988
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 1928904832.0,
+      "participation": 0.001037
+     },
+     {
+      "sym": "512040",
+      "dw": 0.2,
+      "adv": 59530104.5,
+      "participation": 0.033596
+     }
+    ]
+   },
+   {
+    "date": "2026-03-18",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 13.274,
+    "extra_bp_avg": 5.274,
+    "participation_max": 0.013657,
+    "participation_median": 0.000858,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159396",
+      "dw": 0.2,
+      "adv": 146442984.6,
+      "participation": 0.013657
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 156135225.4,
+      "participation": 0.012809
+     },
+     {
+      "sym": "511030",
+      "dw": 0.2,
+      "adv": 2590172674.9,
+      "participation": 0.000772
+     },
+     {
+      "sym": "511110",
+      "dw": 0.2,
+      "adv": 6868826658.0,
+      "participation": 0.000291
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 2120924407.7,
+      "participation": 0.000943
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 16934846843.3,
+      "participation": 0.000118
+     }
+    ]
+   },
+   {
+    "date": "2026-04-16",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 13.32,
+    "extra_bp_avg": 5.32,
+    "participation_max": 0.020299,
+    "participation_median": 0.000419,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159396",
+      "dw": 0.2,
+      "adv": 98526590.9,
+      "participation": 0.020299
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 3835242792.0,
+      "participation": 0.000521
+     },
+     {
+      "sym": "511070",
+      "dw": 0.2,
+      "adv": 7191394874.9,
+      "participation": 0.000278
+     },
+     {
+      "sym": "511110",
+      "dw": 0.2,
+      "adv": 6313545351.0,
+      "participation": 0.000317
+     },
+     {
+      "sym": "511190",
+      "dw": 0.2,
+      "adv": 168327648.1,
+      "participation": 0.011882
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 18439505396.3,
+      "participation": 0.000108
+     }
+    ]
+   },
+   {
+    "date": "2026-05-19",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 16.638,
+    "extra_bp_avg": 8.638,
+    "participation_max": 0.084124,
+    "participation_median": 0.004872,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 23774393.8,
+      "participation": 0.084124
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 3068365357.2,
+      "participation": 0.000652
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 130570911.9,
+      "participation": 0.015317
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 231669442.8,
+      "participation": 0.008633
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 1801366341.5,
+      "participation": 0.00111
+     },
+     {
+      "sym": "511070",
+      "dw": 0.2,
+      "adv": 6668855840.0,
+      "participation": 0.0003
+     },
+     {
+      "sym": "511190",
+      "dw": 0.2,
+      "adv": 210561915.7,
+      "participation": 0.009498
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 17600254355.6,
+      "participation": 0.000114
+     }
+    ]
+   },
+   {
+    "date": "2026-06-16",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 16.031,
+    "extra_bp_avg": 8.031,
+    "participation_max": 0.075351,
+    "participation_median": 0.001005,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159003",
+      "dw": 0.2,
+      "adv": 26542300.0,
+      "participation": 0.075351
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 168021736.1,
+      "participation": 0.011903
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 1865484519.5,
+      "participation": 0.001072
+     },
+     {
+      "sym": "511070",
+      "dw": 0.2,
+      "adv": 8114504604.1,
+      "participation": 0.000246
+     },
+     {
+      "sym": "511110",
+      "dw": 0.2,
+      "adv": 5433698709.1,
+      "participation": 0.000368
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 2133355545.1,
+      "participation": 0.000937
+     }
+    ]
+   },
+   {
+    "date": "2026-07-15",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 14.271,
+    "extra_bp_avg": 6.271,
+    "participation_max": 0.021159,
+    "participation_median": 0.001355,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159396",
+      "dw": 0.2,
+      "adv": 132682736.0,
+      "participation": 0.015074
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 1876400312.9,
+      "participation": 0.001066
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 94523072.2,
+      "participation": 0.021159
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 155703691.2,
+      "participation": 0.012845
+     },
+     {
+      "sym": "511070",
+      "dw": 0.2,
+      "adv": 7160311609.5,
+      "participation": 0.000279
+     },
+     {
+      "sym": "511110",
+      "dw": 0.2,
+      "adv": 5373504746.9,
+      "participation": 0.000372
+     },
+     {
+      "sym": "511270",
+      "dw": 0.2,
+      "adv": 1217080701.2,
+      "participation": 0.001643
+     },
+     {
+      "sym": "511880",
+      "dw": 0.2,
+      "adv": 16770109115.0,
+      "participation": 0.000119
+     }
+    ]
+   },
+   {
+    "date": "2026-08-12",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 14.5,
+    "extra_bp_avg": 6.5,
+    "participation_max": 0.019534,
+    "participation_median": 0.001682,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159396",
+      "dw": 0.2,
+      "adv": 102383289.2,
+      "participation": 0.019534
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 1057838221.2,
+      "participation": 0.001891
+     },
+     {
+      "sym": "159650",
+      "dw": 0.2,
+      "adv": 114755486.5,
+      "participation": 0.017428
+     },
+     {
+      "sym": "159651",
+      "dw": 0.2,
+      "adv": 181896138.5,
+      "participation": 0.010995
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 1358265957.5,
+      "participation": 0.001472
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 3543179400.9,
+      "participation": 0.000564
+     },
+     {
+      "sym": "551550",
+      "dw": 0.2,
+      "adv": 8728989715.8,
+      "participation": 0.000229
+     },
+     {
+      "sym": "551900",
+      "dw": 0.2,
+      "adv": 3914214375.6,
+      "participation": 0.000511
+     }
+    ]
+   },
+   {
+    "date": "2026-09-09",
+    "n_legs": 6,
+    "turnover": 1.2,
+    "rate_bp_per_side": 12.899,
+    "extra_bp_avg": 4.899,
+    "participation_max": 0.015627,
+    "participation_median": 0.001553,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159396",
+      "dw": 0.2,
+      "adv": 127984475.4,
+      "participation": 0.015627
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 1338576800.3,
+      "participation": 0.001494
+     },
+     {
+      "sym": "159400",
+      "dw": 0.2,
+      "adv": 712025255.0,
+      "participation": 0.002809
+     },
+     {
+      "sym": "159972",
+      "dw": 0.2,
+      "adv": 1241086103.6,
+      "participation": 0.001611
+     },
+     {
+      "sym": "511580",
+      "dw": 0.2,
+      "adv": 4023879540.3,
+      "participation": 0.000497
+     },
+     {
+      "sym": "551550",
+      "dw": 0.2,
+      "adv": 9046381804.0,
+      "participation": 0.000221
+     }
+    ]
+   },
+   {
+    "date": "2026-10-15",
+    "n_legs": 8,
+    "turnover": 1.6,
+    "rate_bp_per_side": 10.793,
+    "extra_bp_avg": 2.793,
+    "participation_max": 0.002179,
+    "participation_median": 0.00091,
+    "missing_adv_legs": 0,
+    "legs": [
+     {
+      "sym": "159115",
+      "dw": 0.2,
+      "adv": 2017213494.2,
+      "participation": 0.000991
+     },
+     {
+      "sym": "159116",
+      "dw": 0.2,
+      "adv": 3664261575.6,
+      "participation": 0.000546
+     },
+     {
+      "sym": "159395",
+      "dw": 0.2,
+      "adv": 917944401.5,
+      "participation": 0.002179
+     },
+     {
+      "sym": "159398",
+      "dw": 0.2,
+      "adv": 1651509851.0,
+      "participation": 0.001211
+     },
+     {
+      "sym": "159400",
+      "dw": 0.2,
+      "adv": 2077052625.9,
+      "participation": 0.000963
+     },
+     {
+      "sym": "511360",
+      "dw": 0.2,
+      "adv": 54361300834.6,
+      "participation": 3.7e-05
+     },
+     {
+      "sym": "551510",
+      "dw": 0.2,
+      "adv": 4643197440.9,
+      "participation": 0.000431
+     },
+     {
+      "sym": "551900",
+      "dw": 0.2,
+      "adv": 2334658362.3,
+      "participation": 0.000857
+     }
+    ]
+   }
+  ]
+ },
+ "universe_health": {
+  "panel_cutoff": "2026-10-23",
+  "n_names": 1608,
+  "n_alive": 1607,
+  "n_dead": 1,
+  "dead": {
+   "512390": {
+    "last_bar": "2026-09-04",
+    "bars_since": 29,
+    "last20_move": -0.0089
+   }
+  }
+ },
+ "holding_deaths_while_held": []
+}
