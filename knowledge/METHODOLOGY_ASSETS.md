@@ -692,3 +692,35 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
   leg passes on two identical no-ops (E124 family, third instance). Evidence:
   scripts/etf_vol_delivery_audit.py --selftest 4/4, smoke 59/59 (new product leg),
   results/etf_vol_delivery_audit.json, research/ETF_VOL_TARGET_SURFACE.md r1272 section.
+
+## E125 -- an annualised vol label and a per-hold vol target are two different numbers (2026-10-26 bm-c r1273)
+- Question: r1272 explained the 8% label vs 10.18% delivered gap but left it reported. Can it be
+  fixed CAUSALLY -- at each decision knowing only the estimator and the holds that already
+  CLOSED -- without fitting on the same sample?
+- Method: `WalkForwardCalibration` (scripts/etf_vol_calibration.py) settles a hold exactly when
+  it completes (hold at decision i runs open i+1 -> open i+20, so its realised vol is knowable
+  at the next decision, never earlier), then `scale = min(cap, target / (est * m))` with m from
+  >=>6 completed holds. Two estimators of m: median of realised/est, and rms of realised/est.
+- Finding (the reusable one): **delivered annualised vol is the ROOT-MEAN-SQUARE of the sized
+  segment vols, not their mean.** Measured on the published arm: sized mean 9.16%, sized rms
+  10.19%, measured 10.18% (identity error 0.01pp). So of the 2.18pp gap the estimator's MEDIAN
+  bias is worth ~1.06x and the dispersion of the realised ratio (rms/median 1.22) is worth the
+  rest: a rule made median-unbiased makes the typical hold 8% and annualises ~9.8%, by
+  construction. A median calibration therefore moves 10.18% -> 9.91% only; the rms calibration
+  lands 8.08% full / 8.22% OOS. The label and the delivered figure measure different things.
+- Engineering: (1) causality is testable, and the test is cheap -- re-run the calibrated arm on
+  a panel with the last 260 bars removed; every shared decision must produce an IDENTICAL scale
+  (here 70 decisions, maxdiff 0.00e+00). That leg is worth more than any code review of the
+  hook. (2) An invariance leg needs an activity leg beside it or two identical no-ops pass (E124
+  family again): `ratio_hook=None` is bit-identical to the published overlay (maxabs 0.00e+00,
+  turnover 0.934317 both), so the divergence leg (constant ratio 1.25 -> maxabs 2.19e-01) is
+  what proves the hook is wired. (3) State the adoption rule BEFORE the run and evaluate it
+  mechanically: here `vol_within_tol` PASS, `calibration_active` PASS, `ratio_stable` PASS,
+  `sharpe_not_worse` FAIL (0.946 vs 0.978 = -0.032 against a 0.02 tolerance) -> verdict HOLD,
+  and the calibration is reported, not adopted, with the failing leg named.
+- Evidence: scripts/etf_vol_calibration.py --selftest 12/12, smoke 60/60 (new product leg),
+  results/etf_vol_calibration.json, research/ETF_VOL_CALIBRATION.md, engine change `ratio_hook`
+  on etf_robust_pf.open_to_open_equity (legacy path bit-identical).
+- Next: the label must be restated rather than tuned -- "8% per hold (annualised ~10%)" or move
+  to rms sizing at the next scheduled review; that is a GM/CEO policy call on paying 0.03 Sharpe
+  plus 2.2pp CAGR for a literally true risk label with 2pp less drawdown.

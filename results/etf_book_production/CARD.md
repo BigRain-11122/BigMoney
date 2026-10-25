@@ -36,5 +36,5 @@ Realised 60d book vol 6.0% -> risk scale 1.00, cash slot 0.0%.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
 - The vol target only de-levers; it is a drawdown tool, not an edge.
-- Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x).
+- Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).
 - Order sheet is research output, not an investment recommendation.

@@ -1,0 +1,436 @@
+{
+ "arms": {
+  "A_no_target": {
+   "calibration": "none",
+   "decisions": 83,
+   "scale_mean": 1.0,
+   "scale_min": 1.0,
+   "turnover_per_decision": 1.277,
+   "vol_cap": 1.0,
+   "vol_target": null,
+   "windows": {
+    "full": {
+     "cagr": 0.1403,
+     "maxdd": -0.1588,
+     "sharpe": 0.97,
+     "vol": 0.1531,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0769,
+     "maxdd": -0.1588,
+     "sharpe": 0.57,
+     "vol": 0.1565,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.2377,
+     "maxdd": -0.1289,
+     "sharpe": 1.579,
+     "vol": 0.1481,
+     "years": 2.81
+    }
+   }
+  },
+  "B_published": {
+   "calibration": "none",
+   "decisions": 83,
+   "scale_mean": 0.7077,
+   "scale_min": 0.3361,
+   "turnover_per_decision": 0.934,
+   "vol_cap": 1.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0947,
+     "maxdd": -0.1177,
+     "sharpe": 0.978,
+     "vol": 0.1018,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0384,
+     "maxdd": -0.1177,
+     "sharpe": 0.442,
+     "vol": 0.0997,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1808,
+     "maxdd": -0.107,
+     "sharpe": 1.714,
+     "vol": 0.1045,
+     "years": 2.81
+    }
+   }
+  },
+  "C_calibrated_median": {
+   "calibration": "walk-forward-median",
+   "decisions": 83,
+   "ratio_path": {
+    "first_active": "2020-07-06",
+    "max": 1.1375,
+    "median": 1.0596,
+    "median_first_half": 1.0338,
+    "median_second_half": 1.0629,
+    "min": 0.8157,
+    "n": 83,
+    "share_above_1": 0.9036,
+    "share_active": 0.9277
+   },
+   "scale_mean": 0.6819,
+   "scale_min": 0.3271,
+   "turnover_per_decision": 0.901,
+   "vol_cap": 1.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0938,
+     "maxdd": -0.1154,
+     "sharpe": 0.992,
+     "vol": 0.0991,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0423,
+     "maxdd": -0.1154,
+     "sharpe": 0.483,
+     "vol": 0.0993,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1722,
+     "maxdd": -0.1006,
+     "sharpe": 1.728,
+     "vol": 0.0989,
+     "years": 2.81
+    }
+   }
+  },
+  "D_calibrated_median_uncapped": {
+   "calibration": "walk-forward-median",
+   "decisions": 83,
+   "ratio_path": {
+    "first_active": "2020-07-06",
+    "max": 1.1375,
+    "median": 1.0596,
+    "median_first_half": 1.0338,
+    "median_second_half": 1.0629,
+    "min": 0.8157,
+    "n": 83,
+    "share_above_1": 0.9036,
+    "share_active": 0.9277
+   },
+   "scale_mean": 0.7006,
+   "scale_min": 0.3271,
+   "turnover_per_decision": 0.937,
+   "vol_cap": 3.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0952,
+     "maxdd": -0.1219,
+     "sharpe": 0.991,
+     "vol": 0.1007,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0395,
+     "maxdd": -0.1219,
+     "sharpe": 0.452,
+     "vol": 0.1,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1803,
+     "maxdd": -0.1006,
+     "sharpe": 1.754,
+     "vol": 0.1017,
+     "years": 2.81
+    }
+   }
+  },
+  "E_calibrated_rms": {
+   "calibration": "walk-forward-rms",
+   "decisions": 83,
+   "ratio_path": {
+    "first_active": "2020-07-06",
+    "max": 1.8151,
+    "median": 1.3055,
+    "median_first_half": 1.3781,
+    "median_second_half": 1.2912,
+    "min": 1.0,
+    "n": 83,
+    "share_above_1": 0.9277,
+    "share_active": 0.9277
+   },
+   "scale_mean": 0.5515,
+   "scale_min": 0.2125,
+   "turnover_per_decision": 0.736,
+   "vol_cap": 1.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0727,
+     "maxdd": -0.0982,
+     "sharpe": 0.946,
+     "vol": 0.0808,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0252,
+     "maxdd": -0.0982,
+     "sharpe": 0.364,
+     "vol": 0.0798,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1447,
+     "maxdd": -0.0839,
+     "sharpe": 1.758,
+     "vol": 0.0822,
+     "years": 2.81
+    }
+   }
+  }
+ },
+ "config": {
+  "cost_bp": 10.0,
+  "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance",
+  "min_obs": 6,
+  "n_hold": 12,
+  "rebal": 20,
+  "target_vol": 0.08,
+  "uncapped_cap": 3.0
+ },
+ "decision": {
+  "failed_legs": [
+   "sharpe_not_worse"
+  ],
+  "legs": {
+   "calibration_active": {
+    "need": 0.5,
+    "pass": true,
+    "share_active": 0.9277
+   },
+   "ratio_stable": {
+    "drift": 0.0631,
+    "pass": true,
+    "tol": 0.5
+   },
+   "sharpe_not_worse": {
+    "calibrated": 0.946,
+    "pass": false,
+    "published": 0.978,
+    "tol": 0.02
+   },
+   "vol_within_tol": {
+    "full": 0.0808,
+    "oos": 0.0822,
+    "pass": true,
+    "tol": 0.01
+   }
+  },
+  "note": "HOLD = at least one pre-stated leg failed, so the label stays reported-not-corrected; failed legs listed above.",
+  "verdict": "HOLD"
+ },
+ "decision_median": {
+  "failed_legs": [
+   "vol_within_tol"
+  ],
+  "legs": {
+   "calibration_active": {
+    "need": 0.5,
+    "pass": true,
+    "share_active": 0.9277
+   },
+   "ratio_stable": {
+    "drift": 0.0281,
+    "pass": true,
+    "tol": 0.5
+   },
+   "sharpe_not_worse": {
+    "calibrated": 0.992,
+    "pass": true,
+    "published": 0.978,
+    "tol": 0.02
+   },
+   "vol_within_tol": {
+    "full": 0.0991,
+    "oos": 0.0989,
+    "pass": false,
+    "tol": 0.01
+   }
+  },
+  "note": "HOLD = at least one pre-stated leg failed, so the label stays reported-not-corrected; failed legs listed above.",
+  "verdict": "HOLD"
+ },
+ "decision_rms": {
+  "failed_legs": [
+   "sharpe_not_worse"
+  ],
+  "legs": {
+   "calibration_active": {
+    "need": 0.5,
+    "pass": true,
+    "share_active": 0.9277
+   },
+   "ratio_stable": {
+    "drift": 0.0631,
+    "pass": true,
+    "tol": 0.5
+   },
+   "sharpe_not_worse": {
+    "calibrated": 0.946,
+    "pass": false,
+    "published": 0.978,
+    "tol": 0.02
+   },
+   "vol_within_tol": {
+    "full": 0.0808,
+    "oos": 0.0822,
+    "pass": true,
+    "tol": 0.01
+   }
+  },
+  "note": "HOLD = at least one pre-stated leg failed, so the label stays reported-not-corrected; failed legs listed above.",
+  "verdict": "HOLD"
+ },
+ "decisions_moved": {
+  "mean_abs_scale_change": 0.0289,
+  "n": 83,
+  "share_moved_gt_2pp_of_scale": 0.7229
+ },
+ "evidence_cutoff": "2026-10-23",
+ "generated": null,
+ "headline": "at an 8% label the published book delivers 10.18%; a causal median-ratio calibration reaches only 9.91% (m median 1.06) because delivered vol is the rms of the sized holds (rms/median ratio 1.22), while the rms calibration reaches 8.08% (full) / 8.22% (OOS) with Sharpe 0.946 vs 0.978 and maxDD -9.8% vs -11.8%; verdict HOLD",
+ "mixture": {
+  "calibrated_rms": {
+   "hold_vol_dispersion_rms_over_mean": 1.127,
+   "hold_vol_mean": 0.1362,
+   "hold_vol_rms": 0.1535,
+   "identity_error_rms_vs_measured": 0.0002,
+   "measured_annualised": 0.0808,
+   "n": 83,
+   "note": "delivered vol is the rms of the sized segment vols; a median-sized rule undershoots by ratio_rms_over_median, which is why per-hold calibration on the median cannot move the label much",
+   "ratio_median": 1.0632,
+   "ratio_rms": 1.2961,
+   "ratio_rms_over_median": 1.219,
+   "rms_minus_mean": 0.01,
+   "sized_mean": 0.071,
+   "sized_rms": 0.081
+  },
+  "published": {
+   "hold_vol_dispersion_rms_over_mean": 1.127,
+   "hold_vol_mean": 0.1362,
+   "hold_vol_rms": 0.1535,
+   "identity_error_rms_vs_measured": 0.0001,
+   "measured_annualised": 0.1018,
+   "n": 83,
+   "note": "delivered vol is the rms of the sized segment vols; a median-sized rule undershoots by ratio_rms_over_median, which is why per-hold calibration on the median cannot move the label much",
+   "ratio_median": 1.0632,
+   "ratio_rms": 1.2961,
+   "ratio_rms_over_median": 1.219,
+   "rms_minus_mean": 0.0103,
+   "sized_mean": 0.0916,
+   "sized_rms": 0.1019
+  }
+ },
+ "panel_flip_repairs": 134,
+ "schema": "etf-vol-calibration/v1",
+ "yearly_vol": {
+  "calibrated_median": {
+   "2020": {
+    "abs_error_vs_target": 0.0428,
+    "vol": 0.1228
+   },
+   "2021": {
+    "abs_error_vs_target": 0.0155,
+    "vol": 0.0955
+   },
+   "2022": {
+    "abs_error_vs_target": 0.005,
+    "vol": 0.085
+   },
+   "2023": {
+    "abs_error_vs_target": 0.0102,
+    "vol": 0.0902
+   },
+   "2024": {
+    "abs_error_vs_target": 0.0092,
+    "vol": 0.0892
+   },
+   "2025": {
+    "abs_error_vs_target": 0.0398,
+    "vol": 0.1198
+   },
+   "2026": {
+    "abs_error_vs_target": 0.0022,
+    "vol": 0.0778
+   }
+  },
+  "calibrated_rms": {
+   "2020": {
+    "abs_error_vs_target": 0.0253,
+    "vol": 0.1053
+   },
+   "2021": {
+    "abs_error_vs_target": 0.0117,
+    "vol": 0.0683
+   },
+   "2022": {
+    "abs_error_vs_target": 0.0136,
+    "vol": 0.0664
+   },
+   "2023": {
+    "abs_error_vs_target": 0.0066,
+    "vol": 0.0734
+   },
+   "2024": {
+    "abs_error_vs_target": 0.003,
+    "vol": 0.077
+   },
+   "2025": {
+    "abs_error_vs_target": 0.0184,
+    "vol": 0.0984
+   },
+   "2026": {
+    "abs_error_vs_target": 0.017,
+    "vol": 0.063
+   }
+  },
+  "mean_abs_error_calibrated_median": 0.0178,
+  "mean_abs_error_calibrated_rms": 0.0137,
+  "mean_abs_error_published": 0.02,
+  "published": {
+   "2020": {
+    "abs_error_vs_target": 0.0391,
+    "vol": 0.1191
+   },
+   "2021": {
+    "abs_error_vs_target": 0.0186,
+    "vol": 0.0986
+   },
+   "2022": {
+    "abs_error_vs_target": 0.0062,
+    "vol": 0.0862
+   },
+   "2023": {
+    "abs_error_vs_target": 0.0126,
+    "vol": 0.0926
+   },
+   "2024": {
+    "abs_error_vs_target": 0.0135,
+    "vol": 0.0935
+   },
+   "2025": {
+    "abs_error_vs_target": 0.0468,
+    "vol": 0.1268
+   },
+   "2026": {
+    "abs_error_vs_target": 0.003,
+    "vol": 0.083
+   }
+  }
+ }
+}

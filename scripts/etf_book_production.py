@@ -238,7 +238,9 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
             "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
             "The vol target only de-levers; it is a drawdown tool, not an edge.",
-            "Delivered vol is not the label: %s." % (dv.get("headline") or "no history"),
+            "Delivered vol is not the label: %s. The label is a per-hold risk target, so an "
+            "8%% label annualises near 10%% once hold-level vol dispersion is priced in -- a "
+            "definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md)." % (dv.get("headline") or "no history"),
             "Order sheet is research output, not an investment recommendation.",
         ],
     }

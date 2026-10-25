@@ -461,7 +461,9 @@ def main() -> int:
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
-             "scripts/etf_vol_delivery_audit.py", ["--selftest"])):
+             "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
+            ("product: etf_vol_calibration (exit-code contract)",
+             "scripts/etf_vol_calibration.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

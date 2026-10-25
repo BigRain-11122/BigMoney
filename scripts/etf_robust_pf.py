@@ -26,9 +26,15 @@ TARGET_VOL = 0.08
 
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
-                        vol_cap=1.0, diag=None):
+                        vol_cap=1.0, diag=None, ratio_hook=None):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
-    diag, if a list, collects one {date, est_vol, scale, held_vol} row per decision."""
+    diag, if a list, collects one {date, est_vol, scale, ratio} row per decision.
+
+    ratio_hook(est_vol, date, picks) -> float optionally supplies the expected
+    delivered/estimated vol ratio, dividing the denominator of the sizing rule
+    (scale = min(cap, target / (est * ratio))). It must be causal -- it is called at the
+    decision, so it may only use data up to that bar. None (default) means ratio 1.0, which
+    is bit-identical to the published behaviour."""
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
@@ -59,11 +65,16 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                 w = {p: 1.0 / n_hold for p in picks}
                 scale = 1.0
                 est = None
+                ratio = 1.0
                 if vol_target:
                     v = book_vol(w, d)
                     if np.isfinite(v) and v > 0:
                         est = float(v)
-                        scale = float(min(vol_cap, vol_target / v))
+                        if ratio_hook is not None:
+                            ratio = float(ratio_hook(est, d, picks))
+                            if not np.isfinite(ratio) or ratio <= 0:
+                                ratio = 1.0
+                        scale = float(min(vol_cap, vol_target / (v * ratio)))
                 w = {k: v * scale for k, v in w.items()}
                 turn = sum(abs(w.get(k, 0.0) - held.get(k, 0.0)) for k in set(w) | set(held))
                 equity *= (1.0 - cost * turn)
@@ -71,7 +82,7 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                 held = w
                 if diag is not None:
                     diag.append({"date": str(d.date()), "est_vol": est, "scale": scale,
-                                 "book": list(picks)})
+                                 "ratio": ratio, "book": list(picks)})
         nxt = dates[i + 1]
         r = 0.0
         for p, wt in held.items():
