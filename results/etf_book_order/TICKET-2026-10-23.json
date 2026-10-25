@@ -7,17 +7,17 @@
  "cost_bp_per_side": 8.0,
  "fresh_gate": false,
  "staleness": {
-  "decisions": 264,
-  "picks": 1055,
+  "decisions": 83,
+  "picks": 415,
   "stale_picks": 0,
   "stale_share": 0.0,
   "worst_stale_gap_days": 0,
-  "symbols_with_value_on_last_bar": 50,
-  "symbols_total": 1547,
-  "decisions_with_too_few_picks": 53
+  "symbols_with_value_on_last_bar": 1496,
+  "symbols_total": 1498,
+  "decisions_with_too_few_picks": 0
  },
  "k_now": 0.606379,
- "next_decision": null,
+ "next_decision_bars": 13,
  "ticket": {
   "beta_k": 0.606379,
   "book_weight": 0.606379,
@@ -25,74 +25,68 @@
   "nav": 1000000.0,
   "order": [
    {
-    "symbol": "sh511880",
+    "symbol": "515450",
     "weight": 0.121276,
-    "price": null,
-    "lots": null,
-    "shares": null,
-    "amount": null,
+    "price": 1.426,
+    "lots": 850,
+    "shares": 85000,
+    "amount": 121210.0,
     "class": "equity",
-    "note": "no live price"
+    "note": ""
    },
    {
-    "symbol": "sz159003",
+    "symbol": "515300",
     "weight": 0.121276,
-    "price": null,
-    "lots": null,
-    "shares": null,
-    "amount": null,
+    "price": 1.336,
+    "lots": 907,
+    "shares": 90700,
+    "amount": 121175.2,
     "class": "equity",
-    "note": "no live price"
+    "note": ""
    },
    {
-    "symbol": "sh515450",
+    "symbol": "510760",
     "weight": 0.121276,
-    "price": null,
-    "lots": null,
-    "shares": null,
-    "amount": null,
+    "price": 1.278,
+    "lots": 948,
+    "shares": 94800,
+    "amount": 121154.4,
     "class": "equity",
-    "note": "no live price"
+    "note": ""
    },
    {
-    "symbol": "sh515300",
+    "symbol": "159307",
     "weight": 0.121276,
-    "price": null,
-    "lots": null,
-    "shares": null,
-    "amount": null,
+    "price": 1.02,
+    "lots": 1188,
+    "shares": 118800,
+    "amount": 121176.0,
     "class": "equity",
-    "note": "no live price"
+    "note": ""
    },
    {
-    "symbol": "sh510760",
+    "symbol": "510980",
     "weight": 0.121276,
-    "price": null,
-    "lots": null,
-    "shares": null,
-    "amount": null,
+    "price": 1.323,
+    "lots": 916,
+    "shares": 91600,
+    "amount": 121186.8,
     "class": "equity",
-    "note": "no live price"
+    "note": ""
    }
   ],
-  "book_amount": 0.0,
-  "cash_amount": 1000000.0,
+  "book_amount": 605902.4,
+  "cash_amount": 394097.6,
   "cash_leg": "GC001 (1-day repo, observed close)",
-  "basket_drift": [
-   "sh511880",
-   "sz159003",
-   "sh515450",
-   "sh515300",
-   "sh510760"
-  ],
-  "underspend_pct": 60.6379
+  "basket_drift": [],
+  "underspend_pct": 0.0477
  },
  "metrics": {
   "book": {
-   "cagr": 0.1437,
-   "sharpe": 1.406,
-   "maxdd": -0.0731,
-   "vol": 0.1022,
+   "cagr": 0.1105,
+   "sharpe": 1.352,
+   "maxdd": -0.0601,
+   "vol": 0.0817,
    "bars": 678
   },
   "same_beta_benchmark": {
@@ -102,11 +96,11 @@
    "vol": 0.038,
    "bars": 678
   },
-  "excess_pp": 11.38
+  "excess_pp": 8.06
  },
  "book_leg": {
-  "turnover_per_rebal": 1.4048,
-  "open_gapfill": 13
+  "turnover_per_rebal": 1.5301,
+  "open_gapfill": 1
  },
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
@@ -116,8 +110,8 @@
  "ledger": {
   "bars": 678,
   "nav": 1.45986553,
-  "rows_added": 678,
-  "engine_naive_vs_ledger": 0.0
+  "rows_added": 0,
+  "engine_naive_vs_ledger": null
  },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",

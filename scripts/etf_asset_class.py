@@ -18,7 +18,11 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIST_PATH = os.path.join(BASE, "data", "basic", "etf_list.csv")
 
 BOND_KW = ("债", "国债", "政金", "国开", "短融", "信用", "城投", "货币", "现金",
-           "存单", "同业", "理财", "利率")
+           "存单", "同业", "理财", "利率",
+           # money-market funds whose names carry no "货币" marker at all:
+           # 511880 银华日利 / 511990 华宝添益 / 159003 招商快线 were reaching
+           # the equity book (r1257 live ticket: 2 of 5 picks were cash funds)
+           "日利", "添益", "添利", "快线", "保证金", "日日", "天天金", "财富宝")
 COMMOD_KW = ("黄金", "白银", "豆粕", "期货", "能源化工", "有色期货")
 CROSS_KW = ("恒生", "港股", "纳指", "纳斯达克", "标普", "美国", "日经", "德国",
             "法国", "亚太", "中概", "海外", "东南亚", "沙特", "越南", "中韩",
@@ -35,6 +39,14 @@ def bare(sym):
 
 
 def class_from_name(name):
+    """Class from a fund name, or None when no keyword fires.
+
+    Returning None (rather than defaulting to "equity") is load-bearing: the
+    old default made the prefix fallback unreachable, so 511880 银华日利 /
+    511990 华宝添益 / 159003 招商快线 were tagged equity and the composite
+    book bought money-market funds as if they were stocks (r1257 live ticket
+    2/5).  Prefixes now decide when the name says nothing.
+    """
     n = str(name)
     for kw in CONV_KW:
         if kw in n:
@@ -48,7 +60,7 @@ def class_from_name(name):
     for kw in CROSS_KW:
         if kw in n:
             return "crossborder"
-    return "equity"
+    return None
 
 
 def class_from_prefix(code):

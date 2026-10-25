@@ -48,8 +48,27 @@ N_HOLD = 5
 REBAL = (5, 20)
 
 
+def _stem_key(stem):
+    """data/daily holds each instrument under up to two file names: <code>.csv
+    (the core48 face) and sh|sz<code>.csv (the full-history wide face). Keying
+    the panel by file stem put the same ETF in the cross-section twice, and 22
+    of 83 R20 decisions held one instrument in two of five slots (r1257)."""
+    if stem[:2] in ("sh", "sz") and stem[2:8].isdigit():
+        return stem[2:8]
+    return stem
+
+
+def _dedupe(prices):
+    """Collapse bare/prefixed twins, preferring the prefixed wide face (the one
+    the wide refresher maintains and that now carries the live tail)."""
+    out = {}
+    for stem in sorted(prices, key=lambda s: (len(s), s)):
+        out[_stem_key(stem)] = prices[stem]
+    return out
+
+
 def build_panel():
-    prices = _load_prices()
+    prices = _dedupe(_load_prices())
     bench = None
     bp = os.path.join(PATHS.basic_dir, "csi300.csv")
     if os.path.exists(bp):
