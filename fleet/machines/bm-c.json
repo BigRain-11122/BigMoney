@@ -1,7 +1,7 @@
 {
  "activity_now": "engine idle (burns_active=[] queue_next=[]) awaiting the W330 freeze; pool E93 booked done",
  "agenda_starved": false,
- "clock_read": "2026-10-25T15:22:18+08:00",
+ "clock_read": "2026-10-25T15:41:15+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 6.3,
  "cpu_util_pct": 0.8,
  "current": "r1244 product: E93 phantom supply cleared (delivered batch booked, not reburned) + ETF composite sleeve-subset variants (bond removal lifts the book, gold is the load-bearing sleeve)",
- "current_task": "r1244 product round: ETF composite book sleeve variants (bond_removed 13.47%/yr full, 20.81% OOS, +11.77pp vs own EW; commodity removal collapses the OOS excess to +0.78pp)",
+ "current_task": "r1245 product: next-open fill model for the ETF composite book -- R20 survives (9.04%->8.57%/yr, SR 0.898->0.854) at identical turnover, R5 does not (6.87%->5.40%, SR 0.792->0.602)",
  "current_task_at": "2026-10-25T15:22:18+08:00",
  "current_task_ts": "2026-10-25T15:22:18+08:00",
  "d19_watermark_guard": {
@@ -27,7 +27,7 @@
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
  "dept": "research/engineering",
- "did": "E93 booked done with verified result_note (results/_r1244bmc_e93_book_receipt.json) + scripts/etf_composite_decomp_variants.py + results/etf_composite_decomp_variants.json + research/ETF_COMPOSITE_SLEEVE_VARIANTS.md + methodology card E101",
+ "did": "r1245 product: scripts/etf_composite_pf.py --basis=next_open (+3/3 selftest legs, two real engine bugs caught by a hand-computed fixture) -> results/etf_composite_pf_open.json + research/ETF_COMPOSITE_NEXT_OPEN.md + methodology card E102 + 5x HANDOVER checkpoint",
  "did_round": 1244,
  "free_ram_gb": 5.9,
  "free_vram_mb": 4319,
@@ -60,7 +60,7 @@
  "ground_truth_ts": "2026-10-25T11:44:42+08:00",
  "head_sha": "51fa4ede93",
  "health": "green",
- "heartbeat_epoch_utc": 1792912938,
+ "heartbeat_epoch_utc": 1792914075,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 5.9,
  "idle_rounds": 0,
@@ -94,7 +94,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-24T02:34:24+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-25T15:22:18+08:00",
+ "last_seen": "2026-10-25T15:41:15+08:00",
  "last_seen_at": "2026-10-25T11:30:54+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
  "latest_artifact": "results/etf_composite_decomp_variants.json",
@@ -341,7 +341,8 @@
   "O-20261019-2047-bm-a.md",
   "O-20261019-2230-bm-b.md",
   "O-20261023-2317-bm-a.md",
-  "O-20261023-2325-bm-a.md"
+  "O-20261023-2325-bm-a.md",
+  "O-20261025-1530-bm-c"
  ],
  "orders_ack_count": 234,
  "orders_ack_last": "O-20261023-2325-bm-a.md",
@@ -443,7 +444,7 @@
   "ts": "2026-10-25T00:58:08+08:00"
  },
  "total_ram_gb": 23.9,
- "ts": "2026-10-25T15:22:18+08:00",
+ "ts": "2026-10-25T15:41:15+08:00",
  "updated": "2026-10-25 15:22:18",
  "updated_at": "2026-10-25T15:22:18+08:00",
  "verdict": "GREEN",

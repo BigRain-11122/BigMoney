@@ -503,3 +503,43 @@ python -m screening.rank          # 432 组排名重建
 - health: smoke 57/57, dualrun ZERO-DRIFT streak 51, compute_audit rc0 (cpu 20.0%, py 6.9%), attrition 4 files CLEAN, orphan faces=0, S6 39/39 rc0, D-19 dec 0bf59c3c92 / ord 8ff7de47 both MATCH (unacked=0 of 109 order files)
 - honest faces: detach-only finalize (foreground cancel at 5 silent minutes); freeze-face adjudicator needs forward-slash paths; RAM pressure keeps green_idle false at idle_trigger sampling
 - next milestone: W331 seat probe + W330 freeze/splice/burn; <=48h
+
+## 5x checkpoint -- bm-c r1245 (2026-10-25 16:0x)
+
+- authority = round_reports-bm-c.md full window log + state-bm-c.json closeout notes (r1241..r1245)
+- window character: five PRODUCT rounds, not wave rounds. The N1 wave chain sits at W330 (seat published
+  11:05, freeze/splice not yet run) and that is deliberate -- memory 2026-10-25 records that zero-distribution
+  deepening is saturated (K-lift 0.0/0.0001 for 11 straight waves), so per the meaning gate the compute went
+  to the tradable face instead of more of the same.
+- product 1 (r1241): first honest composite-of-six-signs ETF book -- results/etf_composite_pf.json, permutation
+  null 300 shuffles p=0.000, R20 9.04%/yr vs EW-universe 2.44% and 510300 0.10%.
+- product 2 (r1242): fixed a REAL metric defect shared by both composite scripts (sub-window slice treated as
+  starting at 1.0 -> every "2024+" row reported the full-period return; ETF R20 OOS 23.26% -> 15.30%). Same
+  construction on the 164-name A-share panel LOSES to its own universe (negative result landed).
+- product 3 (r1243): sleeve decomposition -- bond sleeve held 85.4% of days (+8.57pp), commodity/gold 13.4%
+  (+21.47pp); equity-only collapses to 4.24%/yr and loses to its own EW OOS (p=0.07). The score does regime
+  selection, not cross-sectional selection.
+- product 4 (r1244): bond removal lifts 9.04% -> 13.47%/yr (OOS 20.81%); removing commodity collapses OOS
+  excess +11.77pp -> +0.78pp, so gold is the load-bearing sleeve and bonds were the drag (corrects r1243).
+  Also booked the E93 phantom supply entry (deliverable already landed, pool row still said ready).
+- product 5 (r1245, this window): next-open fill model -- the declared next step of r1241. R20 9.04% -> 8.57%
+  (SR 0.898 -> 0.854, DD -12.8% -> -13.1%), OOS 15.30% -> 14.50%, R5 6.87% -> 5.40% (SR 0.792 -> 0.602) at
+  IDENTICAL turnover, so the delta is pure execution. The slow book survives the fill model; the fast one
+  does not. 3/3 offline selftest legs (hand-computed micro fixture caught two real engine bugs: a
+  double-counted overnight+close leg on non-fill days, and a loop that started at dates[1:] and silently
+  dropped the first decision -> zero turnover, flat curve).
+- health: smoke 57/57 PASS, orphan faces=6 / orphans=0 at open, saturation engine alive and self-driving
+  (state file rewritten 15:26, W329 12/12 done, W330 pending freeze), D-19 dec f94a284c1b / ord 8ff7de47 both
+  MATCH (zero action), orders unacked=1 -> O-20261025-1530-bm-c consumed this window (resume: quant production
+  already live; the order's media lane and the "no resume/pause while a burn is in flight" discipline are
+  media-side, noted not executed here).
+- honest faces: the permutation null was NOT re-run on the next-open basis (carried from the close basis,
+  disclosed); fixed weights inside a holding period; 20M CNY median-amount screen is not a fill model;
+  16 held-symbol open fallbacks for R20.
+- sibling state: another codely body's uncommitted files (results/_t80_pick_mix.py, scripts/pull_astock_panel.py,
+  results/_t81_*.err, modified scripts/stock_composite_pf.py + json) were left untouched and uncommitted per the
+  anti-duplicate law; this window ran no second S6 pass because compute_audit/watermark/regime_state were
+  already fresh from r1244.
+- next milestone: (i) next-open permutation null, (ii) sleeve decomposition re-run on the next-open basis --
+  does the gold-is-load-bearing ordering survive the fill? <=48h. Wave chain: W330 freeze stays queued behind
+  the meaning gate, not behind this window.
