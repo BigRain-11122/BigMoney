@@ -1,0 +1,277 @@
+{
+ "ts": "2026-10-25 23:46:41",
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_book_breadth.py",
+ "config": {
+  "breadth_grid": [
+   5,
+   8,
+   12,
+   16
+  ],
+  "stagger_breadth": [
+   8,
+   12,
+   16
+  ],
+  "rebal": 20,
+  "start": "2020-01-01",
+  "nav_ref": 10000000.0,
+  "adv_discipline_pct": 1.0,
+  "base_breadth": 5,
+  "flat_cost_bp": 8.0
+ },
+ "controls": {
+  "pool_equal_weight": {
+   "label": "ew rebal=20",
+   "bars": 1647,
+   "years": 6.8,
+   "start_level": 1.0009,
+   "total_ret": 0.1537,
+   "cagr": 0.0212,
+   "vol": 0.1815,
+   "sharpe": 0.211,
+   "maxdd": -0.3991
+  },
+  "market_510300": {
+   "label": "510300",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.007,
+   "cagr": 0.001,
+   "vol": 0.1912,
+   "sharpe": 0.101,
+   "maxdd": -0.451
+  }
+ },
+ "lines": {
+  "single_5": {
+   "label": "single n=5",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.6486,
+   "cagr": 0.0762,
+   "vol": 0.1034,
+   "sharpe": 0.792,
+   "maxdd": -0.1309,
+   "n_hold": 5,
+   "turnover_per_decision": 1.2506,
+   "turns_per_year": 15.7576,
+   "open_gapfill": 1,
+   "participation_p90": 0.10627,
+   "capacity_nav": 940999.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 5.5,
+   "delta_cagr_vs_base_pp": 0.0,
+   "capacity_vs_base_pct": 0.0,
+   "capacity_per_pp_return": null
+  },
+  "single_8": {
+   "label": "single n=8",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.5728,
+   "cagr": 0.0688,
+   "vol": 0.1087,
+   "sharpe": 0.693,
+   "maxdd": -0.1394,
+   "n_hold": 8,
+   "turnover_per_decision": 1.244,
+   "turns_per_year": 15.6741,
+   "open_gapfill": 1,
+   "participation_p90": 0.077913,
+   "capacity_nav": 1283483.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 4.76,
+   "delta_cagr_vs_base_pp": -0.74,
+   "capacity_vs_base_pct": 36.4,
+   "capacity_per_pp_return": 462816.0
+  },
+  "single_12": {
+   "label": "single n=12",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.5267,
+   "cagr": 0.0641,
+   "vol": 0.105,
+   "sharpe": 0.67,
+   "maxdd": -0.1284,
+   "n_hold": 12,
+   "turnover_per_decision": 1.1647,
+   "turns_per_year": 14.6747,
+   "open_gapfill": 6,
+   "participation_p90": 0.054208,
+   "capacity_nav": 1844746.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 4.29,
+   "delta_cagr_vs_base_pp": -1.21,
+   "capacity_vs_base_pct": 96.04,
+   "capacity_per_pp_return": 746898.0
+  },
+  "single_16": {
+   "label": "single n=16",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.4077,
+   "cagr": 0.0515,
+   "vol": 0.1059,
+   "sharpe": 0.548,
+   "maxdd": -0.1381,
+   "n_hold": 16,
+   "turnover_per_decision": 1.1069,
+   "turns_per_year": 13.9473,
+   "open_gapfill": 6,
+   "participation_p90": 0.041897,
+   "capacity_nav": 2386806.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 3.03,
+   "delta_cagr_vs_base_pp": -2.47,
+   "capacity_vs_base_pct": 153.65,
+   "capacity_per_pp_return": 585347.0
+  },
+  "stagger_8": {
+   "label": "stagger n=8",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.6005,
+   "cagr": 0.0715,
+   "vol": 0.0949,
+   "sharpe": 0.806,
+   "maxdd": -0.1068,
+   "n_hold": 8,
+   "sleeves": [
+    4,
+    4
+   ],
+   "phase_offset_bars": 10,
+   "sleeve_turnover_per_decision": {
+    "a": 1.2349,
+    "b": 1.7439
+   },
+   "turnover_per_decision": 1.4894,
+   "turns_per_year": 18.7667,
+   "participation_p90": 0.066035,
+   "capacity_nav": 1514348.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 5.03,
+   "delta_cagr_vs_base_pp": -0.47,
+   "capacity_vs_base_pct": 60.93,
+   "capacity_per_pp_return": 1219891.0
+  },
+  "stagger_12": {
+   "label": "stagger n=12",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.4229,
+   "cagr": 0.0532,
+   "vol": 0.1044,
+   "sharpe": 0.57,
+   "maxdd": -0.1859,
+   "n_hold": 12,
+   "sleeves": [
+    6,
+    6
+   ],
+   "phase_offset_bars": 10,
+   "sleeve_turnover_per_decision": {
+    "a": 1.261,
+    "b": 1.6504
+   },
+   "turnover_per_decision": 1.4557,
+   "turns_per_year": 18.3421,
+   "participation_p90": 0.046579,
+   "capacity_nav": 2146890.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 3.2,
+   "delta_cagr_vs_base_pp": -2.3,
+   "capacity_vs_base_pct": 128.15,
+   "capacity_per_pp_return": 524300.0
+  },
+  "stagger_16": {
+   "label": "stagger n=16",
+   "bars": 1648,
+   "years": 6.81,
+   "start_level": 1.0,
+   "total_ret": 0.4823,
+   "cagr": 0.0595,
+   "vol": 0.1075,
+   "sharpe": 0.614,
+   "maxdd": -0.1844,
+   "n_hold": 16,
+   "sleeves": [
+    8,
+    8
+   ],
+   "phase_offset_bars": 10,
+   "sleeve_turnover_per_decision": {
+    "a": 1.244,
+    "b": 1.6677
+   },
+   "turnover_per_decision": 1.4558,
+   "turns_per_year": 18.3435,
+   "participation_p90": 0.037811,
+   "capacity_nav": 2644733.0,
+   "missing_adv_legs": 0,
+   "excess_vs_ew_pp": 3.83,
+   "delta_cagr_vs_base_pp": -1.67,
+   "capacity_vs_base_pct": 181.06,
+   "capacity_per_pp_return": 1020200.0
+  }
+ },
+ "readings": {
+  "single_cagr_by_breadth": {
+   "5": 0.0762,
+   "8": 0.0688,
+   "12": 0.0641,
+   "16": 0.0515
+  },
+  "single_capacity_by_breadth": {
+   "5": 940999.0,
+   "8": 1283483.0,
+   "12": 1844746.0,
+   "16": 2386806.0
+  },
+  "single_turns_per_year_by_breadth": {
+   "5": 15.7576,
+   "8": 15.6741,
+   "12": 14.6747,
+   "16": 13.9473
+  },
+  "best_capacity_per_pp_line": "stagger_8",
+  "best_capacity_per_pp_value": 1219891.0,
+  "capacity_per_pp_by_line": {
+   "single_5": null,
+   "single_8": 462816.0,
+   "single_12": 746898.0,
+   "single_16": 585347.0,
+   "stagger_8": 1219891.0,
+   "stagger_12": 524300.0,
+   "stagger_16": 1020200.0
+  },
+  "stagger_vs_single_same_breadth": {
+   "8": {
+    "delta_cagr_pp": 0.27,
+    "delta_mdd_pp": 3.26,
+    "delta_capacity_pct": 17.99
+   },
+   "12": {
+    "delta_cagr_pp": -1.09,
+    "delta_mdd_pp": -5.75,
+    "delta_capacity_pct": 16.38
+   },
+   "16": {
+    "delta_cagr_pp": 0.8,
+    "delta_mdd_pp": -4.63,
+    "delta_capacity_pct": 10.81
+   }
+  },
+  "ew_cagr": 0.0212
+ }
+}

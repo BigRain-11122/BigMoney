@@ -1,0 +1,767 @@
+{
+ "ts": "2026-10-25 23:31:51",
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_breadth_sweep.py",
+ "config": {
+  "breadth_grid": [
+   5,
+   8,
+   12,
+   16
+  ],
+  "rebal": 20,
+  "nav_grid": [
+   10000000.0,
+   50000000.0,
+   100000000.0
+  ],
+  "base_bp": 8.0,
+  "impact_bp_per_pct": 10.0,
+  "adv_discipline_pct": 1.0,
+  "reference_breadth": 5,
+  "start": "2020-01-01"
+ },
+ "market_510300": {
+  "label": "510300",
+  "bars": 1648,
+  "years": 6.81,
+  "start_level": 1.0,
+  "total_ret": 0.007,
+  "cagr": 0.001,
+  "vol": 0.1912,
+  "sharpe": 0.101,
+  "maxdd": -0.451
+ },
+ "pool_equal_weight": {
+  "label": "ew rebal=20",
+  "bars": 1647,
+  "years": 6.8,
+  "start_level": 1.0009,
+  "total_ret": 0.1537,
+  "cagr": 0.0212,
+  "vol": 0.1815,
+  "sharpe": 0.211,
+  "maxdd": -0.3991
+ },
+ "rows": [
+  {
+   "breadth": 5,
+   "single": {
+    "flat_8bp": {
+     "label": "single flat n=5",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.6486,
+     "cagr": 0.0762,
+     "vol": 0.1034,
+     "sharpe": 0.792,
+     "maxdd": -0.1309,
+     "turnover_per_decision": 1.2506,
+     "turns_per_year": 15.7576,
+     "open_gapfill": 1,
+     "excess_vs_ew_pp": 5.5
+    },
+    "priced": {
+     "1e+07": {
+      "label": "nav=1e+07 n=5",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4472,
+      "cagr": 0.0558,
+      "vol": 0.1038,
+      "sharpe": 0.597,
+      "maxdd": -0.1343,
+      "turnover_per_decision": 1.2506,
+      "turns_per_year": 15.7576,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.10627,
+      "decisions_over_1pct": 76,
+      "excess_vs_ew_pp": 3.46
+     },
+     "5e+07": {
+      "label": "nav=5e+07 n=5",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2315,
+      "cagr": 0.0311,
+      "vol": 0.1048,
+      "sharpe": 0.357,
+      "maxdd": -0.1385,
+      "turnover_per_decision": 1.2506,
+      "turns_per_year": 15.7576,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.531351,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": 0.99
+     },
+     "1e+08": {
+      "label": "nav=1e+08 n=5",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.091,
+      "cagr": 0.0129,
+      "vol": 0.1058,
+      "sharpe": 0.179,
+      "maxdd": -0.1915,
+      "turnover_per_decision": 1.2506,
+      "turns_per_year": 15.7576,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 1.062701,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": -0.83
+     }
+    }
+   },
+   "staggered": null
+  },
+  {
+   "breadth": 8,
+   "single": {
+    "flat_8bp": {
+     "label": "single flat n=8",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.5728,
+     "cagr": 0.0688,
+     "vol": 0.1087,
+     "sharpe": 0.693,
+     "maxdd": -0.1394,
+     "turnover_per_decision": 1.244,
+     "turns_per_year": 15.6741,
+     "open_gapfill": 1,
+     "excess_vs_ew_pp": 4.76
+    },
+    "priced": {
+     "1e+07": {
+      "label": "nav=1e+07 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4133,
+      "cagr": 0.0521,
+      "vol": 0.109,
+      "sharpe": 0.541,
+      "maxdd": -0.1419,
+      "turnover_per_decision": 1.244,
+      "turns_per_year": 15.6741,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.077913,
+      "decisions_over_1pct": 77,
+      "excess_vs_ew_pp": 3.09
+     },
+     "5e+07": {
+      "label": "nav=5e+07 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2381,
+      "cagr": 0.0319,
+      "vol": 0.1096,
+      "sharpe": 0.353,
+      "maxdd": -0.1593,
+      "turnover_per_decision": 1.244,
+      "turns_per_year": 15.6741,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.389566,
+      "decisions_over_1pct": 82,
+      "excess_vs_ew_pp": 1.07
+     },
+     "1e+08": {
+      "label": "nav=1e+08 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.121,
+      "cagr": 0.0169,
+      "vol": 0.1103,
+      "sharpe": 0.214,
+      "maxdd": -0.2011,
+      "turnover_per_decision": 1.244,
+      "turns_per_year": 15.6741,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.779133,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": -0.43
+     }
+    }
+   },
+   "staggered": {
+    "sleeve_top": 4,
+    "phase_offset_bars": 10,
+    "flat_8bp": {
+     "label": "stagger nav=1e+07 n=8",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.6005,
+     "cagr": 0.0715,
+     "vol": 0.0949,
+     "sharpe": 0.806,
+     "maxdd": -0.1068,
+     "turnover_per_decision": 1.4894,
+     "turns_per_year": 18.7667,
+     "open_gapfill": 1,
+     "missing_adv_legs": 0,
+     "sleeve_turnover_per_decision": {
+      "a": 1.2349,
+      "b": 1.7439
+     },
+     "sleeve_b_start": "2020-01-16",
+     "excess_vs_ew_pp": 5.03
+    },
+    "priced": {
+     "1e+07": {
+      "label": "stagger nav=1e+07 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4174,
+      "cagr": 0.0526,
+      "vol": 0.0952,
+      "sharpe": 0.608,
+      "maxdd": -0.1079,
+      "turnover_per_decision": 1.4894,
+      "turns_per_year": 18.7667,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.2349,
+       "b": 1.7439
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.066035,
+      "decisions_over_1pct": 139
+     },
+     "5e+07": {
+      "label": "stagger nav=5e+07 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2196,
+      "cagr": 0.0296,
+      "vol": 0.0958,
+      "sharpe": 0.365,
+      "maxdd": -0.1912,
+      "turnover_per_decision": 1.4894,
+      "turns_per_year": 18.7667,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.2349,
+       "b": 1.7439
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.330174,
+      "decisions_over_1pct": 162
+     },
+     "1e+08": {
+      "label": "stagger nav=1e+08 n=8",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.0896,
+      "cagr": 0.0127,
+      "vol": 0.0964,
+      "sharpe": 0.185,
+      "maxdd": -0.2502,
+      "turnover_per_decision": 1.4894,
+      "turns_per_year": 18.7667,
+      "open_gapfill": 1,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.2349,
+       "b": 1.7439
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.660348,
+      "decisions_over_1pct": 163
+     }
+    }
+   }
+  },
+  {
+   "breadth": 12,
+   "single": {
+    "flat_8bp": {
+     "label": "single flat n=12",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.5267,
+     "cagr": 0.0641,
+     "vol": 0.105,
+     "sharpe": 0.67,
+     "maxdd": -0.1284,
+     "turnover_per_decision": 1.1647,
+     "turns_per_year": 14.6747,
+     "open_gapfill": 6,
+     "excess_vs_ew_pp": 4.29
+    },
+    "priced": {
+     "1e+07": {
+      "label": "nav=1e+07 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4021,
+      "cagr": 0.0509,
+      "vol": 0.1052,
+      "sharpe": 0.545,
+      "maxdd": -0.1284,
+      "turnover_per_decision": 1.1647,
+      "turns_per_year": 14.6747,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.054208,
+      "decisions_over_1pct": 79,
+      "excess_vs_ew_pp": 2.97
+     },
+     "5e+07": {
+      "label": "nav=5e+07 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2618,
+      "cagr": 0.0348,
+      "vol": 0.1057,
+      "sharpe": 0.39,
+      "maxdd": -0.1478,
+      "turnover_per_decision": 1.1647,
+      "turns_per_year": 14.6747,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.271037,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": 1.36
+     },
+     "1e+08": {
+      "label": "nav=1e+08 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.1659,
+      "cagr": 0.0228,
+      "vol": 0.1063,
+      "sharpe": 0.275,
+      "maxdd": -0.1855,
+      "turnover_per_decision": 1.1647,
+      "turns_per_year": 14.6747,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.542073,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": 0.16
+     }
+    }
+   },
+   "staggered": {
+    "sleeve_top": 6,
+    "phase_offset_bars": 10,
+    "flat_8bp": {
+     "label": "stagger nav=1e+07 n=12",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.4229,
+     "cagr": 0.0532,
+     "vol": 0.1044,
+     "sharpe": 0.57,
+     "maxdd": -0.1859,
+     "turnover_per_decision": 1.4557,
+     "turns_per_year": 18.3421,
+     "open_gapfill": 8,
+     "missing_adv_legs": 0,
+     "sleeve_turnover_per_decision": {
+      "a": 1.261,
+      "b": 1.6504
+     },
+     "sleeve_b_start": "2020-01-16",
+     "excess_vs_ew_pp": 3.2
+    },
+    "priced": {
+     "1e+07": {
+      "label": "stagger nav=1e+07 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2883,
+      "cagr": 0.0379,
+      "vol": 0.1046,
+      "sharpe": 0.423,
+      "maxdd": -0.2135,
+      "turnover_per_decision": 1.4557,
+      "turns_per_year": 18.3421,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.261,
+       "b": 1.6504
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.046579,
+      "decisions_over_1pct": 143
+     },
+     "5e+07": {
+      "label": "stagger nav=5e+07 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.1392,
+      "cagr": 0.0193,
+      "vol": 0.1049,
+      "sharpe": 0.243,
+      "maxdd": -0.2546,
+      "turnover_per_decision": 1.4557,
+      "turns_per_year": 18.3421,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.261,
+       "b": 1.6504
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.232893,
+      "decisions_over_1pct": 161
+     },
+     "1e+08": {
+      "label": "stagger nav=1e+08 n=12",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.0389,
+      "cagr": 0.0056,
+      "vol": 0.1053,
+      "sharpe": 0.109,
+      "maxdd": -0.2855,
+      "turnover_per_decision": 1.4557,
+      "turns_per_year": 18.3421,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.261,
+       "b": 1.6504
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.465785,
+      "decisions_over_1pct": 163
+     }
+    }
+   }
+  },
+  {
+   "breadth": 16,
+   "single": {
+    "flat_8bp": {
+     "label": "single flat n=16",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.4077,
+     "cagr": 0.0515,
+     "vol": 0.1059,
+     "sharpe": 0.548,
+     "maxdd": -0.1381,
+     "turnover_per_decision": 1.1069,
+     "turns_per_year": 13.9473,
+     "open_gapfill": 6,
+     "excess_vs_ew_pp": 3.03
+    },
+    "priced": {
+     "1e+07": {
+      "label": "nav=1e+07 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3114,
+      "cagr": 0.0406,
+      "vol": 0.1061,
+      "sharpe": 0.444,
+      "maxdd": -0.1611,
+      "turnover_per_decision": 1.1069,
+      "turns_per_year": 13.9473,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.041897,
+      "decisions_over_1pct": 80,
+      "excess_vs_ew_pp": 1.94
+     },
+     "5e+07": {
+      "label": "nav=5e+07 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2012,
+      "cagr": 0.0273,
+      "vol": 0.1065,
+      "sharpe": 0.317,
+      "maxdd": -0.1888,
+      "turnover_per_decision": 1.1069,
+      "turns_per_year": 13.9473,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.209483,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": 0.61
+     },
+     "1e+08": {
+      "label": "nav=1e+08 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.1248,
+      "cagr": 0.0174,
+      "vol": 0.1069,
+      "sharpe": 0.222,
+      "maxdd": -0.2179,
+      "turnover_per_decision": 1.1069,
+      "turns_per_year": 13.9473,
+      "open_gapfill": 6,
+      "missing_adv_legs": 0,
+      "participation_max_p90": 0.418968,
+      "decisions_over_1pct": 83,
+      "excess_vs_ew_pp": -0.38
+     }
+    }
+   },
+   "staggered": {
+    "sleeve_top": 8,
+    "phase_offset_bars": 10,
+    "flat_8bp": {
+     "label": "stagger nav=1e+07 n=16",
+     "bars": 1648,
+     "years": 6.81,
+     "start_level": 1.0,
+     "total_ret": 0.4823,
+     "cagr": 0.0595,
+     "vol": 0.1075,
+     "sharpe": 0.614,
+     "maxdd": -0.1844,
+     "turnover_per_decision": 1.4558,
+     "turns_per_year": 18.3435,
+     "open_gapfill": 8,
+     "missing_adv_legs": 0,
+     "sleeve_turnover_per_decision": {
+      "a": 1.244,
+      "b": 1.6677
+     },
+     "sleeve_b_start": "2020-01-16",
+     "excess_vs_ew_pp": 3.83
+    },
+    "priced": {
+     "1e+07": {
+      "label": "stagger nav=1e+07 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3556,
+      "cagr": 0.0457,
+      "vol": 0.1076,
+      "sharpe": 0.487,
+      "maxdd": -0.2166,
+      "turnover_per_decision": 1.4558,
+      "turns_per_year": 18.3435,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.244,
+       "b": 1.6677
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.037811,
+      "decisions_over_1pct": 147
+     },
+     "5e+07": {
+      "label": "stagger nav=5e+07 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.2137,
+      "cagr": 0.0289,
+      "vol": 0.1079,
+      "sharpe": 0.329,
+      "maxdd": -0.2547,
+      "turnover_per_decision": 1.4558,
+      "turns_per_year": 18.3435,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.244,
+       "b": 1.6677
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.189054,
+      "decisions_over_1pct": 164
+     },
+     "1e+08": {
+      "label": "stagger nav=1e+08 n=16",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.1172,
+      "cagr": 0.0164,
+      "vol": 0.1081,
+      "sharpe": 0.211,
+      "maxdd": -0.282,
+      "turnover_per_decision": 1.4558,
+      "turns_per_year": 18.3435,
+      "open_gapfill": 8,
+      "missing_adv_legs": 0,
+      "sleeve_turnover_per_decision": {
+       "a": 1.244,
+       "b": 1.6677
+      },
+      "sleeve_b_start": "2020-01-16",
+      "participation_max_p90": 0.378108,
+      "decisions_over_1pct": 164
+     }
+    }
+   }
+  }
+ ],
+ "surface": [
+  {
+   "breadth": 5,
+   "structure": "single",
+   "flat_cagr": 0.0762,
+   "priced_cagr": 0.0558,
+   "sharpe": 0.597,
+   "max_dd": -0.1343,
+   "turns_per_year": 15.7576,
+   "p90_participation": 0.10627,
+   "decisions_over_1pct": 76,
+   "capacity_nav": 940999,
+   "delta_capacity_pct_vs_ref": 0.0,
+   "cagr_sacrificed_pp_vs_ref": 0.0,
+   "capacity_pct_per_pp_sacrificed": null
+  },
+  {
+   "breadth": 8,
+   "structure": "single",
+   "flat_cagr": 0.0688,
+   "priced_cagr": 0.0521,
+   "sharpe": 0.541,
+   "max_dd": -0.1419,
+   "turns_per_year": 15.6741,
+   "p90_participation": 0.077913,
+   "decisions_over_1pct": 77,
+   "capacity_nav": 1283483,
+   "delta_capacity_pct_vs_ref": 36.4,
+   "cagr_sacrificed_pp_vs_ref": 0.37,
+   "capacity_pct_per_pp_sacrificed": 98.38
+  },
+  {
+   "breadth": 8,
+   "structure": "staggered",
+   "flat_cagr": 0.0715,
+   "priced_cagr": 0.0526,
+   "sharpe": 0.608,
+   "max_dd": -0.1079,
+   "turns_per_year": 18.7667,
+   "p90_participation": 0.066035,
+   "decisions_over_1pct": 139,
+   "capacity_nav": 1514348,
+   "delta_capacity_pct_vs_ref": 60.9,
+   "cagr_sacrificed_pp_vs_ref": 0.32,
+   "capacity_pct_per_pp_sacrificed": 190.31
+  },
+  {
+   "breadth": 12,
+   "structure": "single",
+   "flat_cagr": 0.0641,
+   "priced_cagr": 0.0509,
+   "sharpe": 0.545,
+   "max_dd": -0.1284,
+   "turns_per_year": 14.6747,
+   "p90_participation": 0.054208,
+   "decisions_over_1pct": 79,
+   "capacity_nav": 1844746,
+   "delta_capacity_pct_vs_ref": 96.0,
+   "cagr_sacrificed_pp_vs_ref": 0.49,
+   "capacity_pct_per_pp_sacrificed": 195.92
+  },
+  {
+   "breadth": 12,
+   "structure": "staggered",
+   "flat_cagr": 0.0532,
+   "priced_cagr": 0.0379,
+   "sharpe": 0.423,
+   "max_dd": -0.2135,
+   "turns_per_year": 18.3421,
+   "p90_participation": 0.046579,
+   "decisions_over_1pct": 143,
+   "capacity_nav": 2146890,
+   "delta_capacity_pct_vs_ref": 128.2,
+   "cagr_sacrificed_pp_vs_ref": 1.79,
+   "capacity_pct_per_pp_sacrificed": 71.62
+  },
+  {
+   "breadth": 16,
+   "structure": "single",
+   "flat_cagr": 0.0515,
+   "priced_cagr": 0.0406,
+   "sharpe": 0.444,
+   "max_dd": -0.1611,
+   "turns_per_year": 13.9473,
+   "p90_participation": 0.041897,
+   "decisions_over_1pct": 80,
+   "capacity_nav": 2386806,
+   "delta_capacity_pct_vs_ref": 153.6,
+   "cagr_sacrificed_pp_vs_ref": 1.52,
+   "capacity_pct_per_pp_sacrificed": 101.05
+  },
+  {
+   "breadth": 16,
+   "structure": "staggered",
+   "flat_cagr": 0.0595,
+   "priced_cagr": 0.0457,
+   "sharpe": 0.487,
+   "max_dd": -0.2166,
+   "turns_per_year": 18.3435,
+   "p90_participation": 0.037811,
+   "decisions_over_1pct": 147,
+   "capacity_nav": 2644733,
+   "delta_capacity_pct_vs_ref": 181.1,
+   "cagr_sacrificed_pp_vs_ref": 1.01,
+   "capacity_pct_per_pp_sacrificed": 179.31
+  }
+ ],
+ "readings": {
+  "best_capacity_per_pp": {
+   "breadth": 12,
+   "structure": "single",
+   "flat_cagr": 0.0641,
+   "priced_cagr": 0.0509,
+   "sharpe": 0.545,
+   "max_dd": -0.1284,
+   "turns_per_year": 14.6747,
+   "p90_participation": 0.054208,
+   "decisions_over_1pct": 79,
+   "capacity_nav": 1844746,
+   "delta_capacity_pct_vs_ref": 96.0,
+   "cagr_sacrificed_pp_vs_ref": 0.49,
+   "capacity_pct_per_pp_sacrificed": 195.92
+  },
+  "free_capacity_cells": [],
+  "reference_capacity_nav": 940999,
+  "crossover_nav_vs_ref": {
+   "n8_single": 42888889,
+   "n8_staggered": null,
+   "n12_single": 32790698,
+   "n12_staggered": null,
+   "n16_single": 72891566,
+   "n16_staggered": 69298246
+  },
+  "crossover_method": "linear in NAV between grid brackets, on priced CAGR"
+ }
+}
