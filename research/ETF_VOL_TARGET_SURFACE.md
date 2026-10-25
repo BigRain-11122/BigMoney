@@ -106,3 +106,41 @@ ledger (r1267/r1268), which measures delivered vol out of sample by construction
 python scripts/etf_vol_target_sweep.py --selftest     # 8/8, offline, no panel needed
 python scripts/etf_vol_target_sweep.py run            # results/etf_vol_target_sweep.json
 ```
+## r1272: where the 27% goes -- the cap is not the culprit
+
+r1270 reported that an 8% label delivers 10.18% and left the gap unexplained, with the
+one-sided cap (`scale = min(1, target/v)`) as the obvious suspect. Removing the cap settles
+it. Same book, same estimator, same window, only `vol_cap` differs:
+
+| arm | full | IS | OOS | Sharpe (full) | maxDD |
+|---|---|---|---|---|---|
+| A no target | 15.31% | | | 0.970 | -15.88% |
+| B target 8%, cap 1.0 (published) | 10.18% | 9.97% | 10.45% | 0.978 | -11.8% |
+| C target 8%, cap 3.0 | 10.36% | 10.08% | 10.74% | 0.980 | -12.5% |
+
+Letting the overlay lever UP buys
+0.18pp MORE vol, not less: the cap is worth **0.0pp** of the 2.18pp gap (only 12% of the 83
+decisions sat at scale = 1.0). The gap is in the estimator, and it splits in three:
+
+1. **Backward estimate vs the same hold's realised vol**: mean est 12.25% against 13.62%
+   realised over the 20 bars it was sized for; 58% of decisions underestimate (median
+   est/fwd 0.94). The score carries `vol_60` with a negative sign, i.e. it *prefers*
+   recently calm names, so a trailing vol is biased low for exactly the book it describes.
+2. **Cap**: 0.0pp, measured above.
+3. **Intra-hold clustering**: `mean(scale x realised hold vol)` = 9.16% but the account's
+   own realised vol is 10.18%, so 1.02pp is the difference between averaging per-hold vols
+   and living through them -- equity vol weights the high-vol holds more.
+
+Implied label: ratio 1.272/1.246/1.306 (full/IS/OOS, spread 0.06) -> a 6.29% label would
+deliver 8%. The ratio is stable out of sample, so it reads as a property of the score
+rather than a sample artefact -- but it is NOT adopted: a de-lever-only overlay whose label
+is its worst case is arguably the honest design, and re-labeling would hide the 1.02pp
+clustering term that only shows up in lived returns.
+
+Read-off for the card: `target 8% -> delivered 10.18%` gains a cause. The sleeve is not
+mis-sized by the cap; it is sized on a number that is too low for the names it holds.
+
+```
+python scripts/etf_vol_delivery_audit.py --selftest   # 4/4 offline (panel)
+python scripts/etf_vol_delivery_audit.py run          # results/etf_vol_delivery_audit.json
+```

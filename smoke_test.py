@@ -459,7 +459,9 @@ def main() -> int:
     # nothing here ever called the entry point. Guard the sheet path, not just the maths.
     for _label, _script, _args in (
             ("product: etf_book_production card (exit-code contract)",
-             "scripts/etf_book_production.py", ["--selftest"]),):
+             "scripts/etf_book_production.py", ["--selftest"]),
+            ("product: etf_vol_delivery_audit (exit-code contract)",
+             "scripts/etf_vol_delivery_audit.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

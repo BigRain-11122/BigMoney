@@ -666,3 +666,29 @@ esearch/ETF_BREADTH_SWEEP.md
 
 - **E127 (r1271, bm-c) extracting a helper can silently strip the caller's scope, and a deliverable nobody executes is not covered by green legs.** r1270 pulled the panel build out of tf_book_production.run() into a shared prep_panel(), but the caller kept reading cls[p] and len(cols) -- names that now existed only inside the helper. The production card, i.e. the ONLY artefact a human can place an order from, died with NameError at the order-sheet step and stayed dead for a full round while selftest, smoke 57/57, S6 and every audit stayed green, because no leg in the repo ever called 
 un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a unit test of the helper -- it is a cheap end-to-end invocation of the entry point that produces the deliverable, so the sheet path (backtest -> weights -> legs -> card text) executes on a synthetic panel in ~1s with prep_panel/load_names/OUT_DIR patched to a tmp dir (a real-panel leg would cost a minute and nobody would keep it in smoke); (2) register the expensive real-panel selftest wherever the repo's other exit-code contracts live (smoke_test.py), otherwise 'the card is broken' and 'the repo is healthy' are the same reading. Sibling of E120: a wrapper that is never re-run against its own deliverable rots exactly like a backtest that is never re-derived. Evidence: scripts/etf_book_production.py --selftest (4 new legs incl. the synthetic end-to-end run + card assertions), smoke_test.py product leg, results/etf_book_production/CARD.md.
+
+- **E128 (r1272, bm-c) "we reported it, we did not explain it" is a debt -- and the obvious
+  culprit is often worth one arm of measurement before it becomes the story.** r1270 left the
+  8%-label-delivers-10.18% gap attributed to the de-lever-only cap; one arm with `vol_cap=3.0`
+  (same estimator, same 60d window, same 12 names, only the cap differs) kills that story:
+  letting the overlay lever up delivers 0.18pp MORE vol, so the cap is worth 0.0pp of the
+  2.18pp gap and only 12% of decisions ever sat at scale=1.0. The gap decomposes into (a) the
+  60d backward estimator itself, 12.25% mean against 13.62% realised over the very holds it
+  sized (58% of 83 decisions under, median 0.94) -- and the mechanism is visible in the score,
+  which carries vol_60 with a NEGATIVE sign, i.e. it prefers recently calm names, so a trailing
+  vol is biased low for exactly the book it selects; and (b) 1.02pp of intra-hold clustering,
+  the difference between mean(scale x hold vol)=9.16% and the account's lived 10.18%. Rules:
+  (1) a mechanism you name in a research note must be the mechanism you measured, otherwise
+  the next round inherits a plausible falsehood -- and the cheap test is to REMOVE the
+  suspected constraint and see whether the effect moves; (2) decompose all the way to the
+  residual and label it (here: clustering), because a decomposition that stops at 'mostly the
+  estimator' invites a multiplier patch that would then be fitted to the same 1648 bars;
+  (3) an implied parameter (6.29% label would deliver 8%, ratios 1.272/1.246/1.306 across
+  full/IS/OOS) is reported with its IS-OOS spread and NOT adopted -- a stable ratio is still
+  not licence to re-label, and re-labeling would erase the clustering term that only appears
+  in lived returns. Also: the engine gained `vol_cap` and a `diag` sink with the legacy path
+  proven bit-identical (maxabs 0.00e+00, turnover 0.934317 both arms) plus an ACTIVITY leg
+  that the uncapped arm actually diverges (2.7e-02) -- an invariance leg without an activity
+  leg passes on two identical no-ops (E124 family, third instance). Evidence:
+  scripts/etf_vol_delivery_audit.py --selftest 4/4, smoke 59/59 (new product leg),
+  results/etf_vol_delivery_audit.json, research/ETF_VOL_TARGET_SURFACE.md r1272 section.

@@ -1,0 +1,149 @@
+{
+ "arms": {
+  "A_no_target": {
+   "decisions": 83,
+   "est_vol_mean": null,
+   "est_vol_median": null,
+   "scale_max": 1.0,
+   "scale_mean": 1.0,
+   "scale_min": 1.0,
+   "share_at_cap": 1.0,
+   "turnover_per_decision": 1.277,
+   "vol_cap": 1.0,
+   "vol_target": null,
+   "windows": {
+    "full": {
+     "cagr": 0.1403,
+     "maxdd": -0.1588,
+     "sharpe": 0.97,
+     "vol": 0.1531,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0769,
+     "maxdd": -0.1588,
+     "sharpe": 0.57,
+     "vol": 0.1565,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.2377,
+     "maxdd": -0.1289,
+     "sharpe": 1.579,
+     "vol": 0.1481,
+     "years": 2.81
+    }
+   }
+  },
+  "B_capped_1.0": {
+   "decisions": 83,
+   "est_vol_mean": 0.1225,
+   "est_vol_median": 0.1087,
+   "scale_max": 1.0,
+   "scale_mean": 0.7077,
+   "scale_min": 0.3361,
+   "share_at_cap": 0.1205,
+   "turnover_per_decision": 0.934,
+   "vol_cap": 1.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0947,
+     "maxdd": -0.1177,
+     "sharpe": 0.978,
+     "vol": 0.1018,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0384,
+     "maxdd": -0.1177,
+     "sharpe": 0.442,
+     "vol": 0.0997,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1808,
+     "maxdd": -0.107,
+     "sharpe": 1.714,
+     "vol": 0.1045,
+     "years": 2.81
+    }
+   }
+  },
+  "C_capped_3.0": {
+   "decisions": 83,
+   "est_vol_mean": 0.1225,
+   "est_vol_median": 0.1087,
+   "scale_max": 1.511,
+   "scale_mean": 0.7305,
+   "scale_min": 0.3361,
+   "share_at_cap": 0.0,
+   "turnover_per_decision": 0.978,
+   "vol_cap": 3.0,
+   "vol_target": 0.08,
+   "windows": {
+    "full": {
+     "cagr": 0.0966,
+     "maxdd": -0.1253,
+     "sharpe": 0.98,
+     "vol": 0.1036,
+     "years": 6.8
+    },
+    "is": {
+     "cagr": 0.0356,
+     "maxdd": -0.1253,
+     "sharpe": 0.411,
+     "vol": 0.1008,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1904,
+     "maxdd": -0.107,
+     "sharpe": 1.749,
+     "vol": 0.1074,
+     "years": 2.81
+    }
+   }
+  }
+ },
+ "config": {
+  "cost_bp": 10.0,
+  "n_hold": 12,
+  "rebal": 20,
+  "target_vol": 0.08,
+  "uncapped_cap": 3.0
+ },
+ "decomposition": {
+  "delivered_capped": 0.1018,
+  "delivered_uncapped": 0.1036,
+  "gap_from_estimator_lag": 0.0236,
+  "gap_from_one_sided_cap": 0.0,
+  "gap_vs_label": 0.0218,
+  "headline": "8% label delivers 10.2% capped, 10.4% uncapped -> the one-sided cap is worth 0.0pp of the 2.2pp gap; the 60d backward estimator reads 12.25% against 13.62% realised over the same holds, and mean(scale*hold vol)=9.16% leaves 1.02pp of intra-hold clustering",
+  "residual_intra_hold": 0.0102,
+  "share_at_cap_capped_arm": 0.1205
+ },
+ "estimator_bias": {
+  "est_mean": 0.1225,
+  "est_over_fwd_mean": 1.0468,
+  "est_over_fwd_median": 0.9406,
+  "fwd_mean": 0.1362,
+  "n": 83,
+  "note": "ratio<1 on most decisions = the 60d backward estimator is biased low for the names this score picks; predicted_delivered_vol = mean(scale * realised vol of that same hold), so the gap to the actual figure is intra-hold clustering",
+  "predicted_delivered_vol": 0.0916,
+  "scale_mean": 0.7077,
+  "share_underestimated": 0.5783
+ },
+ "evidence_cutoff": "2026-10-23",
+ "generated": null,
+ "implied_label": {
+  "implied_label_full": 0.0629,
+  "note": "implied_label = label / measured_ratio; only meaningful if the spread is small",
+  "ratio_full": 1.272,
+  "ratio_is": 1.246,
+  "ratio_oos": 1.306,
+  "ratio_spread_is_oos": 0.06
+ },
+ "panel_flip_repairs": 134,
+ "schema": "etf-vol-delivery-audit/v1"
+}

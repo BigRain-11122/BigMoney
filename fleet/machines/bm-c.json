@@ -1,7 +1,7 @@
 {
  "activity_now": "r1271 closed: production card repaired + delivered-vol face shipped (ledger NO-OP, panel cutoff 2026-10-23)",
  "agenda_starved": false,
- "clock_read": "2026-10-26T02:54:11+08:00",
+ "clock_read": "2026-10-26T03:16:00.137662+08:00",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git (r1185 trim)",
  "codely_live_count": 2,
  "cores": 32,
@@ -11,7 +11,7 @@
  "cpu_total_pct": 11,
  "cpu_util_pct": 0.8,
  "current": "r1270 product: vol-target surface (window x target) + delivered-vol gap",
- "current_task": "r1271: fixed the etf_book_production run() NameError and put delivered vol beside the target on the card",
+ "current_task": "r1272 done: vol-label forensics (cap=0.0pp, estimator 12.25 vs 13.62 realised, 1.02pp clustering)",
  "current_task_at": "2026-10-26T02:54:11+08:00",
  "current_task_ts": "2026-10-26T02:54:11+08:00",
  "d19_watermark_guard": {
@@ -55,7 +55,7 @@
  "ground_truth_ts": "2026-10-25T11:44:42+08:00",
  "head_sha": "1fd4a6b2711df03906a8882af98156a9cf6741d8",
  "health": "green",
- "heartbeat_epoch_utc": 1792954451,
+ "heartbeat_epoch_utc": 1792955760,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 0.2,
  "idle_rounds": 0,
@@ -91,7 +91,7 @@
  "last_round_summary_at": "2026-10-25T06:09:05+08:00",
  "last_round_ts": "2026-10-25T17:12:35+08:00",
  "last_run_at": "2026-10-20T16:10:46+08:00",
- "last_seen": "2026-10-26T02:54:11+08:00",
+ "last_seen": "2026-10-26T03:16:00.137662+08:00",
  "last_seen_at": "2026-10-26T00:32:02+08:00",
  "last_task_at": "2026-10-25T17:12:35+08:00",
  "last_ts": "2026-10-24T03:23:52+08:00",
@@ -438,7 +438,7 @@
  "ram_load_pct": 98,
  "recent_artifact": "scripts/etf_book_production.py + results/etf_book_production/{CARD.md,latest.json}",
  "round": 1271,
- "round_no": 1271,
+ "round_no": 1272,
  "round_no_label": "r1251 product (r1250 dead-window absorbed) -> counter 1252",
  "round_t1251_closeout_note": "r1251: PRODUCT window with a dead-window estate absorbed (state round_no=1250 at open; the r1250 window committed its product at 17:12 and died pre-closeout, so r1250's report line was already on origin and this window did NOT re-run it -- it executed r1251 and advanced 1250->1252 so next=r1252). PRODUCT = phase package under three independent stress rulers -> scripts/etf_phase_package_n.py (--selftest 12/12), results/etf_phase_package_n.json, research/ETF_PHASE_PACKAGE_N.md, methodology card E107. FINDINGS: (1) N sweep at R=20 -- the package is NOT an N=5 concentration artefact: full-window excess +6.56/+6.77/+6.76/+7.06pp and 2024+ +4.50/+4.16/+5.57/+6.57pp for N=3/5/8/10, i.e. the edge survives and even widens, at the price of a monotonically deeper drawdown (-10.6% -> -17.6%); (2) the 8% vol overlay (per sub-book, trailing 60-bar book vol, cap 1.0, turnover charged on scaled weights) buys only 1.85pp of drawdown and 2pp of phase spread while costing 2.7pp of full CAGR and 3pp of the recent excess (OOS +4.16 -> +1.21pp, Sharpe 0.770 -> 0.748, realised vol 9.09% misses the 8% target) -- on this book the overlay is not worth it; (3) permutation null on package-minus-median-phase (60 date-wise factor shuffles, 20 phases re-run each): real +0.21pp vs null mean +0.46pp, p95 +1.74pp, p=0.623 -> the gap is noise, so the package's value is exactly the removal of the phase choice, never alpha. Cross-script pin: the N=5 leg reproduces r1249/r1250 exactly (9.03% / OOS 13.20%). ENGINE PITFALL (caught by the selftest before canon): a vol scaler on an equal-weight engine is silently a no-op unless the return leg becomes weighted -- and renormalising the scaled weights undoes the scale, so the cash remainder must be carried explicitly; vol_target=None is pinned to the reference engine at 1e-12 including turnover. S6 39/39 rc0; compute_audit FLAG supply_gap/supply_floor/supply_owner_silent (bm-b heartbeat 65h stale, pool ready=2 both foreign-silent => corroboration not met, NOT taken over; the data\\astock_daily\\per write at 11:53 today is a machine-local sibling session, not bm-b liveness); dualrun ZERO-DRIFT streak 51; update_daily 0 new rows (cutoff 2026-10-23); regime ORANGE; orders unacked=0 (110/110); D-19 MATCH on both faces; smoke 57/57; attrition CLEAN 4 files; orphan face=0 (py_faces=5).",
  "round_t1267_closeout_note": "r1267: PRODUCT -- ETF production config forward ledger (r1264's 2026-10-28 milestone, delivered early). scripts/etf_book_forward.py seeds 2026-10-23 nav 1.0 and appends one mark per new bar; published marks re-derive every run and a mismatch FREEZES with exit 3 (--rebase is the only logged escape). Selftest 11/11 incl. exact equivalence with etf_composite_pf.run_next_open (maxdiff 0.00e+00, 1648 bars, turnover identical) plus an activity leg so two flat lines cannot pass. FINDING: card basis vs honest next-open on the same config = 9.47% vs 13.53% full CAGR with IDENTICAL turnover 0.934 -> one-bar window alignment, not alpha. next=r1268: wire the run into S6 so marks accrue unattended, take the first real mark after the 2026-10-26 close.",
@@ -448,9 +448,9 @@
   "ts": "2026-10-26T00:47:55+08:00"
  },
  "total_ram_gb": 23.92,
- "ts": "2026-10-26T02:54:11+08:00",
+ "ts": "2026-10-26T03:16:00.137662+08:00",
  "updated": "2026-10-26T01:11:37+08:00",
  "updated_at": "2026-10-26T01:11:37+08:00",
- "verdict": "green r1271: production card was crashing since r1270 (NameError on cls) -- repaired, and the 8% target now prints delivered 10.2% (1.27x) machine-derived on the card",
- "verify": "etf_book_forward selftest 11/11 (equivalence w/ run_next_open maxdiff 0.00e+00, turnover 1.277108) | ledger seeded 2026-10-23 nav 1.0 12 names cash 29.9% | run NO-OP | BASIS honest 13.53%/0.94 vs card 9.47%/0.98 turnover identical | smoke 57/57 | dualrun zero-drift streak 51 | orders unacked 0/110 | attrition CLEAN 4 | orphan face=0"
+ "verdict": "green r1272: the 8%->10.18% vol gap is decomposed and its blamed cause (the one-sided cap) is worth 0.0pp -- estimator bias 12.25% vs 13.62% realised, plus 1.02pp intra-hold clustering",
+ "verify": "etf_vol_delivery_audit selftest 4/4 | smoke 59/59 | D-19 delta=none | orders 0/110 unacked | dualrun streak 51 | attrition CLEAN 4 | orphan face=0 | ledger NO-OP nav 1.0"
 }
