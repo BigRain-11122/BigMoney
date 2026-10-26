@@ -1,0 +1,121 @@
+{
+ "evidence_cutoff": "2026-10-26",
+ "execution": "decision at close t, execute at open t+1, vol target 8%, cost 10bp/side",
+ "panel": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "names": 1499,
+  "flips_repaired": 168,
+  "why": "same panel the production card prices, so book A is the shipped book"
+ },
+ "note": "exploratory; not a live face, not registered, no capital claim",
+ "books": {
+  "A_trend": {
+   "label": "trend_12_R20",
+   "years": 6.81,
+   "start_level": 1.0073,
+   "cagr": 0.0949,
+   "vol": 0.1017,
+   "sharpe": 0.98,
+   "maxdd": -0.1177,
+   "calmar": 0.81,
+   "worst_year": -0.0199,
+   "neg_years": 1,
+   "worst_month": -0.0362,
+   "pos_months_pct": 0.617,
+   "turnover": 0.93,
+   "vol_target": 0.08,
+   "cagr_is": 0.0384,
+   "cagr_oos": 0.181,
+   "sharpe_is": 0.442,
+   "sharpe_oos": 1.719,
+   "maxdd_is": -0.1177,
+   "maxdd_oos": -0.107
+  },
+  "B_reversal": {
+   "label": "rev5_10_R10",
+   "years": 6.81,
+   "start_level": 1.0101,
+   "cagr": -0.0367,
+   "vol": 0.0928,
+   "sharpe": -0.373,
+   "maxdd": -0.3359,
+   "calmar": -0.11,
+   "worst_year": -0.0996,
+   "neg_years": 5,
+   "worst_month": -0.0572,
+   "pos_months_pct": 0.358,
+   "turnover": 0.65,
+   "vol_target": 0.08,
+   "cagr_is": -0.0509,
+   "cagr_oos": -0.0167,
+   "sharpe_is": -0.534,
+   "sharpe_oos": -0.145,
+   "maxdd_is": -0.2574,
+   "maxdd_oos": -0.1341
+  }
+ },
+ "correlation": {
+  "full": 0.461,
+  "is": 0.612,
+  "oos": 0.252
+ },
+ "blend_50_50": {
+  "label": "blend_50_50",
+  "years": 6.8,
+  "start_level": 0.9992,
+  "cagr": 0.0284,
+  "vol": 0.0832,
+  "sharpe": 0.393,
+  "maxdd": -0.1616,
+  "calmar": 0.18,
+  "worst_year": -0.0595,
+  "neg_years": 4,
+  "worst_month": -0.0408,
+  "pos_months_pct": 0.519,
+  "cagr_is": -0.0062,
+  "cagr_oos": 0.0795,
+  "sharpe_is": -0.031,
+  "sharpe_oos": 1.066,
+  "maxdd_is": -0.1504,
+  "maxdd_oos": -0.0789,
+  "diversification_note": "blend vol 0.0832 vs leg vols 0.1017 / 0.0928 at corr 0.461"
+ },
+ "yearly": {
+  "A_trend": {
+   "2020": 0.0507,
+   "2021": 0.0656,
+   "2022": -0.0199,
+   "2023": 0.0441,
+   "2024": 0.0821,
+   "2025": 0.4418,
+   "2026": 0.0208
+  },
+  "B_reversal": {
+   "2020": 0.0477,
+   "2021": -0.0721,
+   "2022": -0.0996,
+   "2023": -0.0775,
+   "2024": -0.0082,
+   "2025": 0.0647,
+   "2026": -0.0958
+  },
+  "blend_50_50": {
+   "2020": 0.0505,
+   "2021": -0.0048,
+   "2022": -0.0595,
+   "2023": -0.0176,
+   "2024": 0.038,
+   "2025": 0.2416,
+   "2026": -0.0385
+  }
+ },
+ "overlap": {
+  "decision_days": 83,
+  "days_with_shared_name": 6,
+  "shared_pct": 0.0723
+ }
+}
